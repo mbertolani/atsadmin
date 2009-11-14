@@ -1,0 +1,387 @@
+object TRpReport
+  PageBackColor = 16777215
+  SubReports = <
+    item
+      SubReport = TRpSubReport0
+    end>
+  DataInfo = <
+    item
+      Alias = 'GRADE'
+      DatabaseAlias = 'SGE'
+      SQL = 'select * from relnatacao(:pdata1, :pGrupo)'#13#10
+    end>
+  DatabaseInfo = <
+    item
+      Alias = 'SGE'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end>
+  Params = <
+    item
+      Name = 'PDATA1'
+      AllowNulls = False
+      Value = 39671d
+      ParamType = rpParamDate
+      Datasets.Strings = (
+        'GRADE')
+      Description = 'Data'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'PGRUPO'
+      AllowNulls = False
+      Value = 'NATACAO'
+      Datasets.Strings = (
+        'GRADE')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end>
+  StreamFormat = rpStreamText
+  ReportAction = []
+  Type1Font = poHelvetica
+  WFontName = 'Arial'
+  LFontName = 'Helvetica'
+  object TRpSubReport0: TRpSubReport
+    Sections = <
+      item
+        Section = TRpSection1
+      end
+      item
+        Section = TRpSection3
+      end
+      item
+        Section = TRpSection0
+      end
+      item
+        Section = TRpSection4
+      end
+      item
+        Section = TRpSection2
+      end>
+    Alias = 'GRADE'
+  end
+  object TRpSection0: TRpSection
+    Width = 2955
+    Height = 300
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecdetail
+    Components = <
+      item
+        Component = TRpExpression1
+      end
+      item
+        Component = TRpExpression2
+      end
+      item
+        Component = TRpExpression3
+      end
+      item
+        Component = TRpExpression5
+      end
+      item
+        Component = TRpExpression6
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression1: TRpExpression
+    Width = 450
+    Height = 225
+    PosX = 120
+    PosY = 0
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'GRADE.CODALUNO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression2: TRpExpression
+    Width = 1845
+    Height = 225
+    PosX = 690
+    PosY = 0
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'GRADE.NOMEALUNO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpSection1: TRpSection
+    Width = 2910
+    Height = 765
+    SubReport = TRpSubReport0
+    GroupName = 'DIASEMANA'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgheader
+    Components = <
+      item
+        Component = TRpExpression0
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = 'GRADE.DIASEMANA'
+    BeginPageExpression = ''
+    ChangeExpression = 'GRADE.DIASEMANA'
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection2: TRpSection
+    Width = 2955
+    Height = 165
+    SubReport = TRpSubReport0
+    GroupName = 'DIASEMANA'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgfooter
+    Components = <>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = 'GRADE.DIASEMANA'
+    BeginPageExpression = ''
+    ChangeExpression = 'GRADE.DIASEMANA'
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression0: TRpExpression
+    Width = 2100
+    Height = 264
+    PosX = 120
+    PosY = 465
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'GRADE.DIASEMANA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpSection3: TRpSection
+    Width = 2955
+    Height = 420
+    SubReport = TRpSubReport0
+    GroupName = 'TURMA'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgheader
+    Components = <
+      item
+        Component = TRpExpression4
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = 'GRADE.TURMA'
+    BeginPageExpression = ''
+    ChangeExpression = 'GRADE.TURMA'
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection4: TRpSection
+    Width = 2955
+    Height = 150
+    SubReport = TRpSubReport0
+    GroupName = 'TURMA'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgfooter
+    Components = <>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = 'GRADE.TURMA'
+    BeginPageExpression = ''
+    ChangeExpression = 'GRADE.TURMA'
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression4: TRpExpression
+    Width = 2040
+    Height = 315
+    PosX = 150
+    PosY = 30
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'GRADE.TURMA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression3: TRpExpression
+    Width = 105
+    Height = 264
+    PosX = 2640
+    PosY = 0
+    Type1Font = poHelvetica
+    FontColor = 255
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IIF(GRADE.PRESENCA='#39'F'#39',GRADE.PRESENCA, null)'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression5: TRpExpression
+    Width = 105
+    Height = 264
+    PosX = 2640
+    PosY = 0
+    Type1Font = poHelvetica
+    FontColor = 16711680
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IIF(GRADE.PRESENCA='#39'P'#39',GRADE.PRESENCA, null)'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression6: TRpExpression
+    Width = 105
+    Height = 264
+    PosX = 2640
+    PosY = 0
+    Type1Font = poHelvetica
+    FontColor = 65535
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IIF(GRADE.PRESENCA='#39'R'#39',GRADE.PRESENCA, null)'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+end
