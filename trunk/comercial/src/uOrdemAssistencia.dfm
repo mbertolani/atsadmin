@@ -1,6 +1,6 @@
 object fOrdemAssistencia: TfOrdemAssistencia
-  Left = 351
-  Top = 90
+  Left = 243
+  Top = 128
   Width = 786
   Height = 568
   BorderIcons = [biSystemMenu]
@@ -724,7 +724,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Top = 26
       Width = 81
       Height = 24
-      DataField = 'DATAMOVIMENTO'
+      DataField = 'DATA_SISTEMA'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -739,6 +739,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Top = 26
       Width = 77
       Height = 24
+      DataField = 'NFCOBRANCA'
+      DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -877,7 +879,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Top = 26
       Width = 51
       Height = 24
-      DataField = 'CODCLIENTE'
+      DataField = 'CODVENDEDOR'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -938,6 +940,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Top = 66
       Width = 77
       Height = 24
+      DataField = 'DATAMOVIMENTO'
+      DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -951,6 +955,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Top = 66
       Width = 69
       Height = 24
+      DataField = 'NFREVENDA'
+      DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -1116,7 +1122,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Top = 26
       Width = 51
       Height = 24
-      DataField = 'CODCONS'
+      DataField = 'CODCLIENTE'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -1462,6 +1468,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Top = 207
       Width = 76
       Height = 24
+      DataField = 'TOTALMOVIMENTO'
+      DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -1483,6 +1491,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Top = 16
       Width = 81
       Height = 21
+      DataField = 'ORDEMATEND'
+      DataSource = DtSrc
       TabOrder = 0
     end
     object DBComboBox1: TDBComboBox
@@ -2736,15 +2746,17 @@ object fOrdemAssistencia: TfOrdemAssistencia
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 623
+    Left = 615
     Top = 335
     object sds_Mov_DetCODDETALHE: TIntegerField
       FieldName = 'CODDETALHE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object sds_Mov_DetCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate]
+      Required = True
     end
     object sds_Mov_DetCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
@@ -2762,21 +2774,15 @@ object fOrdemAssistencia: TfOrdemAssistencia
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
     end
-    object sds_Mov_DetPRODUTO: TStringField
-      DisplayWidth = 50
-      FieldName = 'PRODUTO'
-      ProviderFlags = []
-      Size = 200
+    object sds_Mov_DetQTDE_ALT: TFloatField
+      FieldName = 'QTDE_ALT'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_Mov_DetUN: TStringField
       FieldName = 'UN'
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 2
-    end
-    object sds_Mov_DetQTDE_ALT: TFloatField
-      FieldName = 'QTDE_ALT'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_Mov_DetBAIXA: TStringField
       FieldName = 'BAIXA'
@@ -2788,36 +2794,9 @@ object fOrdemAssistencia: TfOrdemAssistencia
       FieldName = 'CONTROLE'
       ProviderFlags = [pfInUpdate]
     end
-    object sds_Mov_DetCODALMOXARIFADO: TIntegerField
-      FieldName = 'CODALMOXARIFADO'
-      ProviderFlags = []
-    end
-    object sds_Mov_DetALMOXARIFADO: TStringField
-      FieldName = 'ALMOXARIFADO'
-      ProviderFlags = []
-      Size = 30
-    end
-    object sds_Mov_DetVALORUNITARIOATUAL: TFloatField
-      FieldName = 'VALORUNITARIOATUAL'
-      ProviderFlags = []
-    end
     object sds_Mov_DetCOD_COMISSAO: TIntegerField
       FieldName = 'COD_COMISSAO'
       ProviderFlags = [pfInUpdate]
-    end
-    object sds_Mov_DetCONTA_DESPESA: TStringField
-      FieldName = 'CONTA_DESPESA'
-      ProviderFlags = []
-      Size = 15
-    end
-    object sds_Mov_DetCODPRO: TStringField
-      FieldName = 'CODPRO'
-      ProviderFlags = []
-      Size = 15
-    end
-    object sds_Mov_DetQTDE_PCT: TFloatField
-      FieldName = 'QTDE_PCT'
-      ProviderFlags = []
     end
     object sds_Mov_DetLOTE: TStringField
       FieldName = 'LOTE'
@@ -2832,15 +2811,61 @@ object fOrdemAssistencia: TfOrdemAssistencia
       FieldName = 'DTAVCTO'
       ProviderFlags = [pfInUpdate]
     end
-    object sds_Mov_DetCODIGO: TStringField
-      FieldName = 'CODIGO'
+    object sds_Mov_DetPRECOCUSTO: TFloatField
+      FieldName = 'PRECOCUSTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      ProviderFlags = [pfInUpdate]
+      Size = 300
+    end
+    object sds_Mov_DetCODPRO: TStringField
+      FieldName = 'CODPRO'
       ProviderFlags = []
-      Size = 3
+      Size = 15
+    end
+    object sds_Mov_DetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ProviderFlags = []
+      Required = True
+      Size = 300
+    end
+    object sds_Mov_DetCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ProviderFlags = []
+    end
+    object sds_Mov_DetVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+      ProviderFlags = []
+    end
+    object sds_Mov_DetQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+      ProviderFlags = []
+    end
+    object sds_Mov_DetPESO_QTDE: TFloatField
+      FieldName = 'PESO_QTDE'
+      ProviderFlags = []
+    end
+    object sds_Mov_DetALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      ProviderFlags = []
+      Size = 30
+    end
+    object sds_Mov_DetCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      ProviderFlags = []
+      Size = 15
     end
     object sds_Mov_DetLOCALIZACAO: TStringField
       FieldName = 'LOCALIZACAO'
       ProviderFlags = []
       Size = 50
+    end
+    object sds_Mov_DetCODIGO: TStringField
+      FieldName = 'CODIGO'
+      ProviderFlags = []
+      Size = 3
     end
     object sds_Mov_DetLOTES: TStringField
       FieldName = 'LOTES'
@@ -2853,20 +2878,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       ProviderFlags = []
       ReadOnly = True
       FixedChar = True
-      Size = 60
-    end
-    object sds_Mov_DetPRECOCUSTO: TFloatField
-      FieldName = 'PRECOCUSTO'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sds_Mov_DetDESCPRODUTO: TStringField
-      FieldName = 'DESCPRODUTO'
-      ProviderFlags = [pfInUpdate]
-      Size = 300
-    end
-    object sds_Mov_DetPESO_QTDE: TFloatField
-      FieldName = 'PESO_QTDE'
-      ProviderFlags = [pfInUpdate]
+      Size = 254
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -3577,7 +3589,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'pCODMOV'
         ParamType = ptInput
       end>
@@ -3586,46 +3598,58 @@ object fOrdemAssistencia: TfOrdemAssistencia
     Top = 303
     object sds_MovimentoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object sds_MovimentoDATAMOVIMENTO: TDateField
       FieldName = 'DATAMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_MovimentoCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
+      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_MovimentoCODNATUREZA: TSmallintField
       FieldName = 'CODNATUREZA'
+      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_MovimentoSTATUS: TSmallintField
       FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_MovimentoCODUSUARIO: TSmallintField
       FieldName = 'CODUSUARIO'
+      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_MovimentoCODVENDEDOR: TSmallintField
       FieldName = 'CODVENDEDOR'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoCODALMOXARIFADO: TIntegerField
       FieldName = 'CODALMOXARIFADO'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoCOD_VEICULO: TIntegerField
       FieldName = 'COD_VEICULO'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoDATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoCONTROLE: TStringField
       FieldName = 'CONTROLE'
+      ProviderFlags = [pfInUpdate]
       Size = 30
     end
     object sds_MovimentoOBS: TStringField
       FieldName = 'OBS'
+      ProviderFlags = [pfInUpdate]
       Size = 100
     end
     object sds_MovimentoTOTALMOVIMENTO: TFloatField
@@ -3633,99 +3657,138 @@ object fOrdemAssistencia: TfOrdemAssistencia
     end
     object sds_MovimentoCODMOVRATEIO: TIntegerField
       FieldName = 'CODMOVRATEIO'
+      ProviderFlags = []
     end
     object sds_MovimentoVALORRATEIO: TFloatField
       FieldName = 'VALORRATEIO'
+      ProviderFlags = []
     end
     object sds_MovimentoRATEIO: TFloatField
       FieldName = 'RATEIO'
+      ProviderFlags = []
     end
     object sds_MovimentoCODREV: TIntegerField
       FieldName = 'CODREV'
+      ProviderFlags = []
     end
     object sds_MovimentoRAZREV: TStringField
       FieldName = 'RAZREV'
+      ProviderFlags = []
       Size = 50
     end
     object sds_MovimentoUFREV: TStringField
       FieldName = 'UFREV'
+      ProviderFlags = []
       FixedChar = True
       Size = 2
     end
     object sds_MovimentoCIDADEREV: TStringField
       FieldName = 'CIDADEREV'
+      ProviderFlags = []
       Size = 40
     end
     object sds_MovimentoRAZFORN: TStringField
       FieldName = 'RAZFORN'
+      ProviderFlags = []
       Size = 50
     end
     object sds_MovimentoCNPJFORN: TStringField
       FieldName = 'CNPJFORN'
+      ProviderFlags = []
       Size = 18
     end
     object sds_MovimentoCIDADEFORN: TStringField
       FieldName = 'CIDADEFORN'
+      ProviderFlags = []
       Size = 40
     end
     object sds_MovimentoUFFORN: TStringField
       FieldName = 'UFFORN'
+      ProviderFlags = []
       FixedChar = True
       Size = 2
     end
     object sds_MovimentoDDFORN: TSmallintField
       FieldName = 'DDFORN'
+      ProviderFlags = []
     end
     object sds_MovimentoTELFORN: TStringField
       FieldName = 'TELFORN'
+      ProviderFlags = []
       Size = 9
     end
     object sds_MovimentoNOMEUSUARIO: TStringField
       FieldName = 'NOMEUSUARIO'
+      ProviderFlags = []
       Size = 30
     end
     object sds_MovimentoALMOXARIFADO: TStringField
       FieldName = 'ALMOXARIFADO'
+      ProviderFlags = []
       Size = 200
     end
     object sds_MovimentoCODCONS: TIntegerField
       FieldName = 'CODCONS'
+      ProviderFlags = []
     end
     object sds_MovimentoNOMECONS: TStringField
       FieldName = 'NOMECONS'
+      ProviderFlags = []
       Size = 50
     end
     object sds_MovimentoCNPJCONS: TStringField
       FieldName = 'CNPJCONS'
+      ProviderFlags = []
       Size = 18
     end
     object sds_MovimentoTELCONS: TStringField
       FieldName = 'TELCONS'
+      ProviderFlags = []
       Size = 9
     end
     object sds_MovimentoENDCONS: TStringField
       FieldName = 'ENDCONS'
+      ProviderFlags = []
       Size = 50
     end
     object sds_MovimentoUFCONS: TStringField
       FieldName = 'UFCONS'
+      ProviderFlags = []
       FixedChar = True
       Size = 2
     end
     object sds_MovimentoCIDADECONS: TStringField
       FieldName = 'CIDADECONS'
+      ProviderFlags = []
       Size = 40
     end
     object sds_MovimentoBAIRROCONS: TStringField
       FieldName = 'BAIRROCONS'
+      ProviderFlags = []
       Size = 30
     end
     object sds_MovimentoCEPCONS: TStringField
       FieldName = 'CEPCONS'
+      ProviderFlags = []
       Size = 10
     end
     object sds_MovimentoCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_MovimentoCONFERIDO: TStringField
+      FieldName = 'CONFERIDO'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_MovimentoNFCOBRANCA: TIntegerField
+      FieldName = 'NFCOBRANCA'
+    end
+    object sds_MovimentoORDEMATEND: TIntegerField
+      FieldName = 'ORDEMATEND'
+    end
+    object sds_MovimentoNFREVENDA: TIntegerField
+      FieldName = 'NFREVENDA'
     end
   end
   object dsp_Movimento: TDataSetProvider
@@ -3887,6 +3950,20 @@ object fOrdemAssistencia: TfOrdemAssistencia
     object cds_MovimentoCEPCONS: TStringField
       FieldName = 'CEPCONS'
       Size = 10
+    end
+    object cds_MovimentoCONFERIDO: TStringField
+      FieldName = 'CONFERIDO'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_MovimentoNFCOBRANCA: TIntegerField
+      FieldName = 'NFCOBRANCA'
+    end
+    object cds_MovimentoORDEMATEND: TIntegerField
+      FieldName = 'ORDEMATEND'
+    end
+    object cds_MovimentoNFREVENDA: TIntegerField
+      FieldName = 'NFREVENDA'
     end
   end
   object sdslote: TSQLDataSet
