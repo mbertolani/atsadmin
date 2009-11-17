@@ -186,6 +186,20 @@ object fcrEscolas: TfcrEscolas
     ParentFont = False
     PopupMenu = PopupMenu1
   end
+  object Label23: TLabel
+    Left = 580
+    Top = 182
+    Width = 54
+    Height = 16
+    Caption = 'Receitas'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+  end
   object Edit1: TEdit
     Left = 410
     Top = 78
@@ -2153,7 +2167,7 @@ object fcrEscolas: TfcrEscolas
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 498
+    Top = 491
     Width = 791
     Height = 35
     Align = alBottom
@@ -2812,6 +2826,20 @@ object fcrEscolas: TfcrEscolas
     PopupMenu = PopupMenu1
     TabOrder = 23
     OnKeyPress = FormKeyPress
+  end
+  object cbReceitas: TJvComboBox
+    Left = 579
+    Top = 198
+    Width = 198
+    Height = 24
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemHeight = 16
+    ParentFont = False
+    TabOrder = 24
   end
   object ds_Cr: TDataSource
     DataSet = scdsCr_proc
@@ -3646,8 +3674,8 @@ object fcrEscolas: TfcrEscolas
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.SQl
-    Left = 112
-    Top = 336
+    Left = 176
+    Top = 304
     object sds_serieletraSERIELETRA: TStringField
       FieldName = 'SERIELETRA'
       Required = True
@@ -3756,5 +3784,39 @@ object fcrEscolas: TfcrEscolas
     DataSet = ClientDataSet2
     Left = 400
     Top = 360
+  end
+  object dsp_serieletra: TDataSetProvider
+    DataSet = sds_serieletra
+    Options = [poAllowCommandText]
+    Left = 210
+    Top = 304
+  end
+  object cds_serieletra: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dsp_serieletra'
+    Left = 243
+    Top = 304
+    object cds_serieletraSERIELETRA: TStringField
+      FieldName = 'SERIELETRA'
+      Required = True
+      Size = 4
+    end
+    object cds_serieletraTURNO: TStringField
+      FieldName = 'TURNO'
+      Size = 7
+    end
+    object cds_serieletraTIPOENSINO: TStringField
+      FieldName = 'TIPOENSINO'
+      Size = 15
+    end
+    object cds_serieletraSERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 4
+    end
+    object cds_serieletraDESC_CLASSE: TStringField
+      FieldName = 'DESC_CLASSE'
+      Size = 30
+    end
   end
 end

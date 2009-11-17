@@ -230,6 +230,15 @@ type
     StringField23: TStringField;
     StringField41: TStringField;
     DataSource3: TDataSource;
+    cbReceitas: TJvComboBox;
+    Label23: TLabel;
+    dsp_serieletra: TDataSetProvider;
+    cds_serieletra: TClientDataSet;
+    cds_serieletraSERIELETRA: TStringField;
+    cds_serieletraTURNO: TStringField;
+    cds_serieletraTIPOENSINO: TStringField;
+    cds_serieletraSERIE: TStringField;
+    cds_serieletraDESC_CLASSE: TStringField;
     procedure BitBtn4Click(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
@@ -330,6 +339,7 @@ end;
 
 procedure TfcrEscolas.FormCreate(Sender: TObject);
 var utilcrtitulo : Tutils;
+  str_sql: String;
   i, j : integer;
 begin
   if videoW <> '' then
@@ -357,6 +367,31 @@ begin
   begin
     cbForma.Items.Add(utilcrtitulo.Forma.Strings[i]);
   end;
+
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].Clear;
+  dm.cds_parametro.Params[0].AsString := 'CONTASRECEITAS';
+  dm.cds_parametro.Open;
+
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  str_sql := 'Select * from PLANO ';
+  str_sql := str_sql + 'WHERE ';
+  str_sql := str_sql + 'plnctaroot(conta) = ''' + dm.cds_parametroDADOS.AsString + '''';
+  str_sql := str_sql + ' and CONSOLIDA = ''S'' ';
+  str_sql := str_sql + ' order by NOME';
+  DM.c_1_planoc.CommandText := str_sql;
+  DM.c_1_planoc.Open;
+  cbReceitas.Items.clear;
+  while not (DM.c_1_planoc.eof) do
+  begin
+    cbReceitas.Items.add(dm.c_1_planocNOME.AsString);
+    dm.c_1_planoc.Next;
+  end;
+  dm.cds_parametro.Close;
+
 
 end;
 
@@ -566,15 +601,15 @@ begin
       DM.cds_ccusto.Next;
     end;
 
-    if (not sds_serieletra.Active) then
-      sds_serieletra.Open;
-    sds_serieletra.First;
-    while not sds_serieletra.Eof do
+    if (not cds_serieletra.Active) then
+      cds_serieletra.Open;
+    //cds_serieletra.First;
+    while not cds_serieletra.Eof do
     begin
-      ComboBox2.Items.Add(sds_serieletraDESC_CLASSE.AsString);
-      sds_serieletra.Next;
+      ComboBox2.Items.Add(cds_serieletraDESC_CLASSE.AsString);
+      cds_serieletra.Next;
     end;
-    sds_serieletra.Close;
+    cds_serieletra.Close;
 
     if (not sdsCli.Active) then
       sdsCli.Open;
@@ -625,6 +660,30 @@ begin
    sqltexto1 := sqltexto1 + ' inner join CLIENTES cli on cli.CODCLIENTE=rec.CODCLIENTE';
   //==============================================================================
   datastr:='  /  /  ';
+
+    //------------------------------------------------------------------------------
+  //Receitas
+  //------------------------------------------------------------------------------
+  if (cbReceitas.Text <> '') then
+   begin
+     if (not DM.c_1_planoc.Active) then
+     begin
+       if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+       dm.cds_parametro.Params[0].Clear;
+       dm.cds_parametro.Params[0].AsString := 'CONTASRECEITAS';
+       dm.cds_parametro.Open;
+       DM.c_1_planoc.CommandText := 'Select * from PLANO WHERE ' +
+         'plnctaroot(conta) = ''' + dm.cds_parametroDADOS.AsString + '''' +
+         ' and CONSOLIDA = ''S''' + ' order by NOME';
+       DM.c_1_planoc.Open;
+       dm.cds_parametro.Close;
+     end;
+     dm.c_1_planoc.Locate('NOME', cbReceitas.text, [loCaseInsensitive]);
+       sqlTexto := ' Where rec.CONTACREDITO = ' + IntToStr(Dm.c_1_planocCODIGO.AsInteger);
+   end;
+
+
   //------------------------------------------------------------------------------
   //Verifica se a data de emissão foi preenchido
   //------------------------------------------------------------------------------
@@ -648,6 +707,7 @@ begin
   meDta1.SetFocus;
   end;
   end;
+
   //==============================================================================
   //------------------------------------------------------------------------------
   //Verifica se a data de vencimento foi preenchido
