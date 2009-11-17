@@ -91,7 +91,11 @@ uses
   uProcuraCheque in 'uProcuraCheque.pas' {fProcuraCheque},
   fClassCitrus in '..\..\citrus\fClassCitrus.pas',
   uDmCitrus in '..\..\citrus\uDmCitrus.pas' {DmCitrus: TDataModule},
-  sCtrlResize in 'sCtrlResize.pas';
+  sCtrlResize in 'sCtrlResize.pas',
+  uVendaFinalizar in 'uVendaFinalizar.pas' {fVendaFinalizar},
+  uVendas in 'uVendas.pas' {fVendas},
+  uCompra in 'uCompra.pas' {fCompra},
+  uCompraFinalizar in 'uCompraFinalizar.pas' {fCompraFinalizar};
 
 {$R *.res}
 
@@ -101,14 +105,20 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDMSaude, DMSaude);
   Application.CreateForm(TfFinanceiro, fFinanceiro);
-  Application.CreateForm(TfProcuraCheque, fProcuraCheque);
   DM.formusercontrol := 'formdespesas';
   Application.CreateForm(TfcrTituloPagto, fcrTituloPagto);
   DM.formusercontrol := 'formreceber';
   Application.CreateForm(TfcrTitulo, fcrTitulo);
   DM.formusercontrol := 'formreceitas';
   Application.CreateForm(TfcrTituloInclui, fcrTituloInclui);
-  Application.CreateForm(TfcpTitulo, fcpTitulo);
+    //DM.formusercontrol := 'formvendas';
+  //Application.CreateForm(TfVendas, fVendas);
+  //DM.formusercontrol := 'formvendasfinalizar';
+  //Application.CreateForm(TfVendaFinalizar, fVendaFinalizar);
+  //DM.formusercontrol := 'formcompras';
+  //Application.CreateForm(TfCompra, fCompra);
+  //DM.formusercontrol := 'formcomprasfinalizar';
+  //Application.CreateForm(TfCompraFinalizar, fCompraFinalizar);
   Application.CreateForm(TfFiltro_forn_plano, fFiltro_forn_plano);
   Application.CreateForm(TfCheques_bol, fCheques_bol);
   Application.CreateForm(TfRateioPag, fRateioPag);  

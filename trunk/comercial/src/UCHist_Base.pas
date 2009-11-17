@@ -134,7 +134,6 @@ begin
        fcrTituloPagto.HistoricoReceber.UserControl := fFinanceiro.UserControlFinanceiro;
      if (DM.formusercontrol = 'formreceitas') then
        fcrTituloInclui.HistoricoReceita.UserControl := fFinanceiro.UserControlFinanceiro;
-
   end;
 
   if (DM.MODULOUSERCONTROL = 'comercial') then
