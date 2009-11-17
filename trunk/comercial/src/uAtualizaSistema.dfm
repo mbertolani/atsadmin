@@ -3,7 +3,6 @@ object fAtualizaSistema: TfAtualizaSistema
   Top = 102
   Width = 696
   Height = 473
-  Caption = '['
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

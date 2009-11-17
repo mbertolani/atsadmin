@@ -178,7 +178,8 @@ uses
   uRel_comissao in 'uRel_comissao.pas' {fRel_comissao},
   uMapeamento in 'uMapeamento.pas' {fMapeamento},
   uNotaf1 in 'uNotaf1.pas' {fNotaf1},
-  uGeraAumento in 'uGeraAumento.pas' {fGeraAumento};
+  uGeraAumento in 'uGeraAumento.pas' {fGeraAumento},
+  uOrdemAssistencia in 'uOrdemAssistencia.pas' {fOrdemAssistencia};
 
 {$R *.res}
 

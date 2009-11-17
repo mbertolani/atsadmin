@@ -522,6 +522,16 @@ begin
       executaSql('alter TABLE movimento add conferido char(1)');
       mudaVersao('1.0.0.53');
     end;  // Fim Ataulização Versao 1.0.0.53
+
+        if (versaoSistema = '1.0.0.53') then
+    begin
+      executaSql('alter TABLE MOVIMENTO add nfcobranca Integer');
+      executaSql('alter TABLE MOVIMENTO add ordematend Integer');
+      executaSql('alter TABLE MOVIMENTO add nfrevenda Integer');
+
+      mudaVersao('1.0.0.54');
+    end;  // Fim Ataulização Versao 1.0.0.54
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
