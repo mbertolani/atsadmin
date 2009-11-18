@@ -239,6 +239,9 @@ type
     cds_serieletraTIPOENSINO: TStringField;
     cds_serieletraSERIE: TStringField;
     cds_serieletraDESC_CLASSE: TStringField;
+    dspcli: TDataSetProvider;
+    cdscli: TClientDataSet;
+    cdscliSERIE: TStringField;
     procedure BitBtn4Click(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
@@ -391,8 +394,6 @@ begin
     dm.c_1_planoc.Next;
   end;
   dm.cds_parametro.Close;
-
-
 end;
 
 procedure TfcrEscolas.ChkDBGridCellClick(Column: TColumn);
@@ -593,6 +594,7 @@ begin
       dm.cds_ccusto.Close;
     dm.cds_ccusto.Params[0].AsString := conta_local;
     dm.cds_ccusto.Open;
+
     // populo a combobox
     DM.cds_ccusto.First;
     while not DM.cds_ccusto.Eof do
@@ -601,28 +603,30 @@ begin
       DM.cds_ccusto.Next;
     end;
 
+    cdsCli.Active := false;
+    cdscli.Close;
+    if (not cdsCli.Active) then
+      cdsCli.Open;
+    cdsCli.First;
+    while not cdsCli.Eof do
+    begin
+      cbSerie.Items.Add(cdscliSERIE.AsString);
+      cdsCli.Next;
+    end;
+    cdsCli.Close;
+
+    if (not dm.cbuscacli.Active) then
+      dm.cbuscacli.Open;
+
     if (not cds_serieletra.Active) then
       cds_serieletra.Open;
-    //cds_serieletra.First;
+    cds_serieletra.First;
     while not cds_serieletra.Eof do
     begin
       ComboBox2.Items.Add(cds_serieletraDESC_CLASSE.AsString);
       cds_serieletra.Next;
     end;
     cds_serieletra.Close;
-
-    if (not sdsCli.Active) then
-      sdsCli.Open;
-    sdsCli.First;
-    while not sdsCli.Eof do
-    begin
-      cbSerie.Items.Add(sdscliSERIE.AsString);
-      sdsCli.Next;
-    end;
-    sdsCli.Close;
-
-    if (not dm.cbuscacli.Active) then
-      dm.cbuscacli.Open;
 
     edCliente.Text := '';
     edCodCliente.Text := '';

@@ -3661,9 +3661,9 @@ object fcrEscolas: TfcrEscolas
     CommandText = 'select distinct(SERIE) from TABSERIES'
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DM.SQl
-    Left = 64
-    Top = 336
+    SQLConnection = DM.sqlsisAdimin
+    Left = 176
+    Top = 344
     object sdscliSERIE: TStringField
       FieldName = 'SERIE'
       Size = 4
@@ -3673,7 +3673,7 @@ object fcrEscolas: TfcrEscolas
     CommandText = 'select * from TABSERIES'
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DM.SQl
+    SQLConnection = DM.sqlsisAdimin
     Left = 176
     Top = 304
     object sds_serieletraSERIELETRA: TStringField
@@ -3817,6 +3817,23 @@ object fcrEscolas: TfcrEscolas
     object cds_serieletraDESC_CLASSE: TStringField
       FieldName = 'DESC_CLASSE'
       Size = 30
+    end
+  end
+  object dspcli: TDataSetProvider
+    DataSet = sdscli
+    Options = [poAllowCommandText]
+    Left = 210
+    Top = 344
+  end
+  object cdscli: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspcli'
+    Left = 243
+    Top = 344
+    object cdscliSERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 4
     end
   end
 end
