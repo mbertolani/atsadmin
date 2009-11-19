@@ -873,20 +873,22 @@ end;
 
 procedure TfCpProc.BitBtn8Click(Sender: TObject);
 begin
-  fProcurar:=TfProcurar.create(self,dm.scds_forn_proc);
-  dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
-  fProcurar.BtnProcurar.Click;
+  fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
   try
+    dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+    fProcurar.BtnProcurar.Click;
     fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
-    if fProcurar.ShowModal=mrOk then
-    begin
-     edCodCliente.Text:=IntToStr(dm.scds_forn_procCODFORNECEDOR.asInteger);
-     edCliente.Text:=dm.scds_forn_procNOMEFORNECEDOR.asString;
-    end;
+    fProcurar.btnIncluir.Visible := True;
+    if (dm.moduloUsado = 'SAUDE') then    //manoel 15/01 Acertar para abrir o form Correto
+      fProcurar.btnIncluir.Visible := False;
+    fProcurar.RadioGroup2.Visible := True;
+    fProcurar.ShowModal;
+    edCodCliente.Text:=IntToStr(dm.scds_forn_procCODFORNECEDOR.asInteger);
+    edCliente.Text:=dm.scds_forn_procNOMEFORNECEDOR.asString;
   Finally
     dm.scds_forn_proc.close;
     fProcurar.Free;
-  end;  
+  end;
 end;
 
 procedure TfCpProc.BitBtn1Click(Sender: TObject);
