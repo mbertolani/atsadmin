@@ -1,3 +1,56 @@
+{$A8,B-,C+,D+,E-,F-,G+,H+,I+,J-,K-,L+,M-,N+,O+,P+,Q-,R-,S-,T-,U-,V+,W-,X+,Y+,Z1}
+{$MINSTACKSIZE $00004000}
+{$MAXSTACKSIZE $00100000}
+{$IMAGEBASE $00400000}
+{$APPTYPE GUI}
+{$WARN SYMBOL_DEPRECATED ON}
+{$WARN SYMBOL_LIBRARY ON}
+{$WARN SYMBOL_PLATFORM ON}
+{$WARN UNIT_LIBRARY ON}
+{$WARN UNIT_PLATFORM ON}
+{$WARN UNIT_DEPRECATED ON}
+{$WARN HRESULT_COMPAT ON}
+{$WARN HIDING_MEMBER ON}
+{$WARN HIDDEN_VIRTUAL ON}
+{$WARN GARBAGE ON}
+{$WARN BOUNDS_ERROR ON}
+{$WARN ZERO_NIL_COMPAT ON}
+{$WARN STRING_CONST_TRUNCED ON}
+{$WARN FOR_LOOP_VAR_VARPAR ON}
+{$WARN TYPED_CONST_VARPAR ON}
+{$WARN ASG_TO_TYPED_CONST ON}
+{$WARN CASE_LABEL_RANGE ON}
+{$WARN FOR_VARIABLE ON}
+{$WARN CONSTRUCTING_ABSTRACT ON}
+{$WARN COMPARISON_FALSE ON}
+{$WARN COMPARISON_TRUE ON}
+{$WARN COMPARING_SIGNED_UNSIGNED ON}
+{$WARN COMBINING_SIGNED_UNSIGNED ON}
+{$WARN UNSUPPORTED_CONSTRUCT ON}
+{$WARN FILE_OPEN ON}
+{$WARN FILE_OPEN_UNITSRC ON}
+{$WARN BAD_GLOBAL_SYMBOL ON}
+{$WARN DUPLICATE_CTOR_DTOR ON}
+{$WARN INVALID_DIRECTIVE ON}
+{$WARN PACKAGE_NO_LINK ON}
+{$WARN PACKAGED_THREADVAR ON}
+{$WARN IMPLICIT_IMPORT ON}
+{$WARN HPPEMIT_IGNORED ON}
+{$WARN NO_RETVAL ON}
+{$WARN USE_BEFORE_DEF ON}
+{$WARN FOR_LOOP_VAR_UNDEF ON}
+{$WARN UNIT_NAME_MISMATCH ON}
+{$WARN NO_CFG_FILE_FOUND ON}
+{$WARN MESSAGE_DIRECTIVE ON}
+{$WARN IMPLICIT_VARIANTS ON}
+{$WARN UNICODE_TO_LOCALE ON}
+{$WARN LOCALE_TO_UNICODE ON}
+{$WARN IMAGEBASE_MULTIPLE ON}
+{$WARN SUSPICIOUS_TYPECAST ON}
+{$WARN PRIVATE_PROPACCESSOR ON}
+{$WARN UNSAFE_TYPE OFF}
+{$WARN UNSAFE_CODE OFF}
+{$WARN UNSAFE_CAST OFF}
 unit uOrdemAssistencia;
 
 interface
@@ -68,7 +121,6 @@ type
     btnNovoProd: TBitBtn;
     GroupBox6: TGroupBox;
     DBEdit5: TDBEdit;
-    DBComboBox1: TDBComboBox;
     Label1: TLabel;
     Label2: TLabel;
     Label31: TLabel;
@@ -424,7 +476,6 @@ type
     s_2NOME: TStringField;
     ds_ccusto: TDataSource;
     DBEdit1: TDBEdit;
-    DBEdit2: TDBEdit;
     DBEdit3: TDBEdit;
     DBEdit4: TDBEdit;
     DBEdit6: TDBEdit;
@@ -623,6 +674,29 @@ type
     cds_MovimentoNFCOBRANCA: TIntegerField;
     cds_MovimentoORDEMATEND: TIntegerField;
     cds_MovimentoNFREVENDA: TIntegerField;
+    DBComboBox2: TDBComboBox;
+    sFornecedor: TSQLDataSet;
+    sFornecedorCODFORNECEDOR: TIntegerField;
+    sFornecedorNOMEFORNECEDOR: TStringField;
+    sFornecedorRAZAOSOCIAL: TStringField;
+    sFornecedorCONTATO: TStringField;
+    sFornecedorTIPOFIRMA: TSmallintField;
+    sFornecedorCPF: TStringField;
+    sFornecedorCNPJ: TStringField;
+    sFornecedorINSCESTADUAL: TStringField;
+    sFornecedorRG: TStringField;
+    sFornecedorSEGMENTO: TSmallintField;
+    sFornecedorREGIAO: TSmallintField;
+    sFornecedorLIMITECREDITO: TFloatField;
+    sFornecedorDATACADASTRO: TDateField;
+    sFornecedorCODUSUARIO: TIntegerField;
+    sFornecedorSTATUS: TSmallintField;
+    sFornecedorHOMEPAGE: TStringField;
+    sFornecedorPRAZOPAGAMENTO: TSmallintField;
+    sFornecedorPRAZOENTREGA: TSmallintField;
+    sFornecedorCONTA_FORNECEDOR: TStringField;
+    ComboBox1: TComboBox;
+    Edit1: TEdit;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -643,6 +717,8 @@ type
     procedure DBEdit1Exit(Sender: TObject);
     procedure DBEdit11Exit(Sender: TObject);
     procedure DBEdit17Exit(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Edit1Exit(Sender: TObject);
   private
     modo :string;
     function Verifica_Campos_Em_Branco: Boolean;
@@ -1098,7 +1174,7 @@ begin
     cds_MovimentoDDFORN.AsString := cds_fornDDD.AsString;
     cds_MovimentoUFFORN.AsString := cds_fornUF.AsString;
 
-    dbEdit2.Text := cds_fornRAZAOSOCIAL.AsString;
+    DBComboBox2.Text := cds_fornRAZAOSOCIAL.AsString;
     dbEdit6.Text := cds_fornCNPJ.AsString;
     dbEdit7.Text := cds_fornCIDADE.AsString;
     dbEdit8.Text := cds_fornUF.AsString;
@@ -1128,7 +1204,7 @@ begin
     cds_MovimentoDDFORN.AsString := cds_fornDDD.AsString;
     cds_MovimentoUFFORN.AsString := cds_fornUF.AsString;
 
-    dbEdit2.Text := cds_fornRAZAOSOCIAL.AsString;
+    DBComboBox2.Text := cds_fornRAZAOSOCIAL.AsString;
     dbEdit6.Text := cds_fornCNPJ.AsString;
     dbEdit7.Text := cds_fornCIDADE.AsString;
     dbEdit8.Text := cds_fornUF.AsString;
@@ -1238,7 +1314,7 @@ inherited;
       [mbOk], 0);
       exit;
     end;
-cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
+    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
     cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
     cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
     cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
@@ -1265,7 +1341,7 @@ cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
       cds_Movimento.Cancel;
       exit;
     end;
-cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
+    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
     cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
     cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
     cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
@@ -1328,6 +1404,101 @@ cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
 
     cds_cli.Close;
     end;
+end;
+
+procedure TfOrdemAssistencia.FormCreate(Sender: TObject);
+begin
+  DBComboBox2.Items.Clear;
+  if (not sFornecedor.Active) then
+     sFornecedor.Open;
+  sFornecedor.First;
+  while not sFornecedor.Eof do
+  begin
+    DBComboBox2.Items.Add(sFornecedorRAZAOSOCIAL.AsString);
+    sFornecedor.Next;
+  end;
+
+  if cds_Movimento.Active then
+      cds_Movimento.Close;
+    cds_Movimento.Params[0].clear;
+    cds_Movimento.Open;
+    // populo a combobox
+    cds_Movimento.First;
+    while not cds_Movimento.Eof do
+    begin
+      ComboBox1.Items.Add(cds_MovimentoORDEMATEND.AsString);
+      cds_Movimento.Next;
+    end;
+
+end;
+
+procedure TfOrdemAssistencia.Edit1Exit(Sender: TObject);
+begin
+if (dtsrc.State in [dsInsert, dsEdit]) then
+  begin
+    if (Edit1.Text = '') then
+    begin
+      exit;
+    end;
+    if cds_cli.Active then
+    cds_cli.Close;
+    cds_cli.Params[0].AsInteger := StrToInt(Edit1.Text);
+    cds_cli.Open;
+    if cds_cli.IsEmpty then begin
+      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
+    cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
+    cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
+    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
+    cds_MovimentoCNPJCONS.AsString := cds_cliCNPJ.AsString;
+    cds_MovimentoTELCONS.AsString := cds_cliTELEFONE.AsString;
+    cds_MovimentoENDCONS.AsString := cds_cliLOGRADOURO.AsString;
+    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
+    cds_MovimentoBAIRROCONS.AsString := cds_cliBAIRRO.AsString;
+    cds_MovimentoCEPCONS.AsString := cds_cliCEP.AsString;
+
+    DBEdit18.Text := cds_cliNOMECLIENTE.AsString;
+    DBEdit19.Text := cds_cliCNPJ.AsString;
+    DBEdit20.Text := cds_cliTELEFONE.AsString;
+    DBEdit21.Text := cds_cliLOGRADOURO.AsString;
+    DBEdit22.Text := cds_cliUF.AsString;
+    DBEdit23.Text := cds_cliBAIRRO.AsString;
+    DBEdit24.Text := cds_cliCIDADE.AsString;
+    DBEdit25.Text := cds_cliCEP.AsString;
+    cds_cli.Close;
+
+  if cds_cliBLOQUEIO.AsString = 'S' then
+    begin
+      MessageDlg('Revendedor com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
+      cds_Movimento.Cancel;
+      exit;
+    end;
+    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
+    cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
+    cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
+    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
+    cds_MovimentoCNPJCONS.AsString := cds_cliCNPJ.AsString;
+    cds_MovimentoTELCONS.AsString := cds_cliTELEFONE.AsString;
+    cds_MovimentoENDCONS.AsString := cds_cliLOGRADOURO.AsString;
+    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
+    cds_MovimentoBAIRROCONS.AsString := cds_cliBAIRRO.AsString;
+    cds_MovimentoCEPCONS.AsString := cds_cliCEP.AsString;
+
+    DBEdit18.Text := cds_cliNOMECLIENTE.AsString;
+    DBEdit19.Text := cds_cliCNPJ.AsString;
+    DBEdit20.Text := cds_cliTELEFONE.AsString;
+    DBEdit21.Text := cds_cliLOGRADOURO.AsString;
+    DBEdit22.Text := cds_cliUF.AsString;
+    DBEdit23.Text := cds_cliBAIRRO.AsString;
+    DBEdit24.Text := cds_cliCIDADE.AsString;
+    DBEdit25.Text := cds_cliCEP.AsString;
+    cds_cli.Close;
+
+  end;
+
 end;
 
 end.
