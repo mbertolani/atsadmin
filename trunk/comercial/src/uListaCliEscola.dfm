@@ -111,7 +111,7 @@ object fListaCliEscola: TfListaCliEscola
       Width = 512
       Height = 24
       DataField = 'NOMECLIENTE'
-      DataSource = DataSource2
+      DataSource = DataSource1
       BevelKind = bkFlat
       ParentFlat = False
       ItemHeight = 16
@@ -124,7 +124,7 @@ object fListaCliEscola: TfListaCliEscola
       Top = 32
       Width = 93
       Height = 24
-      DataSource = DataSource2
+      DataSource = DataSource1
       DataField = 'RA'
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -225,7 +225,7 @@ object fListaCliEscola: TfListaCliEscola
     object Label9: TLabel
       Left = 8
       Top = 5
-      Width = 173
+      Width = 201
       Height = 36
       Caption = 'Lista Alunos'
       Font.Charset = ANSI_CHARSET
@@ -239,7 +239,7 @@ object fListaCliEscola: TfListaCliEscola
     object Label10: TLabel
       Left = 10
       Top = 5
-      Width = 173
+      Width = 201
       Height = 36
       Caption = 'Lista Alunos'
       Font.Charset = ANSI_CHARSET
