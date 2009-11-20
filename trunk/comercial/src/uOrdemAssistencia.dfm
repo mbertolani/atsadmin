@@ -15,6 +15,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
   OnClose = FormClose
+  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
@@ -690,7 +691,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
     end
     object DBEdit1: TDBEdit
       Left = 4
-      Top = 26
+      Top = 25
       Width = 53
       Height = 24
       DataField = 'CODFORNECEDOR'
@@ -703,21 +704,6 @@ object fOrdemAssistencia: TfOrdemAssistencia
       ParentFont = False
       TabOrder = 1
       OnExit = DBEdit1Exit
-    end
-    object DBEdit2: TDBEdit
-      Left = 62
-      Top = 26
-      Width = 335
-      Height = 24
-      DataField = 'RAZFORN'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 2
     end
     object DBEdit3: TDBEdit
       Left = 404
@@ -732,7 +718,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 2
     end
     object DBEdit4: TDBEdit
       Left = 492
@@ -747,7 +733,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 3
     end
     object DBEdit6: TDBEdit
       Left = 4
@@ -762,7 +748,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 4
     end
     object DBEdit7: TDBEdit
       Left = 180
@@ -777,7 +763,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 5
     end
     object DBEdit8: TDBEdit
       Left = 360
@@ -792,7 +778,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 6
     end
     object DBEdit9: TDBEdit
       Left = 404
@@ -807,7 +793,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 8
+      TabOrder = 7
     end
     object DBEdit10: TDBEdit
       Left = 462
@@ -822,6 +808,16 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      TabOrder = 8
+    end
+    object DBComboBox2: TDBComboBox
+      Left = 64
+      Top = 26
+      Width = 334
+      Height = 21
+      DataField = 'RAZFORN'
+      DataSource = DtSrc
+      ItemHeight = 13
       TabOrder = 9
     end
   end
@@ -1118,9 +1114,9 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Caption = 'Documento'
     end
     object DBEdit17: TDBEdit
-      Left = 4
-      Top = 26
-      Width = 51
+      Left = 164
+      Top = -6
+      Width = 21
       Height = 24
       DataField = 'CODCLIENTE'
       DataSource = DtSrc
@@ -1267,6 +1263,14 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Style = []
       ParentFont = False
       TabOrder = 9
+    end
+    object Edit1: TEdit
+      Left = 6
+      Top = 26
+      Width = 47
+      Height = 23
+      TabOrder = 10
+      OnExit = Edit1Exit
     end
   end
   object GroupBox5: TGroupBox
@@ -1495,7 +1499,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       DataSource = DtSrc
       TabOrder = 0
     end
-    object DBComboBox1: TDBComboBox
+    object ComboBox1: TComboBox
       Left = 8
       Top = 48
       Width = 81
@@ -2569,13 +2573,13 @@ object fOrdemAssistencia: TfOrdemAssistencia
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'pCODCLIENTE'
-        ParamType = ptInput
+        ParamType = ptUnknown
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 16
-    Top = 8
+    Left = 8
+    Top = 488
     object sds_cliCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -2640,8 +2644,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
   object dsp_cli: TDataSetProvider
     DataSet = sds_cli
     Options = [poAllowCommandText]
-    Left = 48
-    Top = 8
+    Left = 40
+    Top = 488
   end
   object cds_cli: TClientDataSet
     Aggregates = <>
@@ -2654,8 +2658,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
         ParamType = ptUnknown
       end>
     ProviderName = 'dsp_cli'
-    Left = 80
-    Top = 8
+    Left = 72
+    Top = 488
     object cds_cliCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -4689,13 +4693,13 @@ object fOrdemAssistencia: TfOrdemAssistencia
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'pCodforn'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 173
-    Top = 48
+    Top = 40
     object sds_fornCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
       Required = True
@@ -4730,7 +4734,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
     DataSet = sds_forn
     UpdateMode = upWhereKeyOnly
     Left = 205
-    Top = 48
+    Top = 40
   end
   object cds_forn: TClientDataSet
     Aggregates = <>
@@ -4742,7 +4746,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       end>
     ProviderName = 'dsp_forn'
     Left = 236
-    Top = 49
+    Top = 41
     object cds_fornCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
       Required = True
@@ -4852,6 +4856,89 @@ object fOrdemAssistencia: TfOrdemAssistencia
     object scds_cliSTATUS: TSmallintField
       FieldName = 'STATUS'
       Required = True
+    end
+  end
+  object sFornecedor: TSQLDataSet
+    CommandText = 'select * from FORNECEDOR'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 133
+    Top = 16
+    object sFornecedorCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object sFornecedorNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 50
+    end
+    object sFornecedorRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object sFornecedorCONTATO: TStringField
+      FieldName = 'CONTATO'
+      Size = 30
+    end
+    object sFornecedorTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object sFornecedorCPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object sFornecedorCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object sFornecedorINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object sFornecedorRG: TStringField
+      FieldName = 'RG'
+      Size = 14
+    end
+    object sFornecedorSEGMENTO: TSmallintField
+      FieldName = 'SEGMENTO'
+      Required = True
+    end
+    object sFornecedorREGIAO: TSmallintField
+      FieldName = 'REGIAO'
+      Required = True
+    end
+    object sFornecedorLIMITECREDITO: TFloatField
+      FieldName = 'LIMITECREDITO'
+    end
+    object sFornecedorDATACADASTRO: TDateField
+      FieldName = 'DATACADASTRO'
+      Required = True
+    end
+    object sFornecedorCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object sFornecedorSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Required = True
+    end
+    object sFornecedorHOMEPAGE: TStringField
+      FieldName = 'HOMEPAGE'
+      Size = 40
+    end
+    object sFornecedorPRAZOPAGAMENTO: TSmallintField
+      FieldName = 'PRAZOPAGAMENTO'
+    end
+    object sFornecedorPRAZOENTREGA: TSmallintField
+      FieldName = 'PRAZOENTREGA'
+    end
+    object sFornecedorCONTA_FORNECEDOR: TStringField
+      FieldName = 'CONTA_FORNECEDOR'
+      Size = 15
     end
   end
 end
