@@ -963,7 +963,7 @@ end;
 
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
 begin
-  if (cds_Mov_detQUANTIDADE.AsFloat = 0) then
+//  if ( cds_Mov_detQUANTIDADE.AsFloat = 0) then
   begin
   inherited;
   if (usaprecolistavenda = 'S') then
