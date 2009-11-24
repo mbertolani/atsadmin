@@ -153,6 +153,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Width = 77
       Height = 55
       Caption = 'F4-Gravar'
+      Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 4
       OnClick = btnGravarClick
@@ -341,6 +342,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Width = 77
       Height = 55
       Caption = 'F3-Cancelar'
+      Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 5
       OnClick = btnCancelarClick
@@ -451,7 +453,6 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Width = 77
       Height = 55
       Caption = 'F7-Excluir'
-      Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 2
       OnClick = btnExcluirClick
@@ -1442,8 +1443,8 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   object DtSrc: TDataSource
     DataSet = cds_Movimento
     OnStateChange = DtSrcStateChange
-    Left = 584
-    Top = 56
+    Left = 576
+    Top = 104
   end
   object sds_Movimento: TSQLDataSet
     CommandText = 
