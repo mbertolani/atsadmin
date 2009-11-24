@@ -528,7 +528,8 @@ begin
       executaSql('alter TABLE MOVIMENTO add nfcobranca Integer');
       executaSql('alter TABLE MOVIMENTO add ordematend Integer');
       executaSql('alter TABLE MOVIMENTO add nfrevenda Integer');
-
+      executaSql('alter TABLE LOTES add serieini Integer');
+      executaSql('alter TABLE LOTES add seriefim Integer');
       mudaVersao('1.0.0.54');
     end;  // Fim Ataulização Versao 1.0.0.54
 
