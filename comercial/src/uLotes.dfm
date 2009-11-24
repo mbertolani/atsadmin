@@ -1,8 +1,8 @@
 inherited fLotes: TfLotes
   Left = 66
   Top = 74
-  Width = 712
-  Height = 491
+  Width = 792
+  Height = 492
   Caption = 'Lotes'
   OldCreateOrder = True
   OnShow = FormShow
@@ -23,36 +23,50 @@ inherited fLotes: TfLotes
     Caption = 'Lote'
   end
   object Label5: TLabel [2]
-    Left = 442
+    Left = 421
     Top = 61
     Width = 79
     Height = 13
     Caption = 'Data Fabrica'#231#227'o'
   end
   object Label6: TLabel [3]
-    Left = 527
+    Left = 506
     Top = 61
     Width = 63
     Height = 13
     Caption = 'Data Vencto.'
   end
   object Label7: TLabel [4]
-    Left = 608
+    Left = 580
     Top = 61
     Width = 68
     Height = 13
     Caption = 'Qtde. Estoque'
   end
   object Label8: TLabel [5]
-    Left = 358
+    Left = 347
     Top = 61
     Width = 28
     Height = 13
     Caption = 'Pre'#231'o'
   end
+  object Label9: TLabel [6]
+    Left = 654
+    Top = 61
+    Width = 54
+    Height = 13
+    Caption = 'S'#233'rie Inicial'
+  end
+  object Label10: TLabel [7]
+    Left = 716
+    Top = 61
+    Width = 49
+    Height = 13
+    Caption = 'S'#233'rie Final'
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 403
-    Width = 704
+    Top = 404
+    Width = 784
     TabOrder = 6
     inherited btnProcurar: TBitBtn
       Enabled = False
@@ -60,7 +74,7 @@ inherited fLotes: TfLotes
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 704
+    Width = 784
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -37
@@ -82,7 +96,7 @@ inherited fLotes: TfLotes
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 702
+      Width = 782
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -99,7 +113,7 @@ inherited fLotes: TfLotes
       HotTrackFont.Style = []
     end
   end
-  object DBEdit1: TDBEdit [8]
+  object DBEdit1: TDBEdit [10]
     Left = 8
     Top = 75
     Width = 80
@@ -118,10 +132,10 @@ inherited fLotes: TfLotes
     OnExit = DBEdit1Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [9]
+  object DBEdit2: TDBEdit [11]
     Left = 126
     Top = 75
-    Width = 228
+    Width = 218
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -136,8 +150,8 @@ inherited fLotes: TfLotes
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [10]
-    Left = 441
+  object DBEdit3: TDBEdit [12]
+    Left = 420
     Top = 75
     Width = 84
     Height = 24
@@ -154,10 +168,10 @@ inherited fLotes: TfLotes
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [11]
-    Left = 526
+  object DBEdit4: TDBEdit [13]
+    Left = 505
     Top = 75
-    Width = 80
+    Width = 72
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -172,7 +186,7 @@ inherited fLotes: TfLotes
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object btnProdutoProcura: TBitBtn [12]
+  object btnProdutoProcura: TBitBtn [14]
     Left = 88
     Top = 73
     Width = 35
@@ -246,10 +260,10 @@ inherited fLotes: TfLotes
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       BFBFBFBF0000}
   end
-  object DBEdit5: TDBEdit [13]
-    Left = 607
+  object DBEdit5: TDBEdit [15]
+    Left = 579
     Top = 75
-    Width = 89
+    Width = 72
     Height = 24
     TabStop = False
     BevelKind = bkFlat
@@ -267,10 +281,10 @@ inherited fLotes: TfLotes
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [14]
-    Left = 356
+  object DBEdit6: TDBEdit [16]
+    Left = 345
     Top = 75
-    Width = 82
+    Width = 74
     Height = 24
     DataField = 'PRECO'
     DataSource = DtSrc
@@ -282,10 +296,10 @@ inherited fLotes: TfLotes
     ParentFont = False
     TabOrder = 2
   end
-  object DBGrid1: TJvDBGrid [15]
+  object DBGrid1: TJvDBGrid [17]
     Left = 8
-    Top = 101
-    Width = 688
+    Top = 102
+    Width = 769
     Height = 297
     DataSource = DtSrc
     TabOrder = 9
@@ -307,21 +321,21 @@ inherited fLotes: TfLotes
         Expanded = False
         FieldName = 'LOTE'
         Title.Caption = 'Lote'
-        Width = 85
+        Width = 105
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAFABRICACAO'
         Title.Caption = 'Data Fabrica'#231#227'o'
-        Width = 122
+        Width = 97
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAVENCIMENTO'
         Title.Caption = 'Data Vencimento'
-        Width = 122
+        Width = 92
         Visible = True
       end
       item
@@ -330,23 +344,76 @@ inherited fLotes: TfLotes
         FieldName = 'ESTOQUE'
         Title.Alignment = taCenter
         Title.Caption = 'Estoque'
-        Width = 104
+        Width = 91
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRODUTO'
         Title.Caption = 'Produto'
-        Width = 159
+        Width = 130
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO'
         Title.Caption = 'Pre'#231'o'
+        Width = 79
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SERIEINI'
+        Title.Caption = 'S'#233'rie Inicial'
         Width = 74
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SERIEFIM'
+        Title.Caption = 'S'#233'rie Final'
+        Width = 77
+        Visible = True
       end>
+  end
+  object DBEdit7: TDBEdit [18]
+    Left = 653
+    Top = 75
+    Width = 60
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'SERIEINI'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 10
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit8: TDBEdit [19]
+    Left = 715
+    Top = 75
+    Width = 60
+    Height = 24
+    TabStop = False
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataField = 'SERIEFIM'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 11
+    OnKeyPress = FormKeyPress
   end
   inherited DtSrc: TDataSource
     DataSet = cdslotes
@@ -409,6 +476,16 @@ inherited fLotes: TfLotes
     end
     object sdslotePRECO: TFloatField
       FieldName = 'PRECO'
+    end
+    object sdsloteNOTAFISCAL: TStringField
+      FieldName = 'NOTAFISCAL'
+      Size = 15
+    end
+    object sdsloteSERIEINI: TIntegerField
+      FieldName = 'SERIEINI'
+    end
+    object sdsloteSERIEFIM: TIntegerField
+      FieldName = 'SERIEFIM'
     end
   end
   object dsplotes: TDataSetProvider
@@ -476,6 +553,16 @@ inherited fLotes: TfLotes
       FieldName = 'PRECO'
       DisplayFormat = ',##0.00'
       EditFormat = ',##0.00'
+    end
+    object cdslotesNOTAFISCAL: TStringField
+      FieldName = 'NOTAFISCAL'
+      Size = 15
+    end
+    object cdslotesSERIEINI: TIntegerField
+      FieldName = 'SERIEINI'
+    end
+    object cdslotesSERIEFIM: TIntegerField
+      FieldName = 'SERIEFIM'
     end
   end
 end
