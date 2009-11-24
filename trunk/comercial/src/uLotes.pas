@@ -46,6 +46,16 @@ type
     Label8: TLabel;
     JvLabel1: TJvLabel;
     DBGrid1: TJvDBGrid;
+    Label9: TLabel;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    Label10: TLabel;
+    sdsloteNOTAFISCAL: TStringField;
+    sdsloteSERIEINI: TIntegerField;
+    sdsloteSERIEFIM: TIntegerField;
+    cdslotesNOTAFISCAL: TStringField;
+    cdslotesSERIEINI: TIntegerField;
+    cdslotesSERIEFIM: TIntegerField;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
