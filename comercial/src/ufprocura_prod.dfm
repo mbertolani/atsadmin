@@ -494,12 +494,6 @@ object fProcura_prod: TfProcura_prod
       end
       item
         Expanded = False
-        FieldName = 'PRECO_COMPRA'
-        Title.Caption = 'V. Compra(R$)'
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'GRUPO'
         Title.Caption = 'Grupo'
         Visible = True
