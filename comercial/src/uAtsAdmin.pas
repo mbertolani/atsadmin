@@ -206,6 +206,7 @@ type
     OrdemdeAssitnciaTcnica1: TMenuItem;
     MapeamentodeEstoque1: TMenuItem;
     AlterarValordosProdutosprFornecedor1: TMenuItem;
+    ExportaoparaContMatic1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -291,6 +292,7 @@ type
     procedure MapeamentodeEstoque1Click(Sender: TObject);
     procedure AlterarValordosProdutosprFornecedor1Click(Sender: TObject);
     procedure OrdemdeAssitnciaTcnica1Click(Sender: TObject);
+    procedure ExportaoparaContMatic1Click(Sender: TObject);
 
   private
     STime: TDateTime;
@@ -328,7 +330,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMovCaixa, uCaixaReceber, uComissaoColaborador, uRatearConta, uDespRec,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
-  uMapeamento, uGeraAumento, uOrdemAssistencia;
+  uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat;
 
 {$R *.dfm}
 
@@ -1469,6 +1471,16 @@ begin
      fGeraAumento.ShowModal;
    finally
      fGeraAumento.Free;
+   end;
+end;
+
+procedure TfAtsAdmin.ExportaoparaContMatic1Click(Sender: TObject);
+begin
+   fExpContMat := TfExpContMat.Create(Application);
+   try
+     fExpContMat.ShowModal;
+   finally
+     fExpContMat.Free;
    end;
 end;
 
