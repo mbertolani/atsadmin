@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
-  Left = 176
-  Top = 180
+  Left = 169
+  Top = 153
   Width = 700
   Height = 446
   Color = clWhite
@@ -1790,6 +1790,10 @@ object fAtsAdmin: TfAtsAdmin
       object OrdemdeAssitnciaTcnica1: TMenuItem
         Caption = 'Ordem de Assit'#234'ncia T'#233'cnica'
         OnClick = OrdemdeAssitnciaTcnica1Click
+      end
+      object ExportaoparaContMatic1: TMenuItem
+        Caption = 'Exporta'#231#227'o para Cont Matic'
+        OnClick = ExportaoparaContMatic1Click
       end
     end
     object N2: TMenuItem
