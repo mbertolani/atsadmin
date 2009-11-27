@@ -880,8 +880,8 @@ object fExpContMat: TfExpContMat
       'AFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLI' +
       'ENTE'#13#10'inner join enderecocliente endecli on endecli.CODCLIENTE =' +
       ' cl.CODCLIENTE'#13#10'inner join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10 +
-      'where DTAEMISSAO between :dta1 and :dta2'#13#10'and endecli.UF = '#39'SP'#39' ' +
-      'and endecli.TIPOEND = 0'#13#10'order by NOTASERIE'
+      'where DTAEMISSAO between :dta1 and :dta2 and endecli.TIPOEND = 0' +
+      #13#10'order by NOTASERIE'
     MaxBlobSize = -1
     Params = <
       item
