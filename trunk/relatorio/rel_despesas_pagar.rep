@@ -160,7 +160,7 @@ object TRpReport
   end
   object TRpSection0: TRpSection
     Width = 10772
-    Height = 425
+    Height = 240
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -180,6 +180,7 @@ object TRpReport
       item
         Component = TRpExpression11
       end>
+    AutoExpand = True
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
     ExternalSearchField = 'REPORT_NAME'
@@ -496,7 +497,7 @@ object TRpReport
   end
   object TRpExpression2: TRpExpression
     Width = 6795
-    Height = 345
+    Height = 255
     PosX = 1350
     PosY = 0
     Type1Font = poHelvetica
@@ -511,7 +512,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'LISTA_PRODUTOS.FORNECEDOR'
+    Expression = 'LISTA_PRODUTOS.FORNECEDOR + '#39' - '#39' + LISTA_PRODUTOS.DESCRICAO'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
