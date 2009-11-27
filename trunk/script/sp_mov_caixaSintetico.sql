@@ -11,7 +11,7 @@ RETURNS ( DTAPAGTO                         DATE
         , CAIXA                            VARCHAR( 60 )
         , CODCONTA                         VARCHAR( 20 )
         , FORMA                            VARCHAR( 20 )
-        ,N_DOC VARCHAR(20) )
+        , N_DOC VARCHAR(20) , COMPENSADO CHAR(1) )
 AS
 DECLARE VARIABLE CCAIXA INTEGER;
 DECLARE VARIABLE CODCONT INTEGER;
@@ -79,12 +79,12 @@ BEGIN
   /*     Total de Debitos (Entrou) por RECEBIMENTOS     */
   /*                                                    */
   /*                                                    */
-  FOR SELECT rec.DATACONSOLIDA, sum(rec.VALORRECEBIDO+rec.JUROS-rec.DESCONTO), rec.FORMARECEBIMENTO
+  FOR SELECT rec.DATACONSOLIDA, sum(rec.VALORRECEBIDO+rec.JUROS-rec.DESCONTO), rec.FORMARECEBIMENTO, rec.DESCONTADO
     FROM RECEBIMENTO rec
     where rec.DATACONSOLIDA BETWEEN :DTAINI AND :DTAFIM
     and ((rec.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
     group by rec.DATACONSOLIDA, rec.FORMARECEBIMENTO
-  INTO :DTAPAGTO, :VALORD, :FORMA
+  INTO :DTAPAGTO, :VALORD, :FORMA, :COMPENSADO
   DO BEGIN
     VALOR = VALOR + VALORD;
 
