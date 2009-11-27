@@ -1,3 +1,4 @@
+set term ^ ;
 create or ALTER PROCEDURE  CAIXA_ORDEM_SINTETICOConsolida( DTAINI                           DATE
                                    , DTAFIM                           DATE
                                    , COD_CAIXA                        SMALLINT )
@@ -45,11 +46,11 @@ BEGIN
       INTO :VALOR;
     -- Mostra linha a Linha
     -- Agrupo por número de Documento
-    FOR SELECT DTAPAGTO, ORDEM, DESCRICAO, sum(VALORC), sum(VALORD), CAIXA, FORMA, N_DOC, COMPENSADO
+    FOR SELECT DTAPAGTO, sum(VALORC), sum(VALORD)
       FROM sp_mov_caixaSinteticoConsolida(:DTAINI, :DTAFIM, :COD_CAIXA)
-      group by DTAPAGTO, ORDEM, N_DOC, DESCRICAO, CAIXA, FORMA, COMPENSADO
-    INTO :DTAPAGTO, :ORDEM, :DESCRICAO, :VALORC, :VALORD, :CAIXA
-       , :FORMA, :N_DOC, :COMPENSADO
+      group by DTAPAGTO
+    INTO :DTAPAGTO, :VALORC, :VALORD
+       
     DO BEGIN
       VALOR = VALOR + VALORD - VALORC;
       if ((valord = 0) and (valorc = 0)) then
