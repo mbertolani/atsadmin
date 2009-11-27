@@ -706,7 +706,18 @@ begin
   begin
     dm.emppadrao := '';
   end;
-  
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroD2.AsString = 'EXIBEANIVERSARIO') then
+  begin
+    VCLReport1.Filename := str_relatorio + 'clienteAniversario.rep';
+    VCLReport1.Title := VCLReport1.Filename;
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.execute;
+  end
 
 end;
 
