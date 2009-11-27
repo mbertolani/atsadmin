@@ -284,6 +284,7 @@ var
 
 implementation
 
+uses DateUtils, UDm, ufcr, UDMNF;
 {$R *.dfm}
 
 Function RemoveChar(Const Texto:String):String;
@@ -305,8 +306,10 @@ end;
 
 procedure TfExpContMat.Button1Click(Sender: TObject);
 
-var  Registro, NomArquivo, datamaior, datamenor, prazo, avista, parcelas: string;
+var  Registro, NomArquivo, datamaior, datamenor, prazo, avista, parcelas, dattoday: string;
      arquivo: TextFile;
+     dathor: TDateTime;
+
 
 begin
    JvProgressBar1.Position := 0;
@@ -314,7 +317,7 @@ begin
    JvProgressBar1.Position := 10;
 
    // Abrir cdsNF com parametro data1 e data 2
-   if (cdsNF.Active) then
+    if (cdsNF.Active) then
      cdsNF.Close;
    cdsNF.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
    cdsNF.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
@@ -328,34 +331,60 @@ begin
 
    sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
    sEmpresa.Open;
-   
-   datamenor := formatdatetime('dd/mm/yyyy', StrToDate(JvDateEdit1.Text));
-   datamaior := formatdatetime('dd/mm/yyyy', StrToDate(JvDateEdit2.Text));
 
-   NomArquivo := Edit1.Text;
+   datamenor := FormatDateTime('ddmm', StrToDate(JvDateEdit1.Text));
+   datamaior := FormatDateTime('ddmm', StrToDate(JvDateEdit2.Text));
+   dattoday := FormatDateTime('mm', Today);
+
+   NomArquivo := (Edit1.Text + '001.N' + dattoday);
    AssignFile(Arquivo, NomArquivo);
    Rewrite(Arquivo);
 
    while not cdsNF.Eof do
    begin
+   JvProgressBar1.Position := JvProgressBar1.Position + 10;
+
+   if (sCliente.Active) then
+          sCliente.Close;
+        sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+        sCliente.Open;
+
+   if (cdsNFDTASAIDA.IsNull) then
+          dathor := cdsNFDTAEMISSAO.AsDateTime
+        else
+          dathor := cdsNFDTASAIDA.AsDateTime;
+
+   if(cdsNFENTRADA.AsFloat = cdsNFVALOR.AsFloat) then
+   begin
+   prazo := '';
+   avista := FloatToStr(cdsNFVALOR.AsFloat);
+   parcelas := '';
+   end
+   else
+   begin
+   prazo := FloatToStr(cdsNFVALOR.asFloat);
+   avista := '';
+   parcelas := IntToStr(cdsNFN_PARCELA.AsInteger);
+   end;
+
    Registro := ('R1' + '|' +                                                 //	Tipo de Registro. Constante R1
                 'S' +  '|' +                                                 // Indicador do tipo de Operação: E - Entrada; S - Saída
-                FormatDateTime('ddmmyyyy',cdsNFDTAEMISSAO.asDateTime) +  '|' +   // Informe a data de emissão no formato DDMM
-                FormatDateTime('ddmmyyyy',cdsNFDTASAIDA.asDateTime) +  '|' +     //Informe a data de entrada/saída no formato DDMM
+                FormatDateTime('ddmm',cdsNFDTAEMISSAO.asDateTime) +  '|' +   // Informe a data de emissão no formato DDMM
+                FormatDateTime('ddmm',dathor) +  '|' +     //Informe a data de entrada/saída no formato DDMM
                 '|' +                                                        // Informe a ESPÉCIE da nota fiscal, de acordo com o item
                 IntToStr(cdsNFNOTASERIE.AsInteger) +  '|' +                  // Informe a Série e Sub-série da Nota Fiscal
                 IntToStr(cdsNFNUMNF.asInteger) +  '|' +                      //Informe o número da Nota Fiscal (se for lançamento em lote, informe o primeiro número)
                 '|' +                                                        // Informe o número final do lote de Notas Fiscais
                 cdsNFUF.AsString + '|' +                                     // Informe a unidade da federação do Emitente/Destinatário
-                IntToStr(cdsNFCFOP.AsInteger) +  '|' +                       // Informe o Código Fiscal de Operação da Nota Fiscal. Pode ser informado com ou sem ponto. Ex.: 5102 ou 5.102
+                Formatar(cdsNFCFOP.AsString,4,False,'0') +  '|' +                       // Informe o Código Fiscal de Operação da Nota Fiscal. Pode ser informado com ou sem ponto. Ex.: 5102 ou 5.102
                 '|' +                                                        // Informe o Código Contábil utilizado para integração contábil
                 '|' +                                                        // Nas Saídas, digite "1" para notas fora do estado e não contribuinte. Nas Entradas, digite 2 para Petróleo/Energia
                 '|' +                                                        // Informe o código do Município paulista, conforme publicado pelo Estado de São Paulo
-                '|' +                                                        // Opcional, uma frase para sair na observação do livro
-                FloatToStr(cdsNFVALOR_TOTAL_NOTA.AsFloat) + '|' +            // Informe o valor total da Nota Fiscal
-                FloatToStr(cdsNFBASE_ICMS.AsFloat) + '|' +                   // 16 - Informe o valor referente à base de cálculo do ICMS
-                FloatToStr(cdsNFVALOR_ICMS.AsFloat) + '|' +                  // Informe a alíquota do ICMS
-                FloatToStr(cdsNFVALOR_ICMS.AsFloat) + '|' +                  // Informe o valor do imposto de ICMS
+                Formatar(cdsNFCORPONF1.AsString,14,False,'0') + '|' +                                                        // Opcional, uma frase para sair na observação do livro
+                Removechar(FormatFloat('0.00' , cdsNFVALOR_TOTAL_NOTA.AsFloat)) + '|' +            // Informe o valor total da Nota Fiscal
+                Removechar(FormatFloat('0.00' , cdsNFBASE_ICMS.AsFloat)) + '|' +     // 16 - Informe o valor referente à base de cálculo do ICMS
+                Removechar(FormatFloat('0.00' , cdsNFVALOR_ICMS.AsFloat)) + '|' +    // Informe a alíquota do ICMS
+                Removechar(FormatFloat('0.00' , cdsNFVALOR_ICMS.AsFloat)) + '|' +    // Informe o valor do imposto de ICMS
                 sClienteBAIRRO.AsString + '|' +                              // Informe o valor das mercadorias isentas de ICMS
                 sClienteCIDADE.AsString + '|' +                              // Informe o valor de outras de ICMS (ex.: suspensão)
                 sClienteUF.AsString + '|' +                                  // Informe o tipo da Nota Fiscal. Pergunte ao operador da Contmatic
@@ -384,28 +413,28 @@ begin
                 '|' +                                                        // Informe o valor de outras de ICMS (ex.: suspensão)
                 '|' +                                                        // 45 - Informe o tipo da Nota Fiscal. Pergunte ao operador da Contmatic
                 '|' +                                                        // Informe o valor referente à base de cálculo do IPI
-                FloatToStr(cdsNFVALOR_IPI.AsFloat) +  '|' +                  // Informe o valor do imposto de IPI
+                Removechar(FormatFloat('0.00' , cdsNFVALOR_IPI.AsFloat)) +  '|' +                  // Informe o valor do imposto de IPI
                 '|' +                                                        // Informe o valor das mercadorias isentas de IPI
                 '|' +                                                        // Informe o valor de outras de IPI (ex.: suspensão)
                 '|' +                                                        // Informe o valor do IPI não aproveitado (somente para indústrias)
-                FloatToStr(cdsNFBASE_ICMS.AsFloat) +  '|' +                  // Informe o valor da Base de Cálculo do ICMS ST 51
+                Removechar(FormatFloat('0.00' , cdsNFBASE_ICMS.AsFloat)) +  '|' +                  // Informe o valor da Base de Cálculo do ICMS ST 51
                 '|' +                                                        // Informe o valor do ICMS retido na fonte
                 '|' +                                                        // 53 - Informe o valor do PVV (se houver)
                 '|' +                                                        // Informe o valor do desconto
                 '|' +                                                        // Informe o valor do abatimento sobre a nota fiscal
-                avista + '|' +                                               // Opcional (para integração contábil - não deve ser utilizado em conjunto com o campo vencimento) - Informe o valor a vista da compra ou venda
-                prazo + '|' +                                                // Opcional (para integração contábil - não deve ser utilizado em conjunto com o campo vencimento) - Informe o valor a prazo da compra ou venda
-                parcelas + '|' +                                             // Opcional (para integração contábil - não deve ser utilizado em conjunto com os campos a vista e a prazo) - Preencha da seguinte forma: Em branco - tudo à vista; 1 - tudo a prazo;2 - metade à vista, metade a prazo;3 - 1 parte à vista, duas partes a prazo;4 - 1 parte à vista, três partes a prazo;5 - 1 parte à vista, quatro partes a prazo;e assim sucessivamente.
+                Removechar(avista) + '|' +                                               // Opcional (para integração contábil - não deve ser utilizado em conjunto com o campo vencimento) - Informe o valor a vista da compra ou venda
+                Removechar(prazo) + '|' +                                                // Opcional (para integração contábil - não deve ser utilizado em conjunto com o campo vencimento) - Informe o valor a prazo da compra ou venda
+                Removechar(parcelas) + '|' +                                             // Opcional (para integração contábil - não deve ser utilizado em conjunto com os campos a vista e a prazo) - Preencha da seguinte forma: Em branco - tudo à vista; 1 - tudo a prazo;2 - metade à vista, metade a prazo;3 - 1 parte à vista, duas partes a prazo;4 - 1 parte à vista, três partes a prazo;5 - 1 parte à vista, quatro partes a prazo;e assim sucessivamente.
                 '|' +                                                        // Nas Compras/Vendas/Devoluções, informe o valor isento de Pis/Cofins
                 Formatar(RemoveChar(sClienteCNPJ.AsString),14,False,'0') + '|' + // Informe o CNPJ/CPF do participante - antigos fornecedores/clientes (quando for CPF, informar sem zeros à esquerda) 60
-                formatar(RemoveChar(sClienteINSCESTADUAL.AsString), 14) + '|' +  // Informe a Inscrição Estadual do participante
+                Removechar(sClienteINSCESTADUAL.AsString) + '|' +  // Informe a Inscrição Estadual do participante
                 '|' +                                                        // Informe a Inscrição Municipal do participante
                 sClienteRAZAOSOCIAL.AsString + '|' +                         // Informe a Razão Social do participante
                 sClienteLOGRADOURO.AsString + '|' +                          // Informe o endereço do participante (somente logradouro)
                 '|' +                                                        // Informe o número do endereço do participante
                 sClienteCOMPLEMENTO.AsString + '|' +                         // Informe o complemento do endereço do participante
                 sClienteBAIRRO.AsString + '|' +                              // Informe o Bairro do endereço do participante
-                sClienteCEP.AsString + '|' +                                 // Informe o CEP do endereço do participante
+                Removechar(sClienteCEP.AsString) + '|' +                                 // Informe o CEP do endereço do participante
                 '|' +                                                        // Informe o código do Município do participante conforme tabela disponibilizada na DIPJ
                 sClienteCIDADE.AsString + '|' +                              // Informe o nome do Município do participante   70
                 sClienteUF.AsString + '|' +                                  // Informe a UF do participante
@@ -428,8 +457,8 @@ begin
         '|' +                                                                 // Informe a Base de Cálculo do IPI da mercadoria
         '|' +                                                                 // Informe o valor do IPI da mercadoria
         '|' +                                                                 // Informe o valor Isento de IPI da mercadoria
-        FormatFloat('0.00' , cdsItensNFQUANTIDADE.AsFloat) + '|' +            // 8 - Informe a quantidade da mercadoria
-        FormatFloat('0.00' , cdsItensNFPRECO.AsFloat) + '|' +                 // Informe o valor unitário da mercadoria
+        Removechar(FormatFloat('0.000' , cdsItensNFQUANTIDADE.AsFloat)) + '|' + // 8 - Informe a quantidade da mercadoria
+        Removechar(FormatFloat('0.00' , cdsItensNFPRECO.AsFloat)) + '|' +      // Informe o valor unitário da mercadoria
         '|' +                                                                 // Informe o código utilizado para identificar a Natureza da Operação (ex.: CFOP) "Somente para quem utiliza a DNF"
         '|' +                                                                 // Informe a capacidade volumétrica em "mililitros" do recipiente, somente dos produtos que necessitam dessa informação (Verificar os Anexos I e II da DNF). "Somente para quem utiliza a DNF"
         '|' +                                                                 // Informe a alíquota de IPI com 3 casas decimais. "Somente para quem utiliza a DNF"
