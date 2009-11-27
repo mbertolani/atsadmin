@@ -533,6 +533,14 @@ begin
       mudaVersao('1.0.0.54');
     end;  // Fim Ataulização Versao 1.0.0.54
 
+        if (versaoSistema = '1.0.0.54') then
+    begin
+      executaSql('alter TABLE PRODUTOS add VALORMINIMO Double Precision');
+      executaSql('alter TABLE PRODUTOS add GERADESCONTO char(1)');
+      executaSql('alter TABLE PRODUTOS add IMPRIMIR char(1)');
+      mudaVersao('1.0.0.55');
+    end;  // Fim Ataulização Versao 1.0.0.55
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
