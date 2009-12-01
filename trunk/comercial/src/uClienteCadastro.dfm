@@ -569,7 +569,7 @@ inherited fClienteCadastro: TfClienteCadastro
     Top = 46
     Width = 772
     Height = 446
-    ActivePage = TabSheet1
+    ActivePage = TabSheet3
     Align = alClient
     TabOrder = 2
     OnChange = PageControl1Change
@@ -2190,7 +2190,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2490,7 +2490,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2600,7 +2600,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 14
       end
@@ -2990,7 +2990,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 19
       end
@@ -5435,6 +5435,27 @@ inherited fClienteCadastro: TfClienteCadastro
     object TabSheet3: TTabSheet
       Caption = 'FINANCEIRO'
       ImageIndex = 7
+      object Label71: TLabel
+        Left = 2
+        Top = 379
+        Width = 59
+        Height = 13
+        Caption = 'Gerar Boleto'
+      end
+      object Label72: TLabel
+        Left = 322
+        Top = 379
+        Width = 24
+        Height = 13
+        Caption = 'Valor'
+      end
+      object Label73: TLabel
+        Left = 86
+        Top = 379
+        Width = 27
+        Height = 13
+        Caption = 'Plano'
+      end
       object JvDBUltimGrid3: TJvDBUltimGrid
         Left = 0
         Top = 48
@@ -5761,6 +5782,51 @@ inherited fClienteCadastro: TfClienteCadastro
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000}
+      end
+      object DBEdit57: TDBEdit
+        Left = 2
+        Top = 393
+        Width = 73
+        Height = 21
+        DataField = 'GERABOL'
+        DataSource = DtSrc
+        TabOrder = 3
+      end
+      object DBEdit58: TDBEdit
+        Left = 320
+        Top = 393
+        Width = 71
+        Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'LIMITECREDITO'
+        DataSource = DtSrc
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 4
+        OnKeyPress = FormKeyPress
+      end
+      object ComboBox2: TComboBox
+        Left = 82
+        Top = 393
+        Width = 235
+        Height = 24
+        BevelKind = bkFlat
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ItemHeight = 16
+        ParentFont = False
+        TabOrder = 5
+        OnChange = ComboBox1Change
       end
     end
   end
@@ -7603,7 +7669,7 @@ inherited fClienteCadastro: TfClienteCadastro
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 276
+    Left = 476
     Top = 462
     object sTranportadoraCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
@@ -7618,14 +7684,14 @@ inherited fClienteCadastro: TfClienteCadastro
   end
   object dTranportadora: TDataSetProvider
     DataSet = sTranportadora
-    Left = 316
+    Left = 516
     Top = 462
   end
   object cTranportadora: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dTranportadora'
-    Left = 352
+    Left = 552
     Top = 462
     object cTranportadoraCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
@@ -7640,7 +7706,7 @@ inherited fClienteCadastro: TfClienteCadastro
   end
   object dTransp: TDataSource
     DataSet = cTranportadora
-    Left = 388
+    Left = 588
     Top = 462
   end
   object sqlTurmaGrupo: TSQLQuery
