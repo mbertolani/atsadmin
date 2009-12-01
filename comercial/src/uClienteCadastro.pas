@@ -580,6 +580,12 @@ type
     sdsEnderecoCliNUMERO: TStringField;
     cdsEnderecoCliNUMERO: TStringField;
     BitBtn21: TBitBtn;
+    DBEdit57: TDBEdit;
+    Label71: TLabel;
+    Label72: TLabel;
+    DBEdit58: TDBEdit;
+    ComboBox2: TComboBox;
+    Label73: TLabel;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -713,6 +719,23 @@ end;
 procedure TfClienteCadastro.FormCreate(Sender: TObject);
 begin
   //inherited;
+
+  if (not cdsConvenio.Active) then
+      cdsConvenio.Open;
+    if (cdsConvenio.Locate('CODDADOS', cds_cliCODINCLUCANC.AsInteger, [loCaseInsensitive])) then
+      jvDBComboBox2.Text := cdsConvenio.Fields[1].AsString
+    else
+      jvDBComboBox2.Text := '';
+
+  // Popula Combobox2 com faixas de cobrança
+  if not cds_faixa.Active then
+    cds_faixa.Open;
+  while not cds_faixa.EOF do
+  begin
+  ComboBox2.Items.Add(cds_faixaDESCRICAO.AsString);
+  cds_faixa.Next;
+  end;
+
   //Usa Cadastro de Veiculo
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -1855,7 +1878,7 @@ begin
 
   if not cds_faixa.Active then
     cds_faixa.Open;
-  cds_faixa.Locate('DESCRICAO', ComboBox1.Text,[loCaseInsensitive]);
+  cds_faixa.Locate('DESCRICAO', ComboBox2.Text,[loCaseInsensitive]);
   faixa := cds_faixaCODFAIXA.AsInteger;
   if cds_cliCOD_FAIXA.AsInteger <> faixa then
   begin
@@ -1887,7 +1910,7 @@ begin
   finally
     fRegiaoCadastro.Free;
   end;
-  if (cdsRegiao.Active) then
+  if (cdsRegiao .Active) then
       cdsRegiao.Close;
   cdsRegiao.Open;
 end;
