@@ -8,7 +8,10 @@ uses
   gbCobranca, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, JvDBDatePickerEdit, XPMenu, ExtCtrls, MMJPanel, dxCore,
   dxButton, JvExButtons, JvBitBtn, rpcompobase, rpvclreport, ComCtrls,
-  JvExComCtrls, JvProgressBar;
+  JvExComCtrls, JvProgressBar,
+  Grids, DBGrids, JvExDBGrids, JvDBGrid,
+  ImgList,
+  Menus;
 
 type
   TfNFPaulista = class(TForm)
@@ -271,11 +274,31 @@ type
     edSerie: TEdit;
     Label4: TLabel;
     JvProgressBar1: TJvProgressBar;
+    BitBtn2: TBitBtn;
+    DataSource1: TDataSource;
+    sdsNFSELECIONOU: TStringField;
+    cdsNFSELECIONOU: TStringField;
+    ImageList1: TImageList;
+    ImageList2: TImageList;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    Label7: TLabel;
+    MMJPanel2: TMMJPanel;
+    JvDBGrid1: TJvDBGrid;
+    Label8: TLabel;
+    Edit3: TEdit;
+    Edit2: TEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure dxButton1Click(Sender: TObject);
     procedure JvBitBtn1Click(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure JvDBGrid1ColEnter(Sender: TObject);
+    procedure JvDBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -333,14 +356,14 @@ begin
    j := 0;  // Quantidade de Linhas 30
 
    // Abrir cdsNF com parametro data1 e data 2 e Centro de Custo Selecionado
-   if (cdsNF.Active) then
+  { if (cdsNF.Active) then
      cdsNF.Close;
    cdsNF.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
    cdsNF.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
    cdsNF.Params[2].AsString := edSerie.Text;
-   cdsNF.Open;
-   sMenorData.Open;
-   sMaiorData.Open;
+   cdsNF.Open;}
+
+
    JvProgressBar1.Position := 10;
    //Seleciona Empresa de acordo com o CCusto selecionado
    if (sEmpresa.Active) then
@@ -354,8 +377,8 @@ begin
    Registro := '';
    { GERAR REGISTRO-HEADER DA REMESSA }
    CNPJ := RemoveChar(sEmpresaCNPJ_CPF.AsString);
-   datamenor := formatdatetime('dd/mm/yyyy', StrToDate(JvDateEdit1.Text));
-   datamaior := formatdatetime('dd/mm/yyyy', StrToDate(JvDateEdit2.Text));
+   datamenor := formatdatetime('dd/mm/yyyy', StrToDate(Edit2.Text));
+   datamaior := formatdatetime('dd/mm/yyyy', StrToDate(Edit3.Text));
    Registro := ('10' + '|' + //  	Preencher com o valor "10" para indicar o tipo de registro
                     '1,00'+ '|' + // Versão do leiaute do arquivo. Preencher com “1,00” nesta versão.
                     Formatar(CNPJ, 14,False,'0') +  '|' +//Informar o CNPJ do emitente com os zeros não significativos. Preencher apenas com números, sem separadores.
@@ -365,6 +388,8 @@ begin
    JvProgressBar1.Position := 10;
    while not cdsNF.Eof do
    begin
+      if (cdsNFSELECIONOU.AsString = 'S') then
+      begin
         JvProgressBar1.Position := JvProgressBar1.Position + 10;
         if (sCFOP.Active) then
           sCFOP.Close;
@@ -483,7 +508,8 @@ begin
 
         writeln(Arquivo, Registro);
         i := i + 1;
-        cdsNF.Next;
+      end;
+      cdsNF.Next;
    end;
 
    Registro := ('90' + '|' +                                                                 // Rodapé totalizador
@@ -502,8 +528,51 @@ end;
 
 procedure TfNFPaulista.BitBtn2Click(Sender: TObject);
 begin
-    SaveDialog1.Execute;
-    Edit1.Text := SaveDialog1.FileName;
+  //  SaveDialog1.Execute;
+  //  Edit1.Text := SaveDialog1.FileName;
+   if (cdsNF.Active) then
+     cdsNF.Close;
+   cdsNF.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
+   cdsNF.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
+   cdsNF.Params[2].Clear;
+   cdsNF.Params[3].Clear;   
+   if (edSerie.Text <> '') then
+     cdsNF.Params[2].AsString := edSerie.Text
+   else
+     cdsNF.Params[3].AsString := 'todasasseriesdenotaf';
+   cdsNF.Open;
+
+
+  if (sMenorData.Active) then
+     sMenorData.Close;
+   sMenorData.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
+   sMenorData.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
+   sMenorData.Params[2].Clear;
+   sMenorData.Params[3].Clear;
+   if (edSerie.Text <> '') then
+     sMenorData.Params[2].AsString := edSerie.Text
+   else
+     sMenorData.Params[3].AsString := 'todasasseriesdenotaf';
+   sMenorData.Open;
+
+   if (sMaiorData.Active) then
+     sMaiorData.Close;
+   sMaiorData.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
+   sMaiorData.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
+   sMaiorData.Params[2].Clear;
+   sMaiorData.Params[3].Clear;
+   if (edSerie.Text <> '') then
+     sMaiorData.Params[2].AsString := edSerie.Text
+   else
+     sMaiorData.Params[3].AsString := 'todasasseriesdenotaf';
+   sMaiorData.Open;
+
+   Edit2.Text := DateToStr(sMenorDataMENORDATA.Value);
+   Edit3.Text := DateToStr(sMaiorDataMAIORDATA.Value);
+
+   BitBtn1.Enabled := True;
+   JvBitBtn1.Enabled := True;
+    
 end;
 
 procedure TfNFPaulista.FormCreate(Sender: TObject);
@@ -543,6 +612,72 @@ begin
   VCLReport1.Report.Params.ParamByName('PVENDACUSTO').Value := edSerie.Text;
   VCLReport1.Execute;
   VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
+end;
+
+procedure TfNFPaulista.JvDBGrid1CellClick(Column: TColumn);
+begin
+  if Column.Field = cdsNFSELECIONOU then
+  begin
+     cdsNF.Edit;
+     if cdsNFSELECIONOU.AsString = 'S' then
+       cdsNFSELECIONOU.AsString := ''
+     else
+       cdsNFSELECIONOU.AsString := 'S';
+  end;
+end;
+
+procedure TfNFPaulista.JvDBGrid1ColEnter(Sender: TObject);
+begin
+   if JvDBGrid1.SelectedField = cdsNFSELECIONOU then
+     JvDBGrid1.Options := JvDBGrid1.Options - [dgEditing]
+   else
+      JvDBGrid1.Options := JvDBGrid1.Options + [dgEditing];
+end;
+
+procedure TfNFPaulista.JvDBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  // Selecionou ?
+   if Column.Field = cdsNFSELECIONOU then
+   begin
+       JvDBGrid1.Canvas.FillRect(Rect);
+       ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 1);
+       if cdsNFSELECIONOU.AsString = 'S' then
+         ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 2)
+       else
+         ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 0);
+   end;
+end;
+
+procedure TfNFPaulista.BitBtn3Click(Sender: TObject);
+begin
+  cdsNF.DisableControls;
+  cdsNF.First;
+  while not cdsNF.Eof do
+  begin
+     cdsNF.Edit;
+     cdsNFSELECIONOU.AsString := 'S';
+     cdsNF.Post;
+     cdsNF.Next;
+  end;
+  cdsNF.First;
+  cdsNF.EnableControls;
+end;
+
+procedure TfNFPaulista.BitBtn4Click(Sender: TObject);
+begin
+  cdsNF.DisableControls;
+  cdsNF.First;
+  while not cdsNF.Eof do
+  begin
+     cdsNF.Edit;
+     cdsNFSELECIONOU.AsString := '';
+     cdsNF.Post;
+     cdsNF.Next;
+  end;
+  cdsNF.First;
+  cdsNF.EnableControls;
 end;
 
 end.
