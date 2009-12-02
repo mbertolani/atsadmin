@@ -3,7 +3,7 @@ object fcrproc: Tfcrproc
   Top = 1
   BorderStyle = bsSingle
   Caption = 'Contas a Receber - Filtro'
-  ClientHeight = 528
+  ClientHeight = 591
   ClientWidth = 792
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -1079,7 +1079,7 @@ object fcrproc: Tfcrproc
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 493
+    Top = 556
     Width = 792
     Height = 35
     Align = alBottom
@@ -1261,7 +1261,7 @@ object fcrproc: Tfcrproc
     Left = 0
     Top = 60
     Width = 792
-    Height = 132
+    Height = 169
     Align = alTop
     TabOrder = 2
     object Label3: TLabel
@@ -1314,7 +1314,7 @@ object fcrproc: Tfcrproc
     end
     object Label12: TLabel
       Left = 232
-      Top = 89
+      Top = 88
       Width = 46
       Height = 13
       Caption = 'Vendedor'
@@ -1322,7 +1322,7 @@ object fcrproc: Tfcrproc
     end
     object Label13: TLabel
       Left = 168
-      Top = 89
+      Top = 88
       Width = 33
       Height = 13
       Caption = 'C'#243'digo'
@@ -1346,17 +1346,24 @@ object fcrproc: Tfcrproc
     end
     object Label20: TLabel
       Left = 5
-      Top = 89
+      Top = 88
       Width = 68
       Height = 13
       Caption = 'Caixa / Banco'
     end
     object Label14: TLabel
       Left = 417
-      Top = 88
+      Top = 87
       Width = 65
       Height = 13
       Caption = 'Bol Impressos'
+    end
+    object Label15: TLabel
+      Left = 8
+      Top = 127
+      Width = 42
+      Height = 13
+      Caption = 'Receitas'
     end
     object Edit1: TEdit
       Left = 382
@@ -2234,7 +2241,7 @@ object fcrproc: Tfcrproc
     end
     object edVendedor: TEdit
       Left = 228
-      Top = 104
+      Top = 103
       Width = 181
       Height = 24
       TabStop = False
@@ -2253,7 +2260,7 @@ object fcrproc: Tfcrproc
     end
     object edcodVendedor: TEdit
       Left = 166
-      Top = 104
+      Top = 103
       Width = 61
       Height = 24
       BevelKind = bkFlat
@@ -2270,7 +2277,7 @@ object fcrproc: Tfcrproc
     end
     object BitBtn12: TBitBtn
       Left = 486
-      Top = 90
+      Top = 89
       Width = 42
       Height = 39
       PopupMenu = PopupMenu1
@@ -2379,7 +2386,7 @@ object fcrproc: Tfcrproc
     end
     object BitBtn11: TBitBtn
       Left = 528
-      Top = 90
+      Top = 89
       Width = 42
       Height = 39
       PopupMenu = PopupMenu1
@@ -2482,7 +2489,7 @@ object fcrproc: Tfcrproc
     end
     object cbComboCaixa: TComboBox
       Left = 5
-      Top = 104
+      Top = 103
       Width = 158
       Height = 24
       BevelKind = bkFlat
@@ -2499,7 +2506,7 @@ object fcrproc: Tfcrproc
     end
     object cbImpresso: TComboBox
       Left = 416
-      Top = 104
+      Top = 103
       Width = 67
       Height = 24
       CharCase = ecUpperCase
@@ -2515,12 +2522,26 @@ object fcrproc: Tfcrproc
         'SIM'
         'N'#195'O')
     end
+    object cbReceitas: TJvComboBox
+      Left = 3
+      Top = 140
+      Width = 198
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      TabOrder = 22
+    end
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
-    Top = 192
+    Top = 229
     Width = 792
-    Height = 301
+    Height = 327
     Align = alClient
     DataSource = ds_Cr
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
@@ -3574,8 +3595,8 @@ object fcrproc: Tfcrproc
       'edValor.Text'
       'edVendedor.Text')
     StoredValues = <>
-    Left = 316
-    Top = 144
+    Left = 731
+    Top = 30
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
@@ -3584,8 +3605,8 @@ object fcrproc: Tfcrproc
     FileName = 'ReceberFiltro.xml'
     RootNodeName = 'Configuration'
     SubStorages = <>
-    Left = 348
-    Top = 144
+    Left = 731
+    Top = 1
   end
   object ds_conta: TDataSource
     DataSet = DM.cds_7_contas
