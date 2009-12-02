@@ -9,7 +9,8 @@ uses
   StdCtrls, Buttons, DBCtrls, rpcompobase, rpvclreport, VDOBasePrinter,
   rplabelitem, VDODmPrinter, EExtenso, gbCobranca, JvAppStorage,
   JvAppXMLStorage, JvComponentBase, JvFormPlacement, JvExMask, JvToolEdit,
-  JvBaseEdits, JvExControls, JvLabel, JvExDBGrids, JvDBGrid, DBXpress;
+  JvBaseEdits, JvExControls, JvLabel, JvExDBGrids, JvDBGrid, DBXpress,
+  JvExStdCtrls, JvCombobox;
 
 type
   Tfcrproc = class(TForm)
@@ -231,6 +232,8 @@ type
     scdsCr_procBL: TIntegerField;
     Label14: TLabel;
     rbConsolida: TCheckBox;
+    cbReceitas: TJvComboBox;
+    Label15: TLabel;
     procedure BitBtn4Click(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
@@ -415,6 +418,30 @@ begin
       edCodCCusto.Items.Add(dm.cds_ccustoNOME.AsString);
       DM.cds_ccusto.Next;
     end;
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].Clear;
+  dm.cds_parametro.Params[0].AsString := 'CONTASRECEITAS';
+  dm.cds_parametro.Open;
+
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  str_sql := 'Select * from PLANO ';
+  str_sql := str_sql + 'WHERE ';
+  str_sql := str_sql + 'plnctaroot(conta) = ''' + dm.cds_parametroDADOS.AsString + '''';
+  str_sql := str_sql + ' and CONSOLIDA = ''S'' ';
+  str_sql := str_sql + ' order by NOME';
+  DM.c_1_planoc.CommandText := str_sql;
+  DM.c_1_planoc.Open;
+  cbReceitas.Items.clear;
+  while not (DM.c_1_planoc.eof) do
+  begin
+    cbReceitas.Items.add(dm.c_1_planocNOME.AsString);
+    dm.c_1_planoc.Next;
+  end;
+  dm.cds_parametro.Close;
+
 end;
 
 procedure Tfcrproc.FormShow(Sender: TObject);
@@ -459,6 +486,29 @@ begin
    sqltexto1 := sqltexto1 + 'from RELCONTASRECEBER rec ';   // procedure 
   //==============================================================================
   datastr:='  /  /  ';
+
+  //------------------------------------------------------------------------------
+  //Receitas
+  //------------------------------------------------------------------------------
+  if (cbReceitas.Text <> '') then
+   begin
+     if (not DM.c_1_planoc.Active) then
+     begin
+       if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+       dm.cds_parametro.Params[0].Clear;
+       dm.cds_parametro.Params[0].AsString := 'CONTASRECEITAS';
+       dm.cds_parametro.Open;
+       DM.c_1_planoc.CommandText := 'Select * from PLANO WHERE ' +
+         'plnctaroot(conta) = ''' + dm.cds_parametroDADOS.AsString + '''' +
+         ' and CONSOLIDA = ''S''' + ' order by NOME';
+       DM.c_1_planoc.Open;
+       dm.cds_parametro.Close;
+     end;
+     dm.c_1_planoc.Locate('NOME', cbReceitas.text, [loCaseInsensitive]);
+       SqlCr := ' Where rec.CONTACREDITO = ' + IntToStr(Dm.c_1_planocCODIGO.AsInteger);
+   end;
+
   //------------------------------------------------------------------------------
   //Verifica se a data de emissão foi preenchido
   //------------------------------------------------------------------------------
@@ -470,10 +520,13 @@ begin
   if (medta1.Text<>datastr) then
   if (medta2.Text<>datastr) then
   begin
-  SqlCr := ' WHERE rec.EMISSAO BETWEEN ' +
-  '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''' +
-  ' AND ' +
-  '''' + formatdatetime('mm/dd/yy', StrToDate(medta2.Text)) + '''';
+    if SqlCr='' then
+      SqlCr := SqlCr + ' WHERE rec.EMISSAO BETWEEN '
+    else
+      SqlCr := SqlCr + ' AND rec.EMISSAO BETWEEN ';
+      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
+      SqlCr := SqlCr + ' AND ';
+      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta2.Text)) + '''';
   end;
   except
   on EConvertError do
