@@ -44,10 +44,6 @@ type
     sdsItensNFCST: TStringField;
     sdsItensNFICMS: TFloatField;
     sdsItensNFVLR_BASE: TFloatField;
-    sMenorData: TSQLDataSet;
-    sMenorDataMENORDATA: TDateField;
-    sMaiorData: TSQLDataSet;
-    sMaiorDataMAIORDATA: TDateField;
     sEmpresa: TSQLDataSet;
     sEmpresaEMPRESA: TStringField;
     sEmpresaRAZAO: TStringField;
@@ -271,6 +267,10 @@ type
     cds_MovimentoBAIXAMOVIMENTO: TSmallintField;
     cds_MovimentoCONTROLE: TStringField;
     cds_MovimentoCNPJ: TStringField;
+    sMenorData: TSQLDataSet;
+    sMenorDataMENORDATA: TDateField;
+    sMaiorData: TSQLDataSet;
+    sMaiorDataMAIORDATA: TDateField;
     procedure Button1Click(Sender: TObject);
     procedure dxButton1Click(Sender: TObject);
   private
@@ -306,7 +306,7 @@ end;
 
 procedure TfExpContMat.Button1Click(Sender: TObject);
 
-var  Registro, NomArquivo, datamaior, datamenor, prazo, avista, parcelas, dattoday: string;
+var  Registro, NomArquivo, prazo, avista, parcelas, dattoday: string;
      arquivo: TextFile;
      dathor: TDateTime;
 
@@ -314,7 +314,6 @@ var  Registro, NomArquivo, datamaior, datamenor, prazo, avista, parcelas, dattod
 begin
    JvProgressBar1.Position := 0;
    JvProgressBar1.Max := 1000;
-   JvProgressBar1.Position := 10;
 
    // Abrir cdsNF com parametro data1 e data 2
     if (cdsNF.Active) then
@@ -324,7 +323,7 @@ begin
    cdsNF.Open;
    sMenorData.Open;
    sMaiorData.Open;
-   JvProgressBar1.Position := 10;
+   JvProgressBar1.Position := 1;
    //Seleciona Empresa de acordo com o CCusto selecionado
    if (sEmpresa.Active) then
      sEmpresa.Close;
@@ -332,8 +331,6 @@ begin
    sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
    sEmpresa.Open;
 
-   datamenor := FormatDateTime('ddmm', StrToDate(JvDateEdit1.Text));
-   datamaior := FormatDateTime('ddmm', StrToDate(JvDateEdit2.Text));
    dattoday := FormatDateTime('mm', Today);
 
    NomArquivo := (Edit1.Text + '001.N' + dattoday);
@@ -342,7 +339,7 @@ begin
 
    while not cdsNF.Eof do
    begin
-   JvProgressBar1.Position := JvProgressBar1.Position + 10;
+   JvProgressBar1.Position := JvProgressBar1.Position + 5;
 
    if (sCliente.Active) then
           sCliente.Close;
@@ -370,17 +367,17 @@ begin
    Registro := ('R1' + '|' +                                                 //	Tipo de Registro. Constante R1
                 'S' +  '|' +                                                 // Indicador do tipo de Operação: E - Entrada; S - Saída
                 FormatDateTime('ddmm',cdsNFDTAEMISSAO.asDateTime) +  '|' +   // Informe a data de emissão no formato DDMM
-                FormatDateTime('ddmm',dathor) +  '|' +     //Informe a data de entrada/saída no formato DDMM
+                FormatDateTime('ddmm',dathor) +  '|' +                       //Informe a data de entrada/saída no formato DDMM
                 '|' +                                                        // Informe a ESPÉCIE da nota fiscal, de acordo com o item
                 IntToStr(cdsNFNOTASERIE.AsInteger) +  '|' +                  // Informe a Série e Sub-série da Nota Fiscal
                 IntToStr(cdsNFNUMNF.asInteger) +  '|' +                      //Informe o número da Nota Fiscal (se for lançamento em lote, informe o primeiro número)
                 '|' +                                                        // Informe o número final do lote de Notas Fiscais
                 cdsNFUF.AsString + '|' +                                     // Informe a unidade da federação do Emitente/Destinatário
-                Formatar(cdsNFCFOP.AsString,4,False,'0') +  '|' +                       // Informe o Código Fiscal de Operação da Nota Fiscal. Pode ser informado com ou sem ponto. Ex.: 5102 ou 5.102
+                Formatar(cdsNFCFOP.AsString,4,False,'0') +  '|' +            // Informe o Código Fiscal de Operação da Nota Fiscal. Pode ser informado com ou sem ponto. Ex.: 5102 ou 5.102
                 '|' +                                                        // Informe o Código Contábil utilizado para integração contábil
                 '|' +                                                        // Nas Saídas, digite "1" para notas fora do estado e não contribuinte. Nas Entradas, digite 2 para Petróleo/Energia
                 '|' +                                                        // Informe o código do Município paulista, conforme publicado pelo Estado de São Paulo
-                Formatar(cdsNFCORPONF1.AsString,14,False,'0') + '|' +                                                        // Opcional, uma frase para sair na observação do livro
+                Formatar(cdsNFCORPONF1.AsString,14,False,'0') + '|' +        // Opcional, uma frase para sair na observação do livro
                 Removechar(FormatFloat('0.00' , cdsNFVALOR_TOTAL_NOTA.AsFloat)) + '|' +            // Informe o valor total da Nota Fiscal
                 Removechar(FormatFloat('0.00' , cdsNFBASE_ICMS.AsFloat)) + '|' +     // 16 - Informe o valor referente à base de cálculo do ICMS
                 Removechar(FormatFloat('0.00' , cdsNFVALOR_ICMS.AsFloat)) + '|' +    // Informe a alíquota do ICMS
