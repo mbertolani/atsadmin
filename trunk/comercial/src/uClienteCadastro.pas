@@ -1141,6 +1141,14 @@ begin
        cds_cliCOD_FAIXA.AsInteger := cds_faixaCODFAIXA.AsInteger;
     end;
 
+    if (ComboBox2.Text <> '') then
+    begin
+      if not cds_faixa.Active then
+        cds_faixa.Open;
+      cds_faixa.Locate('DESCRICAO', ComboBox2.Text,[loCaseInsensitive]);
+      cds_cliCOD_FAIXA.AsInteger := cds_faixaCODFAIXA.AsInteger;
+    end;
+
     if (dm.moduloUsado = 'ACADEMIA') then
     begin
       // E novo registro ento recarrega a lista de parente
