@@ -1,8 +1,8 @@
 object fExpContMat: TfExpContMat
   Left = 188
   Top = 151
-  Width = 345
-  Height = 344
+  Width = 263
+  Height = 253
   Caption = 'Export'#231#227'o para o ContMatic'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -14,8 +14,8 @@ object fExpContMat: TfExpContMat
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
-    Left = 186
-    Top = 80
+    Left = 138
+    Top = 72
     Width = 54
     Height = 16
     Caption = 'Data Fim'
@@ -28,8 +28,8 @@ object fExpContMat: TfExpContMat
     Transparent = True
   end
   object Label1: TLabel
-    Left = 69
-    Top = 80
+    Left = 21
+    Top = 72
     Width = 63
     Height = 16
     Caption = 'Data Inicio'
@@ -42,46 +42,52 @@ object fExpContMat: TfExpContMat
     Transparent = True
   end
   object Button1: TButton
-    Left = 80
-    Top = 128
-    Width = 41
-    Height = 41
-    Caption = 'Button1'
+    Left = 83
+    Top = 131
+    Width = 73
+    Height = 25
+    Caption = 'Gerar Arquivo'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 0
     OnClick = Button1Click
   end
   object JvProgressBar1: TJvProgressBar
     Left = 15
     Top = 174
-    Width = 274
+    Width = 210
     Height = 17
     TabOrder = 1
   end
   object JvDateEdit1: TJvDateEdit
-    Left = 68
-    Top = 97
+    Left = 20
+    Top = 89
     Width = 89
     Height = 21
     TabOrder = 2
   end
   object JvDateEdit2: TJvDateEdit
-    Left = 183
-    Top = 98
+    Left = 135
+    Top = 90
     Width = 89
     Height = 21
     TabOrder = 3
   end
   object Edit1: TEdit
-    Left = 68
-    Top = 47
+    Left = 20
+    Top = 39
     Width = 136
     Height = 21
     TabOrder = 4
     Text = 'C:\Home\Atsadmin\'
   end
   object dxButton1: TdxButton
-    Left = 210
-    Top = 47
+    Left = 162
+    Top = 39
     Width = 59
     Height = 22
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -91,27 +97,25 @@ object fExpContMat: TfExpContMat
     TabOrder = 5
   end
   object SaveDialog1: TSaveDialog
-    Filter = '*.txt|*.txt'
     InitialDir = 'C:\Home\Atsadmin'
-    Left = 194
-    Top = 133
+    Left = 210
+    Top = 37
   end
   object gbCobranca1: TgbCobranca
     NumeroArquivo = 0
     LayoutArquivo = laCNAB400
     TipoMovimento = tmRetorno
-    Left = 226
-    Top = 134
+    Left = 210
+    Top = 70
   end
   object OpenDialog1: TOpenDialog
-    Left = 260
-    Top = 133
+    Left = 220
+    Top = 101
   end
   object VCLReport1: TVCLReport
     AsyncExecution = False
     Title = 'Untitled'
-    Left = 16
-    Top = 88
+    Left = 8
   end
   object XPMenu1: TXPMenu
     DimLevel = 30
@@ -152,8 +156,8 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     ProviderName = 'dspItensNF'
-    Left = 80
-    Top = 240
+    Left = 64
+    Top = 184
     object cdsItensNFCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
@@ -190,8 +194,8 @@ object fExpContMat: TfExpContMat
   end
   object dspItensNF: TDataSetProvider
     DataSet = sdsItensNF
-    Left = 48
-    Top = 240
+    Left = 32
+    Top = 184
   end
   object sdsItensNF: TSQLDataSet
     CommandText = 
@@ -212,8 +216,7 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 16
-    Top = 240
+    Top = 184
     object sdsItensNFCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
@@ -248,30 +251,6 @@ object fExpContMat: TfExpContMat
       ReadOnly = True
     end
   end
-  object sMenorData: TSQLDataSet
-    CommandText = 'select MIN(DTAEMISSAO) as MENORDATA from NOTAFISCAL'
-    MaxBlobSize = -1
-    Params = <>
-    SQLConnection = DM.sqlsisAdimin
-    Left = 134
-    Top = 200
-    object sMenorDataMENORDATA: TDateField
-      FieldName = 'MENORDATA'
-      ReadOnly = True
-    end
-  end
-  object sMaiorData: TSQLDataSet
-    CommandText = 'select MAX(DTAEMISSAO) as MAIORDATA from NOTAFISCAL'
-    MaxBlobSize = -1
-    Params = <>
-    SQLConnection = DM.sqlsisAdimin
-    Left = 166
-    Top = 200
-    object sMaiorDataMAIORDATA: TDateField
-      FieldName = 'MAIORDATA'
-      ReadOnly = True
-    end
-  end
   object sEmpresa: TSQLDataSet
     CommandText = 'select * from EMPRESA where ccusto = :pcusto'
     MaxBlobSize = -1
@@ -282,8 +261,8 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 198
-    Top = 200
+    Left = 166
+    Top = 144
     object sEmpresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -422,8 +401,8 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 230
-    Top = 200
+    Left = 198
+    Top = 184
     object sCFOPCFCOD: TStringField
       FieldName = 'CFCOD'
       Required = True
@@ -454,8 +433,8 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 262
-    Top = 200
+    Left = 206
+    Top = 144
     object sClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -534,7 +513,6 @@ object fExpContMat: TfExpContMat
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 47
-    Top = 8
     object s_2CODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -554,8 +532,8 @@ object fExpContMat: TfExpContMat
     CommandText = 'select * from PARAMETRO'
     MaxBlobSize = -1
     Params = <>
-    Left = 184
-    Top = 7
+    Left = 152
+    Top = 65535
     object StringField5: TStringField
       FieldName = 'DESCRICAO'
       ProviderFlags = [pfInUpdate]
@@ -641,8 +619,8 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 128
-    Top = 239
+    Left = 104
+    Top = 183
     object sds_MovimentoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -754,15 +732,14 @@ object fExpContMat: TfExpContMat
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
     UpdateMode = upWhereKeyOnly
-    Left = 159
-    Top = 239
+    Left = 135
+    Top = 183
   end
   object cds_param: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp_param'
-    Left = 247
-    Top = 8
+    Left = 215
     object StringField9: TStringField
       FieldName = 'DESCRICAO'
       ProviderFlags = [pfInUpdate]
@@ -827,13 +804,13 @@ object fExpContMat: TfExpContMat
   object dsp_param: TDataSetProvider
     DataSet = sds_param
     UpdateMode = upWhereKeyOnly
-    Left = 215
-    Top = 7
+    Left = 183
+    Top = 65535
   end
   object d_2: TDataSetProvider
     DataSet = s_2
     Left = 79
-    Top = 9
+    Top = 1
   end
   object cds_ccusto: TClientDataSet
     Aggregates = <>
@@ -845,7 +822,6 @@ object fExpContMat: TfExpContMat
       end>
     ProviderName = 'd_2'
     Left = 111
-    Top = 8
     object cds_ccustoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -895,8 +871,7 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 16
-    Top = 200
+    Top = 152
     object sdsNFFRETE: TStringField
       FieldName = 'FRETE'
       FixedChar = True
@@ -1055,8 +1030,8 @@ object fExpContMat: TfExpContMat
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
-    Left = 48
-    Top = 200
+    Left = 32
+    Top = 152
   end
   object cdsNF: TClientDataSet
     Aggregates = <>
@@ -1072,8 +1047,8 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     ProviderName = 'dspNF'
-    Left = 80
-    Top = 200
+    Left = 64
+    Top = 152
     object cdsNFFRETE: TStringField
       FieldName = 'FRETE'
       FixedChar = True
@@ -1239,8 +1214,8 @@ object fExpContMat: TfExpContMat
         ParamType = ptInput
       end>
     ProviderName = 'dsp_Movimento'
-    Left = 191
-    Top = 239
+    Left = 167
+    Top = 183
     object cds_MovimentoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1348,6 +1323,82 @@ object fExpContMat: TfExpContMat
       FieldName = 'CNPJ'
       ProviderFlags = []
       Size = 18
+    end
+  end
+  object sMenorData: TSQLDataSet
+    CommandText = 
+      'select MIN(DTAEMISSAO) as MENORDATA '#13#10'from NOTAFISCAL nf '#13#10'inner' +
+      ' join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join e' +
+      'nderecocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'wh' +
+      'ere (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'          and ((nf.' +
+      'SERIE = :pserie) or (:pserie = '#39'todasasseriesdenotaf'#39'))'#13#10'       ' +
+      '   and (endecli.UF = '#39'SP'#39')'#13#10'          and (endecli.TIPOEND = 0)'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'dta1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dta2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pserie'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pserie'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 96
+    Top = 144
+    object sMenorDataMENORDATA: TDateField
+      FieldName = 'MENORDATA'
+      ReadOnly = True
+    end
+  end
+  object sMaiorData: TSQLDataSet
+    CommandText = 
+      'select MAX(DTAEMISSAO) as MAIORDATA '#13#10'from NOTAFISCAL nf '#13#10'inner' +
+      ' join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join e' +
+      'nderecocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'wh' +
+      'ere (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'          and ((nf.' +
+      'SERIE = :pserie) or (:pserie = '#39'todasasseriesdenotaf'#39'))'#13#10'       ' +
+      '   and (endecli.UF = '#39'SP'#39')'#13#10'          and (endecli.TIPOEND = 0)'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'dta1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dta2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pserie'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pserie'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 128
+    Top = 144
+    object sMaiorDataMAIORDATA: TDateField
+      FieldName = 'MAIORDATA'
+      ReadOnly = True
     end
   end
 end
