@@ -4,6 +4,7 @@ object fNFPaulista: TfNFPaulista
   Width = 619
   Height = 612
   BorderIcons = [biSystemMenu]
+  Caption = 'Nota Fiscal Paulista'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
