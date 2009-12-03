@@ -4,6 +4,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   Width = 698
   Height = 574
   BorderIcons = [biSystemMenu]
+  Caption = 'Movimenta'#231#227'o de Estoque'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
