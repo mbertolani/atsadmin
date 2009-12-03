@@ -29,6 +29,7 @@ RETURNS ( STATUS                           VARCHAR( 2 )
         , VALOR_PRIM_VIA                   DOUBLE PRECISION
         , FORMARECEBIMENTO                 CHAR( 1 ) 
         , DESCONTADO                       CHAR( 1 )
+        , CONTACREDITO                     INTEGER
 , DATACONSOLIDA                   DATE
 )
         
@@ -37,7 +38,7 @@ declare variable tituloatual varchar(20);
 begin
    tituloAtual = 'vazio';
    valorTitulo = 0;
-   for SELECT rec.TITULO, rec.VALOR_PRIM_VIA, rec.CODCLIENTE 
+   for SELECT rec.TITULO, rec.VALOR_PRIM_VIA, rec.CODCLIENTE
       FROM RECEBIMENTO rec
       where rec.Valor_prim_via > 0
       into :titulo, valorTitulo, :codcliente
@@ -57,7 +58,7 @@ begin
       WHEN '8-' THEN 'CRED. DUVIDOSO' WHEN '9-' THEN 'EM COBRANCA' 
       WHEN '10' THEN 'NOVO TITULO' WHEN '3-' THEN 'PROTESTO' ELSE 'OUTROS' END AS STATUSP 
       , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
-      , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO
+      , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO
       FROM RECEBIMENTO rec 
       left outer join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE 
       left outer join VENDA v on v.CODVENDA = rec.CODVENDA
@@ -71,13 +72,13 @@ begin
         , rec.VIA, rec.N_DOCUMENTO 
         , rec.HISTORICO, rec.DESCONTO, rec.JUROS, rec.FUNRURAL, rec.PARCELAS, rec.PERDA
         , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
-        , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO
+        , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO
       into :status, :dataRecebimento, :DATACONSOLIDA, :valorRecebido, :desconto,  :via
         , :N_documento, :emissao, :codRecebimento
         , :titulo, :dataVencimento, :valor_resto 
         , :nomeCliente, :codCliente, :historico, :statusP
         , :razaoSocial, :codMovimento, :caixa, codAlmoxarifado
-        , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO
+        , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO, :CONTACREDITO
       do
       begin
         if (DESCONTADO = 'S') then
