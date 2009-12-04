@@ -534,17 +534,12 @@ begin
 
     if (versaoSistema = '1.0.0.54') then
     begin
+      executaScript('relcontasreceber.sql');
       executaSql('alter TABLE PRODUTOS add VALORMINIMO Double Precision');
       executaSql('alter TABLE PRODUTOS add GERADESCONTO char(1)');
       executaSql('alter TABLE PRODUTOS add IMPRIMIR char(1)');
       mudaVersao('1.0.0.55');
     end;  // Fim Ataulização Versao 1.0.0.55
-
-    if (versaoSistema = '1.0.0.55') then
-    begin
-      executaScript('relcontasreceber.sql');
-      mudaVersao('1.0.0.56');
-    end;  // Fim Ataulização Versao 1.0.0.56
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
