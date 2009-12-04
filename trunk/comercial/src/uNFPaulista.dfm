@@ -1,6 +1,6 @@
 object fNFPaulista: TfNFPaulista
-  Left = 193
-  Top = 113
+  Left = 437
+  Top = 127
   Width = 619
   Height = 612
   BorderIcons = [biSystemMenu]
