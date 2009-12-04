@@ -386,6 +386,7 @@ begin
                     datamaior); // Maior data de emissão das notas fiscais transmitidas.
    writeln(Arquivo, Registro);
    JvProgressBar1.Position := 10;
+   cdsNF.First;
    while not cdsNF.Eof do
    begin
       if (cdsNFSELECIONOU.AsString = 'S') then
