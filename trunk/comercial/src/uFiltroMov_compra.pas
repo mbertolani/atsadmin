@@ -502,7 +502,7 @@ var sql:string;
 begin
   VCLReport1.FileName := str_relatorio + 'filtroCompras.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  sql := 'select prod.CODPRO, prod.PRODUTO, prod.VALORUNITARIOATUAL , ' +
+  {sql := 'select prod.CODPRO, prod.PRODUTO, prod.VALORUNITARIOATUAL , ' +
     ' SUM(IT.QUANTIDADE), SUM(IT.VALTOTAL) , mov.CODFORNECEDOR, ' +
     ' forn.NOMEFORNECEDOR, comp.NOTAFISCAL, comp.SERIE, mov.DATAMOVIMENTO, ' +
     ' mov.STATUS, mov.CODNATUREZA, mov.CODALMOXARIFADO, mov.CONTROLE ' +
@@ -516,7 +516,7 @@ begin
     ' comp.NOTAFISCAL, ' +
     ' comp.SERIE,  prod.CODPRO, prod.PRODUTO, prod.VALORUNITARIOATUAL, ' +
     ' mov.STATUS, mov.CODNATUREZA, mov.CODALMOXARIFADO, mov.CONTROLE ' +
-    ' order by mov.DATAMOVIMENTO , forn.NOMEFORNECEDOR';
+    ' order by mov.DATAMOVIMENTO , forn.NOMEFORNECEDOR';  }
   VCLReport1.Execute;
 end;
 
