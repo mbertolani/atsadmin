@@ -447,7 +447,7 @@ object fNFPaulista: TfNFPaulista
       'SSAO between :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvend' +
       'acusto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          a' +
       'nd (endecli.UF = '#39'SP'#39')'#13#10'          and (endecli.TIPOEND = 0)'#13#10'ord' +
-      'er by NOTASERIE'
+      'er by nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
