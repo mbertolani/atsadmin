@@ -190,7 +190,7 @@ begin
   if (radioGroup2.ItemIndex = 1) then
     dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 3; //Despesa
   if (radioGroup2.ItemIndex = 2) then
-    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1; //Compra e Despesa
+    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0; //Compra e Despesa
   BtnProcurar.Click;
 end;
 
