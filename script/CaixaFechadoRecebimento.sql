@@ -1,7 +1,6 @@
-CREATE OR ALTER TRIGGER CaixaFechadoRecebimento FOR RECEBIMENTO
- ACTIVE 
- before UPDATE or DELETE or INSERT 
- POSITION 0
+SET TERM ^ ;
+ALTER TRIGGER CAIXAFECHADORECEBIMENTO ACTIVE
+BEFORE UPDATE OR DELETE OR INSERT POSITION 0
 AS 
   declare variable situacao char(1);
 BEGIN 
@@ -17,6 +16,16 @@ BEGIN
       /*update CAIXA_CONTROLE set TESTE = ' old status :' || old.STATUS || ' new status :' || new.STATUS
         || ' new.DATAREC :' || new.DATARECEBIMENTO || ' Sit. :' || :situacao || ' Caixa :' || new.CAIXA;*/
     end 
+    if ((new.STATUS = '5-') and (old.STATUS = '7-')) then 
+    begin     
+      select first 1 cc.situacao from caixa_controle cc where cc.codcaixa = old.Caixa 
+        and cc.SITUACAO = 'F' and cc.DATAFECHAMENTO >= Old.DATARECEBIMENTO
+        order by cc.DATAFECHAMENTO desc
+      into :situacao;
+      /*update CAIXA_CONTROLE set TESTE = ' old status :' || old.STATUS || ' new status :' || new.STATUS
+        || ' new.DATAREC :' || new.DATARECEBIMENTO || ' Sit. :' || :situacao || ' Caixa :' || new.CAIXA;*/
+    end 
+    
   end 
   if (INSERTING) then 
   begin
@@ -44,4 +53,5 @@ BEGIN
   end 
   if (situacao = 'F') then 
     exception CAIXAFECHADO; 
-END
+END^
+SET TERM ; ^
