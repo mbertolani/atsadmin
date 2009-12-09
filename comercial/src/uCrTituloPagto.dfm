@@ -177,14 +177,16 @@ inherited fcrTituloPagto: TfcrTituloPagto
     inherited Label1: TLabel
       Left = 234
       Top = -81
-      Width = 323
+      Width = 309
+      Height = 44
       Caption = 'Lan'#231'ar Despesas'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 236
       Top = -80
-      Width = 323
+      Width = 309
+      Height = 44
       Caption = 'Lan'#231'ar Despesas'
       Font.Name = 'Cooper Black'
     end
