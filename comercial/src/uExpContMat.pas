@@ -260,8 +260,6 @@ type
     cds_MovimentoBAIXAMOVIMENTO: TSmallintField;
     cds_MovimentoCONTROLE: TStringField;
     cds_MovimentoCNPJ: TStringField;
-<<<<<<< .mine
-    MMJPanel1: TMMJPanel;
     dxButton1: TdxButton;
     Edit1: TEdit;
     JvDateEdit1: TJvDateEdit;
@@ -269,19 +267,7 @@ type
     JvDateEdit2: TJvDateEdit;
     Label2: TLabel;
     JvProgressBar1: TJvProgressBar;
-    MMJPanel2: TMMJPanel;
-    JvDBGrid1: TJvDBGrid;
-    BitBtn1: TBitBtn;
-    DataSource1: TDataSource;
-    Label3: TLabel;
-    BitBtn3: TBitBtn;
-    BitBtn4: TBitBtn;
-    Button1: TBitBtn;
-    Label4: TLabel;
-    sdsNFSELECIONOU: TStringField;
-    cdsNFSELECIONOU: TStringField;
-    ImageList1: TImageList;
-    ImageList2: TImageList;
+    Button1: TButton;
     sMenorData: TSQLDataSet;
     sMenorDataMENORDATA: TDateField;
     sMaiorData: TSQLDataSet;
@@ -289,12 +275,6 @@ type
     procedure Button1Click(Sender: TObject);
     procedure dxButton1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
-    procedure JvDBGrid1CellClick(Column: TColumn);
-    procedure JvDBGrid1ColEnter(Sender: TObject);
-    procedure JvDBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    procedure BitBtn3Click(Sender: TObject);
-    procedure BitBtn4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -517,70 +497,5 @@ begin
    Button1.Enabled := True;
 end;
 
-procedure TfExpContMat.JvDBGrid1CellClick(Column: TColumn);
-begin
-  if Column.Field = cdsNFSELECIONOU then
-  begin
-     cdsNF.Edit;
-     if cdsNFSELECIONOU.AsString = 'S' then
-       cdsNFSELECIONOU.AsString := ''
-     else
-       cdsNFSELECIONOU.AsString := 'S';
-  end;
-end;
-
-procedure TfExpContMat.JvDBGrid1ColEnter(Sender: TObject);
-begin
-   if JvDBGrid1.SelectedField = cdsNFSELECIONOU then
-     JvDBGrid1.Options := JvDBGrid1.Options - [dgEditing]
-   else
-      JvDBGrid1.Options := JvDBGrid1.Options + [dgEditing];
-end;
-
-procedure TfExpContMat.JvDBGrid1DrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TColumn;
-  State: TGridDrawState);
-begin
-  // Selecionou ?
-   if Column.Field = cdsNFSELECIONOU then
-   begin
-       JvDBGrid1.Canvas.FillRect(Rect);
-       ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 1);
-       if cdsNFSELECIONOU.AsString = 'S' then
-         ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 2)
-       else
-         ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 0);
-   end;
-end;
-
-procedure TfExpContMat.BitBtn3Click(Sender: TObject);
-begin
-  cdsNF.DisableControls;
-  cdsNF.First;
-  while not cdsNF.Eof do
-  begin
-     cdsNF.Edit;
-     cdsNFSELECIONOU.AsString := 'S';
-     cdsNF.Post;
-     cdsNF.Next;
-  end;
-  cdsNF.First;
-  cdsNF.EnableControls;
-end;
-
-procedure TfExpContMat.BitBtn4Click(Sender: TObject);
-begin
-  cdsNF.DisableControls;
-  cdsNF.First;
-  while not cdsNF.Eof do
-  begin
-     cdsNF.Edit;
-     cdsNFSELECIONOU.AsString := '';
-     cdsNF.Post;
-     cdsNF.Next;
-  end;
-  cdsNF.First;
-  cdsNF.EnableControls;
-end;
 
 end.
