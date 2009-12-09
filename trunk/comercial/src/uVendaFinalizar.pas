@@ -495,7 +495,7 @@ type
     vrr, nparc : double;
     grava: TCompras;
     contaDespesa: string;
-    contaDespesaFrete: string;
+    contaDespesaFrete, contaDespesaPiscina: string;
     excluiuNF : Boolean;
     { Public declarations }
   end;
@@ -919,6 +919,64 @@ begin
     end;
     grava.Destroy;
   end;
+
+
+  if (dm.moduloUsado = 'MERGULHO') then
+  begin
+    if (tipoMov = 'EDIT') then  // Se e insercao nao preciso ver se ja existe
+    begin
+      // Ver se ja existe o Lancamento
+      strSql := 'SELECT TITULO FROM PAGAMENTO where TITULO = ' ;
+      strSql := strSql + QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger) + '-C');
+      strSql := strSql + ' OR TITULO = ' + QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger) + '-F');
+      if sqs_tit.Active then
+        sqs_tit.Close;
+      sqs_tit.CommandText := strSql;
+      sqs_tit.Open;
+      if (sqs_tit.IsEmpty) then
+        tipoMov := 'INSERT'
+      else
+        tipoMov := 'EDIT';
+    end;
+    grava := TCompras.Create;
+    grava.CentroResultado := cdsCODCCUSTO.AsInteger;
+    grava.CFO := fVendas.cds_Mov_detLOTE.AsString;
+    //-----------------
+    if (edCodigoColhedor.Text <> '') then
+    begin
+      grava.DataVenda := cdsDATAVENDA.AsDateTime;
+      grava.CodMovimento := IntToStr(cdsCODMOVIMENTO.AsInteger);
+      grava.CodColhedor := edCodigoColhedor.Text;
+      grava.ContaDespesa := contaDespesa;
+      grava.DataPagColhedor := dtPagColhedor.Date;
+      grava.VlrColhedor := edVlrColhedor.Value;
+      grava.QtdeVenda := jvCalcEdit1.Value;
+      grava.CodProdutor := IntToStr(fVendas.cds_Mov_detCOD_COMISSAO.AsInteger);
+      if (tipoMov = 'INSERT') then
+        grava.InsereDespesa;
+      if (tipoMov = 'EDIT') then
+        grava.AlteraDespesa;
+    end;
+    if (edCodFretista.Text <> '') then
+    begin
+      grava.DataVenda := cdsDATAVENDA.AsDateTime;
+      grava.CodMovimento := IntToStr(cdsCODMOVIMENTO.AsInteger);
+      grava.CodColhedor := edCodigoColhedor.Text;
+      grava.CodFretista := edCodFretista.Text;
+      grava.VlrFrete := edVlrFrete.Value;
+      grava.DataPagFrete := dtDataPagFrete.Date;
+      grava.ContaDespesaFrete := contaDespesaPiscina;
+      grava.QtdeVenda := jvCalcEdit1.Value;
+      if (tipoMov = 'INSERT') then
+        grava.InsereDespesaFrete;
+      if (tipoMov = 'EDIT') then
+        grava.AlteraDespesaFrete;
+    end;
+    grava.Destroy;
+  end;
+
+
+
 
   //A lançamento do cr tem que ser antes de salvar á venda
   //pois, caso o título já tenha sido baixado não é permitido alterar a venda.
@@ -1621,6 +1679,45 @@ begin
       contaDespesaFrete := dm.cds_parametroDADOS.AsString;
 
   end;
+
+  if (dm.moduloUsado = 'MERGULHO') then
+  begin
+    bitbtn3.Visible := False;
+    bitbtn4.Visible := False;
+    bitbtn5.Visible := False;
+    bitbtn1.Visible := False;
+    Panel4.Visible := True;
+    GroupBox3.Visible := False;
+    label19.Caption := 'Professor';
+    label34.Caption := 'Piscina';
+    label30.Caption := 'Horas';
+    label37.Caption := 'Horas';
+    // Inicializo a Classe TCompras(fClassCitrus).
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'ContaDespesaProfessor';
+    dm.cds_parametro.Open;
+    if (dm.cds_parametro.IsEmpty) then
+    begin
+      MessageDlg('Conta de Despesas de Professor não cadastrado ' + #10#13 +
+        'na tab. Parametro(conta em Dados) :' + #10#13 + 'ContaDespesaProfessor',mtInformation,[mbOk],0);
+    end
+    else
+      contaDespesa := dm.cds_parametroDADOS.AsString;
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'ContaDespesaPiscina';
+    dm.cds_parametro.Open;
+    if (dm.cds_parametro.IsEmpty) then
+    begin
+      MessageDlg('Conta de Despesas de Frete não cadastrado ' + #10#13 +
+        'na tab. Parametro(conta em Dados) :' + #10#13 + 'ContaDespesaPiscina',mtInformation,[mbOk],0);
+    end
+    else
+      contaDespesaPiscina := dm.cds_parametroDADOS.AsString;
+  end;
+
+
 end;
 
 procedure TfVendaFinalizar.FormShow(Sender: TObject);
@@ -1779,7 +1876,64 @@ begin
         dtDataPagFrete.Clear;
         edVlrFrete.Value := 0;
       end;
-    end; // Fim Citrus  
+    end; // Fim Citrus
+
+
+    if (dm.moduloUsado = 'MERGULHO') then
+    begin
+      // Colhedor ################################################################
+      if (dmCitrus.sdsBusca.active) then
+        dmCitrus.sdsBusca.Close;
+      dmCitrus.sdsBusca.commandText := 'SELECT p.DATAVENCIMENTO, p.VALOR_RESTO, ' +
+      ' p.CODFORNECEDOR, f.NOMEFORNECEDOR, p.OUTRO_DEBITO from PAGAMENTO p, FORNECEDOR f' +
+      ' WHERE f.CODFORNECEDOR = p.CODFORNECEDOR AND p.TITULO = ' +
+      QuotedStr(IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.AsInteger) + '-C');
+      dmCitrus.sdsBusca.open;
+      if (not dmCitrus.sdsBusca.IsEmpty) then
+      begin
+        edCodigoColhedor.Text := IntToStr(dmCitrus.sdsBusca.Fields[2].AsInteger);
+        cbNomeColhedor.Text := dmCitrus.sdsBusca.Fields[3].AsString;
+        dtPagColhedor.Date := dmCitrus.sdsBusca.Fields[0].AsDateTime;
+        edVlrColhedor.Value := dmCitrus.sdsBusca.Fields[1].AsFloat;
+        if (dmCitrus.sdsBusca.Fields[4].AsFloat > 0) then
+        begin
+          edPrecoColhedor.Value := dmCitrus.sdsBusca.Fields[1].AsFloat/
+          dmCitrus.sdsBusca.Fields[4].AsFloat;
+        end
+        else
+          edPrecoColhedor.Value := 0;
+      end
+      else begin
+        edCodigoColhedor.Text := '';
+        cbNomeColhedor.Text := '';
+        dtPagColhedor.Clear;
+        edVlrColhedor.Value := 0;
+        edPrecoColhedor.Value := 0;
+      end;
+      // FRETE ###################################################################
+      if (dmCitrus.sdsBusca.active) then
+        dmCitrus.sdsBusca.Close;
+      dmCitrus.sdsBusca.commandText := 'SELECT p.DATAVENCIMENTO, p.VALOR_RESTO, ' +
+      ' p.CODFORNECEDOR, f.NOMEFORNECEDOR from PAGAMENTO p, FORNECEDOR f' +
+      ' WHERE f.CODFORNECEDOR = p.CODFORNECEDOR AND p.TITULO = ' +
+      QuotedStr(IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.AsInteger) + '-F');
+      dmCitrus.sdsBusca.open;
+      if (not dmCitrus.sdsBusca.IsEmpty) then
+      begin
+        edCodFretista.Text := IntToStr(dmCitrus.sdsBusca.Fields[2].AsInteger);
+        cbNomeFretista.Text := dmCitrus.sdsBusca.Fields[3].AsString;
+        dtDataPagFrete.Date := dmCitrus.sdsBusca.Fields[0].AsDateTime;
+        edVlrFrete.Value := dmCitrus.sdsBusca.Fields[1].AsFloat;
+      end
+      else begin
+        edCodFretista.Text := '';
+        cbNomeFretista.Text := '';
+        dtDataPagFrete.Clear;
+        edVlrFrete.Value := 0;
+      end;
+    end; // Fim MERGULHO
+
+
   end;
   dm.scds_venda_proc.Close;
   scdsCr_proc.Close;
