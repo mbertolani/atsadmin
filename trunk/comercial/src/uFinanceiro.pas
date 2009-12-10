@@ -852,13 +852,13 @@ end;
 procedure TfFinanceiro.aContaPagarExecute(Sender: TObject);
 begin
  fCpProc:=TfCpProc.Create(Application);
- //fcptitulo:=Tfcptitulo.Create(Application);
+ fcptitulo:=Tfcptitulo.Create(Application);
  //fCheques_bol:=TfCheques_bol.Create(Application);
  try
    fCpProc.ShowModal;
  finally
    //fCheques_bol.Free;
-   //fcptitulo.Free;
+   fcptitulo.Free;
    fCpProc.Free;
  end;
 end;
