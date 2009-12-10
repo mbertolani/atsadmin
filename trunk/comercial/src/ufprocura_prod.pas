@@ -1433,8 +1433,10 @@ begin
      fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
      fVendas.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
      fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-     fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-     fVendas.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
+     if (edit3.Text > '0') then
+       fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
+     if (edit4.Text > '0') then
+       fVendas.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
      fVendas.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
      valorUnitario := cds_procPRECO_VENDA.AsFloat;
      fVendas.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
