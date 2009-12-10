@@ -216,7 +216,7 @@ procedure TfcpTitulo.FormCreate(Sender: TObject);
 var utilCpTitulo: TUtils;
   i, j : integer;
 begin
-  sCtrlResize.CtrlResize(TForm(fcpTitulo));
+  //sCtrlResize.CtrlResize(TForm(fcpTitulo));
   utilcptitulo := Tutils.Create;
   // Popula Status
   j := utilcptitulo.Forma.Count;
