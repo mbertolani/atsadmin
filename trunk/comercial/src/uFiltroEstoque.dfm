@@ -434,28 +434,22 @@ object fFiltroEstoque: TfFiltroEstoque
       OnKeyPress = FormKeyPress
     end
     object meDta1: TJvDatePickerEdit
-      Left = 540
+      Left = 537
       Top = 19
-      Width = 79
+      Width = 85
       Height = 21
       AllowNoDate = True
       Checked = True
-      DateFormat = 'd/M/yy'
-      DateSeparator = '/'
-      StoreDateFormat = True
       TabOrder = 13
       OnKeyPress = meDta1KeyPress
     end
     object meDta2: TJvDatePickerEdit
-      Left = 650
+      Left = 647
       Top = 19
-      Width = 79
+      Width = 87
       Height = 21
       AllowNoDate = True
       Checked = True
-      DateFormat = 'd/M/yy'
-      DateSeparator = '/'
-      StoreDateFormat = True
       TabOrder = 14
       OnKeyPress = FormKeyPress
     end
@@ -464,7 +458,7 @@ object fFiltroEstoque: TfFiltroEstoque
     Left = 0
     Top = 213
     Width = 800
-    Height = 310
+    Height = 303
     Align = alClient
     DataSource = ds_estoque
     Font.Charset = DEFAULT_CHARSET
@@ -804,7 +798,7 @@ object fFiltroEstoque: TfFiltroEstoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 523
+    Top = 516
     Width = 800
     Height = 28
     Align = alBottom
