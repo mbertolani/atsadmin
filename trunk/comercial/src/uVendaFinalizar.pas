@@ -434,7 +434,11 @@ type
     dbDtaVencimento: TDBEdit;
     CheckBox2: TCheckBox;
     sqlBuscaNota: TSQLQuery;
-
+    scds_forn_proc: TSQLClientDataSet;
+    scds_forn_procCODFORNECEDOR: TIntegerField;
+    scds_forn_procNOMEFORNECEDOR: TStringField;
+    scds_forn_procRAZAOSOCIAL: TStringField;
+    scds_forn_procPRAZOPAGAMENTO: TSmallintField;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -468,8 +472,6 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure cbNomeColhedorChange(Sender: TObject);
     procedure cbNomeFretistaChange(Sender: TObject);
-    procedure edCodFretistaKeyPress(Sender: TObject; var Key: Char);
-    procedure edCodigoColhedorKeyPress(Sender: TObject; var Key: Char);
     procedure dtPagColhedorChange(Sender: TObject);
     procedure edPrecoColhedorKeyPress(Sender: TObject; var Key: Char);
     procedure cbNomeColhedorKeyPress(Sender: TObject; var Key: Char);
@@ -483,6 +485,12 @@ type
     procedure DtSrcStateChange(Sender: TObject);
     procedure cbPrazoChange(Sender: TObject);
     procedure CheckBox2Click(Sender: TObject);
+    procedure JvCalcEdit1Exit(Sender: TObject; var Key: Char);
+    procedure edPrecoColhedorExit(Sender: TObject; var Key: Char);
+    procedure JvCalcEdit2Exit(Sender: TObject; var Key: Char);
+    procedure JvCalcEdit3Exit(Sender: TObject; var Key: Char);
+    procedure edCodigoColhedorExit(Sender: TObject);
+    procedure edCodFretistaExit(Sender: TObject);
   private
     { Private declarations }
     procedure excluinf;
@@ -1682,13 +1690,14 @@ begin
 
   if (dm.moduloUsado = 'MERGULHO') then
   begin
+    CheckBox1.Visible := False;
     bitbtn3.Visible := False;
     bitbtn4.Visible := False;
     bitbtn5.Visible := False;
     bitbtn1.Visible := False;
     Panel4.Visible := True;
     GroupBox3.Visible := False;
-    label19.Caption := 'Professor';
+    label29.Caption := 'Professor';
     label34.Caption := 'Piscina';
     label30.Caption := 'Horas';
     label37.Caption := 'Horas';
@@ -1749,6 +1758,13 @@ begin
     edCodFretista.Text := '';
     edVlrFrete.Value := 0;
   end;
+
+    if (dm.moduloUsado = 'MERGULHO') then
+  begin
+    jvCalcEdit1.Value := fVendas.cds_Mov_detQUANTIDADE.Value;
+    jvCalcEdit2.Value := fVendas.cds_Mov_detQUANTIDADE.Value;
+  end;
+
 
   //a tabela esta aberta, então verifica se é edicao ou inserção
   //procurando na tabela venda pelo código do movimento.
@@ -2299,46 +2315,6 @@ begin
   edCodFretista.Text := intToStr(dmCitrus.cdsFretistaCODFORNECEDOR.asinteger);
 end;
 
-procedure TfVendaFinalizar.edCodFretistaKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if  (key = #13) then
-  begin
-    if (DtSrc.State in [dsBrowse]) then
-      cds.Edit;
-
-    if (edCodFretista.Text <> '') then
-      if (not dmCitrus.cdsFretista.Locate('CODFORNECEDOR', edCodFretista.Text, [loPartialKey])) then
-      begin
-         MessageDlg('Código não Cadastrado',mtInformation,[mbOk],0);
-         cbNomeFretista.Text := '';
-      end;
-    key := #0;
-    SelectNext((Sender as TwinControl),True,True);
-  end;
-end;
-
-procedure TfVendaFinalizar.edCodigoColhedorKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  inherited;
-  if  (key = #13) then
-  begin
-    if (DtSrc.State in [dsBrowse]) then
-      cds.Edit;
-
-    if (edCodigoColhedor.Text <> '') then
-      if (not dmCitrus.cdsColhedor.Locate('CODFORNECEDOR', edCodigoColhedor.Text, [loPartialKey])) then
-      begin
-         MessageDlg('Código não Cadastrado',mtInformation,[mbOk],0);
-         cbNomeColhedor.Text := '';
-      end;
-    key := #0;
-    SelectNext((Sender as TwinControl),True,True);
-  end;
-end;
-
 procedure TfVendaFinalizar.dtPagColhedorChange(Sender: TObject);
 begin
   inherited;
@@ -2744,6 +2720,107 @@ begin
       excluiuNF := False;
     end;
   end;
+end;
+
+procedure TfVendaFinalizar.JvCalcEdit1Exit(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if  (key = #13) then
+  begin
+    key := #0;
+    SelectNext((Sender as TwinControl),True,True);
+  end;
+end;
+
+procedure TfVendaFinalizar.edPrecoColhedorExit(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if  (key = #13) then
+  begin
+    {Tira o 1% do Total Colhido.}
+    if (CheckBox1.Checked = True) then
+      edVlrColhedor.Value := (jvCalcEdit1.Value * 0.99) * edPrecoColhedor.Value
+    else
+      edVlrColhedor.Value := jvCalcEdit1.Value * edPrecoColhedor.Value;
+    key := #0;
+    SelectNext((Sender as TwinControl),True,True);
+  end;
+end;
+
+procedure TfVendaFinalizar.JvCalcEdit2Exit(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if  (key = #13) then
+  begin
+    key := #0;
+    SelectNext((Sender as TwinControl),True,True);
+  end;
+end;
+
+procedure TfVendaFinalizar.JvCalcEdit3Exit(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  edVlrFrete.Value := jvCalcEdit2.Value * JvCalcEdit3.Value;
+end;
+
+procedure TfVendaFinalizar.edCodigoColhedorExit(Sender: TObject);
+begin
+  inherited;
+  if (dtsrc.State in [dsInsert, dsEdit]) then
+  begin
+    if (edCodigoColhedor.Text = '') then
+    begin
+      exit;
+    end;
+    if scds_forn_proc.Active then
+      scds_forn_proc.Close;
+    scds_forn_proc.Params[0].Clear;
+    scds_forn_proc.Params[1].Clear;
+    scds_forn_proc.Params[2].AsInteger:=StrToInt(edCodigoColhedor.Text);
+    scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+    scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;
+    scds_forn_proc.Open;
+    if scds_forn_proc.IsEmpty then begin
+      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cbNomeColhedor.Text := scds_forn_procNOMEFORNECEDOR.AsString;
+    scds_forn_proc.Close;
+  end
+
+end;
+
+procedure TfVendaFinalizar.edCodFretistaExit(Sender: TObject);
+begin
+  inherited;
+  if (dtsrc.State in [dsInsert, dsEdit]) then
+  begin
+    if (edCodFretista.Text = '') then
+    begin
+      exit;
+    end;
+    if scds_forn_proc.Active then
+      scds_forn_proc.Close;
+    scds_forn_proc.Params[0].Clear;
+    scds_forn_proc.Params[1].Clear;
+    scds_forn_proc.Params[2].AsInteger:=StrToInt(edCodFretista.Text);
+    scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+    scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;
+    scds_forn_proc.Open;
+    if scds_forn_proc.IsEmpty then begin
+      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cbNomeFretista.Text := scds_forn_procNOMEFORNECEDOR.AsString;
+    scds_forn_proc.Close;
+    end
+
 end;
 
 end.

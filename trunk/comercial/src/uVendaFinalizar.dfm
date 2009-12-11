@@ -2342,7 +2342,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
         Width = 49
         Height = 24
         TabOrder = 0
-        OnKeyPress = edCodigoColhedorKeyPress
+        OnExit = edCodigoColhedorExit
       end
       object cbNomeColhedor: TJvDBSearchComboBox
         Left = 62
@@ -2466,7 +2466,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
         Width = 49
         Height = 24
         TabOrder = 0
-        OnKeyPress = edCodFretistaKeyPress
+        OnExit = edCodFretistaExit
       end
       object cbNomeFretista: TJvDBSearchComboBox
         Left = 64
@@ -4508,5 +4508,68 @@ inherited fVendaFinalizar: TfVendaFinalizar
     SQLConnection = DM.sqlsisAdimin
     Left = 592
     Top = 328
+  end
+  object scds_forn_proc: TSQLClientDataSet
+    CommandText = 
+      'select CODFORNECEDOR, NOMEFORNECEDOR, RAZAOSOCIAL,  PRAZOPAGAMEN' +
+      'TO from FORNECEDOR where ((NOMEFORNECEDOR like :pFORNECEDOR) or ' +
+      '(RAZAOSOCIAL like :pRAZAO) or (CODFORNECEDOR = :pCODFORNECEDOR))' +
+      ' '#13#10'and  (status = :pStatus) '#13#10'and  ((segmento = :pSegmento) or (' +
+      ':pSegmento = 0))'#13#10'order by NOMEFORNECEDOR'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pFORNECEDOR'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pRAZAO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'pCODFORNECEDOR'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'pStatus'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'pSegmento'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'pSegmento'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 729
+    Top = 69
+    object scds_forn_procCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object scds_forn_procNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 50
+    end
+    object scds_forn_procRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object scds_forn_procPRAZOPAGAMENTO: TSmallintField
+      FieldName = 'PRAZOPAGAMENTO'
+    end
   end
 end
