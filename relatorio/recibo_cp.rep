@@ -63,57 +63,7 @@ object TRpReport
       ReportGroupsTable = 'REPMAN_GROUPS'
       ADOConnectionString = ''
     end>
-  Params = <
-    item
-      Name = 'CODVENDA'
-      Value = 0
-      ParamType = rpParamInteger
-      Datasets.Strings = (
-        'IMPR')
-      Description = 'C'#243'digo Venda'
-      Hint = 'C'#243'digo Venda'
-      Search = ''
-      ErrorMessage = ''
-      Validation = ''
-    end
-    item
-      Name = 'CODID'
-      AllowNulls = False
-      Value = 9999999
-      ParamType = rpParamInteger
-      Datasets.Strings = (
-        'IMPR')
-      Description = ''
-      Hint = ''
-      Search = ''
-      ErrorMessage = ''
-      Validation = ''
-    end
-    item
-      Name = 'N_COPIAS'
-      AllowNulls = False
-      Value = 2
-      ParamType = rpParamInteger
-      Datasets.Strings = (
-        'IMPR')
-      Description = ''
-      Hint = ''
-      Search = ''
-      ErrorMessage = ''
-      Validation = ''
-    end
-    item
-      Name = 'STATUS'
-      AllowNulls = False
-      Value = '5-'
-      Datasets.Strings = (
-        'IMPR')
-      Description = 'Status'
-      Hint = 'Status'
-      Search = ''
-      ErrorMessage = ''
-      Validation = ''
-    end>
+  Params = <>
   Language = 4
   Copies = 2
   CollateCopies = True
@@ -141,7 +91,7 @@ object TRpReport
   end
   object TRpSection0: TRpSection
     Width = 10900
-    Height = 495
+    Height = 285
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -211,7 +161,7 @@ object TRpReport
   end
   object TRpSection3: TRpSection
     Width = 10772
-    Height = 2940
+    Height = 2880
     SubReport = TRpSubReport0
     GroupName = 'CLIENTE'
     ChangeBool = False
@@ -260,9 +210,9 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-    ChangeExpression = 'IMPR.NOMECLI'
+    ChangeExpression = 'IMPR.CODFORNECEDOR'
     BeginPageExpression = ''
-    ChangeExpression = 'IMPR.NOMECLI'
+    ChangeExpression = 'IMPR.CODFORNECEDOR'
     SkipExpreV = ''
     SkipExpreH = ''
     SkipToPageExpre = ''
@@ -299,9 +249,9 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-    ChangeExpression = 'IMPR.NOMECLI'
+    ChangeExpression = 'IMPR.CODFORNECEDOR'
     BeginPageExpression = ''
-    ChangeExpression = 'IMPR.NOMECLI'
+    ChangeExpression = 'IMPR.CODFORNECEDOR'
     SkipExpreV = ''
     SkipExpreH = ''
     SkipToPageExpre = ''
@@ -601,7 +551,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = #39'Referente aos servi'#231'os abaixo:'
+    Expression = #39'Referente aos servi'#231'os abaixo:'#39
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -782,7 +732,8 @@ object TRpReport
     Type1Font = poHelvetica
     Alignment = 2
     DisplayFormat = ',##0.00'
-    Aggregate = rpAgGeneral
+    Aggregate = rpAgGroup
+    GroupName = 'CLIENTE'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
