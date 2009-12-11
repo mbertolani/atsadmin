@@ -462,12 +462,6 @@ object fProcura_prod: TfProcura_prod
       end
       item
         Expanded = False
-        FieldName = 'PRECOMEDIO'
-        Title.Caption = 'P. Custo(R$)'
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'QTDE_PCT'
         Title.Caption = 'Qtde/Peso'
         Width = 65
