@@ -633,6 +633,12 @@ inherited fPlanoContas: TfPlanoContas
         FieldName = 'RATEIO'
         Title.Caption = 'Rateio'
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Title.Caption = 'C'#243'digo'
+        Visible = True
       end>
   end
   object DBComboBox1: TDBComboBox [32]
