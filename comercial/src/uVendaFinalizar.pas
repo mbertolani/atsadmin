@@ -439,6 +439,46 @@ type
     scds_forn_procNOMEFORNECEDOR: TStringField;
     scds_forn_procRAZAOSOCIAL: TStringField;
     scds_forn_procPRAZOPAGAMENTO: TSmallintField;
+    sFornecedor: TSQLDataSet;
+    sFornecedorCODFORNECEDOR: TIntegerField;
+    sFornecedorNOMEFORNECEDOR: TStringField;
+    sFornecedorRAZAOSOCIAL: TStringField;
+    sFornecedorCONTATO: TStringField;
+    sFornecedorTIPOFIRMA: TSmallintField;
+    sFornecedorCPF: TStringField;
+    sFornecedorCNPJ: TStringField;
+    sFornecedorINSCESTADUAL: TStringField;
+    sFornecedorRG: TStringField;
+    sFornecedorSEGMENTO: TSmallintField;
+    sFornecedorREGIAO: TSmallintField;
+    sFornecedorLIMITECREDITO: TFloatField;
+    sFornecedorDATACADASTRO: TDateField;
+    sFornecedorCODUSUARIO: TIntegerField;
+    sFornecedorSTATUS: TSmallintField;
+    sFornecedorHOMEPAGE: TStringField;
+    sFornecedorPRAZOPAGAMENTO: TSmallintField;
+    sFornecedorPRAZOENTREGA: TSmallintField;
+    sFornecedorCONTA_FORNECEDOR: TStringField;
+    sForn_NC: TSQLDataSet;
+    sForn_NCCODFORNECEDOR: TIntegerField;
+    sForn_NCNOMEFORNECEDOR: TStringField;
+    sForn_NCRAZAOSOCIAL: TStringField;
+    sForn_NCCONTATO: TStringField;
+    sForn_NCTIPOFIRMA: TSmallintField;
+    sForn_NCCPF: TStringField;
+    sForn_NCCNPJ: TStringField;
+    sForn_NCINSCESTADUAL: TStringField;
+    sForn_NCRG: TStringField;
+    sForn_NCSEGMENTO: TSmallintField;
+    sForn_NCREGIAO: TSmallintField;
+    sForn_NCLIMITECREDITO: TFloatField;
+    sForn_NCDATACADASTRO: TDateField;
+    sForn_NCCODUSUARIO: TIntegerField;
+    sForn_NCSTATUS: TSmallintField;
+    sForn_NCHOMEPAGE: TStringField;
+    sForn_NCPRAZOPAGAMENTO: TSmallintField;
+    sForn_NCPRAZOENTREGA: TSmallintField;
+    sForn_NCCONTA_FORNECEDOR: TStringField;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -491,6 +531,8 @@ type
     procedure JvCalcEdit3Exit(Sender: TObject; var Key: Char);
     procedure edCodigoColhedorExit(Sender: TObject);
     procedure edCodFretistaExit(Sender: TObject);
+    procedure JvCalcEdit3Change(Sender: TObject);
+    procedure JvCalcEdit2Change(Sender: TObject);
   private
     { Private declarations }
     procedure excluinf;
@@ -1632,6 +1674,7 @@ begin
     dm.cds_7_contas.Close;
   dm.cds_7_contas.Params[0].AsString := dm.cds_parametroDADOS.AsString;
   dm.cds_7_contas.Open;
+
   while not dm.cds_7_contas.Eof do
   begin
     cbConta.Items.Add(dm.cds_7_contas.Fields[2].asString);
@@ -1701,6 +1744,28 @@ begin
     label34.Caption := 'Piscina';
     label30.Caption := 'Horas';
     label37.Caption := 'Horas';
+
+
+  cbNomeColhedor.Items.Clear;
+  if (not sFornecedor.Active) then
+     sFornecedor.Open;
+  sFornecedor.First;
+  while not sFornecedor.Eof do
+  begin
+    cbNomeColhedor.Items.Add(sFornecedorRAZAOSOCIAL.AsString);
+    sFornecedor.Next;
+  end;
+
+  cbNomeFretista.Items.Clear;
+  if (not sFornecedor.Active) then
+     sFornecedor.Open;
+  sFornecedor.First;
+  while not sFornecedor.Eof do
+  begin
+    cbNomeFretista.Items.Add(sFornecedorRAZAOSOCIAL.AsString);
+    sFornecedor.Next;
+  end;
+
     // Inicializo a Classe TCompras(fClassCitrus).
     if (dm.cds_parametro.Active) then
       dm.cds_parametro.Close;
@@ -2304,7 +2369,18 @@ begin
   inherited;
   if (DtSrc.State in [dsBrowse]) then
     cds.Edit;
-  edCodigoColhedor.Text := IntToStr(dmCitrus.cdsColhedorCODFORNECEDOR.asInteger);
+  if (dm.moduloUsado = 'CITRUS') then
+  begin
+    edCodigoColhedor.Text := IntToStr(dmCitrus.cdsColhedorCODFORNECEDOR.asInteger);
+  end
+  else
+  begin
+  if sForn_NC.Active then
+  sForn_NC.Close;
+    sForn_NC.Params[0].AsString := cbNomeColhedor.Text;
+    sForn_NC.Open;
+  edCodigoColhedor.Text := IntToStr(sForn_NCCODFORNECEDOR.asInteger);
+  end;
 end;
 
 procedure TfVendaFinalizar.cbNomeFretistaChange(Sender: TObject);
@@ -2312,7 +2388,18 @@ begin
   inherited;
   if (DtSrc.State in [dsBrowse]) then
     cds.Edit;
-  edCodFretista.Text := intToStr(dmCitrus.cdsFretistaCODFORNECEDOR.asinteger);
+  if (dm.moduloUsado = 'CITRUS') then
+  begin
+    edCodFretista.Text := intToStr(dmCitrus.cdsFretistaCODFORNECEDOR.asinteger);
+  end
+  else
+  begin
+  if sForn_NC.Active then
+  sForn_NC.Close;
+    sForn_NC.Params[0].AsString := cbNomeFretista.Text;
+    sForn_NC.open;
+  edCodFretista.Text := intToStr(sForn_NCCODFORNECEDOR.asInteger);
+  end;
 end;
 
 procedure TfVendaFinalizar.dtPagColhedorChange(Sender: TObject);
@@ -2320,6 +2407,11 @@ begin
   inherited;
   if (DtSrc.State in [dsBrowse]) then
     cds.Edit;
+    {Tira o 1% do Total Colhido.}
+    if (CheckBox1.Checked = True) then
+      edVlrColhedor.Value := (jvCalcEdit1.Value * 0.99) * edPrecoColhedor.Value
+    else
+      edVlrColhedor.Value := jvCalcEdit1.Value * edPrecoColhedor.Value;
 end;
 
 procedure TfVendaFinalizar.edPrecoColhedorKeyPress(Sender: TObject;
@@ -2341,12 +2433,12 @@ end;
 procedure TfVendaFinalizar.cbNomeColhedorKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  inherited;
+ { inherited;
   if  (key = #13) then
   begin
     key := #0;
     SelectNext((Sender as TwinControl),True,True);
-  end;
+  end;                                                }
 end;
 
 procedure TfVendaFinalizar.dtPagColhedorKeyPress(Sender: TObject;
@@ -2385,12 +2477,12 @@ end;
 procedure TfVendaFinalizar.cbNomeFretistaKeyPress(Sender: TObject;
   var Key: Char);
 begin
-  inherited;
+  {inherited;
   if  (key = #13) then
   begin
     key := #0;
     SelectNext((Sender as TwinControl),True,True);
-  end;
+  end;}
 end;
 
 procedure TfVendaFinalizar.dtDataPagFreteKeyPress(Sender: TObject;
@@ -2821,6 +2913,18 @@ begin
     scds_forn_proc.Close;
     end
 
+end;
+
+procedure TfVendaFinalizar.JvCalcEdit3Change(Sender: TObject);
+begin
+  inherited;
+  edVlrColhedor.Value := jvCalcEdit2.Value * jvCalcEdit3.Value;
+end;
+
+procedure TfVendaFinalizar.JvCalcEdit2Change(Sender: TObject);
+begin
+  inherited;
+  edVlrColhedor.Value := jvCalcEdit2.Value * jvCalcEdit3.Value;
 end;
 
 end.
