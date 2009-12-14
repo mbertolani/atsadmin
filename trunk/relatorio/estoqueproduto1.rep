@@ -13,12 +13,8 @@ object TRpReport
       DatabaseAlias = 'SGE'
       SQL = 
         'select CODPRODUTO, PRODUTO, ESTOQUEATUAL, PRECO_VENDA, preco_com' +
-        'pramedio from LISTAPRODUTO where  '#13#10'(CODPRODUTO BETWEEN :PROD1 A' +
-        'ND :PROD2) AND ((GRUPO = :GRUPO) OR (:GRUPO = '#39'TODOS OS GRUPOS C' +
-        'ADASTRADOS'#39')) and '#13#10'((SUBGRUPO = :SUBGRUPO) OR (:subgrupo = '#39'TOD' +
-        'OS SUBGRUPOS DO CADASTRO'#39')) and '#13#10'((Marca = :marca) or (:marca =' +
-        ' '#39'TODAS AS MARCAS CADASTRADAS'#39'))  and'#13#10'((CODALMOXARIFADO = :PCCU' +
-        'STO) OR (:PCCUSTO = 0)) '
+        'pramedio from LISTAPRODUTO ( :PROD1, :PROD2, :GRUPO, :SUBGRUPO, ' +
+        ':marca) where (TIPO = :TIPOPRODUTO)'
     end>
   DatabaseInfo = <
     item
@@ -96,10 +92,9 @@ object TRpReport
       Validation = ''
     end
     item
-      Name = 'PCCUSTO'
+      Name = 'TIPOPRODUTO'
       AllowNulls = False
-      Value = 0
-      ParamType = rpParamInteger
+      Value = ''
       Datasets.Strings = (
         'ESTOQUE_PRODUTO')
       Description = ''
