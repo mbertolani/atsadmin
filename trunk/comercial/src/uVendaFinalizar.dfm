@@ -2511,7 +2511,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
         ShowButton = False
         TabOrder = 3
         DecimalPlacesAlwaysShown = False
-        OnChange = dtPagColhedorChange
+        OnChange = JvCalcEdit2Change
         OnKeyPress = JvCalcEdit1KeyPress
       end
       object JvCalcEdit3: TJvCalcEdit
@@ -2523,7 +2523,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
         ShowButton = False
         TabOrder = 4
         DecimalPlacesAlwaysShown = False
-        OnChange = dtPagColhedorChange
+        OnChange = JvCalcEdit3Change
         OnKeyPress = JvCalcEdit3KeyPress
       end
     end
@@ -4570,6 +4570,177 @@ inherited fVendaFinalizar: TfVendaFinalizar
     end
     object scds_forn_procPRAZOPAGAMENTO: TSmallintField
       FieldName = 'PRAZOPAGAMENTO'
+    end
+  end
+  object sFornecedor: TSQLDataSet
+    CommandText = 'select * from FORNECEDOR'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 13
+    Top = 408
+    object sFornecedorCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object sFornecedorNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 50
+    end
+    object sFornecedorRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object sFornecedorCONTATO: TStringField
+      FieldName = 'CONTATO'
+      Size = 30
+    end
+    object sFornecedorTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object sFornecedorCPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object sFornecedorCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object sFornecedorINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object sFornecedorRG: TStringField
+      FieldName = 'RG'
+      Size = 14
+    end
+    object sFornecedorSEGMENTO: TSmallintField
+      FieldName = 'SEGMENTO'
+      Required = True
+    end
+    object sFornecedorREGIAO: TSmallintField
+      FieldName = 'REGIAO'
+      Required = True
+    end
+    object sFornecedorLIMITECREDITO: TFloatField
+      FieldName = 'LIMITECREDITO'
+    end
+    object sFornecedorDATACADASTRO: TDateField
+      FieldName = 'DATACADASTRO'
+      Required = True
+    end
+    object sFornecedorCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object sFornecedorSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Required = True
+    end
+    object sFornecedorHOMEPAGE: TStringField
+      FieldName = 'HOMEPAGE'
+      Size = 40
+    end
+    object sFornecedorPRAZOPAGAMENTO: TSmallintField
+      FieldName = 'PRAZOPAGAMENTO'
+    end
+    object sFornecedorPRAZOENTREGA: TSmallintField
+      FieldName = 'PRAZOENTREGA'
+    end
+    object sFornecedorCONTA_FORNECEDOR: TStringField
+      FieldName = 'CONTA_FORNECEDOR'
+      Size = 15
+    end
+  end
+  object sForn_NC: TSQLDataSet
+    CommandText = 'select * from FORNECEDOR forn where forn.RAZAOSOCIAL = :pCod'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pCod'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 69
+    Top = 408
+    object sForn_NCCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object sForn_NCNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 50
+    end
+    object sForn_NCRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object sForn_NCCONTATO: TStringField
+      FieldName = 'CONTATO'
+      Size = 30
+    end
+    object sForn_NCTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object sForn_NCCPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object sForn_NCCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object sForn_NCINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object sForn_NCRG: TStringField
+      FieldName = 'RG'
+      Size = 14
+    end
+    object sForn_NCSEGMENTO: TSmallintField
+      FieldName = 'SEGMENTO'
+      Required = True
+    end
+    object sForn_NCREGIAO: TSmallintField
+      FieldName = 'REGIAO'
+      Required = True
+    end
+    object sForn_NCLIMITECREDITO: TFloatField
+      FieldName = 'LIMITECREDITO'
+    end
+    object sForn_NCDATACADASTRO: TDateField
+      FieldName = 'DATACADASTRO'
+      Required = True
+    end
+    object sForn_NCCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object sForn_NCSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Required = True
+    end
+    object sForn_NCHOMEPAGE: TStringField
+      FieldName = 'HOMEPAGE'
+      Size = 40
+    end
+    object sForn_NCPRAZOPAGAMENTO: TSmallintField
+      FieldName = 'PRAZOPAGAMENTO'
+    end
+    object sForn_NCPRAZOENTREGA: TSmallintField
+      FieldName = 'PRAZOENTREGA'
+    end
+    object sForn_NCCONTA_FORNECEDOR: TStringField
+      FieldName = 'CONTA_FORNECEDOR'
+      Size = 15
     end
   end
 end
