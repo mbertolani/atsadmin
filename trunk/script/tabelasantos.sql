@@ -18,7 +18,7 @@ create table COMISSAOCOLABORADOR (
   valorcomissao double precision
   )^
 
-create table cargosfuncoes (
+XXXXXXXXXXXXXX  create table cargosfuncoes (
   cod_cargosfuncoes integer not null primary key,
   descricao varchar(100))^
 
@@ -55,11 +55,11 @@ alter table movimentodetalhe add codAutorizacao integer ^
 
 alter table movimentodetalhe add status char(1) ^
 
-alter table funcionario add codcliente integer ^
+XXXXXXXXXXXX    alter table funcionario add codcliente integer ^
 
-alter table funcionario add codfornecedor integer ^
+XXXXXXXXXXXX    alter table funcionario add codfornecedor integer ^
 
-alter table funcionario add clifor char(1) ^
+XXXXXXXXXXXX    alter table funcionario add clifor char(1) ^
 
 alter table movimento add ValorRateio double precision^
 
@@ -81,7 +81,7 @@ alter table CAIXA_CONTROLE ADD VALORABRE DOUBLE PRECISION^
 
 alter table CAIXA_CONTROLE ADD VALORFECHA DOUBLE PRECISION^
 
-alter table FUNCIONARIO ADD STATUS CHAR(1)^
+XXXXXXXXXXXXXXXXXXX   alter table FUNCIONARIO ADD STATUS CHAR(1)^
 
 alter table produtos add geradesconto CHAR(1)^
 
@@ -97,13 +97,13 @@ alter table movimentodetalhe add porcentagendesc DOUBLE PRECISION ^
 
 alter table venda add porcentagendesc DOUBLE PRECISION ^ 
 
-alter table RECEBIMENTO add SITUACAO integer^ 
+XXXXXXXXXXXXXXXXX  alter table RECEBIMENTO add SITUACAO integer^ 
 
 alter table PAGAMENTO add SITUACAO integer^ 
 
 alter table pagamento add CODORIGEM1 INTEGER^
 
-alter table venda add CODORIGEM INTEGER^
+XXXXXXXXXXXXXXXX   alter table venda add CODORIGEM INTEGER^
 
 alter table COMPRA add CODORIGEM INTEGER^
 */
