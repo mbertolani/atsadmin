@@ -330,7 +330,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMovCaixa, uCaixaReceber, uComissaoColaborador, uRatearConta, uDespRec,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
-  uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat;
+  uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils;
 
 {$R *.dfm}
 
@@ -640,6 +640,7 @@ begin
 end;
 
 procedure TfAtsAdmin.FormShow(Sender: TObject);
+var TD: TTransactionDesc;
 begin
   //Se tiver Agendamento para o dia abro a agenda
   if (dm.cds_ag.Active) then
@@ -717,6 +718,23 @@ begin
     VCLReport1.Title := VCLReport1.Filename;
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLReport1.execute;
+  end;
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroD3.AsString = 'BLOQUEIOATRASADOS') then
+  if (dm.cds_parametroD4.AsString <> FormatDateTime('ddmmyyyy', today) ) then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect('execute procedure BLOQUEIACLIENTES');
+    dm.sqlsisAdimin.Commit(TD);
+    dm.cds_parametro.edit;
+    dm.cds_parametroD4.AsString := FormatDateTime('ddmmyyyy', today);
+    dm.cds_parametro.ApplyUpdates(0);
   end
 
 end;
