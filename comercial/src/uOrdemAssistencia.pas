@@ -59,7 +59,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, StdCtrls, Buttons, DB, DBClient, Provider, SqlExpr,
   Menus, XPMenu, ExtCtrls, DBCtrls, MMJPanel, Grids, DBGrids, Mask,
-  UCHistDataset, UCHist_Base, JvExControls, JvLabel, DBLocal, DBLocalS;
+  UCHistDataset, UCHist_Base, JvExControls, JvLabel, DBLocal, DBLocalS,
+  ComCtrls;
 
 type
   TfOrdemAssistencia = class(TForm)
@@ -221,32 +222,7 @@ type
     sds_produtoVALORCOMISSAO: TFloatField;
     sds_produtoGERADESCONTO: TStringField;
     sds_produtoIMPRIMIR: TStringField;
-    sds_cli: TSQLDataSet;
-    dsp_cli: TDataSetProvider;
-    cds_cli: TClientDataSet;
     Label34: TLabel;
-    sds_cliCODCLIENTE: TIntegerField;
-    sds_cliNOMECLIENTE: TStringField;
-    sds_cliRAZAOSOCIAL: TStringField;
-    sds_cliCNPJ: TStringField;
-    sds_cliCIDADE: TStringField;
-    sds_cliUF: TStringField;
-    sds_cliDDD: TStringField;
-    sds_cliRG: TStringField;
-    sds_cliTELEFONE: TStringField;
-    sds_cliCEP: TStringField;
-    sds_cliBAIRRO: TStringField;
-    cds_cliCODCLIENTE: TIntegerField;
-    cds_cliNOMECLIENTE: TStringField;
-    cds_cliRAZAOSOCIAL: TStringField;
-    cds_cliCNPJ: TStringField;
-    cds_cliCIDADE: TStringField;
-    cds_cliUF: TStringField;
-    cds_cliDDD: TStringField;
-    cds_cliRG: TStringField;
-    cds_cliTELEFONE: TStringField;
-    cds_cliCEP: TStringField;
-    cds_cliBAIRRO: TStringField;
     sds_Mov_Det: TSQLDataSet;
     dsp_Mov_det: TDataSetProvider;
     cds_Mov_det: TClientDataSet;
@@ -420,17 +396,6 @@ type
     sdsETotal: TSQLDataSet;
     sPrazo: TSQLDataSet;
     sPrazoPRAZORECEBIMENTO: TSmallintField;
-    cdsLotesMem: TClientDataSet;
-    cdsLotesMemCODPRO: TStringField;
-    cdsLotesMemLOTE: TStringField;
-    cdsLotesMemESTOQUE: TFloatField;
-    cdsLotesMem2: TClientDataSet;
-    cdsLotesMem2CODPRO: TStringField;
-    cdsLotesMem2LOTE: TStringField;
-    cdsLotesMem2ESTOQUE: TFloatField;
-    sds_proc: TSQLDataSet;
-    sds_procCODPRODUTO: TIntegerField;
-    sds_procTIPO: TStringField;
     dsp: TDataSetProvider;
     sds: TSQLDataSet;
     sdsCODPRO: TStringField;
@@ -541,12 +506,6 @@ type
     cds_fornDDD: TSmallintField;
     cds_fornTELEFONE: TStringField;
     cds_fornUF: TStringField;
-    sds_cliLOGRADOURO: TStringField;
-    sds_cliBLOQUEIO: TStringField;
-    cds_cliLOGRADOURO: TStringField;
-    cds_cliBLOQUEIO: TStringField;
-    sds_cliSTATUS: TSmallintField;
-    cds_cliSTATUS: TSmallintField;
     sds_MovimentoCODMOVIMENTO: TIntegerField;
     sds_MovimentoDATAMOVIMENTO: TDateField;
     sds_MovimentoCODCLIENTE: TIntegerField;
@@ -674,8 +633,41 @@ type
     cds_MovimentoNFCOBRANCA: TIntegerField;
     cds_MovimentoORDEMATEND: TIntegerField;
     cds_MovimentoNFREVENDA: TIntegerField;
-    DBComboBox2: TDBComboBox;
     sFornecedor: TSQLDataSet;
+    ComboBox1: TComboBox;
+    scds_cliente_proc: TSQLDataSet;
+    scds_cliente_procCODCLIENTE: TIntegerField;
+    scds_cliente_procNOMECLIENTE: TStringField;
+    scds_cliente_procRAZAOSOCIAL: TStringField;
+    scds_cliente_procCODBANCO: TSmallintField;
+    scds_cliente_procPRAZORECEBIMENTO: TSmallintField;
+    scds_cliente_procOBS: TStringField;
+    scds_cliente_procSEGMENTO: TSmallintField;
+    scds_cliente_procSTATUS: TSmallintField;
+    scds_cliente_procNOMEUSUARIO: TStringField;
+    scds_cliente_procUF: TStringField;
+    scds_cliente_procCODUSUARIO: TIntegerField;
+    scds_cliente_procBLOQUEIO: TStringField;
+    scds_cliente_procCNPJ: TStringField;
+    scds_cliente_procCIDADE: TStringField;
+    scds_cliente_procLOGRADOURO: TStringField;
+    scds_cliente_procDDD: TStringField;
+    scds_cliente_procRG: TStringField;
+    scds_cliente_procTELEFONE: TStringField;
+    scds_cliente_procCEP: TStringField;
+    scds_cliente_procBAIRRO: TStringField;
+    scds_prod_proc: TSQLDataSet;
+    scds_prod_procCODPRO: TStringField;
+    scds_prod_procCODPRODUTO: TIntegerField;
+    scds_prod_procPRODUTO: TStringField;
+    scds_prod_procCODALMOXARIFADO: TIntegerField;
+    scds_prod_procVALOR_PRAZO: TFloatField;
+    scds_prod_procQTDE_PCT: TFloatField;
+    scds_prod_procCONTA_DESPESA: TStringField;
+    scds_prod_procLOCALIZACAO: TStringField;
+    scds_prod_procUNIDADEMEDIDA: TStringField;
+    scds_prod_procVALORUNITARIOATUAL: TFloatField;
+    scds_prod_procUSALOTE: TStringField;
     sFornecedorCODFORNECEDOR: TIntegerField;
     sFornecedorNOMEFORNECEDOR: TStringField;
     sFornecedorRAZAOSOCIAL: TStringField;
@@ -695,8 +687,44 @@ type
     sFornecedorPRAZOPAGAMENTO: TSmallintField;
     sFornecedorPRAZOENTREGA: TSmallintField;
     sFornecedorCONTA_FORNECEDOR: TStringField;
-    ComboBox1: TComboBox;
-    Edit1: TEdit;
+    sFornecedorCODENDERECO: TIntegerField;
+    sFornecedorCODFORNECEDOR_1: TIntegerField;
+    sFornecedorLOGRADOURO: TStringField;
+    sFornecedorBAIRRO: TStringField;
+    sFornecedorCOMPLEMENTO: TStringField;
+    sFornecedorCIDADE: TStringField;
+    sFornecedorUF: TStringField;
+    sFornecedorCEP: TStringField;
+    sFornecedorDDD: TSmallintField;
+    sFornecedorTELEFONE: TStringField;
+    sFornecedorTELEFONE1: TStringField;
+    sFornecedorTELEFONE2: TStringField;
+    sFornecedorFAX: TStringField;
+    sFornecedorE_MAIL: TStringField;
+    sFornecedorRAMAL: TStringField;
+    sFornecedorTIPOEND: TSmallintField;
+    sFornecedorDADOSADICIONAIS: TStringField;
+    ComboBox2: TComboBox;
+    SForn: TSQLDataSet;
+    SFornCODFORNECEDOR: TIntegerField;
+    SFornNOMEFORNECEDOR: TStringField;
+    SFornRAZAOSOCIAL: TStringField;
+    SFornCONTATO: TStringField;
+    SFornTIPOFIRMA: TSmallintField;
+    SFornCPF: TStringField;
+    SFornCNPJ: TStringField;
+    SFornINSCESTADUAL: TStringField;
+    SFornRG: TStringField;
+    SFornSEGMENTO: TSmallintField;
+    SFornREGIAO: TSmallintField;
+    SFornLIMITECREDITO: TFloatField;
+    SFornDATACADASTRO: TDateField;
+    SFornCODUSUARIO: TIntegerField;
+    SFornSTATUS: TSmallintField;
+    SFornHOMEPAGE: TStringField;
+    SFornPRAZOPAGAMENTO: TSmallintField;
+    SFornPRAZOENTREGA: TSmallintField;
+    SFornCONTA_FORNECEDOR: TStringField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -718,7 +746,12 @@ type
     procedure DBEdit11Exit(Sender: TObject);
     procedure DBEdit17Exit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Edit1Exit(Sender: TObject);
+    procedure DBEdit30Exit(Sender: TObject);
+    procedure ComboBox2KeyPress(Sender: TObject; var Key: Char);
+    procedure ComboBox2Exit(Sender: TObject);
+    procedure DBEdit11KeyPress(Sender: TObject; var Key: Char);
+    procedure DBEdit17KeyPress(Sender: TObject; var Key: Char);
+    procedure DBEdit30KeyPress(Sender: TObject; var Key: Char);
   private
     modo :string;
     function Verifica_Campos_Em_Branco: Boolean;
@@ -876,6 +909,20 @@ inherited;
   end;
   if DtSrc1.DataSet.State in [dsBrowse] then
       DtSrc1.DataSet.Append;
+
+  ComboBox2.Items.Clear;
+  if sForn.Active then
+    sForn.Close;
+  sForn.Open;
+  sForn.First;
+  while not sForn.Eof do
+  begin
+    ComboBox2.Items.Add(SFornRAZAOSOCIAL.AsString);
+    sForn.Next;
+  end;
+
+
+
 
 end;
 
@@ -1162,7 +1209,7 @@ begin
     cds_forn.Params[0].AsInteger := StrToInt(DBEdit1.Text);
     cds_forn.Open;
     if cds_forn.IsEmpty then begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
@@ -1174,7 +1221,7 @@ begin
     cds_MovimentoDDFORN.AsString := cds_fornDDD.AsString;
     cds_MovimentoUFFORN.AsString := cds_fornUF.AsString;
 
-    DBComboBox2.Text := cds_fornRAZAOSOCIAL.AsString;
+    ComboBox2.Text := cds_fornRAZAOSOCIAL.AsString;
     dbEdit6.Text := cds_fornCNPJ.AsString;
     dbEdit7.Text := cds_fornCIDADE.AsString;
     dbEdit8.Text := cds_fornUF.AsString;
@@ -1192,7 +1239,7 @@ begin
     cds_forn.Open;
     if cds_forn.IsEmpty then
     begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
@@ -1204,7 +1251,7 @@ begin
     cds_MovimentoDDFORN.AsString := cds_fornDDD.AsString;
     cds_MovimentoUFFORN.AsString := cds_fornUF.AsString;
 
-    DBComboBox2.Text := cds_fornRAZAOSOCIAL.AsString;
+    ComboBox2.Text := cds_fornRAZAOSOCIAL.AsString;
     dbEdit6.Text := cds_fornCNPJ.AsString;
     dbEdit7.Text := cds_fornCIDADE.AsString;
     dbEdit8.Text := cds_fornUF.AsString;
@@ -1221,77 +1268,80 @@ begin
   inherited;
   if (dtsrc.State in [dsInsert, dsEdit]) then
   begin
-    if (DBEdit11.Text = '') then
+   if dbedit11.Text = '' then
+     exit;
+   if scds_cliente_proc.Active then
+      scds_cliente_proc.Close;
+   scds_cliente_proc.Params[0].Clear;
+   scds_cliente_proc.Params[1].Clear;
+   scds_cliente_proc.Params[2].AsInteger := StrToInt(dbedit11.Text);
+   scds_cliente_proc.Open;
+    if scds_cliente_proc.IsEmpty then
     begin
-      exit;
-    end;
-    if scds_cli.Active then
-      scds_cli.Close;
-    scds_cli.Params[0].Clear;
-    scds_cli.Params[0].AsInteger:=StrToInt(DBEdit11.Text);
-    scds_cli.Open;
-    if cds_cli.IsEmpty then
-    begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
-    cds_MovimentoCODREV.AsInteger := scds_cliCODCLIENTE.AsInteger;
-    cds_MovimentoRAZREV.AsString := scds_cliNOMECLIENTE.AsString;
-    cds_MovimentoCIDADEREV.AsString := scds_cliCIDADE.AsString;
-    cds_MovimentoUFREV.AsString := scds_cliUF.AsString;
+    cds_MovimentoCODREV.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoRAZREV.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADEREV.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFREV.AsString := scds_cliente_procUF.AsString;
 
-    DBEdit12.Text := scds_cliNOMECLIENTE.AsString;
-    DBEdit13.Text := scds_cliCIDADE.AsString;
-    DBEdit14.Text := scds_cliUF.AsString;
-    scds_cli.Close;
+    DBEdit12.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit13.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit14.Text := scds_cliente_procUF.AsString;
+//    scds_cliente_proc.Close;
 
-  if cds_cliBLOQUEIO.AsString = 'S' then
+  if scds_cliente_procBLOQUEIO.AsString = 'S' then
     begin
       MessageDlg('Revendedor com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
       cds_Movimento.Cancel;
       exit;
     end;
-    cds_MovimentoCODREV.AsInteger := scds_cliCODCLIENTE.AsInteger;
-    cds_MovimentoRAZREV.AsString := scds_cliNOMECLIENTE.AsString;
-    cds_MovimentoCIDADEREV.AsString := scds_cliCIDADE.AsString;
-    cds_MovimentoUFREV.AsString := scds_cliUF.AsString;
+    cds_MovimentoCODREV.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoRAZREV.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADEREV.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFREV.AsString := scds_cliente_procUF.AsString;
 
-    DBEdit12.Text := scds_cliNOMECLIENTE.AsString;
-    DBEdit13.Text := scds_cliCIDADE.AsString;
-    DBEdit14.Text := scds_cliUF.AsString;
-    cds_cli.Close;
+    DBEdit12.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit13.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit14.Text := scds_cliente_procUF.AsString;
+    scds_cliente_proc.Close;
 
   end
   else
   if DBEdit11.Field.OldValue<>DBEdit11.Field.NewValue then
   begin
-    if scds_cli.Active then
-      scds_cli.Close;
-    scds_cli.Params[0].AsInteger := StrToInt(DBEdit11.Text);
-    scds_cli.Open;
-    if scds_cli.IsEmpty then
+   if dbedit11.Text = '' then
+     exit;
+   if scds_cliente_proc.Active then
+      scds_cliente_proc.Close;
+   scds_cliente_proc.Params[0].Clear;
+   scds_cliente_proc.Params[1].Clear;
+   scds_cliente_proc.Params[2].AsInteger := StrToInt(dbedit11.Text);
+   scds_cliente_proc.Open;
+    if scds_cliente_proc.IsEmpty then
     begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
-    if scds_cliSTATUS.AsInteger = 2 then
+    if scds_cliente_procSTATUS.AsInteger = 2 then
     begin
       MessageDlg('Revendedor com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
       exit;
     end;
 
-    cds_MovimentoCODREV.AsInteger := scds_cliCODCLIENTE.AsInteger;
-    cds_MovimentoRAZREV.AsString := scds_cliNOMECLIENTE.AsString;
-    cds_MovimentoCIDADEREV.AsString := scds_cliCIDADE.AsString;
-    cds_MovimentoUFREV.AsString := scds_cliUF.AsString;
+    cds_MovimentoCODREV.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoRAZREV.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADEREV.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFREV.AsString := scds_cliente_procUF.AsString;
 
-    DBEdit12.Text := scds_cliNOMECLIENTE.AsString;
-    DBEdit13.Text := scds_cliCIDADE.AsString;
-    DBEdit14.Text := scds_cliUF.AsString;
+    DBEdit12.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit13.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit14.Text := scds_cliente_procUF.AsString;
 
-    scds_cli.Close;
+    scds_cliente_proc.Close;
     end;
 
 end;
@@ -1301,121 +1351,123 @@ begin
 inherited;
   if (dtsrc.State in [dsInsert, dsEdit]) then
   begin
-    if (DBEdit17.Text = '') then
+   if dbedit17.Text = '' then
+     exit;
+   if scds_cliente_proc.Active then
+      scds_cliente_proc.Close;
+   scds_cliente_proc.Params[0].Clear;
+   scds_cliente_proc.Params[1].Clear;
+   scds_cliente_proc.Params[2].AsInteger := StrToInt(dbedit17.Text);
+   scds_cliente_proc.Open;
+
+   if scds_cliente_proc.IsEmpty then
     begin
-      exit;
-    end;
-    if cds_cli.Active then
-    cds_cli.Close;
-    cds_cli.Params[0].AsInteger := StrToInt(DBEdit17.Text);
-    cds_cli.Open;
-    if cds_cli.IsEmpty then begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
-    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
-    cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
-    cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoCNPJCONS.AsString := cds_cliCNPJ.AsString;
-    cds_MovimentoTELCONS.AsString := cds_cliTELEFONE.AsString;
-    cds_MovimentoENDCONS.AsString := cds_cliLOGRADOURO.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoBAIRROCONS.AsString := cds_cliBAIRRO.AsString;
-    cds_MovimentoCEPCONS.AsString := cds_cliCEP.AsString;
+    cds_MovimentoCODCONS.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoNOMECONS.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADECONS.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFCONS.AsString := scds_cliente_procUF.AsString;
+    cds_MovimentoCNPJCONS.AsString := scds_cliente_procCNPJ.AsString;
+    cds_MovimentoTELCONS.AsString := scds_cliente_procTELEFONE.AsString;
+    cds_MovimentoENDCONS.AsString := scds_cliente_procLOGRADOURO.AsString;
+    cds_MovimentoBAIRROCONS.AsString := scds_cliente_procBAIRRO.AsString;
+    cds_MovimentoCEPCONS.AsString := scds_cliente_procCEP.AsString;
 
-    DBEdit18.Text := cds_cliNOMECLIENTE.AsString;
-    DBEdit19.Text := cds_cliCNPJ.AsString;
-    DBEdit20.Text := cds_cliTELEFONE.AsString;
-    DBEdit21.Text := cds_cliLOGRADOURO.AsString;
-    DBEdit22.Text := cds_cliUF.AsString;
-    DBEdit23.Text := cds_cliBAIRRO.AsString;
-    DBEdit24.Text := cds_cliCIDADE.AsString;
-    DBEdit25.Text := cds_cliCEP.AsString;
-    cds_cli.Close;
+    DBEdit18.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit19.Text := scds_cliente_procCNPJ.AsString;
+    DBEdit20.Text := scds_cliente_procTELEFONE.AsString;
+    DBEdit21.Text := scds_cliente_procLOGRADOURO.AsString;
+    DBEdit22.Text := scds_cliente_procUF.AsString;
+    DBEdit23.Text := scds_cliente_procBAIRRO.AsString;
+    DBEdit24.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit25.Text := scds_cliente_procCEP.AsString;
+    //scds_cliente_proc.Close;
 
-  if cds_cliBLOQUEIO.AsString = 'S' then
+  if scds_cliente_procBLOQUEIO.AsString = 'S' then
     begin
       MessageDlg('Revendedor com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
       cds_Movimento.Cancel;
       exit;
     end;
-    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
-    cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
-    cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoCNPJCONS.AsString := cds_cliCNPJ.AsString;
-    cds_MovimentoTELCONS.AsString := cds_cliTELEFONE.AsString;
-    cds_MovimentoENDCONS.AsString := cds_cliLOGRADOURO.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoBAIRROCONS.AsString := cds_cliBAIRRO.AsString;
-    cds_MovimentoCEPCONS.AsString := cds_cliCEP.AsString;
+    cds_MovimentoCODCONS.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoNOMECONS.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADECONS.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFCONS.AsString := scds_cliente_procUF.AsString;
+    cds_MovimentoCNPJCONS.AsString := scds_cliente_procCNPJ.AsString;
+    cds_MovimentoTELCONS.AsString := scds_cliente_procTELEFONE.AsString;
+    cds_MovimentoENDCONS.AsString := scds_cliente_procLOGRADOURO.AsString;
+    cds_MovimentoBAIRROCONS.AsString := scds_cliente_procBAIRRO.AsString;
+    cds_MovimentoCEPCONS.AsString := scds_cliente_procCEP.AsString;
 
-    DBEdit18.Text := cds_cliNOMECLIENTE.AsString;
-    DBEdit19.Text := cds_cliCNPJ.AsString;
-    DBEdit20.Text := cds_cliTELEFONE.AsString;
-    DBEdit21.Text := cds_cliLOGRADOURO.AsString;
-    DBEdit22.Text := cds_cliUF.AsString;
-    DBEdit23.Text := cds_cliBAIRRO.AsString;
-    DBEdit24.Text := cds_cliCIDADE.AsString;
-    DBEdit25.Text := cds_cliCEP.AsString;
-    cds_cli.Close;
+    DBEdit18.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit19.Text := scds_cliente_procCNPJ.AsString;
+    DBEdit20.Text := scds_cliente_procTELEFONE.AsString;
+    DBEdit21.Text := scds_cliente_procLOGRADOURO.AsString;
+    DBEdit22.Text := scds_cliente_procUF.AsString;
+    DBEdit23.Text := scds_cliente_procBAIRRO.AsString;
+    DBEdit24.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit25.Text := scds_cliente_procCEP.AsString;
+    scds_cliente_proc.Close;
 
   end
   else
   if DBEdit17.Field.OldValue<>DBEdit17.Field.NewValue then
   begin
-    if cds_cli.Active then
-      cds_cli.Close;
-    cds_cli.Params[0].AsInteger := StrToInt(DBEdit17.Text);
-    cds_cli.Open;
-    if cds_cli.IsEmpty then
+    if scds_cliente_proc.Active then
+       scds_cliente_proc.Close;
+    scds_cliente_proc.Params[0].Clear;
+    scds_cliente_proc.Params[1].Clear;
+    scds_cliente_proc.Params[2].AsInteger := StrToInt(dbedit17.Text);
+    scds_cliente_proc.Open;
+    if scds_cliente_proc.IsEmpty then
     begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
-    if cds_cliSTATUS.AsInteger = 2 then
+    if scds_cliente_procSTATUS.AsInteger = 2 then
     begin
       MessageDlg('Revendedor com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
       exit;
     end;
 
-    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
-    cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
-    cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoCNPJCONS.AsString := cds_cliCNPJ.AsString;
-    cds_MovimentoTELCONS.AsString := cds_cliTELEFONE.AsString;
-    cds_MovimentoENDCONS.AsString := cds_cliLOGRADOURO.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoBAIRROCONS.AsString := cds_cliBAIRRO.AsString;
-    cds_MovimentoCEPCONS.AsString := cds_cliCEP.AsString;
+    cds_MovimentoCODCONS.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoNOMECONS.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADECONS.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFCONS.AsString := scds_cliente_procUF.AsString;
+    cds_MovimentoCNPJCONS.AsString := scds_cliente_procCNPJ.AsString;
+    cds_MovimentoTELCONS.AsString := scds_cliente_procTELEFONE.AsString;
+    cds_MovimentoENDCONS.AsString := scds_cliente_procLOGRADOURO.AsString;
+    cds_MovimentoBAIRROCONS.AsString := scds_cliente_procBAIRRO.AsString;
+    cds_MovimentoCEPCONS.AsString := scds_cliente_procCEP.AsString;
 
-    DBEdit18.Text := cds_cliNOMECLIENTE.AsString;
-    DBEdit19.Text := cds_cliCNPJ.AsString;
-    DBEdit20.Text := cds_cliTELEFONE.AsString;
-    DBEdit21.Text := cds_cliLOGRADOURO.AsString;
-    DBEdit22.Text := cds_cliUF.AsString;
-    DBEdit23.Text := cds_cliBAIRRO.AsString;
-    DBEdit24.Text := cds_cliCIDADE.AsString;
-    DBEdit25.Text := cds_cliCEP.AsString;
-
-    cds_cli.Close;
+    DBEdit18.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit19.Text := scds_cliente_procCNPJ.AsString;
+    DBEdit20.Text := scds_cliente_procTELEFONE.AsString;
+    DBEdit21.Text := scds_cliente_procLOGRADOURO.AsString;
+    DBEdit22.Text := scds_cliente_procUF.AsString;
+    DBEdit23.Text := scds_cliente_procBAIRRO.AsString;
+    DBEdit24.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit25.Text := scds_cliente_procCEP.AsString;
+    scds_cliente_proc.Close;
     end;
 end;
 
 procedure TfOrdemAssistencia.FormCreate(Sender: TObject);
 begin
-  DBComboBox2.Items.Clear;
-  if (not sFornecedor.Active) then
-     sFornecedor.Open;
-  sFornecedor.First;
-  while not sFornecedor.Eof do
+
+  ComboBox2.Items.Clear;
+  if sForn.Active then
+    sForn.Close;
+  sForn.Open;
+  sForn.First;
+  while not sForn.Eof do
   begin
-    DBComboBox2.Items.Add(sFornecedorRAZAOSOCIAL.AsString);
-    sFornecedor.Next;
+    ComboBox2.Items.Add(SFornRAZAOSOCIAL.AsString);
+    sForn.Next;
   end;
 
   if cds_Movimento.Active then
@@ -1432,76 +1484,334 @@ begin
 
 end;
 
-procedure TfOrdemAssistencia.Edit1Exit(Sender: TObject);
+procedure TfOrdemAssistencia.DBEdit30Exit(Sender: TObject);
 begin
-if (dtsrc.State in [dsInsert, dsEdit]) then
+inherited;
+  if (dtsrc.State in [dsInsert, dsEdit]) then
   begin
-    if (Edit1.Text = '') then
+   if dbedit30.Text = '' then
+     exit;
+   if scds_prod_proc.Active then
+      scds_prod_proc.Close;
+   scds_prod_proc.Params[0].AsInteger := StrToInt(DBEdit30.Text);
+   scds_prod_proc.Open;
+    if scds_prod_proc.IsEmpty then
     begin
-      exit;
-    end;
-    if cds_cli.Active then
-    cds_cli.Close;
-    cds_cli.Params[0].AsInteger := StrToInt(Edit1.Text);
-    cds_cli.Open;
-    if cds_cli.IsEmpty then begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
-    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
-    cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
-    cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoCNPJCONS.AsString := cds_cliCNPJ.AsString;
-    cds_MovimentoTELCONS.AsString := cds_cliTELEFONE.AsString;
-    cds_MovimentoENDCONS.AsString := cds_cliLOGRADOURO.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoBAIRROCONS.AsString := cds_cliBAIRRO.AsString;
-    cds_MovimentoCEPCONS.AsString := cds_cliCEP.AsString;
+    cds_Mov_detCODPRODUTO.AsInteger := scds_prod_procCODPRO.AsInteger;
+    cds_Mov_detDESCPRODUTO.AsString := scds_prod_procPRODUTO.AsString;
+    cds_Mov_detPRECO.AsFloat := scds_prod_procVALORUNITARIOATUAL.AsFloat;
 
-    DBEdit18.Text := cds_cliNOMECLIENTE.AsString;
-    DBEdit19.Text := cds_cliCNPJ.AsString;
-    DBEdit20.Text := cds_cliTELEFONE.AsString;
-    DBEdit21.Text := cds_cliLOGRADOURO.AsString;
-    DBEdit22.Text := cds_cliUF.AsString;
-    DBEdit23.Text := cds_cliBAIRRO.AsString;
-    DBEdit24.Text := cds_cliCIDADE.AsString;
-    DBEdit25.Text := cds_cliCEP.AsString;
-    cds_cli.Close;
+    DBEdit31.Text := scds_prod_procPRODUTO.AsString;
+    DBEdit32.Text := FloatToStr(scds_prod_procVALORUNITARIOATUAL.AsFloat);
+    scds_prod_proc.Close;
 
-  if cds_cliBLOQUEIO.AsString = 'S' then
+
+  if DBEdit11.Field.OldValue<>DBEdit11.Field.NewValue then
+  begin
+   if dbedit30.Text = '' then
+     exit;
+   if scds_prod_proc.Active then
+      scds_prod_proc.Close;
+   scds_prod_proc.Params[0].AsInteger := StrToInt(DBEdit30.Text);
+   scds_prod_proc.Open;
+   if scds_prod_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cds_Mov_detCODPRODUTO.AsInteger := scds_prod_procCODPRO.AsInteger;
+    cds_Mov_detDESCPRODUTO.AsString := scds_prod_procPRODUTO.AsString;
+    cds_Mov_detPRECO.AsFloat := scds_prod_procVALORUNITARIOATUAL.AsFloat;
+
+    DBEdit31.Text := scds_prod_procPRODUTO.AsString;
+    DBEdit32.Text := FloatToStr(scds_prod_procVALORUNITARIOATUAL.AsFloat);
+    scds_prod_proc.Close;
+   end;
+ end;
+end;
+
+procedure TfOrdemAssistencia.ComboBox2KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if (DtSrc.State in [dsInsert]) then
+  begin
+    if sFornecedor.Active then
+      sFornecedor.Close;
+    sFornecedor.Params[0].AsString := ComboBox2.Text;
+    sFornecedor.Open;
+    DBEdit1.Text := IntToStr(sFornecedorCODFORNECEDOR.AsInteger);
+    DBEdit6.Text := sFornecedorCNPJ.AsString;
+    DBEdit7.Text := sFornecedorCIDADE.AsString;
+    DBEdit8.Text := sFornecedorUF.AsString;
+    DBEdit9.Text := IntToStr(sFornecedorDDD.AsInteger);
+    DBEdit10.Text := sFornecedorTELEFONE.AsString;
+  end;
+end;
+
+procedure TfOrdemAssistencia.ComboBox2Exit(Sender: TObject);
+begin
+  if (DtSrc.State in [dsInsert]) then
+  begin
+    if sFornecedor.Active then
+      sFornecedor.Close;
+    sFornecedor.Params[0].AsString := ComboBox2.Text;
+    sFornecedor.Open;
+    DBEdit1.Text := IntToStr(sFornecedorCODFORNECEDOR.AsInteger);
+    DBEdit6.Text := sFornecedorCNPJ.AsString;
+    DBEdit7.Text := sFornecedorCIDADE.AsString;
+    DBEdit8.Text := sFornecedorUF.AsString;
+    DBEdit9.Text := IntToStr(sFornecedorDDD.AsInteger);
+    DBEdit10.Text := sFornecedorTELEFONE.AsString;
+  end;
+end;
+
+procedure TfOrdemAssistencia.DBEdit11KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+inherited;
+  if (dtsrc.State in [dsInsert, dsEdit]) then
+  begin
+   if dbedit11.Text = '' then
+     exit;
+   if scds_cliente_proc.Active then
+      scds_cliente_proc.Close;
+   scds_cliente_proc.Params[0].Clear;
+   scds_cliente_proc.Params[1].Clear;
+   scds_cliente_proc.Params[2].AsInteger := StrToInt(dbedit11.Text);
+   scds_cliente_proc.Open;
+    if scds_cliente_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cds_MovimentoCODREV.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoRAZREV.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADEREV.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFREV.AsString := scds_cliente_procUF.AsString;
+
+    DBEdit12.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit13.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit14.Text := scds_cliente_procUF.AsString;
+//    scds_cliente_proc.Close;
+
+  if scds_cliente_procBLOQUEIO.AsString = 'S' then
     begin
       MessageDlg('Revendedor com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
       cds_Movimento.Cancel;
       exit;
     end;
-    cds_MovimentoCODCONS.AsInteger := cds_cliCODCLIENTE.AsInteger;
-    cds_MovimentoNOMECONS.AsString := cds_cliNOMECLIENTE.AsString;
-    cds_MovimentoCIDADECONS.AsString := cds_cliCIDADE.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoCNPJCONS.AsString := cds_cliCNPJ.AsString;
-    cds_MovimentoTELCONS.AsString := cds_cliTELEFONE.AsString;
-    cds_MovimentoENDCONS.AsString := cds_cliLOGRADOURO.AsString;
-    cds_MovimentoUFCONS.AsString := cds_cliUF.AsString;
-    cds_MovimentoBAIRROCONS.AsString := cds_cliBAIRRO.AsString;
-    cds_MovimentoCEPCONS.AsString := cds_cliCEP.AsString;
+    cds_MovimentoCODREV.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoRAZREV.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADEREV.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFREV.AsString := scds_cliente_procUF.AsString;
 
-    DBEdit18.Text := cds_cliNOMECLIENTE.AsString;
-    DBEdit19.Text := cds_cliCNPJ.AsString;
-    DBEdit20.Text := cds_cliTELEFONE.AsString;
-    DBEdit21.Text := cds_cliLOGRADOURO.AsString;
-    DBEdit22.Text := cds_cliUF.AsString;
-    DBEdit23.Text := cds_cliBAIRRO.AsString;
-    DBEdit24.Text := cds_cliCIDADE.AsString;
-    DBEdit25.Text := cds_cliCEP.AsString;
-    cds_cli.Close;
+    DBEdit12.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit13.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit14.Text := scds_cliente_procUF.AsString;
+    scds_cliente_proc.Close;
 
-  end;
+  end
+  else
+  if DBEdit11.Field.OldValue<>DBEdit11.Field.NewValue then
+  begin
+   if dbedit11.Text = '' then
+     exit;
+   if scds_cliente_proc.Active then
+      scds_cliente_proc.Close;
+   scds_cliente_proc.Params[0].Clear;
+   scds_cliente_proc.Params[1].Clear;
+   scds_cliente_proc.Params[2].AsInteger := StrToInt(dbedit11.Text);
+   scds_cliente_proc.Open;
+    if scds_cliente_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    if scds_cliente_procSTATUS.AsInteger = 2 then
+    begin
+      MessageDlg('Revendedor com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+      exit;
+    end;
 
+    cds_MovimentoCODREV.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoRAZREV.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADEREV.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFREV.AsString := scds_cliente_procUF.AsString;
+
+    DBEdit12.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit13.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit14.Text := scds_cliente_procUF.AsString;
+
+    scds_cliente_proc.Close;
+    end;
+end;
+
+procedure TfOrdemAssistencia.DBEdit17KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if (dtsrc.State in [dsInsert, dsEdit]) then
+  begin
+   if dbedit17.Text = '' then
+     exit;
+   if scds_cliente_proc.Active then
+      scds_cliente_proc.Close;
+   scds_cliente_proc.Params[0].Clear;
+   scds_cliente_proc.Params[1].Clear;
+   scds_cliente_proc.Params[2].AsInteger := StrToInt(dbedit17.Text);
+   scds_cliente_proc.Open;
+
+   if scds_cliente_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cds_MovimentoCODCONS.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoNOMECONS.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADECONS.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFCONS.AsString := scds_cliente_procUF.AsString;
+    cds_MovimentoCNPJCONS.AsString := scds_cliente_procCNPJ.AsString;
+    cds_MovimentoTELCONS.AsString := scds_cliente_procTELEFONE.AsString;
+    cds_MovimentoENDCONS.AsString := scds_cliente_procLOGRADOURO.AsString;
+    cds_MovimentoBAIRROCONS.AsString := scds_cliente_procBAIRRO.AsString;
+    cds_MovimentoCEPCONS.AsString := scds_cliente_procCEP.AsString;
+
+    DBEdit18.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit19.Text := scds_cliente_procCNPJ.AsString;
+    DBEdit20.Text := scds_cliente_procTELEFONE.AsString;
+    DBEdit21.Text := scds_cliente_procLOGRADOURO.AsString;
+    DBEdit22.Text := scds_cliente_procUF.AsString;
+    DBEdit23.Text := scds_cliente_procBAIRRO.AsString;
+    DBEdit24.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit25.Text := scds_cliente_procCEP.AsString;
+    //scds_cliente_proc.Close;
+
+  if scds_cliente_procBLOQUEIO.AsString = 'S' then
+    begin
+      MessageDlg('Revendedor com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
+      cds_Movimento.Cancel;
+      exit;
+    end;
+    cds_MovimentoCODCONS.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoNOMECONS.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADECONS.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFCONS.AsString := scds_cliente_procUF.AsString;
+    cds_MovimentoCNPJCONS.AsString := scds_cliente_procCNPJ.AsString;
+    cds_MovimentoTELCONS.AsString := scds_cliente_procTELEFONE.AsString;
+    cds_MovimentoENDCONS.AsString := scds_cliente_procLOGRADOURO.AsString;
+    cds_MovimentoBAIRROCONS.AsString := scds_cliente_procBAIRRO.AsString;
+    cds_MovimentoCEPCONS.AsString := scds_cliente_procCEP.AsString;
+
+    DBEdit18.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit19.Text := scds_cliente_procCNPJ.AsString;
+    DBEdit20.Text := scds_cliente_procTELEFONE.AsString;
+    DBEdit21.Text := scds_cliente_procLOGRADOURO.AsString;
+    DBEdit22.Text := scds_cliente_procUF.AsString;
+    DBEdit23.Text := scds_cliente_procBAIRRO.AsString;
+    DBEdit24.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit25.Text := scds_cliente_procCEP.AsString;
+    scds_cliente_proc.Close;
+
+  end
+  else
+  if DBEdit17.Field.OldValue<>DBEdit17.Field.NewValue then
+  begin
+    if scds_cliente_proc.Active then
+       scds_cliente_proc.Close;
+    scds_cliente_proc.Params[0].Clear;
+    scds_cliente_proc.Params[1].Clear;
+    scds_cliente_proc.Params[2].AsInteger := StrToInt(dbedit17.Text);
+    scds_cliente_proc.Open;
+    if scds_cliente_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    if scds_cliente_procSTATUS.AsInteger = 2 then
+    begin
+      MessageDlg('Revendedor com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+      exit;
+    end;
+
+    cds_MovimentoCODCONS.AsInteger := scds_cliente_procCODCLIENTE.AsInteger;
+    cds_MovimentoNOMECONS.AsString := scds_cliente_procNOMECLIENTE.AsString;
+    cds_MovimentoCIDADECONS.AsString := scds_cliente_procCIDADE.AsString;
+    cds_MovimentoUFCONS.AsString := scds_cliente_procUF.AsString;
+    cds_MovimentoCNPJCONS.AsString := scds_cliente_procCNPJ.AsString;
+    cds_MovimentoTELCONS.AsString := scds_cliente_procTELEFONE.AsString;
+    cds_MovimentoENDCONS.AsString := scds_cliente_procLOGRADOURO.AsString;
+    cds_MovimentoBAIRROCONS.AsString := scds_cliente_procBAIRRO.AsString;
+    cds_MovimentoCEPCONS.AsString := scds_cliente_procCEP.AsString;
+
+    DBEdit18.Text := scds_cliente_procNOMECLIENTE.AsString;
+    DBEdit19.Text := scds_cliente_procCNPJ.AsString;
+    DBEdit20.Text := scds_cliente_procTELEFONE.AsString;
+    DBEdit21.Text := scds_cliente_procLOGRADOURO.AsString;
+    DBEdit22.Text := scds_cliente_procUF.AsString;
+    DBEdit23.Text := scds_cliente_procBAIRRO.AsString;
+    DBEdit24.Text := scds_cliente_procCIDADE.AsString;
+    DBEdit25.Text := scds_cliente_procCEP.AsString;
+    scds_cliente_proc.Close;
+    end;
+end;
+
+procedure TfOrdemAssistencia.DBEdit30KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if (dtsrc.State in [dsInsert, dsEdit]) then
+  begin
+   if dbedit30.Text = '' then
+     exit;
+   if scds_prod_proc.Active then
+      scds_prod_proc.Close;
+   scds_prod_proc.Params[0].AsInteger := StrToInt(DBEdit30.Text);
+   scds_prod_proc.Open;
+    if scds_prod_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cds_Mov_detCODPRODUTO.AsInteger := scds_prod_procCODPRO.AsInteger;
+    cds_Mov_detDESCPRODUTO.AsString := scds_prod_procPRODUTO.AsString;
+    cds_Mov_detPRECO.AsFloat := scds_prod_procVALORUNITARIOATUAL.AsFloat;
+
+    DBEdit31.Text := scds_prod_procPRODUTO.AsString;
+    DBEdit32.Text := FloatToStr(scds_prod_procVALORUNITARIOATUAL.AsFloat);
+    scds_prod_proc.Close;
+
+
+  if DBEdit11.Field.OldValue<>DBEdit11.Field.NewValue then
+  begin
+   if dbedit30.Text = '' then
+     exit;
+   if scds_prod_proc.Active then
+      scds_prod_proc.Close;
+   scds_prod_proc.Params[0].AsInteger := StrToInt(DBEdit30.Text);
+   scds_prod_proc.Open;
+   if scds_prod_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cds_Mov_detCODPRODUTO.AsInteger := scds_prod_procCODPRO.AsInteger;
+    cds_Mov_detDESCPRODUTO.AsString := scds_prod_procPRODUTO.AsString;
+    cds_Mov_detPRECO.AsFloat := scds_prod_procVALORUNITARIOATUAL.AsFloat;
+
+    DBEdit31.Text := scds_prod_procPRODUTO.AsString;
+    DBEdit32.Text := FloatToStr(scds_prod_procVALORUNITARIOATUAL.AsFloat);
+    scds_prod_proc.Close;
+   end;
+ end;
 end;
 
 end.
-
-
-
