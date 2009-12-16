@@ -810,15 +810,15 @@ object fOrdemAssistencia: TfOrdemAssistencia
       ParentFont = False
       TabOrder = 8
     end
-    object DBComboBox2: TDBComboBox
-      Left = 64
+    object ComboBox2: TComboBox
+      Left = 63
       Top = 26
-      Width = 334
+      Width = 336
       Height = 21
-      DataField = 'RAZFORN'
-      DataSource = DtSrc
       ItemHeight = 13
       TabOrder = 9
+      OnExit = ComboBox2Exit
+      OnKeyPress = ComboBox2KeyPress
     end
   end
   object GroupBox3: TGroupBox
@@ -885,6 +885,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       ParentFont = False
       TabOrder = 0
       OnExit = DBEdit11Exit
+      OnKeyPress = DBEdit11KeyPress
     end
     object DBEdit12: TDBEdit
       Left = 62
@@ -1114,9 +1115,9 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Caption = 'Documento'
     end
     object DBEdit17: TDBEdit
-      Left = 164
-      Top = -6
-      Width = 21
+      Left = 4
+      Top = 26
+      Width = 50
       Height = 24
       DataField = 'CODCLIENTE'
       DataSource = DtSrc
@@ -1128,6 +1129,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       ParentFont = False
       TabOrder = 0
       OnExit = DBEdit17Exit
+      OnKeyPress = DBEdit17KeyPress
     end
     object DBEdit18: TDBEdit
       Left = 59
@@ -1263,14 +1265,6 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Style = []
       ParentFont = False
       TabOrder = 9
-    end
-    object Edit1: TEdit
-      Left = 6
-      Top = 26
-      Width = 47
-      Height = 23
-      TabOrder = 10
-      OnExit = Edit1Exit
     end
   end
   object GroupBox5: TGroupBox
@@ -1423,6 +1417,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      OnExit = DBEdit30Exit
+      OnKeyPress = DBEdit30KeyPress
     end
     object DBEdit31: TDBEdit
       Left = 72
@@ -2562,165 +2558,6 @@ object fOrdemAssistencia: TfOrdemAssistencia
       Size = 1
     end
   end
-  object sds_cli: TSQLDataSet
-    CommandText = 
-      'select cli.CODCLIENTE, cli.NOMECLIENTE, cli.RAZAOSOCIAL, cli.CNP' +
-      'J,  ende.CIDADE, ende.UF, ende.Logradouro, ende.DDD, cli.RG, end' +
-      'e.TELEFONE,  ende.CEP,  ende.BAIRRO, cli.BLOQUEIO, cli.STATUS'#13#10'f' +
-      'rom CLIENTES cli'#13#10'left outer join ENDERECOCLIENTE ende on ende.C' +
-      'ODCLIENTE = cli.CODCLIENTE'#13#10'where cli.CODCLIENTE = :pCODCLIENTE ' +
-      'and ende.TIPOEND = 0'
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pCODCLIENTE'
-        ParamType = ptUnknown
-      end>
-    SQLConnection = DM.sqlsisAdimin
-    Left = 8
-    Top = 488
-    object sds_cliCODCLIENTE: TIntegerField
-      FieldName = 'CODCLIENTE'
-      Required = True
-    end
-    object sds_cliNOMECLIENTE: TStringField
-      FieldName = 'NOMECLIENTE'
-      Required = True
-      Size = 50
-    end
-    object sds_cliRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      Required = True
-      Size = 50
-    end
-    object sds_cliCNPJ: TStringField
-      FieldName = 'CNPJ'
-      Size = 18
-    end
-    object sds_cliCIDADE: TStringField
-      FieldName = 'CIDADE'
-      Size = 40
-    end
-    object sds_cliUF: TStringField
-      FieldName = 'UF'
-      FixedChar = True
-      Size = 2
-    end
-    object sds_cliDDD: TStringField
-      FieldName = 'DDD'
-      Size = 3
-    end
-    object sds_cliRG: TStringField
-      FieldName = 'RG'
-      Size = 14
-    end
-    object sds_cliTELEFONE: TStringField
-      FieldName = 'TELEFONE'
-      Size = 9
-    end
-    object sds_cliCEP: TStringField
-      FieldName = 'CEP'
-      Size = 10
-    end
-    object sds_cliBAIRRO: TStringField
-      FieldName = 'BAIRRO'
-      Size = 30
-    end
-    object sds_cliLOGRADOURO: TStringField
-      FieldName = 'LOGRADOURO'
-      Size = 50
-    end
-    object sds_cliBLOQUEIO: TStringField
-      FieldName = 'BLOQUEIO'
-      FixedChar = True
-      Size = 1
-    end
-    object sds_cliSTATUS: TSmallintField
-      FieldName = 'STATUS'
-      Required = True
-    end
-  end
-  object dsp_cli: TDataSetProvider
-    DataSet = sds_cli
-    Options = [poAllowCommandText]
-    Left = 40
-    Top = 488
-  end
-  object cds_cli: TClientDataSet
-    Aggregates = <>
-    MasterSource = DtSrc
-    PacketRecords = 0
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pCODCLIENTE'
-        ParamType = ptUnknown
-      end>
-    ProviderName = 'dsp_cli'
-    Left = 72
-    Top = 488
-    object cds_cliCODCLIENTE: TIntegerField
-      FieldName = 'CODCLIENTE'
-      Required = True
-    end
-    object cds_cliNOMECLIENTE: TStringField
-      FieldName = 'NOMECLIENTE'
-      Required = True
-      Size = 50
-    end
-    object cds_cliRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      Required = True
-      Size = 50
-    end
-    object cds_cliCNPJ: TStringField
-      FieldName = 'CNPJ'
-      Size = 18
-    end
-    object cds_cliCIDADE: TStringField
-      FieldName = 'CIDADE'
-      Size = 40
-    end
-    object cds_cliUF: TStringField
-      FieldName = 'UF'
-      FixedChar = True
-      Size = 2
-    end
-    object cds_cliDDD: TStringField
-      FieldName = 'DDD'
-      Size = 3
-    end
-    object cds_cliRG: TStringField
-      FieldName = 'RG'
-      Size = 14
-    end
-    object cds_cliTELEFONE: TStringField
-      FieldName = 'TELEFONE'
-      Size = 9
-    end
-    object cds_cliCEP: TStringField
-      FieldName = 'CEP'
-      Size = 10
-    end
-    object cds_cliBAIRRO: TStringField
-      FieldName = 'BAIRRO'
-      Size = 30
-    end
-    object cds_cliLOGRADOURO: TStringField
-      FieldName = 'LOGRADOURO'
-      Size = 50
-    end
-    object cds_cliBLOQUEIO: TStringField
-      FieldName = 'BLOQUEIO'
-      FixedChar = True
-      Size = 1
-    end
-    object cds_cliSTATUS: TSmallintField
-      FieldName = 'STATUS'
-      Required = True
-    end
-  end
   object sds_Mov_Det: TSQLDataSet
     CommandText = 
       'select movd.CODDETALHE'#13#10', movd.CODMOVIMENTO'#13#10', movd.CODPRODUTO'#13#10 +
@@ -2750,8 +2587,8 @@ object fOrdemAssistencia: TfOrdemAssistencia
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 615
-    Top = 335
+    Left = 616
+    Top = 336
     object sds_Mov_DetCODDETALHE: TIntegerField
       FieldName = 'CODDETALHE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -3609,6 +3446,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
       FieldName = 'DATAMOVIMENTO'
       ProviderFlags = [pfInUpdate]
       Required = True
+      EditMask = '!99/99/0000;1;_'
     end
     object sds_MovimentoCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
@@ -3645,6 +3483,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
     object sds_MovimentoDATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
       ProviderFlags = [pfInUpdate]
+      EditMask = '!99/99/0000;1;_'
     end
     object sds_MovimentoCONTROLE: TStringField
       FieldName = 'CONTROLE'
@@ -4277,67 +4116,6 @@ object fOrdemAssistencia: TfOrdemAssistencia
       FieldName = 'PRAZORECEBIMENTO'
     end
   end
-  object cdsLotesMem: TClientDataSet
-    Active = True
-    Aggregates = <>
-    Params = <>
-    Left = 284
-    Top = 48
-    Data = {
-      5E0000009619E0BD0100000018000000030000000000030000005E0006434F44
-      50524F0100490000000100055749445448020002001400044C4F544501004900
-      00000100055749445448020002003C00074553544F5155450800040000000000
-      0000}
-    object cdsLotesMemCODPRO: TStringField
-      FieldName = 'CODPRO'
-    end
-    object cdsLotesMemLOTE: TStringField
-      FieldName = 'LOTE'
-      Size = 60
-    end
-    object cdsLotesMemESTOQUE: TFloatField
-      FieldName = 'ESTOQUE'
-    end
-  end
-  object cdsLotesMem2: TClientDataSet
-    Aggregates = <>
-    Params = <>
-    Left = 436
-    Top = 48
-    object cdsLotesMem2CODPRO: TStringField
-      FieldName = 'CODPRO'
-    end
-    object cdsLotesMem2LOTE: TStringField
-      FieldName = 'LOTE'
-      Size = 60
-    end
-    object cdsLotesMem2ESTOQUE: TFloatField
-      FieldName = 'ESTOQUE'
-    end
-  end
-  object sds_proc: TSQLDataSet
-    CommandText = 
-      'select CODPRODUTO'#13#10'         , TIPO '#13#10'from PRODUTOS '#13#10'where CODPR' +
-      'ODUTO =:pcod'#13#10
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pcod'
-        ParamType = ptInput
-      end>
-    SQLConnection = DM.sqlsisAdimin
-    Left = 672
-    Top = 216
-    object sds_procCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-      Required = True
-    end
-    object sds_procTIPO: TStringField
-      FieldName = 'TIPO'
-      Size = 10
-    end
-  end
   object dsp: TDataSetProvider
     DataSet = sds
     UpdateMode = upWhereKeyOnly
@@ -4859,12 +4637,20 @@ object fOrdemAssistencia: TfOrdemAssistencia
     end
   end
   object sFornecedor: TSQLDataSet
-    CommandText = 'select * from FORNECEDOR'
+    CommandText = 
+      'select * from FORNECEDOR forn'#13#10'inner join ENDERECOFORNECEDOR end' +
+      'e on ende.CODFORNECEDOR = forn.CODFORNECEDOR'#13#10'where forn.RAZAOSO' +
+      'CIAL = :pCod'
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pCod'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 133
-    Top = 16
+    Top = 8
     object sFornecedorCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
       Required = True
@@ -4937,6 +4723,337 @@ object fOrdemAssistencia: TfOrdemAssistencia
       FieldName = 'PRAZOENTREGA'
     end
     object sFornecedorCONTA_FORNECEDOR: TStringField
+      FieldName = 'CONTA_FORNECEDOR'
+      Size = 15
+    end
+    object sFornecedorCODENDERECO: TIntegerField
+      FieldName = 'CODENDERECO'
+      Required = True
+    end
+    object sFornecedorCODFORNECEDOR_1: TIntegerField
+      FieldName = 'CODFORNECEDOR_1'
+      Required = True
+    end
+    object sFornecedorLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object sFornecedorBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object sFornecedorCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object sFornecedorCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object sFornecedorUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object sFornecedorCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object sFornecedorDDD: TSmallintField
+      FieldName = 'DDD'
+    end
+    object sFornecedorTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
+    object sFornecedorTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 9
+    end
+    object sFornecedorTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      Size = 9
+    end
+    object sFornecedorFAX: TStringField
+      FieldName = 'FAX'
+      Size = 9
+    end
+    object sFornecedorE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 30
+    end
+    object sFornecedorRAMAL: TStringField
+      FieldName = 'RAMAL'
+      Size = 5
+    end
+    object sFornecedorTIPOEND: TSmallintField
+      FieldName = 'TIPOEND'
+      Required = True
+    end
+    object sFornecedorDADOSADICIONAIS: TStringField
+      FieldName = 'DADOSADICIONAIS'
+      Size = 200
+    end
+  end
+  object scds_cliente_proc: TSQLDataSet
+    CommandText = 
+      'select cli.CODCLIENTE, '#13#10'          cli.CODUSUARIO,'#13#10'          cl' +
+      'i.CNPJ, '#13#10'          cli.NOMECLIENTE, '#13#10'          cli.RAZAOSOCIAL' +
+      ', '#13#10'          cli.CODBANCO, '#13#10'          cli.PRAZORECEBIMENTO, '#13#10 +
+      '          cli.OBS,  '#13#10'          cli.SEGMENTO, '#13#10'          cli.ST' +
+      'ATUS, '#13#10'          usu.NOMEUSUARIO,'#13#10'          ende.UF, '#13#10'       ' +
+      '   ende.CIDADE, '#13#10'          ende.Logradouro, '#13#10'          ende.DD' +
+      'D, '#13#10'          cli.RG, '#13#10'          ende.TELEFONE,  '#13#10'          e' +
+      'nde.CEP,  '#13#10'          ende.BAIRRO,'#13#10'          cli.BLOQUEIO  '#13#10'fr' +
+      'om CLIENTES cli '#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSUARI' +
+      'O=cli.CODUSUARIO '#13#10'left outer join ENDERECOCLIENTE ende on ende.' +
+      'CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.NOMECLIENTE like :pCLIEN' +
+      'TE '#13#10'or cli.RAZAOSOCIAL like :pRAZAO '#13#10'or cli.CODCLIENTE = :pCOD' +
+      'CLIENTE and ende.TIPOEND =0'#13#10'order by cli.NOMECLIENTE'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCLIENTE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pRAZAO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'pCODCLIENTE'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 96
+    Top = 490
+    object scds_cliente_procCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object scds_cliente_procNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
+    object scds_cliente_procRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object scds_cliente_procCODBANCO: TSmallintField
+      FieldName = 'CODBANCO'
+    end
+    object scds_cliente_procPRAZORECEBIMENTO: TSmallintField
+      FieldName = 'PRAZORECEBIMENTO'
+    end
+    object scds_cliente_procOBS: TStringField
+      FieldName = 'OBS'
+      Size = 200
+    end
+    object scds_cliente_procSEGMENTO: TSmallintField
+      FieldName = 'SEGMENTO'
+      Required = True
+    end
+    object scds_cliente_procSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Required = True
+    end
+    object scds_cliente_procNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Size = 30
+    end
+    object scds_cliente_procUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object scds_cliente_procCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object scds_cliente_procBLOQUEIO: TStringField
+      FieldName = 'BLOQUEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object scds_cliente_procCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object scds_cliente_procCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object scds_cliente_procLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object scds_cliente_procDDD: TStringField
+      FieldName = 'DDD'
+      Size = 3
+    end
+    object scds_cliente_procRG: TStringField
+      FieldName = 'RG'
+      Size = 14
+    end
+    object scds_cliente_procTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
+    object scds_cliente_procCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object scds_cliente_procBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+  end
+  object scds_prod_proc: TSQLDataSet
+    CommandText = 
+      'select prod.CODPRO, prod.CODPRODUTO'#13#10'        , prod.PRODUTO'#13#10'   ' +
+      '     , prod.CODALMOXARIFADO '#13#10'        , prod.VALOR_PRAZO'#13#10'      ' +
+      '  , prod.QTDE_PCT'#13#10'        , prod.CONTA_DESPESA  '#13#10'        , pro' +
+      'd.LOCALIZACAO  '#13#10'        , prod.UNIDADEMEDIDA '#13#10'        , prod.V' +
+      'ALORUNITARIOATUAL'#13#10'        , prod.LOTES  as usalote'#13#10'from  PRODU' +
+      'TOS prod '#13#10'where prod.CODPRODUTO = :id'#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 32
+    Top = 488
+    object scds_prod_procCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object scds_prod_procCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object scds_prod_procPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object scds_prod_procCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object scds_prod_procVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+    end
+    object scds_prod_procQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+    end
+    object scds_prod_procCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object scds_prod_procLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
+    end
+    object scds_prod_procUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object scds_prod_procVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+    end
+    object scds_prod_procUSALOTE: TStringField
+      FieldName = 'USALOTE'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object SForn: TSQLDataSet
+    CommandText = 'select * from FORNECEDOR forn'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 189
+    Top = 8
+    object SFornCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object SFornNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 50
+    end
+    object SFornRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object SFornCONTATO: TStringField
+      FieldName = 'CONTATO'
+      Size = 30
+    end
+    object SFornTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object SFornCPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object SFornCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object SFornINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object SFornRG: TStringField
+      FieldName = 'RG'
+      Size = 14
+    end
+    object SFornSEGMENTO: TSmallintField
+      FieldName = 'SEGMENTO'
+      Required = True
+    end
+    object SFornREGIAO: TSmallintField
+      FieldName = 'REGIAO'
+      Required = True
+    end
+    object SFornLIMITECREDITO: TFloatField
+      FieldName = 'LIMITECREDITO'
+    end
+    object SFornDATACADASTRO: TDateField
+      FieldName = 'DATACADASTRO'
+      Required = True
+    end
+    object SFornCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object SFornSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Required = True
+    end
+    object SFornHOMEPAGE: TStringField
+      FieldName = 'HOMEPAGE'
+      Size = 40
+    end
+    object SFornPRAZOPAGAMENTO: TSmallintField
+      FieldName = 'PRAZOPAGAMENTO'
+    end
+    object SFornPRAZOENTREGA: TSmallintField
+      FieldName = 'PRAZOENTREGA'
+    end
+    object SFornCONTA_FORNECEDOR: TStringField
       FieldName = 'CONTA_FORNECEDOR'
       Size = 15
     end
