@@ -1,4 +1,3 @@
-set term ^  ;
 create or ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD_CUPOM (
     CFOP Varchar(30),
     UF Char(2),

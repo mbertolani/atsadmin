@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE  BALANCETE( PDTA1 DATE, PDTA2 DATE)
 RETURNS ( CONTA                            VARCHAR( 60 )
         , CREDITO                          DOUBLE PRECISION

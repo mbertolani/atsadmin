@@ -1,4 +1,3 @@
-set term ^;
 CREATE OR ALTER PROCEDURE BLOQUEIACLIENTES
 
 AS declare variable COD_CLI integer;
