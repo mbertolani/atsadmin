@@ -200,6 +200,17 @@ begin
                  ' IF(NEW.IDCAIXACONTROLE IS NULL) THEN NEW.IDCAIXACONTROLE =' +
                  ' GEN_ID(IDCAIXA_CONTROLE,1);  END ');
 
+      executaSql('create table cargosfuncoes (' +
+                 ' cod_cargosfuncoes integer not null primary key, ' +
+                 ' descricao varchar(100))');
+
+      executaSql('alter table funcionario add codcliente integer');
+      executaSql('alter table funcionario add codfornecedor integer');
+      executaSql('alter table funcionario add clifor char(1)');
+      executaSql('alter table FUNCIONARIO ADD STATUS CHAR(1)');
+      executaSql('alter table RECEBIMENTO add SITUACAO integer');
+      executaSql('alter table venda add CODORIGEM INTEGER');
+
       mudaVersao('1.0.0.21');
     end; // Fim Ataulização Versao 1.0.0.20
 
@@ -548,6 +559,16 @@ begin
       executaScript('caixaFechadoPag.sql');
       mudaVersao('1.0.0.56');
     end;  // Fim Ataulização Versao 1.0.0.56
+
+    if (versaoSistema = '1.0.0.56') then
+    begin
+      executaScript('bloqueiaclientesatrasados.sql');
+      executaScript('calcula_icms_substprod_cupom.sql');
+      executaScript('balancete.sql');
+      executaScript('inclui_rec.sql');
+      executaScript('LIMITECREDITO.sql');
+      mudaVersao('1.0.0.57');
+    end;  // Fim Ataulização Versao 1.0.0.57
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
