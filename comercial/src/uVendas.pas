@@ -462,6 +462,7 @@ type
     sdslistaCODPRODUTO: TIntegerField;
     sdslistaCODFORNECEDOR: TIntegerField;
     sdslistaPRODUTO: TStringField;
+    SP_LIMITE: TSQLStoredProc;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -554,7 +555,7 @@ implementation
 uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
-  uProcurar_nf, UDMNF, uAtsAdmin;
+  uProcurar_nf, UDMNF, uAtsAdmin, Math;
 
 {$R *.dfm}
 
@@ -1662,11 +1663,35 @@ begin
 end;
 
 procedure TfVendas.BitBtn1Click(Sender: TObject);
+var TD: TTransactionDesc;
+    LIMITECOMPRA: String;
+    Compra: Double;
 begin
   inherited;
   if (cds_MovimentoSTATUS.AsInteger = 2) then
   begin
     MessageDlg('Pedido/Venda Cancelado', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  
+  compra := StrToFloat(cds_Mov_detTotalPedido.AsString);
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroD6.AsString = 'USALIMITE') then
+  begin
+
+  SP_LIMITE.Close;
+  SP_LIMITE.Params[0].AsInteger := StrToInt(dbeCliente.Text);
+  SP_LIMITE.Params[1].AsFloat := Compra;
+  SP_LIMITE.ExecProc;
+  LIMITECOMPRA := SP_LIMITE.Params[2].AsString;
+  end;
+  if (LIMITECOMPRA = 'N') then
+    begin
+    MessageDlg('Limite de compra deste cliente exedido.', mtWarning, [mbOK], 0);
     exit;
   end;
 

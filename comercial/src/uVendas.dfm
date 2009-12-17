@@ -4347,4 +4347,28 @@ inherited fVendas: TfVendas
       Size = 300
     end
   end
+  object SP_LIMITE: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODCLIENTE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFloat
+        Name = 'VALOR'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'LIMITECOMPRA'
+        ParamType = ptOutput
+        Size = 1
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    StoredProcName = 'LIMITECOMPRA'
+    Left = 584
+    Top = 24
+  end
 end
