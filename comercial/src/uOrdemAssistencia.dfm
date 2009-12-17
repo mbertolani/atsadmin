@@ -3658,6 +3658,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
     object cds_MovimentoDATAMOVIMENTO: TDateField
       FieldName = 'DATAMOVIMENTO'
       Required = True
+      EditMask = '!99/99/0000;1;_'
     end
     object cds_MovimentoCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
@@ -3686,6 +3687,7 @@ object fOrdemAssistencia: TfOrdemAssistencia
     end
     object cds_MovimentoDATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
+      EditMask = '!99/99/0000;1;_'
     end
     object cds_MovimentoCOD_VEICULO: TIntegerField
       FieldName = 'COD_VEICULO'
