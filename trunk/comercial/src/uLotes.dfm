@@ -1,6 +1,6 @@
 inherited fLotes: TfLotes
-  Left = 66
-  Top = 74
+  Left = 181
+  Top = 76
   Width = 792
   Height = 492
   Caption = 'Lotes'
@@ -268,7 +268,6 @@ inherited fLotes: TfLotes
     TabStop = False
     BevelKind = bkFlat
     BorderStyle = bsNone
-    Color = clInfoBk
     DataField = 'ESTOQUE'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -277,7 +276,6 @@ inherited fLotes: TfLotes
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    ReadOnly = True
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
@@ -402,7 +400,6 @@ inherited fLotes: TfLotes
     TabStop = False
     BevelKind = bkFlat
     BorderStyle = bsNone
-    Color = clInfoBk
     DataField = 'SERIEFIM'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -411,7 +408,6 @@ inherited fLotes: TfLotes
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    ReadOnly = True
     TabOrder = 11
     OnKeyPress = FormKeyPress
   end
@@ -563,6 +559,173 @@ inherited fLotes: TfLotes
     end
     object cdslotesSERIEFIM: TIntegerField
       FieldName = 'SERIEFIM'
+    end
+  end
+  object scds_produto_proc: TSQLDataSet
+    CommandText = 'select * from PRODUTOS pro where pro.CODPRODUTO = :CODPRO'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODPRO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 704
+    Top = 18
+    object scds_produto_procCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object scds_produto_procFAMILIA: TStringField
+      FieldName = 'FAMILIA'
+      Size = 30
+    end
+    object scds_produto_procCATEGORIA: TStringField
+      FieldName = 'CATEGORIA'
+      Size = 30
+    end
+    object scds_produto_procMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 30
+    end
+    object scds_produto_procUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object scds_produto_procDATAULTIMACOMPRA: TDateField
+      FieldName = 'DATAULTIMACOMPRA'
+    end
+    object scds_produto_procESTOQUEMAXIMO: TFloatField
+      FieldName = 'ESTOQUEMAXIMO'
+    end
+    object scds_produto_procESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+    end
+    object scds_produto_procESTOQUEREPOSICAO: TFloatField
+      FieldName = 'ESTOQUEREPOSICAO'
+    end
+    object scds_produto_procESTOQUEMINIMO: TFloatField
+      FieldName = 'ESTOQUEMINIMO'
+    end
+    object scds_produto_procVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+    end
+    object scds_produto_procVALORUNITARIOANTERIOR: TFloatField
+      FieldName = 'VALORUNITARIOANTERIOR'
+    end
+    object scds_produto_procICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object scds_produto_procCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object scds_produto_procIPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object scds_produto_procCLASSIFIC_FISCAL: TStringField
+      FieldName = 'CLASSIFIC_FISCAL'
+      Size = 30
+    end
+    object scds_produto_procCST: TStringField
+      FieldName = 'CST'
+      Size = 30
+    end
+    object scds_produto_procBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object scds_produto_procPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object scds_produto_procPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      Precision = 9
+      Size = 2
+    end
+    object scds_produto_procCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+    end
+    object scds_produto_procMARGEM_LUCRO: TFloatField
+      FieldName = 'MARGEM_LUCRO'
+    end
+    object scds_produto_procCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
+    object scds_produto_procVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+    end
+    object scds_produto_procTIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 10
+    end
+    object scds_produto_procCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object scds_produto_procCONTA_RECEITA: TStringField
+      FieldName = 'CONTA_RECEITA'
+      Size = 15
+    end
+    object scds_produto_procCONTA_ESTOQUE: TStringField
+      FieldName = 'CONTA_ESTOQUE'
+      Size = 15
+    end
+    object scds_produto_procRATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object scds_produto_procCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object scds_produto_procQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+    end
+    object scds_produto_procPESO_QTDE: TFloatField
+      FieldName = 'PESO_QTDE'
+    end
+    object scds_produto_procDATACADASTRO: TSQLTimeStampField
+      FieldName = 'DATACADASTRO'
+    end
+    object scds_produto_procMARGEM: TFloatField
+      FieldName = 'MARGEM'
+    end
+    object scds_produto_procPRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      Size = 15
+    end
+    object scds_produto_procDATAGRAV: TDateField
+      FieldName = 'DATAGRAV'
+    end
+    object scds_produto_procCODFORN: TStringField
+      FieldName = 'CODFORN'
+      Size = 60
+    end
+    object scds_produto_procFOTOPRODUTO: TStringField
+      FieldName = 'FOTOPRODUTO'
+      Size = 80
+    end
+    object scds_produto_procLOTES: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
+    end
+    object scds_produto_procUSA: TStringField
+      FieldName = 'USA'
+      Size = 3
+    end
+    object scds_produto_procLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
+    end
+    object scds_produto_procTIPOPRECOVENDA: TStringField
+      FieldName = 'TIPOPRECOVENDA'
+      FixedChar = True
+      Size = 1
     end
   end
 end
