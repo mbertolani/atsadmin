@@ -725,6 +725,22 @@ type
     SFornPRAZOPAGAMENTO: TSmallintField;
     SFornPRAZOENTREGA: TSmallintField;
     SFornCONTA_FORNECEDOR: TStringField;
+    sLotes: TSQLDataSet;
+    sLotesCODLOTE: TIntegerField;
+    sLotesLOTE: TStringField;
+    sLotesCODPRODUTO: TIntegerField;
+    sLotesDATAFABRICACAO: TDateField;
+    sLotesDATAVENCIMENTO: TDateField;
+    sLotesESTOQUE: TFloatField;
+    sLotesPRECO: TFloatField;
+    sLotesNOTAFISCAL: TStringField;
+    sLotesSERIEINI: TIntegerField;
+    sLotesSERIEFIM: TIntegerField;
+    sLotesPRODUTO: TStringField;
+    sLotesVALORUNITARIOATUAL: TFloatField;
+    sLotesCODPRO: TStringField;
+    sds_Mov_DetCODLOTE: TIntegerField;
+    cds_Mov_detCODLOTE: TIntegerField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -752,6 +768,7 @@ type
     procedure DBEdit11KeyPress(Sender: TObject; var Key: Char);
     procedure DBEdit17KeyPress(Sender: TObject; var Key: Char);
     procedure DBEdit30KeyPress(Sender: TObject; var Key: Char);
+    procedure DBEdit27Exit(Sender: TObject);
   private
     modo :string;
     function Verifica_Campos_Em_Branco: Boolean;
@@ -1812,6 +1829,58 @@ begin
     scds_prod_proc.Close;
    end;
  end;
+end;
+
+procedure TfOrdemAssistencia.DBEdit27Exit(Sender: TObject);
+begin
+   if sLotes.Active then
+      sLotes.Close;
+   sLotes.Params[0].AsInteger := StrToInt(DBEdit27.Text);
+   sLotes.Open;
+    if sLotes.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cds_Mov_detCODPRODUTO.AsInteger := sLotesCODPRO.AsInteger;
+    cds_Mov_detDESCPRODUTO.AsString := sLotesPRODUTO.AsString;
+    cds_Mov_detPRECO.AsFloat := sLotesVALORUNITARIOATUAL.AsFloat;
+    cds_Mov_detDTAFAB.AsDateTime := sLotesDATAFABRICACAO.AsDateTime;
+
+    DBEdit29.Text := DateToStr(sLotesDATAFABRICACAO.AsDateTime);
+    DBEdit30.Text := IntToStr(sLotesCODPRODUTO.AsInteger);
+    DBEdit31.Text := sLotesPRODUTO.AsString;
+    DBEdit32.Text := FloatToStr(sLotesVALORUNITARIOATUAL.AsFloat);
+    sLotes.Close;
+
+
+  if DBEdit28.Field.OldValue<>DBEdit28.Field.NewValue then
+  begin
+   if dbedit27.Text = '' then
+     exit;
+   if sLotes.Active then
+      sLotes.Close;
+   sLotes.Params[0].AsInteger := StrToInt(DBEdit27.Text);
+   sLotes.Open;
+   if sLotes.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado.', mtWarning,
+      [mbOk], 0);
+      exit;
+    end;
+    cds_Mov_detCODPRODUTO.AsInteger := sLotesCODPRO.AsInteger;
+    cds_Mov_detDESCPRODUTO.AsString := sLotesPRODUTO.AsString;
+    cds_Mov_detPRECO.AsFloat := sLotesVALORUNITARIOATUAL.AsFloat;
+    cds_Mov_detDTAFAB.AsDateTime := sLotesDATAFABRICACAO.AsDateTime;    
+
+    DBEdit29.Text := DateToStr(sLotesDATAFABRICACAO.AsDateTime);
+    DBEdit30.Text := IntToStr(sLotesCODPRODUTO.AsInteger);
+    DBEdit31.Text := sLotesPRODUTO.AsString;
+    DBEdit32.Text := FloatToStr(sLotesVALORUNITARIOATUAL.AsFloat);
+    sLotes.Close;
+   end;
+
 end;
 
 end.

@@ -56,6 +56,49 @@ type
     cdslotesNOTAFISCAL: TStringField;
     cdslotesSERIEINI: TIntegerField;
     cdslotesSERIEFIM: TIntegerField;
+    scds_produto_proc: TSQLDataSet;
+    scds_produto_procCODPRODUTO: TIntegerField;
+    scds_produto_procFAMILIA: TStringField;
+    scds_produto_procCATEGORIA: TStringField;
+    scds_produto_procMARCA: TStringField;
+    scds_produto_procUNIDADEMEDIDA: TStringField;
+    scds_produto_procDATAULTIMACOMPRA: TDateField;
+    scds_produto_procESTOQUEMAXIMO: TFloatField;
+    scds_produto_procESTOQUEATUAL: TFloatField;
+    scds_produto_procESTOQUEREPOSICAO: TFloatField;
+    scds_produto_procESTOQUEMINIMO: TFloatField;
+    scds_produto_procVALORUNITARIOATUAL: TFloatField;
+    scds_produto_procVALORUNITARIOANTERIOR: TFloatField;
+    scds_produto_procICMS: TFloatField;
+    scds_produto_procCODALMOXARIFADO: TIntegerField;
+    scds_produto_procIPI: TFloatField;
+    scds_produto_procCLASSIFIC_FISCAL: TStringField;
+    scds_produto_procCST: TStringField;
+    scds_produto_procBASE_ICMS: TFloatField;
+    scds_produto_procPRODUTO: TStringField;
+    scds_produto_procPRECOMEDIO: TBCDField;
+    scds_produto_procCOD_COMISSAO: TIntegerField;
+    scds_produto_procMARGEM_LUCRO: TFloatField;
+    scds_produto_procCOD_BARRA: TStringField;
+    scds_produto_procVALOR_PRAZO: TFloatField;
+    scds_produto_procTIPO: TStringField;
+    scds_produto_procCONTA_DESPESA: TStringField;
+    scds_produto_procCONTA_RECEITA: TStringField;
+    scds_produto_procCONTA_ESTOQUE: TStringField;
+    scds_produto_procRATEIO: TStringField;
+    scds_produto_procCODPRO: TStringField;
+    scds_produto_procQTDE_PCT: TFloatField;
+    scds_produto_procPESO_QTDE: TFloatField;
+    scds_produto_procDATACADASTRO: TSQLTimeStampField;
+    scds_produto_procMARGEM: TFloatField;
+    scds_produto_procPRO_COD: TStringField;
+    scds_produto_procDATAGRAV: TDateField;
+    scds_produto_procCODFORN: TStringField;
+    scds_produto_procFOTOPRODUTO: TStringField;
+    scds_produto_procLOTES: TStringField;
+    scds_produto_procUSA: TStringField;
+    scds_produto_procLOCALIZACAO: TStringField;
+    scds_produto_procTIPOPRECOVENDA: TStringField;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -220,22 +263,20 @@ begin
        btnProdutoProcura.Click;
     if DBEdit1.Field.OldValue<>DBEdit1.Field.NewValue then
     begin
-      if dm.scds_produto_proc.Active then
-        dm.scds_produto_proc.Close;
-      dm.scds_produto_proc.Params[0].Clear;
-      dm.scds_produto_proc.Params[1].Clear;
-      dm.scds_produto_proc.Params[2].AsString:=DBEdit1.Text;
-      dm.scds_produto_proc.Open;
-      if dm.scds_produto_proc.IsEmpty then
+      if scds_produto_proc.Active then
+        scds_produto_proc.Close;
+      scds_produto_proc.Params[0].AsInteger := StrToInt(DBEdit1.Text);
+      scds_produto_proc.Open;
+      if scds_produto_proc.IsEmpty then
       begin
         MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
         [mbOk], 0);
         btnProdutoProcura.Click;
         exit;
       end;
-      cdslotesCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      cdslotesCODPRO.AsString := dm.scds_produto_procCODPRO.AsString;
-      cdslotesPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+      cdslotesCODPRODUTO.AsInteger := scds_produto_procCODPRODUTO.AsInteger;
+      cdslotesCODPRO.AsString := scds_produto_procCODPRO.AsString;
+      cdslotesPRODUTO.Value := scds_produto_procPRODUTO.Value;
     end;
     dm.scds_produto_proc.Close;
   end;
