@@ -1314,7 +1314,7 @@ begin
       acompo:=TRpLabel(VCLReport2.Report.FindComponent('TRpLabel28'));
       if Assigned(acompo) then
         acompo.Text:= EvExtenso1.GetExtenso(valorextenco);
-    end;    
+    end;
     VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
     VCLReport2.Execute;
@@ -1323,6 +1323,16 @@ begin
   if dm.cds_parametroDADOS.AsString = 'CUPOM' then
      if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
         imprimecupom;
+
+  if dm.cds_parametroDADOS.AsString = 'PERSONALIZADO' then
+  begin
+    VCLReport2.FileName := str_relatorio + 'recibo_venda.rep';
+    VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport2.Report.Params.ParamByName('CODVENDA').Value := cdsCODVENDA.AsInteger;
+    VCLReport2.Report.Params.ParamByName('CODID').Value := cdsCODCLIENTE.AsInteger;
+    VCLReport2.Report.Params.ParamByName('N_COPIAS').Value := 2;
+    VCLReport2.Execute;
+  end;
         
 end;
 
