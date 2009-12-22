@@ -43,6 +43,421 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Height = 504
     Align = alLeft
     TabOrder = 3
+    object Panel2: TPanel
+      Left = 1
+      Top = 1
+      Width = 286
+      Height = 505
+      Color = clMoneyGreen
+      TabOrder = 1
+      Visible = False
+      object Label14: TLabel
+        Left = 3
+        Top = 461
+        Width = 39
+        Height = 16
+        Caption = 'Forma'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
+      object GroupBox2: TGroupBox
+        Left = 2
+        Top = -13
+        Width = 281
+        Height = 471
+        Ctl3D = False
+        ParentCtl3D = False
+        PopupMenu = PopupMenu1
+        TabOrder = 3
+        object Label10: TLabel
+          Left = 9
+          Top = 22
+          Width = 247
+          Height = 36
+          Caption = 'Mesas / Clientes'
+        end
+        object Label7: TLabel
+          Left = 178
+          Top = 309
+          Width = 38
+          Height = 14
+          Caption = 'Total :'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Cooper Blk BT'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Edit6: TEdit
+          Left = 184
+          Top = -84
+          Width = 49
+          Height = 42
+          TabOrder = 0
+        end
+        object cbMesas: TComboBox
+          Left = 3
+          Top = 57
+          Width = 276
+          Height = 33
+          BevelKind = bkFlat
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -21
+          Font.Name = 'Cooper Blk BT'
+          Font.Style = []
+          ItemHeight = 25
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 1
+          OnKeyPress = cbMesasKeyPress
+        end
+        object DBGrid1: TDBGrid
+          Left = 3
+          Top = 91
+          Width = 129
+          Height = 376
+          Ctl3D = False
+          DataSource = DataSource2
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          ParentCtl3D = False
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 2
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -15
+          TitleFont.Name = 'MS Sans Serif'
+          TitleFont.Style = []
+          OnDblClick = DBGrid1DblClick
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'NOMECLIENTE'
+              Title.Alignment = taCenter
+              Title.Caption = 'Mesas'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'MS Sans Serif'
+              Title.Font.Style = []
+              Width = 370
+              Visible = True
+            end>
+        end
+        object DBGrid3: TDBGrid
+          Left = 133
+          Top = 91
+          Width = 146
+          Height = 214
+          Ctl3D = False
+          DataSource = DataSource2
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          ParentCtl3D = False
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 3
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -15
+          TitleFont.Name = 'MS Sans Serif'
+          TitleFont.Style = []
+          OnDblClick = DBGrid1DblClick
+          Columns = <
+            item
+              Expanded = False
+              Title.Caption = 'Nome'
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              Title.Caption = 'R$'
+              Width = 45
+              Visible = True
+            end>
+        end
+        object JvCalcEdit1: TJvCalcEdit
+          Left = 222
+          Top = 307
+          Width = 57
+          Height = 20
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DisplayFormat = ',##0.00'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlue
+          Font.Height = -11
+          Font.Name = 'Cooper Blk BT'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          ShowButton = False
+          TabOrder = 4
+          DecimalPlacesAlwaysShown = False
+          OnChange = jvPagoChange
+        end
+        object DBGrid4: TDBGrid
+          Left = 133
+          Top = 331
+          Width = 146
+          Height = 136
+          Ctl3D = False
+          DataSource = DataSource2
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          ParentCtl3D = False
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 5
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -15
+          TitleFont.Name = 'MS Sans Serif'
+          TitleFont.Style = []
+          OnDblClick = DBGrid1DblClick
+          Columns = <
+            item
+              Expanded = False
+              Title.Caption = 'Rateio'
+              Width = 80
+              Visible = True
+            end
+            item
+              Expanded = False
+              Title.Caption = 'R$'
+              Width = 45
+              Visible = True
+            end>
+        end
+      end
+      object GroupBox1: TGroupBox
+        Left = 2
+        Top = -13
+        Width = 281
+        Height = 471
+        Ctl3D = False
+        ParentCtl3D = False
+        TabOrder = 0
+        object Label9: TLabel
+          Left = 3
+          Top = 20
+          Width = 47
+          Height = 15
+          Caption = 'Telefone'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Times New Roman'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label12: TLabel
+          Left = 116
+          Top = 20
+          Width = 31
+          Height = 15
+          Caption = 'Nome'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Times New Roman'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label13: TLabel
+          Left = 3
+          Top = 57
+          Width = 50
+          Height = 15
+          Caption = 'Endere'#231'o'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Times New Roman'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Edit2: TEdit
+          Left = 115
+          Top = 36
+          Width = 163
+          Height = 22
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 2
+          OnKeyPress = FormKeyPress
+        end
+        object Edit4: TEdit
+          Left = 229
+          Top = 19
+          Width = 49
+          Height = 16
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -8
+          Font.Name = 'Cooper Blk BT'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+          Visible = False
+        end
+        object Edit1: TEdit
+          Left = 2
+          Top = 36
+          Width = 78
+          Height = 22
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 0
+          OnKeyPress = Edit1KeyPress
+        end
+        object BitBtn2: TBitBtn
+          Left = 81
+          Top = 32
+          Width = 34
+          Height = 26
+          Caption = 'Ctrl+C'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 1
+          OnClick = BitBtn2Click
+        end
+        object Edit3: TEdit
+          Left = 2
+          Top = 73
+          Width = 277
+          Height = 22
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 3
+          OnKeyPress = FormKeyPress
+        end
+        object DBGrid2: TDBGrid
+          Left = 2
+          Top = 97
+          Width = 277
+          Height = 372
+          Ctl3D = False
+          DataSource = DataSource1
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          ParentCtl3D = False
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          ReadOnly = True
+          TabOrder = 5
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -15
+          TitleFont.Name = 'MS Sans Serif'
+          TitleFont.Style = []
+          OnDblClick = DBGrid2DblClick
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'NOMECLIENTE'
+              Title.Caption = 'Delivery'
+              Width = 140
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DATA_SISTEMA'
+              Title.Caption = 'Horario'
+              Visible = True
+            end>
+        end
+      end
+      object ComboBox1: TComboBox
+        Left = 3
+        Top = 477
+        Width = 111
+        Height = 24
+        BevelKind = bkFlat
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ItemHeight = 16
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 1
+        Text = #192' VISTA'
+        Items.Strings = (
+          #192' VISTA'
+          #192' PRAZO'
+          'RATEIO')
+      end
+      object ComboBox2: TComboBox
+        Left = 113
+        Top = 477
+        Width = 169
+        Height = 24
+        BevelKind = bkFlat
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ItemHeight = 16
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 2
+        Text = '1-DINHEIRO'
+        OnKeyPress = FormKeyPress
+      end
+    end
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -669,420 +1084,6 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         end
       end
     end
-    object Panel2: TPanel
-      Left = 1
-      Top = 1
-      Width = 286
-      Height = 505
-      Color = clMoneyGreen
-      TabOrder = 1
-      Visible = False
-      object Label14: TLabel
-        Left = 3
-        Top = 461
-        Width = 39
-        Height = 16
-        Caption = 'Forma'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object GroupBox1: TGroupBox
-        Left = 2
-        Top = -13
-        Width = 281
-        Height = 471
-        Ctl3D = False
-        ParentCtl3D = False
-        TabOrder = 0
-        object Label9: TLabel
-          Left = 3
-          Top = 20
-          Width = 47
-          Height = 15
-          Caption = 'Telefone'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Times New Roman'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Label12: TLabel
-          Left = 116
-          Top = 20
-          Width = 31
-          Height = 15
-          Caption = 'Nome'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Times New Roman'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Label13: TLabel
-          Left = 3
-          Top = 57
-          Width = 50
-          Height = 15
-          Caption = 'Endere'#231'o'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Times New Roman'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Edit2: TEdit
-          Left = 115
-          Top = 36
-          Width = 163
-          Height = 22
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 2
-          OnKeyPress = FormKeyPress
-        end
-        object Edit4: TEdit
-          Left = 229
-          Top = 19
-          Width = 49
-          Height = 16
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -8
-          Font.Name = 'Cooper Blk BT'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 4
-        end
-        object Edit1: TEdit
-          Left = 2
-          Top = 36
-          Width = 78
-          Height = 22
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 0
-          OnKeyPress = Edit1KeyPress
-        end
-        object BitBtn2: TBitBtn
-          Left = 81
-          Top = 32
-          Width = 34
-          Height = 26
-          Caption = 'Ctrl+C'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 1
-          OnClick = BitBtn2Click
-        end
-        object Edit3: TEdit
-          Left = 2
-          Top = 73
-          Width = 277
-          Height = 22
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 3
-          OnKeyPress = FormKeyPress
-        end
-        object DBGrid2: TDBGrid
-          Left = 2
-          Top = 97
-          Width = 277
-          Height = 372
-          Ctl3D = False
-          DataSource = DataSource1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-          ParentCtl3D = False
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          ReadOnly = True
-          TabOrder = 5
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -15
-          TitleFont.Name = 'MS Sans Serif'
-          TitleFont.Style = []
-          OnDblClick = DBGrid2DblClick
-          Columns = <
-            item
-              Expanded = False
-              FieldName = 'NOMECLIENTE'
-              Title.Caption = 'Delivery'
-              Width = 140
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'DATA_SISTEMA'
-              Title.Caption = 'Horario'
-              Visible = True
-            end>
-        end
-      end
-      object GroupBox2: TGroupBox
-        Left = 2
-        Top = -13
-        Width = 281
-        Height = 471
-        Ctl3D = False
-        ParentCtl3D = False
-        PopupMenu = PopupMenu1
-        TabOrder = 3
-        object Label10: TLabel
-          Left = 9
-          Top = 22
-          Width = 247
-          Height = 36
-          Caption = 'Mesas / Clientes'
-        end
-        object Label7: TLabel
-          Left = 178
-          Top = 309
-          Width = 38
-          Height = 14
-          Caption = 'Total :'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'Cooper Blk BT'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Edit6: TEdit
-          Left = 184
-          Top = -84
-          Width = 49
-          Height = 42
-          TabOrder = 0
-        end
-        object cbMesas: TComboBox
-          Left = 3
-          Top = 57
-          Width = 276
-          Height = 33
-          BevelKind = bkFlat
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -21
-          Font.Name = 'Cooper Blk BT'
-          Font.Style = []
-          ItemHeight = 25
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 1
-          OnKeyPress = cbMesasKeyPress
-        end
-        object DBGrid1: TDBGrid
-          Left = 3
-          Top = 91
-          Width = 129
-          Height = 376
-          Ctl3D = False
-          DataSource = DataSource2
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-          ParentCtl3D = False
-          ParentFont = False
-          ReadOnly = True
-          TabOrder = 2
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -15
-          TitleFont.Name = 'MS Sans Serif'
-          TitleFont.Style = []
-          OnDblClick = DBGrid1DblClick
-          Columns = <
-            item
-              Expanded = False
-              FieldName = 'NOMECLIENTE'
-              Title.Alignment = taCenter
-              Title.Caption = 'Mesas'
-              Title.Font.Charset = DEFAULT_CHARSET
-              Title.Font.Color = clWindowText
-              Title.Font.Height = -13
-              Title.Font.Name = 'MS Sans Serif'
-              Title.Font.Style = []
-              Width = 370
-              Visible = True
-            end>
-        end
-        object DBGrid3: TDBGrid
-          Left = 133
-          Top = 91
-          Width = 146
-          Height = 214
-          Ctl3D = False
-          DataSource = DataSource2
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-          ParentCtl3D = False
-          ParentFont = False
-          ReadOnly = True
-          TabOrder = 3
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -15
-          TitleFont.Name = 'MS Sans Serif'
-          TitleFont.Style = []
-          OnDblClick = DBGrid1DblClick
-          Columns = <
-            item
-              Expanded = False
-              Title.Caption = 'Nome'
-              Width = 80
-              Visible = True
-            end
-            item
-              Expanded = False
-              Title.Caption = 'R$'
-              Width = 45
-              Visible = True
-            end>
-        end
-        object JvCalcEdit1: TJvCalcEdit
-          Left = 222
-          Top = 307
-          Width = 57
-          Height = 20
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DisplayFormat = ',##0.00'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlue
-          Font.Height = -11
-          Font.Name = 'Cooper Blk BT'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          ShowButton = False
-          TabOrder = 4
-          DecimalPlacesAlwaysShown = False
-          OnChange = jvPagoChange
-        end
-        object DBGrid4: TDBGrid
-          Left = 133
-          Top = 331
-          Width = 146
-          Height = 136
-          Ctl3D = False
-          DataSource = DataSource2
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-          ParentCtl3D = False
-          ParentFont = False
-          ReadOnly = True
-          TabOrder = 5
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -15
-          TitleFont.Name = 'MS Sans Serif'
-          TitleFont.Style = []
-          OnDblClick = DBGrid1DblClick
-          Columns = <
-            item
-              Expanded = False
-              Title.Caption = 'Rateio'
-              Width = 80
-              Visible = True
-            end
-            item
-              Expanded = False
-              Title.Caption = 'R$'
-              Width = 45
-              Visible = True
-            end>
-        end
-      end
-      object ComboBox1: TComboBox
-        Left = 3
-        Top = 477
-        Width = 111
-        Height = 24
-        BevelKind = bkFlat
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ItemHeight = 16
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 1
-        Text = #192' VISTA'
-        Items.Strings = (
-          #192' VISTA'
-          #192' PRAZO'
-          'RATEIO')
-      end
-      object ComboBox2: TComboBox
-        Left = 113
-        Top = 477
-        Width = 169
-        Height = 24
-        BevelKind = bkFlat
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ItemHeight = 16
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 2
-        Text = '1-DINHEIRO'
-        OnKeyPress = FormKeyPress
-      end
-    end
   end
   inherited MMJPanel2: TMMJPanel [3]
     Width = 791
@@ -1218,6 +1219,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 4
+      Visible = False
       OnClick = RadioGroup1Click
     end
   end
@@ -1260,7 +1262,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object JvLabel3: TJvLabel
       Left = 67
-      Top = 325
+      Top = 366
       Width = 108
       Height = 38
       Caption = 'Total :'
@@ -1274,17 +1276,18 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object cbporcento: TCheckBox
       Left = 47
-      Top = 378
+      Top = 331
       Width = 128
       Height = 24
       Caption = ' 10 % :'
       PopupMenu = PopupMenu1
       TabOrder = 4
+      Visible = False
       OnClick = cbporcentoClick
     end
     object DBEdit9: TDBEdit
       Left = 178
-      Top = 366
+      Top = 321
       Width = 159
       Height = 44
       BevelKind = bkFlat
@@ -1301,6 +1304,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 0
+      Visible = False
     end
     object DBEdit1: TDBEdit
       Left = 1
@@ -1324,7 +1328,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object DBEdit4: TDBEdit
       Left = 178
-      Top = 321
+      Top = 366
       Width = 159
       Height = 44
       BevelKind = bkFlat
@@ -1395,7 +1399,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Left = 1
       Top = 1
       Width = 337
-      Height = 319
+      Height = 364
       BorderStyle = bsNone
       Color = clInfoBk
       Ctl3D = False
@@ -1467,7 +1471,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     ParentFont = False
     inherited btnGravar: TBitBtn
       Left = 3
-      Top = 3
+      Top = 11
       Width = 154
       Height = 76
       Font.Charset = ANSI_CHARSET
@@ -1968,7 +1972,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     inherited btnIncluir: TBitBtn
       Left = 3
-      Top = 3
+      Top = 11
       Width = 154
       Height = 76
       Font.Charset = ANSI_CHARSET
@@ -2469,7 +2473,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     inherited btnCancelar: TBitBtn
       Left = 3
-      Top = 80
+      Top = 91
       Width = 154
       Height = 76
       Caption = 'F3-Canc.'
@@ -2971,7 +2975,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     inherited btnExcluir: TBitBtn
       Left = 3
-      Top = 80
+      Top = 91
       Width = 154
       Height = 76
       Font.Charset = ANSI_CHARSET
@@ -3605,7 +3609,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     inherited btnProcurar: TBitBtn
       Left = 3
-      Top = 311
+      Top = 331
       Width = 154
       Height = 76
       Caption = 'F8-Cons.'
@@ -4214,7 +4218,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object btnImprimir: TBitBtn
       Left = 3
-      Top = 388
+      Top = 411
       Width = 154
       Height = 76
       Caption = 'F11-Rec.  '
@@ -4719,7 +4723,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object BitBtn4: TBitBtn
       Left = 3
-      Top = 157
+      Top = 172
       Width = 154
       Height = 76
       Caption = 'F6-Final.'
@@ -5225,7 +5229,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object BitBtn1: TBitBtn
       Left = 3
-      Top = 234
+      Top = 251
       Width = 154
       Height = 76
       Caption = 'F5-Caixa'
@@ -5727,114 +5731,6 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     end
-    object BitBtn6: TBitBtn
-      Left = 3
-      Top = 465
-      Width = 154
-      Height = 37
-      Caption = 'Mensagem'
-      TabOrder = 10
-      OnClick = BitBtn6Click
-      Glyph.Data = {
-        360C0000424D360C000000000000360000002800000020000000200000000100
-        180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0B6B8B68B
-        918B919491C3C3C3F5F5F5C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C05A7B5A4F834F2EA13121
-        B0262BA52F4E844E4A734A7D7F7DC0C0C0C0C0C0C0C0C0C0C0C0F5EAE4823104
-        9D33009D32009D32009D32009D32009D32009D32009D32009D32009D32009E32
-        009F33009F33009F3300A03400A13400A7370046764807CB0E00E90600EB0A00
-        EA0A00E90900E80702D608458746561E01B33D0056270DC0C0C0FAEAE0D3550B
-        F0E0C2F0DFC2F0DFC2F0E0C2F0E0C2F0DFC2F0DFC2F0DFC2F0E0C2F0DFC2F0DF
-        C2F0DFC2F0DFC2F0DFC2F0DFC2F9E5C9477E520AC10C00EB0800F50908DB180D
-        B4210FBC2200E50700EE0800DE044C7E507D72686D2F0CC0C0C0FAEAE0CD5A12
-        EEDFBEEDDBB8EDDBB8EDDBB8EDDAB8EDDBB8EDDBB8EDDBB8EDDAB8EDDBB8EDDB
-        B8EDDBB8EDDBB8EDDBB8F6E0BE44754700C90000DF0600F30600F90877D77AFF
-        FFFFE9ECF000D80100F60700EA0600CD0149824D311809C0C0C0F9EAE0CB6118
-        F0E2C2EEDDBCEEDDBCEEDDBCEEDDBCEEDDBCEEDDBCEEDDBCEEDDBCEEDDBCEEDD
-        BCEEDDBCEEDDBCEEDDBCB6BC95219A2200CC0500E10600F40600F90777D77AFF
-        FFFFE9ECF100D70000F50700EA0600D1050DAA0F315331C0C0C0F9EADFCA671F
-        F2E4C7F0E0C1F0E0C2F0E0C1F0E0C1F0DFC1F0E0C1EFE0C1F0E0C1F0E0C1F0E0
-        C2F0E0C1F0E0C1F0DFC159845500B10200C80600C00000C30000C90076C776FF
-        FFFFE8ECF000B10000C50000BB0000BD0500B600518251CFCFCFF9EBE0C76E25
-        F3E7CDF1E3C7F1E3C7F2E2C7F1E2C7F1E3C7F1E2C7F1E3C7F1E3C7F2E2C7F1E3
-        C7F1E2C7F2E2C7F2E3C744774600B10100B200FFF5FFF3EDFCF3EDFCF7F5FDFF
-        FFFFF8F8FBF3EDFCF3EDFCF3EDFC0D9A1900B005468646ACACACF8EDE2CA7D32
-        A3A096A59F92A49F92A59F92A59F92A59F92A59F92A59F92A59F92A59F92A59F
-        92A59F92A59F92A59F92477A4800A70200A700FFFFFFFFFFFFFFFFFFFFFFFFFF
-        FFFFFFFFFFFFFFFFFFFFFFFFFFFF0C941700A605428642AFAFAFF8EDE1D08B3E
-        E7AF71E7AF73E7AF73E7AF73E7AF73E7AF73E7AF73E7AF73E7AF73E7AF73E7AF
-        73E7AF73E7AF73E7AF734E7D4E009F0000AD05099F0E00A50500AB0577C079FF
-        FFFFEAEDF100950000A705069E0B00A50500A1014F854FD9D9D9F8EEE3C1873D
-        FBF2E2F8EDDBF8EDDBF8EDDBF8EDDBF8EDDBF8EDDBF8EDDBF8EDDBF8EEDBF8ED
-        DBF8EDDBF8EDDBF8EDDB88A67E0E900F00A50225BC2806C10B00C60477C579FF
-        FFFFE9EBF000AB0005C20A1DBF2000A801009601446F44C0C0C0F7EEE2C08C43
-        FDF5E7F9F0E0F9F0E0F9F0E0F9F0E0F9F0E1F9F0E0F9F0E0F9F0E0F9F0E0F9F0
-        E0F9F0E1F9F0E1F9F0E0F8F0E03D7A3E009A0034B83724BB2709B70D77BD79FF
-        FFFFE9EBF0019D0421BB2448C24A009C01348335313622C0C0C0F7F0E3BF944C
-        FFF9EFFCF4E8FCF4E8FBF4E8FCF4E8FCF4E8FBF4E8FCF4E8FCF4E8FCF4E8FBF4
-        E8FBF4E8FBF4E8FCF4E8FBF4E8E9E9D9407A4100930093D79481D28385BA8BC2
-        D7C5BED3C375C47695D79626A9283A813A848C6A67522FC0C0C0F7F1E4C2A05A
-        FFFBF3FDF6EDFDF6EDFDF6EDFDF6EDFDF6EDFDF6EDFDF6EDFDF6EDFDF6EDFDF6
-        ECFDF6EDFDF6EDFDF6EDFDF6EDFDF6ECCFD9C44079411A9F1CACDEADD4EFD4D5
-        EED5D3EDD3B1E0B225A528128814829B7CF6E7CE665534C0C0C0F8F4E8C6AD6C
-        FFFDF7FEF8F0FEF8F0FEF8F0FEF8F0FEF8F0FEF8F0FEF8F0FEF8F0FEF8F0FEF8
-        F0FEF8F1FEF8F0FEF8F0FEF8F0FEF8F0FEF8F0F6F5EC4076401483161C981F3E
-        AC411E9A211085123F79406E936BFFFBF3F4E9D1695D3EC0C0C0F9F5EAD0BC81
-        E8E4E3E5E1DDE5E1DDE5E1DDE5E1DDE5E1DDE5E1DDE5E1DDE5E1DDE5E1DDE5E1
-        DDE5E1DDE5E1DDE5E1DDE5E1DDE5E1DDE5E1DDE5E1DDF0E9E8A8B7A4557E5742
-        71454C774F94A892E7E1E0E6E3DFE5E1DDD9D1BF6D6448C0C0C0FBF7EDEAD29C
-        90E0F293E0F193E0F193E0F193E0F193E0F193E0F193E0F193E0F193E0F193E0
-        F193E0F193E0F193E0F193E0F193E0F193E0F193E0F193E0F193E0F193E0F193
-        E0F193E0F193E0F193E0F193E0F193E0F1B7E7ED706850C0C0C0FBF7EDE4C491
-        00C7FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4
-        FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00C4FF00
-        C4FF00C4FF00C4FF00C4FF00C4FF00C4FF58CEE5716750C0C0C0FBF4EBE1B988
-        00CBFF00C7FF00C7FF00C7FF00C7FF00C7FF00C7FF00C7FF00C7FF00C7FF00C7
-        FF00C7FF00C7FF00C7FF00C7FF00C7FF00C7FF00C7FF00C7FF00C7FF00C8FF00
-        C7FF00C7FF00C7FF00C7FF00C7FF00C7FF58CDE370624CC0C0C0F9F1E8DAA877
-        00CFFF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00CB
-        FF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00CBFF00
-        CBFF00CBFF00CBFF00CBFF00CBFF00CBFF58CADE6D5945C0C0C0F7EAE0D18859
-        00D6FF00D1FF00D1FF00D1FF00D1FF00D1FF00D0FF00D1FF00D1FF00D1FF00D1
-        FF00D1FF00D1FF00D1FF00D1FF00D1FF00D1FF00D1FF00D1FF00D1FF00D1FF00
-        D1FF00D1FF00D1FF00D1FF00D1FF00D1FF55C5D4694D37C0C0C0F7E6DCCE7547
-        00DBFF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4
-        FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00D4FF00
-        D4FF00D4FF00D4FF00D4FF00D4FF00D4FF57C2CF684430C0C0C0F7E3D9D67649
-        1F575E24575C25575C25575C25575C25575C25575C25575C25575C25575C2557
-        5C25575C25575C25575C25575C25575C24575C25575C25575C25575C25575C25
-        575C25575C25575C25575C25575C24575C53574C6A422FC0C0C0F7E1D8D56B3F
-        F4CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CC
-        BBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3
-        CCBBF3CCBBF3CCBBF3CCBBF3CCBBF3CCBBF2C9B8693B28C0C0C0F7DCD4C14C27
-        FFFFFFFFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFA
-        F4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FF
-        FAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4F5D0C16A3120C0C0C0F7D8D0C2401E
-        FFFFFFFFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFA
-        F4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FF
-        FAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4F6CDC06B2D1DC0C0C0F8D5CEC23414
-        FFFFFFFFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFA
-        F4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FF
-        FAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4F6CABD6C2A1BC0C0C0F8D1C9C42A0C
-        FFFFFFFFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFA
-        F4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4FF
-        FAF4FFFAF4FFFAF4FFFAF4FFFAF4FFFAF4F7C6B96C2619C0C0C0F9CDC6C41B01
-        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7BDB26E1E11C0C0C0F9CCC6E82207
-        BE0600C00700C00700C00700C00700C00700C00700C00700C00700C00700C007
-        00C00700C00700C00700C00700C00700C00700C00700C00700C00700C00700C0
-        0700C00700C00700C00700C00700C00700CF0F006D1B10C0C0C0C0C0C0FEF3F1
-        FCE4E0FCE4E0FCE4E0FCE4E0FCE4E0FCE3E0FCE3E0FCE4E0FCE4E0FCE4E0FCE3
-        DFFCE3E0FCE4E0FCE4E0FCE4E0FCE4E0FCE3E0FCE3E0FCE4E0FCE4E0FCE4E0FC
-        E4E0FCE3E0FCE4E0FCE3DFFCE3E0FCE3E0FCDFDBF7DAD6C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
-    end
   end
   inherited XPMenu1: TXPMenu
     Left = 720
@@ -5859,30 +5755,45 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     inherited Cancelar1: TMenuItem
       Visible = False
     end
-    object Alteraes1: TMenuItem [5]
-      Caption = 'Alterar Item'
-      ShortCut = 16449
-      OnClick = DBGrid3DblClick
-    end
-    object ExcluirItem1: TMenuItem [6]
-      Caption = 'Excluir Item'
-      ShortCut = 16452
-      OnClick = ExcluirItem1Click
-    end
-    object Clientes1: TMenuItem
-      Caption = 'Clientes'
-      ShortCut = 16451
-      OnClick = BitBtn7Click
+    object Recibo1: TMenuItem
+      Caption = 'Recibo'
+      ShortCut = 122
+      OnClick = btnImprimirClick
     end
     object Caixa1: TMenuItem
       Caption = 'Caixa'
       ShortCut = 116
       OnClick = BitBtn1Click
     end
-    object Recibo1: TMenuItem
-      Caption = 'Recibo'
-      ShortCut = 122
-      OnClick = btnImprimirClick
+    object Alteraes1: TMenuItem
+      Caption = 'Alterar Item'
+      ShortCut = 16449
+      OnClick = DBGrid3DblClick
+    end
+    object Clientes1: TMenuItem
+      Caption = 'Clientes'
+      ShortCut = 16451
+      OnClick = BitBtn7Click
+    end
+    object ExcluirItem1: TMenuItem
+      Caption = 'Excluir Item'
+      ShortCut = 16452
+      OnClick = ExcluirItem1Click
+    end
+    object FormadeRecebimento1: TMenuItem
+      Caption = 'Forma de Recebimento'
+      ShortCut = 16454
+      OnClick = FormadeRecebimento1Click
+    end
+    object APrazo1: TMenuItem
+      Caption = 'A Prazo'
+      ShortCut = 16464
+      OnClick = APrazo1Click
+    end
+    object AVista1: TMenuItem
+      Caption = 'A Vista'
+      ShortCut = 16470
+      OnClick = AVista1Click
     end
   end
   inherited DtSrc: TDataSource
@@ -8558,6 +8469,72 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object sCaixaAbertoNOMECAIXA: TStringField
       FieldName = 'NOMECAIXA'
       Size = 60
+    end
+  end
+  object sParametro: TSQLDataSet
+    CommandText = 
+      'select  PARAMETRO, DADOS, D1, D2, D3, D4, D5, D6, D7, D8, D9 fro' +
+      'm PARAMETRO '#13#10'where PARAMETRO = '#39'TERMINAL'#39
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 13
+    Top = 302
+    object sParametroD1: TStringField
+      FieldName = 'D1'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroD2: TStringField
+      FieldName = 'D2'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroD3: TStringField
+      FieldName = 'D3'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroD4: TStringField
+      FieldName = 'D4'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroD5: TStringField
+      FieldName = 'D5'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroD6: TStringField
+      FieldName = 'D6'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroD7: TStringField
+      FieldName = 'D7'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroD8: TStringField
+      FieldName = 'D8'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroD9: TStringField
+      FieldName = 'D9'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sParametroDADOS: TStringField
+      FieldName = 'DADOS'
+      ProviderFlags = [pfInUpdate]
+      Size = 40
+    end
+    object sParametroPARAMETRO: TStringField
+      FieldName = 'PARAMETRO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+      Size = 40
     end
   end
 end

@@ -577,7 +577,6 @@ type
     sCaixaDATA: TDateField;
     sCaixaAberto: TSQLDataSet;
     sCaixaAbertoNOMECAIXA: TStringField;
-    BitBtn6: TBitBtn;
     Panel6: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
@@ -617,6 +616,21 @@ type
     Label7: TLabel;
     JvCalcEdit1: TJvCalcEdit;
     DBGrid4: TDBGrid;
+    sParametro: TSQLDataSet;
+    sParametroD1: TStringField;
+    sParametroD2: TStringField;
+    sParametroD3: TStringField;
+    sParametroD4: TStringField;
+    sParametroD5: TStringField;
+    sParametroD6: TStringField;
+    sParametroD7: TStringField;
+    sParametroD8: TStringField;
+    sParametroD9: TStringField;
+    sParametroDADOS: TStringField;
+    sParametroPARAMETRO: TStringField;
+    AVista1: TMenuItem;
+    APrazo1: TMenuItem;
+    FormadeRecebimento1: TMenuItem;
     procedure BitBtn1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
@@ -660,6 +674,9 @@ type
     procedure DBEdit3KeyPress(Sender: TObject; var Key: Char);
     procedure DBEdit3Exit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
+    procedure AVista1Click(Sender: TObject);
+    procedure APrazo1Click(Sender: TObject);
+    procedure FormadeRecebimento1Click(Sender: TObject);
   private
      codproduto : integer;
      cod_nat : integer;
@@ -691,6 +708,7 @@ type
      procedure novavenda;
      procedure updatevenda;
      procedure imprimecupom;
+     procedure imprimerecibo;
      procedure buscacliente;
      procedure exportatabelas;
      procedure AbreFormCaixa;
@@ -1262,7 +1280,19 @@ begin
   end;
 
   if (RadioGroup1.ItemIndex = 2) then
+  begin
     BitBtn4.Click;
+    if (cds_Movimento.Active) then
+      cds_Movimento.Close;
+    cds_Movimento.Params[0].AsInteger := cod_mov;
+    cds_Movimento.Open;
+    if (cds_Mov_det.Active) then
+      cds_Mov_det.Close;
+    cds_Mov_det.Params[0].Clear;
+    cds_Mov_det.Params[1].AsInteger := cod_mov;
+    cds_Mov_det.Open;
+  end;
+
 
 end;
 
@@ -1682,9 +1712,12 @@ begin
       vendaavista;
 
  terminal := '';
-
- if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
-     imprimecupom;
+  if (ComboBox3.Text = 'À VISTA') then
+    if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+      imprimecupom;
+  if (ComboBox3.Text = 'À PRAZO') then
+    if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+      imprimerecibo;
 
  if (Panel2.Visible = True) then //Mesa - Delivery
  begin
@@ -1695,7 +1728,7 @@ begin
      cdsMesa.Close;
    cdsMesa.Open;
  end;
- cds_Mov_det.Close;
+ //cds_Mov_det.Close;
  jvPago.Value := 0;
  JvTroco.Value := 0;
 end;
@@ -1811,7 +1844,7 @@ begin
       porta := 'LPT1:';
     end;
     {------Mensagem para impressão ---------}
-    if Dm.cds_parametro.Active then
+  {  if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'MENSAGEM';
     dm.cds_parametro.Open;
@@ -1826,7 +1859,7 @@ begin
       dm.cds_parametroPARAMETRO.AsString := 'MENSAGEM';
       dm.cds_parametroDADOS.AsString := '.......';
       dm.cds_parametro.ApplyUpdates(0);
-    end;
+    end;   }
 
   // Imprimindo
   if (not dm.cds_empresa.Active) then
@@ -1837,18 +1870,23 @@ begin
   ' - ' + dm.cds_empresaCEP.Value;
   fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
   ' / ' + dm.cds_empresaFONE_2.Value;
-  Texto  := '------------------------------------------------------' ;
+  Texto  := '---------------------------------------------------' ;
   Texto1 := DateTimeToStr(Now) + '               Pedido N.:  ' +
   IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
-  Texto2 := '------------------------------------------------------' ;
-  //Texto3 := 'Codigo - Produto' ;
-  Texto4 := 'Produto                     Qtde      V.Un.   V.Total' ;
-  {-----------------------------------------------------------}
-  {-------------------Imprimi Cabeçalho-----------------------}
+  Texto2 := '---------------------------------------------------' ;
+  Texto4 := 'Produto                   Qtde     V.Un.   V.Total' ;
+  sParametro.Open;
+  DM.Mensagem := sParametroD9.AsString;
   // Para gravar em arquivo
-  //OpenDialog1.Execute;
-  //AssignFile(IMPRESSORA, OpenDialog1.FileName);
-  AssignFile(IMPRESSORA,porta);
+  if (sParametroD8.AsString = 'txt') then
+  begin
+    OpenDialog1.Execute;
+    AssignFile(IMPRESSORA, OpenDialog1.FileName);
+  end
+  else
+  begin
+    AssignFile(IMPRESSORA,porta);
+  end;
   Rewrite(IMPRESSORA);
   Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
   Writeln(Impressora, c10cpi, logradouro);
@@ -1858,8 +1896,6 @@ begin
   Writeln(Impressora, c17cpi, texto);
   Writeln(Impressora, c17cpi, texto1);
   Writeln(Impressora, c17cpi, texto2);
-  {-----------------------------------------------------------}
-  {-------------------Imprimi dados do cliente----------------}
   if (RadioGroup1.ItemIndex = 0) then
   begin
      vNomeCliente := cbMesas.Text;
@@ -1887,8 +1923,8 @@ begin
       texto6 := texto6 + Copy(cds_Mov_detDESCPRODUTO.Value, 0, 55);
       Writeln(Impressora, c17cpi, texto6);
       Write(Impressora, c17cpi, Format('%-13s  ',['']));
-      Write(Impressora, c17cpi + Format('              %-6.2n',[cds_Mov_detQUANTIDADE.AsFloat]));
-      Write(Impressora, c17cpi + Format('  %-6.2n',[cds_Mov_detPRECO.AsFloat]));
+      Write(Impressora, c17cpi + Format('            %-6.2n',[cds_Mov_detQUANTIDADE.AsFloat]));
+      Write(Impressora, c17cpi + Format(' %-6.2n',[cds_Mov_detPRECO.AsFloat]));
       Writeln(Impressora, c17cpi + Format('  %-6.2n',[cds_Mov_detValorTotal.value]));
       with Printer.Canvas do
       begin
@@ -1897,29 +1933,27 @@ begin
       end;
       cds_Mov_det.next;
     end;
-    {-----------------------------------------------------------}
-    {-------------------Imprimi final do Pedido-----------------}
     Texto5 := DateTimeToStr(Now) + '      Total.: R$   ';
     total := cds_Mov_detTotalPedido.Value;
     porc := total * 0.1;
     Writeln(Impressora, c17cpi, texto);
     Write(Impressora, c10cpi, texto5);
-    Writeln(Impressora, c10cpi + Format('   %-6.2n',[total]));
-    if (cbporcento.Checked = True) then
+    Writeln(Impressora, c10cpi + Format('     %-6.2n',[total]));
+   { if (cbporcento.Checked = True) then
     begin
-      Texto5 := '                           *10% R$ ';
+      Texto5 := '                          *10% R$ ';
       Write(Impressora, c10cpi, texto5);
-      Writeln(Impressora, c10cpi + Format('      %-6.2n',[porc]));
+      Writeln(Impressora, c10cpi + Format('     %-6.2n',[porc]));
       Texto5 := '                                               -----------';
       Writeln(Impressora, c17cpi, texto5);
-      Texto5 := '                           Total Geral.: R$ ';
+      Texto5 := '                          Total Geral.: R$ ';
       Write(Impressora, c17cpi, texto5);
       totgeral := total + porc;
-      Writeln(Impressora, c10cpi + Format('     %-6.2n',[totgeral]));
+      Writeln(Impressora, c10cpi + Format('    %-6.2n',[totgeral]));
       Texto5 := '* Nao Obrigatorio           ';
       Write(Impressora, c10cpi, texto5);
       Writeln(IMPRESSORA);          
-    end;
+    end;   }
     Writeln(IMPRESSORA);
     Write(Impressora, c10cpi, DM.Mensagem);
     Writeln(IMPRESSORA);
@@ -2073,8 +2107,12 @@ end;
 procedure TfTerminal_Delivery.btnImprimirClick(Sender: TObject);
 begin
   inherited;
- if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
-     imprimecupom;
+  if (ComboBox3.Text = 'À VISTA') then
+    if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+      imprimecupom;
+  if (ComboBox3.Text = 'À PRAZO') then
+    if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+      imprimerecibo;
 end;
 
 procedure TfTerminal_Delivery.btnCancelarClick(Sender: TObject);
@@ -2404,6 +2442,162 @@ begin
     else
       fTerminal_Delivery.Close;
   end;
+end;
+
+procedure TfTerminal_Delivery.imprimerecibo;
+const
+cJustif = #27#97#51;
+cEject = #12;
+{ Tamanho da fonte }
+c10cpi = #18;
+c12cpi = #27#77;
+c17cpi = #15;
+cIExpandido = #14;
+cFExpandido = #20;
+{ Formatação da fonte }
+cINegrito = #27#71;
+cFNegrito = #27#72;
+cIItalico = #27#52;
+cFItalico = #27#53;
+
+var
+  IMPRESSORA:TextFile;
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+  modelo, placa, cliente :string;
+  total : double;
+begin
+  inherited;
+     cds_venda.Close;
+     cds_venda.Params[0].Clear;
+     cds_venda.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+     cds_venda.Open;
+     if (not dm.cds_empresa.Active) then
+        dm.cds_empresa.Open;
+     {----- aqui monto o endereço-----}
+     logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+     cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+     ' - ' + dm.cds_empresaCEP.Value;
+     fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+     ' / ' + dm.cds_empresaFONE_2.Value;
+     Texto  := '------------------------------------------------------' ;
+     Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
+      IntToStr(cds_vendaNOTAFISCAL.AsInteger) + ' - ' + cds_vendaSERIE.AsString;
+     Texto2 := '------------------------------------------------------' ;
+     Texto3 := 'Produto' ;
+     Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
+     Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
+     cliente := 'Cliente : ' + cds_MovimentoNOMECLIENTE.Value;
+     sParametro.Open;
+     DM.Mensagem := sParametroD9.AsString;
+     // Para gravar em arquivo
+     if (sParametroD8.AsString = 'txt') then
+     begin
+       OpenDialog1.Execute;
+       AssignFile(IMPRESSORA, OpenDialog1.FileName);
+     end
+     else
+     begin
+       AssignFile(IMPRESSORA,'LPT1:');
+     end;
+     Rewrite(IMPRESSORA);
+     Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
+     Writeln(Impressora, c17cpi, logradouro);
+     Writeln(Impressora, cep);
+     Writeln(Impressora, fone);
+     Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+     Writeln(Impressora, cliente);
+     Writeln(Impressora, c17cpi, placa);
+     Writeln(Impressora, c17cpi, texto);
+     Writeln(Impressora, c17cpi, texto1);
+     Writeln(Impressora, c17cpi, texto2);
+     Writeln(Impressora, c17cpi, texto3);
+     Writeln(Impressora, c17cpi, texto4);
+  {-----------------------------------------------------------}
+  {-------------------Imprimi itens do boleto-----------------}
+   try
+     cds_Mov_det.First;
+     while not cds_Mov_det.Eof do
+     begin
+       cds_Mov_det.RecordCount;
+      // imprime
+      Writeln(Impressora, c17cpi + Format('%-40s',[cds_Mov_detPRODUTO.Value]));
+      Write(Impressora, c17cpi, Format('%-13s  ',[cds_Mov_detCOD_BARRA.Value]));
+      Write(Impressora, c17cpi + Format('   %-2s  ',[cds_Mov_detUN.Value]));
+      Write(Impressora, c17cpi + Format('   %-6.2n',[cds_Mov_detQUANTIDADE.AsFloat]));
+      Write(Impressora, c17cpi + Format('   %-6.2n',[cds_Mov_detPRECO.AsFloat]));
+      Writeln(Impressora, c17cpi + Format('   %-6.2n',[cds_Mov_detValorTotal.value]));
+      with Printer.Canvas do
+      begin
+       Font.Name := 'Courier New';
+       Font.Size := 4;
+      end;
+      cds_Mov_det.next;
+     end;
+     total := cds_Mov_detTotalPedido.Value;
+     Writeln(Impressora, c17cpi, texto);
+     Write(Impressora, c17cpi, texto5);
+     Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+   {  Texto5 := '                Descondo : R$   ';
+     total := cds_vendaDESCONTO.Value;
+     if (total > 0) then
+     begin
+       Write(Impressora, c17cpi, texto5);
+       Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+     end;
+     Texto5 := '             Total Pagar : R$   ';
+     total := cds_vendaVALOR_PAGAR.Value;
+     if (total > 0) then
+     begin
+       Write(Impressora, c17cpi, texto5);
+       Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+     end;
+     Texto5 := '              Total Pago : R$   ';
+     total := cds_vendaENTRADA.Value;
+     if (total > 0) then
+     begin
+       Write(Impressora, c17cpi, texto5);
+       Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+     end;   }
+     Texto5 := 'Vencimento :   ';
+     Write(Impressora, c17cpi, texto5);
+     Texto5 := DateTimeToStr(cds_vendaDATAVENCIMENTO.AsDateTime);
+     Writeln(Impressora, c17cpi, texto5);
+     Writeln(IMPRESSORA);
+     Write(Impressora, c10cpi, DM.Mensagem);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+  finally
+    CloseFile(IMPRESSORA);
+  end;
+  dbeProduto.SetFocus;
+end;
+
+procedure TfTerminal_Delivery.AVista1Click(Sender: TObject);
+begin
+  inherited;
+   ComboBox3.Text := 'À VISTA';
+end;
+
+procedure TfTerminal_Delivery.APrazo1Click(Sender: TObject);
+begin
+  inherited;
+   ComboBox3.Text := 'À PRAZO';
+end;
+
+procedure TfTerminal_Delivery.FormadeRecebimento1Click(Sender: TObject);
+begin
+  inherited;
+  ComboBox4.SetFocus;
 end;
 
 end.
