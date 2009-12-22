@@ -7,7 +7,8 @@ uses
   Dialogs, StdCtrls, ComCtrls, JvExComCtrls, JvProgressBar, Mask, JvExMask,
   JvToolEdit, dxCore, dxButton, XPMenu, rpcompobase, rpvclreport,
   gbCobranca, FMTBcd, DB, DBClient, Provider, SqlExpr, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid, ExtCtrls, MMJPanel, Buttons, ImgList;
+  JvExDBGrids, JvDBGrid, ExtCtrls, MMJPanel, Buttons, ImgList, JvExButtons,
+  JvBitBtn;
 
 type
   TfExpContMat = class(TForm)
@@ -191,6 +192,52 @@ type
     sdsNFNOTASERIE: TStringField;
     dspNF: TDataSetProvider;
     cdsNF: TClientDataSet;
+    sdsNFUF: TStringField;
+    sdsNFVALOR: TFloatField;
+    sdsNFENTRADA: TFloatField;
+    sdsNFN_PARCELA: TSmallintField;
+    cds_Movimento: TClientDataSet;
+    cds_MovimentoCODMOVIMENTO: TIntegerField;
+    cds_MovimentoDATAMOVIMENTO: TDateField;
+    cds_MovimentoCODCLIENTE: TIntegerField;
+    cds_MovimentoCODNATUREZA: TSmallintField;
+    cds_MovimentoSTATUS: TSmallintField;
+    cds_MovimentoCODUSUARIO: TSmallintField;
+    cds_MovimentoNOMECLIENTE: TStringField;
+    cds_MovimentoDESCNATUREZA: TStringField;
+    cds_MovimentoALMOXARIFADO: TStringField;
+    cds_MovimentoCODVENDEDOR: TSmallintField;
+    cds_MovimentoCODALMOXARIFADO: TIntegerField;
+    cds_MovimentoNOMEFORNECEDOR: TStringField;
+    cds_MovimentoCODFORNECEDOR: TIntegerField;
+    cds_MovimentoTIPOTITULO: TSmallintField;
+    cds_MovimentoDATA_SISTEMA: TSQLTimeStampField;
+    cds_MovimentoNOMEUSUARIO: TStringField;
+    cds_MovimentoOBS: TStringField;
+    cds_MovimentoPLACA: TStringField;
+    cds_MovimentoMARCA_MODELO: TStringField;
+    cds_MovimentoCOD_VEICULO: TIntegerField;
+    cds_MovimentoBAIXAMOVIMENTO: TSmallintField;
+    cds_MovimentoCONTROLE: TStringField;
+    cds_MovimentoCNPJ: TStringField;
+    sMenorData: TSQLDataSet;
+    sMenorDataMENORDATA: TDateField;
+    sMaiorData: TSQLDataSet;
+    sMaiorDataMAIORDATA: TDateField;
+    MMJPanel1: TMMJPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Edit1: TEdit;
+    JvDateEdit1: TJvDateEdit;
+    JvDateEdit2: TJvDateEdit;
+    dxButton1: TdxButton;
+    Button1: TButton;
+    JvProgressBar1: TJvProgressBar;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn2: TBitBtn;
+    JvDBGrid1: TJvDBGrid;
+    DataSource1: TDataSource;
     cdsNFFRETE: TStringField;
     cdsNFCNPJ_CPF: TStringField;
     cdsNFNOMETRANSP: TStringField;
@@ -228,53 +275,27 @@ type
     cdsNFCORPONF2: TStringField;
     cdsNFHORASAIDA: TTimeField;
     cdsNFNOTASERIE: TStringField;
-    sdsNFUF: TStringField;
     cdsNFUF: TStringField;
-    sdsNFVALOR: TFloatField;
-    sdsNFENTRADA: TFloatField;
     cdsNFVALOR: TFloatField;
     cdsNFENTRADA: TFloatField;
-    sdsNFN_PARCELA: TSmallintField;
     cdsNFN_PARCELA: TSmallintField;
-    cds_Movimento: TClientDataSet;
-    cds_MovimentoCODMOVIMENTO: TIntegerField;
-    cds_MovimentoDATAMOVIMENTO: TDateField;
-    cds_MovimentoCODCLIENTE: TIntegerField;
-    cds_MovimentoCODNATUREZA: TSmallintField;
-    cds_MovimentoSTATUS: TSmallintField;
-    cds_MovimentoCODUSUARIO: TSmallintField;
-    cds_MovimentoNOMECLIENTE: TStringField;
-    cds_MovimentoDESCNATUREZA: TStringField;
-    cds_MovimentoALMOXARIFADO: TStringField;
-    cds_MovimentoCODVENDEDOR: TSmallintField;
-    cds_MovimentoCODALMOXARIFADO: TIntegerField;
-    cds_MovimentoNOMEFORNECEDOR: TStringField;
-    cds_MovimentoCODFORNECEDOR: TIntegerField;
-    cds_MovimentoTIPOTITULO: TSmallintField;
-    cds_MovimentoDATA_SISTEMA: TSQLTimeStampField;
-    cds_MovimentoNOMEUSUARIO: TStringField;
-    cds_MovimentoOBS: TStringField;
-    cds_MovimentoPLACA: TStringField;
-    cds_MovimentoMARCA_MODELO: TStringField;
-    cds_MovimentoCOD_VEICULO: TIntegerField;
-    cds_MovimentoBAIXAMOVIMENTO: TSmallintField;
-    cds_MovimentoCONTROLE: TStringField;
-    cds_MovimentoCNPJ: TStringField;
-    dxButton1: TdxButton;
-    Edit1: TEdit;
-    JvDateEdit1: TJvDateEdit;
-    Label1: TLabel;
-    JvDateEdit2: TJvDateEdit;
-    Label2: TLabel;
-    JvProgressBar1: TJvProgressBar;
-    Button1: TButton;
-    sMenorData: TSQLDataSet;
-    sMenorDataMENORDATA: TDateField;
-    sMaiorData: TSQLDataSet;
-    sMaiorDataMAIORDATA: TDateField;
+    ImageList2: TImageList;
+    ImageList1: TImageList;
+    Edit3: TEdit;
+    Edit2: TEdit;
+    sdsNFSELECIONOU: TStringField;
+    cdsNFSELECIONOU: TStringField;
     procedure Button1Click(Sender: TObject);
     procedure dxButton1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure JvDBGrid1ColEnter(Sender: TObject);
+    procedure JvDBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -338,38 +359,40 @@ begin
 
    dattoday := FormatDateTime('mm', Today);
 
-   NomArquivo := (Edit1.Text + '001.N' + dattoday);
+   NomArquivo := (Edit1.Text);
    AssignFile(Arquivo, NomArquivo);
    Rewrite(Arquivo);
 
    while not cdsNF.Eof do
    begin
-   JvProgressBar1.Position := JvProgressBar1.Position + 5;
+   if (cdsNFSELECIONOU.AsString = 'S') then
+     begin
+     JvProgressBar1.Position := JvProgressBar1.Position + 5;
 
-   if (sCliente.Active) then
-          sCliente.Close;
-        sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-        sCliente.Open;
+     if (sCliente.Active) then
+        sCliente.Close;
+     sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+     sCliente.Open;
 
-   if (cdsNFDTASAIDA.IsNull) then
-          dathor := cdsNFDTAEMISSAO.AsDateTime
-        else
-          dathor := cdsNFDTASAIDA.AsDateTime;
+     if (cdsNFDTASAIDA.IsNull) then
+       dathor := cdsNFDTAEMISSAO.AsDateTime
+     else
+       dathor := cdsNFDTASAIDA.AsDateTime;
 
-   if(cdsNFENTRADA.AsFloat = cdsNFVALOR.AsFloat) then
-   begin
-   prazo := '';
-   avista := FloatToStr(cdsNFVALOR.AsFloat);
-   parcelas := '';
-   end
-   else
-   begin
-   prazo := FloatToStr(cdsNFVALOR.asFloat);
-   avista := '';
-   parcelas := IntToStr(cdsNFN_PARCELA.AsInteger);
-   end;
+     if(cdsNFENTRADA.AsFloat = cdsNFVALOR.AsFloat) then
+     begin
+     prazo := '';
+     avista := FloatToStr(cdsNFVALOR.AsFloat);
+     parcelas := '';
+     end
+     else
+     begin
+     prazo := FloatToStr(cdsNFVALOR.asFloat);
+     avista := '';
+     parcelas := IntToStr(cdsNFN_PARCELA.AsInteger);
+     end;
 
-   Registro := ('R1' + '|' +                                                 //	Tipo de Registro. Constante R1
+     Registro := ('R1' + '|' +                                                 //	Tipo de Registro. Constante R1
                 'S' +  '|' +                                                 // Indicador do tipo de Operação: E - Entrada; S - Saída
                 FormatDateTime('ddmm',cdsNFDTAEMISSAO.asDateTime) +  '|' +   // Informe a data de emissão no formato DDMM
                 FormatDateTime('ddmm',dathor) +  '|' +                       //Informe a data de entrada/saída no formato DDMM
@@ -470,8 +493,9 @@ begin
       writeln(Arquivo, Registro);
       cdsItensNF.Next;
       end;
-
+   end;
    cdsNF.Next;
+
 end;
    CloseFile(arquivo);
    JvProgressBar1.Position := JvProgressBar1.Position + (1000-JvProgressBar1.Position);
@@ -497,5 +521,107 @@ begin
    Button1.Enabled := True;
 end;
 
+
+procedure TfExpContMat.BitBtn2Click(Sender: TObject);
+begin
+//  SaveDialog1.Execute;
+  //  Edit1.Text := SaveDialog1.FileName;
+   if (cdsNF.Active) then
+     cdsNF.Close;
+   cdsNF.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
+   cdsNF.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
+   cdsNF.Open;
+
+
+  if (sMenorData.Active) then
+     sMenorData.Close;
+   sMenorData.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
+   sMenorData.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
+   sMenorData.Open;
+
+   if (sMaiorData.Active) then
+     sMaiorData.Close;
+   sMaiorData.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
+   sMaiorData.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
+   sMaiorData.Open;
+
+   Edit2.Text := DateToStr(sMenorDataMENORDATA.Value);
+   Edit3.Text := DateToStr(sMaiorDataMAIORDATA.Value);
+
+   Button1.Enabled := True;
+end;
+
+procedure TfExpContMat.JvDBGrid1ColEnter(Sender: TObject);
+begin
+   if JvDBGrid1.SelectedField = cdsNFSELECIONOU then
+     JvDBGrid1.Options := JvDBGrid1.Options - [dgEditing]
+   else
+      JvDBGrid1.Options := JvDBGrid1.Options + [dgEditing];
+end;
+
+procedure TfExpContMat.JvDBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  // Selecionou ?
+   if Column.Field = cdsNFSELECIONOU then
+   begin
+       JvDBGrid1.Canvas.FillRect(Rect);
+       ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 1);
+       if cdsNFSELECIONOU.AsString = 'S' then
+         ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 2)
+       else
+         ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 0);
+   end;
+end;
+
+procedure TfExpContMat.JvDBGrid1CellClick(Column: TColumn);
+begin
+  if Column.Field = cdsNFSELECIONOU then
+  begin
+     cdsNF.Edit;
+     if cdsNFSELECIONOU.AsString = 'S' then
+       cdsNFSELECIONOU.AsString := ''
+     else
+       cdsNFSELECIONOU.AsString := 'S';
+  end;
+end;
+
+procedure TfExpContMat.BitBtn4Click(Sender: TObject);
+begin
+  cdsNF.DisableControls;
+  cdsNF.First;
+  while not cdsNF.Eof do
+  begin
+     cdsNF.Edit;
+     cdsNFSELECIONOU.AsString := '';
+     cdsNF.Post;
+     cdsNF.Next;
+  end;
+  cdsNF.First;
+  cdsNF.EnableControls;
+end;
+
+procedure TfExpContMat.BitBtn3Click(Sender: TObject);
+begin
+  cdsNF.DisableControls;
+  cdsNF.First;
+  while not cdsNF.Eof do
+  begin
+     cdsNF.Edit;
+     cdsNFSELECIONOU.AsString := 'S';
+     cdsNF.Post;
+     cdsNF.Next;
+  end;
+  cdsNF.First;
+  cdsNF.EnableControls;
+end;
+
+procedure TfExpContMat.FormShow(Sender: TObject);
+var dia, mes, ano :word;
+begin
+  DecodeDate( now, ano, mes, dia);
+  edit1.text := 'c:\Home\sisadmin\' + IntToStr(dia) + '-' + IntToStr(mes) + '-' + IntToStr(ano) + '.N' + IntToStr(mes);
+end;
 
 end.
