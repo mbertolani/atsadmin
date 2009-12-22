@@ -47,14 +47,11 @@ type
     DBEdit11: TDBEdit;
     DBEdit12: TDBEdit;
     GroupBox3: TGroupBox;
-    SpeedButton2: TBitBtn;
-    SpeedButton3: TBitBtn;
     MMJPanel2: TMMJPanel;
     BitBtn4: TBitBtn;
     Label1: TLabel;
     Label2: TLabel;
     JvDBGrid1: TJvDBGrid;
-    BitBtn1: TBitBtn;
     DtSrc: TDataSource;
     cds: TClientDataSet;
     cdsCODMOVIMENTO: TIntegerField;
@@ -201,6 +198,8 @@ type
     Excluir1: TMenuItem;
     Cancelar1: TMenuItem;
     Sair1: TMenuItem;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -209,6 +208,9 @@ type
     procedure cdsNewRecord(DataSet: TDataSet);
     procedure btnSairClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeSerieExit(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -222,7 +224,8 @@ var
 
 implementation
 
-uses uTerminal_Delivery, UDm, uUtils, uProcurar, sCtrlResize;
+uses uTerminal_Delivery, UDm, uUtils, uProcurar_nf, sCtrlResize,
+  ufCrAltera;
 
 {$R *.dfm}
 
@@ -231,7 +234,7 @@ var utilcrtitulo : Tutils;
   i, j : integer;
 begin
 //  inherited;
- // sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
+ // sCtrlResize.CtrlResize(TForm(fTerminalFinalizar));
   // Listo as Contas Caixa
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -309,7 +312,7 @@ begin
   {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'SERIETERMINAL';
+  dm.cds_parametro.Params[0].AsString := 'SERIEPADRAO';
   dm.cds_parametro.Open;
   dbeSerie.Text := dm.cds_parametroDADOS.AsString;
   cdsSERIE.AsString := dm.cds_parametroDADOS.AsString;
@@ -348,11 +351,11 @@ end;
 
 procedure TfTerminalFinalizar.btnSerieClick(Sender: TObject);
 begin
-  fProcurar:= TfProcurar.Create(self,scds_serie_proc);
-  fProcurar.BtnProcurar.Click;
+  fProcurar_nf := TfProcurar_nf.Create(self,scds_serie_proc);
+  fProcurar_nf.BtnProcurar.Click;
   try
-   fProcurar.EvDBFind1.DataField := 'SERIE';
-   if fProcurar.ShowModal=mrOk then
+   fProcurar_nf.EvDBFind1.DataField := 'SERIE';
+   if fProcurar_nf.ShowModal=mrOk then
     begin
     if dtSrc.State=dsBrowse then
      cds.Edit;
@@ -361,7 +364,7 @@ begin
     end;
    finally
     scds_serie_proc.Close;
-    fProcurar.Free;
+    fProcurar_nf.Free;
    end;
     DBEdit2.SetFocus;
 end;
@@ -550,6 +553,107 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;
+end;
+
+procedure TfTerminalFinalizar.dbeSerieExit(Sender: TObject);
+begin
+  if DtSrc.State in [dsInsert,dsEdit] then
+  begin
+    if dbeSerie.Text='' then
+      exit;
+    if dbeSerie.Field.OldValue<>dbeSerie.Field.NewValue then
+    begin
+      if scds_serie_proc.Active then
+        scds_serie_proc.Close;
+      scds_serie_proc.Params[0].AsString:=dbeSerie.Text;
+      scds_serie_proc.Open;
+      if scds_serie_proc.IsEmpty then
+      begin
+        MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+        [mbOk], 0);
+        btnSerie.Click;
+        exit;
+      end;
+      cdsSERIE.AsString := scds_serie_procSERIE.AsString;
+      cdsNOTAFISCAL.AsInteger := scds_serie_procULTIMO_NUMERO.AsInteger + 1;
+    end;
+  end;
+end;
+
+procedure TfTerminalFinalizar.BitBtn2Click(Sender: TObject);
+begin
+  fCrAltera := TfCrAltera.Create(Application);
+  try
+    fCrAltera.ntitulo := scdsCr_procTITULO.AsString;
+    fCrAltera.codcliente := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.demissao := scdsCr_procEMISSAO.AsDateTime;
+
+
+    if (fCrAltera.cds.Active) then
+      fCrAltera.cds.Close;
+    fCrAltera.cds.Params[0].AsString := scdsCr_procTITULO.AsString;
+    fCrAltera.cds.Params[1].AsInteger := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.cds.Params[2].AsDateTime := scdsCr_procEMISSAO.AsDateTime;
+    fCrAltera.cds.Open;
+
+    if (fCrAltera.cds1.Active) then
+      fCrAltera.cds1.Close;
+    fCrAltera.cds1.Params[0].AsString := scdsCr_procTITULO.AsString;
+    fCrAltera.cds1.Params[1].AsInteger := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.cds1.Params[2].AsDateTime := scdsCr_procEMISSAO.AsDateTime;
+    fCrAltera.cds1.Open;
+
+    fCrAltera.Label1.Caption := scdsCr_procTITULO.AsString;
+    fCrAltera.Label2.Caption := scdsCr_procTITULO.AsString;    
+    fCrAltera.ShowModal;
+    scdsCr_proc.Close;
+    scdsCr_proc.Open;
+  finally
+    fCrAltera.Free;
+  end;
+end;
+
+procedure TfTerminalFinalizar.BitBtn3Click(Sender: TObject);
+begin
+  if (fTerminal_Delivery.cds_MovimentoCODNATUREZA.AsInteger = 14) then //Cancelado
+  begin
+    if  MessageDlg('NF CANCELADA, confirma mudança do Status : ''' + scdscr_procTITULO.AsSTring + '''',
+      mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+    Try
+      if (scdsCr_proc.State in [dsBrowse, dsInactive]) then
+        scdsCr_proc.Edit;
+      scdsCr_procSTATUS.AsString := '5-';
+      scdsCr_proc.ApplyUpdates(0);
+      // NF ou Venda Cancelada
+      if (cds.State in [dsBrowse]) then
+         cds.Edit;
+      cdsSTATUS.AsInteger := 0;
+      cds.ApplyUpdates(0);
+      if (fTerminal_Delivery.cds_Movimento.State in [dsBrowse]) then
+         fTerminal_Delivery.cds_Movimento.edit;
+      fTerminal_Delivery.cds_MovimentoCODNATUREZA.AsInteger := 3; //Venda
+      fTerminal_Delivery.cds_Movimento.ApplyUpdates(0);
+      MessageDlg('Status alterado com sucesso.', mtInformation, [mbOK], 0);
+      scdsCr_proc.Refresh;
+    Except
+      MessageDlg('Não foi possível alterar STATUS.', mtError, [mbOK], 0);
+    end;
+  end
+  else
+  begin
+    if  MessageDlg('Confirma o cancelamento da baixa do Título : ''' + scdscr_procTITULO.AsSTring + '''',
+      mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+    Try
+      if (scdsCr_proc.State in [dsBrowse, dsInactive]) then
+        scdsCr_proc.Edit;
+      scdsCr_procSTATUS.AsString := '5-';
+      scdsCr_proc.ApplyUpdates(0);
+      MessageDlg('Baixa cancelada com sucesso.', mtInformation, [mbOK], 0);
+      scdsCr_proc.Refresh;
+    Except
+      MessageDlg('Não foi possível cancelar a baixa.', mtError, [mbOK], 0);
+    end;
+  end;
 end;
 
 end.
