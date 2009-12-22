@@ -19,7 +19,7 @@ object fExpContMat: TfExpContMat
     Left = 0
     Top = 0
     Width = 516
-    Height = 129
+    Height = 145
     Align = alTop
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -30,7 +30,7 @@ object fExpContMat: TfExpContMat
     Background.FillType = GradUpDown
     object Label3: TLabel
       Left = 11
-      Top = 47
+      Top = 65
       Width = 75
       Height = 16
       Caption = 'Data Inicio'
@@ -44,7 +44,7 @@ object fExpContMat: TfExpContMat
     end
     object Label4: TLabel
       Left = 113
-      Top = 47
+      Top = 65
       Width = 63
       Height = 16
       Caption = 'Data Fim'
@@ -56,9 +56,23 @@ object fExpContMat: TfExpContMat
       ParentFont = False
       Transparent = True
     end
+    object Label1: TLabel
+      Left = 10
+      Top = 43
+      Width = 38
+      Height = 16
+      Caption = 'S'#233'rie'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+    end
     object Edit1: TEdit
       Left = 10
-      Top = 22
+      Top = 14
       Width = 136
       Height = 21
       TabOrder = 0
@@ -66,21 +80,21 @@ object fExpContMat: TfExpContMat
     end
     object JvDateEdit1: TJvDateEdit
       Left = 8
-      Top = 63
+      Top = 81
       Width = 100
       Height = 21
       TabOrder = 1
     end
     object JvDateEdit2: TJvDateEdit
       Left = 113
-      Top = 63
+      Top = 81
       Width = 100
       Height = 21
       TabOrder = 2
     end
     object dxButton1: TdxButton
       Left = 156
-      Top = 21
+      Top = 13
       Width = 59
       Height = 22
       About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -91,7 +105,7 @@ object fExpContMat: TfExpContMat
     end
     object Button1: TButton
       Left = 367
-      Top = 14
+      Top = 15
       Width = 106
       Height = 41
       Caption = 'Gerar Arquivo'
@@ -107,32 +121,32 @@ object fExpContMat: TfExpContMat
     end
     object JvProgressBar1: TJvProgressBar
       Left = 227
-      Top = 88
+      Top = 104
       Width = 266
       Height = 25
       TabOrder = 5
     end
     object BitBtn3: TBitBtn
       Left = 247
-      Top = 59
+      Top = 58
       Width = 106
-      Height = 23
+      Height = 41
       Caption = 'Selecionar Todos'
       TabOrder = 6
       OnClick = BitBtn3Click
     end
     object BitBtn4: TBitBtn
       Left = 367
-      Top = 59
+      Top = 58
       Width = 106
-      Height = 23
+      Height = 41
       Caption = 'Desmarcar Todos'
       TabOrder = 7
       OnClick = BitBtn4Click
     end
     object BitBtn2: TBitBtn
       Left = 247
-      Top = 15
+      Top = 16
       Width = 106
       Height = 39
       Caption = 'Listar'
@@ -240,24 +254,31 @@ object fExpContMat: TfExpContMat
     end
     object Edit3: TEdit
       Left = 113
-      Top = 92
+      Top = 110
       Width = 100
       Height = 21
       TabOrder = 9
     end
     object Edit2: TEdit
-      Left = 6
-      Top = 92
+      Left = 8
+      Top = 110
       Width = 100
       Height = 21
       TabOrder = 10
     end
+    object edSerie: TEdit
+      Left = 50
+      Top = 40
+      Width = 63
+      Height = 21
+      TabOrder = 11
+    end
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
-    Top = 129
+    Top = 145
     Width = 516
-    Height = 361
+    Height = 345
     Align = alClient
     DataSource = DataSource1
     TabOrder = 1
@@ -347,7 +368,7 @@ object fExpContMat: TfExpContMat
     AsyncExecution = False
     Title = 'Untitled'
     Left = 248
-    Top = 8
+    Top = 232
   end
   object XPMenu1: TXPMenu
     DimLevel = 30
@@ -377,7 +398,7 @@ object fExpContMat: TfExpContMat
     AutoDetect = True
     Active = True
     Left = 280
-    Top = 8
+    Top = 232
   end
   object cdsItensNF: TClientDataSet
     Aggregates = <>
@@ -1075,25 +1096,24 @@ object fExpContMat: TfExpContMat
   end
   object sdsNF: TSQLDataSet
     CommandText = 
-      'select  '#13#10'           nf.CFOP,       nf.DTAEMISSAO,      nf.DTASA' +
-      'IDA,  nf.SELECIONOU,    nf.CORPONF1,  nf.CORPONF2,   nf.CODCLIEN' +
-      'TE,       nf.NUMNF,   nf.CODVENDA,   nf.BASE_ICMS,  nf.VALOR_ICM' +
-      'S,  nf.BASE_ICMS_SUBST,   '#13#10'           nf.VALOR_ICMS_SUBST,    n' +
-      'f.VALOR_PRODUTO,   nf.VALOR_FRETE,    nf.VALOR_SEGURO,    nf.OUT' +
-      'RAS_DESP,     nf.VALOR_IPI,     nf.VALOR_TOTAL_NOTA,    nf.FRETE' +
-      ',     nf.CNPJ_CPF,            '#13#10'           cast(nf.NOMETRANSP as' +
-      ' varchar (60) )as NOMETRANSP,  nf.INSCRICAOESTADUAL,    cast(nf.' +
-      'END_TRANSP as varchar (60) )as END_TRANSP,'#13#10'           cast(nf.C' +
-      'IDADE_TRANSP as varchar (60) )as CIDADE_TRANSP,  nf.UF_TRANSP,  ' +
-      '  nf.PLACATRANSP,      nf.UF_VEICULO_TRANSP,    nf.QUANTIDADE,  ' +
-      'nf.ESPECIE,   nf.MARCA,  '#13#10'           nf.NUMERO,           nf.PE' +
-      'SOLIQUIDO,      nf.PESOBRUTO,   cl.RAZAOSOCIAL,    cl.CNPJ , nf.' +
-      'HORASAIDA, nf.NOTASERIE, endecli.UF, v.VALOR, v.ENTRADA, v.N_PAR' +
-      'CELA'#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIEN' +
-      'TE = nf.CODCLIENTE'#13#10'inner join enderecocliente endecli on endecl' +
-      'i.CODCLIENTE = cl.CODCLIENTE'#13#10'inner join VENDA v on v.CODVENDA =' +
-      ' nf.CODVENDA'#13#10'where DTAEMISSAO between :dta1 and :dta2 and endec' +
-      'li.TIPOEND = 0'#13#10'order by NOTASERIE'
+      'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.CORPONF1, nf.COR' +
+      'PONF2, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.BASE_ICMS, nf.VA' +
+      'LOR_ICMS, nf.BASE_ICMS_SUBST,   '#13#10'nf.VALOR_ICMS_SUBST, nf.VALOR_' +
+      'PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VAL' +
+      'OR_IPI, nf.VALOR_TOTAL_NOTA, nf.FRETE, nf.CNPJ_CPF,            '#13 +
+      #10'cast(nf.NOMETRANSP as varchar (60) )as NOMETRANSP,  nf.INSCRICA' +
+      'OESTADUAL, cast(nf.END_TRANSP as varchar (60) )as END_TRANSP, v.' +
+      'ENTRADA, v.N_PARCELA,'#13#10'cast(nf.CIDADE_TRANSP as varchar (60) )as' +
+      ' CIDADE_TRANSP, nf.UF_TRANSP, nf.PLACATRANSP, nf.UF_VEICULO_TRAN' +
+      'SP, nf.QUANTIDADE, '#13#10'nf.ESPECIE, nf.MARCA, nf.NUMERO, nf.PESOLIQ' +
+      'UIDO, nf.PESOBRUTO, cl.RAZAOSOCIAL, cl.CNPJ , nf.HORASAIDA, nf.N' +
+      'OTASERIE, nf.SELECIONOU, v.VALOR, endecli.UF'#13#10'from NOTAFISCAL nf' +
+      ' '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inne' +
+      'r join enderecocliente endecli on endecli.CODCLIENTE = cl.CODCLI' +
+      'ENTE'#13#10'inner join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where DTAE' +
+      'MISSAO between :dta1 and :dta2 and endecli.TIPOEND = 0 and ((nf.' +
+      'SERIE = :pvendacusto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39')' +
+      ')'#13#10'order by NOTASERIE, nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
@@ -1105,82 +1125,37 @@ object fExpContMat: TfExpContMat
         DataType = ftDate
         Name = 'dta2'
         ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pvendacusto'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pvendacusto'
+        ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 16
     Top = 296
-    object sdsNFFRETE: TStringField
-      FieldName = 'FRETE'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNFCNPJ_CPF: TStringField
-      FieldName = 'CNPJ_CPF'
-    end
-    object sdsNFNOMETRANSP: TStringField
-      FieldName = 'NOMETRANSP'
-      Size = 50
-    end
-    object sdsNFINSCRICAOESTADUAL: TStringField
-      FieldName = 'INSCRICAOESTADUAL'
-    end
-    object sdsNFEND_TRANSP: TStringField
-      FieldName = 'END_TRANSP'
-      Size = 60
-    end
-    object sdsNFCIDADE_TRANSP: TStringField
-      FieldName = 'CIDADE_TRANSP'
-      Size = 50
-    end
-    object sdsNFUF_TRANSP: TStringField
-      FieldName = 'UF_TRANSP'
-      FixedChar = True
-      Size = 2
-    end
-    object sdsNFPLACATRANSP: TStringField
-      FieldName = 'PLACATRANSP'
-      Size = 8
-    end
-    object sdsNFUF_VEICULO_TRANSP: TStringField
-      FieldName = 'UF_VEICULO_TRANSP'
-      FixedChar = True
-      Size = 2
-    end
-    object sdsNFQUANTIDADE: TFloatField
-      FieldName = 'QUANTIDADE'
-    end
-    object sdsNFESPECIE: TStringField
-      FieldName = 'ESPECIE'
-    end
-    object sdsNFMARCA: TStringField
-      FieldName = 'MARCA'
-      Size = 10
-    end
-    object sdsNFNUMERO: TStringField
-      FieldName = 'NUMERO'
-    end
-    object sdsNFPESOLIQUIDO: TBCDField
-      FieldName = 'PESOLIQUIDO'
-      Precision = 9
-      Size = 2
-    end
-    object sdsNFPESOBRUTO: TBCDField
-      FieldName = 'PESOBRUTO'
-      Precision = 9
-      Size = 2
-    end
-    object sdsNFRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      Required = True
-      Size = 50
-    end
-    object sdsNFCNPJ: TStringField
-      FieldName = 'CNPJ'
-      Size = 18
-    end
     object sdsNFCFOP: TStringField
       FieldName = 'CFOP'
       Size = 30
+    end
+    object sdsNFDTAEMISSAO: TDateField
+      FieldName = 'DTAEMISSAO'
+    end
+    object sdsNFDTASAIDA: TDateField
+      FieldName = 'DTASAIDA'
+    end
+    object sdsNFCORPONF1: TStringField
+      FieldName = 'CORPONF1'
+      Size = 75
+    end
+    object sdsNFCORPONF2: TStringField
+      FieldName = 'CORPONF2'
+      Size = 75
     end
     object sdsNFCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
@@ -1222,19 +1197,97 @@ object fExpContMat: TfExpContMat
     object sdsNFVALOR_TOTAL_NOTA: TFloatField
       FieldName = 'VALOR_TOTAL_NOTA'
     end
-    object sdsNFDTAEMISSAO: TDateField
-      FieldName = 'DTAEMISSAO'
+    object sdsNFFRETE: TStringField
+      FieldName = 'FRETE'
+      FixedChar = True
+      Size = 1
     end
-    object sdsNFDTASAIDA: TDateField
-      FieldName = 'DTASAIDA'
+    object sdsNFCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
     end
-    object sdsNFCORPONF1: TStringField
-      FieldName = 'CORPONF1'
-      Size = 75
+    object sdsNFNOMETRANSP: TStringField
+      FieldName = 'NOMETRANSP'
+      ReadOnly = True
+      Size = 60
     end
-    object sdsNFCORPONF2: TStringField
-      FieldName = 'CORPONF2'
-      Size = 75
+    object sdsNFINSCRICAOESTADUAL: TStringField
+      FieldName = 'INSCRICAOESTADUAL'
+      ReadOnly = True
+    end
+    object sdsNFEND_TRANSP: TStringField
+      FieldName = 'END_TRANSP'
+      ReadOnly = True
+      Size = 60
+    end
+    object sdsNFENTRADA: TFloatField
+      FieldName = 'ENTRADA'
+      ReadOnly = True
+    end
+    object sdsNFN_PARCELA: TSmallintField
+      FieldName = 'N_PARCELA'
+      ReadOnly = True
+    end
+    object sdsNFCIDADE_TRANSP: TStringField
+      FieldName = 'CIDADE_TRANSP'
+      ReadOnly = True
+      Size = 60
+    end
+    object sdsNFUF_TRANSP: TStringField
+      FieldName = 'UF_TRANSP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object sdsNFPLACATRANSP: TStringField
+      FieldName = 'PLACATRANSP'
+      ReadOnly = True
+      Size = 8
+    end
+    object sdsNFUF_VEICULO_TRANSP: TStringField
+      FieldName = 'UF_VEICULO_TRANSP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object sdsNFQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+      ReadOnly = True
+    end
+    object sdsNFESPECIE: TStringField
+      FieldName = 'ESPECIE'
+      ReadOnly = True
+    end
+    object sdsNFMARCA: TStringField
+      FieldName = 'MARCA'
+      ReadOnly = True
+      Size = 10
+    end
+    object sdsNFNUMERO: TStringField
+      FieldName = 'NUMERO'
+      ReadOnly = True
+    end
+    object sdsNFPESOLIQUIDO: TBCDField
+      FieldName = 'PESOLIQUIDO'
+      ReadOnly = True
+      Precision = 9
+      Size = 2
+    end
+    object sdsNFPESOBRUTO: TBCDField
+      FieldName = 'PESOBRUTO'
+      ReadOnly = True
+      Precision = 9
+      Size = 2
+    end
+    object sdsNFRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object sdsNFCNPJ: TStringField
+      FieldName = 'CNPJ'
+      ReadOnly = True
+      Size = 18
     end
     object sdsNFHORASAIDA: TTimeField
       FieldName = 'HORASAIDA'
@@ -1246,28 +1299,20 @@ object fExpContMat: TfExpContMat
       Required = True
       Size = 10
     end
-    object sdsNFUF: TStringField
-      FieldName = 'UF'
-      ReadOnly = True
+    object sdsNFSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
       FixedChar = True
-      Size = 2
+      Size = 1
     end
     object sdsNFVALOR: TFloatField
       FieldName = 'VALOR'
       ReadOnly = True
     end
-    object sdsNFENTRADA: TFloatField
-      FieldName = 'ENTRADA'
+    object sdsNFUF: TStringField
+      FieldName = 'UF'
       ReadOnly = True
-    end
-    object sdsNFN_PARCELA: TSmallintField
-      FieldName = 'N_PARCELA'
-      ReadOnly = True
-    end
-    object sdsNFSELECIONOU: TStringField
-      FieldName = 'SELECIONOU'
       FixedChar = True
-      Size = 1
+      Size = 2
     end
   end
   object dspNF: TDataSetProvider
@@ -1287,82 +1332,37 @@ object fExpContMat: TfExpContMat
         DataType = ftDate
         Name = 'dta2'
         ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pvendacusto'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pvendacusto'
+        ParamType = ptInput
       end>
     ProviderName = 'dspNF'
     Left = 80
     Top = 296
-    object cdsNFFRETE: TStringField
-      FieldName = 'FRETE'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsNFCNPJ_CPF: TStringField
-      FieldName = 'CNPJ_CPF'
-    end
-    object cdsNFNOMETRANSP: TStringField
-      FieldName = 'NOMETRANSP'
-      Size = 50
-    end
-    object cdsNFINSCRICAOESTADUAL: TStringField
-      FieldName = 'INSCRICAOESTADUAL'
-    end
-    object cdsNFEND_TRANSP: TStringField
-      FieldName = 'END_TRANSP'
-      Size = 60
-    end
-    object cdsNFCIDADE_TRANSP: TStringField
-      FieldName = 'CIDADE_TRANSP'
-      Size = 50
-    end
-    object cdsNFUF_TRANSP: TStringField
-      FieldName = 'UF_TRANSP'
-      FixedChar = True
-      Size = 2
-    end
-    object cdsNFPLACATRANSP: TStringField
-      FieldName = 'PLACATRANSP'
-      Size = 8
-    end
-    object cdsNFUF_VEICULO_TRANSP: TStringField
-      FieldName = 'UF_VEICULO_TRANSP'
-      FixedChar = True
-      Size = 2
-    end
-    object cdsNFQUANTIDADE: TFloatField
-      FieldName = 'QUANTIDADE'
-    end
-    object cdsNFESPECIE: TStringField
-      FieldName = 'ESPECIE'
-    end
-    object cdsNFMARCA: TStringField
-      FieldName = 'MARCA'
-      Size = 10
-    end
-    object cdsNFNUMERO: TStringField
-      FieldName = 'NUMERO'
-    end
-    object cdsNFPESOLIQUIDO: TBCDField
-      FieldName = 'PESOLIQUIDO'
-      Precision = 9
-      Size = 2
-    end
-    object cdsNFPESOBRUTO: TBCDField
-      FieldName = 'PESOBRUTO'
-      Precision = 9
-      Size = 2
-    end
-    object cdsNFRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      Required = True
-      Size = 50
-    end
-    object cdsNFCNPJ: TStringField
-      FieldName = 'CNPJ'
-      Size = 18
-    end
     object cdsNFCFOP: TStringField
       FieldName = 'CFOP'
       Size = 30
+    end
+    object cdsNFDTAEMISSAO: TDateField
+      FieldName = 'DTAEMISSAO'
+    end
+    object cdsNFDTASAIDA: TDateField
+      FieldName = 'DTASAIDA'
+    end
+    object cdsNFCORPONF1: TStringField
+      FieldName = 'CORPONF1'
+      Size = 75
+    end
+    object cdsNFCORPONF2: TStringField
+      FieldName = 'CORPONF2'
+      Size = 75
     end
     object cdsNFCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
@@ -1404,19 +1404,97 @@ object fExpContMat: TfExpContMat
     object cdsNFVALOR_TOTAL_NOTA: TFloatField
       FieldName = 'VALOR_TOTAL_NOTA'
     end
-    object cdsNFDTAEMISSAO: TDateField
-      FieldName = 'DTAEMISSAO'
+    object cdsNFFRETE: TStringField
+      FieldName = 'FRETE'
+      FixedChar = True
+      Size = 1
     end
-    object cdsNFDTASAIDA: TDateField
-      FieldName = 'DTASAIDA'
+    object cdsNFCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
     end
-    object cdsNFCORPONF1: TStringField
-      FieldName = 'CORPONF1'
-      Size = 75
+    object cdsNFNOMETRANSP: TStringField
+      FieldName = 'NOMETRANSP'
+      ReadOnly = True
+      Size = 60
     end
-    object cdsNFCORPONF2: TStringField
-      FieldName = 'CORPONF2'
-      Size = 75
+    object cdsNFINSCRICAOESTADUAL: TStringField
+      FieldName = 'INSCRICAOESTADUAL'
+      ReadOnly = True
+    end
+    object cdsNFEND_TRANSP: TStringField
+      FieldName = 'END_TRANSP'
+      ReadOnly = True
+      Size = 60
+    end
+    object cdsNFENTRADA: TFloatField
+      FieldName = 'ENTRADA'
+      ReadOnly = True
+    end
+    object cdsNFN_PARCELA: TSmallintField
+      FieldName = 'N_PARCELA'
+      ReadOnly = True
+    end
+    object cdsNFCIDADE_TRANSP: TStringField
+      FieldName = 'CIDADE_TRANSP'
+      ReadOnly = True
+      Size = 60
+    end
+    object cdsNFUF_TRANSP: TStringField
+      FieldName = 'UF_TRANSP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNFPLACATRANSP: TStringField
+      FieldName = 'PLACATRANSP'
+      ReadOnly = True
+      Size = 8
+    end
+    object cdsNFUF_VEICULO_TRANSP: TStringField
+      FieldName = 'UF_VEICULO_TRANSP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNFQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+      ReadOnly = True
+    end
+    object cdsNFESPECIE: TStringField
+      FieldName = 'ESPECIE'
+      ReadOnly = True
+    end
+    object cdsNFMARCA: TStringField
+      FieldName = 'MARCA'
+      ReadOnly = True
+      Size = 10
+    end
+    object cdsNFNUMERO: TStringField
+      FieldName = 'NUMERO'
+      ReadOnly = True
+    end
+    object cdsNFPESOLIQUIDO: TBCDField
+      FieldName = 'PESOLIQUIDO'
+      ReadOnly = True
+      Precision = 9
+      Size = 2
+    end
+    object cdsNFPESOBRUTO: TBCDField
+      FieldName = 'PESOBRUTO'
+      ReadOnly = True
+      Precision = 9
+      Size = 2
+    end
+    object cdsNFRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object cdsNFCNPJ: TStringField
+      FieldName = 'CNPJ'
+      ReadOnly = True
+      Size = 18
     end
     object cdsNFHORASAIDA: TTimeField
       FieldName = 'HORASAIDA'
@@ -1428,28 +1506,20 @@ object fExpContMat: TfExpContMat
       Required = True
       Size = 10
     end
-    object cdsNFUF: TStringField
-      FieldName = 'UF'
-      ReadOnly = True
+    object cdsNFSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
       FixedChar = True
-      Size = 2
+      Size = 1
     end
     object cdsNFVALOR: TFloatField
       FieldName = 'VALOR'
       ReadOnly = True
     end
-    object cdsNFENTRADA: TFloatField
-      FieldName = 'ENTRADA'
+    object cdsNFUF: TStringField
+      FieldName = 'UF'
       ReadOnly = True
-    end
-    object cdsNFN_PARCELA: TSmallintField
-      FieldName = 'N_PARCELA'
-      ReadOnly = True
-    end
-    object cdsNFSELECIONOU: TStringField
-      FieldName = 'SELECIONOU'
       FixedChar = True
-      Size = 1
+      Size = 2
     end
   end
   object cds_Movimento: TClientDataSet
