@@ -570,6 +570,12 @@ begin
       mudaVersao('1.0.0.57');
     end;  // Fim Ataulização Versao 1.0.0.57
 
+    if (versaoSistema = '1.0.0.57') then
+    begin
+      executaScript('imprime_venda.sql');
+      mudaVersao('1.0.0.58');
+    end;  // Fim Ataulização Versao 1.0.0.58
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
