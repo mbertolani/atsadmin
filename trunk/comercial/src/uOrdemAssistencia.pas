@@ -739,8 +739,8 @@ type
     sLotesPRODUTO: TStringField;
     sLotesVALORUNITARIOATUAL: TFloatField;
     sLotesCODPRO: TStringField;
-    sds_Mov_DetCODLOTE: TIntegerField;
     cds_Mov_detCODLOTE: TIntegerField;
+    sds_Mov_DetCODLOTE: TIntegerField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -1519,7 +1519,7 @@ inherited;
       exit;
     end;
     cds_Mov_detCODPRODUTO.AsInteger := scds_prod_procCODPRO.AsInteger;
-    cds_Mov_detDESCPRODUTO.AsString := scds_prod_procPRODUTO.AsString;
+    cds_Mov_detPRODUTO.AsString := scds_prod_procPRODUTO.AsString;
     cds_Mov_detPRECO.AsFloat := scds_prod_procVALORUNITARIOATUAL.AsFloat;
 
     DBEdit31.Text := scds_prod_procPRODUTO.AsString;
@@ -1839,19 +1839,22 @@ begin
    sLotes.Open;
     if sLotes.IsEmpty then
     begin
-      MessageDlg('Código não cadastrado.', mtWarning,
+      MessageDlg('Lote não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
     cds_Mov_detCODPRODUTO.AsInteger := sLotesCODPRO.AsInteger;
+    cds_Mov_detPRODUTO.AsString := sLotesPRODUTO.AsString;
     cds_Mov_detDESCPRODUTO.AsString := sLotesPRODUTO.AsString;
-    cds_Mov_detPRECO.AsFloat := sLotesVALORUNITARIOATUAL.AsFloat;
     cds_Mov_detDTAFAB.AsDateTime := sLotesDATAFABRICACAO.AsDateTime;
+    cds_Mov_detLOTE.AsString := sLotesLOTE.AsString;
 
+    DBEdit28.Text := sLotesLOTE.AsString;
     DBEdit29.Text := DateToStr(sLotesDATAFABRICACAO.AsDateTime);
     DBEdit30.Text := IntToStr(sLotesCODPRODUTO.AsInteger);
     DBEdit31.Text := sLotesPRODUTO.AsString;
-    DBEdit32.Text := FloatToStr(sLotesVALORUNITARIOATUAL.AsFloat);
+    DBEdit32.Text := FloatToStr(sLotesPRECO.AsFloat);
+
     sLotes.Close;
 
 
@@ -1865,19 +1868,22 @@ begin
    sLotes.Open;
    if sLotes.IsEmpty then
     begin
-      MessageDlg('Código não cadastrado.', mtWarning,
+      MessageDlg('Lote não cadastrado.', mtWarning,
       [mbOk], 0);
       exit;
     end;
     cds_Mov_detCODPRODUTO.AsInteger := sLotesCODPRO.AsInteger;
+    cds_Mov_detPRODUTO.AsString := sLotesPRODUTO.AsString;
     cds_Mov_detDESCPRODUTO.AsString := sLotesPRODUTO.AsString;
     cds_Mov_detPRECO.AsFloat := sLotesVALORUNITARIOATUAL.AsFloat;
-    cds_Mov_detDTAFAB.AsDateTime := sLotesDATAFABRICACAO.AsDateTime;    
+    cds_Mov_detDTAFAB.AsDateTime := sLotesDATAFABRICACAO.AsDateTime;
+    cds_Mov_detLOTE.AsString := sLotesLOTE.AsString;
 
+    DBEdit28.Text := sLotesLOTE.AsString;
     DBEdit29.Text := DateToStr(sLotesDATAFABRICACAO.AsDateTime);
     DBEdit30.Text := IntToStr(sLotesCODPRODUTO.AsInteger);
     DBEdit31.Text := sLotesPRODUTO.AsString;
-    DBEdit32.Text := FloatToStr(sLotesVALORUNITARIOATUAL.AsFloat);
+    DBEdit32.Text := FloatToStr(sLotesPRECO.AsFloat);
     sLotes.Close;
    end;
 
