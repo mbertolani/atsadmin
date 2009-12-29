@@ -1,15 +1,12 @@
 create or ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD_CUPOM (
-    CFOP Varchar(30),
-    UF Char(2),
-    NUMERO_NF Integer,
-    CODMOV Integer,
-    SERIE Char(20) )
+    CODMOV Integer
+    )
 AS
-  declare variable codRec integer;
-  declare variable codNF integer;
+  declare variable cfop Varchar (30);
+  declare variable cfop_outros Varchar (30);
+  declare variable cfop_sp Varchar (30);
+  declare variable codCliente integer;
   declare variable codVen integer;
-  declare variable codMovNovo integer;
-  declare variable codCCusto integer;
   declare variable codUser integer;
   declare variable codProduto integer;
   declare variable qtde double PRECISION;
@@ -17,28 +14,13 @@ AS
   declare variable preco DOUBLE PRECISION;
   declare variable total DOUBLE PRECISION;
   declare variable icms DOUBLE PRECISION;
-  declare variable tBaseicms DOUBLE PRECISION;
-  declare variable baseIcms DOUBLE PRECISION;
-  declare variable valorIcms DOUBLE PRECISION;
-  declare variable totalIcms DOUBLE PRECISION;
-  declare variable vFrete DOUBLE PRECISION;
-  declare variable vSeguro DOUBLE PRECISION;
-  declare variable vIcms DOUBLE PRECISION;
-  declare variable vOutros DOUBLE PRECISION;
-  declare variable vIpi DOUBLE PRECISION;
-  declare variable vFreteT DOUBLE PRECISION;
-  declare variable vSeguroT DOUBLE PRECISION;
-  declare variable vIcmsT DOUBLE PRECISION;
-  declare variable vIcmsSubst DOUBLE PRECISION;
-  declare variable vOutrosT DOUBLE PRECISION;
-  declare variable vIpiT DOUBLE PRECISION;
   declare variable pesoUn DOUBLE PRECISION;
   declare variable pesoTotal DOUBLE PRECISION;
   declare variable un char(2);
+  declare variable UF char(2);
   declare variable cst char(5);
   declare variable cstProd char(5);
   declare variable descP varchar(300);
-  declare variable cfop_outros varchar(30);
   declare variable np SMALLINT;
   declare variable CALC_FISC Varchar (30);
   declare variable CICMS_SUBST double precision;
@@ -52,8 +34,12 @@ AS
   declare variable BASE_ST double precision;
   declare variable total2 double precision;
   declare variable total3 double precision;
+  declare variable VICMST double precision;  
+  declare variable VALORICMS double precision;  
   declare variable TOTAL_VLR_ICMS double precision;
   declare variable TOTAL_ST double precision;
+  declare variable TOTALICMS double precision;
+  declare variable BASEICMS double precision;  
   declare variable TOTAL_BASE_ST double precision;
   declare variable TOTAL_ICMS double precision;
   declare variable TOTAL_ICMS_BASE double precision;
@@ -73,19 +59,33 @@ begin
     CICMS_SUBST = 0;
     USA_SUBPROD = 'N';
     
+    select dados, d1 from PARAMETRO where parametro = 'CFOP'
+      into :cfop_sp, :cfop_outros;
+      
     -- localiza o mov. detalhe
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.ICMS, prod.BASE_ICMS, prod.CST
+    , mov.CODCLIENTE 
     from MOVIMENTODETALHE md
+      inner join MOVIMENTO mov on mov.CODMOVIMENTO = md.CODMOVIMENTO
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
-      where md.CODMOVIMENTO = :codMov
-    into :desconto, :codProduto, :qtde, :preco, :icms, :baseIcms, :cstProd
+      where  md.CODMOVIMENTO = :codMov
+    into :desconto, :codProduto, :qtde, :preco, :icms, :baseIcms, :cstProd, :codCliente
     do begin
+      select first 1 endcli.UF from ENDERECOCLIENTE endcli where endcli.CODCLIENTE = :codCliente and endcli.TIPOEND = 0
+        into :uf;
+        
+      if (uf = 'SP') then 
+        cfop = cfop_sp;
+      else    
+        cfop = cfop_outros;
+        
       select cfp.ICMS_SUBST, cfp.ICMS_SUBST_IC, cfp.ICMS_SUBST_IND, cfp.ICMS, cfp.ICMS_BASE from CLASSIFICACAOFISCALPRODUTO cfp 
       where cfp.CFOP = :CFOP and cfp.COD_PROD = :codProduto and cfp.UF = :UF
       into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, CICMS_BASE;
 
       if (desconto is null) then
         desconto = 0;
+          
           
       VLR_PROD = ( :qtde * (:preco * (1-(:desconto/100))));
 
@@ -117,6 +117,7 @@ begin
         ST = (BASE_ST * (CICMS_SUBST_IC/100))-(VLR_ICMS);
         CICMS_BASE = (VLR_PROD * CICMS_BASE);
         CICMS = (CICMS * CICMS_BASE);
+        valoricms = cicms;
             
     
     --md.ICMS = md.ICMS*(1+(CICMS_SUBST/100))*(CICMS_SUBST_IC/100))-(VLR_PROD*(CICMS_SUBST_IND));
@@ -167,7 +168,7 @@ begin
 
     total = total2 + total3 + TOTAL_ST;
     vIcmsT = 0; 
-    total = total + vSeguroT + vOutrosT + vIpiT + vIcmsT + vFreteT;
+    total = total;
 
   /*Buscando a numeracao da duplicata */
   preco = total; 
