@@ -565,7 +565,7 @@ begin
      end;
     end;
   end;
-  sqlTexto := sqlTexto + ' and mov.codnatureza <> 12';
+  //sqlTexto := sqlTexto + ' and mov.codnatureza <> 12';
   sqlTexto := sqlTexto + ' and mov.codnatureza <> 15';   
   sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +
       'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
