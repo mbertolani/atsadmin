@@ -1,4 +1,3 @@
-set term ^ ;
 create or ALTER PROCEDURE  CAIXA_ORDEM_SINTETICOConsolida( DTAINI                           DATE
                                    , DTAFIM                           DATE
                                    , COD_CAIXA                        SMALLINT )
