@@ -1010,11 +1010,12 @@ begin
       cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
       cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
       estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
-      cds_Mov_detQUANTIDADE.AsFloat := 1;
+      if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
+        cds_Mov_detQUANTIDADE.AsFloat := 1;
       qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
       cds_Mov_detQTDE_ALT.AsFloat := 0;
       cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
-      if dm.scds_produto_procQTDE_PCT.AsFloat >= 1 then
+      if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
          cds_Mov_detPRECO.AsFloat :=
          dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
       else
@@ -1082,7 +1083,7 @@ begin
   cds_Mov_detLOTE.AsString := '';
   fProcura_prod.codcli := cds_MovimentoCODCLIENTE.AsInteger;
   fProcura_prod.ShowModal;
-  
+
   if (procprod = 'PROC_PROD_COMPLETO') then
   begin
     if (cds_Mov_det.State in [dsInsert, dsEdit]) then
@@ -2448,11 +2449,12 @@ begin
         cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
         cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
         estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
-        cds_Mov_detQUANTIDADE.AsFloat := 1;
+        if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
+          cds_Mov_detQUANTIDADE.AsFloat := 1;
         qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
         cds_Mov_detQTDE_ALT.AsFloat := 0;
         cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
-        if dm.scds_produto_procQTDE_PCT.AsFloat >= 1 then
+        if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
            cds_Mov_detPRECO.AsFloat :=
            dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
         else
