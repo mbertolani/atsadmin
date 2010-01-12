@@ -95,7 +95,10 @@ uses
   uVendaFinalizar in 'uVendaFinalizar.pas' {fVendaFinalizar},
   uVendas in 'uVendas.pas' {fVendas},
   uCompra in 'uCompra.pas' {fCompra},
-  uCompraFinalizar in 'uCompraFinalizar.pas' {fCompraFinalizar};
+  uCompraFinalizar in 'uCompraFinalizar.pas' {fCompraFinalizar},
+  UDMNF in 'UDMNF.pas' {DMNF: TDataModule},
+  uNotaf in 'uNotaf.pas' {fNotaf},
+  uFiltroMovimento in 'uFiltroMovimento.pas' {fFiltroMovimento};
 
 {$R *.res}
 
@@ -105,6 +108,9 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDMSaude, DMSaude);
   Application.CreateForm(TfFinanceiro, fFinanceiro);
+  Application.CreateForm(TDMNF, DMNF);
+  Application.CreateForm(TfNotaf, fNotaf);
+  Application.CreateForm(TfFiltroMovimento, fFiltroMovimento);
   DM.formusercontrol := 'formdespesas';
   Application.CreateForm(TfcrTituloPagto, fcrTituloPagto);
   DM.formusercontrol := 'formreceber';
