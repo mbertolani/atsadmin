@@ -320,6 +320,8 @@ end;
 
 procedure TfFiltroMovimento.BitBtn9Click(Sender: TObject);
 begin
+    if (fVendas <> nil) then
+    begin
     fVendas.cds_Movimento.Close;
     fVendas.cds_Movimento.Params[0].AsInteger := cds_cnsCODMOVIMENTO.AsInteger;
     fVendas.cds_Movimento.Open;
@@ -328,6 +330,7 @@ begin
     else
       if (fVendas.cds_MovimentoSTATUS.AsInteger = 1) then
            fVendas.CheckBox1.Checked := True;
+    end;
     cod_mov := cds_cnsCODMOVIMENTO.AsInteger;
     DM.totalpago := cds_cnsAPAGAR.Value;
     fFiltroMovimento.Close;
@@ -565,10 +568,7 @@ begin
      end;
     end;
   end;
-  //sqlTexto := sqlTexto + ' and mov.codnatureza <> 12';
-  sqlTexto := sqlTexto + ' and mov.codnatureza <> 15';   
-  sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +
-      'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
+  sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +      'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       'mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
       'ven.VALOR, ven.APAGAR, ven.DATAVENDA ';
   sqlTexto := sqlTexto + ' order by mov.CODMOVIMENTO DESC';
@@ -622,7 +622,7 @@ end;
 
 procedure TfFiltroMovimento.FormShow(Sender: TObject);
 begin
-  Edit3.Text := '3';
+//   Edit3.Text := '3';
    btnProcurar.Click;
 end;
 
