@@ -259,7 +259,8 @@ uses UDm, ufcr, uClienteCadastro, uFornecedorCadastro, ucrTitulo, ubanco,
   UDmSaude,
   uProcuraCheque,
   sCtrlResize,
-  uFamilia;
+  uFamilia,
+  uNotaf;
 
 {$R *.dfm}
 
@@ -990,11 +991,11 @@ begin
     end;
   end
   else begin
-    fNotaFiscalProc := TfNotaFiscalProc.Create(Application);
+    fNotaf := TfNotaf.Create(Application);
     try
-      fNotaFiscalProc.ShowModal;
+      fNotaf.ShowModal;
     finally
-      fNotaFiscalProc.Free;
+      fNotaf.Free;
     end;
   end;
 end;
