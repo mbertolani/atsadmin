@@ -1047,7 +1047,7 @@ object fFiltroMovimento: TfFiltroMovimento
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 472
+    Top = 479
     Width = 792
     Height = 46
     Align = alBottom
@@ -1468,7 +1468,7 @@ object fFiltroMovimento: TfFiltroMovimento
     Left = 0
     Top = 178
     Width = 792
-    Height = 294
+    Height = 301
     Align = alClient
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
