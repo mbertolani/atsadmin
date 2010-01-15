@@ -876,6 +876,7 @@ begin
   fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
   try
     dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;    
     fProcurar.BtnProcurar.Click;
     fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
     fProcurar.btnIncluir.Visible := True;

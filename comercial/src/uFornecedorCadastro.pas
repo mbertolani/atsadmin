@@ -343,6 +343,7 @@ begin
     fProcurar.btnImprimir.Visible := true;
     fProcurar.RadioGroup1.Visible := true;
     dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;    
     fProcurar.BtnProcurar.Click;
     fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
     fProcurar.RadioGroup2.Visible := True;
