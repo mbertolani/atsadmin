@@ -596,6 +596,7 @@ begin
   fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
   try
     dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;    
     fProcurar.BtnProcurar.Click;
     fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
     fProcurar.btnIncluir.Visible := True;
@@ -807,6 +808,10 @@ var
   deleta : String;
   TD: TTransactionDesc;
 begin
+
+  if  MessageDlg('Confirma a exclusão do Título? ' ,
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+
   deleta := 'Delete from PAGAMENTO WHERE TITULO = ';
   deleta := deleta + '''' + DM.cds_4_pagarTITULO.AsString + '''';
   deleta := deleta + ' and CODFORNECEDOR = ';

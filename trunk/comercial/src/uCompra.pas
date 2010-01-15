@@ -1200,6 +1200,7 @@ begin
   inherited;
   fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+  dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;  
   fProcurar.RadioGroup2.Visible := True;  
   fProcurar.BtnProcurar.Click;
   fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
