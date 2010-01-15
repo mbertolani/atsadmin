@@ -184,8 +184,8 @@ inherited fcrTituloInclui: TfcrTituloInclui
     inherited Label1: TLabel
       Left = 239
       Top = -55
-      Width = 252
-      Height = 36
+      Width = 211
+      Height = 33
       Caption = 'Lan'#231'ar Receitas'
       ParentFont = True
     end
