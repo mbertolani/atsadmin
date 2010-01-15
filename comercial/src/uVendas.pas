@@ -963,6 +963,7 @@ begin
 end;
 
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
+var sql: String;
 begin
 //  if ( cds_Mov_detQUANTIDADE.AsFloat = 0) then
   begin
@@ -1053,7 +1054,80 @@ begin
       Bitbtn4.SetFocus;
     end;
     end;
-  end;
+  end
+  else
+  begin
+  if (DtSrc1.DataSet.State in [dsInsert]) then
+    begin
+      if (dbeProduto.Text = '') then
+      begin
+        btnProdutoProcura.Click;
+        exit;
+      end
+      else begin
+        if (dm.codBarra = 'S') then // usa codigo de barra
+        begin
+          // busca pelo código de barra
+          if dm.scds_produto_proc.Active then
+            dm.scds_produto_proc.Close;
+          sql := 'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
+             ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
+             ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
+             ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
+             ', RATEIO, conta_despesa , IPI '  +
+             'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+             ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') + ')';
+          dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
+            QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
+          dm.scds_produto_proc.Params[0].AsInteger := 0;
+          dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+          dm.scds_produto_proc.Open;
+          if dm.scds_produto_proc.IsEmpty then begin
+             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+            [mbOk], 0);
+            btnProdutoProcura.Click;
+            exit;
+          end;
+        end
+        else begin
+          // busca pelo código de barra
+          if dm.scds_produto_proc.Active then
+            dm.scds_produto_proc.Close;
+          dm.scds_produto_proc.Params[0].AsInteger := 0;
+          dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+          dm.scds_produto_proc.Open;
+          if dm.scds_produto_proc.IsEmpty then begin
+             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+            [mbOk], 0);
+            btnProdutoProcura.Click;
+            exit;
+          end;
+        end;
+        cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+        cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+        cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+        cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
+        cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+        cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
+        cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+        estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
+        if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
+          cds_Mov_detQUANTIDADE.AsFloat := 1;
+        qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
+        cds_Mov_detQTDE_ALT.AsFloat := 0;
+        cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
+        if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
+           cds_Mov_detPRECO.AsFloat :=
+           dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
+        else
+          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+        valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+        cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
+        cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
+        cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+      end;
+    end;
+    end;
   end;
 end;
 
@@ -2416,7 +2490,7 @@ begin
              'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
              ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') + ')';
           dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
-            QuotedStr(dbeProduto.Text);
+            QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
           dm.scds_produto_proc.Params[0].AsInteger := 0;
           dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
           dm.scds_produto_proc.Open;
