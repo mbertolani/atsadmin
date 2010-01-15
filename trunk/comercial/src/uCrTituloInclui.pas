@@ -633,6 +633,10 @@ var
   deleta : String;
   TD: TTransactionDesc;
 begin
+
+  if  MessageDlg('Confirma a exclusão do Título? ' ,
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+
   deleta := 'Delete from RECEBIMENTO WHERE TITULO = ';
   deleta := deleta + '''' + DM.cds_crTITULO.AsString + '''';
   deleta := deleta + ' and CODCLIENTE = ';

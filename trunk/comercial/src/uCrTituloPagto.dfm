@@ -143,7 +143,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
     Caption = 'Data Consolidado'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 475
+    Top = 482
     Width = 789
     TabOrder = 21
     inherited btnGravar: TBitBtn
@@ -193,8 +193,8 @@ inherited fcrTituloPagto: TfcrTituloPagto
     object RxLabel1: TRxLabel
       Left = 5
       Top = -75
-      Width = 285
-      Height = 39
+      Width = 247
+      Height = 36
       Alignment = taCenter
       Caption = 'Lan'#231'ar Despesas'
       ShadowColor = clBlack
