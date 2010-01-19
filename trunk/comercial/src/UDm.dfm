@@ -1,12 +1,10 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 65532
-  Top = 65532
-  Height = 812
+  Height = 846
   Width = 1292
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisAdmin'
+    ConnectionName = 'sge'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -16,19 +14,17 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\home\atsadmin\BD\Sge_dnz.fdb'
+      'Database=C:\home\bd\sge_dnz.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=masterkey'
+      'Password=xl04pq'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=sysdba'
-      'WaitOnLocks=True'
-      'str_relatorio=C:\home\ATS-ADMIN1.5\relatorio\')
+      'User_Name=SYSDBA'
+      'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
-    Connected = True
     Left = 80
     Top = 8
   end
@@ -1202,8 +1198,8 @@ object DM: TDM
       'select CODFORNECEDOR, NOMEFORNECEDOR, RAZAOSOCIAL,  PRAZOPAGAMEN' +
       'TO from FORNECEDOR where ((NOMEFORNECEDOR like :pFORNECEDOR) or ' +
       '(RAZAOSOCIAL like :pRAZAO) or (CODFORNECEDOR = :pCODFORNECEDOR))' +
-      ' '#13#10'and  (status = :pStatus) '#13#10'and  ((segmento = :pSegmento) or (' +
-      ':pSegmento = 0))'#13#10'order by NOMEFORNECEDOR'
+      ' '#13#10'and  (status = :pStatus) '#13#10'and  (segmento = :pSegmento)  '#13#10'or' +
+      'der by NOMEFORNECEDOR'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -1226,11 +1222,6 @@ object DM: TDM
       item
         DataType = ftSmallint
         Name = 'pStatus'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftSmallint
-        Name = 'pSegmento'
         ParamType = ptInput
       end
       item
