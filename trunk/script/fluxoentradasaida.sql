@@ -245,7 +245,7 @@ BEGIN
   END
 
   -- Movimento do Caixa 
-  For Select DtaPagto, DESCRICAO, valorC, ValorD, n_doc from SP_MOV_CAIXA_ORDEMFLUXO(:DTAINI+ :I, :DTAINI+ :I, 0)
+  For Select DtaPagto, DESCRICAO, valorC, ValorD, n_doc from SP_MOV_CAIXAORDEMFLUXO(:DTAINI+ :I, :DTAINI+ :I, 0)
     into :DtaPagto, :descricao, :valorCaixaC, :valorCaixaD, :n_doc
   do begin    
     if (valorCaixaC is null) then 
