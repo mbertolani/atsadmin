@@ -14,13 +14,14 @@ object fNFPaulista: TfNFPaulista
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
     Width = 611
-    Height = 144
+    Height = 141
     Align = alTop
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -101,10 +102,24 @@ object fNFPaulista: TfNFPaulista
     end
     object Label8: TLabel
       Left = 10
-      Top = 99
-      Width = 67
+      Top = 91
+      Width = 81
       Height = 16
-      Caption = 'Processo'
+      Caption = 'Data Menor'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+    end
+    object Label5: TLabel
+      Left = 199
+      Top = 91
+      Width = 77
+      Height = 16
+      Caption = 'Data Maior'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -187,9 +202,9 @@ object fNFPaulista: TfNFPaulista
       TabOrder = 7
     end
     object JvProgressBar1: TJvProgressBar
-      Left = 9
-      Top = 115
-      Width = 361
+      Left = 3
+      Top = 117
+      Width = 372
       Height = 21
       TabOrder = 8
     end
@@ -302,8 +317,8 @@ object fNFPaulista: TfNFPaulista
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object BitBtn3: TBitBtn
-      Left = 377
-      Top = 91
+      Left = 386
+      Top = 92
       Width = 106
       Height = 23
       Caption = 'Selecionar Todos'
@@ -311,8 +326,8 @@ object fNFPaulista: TfNFPaulista
       OnClick = BitBtn3Click
     end
     object BitBtn4: TBitBtn
-      Left = 377
-      Top = 115
+      Left = 386
+      Top = 116
       Width = 106
       Height = 23
       Caption = 'Desmarcar Todos'
@@ -320,14 +335,14 @@ object fNFPaulista: TfNFPaulista
       OnClick = BitBtn4Click
     end
     object Edit3: TEdit
-      Left = 244
+      Left = 280
       Top = 92
       Width = 94
       Height = 21
       TabOrder = 12
     end
     object Edit2: TEdit
-      Left = 150
+      Left = 95
       Top = 92
       Width = 92
       Height = 21
@@ -336,9 +351,9 @@ object fNFPaulista: TfNFPaulista
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 144
+    Top = 141
     Width = 611
-    Height = 434
+    Height = 437
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -351,7 +366,7 @@ object fNFPaulista: TfNFPaulista
       Left = 1
       Top = 1
       Width = 609
-      Height = 432
+      Height = 435
       Align = alClient
       DataSource = DataSource1
       TabOrder = 0
