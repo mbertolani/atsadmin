@@ -277,7 +277,8 @@ begin
     end;
     if ((CheckBox1.Checked) and (CheckBox2.Checked)) then
       cds_fornecedorSEGMENTO.AsInteger := 1
-    else if ((CheckBox1.Checked) and (CheckBox2.Checked = False)) then
+    else
+    if ((CheckBox1.Checked) and (CheckBox2.Checked = False)) then
       cds_fornecedorSEGMENTO.AsInteger := 2
     else
       cds_fornecedorSEGMENTO.AsInteger := 3;
