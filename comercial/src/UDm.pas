@@ -1781,7 +1781,7 @@ type
     { Public declarations }
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin: String;
-    idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO : integer;
+    idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov : integer;
     varDataCaixa : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao: string;
     LOTEQTDE, totalpago : double;
@@ -1789,7 +1789,6 @@ type
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
   end;
-
 var
   DM: TDM;
   dbxconec: TStringList;
@@ -1797,7 +1796,7 @@ var
   str_valor, conta_pl, tipo_empresa, RA : String;
   videoW, videoH, codprod, MICRO, procprod : string;
   statusdavenda : string; // USADO NO NOVO TERMINAL (SANTOS)
-  altura, largura, cod_cli, codmovdet, usulog, usuautorizacao: Integer;
+  altura, largura, cod_cli, codmovdet, usulog, usuautorizacao : Integer;
   ScreenHeight: LongInt;
   ScreenWidth: LongInt;
 
