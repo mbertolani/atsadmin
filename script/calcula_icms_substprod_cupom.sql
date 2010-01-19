@@ -44,6 +44,8 @@ AS
   declare variable TOTAL_ICMS double precision;
   declare variable TOTAL_ICMS_BASE double precision;
   declare variable USA_SUBPROD char(1);
+  declare variable V_ICMS double precision;
+  declare variable V_SBTRIB double precision;
 begin 
     total2 = 0;
     total3 = 0;
@@ -81,7 +83,9 @@ begin
         
       select cfp.ICMS_SUBST, cfp.ICMS_SUBST_IC, cfp.ICMS_SUBST_IND, cfp.ICMS, cfp.ICMS_BASE from CLASSIFICACAOFISCALPRODUTO cfp 
       where cfp.CFOP = :CFOP and cfp.COD_PROD = :codProduto and cfp.UF = :UF
-      into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, CICMS_BASE;
+      into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, CICMS_BASE, :V_ICMS;
+
+      V_SBTRIB = CICMS_SUBST;
 
       if (desconto is null) then
         desconto = 0;
@@ -145,7 +149,8 @@ begin
         if ((cstProd is not null) or (cstProd <> '')) then 
           cst = cstProd;
         
-        update MOVIMENTODETALHE set valor_icms = :valoricms, cst = :cst, icms_subst = :ST, icms_substd = :BASE_ST
+        update MOVIMENTODETALHE set valor_icms = :valoricms, cst = :cst,
+           icms_subst = :V_SBTRIB , icms_substd = :BASE_ST, ICMS = :V_ICMS
         where codmovimento = :codmov and codproduto = :codProduto;
         
         if(desconto > 0) then  
