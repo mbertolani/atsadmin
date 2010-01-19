@@ -288,6 +288,7 @@ type
     Label8: TLabel;
     Edit3: TEdit;
     Edit2: TEdit;
+    Label5: TLabel;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -299,6 +300,7 @@ type
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -596,6 +598,7 @@ begin
       ComboBox1.Items.Add(cds_ccustoNOME.AsString);
       cds_ccusto.Next;
     end;
+    
 end;
 
 procedure TfNFPaulista.dxButton1Click(Sender: TObject);
@@ -679,6 +682,14 @@ begin
   end;
   cdsNF.First;
   cdsNF.EnableControls;
+end;
+
+procedure TfNFPaulista.FormShow(Sender: TObject);
+var
+  dia, mes, ano : Word;
+begin
+  DecodeDate(now, ano,mes,dia);
+  Edit1.Text := Edit1.Text + 'NFP' + IntToStr(mes) + '.txt';
 end;
 
 end.
