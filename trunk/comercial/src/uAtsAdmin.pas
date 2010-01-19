@@ -207,6 +207,7 @@ type
     MapeamentodeEstoque1: TMenuItem;
     AlterarValordosProdutosprFornecedor1: TMenuItem;
     ExportaoparaContMatic1: TMenuItem;
+    Parametro1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -293,6 +294,7 @@ type
     procedure AlterarValordosProdutosprFornecedor1Click(Sender: TObject);
     procedure OrdemdeAssitnciaTcnica1Click(Sender: TObject);
     procedure ExportaoparaContMatic1Click(Sender: TObject);
+    procedure Parametro1Click(Sender: TObject);
 
   private
     STime: TDateTime;
@@ -330,7 +332,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMovCaixa, uCaixaReceber, uComissaoColaborador, uRatearConta, uDespRec,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
-  uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils;
+  uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal;
 
 {$R *.dfm}
 
@@ -1511,6 +1513,16 @@ begin
    finally
      fExpContMat.Free;
    end;
+end;
+
+procedure TfAtsAdmin.Parametro1Click(Sender: TObject);
+begin
+  fParametrosTerminal := TfParametrosTerminal.Create(Application);
+  try
+    fParametrosTerminal.ShowModal;
+  finally
+    fParametrosTerminal.Free;
+  end;
 end;
 
 end.

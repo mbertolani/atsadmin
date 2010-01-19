@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
-  Left = 169
-  Top = 153
+  Left = 155
+  Top = 213
   Width = 700
   Height = 446
   Color = clWhite
@@ -12,6 +12,7 @@ object fAtsAdmin: TfAtsAdmin
   FormStyle = fsMDIForm
   Menu = MainMenu1
   OldCreateOrder = False
+  PopupMenu = PopupMenu1
   WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
@@ -1950,6 +1951,10 @@ object fAtsAdmin: TfAtsAdmin
       object ExportarTabelas1: TMenuItem
         Caption = 'Exportar Tabelas'
         OnClick = ExportarTabelas1Click
+      end
+      object Parametro1: TMenuItem
+        Caption = 'Parametro'
+        OnClick = Parametro1Click
       end
     end
   end
