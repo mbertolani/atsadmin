@@ -2,7 +2,7 @@ object fGeraAumento: TfGeraAumento
   Left = 335
   Top = 205
   Width = 790
-  Height = 204
+  Height = 554
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -285,6 +285,76 @@ object fGeraAumento: TfGeraAumento
       OnExit = Edit1Exit
     end
   end
+  object JvDBGrid1: TJvDBGrid
+    Left = 0
+    Top = 168
+    Width = 779
+    Height = 329
+    DataSource = DataSource1
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODLISTAPRECO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODPRODUTO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODFORNECEDOR'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOLISTA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPOOPERACAO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRODUTO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FAMILIA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'REGIAO'
+        Visible = True
+      end>
+  end
   object SQLDataSet1: TSQLDataSet
     CommandText = 'select * from DADOS_COMBOS '#13#10'where USO = '#39'regiaoFor'#39' '
     MaxBlobSize = -1
@@ -509,5 +579,10 @@ object fGeraAumento: TfGeraAumento
       FieldName = 'REGIAO'
       ProviderFlags = []
     end
+  end
+  object DataSource1: TDataSource
+    DataSet = cds
+    Left = 720
+    Top = 112
   end
 end

@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, TFlatGaugeUnit, Buttons, JvExStdCtrls,
   JvEdit, JvValidateEdit, FMTBcd, DBClient, Provider, DB, SqlExpr, DBLocal,
-  DBLocalS;
+  DBLocalS, Grids, DBGrids, JvExDBGrids, JvDBGrid;
 
 type
   TfGeraAumento = class(TForm)
@@ -70,6 +70,8 @@ type
     sdsREGIAO: TSmallintField;
     Edit3: TEdit;
     Valor: TLabel;
+    JvDBGrid1: TJvDBGrid;
+    DataSource1: TDataSource;
     procedure FormShow(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
     procedure btnProdutoProcuraClick(Sender: TObject);
@@ -78,6 +80,7 @@ type
     procedure CheckBox3Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -187,7 +190,8 @@ procedure TfGeraAumento.BitBtn1Click(Sender: TObject);
 var
   codRegiao, codProd, I : integer;
   varValor : Double;
-  sqlTexto : string;
+  sqlTexto, avancar: string;
+
 begin
   if (not cds.Active) then
     cds.Open;
@@ -197,69 +201,78 @@ begin
   I := 0;
   while not cds.Eof do
   begin
-    if (I > 0) then
-     FlatGauge1.Progress := FlatGauge1.Progress + 1
-    else
-      I := 1;
-    if ((cbRegiao.Text = '') and (cbFamilia.Text = '') and (Edit3.Text = '')) then
-    begin
-       ShowMessage('é nescessario informar pelo menos um dos seguintes campos "Grupo Fornecedor", "Grupo Produtos", "Produto"');
-       exit;
-    end;
-    if ((CheckBox1.Checked = False) and (CheckBox2.Checked = False) and (CheckBox2.Checked = False)) then
-    begin
-       ShowMessage('é nescessario marcar um dos seguintes campos "Percentual %", "Reais R$", "Mudar o Valor"');
-       exit;
-    end;
-    if (edValor.Value = 0) then
-    begin
-       ShowMessage('é nescessario informar o campo Valor');
-       exit;
-    end;
-    if (cbRegiao.Text <> '') then //Grupo Fornecedro
-    begin
-       if (not cdsRegiao.Active) then
-           cdsRegiao.Open;
-       cdsRegiao.Locate('DESCRICAO', cbRegiao.Text, [loCaseInsensitive]);
-       codRegiao := cdsRegiaoCODDADOS.AsInteger;
-       if (cdsREGIAO2.AsInteger <> codRegiao) then
-         cds.Next;
-    end;
-    if (cbFamilia.Text <> '') then //Grupo Produtos
-    begin
-       if (cdsFAMILIA.AsString <> cbFamilia.Text) then
-         cds.Next;
-    end;
-    if (Edit3.Text <> '') then //Grupo Produtos
-    begin
-       if (cdsCODPRODUTO.AsInteger <> StrToInt(Edit3.Text)) then
-         cds.Next;
-    end;
-    // é só alterar o valor
-    if (CheckBox1.Checked = True) then // Percentual
-    begin
-       varValor := 1 + (edValor.Value / 100);
-    end;
+      avancar := 'NAO';
+      if (I > 0) then
+       FlatGauge1.Progress := FlatGauge1.Progress + 1
+      else
+        I := 1;
+      if ((cbRegiao.Text = '') and (cbFamilia.Text = '') and (Edit3.Text = '')) then
+      begin
+         ShowMessage('é nescessario informar pelo menos um dos seguintes campos "Grupo Fornecedor", "Grupo Produtos", "Produto"');
+         exit;
+      end;
+      if ((CheckBox1.Checked = False) and (CheckBox2.Checked = False) and (CheckBox3.Checked = False)) then
+      begin
+         ShowMessage('é nescessario marcar um dos seguintes campos "Percentual %", "Reais R$", "Mudar o Valor"');
+         exit;
+      end;
+      if (edValor.Value = 0) then
+      begin
+         ShowMessage('é nescessario informar o campo Valor');
+         exit;
+      end;
+      // é só alterar o valor
+      if (CheckBox1.Checked = True) then // Percentual
+         varValor := cdsPRECOLISTA.Value * (1 + (edValor.Value / 100));
 
-    if (CheckBox2.Checked = True) then // Acrescenta ao valor
-    begin
-       varValor := edValor.Value + cdsPRECOLISTA.Value;
-    end;
+      if (CheckBox2.Checked = True) then // Acrescenta ao valor
+         varValor := edValor.Value + cdsPRECOLISTA.Value;
 
-    if (CheckBox3.Checked = True) then // Altera o Valor
-    begin
-       varValor := edValor.Value;
-    end;
+      if (CheckBox3.Checked = True) then // Altera o Valor
+         varValor := edValor.Value;
 
-    // Agora é só fazer o update
-    sqlTexto := 'Update From LISTAPRECO set PRECOLISTA =  ';
-    sqlTexto := sqlTexto + Format('%-6.2n',[varValor]);
-    sqlTexto := sqlTexto + ' where CODLISTAPRECO = ';
-    sqlTexto := sqlTexto + IntToStr(cdsCODLISTAPRECO.AsInteger);
-    DM.sqlsisAdimin.ExecuteDirect(sqlTexto);
+      if (cbRegiao.Text <> '') then //Grupo Fornecedro
+      begin
+         if (not cdsRegiao.Active) then
+             cdsRegiao.Open;
+         cdsRegiao.Locate('DESCRICAO', cbRegiao.Text, [loCaseInsensitive]);
+         codRegiao := cdsRegiaoCODDADOS.AsInteger;
+         if (cdsREGIAO2.AsInteger <> codRegiao) then
+           avancar := 'SIM';
+      end;
 
-    cds.Next;
+      if (cbFamilia.Text <> '') then //Grupo Produtos
+         if (cdsFAMILIA.AsString <> cbFamilia.Text) then
+           avancar := 'SIM';
+
+      if (Edit3.Text <> '') then //Produtos
+         if (cdsCODPRODUTO.AsInteger <> StrToInt(Edit3.Text)) then
+           avancar := 'SIM';
+
+      // Agora é só fazer o update
+      if (avancar = 'NAO') then
+      begin
+        sqlTexto := 'Update LISTAPRECO set PRECOLISTA =  ';
+        DecimalSeparator := '.';
+        sqlTexto := sqlTexto + Format('%-6.2n',[varValor]);
+        sqlTexto := sqlTexto + ' where CODLISTAPRECO = ';
+        sqlTexto := sqlTexto + IntToStr(cdsCODLISTAPRECO.AsInteger);
+        DM.sqlsisAdimin.ExecuteDirect(sqlTexto);
+        DecimalSeparator := ',';
+        cds.Next;
+      end
+      else
+      begin
+        cds.Next;
+      end;
   end;
+end;
+
+procedure TfGeraAumento.BitBtn3Click(Sender: TObject);
+begin
+  if (not cds.Active) then
+    cds.Open;
+  cds.First;
 end;
 
 end.
