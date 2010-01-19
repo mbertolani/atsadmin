@@ -180,7 +180,7 @@ uses
   uNotaf1 in 'uNotaf1.pas' {fNotaf1},
   uGeraAumento in 'uGeraAumento.pas' {fGeraAumento},
   uOrdemAssistencia in 'uOrdemAssistencia.pas' {fOrdemAssistencia},
-  uExpContMat in 'uExpContMat.pas' {fExpContMat};
+  uParametrosTerminal in 'uParametrosTerminal.pas' {fParametrosTerminal};
 
 {$R *.res}
 
@@ -209,7 +209,8 @@ begin
   Application.CreateForm(TfPai, fPai);
   Application.CreateForm(TfNFPaulista, fNFPaulista);
   Application.CreateForm(TfGeraAumento, fGeraAumento);
-  Application.CreateForm(TfExpContMat, fExpContMat);
+  // Application.CreateForm(TfExpContMat, fExpContMat);
+  //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   DM.formusercontrol := 'formdespesas';
   Application.CreateForm(TfcrTituloPagto, fcrTituloPagto);
   DM.formusercontrol := 'formreceber';
