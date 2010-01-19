@@ -484,12 +484,13 @@ begin
     begin
       executaScript('calcula_icms_substprod.sql');
       executaScript('calcula_icms.sql');
+      executaSql('alter TABLE GUIATRANSPORTE add COD_REMETENTE Integer');
       mudaVersao('1.0.0.44');
     end;  // Fim Ataulização Versao 1.0.0.44
 
     if (versaoSistema = '1.0.0.44') then
     begin
-      executaSql('alter TABLE GUIATRANSPORTE add COD_REMETENTE Integer');
+      //executaSql('alter TABLE GUIATRANSPORTE add COD_REMETENTE Integer');
       mudaVersao('1.0.0.45');
     end;  // Fim Ataulização Versao 1.0.0.45
 
@@ -578,15 +579,15 @@ begin
 
     if (versaoSistema = '1.0.0.55') then
     begin
-      executaScript('CaixaFechadoRecebimento.sql');
-      executaScript('caixaFechadoPag.sql');
+      //executaScript('CaixaFechadoRecebimento.sql');
+      //executaScript('caixaFechadoPag.sql');
       mudaVersao('1.0.0.56');
     end;  // Fim Ataulização Versao 1.0.0.56
 
     if (versaoSistema = '1.0.0.56') then
     begin
       executaScript('bloqueiaclientesatrasados.sql');
-      executaScript('calcula_icms_substprod_cupom.sql');
+      //executaScript('calcula_icms_substprod_cupom.sql');
       executaScript('balancete.sql');
       executaScript('inclui_rec.sql');
       executaScript('LIMITECREDITO.sql');
