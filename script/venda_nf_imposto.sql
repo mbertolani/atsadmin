@@ -33,8 +33,8 @@ BEGIN
       END  
       if ((CODNAT = 12) or (CODNAT = 15)) then
       BEGIN
-      SELECT FIRST 1 nf.VALOR_TOTAL_NOTA, nf.VALOR_ICMS_SUBST from NOTAFISCAL nf where nf.CODVENDA = :CODV
-      order by nf.VALOR_TOTAL_NOTA, nf.VALOR_ICMS_SUBST 
+      SELECT FIRST 1 nf.VALOR_PRODUTO, nf.VALOR_ICMS_SUBST from NOTAFISCAL nf where nf.CODVENDA = :CODV
+      order by nf.VALOR_PRODUTO, nf.VALOR_ICMS_SUBST 
       into :VALORNF, :VALORIMPOSTO;
       END 
       SUSPEND;
