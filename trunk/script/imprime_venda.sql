@@ -37,6 +37,7 @@ RETURNS (
 AS
 DECLARE VARIABLE CODMOVDET INTEGER;
 DECLARE VARIABLE J INTEGER = 0;
+DECLARE VARIABLE NPROD INTEGER;
 DECLARE VARIABLE TIPOPROD CHAR(7);
 DECLARE VARIABLE VR DOUBLE PRECISION;
 BEGIN
@@ -58,16 +59,28 @@ BEGIN
         J = 0;
         WHILE (N_COPIAS > J) do
         begin
-        NOMECLI = NOMECLI || CAST(J AS CHAR(1));
-        for SELECT movd.CODDETALHE, movd.DESCPRODUTO, movd.QUANTIDADE, movd.PRECO, (movd.QUANTIDADE * movd.PRECO) AS TOTAL 
-        FROM MOVIMENTODETALHE movd, PRODUTOS prod
-        where prod.CODPRODUTO = movd.CODPRODUTO  and movd.CODMOVIMENTO = :CODMOV
-        INTO :CODMOVDET,:PRODUTO, :QTDE, :PRE_UN, :TOTAL
-        DO BEGIN                
-          SUSPEND;  
-        END
-        --SUSPEND; 
-        J = J + 1; 
+         NPROD = 0;
+          NOMECLI = NOMECLI || CAST(J AS CHAR(1));
+          for SELECT movd.CODDETALHE, movd.DESCPRODUTO, movd.QUANTIDADE, movd.PRECO, (movd.QUANTIDADE * movd.PRECO) AS TOTAL 
+          FROM MOVIMENTODETALHE movd, PRODUTOS prod
+          where prod.CODPRODUTO = movd.CODPRODUTO  and movd.CODMOVIMENTO = :CODMOV
+          INTO :CODMOVDET,:PRODUTO, :QTDE, :PRE_UN, :TOTAL
+          DO BEGIN
+            NPROD = NPROD + 1;
+            SUSPEND;  
+          END
+          WHILE (NPROD < 14 ) do
+          BEGIN
+            CODMOVDET = NULL;
+            PRODUTO = NULL;
+            QTDE = NULL;
+            PRE_UN = NULL;
+            TOTAL = NULL;
+            NPROD = NPROD + 1;
+            SUSPEND;
+          END
+          --SUSPEND; 
+          J = J + 1; 
         END
     END
 END
