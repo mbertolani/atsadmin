@@ -8,10 +8,8 @@ uses
   gbCobranca, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, JvDBDatePickerEdit, XPMenu, ExtCtrls, MMJPanel, dxCore,
   dxButton, JvExButtons, JvBitBtn, rpcompobase, rpvclreport, ComCtrls,
-  JvExComCtrls, JvProgressBar,
-  Grids, DBGrids, JvExDBGrids, JvDBGrid,
-  ImgList,
-  Menus;
+  JvExComCtrls, JvProgressBar, Grids, DBGrids, JvExDBGrids, JvDBGrid,
+  ImgList, Menus;
 
 type
   TfNFPaulista = class(TForm)
@@ -598,7 +596,7 @@ begin
       ComboBox1.Items.Add(cds_ccustoNOME.AsString);
       cds_ccusto.Next;
     end;
-    
+ 
 end;
 
 procedure TfNFPaulista.dxButton1Click(Sender: TObject);
@@ -685,11 +683,13 @@ begin
 end;
 
 procedure TfNFPaulista.FormShow(Sender: TObject);
-var
-  dia, mes, ano : Word;
+var dia, mes, ano :word;
 begin
-  DecodeDate(now, ano,mes,dia);
-  Edit1.Text := Edit1.Text + 'NFP' + IntToStr(mes) + '.txt';
+
+  ForceDirectories('c:\home\NFPaulista');
+
+  DecodeDate( now, ano, mes, dia);
+  edit1.text := 'c:\home\NFPaulista\' + IntToStr(dia) + '-' + IntToStr(mes) + '-' + IntToStr(ano) + '.txt';
 end;
 
 end.
