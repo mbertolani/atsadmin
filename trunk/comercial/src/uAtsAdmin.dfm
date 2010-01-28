@@ -23,7 +23,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 692
-    Height = 321
+    Height = 329
     Align = alClient
     Center = True
     Picture.Data = {
@@ -1523,7 +1523,7 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 368
+    Top = 376
     Width = 692
     Height = 24
     Color = clMoneyGreen
@@ -1899,6 +1899,10 @@ object fAtsAdmin: TfAtsAdmin
       object RelatriodeDivergncias1: TMenuItem
         Caption = 'Relat'#243'rio de Diverg'#234'ncias'
         OnClick = RelatriodeDivergncias1Click
+      end
+      object RelatriodePrFaturamento1: TMenuItem
+        Caption = 'Relat'#243'rio de Pr'#233' Faturamento'
+        OnClick = RelatriodePrFaturamento1Click
       end
     end
     object RelastriosFinanceiros1: TMenuItem
