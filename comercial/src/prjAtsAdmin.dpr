@@ -181,6 +181,7 @@ uses
   uGeraAumento in 'uGeraAumento.pas' {fGeraAumento},
   uOrdemAssistencia in 'uOrdemAssistencia.pas' {fOrdemAssistencia},
   uParametrosTerminal in 'uParametrosTerminal.pas' {fParametrosTerminal};
+  uPfaturamento in 'uPfaturamento.pas' {fPfaturamento};
 
 {$R *.res}
 
@@ -211,6 +212,7 @@ begin
   Application.CreateForm(TfGeraAumento, fGeraAumento);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
+  Application.CreateForm(TfPfaturamento, fPfaturamento);
   DM.formusercontrol := 'formdespesas';
   Application.CreateForm(TfcrTituloPagto, fcrTituloPagto);
   DM.formusercontrol := 'formreceber';
