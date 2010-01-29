@@ -18,20 +18,20 @@ object TRpReport
       Alias = 'COMISSAO'
       DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select  rec.CODVENDEDOR, movdet.DESCPRODUTO , sum(movdet.QUANTID' +
-        'ADE) as QUANTIDADE, movdet.PRECO,  sum(movdet.PRECO* movdet.QUAN' +
-        'TIDADE) as PRECO_TOTAL , '#13#10'func.NOME_FUNCIONARIO, func.valor_com' +
-        'issao, sum((movdet.PRECO* movdet.QUANTIDADE)*(func.valor_comissa' +
-        'o / 100)) as comissao'#13#10#13#10'from VENDA rec'#13#10'inner join movimento m ' +
-        'on m.codmovimento = rec.codmovimento '#13#10'inner join FUNCIONARIO fu' +
-        'nc on rec.CODVENDEDOR = func.COD_FUNCIONARIO'#13#10'inner join MOVIMEN' +
-        'TODETALHE movdet on movdet.codmovimento = rec.codmovimento'#13#10'wher' +
-        'e m.codnatureza = 3 and  rec.DATAVENDA between :DATA1 and :DATA2' +
-        ' and ((movdet.CODPRODUTO=:prod) or (:prod = 0)) and ((rec.CODVEN' +
-        'DEDOR=:pfun) or (:pfun = 0))'#13#10'group by rec.codVendedor , func.NO' +
-        'ME_FUNCIONARIO , movdet.DESCPRODUTO, func.valor_comissao , movde' +
-        't.PRECO'#13#10' order by  rec.CODVENDEDOR, movdet.DESCPRODUTO'#13#10#13#10#13#10#13#10#13 +
-        #10#13#10#13#10
+        'select  m.CODMOVIMENTO, rec.CODVENDEDOR, movdet.DESCPRODUTO , su' +
+        'm(movdet.QUANTIDADE) as QUANTIDADE, movdet.PRECO,  sum(movdet.PR' +
+        'ECO* movdet.QUANTIDADE) as PRECO_TOTAL , '#13#10'func.NOME_FUNCIONARIO' +
+        ', func.valor_comissao, sum((movdet.PRECO* movdet.QUANTIDADE)*(fu' +
+        'nc.valor_comissao / 100)) as comissao'#13#10#13#10'from VENDA rec'#13#10'inner j' +
+        'oin movimento m on m.codmovimento = rec.codmovimento '#13#10'inner joi' +
+        'n FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUNCIONARIO'#13#10'in' +
+        'ner join MOVIMENTODETALHE movdet on movdet.codmovimento = rec.co' +
+        'dmovimento'#13#10'where m.codnatureza = 3 and  rec.DATAVENDA between :' +
+        'DATA1 and :DATA2 and ((movdet.CODPRODUTO=:prod) or (:prod = 0)) ' +
+        'and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))'#13#10'group by m.CODMOVI' +
+        'MENTO, rec.codVendedor , func.NOME_FUNCIONARIO , movdet.DESCPROD' +
+        'UTO, func.valor_comissao , movdet.PRECO'#13#10' order by  rec.CODVENDE' +
+        'DOR, movdet.DESCPRODUTO'#13#10#13#10#13#10#13#10#13#10#13#10#13#10
     end
     item
       Alias = 'EMPRESA'
@@ -66,7 +66,7 @@ object TRpReport
   Params = <
     item
       Name = 'PFUN'
-      Value = '0'
+      Value = '2'
       Datasets.Strings = (
         'COMISSAO')
       Description = ''
@@ -78,7 +78,7 @@ object TRpReport
     item
       Name = 'PROD'
       AllowNulls = False
-      Value = '1050'
+      Value = '5719'
       Datasets.Strings = (
         'COMISSAO')
       Description = ''
@@ -89,7 +89,7 @@ object TRpReport
     end
     item
       Name = 'DATA1'
-      Value = 39814d
+      Value = 40148d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO')
@@ -101,7 +101,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 39844d
+      Value = 40178d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO')
