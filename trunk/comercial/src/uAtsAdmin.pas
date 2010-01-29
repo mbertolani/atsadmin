@@ -333,7 +333,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMovCaixa, uCaixaReceber, uComissaoColaborador, uRatearConta, uDespRec,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
-  uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal;
+  uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento;
 
 {$R *.dfm}
