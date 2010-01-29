@@ -22,31 +22,19 @@ object TRpReport
       Alias = 'CLIENTES'
       DatabaseAlias = 'SGE'
       SQL = 
-        'select cli.CODCLIENTE, '#13#10'          cli.NOMECLIENTE,'#13#10'          c' +
-        'li.CONTATO,'#13#10'          ende.TELEFONE, '#13#10'          ende.TELEFONE1' +
-        ','#13#10'          ende.TELEFONE2,'#13#10'          ende.FAX,'#13#10'          end' +
-        'e.E_MAIL, cli.DATANASC         '#13#10'from CLIENTES cli '#13#10'left outer ' +
-        'join ENDERECOCLIENTE ende on ende.CODCLIENTE=cli.CODCLIENTE'#13#10' wh' +
-        'ere STATUS = :pstatus and  udf_month(cli.datanasc) = udf_month(C' +
-        'urrent_date) and udf_day(cli.DATANASC) = udf_day(Current_date + ' +
-        '1)'#13#10'group by  cli.NOMECLIENTE,'#13#10'               cli.CODCLIENTE,  ' +
-        '             '#13#10'               cli.CONTATO,'#13#10'               ende.' +
-        'TELEFONE, '#13#10'               ende.TELEFONE1,'#13#10'              ende.T' +
-        'ELEFONE2,'#13#10'              ende.FAX, ende.E_MAIL'#13#10'order by  cli.NO' +
-        'MECLIENTE, ende.E_MAIL'#13#10
+        'select cli.CODCLIENTE,           cli.NOMECLIENTE,          cli.C' +
+        'ONTATO,          ende.TELEFONE,           ende.TELEFONE1,       ' +
+        '   ende.TELEFONE2,'#13#10'          ende.FAX,   ende.E_MAIL, cli.DATAN' +
+        'ASC         '#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENT' +
+        'E ende on ende.CODCLIENTE=cli.CODCLIENTE'#13#10' where STATUS = :pstat' +
+        'us and  udf_month(cli.datanasc) = udf_month(Current_date) and ud' +
+        'f_day(cli.DATANASC) = udf_day(Current_date + 1)'#13#10'group by  cli.C' +
+        'ODCLIENTE,   cli.NOMECLIENTE,         cli.CONTATO,              ' +
+        ' ende.TELEFONE,                ende.TELEFONE1,              ende' +
+        '.TELEFONE2,'#13#10'              ende.FAX, ende.E_MAIL, cli.DATANASC'#13#10 +
+        'order by  cli.NOMECLIENTE, ende.E_MAIL'#13#10
     end>
   DatabaseInfo = <
-    item
-      Alias = 'LOJA'
-      LoadParams = True
-      LoadDriverParams = True
-      LoginPrompt = False
-      ReportTable = 'REPMAN_REPORTS'
-      ReportSearchField = 'REPORT_NAME'
-      ReportField = 'REPORT'
-      ReportGroupsTable = 'REPMAN_GROUPS'
-      ADOConnectionString = ''
-    end
     item
       Alias = 'SGE'
       LoadParams = True
