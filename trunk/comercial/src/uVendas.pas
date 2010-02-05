@@ -1008,7 +1008,9 @@ begin
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
       cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-      cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
+      if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
+        cds_Mov_detQTDE_PCT.AsFloat := 1;
+//      cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
       cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
       estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
       if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
@@ -1108,7 +1110,9 @@ begin
         cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
         cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-        cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
+        if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
+          cds_Mov_detQTDE_PCT.AsFloat := 1;
+//        cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
         cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
         estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
         if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
@@ -2520,7 +2524,9 @@ begin
         cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
         cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-        cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
+        if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
+          cds_Mov_detQTDE_PCT.AsFloat := 1;
+//        cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
         cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
         estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
         if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
