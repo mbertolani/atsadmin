@@ -1300,7 +1300,7 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [14]
     Left = 0
-    Top = 513
+    Top = 520
     Width = 790
     Height = 28
     Align = alBottom
@@ -2130,7 +2130,7 @@ inherited fVendas: TfVendas
         Name = 'pCODMOV'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 71
     Top = 287
     object sds_Mov_DetCODDETALHE: TIntegerField
@@ -2471,7 +2471,7 @@ inherited fVendas: TfVendas
         Name = 'PCODMOV'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 71
     Top = 318
     object s_8CODMOVIMENTO: TIntegerField
@@ -2551,7 +2551,7 @@ inherited fVendas: TfVendas
     CommandText = 'select * from PRODUTOS order by PRODUTO'
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 71
     Top = 349
     object IntegerField1: TIntegerField
@@ -2938,7 +2938,7 @@ inherited fVendas: TfVendas
         Name = 'CODIGO'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 71
     Top = 379
     object sds_cmCOD_COMISSAO: TIntegerField
@@ -3043,7 +3043,7 @@ inherited fVendas: TfVendas
         Name = 'PVEIC'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 71
     Top = 409
     object sds_VeiculocliCOD_VEICULO: TIntegerField
@@ -3169,7 +3169,7 @@ inherited fVendas: TfVendas
     Top = 409
   end
   object ds_ccusto: TDataSource
-    DataSet = DM.cds_ccusto
+    DataSet = z.cds_ccusto
     Left = 214
     Top = 400
   end
@@ -3201,7 +3201,7 @@ inherited fVendas: TfVendas
         Name = 'pCODMOV'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 72
     Top = 255
     object sds_MovimentoCODMOVIMENTO: TIntegerField
@@ -3467,7 +3467,7 @@ inherited fVendas: TfVendas
         Name = 'PPROD'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 256
     Top = 280
     object sdsloteCODLOTE: TIntegerField
@@ -3598,7 +3598,7 @@ inherited fVendas: TfVendas
         Name = 'pcod'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 552
     Top = 392
     object sds_procCODPRODUTO: TIntegerField
@@ -3652,7 +3652,7 @@ inherited fVendas: TfVendas
         Name = 'PCONTADESPESA'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 221
     Top = 362
     object s_2CODIGO: TIntegerField
@@ -3746,7 +3746,7 @@ inherited fVendas: TfVendas
         Name = 'id'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 376
     Top = 352
     object sdsCODPRO: TStringField
@@ -3812,7 +3812,7 @@ inherited fVendas: TfVendas
         Name = 'PUSO'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 375
     Top = 383
     object sdsDetalheCODPRODMP: TIntegerField
@@ -3915,7 +3915,7 @@ inherited fVendas: TfVendas
         Name = 'pcod'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 688
     Top = 392
   end
@@ -3932,7 +3932,7 @@ inherited fVendas: TfVendas
         Name = 'pcodvei'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 642
     Top = 392
   end
@@ -3944,7 +3944,7 @@ inherited fVendas: TfVendas
       ', PRODUTOS prod '#13#10'where prod.codProduto = mp.codprodmp'
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 372
     Top = 424
     object sMatPrimaCODMAT: TIntegerField
@@ -4075,7 +4075,7 @@ inherited fVendas: TfVendas
         Name = 'prod'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 436
     Top = 256
   end
@@ -4155,7 +4155,7 @@ inherited fVendas: TfVendas
         Name = 'pDet'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 404
     Top = 288
   end
@@ -4225,7 +4225,7 @@ inherited fVendas: TfVendas
         Name = 'id'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 572
     Top = 259
     object sPrazoPRAZORECEBIMENTO: TSmallintField
@@ -4243,7 +4243,7 @@ inherited fVendas: TfVendas
         Name = 'id'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 552
     Top = 128
     object sPermissaoUCUSERNAME: TStringField
@@ -4321,7 +4321,7 @@ inherited fVendas: TfVendas
         Name = 'cd'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     Left = 256
     Top = 316
     object sdslistaUNIDADE: TStringField
@@ -4366,7 +4366,7 @@ inherited fVendas: TfVendas
         ParamType = ptOutput
         Size = 1
       end>
-    SQLConnection = DM.sqlsisAdimin
+    SQLConnection = z.sqlsisAdimin
     StoredProcName = 'LIMITECOMPRA'
     Left = 584
     Top = 24
