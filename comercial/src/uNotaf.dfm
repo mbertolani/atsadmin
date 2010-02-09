@@ -22,7 +22,7 @@ object fNotaf: TfNotaf
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 774
+    Width = 766
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -917,7 +917,7 @@ object fNotaf: TfNotaf
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 774
+    Width = 766
     Height = 691
     ActivePage = TabNF
     Align = alTop
@@ -2155,6 +2155,16 @@ object fNotaf: TfNotaf
           0000BFBFBF000000000000000000000000000000000000000000000000000000
           000000000000000000000000000000000000BFBFBFBFBFBF0000}
       end
+      object memo1: TMemo
+        Left = 224
+        Top = 256
+        Width = 409
+        Height = 65
+        Lines.Strings = (
+          'Recebe descri'#231#227'o classifica'#231#227'o fiscal')
+        TabOrder = 48
+        Visible = False
+      end
     end
     object TabSheet1: TTabSheet
       Caption = 'N.F.Serv'
@@ -2541,6 +2551,14 @@ object fNotaf: TfNotaf
       end
     end
   end
+  object CheckBox1: TCheckBox
+    Left = 661
+    Top = 64
+    Width = 97
+    Height = 17
+    Caption = 'Dados Extras ?'
+    TabOrder = 2
+  end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa
     Left = 591
@@ -2781,6 +2799,49 @@ object fNotaf: TfNotaf
       Caption = 'Excluir Item NF'
       ShortCut = 16452
       OnClick = ExcluirItemNF1Click
+    end
+  end
+  object sClasFiscal: TSQLDataSet
+    CommandText = 
+      'select CLASSIFICAO, '#13#10'          CODIGO_REDUZ, '#13#10'          DESCRI' +
+      'CAO, '#13#10'          TIPO_CLASSIFICA,'#13#10'          ICMS_SUBST, '#13#10'     ' +
+      '     ICMS_SUBST_IC, '#13#10'          ICMS_SUBST_IND '#13#10'from CLASSIFICA' +
+      'CAOFISCAL where  CLASSIFICAO = :TIPO'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'TIPO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 132
+    Top = 350
+    object sClasFiscalCLASSIFICAO: TStringField
+      FieldName = 'CLASSIFICAO'
+      Required = True
+      Size = 30
+    end
+    object sClasFiscalCODIGO_REDUZ: TStringField
+      FieldName = 'CODIGO_REDUZ'
+      Size = 10
+    end
+    object sClasFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object sClasFiscalTIPO_CLASSIFICA: TStringField
+      FieldName = 'TIPO_CLASSIFICA'
+      Size = 30
+    end
+    object sClasFiscalICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object sClasFiscalICMS_SUBST_IC: TFloatField
+      FieldName = 'ICMS_SUBST_IC'
+    end
+    object sClasFiscalICMS_SUBST_IND: TFloatField
+      FieldName = 'ICMS_SUBST_IND'
     end
   end
 end

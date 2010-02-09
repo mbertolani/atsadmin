@@ -1,6 +1,6 @@
 inherited fVisitas: TfVisitas
-  Width = 517
-  Height = 394
+  Width = 527
+  Height = 410
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -57,20 +57,20 @@ inherited fVisitas: TfVisitas
     ParentFont = False
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 308
-    Width = 509
+    Top = 319
+    Width = 511
     Height = 53
-    inherited btnCancelar: TBitBtn
-      Left = 209
-    end
-    inherited btnExcluir: TBitBtn
-      Left = 209
-    end
     inherited btnGravar: TBitBtn
       Left = 96
     end
     inherited btnIncluir: TBitBtn
       Left = 96
+    end
+    inherited btnCancelar: TBitBtn
+      Left = 209
+    end
+    inherited btnExcluir: TBitBtn
+      Left = 209
     end
     inherited btnProcurar: TBitBtn
       Left = 10
@@ -82,11 +82,11 @@ inherited fVisitas: TfVisitas
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 509
+    Width = 511
     inherited Label1: TLabel
       Left = 7
       Top = 5
-      Width = 269
+      Width = 299
       Height = 34
       Caption = 'Cadastro de Visitas'
       Font.Height = -29
@@ -95,7 +95,7 @@ inherited fVisitas: TfVisitas
     inherited Label2: TLabel
       Left = 11
       Top = 6
-      Width = 269
+      Width = 299
       Height = 34
       Caption = 'Cadastro de Visitas'
       Font.Height = -29

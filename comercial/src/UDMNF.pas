@@ -1222,6 +1222,8 @@ type
     cds_nf1UFCLI: TStringField;
     cds_nf1CEPCLI: TStringField;
     cds_nf1TELEFONE: TStringField;
+    sds_Mov_DetCLASSIFIC_FISCAL: TStringField;
+    cds_Mov_detCLASSIFIC_FISCAL: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

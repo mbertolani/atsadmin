@@ -776,6 +776,7 @@ end;
 
 procedure TfVendas.btnIncluirClick(Sender: TObject);
 begin
+  //usaprecolistavenda := '';
   modo := 'INSERIR';
   if cds_Movimento.Active then
     cds_Movimento.Close;
@@ -959,7 +960,8 @@ begin
     if not fMostra_Contas.ClientDataSet1.IsEmpty then
        fMostra_Contas.ShowModal;
   end;
-
+  if (dbeCliente.Text <> '') then
+    fProcura_prod.codcli := cds_MovimentoCODCLIENTE.AsInteger;
 end;
 
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
@@ -1730,6 +1732,17 @@ begin
    dmnf.scds_cli_proc.Close;
    fProcurar_nf.Free;
   end;
+  fProcura_prod.codcli := dm.codcli;
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'LISTAPRECO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+      if dm.cds_parametroCONFIGURADO.AsString = 'S' then
+         usaprecolistavenda := 'S';
+  end;
+
   if dtSrc.State=dsBrowse then
     cds_Movimento.Edit;
   cds_MovimentoCODCLIENTE.AsInteger := dm.codcli;//fListaClientes.cdsCODCLIENTE.AsInteger;
