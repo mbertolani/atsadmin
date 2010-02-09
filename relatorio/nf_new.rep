@@ -106,11 +106,22 @@ object TRpReport
   Params = <
     item
       Name = 'PVENDA'
-      Value = 1
+      AllowNulls = False
+      Value = 0
       ParamType = rpParamInteger
       Datasets.Strings = (
         'IMPR')
       Description = 'C'#243'digo da venda'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'DADOSEXTRAS'
+      AllowNulls = False
+      Value = Null
+      Description = ''
       Hint = ''
       Search = ''
       ErrorMessage = ''
