@@ -1,12 +1,14 @@
-CREATE OR ALTER PROCEDURE  FLUXOENTRADASAIDASINTETICO( DTAINI                           DATE
-                                           , DTAFIM                           DATE )
-RETURNS ( DTAPAGTO                         DATE
-        , VALORC                           DOUBLE PRECISION
-        , VALORD                           DOUBLE PRECISION
-        , VALOR                            DOUBLE PRECISION
-        , VALORCAIXAC                      DOUBLE PRECISION
-        , VALORCAIXAD                      DOUBLE PRECISION
-        , VALORTOTAL                       DOUBLE PRECISION )
+CREATE OR ALTER PROCEDURE FLUXOENTRADASAIDASINTETICO (
+    DTAINI Date,
+    DTAFIM Date )
+RETURNS (
+    DTAPAGTO Date,
+    VALORC Double precision,
+    VALORD Double precision,
+    VALOR Double precision,
+    VALORCAIXAC Double precision,
+    VALORCAIXAD Double precision,
+    VALORTOTAL Double precision )
 AS
 DECLARE VARIABLE j INTEGER;
 DECLARE VARIABLE i INTEGER;
@@ -34,7 +36,7 @@ BEGIN
     valorTotal = valorTotal + valorc;
     valorC = null;
   end 
-  suspend;
+ -- suspend;
   -- Total Pago ae esta data
   valorc = 0;
   valord = 0;
@@ -64,7 +66,7 @@ BEGIN
 
     valorC = null;
 
-  suspend;
+  -- suspend;
     --DESCRICAO = null;
     --contacontabil = null;
     --VALORD = 0;
