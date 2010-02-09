@@ -323,14 +323,14 @@ object DMNF: TDMNF
       'ovd.VALTOTAL'#13#10', movd.DESCPRODUTO'#13#10', movd.CST'#13#10', prod.COD_BARRA '#13 +
       #10', prod.CODPRO'#13#10', prod.PRODUTO'#13#10', prod.ESTOQUEATUAL'#13#10', prod.CODA' +
       'LMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTDE_PCT'#13#10', ccus.' +
-      'ALMOXARIFADO'#13#10', prod.CONTA_DESPESA  '#13#10', prod.LOCALIZACAO  '#13#10', cm' +
-      '.CODIGO, prod.LOTES  '#13#10', udf_LEFT((prod.PRODUTO),80) as DETALHE ' +
-      ', movd.VLR_BASE'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTO' +
-      'S prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMO' +
-      'XARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'l' +
-      'eft outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSA' +
-      'O '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCOD' +
-      'MOV order by movd.coddetalhe'
+      'ALMOXARIFADO'#13#10', prod.CONTA_DESPESA  '#13#10', prod.LOCALIZACAO  '#13#10', pr' +
+      'od.CLASSIFIC_FISCAL '#13#10', cm.CODIGO, prod.LOTES  '#13#10', udf_LEFT((pro' +
+      'd.PRODUTO),80) as DETALHE , movd.VLR_BASE'#13#10'from MOVIMENTODETALHE' +
+      ' movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPROD' +
+      'UTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO ' +
+      '= prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_C' +
+      'OMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE ' +
+      'or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -344,7 +344,7 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 221
+    Left = 224
     Top = 9
     object sds_Mov_DetCODDETALHE: TIntegerField
       FieldName = 'CODDETALHE'
@@ -492,6 +492,11 @@ object DMNF: TDMNF
     object sds_Mov_DetVLR_BASE: TFloatField
       FieldName = 'VLR_BASE'
       ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetCLASSIFIC_FISCAL: TStringField
+      FieldName = 'CLASSIFIC_FISCAL'
+      ProviderFlags = []
+      Size = 30
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -679,6 +684,11 @@ object DMNF: TDMNF
       ProviderFlags = [pfInUpdate]
       DisplayFormat = ',#.00'
       EditFormat = ',#.00'
+    end
+    object cds_Mov_detCLASSIFIC_FISCAL: TStringField
+      FieldName = 'CLASSIFIC_FISCAL'
+      ProviderFlags = []
+      Size = 30
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify

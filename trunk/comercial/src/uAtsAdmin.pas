@@ -208,6 +208,8 @@ type
     AlterarValordosProdutosprFornecedor1: TMenuItem;
     ExportaoparaContMatic1: TMenuItem;
 	Parametro1: TMenuItem;    RelatriodePrFaturamento1: TMenuItem;
+    dxButton10: TdxButton;
+    acCupom: TAction;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -294,6 +296,7 @@ type
     procedure OrdemdeAssitnciaTcnica1Click(Sender: TObject);
     procedure ExportaoparaContMatic1Click(Sender: TObject);
     procedure Parametro1Click(Sender: TObject);
+    procedure acCupomExecute(Sender: TObject);
     procedure OS1Click(Sender: TObject);
     procedure RelatriodePrFaturamento1Click(Sender: TObject);
 
@@ -1525,6 +1528,11 @@ begin
   finally
     fParametrosTerminal.Free;
   end;
+end;
+
+procedure TfAtsAdmin.acCupomExecute(Sender: TObject);
+begin
+   WinExec('CupomFiscal', SW_SHOWNORMAL);
 end;
 
 Procedure TfAtsAdmin.OS1Click(Sender: TObject);

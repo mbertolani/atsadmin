@@ -213,6 +213,16 @@ type
     BitBtn10: TBitBtn;
     PopupMenu1: TPopupMenu;
     ExcluirItemNF1: TMenuItem;
+    CheckBox1: TCheckBox;
+    memo1: TMemo;
+    sClasFiscal: TSQLDataSet;
+    sClasFiscalCLASSIFICAO: TStringField;
+    sClasFiscalCODIGO_REDUZ: TStringField;
+    sClasFiscalDESCRICAO: TStringField;
+    sClasFiscalTIPO_CLASSIFICA: TStringField;
+    sClasFiscalICMS_SUBST: TFloatField;
+    sClasFiscalICMS_SUBST_IC: TFloatField;
+    sClasFiscalICMS_SUBST_IND: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -1277,10 +1287,28 @@ end;
 
 procedure TfNotaf.BitBtn4Click(Sender: TObject);
 begin
+  if (CheckBox1.Checked = True) then
+  begin
+     DMNF.cds_Mov_det.First;
+     memo1.Lines.Clear;
+     while not DMNF.cds_Mov_det.Eof do
+     begin
+       if (sClasFiscal.Active) then
+          sClasFiscal.Close;
+       sClasFiscal.Params[0].AsString := DMNF.cds_Mov_detCLASSIFIC_FISCAL.AsString;
+       sClasFiscal.Open;
+       if (not sClasFiscal.IsEmpty) then
+          memo1.Lines.Add(sClasFiscalCLASSIFICAO.AsString + '-' + sClasFiscalDESCRICAO.AsString);
+       DMNF.cds_Mov_det.Next;
+     end;
+     DMNF.cds_Mov_det.First;
+  end;
   try
     dmnf.repdm.FileName := str_relatorio + 'nf_new.rep';
     dmnf.repdm.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     dmnf.repdm.Report.Params[0].Value := dmnf.cds_nfNUMNF.AsInteger;
+    if (CheckBox1.Checked = True) then
+      dmnf.repdm.Report.Params[1].Value := memo1.Text;
     dmnf.repdm.Execute;
   except
     // deu erro na impressão então para aqui.
