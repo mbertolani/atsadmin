@@ -967,7 +967,7 @@ end;
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
 var sql: String;
 begin
-//  if ( cds_Mov_detQUANTIDADE.AsFloat = 0) then
+  if (dtSrc1.State in [dsInsert, dsEdit]) then
   begin
   inherited;
   if (usaprecolistavenda = 'S') then
@@ -1173,7 +1173,10 @@ begin
       cds_mov_detPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
       cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
       cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
-      cds_Mov_detQTDE_ALT.AsFloat := 0;
+      if ( fProcura_prod.cds_procQTDE_PCT.AsFloat < 1) then
+        cds_Mov_detQUANTIDADE.AsFloat := 1
+      else
+        cds_Mov_detQUANTIDADE.AsFloat := fProcura_prod.cds_procQTDE_PCT.AsFloat;
       qtde := fProcura_prod.cds_procPESO_QTDE.AsFloat;
       cds_Mov_detPRECOCUSTO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
       estoque := fProcura_prod.cds_procESTOQUEATUAL.AsFloat;
@@ -1189,7 +1192,7 @@ begin
       DBEdit9.SetFocus;
     if cds_Mov_det.State in [dsBrowse] then
     begin
-      cds_Mov_det.Edit;
+      //cds_Mov_det.Edit;
       DBEdit17.SetFocus;
       //btnNovo.SetFocus;
       //if DBEdit17.Text <> '' then
