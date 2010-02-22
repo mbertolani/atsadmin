@@ -1,8 +1,8 @@
 inherited fVendas: TfVendas
   Left = 201
   Top = 106
-  Width = 798
-  Height = 575
+  Width = 802
+  Height = 577
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Venda'
   Font.Height = -13
@@ -55,7 +55,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 790
+    Width = 786
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
