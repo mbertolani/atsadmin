@@ -1,3 +1,5 @@
+<<<<<<< .mine
+=======
 CREATE OR ALTER PROCEDURE  SP_MOV_CAIXASINTETICO( DTAINI                           DATE
                              , DTAFIM                           DATE
                              , COD_CAIXA                        SMALLINT )
@@ -271,3 +273,4 @@ BEGIN
   */
 
 END
+>>>>>>> .r100

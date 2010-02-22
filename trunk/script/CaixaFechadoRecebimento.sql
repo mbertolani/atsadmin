@@ -53,4 +53,3 @@ BEGIN
   if (situacao = 'F') then 
     exception CAIXAFECHADO; 
 END
-
