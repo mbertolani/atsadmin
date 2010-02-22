@@ -1,7 +1,4 @@
 SET TERM ^ ;
-i
-A
-
 
 /* Altero as Trigger primeiro de COMPRA E VENDA, pois, estas não deixaão excluir */
 
