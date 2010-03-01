@@ -96,6 +96,7 @@ type
     Label30: TLabel;
     Label31: TLabel;
     DBRadioGroup3: TDBRadioGroup;
+    DBOrigem: TDBRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -294,6 +295,13 @@ begin
     1 : dm.cds_produtoTIPOPRECOVENDA.AsString := 'U'; // Ultimo Preco
     2 : dm.cds_produtoTIPOPRECOVENDA.AsString := 'F'; // Preco Fixo
   end;
+
+  case DBOrigem.ItemIndex of
+    0 : dm.cds_produtoORIGEM.AsInteger := 0 ; // Nacional
+    1 : dm.cds_produtoORIGEM.AsInteger := 1 ; // Importado pelo Mesmo
+    2 : dm.cds_produtoORIGEM.AsInteger := 2 ; // Importado por Terceiro
+  end;
+
   if (cbMarca.Text <> '') then
     dm.cds_produtoMARCA.AsString := cbMarca.Text;
     
