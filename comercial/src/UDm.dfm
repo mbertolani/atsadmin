@@ -1,10 +1,12 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 820
-  Width = 1292
+  Left = 65532
+  Top = 65532
+  Height = 748
+  Width = 1032
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisadmin'
+    ConnectionName = 'sge'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -14,15 +16,15 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:\home\bd\sge_designBouque.fdb'
+      'Database=C:\Home\sisadmin\BD\sge_bouquet.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=masterkey'
+      'Password=xl04pq'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
+      'User_Name=sysdba'
       'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
     Left = 80
@@ -1510,6 +1512,9 @@ object DM: TDM
       FixedChar = True
       Size = 1
     end
+    object cds_produtoORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+    end
   end
   object dsp_produto: TDataSetProvider
     DataSet = sds_produto
@@ -1753,6 +1758,9 @@ object DM: TDM
       FixedChar = True
       Size = 1
     end
+    object sds_produtoORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+    end
   end
   object sds_cm: TSQLDataSet
     CommandText = 
@@ -1926,8 +1934,8 @@ object DM: TDM
       end>
     OnCalcFields = scds_Mov_Det_procCalcFields
     DBConnection = sqlsisAdimin
-    Left = 713
-    Top = 641
+    Left = 489
+    Top = 185
     object scds_Mov_Det_procCODPRODUTO: TIntegerField
       DisplayWidth = 10
       FieldName = 'CODPRODUTO'
@@ -5206,6 +5214,14 @@ object DM: TDM
     object sds_EmpresaCCUSTO: TIntegerField
       FieldName = 'CCUSTO'
     end
+    object sds_EmpresaNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object sds_EmpresaCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
   end
   object dsp_empresa: TDataSetProvider
     DataSet = sds_Empresa
@@ -5339,6 +5355,14 @@ object DM: TDM
     end
     object cds_empresaCCUSTO: TIntegerField
       FieldName = 'CCUSTO'
+    end
+    object cds_empresaNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object cds_empresaCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
     end
   end
   object sds_usuario: TSQLDataSet
@@ -6199,8 +6223,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'DataSetProvider3'
-    Left = 1016
-    Top = 518
+    Left = 1000
+    Top = 478
     object ClientDataSet1CODROMANEIO: TIntegerField
       FieldName = 'CODROMANEIO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6679,7 +6703,7 @@ object DM: TDM
     end
   end
   object SQl: TSQLConnection
-    ConnectionName = 'solorural'
+    ConnectionName = 'semp'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     LibraryName = 'dbexpUIBfire15.dll'
@@ -6688,10 +6712,10 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:\home\bd\sge_solorural.fdb'
+      'Database=192.168.1.100:semp_interacao'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=masterkey'
+      'Password=xl04pq'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
@@ -9012,8 +9036,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 1096
-    Top = 402
+    Left = 1072
+    Top = 450
     object scds_produto_procASHCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
@@ -9218,7 +9242,7 @@ object DM: TDM
     end
   end
   object sqlExporta: TSQLConnection
-    ConnectionName = 'solorural'
+    ConnectionName = 'exporta'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -9228,10 +9252,10 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:\home\bd\sge_solorural.fdb'
+      'Database=C:\fontes\bd\sge_exporta.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=masterkey'
+      'Password=xl04pq'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
