@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, StdCtrls, DBCtrls, ExtCtrls, Mask, DB, DBClient,
   Provider, SqlExpr, Menus, XPMenu, Buttons, MMJPanel,jpeg, JvExExtCtrls,
-  JvImage, ExtDlgs, JvExControls, JvLabel;
+  JvImage, ExtDlgs, JvExControls, JvLabel, DBLocal, DBLocalS;
 
 type
   TfEmpresa = class(TfPai)
@@ -60,6 +60,16 @@ type
     Label22: TLabel;
     ComboBox1: TComboBox;
     JvLabel1: TJvLabel;
+    DBEdit19: TDBEdit;
+    Label23: TLabel;
+    BitBtn3: TBitBtn;
+    procIBGE: TSQLClientDataSet;
+    procIBGENM_MUNICIPIO: TStringField;
+    procIBGECD_UF: TStringField;
+    procIBGECD_IBGE: TStringField;
+    procIBGENM_LOCALIDADE: TStringField;
+    DBEdit20: TDBEdit;
+    Label24: TLabel;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -68,6 +78,7 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -79,7 +90,7 @@ var
 
 implementation
 
-uses UDm, uEmpresaProcura, sCtrlResize;
+uses UDm, uEmpresaProcura, sCtrlResize, uProcurar;
 
 {$R *.dfm}
 
@@ -202,6 +213,28 @@ begin
        DM.cds_empresaCCusto.asInteger := dm.cds_ccustoCODIGO.AsInteger;
   inherited;
 
+end;
+
+procedure TfEmpresa.BitBtn3Click(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,procIBGE);
+  try
+   fProcurar.BtnProcurar.Click;
+   fProcurar.EvDBFind1.DataField := 'NM_MUNICIPIO';
+   if fProcurar.ShowModal=mrOk then
+   begin
+     if(DtSrc.State in [dsbrowse,dsinactive]) then
+       DM.cds_empresa.Edit;
+     DBEdit10.Text := procIBGENM_MUNICIPIO.AsString;
+     DBComboBox1.Text := procIBGECD_UF.AsString;
+     DBEdit20.Text := procIBGECD_IBGE.AsString;
+
+   end;
+   finally
+    procIBGE.Close;
+    fProcurar.Free;
+   end;
 end;
 
 end.
