@@ -23,28 +23,28 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object Label5: TLabel [2]
     Left = 3
-    Top = 89
+    Top = 87
     Width = 131
     Height = 16
     Caption = 'Descri'#231#227'o do Produto'
   end
   object Label6: TLabel [3]
     Left = 517
-    Top = 89
+    Top = 87
     Width = 52
     Height = 16
     Caption = 'Unidade'
   end
   object Label7: TLabel [4]
     Left = 701
-    Top = 89
+    Top = 87
     Width = 34
     Height = 16
     Caption = '(Kg,L)'
   end
   object Label8: TLabel [5]
     Left = 605
-    Top = 89
+    Top = 87
     Width = 70
     Height = 16
     Caption = 'Quantidade'
@@ -58,14 +58,14 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object Label10: TLabel [7]
     Left = 234
-    Top = 135
+    Top = 129
     Width = 91
     Height = 16
     Caption = 'Fam'#237'lia / Grupo'
   end
   object Label11: TLabel [8]
     Left = 516
-    Top = 135
+    Top = 129
     Width = 134
     Height = 16
     Caption = 'Categoria / Sub-Grupo'
@@ -78,22 +78,22 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Tipo'
   end
   object Label30: TLabel [10]
-    Left = 181
-    Top = 401
+    Left = 540
+    Top = 398
     Width = 89
     Height = 16
     Caption = 'Gera Despesa'
   end
   object Label31: TLabel [11]
-    Left = 425
-    Top = 402
+    Left = 358
+    Top = 397
     Width = 47
     Height = 16
     Caption = 'Imprimir'
   end
   object DBRadioGroup3: TDBRadioGroup [12]
-    Left = 478
-    Top = 390
+    Left = 411
+    Top = 385
     Width = 129
     Height = 32
     Columns = 2
@@ -108,8 +108,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'N')
   end
   object DBRadioGroup1: TDBRadioGroup [13]
-    Left = 274
-    Top = 389
+    Left = 633
+    Top = 386
     Width = 129
     Height = 32
     Columns = 2
@@ -124,7 +124,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'N')
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 455
+    Top = 462
     Width = 789
     TabOrder = 12
     inherited btnGravar: TBitBtn
@@ -235,7 +235,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object DBEdit3: TDBEdit [18]
     Left = 3
-    Top = 106
+    Top = 104
     Width = 511
     Height = 24
     DataField = 'PRODUTO'
@@ -252,7 +252,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object DBEdit4: TDBEdit [19]
     Left = 517
-    Top = 106
+    Top = 104
     Width = 86
     Height = 24
     BevelKind = bkFlat
@@ -271,7 +271,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object DBEdit5: TDBEdit [20]
     Left = 605
-    Top = 106
+    Top = 104
     Width = 86
     Height = 24
     BevelKind = bkFlat
@@ -290,7 +290,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object DBEdit6: TDBEdit [21]
     Left = 693
-    Top = 106
+    Top = 104
     Width = 92
     Height = 24
     BevelKind = bkFlat
@@ -309,7 +309,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object GroupBox1: TGroupBox [22]
     Left = 3
-    Top = 178
+    Top = 174
     Width = 782
     Height = 50
     Caption = 'Estoque'
@@ -423,7 +423,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object GroupBox2: TGroupBox [23]
     Left = 3
-    Top = 230
+    Top = 224
     Width = 782
     Height = 62
     TabOrder = 10
@@ -647,7 +647,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object GroupBox3: TGroupBox [24]
     Left = 3
-    Top = 294
+    Top = 288
     Width = 782
     Height = 52
     Caption = 'Tributa'#231#227'o'
@@ -910,8 +910,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   object Panel1: TPanel [25]
-    Left = 494
-    Top = 359
+    Left = 491
+    Top = 348
     Width = 140
     Height = 30
     PopupMenu = PopupMenu1
@@ -960,7 +960,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object Panel2: TPanel [28]
     Left = 636
-    Top = 359
+    Top = 348
     Width = 149
     Height = 30
     PopupMenu = PopupMenu1
@@ -1039,7 +1039,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object DBLookupComboBox2: TDBLookupComboBox [29]
     Left = 234
-    Top = 152
+    Top = 146
     Width = 249
     Height = 24
     BevelKind = bkFlat
@@ -1056,7 +1056,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object DBLookupComboBox3: TDBLookupComboBox [30]
     Left = 518
-    Top = 152
+    Top = 146
     Width = 232
     Height = 24
     BevelKind = bkFlat
@@ -1102,7 +1102,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object cbMarca: TJvDBSearchComboBox [34]
     Left = 4
-    Top = 152
+    Top = 146
     Width = 194
     Height = 24
     DataField = 'DESCMARCAS'
@@ -1115,7 +1115,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object SpeedButton1: TBitBtn [35]
     Left = 199
-    Top = 150
+    Top = 144
     Width = 34
     Height = 26
     TabOrder = 21
@@ -1187,7 +1187,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object SpeedButton2: TBitBtn [36]
     Left = 482
-    Top = 150
+    Top = 144
     Width = 34
     Height = 26
     TabOrder = 22
@@ -1259,7 +1259,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object SpeedButton3: TBitBtn [37]
     Left = 752
-    Top = 150
+    Top = 144
     Width = 34
     Height = 26
     TabOrder = 23
@@ -1330,9 +1330,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBF0000}
   end
   object DBRadioGroup2: TDBRadioGroup [38]
-    Left = 8
-    Top = 352
-    Width = 482
+    Left = 5
+    Top = 383
+    Width = 348
     Height = 38
     Caption = 'Forma'#231#227'o Pre'#231'o Venda'
     Color = clBtnFace
@@ -1420,6 +1420,28 @@ inherited fProdutoCadastro: TfProdutoCadastro
       3333333333773333333333333333333333333333333333333333333333333333
       3333333333333333333333333333333333333333333333333333}
     NumGlyphs = 2
+  end
+  object DBOrigem: TDBRadioGroup [42]
+    Left = 4
+    Top = 341
+    Width = 481
+    Height = 38
+    Caption = 'Origem do Produto'
+    Color = clBtnFace
+    Columns = 3
+    DataField = 'ORIGEM'
+    DataSource = DtSrc
+    Items.Strings = (
+      'Nacional'
+      'Importado Exterior'
+      'Importado Interno')
+    ParentColor = False
+    PopupMenu = PopupMenu1
+    TabOrder = 30
+    Values.Strings = (
+      '0'
+      '1'
+      '2')
   end
   inherited XPMenu1: TXPMenu
     Left = 608
