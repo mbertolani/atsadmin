@@ -89,6 +89,7 @@ begin
       executaScript('gera_rec_nf.sql');
       mudaVersao('1.0.0.12');
     end; // Fim Ataulização Versao 1.0.0.11
+
     if (versaoSistema = '1.0.0.12') then
     begin
       executaDDL('PARAMETRO','VALOR','DOUBLE PRECISION');
@@ -138,8 +139,8 @@ begin
       executaScript('insere_estoque.sql');
       //executaScript('listaProduto.sql');
       executaScript('insere_vlrBase.sql');
-      executaSql('UPDATE MOVIMENTODETALHE SET LOTE = null where LOTE = ' +
-        QuotedStr(''));
+      {ExecutaSql('UPDATE MOVIMENTODETALHE SET LOTE = null where LOTE = ' +
+        QuotedStr(''));}
       mudaVersao('1.0.0.16');
     end; // Fim Ataulização Versao 1.0.0.15
 
@@ -169,8 +170,8 @@ begin
 
     if (versaoSistema = '1.0.0.19') then
     begin
-    ////m  executaSql('CREATE EXCEPTION nao_pode_excluir ' +
-    ////m    QuotedStr('Registro não pode ser excluido,  existe venda/compra.'));
+      executaSql('CREATE EXCEPTION nao_pode_excluir ' +
+      QuotedStr('Registro não pode ser excluido,  existe venda/compra.'));
       executaScript('apaga_rec.sql');
       executaScript('proibe_exclusao_pag.sql');
       executaScript('proibe_exclusao_rec.sql');
@@ -179,12 +180,9 @@ begin
 
     if (versaoSistema = '1.0.0.20') then
     begin
-    {
-    ////m
+
       executaSql('CREATE EXCEPTION estoqueFechado ' +
         QuotedStr('Estoque fechado nesta data.'));
-      executaSql('CREATE EXCEPTION caixaFechado ' +
-        QuotedStr('Caixa fechado nesta data.'));
       executaSql('CREATE TABLE ESTOQUE_CONTROLE( ' +
         ' IDESTOQUECONTROLE Integer NOT NULL, ' +
         ' CODUSUARIO Integer NOT NULL, DATAFECHAMENTO Date NOT NULL, '+
@@ -207,7 +205,6 @@ begin
                  ' AS  BEGIN ' +
                  ' IF(NEW.IDCAIXACONTROLE IS NULL) THEN NEW.IDCAIXACONTROLE =' +
                  ' GEN_ID(IDCAIXA_CONTROLE,1);  END ');
-     } ////m
       executaSql('create table cargosfuncoes (' +
                  ' cod_cargosfuncoes integer not null primary key, ' +
                  ' descricao varchar(100))');
@@ -245,7 +242,6 @@ begin
     if (versaoSistema = '1.0.0.23') then
     begin
       executaScript('spestoque.sql');
-    {////m
       executaSql('CREATE TABLE arquivo_retorno( ' +
         'idArquivo int not null primary key, ' +
         'arquivo varchar(60) not null, ' +
@@ -253,7 +249,6 @@ begin
         'tamCampo varchar(10) not null, ' +
         'tipoCampo varchar(60))');
       executaSql('CREATE GENERATOR IDARQUIVO_RETORNO');
-    }////m
       mudaVersao('1.0.0.24');
     end; // Fim Ataulização Versao 1.0.0.23
 
@@ -272,8 +267,8 @@ begin
       executaDDL('TRANSPORTADORA','CONTATO','VARCHAR(40)');
       executaDDL('TRANSPORTADORA','BAIRRO','VARCHAR(40)');
       executaDDL('TRANSPORTADORA','CEP','VARCHAR(15)');
-     ////m executaDDL('movimento', 'obs', 'varchar(100)');
-     ////m executaDDL('MOVIMENTODETALHE','PRECOULTIMACOMPRA','DOUBLE PRECISION');
+      //executaSql('ALTER TABLE movimento ADD obs varchar(100)');
+      executaDDL('MOVIMENTODETALHE','PRECOULTIMACOMPRA','DOUBLE PRECISION');
       executaScript('produtoetiquetacompra.sql');
       executaScript('spEstoqueFiltro.sql');
       executaScript('retornaEstoqueCompra.sql');
@@ -325,11 +320,11 @@ begin
 
     if (versaoSistema = '1.0.0.30') then
     begin
-    { ////m executaSql('CREATE EXCEPTION TIPOENDERECOREPETIDO ' +
+     executaSql('CREATE EXCEPTION TIPOENDERECOREPETIDO ' +
         QuotedStr('Já existe endereço cadastrado com este tipo'));
       executaSql('CREATE EXCEPTION CNPJ_REPETIDO ' +
         QuotedStr('Já existe Cliente com este CNPJ/CPF.'));
-   } ////m
+
       executaScript('tipoend_repetido.sql');
       executaScript('cnpj_repetido.sql');
       mudaVersao('1.0.0.31');
@@ -350,11 +345,10 @@ begin
 
     if (versaoSistema = '1.0.0.33') then
     begin
-    {////m  executaSql('ALTER TABLE ESTADO_ICMS ADD ICMS_SUBSTRIB double precision');
+      executaSql('ALTER TABLE ESTADO_ICMS ADD ICMS_SUBSTRIB double precision');
       executaSql('ALTER TABLE ESTADO_ICMS ADD ICMS_SUBSTRIB_IC double precision');
       executaSql('ALTER TABLE ESTADO_ICMS ADD ICMS_SUBSTRIB_IND double precision');
       executaSql('ALTER TABLE SERIES ADD ICMS_DESTACADO double precision');
-    }////m
       mudaVersao('1.0.0.34');
     end; // Fim Ataulização Versao 1.0.0.33
 
@@ -376,21 +370,17 @@ begin
       executaSql('insert into SERIES( ' +
         'SERIE, ULTIMO_NUMERO) ' +
         ' Values (' + QuotedStr('M') + ', ' + IntToStr(0) + ')');
-    {////m
       executaSql('alter table movimentodetalhe add periodoini timestamp');
       executaSql('alter table movimentodetalhe add periodofim timestamp');
-    }////m
       mudaVersao('1.0.0.36');
     end; // Fim Ataulização Versao 1.0.0.35
 
     if (versaoSistema = '1.0.0.36') then
     begin
-    {////m
-      executaSql('alter TABLE CLASSIFICACAOFISCAL add Icms_subst double precision');
+    executaSql('alter TABLE CLASSIFICACAOFISCAL add Icms_subst double precision');
       executaSql('alter TABLE CLASSIFICACAOFISCAL add Icms_subst_ic double precision');
       executaSql('alter TABLE CLASSIFICACAOFISCAL add Icms_subst_ind double precision');
-    }////m
-      mudaVersao('1.0.0.37');
+     mudaVersao('1.0.0.37');
     end; // Fim Ataulização Versao 1.0.0.36
 
     if (versaoSistema = '1.0.0.37') then
@@ -474,7 +464,7 @@ begin
 
     if (versaoSistema = '1.0.0.42') then
     begin
-    ///m  executaSql('alter TABLE NOTAFISCAL add SELECIONOU CHAR(1)');
+      executaSql('alter TABLE NOTAFISCAL add SELECIONOU CHAR(1)');
       executaSql('alter TABLE RECEBIMENTO add SELECIONOU CHAR(1)');
       executaSql('alter TABLE PAGAMENTO add SELECIONOU CHAR(1)');
       mudaVersao('1.0.0.43');
@@ -599,6 +589,29 @@ begin
       executaScript('imprime_venda.sql');
       mudaVersao('1.0.0.58');
     end;  // Fim Ataulização Versao 1.0.0.58
+
+    if (versaoSistema = '1.0.0.58') then
+    begin
+      executaSql('alter TABLE EMPRESA add NUMERO VarChar(5)');
+      mudaVersao('1.0.0.59');
+    end;  // Fim Ataulização Versao 1.0.0.59
+
+    if (versaoSistema = '1.0.0.59') then
+    begin
+      executaSql('alter TABLE PRODUTOS add ORIGEM INTEGER');
+      executaSql('alter TABLE ENDERECOCLIENTE add CD_IBGE Varchar(10)');
+      executaSql('alter TABLE EMPRESA add CD_IBGE Varchar(10)');
+      executaSql ('CREATE TABLE TB_IBGE( '+
+        'NM_LOCALIDADE Varchar(40) NOT NULL   , ' +
+        'CD_IBGE Varchar(10) NOT NULL, ' +
+        'NM_MUNICIPIO Varchar(40), ' +
+        'NM_TIPO_LOCALIDADE Varchar(20), ' +
+        'SQ_IBGE Integer NOT NULL, ' +
+        'CD_UF Char(2), ' +
+        'PRIMARY KEY (SQ_IBGE))');
+      mudaVersao('1.0.0.60');
+    end;  // Fim Ataulização Versao 1.0.0.60
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
