@@ -586,6 +586,16 @@ type
     DBEdit58: TDBEdit;
     ComboBox2: TComboBox;
     Label73: TLabel;
+    DBEdit59: TDBEdit;
+    Label74: TLabel;
+    sdsEnderecoCliCD_IBGE: TStringField;
+    cdsEnderecoCliCD_IBGE: TStringField;
+    BitBtn22: TBitBtn;
+    procIBGE: TSQLClientDataSet;
+    procIBGENM_MUNICIPIO: TStringField;
+    procIBGECD_UF: TStringField;
+    procIBGECD_IBGE: TStringField;
+    procIBGENM_LOCALIDADE: TStringField;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -646,6 +656,7 @@ type
       var Action: TReconcileAction);
     procedure BitBtn20Click(Sender: TObject);
     procedure BitBtn21Click(Sender: TObject);
+    procedure BitBtn22Click(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
@@ -2446,6 +2457,28 @@ begin
   finally
     fProdFornecedor.free;
   end;
+end;
+
+procedure TfClienteCadastro.BitBtn22Click(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,procIBGE);
+  try
+   fProcurar.BtnProcurar.Click;
+   fProcurar.EvDBFind1.DataField := 'NM_MUNICIPIO';
+   if fProcurar.ShowModal=mrOk then
+   begin
+     if(DtSrc.State in [dsbrowse,dsinactive]) then
+       cdsEnderecoCli.Edit;
+     DBEdit15.Text := procIBGENM_MUNICIPIO.AsString;
+     DBComboBox1.Text := procIBGECD_UF.AsString;
+     DBEdit59.Text := procIBGECD_IBGE.AsString;
+
+   end;
+   finally
+    procIBGE.Close;
+    fProcurar.Free;
+   end;
 end;
 
 end.
