@@ -180,8 +180,11 @@ uses
   uNotaf1 in 'uNotaf1.pas' {fNotaf1},
   uGeraAumento in 'uGeraAumento.pas' {fGeraAumento},
   uOrdemAssistencia in 'uOrdemAssistencia.pas' {fOrdemAssistencia},
-  uParametrosTerminal in 'uParametrosTerminal.pas' {fParametrosTerminal};
-  uPfaturamento in 'uPfaturamento.pas' {fPfaturamento};
+  uParametrosTerminal in 'uParametrosTerminal.pas' {fParametrosTerminal},
+  uPfaturamento in 'uPfaturamento.pas' {fPfaturamento},
+  uNFeletronica in 'uNFeletronica.pas' {fNFeletronica},
+  uLogsUsu in 'uLogsUsu.pas' {fLogsUsu},
+  uTb_Ibge in 'uTb_Ibge.pas' {fTb_Ibge};
 
 {$R *.res}
 
@@ -208,7 +211,6 @@ begin
   Application.CreateForm(TfRelComissao, fRelComissao);
   Application.CreateForm(TfRel_Guia, fRel_Guia);
   Application.CreateForm(TfPai, fPai);
-  Application.CreateForm(TfNFPaulista, fNFPaulista);
   Application.CreateForm(TfGeraAumento, fGeraAumento);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
