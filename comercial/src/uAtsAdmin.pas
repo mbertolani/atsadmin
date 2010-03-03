@@ -208,8 +208,9 @@ type
     AlterarValordosProdutosprFornecedor1: TMenuItem;
     ExportaoparaContMatic1: TMenuItem;
 	Parametro1: TMenuItem;    RelatriodePrFaturamento1: TMenuItem;
-    dxButton10: TdxButton;
+    NotaFiscalEletrnica1: TMenuItem;    dxButton10: TdxButton;
     acCupom: TAction;
+    CidadesIBGE1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -299,6 +300,8 @@ type
     procedure acCupomExecute(Sender: TObject);
     procedure OS1Click(Sender: TObject);
     procedure RelatriodePrFaturamento1Click(Sender: TObject);
+    procedure NotaFiscalEletrnica1Click(Sender: TObject);
+    procedure CidadesIBGE1Click(Sender: TObject);
 
   private
     STime: TDateTime;
@@ -337,7 +340,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
-  uOs, uPfaturamento;
+  uOs, uPfaturamento, uNFeletronica, uTb_Ibge;
 
 {$R *.dfm}
 
@@ -1553,6 +1556,26 @@ begin
 	finally     
 		fPfaturamento.Free;   
 	end;
+end;
+
+procedure TfAtsAdmin.NotaFiscalEletrnica1Click(Sender: TObject);
+begin
+    fNFeletronica := TfNFeletronica.Create(Application);
+  try
+      fNFeletronica.ShowModal;
+  finally
+    fNFeletronica.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CidadesIBGE1Click(Sender: TObject);
+begin
+    fTb_Ibge := TfTb_Ibge.Create(Application);
+  try
+      fTb_Ibge.ShowModal;
+  finally
+    fTb_Ibge.Free;
+  end;
 end;
 
 end.

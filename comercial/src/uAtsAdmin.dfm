@@ -23,7 +23,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 692
-    Height = 321
+    Height = 329
     Align = alClient
     Center = True
     Picture.Data = {
@@ -1641,7 +1641,7 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 368
+    Top = 376
     Width = 692
     Height = 24
     Color = clMoneyGreen
@@ -1820,6 +1820,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Maquinas'
         OnClick = Maquinas1Click
       end
+      object CidadesIBGE1: TMenuItem
+        Caption = 'Cidades IBGE'
+        OnClick = CidadesIBGE1Click
+      end
     end
     object Lanamentos1: TMenuItem
       Caption = '&Lan'#231'amentos     '
@@ -1913,6 +1917,10 @@ object fAtsAdmin: TfAtsAdmin
       object ExportaoparaContMatic1: TMenuItem
         Caption = 'Exporta'#231#227'o para Cont Matic'
         OnClick = ExportaoparaContMatic1Click
+      end
+      object NotaFiscalEletrnica1: TMenuItem
+        Caption = 'Nota Fiscal Eletr'#244'nica'
+        OnClick = NotaFiscalEletrnica1Click
       end
     end
     object N2: TMenuItem
