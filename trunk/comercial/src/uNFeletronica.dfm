@@ -2521,12 +2521,13 @@ object fNFeletronica: TfNFeletronica
       000000000000}
   end
   object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.PathSalvar = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
+    Configuracoes.Geral.PathSalvar = 'C:\nfe\'
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.Arquivos.PathNFe = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathCan = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathInu = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathDPEC = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
+    DANFE = ACBrNFeDANFEQR1
     Left = 144
     Top = 353
   end
@@ -2543,8 +2544,8 @@ object fNFeletronica: TfNFeletronica
     CasasDecimais._qCom = 2
     CasasDecimais._vUnCom = 2
     ExibirResumoCanhoto = False
-    Left = 144
-    Top = 480
+    Left = 209
+    Top = 355
   end
   object sTabIBGE: TSQLDataSet
     CommandText = 'select * from TB_IBGE tb '#13#10'where tb.NM_MUNICIPIO = :Cidade'
@@ -2595,8 +2596,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 177
-    Top = 353
+    Left = 144
+    Top = 480
     object sProdutosCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
@@ -2770,5 +2771,23 @@ object fNFeletronica: TfNFeletronica
     object sProdutosORIGEM: TIntegerField
       FieldName = 'ORIGEM'
     end
+  end
+  object ACBrNFeDANFEQR1: TACBrNFeDANFEQR
+    ACBrNFe = ACBrNFe1
+    PathPDF = 'C:\nfe\'
+    ImprimirHoraSaida = False
+    MostrarPreview = True
+    TipoDANFE = tiRetrato
+    NumCopias = 1
+    ImprimirDescPorc = False
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais._qCom = 2
+    CasasDecimais._vUnCom = 2
+    ExibirResumoCanhoto = False
+    Left = 176
+    Top = 354
   end
 end
