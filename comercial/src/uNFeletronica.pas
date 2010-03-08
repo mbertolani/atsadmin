@@ -8,7 +8,8 @@ uses
   gbCobranca, Provider, DBClient, SqlExpr, Grids, DBGrids, JvExDBGrids,
   JvDBGrid, ComCtrls, JvExComCtrls, JvProgressBar, JvExButtons, JvBitBtn,
   dxCore, dxButton, StdCtrls, Mask, JvExMask, JvToolEdit, Buttons,
-  ExtCtrls, MMJPanel, ACBrNFeDANFEClass, pcnConversao, ACBrNFeDANFERave, ACBrNFe;
+  ExtCtrls, MMJPanel, ACBrNFeDANFEClass, pcnConversao, ACBrNFeDANFERave, ACBrNFe,
+  ACBrNFeDANFeQRClass;
 
 type
   TfNFeletronica = class(TForm)
@@ -367,6 +368,7 @@ type
     sClienteCD_IBGE: TStringField;
     sEmpresaCCUSTO: TIntegerField;
     sEmpresaCD_IBGE: TStringField;
+    ACBrNFeDANFEQR1: TACBrNFeDANFEQR;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -466,6 +468,7 @@ var
   NomArquivo, comp: string;
   dathor: TDateTime;
   BC, BCST : Variant;
+  i: integer;
 begin
    JvProgressBar1.Position := 0;
    JvProgressBar1.Max := 1000;
@@ -515,7 +518,7 @@ begin
             Ide.indPag    := ipVista;
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
-            Ide.serie     := 1;
+            Ide.serie     := 2;
             Ide.nNF       := cdsNFNUMNF.AsInteger;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
@@ -565,6 +568,7 @@ begin
               cdsItensNF.Close;
             cdsItensNF.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
             cdsItensNF.Open;
+            i := 1;
             while not cdsItensNF.Eof do // Escrevo os itens
             begin
               JvProgressBar1.Position := JvProgressBar1.Position + 1;
@@ -577,7 +581,7 @@ begin
               // DADOS DOS PRODUTOS DA NOTA
               with Det.Add do
               begin
-              Prod.nItem    := 1;
+              Prod.nItem    := i;
               Prod.cProd    := IntToStr(cdsItensNFCODPRODUTO.AsInteger);
               Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
               Prod.CFOP     := cdsNFCFOP.AsString;
@@ -710,6 +714,7 @@ begin
                    vIOF :=}                                                     //VALOR DO IMPOSTO SOBRE OPERAÇÕES FINANCEIRAS
                 end;
               end;
+              i := i + 1;
               cdsItensNF.Next;
             end;
 
@@ -736,6 +741,10 @@ begin
    ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
    MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Geral.PathSalvar+'\'+copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
+
+   ACBrNFe1.Enviar(0);
+   ShowMessage(ACBrNFe1.WebServices.Retorno.Protocolo);
+   ShowMessage(ACBrNFe1.WebServices.Retorno.Recibo);
 end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
