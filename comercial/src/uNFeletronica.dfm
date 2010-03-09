@@ -1,7 +1,7 @@
 object fNFeletronica: TfNFeletronica
   Left = 189
   Top = 103
-  Width = 671
+  Width = 660
   Height = 635
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -17,8 +17,8 @@ object fNFeletronica: TfNFeletronica
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 663
-    Height = 169
+    Width = 652
+    Height = 158
     Align = alTop
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -28,7 +28,7 @@ object fNFeletronica: TfNFeletronica
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object Label1: TLabel
-      Left = 407
+      Left = 363
       Top = 7
       Width = 75
       Height = 16
@@ -42,7 +42,7 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object Label2: TLabel
-      Left = 408
+      Left = 364
       Top = 47
       Width = 63
       Height = 16
@@ -84,7 +84,7 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object Label7: TLabel
-      Left = 78
+      Left = 62
       Top = 46
       Width = 236
       Height = 16
@@ -112,7 +112,7 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object Label5: TLabel
-      Left = 199
+      Left = 186
       Top = 85
       Width = 77
       Height = 16
@@ -140,7 +140,7 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object sbtnGetCert: TSpeedButton
-      Left = 181
+      Left = 187
       Top = 122
       Width = 23
       Height = 22
@@ -158,35 +158,36 @@ object fNFeletronica: TfNFeletronica
         B3333337FFFF77377FF333B000000333BB33337777777F3377FF3BB3333BB333
         3BB33773333773333773B333333B3333333B7333333733333337}
       NumGlyphs = 2
+      Transparent = False
       OnClick = sbtnGetCertClick
     end
     object Edit1: TEdit
-      Left = 76
+      Left = 60
       Top = 61
-      Width = 242
+      Width = 241
       Height = 21
       TabOrder = 0
       Text = 'C:\Home\Atsadmin\'
     end
     object BitBtn1: TBitBtn
-      Left = 526
-      Top = 47
-      Width = 106
-      Height = 39
+      Left = 463
+      Top = 42
+      Width = 91
+      Height = 36
       Caption = 'Gerar NF-e'
       Enabled = False
       TabOrder = 1
       OnClick = BitBtn1Click
     end
     object JvDateEdit1: TJvDateEdit
-      Left = 405
+      Left = 361
       Top = 24
       Width = 89
       Height = 21
       TabOrder = 2
     end
     object JvDateEdit2: TJvDateEdit
-      Left = 406
+      Left = 363
       Top = 63
       Width = 89
       Height = 21
@@ -195,15 +196,15 @@ object fNFeletronica: TfNFeletronica
     object ComboBox1: TComboBox
       Left = 10
       Top = 24
-      Width = 362
+      Width = 347
       Height = 21
       ItemHeight = 13
       TabOrder = 4
     end
     object dxButton1: TdxButton
-      Left = 320
+      Left = 306
       Top = 61
-      Width = 55
+      Width = 50
       Height = 22
       About = 'Design eXperience. '#169' 2002 M. Hoffmann'
       Version = '1.0.2e'
@@ -211,12 +212,11 @@ object fNFeletronica: TfNFeletronica
       TabOrder = 5
     end
     object JvBitBtn1: TJvBitBtn
-      Left = 526
-      Top = 88
-      Width = 106
-      Height = 39
-      Caption = 'DANFe'
-      Enabled = False
+      Left = 556
+      Top = 42
+      Width = 91
+      Height = 36
+      Caption = 'Imprimir DANFe'
       TabOrder = 6
       OnClick = JvBitBtn1Click
       HotTrackFont.Charset = DEFAULT_CHARSET
@@ -228,24 +228,17 @@ object fNFeletronica: TfNFeletronica
     object edSerie: TEdit
       Left = 10
       Top = 61
-      Width = 63
+      Width = 47
       Height = 21
       TabOrder = 7
     end
-    object JvProgressBar1: TJvProgressBar
-      Left = 3
-      Top = 149
-      Width = 372
-      Height = 17
-      TabOrder = 8
-    end
     object BitBtn2: TBitBtn
-      Left = 526
-      Top = 6
-      Width = 106
-      Height = 39
+      Left = 463
+      Top = 3
+      Width = 91
+      Height = 36
       Caption = 'Listar'
-      TabOrder = 9
+      TabOrder = 8
       OnClick = BitBtn2Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -348,59 +341,61 @@ object fNFeletronica: TfNFeletronica
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object BitBtn3: TBitBtn
-      Left = 398
+      Left = 362
       Top = 89
-      Width = 106
+      Width = 93
       Height = 23
       Caption = 'Selecionar Todos'
-      TabOrder = 10
+      Enabled = False
+      TabOrder = 9
       OnClick = BitBtn3Click
     end
     object BitBtn4: TBitBtn
-      Left = 398
+      Left = 362
       Top = 116
-      Width = 106
+      Width = 93
       Height = 23
       Caption = 'Desmarcar Todos'
-      TabOrder = 11
+      Enabled = False
+      TabOrder = 10
       OnClick = BitBtn4Click
     end
     object Edit3: TEdit
-      Left = 280
+      Left = 263
       Top = 86
       Width = 94
       Height = 21
-      TabOrder = 12
+      TabOrder = 11
     end
     object Edit2: TEdit
-      Left = 95
+      Left = 92
       Top = 86
       Width = 92
       Height = 21
-      TabOrder = 13
+      TabOrder = 12
     end
     object MemoResp: TMemo
-      Left = 402
-      Top = 144
-      Width = 97
+      Left = 210
+      Top = 120
+      Width = 142
       Height = 22
       Align = alCustom
-      TabOrder = 14
+      TabOrder = 13
     end
     object edtNumSerie: TEdit
       Left = 5
       Top = 122
-      Width = 172
+      Width = 179
       Height = 21
-      TabOrder = 15
+      TabOrder = 14
     end
     object JvBitBtn2: TJvBitBtn
-      Left = 526
-      Top = 129
-      Width = 106
-      Height = 39
+      Left = 556
+      Top = 81
+      Width = 91
+      Height = 36
       Caption = 'Validar NF-e'
-      TabOrder = 16
+      TabOrder = 15
       OnClick = JvBitBtn1Click
       HotTrackFont.Charset = DEFAULT_CHARSET
       HotTrackFont.Color = clWindowText
@@ -408,12 +403,53 @@ object fNFeletronica: TfNFeletronica
       HotTrackFont.Name = 'MS Sans Serif'
       HotTrackFont.Style = []
     end
+    object JvBitBtn3: TJvBitBtn
+      Left = 556
+      Top = 3
+      Width = 91
+      Height = 36
+      Caption = 'DANFe em PDF'
+      TabOrder = 16
+      OnClick = JvBitBtn3Click
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+    end
+    object BitBtn5: TBitBtn
+      Left = 463
+      Top = 81
+      Width = 91
+      Height = 36
+      Caption = 'Status do Servi'#231'o'
+      TabOrder = 17
+      OnClick = BitBtn5Click
+    end
+    object BitBtn6: TBitBtn
+      Left = 556
+      Top = 119
+      Width = 91
+      Height = 36
+      Caption = 'Cancelar NF-e'
+      TabOrder = 18
+      OnClick = BitBtn6Click
+    end
+    object BitBtn7: TBitBtn
+      Left = 463
+      Top = 119
+      Width = 91
+      Height = 36
+      Caption = 'Consulta NF-e'
+      TabOrder = 19
+      OnClick = BitBtn7Click
+    end
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 169
-    Width = 663
-    Height = 439
+    Top = 158
+    Width = 652
+    Height = 450
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -425,8 +461,8 @@ object fNFeletronica: TfNFeletronica
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 661
-      Height = 437
+      Width = 650
+      Height = 448
       Align = alClient
       DataSource = DataSource1
       TabOrder = 0
@@ -450,48 +486,48 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'SELECIONOU'
           Title.Caption = 'SEL.'
-          Width = 46
+          Width = 45
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NOTASERIE'
           Title.Caption = 'Nota F.'
-          Width = 68
+          Width = 67
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DTAEMISSAO'
           Title.Caption = 'Emiss'#227'o'
-          Width = 68
+          Width = 67
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CFOP'
-          Width = 88
+          Width = 86
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'C'#243'digo'
-          Width = 42
+          Width = 41
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Raz'#227'o Social'
-          Width = 193
+          Width = 190
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CNPJ_CPF'
           Title.Caption = 'CNPJ / CPF'
-          Width = 133
+          Width = 131
           Visible = True
         end>
     end
@@ -2527,11 +2563,12 @@ object fNFeletronica: TfNFeletronica
     Configuracoes.Arquivos.PathCan = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathInu = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathDPEC = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
-    DANFE = ACBrNFeDANFEQR1
     Left = 144
     Top = 353
   end
   object ACBrNFeDANFERave1: TACBrNFeDANFERave
+    ACBrNFe = ACBrNFe1
+    PathPDF = 'C:\nfe\'
     ImprimirHoraSaida = False
     MostrarPreview = True
     TipoDANFE = tiRetrato
@@ -2544,7 +2581,8 @@ object fNFeletronica: TfNFeletronica
     CasasDecimais._qCom = 2
     CasasDecimais._vUnCom = 2
     ExibirResumoCanhoto = False
-    Left = 209
+    RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
+    Left = 177
     Top = 355
   end
   object sTabIBGE: TSQLDataSet
@@ -2772,22 +2810,9 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'ORIGEM'
     end
   end
-  object ACBrNFeDANFEQR1: TACBrNFeDANFEQR
-    ACBrNFe = ACBrNFe1
-    PathPDF = 'C:\nfe\'
-    ImprimirHoraSaida = False
-    MostrarPreview = True
-    TipoDANFE = tiRetrato
-    NumCopias = 1
-    ImprimirDescPorc = False
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    CasasDecimais._qCom = 2
-    CasasDecimais._vUnCom = 2
-    ExibirResumoCanhoto = False
-    Left = 176
-    Top = 354
+  object XMLDocument1: TXMLDocument
+    Left = 216
+    Top = 353
+    DOMVendorDesc = 'MSXML'
   end
 end
