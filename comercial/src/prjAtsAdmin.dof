@@ -90,14 +90,14 @@ MaxStackSize=1048576
 ImageBase=4194304
 ExeDescription=
 [Directories]
-OutputDir=C:\home\ats-admin
-UnitOutputDir=C:\Temp
-PackageDLLOutputDir=C:\Temp
-PackageDCPOutputDir=C:\Temp
-SearchPath=C:\Temp
-Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;TCFLib70;TCFDsg70;rppack_del;rppackvcl_del;rppackdesignvcl_del;rppackv_del;rppackdesign_del;FlatStyle_D6;RLibWinD7vcl;gbCob7;qrpt;VDOPrint;RLBoletoD7;Tiss;fac;mmjp;xpm;zpm;TurboSyncD7Full
-Conditionals=C:\Temp
-DebugSourceDirs=C:\Temp
+OutputDir=C:\Home\sisadmin
+UnitOutputDir=C:\tmp
+PackageDLLOutputDir=C:\tmp
+PackageDCPOutputDir=C:\tmp
+SearchPath=C:\tmp
+Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;rppack_del;rppackvcl_del;rppackdesignvcl_del;rppackv_del;rppackdesign_del;TCFLib70;TCFDsg70;RxCtl7;RxDB7;RxBDE7;mj;FlatStyle_D6;dclDesignExperienceD6;fac;qrpt;gbCob7;RLibWinD7vcl;RLBoletoD7
+Conditionals=C:\tmp
+DebugSourceDirs=C:\tmp
 UsePackages=0
 [Parameters]
 RunParams=
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=0
 Release=0
-Build=58
+Build=61
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=ATS - Comércio e Serviços LTDA ME.
 FileDescription=
-FileVersion=1.0.0.58
+FileVersion=1.0.0.61
 InternalName=
 LegalCopyright=
 LegalTrademarks=
@@ -135,30 +135,43 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
-c:\Program Files\borland\delphi7\Projects\Bpl\dclcxWebPascalScriptD7.bpl=Pascal Script Engine for EWF by Developer Express Inc.
+C:\Arquivos de programas\Borland\Delphi7\Projects\Bpl\JvNetD7D.bpl=JVCL Network Components
+c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
+c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclDAD77.bpl=ReportBuilder Data Access Environment
+c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclRBU77.bpl=ReportBuilder Sample Components
+C:\WINDOWS\system32\rbADO77.bpl=ReportBuilder Data Access for ADO
+C:\WINDOWS\system32\rbDBE77.bpl=ReportBuilder Data Access for dbExpress
+C:\WINDOWS\system32\rbIBE77.bpl=ReportBuilder Data Access for Interbase Express
+C:\Arquivos de programas\Borland\Delphi7\\RBuilder\Lib\dclRBE77.bpl=ReportBuilder Enterprise
+C:\Arquivos de programas\Borland\Delphi7\\RBuilder\Lib\dclRAP77.bpl=ReportBuilder RAP Language
+C:\Arquivos de programas\Borland\Delphi7\Componentes\ip4000vcl7\package\ip4000clientvcl7.bpl=Woll2Woll InfoPower 4000 for Midas
+C:\Arquivos de programas\Borland\Delphi7\Componentes\ip4000vcl7\package\ip4000dcl7.bpl=Woll2Woll InfoPower 4000
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\dclcxWebPascalScriptD7.bpl=Pascal Script Engine for EWF by Developer Express Inc.
+E:\WINDOWS\system32\ibevnt70.bpl=Borland Interbase Event Alerter Component
 Z:\carlos\ats-admin1.0\transportadora\visao\uPaiNew.bpl=(untitled)
-c:\Program Files\borland\delphi7\Projects\Bpl\teste.bpl=(untitled)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\teste.bpl=(untitled)
 [HistoryLists\hlDebugSourcePath]
 Count=1
-Item0=C:\Temp
+Item0=C:\tmp
 [HistoryLists\hlConditionals]
 Count=1
-Item0=C:\Temp
+Item0=C:\tmp
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
 Count=1
-Item0=C:\Temp
+Item0=C:\tmp
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
-Item0=C:\Temp
+Item0=C:\tmp
 [HistoryLists\hlOutputDirectorry]
-Count=1
-Item0=C:\home\ats-admin
+Count=2
+Item0=C:\Home\sisadmin
+Item1=C:\Home_douglas\sisadmin
 [HistoryLists\hlBPLOutput]
 Count=1
-Item0=C:\Temp
+Item0=C:\tmp
 [HistoryLists\hlDCPOutput]
 Count=1
-Item0=C:\Temp
+Item0=C:\tmp
