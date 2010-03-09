@@ -612,6 +612,13 @@ begin
       mudaVersao('1.0.0.60');
     end;  // Fim Ataulização Versao 1.0.0.60
 
+        if (versaoSistema = '1.0.0.60') then
+    begin
+      executaSql('alter TABLE NOTAFISCAL add PROTOCOLOENV Varchar(20)');
+      executaSql('alter TABLE NOTAFISCAL add NUMRECIBO Varchar(20)');
+      executaSql('alter TABLE NOTAFISCAL add PROTOCOLOCANC Varchar(20)');
+      mudaVersao('1.0.0.61');
+    end;  // Fim Ataulização Versao 1.0.0.61
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
