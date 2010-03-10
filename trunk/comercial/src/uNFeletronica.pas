@@ -372,6 +372,12 @@ type
     XMLDocument1: TXMLDocument;
     BitBtn6: TBitBtn;
     BitBtn7: TBitBtn;
+    sdsNFPROTOCOLOENV: TStringField;
+    sdsNFNUMRECIBO: TStringField;
+    sdsNFPROTOCOLOCANC: TStringField;
+    cdsNFPROTOCOLOENV: TStringField;
+    cdsNFNUMRECIBO: TStringField;
+    cdsNFPROTOCOLOCANC: TStringField;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -754,11 +760,12 @@ begin
    ACBrNFe1.Enviar(0);
    ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
    ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
-
+   cdsNF.Edit;
    Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
+   cdsNFPROTOCOLOENV.AsString := Protocolo;
    Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
-
-
+   cdsNFNUMRECIBO.AsString := Recibo;
+   cdsnf.ApplyUpdates(0);
 end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
@@ -928,7 +935,7 @@ var
   vAux, Protocolo : String;
 begin
   OpenDialog1.Title := 'Selecione a NFE';
-  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.DefaultExt:= '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
   OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
   if OpenDialog1.Execute then
@@ -942,6 +949,7 @@ begin
      //ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
      ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.Cancelamento.Protocolo);
     Protocolo := ACBrNFe1.WebServices.Cancelamento.Protocolo;
+    cdsNFPROTOCOLOCANC.AsString := Protocolo;
   end;
 end;
 
@@ -961,4 +969,4 @@ begin
   end;
 end;
 
-end.
+end.                              

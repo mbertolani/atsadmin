@@ -486,79 +486,95 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'SELECIONOU'
           Title.Caption = 'SEL.'
-          Width = 45
+          Width = 34
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NOTASERIE'
           Title.Caption = 'Nota F.'
-          Width = 67
+          Width = 50
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DTAEMISSAO'
           Title.Caption = 'Emiss'#227'o'
-          Width = 67
+          Width = 50
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CFOP'
-          Width = 86
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'C'#243'digo'
-          Width = 41
+          Width = 31
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Raz'#227'o Social'
-          Width = 190
+          Width = 141
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CNPJ_CPF'
           Title.Caption = 'CNPJ / CPF'
-          Width = 131
+          Width = 98
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PROTOCOLOENV'
+          Title.Caption = 'Protocolo de Envio'
+          Width = 47
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NUMRECIBO'
+          Title.Caption = 'Numero Recebimento'
+          Width = 52
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PROTOCOLOCANC'
+          Title.Caption = 'Protocolo de Cancelamento'
+          Width = 57
           Visible = True
         end>
     end
   end
   object sdsNF: TSQLDataSet
     CommandText = 
-      'select  nf.CFOP, '#13#10'           nf.DTAEMISSAO,            '#13#10'      ' +
-      '     nf.DTASAIDA,'#13#10'           nf.CORPONF1,'#13#10'           nf.CORPON' +
-      'F2,'#13#10'           nf.CODCLIENTE,'#13#10'           nf.NUMNF,'#13#10'          ' +
-      ' nf.CODVENDA,'#13#10'           nf.BASE_ICMS,'#13#10'           nf.VALOR_ICM' +
-      'S,'#13#10'           nf.BASE_ICMS_SUBST,'#13#10'           nf.VALOR_ICMS_SUB' +
-      'ST,'#13#10'           nf.VALOR_PRODUTO,'#13#10'           nf.VALOR_FRETE,'#13#10' ' +
-      '          nf.VALOR_SEGURO,'#13#10'           nf.OUTRAS_DESP,'#13#10'        ' +
-      '   nf.VALOR_IPI,'#13#10'           nf.VALOR_TOTAL_NOTA,'#13#10'           nf' +
-      '.FRETE,'#13#10'           nf.CNPJ_CPF,            '#13#10'           cast(nf' +
-      '.NOMETRANSP as varchar (60) )as NOMETRANSP,'#13#10'           nf.INSCR' +
-      'ICAOESTADUAL,                      '#13#10'           cast(nf.END_TRAN' +
-      'SP as varchar (60) )as END_TRANSP,'#13#10'           cast(nf.CIDADE_TR' +
-      'ANSP as varchar (60) )as CIDADE_TRANSP,'#13#10'           nf.UF_TRANSP' +
-      ','#13#10'           nf.PLACATRANSP,'#13#10'           nf.UF_VEICULO_TRANSP,'#13 +
-      #10'           nf.QUANTIDADE,'#13#10'           nf.ESPECIE,'#13#10'           n' +
-      'f.MARCA,'#13#10'           nf.NUMERO,'#13#10'           nf.PESOLIQUIDO,'#13#10'   ' +
-      '        nf.PESOBRUTO,'#13#10'           cl.RAZAOSOCIAL,'#13#10'           cl' +
-      '.CNPJ ,'#13#10'           nf.HORASAIDA,'#13#10'           nf.NOTASERIE,'#13#10'   ' +
-      '        nf.SELECIONOU,'#13#10'           nf.REDUZICMS'#13#10'from NOTAFISCAL' +
-      ' nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'i' +
-      'nner join enderecocliente endecli on endecli.CODCLIENTE = cl.COD' +
-      'CLIENTE'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'        ' +
-      '  and ((nf.SERIE = :pvendacusto) or (:pvendacusto = '#39'todasasseri' +
-      'esdenotaf'#39'))'#13#10'          and (endecli.UF = '#39'SP'#39')'#13#10'          and (' +
-      'endecli.TIPOEND = 0)'#13#10'order by nf.DTAEMISSAO'
+      'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CO' +
+      'RPONF2,  nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.BASE_ICMS, nf.' +
+      'VALOR_ICMS,'#13#10'nf.BASE_ICMS_SUBST,  nf.VALOR_ICMS_SUBST, nf.VALOR_' +
+      'PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VAL' +
+      'OR_IPI,'#13#10'nf.VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  cast(nf' +
+      '.NOMETRANSP as varchar (60) )as NOMETRANSP,  nf.INSCRICAOESTADUA' +
+      'L,                      '#13#10'cast(nf.END_TRANSP as varchar (60) )as' +
+      ' END_TRANSP,    cast(nf.CIDADE_TRANSP as varchar (60) )as CIDADE' +
+      '_TRANSP,   nf.UF_TRANSP,'#13#10'nf.PLACATRANSP,   nf.UF_VEICULO_TRANSP' +
+      ',           nf.QUANTIDADE,           nf.ESPECIE,           nf.MA' +
+      'RCA,           nf.NUMERO,           nf.PESOLIQUIDO,'#13#10'nf.PESOBRUT' +
+      'O,  cl.RAZAOSOCIAL,           cl.CNPJ ,           nf.HORASAIDA, ' +
+      '          nf.NOTASERIE,           nf.SELECIONOU,           nf.RE' +
+      'DUZICMS, nf.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC'#13#10'from ' +
+      'NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.COD' +
+      'CLIENTE'#13#10'inner join enderecocliente endecli on endecli.CODCLIENT' +
+      'E = cl.CODCLIENTE'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta2)' +
+      #13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacusto = '#39't' +
+      'odasasseriesdenotaf'#39'))'#13#10'          and (endecli.UF = '#39'SP'#39')'#13#10'     ' +
+      '     and (endecli.TIPOEND = 0)'#13#10'order by nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
@@ -764,6 +780,15 @@ object fNFeletronica: TfNFeletronica
     object sdsNFREDUZICMS: TFloatField
       FieldName = 'REDUZICMS'
       ReadOnly = True
+    end
+    object sdsNFPROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object sdsNFNUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object sdsNFPROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
     end
   end
   object cdsNF: TClientDataSet
@@ -972,6 +997,15 @@ object fNFeletronica: TfNFeletronica
     object cdsNFREDUZICMS: TFloatField
       FieldName = 'REDUZICMS'
       ReadOnly = True
+    end
+    object cdsNFPROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object cdsNFNUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object cdsNFPROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
     end
   end
   object dspNF: TDataSetProvider
@@ -2563,6 +2597,7 @@ object fNFeletronica: TfNFeletronica
     Configuracoes.Arquivos.PathCan = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathInu = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathDPEC = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
+    DANFE = ACBrNFeDANFERave1
     Left = 144
     Top = 353
   end
@@ -2583,7 +2618,7 @@ object fNFeletronica: TfNFeletronica
     ExibirResumoCanhoto = False
     RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
     Left = 177
-    Top = 355
+    Top = 354
   end
   object sTabIBGE: TSQLDataSet
     CommandText = 'select * from TB_IBGE tb '#13#10'where tb.NM_MUNICIPIO = :Cidade'
@@ -2811,8 +2846,8 @@ object fNFeletronica: TfNFeletronica
     end
   end
   object XMLDocument1: TXMLDocument
-    Left = 216
-    Top = 353
+    Left = 209
+    Top = 354
     DOMVendorDesc = 'MSXML'
   end
 end
