@@ -139,6 +139,12 @@ begin
     dm.cds_ccusto.Params[0].AsString := conta_local;
     dm.cds_ccusto.Open;
     DM.cds_ccusto.First;
+
+    if (not dm.cds_ccusto.Active) then
+     dm.cds_ccusto.Open;
+   dm.cds_ccusto.Locate('CODIGO', dm.cds_empresaCCUSTO.AsInteger ,[loPartialKey]);
+       ComboBox1.Text := dm.cds_ccustoNOME.AsString;
+
     while not DM.cds_ccusto.Eof do
     begin
       ComboBox1.Items.Add(dm.cds_ccustoNOME.AsString);
