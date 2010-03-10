@@ -1200,8 +1200,8 @@ object DM: TDM
       'select CODFORNECEDOR, NOMEFORNECEDOR, RAZAOSOCIAL,  PRAZOPAGAMEN' +
       'TO from FORNECEDOR where ((NOMEFORNECEDOR like :pFORNECEDOR) or ' +
       '(RAZAOSOCIAL like :pRAZAO) or (CODFORNECEDOR = :pCODFORNECEDOR))' +
-      ' '#13#10'and  (status = :pStatus) '#13#10'and  (segmento = :pSegmento)  '#13#10'or' +
-      'der by NOMEFORNECEDOR'
+      ' '#13#10'and  (status = :pStatus) '#13#10'and  (((segmento = :pSegmento) or ' +
+      '(segmento = 1) ) or (:pSegmento = 3 ))'#13#10'order by NOMEFORNECEDOR'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -1222,12 +1222,17 @@ object DM: TDM
         ParamType = ptInput
       end
       item
-        DataType = ftSmallint
+        DataType = ftInteger
         Name = 'pStatus'
         ParamType = ptInput
       end
       item
-        DataType = ftSmallint
+        DataType = ftInteger
+        Name = 'pSegmento'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
         Name = 'pSegmento'
         ParamType = ptInput
       end>
