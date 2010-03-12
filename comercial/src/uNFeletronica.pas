@@ -19,21 +19,13 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label7: TLabel;
-    Label8: TLabel;
-    Label5: TLabel;
     Edit1: TEdit;
-    BitBtn1: TBitBtn;
+    btnGeraNFe: TBitBtn;
     JvDateEdit1: TJvDateEdit;
     JvDateEdit2: TJvDateEdit;
     ComboBox1: TComboBox;
-    dxButton1: TdxButton;
-    JvBitBtn1: TJvBitBtn;
     edSerie: TEdit;
-    BitBtn2: TBitBtn;
-    BitBtn3: TBitBtn;
-    BitBtn4: TBitBtn;
-    Edit3: TEdit;
-    Edit2: TEdit;
+    btnListar: TBitBtn;
     MMJPanel2: TMMJPanel;
     JvDBGrid1: TJvDBGrid;
     sdsNF: TSQLDataSet;
@@ -300,7 +292,6 @@ type
     edtNumSerie: TEdit;
     Label6: TLabel;
     sbtnGetCert: TSpeedButton;
-    JvBitBtn2: TJvBitBtn;
     sProdutos: TSQLDataSet;
     sProdutosCODPRODUTO: TIntegerField;
     sProdutosFAMILIA: TStringField;
@@ -367,19 +358,32 @@ type
     sClienteCD_IBGE: TStringField;
     sEmpresaCCUSTO: TIntegerField;
     sEmpresaCD_IBGE: TStringField;
-    JvBitBtn3: TJvBitBtn;
-    BitBtn5: TBitBtn;
+    btnStatus: TBitBtn;
     XMLDocument1: TXMLDocument;
-    BitBtn6: TBitBtn;
-    BitBtn7: TBitBtn;
+    btnCancelaNFe: TBitBtn;
+    btnConsulta: TBitBtn;
     sdsNFPROTOCOLOENV: TStringField;
     sdsNFNUMRECIBO: TStringField;
     sdsNFPROTOCOLOCANC: TStringField;
     cdsNFPROTOCOLOENV: TStringField;
     cdsNFNUMRECIBO: TStringField;
     cdsNFPROTOCOLOCANC: TStringField;
-    procedure BitBtn1Click(Sender: TObject);
-    procedure BitBtn2Click(Sender: TObject);
+    sdsNFC: TSQLDataSet;
+    sdsNFCNUMNF: TIntegerField;
+    sdsNFCPROTOCOLOENV: TStringField;
+    sdsNFCNUMRECIBO: TStringField;
+    sdsNFCPROTOCOLOCANC: TStringField;
+    sNFC: TClientDataSet;
+    dspNFC: TDataSetProvider;
+    sNFCNUMNF: TIntegerField;
+    sNFCPROTOCOLOENV: TStringField;
+    sNFCNUMRECIBO: TStringField;
+    sNFCPROTOCOLOCANC: TStringField;
+    btnValidaNFe: TBitBtn;
+    btnImprime: TBitBtn;
+    btnGeraPDF: TBitBtn;
+    procedure btnGeraNFeClick(Sender: TObject);
+    procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure JvDBGrid1ColEnter(Sender: TObject);
     procedure JvDBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -387,12 +391,13 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure JvBitBtn1Click(Sender: TObject);
+    procedure btnImprimeClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
-    procedure JvBitBtn3Click(Sender: TObject);
-    procedure BitBtn5Click(Sender: TObject);
-    procedure BitBtn6Click(Sender: TObject);
-    procedure BitBtn7Click(Sender: TObject);
+    procedure btnGeraPDFClick(Sender: TObject);
+    procedure btnStatusClick(Sender: TObject);
+    procedure btnCancelaNFeClick(Sender: TObject);
+    procedure btnConsultaClick(Sender: TObject);
+    procedure ValidaNFeClick(Sender: TObject);
     {procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);}
   private
@@ -429,12 +434,10 @@ begin
   result := S;
 end;
 
-procedure TfNFeletronica.BitBtn2Click(Sender: TObject);
+procedure TfNFeletronica.btnListarClick(Sender: TObject);
 begin
   //  SaveDialog1.Execute;
   //  Edit1.Text := SaveDialog1.FileName;
-   BitBtn3.Enabled := True;
-   BitBtn4.Enabled := True;
    if (cdsNF.Active) then
      cdsNF.Close;
    cdsNF.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
@@ -472,14 +475,10 @@ begin
      sMaiorData.Params[3].AsString := 'todasasseriesdenotaf';
    sMaiorData.Open;
 
-   Edit2.Text := DateToStr(sMenorDataMENORDATA.Value);
-   Edit3.Text := DateToStr(sMaiorDataMAIORDATA.Value);
-
-   BitBtn1.Enabled := True;
-   JvBitBtn1.Enabled := True;
+   btnGeraNFe.Enabled := True;
 end;
 
-procedure TfNFeletronica.BitBtn1Click(Sender: TObject);
+procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
 var
   comp: string;
   dathor: TDateTime;
@@ -535,7 +534,7 @@ begin
             Ide.indPag    := ipVista;
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
-            Ide.serie     := 2;
+            Ide.serie     := 1;
             Ide.nNF       := cdsNFNUMNF.AsInteger;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
@@ -568,7 +567,12 @@ begin
             Dest.CNPJCPF           := RemoveChar(sClienteCNPJ.AsString);
             Dest.xNome             := sClienteRAZAOSOCIAL.AsString;
             Dest.EnderDest.xLgr    := sClienteLOGRADOURO.AsString;
-            Dest.EnderDest.nro     := sClienteNUMERO.AsString;
+            if ((sClienteNUMERO.IsNull) or (sClienteNUMERO.AsString = '')) then
+            begin
+              Dest.EnderDest.nro     := 'sn';
+            end
+            else
+              Dest.EnderDest.nro     := sClienteNUMERO.AsString;
             Dest.EnderDest.xCpl    := sClienteCOMPLEMENTO.AsString;
             Dest.EnderDest.xBairro := sClienteBAIRRO.AsString;
             Dest.EnderDest.cMun    := StrToInt(RemoveChar(sClienteCD_IBGE.AsString));
@@ -765,6 +769,7 @@ begin
    cdsNFPROTOCOLOENV.AsString := Protocolo;
    Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
    cdsNFNUMRECIBO.AsString := Recibo;
+   cdsNFSELECIONOU.AsString := '';
    cdsnf.ApplyUpdates(0);
 end;
 
@@ -855,7 +860,7 @@ begin
     end;
 end;
 
-procedure TfNFeletronica.JvBitBtn1Click(Sender: TObject);
+procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
 begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
@@ -882,7 +887,7 @@ begin
    {$ENDIF}
 end;
 
-procedure TfNFeletronica.JvBitBtn3Click(Sender: TObject);
+procedure TfNFeletronica.btnGeraPDFClick(Sender: TObject);
 begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
@@ -896,7 +901,7 @@ begin
   end;
 end;
 
-procedure TfNFeletronica.BitBtn5Click(Sender: TObject);
+procedure TfNFeletronica.btnStatusClick(Sender: TObject);
 var vXMLDoc: TXMLDocument;
     motivo: WideString;
     NomArquivo, Registro: String;
@@ -930,10 +935,14 @@ begin
   end;
 end;
 
-procedure TfNFeletronica.BitBtn6Click(Sender: TObject);
+procedure TfNFeletronica.btnCancelaNFeClick(Sender: TObject);
 var
-  vAux, Protocolo : String;
+  vXMLDoc: TXMLDocument;
+  vAux, Protocolo, caminho : String;
+  numnf : WideString;
 begin
+  vXMLDoc := TXMLDocument.Create(self);
+  Try
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt:= '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
@@ -941,19 +950,82 @@ begin
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
-    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+    caminho := OpenDialog1.FileName;
+    ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
     if not(InputQuery('WebServices Cancelamento', 'Justificativa', vAux)) then
-       exit;
+      exit;
      ACBrNFe1.Cancelamento(vAux);
      MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Cancelamento.RetWS);
      //ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
      ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.Cancelamento.Protocolo);
     Protocolo := ACBrNFe1.WebServices.Cancelamento.Protocolo;
-    cdsNFPROTOCOLOCANC.AsString := Protocolo;
+  end;
+
+  //ABRE A NOTA
+  vXMLDoc.LoadFromFile(caminho);
+
+  //PEGA A RESPOSTA
+  with vXMLDoc.DocumentElement  do
+  begin
+    numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+  end;
+  if (sNFC.Active) then
+    sNFC.Close;
+  sNFC.Params[0].AsInteger := StrToInt(numnf);
+  sNFC.Open;
+  sNFC.Edit;
+  sNFCPROTOCOLOCANC.AsString := Protocolo;
+  sNFC.ApplyUpdates(0);
+  finally
+  VXMLDoc.Free;
+  end;
+
+
+end;
+
+procedure TfNFeletronica.btnConsultaClick(Sender: TObject);
+var vXMLDoc: TXMLDocument;
+    motivo: WideString;
+    NomArquivo, Registro: String;
+    arquivo: TextFile;
+begin
+  NomArquivo := 'c:\home\stats.xml';
+  vXMLDoc := TXMLDocument.Create(self);
+  Try
+  OpenDialog1.Title := 'Selecione a NFE';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+    if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+    ACBrNFe1.Consultar;
+    MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Consulta.RetWS);
+  end;
+
+  //SALVA RESPOSTA NO ARQUIVO
+  AssignFile(Arquivo, NomArquivo);
+  Rewrite(Arquivo);
+  Registro := MemoResp.Text;
+  writeln(Arquivo, Registro);
+  CloseFile(arquivo);
+
+  //ABRE A RESPOSTA NO ARQUIVO
+  vXMLDoc.LoadFromFile('c:\home\stats.xml');
+
+  //PEGA A RESPOSTA
+  with vXMLDoc.DocumentElement  do
+  begin
+    motivo := ChildNodes['infProt'].ChildNodes['xMotivo'].text;
+  end;
+  MessageDlg( motivo, mtInformation, [mbOK], 0);
+  finally
+  VXMLDoc.Free;
   end;
 end;
 
-procedure TfNFeletronica.BitBtn7Click(Sender: TObject);
+procedure TfNFeletronica.ValidaNFeClick(Sender: TObject);
 begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
@@ -963,10 +1035,9 @@ begin
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
-    ACBrNFe1.Consultar;
-    MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Consulta.RetWS);
-    //LoadXML(MemoResp, WBResposta);
+    ACBrNFe1.NotasFiscais.Valida;
+    showmessage('Nota Fiscal Eletrônica Valida');
   end;
 end;
 
-end.                              
+end.
