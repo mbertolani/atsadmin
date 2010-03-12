@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
-  Left = 189
-  Top = 103
-  Width = 660
-  Height = 635
+  Left = 115
+  Top = 101
+  Width = 777
+  Height = 426
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,8 +17,8 @@ object fNFeletronica: TfNFeletronica
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 652
-    Height = 158
+    Width = 769
+    Height = 121
     Align = alTop
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -28,7 +28,7 @@ object fNFeletronica: TfNFeletronica
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object Label1: TLabel
-      Left = 363
+      Left = 278
       Top = 7
       Width = 75
       Height = 16
@@ -42,8 +42,8 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object Label2: TLabel
-      Left = 364
-      Top = 47
+      Left = 370
+      Top = 8
       Width = 63
       Height = 16
       Caption = 'Data Fim'
@@ -58,9 +58,9 @@ object fNFeletronica: TfNFeletronica
     object Label3: TLabel
       Left = 8
       Top = 6
-      Width = 185
+      Width = 119
       Height = 16
-      Caption = 'Seleciona Centro de Custo'
+      Caption = 'Centro de Custo :'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -72,9 +72,9 @@ object fNFeletronica: TfNFeletronica
     object Label4: TLabel
       Left = 10
       Top = 46
-      Width = 38
+      Width = 62
       Height = 16
-      Caption = 'S'#233'rie'
+      Caption = 'S'#233'rie NF'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -84,39 +84,11 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object Label7: TLabel
-      Left = 62
+      Left = 77
       Top = 46
-      Width = 236
+      Width = 139
       Height = 16
-      Caption = 'Local onde sera gerado o arquivo'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Transparent = True
-    end
-    object Label8: TLabel
-      Left = 10
-      Top = 85
-      Width = 81
-      Height = 16
-      Caption = 'Data Menor'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Transparent = True
-    end
-    object Label5: TLabel
-      Left = 186
-      Top = 85
-      Width = 77
-      Height = 16
-      Caption = 'Data Maior'
+      Caption = 'Caminho do arquivo'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -126,8 +98,8 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object Label6: TLabel
-      Left = 9
-      Top = 108
+      Left = 273
+      Top = 44
       Width = 76
       Height = 16
       Caption = 'Certificado'
@@ -140,8 +112,8 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object sbtnGetCert: TSpeedButton
-      Left = 187
-      Top = 122
+      Left = 409
+      Top = 61
       Width = 23
       Height = 22
       Glyph.Data = {
@@ -162,84 +134,61 @@ object fNFeletronica: TfNFeletronica
       OnClick = sbtnGetCertClick
     end
     object Edit1: TEdit
-      Left = 60
+      Left = 75
       Top = 61
-      Width = 241
+      Width = 141
       Height = 21
-      TabOrder = 0
-      Text = 'C:\Home\Atsadmin\'
+      ReadOnly = True
+      TabOrder = 4
+      Text = 'C:\NFe\'
     end
-    object BitBtn1: TBitBtn
-      Left = 463
-      Top = 42
+    object btnGeraNFe: TBitBtn
+      Left = 477
+      Top = 44
       Width = 91
       Height = 36
       Caption = 'Gerar NF-e'
       Enabled = False
-      TabOrder = 1
-      OnClick = BitBtn1Click
+      TabOrder = 7
+      OnClick = btnGeraNFeClick
     end
     object JvDateEdit1: TJvDateEdit
-      Left = 361
+      Left = 276
+      Top = 24
+      Width = 89
+      Height = 21
+      TabOrder = 1
+    end
+    object JvDateEdit2: TJvDateEdit
+      Left = 369
       Top = 24
       Width = 89
       Height = 21
       TabOrder = 2
     end
-    object JvDateEdit2: TJvDateEdit
-      Left = 363
-      Top = 63
-      Width = 89
-      Height = 21
-      TabOrder = 3
-    end
     object ComboBox1: TComboBox
       Left = 10
       Top = 24
-      Width = 347
+      Width = 264
       Height = 21
       ItemHeight = 13
-      TabOrder = 4
-    end
-    object dxButton1: TdxButton
-      Left = 306
-      Top = 61
-      Width = 50
-      Height = 22
-      About = 'Design eXperience. '#169' 2002 M. Hoffmann'
-      Version = '1.0.2e'
-      Caption = 'Localizar'
-      TabOrder = 5
-    end
-    object JvBitBtn1: TJvBitBtn
-      Left = 556
-      Top = 42
-      Width = 91
-      Height = 36
-      Caption = 'Imprimir DANFe'
-      TabOrder = 6
-      OnClick = JvBitBtn1Click
-      HotTrackFont.Charset = DEFAULT_CHARSET
-      HotTrackFont.Color = clWindowText
-      HotTrackFont.Height = -11
-      HotTrackFont.Name = 'MS Sans Serif'
-      HotTrackFont.Style = []
+      TabOrder = 0
     end
     object edSerie: TEdit
       Left = 10
       Top = 61
-      Width = 47
+      Width = 61
       Height = 21
-      TabOrder = 7
+      TabOrder = 3
     end
-    object BitBtn2: TBitBtn
-      Left = 463
-      Top = 3
+    object btnListar: TBitBtn
+      Left = 477
+      Top = 6
       Width = 91
       Height = 36
       Caption = 'Listar'
-      TabOrder = 8
-      OnClick = BitBtn2Click
+      TabOrder = 6
+      OnClick = btnListarClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C000000000000000000000000000000000000C0C0C08D958B
@@ -340,116 +289,82 @@ object fNFeletronica: TfNFeletronica
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
-    object BitBtn3: TBitBtn
-      Left = 362
-      Top = 89
-      Width = 93
-      Height = 23
-      Caption = 'Selecionar Todos'
-      Enabled = False
-      TabOrder = 9
-      OnClick = BitBtn3Click
-    end
-    object BitBtn4: TBitBtn
-      Left = 362
-      Top = 116
-      Width = 93
-      Height = 23
-      Caption = 'Desmarcar Todos'
-      Enabled = False
-      TabOrder = 10
-      OnClick = BitBtn4Click
-    end
-    object Edit3: TEdit
-      Left = 263
-      Top = 86
-      Width = 94
-      Height = 21
-      TabOrder = 11
-    end
-    object Edit2: TEdit
-      Left = 92
-      Top = 86
-      Width = 92
-      Height = 21
-      TabOrder = 12
-    end
     object MemoResp: TMemo
-      Left = 210
-      Top = 120
+      Left = 186
+      Top = 90
       Width = 142
       Height = 22
       Align = alCustom
-      TabOrder = 13
+      TabOrder = 14
+      Visible = False
     end
     object edtNumSerie: TEdit
-      Left = 5
-      Top = 122
+      Left = 222
+      Top = 61
       Width = 179
       Height = 21
-      TabOrder = 14
+      TabOrder = 5
     end
-    object JvBitBtn2: TJvBitBtn
-      Left = 556
-      Top = 81
-      Width = 91
-      Height = 36
-      Caption = 'Validar NF-e'
-      TabOrder = 15
-      OnClick = JvBitBtn1Click
-      HotTrackFont.Charset = DEFAULT_CHARSET
-      HotTrackFont.Color = clWindowText
-      HotTrackFont.Height = -11
-      HotTrackFont.Name = 'MS Sans Serif'
-      HotTrackFont.Style = []
-    end
-    object JvBitBtn3: TJvBitBtn
-      Left = 556
-      Top = 3
-      Width = 91
-      Height = 36
-      Caption = 'DANFe em PDF'
-      TabOrder = 16
-      OnClick = JvBitBtn3Click
-      HotTrackFont.Charset = DEFAULT_CHARSET
-      HotTrackFont.Color = clWindowText
-      HotTrackFont.Height = -11
-      HotTrackFont.Name = 'MS Sans Serif'
-      HotTrackFont.Style = []
-    end
-    object BitBtn5: TBitBtn
-      Left = 463
-      Top = 81
+    object btnStatus: TBitBtn
+      Left = 477
+      Top = 82
       Width = 91
       Height = 36
       Caption = 'Status do Servi'#231'o'
-      TabOrder = 17
-      OnClick = BitBtn5Click
+      TabOrder = 8
+      OnClick = btnStatusClick
     end
-    object BitBtn6: TBitBtn
-      Left = 556
-      Top = 119
+    object btnCancelaNFe: TBitBtn
+      Left = 664
+      Top = 44
       Width = 91
       Height = 36
       Caption = 'Cancelar NF-e'
-      TabOrder = 18
-      OnClick = BitBtn6Click
+      TabOrder = 13
+      OnClick = btnCancelaNFeClick
     end
-    object BitBtn7: TBitBtn
-      Left = 463
-      Top = 119
+    object btnConsulta: TBitBtn
+      Left = 664
+      Top = 6
       Width = 91
       Height = 36
       Caption = 'Consulta NF-e'
-      TabOrder = 19
-      OnClick = BitBtn7Click
+      TabOrder = 12
+      OnClick = btnConsultaClick
+    end
+    object btnValidaNFe: TBitBtn
+      Left = 570
+      Top = 82
+      Width = 91
+      Height = 36
+      Caption = 'Validar NF-e'
+      TabOrder = 11
+      OnClick = ValidaNFeClick
+    end
+    object btnImprime: TBitBtn
+      Left = 570
+      Top = 44
+      Width = 91
+      Height = 36
+      Caption = 'Imprimir DANFe'
+      TabOrder = 10
+      OnClick = btnImprimeClick
+    end
+    object btnGeraPDF: TBitBtn
+      Left = 570
+      Top = 6
+      Width = 91
+      Height = 36
+      Caption = 'DANFe em PDF'
+      TabOrder = 9
+      OnClick = btnGeraPDFClick
     end
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 158
-    Width = 652
-    Height = 450
+    Top = 121
+    Width = 769
+    Height = 278
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -461,8 +376,8 @@ object fNFeletronica: TfNFeletronica
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 650
-      Height = 448
+      Width = 767
+      Height = 276
       Align = alClient
       DataSource = DataSource1
       TabOrder = 0
@@ -486,69 +401,69 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'SELECIONOU'
           Title.Caption = 'SEL.'
-          Width = 34
+          Width = 33
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NOTASERIE'
           Title.Caption = 'Nota F.'
-          Width = 50
+          Width = 43
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DTAEMISSAO'
           Title.Caption = 'Emiss'#227'o'
-          Width = 50
+          Width = 47
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CFOP'
-          Width = 64
+          Width = 35
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'C'#243'digo'
-          Width = 31
+          Width = 38
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Raz'#227'o Social'
-          Width = 141
+          Width = 154
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'CNPJ_CPF'
+          FieldName = 'CNPJ'
           Title.Caption = 'CNPJ / CPF'
-          Width = 98
+          Width = 103
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOENV'
           Title.Caption = 'Protocolo de Envio'
-          Width = 47
+          Width = 88
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NUMRECIBO'
           Title.Caption = 'Numero Recebimento'
-          Width = 52
+          Width = 99
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOCANC'
           Title.Caption = 'Protocolo de Cancelamento'
-          Width = 57
+          Width = 101
           Visible = True
         end>
     end
@@ -573,8 +488,8 @@ object fNFeletronica: TfNFeletronica
       'CLIENTE'#13#10'inner join enderecocliente endecli on endecli.CODCLIENT' +
       'E = cl.CODCLIENTE'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta2)' +
       #13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacusto = '#39't' +
-      'odasasseriesdenotaf'#39'))'#13#10'          and (endecli.UF = '#39'SP'#39')'#13#10'     ' +
-      '     and (endecli.TIPOEND = 0)'#13#10'order by nf.DTAEMISSAO'
+      'odasasseriesdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0)'#13#10'ord' +
+      'er by nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
@@ -598,8 +513,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 176
-    Top = 384
+    Left = 64
+    Top = 200
     object sdsNFFRETE: TStringField
       FieldName = 'FRETE'
       ProviderFlags = [pfInUpdate]
@@ -815,8 +730,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'dspNF'
-    Left = 240
-    Top = 384
+    Left = 128
+    Top = 200
     object cdsNFFRETE: TStringField
       FieldName = 'FRETE'
       ProviderFlags = [pfInUpdate]
@@ -1010,8 +925,8 @@ object fNFeletronica: TfNFeletronica
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
-    Left = 208
-    Top = 384
+    Left = 96
+    Top = 200
   end
   object sdsItensNF: TSQLDataSet
     CommandText = 
@@ -1032,8 +947,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 176
-    Top = 416
+    Left = 64
+    Top = 232
     object sdsItensNFCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
@@ -1082,8 +997,8 @@ object fNFeletronica: TfNFeletronica
   end
   object dspItensNF: TDataSetProvider
     DataSet = sdsItensNF
-    Left = 208
-    Top = 416
+    Left = 96
+    Top = 232
   end
   object cdsItensNF: TClientDataSet
     Aggregates = <>
@@ -1094,8 +1009,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'dspItensNF'
-    Left = 240
-    Top = 416
+    Left = 128
+    Top = 232
     object cdsItensNFCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
@@ -1173,8 +1088,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 174
-    Top = 480
+    Left = 62
+    Top = 296
     object sMenorDataMENORDATA: TDateField
       FieldName = 'MENORDATA'
       ReadOnly = True
@@ -1211,8 +1126,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 206
-    Top = 480
+    Left = 94
+    Top = 296
     object sMaiorDataMAIORDATA: TDateField
       FieldName = 'MAIORDATA'
       ReadOnly = True
@@ -1228,8 +1143,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 239
-    Top = 480
+    Left = 127
+    Top = 296
     object sEmpresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -1371,8 +1286,8 @@ object fNFeletronica: TfNFeletronica
     NumeroArquivo = 0
     LayoutArquivo = laCNAB400
     TipoMovimento = tmRetorno
-    Left = 240
-    Top = 448
+    Left = 128
+    Top = 264
   end
   object sCFOP: TSQLDataSet
     CommandText = 
@@ -1395,8 +1310,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 270
-    Top = 480
+    Left = 158
+    Top = 296
     object sCFOPCFCOD: TStringField
       FieldName = 'CFCOD'
       Required = True
@@ -1459,8 +1374,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 304
-    Top = 480
+    Left = 192
+    Top = 296
     object sClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -1542,15 +1457,15 @@ object fNFeletronica: TfNFeletronica
     end
   end
   object OpenDialog1: TOpenDialog
-    Left = 208
-    Top = 449
+    Left = 96
+    Top = 265
   end
   object sds_param: TSQLDataSet
     CommandText = 'select * from PARAMETRO'
     MaxBlobSize = -1
     Params = <>
-    Left = 272
-    Top = 415
+    Left = 160
+    Top = 231
     object StringField5: TStringField
       FieldName = 'DESCRICAO'
       ProviderFlags = [pfInUpdate]
@@ -1616,15 +1531,15 @@ object fNFeletronica: TfNFeletronica
   object dsp_param: TDataSetProvider
     DataSet = sds_param
     UpdateMode = upWhereKeyOnly
-    Left = 303
-    Top = 415
+    Left = 191
+    Top = 231
   end
   object cds_param: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp_param'
-    Left = 335
-    Top = 416
+    Left = 223
+    Top = 232
     object StringField9: TStringField
       FieldName = 'DESCRICAO'
       ProviderFlags = [pfInUpdate]
@@ -1695,8 +1610,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'd_2'
-    Left = 335
-    Top = 448
+    Left = 223
+    Top = 264
     object cds_ccustoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -1714,8 +1629,8 @@ object fNFeletronica: TfNFeletronica
   end
   object d_2: TDataSetProvider
     DataSet = s_2
-    Left = 303
-    Top = 449
+    Left = 191
+    Top = 265
   end
   object s_2: TSQLDataSet
     CommandText = 
@@ -1729,8 +1644,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 271
-    Top = 448
+    Left = 159
+    Top = 264
     object s_2CODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -1773,8 +1688,8 @@ object fNFeletronica: TfNFeletronica
     FlatMenu = False
     AutoDetect = True
     Active = True
-    Left = 144
-    Top = 448
+    Left = 32
+    Top = 264
   end
   object cds_Movimento: TClientDataSet
     Aggregates = <>
@@ -1785,8 +1700,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'dsp_Movimento'
-    Left = 335
-    Top = 383
+    Left = 223
+    Top = 199
     object cds_MovimentoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1899,8 +1814,8 @@ object fNFeletronica: TfNFeletronica
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
     UpdateMode = upWhereKeyOnly
-    Left = 303
-    Top = 383
+    Left = 191
+    Top = 199
   end
   object sds_Movimento: TSQLDataSet
     CommandText = 
@@ -1925,8 +1840,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 272
-    Top = 383
+    Left = 160
+    Top = 199
     object sds_MovimentoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2037,12 +1952,12 @@ object fNFeletronica: TfNFeletronica
   end
   object DataSource1: TDataSource
     DataSet = cdsNF
-    Left = 176
-    Top = 448
+    Left = 64
+    Top = 264
   end
   object ImageList1: TImageList
-    Left = 144
-    Top = 416
+    Left = 32
+    Top = 232
     Bitmap = {
       494C010102000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
@@ -2184,8 +2099,8 @@ object fNFeletronica: TfNFeletronica
       000000000000}
   end
   object ImageList2: TImageList
-    Left = 144
-    Top = 384
+    Left = 32
+    Top = 200
     Bitmap = {
       494C010105000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -2598,8 +2513,8 @@ object fNFeletronica: TfNFeletronica
     Configuracoes.Arquivos.PathInu = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathDPEC = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     DANFE = ACBrNFeDANFERave1
-    Left = 144
-    Top = 353
+    Left = 32
+    Top = 169
   end
   object ACBrNFeDANFERave1: TACBrNFeDANFERave
     ACBrNFe = ACBrNFe1
@@ -2617,8 +2532,8 @@ object fNFeletronica: TfNFeletronica
     CasasDecimais._vUnCom = 2
     ExibirResumoCanhoto = False
     RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
-    Left = 177
-    Top = 354
+    Left = 65
+    Top = 170
   end
   object sTabIBGE: TSQLDataSet
     CommandText = 'select * from TB_IBGE tb '#13#10'where tb.NM_MUNICIPIO = :Cidade'
@@ -2630,8 +2545,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 337
-    Top = 480
+    Left = 225
+    Top = 296
     object sTabIBGENM_LOCALIDADE: TStringField
       FieldName = 'NM_LOCALIDADE'
       Required = True
@@ -2669,8 +2584,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 144
-    Top = 480
+    Left = 32
+    Top = 296
     object sProdutosCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
@@ -2846,8 +2761,66 @@ object fNFeletronica: TfNFeletronica
     end
   end
   object XMLDocument1: TXMLDocument
-    Left = 209
-    Top = 354
+    Left = 97
+    Top = 170
     DOMVendorDesc = 'MSXML'
+  end
+  object sdsNFC: TSQLDataSet
+    CommandText = 
+      'select  nf.NUMNF,  nf.PROTOCOLOENV, nf.NUMRECIBO, nf.PROTOCOLOCA' +
+      'NC'#13#10'from NOTAFISCAL nf '#13#10'where nf.NUMNF = :pnf'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pnf'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 32
+    Top = 328
+    object sdsNFCNUMNF: TIntegerField
+      FieldName = 'NUMNF'
+      Required = True
+    end
+    object sdsNFCPROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object sdsNFCNUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object sdsNFCPROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
+    end
+  end
+  object sNFC: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pnf'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspNFC'
+    Left = 96
+    Top = 328
+    object sNFCNUMNF: TIntegerField
+      FieldName = 'NUMNF'
+      Required = True
+    end
+    object sNFCPROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object sNFCNUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object sNFCPROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
+    end
+  end
+  object dspNFC: TDataSetProvider
+    DataSet = sdsNFC
+    Left = 64
+    Top = 328
   end
 end
