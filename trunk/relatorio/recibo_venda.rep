@@ -495,7 +495,7 @@ object TRpReport
     Expression = 
       #39'Referente ao t'#237'tulo n.:   (   '#39' + '#13#10'IMPR.TITULO + '#39'   )  de '#39' +' +
       ' formatstr('#39'dd/mm/yyyy'#39', IMPR.EMISSAO) + '#39'  pelo(s) seguinte(s) ' +
-      'servi'#231'o(s)/software : '#39
+      'servi'#231'o(s) : '#39
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -690,7 +690,7 @@ object TRpReport
     WordWrap = True
     DataType = rpParamCurrency
     DisplayFormat = '#.#,0'
-    Aggregate = rpAgGroup
+    Aggregate = rpAgPage
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -701,7 +701,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'IMPR.TOTAL'
+    Expression = 'IMPR.PRE_TOT'
     DisplayFormat = '#.#,0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
