@@ -1,4 +1,5 @@
-Create or ALTER PROCEDURE IMPRIME_VENDA (
+SET TERM ^ ;
+ALTER PROCEDURE IMPRIME_VENDA (
     CODVDA Integer,
     CODID Integer,
     N_COPIAS Integer )
@@ -55,17 +56,21 @@ BEGIN
     into :CODCLI, :NOMECLI, :RAZAO, :ENDERECO, :BAIRRO, :CIDADE, :UF, :CEP, :DDD, :FONE, :EMISSAO, :DTAVENCIMENTO, :VALOR, :VR, 
     :TITULO, :CNPJ, :CODMOV, :PARC
     DO BEGIN
+        total = 0;
     --VALOR = VALOR + VR;
         J = 0;
         WHILE (N_COPIAS > J) do
         begin
          NPROD = 0;
+         PRE_TOT = 0;
+         TOTAL = 0;
           NOMECLI = NOMECLI || CAST(J AS CHAR(1));
-          for SELECT movd.CODDETALHE, movd.DESCPRODUTO, movd.QUANTIDADE, movd.PRECO, (movd.QUANTIDADE * movd.PRECO) AS TOTAL 
+          for SELECT movd.CODDETALHE, movd.DESCPRODUTO, movd.QUANTIDADE, movd.PRECO, (movd.QUANTIDADE * movd.PRECO) AS TOT 
           FROM MOVIMENTODETALHE movd, PRODUTOS prod
           where prod.CODPRODUTO = movd.CODPRODUTO  and movd.CODMOVIMENTO = :CODMOV
           INTO :CODMOVDET,:PRODUTO, :QTDE, :PRE_UN, :TOTAL
           DO BEGIN
+            PRE_TOT = PRE_TOT + TOTAL;
             NPROD = NPROD + 1;
             SUSPEND;  
           END
@@ -79,9 +84,12 @@ BEGIN
             NPROD = NPROD + 1;
             SUSPEND;
           END
-          --SUSPEND; 
+          --SUSPEND;
+          
+          QTDE = 0;
+          PRE_UN = 0;
+          TOTAL = 0; 
           J = J + 1; 
         END
     END
 END
-
