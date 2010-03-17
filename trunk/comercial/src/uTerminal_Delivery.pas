@@ -631,6 +631,8 @@ type
     AVista1: TMenuItem;
     APrazo1: TMenuItem;
     FormadeRecebimento1: TMenuItem;
+    JvLabel4: TJvLabel;
+    JvDesconto: TJvCalcEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
@@ -677,6 +679,7 @@ type
     procedure AVista1Click(Sender: TObject);
     procedure APrazo1Click(Sender: TObject);
     procedure FormadeRecebimento1Click(Sender: TObject);
+    procedure JvDescontoChange(Sender: TObject);
   private
      codproduto : integer;
      cod_nat : integer;
@@ -699,6 +702,7 @@ type
     { Private declarations }
   public
      estoque : double;
+     vDesconto : double;
      function buscaProdLista(codBarra, ProdLista:String): Integer;
      procedure buscaProduto;
      procedure vendaavista;
@@ -857,6 +861,7 @@ begin
   //inherited;
   jvPago.Value := 0;
   JvTroco.Value := 0;
+  JVDesconto.Value := 0;
 
   if cds_Movimento.Active then
     cds_Movimento.Close;
@@ -1550,7 +1555,8 @@ begin
     strSql := strSql + ',' + FloatToStr(total); //valor
     strSql := strSql + ',' + IntToStr(numTitulo); //notafiscal
     strSql := strSql + ',''' + serie + ''''; //serie
-    strSql := strSql + ',0'; //desconto
+    strSql := strSql + ',' + FloatToStr(Vdesconto); //DEsconto
+   // strSql := strSql + ',0'; //desconto
     strSql := strSql + ',' + IntToStr(cds_MovimentoCODALMOXARIFADO.AsInteger);//CODCUSTO
     strSql := strSql + ',1,';
     utilcrtitulo := Tutils.Create;
@@ -1820,8 +1826,8 @@ cFItalico = #27#53;
 
 var
   IMPRESSORA:TextFile;
-  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
-  total, porc, totgeral : double;
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+  total, porc, totgeral , desconto : double;
   porta : string;
   vNomeCliente, vEnderecoCliente, vFonecli : string;
 begin
@@ -1895,7 +1901,11 @@ begin
   Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
   Writeln(Impressora, c17cpi, texto);
   Writeln(Impressora, c17cpi, texto1);
+
   Writeln(Impressora, c17cpi, texto2);
+
+  Writeln(Impressora, c17cpi, texto6);
+
   if (RadioGroup1.ItemIndex = 0) then
   begin
      vNomeCliente := cbMesas.Text;
@@ -1910,8 +1920,11 @@ begin
      Writeln(Impressora, c10cpi, vEnderecoCliente);
      Writeln(Impressora, c10cpi, vFonecli);
   end;
-  Writeln(Impressora, c17cpi, texto2);
-  Writeln(Impressora, c17cpi, texto4);  
+
+     Writeln(Impressora, c17cpi, texto2);
+     Writeln(Impressora, c17cpi, texto4);
+
+
   {-----------------------------------------------------------}
   {-------------------Imprimi itens do boleto-----------------}
   try
@@ -1926,6 +1939,7 @@ begin
       Write(Impressora, c17cpi + Format('            %-6.2n',[cds_Mov_detQUANTIDADE.AsFloat]));
       Write(Impressora, c17cpi + Format(' %-6.2n',[cds_Mov_detPRECO.AsFloat]));
       Writeln(Impressora, c17cpi + Format('  %-6.2n',[cds_Mov_detValorTotal.value]));
+
       with Printer.Canvas do
       begin
         Font.Name := 'Courier New';
@@ -1933,12 +1947,22 @@ begin
       end;
       cds_Mov_det.next;
     end;
+    desconto := JvDesconto.Value;
     Texto5 := DateTimeToStr(Now) + '      Total.: R$   ';
     total := cds_Mov_detTotalPedido.Value;
+
     porc := total * 0.1;
     Writeln(Impressora, c17cpi, texto);
+
+    Texto7 := '                    Desconto .: R$   ';
+    Write(Impressora, c10cpi, texto7);
+    Writeln(Impressora, c10cpi + Format('         %-6.2n',[desconto]));
+
     Write(Impressora, c10cpi, texto5);
-    Writeln(Impressora, c10cpi + Format('     %-6.2n',[total]));
+    Writeln(Impressora, c10cpi + Format('       %-6.2n',[total - desconto]));
+
+    Writeln(Impressora, c10cpi, texto);
+
    { if (cbporcento.Checked = True) then
     begin
       Texto5 := '                          *10% R$ ';
@@ -2290,7 +2314,7 @@ begin
     vTotal := cds_Mov_detTotalPedido.value;
     vPago := jvPago.Value;
     if (vTotal > 0) then
-      vTroco := vPago - vTotal;
+      vTroco := vPago - (vTotal-JvDesconto.Value);
     JvTroco.Value := vTroco;
   end;
 end;
@@ -2462,7 +2486,7 @@ cFItalico = #27#53;
 
 var
   IMPRESSORA:TextFile;
-  Texto,Texto1,Texto2,Texto3,Texto4,texto5, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5,logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
   modelo, placa, cliente :string;
   total : double;
 begin
@@ -2483,9 +2507,12 @@ begin
      Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
       IntToStr(cds_vendaNOTAFISCAL.AsInteger) + ' - ' + cds_vendaSERIE.AsString;
      Texto2 := '------------------------------------------------------' ;
-     Texto3 := 'Produto' ;
+     Texto3 := 'Produto xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ;
      Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
      Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
+
+
+
      cliente := 'Cliente : ' + cds_MovimentoNOMECLIENTE.Value;
      sParametro.Open;
      DM.Mensagem := sParametroD9.AsString;
@@ -2526,6 +2553,7 @@ begin
       Write(Impressora, c17cpi + Format('   %-6.2n',[cds_Mov_detQUANTIDADE.AsFloat]));
       Write(Impressora, c17cpi + Format('   %-6.2n',[cds_Mov_detPRECO.AsFloat]));
       Writeln(Impressora, c17cpi + Format('   %-6.2n',[cds_Mov_detValorTotal.value]));
+
       with Printer.Canvas do
       begin
        Font.Name := 'Courier New';
@@ -2537,6 +2565,8 @@ begin
      Writeln(Impressora, c17cpi, texto);
      Write(Impressora, c17cpi, texto5);
      Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+
+
    {  Texto5 := '                Descondo : R$   ';
      total := cds_vendaDESCONTO.Value;
      if (total > 0) then
@@ -2598,6 +2628,15 @@ procedure TfTerminal_Delivery.FormadeRecebimento1Click(Sender: TObject);
 begin
   inherited;
   ComboBox4.SetFocus;
+end;
+
+procedure TfTerminal_Delivery.JvDescontoChange(Sender: TObject);
+begin
+
+  jvPago.Text := DBEdit4.Text;
+  Vdesconto := JvDesconto.Value ;
+  jvPago.Value := (jvPago.Value - Vdesconto );
+
 end;
 
 end.
