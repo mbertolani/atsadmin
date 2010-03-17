@@ -52,6 +52,10 @@ begin
        (dmnf.DtSrcVenda.DataSet as TClientDataSet).ApplyUpdates(0);
        dmnf.DtSrc.DataSet.Delete;
        (dmnf.DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+       dmnf.DtSrc_NF.DataSet.Delete;
+       (dmnf.DtSrc_NF.DataSet as TClientDataSet).ApplyUpdates(0);
+
+       MessageDlg('Registro excluido com sucesso.',mtConfirmation, [mbOK],0)
     end
     else
       Abort;
