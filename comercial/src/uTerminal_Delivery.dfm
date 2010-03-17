@@ -40,7 +40,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Left = 0
     Top = 47
     Width = 289
-    Height = 504
+    Height = 511
     Align = alLeft
     TabOrder = 3
     object Panel2: TPanel
@@ -1227,14 +1227,14 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Left = 449
     Top = 47
     Width = 339
-    Height = 504
+    Height = 511
     Align = alLeft
     ParentColor = True
     PopupMenu = PopupMenu1
     TabOrder = 2
     object JvLabel1: TJvLabel
       Left = 75
-      Top = 414
+      Top = 422
       Width = 100
       Height = 38
       Caption = 'Pago :'
@@ -1247,8 +1247,8 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       HotTrackFont.Style = []
     end
     object JvLabel2: TJvLabel
-      Left = 59
-      Top = 461
+      Left = 60
+      Top = 468
       Width = 116
       Height = 38
       Caption = 'Troco :'
@@ -1262,7 +1262,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object JvLabel3: TJvLabel
       Left = 67
-      Top = 366
+      Top = 332
       Width = 108
       Height = 38
       Caption = 'Total :'
@@ -1274,20 +1274,34 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       HotTrackFont.Name = 'Cooper Blk BT'
       HotTrackFont.Style = []
     end
+    object JvLabel4: TJvLabel
+      Left = 14
+      Top = 377
+      Width = 169
+      Height = 38
+      Caption = 'Desconto :'
+      ShadowSize = 2
+      HintColor = clBlack
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -29
+      HotTrackFont.Name = 'Cooper Blk BT'
+      HotTrackFont.Style = []
+    end
     object cbporcento: TCheckBox
       Left = 47
-      Top = 331
+      Top = 291
       Width = 128
       Height = 24
       Caption = ' 10 % :'
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 6
       Visible = False
       OnClick = cbporcentoClick
     end
     object DBEdit9: TDBEdit
       Left = 178
-      Top = 321
+      Top = 273
       Width = 159
       Height = 44
       BevelKind = bkFlat
@@ -1328,7 +1342,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object DBEdit4: TDBEdit
       Left = 178
-      Top = 366
+      Top = 326
       Width = 159
       Height = 44
       BevelKind = bkFlat
@@ -1352,15 +1366,15 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Height = 24
       Caption = '...'
       PopupMenu = PopupMenu1
-      TabOrder = 5
+      TabOrder = 7
       Visible = False
       OnClick = BitBtn5Click
     end
     object JvTroco: TJvCalcEdit
       Left = 178
-      Top = 457
+      Top = 465
       Width = 159
-      Height = 45
+      Height = 44
       BevelKind = bkFlat
       BorderStyle = bsNone
       DisplayFormat = ',##0.00'
@@ -1372,12 +1386,12 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       ParentFont = False
       PopupMenu = PopupMenu1
       ShowButton = False
-      TabOrder = 6
+      TabOrder = 8
       DecimalPlacesAlwaysShown = False
     end
     object jvPago: TJvCalcEdit
       Left = 178
-      Top = 411
+      Top = 419
       Width = 159
       Height = 45
       BevelKind = bkFlat
@@ -1391,7 +1405,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       ParentFont = False
       PopupMenu = PopupMenu1
       ShowButton = False
-      TabOrder = 7
+      TabOrder = 5
       DecimalPlacesAlwaysShown = False
       OnChange = jvPagoChange
     end
@@ -1399,7 +1413,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Left = 1
       Top = 1
       Width = 337
-      Height = 364
+      Height = 320
       BorderStyle = bsNone
       Color = clInfoBk
       Ctl3D = False
@@ -1458,12 +1472,23 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           Visible = True
         end>
     end
+    object JvDesconto: TJvCalcEdit
+      Left = 178
+      Top = 372
+      Width = 158
+      Height = 44
+      DisplayFormat = ',##0.00'
+      ShowButton = False
+      TabOrder = 4
+      DecimalPlacesAlwaysShown = False
+      OnChange = JvDescontoChange
+    end
   end
   inherited MMJPanel1: TMMJPanel [5]
     Left = 289
     Top = 47
     Width = 160
-    Height = 504
+    Height = 511
     Align = alLeft
     Font.Color = clBlack
     Font.Height = -15
