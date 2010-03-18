@@ -448,6 +448,7 @@ object fFiltroMovimento: TfFiltroMovimento
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 4
+      Text = '3'
       OnExit = Edit3Exit
       OnKeyPress = ComboBox1KeyPress
     end
@@ -1873,7 +1874,9 @@ object fFiltroMovimento: TfFiltroMovimento
       'RadioGroup1.ItemIndex'
       'Edit8.Text'
       'edtNF.Text'
-      'ComboBox2.Text')
+      'ComboBox2.Text'
+      'meDta1.Text'
+      'meDta2.Text')
     StoredValues = <>
     Left = 440
     Top = 96
