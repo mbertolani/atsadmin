@@ -97,6 +97,8 @@ type
     Label31: TLabel;
     DBRadioGroup3: TDBRadioGroup;
     DBOrigem: TDBRadioGroup;
+    DBEdit22: TDBEdit;
+    Label32: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
