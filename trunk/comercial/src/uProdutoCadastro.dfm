@@ -51,21 +51,21 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object Label9: TLabel [6]
     Left = 4
-    Top = 134
+    Top = 130
     Width = 38
     Height = 16
     Caption = 'Marca'
   end
   object Label10: TLabel [7]
     Left = 234
-    Top = 129
+    Top = 130
     Width = 91
     Height = 16
     Caption = 'Fam'#237'lia / Grupo'
   end
   object Label11: TLabel [8]
     Left = 516
-    Top = 129
+    Top = 130
     Width = 134
     Height = 16
     Caption = 'Categoria / Sub-Grupo'
@@ -653,8 +653,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Tributa'#231#227'o'
     TabOrder = 11
     object Label21: TLabel
-      Left = 3
-      Top = 23
+      Left = 5
+      Top = 25
       Width = 126
       Height = 16
       Caption = 'Classifica'#231#227'o Fiscal :'
@@ -666,11 +666,11 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
     end
     object Label22: TLabel
-      Left = 317
-      Top = 23
-      Width = 33
+      Left = 357
+      Top = 8
+      Width = 27
       Height = 16
-      Caption = 'CST :'
+      Caption = 'CST'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -679,11 +679,11 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
     end
     object Label23: TLabel
-      Left = 473
-      Top = 23
-      Width = 21
-      Height = 16
-      Caption = 'IPI :'
+      Left = 487
+      Top = 8
+      Width = 15
+      Height = 17
+      Caption = 'IPI'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -692,11 +692,11 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
     end
     object Label24: TLabel
-      Left = 555
-      Top = 23
-      Width = 38
+      Left = 566
+      Top = 8
+      Width = 32
       Height = 16
-      Caption = 'ICMS :'
+      Caption = 'ICMS'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -705,11 +705,24 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
     end
     object Label25: TLabel
-      Left = 650
-      Top = 23
-      Width = 73
+      Left = 626
+      Top = 8
+      Width = 67
       Height = 16
-      Caption = 'Base ICMS :'
+      Caption = 'Base ICMS'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label32: TLabel
+      Left = 717
+      Top = 8
+      Width = 30
+      Height = 16
+      Caption = 'NCM'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -718,9 +731,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
     end
     object DBEdit14: TDBEdit
-      Left = 496
+      Left = 473
       Top = 23
-      Width = 53
+      Width = 70
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -733,13 +746,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 2
+      TabOrder = 4
       OnKeyPress = FormKeyPress
     end
     object DBEdit15: TDBEdit
-      Left = 595
+      Left = 549
       Top = 23
-      Width = 51
+      Width = 70
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -752,13 +765,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 3
+      TabOrder = 5
       OnKeyPress = FormKeyPress
     end
     object DBEdit16: TDBEdit
-      Left = 725
+      Left = 625
       Top = 23
-      Width = 50
+      Width = 70
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -771,11 +784,11 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 6
       OnKeyPress = FormKeyPress
     end
     object DBComboBox2: TDBComboBox
-      Left = 130
+      Left = 137
       Top = 23
       Width = 147
       Height = 24
@@ -788,7 +801,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       OnKeyPress = FormKeyPress
     end
     object DBComboBox3: TDBComboBox
-      Left = 352
+      Left = 336
       Top = 23
       Width = 84
       Height = 24
@@ -797,15 +810,15 @@ inherited fProdutoCadastro: TfProdutoCadastro
       DataSource = DtSrc
       ItemHeight = 16
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 2
       OnKeyPress = FormKeyPress
     end
     object SpeedButton6: TBitBtn
-      Left = 280
+      Left = 292
       Top = 22
       Width = 33
       Height = 26
-      TabOrder = 5
+      TabOrder = 1
       OnClick = SpeedButton6Click
       Glyph.Data = {
         86050000424D8605000000000000360000002800000016000000140000000100
@@ -855,11 +868,11 @@ inherited fProdutoCadastro: TfProdutoCadastro
         BFBFBFBFBFBFBFBF0000}
     end
     object SpeedButton7: TBitBtn
-      Left = 437
+      Left = 426
       Top = 22
       Width = 34
       Height = 26
-      TabOrder = 6
+      TabOrder = 3
       OnClick = SpeedButton7Click
       Glyph.Data = {
         86050000424D8605000000000000360000002800000016000000140000000100
@@ -907,6 +920,25 @@ inherited fProdutoCadastro: TfProdutoCadastro
         BFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
         BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
         BFBFBFBFBFBFBFBF0000}
+    end
+    object DBEdit22: TDBEdit
+      Left = 701
+      Top = 23
+      Width = 70
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DataField = 'NCM'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 7
+      OnKeyPress = FormKeyPress
     end
   end
   object Panel1: TPanel [25]
