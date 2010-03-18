@@ -930,19 +930,20 @@ object fNFeletronica: TfNFeletronica
   end
   object sdsItensNF: TSQLDataSet
     CommandText = 
-      'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          md.PR' +
-      'ECO,'#13#10'          cast(md.DESCPRODUTO as varchar(120) )as DESCPROD' +
-      'UTO,'#13#10'          pr.CODPRO,'#13#10'          pr.UNIDADEMEDIDA,'#13#10'       ' +
-      '   md.CST,'#13#10'          md.ICMS,'#13#10'          md.VALOR_ICMS,'#13#10'      ' +
-      '    md.VLR_BASE,'#13#10'          md.ICMS_SUBST,'#13#10'          md.ICMS_SU' +
-      'BSTD'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODM' +
-      'OVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.COD' +
-      'VENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO =' +
-      ' md.CODPRODUTO'#13#10'where vd.CODVENDA = :id and nf.NATUREZA = 15'
+      'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          UDF_R' +
+      'OUNDDEC(md.PRECO),'#13#10'          cast(md.DESCPRODUTO as varchar(120' +
+      ') )as DESCPRODUTO,'#13#10'          pr.CODPRO,'#13#10'          pr.UNIDADEME' +
+      'DIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,'#13#10'          md.VALOR' +
+      '_ICMS,'#13#10'          md.VLR_BASE,'#13#10'          md.ICMS_SUBST,'#13#10'      ' +
+      '    md.ICMS_SUBSTD'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE ' +
+      'md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL' +
+      ' nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'p' +
+      'r.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id and nf.NAT' +
+      'UREZA = 15'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptInput
       end>
@@ -1088,7 +1089,7 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 62
+    Left = 64
     Top = 296
     object sMenorDataMENORDATA: TDateField
       FieldName = 'MENORDATA'
@@ -2759,6 +2760,10 @@ object fNFeletronica: TfNFeletronica
     object sProdutosORIGEM: TIntegerField
       FieldName = 'ORIGEM'
     end
+    object sProdutosNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
   end
   object XMLDocument1: TXMLDocument
     Left = 97
@@ -2822,5 +2827,26 @@ object fNFeletronica: TfNFeletronica
     DataSet = sdsNFC
     Left = 64
     Top = 328
+  end
+  object JvFormStorage1: TJvFormStorage
+    AppStorage = JvAppXMLFileStorage1
+    AppStoragePath = 'fNFeletronica\'
+    StoredProps.Strings = (
+      'ComboBox1.Text'
+      'JvDateEdit1.Text'
+      'JvDateEdit2.Text')
+    StoredValues = <>
+    Left = 440
+    Top = 96
+  end
+  object JvAppXMLFileStorage1: TJvAppXMLFileStorage
+    StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    StorageOptions.InvalidCharReplacement = '_'
+    FileName = 'nfe.xml'
+    RootNodeName = 'Configuration'
+    SubStorages = <>
+    Left = 408
+    Top = 94
   end
 end
