@@ -426,7 +426,7 @@ begin
     dm.scds_forn_proc.Params[1].Clear;
     dm.scds_forn_proc.Params[2].AsInteger:=StrToInt(dbeCliente.Text);
     dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
-    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;
+    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1;
     dm.scds_forn_proc.Open;
     if dm.scds_forn_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
