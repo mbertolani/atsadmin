@@ -65,7 +65,7 @@ inherited fLotes: TfLotes
     Caption = 'S'#233'rie Final'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 404
+    Top = 411
     Width = 784
     TabOrder = 6
     inherited btnProcurar: TBitBtn
@@ -361,7 +361,6 @@ inherited fLotes: TfLotes
         Expanded = False
         FieldName = 'DATAVENCIMENTO'
         Title.Caption = 'Data Vencimento'
-        Width = 64
         Visible = True
       end
       item
@@ -405,10 +404,15 @@ inherited fLotes: TfLotes
   object sdslote: TSQLDataSet
     CommandText = 
       'SELECT lote.*, prod.PRODUTO, prod.CODPRO FROM LOTES lote '#13#10'inner' +
-      ' join PRODUTOS prod on prod.codpro = lote.CODPRODUTO WHERE lote.' +
-      'ESTOQUE > 0.009'
+      ' join PRODUTOS prod on prod.codproduto = lote.CODPRODUTO WHERE l' +
+      'ote.codproduto = :codpro and lote.ESTOQUE > 0.009'
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'codpro'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 72
     Top = 24
@@ -466,7 +470,12 @@ inherited fLotes: TfLotes
   end
   object cdslotes: TClientDataSet
     Aggregates = <>
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'codpro'
+        ParamType = ptInput
+      end>
     ProviderName = 'dsplotes'
     Left = 136
     Top = 24
