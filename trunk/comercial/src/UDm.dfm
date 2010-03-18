@@ -6,7 +6,7 @@ object DM: TDM
   Height = 748
   Width = 1032
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sge'
+    ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\Home\sisadmin\BD\sge_bouquet.fdb'
+      'Database=C:\Home\sisadmin\BD\sge_plastiferro.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq'
@@ -322,7 +322,7 @@ object DM: TDM
       end>
     SQLConnection = sqlsisAdimin
     Left = 16
-    Top = 372
+    Top = 348
     object s_8CODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate]
@@ -353,8 +353,8 @@ object DM: TDM
   end
   object d_8: TDataSetProvider
     DataSet = s_8
-    Left = 96
-    Top = 372
+    Left = 80
+    Top = 348
   end
   object c_8_serv: TClientDataSet
     Aggregates = <>
@@ -365,8 +365,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'd_8'
-    Left = 184
-    Top = 372
+    Left = 160
+    Top = 348
     object c_8_servCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate]
@@ -571,7 +571,7 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 39
+    Left = 247
     Top = 344
     object sds_cfopCFCOD: TStringField
       DisplayWidth = 30
@@ -595,15 +595,15 @@ object DM: TDM
   object dsp_cfop: TDataSetProvider
     DataSet = sds_cfop
     UpdateMode = upWhereKeyOnly
-    Left = 103
-    Top = 344
+    Left = 247
+    Top = 400
   end
   object cds_cfop: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp_cfop'
-    Left = 172
-    Top = 345
+    Left = 252
+    Top = 457
     object cds_cfopCFCOD: TStringField
       FieldName = 'CFCOD'
       Required = True
@@ -631,8 +631,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 712
-    Top = 266
+    Left = 478
+    Top = 290
     object scds_banco_procBANCO: TStringField
       FieldName = 'BANCO'
       Required = True
@@ -678,8 +678,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 712
-    Top = 314
+    Left = 478
+    Top = 338
     object scds_cliente_procCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -753,8 +753,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 712
-    Top = 218
+    Left = 478
+    Top = 242
     object scds_produto_procCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
@@ -832,8 +832,8 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 712
-    Top = 168
+    Left = 478
+    Top = 192
     object proc_empresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -935,8 +935,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 584
-    Top = 24
+    Left = 544
+    Top = 32
     object scds_movimento_procCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       Required = True
@@ -985,8 +985,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 592
-    Top = 72
+    Left = 544
+    Top = 88
     object scds_usuario_procCODUSUARIO: TSmallintField
       FieldName = 'CODUSUARIO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1046,7 +1046,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 704
+    Left = 736
     Top = 8
     object scds_NaturezaProcuraCODNATUREZA: TSmallintField
       FieldName = 'CODNATUREZA'
@@ -1086,7 +1086,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 608
+    Left = 632
     Top = 128
     object scds_venda_procCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
@@ -1127,8 +1127,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 477
-    Top = 176
+    Left = 253
+    Top = 184
     object s_7CODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -1157,8 +1157,8 @@ object DM: TDM
     DataSet = s_7
     Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
-    Left = 523
-    Top = 176
+    Left = 251
+    Top = 240
   end
   object cds_7_contas: TClientDataSet
     Aggregates = <>
@@ -1169,8 +1169,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'd_7'
-    Left = 566
-    Top = 176
+    Left = 246
+    Top = 288
     object cds_7_contasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -1201,13 +1201,13 @@ object DM: TDM
       'TO from FORNECEDOR where ((NOMEFORNECEDOR like :pFORNECEDOR) or ' +
       '(RAZAOSOCIAL like :pRAZAO) or (CODFORNECEDOR = :pCODFORNECEDOR))' +
       ' '#13#10'and  (status = :pStatus) '#13#10'and  (((segmento = :pSegmento) or ' +
-      '(segmento = 1) ) or (:pSegmento = 3 ))'#13#10'order by NOMEFORNECEDOR'
+      '(segmento = 1) ) or (:pSegmento = 1 ))'#13#10'order by NOMEFORNECEDOR'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
     Params = <
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pFORNECEDOR'
         ParamType = ptInput
       end
@@ -1237,7 +1237,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 705
+    Left = 737
     Top = 61
     object scds_forn_procCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
@@ -1274,8 +1274,8 @@ object DM: TDM
     ProviderName = 'dsp_produto'
     OnNewRecord = cds_produtoNewRecord
     OnReconcileError = cds_produtoReconcileError
-    Left = 423
-    Top = 259
+    Left = 455
+    Top = 235
     object cds_produtoCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1520,13 +1520,17 @@ object DM: TDM
     object cds_produtoORIGEM: TIntegerField
       FieldName = 'ORIGEM'
     end
+    object cds_produtoNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
   end
   object dsp_produto: TDataSetProvider
     DataSet = sds_produto
     Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
-    Left = 359
-    Top = 259
+    Left = 391
+    Top = 235
   end
   object sds_produto: TSQLDataSet
     CommandText = 
@@ -1545,8 +1549,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 297
-    Top = 259
+    Left = 321
+    Top = 235
     object sds_produtoCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1766,6 +1770,10 @@ object DM: TDM
     object sds_produtoORIGEM: TIntegerField
       FieldName = 'ORIGEM'
     end
+    object sds_produtoNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
   end
   object sds_cm: TSQLDataSet
     CommandText = 
@@ -1789,8 +1797,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 503
-    Top = 232
+    Left = 527
+    Top = 240
     object sds_cmCOD_COMISSAO: TIntegerField
       FieldName = 'COD_COMISSAO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1847,7 +1855,7 @@ object DM: TDM
       end>
     ProviderName = 'dsp_cm'
     Left = 581
-    Top = 231
+    Top = 239
     object cds_cmCOD_COMISSAO: TIntegerField
       FieldName = 'COD_COMISSAO'
     end
@@ -1892,7 +1900,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 634
+    Left = 658
     Top = 186
     object scds_compra_procCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
@@ -1939,8 +1947,8 @@ object DM: TDM
       end>
     OnCalcFields = scds_Mov_Det_procCalcFields
     DBConnection = sqlsisAdimin
-    Left = 489
-    Top = 185
+    Left = 625
+    Top = 73
     object scds_Mov_Det_procCODPRODUTO: TIntegerField
       DisplayWidth = 10
       FieldName = 'CODPRODUTO'
@@ -1992,7 +2000,7 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 384
+    Left = 328
     Top = 16
     object s_1CODIGO: TIntegerField
       AutoGenerateValue = arAutoInc
@@ -2043,7 +2051,7 @@ object DM: TDM
     DataSet = s_1
     Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
-    Left = 424
+    Left = 408
     Top = 16
   end
   object c_1_planoc: TClientDataSet
@@ -2107,7 +2115,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 384
+    Left = 328
     Top = 64
     object s_2COD_PLANO_RATEIO: TIntegerField
       AutoGenerateValue = arAutoInc
@@ -2132,7 +2140,7 @@ object DM: TDM
   object DataSetProvider1: TDataSetProvider
     DataSet = SQLDataSet1
     UpdateMode = upWhereKeyOnly
-    Left = 424
+    Left = 408
     Top = 64
   end
   object c_2_planoc_rat: TClientDataSet
@@ -2169,7 +2177,7 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 359
+    Left = 327
     Top = 119
     object sds_serieCODSERIE: TStringField
       FieldName = 'CODSERIE'
@@ -2197,7 +2205,7 @@ object DM: TDM
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp_serie'
-    Left = 447
+    Left = 463
     Top = 119
     object cds_serieCODSERIE: TStringField
       FieldName = 'CODSERIE'
@@ -2221,8 +2229,8 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 296
-    Top = 325
+    Left = 304
+    Top = 301
     object sdsDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
@@ -2285,15 +2293,15 @@ object DM: TDM
   object dsp: TDataSetProvider
     DataSet = sds
     UpdateMode = upWhereKeyOnly
-    Left = 360
-    Top = 325
+    Left = 368
+    Top = 301
   end
   object parametro: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp'
-    Left = 424
-    Top = 324
+    Left = 432
+    Top = 300
     object parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
@@ -2367,8 +2375,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 504
-    Top = 119
+    Left = 528
+    Top = 143
     object scds_serie_procCODSERIE: TStringField
       FieldName = 'CODSERIE'
       FixedChar = True
@@ -3070,7 +3078,7 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 342
+    Left = 326
     Top = 174
     object sdsBancoCODBANCO: TSmallintField
       FieldName = 'CODBANCO'
@@ -3149,7 +3157,7 @@ object DM: TDM
     Aggregates = <>
     Params = <>
     ProviderName = 'dspBanco'
-    Left = 431
+    Left = 455
     Top = 174
     object cdsBancoCODBANCO: TSmallintField
       FieldName = 'CODBANCO'
@@ -3238,7 +3246,7 @@ object DM: TDM
       end>
     SQLConnection = sqlsisAdimin
     Left = 16
-    Top = 420
+    Top = 396
     object s_4CODPAGAMENTO: TIntegerField
       FieldName = 'CODPAGAMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -3416,8 +3424,8 @@ object DM: TDM
     UpdateMode = upWhereKeyOnly
     OnUpdateData = DSPUpdateData
     OnGetDataSetProperties = DSPGetProproperties
-    Left = 96
-    Top = 420
+    Left = 80
+    Top = 396
   end
   object cds_4_pagar: TClientDataSet
     Aggregates = <>
@@ -3431,8 +3439,8 @@ object DM: TDM
     ProviderName = 'd_4'
     OnNewRecord = cds_4_pagarNewRecord
     OnReconcileError = cds_4_pagarReconcileError
-    Left = 184
-    Top = 420
+    Left = 160
+    Top = 396
     object cds_4_pagarCODPAGAMENTO: TIntegerField
       FieldName = 'CODPAGAMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -3644,8 +3652,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 293
-    Top = 372
+    Left = 301
+    Top = 348
     object IntegerField1: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -3674,8 +3682,8 @@ object DM: TDM
     DataSet = s_1_conta
     Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
-    Left = 355
-    Top = 372
+    Left = 363
+    Top = 348
   end
   object cds_1_contas: TClientDataSet
     Aggregates = <>
@@ -3686,8 +3694,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'd_1_conta'
-    Left = 422
-    Top = 372
+    Left = 430
+    Top = 348
     object cds_1_contasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -3922,8 +3930,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 408
-    Top = 211
+    Left = 616
+    Top = 11
     object scdsCCusto_procCODALMOXARIFADO: TIntegerField
       FieldName = 'CODALMOXARIFADO'
       Required = True
@@ -3959,8 +3967,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 289
-    Top = 476
+    Left = 249
+    Top = 524
     object scds_transp_procCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True
@@ -4041,7 +4049,7 @@ object DM: TDM
       end>
     SQLConnection = sqlsisAdimin
     Left = 15
-    Top = 467
+    Top = 443
     object sdsTranspCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4150,8 +4158,8 @@ object DM: TDM
   object dspTransp: TDataSetProvider
     DataSet = sdsTransp
     UpdateMode = upWhereKeyOnly
-    Left = 95
-    Top = 467
+    Left = 79
+    Top = 443
   end
   object cdsTransp: TClientDataSet
     Aggregates = <>
@@ -4162,8 +4170,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'dspTransp'
-    Left = 183
-    Top = 467
+    Left = 159
+    Top = 443
     object cdsTranspCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
     end
@@ -4271,8 +4279,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 296
-    Top = 420
+    Left = 304
+    Top = 396
     object s3_contabilCODCONT: TIntegerField
       FieldName = 'CODCONT'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4350,8 +4358,8 @@ object DM: TDM
   object d3_contabil: TDataSetProvider
     DataSet = s3_contabil
     UpdateMode = upWhereKeyOnly
-    Left = 360
-    Top = 420
+    Left = 368
+    Top = 396
   end
   object c3_contabil: TClientDataSet
     Aggregates = <>
@@ -4368,8 +4376,8 @@ object DM: TDM
       end>
     ProviderName = 'd3_contabil'
     OnReconcileError = c3_contabilReconcileError
-    Left = 424
-    Top = 420
+    Left = 432
+    Top = 396
     object c3_contabilCODCONT: TIntegerField
       FieldName = 'CODCONT'
       Required = True
@@ -5512,7 +5520,7 @@ object DM: TDM
     Params = <>
     SQLConnection = sqlsisAdimin
     Left = 15
-    Top = 619
+    Top = 595
     object sdsCCustoCODALMOXARIFADO: TIntegerField
       FieldName = 'CODALMOXARIFADO'
     end
@@ -5523,15 +5531,15 @@ object DM: TDM
   end
   object dspCCusto: TDataSetProvider
     DataSet = sdsCCusto
-    Left = 95
-    Top = 611
+    Left = 79
+    Top = 587
   end
   object cdsCCusto: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspCCusto'
-    Left = 231
-    Top = 615
+    Left = 158
+    Top = 591
     object cdsCCustoCODALMOXARIFADO: TIntegerField
       FieldName = 'CODALMOXARIFADO'
     end
@@ -5684,8 +5692,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 776
-    Top = 508
+    Left = 752
+    Top = 548
     object sdsPermissaoCHAVE: TStringField
       FieldName = 'CHAVE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5730,8 +5738,8 @@ object DM: TDM
   object dstPermissao: TDataSetProvider
     DataSet = sdsPermissao
     UpdateMode = upWhereKeyOnly
-    Left = 840
-    Top = 474
+    Left = 832
+    Top = 514
   end
   object cdsPermissao: TClientDataSet
     Aggregates = <>
@@ -5747,8 +5755,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'dstPermissao'
-    Left = 920
-    Top = 482
+    Left = 896
+    Top = 514
     object cdsPermissaoCHAVE: TStringField
       FieldName = 'CHAVE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5800,7 +5808,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 352
+    Left = 320
     Top = 508
     object sds_LoginLOGIN: TStringField
       FieldName = 'LOGIN'
@@ -5830,7 +5838,7 @@ object DM: TDM
   object dsp_Login: TDataSetProvider
     DataSet = sds_Login
     UpdateMode = upWhereKeyOnly
-    Left = 416
+    Left = 384
     Top = 508
   end
   object cds_Login: TClientDataSet
@@ -5842,7 +5850,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'dsp_Login'
-    Left = 472
+    Left = 440
     Top = 509
     object cds_LoginLOGIN: TStringField
       FieldName = 'LOGIN'
@@ -6032,8 +6040,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 828
-    Top = 464
+    Left = 780
+    Top = 456
     object sds_romaneioCODROMANEIO_F: TIntegerField
       FieldName = 'CODROMANEIO_F'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6104,8 +6112,8 @@ object DM: TDM
   object dsp_romaneio: TDataSetProvider
     DataSet = sds_romaneio
     UpdateMode = upWhereKeyOnly
-    Left = 912
-    Top = 464
+    Left = 856
+    Top = 456
   end
   object cds_romaneio: TClientDataSet
     Aggregates = <>
@@ -6118,8 +6126,8 @@ object DM: TDM
       end>
     ProviderName = 'dsp_romaneio'
     OnNewRecord = cds_romaneioNewRecord
-    Left = 992
-    Top = 464
+    Left = 936
+    Top = 456
     object cds_romaneioCODROMANEIO_F: TIntegerField
       FieldName = 'CODROMANEIO_F'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6197,8 +6205,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 799
-    Top = 526
+    Left = 807
+    Top = 566
     object SQLDataSet1CODROMANEIO: TIntegerField
       FieldName = 'CODROMANEIO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6217,7 +6225,7 @@ object DM: TDM
   object DataSetProvider3: TDataSetProvider
     DataSet = SQLDataSet3
     Left = 888
-    Top = 526
+    Top = 558
   end
   object ClientDataSet1: TClientDataSet
     Aggregates = <>
@@ -6579,7 +6587,7 @@ object DM: TDM
       end>
     SQLConnection = sqlsisAdimin
     Left = 16
-    Top = 510
+    Top = 486
     object sds_parametroLOGIN: TStringField
       FieldName = 'LOGIN'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6618,8 +6626,8 @@ object DM: TDM
   object dsp_video: TDataSetProvider
     DataSet = sds_video
     UpdateMode = upWhereKeyOnly
-    Left = 96
-    Top = 510
+    Left = 80
+    Top = 486
   end
   object cds_video: TClientDataSet
     Aggregates = <>
@@ -6630,8 +6638,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'dsp_video'
-    Left = 184
-    Top = 510
+    Left = 160
+    Top = 486
     object cds_parametroLOGIN: TStringField
       FieldName = 'LOGIN'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6735,8 +6743,8 @@ object DM: TDM
   object dsp_aluno: TDataSetProvider
     DataSet = sds_aluno
     UpdateMode = upWhereKeyOnly
-    Left = 792
-    Top = 582
+    Left = 760
+    Top = 638
   end
   object cds_aluno: TClientDataSet
     Aggregates = <>
@@ -6747,8 +6755,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'dsp_aluno'
-    Left = 848
-    Top = 582
+    Left = 832
+    Top = 638
     object cds_alunoCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7273,8 +7281,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 744
-    Top = 582
+    Left = 688
+    Top = 638
     object sds_alunoCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8082,8 +8090,8 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 304
-    Top = 672
+    Left = 248
+    Top = 617
     object sdsTipoSerieTIPOSERIE: TStringField
       FieldName = 'TIPOSERIE'
       Size = 4
@@ -8109,15 +8117,15 @@ object DM: TDM
   end
   object dspTipoSerie: TDataSetProvider
     DataSet = sdsTipoSerie
-    Left = 384
-    Top = 672
+    Left = 328
+    Top = 617
   end
   object TableTipoSerie: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspTipoSerie'
-    Left = 467
-    Top = 672
+    Left = 411
+    Top = 617
     object TableTipoSerieTIPOSERIE: TStringField
       FieldName = 'TIPOSERIE'
       Size = 4
@@ -8151,20 +8159,20 @@ object DM: TDM
     Params = <>
     SQLConnection = sqlsisAdimin
     Left = 16
-    Top = 663
+    Top = 639
   end
   object dspMaterias: TDataSetProvider
     DataSet = sdsMaterias
     Options = [poAllowCommandText]
-    Left = 96
-    Top = 671
+    Left = 80
+    Top = 647
   end
   object TableMaterias: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspMaterias'
-    Left = 180
-    Top = 607
+    Left = 155
+    Top = 647
     object TableMateriasMATERIAS: TStringField
       FieldName = 'MATERIAS'
       Size = 50
@@ -8193,7 +8201,7 @@ object DM: TDM
       end>
     SQLConnection = sqlsisAdimin
     Left = 16
-    Top = 560
+    Top = 536
     object sdsClasseSERIELETRA: TStringField
       FieldName = 'SERIELETRA'
       ProviderFlags = [pfInUpdate]
@@ -8228,8 +8236,8 @@ object DM: TDM
   object dspClasse: TDataSetProvider
     DataSet = sdsClasse
     UpdateMode = upWhereKeyOnly
-    Left = 96
-    Top = 560
+    Left = 80
+    Top = 536
   end
   object cdsClasse: TClientDataSet
     Aggregates = <>
@@ -8240,8 +8248,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'dspClasse'
-    Left = 180
-    Top = 676
+    Left = 156
+    Top = 540
     object cdsClasseSERIELETRA: TStringField
       FieldName = 'SERIELETRA'
       Size = 4
@@ -8347,8 +8355,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 520
-    Top = 665
+    Left = 512
+    Top = 633
     object sds_agCOD_AGENDAMENTO: TIntegerField
       FieldName = 'COD_AGENDAMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8397,8 +8405,8 @@ object DM: TDM
   object dsp_ag: TDataSetProvider
     DataSet = sds_ag
     UpdateMode = upWhereKeyOnly
-    Left = 560
-    Top = 665
+    Left = 552
+    Top = 633
   end
   object cds_ag: TClientDataSet
     Aggregates = <>
@@ -8434,8 +8442,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'dsp_ag'
-    Left = 600
-    Top = 665
+    Left = 592
+    Top = 633
     object cds_agCOD_AGENDAMENTO: TIntegerField
       FieldName = 'COD_AGENDAMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8492,8 +8500,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 904
-    Top = 671
+    Left = 888
+    Top = 639
   end
   object sbuscacli: TSQLDataSet
     CommandText = 
@@ -8796,8 +8804,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 289
-    Top = 524
+    Left = 249
+    Top = 580
     object proc_transpCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True
@@ -8869,8 +8877,8 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 352
-    Top = 484
+    Left = 320
+    Top = 452
     object sdsLogID_LOG: TIntegerField
       FieldName = 'ID_LOG'
       Required = True
@@ -8918,8 +8926,8 @@ object DM: TDM
     Aggregates = <>
     Params = <>
     ProviderName = 'dspLog'
-    Left = 448
-    Top = 484
+    Left = 416
+    Top = 452
     object cdsLogID_LOG: TIntegerField
       FieldName = 'ID_LOG'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8967,8 +8975,8 @@ object DM: TDM
   object dspLog: TDataSetProvider
     DataSet = sdsLog
     UpdateMode = upWhereKeyOnly
-    Left = 408
-    Top = 484
+    Left = 376
+    Top = 452
   end
   object UCDBXConnFinanceiro: TUCDBXConn
     Connection = sqlsisAdimin
@@ -9124,7 +9132,7 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 304
+    Left = 248
     Top = 16
     object sdsPrazoPARAMETRO: TStringField
       FieldName = 'PARAMETRO'
@@ -9182,7 +9190,7 @@ object DM: TDM
   end
   object dspPrazo: TDataSetProvider
     DataSet = sdsPrazo
-    Left = 304
+    Left = 248
     Top = 72
   end
   object cdsPrazo: TClientDataSet
@@ -9190,7 +9198,7 @@ object DM: TDM
     Params = <>
     ProviderName = 'dspPrazo'
     OnNewRecord = cdsPrazoNewRecord
-    Left = 304
+    Left = 248
     Top = 128
     object cdsPrazoPARAMETRO: TStringField
       FieldName = 'PARAMETRO'

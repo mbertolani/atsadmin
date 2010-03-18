@@ -1731,6 +1731,8 @@ type
     cds_produtoORIGEM: TIntegerField;
     sds_EmpresaCD_IBGE: TStringField;
     cds_empresaCD_IBGE: TStringField;
+    sds_produtoNCM: TStringField;
+    cds_produtoNCM: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
