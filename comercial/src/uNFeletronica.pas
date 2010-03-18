@@ -9,7 +9,8 @@ uses
   JvDBGrid, ComCtrls, JvExComCtrls, JvProgressBar, JvExButtons, JvBitBtn,
   dxCore, dxButton, StdCtrls, Mask, JvExMask, JvToolEdit, Buttons,
   ExtCtrls, MMJPanel, ACBrNFeDANFEClass, pcnConversao, ACBrNFeDANFERave, ACBrNFe,
-  ACBrNFeDANFeQRClass, xmldom, XMLIntf, msxmldom, XMLDoc;
+  ACBrNFeDANFeQRClass, xmldom, XMLIntf, msxmldom, XMLDoc, JvAppStorage,
+  JvAppXMLStorage, JvComponentBase, JvFormPlacement;
 
 type
   TfNFeletronica = class(TForm)
@@ -382,6 +383,9 @@ type
     btnValidaNFe: TBitBtn;
     btnImprime: TBitBtn;
     btnGeraPDF: TBitBtn;
+    sProdutosNCM: TStringField;
+    JvFormStorage1: TJvFormStorage;
+    JvAppXMLFileStorage1: TJvAppXMLFileStorage;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -550,9 +554,10 @@ begin
             Emit.CNPJCPF           := RemoveChar(sEmpresaCNPJ_CPF.AsString);
             Emit.xNome             := sEmpresaRAZAO.AsString;
             Emit.xFant             := sEmpresaEMPRESA.AsString;
-            Emit.EnderEmit.xLgr    := sEmpresaLOGRADOURO.AsString;
+            Emit.EnderEmit.xLgr    := sEmpresaENDERECO.AsString;
             Emit.EnderEmit.nro     := sEmpresaNUMERO.AsString;
-            Emit.EnderEmit.xCpl    := sEmpresaOUTRAS_INFO.AsString;
+            if ((not sEmpresaOUTRAS_INFO.IsNull) or ( sEmpresaOUTRAS_INFO.AsString <> '')) then
+            Emit.EnderEmit.xCpl    := sEmpresaLOGRADOURO.AsString;
             Emit.EnderEmit.xBairro := sEmpresaBAIRRO.AsString;
             Emit.EnderEmit.cMun    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
             Emit.EnderEmit.xMun    := sEmpresaCIDADE.AsString;
@@ -573,7 +578,8 @@ begin
             end
             else
               Dest.EnderDest.nro     := sClienteNUMERO.AsString;
-            Dest.EnderDest.xCpl    := sClienteCOMPLEMENTO.AsString;
+            if ((not sClienteCOMPLEMENTO.IsNull) or ( sClienteCOMPLEMENTO.AsString <> '')) then
+              Dest.EnderDest.xCpl    := sClienteCOMPLEMENTO.AsString;
             Dest.EnderDest.xBairro := sClienteBAIRRO.AsString;
             Dest.EnderDest.cMun    := StrToInt(RemoveChar(sClienteCD_IBGE.AsString));
             Dest.EnderDest.xMun    := sClienteCIDADE.AsString;
@@ -612,6 +618,7 @@ begin
               Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
               Prod.vUnTrib  := cdsItensNFPRECO.AsFloat;
               infAdProd     := '';
+              Prod.NCM      := sProdutosNCM.AsString;
 
              // IMPOSTOS DA NOTA
                 with Imposto do
