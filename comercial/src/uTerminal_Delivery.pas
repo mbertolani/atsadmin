@@ -701,6 +701,7 @@ type
      c_f : string;
     { Private declarations }
   public
+     prazoparapgto : Integer;
      estoque : double;
      vDesconto : double;
      function buscaProdLista(codBarra, ProdLista:String): Integer;
@@ -722,7 +723,7 @@ type
 var
   fTerminal_Delivery: TfTerminal_Delivery;
   usadelivery, strSql, strTit, serie: String;
-  numTitulo, caixa, COD_VENDA, varConta, prazoparapgto : Integer;
+  numTitulo, caixa, COD_VENDA, varConta  : Integer;
   total : double;
   TD: TTransactionDesc;
   Rua, Bairro : string;
@@ -846,6 +847,9 @@ end;
 
 procedure TfTerminal_Delivery.btnIncluirClick(Sender: TObject);
 begin
+  BitBtn7.Enabled := True;
+  ComboBox3.Enabled := True;
+  ComboBox4.Enabled := True;
   if (DM.STATUSCAIXA = 'FECHADO') then
   begin
     MessageDlg('O Caixa precisa ser Aberto', mtWarning, [mbOK], 0);
@@ -1297,8 +1301,9 @@ begin
     cds_Mov_det.Params[1].AsInteger := cod_mov;
     cds_Mov_det.Open;
   end;
-
-
+  BitBtn7.Enabled := False;
+  ComboBox3.Enabled := False;
+  ComboBox4.Enabled := False;
 end;
 
 procedure TfTerminal_Delivery.DBGrid2DblClick(Sender: TObject);
@@ -1358,6 +1363,9 @@ begin
     varConta := DM.c_1_planocCODIGO.AsInteger;
   DM.c_1_planoc.Close;
   }
+  BitBtn7.Enabled := False;
+  ComboBox3.Enabled := False;
+  ComboBox4.Enabled := False;
   if (sCaixaAberto.Active) then
     sCaixaAberto.Close;
   sCaixaAberto.Params[0].AsString := MICRO;
@@ -1495,7 +1503,8 @@ begin
     begin
       if (cds_Movimento.State in [dsBrowse]) then
         cds_movimento.Edit;
-      cds_MovimentoCODCLIENTE.AsInteger := 0; //Consumidor
+      if(cds_MovimentoCODCLIENTE.IsNull) then
+        cds_MovimentoCODCLIENTE.AsInteger := 0; //Consumidor
       cds_Movimento.ApplyUpdates(0);
     end;
     // fecho o cds_venda
@@ -2158,6 +2167,9 @@ begin
   cds_Movimento.Close;
   jvPago.Value := 0;
   JvTroco.Value := 0;
+  BitBtn7.Enabled := False;
+  ComboBox3.Enabled := False;
+  ComboBox4.Enabled := False;
 end;
 
 procedure TfTerminal_Delivery.btnExcluirClick(Sender: TObject);
@@ -2337,6 +2349,7 @@ end;
 procedure TfTerminal_Delivery.BitBtn7Click(Sender: TObject);
 begin
   inherited;
+  varform := 'TERMINALDEVENDAS';
   buscacliente;
   ComboBox3.SetFocus;
 end;
