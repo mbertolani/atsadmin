@@ -681,7 +681,7 @@ implementation
 uses UDm, uProcurar, uclienteendereco, uClienteRepresentante,
   uClienteVeiculo, uListaClientes, uListaClientesSaude, uVendas, uEstado, uVisitas,
   uListaCliEscola, uRegiaoCadastro, uUtils, sCtrlResize, uNotaf,
-  uCrTituloInclui, uNF, uProdFornecedor;
+  uCrTituloInclui, uNF, uProdFornecedor, uTerminal_Delivery;
 
 {$R *.dfm}
 
@@ -1384,6 +1384,14 @@ begin
     fListaClientes.edCodigo.Text := IntToStr(codcli);
     fListaClientes.BitBtn2.Click;
   end;
+  if (varform = 'TERMINALDEVENDAS') then
+  begin
+    if fTerminal_Delivery.dtSrc.State=dsBrowse then
+      fTerminal_Delivery.cds_Movimento.Edit;
+    fTerminal_Delivery.cds_MovimentoCODCLIENTE.AsInteger := cds_cliCODCLIENTE.AsInteger;
+    fTerminal_Delivery.cds_MovimentoNOMECLIENTE.AsString := cds_cliNOMECLIENTE.AsString;
+    fTerminal_Delivery.prazoparapgto := cds_cliPRAZORECEBIMENTO.AsInteger;
+  end;
   if (varform = 'consulta') then
   begin
     fListaClientes.edNome.SetFocus;
@@ -1410,6 +1418,8 @@ begin
     fListaClientes.edCodigo.Text := IntToStr(codcli);
     fListaClientes.BitBtn2.Click;
   end;
+
+
   if (var_testeSa = 'consulta') then
   begin
     fListaClientes.edNome.SetFocus;
