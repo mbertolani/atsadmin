@@ -336,7 +336,7 @@ begin
 
   cdsDATASISTEMA.AsDateTime := now;
   cdsDATAVENDA.AsDateTime := now;
-  cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + prazoparapgto;
+  cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + fTerminal_Delivery.prazoparapgto;
   cdsCODCLIENTE.AsInteger := fTerminal_Delivery.cds_MovimentoCODCLIENTE.AsInteger;
   cdsCODUSUARIO.AsInteger := fTerminal_Delivery.cds_MovimentoCODUSUARIO.AsInteger;
   cdsNOMECLIENTE.AsString := fTerminal_Delivery.cds_MovimentoNOMECLIENTE.AsString;
