@@ -9,7 +9,7 @@ inherited fLotesCadastro: TfLotesCadastro
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Top = 465
+    Top = 472
     Width = 772
     Height = 76
     object Label3: TLabel [0]
