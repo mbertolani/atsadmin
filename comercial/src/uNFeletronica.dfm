@@ -471,25 +471,28 @@ object fNFeletronica: TfNFeletronica
   object sdsNF: TSQLDataSet
     CommandText = 
       'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CO' +
-      'RPONF2,  nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.BASE_ICMS, nf.' +
-      'VALOR_ICMS,'#13#10'nf.BASE_ICMS_SUBST,  nf.VALOR_ICMS_SUBST, nf.VALOR_' +
-      'PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VAL' +
-      'OR_IPI,'#13#10'nf.VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  cast(nf' +
-      '.NOMETRANSP as varchar (60) )as NOMETRANSP,  nf.INSCRICAOESTADUA' +
-      'L,                      '#13#10'cast(nf.END_TRANSP as varchar (60) )as' +
-      ' END_TRANSP,    cast(nf.CIDADE_TRANSP as varchar (60) )as CIDADE' +
-      '_TRANSP,   nf.UF_TRANSP,'#13#10'nf.PLACATRANSP,   nf.UF_VEICULO_TRANSP' +
-      ',           nf.QUANTIDADE,           nf.ESPECIE,           nf.MA' +
-      'RCA,           nf.NUMERO,           nf.PESOLIQUIDO,'#13#10'nf.PESOBRUT' +
-      'O,  cl.RAZAOSOCIAL,           cl.CNPJ ,           nf.HORASAIDA, ' +
-      '          nf.NOTASERIE,           nf.SELECIONOU,           nf.RE' +
-      'DUZICMS, nf.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC'#13#10'from ' +
-      'NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.COD' +
-      'CLIENTE'#13#10'inner join enderecocliente endecli on endecli.CODCLIENT' +
-      'E = cl.CODCLIENTE'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta2)' +
-      #13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacusto = '#39't' +
-      'odasasseriesdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0)'#13#10'ord' +
-      'er by nf.DTAEMISSAO'
+      'RPONF2,  nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, '#13#10'UDF_ROUNDDEC(nf' +
+      '.BASE_ICMS, 2) as BASE_ICMS, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as' +
+      ' VALOR_ICMS,'#13#10'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_S' +
+      'UBST, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST' +
+      ', '#13#10'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR' +
+      '_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,'#13#10'UDF_ROUN' +
+      'DDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   n' +
+      'f.CNPJ_CPF,  cast(nf.NOMETRANSP as varchar (60) )as NOMETRANSP, ' +
+      ' nf.INSCRICAOESTADUAL,     '#13#10'cast(nf.END_TRANSP as varchar (60) ' +
+      ')as END_TRANSP,    cast(nf.CIDADE_TRANSP as varchar (60) )as CID' +
+      'ADE_TRANSP,   nf.UF_TRANSP,'#13#10'nf.PLACATRANSP,   nf.UF_VEICULO_TRA' +
+      'NSP,           nf.QUANTIDADE,           nf.ESPECIE,           nf' +
+      '.MARCA,           nf.NUMERO,           nf.PESOLIQUIDO,'#13#10'nf.PESOB' +
+      'RUTO,  cl.RAZAOSOCIAL,           cl.CNPJ ,           nf.HORASAID' +
+      'A,           nf.NOTASERIE,           nf.SELECIONOU,           nf' +
+      '.REDUZICMS, nf.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC'#13#10'fr' +
+      'om NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.' +
+      'CODCLIENTE'#13#10'inner join enderecocliente endecli on endecli.CODCLI' +
+      'ENTE = cl.CODCLIENTE'#13#10'where (nf.DTAEMISSAO between :dta1 and :dt' +
+      'a2)'#13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacusto =' +
+      ' '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0)'#13#10 +
+      'order by nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
@@ -503,198 +506,160 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pvendacusto'
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pvendacusto'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 64
     Top = 200
+    object sdsNFCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 30
+    end
+    object sdsNFDTAEMISSAO: TDateField
+      FieldName = 'DTAEMISSAO'
+    end
+    object sdsNFDTASAIDA: TDateField
+      FieldName = 'DTASAIDA'
+    end
+    object sdsNFCORPONF1: TStringField
+      FieldName = 'CORPONF1'
+      Size = 75
+    end
+    object sdsNFCORPONF2: TStringField
+      FieldName = 'CORPONF2'
+      Size = 75
+    end
+    object sdsNFCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+    end
+    object sdsNFNUMNF: TIntegerField
+      FieldName = 'NUMNF'
+      Required = True
+    end
+    object sdsNFCODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+    end
+    object sdsNFBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object sdsNFVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object sdsNFBASE_ICMS_SUBST: TFloatField
+      FieldName = 'BASE_ICMS_SUBST'
+    end
+    object sdsNFVALOR_ICMS_SUBST: TFloatField
+      FieldName = 'VALOR_ICMS_SUBST'
+    end
+    object sdsNFVALOR_PRODUTO: TFloatField
+      FieldName = 'VALOR_PRODUTO'
+    end
+    object sdsNFVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object sdsNFVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object sdsNFOUTRAS_DESP: TFloatField
+      FieldName = 'OUTRAS_DESP'
+    end
+    object sdsNFVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object sdsNFVALOR_TOTAL_NOTA: TFloatField
+      FieldName = 'VALOR_TOTAL_NOTA'
+    end
     object sdsNFFRETE: TStringField
       FieldName = 'FRETE'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sdsNFCNPJ_CPF: TStringField
       FieldName = 'CNPJ_CPF'
-      ProviderFlags = [pfInUpdate]
     end
     object sdsNFNOMETRANSP: TStringField
       FieldName = 'NOMETRANSP'
-      ProviderFlags = [pfInUpdate]
-      Size = 50
+      Size = 60
     end
     object sdsNFINSCRICAOESTADUAL: TStringField
       FieldName = 'INSCRICAOESTADUAL'
-      ProviderFlags = [pfInUpdate]
     end
     object sdsNFEND_TRANSP: TStringField
       FieldName = 'END_TRANSP'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sdsNFCIDADE_TRANSP: TStringField
       FieldName = 'CIDADE_TRANSP'
-      ProviderFlags = [pfInUpdate]
-      Size = 50
+      Size = 60
     end
     object sdsNFUF_TRANSP: TStringField
       FieldName = 'UF_TRANSP'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 2
     end
     object sdsNFPLACATRANSP: TStringField
       FieldName = 'PLACATRANSP'
-      ProviderFlags = [pfInUpdate]
       Size = 8
     end
     object sdsNFUF_VEICULO_TRANSP: TStringField
       FieldName = 'UF_VEICULO_TRANSP'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 2
     end
     object sdsNFQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
-      ProviderFlags = [pfInUpdate]
     end
     object sdsNFESPECIE: TStringField
       FieldName = 'ESPECIE'
-      ProviderFlags = [pfInUpdate]
     end
     object sdsNFMARCA: TStringField
       FieldName = 'MARCA'
-      ProviderFlags = [pfInUpdate]
       Size = 10
     end
     object sdsNFNUMERO: TStringField
       FieldName = 'NUMERO'
-      ProviderFlags = [pfInUpdate]
     end
     object sdsNFPESOLIQUIDO: TBCDField
       FieldName = 'PESOLIQUIDO'
-      ProviderFlags = [pfInUpdate]
       Precision = 9
       Size = 2
     end
     object sdsNFPESOBRUTO: TBCDField
       FieldName = 'PESOBRUTO'
-      ProviderFlags = [pfInUpdate]
       Precision = 9
       Size = 2
     end
     object sdsNFRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
-      ProviderFlags = [pfInUpdate]
+      Required = True
       Size = 50
     end
     object sdsNFCNPJ: TStringField
       FieldName = 'CNPJ'
-      ProviderFlags = [pfInUpdate]
       Size = 18
-    end
-    object sdsNFCFOP: TStringField
-      FieldName = 'CFOP'
-      ProviderFlags = [pfInUpdate]
-      Size = 30
-    end
-    object sdsNFCODCLIENTE: TIntegerField
-      FieldName = 'CODCLIENTE'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFNUMNF: TIntegerField
-      FieldName = 'NUMNF'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-    end
-    object sdsNFCODVENDA: TIntegerField
-      FieldName = 'CODVENDA'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFBASE_ICMS: TFloatField
-      FieldName = 'BASE_ICMS'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFVALOR_ICMS: TFloatField
-      FieldName = 'VALOR_ICMS'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFBASE_ICMS_SUBST: TFloatField
-      FieldName = 'BASE_ICMS_SUBST'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFVALOR_ICMS_SUBST: TFloatField
-      FieldName = 'VALOR_ICMS_SUBST'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFVALOR_PRODUTO: TFloatField
-      FieldName = 'VALOR_PRODUTO'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFVALOR_FRETE: TFloatField
-      FieldName = 'VALOR_FRETE'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFVALOR_SEGURO: TFloatField
-      FieldName = 'VALOR_SEGURO'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFOUTRAS_DESP: TFloatField
-      FieldName = 'OUTRAS_DESP'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFVALOR_IPI: TFloatField
-      FieldName = 'VALOR_IPI'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFVALOR_TOTAL_NOTA: TFloatField
-      FieldName = 'VALOR_TOTAL_NOTA'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFDTAEMISSAO: TDateField
-      FieldName = 'DTAEMISSAO'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFDTASAIDA: TDateField
-      FieldName = 'DTASAIDA'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsNFCORPONF1: TStringField
-      FieldName = 'CORPONF1'
-      ProviderFlags = [pfInUpdate]
-      Size = 75
-    end
-    object sdsNFCORPONF2: TStringField
-      FieldName = 'CORPONF2'
-      ProviderFlags = [pfInUpdate]
-      Size = 75
     end
     object sdsNFHORASAIDA: TTimeField
       FieldName = 'HORASAIDA'
-      ProviderFlags = [pfInUpdate]
-      ReadOnly = True
     end
     object sdsNFNOTASERIE: TStringField
       FieldName = 'NOTASERIE'
-      ProviderFlags = [pfInUpdate]
-      ReadOnly = True
+      Required = True
       Size = 10
     end
     object sdsNFSELECIONOU: TStringField
       FieldName = 'SELECIONOU'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sdsNFREDUZICMS: TFloatField
       FieldName = 'REDUZICMS'
-      ReadOnly = True
     end
     object sdsNFPROTOCOLOENV: TStringField
       FieldName = 'PROTOCOLOENV'
@@ -930,20 +895,21 @@ object fNFeletronica: TfNFeletronica
   end
   object sdsItensNF: TSQLDataSet
     CommandText = 
-      'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          UDF_R' +
-      'OUNDDEC(md.PRECO),'#13#10'          cast(md.DESCPRODUTO as varchar(120' +
-      ') )as DESCPRODUTO,'#13#10'          pr.CODPRO,'#13#10'          pr.UNIDADEME' +
-      'DIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,'#13#10'          md.VALOR' +
-      '_ICMS,'#13#10'          md.VLR_BASE,'#13#10'          md.ICMS_SUBST,'#13#10'      ' +
-      '    md.ICMS_SUBSTD'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE ' +
-      'md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL' +
-      ' nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'p' +
-      'r.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id and nf.NAT' +
-      'UREZA = 15'
+      'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          md.PR' +
+      'ECO,'#13#10'          cast(md.DESCPRODUTO as varchar(120) )as DESCPROD' +
+      'UTO,'#13#10'          pr.CODPRO,'#13#10'          pr.UNIDADEMEDIDA,'#13#10'       ' +
+      '   md.CST,'#13#10'          md.ICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_' +
+      'ICMS, 2) as VALOR_ICMS,'#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) ' +
+      'as VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_S' +
+      'UBST,'#13#10'          md.ICMS_SUBSTD'#13#10'from VENDA vd '#13#10'inner join MOVI' +
+      'MENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner jo' +
+      'in NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODU' +
+      'TOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :' +
+      'id and nf.NATUREZA = 15'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'id'
         ParamType = ptInput
       end>
@@ -981,19 +947,15 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsItensNFVLR_BASE: TFloatField
       FieldName = 'VLR_BASE'
-      ReadOnly = True
     end
     object sdsItensNFVALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
-      ReadOnly = True
     end
     object sdsItensNFICMS_SUBST: TFloatField
       FieldName = 'ICMS_SUBST'
-      ReadOnly = True
     end
     object sdsItensNFICMS_SUBSTD: TFloatField
       FieldName = 'ICMS_SUBSTD'
-      ReadOnly = True
     end
   end
   object dspItensNF: TDataSetProvider
