@@ -78,8 +78,8 @@ begin
     Label1.Caption := 'Aguarde, atualizando a tabela Lotes .....';
     Label2.Caption := 'Aguarde, atualizando a tabela Lotes .....';
     str := 'execute procedure' +
-      ' SPESTOQUEFILTRO_CORRIGE(' + QuotedStr('01/01/01') + ', ' +
-      QuotedStr(JvDateEdit1.Text) + ', 1, 10000000, ' + QuotedStr('TODOS SUBGRUPOS DO CADASTRO CATEGORIA') +
+      ' SPESTOQUEFILTRO_CORRIGE(' + QuotedStr('01/01/1901') + ', ' +
+      QuotedStr(FormatDateTime('mm/dd/yy',JvDateEdit1.Date)) + ', 1, 10000000, ' + QuotedStr('TODOS SUBGRUPOS DO CADASTRO CATEGORIA') +
       '  , 100, 1, ' + QuotedStr('TODAS AS MARCAS CADASTRADAS NO SISTEMA') + ', ' +
       QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') + ')';
     Try
