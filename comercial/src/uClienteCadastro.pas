@@ -592,10 +592,10 @@ type
     cdsEnderecoCliCD_IBGE: TStringField;
     BitBtn22: TBitBtn;
     procIBGE: TSQLClientDataSet;
-    procIBGENM_MUNICIPIO: TStringField;
+    procIBGENM_LOCALIDADE2: TStringField;
     procIBGECD_UF: TStringField;
     procIBGECD_IBGE: TStringField;
-    procIBGENM_LOCALIDADE: TStringField;
+    procIBGENM_MUNICIPIO: TStringField;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -2475,7 +2475,7 @@ begin
   fProcurar:= TfProcurar.Create(self,procIBGE);
   try
    fProcurar.BtnProcurar.Click;
-   fProcurar.EvDBFind1.DataField := 'NM_MUNICIPIO';
+   fProcurar.EvDBFind1.DataField := 'NM_LOCALIDADE';
    if fProcurar.ShowModal=mrOk then
    begin
      if(DtSrc.State in [dsbrowse,dsinactive]) then
@@ -2483,7 +2483,6 @@ begin
      DBEdit15.Text := procIBGENM_MUNICIPIO.AsString;
      DBComboBox1.Text := procIBGECD_UF.AsString;
      DBEdit59.Text := procIBGECD_IBGE.AsString;
-
    end;
    finally
     procIBGE.Close;
