@@ -1979,6 +1979,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Ordem de Produ'#231#227'o'
         OnClick = OrdemdeProduo1Click
       end
+      object ApontarProduo1: TMenuItem
+        Caption = 'Apontar Produ'#231#227'o'
+        OnClick = ApontarProduo1Click
+      end
     end
     object Relatrios1: TMenuItem
       Caption = '&Relat'#243'rios     '
