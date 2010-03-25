@@ -148,22 +148,52 @@ begin
                where NUMNF = :NUMERO_NF;
        END
        ELSE BEGIN -- Fora de SP
+
+         FOR SELECT prod.IPI, mov.ICMS, prod.BASE_ICMS,
+            SUM(mov.VLR_BASE*mov.QUANTIDADE) 
+            FROM MOVIMENTODETALHE mov, PRODUTOS prod 
+            --inner join VENDA v on v.CODMOVIMENTO = mov.CODMOVIMENTO
+            WHERE mov.CODPRODUTO = prod.CODPRODUTO 
+            and mov.CODMOVIMENTO = :cod GROUP BY prod.IPI, mov.ICMS, prod.BASE_ICMS
+           INTO :IND_IPIE, :IND_ICMSE, :IND_REDUZICMSE, :VALOR
+           DO BEGIN
+            if ((reduz_info is not Null) and (reduz_info >= 0)) then  
+              ind_reduzicmse = reduz_info; 
+            --if (reduz_info is Null) then 
+            --  ind_reduzicmse = 0; 
+
+            if (ind_ipie is null) then 
+              ind_ipie = 0;
+            IF (IND_IPIE > 0) THEN
+              IND_IPIE = (IND_IPIE/100);
+            else
+              IND_IPIE = 0;
+            if (ind_ipie = 0) then 
+              ind_ipie = ind_ipi; 
+            IPI = IPI + (IND_IPIE * VALOR);
+          end
+
+
         BASE_ICMS = TOTAL_PROD + FRETE + SEGURO + OUTROS;
         if (ind_icms is null) then 
           ind_icms = 0;  
         if (IND_ICMS = 0) then 
-          BASE_ICMS = 0;
-        if (ind_ipi is null) then 
-          ind_ipi = 0;
-        if (ind_ipi > 0) then  
-          IPI = (BASE_ICMS) * (IND_IPI / 100) ;
-        else 
-          IPI = 0; 
+           BASE_ICMS = 0;
+
+        if (IPI = 0) then 
+        begin
+           if (ind_ipi is null) then 
+             ind_ipi = 0;
+           if (ind_ipi > 0) then  
+             IPI = (BASE_ICMS) * (IND_IPI / 100) ;
+           else 
+             IPI = 0; 
+        end
         if (base_icms > 0) then 
           VAL_TOTAL = BASE_ICMS + IPI;
         else 
           VAL_TOTAL = TOTAL_PROD + FRETE + SEGURO + OUTROS; 
-        BASE_ICMS = (BASE_ICMS * (1-IND_REDUZICMS));-- + IPI;
+        BASE_ICMS = (BASE_ICMS * (IND_REDUZICMS));-- + IPI;
         ICMS = (BASE_ICMS) * (IND_ICMS / 100);
         UPDATE NOTAFISCAL SET BASE_ICMS = :BASE_ICMS, VALOR_ICMS = :ICMS, VALOR_IPI = :IPI, 
             CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2,             
