@@ -1,3 +1,4 @@
+set term ^ ;
 create or alter procedure gera_nf_venda(cliente integer, dtEmissao date, 
   dtVcto date, serie char(2), numero varchar(7), codMov integer)
 as
@@ -61,6 +62,7 @@ as
   declare variable CONTATO Varchar(40);
   declare variable CEP Varchar(15);
   declare variable BAIRRO Varchar(40);
+  declare variable PRAZO Varchar(40);
   declare variable CODNATUREZA smallint;
 begin 
 
@@ -102,11 +104,11 @@ begin
   into :codMovNovo;
 
   -- insiro o Movimento   
-  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA
+  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO
     from movimento mov 
     inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
     where mov.CODMOVIMENTO = :codMov
-  into :codCCusto, :codUser, :codVendedor, :np
+  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO
   do begin 
     insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle) 
@@ -205,10 +207,10 @@ begin
   INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA, DATAVENCIMENTO
     , VALOR, NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA, FORMARECEBIMENTO
     , MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, VALOR_ICMS, VALOR_FRETE
-    , VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, STATUS, Banco, CODUSUARIO, CODVENDEDOR, DataSistema)
+    , VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, STATUS, Banco, CODUSUARIO, CODVENDEDOR, DataSistema, PRAZO)
      VALUES (:codVen, :codMovNovo, :Cliente, :dtEmissao, :dtVcto
     , :total, :numero, :serie, 0, :codCCusto, :np, 1,  0, 0, :total, 0, :vIcmsT, :vFreteT
-    ,:vSeguroT, :vOutrosT, :vIpiT, 0, 1, :codUser, :codVendedor, CURRENT_DATE);
+    ,:vSeguroT, :vOutrosT, :vIpiT, 0, 1, :codUser, :codVendedor, CURRENT_DATE, :PRAZO);
 
   if (tBaseIcms = 0) then 
   begin
