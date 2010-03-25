@@ -212,6 +212,7 @@ type
     acCupom: TAction;
     CidadesIBGE1: TMenuItem;
     OrdemdeProduo1: TMenuItem;
+    ApontarProduo1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -304,6 +305,7 @@ type
     procedure NotaFiscalEletrnica1Click(Sender: TObject);
     procedure CidadesIBGE1Click(Sender: TObject);
     procedure OrdemdeProduo1Click(Sender: TObject);
+    procedure ApontarProduo1Click(Sender: TObject);
 
   private
     STime: TDateTime;
@@ -1589,6 +1591,18 @@ begin
 	finally
 		fOf.Free;
 	end;
+end;
+
+procedure TfAtsAdmin.ApontarProduo1Click(Sender: TObject);
+begin
+	fOf := TfOf.Create(Application);
+	try
+    fOf.OfTipo := 'APONTAMENTO';
+		fOf.ShowModal;
+	finally
+		fOf.Free;
+	end;
+
 end;
 
 end.

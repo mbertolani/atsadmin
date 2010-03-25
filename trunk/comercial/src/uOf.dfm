@@ -74,6 +74,7 @@ inherited fOf: TfOf
     Top = 72
     Width = 73
     Height = 21
+    ReadOnly = True
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
@@ -115,6 +116,7 @@ inherited fOf: TfOf
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnCellClick = JvDBGrid1CellClick
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -251,6 +253,7 @@ inherited fOf: TfOf
     Top = 72
     Width = 25
     Height = 21
+    ReadOnly = True
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
@@ -271,6 +274,7 @@ inherited fOf: TfOf
     Top = 8
     object sqlOfOFID: TIntegerField
       FieldName = 'OFID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object sqlOfOFDATA: TDateField
@@ -299,6 +303,7 @@ inherited fOf: TfOf
     end
     object sqlOfOFID_IND: TSmallintField
       FieldName = 'OFID_IND'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
   end
@@ -356,7 +361,31 @@ inherited fOf: TfOf
     end
     object cdsOfOFID_IND: TSmallintField
       FieldName = 'OFID_IND'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
+  end
+  object sqlInd: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'OFID'
+        ParamType = ptUnknown
+      end>
+    SQL.Strings = (
+      'SELECT MAX(OFID_IND) FROM OF_OF WHERE OFID = :OFID')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 192
+    Top = 40
+  end
+  object sqlId: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT MAX(OFID) FROM OF_OF')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 128
+    Top = 40
   end
 end

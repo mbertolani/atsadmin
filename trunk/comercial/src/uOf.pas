@@ -46,10 +46,14 @@ type
     sqlOfCODPRODUTO: TIntegerField;
     sqlOfOFID_IND: TSmallintField;
     cdsOfOFID_IND: TSmallintField;
+    sqlInd: TSQLQuery;
+    sqlId: TSQLQuery;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure OfProdExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -107,17 +111,18 @@ begin
     end;
   end;
   cdsOfOFID.AsInteger       := StrToInt(OfId.Text);
-  cdsOfOFID_IND.AsInteger   := StrToInt(OFID_Ind.Text);
   cdsOfOFDATA.AsDateTime    := OfData.Date;
   cdsOfOFSTATUS.AsString    := 'A'; // OF Aberta
   if (OFTipo = 'OP') then
   begin
+    cdsOfOFID_IND.AsInteger   := 0;
     cdsOfOFQTDESOLIC.AsFloat  := OfQtde.Value;
     cdsOfOFQTDEPRODUZ.AsFloat := 0;
     cdsOfOFQTDEPERDA.AsFloat  := 0;
   end;
   if (OFTipo = 'APONTAMENTO') then
   begin
+    cdsOfOFID_IND.AsInteger   := StrToInt(OFID_Ind.Text);
     cdsOfOFQTDESOLIC.AsFloat  := 0;
     cdsOfOFQTDEPRODUZ.AsFloat := OfQtde.Value;
     cdsOfOFQTDEPERDA.AsFloat  := 0;
@@ -146,6 +151,7 @@ begin
     btnProdutoProcura.Click;
     exit;
   end;
+  OfDesc.Text := dm.scds_produto_procPRODUTO.AsString;
   codProd := dm.scds_produto_procCODPRODUTO.asInteger;
 end;
 
@@ -153,6 +159,49 @@ procedure TfOf.FormShow(Sender: TObject);
 begin
   inherited;
   codProd := 0;
+end;
+
+procedure TfOf.btnIncluirClick(Sender: TObject);
+begin
+  if (OFTipo = 'OP') then
+  begin
+    OfProd.Text := '';
+    OFDesc.Text := '';
+  end;
+  OfQtde.Value := 0;
+  inherited;
+  if (OFTipo = 'OP') then
+  begin
+    if (sqlId.Active) then
+      sqlId.Close;
+    sqlId.Open;
+    OFID.Text := IntToStr(sqlId.Fields[0].AsInteger + 1);
+    sqlInd.Close;
+    OFID_Ind.Text := '0';
+    cdsOfOFID_IND.AsInteger := 0; // Toda OF (OP) terão IND = 0
+  end;
+  if (OFTipo = 'APONTAMENTO') then
+  begin
+    // Busca o último IND + 1
+    if (sqlInd.Active) then
+      sqlInd.Close;
+    sqlInd.Params.ParamByName('OFID').AsInteger := cdsOfOFID.AsInteger;
+    sqlInd.Open;
+    OFID_Ind.Text := IntToStr(sqlInd.Fields[0].AsInteger + 1);
+    sqlInd.Close;
+  end;
+end;
+
+procedure TfOf.JvDBGrid1CellClick(Column: TColumn);
+begin
+  inherited;
+  OFData.Date  := cdsOfOFDATA.AsDateTime;
+  if (OFTipo = 'OP') then
+    OFQtde.Value := cdsOfOFQTDESOLIC.Value;
+  if (OFTipo = 'APONTAMENTO') then
+    OFQtde.Value := cdsOfOFQTDEPRODUZ.Value;
+  if (OFTipo = 'PERDA') then
+    OFQtde.Value := cdsOfOFQTDEPERDA.Value;
 end;
 
 end.
