@@ -547,7 +547,7 @@ begin
       mudaVersao('1.0.0.53');
     end;  // Fim Ataulização Versao 1.0.0.53
 
-        if (versaoSistema = '1.0.0.53') then
+    if (versaoSistema = '1.0.0.53') then
     begin
       executaSql('alter TABLE MOVIMENTO add nfcobranca Integer');
       executaSql('alter TABLE MOVIMENTO add ordematend Integer');
@@ -625,6 +625,27 @@ begin
       executaSql('alter TABLE PRODUTOS add NCM Varchar(8)');
       mudaVersao('1.0.0.62');
     end;  // Fim Ataulização Versao 1.0.0.61
+
+    if (versaoSistema = '1.0.0.62') then
+    begin
+      //executaDDL('NOTAFISCAL','SERIE','VARCHAR(20)');
+      executaSql('create TABLE OF_OF (OFId Integer not null ' +
+         ', OFID_IND Smallint NOT NULL ' +
+         ', OFData date, OFStatus char(1), OFQtdeSolic double precision, ' +
+         ' OFQtdeProduz Double Precision, OFQtdePerda double precision, ' +
+         ' OFMotivo varchar(100), codproduto integer ' +
+         ' ,PRIMARY KEY (OFID,OFID_IND))');
+
+      executaSql('CREATE GENERATOR GEN_OFID');
+
+      executaSql('CREATE TRIGGER TRG_OFID FOR OF_OF ACTIVE' +
+                 ' BEFORE INSERT POSITION 0 ' +
+                 ' AS  BEGIN ' +
+                 ' IF(NEW.OFID IS NULL) THEN NEW.OFID =' +
+                 ' GEN_ID(GEN_OFID ,1);  END ');
+      mudaVersao('1.0.0.63');
+    end; // Fim Ataulização Versao 1.0.0.62
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');

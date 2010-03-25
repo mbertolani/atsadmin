@@ -211,6 +211,7 @@ type
     NotaFiscalEletrnica1: TMenuItem;    dxButton10: TdxButton;
     acCupom: TAction;
     CidadesIBGE1: TMenuItem;
+    OrdemdeProduo1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -302,6 +303,7 @@ type
     procedure RelatriodePrFaturamento1Click(Sender: TObject);
     procedure NotaFiscalEletrnica1Click(Sender: TObject);
     procedure CidadesIBGE1Click(Sender: TObject);
+    procedure OrdemdeProduo1Click(Sender: TObject);
 
   private
     STime: TDateTime;
@@ -340,7 +342,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
-  uOs, uPfaturamento, uNFeletronica, uTb_Ibge;
+  uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf;
 
 {$R *.dfm}
 
@@ -1550,11 +1552,11 @@ end;
 
 Procedure TfAtsAdmin.RelatriodePrFaturamento1Click(Sender: TObject);
 begin   
-	fPfaturamento := TfPfaturamento.Create(Application);   
-	try	
-		fPfaturamento.ShowModal;   
-	finally     
-		fPfaturamento.Free;   
+	fPfaturamento := TfPfaturamento.Create(Application);
+	try
+		fPfaturamento.ShowModal;
+	finally
+		fPfaturamento.Free;
 	end;
 end;
 
@@ -1576,6 +1578,17 @@ begin
   finally
     fTb_Ibge.Free;
   end;
+end;
+
+procedure TfAtsAdmin.OrdemdeProduo1Click(Sender: TObject);
+begin
+	fOf := TfOf.Create(Application);
+	try
+    fOf.OfTipo := 'OP';
+		fOf.ShowModal;
+	finally
+		fOf.Free;
+	end;
 end;
 
 end.
