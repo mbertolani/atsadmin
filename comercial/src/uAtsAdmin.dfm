@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
-  Left = 155
-  Top = 213
+  Left = 166
+  Top = 215
   Width = 700
   Height = 446
   Color = clWhite
@@ -1974,6 +1974,10 @@ object fAtsAdmin: TfAtsAdmin
       object AlterarValordosProdutosprFornecedor1: TMenuItem
         Caption = 'Alterar Valor dos Produtos p'#244'r Fornecedor '
         OnClick = AlterarValordosProdutosprFornecedor1Click
+      end
+      object OrdemdeProduo1: TMenuItem
+        Caption = 'Ordem de Produ'#231#227'o'
+        OnClick = OrdemdeProduo1Click
       end
     end
     object Relatrios1: TMenuItem
