@@ -1117,7 +1117,7 @@ inherited fEmpresa: TfEmpresa
   object procIBGE: TSQLClientDataSet
     CommandText = 
       'select  NM_MUNICIPIO, NM_LOCALIDADE, CD_IBGE, CD_UF from TB_IBGE' +
-      ' where NM_MUNICIPIO LIKE :NOME'#13#10#13#10
+      ' where NM_LOCALIDADE LIKE :NOME'#13#10#13#10
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -1130,24 +1130,28 @@ inherited fEmpresa: TfEmpresa
     DBConnection = DM.sqlsisAdimin
     Left = 656
     Top = 200
-    object procIBGENM_MUNICIPIO: TStringField
-      FieldName = 'NM_MUNICIPIO'
+    object procIBGENM_LOCALIDADE: TStringField
+      DisplayLabel = 'Cidade\Vila'
+      FieldName = 'NM_LOCALIDADE'
+      Required = True
       Size = 40
     end
     object procIBGECD_UF: TStringField
+      DisplayLabel = 'UF'
       FieldName = 'CD_UF'
       FixedChar = True
       Size = 2
     end
+    object procIBGENM_MUNICIPIO: TStringField
+      DisplayLabel = 'Munic'#237'pio'
+      FieldName = 'NM_MUNICIPIO'
+      Size = 40
+    end
     object procIBGECD_IBGE: TStringField
+      DisplayLabel = 'C'#243'digo IBGE'
       FieldName = 'CD_IBGE'
       Required = True
       Size = 10
-    end
-    object procIBGENM_LOCALIDADE: TStringField
-      FieldName = 'NM_LOCALIDADE'
-      Required = True
-      Size = 40
     end
   end
 end
