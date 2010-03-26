@@ -386,6 +386,12 @@ type
     sdsNFPROTOCOLOENV: TStringField;
     sdsNFNUMRECIBO: TStringField;
     sdsNFPROTOCOLOCANC: TStringField;
+    sdsItensNFVALTOTAL: TFloatField;
+    cdsItensNFVALTOTAL: TFloatField;
+    sdsNFENTRADA: TFloatField;
+    sdsNFVALOR_PAGAR: TFloatField;
+    cdsNFENTRADA: TFloatField;
+    cdsNFVALOR_PAGAR: TFloatField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -487,8 +493,9 @@ var
   comp: string;
   dathor: TDateTime;
   BC, BCST : Variant;
-  i: integer;
+  i, tpfrete: integer;
   Protocolo, Recibo: String;
+  tfrete : Variant;
 begin
    //JvProgressBar1.Position := 0;
    //JvProgressBar1.Max := 1000;
@@ -534,14 +541,18 @@ begin
             //infNFe.ID := 0                                  // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
             Ide.cUF       := 35;                              // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
-            Ide.natOp     := 'VENDA PRODUCAO DO ESTAB.';
-            Ide.indPag    := ipVista;
+            Ide.natOp     := sCFOPCFNOME.AsString;
+            if (cdsNFVALOR_PAGAR.AsFloat = cdsNFENTRADA.AsFloat) then
+              Ide.indPag    := ipVista
+            else
+              Ide.indPag    := ipPrazo;
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
             Ide.serie     := 1;
             Ide.nNF       := cdsNFNUMNF.AsInteger;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
+            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString;
             Ide.tpNF      := tnSaida;                         // 0 - Entrada // 1 - Saida
             //Ide.tpAmb     := tn2;                           // 1 - Produção // 2 Homologação
             Ide.verProc   := '1.0.0.0';
@@ -610,10 +621,10 @@ begin
               Prod.cProd    := IntToStr(cdsItensNFCODPRODUTO.AsInteger);
               Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
               Prod.CFOP     := cdsNFCFOP.AsString;
-              Prod.uCom     := cdsItensNFUNIDADEMEDIDA.AsString;
-              Prod.qCom     := sProdutosQTDE_PCT.AsFloat;
-              Prod.vUnCom   := sProdutosVALORUNITARIOATUAL.AsFloat;
-              Prod.vProd    := cdsItensNFPRECO.AsFloat;
+              Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
+              Prod.qCom     := cdsItensNFQUANTIDADE.AsFloat;
+              Prod.vUnCom   := cdsItensNFPRECO.AsFloat;
+              Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
               Prod.uTrib    := sProdutosUNIDADEMEDIDA.AsString;
               Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
               Prod.vUnTrib  := cdsItensNFPRECO.AsFloat;
@@ -732,6 +743,7 @@ begin
                       vICMSST := cdsItensNFICMS_SUBST.AsVariant;
                     end;
                   end;
+
                    //PARA PRODUTOS IMPORTARDOS
                    {with II Add
                    vBc :=                                                       // VALOR DA BASE DE CÁLCULO DO IMPOSTO DE IMPORTAÇÃO
@@ -743,6 +755,45 @@ begin
               i := i + 1;
               cdsItensNF.Next;
             end;
+            
+            if (cdsNFFRETE.IsNull) then
+            begin
+              tfrete := 9;
+            end
+            else
+            begin
+              tpfrete := StrToInt(cdsNFFRETE.AsString);
+              tpfrete := tpfrete - 1;
+              tfrete := IntToStr(tpfrete);
+            end;
+
+            with Transp do
+            begin
+              with transporta do
+              begin
+                if(tfrete = 0) then
+                begin
+                  modFrete := tfrete;
+                  CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
+                  xNome := cdsNFNOMETRANSP.AsString;
+                  IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
+                  xEnder := cdsNFEND_TRANSP.AsString;
+                  xMun := cdsNFCIDADE_TRANSP.AsString;
+                  UF :=  cdsNFUF_TRANSP.AsString;
+                end;
+                if(tfrete = 1) then
+                begin
+                  modFrete := tfrete;
+                  CNPJCPF := RemoveChar(sClienteCNPJ.AsString);
+                  xNome := sClienteNOMECLIENTE.AsString;
+                  IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+                  xEnder := sClienteLOGRADOURO.AsString;
+                  xMun := sClienteCIDADE.AsString;
+                  UF :=  sClienteUF.AsString;
+                end;
+              end;
+            end;
+
 
             //VALOR TORAL
             Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
@@ -768,7 +819,7 @@ begin
    MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Geral.PathSalvar+'\'+copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
 
-   ACBrNFe1.Enviar(0);
+   {ACBrNFe1.Enviar(0);
    ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
    ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
    cdsNF.Edit;
@@ -777,7 +828,7 @@ begin
    Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
    cdsNFNUMRECIBO.AsString := Recibo;
    cdsNFSELECIONOU.AsString := '';
-   cdsnf.ApplyUpdates(0);
+   cdsnf.ApplyUpdates(0);}
 end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
@@ -878,12 +929,16 @@ begin
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
-    if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
-     begin
-       ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
-       ACBrNFe1.WebServices.ConsultaDPEC.Executar;
-       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
-     end;
+    ACBrNFe1.Consultar;
+    ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Consulta.Protocolo;
+    {if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
+     begin}
+      // ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
+      // ACBrNFe1.WebServices.Consulta.Executar
+      // ACBrNFe1.WebServices.ConsultaDPEC.Executar;
+      // ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
+      //ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
+     //end;
     ACBrNFe1.NotasFiscais.Imprimir;
   end;
 end;

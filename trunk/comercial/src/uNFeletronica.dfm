@@ -486,13 +486,14 @@ object fNFeletronica: TfNFeletronica
       '.MARCA,           nf.NUMERO,           nf.PESOLIQUIDO,'#13#10'nf.PESOB' +
       'RUTO,  cl.RAZAOSOCIAL,           cl.CNPJ ,           nf.HORASAID' +
       'A,           nf.NOTASERIE,           nf.SELECIONOU,           nf' +
-      '.REDUZICMS, nf.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC'#13#10'fr' +
-      'om NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.' +
-      'CODCLIENTE'#13#10'inner join enderecocliente endecli on endecli.CODCLI' +
-      'ENTE = cl.CODCLIENTE'#13#10'where (nf.DTAEMISSAO between :dta1 and :dt' +
-      'a2)'#13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacusto =' +
-      ' '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0)'#13#10 +
-      'order by nf.DTAEMISSAO'
+      '.REDUZICMS, nf.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC, v.' +
+      'ENTRADA, v.VALOR_PAGAR'#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTES' +
+      ' cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderecocliente' +
+      ' endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer join ' +
+      'VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO betwee' +
+      'n :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacusto) or ' +
+      '(:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli' +
+      '.TIPOEND = 0)'#13#10'order by nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
@@ -506,12 +507,12 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftString
         Name = 'pvendacusto'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftString
         Name = 'pvendacusto'
         ParamType = ptInput
       end>
@@ -669,6 +670,14 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsNFPROTOCOLOCANC: TStringField
       FieldName = 'PROTOCOLOCANC'
+    end
+    object sdsNFENTRADA: TFloatField
+      FieldName = 'ENTRADA'
+      ReadOnly = True
+    end
+    object sdsNFVALOR_PAGAR: TFloatField
+      FieldName = 'VALOR_PAGAR'
+      ReadOnly = True
     end
   end
   object cdsNF: TClientDataSet
@@ -887,6 +896,14 @@ object fNFeletronica: TfNFeletronica
     object cdsNFPROTOCOLOCANC: TStringField
       FieldName = 'PROTOCOLOCANC'
     end
+    object cdsNFENTRADA: TFloatField
+      FieldName = 'ENTRADA'
+      ReadOnly = True
+    end
+    object cdsNFVALOR_PAGAR: TFloatField
+      FieldName = 'VALOR_PAGAR'
+      ReadOnly = True
+    end
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
@@ -901,11 +918,11 @@ object fNFeletronica: TfNFeletronica
       '   md.CST,'#13#10'          md.ICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_' +
       'ICMS, 2) as VALOR_ICMS,'#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) ' +
       'as VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_S' +
-      'UBST,'#13#10'          md.ICMS_SUBSTD'#13#10'from VENDA vd '#13#10'inner join MOVI' +
-      'MENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner jo' +
-      'in NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODU' +
-      'TOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :' +
-      'id and nf.NATUREZA = 15'
+      'UBST,'#13#10'          md.ICMS_SUBSTD,'#13#10'          md.VALTOTAL'#13#10'from VE' +
+      'NDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd' +
+      '.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CO' +
+      'DVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUT' +
+      'O'#13#10'where vd.CODVENDA = :id and nf.NATUREZA = 15'
     MaxBlobSize = -1
     Params = <
       item
@@ -956,6 +973,10 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsItensNFICMS_SUBSTD: TFloatField
       FieldName = 'ICMS_SUBSTD'
+    end
+    object sdsItensNFVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ReadOnly = True
     end
   end
   object dspItensNF: TDataSetProvider
@@ -1017,6 +1038,10 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsItensNFICMS_SUBSTD: TFloatField
       FieldName = 'ICMS_SUBSTD'
+      ReadOnly = True
+    end
+    object cdsItensNFVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
       ReadOnly = True
     end
   end
