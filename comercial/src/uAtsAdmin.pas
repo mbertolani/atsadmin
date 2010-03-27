@@ -213,6 +213,8 @@ type
     CidadesIBGE1: TMenuItem;
     OrdemdeProduo1: TMenuItem;
     ApontarProduo1: TMenuItem;
+    BitBtn1: TBitBtn;
+    CallCenter1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -306,6 +308,7 @@ type
     procedure CidadesIBGE1Click(Sender: TObject);
     procedure OrdemdeProduo1Click(Sender: TObject);
     procedure ApontarProduo1Click(Sender: TObject);
+    procedure CallCenter1Click(Sender: TObject);
 
   private
     STime: TDateTime;
@@ -344,7 +347,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
-  uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf;
+  uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter;
 
 {$R *.dfm}
 
@@ -1603,6 +1606,12 @@ begin
 		fOf.Free;
 	end;
 
+end;
+
+procedure TfAtsAdmin.CallCenter1Click(Sender: TObject);
+begin
+  usulog :=  UserControlComercial.CurrentUser.UserID;
+  fCallCenter.ShowModal;
 end;
 
 end.
