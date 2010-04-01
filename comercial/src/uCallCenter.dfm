@@ -1,6 +1,6 @@
 object fCallCenter: TfCallCenter
-  Left = 189
-  Top = 123
+  Left = 244
+  Top = 115
   Width = 790
   Height = 590
   Color = clBtnFace
@@ -10,6 +10,7 @@ object fCallCenter: TfCallCenter
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object JvDBGrid1: TJvDBGrid
@@ -26,13 +27,69 @@ object fCallCenter: TfCallCenter
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = JvDBGrid1DblClick
+    OnMouseDown = JvDBGrid1MouseDown
+    OnMouseUp = JvDBGrid1MouseUp
     BevelKind = bkFlat
+    AutoSizeColumns = True
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
     EditControls = <>
     RowsHeight = 17
     TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'PROTOCOLO'
+        Width = 108
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_ATENDIMENTO'
+        Title.Caption = 'DATA'
+        Width = 69
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Width = 156
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'STATUS_ATENDIMENTO'
+        Title.Caption = 'STATUS'
+        Width = 67
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CIDADE'
+        Width = 104
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CEP'
+        Width = 56
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UF'
+        Width = 29
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPO_ATENDIMENTO'
+        Title.Caption = 'TIPO'
+        Width = 161
+        Visible = True
+      end>
   end
   object Panel1: TPanel
     Left = 0
@@ -45,37 +102,37 @@ object fCallCenter: TfCallCenter
     object Label1: TLabel
       Left = 8
       Top = 8
-      Width = 67
+      Width = 45
       Height = 13
-      Caption = 'PROTOCOLO'
+      Caption = 'Protocolo'
     end
     object Label2: TLabel
-      Left = 202
+      Left = 199
       Top = 8
-      Width = 114
+      Width = 100
       Height = 13
-      Caption = 'DATA_ATENDIMENTO'
+      Caption = 'Data de Atendimento'
     end
     object Label3: TLabel
       Left = 322
       Top = 8
-      Width = 32
+      Width = 78
       Height = 13
-      Caption = 'NOME'
+      Caption = 'Nome do Cliente'
     end
     object Label4: TLabel
       Left = 9
       Top = 49
-      Width = 40
+      Width = 33
       Height = 13
-      Caption = 'CIDADE'
+      Caption = 'Cidade'
     end
     object Label5: TLabel
       Left = 234
       Top = 49
-      Width = 21
+      Width = 19
       Height = 13
-      Caption = 'CEP'
+      Caption = 'Cep'
     end
     object Label6: TLabel
       Left = 331
@@ -87,47 +144,47 @@ object fCallCenter: TfCallCenter
     object Label7: TLabel
       Left = 362
       Top = 49
-      Width = 56
+      Width = 42
       Height = 13
-      Caption = 'TELEFONE'
+      Caption = 'Telefone'
     end
     object Label8: TLabel
       Left = 508
       Top = 48
-      Width = 61
+      Width = 65
       Height = 13
-      Caption = 'N_QUADRO'
+      Caption = 'N'#186' do Quadro'
     end
     object Label9: TLabel
       Left = 8
       Top = 88
-      Width = 46
+      Width = 54
       Height = 13
-      Caption = 'N_SERIE'
+      Caption = 'N'#186' de S'#233'rie'
     end
     object Label10: TLabel
       Left = 145
       Top = 88
-      Width = 70
+      Width = 74
       Height = 13
-      Caption = 'MODELOBIKE'
+      Caption = 'Modelo da Bike'
     end
     object Label11: TLabel
       Left = 528
       Top = 88
-      Width = 110
+      Width = 98
       Height = 13
-      Caption = 'TIPO_ATENDIMENTO'
+      Caption = 'Tipo de Atendimento'
     end
     object Label12: TLabel
-      Left = 8
-      Top = 130
-      Width = 43
+      Left = 678
+      Top = 88
+      Width = 30
       Height = 13
-      Caption = 'STATUS'
+      Caption = 'Status'
     end
     object Label13: TLabel
-      Left = 96
+      Left = 11
       Top = 130
       Width = 59
       Height = 13
@@ -162,7 +219,7 @@ object fCallCenter: TfCallCenter
     object edtNome: TEdit
       Left = 322
       Top = 24
-      Width = 356
+      Width = 445
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -173,6 +230,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      OnChange = edtNomeChange
     end
     object edtCidade: TEdit
       Left = 10
@@ -237,7 +295,7 @@ object fCallCenter: TfCallCenter
     object edtQuadro: TEdit
       Left = 507
       Top = 64
-      Width = 171
+      Width = 260
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -292,10 +350,10 @@ object fCallCenter: TfCallCenter
         'Reclama'#231#227'o'
         'Reembolso')
     end
-    object edtStatus: TEdit
-      Left = 10
+    object edtAtendimento: TEdit
+      Left = 9
       Top = 146
-      Width = 79
+      Width = 669
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -307,20 +365,27 @@ object fCallCenter: TfCallCenter
       ParentFont = False
       TabOrder = 11
     end
-    object edtAtendimento: TEdit
-      Left = 94
-      Top = 146
-      Width = 583
+    object BitBtn6: TBitBtn
+      Left = 684
+      Top = 143
+      Width = 83
+      Height = 25
+      Caption = 'Novo Atend.'
+      TabOrder = 12
+      OnClick = BitBtn6Click
+    end
+    object edtStatus: TComboBox
+      Left = 680
+      Top = 104
+      Width = 87
       Height = 21
       BevelKind = bkFlat
-      BorderStyle = bsNone
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 12
+      ItemHeight = 13
+      TabOrder = 13
+      Items.Strings = (
+        'Aberto'
+        'Em Espera'
+        'Finalizado')
     end
   end
   object Panel2: TPanel
@@ -1556,8 +1621,9 @@ object fCallCenter: TfCallCenter
         Top = 103
         Width = 75
         Height = 25
-        Caption = 'Sair'
+        Caption = 'Limpar'
         TabOrder = 4
+        OnClick = BitBtn5Click
       end
     end
   end
@@ -1575,6 +1641,7 @@ object fCallCenter: TfCallCenter
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = JvDBGrid2DblClick
     BevelKind = bkFlat
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
@@ -1582,6 +1649,12 @@ object fCallCenter: TfCallCenter
     EditControls = <>
     RowsHeight = 17
     TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ATENDIMENTO'
+        Visible = True
+      end>
   end
   object pCallCenter: TDataSetProvider
     DataSet = sCallCenter
@@ -1645,6 +1718,7 @@ object fCallCenter: TfCallCenter
   end
   object DataSource1: TDataSource
     DataSet = cCallCenter
+    OnStateChange = DataSource1StateChange
     Left = 360
     Top = 336
   end
@@ -1785,5 +1859,21 @@ object fCallCenter: TfCallCenter
       FieldName = 'PROTOCOLO'
       ProviderFlags = [pfInUpdate]
     end
+  end
+  object sBuscaProtocolo: TSQLDataSet
+    CommandText = 
+      'select PROTOCOLO, DATA_ATENDIMENTO, NOME, CIDADE, CEP, UF, TELEF' +
+      'ONE, N_QUADRO, N_SERIE, MODELOBIKE, TIPO_ATENDIMENTO, STATUS_ATE' +
+      'NDIMENTO '#13#10'from CALLCENTER '#13#10'where PROTOCOLO = :Protocolo'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'Protocolo'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 400
+    Top = 336
   end
 end
