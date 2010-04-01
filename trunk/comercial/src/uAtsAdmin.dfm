@@ -1664,14 +1664,6 @@ object fAtsAdmin: TfAtsAdmin
     UseSystemFont = False
     OnDrawPanel = StatusBar1DrawPanel
   end
-  object BitBtn1: TBitBtn
-    Left = 432
-    Top = 80
-    Width = 75
-    Height = 25
-    Caption = 'BitBtn1'
-    TabOrder = 2
-  end
   object XPMenu1: TXPMenu
     DimLevel = 30
     GrayLevel = 10

@@ -213,7 +213,6 @@ type
     CidadesIBGE1: TMenuItem;
     OrdemdeProduo1: TMenuItem;
     ApontarProduo1: TMenuItem;
-    BitBtn1: TBitBtn;
     CallCenter1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
@@ -309,7 +308,6 @@ type
     procedure OrdemdeProduo1Click(Sender: TObject);
     procedure ApontarProduo1Click(Sender: TObject);
     procedure CallCenter1Click(Sender: TObject);
-
   private
     STime: TDateTime;
     tempo_medio:  double;
