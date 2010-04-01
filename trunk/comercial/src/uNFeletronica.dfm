@@ -2496,6 +2496,7 @@ object fNFeletronica: TfNFeletronica
   object ACBrNFe1: TACBrNFe
     Configuracoes.Geral.PathSalvar = 'C:\nfe\'
     Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.Ambiente = taProducao
     Configuracoes.Arquivos.PathNFe = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathCan = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathInu = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
@@ -2824,7 +2825,7 @@ object fNFeletronica: TfNFeletronica
       'JvDateEdit2.Text')
     StoredValues = <>
     Left = 440
-    Top = 96
+    Top = 94
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'

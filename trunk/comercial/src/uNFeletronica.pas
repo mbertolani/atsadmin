@@ -535,7 +535,6 @@ begin
       if (cdsNFSELECIONOU.AsString = 'S') then
       begin
           ACBrNFe1.NotasFiscais.Clear;
-
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
             //infNFe.ID := 0                                  // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
@@ -791,10 +790,17 @@ begin
                   xMun := sClienteCIDADE.AsString;
                   UF :=  sClienteUF.AsString;
                 end;
+                with Vol.Add do
+                begin
+                  qVol := cdsNFQUANTIDADE.AsVariant;
+                  esp := cdsNFESPECIE.AsString;
+                  marca := cdsNFMARCA.AsString;
+                  nVol :=cdsNFNUMERO.AsString;
+                  pesoL :=cdsNFPESOLIQUIDO.AsCurrency;
+                  pesoB :=cdsNFPESOBRUTO.AsCurrency;
+                end;
               end;
             end;
-
-
             //VALOR TORAL
             Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
             Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
@@ -819,7 +825,7 @@ begin
    MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Geral.PathSalvar+'\'+copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
 
-   {ACBrNFe1.Enviar(0);
+   ACBrNFe1.Enviar(0);
    ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
    ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
    cdsNF.Edit;
@@ -828,7 +834,7 @@ begin
    Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
    cdsNFNUMRECIBO.AsString := Recibo;
    cdsNFSELECIONOU.AsString := '';
-   cdsnf.ApplyUpdates(0);}
+   cdsnf.ApplyUpdates(0);
 end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
@@ -898,6 +904,8 @@ begin
 end;
 
 procedure TfNFeletronica.FormCreate(Sender: TObject);
+var
+  pasta :string;
 begin
     if dm.cds_parametro.Active then
       dm.cds_parametro.Close;
@@ -917,6 +925,8 @@ begin
       cds_ccusto.Next;
     end;
     ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
+    pasta := GetCurrentDir;
+    ACBrNFeDANFERave1.Logo := (pasta + '\logo.bmp');
 end;
 
 procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
