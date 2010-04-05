@@ -1,24 +1,25 @@
-CREATE OR ALTER PROCEDURE PRODUTOETIQUETACOMPRA (
-    codmov integer)
-returns (
-    loja varchar(60),
-    codproduto1 varchar(15),
-    produto1 varchar(100),
-    precoprod1 double precision,
-    codproduto2 varchar(15),
-    produto2 varchar(100),
-    precoprod2 double precision,
-    codproduto3 varchar(15),
-    produto3 varchar(100),
-    precoprod3 double precision,
-    codproduto4 varchar(15),
-    produto4 varchar(100),
-    precoprod4 double precision,
-    codigodebarra1 varchar(20),
-    codigodebarra2 varchar(20),
-    codigodebarra3 varchar(20),
-    codigodebarra4 varchar(20))
-as
+SET TERM ^ ;
+ALTER PROCEDURE PRODUTOETIQUETACOMPRA (
+    CODMOV Integer )
+RETURNS (
+    LOJA Varchar(60),
+    CODPRODUTO1 Varchar(15),
+    PRODUTO1 Varchar(100),
+    PRECOPROD1 Double precision,
+    CODPRODUTO2 Varchar(15),
+    PRODUTO2 Varchar(100),
+    PRECOPROD2 Double precision,
+    CODPRODUTO3 Varchar(15),
+    PRODUTO3 Varchar(100),
+    PRECOPROD3 Double precision,
+    CODPRODUTO4 Varchar(15),
+    PRODUTO4 Varchar(100),
+    PRECOPROD4 Double precision,
+    CODIGODEBARRA1 Varchar(20),
+    CODIGODEBARRA2 Varchar(20),
+    CODIGODEBARRA3 Varchar(20),
+    CODIGODEBARRA4 Varchar(20) )
+AS
 declare variable i integer;
 declare variable j integer;
 declare variable coluna integer;
@@ -110,7 +111,8 @@ BEGIN
       I=I+1;
     END
   END
-  suspend;
+  if (not codproduto1 is null) then 
+    suspend;
         Produto4 = null;
         codProduto4 = null;
         Produto3 = null;
@@ -123,4 +125,10 @@ BEGIN
         codigodebarra2 = null;
         codigodebarra3 = null;
         codigodebarra4 = null;
-END
+END^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE PRODUTOETIQUETACOMPRA TO  SYSDBA;
+
