@@ -1,48 +1,110 @@
+set term ^ ;
 CREATE OR ALTER TRIGGER GERA_VALOR FOR NOTAFISCAL
 ACTIVE AFTER INSERT
 POSITION 0
 AS
   declare variable parametro varchar(15);
+  declare variable prazo varchar(40);
+  declare variable titulo varchar(40);
   declare variable parc SMALLINT;
+  declare variable via SMALLINT;
   declare variable total  double PRECISION;
   declare variable codMov INTEGER;
   declare variable p INTEGER;
+  declare variable NumParc smallint;
+  declare variable codcli INTEGER;
+  declare variable codrec INTEGER;
   declare variable desconto DOUBLE PRECISION;
+  declare variable d9 DOUBLE PRECISION;
+  declare variable parcPrim DOUBLE PRECISION;
+  declare variable parcResto DOUBLE PRECISION;
+  declare variable vlrTit DOUBLE PRECISION;
+  declare variable vlrParc DOUBLE PRECISION;
   --declare variable fatura varchar(60);
 BEGIN
-	/* Valor de cada item para nota fiscal                   */
+    vlrParc = 0;
+    vlrTit = 0;
+    parcPrim = 0; 
+    parcResto = 0;
+    /* Valor de cada item para nota fiscal                   */
     /* Se configurado na tabela parametro a variavel NFVALOR */
-    /* então o sistema usa o valor proporcional para a nota  */
+    /* entao o sistema usa o valor proporcional para a nota  */
     select parametro from parametro where parametro = 'NFVALOR'
     into :parametro;
     if (new.natureza = 15) then
     if (parametro is not null) then
     begin
-      Select n_parcela, codmovimento from venda where codVenda = new.CODVENDA
-      into :parc, :codMov;
-      for select m.QTDE_ALT, m.CODPRODUTO from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
-        and m.preco > 0
+    
+      Select n_parcela, codmovimento, prazo, NOTAFISCAL || '-' || SERIE, codcliente from venda where codVenda = new.CODVENDA
+      into :parc, :codMov, :prazo, :titulo, :codcli;
+      
+      select first 1 cast(p.d9 as integer), valor from PARAMETRO p  where p.PARAMETRO = :Prazo
+      into :d9, :numParc; 
+      
+      if (d9 is null) then 
+        d9 = 0;
+
+      /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+      if ((d9 = 0) or (d9 > 10)) then 
+      begin 
+        for select m.QTDE_ALT, m.CODPRODUTO from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
+          and m.preco > 0
         into :desconto, :p
-      do begin
-        if (desconto is null) then
-          desconto = 0;
-        if (desconto > 0) then
-          desconto = 1 - (desconto / 100);
-        if (desconto = 0) then
-          desconto = 1;
-        update MOVIMENTODETALHE md set  md.VLR_BASE = (md.PRECO/:parc) * :desconto
-          where md.CODMOVIMENTO = :codMov and md.CODPRODUTO = :p
-          and md.preco > 0; 
+        do begin
+          if (desconto is null) then
+            desconto = 0;
+          if (desconto > 0) then
+            desconto = 1 - (desconto / 100);
+          if (desconto = 0) then
+            desconto = 1;
+          update MOVIMENTODETALHE md set  md.VLR_BASE = (md.PRECO/:parc) * :desconto
+            where md.CODMOVIMENTO = :codMov and md.CODPRODUTO = :p
+            and md.preco > 0; 
+         end
+         select sum(m.quantidade * m.VLR_BASE) from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
+        into :total ;
+        if (total <> new.VALOR_TOTAL_NOTA) then
+          update NOTAFISCAL set VALOR_PRODUTO = :total , VALOR_TOTAL_NOTA = :total
+          where NUMNF = new.NUMNF;
       end
-      /*select first 1 UDF_DAY(r.DATAVENCIMENTO) || '/' || UDF_month(r.DATAVENCIMENTO) ||
-        '/' || UDF_YEAR(r.DATAVENCIMENTO) || ' - ' || cast(UDF_TRUNCDEC(r.VALOR_RESTO,2) as varchar(15))
-        from recebimento r
-        where r.CODVENDA = new.CODVENDA
-      into :fatura;*/
-      select sum(m.quantidade * m.VLR_BASE) from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
-      into :total ;
-      if (total <> new.VALOR_TOTAL_NOTA) then
-        update NOTAFISCAL set VALOR_PRODUTO = :total , VALOR_TOTAL_NOTA = :total
-        where NUMNF = new.NUMNF;
-    end
-END;
+      /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+      else begin  -- USANDO O PARAMETRO D9 para GERAR AS PARCELAS E TITULOS
+        d9 = d9/10;
+        for select m.QTDE_ALT, m.CODPRODUTO from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
+          and m.preco > 0
+        into :desconto, :p
+        do begin
+          if (desconto is null) then
+            desconto = 0;
+          if (desconto > 0) then
+            desconto = 1 - (desconto / 100);
+          if (desconto = 0) then
+            desconto = 1;
+          update MOVIMENTODETALHE md set  md.VLR_BASE = (md.PRECO*:d9) * :desconto
+            where md.CODMOVIMENTO = :codMov and md.CODPRODUTO = :p
+            and md.preco > 0; 
+         end
+         select sum(m.quantidade * m.VLR_BASE) from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
+        into :total ;
+        if (total <> new.VALOR_TOTAL_NOTA) then
+          update NOTAFISCAL set VALOR_PRODUTO = :total , VALOR_TOTAL_NOTA = :total
+          where NUMNF = new.NUMNF;
+        parcPrim = D9;        
+        for select codrecebimento, VALOR_PRIM_VIA, via from recebimento where titulo = :titulo and codcliente = :codcli order by via
+          into :codrec, :vlrTit, :via
+        do begin
+           if (vlrParc = 0) then
+           begin  
+             vlrParc = vlrTit; 
+           end  
+           if (via = 1) then 
+             parcResto = parcPrim;        
+           if (via > 1) then 
+             parcResto = (1-D9)/(numParc-1);     
+           vlrTit = vlrParc * parcResto;
+           update recebimento a set valor_resto = :vlrTit , VALORTITULO = :vlrTit where codrecebimento = :codRec;
+        end 
+      end    
+      /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+   end 
+END
