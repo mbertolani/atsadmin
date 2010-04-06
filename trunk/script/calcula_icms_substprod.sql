@@ -1,3 +1,4 @@
+set term ^ ;
 create or ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD (
     CFOP Varchar(30),
     UF Char(2),
@@ -5,12 +6,7 @@ create or ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD (
     CODMOV Integer,
     SERIE Char(20) )
 AS
-  declare variable codRec integer;
   declare variable codNF integer;
-  declare variable codVen integer;
-  declare variable codMovNovo integer;
-  declare variable codCCusto integer;
-  declare variable codUser integer;
   declare variable codProduto integer;
   declare variable qtde double PRECISION;
   declare variable desconto double PRECISION;
@@ -45,6 +41,7 @@ AS
   declare variable CICMS_SUBST_IC double precision;
   declare variable CICMS_SUBST_IND double precision;
   declare variable CICMS double precision;
+  declare variable CICMS2 double precision;
   declare variable CICMS_BASE double precision;
   declare variable VLR_PROD double precision;
   declare variable VLR_ICMS double precision;
@@ -74,7 +71,7 @@ begin
     USA_SUBPROD = 'N';
     
     -- localiza o mov. detalhe
-    for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.ICMS, prod.BASE_ICMS, prod.CST
+    for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.VLR_BASE, md.ICMS, prod.BASE_ICMS, prod.CST
     from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
@@ -84,12 +81,24 @@ begin
       where cfp.CFOP = :CFOP and cfp.COD_PROD = :codProduto and cfp.UF = :UF
       into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, CICMS_BASE;
 
+      if (cicms is null) then 
+        cicms2 = 0;
+
+      if (cicms is not null) then 
+        cicms2 = cicms;
+      else 
+        cicms2 = 0;  
       if (desconto is null) then
         desconto = 0;
           
-      VLR_PROD = ( :qtde * (:preco * (1-(:desconto/100))));
+      if (desconto > 0) then     
+        VLR_PROD = ( :qtde * (:preco * (1-(:desconto/100))));
 
-      if (CICMS_SUBST > 0) then
+      if (desconto = 0) then     
+        VLR_PROD = :qtde * :preco;
+
+
+      if ((CICMS_SUBST > 0) or (CICMS > 0)) then
       begin
         USA_SUBPROD = 'S';
         if (CICMS_SUBST is null) then
@@ -104,15 +113,14 @@ begin
           baseIcms = 0;
         if (CICMS is null) then
           CICMS = 0;
-        else
+        if (CICMS > 0) then
           CICMS = (CICMS/100);
-        if (CICMS_BASE is null) then
+        if (CICMS_BASE = 0) then
           CICMS_BASE = 1;
-        else
-          CICMS_BASE = (CICMS_BASE/100);
         total = 0;          
-            
-        BASE_ST = (VLR_PROD *(1+(CICMS_SUBST/100)));
+        
+        if (CICMS_SUBST > 0) then    
+           BASE_ST = (VLR_PROD *(1+(CICMS_SUBST/100)));
         VLR_ICMS =  (VLR_PROD*(CICMS_SUBST_IND/100));
         ST = (BASE_ST * (CICMS_SUBST_IC/100))-(VLR_ICMS);
         CICMS_BASE = (VLR_PROD * CICMS_BASE);
@@ -144,28 +152,9 @@ begin
         if ((cstProd is not null) or (cstProd <> '')) then 
           cst = cstProd;
         
-
- /*    -- Calculo ICMS 
-        if (uf = 'SP') then 
-        begin 
-          valoricms = (VLR_PROD) * (baseIcms / 100) * (icms / 100); 
-     --tBaseIcms = tBaseIcms + (icms/100);
-        end  
-     -- Calculo ICMS outros ESTADOS 
-        if (uf <> 'SP') then 
-        begin 
-        select first 1 icms, reducao from ESTADO_ICMS where uf = :uf and cfop = :cfop
-        into :icms, :baseIcms;
-        if (icms is null) then 
-          icms = 0;
-    
-          if (baseIcms is null) then 
-            baseIcms = 100;
-            --tBaseIcms = tBaseIcms + (icms/100);
-          valoricms = (VLR_PROD) * (baseIcms / 100) * (icms / 100);
-        end  */
+        valoricms = (VLR_PROD) * (baseIcms / 100) * (icms / 100);                 
                  
-        update MOVIMENTODETALHE set valor_icms = :valoricms, cst = :cst, icms_subst = :ST, icms_substd = :BASE_ST
+        update MOVIMENTODETALHE set valor_icms = :valoricms, cst = :cst, icms_subst = :ST, icms_substd = :BASE_ST, icms = :CICMS2
         where codmovimento = :codmov and codproduto = :codProduto;
         
         if(desconto > 0) then  
@@ -189,10 +178,19 @@ begin
     total = total2 + total3 + TOTAL_ST;
    if (USA_SUBPROD = 'S') then
    begin
+    select first 1 v.notafiscal from venda v where v.codmovimento = :codMov
+      into :codnf; 
+      
+    -- Pego os outros valores na NF para somar ao total 
+    select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO) from notafiscal n where numnf = :numero_nf
+    into :vOutros;   
+    total = total + vOutros;
+      
     update recebimento set valor_resto = :total, valortitulo = :total
-      where titulo = :NUMERO_NF || '-' || :serie and via = '1';
+      where titulo = :codnf || '-' || :serie and via = '1';
     UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTAL_BASE_ST, VALOR_ICMS_SUBST = :TOTAL_ST, VALOR_ICMS = :TOTAL_ICMS, BASE_ICMS = : TOTAL_ICMS_BASE, VALOR_TOTAL_NOTA = :TOTAL
       where NUMNF = :NUMERO_NF; --, FATURA = :fatu
+      
    end
 
     vIcmsT = 0; 

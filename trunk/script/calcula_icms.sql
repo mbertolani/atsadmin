@@ -1,3 +1,4 @@
+set term ^ ;
 ALTER PROCEDURE CALCULA_ICMS (
     NUMERO_NF Integer,
     UF Char(2),
@@ -77,6 +78,11 @@ begin
       INTO :IND_ICMS, :IND_REDUZICMS, :IND_IPI;
     IF (INDICE_MANUAL = 'N') THEN
     BEGIN 
+      -- Atauliza o ICMS na movimentodetalhe 
+      if (ind_icms is not null)  then 
+      begin 
+        update MOVIMENTODETALHE set ICMS = :ind_icms where CODMOVIMENTO = :cod;
+      end 
       /* Busca os indices da TAB ESTADO_ICMS */
       IF (UF = 'SP') THEN
       BEGIN 
@@ -129,10 +135,11 @@ begin
             BASE_ICMSE = BASE_ICMSE + (VALOR * IND_REDUZICMSE);
             ICMS = ICMS + ((VALOR * IND_REDUZICMSE) * IND_ICMSE);
          END
+
          if (ipi is null) then 
            ipi = 0;
-         
-        BASE_ICMS = FRETE + SEGURO + OUTROS;             
+                  
+        --BASE_ICMS = FRETE + SEGURO + OUTROS;             
 
         if (icms_subst > 0) then 
            BASE_ICMS = FRETE + SEGURO + OUTROS;             
@@ -230,6 +237,7 @@ begin
       if (reduz_info = 1) then 
         base_icms =  0;
       --icms = 100;
+      
       UPDATE NOTAFISCAL SET BASE_ICMS = :BASE_ICMS, VALOR_ICMS = :ICMS, 
           CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2,             
           VALOR_TOTAL_NOTA = :VAL_TOTAL, BASE_ICMS_SUBST = 0, VALOR_ICMS_SUBST = 0
@@ -242,5 +250,5 @@ begin
     -- ICMS DE SUBSTITUICAO TRIBUTARIA
     EXECUTE PROCEDURE CALCULA_ICMS_SUBSTITUICAO (:NUMERO_NF,  :UF, :CFOP, :VAL_TOTAL, :notafiscalVenda , :serie, :ipi
          ,:icms_destacado_desc, :icms_destacado_desc2);
-
+    EXECUTE PROCEDURE CALCULA_ICMS_SUBSTPROD (:CFOP, :UF, :NUMERO_NF, :COD, :SERIE);
 end
