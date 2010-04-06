@@ -657,6 +657,7 @@ type
     procedure BitBtn20Click(Sender: TObject);
     procedure BitBtn21Click(Sender: TObject);
     procedure BitBtn22Click(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
@@ -1419,7 +1420,6 @@ begin
     fListaClientes.BitBtn2.Click;
   end;
 
-
   if (var_testeSa = 'consulta') then
   begin
     fListaClientes.edNome.SetFocus;
@@ -1436,7 +1436,8 @@ begin
   end;
   if (cTranportadora.Active) then
       cTranportadora.close;
-  inherited;
+
+  //inherited;
 
 end;
 
@@ -2488,6 +2489,12 @@ begin
     procIBGE.Close;
     fProcurar.Free;
    end;
+end;
+
+procedure TfClienteCadastro.btnSairClick(Sender: TObject);
+begin
+ // inherited;
+  Close;
 end;
 
 end.
