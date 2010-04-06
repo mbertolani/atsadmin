@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE CALCULA_ICMS_SUBSTITUICAO (
     NUMERO_NF Integer,
     UF Varchar(2),
@@ -25,6 +26,7 @@ DECLARE VARIABLE ViaStr varchar(2);
 DECLARE VARIABLE ICMS_DESTACADO DOUBLE PRECISION;
 DECLARE VARIABLE TipoST varchar(10);
 Declare variable codMov INTEGER;
+DECLARE VARIABLE outros DOUBLE PRECISION;
 begin
   TipoST = 'CFOP';
   -- Inicio por PRODUTO
@@ -61,7 +63,7 @@ begin
 
   if (ICMS_SUBST > 0) then 
   begin       
-      IF (UF = 'SP') THEN
+      IF ((UF = 'SP') or (UF = 'BA') or (UF = 'MG') or (UF = 'RS') or (UF = 'RJ')) THEN
       BEGIN 
          if (icms_subst > 0) then 
            icms_subst = 1 + (icms_subst / 100);
@@ -99,6 +101,12 @@ begin
              end  
            
            update recebimento set valor_resto = (valor_resto + :icms_subst) where titulo = :notafiscalVenda || '-' || :serie and via = 1;
+           
+           -- Pego os outros valores na NF para somar ao total 
+           select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO) from notafiscal n where numnf = :numero_nf
+             into :Outros;   
+           valortotal = valortotal + Outros;
+           
            UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :VALOR_SUB, VALOR_ICMS_SUBST = :ICMS_SUBST, 
               VALOR_TOTAL_NOTA = :VALORTOTAL, CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2
               , FATURA = :fatura

@@ -43,7 +43,9 @@ BEGIN
       
       if (d9 is null) then 
         d9 = 0;
-
+      
+      if (d9 <> 999) then -- Se = "N" não faz nada.
+      begin  
       /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
       if ((d9 = 0) or (d9 > 10)) then 
       begin 
@@ -105,6 +107,7 @@ BEGIN
            update recebimento a set valor_resto = :vlrTit , VALORTITULO = :vlrTit where codrecebimento = :codRec;
         end 
       end    
+      end 
       /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
    end 
 END
