@@ -177,7 +177,7 @@ inherited fEmpresa: TfEmpresa
     PopupMenu = PopupMenu1
   end
   object Label16: TLabel [12]
-    Left = 423
+    Left = 429
     Top = 269
     Width = 17
     Height = 13
@@ -191,7 +191,7 @@ inherited fEmpresa: TfEmpresa
     PopupMenu = PopupMenu1
   end
   object Label17: TLabel [13]
-    Left = 526
+    Left = 537
     Top = 270
     Width = 32
     Height = 13
@@ -206,7 +206,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label18: TLabel [14]
     Left = 23
-    Top = 305
+    Top = 416
     Width = 28
     Height = 13
     Caption = 'E-mail'
@@ -220,7 +220,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label19: TLabel [15]
     Left = 22
-    Top = 343
+    Top = 305
     Width = 56
     Height = 13
     Caption = 'Home Page'
@@ -248,7 +248,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label8: TLabel [17]
     Left = 22
-    Top = 379
+    Top = 341
     Width = 33
     Height = 13
     Caption = 'Slogan'
@@ -262,7 +262,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label21: TLabel [18]
     Left = 22
-    Top = 417
+    Top = 379
     Width = 92
     Height = 13
     Caption = 'Outras Informa'#231#245'es'
@@ -276,7 +276,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label22: TLabel [19]
     Left = 355
-    Top = 416
+    Top = 414
     Width = 40
     Height = 13
     Caption = 'C. Custo'
@@ -316,7 +316,49 @@ inherited fEmpresa: TfEmpresa
     ParentFont = False
     PopupMenu = PopupMenu1
   end
-  object DBEdit1: TDBEdit [22]
+  object Label25: TLabel [22]
+    Left = 149
+    Top = 456
+    Width = 30
+    Height = 13
+    Caption = 'SMTP'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+  end
+  object Label26: TLabel [23]
+    Left = 276
+    Top = 456
+    Width = 25
+    Height = 13
+    Caption = 'Porta'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+  end
+  object Label27: TLabel [24]
+    Left = 22
+    Top = 456
+    Width = 59
+    Height = 13
+    Caption = 'Senha Email'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+  end
+  object DBEdit1: TDBEdit [25]
     Left = 22
     Top = 76
     Width = 59
@@ -335,7 +377,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [23]
+  object DBEdit2: TDBEdit [26]
     Left = 83
     Top = 76
     Width = 556
@@ -354,7 +396,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [24]
+  object DBEdit3: TDBEdit [27]
     Left = 22
     Top = 116
     Width = 617
@@ -373,7 +415,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup1: TDBRadioGroup [25]
+  object DBRadioGroup1: TDBRadioGroup [28]
     Left = 21
     Top = 139
     Width = 133
@@ -397,7 +439,7 @@ inherited fEmpresa: TfEmpresa
       'F'
       'J')
   end
-  object DBEdit4: TDBEdit [26]
+  object DBEdit4: TDBEdit [29]
     Left = 160
     Top = 163
     Width = 244
@@ -416,7 +458,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [27]
+  object DBEdit5: TDBEdit [30]
     Left = 406
     Top = 163
     Width = 233
@@ -435,7 +477,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [28]
+  object DBEdit7: TDBEdit [31]
     Left = 22
     Top = 204
     Width = 526
@@ -454,7 +496,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [29]
+  object DBEdit8: TDBEdit [32]
     Left = 22
     Top = 246
     Width = 177
@@ -470,10 +512,10 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 7
+    TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [30]
+  object DBEdit9: TDBEdit [33]
     Left = 201
     Top = 246
     Width = 157
@@ -489,10 +531,10 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 8
+    TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [31]
+  object DBEdit10: TDBEdit [34]
     Left = 394
     Top = 246
     Width = 156
@@ -508,10 +550,10 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 9
+    TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBComboBox1: TDBComboBox [32]
+  object DBComboBox1: TDBComboBox [35]
     Left = 23
     Top = 283
     Width = 139
@@ -556,9 +598,9 @@ inherited fEmpresa: TfEmpresa
       'TO - TOCANTINS')
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 10
+    TabOrder = 12
   end
-  object DBEdit11: TDBEdit [33]
+  object DBEdit11: TDBEdit [36]
     Left = 166
     Top = 283
     Width = 99
@@ -574,10 +616,10 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 11
+    TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object DBEdit12: TDBEdit [34]
+  object DBEdit12: TDBEdit [37]
     Left = 269
     Top = 283
     Width = 48
@@ -593,13 +635,13 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 12
+    TabOrder = 14
     OnKeyPress = FormKeyPress
   end
-  object DBEdit13: TDBEdit [35]
+  object DBEdit13: TDBEdit [38]
     Left = 320
     Top = 283
-    Width = 100
+    Width = 105
     Height = 22
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -612,13 +654,13 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 13
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [36]
-    Left = 423
+  object DBEdit14: TDBEdit [39]
+    Left = 429
     Top = 283
-    Width = 97
+    Width = 102
     Height = 22
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -631,12 +673,12 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 14
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object DBEdit15: TDBEdit [37]
+  object DBEdit15: TDBEdit [40]
     Left = 22
-    Top = 320
+    Top = 431
     Width = 327
     Height = 22
     BevelKind = bkFlat
@@ -650,12 +692,12 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 15
+    TabOrder = 21
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [38]
+  object DBEdit16: TDBEdit [41]
     Left = 22
-    Top = 358
+    Top = 320
     Width = 327
     Height = 22
     BevelKind = bkFlat
@@ -669,13 +711,13 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 16
+    TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object DBEdit17: TDBEdit [39]
-    Left = 525
+  object DBEdit17: TDBEdit [42]
+    Left = 536
     Top = 283
-    Width = 97
+    Width = 102
     Height = 22
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -694,7 +736,7 @@ inherited fEmpresa: TfEmpresa
   inherited MMJPanel1: TMMJPanel
     Top = 527
     Width = 727
-    TabOrder = 18
+    TabOrder = 28
     inherited btnCancelar: TBitBtn [0]
       Font.Charset = ANSI_CHARSET
       Font.Height = -12
@@ -745,7 +787,7 @@ inherited fEmpresa: TfEmpresa
   end
   inherited MMJPanel2: TMMJPanel
     Width = 727
-    TabOrder = 19
+    TabOrder = 29
     inherited Label1: TLabel
       Left = 151
       Top = -78
@@ -785,9 +827,9 @@ inherited fEmpresa: TfEmpresa
       HotTrackFont.Style = []
     end
   end
-  object DBEdit6: TDBEdit [42]
+  object DBEdit6: TDBEdit [45]
     Left = 22
-    Top = 394
+    Top = 356
     Width = 327
     Height = 22
     BevelKind = bkFlat
@@ -801,12 +843,12 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 20
+    TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object DBEdit18: TDBEdit [43]
+  object DBEdit18: TDBEdit [46]
     Left = 22
-    Top = 433
+    Top = 395
     Width = 327
     Height = 22
     BevelKind = bkFlat
@@ -820,12 +862,12 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 21
+    TabOrder = 20
     OnKeyPress = FormKeyPress
   end
-  object BitBtn1: TBitBtn [44]
-    Left = 374
-    Top = 318
+  object BitBtn1: TBitBtn [47]
+    Left = 371
+    Top = 322
     Width = 88
     Height = 34
     Caption = 'Procura'
@@ -835,7 +877,7 @@ inherited fEmpresa: TfEmpresa
     Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
-    TabOrder = 22
+    TabOrder = 25
     OnClick = BitBtn1Click
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -937,9 +979,9 @@ inherited fEmpresa: TfEmpresa
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object BitBtn2: TBitBtn [45]
-    Left = 374
-    Top = 358
+  object BitBtn2: TBitBtn [48]
+    Left = 371
+    Top = 362
     Width = 88
     Height = 33
     Caption = 'Exclui'
@@ -949,7 +991,7 @@ inherited fEmpresa: TfEmpresa
     Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
-    TabOrder = 23
+    TabOrder = 26
     OnClick = BitBtn2Click
     Glyph.Data = {
       1E070000424D1E070000000000003600000028000000160000001A0000000100
@@ -1011,15 +1053,15 @@ inherited fEmpresa: TfEmpresa
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       0000}
   end
-  object Panel3: TPanel [46]
-    Left = 466
-    Top = 307
+  object Panel3: TPanel [49]
+    Left = 470
+    Top = 319
     Width = 168
     Height = 155
     BevelInner = bvLowered
     BevelWidth = 3
     Color = clMoneyGreen
-    TabOrder = 24
+    TabOrder = 30
     object Image1: TJvImage
       Left = 6
       Top = 6
@@ -1029,10 +1071,10 @@ inherited fEmpresa: TfEmpresa
       Stretch = True
     end
   end
-  object ComboBox1: TComboBox [47]
-    Left = 352
-    Top = 434
-    Width = 111
+  object ComboBox1: TComboBox [50]
+    Left = 354
+    Top = 431
+    Width = 109
     Height = 23
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -1041,9 +1083,9 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ItemHeight = 15
     ParentFont = False
-    TabOrder = 25
+    TabOrder = 27
   end
-  object DBEdit19: TDBEdit [48]
+  object DBEdit19: TDBEdit [51]
     Left = 550
     Top = 204
     Width = 89
@@ -1059,10 +1101,10 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 26
+    TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object BitBtn3: TBitBtn [49]
+  object BitBtn3: TBitBtn [52]
     Left = 362
     Top = 242
     Width = 27
@@ -1074,10 +1116,10 @@ inherited fEmpresa: TfEmpresa
     Font.Name = 'Cooper Blk BT'
     Font.Style = []
     ParentFont = False
-    TabOrder = 27
+    TabOrder = 31
     OnClick = BitBtn3Click
   end
-  object DBEdit20: TDBEdit [50]
+  object DBEdit20: TDBEdit [53]
     Left = 553
     Top = 246
     Width = 86
@@ -1093,7 +1135,64 @@ inherited fEmpresa: TfEmpresa
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 28
+    TabOrder = 11
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit21: TDBEdit [54]
+    Left = 149
+    Top = 470
+    Width = 120
+    Height = 22
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'SMTP'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 23
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit22: TDBEdit [55]
+    Left = 275
+    Top = 470
+    Width = 74
+    Height = 22
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'PORTA'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 24
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit23: TDBEdit [56]
+    Left = 22
+    Top = 470
+    Width = 121
+    Height = 23
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'SENHA'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 22
     OnKeyPress = FormKeyPress
   end
   inherited DtSrc: TDataSource
@@ -1116,8 +1215,8 @@ inherited fEmpresa: TfEmpresa
   end
   object procIBGE: TSQLClientDataSet
     CommandText = 
-      'select  NM_MUNICIPIO, NM_LOCALIDADE, CD_IBGE, CD_UF from TB_IBGE' +
-      ' where NM_LOCALIDADE LIKE :NOME'#13#10#13#10
+      'select  NM_LOCALIDADE, CD_UF, CD_IBGE, NM_MUNICIPIO from TB_IBGE' +
+      ' where NM_LOCALIDADE LIKE :NOME'#13#10'order by NM_LOCALIDADE'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
