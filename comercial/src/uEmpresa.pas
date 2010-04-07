@@ -70,6 +70,12 @@ type
     procIBGENM_LOCALIDADE: TStringField;
     DBEdit20: TDBEdit;
     Label24: TLabel;
+    DBEdit21: TDBEdit;
+    Label25: TLabel;
+    DBEdit22: TDBEdit;
+    Label26: TLabel;
+    DBEdit23: TDBEdit;
+    Label27: TLabel;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -227,7 +233,7 @@ begin
   fProcurar:= TfProcurar.Create(self,procIBGE);
   try
    fProcurar.BtnProcurar.Click;
-   fProcurar.EvDBFind1.DataField := 'NM_MUNICIPIO';
+   fProcurar.EvDBFind1.DataField := 'NM_LOCALIDADE';
    if fProcurar.ShowModal=mrOk then
    begin
      if(DtSrc.State in [dsbrowse,dsinactive]) then
@@ -235,7 +241,6 @@ begin
      DBEdit10.Text := procIBGENM_MUNICIPIO.AsString;
      DBComboBox1.Text := procIBGECD_UF.AsString;
      DBEdit20.Text := procIBGECD_IBGE.AsString;
-
    end;
    finally
     procIBGE.Close;
