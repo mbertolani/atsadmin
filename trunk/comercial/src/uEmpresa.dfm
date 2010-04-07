@@ -1191,6 +1191,7 @@ inherited fEmpresa: TfEmpresa
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    PasswordChar = '*'
     PopupMenu = PopupMenu1
     TabOrder = 22
     OnKeyPress = FormKeyPress
