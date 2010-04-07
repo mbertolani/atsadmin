@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\Home\sisadmin\BD\sge_plastiferro.fdb'
+      'Database=C:\Home\sisadmin\BD\sge_dpm.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq'
@@ -5235,6 +5235,17 @@ object DM: TDM
       FieldName = 'CD_IBGE'
       Size = 10
     end
+    object sds_EmpresaPORTA: TIntegerField
+      FieldName = 'PORTA'
+    end
+    object sds_EmpresaSMTP: TStringField
+      FieldName = 'SMTP'
+      Size = 30
+    end
+    object sds_EmpresaSENHA: TStringField
+      FieldName = 'SENHA'
+      Size = 10
+    end
   end
   object dsp_empresa: TDataSetProvider
     DataSet = sds_Empresa
@@ -5375,6 +5386,17 @@ object DM: TDM
     end
     object cds_empresaCD_IBGE: TStringField
       FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object cds_empresaPORTA: TIntegerField
+      FieldName = 'PORTA'
+    end
+    object cds_empresaSMTP: TStringField
+      FieldName = 'SMTP'
+      Size = 30
+    end
+    object cds_empresaSENHA: TStringField
+      FieldName = 'SENHA'
       Size = 10
     end
   end
