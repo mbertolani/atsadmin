@@ -69,6 +69,7 @@ type
     edtSerie: TEdit;
     edtModelo: TEdit;
     edtTipo: TComboBox;
+    edtStatus: TComboBox;
     edtAtendimento: TEdit;
     JvDBGrid2: TJvDBGrid;
     Image1: TImage;
@@ -88,7 +89,6 @@ type
     cCallCenterDetPROTOCOLO: TStringField;
     sBuscaProtocolo: TSQLDataSet;
     BitBtn6: TBitBtn;
-    edtStatus: TComboBox;
     procedure IncluiProtocolo;
     procedure EditaProtocolo;
     procedure LimpaEdit;

@@ -463,6 +463,7 @@ type
     sdslistaCODFORNECEDOR: TIntegerField;
     sdslistaPRODUTO: TStringField;
     SP_LIMITE: TSQLStoredProc;
+    edChassi: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -530,6 +531,7 @@ type
     procedure JvDBGrid1MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure BitBtn6Click(Sender: TObject);
+    procedure edChassiExit(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -1545,6 +1547,46 @@ begin
       cds_Veiculocli.Close;
     end;
   end;
+  // Busca o cad. veiculo pelo chassi
+  if (EdChassi.Text <> '') then
+  begin
+    if (cds_Veiculocli.Active) then
+      cds_Veiculocli.Close;
+    cds_Veiculocli.Params[1].Clear;
+    cds_Veiculocli.Params[0].Clear;
+    cds_Veiculocli.Params[2].AsString := edChassi.Text;
+    cds_Veiculocli.Open;
+    if (cds_Veiculocli.IsEmpty) then
+    begin
+      // o cadastro do veículo não deve ter o cliente na OS terá;
+      cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
+      fClienteVeiculo.chassi := EdChassi.Text;
+      BitBtn9.Click;
+    end;
+    cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
+    cds_Veiculocli.Close;
+  end;
+  if (dm.moduloUsado = 'AUTOMOTIVA') then
+  begin
+    if (maskEdit1.Text <> '   -    ') then
+    begin
+      if (cds_Veiculocli.Active) then
+        cds_Veiculocli.Close;
+      cds_Veiculocli.Params[1].Clear;
+      cds_Veiculocli.Params[0].Clear;
+      cds_Veiculocli.Params[2].AsString := edChassi.Text;
+      cds_Veiculocli.Open;
+      if (cds_Veiculocli.IsEmpty) then
+      begin
+        // o cadastro do veículo não deve ter o cliente na OS terá;
+        cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
+        fClienteVeiculo.chassi := EdChassi.Text;
+        BitBtn9.Click;
+      end;
+      cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
+      cds_Veiculocli.Close;
+    end;
+  end;
 
   //*******************************************************************************
 
@@ -2449,6 +2491,7 @@ begin
   if (cds_Veiculocli.Active) then
     cds_Veiculocli.Close;
   cds_Veiculocli.Params[1].Clear;
+  cds_Veiculocli.Params[2].Clear;  
   cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
   cds_Veiculocli.Open;
   if (cds_Veiculocli.IsEmpty) then
@@ -2916,5 +2959,53 @@ begin
    end;
 end;
 
+
+procedure TfVendas.edChassiExit(Sender: TObject);
+begin
+  inherited;
+  if (edChassi.Text = '') then
+  begin
+    dbeCliente.SetFocus;
+    exit;
+  end;
+  if (cds_Movimento.State in [dsBrowse]) then
+    cds_Movimento.Edit;
+
+  if (dtsrc.State in [dsBrowse, dsInactive]) then
+    exit;
+  // Traz o Véiculo
+  if (cds_Veiculocli.Active) then
+    cds_Veiculocli.Close;
+  cds_Veiculocli.Params[1].Clear;
+  cds_Veiculocli.Params[0].Clear;
+  cds_Veiculocli.Params[2].AsString := edChassi.Text;
+  cds_Veiculocli.Open;
+  if (cds_Veiculocli.IsEmpty) then
+  begin
+    cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
+    BitBtn9.Click;
+    fClienteVeiculo.chassi := EdChassi.Text;
+    dbeCliente.SetFocus;
+  end
+  else begin
+    Label10.Caption := cds_VeiculocliMARCA_MODELO.AsString;
+    cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
+    if (sdsVeiculoCli.Active) then
+      sdsVeiculoCli.Close;
+    sdsVeiculoCli.Params[0].AsInteger := cds_VeiculocliCOD_VEICULO.asinteger;
+    sdsVeiculoCli.Open;
+    if (not sdsVeiculoCli.IsEmpty) then
+    begin
+      dbeCliente.Text := IntToStr(sdsVeiculoCli.Fields[0].asInteger);
+      DBEdit3.Text := sdsVeiculoCli.Fields[1].AsString;
+      cds_MovimentoCODCLIENTE.AsInteger := sdsVeiculoCli.Fields[0].asInteger;
+      cds_MovimentoNOMECLIENTE.AsString := sdsVeiculoCli.Fields[1].AsString;
+      cds_MovimentoOBS.AsString := sdsVeiculoCli.Fields[2].AsString;
+      prazo := sdsVeiculoCli.Fields[3].AsFloat;
+      DBComboBox1.SetFocus;
+    end;
+  end;
+
+end;
 
 end.

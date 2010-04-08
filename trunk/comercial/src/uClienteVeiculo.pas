@@ -47,6 +47,10 @@ type
     DBEdit6: TDBEdit;
     Label9: TLabel;
     DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    sds_VeiculocliCHASSIS: TStringField;
+    cds_VeiculocliCHASSIS: TStringField;
+    Label10: TLabel;
     procedure btnIncluirClick(Sender: TObject);
     procedure cds_VeiculocliNewRecord(DataSet: TDataSet);
     procedure btnGravarClick(Sender: TObject);
@@ -60,6 +64,7 @@ type
   public
     { Public declarations }
     varPlaca: String;
+    chassi: String;
   end;
 
 var

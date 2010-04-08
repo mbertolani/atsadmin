@@ -90,8 +90,8 @@ begin
     if (fProcura_prod.cds_proc.Active) then
       fProcura_prod.cds_proc.Close;
   end;
-  varonde := 'compra';
-  var_F := 'venda';
+  varonde := 'EntraSai';
+  var_F := 'estoque';
   fProcura_prod.ShowModal;
 end;
 

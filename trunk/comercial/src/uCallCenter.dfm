@@ -10,13 +10,12 @@ object fCallCenter: TfCallCenter
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 312
-    Width = 774
+    Width = 782
     Height = 112
     Align = alTop
     BorderStyle = bsNone
@@ -27,9 +26,6 @@ object fCallCenter: TfCallCenter
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
-    OnDblClick = JvDBGrid1DblClick
-    OnMouseDown = JvDBGrid1MouseDown
-    OnMouseUp = JvDBGrid1MouseUp
     BevelKind = bkFlat
     AutoSizeColumns = True
     SelectColumnsDialogStrings.Caption = 'Select columns'
@@ -42,39 +38,39 @@ object fCallCenter: TfCallCenter
       item
         Expanded = False
         FieldName = 'PROTOCOLO'
-        Width = 108
+        Width = 109
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_ATENDIMENTO'
         Title.Caption = 'DATA'
-        Width = 69
+        Width = 70
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOME'
-        Width = 156
+        Width = 158
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUS_ATENDIMENTO'
         Title.Caption = 'STATUS'
-        Width = 67
+        Width = 68
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CIDADE'
-        Width = 104
+        Width = 105
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CEP'
-        Width = 56
+        Width = 57
         Visible = True
       end
       item
@@ -87,14 +83,14 @@ object fCallCenter: TfCallCenter
         Expanded = False
         FieldName = 'TIPO_ATENDIMENTO'
         Title.Caption = 'TIPO'
-        Width = 161
+        Width = 162
         Visible = True
       end>
   end
   object Panel1: TPanel
     Left = 0
     Top = 135
-    Width = 774
+    Width = 782
     Height = 177
     Align = alTop
     BevelInner = bvLowered
@@ -230,7 +226,6 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 2
-      OnChange = edtNomeChange
     end
     object edtCidade: TEdit
       Left = 10
@@ -372,7 +367,6 @@ object fCallCenter: TfCallCenter
       Height = 25
       Caption = 'Novo Atend.'
       TabOrder = 12
-      OnClick = BitBtn6Click
     end
     object edtStatus: TComboBox
       Left = 680
@@ -391,14 +385,14 @@ object fCallCenter: TfCallCenter
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 774
+    Width = 782
     Height = 135
     Align = alTop
     TabOrder = 2
     object Image1: TImage
       Left = 1
       Top = 1
-      Width = 618
+      Width = 626
       Height = 133
       Align = alClient
       Picture.Data = {
@@ -1575,7 +1569,7 @@ object fCallCenter: TfCallCenter
         FE2CE14E5FF0DF16581A8B30FF0046F7C8EC97FFD9}
     end
     object Panel3: TPanel
-      Left = 619
+      Left = 627
       Top = 1
       Width = 154
       Height = 133
@@ -1623,15 +1617,14 @@ object fCallCenter: TfCallCenter
         Height = 25
         Caption = 'Limpar'
         TabOrder = 4
-        OnClick = BitBtn5Click
       end
     end
   end
   object JvDBGrid2: TJvDBGrid
     Left = 0
     Top = 424
-    Width = 774
-    Height = 128
+    Width = 782
+    Height = 139
     Align = alClient
     BorderStyle = bsNone
     DataSource = DataSource2
@@ -1641,7 +1634,6 @@ object fCallCenter: TfCallCenter
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
-    OnDblClick = JvDBGrid2DblClick
     BevelKind = bkFlat
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
@@ -1718,7 +1710,6 @@ object fCallCenter: TfCallCenter
   end
   object DataSource1: TDataSource
     DataSet = cCallCenter
-    OnStateChange = DataSource1StateChange
     Left = 360
     Top = 336
   end

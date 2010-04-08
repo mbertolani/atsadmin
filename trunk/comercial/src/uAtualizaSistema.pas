@@ -646,6 +646,12 @@ begin
       mudaVersao('1.0.0.63');
     end; // Fim Ataulização Versao 1.0.0.62
 
+    if (versaoSistema = '1.0.0.63') then
+    begin
+      executaSql('alter TABLE VEICULO add CHASSIS VarChar(30)');
+      mudaVersao('1.0.0.64');
+    end;  // Fim Ataulização Versao 1.0.0.63
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
