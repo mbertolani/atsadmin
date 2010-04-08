@@ -1,6 +1,6 @@
 inherited fVendas: TfVendas
-  Left = 201
-  Top = 106
+  Left = 215
+  Top = 108
   Width = 802
   Height = 577
   BorderIcons = [biSystemMenu, biMaximize]
@@ -33,7 +33,7 @@ inherited fVendas: TfVendas
   end
   object Label17: TLabel [3]
     Left = 641
-    Top = 477
+    Top = 493
     Width = 61
     Height = 16
     Caption = 'Comiss'#227'o'
@@ -55,7 +55,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 786
+    Width = 794
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -1243,21 +1243,21 @@ inherited fVendas: TfVendas
     Left = 634
     Top = 388
     Width = 150
-    Height = 81
+    Height = 101
     Caption = 'PLACA DO VE'#205'CULO'
     PopupMenu = PopupMenu1
     TabOrder = 8
     Visible = False
     object Label10: TLabel
       Left = 10
-      Top = 59
+      Top = 83
       Width = 15
       Height = 16
       Caption = '. . .'
     end
     object MaskEdit1: TMaskEdit
       Left = 8
-      Top = 26
+      Top = 18
       Width = 104
       Height = 28
       EditMask = '>LLL-9999;1;_'
@@ -1276,11 +1276,19 @@ inherited fVendas: TfVendas
     end
     object BitBtn9: TBitBtn
       Left = 114
-      Top = 25
+      Top = 17
       Width = 31
       Height = 28
       TabOrder = 1
       OnClick = BitBtn9Click
+    end
+    object edChassi: TEdit
+      Left = 3
+      Top = 56
+      Width = 141
+      Height = 24
+      TabOrder = 2
+      OnExit = edChassiExit
     end
   end
   object DBMemo1: TDBMemo [13]
@@ -1300,8 +1308,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [14]
     Left = 0
-    Top = 520
-    Width = 790
+    Top = 522
+    Width = 794
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -1370,7 +1378,7 @@ inherited fVendas: TfVendas
   end
   object ComboBox2: TComboBox [17]
     Left = 704
-    Top = 473
+    Top = 497
     Width = 78
     Height = 24
     BevelKind = bkFlat
@@ -3030,7 +3038,7 @@ inherited fVendas: TfVendas
   object sds_Veiculocli: TSQLDataSet
     CommandText = 
       'select * from VEICULO '#13#10'where PLACA = :pplaca or COD_VEICULO =  ' +
-      ':PVEIC'
+      ':PVEIC or CHASSIS = :PChassi'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -3041,6 +3049,11 @@ inherited fVendas: TfVendas
       item
         DataType = ftInteger
         Name = 'PVEIC'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PChassi'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -3106,6 +3119,11 @@ inherited fVendas: TfVendas
       item
         DataType = ftInteger
         Name = 'PVEIC'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PChassi'
         ParamType = ptInput
       end>
     ProviderName = 'dsp_Veiculocli'

@@ -1609,7 +1609,12 @@ end;
 procedure TfAtsAdmin.CallCenter1Click(Sender: TObject);
 begin
   usulog :=  UserControlComercial.CurrentUser.UserID;
-  fCallCenter.ShowModal;
+	fCallCenter := TfCallCenter.Create(Application);
+	try
+		fCallCenter.ShowModal;
+	finally
+		fCallCenter.Free;
+	end;
 end;
 
 end.

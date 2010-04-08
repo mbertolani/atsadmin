@@ -184,7 +184,9 @@ uses
   uPfaturamento in 'uPfaturamento.pas' {fPfaturamento},
   uNFeletronica in 'uNFeletronica.pas' {fNFeletronica},
   uLogsUsu in 'uLogsUsu.pas' {fLogsUsu},
-  uTb_Ibge in 'uTb_Ibge.pas' {fTb_Ibge};
+  uTb_Ibge in 'uTb_Ibge.pas' {fTb_Ibge},
+  uOf in 'uOf.pas' {fOf},
+  uCallCenter in 'uCallCenter.pas' {fCallCenter};
 
 {$R *.res}
 
@@ -212,6 +214,8 @@ begin
   Application.CreateForm(TfRel_Guia, fRel_Guia);
   Application.CreateForm(TfPai, fPai);
   Application.CreateForm(TfGeraAumento, fGeraAumento);
+  Application.CreateForm(TfOf, fOf);
+  Application.CreateForm(TfCallCenter, fCallCenter);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   Application.CreateForm(TfPfaturamento, fPfaturamento);

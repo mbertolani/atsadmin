@@ -98,10 +98,23 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Font.Style = []
     ParentFont = False
   end
+  object Label10: TLabel [7]
+    Left = 266
+    Top = 97
+    Width = 47
+    Height = 16
+    Caption = 'Chassi :'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 384
+    Top = 391
     Width = 677
-    TabOrder = 7
+    TabOrder = 8
     inherited btnGravar: TBitBtn
       Left = 180
     end
@@ -124,7 +137,7 @@ inherited fClienteVeiculo: TfClienteVeiculo
   end
   inherited MMJPanel2: TMMJPanel
     Width = 677
-    TabOrder = 8
+    TabOrder = 9
     inherited Label1: TLabel
       Top = -54
     end
@@ -164,7 +177,7 @@ inherited fClienteVeiculo: TfClienteVeiculo
       Transparent = True
     end
   end
-  object DBNavigator1: TDBNavigator [9]
+  object DBNavigator1: TDBNavigator [10]
     Left = 234
     Top = 349
     Width = 220
@@ -180,10 +193,10 @@ inherited fClienteVeiculo: TfClienteVeiculo
       ''
       '')
     PopupMenu = PopupMenu1
-    TabOrder = 9
+    TabOrder = 10
     Visible = False
   end
-  object DBEdit2: TDBEdit [10]
+  object DBEdit2: TDBEdit [11]
     Left = 136
     Top = 97
     Width = 113
@@ -201,7 +214,7 @@ inherited fClienteVeiculo: TfClienteVeiculo
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object DBEdit1: TDBEdit [11]
+  object DBEdit1: TDBEdit [12]
     Left = 136
     Top = 129
     Width = 537
@@ -216,10 +229,10 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 1
+    TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [12]
+  object DBEdit3: TDBEdit [13]
     Left = 136
     Top = 161
     Width = 409
@@ -234,10 +247,10 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 2
+    TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [13]
+  object DBEdit4: TDBEdit [14]
     Left = 136
     Top = 193
     Width = 257
@@ -252,10 +265,10 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 3
+    TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [14]
+  object DBEdit5: TDBEdit [15]
     Left = 136
     Top = 225
     Width = 193
@@ -270,10 +283,10 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 4
+    TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [15]
+  object DBEdit6: TDBEdit [16]
     Left = 136
     Top = 259
     Width = 193
@@ -288,10 +301,10 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 5
+    TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [16]
+  object DBEdit7: TDBEdit [17]
     Left = 136
     Top = 293
     Width = 257
@@ -306,7 +319,25 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 6
+    TabOrder = 7
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit8: TDBEdit [18]
+    Left = 327
+    Top = 96
+    Width = 346
+    Height = 24
+    CharCase = ecUpperCase
+    DataField = 'CHASSIS'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 1
     OnKeyPress = FormKeyPress
   end
   inherited DtSrc: TDataSource
@@ -384,6 +415,10 @@ inherited fClienteVeiculo: TfClienteVeiculo
       FieldName = 'COR'
       ProviderFlags = [pfInUpdate]
     end
+    object sds_VeiculocliCHASSIS: TStringField
+      FieldName = 'CHASSIS'
+      Size = 30
+    end
   end
   object dsp_Veiculocli: TDataSetProvider
     DataSet = sds_Veiculocli
@@ -451,6 +486,10 @@ inherited fClienteVeiculo: TfClienteVeiculo
     end
     object cds_VeiculocliCOR: TStringField
       FieldName = 'COR'
+    end
+    object cds_VeiculocliCHASSIS: TStringField
+      FieldName = 'CHASSIS'
+      Size = 30
     end
   end
 end
