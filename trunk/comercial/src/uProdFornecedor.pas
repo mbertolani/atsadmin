@@ -245,7 +245,7 @@ begin
   begin
     if dm.scds_produto_proc.Active then
       dm.scds_produto_proc.Close;
-    dm.scds_produto_proc.Params[0].AsInteger := StrToInt(DBEdit1.Text);
+    dm.scds_produto_proc.Params[0].AsInteger := 0;
     dm.scds_produto_proc.Params[1].AsString := dbedit1.Text;
     dm.scds_produto_proc.Open;
     if dm.scds_produto_proc.IsEmpty then begin
