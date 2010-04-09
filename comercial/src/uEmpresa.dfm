@@ -1,6 +1,6 @@
 inherited fEmpresa: TfEmpresa
-  Width = 735
-  Height = 608
+  Width = 671
+  Height = 582
   Font.Charset = ANSI_CHARSET
   Font.Height = -29
   Font.Name = 'Cooper Blk BT'
@@ -94,7 +94,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label10: TLabel [6]
     Left = 22
-    Top = 228
+    Top = 229
     Width = 64
     Height = 13
     Caption = 'Complemento'
@@ -108,7 +108,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label11: TLabel [7]
     Left = 201
-    Top = 228
+    Top = 229
     Width = 27
     Height = 13
     Caption = 'Bairro'
@@ -122,7 +122,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label12: TLabel [8]
     Left = 394
-    Top = 228
+    Top = 229
     Width = 33
     Height = 13
     Caption = 'Cidade'
@@ -136,7 +136,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label13: TLabel [9]
     Left = 22
-    Top = 269
+    Top = 270
     Width = 33
     Height = 13
     Caption = 'Estado'
@@ -150,7 +150,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label14: TLabel [10]
     Left = 168
-    Top = 269
+    Top = 270
     Width = 19
     Height = 13
     Caption = 'Cep'
@@ -164,7 +164,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label15: TLabel [11]
     Left = 320
-    Top = 269
+    Top = 270
     Width = 42
     Height = 13
     Caption = 'Telefone'
@@ -178,7 +178,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label16: TLabel [12]
     Left = 429
-    Top = 269
+    Top = 270
     Width = 17
     Height = 13
     Caption = 'Fax'
@@ -192,7 +192,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label17: TLabel [13]
     Left = 537
-    Top = 270
+    Top = 271
     Width = 32
     Height = 13
     Caption = 'Celular'
@@ -206,7 +206,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label18: TLabel [14]
     Left = 23
-    Top = 416
+    Top = 417
     Width = 28
     Height = 13
     Caption = 'E-mail'
@@ -220,7 +220,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label19: TLabel [15]
     Left = 22
-    Top = 305
+    Top = 306
     Width = 56
     Height = 13
     Caption = 'Home Page'
@@ -234,7 +234,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label20: TLabel [16]
     Left = 271
-    Top = 269
+    Top = 270
     Width = 24
     Height = 13
     Caption = 'DDD'
@@ -248,7 +248,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label8: TLabel [17]
     Left = 22
-    Top = 341
+    Top = 342
     Width = 33
     Height = 13
     Caption = 'Slogan'
@@ -262,7 +262,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label21: TLabel [18]
     Left = 22
-    Top = 379
+    Top = 380
     Width = 92
     Height = 13
     Caption = 'Outras Informa'#231#245'es'
@@ -276,7 +276,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label22: TLabel [19]
     Left = 355
-    Top = 414
+    Top = 415
     Width = 40
     Height = 13
     Caption = 'C. Custo'
@@ -304,7 +304,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label24: TLabel [21]
     Left = 554
-    Top = 228
+    Top = 229
     Width = 61
     Height = 13
     Caption = 'C'#243'digo IBGE'
@@ -318,7 +318,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label25: TLabel [22]
     Left = 149
-    Top = 456
+    Top = 457
     Width = 30
     Height = 13
     Caption = 'SMTP'
@@ -332,7 +332,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label26: TLabel [23]
     Left = 276
-    Top = 456
+    Top = 457
     Width = 25
     Height = 13
     Caption = 'Porta'
@@ -346,7 +346,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Label27: TLabel [24]
     Left = 22
-    Top = 456
+    Top = 457
     Width = 59
     Height = 13
     Caption = 'Senha Email'
@@ -498,7 +498,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit8: TDBEdit [32]
     Left = 22
-    Top = 246
+    Top = 247
     Width = 177
     Height = 22
     BevelKind = bkFlat
@@ -517,7 +517,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit9: TDBEdit [33]
     Left = 201
-    Top = 246
+    Top = 247
     Width = 157
     Height = 22
     BevelKind = bkFlat
@@ -536,7 +536,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit10: TDBEdit [34]
     Left = 394
-    Top = 246
+    Top = 247
     Width = 156
     Height = 22
     BevelKind = bkFlat
@@ -555,7 +555,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBComboBox1: TDBComboBox [35]
     Left = 23
-    Top = 283
+    Top = 284
     Width = 139
     Height = 21
     BevelKind = bkFlat
@@ -602,7 +602,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit11: TDBEdit [36]
     Left = 166
-    Top = 283
+    Top = 284
     Width = 99
     Height = 22
     BevelKind = bkFlat
@@ -621,7 +621,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit12: TDBEdit [37]
     Left = 269
-    Top = 283
+    Top = 284
     Width = 48
     Height = 22
     BevelKind = bkFlat
@@ -640,7 +640,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit13: TDBEdit [38]
     Left = 320
-    Top = 283
+    Top = 284
     Width = 105
     Height = 22
     BevelKind = bkFlat
@@ -659,7 +659,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit14: TDBEdit [39]
     Left = 429
-    Top = 283
+    Top = 284
     Width = 102
     Height = 22
     BevelKind = bkFlat
@@ -678,7 +678,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit15: TDBEdit [40]
     Left = 22
-    Top = 431
+    Top = 432
     Width = 327
     Height = 22
     BevelKind = bkFlat
@@ -697,7 +697,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit16: TDBEdit [41]
     Left = 22
-    Top = 320
+    Top = 321
     Width = 327
     Height = 22
     BevelKind = bkFlat
@@ -716,7 +716,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit17: TDBEdit [42]
     Left = 536
-    Top = 283
+    Top = 284
     Width = 102
     Height = 22
     BevelKind = bkFlat
@@ -734,8 +734,8 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 527
-    Width = 727
+    Top = 501
+    Width = 663
     TabOrder = 28
     inherited btnCancelar: TBitBtn [0]
       Font.Charset = ANSI_CHARSET
@@ -786,7 +786,7 @@ inherited fEmpresa: TfEmpresa
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 727
+    Width = 663
     TabOrder = 29
     inherited Label1: TLabel
       Left = 151
@@ -829,7 +829,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit6: TDBEdit [45]
     Left = 22
-    Top = 356
+    Top = 357
     Width = 327
     Height = 22
     BevelKind = bkFlat
@@ -848,7 +848,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit18: TDBEdit [46]
     Left = 22
-    Top = 395
+    Top = 396
     Width = 327
     Height = 22
     BevelKind = bkFlat
@@ -867,7 +867,7 @@ inherited fEmpresa: TfEmpresa
   end
   object BitBtn1: TBitBtn [47]
     Left = 371
-    Top = 322
+    Top = 323
     Width = 88
     Height = 34
     Caption = 'Procura'
@@ -981,7 +981,7 @@ inherited fEmpresa: TfEmpresa
   end
   object BitBtn2: TBitBtn [48]
     Left = 371
-    Top = 362
+    Top = 363
     Width = 88
     Height = 33
     Caption = 'Exclui'
@@ -1055,7 +1055,7 @@ inherited fEmpresa: TfEmpresa
   end
   object Panel3: TPanel [49]
     Left = 470
-    Top = 319
+    Top = 320
     Width = 168
     Height = 155
     BevelInner = bvLowered
@@ -1073,7 +1073,7 @@ inherited fEmpresa: TfEmpresa
   end
   object ComboBox1: TComboBox [50]
     Left = 354
-    Top = 431
+    Top = 432
     Width = 109
     Height = 23
     Font.Charset = ANSI_CHARSET
@@ -1106,7 +1106,7 @@ inherited fEmpresa: TfEmpresa
   end
   object BitBtn3: TBitBtn [52]
     Left = 362
-    Top = 242
+    Top = 243
     Width = 27
     Height = 25
     Caption = '...'
@@ -1121,7 +1121,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit20: TDBEdit [53]
     Left = 553
-    Top = 246
+    Top = 247
     Width = 86
     Height = 22
     BevelKind = bkFlat
@@ -1140,7 +1140,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit21: TDBEdit [54]
     Left = 149
-    Top = 470
+    Top = 471
     Width = 120
     Height = 22
     BevelKind = bkFlat
@@ -1159,7 +1159,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit22: TDBEdit [55]
     Left = 275
-    Top = 470
+    Top = 471
     Width = 74
     Height = 22
     BevelKind = bkFlat
@@ -1178,7 +1178,7 @@ inherited fEmpresa: TfEmpresa
   end
   object DBEdit23: TDBEdit [56]
     Left = 22
-    Top = 470
+    Top = 471
     Width = 121
     Height = 23
     BevelKind = bkFlat
@@ -1196,8 +1196,15 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 22
     OnKeyPress = FormKeyPress
   end
+  inherited XPMenu1: TXPMenu
+    Left = 552
+  end
+  inherited PopupMenu1: TPopupMenu
+    Left = 600
+  end
   inherited DtSrc: TDataSource
     DataSet = DM.cds_empresa
+    Left = 504
   end
   object OpenDialog1: TOpenDialog
     Left = 536
@@ -1228,8 +1235,8 @@ inherited fEmpresa: TfEmpresa
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 656
-    Top = 200
+    Left = 464
+    Top = 24
     object procIBGENM_LOCALIDADE: TStringField
       DisplayLabel = 'Cidade\Vila'
       FieldName = 'NM_LOCALIDADE'
