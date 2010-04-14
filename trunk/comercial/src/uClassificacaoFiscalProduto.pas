@@ -23,7 +23,6 @@ type
     ClientDataSet1ICMS_BASE: TFloatField;
     Label1: TLabel;
     DBEdit1: TDBEdit;
-    DataSource1: TDataSource;
     Label2: TLabel;
     DBEdit2: TDBEdit;
     Label3: TLabel;
@@ -50,6 +49,10 @@ type
     SQLDataSet1ICMS_BASE: TFloatField;
     SQLDataSet1CODPRO: TStringField;
     ClientDataSet1CODPRO: TStringField;
+    DBEdit9: TDBEdit;
+    Label10: TLabel;
+    SQLDataSet1CST: TStringField;
+    ClientDataSet1CST: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -74,6 +77,7 @@ begin
   inherited;
   ClientDataSet1COD_PROD.AsInteger := cfcodprod;
   ClientDataSet1CODPRO.AsString := cfcodproduto;
+  DBEdit2.SetFocus;
 end;
 
 procedure TfClassificacaoFIscalProduto.FormShow(Sender: TObject);
