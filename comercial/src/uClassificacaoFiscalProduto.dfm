@@ -1,6 +1,8 @@
 inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
-  Left = 309
-  Top = 161
+  Left = 196
+  Top = 130
+  Width = 775
+  Height = 536
   Caption = 'fClassificacaoFIscalProduto'
   OldCreateOrder = True
   OnCreate = nil
@@ -8,7 +10,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel [0]
-    Left = 8
+    Left = 3
     Top = 64
     Width = 88
     Height = 13
@@ -16,7 +18,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit1
   end
   object Label2: TLabel [1]
-    Left = 112
+    Left = 99
     Top = 64
     Width = 28
     Height = 13
@@ -24,7 +26,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit2
   end
   object Label3: TLabel [2]
-    Left = 176
+    Left = 163
     Top = 64
     Width = 14
     Height = 13
@@ -32,7 +34,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit3
   end
   object Label4: TLabel [3]
-    Left = 216
+    Left = 203
     Top = 64
     Width = 88
     Height = 13
@@ -40,23 +42,23 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit4
   end
   object Label5: TLabel [4]
-    Left = 328
+    Left = 306
     Top = 64
-    Width = 101
+    Width = 88
     Height = 13
-    Caption = 'Substitui'#231#227'o Fiscal IC'
+    Caption = 'Perc. Subst. Fiscal'
     FocusControl = DBEdit5
   end
   object Label6: TLabel [5]
-    Left = 440
+    Left = 411
     Top = 64
-    Width = 110
+    Width = 89
     Height = 13
-    Caption = 'Substitui'#231#227'o Fiscal IND'
+    Caption = 'Subst. Fiscal ICMS'
     FocusControl = DBEdit6
   end
   object Label7: TLabel [6]
-    Left = 552
+    Left = 515
     Top = 64
     Width = 26
     Height = 13
@@ -64,22 +66,32 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit7
   end
   object Label8: TLabel [7]
-    Left = 664
+    Left = 599
     Top = 64
     Width = 53
     Height = 13
     Caption = 'ICMS Base'
     FocusControl = DBEdit8
   end
+  object Label10: TLabel [8]
+    Left = 686
+    Top = 64
+    Width = 21
+    Height = 13
+    Caption = 'CST'
+    FocusControl = DBEdit8
+  end
   inherited MMJPanel1: TMMJPanel
+    Width = 767
     Font.Charset = ANSI_CHARSET
     Font.Height = -29
     ParentFont = False
+    TabOrder = 10
     object Label9: TLabel
       Left = 9
       Top = 7
-      Width = 688
-      Height = 41
+      Width = 92
+      Height = 34
       Anchors = [akLeft, akRight]
       Caption = 'Label9'
       Color = clBtnFace
@@ -95,90 +107,93 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     end
   end
   inherited MMJPanel2: TMMJPanel
+    Top = 458
+    Width = 767
+    TabOrder = 0
     inherited btnProcurar: TBitBtn
       Visible = False
     end
   end
-  object DBEdit1: TDBEdit [10]
-    Left = 8
+  object DBEdit1: TDBEdit [11]
+    Left = 3
     Top = 80
     Width = 89
     Height = 21
     DataField = 'CODPRO'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 2
+    TabOrder = 9
   end
-  object DBEdit2: TDBEdit [11]
-    Left = 112
+  object DBEdit2: TDBEdit [12]
+    Left = 99
     Top = 80
     Width = 57
     Height = 21
     DataField = 'CFOP'
     DataSource = DtSrc
-    TabOrder = 3
+    TabOrder = 1
   end
-  object DBEdit3: TDBEdit [12]
-    Left = 176
+  object DBEdit3: TDBEdit [13]
+    Left = 163
     Top = 80
     Width = 30
     Height = 21
     DataField = 'UF'
     DataSource = DtSrc
-    TabOrder = 4
+    TabOrder = 2
   end
-  object DBEdit4: TDBEdit [13]
-    Left = 216
+  object DBEdit4: TDBEdit [14]
+    Left = 203
     Top = 80
-    Width = 105
+    Width = 95
     Height = 21
     DataField = 'ICMS_SUBST'
     DataSource = DtSrc
-    TabOrder = 5
+    TabOrder = 3
   end
-  object DBEdit5: TDBEdit [14]
-    Left = 328
+  object DBEdit5: TDBEdit [15]
+    Left = 307
     Top = 80
-    Width = 105
+    Width = 95
     Height = 21
     DataField = 'ICMS_SUBST_IC'
     DataSource = DtSrc
-    TabOrder = 6
+    TabOrder = 4
   end
-  object DBEdit6: TDBEdit [15]
-    Left = 440
+  object DBEdit6: TDBEdit [16]
+    Left = 411
     Top = 80
-    Width = 105
+    Width = 95
     Height = 21
     DataField = 'ICMS_SUBST_IND'
     DataSource = DtSrc
-    TabOrder = 7
+    TabOrder = 5
   end
-  object DBEdit7: TDBEdit [16]
-    Left = 552
+  object DBEdit7: TDBEdit [17]
+    Left = 515
     Top = 80
-    Width = 105
+    Width = 78
     Height = 21
     DataField = 'ICMS'
     DataSource = DtSrc
-    TabOrder = 8
+    TabOrder = 6
   end
-  object DBEdit8: TDBEdit [17]
-    Left = 664
+  object DBEdit8: TDBEdit [18]
+    Left = 599
     Top = 80
-    Width = 105
+    Width = 78
     Height = 21
     DataField = 'ICMS_BASE'
     DataSource = DtSrc
-    TabOrder = 9
+    TabOrder = 7
   end
-  object DBGrid1: TDBGrid [18]
-    Left = 8
+  object DBGrid1: TDBGrid [19]
+    Left = 3
     Top = 112
-    Width = 753
+    Width = 758
     Height = 345
     DataSource = DtSrc
-    TabOrder = 10
+    TabOrder = 11
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -238,6 +253,15 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
         Visible = True
       end>
   end
+  object DBEdit9: TDBEdit [20]
+    Left = 683
+    Top = 80
+    Width = 78
+    Height = 21
+    DataField = 'CST'
+    DataSource = DtSrc
+    TabOrder = 8
+  end
   inherited DtSrc: TDataSource
     DataSet = ClientDataSet1
   end
@@ -291,6 +315,11 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       ProviderFlags = [pfInWhere]
       Size = 15
     end
+    object SQLDataSet1CST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
   end
   object ClientDataSet1: TClientDataSet
     Aggregates = <>
@@ -337,15 +366,15 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       FieldName = 'CODPRO'
       Size = 15
     end
+    object ClientDataSet1CST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
   end
   object DataSetProvider1: TDataSetProvider
     DataSet = SQLDataSet1
     Left = 480
-    Top = 8
-  end
-  object DataSource1: TDataSource
-    DataSet = ClientDataSet1
-    Left = 544
     Top = 8
   end
 end
