@@ -186,7 +186,9 @@ uses
   uLogsUsu in 'uLogsUsu.pas' {fLogsUsu},
   uTb_Ibge in 'uTb_Ibge.pas' {fTb_Ibge},
   uOf in 'uOf.pas' {fOf},
-  uCallCenter in 'uCallCenter.pas' {fCallCenter};
+  uCallCenter in 'uCallCenter.pas' {fCallCenter},
+  uNotafc in 'uNotafc.pas' {fNotafc},
+  uNFeInutilizar in 'uNFeInutilizar.pas' {fNFeInutilizar};
 
 {$R *.res}
 
