@@ -1,7 +1,7 @@
 object fNFeletronica: TfNFeletronica
-  Left = 115
-  Top = 101
-  Width = 777
+  Left = 38
+  Top = 106
+  Width = 882
   Height = 426
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -17,8 +17,8 @@ object fNFeletronica: TfNFeletronica
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 769
-    Height = 121
+    Width = 874
+    Height = 122
     Align = alTop
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -132,6 +132,20 @@ object fNFeletronica: TfNFeletronica
       NumGlyphs = 2
       Transparent = False
       OnClick = sbtnGetCertClick
+    end
+    object Label5: TLabel
+      Left = 13
+      Top = 82
+      Width = 99
+      Height = 16
+      Caption = 'Assunto Email'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
     end
     object Edit1: TEdit
       Left = 75
@@ -290,9 +304,9 @@ object fNFeletronica: TfNFeletronica
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object MemoResp: TMemo
-      Left = 186
+      Left = 304
       Top = 90
-      Width = 142
+      Width = 24
       Height = 22
       Align = alCustom
       TabOrder = 14
@@ -359,12 +373,50 @@ object fNFeletronica: TfNFeletronica
       TabOrder = 9
       OnClick = btnGeraPDFClick
     end
+    object BtnEnvEmail: TBitBtn
+      Left = 664
+      Top = 82
+      Width = 91
+      Height = 36
+      Caption = 'Enviar NF-e Email'
+      TabOrder = 15
+      OnClick = BtnEnvEmailClick
+    end
+    object EdtAssunto: TEdit
+      Left = 9
+      Top = 97
+      Width = 272
+      Height = 21
+      TabOrder = 16
+      Text = 'NF-e'
+    end
+    object tpNF: TRadioGroup
+      Left = 295
+      Top = 87
+      Width = 137
+      Height = 31
+      Caption = 'Tipo de Nota Fiscal'
+      Columns = 2
+      Items.Strings = (
+        'Compra'
+        'Venda')
+      TabOrder = 17
+    end
+    object btnInutilizar: TBitBtn
+      Left = 760
+      Top = 6
+      Width = 91
+      Height = 36
+      Caption = 'Inutilizar NF-e'
+      TabOrder = 18
+      OnClick = btnInutilizarClick
+    end
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 121
-    Width = 769
-    Height = 278
+    Top = 122
+    Width = 874
+    Height = 277
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -376,8 +428,8 @@ object fNFeletronica: TfNFeletronica
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 767
-      Height = 276
+      Width = 872
+      Height = 275
       Align = alClient
       DataSource = DataSource1
       TabOrder = 0
@@ -401,69 +453,69 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'SELECIONOU'
           Title.Caption = 'SEL.'
-          Width = 33
+          Width = 36
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NOTASERIE'
           Title.Caption = 'Nota F.'
-          Width = 43
+          Width = 48
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DTAEMISSAO'
           Title.Caption = 'Emiss'#227'o'
-          Width = 47
+          Width = 54
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CFOP'
-          Width = 35
+          Width = 38
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'C'#243'digo'
-          Width = 38
+          Width = 42
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Raz'#227'o Social'
-          Width = 154
+          Width = 178
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CNPJ'
           Title.Caption = 'CNPJ / CPF'
-          Width = 103
+          Width = 117
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOENV'
           Title.Caption = 'Protocolo de Envio'
-          Width = 88
+          Width = 100
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NUMRECIBO'
           Title.Caption = 'Numero Recebimento'
-          Width = 99
+          Width = 112
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOCANC'
           Title.Caption = 'Protocolo de Cancelamento'
-          Width = 101
+          Width = 121
           Visible = True
         end>
     end
@@ -471,29 +523,30 @@ object fNFeletronica: TfNFeletronica
   object sdsNF: TSQLDataSet
     CommandText = 
       'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CO' +
-      'RPONF2,  nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, '#13#10'UDF_ROUNDDEC(nf' +
-      '.BASE_ICMS, 2) as BASE_ICMS, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as' +
-      ' VALOR_ICMS,'#13#10'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_S' +
-      'UBST, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST' +
-      ', '#13#10'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR' +
-      '_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,'#13#10'UDF_ROUN' +
-      'DDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   n' +
-      'f.CNPJ_CPF,  cast(nf.NOMETRANSP as varchar (60) )as NOMETRANSP, ' +
-      ' nf.INSCRICAOESTADUAL,     '#13#10'cast(nf.END_TRANSP as varchar (60) ' +
-      ')as END_TRANSP,    cast(nf.CIDADE_TRANSP as varchar (60) )as CID' +
-      'ADE_TRANSP,   nf.UF_TRANSP,'#13#10'nf.PLACATRANSP,   nf.UF_VEICULO_TRA' +
-      'NSP,           nf.QUANTIDADE,           nf.ESPECIE,           nf' +
-      '.MARCA,           nf.NUMERO,           nf.PESOLIQUIDO,'#13#10'nf.PESOB' +
-      'RUTO,  cl.RAZAOSOCIAL,           cl.CNPJ ,           nf.HORASAID' +
-      'A,           nf.NOTASERIE,           nf.SELECIONOU,           nf' +
-      '.REDUZICMS, nf.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC, v.' +
-      'ENTRADA, v.VALOR_PAGAR'#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTES' +
-      ' cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderecocliente' +
-      ' endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer join ' +
-      'VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO betwee' +
-      'n :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacusto) or ' +
-      '(:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli' +
-      '.TIPOEND = 0)'#13#10'order by nf.DTAEMISSAO'
+      'RPONF2, nf.CORPONF3, nf.CORPONF4, nf.CODCLIENTE, nf.NUMNF, nf.CO' +
+      'DVENDA, nf.fatura, nf.natureza,'#13#10'UDF_ROUNDDEC(nf.BASE_ICMS, 2) a' +
+      's BASE_ICMS, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10'UD' +
+      'F_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, '#13#10'UDF_ROUN' +
+      'DDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, '#13#10'UDF_ROUNDDEC' +
+      '(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR' +
+      '_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,'#13#10'UDF_ROUNDDEC(nf.VALOR_TO' +
+      'TAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  cas' +
+      't(nf.NOMETRANSP as varchar (60) )as NOMETRANSP,  nf.INSCRICAOEST' +
+      'ADUAL,     '#13#10'cast(nf.END_TRANSP as varchar (60) )as END_TRANSP, ' +
+      '   cast(nf.CIDADE_TRANSP as varchar (60) )as CIDADE_TRANSP,   nf' +
+      '.UF_TRANSP,'#13#10'nf.PLACATRANSP,   nf.UF_VEICULO_TRANSP,           n' +
+      'f.QUANTIDADE,           nf.ESPECIE,           nf.MARCA,         ' +
+      '  nf.NUMERO,           nf.PESOLIQUIDO,'#13#10'nf.PESOBRUTO,  cl.RAZAOS' +
+      'OCIAL,           cl.CNPJ ,           nf.HORASAIDA,           nf.' +
+      'NOTASERIE,           nf.SELECIONOU,           nf.REDUZICMS, nf.P' +
+      'ROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC, v.ENTRADA, v.VALOR' +
+      '_PAGAR'#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLI' +
+      'ENTE = nf.CODCLIENTE'#13#10'inner join enderecocliente endecli on ende' +
+      'cli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer join VENDA v on v.COD' +
+      'VENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta' +
+      '2)'#13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' +
+      #39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0) an' +
+      'd NF.NATUREZA = :natnf'#13#10'order by nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
@@ -507,13 +560,18 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pvendacusto'
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pvendacusto'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'natnf'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -679,6 +737,22 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'VALOR_PAGAR'
       ReadOnly = True
     end
+    object sdsNFCORPONF3: TStringField
+      FieldName = 'CORPONF3'
+      Size = 75
+    end
+    object sdsNFCORPONF4: TStringField
+      FieldName = 'CORPONF4'
+      Size = 75
+    end
+    object sdsNFFATURA: TStringField
+      FieldName = 'FATURA'
+      Size = 300
+    end
+    object sdsNFNATUREZA: TSmallintField
+      FieldName = 'NATUREZA'
+      Required = True
+    end
   end
   object cdsNF: TClientDataSet
     Aggregates = <>
@@ -694,13 +768,18 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pvendacusto'
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pvendacusto'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'natnf'
         ParamType = ptInput
       end>
     ProviderName = 'dspNF'
@@ -904,6 +983,22 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'VALOR_PAGAR'
       ReadOnly = True
     end
+    object cdsNFCORPONF3: TStringField
+      FieldName = 'CORPONF3'
+      Size = 75
+    end
+    object cdsNFCORPONF4: TStringField
+      FieldName = 'CORPONF4'
+      Size = 75
+    end
+    object cdsNFFATURA: TStringField
+      FieldName = 'FATURA'
+      Size = 300
+    end
+    object cdsNFNATUREZA: TSmallintField
+      FieldName = 'NATUREZA'
+      Required = True
+    end
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
@@ -914,15 +1009,18 @@ object fNFeletronica: TfNFeletronica
     CommandText = 
       'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          md.PR' +
       'ECO,'#13#10'          cast(md.DESCPRODUTO as varchar(120) )as DESCPROD' +
-      'UTO,'#13#10'          pr.CODPRO,'#13#10'          pr.UNIDADEMEDIDA,'#13#10'       ' +
-      '   md.CST,'#13#10'          md.ICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_' +
-      'ICMS, 2) as VALOR_ICMS,'#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) ' +
-      'as VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_S' +
-      'UBST,'#13#10'          md.ICMS_SUBSTD,'#13#10'          md.VALTOTAL'#13#10'from VE' +
-      'NDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd' +
-      '.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CO' +
-      'DVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUT' +
-      'O'#13#10'where vd.CODVENDA = :id and nf.NATUREZA = 15'
+      'UTO,'#13#10'          case when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'   ' +
+      '       udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'    ' +
+      '      ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'     ' +
+      '     pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,'#13#10' ' +
+      '         UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10'        ' +
+      '  UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE,'#13#10'          UDF_ROUND' +
+      'DEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'          md.ICMS_SUBSTD,'#13 +
+      #10'          md.VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETA' +
+      'LHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFI' +
+      'SCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on' +
+      ' '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id and nf' +
+      '.NATUREZA = 15'
     MaxBlobSize = -1
     Params = <
       item
@@ -945,10 +1043,6 @@ object fNFeletronica: TfNFeletronica
     object sdsItensNFDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 120
-    end
-    object sdsItensNFCODPRO: TStringField
-      FieldName = 'CODPRO'
-      Size = 15
     end
     object sdsItensNFUNIDADEMEDIDA: TStringField
       FieldName = 'UNIDADEMEDIDA'
@@ -977,6 +1071,11 @@ object fNFeletronica: TfNFeletronica
     object sdsItensNFVALTOTAL: TFloatField
       FieldName = 'VALTOTAL'
       ReadOnly = True
+    end
+    object sdsItensNFCODPRO: TStringField
+      FieldName = 'CODPRO'
+      ReadOnly = True
+      Size = 254
     end
   end
   object dspItensNF: TDataSetProvider
@@ -2834,7 +2933,93 @@ object fNFeletronica: TfNFeletronica
     FileName = 'nfe.xml'
     RootNodeName = 'Configuration'
     SubStorages = <>
-    Left = 408
-    Top = 94
+    Left = 440
+    Top = 62
+  end
+  object sEmail: TSQLDataSet
+    CommandText = 
+      'select c.CODCLIENTE,'#13#10'           c.NOMECLIENTE,'#13#10'           cast' +
+      '(c.RAZAOSOCIAL as varchar (60) )as RAZAOSOCIAL,'#13#10'           e.E_' +
+      'MAIL'#13#10'from CLIENTES c '#13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CODC' +
+      'LIENTE = c.CODCLIENTE '#13#10'where c.RAZAOSOCIAL = :raz and e.TIPOEND' +
+      ' = 0'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'raz'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 128
+    Top = 328
+    object sEmailCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object sEmailNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
+    object sEmailRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      ReadOnly = True
+      Required = True
+      Size = 60
+    end
+    object sEmailE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      ReadOnly = True
+      Size = 30
+    end
+  end
+  object sdsFatura: TSQLDataSet
+    CommandText = 'select  * from NFE_FATURA(:pvenda)'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pvenda'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 159
+    Top = 328
+    object sdsFaturaDATAFATURA: TDateField
+      FieldName = 'DATAFATURA'
+    end
+    object sdsFaturaVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object sdsFaturaNUMEROFATURA: TStringField
+      FieldName = 'NUMEROFATURA'
+    end
+  end
+  object dspFatura: TDataSetProvider
+    DataSet = sdsFatura
+    Left = 191
+    Top = 329
+  end
+  object cdsFatura: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pvenda'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspFatura'
+    Left = 223
+    Top = 328
+    object cdsFaturaDATAFATURA: TDateField
+      FieldName = 'DATAFATURA'
+    end
+    object cdsFaturaVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object cdsFaturaNUMEROFATURA: TStringField
+      FieldName = 'NUMEROFATURA'
+    end
   end
 end
