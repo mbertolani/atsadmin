@@ -3,7 +3,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   Top = 130
   Width = 775
   Height = 536
-  Caption = 'fClassificacaoFIscalProduto'
+  Caption = 'Classifica'#231#227'o Fiscal dos Produto'
   OldCreateOrder = True
   OnCreate = nil
   OnShow = FormShow
@@ -36,41 +36,41 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   object Label4: TLabel [3]
     Left = 203
     Top = 64
-    Width = 88
+    Width = 23
     Height = 13
-    Caption = 'Substitui'#231#227'o Fiscal'
+    Caption = 'MVA'
     FocusControl = DBEdit4
   end
   object Label5: TLabel [4]
     Left = 306
     Top = 64
-    Width = 88
+    Width = 58
     Height = 13
-    Caption = 'Perc. Subst. Fiscal'
+    Caption = 'Icms Origem'
     FocusControl = DBEdit5
   end
   object Label6: TLabel [5]
     Left = 411
     Top = 64
-    Width = 89
+    Width = 61
     Height = 13
-    Caption = 'Subst. Fiscal ICMS'
+    Caption = 'Icms Destino'
     FocusControl = DBEdit6
   end
   object Label7: TLabel [6]
     Left = 515
     Top = 64
-    Width = 26
+    Width = 22
     Height = 13
-    Caption = 'ICMS'
+    Caption = 'Icms'
     FocusControl = DBEdit7
   end
   object Label8: TLabel [7]
     Left = 599
     Top = 64
-    Width = 53
+    Width = 49
     Height = 13
-    Caption = 'ICMS Base'
+    Caption = 'Base Icms'
     FocusControl = DBEdit8
   end
   object Label10: TLabel [8]
@@ -199,6 +199,10 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnCellClick = DBGrid1CellClick
+    OnKeyDown = DBGrid1KeyDown
+    OnKeyPress = DBGrid1KeyPress
+    OnKeyUp = DBGrid1KeyUp
     Columns = <
       item
         Expanded = False
@@ -222,34 +226,40 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       item
         Expanded = False
         FieldName = 'ICMS_SUBST'
-        Title.Caption = 'Substitui'#231#227'o Fiscal'
+        Title.Caption = 'IVA'
         Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ICMS_SUBST_IC'
-        Title.Caption = 'Substitui'#231#227'o Fiscal IC'
+        Title.Caption = 'Icms Origem'
         Width = 146
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ICMS_SUBST_IND'
-        Title.Caption = 'Substitui'#231#227'o Fiscal IND'
+        Title.Caption = 'Icms Destino'
         Width = 149
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ICMS'
+        Title.Caption = 'Icms'
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ICMS_BASE'
-        Title.Caption = 'ICMS Base'
+        Title.Caption = 'Base Icms'
         Width = 68
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CST'
         Visible = True
       end>
   end
