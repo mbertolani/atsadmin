@@ -36,8 +36,6 @@ type
     DBEdit4: TDBEdit;
     DBEdit5: TDBEdit;
     DBText2: TDBText;
-    Label5: TLabel;
-    Label9: TLabel;
     sdsCFOP: TStringField;
     DBEdit6: TDBEdit;
     Label10: TLabel;
@@ -51,6 +49,12 @@ type
     cds_estadoICMS_SUBSTRIB: TFloatField;
     cds_estadoICMS_SUBSTRIB_IC: TFloatField;
     cds_estadoICMS_SUBSTRIB_IND: TFloatField;
+    DBEdit9: TDBEdit;
+    Label13: TLabel;
+    sdsCST: TStringField;
+    cds_estadoCST: TStringField;
+    sdsCODESTADO: TIntegerField;
+    cds_estadoCODESTADO: TIntegerField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -61,6 +65,8 @@ type
       var Action: TReconcileAction);
     procedure cds_estadoPostError(DataSet: TDataSet; E: EDatabaseError;
       var Action: TDataAction);
+    procedure btnGravarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -135,6 +141,35 @@ begin
   MessageDlg('Não é possível gravar o registro. Erro : ' + E.Message , mtWarning,
         [mbOk], 0);
 
+end;
+
+procedure TfEstado.btnGravarClick(Sender: TObject);
+var str: string;
+begin
+  inherited;
+  DecimalSeparator := '.';
+  str := 'Update ESTADO_ICMS set CFOP = ';
+  str := str + QuotedStr(cds_estadoCFOP.AsString);
+  str := str + ', UF = ' + QuotedStr(cds_estadoUF.AsString);
+  str := str + ', ICMS = ' + FloatToStr(cds_estadoICMS.AsFloat);
+  str := str + ', REDUCAO = ' + FloatToStr(cds_estadoREDUCAO.AsFloat);
+  str := str + ', IPI = ' + FloatToStr(cds_estadoIPI.AsFloat);
+  str := str + ', ICMS_SUBSTRIB = ' + FloatToStr(cds_estadoICMS_SUBSTRIB.AsFloat);
+  str := str + ', ICMS_SUBSTRIB_IC = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IC.AsFloat);
+  str := str + ', ICMS_SUBSTRIB_IND = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IND.AsFloat);
+  str := str + ', CST = ' + QuotedStr(cds_estadoCST.AsString);
+  str := str + ' WHERE CODESTADO = ' + IntToStr(cds_estadoCODESTADO.AsInteger);
+  dm.sqlsisAdimin.ExecuteDirect(str);
+  DecimalSeparator := ',';
+end;
+
+procedure TfEstado.btnExcluirClick(Sender: TObject);
+var str: string;
+begin
+  inherited;
+  str := 'DELETE FROM ESTADO_ICMS ';
+  str := str + ' WHERE CODESTADO = ' + IntToStr(cds_estadoCODESTADO.AsInteger);
+  dm.sqlsisAdimin.ExecuteDirect(str);
 end;
 
 end.

@@ -1,6 +1,7 @@
 inherited fEstado: TfEstado
-  Width = 690
+  Width = 694
   Height = 484
+  Caption = 'Classifica'#231#227'o Fiscal por Estado'
   Font.Height = -13
   OldCreateOrder = True
   OnShow = FormShow
@@ -41,45 +42,38 @@ inherited fEstado: TfEstado
     Height = 16
     Caption = 'IPI'
   end
-  object Label5: TLabel [5]
-    Left = 9
-    Top = 111
-    Width = 86
-    Height = 16
-    Caption = 'Procura CFOP'
-  end
-  object Label9: TLabel [6]
-    Left = 233
-    Top = 111
-    Width = 126
-    Height = 16
-    Caption = 'Procura CFOP Nome'
-  end
-  object Label10: TLabel [7]
+  object Label10: TLabel [5]
     Left = 374
     Top = 55
-    Width = 57
+    Width = 29
     Height = 16
-    Caption = 'Sub. Trib.'
+    Caption = 'MVA'
   end
-  object Label11: TLabel [8]
-    Left = 438
+  object Label11: TLabel [6]
+    Left = 446
     Top = 55
-    Width = 61
+    Width = 75
     Height = 16
-    Caption = 'Perc. Sub.'
+    Caption = 'Icms Origem'
   end
-  object Label12: TLabel [9]
-    Left = 518
+  object Label12: TLabel [7]
+    Left = 526
     Top = 55
-    Width = 62
+    Width = 77
     Height = 16
-    Caption = 'Perc. Icms'
+    Caption = 'Icms Destino'
+  end
+  object Label13: TLabel [8]
+    Left = 614
+    Top = 55
+    Width = 27
+    Height = 16
+    Caption = 'CST'
   end
   inherited MMJPanel1: TMMJPanel
     Top = 403
-    Width = 682
-    TabOrder = 8
+    Width = 686
+    TabOrder = 9
     inherited btnIncluir: TBitBtn [0]
       Left = 180
     end
@@ -102,13 +96,13 @@ inherited fEstado: TfEstado
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 682
+    Width = 686
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
     Font.Name = 'Cooper Blk BT'
     ParentFont = False
-    TabOrder = 9
+    TabOrder = 10
     inherited Label1: TLabel
       Top = -74
     end
@@ -126,7 +120,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
   end
-  object DBEdit1: TDBEdit [12]
+  object DBEdit1: TDBEdit [11]
     Left = 8
     Top = 71
     Width = 97
@@ -145,7 +139,7 @@ inherited fEstado: TfEstado
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [13]
+  object DBEdit2: TDBEdit [12]
     Left = 107
     Top = 71
     Width = 38
@@ -164,7 +158,7 @@ inherited fEstado: TfEstado
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [14]
+  object DBEdit3: TDBEdit [13]
     Left = 153
     Top = 71
     Width = 64
@@ -183,11 +177,11 @@ inherited fEstado: TfEstado
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBGrid1: TDBGrid [15]
-    Left = 8
-    Top = 130
-    Width = 673
-    Height = 264
+  object DBGrid1: TDBGrid [14]
+    Left = 3
+    Top = 112
+    Width = 679
+    Height = 278
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -196,7 +190,7 @@ inherited fEstado: TfEstado
     Font.Style = []
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 11
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -13
@@ -206,6 +200,7 @@ inherited fEstado: TfEstado
       item
         Expanded = False
         FieldName = 'CFOP'
+        Width = 81
         Visible = True
       end
       item
@@ -224,23 +219,47 @@ inherited fEstado: TfEstado
       item
         Expanded = False
         FieldName = 'ICMS'
-        Width = 80
+        Width = 72
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'REDUCAO'
-        Width = 80
+        Width = 72
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'IPI'
-        Width = 80
+        Width = 72
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS_SUBSTRIB'
+        Title.Caption = 'Substitui'#231#227'o Tribut'#225'ria'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS_SUBSTRIB_IC'
+        Title.Caption = 'Perc. Subst. Trib.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS_SUBSTRIB_IND'
+        Title.Caption = 'ICMS Substitui'#231#227'o Tribut'#225'ria'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CST'
+        Width = 42
         Visible = True
       end>
   end
-  object DBEdit4: TDBEdit [16]
+  object DBEdit4: TDBEdit [15]
     Left = 221
     Top = 71
     Width = 84
@@ -259,7 +278,7 @@ inherited fEstado: TfEstado
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [17]
+  object DBEdit5: TDBEdit [16]
     Left = 308
     Top = 71
     Width = 57
@@ -278,10 +297,10 @@ inherited fEstado: TfEstado
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [18]
+  object DBEdit6: TDBEdit [17]
     Left = 372
     Top = 71
-    Width = 61
+    Width = 69
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -297,10 +316,10 @@ inherited fEstado: TfEstado
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [19]
-    Left = 436
+  object DBEdit7: TDBEdit [18]
+    Left = 444
     Top = 71
-    Width = 69
+    Width = 77
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -316,10 +335,10 @@ inherited fEstado: TfEstado
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [20]
-    Left = 516
+  object DBEdit8: TDBEdit [19]
+    Left = 524
     Top = 71
-    Width = 69
+    Width = 77
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -335,17 +354,36 @@ inherited fEstado: TfEstado
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
+  object DBEdit9: TDBEdit [20]
+    Left = 608
+    Top = 71
+    Width = 69
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    CharCase = ecUpperCase
+    DataField = 'CST'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 8
+    OnKeyPress = FormKeyPress
+  end
   inherited DtSrc: TDataSource
     DataSet = cds_estado
     Left = 408
   end
   object sds: TSQLDataSet
     CommandText = 
-      'select esta.CFOP'#13#10'        , esta.UF'#13#10'        , esta.ICMS'#13#10'      ' +
-      '  , esta.REDUCAO'#13#10'        , cfo.CFNOME'#13#10'        , esta.IPI , est' +
-      'a.ICMS_SUBSTRIB, esta.ICMS_SUBSTRIB_IC'#13#10', esta.ICMS_SUBSTRIB_IND' +
-      #13#10'FROM ESTADO_ICMS esta '#13#10'left outer join CFOP cfo on cfo.CFCOD ' +
-      '= esta.CFOP '
+      'select esta.CODESTADO, esta.CFOP'#13#10'        , esta.UF'#13#10'        , e' +
+      'sta.ICMS'#13#10'        , esta.REDUCAO'#13#10'        , cfo.CFNOME'#13#10'        ' +
+      ', esta.IPI , esta.ICMS_SUBSTRIB, esta.ICMS_SUBSTRIB_IC'#13#10', esta.I' +
+      'CMS_SUBSTRIB_IND, esta.CST'#13#10'FROM ESTADO_ICMS esta '#13#10'left outer j' +
+      'oin CFOP cfo on cfo.CFCOD = esta.CFOP '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -386,6 +424,15 @@ inherited fEstado: TfEstado
     end
     object sdsICMS_SUBSTRIB_IND: TFloatField
       FieldName = 'ICMS_SUBSTRIB_IND'
+    end
+    object sdsCST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
+    object sdsCODESTADO: TIntegerField
+      FieldName = 'CODESTADO'
+      Required = True
     end
   end
   object dsp: TDataSetProvider
@@ -436,6 +483,15 @@ inherited fEstado: TfEstado
     end
     object cds_estadoICMS_SUBSTRIB_IND: TFloatField
       FieldName = 'ICMS_SUBSTRIB_IND'
+    end
+    object cds_estadoCST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
+    object cds_estadoCODESTADO: TIntegerField
+      FieldName = 'CODESTADO'
+      Required = True
     end
   end
 end
