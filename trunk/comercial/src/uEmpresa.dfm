@@ -1084,6 +1084,7 @@ inherited fEmpresa: TfEmpresa
     ItemHeight = 15
     ParentFont = False
     TabOrder = 27
+    OnChange = ComboBox1Change
   end
   object DBEdit19: TDBEdit [51]
     Left = 550
