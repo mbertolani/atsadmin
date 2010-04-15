@@ -55,11 +55,19 @@ type
     ClientDataSet1CST: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid1KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
   cfcodprod :integer;
-  cfcodproduto :String;
+  cfcodproduto, cfop, uf :String;
     { Public declarations }
   end;
 
@@ -87,6 +95,71 @@ begin
     ClientDataSet1.Close;
   ClientDataSet1.Params.ParamByName('pcodpro').AsInteger := cfcodprod;
   ClientDataSet1.open;
+  uf   := ClientDataSet1UF.AsString;
+  cfop := ClientDataSet1CFOP.AsString;
+end;
+
+procedure TfClassificacaoFIscalProduto.btnGravarClick(Sender: TObject);
+var str:string;
+begin
+  inherited;
+  DecimalSeparator := '.';
+  str := 'Update ClassificacaoFiscalProduto set CFOP = ';
+  str := str + QuotedStr(ClientDataSet1CFOP.AsString);
+  str := str + ', UF = ' + QuotedStr(ClientDataSet1UF.AsString);
+  str := str + ', ICMS_SUBST = ' + FloatToStr(ClientDataSet1ICMS_SUBST.AsFloat);
+  str := str + ', ICMS_SUBST_IC = ' + FloatToStr(ClientDataSet1ICMS_SUBST_IC.AsFloat);
+  str := str + ', ICMS_SUBST_IND = ' + FloatToStr(ClientDataSet1ICMS_SUBST_IND.AsFloat);
+  str := str + ', ICMS = ' + FloatToStr(ClientDataSet1ICMS.AsFloat);
+  str := str + ', ICMS_BASE = ' + FloatToStr(ClientDataSet1ICMS_BASE.AsFloat);
+  str := str + ', CST = ' + QuotedStr(ClientDataSet1CST.AsString);
+  str := str + ' WHERE COD_PROD = ' + IntToStr(ClientDataSet1COD_PROD.AsInteger);
+  str := str + ' AND CFOP = ' + QuotedStr(CFOP);
+  str := str + ' AND UF = ' + QuotedStr(UF);
+  dm.sqlsisAdimin.ExecuteDirect(str);
+  DecimalSeparator := ',';
+end;
+
+procedure TfClassificacaoFIscalProduto.DBGrid1CellClick(Column: TColumn);
+begin
+  inherited;
+  uf   := ClientDataSet1UF.AsString;
+  cfop := ClientDataSet1CFOP.AsString;
+end;
+
+procedure TfClassificacaoFIscalProduto.DBGrid1KeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  uf   := ClientDataSet1UF.AsString;
+  cfop := ClientDataSet1CFOP.AsString;
+end;
+
+procedure TfClassificacaoFIscalProduto.DBGrid1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  uf   := ClientDataSet1UF.AsString;
+  cfop := ClientDataSet1CFOP.AsString;
+end;
+
+procedure TfClassificacaoFIscalProduto.DBGrid1KeyUp(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  uf   := ClientDataSet1UF.AsString;
+  cfop := ClientDataSet1CFOP.AsString;
+end;
+
+procedure TfClassificacaoFIscalProduto.btnExcluirClick(Sender: TObject);
+var str: string;
+begin
+  inherited;
+  str := 'DELETE FROM ClassificacaoFiscalProduto ';
+  str := str + ' WHERE COD_PROD = ' + IntToStr(ClientDataSet1COD_PROD.AsInteger);
+  str := str + ' AND CFOP = ' + QuotedStr(CFOP);
+  str := str + ' AND UF = ' + QuotedStr(UF);
+  dm.sqlsisAdimin.ExecuteDirect(str);  
 end;
 
 end.
