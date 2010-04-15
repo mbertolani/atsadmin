@@ -85,6 +85,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -121,16 +122,6 @@ begin
   if not dm.cds_empresa.Active then
     dm.cds_empresa.Open;
 
-  if (DM.cds_empresaLOGOTIPO.Value <> '') then
-    begin
-      S :=   DM.cds_empresa.CreateBlobStream(DM.cds_empresaLOGOTIPO,bmread);
-      Imagem    := TJPEGImage.Create;
-      Imagem.LoadFromStream(S);
-      Image1.Picture.Assign(Imagem);
-    end
-  else
-    Image1.Picture := nil ;
-
     //Vejo quais são as contas de Receitas para listar no lookupcombobox.
     if dm.cds_parametro.Active then
       dm.cds_parametro.Close;
@@ -146,17 +137,25 @@ begin
     dm.cds_ccusto.Open;
     DM.cds_ccusto.First;
 
-    if (not dm.cds_ccusto.Active) then
-     dm.cds_ccusto.Open;
-   dm.cds_ccusto.Locate('CODIGO', dm.cds_empresaCCUSTO.AsInteger ,[loPartialKey]);
-       ComboBox1.Text := dm.cds_ccustoNOME.AsString;
-
     while not DM.cds_ccusto.Eof do
     begin
       ComboBox1.Items.Add(dm.cds_ccustoNOME.AsString);
       DM.cds_ccusto.Next;
     end;
 
+    dm.cds_ccusto.Locate('CODIGO', dm.cds_empresaCCUSTO.AsInteger ,[loCaseInsensitive]);
+       ComboBox1.Text := dm.cds_ccustoNOME.AsString;
+
+  if (not DM.cds_empresaLOGOTIPO.IsNull) then
+  begin
+    S :=   DM.cds_empresa.CreateBlobStream(DM.cds_empresaLOGOTIPO,bmread);
+    Imagem    := TJPEGImage.Create;
+    Imagem.LoadFromStream(S);
+    Image1.Picture.Assign(Imagem);
+  end
+  else begin
+    Image1.Picture := nil ;
+  end;
 
 end;
 
@@ -246,6 +245,13 @@ begin
     procIBGE.Close;
     fProcurar.Free;
    end;
+end;
+
+procedure TfEmpresa.ComboBox1Change(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in [dsBrowse]) then
+    DM.cds_empresa.Edit;
 end;
 
 end.
