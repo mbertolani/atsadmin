@@ -1627,32 +1627,6 @@ begin
     begin
       DbEdit2.ReadOnly := True;
     end;
-  if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
-
-    if (dm.parametroCONFIGURADO.AsString = 'N') then
-    begin
-      dbDtaVencimento.Visible := True;
-      cbPrazo.ItemIndex := -1;
-      cbPrazo.Visible := False;
-    end
-    else begin
-      try
-        if (not dm.cdsPrazo.Active) then
-          dm.cdsPrazo.open;
-        if (not dm.cdsPrazo.IsEmpty) then
-        begin
-          dm.CdsPrazo.first;
-          nparc := dm.CdsPrazoVALOR.asFloat;
-          cbPrazo.Items.clear;
-          while not dm.CdsPrazo.eof do
-          begin
-            cbPrazo.Items.Add(dm.cdsPrazoPARAMETRO.asString);
-            dm.cdsPrazo.next;
-          end;
-        end;
-      except
-      end;
-    end;
   { 003 - Verificando o uso do campo Controle - 09-05-2005 }
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
@@ -1816,6 +1790,36 @@ begin
   Cancelar := 'S';
   Procurar := 'S';
 
+  if (not dm.parametro.Active) then
+    dm.parametro.Open;
+
+  if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
+  begin
+    if (dm.parametroCONFIGURADO.AsString = 'N') then
+    begin
+      dbDtaVencimento.Visible := True;
+      cbPrazo.ItemIndex := -1;
+      cbPrazo.Visible := False;
+    end
+    else begin
+      try
+        if (not dm.cdsPrazo.Active) then
+        dm.cdsPrazo.open;
+        if (not dm.cdsPrazo.IsEmpty) then
+        begin
+          dm.CdsPrazo.first;
+          nparc := dm.CdsPrazoVALOR.asFloat;
+          cbPrazo.Items.clear;
+          while not dm.CdsPrazo.eof do
+          begin
+            cbPrazo.Items.Add(dm.cdsPrazoPARAMETRO.asString);
+            dm.cdsPrazo.next;
+          end;
+        end;
+      except
+      end;
+    end;
+  end;
   if (dm.moduloUsado = 'CITRUS') then
   begin
     jvCalcEdit1.Value := fVendas.cds_Mov_detQUANTIDADE.Value;

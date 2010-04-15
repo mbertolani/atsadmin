@@ -1600,7 +1600,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 496
+    Top = 503
     Width = 791
     Height = 23
     Align = alBottom
@@ -3274,5 +3274,12 @@ inherited fCompraFinalizar: TfCompraFinalizar
       FieldName = 'CODREDUZIDO'
       Size = 15
     end
+  end
+  object sqlBuscaNota: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 592
+    Top = 328
   end
 end
