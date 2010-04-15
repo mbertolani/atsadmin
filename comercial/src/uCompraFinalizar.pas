@@ -273,6 +273,7 @@ type
     cbPrazo: TJvComboBox;
     dbDtaVencimento: TDBEdit;
     CheckBox2: TCheckBox;
+    sqlBuscaNota: TSQLQuery;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -309,6 +310,7 @@ type
       var Action: TReconcileAction);
     procedure CheckBox2Click(Sender: TObject);
   private
+    procedure notafiscal ;
     { Private declarations }
   public
     grava: TCompras;
@@ -324,7 +326,7 @@ var
 implementation
 
 uses uComercial, UDm, uProcurar, uCheques_bol, uCompra, ufCpAltera,
-  uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize;
+  uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize, uNotafc, UDMNF;
 
 {$R *.dfm}
 
@@ -754,6 +756,35 @@ end;
 procedure TfCompraFinalizar.FormShow(Sender: TObject);
 var utilcrtitulo : Tutils;
 begin
+  if (not dm.parametro.Active) then
+    dm.parametro.Open;
+  if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
+  begin
+    if (dm.parametroCONFIGURADO.AsString = 'N') then
+    begin
+      dbDtaVencimento.Visible := True;
+      cbPrazo.ItemIndex := -1;
+      cbPrazo.Visible := False;
+    end
+    else begin
+      try
+        if (not dm.cdsPrazo.Active) then
+          dm.cdsPrazo.open;
+        if (not dm.cdsPrazo.IsEmpty) then
+        begin
+          dm.CdsPrazo.first;
+          n_parcelas := dm.cdsPrazoValor.asFloat;
+          cbPrazo.Items.clear;
+          while not dm.CdsPrazo.eof do
+          begin
+            cbPrazo.Items.Add(dm.cdsPrazoPARAMETRO.asString);
+            dm.cdsPrazo.next;
+          end;
+        end;
+      except
+      end;
+    end;
+  end;
   // Listo as Contas Caixa
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -926,33 +957,6 @@ begin
   end;
 
   n_parcelas := 1;
-  if (not dm.parametro.Active) then
-    dm.parametro.Open;
-  if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
-    if (dm.parametroCONFIGURADO.AsString = 'N') then
-    begin
-      dbDtaVencimento.Visible := True;
-      cbPrazo.ItemIndex := -1;
-      cbPrazo.Visible := False;
-    end
-    else begin
-      try
-        if (not dm.cdsPrazo.Active) then
-          dm.cdsPrazo.open;
-        if (not dm.cdsPrazo.IsEmpty) then
-        begin
-          dm.CdsPrazo.first;
-          n_parcelas := dm.cdsPrazoValor.asFloat;
-          cbPrazo.Items.clear;
-          while not dm.CdsPrazo.eof do
-          begin
-            cbPrazo.Items.Add(dm.cdsPrazoPARAMETRO.asString);
-            dm.cdsPrazo.next;
-          end;
-        end;
-      except
-      end;
-    end;
 
   if (dm.moduloUsado = 'CITRUS') then
   begin
@@ -1111,33 +1115,12 @@ procedure TfCompraFinalizar.btnNotaFiscalClick(Sender: TObject);
 var valor_fatura :string;
 begin
   inherited;
-  fNotaFiscal := TfNotaFiscal.Create(Application);
-  fITENS_NF := TfITENS_NF.Create(Application);
-  tipo_form := 'COMPRA';
-  fatura_NF := '';
-  if scdsCr_proc.State in [dsEdit, dsBrowse] then
-  begin
-    scdsCr_proc.First;
-   while not scdsCr_proc.Eof do
-   begin
-    if scdsCr_procSTATUS.AsString <> '7-' then
-    begin
-      fatura_NF := fatura_NF + ' ( ';
-      fatura_NF := fatura_NF + scdsCr_procTITULO.AsString; { + '/' + scdsCr_procVIA.AsString;}
-      fatura_NF := fatura_NF + ' - ' + DateToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
-      valor_fatura := formatfloat('0.00',scdsCr_procVALOR_RESTO.Value);
-      fatura_NF := fatura_NF + ' - ' + valor_fatura + ')';
-    end;
-     scdsCr_proc.Next;
-   end;
-  end;
-  try
-    fNotaFiscal.ShowModal;
-  finally
-    fITENS_NF.Free;
-    fNotaFiscal.Free;
-  end;
 
+  if DtSrc.State in [dsInsert] then
+  begin
+    btnGravar.Click;
+  end;
+  notaFiscal;
 end;
 
 procedure TfCompraFinalizar.cbNomeColhedorChange(Sender: TObject);
@@ -1276,6 +1259,69 @@ begin
     dbDtaVencimento.Visible := True;
     cbPrazo.Visible := False;
   end;
+end;
+
+procedure TfCompraFinalizar.notafiscal;
+var
+  TD: TTransactionDesc;
+  Save_Cursor:TCursor;
+  codClienteNF: integer;
+  str_sql : string;
+begin
+  if (sqlBuscaNota.Active) then
+    sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select codMovimento, codFornecedor  from MOVIMENTO where CONTROLE = ' +
+    QuotedStr(IntToStr(cds_compraCODMOVIMENTO.AsInteger)));
+  sqlBuscaNota.Open;
+  if (sqlBuscaNota.IsEmpty) then
+  begin
+    try
+    codClienteNF := 0;
+    Save_Cursor := Screen.Cursor;
+    Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+    // Nota Fiscal
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        str_sql := 'EXECUTE PROCEDURE GERA_NF_COMPRA(';
+        str_sql := str_sql + IntToStr(cds_COMPRACODFORNECEDOR.AsInteger);
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATACOMPRA.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATAVENCIMENTO.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(cds_COMPRASERIE.AsString);
+        str_sql := str_sql + ', ' + QuotedStr(inttostr(cds_COMPRANOTAFISCAL.AsInteger));
+        str_sql := str_sql + ', ' + IntToStr(cds_COMPRACODMOVIMENTO.AsInteger) + ')';
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
+        exit;
+      end;
+    if (sqlBuscaNota.Active) then
+      sqlBuscaNota.Close;
+    sqlBuscaNota.SQL.Clear;
+    sqlBuscaNota.SQL.Add('select codMovimento, codFornecedor from MOVIMENTO where CONTROLE = ' +
+      QuotedStr(IntToStr(cds_compraCODMOVIMENTO.AsInteger)));
+    sqlBuscaNota.Open;
+    // Abrindo a tela da nota
+    //****************** ver como vou ter o código do Movimento para abrir esta no
+    finally
+      Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    end;
+  end;
+  fNotafc := TfNotafc.Create(Application);
+  try
+    fNotaFc.codMovFin := sqlBuscaNota.Fields[0].AsInteger;
+    fNotaFc.codCliFin := sqlBuscaNota.Fields[1].AsInteger;
+
+    if (not  dm.cds_empresa.Active) then
+      dm.cds_empresa.open;
+    fNotafc.ShowModal;
+    finally
+      fNotafc.Free;
+    end;
+
 end;
 
 end.

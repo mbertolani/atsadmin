@@ -2052,7 +2052,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object MMJPanel3: TMMJPanel [6]
     Left = 0
-    Top = 494
+    Top = 501
     Width = 781
     Height = 37
     Align = alBottom
