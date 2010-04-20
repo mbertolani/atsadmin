@@ -660,6 +660,7 @@ begin
     VCLReport1.FileName := str_relatorio + 'listamovimento.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi;
+  VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
   VCLReport1.Execute;
 end;
 

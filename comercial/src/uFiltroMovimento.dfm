@@ -1062,7 +1062,7 @@ object fFiltroMovimento: TfFiltroMovimento
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
     object btnProcurar: TBitBtn
-      Left = 221
+      Left = 253
       Top = 6
       Width = 112
       Height = 34
@@ -1129,7 +1129,7 @@ object fFiltroMovimento: TfFiltroMovimento
         7F7F7F7F7F7F7F7F828282C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object btnSair: TBitBtn
-      Left = 579
+      Left = 611
       Top = 6
       Width = 112
       Height = 34
@@ -1244,7 +1244,7 @@ object fFiltroMovimento: TfFiltroMovimento
         BFBFBFBFBFBFBFBFBF00}
     end
     object BitBtn8: TBitBtn
-      Left = 341
+      Left = 373
       Top = 6
       Width = 112
       Height = 34
@@ -1318,7 +1318,7 @@ object fFiltroMovimento: TfFiltroMovimento
         BFBFBFBF0000}
     end
     object BitBtn9: TBitBtn
-      Left = 460
+      Left = 492
       Top = 6
       Width = 112
       Height = 34
@@ -1396,7 +1396,7 @@ object fFiltroMovimento: TfFiltroMovimento
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000}
     end
     object BitBtn5: TBitBtn
-      Left = 101
+      Left = 133
       Top = 6
       Width = 112
       Height = 34
@@ -1456,13 +1456,26 @@ object fFiltroMovimento: TfFiltroMovimento
         0000080808080808080808080808080808080808080808000000}
     end
     object BitBtn12: TBitBtn
-      Left = 16
-      Top = 8
-      Width = 75
-      Height = 25
+      Left = 15
+      Top = 6
+      Width = 112
+      Height = 34
       Caption = 'Imp.Consulta'
       TabOrder = 5
       OnClick = BitBtn12Click
+      Glyph.Data = {
+        66010000424D6601000000000000760000002800000015000000140000000100
+        040000000000F000000000000000000000001000000000000000000000000000
+        8000008000000080800080000000800080008080000080808000C0C0C0000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+        88888888800088F88888888888888888800088878888888888877F8880008887
+        F888888888887788800088877777777777777788800088770000000000000788
+        800080888888888888887788800087F888888888888887788000878888888888
+        88888708800087888888888889988708800087FFFFFFFFFFFFFF870880008878
+        8777777777788808800088F770877777780777788000888887F888888F788888
+        80008888888888888F788888800088888878888888F7F8888000888888878877
+        778F78888000888888888FFFFFFF7F88800088888888073333370F8880008888
+        88888888888888888000}
     end
   end
   object DBGrid1: TJvDBGrid
