@@ -1,12 +1,12 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 65532
-  Top = 65532
-  Height = 748
-  Width = 1032
+  Left = 1
+  Top = 1
+  Height = 738
+  Width = 1022
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisAdmin'
+    ConnectionName = 'sge'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -5246,6 +5246,10 @@ object DM: TDM
       FieldName = 'SENHA'
       Size = 10
     end
+    object sds_EmpresaDIVERSOS1: TStringField
+      FieldName = 'DIVERSOS1'
+      Size = 50
+    end
   end
   object dsp_empresa: TDataSetProvider
     DataSet = sds_Empresa
@@ -5398,6 +5402,10 @@ object DM: TDM
     object cds_empresaSENHA: TStringField
       FieldName = 'SENHA'
       Size = 10
+    end
+    object cds_empresaDIVERSOS1: TStringField
+      FieldName = 'DIVERSOS1'
+      Size = 50
     end
   end
   object sds_usuario: TSQLDataSet
