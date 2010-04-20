@@ -28,7 +28,7 @@ BEGIN
   end
   else begin 
     select first 1 r.DATAVENCIMENTO, r.VALOR_RESTO, r.TITULO
-      from RECEBIMENTO r where r.CODVENDA = :codvenda
+      from RECEBIMENTO r where r.TITULO = udf_trim(:NF) || '-' || :Serie
       into :datafatura, :valor, :numerofatura;
         suspend;
     
