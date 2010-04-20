@@ -1,12 +1,17 @@
-set term ^ ;
-create or ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD (
+SET TERM ^ ;
+ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD (
     CFOP Varchar(30),
     UF Char(2),
     NUMERO_NF Integer,
     CODMOV Integer,
     SERIE Char(20) )
+  /*Returns(
+     ind_icms_interno double precision,
+     ind_icms_externo double precision,
+     passou_aqui varchar(100)
+  ) */
 AS
-  declare variable codNF integer;
+declare variable codNF integer;
   declare variable codProduto integer;
   declare variable qtde double PRECISION;
   declare variable desconto double PRECISION;
@@ -48,6 +53,9 @@ AS
   declare variable ST double precision;
   declare variable BASE_ST double precision;
   declare variable total2 double precision;
+  declare variable st_int double precision;
+  declare variable st_ext double precision;
+ 
   declare variable total3 double precision;
   declare variable TOTAL_VLR_ICMS double precision;
   declare variable TOTAL_ST double precision;
@@ -77,9 +85,9 @@ begin
       where md.CODMOVIMENTO = :codMov
     into :desconto, :codProduto, :qtde, :preco, :icms, :baseIcms, :cstProd
     do begin
-      select cfp.ICMS_SUBST, cfp.ICMS_SUBST_IC, cfp.ICMS_SUBST_IND, cfp.ICMS, cfp.ICMS_BASE from CLASSIFICACAOFISCALPRODUTO cfp 
+      select cfp.ICMS_SUBST, cfp.ICMS_SUBST_IC, cfp.ICMS_SUBST_IND, cfp.ICMS, cfp.ICMS_BASE, cfp.CST from CLASSIFICACAOFISCALPRODUTO cfp 
       where cfp.CFOP = :CFOP and cfp.COD_PROD = :codProduto and cfp.UF = :UF
-      into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, CICMS_BASE;
+      into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, CICMS_BASE, :CST;
 
       if (cicms is null) then 
         cicms2 = 0;
@@ -97,7 +105,7 @@ begin
       if (desconto = 0) then     
         VLR_PROD = :qtde * :preco;
 
-
+      -- TEM ST ######################################################################################
       if ((CICMS_SUBST > 0) or (CICMS > 0)) then
       begin
         USA_SUBPROD = 'S';
@@ -119,40 +127,70 @@ begin
           CICMS_BASE = 1;
         total = 0;          
         
-        if (CICMS_SUBST > 0) then    
-           BASE_ST = (VLR_PROD *(1+(CICMS_SUBST/100)));
-        VLR_ICMS =  (VLR_PROD*(CICMS_SUBST_IND/100));
-        ST = (BASE_ST * (CICMS_SUBST_IC/100))-(VLR_ICMS);
-        CICMS_BASE = (VLR_PROD * CICMS_BASE);
-        CICMS = (CICMS * CICMS_BASE);
-            
-    
-    --md.ICMS = md.ICMS*(1+(CICMS_SUBST/100))*(CICMS_SUBST_IC/100))-(VLR_PROD*(CICMS_SUBST_IND));
+        -- ICMS INTERNO
+        --CIMS_SUBST_IC
+      
+        -- ICMS EXTERNO
+        -- CIMS_SUBST_IND
+        /*ind_icms_interno =  CICMS_SUBST_IC;
+        ind_icms_externo =  CICMS_SUBST_IND;
+        passou_aqui = 'aqui 2';
+        suspend; */
+           
+          if (CICMS_SUBST_IND <> CICMS_SUBST_IC) then 
+          begin 
+            if (CICMS_SUBST > 0) then    
+               BASE_ST = (VLR_PROD *(1+(CICMS_SUBST/100)));
+            VLR_ICMS =  (VLR_PROD*(CICMS_SUBST_IND/100));
 
-        if (icms > 0) then 
-        cst = '000';
-        if (icms is null) then 
-          icms = vIcmsT;
-        if (icms is null) then 
-        begin  
-          cst = '041';
-        end        
-        if ((baseIcms = 100) and (icms > 0)) then 
-        begin  
-         cst = '000';
-        end        
-        if (icms = 0) then 
-        begin  
-          cst = '040';
-        end        
-        if ((baseICMS < 100) and (baseICMS > 0) and (icms > 0)) then 
-        begin
-          cst = '020'; 
-        end 
-        if ((cstProd is not null) or (cstProd <> '')) then 
-          cst = cstProd;
+            if ((cicms_subst_ind > 0) and (cicms_subst_ic > 0)) then 
+            begin 
+              st_int = 100 - CICMS_SUBST_ic;
+              /*ind_icms_interno =  st_int;
+              passou_aqui = '100 - cicms_subst_ic';
+              suspend;           */
+              st_ext = 100 - CICMS_SUBST_IND;
+              /*ind_icms_interno =  st_ext;
+              passou_aqui = '100 - cicms_subst_ind';
+              suspend; */
+              
+              cicms_subst = ((1+(cicms_subst/100))/st_int)*st_ext;
+             
+
+            end
         
-        valoricms = (VLR_PROD) * (baseIcms / 100) * (icms / 100);                 
+              /*ind_icms_interno =  cicms_subst;
+              passou_aqui = '((1+(cicms_subst/100))/st_int)*st_ext';
+              suspend;         */
+              
+            base_st = VLR_PROD * cicms_subst;    
+            
+            /*ind_icms_interno =  base_st;
+            passou_aqui = 'base_st';
+            suspend;             */
+            
+            ST = (BASE_ST * (CICMS_SUBST_IC/100))-(VLR_ICMS);
+            CICMS_BASE = (VLR_PROD * CICMS_BASE);
+            CICMS = (CICMS * CICMS_BASE);        
+          end
+          else begin 
+            if (CICMS_SUBST > 0) then    
+               BASE_ST = (VLR_PROD *(1+(CICMS_SUBST/100)));
+            VLR_ICMS =  (VLR_PROD*(CICMS_SUBST_IND/100));
+            ST = (BASE_ST * (CICMS_SUBST_IC/100))-(VLR_ICMS);
+            CICMS_BASE = (VLR_PROD * CICMS_BASE);
+            CICMS = (CICMS * CICMS_BASE);
+          end 
+            
+            if ((cst is null) or (cst = '')) then 
+              cst = cstProd;
+            
+            valoricms = (VLR_PROD) * (baseIcms / 100) * (icms / 100);                 
+            --st = (st,2);
+            
+          /*ind_icms_interno =  st;
+          passou_aqui = cst;
+          suspend;             */
                  
         update MOVIMENTODETALHE set valor_icms = :valoricms, cst = :cst, icms_subst = :ST, icms_substd = :BASE_ST, icms = :CICMS2
         where codmovimento = :codmov and codproduto = :codProduto;
@@ -199,4 +237,10 @@ begin
   /*Buscando a numeracao da duplicata */
   preco = total; 
   
-end
+end^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE CALCULA_ICMS_SUBSTPROD TO  SYSDBA;
+
