@@ -76,6 +76,8 @@ type
     Label26: TLabel;
     DBEdit23: TDBEdit;
     Label27: TLabel;
+    DBEdit24: TDBEdit;
+    Label28: TLabel;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
