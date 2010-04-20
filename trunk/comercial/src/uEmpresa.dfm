@@ -1,4 +1,6 @@
 inherited fEmpresa: TfEmpresa
+  Left = 373
+  Top = 177
   Width = 671
   Height = 582
   Font.Charset = ANSI_CHARSET
@@ -358,7 +360,21 @@ inherited fEmpresa: TfEmpresa
     ParentFont = False
     PopupMenu = PopupMenu1
   end
-  object DBEdit1: TDBEdit [25]
+  object Label28: TLabel [25]
+    Left = 356
+    Top = 457
+    Width = 100
+    Height = 13
+    Caption = 'Caminho  Salvar NFe'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+  end
+  object DBEdit1: TDBEdit [26]
     Left = 22
     Top = 76
     Width = 59
@@ -377,7 +393,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [26]
+  object DBEdit2: TDBEdit [27]
     Left = 83
     Top = 76
     Width = 556
@@ -396,7 +412,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [27]
+  object DBEdit3: TDBEdit [28]
     Left = 22
     Top = 116
     Width = 617
@@ -415,7 +431,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup1: TDBRadioGroup [28]
+  object DBRadioGroup1: TDBRadioGroup [29]
     Left = 21
     Top = 139
     Width = 133
@@ -439,7 +455,7 @@ inherited fEmpresa: TfEmpresa
       'F'
       'J')
   end
-  object DBEdit4: TDBEdit [29]
+  object DBEdit4: TDBEdit [30]
     Left = 160
     Top = 163
     Width = 244
@@ -458,7 +474,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [30]
+  object DBEdit5: TDBEdit [31]
     Left = 406
     Top = 163
     Width = 233
@@ -477,7 +493,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [31]
+  object DBEdit7: TDBEdit [32]
     Left = 22
     Top = 204
     Width = 526
@@ -496,7 +512,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [32]
+  object DBEdit8: TDBEdit [33]
     Left = 22
     Top = 247
     Width = 177
@@ -515,7 +531,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [33]
+  object DBEdit9: TDBEdit [34]
     Left = 201
     Top = 247
     Width = 157
@@ -534,7 +550,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [34]
+  object DBEdit10: TDBEdit [35]
     Left = 394
     Top = 247
     Width = 156
@@ -553,7 +569,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBComboBox1: TDBComboBox [35]
+  object DBComboBox1: TDBComboBox [36]
     Left = 23
     Top = 284
     Width = 139
@@ -600,7 +616,7 @@ inherited fEmpresa: TfEmpresa
     PopupMenu = PopupMenu1
     TabOrder = 12
   end
-  object DBEdit11: TDBEdit [36]
+  object DBEdit11: TDBEdit [37]
     Left = 166
     Top = 284
     Width = 99
@@ -619,7 +635,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object DBEdit12: TDBEdit [37]
+  object DBEdit12: TDBEdit [38]
     Left = 269
     Top = 284
     Width = 48
@@ -638,7 +654,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 14
     OnKeyPress = FormKeyPress
   end
-  object DBEdit13: TDBEdit [38]
+  object DBEdit13: TDBEdit [39]
     Left = 320
     Top = 284
     Width = 105
@@ -657,7 +673,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [39]
+  object DBEdit14: TDBEdit [40]
     Left = 429
     Top = 284
     Width = 102
@@ -676,7 +692,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object DBEdit15: TDBEdit [40]
+  object DBEdit15: TDBEdit [41]
     Left = 22
     Top = 432
     Width = 327
@@ -695,7 +711,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 21
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [41]
+  object DBEdit16: TDBEdit [42]
     Left = 22
     Top = 321
     Width = 327
@@ -714,7 +730,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object DBEdit17: TDBEdit [42]
+  object DBEdit17: TDBEdit [43]
     Left = 536
     Top = 284
     Width = 102
@@ -827,7 +843,7 @@ inherited fEmpresa: TfEmpresa
       HotTrackFont.Style = []
     end
   end
-  object DBEdit6: TDBEdit [45]
+  object DBEdit6: TDBEdit [46]
     Left = 22
     Top = 357
     Width = 327
@@ -846,7 +862,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object DBEdit18: TDBEdit [46]
+  object DBEdit18: TDBEdit [47]
     Left = 22
     Top = 396
     Width = 327
@@ -865,7 +881,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 20
     OnKeyPress = FormKeyPress
   end
-  object BitBtn1: TBitBtn [47]
+  object BitBtn1: TBitBtn [48]
     Left = 371
     Top = 323
     Width = 88
@@ -979,7 +995,7 @@ inherited fEmpresa: TfEmpresa
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object BitBtn2: TBitBtn [48]
+  object BitBtn2: TBitBtn [49]
     Left = 371
     Top = 363
     Width = 88
@@ -1053,7 +1069,7 @@ inherited fEmpresa: TfEmpresa
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       0000}
   end
-  object Panel3: TPanel [49]
+  object Panel3: TPanel [50]
     Left = 470
     Top = 320
     Width = 168
@@ -1071,7 +1087,7 @@ inherited fEmpresa: TfEmpresa
       Stretch = True
     end
   end
-  object ComboBox1: TComboBox [50]
+  object ComboBox1: TComboBox [51]
     Left = 354
     Top = 432
     Width = 109
@@ -1086,7 +1102,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 27
     OnChange = ComboBox1Change
   end
-  object DBEdit19: TDBEdit [51]
+  object DBEdit19: TDBEdit [52]
     Left = 550
     Top = 204
     Width = 89
@@ -1105,7 +1121,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object BitBtn3: TBitBtn [52]
+  object BitBtn3: TBitBtn [53]
     Left = 362
     Top = 243
     Width = 27
@@ -1120,7 +1136,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 31
     OnClick = BitBtn3Click
   end
-  object DBEdit20: TDBEdit [53]
+  object DBEdit20: TDBEdit [54]
     Left = 553
     Top = 247
     Width = 86
@@ -1139,7 +1155,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 11
     OnKeyPress = FormKeyPress
   end
-  object DBEdit21: TDBEdit [54]
+  object DBEdit21: TDBEdit [55]
     Left = 149
     Top = 471
     Width = 120
@@ -1158,7 +1174,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 23
     OnKeyPress = FormKeyPress
   end
-  object DBEdit22: TDBEdit [55]
+  object DBEdit22: TDBEdit [56]
     Left = 275
     Top = 471
     Width = 74
@@ -1177,7 +1193,7 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 24
     OnKeyPress = FormKeyPress
   end
-  object DBEdit23: TDBEdit [56]
+  object DBEdit23: TDBEdit [57]
     Left = 22
     Top = 471
     Width = 121
@@ -1195,6 +1211,25 @@ inherited fEmpresa: TfEmpresa
     PasswordChar = '*'
     PopupMenu = PopupMenu1
     TabOrder = 22
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit24: TDBEdit [58]
+    Left = 356
+    Top = 472
+    Width = 228
+    Height = 21
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'DIVERSOS1'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 32
     OnKeyPress = FormKeyPress
   end
   inherited XPMenu1: TXPMenu
