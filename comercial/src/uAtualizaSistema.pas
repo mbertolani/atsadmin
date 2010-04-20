@@ -648,20 +648,31 @@ begin
 
     if (versaoSistema = '1.0.0.63') then
     begin
-     { executaScript('gera_nf_compra.sql');
-      executaScript('nfe_fatura.sql');
-      executaScript('calcula_icms_substprod.sql');
-      executaScript('calcula_icms_substituicao.sql');
-      executaScript('calcula_icms.sql');
-      executaScript('gera_valor.sql');
-      executaScript('gera_nf_venda.sql');}
       executaSql('alter TABLE VEICULO add CHASSIS VarChar(30)');
       executaSql('alter TABLE FORNECEDOR add CODTRANSP INTEGER');
       executaSql('Alter TABLE CLASSIFICACAOFISCALPRODUTO add CST CHAR(03)');
       executaSql('Alter TABLE ESTADO_ICMS add CST CHAR(03)');
       mudaVersao('1.0.0.64');
-    end;  // Fim Ataulização Versao 1.0.0.63
+    end;  // Fim Ataulização Versao 1.0.0.64
 
+    if (versaoSistema = '1.0.0.64') then
+    begin
+      executaSql('ALTER TABLE ENDERECOCLIENTE ALTER E_MAIL TYPE VARCHAR(100)');
+      mudaVersao('1.0.0.65');
+    end;  // Fim Ataulização Versao 1.0.0.65
+
+    if (versaoSistema = '1.0.0.65') then
+    begin
+      executaScript('gera_nf_compra.sql');
+      executaScript('nfe_fatura.sql');
+      executaScript('calcula_icms_substprod.sql');
+      executaScript('calcula_icms_substituicao.sql');
+      executaScript('calcula_icms.sql');
+      executaScript('gera_valor.sql');
+      executaScript('gera_nf_venda.sql');
+      executaScript('desbloqueia_clientes.sql');
+      mudaVersao('1.0.0.66');
+    end;  // Fim Ataulização Versao 1.0.0.66
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
