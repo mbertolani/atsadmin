@@ -67,6 +67,16 @@ type
     rdbProduto: TCheckBox;
     rdbQutde: TCheckBox;
     CheckBox2: TCheckBox;
+    GroupBox8: TGroupBox;
+    BitBtn12: TBitBtn;
+    ComboBox6: TComboBox;
+    Label12: TLabel;
+    ComboBox7: TComboBox;
+    Label13: TLabel;
+    Label14: TLabel;
+    ComboBox8: TComboBox;
+    ComboBox9: TComboBox;
+    Label15: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -90,6 +100,7 @@ type
     procedure Edit3Exit(Sender: TObject);
     procedure Edit3KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn11Click(Sender: TObject);
+    procedure BitBtn12Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -116,6 +127,7 @@ begin
   begin
     ComboBox1.Items.Add(cds.Fields[0].asString);
     ComboBox2.Items.Add(cds.Fields[0].asString);
+    ComboBox7.Items.Add(cds.Fields[0].asString);
     cds.Next;
   end;
   cds.Close;
@@ -126,6 +138,7 @@ begin
   while not cds.Eof do
   begin
     ComboBox3.Items.Add(cds.Fields[0].asString);
+    ComboBox6.Items.Add(cds.Fields[0].asString);
     cds.Next;
   end;
   cds.Close;
@@ -143,9 +156,11 @@ begin
   dm.cds_ccusto.Params[0].AsString := conta_local;
   dm.cds_ccusto.Open;
   ComboBox4.Items.Add('TODOS');
+  ComboBox9.Items.Add('TODOS');
   While not dm.cds_ccusto.Eof do
   begin
     ComboBox4.Items.Add(dm.cds_ccustoNOME.AsString);
+    ComboBox9.Items.Add(dm.cds_ccustoNOME.AsString);
     dm.cds_ccusto.Next;
   end;
   dm.cds_parametro.Close;
@@ -154,9 +169,11 @@ begin
     if (not cds_Marca.Active) then
     cds_Marca.Open;
     ComboBox5.Items.Clear;
+    ComboBox8.Items.Clear;
     while not cds_Marca.Eof do
     begin
       ComboBox5.Items.Add(cds_MarcaDESCMARCAS.AsString);
+      ComboBox8.Items.Add(cds_MarcaDESCMARCAS.AsString);
       cds_Marca.Next;
     end;
     cds_Marca.Close;
@@ -171,7 +188,6 @@ begin
     cds.Next;
   end;
   cds.Close;
-
 
 end;
 
@@ -670,6 +686,62 @@ begin
   Edit3.Text := fProcura_prod.fecodProd;
   Edit4.Text := fProcura_prod.fenomeProduto;
   varProd := fProcura_prod.fecodProduto;
+end;
+
+procedure TfRelVenda.BitBtn12Click(Sender: TObject);
+begin
+  try
+    Rep.Filename := str_relatorio + 'rel_filtroprod.rep';
+    Rep.Title := rep.Filename;
+    Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+
+    {**** DATA **** }
+    Rep.Report.Params.ParamByName('DTAINI').Value := StrToDate(Data1.Text);
+    Rep.Report.Params.ParamByName('DTAFIM').Value := StrToDate(Data2.Text);
+
+    {**** SUB_GRUPO **** }
+    if (ComboBox7.Text <> '') then
+      Rep.Report.Params.ParamByName('CATEGORIA').Value := ComboBox7.Text
+    else
+      Rep.Report.Params.ParamByName('CATEGORIA').Value := 'TODAS AS CATEGORIAS CADASTRO';
+
+    {**** GRUPO **** }
+    if (ComboBox6.Text <> '') then
+      Rep.Report.Params.ParamByName('FAMILIA').Value := ComboBox6.Text
+    else
+      Rep.Report.Params.ParamByName('FAMILIA').Value := 'TODAS AS FAMILIAS DO CADASTRO';
+
+    {**** MARCAS **** }
+    if (ComboBox8.Text <> '') then
+      Rep.Report.Params.ParamByName('MARCA').Value := ComboBox8.Text
+    else
+      Rep.Report.Params.ParamByName('MARCA').Value := 'TODAS AS MARCAS DO CADASTRO';
+
+    {**** CENTRO DE CUSTO **** }
+    if (ComboBox9.Text <> '') then
+    begin
+      if dm.cds_ccusto.Active then
+        dm.cds_ccusto.Close;
+      dm.cds_ccusto.Params[0].AsString := conta_local;
+      dm.cds_ccusto.Open;
+      if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+        Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+      else
+        Rep.Report.Params.ParamByName('CCUSTO').Value := 999999;
+    end
+    else
+      Rep.Report.Params.ParamByName('CCUSTO').Value := 999999;
+
+
+  except
+    on EConvertError do
+    begin
+       ShowMessage ('Data Inválida! dd/mm/aa');
+       Data1.SetFocus;
+    end;
+  end;
+  Rep.Execute;
+
 end;
 
 end.
