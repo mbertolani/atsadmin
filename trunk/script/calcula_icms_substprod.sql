@@ -1,4 +1,3 @@
-SET TERM ^ ;
 ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD (
     CFOP Varchar(30),
     UF Char(2),
@@ -237,10 +236,5 @@ begin
   /*Buscando a numeracao da duplicata */
   preco = total; 
   
-end^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE CALCULA_ICMS_SUBSTPROD TO  SYSDBA;
+end
 
