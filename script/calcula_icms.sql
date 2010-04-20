@@ -1,4 +1,3 @@
-set term ^ ;
 ALTER PROCEDURE CALCULA_ICMS (
     NUMERO_NF Integer,
     UF Char(2),
