@@ -709,11 +709,11 @@ begin
               Prod.CFOP     := cdsNFCFOP.AsString;
               Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
               Prod.qCom     := cdsItensNFQUANTIDADE.AsFloat;
-              Prod.vUnCom   := cdsItensNFPRECO.AsFloat;
+              Prod.vUnCom   := cdsItensNFVLR_BASE.AsFloat;
               Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
               Prod.uTrib    := sProdutosUNIDADEMEDIDA.AsString;
               Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
-              Prod.vUnTrib  := cdsItensNFPRECO.AsFloat;
+              Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
               infAdProd     := '';
               Prod.NCM      := sProdutosNCM.AsString;
 
