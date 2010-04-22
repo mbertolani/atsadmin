@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
-  Left = 38
-  Top = 106
-  Width = 882
-  Height = 426
+  Left = 224
+  Top = 124
+  Width = 881
+  Height = 588
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,14 +11,16 @@ object fNFeletronica: TfNFeletronica
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 874
-    Height = 122
+    Width = 873
+    Height = 169
     Align = alTop
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -27,51 +29,9 @@ object fNFeletronica: TfNFeletronica
     Background.StartColor = clTeal
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
-    object Label1: TLabel
-      Left = 278
-      Top = 7
-      Width = 75
-      Height = 16
-      Caption = 'Data Inicio'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Transparent = True
-    end
-    object Label2: TLabel
-      Left = 370
-      Top = 8
-      Width = 63
-      Height = 16
-      Caption = 'Data Fim'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Transparent = True
-    end
-    object Label3: TLabel
-      Left = 8
-      Top = 6
-      Width = 119
-      Height = 16
-      Caption = 'Centro de Custo :'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -15
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Transparent = True
-    end
     object Label4: TLabel
       Left = 10
-      Top = 46
+      Top = 86
       Width = 62
       Height = 16
       Caption = 'S'#233'rie NF'
@@ -85,7 +45,7 @@ object fNFeletronica: TfNFeletronica
     end
     object Label7: TLabel
       Left = 77
-      Top = 46
+      Top = 86
       Width = 139
       Height = 16
       Caption = 'Caminho do arquivo'
@@ -98,8 +58,8 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object Label6: TLabel
-      Left = 273
-      Top = 44
+      Left = 225
+      Top = 85
       Width = 76
       Height = 16
       Caption = 'Certificado'
@@ -112,9 +72,9 @@ object fNFeletronica: TfNFeletronica
       Transparent = True
     end
     object sbtnGetCert: TSpeedButton
-      Left = 409
-      Top = 61
-      Width = 23
+      Left = 408
+      Top = 101
+      Width = 60
       Height = 22
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -135,7 +95,7 @@ object fNFeletronica: TfNFeletronica
     end
     object Label5: TLabel
       Left = 13
-      Top = 82
+      Top = 123
       Width = 99
       Height = 16
       Caption = 'Assunto Email'
@@ -149,274 +109,383 @@ object fNFeletronica: TfNFeletronica
     end
     object Edit1: TEdit
       Left = 75
-      Top = 61
+      Top = 101
       Width = 141
       Height = 21
+      Color = cl3DLight
       ReadOnly = True
-      TabOrder = 4
-      Text = 'C:\NFe\'
-    end
-    object btnGeraNFe: TBitBtn
-      Left = 477
-      Top = 44
-      Width = 91
-      Height = 36
-      Caption = 'Gerar NF-e'
-      Enabled = False
-      TabOrder = 7
-      OnClick = btnGeraNFeClick
-    end
-    object JvDateEdit1: TJvDateEdit
-      Left = 276
-      Top = 24
-      Width = 89
-      Height = 21
       TabOrder = 1
-    end
-    object JvDateEdit2: TJvDateEdit
-      Left = 369
-      Top = 24
-      Width = 89
-      Height = 21
-      TabOrder = 2
-    end
-    object ComboBox1: TComboBox
-      Left = 10
-      Top = 24
-      Width = 264
-      Height = 21
-      ItemHeight = 13
-      TabOrder = 0
+      Text = 'C:\NFe\'
     end
     object edSerie: TEdit
       Left = 10
-      Top = 61
+      Top = 101
       Width = 61
       Height = 21
-      TabOrder = 3
-    end
-    object btnListar: TBitBtn
-      Left = 477
-      Top = 6
-      Width = 91
-      Height = 36
-      Caption = 'Listar'
-      TabOrder = 6
-      OnClick = btnListarClick
-      Glyph.Data = {
-        360C0000424D360C000000000000360000002800000020000000200000000100
-        180000000000000C000000000000000000000000000000000000C0C0C08D958B
-        828478909488C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07892A3576A77
-        979EA19699978B958FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C05595D66C9BD1
-        5162839396A48C92918B928BC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C06BAFFC84C0FF
-        6E97CE4E6A8D94A4B18890908F9493C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A9D2FF7EB4F0
-        6CBAFF4B93D340618896A2B4868D9095958FC0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        6DC0FE66BDFF6197CE405F8690A0B18E9392959283C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        9CCDED7FC4F570BAFA5D9AD844628B8C98AA919B95727B677175628585777A74
-        6D827D7A737877737B7A727A79777A71817D64897E5E927D61937C62917B628D
-        7862927E65927D629A8266927D5D91835F888062807D6FA8A8A2C0C0C0C0C0C0
-        C0C0C0C0C0C07DC2FB73B5F66F97D24E658B8C9DA05B6656434532767162847B
-        71716B664D4F4F4C54545A626157584E574F325A472162451E67492063482362
-        4823624B255D441C6A4D216046185F491F554625524E3C97958DC0C0C0C0C0C0
-        C0C0C0C0C0C06A8DAF8FBBF083B4FA7299D063768381847B877F788F857B9895
-        8697978B959294ABABB18F92967877738B7C6C887052866A3B826630826A3484
-        6F3B7F6D387E6A33866E34876F3B81694595836C2D23198A8582C0C0C0C0C0C0
-        C0C0C0C0C0C08993A4A7BDE182AAE595BDEE8995A19A948D9E8D84D9CBBFE2E0
-        CEFAFDEEF8F3F4F7F3F9E7EBECDFDDDCA0948A937E69E6CFA9FFFFDCFFFFD4FF
-        FFD3FFFFD9FFFFD5FFFFD8FFFFD8FFFADFF2E2D2463B338B8580C0C0C0C0C0C0
-        C0C0C0C0C0C0918E90E8E6F2CEE1FCC8DAF1ACAAAAA39484EBD4BEFEECD5FDFA
-        E5FFFFF4FBF8F3FFFEFDF4FBF4F8FDF4F1EDE8B3AAA1857A6CCFC3B1FAF3E0F6
-        F0DDF6F5E0E9E8D3F2F1DCF2EEDBFFFFF5E5DFD4433D32928C81C0C0C0C0C0C0
-        C0C0C0C0C0C0AD9D91FFF0E9F2F5FDF8FCFFA69689CCB399FCE1BFF7E3C0F3ED
-        D0FAFBE7FAFBF1DADED9DEE2DCEEF2ECE4E5E1FEFBF7A09B9A7772718B888481
-        827E808780828984FAFFFCFBFFFCF8F8F2E1DED6443C35887F76C0C0C0C0C0C0
-        C0C0C0C0C0C0B79E84FFECD7FEF9FAE2DEDDDFC5A7FFE9BDFFEFC2FFE9BCFFFB
-        D3FFFFE1FBFFF5EFF6F3F6F7FBFCFBFFFFFFFCF4F1ECE1DCDD716C6EBCBCBCF8
-        FDFCF7FFFEF1FCFAEEF8F8F5FBFAFFFFFBE2DED945373B918188C0C0C0C0C0C0
-        C0C0C0C0C0C0BB997BFFF2D6FFFDF7BFB5AEFEE0C3F2CBA4DABA91CEB589FFF3
-        C3FFFFDFF5FAEBF5FDFDC4C7CFC6C9CEC2C2BCFAF7F2FEF9FB86808B6C6A7E00
-        0015000016000010F3FDFFF2FAFAF5F9F3DEDED83F383D8E828EC0C0C0C0C0C0
-        C0C0C0C0C0C0C9A58DFFE8CFF3DDD2DAC8C1D2B7A9E6C5B5DDBCA9EDD1B3FFF7
-        C1FFFFD8F6F6EACAD0D5C5D4D7C2D0CEC2CAC0FEFCF4FEF7FCA49AB16A629712
-        0E4F0D0F50202556E5EDFFF3FCFFF9FFF9DEE6DC363A3B7B7F84C0C0C0C0C0C0
-        C0C0C0C0C0C0BD9882FFEED7F4D7CED2BFB8FFFAF2D4BEB2F4D2C5DFC1A6FFF4
-        BCFEF9C2FFFFEEF8F9EFC9D8CAE4F7E4D1DAC0FFFFECFDF5F5B0A7C26E67A434
-        3181E4E6FF060C4FEEF6FFF5FEFFF6FFF5D3DACD363A35878A88C0C0C0C0C0C0
-        C0C0C0C0C0C0BF9D86FFE8D2FDE0DCD3C2BFFFFCEAEAE0C8E0C1AAE0C09DFFEC
-        B5FFF7BCFFF4C4FFFFDCFFFFDAD7E3B3D8E3ABEDF2C5FFFEF39F99AC7678A832
-        387B293282081258E7F1FFF1FBFFF6FFF2E1E2CE433A2D99887FC0C0C0C0C0C0
-        C0C0C0C0C0C0BE9B87FFF7E5FFECEBCABCBDF1F4E4FEFEE6F1DAC4FFE4C7F3DC
-        AFFEECB7FFFBC6FFEEBBFFF8C3F5F4BCF9FFBDF5F9C5E5E1CF837E87C7C9E7E7
-        EDFFE3ECFFE6EFFFEBF5FFF0FAFFFAFFF2DFDDC54B3A259C836FC0C0C0C0C0C0
-        C0C0C0C0C0C0C39A8BFFF1E2FFF5F1E6DCDCB1B8B1D7DDD2F1E3DDF6E0D4F8E4
-        CBF5E2C1F6DFBFE8D0ACE6CCA4E3CFA0F4EFB8F7F5C5D0C9B59A939087828B7E
-        7E907C7C9A6F7390EFF5FFEFF5FAFCFFF6E7E6CC412F10AC926EC0C0C0C0C0C0
-        C0C0C0C0C0C0C19B89FFE5D6FFF8F5FEFCFF99A2ABE5ECF5FFFAFCFFFEFAFFF8
-        EAE6D8C1F6E7C6F5E1B8FFE6BDFFE4B8FFF3C8EBE2C0918D7BC7C1BAFFFBF7FF
-        FEFCFFF8FCFFF9FFFAFCFFF5FCFFF9FDF1E8E3CA463310AB926AC0C0C0C0C0C0
-        C0C0C0C0C0C0BA9B84FFF0D8FFFCFDEEF5FFD9E2FF747C9A9DA3A8C7C8BFFFF9
-        F0FFFFEDE7EAB2EFEDA7DFCC8FF4D8A9B49C80B2A597AFB0AEF8F6F5FFFBF424
-        01002200001F0903EEF1F5F6FFFFFFFFF3EEE2CA49371A9D8868C0C0C0C0C0C0
-        C0C0C0C0C0C0BD9E85FFF4DAFCFDFBE3F0FF0D15510B1454808AB2949BAEEBEE
-        F2FCFEEBEEF7C5EAEFAAEFE79ACDBF7D90805BCBC4B5EDF8F6FFFEFF33080547
-        08004E1000370B00FFFFFEECF4F3FFFCEFEADDC746381C9D8F72C0C0C0C0C0C0
-        C0C0C0C0C0C0C89E87FFECD6FDFBF3EBF7FFDBE2FF2A2E9EC1CAFF0C1965818D
-        A589938DA2A69AB4B88EB0B95ED3DE787A823CFDFFDFF0FFF7FAF4F9FFECFBA7
-        444EFFA79F4D0500FFF4F3FDFFFFFFFAF1EAE0CE3B351892906EC0C0C0C0C0C0
-        C0C0C0C0C0C0CE9D83FFEFD4FFFDEFF8F8FFEDE5FF3C328F342D8E141159F4F3
-        FFFFFCF7FFFAF6FFFFE58385337D8423777933FFFFD9FAFFECFFFEFBFFEDF7A7
-        474DA9483A5C0E00FFF8F3FFF7F2FFFAEBECDEC8403B228B8A6EC0C0C0C0C0C0
-        C0C0C0C0C0C0D2A07CFFF0CDFFFDE9FFF8F1FFE6EAFFE3EFFFE2F3FFE3EFFFE9
-        E0FFECD9FFECD9FFF0D2FFF7C5FFFAC4FFF4CEFFEED2FFEDD6FFEEDAFFEBD9FF
-        E8D2FFEECEFFEFD1FFF5E2FFFAE5FFFFE4FFE2C3564635968E81C0C0C0C0C0C0
-        C0C0C0C0C0C0C38B5AE7A46BD39870D6A17CDB9F75DB9F75DB9D77DB9D77E09F
-        73E29F72E29E73DE9F73D5A172D39F70D99E71DE9E75DFA178DBA177D19970C8
-        9166C38857E7A777CB825CCB865FD8A071AC845A4B331D948277C0C0C0C0C0C0
-        C0C0C0C0C0C0A468229D4E00873A008C3E008E3C008E3C008E3C008E3D00903F
-        00913F00933B00913B008A3F008740008C4200914200923E00913A0091360093
-        3801973D009D42009C42028C390094531695632E5B3816B69A82C0C0C0C0C0C0
-        C0C0C0C0C0C0AE772EB46B0FCB7F2DCC7E31CE7C2ECE7D2CCC7E2BCA8028C883
-        22C88322CA7F29C87E2CC7812DC88227CD851FD08420CF7C27CF782ED97C3DE3
-        8647EE9249CF792DFFAE63D38B43C88D48B88A54664623F9E0C6C0C0C0C0C0C0
-        C0C0C0C0C0C0C6A167BC8940C18B4CAE773AB27D3AB27E37B48034B18230A886
-        2DA1862FA18433A28334AA8436AD7F31B57E2DBA8132B67F3CB57C3EB77A3ABA
-        7D3BB47934B9833CB0853CA781399C7939AE9361E0CFB5C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+      TabOrder = 0
     end
     object MemoResp: TMemo
-      Left = 304
-      Top = 90
+      Left = 272
+      Top = 138
       Width = 24
       Height = 22
       Align = alCustom
-      TabOrder = 14
+      TabOrder = 3
       Visible = False
     end
     object edtNumSerie: TEdit
-      Left = 222
-      Top = 61
-      Width = 179
+      Left = 221
+      Top = 101
+      Width = 182
       Height = 21
-      TabOrder = 5
-    end
-    object btnStatus: TBitBtn
-      Left = 477
-      Top = 82
-      Width = 91
-      Height = 36
-      Caption = 'Status do Servi'#231'o'
-      TabOrder = 8
-      OnClick = btnStatusClick
-    end
-    object btnCancelaNFe: TBitBtn
-      Left = 664
-      Top = 44
-      Width = 91
-      Height = 36
-      Caption = 'Cancelar NF-e'
-      TabOrder = 13
-      OnClick = btnCancelaNFeClick
-    end
-    object btnConsulta: TBitBtn
-      Left = 664
-      Top = 6
-      Width = 91
-      Height = 36
-      Caption = 'Consulta NF-e'
-      TabOrder = 12
-      OnClick = btnConsultaClick
-    end
-    object btnValidaNFe: TBitBtn
-      Left = 570
-      Top = 82
-      Width = 91
-      Height = 36
-      Caption = 'Validar NF-e'
-      TabOrder = 11
-      OnClick = ValidaNFeClick
-    end
-    object btnImprime: TBitBtn
-      Left = 570
-      Top = 44
-      Width = 91
-      Height = 36
-      Caption = 'Imprimir DANFe'
-      TabOrder = 10
-      OnClick = btnImprimeClick
-    end
-    object btnGeraPDF: TBitBtn
-      Left = 570
-      Top = 6
-      Width = 91
-      Height = 36
-      Caption = 'DANFe em PDF'
-      TabOrder = 9
-      OnClick = btnGeraPDFClick
-    end
-    object BtnEnvEmail: TBitBtn
-      Left = 664
-      Top = 82
-      Width = 91
-      Height = 36
-      Caption = 'Enviar NF-e Email'
-      TabOrder = 15
-      OnClick = BtnEnvEmailClick
+      TabOrder = 2
     end
     object EdtAssunto: TEdit
       Left = 9
-      Top = 97
-      Width = 272
+      Top = 141
+      Width = 278
       Height = 21
-      TabOrder = 16
+      TabOrder = 4
       Text = 'NF-e'
     end
     object tpNF: TRadioGroup
-      Left = 295
-      Top = 87
-      Width = 137
+      Left = 297
+      Top = 134
+      Width = 172
       Height = 31
       Caption = 'Tipo de Nota Fiscal'
       Columns = 2
       Items.Strings = (
-        'Compra'
-        'Venda')
-      TabOrder = 17
+        'Entrada'
+        'Sa'#237'da')
+      TabOrder = 5
     end
-    object btnInutilizar: TBitBtn
-      Left = 760
-      Top = 6
-      Width = 91
-      Height = 36
-      Caption = 'Inutilizar NF-e'
-      TabOrder = 18
-      OnClick = btnInutilizarClick
+    object GroupBox1: TGroupBox
+      Left = 478
+      Top = 2
+      Width = 393
+      Height = 55
+      Caption = 'Gerar NF-e'
+      TabOrder = 6
+      object btnGeraNFe: TBitBtn
+        Left = 6
+        Top = 13
+        Width = 91
+        Height = 36
+        Caption = 'Gerar NF-e'
+        Enabled = False
+        TabOrder = 0
+        OnClick = btnGeraNFeClick
+      end
+      object btnValidaNFe: TBitBtn
+        Left = 102
+        Top = 13
+        Width = 91
+        Height = 36
+        Caption = 'Validar NF-e'
+        TabOrder = 1
+        OnClick = ValidaNFeClick
+      end
+      object BitBtn1: TBitBtn
+        Left = 294
+        Top = 13
+        Width = 91
+        Height = 36
+        Caption = 'Enviar NF-e'
+        TabOrder = 2
+        Visible = False
+        OnClick = BitBtn1Click
+      end
+      object BtnEnvEmail: TBitBtn
+        Left = 198
+        Top = 13
+        Width = 91
+        Height = 36
+        Caption = 'Enviar NF-e Email'
+        TabOrder = 3
+        OnClick = BtnEnvEmailClick
+      end
+    end
+    object GroupBox2: TGroupBox
+      Left = 478
+      Top = 111
+      Width = 393
+      Height = 55
+      Caption = 'Outros Servi'#231'os NF-e'
+      TabOrder = 7
+      object btnStatus: TBitBtn
+        Left = 6
+        Top = 14
+        Width = 91
+        Height = 36
+        Caption = 'Status do Servi'#231'o'
+        TabOrder = 0
+        OnClick = btnStatusClick
+      end
+      object btnConsulta: TBitBtn
+        Left = 102
+        Top = 14
+        Width = 91
+        Height = 36
+        Caption = 'Consulta NF-e'
+        TabOrder = 1
+        OnClick = btnConsultaClick
+      end
+      object btnCancelaNFe: TBitBtn
+        Left = 198
+        Top = 14
+        Width = 91
+        Height = 36
+        Caption = 'Cancelar NF-e'
+        TabOrder = 2
+        OnClick = btnCancelaNFeClick
+      end
+      object btnInutilizar: TBitBtn
+        Left = 294
+        Top = 14
+        Width = 91
+        Height = 36
+        Caption = 'Inutilizar NF-e'
+        TabOrder = 3
+        OnClick = btnInutilizarClick
+      end
+    end
+    object GroupBox3: TGroupBox
+      Left = 478
+      Top = 57
+      Width = 393
+      Height = 55
+      Caption = 'Danfe'
+      TabOrder = 8
+      object Label8: TLabel
+        Left = 200
+        Top = 27
+        Width = 16
+        Height = 20
+        Caption = '....'
+        Color = 10930928
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object btnImprime: TBitBtn
+        Left = 6
+        Top = 14
+        Width = 91
+        Height = 36
+        Caption = 'Imprimir DANFe'
+        TabOrder = 0
+        OnClick = btnImprimeClick
+      end
+      object btnGeraPDF: TBitBtn
+        Left = 102
+        Top = 14
+        Width = 91
+        Height = 36
+        Caption = 'DANFe em PDF'
+        TabOrder = 1
+        OnClick = btnGeraPDFClick
+      end
+    end
+    object GroupBox4: TGroupBox
+      Left = 3
+      Top = 2
+      Width = 475
+      Height = 76
+      Caption = 'Filtro'
+      TabOrder = 9
+      object Label2: TLabel
+        Left = 210
+        Top = 41
+        Width = 63
+        Height = 16
+        Caption = 'Data Fim'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object Label1: TLabel
+        Left = 8
+        Top = 41
+        Width = 75
+        Height = 16
+        Caption = 'Data Inicio'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 13
+        Width = 119
+        Height = 16
+        Caption = 'Centro de Custo :'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object btnListar: TBitBtn
+        Left = 378
+        Top = 37
+        Width = 91
+        Height = 36
+        Caption = 'Listar'
+        TabOrder = 0
+        OnClick = btnListarClick
+        Glyph.Data = {
+          360C0000424D360C000000000000360000002800000020000000200000000100
+          180000000000000C000000000000000000000000000000000000C0C0C08D958B
+          828478909488C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07892A3576A77
+          979EA19699978B958FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C05595D66C9BD1
+          5162839396A48C92918B928BC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C06BAFFC84C0FF
+          6E97CE4E6A8D94A4B18890908F9493C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A9D2FF7EB4F0
+          6CBAFF4B93D340618896A2B4868D9095958FC0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          6DC0FE66BDFF6197CE405F8690A0B18E9392959283C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          9CCDED7FC4F570BAFA5D9AD844628B8C98AA919B95727B677175628585777A74
+          6D827D7A737877737B7A727A79777A71817D64897E5E927D61937C62917B628D
+          7862927E65927D629A8266927D5D91835F888062807D6FA8A8A2C0C0C0C0C0C0
+          C0C0C0C0C0C07DC2FB73B5F66F97D24E658B8C9DA05B6656434532767162847B
+          71716B664D4F4F4C54545A626157584E574F325A472162451E67492063482362
+          4823624B255D441C6A4D216046185F491F554625524E3C97958DC0C0C0C0C0C0
+          C0C0C0C0C0C06A8DAF8FBBF083B4FA7299D063768381847B877F788F857B9895
+          8697978B959294ABABB18F92967877738B7C6C887052866A3B826630826A3484
+          6F3B7F6D387E6A33866E34876F3B81694595836C2D23198A8582C0C0C0C0C0C0
+          C0C0C0C0C0C08993A4A7BDE182AAE595BDEE8995A19A948D9E8D84D9CBBFE2E0
+          CEFAFDEEF8F3F4F7F3F9E7EBECDFDDDCA0948A937E69E6CFA9FFFFDCFFFFD4FF
+          FFD3FFFFD9FFFFD5FFFFD8FFFFD8FFFADFF2E2D2463B338B8580C0C0C0C0C0C0
+          C0C0C0C0C0C0918E90E8E6F2CEE1FCC8DAF1ACAAAAA39484EBD4BEFEECD5FDFA
+          E5FFFFF4FBF8F3FFFEFDF4FBF4F8FDF4F1EDE8B3AAA1857A6CCFC3B1FAF3E0F6
+          F0DDF6F5E0E9E8D3F2F1DCF2EEDBFFFFF5E5DFD4433D32928C81C0C0C0C0C0C0
+          C0C0C0C0C0C0AD9D91FFF0E9F2F5FDF8FCFFA69689CCB399FCE1BFF7E3C0F3ED
+          D0FAFBE7FAFBF1DADED9DEE2DCEEF2ECE4E5E1FEFBF7A09B9A7772718B888481
+          827E808780828984FAFFFCFBFFFCF8F8F2E1DED6443C35887F76C0C0C0C0C0C0
+          C0C0C0C0C0C0B79E84FFECD7FEF9FAE2DEDDDFC5A7FFE9BDFFEFC2FFE9BCFFFB
+          D3FFFFE1FBFFF5EFF6F3F6F7FBFCFBFFFFFFFCF4F1ECE1DCDD716C6EBCBCBCF8
+          FDFCF7FFFEF1FCFAEEF8F8F5FBFAFFFFFBE2DED945373B918188C0C0C0C0C0C0
+          C0C0C0C0C0C0BB997BFFF2D6FFFDF7BFB5AEFEE0C3F2CBA4DABA91CEB589FFF3
+          C3FFFFDFF5FAEBF5FDFDC4C7CFC6C9CEC2C2BCFAF7F2FEF9FB86808B6C6A7E00
+          0015000016000010F3FDFFF2FAFAF5F9F3DEDED83F383D8E828EC0C0C0C0C0C0
+          C0C0C0C0C0C0C9A58DFFE8CFF3DDD2DAC8C1D2B7A9E6C5B5DDBCA9EDD1B3FFF7
+          C1FFFFD8F6F6EACAD0D5C5D4D7C2D0CEC2CAC0FEFCF4FEF7FCA49AB16A629712
+          0E4F0D0F50202556E5EDFFF3FCFFF9FFF9DEE6DC363A3B7B7F84C0C0C0C0C0C0
+          C0C0C0C0C0C0BD9882FFEED7F4D7CED2BFB8FFFAF2D4BEB2F4D2C5DFC1A6FFF4
+          BCFEF9C2FFFFEEF8F9EFC9D8CAE4F7E4D1DAC0FFFFECFDF5F5B0A7C26E67A434
+          3181E4E6FF060C4FEEF6FFF5FEFFF6FFF5D3DACD363A35878A88C0C0C0C0C0C0
+          C0C0C0C0C0C0BF9D86FFE8D2FDE0DCD3C2BFFFFCEAEAE0C8E0C1AAE0C09DFFEC
+          B5FFF7BCFFF4C4FFFFDCFFFFDAD7E3B3D8E3ABEDF2C5FFFEF39F99AC7678A832
+          387B293282081258E7F1FFF1FBFFF6FFF2E1E2CE433A2D99887FC0C0C0C0C0C0
+          C0C0C0C0C0C0BE9B87FFF7E5FFECEBCABCBDF1F4E4FEFEE6F1DAC4FFE4C7F3DC
+          AFFEECB7FFFBC6FFEEBBFFF8C3F5F4BCF9FFBDF5F9C5E5E1CF837E87C7C9E7E7
+          EDFFE3ECFFE6EFFFEBF5FFF0FAFFFAFFF2DFDDC54B3A259C836FC0C0C0C0C0C0
+          C0C0C0C0C0C0C39A8BFFF1E2FFF5F1E6DCDCB1B8B1D7DDD2F1E3DDF6E0D4F8E4
+          CBF5E2C1F6DFBFE8D0ACE6CCA4E3CFA0F4EFB8F7F5C5D0C9B59A939087828B7E
+          7E907C7C9A6F7390EFF5FFEFF5FAFCFFF6E7E6CC412F10AC926EC0C0C0C0C0C0
+          C0C0C0C0C0C0C19B89FFE5D6FFF8F5FEFCFF99A2ABE5ECF5FFFAFCFFFEFAFFF8
+          EAE6D8C1F6E7C6F5E1B8FFE6BDFFE4B8FFF3C8EBE2C0918D7BC7C1BAFFFBF7FF
+          FEFCFFF8FCFFF9FFFAFCFFF5FCFFF9FDF1E8E3CA463310AB926AC0C0C0C0C0C0
+          C0C0C0C0C0C0BA9B84FFF0D8FFFCFDEEF5FFD9E2FF747C9A9DA3A8C7C8BFFFF9
+          F0FFFFEDE7EAB2EFEDA7DFCC8FF4D8A9B49C80B2A597AFB0AEF8F6F5FFFBF424
+          01002200001F0903EEF1F5F6FFFFFFFFF3EEE2CA49371A9D8868C0C0C0C0C0C0
+          C0C0C0C0C0C0BD9E85FFF4DAFCFDFBE3F0FF0D15510B1454808AB2949BAEEBEE
+          F2FCFEEBEEF7C5EAEFAAEFE79ACDBF7D90805BCBC4B5EDF8F6FFFEFF33080547
+          08004E1000370B00FFFFFEECF4F3FFFCEFEADDC746381C9D8F72C0C0C0C0C0C0
+          C0C0C0C0C0C0C89E87FFECD6FDFBF3EBF7FFDBE2FF2A2E9EC1CAFF0C1965818D
+          A589938DA2A69AB4B88EB0B95ED3DE787A823CFDFFDFF0FFF7FAF4F9FFECFBA7
+          444EFFA79F4D0500FFF4F3FDFFFFFFFAF1EAE0CE3B351892906EC0C0C0C0C0C0
+          C0C0C0C0C0C0CE9D83FFEFD4FFFDEFF8F8FFEDE5FF3C328F342D8E141159F4F3
+          FFFFFCF7FFFAF6FFFFE58385337D8423777933FFFFD9FAFFECFFFEFBFFEDF7A7
+          474DA9483A5C0E00FFF8F3FFF7F2FFFAEBECDEC8403B228B8A6EC0C0C0C0C0C0
+          C0C0C0C0C0C0D2A07CFFF0CDFFFDE9FFF8F1FFE6EAFFE3EFFFE2F3FFE3EFFFE9
+          E0FFECD9FFECD9FFF0D2FFF7C5FFFAC4FFF4CEFFEED2FFEDD6FFEEDAFFEBD9FF
+          E8D2FFEECEFFEFD1FFF5E2FFFAE5FFFFE4FFE2C3564635968E81C0C0C0C0C0C0
+          C0C0C0C0C0C0C38B5AE7A46BD39870D6A17CDB9F75DB9F75DB9D77DB9D77E09F
+          73E29F72E29E73DE9F73D5A172D39F70D99E71DE9E75DFA178DBA177D19970C8
+          9166C38857E7A777CB825CCB865FD8A071AC845A4B331D948277C0C0C0C0C0C0
+          C0C0C0C0C0C0A468229D4E00873A008C3E008E3C008E3C008E3C008E3D00903F
+          00913F00933B00913B008A3F008740008C4200914200923E00913A0091360093
+          3801973D009D42009C42028C390094531695632E5B3816B69A82C0C0C0C0C0C0
+          C0C0C0C0C0C0AE772EB46B0FCB7F2DCC7E31CE7C2ECE7D2CCC7E2BCA8028C883
+          22C88322CA7F29C87E2CC7812DC88227CD851FD08420CF7C27CF782ED97C3DE3
+          8647EE9249CF792DFFAE63D38B43C88D48B88A54664623F9E0C6C0C0C0C0C0C0
+          C0C0C0C0C0C0C6A167BC8940C18B4CAE773AB27D3AB27E37B48034B18230A886
+          2DA1862FA18433A28334AA8436AD7F31B57E2DBA8132B67F3CB57C3EB77A3ABA
+          7D3BB47934B9833CB0853CA781399C7939AE9361E0CFB5C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+      end
+      object JvDateEdit2: TJvDateEdit
+        Left = 281
+        Top = 40
+        Width = 89
+        Height = 21
+        TabOrder = 1
+      end
+      object chkTodas: TCheckBox
+        Left = 378
+        Top = 14
+        Width = 60
+        Height = 17
+        Caption = 'Todas'
+        TabOrder = 2
+      end
+      object ComboBox1: TComboBox
+        Left = 121
+        Top = 14
+        Width = 248
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 3
+      end
+      object JvDateEdit1: TJvDateEdit
+        Left = 121
+        Top = 40
+        Width = 88
+        Height = 21
+        TabOrder = 4
+      end
     end
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 122
-    Width = 874
-    Height = 277
+    Top = 169
+    Width = 873
+    Height = 392
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -428,8 +497,8 @@ object fNFeletronica: TfNFeletronica
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 872
-      Height = 275
+      Width = 871
+      Height = 390
       Align = alClient
       DataSource = DataSource1
       TabOrder = 0
@@ -480,7 +549,7 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'C'#243'digo'
-          Width = 42
+          Width = 41
           Visible = True
         end
         item
@@ -494,7 +563,7 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'CNPJ'
           Title.Caption = 'CNPJ / CPF'
-          Width = 117
+          Width = 116
           Visible = True
         end
         item
@@ -515,7 +584,7 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'PROTOCOLOCANC'
           Title.Caption = 'Protocolo de Cancelamento'
-          Width = 121
+          Width = 122
           Visible = True
         end>
     end
@@ -546,7 +615,8 @@ object fNFeletronica: TfNFeletronica
       'VENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta' +
       '2)'#13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' +
       #39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0) an' +
-      'd NF.NATUREZA = :natnf'#13#10'order by nf.DTAEMISSAO'
+      'd NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV ' +
+      '= '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
@@ -573,10 +643,15 @@ object fNFeletronica: TfNFeletronica
         DataType = ftSmallint
         Name = 'natnf'
         ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'ENV'
+        ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 64
-    Top = 200
+    Left = 56
+    Top = 248
     object sdsNFCFOP: TStringField
       FieldName = 'CFOP'
       Size = 30
@@ -781,10 +856,15 @@ object fNFeletronica: TfNFeletronica
         DataType = ftSmallint
         Name = 'natnf'
         ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'ENV'
+        ParamType = ptInput
       end>
     ProviderName = 'dspNF'
-    Left = 128
-    Top = 200
+    Left = 120
+    Top = 248
     object cdsNFFRETE: TStringField
       FieldName = 'FRETE'
       ProviderFlags = [pfInUpdate]
@@ -1002,8 +1082,8 @@ object fNFeletronica: TfNFeletronica
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
-    Left = 96
-    Top = 200
+    Left = 88
+    Top = 248
   end
   object sdsItensNF: TSQLDataSet
     CommandText = 
@@ -1029,8 +1109,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 64
-    Top = 232
+    Left = 56
+    Top = 280
     object sdsItensNFCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
@@ -1080,8 +1160,8 @@ object fNFeletronica: TfNFeletronica
   end
   object dspItensNF: TDataSetProvider
     DataSet = sdsItensNF
-    Left = 96
-    Top = 232
+    Left = 88
+    Top = 280
   end
   object cdsItensNF: TClientDataSet
     Aggregates = <>
@@ -1092,8 +1172,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'dspItensNF'
-    Left = 128
-    Top = 232
+    Left = 120
+    Top = 280
     object cdsItensNFCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
@@ -1175,8 +1255,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 64
-    Top = 296
+    Left = 56
+    Top = 344
     object sMenorDataMENORDATA: TDateField
       FieldName = 'MENORDATA'
       ReadOnly = True
@@ -1213,8 +1293,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 94
-    Top = 296
+    Left = 86
+    Top = 344
     object sMaiorDataMAIORDATA: TDateField
       FieldName = 'MAIORDATA'
       ReadOnly = True
@@ -1230,8 +1310,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 127
-    Top = 296
+    Left = 119
+    Top = 344
     object sEmpresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -1373,8 +1453,8 @@ object fNFeletronica: TfNFeletronica
     NumeroArquivo = 0
     LayoutArquivo = laCNAB400
     TipoMovimento = tmRetorno
-    Left = 128
-    Top = 264
+    Left = 120
+    Top = 312
   end
   object sCFOP: TSQLDataSet
     CommandText = 
@@ -1397,8 +1477,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 158
-    Top = 296
+    Left = 150
+    Top = 344
     object sCFOPCFCOD: TStringField
       FieldName = 'CFCOD'
       Required = True
@@ -1461,8 +1541,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 192
-    Top = 296
+    Left = 184
+    Top = 344
     object sClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -1544,15 +1624,15 @@ object fNFeletronica: TfNFeletronica
     end
   end
   object OpenDialog1: TOpenDialog
-    Left = 96
-    Top = 265
+    Left = 88
+    Top = 313
   end
   object sds_param: TSQLDataSet
     CommandText = 'select * from PARAMETRO'
     MaxBlobSize = -1
     Params = <>
-    Left = 160
-    Top = 231
+    Left = 152
+    Top = 279
     object StringField5: TStringField
       FieldName = 'DESCRICAO'
       ProviderFlags = [pfInUpdate]
@@ -1618,15 +1698,15 @@ object fNFeletronica: TfNFeletronica
   object dsp_param: TDataSetProvider
     DataSet = sds_param
     UpdateMode = upWhereKeyOnly
-    Left = 191
-    Top = 231
+    Left = 183
+    Top = 279
   end
   object cds_param: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp_param'
-    Left = 223
-    Top = 232
+    Left = 215
+    Top = 280
     object StringField9: TStringField
       FieldName = 'DESCRICAO'
       ProviderFlags = [pfInUpdate]
@@ -1697,8 +1777,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'd_2'
-    Left = 223
-    Top = 264
+    Left = 215
+    Top = 312
     object cds_ccustoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -1716,8 +1796,8 @@ object fNFeletronica: TfNFeletronica
   end
   object d_2: TDataSetProvider
     DataSet = s_2
-    Left = 191
-    Top = 265
+    Left = 183
+    Top = 313
   end
   object s_2: TSQLDataSet
     CommandText = 
@@ -1731,8 +1811,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 159
-    Top = 264
+    Left = 151
+    Top = 312
     object s_2CODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -1775,8 +1855,8 @@ object fNFeletronica: TfNFeletronica
     FlatMenu = False
     AutoDetect = True
     Active = True
-    Left = 32
-    Top = 264
+    Left = 24
+    Top = 312
   end
   object cds_Movimento: TClientDataSet
     Aggregates = <>
@@ -1787,8 +1867,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'dsp_Movimento'
-    Left = 223
-    Top = 199
+    Left = 215
+    Top = 247
     object cds_MovimentoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1901,8 +1981,8 @@ object fNFeletronica: TfNFeletronica
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
     UpdateMode = upWhereKeyOnly
-    Left = 191
-    Top = 199
+    Left = 183
+    Top = 247
   end
   object sds_Movimento: TSQLDataSet
     CommandText = 
@@ -1927,8 +2007,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 160
-    Top = 199
+    Left = 152
+    Top = 247
     object sds_MovimentoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2039,12 +2119,12 @@ object fNFeletronica: TfNFeletronica
   end
   object DataSource1: TDataSource
     DataSet = cdsNF
-    Left = 64
-    Top = 264
+    Left = 56
+    Top = 312
   end
   object ImageList1: TImageList
-    Left = 32
-    Top = 232
+    Left = 24
+    Top = 280
     Bitmap = {
       494C010102000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
@@ -2186,8 +2266,8 @@ object fNFeletronica: TfNFeletronica
       000000000000}
   end
   object ImageList2: TImageList
-    Left = 32
-    Top = 200
+    Left = 24
+    Top = 248
     Bitmap = {
       494C010105000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -2595,14 +2675,13 @@ object fNFeletronica: TfNFeletronica
   object ACBrNFe1: TACBrNFe
     Configuracoes.Geral.PathSalvar = 'C:\nfe\'
     Configuracoes.WebServices.UF = 'SP'
-    Configuracoes.WebServices.Ambiente = taProducao
     Configuracoes.Arquivos.PathNFe = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathCan = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathInu = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     Configuracoes.Arquivos.PathDPEC = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
     DANFE = ACBrNFeDANFERave1
-    Left = 32
-    Top = 169
+    Left = 24
+    Top = 217
   end
   object ACBrNFeDANFERave1: TACBrNFeDANFERave
     ACBrNFe = ACBrNFe1
@@ -2620,8 +2699,8 @@ object fNFeletronica: TfNFeletronica
     CasasDecimais._vUnCom = 2
     ExibirResumoCanhoto = False
     RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
-    Left = 65
-    Top = 170
+    Left = 57
+    Top = 218
   end
   object sTabIBGE: TSQLDataSet
     CommandText = 'select * from TB_IBGE tb '#13#10'where tb.NM_MUNICIPIO = :Cidade'
@@ -2633,8 +2712,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 225
-    Top = 296
+    Left = 217
+    Top = 344
     object sTabIBGENM_LOCALIDADE: TStringField
       FieldName = 'NM_LOCALIDADE'
       Required = True
@@ -2672,8 +2751,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 32
-    Top = 296
+    Left = 24
+    Top = 344
     object sProdutosCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
@@ -2853,8 +2932,8 @@ object fNFeletronica: TfNFeletronica
     end
   end
   object XMLDocument1: TXMLDocument
-    Left = 97
-    Top = 170
+    Left = 89
+    Top = 218
     DOMVendorDesc = 'MSXML'
   end
   object sdsNFC: TSQLDataSet
@@ -2869,8 +2948,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 32
-    Top = 328
+    Left = 24
+    Top = 376
     object sdsNFCNUMNF: TIntegerField
       FieldName = 'NUMNF'
       Required = True
@@ -2894,8 +2973,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'dspNFC'
-    Left = 96
-    Top = 328
+    Left = 88
+    Top = 376
     object sNFCNUMNF: TIntegerField
       FieldName = 'NUMNF'
       Required = True
@@ -2912,19 +2991,20 @@ object fNFeletronica: TfNFeletronica
   end
   object dspNFC: TDataSetProvider
     DataSet = sdsNFC
-    Left = 64
-    Top = 328
+    Left = 56
+    Top = 376
   end
   object JvFormStorage1: TJvFormStorage
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fNFeletronica\'
     StoredProps.Strings = (
+      'JvDateEdit1.Date'
+      'JvDateEdit2.Date'
       'ComboBox1.Text'
-      'JvDateEdit1.Text'
-      'JvDateEdit2.Text')
+      'EdtAssunto.Text')
     StoredValues = <>
-    Left = 440
-    Top = 94
+    Left = 200
+    Top = 134
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
@@ -2933,8 +3013,8 @@ object fNFeletronica: TfNFeletronica
     FileName = 'nfe.xml'
     RootNodeName = 'Configuration'
     SubStorages = <>
-    Left = 440
-    Top = 62
+    Left = 168
+    Top = 134
   end
   object sEmail: TSQLDataSet
     CommandText = 
@@ -2951,8 +3031,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 128
-    Top = 328
+    Left = 120
+    Top = 376
     object sEmailCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -2984,8 +3064,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 159
-    Top = 328
+    Left = 151
+    Top = 376
     object sdsFaturaDATAFATURA: TDateField
       FieldName = 'DATAFATURA'
     end
@@ -2998,8 +3078,8 @@ object fNFeletronica: TfNFeletronica
   end
   object dspFatura: TDataSetProvider
     DataSet = sdsFatura
-    Left = 191
-    Top = 329
+    Left = 183
+    Top = 377
   end
   object cdsFatura: TClientDataSet
     Aggregates = <>
@@ -3010,8 +3090,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'dspFatura'
-    Left = 223
-    Top = 328
+    Left = 215
+    Top = 376
     object cdsFaturaDATAFATURA: TDateField
       FieldName = 'DATAFATURA'
     end
