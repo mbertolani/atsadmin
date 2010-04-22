@@ -657,6 +657,7 @@ begin
 
     if (versaoSistema = '1.0.0.64') then
     begin
+	  executaSql('alter TABLE EMPRESA add CD_IBGE VarChar(10)');
       executaSql('ALTER TABLE ENDERECOCLIENTE ALTER E_MAIL TYPE VARCHAR(100)');
       mudaVersao('1.0.0.65');
     end;  // Fim Ataulização Versao 1.0.0.65
