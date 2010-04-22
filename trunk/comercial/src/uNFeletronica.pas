@@ -15,18 +15,10 @@ uses
 type
   TfNFeletronica = class(TForm)
     MMJPanel1: TMMJPanel;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
     Label4: TLabel;
     Label7: TLabel;
     Edit1: TEdit;
-    btnGeraNFe: TBitBtn;
-    JvDateEdit1: TJvDateEdit;
-    JvDateEdit2: TJvDateEdit;
-    ComboBox1: TComboBox;
     edSerie: TEdit;
-    btnListar: TBitBtn;
     MMJPanel2: TMMJPanel;
     JvDBGrid1: TJvDBGrid;
     sdsNF: TSQLDataSet;
@@ -319,10 +311,7 @@ type
     sClienteCD_IBGE: TStringField;
     sEmpresaCCUSTO: TIntegerField;
     sEmpresaCD_IBGE: TStringField;
-    btnStatus: TBitBtn;
     XMLDocument1: TXMLDocument;
-    btnCancelaNFe: TBitBtn;
-    btnConsulta: TBitBtn;
     cdsNFPROTOCOLOENV: TStringField;
     cdsNFNUMRECIBO: TStringField;
     cdsNFPROTOCOLOCANC: TStringField;
@@ -337,9 +326,6 @@ type
     sNFCPROTOCOLOENV: TStringField;
     sNFCNUMRECIBO: TStringField;
     sNFCPROTOCOLOCANC: TStringField;
-    btnValidaNFe: TBitBtn;
-    btnImprime: TBitBtn;
-    btnGeraPDF: TBitBtn;
     sProdutosNCM: TStringField;
     JvFormStorage1: TJvFormStorage;
     JvAppXMLFileStorage1: TJvAppXMLFileStorage;
@@ -391,7 +377,6 @@ type
     sdsNFVALOR_PAGAR: TFloatField;
     cdsNFENTRADA: TFloatField;
     cdsNFVALOR_PAGAR: TFloatField;
-    BtnEnvEmail: TBitBtn;
     EdtAssunto: TEdit;
     Label5: TLabel;
     sEmail: TSQLDataSet;
@@ -418,7 +403,29 @@ type
     tpNF: TRadioGroup;
     sdsNFNATUREZA: TSmallintField;
     cdsNFNATUREZA: TSmallintField;
+    GroupBox1: TGroupBox;
+    btnGeraNFe: TBitBtn;
+    btnValidaNFe: TBitBtn;
+    BitBtn1: TBitBtn;
+    BtnEnvEmail: TBitBtn;
+    GroupBox2: TGroupBox;
+    btnStatus: TBitBtn;
+    btnConsulta: TBitBtn;
+    btnCancelaNFe: TBitBtn;
     btnInutilizar: TBitBtn;
+    GroupBox3: TGroupBox;
+    btnImprime: TBitBtn;
+    btnGeraPDF: TBitBtn;
+    Label8: TLabel;
+    GroupBox4: TGroupBox;
+    btnListar: TBitBtn;
+    JvDateEdit2: TJvDateEdit;
+    chkTodas: TCheckBox;
+    ComboBox1: TComboBox;
+    Label2: TLabel;
+    JvDateEdit1: TJvDateEdit;
+    Label1: TLabel;
+    Label3: TLabel;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -437,6 +444,8 @@ type
     procedure ValidaNFeClick(Sender: TObject);
     procedure BtnEnvEmailClick(Sender: TObject);
     procedure btnInutilizarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
     {procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);}
   private
@@ -448,11 +457,12 @@ type
 var
   fNFeletronica: TfNFeletronica;
   conta_local: string;
+  numnf : WideString;
 
 implementation
 
 uses pcnNFe, ACBrNFeNotasFiscais, DateUtils, ACBrNFeUtil, UDm,
-  ACBrNFeWebServices, uNFeInutilizar;
+ ACBrNFeWebServices, uNFeInutilizar, ACBrNFeConfiguracoes, sCtrlResize;
 
 {$R *.dfm}
 
@@ -483,11 +493,14 @@ begin
    cdsNF.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
    cdsNF.Params[2].Clear;
    cdsNF.Params[3].Clear;
+   cdsNf.Params.ParamByName('ENV').Clear;
+   if (chkTodas.Checked) then
+     cdsNf.Params.ParamByName('ENV').AsString := 'TODAS'; 
+
    if (edSerie.Text <> '') then
      cdsNF.Params[2].AsString := edSerie.Text
    else
      cdsNF.Params[3].AsString := 'todasasseriesdenotaf';
-
    if (tpNF.ItemIndex = 0) then
     cdsNF.Params[4].AsSmallInt := 20
    else
@@ -529,7 +542,7 @@ var
   dathor: TDateTime;
   BC, BCST : Variant;
   i, tpfrete, c: integer;
-  Protocolo, Recibo, comp, comp2: String;
+  Protocolo, Recibo, comp, comp2, str : String;
   tfrete : Variant;
 begin
    //JvProgressBar1.Position := 0;
@@ -613,7 +626,7 @@ begin
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
             Ide.serie     := 1;
-            Ide.nNF       := cdsNFNUMNF.AsInteger;
+            Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
             InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString;
@@ -861,8 +874,6 @@ begin
             begin
               with transporta do
               begin
-                if(tfrete = 0) then
-                begin
                   modFrete := tfrete;
                   CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
                   xNome := cdsNFNOMETRANSP.AsString;
@@ -870,17 +881,7 @@ begin
                   xEnder := cdsNFEND_TRANSP.AsString;
                   xMun := cdsNFCIDADE_TRANSP.AsString;
                   UF :=  cdsNFUF_TRANSP.AsString;
-                end;
-                if(tfrete = 1) then
-                begin
-                  modFrete := tfrete;
-                  CNPJCPF := RemoveChar(sClienteCNPJ.AsString);
-                  xNome := sClienteNOMECLIENTE.AsString;
-                  IE := RemoveChar(sClienteINSCESTADUAL.AsString);
-                  xEnder := sClienteLOGRADOURO.AsString;
-                  xMun := sClienteCIDADE.AsString;
-                  UF :=  sClienteUF.AsString;
-                end;
+                
                 //Carrega dados da Carga para Transporte
                 with Vol.Add do
                 begin
@@ -942,6 +943,7 @@ begin
       end;
       cdsNF.Next;
    end;
+   AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
    ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
    MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Geral.PathSalvar+'\'+copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
@@ -949,13 +951,18 @@ begin
    ACBrNFe1.Enviar(0);
    ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
    ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
-   sNFC.Edit;
+
    Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
-   sNFCPROTOCOLOENV.AsString := Protocolo;
    Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
-   sNFCNUMRECIBO.AsString := Recibo;
-   sNFC.ApplyUpdates(0);
    btnListar.Click;
+
+   str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + QuotedStr(Protocolo);
+   str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
+   str := str + ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger);
+   dm.sqlsisAdimin.ExecuteDirect(str);
+
+
+
 end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
@@ -1028,26 +1035,27 @@ procedure TfNFeletronica.FormCreate(Sender: TObject);
 var
  diretorio : string;
 begin
-    if dm.cds_parametro.Active then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
-    dm.cds_parametro.Open;
-    conta_local := dm.cds_parametroDADOS.AsString;
+//  sCtrlResize.CtrlResize(TForm(fNFeletronica));
+  if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
-    if cds_ccusto.Active then
-      cds_ccusto.Close;
-    cds_ccusto.Params[0].AsString := conta_local;
-    cds_ccusto.Open;
-    // populo a combobox
-    cds_ccusto.First;
-    while not cds_ccusto.Eof do
-    begin
-      ComboBox1.Items.Add(cds_ccustoNOME.AsString);
-      cds_ccusto.Next;
-    end;
-    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
-    diretorio := GetCurrentDir;
-    ACBrNFeDANFERave1.Logo :=  diretorio + '\logo.bmp';
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+  dm.cds_parametro.Open;
+  conta_local := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+  if cds_ccusto.Active then
+    cds_ccusto.Close;
+  cds_ccusto.Params[0].AsString := conta_local;
+  cds_ccusto.Open;
+  // populo a combobox
+  cds_ccusto.First;
+  while not cds_ccusto.Eof do
+  begin
+    ComboBox1.Items.Add(cds_ccustoNOME.AsString);
+    cds_ccusto.Next;
+  end;
+  ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
+  diretorio := GetCurrentDir;
+  ACBrNFeDANFERave1.Logo :=  diretorio + '\logo.bmp';
 end;
 
 procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
@@ -1079,6 +1087,7 @@ begin
    {$IFNDEF ACBrNFeOpenSSL}
    edtNumSerie.Text := ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
    {$ENDIF}
+
 end;
 
 procedure TfNFeletronica.btnGeraPDFClick(Sender: TObject);
@@ -1133,7 +1142,7 @@ procedure TfNFeletronica.btnCancelaNFeClick(Sender: TObject);
 var
   vXMLDoc: TXMLDocument;
   vAux, Protocolo, caminho : String;
-  numnf : WideString;
+  //numnf : WideString;
 begin
   vXMLDoc := TXMLDocument.Create(self);
   Try
@@ -1308,6 +1317,69 @@ begin
  finally
    fNFeInutilizar.Free;
  end;
+end;
+
+procedure TfNFeletronica.FormShow(Sender: TObject);
+begin
+   cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+
+   if (sEmpresa.Active) then
+     sEmpresa.Close;
+   sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+   sEmpresa.Open;
+
+   Edit1.Text := sEmpresaDIVERSOS1.AsString;
+
+   if (sEmpresaTIPO.AsString = '1') then
+   begin
+     ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
+     label8.Font.Color := clBlue;
+     Label8.Caption :=  'Ambiente PRODUÇÃO.';
+   end
+   else begin
+    ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
+    label8.Font.Color := clRed;
+    Label8.Caption :=  'Ambiente Homologação.';
+   end;
+
+end;
+
+procedure TfNFeletronica.BitBtn1Click(Sender: TObject);
+var Protocolo, Recibo, str, caminho : String;
+    vXMLDoc: TXMLDocument;
+begin
+  {vXMLDoc := TXMLDocument.Create(self);
+  //Gera Envio da Nota
+  OpenDialog1.Title := 'Selecione a NFE';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  if OpenDialog1.Execute then
+  begin
+  caminho := OpenDialog1.FileName;
+  ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
+  end;
+  ACBrNFe1.Enviar(0);
+  ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
+  ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
+
+  //ABRE A NOTA
+  vXMLDoc.LoadFromFile(caminho);
+
+  //PEGA A RESPOSTA
+  with vXMLDoc.DocumentElement  do
+  begin
+    numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+  end;
+  Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
+  Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
+  btnListar.Click;
+
+  str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + QuotedStr(Protocolo);
+  str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
+  str := str + ' WHERE NUMNF = ' + numnf;
+  dm.sqlsisAdimin.ExecuteDirect(str);  }
+
 end;
 
 end.
