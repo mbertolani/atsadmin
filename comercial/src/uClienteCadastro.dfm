@@ -85,8 +85,8 @@ inherited fClienteCadastro: TfClienteCadastro
     OnClick = SpeedButton7Click
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 488
-    Width = 764
+    Top = 499
+    Width = 772
     object BitBtn3: TBitBtn [0]
       Left = 8
       Top = -58
@@ -512,7 +512,7 @@ inherited fClienteCadastro: TfClienteCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 764
+    Width = 772
     Height = 46
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -567,8 +567,8 @@ inherited fClienteCadastro: TfClienteCadastro
   object PageControl1: TPageControl [6]
     Left = 0
     Top = 46
-    Width = 764
-    Height = 442
+    Width = 772
+    Height = 453
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
@@ -2226,7 +2226,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2526,7 +2526,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2636,7 +2636,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 14
       end
@@ -3026,7 +3026,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 19
       end
@@ -3145,8 +3145,8 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object MMJPanel3: TMMJPanel
         Left = 0
-        Top = 361
-        Width = 756
+        Top = 372
+        Width = 764
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -3902,8 +3902,8 @@ inherited fClienteCadastro: TfClienteCadastro
       ImageIndex = 1
       object MMJPanel4: TMMJPanel
         Left = 0
-        Top = 361
-        Width = 756
+        Top = 372
+        Width = 764
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4347,8 +4347,8 @@ inherited fClienteCadastro: TfClienteCadastro
       TabVisible = False
       object MMJPanel6: TMMJPanel
         Left = 0
-        Top = 361
-        Width = 756
+        Top = 372
+        Width = 764
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4791,8 +4791,8 @@ inherited fClienteCadastro: TfClienteCadastro
       ImageIndex = 4
       object MMJPanel7: TMMJPanel
         Left = 0
-        Top = 361
-        Width = 756
+        Top = 372
+        Width = 764
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -5859,7 +5859,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change
@@ -6643,9 +6643,10 @@ inherited fClienteCadastro: TfClienteCadastro
       Size = 9
     end
     object sdsEnderecoCliE_MAIL: TStringField
+      DisplayWidth = 100
       FieldName = 'E_MAIL'
       ProviderFlags = [pfInUpdate]
-      Size = 30
+      Size = 100
     end
     object sdsEnderecoCliRAMAL: TStringField
       FieldName = 'RAMAL'
@@ -6778,9 +6779,10 @@ inherited fClienteCadastro: TfClienteCadastro
       Size = 9
     end
     object cdsEnderecoCliE_MAIL: TStringField
+      DisplayWidth = 100
       FieldName = 'E_MAIL'
       ProviderFlags = [pfInUpdate]
-      Size = 30
+      Size = 100
     end
     object cdsEnderecoCliRAMAL: TStringField
       FieldName = 'RAMAL'
