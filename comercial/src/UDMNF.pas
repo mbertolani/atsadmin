@@ -1224,6 +1224,83 @@ type
     cds_nf1TELEFONE: TStringField;
     sds_Mov_DetCLASSIFIC_FISCAL: TStringField;
     cds_Mov_detCLASSIFIC_FISCAL: TStringField;
+    sds_compra: TSQLDataSet;
+    dsp_compra: TDataSetProvider;
+    cds_compra: TClientDataSet;
+    sds_compraCODCOMPRA: TIntegerField;
+    sds_compraCODMOVIMENTO: TIntegerField;
+    sds_compraCODFORNECEDOR: TIntegerField;
+    sds_compraDATACOMPRA: TDateField;
+    sds_compraDATAVENCIMENTO: TDateField;
+    sds_compraNUMEROBORDERO: TIntegerField;
+    sds_compraBANCO: TSmallintField;
+    sds_compraCODCOMPRADOR: TSmallintField;
+    sds_compraSTATUS: TSmallintField;
+    sds_compraCODUSUARIO: TSmallintField;
+    sds_compraDATASISTEMA: TDateField;
+    sds_compraVALOR: TFloatField;
+    sds_compraNOTAFISCAL: TIntegerField;
+    sds_compraSERIE: TStringField;
+    sds_compraDESCONTO: TFloatField;
+    sds_compraCODCCUSTO: TSmallintField;
+    sds_compraN_PARCELA: TSmallintField;
+    sds_compraOPERACAO: TStringField;
+    sds_compraFORMAPAGAMENTO: TStringField;
+    sds_compraN_DOCUMENTO: TStringField;
+    sds_compraCAIXA: TSmallintField;
+    sds_compraMULTA_JUROS: TFloatField;
+    sds_compraAPAGAR: TFloatField;
+    sds_compraVALOR_PAGAR: TFloatField;
+    sds_compraENTRADA: TFloatField;
+    sds_compraN_BOLETO: TStringField;
+    sds_compraSTATUS1: TStringField;
+    sds_compraVALOR_ICMS: TFloatField;
+    sds_compraVALOR_FRETE: TFloatField;
+    sds_compraVALOR_SEGURO: TFloatField;
+    sds_compraOUTRAS_DESP: TFloatField;
+    sds_compraVALOR_IPI: TFloatField;
+    sds_compraCFOP: TStringField;
+    sds_compraPRAZO: TStringField;
+    sds_compraNOMEFORNECEDOR: TStringField;
+    sds_compraNOMEUSUARIO: TStringField;
+    sds_compraBANCO_1: TStringField;
+    cds_compraCODCOMPRA: TIntegerField;
+    cds_compraCODMOVIMENTO: TIntegerField;
+    cds_compraCODFORNECEDOR: TIntegerField;
+    cds_compraDATACOMPRA: TDateField;
+    cds_compraDATAVENCIMENTO: TDateField;
+    cds_compraNUMEROBORDERO: TIntegerField;
+    cds_compraBANCO: TSmallintField;
+    cds_compraCODCOMPRADOR: TSmallintField;
+    cds_compraSTATUS: TSmallintField;
+    cds_compraCODUSUARIO: TSmallintField;
+    cds_compraDATASISTEMA: TDateField;
+    cds_compraVALOR: TFloatField;
+    cds_compraNOTAFISCAL: TIntegerField;
+    cds_compraSERIE: TStringField;
+    cds_compraDESCONTO: TFloatField;
+    cds_compraCODCCUSTO: TSmallintField;
+    cds_compraN_PARCELA: TSmallintField;
+    cds_compraOPERACAO: TStringField;
+    cds_compraFORMAPAGAMENTO: TStringField;
+    cds_compraN_DOCUMENTO: TStringField;
+    cds_compraCAIXA: TSmallintField;
+    cds_compraMULTA_JUROS: TFloatField;
+    cds_compraAPAGAR: TFloatField;
+    cds_compraVALOR_PAGAR: TFloatField;
+    cds_compraENTRADA: TFloatField;
+    cds_compraN_BOLETO: TStringField;
+    cds_compraSTATUS1: TStringField;
+    cds_compraVALOR_ICMS: TFloatField;
+    cds_compraVALOR_FRETE: TFloatField;
+    cds_compraVALOR_SEGURO: TFloatField;
+    cds_compraOUTRAS_DESP: TFloatField;
+    cds_compraVALOR_IPI: TFloatField;
+    cds_compraCFOP: TStringField;
+    cds_compraPRAZO: TStringField;
+    cds_compraNOMEFORNECEDOR: TStringField;
+    cds_compraNOMEUSUARIO: TStringField;
+    cds_compraBANCO_1: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
@@ -1260,7 +1337,7 @@ var
 
 implementation
 
-uses UDm, uNF, uClienteCadastro, uNotaf, uNFCompra, uNotaf1;
+uses UDm, uNF, uClienteCadastro, uNotaf, uNFCompra, uNotaf1, uNotafc;
 
 {$R *.dfm}
 
@@ -1765,6 +1842,18 @@ begin
            dmnf.cdsCompraVALOR_SEGURO.AsFloat + dmnf.cdsCompraVALOR_FRETE.AsFloat +
            dmnf.cdsCompraOUTRAS_DESP.AsFloat - dmnf.cdsCompraDESCONTO.AsFloat;
       end;
+
+    if (FormExiste(fNotaFc) = True) then
+      if (cds_Mov_detTotalPedido.Value > 0)then
+      begin
+        cds_nfVALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
+        if (cds_nfVALOR_TOTAL_NOTA.Value <> cds_nfVALOR_PRODUTO.Value) then
+          cds_nfVALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
+           dmnf.cds_vendaVALOR_ICMS.AsFloat + dmnf.cds_vendaVALOR_SEGURO.AsFloat +
+           dmnf.cds_vendaVALOR_SEGURO.AsFloat + dmnf.cds_vendaVALOR_FRETE.AsFloat +
+           dmnf.cds_vendaOUTRAS_DESP.AsFloat - dmnf.cds_vendaDESCONTO.AsFloat;
+      end;
+    
 end;
 
 function TDMNF.FormExiste(aberto: Tform): Boolean;
@@ -1885,6 +1974,32 @@ begin
     end;
   end;
 
+  if (FormExiste(fNotaFc) = True) then
+  begin
+    if (DMNF.DtSrc_NF1.State in [dsEdit, dsInsert]) then
+    begin
+       fNotaFc.btnIncluir.Visible := False;
+       fNotaFc.btnExcluir.Visible := False;
+       fNotaFc.btnGravar.Visible := True;
+       fNotaFc.btnGravar.Enabled := True;
+       fNotaFc.btnCancelar.Visible := True;
+       fNotaFc.btnCancelar.Enabled := True;
+    end;
+    if (DMNF.DtSrc_NF1.State in [dsBrowse, dsInactive]) then
+    begin
+       fNotaFc.btnIncluir.Visible := True;
+       fNotaFc.btnIncluir.Enabled := True;
+       fNotaFc.btnExcluir.Visible := True;
+       fNotaFc.btnExcluir.Enabled := True;
+       fNotaFc.btnGravar.Visible := False;
+       fNotaFc.btnGravar.Enabled := False;
+       fNotaFc.btnCancelar.Visible := False;
+       fNotaFc.btnCancelar.Enabled := False;
+       fNotaFc.btnSair.Visible := True;
+       fNotaFc.btnSair.Enabled := True;
+    end;
+  end;
+
 end;
 
-end.
+end.                                   
