@@ -5766,7 +5766,7 @@ object DMNF: TDMNF
   object DtSrc_NF1: TDataSource
     DataSet = cds_nf1
     OnStateChange = DtSrc_NF1StateChange
-    Left = 563
+    Left = 539
     Top = 143
   end
   object cds_nf1: TClientDataSet
@@ -5776,10 +5776,15 @@ object DMNF: TDMNF
         DataType = ftInteger
         Name = 'pNF'
         ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'pcodCompra'
+        ParamType = ptInput
       end>
     ProviderName = 'dsp_nf1'
     OnNewRecord = cds_nf1NewRecord
-    Left = 563
+    Left = 539
     Top = 99
     object cds_nf1NUMNF: TIntegerField
       FieldName = 'NUMNF'
@@ -6092,7 +6097,7 @@ object DMNF: TDMNF
   object dsp_nf1: TDataSetProvider
     DataSet = sds_nf1
     UpdateMode = upWhereKeyOnly
-    Left = 563
+    Left = 539
     Top = 55
   end
   object sds_nf1: TSQLDataSet
@@ -6106,16 +6111,21 @@ object DMNF: TDMNF
       'at ON nat.CFCOD = nf.CFOP '#13#10'left outer join FORNECEDOR cli on '#13#10 +
       'cli.CODFORNECEDOR=nf.CODCLIENTE '#13#10'left outer join ENDERECOFORNEC' +
       'EDOR ende on '#13#10'ende.CODFORNECEDOR=cli.CODFORNECEDOR '#13#10' where nf.' +
-      'NUMNF = :pNF '#13#10
+      'NUMNF = :pNF or nf.codvenda = :pcodCompra'#13#10
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
         Name = 'pNF'
         ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'pcodCompra'
+        ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 563
+    Left = 539
     Top = 8
     object sds_nf1NUMNF: TIntegerField
       FieldName = 'NUMNF'
@@ -6423,6 +6433,313 @@ object DMNF: TDMNF
       FieldName = 'TELEFONE'
       ProviderFlags = []
       Size = 9
+    end
+  end
+  object sds_compra: TSQLDataSet
+    CommandText = 
+      'select cp.*, cli.NOMEfornecedor, usu.NOMEUSUARIO, banc.BANCO fro' +
+      'm compra cp'#13#10'inner join fornecedor cli on cli.CODfornecedor=cp.C' +
+      'ODfornecedor inner join USUARIO usu on usu.CODUSUARIO=cp.CODcomp' +
+      'raDOR left outer join BANCO banc on banc.CODBANCO=cp.BANCO where' +
+      ' CODcompra = :CODcompra or CODMOVIMENTO = :PCODMOV'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODcompra'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PCODMOV'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 601
+    Top = 9
+    object sds_compraCODCOMPRA: TIntegerField
+      FieldName = 'CODCOMPRA'
+      Required = True
+    end
+    object sds_compraCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      Required = True
+    end
+    object sds_compraCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object sds_compraDATACOMPRA: TDateField
+      FieldName = 'DATACOMPRA'
+      Required = True
+    end
+    object sds_compraDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      Required = True
+    end
+    object sds_compraNUMEROBORDERO: TIntegerField
+      FieldName = 'NUMEROBORDERO'
+    end
+    object sds_compraBANCO: TSmallintField
+      FieldName = 'BANCO'
+    end
+    object sds_compraCODCOMPRADOR: TSmallintField
+      FieldName = 'CODCOMPRADOR'
+    end
+    object sds_compraSTATUS: TSmallintField
+      FieldName = 'STATUS'
+    end
+    object sds_compraCODUSUARIO: TSmallintField
+      FieldName = 'CODUSUARIO'
+    end
+    object sds_compraDATASISTEMA: TDateField
+      FieldName = 'DATASISTEMA'
+    end
+    object sds_compraVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object sds_compraNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object sds_compraSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object sds_compraDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object sds_compraCODCCUSTO: TSmallintField
+      FieldName = 'CODCCUSTO'
+    end
+    object sds_compraN_PARCELA: TSmallintField
+      FieldName = 'N_PARCELA'
+    end
+    object sds_compraOPERACAO: TStringField
+      FieldName = 'OPERACAO'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_compraFORMAPAGAMENTO: TStringField
+      FieldName = 'FORMAPAGAMENTO'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_compraN_DOCUMENTO: TStringField
+      FieldName = 'N_DOCUMENTO'
+    end
+    object sds_compraCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+    end
+    object sds_compraMULTA_JUROS: TFloatField
+      FieldName = 'MULTA_JUROS'
+    end
+    object sds_compraAPAGAR: TFloatField
+      FieldName = 'APAGAR'
+    end
+    object sds_compraVALOR_PAGAR: TFloatField
+      FieldName = 'VALOR_PAGAR'
+    end
+    object sds_compraENTRADA: TFloatField
+      FieldName = 'ENTRADA'
+    end
+    object sds_compraN_BOLETO: TStringField
+      FieldName = 'N_BOLETO'
+      Size = 30
+    end
+    object sds_compraSTATUS1: TStringField
+      FieldName = 'STATUS1'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_compraVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object sds_compraVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object sds_compraVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object sds_compraOUTRAS_DESP: TFloatField
+      FieldName = 'OUTRAS_DESP'
+    end
+    object sds_compraVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object sds_compraCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 4
+    end
+    object sds_compraPRAZO: TStringField
+      FieldName = 'PRAZO'
+      Size = 40
+    end
+    object sds_compraNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 50
+    end
+    object sds_compraNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Required = True
+      Size = 30
+    end
+    object sds_compraBANCO_1: TStringField
+      FieldName = 'BANCO_1'
+      Size = 18
+    end
+  end
+  object dsp_compra: TDataSetProvider
+    DataSet = sds_compra
+    UpdateMode = upWhereKeyOnly
+    Left = 601
+    Top = 57
+  end
+  object cds_compra: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODcompra'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PCODMOV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_compra'
+    OnReconcileError = cds_vendaReconcileError
+    Left = 600
+    Top = 99
+    object cds_compraCODCOMPRA: TIntegerField
+      FieldName = 'CODCOMPRA'
+      Required = True
+    end
+    object cds_compraCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      Required = True
+    end
+    object cds_compraCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object cds_compraDATACOMPRA: TDateField
+      FieldName = 'DATACOMPRA'
+      Required = True
+    end
+    object cds_compraDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      Required = True
+    end
+    object cds_compraNUMEROBORDERO: TIntegerField
+      FieldName = 'NUMEROBORDERO'
+    end
+    object cds_compraBANCO: TSmallintField
+      FieldName = 'BANCO'
+    end
+    object cds_compraCODCOMPRADOR: TSmallintField
+      FieldName = 'CODCOMPRADOR'
+    end
+    object cds_compraSTATUS: TSmallintField
+      FieldName = 'STATUS'
+    end
+    object cds_compraCODUSUARIO: TSmallintField
+      FieldName = 'CODUSUARIO'
+    end
+    object cds_compraDATASISTEMA: TDateField
+      FieldName = 'DATASISTEMA'
+    end
+    object cds_compraVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object cds_compraNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object cds_compraSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object cds_compraDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object cds_compraCODCCUSTO: TSmallintField
+      FieldName = 'CODCCUSTO'
+    end
+    object cds_compraN_PARCELA: TSmallintField
+      FieldName = 'N_PARCELA'
+    end
+    object cds_compraOPERACAO: TStringField
+      FieldName = 'OPERACAO'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_compraFORMAPAGAMENTO: TStringField
+      FieldName = 'FORMAPAGAMENTO'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_compraN_DOCUMENTO: TStringField
+      FieldName = 'N_DOCUMENTO'
+    end
+    object cds_compraCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+    end
+    object cds_compraMULTA_JUROS: TFloatField
+      FieldName = 'MULTA_JUROS'
+    end
+    object cds_compraAPAGAR: TFloatField
+      FieldName = 'APAGAR'
+    end
+    object cds_compraVALOR_PAGAR: TFloatField
+      FieldName = 'VALOR_PAGAR'
+    end
+    object cds_compraENTRADA: TFloatField
+      FieldName = 'ENTRADA'
+    end
+    object cds_compraN_BOLETO: TStringField
+      FieldName = 'N_BOLETO'
+      Size = 30
+    end
+    object cds_compraSTATUS1: TStringField
+      FieldName = 'STATUS1'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_compraVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object cds_compraVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object cds_compraVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object cds_compraOUTRAS_DESP: TFloatField
+      FieldName = 'OUTRAS_DESP'
+    end
+    object cds_compraVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object cds_compraCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 4
+    end
+    object cds_compraPRAZO: TStringField
+      FieldName = 'PRAZO'
+      Size = 40
+    end
+    object cds_compraNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 50
+    end
+    object cds_compraNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Required = True
+      Size = 30
+    end
+    object cds_compraBANCO_1: TStringField
+      FieldName = 'BANCO_1'
+      Size = 18
     end
   end
 end
