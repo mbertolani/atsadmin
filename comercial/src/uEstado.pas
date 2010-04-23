@@ -146,21 +146,24 @@ end;
 procedure TfEstado.btnGravarClick(Sender: TObject);
 var str: string;
 begin
+  if (cds_estado.State in [dsEdit]) then
+  begin
+    DecimalSeparator := '.';
+    str := 'Update ESTADO_ICMS set CFOP = ';
+    str := str + QuotedStr(cds_estadoCFOP.AsString);
+    str := str + ', UF = ' + QuotedStr(cds_estadoUF.AsString);
+    str := str + ', ICMS = ' + FloatToStr(cds_estadoICMS.AsFloat);
+    str := str + ', REDUCAO = ' + FloatToStr(cds_estadoREDUCAO.AsFloat);
+    str := str + ', IPI = ' + FloatToStr(cds_estadoIPI.AsFloat);
+    str := str + ', ICMS_SUBSTRIB = ' + FloatToStr(cds_estadoICMS_SUBSTRIB.AsFloat);
+    str := str + ', ICMS_SUBSTRIB_IC = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IC.AsFloat);
+    str := str + ', ICMS_SUBSTRIB_IND = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IND.AsFloat);
+    str := str + ', CST = ' + QuotedStr(cds_estadoCST.AsString);
+    str := str + ' WHERE CODESTADO = ' + IntToStr(cds_estadoCODESTADO.AsInteger);
+    dm.sqlsisAdimin.ExecuteDirect(str);
+    DecimalSeparator := ',';
+  end;
   inherited;
-  DecimalSeparator := '.';
-  str := 'Update ESTADO_ICMS set CFOP = ';
-  str := str + QuotedStr(cds_estadoCFOP.AsString);
-  str := str + ', UF = ' + QuotedStr(cds_estadoUF.AsString);
-  str := str + ', ICMS = ' + FloatToStr(cds_estadoICMS.AsFloat);
-  str := str + ', REDUCAO = ' + FloatToStr(cds_estadoREDUCAO.AsFloat);
-  str := str + ', IPI = ' + FloatToStr(cds_estadoIPI.AsFloat);
-  str := str + ', ICMS_SUBSTRIB = ' + FloatToStr(cds_estadoICMS_SUBSTRIB.AsFloat);
-  str := str + ', ICMS_SUBSTRIB_IC = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IC.AsFloat);
-  str := str + ', ICMS_SUBSTRIB_IND = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IND.AsFloat);
-  str := str + ', CST = ' + QuotedStr(cds_estadoCST.AsString);
-  str := str + ' WHERE CODESTADO = ' + IntToStr(cds_estadoCODESTADO.AsInteger);
-  dm.sqlsisAdimin.ExecuteDirect(str);
-  DecimalSeparator := ',';
 end;
 
 procedure TfEstado.btnExcluirClick(Sender: TObject);

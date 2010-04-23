@@ -432,7 +432,7 @@ inherited fEstado: TfEstado
     end
     object sdsCODESTADO: TIntegerField
       FieldName = 'CODESTADO'
-      Required = True
+      ProviderFlags = [pfInWhere]
     end
   end
   object dsp: TDataSetProvider
@@ -491,7 +491,7 @@ inherited fEstado: TfEstado
     end
     object cds_estadoCODESTADO: TIntegerField
       FieldName = 'CODESTADO'
-      Required = True
+      ProviderFlags = [pfInWhere]
     end
   end
 end
