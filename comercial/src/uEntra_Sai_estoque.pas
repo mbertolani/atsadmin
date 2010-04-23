@@ -558,7 +558,11 @@ begin
 
   end;
   { ---------------------------------------------------------------------}
-
+  if (cds_MovimentoDATAMOVIMENTO.AsDateTime < StrToDate('01/01/1990') ) then
+  begin
+    MessageDlg('Data Inválida', mtError, [mbOK], 0);
+    exit;
+  end;
   if DtSrc.DataSet.State in [dsInsert] then
   if (ComboBox1.Text = '') then // Entrada
   begin
