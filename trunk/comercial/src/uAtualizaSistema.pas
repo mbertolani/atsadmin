@@ -657,7 +657,6 @@ begin
 
     if (versaoSistema = '1.0.0.64') then
     begin
-	  executaSql('alter TABLE EMPRESA add CD_IBGE VarChar(10)');
       executaSql('ALTER TABLE ENDERECOCLIENTE ALTER E_MAIL TYPE VARCHAR(100)');
       mudaVersao('1.0.0.65');
     end;  // Fim Ataulização Versao 1.0.0.65
@@ -674,6 +673,13 @@ begin
       executaScript('desbloqueia_clientes.sql');
       mudaVersao('1.0.0.66');
     end;  // Fim Ataulização Versao 1.0.0.66
+
+    if (versaoSistema = '1.0.0.66') then
+    begin
+      executaSql('alter TABLE ENDERECOFORNECEDOR add CD_IBGE Varchar(10)');
+      executaSql('alter TABLE ENDERECOFORNECEDOR add NUMERO VarChar(5)');
+      mudaVersao('1.0.0.67');
+    end;  // Fim Ataulização Versao 1.0.0.67
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
