@@ -24,6 +24,7 @@ DECLARE VARIABLE BASE_ICMSE DOUBLE PRECISION;
 DECLARE VARIABLE VAL_TOTAL DOUBLE PRECISION;
 DECLARE VARIABLE VALOR DOUBLE PRECISION;
 declare variable cod integer;
+declare variable codv integer;
 declare variable NotaFiscalVenda integer;
 declare variable serie varchar(20);
 DECLARE VARIABLE VlrStr varchar(32);
@@ -33,6 +34,10 @@ DECLARE VARIABLE ICMS_DESTACADO_DESC VARCHAR(60);
 DECLARE VARIABLE ICMS_DESTACADO_DESC2 VARCHAR(100);  
 DECLARE VARIABLE ICMS_SUBST DOUBLE PRECISION;
 DECLARE VARIABLE cst char(3); 
+declare variable fatura varchar(300);
+declare variable DATAFATURA varchar(12);
+declare variable VLR varchar(12);
+declare variable NUMEROFATURA VARCHAR(20);
 begin
   BASE_ICMS = 0;
   BASE_ICMSE = 0;
@@ -46,9 +51,9 @@ begin
   if (icms_subst is null) then 
     icms_subst = 0;
 
-  select v.codmovimento, v.NOTAFISCAL, v.SERIE from venda v
+  select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA from venda v
     inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf
-  into :cod, :notaFiscalVenda, :serie; 
+  into :cod, :notaFiscalVenda, :serie, :codv; 
 
   SELECT s.ICMS_DESTACADO FROM SERIES s WHERE s.SERIE = :SERIE 
     into :icms_destacado;
@@ -251,4 +256,17 @@ begin
     EXECUTE PROCEDURE CALCULA_ICMS_SUBSTITUICAO (:NUMERO_NF,  :UF, :CFOP, :VAL_TOTAL, :notafiscalVenda , :serie, :ipi
          ,:icms_destacado_desc, :icms_destacado_desc2);
     EXECUTE PROCEDURE CALCULA_ICMS_SUBSTPROD (:CFOP, :UF, :NUMERO_NF, :COD, :SERIE);
+    fatura = '';
+    for select UDF_DAY(DATAFATURA) || '/' || UDF_MONTH(DATAFATURA) || '/' || UDF_YEAR(DATAFATURA)  , VALOR, NUMEROFATURA from NFE_FATURA(:CODV)
+	 into :datafatura, :valor, :numerofatura
+	 do begin 
+	  select * from FU_FORMATAR(:VALOR, '#####.##0,00')
+	  into :vlr;
+	    if (fatura <> '') then 
+	      fatura = :fatura || '     ';
+	    fatura = :fatura || :datafatura;
+	    fatura = :fatura || ' - ' || udf_trim(:vlr) || ' - ' || :numerofatura;
+	 end    
+	if (fatura <> '') then 
+      update notafiscal set FATURA = :fatura where NUMNF = :NUMERO_NF;
 end
