@@ -426,6 +426,23 @@ type
     JvDateEdit1: TJvDateEdit;
     Label1: TLabel;
     Label3: TLabel;
+    sFornec: TSQLDataSet;
+    sFornecCODCLIENTE: TIntegerField;
+    sFornecNOMECLIENTE: TStringField;
+    sFornecCONTATO: TStringField;
+    sFornecINSCESTADUAL: TStringField;
+    sFornecRAZAOSOCIAL: TStringField;
+    sFornecCNPJ: TStringField;
+    sFornecLOGRADOURO: TStringField;
+    sFornecBAIRRO: TStringField;
+    sFornecCOMPLEMENTO: TStringField;
+    sFornecCIDADE: TStringField;
+    sFornecUF: TStringField;
+    sFornecCEP: TStringField;
+    sFornecNUMERO: TStringField;
+    sFornecTELEFONE: TStringField;
+    sFornecDDD: TSmallintField;
+    sFornecCD_IBGE: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -484,11 +501,28 @@ begin
 end;
 
 procedure TfNFeletronica.btnListarClick(Sender: TObject);
+var str_nf: string;
 begin
+
+  str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.fatura, nf.natureza, ' +
+  'UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, ' +
+  'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
+  'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  cast(nf.NOMETRANSP as varchar (60) )as NOMETRANSP,  nf.INSCRICAOESTADUAL,' +
+  'cast(nf.END_TRANSP as varchar (60) )as END_TRANSP,    cast(nf.CIDADE_TRANSP as varchar (60) )as CIDADE_TRANSP,   nf.UF_TRANSP,'+
+  'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, ' +
+  'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
+  'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
+  'inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR left outer join COMPRA c on c.CODCOMPRA = nf.CODVENDA '+
+  'where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
+  'and (endeforn.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.DTAEMISSAO';
   //  SaveDialog1.Execute;
   //  Edit1.Text := SaveDialog1.FileName;
+
    if (cdsNF.Active) then
      cdsNF.Close;
+   if (tpNF.ItemIndex = 0) then
+     cdsNF.CommandText := str_nf;
+
    cdsNF.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
    cdsNF.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
    cdsNF.Params[2].Clear;
@@ -542,7 +576,7 @@ var
   dathor: TDateTime;
   BC, BCST : Variant;
   i, tpfrete, c: integer;
-  Protocolo, Recibo, comp, comp2, str : String;
+  Protocolo, Recibo, comp, comp2, str, itensnf : String;
   tfrete : Variant;
 begin
    //JvProgressBar1.Position := 0;
@@ -564,15 +598,28 @@ begin
    if(sEmpresa.IsEmpty) then
      MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
 
-   if (sCliente.Active) then
-     sCliente.Close;
-   sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-   sCliente.Open;
+   if (tpNF.ItemIndex = 1) then
+   begin
+     if (sCliente.Active) then
+       sCliente.Close;
+     sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+     sCliente.Open;
+   end
+   else
+   begin
+    if (sFornec.Active) then
+      sFornec.Close;
+    sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+    sFornec.Open;
+   end;
 
    if (sCFOP.Active) then
      sCFOP.Close;
    sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
-   sCFOP.Params[1].AsString := sClienteUF.AsString;
+   if (tpNF.ItemIndex = 1) then
+    sCFOP.Params[1].AsString := sClienteUF.AsString
+   else
+    sCFOP.Params[1].AsString := sFornecUF.AsString;
    sCFOP.Open;
 
    if (cdsNFDTASAIDA.IsNull) then
@@ -664,30 +711,72 @@ begin
             Emit.EnderEmit.fone    := sEmpresaDDD.AsString + sEmpresaFONE.AsString;
             Emit.IE                := RemoveChar(sEmpresaIE_RG.AsString);
             //Carrega dados do Destinatário
-            Dest.CNPJCPF           := RemoveChar(sClienteCNPJ.AsString);
-            Dest.xNome             := sClienteRAZAOSOCIAL.AsString;
-            Dest.EnderDest.xLgr    := sClienteLOGRADOURO.AsString;
-            if ((sClienteNUMERO.IsNull) or (sClienteNUMERO.AsString = '')) then
+            // FORNECEDOR
+            if (tpNF.ItemIndex = 0) then
             begin
-              Dest.EnderDest.nro     := 'sn';
+              Dest.CNPJCPF           := RemoveChar(sFornecCNPJ.AsString);
+              Dest.xNome             := sFornecRAZAOSOCIAL.AsString;
+              Dest.EnderDest.xLgr    := sFornecLOGRADOURO.AsString;
+              if ((sFornecNUMERO.IsNull) or (sFornecNUMERO.AsString = '')) then
+              begin
+                Dest.EnderDest.nro     := 'sn';
+              end
+              else
+                Dest.EnderDest.nro     := sFornecNUMERO.AsString;
+              if ((not sFornecCOMPLEMENTO.IsNull) or ( sFornecCOMPLEMENTO.AsString <> '')) then
+                Dest.EnderDest.xCpl    := sFornecCOMPLEMENTO.AsString;
+              Dest.EnderDest.xBairro := sFornecBAIRRO.AsString;
+              if (sFornecCD_IBGE.IsNull) then
+                MessageDlg('Codigo do IBGE do cliente não definido', mtError, [mbOK], 0);
+              Dest.EnderDest.cMun    := StrToInt(RemoveChar(sFornecCD_IBGE.AsString));
+              Dest.EnderDest.xMun    := sFornecCIDADE.AsString;
+              Dest.EnderDest.UF      := sFornecUF.AsString;
+              Dest.EnderDest.CEP     := StrToInt(RemoveChar(sFornecCEP.AsString));
+              Dest.EnderDest.cPais   := 1058;
+              Dest.EnderDest.xPais   := 'BRASIL';
+              Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
+              Dest.IE                := RemoveChar(sFornecINSCESTADUAL.AsString);
             end
+            //CLIENTE
             else
-              Dest.EnderDest.nro     := sClienteNUMERO.AsString;
-            if ((not sClienteCOMPLEMENTO.IsNull) or ( sClienteCOMPLEMENTO.AsString <> '')) then
-              Dest.EnderDest.xCpl    := sClienteCOMPLEMENTO.AsString;
-            Dest.EnderDest.xBairro := sClienteBAIRRO.AsString;
-            if (sClienteCD_IBGE.IsNull) then
-              MessageDlg('Codigo do IBGE do cliente não definido', mtError, [mbOK], 0);
-            Dest.EnderDest.cMun    := StrToInt(RemoveChar(sClienteCD_IBGE.AsString));
-            Dest.EnderDest.xMun    := sClienteCIDADE.AsString;
-            Dest.EnderDest.UF      := sClienteUF.AsString;
-            Dest.EnderDest.CEP     := StrToInt(RemoveChar(sClienteCEP.AsString));
-            Dest.EnderDest.cPais   := 1058;
-            Dest.EnderDest.xPais   := 'BRASIL';
-            Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
-            Dest.IE                := RemoveChar(sClienteINSCESTADUAL.AsString);
+            begin
+              Dest.CNPJCPF           := RemoveChar(sClienteCNPJ.AsString);
+              Dest.xNome             := sClienteRAZAOSOCIAL.AsString;
+              Dest.EnderDest.xLgr    := sClienteLOGRADOURO.AsString;
+              if ((sClienteNUMERO.IsNull) or (sClienteNUMERO.AsString = '')) then
+              begin
+                Dest.EnderDest.nro     := 'sn';
+              end
+              else
+                Dest.EnderDest.nro     := sClienteNUMERO.AsString;
+              if ((not sClienteCOMPLEMENTO.IsNull) or ( sClienteCOMPLEMENTO.AsString <> '')) then
+                Dest.EnderDest.xCpl    := sClienteCOMPLEMENTO.AsString;
+              Dest.EnderDest.xBairro := sClienteBAIRRO.AsString;
+              if (sClienteCD_IBGE.IsNull) then
+                MessageDlg('Codigo do IBGE do cliente não definido', mtError, [mbOK], 0);
+              Dest.EnderDest.cMun    := StrToInt(RemoveChar(sClienteCD_IBGE.AsString));
+              Dest.EnderDest.xMun    := sClienteCIDADE.AsString;
+              Dest.EnderDest.UF      := sClienteUF.AsString;
+              Dest.EnderDest.CEP     := StrToInt(RemoveChar(sClienteCEP.AsString));
+              Dest.EnderDest.cPais   := 1058;
+              Dest.EnderDest.xPais   := 'BRASIL';
+              Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
+              Dest.IE                := RemoveChar(sClienteINSCESTADUAL.AsString);
+            end;
 
-            //Carrega os itens da NF
+            //Carrega os itens da NF 
+            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO,cast(md.DESCPRODUTO as varchar(120) )as DESCPRODUTO,'+
+                'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
+                'ELSE pr.CODPRO END as codpro, ' +
+                'pr.UNIDADEMEDIDA, md.CST, md.ICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
+                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
+                'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
+                'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
+                'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+                'where cp.CODCOMPRA = :id and nf.NATUREZA = 20' ;
+
+            if (tpNF.ItemIndex = 0) then
+              cdsItensNF.CommandText := itensnf;
             if (cdsItensNF.Active) then
               cdsItensNF.Close;
             cdsItensNF.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
@@ -960,8 +1049,6 @@ begin
    str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
    str := str + ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger);
    dm.sqlsisAdimin.ExecuteDirect(str);
-
-
 
 end;
 

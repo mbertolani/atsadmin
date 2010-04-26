@@ -155,6 +155,7 @@ object fNFeletronica: TfNFeletronica
       Height = 31
       Caption = 'Tipo de Nota Fiscal'
       Columns = 2
+      ItemIndex = 1
       Items.Strings = (
         'Entrada'
         'Sa'#237'da')
@@ -1082,6 +1083,7 @@ object fNFeletronica: TfNFeletronica
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
+    Options = [poAllowCommandText]
     Left = 88
     Top = 248
   end
@@ -1096,11 +1098,11 @@ object fNFeletronica: TfNFeletronica
       '         UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10'        ' +
       '  UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE,'#13#10'          UDF_ROUND' +
       'DEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'          md.ICMS_SUBSTD,'#13 +
-      #10'          md.VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETA' +
-      'LHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFI' +
-      'SCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on' +
-      ' '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id and nf' +
-      '.NATUREZA = 15'
+      #10'          (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL'#13#10'from VENDA' +
+      ' vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CO' +
+      'DMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVE' +
+      'NDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10 +
+      'where vd.CODVENDA = :id and nf.NATUREZA = 15'
     MaxBlobSize = -1
     Params = <
       item
@@ -1160,6 +1162,7 @@ object fNFeletronica: TfNFeletronica
   end
   object dspItensNF: TDataSetProvider
     DataSet = sdsItensNF
+    Options = [poAllowCommandText]
     Left = 88
     Top = 280
   end
@@ -3100,6 +3103,109 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsFaturaNUMEROFATURA: TStringField
       FieldName = 'NUMEROFATURA'
+    end
+  end
+  object sFornec: TSQLDataSet
+    CommandText = 
+      'select f.CODFORNECEDOR as CODCLIENTE, '#13#10'           f.NOMEFORNECE' +
+      'DOR as NOMECLIENTE,'#13#10'           f.CONTATO,'#13#10'           f.INSCEST' +
+      'ADUAL,'#13#10'           cast(f.RAZAOSOCIAL as varchar (60) )as RAZAOS' +
+      'OCIAL,'#13#10'           cast(f.CNPJ as varchar (60) )as CNPJ,'#13#10'      ' +
+      '     cast(e.LOGRADOURO as varchar (60) ) as LOGRADOURO,'#13#10'       ' +
+      '    cast(e.BAIRRO as varchar (60) ) as BAIRRO, '#13#10'           cast' +
+      '(e.COMPLEMENTO as varchar (60) ) as COMPLEMENTO, '#13#10'           ca' +
+      'st(e.CIDADE as varchar (60) ) as CIDADE, '#13#10'           e.UF, '#13#10'  ' +
+      '         e.CEP ,'#13#10'           e.NUMERO,'#13#10'           e.TELEFONE,'#13#10 +
+      '           e.DDD,'#13#10'           e.CD_IBGE'#13#10'from FORNECEDOR f'#13#10'inne' +
+      'r join ENDERECOFORNECEDOR e on'#13#10' e.CODFORNECEDOR = f.CODFORNECED' +
+      'OR'#13#10'where f.CODFORNECEDOR = :id and e.TIPOEND = 0'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 121
+    Top = 216
+    object sFornecCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object sFornecNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
+    object sFornecCONTATO: TStringField
+      FieldName = 'CONTATO'
+      Size = 30
+    end
+    object sFornecINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object sFornecRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      ReadOnly = True
+      Required = True
+      Size = 60
+    end
+    object sFornecCNPJ: TStringField
+      FieldName = 'CNPJ'
+      ReadOnly = True
+      Size = 60
+    end
+    object sFornecLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      ReadOnly = True
+      Size = 60
+    end
+    object sFornecBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      ReadOnly = True
+      Size = 60
+    end
+    object sFornecCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      ReadOnly = True
+      Size = 60
+    end
+    object sFornecCIDADE: TStringField
+      FieldName = 'CIDADE'
+      ReadOnly = True
+      Size = 60
+    end
+    object sFornecUF: TStringField
+      FieldName = 'UF'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object sFornecCEP: TStringField
+      FieldName = 'CEP'
+      ReadOnly = True
+      Size = 10
+    end
+    object sFornecNUMERO: TStringField
+      FieldName = 'NUMERO'
+      ReadOnly = True
+      Size = 5
+    end
+    object sFornecTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      ReadOnly = True
+      Size = 9
+    end
+    object sFornecDDD: TSmallintField
+      FieldName = 'DDD'
+      ReadOnly = True
+    end
+    object sFornecCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      ReadOnly = True
+      Size = 10
     end
   end
 end
