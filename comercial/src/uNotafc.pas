@@ -348,6 +348,10 @@ procedure TfNotaFc.btnIncluirClick(Sender: TObject);
 begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.open;
+  if (not dmnf.cds_nf1.Active) then
+    dmnf.cds_nf1.open;
+  if (not dmnf.cds_Mov_det.Active) then
+    dmnf.cds_Mov_det.open;
   // Entrada ou Saida
   //if (rg.ItemIndex = 0) then // Entrada
    //  incluiEntrada
@@ -403,7 +407,6 @@ begin
   dmnf.cds_nf1PESOLIQUIDO.AsFloat := dmnf.sqs_tit.Fields[0].AsFloat;
 
   dmnf.sqs_tit.Close;
-
 
     prazo := listaCliente1PRAZORECEBIMENTO.AsFloat;
     if (listaCliente1CODTRANSP.AsInteger > 0 ) then
@@ -500,7 +503,7 @@ begin
   dmnf.listaCliente.Close;
   //Populo DBGrid com Produtos
   incluiMovimento;
-  //incluiVenda;
+  //incluiCompra;
   incluiNotaFiscal;
 end;
 
@@ -711,12 +714,12 @@ begin
     end;
     }
   {------Pesquisando na tab Parametro Código e Nome da Natureza da compra/Compra--------}
-    if (dm.parametro.Locate('PARAMETRO','NATUREZAVENDA',[loCaseInsensitive])) then
+    if (dm.parametro.Locate('PARAMETRO','NATUREZACOMPRA',[loCaseInsensitive])) then
     begin
       Try
         cod_nat := strToint(dm.parametroDADOS.asString);
       except
-        cod_nat := 3;
+        cod_nat := 4;
       end;
       natureza := dm.parametroD1.AsString;
     end;
