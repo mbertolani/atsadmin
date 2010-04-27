@@ -1428,6 +1428,7 @@ begin
     label8.Font.Color := clRed;
     Label8.Caption :=  'Ambiente Homologação.';
    end;
+   ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresaDIVERSOS1.AsString;
 
 end;
 
