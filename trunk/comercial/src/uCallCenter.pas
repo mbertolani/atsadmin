@@ -79,16 +79,20 @@ type
     BitBtn2: TBitBtn;
     BitBtn1: TBitBtn;
     BitBtn5: TBitBtn;
-    cCallCenterDetID: TSQLTimeStampField;
-    cCallCenterDetID_USUARIO: TIntegerField;
-    cCallCenterDetATENDIMENTO: TStringField;
+    sBuscaProtocolo: TSQLDataSet;
+    BitBtn6: TBitBtn;
+    BitBtn7: TBitBtn;
+    Edit2: TEdit;
     sCallCenterDetID: TSQLTimeStampField;
     sCallCenterDetID_USUARIO: TIntegerField;
     sCallCenterDetATENDIMENTO: TStringField;
     sCallCenterDetPROTOCOLO: TStringField;
+    sCallCenterDetATEN: TIntegerField;
+    cCallCenterDetID: TSQLTimeStampField;
+    cCallCenterDetID_USUARIO: TIntegerField;
+    cCallCenterDetATENDIMENTO: TStringField;
     cCallCenterDetPROTOCOLO: TStringField;
-    sBuscaProtocolo: TSQLDataSet;
-    BitBtn6: TBitBtn;
+    cCallCenterDetATEN: TIntegerField;
     procedure IncluiProtocolo;
     procedure EditaProtocolo;
     procedure LimpaEdit;
@@ -106,6 +110,7 @@ type
     procedure JvDBGrid1MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure edtNomeChange(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -130,14 +135,14 @@ var
   sqlTexto, PROTOCOLO : string;
 
 begin
-   textoSQL := 'select PROTOCOLO, DATA_ATENDIMENTO, NOME, CIDADE, CEP, UF,  ' +
+  textoSQL := 'select PROTOCOLO, DATA_ATENDIMENTO, NOME, CIDADE, CEP, UF,  ' +
        'TELEFONE, N_QUADRO, N_SERIE, MODELOBIKE, TIPO_ATENDIMENTO,  ' +
        'STATUS_ATENDIMENTO from CALLCENTER ';
 
     if (JvDateEdit1.Text <> '  /  /    ') then
     begin
       if sqlTexto='' then
-        sqlTexto := sqlTexto + ' WHERE DATA_ATENDIMENTO ' +
+        sqlTexto := sqlTexto + ' WHERE DATA_ATENDIMENTO = ' +
          QuotedStr(formatdatetime('mm/dd/yy', StrToDate(JvDateEdit1.Text)));
     end;
 
@@ -253,6 +258,7 @@ begin
   cCallCenterDet.Open;
   ATENDIMENTO := DateTimeToStr(cCallCenterDetID.AsDateTime);
 
+ 
 end;
 
 procedure TfCallCenter.LimpaEdit;
@@ -270,6 +276,7 @@ begin
   edtTipo.Text := '';
   edtStatus.Text := '';
   edtAtendimento.Text := '';
+
 end;
 
 procedure TfCallCenter.BitBtn5Click(Sender: TObject);
@@ -362,7 +369,7 @@ begin
     cCallCenterN_QUADRO.AsString := edtQuadro.Text;
     cCallCenterN_SERIE.AsString := edtSerie.Text;
     cCallCenterMODELOBIKE.AsString := edtModelo.Text;
-    cCallCenterTIPO_ATENDIMENTO.AsString := edttelefone.Text;
+    cCallCenterTIPO_ATENDIMENTO.AsString := edtTipo.Text;
     cCallCenterSTATUS_ATENDIMENTO.AsString := edtStatus.Text;
     cCallCenter.ApplyUpdates(0);
   end;
@@ -395,10 +402,10 @@ begin
   if (edtAtendimento.Text = '') then
   begin
     MessageDlg('Informe o campo Atendimento', mtWarning, [mbOK], 0);
-    edtNome.SetFocus;
+    edtAtendimento.SetFocus;
     Exit;
   end;
-
+  {
   DecodeDate(now, ano, mes, dia);
   // gera PROTOCOLO
   if dm.c_6_genid.Active then
@@ -408,10 +415,11 @@ begin
   PROTOCOLO := IntToStr(ano) + IntToStr(mes) + IntToStr(dia) + IntToStr(dm.c_6_genidCODIGO.AsInteger);
   Edit1.Text := PROTOCOLO;
   dm.c_6_genid.Close;
+  }
 
   if (sBuscaProtocolo.Active) then // Verifico se Protocolo já existe
      sBuscaProtocolo.Close;
-  sBuscaProtocolo.Params[0].AsString := PROTOCOLO;
+  sBuscaProtocolo.Params[0].AsString := PROTOCOLO ;
   sBuscaProtocolo.Open;
   if (not sBuscaProtocolo.IsEmpty) then
   begin
@@ -432,7 +440,18 @@ begin
     if (not cCallCenter.Active) then
        cCallCenter.Open;
     cCallCenter.Append;
+  DecodeDate(now, ano, mes, dia);
+  // gera PROTOCOLO
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(gen_callcenter, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  PROTOCOLO := IntToStr(ano) + IntToStr(mes) + IntToStr(dia) + IntToStr(dm.c_6_genidCODIGO.AsInteger);
+  Edit1.Text := PROTOCOLO;
+  dm.c_6_genid.Close;
+
   end;
+
   cCallCenterPROTOCOLO.AsString := PROTOCOLO;
   cCallCenterDATA_ATENDIMENTO.AsDateTime := JvDateEdit1.Date;
   cCallCenterNOME.AsString := edtNome.Text;
@@ -444,7 +463,7 @@ begin
   cCallCenterN_QUADRO.AsString := edtQuadro.Text;
   cCallCenterN_SERIE.AsString := edtSerie.Text;
   cCallCenterMODELOBIKE.AsString := edtModelo.Text;
-  cCallCenterTIPO_ATENDIMENTO.AsString := edttelefone.Text;
+  cCallCenterTIPO_ATENDIMENTO.AsString := edtTipo.Text;
   cCallCenterSTATUS_ATENDIMENTO.AsString := edtStatus.Text;
   cCallCenter.ApplyUpdates(0);
 
@@ -456,7 +475,9 @@ begin
   cCallCenterDetATENDIMENTO.AsString := edtAtendimento.Text;
   cCallCenterDetPROTOCOLO.AsString := PROTOCOLO;
   cCallCenterDet.ApplyUpdates(0);
-//  BitBtn1.Click;
+  BitBtn1.Click;
+//  BitBtn5.Click;
+//  BitBtn2.Enabled := False;
 
 end;
 
@@ -481,8 +502,16 @@ begin
     MessageDlg('É preciso ter um Protocolo para depois adicionar atendimentos', mtWarning, [mbOK], 0);
     exit;
   end;
+
+  if (cCallCenterSTATUS_ATENDIMENTO.Value = 'F') then
+   begin
+   MessageDlg('Protocolo já finalizado', mtWarning, [mbOK], 0);
+   exit;
+ end;
+
   if (not cCallCenterDet.Active) then
       cCallCenterDet.Open;
+
   cCallCenterDet.Append;
   cCallCenterDetID.AsDateTime := Now;
   cCallCenterDetID_USUARIO.AsInteger := usulog;
@@ -566,6 +595,23 @@ begin
       if (BitBtn2.Caption = 'Incluir') then
           BitBtn2.Caption := 'Alterar';
     end;
+end;
+
+procedure TfCallCenter.BitBtn7Click(Sender: TObject);
+var deletar : string;
+begin
+  deletar := 'DELETE FROM CALLCENTER_DET where ATEN = ';
+  deletar := deletar + IntToStr(cCallCenterDetATEN.AsInteger);//QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', cCallCenterDetID.AsDateTime)) ; //QuotedStr(DateTimeToStr(cCallCenterDetID.AsDateTime));  //  FormatDateTime('mm/dd/yyyy hh:mm:ss', cCallCenterDetID.AsDateTime) ;
+  if  MessageDlg('Confirma a exclusão do Atendimento Nº ' + QuotedStr(Edit1.Text)  + '?',
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+
+  Edit2.Text := deletar;
+  
+  dm.sqlsisAdimin.ExecuteDirect(deletar);
+  cCallCenterDet.Close;
+  cCallCenterDet.Open;
+  edtAtendimento.Text := '';
+
 end;
 
 end.

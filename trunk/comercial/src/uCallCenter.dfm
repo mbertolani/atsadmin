@@ -2,7 +2,7 @@ object fCallCenter: TfCallCenter
   Left = 244
   Top = 115
   Width = 790
-  Height = 590
+  Height = 624
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -26,6 +26,7 @@ object fCallCenter: TfCallCenter
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = JvDBGrid1DblClick
     BevelKind = bkFlat
     AutoSizeColumns = True
     SelectColumnsDialogStrings.Caption = 'Select columns'
@@ -348,7 +349,7 @@ object fCallCenter: TfCallCenter
     object edtAtendimento: TEdit
       Left = 9
       Top = 146
-      Width = 669
+      Width = 648
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -361,12 +362,13 @@ object fCallCenter: TfCallCenter
       TabOrder = 11
     end
     object BitBtn6: TBitBtn
-      Left = 684
+      Left = 660
       Top = 143
-      Width = 83
+      Width = 77
       Height = 25
       Caption = 'Novo Atend.'
       TabOrder = 12
+      OnClick = BitBtn6Click
     end
     object edtStatus: TComboBox
       Left = 680
@@ -380,6 +382,15 @@ object fCallCenter: TfCallCenter
         'Aberto'
         'Em Espera'
         'Finalizado')
+    end
+    object BitBtn7: TBitBtn
+      Left = 744
+      Top = 144
+      Width = 28
+      Height = 25
+      Caption = 'BitBtn7'
+      TabOrder = 14
+      OnClick = BitBtn7Click
     end
   end
   object Panel2: TPanel
@@ -1617,6 +1628,7 @@ object fCallCenter: TfCallCenter
         Height = 25
         Caption = 'Limpar'
         TabOrder = 4
+        OnClick = BitBtn5Click
       end
     end
   end
@@ -1624,7 +1636,7 @@ object fCallCenter: TfCallCenter
     Left = 0
     Top = 424
     Width = 782
-    Height = 139
+    Height = 173
     Align = alClient
     BorderStyle = bsNone
     DataSource = DataSource2
@@ -1634,6 +1646,7 @@ object fCallCenter: TfCallCenter
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = JvDBGrid2DblClick
     BevelKind = bkFlat
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
@@ -1647,6 +1660,14 @@ object fCallCenter: TfCallCenter
         FieldName = 'ATENDIMENTO'
         Visible = True
       end>
+  end
+  object Edit2: TEdit
+    Left = 32
+    Top = 560
+    Width = 713
+    Height = 21
+    TabOrder = 4
+    Text = 'Edit2'
   end
   object pCallCenter: TDataSetProvider
     DataSet = sCallCenter
@@ -1804,26 +1825,27 @@ object fCallCenter: TfCallCenter
     Top = 368
     object cCallCenterDetID: TSQLTimeStampField
       FieldName = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object cCallCenterDetID_USUARIO: TIntegerField
       FieldName = 'ID_USUARIO'
-      ProviderFlags = [pfInUpdate]
     end
     object cCallCenterDetATENDIMENTO: TStringField
       FieldName = 'ATENDIMENTO'
-      ProviderFlags = [pfInUpdate]
       Size = 200
     end
     object cCallCenterDetPROTOCOLO: TStringField
       FieldName = 'PROTOCOLO'
-      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object cCallCenterDetATEN: TIntegerField
+      FieldName = 'ATEN'
     end
   end
   object sCallCenterDet: TSQLDataSet
     CommandText = 
-      'select ID, ID_USUARIO, ATENDIMENTO, PROTOCOLO from CALLCENTER_DE' +
-      'T '#13#10'where PROTOCOLO = :Prot'
+      'select ID, ID_USUARIO, ATENDIMENTO, PROTOCOLO, ATEN from CALLCEN' +
+      'TER_DET '#13#10'where PROTOCOLO = :Prot'
     MaxBlobSize = -1
     Params = <
       item
@@ -1836,19 +1858,21 @@ object fCallCenter: TfCallCenter
     Top = 368
     object sCallCenterDetID: TSQLTimeStampField
       FieldName = 'ID'
+      Required = True
     end
     object sCallCenterDetID_USUARIO: TIntegerField
       FieldName = 'ID_USUARIO'
-      ProviderFlags = [pfInUpdate]
     end
     object sCallCenterDetATENDIMENTO: TStringField
       FieldName = 'ATENDIMENTO'
-      ProviderFlags = [pfInUpdate]
       Size = 200
     end
     object sCallCenterDetPROTOCOLO: TStringField
       FieldName = 'PROTOCOLO'
-      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object sCallCenterDetATEN: TIntegerField
+      FieldName = 'ATEN'
     end
   end
   object sBuscaProtocolo: TSQLDataSet
