@@ -223,6 +223,7 @@ type
     sClasFiscalICMS_SUBST: TFloatField;
     sClasFiscalICMS_SUBST_IC: TFloatField;
     sClasFiscalICMS_SUBST_IND: TFloatField;
+    btnNotaFiscal: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -254,6 +255,7 @@ type
     procedure JvDBGrid2EditChange(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
     procedure ExcluirItemNF1Click(Sender: TObject);
+    procedure btnNotaFiscalClick(Sender: TObject);
   private
     { Private declarations }
     procedure incluiEntrada;
@@ -293,7 +295,8 @@ var
 implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
-  ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math;
+  ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
+  uNFeletronica;
 
 {$R *.dfm}
 
@@ -1283,6 +1286,9 @@ begin
     dmnf.scds_serie_proc.ApplyUpdates(0);
   end;
   dmnf.scds_serie_proc.Close;
+  // Coloquei aqui pois na rotina da movimento detalhe nao surtia efeito
+  dmnf.cds_Mov_det.close;
+  dmnf.cds_Mov_det.open;
 end;
 
 procedure TfNotaf.BitBtn4Click(Sender: TObject);
@@ -1915,6 +1921,16 @@ begin
      DMNF.cds_nf.ApplyUpdates(0);
    end;
  end;
+end;
+
+procedure TfNotaf.btnNotaFiscalClick(Sender: TObject);
+begin
+    fNFeletronica := TfNFeletronica.Create(Application);
+  try
+    fNFeletronica.ShowModal;
+  finally
+    fNFeletronica.Free;
+  end;
 end;
 
 end.
