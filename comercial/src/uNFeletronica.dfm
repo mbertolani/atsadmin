@@ -187,15 +187,15 @@ object fNFeletronica: TfNFeletronica
         TabOrder = 1
         OnClick = ValidaNFeClick
       end
-      object BitBtn1: TBitBtn
+      object BtnPreVis: TBitBtn
         Left = 294
         Top = 13
         Width = 91
         Height = 36
-        Caption = 'Enviar NF-e'
+        Caption = 'Pr'#233' Visualizar NFe'
+        Enabled = False
         TabOrder = 2
-        Visible = False
-        OnClick = BitBtn1Click
+        OnClick = BtnPreVisClick
       end
       object BtnEnvEmail: TBitBtn
         Left = 198
