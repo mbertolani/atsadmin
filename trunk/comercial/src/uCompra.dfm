@@ -23,7 +23,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 792
+    Width = 784
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -933,8 +933,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 497
-    Width = 792
+    Top = 493
+    Width = 784
     Height = 27
     Align = alBottom
     inherited Label1: TLabel
@@ -2059,6 +2059,10 @@ inherited fCompra: TfCompra
       FieldName = 'PESO_QTDE'
       ProviderFlags = []
     end
+    object cds_Mov_detDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      Size = 300
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2080,14 +2084,14 @@ inherited fCompra: TfCompra
       'select movd.CODDETALHE'#13#10', movd.CODMOVIMENTO'#13#10', movd.CODPRODUTO'#13#10 +
       ', movd.ICMS, movd.PRECO'#13#10', movd.QUANTIDADE'#13#10', movd.QTDE_ALT'#13#10', m' +
       'ovd.UN'#13#10', movd.BAIXA'#13#10', movd.CONTROLE'#13#10', movd.COD_COMISSAO'#13#10', mo' +
-      'vd.LOTE'#13#10', movd.DTAFAB'#13#10', movd.DTAVCTO'#13#10', prod.CODPRO'#13#10',prod.PRO' +
-      'DUTO'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.' +
-      'QTDE_PCT'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPESA, prod.RATEIO' +
-      '  '#13#10', prod.PESO_QTDE '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join P' +
-      'RODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer joi' +
-      'n ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFA' +
-      'DO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCO' +
-      'DMOV '#13#10'order by movd.CODDETALHE'
+      'vd.LOTE'#13#10', movd.DTAFAB'#13#10', movd.DTAVCTO, movd.DESCPRODUTO'#13#10', prod' +
+      '.CODPRO'#13#10',prod.PRODUTO'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNIT' +
+      'ARIOATUAL'#13#10', prod.QTDE_PCT'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DE' +
+      'SPESA, prod.RATEIO  '#13#10', prod.PESO_QTDE '#13#10'from MOVIMENTODETALHE m' +
+      'ovd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUT' +
+      'O '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = ' +
+      'prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd' +
+      '.CODMOVIMENTO=:pCODMOV '#13#10'order by movd.CODDETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -2209,6 +2213,10 @@ inherited fCompra: TfCompra
     object sds_Mov_DetPESO_QTDE: TFloatField
       FieldName = 'PESO_QTDE'
       ProviderFlags = []
+    end
+    object sds_Mov_DetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      Size = 300
     end
   end
   object s_8: TSQLDataSet
