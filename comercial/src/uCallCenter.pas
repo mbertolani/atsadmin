@@ -82,7 +82,6 @@ type
     sBuscaProtocolo: TSQLDataSet;
     BitBtn6: TBitBtn;
     BitBtn7: TBitBtn;
-    Edit2: TEdit;
     sCallCenterDetID: TSQLTimeStampField;
     sCallCenterDetID_USUARIO: TIntegerField;
     sCallCenterDetATENDIMENTO: TStringField;
@@ -111,6 +110,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure edtNomeChange(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -282,8 +282,10 @@ end;
 procedure TfCallCenter.BitBtn5Click(Sender: TObject);
 begin
   LimpaEdit;
+  BitBtn2.Enabled := True; 
+  BitBtn2.Caption := 'Incluir';
   cCallCenter.Close;
-  cCallCenterDet.Close;  
+  cCallCenterDet.Close;
 end;
 
 procedure TfCallCenter.JvDBGrid1DblClick(Sender: TObject);
@@ -405,7 +407,9 @@ begin
     edtAtendimento.SetFocus;
     Exit;
   end;
-  {
+  if (not cCallCenter.Active) then
+       cCallCenter.Open;
+    cCallCenter.Append;
   DecodeDate(now, ano, mes, dia);
   // gera PROTOCOLO
   if dm.c_6_genid.Active then
@@ -415,7 +419,7 @@ begin
   PROTOCOLO := IntToStr(ano) + IntToStr(mes) + IntToStr(dia) + IntToStr(dm.c_6_genidCODIGO.AsInteger);
   Edit1.Text := PROTOCOLO;
   dm.c_6_genid.Close;
-  }
+
 
   if (sBuscaProtocolo.Active) then // Verifico se Protocolo já existe
      sBuscaProtocolo.Close;
@@ -432,12 +436,14 @@ begin
     else
     begin
       LimpaEdit;
+      cCallCenter.Close;
+      cCallCenterDet.Close;         
       exit;
     end;
   end
   else
   begin
-    if (not cCallCenter.Active) then
+ {   if (not cCallCenter.Active) then
        cCallCenter.Open;
     cCallCenter.Append;
   DecodeDate(now, ano, mes, dia);
@@ -449,7 +455,7 @@ begin
   PROTOCOLO := IntToStr(ano) + IntToStr(mes) + IntToStr(dia) + IntToStr(dm.c_6_genidCODIGO.AsInteger);
   Edit1.Text := PROTOCOLO;
   dm.c_6_genid.Close;
-
+  }
   end;
 
   cCallCenterPROTOCOLO.AsString := PROTOCOLO;
@@ -475,9 +481,17 @@ begin
   cCallCenterDetATENDIMENTO.AsString := edtAtendimento.Text;
   cCallCenterDetPROTOCOLO.AsString := PROTOCOLO;
   cCallCenterDet.ApplyUpdates(0);
-  BitBtn1.Click;
+
+ // cCallCenterDet.Close;
+ // cCallCenter.Close;
+  
+ // cCallCenterDet.Open;
+ // cCallCenter.Open;
+
+
+//  BitBtn1.Click;
 //  BitBtn5.Click;
-//  BitBtn2.Enabled := False;
+ BitBtn2.Enabled := False;
 
 end;
 
@@ -488,7 +502,7 @@ begin
    MessageDlg('Protocolo já finalizado', mtWarning, [mbOK], 0);
    exit;
  end;
-  if (BitBtn2.Caption = 'Incluir') then
+   if (BitBtn2.Caption = 'Incluir') then
     IncluiProtocolo
   else
     EditaProtocolo;
@@ -602,15 +616,43 @@ var deletar : string;
 begin
   deletar := 'DELETE FROM CALLCENTER_DET where ATEN = ';
   deletar := deletar + IntToStr(cCallCenterDetATEN.AsInteger);//QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', cCallCenterDetID.AsDateTime)) ; //QuotedStr(DateTimeToStr(cCallCenterDetID.AsDateTime));  //  FormatDateTime('mm/dd/yyyy hh:mm:ss', cCallCenterDetID.AsDateTime) ;
-  if  MessageDlg('Confirma a exclusão do Atendimento Nº ' + QuotedStr(Edit1.Text)  + '?',
+  if  MessageDlg('Confirma a exclusão do Atendimento Nº ' + QuotedStr(Edit1.Text)+ ' - '  + IntToStr(cCallCenterDetATEN.AsInteger) +'?',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
 
-  Edit2.Text := deletar;
-  
   dm.sqlsisAdimin.ExecuteDirect(deletar);
   cCallCenterDet.Close;
   cCallCenterDet.Open;
   edtAtendimento.Text := '';
+
+end;
+
+procedure TfCallCenter.BitBtn3Click(Sender: TObject);
+var delDet ,deletar : string;
+begin
+
+  if (cCallCenterSTATUS_ATENDIMENTO.Value = 'F') then
+  begin
+    MessageDlg('Protocolo já finalizado', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  deletar := 'DELETE FROM CALLCENTER where STATUS_ATENDIMENTO <> ' + QuotedStr('F')+ ' and PROTOCOLO = ';
+  deletar := deletar + cCallCenterPROTOCOLO.AsString ;
+
+    if  MessageDlg('Confirma a exclusão do Atendimento Nº ' + QuotedStr(Edit1.Text)+'?',
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+
+  delDet := 'DELETE FROM CALLCENTER_DET where PROTOCOLO = ';
+  delDet := delDet + IntToStr(cCallCenterDetPROTOCOLO.AsInteger);
+
+  dm.sqlsisAdimin.ExecuteDirect(deletar);
+  dm.sqlsisAdimin.ExecuteDirect(delDet);
+  
+  cCallCenter.Close;
+  cCallCenter.Open;
+  cCallCenterDet.Close;
+  cCallCenterDet.Open;
+
 
 end;
 
