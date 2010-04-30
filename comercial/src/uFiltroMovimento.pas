@@ -150,6 +150,7 @@ type
     { Private declarations }
   public
     cod_mov : integer;
+    ordenar : string ;
     { Public declarations }
   end;
 
@@ -365,8 +366,9 @@ end;
 
 procedure TfFiltroMovimento.btnProcurarClick(Sender: TObject);
  Var
- SqlTexto, DataStr: String;
+ SqlTexto, DataStr, ordenar : String;
 begin
+
   if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1)) then
   begin
      DBGrid1.Columns[7].Visible := True;
@@ -570,10 +572,14 @@ begin
   end;
   sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +      'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       'mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
-      'ven.VALOR, ven.APAGAR, ven.DATAVENDA ';
-  sqlTexto := sqlTexto + ' order by mov.CODMOVIMENTO DESC';
+      'ven.VALOR, ven.APAGAR, ven.DATAVENDA ';   
+
+  ordenar := '';
+
+  SqlImprimi :=   cds_cns.CommandText + sqlTexto;
+  sqlTexto := sqlTexto + ' order by mov.CODMOVIMENTO DESC ' ;
   cds_cns.CommandText := cds_cns.CommandText + sqlTexto;
-  SqlImprimi := cds_cns.CommandText;
+ // SqlImprimi := cds_cns.CommandText;
   cds_cns.Open;
   if not cds_cns.IsEmpty then
     BitBtn8.Enabled := True;
@@ -629,6 +635,7 @@ end;
 procedure TfFiltroMovimento.JvDBGrid1TitleClick(Column: TColumn);
 begin
     cds_cns.IndexFieldNames := Column.FieldName;
+    ordenar := Column.FieldName;
 end;
 
 procedure TfFiltroMovimento.BitBtn11Click(Sender: TObject);
@@ -659,7 +666,11 @@ begin
   if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1)) then
     VCLReport1.FileName := str_relatorio + 'listamovimento.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi;
+  if (ordenar = '') then
+  begin
+  VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi + 'order by mov.CODMOVIMENTO DESC'
+  end else
+  VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi + ' order by '+ ordenar ;
   VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
   VCLReport1.Execute;
 end;
