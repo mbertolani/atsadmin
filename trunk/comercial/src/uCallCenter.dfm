@@ -28,6 +28,7 @@ object fCallCenter: TfCallCenter
     TitleFont.Style = []
     OnDblClick = JvDBGrid1DblClick
     BevelKind = bkFlat
+    AlternateRowColor = 16776176
     AutoSizeColumns = True
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
@@ -349,7 +350,7 @@ object fCallCenter: TfCallCenter
     object edtAtendimento: TEdit
       Left = 9
       Top = 146
-      Width = 648
+      Width = 592
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -362,7 +363,7 @@ object fCallCenter: TfCallCenter
       TabOrder = 11
     end
     object BitBtn6: TBitBtn
-      Left = 660
+      Left = 604
       Top = 143
       Width = 77
       Height = 25
@@ -384,11 +385,11 @@ object fCallCenter: TfCallCenter
         'Finalizado')
     end
     object BitBtn7: TBitBtn
-      Left = 744
-      Top = 144
-      Width = 28
+      Left = 687
+      Top = 143
+      Width = 84
       Height = 25
-      Caption = 'BitBtn7'
+      Caption = 'Excluir Atend.'
       TabOrder = 14
       OnClick = BitBtn7Click
     end
@@ -1602,6 +1603,7 @@ object fCallCenter: TfCallCenter
         Height = 25
         Caption = 'Excluir'
         TabOrder = 1
+        OnClick = BitBtn3Click
       end
       object BitBtn2: TBitBtn
         Left = 41
@@ -1648,6 +1650,7 @@ object fCallCenter: TfCallCenter
     TitleFont.Style = []
     OnDblClick = JvDBGrid2DblClick
     BevelKind = bkFlat
+    AlternateRowColor = 16776176
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -1660,14 +1663,6 @@ object fCallCenter: TfCallCenter
         FieldName = 'ATENDIMENTO'
         Visible = True
       end>
-  end
-  object Edit2: TEdit
-    Left = 32
-    Top = 560
-    Width = 713
-    Height = 21
-    TabOrder = 4
-    Text = 'Edit2'
   end
   object pCallCenter: TDataSetProvider
     DataSet = sCallCenter
