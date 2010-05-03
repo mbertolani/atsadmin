@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   FMTBcd, DBClient, Provider, SqlExpr, DBCtrls, Mask, rpcompobase,
-  rpvclreport;
+  rpvclreport, DBLocal, DBLocalS;
 
 type
   TfFornecedorCadastro = class(TfPai)
@@ -168,6 +168,20 @@ type
     SpeedButton6: TBitBtn;
     SpeedButton2: TBitBtn;
     SpeedButton1: TBitBtn;
+    DBEdit9: TDBEdit;
+    Label28: TLabel;
+    sds_endforCD_IBGE: TStringField;
+    sds_endforNUMERO: TStringField;
+    cds_endforCD_IBGE: TStringField;
+    cds_endforNUMERO: TStringField;
+    Label29: TLabel;
+    procIBGE: TSQLClientDataSet;
+    procIBGENM_LOCALIDADE2: TStringField;
+    procIBGECD_UF: TStringField;
+    procIBGENM_MUNICIPIO: TStringField;
+    procIBGECD_IBGE: TStringField;
+    BitBtn22: TBitBtn;
+    DBEdit23: TDBEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -184,6 +198,7 @@ type
     procedure dtsrceStateChange(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
+    procedure BitBtn22Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -519,6 +534,27 @@ begin
   if (cdsRegiao.Active) then
       cdsRegiao.Close;
   cdsRegiao.Open;
+end;
+
+procedure TfFornecedorCadastro.BitBtn22Click(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,procIBGE);
+  try
+   fProcurar.BtnProcurar.Click;
+   fProcurar.EvDBFind1.DataField := 'NM_LOCALIDADE';
+   if fProcurar.ShowModal=mrOk then
+   begin
+     if(dtsrce.State in [dsbrowse,dsinactive]) then
+       cds_endfor.Edit;
+     DBEdit13.Text := procIBGENM_MUNICIPIO.AsString;
+     DBComboBox1.Text := procIBGECD_UF.AsString;
+     DBEdit23.Text := procIBGECD_IBGE.AsString;
+   end;
+   finally
+    procIBGE.Close;
+    fProcurar.Free;
+   end;
 end;
 
 end.
