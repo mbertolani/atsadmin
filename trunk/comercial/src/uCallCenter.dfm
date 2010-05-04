@@ -10,6 +10,7 @@ object fCallCenter: TfCallCenter
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object JvDBGrid1: TJvDBGrid
@@ -213,6 +214,7 @@ object fCallCenter: TfCallCenter
       Flat = False
       ParentFlat = False
       TabOrder = 1
+      OnKeyPress = FormKeyPress
     end
     object edtNome: TEdit
       Left = 322
@@ -228,6 +230,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      OnKeyPress = FormKeyPress
     end
     object edtCidade: TEdit
       Left = 10
@@ -243,6 +246,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 3
+      OnKeyPress = FormKeyPress
     end
     object edtCep: TEdit
       Left = 233
@@ -258,6 +262,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 4
+      OnKeyPress = FormKeyPress
     end
     object edtUF: TEdit
       Left = 331
@@ -273,6 +278,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 5
+      OnKeyPress = FormKeyPress
     end
     object edttelefone: TEdit
       Left = 363
@@ -288,6 +294,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 6
+      OnKeyPress = FormKeyPress
     end
     object edtQuadro: TEdit
       Left = 507
@@ -303,6 +310,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 7
+      OnKeyPress = FormKeyPress
     end
     object edtSerie: TEdit
       Left = 10
@@ -318,6 +326,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 8
+      OnKeyPress = FormKeyPress
     end
     object edtModelo: TEdit
       Left = 144
@@ -333,6 +342,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 9
+      OnKeyPress = FormKeyPress
     end
     object edtTipo: TComboBox
       Left = 527
@@ -342,6 +352,7 @@ object fCallCenter: TfCallCenter
       BevelKind = bkFlat
       ItemHeight = 13
       TabOrder = 10
+      OnKeyPress = FormKeyPress
       Items.Strings = (
         'Montegem'
         'Reclama'#231#227'o'
@@ -361,6 +372,7 @@ object fCallCenter: TfCallCenter
       Font.Style = []
       ParentFont = False
       TabOrder = 11
+      OnKeyPress = FormKeyPress
     end
     object BitBtn6: TBitBtn
       Left = 604
@@ -379,6 +391,7 @@ object fCallCenter: TfCallCenter
       BevelKind = bkFlat
       ItemHeight = 13
       TabOrder = 13
+      OnKeyPress = FormKeyPress
       Items.Strings = (
         'Aberto'
         'Em Espera'

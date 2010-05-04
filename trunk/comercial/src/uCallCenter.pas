@@ -111,6 +111,7 @@ type
     procedure edtNomeChange(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -654,6 +655,15 @@ begin
   cCallCenterDet.Open;
 
 
+end;
+
+procedure TfCallCenter.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
 end;
 
 end.
