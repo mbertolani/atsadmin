@@ -31,11 +31,11 @@ type
     BitBtn1: TBitBtn;
     btnSair: TBitBtn;
     BitBtn5: TBitBtn;
+    JvDateEdit1: TJvDatePickerEdit;
+    Label4: TLabel;
     edCodCCusto: TComboBox;
     Label1: TLabel;
     BitBtn6: TBitBtn;
-    JvDateEdit1: TJvDatePickerEdit;
-    Label4: TLabel;
     procedure btnImprimirClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -74,6 +74,17 @@ begin
     VCLContas_pendente.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLContas_pendente.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
     VCLContas_pendente.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+    // Ccusto
+    if (edCodCCusto.Text <> '') then
+    begin
+      if (not dm.cds_ccusto.Active) then
+         dm.cds_ccusto.Open;
+      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
+    end
+    else
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := '0';
+
     VCLContas_pendente.Execute;
   end;
    1:begin
@@ -82,6 +93,16 @@ begin
     VCLContas_pendente.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLContas_pendente.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
     VCLContas_pendente.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+    // Ccusto
+    if (edCodCCusto.Text <> '') then
+    begin
+      if (not dm.cds_ccusto.Active) then
+         dm.cds_ccusto.Open;
+      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
+    end
+    else
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := '0';
     VCLContas_pendente.Execute;
   end;
   2:begin
@@ -90,6 +111,16 @@ begin
     VCLContas_pendente.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLContas_pendente.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
     VCLContas_pendente.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+    // Ccusto
+    if (edCodCCusto.Text <> '') then
+    begin
+      if (not dm.cds_ccusto.Active) then
+         dm.cds_ccusto.Open;
+      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
+    end
+    else
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := '0';
     VCLContas_pendente.Execute;
   end;
   3:begin
@@ -98,6 +129,16 @@ begin
     VCLContas_pendente.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLContas_pendente.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
     VCLContas_pendente.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+    // Ccusto
+    if (edCodCCusto.Text <> '') then
+    begin
+      if (not dm.cds_ccusto.Active) then
+         dm.cds_ccusto.Open;
+      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
+    end
+    else
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := '0';
     VCLContas_pendente.Execute;
   end;
 
