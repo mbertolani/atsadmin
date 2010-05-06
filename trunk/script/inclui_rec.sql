@@ -1,3 +1,4 @@
+set term  ^ ; 
 CREATE OR ALTER TRIGGER INCLUI_REC FOR VENDA
 ACTIVE AFTER INSERT
 POSITION 0
@@ -17,6 +18,8 @@ AS
   DECLARE VARIABLE VLR_PRIM_VIAa DOUBLE PRECISION;
   DECLARE VARIABLE VLR_JMa DOUBLE PRECISION;
   DECLARE VARIABLE VLR_REC DOUBLE PRECISION;
+  DECLARE VARIABLE VLT DOUBLE PRECISION;
+  DECLARE VARIABLE VLP DOUBLE PRECISION;
   DECLARE VARIABLE mesAno varchar(6);
   DECLARE VARIABLE serie varchar(18);
   Declare Variable codMov integer;
@@ -158,6 +161,7 @@ begin
          i = 1;
          N_PARC = (NEW.N_PARCELA);
        end
+       VLT = ((NEW.VALOR - NEW.DESCONTO + NEW.MULTA_JUROS)- NEW.ENTRADA);
        while (i < (N_PARC)) do
        begin
          if (NEW.STATUS = 0) then
@@ -176,7 +180,9 @@ begin
          begin
            VLR_PRIM_VIA = 0;
          end
-         VLR_RESTO =  ((NEW.VALOR - NEW.DESCONTO + NEW.MULTA_JUROS)- NEW.ENTRADA)/N_PARC;
+         VLP = UDF_ROUNDDEC((VLT/N_PARC),2);
+         VLR_RESTO = VLP;
+         VLT = VLT - VLP;
          /* Nao existe ti­tulo */
          if (existeTitulo is null) then
          begin
@@ -296,6 +302,7 @@ begin
          i = 1;
          N_PARC = (NEW.N_PARCELA-1);
        end
+       VLT = ((NEW.VALOR - NEW.DESCONTO + NEW.MULTA_JUROS)- NEW.ENTRADA);
        while (i < (N_PARC + 1)) do
        begin
          if (dif > 0) then
@@ -373,7 +380,14 @@ begin
          else
            dtaVenc = UDF_INCDAY(NEW.DATAVENDA, J);
 
-         VLR_RESTO =  ((NEW.VALOR - NEW.DESCONTO + NEW.MULTA_JUROS)- NEW.ENTRADA)/N_PARC;
+         
+         --VLR_RESTO =  VLT/N_PARC;
+
+         VLP = UDF_ROUNDDEC((VLT/((N_PARC-(i-1)))),2);
+         VLR_RESTO = VLP;
+         VLT = VLT - VLP;
+
+         
          INSERT INTO RECEBIMENTO
            (TITULO, EMISSAO, CODCLIENTE, DATAVENCIMENTO, STATUS , VIA, FORMARECEBIMENTO,
            CODVENDA , CODALMOXARIFADO, CODVENDEDOR, CODUSUARIO
