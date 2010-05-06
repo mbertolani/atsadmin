@@ -2,7 +2,7 @@ object fRelestoque: TfRelestoque
   Left = 456
   Top = 249
   Width = 275
-  Height = 166
+  Height = 217
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -24,8 +24,8 @@ object fRelestoque: TfRelestoque
   object RadioButton1: TRadioButton
     Left = 50
     Top = 44
-    Width = 169
-    Height = 17
+    Width = 191
+    Height = 16
     Caption = 'Relat'#243'rio Estoque pre'#231'o Compra'
     TabOrder = 0
   end
@@ -39,18 +39,18 @@ object fRelestoque: TfRelestoque
   end
   object BitBtn1: TBitBtn
     Left = 56
-    Top = 102
+    Top = 142
     Width = 75
-    Height = 25
+    Height = 26
     Caption = 'IMPRIMIR'
     TabOrder = 2
     OnClick = BitBtn1Click
   end
   object BitBtn2: TBitBtn
     Left = 144
-    Top = 103
+    Top = 143
     Width = 75
-    Height = 25
+    Height = 26
     Caption = 'VOLTAR'
     TabOrder = 3
     OnClick = BitBtn2Click
@@ -87,5 +87,13 @@ object fRelestoque: TfRelestoque
     Checked = True
     TabOrder = 5
     TabStop = True
+  end
+  object RadioButton4: TRadioButton
+    Left = 50
+    Top = 105
+    Width = 191
+    Height = 14
+    Caption = 'Relat'#243'rio Estoque Simples de Total'
+    TabOrder = 6
   end
 end
