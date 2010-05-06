@@ -12,7 +12,7 @@ inherited fVendas: TfVendas
   TextHeight = 16
   object Label11: TLabel [0]
     Left = 136
-    Top = 477
+    Top = 472
     Width = 60
     Height = 16
     Caption = 'Vendedor'
@@ -26,7 +26,7 @@ inherited fVendas: TfVendas
   end
   object Label18: TLabel [2]
     Left = 4
-    Top = 477
+    Top = 473
     Width = 44
     Height = 16
     Caption = 'C'#243'digo'
@@ -52,6 +52,13 @@ inherited fVendas: TfVendas
     Width = 65
     Height = 16
     Caption = 'Anota'#231#245'es'
+  end
+  object Label12: TLabel [6]
+    Left = 7
+    Top = 501
+    Width = 31
+    Height = 16
+    Caption = 'Obs.:'
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
@@ -968,7 +975,7 @@ inherited fVendas: TfVendas
     Top = -62
     Align = alNone
   end
-  object GroupBox1: TGroupBox [8]
+  object GroupBox1: TGroupBox [9]
     Left = 0
     Top = 63
     Width = 489
@@ -1154,7 +1161,7 @@ inherited fVendas: TfVendas
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
   end
-  object GroupBox2: TGroupBox [9]
+  object GroupBox2: TGroupBox [10]
     Left = 489
     Top = 63
     Width = 184
@@ -1181,7 +1188,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox3: TGroupBox [10]
+  object GroupBox3: TGroupBox [11]
     Left = 674
     Top = 63
     Width = 109
@@ -1209,7 +1216,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox4: TGroupBox [11]
+  object GroupBox4: TGroupBox [12]
     Left = 634
     Top = 199
     Width = 150
@@ -1239,7 +1246,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox5: TGroupBox [12]
+  object GroupBox5: TGroupBox [13]
     Left = 634
     Top = 388
     Width = 150
@@ -1291,7 +1298,7 @@ inherited fVendas: TfVendas
       OnExit = edChassiExit
     end
   end
-  object DBMemo1: TDBMemo [13]
+  object DBMemo1: TDBMemo [14]
     Left = 635
     Top = 288
     Width = 148
@@ -1300,13 +1307,13 @@ inherited fVendas: TfVendas
     BevelKind = bkFlat
     BorderStyle = bsNone
     Color = clInfoBk
-    DataField = 'OBS'
+    DataField = 'OBSCLI'
     DataSource = DtSrc
     PopupMenu = PopupMenu1
     ReadOnly = True
     TabOrder = 9
   end
-  object MMJPanel3: TMMJPanel [14]
+  object MMJPanel3: TMMJPanel [15]
     Left = 0
     Top = 522
     Width = 794
@@ -1336,9 +1343,9 @@ inherited fVendas: TfVendas
       Transparent = True
     end
   end
-  object DBEdit15: TDBEdit [15]
+  object DBEdit15: TDBEdit [16]
     Left = 51
-    Top = 474
+    Top = 471
     Width = 78
     Height = 24
     BevelKind = bkFlat
@@ -1356,11 +1363,11 @@ inherited fVendas: TfVendas
     OnExit = DBEdit15Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [16]
+  object DBEdit16: TDBEdit [17]
     Left = 224
-    Top = 474
+    Top = 471
     Width = 369
-    Height = 25
+    Height = 24
     TabStop = False
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -1376,7 +1383,7 @@ inherited fVendas: TfVendas
     TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object ComboBox2: TComboBox [17]
+  object ComboBox2: TComboBox [18]
     Left = 704
     Top = 497
     Width = 78
@@ -1389,11 +1396,11 @@ inherited fVendas: TfVendas
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 14
     Visible = False
     OnChange = ComboBox2Change
   end
-  object DBComboBox1: TDBComboBox [18]
+  object DBComboBox1: TDBComboBox [19]
     Left = 640
     Top = 164
     Width = 145
@@ -1414,7 +1421,7 @@ inherited fVendas: TfVendas
     OnExit = DBComboBox1Exit
     OnKeyPress = FormKeyPress
   end
-  object PageControl1: TPageControl [19]
+  object PageControl1: TPageControl [20]
     Left = 0
     Top = 112
     Width = 633
@@ -1978,7 +1985,7 @@ inherited fVendas: TfVendas
       end
     end
   end
-  object DBEdit1: TDBEdit [20]
+  object DBEdit1: TDBEdit [21]
     Left = 709
     Top = 118
     Width = 73
@@ -1994,16 +2001,16 @@ inherited fVendas: TfVendas
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 14
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object SpeedButton1: TBitBtn [21]
+  object SpeedButton1: TBitBtn [22]
     Left = 595
     Top = 471
     Width = 37
     Height = 37
     PopupMenu = PopupMenu1
-    TabOrder = 15
+    TabOrder = 16
     TabStop = False
     OnClick = BitBtn6Click
     Glyph.Data = {
@@ -2073,6 +2080,26 @@ inherited fVendas: TfVendas
       0000000000000000000000222222222222222222222222222222222222222222
       0000000000000000000022222222222222222222222222222222222222222222
       2222222222222222222222222222222222222222222222222222}
+  end
+  object DBEdit13: TDBEdit [23]
+    Left = 52
+    Top = 496
+    Width = 541
+    Height = 25
+    TabStop = False
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataField = 'OBS'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 13
+    OnKeyPress = FormKeyPress
   end
   inherited XPMenu1: TXPMenu
     Left = 688
@@ -3199,19 +3226,19 @@ inherited fVendas: TfVendas
   end
   object sds_Movimento: TSQLDataSet
     CommandText = 
-      'select mov.*'#13#10'        , cli.NOMECLIENTE'#13#10'        , cli.OBS'#13#10'    ' +
-      '    , cli.CNPJ'#13#10'        , vei.PLACA'#13#10'        , vei.MARCA_MODELO'#13 +
-      #10'        , usu.NOMEUSUARIO'#13#10'        , forn.NOMEFORNECEDOR'#13#10'     ' +
-      '   , nat.DESCNATUREZA'#13#10'        , alm.NOME AS ALMOXARIFADO'#13#10'     ' +
-      '   , nat.TIPOTITULO'#13#10'        , nat.BAIXAMOVIMENTO '#13#10'from MOVIMEN' +
-      'TO mov '#13#10'left outer join CLIENTES cli on cli.CODCLIENTE = mov.CO' +
-      'DCLIENTE '#13#10'left outer join VEICULO vei on vei.COD_CLIENTE = mov.' +
-      'CODCLIENTE '#13#10'left outer join USUARIO usu on usu.CODUSUARIO = mov' +
-      '.CODVENDEDOR '#13#10'left outer join FORNECEDOR forn on forn.CODFORNEC' +
-      'EDOR =  mov.CODFORNECEDOR '#13#10'inner join NATUREZAOPERACAO nat on  ' +
-      'nat.CODNATUREZA = mov.CODNATUREZA '#13#10'left outer join PLANO alm on' +
-      ' alm.CODIGO =  mov.CODALMOXARIFADO where mov.CODMOVIMENTO = :pCO' +
-      'DMOV'
+      'select mov.*'#13#10'        , cli.NOMECLIENTE'#13#10'        , cli.OBS as OB' +
+      'SCLI'#13#10'        , cli.CNPJ'#13#10'        , vei.PLACA'#13#10'        , vei.MAR' +
+      'CA_MODELO'#13#10'        , usu.NOMEUSUARIO'#13#10'        , forn.NOMEFORNECE' +
+      'DOR'#13#10'        , nat.DESCNATUREZA'#13#10'        , alm.NOME AS ALMOXARIF' +
+      'ADO'#13#10'        , nat.TIPOTITULO'#13#10'        , nat.BAIXAMOVIMENTO '#13#10'fr' +
+      'om MOVIMENTO mov '#13#10'left outer join CLIENTES cli on cli.CODCLIENT' +
+      'E = mov.CODCLIENTE '#13#10'left outer join VEICULO vei on vei.COD_CLIE' +
+      'NTE = mov.CODCLIENTE '#13#10'left outer join USUARIO usu on usu.CODUSU' +
+      'ARIO = mov.CODVENDEDOR '#13#10'left outer join FORNECEDOR forn on forn' +
+      '.CODFORNECEDOR =  mov.CODFORNECEDOR '#13#10'inner join NATUREZAOPERACA' +
+      'O nat on  nat.CODNATUREZA = mov.CODNATUREZA '#13#10'left outer join PL' +
+      'ANO alm on alm.CODIGO =  mov.CODALMOXARIFADO where mov.CODMOVIME' +
+      'NTO = :pCODMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -3296,11 +3323,6 @@ inherited fVendas: TfVendas
       ProviderFlags = []
       Size = 30
     end
-    object sds_MovimentoOBS: TStringField
-      FieldName = 'OBS'
-      ProviderFlags = []
-      Size = 200
-    end
     object sds_MovimentoPLACA: TStringField
       FieldName = 'PLACA'
       ProviderFlags = []
@@ -3328,6 +3350,16 @@ inherited fVendas: TfVendas
       FieldName = 'CNPJ'
       ProviderFlags = []
       Size = 18
+    end
+    object sds_MovimentoOBS: TStringField
+      FieldName = 'OBS'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object sds_MovimentoOBSCLI: TStringField
+      FieldName = 'OBSCLI'
+      ProviderFlags = []
+      Size = 200
     end
   end
   object dsp_Movimento: TDataSetProvider
@@ -3426,11 +3458,6 @@ inherited fVendas: TfVendas
       ProviderFlags = []
       Size = 30
     end
-    object cds_MovimentoOBS: TStringField
-      FieldName = 'OBS'
-      ProviderFlags = []
-      Size = 200
-    end
     object cds_MovimentoPLACA: TStringField
       FieldName = 'PLACA'
       ProviderFlags = []
@@ -3458,6 +3485,14 @@ inherited fVendas: TfVendas
       FieldName = 'CNPJ'
       ProviderFlags = []
       Size = 18
+    end
+    object cds_MovimentoOBS: TStringField
+      FieldName = 'OBS'
+      Size = 100
+    end
+    object cds_MovimentoOBSCLI: TStringField
+      FieldName = 'OBSCLI'
+      Size = 200
     end
   end
   object sdslote: TSQLDataSet

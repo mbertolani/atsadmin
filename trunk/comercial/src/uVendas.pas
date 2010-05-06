@@ -228,7 +228,6 @@ type
     sds_MovimentoTIPOTITULO: TSmallintField;
     sds_MovimentoDATA_SISTEMA: TSQLTimeStampField;
     sds_MovimentoNOMEUSUARIO: TStringField;
-    sds_MovimentoOBS: TStringField;
     sds_MovimentoPLACA: TStringField;
     sds_MovimentoMARCA_MODELO: TStringField;
     sds_MovimentoCOD_VEICULO: TIntegerField;
@@ -252,7 +251,6 @@ type
     cds_MovimentoTIPOTITULO: TSmallintField;
     cds_MovimentoDATA_SISTEMA: TSQLTimeStampField;
     cds_MovimentoNOMEUSUARIO: TStringField;
-    cds_MovimentoOBS: TStringField;
     cds_MovimentoPLACA: TStringField;
     cds_MovimentoMARCA_MODELO: TStringField;
     cds_MovimentoCOD_VEICULO: TIntegerField;
@@ -464,6 +462,12 @@ type
     sdslistaPRODUTO: TStringField;
     SP_LIMITE: TSQLStoredProc;
     edChassi: TEdit;
+    DBEdit13: TDBEdit;
+    Label12: TLabel;
+    sds_MovimentoOBS: TStringField;
+    sds_MovimentoOBSCLI: TStringField;
+    cds_MovimentoOBS: TStringField;
+    cds_MovimentoOBSCLI: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -550,7 +554,7 @@ var
   fVendas: TfVendas;
   valorUnitario: Double;
   codmovdet, codserv,codmd,centro_receita, cod_nat, cod_vendedor_padrao, cod_cli, estoq : integer;
-  natureza, contas_pendentes, nome_vendedor_padrao, ccpadrao: string;
+  natureza, contas_pendentes, nome_vendedor_padrao, ccpadrao, chassi: string;
 
 implementation
 
@@ -1510,23 +1514,6 @@ begin
  end;
   //*******************************************************************************
   //   essa parte é para cadastro de Veículo
-  if (MaskEdit1.Text <> '   -    ') then
-  begin
-    if (cds_Veiculocli.Active) then
-      cds_Veiculocli.Close;
-    cds_Veiculocli.Params[1].Clear;
-    cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
-    cds_Veiculocli.Open;
-    if (cds_Veiculocli.IsEmpty) then
-    begin
-      // o cadastro do veículo não deve ter o cliente na OS terá;
-      cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
-      fClienteVeiculo.varPlaca := MaskEdit1.Text;
-      BitBtn9.Click;
-    end;
-    cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
-    cds_Veiculocli.Close;
-  end;
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     if (maskEdit1.Text <> '   -    ') then
@@ -1546,29 +1533,8 @@ begin
       cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
       cds_Veiculocli.Close;
     end;
-  end;
-  // Busca o cad. veiculo pelo chassi
-  if (EdChassi.Text <> '') then
-  begin
-    if (cds_Veiculocli.Active) then
-      cds_Veiculocli.Close;
-    cds_Veiculocli.Params[1].Clear;
-    cds_Veiculocli.Params[0].Clear;
-    cds_Veiculocli.Params[2].AsString := edChassi.Text;
-    cds_Veiculocli.Open;
-    if (cds_Veiculocli.IsEmpty) then
-    begin
-      // o cadastro do veículo não deve ter o cliente na OS terá;
-      cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
-      fClienteVeiculo.chassi := EdChassi.Text;
-      BitBtn9.Click;
-    end;
-    cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
-    cds_Veiculocli.Close;
-  end;
-  if (dm.moduloUsado = 'AUTOMOTIVA') then
-  begin
-    if (maskEdit1.Text <> '   -    ') then
+      // Busca o cad. veiculo pelo chassi
+    if ((maskEdit1.Text = '   -    ') and (EdChassi.Text <> '')) then
     begin
       if (cds_Veiculocli.Active) then
         cds_Veiculocli.Close;
@@ -1580,12 +1546,13 @@ begin
       begin
         // o cadastro do veículo não deve ter o cliente na OS terá;
         cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
-        fClienteVeiculo.chassi := EdChassi.Text;
+        chassi := EdChassi.Text;
         BitBtn9.Click;
       end;
       cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
       cds_Veiculocli.Close;
     end;
+
   end;
 
   //*******************************************************************************
@@ -1691,6 +1658,7 @@ begin
   inherited;
    fClienteVeiculo := TfClienteVeiculo.Create(Application);
    try
+     fClienteVeiculo.chassi := chassi;
      fClienteVeiculo.varPlaca := MaskEdit1.Text;
      // o cadastro do veículo não deve ter o cliente na OS terá;
      cod_cli := 1;//cds_MovimentoCODCLIENTE.AsInteger;
@@ -2984,7 +2952,7 @@ begin
   begin
     cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
     BitBtn9.Click;
-    fClienteVeiculo.chassi := EdChassi.Text;
+    chassi := EdChassi.Text;
     dbeCliente.SetFocus;
   end
   else begin
