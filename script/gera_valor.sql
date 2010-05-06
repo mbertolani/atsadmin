@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER TRIGGER GERA_VALOR FOR NOTAFISCAL
 ACTIVE AFTER INSERT
 POSITION 0
@@ -8,6 +9,7 @@ AS
   declare variable parc SMALLINT;
   declare variable via SMALLINT;
   declare variable total  double PRECISION;
+  declare variable precoProd  double PRECISION;
   declare variable codMov INTEGER;
   declare variable p INTEGER;
   declare variable NumParc smallint;
@@ -58,22 +60,25 @@ BEGIN
             desconto = 1 - (desconto / 100);
           if (desconto = 0) then
             desconto = 1;
-          update MOVIMENTODETALHE md set  md.VLR_BASE = (md.PRECO/:parc) * :desconto
+          update MOVIMENTODETALHE md set  md.VLR_BASE = UDF_ROUNDDEC((md.PRECO/:parc),2) * :desconto
             where md.CODMOVIMENTO = :codMov and md.CODPRODUTO = :p
             and md.preco > 0; 
          end
          select sum(m.quantidade * m.VLR_BASE) from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
         into :total ;
         if (total <> new.VALOR_TOTAL_NOTA) then
+        begin
+          total = UDF_ROUNDDEC(:total,2);
           update NOTAFISCAL set VALOR_PRODUTO = :total , VALOR_TOTAL_NOTA = :total
           where NUMNF = new.NUMNF;
+        end   
       end
       /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
       else begin  -- USANDO O PARAMETRO D9 para GERAR AS PARCELAS E TITULOS
         d9 = d9/10;
-        for select m.QTDE_ALT, m.CODPRODUTO from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
+        for select m.QTDE_ALT, m.CODPRODUTO, m.PRECO from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
           and m.preco > 0
-        into :desconto, :p
+        into :desconto, :p, :precoProd
         do begin
           if (desconto is null) then
             desconto = 0;
@@ -81,29 +86,35 @@ BEGIN
             desconto = 1 - (desconto / 100);
           if (desconto = 0) then
             desconto = 1;
-          update MOVIMENTODETALHE md set  md.VLR_BASE = (md.PRECO*:d9) * :desconto
+          total = UDF_ROUNDDEC(((:precoProd * :d9) * :desconto), 2);    
+          update MOVIMENTODETALHE md set  md.VLR_BASE = :total
             where md.CODMOVIMENTO = :codMov and md.CODPRODUTO = :p
             and md.preco > 0; 
          end
          select sum(m.quantidade * m.VLR_BASE) from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
         into :total ;
+        total = UDF_ROUNDDEC(:total,2);
         if (total <> new.VALOR_TOTAL_NOTA) then
           update NOTAFISCAL set VALOR_PRODUTO = :total , VALOR_TOTAL_NOTA = :total
           where NUMNF = new.NUMNF;
-        parcPrim = D9;        
+        parcPrim = total;        
         for select codrecebimento, VALOR_PRIM_VIA, via from recebimento where titulo = :titulo and codcliente = :codcli order by via
           into :codrec, :vlrTit, :via
         do begin
            if (vlrParc = 0) then
            begin  
-             vlrParc = vlrTit; 
+             vlrParc = vlrTit - parcPrim; 
            end  
            if (via = 1) then 
              parcResto = parcPrim;        
            if (via > 1) then 
-             parcResto = (1-D9)/(numParc-1);     
-           vlrTit = vlrParc * parcResto;
-           update recebimento a set valor_resto = :vlrTit , VALORTITULO = :vlrTit where codrecebimento = :codRec;
+             parcResto = vlrParc/(numParc-1);     
+             
+           parcResto = UDF_ROUNDDEC(:parcResto,2);
+           
+           
+           
+           update recebimento a set valor_resto = :parcResto , VALORTITULO = :vlrTit where codrecebimento = :codRec;
         end 
       end    
       end 
