@@ -181,20 +181,6 @@ type
     proc_transpCONTATO: TStringField;
     proc_transpBAIRRO: TStringField;
     proc_transpCEP: TStringField;
-    listaCliente1: TSQLDataSet;
-    listaCliente1CODCLIENTE: TIntegerField;
-    listaCliente1NOMECLIENTE: TStringField;
-    listaCliente1RAZAOSOCIAL: TStringField;
-    listaCliente1CNPJ: TStringField;
-    listaCliente1INSCESTADUAL: TStringField;
-    listaCliente1LOGRADOURO: TStringField;
-    listaCliente1BAIRRO: TStringField;
-    listaCliente1COMPLEMENTO: TStringField;
-    listaCliente1CIDADE: TStringField;
-    listaCliente1UF: TStringField;
-    listaCliente1CEP: TStringField;
-    listaCliente1TELEFONE: TStringField;
-    listaCliente1PRAZORECEBIMENTO: TSmallintField;
     sdsTotal: TSQLDataSet;
     Label26: TLabel;
     Label36: TLabel;
@@ -217,9 +203,20 @@ type
     sClasFiscalICMS_SUBST: TFloatField;
     sClasFiscalICMS_SUBST_IC: TFloatField;
     sClasFiscalICMS_SUBST_IND: TFloatField;
-    listaCliente1CODTRANSP: TIntegerField;
-    dspListaCliente: TDataSetProvider;
-    listaCliente: TClientDataSet;
+    listaFornecedor: TSQLDataSet;
+    listaFornecedorCODFORNECEDOR: TIntegerField;
+    listaFornecedorRAZAOSOCIAL: TStringField;
+    listaFornecedorCNPJ: TStringField;
+    listaFornecedorINSCESTADUAL: TStringField;
+    listaFornecedorPRAZOPAGAMENTO: TSmallintField;
+    listaFornecedorLOGRADOURO: TStringField;
+    listaFornecedorBAIRRO: TStringField;
+    listaFornecedorCOMPLEMENTO: TStringField;
+    listaFornecedorCIDADE: TStringField;
+    listaFornecedorUF: TStringField;
+    listaFornecedorCEP: TStringField;
+    listaFornecedorTELEFONE: TStringField;
+    listaFornecedorCODTRANSP: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -350,6 +347,8 @@ begin
     dm.cds_empresa.open;
   if (not dmnf.cds_nf1.Active) then
     dmnf.cds_nf1.open;
+  if (not dmnf.cds_compra.Active) then
+    dmnf.cds_compra.Open;
   if (not dmnf.cds_Mov_det.Active) then
     dmnf.cds_Mov_det.open;
   // Entrada ou Saida
@@ -377,23 +376,23 @@ begin
     dmnf.cds_nf1CODVENDA.AsInteger := codVendaFin;
     dmnf.cds_nf1CODCLIENTE.AsInteger := codCliFin;
     dmnf.cds_nf1FATURA.AsString := fatura_NF;
-    if (listaCliente1.Active) then
-      listaCliente1.Close;
-    listaCliente1.Params.ParamByName('pCodCli').AsInteger := codCliFin;
-    listaCliente1.Open;
+    if (listaFornecedor.Active) then
+      listaFornecedor.Close;
+    listaFornecedor.Params.ParamByName('pCodCli').AsInteger := codCliFin;
+    listaFornecedor.Open;
     dmnf.cds_nf1CODCLIENTE.AsInteger := codCliFin;
-    dmnf.cds_nf1NOMECLIENTE.AsString := listaCliente1RAZAOSOCIAL.AsString;
-    dmnf.cds_nf1RAZAOSOCIAL.AsString := listaCliente1RAZAOSOCIAL.AsString;
-    dmnf.cds_nf1CNPJCLI.AsString := listaCliente1CNPJ.AsString;
-    dmnf.cds_nf1INSCCLI.AsString := listaCliente1INSCESTADUAL.AsString;
-    dmnf.cds_nf1LOGRADOURO.AsString := listaCliente1LOGRADOURO.AsString;
-    dmnf.cds_nf1CIDADECLI.AsString := listaCliente1CIDADE.AsString;
-    dmnf.cds_nf1BAIRROCLI.AsString := listaCliente1BAIRRO.AsString;
-    dmnf.cds_nf1CEPCLI.AsString := listaCliente1CEP.AsString;
+    dmnf.cds_nf1NOMECLIENTE.AsString := listaFornecedorRAZAOSOCIAL.AsString;
+    dmnf.cds_nf1RAZAOSOCIAL.AsString := listaFornecedorRAZAOSOCIAL.AsString;
+    dmnf.cds_nf1CNPJCLI.AsString := listaFornecedorCNPJ.AsString;
+    dmnf.cds_nf1INSCCLI.AsString := listaFornecedorINSCESTADUAL.AsString;
+    dmnf.cds_nf1LOGRADOURO.AsString := listaFornecedorLOGRADOURO.AsString;
+    dmnf.cds_nf1CIDADECLI.AsString := listaFornecedorCIDADE.AsString;
+    dmnf.cds_nf1BAIRROCLI.AsString := listaFornecedorBAIRRO.AsString;
+    dmnf.cds_nf1CEPCLI.AsString := listaFornecedorCEP.AsString;
     dmnf.cds_nf1FRETE.AsString := '2';
-    dmnf.cds_nf1UFCLI.AsString := listaCliente1UF.AsString;
-    dmnf.cds_nf1UF.AsString := listaCliente1UF.AsString;
-    dmnf.cds_nf1TELEFONE.AsString := listaCliente1TELEFONE.AsString;
+    dmnf.cds_nf1UFCLI.AsString := listaFornecedorUF.AsString;
+    dmnf.cds_nf1UF.AsString := listaFornecedorUF.AsString;
+    dmnf.cds_nf1TELEFONE.AsString := listaFornecedorTELEFONE.AsString;
   // Calcula o peso
   if (dmnf.sqs_tit.Active) then
     dmnf.sqs_tit.Close;
@@ -408,12 +407,12 @@ begin
 
   dmnf.sqs_tit.Close;
 
-    prazo := listaCliente1PRAZORECEBIMENTO.AsFloat;
-    if (listaCliente1CODTRANSP.AsInteger > 0 ) then
+    prazo := listaFornecedorPRAZOPAGAMENTO.AsFloat;
+    if (listaFornecedorCODTRANSP.AsInteger > 0 ) then
     begin
         if (proc_transp.Active) then
           proc_transp.Close;
-        proc_transp.Params[0].AsInteger := listaCliente1CODTRANSP.AsInteger;
+        proc_transp.Params[0].AsInteger := listaFornecedorCODTRANSP.AsInteger;
         proc_transp.Open;
         dmnf.cds_nf1CODTRANSP.AsInteger := proc_transpCODTRANSP.AsInteger;
         dmnf.cds_nf1NOMETRANSP.AsString := proc_transpNOMETRANSP.AsString;
@@ -432,7 +431,7 @@ begin
         dmnf.cds_nf1CORPONF4.AsString  := proc_transpCORPONF4.AsString;
         proc_transp.Close;
     end;
-    listaCliente1.Close;
+    listaFornecedor.Close;
     btnGravar.click;
     if (dmnf.cds_mov_det.Active) then
       dmnf.cds_mov_det.Close;
@@ -490,17 +489,17 @@ end;
 procedure TfNotaFc.incluiSAida;
 begin
   //Populo combobox com a Razão do Fornecedor
-  if (not dmnf.listaCliente.Active) then
-    dmnf.listaCliente.Open;
-  dmnf.listaCliente.First;
+  if (not dmnf.listaFornecedor.Active) then
+    dmnf.listaFornecedor.Open;
+  dmnf.listaFornecedor.First;
   cbCLiente.Clear;
-  while not dmnf.listaCliente.Eof do
+  while not dmnf.listaFornecedor.Eof do
   begin
-     cbCLiente.Items.Add(dmnf.listaClienteRAZAOSOCIAL.AsString);
-     cbCLiente1.Items.Add(dmnf.listaClienteRAZAOSOCIAL.AsString);
-     dmnf.listaCliente.Next;
+     cbCLiente.Items.Add(dmnf.listaFornecedorRAZAOSOCIAL.AsString);
+     cbCLiente1.Items.Add(dmnf.listaFornecedorRAZAOSOCIAL.AsString);
+     dmnf.listaFornecedor.Next;
   end;
-  dmnf.listaCliente.Close;
+  dmnf.listaFornecedor.Close;
   //Populo DBGrid com Produtos
   incluiMovimento;
   //incluiCompra;
@@ -524,7 +523,7 @@ begin
     dmnf.cds_Mov_det.Params[1].AsInteger := codMovFin;
     dmnf.cds_Mov_det.Open;
 
-    //mostra venda
+    //mostra compra
     if (dmnf.cds_compra.Active) then
       dmnf.cds_compra.Close;
     dmnf.cds_compra.Params[0].Clear;
@@ -731,28 +730,28 @@ begin
  if (dmnf.cds_nf1.State in [dsinsert, dsEdit]) then
   if (cbCLiente.Text <> '') then
   begin
-    if (not listaCliente1.Active) then
-      listaCliente1.Open;
-    listaCliente1.Locate('RAZAOSOCIAL',cbCLiente.Text,[loCaseInsensitive]);
-    dmnf.cds_nf1CODCLIENTE.AsInteger := listaCliente1CODCLIENTE.AsInteger;
-    dmnf.cds_MovimentoCODCLIENTE.AsInteger := listaCliente1CODCLIENTE.AsInteger;
-    dmnf.cds_compraCODFornecedor.AsInteger := listaCliente1CODCLIENTE.AsInteger;;
-    dmnf.cds_nf1CODCLIENTE.AsInteger := listaCliente1CODCLIENTE.AsInteger;
-    dmnf.cds_nf1CNPJCLI.AsString := listaCliente1CNPJ.AsString;
-    dmnf.cds_nf1INSCCLI.AsString := listaCliente1INSCESTADUAL.AsString;
-    dmnf.cds_nf1LOGRADOURO.AsString := listaCliente1LOGRADOURO.AsString;
-    dmnf.cds_nf1CIDADECLI.AsString := listaCliente1CIDADE.AsString;
-    dmnf.cds_nf1BAIRROCLI.AsString := listaCliente1BAIRRO.AsString;
-    dmnf.cds_nf1CEPCLI.AsString := listaCliente1CEP.AsString;
-    dmnf.cds_nf1UFCLI.AsString := listaCliente1UF.AsString;
-    dmnf.cds_nf1TELEFONE.AsString := listaCliente1TELEFONE.AsString;
-    prazo := listaCliente1PRAZORECEBIMENTO.AsFloat;
+    if (listaFornecedor.Active) then
+      listaFornecedor.Close;
+    listaFornecedor.Params[0].AsString := cbCLiente.Text;
+    listaFornecedor.Open;
+    dmnf.cds_nf1CODCLIENTE.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
+    dmnf.cds_MovimentoCODCLIENTE.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
+    //dmnf.cds_compraCODFornecedor.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;;
+    dmnf.cds_nf1CNPJCLI.AsString := listaFornecedorCNPJ.AsString;
+    dmnf.cds_nf1INSCCLI.AsString := listaFornecedorINSCESTADUAL.AsString;
+    dmnf.cds_nf1LOGRADOURO.AsString := listaFornecedorLOGRADOURO.AsString;
+    dmnf.cds_nf1CIDADECLI.AsString := listaFornecedorCIDADE.AsString;
+    dmnf.cds_nf1BAIRROCLI.AsString := listaFornecedorBAIRRO.AsString;
+    dmnf.cds_nf1CEPCLI.AsString := listaFornecedorCEP.AsString;
+    dmnf.cds_nf1UFCLI.AsString := listaFornecedorUF.AsString;
+    dmnf.cds_nf1TELEFONE.AsString := listaFornecedorTELEFONE.AsString;
+    prazo := listaFornecedorPRAZOPAGAMENTO.AsFloat;
 
-    if (listaCliente1CODTRANSP.AsInteger > 0 ) then
+    if (listaFornecedorCODTRANSP.AsInteger > 0 ) then
     begin
       if (proc_transp.Active) then
         proc_transp.Close;
-      //proc_transp.Params[0].AsInteger := listaCliente1COD_TRANPORTADORA.AsInteger;
+      proc_transp.Params[0].AsInteger := listaFornecedorCODTRANSP.AsInteger;
       proc_transp.Open;
       dmnf.cds_nf1CODTRANSP.AsInteger := proc_transpCODTRANSP.AsInteger;
       dmnf.cds_nf1NOMETRANSP.AsString := proc_transpNOMETRANSP.AsString;
@@ -772,7 +771,7 @@ begin
       proc_transp.Close;
     end;
 
-    listaCliente1.Close;
+    listaFornecedor.Close;
   end;
 end;
 
@@ -916,51 +915,27 @@ end;
 
 procedure TfNotaFc.BitBtn1Click(Sender: TObject);
 begin
-  {fProcurar_nf:= TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
-  fProcurar_nf.BtnProcurar.Click;
-  fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
-  fProcurar_nf.btnIncluir.Visible := True;
+  fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
+  dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+  dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;
+  fProcurar.RadioGroup2.Visible := True;
+  fProcurar.BtnProcurar.Click;
+  fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
+  fProcurar.btnIncluir.Visible := True;
   try
-   // varform := 'venda';
-    //codcli := 0;
-    //nomecli := '';
-    if (fProcurar_nf.ShowModal = mrOK) then
-    begin
-      if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
-      begin
-        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
-        exit;
-        //dbeCliente.SetFocus;
-      end;
-      if dmnf.dtSrc.State=dsBrowse then
-        dmnf.cds_Movimento.Edit;
-      prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
-      dmnf.cds_MovimentoCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
-      dmnf.cds_compraCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
-      dmnf.cds_nf1CODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
-      dmnf.cds_nf1RAZAOSOCIAL.AsString := dmnf.scds_cli_procRAZAOSOCIAL.AsString;
-    end;
-  finally
-   dmnf.scds_cli_proc.Close;
-   fProcurar_nf.Free;
-  end;   }
-    fClienteCadastro:=TfClienteCadastro.Create(Application);
-    try
-      fClienteCadastro.ShowModal;
-    finally
-      fClienteCadastro.free;
-    end;
-    if (not dmnf.listaCliente.Active) then
-      dmnf.listaCliente.Open;
-    dmnf.listaCliente.First;
-    cbCLiente.Items.Clear;
-    while not dmnf.listaCliente.Eof do
-    begin
-       cbCLiente.Items.Add(dmnf.listaClienteRAZAOSOCIAL.AsString);
-       dmnf.listaCliente.Next;
-    end;
-    dmnf.listaCliente.Close;
-    cbCLiente.Text := DM.varNomeCliente;
+    varForm1 := 'compra';
+    cod_forn := 0;
+    nome_Forn := '';
+   fProcurar.ShowModal;
+   if DMNF.DtSrc_NF1.State=dsBrowse then
+     DMNF.DtSrc_NF1.Edit;
+   DMNF.cds_nf1CODCLIENTE.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
+   DMNF.cds_nf1NOMECLIENTE.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
+   finally
+    dm.scds_forn_proc.Close;
+    fProcurar.Free;
+   end;
+//  end;
 end;
 
 procedure TfNotaFc.FormKeyPress(Sender: TObject; var Key: Char);
@@ -1257,7 +1232,7 @@ begin
       dm.sqlsisAdimin.executedirect(varsql);
     end;
 
-    fFiltroMovimento.Edit3.Text := dm.cds_parametroDADOS.AsString;
+    fFiltroMovimento.Edit3.Text := '4';
     fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
     dm.cds_parametro.Close;
     fFiltroMovimento.BitBtn8.Enabled := False;
@@ -1436,22 +1411,22 @@ begin
  if (dmnf.cds_nf1.State in [dsinsert, dsEdit]) then
   if (cbCLiente1.Text <> '') then
   begin
-    DMNF.listaCliente.Open;
-    DMNF.listaCliente.Locate('RAZAOSOCIAL',cbCLiente1.Text,[loCaseInsensitive]);
-    dmnf.cds_nf1CODCLIENTE.AsInteger := DMNF.listaClienteCODCLIENTE.AsInteger;
-    dmnf.cds_MovimentoCODFORNECEDOR.AsInteger := DMNF.listaClienteCODCLIENTE.AsInteger;
-    dmnf.cds_compraCODFORNECEDOR.AsInteger := DMNF.listaClienteCODCLIENTE.AsInteger;;
-    dmnf.cds_nf1CODCLIENTE.AsInteger := DMNF.listaClienteCODCLIENTE.AsInteger;
-    dmnf.cds_nf1CNPJCLI.AsString := DMNF.listaClienteCNPJ.AsString;
-    dmnf.cds_nf1INSCCLI.AsString := DMNF.listaClienteINSCESTADUAL.AsString;
-    dmnf.cds_nf1LOGRADOURO.AsString := DMNF.listaClienteLOGRADOURO.AsString;
-    dmnf.cds_nf1CIDADECLI.AsString := DMNF.listaClienteCIDADE.AsString;
-    dmnf.cds_nf1BAIRROCLI.AsString := DMNF.listaClienteBAIRRO.AsString;
-    dmnf.cds_nf1CEPCLI.AsString := DMNF.listaClienteCEP.AsString;
-    dmnf.cds_nf1UFCLI.AsString := DMNF.listaClienteUF.AsString;
-    dmnf.cds_nf1TELEFONE.AsString := DMNF.listaClienteTELEFONE.AsString;
-    prazo := dmnf.listaClientePRAZORECEBIMENTO.AsFloat;
-    DMNF.listaCliente.Close;
+    DMNF.listaFornecedor.Open;
+    DMNF.listaFornecedor.Locate('RAZAOSOCIAL',cbCLiente1.Text,[loCaseInsensitive]);
+    dmnf.cds_nf1CODCLIENTE.AsInteger := DMNF.listaFornecedorCODFORNECEDOR.AsInteger;
+    dmnf.cds_MovimentoCODFORNECEDOR.AsInteger := DMNF.listaFornecedorCODFORNECEDOR.AsInteger;
+    //dmnf.cds_compraCODFORNECEDOR.AsInteger := DMNF.listaFornecedorCODFORNECEDOR.AsInteger;;
+    dmnf.cds_nf1CODCLIENTE.AsInteger := DMNF.listaFornecedorCODFORNECEDOR.AsInteger;
+    dmnf.cds_nf1CNPJCLI.AsString := DMNF.listaFornecedorCNPJ.AsString;
+    dmnf.cds_nf1INSCCLI.AsString := DMNF.listaFornecedorINSCESTADUAL.AsString;
+    dmnf.cds_nf1LOGRADOURO.AsString := DMNF.listaFornecedorLOGRADOURO.AsString;
+    dmnf.cds_nf1CIDADECLI.AsString := DMNF.listaFornecedorCIDADE.AsString;
+    dmnf.cds_nf1BAIRROCLI.AsString := DMNF.listaFornecedorBAIRRO.AsString;
+    dmnf.cds_nf1CEPCLI.AsString := DMNF.listaFornecedorCEP.AsString;
+    dmnf.cds_nf1UFCLI.AsString := DMNF.listaFornecedorUF.AsString;
+    dmnf.cds_nf1TELEFONE.AsString := DMNF.listaFornecedorTELEFONE.AsString;
+    prazo := dmnf.listaFornecedorPRAZOPAGAMENTO.AsFloat;
+    DMNF.listaFornecedor.Close;
   end;
 end;
 
