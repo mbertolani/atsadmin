@@ -679,6 +679,7 @@ object fNotafc: TfNotafc
     PopupMenu = PopupMenu1
     Style = tsFlatButtons
     TabOrder = 1
+    OnChange = FormCreate
     object TabNF: TTabSheet
       Caption = 'Nota Fiscal'
       Font.Charset = DEFAULT_CHARSET
@@ -2421,106 +2422,6 @@ object fNotafc: TfNotafc
       Size = 15
     end
   end
-  object listaCliente1: TSQLDataSet
-    CommandText = 
-      'select cli.CODFORNECEDOR AS CODCLIENTE, cli.NOMEFORNECEDOR AS NO' +
-      'MECLIENTE, cli.RAZAOSOCIAL, cli.CNPJ, cli.INSCESTADUAL, cli.PRAZ' +
-      'OPAGAMENTO AS PRAZORECEBIMENTO'#13#10', ende.LOGRADOURO, ende.BAIRRO, ' +
-      'ende.COMPLEMENTO, ende.CIDADE, ende.UF, ende.CEP, ende.TELEFONE ' +
-      ', cli.codtransp'#13#10'from FORNECEDOR cli '#13#10'left outer join ENDERECOF' +
-      'ORNECEDOR ende on ende.CODFORNECEDOR = cli.CODFORNECEDOR '#13#10'where' +
-      ' cli.CODFORNECEDOR = :pCodCli'#13#10' order by cli.RAZAOSOCIAL '
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'CODVENDA'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'PCODMOV'
-        ParamType = ptInput
-      end>
-    SQLConnection = DM.sqlsisAdimin
-    Left = 344
-    Top = 104
-    object listaCliente1CODCLIENTE: TIntegerField
-      FieldName = 'CODCLIENTE'
-      Required = True
-    end
-    object listaCliente1NOMECLIENTE: TStringField
-      FieldName = 'NOMECLIENTE'
-      Required = True
-      Size = 50
-    end
-    object listaCliente1RAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      Required = True
-      Size = 50
-    end
-    object listaCliente1CNPJ: TStringField
-      FieldName = 'CNPJ'
-      ProviderFlags = []
-      Visible = False
-      Size = 18
-    end
-    object listaCliente1INSCESTADUAL: TStringField
-      FieldName = 'INSCESTADUAL'
-      ProviderFlags = []
-      Visible = False
-      Size = 24
-    end
-    object listaCliente1LOGRADOURO: TStringField
-      FieldName = 'LOGRADOURO'
-      ProviderFlags = []
-      Visible = False
-      Size = 50
-    end
-    object listaCliente1BAIRRO: TStringField
-      FieldName = 'BAIRRO'
-      ProviderFlags = []
-      Visible = False
-      Size = 30
-    end
-    object listaCliente1COMPLEMENTO: TStringField
-      FieldName = 'COMPLEMENTO'
-      ProviderFlags = []
-      Visible = False
-      Size = 30
-    end
-    object listaCliente1CIDADE: TStringField
-      FieldName = 'CIDADE'
-      ProviderFlags = []
-      Visible = False
-      Size = 40
-    end
-    object listaCliente1UF: TStringField
-      FieldName = 'UF'
-      ProviderFlags = []
-      Visible = False
-      FixedChar = True
-      Size = 2
-    end
-    object listaCliente1CEP: TStringField
-      FieldName = 'CEP'
-      ProviderFlags = []
-      Visible = False
-      Size = 10
-    end
-    object listaCliente1TELEFONE: TStringField
-      FieldName = 'TELEFONE'
-      ProviderFlags = []
-      Visible = False
-      Size = 9
-    end
-    object listaCliente1PRAZORECEBIMENTO: TSmallintField
-      FieldName = 'PRAZORECEBIMENTO'
-    end
-    object listaCliente1CODTRANSP: TIntegerField
-      FieldName = 'CODTRANSP'
-    end
-  end
   object sdsTotal: TSQLDataSet
     CommandText = 
       'select sum(vlr_base * quantidade) from movimentodetalhe where co' +
@@ -2605,27 +2506,78 @@ object fNotafc: TfNotafc
       FieldName = 'ICMS_SUBST_IND'
     end
   end
-  object dspListaCliente: TDataSetProvider
-    DataSet = listaCliente1
-    UpdateMode = upWhereKeyOnly
-    Left = 377
-    Top = 105
-  end
-  object listaCliente: TClientDataSet
-    Aggregates = <>
+  object listaFornecedor: TSQLDataSet
+    CommandText = 
+      'select f.CODFORNECEDOR, '#13#10'           f.RAZAOSOCIAL,  '#13#10'         ' +
+      '  f.CNPJ, '#13#10'           f.INSCESTADUAL, '#13#10'           f.PRAZOPAGAM' +
+      'ENTO,'#13#10'           f.CODTRANSP,'#13#10'           ende.LOGRADOURO, '#13#10'  ' +
+      '         ende.BAIRRO, '#13#10'           ende.COMPLEMENTO, '#13#10'         ' +
+      '  ende.CIDADE, '#13#10'           ende.UF, '#13#10'           ende.CEP, '#13#10'  ' +
+      '         ende.TELEFONE '#13#10'from FORNECEDOR f '#13#10'left outer join END' +
+      'ERECOFORNECEDOR ende on ende.CODFORNECEDOR = f.CODFORNECEDOR  '#13#10 +
+      'where ende.TIPOEND = 0 and f.RAZAOSOCIAL = :pRazao'#13#10' order by f.' +
+      'RAZAOSOCIAL '#13#10
+    MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
-        Name = 'CODVENDA'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'PCODMOV'
+        DataType = ftString
+        Name = 'pRazao'
         ParamType = ptInput
       end>
-    ProviderName = 'dspListaCliente'
-    Left = 408
-    Top = 107
+    SQLConnection = DM.sqlsisAdimin
+    Left = 328
+    Top = 56
+    object listaFornecedorCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object listaFornecedorRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object listaFornecedorCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object listaFornecedorINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object listaFornecedorPRAZOPAGAMENTO: TSmallintField
+      FieldName = 'PRAZOPAGAMENTO'
+    end
+    object listaFornecedorLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object listaFornecedorBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object listaFornecedorCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object listaFornecedorCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object listaFornecedorUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object listaFornecedorCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object listaFornecedorTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
+    object listaFornecedorCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
   end
 end
