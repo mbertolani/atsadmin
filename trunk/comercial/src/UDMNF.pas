@@ -1846,9 +1846,9 @@ begin
     if (FormExiste(fNotaFc) = True) then
       if (cds_Mov_detTotalPedido.Value > 0)then
       begin
-        cds_nfVALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
-        if (cds_nfVALOR_TOTAL_NOTA.Value <> cds_nfVALOR_PRODUTO.Value) then
-          cds_nfVALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
+        cds_nf1VALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
+        if (cds_nf1VALOR_TOTAL_NOTA.Value <> cds_nf1VALOR_PRODUTO.Value) then
+          cds_nf1VALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
            dmnf.cds_vendaVALOR_ICMS.AsFloat + dmnf.cds_vendaVALOR_SEGURO.AsFloat +
            dmnf.cds_vendaVALOR_SEGURO.AsFloat + dmnf.cds_vendaVALOR_FRETE.AsFloat +
            dmnf.cds_vendaOUTRAS_DESP.AsFloat - dmnf.cds_vendaDESCONTO.AsFloat;
