@@ -14,7 +14,7 @@ object TRpReport
     item
       Alias = 'LISTA_PRODUTOS'
       DatabaseAlias = 'SISADMIN'
-      SQL = 'select * from SP_CONTAS_RECEBIDAS(:DTAINI, :DTAFIM)'
+      SQL = 'select * from SP_CONTAS_RECEBIDAS(:DTAINI, :DTAFIM, :CCUSTO)'
     end
     item
       Alias = 'CABECALHO'
@@ -23,6 +23,13 @@ object TRpReport
         'SELECT RAZAO as EMP, BAIRRO,ENDERECO, CIDADE || '#39' - '#39' || UF || '#39 +
         ' - '#39' || CEP as local, '#13#10#39'FONE: (19)'#39' || FONE || '#39' - '#39' || WEB || ' +
         ' e_mail as comunica '#13#10'FROM EMPRESA'
+    end
+    item
+      Alias = 'NOMECCUSTO'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'SELECT p.CODIGO, p.NOME'#13#10'FROM PLANO p where ((p.CODIGO = :CCUSTO' +
+        ') or (p.CODIGO = 0))'
     end>
   DatabaseInfo = <
     item
@@ -62,7 +69,7 @@ object TRpReport
     item
       Name = 'DTAINI'
       AllowNulls = False
-      Value = 38930d
+      Value = 40179d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS')
@@ -75,11 +82,24 @@ object TRpReport
     item
       Name = 'DTAFIM'
       AllowNulls = False
-      Value = 38959d
+      Value = 40420d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS')
       Description = 'Data Final'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'CCUSTO'
+      AllowNulls = False
+      Value = '51'
+      Datasets.Strings = (
+        'LISTA_PRODUTOS'
+        'NOMECCUSTO')
+      Description = ''
       Hint = ''
       Search = ''
       ErrorMessage = ''
@@ -210,6 +230,9 @@ object TRpReport
       end
       item
         Component = TRpExpression5
+      end
+      item
+        Component = TRpExpression6
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -238,20 +261,20 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'Data Emiss'#227'o'
+    WideText = 'D. Emiss'#227'o'
   end
   object TRpLabel2: TRpLabel
-    Width = 998
-    Height = 250
-    PosX = 8750
-    PosY = 1600
+    Width = 855
+    Height = 240
+    PosX = 9000
+    PosY = 1605
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'C.Cont'#225'bil'
+    WideText = 'Titulo'
   end
   object TRpSection2: TRpSection
     Width = 10772
@@ -410,7 +433,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'D. Pagto.'
+    WideText = 'D. Vencto.'
   end
   object TRpLabel3: TRpLabel
     Width = 690
@@ -545,7 +568,7 @@ object TRpReport
   object TRpExpression11: TRpExpression
     Width = 749
     Height = 250
-    PosX = 8745
+    PosX = 8695
     PosY = 0
     Type1Font = poHelvetica
     Alignment = 2
@@ -559,7 +582,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'LISTA_PRODUTOS.CODCONTA'
+    Expression = 'LISTA_PRODUTOS.N_TITULO'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -568,7 +591,7 @@ object TRpReport
   object TRpExpression12: TRpExpression
     Width = 1200
     Height = 195
-    PosX = 9555
+    PosX = 9855
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -719,7 +742,7 @@ object TRpReport
     Width = 1080
     Height = 285
     PosX = 6300
-    PosY = 55
+    PosY = 155
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -732,7 +755,7 @@ object TRpReport
     Width = 1020
     Height = 255
     PosX = 7695
-    PosY = 50
+    PosY = 150
     Type1Font = poHelvetica
     Alignment = 2
     DisplayFormat = ',##0.00'
@@ -857,7 +880,7 @@ object TRpReport
     Width = 10605
     Height = 300
     PosX = 45
-    PosY = 1050
+    PosY = 900
     Type1Font = poHelvetica
     FontSize = 12
     FontStyle = 3
@@ -960,6 +983,32 @@ object TRpReport
     Expression = 
       'Str(DAY(today)) + '#39'/'#39' + monthname(today) + '#39'/'#39' + str(year(today)' +
       ')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression6: TRpExpression
+    Width = 2250
+    Height = 300
+    PosX = 4250
+    PosY = 1100
+    Type1Font = poHelvetica
+    FontSize = 14
+    FontStyle = 3
+    Alignment = 4
+    WordWrap = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'NOMECCUSTO.NOME'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
