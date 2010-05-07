@@ -366,7 +366,7 @@ end;
 
 procedure TfFiltroMovimento.btnProcurarClick(Sender: TObject);
  Var
- SqlTexto, DataStr, ordenar : String;
+ SqlTexto, DataStr : String;
 begin
 
   if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1)) then
