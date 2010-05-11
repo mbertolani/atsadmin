@@ -38,6 +38,10 @@ type
     { Private declarations }
   public
     usuarioproc : string;
+    codProdProc : Integer;
+    codProProc  : String;
+    DescProProc : String;
+
  constructor Create (AOWner : TComponent; DataSet : TSQLClientDataset); reintroduce;
     { Public declarations }
   end;
@@ -67,21 +71,25 @@ begin
     Close;
     If tag=0 then //opção de flag para usar % ou não
     begin
-       Params[0].AsString:=EditProc.Text+'%';
+      Params[0].AsString:=EditProc.Text+'%';
       if DtSrc.DataSet = dm.scds_usuario_proc then
       begin
         Params.ParamByName('pPerfil').AsString := usuarioproc;
         Params.ParamByName('pPerfil1').AsString := 'AMBOS';
-      end
-      end
-    else
-    begin
-       Params[0].AsString:=EditProc.Text;
-    if DtSrc.DataSet = dm.scds_usuario_proc then
-    begin
-       Params.ParamByName('pPerfil').AsString := usuarioproc;
-       Params.ParamByName('pPerfil1').AsString := 'AMBOS';
+      end;
+      if DtSrc.DataSet = dm.scds_prod then
+      begin
+        if (EditProc.Text = '') then
+          Params.ParamByName('PRODUTO').AsString := 'TODOS';
+      end;
     end
+    else begin
+      Params[0].AsString:=EditProc.Text;
+      if DtSrc.DataSet = dm.scds_usuario_proc then
+      begin
+         Params.ParamByName('pPerfil').AsString := usuarioproc;
+         Params.ParamByName('pPerfil1').AsString := 'AMBOS';
+      end;
     end;
     Open;
     BtnOk.Enabled:=not IsEmpty;
@@ -156,7 +164,12 @@ begin
     cod_vendedor := dm.scds_usuario_procCODUSUARIO.AsInteger;
     nome_vendedor := dm.scds_usuario_procNOMEUSUARIO.AsString;
   end;
-
+  if (dm.scds_prod.active) then
+  begin
+    codProdProc := dm.scds_prodCodProduto.asInteger;
+    codProProc  := dm.scds_prodCodPro.asString;
+    DescProProc := dm.scds_prodProduto.asString;
+  end;
 end;
 
 procedure TfProcurar.btnImprimirClick(Sender: TObject);

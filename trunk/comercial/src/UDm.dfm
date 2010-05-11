@@ -16,17 +16,18 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\Home\sisadmin\BD\sge_dpm.fdb'
+      'Database=quad:sge_checkupcar'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq'
+      'Password=masterkey'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=sysdba'
+      'User_Name=SYSDBA'
       'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
+    Connected = True
     Left = 80
     Top = 8
   end
@@ -2375,8 +2376,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 528
-    Top = 143
+    Left = 544
+    Top = 135
     object scds_serie_procCODSERIE: TStringField
       FieldName = 'CODSERIE'
       FixedChar = True
@@ -9308,5 +9309,40 @@ object DM: TDM
     VendorLib = 'fbclient.dll'
     Left = 1168
     Top = 80
+  end
+  object scds_Prod: TSQLClientDataSet
+    CommandText = 
+      'Select CODPRODUTO, CODPRO, PRODUTO from PRODUTOS WHERE '#13#10'TIPO = ' +
+      #39'SERV'#39' and ((PRODUTO LIKE :PRODUTO) OR (:PRODUTO = '#39'TODOS'#39'))'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PRODUTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PRODUTO'
+        ParamType = ptInput
+      end>
+    DBConnection = sqlsisAdimin
+    Left = 544
+    Top = 183
+    object scds_ProdCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object scds_ProdCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object scds_ProdPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
   end
 end
