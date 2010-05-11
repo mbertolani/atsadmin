@@ -31,6 +31,9 @@ alter table callcenter_det add protocolo varchar(20) not null ^
 CREATE GENERATOR GEN_ATENDIMENTO
 
 
+alter table callcenter_det add Aten integer
+
+
 CREATE TRIGGER NEWTRIGGER FOR CALLCENTER_DET
 BEFORE INSERT
 POSITION 0
