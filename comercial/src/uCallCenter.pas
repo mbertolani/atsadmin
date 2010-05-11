@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, StdCtrls, Buttons, DB, ExtCtrls, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, SqlExpr, DBClient, Provider, Mask, DBCtrls, jpeg,
-  JvExMask, JvToolEdit, DBxPress;
+  JvExMask, JvToolEdit, DBxPress, JvExStdCtrls, JvCombobox,
+  JvDBSearchComboBox, Menus, JvEdit, JvDBSearchEdit;
 
 type
   TfCallCenter = class(TForm)
@@ -67,7 +68,6 @@ type
     edttelefone: TEdit;
     edtQuadro: TEdit;
     edtSerie: TEdit;
-    edtModelo: TEdit;
     edtTipo: TComboBox;
     edtStatus: TComboBox;
     edtAtendimento: TEdit;
@@ -92,6 +92,30 @@ type
     cCallCenterDetATENDIMENTO: TStringField;
     cCallCenterDetPROTOCOLO: TStringField;
     cCallCenterDetATEN: TIntegerField;
+    MainMenu1: TMainMenu;
+    edCliente: TJvDBSearchComboBox;
+    DSCli: TDataSource;
+    CDSCli: TClientDataSet;
+    DSPCli: TDataSetProvider;
+    SLDcli: TSQLDataSet;
+    edCodcli: TJvDBSearchEdit;
+    edtCodModelo: TJvDBSearchEdit;
+    edtModelo: TJvDBSearchComboBox;
+    SQLProd: TSQLDataSet;
+    DSPProd: TDataSetProvider;
+    CDSProd: TClientDataSet;
+    DSProd: TDataSource;
+    SQLProdCODPRO: TStringField;
+    SQLProdPRODUTO: TStringField;
+    CDSProdCODPRO: TStringField;
+    CDSProdPRODUTO: TStringField;
+    BitBtn8: TBitBtn;
+    BitBtn9: TBitBtn;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    sCallCenterCODCLIENTE: TIntegerField;
+    cCallCenterCODCLIENTE: TIntegerField;
     procedure IncluiProtocolo;
     procedure EditaProtocolo;
     procedure LimpaEdit;
@@ -112,6 +136,8 @@ type
     procedure BitBtn7Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure BitBtn9Click(Sender: TObject);
+    procedure BitBtn8Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -283,7 +309,7 @@ end;
 procedure TfCallCenter.BitBtn5Click(Sender: TObject);
 begin
   LimpaEdit;
-  BitBtn2.Enabled := True; 
+  BitBtn2.Enabled := True;
   BitBtn2.Caption := 'Incluir';
   cCallCenter.Close;
   cCallCenterDet.Close;
@@ -472,6 +498,7 @@ begin
   cCallCenterMODELOBIKE.AsString := edtModelo.Text;
   cCallCenterTIPO_ATENDIMENTO.AsString := edtTipo.Text;
   cCallCenterSTATUS_ATENDIMENTO.AsString := edtStatus.Text;
+  cCallCenterCODCLIENTE.AsInteger := edCodcli.
   cCallCenter.ApplyUpdates(0);
 
   if (not cCallCenterDet.Active) then
@@ -553,7 +580,19 @@ procedure TfCallCenter.FormShow(Sender: TObject);
 begin
   LimpaEdit;
   cCallCenter.Close;
-  cCallCenterDet.Close;  
+  cCallCenterDet.Close;
+  JvDateEdit1.Date := now;
+
+  if (not CDSCli.Active) then
+    CDSCli.Open;
+  if (not CDSProd.Active) then
+    CDSProd.Open;
+
+  edCodcli.Text := '';
+  edCliente.Text := '';
+  edtModelo.Text := '';
+  edtCodModelo.Text:= '';
+
 end;
 
 procedure TfCallCenter.PreencherEdit;
@@ -664,6 +703,18 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;
+end;
+
+procedure TfCallCenter.BitBtn9Click(Sender: TObject);
+begin
+  edtModelo.Text := '';
+  edtCodModelo.Text:= '';
+end;
+
+procedure TfCallCenter.BitBtn8Click(Sender: TObject);
+begin
+  edCodcli.Text := '';
+  edCliente.Text := '';
 end;
 
 end.
