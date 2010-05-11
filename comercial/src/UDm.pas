@@ -1733,6 +1733,10 @@ type
     cds_empresaCD_IBGE: TStringField;
     sds_produtoNCM: TStringField;
     cds_produtoNCM: TStringField;
+    scds_Prod: TSQLClientDataSet;
+    scds_ProdCODPRODUTO: TIntegerField;
+    scds_ProdCODPRO: TStringField;
+    scds_ProdPRODUTO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);

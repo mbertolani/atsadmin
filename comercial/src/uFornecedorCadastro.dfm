@@ -1326,6 +1326,14 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 33
     OnKeyPress = FormKeyPress
   end
+  object chkAssistencia: TCheckBox [55]
+    Left = 144
+    Top = 475
+    Width = 97
+    Height = 17
+    Caption = 'Ass. T'#233'cnica'
+    TabOrder = 34
+  end
   inherited PopupMenu1: TPopupMenu
     inherited Procurar1: TMenuItem
       OnClick = btnProcurarClick

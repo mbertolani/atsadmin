@@ -182,6 +182,7 @@ type
     procIBGECD_IBGE: TStringField;
     BitBtn22: TBitBtn;
     DBEdit23: TDBEdit;
+    chkAssistencia: TCheckBox;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -304,7 +305,8 @@ begin
   except
     MessageDlg('Erro ao gravar o Endereço !', mterror,[mbOk],0);
   end;
-
+  if (chkAssistencia.Checked) then
+     cds_fornecedorSEGMENTO.AsInteger := 4;
   inherited;
 end;
 

@@ -735,6 +735,7 @@ type
     sds_Mov_DetCODLOTE: TIntegerField;
     BtnRevenda: TBitBtn;
     btnCliente: TBitBtn;
+    btnProdutoProcura: TBitBtn;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -765,6 +766,7 @@ type
     procedure DBEdit27Exit(Sender: TObject);
     procedure BtnRevendaClick(Sender: TObject);
     procedure btnClienteClick(Sender: TObject);
+    procedure btnProdutoProcuraClick(Sender: TObject);
   private
     modo :string;
     function Verifica_Campos_Em_Branco: Boolean;
@@ -783,7 +785,7 @@ var
 implementation
 
 uses UDm, UDmSaude, ufDlgLogin, uUtils, sCtrlResize, uProcurar_nf, UDMNF,
-  ufprocura_prod;
+  ufprocura_prod, uProcurar;
 
 {$R *.dfm}
 
@@ -1837,11 +1839,15 @@ begin
       scds_prod_proc.Close;
      end;
    end;
- end;  
+ end;
 end;
 
 procedure TfOrdemAssistencia.DBEdit27Exit(Sender: TObject);
 begin
+   if (dbedit27.Text = '') then
+   begin
+     exit;
+   end;  
    if sLotes.Active then
       sLotes.Close;
    sLotes.Params[0].AsInteger := StrToInt(DBEdit27.Text);
@@ -1867,10 +1873,8 @@ begin
     sLotes.Close;
 
 
-  if DBEdit28.Field.OldValue<>DBEdit28.Field.NewValue then
+  if (DBEdit28.Field.OldValue <> DBEdit28.Field.NewValue) then
   begin
-   if dbedit27.Text = '' then
-     exit;
    if sLotes.Active then
       sLotes.Close;
    sLotes.Params[0].AsInteger := StrToInt(DBEdit27.Text);
@@ -1977,6 +1981,32 @@ begin
     cds_MovimentoNOMECONS.AsString := dm.varNomeCliente;//fListaClientes.cdsNOMECLIENTE.AsString;
   end;
 
+end;
+
+procedure TfOrdemAssistencia.btnProdutoProcuraClick(Sender: TObject);
+begin
+  if (DtSrc1.State in [dsInsert, dsEdit]) then
+  begin
+    DM.varNomeCliente := '';
+    dm.codcli := 0;
+    fProcurar := TfProcurar.Create(self,dm.scds_prod);
+    fProcurar.BtnProcurar.Click;
+    fProcurar.EvDBFind1.DataField := 'PRODUTO';
+    fProcurar.btnIncluir.Visible := True;
+    fProcurar.BtnProcurar.Click;
+    try
+      if (fProcurar.ShowModal = mrOK) then
+      begin
+        cds_Mov_detCODPRODUTO.AsInteger := fProcurar.codProdProc;
+        cds_Mov_detDESCPRODUTO.AsString := fProcurar.DescProProc;
+        cds_Mov_detCODPRO.AsString      := fProcurar.codProProc;
+      end;
+    finally
+      if (dm.scds_prod.Active) then
+        dm.scds_prod.Close;
+      fProcurar.Free;
+    end;
+  end;
 end;
 
 end.
