@@ -21,30 +21,6 @@ type
     pCallCenterDet: TDataSetProvider;
     cCallCenterDet: TClientDataSet;
     sCallCenterDet: TSQLDataSet;
-    sCallCenterPROTOCOLO: TStringField;
-    sCallCenterDATA_ATENDIMENTO: TSQLTimeStampField;
-    sCallCenterNOME: TStringField;
-    sCallCenterCIDADE: TStringField;
-    sCallCenterCEP: TStringField;
-    sCallCenterUF: TStringField;
-    sCallCenterTELEFONE: TStringField;
-    sCallCenterN_QUADRO: TStringField;
-    sCallCenterN_SERIE: TStringField;
-    sCallCenterMODELOBIKE: TStringField;
-    sCallCenterTIPO_ATENDIMENTO: TStringField;
-    sCallCenterSTATUS_ATENDIMENTO: TStringField;
-    cCallCenterPROTOCOLO: TStringField;
-    cCallCenterDATA_ATENDIMENTO: TSQLTimeStampField;
-    cCallCenterNOME: TStringField;
-    cCallCenterCIDADE: TStringField;
-    cCallCenterCEP: TStringField;
-    cCallCenterUF: TStringField;
-    cCallCenterTELEFONE: TStringField;
-    cCallCenterN_QUADRO: TStringField;
-    cCallCenterN_SERIE: TStringField;
-    cCallCenterMODELOBIKE: TStringField;
-    cCallCenterTIPO_ATENDIMENTO: TStringField;
-    cCallCenterSTATUS_ATENDIMENTO: TStringField;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -58,7 +34,6 @@ type
     Label11: TLabel;
     Label12: TLabel;
     Panel2: TPanel;
-    Label13: TLabel;
     Edit1: TEdit;
     JvDateEdit1: TJvDateEdit;
     edtNome: TEdit;
@@ -70,7 +45,6 @@ type
     edtSerie: TEdit;
     edtTipo: TComboBox;
     edtStatus: TComboBox;
-    edtAtendimento: TEdit;
     JvDBGrid2: TJvDBGrid;
     Image1: TImage;
     Panel3: TPanel;
@@ -80,8 +54,6 @@ type
     BitBtn1: TBitBtn;
     BitBtn5: TBitBtn;
     sBuscaProtocolo: TSQLDataSet;
-    BitBtn6: TBitBtn;
-    BitBtn7: TBitBtn;
     sCallCenterDetID: TSQLTimeStampField;
     sCallCenterDetID_USUARIO: TIntegerField;
     sCallCenterDetATENDIMENTO: TStringField;
@@ -114,7 +86,40 @@ type
     Label14: TLabel;
     Label15: TLabel;
     Label16: TLabel;
+    Panel4: TPanel;
+    Label13: TLabel;
+    edtAtendimento: TEdit;
+    BitBtn6: TBitBtn;
+    BitBtn7: TBitBtn;
+    SLDcliCODCLIENTE: TIntegerField;
+    SLDcliNOMECLIENTE: TStringField;
+    CDSCliCODCLIENTE: TIntegerField;
+    CDSCliNOMECLIENTE: TStringField;
+    sCallCenterPROTOCOLO: TStringField;
+    sCallCenterDATA_ATENDIMENTO: TSQLTimeStampField;
+    sCallCenterNOME: TStringField;
+    sCallCenterCIDADE: TStringField;
+    sCallCenterCEP: TStringField;
+    sCallCenterUF: TStringField;
+    sCallCenterTELEFONE: TStringField;
+    sCallCenterN_QUADRO: TStringField;
+    sCallCenterN_SERIE: TStringField;
+    sCallCenterMODELOBIKE: TStringField;
+    sCallCenterTIPO_ATENDIMENTO: TStringField;
+    sCallCenterSTATUS_ATENDIMENTO: TStringField;
     sCallCenterCODCLIENTE: TIntegerField;
+    cCallCenterPROTOCOLO: TStringField;
+    cCallCenterDATA_ATENDIMENTO: TSQLTimeStampField;
+    cCallCenterNOME: TStringField;
+    cCallCenterCIDADE: TStringField;
+    cCallCenterCEP: TStringField;
+    cCallCenterUF: TStringField;
+    cCallCenterTELEFONE: TStringField;
+    cCallCenterN_QUADRO: TStringField;
+    cCallCenterN_SERIE: TStringField;
+    cCallCenterMODELOBIKE: TStringField;
+    cCallCenterTIPO_ATENDIMENTO: TStringField;
+    cCallCenterSTATUS_ATENDIMENTO: TStringField;
     cCallCenterCODCLIENTE: TIntegerField;
     procedure IncluiProtocolo;
     procedure EditaProtocolo;
@@ -164,7 +169,7 @@ var
 begin
   textoSQL := 'select PROTOCOLO, DATA_ATENDIMENTO, NOME, CIDADE, CEP, UF,  ' +
        'TELEFONE, N_QUADRO, N_SERIE, MODELOBIKE, TIPO_ATENDIMENTO,  ' +
-       'STATUS_ATENDIMENTO from CALLCENTER ';
+       'STATUS_ATENDIMENTO , CODCLIENTE from CALLCENTER ';
 
     if (JvDateEdit1.Text <> '  /  /    ') then
     begin
@@ -303,7 +308,9 @@ begin
   edtTipo.Text := '';
   edtStatus.Text := '';
   edtAtendimento.Text := '';
-
+  edtCodModelo.Text := '';
+  edCliente.Text := '';
+  edCodcli.Text := '';
 end;
 
 procedure TfCallCenter.BitBtn5Click(Sender: TObject);
@@ -495,10 +502,12 @@ begin
   cCallCenterTELEFONE.AsString := edttelefone.Text;
   cCallCenterN_QUADRO.AsString := edtQuadro.Text;
   cCallCenterN_SERIE.AsString := edtSerie.Text;
-  cCallCenterMODELOBIKE.AsString := edtModelo.Text;
+
+  cCallCenterMODELOBIKE.AsString := edtCodModelo.Text;
+
   cCallCenterTIPO_ATENDIMENTO.AsString := edtTipo.Text;
   cCallCenterSTATUS_ATENDIMENTO.AsString := edtStatus.Text;
-  cCallCenterCODCLIENTE.AsInteger := edCodcli.
+  cCallCenterCODCLIENTE.AsInteger := StrToInt(edCodcli.Text);
   cCallCenter.ApplyUpdates(0);
 
   if (not cCallCenterDet.Active) then
@@ -609,7 +618,24 @@ begin
   edttelefone.Text := cCallCenterTELEFONE.AsString;
   edtQuadro.Text := cCallCenterN_QUADRO.AsString;
   edtSerie.Text := cCallCenterN_SERIE.AsString;
-  edtModelo.Text := cCallCenterMODELOBIKE.AsString;
+  edCodcli.Text := cCallCenterCODCLIENTE.AsString;
+
+  if (edCodcli.Text <> '') then
+    begin
+    CDSCli.Locate('CODCLIENTE',edCodcli.Text,[loCaseInsensitive]);
+    edCliente.Text := CDSCliNOMECLIENTE.AsString;
+  end;
+
+  edtCodModelo.Text := cCallCenterMODELOBIKE.AsString;
+
+  if (edtCodModelo.Text <> '') then
+    begin
+    CDSProd.Locate('CODPRO',edtCodModelo.Text,[loCaseInsensitive]);
+    edtModelo.Text := CDSProdPRODUTO.AsString;
+  end;
+
+
+
   if (cCallCenterSTATUS_ATENDIMENTO.AsString = 'A') then
     edtStatus.Text := 'Aberto';
   if (cCallCenterSTATUS_ATENDIMENTO.AsString = 'E') then

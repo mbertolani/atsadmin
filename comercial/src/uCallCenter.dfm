@@ -1,8 +1,8 @@
 object fCallCenter: TfCallCenter
-  Left = 244
-  Top = 115
-  Width = 790
-  Height = 624
+  Left = 246
+  Top = 58
+  Width = 817
+  Height = 637
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,10 +17,9 @@ object fCallCenter: TfCallCenter
   TextHeight = 13
   object JvDBGrid1: TJvDBGrid
     Left = 0
-    Top = 337
-    Width = 782
-    Height = 112
-    Align = alTop
+    Top = 304
+    Width = 807
+    Height = 120
     BorderStyle = bsNone
     DataSource = DataSource1
     TabOrder = 0
@@ -88,15 +87,15 @@ object fCallCenter: TfCallCenter
         Expanded = False
         FieldName = 'TIPO_ATENDIMENTO'
         Title.Caption = 'TIPO'
-        Width = 162
+        Width = 187
         Visible = True
       end>
   end
   object Panel1: TPanel
     Left = 0
     Top = 135
-    Width = 782
-    Height = 202
+    Width = 809
+    Height = 167
     Align = alTop
     BevelInner = bvLowered
     TabOrder = 1
@@ -183,13 +182,6 @@ object fCallCenter: TfCallCenter
       Width = 30
       Height = 13
       Caption = 'Status'
-    end
-    object Label13: TLabel
-      Left = 11
-      Top = 163
-      Width = 59
-      Height = 13
-      Caption = 'Atendimento'
     end
     object Label14: TLabel
       Left = 11
@@ -365,31 +357,6 @@ object fCallCenter: TfCallCenter
         'Reclama'#231#227'o'
         'Reembolso')
     end
-    object edtAtendimento: TEdit
-      Left = 9
-      Top = 178
-      Width = 592
-      Height = 21
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 10
-      OnKeyPress = FormKeyPress
-    end
-    object BitBtn6: TBitBtn
-      Left = 604
-      Top = 175
-      Width = 77
-      Height = 25
-      Caption = 'Novo Atend.'
-      TabOrder = 11
-      OnClick = BitBtn6Click
-    end
     object edtStatus: TComboBox
       Left = 680
       Top = 104
@@ -397,21 +364,12 @@ object fCallCenter: TfCallCenter
       Height = 21
       BevelKind = bkFlat
       ItemHeight = 13
-      TabOrder = 12
+      TabOrder = 10
       OnKeyPress = FormKeyPress
       Items.Strings = (
         'Aberto'
         'Em Espera'
         'Finalizado')
-    end
-    object BitBtn7: TBitBtn
-      Left = 687
-      Top = 175
-      Width = 84
-      Height = 25
-      Caption = 'Excluir Atend.'
-      TabOrder = 13
-      OnClick = BitBtn7Click
     end
     object edCliente: TJvDBSearchComboBox
       Left = 108
@@ -422,7 +380,7 @@ object fCallCenter: TfCallCenter
       DataSource = DSCli
       CharCase = ecUpperCase
       ItemHeight = 13
-      TabOrder = 14
+      TabOrder = 11
       Text = '1967-DEPOSITO BAZAR'
     end
     object edCodcli: TJvDBSearchEdit
@@ -433,7 +391,8 @@ object fCallCenter: TfCallCenter
       DataSource = DSCli
       DataField = 'CODCLIENTE'
       ClearOnEnter = False
-      TabOrder = 15
+      TabOrder = 12
+      OnKeyPress = FormKeyPress
     end
     object edtCodModelo: TJvDBSearchEdit
       Left = 136
@@ -443,7 +402,7 @@ object fCallCenter: TfCallCenter
       DataSource = DSProd
       DataField = 'CODPRO'
       ClearOnEnter = False
-      TabOrder = 16
+      TabOrder = 13
     end
     object edtModelo: TJvDBSearchComboBox
       Left = 206
@@ -454,7 +413,7 @@ object fCallCenter: TfCallCenter
       DataSource = DSProd
       CharCase = ecUpperCase
       ItemHeight = 13
-      TabOrder = 17
+      TabOrder = 14
       Text = '1967-DEPOSITO BAZAR'
     end
     object BitBtn8: TBitBtn
@@ -462,7 +421,7 @@ object fCallCenter: TfCallCenter
       Top = 135
       Width = 29
       Height = 29
-      TabOrder = 18
+      TabOrder = 15
       TabStop = False
       OnClick = BitBtn8Click
       Glyph.Data = {
@@ -530,7 +489,7 @@ object fCallCenter: TfCallCenter
       Top = 96
       Width = 29
       Height = 29
-      TabOrder = 19
+      TabOrder = 16
       TabStop = False
       OnClick = BitBtn9Click
       Glyph.Data = {
@@ -597,14 +556,14 @@ object fCallCenter: TfCallCenter
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 782
+    Width = 809
     Height = 135
     Align = alTop
     TabOrder = 2
     object Image1: TImage
       Left = 1
       Top = 1
-      Width = 626
+      Width = 664
       Height = 133
       Align = alClient
       Picture.Data = {
@@ -1781,9 +1740,9 @@ object fCallCenter: TfCallCenter
         FE2CE14E5FF0DF16581A8B30FF0046F7C8EC97FFD9}
     end
     object Panel3: TPanel
-      Left = 627
+      Left = 665
       Top = 1
-      Width = 154
+      Width = 143
       Height = 133
       Align = alRight
       BevelInner = bvLowered
@@ -1836,10 +1795,9 @@ object fCallCenter: TfCallCenter
   end
   object JvDBGrid2: TJvDBGrid
     Left = 0
-    Top = 449
-    Width = 782
-    Height = 148
-    Align = alClient
+    Top = 471
+    Width = 804
+    Height = 137
     BorderStyle = bsNone
     DataSource = DataSource2
     TabOrder = 3
@@ -1863,6 +1821,54 @@ object fCallCenter: TfCallCenter
         FieldName = 'ATENDIMENTO'
         Visible = True
       end>
+  end
+  object Panel4: TPanel
+    Left = 0
+    Top = 426
+    Width = 802
+    Height = 44
+    TabOrder = 4
+    object Label13: TLabel
+      Left = 7
+      Top = 2
+      Width = 59
+      Height = 13
+      Caption = 'Atendimento'
+    end
+    object edtAtendimento: TEdit
+      Left = 4
+      Top = 16
+      Width = 592
+      Height = 21
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnKeyPress = FormKeyPress
+    end
+    object BitBtn6: TBitBtn
+      Left = 607
+      Top = 13
+      Width = 77
+      Height = 25
+      Caption = 'Novo Atend.'
+      TabOrder = 1
+      OnClick = BitBtn6Click
+    end
+    object BitBtn7: TBitBtn
+      Left = 709
+      Top = 12
+      Width = 84
+      Height = 25
+      Caption = 'Excluir Atend.'
+      TabOrder = 2
+      OnClick = BitBtn7Click
+    end
   end
   object pCallCenter: TDataSetProvider
     DataSet = sCallCenter
@@ -1912,7 +1918,7 @@ object fCallCenter: TfCallCenter
     end
     object cCallCenterMODELOBIKE: TStringField
       FieldName = 'MODELOBIKE'
-      Size = 100
+      Size = 15
     end
     object cCallCenterTIPO_ATENDIMENTO: TStringField
       FieldName = 'TIPO_ATENDIMENTO'
@@ -1944,58 +1950,47 @@ object fCallCenter: TfCallCenter
     Top = 336
     object sCallCenterPROTOCOLO: TStringField
       FieldName = 'PROTOCOLO'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object sCallCenterDATA_ATENDIMENTO: TSQLTimeStampField
       FieldName = 'DATA_ATENDIMENTO'
-      ProviderFlags = [pfInUpdate]
     end
     object sCallCenterNOME: TStringField
       FieldName = 'NOME'
-      ProviderFlags = [pfInUpdate]
       Size = 100
     end
     object sCallCenterCIDADE: TStringField
       FieldName = 'CIDADE'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sCallCenterCEP: TStringField
       FieldName = 'CEP'
-      ProviderFlags = [pfInUpdate]
       Size = 10
     end
     object sCallCenterUF: TStringField
       FieldName = 'UF'
-      ProviderFlags = [pfInUpdate]
       Size = 2
     end
     object sCallCenterTELEFONE: TStringField
       FieldName = 'TELEFONE'
-      ProviderFlags = [pfInUpdate]
       Size = 15
     end
     object sCallCenterN_QUADRO: TStringField
       FieldName = 'N_QUADRO'
-      ProviderFlags = [pfInUpdate]
     end
     object sCallCenterN_SERIE: TStringField
       FieldName = 'N_SERIE'
-      ProviderFlags = [pfInUpdate]
     end
     object sCallCenterMODELOBIKE: TStringField
       FieldName = 'MODELOBIKE'
-      ProviderFlags = [pfInUpdate]
-      Size = 100
+      Size = 15
     end
     object sCallCenterTIPO_ATENDIMENTO: TStringField
       FieldName = 'TIPO_ATENDIMENTO'
-      ProviderFlags = [pfInUpdate]
       Size = 30
     end
     object sCallCenterSTATUS_ATENDIMENTO: TStringField
       FieldName = 'STATUS_ATENDIMENTO'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
@@ -2107,6 +2102,15 @@ object fCallCenter: TfCallCenter
     ProviderName = 'DSPCli'
     Left = 584
     Top = 351
+    object CDSCliCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object CDSCliNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
   end
   object DSPCli: TDataSetProvider
     DataSet = SLDcli
@@ -2122,6 +2126,15 @@ object fCallCenter: TfCallCenter
     SQLConnection = DM.sqlsisAdimin
     Left = 520
     Top = 351
+    object SLDcliCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object SLDcliNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
   end
   object SQLProd: TSQLDataSet
     CommandText = 'select CODPRO, PRODUTO from PRODUTOS where FAMILIA = '#39'BICICLETA'#39
