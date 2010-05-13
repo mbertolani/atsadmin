@@ -5,6 +5,7 @@ CREATE OR ALTER PROCEDURE REL_VENDAMATPRIMA(
 RETURNS (
     CODPRODUTO Varchar(15),
     PRODUTO Varchar(300),
+    CODREF Varchar(15),
     GRUPO Varchar(30),
     QTDEVENDA Double precision,
     VLRUNITVENDA Double precision,
@@ -39,7 +40,8 @@ BEGIN
   for Select p.CodPro, p.Produto, p.CodProduto, p.estoqueAtual, p.familia,
     p.VALORUNITARIOATUAL, p.tipo from produtos p 
     into :codProduto, :Produto, :codPro, :QtdeEstoque, :grupo, :custoProd, :tipoProd
-  do begin 
+  do begin
+    CODREF = CODPRODUTO; 
     if (tipoProd is null) then 
       tipoProd = 'VENDA';
     
