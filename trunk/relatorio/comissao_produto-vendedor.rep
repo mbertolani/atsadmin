@@ -1,7 +1,6 @@
 object TRpReport
   GridWidth = 58
   GridHeight = 57
-  Pagesize = rpPageSizeUser
   PageHeight = 8120
   PageWidth = 5742
   CustomPageHeight = 15874
@@ -22,16 +21,17 @@ object TRpReport
         'm(movdet.QUANTIDADE) as QUANTIDADE, movdet.PRECO,  sum(movdet.PR' +
         'ECO* movdet.QUANTIDADE) as PRECO_TOTAL , '#13#10'func.NOME_FUNCIONARIO' +
         ', func.valor_comissao, sum((movdet.PRECO* movdet.QUANTIDADE)*(fu' +
-        'nc.valor_comissao / 100)) as comissao'#13#10#13#10'from VENDA rec'#13#10'inner j' +
-        'oin movimento m on m.codmovimento = rec.codmovimento '#13#10'inner joi' +
-        'n FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUNCIONARIO'#13#10'in' +
-        'ner join MOVIMENTODETALHE movdet on movdet.codmovimento = rec.co' +
-        'dmovimento'#13#10'where m.codnatureza = 3 and  rec.DATAVENDA between :' +
-        'DATA1 and :DATA2 and ((movdet.CODPRODUTO=:prod) or (:prod = 0)) ' +
-        'and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))'#13#10'group by m.CODMOVI' +
-        'MENTO, rec.codVendedor , func.NOME_FUNCIONARIO , movdet.DESCPROD' +
-        'UTO, func.valor_comissao , movdet.PRECO'#13#10' order by  rec.CODVENDE' +
-        'DOR, movdet.DESCPRODUTO'#13#10#13#10#13#10#13#10#13#10#13#10#13#10
+        'nc.valor_comissao / 100)) as comissao, p.CODPRO'#13#10#13#10'from VENDA re' +
+        'c'#13#10'inner join movimento m on m.codmovimento = rec.codmovimento '#13 +
+        #10'inner join FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUNCI' +
+        'ONARIO'#13#10'inner join MOVIMENTODETALHE movdet on movdet.codmoviment' +
+        'o = rec.codmovimento'#13#10'inner join produtos p on p.CODPRODUTO = mo' +
+        'vdet.CODPRODUTO'#13#10'where m.codnatureza = 3 and  rec.DATAVENDA betw' +
+        'een :DATA1 and :DATA2 and ((movdet.CODPRODUTO=:prod) or (:prod =' +
+        ' 0)) and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))'#13#10'group by m.CO' +
+        'DMOVIMENTO, rec.codVendedor , func.NOME_FUNCIONARIO , movdet.DES' +
+        'CPRODUTO, func.valor_comissao , movdet.PRECO, p.CODPRO'#13#10' order b' +
+        'y  rec.CODVENDEDOR, movdet.DESCPRODUTO'#13#10#13#10#13#10#13#10#13#10#13#10#13#10
     end
     item
       Alias = 'EMPRESA'
@@ -66,7 +66,7 @@ object TRpReport
   Params = <
     item
       Name = 'PFUN'
-      Value = '2'
+      Value = '4'
       Datasets.Strings = (
         'COMISSAO')
       Description = ''
@@ -78,7 +78,7 @@ object TRpReport
     item
       Name = 'PROD'
       AllowNulls = False
-      Value = '5719'
+      Value = '0'
       Datasets.Strings = (
         'COMISSAO')
       Description = ''
@@ -101,7 +101,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 40178d
+      Value = 40543d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO')
@@ -162,6 +162,9 @@ object TRpReport
       end
       item
         Component = TRpExpression0
+      end
+      item
+        Component = TRpExpression11
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -225,30 +228,6 @@ object TRpReport
     SkipToPageExpre = ''
     BackExpression = ''
     Stream = {0000000000000000}
-  end
-  object TRpExpression4: TRpExpression
-    Width = 810
-    Height = 225
-    PosX = 5008
-    PosY = 0
-    Type1Font = poHelvetica
-    FontSize = 8
-    DataType = rpParamInteger
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'COMISSAO.QUANTIDADE'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
   end
   object TRpExpression7: TRpExpression
     Width = 465
@@ -432,9 +411,9 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpExpression2: TRpExpression
-    Width = 4590
+    Width = 4230
     Height = 225
-    PosX = 120
+    PosX = 765
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -494,6 +473,9 @@ object TRpReport
       end
       item
         Component = TRpLabel1
+      end
+      item
+        Component = TRpLabel8
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -723,19 +705,6 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpLabel2: TRpLabel
-    Width = 795
-    Height = 225
-    PosX = 120
-    PosY = 230
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Produto..:'
-  end
   object TRpLabel4: TRpLabel
     Width = 690
     Height = 225
@@ -856,6 +825,8 @@ object TRpReport
     FontSize = 8
     Alignment = 2
     DisplayFormat = ',##0.00'
+    Aggregate = rpAgGroup
+    GroupName = 'VENDEDOR'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -871,5 +842,79 @@ object TRpReport
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
+  end
+  object TRpExpression4: TRpExpression
+    Width = 810
+    Height = 225
+    PosX = 5008
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    DataType = rpParamInteger
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'COMISSAO.QUANTIDADE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression11: TRpExpression
+    Width = 750
+    Height = 225
+    PosX = 0
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    DataType = rpParamInteger
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'COMISSAO.CODPRO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel2: TRpLabel
+    Width = 795
+    Height = 225
+    PosX = 758
+    PosY = 230
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Produto..:'
+  end
+  object TRpLabel8: TRpLabel
+    Width = 795
+    Height = 225
+    PosX = 4
+    PosY = 230
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Cod..:'
   end
 end
