@@ -77,6 +77,7 @@ type
     ComboBox8: TComboBox;
     ComboBox9: TComboBox;
     Label15: TLabel;
+    BitBtn13: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -101,6 +102,7 @@ type
     procedure Edit3KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn11Click(Sender: TObject);
     procedure BitBtn12Click(Sender: TObject);
+    procedure BitBtn13Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -742,6 +744,27 @@ begin
   end;
   Rep.Execute;
 
+end;
+
+procedure TfRelVenda.BitBtn13Click(Sender: TObject);
+begin
+  try
+    Case rgProdutoGrupo.ItemIndex of
+      0: Rep.Filename := str_relatorio + 'rel_vendaCustoMP.rep';
+      1: Rep.Filename := str_relatorio + 'rel_vendaCustoMPGrupo.rep';
+    end;
+    Rep.Title := rep.Filename;
+    Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    Rep.Report.Params.ParamByName('DATA1').Value := Data1.date;
+    Rep.Report.Params.ParamByName('DATA2').Value := Data2.date;
+  except
+    on EConvertError do
+    begin
+      ShowMessage ('Data Inválida! dd/mm/aa');
+      Data1.SetFocus;
+    end;
+  end;
+  Rep.Execute;
 end;
 
 end.
