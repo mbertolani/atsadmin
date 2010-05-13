@@ -10,17 +10,17 @@ uses
 
 type
   TfClassificacaoFIscalProduto = class(TfPai_new)
-    SQLDataSet1: TSQLDataSet;
-    ClientDataSet1: TClientDataSet;
-    DataSetProvider1: TDataSetProvider;
-    ClientDataSet1COD_PROD: TIntegerField;
-    ClientDataSet1CFOP: TStringField;
-    ClientDataSet1UF: TStringField;
-    ClientDataSet1ICMS_SUBST: TFloatField;
-    ClientDataSet1ICMS_SUBST_IC: TFloatField;
-    ClientDataSet1ICMS_SUBST_IND: TFloatField;
-    ClientDataSet1ICMS: TFloatField;
-    ClientDataSet1ICMS_BASE: TFloatField;
+    sdsClassFisc: TSQLDataSet;
+    cdsClassFisc: TClientDataSet;
+    dspClassFisc: TDataSetProvider;
+    cdsClassFiscCOD_PROD: TIntegerField;
+    cdsClassFiscCFOP: TStringField;
+    cdsClassFiscUF: TStringField;
+    cdsClassFiscICMS_SUBST: TFloatField;
+    cdsClassFiscICMS_SUBST_IC: TFloatField;
+    cdsClassFiscICMS_SUBST_IND: TFloatField;
+    cdsClassFiscICMS: TFloatField;
+    cdsClassFiscICMS_BASE: TFloatField;
     Label1: TLabel;
     DBEdit1: TDBEdit;
     Label2: TLabel;
@@ -39,20 +39,20 @@ type
     DBEdit8: TDBEdit;
     DBGrid1: TDBGrid;
     Label9: TLabel;
-    SQLDataSet1COD_PROD: TIntegerField;
-    SQLDataSet1CFOP: TStringField;
-    SQLDataSet1UF: TStringField;
-    SQLDataSet1ICMS_SUBST: TFloatField;
-    SQLDataSet1ICMS_SUBST_IC: TFloatField;
-    SQLDataSet1ICMS_SUBST_IND: TFloatField;
-    SQLDataSet1ICMS: TFloatField;
-    SQLDataSet1ICMS_BASE: TFloatField;
-    SQLDataSet1CODPRO: TStringField;
-    ClientDataSet1CODPRO: TStringField;
+    sdsClassFiscCOD_PROD: TIntegerField;
+    sdsClassFiscCFOP: TStringField;
+    sdsClassFiscUF: TStringField;
+    sdsClassFiscICMS_SUBST: TFloatField;
+    sdsClassFiscICMS_SUBST_IC: TFloatField;
+    sdsClassFiscICMS_SUBST_IND: TFloatField;
+    sdsClassFiscICMS: TFloatField;
+    sdsClassFiscICMS_BASE: TFloatField;
+    sdsClassFiscCODPRO: TStringField;
+    cdsClassFiscCODPRO: TStringField;
     DBEdit9: TDBEdit;
     Label10: TLabel;
-    SQLDataSet1CST: TStringField;
-    ClientDataSet1CST: TStringField;
+    sdsClassFiscCST: TStringField;
+    cdsClassFiscCST: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -83,72 +83,77 @@ uses UDm, sCtrlResize;
 procedure TfClassificacaoFIscalProduto.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  ClientDataSet1COD_PROD.AsInteger := cfcodprod;
-  ClientDataSet1CODPRO.AsString := cfcodproduto;
+  cdsClassFiscCOD_PROD.AsInteger := cfcodprod;
+  cdsClassFiscCODPRO.AsString := cfcodproduto;
   DBEdit2.SetFocus;
 end;
 
 procedure TfClassificacaoFIscalProduto.FormShow(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fClassificacaoFIscalProduto));
-  if(ClientDataSet1.Active) then
-    ClientDataSet1.Close;
-  ClientDataSet1.Params.ParamByName('pcodpro').AsInteger := cfcodprod;
-  ClientDataSet1.open;
-  uf   := ClientDataSet1UF.AsString;
-  cfop := ClientDataSet1CFOP.AsString;
+  if(cdsClassFisc.Active) then
+    cdsClassFisc.Close;
+  cdsClassFisc.Params.ParamByName('pcodpro').AsInteger := cfcodprod;
+  cdsClassFisc.open;
+  uf   := cdsClassFiscUF.AsString;
+  cfop := cdsClassFiscCFOP.AsString;
 end;
 
 procedure TfClassificacaoFIscalProduto.btnGravarClick(Sender: TObject);
 var str:string;
 begin
-  inherited;
   DecimalSeparator := '.';
+  if (cdsClassFisc.State in [dsEdit]) then
+  Begin
   str := 'Update ClassificacaoFiscalProduto set CFOP = ';
-  str := str + QuotedStr(ClientDataSet1CFOP.AsString);
-  str := str + ', UF = ' + QuotedStr(ClientDataSet1UF.AsString);
-  str := str + ', ICMS_SUBST = ' + FloatToStr(ClientDataSet1ICMS_SUBST.AsFloat);
-  str := str + ', ICMS_SUBST_IC = ' + FloatToStr(ClientDataSet1ICMS_SUBST_IC.AsFloat);
-  str := str + ', ICMS_SUBST_IND = ' + FloatToStr(ClientDataSet1ICMS_SUBST_IND.AsFloat);
-  str := str + ', ICMS = ' + FloatToStr(ClientDataSet1ICMS.AsFloat);
-  str := str + ', ICMS_BASE = ' + FloatToStr(ClientDataSet1ICMS_BASE.AsFloat);
-  str := str + ', CST = ' + QuotedStr(ClientDataSet1CST.AsString);
-  str := str + ' WHERE COD_PROD = ' + IntToStr(ClientDataSet1COD_PROD.AsInteger);
+  str := str + QuotedStr(cdsClassFiscCFOP.AsString);
+  str := str + ', UF = ' + QuotedStr(cdsClassFiscUF.AsString);
+  str := str + ', ICMS_SUBST = ' + FloatToStr(cdsClassFiscICMS_SUBST.AsFloat);
+  str := str + ', ICMS_SUBST_IC = ' + FloatToStr(cdsClassFiscICMS_SUBST_IC.AsFloat);
+  str := str + ', ICMS_SUBST_IND = ' + FloatToStr(cdsClassFiscICMS_SUBST_IND.AsFloat);
+  str := str + ', ICMS = ' + FloatToStr(cdsClassFiscICMS.AsFloat);
+  str := str + ', ICMS_BASE = ' + FloatToStr(cdsClassFiscICMS_BASE.AsFloat);
+  str := str + ', CST = ' + QuotedStr(cdsClassFiscCST.AsString);
+  str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
   str := str + ' AND CFOP = ' + QuotedStr(CFOP);
   str := str + ' AND UF = ' + QuotedStr(UF);
   dm.sqlsisAdimin.ExecuteDirect(str);
   DecimalSeparator := ',';
+  inherited;
+  end
+  else
+    inherited;
 end;
 
 procedure TfClassificacaoFIscalProduto.DBGrid1CellClick(Column: TColumn);
 begin
   inherited;
-  uf   := ClientDataSet1UF.AsString;
-  cfop := ClientDataSet1CFOP.AsString;
+  uf   := cdsClassFiscUF.AsString;
+  cfop := cdsClassFiscCFOP.AsString;
 end;
 
 procedure TfClassificacaoFIscalProduto.DBGrid1KeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  uf   := ClientDataSet1UF.AsString;
-  cfop := ClientDataSet1CFOP.AsString;
+  uf   := cdsClassFiscUF.AsString;
+  cfop := cdsClassFiscCFOP.AsString;
 end;
 
 procedure TfClassificacaoFIscalProduto.DBGrid1KeyPress(Sender: TObject;
   var Key: Char);
 begin
   inherited;
-  uf   := ClientDataSet1UF.AsString;
-  cfop := ClientDataSet1CFOP.AsString;
+  uf   := cdsClassFiscUF.AsString;
+  cfop := cdsClassFiscCFOP.AsString;
 end;
 
 procedure TfClassificacaoFIscalProduto.DBGrid1KeyUp(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   inherited;
-  uf   := ClientDataSet1UF.AsString;
-  cfop := ClientDataSet1CFOP.AsString;
+  uf   := cdsClassFiscUF.AsString;
+  cfop := cdsClassFiscCFOP.AsString;
 end;
 
 procedure TfClassificacaoFIscalProduto.btnExcluirClick(Sender: TObject);
@@ -156,7 +161,7 @@ var str: string;
 begin
   inherited;
   str := 'DELETE FROM ClassificacaoFiscalProduto ';
-  str := str + ' WHERE COD_PROD = ' + IntToStr(ClientDataSet1COD_PROD.AsInteger);
+  str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
   str := str + ' AND CFOP = ' + QuotedStr(CFOP);
   str := str + ' AND UF = ' + QuotedStr(UF);
   dm.sqlsisAdimin.ExecuteDirect(str);  
