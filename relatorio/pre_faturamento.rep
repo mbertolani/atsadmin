@@ -1,7 +1,6 @@
 object TRpReport
   GridWidth = 50
   GridHeight = 50
-  Pagesize = rpPageSizeCustom
   PageHeight = 8120
   PageWidth = 5742
   PageBackColor = 16777215
@@ -65,7 +64,7 @@ object TRpReport
     item
       Name = 'DTAINI'
       AllowNulls = False
-      Value = 40035d
+      Value = 40269d
       ParamType = rpParamDate
       Datasets.Strings = (
         'CALC_ESTOQUE')
@@ -78,7 +77,7 @@ object TRpReport
     item
       Name = 'DTAFIM'
       AllowNulls = False
-      Value = 40210d
+      Value = 40299d
       ParamType = rpParamDate
       Datasets.Strings = (
         'CALC_ESTOQUE')
@@ -108,7 +107,7 @@ object TRpReport
   end
   object TRpSection0: TRpSection
     Width = 10772
-    Height = 315
+    Height = 240
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -492,7 +491,7 @@ object TRpReport
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = '#.##0,00'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -504,7 +503,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'CALC_ESTOQUE.QNT'
-    DisplayFormat = ',##0.00'
+    DisplayFormat = '#.##0,00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -517,7 +516,7 @@ object TRpReport
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = '#.##0,00'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -529,7 +528,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'CALC_ESTOQUE.ESTOQUE'
-    DisplayFormat = ',##0.00'
+    DisplayFormat = '#.##0,00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -584,7 +583,7 @@ object TRpReport
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = '#.##0,00'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -596,7 +595,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'CALC_ESTOQUE.SALDO'
-    DisplayFormat = ',##0.00'
+    DisplayFormat = '#.##0,00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
