@@ -53,7 +53,7 @@ object TRpReport
     item
       Name = 'DTAINI'
       AllowNulls = False
-      Value = 39661d
+      Value = 40179d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS')
@@ -66,7 +66,7 @@ object TRpReport
     item
       Name = 'DTAFIM'
       AllowNulls = False
-      Value = 40178d
+      Value = 40238d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS')
@@ -259,7 +259,7 @@ object TRpReport
   object TRpLabel2: TRpLabel
     Width = 998
     Height = 250
-    PosX = 9750
+    PosX = 9100
     PosY = 850
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -267,7 +267,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'C.Cont'#225'bil'
+    WideText = 'Titulo'
   end
   object TRpSection2: TRpSection
     Width = 10772
@@ -371,7 +371,7 @@ object TRpReport
     Stream = {0000000000000000}
   end
   object TRpLabel6: TRpLabel
-    Width = 1035
+    Width = 10772
     Height = 195
     PosX = 0
     PosY = 706
@@ -389,7 +389,7 @@ object TRpReport
   object TRpLabel7: TRpLabel
     Width = 595
     Height = 211
-    PosX = 8995
+    PosX = 8545
     PosY = 850
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -400,10 +400,10 @@ object TRpReport
     WideText = 'Valor'
   end
   object TRpLabel4: TRpLabel
-    Width = 1035
-    Height = 195
+    Width = 10772
+    Height = 369
     PosX = 0
-    PosY = 995
+    PosY = 945
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -429,9 +429,9 @@ object TRpReport
     WideText = 'Fornecedor'
   end
   object TRpLabel14: TRpLabel
-    Width = 1190
+    Width = 680
     Height = 211
-    PosX = 5453
+    PosX = 5303
     PosY = 848
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -465,9 +465,9 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression2: TRpExpression
-    Width = 4095
-    Height = 165
-    PosX = 1155
+    Width = 3840
+    Height = 170
+    PosX = 1160
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -489,9 +489,9 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression9: TRpExpression
-    Width = 3405
-    Height = 195
-    PosX = 5400
+    Width = 3045
+    Height = 165
+    PosX = 5100
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -515,7 +515,7 @@ object TRpReport
   object TRpExpression11: TRpExpression
     Width = 900
     Height = 195
-    PosX = 9795
+    PosX = 9145
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -664,7 +664,7 @@ object TRpReport
   object TRpExpression10: TRpExpression
     Width = 900
     Height = 195
-    PosX = 8805
+    PosX = 8155
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -800,7 +800,7 @@ object TRpReport
   object TRpExpression8: TRpExpression
     Width = 900
     Height = 255
-    PosX = 8805
+    PosX = 8155
     PosY = 45
     Type1Font = poHelvetica
     FontSize = 8
@@ -827,7 +827,7 @@ object TRpReport
   object TRpExpression12: TRpExpression
     Width = 900
     Height = 255
-    PosX = 8805
+    PosX = 8155
     PosY = 45
     Type1Font = poHelvetica
     FontSize = 8
@@ -852,9 +852,9 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpLabel5: TRpLabel
-    Width = 1245
+    Width = 1005
     Height = 255
-    PosX = 7500
+    PosX = 7300
     PosY = 45
     Type1Font = poHelvetica
     FontSize = 8
@@ -866,9 +866,9 @@ object TRpReport
     WideText = 'Total ->'
   end
   object TRpLabel11: TRpLabel
-    Width = 1245
+    Width = 1005
     Height = 255
-    PosX = 7500
+    PosX = 7300
     PosY = 45
     Type1Font = poHelvetica
     FontSize = 8
