@@ -273,9 +273,9 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     TabOrder = 8
   end
   inherited DtSrc: TDataSource
-    DataSet = ClientDataSet1
+    DataSet = cdsClassFisc
   end
-  object SQLDataSet1: TSQLDataSet
+  object sdsClassFisc: TSQLDataSet
     CommandText = 
       'select cfp.*, p.codpro from CLASSIFICACAOFISCALPRODUTO cfp'#13#10'inne' +
       'r join PRODUTOS p on p.codproduto = cfp.COD_PROD where cfp.cod_p' +
@@ -290,48 +290,48 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     SQLConnection = DM.sqlsisAdimin
     Left = 440
     Top = 8
-    object SQLDataSet1COD_PROD: TIntegerField
+    object sdsClassFiscCOD_PROD: TIntegerField
       FieldName = 'COD_PROD'
       Required = True
     end
-    object SQLDataSet1CFOP: TStringField
+    object sdsClassFiscCFOP: TStringField
       FieldName = 'CFOP'
       Required = True
       Size = 30
     end
-    object SQLDataSet1UF: TStringField
+    object sdsClassFiscUF: TStringField
       FieldName = 'UF'
       Required = True
       FixedChar = True
       Size = 2
     end
-    object SQLDataSet1ICMS_SUBST: TFloatField
+    object sdsClassFiscICMS_SUBST: TFloatField
       FieldName = 'ICMS_SUBST'
     end
-    object SQLDataSet1ICMS_SUBST_IC: TFloatField
+    object sdsClassFiscICMS_SUBST_IC: TFloatField
       FieldName = 'ICMS_SUBST_IC'
     end
-    object SQLDataSet1ICMS_SUBST_IND: TFloatField
+    object sdsClassFiscICMS_SUBST_IND: TFloatField
       FieldName = 'ICMS_SUBST_IND'
     end
-    object SQLDataSet1ICMS: TFloatField
+    object sdsClassFiscICMS: TFloatField
       FieldName = 'ICMS'
     end
-    object SQLDataSet1ICMS_BASE: TFloatField
+    object sdsClassFiscICMS_BASE: TFloatField
       FieldName = 'ICMS_BASE'
     end
-    object SQLDataSet1CODPRO: TStringField
+    object sdsClassFiscCODPRO: TStringField
       FieldName = 'CODPRO'
       ProviderFlags = [pfInWhere]
       Size = 15
     end
-    object SQLDataSet1CST: TStringField
+    object sdsClassFiscCST: TStringField
       FieldName = 'CST'
       FixedChar = True
       Size = 3
     end
   end
-  object ClientDataSet1: TClientDataSet
+  object cdsClassFisc: TClientDataSet
     Aggregates = <>
     Params = <
       item
@@ -339,51 +339,51 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
         Name = 'pcodpro'
         ParamType = ptInput
       end>
-    ProviderName = 'DataSetProvider1'
+    ProviderName = 'dspClassFisc'
     Left = 512
     Top = 8
-    object ClientDataSet1COD_PROD: TIntegerField
+    object cdsClassFiscCOD_PROD: TIntegerField
       FieldName = 'COD_PROD'
       Required = True
     end
-    object ClientDataSet1CFOP: TStringField
+    object cdsClassFiscCFOP: TStringField
       FieldName = 'CFOP'
       Required = True
       Size = 30
     end
-    object ClientDataSet1UF: TStringField
+    object cdsClassFiscUF: TStringField
       FieldName = 'UF'
       Required = True
       FixedChar = True
       Size = 2
     end
-    object ClientDataSet1ICMS_SUBST: TFloatField
+    object cdsClassFiscICMS_SUBST: TFloatField
       FieldName = 'ICMS_SUBST'
     end
-    object ClientDataSet1ICMS_SUBST_IC: TFloatField
+    object cdsClassFiscICMS_SUBST_IC: TFloatField
       FieldName = 'ICMS_SUBST_IC'
     end
-    object ClientDataSet1ICMS_SUBST_IND: TFloatField
+    object cdsClassFiscICMS_SUBST_IND: TFloatField
       FieldName = 'ICMS_SUBST_IND'
     end
-    object ClientDataSet1ICMS: TFloatField
+    object cdsClassFiscICMS: TFloatField
       FieldName = 'ICMS'
     end
-    object ClientDataSet1ICMS_BASE: TFloatField
+    object cdsClassFiscICMS_BASE: TFloatField
       FieldName = 'ICMS_BASE'
     end
-    object ClientDataSet1CODPRO: TStringField
+    object cdsClassFiscCODPRO: TStringField
       FieldName = 'CODPRO'
       Size = 15
     end
-    object ClientDataSet1CST: TStringField
+    object cdsClassFiscCST: TStringField
       FieldName = 'CST'
       FixedChar = True
       Size = 3
     end
   end
-  object DataSetProvider1: TDataSetProvider
-    DataSet = SQLDataSet1
+  object dspClassFisc: TDataSetProvider
+    DataSet = sdsClassFisc
     Left = 480
     Top = 8
   end
