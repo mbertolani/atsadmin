@@ -681,6 +681,14 @@ begin
       mudaVersao('1.0.0.67');
     end;  // Fim Ataulização Versao 1.0.0.67
 
+    if (versaoSistema = '1.0.0.67') then
+    begin
+      executaSql('alter TABLE ESTADO_ICMS add PESSOA Varchar(8)');
+      executaSql('alter TABLE ESTADO_ICMS add PIS Double Precision');
+      executaSql('alter TABLE ESTADO_ICMS add COFINS Double Precision');
+      mudaVersao('1.0.0.68');
+    end;  // Fim Ataulização Versao 1.0.0.68
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));

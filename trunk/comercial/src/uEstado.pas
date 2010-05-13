@@ -55,6 +55,18 @@ type
     cds_estadoCST: TStringField;
     sdsCODESTADO: TIntegerField;
     cds_estadoCODESTADO: TIntegerField;
+    ComboBox1: TComboBox;
+    Label5: TLabel;
+    sdsPESSOA: TStringField;
+    cds_estadoPESSOA: TStringField;
+    DBEdit10: TDBEdit;
+    DBEdit11: TDBEdit;
+    Label9: TLabel;
+    Label14: TLabel;
+    sdsPIS: TFloatField;
+    sdsCOFINS: TFloatField;
+    cds_estadoPIS: TFloatField;
+    cds_estadoCOFINS: TFloatField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -67,6 +79,8 @@ type
       var Action: TDataAction);
     procedure btnGravarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -96,15 +110,17 @@ end;
 procedure TfEstado.btnIncluirClick(Sender: TObject);
 begin
   inherited;
+  Combobox1.ItemIndex := 1;
   DBEdit1.SetFocus;
 end;
 
 procedure TfEstado.FormShow(Sender: TObject);
 begin
   inherited;
-  sCtrlResize.CtrlResize(TForm(fEstado));
+  //sCtrlResize.CtrlResize(TForm(fEstado));
   if not cds_estado.Active then
     cds_estado.Open;
+  ComboBox1.Text := cds_estadoPESSOA.AsString;
 end;
 
 procedure TfEstado.FormCreate(Sender: TObject);
@@ -146,6 +162,18 @@ end;
 procedure TfEstado.btnGravarClick(Sender: TObject);
 var str: string;
 begin
+  if (cds_estado.State in [dsInsert]) then
+  begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENESTADO_ICMS, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cds_estadoCODESTADO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+  end;
+  cds_estadoPESSOA.AsString := 'J';
+  if (ComboBox1.ItemIndex = 0) then
+    cds_estadoPESSOA.AsString := 'F';
   if (cds_estado.State in [dsEdit]) then
   begin
     DecimalSeparator := '.';
@@ -159,11 +187,22 @@ begin
     str := str + ', ICMS_SUBSTRIB_IC = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IC.AsFloat);
     str := str + ', ICMS_SUBSTRIB_IND = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IND.AsFloat);
     str := str + ', CST = ' + QuotedStr(cds_estadoCST.AsString);
+    str := str + ', PESSOA = ' + QuotedStr(ComboBox1.Text);
+    str := str + ', PIS = ' + FloatToStr(cds_estadoPIS.AsFloat);
+    str := str + ', COFINS = ' + FloatToStr(cds_estadoCOFINS.AsFloat);
     str := str + ' WHERE CODESTADO = ' + IntToStr(cds_estadoCODESTADO.AsInteger);
     dm.sqlsisAdimin.ExecuteDirect(str);
     DecimalSeparator := ',';
-  end;
-  inherited;
+  end
+  else
+    inherited;
+  cds_estado.Close;
+  cds_estado.Open;
+  if (cds_estadoPESSOA.AsString = 'F') then
+    ComboBox1.Text := 'Física'
+  else
+    ComboBox1.Text := 'Jurídica';
+
 end;
 
 procedure TfEstado.btnExcluirClick(Sender: TObject);
@@ -173,6 +212,23 @@ begin
   str := 'DELETE FROM ESTADO_ICMS ';
   str := str + ' WHERE CODESTADO = ' + IntToStr(cds_estadoCODESTADO.AsInteger);
   dm.sqlsisAdimin.ExecuteDirect(str);
+end;
+
+procedure TfEstado.ComboBox1Change(Sender: TObject);
+begin
+  if (cds_estado.State in [dsBrowse]) then
+    cds_estado.Edit;
+  inherited;
+end;
+
+procedure TfEstado.DBGrid1CellClick(Column: TColumn);
+begin
+  inherited;
+  if (cds_estadoPESSOA.AsString = 'F') then
+    ComboBox1.Text := 'Física'
+  else
+    ComboBox1.Text := 'Jurídica';
+
 end;
 
 end.
