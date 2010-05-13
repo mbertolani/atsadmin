@@ -2,7 +2,8 @@ CREATE OR ALTER TRIGGER insere_vlrBase FOR MOVIMENTODETALHE
 ACTIVE BEFORE INSERT OR UPDATE POSITION 0
 AS 
 declare variable desconto DOUBLE PRECISION;
-BEGIN 
+BEGIN
+    desconto = 0;
 	if ((new.VLR_BASE is null) or (new.VLR_BASE = 0)) then
     begin
       if (new.QTDE_ALT > 0) then 
