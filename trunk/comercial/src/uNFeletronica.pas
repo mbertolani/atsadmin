@@ -600,40 +600,43 @@ begin
    if(sEmpresa.IsEmpty) then
      MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
 
-   if (tpNF.ItemIndex = 1) then
-   begin
-     if (sCliente.Active) then
-       sCliente.Close;
-     sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-     sCliente.Open;
-   end
-   else
-   begin
-    if (sFornec.Active) then
-      sFornec.Close;
-    sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-    sFornec.Open;
-   end;
-
-   if (sCFOP.Active) then
-     sCFOP.Close;
-   sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
-   if (tpNF.ItemIndex = 1) then
-    sCFOP.Params[1].AsString := sClienteUF.AsString
-   else
-    sCFOP.Params[1].AsString := sFornecUF.AsString;
-   sCFOP.Open;
-
-   if (cdsNFDTASAIDA.IsNull) then
-     dathor := cdsNFDTAEMISSAO.AsDateTime
-   else
-     dathor := cdsNFDTASAIDA.AsDateTime;
-
    cdsNF.First;
    while not cdsNF.Eof do
    begin
       if (cdsNFSELECIONOU.AsString = 'S') then
       begin
+
+         { isto estava fora do IF}
+         if (tpNF.ItemIndex = 1) then
+         begin
+           if (sCliente.Active) then
+             sCliente.Close;
+           sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+           sCliente.Open;
+         end
+         else
+         begin
+          if (sFornec.Active) then
+            sFornec.Close;
+          sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+          sFornec.Open;
+         end;
+
+         if (sCFOP.Active) then
+           sCFOP.Close;
+         sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
+         if (tpNF.ItemIndex = 1) then
+          sCFOP.Params[1].AsString := sClienteUF.AsString
+         else
+          sCFOP.Params[1].AsString := sFornecUF.AsString;
+         sCFOP.Open;
+
+         if (cdsNFDTASAIDA.IsNull) then
+           dathor := cdsNFDTAEMISSAO.AsDateTime
+         else
+           dathor := cdsNFDTASAIDA.AsDateTime;
+         {  }
+
           ACBrNFe1.NotasFiscais.Clear;
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
@@ -641,12 +644,11 @@ begin
             Ide.cUF       := 35;                              // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := sCFOPCFNOME.AsString;
-            //Verifica tipo de Pagamento
+                        //Verifica tipo de Pagamento
             if (cdsNFVALOR_PAGAR.AsFloat = cdsNFENTRADA.AsFloat) then
               Ide.indPag    := ipVista
             else
               Ide.indPag    := ipPrazo;
-
             //pesquisa pagamento
             if ( (cdsNFFATURA.AsString <> Null) and (cdsNFFATURA.AsString <> '') ) then
             begin
@@ -663,15 +665,20 @@ begin
             c := 0;
             while not cdsFatura.eof do
             begin
-              Cobr.Dup.Add;
-              Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
-              Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
-              Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
-              Inc ( c );
+              if (cdsFaturaVALOR.AsFloat > 0) then
+              begin
+                Cobr.Dup.Add;
+                Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
+                Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
+                Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
+                Inc ( c );
+              end;
               cdsFatura.next;
             end;
-
+            if (c = 0) then
+              Ide.indPag    := ipOutras;
             end;
+            
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
             Ide.serie     := 1;
@@ -1461,40 +1468,42 @@ begin
    if(sEmpresa.IsEmpty) then
      MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
 
-   if (tpNF.ItemIndex = 1) then
-   begin
-     if (sCliente.Active) then
-       sCliente.Close;
-     sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-     sCliente.Open;
-   end
-   else
-   begin
-    if (sFornec.Active) then
-      sFornec.Close;
-    sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-    sFornec.Open;
-   end;
-
-   if (sCFOP.Active) then
-     sCFOP.Close;
-   sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
-   if (tpNF.ItemIndex = 1) then
-    sCFOP.Params[1].AsString := sClienteUF.AsString
-   else
-    sCFOP.Params[1].AsString := sFornecUF.AsString;
-   sCFOP.Open;
-
-   if (cdsNFDTASAIDA.IsNull) then
-     dathor := cdsNFDTAEMISSAO.AsDateTime
-   else
-     dathor := cdsNFDTASAIDA.AsDateTime;
-
    cdsNF.First;
    while not cdsNF.Eof do
    begin
       if (cdsNFSELECIONOU.AsString = 'S') then
       begin
+        { Isto estava fora do IF }
+         if (tpNF.ItemIndex = 1) then
+         begin
+           if (sCliente.Active) then
+             sCliente.Close;
+           sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+           sCliente.Open;
+         end
+         else
+         begin
+          if (sFornec.Active) then
+            sFornec.Close;
+          sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+          sFornec.Open;
+         end;
+
+         if (sCFOP.Active) then
+           sCFOP.Close;
+         sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
+         if (tpNF.ItemIndex = 1) then
+          sCFOP.Params[1].AsString := sClienteUF.AsString
+         else
+          sCFOP.Params[1].AsString := sFornecUF.AsString;
+         sCFOP.Open;
+
+         if (cdsNFDTASAIDA.IsNull) then
+           dathor := cdsNFDTAEMISSAO.AsDateTime
+         else
+           dathor := cdsNFDTASAIDA.AsDateTime;
+        {}
+
           ACBrNFe1.NotasFiscais.Clear;
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
@@ -1507,7 +1516,6 @@ begin
               Ide.indPag    := ipVista
             else
               Ide.indPag    := ipPrazo;
-
             //pesquisa pagamento
             if ( (cdsNFFATURA.AsString <> Null) and (cdsNFFATURA.AsString <> '') ) then
             begin
@@ -1524,15 +1532,20 @@ begin
             c := 0;
             while not cdsFatura.eof do
             begin
-              Cobr.Dup.Add;
-              Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
-              Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
-              Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
-              Inc ( c );
+              if (cdsFaturaVALOR.AsFloat > 0) then
+              begin
+                Cobr.Dup.Add;
+                Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
+                Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
+                Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
+                Inc ( c );
+              end;
               cdsFatura.next;
             end;
-
+            if (c = 0) then
+              Ide.indPag    := ipOutras;
             end;
+
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
             Ide.serie     := 1;
