@@ -214,6 +214,7 @@ type
     OrdemdeProduo1: TMenuItem;
     ApontarProduo1: TMenuItem;
     CallCenter1: TMenuItem;
+    ipoAtendimento1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -308,6 +309,7 @@ type
     procedure OrdemdeProduo1Click(Sender: TObject);
     procedure ApontarProduo1Click(Sender: TObject);
     procedure CallCenter1Click(Sender: TObject);
+    procedure ipoAtendimento1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -345,7 +347,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
-  uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter;
+  uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo;
 
 {$R *.dfm}
 
@@ -1615,6 +1617,20 @@ begin
 	finally
 		fCallCenter.Free;
 	end;
+end;
+
+procedure TfAtsAdmin.ipoAtendimento1Click(Sender: TObject);
+begin
+  fCombo:=TfCombo.Create(Application);
+  fCombo.Label1.Caption := 'TIPO ATENDIMENTO';
+  fCombo.Label2.Caption := 'TIPO ATENDIMENTO';
+  fCombo.DBRadioGroup1.Visible := false;  
+  try
+   fCombo.ShowModal;
+ finally
+   fCombo.Free;
+  end;
+
 end;
 
 end.

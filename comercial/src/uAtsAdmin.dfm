@@ -2225,6 +2225,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Cidades IBGE'
         OnClick = CidadesIBGE1Click
       end
+      object ipoAtendimento1: TMenuItem
+        Caption = 'Tipo Atendimento'
+        OnClick = ipoAtendimento1Click
+      end
     end
     object Lanamentos1: TMenuItem
       Caption = '&Lan'#231'amentos     '
