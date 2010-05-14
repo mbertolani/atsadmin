@@ -43,7 +43,6 @@ type
     edttelefone: TEdit;
     edtQuadro: TEdit;
     edtSerie: TEdit;
-    edtTipo: TComboBox;
     edtStatus: TComboBox;
     JvDBGrid2: TJvDBGrid;
     Image1: TImage;
@@ -121,6 +120,16 @@ type
     cCallCenterTIPO_ATENDIMENTO: TStringField;
     cCallCenterSTATUS_ATENDIMENTO: TStringField;
     cCallCenterCODCLIENTE: TIntegerField;
+    edtTipo: TJvDBSearchComboBox;
+    CDSc: TClientDataSet;
+    DStPc: TDataSetProvider;
+    DSc: TDataSource;
+    SQLDc: TSQLDataSet;
+    SQLDcCODDADOS: TIntegerField;
+    SQLDcDESCRICAO: TStringField;
+    SQLDcUSO: TStringField;
+    SQLDcCODIGOS: TStringField;
+    SQLDcOUTROS: TStringField;
     procedure IncluiProtocolo;
     procedure EditaProtocolo;
     procedure LimpaEdit;
@@ -596,6 +605,9 @@ begin
     CDSCli.Open;
   if (not CDSProd.Active) then
     CDSProd.Open;
+
+ if (not CDSc.Active) then
+    CDSc.Open;
 
   edCodcli.Text := '';
   edCliente.Text := '';
