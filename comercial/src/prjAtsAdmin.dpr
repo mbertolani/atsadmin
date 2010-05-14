@@ -189,7 +189,8 @@ uses
   uCallCenter in 'uCallCenter.pas' {fCallCenter},
   uNotafc in 'uNotafc.pas' {fNotafc},
   uNFeInutilizar in 'uNFeInutilizar.pas' {fNFeInutilizar},
-  uPrazo in 'uPrazo.pas' {fPrazo};
+  uPrazo in 'uPrazo.pas' {fPrazo},
+  uCombo in 'uCombo.pas' {fCombo};
 
 {$R *.res}
 
@@ -217,9 +218,10 @@ begin
   Application.CreateForm(TfRel_Guia, fRel_Guia);
   Application.CreateForm(TfPai, fPai);
   Application.CreateForm(TfGeraAumento, fGeraAumento);
-  Application.CreateForm(TfOf, fOf); 
+  Application.CreateForm(TfOf, fOf);
   Application.CreateForm(TfCallCenter, fCallCenter);
   Application.CreateForm(TfPrazo, fPrazo);
+  Application.CreateForm(TfCombo, fCombo);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   Application.CreateForm(TfPfaturamento, fPfaturamento);
