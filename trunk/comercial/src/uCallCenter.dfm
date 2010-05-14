@@ -177,8 +177,8 @@ object fCallCenter: TfCallCenter
       Caption = 'Tipo de Atendimento'
     end
     object Label12: TLabel
-      Left = 678
-      Top = 88
+      Left = 672
+      Top = 128
       Width = 30
       Height = 13
       Caption = 'Status'
@@ -234,7 +234,7 @@ object fCallCenter: TfCallCenter
     object edtNome: TEdit
       Left = 322
       Top = 24
-      Width = 445
+      Width = 455
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -314,7 +314,7 @@ object fCallCenter: TfCallCenter
     object edtQuadro: TEdit
       Left = 507
       Top = 64
-      Width = 260
+      Width = 272
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -343,28 +343,14 @@ object fCallCenter: TfCallCenter
       TabOrder = 8
       OnKeyPress = FormKeyPress
     end
-    object edtTipo: TComboBox
-      Left = 536
-      Top = 104
-      Width = 141
-      Height = 21
-      BevelKind = bkFlat
-      ItemHeight = 13
-      TabOrder = 9
-      OnKeyPress = FormKeyPress
-      Items.Strings = (
-        'Montegem'
-        'Reclama'#231#227'o'
-        'Reembolso')
-    end
     object edtStatus: TComboBox
-      Left = 680
-      Top = 104
-      Width = 87
+      Left = 671
+      Top = 141
+      Width = 108
       Height = 21
       BevelKind = bkFlat
       ItemHeight = 13
-      TabOrder = 10
+      TabOrder = 14
       OnKeyPress = FormKeyPress
       Items.Strings = (
         'Aberto'
@@ -374,14 +360,15 @@ object fCallCenter: TfCallCenter
     object edCliente: TJvDBSearchComboBox
       Left = 108
       Top = 140
-      Width = 613
+      Width = 493
       Height = 21
       DataField = 'NOMECLIENTE'
       DataSource = DSCli
       CharCase = ecUpperCase
       ItemHeight = 13
-      TabOrder = 11
+      TabOrder = 13
       Text = '1967-DEPOSITO BAZAR'
+      OnKeyPress = FormKeyPress
     end
     object edCodcli: TJvDBSearchEdit
       Left = 11
@@ -402,7 +389,8 @@ object fCallCenter: TfCallCenter
       DataSource = DSProd
       DataField = 'CODPRO'
       ClearOnEnter = False
-      TabOrder = 13
+      TabOrder = 9
+      OnKeyPress = FormKeyPress
     end
     object edtModelo: TJvDBSearchComboBox
       Left = 206
@@ -413,11 +401,12 @@ object fCallCenter: TfCallCenter
       DataSource = DSProd
       CharCase = ecUpperCase
       ItemHeight = 13
-      TabOrder = 14
+      TabOrder = 10
       Text = '1967-DEPOSITO BAZAR'
+      OnKeyPress = FormKeyPress
     end
     object BitBtn8: TBitBtn
-      Left = 736
+      Left = 616
       Top = 135
       Width = 29
       Height = 29
@@ -551,6 +540,19 @@ object fCallCenter: TfCallCenter
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         0000}
+    end
+    object edtTipo: TJvDBSearchComboBox
+      Left = 539
+      Top = 104
+      Width = 242
+      Height = 21
+      DataField = 'DESCRICAO'
+      DataSource = DSc
+      CharCase = ecUpperCase
+      ItemHeight = 13
+      TabOrder = 11
+      Text = 'AVISO'
+      OnKeyPress = FormKeyPress
     end
   end
   object Panel2: TPanel
@@ -2175,8 +2177,54 @@ object fCallCenter: TfCallCenter
     end
   end
   object DSProd: TDataSource
-    DataSet = CDSProd
     Left = 368
     Top = 199
+  end
+  object CDSc: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DStPc'
+    Left = 680
+    Top = 183
+  end
+  object DStPc: TDataSetProvider
+    DataSet = SQLDc
+    Left = 640
+    Top = 183
+  end
+  object DSc: TDataSource
+    DataSet = CDSc
+    Left = 728
+    Top = 183
+  end
+  object SQLDc: TSQLDataSet
+    CommandText = 
+      'select * from DADOS_COMBOS where uso = '#39'TIPO ATENDIMENTO'#39' ORDer ' +
+      'by descricao'#13#10
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 600
+    Top = 183
+    object SQLDcCODDADOS: TIntegerField
+      FieldName = 'CODDADOS'
+      Required = True
+    end
+    object SQLDcDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 80
+    end
+    object SQLDcUSO: TStringField
+      FieldName = 'USO'
+      Size = 30
+    end
+    object SQLDcCODIGOS: TStringField
+      FieldName = 'CODIGOS'
+      Size = 50
+    end
+    object SQLDcOUTROS: TStringField
+      FieldName = 'OUTROS'
+      Size = 30
+    end
   end
 end
