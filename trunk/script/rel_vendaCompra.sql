@@ -1,25 +1,28 @@
-CREATE OR ALTER PROCEDURE  REL_VENDACOMPRA( PDTA1                            DATE
-                                , PDTA2                            DATE )
-RETURNS ( CODPRODUTO                       VARCHAR( 15 )
-        , PRODUTO                          VARCHAR( 300 )
-        , GRUPO                            VARCHAR( 30 )
-        , QTDEVENDA                        DOUBLE PRECISION
-        , VLRUNITVENDA                     DOUBLE PRECISION
-        , VLRTOTALVENDA                    DOUBLE PRECISION
-        , QTDECOMPRA                       DOUBLE PRECISION
-        , VLRUNITCOMPRA                    DOUBLE PRECISION
-        , VLRTOTALCOMPRA                   DOUBLE PRECISION
-        , LUCROPERCENT                     DOUBLE PRECISION
-        , VLRLUCRO                         DOUBLE PRECISION
-        , VLRCUSTOUNIT                     DOUBLE PRECISION
-        , VLRCUSTOTOTAL                    DOUBLE PRECISION
-        , PERCENTPRODUTO                   DOUBLE PRECISION
-        , LUCROBRUTO                       DOUBLE PRECISION
-        , QTDEESTOQUE                      DOUBLE PRECISION
-        , QTDEPERDA                        DOUBLE PRECISION
-        , VLRPERDA                         DOUBLE PRECISION
-        , ICMSCOMPRA                       DOUBLE PRECISION
-        , ICMSVENDA                        DOUBLE PRECISION )
+SET TERM ^ ;
+ALTER PROCEDURE REL_VENDACOMPRA (
+    PDTA1 Date,
+    PDTA2 Date )
+RETURNS (
+    CODPRODUTO Varchar(15),
+    PRODUTO Varchar(300),
+    GRUPO Varchar(30),
+    QTDEVENDA Double precision,
+    VLRUNITVENDA Double precision,
+    VLRTOTALVENDA Double precision,
+    QTDECOMPRA Double precision,
+    VLRUNITCOMPRA Double precision,
+    VLRTOTALCOMPRA Double precision,
+    LUCROPERCENT Double precision,
+    VLRLUCRO Double precision,
+    VLRCUSTOUNIT Double precision,
+    VLRCUSTOTOTAL Double precision,
+    PERCENTPRODUTO Double precision,
+    LUCROBRUTO Double precision,
+    QTDEESTOQUE Double precision,
+    QTDEPERDA Double precision,
+    VLRPERDA Double precision,
+    ICMSCOMPRA Double precision,
+    ICMSVENDA Double precision )
 AS
 DECLARE VARIABLE codPro integer; 
 DECLARE VARIABLE Pro integer; 
@@ -45,19 +48,12 @@ BEGIN
     where (p.tipo <> 'SERV') or (p.TIPO is null)
     into :codProduto, :Produto, :codPro, :QtdeEstoque, :grupo, :custoProd
   do begin 
-    
-    select sum(saldoFim) from SPESTOQUEPRODUTO(:pdta2
-                                 , :pdta2
-                                 , :codPro
-                                 , :codPro
-                                 , 'TODOS OS GRUPOS CADASTRADOS'
-                                 , 'TODOS SUBGRUPOS DO CADASTRO'
-                                 , 'TODAS AS MARCAS CADASTRADAS'
-                                 , 0)
-      into :QtdeEstoque;
-
-
-     -- ICMS Valores de Venda
+     -- Busca a quantidade em estoque.    
+     select first 1 md.QTDEESTOQUE from movimento m , MOVIMENTODETALHE md where md.CODMOVIMENTO = m.CODMOVIMENTO 
+        and md.CODPRODUTO = :codpro and m.DATAMOVIMENTO between :pdta1 - 180 and :pdta2
+        order by m.DATAMOVIMENTO desc , m.CODMOVIMENTO desc
+        into :QtdeEstoque;
+     /* ICMS Valores de Venda */
     ICMSVENDA = 0;
 
     For Select m.CODPRODUTO, sum(n.VALOR_ICMS), SUM((case when m.qtde_alt is null then 1 
@@ -77,8 +73,8 @@ BEGIN
       if (totIcms > 0) then 
         icmsVenda = icmsVenda + (totProdIcms/totIcms)*tIcms;
     end
-    -- Valores de Venda
-    -- O Campo VLRESTOQUE está armazenando o custo dos itens vendidos
+    /* Valores de Venda */
+    /* O Campo VLRESTOQUE está armazenando o custo dos itens vendidos */
     Select sum(m.QUANTIDADE), SUM((case when m.qtde_alt is null then 1 
      when m.qtde_alt = 0 then 1 else (1-(m.qtde_alt/100))  end) * m.VALTOTAL) as VALTOTAL, sum(m.VLRESTOQUE) from venda v 
     inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = v.CODMOVIMENTO
@@ -97,18 +93,18 @@ BEGIN
     else 
        vlrUnitVenda = 0;
    
-    -- Valores de Compra
+    /* Valores de Compra */
     Select sum(m.QUANTIDADE), sum(m.VALTOTAL), sum((m.ICMS / 100 )* m.VALTOTAL) from compra c
     inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = c.CODMOVIMENTO
     inner join MOVIMENTO mov on mov.CODMOVIMENTO = c.CODMOVIMENTO 
     where m.codProduto = :codPRo and c.dataCompra BETWEEN :pdta1 and :pdta2 and mov.codnatureza = 4
     into :qtdeCompra, :vlrTotalCompra , :icmscompra ;
 
-    -- Valores de Perda
+    /* Valores de Perda */
     Select sum(m.QUANTIDADE), sum(m.QUANTIDADE*m.PRECOCUSTO) from venda v 
     inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = v.CODMOVIMENTO
     inner join MOVIMENTO mov on mov.CODMOVIMENTO = v.CODMOVIMENTO 
-    where m.codProduto = :codPRo and v.dataVenda BETWEEN :pdta1 and :pdta2 and mov.codnatureza = 2 and codAlmoxarifado = :CPERDA
+    where m.codProduto = :codPRo and v.dataVenda BETWEEN :pdta1 and :pdta2 and mov.codnatureza = 2 and mov.codAlmoxarifado = :CPERDA
     into :qtdePERDA, :vlrPerda;
 
     if (qtdePerda is null) then
@@ -164,7 +160,13 @@ BEGIN
     begin 
       vlrCustoTotal = custoProd * QtdeVenda;
     end
-    --if ((qtdeVenda > 0) or (qtdeCompra > 0)) then 
+    /*if ((qtdeVenda > 0) or (qtdeCompra > 0)) then  */
       suspend;
   end 
-END
+END^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE REL_VENDACOMPRA TO  SYSDBA;
+
