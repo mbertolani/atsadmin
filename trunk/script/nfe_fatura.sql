@@ -42,5 +42,15 @@ BEGIN
          numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:NumeroFatura);
         suspend;
     end
+  end 
+  if (prazo is null) then 
+  begin
+    for select r.DATAVENCIMENTO, r.VALOR_RESTO,  r.VIA
+      from RECEBIMENTO r where r.CODVENDA = :codvenda
+      into :datafatura, :valor, :numerofatura
+      do begin
+        numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:NumeroFatura);
+        suspend;
+      end     
   end      
 END
