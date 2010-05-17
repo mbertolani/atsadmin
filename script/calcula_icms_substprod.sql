@@ -89,7 +89,13 @@ begin
       into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, CICMS_BASE, :CST;
 
       if (cicms is null) then 
+      begin 
         cicms2 = 0;
+        cicms = 0;
+      end   
+      
+      if (cicms_subst is null) then 
+        cicms_subst = 0;
 
       if (cicms is not null) then 
         cicms2 = cicms;
@@ -235,6 +241,6 @@ begin
 
   /*Buscando a numeracao da duplicata */
   preco = total; 
-  
+
 end
 
