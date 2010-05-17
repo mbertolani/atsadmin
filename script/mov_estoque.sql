@@ -32,6 +32,7 @@ BEGIN
     end    
 
     if (((old.BAIXA = 0) or (old.BAIXA = 1)) and ((new.BAIXA = 0) OR (NEW.BAIXA = 1))) then 
+    if ((new.QUANTIDADE <> old.QUANTIDADE) or (new.PRECO <> old.PRECO)) then 
     begin
         atualizaEstoque = 'S';
         InsereEdita     = 'E';
