@@ -1,5 +1,4 @@
-SET TERM ^ ;
-ALTER PROCEDURE IMPRIME_VENDA (
+create or ALTER PROCEDURE IMPRIME_VENDA (
     CODVDA Integer,
     CODID Integer,
     N_COPIAS Integer )
