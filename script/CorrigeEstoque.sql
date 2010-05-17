@@ -1,3 +1,4 @@
+SET TERM ^ ;
 ALTER PROCEDURE CORRIGEESTOQUE (
     CODPROD Integer,
     CODPROD1 Integer,
@@ -23,7 +24,7 @@ declare variable estoqueNegativo char(1);
 BEGIN
     --#####################################
     --#####################################
-    -- o Campo vlrEstoqueAcum está sendo 
+    -- o Campo vlrEstoqueAcum estÃ¡ sendo 
     -- usado para Valor do Custo da Venda
     --#####################################
     --#####################################
@@ -46,7 +47,7 @@ BEGIN
           vlrEstoque = 0; 
           codDetAnt = null;
     --Vejo o preco medio, qtdeEstoque e VlrEstoque anterior ao periodo solicitado
-    -- Faço um For, pois preciso do último lançamento (no Mara tenho problema como CodMovimento e CodDetalhe
+    -- FaÃ§o um For, pois preciso do Ãºltimo lanÃ§amento (no Mara tenho problema como CodMovimento e CodDetalhe
     SELECT FIRST 1 CODDETALHE FROM MOVIMENTODETALHE movdet, MOVIMENTO mov            
        inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA  
        WHERE (mov.CODMOVIMENTO = movdet.CODMOVIMENTO) 
@@ -55,8 +56,8 @@ BEGIN
          and (movdet.baixa IS NOT NULL) 
       order by mov.DATAMOVIMENTO desc , mov.CODMOVIMENTO desc, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA
     INTO :codDetAnt;
-      -- Este For é apenas para pegar o último valor, pois no Mara, 
-      -- na importação o codMovimento ficou com um número muito alto...
+      -- Este For Ã© apenas para pegar o Ãºltimo valor, pois no Mara, 
+      -- na importaÃ§Ã£o o codMovimento ficou com um nÃºmero muito alto...
     
     SELECT movdet.QTDEESTOQUE, movdet.VLRESTOQUE, movdet.PRECOCUSTO , movdet.PRECOULTIMACOMPRA
        FROM MOVIMENTODETALHE movdet
@@ -92,7 +93,7 @@ BEGIN
             -- Calculando a quantidade
             if (tipoMovimento = 0) then
             begin
-              -- Vou deixar usar o estoque negativo pois está afetando o estoque atual.
+              -- Vou deixar usar o estoque negativo pois estÃ¡ afetando o estoque atual.
               --if (qtdeAcumulado < 0) then
               --  qtdeAcumulado = 0;
               vlrEstoque = qtdeAcumulado * pmAcumulado;
@@ -105,7 +106,7 @@ BEGIN
             end
 
 	        --Calculando o Preco Medio
-            -- Vou deixar usar o estoque negativo pois está afetando o estoque atual.
+            -- Vou deixar usar o estoque negativo pois estÃ¡ afetando o estoque atual.
             --if (vlrEstoqueAcum < 0) then 
             --  vlrEstoqueAcum = 0;
 	        if (tipoMovimento = 0) then
@@ -134,7 +135,7 @@ BEGIN
                        vlrEstoqueAcum = 0;
                      end 
                    end 
-                   else begin -- quando é apenas entrada o pm = 0
+                   else begin -- quando Ã© apenas entrada o pm = 0
                      pm = pmAcumulado;
                    end 
                 end
@@ -154,10 +155,10 @@ BEGIN
               vlrEstoqueAcum = (pmAcumulado * qtde);
             END
            
-            -- Vou deixar usar o estoque negativo pois está afetando o estoque atual.
+            -- Vou deixar usar o estoque negativo pois estÃ¡ afetando o estoque atual.
             --if (qtdeAcumulado < 0) then
             --  qtdeAcumulado = 0;
-            -- Caso não tenha preço de custo no período especificado, busca o último preço q existe
+            -- Caso nÃ£o tenha preÃ§o de custo no perÃ­odo especificado, busca o Ãºltimo preÃ§o q existe
             if (vlrEstoqueAcum < 0) then  
                vlrEstoqueAcum = 0;
             
@@ -177,9 +178,15 @@ BEGIN
               vlrEstoqueAcum = 0;
               pmAcumulado = 0;
             end 
+            update produtos set precomedio = :pmAcumulado, estoqueatual = :qtdeAcumulado where codproduto = :codPro;            
        end	
-	   --update produtos set precomedio = :pmAcumulado, estoqueatual = :qtdeAcumulado where codproduto = :codPro;
           --  EXCEPTION ERRO_SP;            
 
     END -- Fecha o Produto 
-END
+END^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE CORRIGEESTOQUE TO  SYSDBA;
+
