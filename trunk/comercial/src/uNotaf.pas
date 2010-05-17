@@ -740,12 +740,12 @@ begin
     end;
     }
   {------Pesquisando na tab Parametro Código e Nome da Natureza da Venda/Compra--------}
-    if (dm.parametro.Locate('PARAMETRO','NATUREZAVENDA',[loCaseInsensitive])) then
+    if (dm.parametro.Locate('PARAMETRO','NATUREZANF',[loCaseInsensitive])) then
     begin
       Try
         cod_nat := strToint(dm.parametroDADOS.asString);
       except
-        cod_nat := 3;
+        cod_nat := 15;
       end;
       natureza := dm.parametroD1.AsString;
     end;

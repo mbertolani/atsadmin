@@ -627,7 +627,6 @@ object fNotaf: TfNotaf
       Width = 73
       Height = 17
       Caption = 'Financeiro '
-      Checked = True
       Color = clTeal
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -637,7 +636,6 @@ object fNotaf: TfNotaf
       ParentColor = False
       ParentFont = False
       PopupMenu = PopupMenu1
-      State = cbChecked
       TabOrder = 8
       LinkedControls = <>
       HotTrackFont.Charset = DEFAULT_CHARSET
@@ -652,7 +650,6 @@ object fNotaf: TfNotaf
       Width = 114
       Height = 17
       Caption = 'Movimenta estoque'
-      Checked = True
       Color = clTeal
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -662,7 +659,6 @@ object fNotaf: TfNotaf
       ParentColor = False
       ParentFont = False
       PopupMenu = PopupMenu1
-      State = cbChecked
       TabOrder = 9
       LinkedControls = <>
       AutoSize = False
