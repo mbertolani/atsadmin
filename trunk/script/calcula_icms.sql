@@ -23,6 +23,7 @@ DECLARE VARIABLE BASE_ICMS DOUBLE PRECISION;
 DECLARE VARIABLE BASE_ICMSE DOUBLE PRECISION;
 DECLARE VARIABLE VAL_TOTAL DOUBLE PRECISION;
 DECLARE VARIABLE VALOR DOUBLE PRECISION;
+DECLARE VARIABLE VALORX DOUBLE PRECISION;
 declare variable cod integer;
 declare variable codv integer;
 declare variable NotaFiscalVenda integer;
@@ -44,6 +45,8 @@ begin
   VAL_TOTAL = 0;
   IPI = 0;
   ICMS = 0;
+  ICMS_DESTACADO_DESC = '';
+  ICMS_DESTACADO_DESC2 = '';
 
   SELECT FIRST 1 ei.ICMS_SUBSTRIB
     FROM ESTADO_ICMS  ei WHERE UF = :UF AND CFOP = :CFOP
@@ -149,6 +152,7 @@ begin
         if (icms_subst > 0) then 
            BASE_ICMS = FRETE + SEGURO + OUTROS;             
          
+         VALORX = VAL_TOTAL;
          VAL_TOTAL = VAL_TOTAL + BASE_ICMS + IPI;
          ICMS = ICMS + (BASE_ICMS * (IND_ICMS/100));
          BASE_ICMS = BASE_ICMSE +BASE_ICMS;
@@ -205,6 +209,7 @@ begin
           VAL_TOTAL = BASE_ICMS + IPI;
         else 
           VAL_TOTAL = TOTAL_PROD + FRETE + SEGURO + OUTROS; 
+        VALORX = VAL_TOTAL;
         BASE_ICMS = (BASE_ICMS * (IND_REDUZICMS));-- + IPI;
         ICMS = (BASE_ICMS) * (IND_ICMS / 100);
         UPDATE NOTAFISCAL SET BASE_ICMS = :BASE_ICMS, VALOR_ICMS = :ICMS, VALOR_IPI = :IPI, 
@@ -218,6 +223,7 @@ begin
       BASE_ICMS = TOTAL_PROD + FRETE + SEGURO + OUTROS;
       IPI = (BASE_ICMS) * (IND_IPI / 100);
       VAL_TOTAL = BASE_ICMS;
+      VALORX = VAL_TOTAL;
       IF (REDUZ_INFO IS NULL) THEN
         REDUZ_INFO = 1;
       IF (REDUZ_INFO = 0) THEN
@@ -251,9 +257,12 @@ begin
     if ((BASE_ICMS + IPI) <> VAL_TOTAL) then 
       VAL_TOTAL = BASE_ICMS + IPI;
 
+    if (ipi is null) then 
+      ipi = 0;
     
     -- ICMS DE SUBSTITUICAO TRIBUTARIA
-    EXECUTE PROCEDURE CALCULA_ICMS_SUBSTITUICAO (:NUMERO_NF,  :UF, :CFOP, :VAL_TOTAL, :notafiscalVenda , :serie, :ipi
+    
+    EXECUTE PROCEDURE CALCULA_ICMS_SUBSTITUICAO (:NUMERO_NF,  :UF, :CFOP, :VALORX, :notafiscalVenda , :serie, :ipi
          ,:icms_destacado_desc, :icms_destacado_desc2);
     EXECUTE PROCEDURE CALCULA_ICMS_SUBSTPROD (:CFOP, :UF, :NUMERO_NF, :COD, :SERIE);
     fatura = '';
