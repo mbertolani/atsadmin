@@ -58,11 +58,6 @@ type
     sCallCenterDetATENDIMENTO: TStringField;
     sCallCenterDetPROTOCOLO: TStringField;
     sCallCenterDetATEN: TIntegerField;
-    cCallCenterDetID: TSQLTimeStampField;
-    cCallCenterDetID_USUARIO: TIntegerField;
-    cCallCenterDetATENDIMENTO: TStringField;
-    cCallCenterDetPROTOCOLO: TStringField;
-    cCallCenterDetATEN: TIntegerField;
     MainMenu1: TMainMenu;
     edCliente: TJvDBSearchComboBox;
     DSCli: TDataSource;
@@ -94,6 +89,21 @@ type
     SLDcliNOMECLIENTE: TStringField;
     CDSCliCODCLIENTE: TIntegerField;
     CDSCliNOMECLIENTE: TStringField;
+    edtTipo: TJvDBSearchComboBox;
+    CDSc: TClientDataSet;
+    DStPc: TDataSetProvider;
+    DSc: TDataSource;
+    SQLDc: TSQLDataSet;
+    SQLDcCODDADOS: TIntegerField;
+    SQLDcDESCRICAO: TStringField;
+    SQLDcUSO: TStringField;
+    SQLDcCODIGOS: TStringField;
+    SQLDcOUTROS: TStringField;
+    CDScCODDADOS: TIntegerField;
+    CDScDESCRICAO: TStringField;
+    CDScUSO: TStringField;
+    CDScCODIGOS: TStringField;
+    CDScOUTROS: TStringField;
     sCallCenterPROTOCOLO: TStringField;
     sCallCenterDATA_ATENDIMENTO: TSQLTimeStampField;
     sCallCenterNOME: TStringField;
@@ -120,16 +130,11 @@ type
     cCallCenterTIPO_ATENDIMENTO: TStringField;
     cCallCenterSTATUS_ATENDIMENTO: TStringField;
     cCallCenterCODCLIENTE: TIntegerField;
-    edtTipo: TJvDBSearchComboBox;
-    CDSc: TClientDataSet;
-    DStPc: TDataSetProvider;
-    DSc: TDataSource;
-    SQLDc: TSQLDataSet;
-    SQLDcCODDADOS: TIntegerField;
-    SQLDcDESCRICAO: TStringField;
-    SQLDcUSO: TStringField;
-    SQLDcCODIGOS: TStringField;
-    SQLDcOUTROS: TStringField;
+    cCallCenterDetID: TSQLTimeStampField;
+    cCallCenterDetID_USUARIO: TIntegerField;
+    cCallCenterDetATENDIMENTO: TStringField;
+    cCallCenterDetPROTOCOLO: TStringField;
+    cCallCenterDetATEN: TIntegerField;
     procedure IncluiProtocolo;
     procedure EditaProtocolo;
     procedure LimpaEdit;
@@ -515,7 +520,8 @@ begin
   cCallCenterMODELOBIKE.AsString := edtCodModelo.Text;
 
   cCallCenterTIPO_ATENDIMENTO.AsString := edtTipo.Text;
-  cCallCenterSTATUS_ATENDIMENTO.AsString := edtStatus.Text;
+  cCallCenterSTATUS_ATENDIMENTO.AsString := edtStatus.Text;  
+
   cCallCenterCODCLIENTE.AsInteger := StrToInt(edCodcli.Text);
   cCallCenter.ApplyUpdates(0);
 
@@ -543,6 +549,7 @@ end;
 
 procedure TfCallCenter.BitBtn2Click(Sender: TObject);
 begin
+
  if (cCallCenterSTATUS_ATENDIMENTO.AsString = 'F') then
  begin
    MessageDlg('Protocolo já finalizado', mtWarning, [mbOK], 0);
@@ -603,10 +610,11 @@ begin
 
   if (not CDSCli.Active) then
     CDSCli.Open;
+
   if (not CDSProd.Active) then
     CDSProd.Open;
 
- if (not CDSc.Active) then
+  if (not CDSc.Active) then
     CDSc.Open;
 
   edCodcli.Text := '';
