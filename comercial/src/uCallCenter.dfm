@@ -42,52 +42,52 @@ object fCallCenter: TfCallCenter
       item
         Expanded = False
         FieldName = 'PROTOCOLO'
-        Width = 109
+        Width = 107
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_ATENDIMENTO'
         Title.Caption = 'DATA'
-        Width = 70
+        Width = 69
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOME'
-        Width = 158
+        Width = 155
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUS_ATENDIMENTO'
         Title.Caption = 'STATUS'
-        Width = 68
+        Width = 67
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CIDADE'
-        Width = 105
+        Width = 103
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CEP'
-        Width = 57
+        Width = 56
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'UF'
-        Width = 29
+        Width = 28
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'TIPO_ATENDIMENTO'
         Title.Caption = 'TIPO'
-        Width = 187
+        Width = 182
         Visible = True
       end>
   end
@@ -367,7 +367,7 @@ object fCallCenter: TfCallCenter
       CharCase = ecUpperCase
       ItemHeight = 13
       TabOrder = 13
-      Text = '1967-DEPOSITO BAZAR'
+      Text = 'CLIENTE SISTEMA'
       OnKeyPress = FormKeyPress
     end
     object edCodcli: TJvDBSearchEdit
@@ -379,6 +379,7 @@ object fCallCenter: TfCallCenter
       DataField = 'CODCLIENTE'
       ClearOnEnter = False
       TabOrder = 12
+      Text = '0'
       OnKeyPress = FormKeyPress
     end
     object edtCodModelo: TJvDBSearchEdit
@@ -2121,8 +2122,8 @@ object fCallCenter: TfCallCenter
   end
   object SLDcli: TSQLDataSet
     CommandText = 
-      'select  CODCLIENTE , NOMECLIENTE from CLIENTES where segmento = ' +
-      '1 order by nomecliente'
+      'select  CODCLIENTE , NOMECLIENTE from CLIENTES  order by CODCLIE' +
+      'NTE'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -2177,6 +2178,7 @@ object fCallCenter: TfCallCenter
     end
   end
   object DSProd: TDataSource
+    DataSet = CDSProd
     Left = 368
     Top = 199
   end
@@ -2186,6 +2188,26 @@ object fCallCenter: TfCallCenter
     ProviderName = 'DStPc'
     Left = 680
     Top = 183
+    object CDScCODDADOS: TIntegerField
+      FieldName = 'CODDADOS'
+      Required = True
+    end
+    object CDScDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 80
+    end
+    object CDScUSO: TStringField
+      FieldName = 'USO'
+      Size = 30
+    end
+    object CDScCODIGOS: TStringField
+      FieldName = 'CODIGOS'
+      Size = 50
+    end
+    object CDScOUTROS: TStringField
+      FieldName = 'OUTROS'
+      Size = 30
+    end
   end
   object DStPc: TDataSetProvider
     DataSet = SQLDc
