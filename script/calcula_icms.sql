@@ -1,3 +1,4 @@
+Set term ^ ;
 ALTER PROCEDURE CALCULA_ICMS (
     NUMERO_NF Integer,
     UF Char(2),
@@ -254,28 +255,36 @@ begin
           VALOR_TOTAL_NOTA = :VAL_TOTAL, BASE_ICMS_SUBST = 0, VALOR_ICMS_SUBST = 0
         where NUMNF = :NUMERO_NF;
     END
-    if ((BASE_ICMS + IPI) <> VAL_TOTAL) then 
-      VAL_TOTAL = BASE_ICMS + IPI;
+    
+    IF (INDICE_MANUAL = 'N') THEN
+    BEGIN  
+    
+        if ((BASE_ICMS + IPI) <> VAL_TOTAL) then 
+            VAL_TOTAL = BASE_ICMS + IPI;
 
-    if (ipi is null) then 
-      ipi = 0;
+        if (ipi is null) then 
+            ipi = 0;
     
-    -- ICMS DE SUBSTITUICAO TRIBUTARIA
+        -- ICMS DE SUBSTITUICAO TRIBUTARIA
     
-    EXECUTE PROCEDURE CALCULA_ICMS_SUBSTITUICAO (:NUMERO_NF,  :UF, :CFOP, :VALORX, :notafiscalVenda , :serie, :ipi
-         ,:icms_destacado_desc, :icms_destacado_desc2);
-    EXECUTE PROCEDURE CALCULA_ICMS_SUBSTPROD (:CFOP, :UF, :NUMERO_NF, :COD, :SERIE);
-    fatura = '';
-    for select UDF_DAY(DATAFATURA) || '/' || UDF_MONTH(DATAFATURA) || '/' || UDF_YEAR(DATAFATURA)  , VALOR, NUMEROFATURA from NFE_FATURA(:CODV)
-	 into :datafatura, :valor, :numerofatura
-	 do begin 
-	  select * from FU_FORMATAR(:VALOR, '#####.##0,00')
-	  into :vlr;
-	    if (fatura <> '') then 
-	      fatura = :fatura || '     ';
-	    fatura = :fatura || :datafatura;
-	    fatura = :fatura || ' - ' || udf_trim(:vlr) || ' - ' || :numerofatura;
-	 end    
-	if (fatura <> '') then 
-      update notafiscal set FATURA = :fatura where NUMNF = :NUMERO_NF;
+        EXECUTE PROCEDURE CALCULA_ICMS_SUBSTITUICAO (:NUMERO_NF,  :UF, :CFOP, :VALORX, :notafiscalVenda , :serie, :ipi
+            ,:icms_destacado_desc, :icms_destacado_desc2);
+        EXECUTE PROCEDURE CALCULA_ICMS_SUBSTPROD (:CFOP, :UF, :NUMERO_NF, :COD, :SERIE);
+        fatura = '';
+        for select UDF_DAY(DATAFATURA) || '/' || UDF_MONTH(DATAFATURA) || '/' || UDF_YEAR(DATAFATURA)  , VALOR, NUMEROFATURA from NFE_FATURA(:CODV)
+            into :datafatura, :valor, :numerofatura
+        do begin 
+            select * from FU_FORMATAR(:VALOR, '#####.##0,00')
+                into :vlr;
+            if (fatura <> '') then 
+                fatura = :fatura || '     ';
+            fatura = :fatura || :datafatura;
+            fatura = :fatura || ' - ' || udf_trim(:vlr) || ' - ' || :numerofatura;
+        end    
+        if (fatura <> '') then 
+            update notafiscal set FATURA = :fatura where NUMNF = :NUMERO_NF;
+        -- No Caso de NF com faturas diferentes faz a correção destas , usada na GiroParts.  
+        NumeroFatura = notaFiscalVenda || '-' || serie;
+        EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);   
+    end        
 end
