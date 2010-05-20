@@ -686,6 +686,13 @@ begin
       executaSql('alter TABLE ESTADO_ICMS add PESSOA Varchar(8)');
       executaSql('alter TABLE ESTADO_ICMS add PIS Double Precision');
       executaSql('alter TABLE ESTADO_ICMS add COFINS Double Precision');
+      executaSql('alter TABLE ESTADO_ICMS add CSTIPI Varchar(2)');
+      executaSql('alter TABLE ESTADO_ICMS add CSTPIS Varchar(2)');
+      executaSql('alter TABLE ESTADO_ICMS add CSTCOFINS Varchar(2)');
+      executaSql('alter TABLE ESTADO_ICMS add DADOSADC1 Varchar(200)');
+      executaSql('alter TABLE ESTADO_ICMS add DADOSADC2 Varchar(200)');
+      executaSql('alter TABLE ESTADO_ICMS add DADOSADC3 Varchar(200)');
+      executaSql('alter TABLE ESTADO_ICMS add DADOSADC4 Varchar(200)');
       mudaVersao('1.0.0.68');
     end;  // Fim Ataulização Versao 1.0.0.68
 
