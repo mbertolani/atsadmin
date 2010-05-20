@@ -178,7 +178,6 @@ inherited fOf: TfOf
     Top = 72
     Width = 35
     Height = 26
-    Enabled = False
     PopupMenu = PopupMenu1
     TabOrder = 9
     TabStop = False
