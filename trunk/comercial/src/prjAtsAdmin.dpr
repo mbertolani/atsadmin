@@ -190,6 +190,7 @@ uses
   uNotafc in 'uNotafc.pas' {fNotafc},
   uNFeInutilizar in 'uNFeInutilizar.pas' {fNFeInutilizar},
   uPrazo in 'uPrazo.pas' {fPrazo},
+  uNotafRemessa in 'uNotafRemessa.pas' {fNotafRemessa},
   uCombo in 'uCombo.pas' {fCombo};
 
 {$R *.res}
@@ -222,6 +223,7 @@ begin
   Application.CreateForm(TfCallCenter, fCallCenter);
   Application.CreateForm(TfPrazo, fPrazo);
   Application.CreateForm(TfCombo, fCombo);
+  Application.CreateForm(TfNotafRemessa, fNotafRemessa);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   Application.CreateForm(TfPfaturamento, fPfaturamento);
