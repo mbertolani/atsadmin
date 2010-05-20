@@ -1102,7 +1102,7 @@ object fNFeletronica: TfNFeletronica
       ' vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CO' +
       'DMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVE' +
       'NDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10 +
-      'where vd.CODVENDA = :id and nf.NATUREZA = 15'
+      'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
