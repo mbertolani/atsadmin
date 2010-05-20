@@ -1007,15 +1007,15 @@ object fNotaf: TfNotaf
       Font.Style = []
       ParentFont = False
       object Label26: TLabel
-        Left = 9
-        Top = 342
+        Left = 6
+        Top = 383
         Width = 40
         Height = 13
         Caption = 'ICMS(%)'
       end
       object Label36: TLabel
-        Left = 7
-        Top = 378
+        Left = 63
+        Top = 383
         Width = 77
         Height = 13
         Caption = 'Red. Base Calc.'
@@ -1024,7 +1024,7 @@ object fNotaf: TfNotaf
         Left = 3
         Top = -1
         Width = 183
-        Height = 41
+        Height = 42
         Caption = 'Natureza da Opera'#231#227'o'
         TabOrder = 0
         object cbNatureza: TDBComboBox
@@ -1044,12 +1044,12 @@ object fNotaf: TfNotaf
       object JvGroupBox2: TJvGroupBox
         Left = 186
         Top = -1
-        Width = 85
-        Height = 41
+        Width = 173
+        Height = 42
         Caption = 'C.F.O.P'
         TabOrder = 1
         object cbCFOP: TDBComboBox
-          Left = 7
+          Left = 8
           Top = 14
           Width = 75
           Height = 21
@@ -1062,46 +1062,56 @@ object fNotaf: TfNotaf
           OnExit = cbCFOPChange
           OnKeyPress = FormKeyPress
         end
+        object btnRemessa: TButton
+          Left = 88
+          Top = 11
+          Width = 77
+          Height = 25
+          Caption = 'N.F. Remessa '
+          Enabled = False
+          TabOrder = 1
+          OnClick = btnRemessaClick
+        end
       end
       object JvGroupBox3: TJvGroupBox
-        Left = 271
+        Left = 367
         Top = -1
-        Width = 184
-        Height = 41
+        Width = 135
+        Height = 42
         Caption = 'C.N.P.J.'
         TabOrder = 3
         object DBText1: TDBText
           Left = 11
           Top = 18
-          Width = 166
+          Width = 115
           Height = 17
           DataField = 'CNPJ_CPF'
           DataSource = DataSource1
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
-          Font.Height = -13
+          Font.Height = -16
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
           ParentFont = False
         end
       end
       object JvGroupBox4: TJvGroupBox
-        Left = 455
+        Left = 505
         Top = -1
-        Width = 185
-        Height = 41
+        Width = 135
+        Height = 42
         Caption = 'Inscri'#231#227'o Estadual'
         TabOrder = 4
         object DBText2: TDBText
           Left = 11
           Top = 18
-          Width = 166
+          Width = 115
           Height = 17
           DataField = 'IE_RG'
           DataSource = DataSource1
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
-          Font.Height = -13
+          Font.Height = -16
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
           ParentFont = False
@@ -1373,7 +1383,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox18: TJvGroupBox
-        Left = 136
+        Left = 145
         Top = 336
         Width = 110
         Height = 41
@@ -1393,16 +1403,16 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox19: TJvGroupBox
-        Left = 248
+        Left = 257
         Top = 336
-        Width = 103
+        Width = 98
         Height = 41
         Caption = 'Valor do ICMS'
         TabOrder = 20
         object DBEdit11: TDBEdit
           Left = 5
           Top = 14
-          Width = 92
+          Width = 88
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1414,7 +1424,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox20: TJvGroupBox
-        Left = 352
+        Left = 357
         Top = 336
         Width = 117
         Height = 41
@@ -1434,7 +1444,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox21: TJvGroupBox
-        Left = 472
+        Left = 477
         Top = 336
         Width = 133
         Height = 41
@@ -1454,16 +1464,16 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox22: TJvGroupBox
-        Left = 608
+        Left = 613
         Top = 336
-        Width = 150
+        Width = 145
         Height = 41
         Caption = 'Valor Total dos Produtos'
         TabOrder = 23
         object DBEdit14: TDBEdit
           Left = 7
           Top = 14
-          Width = 135
+          Width = 130
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1474,7 +1484,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox23: TJvGroupBox
-        Left = 136
+        Left = 145
         Top = 378
         Width = 110
         Height = 41
@@ -1495,16 +1505,16 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox24: TJvGroupBox
-        Left = 248
+        Left = 257
         Top = 378
-        Width = 103
+        Width = 98
         Height = 41
         Caption = 'Valor do Seguro'
         TabOrder = 25
         object DBEdit16: TDBEdit
           Left = 5
           Top = 14
-          Width = 91
+          Width = 87
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1516,7 +1526,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox25: TJvGroupBox
-        Left = 352
+        Left = 357
         Top = 378
         Width = 117
         Height = 41
@@ -1537,7 +1547,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox26: TJvGroupBox
-        Left = 472
+        Left = 477
         Top = 378
         Width = 134
         Height = 41
@@ -1558,9 +1568,9 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox27: TJvGroupBox
-        Left = 608
+        Left = 613
         Top = 378
-        Width = 150
+        Width = 145
         Height = 41
         Caption = 'Valor Total da Nota'
         Font.Charset = DEFAULT_CHARSET
@@ -1573,7 +1583,7 @@ object fNotaf: TfNotaf
         object DBEdit19: TDBEdit
           Left = 7
           Top = 14
-          Width = 136
+          Width = 131
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -2161,28 +2171,28 @@ object fNotaf: TfNotaf
           end>
       end
       object DBEdit48: TDBEdit
-        Left = 6
-        Top = 355
-        Width = 88
+        Left = 3
+        Top = 396
+        Width = 54
         Height = 21
         DataField = 'ICMS'
         DataSource = DMNF.DtSrc_NF
         TabOrder = 45
       end
       object DBEdit49: TDBEdit
-        Left = 5
-        Top = 391
-        Width = 90
+        Left = 61
+        Top = 396
+        Width = 79
         Height = 21
         DataField = 'REDUZICMS'
         DataSource = DMNF.DtSrc_NF
         TabOrder = 46
       end
       object BitBtn9: TBitBtn
-        Left = 98
-        Top = 377
+        Left = 104
+        Top = 342
         Width = 34
-        Height = 36
+        Height = 35
         TabOrder = 47
         OnClick = BitBtn9Click
         Glyph.Data = {
@@ -2240,6 +2250,14 @@ object fNotaf: TfNotaf
           'Recebe descri'#231#227'o classifica'#231#227'o fiscal')
         TabOrder = 48
         Visible = False
+      end
+      object calcman: TCheckBox
+        Left = 8
+        Top = 352
+        Width = 89
+        Height = 17
+        Caption = 'Calc. Manual'
+        TabOrder = 49
       end
     end
     object TabSheet1: TTabSheet
@@ -2650,8 +2668,8 @@ object fNotaf: TfNotaf
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 320
-    Top = 408
+    Left = 304
+    Top = 352
     object proc_transpCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True
