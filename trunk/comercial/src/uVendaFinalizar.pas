@@ -2184,6 +2184,7 @@ begin
   fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime := StrToDate(data_movimento);
   { Natureza = 'Saída' }
   fVendas.cds_MovimentoCODNATUREZA.AsInteger := 2;
+  fVendas.cds_MovimentoCONTROLE.AsString := IntToStr(codigo_moviemento);
   fVendas.btnGravar.Click;
 
   //Executa rotina para inserir materias primas
