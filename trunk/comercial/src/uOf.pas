@@ -93,6 +93,8 @@ begin
   varonde := 'EntraSai';
   var_F := 'estoque';
   fProcura_prod.ShowModal;
+  OfDesc.Text := dm.scds_produto_procPRODUTO.AsString;
+  codProd := dm.scds_produto_procCODPRODUTO.asInteger;
 end;
 
 procedure TfOf.btnGravarClick(Sender: TObject);
