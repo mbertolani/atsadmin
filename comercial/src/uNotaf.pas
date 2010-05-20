@@ -224,6 +224,8 @@ type
     sClasFiscalICMS_SUBST_IC: TFloatField;
     sClasFiscalICMS_SUBST_IND: TFloatField;
     btnNotaFiscal: TBitBtn;
+    calcman: TCheckBox;
+    btnRemessa: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -256,6 +258,7 @@ type
     procedure BitBtn10Click(Sender: TObject);
     procedure ExcluirItemNF1Click(Sender: TObject);
     procedure btnNotaFiscalClick(Sender: TObject);
+    procedure btnRemessaClick(Sender: TObject);
   private
     { Private declarations }
     procedure incluiEntrada;
@@ -296,7 +299,7 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
-  uNFeletronica;
+  uNFeletronica, uNotafRemessa;
 
 {$R *.dfm}
 
@@ -866,6 +869,11 @@ begin
     DMNF.cds_nfDESCNATUREZA.AsString := DMNF.listaCFOPCFNOME.AsString;
     DMNF.listaCFOP.Close;
   end;
+  if ((cbCFOP.Text = '5116') or (cbCFOP.Text = '6116')) then
+    btnRemessa.Enabled := True
+  else
+    btnRemessa.Enabled := False;
+
 end;
 
 procedure TfNotaf.btnSairClick(Sender: TObject);
@@ -1051,7 +1059,7 @@ begin
     {DMNF.cds_nf.Close;
     DMNF.cds_venda.Close;
     DMNF.cds_Mov_det.Close;
-    DMNF.cds_Movimento.Close;}
+    DMNF.cds_Movimento.Close; }
 end;
 
 procedure TfNotaf.BitBtn5Click(Sender: TObject);
@@ -1425,10 +1433,16 @@ begin
     alteraVlrVenda;
   if (RadioGroup1.ItemIndex = 0) then
     dmnf.cds_nfSTATUS.AsString := 'S';
+
+   dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + dmnf.cds_nfVALOR_FRETE.Value +
+   dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value +
+   dmnf.cds_nfVALOR_IPI.Value + dmnf.cds_nfVALOR_ICMS.Value;
+
   dmnf.cds_nf.ApplyUpdates(0);
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
-  calculaicms(dmnf.cds_nfUF.AsString);
+  if (not calcman.Checked) then
+    calculaicms(dmnf.cds_nfUF.AsString);
 
   dmnf.cds_nf.close;
   dmnf.cds_nf.Params[0].AsInteger := nfnum;
@@ -1503,9 +1517,8 @@ var
 begin
      varTotalnota := 0;
 //     dmnf.cds_nfVALOR_ICMS.Value +
-     varTotalnota :=  dmnf.cds_nfVALOR_FRETE.Value
-                    + dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value
-                    + dmnf.cds_nfVALOR_IPI.Value;
+     varTotalnota :=  dmnf.cds_nfVALOR_FRETE.Value + dmnf.cds_nfVALOR_SEGURO.Value +
+     dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value + dmnf.cds_nfVALOR_ICMS.Value;
      if (varTotalnota <> dmnf.cds_nfVALOR_TOTAL_NOTA.value) then
          dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + varTotalnota;
 end;
@@ -1930,6 +1943,16 @@ begin
     fNFeletronica.ShowModal;
   finally
     fNFeletronica.Free;
+  end;
+end;
+
+procedure TfNotaf.btnRemessaClick(Sender: TObject);
+begin
+    fNotafRemessa := TfNotafRemessa.Create(Application);
+  try
+    fNotafRemessa.ShowModal;
+  finally
+    fNotafRemessa.Free;
   end;
 end;
 
