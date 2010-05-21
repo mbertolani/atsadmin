@@ -1273,7 +1273,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 20
+        TabOrder = 21
         OnKeyPress = FormKeyPress
       end
       object DBEdit16: TDBEdit
@@ -1291,7 +1291,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 21
+        TabOrder = 22
         OnKeyPress = FormKeyPress
       end
       object GroupBox2: TGroupBox
@@ -2103,7 +2103,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 22
+        TabOrder = 36
         OnKeyPress = FormKeyPress
       end
       object BitBtn22: TBitBtn
@@ -2112,7 +2112,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 39
         Height = 31
         Caption = '...'
-        TabOrder = 36
+        TabOrder = 20
         OnClick = BitBtn22Click
       end
     end
@@ -6666,17 +6666,17 @@ inherited fClienteCadastro: TfClienteCadastro
     object sdsEnderecoCliDDD: TStringField
       FieldName = 'DDD'
       ProviderFlags = [pfInUpdate]
-      Size = 3
+      Size = 2
     end
     object sdsEnderecoCliDDD2: TStringField
       FieldName = 'DDD2'
       ProviderFlags = [pfInUpdate]
-      Size = 3
+      Size = 2
     end
     object sdsEnderecoCliDDD3: TStringField
       FieldName = 'DDD3'
       ProviderFlags = [pfInUpdate]
-      Size = 3
+      Size = 2
     end
     object sdsEnderecoCliDDD1: TStringField
       FieldName = 'DDD1'
@@ -6802,15 +6802,15 @@ inherited fClienteCadastro: TfClienteCadastro
     object cdsEnderecoCliDDD: TStringField
       FieldName = 'DDD'
       ProviderFlags = [pfInUpdate]
-      Size = 3
+      Size = 2
     end
     object cdsEnderecoCliDDD2: TStringField
       FieldName = 'DDD2'
-      Size = 3
+      Size = 2
     end
     object cdsEnderecoCliDDD3: TStringField
       FieldName = 'DDD3'
-      Size = 3
+      Size = 2
     end
     object cdsEnderecoCliDDD1: TStringField
       FieldName = 'DDD1'
