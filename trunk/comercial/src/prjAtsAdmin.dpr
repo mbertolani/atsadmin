@@ -223,7 +223,6 @@ begin
   Application.CreateForm(TfCallCenter, fCallCenter);
   Application.CreateForm(TfPrazo, fPrazo);
   Application.CreateForm(TfCombo, fCombo);
-  Application.CreateForm(TfNotafRemessa, fNotafRemessa);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   Application.CreateForm(TfPfaturamento, fPfaturamento);
