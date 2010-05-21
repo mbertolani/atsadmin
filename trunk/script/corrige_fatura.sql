@@ -24,10 +24,11 @@ BEGIN
     -- Pego somenta a segunda via para comparar com a primeira para ver se o valor e diferente
     For Select First 1 r.TITULO, r.VALOR_RESTO, r.CODCLIENTE, r.PARCELAS
         from RECEBIMENTO r where r.PARCELAS > 1 and ((r.TITULO = :Titulo) or (:Titulo = 'TODOS'))
-        and (r.VIA = 2)
+        and (r.VIA = 2) and r.NF is null
         order by r.TITULO, r.via 
         into :Tit, :vlr3, :codCli, :parc
     do begin 
+       update RECEBIMENTO set NF = 1  where TITULO = :Tit and CODCLIENTE = :codCli and  PARCELAS > 1;
         -- Copiando a 1. Via
         select First 1 r.VALOR_RESTO, r.VALORTITULO - r.VALOR_RESTO
             from RECEBIMENTO r where r.TITULO = :Tit and r.VIA = 1 and r.CODCLIENTE = :codcli
@@ -67,14 +68,14 @@ BEGIN
                         select TITULO, EMISSAO, CODCLIENTE, :DtaVcto, DATARECEBIMENTO, CAIXA, CONTADEBITO, 
                         CONTACREDITO, STATUS, :via, FORMARECEBIMENTO, DATABAIXA, HISTORICO, CODVENDA, CODALMOXARIFADO, CODVENDEDOR, 
                         CODUSUARIO, N_DOCUMENTO, DATASISTEMA, VALORRECEBIDO, JUROS, DESCONTO, PERDA, TROCA, FUNRURAL, 0, 
-                        :vlrT, :vlr2, OUTRO_CREDITO, OUTRO_DEBITO, PARCELAS, DUP_REC_NF, NF, DP, BL, CODORIGEM, 
+                        :vlrT, :vlr2, OUTRO_CREDITO, OUTRO_DEBITO, PARCELAS, DUP_REC_NF, NF, DP, 1, CODORIGEM, 
                         CODIGO_DE_BARRAS, IMAGE_COD_BARRAS, DV, NOMEARQUIVORETORNO, DATACONSOLIDA, SITUACAOCHEQUE, BANCO, AGENCIA, 
                         '1', GERARQREM, DATAGERARQREM, SELECIONOU, DESCONTADO, SITUACAO 
                         from RECEBIMENTO WHERE  titulo = :tit and codcliente = :codcli and via = 1;
                 end
                 vlrT = vlrR; 
                 vlrT = UDF_ROUNDDEC(vlrT, 2); 
-                update RECEBIMENTO set VALOR_RESTO = :vlrR WHERE  titulo = :tit and codcliente = :codcli and via = 1;
+                update RECEBIMENTO set VALOR_RESTO = :vlrR, BL = 1 WHERE  titulo = :tit and codcliente = :codcli and via = 1;
             end 
         end     
         -- Fim Copiando a 1. Via
@@ -113,7 +114,7 @@ BEGIN
                         select TITULO, EMISSAO, CODCLIENTE, :DtaVcto, DATARECEBIMENTO, CAIXA, CONTADEBITO, 
                         CONTACREDITO, STATUS, :via, FORMARECEBIMENTO, DATABAIXA, HISTORICO, CODVENDA, CODALMOXARIFADO, CODVENDEDOR, 
                         CODUSUARIO, N_DOCUMENTO, DATASISTEMA, VALORRECEBIDO, JUROS, DESCONTO, PERDA, TROCA, FUNRURAL, 0, 
-                        :vlr3, :vlr2, OUTRO_CREDITO, OUTRO_DEBITO, PARCELAS, DUP_REC_NF, NF, DP, BL, CODORIGEM, 
+                        :vlr3, :vlr2, OUTRO_CREDITO, OUTRO_DEBITO, PARCELAS, DUP_REC_NF, NF, DP, Null, CODORIGEM, 
                         CODIGO_DE_BARRAS, IMAGE_COD_BARRAS, DV, NOMEARQUIVORETORNO, DATACONSOLIDA, SITUACAOCHEQUE, BANCO, AGENCIA, 
                         '1', GERARQREM, DATAGERARQREM, SELECIONOU, DESCONTADO, SITUACAO 
                         from RECEBIMENTO WHERE CodRecebimento = :codRec;
