@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE or alter PROCEDURE NFE_FATURA 
  ( CODVENDA INTEGER ) 
 RETURNS 
@@ -21,7 +22,7 @@ BEGIN
   if (ve_prazo = '999') then
   begin 
     for select r.DATAVENCIMENTO, r.VALOR_RESTO,  r.VIA
-      from RECEBIMENTO r where r.TITULO = udf_trim(:NF) || '-' || :Serie
+      from RECEBIMENTO r where r.TITULO = udf_trim(:NF) || '-' || :Serie and BL = 1
       into :datafatura, :valor, :numerofatura
       do begin
         numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:NumeroFatura);
@@ -31,15 +32,16 @@ BEGIN
   else begin 
     select first 1 r.VALOR_RESTO, parcelas from RECEBIMENTO r  where r.TITULO = udf_trim(:NF) || '-' || :Serie
       into :vlr, :parc;
-
+    parc = 0; 
     for select r.DATAVENCIMENTO, r.via
-      from RECEBIMENTO r  where r.TITULO = udf_trim(:NF) || '-' || :Serie
+      from RECEBIMENTO r  where r.TITULO = udf_trim(:NF) || '-' || :Serie and BL = 1
       into :datafatura, :numerofatura
     do begin
         valor = vlr;
-        if (parc > 0) then
-           valor = vlr / parc; 
-         numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:NumeroFatura);
+        --if (parc > 0) then
+        --   valor = vlr / parc; 
+        parc = parc + 1;
+        numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:parc);
         suspend;
     end
   end 
