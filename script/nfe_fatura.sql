@@ -22,7 +22,7 @@ BEGIN
   if (ve_prazo = '999') then
   begin 
     for select r.DATAVENCIMENTO, r.VALOR_RESTO,  r.VIA
-      from RECEBIMENTO r where r.TITULO = udf_trim(:NF) || '-' || :Serie and BL = 1
+      from RECEBIMENTO r where r.TITULO = udf_trim(:NF) || '-' || :Serie
       into :datafatura, :valor, :numerofatura
       do begin
         numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:NumeroFatura);
