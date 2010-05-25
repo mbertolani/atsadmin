@@ -22,7 +22,9 @@ BEGIN
   if (ve_prazo = '999') then
   begin 
     for select r.DATAVENCIMENTO, r.VALOR_RESTO,  r.VIA
-      from RECEBIMENTO r where r.TITULO = udf_trim(:NF) || '-' || :Serie
+
+      from RECEBIMENTO r where r.TITULO = udf_trim(:NF) || '-' || :Serie order by r.DATAVENCIMENTO, r.VIA
+
       into :datafatura, :valor, :numerofatura
       do begin
         numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:NumeroFatura);
@@ -34,7 +36,7 @@ BEGIN
       into :vlr, :parc;
     parc = 0; 
     for select r.DATAVENCIMENTO, r.via
-      from RECEBIMENTO r  where r.TITULO = udf_trim(:NF) || '-' || :Serie and BL = 1
+      from RECEBIMENTO r  where r.TITULO = udf_trim(:NF) || '-' || :Serie and BL = 1 order by r.DATAVENCIMENTO, r.VIA
       into :datafatura, :numerofatura
     do begin
         valor = vlr;
@@ -48,7 +50,7 @@ BEGIN
   if (prazo is null) then 
   begin
     for select r.DATAVENCIMENTO, r.VALOR_RESTO,  r.VIA
-      from RECEBIMENTO r where r.CODVENDA = :codvenda
+      from RECEBIMENTO r where r.CODVENDA = :codvenda order by r.DATAVENCIMENTO, r.VIA
       into :datafatura, :valor, :numerofatura
       do begin
         numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:NumeroFatura);
