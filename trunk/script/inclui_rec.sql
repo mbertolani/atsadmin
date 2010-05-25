@@ -46,16 +46,18 @@ AS
   Declare variable dif smallint;
   Declare variable j smallint;
   declare variable forma char(1);
-DECLARE VARIABLE tipoEmpresa varchar(30);
+  DECLARE VARIABLE tipoEmpresa varchar(30);
 begin
    i = 0;
    J = 0;
+   dif = 0;
    forma = new.FORMARECEBIMENTO;
    if (new.FORMARECEBIMENTO is null) then
      forma = '1';
    SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9 FROM PARAMETRO
      WHERE DADOS = 'PRAZO' and PARAMETRO = NEW.PRAZO
      INTO :D1, :D2, :D3, :D4, :D5, :D6, :D7, :D8, :D9;
+   
    if (d1 is null) then d1 = 0;
    if (d2 is null) then d2 = 0;
    if (d3 is null) then d3 = 0;
@@ -68,6 +70,11 @@ begin
    if ((d2-d1)=(d3-d2)) then
    if ((d1-0) = (d2-d1)) then
      dif = d2-d1;
+     
+   if ((d2-d1)=(d3-d2)) then
+   if (d1 = 0) then
+     dif = 0;
+     
 
    SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'EMPRESA'
      INTO :tipoEmpresa;
@@ -228,11 +235,11 @@ begin
              j = d8;
              d8 = 0;
            end
-           else if (d9 > 0) then
+           /*else if (d9 > 0) then
            begin
              j = d9;
              d9 = 0;
-           end
+           end*/
 
            -- Se j = 0 então não usa prazo , usa a data Vencimento
            if (j = 0) then
@@ -305,12 +312,10 @@ begin
        VLT = ((NEW.VALOR - NEW.DESCONTO + NEW.MULTA_JUROS)- NEW.ENTRADA);
        while (i < (N_PARC + 1)) do
        begin
-         if (dif > 0) then
-           j = (dif*(i+1));
-         else if (d1 > 0) then
+         if (d1 >= 0) then
          begin
            j = d1;
-           d1 = 0;
+           d1 = -1;
          end
          else if (d2 > 0) then
          begin
@@ -347,11 +352,14 @@ begin
            j = d8;
            d8 = 0;
          end
-         else if (d9 > 0) then
+         else if (dif > 0) then
+           j = (dif*(i+1));
+
+         /*else if (d9 > 0) then
          begin
            j = d9;
            d9 = 0;
-         end
+         end*/
 
          if (NEW.STATUS = 0) then
          begin
@@ -376,7 +384,9 @@ begin
 
          -- Se j = 0 então não usa prazo , usa a data Vencimento
          if (j = 0) then
+         begin
            dtaVenc = UDF_INCMONTH(NEW.DATAVENCIMENTO, (i-1));
+         end   
          else
            dtaVenc = UDF_INCDAY(NEW.DATAVENDA, J);
 
@@ -393,12 +403,12 @@ begin
            CODVENDA , CODALMOXARIFADO, CODVENDEDOR, CODUSUARIO
            , DATASISTEMA, VALOR_PRIM_VIA, VALOR_RESTO, VALORTITULO, PARCELAS, VALORRECEBIDO
            , DESCONTO, JUROS, FUNRURAL, PERDA, TROCA,N_DOCUMENTO, OUTRO_CREDITO, CAIXA, DATARECEBIMENTO
-           , SITUACAO, CODORIGEM)
+           , SITUACAO, CODORIGEM, SITUACAO, GERARQREM)
          VALUES
            ((NEW.NOTAFISCAL || '-' || NEW.SERIE), NEW.DATAVENDA, NEW.CODCLIENTE, :dtaVenc,
            :status_venda, CAST((:i) as CHAR(3)), :forma, NEW.CODVENDA, NEW.CODCCUSTO, NEW.CODVENDEDOR, NEW.CODUSUARIO,
            'NOW', :VLR_PRIM_VIA, :VLR_RESTO, :VLR_TITULO, NEW.N_PARCELA,0,0,0,0,0,0, NEW.N_DOCUMENTO,0, :CAIXA, :DTAREC,
-           0, NEW.CODORIGEM);
+           0, NEW.CODORIGEM, :J, :I);
            i = i + 1;
        end
      end
