@@ -239,6 +239,7 @@ inherited fEstado: TfEstado
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
     OnCellClick = DBGrid1CellClick
+    OnTitleClick = DBGrid1TitleClick
     Columns = <
       item
         Expanded = False
