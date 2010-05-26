@@ -215,6 +215,7 @@ type
     ApontarProduo1: TMenuItem;
     CallCenter1: TMenuItem;
     ipoAtendimento1: TMenuItem;
+    GerarEtiquetas1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -310,6 +311,7 @@ type
     procedure ApontarProduo1Click(Sender: TObject);
     procedure CallCenter1Click(Sender: TObject);
     procedure ipoAtendimento1Click(Sender: TObject);
+    procedure GerarEtiquetas1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -347,7 +349,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
-  uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo;
+  uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
+  uGeraEtiquetas;
 
 {$R *.dfm}
 
@@ -1631,6 +1634,16 @@ begin
    fCombo.Free;
   end;
 
+end;
+
+procedure TfAtsAdmin.GerarEtiquetas1Click(Sender: TObject);
+begin
+    fGeraEtiquetas := TfGeraEtiquetas.Create(Application);
+  try
+      fGeraEtiquetas.ShowModal;
+  finally
+    fGeraEtiquetas.Free;
+  end;
 end;
 
 end.
