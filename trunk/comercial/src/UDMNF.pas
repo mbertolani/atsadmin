@@ -1301,6 +1301,10 @@ type
     cds_compraNOMEFORNECEDOR: TStringField;
     cds_compraNOMEUSUARIO: TStringField;
     cds_compraBANCO_1: TStringField;
+    sds_nfNOTAMAE: TIntegerField;
+    cds_nfNOTAMAE: TIntegerField;
+    sds_nfPESOREMESSA: TBCDField;
+    cds_nfPESOREMESSA: TBCDField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

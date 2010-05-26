@@ -106,6 +106,7 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
+    procedure DBGrid1TitleClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -213,7 +214,10 @@ begin
     str := str + ', ICMS_SUBSTRIB_IC = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IC.AsFloat);
     str := str + ', ICMS_SUBSTRIB_IND = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IND.AsFloat);
     str := str + ', CST = ' + QuotedStr(cds_estadoCST.AsString);
-    str := str + ', PESSOA = ' + QuotedStr(ComboBox1.Text);
+    if(ComboBox1.text = 'Física') then
+      str := str + ', PESSOA = ' + QuotedStr('F')
+    else
+      str := str + ', PESSOA = ' + QuotedStr('J');
     str := str + ', CSTPIS = ' + QuotedStr(cds_estadoCSTPIS.AsString);
     str := str + ', PIS = ' + FloatToStr(cds_estadoPIS.AsFloat);
     str := str + ', CSTCOFINS = ' + QuotedStr(cds_estadoCSTCOFINS.AsString);
@@ -230,7 +234,7 @@ begin
     inherited;
   cds_estado.Close;
   cds_estado.Open;
-  if (cds_estadoPESSOA.AsString = 'F') then
+  if ((cds_estadoPESSOA.AsString = 'F') or (cds_estadoPESSOA.AsString = 'Física')) then
     ComboBox1.Text := 'Física'
   else
     ComboBox1.Text := 'Jurídica';
@@ -256,11 +260,17 @@ end;
 procedure TfEstado.DBGrid1CellClick(Column: TColumn);
 begin
   inherited;
-  if (cds_estadoPESSOA.AsString = 'F') then
+  if ((cds_estadoPESSOA.AsString = 'F') or (cds_estadoPESSOA.AsString = 'Física')) then
     ComboBox1.Text := 'Física'
   else
     ComboBox1.Text := 'Jurídica';
 
+end;
+
+procedure TfEstado.DBGrid1TitleClick(Column: TColumn);
+begin
+  inherited;
+  cds_estado.IndexFieldNames := Column.FieldName;
 end;
 
 end.

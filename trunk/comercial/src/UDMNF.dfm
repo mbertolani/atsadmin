@@ -2394,6 +2394,14 @@ object DMNF: TDMNF
       FixedChar = True
       Size = 1
     end
+    object cds_nfNOTAMAE: TIntegerField
+      FieldName = 'NOTAMAE'
+    end
+    object cds_nfPESOREMESSA: TBCDField
+      FieldName = 'PESOREMESSA'
+      Precision = 9
+      Size = 2
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2715,6 +2723,14 @@ object DMNF: TDMNF
       FieldName = 'IMPRESSA'
       FixedChar = True
       Size = 1
+    end
+    object sds_nfNOTAMAE: TIntegerField
+      FieldName = 'NOTAMAE'
+    end
+    object sds_nfPESOREMESSA: TBCDField
+      FieldName = 'PESOREMESSA'
+      Precision = 9
+      Size = 2
     end
   end
   object scds: TSQLClientDataSet
