@@ -2392,6 +2392,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Apontar Produ'#231#227'o'
         OnClick = ApontarProduo1Click
       end
+      object GerarEtiquetas1: TMenuItem
+        Caption = 'Gerar Etiquetas'
+        OnClick = GerarEtiquetas1Click
+      end
     end
     object Relatrios1: TMenuItem
       Caption = '&Relat'#243'rios     '
