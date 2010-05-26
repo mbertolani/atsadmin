@@ -21,7 +21,7 @@ AS
   declare variable parcResto DOUBLE PRECISION;
   declare variable vlrTit DOUBLE PRECISION;
   declare variable vlrParc DOUBLE PRECISION;
-  --declare variable fatura varchar(60);
+  declare variable numParcTotal SMALLINT;
 BEGIN
     vlrParc = 0;
     vlrTit = 0;
@@ -76,6 +76,7 @@ BEGIN
         /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
         else begin  -- USANDO O PARAMETRO D9 para GERAR AS PARCELAS E TITULOS
             d9 = d9/10;
+            
             for select m.QTDE_ALT, m.CODPRODUTO, m.PRECO from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
                 and m.preco > 0
             into :desconto, :p, :precoProd
@@ -113,6 +114,29 @@ BEGIN
                 parcResto = UDF_ROUNDDEC(:parcResto,2);
            
                 update recebimento a set valor_resto = :parcResto , VALORTITULO = :vlrTit where codrecebimento = :codRec;
+            end 
+            
+            -- Quando so tem uma parcela o sistema tem que criar a parte nao especial
+            Select first 1 r.PARCELAS, (r.VALOR_PRIM_VIA - r.VALOR_RESTO) from RECEBIMENTO r  where titulo = :titulo and codcliente = :codcli order by via
+               into :numParcTotal, :vlrParc;
+            if (numParcTotal = 1) then 
+            begin     
+                Insert into RECEBIMENTO (TITULO, EMISSAO, CODCLIENTE, DATAVENCIMENTO, DATARECEBIMENTO, CAIXA, CONTADEBITO, 
+                    CONTACREDITO, STATUS, VIA, FORMARECEBIMENTO, DATABAIXA, HISTORICO, CODVENDA, CODALMOXARIFADO, CODVENDEDOR, 
+                    CODUSUARIO, N_DOCUMENTO, DATASISTEMA, VALORRECEBIDO, JUROS, DESCONTO, PERDA, TROCA, FUNRURAL, VALOR_PRIM_VIA, 
+                    VALOR_RESTO, VALORTITULO, OUTRO_CREDITO, OUTRO_DEBITO, PARCELAS, DUP_REC_NF, NF, DP, BL, CODORIGEM, 
+                    CODIGO_DE_BARRAS, IMAGE_COD_BARRAS, DV, NOMEARQUIVORETORNO, DATACONSOLIDA, SITUACAOCHEQUE, BANCO, AGENCIA, 
+                    CONTA, GERARQREM, DATAGERARQREM, SELECIONOU, DESCONTADO, SITUACAO)  
+                    select TITULO, EMISSAO, CODCLIENTE, DATAVENCIMENTO, DATARECEBIMENTO, CAIXA, CONTADEBITO, 
+                    CONTACREDITO, STATUS, 2, FORMARECEBIMENTO, DATABAIXA, HISTORICO, CODVENDA, CODALMOXARIFADO, CODVENDEDOR, 
+                    CODUSUARIO, N_DOCUMENTO, DATASISTEMA, VALORRECEBIDO, JUROS, DESCONTO, PERDA, TROCA, FUNRURAL, 0, 
+                    :vlrParc, VALORTITULO, OUTRO_CREDITO, OUTRO_DEBITO, PARCELAS, DUP_REC_NF, NF, DP, BL, CODORIGEM, 
+                    CODIGO_DE_BARRAS, IMAGE_COD_BARRAS, DV, NOMEARQUIVORETORNO, DATACONSOLIDA, SITUACAOCHEQUE, BANCO, AGENCIA, 
+                    CONTA, GERARQREM, DATAGERARQREM, SELECIONOU, DESCONTADO, SITUACAO 
+                    from RECEBIMENTO WHERE  titulo = :titulo and codcliente = :codcli and via = 1;
+                    
+                -- Atualiza a primeira via para BL = 1 para sair na nf_fatura     
+                UPDATE RECEBIMENTO set BL = 1 where titulo = :titulo and codcliente = :codcli and via = 1;
             end 
         end    
       end 

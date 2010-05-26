@@ -35,9 +35,9 @@ BEGIN
     select first 1 r.VALOR_RESTO, parcelas from RECEBIMENTO r  where r.TITULO = udf_trim(:NF) || '-' || :Serie
       into :vlr, :parc;
     parc = 0; 
-    for select r.DATAVENCIMENTO, r.via
+    for select r.DATAVENCIMENTO, r.via, r.VALOR_RESTO
       from RECEBIMENTO r  where r.TITULO = udf_trim(:NF) || '-' || :Serie and BL = 1 order by r.DATAVENCIMENTO, r.VIA
-      into :datafatura, :numerofatura
+      into :datafatura, :numerofatura, :vlr
     do begin
         valor = vlr;
         --if (parc > 0) then
