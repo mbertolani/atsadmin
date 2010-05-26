@@ -617,10 +617,12 @@ begin
   if (not CDSc.Active) then
     CDSc.Open;
 
-  edCodcli.Text := '';
+ // IntToStr(edCodcli.Text := 0);
   edCliente.Text := '';
   edtModelo.Text := '';
   edtCodModelo.Text:= '';
+
+ // CLIENTE SISTEMA
 
 end;
 

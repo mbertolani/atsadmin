@@ -42,52 +42,52 @@ object fCallCenter: TfCallCenter
       item
         Expanded = False
         FieldName = 'PROTOCOLO'
-        Width = 107
+        Width = 109
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_ATENDIMENTO'
         Title.Caption = 'DATA'
-        Width = 69
+        Width = 70
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOME'
-        Width = 155
+        Width = 158
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUS_ATENDIMENTO'
         Title.Caption = 'STATUS'
-        Width = 67
+        Width = 68
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CIDADE'
-        Width = 103
+        Width = 105
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CEP'
-        Width = 56
+        Width = 57
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'UF'
-        Width = 28
+        Width = 29
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'TIPO_ATENDIMENTO'
         Title.Caption = 'TIPO'
-        Width = 182
+        Width = 187
         Visible = True
       end>
   end
