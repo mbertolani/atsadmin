@@ -596,6 +596,19 @@ type
     procIBGECD_UF: TStringField;
     procIBGECD_IBGE: TStringField;
     procIBGENM_MUNICIPIO: TStringField;
+    DBEdit60: TDBEdit;
+    DBEdit61: TDBEdit;
+    Label75: TLabel;
+    Label76: TLabel;
+    Label77: TLabel;
+    sds_cliCODRESPONSAVEL: TIntegerField;
+    cds_cliCODRESPONSAVEL: TIntegerField;
+    btnClienteProcura: TBitBtn;
+    lblFornecedor: TLabel;
+    btnProdutoProcura: TBitBtn;
+    lblBanco: TLabel;
+    lblPlano: TLabel;
+    cbPlano: TComboBox;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -658,6 +671,9 @@ type
     procedure BitBtn21Click(Sender: TObject);
     procedure BitBtn22Click(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure btnClienteProcuraClick(Sender: TObject);
+    procedure btnProdutoProcuraClick(Sender: TObject);
+    procedure cbPlanoChange(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
@@ -682,7 +698,7 @@ implementation
 uses UDm, uProcurar, uclienteendereco, uClienteRepresentante,
   uClienteVeiculo, uListaClientes, uListaClientesSaude, uVendas, uEstado, uVisitas,
   uListaCliEscola, uRegiaoCadastro, uUtils, sCtrlResize, uNotaf,
-  uCrTituloInclui, uNF, uProdFornecedor, uTerminal_Delivery;
+  uCrTituloInclui, uNF, uProdFornecedor, uTerminal_Delivery, ubanco;
 
 {$R *.dfm}
 
@@ -809,11 +825,7 @@ begin
   else
   TabInternet.TabVisible := False;
 
-  TabAdm.TabVisible := False;
-  TabRepresentante.TabVisible := False;
-  //Usa Cadastro de Representantes
-  if dm.cds_parametro.Active then
-    dm.cds_parametro.Close;
+  TabAdm.TabVisible := True;
   dm.cds_parametro.Params[0].AsString := 'CADASTROADM';
   dm.cds_parametro.Open;
   if dm.cds_parametroDADOS.AsString = 'S' then
@@ -1145,20 +1157,12 @@ begin
       parente := 1;
     end;
 
-    if (ComboBox1.Text <> '') then
+    if (cbPlano.Text <> '') then
     begin
        if not cds_faixa.Active then
         cds_faixa.Open;
-       cds_faixa.Locate('DESCRICAO', ComboBox1.Text,[loCaseInsensitive]);
+       cds_faixa.Locate('DESCRICAO', CbPlano.Text,[loCaseInsensitive]);
        cds_cliCOD_FAIXA.AsInteger := cds_faixaCODFAIXA.AsInteger;
-    end;
-
-    if (ComboBox2.Text <> '') then
-    begin
-      if not cds_faixa.Active then
-        cds_faixa.Open;
-      cds_faixa.Locate('DESCRICAO', ComboBox2.Text,[loCaseInsensitive]);
-      cds_cliCOD_FAIXA.AsInteger := cds_faixaCODFAIXA.AsInteger;
     end;
 
     if (dm.moduloUsado = 'ACADEMIA') then
@@ -1358,7 +1362,7 @@ end;
 procedure TfClienteCadastro.DBEdit2Exit(Sender: TObject);
 begin
   inherited;
-  if (DtSrc.State in [dsInsert, dsEdit]) then
+  if (DtSrc.State in [dsInsert]) then
   if (cdsLocate.Locate('NOMECLIENTE', DBEdit2.Text ,[loCaseInsensitive])) then
   if(MessageDlg('Nome já Cadastrado'+#13+#10+'Deseja Continuar', mtWarning, [mbYes, mbNo ], 0) = mrno) then
   begin
@@ -1616,6 +1620,36 @@ begin
     cds_cli.Params[0].Clear;
     cds_cli.Params[0].AsInteger := fListaClientes.cdsCODCLIENTE.AsInteger;
     cds_cli.Open;
+    if (not cds_cli.IsEmpty) then
+    begin
+      // Busca o Plano e o Fornecedor
+      if (cds_cliCOD_FAIXA.AsInteger > 0) then
+      begin
+        if not cds_faixa.Active then
+          cds_faixa.Open;
+        cds_faixa.Locate('CODFAIXA', cds_cliCOD_FAIXA.AsInteger,[loCaseInsensitive]);
+        lblPlano.Caption := cds_faixaDESCRICAO.AsString;
+      end;
+      if (cds_cliCODRESPONSAVEL.AsInteger > 0) then
+      begin
+        dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+        dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1;
+        dm.scds_forn_proc.Params.ParamByName('pCodFornecedor').AsInteger := cds_cliCODRESPONSAVEL.AsInteger;
+        dm.scds_forn_proc.Open;
+        lblFornecedor.Caption := dm.scds_forn_procNOMEFORNECEDOR.AsString;
+        dm.scds_forn_proc.Close;
+      end;
+    end;
+
+    if (cds_cliCOD_FAIXA.AsInteger > 0) then
+    begin
+      if (Not cds_faixa.Active) then
+        cds_faixa.Open;
+
+        if (cds_faixa.Locate('CODFAIXA', cds_cliCOD_FAIXA.AsInteger,[loCaseInsensitive])) then
+          lblPlano.Caption := cds_faixaDESCRICAO.AsString
+    end;
+
     if cdsEnderecoCli.Active then
        cdsEnderecoCli.Close;
        cdsEnderecoCli.Params[0].Clear;
@@ -1683,7 +1717,7 @@ begin
       cdsModalidade.Next;
     end;
     if (cds_faixa.Active) then
-      cds_faixa.Close;
+       cds_faixa.Close;
     cds_faixa.Open;
     ComboBox1.Items.Clear;
     // populo a combobox
@@ -1694,7 +1728,22 @@ begin
       cds_faixa.Next;
     end;
 
+
   end;
+  if (cds_faixa.Active) then
+    cds_faixa.Close;
+  cds_faixa.Open;
+  CbPlano.Items.Clear;
+  // populo a combobox
+  cds_faixa.First;
+  while not cds_faixa.Eof do
+  begin
+    cbPlano.Items.Add(cds_faixaDESCRICAO.AsString);
+    cds_faixa.Next;
+  end;
+
+  // Usado na ABA Administrativo para selecionar o plano.
+
   if (not cTranportadora.Active) then
       cTranportadora.Open;
   if (FormExiste(fNF) = True) then
@@ -1914,7 +1963,7 @@ begin
   begin
      cds_cli.Edit;
      cds_cliCOD_FAIXA.AsInteger := faixa;
-     cds_cliLIMITECREDITO.AsFloat := cds_faixaVALOR_PLANO.AsFloat;
+     //cds_cliLIMITECREDITO.AsFloat := cds_faixaVALOR_PLANO.AsFloat;
   end;
 end;
 
@@ -2495,6 +2544,55 @@ procedure TfClienteCadastro.btnSairClick(Sender: TObject);
 begin
  // inherited;
   Close;
+end;
+
+procedure TfClienteCadastro.btnClienteProcuraClick(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
+  dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+  dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;
+  fProcurar.RadioGroup2.Visible := True;
+  fProcurar.BtnProcurar.Click;
+  fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
+  fProcurar.btnIncluir.Visible := True;
+  try
+   fProcurar.ShowModal;
+   if dtSrc.State=dsBrowse then
+     cds_cli.Edit;
+   cds_cliCODRESPONSAVEL.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
+   lblFornecedor.Caption := dm.scds_forn_procNOMEFORNECEDOR.AsString;
+   finally
+    dm.scds_forn_proc.Close;
+    fProcurar.Free;
+   end;
+end;
+
+procedure TfClienteCadastro.btnProdutoProcuraClick(Sender: TObject);
+begin
+  inherited;
+  fBanco := TfBanco.Create(Application);
+  try
+    fBanco.ShowModal;
+    cds_cliCODBANCO.AsInteger := codbanco;
+    lblBanco.Caption          := nomeBanco;
+  finally
+    fBanco.Free;
+  end;
+
+end;
+
+procedure TfClienteCadastro.cbPlanoChange(Sender: TObject);
+begin
+  inherited;
+  if (cds_cli.State in [dsBrowse]) then
+    cds_cli.Edit;
+
+  if not cds_faixa.Active then
+    cds_faixa.Open;
+  cds_faixa.Locate('DESCRICAO', cbPlano.Text,[loCaseInsensitive]);
+
+  cds_cliCOD_FAIXA.AsInteger := cds_faixaCODFAIXA.AsInteger;
 end;
 
 end.
