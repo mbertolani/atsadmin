@@ -342,6 +342,5 @@ inherited fbanco: Tfbanco
   end
   inherited DtSrc: TDataSource
     DataSet = DM.cdsBanco
-    Left = 544
   end
 end

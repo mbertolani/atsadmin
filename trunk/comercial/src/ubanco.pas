@@ -38,6 +38,7 @@ type
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -95,6 +96,13 @@ begin
 end;
 
 procedure Tfbanco.btnSairClick(Sender: TObject);
+begin
+  inherited;
+  codbanco :=  dm.cdsBancoCODBANCO.value;
+  nomebanco := dm.cdsBancoBANCO.AsString;
+end;
+
+procedure Tfbanco.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   codbanco :=  dm.cdsBancoCODBANCO.value;
