@@ -316,6 +316,7 @@ begin
          begin
            j = d1;
            d1 = -1;
+           dif = 0;
          end
          else if (d2 > 0) then
          begin
