@@ -1,3 +1,4 @@
+set term ^ ;
 ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD (
     CFOP Varchar(30),
     UF Char(2),
@@ -11,6 +12,7 @@ ALTER PROCEDURE CALCULA_ICMS_SUBSTPROD (
   ) */
 AS
 declare variable codNF integer;
+declare variable codV integer;
   declare variable codProduto integer;
   declare variable qtde double PRECISION;
   declare variable desconto double PRECISION;
@@ -40,6 +42,7 @@ declare variable codNF integer;
   declare variable descP varchar(300);
   declare variable cfop_outros varchar(30);
   declare variable np SMALLINT;
+  declare variable parc SMALLINT;
   declare variable CALC_FISC Varchar (30);
   declare variable CICMS_SUBST double precision;
   declare variable CICMS_SUBST_IC double precision;
@@ -221,17 +224,54 @@ begin
     total = total2 + total3 + TOTAL_ST;
    if (USA_SUBPROD = 'S') then
    begin
-    select first 1 v.notafiscal from venda v where v.codmovimento = :codMov
-      into :codnf; 
+    select first 1 v.notafiscal, codvenda from venda v where v.codmovimento = :codMov
+      into :codnf, :codV; 
       
     -- Pego os outros valores na NF para somar ao total 
     select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO) from notafiscal n where numnf = :numero_nf
     into :vOutros;   
-    total = total + vOutros;
+    
+    select first 1 r.PARCELAS from RECEBIMENTO r  where titulo = :codnf || '-' || :serie and via = '1'
+      into :Parc;
+    --total3 = 0;
+    --select sum(Valor_Resto) from RECEBIMENTO r  where titulo = :codnf || '-' || :serie and via = '1'
+    --into :total3; 
+    total3 = total3 + vOutros;
+    total3 = (:total3 + :total2) / :parc;
+    total3 = UDF_ROUNDDEC(total3,2) + UDF_ROUNDDEC(total_st,2);
       
-    update recebimento set valor_resto = :total, valortitulo = :total
-      where titulo = :codnf || '-' || :serie and via = '1';
-    UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTAL_BASE_ST, VALOR_ICMS_SUBST = :TOTAL_ST, VALOR_ICMS = :TOTAL_ICMS, BASE_ICMS = : TOTAL_ICMS_BASE, VALOR_TOTAL_NOTA = :TOTAL
+    select sum(VALOR) from NFE_FATURA(:CODV)
+    into :vlr_prod;
+    
+    -- Faz arredondamento
+    if (vlr_prod <> total) then 
+    if ((total - vlr_prod) < 1) then 
+    begin 
+      if (vlr_prod < total) then 
+        total3 = total3 - (total - vlr_prod);
+      if (vlr_prod > total) then 
+        total3 = total3 - (vlr_prod- total);
+    end    
+        
+    update recebimento set valor_resto = :total3 where titulo = :codnf || '-' || :serie and via = '1';
+    
+    -- Verificando se o arredondamento funcionou 
+        select sum(VALOR) from NFE_FATURA(:CODV)
+        into :vlr_prod;
+    
+        -- Faz arredondamento
+        if (vlr_prod <> total) then 
+        if ((total - vlr_prod) < 1) then 
+        begin 
+            if (vlr_prod < total) then 
+                total3 = total3 - (total - vlr_prod);
+            if (vlr_prod > total) then 
+            total3 = total3 - (vlr_prod- total);
+            update recebimento set valor_resto = :total3 where titulo = :codnf || '-' || :serie and via = '1';
+        end    
+        
+    
+    UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTAL_BASE_ST, VALOR_ICMS_SUBST = UDF_ROUNDDEC(:TOTAL_ST,2), VALOR_ICMS = :TOTAL_ICMS, BASE_ICMS = : TOTAL_ICMS_BASE, VALOR_TOTAL_NOTA = :TOTAL
       where NUMNF = :NUMERO_NF; --, FATURA = :fatu
       
    end

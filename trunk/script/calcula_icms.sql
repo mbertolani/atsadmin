@@ -270,6 +270,7 @@ begin
         EXECUTE PROCEDURE CALCULA_ICMS_SUBSTITUICAO (:NUMERO_NF,  :UF, :CFOP, :VALORX, :notafiscalVenda , :serie, :ipi
             ,:icms_destacado_desc, :icms_destacado_desc2);
         EXECUTE PROCEDURE CALCULA_ICMS_SUBSTPROD (:CFOP, :UF, :NUMERO_NF, :COD, :SERIE);
+        
         fatura = '';
         for select UDF_DAY(DATAFATURA) || '/' || UDF_MONTH(DATAFATURA) || '/' || UDF_YEAR(DATAFATURA)  , VALOR, NUMEROFATURA from NFE_FATURA(:CODV)
             into :datafatura, :valor, :numerofatura
@@ -285,6 +286,6 @@ begin
             update notafiscal set FATURA = :fatura where NUMNF = :NUMERO_NF;
         -- No Caso de NF com faturas diferentes faz a correção destas , usada na GiroParts.  
         NumeroFatura = notaFiscalVenda || '-' || serie;
-        EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);   
+        EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);  
     end        
 end

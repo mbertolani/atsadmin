@@ -22,12 +22,14 @@ DECLARE VARIABLE dtaVcto date;
 BEGIN
     /* Para quem tira a NF Parcial */
     -- Pego somenta a segunda via para comparar com a primeira para ver se o valor e diferente
+     update RECEBIMENTO set historico = ' começo'  where TITULO = :Titulo  and  PARCELAS > 1;
     For Select First 1 r.TITULO, r.VALOR_RESTO, r.CODCLIENTE, r.PARCELAS
         from RECEBIMENTO r where r.PARCELAS > 1 and ((r.TITULO = :Titulo) or (:Titulo = 'TODOS'))
         and (r.VIA = 2) and r.NF is null
         order by r.TITULO, r.via 
         into :Tit, :vlr3, :codCli, :parc
     do begin 
+       update RECEBIMENTO set historico = 'entrou no for'  where TITULO = :Tit and CODCLIENTE = :codCli and  PARCELAS > 1;
        update RECEBIMENTO set NF = 1  where TITULO = :Tit and CODCLIENTE = :codCli and  PARCELAS > 1;
         -- Copiando a 1. Via
         select First 1 r.VALOR_RESTO, r.VALORTITULO - r.VALOR_RESTO
@@ -36,6 +38,7 @@ BEGIN
     
         if (vlr3 <> vlr2) then 
         begin 
+            update RECEBIMENTO set historico = 'entrou no if'  where TITULO = :Tit and CODCLIENTE = :codCli and  PARCELAS > 1;
             For Select First 1 r.TITULO, r.VALOR_RESTO, r.VIA, r.DATAVENCIMENTO, r.VALORTITULO 
                 from RECEBIMENTO r where r.TITULO = :Tit and r.VIA = 1 and r.CODCLIENTE = :codcli
                 order by r.via 
@@ -58,6 +61,7 @@ BEGIN
                     parc1 = parc1 - 1;
                         
                     via = via + 1;    
+                    update RECEBIMENTO set historico = ' chegou no copia 1 via'  where TITULO = :Tit and CODCLIENTE = :codCli and  PARCELAS > 1;
                     -- Faco uma copia de cada parcela
                     Insert into RECEBIMENTO (TITULO, EMISSAO, CODCLIENTE, DATAVENCIMENTO, DATARECEBIMENTO, CAIXA, CONTADEBITO, 
                         CONTACREDITO, STATUS, VIA, FORMARECEBIMENTO, DATABAIXA, HISTORICO, CODVENDA, CODALMOXARIFADO, CODVENDEDOR, 
