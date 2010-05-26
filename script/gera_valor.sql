@@ -80,16 +80,16 @@ BEGIN
                 and m.preco > 0
             into :desconto, :p, :precoProd
             do begin
-            if (desconto is null) then
-                desconto = 0;
-            if (desconto > 0) then
-                desconto = 1 - (desconto / 100);
-            if (desconto = 0) then
-                desconto = 1;
-            total = UDF_ROUNDDEC(((:precoProd * :d9) * :desconto), 2);    
-            update MOVIMENTODETALHE md set  md.VLR_BASE = :total
-                where md.CODMOVIMENTO = :codMov and md.CODPRODUTO = :p
-                and md.preco > 0; 
+                if (desconto is null) then
+                    desconto = 0;
+                if (desconto > 0) then
+                    desconto = 1 - (desconto / 100);
+                if (desconto = 0) then
+                    desconto = 1;
+                total = UDF_ROUNDDEC(((:precoProd * :d9) * :desconto), 2);    
+                update MOVIMENTODETALHE md set  md.VLR_BASE = :total
+                    where md.CODMOVIMENTO = :codMov and md.CODPRODUTO = :p
+                    and md.preco > 0; 
             end
             select sum(m.quantidade * m.VLR_BASE) from MOVIMENTODETALHE m where m.CODMOVIMENTO = :codMov
                 into :total ;
@@ -101,22 +101,20 @@ BEGIN
             for select codrecebimento, VALOR_PRIM_VIA, via from recebimento where titulo = :titulo and codcliente = :codcli order by via
                 into :codrec, :vlrTit, :via
             do begin
-            if (vlrParc = 0) then
-           begin  
-             vlrParc = vlrTit - parcPrim; 
-           end  
-           if (via = 1) then 
-             parcResto = parcPrim;        
-           if (via > 1) then 
-             parcResto = vlrParc/(numParc-1);     
+                if (vlrParc = 0) then
+                begin  
+                    vlrParc = vlrTit - parcPrim; 
+                end  
+                if (via = 1) then 
+                    parcResto = parcPrim;        
+                if (via > 1) then 
+                    parcResto = vlrParc/(numParc-1);     
              
-           parcResto = UDF_ROUNDDEC(:parcResto,2);
+                parcResto = UDF_ROUNDDEC(:parcResto,2);
            
-           
-           
-           update recebimento a set valor_resto = :parcResto , VALORTITULO = :vlrTit where codrecebimento = :codRec;
-        end 
-      end    
+                update recebimento a set valor_resto = :parcResto , VALORTITULO = :vlrTit where codrecebimento = :codRec;
+            end 
+        end    
       end 
       /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
    end 
