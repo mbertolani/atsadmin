@@ -5,17 +5,14 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, StdCtrls, XPMenu, DB, Buttons, ExtCtrls,
-  MMJPanel, FMTBcd, SqlExpr, Provider, DBClient;
+  MMJPanel, FMTBcd, SqlExpr, Provider, DBClient, RXCtrls, JvExDBGrids,
+  JvDBGrid;
 
 type
   TfNotafRemessa = class(TForm)
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
-    DBGrid1: TDBGrid;
-    DBGrid2: TDBGrid;
     MMJPanel2: TMMJPanel;
-    Label1: TLabel;
-    Label2: TLabel;
     MMJPanel1: TMMJPanel;
     btnSair: TBitBtn;
     DtSrc: TDataSource;
@@ -66,6 +63,28 @@ type
     cdsNFfuturaCNPJ_CPF: TStringField;
     cdsNFfuturaINSCRICAOESTADUAL: TStringField;
     cdsNFfuturaSERIE: TStringField;
+    sdsNFfuturaRAZAOSOCIAL: TStringField;
+    cdsNFfuturaRAZAOSOCIAL: TStringField;
+    sdsNFremessaNOTASERIE: TStringField;
+    sdsNFremessaNUMNF: TIntegerField;
+    sdsNFremessaQUANTIDADE: TFloatField;
+    sdsNFremessaPESOBRUTO: TBCDField;
+    sdsNFremessaPESOLIQUIDO: TBCDField;
+    sdsNFremessaDTAEMISSAO: TDateField;
+    sdsNFremessaCODVENDA: TIntegerField;
+    sdsNFremessaNOTAFISCAL: TIntegerField;
+    sdsNFremessaBASE_ICMS: TFloatField;
+    sdsNFremessaVALOR_ICMS: TFloatField;
+    sdsNFremessaBASE_ICMS_SUBST: TFloatField;
+    sdsNFremessaVALOR_ICMS_SUBST: TFloatField;
+    sdsNFremessaVALOR_PRODUTO: TFloatField;
+    sdsNFremessaVALOR_TOTAL_NOTA: TFloatField;
+    sdsNFremessaCFOP: TStringField;
+    sdsNFremessaCODCLIENTE: TIntegerField;
+    sdsNFremessaCNPJ_CPF: TStringField;
+    sdsNFremessaINSCRICAOESTADUAL: TStringField;
+    sdsNFremessaSERIE: TStringField;
+    sdsNFremessaNOTAMAE: TIntegerField;
     cdsNFremessaNOTASERIE: TStringField;
     cdsNFremessaNUMNF: TIntegerField;
     cdsNFremessaQUANTIDADE: TFloatField;
@@ -85,14 +104,18 @@ type
     cdsNFremessaCNPJ_CPF: TStringField;
     cdsNFremessaINSCRICAOESTADUAL: TStringField;
     cdsNFremessaSERIE: TStringField;
-    sdsNFfuturaRAZAOSOCIAL: TStringField;
-    cdsNFfuturaRAZAOSOCIAL: TStringField;
-    procedure DtSrcStateChange(Sender: TObject);
+    cdsNFremessaNOTAMAE: TIntegerField;
+    sdsNFfuturaPESOREMESSA: TBCDField;
+    cdsNFfuturaPESOREMESSA: TBCDField;
+    RxLabel1: TRxLabel;
+    JvDBGrid1: TJvDBGrid;
+    JvDBGrid2: TJvDBGrid;
     procedure btnSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnSelecionarClick(Sender: TObject);
+    procedure JvDBGrid2CellClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -101,10 +124,11 @@ type
 
 var
   fNotafRemessa: TfNotafRemessa;
+  nfr : integer;
 
 implementation
 
-uses UDm, UDmSaude, ufDlgLogin, uUtils, uNotaf, UDMNF;
+uses UDm, UDmSaude, ufDlgLogin, uUtils, uNotaf, UDMNF, sCtrlResize;
 
 {$R *.dfm}
 
@@ -118,12 +142,6 @@ begin
   Canv.Handle := DC;
   Canv.CopyRect(R,Canv,R);
   ReleaseDC( GetDeskTopWindow, DC );
-end;
-(************************************************************************************)
-procedure TfNotafRemessa.DtSrcStateChange(Sender: TObject);
-var icomp: integer;
-begin
-
 end;
 (************************************************************************************)
 procedure TfNotafRemessa.btnSairClick(Sender: TObject);
@@ -152,43 +170,10 @@ begin
  end;
 end;
 (************************************************************************************)
-procedure TfNotafRemessa.FormCreate(Sender: TObject);
-begin
-  if (dm.sResolucao.Active) then
-     dm.sResolucao.Close;
-  dm.sResolucao.Params[0].AsString := MICRO;
-  dm.sResolucao.Open;
-  if (dm.sResolucao.IsEmpty) then
-  begin
-       videoW := '800';
-       videoH := '600';
-  end
-  else
-  begin
-       videoW := dm.sResolucaoMODULO.AsString;
-       videoH := dm.sResolucaoUSUARIO.AsString;
-  end;
-
-  if (videoW <> 'widescreen') then
-  begin
-   if  (videoW <> '') then
-   begin
-     ScreenWidth := StrToInt(videoW);
-     ScreenHeight := StrToInt(videoH);
-     scaled := true;
-     if (screen.width <> ScreenWidth) then
-     begin
-       height := longint(height) * longint(screen.height) DIV ScreenHeight;
-       width := longint(width) * longint(screen.width) DIV ScreenWidth;
-       scaleBy(screen.width, ScreenWidth);
-     end;
-   end;
-  end;
-  dm.sResolucao.Close;
-end;
-
 procedure TfNotafRemessa.FormShow(Sender: TObject);
 begin
+   sCtrlResize.CtrlResize(TForm(fNotafRemessa));
+   nfr := cdsNFfuturaNUMNF.AsInteger;
    if (cdsNFfutura.Active) then
      cdsNFfutura.Close;
    cdsNFfutura.Params[0].AsInteger := DMNF.cds_nfCODCLIENTE.AsInteger;
@@ -196,7 +181,20 @@ begin
 
    if (cdsNFremessa.Active) then
      cdsNFremessa.Close;
+   cdsNFremessa.Params[0].AsInteger := cdsNFfuturaNUMNF.AsInteger;
    cdsNFremessa.Open;
 end;
+(************************************************************************************)
+procedure TfNotafRemessa.btnSelecionarClick(Sender: TObject);
+begin
+  dmnf.cds_nfNOTAMAE.AsInteger := nfr;
+  fNotafRemessa.Close();
+end;
+(************************************************************************************)
+procedure TfNotafRemessa.JvDBGrid2CellClick(Column: TColumn);
+begin
+  nfr := cdsNFfuturaNUMNF.AsInteger;
+end;
+(************************************************************************************)
 
 end.

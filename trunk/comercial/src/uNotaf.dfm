@@ -1,7 +1,7 @@
 object fNotaf: TfNotaf
-  Left = 156
+  Left = 155
   Top = 61
-  Width = 799
+  Width = 800
   Height = 590
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
@@ -22,7 +22,7 @@ object fNotaf: TfNotaf
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 775
+    Width = 776
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -991,7 +991,7 @@ object fNotaf: TfNotaf
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 775
+    Width = 776
     Height = 691
     ActivePage = TabNF
     Align = alTop
@@ -1083,7 +1083,7 @@ object fNotaf: TfNotaf
         object DBText1: TDBText
           Left = 11
           Top = 18
-          Width = 115
+          Width = 126
           Height = 17
           DataField = 'CNPJ_CPF'
           DataSource = DataSource1
@@ -1105,7 +1105,7 @@ object fNotaf: TfNotaf
         object DBText2: TDBText
           Left = 11
           Top = 18
-          Width = 115
+          Width = 126
           Height = 17
           DataField = 'IE_RG'
           DataSource = DataSource1
@@ -2937,6 +2937,459 @@ object fNotaf: TfNotaf
     end
     object sClasFiscalICMS_SUBST_IND: TFloatField
       FieldName = 'ICMS_SUBST_IND'
+    end
+  end
+  object sdsNotaMae: TSQLDataSet
+    CommandText = 'select * from NOTAFISCAL nf where nf.numnf = :nfmae'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'nfmae'
+        ParamType = ptUnknown
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 160
+    Top = 152
+    object sdsNotaMaeNOTASERIE: TStringField
+      FieldName = 'NOTASERIE'
+      Required = True
+      Size = 10
+    end
+    object sdsNotaMaeNUMNF: TIntegerField
+      FieldName = 'NUMNF'
+      Required = True
+    end
+    object sdsNotaMaeNATUREZA: TSmallintField
+      FieldName = 'NATUREZA'
+      Required = True
+    end
+    object sdsNotaMaeQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+    end
+    object sdsNotaMaeMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 10
+    end
+    object sdsNotaMaePESOBRUTO: TBCDField
+      FieldName = 'PESOBRUTO'
+      Precision = 9
+      Size = 2
+    end
+    object sdsNotaMaePESOLIQUIDO: TBCDField
+      FieldName = 'PESOLIQUIDO'
+      Precision = 9
+      Size = 2
+    end
+    object sdsNotaMaeESPECIE: TStringField
+      FieldName = 'ESPECIE'
+    end
+    object sdsNotaMaeDTAEMISSAO: TDateField
+      FieldName = 'DTAEMISSAO'
+    end
+    object sdsNotaMaeDTASAIDA: TDateField
+      FieldName = 'DTASAIDA'
+    end
+    object sdsNotaMaeUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object sdsNotaMaeCODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+    end
+    object sdsNotaMaeCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object sdsNotaMaeNUMERO: TStringField
+      FieldName = 'NUMERO'
+    end
+    object sdsNotaMaeNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object sdsNotaMaeHORASAIDA: TTimeField
+      FieldName = 'HORASAIDA'
+    end
+    object sdsNotaMaeDATA_SISTEMA: TSQLTimeStampField
+      FieldName = 'DATA_SISTEMA'
+    end
+    object sdsNotaMaeBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object sdsNotaMaeVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object sdsNotaMaeBASE_ICMS_SUBST: TFloatField
+      FieldName = 'BASE_ICMS_SUBST'
+    end
+    object sdsNotaMaeVALOR_ICMS_SUBST: TFloatField
+      FieldName = 'VALOR_ICMS_SUBST'
+    end
+    object sdsNotaMaeVALOR_PRODUTO: TFloatField
+      FieldName = 'VALOR_PRODUTO'
+    end
+    object sdsNotaMaeVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object sdsNotaMaeVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object sdsNotaMaeOUTRAS_DESP: TFloatField
+      FieldName = 'OUTRAS_DESP'
+    end
+    object sdsNotaMaeVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object sdsNotaMaeVALOR_TOTAL_NOTA: TFloatField
+      FieldName = 'VALOR_TOTAL_NOTA'
+    end
+    object sdsNotaMaeCORPONF1: TStringField
+      FieldName = 'CORPONF1'
+      Size = 75
+    end
+    object sdsNotaMaeCORPONF2: TStringField
+      FieldName = 'CORPONF2'
+      Size = 75
+    end
+    object sdsNotaMaeCORPONF3: TStringField
+      FieldName = 'CORPONF3'
+      Size = 75
+    end
+    object sdsNotaMaeCORPONF4: TStringField
+      FieldName = 'CORPONF4'
+      Size = 75
+    end
+    object sdsNotaMaeCORPONF5: TStringField
+      FieldName = 'CORPONF5'
+      Size = 75
+    end
+    object sdsNotaMaeCORPONF6: TStringField
+      FieldName = 'CORPONF6'
+      Size = 75
+    end
+    object sdsNotaMaeCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 30
+    end
+    object sdsNotaMaeCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+    end
+    object sdsNotaMaeFATURA: TStringField
+      FieldName = 'FATURA'
+      Size = 300
+    end
+    object sdsNotaMaeICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object sdsNotaMaeREDUZICMS: TFloatField
+      FieldName = 'REDUZICMS'
+    end
+    object sdsNotaMaeNOMETRANSP: TStringField
+      FieldName = 'NOMETRANSP'
+      Size = 50
+    end
+    object sdsNotaMaePLACATRANSP: TStringField
+      FieldName = 'PLACATRANSP'
+      Size = 8
+    end
+    object sdsNotaMaeCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
+    end
+    object sdsNotaMaeEND_TRANSP: TStringField
+      FieldName = 'END_TRANSP'
+      Size = 80
+    end
+    object sdsNotaMaeCIDADE_TRANSP: TStringField
+      FieldName = 'CIDADE_TRANSP'
+      Size = 50
+    end
+    object sdsNotaMaeUF_VEICULO_TRANSP: TStringField
+      FieldName = 'UF_VEICULO_TRANSP'
+      FixedChar = True
+      Size = 2
+    end
+    object sdsNotaMaeUF_TRANSP: TStringField
+      FieldName = 'UF_TRANSP'
+      FixedChar = True
+      Size = 2
+    end
+    object sdsNotaMaeFRETE: TStringField
+      FieldName = 'FRETE'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsNotaMaeINSCRICAOESTADUAL: TStringField
+      FieldName = 'INSCRICAOESTADUAL'
+    end
+    object sdsNotaMaeSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsNotaMaeVLRTOTALEXP: TFloatField
+      FieldName = 'VLRTOTALEXP'
+    end
+    object sdsNotaMaeIMPRESSA: TStringField
+      FieldName = 'IMPRESSA'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsNotaMaeSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object sdsNotaMaeSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsNotaMaeID_GUIA: TIntegerField
+      FieldName = 'ID_GUIA'
+    end
+    object sdsNotaMaePROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object sdsNotaMaeNUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object sdsNotaMaePROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
+    end
+    object sdsNotaMaeNOTAMAE: TIntegerField
+      FieldName = 'NOTAMAE'
+    end
+    object sdsNotaMaePESOREMESSA: TBCDField
+      FieldName = 'PESOREMESSA'
+      Precision = 9
+      Size = 2
+    end
+  end
+  object dspNotaMae: TDataSetProvider
+    DataSet = sdsNotaMae
+    UpdateMode = upWhereKeyOnly
+    Left = 163
+    Top = 191
+  end
+  object cdsNotaMae: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'nfmae'
+        ParamType = ptUnknown
+      end>
+    ProviderName = 'dspNotaMae'
+    Left = 183
+    Top = 243
+    object cdsNotaMaeNOTASERIE: TStringField
+      FieldName = 'NOTASERIE'
+      Required = True
+      Size = 10
+    end
+    object cdsNotaMaeNUMNF: TIntegerField
+      FieldName = 'NUMNF'
+      Required = True
+    end
+    object cdsNotaMaeNATUREZA: TSmallintField
+      FieldName = 'NATUREZA'
+      Required = True
+    end
+    object cdsNotaMaeQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+    end
+    object cdsNotaMaeMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 10
+    end
+    object cdsNotaMaePESOBRUTO: TBCDField
+      FieldName = 'PESOBRUTO'
+      Precision = 9
+      Size = 2
+    end
+    object cdsNotaMaePESOLIQUIDO: TBCDField
+      FieldName = 'PESOLIQUIDO'
+      Precision = 9
+      Size = 2
+    end
+    object cdsNotaMaeESPECIE: TStringField
+      FieldName = 'ESPECIE'
+    end
+    object cdsNotaMaeDTAEMISSAO: TDateField
+      FieldName = 'DTAEMISSAO'
+    end
+    object cdsNotaMaeDTASAIDA: TDateField
+      FieldName = 'DTASAIDA'
+    end
+    object cdsNotaMaeUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNotaMaeCODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+    end
+    object cdsNotaMaeCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object cdsNotaMaeNUMERO: TStringField
+      FieldName = 'NUMERO'
+    end
+    object cdsNotaMaeNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object cdsNotaMaeHORASAIDA: TTimeField
+      FieldName = 'HORASAIDA'
+    end
+    object cdsNotaMaeDATA_SISTEMA: TSQLTimeStampField
+      FieldName = 'DATA_SISTEMA'
+    end
+    object cdsNotaMaeBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object cdsNotaMaeVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object cdsNotaMaeBASE_ICMS_SUBST: TFloatField
+      FieldName = 'BASE_ICMS_SUBST'
+    end
+    object cdsNotaMaeVALOR_ICMS_SUBST: TFloatField
+      FieldName = 'VALOR_ICMS_SUBST'
+    end
+    object cdsNotaMaeVALOR_PRODUTO: TFloatField
+      FieldName = 'VALOR_PRODUTO'
+    end
+    object cdsNotaMaeVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object cdsNotaMaeVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object cdsNotaMaeOUTRAS_DESP: TFloatField
+      FieldName = 'OUTRAS_DESP'
+    end
+    object cdsNotaMaeVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object cdsNotaMaeVALOR_TOTAL_NOTA: TFloatField
+      FieldName = 'VALOR_TOTAL_NOTA'
+    end
+    object cdsNotaMaeCORPONF1: TStringField
+      FieldName = 'CORPONF1'
+      Size = 75
+    end
+    object cdsNotaMaeCORPONF2: TStringField
+      FieldName = 'CORPONF2'
+      Size = 75
+    end
+    object cdsNotaMaeCORPONF3: TStringField
+      FieldName = 'CORPONF3'
+      Size = 75
+    end
+    object cdsNotaMaeCORPONF4: TStringField
+      FieldName = 'CORPONF4'
+      Size = 75
+    end
+    object cdsNotaMaeCORPONF5: TStringField
+      FieldName = 'CORPONF5'
+      Size = 75
+    end
+    object cdsNotaMaeCORPONF6: TStringField
+      FieldName = 'CORPONF6'
+      Size = 75
+    end
+    object cdsNotaMaeCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 30
+    end
+    object cdsNotaMaeCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+    end
+    object cdsNotaMaeFATURA: TStringField
+      FieldName = 'FATURA'
+      Size = 300
+    end
+    object cdsNotaMaeICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object cdsNotaMaeREDUZICMS: TFloatField
+      FieldName = 'REDUZICMS'
+    end
+    object cdsNotaMaeNOMETRANSP: TStringField
+      FieldName = 'NOMETRANSP'
+      Size = 50
+    end
+    object cdsNotaMaePLACATRANSP: TStringField
+      FieldName = 'PLACATRANSP'
+      Size = 8
+    end
+    object cdsNotaMaeCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
+    end
+    object cdsNotaMaeEND_TRANSP: TStringField
+      FieldName = 'END_TRANSP'
+      Size = 80
+    end
+    object cdsNotaMaeCIDADE_TRANSP: TStringField
+      FieldName = 'CIDADE_TRANSP'
+      Size = 50
+    end
+    object cdsNotaMaeUF_VEICULO_TRANSP: TStringField
+      FieldName = 'UF_VEICULO_TRANSP'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNotaMaeUF_TRANSP: TStringField
+      FieldName = 'UF_TRANSP'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNotaMaeFRETE: TStringField
+      FieldName = 'FRETE'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaMaeINSCRICAOESTADUAL: TStringField
+      FieldName = 'INSCRICAOESTADUAL'
+    end
+    object cdsNotaMaeSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaMaeVLRTOTALEXP: TFloatField
+      FieldName = 'VLRTOTALEXP'
+    end
+    object cdsNotaMaeIMPRESSA: TStringField
+      FieldName = 'IMPRESSA'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaMaeSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object cdsNotaMaeSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaMaeID_GUIA: TIntegerField
+      FieldName = 'ID_GUIA'
+    end
+    object cdsNotaMaePROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object cdsNotaMaeNUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object cdsNotaMaePROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
+    end
+    object cdsNotaMaeNOTAMAE: TIntegerField
+      FieldName = 'NOTAMAE'
+    end
+    object cdsNotaMaePESOREMESSA: TBCDField
+      FieldName = 'PESOREMESSA'
+      Precision = 9
+      Size = 2
     end
   end
 end

@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, DBCtrls, JvExStdCtrls, JvGroupBox, ComCtrls,
   JvExComCtrls, JvComCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask,
   Buttons, ExtCtrls, MMJPanel, JvExMask, JvToolEdit, JvDBControls,
-  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus;
+  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider;
 
 type
   TfNotaf = class(TForm)
@@ -226,6 +226,125 @@ type
     btnNotaFiscal: TBitBtn;
     calcman: TCheckBox;
     btnRemessa: TButton;
+    sdsNotaMae: TSQLDataSet;
+    sdsNotaMaeNOTASERIE: TStringField;
+    sdsNotaMaeNUMNF: TIntegerField;
+    sdsNotaMaeNATUREZA: TSmallintField;
+    sdsNotaMaeQUANTIDADE: TFloatField;
+    sdsNotaMaeMARCA: TStringField;
+    sdsNotaMaePESOBRUTO: TBCDField;
+    sdsNotaMaePESOLIQUIDO: TBCDField;
+    sdsNotaMaeESPECIE: TStringField;
+    sdsNotaMaeDTAEMISSAO: TDateField;
+    sdsNotaMaeDTASAIDA: TDateField;
+    sdsNotaMaeUF: TStringField;
+    sdsNotaMaeCODVENDA: TIntegerField;
+    sdsNotaMaeCODTRANSP: TIntegerField;
+    sdsNotaMaeNUMERO: TStringField;
+    sdsNotaMaeNOTAFISCAL: TIntegerField;
+    sdsNotaMaeHORASAIDA: TTimeField;
+    sdsNotaMaeDATA_SISTEMA: TSQLTimeStampField;
+    sdsNotaMaeBASE_ICMS: TFloatField;
+    sdsNotaMaeVALOR_ICMS: TFloatField;
+    sdsNotaMaeBASE_ICMS_SUBST: TFloatField;
+    sdsNotaMaeVALOR_ICMS_SUBST: TFloatField;
+    sdsNotaMaeVALOR_PRODUTO: TFloatField;
+    sdsNotaMaeVALOR_FRETE: TFloatField;
+    sdsNotaMaeVALOR_SEGURO: TFloatField;
+    sdsNotaMaeOUTRAS_DESP: TFloatField;
+    sdsNotaMaeVALOR_IPI: TFloatField;
+    sdsNotaMaeVALOR_TOTAL_NOTA: TFloatField;
+    sdsNotaMaeCORPONF1: TStringField;
+    sdsNotaMaeCORPONF2: TStringField;
+    sdsNotaMaeCORPONF3: TStringField;
+    sdsNotaMaeCORPONF4: TStringField;
+    sdsNotaMaeCORPONF5: TStringField;
+    sdsNotaMaeCORPONF6: TStringField;
+    sdsNotaMaeCFOP: TStringField;
+    sdsNotaMaeCODCLIENTE: TIntegerField;
+    sdsNotaMaeFATURA: TStringField;
+    sdsNotaMaeICMS: TFloatField;
+    sdsNotaMaeREDUZICMS: TFloatField;
+    sdsNotaMaeNOMETRANSP: TStringField;
+    sdsNotaMaePLACATRANSP: TStringField;
+    sdsNotaMaeCNPJ_CPF: TStringField;
+    sdsNotaMaeEND_TRANSP: TStringField;
+    sdsNotaMaeCIDADE_TRANSP: TStringField;
+    sdsNotaMaeUF_VEICULO_TRANSP: TStringField;
+    sdsNotaMaeUF_TRANSP: TStringField;
+    sdsNotaMaeFRETE: TStringField;
+    sdsNotaMaeINSCRICAOESTADUAL: TStringField;
+    sdsNotaMaeSTATUS: TStringField;
+    sdsNotaMaeVLRTOTALEXP: TFloatField;
+    sdsNotaMaeIMPRESSA: TStringField;
+    sdsNotaMaeSERIE: TStringField;
+    sdsNotaMaeSELECIONOU: TStringField;
+    sdsNotaMaeID_GUIA: TIntegerField;
+    sdsNotaMaePROTOCOLOENV: TStringField;
+    sdsNotaMaeNUMRECIBO: TStringField;
+    sdsNotaMaePROTOCOLOCANC: TStringField;
+    sdsNotaMaeNOTAMAE: TIntegerField;
+    sdsNotaMaePESOREMESSA: TBCDField;
+    dspNotaMae: TDataSetProvider;
+    cdsNotaMae: TClientDataSet;
+    cdsNotaMaeNOTASERIE: TStringField;
+    cdsNotaMaeNUMNF: TIntegerField;
+    cdsNotaMaeNATUREZA: TSmallintField;
+    cdsNotaMaeQUANTIDADE: TFloatField;
+    cdsNotaMaeMARCA: TStringField;
+    cdsNotaMaePESOBRUTO: TBCDField;
+    cdsNotaMaePESOLIQUIDO: TBCDField;
+    cdsNotaMaeESPECIE: TStringField;
+    cdsNotaMaeDTAEMISSAO: TDateField;
+    cdsNotaMaeDTASAIDA: TDateField;
+    cdsNotaMaeUF: TStringField;
+    cdsNotaMaeCODVENDA: TIntegerField;
+    cdsNotaMaeCODTRANSP: TIntegerField;
+    cdsNotaMaeNUMERO: TStringField;
+    cdsNotaMaeNOTAFISCAL: TIntegerField;
+    cdsNotaMaeHORASAIDA: TTimeField;
+    cdsNotaMaeDATA_SISTEMA: TSQLTimeStampField;
+    cdsNotaMaeBASE_ICMS: TFloatField;
+    cdsNotaMaeVALOR_ICMS: TFloatField;
+    cdsNotaMaeBASE_ICMS_SUBST: TFloatField;
+    cdsNotaMaeVALOR_ICMS_SUBST: TFloatField;
+    cdsNotaMaeVALOR_PRODUTO: TFloatField;
+    cdsNotaMaeVALOR_FRETE: TFloatField;
+    cdsNotaMaeVALOR_SEGURO: TFloatField;
+    cdsNotaMaeOUTRAS_DESP: TFloatField;
+    cdsNotaMaeVALOR_IPI: TFloatField;
+    cdsNotaMaeVALOR_TOTAL_NOTA: TFloatField;
+    cdsNotaMaeCORPONF1: TStringField;
+    cdsNotaMaeCORPONF2: TStringField;
+    cdsNotaMaeCORPONF3: TStringField;
+    cdsNotaMaeCORPONF4: TStringField;
+    cdsNotaMaeCORPONF5: TStringField;
+    cdsNotaMaeCORPONF6: TStringField;
+    cdsNotaMaeCFOP: TStringField;
+    cdsNotaMaeCODCLIENTE: TIntegerField;
+    cdsNotaMaeFATURA: TStringField;
+    cdsNotaMaeICMS: TFloatField;
+    cdsNotaMaeREDUZICMS: TFloatField;
+    cdsNotaMaeNOMETRANSP: TStringField;
+    cdsNotaMaePLACATRANSP: TStringField;
+    cdsNotaMaeCNPJ_CPF: TStringField;
+    cdsNotaMaeEND_TRANSP: TStringField;
+    cdsNotaMaeCIDADE_TRANSP: TStringField;
+    cdsNotaMaeUF_VEICULO_TRANSP: TStringField;
+    cdsNotaMaeUF_TRANSP: TStringField;
+    cdsNotaMaeFRETE: TStringField;
+    cdsNotaMaeINSCRICAOESTADUAL: TStringField;
+    cdsNotaMaeSTATUS: TStringField;
+    cdsNotaMaeVLRTOTALEXP: TFloatField;
+    cdsNotaMaeIMPRESSA: TStringField;
+    cdsNotaMaeSERIE: TStringField;
+    cdsNotaMaeSELECIONOU: TStringField;
+    cdsNotaMaeID_GUIA: TIntegerField;
+    cdsNotaMaePROTOCOLOENV: TStringField;
+    cdsNotaMaeNUMRECIBO: TStringField;
+    cdsNotaMaePROTOCOLOCANC: TStringField;
+    cdsNotaMaeNOTAMAE: TIntegerField;
+    cdsNotaMaePESOREMESSA: TBCDField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -401,6 +520,7 @@ begin
     DMNF.cds_nfUFCLI.AsString := listaCliente1UF.AsString;
     DMNF.cds_nfUF.AsString := listaCliente1UF.AsString;
     DMNF.cds_nfTELEFONE.AsString := listaCliente1TELEFONE.AsString;
+    DMNF.cds_nfNOTAMAE.AsInteger := Null;
   // Calcula o peso
   if (dmnf.sqs_tit.Active) then
     dmnf.sqs_tit.Close;
@@ -872,7 +992,10 @@ begin
   if ((cbCFOP.Text = '5116') or (cbCFOP.Text = '6116')) then
     btnRemessa.Enabled := True
   else
+  begin
+    dmnf.cds_nfNOTAMAE.AsInteger := 0;
     btnRemessa.Enabled := False;
+  end;
 
 end;
 
@@ -1400,7 +1523,8 @@ begin
 end;
 
 procedure TfNotaf.gravanotafiscal;
-var nfnum : integer;
+var nfnum :Integer;
+    pesoremessa, entrega: Double;
 begin
  nfnum := 0;
  // Gravo a NF
@@ -1432,12 +1556,24 @@ begin
   if (parametroNF <> 'S') then
     alteraVlrVenda;
   if (RadioGroup1.ItemIndex = 0) then
-    dmnf.cds_nfSTATUS.AsString := 'S';
-
+   dmnf.cds_nfSTATUS.AsString := 'S';
+   if ((dmnf.cds_nfCFOP.AsString = '6922') or (dmnf.cds_nfCFOP.AsString = '5922')) then
+     dmnf.cds_nfPESOREMESSA.AsBCD := dmnf.cds_nfPESOLIQUIDO.AsBCD;
    dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + dmnf.cds_nfVALOR_FRETE.Value +
    dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value +
    dmnf.cds_nfVALOR_IPI.Value + dmnf.cds_nfVALOR_ICMS.Value;
-
+ if ((dmnf.cds_nfCFOP.AsString = '5116') or (dmnf.cds_nfCFOP.AsString = '5116')) then
+  begin
+    if (cdsNotaMae.Active) then
+      cdsNotaMae.Close;
+    cdsNotaMae.Params[0].AsInteger := dmnf.cds_nfNOTAMAE.AsInteger;
+    cdsNotaMae.Open;
+    cdsNotaMae.Edit;
+    pesoremessa := BcdToDouble(cdsNotaMaePESOREMESSA.AsBCD);
+    entrega := BcdToDouble(dmnf.cds_nfPESOLIQUIDO.AsBCD);
+    cdsNotaMaePESOREMESSA.AsBCD := DoubleToBcd(pesoremessa - entrega);
+    cdsNotaMae.ApplyUpdates(0);
+  end;
   dmnf.cds_nf.ApplyUpdates(0);
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
@@ -1448,6 +1584,7 @@ begin
   dmnf.cds_nf.Params[0].AsInteger := nfnum;
   dmnf.cds_nf.Params[1].Clear;
   dmnf.cds_nf.open;
+  dmnf.cds_Mov_det.Open;
 end;
 
 procedure TfNotaf.calculaicms(Estado: String);
