@@ -865,7 +865,8 @@ begin
                       CST := cst20;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
                       vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
-                      pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+                      pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+                      //pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                     end;
@@ -924,7 +925,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst70;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+                      pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
@@ -941,7 +942,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst90;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+                      pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
@@ -966,84 +967,102 @@ begin
             end;
 
             if (cdsNFFRETE.IsNull) then
-            begin
-              tfrete := 9;
-            end
+              //tfrete := 9;
             else
             begin
               tpfrete := StrToInt(cdsNFFRETE.AsString);
               tpfrete := tpfrete - 1;
               tfrete := IntToStr(tpfrete);
-            end;
-            //Carrega dados da transportadora
-            with Transp do
-            begin
-              with transporta do
+
+              //Carrega dados da transportadora
+              with Transp do
               begin
-                  modFrete := tfrete;
-                  CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
-                  xNome := cdsNFNOMETRANSP.AsString;
-                  IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
-                  xEnder := cdsNFEND_TRANSP.AsString;
-                  xMun := cdsNFCIDADE_TRANSP.AsString;
-                  UF :=  cdsNFUF_TRANSP.AsString;
-                
-                //Carrega dados da Carga para Transporte
-                with Vol.Add do
+                with transporta do
                 begin
-                  if (cdsNFQUANTIDADE.AsVariant > 0) then
-                    qVol := cdsNFQUANTIDADE.AsVariant
-                  else
-                  begin
-                    qVol := 0
-                  end;
-                  if ( (cdsNFESPECIE.AsString <> '') and (cdsNFESPECIE.AsString <> Null) ) then
-                    esp := cdsNFESPECIE.AsString
-                  else
-                  begin
-                    esp := ''
-                  end;
-                  if ( (cdsNFMARCA.AsString <> '') and (cdsNFMARCA.AsString <>  null) ) then
-                    marca := cdsNFMARCA.AsString
-                  else
-                  begin
-                    marca := ''
-                  end;
-                  if ( (cdsNFNUMERO.AsString <> '') and ( cdsNFNUMERO.AsString <> null) ) then
-                    nVol :=cdsNFNUMERO.AsString
-                  else
-                  begin
-                    nVol := ''
-                  end;
-                  if (cdsNFPESOLIQUIDO.AsCurrency > 0) then
-                    pesoL :=cdsNFPESOLIQUIDO.AsCurrency
-                  else
-                  begin
-                    pesoL := 0
-                  end;
-                  if (cdsNFPESOBRUTO.AsCurrency > 0) then
-                    pesoB :=cdsNFPESOBRUTO.AsCurrency
-                  else
-                  begin
-                    pesoB := 0
-                  end;
+                   modFrete := tfrete;
+                   CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
+                   xNome := cdsNFNOMETRANSP.AsString;
+                   IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
+                   xEnder := cdsNFEND_TRANSP.AsString;
+                   xMun := cdsNFCIDADE_TRANSP.AsString;
+                   UF :=  cdsNFUF_TRANSP.AsString;
+                   //Carrega dados da Carga para Transporte
+                   with Vol.Add do
+                   begin
+                      if (cdsNFQUANTIDADE.AsVariant > 0) then
+                        qVol := cdsNFQUANTIDADE.AsVariant
+                      else
+                      begin
+                        qVol := 0
+                      end;
+                      if ( (cdsNFESPECIE.AsString <> '') and (cdsNFESPECIE.AsString <> Null) ) then
+                        esp := cdsNFESPECIE.AsString
+                      else
+                      begin
+                        esp := ''
+                      end;
+                      if ( (cdsNFMARCA.AsString <> '') and (cdsNFMARCA.AsString <>  null) ) then
+                        marca := cdsNFMARCA.AsString
+                      else
+                      begin
+                        marca := ''
+                      end;
+                      if ( (cdsNFNUMERO.AsString <> '') and ( cdsNFNUMERO.AsString <> null) ) then
+                        nVol :=cdsNFNUMERO.AsString
+                      else
+                      begin
+                        nVol := ''
+                      end;
+                      if (cdsNFPESOLIQUIDO.AsCurrency > 0) then
+                        pesoL :=cdsNFPESOLIQUIDO.AsCurrency
+                      else
+                      begin
+                        pesoL := 0
+                      end;
+                      if (cdsNFPESOBRUTO.AsCurrency > 0) then
+                        pesoB :=cdsNFPESOBRUTO.AsCurrency
+                      else
+                      begin
+                        pesoB := 0
+                      end;
+                    end;
                 end;
               end;
             end;
             //VALOR TORAL
+            if (cdsNFBASE_ICMS.IsNull) then
+                MessageDlg('Base de cálculo nula', mtError, [mbOK], 0);
             Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
+            if (cdsNFVALOR_ICMS.IsNull) then
+                MessageDlg('ICMS nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
+            if (cdsNFBASE_ICMS_SUBST.IsNull) then
+                MessageDlg('Base ICMS ST nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
+            if (cdsNFVALOR_ICMS_SUBST.IsNull) then
+                MessageDlg('ICMS ST nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
+            if (cdsNFVALOR_PRODUTO.IsNull) then
+                MessageDlg('Valor dos produtos nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
+            if (cdsNFVALOR_FRETE.IsNull) then
+                MessageDlg('Valor do Frete nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
+            if (cdsNFVALOR_SEGURO.IsNull) then
+                MessageDlg('Valor do Seguro nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
             //Total.ICMSTot.vDesc   := 0;
             //Total.ICMSTot.vII := 0;
+            if (cdsNFVALOR_IPI.IsNull) then
+                MessageDlg('Valor do IPI nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
             //Total.ICMSTot.vPIS := 0;
             //Total.ICMSTot.vCOFINS := 0;
+            if (cdsNFOUTRAS_DESP.IsNull) then
+                MessageDlg('Valor de outras despesas nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vOutro := cdsNFOUTRAS_DESP.AsVariant;
+            if (cdsNFVALOR_TOTAL_NOTA.IsNull) then
+                MessageDlg('Valor do Total da Nota nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vNF   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
           end;
       end;
@@ -1454,7 +1473,7 @@ var
   dathor: TDateTime;
   BC, BCST : Variant;
   i, tpfrete, c: integer;
-  Protocolo, Recibo, comp, comp2, itensnf : String;
+  comp, comp2, itensnf : String;
   tfrete : Variant;
 begin
    //JvProgressBar1.Position := 0;
@@ -1732,7 +1751,7 @@ begin
                       CST := cst20;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
                       vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
-                      pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+                      pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                     end;
@@ -1791,7 +1810,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst70;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+                      pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
@@ -1808,7 +1827,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst90;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+                      pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
@@ -1820,80 +1839,72 @@ begin
                       vICMSST := cdsItensNFICMS_SUBST.AsVariant;
                     end;
                   end;
-                   //PARA PRODUTOS IMPORTARDOS
-                   {with II Add
-                   vBc :=                                                       // VALOR DA BASE DE CÁLCULO DO IMPOSTO DE IMPORTAÇÃO
-                   vDespAdu :=                                                  // VALOR DAS DESPESAS ADUANEIRAS
-                   vII :=                                                       // VALOR DO IMPOSTO DE IMPORTAÇÃO
-                   vIOF :=}                                                     //VALOR DO IMPOSTO SOBRE OPERAÇÕES FINANCEIRAS
                 end;
               end;
               i := i + 1;
               cdsItensNF.Next;
             end;
-            
+
             if (cdsNFFRETE.IsNull) then
-            begin
-              tfrete := 9;
-            end
+              //tfrete := 9;
             else
             begin
               tpfrete := StrToInt(cdsNFFRETE.AsString);
               tpfrete := tpfrete - 1;
               tfrete := IntToStr(tpfrete);
-            end;
-            //Carrega dados da transportadora
-            with Transp do
-            begin
-              with transporta do
+
+              //Carrega dados da transportadora
+              with Transp do
               begin
-                  modFrete := tfrete;
-                  CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
-                  xNome := cdsNFNOMETRANSP.AsString;
-                  IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
-                  xEnder := cdsNFEND_TRANSP.AsString;
-                  xMun := cdsNFCIDADE_TRANSP.AsString;
-                  UF :=  cdsNFUF_TRANSP.AsString;
-                
-                //Carrega dados da Carga para Transporte
-                with Vol.Add do
+                with transporta do
                 begin
-                  if (cdsNFQUANTIDADE.AsVariant > 0) then
-                    qVol := cdsNFQUANTIDADE.AsVariant
-                  else
-                  begin
-                    qVol := 0
-                  end;
-                  if ( (cdsNFESPECIE.AsString <> '') and (cdsNFESPECIE.AsString <> Null) ) then
-                    esp := cdsNFESPECIE.AsString
-                  else
-                  begin
-                    esp := ''
-                  end;
-                  if ( (cdsNFMARCA.AsString <> '') and (cdsNFMARCA.AsString <>  null) ) then
-                    marca := cdsNFMARCA.AsString
-                  else
-                  begin
-                    marca := ''
-                  end;
-                  if ( (cdsNFNUMERO.AsString <> '') and ( cdsNFNUMERO.AsString <> null) ) then
-                    nVol :=cdsNFNUMERO.AsString
-                  else
-                  begin
-                    nVol := ''
-                  end;
-                  if (cdsNFPESOLIQUIDO.AsCurrency > 0) then
-                    pesoL :=cdsNFPESOLIQUIDO.AsCurrency
-                  else
-                  begin
-                    pesoL := 0
-                  end;
-                  if (cdsNFPESOBRUTO.AsCurrency > 0) then
-                    pesoB :=cdsNFPESOBRUTO.AsCurrency
-                  else
-                  begin
-                    pesoB := 0
-                  end;
+                   modFrete := tfrete;
+                   CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
+                   xNome := cdsNFNOMETRANSP.AsString;
+                   IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
+                   xEnder := cdsNFEND_TRANSP.AsString;
+                   xMun := cdsNFCIDADE_TRANSP.AsString;
+                   UF :=  cdsNFUF_TRANSP.AsString;
+                   //Carrega dados da Carga para Transporte
+                   with Vol.Add do
+                   begin
+                      if (cdsNFQUANTIDADE.AsVariant > 0) then
+                        qVol := cdsNFQUANTIDADE.AsVariant
+                      else
+                      begin
+                        qVol := 0
+                      end;
+                      if ( (cdsNFESPECIE.AsString <> '') and (cdsNFESPECIE.AsString <> Null) ) then
+                        esp := cdsNFESPECIE.AsString
+                      else
+                      begin
+                        esp := ''
+                      end;
+                      if ( (cdsNFMARCA.AsString <> '') and (cdsNFMARCA.AsString <>  null) ) then
+                        marca := cdsNFMARCA.AsString
+                      else
+                      begin
+                        marca := ''
+                      end;
+                      if ( (cdsNFNUMERO.AsString <> '') and ( cdsNFNUMERO.AsString <> null) ) then
+                        nVol :=cdsNFNUMERO.AsString
+                      else
+                      begin
+                        nVol := ''
+                      end;
+                      if (cdsNFPESOLIQUIDO.AsCurrency > 0) then
+                        pesoL :=cdsNFPESOLIQUIDO.AsCurrency
+                      else
+                      begin
+                        pesoL := 0
+                      end;
+                      if (cdsNFPESOBRUTO.AsCurrency > 0) then
+                        pesoB :=cdsNFPESOBRUTO.AsCurrency
+                      else
+                      begin
+                        pesoB := 0
+                      end;
+                    end;
                 end;
               end;
             end;
