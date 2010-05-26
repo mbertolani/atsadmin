@@ -1,8 +1,9 @@
 object fNotafRemessa: TfNotafRemessa
   Left = 194
   Top = 103
-  Width = 870
-  Height = 640
+  Width = 800
+  Height = 556
+  BorderIcons = [biSystemMenu]
   Caption = 'Sele'#231#227'o de Notas de Entrega Futura'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,169 +12,197 @@ object fNotafRemessa: TfNotafRemessa
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBox1: TGroupBox
-    Left = 40
-    Top = 64
+    Left = 8
+    Top = 57
     Width = 777
-    Height = 233
+    Height = 201
     Caption = 'Notas de Futura Remessa para sele'#231#227'o'
     TabOrder = 0
-    object DBGrid1: TDBGrid
+    object JvDBGrid2: TJvDBGrid
       Left = 8
       Top = 20
       Width = 761
-      Height = 205
+      Height = 172
       DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
-      TitleFont.Height = -11
+      TitleFont.Height = -13
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      OnCellClick = JvDBGrid2CellClick
+      AutoSizeColumns = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 24
+      TitleRowHeight = 20
       Columns = <
         item
           Expanded = False
           FieldName = 'NOTAFISCAL'
           Title.Caption = 'Nota Fiscal'
-          Width = 69
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'SERIE'
-          Title.Caption = 'Serie'
-          Width = 50
+          Width = 47
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DTAEMISSAO'
           Title.Caption = 'Data Emiss'#227'o'
-          Width = 80
+          Width = 68
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'Cod. Cliente'
+          Width = 55
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Nome Cliente'
-          Width = 205
+          Width = 166
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'QUANTIDADE'
           Title.Caption = 'Quantidade'
-          Width = 73
+          Width = 57
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PESOBRUTO'
           Title.Caption = 'Peso Bruto'
-          Width = 76
+          Width = 54
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PESOLIQUIDO'
           Title.Caption = 'Peso Liquido'
-          Width = 79
+          Width = 59
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALOR_PRODUTO'
           Title.Caption = 'Valor Produtos'
-          Width = 83
+          Width = 75
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALOR_TOTAL_NOTA'
           Title.Caption = 'Valor Total da Nota'
+          Width = 89
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PESOREMESSA'
+          Title.Caption = 'Restante para Entrega'
+          Width = 65
           Visible = True
         end>
     end
   end
   object GroupBox2: TGroupBox
-    Left = 40
-    Top = 312
+    Left = 8
+    Top = 265
     Width = 777
-    Height = 233
+    Height = 201
     Caption = 'Notas de Remessa'
     TabOrder = 1
-    object DBGrid2: TDBGrid
+    object JvDBGrid1: TJvDBGrid
       Left = 8
       Top = 16
       Width = 761
-      Height = 209
+      Height = 172
       DataSource = DtsrcR
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
-      TitleFont.Height = -11
+      TitleFont.Height = -13
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      AutoSizeColumns = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 24
+      TitleRowHeight = 20
       Columns = <
         item
           Expanded = False
           FieldName = 'NOTAFISCAL'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'QUANTIDADE'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESOBRUTO'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESOLIQUIDO'
+          Title.Caption = 'Nota Fiscal'
+          Width = 90
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DTAEMISSAO'
+          Title.Caption = 'Data Emiss'#227'o'
+          Width = 91
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QUANTIDADE'
+          Title.Caption = 'Quantidade'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PESOBRUTO'
+          Title.Caption = 'Peso Bruto'
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PESOLIQUIDO'
+          Title.Caption = 'Peso Liquido'
+          Width = 101
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALOR_PRODUTO'
+          Title.Caption = 'Valor Produto'
+          Width = 127
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALOR_TOTAL_NOTA'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CFOP'
-          Width = 56
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CODCLIENTE'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'SERIE'
-          Width = 49
+          Title.Caption = 'Valor Total da Nota'
+          Width = 145
           Visible = True
         end>
     end
@@ -181,7 +210,7 @@ object fNotafRemessa: TfNotafRemessa
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 862
+    Width = 792
     Height = 54
     Align = alTop
     TabOrder = 2
@@ -191,39 +220,30 @@ object fNotafRemessa: TfNotafRemessa
     Background.StartColor = clTeal
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
-    object Label1: TLabel
-      Left = 152
-      Top = 8
-      Width = 559
-      Height = 42
+    object RxLabel1: TRxLabel
+      Left = 1
+      Top = 1
+      Width = 790
+      Height = 52
+      Align = alClient
+      Alignment = taCenter
       Caption = 'Sele'#231#227'o de notas de Entrega Futura'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clNavy
-      Font.Height = -37
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -51
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
+      Layout = tlCenter
       ParentFont = False
-      Transparent = True
-    end
-    object Label2: TLabel
-      Left = 156
-      Top = 9
-      Width = 559
-      Height = 42
-      Caption = 'Sele'#231#227'o de notas de Entrega Futura'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -37
-      Font.Name = 'Times New Roman'
-      Font.Style = [fsBold]
-      ParentFont = False
+      ShadowColor = clBackground
+      ShadowSize = 3
       Transparent = True
     end
   end
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 559
-    Width = 862
+    Top = 475
+    Width = 792
     Height = 54
     Align = alBottom
     BevelInner = bvLowered
@@ -353,8 +373,9 @@ object fNotafRemessa: TfNotafRemessa
       Top = 6
       Width = 103
       Height = 40
-      Caption = 'Selecionar'
+      Caption = 'Seleciona'
       TabOrder = 1
+      OnClick = btnSelecionarClick
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         20000000000000040000C40E0000C40E00000000000000000000000000000000
@@ -433,14 +454,15 @@ object fNotafRemessa: TfNotafRemessa
       'ESOLIQUIDO, nf.DTAEMISSAO, nf.CODVENDA, nf.NOTAFISCAL, nf.BASE_I' +
       'CMS'#13#10', nf.VALOR_ICMS, nf.BASE_ICMS_SUBST, nf.VALOR_ICMS_SUBST, n' +
       'f.VALOR_PRODUTO, nf.VALOR_TOTAL_NOTA, nf.CFOP, nf.CODCLIENTE, nf' +
-      '.CNPJ_CPF'#13#10', nf.INSCRICAOESTADUAL, nf.SERIE, cli.RAZAOSOCIAL'#13#10'FR' +
-      'OM NOTAFISCAL nf '#13#10'inner join CLIENTES cli on cli.CODCLIENTE = n' +
-      'f.CODCLIENTE'#13#10'where nf.CODCLIENTE = :codcli and ((nf.CFOP = '#39'592' +
-      '2'#39') or (nf.CFOP = '#39'6922'#39'))'
+      '.CNPJ_CPF'#13#10', nf.INSCRICAOESTADUAL, nf.SERIE, cli.RAZAOSOCIAL, nf' +
+      '.PESOREMESSA'#13#10'FROM NOTAFISCAL nf '#13#10'inner join CLIENTES cli on cl' +
+      'i.CODCLIENTE = nf.CODCLIENTE'#13#10'where nf.CODCLIENTE = :codcli and ' +
+      '((nf.CFOP = '#39'5922'#39') or (nf.CFOP = '#39'6922'#39')) and (nf.PESOREMESSA >' +
+      ' 0)'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'codcli'
         ParamType = ptInput
       end>
@@ -517,6 +539,11 @@ object fNotafRemessa: TfNotafRemessa
       Required = True
       Size = 50
     end
+    object sdsNFfuturaPESOREMESSA: TBCDField
+      FieldName = 'PESOREMESSA'
+      Precision = 9
+      Size = 2
+    end
   end
   object sdsNFremessa: TSQLDataSet
     CommandText = 
@@ -524,13 +551,86 @@ object fNotafRemessa: TfNotafRemessa
       'ESOLIQUIDO, nf.DTAEMISSAO, nf.CODVENDA, nf.NOTAFISCAL, nf.BASE_I' +
       'CMS'#13#10', nf.VALOR_ICMS, nf.BASE_ICMS_SUBST, nf.VALOR_ICMS_SUBST, n' +
       'f.VALOR_PRODUTO, nf.VALOR_TOTAL_NOTA, nf.CFOP, nf.CODCLIENTE, nf' +
-      '.CNPJ_CPF'#13#10', nf.INSCRICAOESTADUAL, nf.SERIE'#13#10'FROM NOTAFISCAL nf'
-    DataSource = DtSrc
+      '.CNPJ_CPF, nf.INSCRICAOESTADUAL, nf.SERIE, nf.NOTAMAE'#13#10'FROM NOTA' +
+      'FISCAL nf where nf.NOTAMAE = :nfmae'
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'nfmae'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 88
     Top = 392
+    object sdsNFremessaNOTASERIE: TStringField
+      FieldName = 'NOTASERIE'
+      Required = True
+      Size = 10
+    end
+    object sdsNFremessaNUMNF: TIntegerField
+      FieldName = 'NUMNF'
+      Required = True
+    end
+    object sdsNFremessaQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+    end
+    object sdsNFremessaPESOBRUTO: TBCDField
+      FieldName = 'PESOBRUTO'
+      Precision = 9
+      Size = 2
+    end
+    object sdsNFremessaPESOLIQUIDO: TBCDField
+      FieldName = 'PESOLIQUIDO'
+      Precision = 9
+      Size = 2
+    end
+    object sdsNFremessaDTAEMISSAO: TDateField
+      FieldName = 'DTAEMISSAO'
+    end
+    object sdsNFremessaCODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+    end
+    object sdsNFremessaNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object sdsNFremessaBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object sdsNFremessaVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object sdsNFremessaBASE_ICMS_SUBST: TFloatField
+      FieldName = 'BASE_ICMS_SUBST'
+    end
+    object sdsNFremessaVALOR_ICMS_SUBST: TFloatField
+      FieldName = 'VALOR_ICMS_SUBST'
+    end
+    object sdsNFremessaVALOR_PRODUTO: TFloatField
+      FieldName = 'VALOR_PRODUTO'
+    end
+    object sdsNFremessaVALOR_TOTAL_NOTA: TFloatField
+      FieldName = 'VALOR_TOTAL_NOTA'
+    end
+    object sdsNFremessaCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 30
+    end
+    object sdsNFremessaCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+    end
+    object sdsNFremessaCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
+    end
+    object sdsNFremessaINSCRICAOESTADUAL: TStringField
+      FieldName = 'INSCRICAOESTADUAL'
+    end
+    object sdsNFremessaSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object sdsNFremessaNOTAMAE: TIntegerField
+      FieldName = 'NOTAMAE'
+    end
   end
   object cdsNFfutura: TClientDataSet
     Aggregates = <>
@@ -613,6 +713,11 @@ object fNotafRemessa: TfNotafRemessa
       Required = True
       Size = 50
     end
+    object cdsNFfuturaPESOREMESSA: TBCDField
+      FieldName = 'PESOREMESSA'
+      Precision = 9
+      Size = 2
+    end
   end
   object dspNFfutura: TDataSetProvider
     DataSet = sdsNFfutura
@@ -620,7 +725,7 @@ object fNotafRemessa: TfNotafRemessa
     Top = 136
   end
   object dspNFremessa: TDataSetProvider
-    DataSet = sdsNFfutura
+    DataSet = sdsNFremessa
     Left = 120
     Top = 392
   end
@@ -629,7 +734,7 @@ object fNotafRemessa: TfNotafRemessa
     Params = <
       item
         DataType = ftInteger
-        Name = 'codcli'
+        Name = 'nfmae'
         ParamType = ptInput
       end>
     ProviderName = 'dspNFremessa'
@@ -699,6 +804,9 @@ object fNotafRemessa: TfNotafRemessa
     end
     object cdsNFremessaSERIE: TStringField
       FieldName = 'SERIE'
+    end
+    object cdsNFremessaNOTAMAE: TIntegerField
+      FieldName = 'NOTAMAE'
     end
   end
   object DtsrcR: TDataSource
