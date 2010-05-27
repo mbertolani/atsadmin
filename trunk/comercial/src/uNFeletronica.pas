@@ -443,6 +443,7 @@ type
     sFornecTELEFONE: TStringField;
     sFornecDDD: TSmallintField;
     sFornecCD_IBGE: TStringField;
+    sProdutosGENERO: TIntegerField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -822,6 +823,7 @@ begin
               Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
               infAdProd     := '';
               Prod.NCM      := sProdutosNCM.AsString;
+              Prod.genero   := sProdutosGENERO.AsInteger;
 
                //IMPOSTOS Do Produto
                 with Imposto do
@@ -1264,7 +1266,7 @@ end;
 procedure TfNFeletronica.btnCancelaNFeClick(Sender: TObject);
 var
   vXMLDoc: TXMLDocument;
-  vAux, Protocolo, caminho : String;
+  vAux, Protocolo, caminho, str : String;
   //numnf : WideString;
 begin
   vXMLDoc := TXMLDocument.Create(self);
@@ -1282,7 +1284,7 @@ begin
       exit;
      ACBrNFe1.Cancelamento(vAux);
      MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Cancelamento.RetWS);
-     //ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
+     ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
      ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.Cancelamento.Protocolo);
     Protocolo := ACBrNFe1.WebServices.Cancelamento.Protocolo;
   end;
@@ -1295,14 +1297,13 @@ begin
   begin
     numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
   end;
-  if (sNFC.Active) then
-    sNFC.Close;
-  sNFC.Params[0].AsInteger := StrToInt(numnf);
-  sNFC.Open;
-  sNFC.Edit;
-  sNFCPROTOCOLOCANC.AsString := Protocolo;
-  cdsNFSELECIONOU.AsString := '';
-  sNFC.ApplyUpdates(0);
+  DecimalSeparator := '.';
+  str := 'Update NOTAFISCAL set PROTOCOLOCANC = ' + quotedstr(Protocolo);
+  str := str + ' WHERE NOTAFISCAL = ' + numnf;
+  dm.sqlsisAdimin.ExecuteDirect(str);
+  DecimalSeparator := ',';
+  if cdsNF.Active then
+    cdsNFSELECIONOU.AsString := '';
   finally
   VXMLDoc.Free;
   end;
@@ -1708,6 +1709,7 @@ begin
               Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
               infAdProd     := '';
               Prod.NCM      := sProdutosNCM.AsString;
+              Prod.genero   := sProdutosGENERO.AsInteger;
 
                //IMPOSTOS Do Produto
                 with Imposto do
