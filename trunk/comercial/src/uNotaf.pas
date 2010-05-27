@@ -398,6 +398,7 @@ type
     procedure gravanotafiscal;
     procedure calculaicms(Estado: String);
     procedure somavalores;
+    procedure carregaDadosAdicionais;
     { Public declarations }
   end;
 
@@ -1567,12 +1568,15 @@ begin
     if (cdsNotaMae.Active) then
       cdsNotaMae.Close;
     cdsNotaMae.Params[0].AsInteger := dmnf.cds_nfNOTAMAE.AsInteger;
+    if (dmnf.cds_nfNOTAMAE.AsInteger <> 0) then
+    begin
     cdsNotaMae.Open;
     cdsNotaMae.Edit;
     pesoremessa := BcdToDouble(cdsNotaMaePESOREMESSA.AsBCD);
     entrega := BcdToDouble(dmnf.cds_nfPESOLIQUIDO.AsBCD);
     cdsNotaMaePESOREMESSA.AsBCD := DoubleToBcd(pesoremessa - entrega);
     cdsNotaMae.ApplyUpdates(0);
+    end;
   end;
   dmnf.cds_nf.ApplyUpdates(0);
   // Calcula ICMS - IPI
@@ -2092,5 +2096,17 @@ begin
     fNotafRemessa.Free;
   end;
 end;
+
+Procedure TfNotaf.carregaDadosAdicionais;
+Begin
+    {if (DMNF.DtSrc_NF.State in [dsEdit]) then
+        if( (not DMNF.cds_nfCFOP is null)  or (DMNF.cds_nfCFOP.AsString <> '') then
+          if( (not DMNF.cds_nfUFCLI is null)  or (DMNF.cds_nfUFCLI.AsString <> '') then
+          begin
+          DMNF.cds_nfCORPONF1.AsString :=
+          DMNF.cds_nfCORPONF2.AsString :=
+          DMNF.cds_nfCORPONF3.AsString :=
+          DMNF.cds_nfCORPONF4.AsString :=}
+End;
 
 end.
