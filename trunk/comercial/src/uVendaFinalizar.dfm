@@ -2875,6 +2875,10 @@ inherited fVendaFinalizar: TfVendaFinalizar
       FixedChar = True
       Size = 1
     end
+    object scdsCr_procDATARECEBIMENTO: TDateField
+      FieldName = 'DATARECEBIMENTO'
+      ReadOnly = True
+    end
     object scdsCr_procTRecebido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TRecebido'
@@ -2912,14 +2916,14 @@ inherited fVendaFinalizar: TfVendaFinalizar
       'n '#39'8-'#39' then '#39'Credito Duvidoso'#39' when '#39'9-'#39' then '#39'Em Cobran'#231'a'#39' when' +
       ' '#39'14'#39' then '#39'Cancelado'#39' end  as STATUS, '#13#10'          rec.VALORRECE' +
       'BIDO, rec.VALOR_RESTO, rec.VALOR_PRIM_VIA, rec.N_DOCUMENTO, rec.' +
-      'CAIXA, rec.FORMARECEBIMENTO,'#13#10'          cli.NOMECLIENTE, (CASE W' +
-      'HEN (REC.VALORRECEBIDO > 0) THEN (REC.VALORTITULO - rec.VALOR_RE' +
-      'STO)'#13#10'          WHEN (REC.VALORRECEBIDO = 0) THEN rec.VALOR_REST' +
-      'O END)'#13#10'          as VALORREC, rec.EMISSAO, (udf_digits(rec.TITU' +
-      'LO) || '#39'/'#39' || rec.VIA) as TIT, rec.STATUS as SITUACAO '#13#10'from REC' +
-      'EBIMENTO rec '#13#10'           inner join CLIENTES cli on cli.CODCLIE' +
-      'NTE=rec.CODCLIENTE '#13#10'where CODVENDA = :pcod order by rec.CODRECE' +
-      'BIMENTO'
+      'CAIXA, rec.FORMARECEBIMENTO, rec.DATARECEBIMENTO,'#13#10'          cli' +
+      '.NOMECLIENTE, (CASE WHEN (REC.VALORRECEBIDO > 0) THEN (REC.VALOR' +
+      'TITULO - rec.VALOR_RESTO)'#13#10'          WHEN (REC.VALORRECEBIDO = 0' +
+      ') THEN rec.VALOR_RESTO END)'#13#10'          as VALORREC, rec.EMISSAO,' +
+      ' (udf_digits(rec.TITULO) || '#39'/'#39' || rec.VIA) as TIT, rec.STATUS a' +
+      's SITUACAO '#13#10'from RECEBIMENTO rec '#13#10'           inner join CLIENT' +
+      'ES cli on cli.CODCLIENTE=rec.CODCLIENTE '#13#10'where CODVENDA = :pcod' +
+      ' order by rec.CODRECEBIMENTO'
     MaxBlobSize = -1
     Params = <
       item
@@ -3027,6 +3031,10 @@ inherited fVendaFinalizar: TfVendaFinalizar
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
+    end
+    object SQLDataSet1DATARECEBIMENTO: TDateField
+      FieldName = 'DATARECEBIMENTO'
+      ReadOnly = True
     end
   end
   object DataSource1: TDataSource
