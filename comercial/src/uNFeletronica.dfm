@@ -2745,7 +2745,9 @@ object fNFeletronica: TfNFeletronica
     end
   end
   object sProdutos: TSQLDataSet
-    CommandText = 'select * from PRODUTOS p '#13#10'where p.CODPRODUTO = :Codpro'
+    CommandText = 
+      'select p.*, CAST(UDF_LEFT(p.NCM, 2)as INTEGER) as genero from PR' +
+      'ODUTOS p '#13#10'where p.CODPRODUTO = :Codpro'
     MaxBlobSize = -1
     Params = <
       item
@@ -2932,6 +2934,10 @@ object fNFeletronica: TfNFeletronica
     object sProdutosNCM: TStringField
       FieldName = 'NCM'
       Size = 8
+    end
+    object sProdutosGENERO: TIntegerField
+      FieldName = 'GENERO'
+      ReadOnly = True
     end
   end
   object XMLDocument1: TXMLDocument
