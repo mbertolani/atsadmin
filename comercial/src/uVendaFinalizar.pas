@@ -479,6 +479,8 @@ type
     sForn_NCPRAZOPAGAMENTO: TSmallintField;
     sForn_NCPRAZOENTREGA: TSmallintField;
     sForn_NCCONTA_FORNECEDOR: TStringField;
+    SQLDataSet1DATARECEBIMENTO: TDateField;
+    scdsCr_procDATARECEBIMENTO: TDateField;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -752,6 +754,7 @@ begin
 end;
 
 procedure TfVendaFinalizar.SpeedButton3Click(Sender: TObject);
+var str:string;
 begin
   inherited;
 
@@ -788,8 +791,17 @@ begin
       if (scdsCr_proc.State in [dsBrowse, dsInactive]) then
         scdsCr_proc.Edit;
       scdsCr_procSTATUS.AsString := '5-';
+      scdsCr_procVALOR_RESTO.AsFloat := scdsCr_procVALORRECEBIDO.asFloat;
+      scdsCr_procVALORRECEBIDO.AsFloat := 0;
+      scdsCr_procCAIXA.Clear;
       scdsCr_proc.ApplyUpdates(0);
       MessageDlg('Baixa cancelada com sucesso.', mtInformation, [mbOK], 0);
+
+      DecimalSeparator := '.';
+      str := 'Update RECEBIMENTO set DATARECEBIMENTO = null, DATACONSOLIDA = null';
+      str := str + ' WHERE CODRECEBIMENTO = ' + IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str);
+      DecimalSeparator := ',';
       scdsCr_proc.Refresh;
     Except
       MessageDlg('Não foi possível cancelar a baixa.', mtError, [mbOK], 0);
