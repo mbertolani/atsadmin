@@ -988,6 +988,14 @@ object fNotaf: TfNotaf
       Layout = blGlyphTop
     end
   end
+  object CheckBox1: TCheckBox
+    Left = 661
+    Top = 64
+    Width = 97
+    Height = 17
+    Caption = 'Dados Extras ?'
+    TabOrder = 1
+  end
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
@@ -997,7 +1005,7 @@ object fNotaf: TfNotaf
     Align = alTop
     PopupMenu = PopupMenu1
     Style = tsFlatButtons
-    TabOrder = 1
+    TabOrder = 2
     object TabNF: TTabSheet
       Caption = 'Nota Fiscal'
       Font.Charset = DEFAULT_CHARSET
@@ -1058,7 +1066,7 @@ object fNotaf: TfNotaf
           DataSource = DMNF.DtSrc_NF
           ItemHeight = 13
           TabOrder = 0
-          OnChange = cbCFOPChange
+          OnChange = carregaDadosAdicionais
           OnExit = cbCFOPChange
           OnKeyPress = FormKeyPress
         end
@@ -1323,6 +1331,7 @@ object fNotaf: TfNotaf
           DataField = 'UFCLI'
           DataSource = DMNF.DtSrc_NF
           TabOrder = 0
+          OnChange = carregaDadosAdicionais
           OnKeyPress = FormKeyPress
         end
       end
@@ -2645,14 +2654,6 @@ object fNotaf: TfNotaf
       end
     end
   end
-  object CheckBox1: TCheckBox
-    Left = 661
-    Top = 64
-    Width = 97
-    Height = 17
-    Caption = 'Dados Extras ?'
-    TabOrder = 2
-  end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa
     Left = 591
@@ -2668,8 +2669,8 @@ object fNotaf: TfNotaf
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 304
-    Top = 352
+    Left = 192
+    Top = 248
     object proc_transpCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True
@@ -3166,8 +3167,8 @@ object fNotaf: TfNotaf
   object dspNotaMae: TDataSetProvider
     DataSet = sdsNotaMae
     UpdateMode = upWhereKeyOnly
-    Left = 163
-    Top = 191
+    Left = 195
+    Top = 152
   end
   object cdsNotaMae: TClientDataSet
     Aggregates = <>
@@ -3178,8 +3179,8 @@ object fNotaf: TfNotaf
         ParamType = ptUnknown
       end>
     ProviderName = 'dspNotaMae'
-    Left = 183
-    Top = 243
+    Left = 231
+    Top = 152
     object cdsNotaMaeNOTASERIE: TStringField
       FieldName = 'NOTASERIE'
       Required = True
@@ -3390,6 +3391,61 @@ object fNotaf: TfNotaf
       FieldName = 'PESOREMESSA'
       Precision = 9
       Size = 2
+    end
+  end
+  object sCfop: TSQLDataSet
+    CommandText = 
+      'select * from ESTADO_ICMS ei where ei.UF = :uf and ei.CFOP = :cf' +
+      'op and ei.Pessoa = :pessoa'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'uf'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'cfop'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pessoa'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 159
+    Top = 195
+    object sCfopCFOP: TStringField
+      FieldName = 'CFOP'
+      Required = True
+      Size = 30
+    end
+    object sCfopUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 3
+    end
+    object sCfopPESSOA: TStringField
+      FieldName = 'PESSOA'
+      Size = 8
+    end
+    object sCfopDADOSADC1: TStringField
+      FieldName = 'DADOSADC1'
+      Size = 200
+    end
+    object sCfopDADOSADC2: TStringField
+      FieldName = 'DADOSADC2'
+      Size = 200
+    end
+    object sCfopDADOSADC3: TStringField
+      FieldName = 'DADOSADC3'
+      Size = 200
+    end
+    object sCfopDADOSADC4: TStringField
+      FieldName = 'DADOSADC4'
+      Size = 200
     end
   end
 end
