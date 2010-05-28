@@ -1,6 +1,7 @@
 inherited fEstado: TfEstado
-  Width = 1134
-  Height = 542
+  Left = 1
+  Width = 1261
+  Height = 545
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
   Font.Height = -13
   OldCreateOrder = True
@@ -113,8 +114,8 @@ inherited fEstado: TfEstado
     Caption = 'CST COFINS'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 461
-    Width = 1126
+    Top = 464
+    Width = 1253
     TabOrder = 16
     inherited btnIncluir: TBitBtn [0]
       Left = 412
@@ -138,7 +139,7 @@ inherited fEstado: TfEstado
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 1126
+    Width = 1253
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -222,7 +223,7 @@ inherited fEstado: TfEstado
   object DBGrid1: TDBGrid [20]
     Left = 3
     Top = 179
-    Width = 1118
+    Width = 1245
     Height = 278
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -251,7 +252,7 @@ inherited fEstado: TfEstado
         Expanded = False
         FieldName = 'CFNOME'
         Title.Caption = 'CFOP - Nome'
-        Width = 224
+        Width = 195
         Visible = True
       end
       item
@@ -269,7 +270,7 @@ inherited fEstado: TfEstado
       item
         Expanded = False
         FieldName = 'ICMS'
-        Width = 72
+        Width = 60
         Visible = True
       end
       item
@@ -287,7 +288,7 @@ inherited fEstado: TfEstado
       item
         Expanded = False
         FieldName = 'IPI'
-        Width = 72
+        Width = 63
         Visible = True
       end
       item
@@ -593,14 +594,14 @@ inherited fEstado: TfEstado
   object GroupBox1: TGroupBox [33]
     Left = 8
     Top = 98
-    Width = 1113
+    Width = 1240
     Height = 76
     Caption = 'Dados Adicionais'
     TabOrder = 15
     object DBEdit15: TDBEdit
-      Left = 8
+      Left = 9
       Top = 18
-      Width = 545
+      Width = 605
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -617,9 +618,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit16: TDBEdit
-      Left = 560
+      Left = 625
       Top = 18
-      Width = 545
+      Width = 605
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -636,9 +637,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit17: TDBEdit
-      Left = 8
+      Left = 9
       Top = 46
-      Width = 545
+      Width = 605
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -655,9 +656,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit18: TDBEdit
-      Left = 560
+      Left = 625
       Top = 46
-      Width = 545
+      Width = 605
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -674,6 +675,15 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
   end
+  object CheckBox1: TCheckBox [34]
+    Left = 1127
+    Top = 72
+    Width = 122
+    Height = 13
+    Caption = 'N'#227'o Gera Fatura'
+    TabOrder = 19
+    OnClick = CheckBox1Click
+  end
   inherited DtSrc: TDataSource
     DataSet = cds_estado
     Left = 408
@@ -687,8 +697,9 @@ inherited fEstado: TfEstado
       'CST'#13#10'        , esta.PESSOA'#13#10'        , esta.PIS'#13#10'        , esta.C' +
       'OFINS'#13#10'        , esta.CSTPIS'#13#10'        , esta.CSTCOFINS'#13#10'        ' +
       ', esta.DADOSADC1'#13#10'        , esta.DADOSADC2'#13#10'        , esta.DADOS' +
-      'ADC3'#13#10'        , esta.DADOSADC4'#13#10'FROM ESTADO_ICMS esta '#13#10'left out' +
-      'er join CFOP cfo on cfo.CFCOD = esta.CFOP '
+      'ADC3'#13#10'        , esta.DADOSADC4'#13#10'        , esta.NAOENVFATURA'#13#10'FRO' +
+      'M ESTADO_ICMS esta '#13#10'left outer join CFOP cfo on cfo.CFCOD = est' +
+      'a.CFOP '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -776,6 +787,11 @@ inherited fEstado: TfEstado
     object sdsDADOSADC4: TStringField
       FieldName = 'DADOSADC4'
       Size = 200
+    end
+    object sdsNAOENVFATURA: TStringField
+      FieldName = 'NAOENVFATURA'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsp: TDataSetProvider
@@ -873,6 +889,11 @@ inherited fEstado: TfEstado
     object cds_estadoDADOSADC4: TStringField
       FieldName = 'DADOSADC4'
       Size = 200
+    end
+    object cds_estadoNAOENVFATURA: TStringField
+      FieldName = 'NAOENVFATURA'
+      FixedChar = True
+      Size = 1
     end
   end
 end
