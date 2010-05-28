@@ -92,6 +92,9 @@ type
     cds_estadoDADOSADC2: TStringField;
     cds_estadoDADOSADC3: TStringField;
     cds_estadoDADOSADC4: TStringField;
+    CheckBox1: TCheckBox;
+    sdsNAOENVFATURA: TStringField;
+    cds_estadoNAOENVFATURA: TStringField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -107,6 +110,7 @@ type
     procedure ComboBox1Change(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
     procedure DBGrid1TitleClick(Column: TColumn);
+    procedure CheckBox1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -226,6 +230,10 @@ begin
     str := str + ', DADOSADC2 = ' + QuotedStr(cds_estadoDADOSADC2.AsString);
     str := str + ', DADOSADC3 = ' + QuotedStr(cds_estadoDADOSADC3.AsString);
     str := str + ', DADOSADC4 = ' + QuotedStr(cds_estadoDADOSADC4.AsString);
+    if (CheckBox1.Checked) then
+      str := str + ', NAOENVFATURA = ' + QuotedStr('S')
+    else
+      str := str + ', NAOENVFATURA = ' + QuotedStr('');
     str := str + ' WHERE CODESTADO = ' + IntToStr(cds_estadoCODESTADO.AsInteger);
     dm.sqlsisAdimin.ExecuteDirect(str);
     DecimalSeparator := ',';
@@ -238,6 +246,10 @@ begin
     ComboBox1.Text := 'Física'
   else
     ComboBox1.Text := 'Jurídica';
+  if (cds_estadoNAOENVFATURA.asString = 'S') then
+    CheckBox1.Checked := True
+  else
+    CheckBox1.Checked := False;
 
 end;
 
@@ -264,6 +276,10 @@ begin
     ComboBox1.Text := 'Física'
   else
     ComboBox1.Text := 'Jurídica';
+  if (cds_estadoNAOENVFATURA.asString = 'S') then
+    CheckBox1.Checked := True
+  else
+    CheckBox1.Checked := False;
 
 end;
 
@@ -271,6 +287,17 @@ procedure TfEstado.DBGrid1TitleClick(Column: TColumn);
 begin
   inherited;
   cds_estado.IndexFieldNames := Column.FieldName;
+end;
+
+procedure TfEstado.CheckBox1Click(Sender: TObject);
+begin
+  inherited;
+  if (cds_estado.State in [dsBrowse])then
+    cds_estado.Edit;
+  if (CheckBox1.Checked) then
+    cds_estadoNAOENVFATURA.asString := 'S'
+  else
+    cds_estadoNAOENVFATURA.asString := '';
 end;
 
 end.
