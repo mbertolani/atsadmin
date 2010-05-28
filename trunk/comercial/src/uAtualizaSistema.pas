@@ -722,6 +722,7 @@ begin
       executaDDL('NOTAFISCAL', 'NOTAMAE','INTEGER');
       executaDDL('NOTAFISCAL', 'VALOR_PIS','DOUBLE PRECISION');
       executaDDL('NOTAFISCAL', 'VALOR_COFINS','DOUBLE PRECISION');
+      executaDDL('ESTADO_ICMS', 'NAOENVFATURA','CHAR(1)');      
       mudaVersao('1.0.0.70');
     end;  // Fim Ataulização Versao 1.0.0.70
 
