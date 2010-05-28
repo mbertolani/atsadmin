@@ -1464,19 +1464,24 @@ object fNFeletronica: TfNFeletronica
       'select cf.CFCOD'#13#10'        , cf.CFNOME'#13#10'        , esta.UF'#13#10'       ' +
       ' , esta.ICMS'#13#10'        , esta.REDUCAO'#13#10'        , esta.IPI , esta.' +
       'ICMS_SUBSTRIB'#13#10'        , esta.ICMS_SUBSTRIB_IC'#13#10'        , esta.I' +
-      'CMS_SUBSTRIB_IND'#13#10'from CFOP cf'#13#10'left outer join ESTADO_ICMS esta' +
-      ' on esta.CFOP = cf.CFCOD'#13#10'where CFCOD = :id and esta.UF = :ESTAD' +
-      'O'
+      'CMS_SUBSTRIB_IND'#13#10'        , esta.NAOENVFATURA'#13#10'from CFOP cf'#13#10'lef' +
+      't outer join ESTADO_ICMS esta on esta.CFOP = cf.CFCOD'#13#10'where CFC' +
+      'OD = :id and esta.UF = :ESTADO and esta.CFOP = :codcfop'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'id'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftString
         Name = 'ESTADO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'codcfop'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -1520,6 +1525,11 @@ object fNFeletronica: TfNFeletronica
     object sCFOPICMS_SUBSTRIB_IND: TFloatField
       FieldName = 'ICMS_SUBSTRIB_IND'
       ReadOnly = True
+    end
+    object sCFOPNAOENVFATURA: TStringField
+      FieldName = 'NAOENVFATURA'
+      FixedChar = True
+      Size = 1
     end
   end
   object sCliente: TSQLDataSet

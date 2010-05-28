@@ -444,6 +444,7 @@ type
     sFornecDDD: TSmallintField;
     sFornecCD_IBGE: TStringField;
     sProdutosGENERO: TIntegerField;
+    sCFOPNAOENVFATURA: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -585,7 +586,7 @@ procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
 var
   dathor: TDateTime;
   BC, BCST : Variant;
-  i, tpfrete, c: integer;
+  i, tpfrete, c, IERG: integer;
   Protocolo, Recibo, comp, comp2, str, itensnf : String;
   tfrete : Variant;
 begin
@@ -635,9 +636,15 @@ begin
            sCFOP.Close;
          sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
          if (tpNF.ItemIndex = 1) then
-          sCFOP.Params[1].AsString := sClienteUF.AsString
+         begin
+          sCFOP.Params[1].AsString := sClienteUF.AsString;
+          sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
+         end
          else
+         begin
           sCFOP.Params[1].AsString := sFornecUF.AsString;
+          sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
+         end;
          sCFOP.Open;
 
          if (cdsNFDTASAIDA.IsNull) then
@@ -654,38 +661,44 @@ begin
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := sCFOPCFNOME.AsString;
                         //Verifica tipo de Pagamento
-            if (cdsNFVALOR_PAGAR.AsFloat = cdsNFENTRADA.AsFloat) then
-              Ide.indPag    := ipVista
+
+            if(sCFOPNAOENVFATURA.AsString = 'S') then
+              ide.indPag := ipOutras
             else
-              Ide.indPag    := ipPrazo;
-            //pesquisa pagamento
-            if ( (cdsNFFATURA.AsString <> Null) and (cdsNFFATURA.AsString <> '') ) then
             begin
-            if(cdsFatura.Active) then
-              cdsFatura.Close;
-            cdsFatura.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
-            cdsFatura.Open;
-            if (sNFC.Active) then
-              sNFC.Close;
-            sNFC.Params[0].AsInteger := cdsNFNUMNF.AsInteger;
-            sNFC.Open;
-            //Carrega dados do Pagamento
-            cdsFatura.first;
-            c := 0;
-            while not cdsFatura.eof do
-            begin
-              if (cdsFaturaVALOR.AsFloat > 0) then
+              if (cdsNFVALOR_PAGAR.AsFloat = cdsNFENTRADA.AsFloat) then
+                Ide.indPag    := ipVista
+              else
+                Ide.indPag    := ipPrazo;
+              //pesquisa pagamento
+              if ( (cdsNFFATURA.AsString <> Null) and (cdsNFFATURA.AsString <> '') ) then
               begin
-                Cobr.Dup.Add;
-                Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
-                Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
-                Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
-                Inc ( c );
+              if(cdsFatura.Active) then
+                cdsFatura.Close;
+              cdsFatura.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
+              cdsFatura.Open;
+              if (sNFC.Active) then
+                sNFC.Close;
+              sNFC.Params[0].AsInteger := cdsNFNUMNF.AsInteger;
+              sNFC.Open;
+              //Carrega dados do Pagamento
+              cdsFatura.first;
+              c := 0;
+              while not cdsFatura.eof do
+              begin
+                if (cdsFaturaVALOR.AsFloat > 0) then
+                begin
+                  Cobr.Dup.Add;
+                  Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
+                  Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
+                  Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
+                  Inc ( c );
+                end;
+                cdsFatura.next;
               end;
-              cdsFatura.next;
-            end;
-            if (c = 0) then
-              Ide.indPag    := ipOutras;
+              if (c = 0) then
+                Ide.indPag    := ipOutras;
+              end;
             end;
             
             Ide.cMunFG    := 3554003;
@@ -779,7 +792,9 @@ begin
               Dest.EnderDest.cPais   := 1058;
               Dest.EnderDest.xPais   := 'BRASIL';
               Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
-              Dest.IE                := RemoveChar(sClienteINSCESTADUAL.AsString);
+              IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
+              if (IERG > 11) then
+                Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
             end;
 
             //Carrega os itens da NF 
@@ -1521,9 +1536,15 @@ begin
            sCFOP.Close;
          sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
          if (tpNF.ItemIndex = 1) then
-          sCFOP.Params[1].AsString := sClienteUF.AsString
+         begin
+          sCFOP.Params[1].AsString := sClienteUF.AsString;
+          sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
+         end
          else
+         begin
           sCFOP.Params[1].AsString := sFornecUF.AsString;
+          sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
+         end;
          sCFOP.Open;
 
          if (cdsNFDTASAIDA.IsNull) then
@@ -1540,38 +1561,43 @@ begin
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := sCFOPCFNOME.AsString;
             //Verifica tipo de Pagamento
-            if (cdsNFVALOR_PAGAR.AsFloat = cdsNFENTRADA.AsFloat) then
-              Ide.indPag    := ipVista
+            if(sCFOPNAOENVFATURA.AsString = 'S') then
+              ide.indPag := ipOutras
             else
-              Ide.indPag    := ipPrazo;
-            //pesquisa pagamento
-            if ( (cdsNFFATURA.AsString <> Null) and (cdsNFFATURA.AsString <> '') ) then
             begin
-            if(cdsFatura.Active) then
-              cdsFatura.Close;
-            cdsFatura.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
-            cdsFatura.Open;
-            if (sNFC.Active) then
-              sNFC.Close;
-            sNFC.Params[0].AsInteger := cdsNFNUMNF.AsInteger;
-            sNFC.Open;
-            //Carrega dados do Pagamento
-            cdsFatura.first;
-            c := 0;
-            while not cdsFatura.eof do
-            begin
-              if (cdsFaturaVALOR.AsFloat > 0) then
+              if (cdsNFVALOR_PAGAR.AsFloat = cdsNFENTRADA.AsFloat) then
+                Ide.indPag    := ipVista
+              else
+                Ide.indPag    := ipPrazo;
+              //pesquisa pagamento
+              if ( (cdsNFFATURA.AsString <> Null) and (cdsNFFATURA.AsString <> '') ) then
               begin
-                Cobr.Dup.Add;
-                Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
-                Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
-                Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
-                Inc ( c );
+              if(cdsFatura.Active) then
+                cdsFatura.Close;
+              cdsFatura.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
+              cdsFatura.Open;
+              if (sNFC.Active) then
+                sNFC.Close;
+              sNFC.Params[0].AsInteger := cdsNFNUMNF.AsInteger;
+              sNFC.Open;
+              //Carrega dados do Pagamento
+              cdsFatura.first;
+              c := 0;
+              while not cdsFatura.eof do
+              begin
+                if (cdsFaturaVALOR.AsFloat > 0) then
+                begin
+                  Cobr.Dup.Add;
+                  Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
+                  Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
+                  Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
+                  Inc ( c );
+                end;
+                cdsFatura.next;
               end;
-              cdsFatura.next;
-            end;
-            if (c = 0) then
-              Ide.indPag    := ipOutras;
+              if (c = 0) then
+                Ide.indPag    := ipOutras;
+              end;
             end;
 
             Ide.cMunFG    := 3554003;
@@ -1826,19 +1852,19 @@ begin
                     //ICMS 90 OUTROS
                     if ((cdsItensNFCST.AsString = '090  ') or (cdsItensNFCST.AsString = '090')) then
                     begin
-                      orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-                      CST := cst90;                                               //CST DO PRODUTO
-                      modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
+                      orig := sProdutosORIGEM.AsVariant;                        //ORIGEM DO PRODUTO
+                      CST := cst90;                                             //CST DO PRODUTO
+                      modBC := BC;                                              //MODO DE BASE DE CALCULO (0) POR %
                       pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
-                      pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
-                      vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
-                      modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
-                      pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
-                      pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-                      vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;                    //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-                      pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-                      vICMSST := cdsItensNFICMS_SUBST.AsVariant;
+                      vBC := cdsItensNFVLR_BASE.AsVariant;                      //VALOR DA BASE DE CALCULO
+                      pICMS := cdsItensNFICMS.AsVariant;                        //ALIQUOTA DO ICMS
+                      vICMS := cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
+                      modBCST := BCST;                                          //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
+                      pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;               //% MARGEM DE VALOR ADICIONADO DO ICMSST
+                      pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;              //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+                      vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;                  //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+                      pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                  //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+                      vICMSST := cdsItensNFICMS_SUBST.AsVariant;                //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
                     end;
                   end;
                 end;
