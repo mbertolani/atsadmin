@@ -701,7 +701,6 @@ begin
       executaSql('CREATE EXCEPTION DATAINVALIDA ' + QuotedStr('O sistema não permite data menor que 01/01/2001'));
       executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' + QuotedStr('Nota fiscal já enviada, alteração não permitida'));
       executaScript('corrige_fatura.sql');
-      executaScript('calcula_icms.sql');
       executaScript('calcula_icms_substprod.sql');
       executaScript('CorrigeEstoque.sql');
       executaScript('retornaEstoqueVenda.sql');
@@ -725,6 +724,14 @@ begin
       executaDDL('ESTADO_ICMS', 'NAOENVFATURA','CHAR(1)');      
       mudaVersao('1.0.0.70');
     end;  // Fim Ataulização Versao 1.0.0.70
+
+    if (versaoSistema = '1.0.0.70') then
+    begin
+      executaDDL('MOVIMENTODETALHE', 'VLR_BASEICMS','DOUBLE PRECISION');
+      executaScript('calcula_icms.sql');      
+      mudaVersao('1.0.0.71');
+    end;  // Fim Ataulização Versao 1.0.0.71
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
