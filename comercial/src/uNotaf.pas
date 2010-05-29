@@ -1667,7 +1667,7 @@ begin
      varTotalnota := 0;
 //     dmnf.cds_nfVALOR_ICMS.Value +
      varTotalnota :=  dmnf.cds_nfVALOR_FRETE.Value + dmnf.cds_nfVALOR_SEGURO.Value +
-     dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value + dmnf.cds_nfVALOR_ICMS.Value;
+     dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value;
      if (varTotalnota <> dmnf.cds_nfVALOR_TOTAL_NOTA.value) then
          dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + varTotalnota;
 end;
