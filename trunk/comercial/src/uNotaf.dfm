@@ -3,6 +3,7 @@ object fNotaf: TfNotaf
   Top = 61
   Width = 800
   Height = 590
+  VertScrollBar.Position = 187
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
   Color = clBtnFace
@@ -21,7 +22,7 @@ object fNotaf: TfNotaf
   TextHeight = 13
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 0
+    Top = -187
     Width = 776
     Height = 59
     Align = alTop
@@ -990,7 +991,7 @@ object fNotaf: TfNotaf
   end
   object CheckBox1: TCheckBox
     Left = 661
-    Top = 64
+    Top = -123
     Width = 97
     Height = 17
     Caption = 'Dados Extras ?'
@@ -998,7 +999,7 @@ object fNotaf: TfNotaf
   end
   object JvPageControl1: TJvPageControl
     Left = 0
-    Top = 59
+    Top = -128
     Width = 776
     Height = 691
     ActivePage = TabNF
@@ -2122,60 +2123,75 @@ object fNotaf: TfNotaf
             Expanded = False
             FieldName = 'CODPRO'
             Title.Caption = 'C'#243'digo'
-            Width = 50
+            Width = 43
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
             Title.Caption = 'Produtos'
-            Width = 286
+            Width = 244
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CST'
-            Width = 38
+            Width = 30
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
-            Width = 26
+            Width = 22
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
             Title.Caption = 'Quantidade'
-            Width = 60
+            Width = 58
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASE'
             Title.Caption = 'Valor Unit'#225'rio'
-            Width = 91
+            Width = 75
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QTDE_ALT'
             Title.Caption = 'Desc.%'
-            Width = 58
+            Width = 46
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
-            Width = 84
+            Width = 61
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ICMS'
-            Width = 39
+            Title.Caption = 'ICMS %'
+            Width = 41
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VLR_BASEICMS'
+            Title.Caption = 'Base ICMS'
+            Width = 58
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_ICMS'
+            Title.Caption = 'Valor ICMS'
+            Width = 52
             Visible = True
           end>
       end

@@ -1273,6 +1273,7 @@ begin
  //Salvo Nota Fiscal
  if (DMNF.DtSrc_NF.State in [dsInsert, dsEdit]) then
    gravanotafiscal;
+
 end;
 
 procedure TfNotaf.gravamov_detalhe;
@@ -1570,7 +1571,7 @@ begin
      dmnf.cds_nfPESOREMESSA.AsBCD := dmnf.cds_nfPESOLIQUIDO.AsBCD;
    dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + dmnf.cds_nfVALOR_FRETE.Value +
    dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value +
-   dmnf.cds_nfVALOR_IPI.Value + dmnf.cds_nfVALOR_ICMS.Value;
+   dmnf.cds_nfVALOR_IPI.Value;
  if ((dmnf.cds_nfCFOP.AsString = '5116') or (dmnf.cds_nfCFOP.AsString = '5116')) then
   begin
     if (cdsNotaMae.Active) then
@@ -1591,7 +1592,7 @@ begin
   //if (codVendaFin = 0) then
   if (not calcman.Checked) then
     calculaicms(dmnf.cds_nfUF.AsString);
-
+  DMNF.cds_Mov_det.Refresh;
   dmnf.cds_nf.close;
   dmnf.cds_nf.Params[0].AsInteger := nfnum;
   dmnf.cds_nf.Params[1].Clear;
