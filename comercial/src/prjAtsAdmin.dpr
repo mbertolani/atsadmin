@@ -191,7 +191,8 @@ uses
   uNFeInutilizar in 'uNFeInutilizar.pas' {fNFeInutilizar},
   uPrazo in 'uPrazo.pas' {fPrazo},
   uNotafRemessa in 'uNotafRemessa.pas' {fNotafRemessa},
-  uCombo in 'uCombo.pas' {fCombo};
+  uCombo in 'uCombo.pas' {fCombo},
+  uGeraEtiquetas in 'uGeraEtiquetas.pas' {fGeraEtiquetas};
 
 {$R *.res}
 
@@ -223,6 +224,7 @@ begin
   Application.CreateForm(TfCallCenter, fCallCenter);
   Application.CreateForm(TfPrazo, fPrazo);
   Application.CreateForm(TfCombo, fCombo);
+  Application.CreateForm(TfGeraEtiquetas, fGeraEtiquetas);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   Application.CreateForm(TfPfaturamento, fPfaturamento);
