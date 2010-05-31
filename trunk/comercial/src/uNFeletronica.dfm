@@ -663,14 +663,6 @@ object fNFeletronica: TfNFeletronica
     object sdsNFDTASAIDA: TDateField
       FieldName = 'DTASAIDA'
     end
-    object sdsNFCORPONF1: TStringField
-      FieldName = 'CORPONF1'
-      Size = 75
-    end
-    object sdsNFCORPONF2: TStringField
-      FieldName = 'CORPONF2'
-      Size = 75
-    end
     object sdsNFCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
     end
@@ -813,14 +805,6 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'VALOR_PAGAR'
       ReadOnly = True
     end
-    object sdsNFCORPONF3: TStringField
-      FieldName = 'CORPONF3'
-      Size = 75
-    end
-    object sdsNFCORPONF4: TStringField
-      FieldName = 'CORPONF4'
-      Size = 75
-    end
     object sdsNFFATURA: TStringField
       FieldName = 'FATURA'
       Size = 300
@@ -828,6 +812,22 @@ object fNFeletronica: TfNFeletronica
     object sdsNFNATUREZA: TSmallintField
       FieldName = 'NATUREZA'
       Required = True
+    end
+    object sdsNFCORPONF4: TStringField
+      FieldName = 'CORPONF4'
+      Size = 200
+    end
+    object sdsNFCORPONF3: TStringField
+      FieldName = 'CORPONF3'
+      Size = 200
+    end
+    object sdsNFCORPONF2: TStringField
+      FieldName = 'CORPONF2'
+      Size = 200
+    end
+    object sdsNFCORPONF1: TStringField
+      FieldName = 'CORPONF1'
+      Size = 200
     end
   end
   object cdsNF: TClientDataSet
@@ -1016,16 +1016,6 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'DTASAIDA'
       ProviderFlags = [pfInUpdate]
     end
-    object cdsNFCORPONF1: TStringField
-      FieldName = 'CORPONF1'
-      ProviderFlags = [pfInUpdate]
-      Size = 75
-    end
-    object cdsNFCORPONF2: TStringField
-      FieldName = 'CORPONF2'
-      ProviderFlags = [pfInUpdate]
-      Size = 75
-    end
     object cdsNFHORASAIDA: TTimeField
       FieldName = 'HORASAIDA'
       ProviderFlags = [pfInUpdate]
@@ -1064,14 +1054,6 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'VALOR_PAGAR'
       ReadOnly = True
     end
-    object cdsNFCORPONF3: TStringField
-      FieldName = 'CORPONF3'
-      Size = 75
-    end
-    object cdsNFCORPONF4: TStringField
-      FieldName = 'CORPONF4'
-      Size = 75
-    end
     object cdsNFFATURA: TStringField
       FieldName = 'FATURA'
       Size = 300
@@ -1079,6 +1061,24 @@ object fNFeletronica: TfNFeletronica
     object cdsNFNATUREZA: TSmallintField
       FieldName = 'NATUREZA'
       Required = True
+    end
+    object cdsNFCORPONF1: TStringField
+      FieldName = 'CORPONF1'
+      ProviderFlags = [pfInUpdate]
+      Size = 200
+    end
+    object cdsNFCORPONF2: TStringField
+      FieldName = 'CORPONF2'
+      ProviderFlags = [pfInUpdate]
+      Size = 200
+    end
+    object cdsNFCORPONF3: TStringField
+      FieldName = 'CORPONF3'
+      Size = 200
+    end
+    object cdsNFCORPONF4: TStringField
+      FieldName = 'CORPONF4'
+      Size = 200
     end
   end
   object dspNF: TDataSetProvider
@@ -1095,14 +1095,14 @@ object fNFeletronica: TfNFeletronica
       '       udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'    ' +
       '      ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'     ' +
       '     pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,'#13#10' ' +
-      '         UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10'        ' +
-      '  UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE,'#13#10'          UDF_ROUND' +
-      'DEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'          md.ICMS_SUBSTD,'#13 +
-      #10'          (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL'#13#10'from VENDA' +
-      ' vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CO' +
-      'DMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVE' +
-      'NDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10 +
-      'where vd.CODVENDA = :id'
+      '         md.VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS,' +
+      ' 2) as VALOR_ICMS,'#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) as VL' +
+      'R_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,' +
+      #13#10'          md.ICMS_SUBSTD,'#13#10'          (md.VLR_BASE * md.QUANTID' +
+      'ADE) as VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md' +
+      ' on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL n' +
+      'f on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.' +
+      'CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -1158,6 +1158,10 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'CODPRO'
       ReadOnly = True
       Size = 254
+    end
+    object sdsItensNFVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
+      ReadOnly = True
     end
   end
   object dspItensNF: TDataSetProvider
@@ -1224,6 +1228,10 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsItensNFVALTOTAL: TFloatField
       FieldName = 'VALTOTAL'
+      ReadOnly = True
+    end
+    object cdsItensNFVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
       ReadOnly = True
     end
   end
