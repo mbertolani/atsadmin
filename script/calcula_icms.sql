@@ -40,6 +40,13 @@ declare variable fatura varchar(300);
 declare variable DATAFATURA varchar(12);
 declare variable VLR varchar(12);
 declare variable NUMEROFATURA VARCHAR(20);
+declare variable PARAMETRO VARCHAR(20);
+declare variable desconto DOUBLE PRECISION;
+declare variable qtde DOUBLE PRECISION;
+declare variable preco DOUBLE PRECISION;
+declare variable codDet DOUBLE PRECISION;
+declare variable codCli integer;
+declare variable PESSOA SMALLINT;
 begin
   BASE_ICMS = 0;
   BASE_ICMSE = 0;
@@ -55,9 +62,13 @@ begin
   if (icms_subst is null) then 
     icms_subst = 0;
 
-  select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA from venda v
+  select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA, v.CODCLIENTE from venda v
     inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf
-  into :cod, :notaFiscalVenda, :serie, :codv; 
+  into :cod, :notaFiscalVenda, :serie, :codv, :CodCli; 
+  
+  pessoa = 1;      -- Pessoa Juridica
+  Select first 1 c.TIPOFIRMA from CLIENTES c where c.CODCLIENTE = :CodCli
+        Into :pessoa;
 
   SELECT s.ICMS_DESTACADO FROM SERIES s WHERE s.SERIE = :SERIE 
     into :icms_destacado;
@@ -83,14 +94,51 @@ begin
   end 
   /* ==============================================================*/  
 
-    SELECT FIRST 1 ICMS, CASE WHEN (REDUCAO > 0) THEN (REDUCAO/100) ELSE 1 END, IPI, CST  FROM ESTADO_ICMS WHERE UF = :UF AND CFOP = :CFOP
-      INTO :IND_ICMS, :IND_REDUZICMS, :IND_IPI, :CST;
+    if (pessoa = 0) then 
+    begin 
+        SELECT FIRST 1 ICMS, CASE WHEN (REDUCAO > 0) THEN (REDUCAO/100) ELSE 1 END, IPI, CST  
+            FROM ESTADO_ICMS WHERE UF = :UF AND CFOP = :CFOP and PESSOA = 'F'
+        INTO :IND_ICMS, :IND_REDUZICMS, :IND_IPI, :CST;
+    end
+
+    if (pessoa = 1) then 
+    begin 
+        SELECT FIRST 1 ICMS, CASE WHEN (REDUCAO > 0) THEN (REDUCAO/100) ELSE 1 END, IPI, CST  FROM ESTADO_ICMS WHERE UF = :UF AND CFOP = :CFOP
+        INTO :IND_ICMS, :IND_REDUZICMS, :IND_IPI, :CST;
+    end
+        
     IF (INDICE_MANUAL = 'N') THEN
     BEGIN 
       -- Atauliza o ICMS na movimentodetalhe 
       if (ind_icms is not null)  then 
       begin 
-        update MOVIMENTODETALHE set ICMS = :ind_icms, CST = :CST  where CODMOVIMENTO = :cod;
+      
+        for select  md.QTDE_ALT, md.QUANTIDADE, md.VLR_BASE, md.CODDETALHE from MOVIMENTODETALHE md
+            where md.CODMOVIMENTO = :cod
+        into :desconto, :qtde, :preco, :codDet
+        do begin 
+            desconto = 0;
+          
+            if (desconto > 0) then     
+                VALOR = ( :qtde * (:preco * (1-(:desconto/100))));
+
+            if (desconto = 0) then     
+                VALOR = :qtde * :preco;        
+            
+            BASE_ICMS    = 0;
+            ICMS         = 0;
+       
+            if (ind_icms > 0) then 
+            begin 
+                Base_icms   = valor * ind_reduzicms;
+                ICMS        = Base_icms * (ind_icms/100);  
+            end 
+           
+            update MOVIMENTODETALHE set ICMS = :ind_icms, CST = :CST,  VALOR_ICMS = :icms, VLR_BASEICMS = :BASE_ICMS 
+                where CODDETALHE = :codDet;
+            BASE_ICMS    = 0;
+            ICMS         = 0;            
+        end     
       end 
       /* Busca os indices da TAB ESTADO_ICMS */
       IF (UF = 'SP') THEN
@@ -286,6 +334,13 @@ begin
             update notafiscal set FATURA = :fatura where NUMNF = :NUMERO_NF;
         -- No Caso de NF com faturas diferentes faz a correção destas , usada na GiroParts.  
         NumeroFatura = notaFiscalVenda || '-' || serie;
-        EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);  
+        
+        -- vejo se usa nf Parcial
+        select parametro from parametro where parametro = 'NFVALOR'
+        into :parametro;
+        if (parametro is not null) then
+        begin        
+            EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);  
+        end
     end        
 end
