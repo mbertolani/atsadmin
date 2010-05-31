@@ -445,6 +445,8 @@ type
     sFornecCD_IBGE: TStringField;
     sProdutosGENERO: TIntegerField;
     sCFOPNAOENVFATURA: TStringField;
+    sdsItensNFVLR_BASEICMS: TFloatField;
+    cdsItensNFVLR_BASEICMS: TFloatField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -855,7 +857,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst00;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                     end;
@@ -865,7 +867,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst10;                             //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                       modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
@@ -881,7 +883,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst20;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       //pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
@@ -943,7 +945,7 @@ begin
                       CST := cst70;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
                       pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                       modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
@@ -960,7 +962,7 @@ begin
                       CST := cst90;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
                       pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                       modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
@@ -1043,6 +1045,12 @@ begin
                         pesoB := 0
                       end;
                     end;
+                    if ( (cdsNFPLACATRANSP.AsString <> '') and (cdsNFPLACATRANSP.AsString <> null) ) then
+                      if ( (cdsNFUF_VEICULO_TRANSP.AsString <> '') and (cdsNFUF_VEICULO_TRANSP.AsString <> null) ) then
+                      begin
+                      veicTransp.placa := cdsNFPLACATRANSP.AsString;
+                      veicTransp.UF := cdsNFUF_VEICULO_TRANSP.AsString;
+                      end;
                 end;
               end;
             end;
@@ -1752,7 +1760,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst00;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                     end;
@@ -1762,7 +1770,7 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst10;                             //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                       modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
@@ -1778,8 +1786,9 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst20;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+                      //pRedBC := cdsNFREDUZICMS.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                     end;
@@ -1839,7 +1848,7 @@ begin
                       CST := cst70;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
                       pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
                       modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
@@ -1852,19 +1861,19 @@ begin
                     //ICMS 90 OUTROS
                     if ((cdsItensNFCST.AsString = '090  ') or (cdsItensNFCST.AsString = '090')) then
                     begin
-                      orig := sProdutosORIGEM.AsVariant;                        //ORIGEM DO PRODUTO
-                      CST := cst90;                                             //CST DO PRODUTO
-                      modBC := BC;                                              //MODO DE BASE DE CALCULO (0) POR %
+                      orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+                      CST := cst90;                                               //CST DO PRODUTO
+                      modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
                       pRedBC := sCFOPREDUCAO.AsVariant;                         //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-                      vBC := cdsItensNFVLR_BASE.AsVariant;                      //VALOR DA BASE DE CALCULO
-                      pICMS := cdsItensNFICMS.AsVariant;                        //ALIQUOTA DO ICMS
-                      vICMS := cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
-                      modBCST := BCST;                                          //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
-                      pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;               //% MARGEM DE VALOR ADICIONADO DO ICMSST
-                      pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;              //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-                      vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;                  //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-                      pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                  //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-                      vICMSST := cdsItensNFICMS_SUBST.AsVariant;                //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
+                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
+                      vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
+                      modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
+                      pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
+                      pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+                      vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;                    //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+                      pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+                      vICMSST := cdsItensNFICMS_SUBST.AsVariant;
                     end;
                   end;
                 end;
@@ -1893,6 +1902,7 @@ begin
                    xEnder := cdsNFEND_TRANSP.AsString;
                    xMun := cdsNFCIDADE_TRANSP.AsString;
                    UF :=  cdsNFUF_TRANSP.AsString;
+
                    //Carrega dados da Carga para Transporte
                    with Vol.Add do
                    begin
@@ -1933,6 +1943,12 @@ begin
                         pesoB := 0
                       end;
                     end;
+                    if ( (cdsNFPLACATRANSP.AsString <> '') and (cdsNFPLACATRANSP.AsString <> null) ) then
+                      if ( (cdsNFUF_VEICULO_TRANSP.AsString <> '') and (cdsNFUF_VEICULO_TRANSP.AsString <> null) ) then
+                      begin
+                      veicTransp.placa := cdsNFPLACATRANSP.AsString;
+                      veicTransp.UF := cdsNFUF_VEICULO_TRANSP.AsString;
+                      end;
                 end;
               end;
             end;
