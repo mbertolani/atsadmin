@@ -1305,6 +1305,10 @@ type
     cds_nfNOTAMAE: TIntegerField;
     sds_nfPESOREMESSA: TBCDField;
     cds_nfPESOREMESSA: TBCDField;
+    sds_Mov_DetVLR_BASEICMS: TFloatField;
+    cds_Mov_detVLR_BASEICMS: TFloatField;
+    sds_Mov_DetVALOR_ICMS: TFloatField;
+    cds_Mov_detVALOR_ICMS: TFloatField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
