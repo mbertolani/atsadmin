@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE  RELCONTASRECEBER
 RETURNS ( STATUS                           VARCHAR( 2 )
         , STATUSP                          VARCHAR( 15 )
@@ -35,6 +36,11 @@ RETURNS ( STATUS                           VARCHAR( 2 )
         
 AS
 declare variable tituloatual varchar(20);
+declare variable vlrRec  DOUBLE PRECISION;
+declare variable vlrJuros DOUBLE PRECISION;
+declare variable vlrMulta  DOUBLE PRECISION;
+declare variable vlrPerda  DOUBLE PRECISION;
+declare variable vlrDesc  DOUBLE PRECISION;
 begin
    tituloAtual = 'vazio';
    valorTitulo = 0;
@@ -46,7 +52,7 @@ begin
      valor_prim_via = valorTitulo;
      saldo = valorTitulo;
      for SELECT rec.STATUS, rec.DATARECEBIMENTO, rec.DATACONSOLIDA
-      , (rec.VALORRECEBIDO+rec.JUROS+rec.FUNRURAL-rec.PERDA-rec.DESCONTO) as VALORRECEBIDO
+      , rec.VALORRECEBIDO, rec.JUROS, rec.FUNRURAL, rec.PERDA, rec.DESCONTO
       , rec.DESCONTO
       , UDF_PADL(CAST(UDF_TRIM(rec.VIA) AS VARCHAR(2)),0,2) || '/'|| 
       CAST(UDF_PADL(rec.PARCELAS,0,2) as varchar(2)) as VIA
@@ -73,7 +79,7 @@ begin
         , rec.HISTORICO, rec.DESCONTO, rec.JUROS, rec.FUNRURAL, rec.PARCELAS, rec.PERDA
         , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
         , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO
-      into :status, :dataRecebimento, :DATACONSOLIDA, :valorRecebido, :desconto,  :via
+      into :status, :dataRecebimento, :DATACONSOLIDA, :vlrrec, :vlrJuros, :vlrMulta, :vlrPerda, :vlrDesc, :desconto,  :via
         , :N_documento, :emissao, :codRecebimento
         , :titulo, :dataVencimento, :valor_resto 
         , :nomeCliente, :codCliente, :historico, :statusP
@@ -81,6 +87,23 @@ begin
         , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO, :CONTACREDITO
       do
       begin
+        if (vlrRec is null) then 
+          vlrRec = 0;
+        if (vlrJuros is null) THEN  
+          vlrJuros = 0;
+          
+        if (vlrMulta is null) then 
+          vlrMulta = 0;
+          
+        if (vlrPerda is null) then 
+          vlrPerda = 0;
+          
+        if (vlrDesc is null) then 
+          vlrDesc = 0;
+                  
+        valorrecebido = vlrrec + vlrJuros + vlrMulta - vlrPerda - vlrDesc;
+        if (valorrecebido < 0) then 
+          valorRecebido = (-1) * valorrecebido;
         if (DESCONTADO = 'S') then
           StatusP = 'DESCONTADO';
         if (valorRecebido is null) THEN 
