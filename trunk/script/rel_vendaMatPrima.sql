@@ -1,7 +1,7 @@
 SET TERM ^ ;
 CREATE OR ALTER PROCEDURE REL_VENDAMATPRIMA(
     PDTA1 Date,
-    PDTA2 Date )
+    PDTA2 Date, CCUSTO INTEGER)
 RETURNS (
     CODPRODUTO Varchar(15),
     PRODUTO Varchar(300),
@@ -51,7 +51,8 @@ BEGIN
       when m.qtde_alt = 0 then 1 else (1-(m.qtde_alt/100))  end) * m.VALTOTAL) as VALTOTAL, sum(m.VLRESTOQUE) from venda v 
       inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = v.CODMOVIMENTO
       inner join MOVIMENTO mov on mov.CODMOVIMENTO = v.CODMOVIMENTO 
-      where m.codProduto = :codPRo and v.dataVenda BETWEEN :pdta1 and :pdta2 and mov.codnatureza = 3
+      where m.codProduto = :codPRo and v.dataVenda BETWEEN :pdta1 and :pdta2 and mov.codnatureza = 3 and 
+        ((v.CODCCUSTO = :CCUSTO) or (:CCUSTO = 0))
     
       into :qtdeVenda, :vlrTotalVenda, :vlrCustoTotal;
     
@@ -110,6 +111,7 @@ BEGIN
     inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = c.CODMOVIMENTO
     inner join MOVIMENTO mov on mov.CODMOVIMENTO = c.CODMOVIMENTO 
     where m.codProduto = :codPRo and c.dataCompra BETWEEN :pdta1 and :pdta2 and mov.codnatureza = 4
+    and ((c.CODCCUSTO = :CCUSTO) or (:CCUSTO = 0))
     into :qtdeCompra, :vlrTotalCompra ;
 
     if (qtdeCompra is null) then 
