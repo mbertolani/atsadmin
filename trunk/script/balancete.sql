@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER PROCEDURE  BALANCETE( PDTA1 DATE, PDTA2 DATE)
 RETURNS ( CONTA                            VARCHAR( 60 )
         , CREDITO                          DOUBLE PRECISION
@@ -15,8 +16,9 @@ BEGIN
   
   /* Buscar Caixa/Banco */ 
   CONTA = 'CAIXA E BANCO ';
-  select valor from SP_MOV_CAIXA(:PDTA2, :PDTA2, 0) where ordem = 0
-    INTO :TOTAL;
+  
+  Select VALOR from SP_MOV_CAIXA(:PDTA2, :PDTA2, 0, 0) WHERE ORDEM = 0
+    into :TOTAL;
   
   CREDITO = TOTAL; 
   if (CREDITO IS NULL) THEN 
