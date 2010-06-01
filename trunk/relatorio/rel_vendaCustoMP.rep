@@ -28,8 +28,8 @@ object TRpReport
         'as vlrTotalVenda, sum(qtdeCompra)  as qtdeCompra'#13#10', sum(vlrTotal' +
         'Compra) as vlrTotalCompra , sum(vlrCustoTotal) as vlrCustoTotal ' +
         #13#10', avg(vlrLucro) as vlrLucro, sum(qtdeEstoque)'#13#10'from REL_VENDAM' +
-        'ATPRIMA(:DATA1, :DATA2) '#13#10'where ((qtdeVenda > 0))'#13#10'group by prod' +
-        'uto'
+        'ATPRIMA(:DATA1, :DATA2, :CCUSTO) '#13#10'where ((qtdeVenda > 0))'#13#10'grou' +
+        'p by produto'
     end>
   DatabaseInfo = <
     item
@@ -68,7 +68,7 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 40210d
+      Value = 40269d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -80,8 +80,21 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 40214d
+      Value = 40298d
       ParamType = rpParamDate
+      Datasets.Strings = (
+        'VENDAS')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'CCUSTO'
+      AllowNulls = False
+      Value = 0
+      ParamType = rpParamInteger
       Datasets.Strings = (
         'VENDAS')
       Description = ''
@@ -167,10 +180,10 @@ object TRpReport
         Component = TRpShape2
       end
       item
-        Component = TRpExpression23
+        Component = TRpShape10
       end
       item
-        Component = TRpShape10
+        Component = TRpExpression19
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -748,33 +761,6 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpExpression17: TRpExpression
-    Width = 630
-    Height = 165
-    PosX = 8453
-    PosY = 60
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    DisplayFormat = ',##0.0'
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 
-      'iif(VENDAS.VLRCUSTOTOTAL>0, ((VENDAS.VLRTOTALVENDA/VENDAS.VLRCUS' +
-      'TOTOTAL)-1)*100,0)'
-    DisplayFormat = ',##0.0'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
   object TRpExpression9: TRpExpression
     Width = 930
     Height = 225
@@ -961,9 +947,6 @@ object TRpReport
       end
       item
         Component = TRpShape17
-      end
-      item
-        Component = TRpExpression24
       end
       item
         Component = TRpExpression18
@@ -1246,58 +1229,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'Estoque(kg)'
-  end
-  object TRpExpression23: TRpExpression
-    Width = 975
-    Height = 165
-    PosX = 9158
-    PosY = 60
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    DisplayFormat = ',##0.0'
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.SUM'
-    DisplayFormat = ',##0.0'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression24: TRpExpression
-    Width = 975
-    Height = 165
-    PosX = 9160
-    PosY = 60
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    DisplayFormat = ',##0.0'
-    Aggregate = rpAgGeneral
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.SUM'
-    DisplayFormat = ',##0.0'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
+    WideText = 'Lucro (R$)'
   end
   object TRpLabel16: TRpLabel
     Width = 810
@@ -1353,7 +1285,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'VENDAS.VLRTOTALVENDA-VENDAS.VLRCUSTOTOTAL-'#13#10'VENDAS.SUM'
+    Expression = 'VENDAS.VLRTOTALVENDA-VENDAS.VLRCUSTOTOTAL'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -1379,7 +1311,61 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'VENDAS.VLRTOTALVENDA-VENDAS.VLRCUSTOTOTAL-'#13#10'VENDAS.SUM'
+    Expression = 'VENDAS.VLRTOTALVENDA-VENDAS.VLRCUSTOTOTAL'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression17: TRpExpression
+    Width = 630
+    Height = 165
+    PosX = 8453
+    PosY = 60
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.0'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'iif(VENDAS.VLRCUSTOTOTAL>0, (1-((VENDAS.VLRCUSTOTOTAL/VENDAS.QTD' +
+      'EVENDA)/(VENDAS.VLRTOTALVENDA/VENDAS.QTDEVENDA)))*100,0)'
+    DisplayFormat = ',##0.0'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression19: TRpExpression
+    Width = 630
+    Height = 165
+    PosX = 9555
+    PosY = 60
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      '(VENDAS.VLRTOTALVENDA/VENDAS.QTDEVENDA)-(VENDAS.VLRCUSTOTOTAL/VE' +
+      'NDAS.QTDEVENDA)'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
