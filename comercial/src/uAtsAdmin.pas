@@ -428,18 +428,19 @@ end;
 
 procedure TfAtsAdmin.comissaoClick(Sender: TObject);
 begin
-{  fComissaoCadastro := TfComissaoCadastro.Create(Application);
+  fComissaoCadastro := TfComissaoCadastro.Create(Application);
   try
     fComissaoCadastro.ShowModal;
   finally
     fComissaoCadastro.Free;
-  end;}
-  fComissaoColaborador := TfComissaoColaborador.Create(Application);
+  end;
+ { fComissaoColaborador := TfComissaoColaborador.Create(Application);
   try
     fComissaoColaborador.ShowModal;
   finally
     fComissaoColaborador.Free;
-  end;  
+  end;
+  }
 end;
 
 procedure TfAtsAdmin.SriaNotaFiscal1Click(Sender: TObject);
