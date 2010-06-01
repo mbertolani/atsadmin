@@ -1596,6 +1596,9 @@ begin
         codmovdet := dm.c_6_genid.Fields[0].AsInteger;
         if ComboBox2.Text <> '' then
         begin
+           if not(cds_cm.Active)then
+             cds_cm.Open;
+
            cds_cm.Locate('CODIGO', ComboBox2.Text,[loPartialKey]);
            cds_Mov_detCOD_COMISSAO.AsInteger := cds_cmCOD_COMISSAO.AsInteger;
            cds_Mov_detCODIGO.AsString := cds_cmCODIGO.AsString;
