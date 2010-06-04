@@ -3,7 +3,6 @@ object fNotaf: TfNotaf
   Top = 61
   Width = 800
   Height = 590
-  VertScrollBar.Position = 187
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
   Color = clBtnFace
@@ -22,7 +21,7 @@ object fNotaf: TfNotaf
   TextHeight = 13
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = -187
+    Top = 0
     Width = 776
     Height = 59
     Align = alTop
@@ -991,7 +990,7 @@ object fNotaf: TfNotaf
   end
   object CheckBox1: TCheckBox
     Left = 661
-    Top = -123
+    Top = 64
     Width = 97
     Height = 17
     Caption = 'Dados Extras ?'
@@ -999,7 +998,7 @@ object fNotaf: TfNotaf
   end
   object JvPageControl1: TJvPageControl
     Left = 0
-    Top = -128
+    Top = 59
     Width = 776
     Height = 691
     ActivePage = TabNF
@@ -1063,6 +1062,7 @@ object fNotaf: TfNotaf
           Width = 75
           Height = 21
           BevelKind = bkFlat
+          Color = clInfoBk
           DataField = 'CFOP'
           DataSource = DMNF.DtSrc_NF
           ItemHeight = 13
@@ -1952,8 +1952,15 @@ object fNotaf: TfNotaf
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
+          Color = clInfoBk
           DataField = 'PESOBRUTO'
           DataSource = DMNF.DtSrc_NF
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnKeyPress = FormKeyPress
         end
@@ -1972,8 +1979,15 @@ object fNotaf: TfNotaf
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
+          Color = clInfoBk
           DataField = 'PESOLIQUIDO'
           DataSource = DMNF.DtSrc_NF
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           OnKeyPress = FormKeyPress
         end
