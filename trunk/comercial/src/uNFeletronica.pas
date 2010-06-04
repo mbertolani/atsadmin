@@ -597,7 +597,7 @@ var
   dathor: TDateTime;
   BC, BCST : Variant;
   i, tpfrete, c, IERG: integer;
-  Protocolo, Recibo, comp, comp2, str, itensnf : String;
+  Protocolo, Recibo, comp, comp2, str, itensnf, protenv : String;
   tfrete, valpis, valcofins : Variant;
 begin
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
@@ -720,6 +720,7 @@ begin
             Ide.modelo    := 55;
             Ide.serie     := 1;
             Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
+            protenv       := cdsNFNOTASERIE.AsString;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
             InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString;
@@ -1254,9 +1255,11 @@ begin
    Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
    btnListar.Click;
 
-   str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + QuotedStr(Protocolo);
+  //PEGA A RESPOSTA
+   DecimalSeparator := '.';
+   str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(Protocolo);
    str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
-   str := str + ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger);
+   str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
    dm.sqlsisAdimin.ExecuteDirect(str);
 
 end;
