@@ -795,28 +795,21 @@ object fRelVenda: TfRelVenda
       TabOrder = 3
       object Label8: TLabel
         Left = 198
-        Top = 9
+        Top = 43
         Width = 51
         Height = 13
         Caption = 'Sub Grupo'
       end
       object Label9: TLabel
-        Left = 414
-        Top = 9
+        Left = 199
+        Top = 7
         Width = 29
         Height = 13
         Caption = 'Grupo'
       end
-      object Label10: TLabel
-        Left = 198
-        Top = 45
-        Width = 61
-        Height = 13
-        Caption = 'Centro Custo'
-      end
       object Label11: TLabel
-        Left = 410
-        Top = 46
+        Left = 408
+        Top = 8
         Width = 30
         Height = 13
         Caption = 'Marca'
@@ -933,7 +926,7 @@ object fRelVenda: TfRelVenda
       end
       object ComboBox2: TComboBox
         Left = 197
-        Top = 22
+        Top = 56
         Width = 201
         Height = 21
         ItemHeight = 13
@@ -941,30 +934,21 @@ object fRelVenda: TfRelVenda
         OnKeyPress = Data1KeyPress
       end
       object ComboBox3: TComboBox
-        Left = 411
-        Top = 23
-        Width = 183
+        Left = 198
+        Top = 20
+        Width = 198
         Height = 21
         ItemHeight = 13
         TabOrder = 2
         OnKeyPress = Data1KeyPress
       end
-      object ComboBox4: TComboBox
-        Left = 197
-        Top = 58
-        Width = 201
-        Height = 21
-        ItemHeight = 13
-        TabOrder = 3
-        OnKeyPress = Data1KeyPress
-      end
       object ComboBox5: TComboBox
-        Left = 411
-        Top = 59
+        Left = 409
+        Top = 21
         Width = 183
         Height = 21
         ItemHeight = 13
-        TabOrder = 4
+        TabOrder = 3
         OnKeyPress = Data1KeyPress
       end
       object CheckBox2: TCheckBox
@@ -973,7 +957,7 @@ object fRelVenda: TfRelVenda
         Width = 164
         Height = 17
         Caption = 'Somente Qutde Por Produto'
-        TabOrder = 5
+        TabOrder = 4
       end
     end
     object GroupBox4: TGroupBox
@@ -1700,7 +1684,7 @@ object fRelVenda: TfRelVenda
     object GroupBox5: TGroupBox
       Left = 12
       Top = 10
-      Width = 356
+      Width = 517
       Height = 49
       Caption = 'Per'#237'odo'
       TabOrder = 5
@@ -1717,6 +1701,13 @@ object fRelVenda: TfRelVenda
         Width = 6
         Height = 13
         Caption = 'a'
+      end
+      object Label15: TLabel
+        Left = 344
+        Top = 8
+        Width = 61
+        Height = 13
+        Caption = 'Centro Custo'
       end
       object cbMes: TComboBox
         Left = 32
@@ -1757,6 +1748,15 @@ object fRelVenda: TfRelVenda
         AllowNoDate = True
         Checked = True
         TabOrder = 2
+      end
+      object ComboBox9: TComboBox
+        Left = 342
+        Top = 22
+        Width = 165
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 3
+        OnKeyPress = Data1KeyPress
       end
     end
     object GroupBox6: TGroupBox
@@ -2112,13 +2112,13 @@ object fRelVenda: TfRelVenda
       TabOrder = 7
       object Label12: TLabel
         Left = 57
-        Top = 48
+        Top = 13
         Width = 29
         Height = 13
         Caption = 'Grupo'
       end
       object Label13: TLabel
-        Left = 226
+        Left = 56
         Top = 48
         Width = 51
         Height = 13
@@ -2130,13 +2130,6 @@ object fRelVenda: TfRelVenda
         Width = 30
         Height = 13
         Caption = 'Marca'
-      end
-      object Label15: TLabel
-        Left = 57
-        Top = 13
-        Width = 61
-        Height = 13
-        Caption = 'Centro Custo'
       end
       object BitBtn12: TBitBtn
         Left = 442
@@ -2250,7 +2243,7 @@ object fRelVenda: TfRelVenda
       end
       object ComboBox6: TComboBox
         Left = 55
-        Top = 61
+        Top = 26
         Width = 165
         Height = 21
         ItemHeight = 13
@@ -2258,9 +2251,9 @@ object fRelVenda: TfRelVenda
         OnKeyPress = Data1KeyPress
       end
       object ComboBox7: TComboBox
-        Left = 226
+        Left = 56
         Top = 61
-        Width = 165
+        Width = 163
         Height = 21
         ItemHeight = 13
         TabOrder = 2
@@ -2275,41 +2268,32 @@ object fRelVenda: TfRelVenda
         TabOrder = 3
         OnKeyPress = Data1KeyPress
       end
-      object ComboBox9: TComboBox
-        Left = 55
-        Top = 27
-        Width = 165
-        Height = 21
-        ItemHeight = 13
-        TabOrder = 4
-        OnKeyPress = Data1KeyPress
-      end
     end
   end
   object rep: TVCLReport
     AsyncExecution = False
     Title = 'Untitled'
-    Left = 486
+    Left = 630
     Top = 24
   end
   object sds: TSQLDataSet
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 392
+    Left = 536
     Top = 24
   end
   object dsp: TDataSetProvider
     DataSet = sds
     Options = [poAllowCommandText]
-    Left = 423
+    Left = 567
     Top = 24
   end
   object cds: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp'
-    Left = 455
+    Left = 599
     Top = 24
   end
 end
