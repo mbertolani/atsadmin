@@ -610,14 +610,14 @@ object fNFeletronica: TfNFeletronica
       'OCIAL,           cl.CNPJ ,           nf.HORASAIDA,           nf.' +
       'NOTASERIE,           nf.SELECIONOU,           nf.REDUZICMS, nf.P' +
       'ROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC, v.ENTRADA, v.VALOR' +
-      '_PAGAR'#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLI' +
-      'ENTE = nf.CODCLIENTE'#13#10'inner join enderecocliente endecli on ende' +
-      'cli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer join VENDA v on v.COD' +
-      'VENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta' +
-      '2)'#13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' +
-      #39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0) an' +
-      'd NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV ' +
-      '= '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO'
+      '_PAGAR, VALOR_PIS, VALOR_COFINS'#13#10'from NOTAFISCAL nf '#13#10'inner join' +
+      ' CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join endere' +
+      'cocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left ou' +
+      'ter join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISS' +
+      'AO between :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendac' +
+      'usto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and' +
+      ' (endecli.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOC' +
+      'OLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO'
     MaxBlobSize = -1
     Params = <
       item
@@ -828,6 +828,14 @@ object fNFeletronica: TfNFeletronica
     object sdsNFCORPONF1: TStringField
       FieldName = 'CORPONF1'
       Size = 200
+    end
+    object sdsNFVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+      ReadOnly = True
+    end
+    object sdsNFVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+      ReadOnly = True
     end
   end
   object cdsNF: TClientDataSet
@@ -1079,6 +1087,14 @@ object fNFeletronica: TfNFeletronica
     object cdsNFCORPONF4: TStringField
       FieldName = 'CORPONF4'
       Size = 200
+    end
+    object cdsNFVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+      ReadOnly = True
+    end
+    object cdsNFVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+      ReadOnly = True
     end
   end
   object dspNF: TDataSetProvider
@@ -1472,9 +1488,11 @@ object fNFeletronica: TfNFeletronica
       'select cf.CFCOD'#13#10'        , cf.CFNOME'#13#10'        , esta.UF'#13#10'       ' +
       ' , esta.ICMS'#13#10'        , esta.REDUCAO'#13#10'        , esta.IPI , esta.' +
       'ICMS_SUBSTRIB'#13#10'        , esta.ICMS_SUBSTRIB_IC'#13#10'        , esta.I' +
-      'CMS_SUBSTRIB_IND'#13#10'        , esta.NAOENVFATURA'#13#10'from CFOP cf'#13#10'lef' +
-      't outer join ESTADO_ICMS esta on esta.CFOP = cf.CFCOD'#13#10'where CFC' +
-      'OD = :id and esta.UF = :ESTADO and esta.CFOP = :codcfop'
+      'CMS_SUBSTRIB_IND'#13#10'        , esta.NAOENVFATURA'#13#10'        , esta.CS' +
+      'TPIS'#13#10'        , esta.CSTCOFINS'#13#10'        , esta.COFINS'#13#10'        ,' +
+      ' esta.PIS'#13#10'from CFOP cf'#13#10'left outer join ESTADO_ICMS esta on est' +
+      'a.CFOP = cf.CFCOD'#13#10'where CFCOD = :id and esta.UF = :ESTADO and e' +
+      'sta.CFOP = :codcfop'
     MaxBlobSize = -1
     Params = <
       item
@@ -1488,7 +1506,7 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'codcfop'
         ParamType = ptInput
       end>
@@ -1538,6 +1556,20 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'NAOENVFATURA'
       FixedChar = True
       Size = 1
+    end
+    object sCFOPCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object sCFOPCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object sCFOPCOFINS: TFloatField
+      FieldName = 'COFINS'
+    end
+    object sCFOPPIS: TFloatField
+      FieldName = 'PIS'
     end
   end
   object sCliente: TSQLDataSet
@@ -3048,12 +3080,12 @@ object fNFeletronica: TfNFeletronica
       'select c.CODCLIENTE,'#13#10'           c.NOMECLIENTE,'#13#10'           cast' +
       '(c.RAZAOSOCIAL as varchar (60) )as RAZAOSOCIAL,'#13#10'           e.E_' +
       'MAIL'#13#10'from CLIENTES c '#13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CODC' +
-      'LIENTE = c.CODCLIENTE '#13#10'where c.RAZAOSOCIAL = :raz and e.TIPOEND' +
-      ' = 0'
+      'LIENTE = c.CODCLIENTE '#13#10'where UDF_DIGITS(c.CNPJ) = :raz and e.TI' +
+      'POEND = 0'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftString
+        DataType = ftUnknown
         Name = 'raz'
         ParamType = ptInput
       end>

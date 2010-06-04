@@ -447,6 +447,14 @@ type
     sCFOPNAOENVFATURA: TStringField;
     sdsItensNFVLR_BASEICMS: TFloatField;
     cdsItensNFVLR_BASEICMS: TFloatField;
+    sdsNFVALOR_PIS: TFloatField;
+    sdsNFVALOR_COFINS: TFloatField;
+    cdsNFVALOR_PIS: TFloatField;
+    cdsNFVALOR_COFINS: TFloatField;
+    sCFOPCSTPIS: TStringField;
+    sCFOPCSTCOFINS: TStringField;
+    sCFOPCOFINS: TFloatField;
+    sCFOPPIS: TFloatField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -532,7 +540,7 @@ begin
       'cast(nf.END_TRANSP as varchar (60) )as END_TRANSP,    cast(nf.CIDADE_TRANSP as varchar (60) )as CIDADE_TRANSP,   nf.UF_TRANSP,'+
       'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, ' +
       'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
-      'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
+      'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
       'inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR left outer join COMPRA c on c.CODCOMPRA = nf.CODVENDA '+
       'where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
       'and (endeforn.TIPOEND = 0) and (NF.NATUREZA = :natnf) and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.DTAEMISSAO';
@@ -548,7 +556,7 @@ begin
     'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  cast(nf.NOMETRANSP as varchar (60) )as NOMETRANSP,  '+
     'nf.INSCRICAOESTADUAL, cast(nf.END_TRANSP as varchar (60) )as END_TRANSP,    cast(nf.CIDADE_TRANSP as varchar (60) )as CIDADE_TRANSP, ' +
     'nf.UF_TRANSP, nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO,' +
-    'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, nf.NUMRECIBO, nf.PROTOCOLOCANC, co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ '+
+    'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, nf.NUMRECIBO, nf.PROTOCOLOCANC, co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     'from NOTAFISCAL nf inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE   inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
     'left outer join COMPRA co on co.CODCOMPRA = nf.CODVENDA  where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
     'and (ec.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12))  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.DTAEMISSAO';
@@ -590,11 +598,9 @@ var
   BC, BCST : Variant;
   i, tpfrete, c, IERG: integer;
   Protocolo, Recibo, comp, comp2, str, itensnf : String;
-  tfrete : Variant;
+  tfrete, valpis, valcofins : Variant;
 begin
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
-   //JvProgressBar1.Position := 0;
-   //JvProgressBar1.Max := 1000;
    BC := 0;
    BCST := 4;
 
@@ -649,6 +655,10 @@ begin
          end;
          sCFOP.Open;
 
+         //CALCULO DE PIS E COFINS
+         valpis := (sCFOPPIS.AsVariant * cdsNFVALOR_TOTAL_NOTA.AsVariant) /100;
+         valcofins := (sCFOPCOFINS.AsVariant * cdsNFVALOR_TOTAL_NOTA.AsVariant) /100;
+
          if (cdsNFDTASAIDA.IsNull) then
            dathor := cdsNFDTAEMISSAO.AsDateTime
          else
@@ -698,11 +708,14 @@ begin
                 end;
                 cdsFatura.next;
               end;
+              if ((UpperCase(cdsNFFATURA.AsString) = 'PRAZO') or (UpperCase(cdsNFFATURA.AsString) = 'A PRAZO')) then
+                Ide.indPag    := ipPrazo;
               if (c = 0) then
                 Ide.indPag    := ipOutras;
               end;
+
             end;
-            
+
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
             Ide.serie     := 1;
@@ -979,6 +992,139 @@ begin
                    vDespAdu :=                                                  // VALOR DAS DESPESAS ADUANEIRAS
                    vII :=                                                       // VALOR DO IMPOSTO DE IMPORTAÇÃO
                    vIOF :=}                                                     //VALOR DO IMPOSTO SOBRE OPERAÇÕES FINANCEIRAS
+
+                  with PIS do
+                  begin
+                    if (sCFOPCSTPIS.AsString = '01') then
+                    begin
+                      CST   := pis01;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '02') then
+                    begin
+                      CST   := pis02;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '03') then
+                    begin
+                      CST   := pis03;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '04') then
+                    begin
+                      CST   := pis04;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '06') then
+                    begin
+                      CST   := pis06;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '07') then
+                    begin
+                      CST   := pis07;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '08') then
+                    begin
+                      CST   := pis08;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '09') then
+                    begin
+                      CST   := pis09;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '99') then
+                    begin
+                      CST   := pis99;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                  end;
+                  with COFINS do
+                  begin
+                    if (sCFOPCSTCOFINS.AsString = '01') then
+                    begin
+                      CST   := cof01;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '02') then
+                    begin
+                      CST   := cof02;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '03') then
+                    begin
+                      CST   := cof03;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '04') then
+                    begin
+                      CST   := cof04;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '06') then
+                    begin
+                      CST   := cof06;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '07') then
+                    begin
+                      CST   := cof07;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '08') then
+                    begin
+                      CST   := cof08;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '09') then
+                    begin
+                      CST   := cof09;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '99') then
+                    begin
+                      CST   := cof99;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPCOFINS.AsVariant;
+                      vCOFINS  := valcofins;
+                    end;
+                  end;
                 end;
               end;
               i := i + 1;
@@ -1081,8 +1227,10 @@ begin
             if (cdsNFVALOR_IPI.IsNull) then
                 MessageDlg('Valor do IPI nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
-            //Total.ICMSTot.vPIS := 0;
-            //Total.ICMSTot.vCOFINS := 0;
+            if ( (cdsNFVALOR_PIS.AsFloat <> 0 )or (cdsNFVALOR_PIS.AsFloat <> null )) then
+              Total.ICMSTot.vPIS := cdsNFVALOR_PIS.AsFloat;
+            if ( (cdsNFVALOR_COFINS.AsFloat <> 0) or (cdsNFVALOR_COFINS.AsFloat <> null )) then
+              Total.ICMSTot.vCOFINS := cdsNFVALOR_COFINS.AsFloat;
             if (cdsNFOUTRAS_DESP.IsNull) then
                 MessageDlg('Valor de outras despesas nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vOutro := cdsNFOUTRAS_DESP.AsVariant;
@@ -1425,13 +1573,13 @@ begin
       IDNFE := ChildNodes['infNFe'].AttributeNodes['Id'].Text;
       numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
       RAZAO := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
-      CNPJ := ChildNodes['infNFe'].ChildNodes['emit'].ChildNodes['CNPJ'].Text;
+      CNPJ := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
     end;
     Texto := TStringList.Create;
     Texto.Add(EdtAssunto.Text + ' Codigo de Acesso: ' + IDNFE + ' Número da Nota: ' + numnf + ' Cliente: ' + RAZAO + ' CNPJ: ' + CNPJ);
     if (sEmail.Active) then
      sEmail.Close;
-    sEmail.Params[0].Text := RAZAO;
+    sEmail.Params[0].Text := RemoveChar(CNPJ);
     sEmail.Open;
 
 
@@ -1498,7 +1646,7 @@ var
   BC, BCST : Variant;
   i, tpfrete, c: integer;
   comp, comp2, itensnf : String;
-  tfrete : Variant;
+  tfrete, valpis, valcofins : Variant;
 begin
    //JvProgressBar1.Position := 0;
    //JvProgressBar1.Max := 1000;
@@ -1554,6 +1702,12 @@ begin
           sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
          end;
          sCFOP.Open;
+         
+         //CALCULO DE PIS E COFINS
+         if (sCFOPPIS.AsFloat <> null) then
+            valpis := (sCFOPPIS.AsVariant * cdsNFVALOR_TOTAL_NOTA.AsVariant) /100;
+         if (sCFOPCOFINS.AsFloat <> null) then
+            valcofins := (sCFOPCOFINS.AsVariant * cdsNFVALOR_TOTAL_NOTA.AsVariant) /100;
 
          if (cdsNFDTASAIDA.IsNull) then
            dathor := cdsNFDTAEMISSAO.AsDateTime
@@ -1605,6 +1759,8 @@ begin
               end;
               if (c = 0) then
                 Ide.indPag    := ipOutras;
+              if ((UpperCase(cdsNFFATURA.AsString) = 'PRAZO') or (UpperCase(cdsNFFATURA.AsString) = 'A PRAZO')) then
+                Ide.indPag    := ipPrazo;
               end;
             end;
 
@@ -1876,6 +2032,138 @@ begin
                       vICMSST := cdsItensNFICMS_SUBST.AsVariant;
                     end;
                   end;
+                  with PIS do
+                  begin
+                    if (sCFOPCSTPIS.AsString = '01') then
+                    begin
+                      CST   := pis01;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '02') then
+                    begin
+                      CST   := pis02;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '03') then
+                    begin
+                      CST   := pis03;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '04') then
+                    begin
+                      CST   := pis04;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '06') then
+                    begin
+                      CST   := pis06;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '07') then
+                    begin
+                      CST   := pis07;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '08') then
+                    begin
+                      CST   := pis08;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '09') then
+                    begin
+                      CST   := pis09;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                    if (sCFOPCSTPIS.AsString = '99') then
+                    begin
+                      CST   := pis99;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pPIS  := sCFOPPIS.AsVariant;
+                      vPIS  := valpis;
+                    end;
+                  end;
+                  with COFINS do
+                  begin
+                    if (sCFOPCSTCOFINS.AsString = '01') then
+                    begin
+                      CST   := cof01;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '02') then
+                    begin
+                      CST   := cof02;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '03') then
+                    begin
+                      CST   := cof03;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '04') then
+                    begin
+                      CST   := cof04;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '06') then
+                    begin
+                      CST   := cof06;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '07') then
+                    begin
+                      CST   := cof07;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '08') then
+                    begin
+                      CST   := cof08;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '09') then
+                    begin
+                      CST   := cof09;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                    if (sCFOPCSTCOFINS.AsString = '99') then
+                    begin
+                      CST   := cof99;
+                      vBC   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+                      pCOFINS  := sCFOPPIS.AsVariant;
+                      vCOFINS  := valpis;
+                    end;
+                  end;
                 end;
               end;
               i := i + 1;
@@ -1952,6 +2240,7 @@ begin
                 end;
               end;
             end;
+
             //VALOR TORAL
             Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
             Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
@@ -1963,8 +2252,10 @@ begin
             //Total.ICMSTot.vDesc   := 0;
             //Total.ICMSTot.vII := 0;
             Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
-            //Total.ICMSTot.vPIS := 0;
-            //Total.ICMSTot.vCOFINS := 0;
+            if ( (cdsNFVALOR_PIS.AsFloat <> 0 )or (cdsNFVALOR_PIS.AsFloat <> null )) then
+              Total.ICMSTot.vPIS := cdsNFVALOR_PIS.AsFloat;
+            if ( (cdsNFVALOR_COFINS.AsFloat <> 0) or (cdsNFVALOR_COFINS.AsFloat <> null )) then
+              Total.ICMSTot.vCOFINS := cdsNFVALOR_COFINS.AsFloat;
             Total.ICMSTot.vOutro := cdsNFOUTRAS_DESP.AsVariant;
             Total.ICMSTot.vNF   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
           end;
@@ -1974,40 +2265,6 @@ begin
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NFe_Teste.rav';
    ACBrNFe1.NotasFiscais.Imprimir;
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
-   {var Protocolo, Recibo, str, caminho : String;
-     vXMLDoc: TXMLDocument;
-begin
- vXMLDoc := TXMLDocument.Create(self);
-  //Gera Envio da Nota
-  OpenDialog1.Title := 'Selecione a NFE';
-  OpenDialog1.DefaultExt := '*-nfe.XML';
-  OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
-  if OpenDialog1.Execute then
-  begin
-  caminho := OpenDialog1.FileName;
-  ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
-  end;
-  ACBrNFe1.Enviar(0);
-  ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
-  ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
-
-  //ABRE A NOTA
-  vXMLDoc.LoadFromFile(caminho);
-
-  //PEGA A RESPOSTA
-  with vXMLDoc.DocumentElement  do
-  begin
-    numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-  end;
-  Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
-  Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
-  btnListar.Click;
-
-  str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + QuotedStr(Protocolo);
-  str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
-  str := str + ' WHERE NUMNF = ' + numnf;
-  dm.sqlsisAdimin.ExecuteDirect(str);    }
 
 end;
 
