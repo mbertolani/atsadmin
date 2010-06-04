@@ -29,8 +29,6 @@ type
     Label8: TLabel;
     ComboBox3: TComboBox;
     Label9: TLabel;
-    ComboBox4: TComboBox;
-    Label10: TLabel;
     Label11: TLabel;
     ComboBox5: TComboBox;
     GroupBox4: TGroupBox;
@@ -75,9 +73,9 @@ type
     Label13: TLabel;
     Label14: TLabel;
     ComboBox8: TComboBox;
+    BitBtn13: TBitBtn;
     ComboBox9: TComboBox;
     Label15: TLabel;
-    BitBtn13: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -157,11 +155,9 @@ begin
     dm.cds_ccusto.Close;
   dm.cds_ccusto.Params[0].AsString := conta_local;
   dm.cds_ccusto.Open;
-  ComboBox4.Items.Add('TODOS');
   ComboBox9.Items.Add('TODOS');
   While not dm.cds_ccusto.Eof do
   begin
-    ComboBox4.Items.Add(dm.cds_ccustoNOME.AsString);
     ComboBox9.Items.Add(dm.cds_ccustoNOME.AsString);
     dm.cds_ccusto.Next;
   end;
@@ -278,13 +274,13 @@ begin
     else
       Rep.Report.Params.ParamByName('FAMILIA').Value := 'TODAS AS FAMILIAS DO CADASTRO';
     {*** CENTRO DE CUSTO **** }
-    if (ComboBox4.Text <> '') then
+    if (ComboBox9.Text <> '') then
     begin
       if dm.cds_ccusto.Active then
         dm.cds_ccusto.Close;
       dm.cds_ccusto.Params[0].AsString := conta_local;
       dm.cds_ccusto.Open;
-      if (dm.cds_ccusto.Locate('NOME', ComboBox4.Text, [loCaseInsensitive])) then
+      if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
         Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
       else
         Rep.Report.Params.ParamByName('CCUSTO').Value := 999999;
@@ -757,6 +753,21 @@ begin
     Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     Rep.Report.Params.ParamByName('DATA1').Value := Data1.date;
     Rep.Report.Params.ParamByName('DATA2').Value := Data2.date;
+    {**** CENTRO DE CUSTO **** }
+    if (ComboBox9.Text <> '') then
+    begin
+      if dm.cds_ccusto.Active then
+        dm.cds_ccusto.Close;
+      dm.cds_ccusto.Params[0].AsString := conta_local;
+      dm.cds_ccusto.Open;
+      if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+        Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+      else
+        Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
+    end
+    else
+      Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
+
   except
     on EConvertError do
     begin
