@@ -1,35 +1,37 @@
-CREATE OR ALTER PROCEDURE  SPESTOQUEFILTRO( DTA1                             DATE
-                                , DTA2                             DATE
-                                , PROD1                            INTEGER
-                                , PROD2                            INTEGER
-                                , SUBGRUPO                         VARCHAR( 50 )
-                                , NATUREZA                         SMALLINT
-                                , CCUSTO                           INTEGER
-                                , MARCA                            VARCHAR( 50 )
-                                , LOTE                             VARCHAR( 60 )
-                                , GRUPOPROC                        VARCHAR( 50 ) )
-RETURNS ( CODPROD                          VARCHAR( 20 )
-        , CODMOV                           INTEGER
-        , TIPOMOVIMENTO                    VARCHAR( 30 )
-        , PRODUTO                          VARCHAR( 200 )
-        , GRUPO                            VARCHAR( 30 )
-        , SUBGRUPOPROD                     VARCHAR( 30 )
-        , SALDOINIACUM                     DOUBLE PRECISION
-        , ENTRADA                          DOUBLE PRECISION
-        , SAIDA                            DOUBLE PRECISION
-        , SALDOFIMACUM                     DOUBLE PRECISION
-        , PRECOUNIT                        DOUBLE PRECISION
-        , VALORESTOQUE                     DOUBLE PRECISION
-        , VALORVENDA                       DOUBLE PRECISION
-        , LOTES                            VARCHAR( 60 )
-        , CCUSTOS                          INTEGER
-        , DTAFAB                           DATE
-        , DTAVCTO                          DATE
-        , NF                               INTEGER
-        , CLIFOR                           VARCHAR( 60 )
-        , codlote                          integer
-        , ANOTACOES                        VARCHAR( 100 )
- )
+SET TERM ^ ;
+ALTER PROCEDURE SPESTOQUEFILTRO (
+    DTA1 Date,
+    DTA2 Date,
+    PROD1 Integer,
+    PROD2 Integer,
+    SUBGRUPO Varchar(50),
+    NATUREZA Smallint,
+    CCUSTO Integer,
+    MARCA Varchar(50),
+    LOTE Varchar(60),
+    GRUPOPROC Varchar(50) )
+RETURNS (
+    CODPROD Varchar(20),
+    CODMOV Integer,
+    TIPOMOVIMENTO Varchar(30),
+    PRODUTO Varchar(200),
+    GRUPO Varchar(30),
+    SUBGRUPOPROD Varchar(30),
+    SALDOINIACUM Double precision,
+    ENTRADA Double precision,
+    SAIDA Double precision,
+    SALDOFIMACUM Double precision,
+    PRECOUNIT Double precision,
+    VALORESTOQUE Double precision,
+    VALORVENDA Double precision,
+    LOTES Varchar(60),
+    CCUSTOS Integer,
+    DTAFAB Date,
+    DTAVCTO Date,
+    NF Integer,
+    CLIFOR Varchar(60),
+    CODLOTE Integer,
+    ANOTACOES Varchar(100) )
 AS
 DECLARE VARIABLE COD INTEGER;
 DECLARE VARIABLE CODNATU SMALLINT;
@@ -48,36 +50,11 @@ BEGIN
    saida = 0;
    acumula = 0;
         /* ENTRADA E SAIDA */
-        FOR SELECT l.codlote, mov.datamovimento, mov.CODMOVIMENTO, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA, movdet.CODPRODUTO, 
-           movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, 
-           mov.CODALMOXARIFADO, 
-           prod.CODPRO, prod.PRODUTO, prod.FAMILIA, prod.CATEGORIA, mov.OBS
-   
-         FROM MOVIMENTO mov
-         inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA 
-         inner join MOVIMENTODETALHE  movdet on  movdet.CODMOVIMENTO = mov.CODMOVIMENTO
-         inner join PRODUTOS prod on movdet.codproduto = prod.codproduto 
-          left outer join lotes l on movdet.lote = l.lote and l.codproduto = movdet.codproduto
-
-            WHERE (mov.DATAMOVIMENTO BETWEEN :DTA1 AND :DTA2) AND (movdet.CODPRODUTO BETWEEN :PROD1 AND :PROD2)  and ((prod.TIPO <> 'SERV') or (prod.tipo is null)) AND ((mov.CODNATUREZA = :NATUREZA) OR (:NATUREZA = 100)) AND
-                 ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))  and ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))
-                AND ((prod.CATEGORIA = :SUBGRUPO) OR (:SUBGRUPO = 'TODOS SUBGRUPOS DO CADASTRO CATEGORIA'))  
-                AND ((prod.MARCA = :MARCA) OR (:MARCA = 'TODAS AS MARCAS CADASTRADAS NO SISTEMA')) and movdet.BAIXA is not null 
-                AND ((prod.FAMILIA = :GRUPOPROC) OR (:GRUPOPROC = 'TODOS OS GRUPOS CADASTRADOS NO SISTEMA'))
-
-                group by  prod.FAMILIA, prod.CATEGORIA, prod.CODPRO, prod.PRODUTO, movdet.CODPRODUTO, l.codlote, movdet.LOTE
-                    , mov.datamovimento, mov.codNatureza
-                    , natu.BAIXAMOVIMENTO, natu.DESCNATUREZA
-                   , mov.CODMOVIMENTO, movdet.DTAFAB, 
-                  movdet.DTAVCTO, mov.CODALMOXARIFADO, 
-                  mov.OBS
-                order by  l.codlote, mov.DATAMOVIMENTO, mov.CODMOVIMENTO, movdet.LOTE, prod.FAMILIA, prod.CATEGORIA, prod.CODPRO, prod.PRODUTO
-                 , natu.BAIXAMOVIMENTO, mov.codNatureza desc, natu.DESCNATUREZA
-
-                
-        INTO :codlote, :Datanf, :CODMOV, :CODNATU, :TIPOMOVIMENTO, :COD, :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, 
-              :CODPROD, :PRODUTO, GRUPO, SUBGRUPOPROD, :ANOTACOES
-
+        FOR SELECT CODPROD, CODMOV, TIPOMOVIMENTO, PRODUTO, GRUPO, SUBGRUPOPROD, codlote, Datanf, CODNATU, 
+           COD, LOTES, DTAFAB, DTAVCTO, CCUSTOS, ANOTACOES FROM LISTASPESTOQUEFILTRO(:DTA1, :DTA2, :PROD1, :PROD2, :SUBGRUPO, :NATUREZA, :CCUSTO
+            , :MARCA, :LOTE, :GRUPOPROC)
+                   
+        INTO :CODPROD, :CODMOV, :TIPOMOVIMENTO, :PRODUTO, :GRUPO, :SUBGRUPOPROD, :codlote, :Datanf, :CODNATU, :COD, :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, :ANOTACOES
         DO BEGIN
             IMPRIME = 'N';
 
@@ -258,4 +235,10 @@ BEGIN
         ENTRADA = 0;  
     END
 
-END
+END^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE SPESTOQUEFILTRO TO  SYSDBA;
+
