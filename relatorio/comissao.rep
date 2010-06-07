@@ -24,20 +24,21 @@ object TRpReport
         'L, '#13#10'           func.NOME_FUNCIONARIO,  func.valor_comissao, sum' +
         '((rec.valor-rec.desconto) * (func.valor_comissao / 100)) as comi' +
         'ssao, '#13#10'           co.cm as indice, mv.valtotal , prod.codprodut' +
-        'o , prod.produto'#13#10#13#10'from VENDA rec'#13#10'inner join movimento m on m.' +
-        'codmovimento = rec.codmovimento '#13#10'inner join movimentodetalhe mv' +
-        ' on mv.codmovimento = m.codmovimento'#13#10'inner join comissao co on ' +
-        'codigo = mv.cod_comissao'#13#10'inner join produtos prod on prod.codpr' +
-        'oduto = mv.codproduto'#13#10#13#10'left outer join CLIENTES cli on cli.COD' +
-        'CLIENTE = rec.CODCLIENTE '#13#10'left outer join FUNCIONARIO func on r' +
-        'ec.CODVENDEDOR = func.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 ' +
-        'and  rec.DATAVENDA between :DATA1 and :DATA2 and ((rec.CODVENDED' +
-        'OR=:pfun) or (:pfun = 0)) '#13#10'group by rec.codVendedor,  rec.CODCL' +
-        'IENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOTAFISCAL,        '#13 +
-        #10'rec.CODUSUARIO,  rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'func.NOME_FUN' +
-        'CIONARIO,  func.valor_comissao,co.cm, mv.valtotal, prod.codprodu' +
-        'to , prod.produto'#13#10' order by  func.nome_funcionario, rec.DATAVEN' +
-        'DA,  rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10
+        'o , prod.produto, m.obs'#13#10#13#10'from VENDA rec'#13#10'inner join movimento ' +
+        'm on m.codmovimento = rec.codmovimento '#13#10'inner join movimentodet' +
+        'alhe mv on mv.codmovimento = m.codmovimento'#13#10'inner join comissao' +
+        ' co on codigo = mv.cod_comissao'#13#10'inner join produtos prod on pro' +
+        'd.codproduto = mv.codproduto'#13#10#13#10'left outer join CLIENTES cli on ' +
+        'cli.CODCLIENTE = rec.CODCLIENTE '#13#10'left outer join FUNCIONARIO fu' +
+        'nc on rec.CODVENDEDOR = func.COD_FUNCIONARIO '#13#10'where m.codnature' +
+        'za = 3 and  rec.DATAVENDA between :DATA1 and :DATA2 and ((rec.CO' +
+        'DVENDEDOR=:pfun) or (:pfun = 0)) '#13#10'group by rec.codVendedor,  re' +
+        'c.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOTAFISCAL,  ' +
+        '      '#13#10'rec.CODUSUARIO,  rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'func.N' +
+        'OME_FUNCIONARIO,  func.valor_comissao,co.cm, mv.valtotal, prod.c' +
+        'odproduto , prod.produto, m.obs'#13#10' order by  func.nome_funcionari' +
+        'o, rec.DATAVENDA,  rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13 +
+        #10#13#10#13#10
     end
     item
       Alias = 'EMPRESA'
@@ -819,7 +820,7 @@ object TRpReport
   end
   object TRpSection6: TRpSection
     Width = 10772
-    Height = 420
+    Height = 705
     SubReport = TRpSubReport0
     GroupName = 'CLIENTE'
     ChangeBool = False
@@ -833,6 +834,12 @@ object TRpReport
       end
       item
         Component = TRpExpression14
+      end
+      item
+        Component = TRpExpression19
+      end
+      item
+        Component = TRpLabel9
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -881,30 +888,6 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'str (COMISSAO.CODPRODUTO) + '#39'  -  '#39'  + (COMISSAO.PRODUTO)'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression10: TRpExpression
-    Width = 4580
-    Height = 220
-    PosX = 990
-    PosY = 60
-    Type1Font = poHelvetica
-    FontSize = 8
-    GroupName = ' '
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'COMISSAO.RAZAOSOCIAL'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -1099,5 +1082,66 @@ object TRpReport
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
+  end
+  object TRpExpression10: TRpExpression
+    Width = 4580
+    Height = 220
+    PosX = 990
+    PosY = 60
+    Type1Font = poHelvetica
+    FontSize = 8
+    GroupName = ' '
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'COMISSAO.RAZAOSOCIAL'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression19: TRpExpression
+    Width = 10440
+    Height = 345
+    PosX = 120
+    PosY = 345
+    Type1Font = poHelvetica
+    FontSize = 8
+    GroupName = ' '
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'COMISSAO.obs'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel9: TRpLabel
+    Width = 855
+    Height = 240
+    PosX = 135
+    PosY = 45
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs.'
   end
 end
