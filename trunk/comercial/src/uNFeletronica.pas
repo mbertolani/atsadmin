@@ -455,6 +455,7 @@ type
     sCFOPCSTCOFINS: TStringField;
     sCFOPCOFINS: TFloatField;
     sCFOPPIS: TFloatField;
+    btnSPED: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -475,6 +476,7 @@ type
     procedure btnInutilizarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BtnPreVisClick(Sender: TObject);
+    procedure btnSPEDClick(Sender: TObject);
     {procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);}
   private
@@ -589,12 +591,13 @@ begin
    sMaiorData.Open;
 
    btnGeraNFe.Enabled := True;
+   btnSPED.Enabled := True;
    BtnPreVis.Enabled := True;
 end;
 
 procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
 var
-  dathor: TDateTime;
+//  dathor: TDateTime;
   BC, BCST : Variant;
   i, tpfrete, c, IERG: integer;
   Protocolo, Recibo, comp, comp2, str, itensnf, protenv : String;
@@ -659,12 +662,6 @@ begin
          valpis := (sCFOPPIS.AsVariant * cdsNFVALOR_TOTAL_NOTA.AsVariant) /100;
          valcofins := (sCFOPCOFINS.AsVariant * cdsNFVALOR_TOTAL_NOTA.AsVariant) /100;
 
-         if (cdsNFDTASAIDA.IsNull) then
-           dathor := cdsNFDTAEMISSAO.AsDateTime
-         else
-           dathor := cdsNFDTASAIDA.AsDateTime;
-         {  }
-
           ACBrNFe1.NotasFiscais.Clear;
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
@@ -672,8 +669,8 @@ begin
             Ide.cUF       := 35;                              // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := sCFOPCFNOME.AsString;
-                        //Verifica tipo de Pagamento
 
+            //Verifica tipo de Pagamento
             if(sCFOPNAOENVFATURA.AsString = 'S') then
               ide.indPag := ipOutras
             else
@@ -715,10 +712,12 @@ begin
               end;
 
             end;
-
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
-            Ide.serie     := 1;
+            if (Ide.tpEmis = teNormal) then
+              Ide.serie     := 1
+            else
+              Ide.serie     := 900;
             Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
             protenv       := cdsNFNOTASERIE.AsString;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
@@ -814,7 +813,7 @@ begin
             end;
 
             //Carrega os itens da NF 
-            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO,cast(md.DESCPRODUTO as varchar(120) )as DESCPRODUTO,'+
+            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, udf_lest(md.DESCPRODUTO, 120),'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.ICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
@@ -1355,6 +1354,7 @@ begin
   ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
   diretorio := GetCurrentDir;
   ACBrNFeDANFERave1.Logo :=  diretorio + '\logo.bmp';
+  ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teNormal;
 end;
 
 procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
@@ -1370,13 +1370,13 @@ begin
     ACBrNFe1.Consultar;
     ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Consulta.Protocolo;
     {if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
-     begin}
-      // ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
-      // ACBrNFe1.WebServices.Consulta.Executar
-      // ACBrNFe1.WebServices.ConsultaDPEC.Executar;
-      // ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
-      //ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
-     //end;
+     begin
+       ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
+       ACBrNFe1.WebServices.Consulta.Executar
+       ACBrNFe1.WebServices.ConsultaDPEC.Executar;
+       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
+      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
+     end;}
     ACBrNFe1.NotasFiscais.Imprimir;
   end;
 end;
@@ -1544,7 +1544,7 @@ end;
 
 procedure TfNFeletronica.BtnEnvEmailClick(Sender: TObject);
 var
- Para, numnf, IDNFE, RAZAO, CNPJ, caminho : String;
+ numnf, IDNFE, RAZAO, CNPJ, caminho : String;
  CC, Texto: Tstrings;
  vXMLDoc: TXMLDocument;
 begin
@@ -1597,11 +1597,11 @@ begin
                                              , Texto
                                              , False
                                              , True //Enviar PDF junto
-                                             //, CC //com copia
+                                             , CC //com copia
                                                );
     CC.Free;
+    Texto.Free;
   end;
-  Texto.Free;
   MessageDlg('Email enviado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
@@ -1645,7 +1645,6 @@ end;
 
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
 var
-  dathor: TDateTime;
   BC, BCST : Variant;
   i, tpfrete, c: integer;
   comp, comp2, itensnf : String;
@@ -1711,12 +1710,6 @@ begin
             valpis := (sCFOPPIS.AsVariant * cdsNFVALOR_TOTAL_NOTA.AsVariant) /100;
          if (sCFOPCOFINS.AsFloat <> null) then
             valcofins := (sCFOPCOFINS.AsVariant * cdsNFVALOR_TOTAL_NOTA.AsVariant) /100;
-
-         if (cdsNFDTASAIDA.IsNull) then
-           dathor := cdsNFDTAEMISSAO.AsDateTime
-         else
-           dathor := cdsNFDTASAIDA.AsDateTime;
-        {}
 
           ACBrNFe1.NotasFiscais.Clear;
           with ACBrNFe1.NotasFiscais.Add.NFe do
@@ -1862,7 +1855,7 @@ begin
             end;
 
             //Carrega os itens da NF 
-            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO,cast(md.DESCPRODUTO as varchar(120) )as DESCPRODUTO,'+
+            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO,udf_lest(md.DESCPRODUTO, 120),'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.ICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
@@ -2269,6 +2262,13 @@ begin
    ACBrNFe1.NotasFiscais.Imprimir;
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
+end;
+
+procedure TfNFeletronica.btnSPEDClick(Sender: TObject);
+begin
+  ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teSCAN;
+  btnGeraNFeClick(Sender);
+  ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teNormal;
 end;
 
 end.
