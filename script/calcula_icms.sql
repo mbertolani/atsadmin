@@ -29,6 +29,7 @@ declare variable cod integer;
 declare variable codv integer;
 declare variable NotaFiscalVenda integer;
 declare variable serie varchar(20);
+declare variable prazo varchar(20); 
 DECLARE VARIABLE VlrStr varchar(32);
 DECLARE VARIABLE PercStr varchar(32);
 DECLARE VARIABLE ICMS_DESTACADO DOUBLE PRECISION;
@@ -47,6 +48,7 @@ declare variable preco DOUBLE PRECISION;
 declare variable codDet DOUBLE PRECISION;
 declare variable codCli integer;
 declare variable PESSOA SMALLINT;
+declare variable d9 SMALLINT;
 begin
   BASE_ICMS = 0;
   BASE_ICMSE = 0;
@@ -62,9 +64,9 @@ begin
   if (icms_subst is null) then 
     icms_subst = 0;
 
-  select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA, v.CODCLIENTE from venda v
+  select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA, v.CODCLIENTE, prazo from venda v
     inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf
-  into :cod, :notaFiscalVenda, :serie, :codv, :CodCli; 
+  into :cod, :notaFiscalVenda, :serie, :codv, :CodCli, :prazo; 
   
   pessoa = 1;      -- Pessoa Juridica
   Select first 1 c.TIPOFIRMA from CLIENTES c where c.CODCLIENTE = :CodCli
@@ -340,7 +342,14 @@ begin
         into :parametro;
         if (parametro is not null) then
         begin        
-            EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);  
+            select first 1 cast(p.d9 as integer) from PARAMETRO p  where p.PARAMETRO = :Prazo
+                into :d9; 
+      
+            if (d9 is null) then 
+                d9 = 999;
+    
+            if (d9 <> 999) then 
+                EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);  
         end
     end        
 end
