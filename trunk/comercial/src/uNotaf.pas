@@ -353,6 +353,7 @@ type
     sCfopDADOSADC2: TStringField;
     sCfopDADOSADC3: TStringField;
     sCfopDADOSADC4: TStringField;
+    BitBtn11: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -387,9 +388,9 @@ type
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure btnRemessaClick(Sender: TObject);
     procedure carregaDadosAdicionais(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
   private
     { Private declarations }
-    procedure incluiEntrada;
     procedure incluiSAida;
     procedure incluiMovimento;
     procedure incluiVenda;
@@ -489,7 +490,6 @@ begin
     dm.cds_empresa.open;
   // Entrada ou Saida
   //if (rg.ItemIndex = 0) then // Entrada
-   //  incluiEntrada
   //else  // saida
   if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
   begin
@@ -592,11 +592,12 @@ begin
    fProcurar.EvDBFind1.DataField := 'SERIE';
    if (fProcurar.ShowModal=mrOk) then
     begin
+     dmnf.cds_venda.Edit;
      dmnf.cds_vendaSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
      //dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger;
      dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
      dmnf.cds_nfNOTASERIE.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
-     dmnf.cds_nfNOTAFISCAL.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;     
+     dmnf.cds_nfNOTAFISCAL.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
     end;
    finally
     dmnf.scds_serie_proc.Close;
@@ -606,22 +607,6 @@ begin
      DBEdit2.SetFocus
    else
      DBEdit37.SetFocus;
-end;
-
-procedure TfNotaf.incluiEntrada;
-begin
-  //Populo combobox com a Razão do Fornecedor
-  if (not dmnf.listaFornecedor.Active) then
-    dmnf.listaFornecedor.Open;
-  dmnf.listaFornecedor.First;
-  cbCLiente.Clear;
-  while not dmnf.listaFornecedor.Eof do
-  begin
-     cbCLiente.Items.Add(dmnf.listaFornecedorRAZAOSOCIAL.AsString);
-     dmnf.listaFornecedor.Next;
-  end;
-  dmnf.listaFornecedor.Close;
-  //*********************************
 end;
 
 procedure TfNotaf.incluiSAida;
@@ -1357,8 +1342,6 @@ begin
 end;
 
 procedure TfNotaf.gravavenda;
-var  strSql, strTit, tipoMov: String;
-     diferenca : double;
 begin
   if (DBEdit33.Text = '') then
   begin
@@ -1662,10 +1645,9 @@ begin
 end;
 
 procedure TfNotaf.somavalores;
-var
-  varTotalnota : double;
+var  varTotalnota : double;
 begin
-     varTotalnota := 0;
+//     varTotalnota := 0;
 //     dmnf.cds_nfVALOR_ICMS.Value +
      varTotalnota :=  dmnf.cds_nfVALOR_FRETE.Value + dmnf.cds_nfVALOR_SEGURO.Value +
      dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value;
@@ -2088,12 +2070,7 @@ end;
 
 procedure TfNotaf.btnNotaFiscalClick(Sender: TObject);
 begin
-    fNFeletronica := TfNFeletronica.Create(Application);
-  try
     fNFeletronica.ShowModal;
-  finally
-    fNFeletronica.Free;
-  end;
 end;
 
 procedure TfNotaf.btnRemessaClick(Sender: TObject);
@@ -2128,5 +2105,25 @@ Begin
             DMNF.cds_nfCORPONF4.AsString := sCFOPDADOSADC4.AsString;
           end;
 End;
+
+procedure TfNotaf.BitBtn11Click(Sender: TObject);
+var str: String;
+begin
+   MessageDlg('Deseja realmente alterar a serie?', mtConfirmation, [mbYes, mbNo], 0);
+   DecimalSeparator := '.';
+   str := 'UPDATE NOTAFISCAL SET NOTASERIE = ' + dmnf.cds_nfNOTASERIE.AsString;
+   str := str + ', SERIE = ' + quotedstr(dmnf.cds_vendaSERIE.AsString);
+   str := str + ' WHERE CODVENDA = ' + inttostr(dmnf.cds_nfCODVENDA.AsInteger);
+   dm.sqlsisAdimin.ExecuteDirect(str);
+
+   str := 'UPDATE RECEBIMENTO SET TITULO = ' + quotedstr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_vendaSERIE.AsString);
+   str := str + ' WHERE CODVENDA = ' + inttostr(dmnf.cds_nfCODVENDA.AsInteger);
+   dm.sqlsisAdimin.ExecuteDirect(str);
+
+   str := 'UPDATE VENDA SET NOTAFISCAL = ' + dmnf.cds_nfNOTASERIE.AsString;
+   str := str + ', SERIE = ' + quotedstr(dmnf.cds_vendaSERIE.AsString);
+   str := str + ' WHERE CODVENDA = ' + inttostr(dmnf.cds_nfCODVENDA.AsInteger);
+   dm.sqlsisAdimin.ExecuteDirect(str);
+end;
 
 end.
