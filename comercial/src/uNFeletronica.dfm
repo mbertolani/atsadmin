@@ -1,8 +1,9 @@
 object fNFeletronica: TfNFeletronica
   Left = 224
   Top = 124
-  Width = 881
+  Width = 885
   Height = 588
+  AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,7 +12,7 @@ object fNFeletronica: TfNFeletronica
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poOwnerFormCenter
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -19,8 +20,8 @@ object fNFeletronica: TfNFeletronica
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 873
-    Height = 169
+    Width = 877
+    Height = 209
     Align = alTop
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -165,7 +166,7 @@ object fNFeletronica: TfNFeletronica
       Left = 478
       Top = 2
       Width = 393
-      Height = 55
+      Height = 95
       Caption = 'Gerar NF-e'
       TabOrder = 6
       object btnGeraNFe: TBitBtn
@@ -206,10 +207,20 @@ object fNFeletronica: TfNFeletronica
         TabOrder = 3
         OnClick = BtnEnvEmailClick
       end
+      object btnSPED: TBitBtn
+        Left = 6
+        Top = 53
+        Width = 91
+        Height = 36
+        Caption = 'Gerar NF-e SPED'
+        Enabled = False
+        TabOrder = 4
+        OnClick = btnSPEDClick
+      end
     end
     object GroupBox2: TGroupBox
       Left = 478
-      Top = 111
+      Top = 151
       Width = 393
       Height = 55
       Caption = 'Outros Servi'#231'os NF-e'
@@ -253,7 +264,7 @@ object fNFeletronica: TfNFeletronica
     end
     object GroupBox3: TGroupBox
       Left = 478
-      Top = 57
+      Top = 97
       Width = 393
       Height = 55
       Caption = 'Danfe'
@@ -484,9 +495,9 @@ object fNFeletronica: TfNFeletronica
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 169
-    Width = 873
-    Height = 392
+    Top = 209
+    Width = 877
+    Height = 352
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -498,8 +509,8 @@ object fNFeletronica: TfNFeletronica
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 871
-      Height = 390
+      Width = 875
+      Height = 350
       Align = alClient
       DataSource = DataSource1
       TabOrder = 0
@@ -557,28 +568,28 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Raz'#227'o Social'
-          Width = 178
+          Width = 179
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CNPJ'
           Title.Caption = 'CNPJ / CPF'
-          Width = 116
+          Width = 117
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOENV'
           Title.Caption = 'Protocolo de Envio'
-          Width = 100
+          Width = 101
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NUMRECIBO'
           Title.Caption = 'Numero Recebimento'
-          Width = 112
+          Width = 113
           Visible = True
         end
         item
@@ -1106,23 +1117,23 @@ object fNFeletronica: TfNFeletronica
   object sdsItensNF: TSQLDataSet
     CommandText = 
       'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          md.PR' +
-      'ECO,'#13#10'          cast(md.DESCPRODUTO as varchar(120) )as DESCPROD' +
-      'UTO,'#13#10'          case when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'   ' +
-      '       udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'    ' +
-      '      ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'     ' +
-      '     pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,'#13#10' ' +
-      '         md.VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS,' +
-      ' 2) as VALOR_ICMS,'#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) as VL' +
-      'R_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,' +
-      #13#10'          md.ICMS_SUBSTD,'#13#10'          (md.VLR_BASE * md.QUANTID' +
-      'ADE) as VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md' +
-      ' on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL n' +
-      'f on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.' +
-      'CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      'ECO,'#13#10'          udf_left(md.DESCPRODUTO, 120 ,'#13#10'          case w' +
+      'hen udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'          udf_Copy(pr.COD' +
+      'PRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'          ELSE'#13#10'          ' +
+      'pr.CODPRO'#13#10'          END as codpro,'#13#10'          pr.UNIDADEMEDIDA,' +
+      #13#10'          md.CST,'#13#10'          md.ICMS,'#13#10'          md.VLR_BASEIC' +
+      'MS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10'  ' +
+      '        UDF_ROUNDDEC(md.VLR_BAS from VENDE, 2) as VLR_BASE,'#13#10'   ' +
+      '       UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'          ' +
+      'md.ICMS_SUBSTD,'#13#10'          (md.VLR_BASE * md.QUANTIDADE) as VALT' +
+      'OTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODM' +
+      'OVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.COD' +
+      'VENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO =' +
+      ' md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptInput
       end>
