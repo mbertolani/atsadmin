@@ -1571,12 +1571,7 @@ end;
 
 procedure TfAtsAdmin.NotaFiscalEletrnica1Click(Sender: TObject);
 begin
-    fNFeletronica := TfNFeletronica.Create(Application);
-  try
       fNFeletronica.ShowModal;
-  finally
-    fNFeletronica.Free;
-  end;
 end;
 
 procedure TfAtsAdmin.CidadesIBGE1Click(Sender: TObject);
