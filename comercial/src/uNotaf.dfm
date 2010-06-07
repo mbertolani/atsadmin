@@ -1,7 +1,7 @@
 object fNotaf: TfNotaf
   Left = 155
   Top = 61
-  Width = 800
+  Width = 801
   Height = 590
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
@@ -22,7 +22,7 @@ object fNotaf: TfNotaf
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 776
+    Width = 777
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -999,7 +999,7 @@ object fNotaf: TfNotaf
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 776
+    Width = 777
     Height = 691
     ActivePage = TabNF
     Align = alTop
@@ -2683,6 +2683,15 @@ object fNotaf: TfNotaf
           end>
       end
     end
+  end
+  object BitBtn11: TBitBtn
+    Left = 646
+    Top = 61
+    Width = 115
+    Height = 24
+    Caption = '...'
+    TabOrder = 3
+    OnClick = BitBtn11Click
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa
