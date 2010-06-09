@@ -20,7 +20,6 @@ DECLARE VARIABLE VALOR_RESTO DOUBLE PRECISION;
 DECLARE VARIABLE VALOR_SUBDesc DOUBLE PRECISION;
 DECLARE VARIABLE VlrStr varchar(32);
 DECLARE VARIABLE PercStr varchar(32);
-DECLARE VARIABLE Fatura varchar(200);
 DECLARE VARIABLE DataStr varchar(32);
 DECLARE VARIABLE ViaStr varchar(2);
 DECLARE VARIABLE ICMS_DESTACADO DOUBLE PRECISION;
@@ -89,7 +88,8 @@ begin
 
          if (icms_subst > 0) then 
          begin 
-           fatura = '';
+           /* Não usa mais, nao altera mais o campo Fatura na NF
+           fatura = '';  
            For select UDF_DAY(dataVencimento) || '/' || UDF_MONTH(dataVencimento) || '/' || UDF_YEAR(dataVencimento)
                 , via, valor_resto from RECEBIMENTO where  titulo = :notafiscalVenda || '-' || :serie
              into :DataStr, :ViaStr, :Valor_resto
@@ -99,7 +99,7 @@ begin
                   into :VlrStr;
                 fatura = fatura || vlrStr;
              end  
-           
+           */
            update recebimento set valor_resto = (valor_resto + :icms_subst) where titulo = :notafiscalVenda || '-' || :serie and via = 1;
            
            -- Pego os outros valores na NF para somar ao total 
@@ -109,7 +109,7 @@ begin
            
            UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :VALOR_SUB, VALOR_ICMS_SUBST = :ICMS_SUBST, 
               VALOR_TOTAL_NOTA = :VALORTOTAL, CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2
-              , FATURA = :fatura
+            
              where NUMNF = :NUMERO_NF;
          end
          else begin  
