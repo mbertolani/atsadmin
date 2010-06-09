@@ -37,9 +37,6 @@ DECLARE VARIABLE ICMS_DESTACADO_DESC VARCHAR(60);
 DECLARE VARIABLE ICMS_DESTACADO_DESC2 VARCHAR(100);  
 DECLARE VARIABLE ICMS_SUBST DOUBLE PRECISION;
 DECLARE VARIABLE cst char(3); 
-declare variable fatura varchar(300);
-declare variable DATAFATURA varchar(12);
-declare variable VLR varchar(12);
 declare variable NUMEROFATURA VARCHAR(20);
 declare variable PARAMETRO VARCHAR(20);
 declare variable desconto DOUBLE PRECISION;
@@ -321,7 +318,7 @@ begin
             ,:icms_destacado_desc, :icms_destacado_desc2);
         EXECUTE PROCEDURE CALCULA_ICMS_SUBSTPROD (:CFOP, :UF, :NUMERO_NF, :COD, :SERIE);
         
-        fatura = '';
+        /*fatura = '';
         for select UDF_DAY(DATAFATURA) || '/' || UDF_MONTH(DATAFATURA) || '/' || UDF_YEAR(DATAFATURA)  , VALOR, NUMEROFATURA from NFE_FATURA(:CODV)
             into :datafatura, :valor, :numerofatura
         do begin 
@@ -333,8 +330,11 @@ begin
             fatura = :fatura || ' - ' || udf_trim(:vlr) || ' - ' || :numerofatura;
         end    
         if (fatura <> '') then 
-            update notafiscal set FATURA = :fatura where NUMNF = :NUMERO_NF;
+            update notafiscal set FATURA = udf_trim(UDF_LEFT(:fatura, 199)) where NUMNF = :NUMERO_NF;
+        */    
         -- No Caso de NF com faturas diferentes faz a correção destas , usada na GiroParts.  
+        select first 1 NUMEROFATURA from NFE_FATURA(:CODV)
+            into :numerofatura;        
         NumeroFatura = notaFiscalVenda || '-' || serie;
         
         -- vejo se usa nf Parcial
