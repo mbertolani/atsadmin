@@ -626,7 +626,6 @@ begin
    begin
       if (cdsNFSELECIONOU.AsString = 'S') then
       begin
-
          { isto estava fora do IF}
          if (tpNF.ItemIndex = 1) then
          begin
@@ -835,7 +834,12 @@ begin
               if (sProdutos.Active) then
                 sProdutos.Close;
               sProdutos.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
-              sProdutos.Open;
+              try
+                sProdutos.Open;
+              except
+                MessageDlg('NCM vazio ou incorreto', mtError, [mbOK], 0);
+                exit;
+              end;
 
               // DADOS DOS PRODUTOS DA NOTA
               with Det.Add do
@@ -1877,7 +1881,12 @@ begin
               if (sProdutos.Active) then
                 sProdutos.Close;
               sProdutos.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
-              sProdutos.Open;
+              try
+                sProdutos.Open;
+              except
+                MessageDlg('NCM vazio ou incorreto', mtError, [mbOK], 0);
+                exit;
+              end;
 
               // DADOS DOS PRODUTOS DA NOTA
               with Det.Add do
