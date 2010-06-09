@@ -20,7 +20,7 @@ object fNFeletronica: TfNFeletronica
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 869
+    Width = 877
     Height = 209
     Align = alTop
     TabOrder = 0
@@ -496,8 +496,8 @@ object fNFeletronica: TfNFeletronica
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 209
-    Width = 869
-    Height = 341
+    Width = 877
+    Height = 352
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -509,8 +509,8 @@ object fNFeletronica: TfNFeletronica
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 867
-      Height = 339
+      Width = 875
+      Height = 350
       Align = alClient
       DataSource = DataSource1
       TabOrder = 0
@@ -548,7 +548,7 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'DTAEMISSAO'
           Title.Caption = 'Emiss'#227'o'
-          Width = 53
+          Width = 54
           Visible = True
         end
         item
@@ -568,35 +568,35 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Raz'#227'o Social'
-          Width = 177
+          Width = 179
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CNPJ'
           Title.Caption = 'CNPJ / CPF'
-          Width = 116
+          Width = 117
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOENV'
           Title.Caption = 'Protocolo de Envio'
-          Width = 100
+          Width = 101
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NUMRECIBO'
           Title.Caption = 'Numero Recebimento'
-          Width = 112
+          Width = 113
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOCANC'
           Title.Caption = 'Protocolo de Cancelamento'
-          Width = 120
+          Width = 122
           Visible = True
         end>
     end
@@ -1117,23 +1117,23 @@ object fNFeletronica: TfNFeletronica
   object sdsItensNF: TSQLDataSet
     CommandText = 
       'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          md.PR' +
-      'ECO,'#13#10'          udf_left(md.DESCPRODUTO, 120 ),'#13#10'          case ' +
-      'when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'          udf_Copy(pr.CO' +
-      'DPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'          ELSE'#13#10'         ' +
-      ' pr.CODPRO'#13#10'          END as codpro,'#13#10'          pr.UNIDADEMEDIDA' +
-      ','#13#10'          md.CST,'#13#10'          md.ICMS,'#13#10'          md.VLR_BASEI' +
-      'CMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10' ' +
-      '         UDF_ROUNDDEC(md.VLR_BAS from VENDE, 2) as VLR_BASE,'#13#10'  ' +
-      '        UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'         ' +
-      ' md.ICMS_SUBSTD,'#13#10'          (md.VLR_BASE * md.QUANTIDADE) as VAL' +
-      'TOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.COD' +
-      'MOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CO' +
-      'DVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO ' +
-      '= md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      'ECO,'#13#10'          udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO,'#13#10 +
+      '          case when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'         ' +
+      ' udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'          ' +
+      'ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'          p' +
+      'r.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,'#13#10'       ' +
+      '   md.VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 2) as' +
+      ' VALOR_ICMS,'#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE' +
+      ','#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'    ' +
+      '      md.ICMS_SUBSTD,'#13#10'          (md.VLR_BASE * md.QUANTIDADE) a' +
+      's VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'm' +
+      'd.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10 +
+      'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRO' +
+      'DUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'id'
         ParamType = ptInput
       end>
