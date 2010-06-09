@@ -2415,6 +2415,9 @@ object DMNF: TDMNF
       Precision = 9
       Size = 2
     end
+    object cds_nfSERIE: TStringField
+      FieldName = 'SERIE'
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2744,6 +2747,9 @@ object DMNF: TDMNF
       FieldName = 'PESOREMESSA'
       Precision = 9
       Size = 2
+    end
+    object sds_nfSERIE: TStringField
+      FieldName = 'SERIE'
     end
   end
   object scds: TSQLClientDataSet
