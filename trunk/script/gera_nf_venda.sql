@@ -1,3 +1,4 @@
+set term ^ ;
 create or alter procedure gera_nf_venda(cliente integer, dtEmissao date, 
   dtVcto date, serie char(2), numero varchar(7), codMov integer)
 as
@@ -123,13 +124,13 @@ begin
       where md.CODMOVIMENTO = :codMov
     into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd
     do begin 
-      /*if (desconto is null) then 
+      if (desconto is null) then 
         desconto = 0;
       if (desconto > 0) then 
         desconto = 1 - (desconto / 100);
       if (desconto = 0) then 
          desconto = 1;  
-*/
+
      if (pesoUn is null) then 
         pesoUn = 0;
       pesoTotal = pesoTotal + (:pesoUn * :qtde);
@@ -190,8 +191,8 @@ begin
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
        , preco, un, descProduto, icms, valor_icms, cst, qtde_alt) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto);  
-      total = total + (qtde * (:preco*(1-(:desconto/100))));--((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto)
+       , :preco*:desconto, :un, :descP, :icms, :valoricms, :cst,  0);  
+      total = total + (qtde * (:preco*:desconto));--((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto)
       totalIcms = totalIcms + :valoricms;
     end 
     vIcmsT = 0; 
