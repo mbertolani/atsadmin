@@ -338,7 +338,6 @@ begin
     if (versaoSistema = '1.0.0.32') then
     begin
       executaScript('gera_nf.sql');
-     // executaScript('relContasReceber.sql');
       executaScript('relNotaFiscal.sql');
       mudaVersao('1.0.0.33');
     end; // Fim Ataulização Versao 1.0.0.32
@@ -355,7 +354,6 @@ begin
     if (versaoSistema = '1.0.0.34') then
     begin
       executaScript('formata_doublePrecision.sql');
-      executaScript('gera_nf_venda.sql');
       mudaVersao('1.0.0.35');
     end; // Fim Ataulização Versao 1.0.0.34
 
@@ -385,7 +383,6 @@ begin
 
     if (versaoSistema = '1.0.0.37') then
     begin
-      executaScript('calcula_icms_substituicao.sql');
       mudaVersao('1.0.0.38');
     end; // Fim Ataulização Versao 1.0.0.38
 
@@ -472,8 +469,6 @@ begin
 
     if (versaoSistema = '1.0.0.43') then
     begin
-      executaScript('calcula_icms_substprod.sql');
-      executaScript('calcula_icms.sql');
       executaSql('alter TABLE GUIATRANSPORTE add COD_REMETENTE Integer');
       mudaVersao('1.0.0.44');
     end;  // Fim Ataulização Versao 1.0.0.44
@@ -560,10 +555,10 @@ begin
     if (versaoSistema = '1.0.0.54') then
     begin
       executaScript('relcontasreceber.sql');
-      executaSql('alter TABLE PRODUTOS add VALORMINIMO Double Precision');
-      executaSql('alter TABLE PRODUTOS add VALORCOMISSAO Double Precision');
-      executaSql('alter TABLE PRODUTOS add GERADESCONTO char(1)');
-      executaSql('alter TABLE PRODUTOS add IMPRIMIR char(1)');
+      executaDDL('PRODUTOS', 'VALORMINIMO', 'Double Precision');
+      executaDDL('PRODUTOS', 'VALORCOMISSAO', 'Double Precision');
+      executaDDL('PRODUTOS', 'GERADESCONTO', 'char(1)');
+      executaDDL('PRODUTOS', 'IMPRIMIR', 'char(1)');
       mudaVersao('1.0.0.55');
     end;  // Fim Ataulização Versao 1.0.0.55
 
@@ -577,7 +572,6 @@ begin
     if (versaoSistema = '1.0.0.56') then
     begin
       executaScript('bloqueiaclientesatrasados.sql');
-      //executaScript('calcula_icms_substprod_cupom.sql');
       executaScript('balancete.sql');
       executaScript('inclui_rec.sql');
       executaScript('LIMITECREDITO.sql');
@@ -592,15 +586,15 @@ begin
 
     if (versaoSistema = '1.0.0.58') then
     begin
-      executaSql('alter TABLE EMPRESA add NUMERO VarChar(5)');
+      executaDDL('EMPRESA', 'NUMERO', 'VarChar(5)');
       mudaVersao('1.0.0.59');
     end;  // Fim Ataulização Versao 1.0.0.59
 
     if (versaoSistema = '1.0.0.59') then
     begin
-      executaSql('alter TABLE PRODUTOS add ORIGEM INTEGER');
-      executaSql('alter TABLE ENDERECOCLIENTE add CD_IBGE Varchar(10)');
-      executaSql('alter TABLE EMPRESA add CD_IBGE Varchar(10)');
+      executaDDL('PRODUTOS', 'ORIGEM', 'INTEGER');
+      executaDDL('ENDERECOCLIENTE', 'CD_IBGE', 'Varchar(10)');
+      executaDDL('EMPRESA', 'CD_IBGE', 'Varchar(10)');
       executaSql ('CREATE TABLE TB_IBGE( '+
         'NM_LOCALIDADE Varchar(40) NOT NULL   , ' +
         'CD_IBGE Varchar(10) NOT NULL, ' +
@@ -614,9 +608,9 @@ begin
 
     if (versaoSistema = '1.0.0.60') then
     begin
-      executaSql('alter TABLE NOTAFISCAL add PROTOCOLOENV Varchar(20)');
-      executaSql('alter TABLE NOTAFISCAL add NUMRECIBO Varchar(20)');
-      executaSql('alter TABLE NOTAFISCAL add PROTOCOLOCANC Varchar(20)');
+      executaDDL('NOTAFISCAL', 'PROTOCOLOENV', 'Varchar(20)');
+      executaDDL('NOTAFISCAL', 'NUMRECIBO', 'Varchar(20)');
+      executaDDL('NOTAFISCAL', 'PROTOCOLOCANC', 'Varchar(20)');
       mudaVersao('1.0.0.61');
     end;  // Fim Ataulização Versao 1.0.0.61
 
@@ -648,10 +642,10 @@ begin
 
     if (versaoSistema = '1.0.0.63') then
     begin
-      executaSql('alter TABLE VEICULO add CHASSIS VarChar(30)');
-      executaSql('alter TABLE FORNECEDOR add CODTRANSP INTEGER');
-      executaSql('Alter TABLE CLASSIFICACAOFISCALPRODUTO add CST CHAR(03)');
-      executaSql('Alter TABLE ESTADO_ICMS add CST CHAR(03)');
+      executaDDL('VEICULO', 'CHASSIS', 'VarChar(30)');
+      executaDDL('FORNECEDOR', 'CODTRANSP', 'INTEGER');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CST CHAR(03)');
+      executaDDL('TABLE ESTADO_ICMS', 'CST CHAR(03)');
       mudaVersao('1.0.0.64');
     end;  // Fim Ataulização Versao 1.0.0.64
 
@@ -676,42 +670,42 @@ begin
 
     if (versaoSistema = '1.0.0.66') then
     begin
-      executaSql('alter TABLE ENDERECOFORNECEDOR add CD_IBGE Varchar(10)');
-      executaSql('alter TABLE ENDERECOFORNECEDOR add NUMERO VarChar(5)');
+      executaDDL('ENDERECOFORNECEDOR', 'CD_IBGE', 'Varchar(10)');
+      executaDDL('ENDERECOFORNECEDOR', 'NUMERO', 'VarChar(5)');
       mudaVersao('1.0.0.67');
     end;  // Fim Ataulização Versao 1.0.0.67
 
     if (versaoSistema = '1.0.0.67') then
     begin
-      executaSql('alter TABLE ESTADO_ICMS add PESSOA Varchar(8)');
-      executaSql('alter TABLE ESTADO_ICMS add PIS Double Precision');
-      executaSql('alter TABLE ESTADO_ICMS add COFINS Double Precision');
-      executaSql('alter TABLE ESTADO_ICMS add CSTIPI Varchar(2)');
-      executaSql('alter TABLE ESTADO_ICMS add CSTPIS Varchar(2)');
-      executaSql('alter TABLE ESTADO_ICMS add CSTCOFINS Varchar(2)');
-      executaSql('alter TABLE ESTADO_ICMS add DADOSADC1 Varchar(200)');
-      executaSql('alter TABLE ESTADO_ICMS add DADOSADC2 Varchar(200)');
-      executaSql('alter TABLE ESTADO_ICMS add DADOSADC3 Varchar(200)');
-      executaSql('alter TABLE ESTADO_ICMS add DADOSADC4 Varchar(200)');
+      executaDDL('ESTADO_ICMS', 'PESSOA', 'Varchar(8)');
+      executaDDL('ESTADO_ICMS', 'PIS', 'Double Precision');
+      executaDDL('ESTADO_ICMS', 'COFINS', 'Double Precision');
+      executaDDL('ESTADO_ICMS', 'CSTIPI', 'Varchar(2)');
+      executaDDL('ESTADO_ICMS', 'CSTPIS', 'Varchar(2)');
+      executaDDL('ESTADO_ICMS', 'CSTCOFINS', 'Varchar(2)');
+      executaDDL('ESTADO_ICMS', 'DADOSADC1', 'Varchar(200)');
+      executaDDL('ESTADO_ICMS', 'DADOSADC2', 'Varchar(200)');
+      executaDDL('ESTADO_ICMS', 'DADOSADC3', 'Varchar(200)');
+      executaDDL('ESTADO_ICMS', 'DADOSADC4', 'Varchar(200)');
       mudaVersao('1.0.0.68');
     end;  // Fim Ataulização Versao 1.0.0.68
 
     if (versaoSistema = '1.0.0.68') then
     begin
-      executaSql('CREATE EXCEPTION DATAINVALIDA ' + QuotedStr('O sistema não permite data menor que 01/01/2001'));
-      executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' + QuotedStr('Nota fiscal já enviada, alteração não permitida'));
+      //executaSql('CREATE EXCEPTION DATAINVALIDA ' + QuotedStr('O sistema não permite data menor que 01/01/2001'));
+      //executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' + QuotedStr('Nota fiscal já enviada, alteração não permitida'));
       executaScript('corrige_fatura.sql');
       executaScript('calcula_icms_substprod.sql');
       executaScript('CorrigeEstoque.sql');
       executaScript('retornaEstoqueVenda.sql');
-      executaScript('desativa_trigger.sql');
+      //executaScript('desativa_trigger.sql');
       executaScript('nfe_fatura.sql');
       executaScript('mov_estoque.sql');
       executaScript('retornaEstoqueVenda.sql');
       executaScript('rel_vendaCompra.sql');
-      executaScript('naopermite_nf.sql');
-      executaScript('proibeEdit_nf.sql');
-      executaScript('trg_datainvalida.sql');
+      //executaScript('naopermite_nf.sql');
+      //executaScript('proibeEdit_nf.sql');
+      //executaScript('trg_datainvalida.sql');
       mudaVersao('1.0.0.69');
     end;  // Fim Ataulização Versao 1.0.0.69
 
@@ -731,7 +725,6 @@ begin
       executaScript('calcula_icms.sql');      
       mudaVersao('1.0.0.71');
     end;  // Fim Ataulização Versao 1.0.0.71
-
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
