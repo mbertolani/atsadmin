@@ -560,7 +560,7 @@ begin
     'nf.UF_TRANSP, nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO,' +
     'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, nf.NUMRECIBO, nf.PROTOCOLOCANC, co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     'from NOTAFISCAL nf inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE   inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
-    'left outer join COMPRA co on co.CODCOMPRA = nf.CODVENDA  where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
+    'left outer join VENDA co on co.CODVENDA = nf.CODVENDA  where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
     'and (ec.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12))  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.DTAEMISSAO';
      cdsNF.CommandText := str_nf;    
    end;
@@ -679,7 +679,7 @@ begin
               else
                 Ide.indPag    := ipPrazo;
               //pesquisa pagamento
-              if ( (cdsNFFATURA.AsString <> Null) and (cdsNFFATURA.AsString <> '') ) then
+              if ( (cdsNFFATURA.IsNull) and (cdsNFFATURA.AsString = '') ) then
               begin
               if(cdsFatura.Active) then
                 cdsFatura.Close;
@@ -706,6 +706,8 @@ begin
               end;
               if ((UpperCase(cdsNFFATURA.AsString) = 'PRAZO') or (UpperCase(cdsNFFATURA.AsString) = 'A PRAZO')) then
                 Ide.indPag    := ipPrazo;
+              if ((UpperCase(cdsNFFATURA.AsString) = 'VISTA') or (UpperCase(cdsNFFATURA.AsString) = 'A VISTA')) then
+                Ide.indPag    := ipVista;
               if (c = 0) then
                 Ide.indPag    := ipOutras;
               end;
