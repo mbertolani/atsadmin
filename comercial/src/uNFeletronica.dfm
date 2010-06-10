@@ -165,7 +165,7 @@ object fNFeletronica: TfNFeletronica
     object GroupBox1: TGroupBox
       Left = 478
       Top = 2
-      Width = 393
+      Width = 310
       Height = 95
       Caption = 'Gerar NF-e'
       TabOrder = 6
@@ -189,8 +189,8 @@ object fNFeletronica: TfNFeletronica
         OnClick = ValidaNFeClick
       end
       object BtnPreVis: TBitBtn
-        Left = 294
-        Top = 13
+        Left = 102
+        Top = 53
         Width = 91
         Height = 36
         Caption = 'Pr'#233' Visualizar NFe'
@@ -219,10 +219,10 @@ object fNFeletronica: TfNFeletronica
       end
     end
     object GroupBox2: TGroupBox
-      Left = 478
-      Top = 151
-      Width = 393
-      Height = 55
+      Left = 585
+      Top = 96
+      Width = 203
+      Height = 97
       Caption = 'Outros Servi'#231'os NF-e'
       TabOrder = 7
       object btnStatus: TBitBtn
@@ -244,8 +244,8 @@ object fNFeletronica: TfNFeletronica
         OnClick = btnConsultaClick
       end
       object btnCancelaNFe: TBitBtn
-        Left = 198
-        Top = 14
+        Left = 6
+        Top = 54
         Width = 91
         Height = 36
         Caption = 'Cancelar NF-e'
@@ -253,8 +253,8 @@ object fNFeletronica: TfNFeletronica
         OnClick = btnCancelaNFeClick
       end
       object btnInutilizar: TBitBtn
-        Left = 294
-        Top = 14
+        Left = 102
+        Top = 54
         Width = 91
         Height = 36
         Caption = 'Inutilizar NF-e'
@@ -265,8 +265,8 @@ object fNFeletronica: TfNFeletronica
     object GroupBox3: TGroupBox
       Left = 478
       Top = 97
-      Width = 393
-      Height = 55
+      Width = 107
+      Height = 96
       Caption = 'Danfe'
       TabOrder = 8
       object Label8: TLabel
@@ -295,8 +295,8 @@ object fNFeletronica: TfNFeletronica
         OnClick = btnImprimeClick
       end
       object btnGeraPDF: TBitBtn
-        Left = 102
-        Top = 14
+        Left = 6
+        Top = 54
         Width = 91
         Height = 36
         Caption = 'DANFe em PDF'
