@@ -209,12 +209,12 @@ begin
                  ' cod_cargosfuncoes integer not null primary key, ' +
                  ' descricao varchar(100))');
 
-      executaSql('alter table funcionario add codcliente integer');
-      executaSql('alter table funcionario add codfornecedor integer');
-      executaSql('alter table funcionario add clifor char(1)');
-      executaSql('alter table FUNCIONARIO ADD STATUS CHAR(1)');
-      executaSql('alter table RECEBIMENTO add SITUACAO integer');
-      executaSql('alter table venda add CODORIGEM INTEGER');
+      executaDDL('FUNCIONARIO', 'CODCLIENTE', 'integer');
+      executaDDL('FUNCIONARIO', 'CODFORNECEDOR', 'integer');
+      executaDDL('FUNCIONARIO', 'CLIFOR', 'char(1)');
+      executaDDL('FUNCIONARIO', 'STATUS', 'CHAR(1)');
+      executaDDL('RECEBIMENTO', 'SITUACAO', 'integer');
+      executaDDL('VENDA', 'CODORIGEM', 'INTEGER');
 
       mudaVersao('1.0.0.21');
     end; // Fim Ataulização Versao 1.0.0.20
@@ -267,8 +267,8 @@ begin
       executaDDL('TRANSPORTADORA','CONTATO','VARCHAR(40)');
       executaDDL('TRANSPORTADORA','BAIRRO','VARCHAR(40)');
       executaDDL('TRANSPORTADORA','CEP','VARCHAR(15)');
-      //executaSql('ALTER TABLE movimento ADD obs varchar(100)');
-      executaDDL('MOVIMENTODETALHE','PRECOULTIMACOMPRA','DOUBLE PRECISION');
+      executaDDL('MOVIMENTO', 'OBS', 'VARCHAR(100)');
+      executaDDL('MOVIMENTODETALHE', 'PRECOULTIMACOMPRA', 'DOUBLE PRECISION');
       executaScript('produtoetiquetacompra.sql');
       executaScript('spEstoqueFiltro.sql');
       executaScript('retornaEstoqueCompra.sql');
@@ -283,6 +283,8 @@ begin
     if (versaoSistema = '1.0.0.26') then
     begin
       executaScript('exclui_pag.sql');
+      executaScript('SP_MOV_CAIXAFLUXO.sql');
+      executaScript('SP_MOV_CAIXAORDEMFLUXO.sql');
       executaScript('fluxoentradasaida.sql');
       mudaVersao('1.0.0.27');
     end; // Fim Ataulização Versao 1.0.0.26
@@ -306,15 +308,21 @@ begin
       executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, ' +
         ' GERATITULO, TIPOTITULO, TIPOMOVIMENTO, BAIXAMOVIMENTO)' +
         ' Values (15, ' + QuotedStr('NOTA FISCAL VENDA') + ' ,1 , 0, 15, null)');
+      executaDDL('RECEBIMENTO', 'SITUACAOCHEQUE', 'Varchar(15)');
+      executaDDL('RECEBIMENTO', 'BANCO', 'Varchar(60)');
+      executaDDL('RECEBIMENTO', 'AGENCIA', 'Varchar(10)');
+      executaDDL('RECEBIMENTO', 'CONTA', 'Varchar(10)');
+      executaDDL('RECEBIMENTO', 'GERARQREM', 'INTEGER');
+      executaDDL('RECEBIMENTO', 'DATAGERARQREM', 'DATE');
+      executaDDL('RECEBIMENTO', 'SELECIONOU', 'char(1)');
+      executaDDL('RECEBIMENTO', 'DESCONTADO', 'char(1)');
+      executaDDL('RECEBIMENTO', 'SITUACAO', 'INTEGER');
       executaScript('gera_parcelas_rec.sql');
-
       executaScript('spestoqueproduto.sql');
       executaScript('altera_contabil.sql');
       executaScript('gera_valor.sql');
-
-      executaDDL('MOVIMENTODETALHE','DESCPRODUTO','VARCHAR(300)');
-
       executaScript('rel_rcbo.sql');
+      executaDDL('MOVIMENTODETALHE','DESCPRODUTO','VARCHAR(300)');
       mudaVersao('1.0.0.30');
     end; // Fim Ataulização Versao 1.0.0.29
 
@@ -344,10 +352,10 @@ begin
 
     if (versaoSistema = '1.0.0.33') then
     begin
-      executaSql('ALTER TABLE ESTADO_ICMS ADD ICMS_SUBSTRIB double precision');
-      executaSql('ALTER TABLE ESTADO_ICMS ADD ICMS_SUBSTRIB_IC double precision');
-      executaSql('ALTER TABLE ESTADO_ICMS ADD ICMS_SUBSTRIB_IND double precision');
-      executaSql('ALTER TABLE SERIES ADD ICMS_DESTACADO double precision');
+      executaDDL('ESTADO_ICMS', 'ICMS_SUBSTRIB', 'DOUBLE PRECISION');
+      executaDDL('ESTADO_ICMS', 'ICMS_SUBSTRIB_IC', 'DOUBLE PRECISION');
+      executaDDL('ESTADO_ICMS', 'ICMS_SUBSTRIB_IND', 'DOUBLE PRECISION');
+      executaDDL('SERIES', 'ICMS_DESTACADO', 'DOUBLE PRECISION');
       mudaVersao('1.0.0.34');
     end; // Fim Ataulização Versao 1.0.0.33
 
@@ -368,16 +376,16 @@ begin
       executaSql('insert into SERIES( ' +
         'SERIE, ULTIMO_NUMERO) ' +
         ' Values (' + QuotedStr('M') + ', ' + IntToStr(0) + ')');
-      executaSql('alter table movimentodetalhe add periodoini timestamp');
-      executaSql('alter table movimentodetalhe add periodofim timestamp');
+      executaDDL('MOVIMENTODETALHE', 'PERIODOINI', 'timestamp');
+      executaDDL('MOVIMENTODETALHE', 'PERIODOFIM', 'timestamp');
       mudaVersao('1.0.0.36');
     end; // Fim Ataulização Versao 1.0.0.35
 
     if (versaoSistema = '1.0.0.36') then
     begin
-    executaSql('alter TABLE CLASSIFICACAOFISCAL add Icms_subst double precision');
-      executaSql('alter TABLE CLASSIFICACAOFISCAL add Icms_subst_ic double precision');
-      executaSql('alter TABLE CLASSIFICACAOFISCAL add Icms_subst_ind double precision');
+    executaDDL('CLASSIFICACAOFISCAL', 'Icms_subst', 'DOUBLE PRECISION');
+    executaDDL('CLASSIFICACAOFISCAL', 'Icms_subst_ic', 'DOUBLE PRECISION');
+    executaDDL('CLASSIFICACAOFISCAL', 'Icms_subst_ind', 'DOUBLE PRECISION');
      mudaVersao('1.0.0.37');
     end; // Fim Ataulização Versao 1.0.0.36
 
@@ -394,10 +402,10 @@ begin
     if(versaoSistema = '1.0.0.39') then
     begin
 
-    executaSql('alter TABLE MOVIMENTODETALHE add ICMS_SUBST double precision');
-    executaSql('alter TABLE MOVIMENTODETALHE add ICMS_SUBSTD double precision');
+    executaDDL('MOVIMENTODETALHE', 'ICMS_SUBST', 'DOUBLE PRECISION');
+    executaDDL('MOVIMENTODETALHE', 'ICMS_SUBSTD', 'DOUBLE PRECISION');
 
-    executaSql('alter TABLE NOTAFISCAL add ID_GUIA INTEGER');
+    executaDDL('NOTAFISCAL', 'ID_GUIA', 'INTEGER');
     executaSql ('CREATE TABLE GUIATRANSPORTE(' +
       'ID_GUIA Integer NOT NULL, ' +
       'CONHECIMENTO Integer, ' +
@@ -440,7 +448,7 @@ begin
 
     if(versaoSistema = '1.0.0.40') then
     begin
-        executaSql('alter TABLE CLASSIFICACAOFISCAL add UF char(2)');
+        executaDDL('CLASSIFICACAOFISCAL', 'UF', 'char(2)');
     mudaVersao('1.0.0.41');
     end;  // Fim Ataulização Versao 1.0.0.41
 
@@ -461,21 +469,20 @@ begin
 
     if (versaoSistema = '1.0.0.42') then
     begin
-      executaSql('alter TABLE NOTAFISCAL add SELECIONOU CHAR(1)');
-      executaSql('alter TABLE RECEBIMENTO add SELECIONOU CHAR(1)');
-      executaSql('alter TABLE PAGAMENTO add SELECIONOU CHAR(1)');
+      executaDDL('NOTAFISCAL', 'SELECIONOU', 'CHAR(1)');
+      executaDDL('RECEBIMENTO', 'SELECIONOU', 'CHAR(1)');
+      executaDDL('PAGAMENTO', 'SELECIONOU', 'CHAR(1)');
       mudaVersao('1.0.0.43');
     end; // Fim Ataulização Versao 1.0.0.43
 
     if (versaoSistema = '1.0.0.43') then
     begin
-      executaSql('alter TABLE GUIATRANSPORTE add COD_REMETENTE Integer');
+      executaDDL('GUIATRANSPORTE', 'COD_REMETENTE', 'Integer');
       mudaVersao('1.0.0.44');
     end;  // Fim Ataulização Versao 1.0.0.44
 
     if (versaoSistema = '1.0.0.44') then
     begin
-      //executaSql('alter TABLE GUIATRANSPORTE add COD_REMETENTE Integer');
       mudaVersao('1.0.0.45');
     end;  // Fim Ataulização Versao 1.0.0.45
 
@@ -483,8 +490,8 @@ begin
     begin
       executaScript('fluxoentradasaidasintetico.sql');
       executaScript('novoitemvendafinalizada.sql');
-      executaSql('alter TABLE RECEBIMENTO add DESCONTADO Char(1)');
-      executaSql('alter TABLE GUIATRANSPORTE add PLACA VARCHAR(8)');
+      executaDDL('RECEBIMENTO', 'DESCONTADO', 'Char(1)');
+      executaDDL('GUIATRANSPORTE', 'PLACA', 'VARCHAR(8)');
       executaScript('sp_mov_caixaSintetico.sql');
       executaScript('sp_mov_caixaSinteticoConsolida.sql');
       executaScript('sp_mov_caixa_ordemConsolida.sql');
@@ -494,22 +501,22 @@ begin
 
     if (versaoSistema = '1.0.0.46') then
     begin
-      executaSql('alter TABLE GUIATRANSPORTE add CIDADE_TRANSP VarChar(60)');
-      executaSql('alter TABLE GUIATRANSPORTE add UF_TRANSP Char(2)');
-      executaSql('alter TABLE GUIATRANSPORTE add Total double precision');
-      executaSql('alter TABLE GUIATRANSPORTE add Total2 double precision');
+      executaDDL('GUIATRANSPORTE', 'CIDADE_TRANSP', 'VarChar(60)');
+      executaDDL('GUIATRANSPORTE', 'UF_TRANSP', 'Char(2)');
+      executaDDL('GUIATRANSPORTE', 'Total double', 'precision');
+      executaDDL('GUIATRANSPORTE', 'Total2 double', 'precision');
       mudaVersao('1.0.0.47');
     end;  // Fim Ataulização Versao 1.0.0.47
 
     if (versaoSistema = '1.0.0.47') then
     begin
-      executaSql('alter TABLE ENDERECOCLIENTE add NUMERO VarChar(5)');
+      executaDDL('ENDERECOCLIENTE', 'NUMERO', 'VarChar(5)');
       mudaVersao('1.0.0.48');
     end;  // Fim Ataulização Versao 1.0.0.48
 
     if (versaoSistema = '1.0.0.48') then
     begin
-      executaSql('alter TABLE EMPRESA add CCUSTO Integer');
+      executaDDL('EMPRESA', 'CCUSTO', 'Integer');
       mudaVersao('1.0.0.49');
     end;  // Fim Ataulização Versao 1.0.0.49
 
@@ -517,7 +524,7 @@ begin
     begin
       executaScript('sp_mov_caixafluxo.sql');
       executaScript('sp_mov_caixaordemfluxo.sql');
-      executaSql('alter TABLE LISTAPRECO add TIPOOPERACAO char(1)');
+      executaDDL('LISTAPRECO', 'TIPOOPERACAO', 'char(1)');
       mudaVersao('1.0.0.50');
     end;  // Fim Ataulização Versao 1.0.0.50
 
@@ -538,17 +545,17 @@ begin
     if (versaoSistema = '1.0.0.52') then
     begin
       executaScript('mapeamentoestoque.sql');
-      executaSql('alter TABLE movimento add conferido char(1)');
+      executaDDL('movimento', 'conferido', 'char(1)');
       mudaVersao('1.0.0.53');
     end;  // Fim Ataulização Versao 1.0.0.53
 
     if (versaoSistema = '1.0.0.53') then
     begin
-      executaSql('alter TABLE MOVIMENTO add nfcobranca Integer');
-      executaSql('alter TABLE MOVIMENTO add ordematend Integer');
-      executaSql('alter TABLE MOVIMENTO add nfrevenda Integer');
-      executaSql('alter TABLE LOTES add serieini Integer');
-      executaSql('alter TABLE LOTES add seriefim Integer');
+      executaDDL('MOVIMENTO', 'nfcobranca', 'Integer');
+      executaDDL('MOVIMENTO', 'ordematend', 'Integer');
+      executaDDL('MOVIMENTO', 'nfrevenda', 'Integer');
+      executaDDL('LOTES', 'serieini', 'Integer');
+      executaDDL('LOTES', 'seriefim', 'Integer');
       mudaVersao('1.0.0.54');
     end;  // Fim Ataulização Versao 1.0.0.54
 
@@ -571,6 +578,7 @@ begin
 
     if (versaoSistema = '1.0.0.56') then
     begin
+      executaDDL('VENDA', 'CODORIGEM', 'INTEGER');
       executaScript('bloqueiaclientesatrasados.sql');
       executaScript('balancete.sql');
       executaScript('inclui_rec.sql');
@@ -622,7 +630,7 @@ begin
 
     if (versaoSistema = '1.0.0.62') then
     begin
-      //executaDDL('NOTAFISCAL','SERIE','VARCHAR(20)');
+      executaDDL('NOTAFISCAL','SERIE','VARCHAR(20)');
       executaSql('create TABLE OF_OF (OFId Integer not null ' +
          ', OFID_IND Smallint NOT NULL ' +
          ', OFData date, OFStatus char(1), OFQtdeSolic double precision, ' +
@@ -644,8 +652,8 @@ begin
     begin
       executaDDL('VEICULO', 'CHASSIS', 'VarChar(30)');
       executaDDL('FORNECEDOR', 'CODTRANSP', 'INTEGER');
-      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CST CHAR(03)');
-      executaDDL('TABLE ESTADO_ICMS', 'CST CHAR(03)');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CST', 'CHAR(03)');
+      executaDDL('ESTADO_ICMS', 'CST', 'CHAR(03)');
       mudaVersao('1.0.0.64');
     end;  // Fim Ataulização Versao 1.0.0.64
 
@@ -659,9 +667,6 @@ begin
     begin
       executaScript('gera_nf_compra.sql');
       executaScript('nfe_fatura.sql');
-      executaScript('calcula_icms_substprod.sql');
-      executaScript('calcula_icms_substituicao.sql');
-      executaScript('calcula_icms.sql');
       executaScript('gera_valor.sql');
       executaScript('gera_nf_venda.sql');
       executaScript('desbloqueia_clientes.sql');
@@ -692,8 +697,10 @@ begin
 
     if (versaoSistema = '1.0.0.68') then
     begin
-      //executaSql('CREATE EXCEPTION DATAINVALIDA ' + QuotedStr('O sistema não permite data menor que 01/01/2001'));
-      //executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' + QuotedStr('Nota fiscal já enviada, alteração não permitida'));
+      executaSql('CREATE EXCEPTION DATAINVALIDA ' +
+      QuotedStr('O sistema não permite data menor que 01/01/2001'));
+      executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' +
+      QuotedStr('Nota fiscal já enviada, alteração não permitida'));
       executaScript('corrige_fatura.sql');
       executaScript('calcula_icms_substprod.sql');
       executaScript('CorrigeEstoque.sql');
@@ -722,7 +729,9 @@ begin
     if (versaoSistema = '1.0.0.70') then
     begin
       executaDDL('MOVIMENTODETALHE', 'VLR_BASEICMS','DOUBLE PRECISION');
-      executaScript('calcula_icms.sql');      
+      executaScript('calcula_icms_substprod.sql');
+      executaScript('calcula_icms_substituicao.sql');
+      executaScript('calcula_icms.sql');
       mudaVersao('1.0.0.71');
     end;  // Fim Ataulização Versao 1.0.0.71
 
