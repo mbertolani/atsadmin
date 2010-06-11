@@ -353,7 +353,6 @@ type
     sCfopDADOSADC2: TStringField;
     sCfopDADOSADC3: TStringField;
     sCfopDADOSADC4: TStringField;
-    BitBtn11: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -388,7 +387,6 @@ type
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure btnRemessaClick(Sender: TObject);
     procedure carregaDadosAdicionais(Sender: TObject);
-    procedure BitBtn11Click(Sender: TObject);
   private
     { Private declarations }
     procedure incluiSAida;
@@ -596,6 +594,7 @@ begin
      dmnf.cds_vendaSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
      //dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger;
      dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
+     dmnf.cds_nfSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
      dmnf.cds_nfNOTASERIE.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
      dmnf.cds_nfNOTAFISCAL.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
     end;
@@ -1518,6 +1517,7 @@ end;
 procedure TfNotaf.gravanotafiscal;
 var nfnum :Integer;
     pesoremessa, entrega: Double;
+    str: string;
 begin
  nfnum := 0;
  // Gravo a NF
@@ -2105,25 +2105,5 @@ Begin
             DMNF.cds_nfCORPONF4.AsString := sCFOPDADOSADC4.AsString;
           end;
 End;
-
-procedure TfNotaf.BitBtn11Click(Sender: TObject);
-var str: String;
-begin
-   MessageDlg('Deseja realmente alterar a serie?', mtConfirmation, [mbYes, mbNo], 0);
-   DecimalSeparator := '.';
-   str := 'UPDATE NOTAFISCAL SET NOTASERIE = ' + dmnf.cds_nfNOTASERIE.AsString;
-   str := str + ', SERIE = ' + quotedstr(dmnf.cds_vendaSERIE.AsString);
-   str := str + ' WHERE CODVENDA = ' + inttostr(dmnf.cds_nfCODVENDA.AsInteger);
-   dm.sqlsisAdimin.ExecuteDirect(str);
-
-   str := 'UPDATE RECEBIMENTO SET TITULO = ' + quotedstr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_vendaSERIE.AsString);
-   str := str + ' WHERE CODVENDA = ' + inttostr(dmnf.cds_nfCODVENDA.AsInteger);
-   dm.sqlsisAdimin.ExecuteDirect(str);
-
-   str := 'UPDATE VENDA SET NOTAFISCAL = ' + dmnf.cds_nfNOTASERIE.AsString;
-   str := str + ', SERIE = ' + quotedstr(dmnf.cds_vendaSERIE.AsString);
-   str := str + ' WHERE CODVENDA = ' + inttostr(dmnf.cds_nfCODVENDA.AsInteger);
-   dm.sqlsisAdimin.ExecuteDirect(str);
-end;
 
 end.

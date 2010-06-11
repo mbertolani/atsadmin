@@ -2684,15 +2684,6 @@ object fNotaf: TfNotaf
       end
     end
   end
-  object BitBtn11: TBitBtn
-    Left = 646
-    Top = 61
-    Width = 115
-    Height = 24
-    Caption = '...'
-    TabOrder = 3
-    OnClick = BitBtn11Click
-  end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa
     Left = 591
