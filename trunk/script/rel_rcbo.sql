@@ -1,4 +1,4 @@
-ALTER PROCEDURE  REL_RCBO( CODVDA                           INTEGER
+CREATE OR ALTER PROCEDURE  REL_RCBO( CODVDA                           INTEGER
                          , CODID                            INTEGER
                          , N_COPIAS                         INTEGER
                          , STATUS                           CHAR( 2 ) )
