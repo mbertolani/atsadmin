@@ -2196,7 +2196,7 @@ begin
   fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime := StrToDate(data_movimento);
   { Natureza = 'Saída' }
   fVendas.cds_MovimentoCODNATUREZA.AsInteger := 2;
-  fVendas.cds_MovimentoCONTROLE.AsString := IntToStr(codigo_moviemento);
+  //fVendas.cds_MovimentoCONTROLE.AsString := IntToStr(codigo_moviemento);
   fVendas.btnGravar.Click;
 
   //Executa rotina para inserir materias primas
@@ -2755,11 +2755,11 @@ begin
         str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
         str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
         dm.sqlsisAdimin.ExecuteDirect(str_sql);
-        str_sql := 'update NOTAFISCAL set FATURA = ' + QuotedStr(fatura_NF);
+        {str_sql := 'update NOTAFISCAL set FATURA = ' + QuotedStr(fatura_NF);
         str_sql := str_sql + ' where NOTASERIE = ' + inttostr(cdsNOTAFISCAL.AsInteger);
         str_sql := str_sql + ' and CODCLIENTE = ' + inttostr(cdsCODCLIENTE.AsInteger);
         str_sql := str_sql + ' and DTAEMISSAO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);}
         dm.sqlsisAdimin.Commit(TD);
       except
         dm.sqlsisAdimin.Rollback(TD);
