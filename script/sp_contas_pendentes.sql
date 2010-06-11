@@ -1,4 +1,4 @@
-ALTER PROCEDURE SP_CONTAS_PENDENTES (
+CREATE OR ALTER PROCEDURE SP_CONTAS_PENDENTES (
     DTAINI Date,
     DTAFIM Date,
     COD_FOR Integer,
@@ -29,7 +29,7 @@ BEGIN
 
 
   FOR SELECT pag.EMISSAO ,pag.DATAVENCIMENTO, CAST(pag.CODFORNECEDOR AS VARCHAR(5)) || '-' ||  forn.NOMEFORNECEDOR, 
-    pag.TITULO || '-' || pag.HISTORICO, pag.VALOR_RESTO, pag.VALORRECEBIDO, pag.CONTACREDITO,pag.CAIXA, pag.STATUS  
+    pag.TITULO || '-' || pag.HISTORICO, pag.VALOR_RESTO, pag.VALORRECEBIDO, pag.TITULO,pag.CAIXA, pag.STATUS  
     FROM PAGAMENTO pag, FORNECEDOR forn where forn.CODFORNECEDOR = pag.CODFORNECEDOR 
     and ((pag.status = '5-')) and pag.DATAVENCIMENTO BETWEEN :DTAINI AND :DTAFIM
     and ((pag.CODFORNECEDOR = :cod_for) or (:cod_for = 9999999))
@@ -54,3 +54,4 @@ BEGIN
     contacontabil = null;
   END
 END
+
