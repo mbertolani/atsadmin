@@ -240,8 +240,10 @@ begin
   end
   else
     inherited;
+  cds_estado.DisableControls;
   cds_estado.Close;
   cds_estado.Open;
+  cds_estado.EnableControls;
   if ((cds_estadoPESSOA.AsString = 'F') or (cds_estadoPESSOA.AsString = 'Física')) then
     ComboBox1.Text := 'Física'
   else

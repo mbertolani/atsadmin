@@ -1,7 +1,7 @@
 inherited fEstado: TfEstado
   Left = 1
-  Width = 1261
-  Height = 545
+  Width = 676
+  Height = 678
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
   Font.Height = -13
   OldCreateOrder = True
@@ -37,8 +37,8 @@ inherited fEstado: TfEstado
     Caption = 'Red.B. C'#225'lc.'
   end
   object Label7: TLabel [4]
-    Left = 674
-    Top = 55
+    Left = 74
+    Top = 95
     Width = 15
     Height = 16
     Caption = 'IPI'
@@ -72,80 +72,80 @@ inherited fEstado: TfEstado
     Caption = 'CST'
   end
   object Label5: TLabel [9]
-    Left = 1031
-    Top = 55
+    Left = 431
+    Top = 95
     Width = 78
     Height = 16
     Caption = 'Tipo Pessoa'
   end
   object Label9: TLabel [10]
-    Left = 804
-    Top = 55
+    Left = 204
+    Top = 95
     Width = 21
     Height = 16
     Caption = 'PIS'
   end
   object Label14: TLabel [11]
-    Left = 964
-    Top = 55
+    Left = 364
+    Top = 95
     Width = 49
     Height = 16
     Caption = 'COFINS'
   end
   object Label15: TLabel [12]
-    Left = 612
-    Top = 55
+    Left = 12
+    Top = 95
     Width = 45
     Height = 16
     Caption = 'CST IPI'
   end
   object Label16: TLabel [13]
-    Left = 735
-    Top = 55
+    Left = 135
+    Top = 95
     Width = 51
     Height = 16
     Caption = 'CST PIS'
   end
   object Label17: TLabel [14]
-    Left = 875
-    Top = 55
+    Left = 275
+    Top = 95
     Width = 79
     Height = 16
     Caption = 'CST COFINS'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 464
-    Width = 1253
-    TabOrder = 16
+    Top = 597
+    Width = 668
+    TabOrder = 17
     inherited btnIncluir: TBitBtn [0]
-      Left = 412
+      Left = 220
     end
     inherited btnGravar: TBitBtn [1]
-      Left = 412
+      Left = 220
     end
     inherited btnCancelar: TBitBtn
-      Left = 525
+      Left = 333
     end
     inherited btnExcluir: TBitBtn
-      Left = 525
+      Left = 333
     end
     inherited btnProcurar: TBitBtn
-      Left = 298
+      Left = 106
       Caption = 'CFOP'
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
-      Left = 638
+      Left = 446
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 1253
+    Width = 668
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
     Font.Name = 'Cooper Blk BT'
     ParentFont = False
-    TabOrder = 17
+    TabOrder = 18
     inherited Label1: TLabel
       Top = -74
     end
@@ -222,9 +222,9 @@ inherited fEstado: TfEstado
   end
   object DBGrid1: TDBGrid [20]
     Left = 3
-    Top = 179
-    Width = 1245
-    Height = 278
+    Top = 296
+    Width = 654
+    Height = 297
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -233,7 +233,7 @@ inherited fEstado: TfEstado
     Font.Style = []
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
-    TabOrder = 18
+    TabOrder = 19
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -13
@@ -382,8 +382,8 @@ inherited fEstado: TfEstado
     OnKeyPress = FormKeyPress
   end
   object DBEdit5: TDBEdit [22]
-    Left = 671
-    Top = 71
+    Left = 71
+    Top = 111
     Width = 56
     Height = 24
     BevelKind = bkFlat
@@ -477,8 +477,8 @@ inherited fEstado: TfEstado
     OnKeyPress = FormKeyPress
   end
   object ComboBox1: TComboBox [27]
-    Left = 1028
-    Top = 71
+    Left = 428
+    Top = 111
     Width = 93
     Height = 24
     AutoComplete = False
@@ -497,8 +497,8 @@ inherited fEstado: TfEstado
       'Jur'#237'dica')
   end
   object DBEdit10: TDBEdit [28]
-    Left = 803
-    Top = 71
+    Left = 203
+    Top = 111
     Width = 64
     Height = 24
     BevelKind = bkFlat
@@ -516,8 +516,8 @@ inherited fEstado: TfEstado
     OnKeyPress = FormKeyPress
   end
   object DBEdit11: TDBEdit [29]
-    Left = 962
-    Top = 71
+    Left = 362
+    Top = 111
     Width = 63
     Height = 24
     BevelKind = bkFlat
@@ -535,8 +535,8 @@ inherited fEstado: TfEstado
     OnKeyPress = FormKeyPress
   end
   object DBEdit12: TDBEdit [30]
-    Left = 608
-    Top = 71
+    Left = 8
+    Top = 111
     Width = 57
     Height = 24
     BevelKind = bkFlat
@@ -554,8 +554,8 @@ inherited fEstado: TfEstado
     OnKeyPress = FormKeyPress
   end
   object DBEdit13: TDBEdit [31]
-    Left = 733
-    Top = 71
+    Left = 133
+    Top = 111
     Width = 66
     Height = 24
     BevelKind = bkFlat
@@ -573,8 +573,8 @@ inherited fEstado: TfEstado
     OnKeyPress = FormKeyPress
   end
   object DBEdit14: TDBEdit [32]
-    Left = 873
-    Top = 71
+    Left = 273
+    Top = 111
     Width = 84
     Height = 24
     BevelKind = bkFlat
@@ -593,15 +593,15 @@ inherited fEstado: TfEstado
   end
   object GroupBox1: TGroupBox [33]
     Left = 8
-    Top = 98
-    Width = 1240
-    Height = 76
+    Top = 146
+    Width = 649
+    Height = 143
     Caption = 'Dados Adicionais'
-    TabOrder = 15
+    TabOrder = 16
     object DBEdit15: TDBEdit
       Left = 9
       Top = 18
-      Width = 605
+      Width = 627
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -618,9 +618,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit16: TDBEdit
-      Left = 625
-      Top = 18
-      Width = 605
+      Left = 9
+      Top = 47
+      Width = 627
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -638,8 +638,8 @@ inherited fEstado: TfEstado
     end
     object DBEdit17: TDBEdit
       Left = 9
-      Top = 46
-      Width = 605
+      Top = 106
+      Width = 627
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -656,9 +656,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit18: TDBEdit
-      Left = 625
-      Top = 46
-      Width = 605
+      Left = 9
+      Top = 76
+      Width = 627
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -676,13 +676,19 @@ inherited fEstado: TfEstado
     end
   end
   object CheckBox1: TCheckBox [34]
-    Left = 1127
-    Top = 72
+    Left = 527
+    Top = 112
     Width = 122
     Height = 13
     Caption = 'N'#227'o Gera Fatura'
-    TabOrder = 19
+    TabOrder = 15
     OnClick = CheckBox1Click
+  end
+  inherited XPMenu1: TXPMenu
+    Left = 568
+  end
+  inherited PopupMenu1: TPopupMenu
+    Left = 616
   end
   inherited DtSrc: TDataSource
     DataSet = cds_estado
