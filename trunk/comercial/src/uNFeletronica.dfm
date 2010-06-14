@@ -1125,15 +1125,15 @@ object fNFeletronica: TfNFeletronica
       '   md.VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 2) as' +
       ' VALOR_ICMS,'#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE' +
       ','#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'    ' +
-      '      md.ICMS_SUBSTD,'#13#10'          (md.VLR_BASE * md.QUANTIDADE) a' +
-      's VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'm' +
-      'd.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10 +
-      'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRO' +
-      'DUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      '      md.ICMS_SUBSTD,'#13#10'          UDF_ROUNDDEC((md.VLR_BASE * md.' +
+      'QUANTIDADE), 2) as VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENT' +
+      'ODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join N' +
+      'OTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS ' +
+      'pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptInput
       end>
