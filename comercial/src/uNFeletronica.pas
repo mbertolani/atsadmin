@@ -850,6 +850,8 @@ begin
               Prod.cProd    := cdsItensNFCODPRO.AsString;
               Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
               Prod.CFOP     := cdsNFCFOP.AsString;
+              if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull)) then
+                MessageDlg('Produto sem Unidade de Medida', mtError, [mbOK], 0);
               Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
               Prod.qCom     := cdsItensNFQUANTIDADE.AsFloat;
               Prod.vUnCom   := cdsItensNFVLR_BASE.AsFloat;
@@ -1137,6 +1139,9 @@ begin
               cdsItensNF.Next;
             end;
 
+
+            if ((cdsNFFRETE.AsString = '') or (cdsNFFRETE.IsNull)) then
+                MessageDlg('Tipo de frete não definido', mtError, [mbOK], 0);
             if (cdsNFFRETE.IsNull) then
               //tfrete := 9;
             else
@@ -1860,8 +1865,8 @@ begin
               Dest.IE                := RemoveChar(sClienteINSCESTADUAL.AsString);
             end;
 
-            //Carrega os itens da NF 
-            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO,udf_lest(md.DESCPRODUTO, 120),'+
+            //Carrega os itens da NF
+            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, udf_lest(md.DESCPRODUTO, 120),'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.ICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
@@ -1897,6 +1902,8 @@ begin
               Prod.cProd    := cdsItensNFCODPRO.AsString;
               Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
               Prod.CFOP     := cdsNFCFOP.AsString;
+              if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull) or (sProdutosUNIDADEMEDIDA.AsString = ' ')) then
+                MessageDlg('Produto sem Unidade de Medida', mtError, [mbOK], 0);
               Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
               Prod.qCom     := cdsItensNFQUANTIDADE.AsFloat;
               Prod.vUnCom   := cdsItensNFVLR_BASE.AsFloat;
@@ -2177,6 +2184,8 @@ begin
               cdsItensNF.Next;
             end;
 
+            if ((cdsNFFRETE.AsString = '') or (cdsNFFRETE.IsNull)) then
+                MessageDlg('Tipo de frete não definido', mtError, [mbOK], 0);
             if (cdsNFFRETE.IsNull) then
               //tfrete := 9;
             else
