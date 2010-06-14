@@ -393,7 +393,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    campocentrocusto, usarateio, usaprecolista, CODIGOPRODUTO, tipoCompra, CompradorPadraoNome : String;
+    campocentrocusto, usarateio, usaprecolista, CODIGOPRODUTO, tipoCompra, CompradorPadraoNome, obrigatorio : String;
     J, ccustoCompras, CompradorPadrao: integer;
     procedure precolista;
   end;
@@ -532,6 +532,17 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
   dm.cds_parametro.Open;
+  {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
+    dm.cds_parametro.Open;
+    if not dm.cds_parametro.IsEmpty then
+    begin
+      if (dm.cds_parametroD1.AsString = 'SIM') then
+        obrigatorio := dm.cds_parametroD1.AsString;
+    end;
+
   {------Pesquisando na tab Parametro se usa centro de Receita ---------}
   if dm.cds_parametroCONFIGURADO.AsString = 'S' then
   begin
@@ -679,79 +690,84 @@ end;
 
 procedure TfCompra.btnGravarClick(Sender: TObject);
 begin
-   modo := 'gravar';
-   if cds_Movimento.State in [dsInsert] then
+   if ( ((ComboBox1.Text = '') or (ComboBox1.Text = null)) and (obrigatorio = 'SIM') )then
+    MessageDlg('Centro de Custo Obrigatório', mtError, [mbOK], 0)
+   else
    begin
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-    dm.c_6_genid.Close;
-   end;
-  IF (DtSrc.State in [dsInsert, dsEdit]) then
-  begin
-    if (cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive])) then
-      cds_MovimentoCODALMOXARIFADO.AsInteger := StrToInt(cds_ccustoCODIGO.AsString)
-    else
-      cds_MovimentoCODALMOXARIFADO.AsInteger:= ccustoCompras;
-    if (GroupBox7.Visible = True) then
-    if (MaskEdit1.Text <> '') then
-    if (cds_MovimentoCOD_VEICULO.IsNull) then
-    begin
-      if (cds_Veiculocli.Active) then
-        cds_Veiculocli.Close;
-      cds_Veiculocli.Params[1].Clear;
-      cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
-      cds_Veiculocli.Open;
-      cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
-    end;
-  end;
-  inherited;  // Preciso ver se gravou, do contrário, cancela o processo e para aqui
-  {cds_Movimento.ApplyUpdates(0);
-  if cds_Movimento.ChangeCount > 0 then
-  begin
-  end;}
-  //else begin
-  {  if cds_Movimento.State in [dsInsert, dsEdit] then
-    begin
-      MessageDlg('Erro para gravar o registro.', mtWarning,
-         [mbOk], 0);
-      exit;
-    end;}
-  //end;
-  //********************************************************************************
-  // aqui corrijo o codigo do movimento na tabela mov_detalhe
-  if (cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
-  begin
-    cds_Mov_det.First;
-    While not cds_Mov_det.Eof do
-    begin
-      cds_Mov_det.Edit;
-      if (cds_Mov_detLOTE.asString = '') then
-        cds_Mov_detLOTE.Clear;
-      cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+     modo := 'gravar';
+     if cds_Movimento.State in [dsInsert] then
+     begin
       if dm.c_6_genid.Active then
         dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
       dm.c_6_genid.Open;
-      cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+      cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
       dm.c_6_genid.Close;
-      cds_Mov_det.Post;
-      cds_Mov_det.Next;
-      codmovdet := 0;
+     end;
+    IF (DtSrc.State in [dsInsert, dsEdit]) then
+    begin
+      if (cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive])) then
+        cds_MovimentoCODALMOXARIFADO.AsInteger := StrToInt(cds_ccustoCODIGO.AsString)
+      else
+        cds_MovimentoCODALMOXARIFADO.AsInteger:= ccustoCompras;
+      if (GroupBox7.Visible = True) then
+      if (MaskEdit1.Text <> '') then
+      if (cds_MovimentoCOD_VEICULO.IsNull) then
+      begin
+        if (cds_Veiculocli.Active) then
+          cds_Veiculocli.Close;
+        cds_Veiculocli.Params[1].Clear;
+        cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
+        cds_Veiculocli.Open;
+        cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
+      end;
     end;
-  end;
-  cds_Mov_det.ApplyUpdates(0);
-  if (usarateio = 'SIM') then
-  begin
-    btnRateio.Click;
-    usarateio := 'NAO';
-  end;
+    inherited;  // Preciso ver se gravou, do contrário, cancela o processo e para aqui
+    {cds_Movimento.ApplyUpdates(0);
+    if cds_Movimento.ChangeCount > 0 then
+    begin
+    end;}
+    //else begin
+    {  if cds_Movimento.State in [dsInsert, dsEdit] then
+      begin
+        MessageDlg('Erro para gravar o registro.', mtWarning,
+           [mbOk], 0);
+        exit;
+      end;}
+    //end;
+    //********************************************************************************
+    // aqui corrijo o codigo do movimento na tabela mov_detalhe
+    if (cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
+    begin
+      cds_Mov_det.First;
+      While not cds_Mov_det.Eof do
+      begin
+        cds_Mov_det.Edit;
+        if (cds_Mov_detLOTE.asString = '') then
+          cds_Mov_detLOTE.Clear;
+        cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+        if dm.c_6_genid.Active then
+          dm.c_6_genid.Close;
+        dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+        dm.c_6_genid.Open;
+        cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+        dm.c_6_genid.Close;
+        cds_Mov_det.Post;
+        cds_Mov_det.Next;
+        codmovdet := 0;
+      end;
+    end;
+    cds_Mov_det.ApplyUpdates(0);
+    if (usarateio = 'SIM') then
+    begin
+      btnRateio.Click;
+      usarateio := 'NAO';
+    end;
 
-  // Coloquei este cancel aqui pq , no dtsrc1 coloquei um código
-  // pra mudar o dtsrt para edit quando mudo o dtsrc1
-  DtSrc.DataSet.Cancel;
+    // Coloquei este cancel aqui pq , no dtsrc1 coloquei um código
+    // pra mudar o dtsrt para edit quando mudo o dtsrc1
+    DtSrc.DataSet.Cancel;
+    end;
 end;
 
 procedure TfCompra.cds_MovimentoNewRecord(DataSet: TDataSet);

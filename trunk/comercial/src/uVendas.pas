@@ -554,7 +554,7 @@ var
   fVendas: TfVendas;
   valorUnitario: Double;
   codmovdet, codserv,codmd,centro_receita, cod_nat, cod_vendedor_padrao, cod_cli, estoq : integer;
-  natureza, contas_pendentes, nome_vendedor_padrao, ccpadrao, chassi: string;
+  natureza, contas_pendentes, nome_vendedor_padrao, ccpadrao, chassi, obrigatorio: string;
 
 implementation
 
@@ -608,6 +608,8 @@ begin
     if not dm.cds_parametro.IsEmpty then
     begin
       centro_receita := strToint(dm.cds_parametroDADOS.AsString);
+      if (dm.cds_parametroD1.AsString = 'SIM') then
+        obrigatorio := dm.cds_parametroD1.AsString;
     end;
     {------Pesquisando na tab Parametro Vendedor Padrão ---------}
     if Dm.cds_parametro.Active then
@@ -1475,185 +1477,190 @@ end;
 
 procedure TfVendas.btnGravarClick(Sender: TObject);
 begin
- if (cds_Movimento.State in [dsEdit]) then
- begin
-   if (modo = 'FINALIZADO') then
+   if ( ((ComboBox1.Text = '') or (ComboBox1.Text = null)) and (obrigatorio = 'SIM') )then
+    MessageDlg('Centro de Custo Obrigatório', mtError, [mbOK], 0)
+   else
    begin
-     if (dm.blVendaFin = 'S') then
+     if (cds_Movimento.State in [dsEdit]) then
      begin
-       MessageDlg('Pedido já finalizado, alteração não permitida.', mtWarning, [mbOK], 0);
-       cds_Movimento.Cancel;
-       cds_Mov_det.Cancel;
-       exit;
-     end;  
-   end;
- end;
- if (cds_Mov_det.State in [dsInsert, dsEdit]) then
- begin
-   if (dbeProduto.Text <> '') then
-   begin
-      // Esta Varíavel é pra não executar o insereMatPrima repetidas vezes
-      if (inseridoMatPrima = 'SIM') then
-      if (matPrima = 'SIM') then
-      begin
-        insereMatPrima;
-      end;
-   end;
-   if (dbeProduto.Text = '') then
-     cds_mov_det.Cancel;
- end;
-
- if cds_Movimento.State in [dsInsert] then
- begin
-  if dm.c_6_genid.Active then
-    dm.c_6_genid.Close;
-  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-  dm.c_6_genid.Open;
-  cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-  dm.c_6_genid.Close;
- end;
-  //*******************************************************************************
-  //   essa parte é para cadastro de Veículo
-  if (dm.moduloUsado = 'AUTOMOTIVA') then
-  begin
-    if (maskEdit1.Text <> '   -    ') then
-    begin
-      if (cds_Veiculocli.Active) then
-        cds_Veiculocli.Close;
-      cds_Veiculocli.Params[1].Clear;
-      cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
-      cds_Veiculocli.Open;
-      if (cds_Veiculocli.IsEmpty) then
-      begin
-        // o cadastro do veículo não deve ter o cliente na OS terá;
-        cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
-        fClienteVeiculo.varPlaca := MaskEdit1.Text;
-        BitBtn9.Click;
-      end;
-      cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
-      cds_Veiculocli.Close;
-    end;
-      // Busca o cad. veiculo pelo chassi
-    if ((maskEdit1.Text = '   -    ') and (EdChassi.Text <> '')) then
-    begin
-      if (cds_Veiculocli.Active) then
-        cds_Veiculocli.Close;
-      cds_Veiculocli.Params[1].Clear;
-      cds_Veiculocli.Params[0].Clear;
-      cds_Veiculocli.Params[2].AsString := edChassi.Text;
-      cds_Veiculocli.Open;
-      if (cds_Veiculocli.IsEmpty) then
-      begin
-        // o cadastro do veículo não deve ter o cliente na OS terá;
-        cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
-        chassi := EdChassi.Text;
-        BitBtn9.Click;
-      end;
-      cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
-      cds_Veiculocli.Close;
-    end;
-
-  end;
-
-  //*******************************************************************************
-
-  IF (DtSrc.State in [dsInsert, dsEdit]) then
-  begin
-    cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
-    cds_MovimentoCODALMOXARIFADO.AsString := cds_ccustoCODIGO.AsString;
-    if (DBComboBox1.Text <> '') then
-      if  (cds_MovimentoCONTROLE.AsString <> DBComboBox1.Text) then
-        cds_movimentoControle.AsString := DBComboBox1.Text;
-  end;
-  if (CheckBox1.Checked = True) then
-    cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
-  // salvo o Movimento
-  inherited;
-
-  {if (cds_Mov_det.State in [dsEdit, dsInsert]) then
-  begin
-    IF (DBEdit17.Text <> '') then
-      cds_Mov_detPRODUTO.AsString := DBEDit17.Text;
-    cds_mov_det.Post;
-  end;}
-  //********************************************************************************
-  // aqui corrijo o codigo do movimento na tabela mov_detalhe
-  //  if (cds_Mov_detCODMOVIMENTO.AsInteger >= 1999999) then
-  //  begin
-    cds_Mov_det.First;
-    While not cds_Mov_det.Eof do
-    begin
-      if (cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
-      begin
-        cds_Mov_det.Edit;
-        cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-        IF (cds_Mov_detQTDE_ALT.IsNull) then
-           cds_Mov_detQTDE_ALT.AsFloat := 0;
-        if dm.c_6_genid.Active then
-          dm.c_6_genid.Close;
-        dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-        dm.c_6_genid.Open;
-        codmovdet := dm.c_6_genid.Fields[0].AsInteger;
-        if ComboBox2.Text <> '' then
-        begin
-           if not(cds_cm.Active)then
-             cds_cm.Open;
-
-           cds_cm.Locate('CODIGO', ComboBox2.Text,[loPartialKey]);
-           cds_Mov_detCOD_COMISSAO.AsInteger := cds_cmCOD_COMISSAO.AsInteger;
-           cds_Mov_detCODIGO.AsString := cds_cmCODIGO.AsString;
-        end;
-        if (c_8_serv.Active) then
-        begin
-          if (c_8_serv.Locate('CODMOVIMENTO', cds_Mov_detCODDETALHE.AsInteger, [loCaseInsensitive])) then
+       if (modo = 'FINALIZADO') then
+       begin
+         if (dm.blVendaFin = 'S') then
+         begin
+           MessageDlg('Pedido já finalizado, alteração não permitida.', mtWarning, [mbOK], 0);
+           cds_Movimento.Cancel;
+           cds_Mov_det.Cancel;
+           exit;
+         end;  
+       end;
+     end;
+     if (cds_Mov_det.State in [dsInsert, dsEdit]) then
+     begin
+       if (dbeProduto.Text <> '') then
+       begin
+          // Esta Varíavel é pra não executar o insereMatPrima repetidas vezes
+          if (inseridoMatPrima = 'SIM') then
+          if (matPrima = 'SIM') then
           begin
-            if (c_8_serv.State in [dsBrowse]) then
-              c_8_serv.Edit;
-            c_8_servCODMOVIMENTO.asInteger := codmovdet;
+            insereMatPrima;
+          end;
+       end;
+       if (dbeProduto.Text = '') then
+         cds_mov_det.Cancel;
+     end;
+
+     if cds_Movimento.State in [dsInsert] then
+     begin
+      if dm.c_6_genid.Active then
+        dm.c_6_genid.Close;
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.Open;
+      cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+      dm.c_6_genid.Close;
+     end;
+      //*******************************************************************************
+      //   essa parte é para cadastro de Veículo
+      if (dm.moduloUsado = 'AUTOMOTIVA') then
+      begin
+        if (maskEdit1.Text <> '   -    ') then
+        begin
+          if (cds_Veiculocli.Active) then
+            cds_Veiculocli.Close;
+          cds_Veiculocli.Params[1].Clear;
+          cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
+          cds_Veiculocli.Open;
+          if (cds_Veiculocli.IsEmpty) then
+          begin
+            // o cadastro do veículo não deve ter o cliente na OS terá;
+            cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
+            fClienteVeiculo.varPlaca := MaskEdit1.Text;
+            BitBtn9.Click;
+          end;
+          cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
+          cds_Veiculocli.Close;
+        end;
+          // Busca o cad. veiculo pelo chassi
+        if ((maskEdit1.Text = '   -    ') and (EdChassi.Text <> '')) then
+        begin
+          if (cds_Veiculocli.Active) then
+            cds_Veiculocli.Close;
+          cds_Veiculocli.Params[1].Clear;
+          cds_Veiculocli.Params[0].Clear;
+          cds_Veiculocli.Params[2].AsString := edChassi.Text;
+          cds_Veiculocli.Open;
+          if (cds_Veiculocli.IsEmpty) then
+          begin
+            // o cadastro do veículo não deve ter o cliente na OS terá;
+            cod_cli := 1; //cds_MovimentoCODCLIENTE.AsInteger;
+            chassi := EdChassi.Text;
+            BitBtn9.Click;
+          end;
+          cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
+          cds_Veiculocli.Close;
+        end;
+
+      end;
+
+      //*******************************************************************************
+
+      IF (DtSrc.State in [dsInsert, dsEdit]) then
+      begin
+        cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
+        cds_MovimentoCODALMOXARIFADO.AsString := cds_ccustoCODIGO.AsString;
+        if (DBComboBox1.Text <> '') then
+          if  (cds_MovimentoCONTROLE.AsString <> DBComboBox1.Text) then
+            cds_movimentoControle.AsString := DBComboBox1.Text;
+      end;
+      if (CheckBox1.Checked = True) then
+        cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
+      // salvo o Movimento
+      inherited;
+
+      {if (cds_Mov_det.State in [dsEdit, dsInsert]) then
+      begin
+        IF (DBEdit17.Text <> '') then
+          cds_Mov_detPRODUTO.AsString := DBEDit17.Text;
+        cds_mov_det.Post;
+      end;}
+      //********************************************************************************
+      // aqui corrijo o codigo do movimento na tabela mov_detalhe
+      //  if (cds_Mov_detCODMOVIMENTO.AsInteger >= 1999999) then
+      //  begin
+        cds_Mov_det.First;
+        While not cds_Mov_det.Eof do
+        begin
+          if (cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
+          begin
+            cds_Mov_det.Edit;
+            cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+            IF (cds_Mov_detQTDE_ALT.IsNull) then
+               cds_Mov_detQTDE_ALT.AsFloat := 0;
             if dm.c_6_genid.Active then
               dm.c_6_genid.Close;
-            dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_MOV_DET_SERV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+            dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
             dm.c_6_genid.Open;
-            c_8_servCODDETALHE_SERV.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-            dm.c_6_genid.Close;
-            c_8_servPRECO.AsFloat := cds_Mov_detPRECO.AsFloat;
-            c_8_serv.post;
-          end;
-        end;
-        cds_Mov_detCODDETALHE.AsInteger := codmovdet;
-        cds_Mov_det.post;
-      end;
-      cds_Mov_det.Next;
-    end;
-//  end;
-  IF (ComboBox2.Text <> cds_Mov_detCODIGO.AsString) then
-  begin
-    cds_Mov_det.First;
-    While not cds_Mov_det.Eof do
-    begin
-      cds_Mov_det.Edit;
-      if ComboBox2.Text <> '' then
-      begin
-         if (not cds_cm.Active) then
-            cds_cm.Open;
-         cds_cm.Locate('CODIGO', ComboBox2.Text,[loPartialKey]);
-         cds_Mov_detCOD_COMISSAO.AsInteger := cds_cmCOD_COMISSAO.AsInteger;
-         cds_Mov_detCODIGO.AsString := cds_cmCODIGO.AsString;
-      end;
-      cds_Mov_det.Post;
-      cds_Mov_det.Next;
-    end;
-  end;
-  cds_Mov_det.ApplyUpdates(0);
-  if (c_8_serv.Active) then
-  begin
-    c_8_serv.ApplyUpdates(0);
-  end; 
-  // Coloquei este cancel aqui pq , no dtsrc1 coloquei um código
-  // pra mudar o dtsrt para edit quando mudo o dtsrc1
-  DtSrc.DataSet.Cancel;
+            codmovdet := dm.c_6_genid.Fields[0].AsInteger;
+            if ComboBox2.Text <> '' then
+            begin
+               if not(cds_cm.Active)then
+                 cds_cm.Open;
 
-  // atualizo o Lote - Está sendo Feito pela Trigger LOTE_SAIDA
+               cds_cm.Locate('CODIGO', ComboBox2.Text,[loPartialKey]);
+               cds_Mov_detCOD_COMISSAO.AsInteger := cds_cmCOD_COMISSAO.AsInteger;
+               cds_Mov_detCODIGO.AsString := cds_cmCODIGO.AsString;
+            end;
+            if (c_8_serv.Active) then
+            begin
+              if (c_8_serv.Locate('CODMOVIMENTO', cds_Mov_detCODDETALHE.AsInteger, [loCaseInsensitive])) then
+              begin
+                if (c_8_serv.State in [dsBrowse]) then
+                  c_8_serv.Edit;
+                c_8_servCODMOVIMENTO.asInteger := codmovdet;
+                if dm.c_6_genid.Active then
+                  dm.c_6_genid.Close;
+                dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_MOV_DET_SERV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+                dm.c_6_genid.Open;
+                c_8_servCODDETALHE_SERV.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+                dm.c_6_genid.Close;
+                c_8_servPRECO.AsFloat := cds_Mov_detPRECO.AsFloat;
+                c_8_serv.post;
+              end;
+            end;
+            cds_Mov_detCODDETALHE.AsInteger := codmovdet;
+            cds_Mov_det.post;
+          end;
+          cds_Mov_det.Next;
+        end;
+    //  end;
+      IF (ComboBox2.Text <> cds_Mov_detCODIGO.AsString) then
+      begin
+        cds_Mov_det.First;
+        While not cds_Mov_det.Eof do
+        begin
+          cds_Mov_det.Edit;
+          if ComboBox2.Text <> '' then
+          begin
+             if (not cds_cm.Active) then
+                cds_cm.Open;
+             cds_cm.Locate('CODIGO', ComboBox2.Text,[loPartialKey]);
+             cds_Mov_detCOD_COMISSAO.AsInteger := cds_cmCOD_COMISSAO.AsInteger;
+             cds_Mov_detCODIGO.AsString := cds_cmCODIGO.AsString;
+          end;
+          cds_Mov_det.Post;
+          cds_Mov_det.Next;
+        end;
+      end;
+      cds_Mov_det.ApplyUpdates(0);
+      if (c_8_serv.Active) then
+      begin
+        c_8_serv.ApplyUpdates(0);
+      end; 
+      // Coloquei este cancel aqui pq , no dtsrc1 coloquei um código
+      // pra mudar o dtsrt para edit quando mudo o dtsrc1
+      DtSrc.DataSet.Cancel;
+
+      // atualizo o Lote - Está sendo Feito pela Trigger LOTE_SAIDA
+    end;
 end;
 
 procedure TfVendas.BitBtn9Click(Sender: TObject);
