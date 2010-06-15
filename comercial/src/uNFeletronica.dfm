@@ -1133,7 +1133,7 @@ object fNFeletronica: TfNFeletronica
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'id'
         ParamType = ptInput
       end>
