@@ -377,8 +377,6 @@ type
     sdsNFVALOR_PAGAR: TFloatField;
     cdsNFENTRADA: TFloatField;
     cdsNFVALOR_PAGAR: TFloatField;
-    EdtAssunto: TEdit;
-    Label5: TLabel;
     sEmail: TSQLDataSet;
     sEmailCODCLIENTE: TIntegerField;
     sEmailNOMECLIENTE: TStringField;
@@ -493,7 +491,8 @@ var
 implementation
 
 uses pcnNFe, ACBrNFeNotasFiscais, DateUtils, ACBrNFeUtil, UDm,
- ACBrNFeWebServices, uNFeInutilizar, ACBrNFeConfiguracoes, sCtrlResize;
+ ACBrNFeWebServices, uNFeInutilizar, ACBrNFeConfiguracoes, sCtrlResize,
+  uNFeMail;
 
 {$R *.dfm}
 
@@ -809,8 +808,12 @@ begin
               Dest.EnderDest.xPais   := 'BRASIL';
               Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
               IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
-              if (IERG > 11) then
-                Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+              if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
+                if (IERG > 11) then
+                  Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString)
+              else
+                if (IERG > 7) then
+                  Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
             end;
 
             //Carrega os itens da NF 
@@ -1554,71 +1557,17 @@ begin
 end;
 
 procedure TfNFeletronica.BtnEnvEmailClick(Sender: TObject);
-var
- numnf, IDNFE, RAZAO, CNPJ, caminho : String;
- CC, Texto: Tstrings;
- vXMLDoc: TXMLDocument;
 begin
-  if (not cds_ccusto.Active) then
-     cds_ccusto.Open;
-   cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
-
-  if (sEmpresa.Active) then
-     sEmpresa.Close;
-   sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
-   sEmpresa.Open;
-
-  vXMLDoc := TXMLDocument.Create(self);
-  OpenDialog1.Title := 'Selecione a NFE';
-  OpenDialog1.DefaultExt := '*-nfe.XML';
-  OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
-  if OpenDialog1.Execute then
-  begin
-    ACBrNFe1.NotasFiscais.Clear;
-    caminho := OpenDialog1.FileName;
-    ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
-    CC:=TstringList.Create;
-
-    //ABRE A NOTA
-    vXMLDoc.LoadFromFile(caminho);
-    with vXMLDoc.DocumentElement  do
-    begin
-      IDNFE := ChildNodes['infNFe'].AttributeNodes['Id'].Text;
-      numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-      RAZAO := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
-      CNPJ := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
-    end;
-    Texto := TStringList.Create;
-    Texto.Add(EdtAssunto.Text + ' Codigo de Acesso: ' + IDNFE + ' Número da Nota: ' + numnf + ' Cliente: ' + RAZAO + ' CNPJ: ' + CNPJ);
-    if (sEmail.Active) then
-     sEmail.Close;
-    sEmail.Params[0].Text := RemoveChar(CNPJ);
-    sEmail.Open;
-
-
-    CC.Add(sEmpresaE_MAIL.AsString); //especifique um email válido
-    ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
-                                             , sEmpresaPORTA.AsString
-                                             , sEmpresaE_MAIL.AsString
-                                             , sEmpresaSENHA.AsString
-                                             , sEmpresaE_MAIL.AsString
-                                             , sEmailE_MAIL.AsString
-                                             , EdtAssunto.Text
-                                             , Texto
-                                             , False
-                                             , True //Enviar PDF junto
-                                             , CC //com copia
-                                               );
-    CC.Free;
-    Texto.Free;
+  fNFeMail:=TfNFeMail.Create(Application);
+  try
+    fNFeMail.ShowModal;
+  finally
+    fNFeMail.Free;
   end;
-  MessageDlg('Email enviado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 procedure TfNFeletronica.btnInutilizarClick(Sender: TObject);
 begin
-
  ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
  fNFeInutilizar:=TfNFeInutilizar.Create(Application);
  try
@@ -1657,7 +1606,7 @@ end;
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
 var
   BC, BCST : Variant;
-  i, tpfrete, c: integer;
+  i, tpfrete, c, IERG: integer;
   comp, comp2, itensnf : String;
   tfrete, valpis, valcofins : Variant;
 begin
@@ -1862,7 +1811,13 @@ begin
               Dest.EnderDest.cPais   := 1058;
               Dest.EnderDest.xPais   := 'BRASIL';
               Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
-              Dest.IE                := RemoveChar(sClienteINSCESTADUAL.AsString);
+              IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
+              if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
+                if (IERG > 11) then
+                  Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString)
+              else
+                if (IERG > 7) then
+                  Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
             end;
 
             //Carrega os itens da NF

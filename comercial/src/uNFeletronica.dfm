@@ -94,20 +94,6 @@ object fNFeletronica: TfNFeletronica
       Transparent = False
       OnClick = sbtnGetCertClick
     end
-    object Label5: TLabel
-      Left = 13
-      Top = 123
-      Width = 99
-      Height = 16
-      Caption = 'Assunto Email'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Transparent = True
-    end
     object Edit1: TEdit
       Left = 75
       Top = 101
@@ -141,14 +127,6 @@ object fNFeletronica: TfNFeletronica
       Height = 21
       TabOrder = 2
     end
-    object EdtAssunto: TEdit
-      Left = 9
-      Top = 141
-      Width = 278
-      Height = 21
-      TabOrder = 4
-      Text = 'NF-e'
-    end
     object tpNF: TRadioGroup
       Left = 297
       Top = 134
@@ -160,7 +138,7 @@ object fNFeletronica: TfNFeletronica
       Items.Strings = (
         'Entrada'
         'Sa'#237'da')
-      TabOrder = 5
+      TabOrder = 4
     end
     object GroupBox1: TGroupBox
       Left = 478
@@ -168,7 +146,7 @@ object fNFeletronica: TfNFeletronica
       Width = 310
       Height = 95
       Caption = 'Gerar NF-e'
-      TabOrder = 6
+      TabOrder = 5
       object btnGeraNFe: TBitBtn
         Left = 6
         Top = 13
@@ -224,7 +202,7 @@ object fNFeletronica: TfNFeletronica
       Width = 203
       Height = 97
       Caption = 'Outros Servi'#231'os NF-e'
-      TabOrder = 7
+      TabOrder = 6
       object btnStatus: TBitBtn
         Left = 6
         Top = 14
@@ -268,7 +246,7 @@ object fNFeletronica: TfNFeletronica
       Width = 107
       Height = 96
       Caption = 'Danfe'
-      TabOrder = 8
+      TabOrder = 7
       object Label8: TLabel
         Left = 200
         Top = 27
@@ -310,7 +288,7 @@ object fNFeletronica: TfNFeletronica
       Width = 475
       Height = 76
       Caption = 'Filtro'
-      TabOrder = 9
+      TabOrder = 8
       object Label2: TLabel
         Left = 210
         Top = 41
@@ -3070,8 +3048,7 @@ object fNFeletronica: TfNFeletronica
     StoredProps.Strings = (
       'JvDateEdit1.Date'
       'JvDateEdit2.Date'
-      'ComboBox1.Text'
-      'EdtAssunto.Text')
+      'ComboBox1.Text')
     StoredValues = <>
     Left = 200
     Top = 134
