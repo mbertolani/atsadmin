@@ -192,7 +192,8 @@ uses
   uPrazo in 'uPrazo.pas' {fPrazo},
   uNotafRemessa in 'uNotafRemessa.pas' {fNotafRemessa},
   uCombo in 'uCombo.pas' {fCombo},
-  uGeraEtiquetas in 'uGeraEtiquetas.pas' {fGeraEtiquetas};
+  uGeraEtiquetas in 'uGeraEtiquetas.pas' {fGeraEtiquetas},
+  uNFeMail in 'uNFeMail.pas' {fNFeMail};
 
 {$R *.res}
 
@@ -225,6 +226,8 @@ begin
   Application.CreateForm(TfPrazo, fPrazo);
   Application.CreateForm(TfCombo, fCombo);
   Application.CreateForm(TfGeraEtiquetas, fGeraEtiquetas);
+  Application.CreateForm(TfNFeletronica, fNFeletronica);
+  Application.CreateForm(TfNFeMail, fNFeMail);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   Application.CreateForm(TfPfaturamento, fPfaturamento);
