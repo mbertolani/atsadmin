@@ -414,7 +414,6 @@ type
     GroupBox3: TGroupBox;
     btnImprime: TBitBtn;
     btnGeraPDF: TBitBtn;
-    Label8: TLabel;
     GroupBox4: TGroupBox;
     btnListar: TBitBtn;
     JvDateEdit2: TJvDateEdit;
@@ -454,6 +453,8 @@ type
     sCFOPCOFINS: TFloatField;
     sCFOPPIS: TFloatField;
     btnSPED: TBitBtn;
+    GroupBox5: TGroupBox;
+    Label8: TLabel;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1592,12 +1593,12 @@ begin
    begin
      ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
      label8.Font.Color := clBlue;
-     Label8.Caption :=  'Ambiente PRODUÇÃO.';
+     Label8.Caption :=  'PRODUÇÃO.';
    end
    else begin
     ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
     label8.Font.Color := clRed;
-    Label8.Caption :=  'Ambiente Homologação.';
+    Label8.Caption :=  'HOMOLOGAÇÃO.';
    end;
    ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresaDIVERSOS1.AsString;
 

@@ -112,8 +112,8 @@ object fNFeletronica: TfNFeletronica
       TabOrder = 0
     end
     object MemoResp: TMemo
-      Left = 272
-      Top = 138
+      Left = 392
+      Top = 154
       Width = 24
       Height = 22
       Align = alCustom
@@ -128,10 +128,10 @@ object fNFeletronica: TfNFeletronica
       TabOrder = 2
     end
     object tpNF: TRadioGroup
-      Left = 297
-      Top = 134
-      Width = 172
-      Height = 31
+      Left = 178
+      Top = 133
+      Width = 170
+      Height = 41
       Caption = 'Tipo de Nota Fiscal'
       Columns = 2
       ItemIndex = 1
@@ -141,8 +141,8 @@ object fNFeletronica: TfNFeletronica
       TabOrder = 4
     end
     object GroupBox1: TGroupBox
-      Left = 478
-      Top = 2
+      Left = 479
+      Top = 3
       Width = 310
       Height = 95
       Caption = 'Gerar NF-e'
@@ -197,10 +197,10 @@ object fNFeletronica: TfNFeletronica
       end
     end
     object GroupBox2: TGroupBox
-      Left = 585
-      Top = 96
-      Width = 203
-      Height = 97
+      Left = 587
+      Top = 99
+      Width = 202
+      Height = 96
       Caption = 'Outros Servi'#231'os NF-e'
       TabOrder = 6
       object btnStatus: TBitBtn
@@ -241,28 +241,12 @@ object fNFeletronica: TfNFeletronica
       end
     end
     object GroupBox3: TGroupBox
-      Left = 478
-      Top = 97
+      Left = 479
+      Top = 99
       Width = 107
       Height = 96
       Caption = 'Danfe'
       TabOrder = 7
-      object Label8: TLabel
-        Left = 200
-        Top = 27
-        Width = 16
-        Height = 20
-        Caption = '....'
-        Color = 10930928
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-        Transparent = True
-      end
       object btnImprime: TBitBtn
         Left = 6
         Top = 14
@@ -284,7 +268,7 @@ object fNFeletronica: TfNFeletronica
     end
     object GroupBox4: TGroupBox
       Left = 3
-      Top = 2
+      Top = 3
       Width = 475
       Height = 76
       Caption = 'Filtro'
@@ -468,6 +452,30 @@ object fNFeletronica: TfNFeletronica
         Width = 88
         Height = 21
         TabOrder = 4
+      end
+    end
+    object GroupBox5: TGroupBox
+      Left = 7
+      Top = 133
+      Width = 170
+      Height = 41
+      Caption = 'Tipo Ambiente'
+      TabOrder = 9
+      object Label8: TLabel
+        Left = 9
+        Top = 17
+        Width = 16
+        Height = 20
+        Caption = '....'
+        Color = 10930928
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
       end
     end
   end
@@ -3050,8 +3058,8 @@ object fNFeletronica: TfNFeletronica
       'JvDateEdit2.Date'
       'ComboBox1.Text')
     StoredValues = <>
-    Left = 200
-    Top = 134
+    Left = 184
+    Top = 214
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
@@ -3060,8 +3068,8 @@ object fNFeletronica: TfNFeletronica
     FileName = 'nfe.xml'
     RootNodeName = 'Configuration'
     SubStorages = <>
-    Left = 168
-    Top = 134
+    Left = 152
+    Top = 214
   end
   object sEmail: TSQLDataSet
     CommandText = 
