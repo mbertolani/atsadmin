@@ -3,7 +3,7 @@ object fNFeMail: TfNFeMail
   Top = 103
   Width = 402
   Height = 231
-  Caption = 'Envio de E-mail NFe'
+  Caption = #39
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -86,7 +86,7 @@ object fNFeMail: TfNFeMail
     object Label5: TLabel
       Left = 203
       Top = 14
-      Width = 101
+      Width = 99
       Height = 16
       Caption = 'Assunto Email'
       Font.Charset = DEFAULT_CHARSET
@@ -100,9 +100,9 @@ object fNFeMail: TfNFeMail
     object Label6: TLabel
       Left = 204
       Top = 57
-      Width = 83
+      Width = 21
       Height = 16
-      Caption = 'Email/Login'
+      Caption = 'CC'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -110,6 +110,41 @@ object fNFeMail: TfNFeMail
       Font.Style = [fsBold]
       ParentFont = False
       Transparent = True
+    end
+    object sbtnCC: TSpeedButton
+      Left = 351
+      Top = 71
+      Width = 24
+      Height = 24
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        18000000000000030000C40E0000C40E00000000000000000000FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDBEA3D9B79BD7B498D5B1
+        95D3AD92D1AA90D2AC94FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFDDBDA1F8E9E0F9E9E1F9EAE2FAEBE2FAECE3D1AA90FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFC0A3F8E9E1F7E8E0F7E8
+        E0F8E8E0F8E9E1D3AE9386A7CB7FA2C87FA2C87FA2C87FA2C87FA2C87FA2C87F
+        A2C87FA2C8E1C4A7FCF4EBFBF1E8F9EEE5F8EBE2F7E9E1D5B1967C9FC6C9DDEC
+        D7E9F5DDEEF8DDEEF8DDEEF8DDEEF8DDEEF8DDEEF8E2C7A9FEFCF5FEFBF2FEF9
+        F0FDF7EDFCF4EAD7B4997C9FC7D7E8F2C8D9E8E2E9F1FCFEFFFCFEFFFCFEFFFC
+        FEFFFCFEFFE5CAACFFFEFCFFFDFAFFFDF8FFFCF6FEFBF4D9B79C7C9FC7E0EFF6
+        DEEDF5C6D7E7C6D0E2FEFEFEFFFFFFFFFFFFFEFEFEE7CDAFFFFFFFFFFFFEFFFE
+        FEFFFEFDFFFEFCDBBB9F7C9FC7E9F5FBE6F3F9E4F1F895A9C6A0B0CCEBEFF5ED
+        F0F5A1B0CDE8D0B2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDBEA27C9FC7F1FAFE
+        EFF9FDAABBD1ABBACBAEBDCD8A9EBF899DBFADBCCDE8D3B5EAD3B5E8D0B2E6CC
+        B0E4C9ADE2C6AAE0C3A77CA0C7F6FCFEC1CEDDC1CDD9C5D0DBC5D0DBC5D0DBC5
+        D0DBC5D0DBC6D1DAC4CED8B9C7D7E1EDF382A2C6FDFCFBFEFDFD7B9DC4DDE5ED
+        D3DEE6D4DEE7D4DEE7D4DEE7D4DEE7D4DEE7D4DEE7D4DEE7D4DEE7D3DDE6D4E0
+        EB7B9DC4FFFFFFFFFFFFC5D3E194ADC8D8E2EBDDE6EDDDE6EDDDE6EDDDE6EDDD
+        E6EDDDE6EDDDE6EDDDE6EDD9E3EB96AFC9C3D1E0FFFFFFFFFFFFFFFFFFE0E8F0
+        8EA8C5CCD8E4DEE7EEDEE7EEDEE7EEDEE7EEDEE7EEDEE7EECDDAE58EA8C5DEE5
+        EEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF3F6F998B0CAB8C9DADEE7EEDEE7EEDE
+        E7EEDEE7EEBACBDB96AEC9F2F5F8FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFEFEFEB1C3D79FB6CEDCE5EDDCE6EDA2B8CFAFC1D6FDFDFEFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD1DCE88FA9C68E
+        A9C5CFDAE6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      Transparent = False
+      OnClick = sbtnCCClick
     end
     object BtnSeleciona: TJvBitBtn
       Left = 45
@@ -163,7 +198,7 @@ object fNFeMail: TfNFeMail
     object Edit5: TEdit
       Left = 201
       Top = 72
-      Width = 177
+      Width = 144
       Height = 21
       TabOrder = 5
     end
@@ -200,7 +235,7 @@ object fNFeMail: TfNFeMail
     TabOrder = 2
   end
   object XMLDocument1: TXMLDocument
-    Left = 369
+    Left = 73
     DOMVendorDesc = 'MSXML'
   end
   object sEmail: TSQLDataSet
@@ -218,7 +253,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 336
+    Left = 40
     object sEmailCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -249,7 +284,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     ProviderName = 'd_2'
-    Left = 367
+    Left = 71
     Top = 32
     object cds_ccustoCODIGO: TIntegerField
       FieldName = 'CODIGO'
@@ -278,7 +313,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 303
+    Left = 7
     Top = 32
     object s_2CODIGO: TIntegerField
       FieldName = 'CODIGO'
@@ -297,7 +332,7 @@ object fNFeMail: TfNFeMail
   end
   object d_2: TDataSetProvider
     DataSet = s_2
-    Left = 335
+    Left = 39
     Top = 32
   end
   object sEmpresa: TSQLDataSet
@@ -310,7 +345,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 303
+    Left = 7
     object sEmpresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -452,11 +487,11 @@ object fNFeMail: TfNFeMail
     NumeroArquivo = 0
     LayoutArquivo = laCNAB400
     TipoMovimento = tmRetorno
-    Left = 368
+    Left = 72
     Top = 64
   end
   object OpenDialog1: TOpenDialog
-    Left = 336
+    Left = 40
     Top = 64
   end
   object XPMenu1: TXPMenu
@@ -486,7 +521,7 @@ object fNFeMail: TfNFeMail
     FlatMenu = False
     AutoDetect = True
     Active = True
-    Left = 304
+    Left = 8
     Top = 64
   end
 end
