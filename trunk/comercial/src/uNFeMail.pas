@@ -79,10 +79,12 @@ type
     EdtAssunto: TEdit;
     Label5: TLabel;
     Label6: TLabel;
+    sbtnCC: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure BtnSelecionaClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure btnEnviarClick(Sender: TObject);
+    procedure sbtnCCClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -179,7 +181,6 @@ begin
     Edit1.Text := IntToStr(sEmailCODCLIENTE.AsInteger);
     Edit2.Text := sEmailRAZAOSOCIAL.AsString;
     Edit3.Text := sEmailE_MAIL.AsString;
-    Edit5.Text := sEmpresaE_MAIL.AsString;
     btnEnviar.Enabled := True;
 
 end;
@@ -191,21 +192,30 @@ end;
 
 procedure TfNFeMail.btnEnviarClick(Sender: TObject);
 begin
-    fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
-                                             , sEmpresaPORTA.AsString
-                                             , sEmpresaE_MAIL.AsString
-                                             , sEmpresaSENHA.AsString
-                                             , sEmpresaE_MAIL.AsString
-                                             , sEmailE_MAIL.AsString
-                                             , EdtAssunto.Text
-                                             , Texto
-                                             , False
-                                             , True //Enviar PDF junto
-                                             , CC //com copia
-                                             );
+    if ((ComboBox1.Text = NULL) or (ComboBox1.Text = ''))then
+      MessageDlg('Centro de Custo não Selecionado', mtError, [mbOK], 0)
+    else
+      fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
+                                               , sEmpresaPORTA.AsString
+                                               , sEmpresaE_MAIL.AsString
+                                               , sEmpresaSENHA.AsString
+                                               , sEmpresaE_MAIL.AsString
+                                               , sEmailE_MAIL.AsString
+                                               , EdtAssunto.Text
+                                               , Texto
+                                               , False
+                                               , True //Enviar PDF junto
+                                               , CC //com copia
+                                               );
     CC.Free;
     Texto.Free;
     fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
+end;
+
+procedure TfNFeMail.sbtnCCClick(Sender: TObject);
+begin
+  CC.Add(Edit5.Text);
+  Edit5.Clear;
 end;
 
 end.
