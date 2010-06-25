@@ -2533,6 +2533,7 @@ begin
      DBEdit15.Text := procIBGENM_MUNICIPIO.AsString;
      DBComboBox1.Text := procIBGECD_UF.AsString;
      DBEdit59.Text := procIBGECD_IBGE.AsString;
+     cdsEnderecoCliUF.AsString := procIBGECD_UF.AsString;
    end;
    finally
     procIBGE.Close;
