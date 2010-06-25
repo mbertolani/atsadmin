@@ -468,6 +468,7 @@ type
     sds_MovimentoOBSCLI: TStringField;
     cds_MovimentoOBS: TStringField;
     cds_MovimentoOBSCLI: TStringField;
+    BitBtn7: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -536,6 +537,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure BitBtn6Click(Sender: TObject);
     procedure edChassiExit(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -561,7 +563,7 @@ implementation
 uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
-  uProcurar_nf, UDMNF, uAtsAdmin, Math;
+  uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque;
 
 {$R *.dfm}
 
@@ -2984,6 +2986,20 @@ begin
     end;
   end;
 
+end;
+
+procedure TfVendas.BitBtn7Click(Sender: TObject);
+begin
+ // inherited;
+ fFiltroEstoque := TfFiltroEstoque.Create(Application);
+ try
+   fFiltroEstoque.Edit3.Text := dbeProduto.EditText;
+   fFiltroEstoque.ComboBox1.Text := ComboBox1.Text;
+   fFiltroEstoque.ShowModal;
+
+ finally
+   fFiltroEstoque.Free;
+ end;
 end;
 
 end.

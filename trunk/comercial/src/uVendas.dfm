@@ -2101,6 +2101,15 @@ inherited fVendas: TfVendas
     TabOrder = 13
     OnKeyPress = FormKeyPress
   end
+  object BitBtn7: TBitBtn [24]
+    Left = 501
+    Top = 112
+    Width = 132
+    Height = 20
+    Caption = 'Ver Mov. Produto'
+    TabOrder = 17
+    OnClick = BitBtn7Click
+  end
   inherited XPMenu1: TXPMenu
     Left = 688
     Top = 322
