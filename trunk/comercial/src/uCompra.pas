@@ -533,10 +533,6 @@ begin
   dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
   dm.cds_parametro.Open;
   {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
-    if Dm.cds_parametro.Active then
-       dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
-    dm.cds_parametro.Open;
     if not dm.cds_parametro.IsEmpty then
     begin
       if (dm.cds_parametroD1.AsString = 'SIM') then
