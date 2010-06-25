@@ -275,6 +275,17 @@ begin
     meDta2.Text := dm.cds_parametroD2.AsString;
   end;
   bitbtn7.SetFocus;
+   if (Edit3.Text = '') then exit;
+   if dm.scds_produto_proc.Active then
+      dm.scds_produto_proc.Close;
+   dm.scds_produto_proc.Params[0].AsInteger := 0;
+   dm.scds_produto_proc.Params[1].AsString := Edit3.Text;
+   dm.scds_produto_proc.Open;
+   Edit4.Text:=dm.scds_produto_procPRODUTO.asString;
+   varProd := dm.scds_produto_procCODPRODUTO.AsInteger;
+   dm.scds_produto_proc.Close;
+   BitBtn7.Click;
+
 end;
 
 procedure TfFiltroEstoque.FormKeyPress(Sender: TObject; var Key: Char);
