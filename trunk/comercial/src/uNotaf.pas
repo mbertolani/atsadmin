@@ -1207,12 +1207,12 @@ begin
      DMNF.cds_nfCIDADE_TRANSP.AsString := DMNF.listaTranspCIDADE_TRANSP.AsString;
      DMNF.cds_nfUF_TRANSP.AsString := DMNF.listaTranspUF_TRANSP.AsString;
      DMNF.cds_nfINSCRICAOESTADUAL.AsString := DMNF.listaTranspINSCRICAOESTADUAL.AsString;
-     DMNF.cds_nfCORPONF1.AsString := DMNF.listaTranspCORPONF1.AsString;
+     {DMNF.cds_nfCORPONF1.AsString := DMNF.listaTranspCORPONF1.AsString;
      DMNF.cds_nfCORPONF2.AsString := DMNF.listaTranspCORPONF2.AsString;
      DMNF.cds_nfCORPONF3.AsString := DMNF.listaTranspCORPONF3.AsString;
      DMNF.cds_nfCORPONF4.AsString := DMNF.listaTranspCORPONF4.AsString;
      DMNF.cds_nfCORPONF5.AsString := DMNF.listaTranspCORPONF5.AsString;
-     DMNF.cds_nfCORPONF6.AsString := DMNF.listaTranspCORPONF6.AsString;
+     DMNF.cds_nfCORPONF6.AsString := DMNF.listaTranspCORPONF6.AsString;}
      DMNF.listaTransp.Close;
   end;
 end;
