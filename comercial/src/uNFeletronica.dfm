@@ -614,7 +614,8 @@ object fNFeletronica: TfNFeletronica
       'AO between :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendac' +
       'usto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and' +
       ' (endecli.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOC' +
-      'OLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO'
+      'OLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DES' +
+      'C'
     MaxBlobSize = -1
     Params = <
       item
