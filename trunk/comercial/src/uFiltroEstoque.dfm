@@ -458,7 +458,7 @@ object fFiltroEstoque: TfFiltroEstoque
     Left = 0
     Top = 213
     Width = 800
-    Height = 303
+    Height = 310
     Align = alClient
     DataSource = ds_estoque
     Font.Charset = DEFAULT_CHARSET
@@ -798,7 +798,7 @@ object fFiltroEstoque: TfFiltroEstoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 516
+    Top = 523
     Width = 800
     Height = 28
     Align = alBottom
