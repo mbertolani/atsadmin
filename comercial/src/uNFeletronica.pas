@@ -545,7 +545,7 @@ begin
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
       'inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR left outer join COMPRA c on c.CODCOMPRA = nf.CODVENDA '+
       'where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
-      'and (endeforn.TIPOEND = 0) and (NF.NATUREZA = :natnf) and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.DTAEMISSAO';
+      'and (endeforn.TIPOEND = 0) and (NF.NATUREZA = :natnf) and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.DTAEMISSAO DESC';
       cdsNF.CommandText := str_nf;
    end
    else
@@ -561,7 +561,7 @@ begin
     'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, nf.NUMRECIBO, nf.PROTOCOLOCANC, co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     'from NOTAFISCAL nf inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE   inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
     'left outer join VENDA co on co.CODVENDA = nf.CODVENDA  where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
-    'and (ec.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12))  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.DTAEMISSAO';
+    'and (ec.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12))  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.DTAEMISSAO DESC';
      cdsNF.CommandText := str_nf;    
    end;
    cdsNF.Open;
@@ -813,21 +813,21 @@ begin
                 if (IERG > 11) then
                   Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString)
               else
-                if (IERG > 7) then
+                if (IERG >= 7) then
                   Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
             end;
 
-            //Carrega os itens da NF 
-            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, udf_lest(md.DESCPRODUTO, 120),'+
+            //Carrega os itens da NF
+            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-                'ELSE pr.CODPRO END as codpro, ' +
+                'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.ICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
                 'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
                 'where cp.CODCOMPRA = :id and nf.NATUREZA = 20' ;
-
+                
             if (tpNF.ItemIndex = 0) then
               cdsItensNF.CommandText := itensnf;
             if (cdsItensNF.Active) then
@@ -1373,6 +1373,8 @@ begin
 end;
 
 procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
+var
+  protocol : String;
 begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
@@ -1383,7 +1385,10 @@ begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
     ACBrNFe1.Consultar;
-    ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Consulta.Protocolo;
+    //ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Consulta.Protocolo;
+    protocol := ACBrNFe1.DANFE.ProtocoloNFe;
+    //if ((Strlen(Pchar(protocol))) > 0) then
+      ACBrNFe1.NotasFiscais.Imprimir
     {if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
      begin
        ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
@@ -1392,7 +1397,6 @@ begin
        ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
      end;}
-    ACBrNFe1.NotasFiscais.Imprimir;
   end;
 end;
 
@@ -1817,14 +1821,14 @@ begin
                 if (IERG > 11) then
                   Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString)
               else
-                if (IERG > 7) then
+                if (IERG >= 7) then
                   Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
             end;
 
             //Carrega os itens da NF
-            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, udf_lest(md.DESCPRODUTO, 120),'+
+            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-                'ELSE pr.CODPRO END as codpro, ' +
+                'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.ICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
                 'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
