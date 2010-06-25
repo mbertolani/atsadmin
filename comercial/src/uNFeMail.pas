@@ -124,7 +124,7 @@ end;
 
 procedure TfNFeMail.BtnSelecionaClick(Sender: TObject);
 var
- numnf, IDNFE, RAZAO, CNPJ, caminho, Protocolo : String;
+ numnf, IDNFE, RAZAO, CNPJ, CPF, caminho, Protocolo : String;
  vXMLDoc: TXMLDocument;
 begin
     if (not cds_ccusto.Active) then
@@ -156,6 +156,7 @@ begin
           numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
           RAZAO := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
           CNPJ := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
+          CPF := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CPF'].Text;
         end;
         fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo := fNFeletronica.ACBrNFe1.WebServices.Consulta.Protocolo;
         Protocolo := fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo;
@@ -163,7 +164,7 @@ begin
         Texto.Add('Empresa emissora da NF-e: ' + sEmpresaRAZAO.AsString);
         Texto.Add('CNPJ/CPF da Empresa Emissora: ' + sEmpresaCNPJ_CPF.AsString);
         Texto.Add('Empresa destacada na NF-e: ' + RAZAO);
-        Texto.Add('CNPJ/CPF da Empresa/Cliente destacado: ' + CNPJ);
+        Texto.Add('CNPJ/CPF da Empresa/Cliente destacado: ' + CNPJ + CPF);
         Texto.Add('Número da NF: ' + numnf + ' Série 1');
         Texto.Add('Chave de identificação: ' + IDNFE);
         Texto.Add('');
@@ -173,8 +174,11 @@ begin
 
         if (sEmail.Active) then
          sEmail.Close;
-        sEmail.Params[0].Text := CNPJ;
-        sEmail.Open;
+        if ( (StrLen(PChar(CPF))) > 0) then
+          sEmail.Params[0].Text := CPF
+        else
+          sEmail.Params[0].Text := CNPJ;
+          sEmail.Open;
     end;
     CC.Add(sEmpresaE_MAIL.AsString); //especifique um email válido
 
@@ -192,6 +196,7 @@ end;
 
 procedure TfNFeMail.btnEnviarClick(Sender: TObject);
 begin
+    CC.Add(sEmpresaE_MAIL.AsString);
     if ((ComboBox1.Text = NULL) or (ComboBox1.Text = ''))then
       MessageDlg('Centro de Custo não Selecionado', mtError, [mbOK], 0)
     else
