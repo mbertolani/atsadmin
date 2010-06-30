@@ -53,7 +53,9 @@ BEGIN
         FOR SELECT CODPROD, CODMOV, TIPOMOVIMENTO, PRODUTO, GRUPO, SUBGRUPOPROD, codlote, Datanf, CODNATU, 
            COD, LOTES, DTAFAB, DTAVCTO, CCUSTOS, ANOTACOES FROM LISTASPESTOQUEFILTRO(:DTA1, :DTA2, :PROD1, :PROD2, :SUBGRUPO, :NATUREZA, :CCUSTO
             , :MARCA, :LOTE, :GRUPOPROC)
-                   
+        
+        order by codprod ,datanf , codnatu desc ,codlote 
+           
         INTO :CODPROD, :CODMOV, :TIPOMOVIMENTO, :PRODUTO, :GRUPO, :SUBGRUPOPROD, :codlote, :Datanf, :CODNATU, :COD, :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, :ANOTACOES
         DO BEGIN
             IMPRIME = 'N';
