@@ -455,6 +455,10 @@ type
     btnSPED: TBitBtn;
     GroupBox5: TGroupBox;
     Label8: TLabel;
+    sdsNFCORPONF5: TStringField;
+    sdsNFCORPONF6: TStringField;
+    cdsNFCORPONF5: TStringField;
+    cdsNFCORPONF6: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -535,7 +539,7 @@ begin
    if (tpNF.ItemIndex = 0) then
    begin
     cdsNF.Params[4].AsSmallInt := 20;
-      str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.fatura, nf.natureza, ' +
+      str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.fatura, nf.natureza, ' +
       'UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, ' +
       'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
       'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  cast(nf.NOMETRANSP as varchar (60) )as NOMETRANSP,  nf.INSCRICAOESTADUAL,' +
@@ -551,7 +555,7 @@ begin
    else
    begin
     cdsNF.Params[4].AsSmallInt := 15;
-    str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CODCLIENTE, nf.NUMNF, ' +
+    str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, nf.CODCLIENTE, nf.NUMNF, ' +
     'nf.CODVENDA, nf.fatura, nf.natureza, UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, ' +
     'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, ' +
     'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
@@ -723,7 +727,7 @@ begin
             protenv       := cdsNFNOTASERIE.AsString;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
-            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString;
+            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
             // Tipo de movimentação 0 entrada 1 saida
             if (cdsNFNATUREZA.AsInteger = 20) then
             Ide.tpNF      := tnEntrada
@@ -810,8 +814,10 @@ begin
               Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
               IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
               if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
+              begin
                 if (IERG > 11) then
-                  Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString)
+                  Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+              end
               else
                 if (IERG >= 7) then
                   Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
@@ -1731,7 +1737,7 @@ begin
             Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
-            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString;
+            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
             // Tipo de movimentação 0 entrada 1 saida
             if (cdsNFNATUREZA.AsInteger = 20) then
             Ide.tpNF      := tnEntrada
@@ -1818,8 +1824,10 @@ begin
               Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
               IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
               if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
+              begin
                 if (IERG > 11) then
-                  Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString)
+                  Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+              end
               else
                 if (IERG >= 7) then
                   Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);

@@ -590,32 +590,32 @@ object fNFeletronica: TfNFeletronica
   object sdsNF: TSQLDataSet
     CommandText = 
       'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CO' +
-      'RPONF2, nf.CORPONF3, nf.CORPONF4, nf.CODCLIENTE, nf.NUMNF, nf.CO' +
-      'DVENDA, nf.fatura, nf.natureza,'#13#10'UDF_ROUNDDEC(nf.BASE_ICMS, 2) a' +
-      's BASE_ICMS, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10'UD' +
-      'F_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, '#13#10'UDF_ROUN' +
-      'DDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, '#13#10'UDF_ROUNDDEC' +
-      '(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR' +
-      '_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,'#13#10'UDF_ROUNDDEC(nf.VALOR_TO' +
-      'TAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  cas' +
-      't(nf.NOMETRANSP as varchar (60) )as NOMETRANSP,  nf.INSCRICAOEST' +
-      'ADUAL,     '#13#10'cast(nf.END_TRANSP as varchar (60) )as END_TRANSP, ' +
-      '   cast(nf.CIDADE_TRANSP as varchar (60) )as CIDADE_TRANSP,   nf' +
-      '.UF_TRANSP,'#13#10'nf.PLACATRANSP,   nf.UF_VEICULO_TRANSP,           n' +
-      'f.QUANTIDADE,           nf.ESPECIE,           nf.MARCA,         ' +
-      '  nf.NUMERO,           nf.PESOLIQUIDO,'#13#10'nf.PESOBRUTO,  cl.RAZAOS' +
-      'OCIAL,           cl.CNPJ ,           nf.HORASAIDA,           nf.' +
-      'NOTASERIE,           nf.SELECIONOU,           nf.REDUZICMS, nf.P' +
-      'ROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC, v.ENTRADA, v.VALOR' +
-      '_PAGAR, VALOR_PIS, VALOR_COFINS'#13#10'from NOTAFISCAL nf '#13#10'inner join' +
-      ' CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join endere' +
-      'cocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left ou' +
-      'ter join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISS' +
-      'AO between :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendac' +
-      'usto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and' +
-      ' (endecli.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOC' +
-      'OLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DES' +
-      'C'
+      'RPONF2, nf.CORPONF3, nf.CORPONF4 , nf.CORPONF5, nf.CORPONF6, nf.' +
+      'CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.fatura, nf.natureza,'#13#10'UDF_' +
+      'ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, '#13#10'UDF_ROUNDDEC(nf.VALOR_' +
+      'ICMS, 2) as VALOR_ICMS,'#13#10'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as ' +
+      'BASE_ICMS_SUBST, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR' +
+      '_ICMS_SUBST, '#13#10'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUT' +
+      'O, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI' +
+      ','#13#10'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf' +
+      '.FRETE,   nf.CNPJ_CPF,  cast(nf.NOMETRANSP as varchar (60) )as N' +
+      'OMETRANSP,  nf.INSCRICAOESTADUAL,     '#13#10'cast(nf.END_TRANSP as va' +
+      'rchar (60) )as END_TRANSP,    cast(nf.CIDADE_TRANSP as varchar (' +
+      '60) )as CIDADE_TRANSP,   nf.UF_TRANSP,'#13#10'nf.PLACATRANSP,   nf.UF_' +
+      'VEICULO_TRANSP,           nf.QUANTIDADE,           nf.ESPECIE,  ' +
+      '         nf.MARCA,           nf.NUMERO,           nf.PESOLIQUIDO' +
+      ','#13#10'nf.PESOBRUTO,  cl.RAZAOSOCIAL,           cl.CNPJ ,           ' +
+      'nf.HORASAIDA,           nf.NOTASERIE,           nf.SELECIONOU,  ' +
+      '         nf.REDUZICMS, nf.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOC' +
+      'OLOCANC, v.ENTRADA, v.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS'#13#10'from' +
+      ' NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CO' +
+      'DCLIENTE'#13#10'inner join enderecocliente endecli on endecli.CODCLIEN' +
+      'TE = cl.CODCLIENTE'#13#10'left outer join VENDA v on v.CODVENDA = nf.C' +
+      'ODVENDA'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'        ' +
+      '  and ((nf.SERIE = :pvendacusto) or (:pvendacusto = '#39'todasasseri' +
+      'esdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0) and NF.NATUREZ' +
+      'A = :natnf  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13 +
+      #10'order by nf.DTAEMISSAO DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -649,7 +649,7 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 56
+    Left = 64
     Top = 248
     object sdsNFCFOP: TStringField
       FieldName = 'CFOP'
@@ -834,6 +834,14 @@ object fNFeletronica: TfNFeletronica
     object sdsNFVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
       ReadOnly = True
+    end
+    object sdsNFCORPONF5: TStringField
+      FieldName = 'CORPONF5'
+      Size = 75
+    end
+    object sdsNFCORPONF6: TStringField
+      FieldName = 'CORPONF6'
+      Size = 75
     end
   end
   object cdsNF: TClientDataSet
@@ -1093,6 +1101,14 @@ object fNFeletronica: TfNFeletronica
     object cdsNFVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
       ReadOnly = True
+    end
+    object cdsNFCORPONF5: TStringField
+      FieldName = 'CORPONF5'
+      Size = 75
+    end
+    object cdsNFCORPONF6: TStringField
+      FieldName = 'CORPONF6'
+      Size = 75
     end
   end
   object dspNF: TDataSetProvider
