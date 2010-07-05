@@ -217,6 +217,7 @@ type
     listaFornecedorCEP: TStringField;
     listaFornecedorTELEFONE: TStringField;
     listaFornecedorCODTRANSP: TIntegerField;
+    btnNotaFiscal: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -246,6 +247,7 @@ type
     procedure BitBtn9Click(Sender: TObject);
     procedure JvDBGrid2EditChange(Sender: TObject);
     procedure ExcluirItemNF1Click(Sender: TObject);
+    procedure btnNotaFiscalClick(Sender: TObject);
   private
     { Private declarations }
     procedure incluiEntrada;
@@ -285,7 +287,8 @@ var
 implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
-  ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math;
+  ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
+  uNFeletronica;
 
 {$R *.dfm}
 
@@ -310,7 +313,7 @@ begin
   if (not dmnf.listaCFOP.Active) then
     dmnf.listaCFOP.Open;
   dmnf.listaCFOP.First;
-  cbCLiente.Clear;
+  //cbCLiente.Clear;
   while not dmnf.listaCFOP.Eof do
   begin
      cbNatureza.Items.Add(dmnf.listaCFOPCFNOME.AsString);
@@ -343,6 +346,7 @@ end;
 
 procedure TfNotaFc.btnIncluirClick(Sender: TObject);
 begin
+  incluiEntrada;
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.open;
   if (not dmnf.cds_nf1.Active) then
@@ -454,6 +458,7 @@ begin
    fProcurar.EvDBFind1.DataField := 'SERIE';
    if (fProcurar.ShowModal=mrOk) then
     begin
+     dmnf.cds_compra.Edit;
      dmnf.cds_compraSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
      //dmnf.cds_compraNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger;
      dmnf.cds_compraNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
@@ -502,7 +507,7 @@ begin
   dmnf.listaFornecedor.Close;
   //Populo DBGrid com Produtos
   incluiMovimento;
-  //incluiCompra;
+  incluiCompra;
   incluiNotaFiscal;
 end;
 
@@ -552,6 +557,7 @@ begin
   DMNF.DtSrc.DataSet.Append;
   DMNF.cds_MovimentoCODNATUREZA.AsInteger := cod_nat;
   DMNF.cds_MovimentoDESCNATUREZA.AsString := natureza;
+  DMNF.cds_MovimentoCODCLIENTE.AsInteger := 0;
   DMNF.cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
   DMNF.cds_MovimentoNOMEUSUARIO.AsString := nome_vendedor_padrao;
   DMNF.cds_MovimentoCOD_VEICULO.AsInteger := 0;
@@ -578,13 +584,16 @@ end;
 
 procedure TfNotaFc.incluiCompra;
 begin
-  if DMNF.dtSrcCompra.DataSet.State in [dsInactive] then
+  if DMNF.DtSrc_Compra.DataSet.State in [dsInactive] then
   begin
-    DMNF.DtSrcCompra.DataSet.Open;
-    DMNF.DtSrcCompra.DataSet.Append;
+    DMNF.DtSrc_Compra.DataSet.Active;
+    DMNF.DtSrc_Compra.DataSet.Open;
+    DMNF.DtSrc_Compra.DataSet.Insert;
+    DMNF.DtSrc_Compra.DataSet.Append;
   end;
-  if DMNF.DtSrcCompra.DataSet.State in [dsBrowse] then
-    DMNF.DtSrcCompra.DataSet.Append;
+
+  if DMNF.DtSrc_Compra.DataSet.State in [dsBrowse] then
+    DMNF.DtSrc_Compra.DataSet.Append;
 
   DMNF.cds_compraDATASISTEMA.AsDateTime := Now;
   DMNF.cds_compraDESCONTO.AsFloat := 0;
@@ -611,7 +620,7 @@ begin
   dbeUsuario.Text := IntToStr(cod_vendedor_padrao);
   //dbEdit68.Text := nome_vendedor_padrao;
   { ---- ********************************************************************* ----}
-   buscaserieNF;
+//   buscaserieNF;
 
 end;
 
@@ -713,12 +722,12 @@ begin
     end;
     }
   {------Pesquisando na tab Parametro Código e Nome da Natureza da compra/Compra--------}
-    if (dm.parametro.Locate('PARAMETRO','NATUREZACOMPRA',[loCaseInsensitive])) then
+    if (dm.parametro.Locate('PARAMETRO','NATUREZANFCOMPRA',[loCaseInsensitive])) then
     begin
       Try
         cod_nat := strToint(dm.parametroDADOS.asString);
       except
-        cod_nat := 4;
+        cod_nat := 20;
       end;
       natureza := dm.parametroD1.AsString;
     end;
@@ -735,7 +744,7 @@ begin
     listaFornecedor.Params[0].AsString := cbCLiente.Text;
     listaFornecedor.Open;
     dmnf.cds_nf1CODCLIENTE.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
-    dmnf.cds_MovimentoCODCLIENTE.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
+    dmnf.cds_MovimentoCODFORNECEDOR.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
     //dmnf.cds_compraCODFornecedor.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;;
     dmnf.cds_nf1CNPJCLI.AsString := listaFornecedorCNPJ.AsString;
     dmnf.cds_nf1INSCCLI.AsString := listaFornecedorINSCESTADUAL.AsString;
@@ -987,13 +996,13 @@ begin
      dmnf.cds_nf1END_TRANSP.AsString := DMNF.listaTranspEND_TRANSP.AsString;
      dmnf.cds_nf1CIDADE_TRANSP.AsString := DMNF.listaTranspCIDADE_TRANSP.AsString;
      dmnf.cds_nf1UF_TRANSP.AsString := DMNF.listaTranspUF_TRANSP.AsString;
-     dmnf.cds_nf1INSCRICAOESTADUAL.AsString := DMNF.listaTranspINSCRICAOESTADUAL.AsString;
+     {dmnf.cds_nf1INSCRICAOESTADUAL.AsString := DMNF.listaTranspINSCRICAOESTADUAL.AsString;
      dmnf.cds_nf1CORPONF1.AsString := DMNF.listaTranspCORPONF1.AsString;
      dmnf.cds_nf1CORPONF2.AsString := DMNF.listaTranspCORPONF2.AsString;
      dmnf.cds_nf1CORPONF3.AsString := DMNF.listaTranspCORPONF3.AsString;
      dmnf.cds_nf1CORPONF4.AsString := DMNF.listaTranspCORPONF4.AsString;
      dmnf.cds_nf1CORPONF5.AsString := DMNF.listaTranspCORPONF5.AsString;
-     dmnf.cds_nf1CORPONF6.AsString := DMNF.listaTranspCORPONF6.AsString;
+     dmnf.cds_nf1CORPONF6.AsString := DMNF.listaTranspCORPONF6.AsString;}
      DMNF.listaTransp.Close;
   end;
 end;
@@ -1033,7 +1042,7 @@ begin
  // Salvar Venda
  //if (cbFinanceiro.Checked) then  -- Neste caso usa a tabela venda ,
  //  -- pois, a natureza q está nota é gravado não gera financeiro
- if (DMNF.DtSrcCompra.State in [dsInsert, dsEdit]) then
+ if (DMNF.DtSrc_Compra.State in [dsInsert, dsEdit]) then
    gravavenda;
  //Salvo Nota Fiscal
  if (DMNF.DtSrc_NF1.State in [dsInsert, dsEdit]) then
@@ -1095,8 +1104,8 @@ begin
       dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := strToint(dm.cds_parametroDADOS.AsString);
 
     dm.cds_parametro.Close;
-    dmnf.cds_MovimentoDATAMOVIMENTO.AsDateTime := dmnf.cds_nf1DTAEMISSAO.AsDateTime;
-
+    DMNF.cds_MovimentoDESCNATUREZA.AsString := 'NF FORNECEDOR';
+    DMNF.cds_MovimentoCODNATUREZA.AsInteger := 20;
    //*******************************************************************************
    dmnf.cds_Movimento.ApplyUpdates(0);
    end;
@@ -1112,14 +1121,17 @@ begin
     DBEdit33.SetFocus;
     exit;
   end;
-
     dmnf.cds_compraNOTAFISCAL.AsInteger := StrToint(dmnf.cds_nf1NOTASERIE.AsString);
     dmnf.cds_compraCODFORNECEDOR.AsInteger := DMNF.cds_MovimentoCODFORNECEDOR.AsInteger;
     dmnf.cds_compraCODUSUARIO.AsInteger := dmnf.cds_MovimentoCODUSUARIO.AsInteger;
+    dmnf.cds_compraCODCOMPRADOR.AsInteger := dmnf.cds_MovimentoCODUSUARIO.AsInteger;
     dmnf.cds_compraDATACOMPRA.AsDateTime := DMNF.cds_MovimentoDATAMOVIMENTO.AsDateTime;
     dmnf.cds_compraCODCCUSTO.AsInteger := DMNF.cds_MovimentoCODALMOXARIFADO.AsInteger;
     dmnf.cds_compraCODMOVIMENTO.AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
     dmnf.cds_compraCODUSUARIO.AsInteger := dmnf.cds_MovimentoCODUSUARIO.AsInteger;
+    dmnf.cds_compraNOTAFISCAL.AsInteger := StrToInt(dmnf.cds_nf1NOTASERIE.asString);
+    dmnf.cds_compraBANCO.AsInteger := 0;
+
     if (dmnf.sqs_tit.Active) then
       dmnf.sqs_tit.Close;
 
@@ -1141,7 +1153,7 @@ begin
   begin
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENVENDA, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_COD_COMPRA, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
     dm.c_6_genid.Open;
     dmnf.cds_compraCODCOMPRA.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
@@ -1223,20 +1235,20 @@ begin
     {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
     if dm.cds_parametro.Active then
        dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'NATUREZANF';
+    dm.cds_parametro.Params[0].AsString := 'NATUREZANFCOMPRA';
     dm.cds_parametro.Open;
     if (dm.cds_parametro.IsEmpty) then
     begin
       varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS) ' ;
-      varsql := varsql + 'values (''NATUREZANF'',''S'',''20'')';
+      varsql := varsql + 'values (''NATUREZANFCOMPRA'',''S'',''20'')';
       dm.sqlsisAdimin.executedirect(varsql);
     end;
 
-    fFiltroMovimento.Edit3.Text := '4';
-    fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
     dm.cds_parametro.Close;
     fFiltroMovimento.BitBtn8.Enabled := False;
     fFiltroMovimento.ShowModal;
+    fFiltroMovimento.Edit3.Text := '20';
+    fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
 
     dmnf.cds_Movimento.Close;
     dmnf.cds_Movimento.Params[0].AsInteger := fFiltroMovimento.cod_mov;
@@ -1762,6 +1774,11 @@ begin
      dmnf.cds_nf1.ApplyUpdates(0);
    end;
  end;
+end;
+
+procedure TfNotaFc.btnNotaFiscalClick(Sender: TObject);
+begin
+    fNFeletronica.ShowModal;
 end;
 
 end.
