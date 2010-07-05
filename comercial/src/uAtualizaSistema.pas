@@ -697,10 +697,10 @@ begin
 
     if (versaoSistema = '1.0.0.68') then
     begin
-      executaSql('CREATE EXCEPTION DATAINVALIDA ' +
+      {executaSql('CREATE EXCEPTION DATAINVALIDA ' +
       QuotedStr('O sistema não permite data menor que 01/01/2001'));
       executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' +
-      QuotedStr('Nota fiscal já enviada, alteração não permitida'));
+      QuotedStr('Nota fiscal já enviada, alteração não permitida'));}
       executaScript('corrige_fatura.sql');
       executaScript('calcula_icms_substprod.sql');
       executaScript('CorrigeEstoque.sql');
@@ -732,6 +732,8 @@ begin
       executaScript('calcula_icms_substprod.sql');
       executaScript('calcula_icms_substituicao.sql');
       executaScript('calcula_icms.sql');
+      executaScript('listaSpEstoqueFiltro.sql');
+      executaScript('spEstoqueFiltro.sql');
       mudaVersao('1.0.0.71');
     end;  // Fim Ataulização Versao 1.0.0.71
 
