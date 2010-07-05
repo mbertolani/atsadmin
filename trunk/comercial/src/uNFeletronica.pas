@@ -1689,7 +1689,7 @@ begin
             Ide.cUF       := 35;                              // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := sCFOPCFNOME.AsString;
-            //Verifica tipo de Pagamento
+                        //Verifica tipo de Pagamento
             if(sCFOPNAOENVFATURA.AsString = 'S') then
               ide.indPag := ipOutras
             else
@@ -1699,7 +1699,7 @@ begin
               else
                 Ide.indPag    := ipPrazo;
               //pesquisa pagamento
-              if ( (cdsNFFATURA.AsString <> Null) and (cdsNFFATURA.AsString <> '') ) then
+              if ( (cdsNFFATURA.IsNull) and (cdsNFFATURA.AsString = '') ) then
               begin
               if(cdsFatura.Active) then
                 cdsFatura.Close;
@@ -1724,11 +1724,14 @@ begin
                 end;
                 cdsFatura.next;
               end;
-              if (c = 0) then
-                Ide.indPag    := ipOutras;
               if ((UpperCase(cdsNFFATURA.AsString) = 'PRAZO') or (UpperCase(cdsNFFATURA.AsString) = 'A PRAZO')) then
                 Ide.indPag    := ipPrazo;
+              if ((UpperCase(cdsNFFATURA.AsString) = 'VISTA') or (UpperCase(cdsNFFATURA.AsString) = 'A VISTA')) then
+                Ide.indPag    := ipVista;
+              if (c = 0) then
+                Ide.indPag    := ipOutras;
               end;
+
             end;
 
             Ide.cMunFG    := 3554003;
