@@ -6146,7 +6146,7 @@ object DMNF: TDMNF
       'at ON nat.CFCOD = nf.CFOP '#13#10'left outer join FORNECEDOR cli on '#13#10 +
       'cli.CODFORNECEDOR=nf.CODCLIENTE '#13#10'left outer join ENDERECOFORNEC' +
       'EDOR ende on '#13#10'ende.CODFORNECEDOR=cli.CODFORNECEDOR '#13#10' where nf.' +
-      'NUMNF = :pNF or nf.codvenda = :pcodCompra'#13#10
+      'NUMNF = :pNF or nf.codvenda = :pcodCompra and nf.NATUREZA = 20'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -6472,11 +6472,10 @@ object DMNF: TDMNF
   end
   object sds_compra: TSQLDataSet
     CommandText = 
-      'select cp.*, cli.NOMEfornecedor, usu.NOMEUSUARIO, banc.BANCO fro' +
-      'm compra cp'#13#10'inner join fornecedor cli on cli.CODfornecedor=cp.C' +
-      'ODfornecedor inner join USUARIO usu on usu.CODUSUARIO=cp.CODcomp' +
-      'raDOR left outer join BANCO banc on banc.CODBANCO=cp.BANCO where' +
-      ' CODcompra = :CODcompra or CODMOVIMENTO = :PCODMOV'
+      'select cp.*, cli.NOMEfornecedor, usu.NOMEUSUARIO from compra cp'#13 +
+      #10'inner join fornecedor cli on cli.CODfornecedor=cp.CODfornecedor' +
+      ' '#13#10'inner join USUARIO usu on usu.CODUSUARIO=cp.CODcompraDOR '#13#10'wh' +
+      'ere CODcompra = :CODcompra or CODMOVIMENTO = :PCODMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -6506,11 +6505,9 @@ object DMNF: TDMNF
     end
     object sds_compraDATACOMPRA: TDateField
       FieldName = 'DATACOMPRA'
-      Required = True
     end
     object sds_compraDATAVENCIMENTO: TDateField
       FieldName = 'DATAVENCIMENTO'
-      Required = True
     end
     object sds_compraNUMEROBORDERO: TIntegerField
       FieldName = 'NUMEROBORDERO'
@@ -6610,17 +6607,11 @@ object DMNF: TDMNF
     end
     object sds_compraNOMEFORNECEDOR: TStringField
       FieldName = 'NOMEFORNECEDOR'
-      Required = True
       Size = 50
     end
     object sds_compraNOMEUSUARIO: TStringField
       FieldName = 'NOMEUSUARIO'
-      Required = True
       Size = 30
-    end
-    object sds_compraBANCO_1: TStringField
-      FieldName = 'BANCO_1'
-      Size = 18
     end
   end
   object dsp_compra: TDataSetProvider
@@ -6660,11 +6651,9 @@ object DMNF: TDMNF
     end
     object cds_compraDATACOMPRA: TDateField
       FieldName = 'DATACOMPRA'
-      Required = True
     end
     object cds_compraDATAVENCIMENTO: TDateField
       FieldName = 'DATAVENCIMENTO'
-      Required = True
     end
     object cds_compraNUMEROBORDERO: TIntegerField
       FieldName = 'NUMEROBORDERO'
@@ -6764,17 +6753,17 @@ object DMNF: TDMNF
     end
     object cds_compraNOMEFORNECEDOR: TStringField
       FieldName = 'NOMEFORNECEDOR'
-      Required = True
       Size = 50
     end
     object cds_compraNOMEUSUARIO: TStringField
       FieldName = 'NOMEUSUARIO'
-      Required = True
       Size = 30
     end
-    object cds_compraBANCO_1: TStringField
-      FieldName = 'BANCO_1'
-      Size = 18
-    end
+  end
+  object DtSrc_Compra: TDataSource
+    DataSet = cds_compra
+    OnStateChange = DtSrc_CompraStateChange
+    Left = 603
+    Top = 143
   end
 end
