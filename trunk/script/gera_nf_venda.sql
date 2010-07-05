@@ -1,5 +1,4 @@
-set term ^ ;
-create or alter procedure gera_nf_venda(cliente integer, dtEmissao date, 
+create or alter procedure gera_nf_venda(cliente integer, dtEmissao date,
   dtVcto date, serie char(2), numero varchar(7), codMov integer)
 as
   declare variable codRec integer;
@@ -139,8 +138,10 @@ begin
          desconto = 1;  
 
     if (usaLote = 'S') then 
-      descP = descP  || '(' || lote || ')';
-
+    begin  
+    if :lote is not null
+     descP = descP  || '(' || lote || ')';
+    end
      if (pesoUn is null) then 
         pesoUn = 0;
       pesoTotal = pesoTotal + (:pesoUn * :qtde);
