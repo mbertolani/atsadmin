@@ -1314,7 +1314,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'COMPLEMENTO'
+    DataField = 'CD_IBGE'
     DataSource = dtsrce
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
