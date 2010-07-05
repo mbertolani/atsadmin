@@ -1227,6 +1227,17 @@ type
     sds_compra: TSQLDataSet;
     dsp_compra: TDataSetProvider;
     cds_compra: TClientDataSet;
+    sds_nfNOTAMAE: TIntegerField;
+    cds_nfNOTAMAE: TIntegerField;
+    sds_nfPESOREMESSA: TBCDField;
+    cds_nfPESOREMESSA: TBCDField;
+    sds_Mov_DetVLR_BASEICMS: TFloatField;
+    cds_Mov_detVLR_BASEICMS: TFloatField;
+    sds_Mov_DetVALOR_ICMS: TFloatField;
+    cds_Mov_detVALOR_ICMS: TFloatField;
+    sds_nfSERIE: TStringField;
+    cds_nfSERIE: TStringField;
+    DtSrc_Compra: TDataSource;
     sds_compraCODCOMPRA: TIntegerField;
     sds_compraCODMOVIMENTO: TIntegerField;
     sds_compraCODFORNECEDOR: TIntegerField;
@@ -1263,7 +1274,6 @@ type
     sds_compraPRAZO: TStringField;
     sds_compraNOMEFORNECEDOR: TStringField;
     sds_compraNOMEUSUARIO: TStringField;
-    sds_compraBANCO_1: TStringField;
     cds_compraCODCOMPRA: TIntegerField;
     cds_compraCODMOVIMENTO: TIntegerField;
     cds_compraCODFORNECEDOR: TIntegerField;
@@ -1300,17 +1310,6 @@ type
     cds_compraPRAZO: TStringField;
     cds_compraNOMEFORNECEDOR: TStringField;
     cds_compraNOMEUSUARIO: TStringField;
-    cds_compraBANCO_1: TStringField;
-    sds_nfNOTAMAE: TIntegerField;
-    cds_nfNOTAMAE: TIntegerField;
-    sds_nfPESOREMESSA: TBCDField;
-    cds_nfPESOREMESSA: TBCDField;
-    sds_Mov_DetVLR_BASEICMS: TFloatField;
-    cds_Mov_detVLR_BASEICMS: TFloatField;
-    sds_Mov_DetVALOR_ICMS: TFloatField;
-    cds_Mov_detVALOR_ICMS: TFloatField;
-    sds_nfSERIE: TStringField;
-    cds_nfSERIE: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
@@ -1334,6 +1333,7 @@ type
       var Action: TDataAction);
     procedure cds_nf1NewRecord(DataSet: TDataSet);
     procedure DtSrc_NF1StateChange(Sender: TObject);
+    procedure DtSrc_CompraStateChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2012,4 +2012,20 @@ begin
 
 end;
 
-end.                                   
+procedure TDMNF.DtSrc_CompraStateChange(Sender: TObject);
+begin
+{ if (DtSrc_Compra.DataSet.State in [dsInsert, dsEdit]) then
+  begin
+    if (FormExiste(fNotaFc) = True) then
+    begin
+      fNotaFc.btnIncluir.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
+      fNotaFc.btnGravar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
+      fNotaFc.btnCancelar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
+      fNotaFc.btnExcluir.Enabled:=DtSrc.State in [dsBrowse];
+      fNotaFc.btnProcurar.Enabled := DtSrc.State in [dsBrowse,dsInactive];
+      fNotaFc.btnSair.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
+    end;
+  end;}
+end;
+
+end.
