@@ -64,6 +64,8 @@ as
   declare variable BAIRRO Varchar(40);
   declare variable PRAZO Varchar(40);
   declare variable CODNATUREZA smallint;
+  declare variable lote Varchar(60);  
+  declare variable Usalote char(1);    
 begin 
 
     Select first 1 mov.CODNATUREZA
@@ -84,6 +86,11 @@ begin
   icms = 0;
   totalIcms = 0;
  
+ -- Imprime Lote na NF
+ UsaLote = 'N';
+  SELECT CONFIGURADO FROM PARAMETRO WHERE PARAMETRO = 'LOTE'
+    INTO :UsaLote;
+
   -- CFOP Padrao
   SELECT DADOS, D1 FROM PARAMETRO WHERE PARAMETRO = 'CFOP'
     INTO :cfop, cfop_outros;
@@ -118,11 +125,11 @@ begin
     pesoTotal = 0;
     -- localiza o mov. detalhe
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
-      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST    
+      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST, md.LOTE    
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
-    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd
+    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd, :lote
     do begin 
       if (desconto is null) then 
         desconto = 0;
@@ -130,6 +137,9 @@ begin
         desconto = 1 - (desconto / 100);
       if (desconto = 0) then 
          desconto = 1;  
+
+    if (usaLote = 'S') then 
+      descP = descP  || '(' || lote || ')';
 
      if (pesoUn is null) then 
         pesoUn = 0;
