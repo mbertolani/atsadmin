@@ -16,18 +16,17 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_checkupcar'
+      'Database=C:\Home\sisadmin\BD\sge_giroparts.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=masterkey'
+      'Password=xl04pq'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
+      'User_Name=sysdba'
       'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
-    Connected = True
     Left = 80
     Top = 8
   end
