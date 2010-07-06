@@ -4353,12 +4353,14 @@ object DMNF: TDMNF
     end
   end
   object listaCFOP: TSQLDataSet
-    CommandText = 'select CFCOD, CFNOME from CFOP'
+    CommandText = 
+      'select DISTINCT c.CFCOD, c.CFNOME from CFOP c'#13#10'inner JOIN ESTADO' +
+      '_ICMS ei on ei.CFOP = c.CFCOD'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 536
-    Top = 480
+    Left = 528
+    Top = 424
     object listaCFOPCFCOD: TStringField
       FieldName = 'CFCOD'
       Required = True
