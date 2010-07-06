@@ -3,6 +3,7 @@ object fNotaf: TfNotaf
   Top = 61
   Width = 801
   Height = 590
+  VertScrollBar.Position = 187
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
   Color = clBtnFace
@@ -21,7 +22,7 @@ object fNotaf: TfNotaf
   TextHeight = 13
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 0
+    Top = -187
     Width = 777
     Height = 59
     Align = alTop
@@ -990,7 +991,7 @@ object fNotaf: TfNotaf
   end
   object CheckBox1: TCheckBox
     Left = 661
-    Top = 64
+    Top = -123
     Width = 97
     Height = 17
     Caption = 'Dados Extras ?'
@@ -998,7 +999,7 @@ object fNotaf: TfNotaf
   end
   object JvPageControl1: TJvPageControl
     Left = 0
-    Top = 59
+    Top = -128
     Width = 777
     Height = 691
     ActivePage = TabNF
@@ -2080,7 +2081,6 @@ object fNotaf: TfNotaf
           BorderStyle = bsNone
           DataField = 'CORPONF5'
           DataSource = DMNF.DtSrc_NF
-          Enabled = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
@@ -2099,7 +2099,6 @@ object fNotaf: TfNotaf
           BorderStyle = bsNone
           DataField = 'CORPONF6'
           DataSource = DMNF.DtSrc_NF
-          Enabled = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
