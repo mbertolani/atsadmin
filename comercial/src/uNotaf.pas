@@ -353,6 +353,8 @@ type
     sCfopDADOSADC2: TStringField;
     sCfopDADOSADC3: TStringField;
     sCfopDADOSADC4: TStringField;
+    sCfopDADOSADC5: TStringField;
+    sCfopDADOSADC6: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -2095,14 +2097,18 @@ Begin
           sCFOP.Params[0].asString :=  DBEdit7.Text;
           sCFOP.Params[2].asString :=  'J';
           sCFOP.Open;
-          If ((sCfopDADOSADC1.AsString <> '') or (not sCFOPDADOSADC1.IsNull) )then
+          If ((sCfopDADOSADC1.AsString = '') or (not sCFOPDADOSADC1.IsNull) )then
             DMNF.cds_nfCORPONF1.AsString := sCFOPDADOSADC1.AsString;
-          If ((sCFOPDADOSADC2.AsString <> '') or (not sCFOPDADOSADC2.IsNull) )then
+          If ((sCFOPDADOSADC2.AsString = '') or (not sCFOPDADOSADC2.IsNull) )then
             DMNF.cds_nfCORPONF2.AsString := sCFOPDADOSADC2.AsString;
-          If ((sCFOPDADOSADC3.AsString <> '') or (not sCFOPDADOSADC3.IsNull) )then
+          If ((sCFOPDADOSADC3.AsString = '') or (not sCFOPDADOSADC3.IsNull) )then
             DMNF.cds_nfCORPONF3.AsString := sCFOPDADOSADC3.AsString;
-          If ((sCFOPDADOSADC4.AsString <> '') or (not sCFOPDADOSADC4.IsNull) )then
+          If ((sCFOPDADOSADC4.AsString = '') or (not sCFOPDADOSADC4.IsNull) )then
             DMNF.cds_nfCORPONF4.AsString := sCFOPDADOSADC4.AsString;
+          If ((sCFOPDADOSADC5.AsString = '') or (not sCFOPDADOSADC5.IsNull) )then
+            DMNF.cds_nfCORPONF5.AsString := sCFOPDADOSADC5.AsString;
+          If ((sCFOPDADOSADC6.AsString = '') or (not sCFOPDADOSADC6.IsNull) )then
+            DMNF.cds_nfCORPONF6.AsString := sCFOPDADOSADC6.AsString;
           end;
 End;
 
