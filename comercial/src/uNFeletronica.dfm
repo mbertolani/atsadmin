@@ -12,7 +12,7 @@ object fNFeletronica: TfNFeletronica
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poOwnerFormCenter
+  Position = poDesktopCenter
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
