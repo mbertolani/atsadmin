@@ -737,6 +737,14 @@ begin
       mudaVersao('1.0.0.71');
     end;  // Fim Ataulização Versao 1.0.0.71
 
+    if (versaoSistema = '1.0.0.71') then
+    begin
+      executaDDL('MOVIMENTO', 'CODORIGEM','INTEGER');
+      executaDDL('ESTADO_ICMS', 'DADOSADC5', 'Varchar(200)');
+      executaDDL('ESTADO_ICMS', 'DADOSADC6', 'Varchar(200)');
+      mudaVersao('1.0.0.72');
+    end;  // Fim Ataulização Versao 1.0.0.72
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
