@@ -3476,5 +3476,13 @@ object fNotaf: TfNotaf
       FieldName = 'DADOSADC4'
       Size = 200
     end
+    object sCfopDADOSADC5: TStringField
+      FieldName = 'DADOSADC5'
+      Size = 200
+    end
+    object sCfopDADOSADC6: TStringField
+      FieldName = 'DADOSADC6'
+      Size = 200
+    end
   end
 end
