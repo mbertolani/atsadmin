@@ -1479,6 +1479,23 @@ end;
 
 procedure TfVendas.btnGravarClick(Sender: TObject);
 begin
+   //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
+   if(DBEdit15.Text <> '') then
+   begin
+   if dm.scds_usuario_proc.Active then
+    dm.scds_usuario_proc.Close;
+   dm.scds_usuario_proc.Params[0].Clear;
+   dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(DBEdit15.Text);
+   dm.scds_usuario_proc.Open;
+   if dm.scds_usuario_proc.IsEmpty then begin
+     MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+     [mbOk], 0);
+     SpeedButton1.Click;
+     exit;
+   end;
+   end;
+
+
    if ( ((ComboBox1.Text = '') or (ComboBox1.Text = null)) and (obrigatorio = 'SIM') )then
     MessageDlg('Centro de Custo Obrigatório', mtError, [mbOK], 0)
    else
