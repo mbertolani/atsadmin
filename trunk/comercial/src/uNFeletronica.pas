@@ -683,7 +683,7 @@ begin
               else
                 Ide.indPag    := ipPrazo;
               //pesquisa pagamento
-              if ( (cdsNFFATURA.IsNull) and (cdsNFFATURA.AsString = '') ) then
+              if ( (cdsNFFATURA.IsNull) or (cdsNFFATURA.AsString = '') ) then
               begin
               if(cdsFatura.Active) then
                 cdsFatura.Close;
@@ -859,7 +859,7 @@ begin
               Prod.nItem    := i;
               Prod.cProd    := cdsItensNFCODPRO.AsString;
               Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
-              Prod.CFOP     := cdsNFCFOP.AsString;
+              Prod.CFOP     := RemoveChar(cdsNFCFOP.AsString);
               if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull)) then
                 MessageDlg('Produto sem Unidade de Medida', mtError, [mbOK], 0);
               Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
@@ -1699,7 +1699,7 @@ begin
               else
                 Ide.indPag    := ipPrazo;
               //pesquisa pagamento
-              if ( (cdsNFFATURA.IsNull) and (cdsNFFATURA.AsString = '') ) then
+              if ( (cdsNFFATURA.IsNull) or (cdsNFFATURA.AsString = '') ) then
               begin
               if(cdsFatura.Active) then
                 cdsFatura.Close;
