@@ -139,7 +139,7 @@ begin
 
     if (usaLote = 'S') then 
     begin  
-    if :lote is not null
+    if (lote is not null) THEN
      descP = descP  || '(' || lote || ')';
     end
      if (pesoUn is null) then 
@@ -226,17 +226,19 @@ begin
   if (tBaseIcms = 0) then 
   begin
     tBaseIcms = 0; 
-  end 
+  end
+  
+  SELECT FIRST 1 ei.DADOSADC1, ei.DADOSADC2, ei.DADOSADC3, ei.DADOSADC4, ei.DADOSADC5, ei.DADOSADC6 
+  FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf
+  into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
 
   select first 1 t.CODTRANSP, t.NOMETRANSP, t.PLACATRANSP, t.CNPJ_CPF, t.END_TRANSP
    , t.CIDADE_TRANSP, t.UF_VEICULO_TRANSP, t.UF_TRANSP, t.FRETE, t.INSCRICAOESTADUAL
-   , t.CORPONF1, t.CORPONF2, t.CORPONF3, t.CORPONF4, t.CORPONF5, t.CORPONF6
    , t.FONE, t.FONE2, t.FAX, t.CONTATO, t.CEP, t.BAIRRO
    from TRANSPORTADORA t inner join CLIENTES c on c.COD_TRANPORTADORA = t.CODTRANSP
     where c.CODCLIENTE = :Cliente
   into :CODTRANSP, :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
     , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :FRETE, :INSCRICAOESTADUAL
-    , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6
     , :FONE, :FONE2, :FAX, :CONTATO, :CEP, :BAIRRO;
 
   select GEN_ID(GEN_NF, 1) from RDB$DATABASE
