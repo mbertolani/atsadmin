@@ -1,7 +1,7 @@
 inherited fEstado: TfEstado
   Left = 1
   Width = 676
-  Height = 678
+  Height = 727
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
   Font.Height = -13
   OldCreateOrder = True
@@ -114,7 +114,7 @@ inherited fEstado: TfEstado
     Caption = 'CST COFINS'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 597
+    Top = 646
     Width = 668
     TabOrder = 17
     inherited btnIncluir: TBitBtn [0]
@@ -222,7 +222,7 @@ inherited fEstado: TfEstado
   end
   object DBGrid1: TDBGrid [20]
     Left = 3
-    Top = 296
+    Top = 344
     Width = 654
     Height = 297
     DataSource = DtSrc
@@ -595,7 +595,7 @@ inherited fEstado: TfEstado
     Left = 8
     Top = 146
     Width = 649
-    Height = 143
+    Height = 191
     Caption = 'Dados Adicionais'
     TabOrder = 16
     object DBEdit15: TDBEdit
@@ -638,7 +638,7 @@ inherited fEstado: TfEstado
     end
     object DBEdit17: TDBEdit
       Left = 9
-      Top = 106
+      Top = 104
       Width = 627
       Height = 24
       BevelKind = bkFlat
@@ -674,6 +674,44 @@ inherited fEstado: TfEstado
       TabOrder = 3
       OnKeyPress = FormKeyPress
     end
+    object DBEdit19: TDBEdit
+      Left = 9
+      Top = 132
+      Width = 627
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CharCase = ecUpperCase
+      DataField = 'DADOSADC5'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit20: TDBEdit
+      Left = 9
+      Top = 160
+      Width = 627
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CharCase = ecUpperCase
+      DataField = 'DADOSADC6'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      OnKeyPress = FormKeyPress
+    end
   end
   object CheckBox1: TCheckBox [34]
     Left = 527
@@ -703,9 +741,9 @@ inherited fEstado: TfEstado
       'CST'#13#10'        , esta.PESSOA'#13#10'        , esta.PIS'#13#10'        , esta.C' +
       'OFINS'#13#10'        , esta.CSTPIS'#13#10'        , esta.CSTCOFINS'#13#10'        ' +
       ', esta.DADOSADC1'#13#10'        , esta.DADOSADC2'#13#10'        , esta.DADOS' +
-      'ADC3'#13#10'        , esta.DADOSADC4'#13#10'        , esta.NAOENVFATURA'#13#10'FRO' +
-      'M ESTADO_ICMS esta '#13#10'left outer join CFOP cfo on cfo.CFCOD = est' +
-      'a.CFOP '#13#10
+      'ADC3'#13#10'        , esta.DADOSADC4'#13#10'        , esta.DADOSADC5'#13#10'      ' +
+      '  , esta.DADOSADC6'#13#10'        , esta.NAOENVFATURA'#13#10'FROM ESTADO_ICM' +
+      'S esta '#13#10'left outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -798,6 +836,14 @@ inherited fEstado: TfEstado
       FieldName = 'NAOENVFATURA'
       FixedChar = True
       Size = 1
+    end
+    object sdsDADOSADC5: TStringField
+      FieldName = 'DADOSADC5'
+      Size = 200
+    end
+    object sdsDADOSADC6: TStringField
+      FieldName = 'DADOSADC6'
+      Size = 200
     end
   end
   object dsp: TDataSetProvider
@@ -900,6 +946,14 @@ inherited fEstado: TfEstado
       FieldName = 'NAOENVFATURA'
       FixedChar = True
       Size = 1
+    end
+    object cds_estadoDADOSADC5: TStringField
+      FieldName = 'DADOSADC5'
+      Size = 200
+    end
+    object cds_estadoDADOSADC6: TStringField
+      FieldName = 'DADOSADC6'
+      Size = 200
     end
   end
 end
