@@ -95,6 +95,12 @@ type
     CheckBox1: TCheckBox;
     sdsNAOENVFATURA: TStringField;
     cds_estadoNAOENVFATURA: TStringField;
+    DBEdit19: TDBEdit;
+    DBEdit20: TDBEdit;
+    sdsDADOSADC5: TStringField;
+    sdsDADOSADC6: TStringField;
+    cds_estadoDADOSADC5: TStringField;
+    cds_estadoDADOSADC6: TStringField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
