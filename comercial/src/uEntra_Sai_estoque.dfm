@@ -1200,7 +1200,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 512
+    Top = 519
     Width = 690
     Height = 28
     Align = alBottom
@@ -2759,6 +2759,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       ProviderFlags = [pfInUpdate]
       Size = 200
     end
+    object sds_movMatCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
   end
   object dsp_movMat: TDataSetProvider
     DataSet = sds_movMat
@@ -2776,7 +2779,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       end>
     ProviderName = 'dsp_movMat'
     OnNewRecord = cds_movMatNewRecord
-    Left = 200
+    Left = 198
     Top = 310
     object cds_movMatCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
@@ -2873,6 +2876,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     object cds_movMatOBSERVACAO: TStringField
       FieldName = 'OBSERVACAO'
       Size = 200
+    end
+    object cds_movMatCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
     end
   end
   object dsd_movDetMat: TSQLDataSet
@@ -3116,6 +3122,25 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     end
     object cds_movDetMatPRECOCUSTO: TFloatField
       FieldName = 'PRECOCUSTO'
+    end
+  end
+  object sMatPrima: TSQLDataSet
+    CommandText = 
+      'select m.CODMOVIMENTO from MOVIMENTO m'#13#10'where m.CODORIGEM = :cor' +
+      'igem'#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'corigem'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 368
+    Top = 287
+    object sMatPrimaCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      Required = True
     end
   end
 end

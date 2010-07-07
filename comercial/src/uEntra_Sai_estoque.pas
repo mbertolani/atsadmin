@@ -378,6 +378,10 @@ type
     cds_movDetMatDTAVCTO: TDateField;
     cds_movDetMatLOTES: TStringField;
     cds_movDetMatPRECOCUSTO: TFloatField;
+    sds_movMatCODORIGEM: TIntegerField;
+    cds_movMatCODORIGEM: TIntegerField;
+    sMatPrima: TSQLDataSet;
+    sMatPrimaCODMOVIMENTO: TIntegerField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -911,19 +915,39 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.btnExcluirClick(Sender: TObject);
-var deleta, delmov: string;
+var deleta, delmov, delmovprim, delvenprim: string;
 begin
+  MessageDlg('Tem certeza que Deseja Excluir?', mtConfirmation, [mbYes, mbNo], 0);
   if (texto_1 = 'Entrada de Mercadorias de Estoque') then
+  begin
      deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
+     delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+  end;
 
   if (texto_1 = 'Saida de Mercadorias de Estoque') then
+  begin
      deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+     delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+  end;
 
   deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
   delmov := 'Delete From MOVIMENTO WHERE CODMOVIMENTO = ';
   delmov := delmov + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+
+  if (sMatPrima.Active) then
+    sMatPrima.Close;
+  sMatPrima.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  sMatPrima.Open;
+  delvenprim := delvenprim + IntToStr(sMatPrimaCODMOVIMENTO.AsInteger);
+
+  delmovprim := 'Delete From MOVIMENTO WHERE CODORIGEM = ';
+  delmovprim := delmovprim + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+
   DM.sqlsisAdimin.ExecuteDirect(deleta);
   DM.sqlsisAdimin.ExecuteDirect(delmov);
+  DM.sqlsisAdimin.ExecuteDirect(delvenprim);
+  DM.sqlsisAdimin.ExecuteDirect(delmovprim);
+
   cds_Movimento.Close;
   cds_Mov_det.close;
   cds_Movimento.Params[0].Clear;
@@ -958,7 +982,7 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.BitBtn8Click(Sender: TObject);
- Var str_del: String;
+// Var str_del: String;
 begin
 {  str_del := 'DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ';
   str_del := str_del + IntToStr(cds_Mov_detCODDETALHE.AsInteger);
@@ -1381,6 +1405,7 @@ begin
     cds_movMatCODNATUREZA.AsInteger := 2;
     cds_movMatDESCNATUREZA.AsString := natureza;
     cds_movMatCODUSUARIO.AsInteger := cod_ven;
+    cds_movMatCODORIGEM.AsInteger := codmovt;
 
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
@@ -1414,7 +1439,6 @@ begin
           cds_movDetMatCODPRO.AsString := cdsCODPRO.AsString;
           cds_movDetMatUN.AsString := cdsUNIDADEMEDIDA.AsString;
           cds_movDetMatCODMOVIMENTO.AsInteger := cds_movMatCODMOVIMENTO.AsInteger;
-
           if dm.c_6_genid.Active then
             dm.c_6_genid.Close;
           dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
