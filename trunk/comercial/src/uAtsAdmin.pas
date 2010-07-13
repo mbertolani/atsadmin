@@ -115,7 +115,6 @@ type
     cds_videoP2: TStringField;
     ListadeCompras1: TMenuItem;
     RelatriodeCompras1: TMenuItem;
-    CorrigirEstoque1: TMenuItem;
     RelatriodeComprasVendaICMS1: TMenuItem;
     mnDevCompra: TMenuItem;
     DevolucaoVendas1: TMenuItem;
@@ -194,7 +193,6 @@ type
     Maquinas1: TMenuItem;
     ListaOS1: TMenuItem;
     RelatriodeVendasprEstado1: TMenuItem;
-    Controlede1: TMenuItem;
     FechamentodeContas1: TMenuItem;
     RelProgramaodeRecebimento1: TMenuItem;
     ExportarTabelas1: TMenuItem;
@@ -216,6 +214,9 @@ type
     CallCenter1: TMenuItem;
     ipoAtendimento1: TMenuItem;
     GerarEtiquetas1: TMenuItem;
+    CorrigeEstoque1: TMenuItem;
+    NotaFiscal1: TMenuItem;
+    CFOP1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -243,7 +244,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure ListadeCompras1Click(Sender: TObject);
     procedure RelatriodeCompras1Click(Sender: TObject);
-    procedure CorrigirEstoque1Click(Sender: TObject);
     procedure RelatriodeComprasVendaICMS1Click(Sender: TObject);
     procedure mnDevCompraClick(Sender: TObject);
     procedure DevolucaoVendas1Click(Sender: TObject);
@@ -312,6 +312,8 @@ type
     procedure CallCenter1Click(Sender: TObject);
     procedure ipoAtendimento1Click(Sender: TObject);
     procedure GerarEtiquetas1Click(Sender: TObject);
+    procedure CorrigeEstoque1Click(Sender: TObject);
+    procedure CFOP1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -350,7 +352,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
-  uGeraEtiquetas;
+  uGeraEtiquetas, ufParametro, uCfop;
 
 {$R *.dfm}
 
@@ -778,18 +780,6 @@ begin
   finally
     fRel.Free;
   end;
-end;
-
-procedure TfAtsAdmin.CorrigirEstoque1Click(Sender: TObject);
-begin
-  {Corrige o Estoque }
-  fEstoqueCorrige := TfEstoqueCorrige.Create(Application);
-  try
-    fEstoqueCorrige.ShowModal;
-  finally
-    fEstoqueCorrige.Free;
-  end;
-
 end;
 
 procedure TfAtsAdmin.RelatriodeComprasVendaICMS1Click(Sender: TObject);
@@ -1536,11 +1526,11 @@ end;
 
 procedure TfAtsAdmin.Parametro1Click(Sender: TObject);
 begin
-  fParametrosTerminal := TfParametrosTerminal.Create(Application);
+  fParametro := TfParametro.Create(Application);
   try
-    fParametrosTerminal.ShowModal;
+    fParametro.ShowModal;
   finally
-    fParametrosTerminal.Free;
+    fParametro.Free;
   end;
 end;
 
@@ -1639,6 +1629,27 @@ begin
       fGeraEtiquetas.ShowModal;
   finally
     fGeraEtiquetas.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CorrigeEstoque1Click(Sender: TObject);
+begin
+  {Corrige o Estoque }
+  fEstoqueCorrige := TfEstoqueCorrige.Create(Application);
+  try
+    fEstoqueCorrige.ShowModal;
+  finally
+    fEstoqueCorrige.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CFOP1Click(Sender: TObject);
+begin
+  fCfop := TfCfop.Create(Application);
+  try
+    fCfop.ShowModal;
+  finally
+    fCfop.Free;
   end;
 end;
 

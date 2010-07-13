@@ -2159,10 +2159,14 @@ object fAtsAdmin: TfAtsAdmin
     Left = 416
     Top = 64
     object Cadastros1: TMenuItem
-      Caption = 'Cadastros '
+      Caption = 'Cadastros    '
       object Agenda: TMenuItem
         Caption = '&Agenda'
         OnClick = AgendaClick
+      end
+      object CFOP1: TMenuItem
+        Caption = 'CFOP'
+        OnClick = CFOP1Click
       end
       object CFOPEstados1: TMenuItem
         Caption = 'CFOP-Estados'
@@ -2240,10 +2244,6 @@ object fAtsAdmin: TfAtsAdmin
         Caption = '&Vendas'
         OnClick = acVendasExecute
       end
-      object NotasFiscais: TMenuItem
-        Caption = '&Notas Fiscais'
-        OnClick = acNFiscaisExecute
-      end
       object Terminal: TMenuItem
         Caption = '&Terminal'
         OnClick = acTerminalExecute
@@ -2255,10 +2255,6 @@ object fAtsAdmin: TfAtsAdmin
       object ListadeCompras1: TMenuItem
         Caption = 'Lista de Compras'
         OnClick = ListadeCompras1Click
-      end
-      object CorrigirEstoque1: TMenuItem
-        Caption = 'Corrigir Estoque'
-        OnClick = CorrigirEstoque1Click
       end
       object mnDevCompra: TMenuItem
         Caption = 'Devolucao Compra'
@@ -2295,14 +2291,6 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Lista O.S.'
         OnClick = ListaOS1Click
       end
-      object ExportaNotaFiscal1: TMenuItem
-        Caption = 'Exporta Nota Fiscal'
-        OnClick = ExportaNotaFiscal1Click
-      end
-      object Controlede1: TMenuItem
-        Caption = 'Controle de Frequencia'
-        OnClick = Controlede1Click
-      end
       object FechamentodeContas1: TMenuItem
         Caption = 'Fechamento de Contas'
         OnClick = FechamentodeContas1Click
@@ -2310,10 +2298,6 @@ object fAtsAdmin: TfAtsAdmin
       object tulosDescontados1: TMenuItem
         Caption = 'T'#237'tulos Descontados'
         OnClick = tulosDescontados1Click
-      end
-      object NotaFiscalPaulista1: TMenuItem
-        Caption = 'Nota Fiscal Paulista'
-        OnClick = NotaFiscalPaulista1Click
       end
       object OrdemdeAssitnciaTcnica1: TMenuItem
         Caption = 'Ordem de Assit'#234'ncia T'#233'cnica'
@@ -2323,13 +2307,28 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Exporta'#231#227'o para Cont Matic'
         OnClick = ExportaoparaContMatic1Click
       end
-      object NotaFiscalEletrnica1: TMenuItem
-        Caption = 'Nota Fiscal Eletr'#244'nica'
-        OnClick = NotaFiscalEletrnica1Click
-      end
       object CallCenter1: TMenuItem
         Caption = 'Call Center'
         OnClick = CallCenter1Click
+      end
+    end
+    object NotaFiscal1: TMenuItem
+      Caption = 'Nota Fiscal      '
+      object ExportaNotaFiscal1: TMenuItem
+        Caption = 'Exporta Nota Fiscal'
+        OnClick = ExportaNotaFiscal1Click
+      end
+      object NotasFiscais: TMenuItem
+        Caption = '&Notas Fiscais'
+        OnClick = acNFiscaisExecute
+      end
+      object NotaFiscalPaulista1: TMenuItem
+        Caption = 'Nota Fiscal Paulista'
+        OnClick = NotaFiscalPaulista1Click
+      end
+      object NotaFiscalEletrnica1: TMenuItem
+        Caption = 'Nota Fiscal Eletr'#244'nica'
+        OnClick = NotaFiscalEletrnica1Click
       end
     end
     object N2: TMenuItem
@@ -2337,33 +2336,37 @@ object fAtsAdmin: TfAtsAdmin
       object Usuarios1: TMenuItem
         Caption = 'Cadastrar Usuarios'
       end
+      object Historico1: TMenuItem
+        Caption = 'Historico'
+      end
       object rocarSenha1: TMenuItem
         Caption = 'Trocar Senha'
       end
       object RocarUsuarioLogOff1: TMenuItem
         Caption = 'Trocar Usuario/LogOff'
       end
-      object Historico1: TMenuItem
-        Caption = 'Historico'
-      end
     end
     object ContEstoque1: TMenuItem
       Caption = 'Materiais     '
-      object VerEstoque1: TMenuItem
-        Caption = 'Ver Movimento Materiais'
-        OnClick = VerEstoque1Click
+      object CorrigeEstoque1: TMenuItem
+        Caption = 'Corrigir Estoque'
+        OnClick = CorrigeEstoque1Click
       end
       object EntradadeEstoque1: TMenuItem
         Caption = 'Entrada de Materiais'
         OnClick = EntradadeEstoque1Click
       end
+      object MovimentaodeEstoque1: TMenuItem
+        Caption = 'Movimenta'#231#227'o de Materiais'
+        OnClick = MovimentaodeEstoque1Click
+      end
       object SaidadeEstoque1: TMenuItem
         Caption = 'Saida de Materiais'
         OnClick = SaidadeEstoque1Click
       end
-      object MovimentaodeEstoque1: TMenuItem
-        Caption = 'Movimenta'#231#227'o de Materiais'
-        OnClick = MovimentaodeEstoque1Click
+      object VerEstoque1: TMenuItem
+        Caption = 'Ver Movimento Materiais'
+        OnClick = VerEstoque1Click
       end
       object N3: TMenuItem
         Caption = '-'
@@ -2483,21 +2486,13 @@ object fAtsAdmin: TfAtsAdmin
     end
     object Ajuda1: TMenuItem
       Caption = '&Sistema  '
-      object Empresa1: TMenuItem
-        Caption = 'Empresa'
-        OnClick = Empresa1Click
-      end
-      object mSuporte: TMenuItem
-        Caption = 'Suporte'
-        OnClick = mSuporteClick
-      end
       object Ajuda2: TMenuItem
         Caption = 'Ajuda ?'
         Enabled = False
       end
-      object SobreoSistema1: TMenuItem
-        Caption = 'Sobre o Sistema'
-        OnClick = SobreoSistema1Click
+      object Empresa1: TMenuItem
+        Caption = 'Empresa'
+        OnClick = Empresa1Click
       end
       object ExportarTabelas1: TMenuItem
         Caption = 'Exportar Tabelas'
@@ -2506,6 +2501,14 @@ object fAtsAdmin: TfAtsAdmin
       object Parametro1: TMenuItem
         Caption = 'Parametro'
         OnClick = Parametro1Click
+      end
+      object SobreoSistema1: TMenuItem
+        Caption = 'Sobre o Sistema'
+        OnClick = SobreoSistema1Click
+      end
+      object mSuporte: TMenuItem
+        Caption = 'Suporte'
+        OnClick = mSuporteClick
       end
     end
   end
