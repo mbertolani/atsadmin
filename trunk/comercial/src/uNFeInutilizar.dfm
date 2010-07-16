@@ -13,6 +13,7 @@ object fNFeInutilizar: TfNFeInutilizar
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -117,7 +118,7 @@ object fNFeInutilizar: TfNFeInutilizar
       Left = 24
       Top = 6
       Width = 119
-      Height = 13
+      Height = 16
       Caption = 'Centro de Custo :'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
