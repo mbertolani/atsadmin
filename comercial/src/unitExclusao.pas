@@ -48,8 +48,11 @@ begin
     if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                   [mbYes,mbNo],0) = mrYes then
     begin
-       dmnf.DtSrcVenda.DataSet.Delete;
-       (dmnf.DtSrcVenda.DataSet as TClientDataSet).ApplyUpdates(0);
+      if (not dmnf.DtSrcVenda.DataSet.IsEmpty) then
+      begin
+         dmnf.DtSrcVenda.DataSet.Delete;
+         (dmnf.DtSrcVenda.DataSet as TClientDataSet).ApplyUpdates(0);
+      end;
        dmnf.DtSrc.DataSet.Delete;
        (dmnf.DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
        dmnf.DtSrc_NF.DataSet.Delete;
