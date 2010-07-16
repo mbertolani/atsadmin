@@ -1374,8 +1374,9 @@ begin
   end;
   vrr := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
   dmnf.sqs_tit.Close;
-
-  if (codVendaFin = 0) then
+  
+  if (dmnf.cds_venda.State in [dsInsert]) then
+  //if (codVendaFin = 0) then
   begin
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
