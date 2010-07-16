@@ -194,10 +194,10 @@ var
   valorAReceber, ValorRecebido, desc, juros, perda,
   funrural,outros, valorr, resto: Double;
   nrec: array of integer;
-
+  idusuario : String;
 implementation
 
-uses UDm, uCheques_bol, uUtils, sCtrlResize;
+uses UDm, uCheques_bol, uUtils, sCtrlResize, uAtsAdmin;
 
 {$R *.dfm}
 
@@ -574,7 +574,13 @@ end;
 procedure TfcpTitulo.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
-  dm.sqlsisAdimin.ExecuteDirect('update PAGAMENTO set DP = null where DP = 0');
+  idusuario :=  IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+
+//  dm.sqlsisAdimin.ExecuteDirect('update PAGAMENTO set DP = null where DP = 0');
+
+//  dm.sqlsisAdimin.ExecuteDirect('UPDATE PAGAMENTO SET DP = null , USERID = ' + QuotedStr(idusuario)+ ' WHERE DP = 0');
+  dm.sqlsisAdimin.ExecuteDirect('UPDATE PAGAMENTO SET DP = null , USERID = null  WHERE DP = 0 ');
+
 end;
 
 procedure TfcpTitulo.btnGravarClick(Sender: TObject);
@@ -599,12 +605,13 @@ end;
 procedure TfcpTitulo.btnImprimirClick(Sender: TObject);
 Var  TD: TTransactionDesc;
   Forma, i, num: Integer;
-  str_sql : String;
+  str_sql: String;
 begin
   Try
     for i:=1 to length(nrec) do
     begin
-      str_sql := 'UPDATE PAGAMENTO SET DP = 0';
+      idusuario :=  IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+      str_sql := 'UPDATE PAGAMENTO SET DP = 0 , USERID = ' + QuotedStr(idusuario);
       str_sql := str_sql + ' WHERE CODPAGAMENTO = ';
       num := nrec[i - 1];
       str_sql := str_sql + IntToStr(num);
