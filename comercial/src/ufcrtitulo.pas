@@ -626,6 +626,8 @@ begin
     exit;
   end;
   rep.FileName := str_relatorio + 'recibo_cp.rep';
+
+  rep.Report.Params.ParamByName('USUARIO').Value := idusuario;
   rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   rep.Execute;
 end;
