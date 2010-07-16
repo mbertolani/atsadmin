@@ -1,3 +1,4 @@
+set term  ^ ;
 ALTER PROCEDURE CALCULA_ICMS (
     NUMERO_NF Integer,
     UF Char(2),
@@ -97,6 +98,12 @@ begin
         SELECT FIRST 1 ICMS, CASE WHEN (REDUCAO > 0) THEN (REDUCAO/100) ELSE 1 END, IPI, CST  
             FROM ESTADO_ICMS WHERE UF = :UF AND CFOP = :CFOP and PESSOA = 'F'
         INTO :IND_ICMS, :IND_REDUZICMS, :IND_IPI, :CST;
+        if ((ind_icms is null) and (cst is null)) then -- E PEssoa fisica mas nao tem cadastro no CFOP-ESTADO
+        begin  
+          SELECT FIRST 1 ICMS, CASE WHEN (REDUCAO > 0) THEN (REDUCAO/100) ELSE 1 END, IPI, CST  FROM ESTADO_ICMS WHERE UF = :UF AND CFOP = :CFOP
+          INTO :IND_ICMS, :IND_REDUZICMS, :IND_IPI, :CST;
+        end    
+        
     end
 
     if (pessoa = 1) then 
