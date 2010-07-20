@@ -13,7 +13,7 @@ object fcrproc: Tfcrproc
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = PopupMenu1
-  WindowState = wsMaximized
+  Position = poDesktopCenter
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = FormShow

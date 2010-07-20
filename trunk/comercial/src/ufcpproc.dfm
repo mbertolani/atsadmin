@@ -13,7 +13,7 @@ object fCpProc: TfCpProc
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = PopupMenu1
-  Position = poDefault
+  Position = poDesktopCenter
   WindowState = wsMaximized
   OnCreate = FormCreate
   OnShow = FormShow
