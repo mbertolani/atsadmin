@@ -742,6 +742,7 @@ begin
       executaDDL('MOVIMENTO', 'CODORIGEM','INTEGER');
       executaDDL('ESTADO_ICMS', 'DADOSADC5', 'Varchar(200)');
       executaDDL('ESTADO_ICMS', 'DADOSADC6', 'Varchar(200)');
+      executaDDL('PAGAMENTO', 'USERID', 'Char(1)');
       mudaVersao('1.0.0.72');
     end;  // Fim Ataulização Versao 1.0.0.72
 
