@@ -466,7 +466,7 @@ begin
      dmnf.cds_nf1NotaFISCAL.AsInteger := dmnf.cds_compraNOTAFISCAL.AsInteger;     
     end;
    finally
-    dmnf.scds_serie_proc.Close;
+//    dmnf.scds_serie_proc.Close;
     fProcurar.Free;
    end;
    if (JvPageControl1.ActivePage = TabNF) then
@@ -1778,6 +1778,7 @@ end;
 
 procedure TfNotaFc.btnNotaFiscalClick(Sender: TObject);
 begin
+    fNFeletronica.tpNF.ItemIndex := 0;
     fNFeletronica.ShowModal;
 end;
 
