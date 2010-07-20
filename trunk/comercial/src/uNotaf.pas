@@ -1584,6 +1584,7 @@ begin
   dmnf.cds_nf.Params[1].Clear;
   dmnf.cds_nf.open;
   dmnf.cds_Mov_det.Open;
+  dmnf.cds_venda.Close;
 end;
 
 procedure TfNotaf.calculaicms(Estado: String);
