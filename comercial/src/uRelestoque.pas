@@ -109,7 +109,7 @@ begin
     else
        fFiltroEstoque.RepRelItem.Report.Params.ParamByName('MARCA').Value := 'TODAS AS MARCAS CADASTRADAS';
 
-    {
+
     if (fFiltroEstoque.ComboBox1.Text <> 'TODOS') then
     begin
       dm.cds_ccusto.Locate('NOME', fFiltroEstoque.ComboBox1.Text, [loCaseInsensitive]);
@@ -129,7 +129,7 @@ begin
         5: fFiltroEstoque.RepRelItem.Report.Params.ParamByName('TIPOPRODUTO').Value := 'VENDA';
       end;
     end;
-   }
+
   END;
 
   fFiltroEstoque.RepRelItem.Title := fFiltroEstoque.RepRelItem.FileName;
