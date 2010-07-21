@@ -170,6 +170,7 @@ begin
 end;
 
 procedure TfLotes.btnGravarClick(Sender: TObject);
+var sql_texto :string;
 begin
  if cdslotesLOTE.AsString = '' then
  begin
@@ -192,14 +193,34 @@ begin
    exit;
  end;
 
-  if dm.c_6_genid.Active then
+ if (cdslotes.State in [dsEdit]) then
+ begin
+   DecimalSeparator := '.';
+   sql_texto := 'Update LOTES set LOTE = ' + QuotedStr(cdslotesLOTE.AsString);
+   sql_texto := sql_texto + ', ESTOQUE = ' + FloatToStr(cdslotesESTOQUE.AsFloat);
+   sql_texto := sql_texto + ', PRECO = ' + FloatToStr(cdslotesPRECO.AsFloat);
+   if ( cdslotesSERIEINI.AsInteger > 0 ) then
+     sql_texto := sql_texto + ', SERIEINI = ' + IntToStr(cdslotesSERIEINI.AsInteger);
+   if ( cdslotesSERIEFIM.AsInteger > 0 ) then
+   sql_texto := sql_texto + ', SERIEFIM = ' + IntToStr(cdslotesSERIEFIM.AsInteger);
+   sql_texto := sql_texto + ' WHERE CODLOTE = ' + IntToStr(cdslotesCODLOTE.AsInteger);
+   dm.sqlsisAdimin.ExecuteDirect(sql_texto);
+   DecimalSeparator := ',';
+  end
+  else
+  begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_LOTE, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cdslotesCODLOTE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
-  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_LOTE, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-  dm.c_6_genid.Open;
-  cdslotesCODLOTE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-  dm.c_6_genid.Close;
-  inherited;
-
+    inherited;
+  end;
+    cdslotes.DisableControls;
+    cdslotes.Close;
+    cdslotes.Open;
+    cdslotes.EnableControls;
 end;
 
 procedure TfLotes.btnSairClick(Sender: TObject);
