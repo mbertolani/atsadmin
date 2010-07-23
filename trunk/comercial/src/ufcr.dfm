@@ -3593,7 +3593,13 @@ object fcrproc: Tfcrproc
       'Edit1.Text'
       'edTitulo.Text'
       'edValor.Text'
-      'edVendedor.Text')
+      'edVendedor.Text'
+      'meDta1.Text'
+      'meDta2.Text'
+      'meDta3.Text'
+      'meDta4.Text'
+      'meDta5.Text'
+      'meDta6.Text')
     StoredValues = <>
     Left = 731
     Top = 30
