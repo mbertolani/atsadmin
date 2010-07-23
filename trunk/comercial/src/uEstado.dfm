@@ -11,7 +11,7 @@ inherited fEstado: TfEstado
   PixelsPerInch = 96
   TextHeight = 16
   inherited MMJPanel1: TMMJPanel
-    Top = 683
+    Top = 676
     Width = 668
     Anchors = [akBottom]
     inherited btnIncluir: TBitBtn [0]
@@ -614,7 +614,7 @@ inherited fEstado: TfEstado
     Left = 0
     Top = 344
     Width = 668
-    Height = 339
+    Height = 332
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -930,7 +930,8 @@ inherited fEstado: TfEstado
       ', esta.DADOSADC1'#13#10'        , esta.DADOSADC2'#13#10'        , esta.DADOS' +
       'ADC3'#13#10'        , esta.DADOSADC4'#13#10'        , esta.DADOSADC5'#13#10'      ' +
       '  , esta.DADOSADC6'#13#10'        , esta.NAOENVFATURA'#13#10'FROM ESTADO_ICM' +
-      'S esta '#13#10'left outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10
+      'S esta '#13#10'left outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10'ord' +
+      'er by esta.CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
