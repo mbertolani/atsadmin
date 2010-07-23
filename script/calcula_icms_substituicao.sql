@@ -28,6 +28,7 @@ Declare variable codMov INTEGER;
 DECLARE VARIABLE outros DOUBLE PRECISION;
 begin
   TipoST = 'CFOP';
+  
   -- Inicio por PRODUTO
   -- Vejo no cadastro da ClassificaoFiscal se tem substituicao tributaria se 
   -- tiver o calculo é por produto e não pelo cfop 
@@ -35,7 +36,7 @@ begin
   select first 1 ven.CODMOVIMENTO from VENDA ven where ven.NOTAFISCAL = :notafiscalVenda and ven.SERIE = :serie
     into :codMov;
   
-  For Select cf.ICMS_SUBST, cf.ICMS_SUBST_IC, cf.ICMS_SUBST_IND from CLASSIFICACAOFISCAL cf
+  /*For Select cf.ICMS_SUBST, cf.ICMS_SUBST_IC, cf.ICMS_SUBST_IND from CLASSIFICACAOFISCAL cf
       inner join produtos prod on prod.CLASSIFIC_FISCAL = cf.CLASSIFICAO
       inner join MOVIMENTODETALHE md on md.CODPRODUTO = prod.CODPRODUTO
     where md.CODMOVIMENTO = :codMov
@@ -43,11 +44,14 @@ begin
     do begin
       if (PICMS_SUBST IS NULL) THEN 
         TipoST = 'PRODUTO';   
-    end 
+    end */
   -- fim por PRODUTO   
-    
+  --if (TipoST is null) then 
+  --  tipoSt = 'CFOP';
+  --update parametro set instrucoes = cast(:ipi as varchar(20)) where parametro = 'TESTE';
   if (TipoST = 'CFOP') then   -- Calculado pelo CFOP 
   begin 
+    --update parametro set instrucoes = :tipoSt where parametro = 'TESTE';
     select first 1 e.DIVERSOS1, e.DIVERSOS2 || e.DIVERSOS3 from EMPRESA e
       into :icms_destacado_desc, :icms_destacado_desc2;    
   
@@ -64,8 +68,11 @@ begin
   begin       
       IF ((UF = 'SP') or (UF = 'BA') or (UF = 'MG') or (UF = 'RS') or (UF = 'RJ')) THEN
       BEGIN 
+         --update parametro set instrucoes = 'aqui' where parametro = 'TESTE';
          if (icms_subst > 0) then 
            icms_subst = 1 + (icms_subst / 100);
+
+           --update recebimento set historico =  historico || cast(:icms_subst as varchar(20)) where titulo = :notafiscalVenda || '-' || :serie and via = 1;
 
          if (ICMS_SUBST_IND is null) then 
            icms_subst_ind = 0;
@@ -79,15 +86,18 @@ begin
 
          if (icms_subst_ind_desc > 0) then 
            icms_subst_ind_desc = icms_subst_ind_desc / 100;
+          update parametro set instrucoes = cast(:VALORTOTAL as varchar(20)) where parametro = 'TESTE';
 
-
-         VALOR_SUB = VALORTOTAL * icms_subst; 
-         VALOR_SUBDesc = (VALORTOTAL-ipi) * icms_subst_ind_desc; 
+         VALOR_SUB = (:VALORTOTAL  + :ipi) * icms_subst; 
+         VALOR_SUBDesc = (VALORTOTAL) * icms_subst_ind_desc; 
+         --update parametro set instrucoes = cast(:VALOR_SUBDesc as varchar(20)) where parametro = 'TESTE';
          ICMS_SUBST = (Valor_SUB  * icms_subst_ind) - Valor_SubDesc;
          VALORTOTAL = VALORTOTAL + ICMS_SUBST;
 
          if (icms_subst > 0) then 
          begin 
+         
+           --update recebimento set historico =  historico || cast(:icms_subst as varchar(20))  || '1' where titulo = :notafiscalVenda || '-' || :serie and via = 1;
            /* N�o usa mais, nao altera mais o campo Fatura na NF
            fatura = '';  
            For select UDF_DAY(dataVencimento) || '/' || UDF_MONTH(dataVencimento) || '/' || UDF_YEAR(dataVencimento)
@@ -100,7 +110,8 @@ begin
                 fatura = fatura || vlrStr;
              end  
            */
-           update recebimento set valor_resto = (valor_resto + :icms_subst) where titulo = :notafiscalVenda || '-' || :serie and via = 1;
+           --update recebimento set valor_resto = (valor_resto + :icms_subst), valor_prim_via = (valor_prim_via + :icms_subst),
+           --   valorTitulo = (valorTitulo  + :icms_subst) where titulo = :notafiscalVenda || '-' || :serie and via = 1;
            
            -- Pego os outros valores na NF para somar ao total 
            select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO) from notafiscal n where numnf = :numero_nf
