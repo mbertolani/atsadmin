@@ -236,6 +236,8 @@ begin
     str := str + ', DADOSADC2 = ' + QuotedStr(cds_estadoDADOSADC2.AsString);
     str := str + ', DADOSADC3 = ' + QuotedStr(cds_estadoDADOSADC3.AsString);
     str := str + ', DADOSADC4 = ' + QuotedStr(cds_estadoDADOSADC4.AsString);
+    str := str + ', DADOSADC5 = ' + QuotedStr(cds_estadoDADOSADC5.AsString);
+    str := str + ', DADOSADC6 = ' + QuotedStr(cds_estadoDADOSADC6.AsString);
     if (CheckBox1.Checked) then
       str := str + ', NAOENVFATURA = ' + QuotedStr('S')
     else
