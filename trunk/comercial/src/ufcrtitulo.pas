@@ -572,10 +572,16 @@ begin
 end;
 
 procedure TfcpTitulo.FormClose(Sender: TObject; var Action: TCloseAction);
+var TD: TTransactionDesc;
+    str1 : string ;
 begin
   inherited;
+
   idusuario :=  IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
-  dm.sqlsisAdimin.ExecuteDirect('UPDATE PAGAMENTO SET DP = null ,  USERID = null WHERE DP = 0 and ' + ' USERID = ' + QuotedStr(idusuario));
+  dm.sqlsisAdimin.StartTransaction(TD);
+  str1 := 'UPDATE PAGAMENTO SET DP = null ,  USERID = null WHERE DP = 0 and ' + ' USERID = ' + QuotedStr(idusuario);
+  dm.sqlsisAdimin.ExecuteDirect(str1);
+  dm.sqlsisAdimin.Commit(TD);
 
 end;
 
