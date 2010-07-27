@@ -23,7 +23,7 @@ object fNotaf: TfNotaf
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 776
+    Width = 777
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -1000,7 +1000,7 @@ object fNotaf: TfNotaf
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 776
+    Width = 777
     Height = 691
     ActivePage = TabNF
     Align = alTop
@@ -1068,7 +1068,7 @@ object fNotaf: TfNotaf
           DataSource = DMNF.DtSrc_NF
           ItemHeight = 13
           TabOrder = 0
-          OnChange = carregaDadosAdicionais
+          OnChange = cbCFOPChange
           OnExit = cbCFOPChange
           OnKeyPress = FormKeyPress
         end
@@ -1333,7 +1333,7 @@ object fNotaf: TfNotaf
           DataField = 'UFCLI'
           DataSource = DMNF.DtSrc_NF
           TabOrder = 0
-          OnChange = carregaDadosAdicionais
+          OnChange = DBEdit7Change
           OnKeyPress = FormKeyPress
         end
       end
