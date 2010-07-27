@@ -15,10 +15,6 @@ uses
 type
   TfNFeletronica = class(TForm)
     MMJPanel1: TMMJPanel;
-    Label4: TLabel;
-    Label7: TLabel;
-    Edit1: TEdit;
-    edSerie: TEdit;
     MMJPanel2: TMMJPanel;
     JvDBGrid1: TJvDBGrid;
     sdsNF: TSQLDataSet;
@@ -232,7 +228,6 @@ type
     ImageList2: TImageList;
     ACBrNFe1: TACBrNFe;
     ACBrNFeDANFERave1: TACBrNFeDANFERave;
-    MemoResp: TMemo;
     sClienteTELEFONE: TStringField;
     sClienteDDD: TStringField;
     sEmpresaNUMERO: TStringField;
@@ -243,9 +238,6 @@ type
     sTabIBGENM_TIPO_LOCALIDADE: TStringField;
     sTabIBGESQ_IBGE: TIntegerField;
     sTabIBGECD_UF: TStringField;
-    edtNumSerie: TEdit;
-    Label6: TLabel;
-    sbtnGetCert: TSpeedButton;
     sProdutos: TSQLDataSet;
     sProdutosCODPRODUTO: TIntegerField;
     sProdutosFAMILIA: TStringField;
@@ -398,7 +390,6 @@ type
     cdsFaturaDATAFATURA: TDateField;
     cdsFaturaVALOR: TFloatField;
     cdsFaturaNUMEROFATURA: TStringField;
-    tpNF: TRadioGroup;
     sdsNFNATUREZA: TSmallintField;
     cdsNFNATUREZA: TSmallintField;
     GroupBox1: TGroupBox;
@@ -406,23 +397,6 @@ type
     btnValidaNFe: TBitBtn;
     BtnPreVis: TBitBtn;
     BtnEnvEmail: TBitBtn;
-    GroupBox2: TGroupBox;
-    btnStatus: TBitBtn;
-    btnConsulta: TBitBtn;
-    btnCancelaNFe: TBitBtn;
-    btnInutilizar: TBitBtn;
-    GroupBox3: TGroupBox;
-    btnImprime: TBitBtn;
-    btnGeraPDF: TBitBtn;
-    GroupBox4: TGroupBox;
-    btnListar: TBitBtn;
-    JvDateEdit2: TJvDateEdit;
-    chkTodas: TCheckBox;
-    ComboBox1: TComboBox;
-    Label2: TLabel;
-    JvDateEdit1: TJvDateEdit;
-    Label1: TLabel;
-    Label3: TLabel;
     sFornec: TSQLDataSet;
     sFornecCODCLIENTE: TIntegerField;
     sFornecNOMECLIENTE: TStringField;
@@ -453,12 +427,75 @@ type
     sCFOPCOFINS: TFloatField;
     sCFOPPIS: TFloatField;
     btnSPED: TBitBtn;
-    GroupBox5: TGroupBox;
-    Label8: TLabel;
     sdsNFCORPONF5: TStringField;
     sdsNFCORPONF6: TStringField;
     cdsNFCORPONF5: TStringField;
     cdsNFCORPONF6: TStringField;
+    sEmpresa1: TSQLDataSet;
+    sEmpresa1EMPRESA: TStringField;
+    sEmpresa1RAZAO: TStringField;
+    sEmpresa1CNPJ_CPF: TStringField;
+    sEmpresa1ENDERECO: TStringField;
+    sEmpresa1LOGRADOURO: TStringField;
+    sEmpresa1BAIRRO: TStringField;
+    sEmpresa1CIDADE: TStringField;
+    sEmpresa1UF: TStringField;
+    sEmpresa1CEP: TStringField;
+    sEmpresa1DDD: TStringField;
+    sEmpresa1FONE: TStringField;
+    sEmpresa1FONE_1: TStringField;
+    sEmpresa1FONE_2: TStringField;
+    sEmpresa1FAX: TStringField;
+    sEmpresa1E_MAIL: TStringField;
+    sEmpresa1WEB: TStringField;
+    sEmpresa1LOGOTIPO: TGraphicField;
+    sEmpresa1CODIGO: TIntegerField;
+    sEmpresa1TIPO: TStringField;
+    sEmpresa1IE_RG: TStringField;
+    sEmpresa1SLOGAN: TStringField;
+    sEmpresa1OUTRAS_INFO: TStringField;
+    sEmpresa1CODIGO_CONTA: TIntegerField;
+    sEmpresa1DIVERSOS1: TStringField;
+    sEmpresa1DIVERSOS2: TStringField;
+    sEmpresa1DIVERSOS3: TStringField;
+    sEmpresa1ANOLETIVO: TIntegerField;
+    sEmpresa1MEDIA_ESCOLA: TFloatField;
+    sEmpresa1PORTA: TIntegerField;
+    sEmpresa1SMTP: TStringField;
+    sEmpresa1SENHA: TStringField;
+    sEmpresa1CCUSTO: TIntegerField;
+    sEmpresa1NUMERO: TStringField;
+    sEmpresa1CD_IBGE: TStringField;
+    Panel1: TPanel;
+    tpNF: TRadioGroup;
+    GroupBox5: TGroupBox;
+    Label5: TLabel;
+    MemoResp: TMemo;
+    sbtnGetCert: TSpeedButton;
+    edtNumSerie: TEdit;
+    Edit1: TEdit;
+    edSerie: TEdit;
+    Label4: TLabel;
+    Label7: TLabel;
+    Label6: TLabel;
+    GroupBox2: TGroupBox;
+    btnStatus: TBitBtn;
+    btnConsulta: TBitBtn;
+    btnCancelaNFe: TBitBtn;
+    btnInutilizar: TBitBtn;
+    GroupBox3: TGroupBox;
+    btnImprime: TBitBtn;
+    btnGeraPDF: TBitBtn;
+    GroupBox4: TGroupBox;
+    Label2: TLabel;
+    Label1: TLabel;
+    Label3: TLabel;
+    btnListar: TBitBtn;
+    JvDateEdit2: TJvDateEdit;
+    chkTodas: TCheckBox;
+    ComboBox1: TComboBox;
+    JvDateEdit1: TJvDateEdit;
+    btnSair: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -480,6 +517,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure BtnPreVisClick(Sender: TObject);
     procedure btnSPEDClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
     {procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);}
   private
@@ -1597,21 +1635,25 @@ begin
    sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
    sEmpresa.Open;
 
-   Edit1.Text := sEmpresaDIVERSOS1.AsString;
+   if (sEmpresa1.Active) then
+     sEmpresa1.Close;
+   sEmpresa1.Open;
 
-   if (sEmpresaTIPO.AsString = '1') then
+   Edit1.Text := sEmpresa1DIVERSOS1.AsString;
+
+   if (sEmpresa1TIPO.AsString = '1') then
    begin
      ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
-     label8.Font.Color := clBlue;
-     Label8.Caption :=  'PRODU플O.';
+     label5.Font.Color := clBlue;
+     Label5.Caption :=  'PRODU플O.';
    end
    else begin
     ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
-    label8.Font.Color := clRed;
-    Label8.Caption :=  'HOMOLOGA플O.';
+    label5.Font.Color := clRed;
+    Label5.Caption :=  'HOMOLOGA플O.';
    end;
-   ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresaDIVERSOS1.AsString;
-
+   ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresa1DIVERSOS1.AsString;
+   sEmpresa1.Close;
 end;
 
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
@@ -1865,7 +1907,6 @@ begin
                 MessageDlg('NCM vazio ou incorreto', mtError, [mbOK], 0);
                 exit;
               end;
-
               // DADOS DOS PRODUTOS DA NOTA
               with Det.Add do
               begin
@@ -2260,6 +2301,11 @@ begin
   ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teSCAN;
   btnGeraNFeClick(Sender);
   ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teNormal;
+end;
+
+procedure TfNFeletronica.btnSairClick(Sender: TObject);
+begin
+  Close;
 end;
 
 end.
