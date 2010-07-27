@@ -388,9 +388,10 @@ type
     procedure ExcluirItemNF1Click(Sender: TObject);
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure btnRemessaClick(Sender: TObject);
-    procedure carregaDadosAdicionais(Sender: TObject);
+    procedure DBEdit7Change(Sender: TObject);
   private
     { Private declarations }
+    procedure carregaDadosAdicionais;    
     procedure incluiSAida;
     procedure incluiMovimento;
     procedure incluiVenda;
@@ -991,7 +992,7 @@ begin
     dmnf.cds_nfNOTAMAE.AsInteger := 0;
     btnRemessa.Enabled := False;
   end;
-
+  carregaDadosAdicionais();
 end;
 
 procedure TfNotaf.btnSairClick(Sender: TObject);
@@ -1374,7 +1375,7 @@ begin
   end;
   vrr := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
   dmnf.sqs_tit.Close;
-  
+
   if (dmnf.cds_venda.State in [dsInsert]) then
   //if (codVendaFin = 0) then
   begin
@@ -1935,7 +1936,7 @@ end;
 
 procedure TfNotaf.alteraVlrVenda;
 begin
-  if (dmnf.cds_venda.state in [dsBrowse]) then
+  if (dmnf.cds_venda.state in [dsBrowse, dsInactive]) then
     dmnf.cds_venda.Edit;
   if (dmnf.cds_vendaVALOR_ICMS.AsFloat <> dmnf.cds_nfVALOR_ICMS.AsFloat) then
   begin
@@ -2087,31 +2088,40 @@ begin
   end;
 end;
 
-Procedure TfNotaf.carregaDadosAdicionais(Sender: TObject);
+Procedure TfNotaf.carregaDadosAdicionais;
 Begin
-    if (DMNF.DtSrc_NF.State in [dsEdit]) then
-        if( (not DMNF.cds_nfCFOP.IsNull)  or (DMNF.cds_nfCFOP.AsString <> '') )then
-          if( (not DMNF.cds_nfUFCLI.IsNull)  or (DMNF.cds_nfUFCLI.AsString <> '') )then
-          begin
-          if (sCFOP.Active) then
-            sCFOP.Close;
-          sCFOP.Params[1].asString :=  cbCFOP.Text;
-          sCFOP.Params[0].asString :=  DBEdit7.Text;
-          sCFOP.Params[2].asString :=  'J';
-          sCFOP.Open;
-          If ((sCfopDADOSADC1.AsString = '') or (not sCFOPDADOSADC1.IsNull) )then
-            DMNF.cds_nfCORPONF1.AsString := sCFOPDADOSADC1.AsString;
-          If ((sCFOPDADOSADC2.AsString = '') or (not sCFOPDADOSADC2.IsNull) )then
-            DMNF.cds_nfCORPONF2.AsString := sCFOPDADOSADC2.AsString;
-          If ((sCFOPDADOSADC3.AsString = '') or (not sCFOPDADOSADC3.IsNull) )then
-            DMNF.cds_nfCORPONF3.AsString := sCFOPDADOSADC3.AsString;
-          If ((sCFOPDADOSADC4.AsString = '') or (not sCFOPDADOSADC4.IsNull) )then
-            DMNF.cds_nfCORPONF4.AsString := sCFOPDADOSADC4.AsString;
-          If ((sCFOPDADOSADC5.AsString = '') or (not sCFOPDADOSADC5.IsNull) )then
-            DMNF.cds_nfCORPONF5.AsString := sCFOPDADOSADC5.AsString;
-          If ((sCFOPDADOSADC6.AsString = '') or (not sCFOPDADOSADC6.IsNull) )then
-            DMNF.cds_nfCORPONF6.AsString := sCFOPDADOSADC6.AsString;
-          end;
+  if (DMNF.DtSrc_NF.State in [dsEdit]) then
+  begin
+    if( (not DMNF.cds_nfCFOP.IsNull)  or (DMNF.cds_nfCFOP.AsString <> '') )then
+    begin
+      if( (not DMNF.cds_nfUFCLI.IsNull)  or (DMNF.cds_nfUFCLI.AsString <> '') )then
+      begin
+        if (sCFOP.Active) then
+          sCFOP.Close;
+        sCFOP.Params[1].asString :=  cbCFOP.Text;
+        sCFOP.Params[0].asString :=  DBEdit7.Text;
+        sCFOP.Params[2].asString :=  'J';
+        sCFOP.Open;
+        If ((sCfopDADOSADC1.AsString = '') or (not sCFOPDADOSADC1.IsNull) )then
+          DMNF.cds_nfCORPONF1.AsString := sCFOPDADOSADC1.AsString;
+        If ((sCFOPDADOSADC2.AsString = '') or (not sCFOPDADOSADC2.IsNull) )then
+          DMNF.cds_nfCORPONF2.AsString := sCFOPDADOSADC2.AsString;
+        If ((sCFOPDADOSADC3.AsString = '') or (not sCFOPDADOSADC3.IsNull) )then
+          DMNF.cds_nfCORPONF3.AsString := sCFOPDADOSADC3.AsString;
+        If ((sCFOPDADOSADC4.AsString = '') or (not sCFOPDADOSADC4.IsNull) )then
+          DMNF.cds_nfCORPONF4.AsString := sCFOPDADOSADC4.AsString;
+        If ((sCFOPDADOSADC5.AsString = '') or (not sCFOPDADOSADC5.IsNull) )then
+          DMNF.cds_nfCORPONF5.AsString := sCFOPDADOSADC5.AsString;
+        If ((sCFOPDADOSADC6.AsString = '') or (not sCFOPDADOSADC6.IsNull) )then
+          DMNF.cds_nfCORPONF6.AsString := sCFOPDADOSADC6.AsString;
+      end;
+    end;
+  end;
 End;
+
+procedure TfNotaf.DBEdit7Change(Sender: TObject);
+begin
+  carregaDadosAdicionais;
+end;
 
 end.
