@@ -11,7 +11,7 @@ inherited fEstado: TfEstado
   PixelsPerInch = 96
   TextHeight = 16
   inherited MMJPanel1: TMMJPanel
-    Top = 676
+    Top = 683
     Width = 668
     Anchors = [akBottom]
     inherited btnIncluir: TBitBtn [0]
@@ -66,7 +66,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label3: TLabel
-      Left = 17
+      Left = 11
       Top = 57
       Width = 36
       Height = 16
@@ -246,7 +246,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label15: TLabel
-      Left = 12
+      Left = 11
       Top = 105
       Width = 44
       Height = 16
@@ -291,7 +291,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object DBEdit1: TDBEdit
-      Left = 12
+      Left = 8
       Top = 73
       Width = 81
       Height = 24
@@ -614,7 +614,7 @@ inherited fEstado: TfEstado
     Left = 0
     Top = 344
     Width = 668
-    Height = 332
+    Height = 339
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -830,7 +830,7 @@ inherited fEstado: TfEstado
     end
     object DBEdit17: TDBEdit
       Left = 9
-      Top = 104
+      Top = 76
       Width = 627
       Height = 24
       Anchors = [akTop]
@@ -850,7 +850,7 @@ inherited fEstado: TfEstado
     end
     object DBEdit18: TDBEdit
       Left = 9
-      Top = 76
+      Top = 104
       Width = 627
       Height = 24
       Anchors = [akTop]
