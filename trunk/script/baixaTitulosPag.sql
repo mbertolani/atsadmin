@@ -1,3 +1,4 @@
+SET TERM ^;
 CREATE OR ALTER PROCEDURE  BAIXATITULOSPAG( VALOR                            DOUBLE PRECISION
                                 , FUNRURAL                         DOUBLE PRECISION
                                 , JUROS                            DOUBLE PRECISION
@@ -10,7 +11,9 @@ CREATE OR ALTER PROCEDURE  BAIXATITULOSPAG( VALOR                            DOU
                                 , NDOC                             VARCHAR( 20 )
                                 , CAIXA                            SMALLINT
                                 , FORNECEDOR                          INTEGER
-                                , STATUS                           CHAR( 2 ) )
+                                , STATUS                           CHAR( 2 ) 
+                                , USERID                           CHAR( 2 ) 
+                                                              )
 -- tirei esta data, nÃ£o tem motivo para mudar ela aqui
 --, DATAVENC                         DATE
 AS
@@ -49,7 +52,7 @@ BEGIN
 
   /* Se Valor for negativo entao baixa o ti­tulo */
 
-  FOR SELECT CODPAGAMENTO, VALOR_RESTO FROM PAGAMENTO WHERE CODFORNECEDOR = :FORNECEDOR AND DP = 0 
+  FOR SELECT CODPAGAMENTO, VALOR_RESTO FROM PAGAMENTO WHERE CODFORNECEDOR = :FORNECEDOR AND DP = 0 AND USERID = :USERID
      AND STATUS IN ('5-') order by CODPAGAMENTO -- busco pelos tiÂ­tulos a baixar
   INTO :CODREC, :VLRESTO 
   DO BEGIN
