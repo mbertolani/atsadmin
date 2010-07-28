@@ -1845,6 +1845,8 @@ begin
     if (FormExiste(fNotaf1) = True) then
       if (cds_Mov_detTotalPedido.Value > 0)then
       begin
+        if (cds_nf1.State in [dsBrowse, dsInactive]) then
+          cds_nf1.Edit;
         cds_nf1VALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
         if (cds_nf1VALOR_TOTAL_NOTA.Value <> cds_nf1VALOR_PRODUTO.Value) then
           cds_nf1VALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
