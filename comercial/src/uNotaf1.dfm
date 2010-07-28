@@ -1,6 +1,6 @@
 object fNotaf1: TfNotaf1
   Left = 0
-  Top = 31
+  Top = 36
   Width = 799
   Height = 590
   BorderIcons = [biSystemMenu, biMaximize]
@@ -22,7 +22,7 @@ object fNotaf1: TfNotaf1
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 774
+    Width = 775
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -896,7 +896,7 @@ object fNotaf1: TfNotaf1
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 774
+    Width = 775
     Height = 691
     ActivePage = TabNF
     Align = alTop
