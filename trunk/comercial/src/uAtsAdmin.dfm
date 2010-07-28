@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
-  Left = 166
-  Top = 215
+  Left = 184
+  Top = 251
   Width = 700
   Height = 446
   Color = clWhite
@@ -2166,7 +2166,6 @@ object fAtsAdmin: TfAtsAdmin
       end
       object CFOP1: TMenuItem
         Caption = 'CFOP'
-        OnClick = CFOP1Click
       end
       object CFOPEstados1: TMenuItem
         Caption = 'CFOP-Estados'
@@ -2314,21 +2313,21 @@ object fAtsAdmin: TfAtsAdmin
     end
     object NotaFiscal1: TMenuItem
       Caption = 'Nota Fiscal      '
-      object ExportaNotaFiscal1: TMenuItem
-        Caption = 'Exporta Nota Fiscal'
-        OnClick = ExportaNotaFiscal1Click
-      end
       object NotasFiscais: TMenuItem
         Caption = '&Notas Fiscais'
         OnClick = acNFiscaisExecute
+      end
+      object NotaFiscalEletrnica1: TMenuItem
+        Caption = 'Nota Fiscal Eletr'#244'nica'
+        OnClick = NotaFiscalEletrnica1Click
       end
       object NotaFiscalPaulista1: TMenuItem
         Caption = 'Nota Fiscal Paulista'
         OnClick = NotaFiscalPaulista1Click
       end
-      object NotaFiscalEletrnica1: TMenuItem
-        Caption = 'Nota Fiscal Eletr'#244'nica'
-        OnClick = NotaFiscalEletrnica1Click
+      object ExportaNotaFiscal1: TMenuItem
+        Caption = 'Exporta Nota Fiscal'
+        OnClick = ExportaNotaFiscal1Click
       end
     end
     object N2: TMenuItem
@@ -2348,25 +2347,25 @@ object fAtsAdmin: TfAtsAdmin
     end
     object ContEstoque1: TMenuItem
       Caption = 'Materiais     '
-      object CorrigeEstoque1: TMenuItem
-        Caption = 'Corrigir Estoque'
-        OnClick = CorrigeEstoque1Click
+      object VerEstoque1: TMenuItem
+        Caption = 'Ver Movimento Materiais'
+        OnClick = VerEstoque1Click
       end
       object EntradadeEstoque1: TMenuItem
         Caption = 'Entrada de Materiais'
         OnClick = EntradadeEstoque1Click
       end
-      object MovimentaodeEstoque1: TMenuItem
-        Caption = 'Movimenta'#231#227'o de Materiais'
-        OnClick = MovimentaodeEstoque1Click
-      end
       object SaidadeEstoque1: TMenuItem
         Caption = 'Saida de Materiais'
         OnClick = SaidadeEstoque1Click
       end
-      object VerEstoque1: TMenuItem
-        Caption = 'Ver Movimento Materiais'
-        OnClick = VerEstoque1Click
+      object MovimentaodeEstoque1: TMenuItem
+        Caption = 'Movimenta'#231#227'o de Materiais'
+        OnClick = MovimentaodeEstoque1Click
+      end
+      object CorrigeEstoque1: TMenuItem
+        Caption = 'Corrigir Estoque'
+        OnClick = CorrigeEstoque1Click
       end
       object N3: TMenuItem
         Caption = '-'
