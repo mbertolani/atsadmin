@@ -23,7 +23,9 @@ object TRpReport
     item
       Alias = 'IMPR'
       DatabaseAlias = 'SGE'
-      SQL = 'select * from RECIBO_CP order by emissao'
+      SQL = 
+        'select * from RECIBO_CP  where USERID = :USUARIO order by emissa' +
+        'o'
     end
     item
       Alias = 'IMPCAB'
@@ -56,7 +58,18 @@ object TRpReport
       ReportGroupsTable = 'REPMAN_GROUPS'
       ADOConnectionString = ''
     end>
-  Params = <>
+  Params = <
+    item
+      Name = 'USUARIO'
+      Value = '8'
+      Datasets.Strings = (
+        'IMPR')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end>
   Language = 0
   PrinterFonts = rppfontsalways
   StreamFormat = rpStreamText
