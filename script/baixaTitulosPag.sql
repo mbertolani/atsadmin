@@ -1,4 +1,3 @@
-SET TERM ^;
 CREATE OR ALTER PROCEDURE  BAIXATITULOSPAG( VALOR                            DOUBLE PRECISION
                                 , FUNRURAL                         DOUBLE PRECISION
                                 , JUROS                            DOUBLE PRECISION
@@ -162,4 +161,3 @@ BEGIN
       --, DATAVENCIMENTO = :DATAVENC
   END
 END
---€ý5:q
