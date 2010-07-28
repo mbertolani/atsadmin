@@ -81,7 +81,7 @@ begin
                                 , ''
                                 , NEW.CAIXA
                                 , NEW.CODFORNECEDOR
-                                , '7-');
+                                , '7-', NEW.CODUSUARIO);
    end   
    if (tipoNatureza = 4) then -- E Compra 
    begin
