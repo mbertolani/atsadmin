@@ -758,8 +758,8 @@ begin
     dm.cds_parametro.edit;
     dm.cds_parametroD4.AsString := FormatDateTime('ddmmyyyy', today);
     dm.cds_parametro.ApplyUpdates(0);
-  end
-
+  end;
+  Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
 end;
 
 procedure TfAtsAdmin.ListadeCompras1Click(Sender: TObject);
