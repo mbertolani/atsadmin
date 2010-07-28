@@ -21,7 +21,7 @@ begin
   INTO :NATUREZA
   DO
     /* Se a Natureza não for igual a 2, então não mexe na tabela Compras */
-    IF (:NATUREZA = 2) then
+    IF ((:NATUREZA = 2) OR (:NATUREZA = 20)) then
     begin
       /* Pego o valor na tabela compras */
       FOR SELECT CODMOVIMENTO, VALOR FROM COMPRA WHERE CODMOVIMENTO = OLD.CODMOVIMENTO 
