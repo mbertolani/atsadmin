@@ -1306,6 +1306,7 @@ begin
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
    //Gera Envio da Nota
    ACBrNFe1.Enviar(0);
+   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;   
    ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
    ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
 
