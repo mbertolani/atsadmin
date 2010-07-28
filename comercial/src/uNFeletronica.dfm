@@ -39,7 +39,7 @@ object fNFeletronica: TfNFeletronica
       Caption = 'Gerar NF-e'
       TabOrder = 0
       object btnGeraNFe: TBitBtn
-        Left = 6
+        Left = 10
         Top = 13
         Width = 91
         Height = 36
@@ -49,7 +49,7 @@ object fNFeletronica: TfNFeletronica
         OnClick = btnGeraNFeClick
       end
       object btnValidaNFe: TBitBtn
-        Left = 102
+        Left = 114
         Top = 13
         Width = 91
         Height = 36
@@ -58,7 +58,7 @@ object fNFeletronica: TfNFeletronica
         OnClick = ValidaNFeClick
       end
       object BtnPreVis: TBitBtn
-        Left = 102
+        Left = 114
         Top = 53
         Width = 91
         Height = 36
@@ -68,7 +68,7 @@ object fNFeletronica: TfNFeletronica
         OnClick = BtnPreVisClick
       end
       object BtnEnvEmail: TBitBtn
-        Left = 198
+        Left = 211
         Top = 13
         Width = 91
         Height = 36
@@ -77,7 +77,7 @@ object fNFeletronica: TfNFeletronica
         OnClick = BtnEnvEmailClick
       end
       object btnSPED: TBitBtn
-        Left = 6
+        Left = 10
         Top = 53
         Width = 91
         Height = 36
