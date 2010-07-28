@@ -234,7 +234,6 @@ begin
     begin
       executaScript('rel_vendaCompra.sql');
       executaScript('inclui_rec.sql');
-      executaScript('inclui_pag.sql');
       executaScript('resultadoporproduto.sql');
       mudaVersao('1.0.0.23');
     end; // Fim Ataulização Versao 1.0.0.22
@@ -745,6 +744,14 @@ begin
       executaDDL('PAGAMENTO', 'USERID', 'Char(1)');
       mudaVersao('1.0.0.72');
     end;  // Fim Ataulização Versao 1.0.0.72
+
+    if (versaoSistema = '1.0.0.72') then
+    begin
+      executaScript('baixaTitulosPag.sql');
+      executaScript('altera_compra.sql');
+      executaScript('inclui_pag.sql');
+      mudaVersao('1.0.0.73');
+    end;  // Fim Ataulização Versao 1.0.0.73
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
