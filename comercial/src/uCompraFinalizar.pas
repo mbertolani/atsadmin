@@ -518,7 +518,8 @@ begin
 
   if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 9) then // E devolucao de Compra
   begin
-    strSql := 'update PAGAMENTO p set p.DP = 0 WHERE p.CODFORNECEDOR = ';
+    strSql := 'update PAGAMENTO p set p.DP = 0, p.USERID = ' + QuotedStr(IntToStr(dm.varUserId)) +
+      ' WHERE p.CODFORNECEDOR = ';
     strSql := strSql + IntToStr(cds_compraCODFORNECEDOR.AsInteger);
     strSql := strSql + ' AND TITULO = ' + QuotedStr(IntToStr(cds_compraNOTAFISCAL.AsInteger));
     strSql := strSql + ' AND STATUS = ' + QuotedStr('5-');
