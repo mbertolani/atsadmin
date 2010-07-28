@@ -259,7 +259,7 @@ type
   public
       vrr : double;
       codMovFin, codVendaFin, codCliFin : integer;
-      parametroNF: string;
+      parametroNF , tipoCompra: string;
     procedure gravanotafiscal;
     procedure calculaicms(Estado: String);
     procedure somavalores;
@@ -284,7 +284,7 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
-  uFornecedorCadastro;
+  uFornecedorCadastro, uFiltroMov_compra, uFiltroMov_NFcompra;
 
 {$R *.dfm}
 
@@ -1026,7 +1026,65 @@ end;
 procedure TfNotaf1.btnProcurarClick(Sender: TObject);
 var varsql:string;
 begin
-    if (not dmnf.cds_ccusto.Active) then
+      if (not dmnf.cds_ccusto.Active) then
+          dmnf.cds_ccusto.Open;
+      dmnf.cds_ccusto.First;
+      while not dmnf.cds_ccusto.Eof do
+      begin
+        fFiltroMov_NFcompra.ComboBox1.Items.Add(dmnf.cds_ccustoNOME.AsString);
+        dmnf.cds_ccusto.Next;
+      end;
+
+    //  cds_ccusto.close;
+      {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
+     { if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'NATUREZACOMPRA';
+      dm.cds_parametro.Open;
+      }
+      if dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'NATUREZANF';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametro.IsEmpty) then
+      begin
+        varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS) ' ;
+        varsql := varsql + 'values (''NATUREZANF'',''S'',''20'')';
+        dm.sqlsisAdimin.executedirect(varsql);
+      end;
+      fFiltroMov_NFcompra.Edit3.Text := dm.cds_parametroDADOS.AsString;
+      fFiltroMov_NFcompra.Edit4.Text := dm.cds_parametroD1.AsString;
+      dm.cds_parametro.Close;
+      if (tipoCompra = 'DEVOLUCAO') then
+      begin
+        ffiltromov_NFcompra.Edit3.Text := '9';
+        ffiltromov_NFcompra.Edit4.Text := 'Devolução';
+        //ffiltromov_compra.Label9.Caption := 'Devolução Compras';
+        ffiltromov_NFcompra.Label10.Caption := 'Devolução Compras';
+        ffiltromov_NFcompra.MMJPanel1.Background.EndColor := clOlive;
+        ffiltromov_NFcompra.MMJPanel2.Background.EndColor := clOlive;
+      end;
+
+      fFiltroMov_NFcompra.ShowModal;
+      {
+      if (GroupBox7.Visible = True) then
+      begin
+        if (cds_MovimentoPLACA.AsString <> '') then
+          MaskEdit1.Text := cds_MovimentoPLACA.AsString
+        else
+          MaskEdit1.Text := '';
+      end;
+
+      if (not cds_ccusto.Active) then
+        cds_ccusto.Open;
+      cds_ccusto.Locate('CODIGO',cds_MovimentoCODALMOXARIFADO.AsInteger, [loCaseInsensitive]);
+      ComboBox1.Text := cds_ccustoNOME.AsString;
+
+      modo := 'EDITAR';
+      if ( not cds_Mov_detBAIXA.IsNull ) then
+        modo := 'FINALIZADO';
+      }
+   { if (not dmnf.cds_ccusto.Active) then
         dmnf.cds_ccusto.Open;
     dmnf.cds_ccusto.First;
     while not dmnf.cds_ccusto.Eof do
@@ -1034,7 +1092,7 @@ begin
       fFiltroMovimento.ComboBox1.Items.Add(dmnf.cds_ccustoNOME.AsString);
       dmnf.cds_ccusto.Next;
     end;
-    {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
+    //------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------
     if dm.cds_parametro.Active then
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'NATUREZANF';
@@ -1051,12 +1109,20 @@ begin
     dm.cds_parametro.Close;
     fFiltroMovimento.BitBtn8.Enabled := False;
     fFiltroMovimento.ShowModal;
+    }
+
+    if (dmnf.cds_nf1.Active) then
+      dmnf.cds_nf1.Close;
+    dmnf.cds_nf1.Params[0].Clear;
+    dmnf.cds_nf1.Params[1].AsInteger := dmnf.cds_nf1NUMNF.AsInteger ;
+    dmnf.cds_nf1.Open;
+
 
     dmnf.cds_Movimento.Close;
-    dmnf.cds_Movimento.Params[0].AsInteger := fFiltroMovimento.cod_mov;
+    dmnf.cds_Movimento.Params[0].AsInteger := fFiltroMov_NFcompra.cod_mov;
     dmnf.cds_Movimento.Open;
 
-    if (dmnf.cds_MovimentoCODNATUREZA.AsInteger = 12) then
+    if (dmnf.cds_MovimentoCODNATUREZA.AsInteger = 20) then
     begin
        cbFinanceiro.Checked := False;
        cbEstoque.Checked := False;
@@ -1083,9 +1149,11 @@ begin
        RadioGroup1.ItemIndex := 0
     else
        RadioGroup1.ItemIndex := 1;
-                      }
+         }
+   {
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
+    }
 end;
 
 procedure TfNotaf1.gravanotafiscal;
