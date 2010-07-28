@@ -286,6 +286,7 @@ var
   varCpTitulo: TUtils;
   Forma, i, num: Integer;
 begin
+  idusuario :=  IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
   varCpTitulo := TUtils.Create;
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -317,7 +318,8 @@ begin
     //Verifica se é cheque pre-datado e baixando o título
     for i:=1 to length(nrec) do
     begin
-      str_sql := 'UPDATE PAGAMENTO SET DP = 0, HISTORICO = HISTORICO || ';
+      str_sql := 'UPDATE PAGAMENTO SET DP = 0 , USERID = ' + QuotedStr(idusuario);
+      str_sql := str_sql + ' ,HISTORICO = HISTORICO || ';
       str_sql := str_sql + QuotedStr(Memo1.Text);
       str_sql := str_sql + ' WHERE CODPAGAMENTO = ';
       num := nrec[i - 1];
@@ -359,7 +361,8 @@ begin
     str_sql := str_sql + ',''' + dm.cds_4_pagarN_DOCUMENTO.AsString + '''';
     str_sql := str_sql + ',' + FloatToStr(dm.cds_4_pagarCAIXA.AsFloat);
     str_sql := str_sql + ',' + IntToStr(dm.cds_4_pagarCODFornecedor.AsInteger);
-    str_sql := str_sql + ',''' + dm.cds_4_pagarSTATUS.AsString + '''';
+    str_sql := str_sql + ',''' + dm.cds_4_pagarSTATUS.AsString + ''', ';
+    str_sql := str_sql + QuotedStr(idusuario);
     str_sql := str_sql + ')';
     DecimalSeparator := ',';
     dm.sqlsisAdimin.StartTransaction(TD);
