@@ -411,7 +411,7 @@ begin
    + ' END AS STATUS, rec.DATAPAGAMENTO, '
    + 'sum(rec.VALORRECEBIDO + FUNRURAL + JUROS) as VALORRECEBIDO, rec.VIA, rec.N_DOCUMENTO '
    + ' , cli.NOMEFORNECEDOR, ' +
-   ' SUM(rec.VALOR_RESTO - rec.VALORRECEBIDO - rec.DESCONTO - rec.PERDA) as VALORREC' +
+   ' UDF_ROUNDDEC(SUM(rec.VALOR_RESTO - rec.VALORRECEBIDO - rec.DESCONTO - rec.PERDA),2) as VALORREC' +
    ' ,plano.NOME, rec.HISTORICO from PAGAMENTO rec ' +
    ' inner join FORNECEDOR cli on cli.CODFORNECEDOR=rec.CODFORNECEDOR ' +
    ' left outer join PLANO plano on plano.CODIGO = rec.CAIXA ' +
