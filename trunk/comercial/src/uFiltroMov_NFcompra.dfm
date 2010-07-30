@@ -452,8 +452,8 @@ object fFiltroMov_NFcompra: TfFiltroMov_NFcompra
     object Label10: TJvLabel
       Left = 144
       Top = 2
-      Width = 499
-      Height = 40
+      Width = 429
+      Height = 37
       Caption = 'Pesquisa Compras/ Or'#231'amentos'
       ShadowColor = clNavy
       ShadowSize = 4
