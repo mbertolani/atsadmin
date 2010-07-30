@@ -355,6 +355,8 @@ type
     sCfopDADOSADC4: TStringField;
     sCfopDADOSADC5: TStringField;
     sCfopDADOSADC6: TStringField;
+    lblFatura: TLabel;
+    sCfopNAOENVFATURA: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -2090,6 +2092,7 @@ end;
 
 Procedure TfNotaf.carregaDadosAdicionais;
 Begin
+  lblFatura.Caption := sCfopNAOENVFATURA.AsString;
   if (DMNF.DtSrc_NF.State in [dsEdit]) then
   begin
     if( (not DMNF.cds_nfCFOP.IsNull)  or (DMNF.cds_nfCFOP.AsString <> '') )then

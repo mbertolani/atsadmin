@@ -1057,6 +1057,14 @@ object fNotaf: TfNotaf
         Height = 42
         Caption = 'C.F.O.P'
         TabOrder = 1
+        object lblFatura: TLabel
+          Left = 2
+          Top = 27
+          Width = 169
+          Height = 13
+          Align = alBottom
+          Caption = '..'
+        end
         object cbCFOP: TDBComboBox
           Left = 8
           Top = 14
@@ -3483,6 +3491,11 @@ object fNotaf: TfNotaf
     object sCfopDADOSADC6: TStringField
       FieldName = 'DADOSADC6'
       Size = 200
+    end
+    object sCfopNAOENVFATURA: TStringField
+      FieldName = 'NAOENVFATURA'
+      FixedChar = True
+      Size = 1
     end
   end
 end
