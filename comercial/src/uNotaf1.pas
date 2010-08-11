@@ -213,6 +213,7 @@ type
     PopupMenu1: TPopupMenu;
     ExcluirItemNF1: TMenuItem;
     dbeSerie: TDBEdit;
+    btnNotaFiscal: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -244,6 +245,7 @@ type
     procedure JvDBGrid2EditChange(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
     procedure ExcluirItemNF1Click(Sender: TObject);
+    procedure btnNotaFiscalClick(Sender: TObject);
   private
     { Private declarations }
     procedure incluiEntrada;
@@ -284,7 +286,8 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
-  uFornecedorCadastro, uFiltroMov_compra, uFiltroMov_NFcompra;
+  uFornecedorCadastro, uFiltroMov_compra, uFiltroMov_NFcompra,
+  uNFeletronica;
 
 {$R *.dfm}
 
@@ -402,7 +405,7 @@ begin
     dmnf.cds_Movimento.Params[0].AsInteger := codMovFin;
     dmnf.cds_Movimento.Open;
 
-    if (dmnf.cds_MovimentoCODNATUREZA.AsInteger = 12) then
+    if (dmnf.cds_MovimentoCODNATUREZA.AsInteger = 20) then
     begin
       cbFinanceiro.Checked := False;
       cbEstoque.Checked := False;
@@ -937,8 +940,8 @@ begin
     end;
     if ((cbFinanceiro.Checked = False) and (cbEstoque.Checked = False)) then
     begin
-        DMNF.cds_MovimentoCODNATUREZA.AsInteger := 12;
-        DMNF.cds_MovimentoDESCNATUREZA.AsString := 'NF';
+        DMNF.cds_MovimentoCODNATUREZA.AsInteger := 20;
+        DMNF.cds_MovimentoDESCNATUREZA.AsString := 'Nota Fiscal Compra';
     end;
 
    end;
@@ -1641,6 +1644,12 @@ begin
      DMNF.cds_nf1.ApplyUpdates(0);
    end;
  end;
+end;
+
+procedure TfNotaf1.btnNotaFiscalClick(Sender: TObject);
+begin
+    fNFeletronica.tpNF.ItemIndex := 0;
+    fNFeletronica.ShowModal;
 end;
 
 end.
