@@ -152,11 +152,20 @@ begin
         vXMLDoc.LoadFromFile(caminho);
         with vXMLDoc.DocumentElement  do
         begin
-          IDNFE := ChildNodes['infNFe'].AttributeNodes['Id'].Text;
-          numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-          RAZAO := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
-          CNPJ := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
-          CPF := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CPF'].Text;
+          IDNFE := ChildNodes['NFe'].ChildNodes['infNFe'].AttributeNodes['Id'].Text;
+          numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+          RAZAO := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
+          CNPJ := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
+          CPF := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CPF'].Text;
+          if ( (numnf = '') and (RAZAO = '') and (CNPJ = '') and (CPF = '') ) then
+          begin
+            IDNFE := ChildNodes['infNFe'].AttributeNodes['Id'].Text;
+            numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+            RAZAO := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
+            CNPJ := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
+            CPF := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CPF'].Text;
+          end;
+
         end;
         fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo := fNFeletronica.ACBrNFe1.WebServices.Consulta.Protocolo;
         Protocolo := fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo;
