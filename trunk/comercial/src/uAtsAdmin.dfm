@@ -2370,6 +2370,30 @@ object fAtsAdmin: TfAtsAdmin
       object N3: TMenuItem
         Caption = '-'
       end
+      object ApontarProduo1: TMenuItem
+        Caption = 'Apontar Produ'#231#227'o'
+        OnClick = ApontarProduo1Click
+      end
+      object AlterarValordosProdutosprFornecedor1: TMenuItem
+        Caption = 'Alterar Valor dos Produtos p'#244'r Fornecedor '
+        OnClick = AlterarValordosProdutosprFornecedor1Click
+      end
+      object AlterarValordeVendadosProdutos1: TMenuItem
+        Caption = 'Alterar Valor de Venda dos Produtos'
+        OnClick = AlterarValordeVendadosProdutos1Click
+      end
+      object GerarEtiquetas1: TMenuItem
+        Caption = 'Gerar Etiquetas'
+        OnClick = GerarEtiquetas1Click
+      end
+      object MapeamentodeEstoque1: TMenuItem
+        Caption = 'Mapeamento de Estoque'
+        OnClick = MapeamentodeEstoque1Click
+      end
+      object OrdemdeProduo1: TMenuItem
+        Caption = 'Ordem de Produ'#231#227'o'
+        OnClick = OrdemdeProduo1Click
+      end
       object RelatrioListadeProdutos2: TMenuItem
         Caption = 'Relat'#243'rio Lista de Produtos'
         OnClick = RelatrioListadeProdutos2Click
@@ -2377,26 +2401,6 @@ object fAtsAdmin: TfAtsAdmin
       object RelatrioListadeProdporLote2: TMenuItem
         Caption = 'Relat'#243'rio Lista de Prod. por Lote'
         OnClick = RelatrioListadeProdporLote2Click
-      end
-      object MapeamentodeEstoque1: TMenuItem
-        Caption = 'Mapeamento de Estoque'
-        OnClick = MapeamentodeEstoque1Click
-      end
-      object AlterarValordosProdutosprFornecedor1: TMenuItem
-        Caption = 'Alterar Valor dos Produtos p'#244'r Fornecedor '
-        OnClick = AlterarValordosProdutosprFornecedor1Click
-      end
-      object OrdemdeProduo1: TMenuItem
-        Caption = 'Ordem de Produ'#231#227'o'
-        OnClick = OrdemdeProduo1Click
-      end
-      object ApontarProduo1: TMenuItem
-        Caption = 'Apontar Produ'#231#227'o'
-        OnClick = ApontarProduo1Click
-      end
-      object GerarEtiquetas1: TMenuItem
-        Caption = 'Gerar Etiquetas'
-        OnClick = GerarEtiquetas1Click
       end
     end
     object Relatrios1: TMenuItem

@@ -217,6 +217,7 @@ type
     CorrigeEstoque1: TMenuItem;
     NotaFiscal1: TMenuItem;
     CFOP1: TMenuItem;
+    AlterarValordeVendadosProdutos1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -314,6 +315,7 @@ type
     procedure GerarEtiquetas1Click(Sender: TObject);
     procedure CorrigeEstoque1Click(Sender: TObject);
     procedure CFOP1Click(Sender: TObject);
+    procedure AlterarValordeVendadosProdutos1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -352,7 +354,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
-  uGeraEtiquetas, ufParametro, uCfop;
+  uGeraEtiquetas, ufParametro, uCfop, uProdGeraAumento;
 
 {$R *.dfm}
 
@@ -1650,6 +1652,16 @@ begin
     fCfop.ShowModal;
   finally
     fCfop.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.AlterarValordeVendadosProdutos1Click(Sender: TObject);
+begin
+  fProdGeraAumento := TfProdGeraAumento.Create(Application);
+  try
+    fProdGeraAumento.ShowModal;
+  finally
+    fProdGeraAumento.Free;
   end;
 end;
 
