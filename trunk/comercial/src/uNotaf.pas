@@ -1588,6 +1588,8 @@ begin
   dmnf.cds_nf.open;
   dmnf.cds_Mov_det.Open;
   dmnf.cds_venda.Close;
+  dmnf.cds_venda.Params[0].AsInteger := dmnf.cds_nfCODVENDA.AsInteger;
+  dmnf.cds_venda.Open;
 end;
 
 procedure TfNotaf.calculaicms(Estado: String);
@@ -2092,7 +2094,7 @@ end;
 
 Procedure TfNotaf.carregaDadosAdicionais;
 Begin
-  lblFatura.Caption := sCfopNAOENVFATURA.AsString;
+  //lblFatura.Caption := sCfopNAOENVFATURA.AsString;
   if (DMNF.DtSrc_NF.State in [dsEdit]) then
   begin
     if( (not DMNF.cds_nfCFOP.IsNull)  or (DMNF.cds_nfCFOP.AsString <> '') )then
