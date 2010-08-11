@@ -193,7 +193,8 @@ uses
   uNotafRemessa in 'uNotafRemessa.pas' {fNotafRemessa},
   uCombo in 'uCombo.pas' {fCombo},
   uGeraEtiquetas in 'uGeraEtiquetas.pas' {fGeraEtiquetas},
-  uNFeMail in 'uNFeMail.pas' {fNFeMail};
+  uNFeMail in 'uNFeMail.pas' {fNFeMail},
+  uProdGeraAumento in 'uProdGeraAumento.pas' {fProdGeraAumento};
 
 {$R *.res}
 
