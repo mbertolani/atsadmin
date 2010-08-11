@@ -22,7 +22,6 @@ type
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
     CheckBox3: TCheckBox;
-    edValor: TJvValidateEdit;
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     btnProdutoProcura: TBitBtn;
@@ -45,6 +44,7 @@ type
     DtSrc: TDataSource;
     cbFamilia: TJvDBSearchComboBox;
     cbCategoria: TJvDBSearchComboBox;
+    edValor: TEdit;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
     procedure CheckBox2Click(Sender: TObject);
@@ -128,12 +128,20 @@ procedure TfProdGeraAumento.BitBtn1Click(Sender: TObject);
 var
   I : integer;
   varValor : Double;
-  sqlTexto, sqladd, avancar: string;
+  sqlTexto, avancar: string;
 
 begin
+  varValor := 0;
+  if (scds_produto.Active) then
+    scds_produto.Close;
+  scds_produto.Open;
   FlatGauge1.MaxValue := scds_produto.RecordCount;
+  FlatGauge1.Progress := 1;
   Label4.Caption := 'Aguarde enquanto o sistema atualiza o Preço';
+  Label4.Font.Color := clRed;
   I := 0;
+  if (FlatGauge1.MaxValue = 0) then
+    exit;
   while not scds_produto.Eof do
   begin
       avancar := 'NAO';
@@ -148,20 +156,20 @@ begin
          exit;
       end;
       //VERIFICA SE HÁ ALTERAÇÃO A SER FEITA
-      if (edValor.Value = 0) then
+      if (StrToFloat(edValor.Text) = 0) then
       begin
          ShowMessage('é nescessario informar o campo Valor');
          exit;
       end;
       // ALTERA O VALOR
       if (CheckBox1.Checked = True) then // PERCENTUAL
-         varValor := scds_produtoVALOR_PRAZO.Value * (1 + (edValor.Value / 100));
+         varValor := scds_produtoVALOR_PRAZO.Value * (1 + (StrToFloat(edValor.Text) / 100));
 
       if (CheckBox2.Checked = True) then // ACRÉSCIMO
-         varValor := edValor.Value + scds_produtoVALOR_PRAZO.Value;
+         varValor := StrToFloat(edValor.Text) + scds_produtoVALOR_PRAZO.Value;
 
       if (CheckBox3.Checked = True) then // ALTERA VALOR
-         varValor := edValor.Value;
+         varValor := StrToFloat(edValor.Text);
 
       if (Edit3.Text <> '') then //Produtos
          if (scds_produtoCODPRODUTO.AsInteger <> StrToInt(Edit3.Text)) then
@@ -171,49 +179,11 @@ begin
       begin
 
         //CARREGA O VALOR A SER ALTERADO
-        sqladd := '';
         sqlTexto := 'Update PRODUTOS set VALOR_PRAZO =  ';
         DecimalSeparator := '.';
         sqlTexto := sqlTexto + Format('%-6.2n',[varValor]);
+        sqlTexto := sqlTexto + ' where CODPRODUTO = ' + IntToStr(scds_produtoCODPRODUTO.AsInteger);
 
-        //VERIFICA O FILTRO PARA ATUALIZAR
-        if ( (cbMarca.Text = '') and (cbFamilia.Text = '') and (cbCategoria.Text = '') ) then
-        begin
-            sqladd := ' where CODPRODUTO = ' + IntToStr(scds_produtoCODPRODUTO.AsInteger);
-        end;
-        //VERIFICA MARCA
-        if ( cbMarca.Text <> '') then
-        begin
-          if ( (sqladd = null) or (sqladd = '') ) then
-            sqladd := ' where MARCA = ' + QuotedStr(cbMarca.Text)
-          else
-            sqladd := sqladd + ' and MARCA = ' + QuotedStr(cbMarca.Text);
-        end;
-        //VERIFICA A FAMILIA
-        if ( cbFamilia.Text <> '') then
-        begin
-          if ( (sqladd = null) or (sqladd = '') ) then
-          sqladd := ' where FAMILIA = ' + QuotedStr(cbFamilia.Text)
-          else
-            sqladd := sqladd + ' and FAMILIA = ' + QuotedStr(cbFamilia.Text);
-        end;
-        //VERIFICA A CATEGORIA
-        if ( cbCategoria.Text <> '') then
-        begin
-          if ( (sqladd = null) or (sqladd = '') ) then
-            sqladd := ' where CATEGORIA = ' + QuotedStr(cbCategoria.Text)
-          else
-            sqladd := sqladd + ' and CATEGORIA = ' + QuotedStr(cbCategoria.Text);
-        end;
-        //VERIFICA O CODIGO DO PRODUTO
-        if ((cbMarca.Text <> '') or (cbFamilia.Text <> '') or (cbCategoria.Text <> '')) then
-        begin
-          if ( (sqladd = null) or (sqladd = '') ) then
-            sqladd := ' where CODPRODUTO = ' + IntToStr(scds_produtoCODPRODUTO.AsInteger)
-          else
-            sqladd := sqladd + ' and CODPRODUTO = ' + IntToStr(scds_produtoCODPRODUTO.AsInteger);
-        end;
-        sqlTexto := sqlTexto + sqladd;
         DM.sqlsisAdimin.ExecuteDirect(sqlTexto);
         DecimalSeparator := ',';
         scds_produto.Next;
@@ -229,6 +199,8 @@ begin
   scds_produto.Params[3].AsString := cbMarca.Text;
   scds_produto.Params[5].AsString := cbCategoria.Text;
   scds_produto.Open;
+  Label4.Font.Color := clBlue;
+  Label4.Caption := 'Preços Alterados.';
 end;
 
 procedure TfProdGeraAumento.FormCreate(Sender: TObject);

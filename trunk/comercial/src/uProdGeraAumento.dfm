@@ -36,7 +36,7 @@ object fProdGeraAumento: TfProdGeraAumento
       Caption = 'Produto'
     end
     object FlatGauge1: TFlatGauge
-      Left = 152
+      Left = 136
       Top = 128
       Width = 465
       Height = 25
@@ -45,21 +45,21 @@ object fProdGeraAumento: TfProdGeraAumento
       Progress = 0
     end
     object Label4: TLabel
-      Left = 7
-      Top = 90
+      Left = 503
+      Top = 66
       Width = 15
       Height = 13
       Caption = '. . .'
     end
     object Valor: TLabel
-      Left = 341
-      Top = 85
+      Left = 309
+      Top = 82
       Width = 24
       Height = 13
       Caption = 'Valor'
     end
     object Label1: TLabel
-      Left = 448
+      Left = 424
       Top = 45
       Width = 58
       Height = 13
@@ -73,14 +73,14 @@ object fProdGeraAumento: TfProdGeraAumento
       Caption = 'Marca'
     end
     object Label10: TLabel
-      Left = 212
+      Left = 231
       Top = 5
       Width = 74
       Height = 13
       Caption = 'Fam'#237'lia / Grupo'
     end
     object Label11: TLabel
-      Left = 463
+      Left = 465
       Top = 5
       Width = 107
       Height = 13
@@ -104,7 +104,7 @@ object fProdGeraAumento: TfProdGeraAumento
     object Edit2: TEdit
       Left = 111
       Top = 60
-      Width = 326
+      Width = 306
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -117,8 +117,8 @@ object fProdGeraAumento: TfProdGeraAumento
       TabOrder = 1
     end
     object CheckBox1: TCheckBox
-      Left = 45
-      Top = 104
+      Left = 13
+      Top = 101
       Width = 97
       Height = 17
       Hint = 'Acrescento percentual ao valor do produto'
@@ -127,8 +127,8 @@ object fProdGeraAumento: TfProdGeraAumento
       OnClick = CheckBox1Click
     end
     object CheckBox2: TCheckBox
-      Left = 149
-      Top = 104
+      Left = 117
+      Top = 101
       Width = 73
       Height = 17
       Hint = 'Acrescenta o valor informado ao valor do produto'
@@ -139,8 +139,8 @@ object fProdGeraAumento: TfProdGeraAumento
       OnClick = CheckBox2Click
     end
     object CheckBox3: TCheckBox
-      Left = 237
-      Top = 104
+      Left = 205
+      Top = 101
       Width = 97
       Height = 17
       Hint = 'Altero o valor informado no cadastro do produto'
@@ -148,35 +148,22 @@ object fProdGeraAumento: TfProdGeraAumento
       TabOrder = 4
       OnClick = CheckBox3Click
     end
-    object edValor: TJvValidateEdit
-      Left = 339
-      Top = 100
-      Width = 121
-      Height = 21
-      Flat = False
-      ParentFlat = False
-      CriticalPoints.MaxValueIncluded = False
-      CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfFloat
-      EditText = '0'
-      TabOrder = 5
-    end
     object BitBtn1: TBitBtn
-      Left = 525
-      Top = 89
+      Left = 421
+      Top = 93
       Width = 75
       Height = 25
       Caption = 'EXECUTAR'
-      TabOrder = 6
+      TabOrder = 5
       OnClick = BitBtn1Click
     end
     object BitBtn2: TBitBtn
-      Left = 613
-      Top = 88
+      Left = 509
+      Top = 93
       Width = 75
       Height = 25
       Caption = 'SAIR'
-      TabOrder = 7
+      TabOrder = 6
       OnClick = BitBtn2Click
     end
     object btnProdutoProcura: TBitBtn
@@ -184,7 +171,7 @@ object fProdGeraAumento: TfProdGeraAumento
       Top = 58
       Width = 34
       Height = 24
-      TabOrder = 8
+      TabOrder = 7
       TabStop = False
       OnClick = btnProdutoProcuraClick
       Glyph.Data = {
@@ -265,11 +252,11 @@ object fProdGeraAumento: TfProdGeraAumento
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 9
+      TabOrder = 8
       Visible = False
     end
     object Edit4: TEdit
-      Left = 446
+      Left = 422
       Top = 60
       Width = 75
       Height = 21
@@ -281,12 +268,12 @@ object fProdGeraAumento: TfProdGeraAumento
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 10
+      TabOrder = 9
     end
     object cbMarca: TJvDBSearchComboBox
       Left = 4
       Top = 18
-      Width = 194
+      Width = 220
       Height = 21
       DataField = 'DESCMARCAS'
       DataSource = dstMarca
@@ -298,13 +285,13 @@ object fProdGeraAumento: TfProdGeraAumento
       Font.Style = []
       ItemHeight = 13
       ParentFont = False
-      TabOrder = 11
+      TabOrder = 10
       OnExit = cbMarcaExit
     end
     object cbFamilia: TJvDBSearchComboBox
-      Left = 212
+      Left = 233
       Top = 18
-      Width = 237
+      Width = 220
       Height = 21
       DataField = 'DESCFAMILIA'
       DataSource = dst_familia
@@ -316,13 +303,13 @@ object fProdGeraAumento: TfProdGeraAumento
       Font.Style = []
       ItemHeight = 13
       ParentFont = False
-      TabOrder = 12
+      TabOrder = 11
       OnExit = cbFamiliaExit
     end
     object cbCategoria: TJvDBSearchComboBox
-      Left = 460
+      Left = 462
       Top = 18
-      Width = 253
+      Width = 220
       Height = 21
       DataField = 'DESCCATEGORIA'
       DataSource = dstCategoria
@@ -334,8 +321,24 @@ object fProdGeraAumento: TfProdGeraAumento
       Font.Style = []
       ItemHeight = 13
       ParentFont = False
-      TabOrder = 13
+      TabOrder = 12
       OnExit = cbCategoriaExit
+    end
+    object edValor: TEdit
+      Left = 302
+      Top = 97
+      Width = 107
+      Height = 21
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 13
+      Text = '0'
     end
   end
   object JvDBGrid1: TJvDBGrid
@@ -424,8 +427,8 @@ object fProdGeraAumento: TfProdGeraAumento
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 20
-    Top = 112
+    Left = 44
+    Top = 128
     object scds_produtoCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -447,22 +450,22 @@ object fProdGeraAumento: TfProdGeraAumento
   end
   object dstCategoria: TDataSource
     DataSet = DM.cds_categoria
-    Left = 624
-    Top = 48
+    Left = 634
+    Top = 126
   end
   object dstMarca: TDataSource
     DataSet = DM.cds_Marca
-    Left = 656
-    Top = 48
+    Left = 666
+    Top = 126
   end
   object dst_familia: TDataSource
     DataSet = DM.cds_familia
-    Left = 688
-    Top = 48
+    Left = 698
+    Top = 126
   end
   object DtSrc: TDataSource
     DataSet = DM.cds_produto
-    Left = 592
-    Top = 48
+    Left = 602
+    Top = 126
   end
 end
