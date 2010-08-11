@@ -1,6 +1,6 @@
 object fNotafc: TfNotafc
-  Left = 0
-  Top = 31
+  Left = 223
+  Top = 85
   Width = 799
   Height = 590
   BorderIcons = [biSystemMenu, biMaximize]
@@ -590,7 +590,7 @@ object fNotafc: TfNotafc
       Layout = blGlyphTop
     end
     object BitBtn4: TBitBtn
-      Left = 227
+      Left = 229
       Top = 2
       Width = 77
       Height = 55
@@ -669,7 +669,7 @@ object fNotafc: TfNotafc
       OnClick = BitBtn5Click
     end
     object btnNotaFiscal: TBitBtn
-      Left = 157
+      Left = 158
       Top = 2
       Width = 71
       Height = 55
@@ -1351,9 +1351,9 @@ object fNotafc: TfNotafc
         Caption = 'N. da Nota'
         TabOrder = 2
         object DBEdit33: TDBEdit
-          Left = 5
+          Left = 34
           Top = 14
-          Width = 76
+          Width = 45
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1370,6 +1370,18 @@ object fNotafc: TfNotafc
           Caption = '...'
           TabOrder = 1
           OnClick = BitBtn3Click
+        end
+        object DBEdit50: TDBEdit
+          Left = 6
+          Top = 14
+          Width = 26
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'SERIE'
+          DataSource = DMNF.DtSrc_Compra
+          TabOrder = 2
+          OnKeyPress = FormKeyPress
         end
       end
       object JvGroupBox29: TJvGroupBox
