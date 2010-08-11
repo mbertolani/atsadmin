@@ -1,7 +1,7 @@
 object fNFeletronica: TfNFeletronica
-  Left = 224
-  Top = 124
-  Width = 885
+  Left = -24
+  Top = -2
+  Width = 812
   Height = 588
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
@@ -20,7 +20,7 @@ object fNFeletronica: TfNFeletronica
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 877
+    Width = 804
     Height = 209
     Align = alTop
     TabOrder = 0
@@ -33,7 +33,7 @@ object fNFeletronica: TfNFeletronica
     object GroupBox1: TGroupBox
       Left = 496
       Top = 1
-      Width = 380
+      Width = 307
       Height = 207
       Align = alRight
       Caption = 'Gerar NF-e'
@@ -600,7 +600,7 @@ object fNFeletronica: TfNFeletronica
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 209
-    Width = 877
+    Width = 804
     Height = 352
     Align = alClient
     TabOrder = 1
@@ -613,7 +613,7 @@ object fNFeletronica: TfNFeletronica
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 875
+      Width = 802
       Height = 350
       Align = alClient
       DataSource = DataSource1
@@ -638,69 +638,69 @@ object fNFeletronica: TfNFeletronica
           Expanded = False
           FieldName = 'SELECIONOU'
           Title.Caption = 'SEL.'
-          Width = 36
+          Width = 33
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NOTASERIE'
           Title.Caption = 'Nota F.'
-          Width = 48
+          Width = 44
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DTAEMISSAO'
           Title.Caption = 'Emiss'#227'o'
-          Width = 54
+          Width = 49
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CFOP'
-          Width = 38
+          Width = 35
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'C'#243'digo'
-          Width = 41
+          Width = 37
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Raz'#227'o Social'
-          Width = 179
+          Width = 164
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CNPJ'
           Title.Caption = 'CNPJ / CPF'
-          Width = 117
+          Width = 107
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOENV'
           Title.Caption = 'Protocolo de Envio'
-          Width = 101
+          Width = 92
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NUMRECIBO'
           Title.Caption = 'Numero Recebimento'
-          Width = 113
+          Width = 103
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOCANC'
           Title.Caption = 'Protocolo de Cancelamento'
-          Width = 122
+          Width = 112
           Visible = True
         end>
     end
