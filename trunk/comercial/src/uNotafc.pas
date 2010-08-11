@@ -218,6 +218,7 @@ type
     listaFornecedorTELEFONE: TStringField;
     listaFornecedorCODTRANSP: TIntegerField;
     btnNotaFiscal: TBitBtn;
+    DBEdit50: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -1104,8 +1105,9 @@ begin
       dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := strToint(dm.cds_parametroDADOS.AsString);
 
     dm.cds_parametro.Close;
-    DMNF.cds_MovimentoDESCNATUREZA.AsString := 'NF FORNECEDOR';
     DMNF.cds_MovimentoCODNATUREZA.AsInteger := 20;
+    DMNF.cds_MovimentoDESCNATUREZA.AsString := 'Nota Fiscal Compra';
+
    //*******************************************************************************
    dmnf.cds_Movimento.ApplyUpdates(0);
    end;
