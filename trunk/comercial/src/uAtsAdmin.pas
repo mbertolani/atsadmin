@@ -94,7 +94,6 @@ type
     cds_LoginMODULO: TStringField;
     cds_LoginID_LOG: TIntegerField;
     Romaneio1: TMenuItem;
-    EvOneInstance1: TEvOneInstance;
     RelatrioNotasCompras1: TMenuItem;
     sds_video: TSQLDataSet;
     sds_parametroLOGIN: TStringField;
