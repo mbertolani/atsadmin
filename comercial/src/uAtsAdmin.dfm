@@ -3548,10 +3548,6 @@ object fAtsAdmin: TfAtsAdmin
       Required = True
     end
   end
-  object EvOneInstance1: TEvOneInstance
-    Left = 657
-    Top = 175
-  end
   object sds_video: TSQLDataSet
     CommandText = 'select * from ACESSO_SENHA '#13#10'where LOGIN = :LG'
     MaxBlobSize = -1

@@ -16,15 +16,15 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\Home\sisadmin\BD\sge_giroparts.fdb'
+      'Database=quad:sge_dnz'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq'
+      'Password=masterkey'
       'RoleName=RoleName'
-      'ServerCharSet=win1252'
+      'ServerCharSet='
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=sysdba'
+      'User_Name=SYSDBA'
       'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
     Left = 80
@@ -9014,6 +9014,7 @@ object DM: TDM
     Top = 64
   end
   object EvOneInstance1: TEvOneInstance
+    Active = False
     Left = 792
     Top = 128
   end
