@@ -1,7 +1,6 @@
 object TRpReport
   GridWidth = 58
   GridHeight = 57
-  Pagesize = rpPageSizeUser
   PageHeight = 8120
   PageWidth = 5742
   CustomPageHeight = 15874
@@ -18,27 +17,27 @@ object TRpReport
       Alias = 'COMISSAO'
       DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select  rec.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOT' +
-        'AFISCAL,        '#13#10'           rec.CODUSUARIO, rec.CODVENDEDOR, su' +
-        'm(rec.VALOR-rec.desconto) as valor, rec.CONTROLE, cli.RAZAOSOCIA' +
-        'L, '#13#10'           func.NOME_FUNCIONARIO,  func.valor_comissao, sum' +
-        '((rec.valor-rec.desconto) * (func.valor_comissao / 100)) as comi' +
-        'ssao, '#13#10'           co.cm as indice, mv.valtotal , prod.codprodut' +
+        'select co.cm,  rec.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, ' +
+        'rec.NOTAFISCAL,        '#13#10'           rec.CODUSUARIO, rec.CODVENDE' +
+        'DOR, sum(rec.VALOR-rec.desconto) as valor, rec.CONTROLE, cli.RAZ' +
+        'AOSOCIAL, '#13#10'           func.NOME_FUNCIONARIO,  func.valor_comiss' +
+        'ao, co.CM as comissao, '#13#10'           mv.valtotal , prod.codprodut' +
         'o , prod.produto, m.obs'#13#10#13#10'from VENDA rec'#13#10'inner join movimento ' +
         'm on m.codmovimento = rec.codmovimento '#13#10'inner join movimentodet' +
         'alhe mv on mv.codmovimento = m.codmovimento'#13#10'inner join comissao' +
-        ' co on codigo = mv.cod_comissao'#13#10'inner join produtos prod on pro' +
-        'd.codproduto = mv.codproduto'#13#10#13#10'left outer join CLIENTES cli on ' +
-        'cli.CODCLIENTE = rec.CODCLIENTE '#13#10'left outer join FUNCIONARIO fu' +
-        'nc on rec.CODVENDEDOR = func.COD_FUNCIONARIO '#13#10'where m.codnature' +
-        'za = 3 and  rec.DATAVENDA between :DATA1 and :DATA2 and ((rec.CO' +
-        'DVENDEDOR=:pfun) or (:pfun = 0)) '#13#10'group by rec.codVendedor,  re' +
-        'c.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOTAFISCAL,  ' +
-        '      '#13#10'rec.CODUSUARIO,  rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'func.N' +
-        'OME_FUNCIONARIO,  func.valor_comissao,co.cm, mv.valtotal, prod.c' +
-        'odproduto , prod.produto, m.obs'#13#10' order by  func.nome_funcionari' +
-        'o, rec.DATAVENDA,  rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13 +
-        #10#13#10#13#10
+        ' co on cast(co.CODIGO as integer )= mv.cod_comissao'#13#10'inner join ' +
+        'produtos prod on prod.codproduto = mv.codproduto'#13#10#13#10'left outer j' +
+        'oin CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE '#13#10'left outer' +
+        ' join FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUNCIONARIO' +
+        ' '#13#10'where m.codnatureza = 3 and  rec.DATAVENDA between :DATA1 and' +
+        ' :DATA2 and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))  and co.COD' +
+        'IGO is not null'#13#10'group by rec.codVendedor,  rec.CODCLIENTE, rec.' +
+        'DATAVENDA, rec.CODMOVIMENTO, rec.NOTAFISCAL,        '#13#10'rec.CODUSU' +
+        'ARIO,  rec.CONTROLE, cli.RAZAOSOCIAL,mv.cod_comissao, co.CODIGO,' +
+        ' co.cm,'#13#10'func.NOME_FUNCIONARIO,  func.valor_comissao, mv.valtota' +
+        'l, prod.codproduto , prod.produto, m.obs'#13#10' order by  func.nome_f' +
+        'uncionario, rec.DATAVENDA,  rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10 +
+        #13#10#13#10#13#10#13#10#13#10#13#10
     end
     item
       Alias = 'EMPRESA'
@@ -107,7 +106,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 40330d
+      Value = 40359d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO')
@@ -714,17 +713,6 @@ object TRpReport
     LFontName = 'Helvetica'
     WideText = '% Com.'
   end
-  object TRpShape2: TRpShape
-    Width = 10695
-    Height = 23
-    PosX = 0
-    PosY = 0
-    Shape = rpsHorzLine
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-  end
   object TRpShape0: TRpShape
     Width = 10695
     Height = 23
@@ -754,7 +742,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'COMISSAO.INDICE'
+    Expression = 'COMISSAO.CM'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -779,7 +767,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = '( COMISSAO.INDICE/100)*(COMISSAO.VALTOTAL)'
+    Expression = '(COMISSAO.CM / 100)  * COMISSAO.VALTOTAL'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -840,6 +828,12 @@ object TRpReport
       end
       item
         Component = TRpLabel9
+      end
+      item
+        Component = TRpShape1
+      end
+      item
+        Component = TRpLabel10
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -914,7 +908,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = '( COMISSAO.INDICE/100)*(COMISSAO.VALTOTAL)'
+    Expression = '(COMISSAO.CM / 100)  * COMISSAO.VALTOTAL'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -947,20 +941,6 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpLabel7: TRpLabel
-    Width = 1275
-    Height = 225
-    PosX = 5520
-    PosY = 58
-    Type1Font = poHelvetica
-    VAlignment = 32
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Total :'
-  end
   object TRpExpression9: TRpExpression
     Width = 930
     Height = 225
@@ -982,7 +962,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = '( COMISSAO.INDICE/100)*(COMISSAO.VALTOTAL)'
+    Expression = '(COMISSAO.CM / 100)  * COMISSAO.VALTOTAL'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -1050,7 +1030,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = '( COMISSAO.INDICE/100)*(COMISSAO.VALTOTAL)'
+    Expression = '(COMISSAO.CM / 100)  * COMISSAO.VALTOTAL'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -1143,5 +1123,56 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     WideText = 'Obs.'
+  end
+  object TRpShape2: TRpShape
+    Width = 10695
+    Height = 23
+    PosX = 0
+    PosY = 0
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape1: TRpShape
+    Width = 10695
+    Height = 23
+    PosX = 0
+    PosY = 0
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel7: TRpLabel
+    Width = 1275
+    Height = 225
+    PosX = 5520
+    PosY = 58
+    Type1Font = poHelvetica
+    VAlignment = 32
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total :'
+  end
+  object TRpLabel10: TRpLabel
+    Width = 1275
+    Height = 225
+    PosX = 5505
+    PosY = 60
+    Type1Font = poHelvetica
+    FontSize = 8
+    VAlignment = 32
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total :'
   end
 end
