@@ -508,13 +508,13 @@ begin
     end;
     1:begin
       if sqlTexto='' then
-         sqlTexto := sqlTexto + ' where mov.STATUS = 1'
+         sqlTexto := sqlTexto + ' where mov.STATUS = 1 and ven.NOTAFISCAL is null '
       else
-        sqlTexto := sqlTexto + ' and mov.STATUS = 1 ';
+        sqlTexto := sqlTexto + ' and mov.STATUS = 1 and ven.NOTAFISCAL is null ';
     end;
     2:begin
       if sqlTexto='' then
-         sqlTexto := sqlTexto + ' where ven.NOTAFISCAL = is not null '
+         sqlTexto := sqlTexto + ' where ven.NOTAFISCAL is not null '
       else
         sqlTexto := sqlTexto + ' and ven.NOTAFISCAL is not null ';
      end;
