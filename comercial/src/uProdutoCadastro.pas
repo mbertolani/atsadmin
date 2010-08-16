@@ -127,6 +127,7 @@ type
     procedure cbTipoChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure DBRadioGroup2Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -178,6 +179,12 @@ begin
   dm.cds_cm.Params[0].Clear;
   dm.cds_cm.Params[1].AsInteger := 9999999;
   dm.cds_cm.Open;
+
+  if (DBRadioGroup2.ItemIndex = 1) then
+  begin
+    DBEdit19.Enabled := False;
+    DBEdit19.Color := clMenuBar;
+  end;
 
 end;
 
@@ -406,6 +413,12 @@ begin
   DM.cds_categoria.Open;
 
  codprod1 := 0;
+
+  if (DBRadioGroup2.ItemIndex = 1) then
+  begin
+    DBEdit19.Enabled := False;
+    DBEdit19.Color := clMenuBar;
+  end;
 end;
 
 procedure TfProdutoCadastro.DBLookupComboBox2Exit(Sender: TObject);
@@ -805,6 +818,22 @@ begin
   fProcura_prod.cds_proc.Next;
   Dm.cds_Produto.Params[0].AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;;
   Dm.cds_Produto.Open;
+end;
+
+procedure TfProdutoCadastro.DBRadioGroup2Change(Sender: TObject);
+begin
+  inherited;
+  if (DBRadioGroup2.ItemIndex = 1) then
+  begin
+    DBEdit19.Enabled := False;
+    DBEdit19.Color := clMenuBar;
+  end
+  else
+  begin
+    DBEdit19.Enabled := True;
+    DBEdit19.Color := clWindow;
+  end;
+
 end;
 
 end.

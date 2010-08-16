@@ -682,7 +682,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Left = 487
       Top = 8
       Width = 15
-      Height = 17
+      Height = 16
       Caption = 'IPI'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -1382,6 +1382,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'M'
       'U'
       'F')
+    OnChange = DBRadioGroup2Change
   end
   object cbTipo: TComboBox [39]
     Left = 55
