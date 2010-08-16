@@ -619,14 +619,14 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = 'Contato'
       end
       object Label10: TLabel
-        Left = 295
+        Left = 303
         Top = 89
         Width = 55
         Height = 13
         Caption = 'Limite Cr'#233'd.'
       end
       object Label12: TLabel
-        Left = 367
+        Left = 374
         Top = 89
         Width = 56
         Height = 13
@@ -753,6 +753,13 @@ inherited fClienteCadastro: TfClienteCadastro
         Height = 13
         Caption = 'C'#243'digo IBGE'
         FocusControl = DBEdit16
+      end
+      object Label78: TLabel
+        Left = 209
+        Top = 89
+        Width = 62
+        Height = 13
+        Caption = 'CFOP Venda'
       end
       object DBNavigator1: TDBNavigator
         Left = 511
@@ -894,7 +901,7 @@ inherited fClienteCadastro: TfClienteCadastro
       object DBEdit6: TDBEdit
         Left = 39
         Top = 105
-        Width = 255
+        Width = 162
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -912,7 +919,7 @@ inherited fClienteCadastro: TfClienteCadastro
         OnKeyPress = FormKeyPress
       end
       object DBEdit7: TDBEdit
-        Left = 295
+        Left = 303
         Top = 105
         Width = 71
         Height = 24
@@ -932,9 +939,9 @@ inherited fClienteCadastro: TfClienteCadastro
         OnKeyPress = FormKeyPress
       end
       object DBEdit9: TDBEdit
-        Left = 367
+        Left = 375
         Top = 105
-        Width = 69
+        Width = 61
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -2114,6 +2121,19 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = '...'
         TabOrder = 20
         OnClick = BitBtn22Click
+      end
+      object cbCFOP: TDBComboBox
+        Left = 203
+        Top = 105
+        Width = 98
+        Height = 21
+        BevelKind = bkFlat
+        Color = clInfoBk
+        DataField = 'CFOP'
+        DataSource = DMNF.DtSrc_NF
+        ItemHeight = 13
+        TabOrder = 37
+        OnKeyPress = FormKeyPress
       end
     end
     object TabInternet: TTabSheet
@@ -7810,7 +7830,7 @@ inherited fClienteCadastro: TfClienteCadastro
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 204
-    Top = 150
+    Top = 102
     object sdsFinTITULO: TStringField
       FieldName = 'TITULO'
       Required = True
@@ -7856,7 +7876,7 @@ inherited fClienteCadastro: TfClienteCadastro
   object dspFin: TDataSetProvider
     DataSet = sdsFin
     Left = 236
-    Top = 150
+    Top = 102
   end
   object cdsFin: TClientDataSet
     Aggregates = <>
@@ -7868,7 +7888,7 @@ inherited fClienteCadastro: TfClienteCadastro
       end>
     ProviderName = 'dspFin'
     Left = 268
-    Top = 150
+    Top = 102
     object cdsFinTITULO: TStringField
       FieldName = 'TITULO'
       Required = True
@@ -7919,8 +7939,8 @@ inherited fClienteCadastro: TfClienteCadastro
   end
   object dsFin: TDataSource
     DataSet = cdsFin
-    Left = 348
-    Top = 150
+    Left = 340
+    Top = 110
   end
   object sds: TSQLDataSet
     CommandText = 'select CODIGO, CODREDUZIDO, NOME from PLANO where CODIGO = :PCOD'
