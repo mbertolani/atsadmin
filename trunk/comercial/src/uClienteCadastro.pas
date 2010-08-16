@@ -609,6 +609,8 @@ type
     lblBanco: TLabel;
     lblPlano: TLabel;
     cbPlano: TComboBox;
+    cbCFOP: TDBComboBox;
+    Label78: TLabel;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -698,7 +700,7 @@ implementation
 uses UDm, uProcurar, uclienteendereco, uClienteRepresentante,
   uClienteVeiculo, uListaClientes, uListaClientesSaude, uVendas, uEstado, uVisitas,
   uListaCliEscola, uRegiaoCadastro, uUtils, sCtrlResize, uNotaf,
-  uCrTituloInclui, uNF, uProdFornecedor, uTerminal_Delivery, ubanco;
+  uCrTituloInclui, uNF, uProdFornecedor, uTerminal_Delivery, ubanco, UDMNF;
 
 {$R *.dfm}
 
@@ -906,6 +908,17 @@ begin
       cdsEnderecoCliLOGRADOURO.Required := True;
     end;
   end;
+
+  //PREENCE COM POSSIVEIS CFOPs PADRÃO PARA VENDA
+  if (not dmnf.listaCFOP.Active) then
+    dmnf.listaCFOP.Open;
+  dmnf.listaCFOP.First;
+  while not dmnf.listaCFOP.Eof do
+  begin
+     cbCFOP.Items.Add(dmnf.listaCFOPCFCOD.AsString);
+     dmnf.listaCFOP.Next;
+  end;
+  dmnf.listaCFOP.Close;
 
   PageControl1.ActivePage := TabSheet1;
   MMJPanel1.Align := alBottom;
