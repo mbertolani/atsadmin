@@ -1,8 +1,8 @@
 object fTerminalFinalizar: TfTerminalFinalizar
   Left = 194
   Top = 114
-  Width = 730
-  Height = 515
+  Width = 733
+  Height = 518
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,8 +18,8 @@ object fTerminalFinalizar: TfTerminalFinalizar
   TextHeight = 16
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 421
-    Width = 722
+    Top = 420
+    Width = 717
     Height = 60
     Align = alBottom
     BevelInner = bvLowered
@@ -1075,11 +1075,6 @@ object fTerminalFinalizar: TfTerminalFinalizar
         item
           Expanded = False
           FieldName = 'TITULO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'T'#237'tulo'
           Width = 43
           Visible = True
@@ -1087,22 +1082,12 @@ object fTerminalFinalizar: TfTerminalFinalizar
         item
           Expanded = False
           FieldName = 'VIA'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'Via'
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DATAVENCIMENTO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'Vencimento'
           Width = 63
           Visible = True
@@ -1110,11 +1095,6 @@ object fTerminalFinalizar: TfTerminalFinalizar
         item
           Expanded = False
           FieldName = 'VALORTITULO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'R$ T'#237'tulo'
           Width = 53
           Visible = True
@@ -1122,11 +1102,6 @@ object fTerminalFinalizar: TfTerminalFinalizar
         item
           Expanded = False
           FieldName = 'STATUS'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'Status'
           Width = 51
           Visible = True
@@ -1134,11 +1109,6 @@ object fTerminalFinalizar: TfTerminalFinalizar
         item
           Expanded = False
           FieldName = 'VALORRECEBIDO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'R$ Recebido'
           Width = 74
           Visible = True
@@ -1146,11 +1116,6 @@ object fTerminalFinalizar: TfTerminalFinalizar
         item
           Expanded = False
           FieldName = 'VALORREC'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'R$ Resto'
           Width = 60
           Visible = True
@@ -1158,11 +1123,6 @@ object fTerminalFinalizar: TfTerminalFinalizar
         item
           Expanded = False
           FieldName = 'N_DOCUMENTO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'n. Doc.'
           Width = 78
           Visible = True
@@ -1170,11 +1130,6 @@ object fTerminalFinalizar: TfTerminalFinalizar
         item
           Expanded = False
           FieldName = 'CAIXA'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Title.Caption = 'Caixa'
           Width = 45
           Visible = True
@@ -1200,7 +1155,7 @@ object fTerminalFinalizar: TfTerminalFinalizar
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 722
+    Width = 717
     Height = 60
     Align = alTop
     BevelInner = bvLowered
@@ -1568,6 +1523,10 @@ object fTerminalFinalizar: TfTerminalFinalizar
       FieldName = 'PRAZO'
       Size = 40
     end
+    object cdsCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+      ProviderFlags = [pfInUpdate]
+    end
   end
   object dsp_venda: TDataSetProvider
     DataSet = sds_venda
@@ -1773,6 +1732,10 @@ object fTerminalFinalizar: TfTerminalFinalizar
       FieldName = 'PRAZO'
       ProviderFlags = [pfInUpdate]
       Size = 40
+    end
+    object sds_vendaCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+      ProviderFlags = [pfInUpdate]
     end
   end
   object ds_Cr: TDataSource
@@ -2610,6 +2573,34 @@ object fTerminalFinalizar: TfTerminalFinalizar
       Caption = 'Sair'
       ShortCut = 120
       OnClick = btnSairClick
+    end
+  end
+  object sCaixaAberto: TSQLDataSet
+    CommandText = 
+      'select * from CAIXA_CONTROLE '#13#10'where MAQUINA = :mq'#13#10'and SITUACAO' +
+      ' = :pStatus'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'mq'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'pStatus'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 6
+    Top = 225
+    object sCaixaAbertoNOMECAIXA: TStringField
+      FieldName = 'NOMECAIXA'
+      Size = 60
+    end
+    object sCaixaAbertoIDCAIXACONTROLE: TIntegerField
+      FieldName = 'IDCAIXACONTROLE'
+      Required = True
     end
   end
 end

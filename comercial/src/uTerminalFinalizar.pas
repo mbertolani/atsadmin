@@ -200,6 +200,11 @@ type
     Sair1: TMenuItem;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
+    sCaixaAberto: TSQLDataSet;
+    sCaixaAbertoNOMECAIXA: TStringField;
+    sCaixaAbertoIDCAIXACONTROLE: TIntegerField;
+    sds_vendaCODORIGEM: TIntegerField;
+    cdsCODORIGEM: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -373,7 +378,16 @@ procedure TfTerminalFinalizar.btnGravarClick(Sender: TObject);
 var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
+     varCaixa : integer;
 begin
+  if (sCaixaAberto.Active) then
+    sCaixaAberto.Close;
+  sCaixaAberto.Params[0].AsString := MICRO;
+  sCaixaAberto.Params[1].AsString := 'A'; //Caixa Aberto
+  sCaixaAberto.Open;
+  varCaixa := sCaixaAbertoIDCAIXACONTROLE.AsInteger;
+  sCaixaAberto.Close;
+  
   tipoMov := 'EDIT';
   if DtSrc.State in [dsInsert] then
   begin
@@ -421,6 +435,7 @@ begin
     dm.c_6_genid.Close;
 
     cdsCODMOVIMENTO.AsInteger := fTerminal_Delivery.cds_MovimentoCODMOVIMENTO.AsInteger;
+    cdsCODORIGEM.AsInteger := varCaixa;
 
     strTit := IntToStr(cdsNOTAFISCAL.AsInteger) + '-' + cdsSERIE.AsString;
 
