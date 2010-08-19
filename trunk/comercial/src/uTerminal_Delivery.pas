@@ -633,6 +633,168 @@ type
     FormadeRecebimento1: TMenuItem;
     JvLabel4: TJvLabel;
     JvDesconto: TJvCalcEdit;
+    sMovDetIMPRIMIR: TStringField;
+    cMovDetIMPRIMIR: TStringField;
+    sds_Mov_DetIMPRIMIR: TStringField;
+    cds_Mov_detIMPRIMIR: TStringField;
+    sImprime_1: TSQLDataSet;
+    sImprimir_2: TSQLDataSet;
+    sImprimir_3: TSQLDataSet;
+    BitBtn6: TBitBtn;
+    sImprime_1CODDETALHE: TIntegerField;
+    sImprime_1CODMOVIMENTO: TIntegerField;
+    sImprime_1CODALMOXARIFADO: TSmallintField;
+    sImprime_1CONTROLE: TSmallintField;
+    sImprime_1CODPRODUTO: TIntegerField;
+    sImprime_1QUANTIDADE: TFloatField;
+    sImprime_1PRECO: TFloatField;
+    sImprime_1ICMS: TFloatField;
+    sImprime_1UN: TStringField;
+    sImprime_1QTDE_ALT: TFloatField;
+    sImprime_1BAIXA: TStringField;
+    sImprime_1VALTOTAL: TFloatField;
+    sImprime_1COD_COMISSAO: TIntegerField;
+    sImprime_1LOTE: TStringField;
+    sImprime_1DTAFAB: TDateField;
+    sImprime_1DTAVCTO: TDateField;
+    sImprime_1PRECOCUSTO: TFloatField;
+    sImprime_1VLRESTOQUE: TFloatField;
+    sImprime_1QTDEESTOQUE: TFloatField;
+    sImprime_1NOTAFISCAL: TStringField;
+    sImprime_1DESCPRODUTO: TStringField;
+    sImprime_1PRECOULTIMACOMPRA: TFloatField;
+    sImprime_1CST: TStringField;
+    sImprime_1VALOR_ICMS: TFloatField;
+    sImprime_1VLR_BASE: TFloatField;
+    sImprime_1PERIODOINI: TSQLTimeStampField;
+    sImprime_1PERIODOFIM: TSQLTimeStampField;
+    sImprime_1ICMS_SUBST: TFloatField;
+    sImprime_1ICMS_SUBSTD: TFloatField;
+    sImprime_1CODIGO: TIntegerField;
+    sImprime_1CODIGO1: TIntegerField;
+    sImprime_1CODAUTORIZACAO: TIntegerField;
+    sImprime_1STATUS: TStringField;
+    sImprime_1PAGOUCOMISSAO: TStringField;
+    sImprime_1CODMOVRATEIO: TIntegerField;
+    sImprime_1VALORRATEIO: TFloatField;
+    sImprime_1PAGO: TStringField;
+    sImprime_1RATEIO: TFloatField;
+    sImprime_1PORCENTAGENDESC: TFloatField;
+    sImprime_1VLR_BASEICMS: TFloatField;
+    sImprime_1IMPRIMIR: TStringField;
+    sImprime_1IMPRESSORA_1: TStringField;
+    sImprime_1IMPRESSORA_2: TStringField;
+    sImprime_1IMPRESSORA_3: TStringField;
+    sImprimir_2CODDETALHE: TIntegerField;
+    sImprimir_2CODMOVIMENTO: TIntegerField;
+    sImprimir_2CODALMOXARIFADO: TSmallintField;
+    sImprimir_2CONTROLE: TSmallintField;
+    sImprimir_2CODPRODUTO: TIntegerField;
+    sImprimir_2QUANTIDADE: TFloatField;
+    sImprimir_2PRECO: TFloatField;
+    sImprimir_2ICMS: TFloatField;
+    sImprimir_2UN: TStringField;
+    sImprimir_2QTDE_ALT: TFloatField;
+    sImprimir_2BAIXA: TStringField;
+    sImprimir_2VALTOTAL: TFloatField;
+    sImprimir_2COD_COMISSAO: TIntegerField;
+    sImprimir_2LOTE: TStringField;
+    sImprimir_2DTAFAB: TDateField;
+    sImprimir_2DTAVCTO: TDateField;
+    sImprimir_2PRECOCUSTO: TFloatField;
+    sImprimir_2VLRESTOQUE: TFloatField;
+    sImprimir_2QTDEESTOQUE: TFloatField;
+    sImprimir_2NOTAFISCAL: TStringField;
+    sImprimir_2DESCPRODUTO: TStringField;
+    sImprimir_2PRECOULTIMACOMPRA: TFloatField;
+    sImprimir_2CST: TStringField;
+    sImprimir_2VALOR_ICMS: TFloatField;
+    sImprimir_2VLR_BASE: TFloatField;
+    sImprimir_2PERIODOINI: TSQLTimeStampField;
+    sImprimir_2PERIODOFIM: TSQLTimeStampField;
+    sImprimir_2ICMS_SUBST: TFloatField;
+    sImprimir_2ICMS_SUBSTD: TFloatField;
+    sImprimir_2CODIGO: TIntegerField;
+    sImprimir_2CODIGO1: TIntegerField;
+    sImprimir_2CODAUTORIZACAO: TIntegerField;
+    sImprimir_2STATUS: TStringField;
+    sImprimir_2PAGOUCOMISSAO: TStringField;
+    sImprimir_2CODMOVRATEIO: TIntegerField;
+    sImprimir_2VALORRATEIO: TFloatField;
+    sImprimir_2PAGO: TStringField;
+    sImprimir_2RATEIO: TFloatField;
+    sImprimir_2PORCENTAGENDESC: TFloatField;
+    sImprimir_2VLR_BASEICMS: TFloatField;
+    sImprimir_2IMPRIMIR: TStringField;
+    sImprimir_2IMPRESSORA_1: TStringField;
+    sImprimir_2IMPRESSORA_2: TStringField;
+    sImprimir_2IMPRESSORA_3: TStringField;
+    sImprimir_3CODDETALHE: TIntegerField;
+    sImprimir_3CODMOVIMENTO: TIntegerField;
+    sImprimir_3CODALMOXARIFADO: TSmallintField;
+    sImprimir_3CONTROLE: TSmallintField;
+    sImprimir_3CODPRODUTO: TIntegerField;
+    sImprimir_3QUANTIDADE: TFloatField;
+    sImprimir_3PRECO: TFloatField;
+    sImprimir_3ICMS: TFloatField;
+    sImprimir_3UN: TStringField;
+    sImprimir_3QTDE_ALT: TFloatField;
+    sImprimir_3BAIXA: TStringField;
+    sImprimir_3VALTOTAL: TFloatField;
+    sImprimir_3COD_COMISSAO: TIntegerField;
+    sImprimir_3LOTE: TStringField;
+    sImprimir_3DTAFAB: TDateField;
+    sImprimir_3DTAVCTO: TDateField;
+    sImprimir_3PRECOCUSTO: TFloatField;
+    sImprimir_3VLRESTOQUE: TFloatField;
+    sImprimir_3QTDEESTOQUE: TFloatField;
+    sImprimir_3NOTAFISCAL: TStringField;
+    sImprimir_3DESCPRODUTO: TStringField;
+    sImprimir_3PRECOULTIMACOMPRA: TFloatField;
+    sImprimir_3CST: TStringField;
+    sImprimir_3VALOR_ICMS: TFloatField;
+    sImprimir_3VLR_BASE: TFloatField;
+    sImprimir_3PERIODOINI: TSQLTimeStampField;
+    sImprimir_3PERIODOFIM: TSQLTimeStampField;
+    sImprimir_3ICMS_SUBST: TFloatField;
+    sImprimir_3ICMS_SUBSTD: TFloatField;
+    sImprimir_3CODIGO: TIntegerField;
+    sImprimir_3CODIGO1: TIntegerField;
+    sImprimir_3CODAUTORIZACAO: TIntegerField;
+    sImprimir_3STATUS: TStringField;
+    sImprimir_3PAGOUCOMISSAO: TStringField;
+    sImprimir_3CODMOVRATEIO: TIntegerField;
+    sImprimir_3VALORRATEIO: TFloatField;
+    sImprimir_3PAGO: TStringField;
+    sImprimir_3RATEIO: TFloatField;
+    sImprimir_3PORCENTAGENDESC: TFloatField;
+    sImprimir_3VLR_BASEICMS: TFloatField;
+    sImprimir_3IMPRIMIR: TStringField;
+    sImprimir_3IMPRESSORA_1: TStringField;
+    sImprimir_3IMPRESSORA_2: TStringField;
+    sImprimir_3IMPRESSORA_3: TStringField;
+    sImprime_1CODPRO: TStringField;
+    sImprimir_3CODPRO: TStringField;
+    Par_Impressao: TSQLDataSet;
+    Par_ImpressaoPARAMETRO: TStringField;
+    Par_ImpressaoDADOS: TStringField;
+    Par_ImpressaoD1: TStringField;
+    Par_ImpressaoD2: TStringField;
+    Par_ImpressaoD3: TStringField;
+    Par_ImpressaoD4: TStringField;
+    Par_ImpressaoD5: TStringField;
+    Par_ImpressaoD6: TStringField;
+    Par_ImpressaoD7: TStringField;
+    Par_ImpressaoD8: TStringField;
+    Par_ImpressaoD9: TStringField;
+    sImprimir_2CODPRO: TStringField;
+    sds_Mov_DetICMS_SUBST: TFloatField;
+    sds_Mov_DetVALOR_ICMS: TFloatField;
+    cds_Mov_detICMS_SUBST: TFloatField;
+    cds_Mov_detVALOR_ICMS: TFloatField;
+    sCaixaAbertoIDCAIXACONTROLE: TIntegerField;
+    sCaixaAbertoSITUACAO: TStringField;
+    Timer1: TTimer;
     procedure BitBtn1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
@@ -680,6 +842,8 @@ type
     procedure APrazo1Click(Sender: TObject);
     procedure FormadeRecebimento1Click(Sender: TObject);
     procedure JvDescontoChange(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
      codproduto : integer;
      cod_nat : integer;
@@ -699,6 +863,8 @@ type
      tipo_origem : string;
      cod_cli_forn : Integer;
      c_f : string;
+     vCFOP, vUF, vNUMERO_NF, vCODMOV, vSERIE : string;
+     varICMS, varSUBTRIBUTARIA : double;
     { Private declarations }
   public
      prazoparapgto : Integer;
@@ -717,24 +883,56 @@ type
      procedure buscacliente;
      procedure exportatabelas;
      procedure AbreFormCaixa;
+     procedure Impressora_1;
+     procedure Impressora_2;
+     procedure Impressora_3;
     { Public declarations }
   end;
 
 var
   fTerminal_Delivery: TfTerminal_Delivery;
   usadelivery, strSql, strTit, serie: String;
-  numTitulo, caixa, COD_VENDA, varConta  : Integer;
+  numTitulo, caixa, COD_VENDA, varConta, prazoparapgto  : Integer;
   total : double;
   TD: TTransactionDesc;
   Rua, Bairro : string;
+  iRetorno: Integer;         // Variável com o retorno da função
+  varAliquota : string;
+  bRetornoEstendido: boolean;
+  sAliquota: String;
+  sTipoQtde: String;
+  iDecimal: Integer;
+  sTipoDesconto, varFormAberto: String;
 
 implementation
 
 uses UDm, uListaClientes, ufprocura_prod, sCtrlResize, uCaixa,
   uVendaFinalizar, uUtils, uProdudoBusca, uMensagens, UDMNF, uProcurar_nf,
-  uFiltroMovimento, uTerminalFinalizar, uMovCaixa;
+  uFiltroMovimento, uTerminalFinalizar, uMovCaixa, uTexto;
+
 
 {$R *.dfm}
+
+function IsFileInUse(FileName: TFileName): Boolean;
+var
+  HFileRes: HFILE;
+begin
+  Result := False;
+  if not FileExists(FileName) then
+  begin
+    Exit;
+  end;
+  HFileRes := CreateFile(PChar(FileName),
+              GENERIC_READ or GENERIC_WRITE,
+              0,
+              nil,
+              OPEN_EXISTING,
+              FILE_ATTRIBUTE_NORMAL,
+              0);
+  Result := (HFileRes = INVALID_HANDLE_VALUE);
+  if not Result then
+    CloseHandle(HFileRes);
+end;
 
 procedure TfTerminal_Delivery.BitBtn1Click(Sender: TObject);
 begin
@@ -846,15 +1044,37 @@ begin
 end;
 
 procedure TfTerminal_Delivery.btnIncluirClick(Sender: TObject);
+var
+   varSITUACAO : String;
 begin
-  BitBtn7.Enabled := True;
-  ComboBox3.Enabled := True;
-  ComboBox4.Enabled := True;
-  if (DM.STATUSCAIXA = 'FECHADO') then
+  if (sCaixaAberto.Active) then
+    sCaixaAberto.Close;
+  sCaixaAberto.Params[0].AsString := MICRO;
+  sCaixaAberto.Params[1].AsString := 'A'; //Caixa Aberto
+  sCaixaAberto.Open;
+  if (sCaixaAberto.IsEmpty) then
+     varSITUACAO := 'F'
+  else
+     varSITUACAO := 'A';
+
+  sCaixaAberto.Close;
+
+  if (varSITUACAO = 'F') then
   begin
     MessageDlg('O Caixa precisa ser Aberto', mtWarning, [mbOK], 0);
     exit;
   end;
+
+  BitBtn7.Enabled := True;
+  ComboBox3.Enabled := True;
+  ComboBox4.Enabled := True;
+
+ { if (DM.STATUSCAIXA = 'FECHADO') then
+  begin
+    MessageDlg('O Caixa precisa ser Aberto', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  }
    if (Panel2.Visible = True) then
    begin
     Edit1.Text := '';
@@ -1237,13 +1457,12 @@ begin
 
     if (RadioGroup1.ItemIndex = 2) then
       cds_MovimentoCODNATUREZA.AsInteger := 3; //Venda
-     // buscacliente;
-
-   cds_Movimento.ApplyUpdates(0);
-   cod_mov := cds_MovimentoCODMOVIMENTO.AsInteger;
+  // buscacliente;
   // Corrijo o codigo da movimento detalhe(tabela)
   if (cds_Mov_detCODMOVIMENTO.AsInteger = 1999999) then
   begin
+    cds_Movimento.ApplyUpdates(0);
+    cod_mov := cds_MovimentoCODMOVIMENTO.AsInteger;
     cds_Mov_det.First;
     While not cds_Mov_det.Eof do
     begin
@@ -1260,7 +1479,23 @@ begin
       cds_Mov_det.Post;
       cds_Mov_det.Next;
     end;
+  end
+  else
+  begin
+      if (cds_Mov_det.State in [dsBrowse]) then
+        cds_Mov_det.Edit;
+      cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+      if (cds_Mov_detQTDE_ALT.IsNull) then
+         cds_Mov_detQTDE_ALT.AsFloat := 0;
+      if dm.c_6_genid.Active then
+        dm.c_6_genid.Close;
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.Open;
+      cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+      dm.c_6_genid.Close;
+      cds_Mov_det.Post;
   end;
+
   // Salvo a movimento detalhe
   cds_Mov_det.ApplyUpdates(0);
 
@@ -1496,7 +1731,16 @@ end;
 procedure TfTerminal_Delivery.novavenda;
 var  utilcrtitulo : Tutils;
      vApagar : double;
+     varCaixa : integer;
 begin
+
+  if (sCaixaAberto.Active) then
+    sCaixaAberto.Close;
+  sCaixaAberto.Params[0].AsString := MICRO;
+  sCaixaAberto.Params[1].AsString := 'A'; //Caixa Aberto
+  sCaixaAberto.Open;
+  varCaixa := sCaixaAbertoIDCAIXACONTROLE.AsInteger;
+  sCaixaAberto.Close;
     // Altero o Cliente Para Consumidor
    //if (usadelivery = 'S')then
     if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 2)) then
@@ -1526,7 +1770,7 @@ begin
     strSql := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA';
     strSql := strSql + ',DATAVENCIMENTO ,BANCO ,CODVENDEDOR ,STATUS ,CODUSUARIO';
     strSql := strSql + ',VALOR ,NOTAFISCAL ,SERIE, DESCONTO, CODCCUSTO, N_PARCELA'; //
-    strSql := strSql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR ';
+    strSql := strSql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, CODORIGEM ';
     strSql := strSql + ') VALUES (';
     strSql := strSql + IntToStr(COD_VENDA);
     strSql := strSql + ',' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
@@ -1576,6 +1820,7 @@ begin
     strSql := strSql + ',33'; //Caixa
     strSql := strSql + ',0'; //Multa_juros
     strSql := strSql + ',' + FloatToStr(vApagar);
+    strSql := strSql + ',' + IntToStr(varCaixa);
     strSql := strSql + ')';
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -1588,7 +1833,6 @@ begin
     end;
     DecimalSeparator := ',';
     ThousandSeparator := '.';
-
 end;
 
 procedure TfTerminal_Delivery.updatevenda;
@@ -1800,7 +2044,7 @@ begin
    cds_Mov_det.Params[0].Clear;
    cds_Mov_det.Params[1].AsInteger := cdsMesaCODMOVIMENTO.AsInteger;
    cds_Mov_det.Open;
-   cds_Mov_det.Edit;
+   //cds_Mov_det.Edit;
    if (GroupBox2.Visible = False) then
        GroupBox2.Visible := True;
    if (GroupBox1.Visible = True) then
@@ -1809,12 +2053,11 @@ begin
    begin
       cbMesas.Text := cdsMesaNOMECLIENTE.AsString;
       Edit4.Text := IntToStr(cdsMesaCODCLIENTE.AsInteger);
-   end;   
+   end;
    RadioGroup1.ItemIndex := 0;
-   dbeProduto.SetFocus;
    jvPago.Text := DBEdit4.Text;
    JvTroco.Value := 0;
-
+   dbeProduto.SetFocus;
 end;
 
 procedure TfTerminal_Delivery.imprimecupom;
@@ -1917,7 +2160,7 @@ begin
 
   if (RadioGroup1.ItemIndex = 0) then
   begin
-     vNomeCliente := cbMesas.Text;
+     vNomeCliente := cdsMesaNOMECLIENTE.AsString;
      Writeln(Impressora, c10cpi, vNomeCliente);
   end
   else
@@ -1957,13 +2200,13 @@ begin
       cds_Mov_det.next;
     end;
     desconto := JvDesconto.Value;
-    Texto5 := DateTimeToStr(Now) + '      Total.: R$   ';
+    Texto5 := '      Total.: R$   ';
     total := cds_Mov_detTotalPedido.Value;
 
     porc := total * 0.1;
     Writeln(Impressora, c17cpi, texto);
 
-    Texto7 := '                    Desconto .: R$   ';
+    Texto7 := '       Desconto .: R$   ';
     Write(Impressora, c10cpi, texto7);
     Writeln(Impressora, c10cpi + Format('         %-6.2n',[desconto]));
 
@@ -1985,7 +2228,7 @@ begin
       Writeln(Impressora, c10cpi + Format('    %-6.2n',[totgeral]));
       Texto5 := '* Nao Obrigatorio           ';
       Write(Impressora, c10cpi, texto5);
-      Writeln(IMPRESSORA);          
+      Writeln(IMPRESSORA);
     end;   }
     Writeln(IMPRESSORA);
     Write(Impressora, c10cpi, DM.Mensagem);
@@ -1998,10 +2241,10 @@ begin
     Writeln(IMPRESSORA);
     Writeln(IMPRESSORA);
     Writeln(IMPRESSORA);
-   { Writeln(IMPRESSORA);
     Writeln(IMPRESSORA);
     Writeln(IMPRESSORA);
-    Writeln(IMPRESSORA);}
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
   finally
     CloseFile(IMPRESSORA);
   end;
@@ -2225,7 +2468,39 @@ end;
 procedure TfTerminal_Delivery.BitBtn6Click(Sender: TObject);
 begin
   inherited;
-  fMensagens.ShowModal;
+  //fMensagens.ShowModal;
+  // Imprime setor 1
+  if (sImprime_1.Active) then
+     sImprime_1.Close;
+  sImprime_1.Params[0].AsInteger := cdsMesaCODMOVIMENTO.AsInteger;
+  sImprime_1.Open;
+  if (not sImprime_1.IsEmpty) then
+  begin
+     Impressora_1;
+     ShowMessage('Destaque o papel e precione ok');
+  end;
+  // Imprime setor 2
+  if (sImprimir_2.Active) then
+     sImprimir_2.Close;
+  sImprimir_2.Params[0].AsInteger := cdsMesaCODMOVIMENTO.AsInteger;
+  sImprimir_2.Open;
+  if (not sImprimir_2.IsEmpty) then
+  begin
+     Impressora_2;
+     ShowMessage('Destaque o papel e precione ok');
+  end;
+  // Imprime setor 3
+  if (sImprimir_3.Active) then
+     sImprimir_3.Close;
+  sImprimir_3.Params[0].AsInteger := cdsMesaCODMOVIMENTO.AsInteger;
+  sImprimir_3.Open;
+  if (not sImprimir_3.IsEmpty) then
+  begin
+     Impressora_3;
+     ShowMessage('Destaque o papel e precione ok');
+  end;
+//  if (cds_mov_det.State in [dsEdit]) then
+//     cds_mov_det.Cancel;
 end;
 
 procedure TfTerminal_Delivery.buscacliente;
@@ -2276,6 +2551,7 @@ begin
     fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
     dm.cds_parametro.Close;
     fFiltroMovimento.BitBtn8.Enabled := False;
+    fFiltroMovimento.Edit3.Text := '';
     fFiltroMovimento.ShowModal;
 
     cds_Movimento.Close;
@@ -2450,10 +2726,39 @@ begin
 end;
 
 procedure TfTerminal_Delivery.BitBtn8Click(Sender: TObject);
+var
+   varSITUACAO : String;
+   i: Integer;
 begin
-  inherited;
-  if (cds_Movimento.State in [dsBrowse]) then
-    exportatabelas;
+  if (sCaixaAberto.Active) then
+    sCaixaAberto.Close;
+  sCaixaAberto.Params[0].AsString := MICRO;
+  sCaixaAberto.Params[1].AsString := 'A'; //Caixa Aberto
+  sCaixaAberto.Open;
+  if (sCaixaAberto.IsEmpty) then
+     varSITUACAO := 'F'
+  else
+     varSITUACAO := 'A';
+
+  sCaixaAberto.Close;
+
+  if (varSITUACAO = 'F') then
+  begin
+    MessageDlg('O Caixa precisa ser Aberto', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  // if (cds_Movimento.State in [dsBrowse]) then
+  //   exportatabelas;
+  for i := 1 to ParamCount do
+  begin
+     if LowerCase(ParamStr(i)) = 'beep' then
+       Beep
+     else if LowerCase(ParamStr(i)) = 'exit' then
+       Application.Terminate;
+  end;
+  WinExec('CupomFiscal', SW_SHOWNORMAL);
+  varFormAberto := 'NÃO';
+  Timer1.Enabled := True;
 end;
 
 procedure TfTerminal_Delivery.AbreFormCaixa;
@@ -2523,9 +2828,6 @@ begin
      Texto3 := 'Produto xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ;
      Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
      Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
-
-
-
      cliente := 'Cliente : ' + cds_MovimentoNOMECLIENTE.Value;
      sParametro.Open;
      DM.Mensagem := sParametroD9.AsString;
@@ -2650,6 +2952,486 @@ begin
   Vdesconto := JvDesconto.Value ;
   jvPago.Value := (jvPago.Value - Vdesconto );
 
+end;
+
+procedure TfTerminal_Delivery.Impressora_1;
+ const
+cJustif = #27#97#51;
+cEject = #12;
+{ Tamanho da fonte }
+c10cpi = #18;
+c12cpi = #27#77;
+c17cpi = #15;
+cIExpandido = #14;
+cFExpandido = #20;
+{ Formatação da fonte }
+cINegrito = #27#71;
+cFNegrito = #27#72;
+cIItalico = #27#52;
+cFItalico = #27#53;
+var
+  IMPRESSORA:TextFile;
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+  total, porc, totgeral , desconto : double;
+  porta, SETOR : string;
+  vNomeCliente, vEnderecoCliente, vFonecli : string;
+begin
+ // Imprime Itens Setor 1
+    {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+    dm.cds_parametro.Open;
+    if not dm.cds_parametro.IsEmpty then
+    begin
+      porta := dm.cds_parametroDADOS.AsString;
+      SETOR := dm.cds_parametroD3.AsString;
+    end
+    else
+    begin
+      dm.cds_parametro.Append;
+      dm.cds_parametroDESCRICAO.AsString := 'Porta usada para impressoras de CUPOM';
+      dm.cds_parametroPARAMETRO.AsString := 'PORTA IMPRESSORA';
+      dm.cds_parametroDADOS.AsString := 'LPT1:';
+      dm.cds_parametro.ApplyUpdates(0);
+      porta := 'LPT1:';
+    end;
+  porta := 'LPT1:';
+  // Imprimindo
+  if (not dm.cds_empresa.Active) then
+    dm.cds_empresa.Open;
+  {----- aqui monto o endereço-----}
+  logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+  cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+  ' - ' + dm.cds_empresaCEP.Value;
+  fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+  ' / ' + dm.cds_empresaFONE_2.Value;
+  Texto  := '---------------------------------------------------' ;
+  Texto1 := DateTimeToStr(Now) + '               Pedido N.:  ' +
+  IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+  Texto2 := '---------------------------------------------------' ;
+  Texto4 := 'Produto                                   Qtde     ' ;
+  sParametro.Open;
+  // Para gravar em arquivo
+  if (sParametroD8.AsString = 'txt') then
+  begin
+    OpenDialog1.Execute;
+    AssignFile(IMPRESSORA, OpenDialog1.FileName);
+  end
+  else
+  begin
+    AssignFile(IMPRESSORA,porta);
+  end;
+  Rewrite(IMPRESSORA);
+  Writeln(Impressora, c10cpi + Format('%-40s',[SETOR]));
+  //Writeln(Impressora, c17cpi, texto2);
+  Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
+  //Writeln(Impressora, c10cpi, logradouro);
+  //Writeln(Impressora, c17cpi, cep);
+  //Writeln(Impressora, c17cpi, fone);
+  //Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+  Writeln(Impressora, c17cpi, texto);
+  Writeln(Impressora, c17cpi, texto1);
+  Writeln(Impressora, c17cpi, texto2);
+  //Writeln(Impressora, c17cpi, texto6);
+  if (RadioGroup1.ItemIndex = 0) then
+  begin
+     vNomeCliente := cdsMesaNOMECLIENTE.AsString;
+     Writeln(Impressora, c10cpi, vNomeCliente);
+  end
+  else
+  begin
+     vNomeCliente := 'Cliente  : '+ Edit2.Text;
+     vEnderecoCliente := 'Endereço : '+ Edit3.Text;
+     vFonecli := 'Telefone : (19)' + Edit1.Text;
+     Writeln(Impressora, c10cpi, vNomeCliente);
+     Writeln(Impressora, c10cpi, vEnderecoCliente);
+     Writeln(Impressora, c10cpi, vFonecli);
+  end;
+  Writeln(Impressora, c17cpi, texto2);
+  Writeln(Impressora, c17cpi, texto4);
+  {-------------------Imprimi itens do boleto-----------------}
+  try
+    sImprime_1.First;
+    while not sImprime_1.Eof do
+    begin
+      texto6 := sImprime_1CODPRO.AsString + '-';
+      texto6 := texto6 + Copy(sImprime_1DESCPRODUTO.Value, 0, 55);
+      texto6 := texto6 + '         ' ;
+      texto6 := texto6 + Format('%-6.2n',[sImprime_1QUANTIDADE.AsFloat]);
+      Writeln(Impressora, c17cpi, texto6);
+      with Printer.Canvas do
+      begin
+        Font.Name := 'Courier New';
+        Font.Size := 4;
+      end;
+      //Aqui Marco o Produto como Impresso
+      cds_Mov_det.Locate('CODDETALHE', sImprime_1CODDETALHE.AsInteger,[loCaseInsensitive]);
+      cds_Mov_det.Edit;
+      cds_Mov_detIMPRIMIR.AsString := 'S';
+      cds_Mov_det.ApplyUpdates(0);
+      sImprime_1.next;
+    end;
+    //desconto := JvDesconto.Value;
+    //Texto5 := DateTimeToStr(Now) + '      Total.: R$   ';
+    //total := cds_Mov_detTotalPedido.Value;
+    //porc := total * 0.1;
+    Writeln(Impressora, c17cpi, texto);
+    //Texto7 := '                    Desconto .: R$   ';
+    Write(Impressora, c10cpi, texto7);
+    //Writeln(Impressora, c10cpi + Format('         %-6.2n',[desconto]));
+    Write(Impressora, c10cpi, texto5);
+    //Writeln(Impressora, c10cpi + Format('       %-6.2n',[total - desconto]));
+    Writeln(Impressora, c10cpi, texto);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+  finally
+    CloseFile(IMPRESSORA);
+  end;
+  dbeProduto.SetFocus;
+end;
+
+procedure TfTerminal_Delivery.Impressora_2;
+ const
+cJustif = #27#97#51;
+cEject = #12;
+{ Tamanho da fonte }
+c10cpi = #18;
+c12cpi = #27#77;
+c17cpi = #15;
+cIExpandido = #14;
+cFExpandido = #20;
+{ Formatação da fonte }
+cINegrito = #27#71;
+cFNegrito = #27#72;
+cIItalico = #27#52;
+cFItalico = #27#53;
+var
+  IMPRESSORA:TextFile;
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+  total, porc, totgeral , desconto : double;
+  porta, SETOR : string;
+  vNomeCliente, vEnderecoCliente, vFonecli : string;
+begin
+ // Imprime Itens Setor 2
+    {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+    dm.cds_parametro.Open;
+    if not dm.cds_parametro.IsEmpty then
+    begin
+      porta := dm.cds_parametroD1.AsString;
+      SETOR := dm.cds_parametroD4.AsString;
+    end
+    else
+    begin
+      dm.cds_parametro.Append;
+      dm.cds_parametroDESCRICAO.AsString := 'Porta usada para impressoras de CUPOM';
+      dm.cds_parametroPARAMETRO.AsString := 'PORTA IMPRESSORA';
+      dm.cds_parametroD1.AsString := 'LPT2:';
+      dm.cds_parametro.ApplyUpdates(0);
+      porta := 'LPT2:';
+    end;
+  porta := 'LPT1:';
+  // Imprimindo
+  if (not dm.cds_empresa.Active) then
+    dm.cds_empresa.Open;
+  {----- aqui monto o endereço-----}
+  logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+  cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+  ' - ' + dm.cds_empresaCEP.Value;
+  fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+  ' / ' + dm.cds_empresaFONE_2.Value;
+  Texto  := '---------------------------------------------------' ;
+  Texto1 := DateTimeToStr(Now) + '               Pedido N.:  ' +
+  IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+  Texto2 := '---------------------------------------------------' ;
+  Texto4 := 'Produto                                   Qtde     ' ;
+  sParametro.Open;
+  DM.Mensagem := sParametroD9.AsString;
+  // Para gravar em arquivo
+  if (sParametroD8.AsString = 'txt') then
+  begin
+    OpenDialog1.Execute;
+    AssignFile(IMPRESSORA, OpenDialog1.FileName);
+  end
+  else
+  begin
+    AssignFile(IMPRESSORA,porta);
+  end;
+  Rewrite(IMPRESSORA);
+  Writeln(Impressora, c10cpi + Format('%-40s',[SETOR]));
+  //Writeln(Impressora, c17cpi, texto2);
+  Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
+  //Writeln(Impressora, c10cpi, logradouro);
+  //Writeln(Impressora, c17cpi, cep);
+  //Writeln(Impressora, c17cpi, fone);
+  //Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+  Writeln(Impressora, c17cpi, texto);
+  Writeln(Impressora, c17cpi, texto1);
+  Writeln(Impressora, c17cpi, texto2);
+  //Writeln(Impressora, c17cpi, texto6);
+  if (RadioGroup1.ItemIndex = 0) then
+  begin
+     vNomeCliente := cdsMesaNOMECLIENTE.AsString;
+     Writeln(Impressora, c10cpi, vNomeCliente);
+  end
+  else
+  begin
+     vNomeCliente := 'Cliente  : '+ Edit2.Text;
+     vEnderecoCliente := 'Endereço : '+ Edit3.Text;
+     vFonecli := 'Telefone : (19)' + Edit1.Text;
+     Writeln(Impressora, c10cpi, vNomeCliente);
+     Writeln(Impressora, c10cpi, vEnderecoCliente);
+     Writeln(Impressora, c10cpi, vFonecli);
+  end;
+  Writeln(Impressora, c17cpi, texto2);
+  Writeln(Impressora, c17cpi, texto4);
+  {-------------------Imprimi itens do boleto-----------------}
+  try
+    sImprimir_2.First;
+    while not sImprimir_2.Eof do
+    begin
+      //sImprimir_2.RecordCount;
+      texto6 := sImprimir_2CODPRO.AsString + '-';
+      texto6 := texto6 + Copy(sImprimir_2DESCPRODUTO.Value, 0, 55);
+      texto6 := texto6 + '         ' ;
+      texto6 := texto6 + Format('%-6.2n',[sImprimir_2QUANTIDADE.AsFloat]);
+      Writeln(Impressora, c17cpi, texto6);
+      with Printer.Canvas do
+      begin
+        Font.Name := 'Courier New';
+        Font.Size := 4;
+      end;
+      //Aqui Marco o Produto como Impresso
+      cds_Mov_det.Locate('CODDETALHE', sImprimir_2CODDETALHE.AsInteger,[loCaseInsensitive]);
+      cds_Mov_det.Edit;
+      cds_Mov_detIMPRIMIR.AsString := 'S';
+      cds_Mov_det.ApplyUpdates(0);
+      sImprimir_2.next;
+    end;
+    //desconto := JvDesconto.Value;
+    //Texto5 := DateTimeToStr(Now) + '      Total.: R$   ';
+    //total := cds_Mov_detTotalPedido.Value;
+    //porc := total * 0.1;
+    Writeln(Impressora, c17cpi, texto);
+    //Texto7 := '                    Desconto .: R$   ';
+    Write(Impressora, c10cpi, texto7);
+    //Writeln(Impressora, c10cpi + Format('         %-6.2n',[desconto]));
+    Write(Impressora, c10cpi, texto5);
+    //Writeln(Impressora, c10cpi + Format('       %-6.2n',[total - desconto]));
+    Writeln(Impressora, c10cpi, texto);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+  finally
+    CloseFile(IMPRESSORA);
+  end;
+  dbeProduto.SetFocus;
+end;
+
+procedure TfTerminal_Delivery.Impressora_3;
+ const
+cJustif = #27#97#51;
+cEject = #12;
+{ Tamanho da fonte }
+c10cpi = #18;
+c12cpi = #27#77;
+c17cpi = #15;
+cIExpandido = #14;
+cFExpandido = #20;
+{ Formatação da fonte }
+cINegrito = #27#71;
+cFNegrito = #27#72;
+cIItalico = #27#52;
+cFItalico = #27#53;
+var
+  IMPRESSORA:TextFile;
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+  total, porc, totgeral , desconto : double;
+  porta, SETOR : string;
+  vNomeCliente, vEnderecoCliente, vFonecli : string;
+begin
+ // Imprime Itens Setor 3
+    {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+    dm.cds_parametro.Open;
+    if not dm.cds_parametro.IsEmpty then
+    begin
+      porta := dm.cds_parametroDADOS.AsString;
+      SETOR := dm.cds_parametroD5.AsString;
+    end
+    else
+    begin
+      dm.cds_parametro.Append;
+      dm.cds_parametroDESCRICAO.AsString := 'Porta usada para impressoras de CUPOM';
+      dm.cds_parametroPARAMETRO.AsString := 'PORTA IMPRESSORA';
+      dm.cds_parametroDADOS.AsString := 'LPT1:';
+      dm.cds_parametro.ApplyUpdates(0);
+      porta := 'LPT1:';
+    end;
+  porta := 'LPT1:';
+  // Imprimindo
+  if (not dm.cds_empresa.Active) then
+    dm.cds_empresa.Open;
+  {----- aqui monto o endereço-----}
+  logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+  cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+  ' - ' + dm.cds_empresaCEP.Value;
+  fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+  ' / ' + dm.cds_empresaFONE_2.Value;
+  Texto  := '---------------------------------------------------' ;
+  Texto1 := DateTimeToStr(Now) + '               Pedido N.:  ' +
+  IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+  Texto2 := '---------------------------------------------------' ;
+  Texto4 := 'Produto                                      Qtde  ' ;
+  sParametro.Open;
+  // Para gravar em arquivo
+  if (sParametroD8.AsString = 'txt') then
+  begin
+    OpenDialog1.Execute;
+    AssignFile(IMPRESSORA, OpenDialog1.FileName);
+  end
+  else
+  begin
+    AssignFile(IMPRESSORA,porta);
+  end;
+  Rewrite(IMPRESSORA);
+  Writeln(Impressora, c10cpi + Format('%-40s',[SETOR]));
+  //Writeln(Impressora, c17cpi, texto2);
+  Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
+  //Writeln(Impressora, c10cpi, logradouro);
+  //Writeln(Impressora, c17cpi, cep);
+  //Writeln(Impressora, c17cpi, fone);
+  //Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+  Writeln(Impressora, c17cpi, texto);
+  Writeln(Impressora, c17cpi, texto1);
+  Writeln(Impressora, c17cpi, texto2);
+  //Writeln(Impressora, c17cpi, texto6);
+  if (RadioGroup1.ItemIndex = 0) then
+  begin
+     vNomeCliente := cdsMesaNOMECLIENTE.AsString;
+     Writeln(Impressora, c10cpi, vNomeCliente);
+  end
+  else
+  begin
+     vNomeCliente := 'Cliente  : '+ Edit2.Text;
+     vEnderecoCliente := 'Endereço : '+ Edit3.Text;
+     vFonecli := 'Telefone : (19)' + Edit1.Text;
+     Writeln(Impressora, c10cpi, vNomeCliente);
+     Writeln(Impressora, c10cpi, vEnderecoCliente);
+     Writeln(Impressora, c10cpi, vFonecli);
+  end;
+  Writeln(Impressora, c17cpi, texto2);
+  Writeln(Impressora, c17cpi, texto4);
+  {-------------------Imprimi itens do boleto-----------------}
+  try
+    sImprimir_3.First;
+    while not sImprimir_3.Eof do
+    begin
+      //sImprimir_3.RecordCount;
+      texto6 := sImprimir_3CODPRO.AsString + '-';
+      texto6 := texto6 + Copy(sImprimir_3DESCPRODUTO.Value, 0, 55);
+      texto6 := texto6 + '         ' ;
+      texto6 := texto6 + Format('%-6.2n',[sImprimir_3QUANTIDADE.AsFloat]);
+      Writeln(Impressora, c17cpi, texto6);
+      with Printer.Canvas do
+      begin
+        Font.Name := 'Courier New';
+        Font.Size := 4;
+      end;
+      //Aqui Marco o Produto como Impresso
+      cds_Mov_det.Locate('CODDETALHE', sImprimir_3CODDETALHE.AsInteger,[loCaseInsensitive]);
+      cds_Mov_det.Edit;
+      cds_Mov_detIMPRIMIR.AsString := 'S';
+      cds_Mov_det.ApplyUpdates(0);
+      sImprimir_3.next;
+    end;
+
+    //desconto := JvDesconto.Value;
+    //Texto5 := DateTimeToStr(Now) + '      Total.: R$   ';
+    //total := cds_Mov_detTotalPedido.Value;
+    //porc := total * 0.1;
+    Writeln(Impressora, c17cpi, texto);
+    //Texto7 := '                    Desconto .: R$   ';
+    Write(Impressora, c10cpi, texto7);
+    //Writeln(Impressora, c10cpi + Format('         %-6.2n',[desconto]));
+    Write(Impressora, c10cpi, texto5);
+    //Writeln(Impressora, c10cpi + Format('       %-6.2n',[total - desconto]));
+    //Writeln(Impressora, c10cpi, texto);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+  finally
+    CloseFile(IMPRESSORA);
+  end;
+  dbeProduto.SetFocus;
+end;
+
+procedure TfTerminal_Delivery.btnSairClick(Sender: TObject);
+begin
+  //inherited;
+ if (cdsMesa.Active) then
+    cdsMesa.Close;
+ cdsMesa.Open;
+ if (cds_Mov_det.Active) then
+    cds_Mov_det.Close;
+ cbMesas.Text := '';
+end;
+
+
+procedure TfTerminal_Delivery.Timer1Timer(Sender: TObject);
+begin
+  inherited;
+  if IsFileInUse('C:\home\ats-admin\CupomFiscal.exe') then
+  begin
+    if (varFormAberto = 'NÃO') then
+    begin
+      varFormAberto := 'SIM';
+      Form1.ShowModal;
+    end;
+  end
+  else
+  begin
+    Form1.Close;
+    Timer1.Enabled := False;
+    varFormAberto := 'NÃO';
+    btnSair.Click; //ShowMessage('Sistema não está em uso.');
+  end;
 end;
 
 end.
