@@ -1,13 +1,14 @@
-set term ^ ;
-CREATE OR ALTER PROCEDURE CALCULA_ICMS_SUBSTITUICAO (
-    NUMERO_NF Integer,
-    UF Varchar(2),
-    CFOP Varchar(20),
-    VALORTOTAL Double precision,
-    NOTAFISCALVENDA Integer,
-    SERIE Char(20), ipi double precision,
-    ICMS_DESTACADO_DESC VARCHAR(60),
-    ICMS_DESTACADO_DESC2 VARCHAR(100))
+SET TERM ^ ;
+ALTER PROCEDURE CALCULA_ICMS_SUBSTITUICAO (
+    NUMERO_NF integer,
+    UF varchar(2),
+    CFOP varchar(20),
+    VALORTOTAL double precision,
+    NOTAFISCALVENDA integer,
+    SERIE char(20),
+    IPI double precision,
+    ICMS_DESTACADO_DESC varchar(60),
+    ICMS_DESTACADO_DESC2 varchar(100) )
 AS
 DECLARE VARIABLE ICMS_SUBST DOUBLE PRECISION; 
 DECLARE VARIABLE ICMS_SUBST_IND DOUBLE PRECISION;
@@ -52,8 +53,8 @@ begin
   if (TipoST = 'CFOP') then   -- Calculado pelo CFOP 
   begin 
     --update parametro set instrucoes = :tipoSt where parametro = 'TESTE';
-    select first 1 e.DIVERSOS1, e.DIVERSOS2 || e.DIVERSOS3 from EMPRESA e
-      into :icms_destacado_desc, :icms_destacado_desc2;    
+   /* select first 1 e.DIVERSOS1, e.DIVERSOS2 || e.DIVERSOS3 from EMPRESA e
+      into :icms_destacado_desc, :icms_destacado_desc2;  */  
   
   icms_subst = 0;
 
@@ -114,12 +115,12 @@ begin
            --   valorTitulo = (valorTitulo  + :icms_subst) where titulo = :notafiscalVenda || '-' || :serie and via = 1;
            
            -- Pego os outros valores na NF para somar ao total 
-           select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO) from notafiscal n where numnf = :numero_nf
+           select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO + n.VALOR_IPI) from notafiscal n where numnf = :numero_nf
              into :Outros;   
            valortotal = valortotal + Outros;
            
            UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :VALOR_SUB, VALOR_ICMS_SUBST = :ICMS_SUBST, 
-              VALOR_TOTAL_NOTA = :VALORTOTAL, CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2
+              VALOR_TOTAL_NOTA = :VALORTOTAL--, CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2
             
              where NUMNF = :NUMERO_NF;
          end
