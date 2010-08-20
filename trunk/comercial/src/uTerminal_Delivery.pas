@@ -947,7 +947,6 @@ begin
   else
     DM.STATUSCAIXA := 'ABERTO';
   sCaixaAberto.Close;
-
 end;
 
 procedure TfTerminal_Delivery.Edit1KeyPress(Sender: TObject;
@@ -2153,11 +2152,8 @@ begin
   Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
   Writeln(Impressora, c17cpi, texto);
   Writeln(Impressora, c17cpi, texto1);
-
   Writeln(Impressora, c17cpi, texto2);
-
   Writeln(Impressora, c17cpi, texto6);
-
   if (RadioGroup1.ItemIndex = 0) then
   begin
      vNomeCliente := cdsMesaNOMECLIENTE.AsString;
@@ -2172,7 +2168,6 @@ begin
      Writeln(Impressora, c10cpi, vEnderecoCliente);
      Writeln(Impressora, c10cpi, vFonecli);
   end;
-
      Writeln(Impressora, c17cpi, texto2);
      Writeln(Impressora, c17cpi, texto4);
 
