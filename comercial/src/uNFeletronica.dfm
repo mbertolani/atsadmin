@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
-  Left = -24
-  Top = -2
+  Left = 45
+  Top = 36
   Width = 812
   Height = 588
   AutoSize = True
@@ -767,7 +767,7 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 64
+    Left = 56
     Top = 248
     object sdsNFCFOP: TStringField
       FieldName = 'CFOP'
@@ -1243,14 +1243,15 @@ object fNFeletronica: TfNFeletronica
       ' udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'          ' +
       'ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'          p' +
       'r.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,'#13#10'       ' +
-      '   md.VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 2) as' +
-      ' VALOR_ICMS,'#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE' +
-      ','#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'    ' +
-      '      md.ICMS_SUBSTD,'#13#10'          UDF_ROUNDDEC((md.VLR_BASE * md.' +
-      'QUANTIDADE), 2) as VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENT' +
-      'ODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join N' +
-      'OTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS ' +
-      'pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      '   md.pIPI,'#13#10'          md.vIPI,'#13#10'          md.VLR_BASEICMS,'#13#10'   ' +
+      '       UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10'          ' +
+      'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE,'#13#10'          UDF_ROUNDDE' +
+      'C(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'          md.ICMS_SUBSTD,'#13#10' ' +
+      '         UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTO' +
+      'TAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMO' +
+      'VIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODV' +
+      'ENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = ' +
+      'md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -1309,6 +1310,14 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsItensNFVLR_BASEICMS: TFloatField
       FieldName = 'VLR_BASEICMS'
+      ReadOnly = True
+    end
+    object sdsItensNFPIPI: TFloatField
+      FieldName = 'PIPI'
+      ReadOnly = True
+    end
+    object sdsItensNFVIPI: TFloatField
+      FieldName = 'VIPI'
       ReadOnly = True
     end
   end
@@ -1380,6 +1389,14 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsItensNFVLR_BASEICMS: TFloatField
       FieldName = 'VLR_BASEICMS'
+      ReadOnly = True
+    end
+    object cdsItensNFPIPI: TFloatField
+      FieldName = 'PIPI'
+      ReadOnly = True
+    end
+    object cdsItensNFVIPI: TFloatField
+      FieldName = 'VIPI'
       ReadOnly = True
     end
   end

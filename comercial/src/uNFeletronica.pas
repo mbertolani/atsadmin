@@ -496,6 +496,10 @@ type
     ComboBox1: TComboBox;
     JvDateEdit1: TJvDateEdit;
     btnSair: TBitBtn;
+    sdsItensNFPIPI: TFloatField;
+    sdsItensNFVIPI: TFloatField;
+    cdsItensNFPIPI: TFloatField;
+    cdsItensNFVIPI: TFloatField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -746,15 +750,15 @@ begin
                 end;
                 cdsFatura.next;
               end;
+              if (c = 0) then
+                Ide.indPag    := ipOutras;
+              end;
               if ((UpperCase(cdsNFFATURA.AsString) = 'PRAZO') or (UpperCase(cdsNFFATURA.AsString) = 'A PRAZO')) then
                 Ide.indPag    := ipPrazo;
               if ((UpperCase(cdsNFFATURA.AsString) = 'VISTA') or (UpperCase(cdsNFFATURA.AsString) = 'A VISTA')) then
                 Ide.indPag    := ipVista;
-              if (c = 0) then
-                Ide.indPag    := ipOutras;
-              end;
-
             end;
+
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
             if (Ide.tpEmis = teNormal) then
@@ -914,6 +918,11 @@ begin
                //IMPOSTOS Do Produto
                 with Imposto do
                 begin
+                  with IPI do
+                  begin
+                    pIPI := cdsItensNFpIPI.AsCurrency;
+                    vIPI := cdsItensNFvIPI.AsCurrency;
+                  end;
                   with ICMS do
                   begin
                     // Verifica Origem do Produto
@@ -1325,14 +1334,11 @@ end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
 begin
-  if Column.Field = cdsNFSELECIONOU then
-  begin
      cdsNF.Edit;
      if cdsNFSELECIONOU.AsString = 'S' then
        cdsNFSELECIONOU.AsString := ''
      else
        cdsNFSELECIONOU.AsString := 'S';
-  end;
 end;
 
 procedure TfNFeletronica.JvDBGrid1ColEnter(Sender: TObject);
@@ -1767,14 +1773,13 @@ begin
                 end;
                 cdsFatura.next;
               end;
+              if (c = 0) then
+                Ide.indPag    := ipOutras;
+              end;
               if ((UpperCase(cdsNFFATURA.AsString) = 'PRAZO') or (UpperCase(cdsNFFATURA.AsString) = 'A PRAZO')) then
                 Ide.indPag    := ipPrazo;
               if ((UpperCase(cdsNFFATURA.AsString) = 'VISTA') or (UpperCase(cdsNFFATURA.AsString) = 'A VISTA')) then
                 Ide.indPag    := ipVista;
-              if (c = 0) then
-                Ide.indPag    := ipOutras;
-              end;
-
             end;
 
             Ide.cMunFG    := 3554003;
@@ -1931,6 +1936,11 @@ begin
                //IMPOSTOS Do Produto
                 with Imposto do
                 begin
+                  with IPI do
+                  begin
+                    pIPI := cdsItensNFpIPI.AsCurrency;
+                    vIPI := cdsItensNFvIPI.AsCurrency;
+                  end;
                   with ICMS do
                   begin
                     // Verifica Origem do Produto
@@ -1943,9 +1953,13 @@ begin
                       orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
                       CST := cst00;                                               //CST DO PRODUTO
                       modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-                      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
+                      if (cdsItensNFVLR_BASEICMS.IsNull) then
+                        vBC := 0
+                      else
+                        vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
                       pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
                       vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
+
                     end;
                     //ICMS 10 TRIBUTADA E COM COBRANÇA DO ICMS POR SUBS.TRIBUTÁRIA
                     if ((cdsItensNFCST.AsString = '010  ') or (cdsItensNFCST.AsString = '010')) then
