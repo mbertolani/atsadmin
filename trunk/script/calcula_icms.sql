@@ -1,16 +1,15 @@
-set term  ^ ;
+SET TERM ^ ;
 ALTER PROCEDURE CALCULA_ICMS (
-    NUMERO_NF Integer,
-    UF Char(2),
-    CFOP Varchar(10),
-    FRETE Double precision,
-    SEGURO Double precision,
-    OUTROS Double precision,
-    TOTAL_PROD Double precision,
-    INDICE_MANUAL Char(1),
-    ICMS_INFO Double precision,
-    REDUZ_INFO Double precision
-    )
+    NUMERO_NF integer,
+    UF char(2),
+    CFOP varchar(10),
+    FRETE double precision,
+    SEGURO double precision,
+    OUTROS double precision,
+    TOTAL_PROD double precision,
+    INDICE_MANUAL char(1),
+    ICMS_INFO double precision,
+    REDUZ_INFO double precision )
 AS
 DECLARE VARIABLE IND_ICMS DOUBLE PRECISION;
 DECLARE VARIABLE IND_REDUZICMS DOUBLE PRECISION;
@@ -20,6 +19,8 @@ DECLARE VARIABLE IND_REDUZICMSE DOUBLE PRECISION;
 DECLARE VARIABLE IND_IPIE DOUBLE PRECISION;
 DECLARE VARIABLE ICMS DOUBLE PRECISION;
 DECLARE VARIABLE IPI DOUBLE PRECISION;
+DECLARE VARIABLE vIPI DOUBLE PRECISION;
+DECLARE VARIABLE pIPI DOUBLE PRECISION;
 DECLARE VARIABLE BASE_ICMS DOUBLE PRECISION;
 DECLARE VARIABLE BASE_ICMSE DOUBLE PRECISION;
 DECLARE VARIABLE VAL_TOTAL DOUBLE PRECISION;
@@ -132,14 +133,18 @@ begin
             
             BASE_ICMS    = 0;
             ICMS         = 0;
-       
+            pIPI         = 0;
+            vIPI         = 0;
+            
+            vIPI = (VALOR * IND_IPI/100);
+            pIPI = IND_IPI;
             if (ind_icms > 0) then 
             begin 
                 Base_icms   = valor * ind_reduzicms;
                 ICMS        = Base_icms * (ind_icms/100);  
             end 
            
-            update MOVIMENTODETALHE set ICMS = :ind_icms, CST = :CST,  VALOR_ICMS = :icms, VLR_BASEICMS = :BASE_ICMS 
+            update MOVIMENTODETALHE set ICMS = :ind_icms, CST = :CST,  VALOR_ICMS = :icms, VLR_BASEICMS = :BASE_ICMS , VIPI = :vIPI, PIPI = :pIPI
                 where CODDETALHE = :codDet;
             BASE_ICMS    = 0;
             ICMS         = 0;            
@@ -359,3 +364,4 @@ begin
         end
     end        
 end
+
