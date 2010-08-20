@@ -30,7 +30,8 @@ var
 implementation
 
 uses uNotafiscal, uNFCompra, uNF, uNotaf, ufNotafiscalProc, UDMNF,
-  uLotes, uNotaf1;
+  uLotes, uNotaf1,
+  uNotafc;
 
 {$R *.dfm}
 
@@ -79,13 +80,13 @@ end;
 
 procedure TfEscolherNF.dxButton4Click(Sender: TObject);
 begin
-   fNotaf1 := TfNotaf1.Create(Application);
+   fNotaFc := TfNotaFc.Create(Application);
    try
       TipoNF := 'Fornecedor';
-      fNotaf1.RadioGroup1.Visible := False;
-      fNotaf1.ShowModal;
+      //fNotaFc.RadioGroup1.Visible := False;
+      fNotaFc.ShowModal;
    finally
-      fNotaf1.Free;
+      fNotaFc.Free;
    end;
 end;
 
