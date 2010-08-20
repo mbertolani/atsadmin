@@ -696,6 +696,15 @@ begin
 
     if (versaoSistema = '1.0.0.68') then
     begin
+      executaDDL('RECEBIMENTO', 'SITUACAOCHEQUE', 'Varchar(15)');
+      executaDDL('RECEBIMENTO', 'BANCO', 'Varchar(60)');
+      executaDDL('RECEBIMENTO', 'AGENCIA', 'Varchar(10)');
+      executaDDL('RECEBIMENTO', 'CONTA', 'Varchar(10)');
+      executaDDL('RECEBIMENTO', 'GERARQREM', 'INTEGER');
+      executaDDL('RECEBIMENTO', 'DATAGERARQREM', 'DATE');
+      executaDDL('RECEBIMENTO', 'SELECIONOU', 'char(1)');
+      executaDDL('RECEBIMENTO', 'DESCONTADO', 'char(1)');
+      executaDDL('RECEBIMENTO', 'SITUACAO', 'INTEGER');
       {executaSql('CREATE EXCEPTION DATAINVALIDA ' +
       QuotedStr('O sistema não permite data menor que 01/01/2001'));
       executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' +
@@ -752,6 +761,16 @@ begin
       executaScript('inclui_pag.sql');
       mudaVersao('1.0.0.73');
     end;  // Fim Ataulização Versao 1.0.0.73
+
+    if (versaoSistema = '1.0.0.73') then
+    begin
+      executaScript('altera_vlrvenda.sql');
+      executaDDL('MOVIMENTODETALHE', 'pIPI', 'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'vIPI', 'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'CFOP', 'char(4)'); //alter table MOVIMENTODETALHE add CFOP char(4)'
+      executaDDL('CLIENTES', 'CFOP', 'char(4)'); //alter table CLIENTES add CFOP char(4)'
+      mudaVersao('1.0.0.74');
+    end;  // Fim Ataulização Versao 1.0.0.74
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
