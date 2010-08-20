@@ -1737,6 +1737,12 @@ type
     scds_ProdCODPRODUTO: TIntegerField;
     scds_ProdCODPRO: TStringField;
     scds_ProdPRODUTO: TStringField;
+    sds_produtoIMPRESSORA_1: TStringField;
+    sds_produtoIMPRESSORA_2: TStringField;
+    sds_produtoIMPRESSORA_3: TStringField;
+    cds_produtoIMPRESSORA_1: TStringField;
+    cds_produtoIMPRESSORA_2: TStringField;
+    cds_produtoIMPRESSORA_3: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
