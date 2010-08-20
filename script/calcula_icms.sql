@@ -136,8 +136,12 @@ begin
             pIPI         = 0;
             vIPI         = 0;
             
+			if (IND_IPI > 0) then
+			begin
             vIPI = (VALOR * IND_IPI/100);
             pIPI = IND_IPI;
+			end
+			
             if (ind_icms > 0) then 
             begin 
                 Base_icms   = valor * ind_reduzicms;
