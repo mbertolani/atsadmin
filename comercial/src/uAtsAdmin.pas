@@ -314,6 +314,7 @@ type
     procedure GerarEtiquetas1Click(Sender: TObject);
     procedure CorrigeEstoque1Click(Sender: TObject);
     procedure CFOP1Click(Sender: TObject);
+    procedure RelBalancete1Click(Sender: TObject);
     procedure AlterarValordeVendadosProdutos1Click(Sender: TObject);
   private
     STime: TDateTime;
@@ -353,7 +354,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
-  uGeraEtiquetas, ufParametro, uCfop, uProdGeraAumento;
+  uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento;
 
 {$R *.dfm}
 
@@ -1652,6 +1653,11 @@ begin
   finally
     fCfop.Free;
   end;
+end;
+
+procedure TfAtsAdmin.RelBalancete1Click(Sender: TObject);
+begin
+  fBalancete.ShowModal;
 end;
 
 procedure TfAtsAdmin.AlterarValordeVendadosProdutos1Click(Sender: TObject);
