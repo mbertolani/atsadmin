@@ -16,11 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-<<<<<<< .mine
       'Database=localhost:\home\bd\sge_AlaCarte.fdb'
-=======
-      'Database=quad:sge_dnz'
->>>>>>> .r490
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
