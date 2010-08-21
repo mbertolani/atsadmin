@@ -194,6 +194,8 @@ uses
   uCombo in 'uCombo.pas' {fCombo},
   uGeraEtiquetas in 'uGeraEtiquetas.pas' {fGeraEtiquetas},
   uNFeMail in 'uNFeMail.pas' {fNFeMail},
+  uBalancete in 'uBalancete.pas' {fBalancete},
+  uTexto in 'uTexto.pas' {Form1},
   uProdGeraAumento in 'uProdGeraAumento.pas' {fProdGeraAumento};
 
 {$R *.res}
@@ -229,6 +231,8 @@ begin
   Application.CreateForm(TfGeraEtiquetas, fGeraEtiquetas);
   Application.CreateForm(TfNFeletronica, fNFeletronica);
   Application.CreateForm(TfNFeMail, fNFeMail);
+  Application.CreateForm(TfBalancete, fBalancete);
+  Application.CreateForm(TForm1, Form1);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   Application.CreateForm(TfPfaturamento, fPfaturamento);
