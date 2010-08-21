@@ -1,8 +1,8 @@
 inherited fcrTitulo: TfcrTitulo
   Left = 139
   Top = 121
-  Width = 805
-  Height = 553
+  Width = 819
+  Height = 554
   Caption = 'Baixar Lan'#231'amentos'
   Font.Height = -13
   OldCreateOrder = True
@@ -186,8 +186,8 @@ inherited fcrTitulo: TfcrTitulo
     Caption = 'Consolidado em :'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 465
-    Width = 797
+    Top = 462
+    Width = 803
     TabOrder = 11
     object BitBtn2: TBitBtn [0]
       Left = 423
@@ -452,7 +452,7 @@ inherited fcrTitulo: TfcrTitulo
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 797
+    Width = 803
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -470,16 +470,16 @@ inherited fcrTitulo: TfcrTitulo
     inherited Label2: TLabel
       Left = 214
       Top = -56
-      Width = 283
-      Height = 34
+      Width = 340
+      Height = 36
       Caption = 'Baixar Lan'#231'amentos'
       ParentFont = True
     end
     object RxLabel1: TRxLabel
       Left = 276
       Top = 11
-      Width = 285
-      Height = 34
+      Width = 342
+      Height = 36
       Caption = 'Baixar Lan'#231'amentos'
       ShadowColor = clBtnText
       Transparent = True
