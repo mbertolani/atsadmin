@@ -6,7 +6,7 @@ object DM: TDM
   Height = 738
   Width = 1022
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sge'
+    ConnectionName = 'sisadmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -16,7 +16,11 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
+<<<<<<< .mine
+      'Database=localhost:\home\bd\sge_AlaCarte.fdb'
+=======
       'Database=quad:sge_dnz'
+>>>>>>> .r490
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -1524,6 +1528,21 @@ object DM: TDM
       FieldName = 'NCM'
       Size = 8
     end
+    object cds_produtoIMPRESSORA_1: TStringField
+      FieldName = 'IMPRESSORA_1'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object cds_produtoIMPRESSORA_2: TStringField
+      FieldName = 'IMPRESSORA_2'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object cds_produtoIMPRESSORA_3: TStringField
+      FieldName = 'IMPRESSORA_3'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
   end
   object dsp_produto: TDataSetProvider
     DataSet = sds_produto
@@ -1773,6 +1792,21 @@ object DM: TDM
     object sds_produtoNCM: TStringField
       FieldName = 'NCM'
       Size = 8
+    end
+    object sds_produtoIMPRESSORA_1: TStringField
+      FieldName = 'IMPRESSORA_1'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object sds_produtoIMPRESSORA_2: TStringField
+      FieldName = 'IMPRESSORA_2'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object sds_produtoIMPRESSORA_3: TStringField
+      FieldName = 'IMPRESSORA_3'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
     end
   end
   object sds_cm: TSQLDataSet
