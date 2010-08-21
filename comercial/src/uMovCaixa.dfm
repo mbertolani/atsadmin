@@ -1,7 +1,7 @@
 object fMovCaixa: TfMovCaixa
   Left = 207
   Top = 39
-  Width = 744
+  Width = 750
   Height = 541
   BorderIcons = [biSystemMenu]
   Caption = 'fMovCaixa'
@@ -20,7 +20,7 @@ object fMovCaixa: TfMovCaixa
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 736
+    Width = 734
     Height = 61
     Align = alTop
     BevelInner = bvRaised
@@ -768,7 +768,6 @@ object fMovCaixa: TfMovCaixa
       Width = 77
       Height = 55
       Caption = 'Imprimir'
-      Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 8
       OnClick = BitBtn1Click
@@ -877,7 +876,7 @@ object fMovCaixa: TfMovCaixa
   object Panel1: TPanel
     Left = 0
     Top = 61
-    Width = 736
+    Width = 734
     Height = 50
     Align = alTop
     PopupMenu = PopupMenu1
@@ -949,7 +948,7 @@ object fMovCaixa: TfMovCaixa
     object edhist: TEdit
       Left = 406
       Top = 18
-      Width = 326
+      Width = 319
       Height = 27
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -982,8 +981,8 @@ object fMovCaixa: TfMovCaixa
   object fmo: TJvDBGrid
     Left = 0
     Top = 111
-    Width = 736
-    Height = 396
+    Width = 734
+    Height = 392
     Align = alClient
     DataSource = dsrcaixa
     Font.Charset = DEFAULT_CHARSET
@@ -1010,13 +1009,13 @@ object fMovCaixa: TfMovCaixa
       item
         Expanded = False
         FieldName = 'DTAPAGTO'
-        Width = 95
+        Width = 96
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCRICAO'
-        Width = 395
+        Width = 394
         Visible = True
       end
       item
@@ -1034,7 +1033,7 @@ object fMovCaixa: TfMovCaixa
       item
         Expanded = False
         FieldName = 'VALOR'
-        Width = 75
+        Width = 73
         Visible = True
       end>
   end
