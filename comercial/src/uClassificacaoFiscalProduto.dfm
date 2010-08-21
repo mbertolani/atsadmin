@@ -1,8 +1,8 @@
 inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   Left = 196
   Top = 130
-  Width = 775
-  Height = 536
+  Width = 778
+  Height = 548
   Caption = 'Classifica'#231#227'o Fiscal dos Produto'
   OldCreateOrder = True
   OnCreate = nil
@@ -82,7 +82,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit8
   end
   inherited MMJPanel1: TMMJPanel
-    Width = 767
+    Width = 762
     Font.Charset = ANSI_CHARSET
     Font.Height = -29
     ParentFont = False
@@ -90,8 +90,8 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     object Label9: TLabel
       Left = 9
       Top = 7
-      Width = 92
-      Height = 34
+      Width = 112
+      Height = 36
       Anchors = [akLeft, akRight]
       Caption = 'Label9'
       Color = clBtnFace
@@ -107,8 +107,8 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 458
-    Width = 767
+    Top = 459
+    Width = 762
     TabOrder = 0
     inherited btnProcurar: TBitBtn
       Visible = False
