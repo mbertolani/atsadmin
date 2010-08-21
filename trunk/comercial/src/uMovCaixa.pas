@@ -358,7 +358,7 @@ begin
   sCaixa1.Open;
 
   CODIGODEORIGEM := sCaixa1IDCAIXACONTROLE.AsInteger;
-  
+
   DATAFECHAMENTO := edData.Date;
   AbrirCaixa;
   btnAbrir.Enabled := False;
@@ -479,6 +479,12 @@ Var
    var_sqla : string;
    cod_id, var_usuario, primeiro_lanc : integer;
 begin
+    if (sCaixa1.Active) then
+      sCaixa1.Close;
+    sCaixa1.Params[0].AsString := MICRO;
+    sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
+    sCaixa1.Open;
+
      var_usuario := usulog;
     //  Conta Débito
     //Abre a c_genid para pegar o número do CODCONTAB
@@ -494,9 +500,9 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(CODIGODEORIGEM); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
-    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', edData.Date); //DATA
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     // CONTA CAIXA
@@ -518,6 +524,8 @@ begin
     { *** Inserindo o Histórico *** }
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
+    if (edHist.Text = '') then
+      edHist.Text := 'ENTRADA';
     var_sqla := var_sqla + intToStr(cod_id);
     var_sqla := var_sqla + ',''' + edHist.Text;
     var_sqla := var_sqla + ''')';
@@ -539,7 +547,7 @@ begin
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
     var_sqla := var_sqla + ',' + intToStr(CODIGODEORIGEM); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
-    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', edData.Date); //DATA
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     if (not sPlano1.Active) then
@@ -580,6 +588,12 @@ procedure TfMovCaixa.FecharCaixa;
    var_sqla : string;
    cod_id, var_usuario, primeiro_lanc : integer;
 begin
+     if (sCaixa1.Active) then
+       sCaixa1.Close;
+     sCaixa1.Params[0].AsString := MICRO;
+     sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
+     sCaixa1.Open;
+
      var_usuario := usulog;
     //  Conta Débito
     //Abre a c_genid para pegar o número do CODCONTAB
@@ -595,9 +609,9 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(CODIGODEORIGEM); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
-    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', DATAFECHAMENTO); //DATA
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     //Conta FHECHA CAIXA
@@ -637,9 +651,9 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(CODIGODEORIGEM); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
-    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', edData.Date); //DATA
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     // CONTA CAIXA
@@ -682,7 +696,13 @@ procedure TfMovCaixa.saidaCaixa;
    var_sqla : string;
    cod_id, var_usuario, primeiro_lanc : integer;
 begin
-     var_usuario := usulog;
+    if (sCaixa1.Active) then
+      sCaixa1.Close;
+    sCaixa1.Params[0].AsString := MICRO;
+    sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
+    sCaixa1.Open;
+
+    var_usuario := usulog;
     //  Conta Débito
     //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
@@ -697,9 +717,9 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(CODIGODEORIGEM); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
-    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', edData.Date); //DATA
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy',sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     //Conta FHECHA CAIXA
@@ -722,6 +742,8 @@ begin
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
     var_sqla := var_sqla + intToStr(cod_id);
+    if (edHist.Text = '') then
+      edHist.Text := 'SANGRIA';
     var_sqla := var_sqla + ',''' + edHist.Text;
     var_sqla := var_sqla + ''')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
@@ -740,9 +762,9 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(CODIGODEORIGEM); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
-    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', edData.Date); //DATA
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     // CONTA CAIXA
@@ -765,6 +787,8 @@ begin
     { *** Inserindo o Histórico *** }
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
+    if (edHist.Text = '') then
+      edHist.Text := 'SANGRIA';                
     var_sqla := var_sqla + intToStr(cod_id);
     var_sqla := var_sqla + ',''' + edHist.Text;
     var_sqla := var_sqla + ''')';
@@ -801,7 +825,6 @@ begin
   cCaixaControle.Params[0].AsInteger := sCaixa1IDCAIXACONTROLE.AsInteger;
   cCaixaControle.Open;
   cCaixaControle.Edit;
-  //cCaixaControleDATAFECHAMENTO.AsDateTime := edData.Date;
   cCaixaControleDATAFECHAMENTO.AsDateTime := sCaixa1DATAABERTURA.AsDateTime;
   cCaixaControleSITUACAO.AsString := 'F';
   cCaixaControleVALORFECHA.Value := edValor.Value;
