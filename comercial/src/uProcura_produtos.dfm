@@ -1,8 +1,8 @@
 object fProcura_produtos: TfProcura_produtos
   Left = 0
   Top = 0
-  Width = 802
-  Height = 575
+  Width = 813
+  Height = 577
   Caption = 'Lista de Produtos'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -164,7 +164,7 @@ object fProcura_produtos: TfProcura_produtos
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 794
+    Width = 797
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -510,7 +510,7 @@ object fProcura_produtos: TfProcura_produtos
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 794
+    Width = 797
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
