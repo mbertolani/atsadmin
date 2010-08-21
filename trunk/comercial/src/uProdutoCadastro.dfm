@@ -1,7 +1,7 @@
 inherited fProdutoCadastro: TfProdutoCadastro
   Top = 58
-  Width = 797
-  Height = 543
+  Width = 805
+  Height = 546
   Font.Height = -13
   OldCreateOrder = True
   OnShow = FormShow
@@ -124,7 +124,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'N')
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 462
+    Top = 454
     Width = 789
     TabOrder = 12
     inherited btnGravar: TBitBtn
@@ -309,43 +309,43 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object GroupBox1: TGroupBox [22]
     Left = 3
-    Top = 174
-    Width = 782
-    Height = 50
+    Top = 173
+    Width = 517
+    Height = 51
     Caption = 'Estoque'
     TabOrder = 9
     object Label12: TLabel
-      Left = 72
-      Top = 22
+      Left = 26
+      Top = 18
       Width = 39
       Height = 16
       Caption = 'Atual..:'
     end
     object Label13: TLabel
-      Left = 220
-      Top = 22
+      Left = 128
+      Top = 18
       Width = 56
       Height = 16
       Caption = 'Maximo..:'
     end
     object Label14: TLabel
-      Left = 385
-      Top = 22
+      Left = 249
+      Top = 18
       Width = 52
       Height = 16
       Caption = 'Minimo..:'
     end
     object Label15: TLabel
-      Left = 546
-      Top = 22
+      Left = 363
+      Top = 18
       Width = 76
       Height = 16
       Caption = 'Reposi'#231#227'o..:'
     end
     object DBEdit7: TDBEdit
-      Left = 113
-      Top = 22
-      Width = 86
+      Left = 68
+      Top = 24
+      Width = 58
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -364,9 +364,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
       OnKeyPress = FormKeyPress
     end
     object DBEdit8: TDBEdit
-      Left = 278
-      Top = 22
-      Width = 86
+      Left = 187
+      Top = 23
+      Width = 58
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -383,9 +383,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
       OnKeyPress = FormKeyPress
     end
     object DBEdit9: TDBEdit
-      Left = 439
+      Left = 303
       Top = 22
-      Width = 86
+      Width = 58
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -402,9 +402,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
       OnKeyPress = FormKeyPress
     end
     object DBEdit10: TDBEdit
-      Left = 624
+      Left = 441
       Top = 22
-      Width = 86
+      Width = 58
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1475,6 +1475,51 @@ inherited fProdutoCadastro: TfProdutoCadastro
       '0'
       '1'
       '2')
+  end
+  object DBRadioGroup4: TDBRadioGroup [43]
+    Left = 525
+    Top = 173
+    Width = 85
+    Height = 51
+    Caption = 'Impressora'
+    DataField = 'IMPRESSORA_1'
+    DataSource = DtSrc
+    Items.Strings = (
+      'Setor 1')
+    TabOrder = 31
+    Values.Strings = (
+      'SIM'
+      'N'#195'O')
+  end
+  object DBRadioGroup5: TDBRadioGroup [44]
+    Left = 613
+    Top = 173
+    Width = 85
+    Height = 51
+    Caption = 'Impressora'
+    DataField = 'IMPRESSORA_2'
+    DataSource = DtSrc
+    Items.Strings = (
+      'Setor 2')
+    TabOrder = 32
+    Values.Strings = (
+      'SIM'
+      'N'#195'O')
+  end
+  object DBRadioGroup6: TDBRadioGroup [45]
+    Left = 701
+    Top = 173
+    Width = 85
+    Height = 51
+    Caption = 'Impressora'
+    DataField = 'IMPRESSORA_3'
+    DataSource = DtSrc
+    Items.Strings = (
+      'Setor 3')
+    TabOrder = 33
+    Values.Strings = (
+      'SIM'
+      'N'#195'O')
   end
   inherited XPMenu1: TXPMenu
     Left = 608

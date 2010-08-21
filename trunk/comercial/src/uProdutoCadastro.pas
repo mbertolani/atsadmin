@@ -99,6 +99,9 @@ type
     DBOrigem: TDBRadioGroup;
     DBEdit22: TDBEdit;
     Label32: TLabel;
+    DBRadioGroup4: TDBRadioGroup;
+    DBRadioGroup5: TDBRadioGroup;
+    DBRadioGroup6: TDBRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -256,7 +259,7 @@ begin
     end;
     varonde := '';
 
-    if DM.cds_familia.Active then
+   { if DM.cds_familia.Active then
       DM.cds_familia.Close;
     dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
       'where MARCA = ' + QuotedStr(cbMarca.Text);
@@ -266,7 +269,8 @@ begin
     DM.cds_categoria.Params[0].Clear;
     DM.cds_categoria.Params[1].Clear;
     DM.cds_categoria.Params[2].AsInteger := DM.cds_familiaCOD_FAMILIA.AsInteger;
-    DM.cds_categoria.Open;
+    DM.cds_categoria.Open;            }
+    
 end;
 
 procedure TfProdutoCadastro.btnIncluirClick(Sender: TObject);
