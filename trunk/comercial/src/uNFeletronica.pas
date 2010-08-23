@@ -500,6 +500,7 @@ type
     sdsItensNFVIPI: TFloatField;
     cdsItensNFPIPI: TFloatField;
     cdsItensNFVIPI: TFloatField;
+    btnSairVenda: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -522,6 +523,7 @@ type
     procedure BtnPreVisClick(Sender: TObject);
     procedure btnSPEDClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure btnSairVendaClick(Sender: TObject);
     {procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);}
   private
@@ -539,7 +541,7 @@ implementation
 
 uses pcnNFe, ACBrNFeNotasFiscais, DateUtils, ACBrNFeUtil, UDm,
  ACBrNFeWebServices, uNFeInutilizar, ACBrNFeConfiguracoes, sCtrlResize,
-  uNFeMail;
+  uNFeMail, uVendaFinalizar, uVendas, uNotaf;
 
 {$R *.dfm}
 
@@ -2320,6 +2322,15 @@ end;
 
 procedure TfNFeletronica.btnSairClick(Sender: TObject);
 begin
+  Close;
+end;
+
+procedure TfNFeletronica.btnSairVendaClick(Sender: TObject);
+begin
+  fNotaf.Close;
+  fVendaFinalizar.Close;
+  fVendas.btnIncluir.Click;
+  fVendas.btnCancelar.Click;
   Close;
 end;
 
