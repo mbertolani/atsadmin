@@ -1,4 +1,3 @@
-SET TERM ^ ;
 ALTER PROCEDURE CALCULA_ICMS_SUBSTITUICAO (
     NUMERO_NF integer,
     UF varchar(2),
@@ -19,6 +18,7 @@ DECLARE VARIABLE PICMS_SUBST_IND_DESC DOUBLE PRECISION; -- Por Produto
 DECLARE VARIABLE VALOR_SUB DOUBLE PRECISION;
 DECLARE VARIABLE VALOR_RESTO DOUBLE PRECISION;
 DECLARE VARIABLE VALOR_SUBDesc DOUBLE PRECISION;
+DECLARE VARIABLE cormva DOUBLE PRECISION;
 DECLARE VARIABLE VlrStr varchar(32);
 DECLARE VARIABLE PercStr varchar(32);
 DECLARE VARIABLE DataStr varchar(32);
@@ -87,11 +87,19 @@ begin
 
          if (icms_subst_ind_desc > 0) then 
            icms_subst_ind_desc = icms_subst_ind_desc / 100;
+        --CORREÇÃO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
+        if (icms_subst_ind <> icms_subst_ind_desc)  then
+         begin
+            cormva = ((1-icms_subst_ind_desc)/ (1-icms_subst_ind));
+            icms_subst = icms_subst * cormva;
+            --icms_subst = UDF_ROUNDDEC((icms_subst-1)*100,2);
+            --icms_subst = 1+(icms_subst/100);
+         end        
+           
           update parametro set instrucoes = cast(:VALORTOTAL as varchar(20)) where parametro = 'TESTE';
 
-         VALOR_SUB = (:VALORTOTAL  + :ipi) * icms_subst; 
-         VALOR_SUBDesc = (VALORTOTAL) * icms_subst_ind_desc; 
-         --update parametro set instrucoes = cast(:VALOR_SUBDesc as varchar(20)) where parametro = 'TESTE';
+         VALOR_SUB = (:VALORTOTAL ) * UDF_ROUNDDEC(icms_subst, 4); 
+         VALOR_SUBDesc = (VALORTOTAL - ipi) * icms_subst_ind_desc; 
          ICMS_SUBST = (Valor_SUB  * icms_subst_ind) - Valor_SubDesc;
          VALORTOTAL = VALORTOTAL + ICMS_SUBST;
 
@@ -115,12 +123,12 @@ begin
            --   valorTitulo = (valorTitulo  + :icms_subst) where titulo = :notafiscalVenda || '-' || :serie and via = 1;
            
            -- Pego os outros valores na NF para somar ao total 
-           select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO + n.VALOR_IPI) from notafiscal n where numnf = :numero_nf
+           select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO) from notafiscal n where numnf = :numero_nf
              into :Outros;   
            valortotal = valortotal + Outros;
            
            UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :VALOR_SUB, VALOR_ICMS_SUBST = :ICMS_SUBST, 
-              VALOR_TOTAL_NOTA = :VALORTOTAL--, CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2
+              VALOR_TOTAL_NOTA = :VALORTOTAL --, CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2
             
              where NUMNF = :NUMERO_NF;
          end
@@ -136,4 +144,3 @@ begin
   end 
   end -- Fim do Calculo pelo CFOP
 end
-
