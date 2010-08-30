@@ -1576,6 +1576,7 @@ begin
     cdsNotaMae.ApplyUpdates(0);
     end;
   end;
+  dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat; 
   dmnf.cds_nf.ApplyUpdates(0);
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
