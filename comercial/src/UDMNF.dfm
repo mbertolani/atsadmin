@@ -320,18 +320,18 @@ object DMNF: TDMNF
       '.ICMS, movd.PRECO, movd.QUANTIDADE, movd.QTDE_ALT, movd.UN, movd' +
       '.BAIXA'#13#10', movd.CONTROLE, movd.COD_COMISSAO, movd.LOTE, movd.DTAF' +
       'AB, movd.DTAVCTO, movd.PRECOCUSTO, movd.VALTOTAL, movd.DESCPRODU' +
-      'TO'#13#10', movd.CST, prod.COD_BARRA , prod.CODPRO, prod.PRODUTO, prod' +
-      '.ESTOQUEATUAL, prod.CODALMOXARIFADO, prod.VALORUNITARIOATUAL'#13#10', ' +
-      'prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA  , prod.LOC' +
-      'ALIZACAO  , prod.CLASSIFIC_FISCAL , cm.CODIGO, prod.LOTES, UDF_R' +
-      'OUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS'#13#10', udf_LEFT((prod.PROD' +
-      'UTO),80) as DETALHE , movd.VLR_BASE, movd.VLR_BASEICMS'#13#10'from MOV' +
-      'IMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO' +
-      '=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.COD' +
-      'ALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO c' +
-      'm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE' +
-      '=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddeta' +
-      'lhe'
+      'TO, movd.CFOP'#13#10', movd.CST, prod.COD_BARRA , prod.CODPRO, prod.PR' +
+      'ODUTO, prod.ESTOQUEATUAL, prod.CODALMOXARIFADO, prod.VALORUNITAR' +
+      'IOATUAL'#13#10', prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA ' +
+      ' , prod.LOCALIZACAO  , prod.CLASSIFIC_FISCAL , cm.CODIGO, prod.L' +
+      'OTES, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS'#13#10', udf_LEFT' +
+      '((prod.PRODUTO),80) as DETALHE , movd.VLR_BASE, movd.VLR_BASEICM' +
+      'S'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod' +
+      '.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus ' +
+      'on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join' +
+      ' COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd' +
+      '.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by m' +
+      'ovd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -504,6 +504,11 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetVALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
+    end
+    object sds_Mov_DetCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -702,6 +707,11 @@ object DMNF: TDMNF
     end
     object cds_Mov_detVALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
+    end
+    object cds_Mov_detCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
