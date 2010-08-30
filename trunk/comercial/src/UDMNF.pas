@@ -1310,6 +1310,8 @@ type
     cds_compraPRAZO: TStringField;
     cds_compraNOMEFORNECEDOR: TStringField;
     cds_compraNOMEUSUARIO: TStringField;
+    sds_Mov_DetCFOP: TStringField;
+    cds_Mov_detCFOP: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
