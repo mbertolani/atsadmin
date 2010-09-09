@@ -93,7 +93,7 @@ begin
     end 
   end 
   /* ==============================================================*/  
-
+    update recebimento set valst = 0 where titulo = :notafiscalVenda || '-' || :serie and via = 1;
     if (pessoa = 0) then 
     begin 
         SELECT FIRST 1 ICMS, CASE WHEN (REDUCAO > 0) THEN (REDUCAO/100) ELSE 1 END, IPI, CST  

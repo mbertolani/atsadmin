@@ -119,9 +119,8 @@ begin
                 fatura = fatura || vlrStr;
              end  
            */
-           --update recebimento set valor_resto = (valor_resto + :icms_subst), valor_prim_via = (valor_prim_via + :icms_subst),
-           --   valorTitulo = (valorTitulo  + :icms_subst) where titulo = :notafiscalVenda || '-' || :serie and via = 1;
-           
+            update recebimento set valst = 0 where titulo = :notafiscalVenda || '-' || :serie and via = 1;
+
            -- Pego os outros valores na NF para somar ao total 
            select sum(n.OUTRAS_DESP + n.VALOR_FRETE + n.VALOR_SEGURO) from notafiscal n where numnf = :numero_nf
              into :Outros;   
