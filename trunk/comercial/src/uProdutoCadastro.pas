@@ -39,14 +39,6 @@ type
     DBEdit11: TDBEdit;
     Label18: TLabel;
     GroupBox3: TGroupBox;
-    Label21: TLabel;
-    Label22: TLabel;
-    Label23: TLabel;
-    Label24: TLabel;
-    Label25: TLabel;
-    DBEdit14: TDBEdit;
-    DBEdit15: TDBEdit;
-    DBEdit16: TDBEdit;
     DBEdit12: TDBEdit;
     Label16: TLabel;
     DBEdit13: TDBEdit;
@@ -69,8 +61,6 @@ type
     Label27: TLabel;
     sds_ClaFiscal: TSQLDataSet;
     DtSrc_cm: TDataSource;
-    DBComboBox2: TDBComboBox;
-    DBComboBox3: TDBComboBox;
     DBLookupComboBox2: TDBLookupComboBox;
     DBLookupComboBox3: TDBLookupComboBox;
     dxButton3: TdxButton;
@@ -81,9 +71,7 @@ type
     SpeedButton1: TBitBtn;
     SpeedButton2: TBitBtn;
     SpeedButton3: TBitBtn;
-    SpeedButton6: TBitBtn;
     btnRateio: TBitBtn;
-    SpeedButton7: TBitBtn;
     DBRadioGroup2: TDBRadioGroup;
     cbTipo: TComboBox;
     Label28: TLabel;
