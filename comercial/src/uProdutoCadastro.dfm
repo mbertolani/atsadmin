@@ -1,7 +1,7 @@
 inherited fProdutoCadastro: TfProdutoCadastro
   Top = 58
-  Width = 805
-  Height = 546
+  Width = 797
+  Height = 507
   Font.Height = -13
   OldCreateOrder = True
   OnShow = FormShow
@@ -78,22 +78,22 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Tipo'
   end
   object Label30: TLabel [10]
-    Left = 540
-    Top = 398
+    Left = 652
+    Top = 288
     Width = 89
     Height = 16
     Caption = 'Gera Despesa'
   end
   object Label31: TLabel [11]
-    Left = 358
-    Top = 397
+    Left = 514
+    Top = 288
     Width = 47
     Height = 16
     Caption = 'Imprimir'
   end
   object DBRadioGroup3: TDBRadioGroup [12]
-    Left = 411
-    Top = 385
+    Left = 483
+    Top = 305
     Width = 129
     Height = 32
     Columns = 2
@@ -109,7 +109,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object DBRadioGroup1: TDBRadioGroup [13]
     Left = 633
-    Top = 386
+    Top = 306
     Width = 129
     Height = 32
     Columns = 2
@@ -124,7 +124,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'N')
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 454
+    Top = 426
     Width = 789
     TabOrder = 12
     inherited btnGravar: TBitBtn
@@ -648,282 +648,26 @@ inherited fProdutoCadastro: TfProdutoCadastro
   object GroupBox3: TGroupBox [24]
     Left = 3
     Top = 288
-    Width = 782
+    Width = 158
     Height = 52
-    Caption = 'Tributa'#231#227'o'
+    Caption = 'Classifica'#231#227'o Fiscal'
     TabOrder = 11
-    object Label21: TLabel
-      Left = 5
-      Top = 25
-      Width = 126
-      Height = 16
-      Caption = 'Classifica'#231#227'o Fiscal :'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
-    object Label22: TLabel
-      Left = 357
-      Top = 8
-      Width = 27
-      Height = 16
-      Caption = 'CST'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
-    object Label23: TLabel
-      Left = 487
-      Top = 8
-      Width = 15
-      Height = 16
-      Caption = 'IPI'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
-    object Label24: TLabel
-      Left = 566
-      Top = 8
-      Width = 32
-      Height = 16
-      Caption = 'ICMS'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
-    object Label25: TLabel
-      Left = 626
-      Top = 8
-      Width = 67
-      Height = 16
-      Caption = 'Base ICMS'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
     object Label32: TLabel
-      Left = 717
-      Top = 8
-      Width = 30
+      Left = 9
+      Top = 23
+      Width = 36
       Height = 16
-      Caption = 'NCM'
+      Caption = 'NCM :'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-    end
-    object DBEdit14: TDBEdit
-      Left = 473
-      Top = 23
-      Width = 70
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      DataField = 'IPI'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 4
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit15: TDBEdit
-      Left = 549
-      Top = 23
-      Width = 70
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      DataField = 'ICMS'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 5
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit16: TDBEdit
-      Left = 625
-      Top = 23
-      Width = 70
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      DataField = 'BASE_ICMS'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 6
-      OnKeyPress = FormKeyPress
-    end
-    object DBComboBox2: TDBComboBox
-      Left = 137
-      Top = 23
-      Width = 147
-      Height = 24
-      BevelKind = bkFlat
-      DataField = 'CLASSIFIC_FISCAL'
-      DataSource = DtSrc
-      ItemHeight = 16
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-      OnKeyPress = FormKeyPress
-    end
-    object DBComboBox3: TDBComboBox
-      Left = 336
-      Top = 23
-      Width = 84
-      Height = 24
-      BevelKind = bkFlat
-      DataField = 'CST'
-      DataSource = DtSrc
-      ItemHeight = 16
-      PopupMenu = PopupMenu1
-      TabOrder = 2
-      OnKeyPress = FormKeyPress
-    end
-    object SpeedButton6: TBitBtn
-      Left = 292
-      Top = 22
-      Width = 33
-      Height = 26
-      TabOrder = 1
-      OnClick = SpeedButton6Click
-      Glyph.Data = {
-        86050000424D8605000000000000360000002800000016000000140000000100
-        18000000000050050000120B0000120B00000000000000000000BFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F
-        7FCF6760CF67607F7F7F60302F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FCF6760CF
-        6760CF6760CF6760FF9790FF97907F7F7F60302F7F7F7F7F7F7FBFBFBFBFBFBF
-        0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FCF6760CF6760
-        CF6760CF6760CF6760CF6760FFC8CFCF67601F201F7F7F7F60302F60302FCF67
-        607F7F7F0000BFBFBFBFBFBFBFBFBFBFBFBFFF9790CF6760CF6760CF6760FF97
-        90CF6760FF9790CF6760FF9790CF6760FFFFFFCF67601F201F1F201FBFBFBFBF
-        BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFFF9790CF6760FF9790CF6760FF
-        9790CF6760FF9790CF6760FF9790CF6760FF9790FFFFFF60302F1F201F1F201F
-        60302FBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFFF9790FF9790FF9790
-        FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFFFFF1F201F1F20
-        1F60302F1F201F60302FBFBFBFBFBFBF0000BFBFBFBFBFBFFF9790FF9790FF97
-        90FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFC8CFCF67601F
-        201F60302F60302F60302F60302F60302FBFBFBF0000BFBFBFBFBFBFFF9790FF
-        9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFFFFF
-        CF67606097CF60302F60302F60302F60302F60302F60302F0000BFBFBFFF9790
-        FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF97
-        90FFFFFFCF6760007F7F6097CF60302F60302F60302F60302FBFBFBF0000BFBF
-        BFFF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF
-        9790FF9790FFC8CFCF67606097CF007F7F007F7F60302FFF9790BFBFBFBFBFBF
-        0000FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFC8CFFFC8CFFFC8CF
-        FF9790FF9790FF9790FFC8CFCF6760FFC8CFCF6760BFBFBF007F7FBFBFBFBFBF
-        BFBFBFBF0000FF9790FF9790FF9790FF9790BFBFBFCFFFFFCFFFFFCFFFFF007F
-        7F007F7FFF9790FF9790FF9790FFC8CFFFC8CFBFBFBFFFC8CFBFBFBFCF6760BF
-        BFBFBFBFBFBFBFBF0000FF9790FFC8CFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCF
-        FFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFF
-        CF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        CFFFFFCFFFFFCF6760CFFFFFCF6760007F7FCF6760007F7FCFFFFFCF6760CFFF
-        FFCFFFFFCF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCF
-        FFFFCFFFFFCFFFFFCF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFCFFFFFCFFFFF007F7FCF6760007F7FCF6760CFFFFFFF9790
-        007F7F007F7F007F7F007F7F6097CFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFF
-        FFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCF6760007F7FCF6760CF
-        FFFFCFFFFFBFBFBFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFF
-        CFFFFFCFFFFFCFFFFFFF979000FFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBF0000}
-    end
-    object SpeedButton7: TBitBtn
-      Left = 426
-      Top = 22
-      Width = 34
-      Height = 26
-      TabOrder = 3
-      OnClick = SpeedButton7Click
-      Glyph.Data = {
-        86050000424D8605000000000000360000002800000016000000140000000100
-        18000000000050050000120B0000120B00000000000000000000BFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F
-        7FCF6760CF67607F7F7F60302F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FCF6760CF
-        6760CF6760CF6760FF9790FF97907F7F7F60302F7F7F7F7F7F7FBFBFBFBFBFBF
-        0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FCF6760CF6760
-        CF6760CF6760CF6760CF6760FFC8CFCF67601F201F7F7F7F60302F60302FCF67
-        607F7F7F0000BFBFBFBFBFBFBFBFBFBFBFBFFF9790CF6760CF6760CF6760FF97
-        90CF6760FF9790CF6760FF9790CF6760FFFFFFCF67601F201F1F201FBFBFBFBF
-        BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFFF9790CF6760FF9790CF6760FF
-        9790CF6760FF9790CF6760FF9790CF6760FF9790FFFFFF60302F1F201F1F201F
-        60302FBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFFF9790FF9790FF9790
-        FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFFFFF1F201F1F20
-        1F60302F1F201F60302FBFBFBFBFBFBF0000BFBFBFBFBFBFFF9790FF9790FF97
-        90FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFC8CFCF67601F
-        201F60302F60302F60302F60302F60302FBFBFBF0000BFBFBFBFBFBFFF9790FF
-        9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFFFFF
-        CF67606097CF60302F60302F60302F60302F60302F60302F0000BFBFBFFF9790
-        FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF97
-        90FFFFFFCF6760007F7F6097CF60302F60302F60302F60302FBFBFBF0000BFBF
-        BFFF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF
-        9790FF9790FFC8CFCF67606097CF007F7F007F7F60302FFF9790BFBFBFBFBFBF
-        0000FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFC8CFFFC8CFFFC8CF
-        FF9790FF9790FF9790FFC8CFCF6760FFC8CFCF6760BFBFBF007F7FBFBFBFBFBF
-        BFBFBFBF0000FF9790FF9790FF9790FF9790BFBFBFCFFFFFCFFFFFCFFFFF007F
-        7F007F7FFF9790FF9790FF9790FFC8CFFFC8CFBFBFBFFFC8CFBFBFBFCF6760BF
-        BFBFBFBFBFBFBFBF0000FF9790FFC8CFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCF
-        FFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFF
-        CF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        CFFFFFCFFFFFCF6760CFFFFFCF6760007F7FCF6760007F7FCFFFFFCF6760CFFF
-        FFCFFFFFCF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCF
-        FFFFCFFFFFCFFFFFCF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFCFFFFFCFFFFF007F7FCF6760007F7FCF6760CFFFFFFF9790
-        007F7F007F7F007F7F007F7F6097CFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFF
-        FFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCF6760007F7FCF6760CF
-        FFFFCFFFFFBFBFBFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFF
-        CFFFFFCFFFFFCFFFFFFF979000FFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBF0000}
     end
     object DBEdit22: TDBEdit
-      Left = 701
-      Top = 23
+      Left = 46
+      Top = 21
       Width = 70
       Height = 24
       BevelKind = bkFlat
@@ -937,7 +681,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 7
+      TabOrder = 0
       OnKeyPress = FormKeyPress
     end
   end
@@ -967,8 +711,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   object dxButton1: TdxButton [26]
-    Left = 13
-    Top = 426
+    Left = 10
+    Top = 390
     Width = 180
     Height = 28
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -979,8 +723,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 14
   end
   object dxButton2: TdxButton [27]
-    Left = 201
-    Top = 426
+    Left = 198
+    Top = 390
     Width = 180
     Height = 28
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -1101,8 +845,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object dxButton3: TdxButton [31]
-    Left = 391
-    Top = 426
+    Left = 388
+    Top = 390
     Width = 148
     Height = 28
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -1121,8 +865,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 19
   end
   object dxButton4: TdxButton [33]
-    Left = 546
-    Top = 426
+    Left = 543
+    Top = 390
     Width = 148
     Height = 28
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -1362,10 +1106,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBF0000}
   end
   object DBRadioGroup2: TDBRadioGroup [38]
-    Left = 5
-    Top = 383
-    Width = 348
-    Height = 38
+    Left = 161
+    Top = 288
+    Width = 311
+    Height = 52
     Caption = 'Forma'#231#227'o Pre'#231'o Venda'
     Color = clBtnFace
     Columns = 3
@@ -1409,8 +1153,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'Loca'#231#227'o')
   end
   object BitBtn1: TBitBtn [40]
-    Left = 698
-    Top = 428
+    Left = 695
+    Top = 392
     Width = 41
     Height = 22
     Enabled = False
@@ -1432,8 +1176,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     NumGlyphs = 2
   end
   object BitBtn2: TBitBtn [41]
-    Left = 744
-    Top = 428
+    Left = 741
+    Top = 392
     Width = 41
     Height = 22
     Enabled = False
