@@ -102,8 +102,6 @@ type
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
     procedure btnRateioClick(Sender: TObject);
-    procedure SpeedButton6Click(Sender: TObject);
-    procedure SpeedButton7Click(Sender: TObject);
     procedure Chk_loteClick(Sender: TObject);
     procedure Chk_rateioClick(Sender: TObject);
     procedure dxButton1Click(Sender: TObject);
@@ -142,18 +140,6 @@ uses uComercial, UDm, ufprocura_prod, uMarcas_Grupos, uFamilia, uCategoria,
 procedure TfProdutoCadastro.FormCreate(Sender: TObject);
 begin
  // inherited;
-
-  // Preenche as combobox - Classificacao Fiscal e CST
-  if (not sds_ClaFiscal.Active) then
-     sds_ClaFiscal.Open;
-  while not sds_ClaFiscal.Eof do
-  begin
-    if (sds_ClaFiscal.Fields[3].AsString = 'ClassificaFiscal') then
-      DBComboBox2.Items.Add(sds_ClaFiscal.Fields[0].AsString);
-    if (sds_ClaFiscal.Fields[3].AsString = 'CST') then
-      DBComboBox3.Items.Add(sds_ClaFiscal.Fields[0].AsString);
-    sds_ClaFiscal.Next;
-  end;
 
 //*****************************************************
 // abre as tabelas Marca, familia e comissão
@@ -533,57 +519,6 @@ begin
   dm.cds_parametro.Close;
   conta_produto := dm.cds_produtoCONTA_DESPESA.asString;
   fContaRateio.ShowModal;
-end;
-
-procedure TfProdutoCadastro.SpeedButton6Click(Sender: TObject);
-begin
-  inherited;
-  if DtSrc.DataSet.State in [dsInactive] then exit;
-
-  var_tipo := 'ClassificaFiscal';
-  fClassificacaoFiscal := TfClassificacaoFiscal.Create(Application);
-  try
-    fClassificacaoFiscal.ShowModal;
-  finally
-    fClassificacaoFiscal.Free;
-  end;
-  if (sds_ClaFiscal.Active) then
-     sds_ClaFiscal.Close;
-  sds_ClaFiscal.Open;
-  DBComboBox2.Items.Clear;
-  while not sds_ClaFiscal.Eof do
-  begin
-    if (sds_ClaFiscal.Fields[3].AsString = 'ClassificaFiscal') then
-      DBComboBox2.Items.Add(sds_ClaFiscal.Fields[0].AsString);
-    sds_ClaFiscal.Next;
-  end;
-  DBComboBox2.SetFocus;
-end;
-
-procedure TfProdutoCadastro.SpeedButton7Click(Sender: TObject);
-begin
-  inherited;
-  var_tipo := 'CST';
-
-  if DtSrc.DataSet.State in [dsInactive] then exit;
-
-  fClassificacaoFiscal := TfClassificacaoFiscal.Create(Application);
-  try
-    fClassificacaoFiscal.ShowModal;
-  finally
-    fClassificacaoFiscal.Free;
-  end;
-  if (sds_ClaFiscal.Active) then
-     sds_ClaFiscal.Close;
-  sds_ClaFiscal.Open;
-  DBComboBox3.Items.Clear;
-  while not sds_ClaFiscal.Eof do
-  begin
-    if (sds_ClaFiscal.Fields[3].AsString = 'CST') then
-      DBComboBox3.Items.Add(sds_ClaFiscal.Fields[0].AsString);
-    sds_ClaFiscal.Next;
-  end;
-  DBComboBox3.SetFocus;
 end;
 
 procedure TfProdutoCadastro.Chk_loteClick(Sender: TObject);
