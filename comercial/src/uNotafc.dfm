@@ -819,7 +819,7 @@ object fNotafc: TfNotafc
           ItemHeight = 13
           TabOrder = 0
           OnChange = cbCFOPChange
-          OnExit = cbCFOPChange
+          OnExit = cbCFOPExit
           OnKeyPress = FormKeyPress
         end
       end
@@ -2668,6 +2668,74 @@ object fNotafc: TfNotafc
     end
     object listaFornecedorCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
+    end
+  end
+  object sCfop: TSQLDataSet
+    CommandText = 
+      'select * from ESTADO_ICMS ei where ei.UF = :uf and ei.CFOP = :cf' +
+      'op and ei.Pessoa = :pessoa'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'uf'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'cfop'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pessoa'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 231
+    Top = 59
+    object sCfopCFOP: TStringField
+      FieldName = 'CFOP'
+      Required = True
+      Size = 30
+    end
+    object sCfopUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 3
+    end
+    object sCfopPESSOA: TStringField
+      FieldName = 'PESSOA'
+      Size = 8
+    end
+    object sCfopDADOSADC1: TStringField
+      FieldName = 'DADOSADC1'
+      Size = 200
+    end
+    object sCfopDADOSADC2: TStringField
+      FieldName = 'DADOSADC2'
+      Size = 200
+    end
+    object sCfopDADOSADC3: TStringField
+      FieldName = 'DADOSADC3'
+      Size = 200
+    end
+    object sCfopDADOSADC4: TStringField
+      FieldName = 'DADOSADC4'
+      Size = 200
+    end
+    object sCfopDADOSADC5: TStringField
+      FieldName = 'DADOSADC5'
+      Size = 200
+    end
+    object sCfopDADOSADC6: TStringField
+      FieldName = 'DADOSADC6'
+      Size = 200
+    end
+    object sCfopNAOENVFATURA: TStringField
+      FieldName = 'NAOENVFATURA'
+      FixedChar = True
+      Size = 1
     end
   end
 end

@@ -219,6 +219,17 @@ type
     listaFornecedorCODTRANSP: TIntegerField;
     btnNotaFiscal: TBitBtn;
     DBEdit50: TDBEdit;
+    sCfop: TSQLDataSet;
+    sCfopCFOP: TStringField;
+    sCfopUF: TStringField;
+    sCfopPESSOA: TStringField;
+    sCfopDADOSADC1: TStringField;
+    sCfopDADOSADC2: TStringField;
+    sCfopDADOSADC3: TStringField;
+    sCfopDADOSADC4: TStringField;
+    sCfopDADOSADC5: TStringField;
+    sCfopDADOSADC6: TStringField;
+    sCfopNAOENVFATURA: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -249,6 +260,7 @@ type
     procedure JvDBGrid2EditChange(Sender: TObject);
     procedure ExcluirItemNF1Click(Sender: TObject);
     procedure btnNotaFiscalClick(Sender: TObject);
+    procedure cbCFOPExit(Sender: TObject);
   private
     { Private declarations }
     procedure incluiEntrada;
@@ -269,6 +281,7 @@ type
     procedure gravanotafiscal;
     procedure calculaicms(Estado: String);
     procedure somavalores;
+    procedure carregaDadosAdicionais;
     { Public declarations }
   end;
 
@@ -805,6 +818,8 @@ begin
     dmnf.cds_nf1DESCNATUREZA.AsString := DMNF.listaCFOPCFNOME.AsString;
     DMNF.listaCFOP.Close;
   end;
+  carregaDadosAdicionais;
+  
 end;
 
 procedure TfNotaFc.btnSairClick(Sender: TObject);
@@ -955,6 +970,7 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;
+ cbCFOPChange(Sender);
 end;
 
 procedure TfNotaFc.btnCancelarClick(Sender: TObject);
@@ -1114,8 +1130,8 @@ begin
 end;
 
 procedure TfNotaFc.gravavenda;
-var  strSql, strTit, tipoMov: String;
-     diferenca : double;
+//var  strSql, strTit,tipoMov: String;
+//     diferenca : double;
 begin
   if (DBEdit33.Text = '') then
   begin
@@ -1782,6 +1798,44 @@ procedure TfNotaFc.btnNotaFiscalClick(Sender: TObject);
 begin
     fNFeletronica.tpNF.ItemIndex := 0;
     fNFeletronica.ShowModal;
+end;
+
+Procedure TfNotaFc.carregaDadosAdicionais;
+Begin
+  //lblFatura.Caption := sCfopNAOENVFATURA.AsString;
+  if (dmnf.cds_nf1.State in [dsEdit]) then
+  begin
+    if( (not DMNF.cds_nf1CFOP.IsNull)  or (dmnf.cds_nf1CFOP.AsString <> '') )then
+    begin
+      if( (not DMNF.cds_nf1UFCLI.IsNull)  or (DMNF.cds_nf1UFCLI.AsString <> '') )then
+      begin
+        if (sCFOP.Active) then
+          sCFOP.Close;
+        sCFOP.Params[1].asString :=  cbCFOP.Text;
+        sCFOP.Params[0].asString :=  DBEdit7.Text;
+        sCFOP.Params[2].asString :=  'J';
+        sCFOP.Open;
+        If ((sCfopDADOSADC1.AsString = '') or (not sCFOPDADOSADC1.IsNull) )then
+          DMNF.cds_nf1CORPONF1.AsString := sCFOPDADOSADC1.AsString;
+        If ((sCFOPDADOSADC2.AsString = '') or (not sCFOPDADOSADC2.IsNull) )then
+          DMNF.cds_nf1CORPONF2.AsString := sCFOPDADOSADC2.AsString;
+        If ((sCFOPDADOSADC3.AsString = '') or (not sCFOPDADOSADC3.IsNull) )then
+          DMNF.cds_nf1CORPONF3.AsString := sCFOPDADOSADC3.AsString;
+        If ((sCFOPDADOSADC4.AsString = '') or (not sCFOPDADOSADC4.IsNull) )then
+          DMNF.cds_nf1CORPONF4.AsString := sCFOPDADOSADC4.AsString;
+        If ((sCFOPDADOSADC5.AsString = '') or (not sCFOPDADOSADC5.IsNull) )then
+          DMNF.cds_nf1CORPONF5.AsString := sCFOPDADOSADC5.AsString;
+        If ((sCFOPDADOSADC6.AsString = '') or (not sCFOPDADOSADC6.IsNull) )then
+          DMNF.cds_nf1CORPONF6.AsString := sCFOPDADOSADC6.AsString;
+      end;
+    end;
+  end;
+End;
+
+procedure TfNotaFc.cbCFOPExit(Sender: TObject);
+begin
+  cbCFOPChange(Sender);
+  SelectNext((Sender as TwinControl),True,True);
 end;
 
 end.
