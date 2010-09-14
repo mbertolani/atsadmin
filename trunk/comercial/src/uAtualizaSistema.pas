@@ -665,7 +665,6 @@ begin
     if (versaoSistema = '1.0.0.65') then
     begin
       executaScript('gera_nf_compra.sql');
-      executaScript('nfe_fatura.sql');
       executaScript('gera_valor.sql');
       executaScript('gera_nf_venda.sql');
       executaScript('desbloqueia_clientes.sql');
@@ -709,18 +708,17 @@ begin
       QuotedStr('O sistema não permite data menor que 01/01/2001'));
       executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' +
       QuotedStr('Nota fiscal já enviada, alteração não permitida'));}
+      //executaScript('naopermite_nf.sql');
+      //executaScript('proibeEdit_nf.sql');
+      //executaScript('desativa_trigger.sql');
+      //executaScript('trg_datainvalida.sql');
       executaScript('corrige_fatura.sql');
-      executaScript('calcula_icms_substprod.sql');
       executaScript('CorrigeEstoque.sql');
       executaScript('retornaEstoqueVenda.sql');
-      //executaScript('desativa_trigger.sql');
       executaScript('nfe_fatura.sql');
       executaScript('mov_estoque.sql');
       executaScript('retornaEstoqueVenda.sql');
       executaScript('rel_vendaCompra.sql');
-      //executaScript('naopermite_nf.sql');
-      //executaScript('proibeEdit_nf.sql');
-      //executaScript('trg_datainvalida.sql');
       mudaVersao('1.0.0.69');
     end;  // Fim Ataulização Versao 1.0.0.69
 
@@ -738,8 +736,6 @@ begin
     begin
       executaDDL('MOVIMENTODETALHE', 'VLR_BASEICMS','DOUBLE PRECISION');
       executaScript('calcula_icms_substprod.sql');
-      executaScript('calcula_icms_substituicao.sql');
-      executaScript('calcula_icms.sql');
       executaScript('listaSpEstoqueFiltro.sql');
       executaScript('spEstoqueFiltro.sql');
       mudaVersao('1.0.0.71');
@@ -771,6 +767,19 @@ begin
       executaDDL('CLIENTES', 'CFOP', 'char(4)'); //alter table CLIENTES add CFOP char(4)'
       mudaVersao('1.0.0.74');
     end;  // Fim Ataulização Versao 1.0.0.74
+
+    if (versaoSistema = '1.0.0.74') then
+    begin
+      executaDDL('RECEBIMENTO', 'VALST', 'DOUBLE PRECISION'); //alter table RECEBIMENTO add VALST double precision
+      executaDDL('RECEBIMENTO', 'VALOR_RESTO_SST', 'DOUBLE PRECISION'); //alter table RECEBIMENTO add VALOR_RESTO_SST double precision
+      executaScript('CANCELA_ESTOQUE_VENDA.sql');
+      executaScript('corrige_valor_fatura.sql');
+      executaScript('calcula_icms.sql');      
+      executaScript('trg_calcula_icms_st.sql');
+      executaScript('trg_cfop_produtos.sql');      
+      mudaVersao('1.0.0.75');
+    end;  // Fim Ataulização Versao 1.0.0.75
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
