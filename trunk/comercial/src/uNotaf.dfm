@@ -2144,75 +2144,80 @@ object fNotaf: TfNotaf
             Expanded = False
             FieldName = 'CODPRO'
             Title.Caption = 'C'#243'digo'
-            Width = 43
+            Width = 37
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
             Title.Caption = 'Produtos'
-            Width = 244
+            Width = 216
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CFOP'
+            Width = 42
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CST'
-            Width = 30
+            Width = 26
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
-            Width = 22
+            Width = 60
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
             Title.Caption = 'Quantidade'
-            Width = 58
+            Width = 51
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASE'
             Title.Caption = 'Valor Unit'#225'rio'
-            Width = 75
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QTDE_ALT'
             Title.Caption = 'Desc.%'
-            Width = 46
+            Width = 41
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
-            Width = 61
+            Width = 54
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ICMS'
             Title.Caption = 'ICMS %'
-            Width = 41
+            Width = 36
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASEICMS'
             Title.Caption = 'Base ICMS'
-            Width = 58
+            Width = 51
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALOR_ICMS'
             Title.Caption = 'Valor ICMS'
-            Width = 52
+            Width = 48
             Visible = True
           end>
       end
