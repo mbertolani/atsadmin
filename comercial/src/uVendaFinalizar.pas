@@ -547,7 +547,7 @@ type
     vrr, nparc : double;
     grava: TCompras;
     contaDespesa: string;
-    contaDespesaFrete, contaDespesaPiscina: string;
+    contaDespesaFrete, contaDespesaPiscina ,portaimpr,tipoimpressao : string;
     excluiuNF : Boolean;
     { Public declarations }
   end;
@@ -1316,6 +1316,7 @@ begin
     dm.cds_parametroPARAMETRO.AsString := 'REL. VENDAS';
     dm.cds_parametroDADOS.AsString := 'PADRÃO';
     dm.cds_parametro.ApplyUpdates(0);
+
   end;
   if dm.cds_parametroDADOS.AsString = 'PADRÃO' then
   begin
@@ -1333,9 +1334,12 @@ begin
   end;
 
   if dm.cds_parametroDADOS.AsString = 'CUPOM' then
-     if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
-        imprimecupom;
-
+  //   if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+  begin
+    portaimpr := dm.cds_parametroD2.AsString;
+    tipoimpressao := dm.cds_parametroD1.AsString ;
+    imprimecupom;
+  end;
   if dm.cds_parametroDADOS.AsString = 'PERSONALIZADO' then
   begin
     VCLReport2.FileName := str_relatorio + 'recibo_venda.rep';
@@ -1345,7 +1349,7 @@ begin
     VCLReport2.Report.Params.ParamByName('N_COPIAS').Value := 2;
     VCLReport2.Execute;
   end;
-        
+
 end;
 
 procedure TfVendaFinalizar.BitBtn3Click(Sender: TObject);
@@ -2586,7 +2590,20 @@ begin
       // Para gravar em arquivo
       //OpenDialog1.Execute;
       //AssignFile(IMPRESSORA, OpenDialog1.FileName);
-      AssignFile(IMPRESSORA,'COM1:');
+     // AssignFile(IMPRESSORA,'COM1:');
+  //   AssignFile ( IMPRESSORA, 'C:\venda.txt' );
+
+   //   tipoimpressao := 'txt';
+
+      if (tipoimpressao = 'txt') then
+      begin
+        OpenDialog1.Execute;
+        AssignFile(IMPRESSORA, OpenDialog1.FileName);
+      end
+      else
+      begin
+        AssignFile(IMPRESSORA,portaimpr);//'LPT1:');
+      end;
       Rewrite(IMPRESSORA);
       Writeln(Impressora, c10cpi + Format('%-36s',[dm.cds_empresaRAZAO.Value]));
       Writeln(Impressora, c17cpi, logradouro);
@@ -2678,13 +2695,14 @@ begin
       finally
         CloseFile(IMPRESSORA);
       end;
-      if (MessageDlg('Imprimir Carnê ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+   {   if (MessageDlg('Imprimir Carnê ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
       begin
           VCLReport2.FileName := str_relatorio + 'impr_carne.rep';
           VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
           VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
           VCLReport2.Execute;
       end;
+    }  
 end;
 
 procedure TfVendaFinalizar.DtSrcStateChange(Sender: TObject);
