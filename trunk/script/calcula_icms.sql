@@ -33,7 +33,7 @@ begin
         inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf
     into :cod, :notaFiscalVenda, :serie, :codv, :prazo;
 
-    select sum(md.ICMS_SUBST), sum(md.ICMS_SUBSTD), sum(md.VALOR_ICMS), sum(md.VLR_BASEICMS), sum(md.VIPI), sum(md.VALTOTAL) from MOVIMENTODETALHE md
+    select COALESCE(sum(md.ICMS_SUBST), 0), COALESCE(sum(md.ICMS_SUBSTD), 0), COALESCE(sum(md.VALOR_ICMS), 0), COALESCE(sum(md.VLR_BASEICMS), 0), COALESCE(sum(md.VIPI), 0), COALESCE(sum(md.VALTOTAL), 0) from MOVIMENTODETALHE md
     where md.CODMOVIMENTO = :cod
     into :TOTST, :TOTBASEST, :TOTICMS, :TOTBASEICMS, :TOTIPI, :TOTPROD;
   
