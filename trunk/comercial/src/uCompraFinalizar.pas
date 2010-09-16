@@ -8,7 +8,7 @@ uses
   FMTBcd, DBClient, Provider, SqlExpr, Grids, DBGrids, Mask, DBCtrls,
   rpcompobase, rpvclreport, UCHist_Base, UCHistDataset, JvBaseEdits,
   JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
-  JvExStdCtrls, JvCombobox, JvDBSearchComboBox,fClassCitrus, uUtils,
+  JvExStdCtrls, JvCombobox, JvDBSearchComboBox,fClassCitrus, uUtils ,Printers,
   DBxPress;
 
 type
@@ -274,6 +274,7 @@ type
     dbDtaVencimento: TDBEdit;
     CheckBox2: TCheckBox;
     sqlBuscaNota: TSQLQuery;
+    OpenDialog1: TOpenDialog;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -311,11 +312,13 @@ type
     procedure CheckBox2Click(Sender: TObject);
   private
     procedure notafiscal ;
+    procedure imprimecompra;
+    function RemoveAcento(Str: string): string;
     { Private declarations }
   public
     grava: TCompras;
     contaDespesa: string;
-    contaDespesaFrete, contaFrete: string;
+    contaDespesaFrete, contaFrete , tipoimpressao ,portaimpr: string;
     n_parcelas : double;
     { Public declarations }
   end;
@@ -1324,5 +1327,187 @@ begin
     end;
 
 end;
+
+procedure TfCompraFinalizar.imprimecompra;
+const
+cJustif = #27#97#51;
+cEject = #12;
+{ Tamanho da fonte }
+c10cpi = #18;
+c12cpi = #27#77;
+c17cpi = #15;
+cIExpandido = #14;
+cFExpandido = #20;
+{ FormataÁ„o da fonte }
+cINegrito = #27#71;
+cFNegrito = #27#72;
+cIItalico = #27#52;
+cFItalico = #27#53;
+
+Centro = #27#97#49; // Centraliza a Impress„o
+var
+  IMPRESSORA:TextFile;
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, logradouro,cep,fone, clientecupom, doccli : string;//Para recortar parte da descriÁ„o do produto,nome
+  total : double;
+
+begin
+      if (not dm.cds_empresa.Active) then
+        dm.cds_empresa.Open;
+      {----- aqui monto o endereÁo-----}
+      logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+      cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+      ' - ' + dm.cds_empresaCEP.Value;
+      fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+      ' / ' + dm.cds_empresaFONE_2.Value;
+      {------------------------DADOS DO CLIENTE--------------------------}
+      clientecupom := IntToStr(fCompra.cds_MovimentoCODCLIENTE.AsInteger) + '-' +
+                   Copy(fCompra.cds_MovimentoNOMECLIENTE.AsString, 0, 36); //fVendas.cds_MovimentoNOMECLIENTE.AsString;
+
+    //  doccli := 'CPF : ' + fVendas.cds_MovimentoCNPJ.AsString;
+      Texto  := '----------------------------------------' ;
+      Texto1 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + '  Titulo.:  ' +
+      scdsCr_procTITULO.AsString;
+      Texto2 := '----------------------------------------' ;
+      Texto4 := 'Podruto   UN  Qtde   V.Un.   V.Total ' ;
+      Texto5 := DateTimeToStr(Now) + ' Total.: R$   ';
+     // Texto5 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + ' Total.: R$   ' ;
+      {-----------------------------------------------------------}
+      {-------------------Imprimi CabeÁalho-----------------------}
+      // Para gravar em arquivo
+      //OpenDialog1.Execute;
+      //AssignFile(IMPRESSORA, OpenDialog1.FileName);
+     // AssignFile(IMPRESSORA,'COM1:');
+  //   AssignFile ( IMPRESSORA, 'C:\venda.txt' );
+
+   //   tipoimpressao := 'txt';
+
+      if (tipoimpressao = 'txt') then
+      begin
+        OpenDialog1.Execute;
+        AssignFile(IMPRESSORA, OpenDialog1.FileName);
+      end
+      else
+      begin
+        AssignFile(IMPRESSORA,portaimpr);//'LPT1:');
+      end;
+      Rewrite(IMPRESSORA);
+      Writeln(Impressora, c10cpi + 'VENDA');
+      Writeln(IMPRESSORA);
+      Writeln(Impressora, c17cpi + RemoveAcento(Format('%-36s',[dm.cds_empresaRAZAO.Value])));
+      Writeln(Impressora, c17cpi, logradouro);
+      Writeln(Impressora, c17cpi, cep);
+      Writeln(Impressora, c17cpi, fone);
+     // Writeln(Impressora, c10cpi + Format('%-36s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+      Writeln(Impressora, c17cpi, texto);
+      Writeln(Impressora, c17cpi, clientecupom);
+      Writeln(Impressora, c17cpi, doccli);
+      Writeln(Impressora, c17cpi, texto);
+      Writeln(Impressora, c17cpi, texto1);
+      Writeln(Impressora, c17cpi, texto2);
+      Writeln(Impressora, c17cpi, texto4);
+      {-----------------------------------------------------------}
+      {-------------------Imprimi itens do boleto-----------------}
+      try
+        fCompra.cds_Mov_det.First;
+        while not fCompra.cds_Mov_det.Eof do
+        begin
+          fCompra.cds_Mov_det.RecordCount;
+          texto3 := '';
+          texto6 := '';
+          texto6 := Format('%-4s',[fCompra.cds_Mov_detCODPRO.Value]);
+          texto3 := texto3 + Format('          %-2s',[fCompra.cds_Mov_detUN.Value]);
+          texto3 := texto3 + Format('    %-6.0n',[fCompra.cds_Mov_detQUANTIDADE.AsFloat]);
+          texto3 := texto3 + Format('%-6.2n',[fCompra.cds_Mov_detPRECO.AsFloat]);
+          texto3 := texto3 + Format('  %-6.2n',[fCompra.cds_Mov_detValorTotal.value]);
+          //texto6 := texto6 + fVendas.cds_Mov_detDESCPRODUTO.Value;
+          texto6 := texto6 + Copy(fCompra.cds_Mov_detPRODUTO.Value, 0, 36);       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+          Writeln(Impressora, c17cpi, RemoveAcento(texto3));//NOME DO PRODUTO
+          with Printer.Canvas do
+          begin
+            Font.Name := 'Courier New';
+            Font.Size := 4;
+          end;
+          fCompra.cds_Mov_det.next;
+        end;
+        texto3 := '';
+        texto6 := '';
+        {-----------------------------------------------------------}
+        {-------------------Imprimi CabeÁalho-----------------------}
+        Texto2 := '----------------------------------------' ;
+        Texto3 := 'Vencimento  Status  Valor R$  ' ;
+        Writeln(Impressora, c17cpi, texto2);
+        Writeln(Impressora, c17cpi, texto3);
+        {------------------------------------------------------}
+        {-------------------Imprimi Parcelas -----------------------}
+        scdsCr_proc.First;
+        while not scdsCr_proc.Eof do
+        begin
+          texto3 := '';
+          scdsCr_proc.RecordCount;
+          // imprime
+          Texto3 := FormatDateTime('dd/mm/yyyy', scdsCr_procDATAVENCIMENTO.Value);
+          Texto3 := Texto3 + ' - '  + scdsCr_procSTATUS.Value;
+     {     if (scdsCr_procSITUACAO.AsString = '7-') then
+             Texto3 := Texto3 + ' - '  +
+                    Format('%-6.2n',[scdsCr_procVALORRECEBIDO.AsFloat])
+          else
+             Texto3 := Texto3 + ' - '  +
+                    Format('%-6.2n',[scdsCr_procVALORREC.AsFloat]);
+          Writeln(Impressora, c17cpi, texto3);
+      }
+          with Printer.Canvas do
+          begin
+            Font.Name := 'Courier New';
+            Font.Size := 4;
+          end;
+          scdsCr_proc.next;
+        end;
+        {-----------------------------------------------------------}
+        {-------------------Imprimi final do Pedido-----------------}
+        total := fCompra.cds_Mov_detTotalPedido.Value;
+        Writeln(Impressora, c17cpi, texto);
+        Write(Impressora, c17cpi, texto5);
+        Writeln(Impressora, c17cpi + Format(' %-6.2n',[total]));
+        texto3 := '';
+        texto3 := 'Ass.:____________________________';
+        Writeln(IMPRESSORA);
+        Writeln(Impressora, c17cpi, texto3);
+        // Pula linhas
+        Writeln(IMPRESSORA);
+        Writeln(IMPRESSORA);
+        Writeln(IMPRESSORA);
+        Writeln(IMPRESSORA);
+        Writeln(IMPRESSORA);
+        Writeln(IMPRESSORA);
+        Writeln(IMPRESSORA);
+      finally
+        CloseFile(IMPRESSORA);
+      end;
+   {   if (MessageDlg('Imprimir CarnÍ ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+      begin
+          VCLReport2.FileName := str_relatorio + 'impr_carne.rep';
+          VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+          VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
+          VCLReport2.Execute;
+      end;
+    }
+end;
+
+
+
+function TfCompraFinalizar.RemoveAcento(Str: string): string;
+const
+  ComAcento = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸¿¬ ‘€√’¡…Õ”⁄«‹';
+  SemAcento = 'aaeouaoaeioucuAAEOUAOAEIOUCU';
+var
+   x: Integer;
+begin;
+  for x := 1 to Length(Str) do
+  if Pos(Str[x],ComAcento) <> 0 then
+    Str[x] := SemAcento[Pos(Str[x], ComAcento)];
+  Result := Str;
+end;
+
 
 end.
