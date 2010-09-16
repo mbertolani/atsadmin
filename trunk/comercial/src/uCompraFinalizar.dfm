@@ -1,6 +1,6 @@
 inherited fCompraFinalizar: TfCompraFinalizar
   Left = 172
-  Top = 149
+  Top = 90
   Width = 799
   Height = 553
   Caption = 'Compras Finalizar'
@@ -3281,5 +3281,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
     SQLConnection = DM.sqlsisAdimin
     Left = 592
     Top = 328
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 528
+    Top = 24
   end
 end
