@@ -543,6 +543,7 @@ type
     procedure agendar;
     procedure agendarexcluir;
     procedure imprimecupom;
+    function RemoveAcento(Str: string): string;
   public
     vrr, nparc : double;
     grava: TCompras;
@@ -2560,6 +2561,8 @@ cINegrito = #27#71;
 cFNegrito = #27#72;
 cIItalico = #27#52;
 cFItalico = #27#53;
+
+Centro = #27#97#49; // Centraliza a Impress„o
 var
   IMPRESSORA:TextFile;
   Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, logradouro,cep,fone, clientecupom, doccli : string;//Para recortar parte da descriÁ„o do produto,nome
@@ -2578,13 +2581,14 @@ begin
       clientecupom := IntToStr(fVendas.cds_MovimentoCODCLIENTE.AsInteger) + '-' +
                    Copy(fVendas.cds_MovimentoNOMECLIENTE.AsString, 0, 36); //fVendas.cds_MovimentoNOMECLIENTE.AsString;
 
-      doccli := 'CPF : ' + fVendas.cds_MovimentoCNPJ.AsString;
+    //  doccli := 'CPF : ' + fVendas.cds_MovimentoCNPJ.AsString;
       Texto  := '----------------------------------------' ;
-      Texto1 := DateTimeToStr(Now) + '  Titulo.:  ' +
+      Texto1 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + '  Titulo.:  ' +
       scdsCr_procTITULO.AsString;
       Texto2 := '----------------------------------------' ;
       Texto4 := 'Podruto   UN  Qtde   V.Un.   V.Total ' ;
       Texto5 := DateTimeToStr(Now) + ' Total.: R$   ';
+     // Texto5 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + ' Total.: R$   ' ;
       {-----------------------------------------------------------}
       {-------------------Imprimi CabeÁalho-----------------------}
       // Para gravar em arquivo
@@ -2605,11 +2609,13 @@ begin
         AssignFile(IMPRESSORA,portaimpr);//'LPT1:');
       end;
       Rewrite(IMPRESSORA);
-      Writeln(Impressora, c10cpi + Format('%-36s',[dm.cds_empresaRAZAO.Value]));
+      Writeln(Impressora, c10cpi + 'VENDA');
+      Writeln(IMPRESSORA);
+      Writeln(Impressora, c17cpi + RemoveAcento(Format('%-36s',[dm.cds_empresaRAZAO.Value])));
       Writeln(Impressora, c17cpi, logradouro);
       Writeln(Impressora, c17cpi, cep);
       Writeln(Impressora, c17cpi, fone);
-      Writeln(Impressora, c10cpi + Format('%-36s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+     // Writeln(Impressora, c10cpi + Format('%-36s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
       Writeln(Impressora, c17cpi, texto);
       Writeln(Impressora, c17cpi, clientecupom);
       Writeln(Impressora, c17cpi, doccli);
@@ -2632,9 +2638,9 @@ begin
           texto3 := texto3 + Format('%-6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
           texto3 := texto3 + Format('  %-6.2n',[fVendas.cds_Mov_detValorTotal.value]);
           //texto6 := texto6 + fVendas.cds_Mov_detDESCPRODUTO.Value;
-          texto6 := texto6 + Copy(fVendas.cds_Mov_detPRODUTO.Value, 0, 36);
-          Writeln(Impressora, c17cpi, texto6);
-          Writeln(Impressora, c17cpi, texto3);//NOME DO PRODUTO
+          texto6 := texto6 + Copy(fVendas.cds_Mov_detPRODUTO.Value, 0, 36);       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+          Writeln(Impressora, c17cpi, RemoveAcento(texto3));//NOME DO PRODUTO
           with Printer.Canvas do
           begin
             Font.Name := 'Courier New';
@@ -2970,6 +2976,19 @@ procedure TfVendaFinalizar.JvCalcEdit2Change(Sender: TObject);
 begin
   inherited;
   edVlrColhedor.Value := jvCalcEdit2.Value * jvCalcEdit3.Value;
+end;
+
+function TfVendaFinalizar.RemoveAcento(Str: string): string;
+const
+  ComAcento = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸¿¬ ‘€√’¡…Õ”⁄«‹';
+  SemAcento = 'aaeouaoaeioucuAAEOUAOAEIOUCU';
+var
+   x: Integer;
+begin;
+  for x := 1 to Length(Str) do
+  if Pos(Str[x],ComAcento) <> 0 then
+    Str[x] := SemAcento[Pos(Str[x], ComAcento)];
+  Result := Str;
 end;
 
 end.
