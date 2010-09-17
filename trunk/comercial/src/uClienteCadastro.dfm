@@ -2128,9 +2128,9 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 98
         Height = 21
         BevelKind = bkFlat
-        Color = clInfoBk
+        Color = clWhite
         DataField = 'CFOP'
-        DataSource = DMNF.DtSrc_NF
+        DataSource = DtSrc
         ItemHeight = 13
         TabOrder = 37
         OnKeyPress = FormKeyPress
@@ -2246,7 +2246,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2546,7 +2546,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2656,7 +2656,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 14
       end
@@ -3046,7 +3046,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 19
       end
@@ -5478,7 +5478,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -6113,7 +6113,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change
@@ -6459,6 +6459,11 @@ inherited fClienteCadastro: TfClienteCadastro
     object sds_cliCODRESPONSAVEL: TIntegerField
       FieldName = 'CODRESPONSAVEL'
     end
+    object sds_cliCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
   end
   object dsp_cli: TDataSetProvider
     DataSet = sds_cli
@@ -6785,6 +6790,11 @@ inherited fClienteCadastro: TfClienteCadastro
     end
     object cds_cliCODRESPONSAVEL: TIntegerField
       FieldName = 'CODRESPONSAVEL'
+    end
+    object cds_cliCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
     end
   end
   object scds_usuario_proc: TSQLClientDataSet
