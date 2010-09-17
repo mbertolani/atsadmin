@@ -1331,11 +1331,15 @@ begin
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
 //  calculaicms(dmnf.cds_nf1UF.AsString);
-
+  DMNF.cds_Mov_det.Refresh;
   dmnf.cds_nf1.close;
   dmnf.cds_nf1.Params[0].AsInteger := nfnum;
   dmnf.cds_nf1.Params[1].Clear;
   dmnf.cds_nf1.open;
+  dmnf.cds_Mov_det.Open;
+  dmnf.cds_compra.Close;
+  dmnf.cds_compra.Params[0].AsInteger := dmnf.cds_nf1CODVENDA.AsInteger;
+  dmnf.cds_compra.Open;
 end;
 
 procedure TfNotaFc.calculaicms(Estado: String);

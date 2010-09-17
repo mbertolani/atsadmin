@@ -23,7 +23,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 784
+    Width = 792
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -933,8 +933,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 493
-    Width = 784
+    Top = 504
+    Width = 792
     Height = 27
     Align = alBottom
     inherited Label1: TLabel
@@ -1545,7 +1545,7 @@ inherited fCompra: TfCompra
         end
         item
           Expanded = False
-          FieldName = 'PRODUTO'
+          FieldName = 'DESCPRODUTO'
           Title.Caption = 'Mercadoria'
           Width = 303
           Visible = True
