@@ -1873,60 +1873,66 @@ object fNotafc: TfNotafc
             Expanded = False
             FieldName = 'CODPRO'
             Title.Caption = 'C'#243'digo'
-            Width = 50
+            Width = 46
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
             Title.Caption = 'Produtos'
-            Width = 286
+            Width = 263
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CFOP'
+            Width = 58
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CST'
-            Width = 38
+            Width = 35
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
-            Width = 26
+            Width = 24
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
             Title.Caption = 'Quantidade'
-            Width = 60
+            Width = 55
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASE'
             Title.Caption = 'Valor Unit'#225'rio'
-            Width = 91
+            Width = 84
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QTDE_ALT'
             Title.Caption = 'Desc.%'
-            Width = 58
+            Width = 53
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
-            Width = 84
+            Width = 77
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ICMS'
-            Width = 39
+            Width = 36
             Visible = True
           end>
       end

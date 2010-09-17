@@ -988,7 +988,7 @@ begin
     cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
     cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
     cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
-    cds_Mov_detDESCPRODUTO.AsString := dm.scds_produto_procPRODUTO.AsString;
+    cds_Mov_detDESCPRODUTO.Value := cds_Mov_detPRODUTO.Value;
     //cds_Mov_detQTDE_ALT.AsFloat := dm.scds_produto_procPESO_QTDE.AsFloat;
     qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
     cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
@@ -1080,6 +1080,7 @@ begin
     begin
       cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
       cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+      cds_mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
       cds_mov_detPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
       cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
       cds_Mov_detQTDE_ALT.AsFloat := fProcura_prod.cds_procIPI.AsFloat;
@@ -1352,6 +1353,7 @@ begin
      cds_Mov_detCODPRODUTO.AsInteger := cdslistaCODPRODUTO.AsInteger;
      cds_Mov_detCODPRO.AsString := cdslistaCODIGO.AsString;
      cds_Mov_detPRODUTO.Value := cdslistaPRODUTO.Value;
+     cds_Mov_detDESCPRODUTO.Value := cdslistaPRODUTO.Value;
      cds_Mov_detUN.AsString := cdslistaUNIDADE.AsString;
      cds_Mov_detQUANTIDADE.AsFloat := 1;
      cds_Mov_detPRECO.AsFloat := cdslistaPRECOLISTA.AsFloat;
@@ -1372,7 +1374,8 @@ begin
         exit;
       end;
       cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+      cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;      
+      cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
       cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
       cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
@@ -1429,7 +1432,6 @@ begin
     key:= #0;
     SelectNext((Sender as TwinControl),True,True);
   end;
-
 end;
 
 procedure TfCompra.DtSrc1DataChange(Sender: TObject; Field: TField);

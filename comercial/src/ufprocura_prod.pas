@@ -1107,6 +1107,7 @@ begin
     fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     fCompra.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
+    fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;    
     fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
     fCompra.cds_Mov_detPRECO.AsFloat := vlr;
     fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
