@@ -611,6 +611,8 @@ type
     cbPlano: TComboBox;
     cbCFOP: TDBComboBox;
     Label78: TLabel;
+    sds_cliCFOP: TStringField;
+    cds_cliCFOP: TStringField;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
