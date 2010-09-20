@@ -2701,14 +2701,7 @@ begin
       finally
         CloseFile(IMPRESSORA);
       end;
-   {   if (MessageDlg('Imprimir Carnê ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
-      begin
-          VCLReport2.FileName := str_relatorio + 'impr_carne.rep';
-          VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-          VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
-          VCLReport2.Execute;
-      end;
-    }  
+
 end;
 
 procedure TfVendaFinalizar.DtSrcStateChange(Sender: TObject);
