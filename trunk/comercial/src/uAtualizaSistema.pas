@@ -623,7 +623,7 @@ begin
 
     if (versaoSistema = '1.0.0.61') then
     begin
-      executaSql('alter TABLE PRODUTOS add NCM Varchar(8)');
+      executaDDL('PRODUTOS', 'NCM', 'Varchar(8)');
       mudaVersao('1.0.0.62');
     end;  // Fim Ataulização Versao 1.0.0.61
 
