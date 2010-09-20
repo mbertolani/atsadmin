@@ -1,5 +1,5 @@
 create or alter procedure gera_nf_venda(cliente integer, dtEmissao date,
-  dtVcto date, serie char(2), numero varchar(7), codMov integer)
+  dtVcto date, serie char(8), numero varchar(7), codMov integer)
 as
   declare variable codRec integer;
   declare variable codNF integer;
@@ -65,6 +65,7 @@ as
   declare variable CODNATUREZA smallint;
   declare variable lote Varchar(60);  
   declare variable Usalote char(1);    
+  declare variable CFOP_CLI char(4);    
 begin 
 
     Select first 1 mov.CODNATUREZA
@@ -97,9 +98,16 @@ begin
   select first 1 ende.uf from ENDERECOCLIENTE ende
     where ende.CODCLIENTE = :cliente and ende.TIPOEND = 0
   into :uf;
-
+  
+  select cli.CFOP from CLIENTES cli
+  where cli.CODCLIENTE  = :cliente
+  into :cfop_cli;
+    
   if (uf <> 'SP') then 
     cfop = cfop_outros;
+    
+  if ((cfop_cli <> null) or (cfop_cli <> ''))then
+    cfop = cfop_cli;
 
   SELECT FIRST 1 ICMS, REDUCAO
   FROM ESTADO_ICMS WHERE UF = :uf AND CFOP = :cfop
