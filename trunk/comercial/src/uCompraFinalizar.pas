@@ -1109,10 +1109,34 @@ end;
 procedure TfCompraFinalizar.btnImprimirClick(Sender: TObject);
 begin
   inherited;
-  VCLReport1.FileName := str_relatorio + 'impr_compra.rep';
-  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.Params.ParamByName('PCOMPRA').Value := cds_compraCODCOMPRA.AsInteger;
-  VCLReport1.Execute;
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'REL. VENDAS';
+  dm.cds_parametro.Open;
+  if dm.cds_parametro.IsEmpty then
+  begin
+    dm.cds_parametro.Append;
+    dm.cds_parametroDESCRICAO.AsString := 'Tipo de Impressão (PADRÃO ou CUPOM)';
+    dm.cds_parametroPARAMETRO.AsString := 'REL. VENDAS';
+    dm.cds_parametroDADOS.AsString := 'PADRÃO';
+    dm.cds_parametro.ApplyUpdates(0);
+
+  end;
+
+  if dm.cds_parametroDADOS.AsString = 'CUPOM' then
+  //   if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+  begin
+    portaimpr := dm.cds_parametroD2.AsString;
+    tipoimpressao := dm.cds_parametroD1.AsString ;
+    imprimecompra;
+  end;
+  if dm.cds_parametroDADOS.AsString = 'PADRÃO' then
+  begin
+    VCLReport1.FileName := str_relatorio + 'impr_compra.rep';
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Report.Params.ParamByName('PCOMPRA').Value := cds_compraCODCOMPRA.AsInteger;
+    VCLReport1.Execute;
+  end;
 end;
 
 procedure TfCompraFinalizar.btnNotaFiscalClick(Sender: TObject);
@@ -1347,7 +1371,7 @@ cFItalico = #27#53;
 Centro = #27#97#49; // Centraliza a Impressão
 var
   IMPRESSORA:TextFile;
-  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, logradouro,cep,fone, clientecupom, doccli : string;//Para recortar parte da descrição do produto,nome
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,textoS, logradouro,cep,fone, clientecupom, doccli : string;//Para recortar parte da descrição do produto,nome
   total : double;
 
 begin
@@ -1360,8 +1384,8 @@ begin
       fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
       ' / ' + dm.cds_empresaFONE_2.Value;
       {------------------------DADOS DO CLIENTE--------------------------}
-      clientecupom := IntToStr(fCompra.cds_MovimentoCODCLIENTE.AsInteger) + '-' +
-                   Copy(fCompra.cds_MovimentoNOMECLIENTE.AsString, 0, 36); //fVendas.cds_MovimentoNOMECLIENTE.AsString;
+      clientecupom := IntToStr(fCompra.cds_MovimentoCODFORNECEDOR.AsInteger) + '-' +
+                   Copy(fCompra.cds_MovimentoNOMEFORNECEDOR.AsString, 0, 36); //fVendas.cds_MovimentoNOMECLIENTE.AsString;
 
     //  doccli := 'CPF : ' + fVendas.cds_MovimentoCNPJ.AsString;
       Texto  := '----------------------------------------' ;
@@ -1391,7 +1415,7 @@ begin
         AssignFile(IMPRESSORA,portaimpr);//'LPT1:');
       end;
       Rewrite(IMPRESSORA);
-      Writeln(Impressora, c10cpi + 'VENDA');
+      Writeln(Impressora, c10cpi + 'COMPRA');
       Writeln(IMPRESSORA);
       Writeln(Impressora, c17cpi + RemoveAcento(Format('%-36s',[dm.cds_empresaRAZAO.Value])));
       Writeln(Impressora, c17cpi, logradouro);
@@ -1399,7 +1423,7 @@ begin
       Writeln(Impressora, c17cpi, fone);
      // Writeln(Impressora, c10cpi + Format('%-36s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
       Writeln(Impressora, c17cpi, texto);
-      Writeln(Impressora, c17cpi, clientecupom);
+      Writeln(Impressora, c17cpi, RemoveAcento(clientecupom));
       Writeln(Impressora, c17cpi, doccli);
       Writeln(Impressora, c17cpi, texto);
       Writeln(Impressora, c17cpi, texto1);
@@ -1447,15 +1471,21 @@ begin
           scdsCr_proc.RecordCount;
           // imprime
           Texto3 := FormatDateTime('dd/mm/yyyy', scdsCr_procDATAVENCIMENTO.Value);
-          Texto3 := Texto3 + ' - '  + scdsCr_procSTATUS.Value;
-     {     if (scdsCr_procSITUACAO.AsString = '7-') then
+          TextoS := scdsCr_procSTATUS.Value;
+          if textoS = '5-' then
+          textoS := 'Pendente';
+
+          Texto3 := Texto3 + ' - '  + 'Pago';
+
+          if (scdsCr_procSTATUS.AsString = '7-') then
              Texto3 := Texto3 + ' - '  +
                     Format('%-6.2n',[scdsCr_procVALORRECEBIDO.AsFloat])
           else
-             Texto3 := Texto3 + ' - '  +
-                    Format('%-6.2n',[scdsCr_procVALORREC.AsFloat]);
+            Texto3 := Texto3 + ' - '  + textoS;
+            Texto3 := Texto3 + ' - '  +
+                    Format('%-6.2n',[scdsCr_procVALOR_RESTO.AsFloat]);
           Writeln(Impressora, c17cpi, texto3);
-      }
+
           with Printer.Canvas do
           begin
             Font.Name := 'Courier New';
@@ -1483,15 +1513,8 @@ begin
         Writeln(IMPRESSORA);
       finally
         CloseFile(IMPRESSORA);
-      end;
-   {   if (MessageDlg('Imprimir Carnê ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
-      begin
-          VCLReport2.FileName := str_relatorio + 'impr_carne.rep';
-          VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-          VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
-          VCLReport2.Execute;
-      end;
-    }
+end;
+
 end;
 
 
