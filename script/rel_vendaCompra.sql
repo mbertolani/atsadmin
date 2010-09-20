@@ -1,28 +1,27 @@
-SET TERM ^ ;
-ALTER PROCEDURE REL_VENDACOMPRA (
-    PDTA1 Date,
-    PDTA2 Date )
+CREATE OR ALTER PROCEDURE REL_VENDACOMPRA (
+    PDTA1 date,
+    PDTA2 date )
 RETURNS (
-    CODPRODUTO Varchar(15),
-    PRODUTO Varchar(300),
-    GRUPO Varchar(30),
-    QTDEVENDA Double precision,
-    VLRUNITVENDA Double precision,
-    VLRTOTALVENDA Double precision,
-    QTDECOMPRA Double precision,
-    VLRUNITCOMPRA Double precision,
-    VLRTOTALCOMPRA Double precision,
-    LUCROPERCENT Double precision,
-    VLRLUCRO Double precision,
-    VLRCUSTOUNIT Double precision,
-    VLRCUSTOTOTAL Double precision,
-    PERCENTPRODUTO Double precision,
-    LUCROBRUTO Double precision,
-    QTDEESTOQUE Double precision,
-    QTDEPERDA Double precision,
-    VLRPERDA Double precision,
-    ICMSCOMPRA Double precision,
-    ICMSVENDA Double precision )
+    CODPRODUTO varchar(15),
+    PRODUTO varchar(300),
+    GRUPO varchar(30),
+    QTDEVENDA double precision,
+    VLRUNITVENDA double precision,
+    VLRTOTALVENDA double precision,
+    QTDECOMPRA double precision,
+    VLRUNITCOMPRA double precision,
+    VLRTOTALCOMPRA double precision,
+    LUCROPERCENT double precision,
+    VLRLUCRO double precision,
+    VLRCUSTOUNIT double precision,
+    VLRCUSTOTOTAL double precision,
+    PERCENTPRODUTO double precision,
+    LUCROBRUTO double precision,
+    QTDEESTOQUE double precision,
+    QTDEPERDA double precision,
+    VLRPERDA double precision,
+    ICMSCOMPRA double precision,
+    ICMSVENDA double precision )
 AS
 DECLARE VARIABLE codPro integer; 
 DECLARE VARIABLE Pro integer; 
@@ -32,6 +31,14 @@ DECLARE VARIABLE totIcms double precision;
 DECLARE VARIABLE totProdIcms double precision;
 DECLARE VARIABLE tIcms double precision;
 DECLARE VARIABLE CPERDA SMALLINT;
+
+DECLARE VARIABLE ENTRA double precision;
+DECLARE VARIABLE SAI double precision;
+DECLARE VARIABLE ENTRADA double precision;
+DECLARE VARIABLE SAIDA double precision;
+DECLARE VARIABLE ESTOQ double precision;
+DECLARE VARIABLE SALDOINI double precision;
+
 BEGIN
   
   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CENTRO PERDA'
@@ -48,11 +55,54 @@ BEGIN
     where (p.tipo <> 'SERV') or (p.TIPO is null)
     into :codProduto, :Produto, :codPro, :QtdeEstoque, :grupo, :custoProd
   do begin 
-     -- Busca a quantidade em estoque.    
-     select first 1 md.QTDEESTOQUE from movimento m , MOVIMENTODETALHE md where md.CODMOVIMENTO = m.CODMOVIMENTO 
-        and md.CODPRODUTO = :codpro and m.DATAMOVIMENTO between :pdta1 - 180 and :pdta2
-        order by m.DATAMOVIMENTO desc , m.CODMOVIMENTO desc
-        into :QtdeEstoque;
+  
+/**********************************************************************************************************************************/
+            /* -- Qtde Inicial ENTRADA*/
+       SELECT SUM(movdet.QUANTIDADE)  FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
+            WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
+            AND movdet.CODPRODUTO = :codpro AND natu.BAIXAMOVIMENTO = 0 AND mov.DATAMOVIMENTO  < :PDTA1 and movdet.BAIXA is not null 
+        INTO :ENTRA;
+       /* -- Qtde Inicial SAIDA*/
+       SELECT SUM(movdet.QUANTIDADE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
+            WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
+            AND movdet.CODPRODUTO = :codpro AND natu.BAIXAMOVIMENTO = 1 AND mov.DATAMOVIMENTO  < :PDTA1 and movdet.BAIXA is not null 
+        INTO :SAI;
+        IF (ENTRA IS NULL) THEN
+            ENTRA = 0;
+        IF (SAI IS NULL) THEN
+            SAI = 0;
+        SALDOINI = ENTRA - SAI;
+/**********************************************************************************************************************************/
+      /*  -- Entrada*/
+      for SELECT SUM(movdet.QUANTIDADE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu  
+            WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
+            AND movdet.CODPRODUTO = :codpro AND natu.BAIXAMOVIMENTO = 0 
+            AND mov.DATAMOVIMENTO BETWEEN :PDTA1 AND :PDTA2 and movdet.BAIXA is not null 
+        INTO :ESTOQ
+       do begin 
+         if (ESTOQ IS NULL) THEN 
+           EStoq = 0;
+         ENTRADA = ENTRADA + ESTOQ;
+       end 
+
+        IF (ENTRADA IS NULL) THEN
+            ENTRADA = 0;
+/**********************************************************************************************************************************/
+      /*  -- Saída*/
+      for SELECT SUM(movdet.QUANTIDADE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu  
+            WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
+            AND movdet.CODPRODUTO = :codpro AND natu.BAIXAMOVIMENTO = 1 AND mov.DATAMOVIMENTO BETWEEN :PDTA1 AND
+            :PDTA2 and movdet.BAIXA is not null group by  mov.datamovimento, mov.codNatureza, 
+            mov.CODMOVIMENTO, movdet.PRECOCUSTO order by  mov.DATAMOVIMENTO, mov.codNatureza desc, mov.CODMOVIMENTO
+       INTO :ESTOQ
+       do begin 
+         if (ESTOQ IS NULL) THEN 
+           EStoq = 0;
+         SAIDA = SAIDA + ESTOQ;
+       end
+       IF (SAIDA IS NULL) THEN
+            SAIDA = 0;
+/**********************************************************************************************************************************/
      /* ICMS Valores de Venda */
     ICMSVENDA = 0;
 
@@ -80,7 +130,6 @@ BEGIN
     inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = v.CODMOVIMENTO
     inner join MOVIMENTO mov on mov.CODMOVIMENTO = v.CODMOVIMENTO 
     where m.codProduto = :codPRo and v.dataVenda BETWEEN :pdta1 and :pdta2 and mov.codnatureza = 3
-    
     into :qtdeVenda, :vlrTotalVenda, :vlrCustoTotal;
     
     if (qtdeVenda is null) then 
@@ -149,8 +198,7 @@ BEGIN
     end 
     else 
       vlrLucro = 0;
-
-   
+        QTDEESTOQUE= SALDOINI + qtdeCompra - qtdeVenda -qtdePERDA;
 
     if (qtdeVenda > 0) then
       PercentProduto =  100*((qtdeVenda / total)-100);
@@ -163,10 +211,5 @@ BEGIN
     /*if ((qtdeVenda > 0) or (qtdeCompra > 0)) then  */
       suspend;
   end 
-END^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE REL_VENDACOMPRA TO  SYSDBA;
+END
 
