@@ -1,7 +1,12 @@
-create or alter procedure gera_nf_compra(fornecedor integer, dtEmissao date, 
-  dtVcto date, serie char(2), numero varchar(7), codMov integer)
-as
-  declare variable codRec integer;
+create or ALTER PROCEDURE GERA_NF_COMPRA (
+    FORNECEDOR integer,
+    DTEMISSAO date,
+    DTVCTO date,
+    SERIE char(8),
+    NUMERO varchar(7),
+    CODMOV integer )
+AS
+declare variable codRec integer;
   declare variable codNF integer;
   declare variable codVen integer;
   declare variable codMovNovo integer;
@@ -83,7 +88,7 @@ begin
   icms = 0;
   totalIcms = 0;
  
-  -- CFOP Padrao
+  /* CFOP Padrao */
   SELECT DADOS, D1 FROM PARAMETRO WHERE PARAMETRO = 'CFOP'
     INTO :cfop, cfop_outros;
 
@@ -98,11 +103,11 @@ begin
   FROM ESTADO_ICMS WHERE UF = :uf AND CFOP = :cfop
       INTO :vIcmsT, :baseIcms;
 
-  -- pega número do novo movimento
+  /* pega número do novo movimento */
   select GEN_ID(GENMOV, 1) from RDB$DATABASE
   into :codMovNovo;
 
-  -- insiro o Movimento   
+  /* insiro o Movimento    */
   for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO
     from movimento mov 
     inner join COMPRA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
@@ -112,10 +117,10 @@ begin
     insert into movimento (codmovimento, codcliente, CODFORNECEDOR, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle) 
     values (:codMovNovo, 0,  :FORNECEDOR, :codCCusto, :codUser 
-        , :codVendedor, :dtEmissao, 0, 15, :codMov);  
+        , :codVendedor, :dtEmissao, 0, 20, :codMov);  
   end 
     pesoTotal = 0;
-    -- localiza o mov. detalhe
+    /* localiza o mov. detalhe */
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
       , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST    
       from MOVIMENTODETALHE md
@@ -135,7 +140,7 @@ begin
       pesoTotal = pesoTotal + (:pesoUn * :qtde);
       if (:icms > 0) then 
         tBaseIcms = tBaseIcms + (preco * qtde);
-      -- codigo cst   
+      /* codigo cst    */
       cst = '000';
       if (icms is null) then 
          icms = vIcmsT;
@@ -166,13 +171,13 @@ begin
       if (baseIcms is null) then 
         baseIcms = 0;
 
-      -- Calculo ICMS 
+      /* Calculo ICMS  */
       if (uf = 'SP') then 
       begin 
         valoricms = (preco * qtde) * (baseIcms / 100) * (icms / 100); 
-        --tBaseIcms = tBaseIcms + (icms/100);
+        /*tBaseIcms = tBaseIcms + (icms/100); */
       end  
-      -- Calculo ICMS outros ESTADOS 
+      /* Calculo ICMS outros ESTADOS  */
       if (uf <> 'SP') then 
       begin 
         /*select first 1 icms, reducao from ESTADO_ICMS where uf = :uf and cfop = :cfop
@@ -184,14 +189,14 @@ begin
           baseIcms = 0;
 
         valoricms = (preco * qtde) * (baseIcms / 100) * (icms / 100); 
-        --tBaseIcms = tBaseIcms + (icms/100);
+        /*tBaseIcms = tBaseIcms + (icms/100); */
       end  
           
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
        , preco, un, descProduto, icms, valor_icms, cst, qtde_alt) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
        , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto);  
-      total = total + (qtde * (:preco*(1-(:desconto/100))));--((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto)
+      total = total + (qtde * (:preco*(1-(:desconto/100))));/*((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto) */
       totalIcms = totalIcms + :valoricms;
     end 
     vIcmsT = 0; 
@@ -237,7 +242,7 @@ begin
     , CIDADE_TRANSP, UF_VEICULO_TRANSP, UF_TRANSP, FRETE, INSCRICAOESTADUAL
     , CORPONF1, CORPONF2, CORPONF3, CORPONF4, CORPONF5, CORPONF6, PESOBRUTO, PESOLIQUIDO 
     ,SERIE, UF)
-    VALUES (:numero, :codNF, 15, :codVen, :FORNECEDOR, :cfop
+    VALUES (:numero, :codNF, 20, :codVen, :FORNECEDOR, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero
     , :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
@@ -245,8 +250,8 @@ begin
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
     , :serie, :UF);
  
-   -- Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
-   -- da nf qdo esta e parcelada (dnz)
+   /* Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr */
+   /* da nf qdo esta e parcelada (dnz) */
    select valor_total_nota from notafiscal where numnf = :codnf
     into :total;
    /*
@@ -254,4 +259,4 @@ begin
        :vOutrosT, :total, 'N', 0, 0);*/
 end
 
-end 
+end
