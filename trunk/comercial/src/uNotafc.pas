@@ -301,7 +301,7 @@ var
 implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
-  ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
+  ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math, uFiltroMov_compra, uFiltroMov_NFcompra,
   uNFeletronica;
 
 {$R *.dfm}
@@ -359,7 +359,20 @@ begin
 end;
 
 procedure TfNotaFc.btnIncluirClick(Sender: TObject);
+var varsql: string;
 begin
+   if dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+   dm.cds_parametro.Params[0].AsString := 'NATUREZANFCOMPRA';
+   dm.cds_parametro.Open;
+
+   if (dm.cds_parametro.IsEmpty) then
+   begin
+     varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS) ' ;
+     varsql := varsql + 'values (''NATUREZANFCOMPRA'',''S'',''20'')';
+     dm.sqlsisAdimin.executedirect(varsql);
+   end;   
+
   incluiEntrada;
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.open;
@@ -955,12 +968,27 @@ begin
    if DMNF.DtSrc_NF1.State=dsBrowse then
      DMNF.DtSrc_NF1.Edit;
    DMNF.cds_nf1CODCLIENTE.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
-   DMNF.cds_nf1NOMECLIENTE.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
+   DMNF.cds_nf1RAZAOSOCIAL.AsString := dm.scds_forn_procRAZAOSOCIAL.AsString;
    finally
     dm.scds_forn_proc.Close;
     fProcurar.Free;
    end;
 //  end;
+    if (listaFornecedor.Active) then
+      listaFornecedor.Close;
+    listaFornecedor.Params[0].AsString := cbCLiente.Text;
+    listaFornecedor.Open;
+    dmnf.cds_nf1CODCLIENTE.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
+    dmnf.cds_MovimentoCODFORNECEDOR.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
+    dmnf.cds_nf1CNPJCLI.AsString := listaFornecedorCNPJ.AsString;
+    dmnf.cds_nf1INSCCLI.AsString := listaFornecedorINSCESTADUAL.AsString;
+    dmnf.cds_nf1LOGRADOURO.AsString := listaFornecedorLOGRADOURO.AsString;
+    dmnf.cds_nf1CIDADECLI.AsString := listaFornecedorCIDADE.AsString;
+    dmnf.cds_nf1BAIRROCLI.AsString := listaFornecedorBAIRRO.AsString;
+    dmnf.cds_nf1CEPCLI.AsString := listaFornecedorCEP.AsString;
+    dmnf.cds_nf1UFCLI.AsString := listaFornecedorUF.AsString;
+    dmnf.cds_nf1TELEFONE.AsString := listaFornecedorTELEFONE.AsString;
+    prazo := listaFornecedorPRAZOPAGAMENTO.AsFloat;
 end;
 
 procedure TfNotaFc.FormKeyPress(Sender: TObject; var Key: Char);
@@ -1242,58 +1270,63 @@ end;
 procedure TfNotaFc.btnProcurarClick(Sender: TObject);
 var varsql:string;
 begin
+ 	fFiltroMov_NFcompra := TfFiltroMov_NFcompra.Create(Application);
+	try
     if (not dmnf.cds_ccusto.Active) then
-        dmnf.cds_ccusto.Open;
+      dmnf.cds_ccusto.Open;
     dmnf.cds_ccusto.First;
     while not dmnf.cds_ccusto.Eof do
     begin
-      fFiltroMovimento.ComboBox1.Items.Add(dmnf.cds_ccustoNOME.AsString);
+      fFiltroMov_NFcompra.ComboBox1.Items.Add(dmnf.cds_ccustoNOME.AsString);
       dmnf.cds_ccusto.Next;
     end;
-    {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
-    if dm.cds_parametro.Active then
+
+     if dm.cds_parametro.Active then
        dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'NATUREZANFCOMPRA';
-    dm.cds_parametro.Open;
-    if (dm.cds_parametro.IsEmpty) then
-    begin
-      varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS) ' ;
-      varsql := varsql + 'values (''NATUREZANFCOMPRA'',''S'',''20'')';
-      dm.sqlsisAdimin.executedirect(varsql);
-    end;
+     dm.cds_parametro.Params[0].AsString := 'NATUREZANFCOMPRA';
+     dm.cds_parametro.Open;
 
-    dm.cds_parametro.Close;
-    fFiltroMovimento.BitBtn8.Enabled := False;
-    fFiltroMovimento.ShowModal;
-    fFiltroMovimento.Edit3.Text := '20';
-    fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
+     if (dm.cds_parametro.IsEmpty) then
+     begin
+       varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS) ' ;
+       varsql := varsql + 'values (''NATUREZANFCOMPRA'',''S'',''20'')';
+       dm.sqlsisAdimin.executedirect(varsql);
+     end;
+     fFiltroMov_NFcompra.Edit3.Text := dm.cds_parametroDADOS.AsString;
+     fFiltroMov_NFcompra.Edit4.Text := dm.cds_parametroD1.AsString;
+     dm.cds_parametro.Close;
 
-    dmnf.cds_Movimento.Close;
-    dmnf.cds_Movimento.Params[0].AsInteger := fFiltroMovimento.cod_mov;
-    dmnf.cds_Movimento.Open;
+     fFiltroMov_NFcompra.ShowModal;
 
-
-    dmnf.cds_Mov_det.Close;
-    dmnf.cds_Mov_det.Params[0].Clear;
-    dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
-    dmnf.cds_Mov_det.Open;
-
-    //mostra venda
-    if (dmnf.cds_compra.Active) then
-      dmnf.cds_compra.Close;
-    dmnf.cds_compra.Params[0].Clear;
-    dmnf.cds_compra.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.asInteger;
-    dmnf.cds_compra.Open;
-    //Mostra NF
-    if (dmnf.cds_nf1.Active) then
-      dmnf.cds_nf1.Close;
-    dmnf.cds_nf1.Params[0].Clear;
-    dmnf.cds_nf1.Params[1].AsInteger := dmnf.cds_compraCODCOMPRA.asInteger;
-    dmnf.cds_nf1.Open;
+     dmnf.cds_Movimento.Close;
+     dmnf.cds_Movimento.Params[0].AsInteger := fFiltroMov_NFcompra.cod_mov;
+     dmnf.cds_Movimento.Open;
 
 
-    if (not  dm.cds_empresa.Active) then
-      dm.cds_empresa.open;
+     dmnf.cds_Mov_det.Close;
+     dmnf.cds_Mov_det.Params[0].Clear;
+     dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
+     dmnf.cds_Mov_det.Open;
+
+      //mostra venda
+     if (dmnf.cdsCompra.Active) then
+       dmnf.cdsCompra.Close;
+     dmnf.cdsCompra.Params[0].Clear;
+     dmnf.cdsCompra.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.asInteger;
+     dmnf.cdsCompra.Open;
+
+     //Mostra NF
+     if (dmnf.cds_nf1.Active) then
+       dmnf.cds_nf1.Close;
+     dmnf.cds_nf1.Params[0].Clear;
+     dmnf.cds_nf1.Params[1].AsInteger := dmnf.cdsCompraCODCOMPRA.asInteger;
+     dmnf.cds_nf1.Open;
+
+     if (not  dm.cds_empresa.Active) then
+       dm.cds_empresa.open;
+	finally
+		fFiltroMov_NFcompra.Free;
+	end;
 end;
 
 procedure TfNotaFc.gravanotafiscal;
