@@ -845,6 +845,7 @@ end;
 procedure TfVendas.FormShow(Sender: TObject);
 begin
   inherited;
+  DecimalSeparator := ',';
   Incluir  := 'S';
   Excluir  := 'S';
   Alterar  := 'S';

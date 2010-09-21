@@ -1799,7 +1799,7 @@ procedure TfVendaFinalizar.FormShow(Sender: TObject);
 var utilcrtitulo : Tutils;
 begin
   inherited;
-
+  DecimalSeparator := ',';
   codrec := 0;
   Incluir := 'S';
   Alterar := 'S';
