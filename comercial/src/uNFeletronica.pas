@@ -1902,7 +1902,12 @@ begin
         Ide.indPag    := ipVista;
     end
     else
-      Ide.indPag    := ipOutras;
+      if ((UpperCase(cdsNFFATURA.AsString) = 'PRAZO') or (UpperCase(cdsNFFATURA.AsString) = 'A PRAZO')) then
+        Ide.indPag    := ipPrazo;
+      if ((UpperCase(cdsNFFATURA.AsString) = 'VISTA') or (UpperCase(cdsNFFATURA.AsString) = 'A VISTA')) then
+        Ide.indPag    := ipVista;
+      if ((cdsNFFATURA.AsString = '') or (cdsNFFATURA.IsNull)) then
+        Ide.indPag    := ipOutras;
     end;
 end;
 
