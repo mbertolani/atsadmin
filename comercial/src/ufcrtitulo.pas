@@ -237,6 +237,7 @@ procedure TfcpTitulo.FormShow(Sender: TObject);
 var varCpTitulo : TUtils;
 begin
   // Listo as Contas Caixa
+  DecimalSeparator := ',';
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CAIXA_BANCO';

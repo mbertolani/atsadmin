@@ -219,6 +219,7 @@ var varsql : STRING;
  varCrTitulo : TUtils;
 begin
   inherited;
+  DecimalSeparator := ',';  
   if (DM.MODULOUSERCONTROL = 'atsadmin') then
      Edit1.Text := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin
   else

@@ -1292,6 +1292,7 @@ end;
 procedure TfCompra.FormShow(Sender: TObject);
 begin
   inherited;
+  DecimalSeparator := ',';
   fLotes := TfLotes.Create(Application);
   if (tipoCompra = 'DEVOLUCAO') then
   begin

@@ -760,6 +760,7 @@ end;
 procedure TfCompraFinalizar.FormShow(Sender: TObject);
 var utilcrtitulo : Tutils;
 begin
+  DecimalSeparator := ',';
   if (not dm.parametro.Active) then
     dm.parametro.Open;
   if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
