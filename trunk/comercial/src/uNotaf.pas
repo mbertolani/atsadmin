@@ -637,6 +637,7 @@ end;
 
 procedure TfNotaf.FormShow(Sender: TObject);
 begin
+  DecimalSeparator := ',';
   sCtrlResize.CtrlResize(TForm(fNotaf));
   JvPageControl1.ActivePage := TabNF;
   TabSheet1.TabVisible := False;
