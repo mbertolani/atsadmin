@@ -31,64 +31,101 @@ BEGIN
 	where ec.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
 	into :UF, :PESSOA;
 	
-	select COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
-        where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'J'
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
-	
-	if (pessoa = 0) then
+	select COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST from CLASSIFICACAOFISCALPRODUTO cfp
+        where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
+        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P;
+	if ( (CICMS> 0 ) or (CICMS_SUBST >0) )then
 	begin
-        select COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
-        where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'F'
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
-    end
+	 select COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+        where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'J'
+        into :IND_IPI;
+    if (pessoa = 0) then
+        select COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+            where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'F'
+            into :IND_IPI;
     
     if (IND_IPI > 0) then
-	begin
-    new.VIPI = (new.VALTOTAL * IND_IPI/100);
-    new.PIPI = IND_IPI;
+    begin
+        new.VIPI = ((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100);
+        new.PIPI = IND_IPI;
     end
     else
     begin
-    new.VIPI = 0;
-    new.PIPI = 0;
+        new.VIPI = 0;
+        new.PIPI = 0;
     end
-	new.CST = :cst_p;
-	if (ind_reduzicms = 0 )then
+        
+	if (ind_reduzicms <= 0) then
         ind_reduzicms = 1;
+    /**    ***** TEM ST **************/
+           if (CICMS_SUBST > 0) then    
+          new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100)));
+          new.VLR_BASEICMS = ((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms);
+          new.VALOR_ICMS = (new.VLR_BASEICMS) * (CICMS / 100);                 
+          new.ICMS_SUBST = (new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS);
+       new.cst = :cst_p;
+	end
+
+	else
+	begin	
+        select COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+        where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'J'
+        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
+    
+        if (pessoa = 0) then
+        begin
+            select COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+            where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'F'
+            into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
+        end
+    
+        if (IND_IPI > 0) then
+        begin
+            new.VIPI = (new.VALTOTAL * IND_IPI/100);
+            new.PIPI = IND_IPI;
+        end
+        else
+        begin
+            new.VIPI = 0;
+            new.PIPI = 0;
+        end
+        new.CST = :cst_p;
+        if (ind_reduzicms = 0 )then
+            ind_reduzicms = 1;
     
 			
-    if (CICMS > 0) then 
-    begin 
-        new.VLR_BASEICMS = new.VALTOTAL * ind_reduzicms;
-        new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);  
-    end
-    else
-    begin
-        new.VLR_BASEICMS = 0;
-        new.VALOR_ICMS = 0;
-    end
+        if (CICMS > 0) then 
+        begin 
+            new.VLR_BASEICMS = new.VALTOTAL * ind_reduzicms;
+            new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);  
+        end
+        else
+        begin
+            new.VLR_BASEICMS = 0;
+            new.VALOR_ICMS = 0;
+        end
     
-    
-    if (CICMS_SUBST > 0) then 
-    begin       
         if (CICMS_SUBST > 0) then 
-        CICMS_SUBST = 1 + (CICMS_SUBST / 100);
-         
-        if (CICMS_SUBST_IC > 0) then 
-        CICMS_SUBST_IC = CICMS_SUBST_IC / 100;
+        begin       
+            if (CICMS_SUBST > 0) then 
+                CICMS_SUBST = 1 + (CICMS_SUBST / 100);
+            
+            if (CICMS_SUBST_IC > 0) then 
+                CICMS_SUBST_IC = CICMS_SUBST_IC / 100;
 
-        if (CICMS_SUBST_IND > 0) then 
-        CICMS_SUBST_IND = CICMS_SUBST_IND / 100;
+            if (CICMS_SUBST_IND > 0) then 
+                CICMS_SUBST_IND = CICMS_SUBST_IND / 100;
         
         --CORREÇÃO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
-        if (CICMS_SUBST_IC <> CICMS_SUBST_IND)  then
-        begin
-        cormva = ((1-CICMS_SUBST_IND)/ (1-CICMS_SUBST_IC));
-        CICMS_SUBST = CICMS_SUBST * cormva;
-        end        
+            if (CICMS_SUBST_IC <> CICMS_SUBST_IND)  then
+            begin
+                cormva = ((1-CICMS_SUBST_IND)/ (1-CICMS_SUBST_IC));
+                CICMS_SUBST = CICMS_SUBST * cormva;
+            end        
 
-        new.ICMS_SUBSTD = (new.VALTOTAL + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4); 
-        VALOR_SUBDesc = (new.VALTOTAL) * CICMS_SUBST_IND; 
-        new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
-  end
+            new.ICMS_SUBSTD = (new.VALTOTAL + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4); 
+            VALOR_SUBDesc = (new.VALTOTAL) * CICMS_SUBST_IND; 
+            new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
+        end
+    end
 END
