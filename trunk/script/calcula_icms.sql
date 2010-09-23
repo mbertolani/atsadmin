@@ -31,13 +31,13 @@ begin
 
     select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA, prazo from venda v
         inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf
-    into :cod, :notaFiscalVenda, :serie, :codv, :prazo;
+    into :cod, :notaFiscalVenda, :serie, :codv, :prazo; 
 
-    select COALESCE(sum(md.ICMS_SUBST), 0), COALESCE(sum(md.ICMS_SUBSTD), 0), COALESCE(sum(md.VALOR_ICMS), 0), COALESCE(sum(md.VLR_BASEICMS), 0), COALESCE(sum(md.VIPI), 0), COALESCE(sum(md.VALTOTAL), 0) from MOVIMENTODETALHE md
+    select sum(md.ICMS_SUBST), sum(md.ICMS_SUBSTD), sum(md.VALOR_ICMS), sum(md.VLR_BASEICMS), sum(md.VIPI), sum(md.QUANTIDADE * md.VLR_BASE) from MOVIMENTODETALHE md
     where md.CODMOVIMENTO = :cod
     into :TOTST, :TOTBASEST, :TOTICMS, :TOTBASEICMS, :TOTIPI, :TOTPROD;
   
-    UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTBASEST, VALOR_ICMS_SUBST = :TOTST, VALOR_IPI = :TOTIPI, BASE_ICMS = :TOTBASEICMS, VALOR_ICMS = :TOTICMS,
+    UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTBASEST, VALOR_ICMS_SUBST = :TOTST, VALOR_IPI = :TOTIPI, VALOR_ICMS = :TOTICMS, BASE_ICMS = :TOTBASEICMS ,
       VALOR_TOTAL_NOTA = :TOTPROD + :TOTST + :TOTIPI
       where NUMNF = :numero_nf;
               
