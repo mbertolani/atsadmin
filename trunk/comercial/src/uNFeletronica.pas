@@ -1332,7 +1332,7 @@ begin
    end;
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NFe_Teste.rav';
    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
-   ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;   
+   ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
    ACBrNFe1.NotasFiscais.Imprimir;
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
@@ -1633,63 +1633,63 @@ begin
         if (sCFOPCSTPIS.AsString = '01') then
         begin
           CST   := pis01;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
         if (sCFOPCSTPIS.AsString = '02') then
         begin
           CST   := pis02;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
         if (sCFOPCSTPIS.AsString = '03') then
         begin
           CST   := pis03;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
         if (sCFOPCSTPIS.AsString = '04') then
         begin
           CST   := pis04;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
         if (sCFOPCSTPIS.AsString = '06') then
         begin
           CST   := pis06;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
         if (sCFOPCSTPIS.AsString = '07') then
         begin
           CST   := pis07;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
         if (sCFOPCSTPIS.AsString = '08') then
         begin
           CST   := pis08;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
         if (sCFOPCSTPIS.AsString = '09') then
         begin
           CST   := pis09;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
         if (sCFOPCSTPIS.AsString = '99') then
         begin
           CST   := pis99;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pPIS  := sCFOPPIS.AsVariant;
           vPIS  := valpis;
         end;
@@ -1699,63 +1699,63 @@ begin
         if (sCFOPCSTCOFINS.AsString = '01') then
         begin
           CST   := cof01;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
         if (sCFOPCSTCOFINS.AsString = '02') then
         begin
           CST   := cof02;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
         if (sCFOPCSTCOFINS.AsString = '03') then
         begin
           CST   := cof03;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
         if (sCFOPCSTCOFINS.AsString = '04') then
         begin
           CST   := cof04;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
         if (sCFOPCSTCOFINS.AsString = '06') then
         begin
           CST   := cof06;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
         if (sCFOPCSTCOFINS.AsString = '07') then
         begin
           CST   := cof07;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
         if (sCFOPCSTCOFINS.AsString = '08') then
         begin
           CST   := cof08;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
         if (sCFOPCSTCOFINS.AsString = '09') then
         begin
           CST   := cof09;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
         if (sCFOPCSTCOFINS.AsString = '99') then
         begin
           CST   := cof99;
-          qBCProd   := cdsItensNFVALTOTAL.AsVariant;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
           vCOFINS  := valcofins;
         end;
@@ -1773,7 +1773,7 @@ begin
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
     if ((cdsNFFRETE.AsString = '') or (cdsNFFRETE.IsNull)) then
-      MessageDlg('Tipo de frete não definido', mtError, [mbOK], 0);
+     MessageDlg('Tipo de frete não definido', mtError, [mbOK], 0);
     if (cdsNFFRETE.IsNull) then
       //tfrete := 9;
     else
