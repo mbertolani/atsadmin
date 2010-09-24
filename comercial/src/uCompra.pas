@@ -1095,6 +1095,18 @@ begin
   dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
   dm.scds_produto_proc.Open;
 
+    if (procprod = 'PROC_PROD_SIMPLES') then
+    begin
+      cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
+      cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+      cds_mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
+      cds_mov_detPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
+      cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
+      cds_Mov_detQTDE_ALT.AsFloat := fProcura_prod.cds_procIPI.AsFloat;
+      cds_Mov_detDESCPRODUTO.AsString := fProcura_prod.cds_procPRODUTO.AsString;
+      qtde := fProcura_prod.cds_procPESO_QTDE.AsFloat;
+    end;
+
   if (dm.scds_produto_procRATEIO.AsString = 'S') then
   begin
     usarateio := 'SIM';
