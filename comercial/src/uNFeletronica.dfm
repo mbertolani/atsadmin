@@ -3351,6 +3351,10 @@ object fNFeletronica: TfNFeletronica
   object JvFormStorage1: TJvFormStorage
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fNFeletronica\'
+    StoredProps.Strings = (
+      'JvDateEdit1.Date'
+      'JvDateEdit2.Date'
+      'ComboBox1.Text')
     StoredValues = <>
     Left = 184
     Top = 214
