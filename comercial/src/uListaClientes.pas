@@ -148,8 +148,6 @@ type
     BitBtn4: TBitBtn;
     SpeedButton4: TBitBtn;
     BitBtn13: TBitBtn;
-    RadioButton4: TRadioButton;
-    RadioButton3: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton1: TRadioButton;
     ListaClienteTEL: TStringField;
@@ -158,6 +156,8 @@ type
     JvDatePickerEdit3: TJvDatePickerEdit;
     Label10: TLabel;
     RadioButton5: TRadioButton;
+    RadioButton3: TRadioButton;
+    RadioButton4: TRadioButton;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -197,7 +197,8 @@ var
 
 implementation
 
-uses UDm, uProcurar, uClienteCadastro, ufDlgLogin, sCtrlResize;
+uses UDm, uProcurar, uClienteCadastro, ufDlgLogin, sCtrlResize,
+  uEtiquetas_cli;
 
 {$R *.dfm}
 
@@ -468,7 +469,7 @@ end;
 
 procedure TfListaClientes.SpeedButton4Click(Sender: TObject);
 begin
- if (RadioButton4.Checked = True) then
+{ if (RadioButton4.Checked = True) then
  begin
     if not dm.cds_empresa.Active then
       dm.cds_empresa.Open;
@@ -526,12 +527,17 @@ begin
       VCLReport1.Report.Params.ParamByName('DDDCLI').Value := edtddd.Text
     else
       VCLReport1.Report.Params.ParamByName('DDDCLI').Value := 'TODOS';
-    VCLReport1.title := VCLReport1.FileName;      
+    VCLReport1.title := VCLReport1.FileName;
     VCLReport1.Execute;
  end;
 
-
-
+    }
+    fEtiquetas_cli := TfEtiquetas_cli.Create(Application);
+    try
+      fEtiquetas_cli.ShowModal;
+    finally
+      fEtiquetas_cli.free;
+    end;
 end;
 
 procedure TfListaClientes.FormShow(Sender: TObject);
