@@ -12,7 +12,6 @@ uses
 
 type
   TfAtsAdmin = class(TForm)
-    XPMenu1: TXPMenu;
     PopupMenu1: TPopupMenu;
     MainMenu1: TMainMenu;
     Cadastros1: TMenuItem;
