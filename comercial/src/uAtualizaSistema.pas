@@ -560,7 +560,6 @@ begin
 
     if (versaoSistema = '1.0.0.54') then
     begin
-      executaScript('relcontasreceber.sql');
       executaDDL('PRODUTOS', 'VALORMINIMO', 'Double Precision');
       executaDDL('PRODUTOS', 'VALORCOMISSAO', 'Double Precision');
       executaDDL('PRODUTOS', 'GERADESCONTO', 'char(1)');
@@ -785,6 +784,7 @@ begin
       executaDDL('PRODUTOS', 'IMPRESSORA_1', 'varchar(10)');
       executaDDL('PRODUTOS', 'IMPRESSORA_2', 'varchar(10)');
       executaDDL('PRODUTOS', 'IMPRESSORA_3', 'varchar(10)');
+      executaScript('relcontasreceber.sql');      
       mudaVersao('1.0.0.76');
     end;  // Fim Ataulização Versao 1.0.0.76
 
