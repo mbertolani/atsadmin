@@ -22,7 +22,7 @@ object fListaClientes: TfListaClientes
     Left = 0
     Top = 187
     Width = 792
-    Height = 352
+    Height = 359
     Align = alClient
     Color = clMoneyGreen
     DataSource = DataSource1
@@ -805,7 +805,7 @@ object fListaClientes: TfListaClientes
       Top = 3
       Width = 77
       Height = 55
-      Caption = 'Ctrl+E-Etiq.'
+      Caption = 'Etiquetas'
       PopupMenu = PopupMenu1
       TabOrder = 4
       TabStop = False
@@ -1022,40 +1022,6 @@ object fListaClientes: TfListaClientes
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
     end
-    object RadioButton4: TRadioButton
-      Left = 693
-      Top = 22
-      Width = 16
-      Height = 17
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 6
-      OnClick = RadioButton4Click
-    end
-    object RadioButton3: TRadioButton
-      Left = 693
-      Top = 7
-      Width = 16
-      Height = 14
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 7
-      OnClick = RadioButton3Click
-    end
     object RadioButton2: TRadioButton
       Left = 615
       Top = 22
@@ -1070,7 +1036,7 @@ object fListaClientes: TfListaClientes
       ParentColor = False
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 8
+      TabOrder = 6
       OnClick = RadioButton2Click
     end
     object RadioButton1: TRadioButton
@@ -1087,7 +1053,7 @@ object fListaClientes: TfListaClientes
       ParentColor = False
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 9
+      TabOrder = 7
       OnClick = RadioButton1Click
     end
     object JvDatePickerEdit2: TJvDatePickerEdit
@@ -1098,7 +1064,7 @@ object fListaClientes: TfListaClientes
       AllowNoDate = True
       Checked = True
       Enabled = False
-      TabOrder = 10
+      TabOrder = 8
     end
     object JvDatePickerEdit3: TJvDatePickerEdit
       Left = 238
@@ -1108,7 +1074,7 @@ object fListaClientes: TfListaClientes
       AllowNoDate = True
       Checked = True
       Enabled = False
-      TabOrder = 11
+      TabOrder = 9
     end
     object RadioButton5: TRadioButton
       Left = 243
@@ -1124,8 +1090,42 @@ object fListaClientes: TfListaClientes
       ParentColor = False
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 12
+      TabOrder = 10
       OnClick = RadioButton5Click
+    end
+    object RadioButton3: TRadioButton
+      Left = 693
+      Top = 7
+      Width = 16
+      Height = 14
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 11
+      Visible = False
+      OnClick = RadioButton3Click
+    end
+    object RadioButton4: TRadioButton
+      Left = 693
+      Top = 22
+      Width = 16
+      Height = 17
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 12
+      Visible = False
+      OnClick = RadioButton4Click
     end
   end
   object PopupMenu1: TPopupMenu

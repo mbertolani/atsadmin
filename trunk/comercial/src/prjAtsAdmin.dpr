@@ -196,7 +196,8 @@ uses
   uNFeMail in 'uNFeMail.pas' {fNFeMail},
   uBalancete in 'uBalancete.pas' {fBalancete},
   uTexto in 'uTexto.pas' {Form1},
-  uProdGeraAumento in 'uProdGeraAumento.pas' {fProdGeraAumento};
+  uProdGeraAumento in 'uProdGeraAumento.pas' {fProdGeraAumento},
+  uEtiquetas_cli in 'uEtiquetas_cli.pas' {fEtiquetas_cli};
 
 {$R *.res}
 
@@ -233,6 +234,7 @@ begin
   Application.CreateForm(TfNFeMail, fNFeMail);
   Application.CreateForm(TfBalancete, fBalancete);
   Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfEtiquetas_cli, fEtiquetas_cli);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
   Application.CreateForm(TfPfaturamento, fPfaturamento);
