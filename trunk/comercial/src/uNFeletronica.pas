@@ -501,6 +501,8 @@ type
     cdsItensNFPIPI: TFloatField;
     cdsItensNFVIPI: TFloatField;
     btnSair: TBitBtn;
+    sdsItensNFCFOP: TStringField;
+    cdsItensNFCFOP: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1469,7 +1471,7 @@ begin
     Prod.nItem    := contador;
     Prod.cProd    := cdsItensNFCODPRO.AsString;
     Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
-    Prod.CFOP     := cdsNFCFOP.AsString;
+    Prod.CFOP     := cdsItensNFCFOP.AsString;
     if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull) or (sProdutosUNIDADEMEDIDA.AsString = ' ')) then
       MessageDlg('Produto sem Unidade de Medida', mtError, [mbOK], 0);
     Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
