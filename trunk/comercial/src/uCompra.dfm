@@ -1545,7 +1545,7 @@ inherited fCompra: TfCompra
         end
         item
           Expanded = False
-          FieldName = 'DESCPRODUTO'
+          FieldName = 'PRODUTO'
           Title.Caption = 'Mercadoria'
           Width = 303
           Visible = True
