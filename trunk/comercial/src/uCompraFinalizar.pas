@@ -1393,7 +1393,7 @@ begin
       Texto1 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + '  Titulo.:  ' +
       scdsCr_procTITULO.AsString;
       Texto2 := '----------------------------------------' ;
-      Texto4 := 'Podruto   UN  Qtde   V.Un.   V.Total ' ;
+      Texto4 := 'Produto   UN  Qtde   V.Un.   V.Total ' ;
       Texto5 := DateTimeToStr(Now) + ' Total.: R$   ';
      // Texto5 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + ' Total.: R$   ' ;
       {-----------------------------------------------------------}
@@ -1439,7 +1439,7 @@ begin
           fCompra.cds_Mov_det.RecordCount;
           texto3 := '';
           texto6 := '';
-          texto6 := Format('%-4s',[fCompra.cds_Mov_detCODPRO.Value]);
+          //texto6 := Format('%-4s',[fCompra.cds_Mov_detCODPRO.Value]);
           texto3 := texto3 + Format('          %-2s',[fCompra.cds_Mov_detUN.Value]);
           texto3 := texto3 + Format('    %-6.0n',[fCompra.cds_Mov_detQUANTIDADE.AsFloat]);
           texto3 := texto3 + Format('%-6.2n',[fCompra.cds_Mov_detPRECO.AsFloat]);
