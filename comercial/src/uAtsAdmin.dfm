@@ -22,8 +22,8 @@ object fAtsAdmin: TfAtsAdmin
   object Image1: TImage
     Left = 0
     Top = 47
-    Width = 684
-    Height = 317
+    Width = 692
+    Height = 329
     Align = alClient
     Center = True
     Picture.Data = {
@@ -749,7 +749,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 684
+    Width = 692
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2042,8 +2042,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 364
-    Width = 684
+    Top = 376
+    Width = 692
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2065,38 +2065,7 @@ object fAtsAdmin: TfAtsAdmin
     UseSystemFont = False
     OnDrawPanel = StatusBar1DrawPanel
   end
-  object XPMenu1: TXPMenu
-    DimLevel = 30
-    GrayLevel = 10
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMenuText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Color = clBtnFace
-    DrawMenuBar = False
-    IconBackColor = clBtnFace
-    MenuBarColor = clBtnFace
-    SelectColor = clHighlight
-    SelectBorderColor = clHighlight
-    SelectFontColor = clMenuText
-    DisabledColor = clInactiveCaption
-    SeparatorColor = clBtnFace
-    CheckedColor = clHighlight
-    IconWidth = 24
-    DrawSelect = True
-    UseSystemColors = True
-    UseDimColor = False
-    OverrideOwnerDraw = False
-    Gradient = True
-    FlatMenu = True
-    AutoDetect = True
-    Active = True
-    Left = 560
-    Top = 176
-  end
   object PopupMenu1: TPopupMenu
-    OwnerDraw = True
     Left = 384
     Top = 64
     object Compras1: TMenuItem
@@ -2155,7 +2124,6 @@ object fAtsAdmin: TfAtsAdmin
     end
   end
   object MainMenu1: TMainMenu
-    OwnerDraw = True
     Left = 416
     Top = 64
     object Cadastros1: TMenuItem
