@@ -1379,22 +1379,22 @@ begin
       if (not dm.cds_empresa.Active) then
         dm.cds_empresa.Open;
       {----- aqui monto o endereço-----}
-      logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
-      cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+      logradouro := '  ' + dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+      cep :='  ' + dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
       ' - ' + dm.cds_empresaCEP.Value;
-      fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+      fone := '  (19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
       ' / ' + dm.cds_empresaFONE_2.Value;
       {------------------------DADOS DO CLIENTE--------------------------}
-      clientecupom := IntToStr(fCompra.cds_MovimentoCODFORNECEDOR.AsInteger) + '-' +
+      clientecupom :='  ' + IntToStr(fCompra.cds_MovimentoCODFORNECEDOR.AsInteger) + '-' +
                    Copy(fCompra.cds_MovimentoNOMEFORNECEDOR.AsString, 0, 36); //fVendas.cds_MovimentoNOMECLIENTE.AsString;
 
     //  doccli := 'CPF : ' + fVendas.cds_MovimentoCNPJ.AsString;
       Texto  := '----------------------------------------' ;
-      Texto1 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + '  Titulo.:  ' +
+      Texto1 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + '  Titulo.:  ' +
       scdsCr_procTITULO.AsString;
-      Texto2 := '----------------------------------------' ;
-      Texto4 := 'Produto   UN  Qtde   V.Un.   V.Total ' ;
-      Texto5 := DateTimeToStr(Now) + ' Total.: R$   ';
+      Texto2 := '-----------------------------------------' ;
+      Texto4 := '  Produto  UN    Qtde    V.Un.   V.Total ' ;
+      Texto5 :='  ' + DateTimeToStr(Now) + ' Total.: R$   ';
      // Texto5 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + ' Total.: R$   ' ;
       {-----------------------------------------------------------}
       {-------------------Imprimi Cabeçalho-----------------------}
@@ -1416,15 +1416,15 @@ begin
         AssignFile(IMPRESSORA,portaimpr);//'LPT1:');
       end;
       Rewrite(IMPRESSORA);
-      Writeln(Impressora, c10cpi + 'COMPRA');
+      Writeln(Impressora, c10cpi + '  COMPRA');
       Writeln(IMPRESSORA);
-      Writeln(Impressora, c17cpi + RemoveAcento(Format('%-36s',[dm.cds_empresaRAZAO.Value])));
+      Writeln(Impressora, c17cpi + RemoveAcento(Format('  %-36s',[dm.cds_empresaRAZAO.Value])));
       Writeln(Impressora, c17cpi, logradouro);
       Writeln(Impressora, c17cpi, cep);
       Writeln(Impressora, c17cpi, fone);
      // Writeln(Impressora, c10cpi + Format('%-36s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
       Writeln(Impressora, c17cpi, texto);
-      Writeln(Impressora, c17cpi, RemoveAcento(clientecupom));
+      Writeln(Impressora, c17cpi, RemoveAcento( clientecupom));
       Writeln(Impressora, c17cpi, doccli);
       Writeln(Impressora, c17cpi, texto);
       Writeln(Impressora, c17cpi, texto1);
@@ -1440,12 +1440,12 @@ begin
           texto3 := '';
           texto6 := '';
           //texto6 := Format('%-4s',[fCompra.cds_Mov_detCODPRO.Value]);
-          texto3 := texto3 + Format('          %-2s',[fCompra.cds_Mov_detUN.Value]);
-          texto3 := texto3 + Format('    %-6.0n',[fCompra.cds_Mov_detQUANTIDADE.AsFloat]);
-          texto3 := texto3 + Format('%-6.2n',[fCompra.cds_Mov_detPRECO.AsFloat]);
-          texto3 := texto3 + Format('  %-6.2n',[fCompra.cds_Mov_detValorTotal.value]);
+          texto3 := texto3 + Format('           %-2s',[fCompra.cds_Mov_detUN.Value]);
+          texto3 := texto3 + Format('     %-6.0n',[fCompra.cds_Mov_detQUANTIDADE.AsFloat]);
+          texto3 := texto3 + Format(' %-6.2n',[fCompra.cds_Mov_detPRECO.AsFloat]);
+          texto3 := texto3 + Format('   %-6.2n',[fCompra.cds_Mov_detValorTotal.value]);
           //texto6 := texto6 + fVendas.cds_Mov_detDESCPRODUTO.Value;
-          texto6 := texto6 + Copy(fCompra.cds_Mov_detPRODUTO.Value, 0, 36);       //descrição do produto
+          texto6 := texto6 + '  ' + Copy(fCompra.cds_Mov_detPRODUTO.Value, 0, 36);       //descrição do produto
           Writeln(Impressora, c17cpi, RemoveAcento(texto6));
           Writeln(Impressora, c17cpi, RemoveAcento(texto3));//NOME DO PRODUTO
           with Printer.Canvas do
@@ -1460,7 +1460,7 @@ begin
         {-----------------------------------------------------------}
         {-------------------Imprimi Cabeçalho-----------------------}
         Texto2 := '----------------------------------------' ;
-        Texto3 := 'Vencimento  Status  Valor R$  ' ;
+        Texto3 := '  Vencimento     Status         Valor R$' ;
         Writeln(Impressora, c17cpi, texto2);
         Writeln(Impressora, c17cpi, texto3);
         {------------------------------------------------------}
@@ -1471,20 +1471,18 @@ begin
           texto3 := '';
           scdsCr_proc.RecordCount;
           // imprime
-          Texto3 := FormatDateTime('dd/mm/yyyy', scdsCr_procDATAVENCIMENTO.Value);
-          TextoS := scdsCr_procSTATUS.Value;
-          if textoS = '5-' then
-          textoS := 'Pendente';
-
-          Texto3 := Texto3 + ' - '  + 'Pago';
+          Texto3 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procDATAVENCIMENTO.Value);
+          if scdsCr_procSTATUS.Value = '5-' then
+          textoS := '  Pendente';
 
           if (scdsCr_procSTATUS.AsString = '7-') then
-             Texto3 := Texto3 + ' - '  +
+             Texto3 := Texto3 + ' - '  + '      Pago     ' +
                     Format('%-6.2n',[scdsCr_procVALORRECEBIDO.AsFloat])
-          else
-            Texto3 := Texto3 + ' - '  + textoS;
-            Texto3 := Texto3 + ' - '  +
+           else begin
+            Texto3 := Texto3 + ' - '  +  textoS;
+            Texto3 := Texto3 + '   '  +
                     Format('%-6.2n',[scdsCr_procVALOR_RESTO.AsFloat]);
+          end ;
           Writeln(Impressora, c17cpi, texto3);
 
           with Printer.Canvas do
@@ -1499,9 +1497,9 @@ begin
         total := fCompra.cds_Mov_detTotalPedido.Value;
         Writeln(Impressora, c17cpi, texto);
         Write(Impressora, c17cpi, texto5);
-        Writeln(Impressora, c17cpi + Format(' %-6.2n',[total]));
+        Writeln(Impressora, c17cpi + Format('%-6.2n',[total]));
         texto3 := '';
-        texto3 := 'Ass.:____________________________';
+        texto3 := '  Ass.:____________________________';
         Writeln(IMPRESSORA);
         Writeln(Impressora, c17cpi, texto3);
         // Pula linhas
