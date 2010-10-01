@@ -81,7 +81,7 @@ BEGIN
     
         if (IND_IPI > 0) then
         begin
-            new.VIPI = (new.VALTOTAL * IND_IPI/100);
+            new.VIPI = ((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100);
             new.PIPI = IND_IPI;
         end
         else
@@ -96,7 +96,7 @@ BEGIN
 			
         if (CICMS > 0) then 
         begin 
-            new.VLR_BASEICMS = new.VALTOTAL * ind_reduzicms;
+            new.VLR_BASEICMS = (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms;
             new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);  
         end
         else
@@ -123,8 +123,8 @@ BEGIN
                 CICMS_SUBST = CICMS_SUBST * cormva;
             end        
 
-            new.ICMS_SUBSTD = (new.VALTOTAL + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4); 
-            VALOR_SUBDesc = (new.VALTOTAL) * CICMS_SUBST_IND; 
+            new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4); 
+            VALOR_SUBDesc = (new.VLR_BASE*new.QUANTIDADE) * CICMS_SUBST_IND; 
             new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
         end
     end
