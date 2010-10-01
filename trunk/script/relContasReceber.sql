@@ -101,7 +101,7 @@ begin
         if (vlrDesc is null) then 
           vlrDesc = 0;
                   
-        valorrecebido = vlrrec + vlrJuros + vlrMulta - vlrPerda - vlrDesc;
+        valorrecebido = vlrrec; -- vlrJuros - vlrMulta + vlrPerda + vlrDesc;
         if (valorrecebido < 0) then 
           valorRecebido = (-1) * valorrecebido;
         if (DESCONTADO = 'S') then
@@ -111,7 +111,7 @@ begin
         saldo = saldo - valorRecebido;
         if (tituloAtual = titulo) then  
           valorTitulo = null;
-        valorRec = valor_resto - valorRecebido;
+        valorRec = valor_resto - valorRecebido + vlrJuros + vlrMulta - vlrPerda - vlrDesc;
         suspend;
         tituloAtual = titulo;
         dataRecebimento = null;
