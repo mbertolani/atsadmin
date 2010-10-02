@@ -747,10 +747,10 @@ begin
             getCLi_Fornec();
 
             //Carrega os itens da NF
-            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
+            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
-                'pr.UNIDADEMEDIDA, md.CST, md.ICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
+                'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
                 'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
@@ -1277,10 +1277,10 @@ begin
             getCLi_Fornec();
 
             //Carrega os itens da NF
-            itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
+            itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
-                'pr.UNIDADEMEDIDA, md.CST, md.ICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
+                'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
                 'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
