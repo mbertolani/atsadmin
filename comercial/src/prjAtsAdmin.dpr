@@ -205,6 +205,8 @@ begin
   Application.Initialize;
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
+  if (dm.conectado = False) then
+    Application.Terminate;
   Application.CreateForm(TDMNF, DMNF);
   Application.CreateForm(TDmCitrus, DmCitrus);
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);

@@ -1797,6 +1797,7 @@ type
     procedure verificaSeExisteTabela(nTabela, nCampo, nCampoTipo: string);
   public
     { Public declarations }
+    conectado :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin: String;
     idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov : integer;
@@ -1827,12 +1828,19 @@ var index: integer;
 begin
   MICRO := NomeComputador;
   // LOGADO := '';
+  conectado := True;
+  try
   SQl.Connected := False;
   SQl.LoadParamsFromIniFile('dbxconnections.ini');
   sqlsisAdimin.Connected := False;
   sqlsisAdimin.LoadParamsFromIniFile('dbxconnections.ini');
   sqlsisAdimin.LibraryName := 'dbexpUIBfire15.dll';
   sqlsisAdimin.VendorLib := 'FBCLIENT.DLL';
+  sqlsisAdimin.Connected := True;
+  Except
+    Conectado := false;
+    ShowMessage('Banco de Dados inválido!');
+  end;
   // SQL Exporta
   sqlExporta.Connected := False;
   sqlExporta.LoadParamsFromIniFile('dbxexporta.ini');
@@ -1849,6 +1857,7 @@ begin
   finally
     dbxconec.Free;
   end;
+
   if cds_parametro.Active then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'EMPRESA';
@@ -1885,6 +1894,7 @@ begin
   if (not cds_parametro.IsEmpty) then
     if (cds_parametroDADOS.AsString = 'CODBARRA') then
       codBarra := 'S';
+
 
   { Adiciona CAMPO a uma tabela se não existir}
   // verifiSeExisteCampo('CLIENTES', 'RAZAOSOCIAL', 'VARCHAR(60)');
