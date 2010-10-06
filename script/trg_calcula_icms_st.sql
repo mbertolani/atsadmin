@@ -31,16 +31,16 @@ BEGIN
 	where ec.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
 	into :UF, :PESSOA;
 	
-	select COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST from CLASSIFICACAOFISCALPRODUTO cfp
+	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST from CLASSIFICACAOFISCALPRODUTO cfp
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P;
 	if ( (CICMS> 0 ) or (CICMS_SUBST >0) )then
 	begin
-	 select COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+	 select first 1 COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
         where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'J'
         into :IND_IPI;
     if (pessoa = 0) then
-        select COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+        select first 1 COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
             where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'F'
             into :IND_IPI;
     
@@ -68,13 +68,13 @@ BEGIN
 
 	else
 	begin	
-        select COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+        select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
         where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'J'
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
     
         if (pessoa = 0) then
         begin
-            select COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+            select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
             where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'F'
             into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
         end
