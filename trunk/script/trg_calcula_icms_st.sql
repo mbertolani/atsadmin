@@ -60,7 +60,7 @@ BEGIN
     /**    ***** TEM ST **************/
            if (CICMS_SUBST > 0) then    
           new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100)));
-          new.VLR_BASEICMS = ((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms);
+          new.VLR_BASEICMS = ((new.VLR_BASE*new.QUANTIDADE) * (ind_reduzicms/100));
           new.VALOR_ICMS = (new.VLR_BASEICMS) * (CICMS / 100);                 
           new.ICMS_SUBST = (new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS);
        new.cst = :cst_p;
@@ -96,7 +96,7 @@ BEGIN
 			
         if (CICMS > 0) then 
         begin 
-            new.VLR_BASEICMS = (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms;
+            new.VLR_BASEICMS = (new.VLR_BASE*new.QUANTIDADE) * (ind_reduzicms/100);
             new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);  
         end
         else
