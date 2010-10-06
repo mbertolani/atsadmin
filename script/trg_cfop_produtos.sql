@@ -3,7 +3,7 @@ AFTER INSERT OR UPDATE POSITION 0
 AS 
 declare variable codm INTEGER;
 BEGIN
-    if (new.NATUREZA = 15) then
+    if ((new.NATUREZA = 15) or (new.NATUREZA = 12)) then
     begin
         select v.CODMOVIMENTO from venda v
         where v.CODVENDA = new.CODVENDA
