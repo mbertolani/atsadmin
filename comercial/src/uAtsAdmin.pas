@@ -380,14 +380,14 @@ begin
     //dxButton5.Caption := 'Proc. Peças(CTRL+E)';
     //dxButton4.Enabled := False;
     //dxButton6.Enabled := False;
-    MainMenu1.Items.Items[0].Items[4].Caption := 'Cad. Peças/Serviços';
+    MainMenu1.Items.Items[0].Items[9].Caption := 'Cad. Peças/Serviços';
   end;
   if (dm.moduloUsado = 'CITRUS') then
   begin
     //dxButton1.Caption := 'Ent./Colheita(CTRL+C)';
     //dxButton5.Caption := 'Proc. Frutos(CTRL+E)';
     //dxButton6.Enabled := False;
-    MainMenu1.Items.Items[0].Items[4].Caption := 'Cad. Frutas';
+    MainMenu1.Items.Items[0].Items[9].Caption := 'Cad. Frutas';
   end;
   if (FileExists('logo.jpg')) then
     Image1.Picture.LoadFromFile('logo.jpg');
