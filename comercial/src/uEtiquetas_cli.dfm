@@ -193,9 +193,10 @@ object fEtiquetas_cli: TfEtiquetas_cli
       ItemHeight = 13
       TabOrder = 1
       Items.Strings = (
-        'A5Q-2337'
+        '6181'
+        '6095'
         '6080'
-        '')
+        'A5Q-2337')
     end
   end
   object BitBtn13: TBitBtn
