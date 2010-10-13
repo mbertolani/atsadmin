@@ -1379,7 +1379,7 @@ object fNotafc: TfNotafc
           BevelKind = bkFlat
           BorderStyle = bsNone
           DataField = 'SERIE'
-          DataSource = DMNF.DtSrc_Compra
+          DataSource = DMNF.DtSrc_NF1
           TabOrder = 2
           OnKeyPress = FormKeyPress
         end
@@ -2742,6 +2742,80 @@ object fNotafc: TfNotafc
       FieldName = 'NAOENVFATURA'
       FixedChar = True
       Size = 1
+    end
+  end
+  object listaFornecedores: TSQLDataSet
+    CommandText = 
+      'select f.CODFORNECEDOR, '#13#10'           f.RAZAOSOCIAL,  '#13#10'         ' +
+      '  f.CNPJ, '#13#10'           f.INSCESTADUAL, '#13#10'           f.PRAZOPAGAM' +
+      'ENTO,'#13#10'           f.CODTRANSP,'#13#10'           ende.LOGRADOURO, '#13#10'  ' +
+      '         ende.BAIRRO, '#13#10'           ende.COMPLEMENTO, '#13#10'         ' +
+      '  ende.CIDADE, '#13#10'           ende.UF, '#13#10'           ende.CEP, '#13#10'  ' +
+      '         ende.TELEFONE '#13#10'from FORNECEDOR f '#13#10'left outer join END' +
+      'ERECOFORNECEDOR ende on ende.CODFORNECEDOR = f.CODFORNECEDOR  '#13#10 +
+      'where ende.TIPOEND = 0 and f.CODFORNECEDOR = :pCodCli'#13#10' order by' +
+      ' f.RAZAOSOCIAL '#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCodCli'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 368
+    Top = 48
+    object listaFornecedoresCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object listaFornecedoresRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object listaFornecedoresCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object listaFornecedoresINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object listaFornecedoresPRAZOPAGAMENTO: TSmallintField
+      FieldName = 'PRAZOPAGAMENTO'
+    end
+    object listaFornecedoresCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object listaFornecedoresLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object listaFornecedoresBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object listaFornecedoresCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object listaFornecedoresCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object listaFornecedoresUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object listaFornecedoresCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object listaFornecedoresTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
     end
   end
 end

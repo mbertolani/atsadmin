@@ -230,6 +230,20 @@ type
     sCfopDADOSADC5: TStringField;
     sCfopDADOSADC6: TStringField;
     sCfopNAOENVFATURA: TStringField;
+    listaFornecedores: TSQLDataSet;
+    listaFornecedoresCODFORNECEDOR: TIntegerField;
+    listaFornecedoresRAZAOSOCIAL: TStringField;
+    listaFornecedoresCNPJ: TStringField;
+    listaFornecedoresINSCESTADUAL: TStringField;
+    listaFornecedoresPRAZOPAGAMENTO: TSmallintField;
+    listaFornecedoresCODTRANSP: TIntegerField;
+    listaFornecedoresLOGRADOURO: TStringField;
+    listaFornecedoresBAIRRO: TStringField;
+    listaFornecedoresCOMPLEMENTO: TStringField;
+    listaFornecedoresCIDADE: TStringField;
+    listaFornecedoresUF: TStringField;
+    listaFornecedoresCEP: TStringField;
+    listaFornecedoresTELEFONE: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -363,13 +377,13 @@ var varsql: string;
 begin
    if dm.cds_parametro.Active then
      dm.cds_parametro.Close;
-   dm.cds_parametro.Params[0].AsString := 'NATUREZANFCOMPRA';
+   dm.cds_parametro.Params[0].AsString := 'Nota Fiscal Compra';
    dm.cds_parametro.Open;
 
    if (dm.cds_parametro.IsEmpty) then
    begin
      varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS) ' ;
-     varsql := varsql + 'values (''NATUREZANFCOMPRA'',''S'',''20'')';
+     varsql := varsql + 'values (''Nota Fiscal Compra'',''S'',''20'')';
      dm.sqlsisAdimin.executedirect(varsql);
    end;   
 
@@ -407,23 +421,23 @@ begin
     dmnf.cds_nf1CODVENDA.AsInteger := codVendaFin;
     dmnf.cds_nf1CODCLIENTE.AsInteger := codCliFin;
     dmnf.cds_nf1FATURA.AsString := fatura_NF;
-    if (listaFornecedor.Active) then
-      listaFornecedor.Close;
-    listaFornecedor.Params.ParamByName('pCodCli').AsInteger := codCliFin;
-    listaFornecedor.Open;
+    if (listaFornecedores.Active) then
+      listaFornecedores.Close;
+    listaFornecedores.Params.ParamByName('pCodCli').AsInteger := codCliFin;
+    listaFornecedores.Open;
     dmnf.cds_nf1CODCLIENTE.AsInteger := codCliFin;
-    dmnf.cds_nf1NOMECLIENTE.AsString := listaFornecedorRAZAOSOCIAL.AsString;
-    dmnf.cds_nf1RAZAOSOCIAL.AsString := listaFornecedorRAZAOSOCIAL.AsString;
-    dmnf.cds_nf1CNPJCLI.AsString := listaFornecedorCNPJ.AsString;
-    dmnf.cds_nf1INSCCLI.AsString := listaFornecedorINSCESTADUAL.AsString;
-    dmnf.cds_nf1LOGRADOURO.AsString := listaFornecedorLOGRADOURO.AsString;
-    dmnf.cds_nf1CIDADECLI.AsString := listaFornecedorCIDADE.AsString;
-    dmnf.cds_nf1BAIRROCLI.AsString := listaFornecedorBAIRRO.AsString;
-    dmnf.cds_nf1CEPCLI.AsString := listaFornecedorCEP.AsString;
+    dmnf.cds_nf1NOMECLIENTE.AsString := listaFornecedoresRAZAOSOCIAL.AsString;
+    dmnf.cds_nf1RAZAOSOCIAL.AsString := listaFornecedoresRAZAOSOCIAL.AsString;
+    dmnf.cds_nf1CNPJCLI.AsString := listaFornecedoresCNPJ.AsString;
+    dmnf.cds_nf1INSCCLI.AsString := listaFornecedoresINSCESTADUAL.AsString;
+    dmnf.cds_nf1LOGRADOURO.AsString := listaFornecedoresLOGRADOURO.AsString;
+    dmnf.cds_nf1CIDADECLI.AsString := listaFornecedoresCIDADE.AsString;
+    dmnf.cds_nf1BAIRROCLI.AsString := listaFornecedoresBAIRRO.AsString;
+    dmnf.cds_nf1CEPCLI.AsString := listaFornecedoresCEP.AsString;
     dmnf.cds_nf1FRETE.AsString := '2';
-    dmnf.cds_nf1UFCLI.AsString := listaFornecedorUF.AsString;
-    dmnf.cds_nf1UF.AsString := listaFornecedorUF.AsString;
-    dmnf.cds_nf1TELEFONE.AsString := listaFornecedorTELEFONE.AsString;
+    dmnf.cds_nf1UFCLI.AsString := listaFornecedoresUF.AsString;
+    dmnf.cds_nf1UF.AsString := listaFornecedoresUF.AsString;
+    dmnf.cds_nf1TELEFONE.AsString := listaFornecedoresTELEFONE.AsString;
   // Calcula o peso
   if (dmnf.sqs_tit.Active) then
     dmnf.sqs_tit.Close;
@@ -438,12 +452,12 @@ begin
 
   dmnf.sqs_tit.Close;
 
-    prazo := listaFornecedorPRAZOPAGAMENTO.AsFloat;
-    if (listaFornecedorCODTRANSP.AsInteger > 0 ) then
+    prazo := listaFornecedoresPRAZOPAGAMENTO.AsFloat;
+    if (listaFornecedoresCODTRANSP.AsInteger > 0 ) then
     begin
         if (proc_transp.Active) then
           proc_transp.Close;
-        proc_transp.Params[0].AsInteger := listaFornecedorCODTRANSP.AsInteger;
+        proc_transp.Params[0].AsInteger := listaFornecedoresCODTRANSP.AsInteger;
         proc_transp.Open;
         dmnf.cds_nf1CODTRANSP.AsInteger := proc_transpCODTRANSP.AsInteger;
         dmnf.cds_nf1NOMETRANSP.AsString := proc_transpNOMETRANSP.AsString;
@@ -462,7 +476,7 @@ begin
         dmnf.cds_nf1CORPONF4.AsString  := proc_transpCORPONF4.AsString;
         proc_transp.Close;
     end;
-    listaFornecedor.Close;
+    listaFornecedores.Close;
     btnGravar.click;
     if (dmnf.cds_mov_det.Active) then
       dmnf.cds_mov_det.Close;
@@ -1355,7 +1369,7 @@ begin
     nfnum := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
-  dmnf.cds_nf1CODVENDA.AsInteger := dmnf.cds_compraCODCOMPRA.AsInteger;
+//  dmnf.cds_nf1CODVENDA.AsInteger := dmnf.cds_compraCODCOMPRA.AsInteger;
   if (nfnum = 0) then
     nfnum := dmnf.cds_nf1NUMNF.AsInteger;
 //  if (parametroNF <> 'S') then
@@ -1369,6 +1383,7 @@ begin
   dmnf.cds_nf1.Params[0].AsInteger := nfnum;
   dmnf.cds_nf1.Params[1].Clear;
   dmnf.cds_nf1.open;
+  dmnf.cds_nf1.Refresh;
   dmnf.cds_Mov_det.Open;
   dmnf.cds_compra.Close;
   dmnf.cds_compra.Params[0].AsInteger := dmnf.cds_nf1CODVENDA.AsInteger;
