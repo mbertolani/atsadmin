@@ -772,7 +772,6 @@ begin
       executaDDL('RECEBIMENTO', 'VALST', 'DOUBLE PRECISION'); //alter table RECEBIMENTO add VALST double precision
       executaDDL('RECEBIMENTO', 'VALOR_RESTO_SST', 'DOUBLE PRECISION'); //alter table RECEBIMENTO add VALOR_RESTO_SST double precision
       executaScript('CANCELA_ESTOQUE_VENDA.sql');
-      executaScript('corrige_valor_fatura.sql');
       executaScript('calcula_icms.sql');
       executaScript('trg_calcula_icms_st.sql');
       executaScript('trg_cfop_produtos.sql');
@@ -784,9 +783,16 @@ begin
       executaDDL('PRODUTOS', 'IMPRESSORA_1', 'varchar(10)');
       executaDDL('PRODUTOS', 'IMPRESSORA_2', 'varchar(10)');
       executaDDL('PRODUTOS', 'IMPRESSORA_3', 'varchar(10)');
-      executaScript('relcontasreceber.sql');      
+      executaScript('relcontasreceber.sql');
       mudaVersao('1.0.0.76');
     end;  // Fim Ataulização Versao 1.0.0.76
+
+    if (versaoSistema = '1.0.0.76') then
+    begin
+      executaScript('corrige_valor_fatura.sql');
+      executaDDL('MOVIMENTO', 'KM', 'varchar(30)');
+      mudaVersao('1.0.0.77');
+    end;  // Fim Ataulização Versao 1.0.0.77
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
