@@ -14,9 +14,6 @@ uses
 
 type
   TfNFeletronica = class(TForm)
-    MMJPanel1: TMMJPanel;
-    MMJPanel2: TMMJPanel;
-    JvDBGrid1: TJvDBGrid;
     sdsNF: TSQLDataSet;
     cdsNF: TClientDataSet;
     cdsNFFRETE: TStringField;
@@ -392,11 +389,6 @@ type
     cdsFaturaNUMEROFATURA: TStringField;
     sdsNFNATUREZA: TSmallintField;
     cdsNFNATUREZA: TSmallintField;
-    GroupBox1: TGroupBox;
-    btnGeraNFe: TBitBtn;
-    btnValidaNFe: TBitBtn;
-    BtnPreVis: TBitBtn;
-    BtnEnvEmail: TBitBtn;
     sFornec: TSQLDataSet;
     sFornecCODCLIENTE: TIntegerField;
     sFornecNOMECLIENTE: TStringField;
@@ -426,7 +418,6 @@ type
     sCFOPCSTCOFINS: TStringField;
     sCFOPCOFINS: TFloatField;
     sCFOPPIS: TFloatField;
-    btnSPED: TBitBtn;
     sdsNFCORPONF5: TStringField;
     sdsNFCORPONF6: TStringField;
     cdsNFCORPONF5: TStringField;
@@ -466,26 +457,43 @@ type
     sEmpresa1CCUSTO: TIntegerField;
     sEmpresa1NUMERO: TStringField;
     sEmpresa1CD_IBGE: TStringField;
+    sdsItensNFPIPI: TFloatField;
+    sdsItensNFVIPI: TFloatField;
+    cdsItensNFPIPI: TFloatField;
+    cdsItensNFVIPI: TFloatField;
+    sdsItensNFCFOP: TStringField;
+    cdsItensNFCFOP: TStringField;
+    GroupBox1: TGroupBox;
+    GroupBox3: TGroupBox;
+    btnImprime: TBitBtn;
+    btnGeraPDF: TBitBtn;
+    GroupBox6: TGroupBox;
+    btnGeraNFe: TBitBtn;
+    BtnPreVis: TBitBtn;
+    GroupBox7: TGroupBox;
+    btnSPED: TBitBtn;
+    btnPreVisSped: TBitBtn;
+    GroupBox8: TGroupBox;
+    btnContingencia: TBitBtn;
+    btnPreVisCont: TBitBtn;
+    GroupBox9: TGroupBox;
+    btnDpec: TBitBtn;
+    btnPreVisDPEC: TBitBtn;
+    GroupBox10: TGroupBox;
+    btnFSDA: TBitBtn;
+    btnPreVisFSDA: TBitBtn;
     Panel1: TPanel;
+    sbtnGetCert: TSpeedButton;
+    Label4: TLabel;
+    Label7: TLabel;
+    Label6: TLabel;
     tpNF: TRadioGroup;
     GroupBox5: TGroupBox;
     Label5: TLabel;
     MemoResp: TMemo;
-    sbtnGetCert: TSpeedButton;
     edtNumSerie: TEdit;
     Edit1: TEdit;
     edSerie: TEdit;
-    Label4: TLabel;
-    Label7: TLabel;
-    Label6: TLabel;
-    GroupBox2: TGroupBox;
-    btnStatus: TBitBtn;
-    btnConsulta: TBitBtn;
-    btnCancelaNFe: TBitBtn;
-    btnInutilizar: TBitBtn;
-    GroupBox3: TGroupBox;
-    btnImprime: TBitBtn;
-    btnGeraPDF: TBitBtn;
     GroupBox4: TGroupBox;
     Label2: TLabel;
     Label1: TLabel;
@@ -496,13 +504,18 @@ type
     ComboBox1: TComboBox;
     JvDateEdit1: TJvDateEdit;
     btnSairVenda: TBitBtn;
-    sdsItensNFPIPI: TFloatField;
-    sdsItensNFVIPI: TFloatField;
-    cdsItensNFPIPI: TFloatField;
-    cdsItensNFVIPI: TFloatField;
     btnSair: TBitBtn;
-    sdsItensNFCFOP: TStringField;
-    cdsItensNFCFOP: TStringField;
+    JvDBGrid1: TJvDBGrid;
+    GroupBox12: TGroupBox;
+    btnStatus: TBitBtn;
+    btnCancelaNFe: TBitBtn;
+    BitBtn1: TBitBtn;
+    btnInutilizar: TBitBtn;
+    btnConsulta: TBitBtn;
+    BtnEnvEmail: TBitBtn;
+    btnValidaNFe: TBitBtn;
+    GroupBox11: TGroupBox;
+    btnValidaXML: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -526,6 +539,15 @@ type
     procedure btnSPEDClick(Sender: TObject);
     procedure btnSairVendaClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure btnContingenciaClick(Sender: TObject);
+    procedure btnPreVisContClick(Sender: TObject);
+    procedure btnPreVisSpedClick(Sender: TObject);
+    procedure btnPreVisDPECClick(Sender: TObject);
+    procedure btnDpecClick(Sender: TObject);
+    procedure btnFSDAClick(Sender: TObject);
+    procedure btnPreVisFSDAClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure btnValidaXMLClick(Sender: TObject);
 
   private
     procedure getCli_Fornec();
@@ -541,6 +563,7 @@ var
   fNFeletronica: TfNFeletronica;
   conta_local: string;
   numnf : WideString;
+  tp_amb : integer;
 
 implementation
 
@@ -644,8 +667,15 @@ begin
    sMaiorData.Open;
 
    btnGeraNFe.Enabled := True;
+   btnContingencia.Enabled := True;
    btnSPED.Enabled := True;
+   btnDpec.Enabled := True;
+   btnFSDA.Enabled := True;
    BtnPreVis.Enabled := True;
+   btnPreVisCont.Enabled := True;
+   btnPreVisSped.Enabled := True;
+   btnPreVisDPEC.Enabled := True;
+   btnPreVisFSDA.Enabled := True;
 end;
 
 procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
@@ -718,10 +748,28 @@ begin
 
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
-            if (Ide.tpEmis = teNormal) then
-              Ide.serie     := 1
-            else
+            Ide.serie     := 1;
+            if (tp_amb = 1) then
+            begin
+              Ide.tpEmis    := teNormal;
+            end;
+            if (tp_amb = 2) then
+            begin
+              Ide.tpEmis    := teContingencia;
+            end;
+            if (tp_amb = 3) then
+            begin
+              Ide.tpEmis    := teSCAN;
               Ide.serie     := 900;
+            end;
+            if (tp_amb = 4) then
+            begin
+              Ide.tpEmis    := teDPEC;
+            end;
+            if (tp_amb = 5) then
+            begin
+              Ide.tpEmis    := teFSDA;
+            end;
             Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
             protenv       := cdsNFNOTASERIE.AsString;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
@@ -747,7 +795,9 @@ begin
             getCLi_Fornec();
 
             //Carrega os itens da NF
-            itensnf := 'select md.CODPRODUTO, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
+            if (tpNF.ItemIndex = 0) then
+            begin
+            itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
@@ -755,13 +805,26 @@ begin
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where cp.CODCOMPRA = :id and nf.NATUREZA = 20' ;
-                
-            if (tpNF.ItemIndex = 0) then
-              cdsItensNF.CommandText := itensnf;
+                'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and nf.NATUREZA = 20' ;
+            end
+            else
+            begin
+            itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO, ' +
+                'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
+                'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
+                'md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+                'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+                'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
+                'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
+                'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
+                'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+                'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger);
+            end;
+
             if (cdsItensNF.Active) then
               cdsItensNF.Close;
-            cdsItensNF.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
+
+            cdsItensNF.CommandText := itensnf;
             cdsItensNF.Open;
             i := 1;
             while not cdsItensNF.Eof do // Escrevo os itens
@@ -829,15 +892,35 @@ begin
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
    //Gera Envio da Nota
    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
-   ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;   
-   ACBrNFe1.Enviar(0);
-   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;   
+   ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
+   if ( (tp_amb = 2) or (tp_amb = 5)) then
+   begin
+     ACBrNFe1.NotasFiscais.Assinar;
+     ACBrNFe1.NotasFiscais.Valida;
+     ACBrNFe1.NotasFiscais.Imprimir;
+   end
+   else if (tp_amb = 4) then
+   begin
+     ACBrNFe1.WebServices.EnviarDPEC.Executar;
+
+    //protocolo de envio ao DPEC e impressão do DANFE
+    ACBrNFe1.DANFE.ProtocoloNFe:=ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC+' '+
+                               DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
+    ACBrNFe1.NotasFiscais.Imprimir;
+
+    ShowMessage(DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC));
+    ShowMessage(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
+   end
+   else
+     ACBrNFe1.Enviar(0);
+   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
+   if ( (tp_amb <> 2) or (tp_amb <> 5)) then
+   begin
    ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
    ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
 
    Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
    Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
-   btnListar.Click;
 
   //PEGA A RESPOSTA
    DecimalSeparator := '.';
@@ -845,6 +928,8 @@ begin
    str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
    str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
    dm.sqlsisAdimin.ExecuteDirect(str);
+   end;
+   btnListar.Click;
 
 end;
 
@@ -933,6 +1018,7 @@ begin
     ComboBox1.Items.Add(cds_ccustoNOME.AsString);
     cds_ccusto.Next;
   end;
+  tp_amb := 1;
   ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
   diretorio := GetCurrentDir;
   ACBrNFeDANFERave1.Logo :=  diretorio + '\logo.bmp';
@@ -957,15 +1043,15 @@ begin
     //if ((Strlen(Pchar(protocol))) > 0) then
     ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
     ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
-    ACBrNFe1.NotasFiscais.Imprimir
-    {if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
-     begin
-       ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
-       ACBrNFe1.WebServices.Consulta.Executar
-       ACBrNFe1.WebServices.ConsultaDPEC.Executar;
-       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
+    if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
+    begin
+      ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
+      ACBrNFe1.WebServices.Consulta.Executar;
+      ACBrNFe1.WebServices.ConsultaDPEC.Executar;
+      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
-     end;}
+    end;
+    ACBrNFe1.NotasFiscais.Imprimir;
   end;
 end;
 
@@ -1252,6 +1338,32 @@ begin
 
             Ide.cMunFG    := 3554003;
             Ide.modelo    := 55;
+                        if (tp_amb = 1) then
+            begin
+              Ide.serie     := 1;
+              Ide.tpEmis    := teNormal;
+            end;
+            if (tp_amb = 2) then
+            begin
+              Ide.tpEmis    := teContingencia;
+              Ide.serie     := 1;
+            end;
+            if (tp_amb = 3) then
+            begin
+              Ide.tpEmis    := teSCAN;
+              Ide.serie     := 900;
+            end;
+            if (tp_amb = 4) then
+            begin
+              Ide.tpEmis    := teDPEC;
+              Ide.serie     := 1;
+            end;
+            if (tp_amb = 5) then
+            begin
+              Ide.tpEmis    := teFSDA;
+              Ide.serie     := 1;
+            end;
+
             Ide.serie     := 1;
             Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
@@ -1277,6 +1389,8 @@ begin
             getCLi_Fornec();
 
             //Carrega os itens da NF
+            if (tpNF.ItemIndex = 0) then
+            begin
             itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
@@ -1285,13 +1399,26 @@ begin
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where cp.CODCOMPRA = :id and nf.NATUREZA = 20' ;
+                'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and nf.NATUREZA = 20' ;
+            end
+            else
+            begin
+            itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO, ' +
+                'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
+                'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
+                'md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+                'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+                'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
+                'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
+                'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
+                'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+                'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger);
+            end;
 
-            if (tpNF.ItemIndex = 0) then
-              cdsItensNF.CommandText := itensnf;
             if (cdsItensNF.Active) then
               cdsItensNF.Close;
-            cdsItensNF.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
+
+            cdsItensNF.CommandText := itensnf;
             cdsItensNF.Open;
             i := 1;
             while not cdsItensNF.Eof do // Escrevo os itens
@@ -1342,9 +1469,9 @@ end;
 
 procedure TfNFeletronica.btnSPEDClick(Sender: TObject);
 begin
-  ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teSCAN;
-  btnGeraNFeClick(Sender);
-  ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teNormal;
+    tp_amb := 3;
+    btnGeraNFeClick(Sender);
+    tp_amb := 1;
 end;
 
 procedure TfNFeletronica.btnSairVendaClick(Sender: TObject);
@@ -1908,6 +2035,76 @@ begin
     end;
 end;
 
+
+procedure TfNFeletronica.btnContingenciaClick(Sender: TObject);
+begin
+    tp_amb := 2;
+    btnGeraNFeClick(Sender);
+    tp_amb := 1;
+end;
+
+procedure TfNFeletronica.btnPreVisContClick(Sender: TObject);
+begin
+    tp_amb := 2;
+    BtnPreVisClick(Sender);
+    tp_amb := 1;
+end;
+
+procedure TfNFeletronica.btnPreVisSpedClick(Sender: TObject);
+begin
+    tp_amb := 3;
+    BtnPreVisClick(Sender);
+    tp_amb := 1;
+end;
+
+procedure TfNFeletronica.btnPreVisDPECClick(Sender: TObject);
+begin
+    BtnPreVisClick(Sender);
+end;
+
+procedure TfNFeletronica.btnDpecClick(Sender: TObject);
+begin
+    tp_amb := 4;
+    btnGeraNFeClick(Sender);
+    tp_amb := 1;
+end;
+
+procedure TfNFeletronica.btnFSDAClick(Sender: TObject);
+begin
+    tp_amb := 5;
+    btnGeraNFeClick(Sender);
+    tp_amb := 1;
+end;
+
+procedure TfNFeletronica.btnPreVisFSDAClick(Sender: TObject);
+begin
+    tp_amb := 5;
+    BtnPreVisClick(Sender);
+    tp_amb := 1;
+end;
+
+procedure TfNFeletronica.BitBtn1Click(Sender: TObject);
+var
+ vAux : String;
+begin
+  if not(InputQuery('WebServices DPEC', 'Informe o Numero do Registro do DPEC ou a Chave da NFe', vAux)) then
+    exit;
+
+  if Length(Trim(vAux)) < 44 then
+     ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC := vAux
+  else
+     ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := vAux;
+  ACBrNFe1.WebServices.ConsultaDPEC.Executar;
+
+end;
+
+procedure TfNFeletronica.btnValidaXMLClick(Sender: TObject);
+var NomeArqNFe :string;
+begin
+  ACBrNFe1.NotasFiscais.Clear;
+  ACBrNFe1.NotasFiscais.LoadFromFile(NomeArqNFe);
+  ACBrNFe1.Enviar(0);
+end;
 
 end.
 
