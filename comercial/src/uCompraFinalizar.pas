@@ -9,7 +9,7 @@ uses
   rpcompobase, rpvclreport, UCHist_Base, UCHistDataset, JvBaseEdits,
   JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
   JvExStdCtrls, JvCombobox, JvDBSearchComboBox,fClassCitrus, uUtils ,Printers,
-  DBxPress;
+  DBxPress, DBLocal, DBLocalS;
 
 type
   TfCompraFinalizar = class(TfPai)
@@ -275,6 +275,53 @@ type
     CheckBox2: TCheckBox;
     sqlBuscaNota: TSQLQuery;
     OpenDialog1: TOpenDialog;
+    btnSerie: TBitBtn;
+    scds_serie_proc: TSQLClientDataSet;
+    scds_serie_procCODSERIE: TStringField;
+    scds_serie_procSERIE: TStringField;
+    scds_serie_procULTIMO_NUMERO: TIntegerField;
+    scds_serie_procNOTAFISCAL: TSmallintField;
+    cds: TClientDataSet;
+    cdsCODMOVIMENTO: TIntegerField;
+    cdsCODCLIENTE: TIntegerField;
+    cdsDATAVENDA: TDateField;
+    cdsDATAVENCIMENTO: TDateField;
+    cdsNUMEROBORDERO: TIntegerField;
+    cdsBANCO: TSmallintField;
+    cdsCODVENDEDOR: TSmallintField;
+    cdsCODUSUARIO: TSmallintField;
+    cdsDATASISTEMA: TDateField;
+    cdsVALOR: TFloatField;
+    cdsNOTAFISCAL: TIntegerField;
+    cdsSERIE: TStringField;
+    cdsNOMECLIENTE: TStringField;
+    cdsNOMEUSUARIO: TStringField;
+    cdsBANCO_1: TStringField;
+    cdsCODVENDA: TIntegerField;
+    cdsDESCONTO: TFloatField;
+    cdsCODCCUSTO: TSmallintField;
+    cdsN_PARCELA: TSmallintField;
+    cdsN_DOCUMENTO: TStringField;
+    cdsCAIXA: TSmallintField;
+    cdsMULTA_JUROS: TFloatField;
+    cdsAPAGAR: TFloatField;
+    cdsVALOR_PAGAR: TFloatField;
+    cdsENTRADA: TFloatField;
+    cdsN_BOLETO: TStringField;
+    cdsFORMARECEBIMENTO: TStringField;
+    cdsOPERACAO: TStringField;
+    cdsSTATUS: TSmallintField;
+    cdsSTATUS1: TStringField;
+    cdsCONTROLE: TStringField;
+    cdsOBS: TStringField;
+    cdsdiferenca: TFloatField;
+    cdsVALOR_ICMS: TFloatField;
+    cdsVALOR_FRETE: TFloatField;
+    cdsVALOR_SEGURO: TFloatField;
+    cdsOUTRAS_DESP: TFloatField;
+    cdsVALOR_IPI: TFloatField;
+    cdsCOD_TRANPORTADORA: TIntegerField;
+    cdsPRAZO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -310,6 +357,7 @@ type
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
     procedure CheckBox2Click(Sender: TObject);
+    procedure btnSerieClick(Sender: TObject);
   private
     procedure notafiscal ;
     procedure imprimecompra;
@@ -1531,5 +1579,28 @@ begin;
   Result := Str;
 end;
 
+
+procedure TfCompraFinalizar.btnSerieClick(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,scds_serie_proc);
+  fProcurar.BtnProcurar.Click;
+  try
+   fProcurar.EvDBFind1.DataField := 'SERIE';
+   if fProcurar.ShowModal=mrOk then
+    begin
+    if dtSrc.State=dsBrowse then
+     cds.Edit;
+     cds_compraSERIE.AsString := scds_serie_procSERIE.AsString;
+     cds_compraNOTAFISCAL.AsInteger := scds_serie_procULTIMO_NUMERO.AsInteger+1;
+
+
+    end;
+   finally
+    scds_serie_proc.Close;
+    fProcurar.Free;
+   end;
+    DBEdit2.SetFocus;
+end;
 
 end.
