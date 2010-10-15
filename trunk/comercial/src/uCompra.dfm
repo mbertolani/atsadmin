@@ -2,7 +2,7 @@ inherited fCompra: TfCompra
   Left = 193
   Top = 108
   Width = 800
-  Height = 558
+  Height = 603
   Caption = 'Compra'
   OldCreateOrder = True
   OnShow = FormShow
@@ -20,6 +20,27 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+  end
+  object Label18: TLabel [1]
+    Left = 4
+    Top = 497
+    Width = 33
+    Height = 13
+    Caption = 'C'#243'digo'
+  end
+  object Label12: TLabel [2]
+    Left = 7
+    Top = 525
+    Width = 25
+    Height = 13
+    Caption = 'Obs.:'
+  end
+  object Label11: TLabel [3]
+    Left = 136
+    Top = 496
+    Width = 57
+    Height = 13
+    Caption = 'Comprador: '
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
@@ -933,7 +954,7 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 504
+    Top = 549
     Width = 792
     Height = 27
     Align = alBottom
@@ -958,7 +979,7 @@ inherited fCompra: TfCompra
       Transparent = True
     end
   end
-  object GroupBox1: TGroupBox [3]
+  object GroupBox1: TGroupBox [6]
     Left = 0
     Top = 63
     Width = 489
@@ -1082,7 +1103,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox2: TGroupBox [4]
+  object GroupBox2: TGroupBox [7]
     Left = 489
     Top = 63
     Width = 184
@@ -1108,7 +1129,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox3: TGroupBox [5]
+  object GroupBox3: TGroupBox [8]
     Left = 674
     Top = 63
     Width = 109
@@ -1134,7 +1155,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox4: TGroupBox [6]
+  object GroupBox4: TGroupBox [9]
     Left = 634
     Top = 111
     Width = 149
@@ -1173,7 +1194,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object DBMemo1: TDBMemo [7]
+  object DBMemo1: TDBMemo [10]
     Left = 635
     Top = 253
     Width = 148
@@ -1186,7 +1207,7 @@ inherited fCompra: TfCompra
     ReadOnly = True
     TabOrder = 6
   end
-  object GroupBox5: TGroupBox [8]
+  object GroupBox5: TGroupBox [11]
     Left = 634
     Top = 161
     Width = 150
@@ -1216,7 +1237,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox6: TGroupBox [9]
+  object GroupBox6: TGroupBox [12]
     Left = 0
     Top = 111
     Width = 633
@@ -1580,7 +1601,7 @@ inherited fCompra: TfCompra
         end>
     end
   end
-  object CheckBox1: TCheckBox [10]
+  object CheckBox1: TCheckBox [13]
     Left = 640
     Top = 368
     Width = 97
@@ -1589,7 +1610,7 @@ inherited fCompra: TfCompra
     TabOrder = 9
     Visible = False
   end
-  object GroupBox7: TGroupBox [11]
+  object GroupBox7: TGroupBox [14]
     Left = 635
     Top = 400
     Width = 150
@@ -1632,6 +1653,151 @@ inherited fCompra: TfCompra
       TabOrder = 1
       OnClick = BitBtn9Click
     end
+  end
+  object DBEdit13: TDBEdit [15]
+    Left = 52
+    Top = 520
+    Width = 541
+    Height = 25
+    TabStop = False
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataField = 'OBS'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 11
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit15: TDBEdit [16]
+    Left = 51
+    Top = 495
+    Width = 78
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataField = 'CODVENDEDOR'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 12
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit16: TDBEdit [17]
+    Left = 224
+    Top = 495
+    Width = 369
+    Height = 24
+    TabStop = False
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataField = 'NOMEUSUARIO'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 13
+    OnKeyPress = FormKeyPress
+  end
+  object SpeedButton1: TBitBtn [18]
+    Left = 595
+    Top = 495
+    Width = 37
+    Height = 37
+    PopupMenu = PopupMenu1
+    TabOrder = 14
+    TabStop = False
+    OnClick = SpeedButton1Click
+    Glyph.Data = {
+      36080000424D3608000000000000360400002800000020000000200000000100
+      0800000000000004000000000000000000000001000000000000000000000000
+      80000080000000808000800000008000800080800000C0C0C000808080000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00090909001212
+      12001F1F1F002C2C2C003939390045454500525252005F5F5F006C6C6C007878
+      780085858500929292009F9F9F00ABABAB00B8B8B800C5C5C500D2D2D200DEDE
+      DE00EBEBEB00F8F8F800F0FBFF00A4A0A000C0DCC000F0CAA60000003E000000
+      5D0000007C0000009B000000BA000000D9000000F0002424FF004848FF006C6C
+      FF009090FF00B4B4FF0000143E00001E5D0000287C0000329B00003CBA000046
+      D9000055F000246DFF004885FF006C9DFF0090B5FF00B4CDFF00002A3E00003F
+      5D0000547C0000699B00007EBA000093D90000AAF00024B6FF0048C2FF006CCE
+      FF0090DAFF00B4E6FF00003E3E00005D5D00007C7C00009B9B0000BABA0000D9
+      D90000F0F00024FFFF0048FFFF006CFFFF0090FFFF00B4FFFF00003E2A00005D
+      3F00007C5400009B690000BA7E0000D9930000F0AA0024FFB60048FFC2006CFF
+      CE0090FFDA00B4FFE600003E1400005D1E00007C2800009B320000BA3C0000D9
+      460000F0550024FF6D0048FF85006CFF9D0090FFB500B4FFCD00003E0000005D
+      0000007C0000009B000000BA000000D9000000F0000024FF240048FF48006CFF
+      6C0090FF9000B4FFB400143E00001E5D0000287C0000329B00003CBA000046D9
+      000055F000006DFF240085FF48009DFF6C00B5FF9000CDFFB4002A3E00003F5D
+      0000547C0000699B00007EBA000093D90000AAF00000B6FF2400C2FF4800CEFF
+      6C00DAFF9000E6FFB4003E3E00005D5D00007C7C00009B9B0000BABA0000D9D9
+      0000F0F00000FFFF2400FFFF4800FFFF6C00FFFF9000FFFFB4003E2A00005D3F
+      00007C5400009B690000BA7E0000D9930000F0AA0000FFB62400FFC24800FFCE
+      6C00FFDA9000FFE6B4003E1400005D1E00007C2800009B320000BA3C0000D946
+      0000F0550000FF6D2400FF854800FF9D6C00FFB59000FFCDB4003E0000005D00
+      00007C0000009B000000BA000000D9000000F0000000FF242400FF484800FF6C
+      6C00FF909000FFB4B4003E0014005D001E007C0028009B003200BA003C00D900
+      4600F0005500FF246D00FF488500FF6C9D00FF90B500FFB4CD003E002A005D00
+      3F007C0054009B006900BA007E00D9009300F000AA00FF24B600FF48C200FF6C
+      CE00FF90DA00FFB4E6003E003E005D005D007C007C009B009B00BA00BA00D900
+      D900F000F000FF24FF00FF48FF00FF6CFF00FF90FF00FFB4FF002A003E003F00
+      5D0054007C0069009B007E00BA009300D900AA00F000B624FF00C248FF00CE6C
+      FF00DA90FF00E6B4FF0014003E001E005D0028007C0032009B003C00BA004600
+      D9005500F0006D24FF008548FF009D6CFF00B590FF00CDB4FF00222222222222
+      2222222222222222222222222222222222222222222222222222222222222222
+      222222222222222222222222222222222222222222222222222222220E0E0E0E
+      0E0E0E000000060E0E0E0000030D0D0000000D0D00000D0D00000E060E0E0E0E
+      0E06000E0E000E060E000E000B0500030300050D0D0005050000060E060E0E0E
+      06000E0E0E00060E000E0E00000B030B030808000500000022220E060E060E06
+      000E0E0E0E000000000E0E00000B0B03030808000000222222220000060E0600
+      060E0E0E0048484800000E0007030B03070F0800222222222222222200000006
+      0E0E0E004848484848000008030B03070F0F080022222222222222222222000E
+      060E004848484848480000070B03070F0F070800222222222222222222220006
+      00004848484848480000000703034B0808000000000000222222222222220000
+      00484848480000000000000008034B4B4B4B4B4B4B4B08002222222222222200
+      0048484848484848484848480008074B4B4B4B4B4B4B4B002222222222000000
+      0000004848484848484848484800074B4B4B4B4B4B4B07002222222222000000
+      0000004848484848484848484800074B4B4B4B4B080000002222222200000000
+      0000004848484848484848000008074B4B4B4B4B4B4B07002222222200000000
+      0000004848484848484848484800074B4B4B4B4B4B0000000022220000000000
+      000048484848484848484848480007074B4B4B4B4B4B4B4B0022000000000000
+      004848484848484848484848000000074B4B4B4B4B4B4B002222000000000000
+      0048484848484848484848484848004B4B4B0C0C4B4B00222222000000000000
+      0000004848484848480048484800084B4B4B0800000800222222000000000000
+      0000004848484848000048480008074B4B4B4B07070700222222000000000000
+      000000000048484848000000080B03074B4B4B4B4B4B08002222000000000000
+      00000000004848484848000008070300074B004B004B03080022000000000000
+      000000000048484848484800080B000B03030B030B03070B0022220000000000
+      00000000004848484848000008070B070B0B0B0B030B0B0B0022220000000000
+      000000000000000000000000080B070B0B0B0B0B0B0B0B002222222200000000
+      00000000000000000000000008070B070B0B0B0B0B0B00222222222200000000
+      000000000000000000000000000B070B0B0B0B0B000022222222222222000000
+      0000000000000000000000000000000000000000222222222222222222220000
+      0000000000000000000000222222222222222222222222222222222222222222
+      0000000000000000000022222222222222222222222222222222222222222222
+      2222222222222222222222222222222222222222222222222222}
+  end
+  object CheckBox2: TCheckBox [19]
+    Left = 88
+    Top = 272
+    Width = 97
+    Height = 9
+    Caption = 'CheckBox2'
+    TabOrder = 15
+    Visible = False
   end
   inherited XPMenu1: TXPMenu
     Left = 720
@@ -1762,7 +1928,7 @@ inherited fCompra: TfCompra
     end
     object sds_MovimentoOBS: TStringField
       FieldName = 'OBS'
-      ProviderFlags = []
+      ProviderFlags = [pfInUpdate]
       Size = 200
     end
     object sds_MovimentoPLACA: TStringField
@@ -1787,6 +1953,18 @@ inherited fCompra: TfCompra
       FieldName = 'CONTROLE'
       ProviderFlags = [pfInUpdate]
       Size = 30
+    end
+    object sds_MovimentoTOTALMOVIMENTO: TFloatField
+      FieldName = 'TOTALMOVIMENTO'
+    end
+    object sds_MovimentoCODMOVRATEIO: TIntegerField
+      FieldName = 'CODMOVRATEIO'
+    end
+    object sds_MovimentoVALORRATEIO: TFloatField
+      FieldName = 'VALORRATEIO'
+    end
+    object sds_MovimentoRATEIO: TFloatField
+      FieldName = 'RATEIO'
     end
   end
   object dsp_Movimento: TDataSetProvider
@@ -1885,7 +2063,7 @@ inherited fCompra: TfCompra
     end
     object cds_MovimentoOBS: TStringField
       FieldName = 'OBS'
-      ProviderFlags = []
+      ProviderFlags = [pfInUpdate]
       Size = 200
     end
     object cds_MovimentoPLACA: TStringField
@@ -1910,6 +2088,18 @@ inherited fCompra: TfCompra
       FieldName = 'CONTROLE'
       ProviderFlags = [pfInUpdate]
       Size = 30
+    end
+    object cds_MovimentoTOTALMOVIMENTO: TFloatField
+      FieldName = 'TOTALMOVIMENTO'
+    end
+    object cds_MovimentoCODMOVRATEIO: TIntegerField
+      FieldName = 'CODMOVRATEIO'
+    end
+    object cds_MovimentoVALORRATEIO: TFloatField
+      FieldName = 'VALORRATEIO'
+    end
+    object cds_MovimentoRATEIO: TFloatField
+      FieldName = 'RATEIO'
     end
   end
   object DtSrc1: TDataSource

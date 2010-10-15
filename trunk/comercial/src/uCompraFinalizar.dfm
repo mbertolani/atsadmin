@@ -1,7 +1,7 @@
 inherited fCompraFinalizar: TfCompraFinalizar
   Left = 172
   Top = 90
-  Width = 799
+  Width = 800
   Height = 553
   Caption = 'Compras Finalizar'
   Font.Height = -13
@@ -1044,7 +1044,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 791
+    Width = 792
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -1601,7 +1601,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited MMJPanel2: TMMJPanel
     Top = 503
-    Width = 791
+    Width = 792
     Height = 23
     Align = alBottom
     inherited Label1: TLabel
@@ -1967,7 +1967,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object dbeSerie: TDBEdit
       Left = 5
       Top = 31
-      Width = 81
+      Width = 44
       Height = 24
       DataField = 'SERIE'
       DataSource = DtSrc
@@ -1981,9 +1981,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnKeyPress = FormKeyPress
     end
     object DBEdit2: TDBEdit
-      Left = 87
+      Left = 88
       Top = 31
-      Width = 119
+      Width = 118
       Height = 24
       DataField = 'NOTAFISCAL'
       DataSource = DtSrc
@@ -2211,6 +2211,16 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Height = 17
       TabOrder = 16
       OnClick = CheckBox2Click
+    end
+    object btnSerie: TBitBtn
+      Left = 53
+      Top = 32
+      Width = 33
+      Height = 25
+      Caption = '. . .'
+      TabOrder = 17
+      TabStop = False
+      OnClick = btnSerieClick
     end
   end
   object GroupBox4: TGroupBox [6]
@@ -3285,5 +3295,250 @@ inherited fCompraFinalizar: TfCompraFinalizar
   object OpenDialog1: TOpenDialog
     Left = 528
     Top = 24
+  end
+  object scds_serie_proc: TSQLClientDataSet
+    CommandText = 
+      'select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL from SERIES wh' +
+      'ere SERIE like :pSERIE'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pSERIE'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 56
+    Top = 129
+    object scds_serie_procCODSERIE: TStringField
+      FieldName = 'CODSERIE'
+      FixedChar = True
+      Size = 3
+    end
+    object scds_serie_procSERIE: TStringField
+      FieldName = 'SERIE'
+      Required = True
+    end
+    object scds_serie_procULTIMO_NUMERO: TIntegerField
+      FieldName = 'ULTIMO_NUMERO'
+      Required = True
+    end
+    object scds_serie_procNOTAFISCAL: TSmallintField
+      FieldName = 'NOTAFISCAL'
+    end
+  end
+  object cds: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODVENDA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PCODMOV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_compra'
+    Left = 55
+    Top = 176
+    object cdsCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object cdsCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object cdsDATAVENDA: TDateField
+      FieldName = 'DATAVENDA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      EditMask = '!99/99/00;1;_'
+    end
+    object cdsDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      EditMask = '!99/99/00;1;_'
+    end
+    object cdsNUMEROBORDERO: TIntegerField
+      FieldName = 'NUMEROBORDERO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsBANCO: TSmallintField
+      FieldName = 'BANCO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsCODVENDEDOR: TSmallintField
+      FieldName = 'CODVENDEDOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsCODUSUARIO: TSmallintField
+      FieldName = 'CODUSUARIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsDATASISTEMA: TDateField
+      FieldName = 'DATASISTEMA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsVALOR: TFloatField
+      FieldName = 'VALOR'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+    end
+    object cdsNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsSERIE: TStringField
+      FieldName = 'SERIE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ProviderFlags = []
+      Required = True
+      Size = 50
+    end
+    object cdsNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      ProviderFlags = []
+      Required = True
+      Size = 30
+    end
+    object cdsBANCO_1: TStringField
+      FieldName = 'BANCO_1'
+      ProviderFlags = []
+      Size = 18
+    end
+    object cdsCODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsCODCCUSTO: TSmallintField
+      FieldName = 'CODCCUSTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsN_PARCELA: TSmallintField
+      FieldName = 'N_PARCELA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsN_DOCUMENTO: TStringField
+      FieldName = 'N_DOCUMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+    end
+    object cdsMULTA_JUROS: TFloatField
+      FieldName = 'MULTA_JUROS'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+    end
+    object cdsAPAGAR: TFloatField
+      FieldName = 'APAGAR'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+    end
+    object cdsVALOR_PAGAR: TFloatField
+      FieldName = 'VALOR_PAGAR'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsENTRADA: TFloatField
+      FieldName = 'ENTRADA'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+    end
+    object cdsN_BOLETO: TStringField
+      FieldName = 'N_BOLETO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object cdsFORMARECEBIMENTO: TStringField
+      FieldName = 'FORMARECEBIMENTO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object cdsOPERACAO: TStringField
+      FieldName = 'OPERACAO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object cdsSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsSTATUS1: TStringField
+      FieldName = 'STATUS1'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCONTROLE: TStringField
+      FieldName = 'CONTROLE'
+      ProviderFlags = [pfInUpdate]
+      Size = 15
+    end
+    object cdsOBS: TStringField
+      FieldName = 'OBS'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object cdsdiferenca: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'diferenca'
+      DisplayFormat = ',##0.00'
+      Calculated = True
+    end
+    object cdsVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsOUTRAS_DESP: TFloatField
+      FieldName = 'OUTRAS_DESP'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsCOD_TRANPORTADORA: TIntegerField
+      FieldName = 'COD_TRANPORTADORA'
+      ProviderFlags = []
+    end
+    object cdsPRAZO: TStringField
+      FieldName = 'PRAZO'
+      Size = 40
+    end
   end
 end

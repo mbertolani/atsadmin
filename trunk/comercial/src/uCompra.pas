@@ -347,6 +347,22 @@ type
     cds_Mov_detPESO_QTDE: TFloatField;
     sds_Mov_DetDESCPRODUTO: TStringField;
     cds_Mov_detDESCPRODUTO: TStringField;
+    Label18: TLabel;
+    Label12: TLabel;
+    DBEdit13: TDBEdit;
+    DBEdit15: TDBEdit;
+    Label11: TLabel;
+    DBEdit16: TDBEdit;
+    SpeedButton1: TBitBtn;
+    sds_MovimentoTOTALMOVIMENTO: TFloatField;
+    sds_MovimentoCODMOVRATEIO: TIntegerField;
+    sds_MovimentoVALORRATEIO: TFloatField;
+    sds_MovimentoRATEIO: TFloatField;
+    cds_MovimentoTOTALMOVIMENTO: TFloatField;
+    cds_MovimentoCODMOVRATEIO: TIntegerField;
+    cds_MovimentoVALORRATEIO: TFloatField;
+    cds_MovimentoRATEIO: TFloatField;
+    CheckBox2: TCheckBox;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -388,6 +404,7 @@ type
     procedure DBEdit11Exit(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure JvDBGrid1TitleClick(Column: TColumn);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     modo :string;
     { Private declarations }
@@ -686,6 +703,23 @@ end;
 
 procedure TfCompra.btnGravarClick(Sender: TObject);
 begin
+
+   //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
+   if(DBEdit15.Text <> '') then
+   begin
+   if dm.scds_usuario_proc.Active then
+    dm.scds_usuario_proc.Close;
+   dm.scds_usuario_proc.Params[0].Clear;
+   dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(DBEdit15.Text);
+   dm.scds_usuario_proc.Open;
+   if dm.scds_usuario_proc.IsEmpty then begin
+     MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+     [mbOk], 0);
+     SpeedButton1.Click;
+     exit;
+   end;
+   end;
+
    if ( ((ComboBox1.Text = '') or (ComboBox1.Text = null)) and (obrigatorio = 'SIM') )then
     MessageDlg('Centro de Custo Obrigatório', mtError, [mbOK], 0)
    else
@@ -1599,6 +1633,27 @@ procedure TfCompra.JvDBGrid1TitleClick(Column: TColumn);
 begin
   inherited;
     cds_mov_det.IndexFieldNames := Column.FieldName;
+end;
+
+procedure TfCompra.SpeedButton1Click(Sender: TObject);
+begin
+  inherited;
+ fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
+  fProcurar.usuarioproc := 'VENDEDOR';
+  fProcurar.BtnProcurar.Click;
+  fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
+  try
+   if fProcurar.ShowModal=mrOk then
+    begin
+    if dtSrc.State=dsBrowse then
+     cds_Movimento.Edit;
+     cds_MovimentoCODVENDEDOR.AsInteger := dm.scds_usuario_ProcCODusuario.AsInteger;
+     cds_MovimentoNOMEUSUARIO.AsString :=  dm.scds_usuario_procNOMEUSUARIO.AsString;
+    end;
+   finally
+    dm.scds_usuario_proc.Close;
+    fProcurar.Free;
+   end;
 end;
 
 end.
