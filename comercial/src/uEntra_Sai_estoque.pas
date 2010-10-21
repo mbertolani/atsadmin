@@ -409,6 +409,18 @@ type
     procedure DBEdit12KeyPress(Sender: TObject; var Key: Char);
     procedure cds_movDetMatNewRecord(DataSet: TDataSet);
     procedure cds_movMatNewRecord(DataSet: TDataSet);
+    procedure cds_movMatReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
+    procedure cds_movDetMatReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
+    procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
+    procedure cds_Mov_detReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
   private
     { Private declarations }
   public
@@ -1414,6 +1426,7 @@ begin
     cds_movMatCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
 
+    cds_movMat.Post;
     cds_movMat.ApplyUpdates(0);
 
     while not cdsDetalhe.Eof do
@@ -1679,6 +1692,38 @@ begin
   cds_movMatCODVENDEDOR.Value := 1;//usuario_logado;
   cds_movMatCODFORNECEDOR.AsInteger := 0;
   cds_movMatCODCLIENTE.AsInteger := 0;
+end;
+
+procedure TfEntra_Sai_estoque.cds_movMatReconcileError(
+  DataSet: TCustomClientDataSet; E: EReconcileError;
+  UpdateKind: TUpdateKind; var Action: TReconcileAction);
+begin
+Action := raCancel;
+raise exception.create(e.Message);
+end;
+
+procedure TfEntra_Sai_estoque.cds_movDetMatReconcileError(
+  DataSet: TCustomClientDataSet; E: EReconcileError;
+  UpdateKind: TUpdateKind; var Action: TReconcileAction);
+begin
+Action := raCancel;
+raise exception.create(e.Message);
+end;
+
+procedure TfEntra_Sai_estoque.cds_MovimentoReconcileError(
+  DataSet: TCustomClientDataSet; E: EReconcileError;
+  UpdateKind: TUpdateKind; var Action: TReconcileAction);
+begin
+Action := raCancel;
+raise exception.create(e.Message);
+end;
+
+procedure TfEntra_Sai_estoque.cds_Mov_detReconcileError(
+  DataSet: TCustomClientDataSet; E: EReconcileError;
+  UpdateKind: TUpdateKind; var Action: TReconcileAction);
+begin
+Action := raCancel;
+raise exception.create(e.Message);
 end;
 
 end.
