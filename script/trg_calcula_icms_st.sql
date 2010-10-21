@@ -19,17 +19,27 @@ AS
  DECLARE VARIABLE TOTBASEICMS DOUBLE PRECISION;
  DECLARE VARIABLE TOTIPI DOUBLE PRECISION;
  DECLARE VARIABLE NUMNF integer;
+ DECLARE VARIABLE CODCLI integer; 
  
 BEGIN
 
     new.ICMS_SUBSTD = 0;
     new.ICMS_SUBST = 0;
 
-	select first 1 ec.UF, c.TIPOFIRMA from movimento m
+	select first 1 ec.UF, c.TIPOFIRMA, m.CODCLIENTE from movimento m
 	inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = m.CODCLIENTE
 	inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE
 	where ec.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
+	into :UF, :PESSOA, :CODCLI;
+	
+	if ((:CODCLI = null) or (:CODCLI is null)) then
+	begin
+    select first 1 ef.UF, f.TIPOFIRMA from movimento m
+	inner join ENDERECOFORNECEDOR ef on ef.CODFORNECEDOR = m.CODFORNECEDOR
+	inner join FORNECEDOR f on f.CODFORNECEDOR = m.CODFORNECEDOR
+	where ef.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
 	into :UF, :PESSOA;
+	end
 	
 	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST from CLASSIFICACAOFISCALPRODUTO cfp
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
@@ -57,10 +67,13 @@ BEGIN
         
 	if (ind_reduzicms <= 0) then
         ind_reduzicms = 1;
+	if (ind_reduzicms > 1 )then
+        ind_reduzicms = ind_reduzicms/100;
+		
     /**    ***** TEM ST **************/
            if (CICMS_SUBST > 0) then    
           new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100)));
-          new.VLR_BASEICMS = ((new.VLR_BASE*new.QUANTIDADE) * (ind_reduzicms/100));
+          new.VLR_BASEICMS = ((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms);
           new.VALOR_ICMS = (new.VLR_BASEICMS) * (CICMS / 100);                 
           new.ICMS_SUBST = (new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS);
        new.cst = :cst_p;
@@ -90,13 +103,15 @@ BEGIN
             new.PIPI = 0;
         end
         new.CST = :cst_p;
-        if (ind_reduzicms = 0 )then
+        if (ind_reduzicms <= 0 )then
             ind_reduzicms = 1;
+		if (ind_reduzicms > 1 )then
+            ind_reduzicms = ind_reduzicms/100;
     
 			
         if (CICMS > 0) then 
         begin 
-            new.VLR_BASEICMS = (new.VLR_BASE*new.QUANTIDADE) * (ind_reduzicms/100);
+            new.VLR_BASEICMS = (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms;
             new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);  
         end
         else

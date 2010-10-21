@@ -27,11 +27,17 @@ declare variable TOTPROD DOUBLE PRECISION;
 declare variable TOTBASEST DOUBLE PRECISION;
 declare variable codCli integer;
 declare variable d9 SMALLINT;
+declare variable nat SMALLINT;
 begin
 
-    select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA, prazo from venda v
-        inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf
-    into :cod, :notaFiscalVenda, :serie, :codv, :prazo; 
+    select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA, v.prazo, n.NATUREZA from venda v
+        inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf and (n.NATUREZA = 12 or n.NATUREZA = 15)
+    into :cod, :notaFiscalVenda, :serie, :codv, :prazo, :nat; 
+    	
+    if ((:nat = '') or (:nat = null) or (:nat is null)) then
+    select c.codmovimento, c.NOTAFISCAL, c.SERIE, c.CODCOMPRA, c.prazo, n.NATUREZA from COMPRA c
+        inner join notafiscal n on n.CODVENDA = c.CODCOMPRA where n.NUMNF = :numero_nf and n.NATUREZA = 20
+    into :cod, :notaFiscalVenda, :serie, :codv, :prazo, :nat;         
 
     select sum(md.ICMS_SUBST), sum(md.ICMS_SUBSTD), sum(md.VALOR_ICMS), sum(md.VLR_BASEICMS), sum(md.VIPI), sum(md.QUANTIDADE * md.VLR_BASE) from MOVIMENTODETALHE md
     where md.CODMOVIMENTO = :cod
@@ -60,7 +66,7 @@ begin
       if (d9 <> 999) then 
         EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);  
     end
-    
-    update recebimento set valst = :TOTST where titulo = :notafiscalVenda || '-' || :serie and via = 1;
+    if ((:nat = 15) or (:nat = 12)) then
+      update recebimento set valst = :TOTST where titulo = :notafiscalVenda || '-' || :serie and via = 1;
        
 end
