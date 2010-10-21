@@ -1611,11 +1611,13 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       end>
     ProviderName = 'dsp_Movimento'
     OnNewRecord = cds_MovimentoNewRecord
+    OnReconcileError = cds_MovimentoReconcileError
     Left = 200
     Top = 366
     object cds_MovimentoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object cds_MovimentoDATAMOVIMENTO: TDateField
       FieldName = 'DATAMOVIMENTO'
@@ -1751,6 +1753,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     ProviderName = 'dsp_Mov_det'
     OnCalcFields = cds_Mov_detCalcFields
     OnNewRecord = cds_Mov_detNewRecord
+    OnReconcileError = cds_Mov_detReconcileError
     Left = 196
     Top = 398
     object cds_Mov_detCODDETALHE: TIntegerField
@@ -1760,104 +1763,83 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     end
     object cds_Mov_detCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object cds_Mov_detCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_Mov_detICMS: TFloatField
       FieldName = 'ICMS'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_Mov_detPRECO: TFloatField
       FieldName = 'PRECO'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',#.00'
       currency = True
     end
     object cds_Mov_detQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_Mov_detPRODUTO: TStringField
       DisplayWidth = 50
       FieldName = 'PRODUTO'
-      ProviderFlags = []
       Required = True
       Size = 200
     end
     object cds_Mov_detUN: TStringField
       FieldName = 'UN'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 2
     end
     object cds_Mov_detValorTotal: TCurrencyField
       FieldKind = fkInternalCalc
       FieldName = 'ValorTotal'
-      ProviderFlags = []
       DisplayFormat = ',#.00'
     end
     object cds_Mov_detQTDE_ALT: TFloatField
       FieldName = 'QTDE_ALT'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_Mov_detBAIXA: TStringField
       FieldName = 'BAIXA'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_Mov_detCONTROLE: TSmallintField
       FieldName = 'CONTROLE'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_Mov_detCODALMOXARIFADO: TIntegerField
       FieldName = 'CODALMOXARIFADO'
-      ProviderFlags = []
     end
     object cds_Mov_detALMOXARIFADO: TStringField
       FieldName = 'ALMOXARIFADO'
-      ProviderFlags = []
       Size = 30
     end
     object cds_Mov_detVALORUNITARIOATUAL: TFloatField
       FieldName = 'VALORUNITARIOATUAL'
-      ProviderFlags = []
     end
     object cds_Mov_detCOD_COMISSAO: TIntegerField
       FieldName = 'COD_COMISSAO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_Mov_detCONTA_DESPESA: TStringField
       FieldName = 'CONTA_DESPESA'
-      ProviderFlags = []
       Size = 15
     end
     object cds_Mov_detCODPRO: TStringField
       FieldName = 'CODPRO'
-      ProviderFlags = []
       Size = 15
     end
     object cds_Mov_detQTDE_PCT: TFloatField
       FieldName = 'QTDE_PCT'
-      ProviderFlags = []
     end
     object cds_Mov_detLOTE: TStringField
       FieldName = 'LOTE'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_Mov_detDTAFAB: TDateField
       FieldName = 'DTAFAB'
-      ProviderFlags = [pfInUpdate]
       EditMask = '!99/99/0000;1;_'
     end
     object cds_Mov_detDTAVCTO: TDateField
       FieldName = 'DTAVCTO'
-      ProviderFlags = [pfInUpdate]
       EditMask = '!99/99/0000;1;_'
     end
     object cds_Mov_detLOTES: TStringField
@@ -2779,10 +2761,13 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       end>
     ProviderName = 'dsp_movMat'
     OnNewRecord = cds_movMatNewRecord
+    OnReconcileError = cds_movMatReconcileError
     Left = 198
     Top = 310
     object cds_movMatCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object cds_movMatDATAMOVIMENTO: TDateField
       FieldName = 'DATAMOVIMENTO'
@@ -2830,7 +2815,6 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     end
     object cds_movMatTIPOTITULO: TSmallintField
       FieldName = 'TIPOTITULO'
-      ReadOnly = True
     end
     object cds_movMatDATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
@@ -3038,10 +3022,12 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       end>
     ProviderName = 'dsp_movDetMat'
     OnNewRecord = cds_movDetMatNewRecord
+    OnReconcileError = cds_movDetMatReconcileError
     Left = 198
     Top = 281
     object cds_movDetMatCODDETALHE: TIntegerField
       FieldName = 'CODDETALHE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object cds_movDetMatCODMOVIMENTO: TIntegerField
@@ -3050,6 +3036,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     end
     object cds_movDetMatCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
+      Required = True
     end
     object cds_movDetMatICMS: TFloatField
       FieldName = 'ICMS'
