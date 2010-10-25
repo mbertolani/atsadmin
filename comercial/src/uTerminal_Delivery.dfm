@@ -1351,7 +1351,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object DBEdit1: TDBEdit
       Left = 1
       Top = 1
-      Width = 306
+      Width = 336
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1364,8 +1364,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 1
-      Visible = False
+      TabOrder = 3
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
@@ -1385,7 +1384,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 3
+      TabOrder = 2
     end
     object BitBtn5: TBitBtn
       Left = 309
@@ -1456,7 +1455,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       ParentFont = False
       PopupMenu = PopupMenu1
       ReadOnly = True
-      TabOrder = 2
+      TabOrder = 1
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -1505,6 +1504,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Top = 372
       Width = 158
       Height = 44
+      TabStop = False
       DisplayFormat = ',##0.00'
       ShowButton = False
       TabOrder = 4

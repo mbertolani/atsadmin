@@ -1538,6 +1538,7 @@ begin
   BitBtn7.Enabled := False;
   ComboBox3.Enabled := False;
   ComboBox4.Enabled := False;
+  
 end;
 
 procedure TfTerminal_Delivery.DBGrid2DblClick(Sender: TObject);
@@ -2649,7 +2650,8 @@ begin
       dbeProduto.Text := '';
    end;
    jvPago.Text := DBEdit4.Text;
-   dbeProduto.SetFocus;
+   //   dbeProduto.SetFocus;
+   DBEdit1.SetFocus;
  end;
 end;
 
