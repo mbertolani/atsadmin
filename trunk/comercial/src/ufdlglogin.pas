@@ -57,7 +57,7 @@ var
 
 implementation
 
-uses  uDm, uDmApp, uAtsAdmin, uControle;
+uses  uDm, uDmApp, uAtsAdmin, uControle, uVendaFinalizar;
 
 {$R *.dfm}
 
@@ -90,7 +90,6 @@ begin
    sPermissao.Open;
    usuautorizacao := sPermissaoUCIDUSER.AsInteger;
    sPermissao.Close;
-   fControle.sitacao  := '';
    close;
   end
   else
@@ -99,7 +98,6 @@ begin
     edtLogin.Text := '';
     edtSenha.Text := '';
     edtLogin.SetFocus;
-    fControle.sitacao  := 'Cancelou';
     Tentativas := Tentativas +1;
     if (Tentativas >3) then
       Close;
