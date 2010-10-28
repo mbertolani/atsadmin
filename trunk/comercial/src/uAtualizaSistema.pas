@@ -772,9 +772,7 @@ begin
       executaDDL('RECEBIMENTO', 'VALST', 'DOUBLE PRECISION'); //alter table RECEBIMENTO add VALST double precision
       executaDDL('RECEBIMENTO', 'VALOR_RESTO_SST', 'DOUBLE PRECISION'); //alter table RECEBIMENTO add VALOR_RESTO_SST double precision
       executaScript('CANCELA_ESTOQUE_VENDA.sql');
-      executaScript('calcula_icms.sql');
-      executaScript('trg_calcula_icms_st.sql');
-      executaScript('trg_cfop_produtos.sql');
+      executaScript('trg_cfop_produtos.sql');      
       mudaVersao('1.0.0.75');
     end;  // Fim Ataulização Versao 1.0.0.75
 
@@ -791,6 +789,12 @@ begin
     begin
       executaScript('corrige_valor_fatura.sql');
       executaDDL('MOVIMENTO', 'KM', 'varchar(30)');
+      executaDDL('MOVIMENTO', 'TOTALMOVIMENTO', 'double precision');
+      executaDDL('MOVIMENTO', 'CODMOVRATEIO', 'Integer');
+      executaDDL('MOVIMENTO', 'VALORRATEIO', 'double precision');
+      executaDDL('MOVIMENTO', 'RATEIO', 'double precision');
+      executaScript('calcula_icms.sql');
+      executaScript('trg_calcula_icms_st.sql');
       mudaVersao('1.0.0.77');
     end;  // Fim Ataulização Versao 1.0.0.77
 
@@ -974,7 +978,7 @@ begin
      DateTimeToFileDate(ftpupdate.DirectoryListing.Items[0].ModifiedDate));
     end;
     ftpupdate.Disconnect;
-   end;     
+   end;
 end;
 
 end.
