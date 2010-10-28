@@ -1743,6 +1743,15 @@ type
     cds_produtoIMPRESSORA_1: TStringField;
     cds_produtoIMPRESSORA_2: TStringField;
     cds_produtoIMPRESSORA_3: TStringField;
+    sPermissao: TClientDataSet;
+    sPermissaoUCUSERNAME: TStringField;
+    sPermissaoUCLOGIN: TStringField;
+    sPermissaoUCPROFILE: TIntegerField;
+    dspPermissao: TDataSetProvider;
+    SQLDataSet4: TSQLDataSet;
+    sdsPermissaoUCUSERNAME: TStringField;
+    sdsPermissaoUCLOGIN: TStringField;
+    sdsPermissaoUCPROFILE: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
