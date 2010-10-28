@@ -1368,8 +1368,8 @@ begin
     dmnf.cds_nf1NUMNF.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     nfnum := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
+    dmnf.cds_nf1CODVENDA.AsInteger := dmnf.cds_compraCODCOMPRA.AsInteger;
   end;
-//  dmnf.cds_nf1CODVENDA.AsInteger := dmnf.cds_compraCODCOMPRA.AsInteger;
   if (nfnum = 0) then
     nfnum := dmnf.cds_nf1NUMNF.AsInteger;
 //  if (parametroNF <> 'S') then
@@ -1377,7 +1377,7 @@ begin
   dmnf.cds_nf1.ApplyUpdates(0);
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
-  calculaicms(dmnf.cds_nf1UF.AsString);
+  //calculaicms(dmnf.cds_nf1UF.AsString);
   DMNF.cds_Mov_det.Refresh;
   dmnf.cds_nf1.close;
   dmnf.cds_nf1.Params[0].AsInteger := nfnum;
