@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:\home\bd\sge_AlaCarte.fdb'
+      'Database=quad:sge_dnz'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -9373,6 +9373,60 @@ object DM: TDM
       FieldName = 'PRODUTO'
       Required = True
       Size = 300
+    end
+  end
+  object sPermissao: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspPermissao'
+    Left = 1124
+    Top = 702
+    object sPermissaoUCUSERNAME: TStringField
+      FieldName = 'UCUSERNAME'
+      Size = 30
+    end
+    object sPermissaoUCLOGIN: TStringField
+      FieldName = 'UCLOGIN'
+      Size = 30
+    end
+    object sPermissaoUCPROFILE: TIntegerField
+      FieldName = 'UCPROFILE'
+    end
+  end
+  object dspPermissao: TDataSetProvider
+    DataSet = SQLDataSet4
+    Left = 1062
+    Top = 702
+  end
+  object SQLDataSet4: TSQLDataSet
+    CommandText = 
+      'select UCUSERNAME, UCLOGIN, UCPROFILE from UCTABUSERS '#13#10'where UC' +
+      'IDUSER = :id'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = sqlsisAdimin
+    Left = 992
+    Top = 702
+    object sdsPermissaoUCUSERNAME: TStringField
+      FieldName = 'UCUSERNAME'
+      Size = 30
+    end
+    object sdsPermissaoUCLOGIN: TStringField
+      FieldName = 'UCLOGIN'
+      Size = 30
+    end
+    object sdsPermissaoUCPROFILE: TIntegerField
+      FieldName = 'UCPROFILE'
     end
   end
 end
