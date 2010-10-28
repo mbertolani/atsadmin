@@ -40,12 +40,13 @@ Type
     procedure CriaForm(FormClasse : TComponentClass; NomeForm : TForm);
     function buscaChave(generator: String) : String;
     procedure relatorio(rel: String);
+    function verificapermissao : Boolean;
   end;
 
 
 implementation
 
-uses UDm;
+uses UDm, ufDlgLogin, uAtsAdmin;
 
 { TUtils }
 
@@ -443,5 +444,40 @@ function TUtils.pegaMes: String;
 begin
   Result := FPeriodoIni;
 end;
+
+function TUtils.verificapermissao: Boolean;
+begin
+    fDlgLogin := TfDlgLogin.Create(Application);
+    try
+      fDlgLogin.ShowModal;
+    finally
+      fDlgLogin.free;
+    end;
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
+    dm.cds_parametro.Open;
+    fAtsAdmin.UserControlComercial.VerificaLogin(nome_user,senha_user);
+    if (dm.sPermissao.Active) then
+      dm.sPermissao.Close;
+    dm.sPermissao.Params[0].AsInteger := usuautorizacao;
+    dm.sPermissao.Open;
+    if (dm.sPermissaoUCPROFILE.AsInteger = StrToInt(dm.cds_parametroDADOS.AsString)) then
+    begin
+      dm.sPermissao.Close;
+      fAtsAdmin.UserControlComercial.VerificaLogin(nome_user,senha_user);
+      dm.cds_parametro.Close;
+      Result := True;
+    end
+    else
+    begin
+      ShowMessage('Usuario não tem permissão para efetuar essa operação');
+      dm.cds_parametro.Close;
+      dm.sPermissao.Close;
+      fAtsAdmin.UserControlComercial.VerificaLogin(nome_user,senha_user);
+      Result := False;
+    end;
+end;
+
 
 end.
