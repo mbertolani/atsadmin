@@ -426,7 +426,7 @@ begin
       cbTipo.ItemIndex := 0;
     dm.cds_produto.Post;
     if (dm.cds_produtoMARCA.AsString <> '') then
-      fProdutoCadastro.cbMarca.Text := dm.cds_produtoMARCA.AsString;
+      fProdutoCadastro.dbMarca.Text := dm.cds_produtoMARCA.AsString;
     fProdutoCadastro.ShowModal;
     if (Panel2.Visible) then
       EvDBFind1.Text := PRODUTO_DESC;//dm.cds_produtoPRODUTO.asString;
