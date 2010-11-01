@@ -14,14 +14,15 @@ type
     DBGrid1: TDBGrid;
     DBNavigator1: TDBNavigator;
     JvLabel1: TJvLabel;
+    btnConfirma: TBitBtn;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
-    procedure btnSairClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnConfirmaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -76,14 +77,6 @@ begin
     btnSair.SetFocus;
 end;
 
-procedure TfMarcas_Grupos.btnSairClick(Sender: TObject);
-begin
-  inherited;
-  if dm.cds_produto.State = dsbrowse then
-    dm.cds_produto.Edit;
-  dm.cds_produtoMARCA.AsString := DM.cds_MarcaDESCMARCAS.AsString;
-end;
-
 procedure TfMarcas_Grupos.FormCreate(Sender: TObject);
 begin
 //  inherited;
@@ -94,6 +87,15 @@ procedure TfMarcas_Grupos.FormShow(Sender: TObject);
 begin
 //  inherited;
   sCtrlResize.CtrlResize(TForm(fMarcas_Grupos));
+end;
+
+procedure TfMarcas_Grupos.btnConfirmaClick(Sender: TObject);
+begin
+  inherited;
+  if dm.cds_produto.State = dsbrowse then
+    dm.cds_produto.Edit;
+  dm.cds_produtoMARCA.AsString := DM.cds_MarcaDESCMARCAS.AsString;
+  btnSair.Click;
 end;
 
 end.

@@ -19,14 +19,15 @@ type
     dsMarca: TDataSource;
     BitBtn1: TBitBtn;
     JvLabel1: TJvLabel;
+    btnConfirma: TBitBtn;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
-    procedure btnSairClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure cbMarcaChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnConfirmaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -76,16 +77,6 @@ begin
 
 end;
 
-procedure TfFamilia.btnSairClick(Sender: TObject);
-begin
-  inherited;
-  if origem_abriu = 'planocontas' then
-    exit;
-  if dm.cds_produto.State = dsbrowse then
-    dm.cds_produto.Edit;
-  dm.cds_produtoFAMILIA.AsString :=  DM.cds_familiaDESCFAMILIA.AsString;
-end;
-
 procedure TfFamilia.BitBtn1Click(Sender: TObject);
 var sqlFam: string;
 begin
@@ -121,6 +112,16 @@ procedure TfFamilia.FormShow(Sender: TObject);
 begin
   //inherited;
   sCtrlResize.CtrlResize(TForm(fFamilia));
+end;
+
+procedure TfFamilia.btnConfirmaClick(Sender: TObject);
+begin
+  if origem_abriu = 'planocontas' then
+    exit;
+  if dm.cds_produto.State = dsbrowse then
+    dm.cds_produto.Edit;
+  dm.cds_produtoFAMILIA.AsString :=  DM.cds_familiaDESCFAMILIA.AsString;
+  btnSair.Click;
 end;
 
 end.
