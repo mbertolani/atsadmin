@@ -61,12 +61,9 @@ type
     Label27: TLabel;
     sds_ClaFiscal: TSQLDataSet;
     DtSrc_cm: TDataSource;
-    DBLookupComboBox2: TDBLookupComboBox;
-    DBLookupComboBox3: TDBLookupComboBox;
     dxButton3: TdxButton;
     Button1: TButton;
     dxButton4: TdxButton;
-    cbMarca: TJvDBSearchComboBox;
     rgEmUso: TCheckBox;
     SpeedButton1: TBitBtn;
     SpeedButton2: TBitBtn;
@@ -90,6 +87,9 @@ type
     DBRadioGroup4: TDBRadioGroup;
     DBRadioGroup5: TDBRadioGroup;
     DBRadioGroup6: TDBRadioGroup;
+    DBEdit14: TDBEdit;
+    dbMarca: TDBEdit;
+    DBEdit16: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -146,7 +146,7 @@ begin
 
   if (not DM.cds_Marca.Active) then
     DM.cds_Marca.Open;
-  cbMarca.Text := '';
+
 
   if (not DM.cds_familia.Active) then
     DM.cds_familia.Open;
@@ -189,7 +189,7 @@ begin
         //dm.cds_produtoPRECOMEDIO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
         //dm.cds_produtoVALOR_PRAZO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
         dm.cds_produto.Post;
-        cbMarca.Text := dm.cds_produtoMARCA.AsString;
+        dbMarca.Text := dm.cds_produtoMARCA.AsString;
         dm.cds_produto.Edit;
         if (dm.cds_produtoLOTES.AsString = 'S') then
           Chk_lote.Checked := True
@@ -255,11 +255,11 @@ begin
   rgEmUso.Checked := True;
   Button1.SetFocus;
   dbEdit1.SetFocus;
-  cbMarca.Text := '';
+  dbMarca.Text := '';
   if (DM.cds_Marca.Active) then
     DM.cds_Marca.Close;
   DM.cds_Marca.Open;
-  cbMarca.Text := '';
+
 end;
 
 procedure TfProdutoCadastro.btnGravarClick(Sender: TObject);
@@ -289,8 +289,8 @@ begin
     2 : dm.cds_produtoORIGEM.AsInteger := 2 ; // Importado por Terceiro
   end;
 
-  if (cbMarca.Text <> '') then
-    dm.cds_produtoMARCA.AsString := cbMarca.Text;
+  if (dbMarca.Text <> '') then
+    dm.cds_produtoMARCA.AsString := dbMarca.Text;
     
   IF (Chk_lote.Checked = true) then
     dm.cds_produtoLOTES.AsString := 'S';
@@ -343,7 +343,7 @@ begin
     dm.cds_cm.Close;
   if (varonde = 'compra') then
   begin
-    if (cbMarca.Text <> '') then
+    if (dbMarca.Text <> '') then
       fProcura_prod.cbMarca.Text := '';
     fProcura_prod.BitBtn1.Click;
   end;
@@ -420,7 +420,6 @@ begin
    fMarcas_Grupos.ShowModal;
   finally
    fMarcas_Grupos.Free;
-   DBLookupComboBox2.SetFocus;
   end;
 end;
 
@@ -437,18 +436,18 @@ begin
       DM.cds_familia.Close;
     if (dm.GrupoMarca <> '') then
     begin
-      if (cbMarca.Text = '') then
+      if (dbMarca.Text = '') then
         dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS '
       else
         dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
-         'where MARCA = ' + QuotedStr(cbMarca.Text);
+         'where MARCA = ' + QuotedStr(dbMarca.Text);
     end
     else
       dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS';
     DM.cds_familia.Open;
   finally
    fFamilia.Free;
-   DBLookupComboBox2.SetFocus;
+   DBEdit16.SetFocus;
   end;
 end;
 
@@ -458,11 +457,11 @@ begin
 
   if DtSrc.DataSet.State in [dsInactive] then exit;
 
-  familia := DBLookupComboBox2.Text;
+  familia := DBEdit14.Text;
   if familia = '' then
   begin
     MessageDlg('Pôr favor escolha uma familia ...', mtWarning, [mbOK], 0);
-    DBLookupComboBox2.SetFocus;
+    DBEdit16.SetFocus;
     exit;
   end;
   fCategoria := TfCategoria.Create(Application);
@@ -471,20 +470,26 @@ begin
       fCategoria.cds_familia.Close;
     if (dm.GrupoMarca <> '') then
     begin
-      if (cbMarca.Text = '') then
-        fCategoria.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS '
-      else
+      if (dbMarca.Text = '') then
+      begin
         fCategoria.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
-          'where MARCA = ' + QuotedStr(cbMarca.Text);
+          'where DESCFAMILIA = ' + QuotedStr(DBEdit14.Text);
+      end
+      else
+      begin
+        fCategoria.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
+          'where DESCFAMILIA = ' + QuotedStr(DBEdit14.Text);
+      end;
     end
     else
-    fCategoria.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS';
+    fCategoria.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
+      'where DESCFAMILIA = ' + QuotedStr(DBEdit14.Text);
     fCategoria.cds_familia.Open;
     if DM.cds_categoria.Active then
       DM.cds_categoria.Close;
     DM.cds_categoria.Params[0].Clear;
     DM.cds_categoria.Params[1].Clear;
-    DM.cds_categoria.Params[2].AsInteger := dm.cds_familiaCOD_FAMILIA.AsInteger;
+    DM.cds_categoria.Params[2].asInteger := fCategoria.cds_familiaCOD_FAMILIA.AsInteger;
     DM.cds_categoria.Open;
     fCategoria.ComboBox1.Text := familia;
     fCategoria.ShowModal;
@@ -680,19 +685,19 @@ end;
 procedure TfProdutoCadastro.cbMarcaChange(Sender: TObject);
 begin
   inherited;
-  if (cbMarca.Text = '') then
+  if (dbMarca.Text = '') then
     exit;
   if (DtSrc.State in [dsBrowse]) then
     dm.cds_produto.Edit;
   if (dtSrc.State in [dsEdit, dsInsert]) then
-    dm.cds_produtoMARCA.AsString := cbMarca.Text;
+    dm.cds_produtoMARCA.AsString := dbMarca.Text;
 
   if (dm.GrupoMarca <> '') then
   begin
     if DM.cds_familia.Active then
       DM.cds_familia.Close;
     dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
-      'where MARCA = ' + QuotedStr(cbMarca.Text);
+      'where MARCA = ' + QuotedStr(dbMarca.Text);
     DM.cds_familia.Open;
     if DM.cds_categoria.Active then
       DM.cds_categoria.Close;
