@@ -25,13 +25,14 @@ type
     DBGrid1: TDBGrid;
     DBNavigator1: TDBNavigator;
     JvLabel1: TJvLabel;
+    btnConfirma: TBitBtn;
     procedure FormDestroy(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
-    procedure btnSairClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnConfirmaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -102,17 +103,6 @@ begin
   cds_familia.Close;
 end;
 
-procedure TfCategoria.btnSairClick(Sender: TObject);
-begin
-  inherited;
-  if dm.cds_produto.Active then
-  begin
-    if dm.cds_produto.State = dsbrowse then
-      dm.cds_produto.Edit;
-    dm.cds_produtoCATEGORIA.AsString := DM.cds_categoriaDESCCATEGORIA.AsString;
-  end;
-end;
-
 procedure TfCategoria.FormCreate(Sender: TObject);
 begin
   //inherited;
@@ -123,6 +113,17 @@ procedure TfCategoria.FormShow(Sender: TObject);
 begin
 //  inherited;
   sCtrlResize.CtrlResize(TForm(fCategoria));
+end;
+
+procedure TfCategoria.btnConfirmaClick(Sender: TObject);
+begin
+  if dm.cds_produto.Active then
+  begin
+    if dm.cds_produto.State = dsbrowse then
+      dm.cds_produto.Edit;
+    dm.cds_produtoCATEGORIA.AsString := DM.cds_categoriaDESCCATEGORIA.AsString;
+  end;
+  btnSair.Click;
 end;
 
 end.
