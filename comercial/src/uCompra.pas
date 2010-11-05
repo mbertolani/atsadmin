@@ -425,7 +425,7 @@ implementation
 
 uses uComercial, UDm, uRateioPag, uFiltroMov_compra, ufprocura_prod,
   uCompraFinalizar, uProdutoLote, uProcurar, uLotes, uClienteVeiculo,
-  sCtrlResize, uAtsAdmin;
+  sCtrlResize, uAtsAdmin, uUtils;
 
 
 {$R *.dfm}
@@ -860,7 +860,15 @@ begin
 end;
 
 procedure TfCompra.btnExcluirClick(Sender: TObject);
+var     usu_n, usu_s : string;
+        utilcrtitulo : Tutils;
 begin
+  usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+  usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+  modo := 'EDITAR';
+  cds_Mov_det.Refresh;
+  if ( not cds_Mov_detBAIXA.IsNull ) then
+    modo := 'FINALIZADO';
   if (modo = 'FINALIZADO') then
   begin
     if (dm.blVendaFin = 'S') then
@@ -869,36 +877,40 @@ begin
       exit;
     end;
   end;
-
-  {------Pesquisando na tab Parametro qual form de Procura Produtos ---}
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
-  dm.cds_parametro.Open;
-  if (not dm.cds_parametro.IsEmpty) then
+  if (utilcrtitulo.verificapermissao = False) then
   begin
-      if (fAtsAdmin.UserControlComercial.CurrentUser.Profile = StrToInt(dm.cds_parametroDADOS.AsString)) then
+    if (cds_MovimentoSTATUS.AsInteger <> 1) then
+    begin
+      if MessageDlg('Deseja Cancelar esse registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
       begin
-        inherited;
-         if DtSrc1.DataSet.Active then
-          DtSrc1.DataSet.Close;
-      end
-      else
-      begin
+      try
         if (cds_Movimento.State in [dsBrowse]) then
            cds_Movimento.Edit;
-        cds_MovimentoSTATUS.AsInteger := 2; // CANCELADO
+        cds_MovimentoSTATUS.AsInteger := 1; // CANCELADO
         MessageDlg('Movimento Cancelado.', mtWarning, [mbOK], 0);
         cds_Movimento.ApplyUpdates(0);
+      Except
+        MessageDlg('Erro ao cancelar o Movimento', mtWarning, [mbOK], 0);
+        exit;
       end;
+      end
+      else
+        MessageDlg('Movimento Não Alterado.', mtWarning, [mbOK], 0);
+    end;
   end
   else
   begin
-     inherited;
-     if DtSrc1.DataSet.Active then
-      DtSrc1.DataSet.Close;
+    if MessageDlg('Deseja Excluir esse registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
+    begin
+      DtSrc.DataSet.Delete;
+      (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+      if DtSrc1.DataSet.Active then
+        DtSrc1.DataSet.Close;
+      DtSrc.DataSet.Close;
+    end;
   end;
   dm.cds_parametro.Close;
+  fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
 end;
 
 procedure TfCompra.btnCancelarClick(Sender: TObject);
@@ -1237,6 +1249,12 @@ end;
 
 procedure TfCompra.BitBtn1Click(Sender: TObject);
 begin
+  inherited;
+  if (cds_MovimentoSTATUS.AsInteger = 1) then
+  begin
+    MessageDlg('Pedido/Venda Cancelado', mtWarning, [mbOK], 0);
+    exit;
+  end;
   inherited;
  if DtSrc.DataSet.State in [dsInsert, dsEdit] then
     btnGravar.Click;

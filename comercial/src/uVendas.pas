@@ -563,7 +563,7 @@ implementation
 uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
-  uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque;
+  uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils;
 
 {$R *.dfm}
 
@@ -1374,7 +1374,11 @@ begin
 end;
 
 procedure TfVendas.btnExcluirClick(Sender: TObject);
+var     usu_n, usu_s : string;
+        utilcrtitulo : Tutils;
 begin
+  usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+  usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
   if (modo = 'FINALIZADO') then
   begin
     if (dm.blVendaFin = 'S') then
@@ -1384,15 +1388,13 @@ begin
     end;
   end;
   usuautorizacao := 0;
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
-  dm.cds_parametro.Open;
-  if (not dm.cds_parametro.IsEmpty) then
+  //CRIA O UTILS E VERIFICA SE O USUARIO TEM PERMISSÃO
+  utilcrtitulo := Tutils.Create;
+  if (utilcrtitulo.verificapermissao = False) then
   begin
-    if (fAtsAdmin.UserControlComercial.CurrentUser.Profile = StrToInt(dm.cds_parametroDADOS.AsString)) then
+    if (cds_MovimentoSTATUS.AsInteger <> 2) then
     begin
-      if MessageDlg('Deseja realmente Cancelar esse registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
+      if MessageDlg('Deseja Cancelar esse registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
       begin
         //inherited;
         try
@@ -1415,67 +1417,33 @@ begin
         end;
       end
       else
-      begin
-        if (cds_Movimento.State in [dsBrowse]) then
-           cds_Movimento.Edit;
-        cds_MovimentoSTATUS.AsInteger := 2; // CANCELADO
-        MessageDlg('Movimento Cancelado.', mtWarning, [mbOK], 0);
-        cds_Movimento.ApplyUpdates(0);
-      end;
-    end
-    else
-    begin
-      fDlgLogin := TfDlgLogin.Create(Application);
-      try
-        fDlgLogin.ShowModal;
-      finally
-        fDlgLogin.free;
-      end;
-      fAtsAdmin.UserControlComercial.VerificaLogin(nome_user,senha_user);
-      if (sPermissao.Active) then
-        sPermissao.Close;
-      sPermissao.Params[0].AsInteger := usuautorizacao;
-      sPermissao.Open;
-      if (sPermissaoUCPROFILE.AsInteger = StrToInt(dm.cds_parametroDADOS.AsString)) then
-      begin
-        if MessageDlg('Deseja realmente Excluir esse registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
-        begin
-          try
-            existevenda;
-            if (vendaexiste = 'SIM') then
-            begin
-              fVendaFinalizar.cds.Delete;
-              fVendaFinalizar.cds.ApplyUpdates(0);
-              fVendaFinalizar.cds.Close;
-            end;
-            cds_Movimento.Edit;
-            cds_MovimentoSTATUS.AsInteger := 2;
-            cds_Movimento.ApplyUpdates(0);
-            if DtSrc1.DataSet.Active then
-              DtSrc1.DataSet.Close;
-            DtSrc.DataSet.Close;
-          Except
-            MessageDlg('Erro ao cancelar o Movimento', mtWarning, [mbOK], 0);
-            exit;
-          end;
-        end;
-        sPermissao.Close;
-      end
-      else
-      begin
-        MessageDlg('Usuario não tem permissão para '+#13+#10+'      executar essa operação', mtWarning, [mbOK], 0);
-        sPermissao.Close;
-        exit;
-      end;
+        MessageDlg('Movimento Não Cancelado.', mtWarning, [mbOK], 0);
     end;
   end
   else
+  if MessageDlg('Deseja realmente Excluir esse registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
   begin
-     inherited;
-     if DtSrc1.DataSet.Active then
-      DtSrc1.DataSet.Close;
+    try
+      existevenda;
+      if (vendaexiste = 'SIM') then
+      begin
+        fVendaFinalizar.cds.Delete;
+        fVendaFinalizar.cds.ApplyUpdates(0);
+        fVendaFinalizar.cds.Close;
+      end;
+        DtSrc.DataSet.Delete;
+        (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+        if DtSrc1.DataSet.Active then
+          DtSrc1.DataSet.Close;
+        DtSrc.DataSet.Close;
+        ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+     Except
+      MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
+      exit;
+    end;
   end;
   dm.cds_parametro.Close;
+  fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
 end;
 
 procedure TfVendas.btnGravarClick(Sender: TObject);
@@ -2028,6 +1996,8 @@ begin
     dm.scds_usuario_proc.Close;
     dm.scds_usuario_proc.Params[0].Clear;
     dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(DBEdit15.Text);
+    dm.scds_usuario_proc.Params[2].AsString:= 'AMBOS';
+    dm.scds_usuario_proc.Params[3].AsString:= 'VEND';
     dm.scds_usuario_proc.Open;
     if dm.scds_usuario_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
@@ -2046,6 +2016,8 @@ begin
     dm.scds_usuario_proc.Close;
     dm.scds_usuario_proc.Params[0].Clear;
     dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(DBEdit15.Text);
+    dm.scds_usuario_proc.Params[2].AsString:= 'AMBOS';
+    dm.scds_usuario_proc.Params[3].AsString:= 'VEND';    
     dm.scds_usuario_proc.Open;
     if dm.scds_usuario_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,

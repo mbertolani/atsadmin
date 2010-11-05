@@ -358,6 +358,8 @@ type
       var Action: TReconcileAction);
     procedure CheckBox2Click(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     procedure notafiscal ;
     procedure imprimecompra;
@@ -377,7 +379,8 @@ var
 implementation
 
 uses uComercial, UDm, uProcurar, uCheques_bol, uCompra, ufCpAltera,
-  uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize, uNotafc, UDMNF;
+  uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize, uNotafc, UDMNF,
+  uAtsAdmin;
 
 {$R *.dfm}
 
@@ -739,6 +742,11 @@ begin
   if Sender.AsString = '8-' then
     begin
      Text:='SUSPENSO';
+     exit;
+    end;
+  if Sender.AsString = '14' then
+    begin
+     Text:='CANCELADO';
      exit;
     end;
 end;
@@ -1619,6 +1627,51 @@ begin
     fProcurar.Free;
    end;
     DBEdit2.SetFocus;
+end;
+
+procedure TfCompraFinalizar.btnExcluirClick(Sender: TObject);
+var     usu_n, usu_s, str : string;
+        utilcrtitulo : Tutils;
+begin
+  usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+  usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+  if (utilcrtitulo.verificapermissao = True) then
+  begin
+    if Excluir = 'N' then Exit;
+    if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+                  [mbYes,mbNo],0) = mrYes then
+    begin
+       DtSrc.DataSet.Delete;
+       (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+    end
+    else
+      Abort;
+  end
+  else
+  begin
+    if MessageDlg('Atenção, confirmando essa operação o sistema vai alterar o status para'+#13+#10+' "CANCELADO", não será excluido do sistema.',mtConfirmation,
+                  [mbYes,mbNo],0) = mrYes then
+    begin
+       str := 'update MOVIMENTO set CODNATUREZA = 1 where CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.AsInteger);
+       dm.sqlsisAdimin.ExecuteDirect(str);
+       str := 'update COMPRA set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
+       dm.sqlsisAdimin.ExecuteDirect(str);
+       str := 'update PAGAMENTO set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
+       dm.sqlsisAdimin.ExecuteDirect(str);
+    end;
+  end;
+  fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);  
+end;
+
+procedure TfCompraFinalizar.btnSairClick(Sender: TObject);
+begin
+  if DtSrc.State in [dsInsert,dsEdit] then
+  begin
+    if MessageDlg('Você não salvou este registro deseja sair assim mesmo?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
+      close;
+  end
+  else
+    Close;
 end;
 
 end.
