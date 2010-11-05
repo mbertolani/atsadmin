@@ -574,7 +574,7 @@ implementation
 
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
-  uDmCitrus, sCtrlResize, uNotaf, UDMNF;
+  uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase;
 
 {$R *.dfm}
 
@@ -1153,68 +1153,69 @@ begin
 end;
 
 procedure TfVendaFinalizar.btnExcluirClick(Sender: TObject);
+var    utilcrtitulo : Tutils;
+        usu_n, usu_s : string;
 begin
-  if scdscr_proc.Active then
-     scdscr_proc.Close;
-  scdscr_proc.Params[0].Clear;
-  scdscr_proc.Params[0].AsInteger := cdsCODVENDA.AsInteger;
-  scdscr_proc.Open;
-  if cds_cr.Active then
-    cds_cr.Close;
-  cds_cr.Params[0].AsInteger := scdscr_procCODRECEBIMENTO.AsInteger;
-  cds_cr.Open;
-  if (cds_crSTATUS.AsString = '5-') then
+  usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+  usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+  utilcrtitulo := Tutils.Create;
+  if (utilcrtitulo.verificapermissao = True) then
   begin
-    if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
-                  [mbYes,mbNo],0) = mrYes then
+    if scdscr_proc.Active then
+       scdscr_proc.Close;
+    scdscr_proc.Params[0].Clear;
+    scdscr_proc.Params[0].AsInteger := cdsCODVENDA.AsInteger;
+    scdscr_proc.Open;
+    if cds_cr.Active then
+      cds_cr.Close;
+    cds_cr.Params[0].AsInteger := scdscr_procCODRECEBIMENTO.AsInteger;
+    cds_cr.Open;
+    if (cds_crSTATUS.AsString = '5-') then
     begin
-      if (dm.moduloUsado = 'CITRUS') then
+      if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+                    [mbYes,mbNo],0) = mrYes then
       begin
-        grava := TCompras.Create;
-        grava.DataVenda := cdsDATAVENDA.AsDateTime;
-        grava.CodMovimento := IntToStr(cdsCODMOVIMENTO.AsInteger);
-        grava.CodColhedor := edCodigoColhedor.Text;
-        grava.CodFretista := edCodFretista.Text;
-      end;
-       agendarexcluir;
-       excluinf;
-       if excluiuNF then
-       begin
-         try
-           DtSrc.DataSet.Delete;
-           (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
-           ShowMessage('Venda Excluida com Suscesso');
-         except
-           ShowMessage('Erro ao Excluir a Venda');
+        if (dm.moduloUsado = 'CITRUS') then
+        begin
+          grava := TCompras.Create;
+          grava.DataVenda := cdsDATAVENDA.AsDateTime;
+          grava.CodMovimento := IntToStr(cdsCODMOVIMENTO.AsInteger);
+          grava.CodColhedor := edCodigoColhedor.Text;
+          grava.CodFretista := edCodFretista.Text;
+        end;
+         agendarexcluir;
+         excluinf;
+         if excluiuNF then
+         begin
+           try
+             DtSrc.DataSet.Delete;
+             (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+             ShowMessage('Venda Excluida com Suscesso');
+           except
+             ShowMessage('Erro ao Excluir a Venda');
+           end;
          end;
-       end;
-    end;
-  end
-  else if (cds_cr.IsEmpty) then
-  begin
-    if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
-                  [mbYes,mbNo],0) = mrYes then
-    begin
-      if (dm.moduloUsado = 'CITRUS') then
-      begin
-        grava := TCompras.Create;
-        grava.DataVenda := cdsDATAVENDA.AsDateTime;
-        grava.CodMovimento := IntToStr(cdsCODMOVIMENTO.AsInteger);
-        grava.CodColhedor := edCodigoColhedor.Text;
-        grava.CodFretista := edCodFretista.Text;
       end;
-       agendarexcluir;
-       excluinf;
-       DtSrc.DataSet.Delete;
-       (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+    end
+    else if (cds_cr.IsEmpty) then
+    begin
+      if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+                    [mbYes,mbNo],0) = mrYes then
+      begin
+        if (dm.moduloUsado = 'CITRUS') then
+        begin
+          grava := TCompras.Create;
+          grava.DataVenda := cdsDATAVENDA.AsDateTime;
+          grava.CodMovimento := IntToStr(cdsCODMOVIMENTO.AsInteger);
+          grava.CodColhedor := edCodigoColhedor.Text;
+          grava.CodFretista := edCodFretista.Text;
+        end;
+         agendarexcluir;
+         excluinf;
+         DtSrc.DataSet.Delete;
+         (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+      end;
     end;
-  end
-  else
-  begin
-    MessageDlg('Este registro não pode ser excluído por aqui, cancele a '+#13+#10+' baixa junto ao Financeiro.', mtWarning, [mbOK], 0);
-    exit;
-  end;
-
   if (dm.moduloUsado = 'CITRUS') then
   begin
     grava.ExcluiLancamento;
@@ -1223,6 +1224,10 @@ begin
 
   cds_cr.Close;
   scdscr_proc.Close;
+  end
+  else
+    BitBtn2.Click;
+  fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
 end;
 
 procedure TfVendaFinalizar.btnNotaFiscalClick(Sender: TObject);
