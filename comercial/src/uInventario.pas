@@ -1,0 +1,225 @@
+unit uInventario;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPai_new, Mask, StdCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid,
+  Menus, XPMenu, DB, Buttons, ExtCtrls, MMJPanel, FMTBcd, DBClient,
+  Provider, SqlExpr, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
+  JvDatePickerEdit;
+
+type
+  TfInventario = class(TfPai_new)
+    JvDBGrid1: TJvDBGrid;
+    Label1: TLabel;
+    btnIncluiTodos: TButton;
+    btnInclui: TButton;
+    btnRemoveTodos: TButton;
+    btnRemove: TButton;
+    Label5: TLabel;
+    edProd: TEdit;
+    Label6: TLabel;
+    edGrupo: TEdit;
+    Label7: TLabel;
+    edSubGrupo: TEdit;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Label3: TLabel;
+    edLista: TEdit;
+    Label4: TLabel;
+    JvDBGrid2: TJvDBGrid;
+    btnProc: TBitBtn;
+    sdsProd: TSQLDataSet;
+    dspProd: TDataSetProvider;
+    cdsProd: TClientDataSet;
+    dsProd: TDataSource;
+    sdsInvent: TSQLDataSet;
+    dspInvent: TDataSetProvider;
+    cdsInvent: TClientDataSet;
+    dsInvent: TDataSource;
+    btnProcLista: TBitBtn;
+    Dta: TJvDatePickerEdit;
+    cdsInventCODIVENTARIO: TStringField;
+    cdsInventDATAIVENTARIO: TDateField;
+    cdsInventCODPRODUTO: TIntegerField;
+    cdsInventCODPRO: TStringField;
+    cdsInventSITUACAO: TStringField;
+    cdsInventDATAEXECUTADO: TDateField;
+    cdsInventESTOQUE_ATUAL: TFloatField;
+    cdsInventQTDE_INVENTARIO: TFloatField;
+    cdsInventUN: TStringField;
+    cdsProdCODPRO: TStringField;
+    cdsProdCODPRODUTO: TIntegerField;
+    cdsProdPRODUTO: TStringField;
+    cdsProdUNIDADEMEDIDA: TStringField;
+    rgLista: TRadioGroup;
+    procedure btnProcClick(Sender: TObject);
+    procedure btnProcListaClick(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure incluirInventario;
+  public
+    { Public declarations }
+  end;
+
+var
+  fInventario: TfInventario;
+
+implementation
+
+uses UDm;
+
+{$R *.dfm}
+
+procedure TfInventario.btnProcClick(Sender: TObject);
+var sql, sqla: string;
+begin
+  sqla := '';
+  sql := 'SELECT CODPRO, CODPRODUTO, PRODUTO, UNIDADEMEDIDA FROM PRODUTOS';
+  if (edProd.Text <> '') then
+  begin
+    sqla := ' WHERE CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
+  end;
+  if (edGrupo.Text <> '') then
+  begin
+    if (sqla <> '') then
+      sqla := sqla + ' AND FAMILIA = ' + QuotedStr(edGrupo.Text)
+    else
+      sqla := ' WHERE FAMILIA = ' + QuotedStr(edGrupo.Text);
+  end;
+  if (edSubGrupo.Text <> '') then
+  begin
+    if (sqla <> '') then
+      sqla := sqla + ' AND CATEGORIA = ' + QuotedStr(edSubGrupo.Text)
+    else
+      sqla := ' WHERE CATEGORIA = ' + QuotedStr(edSubGrupo.Text);
+  end;
+  if (cdsProd.Active) then
+    cdsProd.Close;
+  cdsProd.CommandText := sql + sqla;
+  cdsProd.Open;
+end;
+
+procedure TfInventario.btnProcListaClick(Sender: TObject);
+var sqlb : string;
+begin
+  sqlb := '';
+  if (cdsInvent.Active) then
+    cdsInvent.Close;
+
+  if (rgLista.ItemIndex = 0) then
+  begin
+    sqlb := ' WHERE SITUACAO = ' + QuotedStr('A');
+  end;
+  if (rgLista.ItemIndex = 1) then
+  begin
+    sqlb := ' WHERE SITUACAO = ' + QuotedStr('G');
+  end;
+
+  if (edLista.Text <> '') then
+  begin
+    sqlb := sqlb + ' AND CODIVENTARIO LIKE ' + QuotedStr(edLista.Text + '%');
+  end;
+  if (Dta.Text <> '  /  /  ') then
+  begin
+    sqlb := sqlb + ' AND DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date))
+  end;
+
+  cdsInvent.CommandText := 'SELECT * FROM INVENTARIO ' + sqlb;
+  cdsInvent.Open;
+  if (cdsInvent.IsEmpty) then
+  begin
+    if MessageDlg('Não existe esta Lista, criar uma ?',mtConfirmation,
+                [mbYes,mbNo],0) = mrYes then
+    begin
+      cdsInvent.Append;
+      cdsInventCODIVENTARIO.AsString := edLista.text;
+    end;
+  end;
+
+end;
+
+procedure TfInventario.incluirInventario;
+begin
+  if (edLista.Text = '') then
+  begin
+    MessageDlg('Informe o nome da Lista', mtWarning, [mbOK], 0);
+    edLista.SetFocus;
+    exit;
+  end;
+  if (cdsInvent.Active) then
+  begin
+    if (cdsInvent.State in [dsBrowse]) then
+    begin
+      cdsInvent.Append;
+      cdsInventCODIVENTARIO.AsString    := edLista.text;
+      cdsInventDATAIVENTARIO.AsDateTime := now;
+      cdsInventCODPRODUTO.AsInteger     := cdsProd.Fields[1].AsInteger;
+      cdsInventCODPRO.AsString          := cdsProd.Fields[0].AsString;
+      cdsInventSITUACAO.AsString        := 'A';
+      cdsInventUN.AsString              := cdsProd.Fields[3].AsString;
+      cdsInvent.ApplyUpdates(0);
+    end;
+    if (cdsInvent.State in [dsInsert]) then
+    begin
+      cdsInventDATAIVENTARIO.AsDateTime := now;
+      cdsInventCODPRODUTO.AsInteger     := cdsProd.Fields[1].AsInteger;
+      cdsInventCODPRO.AsString          := cdsProd.Fields[0].AsString;
+      cdsInventSITUACAO.AsString        := 'A';
+      cdsInventUN.AsString              := cdsProd.Fields[3].AsString;
+      cdsInvent.ApplyUpdates(0);
+    end;
+  end;
+
+end;
+
+procedure TfInventario.JvDBGrid1CellClick(Column: TColumn);
+begin
+  incluirInventario;
+end;
+
+procedure TfInventario.btnExcluirClick(Sender: TObject);
+begin
+  //inherited;
+  if (edLista.Text = '') then
+  begin
+    MessageDlg('Informe o nome da Lista a excluir.', mtWarning, [mbOK], 0);
+    edLista.SetFocus;
+    exit;
+  end;
+
+  if MessageDlg('Confirma a exclusão da Lista ?',mtConfirmation,
+                [mbYes,mbNo],0) = mrYes then
+  begin
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM INVENTARIO WHERE CODINVENTARIO = ' +
+      QuotedStr(edLista.Text));
+    if (cdsInvent.Active) then
+      cdsInvent.Close;
+    cdsInvent.Open;
+  end;
+end;
+
+procedure TfInventario.btnIncluirClick(Sender: TObject);
+begin
+  if (edLista.Text = '') then
+  begin
+    MessageDlg('Informe o nome da Lista a executar.', mtWarning, [mbOK], 0);
+    edLista.SetFocus;
+    exit;
+  end;
+
+  if (cdsInvent.State in [dsInsert, dsEdit]) then
+  begin
+    cdsInvent.ApplyUpdates(0);
+  end;
+
+  dm.sqlsisAdimin.ExecuteDirect('SELECT * FROM INVENTARIO_LANCA(' +
+    QuotedStr(edLista.Text));
+
+end;
+
+end.
