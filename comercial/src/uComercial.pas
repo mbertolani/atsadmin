@@ -706,7 +706,7 @@ begin
   fCompraFinalizar := TfCompraFinalizar.Create(Application);
   fCheques_bol := TfCheques_bol.Create(Application);
   try
-    fCompra.tipoCompra := 'DEVOLUCAO';
+    DM.tipoCompra := 'DEVOLUCAO';
     fCompra.ShowModal;
   finally
     fRateioPag.Free;
@@ -721,7 +721,7 @@ begin
  fVendaFinalizar := TfVendaFinalizar.Create(Application);
  fCheques_bol := TfCheques_bol.Create(Application);
  try
-   fVendas.tipoVenda := 'DEVOLUCAO';
+   DM.tipoVenda := 'DEVOLUCAO';
    fVendas.ShowModal;
  finally
   fCheques_bol.Free;
@@ -737,7 +737,7 @@ begin
   //fCompraFinalizar := TfCompraFinalizar.Create(Application);
  // fCheques_bol := TfCheques_bol.Create(Application);
   //try
-    fCompra.tipoCompra := 'COMPRA';
+    DM.tipoCompra := 'COMPRA';
     fCompra.ShowModal;
   //finally
     //fRateioPag.Free;
@@ -753,7 +753,7 @@ begin
  //fVendaFinalizar := TfVendaFinalizar.Create(Application);
  //fCheques_bol := TfCheques_bol.Create(Application);
  //try
-   fVendas.tipoVenda := 'VENDA';
+   DM.tipoVenda := 'VENDA';
    fVendas.ShowModal;
  //finally
   //fCheques_bol.Free;

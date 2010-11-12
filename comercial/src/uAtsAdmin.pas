@@ -805,13 +805,13 @@ end;
 
 procedure TfAtsAdmin.mnDevCompraClick(Sender: TObject);
 begin
-    fCompra.tipoCompra := 'DEVOLUCAO';
+    DM.tipoCompra := 'DEVOLUCAO';
     fCompra.ShowModal;
 end;
 
 procedure TfAtsAdmin.DevolucaoVendas1Click(Sender: TObject);
 begin
-   fVendas.tipoVenda := 'DEVOLUCAO';
+   DM.tipoVenda := 'DEVOLUCAO';
    fVendas.ShowModal;
 end;
 
@@ -819,7 +819,7 @@ procedure TfAtsAdmin.acComprasExecute(Sender: TObject);
 begin
  // fRateioPag := TfRateioPag.Create(Application);
  // try
-    fCompra.tipoCompra := 'COMPRA';
+    DM.tipoCompra := 'COMPRA';
     fCompra.ShowModal;
   //finally
    // fRateioPag.Free;
@@ -832,7 +832,7 @@ begin
 // fVendaFinalizar := TfVendaFinalizar.Create(Application);
  //fCheques_bol := TfCheques_bol.Create(Application);
 // try
-   fVendas.tipoVenda := 'VENDA';
+   DM.tipoVenda := 'VENDA';
    fVendas.ShowModal;
  //finally
  // fCheques_bol.Free;
