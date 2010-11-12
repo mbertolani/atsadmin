@@ -465,7 +465,7 @@ end;
 procedure TfCompraFinalizar.btnGravarClick(Sender: TObject);
 var cod_id : integer;
     utilcrtitulo : Tutils;
-    strSql, strTit, tipoMov: String;
+    strSql, tipoMov: String;
     TD: TTransactionDesc;    
 begin
   if (cbPrazo.Visible = true) then
@@ -835,6 +835,16 @@ procedure TfCompraFinalizar.FormShow(Sender: TObject);
 var utilcrtitulo : Tutils;
 begin
   DecimalSeparator := ',';
+  if (DM.tipoCompra = 'DEVOLUCAO') then
+  begin
+    MMJPanel1.Background.EndColor := clOlive;
+    MMJPanel2.Background.StartColor := clOlive;
+  end;
+  if (DM.tipoCompra = 'COMPRA') then
+  begin
+    MMJPanel1.Background.EndColor := clTeal;
+    MMJPanel2.Background.StartColor := clTeal;
+  end;
   if (not dm.parametro.Active) then
     dm.parametro.Open;
   if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
@@ -1215,7 +1225,6 @@ begin
 end;
 
 procedure TfCompraFinalizar.btnNotaFiscalClick(Sender: TObject);
-var valor_fatura :string;
 begin
   inherited;
 
@@ -1368,7 +1377,6 @@ procedure TfCompraFinalizar.notafiscal;
 var
   TD: TTransactionDesc;
   Save_Cursor:TCursor;
-  codClienteNF: integer;
   str_sql : string;
 begin
   if (sqlBuscaNota.Active) then
@@ -1380,7 +1388,6 @@ begin
   if (sqlBuscaNota.IsEmpty) then
   begin
     try
-    codClienteNF := 0;
     Save_Cursor := Screen.Cursor;
     Screen.Cursor := crHourGlass;    { Show hourglass cursor }
     // Nota Fiscal
@@ -1388,6 +1395,18 @@ begin
     TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
       try
+        if ( DM.tipoCompra = 'DEVOLUCAO') then
+        begin
+        str_sql := 'EXECUTE PROCEDURE GERA_NF_DEVOLUCAOCOMPRA(';
+        str_sql := str_sql + IntToStr(cds_COMPRACODFORNECEDOR.AsInteger);
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATACOMPRA.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATAVENCIMENTO.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(cds_COMPRASERIE.AsString);
+        str_sql := str_sql + ', ' + QuotedStr(inttostr(cds_COMPRANOTAFISCAL.AsInteger));
+        str_sql := str_sql + ', ' + IntToStr(cds_COMPRACODMOVIMENTO.AsInteger) + ')';
+        end;
+        if ( DM.tipoCompra = 'COMPRA') then
+        begin
         str_sql := 'EXECUTE PROCEDURE GERA_NF_COMPRA(';
         str_sql := str_sql + IntToStr(cds_COMPRACODFORNECEDOR.AsInteger);
         str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATACOMPRA.AsDateTime));
@@ -1395,6 +1414,7 @@ begin
         str_sql := str_sql + ', ' + QuotedStr(cds_COMPRASERIE.AsString);
         str_sql := str_sql + ', ' + QuotedStr(inttostr(cds_COMPRANOTAFISCAL.AsInteger));
         str_sql := str_sql + ', ' + IntToStr(cds_COMPRACODMOVIMENTO.AsInteger) + ')';
+        end;
         dm.sqlsisAdimin.ExecuteDirect(str_sql);
       except
         dm.sqlsisAdimin.Rollback(TD);
@@ -1635,6 +1655,7 @@ var     usu_n, usu_s, str : string;
 begin
   usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+  utilcrtitulo := Tutils.Create;
   if (utilcrtitulo.verificapermissao = True) then
   begin
     if Excluir = 'N' then Exit;

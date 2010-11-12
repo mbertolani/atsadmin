@@ -642,6 +642,26 @@ begin
   JvPageControl1.ActivePage := TabNF;
   TabSheet1.TabVisible := False;
 
+  if (DM.tipoVenda = 'DEVOLUCAO') then
+  begin
+    MMJPanel2.Background.StartColor := clNavy;
+    MMJPanel2.Background.EndColor := clNavy;
+    cbEstoque.Font.Color := clWhite;
+    cbEstoque.Color := clNavy;
+    cbFinanceiro.Font.Color := clWhite;
+    cbFinanceiro.Color := clNavy;
+    Caption := 'Nota Fiscal de Devolução';
+  end
+  else begin
+    MMJPanel2.Background.StartColor := clTeal;
+    MMJPanel2.Background.EndColor := clTeal;
+    cbEstoque.Font.Color := clWindowText;
+    cbEstoque.Color := clTeal;
+    cbFinanceiro.Font.Color := clWindowText;
+    cbFinanceiro.Color := clTeal;
+    Caption := 'Nota Fiscal';
+  end;
+
   if (codMovFin > 0) then
   begin
     dmnf.cds_Movimento.Close;
@@ -1245,6 +1265,7 @@ begin
 end;
 
 procedure TfNotaf.btnGravarClick(Sender: TObject);
+var nfe : string;
 begin
   if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
   if (dmnf.cds_Mov_det.State in [dsInsert]) then
@@ -1263,7 +1284,8 @@ begin
  //Salvo Nota Fiscal
  if (DMNF.DtSrc_NF.State in [dsInsert, dsEdit]) then
    gravanotafiscal;
-
+ nfe := 'update movimento set nfe = ' + QuotedStr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_nfSERIE.AsString) + ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString;
+ dm.sqlsisAdimin.ExecuteDirect(nfe);
 end;
 
 procedure TfNotaf.gravamov_detalhe;
@@ -1524,7 +1546,6 @@ end;
 procedure TfNotaf.gravanotafiscal;
 var nfnum :Integer;
     pesoremessa, entrega: Double;
-    str: string;
 begin
  nfnum := 0;
  // Gravo a NF
