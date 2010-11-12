@@ -543,7 +543,7 @@ type
     modo :string;
     procedure insereMatPrima;
   public
-    conta_local, usalote, matPrima, inseridoMatPrima, tipoVenda, vendaexiste, usaprecolistavenda, CODIGOPRODUTO : string;
+    conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO : string; //, tipoVenda
     estoque, qtde: Double;
     procedure buscaServico();
     procedure baixamatprimas(tipomat: string; codmovt: integer);
@@ -799,7 +799,7 @@ begin
   cds_MovimentoCODNATUREZA.AsInteger := cod_nat;
   cds_MovimentoDESCNATUREZA.AsString := natureza;
 
-  if (tipoVenda = 'DEVOLUCAO') then
+  if (DM.tipoVenda = 'DEVOLUCAO') then
   begin
     cds_MovimentoCODNATUREZA.AsInteger := 10;
     cds_MovimentoDESCNATUREZA.AsString := 'Devolucao Vendas';
@@ -852,7 +852,7 @@ begin
   Cancelar := 'S';
   Procurar := 'S';
   usaLote := 'N';
-  if (tipoVenda = 'DEVOLUCAO') then
+  if (DM.tipoVenda = 'DEVOLUCAO') then
   begin
     MMJPanel1.Background.EndColor := clNavy;
     MMJPanel3.Background.EndColor := clNavy;
@@ -1868,14 +1868,21 @@ begin
   fFiltroMovimento.BitBtn8.Enabled := False;
   //      fFiltroMovimento.BitBtn9.Caption := 'Ok';
 
-  if (tipoVenda = 'DEVOLUCAO') then
+  if (DM.tipoVenda = 'DEVOLUCAO') then
   begin
     fFiltroMovimento.Edit3.Text := '10';
     fFiltroMovimento.Edit4.Text := 'Devolução';
-    //fFiltroMovimento.Label9.Caption := 'Devolução Vendas';
     fFiltroMovimento.Label10.Caption := 'Devolução Vendas';
     fFiltroMovimento.MMJPanel1.Background.EndColor := clNavy;
     fFiltroMovimento.MMJPanel2.Background.EndColor := clNavy;
+  end;
+  if (DM.tipoVenda = 'VENDA') then
+  begin
+    fFiltroMovimento.Edit3.Text := '3';
+    fFiltroMovimento.Edit4.Text := 'VENDAS';
+    fFiltroMovimento.Label10.Caption := 'Vendas';
+    fFiltroMovimento.MMJPanel1.Background.EndColor := clTeal;
+    fFiltroMovimento.MMJPanel2.Background.EndColor := clTeal;
   end;
   var_F := 'venda';
   fFiltroMovimento.ShowModal;

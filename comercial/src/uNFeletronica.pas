@@ -621,7 +621,7 @@ begin
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
       'inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR left outer join COMPRA c on c.CODCOMPRA = nf.CODVENDA '+
       'where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
-      'and (endeforn.TIPOEND = 0) and (NF.NATUREZA = :natnf) and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.NOTASERIE DESC';
+      'and (endeforn.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 21)) and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.NOTASERIE DESC';
       cdsNF.CommandText := str_nf;
    end
    else
@@ -637,7 +637,7 @@ begin
     'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, nf.NUMRECIBO, nf.PROTOCOLOCANC, co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     'from NOTAFISCAL nf inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE   inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
     'left outer join VENDA co on co.CODVENDA = nf.CODVENDA  where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
-    'and (ec.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12))  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.NOTASERIE DESC';
+    'and (ec.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12) or (NF.NATUREZA = 16))  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.NOTASERIE DESC';
      cdsNF.CommandText := str_nf;
    end;
    cdsNF.Open;
@@ -776,7 +776,7 @@ begin
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
             InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
             // Tipo de movimentação 0 entrada 1 saida
-            if (cdsNFNATUREZA.AsInteger = 20) then
+            if ((cdsNFNATUREZA.AsInteger = 20) or (cdsNFNATUREZA.AsInteger = 16)) then
             Ide.tpNF      := tnEntrada
             else
             begin
@@ -805,7 +805,7 @@ begin
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and nf.NATUREZA = 20' ;
+                'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
             end
             else
             begin
@@ -818,7 +818,7 @@ begin
                 'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger);
+                'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;
             end;
 
             if (cdsItensNF.Active) then
@@ -1370,7 +1370,7 @@ begin
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
             InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
             // Tipo de movimentação 0 entrada 1 saida
-            if (cdsNFNATUREZA.AsInteger = 20) then
+            if ((cdsNFNATUREZA.AsInteger = 20) or (cdsNFNATUREZA.AsInteger = 16)) then
             Ide.tpNF      := tnEntrada
             else
             begin
@@ -1399,7 +1399,7 @@ begin
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and nf.NATUREZA = 20' ;
+                'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
             end
             else
             begin
@@ -1412,7 +1412,7 @@ begin
                 'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger);
+                'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;
             end;
 
             if (cdsItensNF.Active) then

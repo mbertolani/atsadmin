@@ -2446,7 +2446,8 @@ object DMNF: TDMNF
       'nf.CFOP '#13#10'left outer join CLIENTES cli on '#13#10'cli.CODCLIENTE=nf.CO' +
       'DCLIENTE '#13#10'left outer join ENDERECOCLIENTE ende on '#13#10'ende.CODCLI' +
       'ENTE=cli.CODCLIENTE '#13#10' where nf.NUMNF = :pNF '#13#10' or CODVENDA = :p' +
-      'venda'#13#10
+      'venda'#13#10'and (nf.NATUREZA =12 or nf.NATUREZA = 15 or nf.NATUREZA =' +
+      ' 16)'
     MaxBlobSize = -1
     Params = <
       item
@@ -6158,7 +6159,8 @@ object DMNF: TDMNF
       'at ON nat.CFCOD = nf.CFOP '#13#10'left outer join FORNECEDOR cli on '#13#10 +
       'cli.CODFORNECEDOR=nf.CODCLIENTE '#13#10'left outer join ENDERECOFORNEC' +
       'EDOR ende on '#13#10'ende.CODFORNECEDOR=cli.CODFORNECEDOR '#13#10' where nf.' +
-      'NUMNF = :pNF or nf.codvenda = :pcodCompra and nf.NATUREZA = 20'#13#10
+      'NUMNF = :pNF or nf.codvenda = :pcodCompra and (nf.NATUREZA = 20 ' +
+      'or nf.NATUREZA = 21)'#13#10
     MaxBlobSize = -1
     Params = <
       item

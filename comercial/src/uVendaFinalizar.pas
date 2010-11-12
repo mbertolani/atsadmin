@@ -865,7 +865,7 @@ begin
         dbeSerie.SetFocus;
         exit;
       end;
-    if (fvendas.tipoVenda <> 'DEVOLUCAO') then
+    if (DM.tipoVenda <> 'DEVOLUCAO') then
     begin
       strTit := IntToStr(cdsNOTAFISCAL.AsInteger);
       begin
@@ -1811,7 +1811,15 @@ begin
   Excluir := 'S';
   Cancelar := 'S';
   Procurar := 'S';
-
+  if (DM.tipoVenda = 'DEVOLUCAO') then
+  begin
+    MMJPanel1.Background.EndColor := clNavy;
+    MMJPanel3.Background.EndColor := clNavy;
+  end
+  else begin
+    MMJPanel1.Background.EndColor := clTeal;
+    MMJPanel3.Background.EndColor := clTeal;
+  end;
   if (not dm.parametro.Active) then
     dm.parametro.Open;
 
@@ -2769,6 +2777,8 @@ begin
     TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
       try
+        if (DM.tipoVenda = 'VENDA') then
+        begin
         str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
         str_sql := str_sql + IntToStr(cdsCODCLIENTE.AsInteger);
         str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
@@ -2777,11 +2787,18 @@ begin
         str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
         str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
         dm.sqlsisAdimin.ExecuteDirect(str_sql);
-        {str_sql := 'update NOTAFISCAL set FATURA = ' + QuotedStr(fatura_NF);
-        str_sql := str_sql + ' where NOTASERIE = ' + inttostr(cdsNOTAFISCAL.AsInteger);
-        str_sql := str_sql + ' and CODCLIENTE = ' + inttostr(cdsCODCLIENTE.AsInteger);
-        str_sql := str_sql + ' and DTAEMISSAO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);}
+        end;
+        if (DM.tipoVenda = 'DEVOLUCAO') then
+        begin
+        str_sql := 'EXECUTE PROCEDURE GERA_NF_DEVOLUCAOVENDA(';
+        str_sql := str_sql + IntToStr(cdsCODCLIENTE.AsInteger);
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(cdsSERIE.AsString);
+        str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
+        str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        end;
         dm.sqlsisAdimin.Commit(TD);
       except
         dm.sqlsisAdimin.Rollback(TD);
@@ -2828,10 +2845,20 @@ begin
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
   sqlBuscaNota.SQL.Clear;
+  if (dm.tipoVenda = 'VENDA') then
+  begin
   sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, v.CODVENDA  from MOVIMENTO m ' +
     ' inner join venda v on v.CODMOVIMENTO = m.CODMOVIMENTO where ' +
     ' m.CODNATUREZA = 15 and m.CONTROLE = ' +
     QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
+  end;
+  if (dm.tipoVenda = 'DEVOLUCAO') then
+  begin
+    sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, v.CODVENDA  from MOVIMENTO m ' +
+    ' inner join venda v on v.CODMOVIMENTO = m.CODMOVIMENTO where ' +
+    ' m.CODNATUREZA = 16 and m.CONTROLE = ' +
+    QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
+  end;
   sqlBuscaNota.Open;
   if (not sqlBuscaNota.IsEmpty) then
   begin

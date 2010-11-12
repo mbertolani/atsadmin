@@ -37,7 +37,7 @@ object fNotafc: TfNotafc
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clTeal
+    Background.StartColor = clSilver
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
     object btnCancelar: TBitBtn

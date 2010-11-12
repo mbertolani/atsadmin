@@ -410,7 +410,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    campocentrocusto, usarateio, usaprecolista, CODIGOPRODUTO, tipoCompra, CompradorPadraoNome, obrigatorio : String;
+    campocentrocusto, usarateio, usaprecolista, CODIGOPRODUTO, CompradorPadraoNome, obrigatorio : String; // tipoCompra,
     J, ccustoCompras, CompradorPadrao: integer;
     procedure precolista;
   end;
@@ -658,12 +658,12 @@ begin
   cds_Mov_det.Params[0].Clear;
   cds_Mov_det.Params[1].Clear;
   inherited;
-  if (tipoCompra = 'COMPRA') then
+  if (DM.tipoCompra = 'COMPRA') then
   begin
     cds_MovimentoCODNATUREZA.AsInteger := 4;
     cds_MovimentoDESCNATUREZA.AsString := 'Compra';
   end;
-  if (tipoCompra = 'DEVOLUCAO') then
+  if (DM.tipoCompra = 'DEVOLUCAO') then
   begin
     cds_MovimentoCODNATUREZA.AsInteger := 9;
     cds_MovimentoDESCNATUREZA.AsString := 'Devolucao Compras';
@@ -949,7 +949,7 @@ begin
       fFiltroMov_compra.Edit3.Text := dm.cds_parametroDADOS.AsString;
       fFiltroMov_compra.Edit4.Text := dm.cds_parametroD1.AsString;
       dm.cds_parametro.Close;
-      if (tipoCompra = 'DEVOLUCAO') then
+      if (DM.tipoCompra = 'DEVOLUCAO') then
       begin
         ffiltromov_compra.Edit3.Text := '9';
         ffiltromov_compra.Edit4.Text := 'Devolução';
@@ -957,6 +957,14 @@ begin
         ffiltromov_compra.Label10.Caption := 'Devolução Compras';
         ffiltromov_compra.MMJPanel1.Background.EndColor := clOlive;
         ffiltromov_compra.MMJPanel2.Background.EndColor := clOlive;
+      end;
+      if (DM.tipoCompra = 'COMPRA') then
+      begin
+        ffiltromov_compra.Edit3.Text := '4';
+        ffiltromov_compra.Edit4.Text := 'Compra';
+        ffiltromov_compra.Label10.Caption := 'Compras';
+        ffiltromov_compra.MMJPanel1.Background.EndColor := clTeal;
+        ffiltromov_compra.MMJPanel2.Background.EndColor := clTeal;
       end;
       fFiltroMov_compra.ShowModal;
       if (GroupBox7.Visible = True) then
@@ -1346,7 +1354,7 @@ begin
   inherited;
   DecimalSeparator := ',';
   fLotes := TfLotes.Create(Application);
-  if (tipoCompra = 'DEVOLUCAO') then
+  if (DM.tipoCompra = 'DEVOLUCAO') then
   begin
     MMJPanel1.Background.EndColor := clOlive;
     MMJPanel2.Background.StartColor := clOlive;

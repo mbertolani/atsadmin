@@ -558,6 +558,15 @@ begin
   JvPageControl1.ActivePage := TabNF;
   TabSheet1.TabVisible := False;
 
+  if (DM.tipoCompra = 'DEVOLUCAO') then
+  begin
+    MMJPanel2.Background.EndColor := clOlive;
+  end;
+  if (DM.tipoCompra = 'COMPRA') then
+  begin
+    MMJPanel2.Background.EndColor := clTeal;
+  end;
+
   if (codMovFin > 0) then
   begin
     dmnf.cds_Movimento.Close;

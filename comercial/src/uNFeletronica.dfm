@@ -272,8 +272,8 @@ object fNFeletronica: TfNFeletronica
       Columns = 2
       ItemIndex = 1
       Items.Strings = (
-        'Entrada'
-        'Sa'#237'da')
+        'Fornecedor'
+        'Cliente')
       TabOrder = 0
     end
     object GroupBox5: TGroupBox
