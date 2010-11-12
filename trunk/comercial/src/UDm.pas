@@ -1814,6 +1814,7 @@ type
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao: string;
     LOTEQTDE, totalpago : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO : String;
+    tipoCompra, tipoVenda : String;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
   end;
