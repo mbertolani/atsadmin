@@ -793,6 +793,7 @@ begin
       executaDDL('MOVIMENTO', 'CODMOVRATEIO', 'Integer');
       executaDDL('MOVIMENTO', 'VALORRATEIO', 'double precision');
       executaDDL('MOVIMENTO', 'RATEIO', 'double precision');
+      executaDDL('MOVIMENTO', 'NFE', 'varchar(10)');
       executaScript('calcula_icms.sql');
       executaScript('trg_calcula_icms_st.sql');
       mudaVersao('1.0.0.77');
