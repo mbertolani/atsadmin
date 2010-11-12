@@ -121,6 +121,8 @@ type
     scds_NaturezaProcuraTIPOTITULO: TSmallintField;
     scds_NaturezaProcuraTIPOMOVIMENTO: TSmallintField;
     scds_NaturezaProcuraBAIXAMOVIMENTO: TSmallintField;
+    sds_cnsNFE: TStringField;
+    cds_cnsNFE: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1TitleClick(Column: TColumn);
@@ -392,7 +394,7 @@ begin
     cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, ' +
       ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM((movd.QUANTIDADE * movd.PRECO) - (movd.VALTOTAL * (movd.QTDE_ALT/100))) as PRECO, ' +
-      ' cli.NOMECLIENTE, ' +
+      ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
@@ -404,7 +406,7 @@ begin
     cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, ' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM((movd.QUANTIDADE * movd.PRECO) - (movd.VALTOTAL * (movd.QTDE_ALT/100))) as PRECO, ' +
-      ' cli.NOMECLIENTE, ' +
+      ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
@@ -572,7 +574,7 @@ begin
   end;
   sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +      'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       'mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
-      'ven.VALOR, ven.APAGAR, ven.DATAVENDA ';   
+      'ven.VALOR, ven.APAGAR, ven.DATAVENDA, mov.NFE ';
 
   ordenar := '';
 

@@ -1512,49 +1512,56 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'CODMOVIMENTO'
         Title.Caption = 'Cod.'
-        Width = 52
+        Width = 48
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOTAFISCAL'
         Title.Caption = 'T'#237'tulo'
-        Width = 52
+        Width = 48
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NFE'
+        Title.Caption = 'NFe'
+        Width = 60
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SERIE'
         Title.Caption = 'S'#233'rie'
-        Width = 33
+        Width = 30
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAMOVIMENTO'
         Title.Caption = 'Data'
-        Width = 52
+        Width = 48
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAVENDA'
         Title.Caption = 'Data Venda'
-        Width = 69
+        Width = 65
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODCLIENTE'
         Title.Caption = 'C'#243'd.Cli.'
-        Width = 47
+        Width = 43
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
-        Width = 251
+        Width = 231
         Visible = True
       end
       item
@@ -1567,21 +1574,21 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'VALOR'
         Title.Caption = 'Valor R$'
-        Width = 61
+        Width = 56
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'd. Nat.'
-        Width = 52
+        Width = 48
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 97
+        Width = 88
         Visible = True
       end>
   end
@@ -1688,6 +1695,11 @@ object fFiltroMovimento: TfFiltroMovimento
       FieldName = 'DATAVENDA'
       ReadOnly = True
     end
+    object cds_cnsNFE: TStringField
+      FieldName = 'NFE'
+      ReadOnly = True
+      Size = 10
+    end
   end
   object dsp_cns: TDataSetProvider
     DataSet = sds_cns
@@ -1701,17 +1713,17 @@ object fFiltroMovimento: TfFiltroMovimento
       'CODNATUREZA, mov.DATAMOVIMENTO, '#13#10'mov.STATUS,  SUM(movd.QUANTIDA' +
       'DE * movd.PRECO)  as PRECO,'#13#10'cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       ' forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, '#13#10've' +
-      'n.APAGAR, ven.datavenda   '#13#10'from MOVIMENTO mov '#13#10'left outer join' +
-      ' CLIENTES cli on cli.CODCLIENTE = mov.CODCLIENTE '#13#10'inner join NA' +
-      'TUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA '#13#10'left' +
-      ' outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNE' +
-      'CEDOR '#13#10'left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODM' +
-      'OVIMENTO '#13#10'left outer join MOVIMENTODETALHE movd on movd.CODMOVI' +
-      'MENTO = mov.CODMOVIMENTO '#13#10'group by '#13#10'       mov.CODCLIENTE, mov' +
-      '.CODMOVIMENTO, '#13#10'      mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.S' +
-      'TATUS,'#13#10'      cli.NOMECLIENTE, '#13#10'      nat.DESCNATUREZA, mov.COD' +
-      'FORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.' +
-      'VALOR, ven.APAGAR, ven.datavenda    '#13#10
+      'n.APAGAR, ven.datavenda, mov.NFE'#13#10'from MOVIMENTO mov '#13#10'left oute' +
+      'r join CLIENTES cli on cli.CODCLIENTE = mov.CODCLIENTE '#13#10'inner j' +
+      'oin NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA ' +
+      #13#10'left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.CO' +
+      'DFORNECEDOR '#13#10'left outer join VENDA ven on ven.CODMOVIMENTO = mo' +
+      'v.CODMOVIMENTO '#13#10'left outer join MOVIMENTODETALHE movd on movd.C' +
+      'ODMOVIMENTO = mov.CODMOVIMENTO '#13#10'group by '#13#10'       mov.CODCLIENT' +
+      'E, mov.CODMOVIMENTO, '#13#10'      mov.CODNATUREZA, mov.DATAMOVIMENTO,' +
+      ' mov.STATUS,'#13#10'      cli.NOMECLIENTE, '#13#10'      nat.DESCNATUREZA, m' +
+      'ov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE' +
+      ', ven.VALOR, ven.APAGAR, ven.datavenda, mov.NFE'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1774,6 +1786,11 @@ object fFiltroMovimento: TfFiltroMovimento
     object sds_cnsDATAVENDA: TDateField
       FieldName = 'DATAVENDA'
       ReadOnly = True
+    end
+    object sds_cnsNFE: TStringField
+      FieldName = 'NFE'
+      ReadOnly = True
+      Size = 10
     end
   end
   object PopupMenu1: TPopupMenu
