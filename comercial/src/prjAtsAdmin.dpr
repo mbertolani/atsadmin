@@ -197,7 +197,8 @@ uses
   uBalancete in 'uBalancete.pas' {fBalancete},
   uTexto in 'uTexto.pas' {Form1},
   uProdGeraAumento in 'uProdGeraAumento.pas' {fProdGeraAumento},
-  uEtiquetas_cli in 'uEtiquetas_cli.pas' {fEtiquetas_cli};
+  uEtiquetas_cli in 'uEtiquetas_cli.pas' {fEtiquetas_cli},
+  uInventario in 'uInventario.pas' {fInventario};
 
 {$R *.res}
 
