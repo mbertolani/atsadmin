@@ -794,10 +794,18 @@ begin
       executaDDL('MOVIMENTO', 'VALORRATEIO', 'double precision');
       executaDDL('MOVIMENTO', 'RATEIO', 'double precision');
       executaDDL('MOVIMENTO', 'NFE', 'varchar(10)');
-      executaScript('calcula_icms.sql');
-      executaScript('trg_calcula_icms_st.sql');
       mudaVersao('1.0.0.77');
     end;  // Fim Ataulização Versao 1.0.0.77
+
+    if (versaoSistema = '1.0.0.77') then
+    begin
+      executaScript('calcula_icms.sql');
+      executaScript('trg_calcula_icms_st.sql');
+      executaScript('tbl_inventario.sql');
+      executaScript('inventario_lanca.sql');
+      executaScript('invent_estoque.sql');
+      mudaVersao('1.0.0.78');
+    end;  // Fim Ataulização Versao 1.0.0.78
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
