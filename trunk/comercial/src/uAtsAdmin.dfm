@@ -2335,6 +2335,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Corrigir Estoque'
         OnClick = CorrigeEstoque1Click
       end
+      object Inventario1: TMenuItem
+        Caption = 'Inventario'
+        OnClick = Inventario1Click
+      end
       object N3: TMenuItem
         Caption = '-'
       end

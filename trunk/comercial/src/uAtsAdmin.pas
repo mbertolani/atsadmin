@@ -216,6 +216,7 @@ type
     NotaFiscal1: TMenuItem;
     CFOP1: TMenuItem;
     AlterarValordeVendadosProdutos1: TMenuItem;
+    Inventario1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -315,6 +316,7 @@ type
     procedure CFOP1Click(Sender: TObject);
     procedure RelBalancete1Click(Sender: TObject);
     procedure AlterarValordeVendadosProdutos1Click(Sender: TObject);
+    procedure Inventario1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -353,7 +355,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
-  uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento;
+  uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
+  uInventario;
 
 {$R *.dfm}
 
@@ -1667,6 +1670,16 @@ begin
   finally
     fProdGeraAumento.Free;
   end;
+end;
+
+procedure TfAtsAdmin.Inventario1Click(Sender: TObject);
+begin
+ fInventario := TfInventario.Create(Application);
+ try
+   fInventario.ShowModal;
+ finally
+   fInventario.Free;
+ end;
 end;
 
 end.
