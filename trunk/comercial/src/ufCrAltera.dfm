@@ -639,6 +639,8 @@ inherited fCrAltera: TfCrAltera
     Font.Style = []
     ParentFont = False
     TabOrder = 5
+    OnChange = DBEdit5Change
+    OnExit = DBEdit5Exit
     OnKeyPress = FormKeyPress
   end
   object DBEdit7: TDBEdit [17]
@@ -864,10 +866,11 @@ inherited fCrAltera: TfCrAltera
       'select CODRECEBIMENTO, CODVENDA, CODCLIENTE, TITULO, EMISSAO, DA' +
       'TAVENCIMENTO, DATARECEBIMENTO, CAIXA, STATUS, FORMARECEBIMENTO, ' +
       ' CODALMOXARIFADO, N_DOCUMENTO, VALORRECEBIDO, JUROS, DESCONTO, V' +
-      'ALOR_RESTO, VALORTITULO, PARCELAS, VIA, DP  , case when status =' +
-      ' '#39'5-'#39' then '#39'Pendente'#39' when status = '#39'7-'#39' then '#39'Recebido'#39' else '#39'O' +
-      'utros'#39' end as STATUSP, DATACONSOLIDA'#13#10' from RECEBIMENTO WHERE TI' +
-      'TULO = :TIT AND CODCLIENTE = :CODCI AND EMISSAO = :DTAEMI'
+      'ALOR_RESTO, VALORTITULO, PARCELAS, VIA, DP, VALOR_RESTO_SST  , c' +
+      'ase when status = '#39'5-'#39' then '#39'Pendente'#39' when status = '#39'7-'#39' then '#39 +
+      'Recebido'#39' else '#39'Outros'#39' end as STATUSP, DATACONSOLIDA'#13#10' from REC' +
+      'EBIMENTO WHERE TITULO = :TIT AND CODCLIENTE = :CODCI AND EMISSAO' +
+      ' = :DTAEMI'
     MaxBlobSize = -1
     Params = <
       item
@@ -971,6 +974,9 @@ inherited fCrAltera: TfCrAltera
     object sdsDATACONSOLIDA: TDateField
       FieldName = 'DATACONSOLIDA'
       ReadOnly = True
+    end
+    object sdsVALOR_RESTO_SST: TFloatField
+      FieldName = 'VALOR_RESTO_SST'
     end
   end
   object dsp: TDataSetProvider
@@ -1099,6 +1105,9 @@ inherited fCrAltera: TfCrAltera
       FieldName = 'DATACONSOLIDA'
       ReadOnly = True
       EditMask = '!99/99/00;1;_'
+    end
+    object cdsVALOR_RESTO_SST: TFloatField
+      FieldName = 'VALOR_RESTO_SST'
     end
   end
   object sdscp: TSQLDataSet
