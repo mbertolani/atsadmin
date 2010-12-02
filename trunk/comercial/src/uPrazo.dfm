@@ -1,5 +1,6 @@
 inherited fPrazo: TfPrazo
   Caption = 'Prazos'
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel2: TMMJPanel
