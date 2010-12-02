@@ -801,7 +801,12 @@ begin
     begin
       executaScript('calcula_icms.sql');
       executaScript('trg_calcula_icms_st.sql');
-      executaScript('tbl_inventario.sql');
+      executaSql('CREATE TABLE INVENTARIO (CODIVENTARIO Varchar(40) NOT NULL, ' +
+     'DATAIVENTARIO Date, CODPRODUTO Integer NOT NULL, ' +
+     'CODPRO Varchar(15), SITUACAO Char(1), ' +
+     'DATAEXECUTADO Date, ESTOQUE_ATUAL VALOR DEFAULT 0, ' +
+     'QTDE_INVENTARIO VALOR DEFAULT 0, UN TEXTO3, ' +
+     'PRIMARY KEY (CODIVENTARIO, CODPRODUTO))');
       executaScript('inventario_lanca.sql');
       executaScript('invent_estoque.sql');
       mudaVersao('1.0.0.78');
