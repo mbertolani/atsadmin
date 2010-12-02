@@ -57,6 +57,12 @@ object fNFeletronica: TfNFeletronica
       Width = 109
       Height = 103
       Caption = 'Normal'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
       TabOrder = 1
       object btnGeraNFe: TBitBtn
         Left = 10
