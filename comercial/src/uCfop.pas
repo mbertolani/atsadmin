@@ -40,7 +40,7 @@ uses UDm;
 
 procedure TfCfop.FormCreate(Sender: TObject);
 begin
-  inherited;
+//  inherited;
   if not dm.cds_cfop.Active then
     dm.cds_cfop.Open;
 end;
@@ -54,7 +54,7 @@ end;
 
 procedure TfCfop.FormShow(Sender: TObject);
 begin
-  inherited;
+//    inherited;
   dbedit1.Enabled := True;
   dbedit2.Enabled := True;
 end;

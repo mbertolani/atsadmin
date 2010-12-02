@@ -1,6 +1,7 @@
 inherited fCfop: TfCfop
   Width = 691
   Height = 509
+  OldCreateOrder = True
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96

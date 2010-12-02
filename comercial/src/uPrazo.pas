@@ -10,6 +10,7 @@ uses
 type
   TfPrazo = class(TfPai_new)
     JvDBUltimGrid1: TJvDBUltimGrid;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -24,5 +25,11 @@ implementation
 uses UDm;
 
 {$R *.dfm}
+
+procedure TfPrazo.FormCreate(Sender: TObject);
+begin
+//  inherited;
+
+end;
 
 end.
