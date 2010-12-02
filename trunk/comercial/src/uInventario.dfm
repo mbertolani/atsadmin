@@ -236,7 +236,7 @@ inherited fInventario: TfInventario
       Left = 9
       Top = 40
       Width = 744
-      Height = 225
+      Height = 176
       Align = alCustom
       DataSource = dsInvent
       TabOrder = 1
@@ -671,7 +671,46 @@ inherited fInventario: TfInventario
   end
   object dsInvent: TDataSource
     DataSet = cdsInvent
-    Left = 784
-    Top = 136
+    Left = 688
+    Top = 168
+  end
+  object cdsLanca_Inv: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NINV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspLanca_Inv'
+    Left = 480
+    Top = 192
+    object cdsLanca_InvMSG: TStringField
+      FieldName = 'MSG'
+      Size = 100
+    end
+  end
+  object sdsLanca_Inv: TSQLDataSet
+    CommandText = 'SELECT * FROM INVENTARIO_LANCA(:NINV)'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NINV'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 416
+    Top = 192
+    object sdsLanca_InvMSG: TStringField
+      FieldName = 'MSG'
+      Size = 100
+    end
+  end
+  object dspLanca_Inv: TDataSetProvider
+    DataSet = sdsLanca_Inv
+    Options = [poAllowCommandText]
+    Left = 448
+    Top = 192
   end
 end
