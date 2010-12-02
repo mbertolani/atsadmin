@@ -54,6 +54,11 @@ type
     cdsProdPRODUTO: TStringField;
     cdsProdUNIDADEMEDIDA: TStringField;
     rgLista: TRadioGroup;
+    cdsLanca_Inv: TClientDataSet;
+    sdsLanca_Inv: TSQLDataSet;
+    dspLanca_Inv: TDataSetProvider;
+    cdsLanca_InvMSG: TStringField;
+    sdsLanca_InvMSG: TStringField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -204,7 +209,7 @@ begin
 end;
 
 procedure TfInventario.btnIncluirClick(Sender: TObject);
-begin
+  begin
   if (edLista.Text = '') then
   begin
     MessageDlg('Informe o nome da Lista a executar.', mtWarning, [mbOK], 0);
@@ -216,10 +221,14 @@ begin
   begin
     cdsInvent.ApplyUpdates(0);
   end;
-
-  dm.sqlsisAdimin.ExecuteDirect('SELECT * FROM INVENTARIO_LANCA(' +
-    QuotedStr(edLista.Text));
-
+  {dm.sqlsisAdimin.ExecuteDirect('SELECT * FROM INVENTARIO_LANCA(' +
+    QuotedStr(edLista.Text) + ')');}
+  if (cdsLanca_Inv.Active) then
+    cdsLanca_Inv.Close;
+  cdsLanca_Inv.Params[0].asString := edLista.Text;
+  cdsLanca_Inv.Open;
+  cdsLanca_Inv.ApplyUpdates(0);
+  MessageDlg('Alterações executadas com sucesso!', mtInformation, [mbOK], 0);
 end;
 
 end.
