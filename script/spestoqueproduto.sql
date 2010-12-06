@@ -1,27 +1,27 @@
-ALTER PROCEDURE SPESTOQUEPRODUTO (
-    DTA1 Date,
-    DTA2 Date,
-    PROD1 Integer,
-    PROD2 Integer,
-    GRUPO Varchar(50),
-    SUBGRUPO Varchar(50),
-    MARCA Varchar(50),
-    PCCUSTO Integer )
+CREATE OR ALTER PROCEDURE SPESTOQUEPRODUTO (
+    DTA1 date,
+    DTA2 date,
+    PROD1 integer,
+    PROD2 integer,
+    GRUPO varchar(50),
+    SUBGRUPO varchar(50),
+    MARCA varchar(50),
+    PCCUSTO integer )
 RETURNS (
-    COD Integer,
-    CODPROD Varchar(20),
-    PRODUTO Varchar(200),
-    SALDOINI Double precision,
-    ENTRADA Double precision,
-    SAIDA Double precision,
-    PEDIDO Double precision,
-    SALDOFIM Double precision,
-    SALDOFIMSEMPEDIDO Double precision,
-    VALORCUSTO Double precision,
-    VLRTOTALINI Double precision,
-    VLRTOTALFIM Double precision,
-    VALORVENDA Double precision,
-    TIPOPRODUTO Varchar(20) )
+    COD integer,
+    CODPROD varchar(20),
+    PRODUTO varchar(200),
+    SALDOINI double precision,
+    ENTRADA double precision,
+    SAIDA double precision,
+    PEDIDO double precision,
+    SALDOFIM double precision,
+    SALDOFIMSEMPEDIDO double precision,
+    VALORCUSTO double precision,
+    VLRTOTALINI double precision,
+    VLRTOTALFIM double precision,
+    VALORVENDA double precision,
+    TIPOPRODUTO varchar(20) )
 AS
 DECLARE VARIABLE ESTOQ DOUBLE PRECISION;
 DECLARE VARIABLE ENTRA DOUBLE PRECISION = 0;
@@ -51,7 +51,7 @@ BEGIN
           PRCUS = PMCUS;  
        /* -- Qtde Inicial ENTRADA*/
         SELECT SUM(movdet.QUANTIDADE), sum(movdet.QUANTIDADE * movdet.PRECOCUSTO) 
-            FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, COMPRA v 
+            FROM COMPRA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
             WHERE v.codmovimento = mov.codmovimento and  mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
             AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 0 AND v.DATACOMPRA  < :DTA1 
@@ -60,7 +60,7 @@ BEGIN
         
        /* -- Qtde Inicial SAIDA*/
         SELECT SUM(movdet.QUANTIDADE), sum(movdet.QUANTIDADE * movdet.PRECOCUSTO)  
-            FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, VENDA v  
+            FROM VENDA v , MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
             WHERE v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
             AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 AND v.DATAVENDA  < :DTA1
@@ -75,7 +75,7 @@ BEGIN
 
        /* -- Entrada */
         SELECT SUM(movdet.QUANTIDADE), sum(movdet.QUANTIDADE * movdet.PRECOCUSTO) 
-            FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, COMPRA v   
+            FROM COMPRA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu   
             WHERE v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 0 AND v.DATACOMPRA BETWEEN :DTA1 AND
             :DTA2 AND ((mov.CODALMOXARIFADO = :PCCUSTO) OR (:PCCUSTO = 0)) and movdet.baixa is not null
@@ -83,9 +83,9 @@ BEGIN
         IF (ENTRADA IS NULL) THEN
             ENTRADA = 0;
 
-       /* -- Saída*/
+       /* -- SaÃ­da*/
         SELECT SUM(movdet.QUANTIDADE), sum(movdet.QUANTIDADE * movdet.PRECOCUSTO) 
-           FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu  , VENDA v 
+           FROM VENDA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
             WHERE  v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 AND v.DATAVENDA BETWEEN :DTA1 AND
             :DTA2 AND ((mov.CODALMOXARIFADO = :PCCUSTO) OR (:PCCUSTO = 0)) and movdet.baixa is not null
@@ -97,7 +97,7 @@ BEGIN
 
         VlrTotalFim = EntraVlr - SaiVlr;
        /* -- Pedidos*/
-        SELECT SUM(movdet.QUANTIDADE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, VENDA v   
+        SELECT SUM(movdet.QUANTIDADE) FROM VENDA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu   
             WHERE v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 
             AND v.DATAVENDA BETWEEN :DTA1 AND
@@ -108,7 +108,7 @@ BEGIN
             PEDIDO = 0;
 
        /* O custo do produto e baseado em cima das materias primas */
-    -- busco o último movimento q este produto teve para pegar o preço de custo dele.
+    -- busco o Ãºltimo movimento q este produto teve para pegar o preÃ§o de custo dele.
     prCus = null;
     select first 1 precocusto from MOVIMENTODETALHE md, MOVIMENTO m where (m.CODMOVIMENTO = md.CODMOVIMENTO) and 
     md.PRECOCUSTO > 0 and (m.DATAMOVIMENTO <= :dta2) and ((md.baixa = 0) or (md.baixa = 1)) and md.codproduto = :cod 
