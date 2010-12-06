@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE  RELDRE( PDTA1                            DATE
                                  , PDTA2                            DATE, PCC INTEGER )
 RETURNS ( CONTA                            VARCHAR( 30 )
@@ -8,10 +9,12 @@ RETURNS ( CONTA                            VARCHAR( 30 )
         , TOT                              CHAR( 1 ) )
 AS
   DECLARE VARIABLE CODREC INTEGER;
+  DECLARE VARIABLE PRO INTEGER;  
   DECLARE VARIABLE CENTROPERDA INTEGER;
   DECLARE VARIABLE CONTAJURO VARCHAR(60);
   DECLARE VARIABLE CONTACOMISSAO integer;  -- Codigo da Conta
   DECLARE VARIABLE TOTALIZA Double precision;
+  DECLARE VARIABLE custo Double precision;  
   DECLARE VARIABLE TOTALREC Double precision = 0;
   DECLARE VARIABLE produt VARCHAR(300);
   DECLARE VARIABLE linha VARCHAR(60);
@@ -26,13 +29,13 @@ BEGIN
     CENTROPERDA = 0;
 
 
-  /* Busca a Conta Principal de lanÁamento Desp. Juros. */
+  /* Busca a Conta Principal de lan√ßamento Desp. Juros. */
   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CONTASDESPESAJUROS'
    INTO :CONTAJURO;
   IF (CONTAJURO IS NULL) THEN 
     CONTAJURO = '4.1.1.01';
 
-  /* Busca a Conta Principal de lanÁamento Desp. COMISSAO. */
+  /* Busca a Conta Principal de lan√ßamento Desp. COMISSAO. */
   SELECT CAST(DADOS as INTEGER) FROM PARAMETRO WHERE PARAMETRO = 'CONTACOMISSAO'
    INTO :CONTACOMISSAO;
 
@@ -107,7 +110,7 @@ BEGIN
       IF (CREDITO IS NULL) THEN
         CREDITO = 0;
 
-      DESC_CONTA = '    Receitas de ServiÁos ';
+      DESC_CONTA = '    Receitas de Servi√ßos ';
       TOTALIZA = TOTALIZA + CREDITO;
       TOTAL = TOTAL + TOTALIZA;
       ACUMULA = TOTAL;
@@ -117,7 +120,7 @@ BEGIN
   end  
 
   /*  Receitas Vendas OS */
-  DESC_CONTA = 'Receitas n„o operacionais';
+  DESC_CONTA = 'Receitas n√£o operacionais';
   CONTA  = null;
   CREDITO = null;
   TOT = 'S';
@@ -137,7 +140,7 @@ BEGIN
       IF (CREDITO IS NULL) THEN
         CREDITO = 0;
 
-      DESC_CONTA = '    Receitas de Juros e Corr. Monet·ria ';
+      DESC_CONTA = '    Receitas de Juros e Corr. Monet√°ria ';
       TOTALIZA = TOTALIZA + CREDITO;
       TOTAL = TOTAL + TOTALIZA;
       ACUMULA = TOTAL;
@@ -203,7 +206,7 @@ BEGIN
 
 
   /* Gerando Total Receita */
-  DESC_CONTA = '(-) DeduÁıes das Receitas';
+  DESC_CONTA = '(-) Dedu√ß√µes das Receitas';
   CONTA  = null;
   CREDITO = null;
   TOTAL = null;
@@ -283,7 +286,7 @@ BEGIN
         SUSPEND; 
   end  
 
-  DESC_CONTA = '= Receitas LÌquidas';
+  DESC_CONTA = '= Receitas L√≠quidas';
   CONTA  = null;
   CREDITO = null;
   --TOTAL = NULL;
@@ -301,52 +304,66 @@ BEGIN
   SUSPEND;
   TOTAL = ACUMULA;
   TOTALIZA = 0;
-
+  
 
   /* Total dos produtos VENDIDOS * seu custo  */
 
-  FOR select sum(md.VLRESTOQUE)     
+  FOR select md.CODPRODUTO,  case when sum(md.VLRESTOQUE) > 0 then sum(md.VLRESTOQUE) else 
+    sum(md.QUANTIDADE*(case when prod.VALORUNITARIOATUAL > 0 then prod.VALORUNITARIOATUAL else prod.PRECOMEDIO end)) end    
      FROM MOVIMENTO mov 
        inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
        inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
        inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
        inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA
-     where  (natu.TIPOMOVIMENTO = 3) and (ven.DATAVENDA between :PDTA1 AND :PDTA2) and ((prod.TIPO = 'PROD') or (prod.TIPO is null))  and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
-    INTO :CREDITO
+     where  (natu.TIPOMOVIMENTO = 3) and (ven.DATAVENDA between :PDTA1 AND :PDTA2)
+       and ((prod.TIPO = 'PROD') or (prod.TIPO is null))  and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
+     group by md.CODPRODUTO  
+    INTO :PRO, :CUSTO
     do
     begin
-      IF (CREDITO IS NULL) THEN
-        CREDITO = 0;
+    
+      IF (CUSTO IS NULL) THEN
+        CUSTO = 0;
 
       DESC_CONTA = '     Custo dos Produtos Vendidos';
-      TOTALIZA = TOTALIZA - CREDITO;
-      TOTAL = TOTAL + TOTALIZA;
-      ACUMULA = TOTAL;
-      TOT = 'N';
-      SUSPEND; 
+      TOTALIZA   = TOTALIZA - CUSTO;
+      TOT        = 'N';
+      
     end
-  TOTALIZA = 0;
-  FOR select sum(md.QUANTIDADE * prod.PRECOMEDIO)     
+    CREDITO = TOTALIZA;
+    TOTAL   = TOTAL + TOTALIZA;
+    ACUMULA = TOTAL;
+    
+    SUSPEND; 
+    
+    CREDITO = 0;
+    TOTALIZA = 0;
+    FOR select md.CODPRODUTO, sum(md.QUANTIDADE * (case when prod.VALORUNITARIOATUAL > 0 then prod.VALORUNITARIOATUAL else prod.PRECOMEDIO end))     
      FROM MOVIMENTO mov 
        inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
        inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
        inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
        inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA
-     where  (natu.TIPOMOVIMENTO = 3) and (ven.DATAVENDA between :PDTA1 AND :PDTA2) and prod.TIPO = 'SERV'  and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
-    INTO :CREDITO
+     where (natu.TIPOMOVIMENTO = 3) 
+       and (ven.DATAVENDA between :PDTA1 AND :PDTA2) 
+       and prod.TIPO = 'SERV'  
+       and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
+     group by md.CODPRODUTO       
+    INTO :PRO, :CREDITO
     do
     begin
       IF (CREDITO IS NULL) THEN
         CREDITO = 0;
 
-      DESC_CONTA = '     Custo dos ServiÁos Vendidos';
+      DESC_CONTA = '     Custo dos Servi√ßos Vendidos';
       TOTALIZA = TOTALIZA - CREDITO;
       TOTAL = TOTAL + TOTALIZA;
       ACUMULA = TOTAL; 
       TOT = 'N';
-      if (CREDITO > 0) then
-        SUSPEND; 
     end
+    if (CREDITO > 0) then
+      SUSPEND; 
+    
   TOTALIZA = 0;
 
   -- Outros Custos de Vendas (FRETE , SEGUROS, etc )
@@ -369,7 +386,7 @@ BEGIN
   end  
   TOTALIZA = 0;
 
-  -- ##################### Busca as contas que est„o marcadas para reduzir da Receita
+  -- ##################### Busca as contas que est√£o marcadas para reduzir da Receita
   FOR  select  distinct pl.contapai  FROM PAGAMENTO pag
      left outer join COMPRA cp on cp.CODCOMPRA = pag.CODCOMPRA
      inner join plano pl on pl.CODIGO = pag.CONTACREDITO
@@ -478,7 +495,7 @@ BEGIN
         IF (CREDITO IS NULL) THEN
           CREDITO = 0;
 
-        DESC_CONTA = '    Despesas Juros e Corr. Monet·ria ';
+        DESC_CONTA = '    Despesas Juros e Corr. Monet√°ria ';
         TOTALIZA = TOTALIZA - CREDITO;
         TOTAL = TOTAL + TOTALIZA;
         ACUMULA = TOTAL;
@@ -499,8 +516,8 @@ BEGIN
   SUSPEND;
   TOTAL = ACUMULA + TOTALIZA;
 
-  /* Resultado Geral do PerÌodo */
-  DESC_CONTA = ' Resultado Geral no perÌodo : ';
+  /* Resultado Geral do Per√≠odo */
+  DESC_CONTA = ' Resultado Geral no per√≠odo : ';
   CONTA  = null;
   CREDITO = null;
   
