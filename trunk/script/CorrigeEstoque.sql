@@ -54,6 +54,7 @@ BEGIN
          and (mov.datamovimento < :dtIni) 
          and (movdet.codProduto = :codPro) 
          and (movdet.baixa IS NOT NULL) 
+         and (natu.BAIXAMOVIMENTO is not null) 
       order by mov.DATAMOVIMENTO desc , mov.CODMOVIMENTO desc, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA
     INTO :codDetAnt;
       -- Este For Ã© apenas para pegar o Ãºltimo valor, pois no Mara, 
@@ -81,7 +82,10 @@ BEGIN
            FROM MOVIMENTO mov
            inner join MOVIMENTODETALHE movdet on mov.CODMOVIMENTO = movdet.CODMOVIMENTO
            inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA
-             WHERE (mov.datamovimento between :dtIni and :dtFim) and (movdet.codProduto = :codPro) and (movdet.baixa IS NOT NULL)
+             WHERE (mov.datamovimento between :dtIni and :dtFim) 
+               and (movdet.codProduto = :codPro)  
+               and (movdet.baixa IS NOT NULL)
+               and (natu.BAIXAMOVIMENTO is not null)
               order by mov.DATAMOVIMENTO, mov.CODMOVIMENTO, natu.BAIXAMOVIMENTO, mov.codNatureza desc, movdet.CODDETALHE
          INTO :qtde, :pm, :tipoMovimento, :tipoLancamento, :codDet
        DO BEGIN            
