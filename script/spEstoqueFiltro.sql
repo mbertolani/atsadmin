@@ -49,7 +49,7 @@ declare variable datanf date;
 BEGIN
    saida = 0;
    acumula = 0;
-        /* ENTRADA E SAIDA */
+        -- ENTRADA E SAIDA 
         FOR SELECT CODPROD, CODMOV, TIPOMOVIMENTO, PRODUTO, GRUPO, SUBGRUPOPROD, codlote, Datanf, CODNATU, 
            COD, LOTES, DTAFAB, DTAVCTO, CCUSTOS, ANOTACOES FROM LISTASPESTOQUEFILTRO(:DTA1, :DTA2, :PROD1, :PROD2, :SUBGRUPO, :NATUREZA, :CCUSTO
             , :MARCA, :LOTE, :GRUPOPROC)
@@ -58,16 +58,20 @@ BEGIN
            
         INTO :CODPROD, :CODMOV, :TIPOMOVIMENTO, :PRODUTO, :GRUPO, :SUBGRUPOPROD, :codlote, :Datanf, :CODNATU, :COD, :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, :ANOTACOES
         DO BEGIN
+          IF (CODNATU IS NULL) THEN 
+            CODNATU = 9;
+            
+          if ((codnatu = 0)  or (codnatu = 1)) then 
+          begin 
             IMPRIME = 'N';
 
-            IMPRIME = 'S';
             ENTRA = 0;
             SAI = 0;
             TOTENTRA = 0;
             TOTSAI = 0;
 
-            /* SALDO INICIAL DO ESTOQUE */
-            /*-- Qtde Inicial ENTRADA*/
+            -- SALDO INICIAL DO ESTOQUE 
+            -- Qtde Inicial ENTRADA
            FOR SELECT SUM(movdet.QUANTIDADE), movdet.PRECOCUSTO, 
              sum(movdet.PRECOCUSTO * movdet.QTDEESTOQUE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
                 WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
@@ -79,7 +83,7 @@ BEGIN
             DO BEGIN
                 TOTENTRA = TOTENTRA + ENTRA;   
             END
-            /*-- Qtde Inicial SAIDA*/
+            -- Qtde Inicial SAIDA
             FOR SELECT SUM(movdet.QUANTIDADE), movdet.PRECOCUSTO 
                  ,sum(movdet.PRECOCUSTO * movdet.QTDEESTOQUE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
                 WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
@@ -104,7 +108,8 @@ BEGIN
               LOTES = 'TODOS OS LOTES SISTEMA';
             IF (CODNATU = 0) THEN 
             BEGIN
-               /* -- Entrada*/
+               -- Entrada
+               IMPRIME = 'S';               
                VALORESTOQUE = 0;
                ENTRADA = 0;
                PRECOUNIT = 0;
@@ -129,7 +134,7 @@ BEGIN
                   
                   if (sai is null) then 
                     sai = 0;
-                  PRECOUNIT = sai; -- Preço Custo Total 
+                  PRECOUNIT = sai; -- Preco Custo Total 
 
                   if (totsai is null) then 
                     totsai = 0;
@@ -158,9 +163,10 @@ BEGIN
 
 
             END
-            -- Saída
+            -- Saida
             IF (CODNATU = 1) THEN 
             BEGIN
+              IMPRIME = 'S';
                 VALORESTOQUE = 0;
                 valorVenda = 0;
                 FOR SELECT SUM(movdet.QUANTIDADE), 
@@ -182,7 +188,7 @@ BEGIN
                   
                   if (sai is null) then 
                     sai = 0;
-                  PRECOUNIT = sai; -- Preço Custo Total 
+                  PRECOUNIT = sai; -- Preco Custo Total 
 
                   if (totsai is null) then 
                     totsai = 0;
@@ -218,7 +224,7 @@ BEGIN
             SALDOINIACUM = SALDOINI;
         ENTRADA = TOTENTRA;
         SAIDA = TOTSAI;
-      /* -- IF ((SALDOINI > 0) OR (SALDOFIM > 0) OR (ENTRADA > 0) */
+       -- IF ((SALDOINI > 0) OR (SALDOFIM > 0) OR (ENTRADA > 0) 
         SALDOFIM = SALDOINI + ENTRADA - SAIDA;
         IF (CODPRODU = COD) THEN
             SALDOFIMACUM = (SALDOINIACUM + ENTRADA - SAIDA);
@@ -228,13 +234,17 @@ BEGIN
         --VALORESTOQUE = SALDOFIMACUM * PRECOUNIT;
         IF (IMPRIME = 'S') THEN 
         begin
-          /*       IF ((CCUSTO = CCUSTOS) OR (CCUSTO = 1)) then
-              if ((LOTE = LOTES) OR (LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA')) then*/
+          --IF ((CCUSTO = CCUSTOS) OR (CCUSTO = 1)) then
+          -- if ((LOTE = LOTES) OR (LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA')) then
           SUSPEND;
         end
-        NF = null;
-        SAIDA = 0;
-        ENTRADA = 0;  
+        NF      = null;
+        SAIDA   = 0;
+        ENTRADA = 0; 
+        CODNATU = null;
+        
+      end   
+        
     END
 
 END^
