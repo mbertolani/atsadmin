@@ -13,6 +13,8 @@ begin
  /* Adiciono a Quantidade Comprada ou Entrada na Tab Lote */
  SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'EMPRESA'
  INTO :TIPO;
+ if (TIPO is null) then
+  TIPO = 'EMPRESA';
  /* Nao usada no CITRUS */
  IF (TIPO <> 'CITRUS') THEN
  begin 
