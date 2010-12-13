@@ -664,8 +664,6 @@ begin
     if (versaoSistema = '1.0.0.65') then
     begin
       executaScript('gera_nf_compra.sql');
-      executaScript('gera_valor.sql');
-      executaScript('gera_nf_venda.sql');
       executaScript('desbloqueia_clientes.sql');
       mudaVersao('1.0.0.66');
     end;  // Fim Ataulização Versao 1.0.0.66
@@ -714,9 +712,8 @@ begin
       executaScript('corrige_fatura.sql');
       executaScript('CorrigeEstoque.sql');
       executaScript('retornaEstoqueVenda.sql');
-      executaScript('nfe_fatura.sql');
       executaScript('mov_estoque.sql');
-      executaScript('retornaEstoqueVenda.sql');
+      executaScript('retornaEstoqueCompra.sql');
       executaScript('rel_vendaCompra.sql');
       mudaVersao('1.0.0.69');
     end;  // Fim Ataulização Versao 1.0.0.69
@@ -734,7 +731,7 @@ begin
     if (versaoSistema = '1.0.0.70') then
     begin
       executaDDL('MOVIMENTODETALHE', 'VLR_BASEICMS','DOUBLE PRECISION');
-      executaScript('calcula_icms_substprod.sql');
+//      executaScript('calcula_icms_substprod.sql');
       executaScript('listaSpEstoqueFiltro.sql');
       executaScript('spEstoqueFiltro.sql');
       mudaVersao('1.0.0.71');
@@ -787,6 +784,7 @@ begin
 
     if (versaoSistema = '1.0.0.76') then
     begin
+      executaScript('nfe_fatura.sql');    
       executaScript('corrige_valor_fatura.sql');
       executaDDL('MOVIMENTO', 'KM', 'varchar(30)');
       executaDDL('MOVIMENTO', 'TOTALMOVIMENTO', 'double precision');
@@ -811,6 +809,21 @@ begin
       executaScript('invent_estoque.sql');
       mudaVersao('1.0.0.78');
     end;  // Fim Ataulização Versao 1.0.0.78
+
+    if (versaoSistema = '1.0.0.78') then
+    begin
+      executaSql('ALTER TRIGGER SAIDA_ESTOQUE INACTIVE');
+      executaSql('ALTER TRIGGER ENTRADA_ESTOQUE INACTIVE');
+      executaSql('ALTER TRIGGER ALTERA_ESTOQUE INACTIVE');
+      executaSql('ALTER TRIGGER LOTE_EXCLUI INACTIVE');
+      executaSql('ALTER TRIGGER MOV_ESTOQUECORRIGE INACTIVE');
+      executaScript('gera_valor.sql');
+      executaScript('mov_estoque.sql');
+      executaScript('gera_nf_venda.sql');
+      executaScript('lote_entrada.sql');
+      executaScript('lote_saida.sql');
+      mudaVersao('1.0.0.79');
+    end;  // Fim Ataulização Versao 1.0.0.79
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
