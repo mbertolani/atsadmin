@@ -1,8 +1,9 @@
 object fRelatorioCaixa: TfRelatorioCaixa
   Left = 220
   Top = 163
-  Width = 532
-  Height = 342
+  Width = 527
+  Height = 336
+  AutoSize = True
   Caption = 'Relat'#243'rio Caixa'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,9 +19,10 @@ object fRelatorioCaixa: TfRelatorioCaixa
   object MMJPanel3: TMMJPanel
     Left = 0
     Top = 0
-    Width = 524
-    Height = 308
+    Width = 519
+    Height = 309
     Align = alClient
+    AutoSize = True
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
