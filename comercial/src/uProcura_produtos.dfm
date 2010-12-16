@@ -164,7 +164,7 @@ object fProcura_produtos: TfProcura_produtos
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 797
+    Width = 805
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -510,7 +510,7 @@ object fProcura_produtos: TfProcura_produtos
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 797
+    Width = 805
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -527,7 +527,9 @@ object fProcura_produtos: TfProcura_produtos
       Width = 73
       Height = 17
       Caption = 'Tipo 1'
+      Checked = True
       TabOrder = 1
+      TabStop = True
       OnClick = RadioButton1Click
     end
     object RadioButton2: TRadioButton
@@ -536,9 +538,7 @@ object fProcura_produtos: TfProcura_produtos
       Width = 73
       Height = 17
       Caption = 'Tipo 2'
-      Checked = True
       TabOrder = 2
-      TabStop = True
       OnClick = RadioButton2Click
     end
     object btnIncluir: TBitBtn

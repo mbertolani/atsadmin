@@ -344,12 +344,12 @@ begin
      dm.cds_categoria.Next;
   end;
   dm.cds_categoria.Close;
-
   Panel1.Visible := False;
   Panel2.Visible := True;
-  cbMarca.Text := '';
+  RadioButton2.Checked := True;
+  {cbMarca.Text := '';
   panel2.TabOrder := 0;
-  EvDBFind1.SetFocus;
+  EvDBFind1.SetFocus;   }
 
   if var_F = 'venda' then
     Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
