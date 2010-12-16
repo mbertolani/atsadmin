@@ -194,6 +194,7 @@ begin
     dm.scds_forn_proc.Params[1].Clear;
     dm.scds_forn_proc.Params[2].AsInteger:=StrToInt(Edit1.Text);
     dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1; //Compra e Despesa    
     dm.scds_forn_proc.Open;
     if dm.scds_forn_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
@@ -342,7 +343,7 @@ begin
   dm.scds_forn_proc.Params[3].clear;
   dm.scds_forn_proc.Params[4].clear;
   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
-  dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;
+  dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1; //Compra e Despesa
   dm.scds_forn_proc.Open;
   Edit2.Text := '';
   if (dm.moduloUsado = 'CITRUS') then
