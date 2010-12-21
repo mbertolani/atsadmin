@@ -85,6 +85,7 @@ inherited fEstado: TfEstado
       Top = 57
       Width = 17
       Height = 16
+      Hint = 'Estado'
       Anchors = [akTop]
       Caption = 'UF'
       Font.Charset = ANSI_CHARSET
@@ -93,6 +94,8 @@ inherited fEstado: TfEstado
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       Transparent = True
     end
     object Label8: TLabel
@@ -130,6 +133,7 @@ inherited fEstado: TfEstado
       Top = 57
       Width = 29
       Height = 16
+      Hint = 'Margem De Valor Agregado(ST)'
       Anchors = [akTop]
       Caption = 'MVA'
       Font.Charset = ANSI_CHARSET
@@ -138,10 +142,12 @@ inherited fEstado: TfEstado
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       Transparent = True
     end
     object Label11: TLabel
-      Left = 452
+      Left = 447
       Top = 57
       Width = 74
       Height = 16
@@ -156,7 +162,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label12: TLabel
-      Left = 534
+      Left = 531
       Top = 57
       Width = 76
       Height = 16
@@ -175,6 +181,7 @@ inherited fEstado: TfEstado
       Top = 57
       Width = 25
       Height = 16
+      Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
       Caption = 'CST'
       Font.Charset = ANSI_CHARSET
@@ -183,6 +190,8 @@ inherited fEstado: TfEstado
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       Transparent = True
     end
     object Label7: TLabel
@@ -190,6 +199,7 @@ inherited fEstado: TfEstado
       Top = 105
       Width = 15
       Height = 16
+      Hint = 'Imposto sobre produtos industrializados'
       Anchors = [akTop]
       Caption = 'IPI'
       Font.Charset = ANSI_CHARSET
@@ -198,6 +208,8 @@ inherited fEstado: TfEstado
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       Transparent = True
     end
     object Label5: TLabel
@@ -220,6 +232,7 @@ inherited fEstado: TfEstado
       Top = 105
       Width = 21
       Height = 16
+      Hint = 'Programa de Integra'#231#227'o Social'
       Anchors = [akTop]
       Caption = 'PIS'
       Font.Charset = ANSI_CHARSET
@@ -228,6 +241,8 @@ inherited fEstado: TfEstado
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       Transparent = True
     end
     object Label14: TLabel
@@ -235,6 +250,7 @@ inherited fEstado: TfEstado
       Top = 105
       Width = 48
       Height = 16
+      Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
       Anchors = [akTop]
       Caption = 'COFINS'
       Font.Charset = ANSI_CHARSET
@@ -243,6 +259,8 @@ inherited fEstado: TfEstado
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       Transparent = True
     end
     object Label15: TLabel
