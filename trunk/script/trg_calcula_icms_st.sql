@@ -1,4 +1,3 @@
-set term ^;
 CREATE OR ALTER TRIGGER CALCULA_ICMS_ST FOR MOVIMENTODETALHE ACTIVE
 BEFORE UPDATE POSITION 0
 AS
@@ -33,7 +32,7 @@ BEGIN
 	where ec.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
 	into :UF, :PESSOA, :CODCLI;
 	
-	if ((:CODCLI = null) or (:CODCLI is null)) then
+	if (:CODCLI is null) then
 	begin
     select first 1 ef.UF, f.TIPOFIRMA from movimento m
 	inner join ENDERECOFORNECEDOR ef on ef.CODFORNECEDOR = m.CODFORNECEDOR
@@ -75,8 +74,11 @@ BEGIN
            if (CICMS_SUBST > 0) then    
           new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100)));
           new.VLR_BASEICMS = ((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms);
-          new.VALOR_ICMS = (new.VLR_BASEICMS) * (CICMS / 100);                 
-          new.ICMS_SUBST = (new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS);
+          new.VALOR_ICMS = (new.VLR_BASEICMS) * (CICMS / 100);
+		  if ( new.ICMS_SUBSTD > 0) then
+			new.ICMS_SUBST = (new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS);
+		  else
+		    new.ICMS_SUBST = 0;
        new.cst = :cst_p;
 	end
 
