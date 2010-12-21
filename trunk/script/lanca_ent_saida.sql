@@ -1,51 +1,46 @@
-SET TERM ^ ;
-ALTER PROCEDURE LANCA_ENT_SAIDA (
-    TIPOLANC Smallint,
-    CODMOV Integer,
-    CODCLIFORN Integer,
-    DATA Date,
-    DATAVCTO Date,
-    CODUSUARIO Smallint,
-    CODCCUSTO Integer,
-    SERIE Char(1),
-    NSERIESAI Integer,
-    NSERIEENT Varchar(10) )
+CREATE OR ALTER PROCEDURE LANCA_ENT_SAIDA (
+    TIPOLANC smallint,
+    CODMOV integer,
+    CODCLIFORN integer,
+    DATA date,
+    DATAVCTO date,
+    CODUSUARIO smallint,
+    CODCCUSTO integer,
+    SERIE char(1),
+    NSERIESAI integer,
+    NSERIEENT varchar(10) )
 AS
 DECLARE VARIABLE CODIGO INTEGER;
-DECLARE VARIABLE CODCV INTEGER;
+DECLARE VARIABLE EXISTE INTEGER;
 BEGIN
-  /* Estes lanÃ§amentos sÃ£o necessÃ¡rios para o sistema fazer o lanÃ§amento na tab MOVIMENTOCONT */
+  /* Estes lançamentos são necessários para o sistema fazer o lançamento na tab MOVIMENTOCONT */
   /* LANCA ENTRADA NA TAB COMPRA */
-  codCv = null;
   IF (TIPOLANC = 0) then
   BEGIN
-     select codcompra from compra where codmovimento = :codMov
-       into :codCV;
-     delete from compra where codcompra = :codCv;  
-
-     INSERT INTO COMPRA (CODMOVIMENTO, CODFORNECEDOR, DATACOMPRA, DATAVENCIMENTO,
-     DESCONTO, VALOR, ENTRADA, CODUSUARIO, CODCCUSTO, NOTAFISCAL) 
-     VALUES (:CODMOV, :CODCLIFORN, 
-     :DATAVCTO, :DATAVCTO, 0, 0, 0, :CODUSUARIO, :CODCCUSTO, :nSerieSai);
+     select c.CODCOMPRA from COMPRA c where c.CODMOVIMENTO = :CODMOV
+     into :EXISTE;
+     if (( EXISTE is null) or ( EXISTE = 0)) then
+     begin
+        INSERT INTO COMPRA (CODMOVIMENTO, CODFORNECEDOR, DATACOMPRA, DATAVENCIMENTO,
+        DESCONTO, VALOR, ENTRADA, CODUSUARIO, CODCCUSTO, NOTAFISCAL) 
+        VALUES (:CODMOV, :CODCLIFORN, 
+        :DATAVCTO, :DATAVCTO, 0, 0, 0, :CODUSUARIO, :CODCCUSTO, :nSerieSai);
+     end
   END
   /* LANCA SAIDA NA TAB SAIDA */
   IF (TIPOLANC = 1) then
   BEGIN
-     select codVenda from Venda where codmovimento = :codMov
-       into :codCV;
-     delete from Venda where codVenda = :codCv;         
-     
-     CODIGO = GEN_ID("GENVENDA",1);   
-     INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA, DATAVENCIMENTO,
-     DESCONTO, VALOR, ENTRADA, CODUSUARIO, CODCCUSTO, SERIE, BANCO, CODVENDEDOR, NOTAFISCAL, CONTROLE) 
-     VALUES 
-     (:CODIGO, :CODMOV, :CODCLIFORN, 
-     :DATA, :DATA, 0, 0, 0, :CODUSUARIO, :CODCCUSTO, :SERIE, 1, :CODUSUARIO, :nSerieSai, :nSerieEnt);
+     select v.CODVENDA from VENDA v where v.CODMOVIMENTO = :CODMOV
+     into :EXISTE;
+     if (( EXISTE is null) or ( EXISTE = 0)) then
+     begin
+        CODIGO = GEN_ID("GENVENDA",1);   
+        INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA, DATAVENCIMENTO,
+        DESCONTO, VALOR, ENTRADA, CODUSUARIO, CODCCUSTO, SERIE, BANCO, CODVENDEDOR, NOTAFISCAL, CONTROLE) 
+        VALUES 
+        (:CODIGO, :CODMOV, :CODCLIFORN, 
+        :DATA, :DATA, 0, 0, 0, :CODUSUARIO, :CODCCUSTO, :SERIE, 1, :CODUSUARIO, :nSerieSai, :nSerieEnt);
+     end
   END
-END^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE LANCA_ENT_SAIDA TO  SYSDBA;
+END
 
