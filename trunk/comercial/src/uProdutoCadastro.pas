@@ -259,6 +259,9 @@ begin
   if (DM.cds_Marca.Active) then
     DM.cds_Marca.Close;
   DM.cds_Marca.Open;
+  DBOrigem.ItemIndex := 0;
+  DBEdit22.Text := '00000000';
+  DBEdit4.Text := 'UN';
 
 end;
 
@@ -314,7 +317,6 @@ begin
     3 : dm.cds_produtoTIPO.AsString := 'SERV';
     4 : dm.cds_produtoTIPO.AsString := 'LOCA';
   end;
-
   inherited;
 
 {  if varForm = 'Procura' then
