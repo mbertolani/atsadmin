@@ -1665,7 +1665,7 @@ procedure TfCompra.SpeedButton1Click(Sender: TObject);
 begin
   inherited;
  fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
-  fProcurar.usuarioproc := 'VENDEDOR';
+  fProcurar.usuarioproc := 'COMPRADOR';
   fProcurar.BtnProcurar.Click;
   fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
   try
