@@ -21,7 +21,7 @@ object fNF: TfNF
     Left = 0
     Top = 48
     Width = 773
-    Height = 508
+    Height = 515
     ActivePage = tabitens
     Align = alClient
     PopupMenu = PopupMenu1
@@ -1152,7 +1152,7 @@ object fNF: TfNF
       end
       object MMJPanel1: TMMJPanel
         Left = 0
-        Top = 433
+        Top = 440
         Width = 765
         Height = 47
         Align = alBottom
@@ -3466,7 +3466,7 @@ object fNF: TfNF
       end
       object MMJPanel3: TMMJPanel
         Left = 0
-        Top = 433
+        Top = 440
         Width = 765
         Height = 47
         Align = alBottom
@@ -4859,7 +4859,7 @@ object fNF: TfNF
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         PopupMenu = PopupMenu1
         TabOrder = 8
@@ -4876,7 +4876,7 @@ object fNF: TfNF
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         PopupMenu = PopupMenu1
         TabOrder = 9
@@ -4923,7 +4923,7 @@ object fNF: TfNF
       end
       object MMJPanel4: TMMJPanel
         Left = 0
-        Top = 433
+        Top = 440
         Width = 765
         Height = 47
         Align = alBottom
@@ -5330,6 +5330,7 @@ object fNF: TfNF
       Width = 73
       Height = 17
       Caption = 'Financeiro '
+      Checked = True
       Color = clTeal
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -5339,6 +5340,7 @@ object fNF: TfNF
       ParentColor = False
       ParentFont = False
       PopupMenu = PopupMenu1
+      State = cbChecked
       TabOrder = 4
       OnClick = cbFinanceiroClick
       LinkedControls = <>
