@@ -373,18 +373,18 @@ begin
 
   if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1)) then
   begin
-     DBGrid1.Columns[7].Visible := True;
-     DBGrid1.Columns[8].Visible := False;
+     DBGrid1.Columns[8].Visible := True;
+     DBGrid1.Columns[9].Visible := False;
   end
   else
   begin
-     DBGrid1.Columns[8].Visible := True;
-     DBGrid1.Columns[7].Visible := False;
+     DBGrid1.Columns[9].Visible := True;
+     DBGrid1.Columns[8].Visible := False;
   end;
   if (RadioGroup1.ItemIndex = 4) then
   begin
-     DBGrid1.Columns[7].Visible := True;
      DBGrid1.Columns[8].Visible := True;
+     DBGrid1.Columns[9].Visible := True;
   end;
 
   if cds_cns.Active then
