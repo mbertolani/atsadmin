@@ -206,6 +206,7 @@ type
     procedure BitBtn6Click(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
     procedure precolista1;
@@ -1405,6 +1406,11 @@ begin
     fClassificacaoFiscalProduto.Free;
   end;
 
+end;
+
+procedure TfProcura_produtos.DBGrid1DblClick(Sender: TObject);
+begin
+  btnIncluir.Click;
 end;
 
 end.

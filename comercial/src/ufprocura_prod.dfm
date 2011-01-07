@@ -44,6 +44,7 @@ object fProcura_prod: TfProcura_prod
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
     OnCellClick = DBGrid1CellClick
+    OnDblClick = DBGrid1DblClick
     OnKeyDown = DBGrid1KeyDown
     OnKeyUp = DBGrid1KeyUp
     OnTitleClick = DBGrid1TitleClick
@@ -125,7 +126,7 @@ object fProcura_prod: TfProcura_prod
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 791
+    Width = 799
     Height = 90
     Align = alTop
     BevelInner = bvLowered
@@ -529,8 +530,8 @@ object fProcura_prod: TfProcura_prod
   end
   object DBGrid3: TDBGrid
     Left = 0
-    Top = 467
-    Width = 791
+    Top = 478
+    Width = 799
     Height = 65
     Align = alBottom
     Color = clCream
@@ -553,7 +554,7 @@ object fProcura_prod: TfProcura_prod
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 791
+    Width = 799
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1

@@ -415,6 +415,7 @@ object fProcura_produtos: TfProcura_produtos
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
     OnCellClick = DBGrid1CellClick
+    OnDblClick = DBGrid1DblClick
     OnKeyDown = DBGrid1KeyDown
     OnKeyPress = DBGrid1KeyPress
     OnKeyUp = DBGrid1KeyUp
