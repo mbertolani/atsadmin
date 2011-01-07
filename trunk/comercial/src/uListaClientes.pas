@@ -550,7 +550,9 @@ procedure TfListaClientes.DBGrid1DblClick(Sender: TObject);
 begin
 //  if (varform = 'consulta') then
   if (dm.var_teste = 'consulta') then
-    bitbtn8.Click;//fClienteCadastro.ShowModal;
+    bitbtn8.Click//fClienteCadastro.ShowModal;
+  else
+    bitbtn13.Click;
 end;
 
 procedure TfListaClientes.RadioButton1Click(Sender: TObject);

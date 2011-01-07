@@ -241,6 +241,7 @@ object fProcurar: TfProcurar
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      OnDblClick = DBGrid1DblClick
       OnTitleClick = DBGrid1TitleClick
     end
     object EditProc: TEdit

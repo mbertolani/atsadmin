@@ -34,6 +34,7 @@ type
     procedure btnImprimirClick(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
     procedure RadioGroup2Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -205,6 +206,12 @@ begin
   if (radioGroup2.ItemIndex = 2) then
     dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1; //Compra e Despesa
   BtnProcurar.Click;
+end;
+
+procedure TfProcurar.DBGrid1DblClick(Sender: TObject);
+begin
+   if ((BtnOk.Enabled = True) and (BtnOk.Visible = True)) then
+     BtnOk.Click;
 end;
 
 end.

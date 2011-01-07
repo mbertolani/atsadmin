@@ -214,6 +214,7 @@ type
     procedure EvDBFind1Change(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     vlr: double;
     { Private declarations }
@@ -1490,6 +1491,7 @@ begin
         fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
         fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
         fCompra.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
+        fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
         fCompra.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
         fCompra.cds_Mov_detPRECO.AsFloat := Edit4.Value;
         fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
@@ -1598,6 +1600,11 @@ begin
   Panel2.Visible := False;
   RadioButton2.Checked := False;
  end;
+end;
+
+procedure TfProcura_prod.DBGrid1DblClick(Sender: TObject);
+begin
+ BitBtn6.Click;
 end;
 
 end.
