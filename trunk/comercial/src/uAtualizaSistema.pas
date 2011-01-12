@@ -742,7 +742,7 @@ begin
       executaDDL('MOVIMENTO', 'CODORIGEM','INTEGER');
       executaDDL('ESTADO_ICMS', 'DADOSADC5', 'Varchar(200)');
       executaDDL('ESTADO_ICMS', 'DADOSADC6', 'Varchar(200)');
-      executaDDL('PAGAMENTO', 'USERID', 'Char(1)');
+      executaDDL('PAGAMENTO', 'USERID', 'Char(2)');
       mudaVersao('1.0.0.72');
     end;  // Fim Ataulização Versao 1.0.0.72
 
@@ -822,6 +822,9 @@ begin
       executaScript('gera_nf_venda.sql');
       executaScript('lote_entrada.sql');
       executaScript('lote_saida.sql');
+      executaScript('baixa_estoque.sql');
+      executaScript('lanca_ent_saida.sql');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');      
       mudaVersao('1.0.0.79');
     end;  // Fim Ataulização Versao 1.0.0.79
 
