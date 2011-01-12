@@ -1293,6 +1293,13 @@ inherited fCompra: TfCompra
       Height = 13
       Caption = 'Ipi'
     end
+    object Label13: TLabel
+      Left = 8
+      Top = 58
+      Width = 88
+      Height = 13
+      Caption = 'Descri'#231#227'o Produto'
+    end
     object dbeProduto: TDBEdit
       Left = 6
       Top = 34
@@ -1485,7 +1492,7 @@ inherited fCompra: TfCompra
       Height = 25
       Caption = 'Novo'
       PopupMenu = PopupMenu1
-      TabOrder = 8
+      TabOrder = 9
       OnClick = btnNovoClick
     end
     object BitBtn8: TBitBtn
@@ -1495,7 +1502,7 @@ inherited fCompra: TfCompra
       Height = 25
       Caption = 'Excluir'
       PopupMenu = PopupMenu1
-      TabOrder = 9
+      TabOrder = 10
       OnClick = BitBtn8Click
       NumGlyphs = 2
     end
@@ -1524,15 +1531,15 @@ inherited fCompra: TfCompra
       Height = 25
       Caption = 'Rateio'
       PopupMenu = PopupMenu1
-      TabOrder = 10
+      TabOrder = 11
       OnClick = btnRateioClick
       NumGlyphs = 2
     end
     object DBGrid1: TJvDBGrid
-      Left = 6
-      Top = 59
-      Width = 616
-      Height = 315
+      Left = 5
+      Top = 95
+      Width = 619
+      Height = 277
       DataSource = DtSrc1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -1541,7 +1548,7 @@ inherited fCompra: TfCompra
       Font.Style = []
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       ParentFont = False
-      TabOrder = 11
+      TabOrder = 12
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -1566,9 +1573,9 @@ inherited fCompra: TfCompra
         end
         item
           Expanded = False
-          FieldName = 'PRODUTO'
+          FieldName = 'DESCPRODUTO'
           Title.Caption = 'Mercadoria'
-          Width = 303
+          Width = 306
           Visible = True
         end
         item
@@ -1599,6 +1606,23 @@ inherited fCompra: TfCompra
           Width = 46
           Visible = True
         end>
+    end
+    object DBEdit17: TDBEdit
+      Left = 6
+      Top = 70
+      Width = 615
+      Height = 24
+      DataField = 'DESCPRODUTO'
+      DataSource = DtSrc1
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 8
+      OnKeyPress = FormKeyPress
     end
   end
   object CheckBox1: TCheckBox [13]
