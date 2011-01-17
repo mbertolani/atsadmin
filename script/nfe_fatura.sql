@@ -24,6 +24,7 @@ DECLARE VARIABLE vlr_base DOUBLE PRECISION;
 DECLARE VARIABLE qnt DOUBLE PRECISION;
 DECLARE VARIABLE ipi DOUBLE PRECISION;
 DECLARE VARIABLE subst DOUBLE PRECISION;
+DECLARE VARIABLE vfrete DOUBLE PRECISION;
 
 -- (new.VLR_BASE*new.QUANTIDADE) valor tot cada PRODUTo
 BEGIN
@@ -32,8 +33,8 @@ BEGIN
   TOT_IPI = 0;
   parc = 0; 
   /* Gera as FAtura para imprimir na NFe */ 
-  select prazo, cast(notafiscal as varchar(15)), serie, CODMOVIMENTO, CODCLIENTE from venda where codvenda = :codvenda
-  into :prazo, :nf, :serie, :codm, :cli;
+  select prazo, cast(notafiscal as varchar(15)), serie, CODMOVIMENTO, CODCLIENTE, VALOR_FRETE from venda where codvenda = :codvenda
+  into :prazo, :nf, :serie, :codm, :cli, :vfrete;
   
   select first 1 ec.UF from ENDERECOCLIENTE ec where ec.CODCLIENTE = :cli and ec.TIPOEND = 0
     into :uf;
@@ -71,7 +72,7 @@ BEGIN
           parc = parc + 1;
           numerofatura = udf_trim(:NF) || '/' || UDF_TRIM(:parc);
           if (parc = 1) then
-            valor = (VLR_TOT/parcelas) + TOT_SUBST + TOT_IPI;
+            valor = (VLR_TOT/parcelas) + TOT_SUBST + TOT_IPI + vfrete;
           else
             valor = (VLR_TOT/parcelas);
           suspend;
@@ -104,7 +105,7 @@ BEGIN
       into :datafatura, :numerofatura
       do begin
       if (parc = 0) then
-            valor = (VLR_TOT/parcelas) + TOT_SUBST + TOT_IPI;
+            valor = (VLR_TOT/parcelas) + TOT_SUBST + TOT_IPI + vfrete;
           else
             valor = (VLR_TOT/parcelas);        
         parc = parc + 1;
@@ -139,7 +140,7 @@ BEGIN
       into :datafatura, :numerofatura
     do begin
         if (parc = 0) then
-            valor = (VLR_TOT/parcelas) + TOT_SUBST + TOT_IPI;
+            valor = (VLR_TOT/parcelas) + TOT_SUBST + TOT_IPI + vfrete;
           else
             valor = (VLR_TOT/parcelas);        
         parc = parc + 1;
