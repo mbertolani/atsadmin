@@ -956,14 +956,14 @@ procedure TfNFeletronica.JvDBGrid1DrawColumnCell(Sender: TObject;
 begin
   // Selecionou
   if Column.Field = cdsNFSELECIONOU then
-   begin
-       JvDBGrid1.Canvas.FillRect(Rect);
-       ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 1);
-       if cdsNFSELECIONOU.AsString = 'S' then
-         ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 2)
-       else
-         ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 0);
-   end;
+  begin
+     JvDBGrid1.Canvas.FillRect(Rect);
+     ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 1);
+     if cdsNFSELECIONOU.AsString = 'S' then
+       ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 2)
+     else
+       ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 0);
+  end;
 end;
 
 procedure TfNFeletronica.BitBtn3Click(Sender: TObject);
@@ -1101,13 +1101,13 @@ begin
   vXMLDoc.LoadFromFile('c:\home\stats.xml');
 
   //PEGA A RESPOSTA
-  with vXMLDoc.DocumentElement  do
-  begin
-    motivo :=    ChildNodes['xMotivo'].text;
-  end;
+   with vXMLDoc.DocumentElement  do
+   begin
+     motivo :=    ChildNodes['xMotivo'].text;
+   end;
   MessageDlg( motivo, mtInformation, [mbOK], 0);
   finally
-  VXMLDoc.Free;
+    VXMLDoc.Free;
   end;
 end;
 
@@ -1123,8 +1123,8 @@ begin
   OpenDialog1.DefaultExt:= '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
   OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
-  if OpenDialog1.Execute then
-  begin
+   if OpenDialog1.Execute then
+   begin
     ACBrNFe1.NotasFiscais.Clear;
     caminho := OpenDialog1.FileName;
     ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
@@ -1135,24 +1135,24 @@ begin
      ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
      ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.Cancelamento.Protocolo);
     Protocolo := ACBrNFe1.WebServices.Cancelamento.Protocolo;
-  end;
+   end;
 
   //ABRE A NOTA
   vXMLDoc.LoadFromFile(caminho);
 
-  //PEGA A RESPOSTA
-  with vXMLDoc.DocumentElement  do
-  begin
-    numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-    if (numnf = '') then
-      numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-  end;
-  DecimalSeparator := '.';
-  str := 'Update NOTAFISCAL set PROTOCOLOCANC = ' + quotedstr(Protocolo);
-  str := str + ' WHERE NOTAFISCAL = ' + numnf;
-  dm.sqlsisAdimin.ExecuteDirect(str);
-  DecimalSeparator := ',';
-  if cdsNF.Active then
+   //PEGA A RESPOSTA
+   with vXMLDoc.DocumentElement  do
+   begin
+     numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+     if (numnf = '') then
+       numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+   end;
+   DecimalSeparator := '.';
+   str := 'Update NOTAFISCAL set PROTOCOLOCANC = ' + quotedstr(Protocolo);
+   str := str + ' WHERE NOTAFISCAL = ' + numnf;
+   dm.sqlsisAdimin.ExecuteDirect(str);
+   DecimalSeparator := ',';
+   if cdsNF.Active then
     cdsNFSELECIONOU.AsString := '';
   finally
   VXMLDoc.Free;
@@ -1169,12 +1169,12 @@ var vXMLDoc: TXMLDocument;
 begin
   NomArquivo := 'c:\home\stats.xml';
   vXMLDoc := TXMLDocument.Create(self);
-  Try
+ Try
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
   OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
-    if OpenDialog1.Execute then
+  if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
@@ -1197,10 +1197,10 @@ begin
   begin
     motivo := ChildNodes['infProt'].ChildNodes['xMotivo'].text;
   end;
-  MessageDlg( motivo, mtInformation, [mbOK], 0);
-  finally
-  VXMLDoc.Free;
-  end;
+ MessageDlg( motivo, mtInformation, [mbOK], 0);
+ finally
+ VXMLDoc.Free;
+ end;
 end;
 
 procedure TfNFeletronica.ValidaNFeClick(Sender: TObject);
@@ -1241,32 +1241,33 @@ end;
 
 procedure TfNFeletronica.FormShow(Sender: TObject);
 begin
-   cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+ cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
 
-   if (sEmpresa.Active) then
-     sEmpresa.Close;
-   sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
-   sEmpresa.Open;
+ if (sEmpresa.Active) then
+   sEmpresa.Close;
+ sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+ sEmpresa.Open;
 
-   if (sEmpresa1.Active) then
-     sEmpresa1.Close;
-   sEmpresa1.Open;
-
-   Edit1.Text := sEmpresa1DIVERSOS1.AsString;
-
-   if (sEmpresa1TIPO.AsString = '1') then
-   begin
-     ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
-     label5.Font.Color := clBlue;
-     Label5.Caption :=  'PRODUÇÃO.';
-   end
-   else begin
-    ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
-    label5.Font.Color := clRed;
-    Label5.Caption :=  'HOMOLOGAÇÃO.';
-   end;
-   ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresa1DIVERSOS1.AsString;
+ if (sEmpresa1.Active) then
    sEmpresa1.Close;
+ sEmpresa1.Open;
+
+ Edit1.Text := sEmpresa1DIVERSOS1.AsString;
+
+ if (sEmpresa1TIPO.AsString = '1') then
+ begin
+   ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
+   label5.Font.Color := clBlue;
+   Label5.Caption :=  'PRODUÇÃO.';
+ end
+ else
+ begin
+  ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
+  label5.Font.Color := clRed;
+  Label5.Caption :=  'HOMOLOGAÇÃO.';
+ end;
+ ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresa1DIVERSOS1.AsString;
+ sEmpresa1.Close;
 end;
 
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
@@ -1275,195 +1276,193 @@ var
   itensnf : String;
 begin
 
-   if (not cds_ccusto.Active) then
-     cds_ccusto.Open;
-   cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+ if (not cds_ccusto.Active) then
+   cds_ccusto.Open;
+ cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
 
-   //Seleciona Empresa de acordo com o CCusto selecionado
-   if (sEmpresa.Active) then
-     sEmpresa.Close;
-   sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
-   sEmpresa.Open;
+ //Seleciona Empresa de acordo com o CCusto selecionado
+ if (sEmpresa.Active) then
+   sEmpresa.Close;
+ sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+ sEmpresa.Open;
 
-   //verifica se o CC foi selecionado caso não da mensagem avisando
-   if(sEmpresa.IsEmpty) then
-     MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
+ //verifica se o CC foi selecionado caso não da mensagem avisando
+ if(sEmpresa.IsEmpty) then
+   MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
 
-   cdsNF.First;
-   while not cdsNF.Eof do
+ cdsNF.First;
+ while not cdsNF.Eof do
+ begin
+  if (cdsNFSELECIONOU.AsString = 'S') then
+  begin
+   { Isto estava fora do IF }
+   if (tpNF.ItemIndex = 1) then
    begin
-      if (cdsNFSELECIONOU.AsString = 'S') then
-      begin
-        { Isto estava fora do IF }
-         if (tpNF.ItemIndex = 1) then
-         begin
-           if (sCliente.Active) then
-             sCliente.Close;
-           sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-           sCliente.Open;
-         end
-         else
-         begin
-          if (sFornec.Active) then
-            sFornec.Close;
-          sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-          sFornec.Open;
-         end;
-
-         if (sCFOP.Active) then
-           sCFOP.Close;
-         sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
-         if (tpNF.ItemIndex = 1) then
-         begin
-          sCFOP.Params[1].AsString := sClienteUF.AsString;
-          sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
-         end
-         else
-         begin
-          sCFOP.Params[1].AsString := sFornecUF.AsString;
-          sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
-         end;
-         sCFOP.Open;
-
-          ACBrNFe1.NotasFiscais.Clear;
-          with ACBrNFe1.NotasFiscais.Add.NFe do
-          begin
-            //infNFe.ID := 0                                  // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
-            Ide.cUF       := 35;                              // Codigo do UF do Emitente do documento fiscal
-            Ide.cNF       := cdsNFNUMNF.AsInteger;
-            Ide.natOp     := sCFOPCFNOME.AsString;
-
-            //Verifica tipo de Pagamento
-            getPagamento;
-
-            Ide.cMunFG    := 3554003;
-            Ide.modelo    := 55;
-                        if (tp_amb = 1) then
-            begin
-              Ide.serie     := 1;
-              Ide.tpEmis    := teNormal;
-            end;
-            if (tp_amb = 2) then
-            begin
-              Ide.tpEmis    := teContingencia;
-              Ide.serie     := 1;
-            end;
-            if (tp_amb = 3) then
-            begin
-              Ide.tpEmis    := teSCAN;
-              Ide.serie     := 900;
-            end;
-            if (tp_amb = 4) then
-            begin
-              Ide.tpEmis    := teDPEC;
-              Ide.serie     := 1;
-            end;
-            if (tp_amb = 5) then
-            begin
-              Ide.tpEmis    := teFSDA;
-              Ide.serie     := 1;
-            end;
-
-            Ide.serie     := 1;
-            Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
-            Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
-            Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
-            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
-            // Tipo de movimentação 0 entrada 1 saida
-            if ((cdsNFNATUREZA.AsInteger = 20) or (cdsNFNATUREZA.AsInteger = 16)) then
-            Ide.tpNF      := tnEntrada
-            else
-            begin
-              Ide.tpNF    := tnSaida;
-            end;
-            //Ide.tpAmb     := tn2;                           // 1 - Produção // 2 Homologação
-            Ide.verProc   := '1.0.0.0';
-
-            if (sTabIBGE.Active) then
-              sTabIBGE.Close;
-            sTabIBGE.Params[0].AsString := sEmpresaCIDADE.AsString;
-            sTabIBGE.Open;
-            //Carrega dados do Emitente
-            getEmpresa();
-            //CARREGA OS DADOS DO DESTINATARIO CLIENTE/FORNECEDOR
-            getCLi_Fornec();
-
-            //Carrega os itens da NF
-            if (tpNF.ItemIndex = 0) then
-            begin
-            itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
-                'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-                'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
-                'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
-                'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
-                'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
-                'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
-            end
-            else
-            begin
-            itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO, ' +
-                'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-                'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
-                'md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-                'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
-                'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
-                'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
-                'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
-                'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;
-            end;
-
-            if (cdsItensNF.Active) then
-              cdsItensNF.Close;
-
-            cdsItensNF.CommandText := itensnf;
-            cdsItensNF.Open;
-            i := 1;
-            while not cdsItensNF.Eof do // Escrevo os itens
-            begin
-              if (sProdutos.Active) then
-                sProdutos.Close;
-              sProdutos.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
-              try
-                sProdutos.Open;
-              except
-                MessageDlg('NCM vazio ou incorreto', mtError, [mbOK], 0);
-                exit;
-              end;
-              // DADOS DOS PRODUTOS DA NOTA
-              getItens(i);
-              i := i + 1;
-              cdsItensNF.Next;
-            end;
-            getTransportadora();
-            //VALOR TORAL
-            Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
-            Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
-            Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
-            Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
-            Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
-            Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
-            Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
-            //Total.ICMSTot.vDesc   := 0;
-            //Total.ICMSTot.vII := 0;
-            Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
-            if ( (cdsNFVALOR_PIS.AsFloat <> 0 )or (cdsNFVALOR_PIS.AsFloat <> null )) then
-              Total.ICMSTot.vPIS := cdsNFVALOR_PIS.AsFloat;
-            if ( (cdsNFVALOR_COFINS.AsFloat <> 0) or (cdsNFVALOR_COFINS.AsFloat <> null )) then
-              Total.ICMSTot.vCOFINS := cdsNFVALOR_COFINS.AsFloat;
-            Total.ICMSTot.vOutro := cdsNFOUTRAS_DESP.AsVariant;
-            Total.ICMSTot.vNF   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
-          end;
-      end;
-      cdsNF.Next;
+     if (sCliente.Active) then
+       sCliente.Close;
+     sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+     sCliente.Open;
+   end
+   else
+   begin
+    if (sFornec.Active) then
+      sFornec.Close;
+    sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+    sFornec.Open;
    end;
-   ACBrNFeDANFERave1.RavFile := str_relatorio + 'NFe_Teste.rav';
-   ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
-   ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
-   ACBrNFe1.NotasFiscais.Imprimir;
-   ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
+
+   if (sCFOP.Active) then
+     sCFOP.Close;
+   sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
+   if (tpNF.ItemIndex = 1) then
+   begin
+    sCFOP.Params[1].AsString := sClienteUF.AsString;
+    sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
+   end
+   else
+   begin
+    sCFOP.Params[1].AsString := sFornecUF.AsString;
+    sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
+   end;
+   sCFOP.Open;
+
+   ACBrNFe1.NotasFiscais.Clear;
+   with ACBrNFe1.NotasFiscais.Add.NFe do
+   begin
+    //infNFe.ID := 0                                  // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
+    Ide.cUF       := 35;                              // Codigo do UF do Emitente do documento fiscal
+    Ide.cNF       := cdsNFNUMNF.AsInteger;
+    Ide.natOp     := sCFOPCFNOME.AsString;
+         //Verifica tipo de Pagamento
+    getPagamento;
+    Ide.cMunFG    := 3554003;
+    Ide.modelo    := 55;
+    if (tp_amb = 1) then
+    begin
+      Ide.serie     := 1;
+      Ide.tpEmis    := teNormal;
+    end;
+    if (tp_amb = 2) then
+    begin
+      Ide.tpEmis    := teContingencia;
+      Ide.serie     := 1;
+    end;
+    if (tp_amb = 3) then
+    begin
+      Ide.tpEmis    := teSCAN;
+      Ide.serie     := 900;
+    end;
+    if (tp_amb = 4) then
+    begin
+      Ide.tpEmis    := teDPEC;
+      Ide.serie     := 1;
+    end;
+    if (tp_amb = 5) then
+    begin
+      Ide.tpEmis    := teFSDA;
+      Ide.serie     := 1;
+    end;
+
+    Ide.serie     := 1;
+    Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
+    Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
+    Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
+    InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
+    // Tipo de movimentação 0 entrada 1 saida
+    if ((cdsNFNATUREZA.AsInteger = 20) or (cdsNFNATUREZA.AsInteger = 16)) then
+    Ide.tpNF      := tnEntrada
+    else
+    begin
+      Ide.tpNF    := tnSaida;
+    end;
+    //Ide.tpAmb     := tn2;                           // 1 - Produção // 2 Homologação
+    Ide.verProc   := '1.0.0.0';
+
+    if (sTabIBGE.Active) then
+      sTabIBGE.Close;
+    sTabIBGE.Params[0].AsString := sEmpresaCIDADE.AsString;
+    sTabIBGE.Open;
+    //Carrega dados do Emitente
+    getEmpresa();
+    //CARREGA OS DADOS DO DESTINATARIO CLIENTE/FORNECEDOR
+    getCLi_Fornec();
+
+    //Carrega os itens da NF
+    if (tpNF.ItemIndex = 0) then
+    begin
+    itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
+        'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
+        'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
+        'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
+        'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
+        'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
+        'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
+        'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+        'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
+    end
+    else
+    begin
+    itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO, ' +
+        'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
+        'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
+        'md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+        'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+        'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
+        'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
+        'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
+        'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+        'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;
+    end;
+
+    if (cdsItensNF.Active) then
+      cdsItensNF.Close;
+
+    cdsItensNF.CommandText := itensnf;
+    cdsItensNF.Open;
+    i := 1;
+    while not cdsItensNF.Eof do // Escrevo os itens
+    begin
+     if (sProdutos.Active) then
+       sProdutos.Close;
+     sProdutos.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
+     try
+       sProdutos.Open;
+     except
+      MessageDlg('NCM vazio ou incorreto', mtError, [mbOK], 0);
+      exit;
+     end;
+      // DADOS DOS PRODUTOS DA NOTA
+      getItens(i);
+      i := i + 1;
+      cdsItensNF.Next;
+    end;
+    getTransportadora();
+    //VALOR TORAL
+    Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
+    Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
+    Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
+    Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
+    Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
+    Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
+    Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
+    //Total.ICMSTot.vDesc   := 0;
+    //Total.ICMSTot.vII := 0;
+    Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
+    if ( (cdsNFVALOR_PIS.AsFloat <> 0 )or (cdsNFVALOR_PIS.AsFloat <> null )) then
+      Total.ICMSTot.vPIS := cdsNFVALOR_PIS.AsFloat;
+    if ( (cdsNFVALOR_COFINS.AsFloat <> 0) or (cdsNFVALOR_COFINS.AsFloat <> null )) then
+      Total.ICMSTot.vCOFINS := cdsNFVALOR_COFINS.AsFloat;
+    Total.ICMSTot.vOutro := cdsNFOUTRAS_DESP.AsVariant;
+    Total.ICMSTot.vNF   := cdsNFVALOR_TOTAL_NOTA.AsVariant;
+    end;
+  end;
+  cdsNF.Next;
+ end;
+ ACBrNFeDANFERave1.RavFile := str_relatorio + 'NFe_Teste.rav';
+ ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
+ ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
+ ACBrNFe1.NotasFiscais.Imprimir;
+ ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
 end;
 
@@ -1595,303 +1594,303 @@ begin
   begin
     with Det.Add do
     begin
-    Prod.nItem    := contador;
-    Prod.cProd    := cdsItensNFCODPRO.AsString;
-    Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
-    Prod.CFOP     := cdsItensNFCFOP.AsString;
-    if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull) or (sProdutosUNIDADEMEDIDA.AsString = ' ')) then
-      MessageDlg('Produto sem Unidade de Medida', mtError, [mbOK], 0);
-    Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
-    Prod.qCom     := cdsItensNFQUANTIDADE.AsFloat;
-    Prod.vUnCom   := cdsItensNFVLR_BASE.AsFloat;
-    Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
-    Prod.uTrib    := sProdutosUNIDADEMEDIDA.AsString;
-    Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
-    Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
-    infAdProd     := '';
-    Prod.NCM      := sProdutosNCM.AsString;
-    Prod.genero   := sProdutosGENERO.AsInteger;
-    //IMPOSTOS Do Produto
-    with Imposto do
-    begin
-      with IPI do
+      Prod.nItem    := contador;
+      Prod.cProd    := cdsItensNFCODPRO.AsString;
+      Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
+      Prod.CFOP     := cdsItensNFCFOP.AsString;
+      if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull) or (sProdutosUNIDADEMEDIDA.AsString = ' ')) then
+        MessageDlg('Produto sem Unidade de Medida', mtError, [mbOK], 0);
+      Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
+      Prod.qCom     := cdsItensNFQUANTIDADE.AsFloat;
+      Prod.vUnCom   := cdsItensNFVLR_BASE.AsFloat;
+      Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
+      Prod.uTrib    := sProdutosUNIDADEMEDIDA.AsString;
+      Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
+      Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
+      infAdProd     := '';
+      Prod.NCM      := sProdutosNCM.AsString;
+      Prod.genero   := sProdutosGENERO.AsInteger;
+      //IMPOSTOS Do Produto
+      with Imposto do
       begin
-        pIPI := cdsItensNFpIPI.AsCurrency;
-        vIPI := cdsItensNFvIPI.AsCurrency;
-      end;
-      with ICMS do
-      begin
-        // Verifica Origem do Produto
-        if (sProdutosORIGEM.IsNull) then
-          MessageDlg('Origem do Produto não definida', mtError, [mbOK], 0);
-        comp := '000  ';
-        comp2:= '000';
-        if ((cdsItensNFCST.AsString = comp) or (cdsItensNFCST.AsString = comp2)) then
+        with IPI do
         begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST := cst00;                                               //CST DO PRODUTO
-          modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-          if (cdsItensNFVLR_BASEICMS.IsNull) then
-            vBC := 0
-          else
-            vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
-          pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
+          pIPI := cdsItensNFpIPI.AsCurrency;
+          vIPI := cdsItensNFvIPI.AsCurrency;
         end;
-        //ICMS 10 TRIBUTADA E COM COBRANÇA DO ICMS POR SUBS.TRIBUTÁRIA
-        if ((cdsItensNFCST.AsString = '010  ') or (cdsItensNFCST.AsString = '010')) then
+        with ICMS do
         begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST := cst10;                                               //CST DO PRODUTO
-          modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-          vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
-          pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
-          modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
-          pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
-          pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-          vICMSST := cdsItensNFICMS_SUBST.AsVariant;
+          // Verifica Origem do Produto
+          if (sProdutosORIGEM.IsNull) then
+            MessageDlg('Origem do Produto não definida', mtError, [mbOK], 0);
+          comp := '000  ';
+          comp2:= '000';
+          if ((cdsItensNFCST.AsString = comp) or (cdsItensNFCST.AsString = comp2)) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST := cst00;                                               //CST DO PRODUTO
+            modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
+            if (cdsItensNFVLR_BASEICMS.IsNull) then
+              vBC := 0
+            else
+              vBC := cdsItensNFVLR_BASEICMS.AsVariant;                        //VALOR DA BASE DE CALCULO
+            pICMS := cdsItensNFICMS.AsVariant;                               //ALIQUOTA DO ICMS
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
+          end;
+          //ICMS 10 TRIBUTADA E COM COBRANÇA DO ICMS POR SUBS.TRIBUTÁRIA
+          if ((cdsItensNFCST.AsString = '010  ') or (cdsItensNFCST.AsString = '010')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST := cst10;                                               //CST DO PRODUTO
+            modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
+            vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
+            pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
+            modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
+            pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            vICMSST := cdsItensNFICMS_SUBST.AsVariant;
+          end;
+          //ICMS 20 COM REDUÇÃO DE BASE DE CÁLCULO
+          if ((cdsItensNFCST.AsString = '020  ') or (cdsItensNFCST.AsString = '020'))then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST := cst20;                                               //CST DO PRODUTO
+            modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
+            vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
+            pRedBC := sCFOPREDUCAO.AsVariant;                           //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+            //pRedBC := cdsNFREDUZICMS.AsVariant;                       //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+            pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
+          end;
+          //ICMS 30 ISENTA OU NÃO TRIBUTADA E COM COBRANÇA DE ICMS POR SUBS.TRIBUTÁRIA
+          if ((cdsItensNFCST.AsString = '030  ') or (cdsItensNFCST.AsString = '030')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST := cst30;                                               //CST DO PRODUTO
+            modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
+            pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            vICMSST := cdsItensNFICMS_SUBST.AsVariant;
+          end;
+          //ICMS 40 - ISENTA
+          if ((cdsItensNFCST.AsString = '040  ') or (cdsItensNFCST.AsString = '040')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST :=  cst40;
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;
+          end;
+          //41 NÃO TRIBUTADA
+          if ((cdsItensNFCST.AsString = '041  ') or (cdsItensNFCST.AsString = '041')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST :=  cst41;                                              //CST DO PRODUTO
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;
+          end;
+          //50 SUSPENSÃO
+          if ((cdsItensNFICMS.AsString = '050  ') or (cdsItensNFCST.AsString = '050')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST :=  cst50;                                              //CST DO PRODUTO
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;
+          end;
+          //ICMS 51 DIFERIMENTO A EXIGÊNCIA DO PREENCHIMENTO DAS INFORMAÇÕES DO ICMS DIFERIDO FICA a CRITÉRIO DE CADA UF
+          if ((cdsItensNFCST.AsString = '051  ') or (cdsItensNFCST.AsString = '051')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST := cst51;                                               //CST DO PRODUTO
+            vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            vICMSST := cdsItensNFICMS_SUBST.AsVariant;
+          end;
+          //ICMS 60 ICMS COBRADO ANTERIORMENTE POR SUBS.TRIBUTÁRIA
+          if ((cdsItensNFCST.AsString = '060  ') or (cdsItensNFCST.AsString = '060')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST := cst60;                                               //CST DO PRODUTO
+            vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            vICMSST := cdsItensNFICMS_SUBST.AsVariant;
+          end;
+          //ICMS 70 COM REDUÇÃO DA BASE DE CALCULO E COBRANÇA DO ICMS POR SUBS.TRIB. ICMS POR SUBS.TRIB.
+          if ((cdsItensNFCST.AsString = '070  ') or (cdsItensNFCST.AsString = '070')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST := cst70;                                               //CST DO PRODUTO
+            modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
+            pRedBC := sCFOPREDUCAO.AsVariant;                           //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+            vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
+            pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
+            modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
+            pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            vICMSST := cdsItensNFICMS_SUBST.AsVariant;
+          end;
+          //ICMS 90 OUTROS
+          if ((cdsItensNFCST.AsString = '090  ') or (cdsItensNFCST.AsString = '090')) then
+          begin
+            orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
+            CST := cst90;                                               //CST DO PRODUTO
+            modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
+            pRedBC := sCFOPREDUCAO.AsVariant;                           //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+            vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
+            pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
+            modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
+            pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            vICMSST := cdsItensNFICMS_SUBST.AsVariant;
+          end;
         end;
-        //ICMS 20 COM REDUÇÃO DE BASE DE CÁLCULO
-        if ((cdsItensNFCST.AsString = '020  ') or (cdsItensNFCST.AsString = '020'))then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST := cst20;                                               //CST DO PRODUTO
-          modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-          vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
-          pRedBC := sCFOPREDUCAO.AsVariant;                           //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-          //pRedBC := cdsNFREDUZICMS.AsVariant;                       //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-          pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
-        end;
-        //ICMS 30 ISENTA OU NÃO TRIBUTADA E COM COBRANÇA DE ICMS POR SUBS.TRIBUTÁRIA
-        if ((cdsItensNFCST.AsString = '030  ') or (cdsItensNFCST.AsString = '030')) then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST := cst30;                                               //CST DO PRODUTO
-          modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
-          pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
-          pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-          vICMSST := cdsItensNFICMS_SUBST.AsVariant;
-        end;
-        //ICMS 40 - ISENTA
-        if ((cdsItensNFCST.AsString = '040  ') or (cdsItensNFCST.AsString = '040')) then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST :=  cst40;
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;
-        end;
-        //41 NÃO TRIBUTADA
-        if ((cdsItensNFCST.AsString = '041  ') or (cdsItensNFCST.AsString = '041')) then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST :=  cst41;                                              //CST DO PRODUTO
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;
-        end;
-        //50 SUSPENSÃO
-        if ((cdsItensNFICMS.AsString = '050  ') or (cdsItensNFCST.AsString = '050')) then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST :=  cst50;                                              //CST DO PRODUTO
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;
-        end;
-        //ICMS 51 DIFERIMENTO A EXIGÊNCIA DO PREENCHIMENTO DAS INFORMAÇÕES DO ICMS DIFERIDO FICA a CRITÉRIO DE CADA UF
-        if ((cdsItensNFCST.AsString = '051  ') or (cdsItensNFCST.AsString = '051')) then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST := cst51;                                               //CST DO PRODUTO
-          vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          vICMSST := cdsItensNFICMS_SUBST.AsVariant;
-        end;
-        //ICMS 60 ICMS COBRADO ANTERIORMENTE POR SUBS.TRIBUTÁRIA
-        if ((cdsItensNFCST.AsString = '060  ') or (cdsItensNFCST.AsString = '060')) then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST := cst60;                                               //CST DO PRODUTO
-          vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          vICMSST := cdsItensNFICMS_SUBST.AsVariant;
-        end;
-        //ICMS 70 COM REDUÇÃO DA BASE DE CALCULO E COBRANÇA DO ICMS POR SUBS.TRIB. ICMS POR SUBS.TRIB.
-        if ((cdsItensNFCST.AsString = '070  ') or (cdsItensNFCST.AsString = '070')) then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST := cst70;                                               //CST DO PRODUTO
-          modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-          pRedBC := sCFOPREDUCAO.AsVariant;                           //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-          vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
-          pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
-          modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
-          pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
-          pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-          vICMSST := cdsItensNFICMS_SUBST.AsVariant;
-        end;
-        //ICMS 90 OUTROS
-        if ((cdsItensNFCST.AsString = '090  ') or (cdsItensNFCST.AsString = '090')) then
-        begin
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          CST := cst90;                                               //CST DO PRODUTO
-          modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-          pRedBC := sCFOPREDUCAO.AsVariant;                           //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-          vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
-          pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
-          modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
-          pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
-          pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-          vICMSST := cdsItensNFICMS_SUBST.AsVariant;
-        end;
-      end;
 
-     //CALCULO DE PIS E COFINS
-     if (sCFOPPIS.AsFloat <> null) then
-        valpis := (sCFOPPIS.AsVariant * cdsItensNFVALTOTAL.AsVariant) /100;
-     if (sCFOPCOFINS.AsFloat <> null) then
-        valcofins := (sCFOPCOFINS.AsVariant * cdsItensNFVALTOTAL.AsVariant) /100;
+       //CALCULO DE PIS E COFINS
+       if (sCFOPPIS.AsFloat <> null) then
+          valpis := (sCFOPPIS.AsVariant * cdsItensNFVALTOTAL.AsVariant) /100;
+       if (sCFOPCOFINS.AsFloat <> null) then
+          valcofins := (sCFOPCOFINS.AsVariant * cdsItensNFVALTOTAL.AsVariant) /100;
 
-      with PIS do
-      begin
-        if (sCFOPCSTPIS.AsString = '01') then
+        with PIS do
         begin
-          CST   := pis01;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
+          if (sCFOPCSTPIS.AsString = '01') then
+          begin
+            CST   := pis01;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
+          if (sCFOPCSTPIS.AsString = '02') then
+          begin
+            CST   := pis02;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
+          if (sCFOPCSTPIS.AsString = '03') then
+          begin
+            CST   := pis03;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
+          if (sCFOPCSTPIS.AsString = '04') then
+          begin
+            CST   := pis04;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
+          if (sCFOPCSTPIS.AsString = '06') then
+          begin
+            CST   := pis06;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
+          if (sCFOPCSTPIS.AsString = '07') then
+          begin
+            CST   := pis07;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
+          if (sCFOPCSTPIS.AsString = '08') then
+          begin
+            CST   := pis08;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
+          if (sCFOPCSTPIS.AsString = '09') then
+          begin
+            CST   := pis09;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
+          if (sCFOPCSTPIS.AsString = '99') then
+          begin
+            CST   := pis99;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pPIS  := sCFOPPIS.AsVariant;
+            vPIS  := valpis;
+          end;
         end;
-        if (sCFOPCSTPIS.AsString = '02') then
+        with COFINS do
         begin
-          CST   := pis02;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
-        end;
-        if (sCFOPCSTPIS.AsString = '03') then
-        begin
-          CST   := pis03;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
-        end;
-        if (sCFOPCSTPIS.AsString = '04') then
-        begin
-          CST   := pis04;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
-        end;
-        if (sCFOPCSTPIS.AsString = '06') then
-        begin
-          CST   := pis06;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
-        end;
-        if (sCFOPCSTPIS.AsString = '07') then
-        begin
-          CST   := pis07;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
-        end;
-        if (sCFOPCSTPIS.AsString = '08') then
-        begin
-          CST   := pis08;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
-        end;
-        if (sCFOPCSTPIS.AsString = '09') then
-        begin
-          CST   := pis09;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
-        end;
-        if (sCFOPCSTPIS.AsString = '99') then
-        begin
-          CST   := pis99;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
-          vPIS  := valpis;
-        end;
-      end;
-      with COFINS do
-      begin
-        if (sCFOPCSTCOFINS.AsString = '01') then
-        begin
-          CST   := cof01;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-        end;
-        if (sCFOPCSTCOFINS.AsString = '02') then
-        begin
-          CST   := cof02;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-        end;
-        if (sCFOPCSTCOFINS.AsString = '03') then
-        begin
-          CST   := cof03;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-        end;
-        if (sCFOPCSTCOFINS.AsString = '04') then
-        begin
-          CST   := cof04;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-        end;
-        if (sCFOPCSTCOFINS.AsString = '06') then
-        begin
-          CST   := cof06;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-        end;
-        if (sCFOPCSTCOFINS.AsString = '07') then
-        begin
-          CST   := cof07;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-        end;
-        if (sCFOPCSTCOFINS.AsString = '08') then
-        begin
-          CST   := cof08;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-        end;
-        if (sCFOPCSTCOFINS.AsString = '09') then
-        begin
-          CST   := cof09;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-        end;
-        if (sCFOPCSTCOFINS.AsString = '99') then
-        begin
-          CST   := cof99;
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
+          if (sCFOPCSTCOFINS.AsString = '01') then
+          begin
+            CST   := cof01;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
+          if (sCFOPCSTCOFINS.AsString = '02') then
+          begin
+            CST   := cof02;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
+          if (sCFOPCSTCOFINS.AsString = '03') then
+          begin
+            CST   := cof03;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
+          if (sCFOPCSTCOFINS.AsString = '04') then
+          begin
+            CST   := cof04;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
+          if (sCFOPCSTCOFINS.AsString = '06') then
+          begin
+            CST   := cof06;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
+          if (sCFOPCSTCOFINS.AsString = '07') then
+          begin
+            CST   := cof07;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
+          if (sCFOPCSTCOFINS.AsString = '08') then
+          begin
+            CST   := cof08;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
+          if (sCFOPCSTCOFINS.AsString = '09') then
+          begin
+            CST   := cof09;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
+          if (sCFOPCSTCOFINS.AsString = '99') then
+          begin
+            CST   := cof99;
+            vBC   := cdsItensNFVALTOTAL.AsVariant;
+            pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+            vCOFINS  := valcofins;
+          end;
         end;
       end;
     end;
   end;
-end;
 end;
 
 procedure TfNFeletronica.getTransportadora();
@@ -1916,60 +1915,59 @@ begin
       begin
         with transporta do
         begin
-           modFrete := tfrete;
-           CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
-           xNome := cdsNFNOMETRANSP.AsString;
-           IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
-           xEnder := cdsNFEND_TRANSP.AsString;
-           xMun := cdsNFCIDADE_TRANSP.AsString;
-           UF :=  cdsNFUF_TRANSP.AsString;
-
-           //Carrega dados da Carga para Transporte
-           with Vol.Add do
-           begin
-              if (cdsNFQUANTIDADE.AsVariant > 0) then
-                qVol := cdsNFQUANTIDADE.AsVariant
-              else
-              begin
-                qVol := 0
-              end;
-              if ( (cdsNFESPECIE.AsString <> '') and (cdsNFESPECIE.AsString <> Null) ) then
-                esp := cdsNFESPECIE.AsString
-              else
-              begin
-                esp := ''
-              end;
-              if ( (cdsNFMARCA.AsString <> '') and (cdsNFMARCA.AsString <>  null) ) then
-                marca := cdsNFMARCA.AsString
-              else
-              begin
-                marca := ''
-              end;
-              if ( (cdsNFNUMERO.AsString <> '') and ( cdsNFNUMERO.AsString <> null) ) then
-                nVol :=cdsNFNUMERO.AsString
-              else
-              begin
-                nVol := ''
-              end;
-              if (cdsNFPESOLIQUIDO.AsCurrency > 0) then
-                pesoL :=cdsNFPESOLIQUIDO.AsCurrency
-              else
-              begin
-                pesoL := 0
-              end;
-              if (cdsNFPESOBRUTO.AsCurrency > 0) then
-                pesoB :=cdsNFPESOBRUTO.AsCurrency
-              else
-              begin
-                pesoB := 0
-              end;
+          modFrete := tfrete;
+          CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
+          xNome := cdsNFNOMETRANSP.AsString;
+          IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
+          xEnder := cdsNFEND_TRANSP.AsString;
+          xMun := cdsNFCIDADE_TRANSP.AsString;
+          UF :=  cdsNFUF_TRANSP.AsString;
+                     //Carrega dados da Carga para Transporte
+          with Vol.Add do
+          begin
+            if (cdsNFQUANTIDADE.AsVariant > 0) then
+              qVol := cdsNFQUANTIDADE.AsVariant
+            else
+            begin
+              qVol := 0
             end;
-            if ( (cdsNFPLACATRANSP.AsString <> '') and (cdsNFPLACATRANSP.AsString <> null) ) then
-              if ( (cdsNFUF_VEICULO_TRANSP.AsString <> '') and (cdsNFUF_VEICULO_TRANSP.AsString <> null) ) then
-              begin
-              veicTransp.placa := cdsNFPLACATRANSP.AsString;
-              veicTransp.UF := cdsNFUF_VEICULO_TRANSP.AsString;
-              end;
+            if ( (cdsNFESPECIE.AsString <> '') and (cdsNFESPECIE.AsString <> Null) ) then
+              esp := cdsNFESPECIE.AsString
+            else
+            begin
+              esp := ''
+            end;
+            if ( (cdsNFMARCA.AsString <> '') and (cdsNFMARCA.AsString <>  null) ) then
+               marca := cdsNFMARCA.AsString
+            else
+            begin
+              marca := ''
+            end;
+            if ( (cdsNFNUMERO.AsString <> '') and ( cdsNFNUMERO.AsString <> null) ) then
+              nVol :=cdsNFNUMERO.AsString
+            else
+            begin
+              nVol := ''
+            end;
+            if (cdsNFPESOLIQUIDO.AsCurrency > 0) then
+              pesoL :=cdsNFPESOLIQUIDO.AsCurrency
+            else
+            begin
+              pesoL := 0
+            end;
+            if (cdsNFPESOBRUTO.AsCurrency > 0) then
+              pesoB :=cdsNFPESOBRUTO.AsCurrency
+            else
+            begin
+              pesoB := 0
+            end;
+            end;
+          if ( (cdsNFPLACATRANSP.AsString <> '') and (cdsNFPLACATRANSP.AsString <> null) ) then
+           if ( (cdsNFUF_VEICULO_TRANSP.AsString <> '') and (cdsNFUF_VEICULO_TRANSP.AsString <> null) ) then
+           begin
+             veicTransp.placa := cdsNFPLACATRANSP.AsString;
+             veicTransp.UF := cdsNFUF_VEICULO_TRANSP.AsString;
+           end;
         end;
       end;
     end;
@@ -1981,10 +1979,10 @@ var
  c: integer;
 begin
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
-    if(sCFOPNAOENVFATURA.AsString = 'S') then
-      ide.indPag := ipOutras
-    else
-    begin
+  if(sCFOPNAOENVFATURA.AsString = 'S') then
+    ide.indPag := ipOutras
+  else
+  begin
     if (tpNF.ItemIndex = 1) then
     begin
       if (cdsNFVALOR_PAGAR.AsFloat = cdsNFENTRADA.AsFloat) then
@@ -1994,31 +1992,31 @@ begin
       //pesquisa pagamento
       if ( (cdsNFFATURA.IsNull) or (cdsNFFATURA.AsString = '') ) then
       begin
-      if(cdsFatura.Active) then
-        cdsFatura.Close;
-      cdsFatura.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
-      cdsFatura.Open;
-      if (sNFC.Active) then
-        sNFC.Close;
-      sNFC.Params[0].AsInteger := cdsNFNUMNF.AsInteger;
-      sNFC.Open;
-      //Carrega dados do Pagamento
-      cdsFatura.first;
-      c := 0;
-      while not cdsFatura.eof do
-      begin
-        if (cdsFaturaVALOR.AsFloat > 0) then
+        if(cdsFatura.Active) then
+          cdsFatura.Close;
+        cdsFatura.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
+        cdsFatura.Open;
+        if (sNFC.Active) then
+          sNFC.Close;
+        sNFC.Params[0].AsInteger := cdsNFNUMNF.AsInteger;
+        sNFC.Open;
+        //Carrega dados do Pagamento
+        cdsFatura.first;
+        c := 0;
+        while not cdsFatura.eof do
         begin
-          Cobr.Dup.Add;
-          Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
-          Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
-          Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
-          Inc ( c );
+          if (cdsFaturaVALOR.AsFloat > 0) then
+          begin
+            Cobr.Dup.Add;
+            Cobr.Dup.Items[c].nDup  := cdsFaturaNUMEROFATURA.ASSTRING;
+            Cobr.Dup.Items[c].dVenc := cdsFaturaDATAFATURA.AsDateTime;
+            Cobr.Dup.Items[c].vDup  := cdsFaturaVALOR.AsCurrency;
+            Inc ( c );
+          end;
+          cdsFatura.next;
         end;
-        cdsFatura.next;
-      end;
-      if (c = 0) then
-        Ide.indPag    := ipOutras;
+        if (c = 0) then
+          Ide.indPag    := ipOutras;
       end;
       if ((UpperCase(cdsNFFATURA.AsString) = 'PRAZO') or (UpperCase(cdsNFFATURA.AsString) = 'A PRAZO')) then
         Ide.indPag    := ipPrazo;
@@ -2032,7 +2030,7 @@ begin
         Ide.indPag    := ipVista;
       if ((cdsNFFATURA.AsString = '') or (cdsNFFATURA.IsNull)) then
         Ide.indPag    := ipOutras;
-    end;
+  end;
 end;
 
 
@@ -2099,11 +2097,17 @@ begin
 end;
 
 procedure TfNFeletronica.btnValidaXMLClick(Sender: TObject);
-var NomeArqNFe :string;
 begin
+  OpenDialog1.Title := 'Selecione a NFE';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+  if OpenDialog1.Execute then
+  begin
   ACBrNFe1.NotasFiscais.Clear;
-  ACBrNFe1.NotasFiscais.LoadFromFile(NomeArqNFe);
+  ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
   ACBrNFe1.Enviar(0);
+  end;
 end;
 
 end.
