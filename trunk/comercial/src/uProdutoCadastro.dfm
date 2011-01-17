@@ -78,24 +78,24 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Tipo'
   end
   object Label30: TLabel [10]
-    Left = 652
-    Top = 288
+    Left = 668
+    Top = 293
     Width = 89
     Height = 16
     Caption = 'Gera Despesa'
   end
   object Label31: TLabel [11]
-    Left = 514
-    Top = 288
+    Left = 538
+    Top = 293
     Width = 47
     Height = 16
     Caption = 'Imprimir'
   end
   object DBRadioGroup3: TDBRadioGroup [12]
-    Left = 483
-    Top = 305
+    Left = 507
+    Top = 310
     Width = 129
-    Height = 32
+    Height = 35
     Columns = 2
     DataField = 'IMPRIMIR'
     DataSource = DtSrc
@@ -108,10 +108,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'N')
   end
   object DBRadioGroup1: TDBRadioGroup [13]
-    Left = 633
-    Top = 306
+    Left = 649
+    Top = 311
     Width = 129
-    Height = 32
+    Height = 35
     Columns = 2
     DataField = 'GERADESCONTO'
     DataSource = DtSrc
@@ -648,27 +648,46 @@ inherited fProdutoCadastro: TfProdutoCadastro
   object GroupBox3: TGroupBox [24]
     Left = 3
     Top = 288
-    Width = 158
-    Height = 52
+    Width = 177
+    Height = 58
     Caption = 'Classifica'#231#227'o Fiscal'
     TabOrder = 8
     object Label32: TLabel
-      Left = 9
-      Top = 23
-      Width = 36
+      Left = 23
+      Top = 15
+      Width = 30
       Height = 16
-      Caption = 'NCM :'
+      Hint = 'Nomenclatura Comum do Mercosul'
+      Caption = 'NCM'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label21: TLabel
+      Left = 126
+      Top = 15
+      Width = 15
+      Height = 16
+      Hint = 'Imposto sobre Produtos Industrializados'
+      Caption = 'IPI'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
     end
     object DBEdit22: TDBEdit
-      Left = 46
-      Top = 21
-      Width = 70
+      Left = 9
+      Top = 30
+      Width = 77
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -684,10 +703,29 @@ inherited fProdutoCadastro: TfProdutoCadastro
       TabOrder = 0
       OnKeyPress = FormKeyPress
     end
+    object DBEdit15: TDBEdit
+      Left = 97
+      Top = 30
+      Width = 70
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DataField = 'IPI'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 1
+      OnKeyPress = FormKeyPress
+    end
   end
   object Panel1: TPanel [25]
     Left = 491
-    Top = 348
+    Top = 357
     Width = 140
     Height = 30
     PopupMenu = PopupMenu1
@@ -736,7 +774,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object Panel2: TPanel [28]
     Left = 636
-    Top = 348
+    Top = 357
     Width = 149
     Height = 30
     PopupMenu = PopupMenu1
@@ -1062,10 +1100,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBF0000}
   end
   object DBRadioGroup2: TDBRadioGroup [35]
-    Left = 161
+    Left = 188
     Top = 288
     Width = 311
-    Height = 52
+    Height = 58
     Caption = 'Forma'#231#227'o Pre'#231'o Venda'
     Color = clBtnFace
     Columns = 3
@@ -1156,7 +1194,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   object DBOrigem: TDBRadioGroup [39]
     Left = 4
-    Top = 341
+    Top = 350
     Width = 481
     Height = 38
     Caption = 'Origem do Produto'
