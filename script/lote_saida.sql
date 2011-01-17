@@ -8,7 +8,7 @@ as
 begin
  /* 1 = SAIDA */
  /* Retiro do LOTE a Quantidade Vendida ou Movimentada */
- if ((NEW.BAIXA = '1') and (NEW.LOTE <> '')) then
+ if ((NEW.BAIXA = '1') and (OLD.BAIXA is null) and (NEW.LOTE <> '')) then
    BEGIN
      /* Procuro na tabela LOTES se já existe */
      SELECT FIRST 1 ESTOQUE FROM LOTES WHERE LOTE = OLD.LOTE AND CODPRODUTO = OLD.CODPRODUTO
