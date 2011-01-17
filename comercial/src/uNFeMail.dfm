@@ -3,7 +3,7 @@ object fNFeMail: TfNFeMail
   Top = 103
   Width = 402
   Height = 231
-  Caption = #39
+  Caption = 'Envio de Nf-e para email Cleinte/Fornecedor'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
