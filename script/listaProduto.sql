@@ -89,7 +89,7 @@ begin
     if (usaListaTerceiros = 'N') then
     select first 1 precoCusto, qtdeEstoque, precoUltimaCompra from MOVIMENTODETALHE d
       inner join movimento m on m.CODMOVIMENTO = d.CODMOVIMENTO
-      where codProduto = :codProduto and baixa is not null order by m.DATAMOVIMENTO DESC, codDetalhe desc
+      where codProduto = :codProduto and baixa is not null order by m.CODMOVIMENTO DESC, codDetalhe desc
     into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
     if (preco_compraMedio is null) then
       preco_compraMedio = 0;
