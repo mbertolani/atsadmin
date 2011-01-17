@@ -130,16 +130,14 @@ inherited ftransp: Tftransp
     inherited Label1: TLabel
       Left = 81
       Top = -78
-      Width = 512
-      Height = 44
+      Width = 570
       Caption = 'Cadastro de transportadoras'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 83
       Top = -77
-      Width = 512
-      Height = 44
+      Width = 570
       Caption = 'Cadastro de transportadoras'
       Font.Name = 'Cooper Black'
     end
@@ -203,6 +201,7 @@ inherited ftransp: Tftransp
     Top = 136
     Width = 114
     Height = 24
+    Hint = 'EX: AAA9999'
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'PLACATRANSP'
@@ -213,6 +212,8 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
