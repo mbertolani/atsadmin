@@ -90,6 +90,8 @@ type
     DBEdit14: TDBEdit;
     dbMarca: TDBEdit;
     DBEdit16: TDBEdit;
+    DBEdit15: TDBEdit;
+    Label21: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
