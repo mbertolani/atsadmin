@@ -67,13 +67,6 @@ object fProcura_prod: TfProcura_prod
       end
       item
         Expanded = False
-        FieldName = 'ESTOQUEATUAL'
-        Title.Caption = 'Q. Estoq.'
-        Width = 67
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'PEDIDO'
         Title.Caption = 'Pedido'
         Visible = True
