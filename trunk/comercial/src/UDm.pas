@@ -1957,6 +1957,11 @@ begin
      Text:='EM COBRANÇA';
      exit;
     end;
+  if Sender.AsString = '14' then
+    begin
+     Text:='CANCELADO';
+     exit;
+    end;
 end;
 
 procedure TDM.cds_recReconcileError(DataSet: TCustomClientDataSet;
