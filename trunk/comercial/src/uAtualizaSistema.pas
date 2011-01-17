@@ -797,8 +797,6 @@ begin
 
     if (versaoSistema = '1.0.0.77') then
     begin
-      executaScript('calcula_icms.sql');
-      executaScript('trg_calcula_icms_st.sql');
       executaSql('CREATE TABLE INVENTARIO (CODIVENTARIO Varchar(40) NOT NULL, ' +
      'DATAIVENTARIO Date, CODPRODUTO Integer NOT NULL, ' +
      'CODPRO Varchar(15), SITUACAO Char(1), ' +
@@ -817,6 +815,7 @@ begin
       executaSql('ALTER TRIGGER ALTERA_ESTOQUE INACTIVE');
       executaSql('ALTER TRIGGER LOTE_EXCLUI INACTIVE');
       executaSql('ALTER TRIGGER MOV_ESTOQUECORRIGE INACTIVE');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');
       executaScript('gera_valor.sql');
       executaScript('mov_estoque.sql');
       executaScript('gera_nf_venda.sql');
@@ -824,7 +823,8 @@ begin
       executaScript('lote_saida.sql');
       executaScript('baixa_estoque.sql');
       executaScript('lanca_ent_saida.sql');
-      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');      
+      executaScript('trg_calcula_icms_st.sql');
+      executaScript('calcula_icms.sql');      
       mudaVersao('1.0.0.79');
     end;  // Fim Ataulização Versao 1.0.0.79
 
