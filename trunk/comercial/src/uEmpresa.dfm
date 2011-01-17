@@ -3,6 +3,7 @@ inherited fEmpresa: TfEmpresa
   Top = 177
   Width = 671
   Height = 582
+  Caption = 'Cadastro de Empresa'
   Font.Charset = ANSI_CHARSET
   Font.Height = -29
   Font.Name = 'Cooper Blk BT'
