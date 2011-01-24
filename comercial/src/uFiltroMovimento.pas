@@ -421,7 +421,7 @@ begin
    cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, ' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM((movd.QUANTIDADE * movd.PRECO)) as PRECO, ' +
-      ' cli.NOMECLIENTE, ' +
+      ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
