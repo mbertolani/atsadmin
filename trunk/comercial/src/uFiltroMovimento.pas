@@ -414,6 +414,22 @@ begin
       ' mov.CODFORNECEDOR left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO ' +
       ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO';
   end;
+
+  if (dm.moduloUsado = 'CITRUS') then
+  begin
+
+   cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, ' +
+      ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
+      ' SUM((movd.QUANTIDADE * movd.PRECO)) as PRECO, ' +
+      ' cli.NOMECLIENTE, ' +
+      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA  ' +
+      ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
+      ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
+      ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
+      ' mov.CODFORNECEDOR left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO ' +
+      ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO';
+   end;
+
   //==============================================================================
   {$IFDEF LINUX}
   datastr:='  -  -  ';
