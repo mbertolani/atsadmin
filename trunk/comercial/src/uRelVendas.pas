@@ -76,6 +76,10 @@ type
     BitBtn13: TBitBtn;
     ComboBox9: TComboBox;
     Label15: TLabel;
+    scds_produto_proc: TSQLDataSet;
+    scds_produto_procCODPRODUTO: TIntegerField;
+    scds_produto_procPRODUTO: TStringField;
+    scds_produto_procCODPRO: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -317,7 +321,7 @@ begin
     begin
       if (cds.Active) then
         cds.close;
-      cds.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE STATUS = 1 and NOMECLIENTE = ' +
+      cds.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE NOMECLIENTE = ' +
       QuotedStr(JvComboBox1.Text);
       cds.Open;
       if (cds.IsEmpty) then
@@ -329,6 +333,12 @@ begin
     end
     else
       Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
+    {*** Produto **** }
+    if (Edit3.Text <> '') then
+      Rep.Report.Params.ParamByName('PRODUTO').Value := Edit3.Text
+    else
+      Rep.Report.Params.ParamByName('PRODUTO').Value := 'TODOS PRODUTOS';
+
   except
     on EConvertError do
     begin
@@ -648,14 +658,13 @@ end;
 procedure TfRelVenda.Edit3Exit(Sender: TObject);
 begin
    if (Edit3.Text = '') then exit;
-   if dm.scds_produto_proc.Active then
-      dm.scds_produto_proc.Close;
-   dm.scds_produto_proc.Params[0].AsInteger := 0;
-   dm.scds_produto_proc.Params[1].AsString := Edit3.Text;
-   dm.scds_produto_proc.Open;
-   Edit4.Text:=dm.scds_produto_procPRODUTO.asString;
-   varProd := dm.scds_produto_procCODPRODUTO.AsInteger;
-   dm.scds_produto_proc.Close;
+   if scds_produto_proc.Active then
+      scds_produto_proc.Close;
+   scds_produto_proc.Params[0].AsString := Edit3.Text;
+   scds_produto_proc.Open;
+   Edit4.Text:= scds_produto_procPRODUTO.asString;
+   varProd := scds_produto_procCODPRODUTO.AsInteger;
+   scds_produto_proc.Close;
 end;
 
 procedure TfRelVenda.Edit3KeyPress(Sender: TObject; var Key: Char);
@@ -665,15 +674,14 @@ begin
     key:= #0;
     SelectNext((Sender as TwinControl),True,True);
     if (Edit3.Text = '') then exit;
-    if dm.scds_produto_proc.Active then
-      dm.scds_produto_proc.Close;
-    dm.scds_produto_proc.Params[0].AsInteger := 0;
-    dm.scds_produto_proc.Params[1].AsString := Edit3.Text;
-    dm.scds_produto_proc.Open;
-    Edit4.Text:=dm.scds_produto_procPRODUTO.asString;
-    varProd := dm.scds_produto_procCODPRODUTO.AsInteger;
-    dm.scds_produto_proc.Close;
-    BitBtn11.Click;
+    if scds_produto_proc.Active then
+      scds_produto_proc.Close;
+    scds_produto_proc.Params[0].AsString := Edit3.Text;
+    scds_produto_proc.Open;
+    Edit4.Text := scds_produto_procPRODUTO.asString;
+    varProd := scds_produto_procCODPRODUTO.AsInteger;
+    scds_produto_proc.Close;
+//    BitBtn11.Click;
   end;
 end;
 
