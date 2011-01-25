@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Mask, JvExMask, JvToolEdit, JvMaskEdit,
   JvCheckedMaskEdit, JvDatePickerEdit, Buttons, ExtCtrls, rpcompobase,
-  rpvclreport, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, DB;
+  rpvclreport, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, DB, SqlExpr,
+  Provider, DBClient, DBLocal, DBLocalS;
 
 type
   TfRel = class(TForm)
@@ -29,7 +30,6 @@ type
     GroupBox3: TGroupBox;
     BitBtn1: TBitBtn;
     Edit3: TEdit;
-    Edit4: TEdit;
     GroupBox4: TGroupBox;
     Label8: TLabel;
     Label9: TLabel;
@@ -53,6 +53,12 @@ type
     Edit5: TEdit;
     dbComboBoxComprador: TJvDBSearchComboBox;
     CheckBox3: TCheckBox;
+    dsProd: TDataSource;
+    edit4: TJvDBSearchComboBox;
+    scds_Prod: TSQLClientDataSet;
+    scds_ProdCODPRODUTO: TIntegerField;
+    scds_ProdCODPRO: TStringField;
+    scds_ProdPRODUTO: TStringField;
     procedure cbMesChange(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
@@ -71,6 +77,7 @@ type
     procedure BitBtn8Click(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
     procedure CheckBox3Click(Sender: TObject);
+    procedure edit4Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -212,19 +219,16 @@ procedure TfRel.Edit3KeyPress(Sender: TObject; var Key: Char);
 begin
   if (key = #13) then
   begin
-    if dm.scds_produto_proc.Active then
-      dm.scds_produto_proc.Close;
-    dm.scds_produto_proc.Params[0].Clear;
-    dm.scds_produto_proc.Params[1].Clear;
-    dm.scds_produto_proc.Params[2].AsString := Edit3.Text;
-    dm.scds_produto_proc.Open;
-    if dm.scds_produto_proc.IsEmpty then begin
+    if scds_Prod.Active then
+      scds_Prod.Close;
+    scds_Prod.Params[0].AsString := Edit3.Text;
+    scds_Prod.Open;
+    if scds_Prod.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
       [mbOk], 0);
       exit;
     end;
-    Edit3.Text := dm.scds_produto_procCODPRO.AsString;
-    Edit4.Text := dm.scds_produto_procPRODUTO.AsString;
+    Edit4.Text := scds_ProdPRODUTO.AsString;
     key:= #0;
     SelectNext((Sender as TwinControl),True,True);
   end;
@@ -350,6 +354,12 @@ begin
   begin
     bitBtn6.Visible := True;
   end;
+
+  if scds_Prod.Active then
+    scds_Prod.Close;
+  scds_Prod.Params[0].Clear;
+  scds_Prod.Params[1].AsString := 'TODOS OS PRODUT';
+  scds_Prod.Open;
 end;
 
 procedure TfRel.Edit2Change(Sender: TObject);
@@ -454,6 +464,11 @@ begin
     dbComboBoxComprador.Color := cl3DLight;
   end;
 
+end;
+
+procedure TfRel.edit4Change(Sender: TObject);
+begin
+  Edit3.Text := scds_ProdCODPRO.AsString;
 end;
 
 end.

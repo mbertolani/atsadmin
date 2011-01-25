@@ -640,14 +640,19 @@ object fRel: TfRel
       TabOrder = 1
       OnKeyPress = Edit3KeyPress
     end
-    object Edit4: TEdit
-      Left = 56
-      Top = 16
+    object edit4: TJvDBSearchComboBox
+      Left = 57
+      Top = 15
       Width = 257
       Height = 21
+      DataField = 'PRODUTO'
+      DataSource = dsProd
       Color = cl3DLight
       Enabled = False
+      ParentFlat = False
+      ItemHeight = 13
       TabOrder = 2
+      OnChange = edit4Change
     end
   end
   object GroupBox4: TGroupBox
@@ -1575,5 +1580,45 @@ object fRel: TfRel
     DataSet = DM.scds_forn_proc
     Left = 40
     Top = 16
+  end
+  object dsProd: TDataSource
+    DataSet = scds_Prod
+    Top = 16
+  end
+  object scds_Prod: TSQLClientDataSet
+    CommandText = 
+      'Select CODPRODUTO, CODPRO, PRODUTO from PRODUTOS'#13#10'where USA is n' +
+      'ull '#13#10'and  ( ( (CODPRO = :pCODPRO) or (CODPRO = '#39'TODOS OS PRODUT' +
+      #39') ) or (:pCODPRO = '#39'TODOS OS PRODUT'#39' ))'#13#10'order by PRODUTO'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'pCODPRO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftUnknown
+        Name = 'pCODPRO'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 461
+    Top = 12
+    object scds_ProdCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object scds_ProdCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object scds_ProdPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
   end
 end
