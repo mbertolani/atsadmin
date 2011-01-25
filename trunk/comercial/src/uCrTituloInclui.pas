@@ -358,8 +358,8 @@ begin
           exit;
         end;
         //prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
-        DM.cds_crCODCLIENTE.AsInteger := dmnf.scds_cli_procCODUSUARIO.AsInteger;
-        DM.cds_crNOMECLIENTE.AsString := dmnf.scds_cli_procNOMEUSUARIO.AsString;
+        DM.cds_crCODCLIENTE.AsInteger := dm.codcli;
+        DM.cds_crNOMECLIENTE.AsString := dm.varNomeCliente;
       end;
     finally
       dmnf.scds_cli_proc.Close;
