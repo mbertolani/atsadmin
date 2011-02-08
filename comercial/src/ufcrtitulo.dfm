@@ -188,10 +188,10 @@ inherited fcpTitulo: TfcpTitulo
     Width = 784
     TabOrder = 11
     inherited btnExcluir: TBitBtn [0]
-      Left = 405
+      Left = 398
     end
     object BitBtn2: TBitBtn [1]
-      Left = 288
+      Left = 275
       Top = 7
       Width = 107
       Height = 40
@@ -277,17 +277,18 @@ inherited fcpTitulo: TfcpTitulo
       Visible = False
     end
     inherited btnCancelar: TBitBtn [4]
-      Left = 405
+      Left = 396
     end
     inherited btnProcurar: TBitBtn
       Top = 79
       Visible = False
     end
     inherited btnSair: TBitBtn
-      Left = 631
+      Left = 694
+      Width = 80
     end
     object btnCancela_Baixa: TBitBtn
-      Left = 170
+      Left = 154
       Top = 7
       Width = 107
       Height = 40
@@ -344,7 +345,7 @@ inherited fcpTitulo: TfcpTitulo
         00003939393939393939393939393939393939390000}
     end
     object BitBtn3: TBitBtn
-      Left = 52
+      Left = 35
       Top = 7
       Width = 107
       Height = 40
@@ -353,7 +354,7 @@ inherited fcpTitulo: TfcpTitulo
       OnClick = BitBtn3Click
     end
     object btnImprimir: TBitBtn
-      Left = 518
+      Left = 512
       Top = 7
       Width = 103
       Height = 40
@@ -461,6 +462,15 @@ inherited fcpTitulo: TfcpTitulo
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object btnrecibo: TBitBtn
+      Left = 625
+      Top = 8
+      Width = 61
+      Height = 39
+      Caption = 'Recibo'
+      TabOrder = 10
+      OnClick = btnreciboClick
+    end
   end
   inherited MMJPanel2: TMMJPanel
     Width = 784
@@ -473,14 +483,16 @@ inherited fcpTitulo: TfcpTitulo
     inherited Label1: TLabel
       Left = 272
       Top = -80
-      Width = 243
+      Width = 215
+      Height = 44
       Caption = 'Pagar T'#237'tulo'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 274
       Top = -80
-      Width = 243
+      Width = 215
+      Height = 44
       Caption = 'Pagar T'#237'tulo'
       Font.Name = 'Cooper Black'
     end
