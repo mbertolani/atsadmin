@@ -159,6 +159,7 @@ type
     DBMemo2: TDBMemo;
     Label24: TLabel;
     Memo1: TMemo;
+    btnrecibo: TBitBtn;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -182,6 +183,7 @@ type
     procedure DBEdit2Exit(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
+    procedure btnreciboClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -236,7 +238,7 @@ end;
 procedure TfcpTitulo.FormShow(Sender: TObject);
 var varCpTitulo : TUtils;
 begin
-  // Listo as Contas Caixa
+   // Listo as Contas Caixa
   DecimalSeparator := ',';
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -636,6 +638,40 @@ begin
     exit;
   end;
   rep.FileName := str_relatorio + 'recibo_cp.rep';
+
+  rep.Report.Params.ParamByName('USUARIO').Value := idusuario;
+  rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  rep.Execute;
+end;
+
+procedure TfcpTitulo.btnreciboClick(Sender: TObject);
+Var  TD: TTransactionDesc;
+  Forma, i, num: Integer;
+  str_sql: String;
+begin
+  Try
+    for i:=1 to length(nrec) do
+    begin
+      idusuario :=  IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+      str_sql := 'UPDATE PAGAMENTO SET DP = 0 , USERID = ' + QuotedStr(idusuario);
+      str_sql := str_sql + ' WHERE CODPAGAMENTO = ';
+      num := nrec[i - 1];
+      str_sql := str_sql + IntToStr(num);
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro para marcar os titulos.', mtError, [mbOK], 0);
+        exit;
+      end;
+    end;
+  except
+    MessageDlg('Erro para marcar os titulos.', mtError, [mbOK], 0);
+    exit;
+  end;
+  rep.FileName := str_relatorio + 'recibo_pgto.rep';
 
   rep.Report.Params.ParamByName('USUARIO').Value := idusuario;
   rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
