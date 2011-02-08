@@ -844,6 +844,7 @@ type
     procedure JvDescontoChange(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure DBEdit1Exit(Sender: TObject);
   private
      codproduto : integer;
      cod_nat : integer;
@@ -3429,6 +3430,12 @@ begin
     varFormAberto := 'NÃO';
     btnSair.Click; //ShowMessage('Sistema não está em uso.');
   end;
+end;
+
+procedure TfTerminal_Delivery.DBEdit1Exit(Sender: TObject);
+begin
+  inherited;
+  dbeProduto.SetFocus;
 end;
 
 end.

@@ -41,7 +41,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Left = 0
     Top = 47
     Width = 289
-    Height = 509
+    Height = 520
     Align = alLeft
     TabOrder = 3
     object Panel3: TPanel
@@ -702,7 +702,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         object Label9: TLabel
           Left = 3
           Top = 20
-          Width = 46
+          Width = 47
           Height = 15
           Caption = 'Telefone'
           Font.Charset = DEFAULT_CHARSET
@@ -1097,7 +1097,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
   end
   inherited MMJPanel2: TMMJPanel [3]
-    Width = 788
+    Width = 796
     Height = 47
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -1255,7 +1255,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Left = 449
     Top = 47
     Width = 339
-    Height = 509
+    Height = 520
     Align = alLeft
     ParentColor = True
     PopupMenu = PopupMenu1
@@ -1365,6 +1365,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 3
+      OnExit = DBEdit1Exit
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
@@ -1372,6 +1373,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Top = 326
       Width = 159
       Height = 44
+      TabStop = False
       BevelKind = bkFlat
       BorderStyle = bsNone
       Color = clBtnFace
@@ -1402,6 +1404,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Top = 465
       Width = 159
       Height = 44
+      TabStop = False
       BevelKind = bkFlat
       BorderStyle = bsNone
       DisplayFormat = ',##0.00'
@@ -1421,6 +1424,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Top = 419
       Width = 159
       Height = 45
+      TabStop = False
       BevelKind = bkFlat
       BorderStyle = bsNone
       DisplayFormat = ',##0.00'
@@ -1516,7 +1520,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Left = 289
     Top = 47
     Width = 160
-    Height = 509
+    Height = 520
     Align = alLeft
     Font.Color = clBlack
     Font.Height = -15
