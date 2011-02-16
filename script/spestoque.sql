@@ -1,19 +1,23 @@
-ALTER PROCEDURE  SPESTOQUE( DTA1                             DATE
-                          , DTA2                             DATE
-                          , PROD1                            INTEGER
-                          , PROD2                            INTEGER
-                          , GRUPOA                           VARCHAR( 50 )
-                          , SUBGRUPOA                        VARCHAR( 50 ) )
-RETURNS ( CODPROD                          VARCHAR( 20 )
-        , PRODUTO                          VARCHAR( 200 )
-        , UNIDADE                          CHAR( 3 )
-        , GRUPO                            VARCHAR( 30 )
-        , SUBGRUPO                         VARCHAR( 30 )
-        , SALDOINI                         DOUBLE PRECISION
-        , ENTRADA                          DOUBLE PRECISION
-        , SAIDA                            DOUBLE PRECISION
-        , SALDOFIM                         DOUBLE PRECISION
-        , VALORCUSTO                       DOUBLE PRECISION )
+SET TERM ^ ;
+ALTER PROCEDURE SPESTOQUE (
+    DTA1 Date,
+    DTA2 Date,
+    PROD1 Integer,
+    PROD2 Integer,
+    GRUPOA Varchar(50),
+    SUBGRUPOA Varchar(50) )
+RETURNS (
+    CODPROD Varchar(20),
+    PRODUTO Varchar(200),
+    UNIDADE Char(3),
+    GRUPO Varchar(30),
+    SUBGRUPO Varchar(30),
+    SALDOINI Double precision,
+    ENTRADA Double precision,
+    SAIDA Double precision,
+    SALDOFIM Double precision,
+    VALORCUSTO Double precision,
+    ESTOQUEMINIMO Double precision)
 AS
 DECLARE VARIABLE COD INTEGER;
 DECLARE VARIABLE ESTOQ DOUBLE PRECISION;
@@ -22,12 +26,12 @@ DECLARE VARIABLE SAI DOUBLE PRECISION = 0;
 BEGIN
     ENTRADA = 0;
     SAIDA = 0;
-    FOR SELECT CODPRODUTO, CODPRO, PRODUTO, FAMILIA, CATEGORIA, UNIDADEMEDIDA FROM PRODUTOS 
+    FOR SELECT CODPRODUTO, CODPRO, PRODUTO, FAMILIA, CATEGORIA, UNIDADEMEDIDA, ESTOQUEMINIMO FROM PRODUTOS 
         WHERE (CODPRODUTO BETWEEN :PROD1 AND :PROD2) AND ((FAMILIA = :GRUPOA) OR (:GRUPOA = 'TODOS OS GRUPOS CADASTRADOS NO SISTEMA')) 
         AND ((CATEGORIA = :SUBGRUPOA) OR (:SUBGRUPOA = 'TODOS OS SUBGRUPOS CADASTRADOS NO SISTEMA')) 
         and ((TIPO <> 'SERV') or (tipo is null))
        GROUP BY FAMILIA, CATEGORIA, CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA
-    INTO :COD, :CODPROD, :PRODUTO, :GRUPO, :SUBGRUPO, :UNIDADE
+    INTO :COD, :CODPROD, :PRODUTO, :GRUPO, :SUBGRUPO, :UNIDADE, :ESTOQUEMINIMO
     DO BEGIN
        /* -- Qtde Inicial ENTRADA*/
        SELECT SUM(movdet.QUANTIDADE)  FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
@@ -61,7 +65,7 @@ BEGIN
         IF (ENTRADA IS NULL) THEN
             ENTRADA = 0;
 
-      /*  -- Saída*/
+      /*  -- SaÃ­da*/
       for   SELECT SUM(movdet.QUANTIDADE), movdet.PRECOCUSTO FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu  
             WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 AND mov.DATAMOVIMENTO BETWEEN :DTA1 AND
@@ -108,4 +112,10 @@ BEGIN
         valorCusto = null;
     END
 
-END
+END^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE SPESTOQUE TO  SYSDBA;
+
