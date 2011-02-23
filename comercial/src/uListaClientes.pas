@@ -249,7 +249,7 @@ begin
    QuotedStr('(') + ' || ende.DDD3 || ' + QuotedStr(')') + ' || ende.FAX END ) as FAX, ende.CIDADE, ' +
    'ende.UF, ende.LOGRADOURO || ' + QuotedStr(', ') + '|| ende.BAIRRO as ENDERECO, ende.TELEFONE as FONE, '+
    'cli.CODBANCO, cli.PRAZORECEBIMENTO, cli.OBS, rep.NOME_REPRCLI, ' +
-   'usu.NOMEUSUARIO, fun.NOME_FUNCIONARIO, fun.TELEFONE, fun.CELULAR, ende.TELEFONE as tel from CLIENTES cli ' +
+   'usu.NOMEUSUARIO, fun.NOME_FUNCIONARIO, fun.TELEFONE, fun.CELULAR, ende.TELEFONE as tel, ende.E_mail from CLIENTES cli ' +
    'left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE=cli.CODCLIENTE ' +
    'left outer join USUARIO usu on usu.CODUSUARIO = cli.CODUSUARIO ' +
    'left outer join REPR_CLIENTE rep on rep.COD_CLIENTE=cli.CODCLIENTE ' +
