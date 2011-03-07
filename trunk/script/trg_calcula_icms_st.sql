@@ -19,7 +19,9 @@ AS
  DECLARE VARIABLE TOTBASEICMS DOUBLE PRECISION;
  DECLARE VARIABLE TOTIPI DOUBLE PRECISION;
  DECLARE VARIABLE NUMNF integer;
+ DECLARE VARIABLE NAT integer; 
  DECLARE VARIABLE CODCLI integer; 
+ DECLARE VARIABLE VFRETE DOUBLE PRECISION;
  
 BEGIN
 
@@ -139,4 +141,16 @@ BEGIN
             new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
         end
     end
+    
+    if( new.FRETE > 0) then
+    begin
+    new.BCFRETE = new.FRETE * UDF_ROUNDDEC(CICMS_SUBST, 4);
+    VALOR_SUBDesc = new.FRETE * CICMS_SUBST_IND;
+    new.STFRETE = (new.BCFRETE * CICMS_SUBST_IC) - Valor_SubDesc;
+    end
+    if( new.FRETE = 0) then
+    begin
+    new.BCFRETE = 0;
+    new.STFRETE = 0;
+    end 
 END
