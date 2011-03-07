@@ -78,6 +78,7 @@ type
     Label27: TLabel;
     DBEdit24: TDBEdit;
     Label28: TLabel;
+    DBRadioGroup2: TDBRadioGroup;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -120,7 +121,7 @@ VAR S     : TStream;
     var conta_local: String;
 begin
 //  inherited;
-  sCtrlResize.CtrlResize(TForm(fEmpresa));
+//  sCtrlResize.CtrlResize(TForm(fEmpresa));
   if not dm.cds_empresa.Active then
     dm.cds_empresa.Open;
 
