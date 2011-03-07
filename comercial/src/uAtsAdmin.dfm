@@ -2414,7 +2414,7 @@ object fAtsAdmin: TfAtsAdmin
         OnClick = RelProgramaodeRecebimento1Click
       end
       object RelatrioGuiaConehcimento1: TMenuItem
-        Caption = 'Relat'#243'rio Guia Conehcimento'
+        Caption = 'Relat'#243'rio Guia Conhecimento'
         OnClick = RelatrioGuiaConehcimento1Click
       end
       object RelatrioDeComisso1: TMenuItem
