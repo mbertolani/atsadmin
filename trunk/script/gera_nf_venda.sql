@@ -63,8 +63,6 @@ as
   declare variable BAIRRO Varchar(40);
   declare variable PRAZO Varchar(40);
   declare variable CODNATUREZA smallint;
-  declare variable lote Varchar(60);  
-  declare variable Usalote char(1);    
   declare variable CFOP_CLI char(4);    
 begin 
 
@@ -86,11 +84,6 @@ begin
   icms = 0;
   totalIcms = 0;
  
- -- Imprime Lote na NF
- UsaLote = 'N';
-  SELECT CONFIGURADO FROM PARAMETRO WHERE PARAMETRO = 'LOTE'
-    INTO :UsaLote;
-
   -- CFOP Padrao
   SELECT DADOS, D1 FROM PARAMETRO WHERE PARAMETRO = 'CFOP'
     INTO :cfop, cfop_outros;
@@ -106,7 +99,7 @@ begin
   if (uf <> 'SP') then 
     cfop = cfop_outros;
     
-  if ((cfop_cli <> null) or (cfop_cli <> ''))then
+  if (cfop_cli <> '')then
     cfop = cfop_cli;
 
   SELECT FIRST 1 ICMS, REDUCAO
@@ -118,11 +111,11 @@ begin
   into :codMovNovo;
 
   -- insiro o Movimento   
-  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO
+  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, ven.VALOR_FRETE
     from movimento mov 
     inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
     where mov.CODMOVIMENTO = :codMov
-  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO
+  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT
   do begin 
     insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle) 
@@ -132,24 +125,19 @@ begin
     pesoTotal = 0;
     -- localiza o mov. detalhe
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
-      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST, md.LOTE    
+      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST    
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
-    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd, :lote
+    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd
     do begin 
-      if (desconto is null) then 
+      /*if (desconto is null) then 
         desconto = 0;
       if (desconto > 0) then 
         desconto = 1 - (desconto / 100);
       if (desconto = 0) then 
          desconto = 1;  
-
-    if (usaLote = 'S') then 
-    begin  
-    if (lote is not null) THEN
-     descP = descP  || '(' || lote || ')';
-    end
+*/
      if (pesoUn is null) then 
         pesoUn = 0;
       pesoTotal = pesoTotal + (:pesoUn * :qtde);
@@ -210,12 +198,13 @@ begin
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
        , preco, un, descProduto, icms, valor_icms, cst, qtde_alt) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco*:desconto, :un, :descP, :icms, :valoricms, :cst,  0);  
-      total = total + (qtde * (:preco*:desconto));--((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto)
+       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto);  
+      total = total + (qtde * (:preco*(1-(:desconto/100))));--((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto)
       totalIcms = totalIcms + :valoricms;
     end 
     vIcmsT = 0; 
-
+  if (vFreteT is null) then
+    vFreteT = 0;
   /* Buscando a numeracao da duplicata */
   preco = total;
   total = total + vSeguroT + vOutrosT + vIpiT + vIcmsT + vFreteT; 
@@ -258,14 +247,14 @@ begin
     , NOMETRANSP, PLACATRANSP, CNPJ_CPF, END_TRANSP
     , CIDADE_TRANSP, UF_VEICULO_TRANSP, UF_TRANSP, FRETE, INSCRICAOESTADUAL
     , CORPONF1, CORPONF2, CORPONF3, CORPONF4, CORPONF5, CORPONF6, PESOBRUTO, PESOLIQUIDO 
-    ,SERIE, UF)
+    ,SERIE, UF, VALOR_DESCONTO)
     VALUES (:numero, :codNF, 15, :codVen, :Cliente, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero
     , :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
     , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :FRETE, :INSCRICAOESTADUAL
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
-    , :serie, :UF);
+    , :serie, :UF, 0);
  
    -- Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
    -- da nf qdo esta e parcelada (dnz)

@@ -108,11 +108,11 @@ begin
   into :codMovNovo;
 
   /* insiro o Movimento    */
-  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO
+  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, ven.VALOR_FRETE
     from movimento mov 
     inner join COMPRA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
     where mov.CODMOVIMENTO = :codMov
-  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO
+  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT
   do begin 
     insert into movimento (codmovimento, codcliente, CODFORNECEDOR, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle) 
@@ -241,14 +241,14 @@ begin
     , NOMETRANSP, PLACATRANSP, CNPJ_CPF, END_TRANSP
     , CIDADE_TRANSP, UF_VEICULO_TRANSP, UF_TRANSP, FRETE, INSCRICAOESTADUAL
     , CORPONF1, CORPONF2, CORPONF3, CORPONF4, CORPONF5, CORPONF6, PESOBRUTO, PESOLIQUIDO 
-    ,SERIE, UF)
+    ,SERIE, UF, VALOR_DESCONTO)
     VALUES (:numero, :codNF, 20, :codVen, :FORNECEDOR, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero
     , :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
     , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :FRETE, :INSCRICAOESTADUAL
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
-    , :serie, :UF);
+    , :serie, :UF, 0);
  
    /* Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr */
    /* da nf qdo esta e parcelada (dnz) */
