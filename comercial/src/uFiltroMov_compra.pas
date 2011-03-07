@@ -276,7 +276,7 @@ begin
   end;
   //==============================================================================
 
-  cds_cns.CommandText := cds_cns.CommandText + sqlTexto + ' order by mov.DATAMOVIMENTO DESC';
+  cds_cns.CommandText := cds_cns.CommandText + sqlTexto + ' order by mov.CODMOVIMENTO DESC';
   cds_cns.Open;
   DBGrid1.SetFocus;
 
