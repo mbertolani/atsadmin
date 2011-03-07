@@ -5280,6 +5280,9 @@ object DM: TDM
       FieldName = 'DIVERSOS1'
       Size = 50
     end
+    object sds_EmpresaCRT: TIntegerField
+      FieldName = 'CRT'
+    end
   end
   object dsp_empresa: TDataSetProvider
     DataSet = sds_Empresa
@@ -5436,6 +5439,9 @@ object DM: TDM
     object cds_empresaDIVERSOS1: TStringField
       FieldName = 'DIVERSOS1'
       Size = 50
+    end
+    object cds_empresaCRT: TIntegerField
+      FieldName = 'CRT'
     end
   end
   object sds_usuario: TSQLDataSet

@@ -2428,6 +2428,10 @@ object DMNF: TDMNF
     object cds_nfSERIE: TStringField
       FieldName = 'SERIE'
     end
+    object cds_nfVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+      DisplayFormat = ',##0.00'
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2761,6 +2765,9 @@ object DMNF: TDMNF
     end
     object sds_nfSERIE: TStringField
       FieldName = 'SERIE'
+    end
+    object sds_nfVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
     end
   end
   object scds: TSQLClientDataSet
@@ -4214,9 +4221,10 @@ object DMNF: TDMNF
       'select cli.CODCLIENTE, cli.NOMECLIENTE, cli.RAZAOSOCIAL, cli.CNP' +
       'J, cli.INSCESTADUAL, cli.PRAZORECEBIMENTO, cli.COD_TRANPORTADORA' +
       ' '#13#10', ende.LOGRADOURO, ende.BAIRRO, ende.COMPLEMENTO, ende.CIDADE' +
-      ', ende.UF, ende.CEP, ende.TELEFONE '#13#10'from CLIENTES cli '#13#10'left ou' +
-      'ter join ENDERECOCLIENTE ende on ende.CODCLIENTE = cli.CODCLIENT' +
-      'E '#13#10'where ende.TIPOEND = 0'#13#10' order by cli.RAZAOSOCIAL '
+      ', ende.UF, ende.CEP, ende.TELEFONE, cli.TIPOFIRMA'#13#10'from CLIENTES' +
+      ' cli '#13#10'left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE =' +
+      ' cli.CODCLIENTE '#13#10'where ende.TIPOEND = 0'#13#10' order by cli.RAZAOSOC' +
+      'IAL '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -4296,6 +4304,10 @@ object DMNF: TDMNF
     end
     object listaClienteCOD_TRANPORTADORA: TIntegerField
       FieldName = 'COD_TRANPORTADORA'
+    end
+    object listaClienteTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
     end
   end
   object listaFornecedor: TSQLDataSet
@@ -6153,6 +6165,10 @@ object DMNF: TDMNF
       ProviderFlags = []
       Size = 9
     end
+    object cds_nf1VALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+      DisplayFormat = ',##0.00'
+    end
   end
   object dsp_nf1: TDataSetProvider
     DataSet = sds_nf1
@@ -6494,6 +6510,9 @@ object DMNF: TDMNF
       FieldName = 'TELEFONE'
       ProviderFlags = []
       Size = 9
+    end
+    object sds_nf1VALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
     end
   end
   object sds_compra: TSQLDataSet

@@ -10,6 +10,24 @@ inherited fEstado: TfEstado
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
+  object Label18: TLabel [0]
+    Left = 150
+    Top = 57
+    Width = 25
+    Height = 16
+    Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
+    Anchors = [akTop]
+    Caption = 'CST'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Cooper Blk BT'
+    Font.Style = []
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    Transparent = True
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 683
     Width = 668
@@ -81,7 +99,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label4: TLabel
-      Left = 103
+      Left = 98
       Top = 57
       Width = 17
       Height = 16
@@ -99,7 +117,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label8: TLabel
-      Left = 213
+      Left = 269
       Top = 57
       Width = 62
       Height = 16
@@ -114,7 +132,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label6: TLabel
-      Left = 294
+      Left = 350
       Top = 57
       Width = 74
       Height = 16
@@ -129,7 +147,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label10: TLabel
-      Left = 381
+      Left = 437
       Top = 57
       Width = 29
       Height = 16
@@ -147,7 +165,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label11: TLabel
-      Left = 447
+      Left = 503
       Top = 57
       Width = 74
       Height = 16
@@ -162,7 +180,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label12: TLabel
-      Left = 531
+      Left = 587
       Top = 57
       Width = 76
       Height = 16
@@ -177,7 +195,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label13: TLabel
-      Left = 151
+      Left = 142
       Top = 57
       Width = 25
       Height = 16
@@ -308,6 +326,24 @@ inherited fEstado: TfEstado
       ParentFont = False
       Transparent = True
     end
+    object Label19: TLabel
+      Left = 205
+      Top = 57
+      Width = 46
+      Height = 16
+      Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
+      Anchors = [akTop]
+      Caption = 'CSOSN'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Transparent = True
+    end
     object DBEdit1: TDBEdit
       Left = 8
       Top = 73
@@ -329,7 +365,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit2: TDBEdit
-      Left = 98
+      Left = 93
       Top = 73
       Width = 38
       Height = 24
@@ -349,7 +385,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit9: TDBEdit
-      Left = 141
+      Left = 133
       Top = 73
       Width = 61
       Height = 24
@@ -369,7 +405,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit3: TDBEdit
-      Left = 207
+      Left = 263
       Top = 73
       Width = 76
       Height = 24
@@ -389,7 +425,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
-      Left = 288
+      Left = 344
       Top = 73
       Width = 79
       Height = 24
@@ -409,7 +445,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit6: TDBEdit
-      Left = 373
+      Left = 429
       Top = 73
       Width = 69
       Height = 24
@@ -429,7 +465,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit7: TDBEdit
-      Left = 446
+      Left = 502
       Top = 73
       Width = 77
       Height = 24
@@ -449,7 +485,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit8: TDBEdit
-      Left = 528
+      Left = 584
       Top = 73
       Width = 79
       Height = 24
@@ -627,8 +663,28 @@ inherited fEstado: TfEstado
       TabOrder = 15
       OnClick = CheckBox1Click
     end
+    object DBEdit21: TDBEdit
+      Left = 199
+      Top = 73
+      Width = 61
+      Height = 24
+      Anchors = [akTop]
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CharCase = ecUpperCase
+      DataField = 'CSOSN'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 16
+      OnKeyPress = FormKeyPress
+    end
   end
-  object DBGrid1: TDBGrid [2]
+  object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 344
     Width = 668
@@ -674,6 +730,11 @@ inherited fEstado: TfEstado
         Expanded = False
         FieldName = 'CST'
         Width = 42
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CSOSN'
         Visible = True
       end
       item
@@ -789,7 +850,7 @@ inherited fEstado: TfEstado
         Visible = True
       end>
   end
-  object GroupBox1: TGroupBox [3]
+  object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 153
     Width = 668
@@ -939,17 +1000,16 @@ inherited fEstado: TfEstado
   end
   object sds: TSQLDataSet
     CommandText = 
-      'select esta.CODESTADO, esta.CFOP'#13#10'        , esta.UF'#13#10'        , e' +
-      'sta.ICMS'#13#10'        , esta.REDUCAO'#13#10'        , cfo.CFNOME'#13#10'        ' +
-      ', esta.IPI '#13#10'        , esta.CSTIPI'#13#10'        , esta.ICMS_SUBSTRIB' +
-      ', esta.ICMS_SUBSTRIB_IC'#13#10'        , esta.ICMS_SUBSTRIB_IND, esta.' +
-      'CST'#13#10'        , esta.PESSOA'#13#10'        , esta.PIS'#13#10'        , esta.C' +
-      'OFINS'#13#10'        , esta.CSTPIS'#13#10'        , esta.CSTCOFINS'#13#10'        ' +
-      ', esta.DADOSADC1'#13#10'        , esta.DADOSADC2'#13#10'        , esta.DADOS' +
-      'ADC3'#13#10'        , esta.DADOSADC4'#13#10'        , esta.DADOSADC5'#13#10'      ' +
-      '  , esta.DADOSADC6'#13#10'        , esta.NAOENVFATURA'#13#10'FROM ESTADO_ICM' +
-      'S esta '#13#10'left outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10'ord' +
-      'er by esta.CFOP'
+      'select esta.CODESTADO, esta.CFOP'#13#10'        , esta.UF        , est' +
+      'a.ICMS'#13#10'        , esta.REDUCAO        , cfo.CFNOME'#13#10'        , es' +
+      'ta.IPI         , esta.CSTIPI'#13#10'        , esta.ICMS_SUBSTRIB, esta' +
+      '.ICMS_SUBSTRIB_IC'#13#10'        , esta.ICMS_SUBSTRIB_IND, esta.CST'#13#10' ' +
+      '       , esta.PESSOA'#13#10'        , esta.PIS , esta.COFINS , esta.CS' +
+      'TPIS , esta.CSTCOFINS'#13#10'        , esta.DADOSADC1        , esta.DA' +
+      'DOSADC2'#13#10'        , esta.DADOSADC3        , esta.DADOSADC4'#13#10'     ' +
+      '   , esta.DADOSADC5        , esta.DADOSADC6'#13#10'        , esta.NAOE' +
+      'NVFATURA, esta.CSOSN'#13#10'FROM ESTADO_ICMS esta '#13#10'left outer join CF' +
+      'OP cfo on cfo.CFCOD = esta.CFOP '#13#10'order by esta.CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1050,6 +1110,10 @@ inherited fEstado: TfEstado
     object sdsDADOSADC6: TStringField
       FieldName = 'DADOSADC6'
       Size = 200
+    end
+    object sdsCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
     end
   end
   object dsp: TDataSetProvider
@@ -1160,6 +1224,10 @@ inherited fEstado: TfEstado
     object cds_estadoDADOSADC6: TStringField
       FieldName = 'DADOSADC6'
       Size = 200
+    end
+    object cds_estadoCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
     end
   end
 end

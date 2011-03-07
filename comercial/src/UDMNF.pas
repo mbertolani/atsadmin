@@ -1312,6 +1312,11 @@ type
     cds_compraNOMEUSUARIO: TStringField;
     sds_Mov_DetCFOP: TStringField;
     cds_Mov_detCFOP: TStringField;
+    listaClienteTIPOFIRMA: TSmallintField;
+    sds_nfVALOR_DESCONTO: TFloatField;
+    cds_nfVALOR_DESCONTO: TFloatField;
+    sds_nf1VALOR_DESCONTO: TFloatField;
+    cds_nf1VALOR_DESCONTO: TFloatField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
@@ -1844,7 +1849,7 @@ begin
            dmnf.cds_vendaVALOR_SEGURO.AsFloat + dmnf.cds_vendaVALOR_FRETE.AsFloat +
            dmnf.cds_vendaOUTRAS_DESP.AsFloat - dmnf.cds_vendaDESCONTO.AsFloat;
       end;
-    if (FormExiste(fNotaf1) = True) then
+    {if (FormExiste(fNotaf1) = True) then
       if (cds_Mov_detTotalPedido.Value > 0)then
       begin
         if (cds_nf1.State in [dsBrowse, dsInactive]) then
@@ -1855,7 +1860,7 @@ begin
            dmnf.cdsCompraVALOR_ICMS.AsFloat + dmnf.cdsCompraVALOR_SEGURO.AsFloat +
            dmnf.cdsCompraVALOR_SEGURO.AsFloat + dmnf.cdsCompraVALOR_FRETE.AsFloat +
            dmnf.cdsCompraOUTRAS_DESP.AsFloat - dmnf.cdsCompraDESCONTO.AsFloat;
-      end;
+      end;}
 
     if (FormExiste(fNotaFc) = True) then
       if (cds_Mov_detTotalPedido.Value > 0)then
@@ -1962,7 +1967,7 @@ end;
 
 procedure TDMNF.DtSrc_NF1StateChange(Sender: TObject);
 begin
-  if (FormExiste(fNotaf1) = True) then
+  {if (FormExiste(fNotaf1) = True) then
   begin
     if (DMNF.DtSrc_NF1.State in [dsEdit, dsInsert]) then
     begin
@@ -1986,7 +1991,7 @@ begin
        fNotaf1.btnSair.Visible := True;
        fNotaf1.btnSair.Enabled := True;
     end;
-  end;
+  end;  }
 
   if (FormExiste(fNotaFc) = True) then
   begin

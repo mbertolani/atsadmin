@@ -240,8 +240,6 @@ type
     DBEdit8: TDBEdit;
     JvGroupBox16: TJvGroupBox;
     DBEdit34: TDBEdit;
-    JvGroupBox17: TJvGroupBox;
-    DBEdit9: TDBEdit;
     JvGroupBox18: TJvGroupBox;
     DBEdit10: TDBEdit;
     JvGroupBox19: TJvGroupBox;
@@ -336,8 +334,6 @@ type
     DBEdit42: TDBEdit;
     JvGroupBox52: TJvGroupBox;
     JvDBDateEdit3: TJvDBDateEdit;
-    JvGroupBox53: TJvGroupBox;
-    DBEdit43: TDBEdit;
     DBEdit45: TDBEdit;
     DBEdit46: TDBEdit;
     DBEdit44: TDBEdit;
@@ -357,6 +353,8 @@ type
     sCfopDADOSADC6: TStringField;
     lblFatura: TLabel;
     sCfopNAOENVFATURA: TStringField;
+    JvGroupBox55: TJvGroupBox;
+    DBEdit50: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -1598,7 +1596,7 @@ begin
     cdsNotaMae.ApplyUpdates(0);
     end;
   end;
-  dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat; 
+  dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat; 
   dmnf.cds_nf.ApplyUpdates(0);
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
@@ -2128,7 +2126,14 @@ Begin
           sCFOP.Close;
         sCFOP.Params[1].asString :=  cbCFOP.Text;
         sCFOP.Params[0].asString :=  DBEdit7.Text;
-        sCFOP.Params[2].asString :=  'J';
+        if (listaCliente1.Active) then
+          listaCliente1.Close;
+        listaCliente1.Params.ParamByName('pCodCli').AsInteger := DMNF.cds_nfCODCLIENTE.AsInteger;
+        listaCliente1.Open;
+         if (listaCliente1TIPOFIRMA.AsInteger = 0) then
+           sCFOP.Params[2].asString :=  'F'
+         else
+          sCFOP.Params[2].asString :=  'J';
         sCFOP.Open;
         If ((sCfopDADOSADC1.AsString = '') or (not sCFOPDADOSADC1.IsNull) )then
           DMNF.cds_nfCORPONF1.AsString := sCFOPDADOSADC1.AsString;

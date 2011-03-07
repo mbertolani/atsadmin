@@ -101,6 +101,11 @@ type
     DBEdit18: TDBEdit;
     DBEdit19: TDBEdit;
     DBEdit20: TDBEdit;
+    Label18: TLabel;
+    Label19: TLabel;
+    sdsCSOSN: TStringField;
+    cds_estadoCSOSN: TStringField;
+    DBEdit21: TDBEdit;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
