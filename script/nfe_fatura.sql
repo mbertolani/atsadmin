@@ -33,7 +33,7 @@ BEGIN
   TOT_IPI = 0;
   parc = 0; 
   /* Gera as FAtura para imprimir na NFe */ 
-  select prazo, cast(notafiscal as varchar(15)), serie, CODMOVIMENTO, CODCLIENTE, VALOR_FRETE from venda where codvenda = :codvenda
+  select first 1 prazo, cast(notafiscal as varchar(15)), serie, CODMOVIMENTO, CODCLIENTE, VALOR_FRETE from venda where codvenda = :codvenda
   into :prazo, :nf, :serie, :codm, :cli, :vfrete;
   
   select first 1 ec.UF from ENDERECOCLIENTE ec where ec.CODCLIENTE = :cli and ec.TIPOEND = 0
@@ -44,14 +44,14 @@ BEGIN
     from RECEBIMENTO r where r.TITULO = udf_trim(:NF) || '-' || :Serie
     into :parcelas;
   
-  select D9 from parametro where parametro = :prazo
+  select first 1 D9 from parametro where parametro = :prazo
   into :ve_prazo;
   if (prazo is null) then 
   begin
     for select distinct md.CFOP from MOVIMENTODETALHE md where md.CODMOVIMENTO = :codm
       into :CFOP
     do begin
-        select ei.NAOENVFATURA from ESTADO_ICMS ei where ei.CFOP = :CFOP and ei.UF = :uf
+        select first 1 ei.NAOENVFATURA from ESTADO_ICMS ei where ei.CFOP = :CFOP and ei.UF = :uf
           into :nenv;
         if (:nenv <> 'S') then
         begin
@@ -86,7 +86,7 @@ BEGIN
       for select distinct md.CFOP from MOVIMENTODETALHE md where md.CODMOVIMENTO = :codm
       into :CFOP
       do begin
-        select ei.NAOENVFATURA from ESTADO_ICMS ei where ei.CFOP = :CFOP and ei.UF = :uf
+        select first 1 ei.NAOENVFATURA from ESTADO_ICMS ei where ei.CFOP = :CFOP and ei.UF = :uf
           into :nenv;
         if (:nenv <> 'S') then
         begin
@@ -119,7 +119,7 @@ BEGIN
       for select distinct md.CFOP from MOVIMENTODETALHE md where md.CODMOVIMENTO = :codm
       into :CFOP
       do begin
-        select ei.NAOENVFATURA from ESTADO_ICMS ei where ei.CFOP = :CFOP and ei.UF = :uf
+        select first 1 ei.NAOENVFATURA from ESTADO_ICMS ei where ei.CFOP = :CFOP and ei.UF = :uf
           into :nenv;
         if (nenv = 'S') then
         begin
