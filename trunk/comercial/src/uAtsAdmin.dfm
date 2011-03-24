@@ -2203,6 +2203,16 @@ object fAtsAdmin: TfAtsAdmin
     end
     object Lanamentos1: TMenuItem
       Caption = '&Lan'#231'amentos     '
+      object Agenda1: TMenuItem
+        Action = acAgenda
+      end
+      object ArquivoRetorno: TMenuItem
+        Action = acArquivoRetorno
+      end
+      object ApontamentodeHoras1: TMenuItem
+        Caption = 'Apontamento de Horas'
+        OnClick = ApontamentodeHoras1Click
+      end
       object compras: TMenuItem
         Caption = '&Compras'
         OnClick = acComprasExecute
@@ -2243,9 +2253,6 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Ver Movimenta'#231#227'o de cheques'
         OnClick = VerMovimentaodecheques1Click
       end
-      object ArquivoRetorno: TMenuItem
-        Action = acArquivoRetorno
-      end
       object LanamentoPassivo1: TMenuItem
         Caption = 'Lan'#231'amento Passivo'
         OnClick = LanamentoPassivo1Click
@@ -2277,6 +2284,14 @@ object fAtsAdmin: TfAtsAdmin
       object CallCenter1: TMenuItem
         Caption = 'Call Center'
         OnClick = CallCenter1Click
+      end
+      object SolicitacaoCompras1: TMenuItem
+        Caption = 'Solicitacao Compras'
+        OnClick = SolicitacaoCompras1Click
+      end
+      object CotacaoCompras1: TMenuItem
+        Caption = 'Cotacao Compras'
+        OnClick = CotacaoCompras1Click
       end
     end
     object NotaFiscal1: TMenuItem
