@@ -56,25 +56,8 @@ type
     cdsNFSELECIONOU: TStringField;
     dspNF: TDataSetProvider;
     sdsItensNF: TSQLDataSet;
-    sdsItensNFCODPRODUTO: TIntegerField;
-    sdsItensNFQUANTIDADE: TFloatField;
-    sdsItensNFPRECO: TFloatField;
-    sdsItensNFDESCPRODUTO: TStringField;
-    sdsItensNFUNIDADEMEDIDA: TStringField;
-    sdsItensNFCST: TStringField;
-    sdsItensNFICMS: TFloatField;
-    sdsItensNFVLR_BASE: TFloatField;
     dspItensNF: TDataSetProvider;
     cdsItensNF: TClientDataSet;
-    cdsItensNFCODPRODUTO: TIntegerField;
-    cdsItensNFQUANTIDADE: TFloatField;
-    cdsItensNFPRECO: TFloatField;
-    cdsItensNFDESCPRODUTO: TStringField;
-    cdsItensNFCODPRO: TStringField;
-    cdsItensNFUNIDADEMEDIDA: TStringField;
-    cdsItensNFCST: TStringField;
-    cdsItensNFICMS: TFloatField;
-    cdsItensNFVLR_BASE: TFloatField;
     sMenorData: TSQLDataSet;
     sMenorDataMENORDATA: TDateField;
     sMaiorData: TSQLDataSet;
@@ -283,12 +266,6 @@ type
     sProdutosGERADESCONTO: TStringField;
     sProdutosIMPRIMIR: TStringField;
     sProdutosORIGEM: TIntegerField;
-    sdsItensNFVALOR_ICMS: TFloatField;
-    sdsItensNFICMS_SUBST: TFloatField;
-    sdsItensNFICMS_SUBSTD: TFloatField;
-    cdsItensNFVALOR_ICMS: TFloatField;
-    cdsItensNFICMS_SUBST: TFloatField;
-    cdsItensNFICMS_SUBSTD: TFloatField;
     sCFOPUF: TStringField;
     sCFOPICMS: TFloatField;
     sCFOPREDUCAO: TFloatField;
@@ -360,8 +337,6 @@ type
     sdsNFPROTOCOLOENV: TStringField;
     sdsNFNUMRECIBO: TStringField;
     sdsNFPROTOCOLOCANC: TStringField;
-    sdsItensNFVALTOTAL: TFloatField;
-    cdsItensNFVALTOTAL: TFloatField;
     sdsNFENTRADA: TFloatField;
     sdsNFVALOR_PAGAR: TFloatField;
     cdsNFENTRADA: TFloatField;
@@ -371,7 +346,6 @@ type
     sEmailNOMECLIENTE: TStringField;
     sEmailRAZAOSOCIAL: TStringField;
     sEmailE_MAIL: TStringField;
-    sdsItensNFCODPRO: TStringField;
     sdsNFCORPONF3: TStringField;
     sdsNFCORPONF4: TStringField;
     cdsNFCORPONF3: TStringField;
@@ -408,8 +382,6 @@ type
     sFornecCD_IBGE: TStringField;
     sProdutosGENERO: TIntegerField;
     sCFOPNAOENVFATURA: TStringField;
-    sdsItensNFVLR_BASEICMS: TFloatField;
-    cdsItensNFVLR_BASEICMS: TFloatField;
     sdsNFVALOR_PIS: TFloatField;
     sdsNFVALOR_COFINS: TFloatField;
     cdsNFVALOR_PIS: TFloatField;
@@ -457,12 +429,6 @@ type
     sEmpresa1CCUSTO: TIntegerField;
     sEmpresa1NUMERO: TStringField;
     sEmpresa1CD_IBGE: TStringField;
-    sdsItensNFPIPI: TFloatField;
-    sdsItensNFVIPI: TFloatField;
-    cdsItensNFPIPI: TFloatField;
-    cdsItensNFVIPI: TFloatField;
-    sdsItensNFCFOP: TStringField;
-    cdsItensNFCFOP: TStringField;
     GroupBox1: TGroupBox;
     GroupBox3: TGroupBox;
     btnImprime: TBitBtn;
@@ -516,6 +482,49 @@ type
     btnValidaNFe: TBitBtn;
     GroupBox11: TGroupBox;
     btnValidaXML: TBitBtn;
+    sdsItensNFCODPRODUTO: TIntegerField;
+    sdsItensNFQUANTIDADE: TFloatField;
+    sdsItensNFPRECO: TFloatField;
+    sdsItensNFCFOP: TStringField;
+    sdsItensNFDESCPRODUTO: TStringField;
+    sdsItensNFCODPRO: TStringField;
+    sdsItensNFUNIDADEMEDIDA: TStringField;
+    sdsItensNFCST: TStringField;
+    sdsItensNFICMS: TFloatField;
+    sdsItensNFPIPI: TFloatField;
+    sdsItensNFVIPI: TFloatField;
+    sdsItensNFVLR_BASEICMS: TFloatField;
+    sdsItensNFVALOR_ICMS: TFloatField;
+    sdsItensNFVLR_BASE: TFloatField;
+    sdsItensNFICMS_SUBST: TFloatField;
+    sdsItensNFICMS_SUBSTD: TFloatField;
+    sdsItensNFVALTOTAL: TFloatField;
+    cdsItensNFCODPRODUTO: TIntegerField;
+    cdsItensNFQUANTIDADE: TFloatField;
+    cdsItensNFPRECO: TFloatField;
+    cdsItensNFCFOP: TStringField;
+    cdsItensNFDESCPRODUTO: TStringField;
+    cdsItensNFCODPRO: TStringField;
+    cdsItensNFUNIDADEMEDIDA: TStringField;
+    cdsItensNFCST: TStringField;
+    cdsItensNFICMS: TFloatField;
+    cdsItensNFPIPI: TFloatField;
+    cdsItensNFVIPI: TFloatField;
+    cdsItensNFVLR_BASEICMS: TFloatField;
+    cdsItensNFVALOR_ICMS: TFloatField;
+    cdsItensNFVLR_BASE: TFloatField;
+    cdsItensNFICMS_SUBST: TFloatField;
+    cdsItensNFICMS_SUBSTD: TFloatField;
+    cdsItensNFVALTOTAL: TFloatField;
+    sdsNFVALOR_DESCONTO: TFloatField;
+    cdsNFVALOR_DESCONTO: TFloatField;
+    sClienteE_MAIL: TStringField;
+    sFornecE_MAIL: TStringField;
+    sEmpresaIM: TStringField;
+    sEmpresaTREGIME: TIntegerField;
+    sEmpresaCRT: TIntegerField;
+    sdsItensNFCSOSN: TStringField;
+    cdsItensNFCSOSN: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -616,7 +625,7 @@ begin
       'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
       'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  nf.INSCRICAOESTADUAL,' +
       'udf_left(nf.END_TRANSP,60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60) as CIDADE_TRANSP,   nf.UF_TRANSP,'+
-      'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, ' +
+      'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
       'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
       'inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR left outer join COMPRA c on c.CODCOMPRA = nf.CODVENDA '+
@@ -633,7 +642,7 @@ begin
     'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
     'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  '+
     'nf.INSCRICAOESTADUAL, udf_left(nf.END_TRANSP, 60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60)as CIDADE_TRANSP, ' +
-    'nf.UF_TRANSP, nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO,' +
+    'nf.UF_TRANSP, nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
     'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, nf.NUMRECIBO, nf.PROTOCOLOCANC, co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     'from NOTAFISCAL nf inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE   inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
     'left outer join VENDA co on co.CODVENDA = nf.CODVENDA  where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
@@ -774,6 +783,7 @@ begin
             protenv       := cdsNFNOTASERIE.AsString;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
+            Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
             InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
             // Tipo de movimentação 0 entrada 1 saida
             if ((cdsNFNATUREZA.AsInteger = 20) or (cdsNFNATUREZA.AsInteger = 16)) then
@@ -800,7 +810,7 @@ begin
             itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
-                'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
+                'pr.UNIDADEMEDIDA, md.CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
                 'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
@@ -812,7 +822,7 @@ begin
             itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO, ' +
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
-                'md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+                'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
                 'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
                 'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
                 'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
@@ -867,7 +877,7 @@ begin
             if (cdsNFVALOR_SEGURO.IsNull) then
                 MessageDlg('Valor do Seguro nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
-            //Total.ICMSTot.vDesc   := 0;
+            Total.ICMSTot.vDesc := cdsNFVALOR_DESCONTO.AsVariant;
             //Total.ICMSTot.vII := 0;
             if (cdsNFVALOR_IPI.IsNull) then
                 MessageDlg('Valor do IPI nulo', mtError, [mbOK], 0);
@@ -893,6 +903,7 @@ begin
    //Gera Envio da Nota
    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
    ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
+   ACBrNFeDANFERave1.CasasDecimais._vUnCom := 3;
    if ( (tp_amb = 2) or (tp_amb = 5)) then
    begin
      ACBrNFe1.NotasFiscais.Assinar;
@@ -1367,6 +1378,7 @@ begin
     Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
     Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
     Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
+    Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
     InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
     // Tipo de movimentação 0 entrada 1 saida
     if ((cdsNFNATUREZA.AsInteger = 20) or (cdsNFNATUREZA.AsInteger = 16)) then
@@ -1393,7 +1405,7 @@ begin
     itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
-        'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
+        'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.CSOSN, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
         'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
         'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
@@ -1405,7 +1417,7 @@ begin
     itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO, ' +
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
-        'md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+        'md.vIPI, md.VLR_BASEICMS, md.CSOSN, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
         'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
         'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
         'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
@@ -1445,7 +1457,7 @@ begin
     Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
     Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
     Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
-    //Total.ICMSTot.vDesc   := 0;
+    Total.ICMSTot.vDesc   := cdsNFVALOR_DESCONTO.AsVariant;
     //Total.ICMSTot.vII := 0;
     Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
     if ( (cdsNFVALOR_PIS.AsFloat <> 0 )or (cdsNFVALOR_PIS.AsFloat <> null )) then
@@ -1461,6 +1473,7 @@ begin
  ACBrNFeDANFERave1.RavFile := str_relatorio + 'NFe_Teste.rav';
  ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
  ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
+ ACBrNFeDANFERave1.CasasDecimais._vUnCom := 3; 
  ACBrNFe1.NotasFiscais.Imprimir;
  ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
@@ -1518,6 +1531,7 @@ begin
       Dest.EnderDest.cPais   := 1058;
       Dest.EnderDest.xPais   := 'BRASIL';
       Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
+      //Dest.EnderDest.email   := sFornecE_MAIL.AsString;
       Dest.IE                := RemoveChar(sFornecINSCESTADUAL.AsString);
     end
     //CLIENTE
@@ -1544,6 +1558,7 @@ begin
       Dest.EnderDest.cPais   := 1058;
       Dest.EnderDest.xPais   := 'BRASIL';
       Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
+      //Dest.EnderDest.email   := sClienteE_MAIL.AsString;
       IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
       if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
       begin
@@ -1579,6 +1594,12 @@ begin
     Emit.enderEmit.xPais   := 'BRASIL';
     Emit.EnderEmit.fone    := sEmpresaDDD.AsString + sEmpresaFONE.AsString;
     Emit.IE                := RemoveChar(sEmpresaIE_RG.AsString);
+    if ( sEmpresaCRT.AsInteger = 0) Then
+      Emit.CRT               := crtSimplesNacional;
+    if ( sEmpresaCRT.AsInteger = 1) Then
+      Emit.CRT               := crtSimplesExcessoReceita;
+    if ( sEmpresaCRT.AsInteger = 2) Then
+      Emit.CRT               := crtRegimeNormal;
   end;
 end;
 
@@ -1609,7 +1630,7 @@ begin
       Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
       infAdProd     := '';
       Prod.NCM      := sProdutosNCM.AsString;
-      Prod.genero   := sProdutosGENERO.AsInteger;
+      //Prod.genero   := sProdutosGENERO.AsInteger;
       //IMPOSTOS Do Produto
       with Imposto do
       begin
@@ -1623,6 +1644,34 @@ begin
           // Verifica Origem do Produto
           if (sProdutosORIGEM.IsNull) then
             MessageDlg('Origem do Produto não definida', mtError, [mbOK], 0);
+
+          //CSOSN PREENCHIDO APENAS QUANDO EMPRESA OPTANTE PELO SIMPLES.
+          if( sEmpresaCRT.AsInteger = 0) then
+          begin
+            if (( cdsItensNFCSOSN.AsString = null) or ( cdsItensNFCSOSN.AsString = '')) then
+              CSOSN := csosnVazio;
+            if ( cdsItensNFCSOSN.AsString = '101') then
+              CSOSN := csosn101;
+            if ( cdsItensNFCSOSN.AsString = '102') then
+              CSOSN := csosn102;
+            if ( cdsItensNFCSOSN.AsString = '103') then
+              CSOSN := csosn103;
+            if ( cdsItensNFCSOSN.AsString = '201') then
+              CSOSN := csosn201;
+            if ( cdsItensNFCSOSN.AsString = '202') then
+              CSOSN := csosn202;
+            if ( cdsItensNFCSOSN.AsString = '203') then
+              CSOSN := csosn203;
+            if ( cdsItensNFCSOSN.AsString = '300') then
+              CSOSN := csosn300;
+            if ( cdsItensNFCSOSN.AsString = '400') then
+              CSOSN := csosn400;
+            if ( cdsItensNFCSOSN.AsString = '500') then
+              CSOSN := csosn500;
+            if ( cdsItensNFCSOSN.AsString = '900') then
+              CSOSN := csosn900;
+          end;
+
           comp := '000  ';
           comp2:= '000';
           if ((cdsItensNFCST.AsString = comp) or (cdsItensNFCST.AsString = comp2)) then
@@ -2111,5 +2160,3 @@ begin
 end;
 
 end.
-
-

@@ -1,7 +1,7 @@
 object DMNF: TDMNF
   OldCreateOrder = False
   Left = 1
-  Top = 32
+  Top = 35
   Height = 687
   Width = 873
   object sCliente: TSQLDataSet
@@ -320,18 +320,18 @@ object DMNF: TDMNF
       '.ICMS, movd.PRECO, movd.QUANTIDADE, movd.QTDE_ALT, movd.UN, movd' +
       '.BAIXA'#13#10', movd.CONTROLE, movd.COD_COMISSAO, movd.LOTE, movd.DTAF' +
       'AB, movd.DTAVCTO, movd.PRECOCUSTO, movd.VALTOTAL, movd.DESCPRODU' +
-      'TO, movd.CFOP'#13#10', movd.CST, prod.COD_BARRA , prod.CODPRO, prod.PR' +
-      'ODUTO, prod.ESTOQUEATUAL, prod.CODALMOXARIFADO, prod.VALORUNITAR' +
-      'IOATUAL'#13#10', prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA ' +
-      ' , prod.LOCALIZACAO  , prod.CLASSIFIC_FISCAL , cm.CODIGO, prod.L' +
-      'OTES, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS'#13#10', udf_LEFT' +
-      '((prod.PRODUTO),80) as DETALHE , movd.VLR_BASE, movd.VLR_BASEICM' +
-      'S'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod' +
-      '.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus ' +
-      'on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join' +
-      ' COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd' +
-      '.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by m' +
-      'ovd.coddetalhe'
+      'TO, movd.CFOP, movd.CSOSN'#13#10', movd.CST, prod.COD_BARRA , prod.COD' +
+      'PRO, prod.PRODUTO, prod.ESTOQUEATUAL, prod.CODALMOXARIFADO, prod' +
+      '.VALORUNITARIOATUAL'#13#10', prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CO' +
+      'NTA_DESPESA  , prod.LOCALIZACAO  , prod.CLASSIFIC_FISCAL , cm.CO' +
+      'DIGO, prod.LOTES, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS' +
+      #13#10', udf_LEFT((prod.PRODUTO),80) as DETALHE , movd.VLR_BASE, movd' +
+      '.VLR_BASEICMS'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS ' +
+      'prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXA' +
+      'RIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'lef' +
+      't outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO ' +
+      #13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMO' +
+      'V order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -509,6 +509,10 @@ object DMNF: TDMNF
       FieldName = 'CFOP'
       FixedChar = True
       Size = 4
+    end
+    object sds_Mov_DetCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -712,6 +716,10 @@ object DMNF: TDMNF
       FieldName = 'CFOP'
       FixedChar = True
       Size = 4
+    end
+    object cds_Mov_detCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify

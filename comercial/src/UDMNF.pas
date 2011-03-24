@@ -1317,6 +1317,8 @@ type
     cds_nfVALOR_DESCONTO: TFloatField;
     sds_nf1VALOR_DESCONTO: TFloatField;
     cds_nf1VALOR_DESCONTO: TFloatField;
+    sds_Mov_DetCSOSN: TStringField;
+    cds_Mov_detCSOSN: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

@@ -229,6 +229,7 @@ begin
     str := str + ', ICMS_SUBSTRIB_IC = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IC.AsFloat);
     str := str + ', ICMS_SUBSTRIB_IND = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IND.AsFloat);
     str := str + ', CST = ' + QuotedStr(cds_estadoCST.AsString);
+    str := str + ', CSOSN = ' + QuotedStr(cds_estadoCSOSN.AsString);    
     if(ComboBox1.text = 'Física') then
       str := str + ', PESSOA = ' + QuotedStr('F')
     else

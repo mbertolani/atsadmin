@@ -57,6 +57,10 @@ type
     cdsClassFiscIPI: TFloatField;
     Label11: TLabel;
     DBEdit10: TDBEdit;
+    sdsClassFiscCSOSN: TStringField;
+    cdsClassFiscCSOSN: TStringField;
+    Label12: TLabel;
+    DBEdit11: TDBEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);

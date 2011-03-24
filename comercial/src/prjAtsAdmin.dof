@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=0
 Release=0
-Build=79
+Build=86
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=ATS - Comércio e Serviços LTDA ME.
 FileDescription=
-FileVersion=1.0.0.79
+FileVersion=1.0.0.86
 InternalName=
 LegalCopyright=
 LegalTrademarks=
@@ -136,6 +136,8 @@ ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
 C:\Arquivos de programas\Borland\Delphi7\Projects\Bpl\JvNetD7D.bpl=JVCL Network Components
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70VCL.bpl=(untitled)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70CLX.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
 c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclDAD77.bpl=ReportBuilder Data Access Environment
 c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclRBU77.bpl=ReportBuilder Sample Components
@@ -147,7 +149,6 @@ C:\Arquivos de programas\Borland\Delphi7\\RBuilder\Lib\dclRAP77.bpl=ReportBuilde
 C:\Arquivos de programas\Borland\Delphi7\Componentes\ip4000vcl7\package\ip4000clientvcl7.bpl=Woll2Woll InfoPower 4000 for Midas
 C:\Arquivos de programas\Borland\Delphi7\Componentes\ip4000vcl7\package\ip4000dcl7.bpl=Woll2Woll InfoPower 4000
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\dclcxWebPascalScriptD7.bpl=Pascal Script Engine for EWF by Developer Express Inc.
-E:\WINDOWS\system32\ibevnt70.bpl=Borland Interbase Event Alerter Component
 Z:\carlos\ats-admin1.0\transportadora\visao\uPaiNew.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\teste.bpl=(untitled)
 [HistoryLists\hlDebugSourcePath]
