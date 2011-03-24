@@ -275,7 +275,6 @@ begin
       executaScript('apaga_estoque.sql');
       executaScript('retornaEstoqueVenda.sql');
       executaScript('mov_EstoqueCorrige.sql');
-      executaScript('mov_estoque.sql');
       mudaVersao('1.0.0.26');
     end; // Fim Ataulização Versao 1.0.0.25
 
@@ -701,18 +700,9 @@ begin
       executaDDL('RECEBIMENTO', 'SELECIONOU', 'char(1)');
       executaDDL('RECEBIMENTO', 'DESCONTADO', 'char(1)');
       executaDDL('RECEBIMENTO', 'SITUACAO', 'INTEGER');
-      {executaSql('CREATE EXCEPTION DATAINVALIDA ' +
-      QuotedStr('O sistema não permite data menor que 01/01/2001'));
-      executaSql('CREATE EXCEPTION NAOPERMITEEDIT ' +
-      QuotedStr('Nota fiscal já enviada, alteração não permitida'));}
-      //executaScript('naopermite_nf.sql');
-      //executaScript('proibeEdit_nf.sql');
-      //executaScript('desativa_trigger.sql');
-      //executaScript('trg_datainvalida.sql');
       executaScript('corrige_fatura.sql');
       executaScript('CorrigeEstoque.sql');
       executaScript('retornaEstoqueVenda.sql');
-      executaScript('mov_estoque.sql');
       executaScript('retornaEstoqueCompra.sql');
       executaScript('rel_vendaCompra.sql');
       mudaVersao('1.0.0.69');
@@ -756,7 +746,6 @@ begin
 
     if (versaoSistema = '1.0.0.73') then
     begin
-      executaScript('altera_vlrvenda.sql');
       executaDDL('MOVIMENTODETALHE', 'pIPI', 'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'vIPI', 'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'CFOP', 'char(4)'); //alter table MOVIMENTODETALHE add CFOP char(4)'
@@ -816,17 +805,106 @@ begin
       executaSql('ALTER TRIGGER LOTE_EXCLUI INACTIVE');
       executaSql('ALTER TRIGGER MOV_ESTOQUECORRIGE INACTIVE');
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');
+      executaScript('baixa_estoque.sql');
       executaScript('gera_valor.sql');
-      executaScript('mov_estoque.sql');
       executaScript('gera_nf_venda.sql');
       executaScript('lote_entrada.sql');
       executaScript('lote_saida.sql');
-      executaScript('baixa_estoque.sql');
       executaScript('lanca_ent_saida.sql');
-      executaScript('trg_calcula_icms_st.sql');
-      executaScript('calcula_icms.sql');      
+      executaScript('mov_estoque.sql');
       mudaVersao('1.0.0.79');
     end;  // Fim Ataulização Versao 1.0.0.79
+
+    if (versaoSistema = '1.0.0.79') then
+    begin
+      executaDDL('NOTAFISCAL', 'VALOR_DESCONTO', 'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'FRETE', 'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'BCFRETE', 'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'STFRETE', 'char(4)');
+      executaDDL('ESTADO_ICMS', 'CSOSN', 'Varchar(3)');
+      executaDDL('EMPRESA', 'CRT', 'INTEGER');
+      executaScript('altera_vlrvenda.sql');
+      executaScript('frete_nf.sql');
+      executaScript('gera_nf_devolucaocompra.sql');
+      executaScript('gera_nf_devolucaovenda.sql');
+      executaScript('gera_nf_compra.sql');
+      executaScript('gera_nf_venda.sql');
+      mudaVersao('1.0.0.80');
+    end;  // Fim Ataulização Versao 1.0.0.80
+
+    if (versaoSistema = '1.0.0.80') then
+    begin
+      executaDDL('MOVIMENTO', 'PRAZO_ENT', 'Integer');
+      executaDDL('MOVIMENTO', 'VAL_PROP', 'date');
+      executaDDL('MOVIMENTO', 'FORMA_PAG', 'varchar(40)');
+      executaDDL('MOVIMENTO', 'VALOR_FRETE', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'BCSTFRETE', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'ICMSFRETE', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'CSOSN', 'Varchar(3)');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSOSN', 'Varchar(3)');
+      executaScript('trg_calcula_icms_st.sql');
+      executaScript('calcula_icms.sql');
+      executaScript('trg_gera_pedido.sql');
+      mudaVersao('1.0.0.81');
+    end;  // Fim Ataulização Versao 1.0.0.81
+
+    if (versaoSistema = '1.0.0.81') then
+    begin
+      executaSql('CREATE TABLE COMPRA_SOLIC (SOLIC_CODIGO INTEGER NOT NULL primary key, ' +
+     'SOLIC_DATA DATE DEFAULT current_date, SOLIC_PRODUTO VARCHAR (15) NOT NULL, ' +
+     'SOLIC_QUANTIDADE DOUBLE precision, SOLIC_SOLICITANTE Varchar(30), ' +
+     'SOLIC_SITUACAO CHAR(1), SOLIC_APROVACAO Varchar(30), ' +
+     'SOLIC_SITUACAO CHAR(1), SOLIC_APROVACAO Varchar(30), ' +
+     'SOLIC_TIPO CHAR(1), SOLIC_DTNECESSIT date)');
+      mudaVersao('1.0.0.82');
+    end;  // Fim Ataulização Versao 1.0.0.82
+
+    if (versaoSistema = '1.0.0.82') then
+    begin
+      executaSql('CREATE TABLE COMPRA_COTACAO (COTACAO_CODIGO INTEGER NOT NULL, ' +
+     'COTACAO_DATA   DATE DEFAULT current_date, COTACAO_FORNEC INTEGER NOT NULL, ' +
+     'COTACAO_SOLICIT VARCHAR(20),  COTACAO_ITEM   VARCHAR(15) NOT NULL, ' +
+     'COTACAO_ITEMDESCRICAO VARCHAR(300),  COTACAO_SITUACAO CHAR(1), ' +
+     'COTACAO_QTDE  DOUBLE precision,  COTACAO_PRECO  DOUBLE precision, ' +
+     'COTACAO_USER   VARCHAR(20),  COTACAO_TIPO CHAR(1), ' +
+     'COTACAO_CODSOLIC integer,  COTACAO_DTENTREGA DATE, ' +
+     'COTACAO_PRAZO VARCHAR(30), COTACAO_OBSERVACAO VARCHAR(200), ' +
+     'PRIMARY KEY (COTACAO_CODIGO, COTACAO_FORNEC))');
+      mudaVersao('1.0.0.83');
+    end;  // Fim Ataulização Versao 1.0.0.83
+
+    if (versaoSistema = '1.0.0.83') then
+    begin
+      executaSql('create table aponthoras ( id_aponthoras integer not null primary key, ' +
+     'cod_cliente integer, cod_fornecedor integer, ' +
+     'cod_usuario integer, data_movimento date, ' +
+     'PRIMARY KEY (COTACAO_CODIGO, COTACAO_FORNEC))');
+      mudaVersao('1.0.0.84');
+    end;  // Fim Ataulização Versao 1.0.0.84
+
+    if (versaoSistema = '1.0.0.84') then
+    begin
+      executaSql('create table aponthorasdet (id_aponthorasdet integer not null primary key, ' +
+     'id_aponthoras integer not null, data date, ' +
+     'Tarefa_local varchar(150), inicio time, ' +
+     'termino time, obs varchar(300), ' +
+     'km double precision,  km_valor double precision, ' +
+     'km_total double precision, despesa double precision, ' +
+     'pedagio double precision, valor_hora double precision, ' +
+     'total_hora double precision, total_geral double precision, ' +
+     'n_relatorio integer) ');
+      mudaVersao('1.0.0.85');
+    end;  // Fim Ataulização Versao 1.0.0.85
+
+    if (versaoSistema = '1.0.0.85') then
+    begin
+      executaSql('create generator gen_aponthorasdet);
+      executaSql('create generator gen_aponthoras);
+      executaDDL('MOVIMENTO', 'DATA_ENTREGA', 'DATE');
+      executaDDL('MOVIMENTO', 'PRAZO_PAGAMENTO', 'VARCHAR(30)');
+      mudaVersao('1.0.0.86');
+    end;  // Fim Ataulização Versao 1.0.0.86
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');

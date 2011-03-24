@@ -1817,6 +1817,7 @@ type
     LOTEQTDE, totalpago : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO : String;
     tipoCompra, tipoVenda : String;
+    userAprovaCompra, varLogado : String;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
   end;

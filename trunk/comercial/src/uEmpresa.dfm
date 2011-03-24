@@ -1123,7 +1123,7 @@ inherited fEmpresa: TfEmpresa
   end
   object BitBtn3: TBitBtn [53]
     Left = 362
-    Top = 250
+    Top = 251
     Width = 27
     Height = 25
     Caption = '...'

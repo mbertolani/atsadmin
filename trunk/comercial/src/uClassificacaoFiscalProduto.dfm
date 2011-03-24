@@ -1,6 +1,6 @@
 inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   Left = 196
-  Top = 130
+  Top = 132
   Width = 778
   Height = 548
   Caption = 'Classifica'#231#227'o Fiscal dos Produto'
@@ -48,7 +48,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     ShowHint = True
   end
   object Label5: TLabel [4]
-    Left = 285
+    Left = 277
     Top = 64
     Width = 58
     Height = 13
@@ -56,7 +56,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit5
   end
   object Label6: TLabel [5]
-    Left = 373
+    Left = 352
     Top = 64
     Width = 61
     Height = 13
@@ -64,7 +64,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit6
   end
   object Label7: TLabel [6]
-    Left = 461
+    Left = 429
     Top = 64
     Width = 22
     Height = 13
@@ -72,7 +72,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit7
   end
   object Label8: TLabel [7]
-    Left = 537
+    Left = 492
     Top = 64
     Width = 75
     Height = 13
@@ -80,24 +80,35 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     FocusControl = DBEdit8
   end
   object Label10: TLabel [8]
-    Left = 624
+    Left = 578
     Top = 64
     Width = 21
     Height = 13
     Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
     Caption = 'CST'
-    FocusControl = DBEdit8
+    FocusControl = DBEdit9
     ParentShowHint = False
     ShowHint = True
   end
   object Label11: TLabel [9]
-    Left = 699
+    Left = 705
     Top = 64
     Width = 13
     Height = 13
     Hint = 'Imposto sobre Produto Industrializado'
     Caption = 'IPI'
-    FocusControl = DBEdit8
+    FocusControl = DBEdit10
+    ParentShowHint = False
+    ShowHint = True
+  end
+  object Label12: TLabel [10]
+    Left = 643
+    Top = 64
+    Width = 37
+    Height = 13
+    Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
+    Caption = 'CSOSN'
+    FocusControl = DBEdit11
     ParentShowHint = False
     ShowHint = True
   end
@@ -106,7 +117,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     Font.Charset = ANSI_CHARSET
     Font.Height = -29
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 12
     object Label9: TLabel
       Left = 9
       Top = 7
@@ -129,12 +140,12 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   inherited MMJPanel2: TMMJPanel
     Top = 470
     Width = 770
-    TabOrder = 0
+    TabOrder = 11
     inherited btnProcurar: TBitBtn
       Visible = False
     end
   end
-  object DBEdit1: TDBEdit [12]
+  object DBEdit1: TDBEdit [13]
     Left = 3
     Top = 80
     Width = 89
@@ -142,9 +153,9 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataField = 'CODPRO'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 9
+    TabOrder = 0
   end
-  object DBEdit2: TDBEdit [13]
+  object DBEdit2: TDBEdit [14]
     Left = 99
     Top = 80
     Width = 57
@@ -153,7 +164,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 1
   end
-  object DBEdit3: TDBEdit [14]
+  object DBEdit3: TDBEdit [15]
     Left = 163
     Top = 80
     Width = 30
@@ -162,44 +173,44 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 2
   end
-  object DBEdit4: TDBEdit [15]
+  object DBEdit4: TDBEdit [16]
     Left = 200
     Top = 80
-    Width = 80
+    Width = 70
     Height = 21
     DataField = 'ICMS_SUBST'
     DataSource = DtSrc
     TabOrder = 3
   end
-  object DBEdit5: TDBEdit [16]
-    Left = 286
+  object DBEdit5: TDBEdit [17]
+    Left = 276
     Top = 80
-    Width = 80
+    Width = 70
     Height = 21
     DataField = 'ICMS_SUBST_IC'
     DataSource = DtSrc
     TabOrder = 4
   end
-  object DBEdit6: TDBEdit [17]
-    Left = 373
+  object DBEdit6: TDBEdit [18]
+    Left = 352
     Top = 80
-    Width = 81
+    Width = 70
     Height = 21
     DataField = 'ICMS_SUBST_IND'
     DataSource = DtSrc
     TabOrder = 5
   end
-  object DBEdit7: TDBEdit [18]
-    Left = 461
+  object DBEdit7: TDBEdit [19]
+    Left = 427
     Top = 80
-    Width = 70
+    Width = 60
     Height = 21
     DataField = 'ICMS'
     DataSource = DtSrc
     TabOrder = 6
   end
-  object DBEdit8: TDBEdit [19]
-    Left = 537
+  object DBEdit8: TDBEdit [20]
+    Left = 492
     Top = 80
     Width = 78
     Height = 21
@@ -207,13 +218,13 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 7
   end
-  object DBGrid1: TDBGrid [20]
+  object DBGrid1: TDBGrid [21]
     Left = 3
     Top = 112
     Width = 758
     Height = 345
     DataSource = DtSrc
-    TabOrder = 11
+    TabOrder = 13
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -241,6 +252,16 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
         Expanded = False
         FieldName = 'UF'
         Width = 37
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CST'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CSOSN'
         Visible = True
       end
       item
@@ -276,30 +297,34 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
         Title.Caption = 'Base Icms'
         Width = 68
         Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CST'
-        Visible = True
       end>
   end
-  object DBEdit9: TDBEdit [21]
-    Left = 621
+  object DBEdit9: TDBEdit [22]
+    Left = 576
     Top = 80
-    Width = 70
+    Width = 60
     Height = 21
     DataField = 'CST'
     DataSource = DtSrc
     TabOrder = 8
   end
-  object DBEdit10: TDBEdit [22]
-    Left = 699
+  object DBEdit10: TDBEdit [23]
+    Left = 705
     Top = 80
-    Width = 65
+    Width = 60
     Height = 21
     DataField = 'IPI'
     DataSource = DtSrc
-    TabOrder = 12
+    TabOrder = 10
+  end
+  object DBEdit11: TDBEdit [24]
+    Left = 641
+    Top = 80
+    Width = 60
+    Height = 21
+    DataField = 'CST'
+    DataSource = DtSrc
+    TabOrder = 9
   end
   inherited DtSrc: TDataSource
     DataSet = cdsClassFisc
@@ -362,6 +387,10 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     object sdsClassFiscIPI: TFloatField
       FieldName = 'IPI'
     end
+    object sdsClassFiscCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
   end
   object cdsClassFisc: TClientDataSet
     Aggregates = <>
@@ -415,6 +444,10 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     end
     object cdsClassFiscIPI: TFloatField
       FieldName = 'IPI'
+    end
+    object cdsClassFiscCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
     end
   end
   object dspClassFisc: TDataSetProvider

@@ -6,7 +6,7 @@ object DM: TDM
   Height = 738
   Width = 1022
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisadmin'
+    ConnectionName = 'sge'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -21,11 +21,12 @@ object DM: TDM
       'LocaleCode=0000'
       'Password=masterkey'
       'RoleName=RoleName'
-      'ServerCharSet='
+      'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
-      'WaitOnLocks=True')
+      'User_Name=sysdba'
+      'WaitOnLocks=True'
+      'str_relatorio=C:\home\atsadmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
