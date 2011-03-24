@@ -217,6 +217,10 @@ type
     CFOP1: TMenuItem;
     AlterarValordeVendadosProdutos1: TMenuItem;
     Inventario1: TMenuItem;
+    SolicitacaoCompras1: TMenuItem;
+    CotacaoCompras1: TMenuItem;
+    Agenda1: TMenuItem;
+    ApontamentodeHoras1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -317,6 +321,9 @@ type
     procedure RelBalancete1Click(Sender: TObject);
     procedure AlterarValordeVendadosProdutos1Click(Sender: TObject);
     procedure Inventario1Click(Sender: TObject);
+    procedure SolicitacaoCompras1Click(Sender: TObject);
+    procedure CotacaoCompras1Click(Sender: TObject);
+    procedure ApontamentodeHoras1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -356,7 +363,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
-  uInventario;
+  uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras;
 
 {$R *.dfm}
 
@@ -739,18 +746,6 @@ begin
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';
   dm.cds_parametro.Open;
-  if (dm.cds_parametroD2.AsString = 'EXIBEANIVERSARIO') then
-  begin
-    VCLReport1.Filename := str_relatorio + 'clienteAniversario.rep';
-    VCLReport1.Title := VCLReport1.Filename;
-    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-    VCLReport1.execute;
-  end;
-
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';
-  dm.cds_parametro.Open;
   if (dm.cds_parametroD3.AsString = 'BLOQUEIOATRASADOS') then
   if (dm.cds_parametroD4.AsString <> FormatDateTime('ddmmyyyy', today) ) then
   begin
@@ -763,7 +758,20 @@ begin
     dm.cds_parametroD4.AsString := FormatDateTime('ddmmyyyy', today);
     dm.cds_parametro.ApplyUpdates(0);
   end;
-  Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
+  Dm.varLogado        := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroD2.AsString = 'EXIBEANIVERSARIO') then
+  begin
+    VCLReport1.Filename := str_relatorio + 'clienteAniversario.rep';
+    VCLReport1.Title := VCLReport1.Filename;
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.execute;
+  end;
+
 end;
 
 procedure TfAtsAdmin.ListadeCompras1Click(Sender: TObject);
@@ -1680,6 +1688,37 @@ begin
  finally
    fInventario.Free;
  end;
+end;
+
+procedure TfAtsAdmin.SolicitacaoCompras1Click(Sender: TObject);
+begin
+  //WinExec('prjCompras', SW_SHOWNORMAL);
+  fSolicitacaoCompra := TfSolicitacaoCompra.Create(Application);
+  try
+    fSolicitacaoCompra.ShowModal;
+  finally
+    fSolicitacaoCompra.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CotacaoCompras1Click(Sender: TObject);
+begin
+  fCompraCotacao := TfCompraCotacao.Create(Application);
+  try
+    fCompraCotacao.ShowModal;
+  finally
+    fCompraCotacao.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.ApontamentodeHoras1Click(Sender: TObject);
+begin
+  fApontHoras := TfApontHoras.Create(Application);
+  try
+    fApontHoras.ShowModal;
+  finally
+    fApontHoras.Free;
+  end;
 end;
 
 end.
