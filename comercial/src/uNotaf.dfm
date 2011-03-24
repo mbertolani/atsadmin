@@ -2,7 +2,7 @@ object fNotaf: TfNotaf
   Left = 337
   Top = 134
   Width = 801
-  Height = 440
+  Height = 713
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
   Color = clBtnFace
@@ -23,7 +23,7 @@ object fNotaf: TfNotaf
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 777
+    Width = 793
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -1000,9 +1000,9 @@ object fNotaf: TfNotaf
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 777
+    Width = 793
     Height = 627
-    ActivePage = TabSheet1
+    ActivePage = TabNF
     Align = alTop
     PopupMenu = PopupMenu1
     Style = tsFlatButtons
@@ -2125,80 +2125,87 @@ object fNotaf: TfNotaf
             Expanded = False
             FieldName = 'CODPRO'
             Title.Caption = 'C'#243'digo'
-            Width = 37
+            Width = 34
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
             Title.Caption = 'Produtos'
-            Width = 216
+            Width = 197
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CFOP'
-            Width = 42
+            Width = 39
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CST'
-            Width = 26
+            Width = 24
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CSOSN'
+            Width = 57
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
-            Width = 60
+            Width = 55
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
             Title.Caption = 'Quantidade'
-            Width = 51
+            Width = 47
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASE'
             Title.Caption = 'Valor Unit'#225'rio'
+            Width = 62
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QTDE_ALT'
             Title.Caption = 'Desc.%'
-            Width = 41
+            Width = 38
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
-            Width = 54
+            Width = 50
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ICMS'
             Title.Caption = 'ICMS %'
-            Width = 36
+            Width = 33
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASEICMS'
             Title.Caption = 'Base ICMS'
-            Width = 51
+            Width = 47
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALOR_ICMS'
             Title.Caption = 'Valor ICMS'
-            Width = 48
+            Width = 45
             Visible = True
           end>
       end
@@ -2221,7 +2228,7 @@ object fNotaf: TfNotaf
         TabOrder = 45
       end
       object BitBtn9: TBitBtn
-        Left = 84
+        Left = 83
         Top = 334
         Width = 34
         Height = 35
@@ -2302,7 +2309,7 @@ object fNotaf: TfNotaf
           Left = 5
           Top = 14
           Width = 75
-          Height = 21
+          Height = 20
           BevelKind = bkFlat
           BorderStyle = bsNone
           DataField = 'VALOR_DESCONTO'
