@@ -1602,17 +1602,17 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     object cds_endforTELEFONE: TStringField
       FieldName = 'TELEFONE'
       ProviderFlags = [pfInUpdate]
-      Size = 9
+      Size = 11
     end
     object cds_endforTELEFONE1: TStringField
       FieldName = 'TELEFONE1'
       ProviderFlags = [pfInUpdate]
-      Size = 9
+      Size = 11
     end
     object cds_endforTELEFONE2: TStringField
       FieldName = 'TELEFONE2'
       ProviderFlags = [pfInUpdate]
-      Size = 9
+      Size = 11
     end
     object cds_endforFAX: TStringField
       FieldName = 'FAX'
@@ -1714,17 +1714,17 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     object sds_endforTELEFONE: TStringField
       FieldName = 'TELEFONE'
       ProviderFlags = [pfInUpdate]
-      Size = 9
+      Size = 11
     end
     object sds_endforTELEFONE1: TStringField
       FieldName = 'TELEFONE1'
       ProviderFlags = [pfInUpdate]
-      Size = 9
+      Size = 11
     end
     object sds_endforTELEFONE2: TStringField
       FieldName = 'TELEFONE2'
       ProviderFlags = [pfInUpdate]
-      Size = 9
+      Size = 11
     end
     object sds_endforFAX: TStringField
       FieldName = 'FAX'

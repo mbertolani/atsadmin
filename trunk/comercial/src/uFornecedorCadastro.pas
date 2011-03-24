@@ -241,9 +241,6 @@ begin
      cds_endfor.open;
   cds_endfor.Append;
   cds_endforUF.AsString := 'SP';
-  cds_endforTELEFONE.EditMask := '0000\-0099;1;_';
-  cds_endforTELEFONE1.EditMask := '0000\-0099;1;_';
-  cds_endforTELEFONE2.EditMask := '0000\-0099;1;_';
   cds_endforFAX.EditMask := '0000\-0099;1;_';
 
   cds_FoRNECEDORSEGMENTO.Value:=1;
