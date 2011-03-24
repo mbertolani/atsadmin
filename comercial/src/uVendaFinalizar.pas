@@ -1125,7 +1125,7 @@ begin
     fVendas.cds_Movimento.Edit;
     fVendas.cds_MovimentoSTATUS.AsInteger := 0;
     fVendas.cds_Movimento.ApplyUpdates(0);
-    fVendas.CheckBox1.Checked := False;
+    fVendas.RadioPedido.Checked := False;
   end;
 
    strSql := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
