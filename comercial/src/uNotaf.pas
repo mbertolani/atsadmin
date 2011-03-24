@@ -355,6 +355,7 @@ type
     sCfopNAOENVFATURA: TStringField;
     JvGroupBox55: TJvGroupBox;
     DBEdit50: TDBEdit;
+    listaCliente1TIPOFIRMA: TSmallintField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -1282,8 +1283,11 @@ begin
  //Salvo Nota Fiscal
  if (DMNF.DtSrc_NF.State in [dsInsert, dsEdit]) then
    gravanotafiscal;
- nfe := 'update movimento set nfe = ' + QuotedStr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_nfSERIE.AsString) + ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString;
- dm.sqlsisAdimin.ExecuteDirect(nfe);
+ if (dmnf.cds_MovimentoCONTROLE.AsString <> '') then
+ begin
+   nfe := 'update movimento set nfe = ' + QuotedStr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_nfSERIE.AsString) + ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString;
+   dm.sqlsisAdimin.ExecuteDirect(nfe);
+ end;
 end;
 
 procedure TfNotaf.gravamov_detalhe;
