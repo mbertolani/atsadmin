@@ -332,7 +332,7 @@ begin
      fVendas.cds_Movimento.Cancel
     else
       if (fVendas.cds_MovimentoSTATUS.AsInteger = 1) then
-           fVendas.CheckBox1.Checked := True;
+           fVendas.RadioPedido.Checked := True;
     end;
     cod_mov := cds_cnsCODMOVIMENTO.AsInteger;
     DM.totalpago := cds_cnsAPAGAR.Value;
