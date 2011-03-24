@@ -198,7 +198,12 @@ uses
   uTexto in 'uTexto.pas' {Form1},
   uProdGeraAumento in 'uProdGeraAumento.pas' {fProdGeraAumento},
   uEtiquetas_cli in 'uEtiquetas_cli.pas' {fEtiquetas_cli},
-  uInventario in 'uInventario.pas' {fInventario};
+  uInventario in 'uInventario.pas' {fInventario},
+  uCompraSolicitacao in 'uCompraSolicitacao.pas' {fSolicitacaoCompra},
+  uCompraSolicProc in 'uCompraSolicProc.pas' {fCompraSolicProc},
+  uProdutoProc in 'uProdutoProc.pas' {fProdutoProc},
+  uCompraCotacao in 'uCompraCotacao.pas' {fCompraCotacao},
+  uApontHoras in 'uApontHoras.pas' {fApontHoras};
 
 {$R *.res}
 
@@ -208,9 +213,9 @@ begin
   Application.CreateForm(TDM, DM);
   if (dm.conectado = False) then
     Application.Terminate;
+  Application.CreateForm(TfAtsAdmin, fAtsAdmin);    
   Application.CreateForm(TDMNF, DMNF);
   Application.CreateForm(TDmCitrus, DmCitrus);
-  Application.CreateForm(TfAtsAdmin, fAtsAdmin);
   Application.CreateForm(TfAtualizaSistema, fAtualizaSistema);
   Application.CreateForm(TfProcurar_nf, fProcurar_nf);
   Application.CreateForm(TfProdudoBusca, fProdudoBusca);
@@ -267,5 +272,8 @@ begin
   Application.CreateForm(TfcpTitulo, fcpTitulo);
   Application.CreateForm(TfFiltro_forn_plano, fFiltro_forn_plano);
   Application.CreateForm(TfRateioPag, fRateioPag);
+  Application.CreateForm(TfSolicitacaoCompra, fSolicitacaoCompra);
+  Application.CreateForm(TfCompraSolicProc, fCompraSolicProc);
+  Application.CreateForm(TfProdutoProc, fProdutoProc);
   Application.Run;
 end.
