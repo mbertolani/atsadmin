@@ -959,16 +959,39 @@ inherited fVendas: TfVendas
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
     end
-    object CheckBox1: TCheckBox
-      Left = 672
-      Top = 24
-      Width = 97
+    object RadioPedido: TJvRadioButton
+      Left = 624
+      Top = 16
+      Width = 65
       Height = 17
       Alignment = taLeftJustify
       Caption = 'Pedido'
-      Ctl3D = True
-      ParentCtl3D = False
       TabOrder = 12
+      OnClick = RadioPedidoClick
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -13
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      LinkedControls = <>
+    end
+    object RadioOrcamento: TJvRadioButton
+      Left = 624
+      Top = 32
+      Width = 87
+      Height = 17
+      Alignment = taLeftJustify
+      Caption = 'Or'#231'amento'
+      Checked = True
+      TabOrder = 13
+      TabStop = True
+      OnClick = RadioOrcamentoClick
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -13
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+      LinkedControls = <>
     end
   end
   inherited MMJPanel2: TMMJPanel
@@ -1430,7 +1453,7 @@ inherited fVendas: TfVendas
     TabOrder = 6
     TabStop = False
     object TabSheet1: TTabSheet
-      Caption = '   ITENS   '
+      Caption = 'Itens'
       object Label3: TLabel
         Left = 0
         Top = 1
@@ -1982,6 +2005,109 @@ inherited fVendas: TfVendas
         PopupMenu = PopupMenu1
         TabOrder = 1
         OnKeyPress = FormKeyPress
+      end
+    end
+    object Orcamento: TTabSheet
+      Caption = 'Dados Or'#231'amento'
+      ImageIndex = 1
+      object Label13: TLabel
+        Left = 136
+        Top = 3
+        Width = 90
+        Height = 16
+        Caption = 'Parcelamento :'
+      end
+      object Label21: TLabel
+        Left = 248
+        Top = 3
+        Width = 91
+        Height = 16
+        Caption = 'Prazo Entrega :'
+      end
+      object Label22: TLabel
+        Left = 10
+        Top = 3
+        Width = 61
+        Height = 16
+        Caption = 'Validade :'
+      end
+      object Label23: TLabel
+        Left = 5
+        Top = 47
+        Width = 37
+        Height = 16
+        Caption = 'Frete :'
+      end
+      object Label24: TLabel
+        Left = 96
+        Top = 56
+        Width = 38
+        Height = 16
+        Caption = 'Valor :'
+      end
+      object cbPrazo: TJvComboBox
+        Left = 134
+        Top = 19
+        Width = 104
+        Height = 24
+        ItemHeight = 0
+        TabOrder = 0
+        Text = 'PRAZO'
+        OnChange = cbPrazoChange
+        OnKeyPress = FormKeyPress
+        Items.Strings = (
+          'PRAZO')
+        ItemIndex = 0
+      end
+      object RadioButton2: TRadioButton
+        Left = 0
+        Top = 81
+        Width = 90
+        Height = 17
+        Caption = 'Destinatario'
+        TabOrder = 1
+        OnClick = RadioButton2Click
+      end
+      object RadioButton1: TRadioButton
+        Left = 0
+        Top = 64
+        Width = 90
+        Height = 17
+        Caption = 'Emitente'
+        Checked = True
+        TabOrder = 2
+        TabStop = True
+        OnClick = RadioButton1Click
+      end
+      object JvDBDateEdit1: TJvDBDateEdit
+        Left = 3
+        Top = 18
+        Width = 122
+        Height = 24
+        DataField = 'VAL_PROP'
+        DataSource = DtSrc
+        BorderStyle = bsNone
+        DefaultToday = True
+        BevelKind = bkFlat
+        TabOrder = 3
+      end
+      object DBEdit14: TDBEdit
+        Left = 247
+        Top = 20
+        Width = 121
+        Height = 24
+        DataField = 'PRAZO_ENT'
+        DataSource = DtSrc
+        TabOrder = 4
+      end
+      object DBEdit18: TDBEdit
+        Left = 95
+        Top = 73
+        Width = 121
+        Height = 24
+        DataField = 'VALOR_FRETE'
+        DataSource = DtSrc
+        TabOrder = 5
       end
     end
   end
@@ -3370,6 +3496,19 @@ inherited fVendas: TfVendas
       ProviderFlags = []
       Size = 200
     end
+    object sds_MovimentoPRAZO_ENT: TIntegerField
+      FieldName = 'PRAZO_ENT'
+    end
+    object sds_MovimentoVAL_PROP: TDateField
+      FieldName = 'VAL_PROP'
+    end
+    object sds_MovimentoFORMA_PAG: TStringField
+      FieldName = 'FORMA_PAG'
+      Size = 40
+    end
+    object sds_MovimentoVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
   end
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
@@ -3502,6 +3641,20 @@ inherited fVendas: TfVendas
     object cds_MovimentoOBSCLI: TStringField
       FieldName = 'OBSCLI'
       Size = 200
+    end
+    object cds_MovimentoPRAZO_ENT: TIntegerField
+      FieldName = 'PRAZO_ENT'
+    end
+    object cds_MovimentoVAL_PROP: TDateField
+      FieldName = 'VAL_PROP'
+    end
+    object cds_MovimentoFORMA_PAG: TStringField
+      FieldName = 'FORMA_PAG'
+      Size = 40
+    end
+    object cds_MovimentoVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+      DisplayFormat = ',#0.00'
     end
   end
   object sdslote: TSQLDataSet

@@ -7,7 +7,9 @@ uses
   Dialogs, uPai, FMTBcd, DB, DBClient, Provider, SqlExpr, Menus, XPMenu,
   StdCtrls, Buttons, ExtCtrls, MMJPanel, Grids, DBGrids, ComCtrls, DBCtrls,
   Mask, DBLocal, DBLocalS, rpcompobase, rpvclreport, DBXpress, UCHist_Base,
-  UCHistDataset, JvExDBGrids, JvDBGrid;
+  UCHistDataset, JvExDBGrids, JvDBGrid, JvExStdCtrls, JvRadioButton,
+  JvCombobox, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
+  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls;
 
 type
   TfVendas = class(TfPai)
@@ -438,7 +440,6 @@ type
     sds_Mov_DetPESO_QTDE: TFloatField;
     cds_Mov_detPESO_QTDE: TFloatField;
     DBEdit17: TDBEdit;
-    CheckBox1: TCheckBox;
     sPrazo: TSQLDataSet;
     sPrazoPRAZORECEBIMENTO: TSmallintField;
     sPermissao: TSQLDataSet;
@@ -469,6 +470,28 @@ type
     cds_MovimentoOBS: TStringField;
     cds_MovimentoOBSCLI: TStringField;
     BitBtn7: TBitBtn;
+    Orcamento: TTabSheet;
+    RadioPedido: TJvRadioButton;
+    cbPrazo: TJvComboBox;
+    Label13: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    RadioOrcamento: TJvRadioButton;
+    Label24: TLabel;
+    RadioButton2: TRadioButton;
+    RadioButton1: TRadioButton;
+    JvDBDateEdit1: TJvDBDateEdit;
+    sds_MovimentoPRAZO_ENT: TIntegerField;
+    sds_MovimentoVAL_PROP: TDateField;
+    sds_MovimentoFORMA_PAG: TStringField;
+    sds_MovimentoVALOR_FRETE: TFloatField;
+    cds_MovimentoPRAZO_ENT: TIntegerField;
+    cds_MovimentoVAL_PROP: TDateField;
+    cds_MovimentoFORMA_PAG: TStringField;
+    cds_MovimentoVALOR_FRETE: TFloatField;
+    DBEdit14: TDBEdit;
+    DBEdit18: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -538,6 +561,11 @@ type
     procedure BitBtn6Click(Sender: TObject);
     procedure edChassiExit(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
+    procedure RadioButton1Click(Sender: TObject);
+    procedure RadioButton2Click(Sender: TObject);
+    procedure RadioPedidoClick(Sender: TObject);
+    procedure RadioOrcamentoClick(Sender: TObject);
+    procedure cbPrazoChange(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -840,6 +868,7 @@ begin
     Label10.Caption := '...';
     MaskEdit1.SetFocus;
   end;
+  cds_MovimentoVALOR_FRETE.AsFloat := 0;
 end;
 
 procedure TfVendas.FormShow(Sender: TObject);
@@ -868,6 +897,32 @@ begin
     ComboBox1.Text := dm.emppadrao;
     ComboBox1.Enabled := False;
   end;
+
+  if (not dm.parametro.Active) then
+    dm.parametro.Open;
+
+  if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
+  begin
+    if (dm.parametroCONFIGURADO.AsString = 'S') then
+      if (not dm.cdsPrazo.Active) then
+        dm.cdsPrazo.open;
+      if (not dm.cdsPrazo.IsEmpty) then
+      begin
+        dm.CdsPrazo.first;
+        cbPrazo.Items.clear;
+        while not dm.CdsPrazo.eof do
+        begin
+          cbPrazo.Items.Add(dm.cdsPrazoPARAMETRO.asString);
+          dm.cdsPrazo.next;
+        end;
+      end;
+  end;
+
+  RadioOrcamento.Checked  := True;
+{  Orcamento.Visible := True;
+  Orcamento.Enabled := True;
+  RadioButton1.Checked :=True;}
+  PageControl1.TabIndex := 0;
 end;
 
 procedure TfVendas.dbeClienteExit(Sender: TObject);
@@ -1455,6 +1510,8 @@ begin
     dm.scds_usuario_proc.Close;
    dm.scds_usuario_proc.Params[0].Clear;
    dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(DBEdit15.Text);
+   dm.scds_usuario_proc.Params.ParamByName('pPerfil').AsString := 'VENDEDOR';
+   dm.scds_usuario_proc.Params.ParamByName('pPerfil1').AsString := 'AMBOS';
    dm.scds_usuario_proc.Open;
    if dm.scds_usuario_proc.IsEmpty then begin
      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
@@ -1559,7 +1616,7 @@ begin
           if  (cds_MovimentoCONTROLE.AsString <> DBComboBox1.Text) then
             cds_movimentoControle.AsString := DBComboBox1.Text;
       end;
-      if (CheckBox1.Checked = True) then
+      if (RadioPedido.Checked = True) then
         cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
       // salvo o Movimento
       inherited;
@@ -1831,6 +1888,7 @@ end;
 procedure TfVendas.BitBtn2Click(Sender: TObject);
 begin
   inherited;
+  //cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
   VCLReport1.FileName := str_relatorio + 'orcamento.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('PVMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
@@ -1840,7 +1898,7 @@ end;
 procedure TfVendas.btnProcurarClick(Sender: TObject);
 begin
   inherited;
-  CheckBox1.Checked := False;
+  RadioPedido.Checked := False;
   if btnProcurar.Enabled = False then
   begin
     exit;
@@ -1950,6 +2008,17 @@ begin
     btnClienteProcura.Enabled := true;
     btnProdutoProcura.Enabled := true;
     BitBtn5.Enabled := true;
+    if (cds_MovimentoSTATUS.AsInteger = 1) then
+    begin
+     RadioPedido.Checked := True;
+     RadioOrcamento.Checked := False;
+    end
+    else
+    begin
+     RadioOrcamento.Checked := True;
+     RadioPedido.Checked  := False;
+    end;
+
 end;
 
 procedure TfVendas.DtSrcStateChange(Sender: TObject);
@@ -2987,7 +3056,6 @@ end;
 
 procedure TfVendas.BitBtn7Click(Sender: TObject);
 begin
- // inherited;
  fFiltroEstoque := TfFiltroEstoque.Create(Application);
  try
    fFiltroEstoque.Edit3.Text := dbeProduto.EditText;
@@ -2997,6 +3065,39 @@ begin
  finally
    fFiltroEstoque.Free;
  end;
+end;
+
+procedure TfVendas.RadioButton1Click(Sender: TObject);
+begin
+    RadioButton2.Checked := False;
+    DBEdit18.Visible := True;
+    Label24.Visible := True;
+end;
+
+procedure TfVendas.RadioButton2Click(Sender: TObject);
+begin
+    RadioButton1.Checked := False;
+    DBEdit18.Visible := False;
+    Label24.Visible := False;
+end;
+
+procedure TfVendas.RadioPedidoClick(Sender: TObject);
+begin
+  RadioOrcamento.Checked := False;
+  Orcamento.Visible := False;
+  Orcamento.Enabled := False;
+end;
+
+procedure TfVendas.RadioOrcamentoClick(Sender: TObject);
+begin
+  RadioPedido.Checked  := False;
+  Orcamento.Visible := True;
+  Orcamento.Enabled := True;
+end;
+
+procedure TfVendas.cbPrazoChange(Sender: TObject);
+begin
+  cds_MovimentoFORMA_PAG.AsString := cbPrazo.Text;
 end;
 
 end.
