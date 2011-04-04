@@ -1050,7 +1050,7 @@ begin
       fFiltroMov_compra.Edit3.Text := '4';
       fFiltroMov_compra.Edit4.Text := 'Compra';
       fFiltroMov_compra.codigo := 'LISTACOMPRA';
-      fFiltroMov_compra.rgStatus.ItemIndex := 2;
+      //fFiltroMov_compra.rgStatus.ItemIndex := 2;
       fFiltroMov_compra.ShowModal;
     finally
       fFiltroMov_compra.Free;
