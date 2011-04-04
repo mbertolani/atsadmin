@@ -39,7 +39,6 @@ type
     edtNF: TEdit;
     Edit8: TEdit;
     BitBtn7: TBitBtn;
-    rgStatus: TRadioGroup;
     meDta1: TMaskEdit;
     meDta2: TMaskEdit;
     BitBtn10: TBitBtn;
@@ -88,6 +87,11 @@ type
     DBGrid1: TJvDBGrid;
     BitBtn5: TBitBtn;
     VCLReport1: TVCLReport;
+    btnAprovar: TBitBtn;
+    sds_cnsUSER_APROVA: TStringField;
+    cds_cnsUSER_APROVA: TStringField;
+    GroupBox1: TGroupBox;
+    cbStatus: TComboBox;
     procedure btnProcurarClick(Sender: TObject);
     procedure edControleExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -107,6 +111,7 @@ type
     procedure ComboBox1KeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure btnAprovarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -121,7 +126,8 @@ var
 implementation
 
 uses UDm, uProcurar, uCompra, uComercial, uPdm, uFiltroMovimento,
-  ufDlgLogin, uListadeCompra, uAgendamento, sCtrlResize, uRateioPag;
+  ufDlgLogin, uListadeCompra, uAgendamento, sCtrlResize, uRateioPag, dbXpress,
+  uAtsAdmin;
 
 {$R *.dfm}
 
@@ -134,7 +140,7 @@ begin
      cds_cns.Close;
   cds_cns.CommandText:= 'select mov.CODMOVIMENTO, comp.NOTAFISCAL, comp.SERIE, ' +
      ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, comp.VALOR, mov.COD_VEICULO,' +
-     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE from ' +
+     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA from ' +
      ' MOVIMENTO mov ' +
      ' inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
      ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR ' +
@@ -189,11 +195,16 @@ begin
   //------------------------------------------------------------------------------
   //Status
   //------------------------------------------------------------------------------
-  if sqlTexto='' then
-     sqlTexto := sqlTexto + ' where mov.STATUS = '
-  else
-    sqlTexto := sqlTexto + ' and mov.STATUS = ';
-    sqlTexto := sqlTexto + IntToStr(rgStatus.ItemIndex);
+  if (cbStatus.ItemIndex = -1) then
+    cbStatus.ItemIndex := 0;
+  if (cbStatus.ItemIndex <> 2) then
+  begin
+    if sqlTexto='' then
+      sqlTexto := sqlTexto + ' where mov.STATUS = '
+    else
+      sqlTexto := sqlTexto + ' and mov.STATUS = ';
+      sqlTexto := sqlTexto + IntToStr(cbStatus.ItemIndex);
+  end;    
   //==============================================================================
   //------------------------------------------------------------------------------
   //Natureza da operação
@@ -518,6 +529,30 @@ begin
     ' mov.STATUS, mov.CODNATUREZA, mov.CODALMOXARIFADO, mov.CONTROLE ' +
     ' order by mov.DATAMOVIMENTO , forn.NOMEFORNECEDOR';  }
   VCLReport1.Execute;
+end;
+
+procedure TfFiltroMov_compra.btnAprovarClick(Sender: TObject);
+var td : TTransactionDesc;
+begin
+  // Aprovar Pedido
+  if (fAtsAdmin.UserControlComercial.CurrentUser.UserLogin = cds_cnsUSER_APROVA.AsString) then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    try
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTO SET STATUS = 3' +
+        ' WHERE CODMOVIMENTO = ' + IntToStr(cds_cnsCODMOVIMENTO.AsInteger));
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Pedido Aprovado com sucesso.', mtInformation, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro para aprovar o pedido.', mtError, [mbOK], 0);
+    end;
+  end
+  else begin
+      MessageDlg('Responsável pela aprovação diferente do usuário atual;', mtWarning, [mbOK], 0);
+  end;
 end;
 
 end.
