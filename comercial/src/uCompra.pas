@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   FMTBcd, Mask, DBCtrls, DBClient, Provider, SqlExpr, Grids, DBGrids,
   rpcompobase, rpvclreport, UCHist_Base, UCHistDataset, JvExDBGrids,
-  JvDBGrid;
+  JvDBGrid, JvExStdCtrls, JvCombobox;
 
 type
   TfCompra = class(TfPai)
@@ -365,6 +365,18 @@ type
     CheckBox2: TCheckBox;
     DBEdit17: TDBEdit;
     Label13: TLabel;
+    GroupBox8: TGroupBox;
+    DBEdit6: TDBEdit;
+    sds_MovimentoDATA_ENTREGA: TDateField;
+    sds_MovimentoPRAZO_PAGAMENTO: TStringField;
+    cds_MovimentoDATA_ENTREGA: TDateField;
+    cds_MovimentoPRAZO_PAGAMENTO: TStringField;
+    GroupBox9: TGroupBox;
+    cbPrazo: TDBComboBox;
+    GroupBox10: TGroupBox;
+    edRespAprovacao: TDBEdit;
+    sds_MovimentoUSER_APROVA: TStringField;
+    cds_MovimentoUSER_APROVA: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -645,6 +657,19 @@ begin
     CompradorPadraoNome := '..'
   end;
 
+  if (not dm.cdsPrazo.Active) then
+    dm.cdsPrazo.open;
+  if (not dm.cdsPrazo.IsEmpty) then
+  begin
+    dm.CdsPrazo.first;
+    cbPrazo.Items.clear;
+    while not dm.CdsPrazo.eof do
+    begin
+      cbPrazo.Items.Add(dm.cdsPrazoPARAMETRO.asString);
+      dm.cdsPrazo.next;
+    end;
+  end;
+  
 end;
 
 procedure TfCompra.btnIncluirClick(Sender: TObject);
@@ -713,8 +738,6 @@ begin
     dm.scds_usuario_proc.Close;
    dm.scds_usuario_proc.Params[0].Clear;
    dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(DBEdit15.Text);
-   dm.scds_usuario_proc.Params.ParamByName('pPerfil').AsString := 'COMPRADOR';
-   dm.scds_usuario_proc.Params.ParamByName('pPerfil1').AsString := 'AMBOS';
    dm.scds_usuario_proc.Open;
    if dm.scds_usuario_proc.IsEmpty then begin
      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
@@ -816,6 +839,13 @@ begin
   cds_MovimentoNOMEUSUARIO.Value := compradorPadraoNome;
   cds_MovimentoCODCLIENTE.AsInteger := 0;
   cds_MovimentoCODALMOXARIFADO.AsInteger := ccustoCompras;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'COMPRA'; // Busca o Resp. pela Aprovacao Cadastrado
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    cds_MovimentoUSER_APROVA.AsString := dm.cds_parametroD1.AsString;
+
 end;
 
 procedure TfCompra.cds_Mov_detCalcFields(DataSet: TDataSet);
@@ -1266,6 +1296,21 @@ begin
     MessageDlg('Pedido/Venda Cancelado', mtWarning, [mbOK], 0);
     exit;
   end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'COMPRA';
+  // Busca se esta usando o Modulo Compras, se sim os pedidos tem q estarem aprovados
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    if (cds_MovimentoSTATUS.AsInteger < 3) then
+    begin
+      MessageDlg('Pedido não aprovado.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+  end;
+
   inherited;
  if DtSrc.DataSet.State in [dsInsert, dsEdit] then
     btnGravar.Click;
@@ -1373,7 +1418,8 @@ begin
   begin
     ComboBox1.Text := dm.emppadrao;
     ComboBox1.Enabled := False;
-  end;  
+  end;
+
 end;
 
 procedure TfCompra.DBEdit12Exit(Sender: TObject);

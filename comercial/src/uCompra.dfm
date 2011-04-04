@@ -1,8 +1,8 @@
 inherited fCompra: TfCompra
   Left = 193
-  Top = 108
-  Width = 800
-  Height = 603
+  Top = 127
+  Width = 804
+  Height = 615
   Caption = 'Compra'
   OldCreateOrder = True
   OnShow = FormShow
@@ -10,7 +10,7 @@ inherited fCompra: TfCompra
   TextHeight = 13
   object Label14: TLabel [0]
     Left = 636
-    Top = 233
+    Top = 354
     Width = 34
     Height = 16
     Caption = 'Obs..:'
@@ -44,7 +44,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 792
+    Width = 796
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -954,8 +954,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 549
-    Width = 792
+    Top = 561
+    Width = 796
     Height = 27
     Align = alBottom
     inherited Label1: TLabel
@@ -1157,12 +1157,12 @@ inherited fCompra: TfCompra
   end
   object GroupBox4: TGroupBox [9]
     Left = 634
-    Top = 111
+    Top = 204
     Width = 149
     Height = 48
     Caption = 'CONTROLE'
     PopupMenu = PopupMenu1
-    TabOrder = 5
+    TabOrder = 8
     object DBEdit1: TDBEdit
       Left = 4
       Top = 19
@@ -1196,28 +1196,28 @@ inherited fCompra: TfCompra
   end
   object DBMemo1: TDBMemo [10]
     Left = 635
-    Top = 253
+    Top = 369
     Width = 148
-    Height = 108
+    Height = 81
     TabStop = False
     Color = clInfoBk
     DataField = 'OBS'
     DataSource = DtSrc
     PopupMenu = PopupMenu1
     ReadOnly = True
-    TabOrder = 6
+    TabOrder = 11
   end
   object GroupBox5: TGroupBox [11]
-    Left = 634
-    Top = 161
+    Left = 635
+    Top = 301
     Width = 150
-    Height = 66
+    Height = 55
     Caption = 'TOTAL R$.'
     PopupMenu = PopupMenu1
-    TabOrder = 7
+    TabOrder = 12
     object DBEdit4: TDBEdit
       Left = 8
-      Top = 17
+      Top = 14
       Width = 134
       Height = 33
       TabStop = False
@@ -1243,7 +1243,7 @@ inherited fCompra: TfCompra
     Width = 633
     Height = 378
     Caption = 'MERCADORIAS'
-    TabOrder = 8
+    TabOrder = 5
     object Label3: TLabel
       Left = 6
       Top = 18
@@ -1627,21 +1627,21 @@ inherited fCompra: TfCompra
   end
   object CheckBox1: TCheckBox [13]
     Left = 640
-    Top = 368
+    Top = 448
     Width = 97
     Height = 17
     Caption = '1 % Desconto'
-    TabOrder = 9
+    TabOrder = 13
     Visible = False
   end
   object GroupBox7: TGroupBox [14]
     Left = 635
-    Top = 400
+    Top = 461
     Width = 150
     Height = 89
     Caption = 'PLACA DO VE'#205'CULO'
     PopupMenu = PopupMenu1
-    TabOrder = 10
+    TabOrder = 14
     Visible = False
     object Label10: TLabel
       Left = 8
@@ -1695,7 +1695,7 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
   object DBEdit15: TDBEdit [16]
@@ -1714,7 +1714,7 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 10
     OnKeyPress = FormKeyPress
   end
   object DBEdit16: TDBEdit [17]
@@ -1734,7 +1734,7 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
   object SpeedButton1: TBitBtn [18]
@@ -1743,7 +1743,7 @@ inherited fCompra: TfCompra
     Width = 37
     Height = 37
     PopupMenu = PopupMenu1
-    TabOrder = 14
+    TabOrder = 17
     TabStop = False
     OnClick = SpeedButton1Click
     Glyph.Data = {
@@ -1820,8 +1820,82 @@ inherited fCompra: TfCompra
     Width = 97
     Height = 9
     Caption = 'CheckBox2'
-    TabOrder = 15
+    TabOrder = 18
     Visible = False
+  end
+  object GroupBox8: TGroupBox [20]
+    Left = 634
+    Top = 111
+    Width = 149
+    Height = 45
+    Caption = 'Data Entrega'
+    PopupMenu = PopupMenu1
+    TabOrder = 6
+    object DBEdit6: TDBEdit
+      Left = 4
+      Top = 19
+      Width = 141
+      Height = 24
+      DataField = 'DATA_ENTREGA'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 0
+      OnKeyPress = FormKeyPress
+    end
+  end
+  object GroupBox9: TGroupBox [21]
+    Left = 634
+    Top = 157
+    Width = 149
+    Height = 46
+    Caption = 'Prazo Pagamento'
+    PopupMenu = PopupMenu1
+    TabOrder = 7
+    object cbPrazo: TDBComboBox
+      Left = 5
+      Top = 16
+      Width = 141
+      Height = 21
+      DataField = 'PRAZO_PAGAMENTO'
+      DataSource = DtSrc
+      ItemHeight = 13
+      TabOrder = 0
+    end
+  end
+  object GroupBox10: TGroupBox [22]
+    Left = 634
+    Top = 252
+    Width = 149
+    Height = 46
+    Caption = 'Resp.Aprov.'
+    PopupMenu = PopupMenu1
+    TabOrder = 9
+    object edRespAprovacao: TDBEdit
+      Left = 5
+      Top = 16
+      Width = 140
+      Height = 24
+      Hint = 'Usu'#225'rio Respons'#225'vel pela aprova'#231#227'o do pedido de compras'
+      DataField = 'USER_APROVA'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 0
+      OnKeyPress = FormKeyPress
+    end
   end
   inherited XPMenu1: TXPMenu
     Left = 720
@@ -1980,15 +2054,30 @@ inherited fCompra: TfCompra
     end
     object sds_MovimentoTOTALMOVIMENTO: TFloatField
       FieldName = 'TOTALMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoCODMOVRATEIO: TIntegerField
       FieldName = 'CODMOVRATEIO'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoVALORRATEIO: TFloatField
       FieldName = 'VALORRATEIO'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoRATEIO: TFloatField
       FieldName = 'RATEIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_MovimentoDATA_ENTREGA: TDateField
+      FieldName = 'DATA_ENTREGA'
+      EditMask = '!99/99/00;1;_'
+    end
+    object sds_MovimentoPRAZO_PAGAMENTO: TStringField
+      FieldName = 'PRAZO_PAGAMENTO'
+      Size = 30
+    end
+    object sds_MovimentoUSER_APROVA: TStringField
+      FieldName = 'USER_APROVA'
     end
   end
   object dsp_Movimento: TDataSetProvider
@@ -2115,15 +2204,29 @@ inherited fCompra: TfCompra
     end
     object cds_MovimentoTOTALMOVIMENTO: TFloatField
       FieldName = 'TOTALMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
     end
     object cds_MovimentoCODMOVRATEIO: TIntegerField
       FieldName = 'CODMOVRATEIO'
+      ProviderFlags = [pfInUpdate]
     end
     object cds_MovimentoVALORRATEIO: TFloatField
       FieldName = 'VALORRATEIO'
+      ProviderFlags = [pfInUpdate]
     end
     object cds_MovimentoRATEIO: TFloatField
       FieldName = 'RATEIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_MovimentoDATA_ENTREGA: TDateField
+      FieldName = 'DATA_ENTREGA'
+    end
+    object cds_MovimentoPRAZO_PAGAMENTO: TStringField
+      FieldName = 'PRAZO_PAGAMENTO'
+      Size = 30
+    end
+    object cds_MovimentoUSER_APROVA: TStringField
+      FieldName = 'USER_APROVA'
     end
   end
   object DtSrc1: TDataSource
@@ -3199,7 +3302,7 @@ inherited fCompra: TfCompra
     AsyncExecution = False
     Title = 'Untitled'
     Left = 664
-    Top = 392
+    Top = 456
   end
   object sdslista: TSQLDataSet
     CommandText = 
