@@ -1,7 +1,7 @@
 object fFiltroMov_compra: TfFiltroMov_compra
   Left = 0
   Top = 0
-  Width = 804
+  Width = 805
   Height = 552
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,8 +21,8 @@ object fFiltroMov_compra: TfFiltroMov_compra
   TextHeight = 13
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 479
-    Width = 796
+    Top = 468
+    Width = 789
     Height = 46
     Align = alBottom
     BevelInner = bvLowered
@@ -102,7 +102,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
         7F7F7F7F7F7F7F7F828282C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object btnSair: TBitBtn
-      Left = 561
+      Left = 673
       Top = 6
       Width = 112
       Height = 34
@@ -291,7 +291,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
         BFBFBFBF0000}
     end
     object BitBtn9: TBitBtn
-      Left = 442
+      Left = 557
       Top = 6
       Width = 112
       Height = 34
@@ -428,11 +428,20 @@ object fFiltroMov_compra: TfFiltroMov_compra
         343C390D080808000000080808080808080A2C1E0707070707322C0D08080800
         0000080808080808080808080808080808080808080808000000}
     end
+    object btnAprovar: TBitBtn
+      Left = 440
+      Top = 6
+      Width = 112
+      Height = 34
+      Caption = 'Aprovar'
+      TabOrder = 5
+      OnClick = btnAprovarClick
+    end
   end
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 796
+    Width = 789
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -468,7 +477,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
   object Panel1: TPanel
     Left = 0
     Top = 46
-    Width = 796
+    Width = 789
     Height = 132
     Align = alTop
     TabOrder = 2
@@ -576,9 +585,9 @@ object fFiltroMov_compra: TfFiltroMov_compra
       TabOrder = 8
     end
     object BitBtn2: TBitBtn
-      Left = 488
+      Left = 482
       Top = 49
-      Width = 37
+      Width = 42
       Height = 39
       PopupMenu = PopupMenu1
       TabOrder = 10
@@ -1100,27 +1109,6 @@ object fFiltroMov_compra: TfFiltroMov_compra
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         0000}
     end
-    object rgStatus: TRadioGroup
-      Left = 568
-      Top = 3
-      Width = 221
-      Height = 40
-      Caption = 'Situacao'
-      Columns = 3
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemIndex = 0
-      Items.Strings = (
-        'V'#225'lido'
-        'Cancel.'
-        'Lista')
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 16
-    end
     object meDta1: TMaskEdit
       Left = 584
       Top = 107
@@ -1163,7 +1151,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
       Width = 42
       Height = 39
       PopupMenu = PopupMenu1
-      TabOrder = 17
+      TabOrder = 16
       TabStop = False
       OnClick = BitBtn10Click
       Glyph.Data = {
@@ -1248,7 +1236,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
       Width = 99
       Height = 21
       PopupMenu = PopupMenu1
-      TabOrder = 18
+      TabOrder = 17
       Visible = False
     end
     object Edit5: TEdit
@@ -1286,14 +1274,37 @@ object fFiltroMov_compra: TfFiltroMov_compra
         'Todas')
       ParentFont = False
       PopupMenu = PopupMenu1
+      TabOrder = 18
+    end
+    object GroupBox1: TGroupBox
+      Left = 576
+      Top = 4
+      Width = 209
+      Height = 39
+      Caption = 'Situa'#231#227'o'
       TabOrder = 19
+      object cbStatus: TComboBox
+        Left = 9
+        Top = 14
+        Width = 193
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 0
+        Text = 'Pendente'
+        Items.Strings = (
+          'Pendente'
+          'Cancelado'
+          'Todos'
+          'Aprovado'
+          'Finalizado')
+      end
     end
   end
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 178
-    Width = 796
-    Height = 301
+    Width = 789
+    Height = 290
     Align = alClient
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
@@ -1357,7 +1368,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'NOMEFORNECEDOR'
         Title.Caption = 'Fornecedor'
-        Width = 219
+        Width = 217
         Visible = True
       end
       item
@@ -1378,7 +1389,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 133
+        Width = 132
         Visible = True
       end
       item
@@ -1392,7 +1403,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'COD_VEICULO'
         Title.Caption = 'Numero'
-        Width = 48
+        Width = 44
         Visible = True
       end>
   end
@@ -1460,11 +1471,11 @@ object fFiltroMov_compra: TfFiltroMov_compra
       'select  mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CODMOVIMENTO' +
       ', mov.CODNATUREZA, mov.DATAMOVIMENTO, '#13#10'mov.STATUS, nat.DESCNATU' +
       'REZA , comp.NOTAFISCAL, comp.SERIE, comp.VALOR, mov.CONTROLE, mo' +
-      'v.COD_VEICULO'#13#10' from MOVIMENTO mov '#13#10#13#10' inner join NATUREZAOPERA' +
-      'CAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA '#13#10#13#10'left outer jo' +
-      'in FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR '#13#10' ' +
-      'left outer join COMPRA comp on comp.CODMOVIMENTO = mov.CODMOVIME' +
-      'NTO '
+      'v.COD_VEICULO, mov.USER_APROVA'#13#10' from MOVIMENTO mov '#13#10#13#10' inner j' +
+      'oin NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA ' +
+      #13#10#13#10'left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.' +
+      'CODFORNECEDOR '#13#10' left outer join COMPRA comp on comp.CODMOVIMENT' +
+      'O = mov.CODMOVIMENTO '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1513,6 +1524,9 @@ object fFiltroMov_compra: TfFiltroMov_compra
     end
     object sds_cnsCOD_VEICULO: TIntegerField
       FieldName = 'COD_VEICULO'
+    end
+    object sds_cnsUSER_APROVA: TStringField
+      FieldName = 'USER_APROVA'
     end
   end
   object dsp_cns: TDataSetProvider
@@ -1572,6 +1586,9 @@ object fFiltroMov_compra: TfFiltroMov_compra
     end
     object cds_cnsCOD_VEICULO: TIntegerField
       FieldName = 'COD_VEICULO'
+    end
+    object cds_cnsUSER_APROVA: TStringField
+      FieldName = 'USER_APROVA'
     end
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage
