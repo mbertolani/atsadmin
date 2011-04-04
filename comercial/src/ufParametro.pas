@@ -147,6 +147,11 @@ type
     BitBtn21: TBitBtn;
     GroupBox22: TGroupBox;
     BitBtn22: TBitBtn;
+    TabSheet7: TTabSheet;
+    GroupBox23: TGroupBox;
+    Label36: TLabel;
+    BitBtn23: TBitBtn;
+    edCompraUserAprova: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -171,6 +176,7 @@ type
     procedure BitBtn18Click(Sender: TObject);
     procedure BitBtn19Click(Sender: TObject);
     procedure BitBtn20Click(Sender: TObject);
+    procedure BitBtn23Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -197,7 +203,13 @@ procedure TfParametro.FormShow(Sender: TObject);
 begin
   inherited;
   if not dm.cds_param.Active then
-         dm.cds_param.Open;
+      dm.cds_param.Open;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'COMPRA';
+  dm.cds_parametro.Open;
+  edCompraUserAprova.Text  := dm.cds_parametroD1.AsString;
 end;
 
 procedure TfParametro.DtSrcStateChange(Sender: TObject);
@@ -1313,7 +1325,7 @@ begin
         dm.cds_parametroDADOS.AsString := 'N';
       end;
       dm.cds_parametro.ApplyUpdates(0);
-      
+
       MessageDlg('Registro gravado com sucesso.', mtInformation,
       [mbOk], 0);
     except
@@ -1357,6 +1369,29 @@ begin
     end;
   end;
 
+end;
+
+procedure TfParametro.BitBtn23Click(Sender: TObject);
+begin
+  //inherited;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'COMPRA';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    dm.cds_parametro.Append;
+    dm.cds_parametroDESCRICAO.AsString := 'Compras - Paramentros.';
+    dm.cds_parametroPARAMETRO.AsString := 'COMPRA';
+    dm.cds_parametroDADOS.AsString     := 'S';
+    dm.cds_parametroD1.AsString        := edCompraUserAprova.Text;
+  end
+  else begin
+    dm.cds_parametro.Edit;
+    dm.cds_parametroD1.AsString        := edCompraUserAprova.Text;
+  end;
+  dm.cds_parametro.ApplyUpdates(0);
 end;
 
 end.
