@@ -21,8 +21,11 @@ type
     cdsCODIGO: TStringField;
     cdsITEM: TStringField;
     cdsTIPO: TStringField;
+    cdsUNIDADE: TStringField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure JvDBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,26 +44,18 @@ uses UDm;
 procedure TfProdutoProc.btnProcurarClick(Sender: TObject);
 var str, str1: String ;
 begin
-  //inherited;
-{  str := ' select CODIGO, ITEM, TIPO from ' +
-    '( select p.CODPRO codigo, p.PRODUTO item, ' + QuotedStr('C') + ' TIPO  from PRODUTOS p ' +
-    '   where p.TIPO <> ' + QuotedStr('VENDA') +
-    ' UNION all ' +
-    ' select pl.CODREDUZIDO codigo , pl.NOME item, ' + QuotedStr('D') + ' TIPO from PLANO pl ' +
-    '  where plnctaroot(pl.conta) = 4 ' +
-    '    and pl.CONSOLIDA = ' + QuotedStr('S') + ') ';}
-
-  str := 'select p.CODPRO codigo, p.PRODUTO item, ' + QuotedStr('C') + ' TIPO  from PRODUTOS p ' +
-    '   where p.TIPO <> ' + QuotedStr('VENDA') ;
-
-
+  str1 := '';
+  str :=  'select * from COMPRA_ITENS ';
   if (edCod.Text <> '') then
   begin
-    str := str + ' WHERE CODIGO LIKE  ' +  QuotedStr(edCod.Text);
+    str1 := ' WHERE CODIGO LIKE  ' +  QuotedStr(edCod.Text + '%') ;
   end;
   if (edProd.Text <> '') then
   begin
-    str1 := ' WHERE ITEM LIKE  ' +  QuotedStr(edProd.Text);
+    if  (str1 <> '') then
+      str1 := str1 + ' AND ITEM LIKE  ' +  QuotedStr(edProd.Text + '%')
+    else
+      str1 := ' WHERE ITEM LIKE  ' +  QuotedStr(edProd.Text + '%');
   end;
   if (cds.Active) then
     cds.Close;
@@ -74,6 +69,18 @@ procedure TfProdutoProc.FormClose(Sender: TObject;
 begin
   //inherited;
 
+end;
+
+procedure TfProdutoProc.FormCreate(Sender: TObject);
+begin
+  //inherited;
+
+end;
+
+procedure TfProdutoProc.JvDBGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  Close;
 end;
 
 end.
