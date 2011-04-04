@@ -1,9 +1,13 @@
 inherited fProdutoProc: TfProdutoProc
+  Top = 143
+  Width = 800
+  Height = 571
   Caption = 'Produto / Material'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
+    Width = 792
     object Label1: TLabel
       Left = 24
       Top = 8
@@ -32,10 +36,13 @@ inherited fProdutoProc: TfProdutoProc
       Top = 24
       Width = 361
       Height = 21
+      CharCase = ecUpperCase
       TabOrder = 1
     end
   end
   inherited MMJPanel2: TMMJPanel
+    Top = 493
+    Width = 792
     inherited btnGravar: TBitBtn
       Left = 388
       Visible = False
@@ -58,10 +65,11 @@ inherited fProdutoProc: TfProdutoProc
     end
   end
   object JvDBGrid1: TJvDBGrid [2]
-    Left = 16
-    Top = 56
-    Width = 753
-    Height = 409
+    Left = 0
+    Top = 51
+    Width = 792
+    Height = 442
+    Align = alClient
     DataSource = DtSrc
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 2
@@ -70,6 +78,7 @@ inherited fProdutoProc: TfProdutoProc
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = JvDBGrid1DblClick
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -86,6 +95,12 @@ inherited fProdutoProc: TfProdutoProc
       item
         Expanded = False
         FieldName = 'ITEM'
+        Width = 500
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADE'
         Visible = True
       end>
   end
@@ -93,9 +108,7 @@ inherited fProdutoProc: TfProdutoProc
     DataSet = cds
   end
   object sds: TSQLDataSet
-    CommandText = 
-      'select p.CODPRO codigo, p.PRODUTO item , '#39'P'#39' TIPO from PRODUTOS ' +
-      'p '
+    CommandText = 'SELECT * FROM COMPRA_ITENS'#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -129,6 +142,11 @@ inherited fProdutoProc: TfProdutoProc
       Required = True
       FixedChar = True
       Size = 1
+    end
+    object cdsUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+      FixedChar = True
+      Size = 3
     end
   end
 end
