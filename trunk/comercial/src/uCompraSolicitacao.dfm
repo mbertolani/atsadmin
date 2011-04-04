@@ -1,45 +1,19 @@
 inherited fSolicitacaoCompra: TfSolicitacaoCompra
-  Width = 596
-  Height = 278
+  Width = 863
+  Height = 347
   Caption = 'Solicitacao Compra'
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel [0]
-    Left = 22
-    Top = 63
-    Width = 79
-    Height = 13
-    Caption = 'Produto/Material'
-  end
-  object Label2: TLabel [1]
-    Left = 158
-    Top = 63
-    Width = 48
-    Height = 13
-    Caption = 'Descricao'
-  end
-  object Label3: TLabel [2]
-    Left = 497
-    Top = 64
-    Width = 55
-    Height = 13
-    Caption = 'Quantidade'
-  end
-  object Label4: TLabel [3]
-    Left = 24
-    Top = 120
-    Width = 83
-    Height = 13
-    Caption = 'Resp. Aprovacao'
-  end
   inherited MMJPanel1: TMMJPanel
-    Width = 588
+    Width = 847
+    TabOrder = 5
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 200
-    Width = 588
+    Top = 258
+    Width = 847
+    TabOrder = 6
     inherited btnGravar: TBitBtn
       Left = 183
     end
@@ -60,59 +34,131 @@ inherited fSolicitacaoCompra: TfSolicitacaoCompra
       Left = 421
     end
   end
-  object DBEdit1: TDBEdit [6]
-    Left = 22
-    Top = 79
-    Width = 105
-    Height = 21
-    Color = clWhite
-    DataField = 'SOLIC_PRODUTO'
-    DataSource = DtSrc
-    TabOrder = 2
+  object grp1: TGroupBox [2]
+    Left = 8
+    Top = 55
+    Width = 721
+    Height = 65
+    Caption = 'Material'
+    TabOrder = 0
+    object dbEdit1: TDBEdit
+      Left = 6
+      Top = 20
+      Width = 105
+      Height = 21
+      Color = clWhite
+      DataField = 'SOLIC_PRODUTO'
+      DataSource = DtSrc
+      TabOrder = 0
+      OnExit = dbEdit1Exit
+    end
+    object dbEdit2: TDBEdit
+      Left = 134
+      Top = 20
+      Width = 539
+      Height = 21
+      Color = clSilver
+      DataField = 'SOLIC_DESCRICAO'
+      DataSource = DtSrc
+      TabOrder = 1
+    end
+    object btn1: TBitBtn
+      Left = 110
+      Top = 16
+      Width = 25
+      Height = 25
+      Caption = '...'
+      TabOrder = 2
+      TabStop = False
+      OnClick = btn1Click
+    end
+    object edtUnidade: TEdit
+      Left = 674
+      Top = 20
+      Width = 41
+      Height = 21
+      TabStop = False
+      Color = clSilver
+      ReadOnly = True
+      TabOrder = 3
+    end
   end
-  object DBEdit2: TDBEdit [7]
-    Left = 158
-    Top = 79
-    Width = 331
-    Height = 21
-    DataField = 'SOLIC_DESCRICAO'
-    DataSource = DtSrc
-    TabOrder = 3
-  end
-  object DBEdit3: TDBEdit [8]
-    Left = 494
-    Top = 78
-    Width = 83
-    Height = 21
-    DataField = 'SOLIC_QUANTIDADE'
-    DataSource = DtSrc
+  object grp2: TGroupBox [3]
+    Left = 159
+    Top = 185
+    Width = 682
+    Height = 56
+    Align = alCustom
+    Caption = 'Aprova'#231#227'o'
     TabOrder = 4
+    object dbEdit4: TDBEdit
+      Left = 14
+      Top = 20
+      Width = 187
+      Height = 21
+      DataField = 'SOLIC_APROVACAO'
+      DataSource = DtSrc
+      TabOrder = 0
+      OnExit = dbEdit4Exit
+    end
+    object dbEdit5: TEdit
+      Left = 208
+      Top = 20
+      Width = 457
+      Height = 21
+      TabOrder = 1
+    end
   end
-  object DBEdit4: TDBEdit [9]
-    Left = 22
-    Top = 135
-    Width = 121
-    Height = 21
-    DataField = 'SOLIC_APROVACAO'
-    DataSource = DtSrc
-    TabOrder = 5
-    OnExit = DBEdit4Exit
+  object grp3: TGroupBox [4]
+    Left = 729
+    Top = 55
+    Width = 113
+    Height = 65
+    Caption = 'Quantidade'
+    TabOrder = 1
+    object dbEdit3: TDBEdit
+      Left = 14
+      Top = 20
+      Width = 83
+      Height = 21
+      DataField = 'SOLIC_QUANTIDADE'
+      DataSource = DtSrc
+      TabOrder = 0
+    end
   end
-  object BitBtn1: TBitBtn [10]
-    Left = 126
-    Top = 79
-    Width = 25
-    Height = 25
-    Caption = '...'
-    TabOrder = 6
-    OnClick = BitBtn1Click
+  object grp4: TGroupBox [5]
+    Left = 8
+    Top = 183
+    Width = 145
+    Height = 57
+    Caption = 'Data Necessidade'
+    TabOrder = 3
+    object dbEdit6: TDBEdit
+      Left = 8
+      Top = 20
+      Width = 121
+      Height = 21
+      DataField = 'SOLIC_DTNECESSIT'
+      DataSource = dsSolic
+      TabOrder = 0
+    end
   end
-  object edRespAprovacao: TEdit [11]
-    Left = 160
-    Top = 134
-    Width = 209
-    Height = 21
-    TabOrder = 7
+  object GroupBox1: TGroupBox [6]
+    Left = 8
+    Top = 124
+    Width = 833
+    Height = 57
+    Caption = 'Observa'#231#227'o'
+    TabOrder = 2
+    object DBEdit7: TDBEdit
+      Left = 8
+      Top = 20
+      Width = 809
+      Height = 21
+      DataField = 'SOLIC_OBSERVACAO'
+      DataSource = dsSolic
+      TabOrder = 0
+    end
   end
   inherited DtSrc: TDataSource
     DataSet = cdsSolic
@@ -128,8 +174,8 @@ inherited fSolicitacaoCompra: TfSolicitacaoCompra
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 432
-    Top = 104
+    Left = 408
+    Top = 40
   end
   object sdsSolic: TSQLDataSet
     CommandText = 'SELECT * FROM COMPRA_SOLIC'
@@ -137,20 +183,20 @@ inherited fSolicitacaoCompra: TfSolicitacaoCompra
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 208
-    Top = 56
+    Top = 32
   end
   object dspSolic: TDataSetProvider
     DataSet = sdsSolic
-    Left = 280
-    Top = 56
+    Left = 240
+    Top = 32
   end
   object cdsSolic: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspSolic'
     OnNewRecord = cdsSolicNewRecord
-    Left = 352
-    Top = 56
+    Left = 280
+    Top = 32
     object cdsSolicSOLIC_CODIGO: TIntegerField
       FieldName = 'SOLIC_CODIGO'
       Required = True
@@ -179,6 +225,7 @@ inherited fSolicitacaoCompra: TfSolicitacaoCompra
     end
     object cdsSolicSOLIC_APROVACAO: TStringField
       FieldName = 'SOLIC_APROVACAO'
+      Required = True
       Size = 30
     end
     object cdsSolicSOLIC_DATAAPROV: TDateField
@@ -193,18 +240,34 @@ inherited fSolicitacaoCompra: TfSolicitacaoCompra
       FixedChar = True
       Size = 1
     end
+    object cdsSolicSOLIC_DTNECESSIT: TDateField
+      FieldName = 'SOLIC_DTNECESSIT'
+      Required = True
+      EditMask = '!99/99/00;1;_'
+    end
+    object cdsSolicSOLIC_OBSERVACAO: TStringField
+      FieldName = 'SOLIC_OBSERVACAO'
+      Size = 300
+    end
   end
   object dsSolic: TDataSource
     DataSet = cdsSolic
     OnStateChange = dsSolicStateChange
-    Left = 424
-    Top = 56
+    Left = 312
+    Top = 32
   end
   object sqBusca: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 168
-    Top = 128
+    Left = 368
+    Top = 40
+  end
+  object sqlProc: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 320
+    Top = 72
   end
 end
