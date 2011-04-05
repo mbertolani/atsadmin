@@ -520,11 +520,9 @@ type
     cdsNFVALOR_DESCONTO: TFloatField;
     sClienteE_MAIL: TStringField;
     sFornecE_MAIL: TStringField;
-    sEmpresaIM: TStringField;
-    sEmpresaTREGIME: TIntegerField;
-    sEmpresaCRT: TIntegerField;
     sdsItensNFCSOSN: TStringField;
     cdsItensNFCSOSN: TStringField;
+    sEmpresaCRT: TIntegerField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -870,7 +868,7 @@ begin
             Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
             if (cdsNFVALOR_PRODUTO.IsNull) then
                 MessageDlg('Valor dos produtos nulo', mtError, [mbOK], 0);
-            Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
+            Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant - cdsNFVALOR_DESCONTO.AsVariant;
             if (cdsNFVALOR_FRETE.IsNull) then
                 MessageDlg('Valor do Frete nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
@@ -1454,7 +1452,7 @@ begin
     Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
     Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
     Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
-    Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
+    Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant - cdsNFVALOR_DESCONTO.AsVariant;
     Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
     Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
     Total.ICMSTot.vDesc   := cdsNFVALOR_DESCONTO.AsVariant;
@@ -1624,13 +1622,24 @@ begin
       Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
       Prod.qCom     := cdsItensNFQUANTIDADE.AsFloat;
       Prod.vUnCom   := cdsItensNFVLR_BASE.AsFloat;
-      Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
       Prod.uTrib    := sProdutosUNIDADEMEDIDA.AsString;
       Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
       Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
       infAdProd     := '';
       Prod.NCM      := sProdutosNCM.AsString;
-      //Prod.genero   := sProdutosGENERO.AsInteger;
+      if (contador = 1) then
+      begin
+        Prod.vProd    := cdsItensNFVALTOTAL.AsFloat - cdsNFVALOR_DESCONTO.AsCurrency;
+        Prod.vFrete := cdsNFVALOR_FRETE.AsCurrency;
+        Prod.vDesc := cdsNFVALOR_DESCONTO.AsCurrency;
+      end
+      else
+      begin
+        Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
+        Prod.vFrete := 0;
+        Prod.vDesc := 0;
+      end;
+      Prod.genero   := sProdutosGENERO.AsInteger;
       //IMPOSTOS Do Produto
       with Imposto do
       begin
@@ -1732,6 +1741,7 @@ begin
             orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
             CST :=  cst40;
             vICMS := cdsItensNFVALOR_ICMS.AsVariant;
+			      vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
           end;
           //41 NÃO TRIBUTADA
           if ((cdsItensNFCST.AsString = '041  ') or (cdsItensNFCST.AsString = '041')) then
@@ -1739,6 +1749,7 @@ begin
             orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
             CST :=  cst41;                                              //CST DO PRODUTO
             vICMS := cdsItensNFVALOR_ICMS.AsVariant;
+			vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
           end;
           //50 SUSPENSÃO
           if ((cdsItensNFICMS.AsString = '050  ') or (cdsItensNFCST.AsString = '050')) then
@@ -1746,6 +1757,7 @@ begin
             orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
             CST :=  cst50;                                              //CST DO PRODUTO
             vICMS := cdsItensNFVALOR_ICMS.AsVariant;
+            vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
           end;
           //ICMS 51 DIFERIMENTO A EXIGÊNCIA DO PREENCHIMENTO DAS INFORMAÇÕES DO ICMS DIFERIDO FICA a CRITÉRIO DE CADA UF
           if ((cdsItensNFCST.AsString = '051  ') or (cdsItensNFCST.AsString = '051')) then
@@ -1800,9 +1812,9 @@ begin
         end;
 
        //CALCULO DE PIS E COFINS
-       if (sCFOPPIS.AsFloat <> null) then
+       if (sCFOPPIS.AsFloat > 0) then
           valpis := (sCFOPPIS.AsVariant * cdsItensNFVALTOTAL.AsVariant) /100;
-       if (sCFOPCOFINS.AsFloat <> null) then
+       if (sCFOPCOFINS.AsFloat > 0) then
           valcofins := (sCFOPCOFINS.AsVariant * cdsItensNFVALTOTAL.AsVariant) /100;
 
         with PIS do
