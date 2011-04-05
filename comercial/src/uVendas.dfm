@@ -1449,7 +1449,7 @@ inherited fVendas: TfVendas
     Top = 112
     Width = 633
     Height = 358
-    ActivePage = TabSheet1
+    ActivePage = Orcamento
     TabOrder = 6
     TabStop = False
     object TabSheet1: TTabSheet
@@ -2050,7 +2050,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
