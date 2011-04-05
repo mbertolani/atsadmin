@@ -44,8 +44,9 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 796
-    Height = 60
+<<<<<<< .mine    Width = 788
+=======    Width = 796
+>>>>>>> .theirs    Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
       Left = 83

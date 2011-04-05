@@ -342,9 +342,9 @@ begin
     end;
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Pedido gerado com sucesso.', mtInformation, [mbOK], 0);
-    //if (cdsSolic.Active) then
-    //  cdsSolic.Close;
-    //cdsSolic.Open;
+    if (cdsSolic.Active) then
+      cdsSolic.Close;
+    cdsSolic.Open;
   except
     dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para gerar o pedido.', mtError, [mbOK], 0);
