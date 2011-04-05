@@ -3069,16 +3069,20 @@ end;
 
 procedure TfVendas.RadioButton1Click(Sender: TObject);
 begin
-    RadioButton2.Checked := False;
-    DBEdit18.Visible := True;
-    Label24.Visible := True;
+  RadioButton2.Checked := False;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_Movimento.Edit;
+  if (DtSrc1.State in [dsBrowse]) then
+    cds_Mov_det.Edit;
 end;
 
 procedure TfVendas.RadioButton2Click(Sender: TObject);
 begin
-    RadioButton1.Checked := False;
-    DBEdit18.Visible := False;
-    Label24.Visible := False;
+  RadioButton1.Checked := False;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_Movimento.Edit;
+  if (DtSrc1.State in [dsBrowse]) then
+    cds_Mov_det.Edit;
 end;
 
 procedure TfVendas.RadioPedidoClick(Sender: TObject);
@@ -3086,6 +3090,10 @@ begin
   RadioOrcamento.Checked := False;
   Orcamento.Visible := False;
   Orcamento.Enabled := False;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_Movimento.Edit;
+  if (DtSrc1.State in [dsBrowse]) then
+    cds_Mov_det.Edit;
 end;
 
 procedure TfVendas.RadioOrcamentoClick(Sender: TObject);
@@ -3093,6 +3101,10 @@ begin
   RadioPedido.Checked  := False;
   Orcamento.Visible := True;
   Orcamento.Enabled := True;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_Movimento.Edit;
+  if (DtSrc1.State in [dsBrowse]) then
+    cds_Mov_det.Edit;
 end;
 
 procedure TfVendas.cbPrazoChange(Sender: TObject);
