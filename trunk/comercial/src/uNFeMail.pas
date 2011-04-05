@@ -220,7 +220,11 @@ begin
                                                , False
                                                , True //Enviar PDF junto
                                                , CC //com copia
-                                               );
+                                               , nil // Lista de anexos - TStrings
+                                               , False  //Pede confirmação de leitura do email
+                                               , True  //Aguarda Envio do Email(não usa thread)
+                                               , sEmpresaRAZAO.AsString ); // Nome do Rementente
+
     CC.Free;
     Texto.Free;
     fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
