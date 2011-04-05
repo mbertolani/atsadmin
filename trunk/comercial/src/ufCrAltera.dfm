@@ -754,7 +754,7 @@ inherited fCrAltera: TfCrAltera
       end
       item
         Expanded = False
-        FieldName = 'VALORPAG'
+        FieldName = 'VALOR_RESTO'
         Title.Caption = 'Vlr. Pendente'
         Visible = True
       end
