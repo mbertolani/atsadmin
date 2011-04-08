@@ -73,7 +73,7 @@ object TRpReport
     item
       Name = 'PDATA'
       AllowNulls = False
-      Value = 40627d
+      Value = 40626d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -660,7 +660,7 @@ object TRpReport
     Width = 2746
     Height = 461
     PosX = 7930
-    PosY = 1037
+    PosY = 1040
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
