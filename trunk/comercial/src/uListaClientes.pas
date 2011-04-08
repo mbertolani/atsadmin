@@ -362,7 +362,7 @@ begin
     VCLReport1.Title := VCLReport1.FileName;
     if varCondicao <> '' then
     begin
-      VCLReport1.Report.DataInfo.Items[1].SQL := varCondicao;
+      VCLReport1.Report.DataInfo.Items[1].SQL := varCondicao + ' order by ende.CIDADE ';
     end;
   end;
   VCLReport1.Execute;
