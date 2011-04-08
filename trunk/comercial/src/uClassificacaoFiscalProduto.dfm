@@ -322,7 +322,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     Top = 80
     Width = 60
     Height = 21
-    DataField = 'CST'
+    DataField = 'CSOSN'
     DataSource = DtSrc
     TabOrder = 9
   end
