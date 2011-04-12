@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
-  Left = 2
-  Top = 3
+  Left = -4
+  Top = -4
   Width = 865
   Height = 578
   AutoSize = True
@@ -1514,20 +1514,22 @@ object fNFeletronica: TfNFeletronica
       'PRO)-1))'#13#10'          ELSE'#13#10'          pr.CODPRO'#13#10'          END as ' +
       'codpro,'#13#10'          pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'       ' +
       '   md.ICMS, md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 2) as pIP' +
-      'I,'#13#10'          UDF_ROUNDDEC(md.vIPI, 2) as vIPI,'#13#10'          UDF_R' +
-      'OUNDDEC(md.VLR_BASEICMS, 2) as VLR_BASEICMS,'#13#10'          UDF_ROUN' +
-      'DDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, '#13#10'          UDF_ROUNDDEC(m' +
-      'd.VLR_BASE, 2) as VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBS' +
-      'T, 2) as ICMS_SUBST,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBSTD, 2) ' +
-      'as ICMS_SUBSTD, '#13#10'          UDF_ROUNDDEC((md.VLR_BASE * md.QUANT' +
-      'IDADE), 2) as VALTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETA' +
-      'LHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFI' +
-      'SCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on' +
-      ' '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      'I,'#13#10'          UDF_ROUNDDEC(md.FRETE, 2) as FRETE,'#13#10'          UDF' +
+      '_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO,'#13#10'          UD' +
+      'F_ROUNDDEC(md.vIPI, 2) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VLR_B' +
+      'ASEICMS, 2) as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_IC' +
+      'MS, 2) as VALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) a' +
+      's VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SU' +
+      'BST,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBSTD, 2) as ICMS_SUBSTD, ' +
+      #13#10'          UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VA' +
+      'LTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CO' +
+      'DMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.C' +
+      'ODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO' +
+      ' = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'id'
         ParamType = ptInput
       end>
@@ -1609,6 +1611,14 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'CSOSN'
       ReadOnly = True
       Size = 3
+    end
+    object sdsItensNFFRETE: TFloatField
+      FieldName = 'FRETE'
+      ReadOnly = True
+    end
+    object sdsItensNFVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+      ReadOnly = True
     end
   end
   object dspItensNF: TDataSetProvider
@@ -1704,6 +1714,14 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'CSOSN'
       ReadOnly = True
       Size = 3
+    end
+    object cdsItensNFFRETE: TFloatField
+      FieldName = 'FRETE'
+      ReadOnly = True
+    end
+    object cdsItensNFVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+      ReadOnly = True
     end
   end
   object sMenorData: TSQLDataSet

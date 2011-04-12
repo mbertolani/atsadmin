@@ -523,6 +523,10 @@ type
     sdsItensNFCSOSN: TStringField;
     cdsItensNFCSOSN: TStringField;
     sEmpresaCRT: TIntegerField;
+    sdsItensNFFRETE: TFloatField;
+    sdsItensNFVALOR_DESCONTO: TFloatField;
+    cdsItensNFFRETE: TFloatField;
+    cdsItensNFVALOR_DESCONTO: TFloatField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -688,7 +692,7 @@ end;
 procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
 var
   i: integer;
-  Protocolo, Recibo, str, itensnf, protenv : String;
+  Protocolo, Recibo, str, itensnf, protenv, vAux : String;
 begin
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
@@ -763,6 +767,9 @@ begin
             if (tp_amb = 2) then
             begin
               Ide.tpEmis    := teContingencia;
+              Ide.dhCont    := Now;
+              InputQuery('Justificativa de entrada em Contingência', 'Justificativa', vAux);
+              Ide.xJust     := vAux;              
             end;
             if (tp_amb = 3) then
             begin
@@ -776,6 +783,9 @@ begin
             if (tp_amb = 5) then
             begin
               Ide.tpEmis    := teFSDA;
+              Ide.dhCont    := Now;
+              InputQuery('Justificativa de entrada em Contingência', 'Justificativa', vAux);
+              Ide.xJust     := vAux;
             end;
             Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
             protenv       := cdsNFNOTASERIE.AsString;
@@ -809,7 +819,7 @@ begin
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
+                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -821,7 +831,7 @@ begin
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
                 'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-                'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+                'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
                 'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
                 'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
@@ -922,6 +932,7 @@ begin
    end
    else
      ACBrNFe1.Enviar(0);
+   AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString + '\assinadas';
    ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
    if ( (tp_amb <> 2) or (tp_amb <> 5)) then
    begin
@@ -1144,6 +1155,7 @@ begin
      ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
      ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.Cancelamento.Protocolo);
     Protocolo := ACBrNFe1.WebServices.Cancelamento.Protocolo;
+    AcbrNfe1.Configuracoes.Geral.Salvar := True;
    end;
 
   //ABRE A NOTA
@@ -1161,12 +1173,11 @@ begin
    str := str + ' WHERE NOTAFISCAL = ' + numnf;
    dm.sqlsisAdimin.ExecuteDirect(str);
    DecimalSeparator := ',';
-   if cdsNF.Active then
-    cdsNFSELECIONOU.AsString := '';
   finally
   VXMLDoc.Free;
   end;
-
+  chkTodas.Checked := True;
+  btnListar.Click;
 
 end;
 
@@ -1402,8 +1413,8 @@ begin
     begin
     itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-        'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
-        'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.CSOSN, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
+        'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
+        'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.CSOSN, md.pIPI, md.vIPI, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
         'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
         'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
@@ -1416,7 +1427,7 @@ begin
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
         'md.vIPI, md.VLR_BASEICMS, md.CSOSN, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-        'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+        'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
         'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
         'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
@@ -1627,18 +1638,11 @@ begin
       Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
       infAdProd     := '';
       Prod.NCM      := sProdutosNCM.AsString;
-      if (contador = 1) then
-      begin
-        Prod.vProd    := cdsItensNFVALTOTAL.AsFloat - cdsNFVALOR_DESCONTO.AsCurrency;
-        Prod.vFrete := cdsNFVALOR_FRETE.AsCurrency;
-        Prod.vDesc := cdsNFVALOR_DESCONTO.AsCurrency;
-      end
-      else
-      begin
-        Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
-        Prod.vFrete := 0;
-        Prod.vDesc := 0;
-      end;
+      Prod.vProd    := cdsItensNFVALTOTAL.AsFloat  - cdsItensNFVALOR_DESCONTO.AsCurrency;
+      Prod.vFrete := cdsItensNFFRETE.AsCurrency;
+      Prod.vDesc := cdsItensNFVALOR_DESCONTO.AsCurrency;
+
+
       Prod.genero   := sProdutosGENERO.AsInteger;
       //IMPOSTOS Do Produto
       with Imposto do
@@ -1752,7 +1756,7 @@ begin
 			vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
           end;
           //50 SUSPENSÃO
-          if ((cdsItensNFICMS.AsString = '050  ') or (cdsItensNFCST.AsString = '050')) then
+          if ((cdsItensNFCST.AsString = '050  ') or (cdsItensNFCST.AsString = '050 ') or (cdsItensNFCST.AsString = '050')) then
           begin
             orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
             CST :=  cst50;                                              //CST DO PRODUTO
