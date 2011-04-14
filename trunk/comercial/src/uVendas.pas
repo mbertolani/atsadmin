@@ -9,7 +9,7 @@ uses
   Mask, DBLocal, DBLocalS, rpcompobase, rpvclreport, DBXpress, UCHist_Base,
   UCHistDataset, JvExDBGrids, JvDBGrid, JvExStdCtrls, JvRadioButton,
   JvCombobox, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls;
+  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls, comobj;
 
 type
   TfVendas = class(TfPai)
@@ -492,6 +492,36 @@ type
     cds_MovimentoVALOR_FRETE: TFloatField;
     DBEdit14: TDBEdit;
     DBEdit18: TDBEdit;
+    Btn: TBitBtn;
+    s_jorvic: TSQLDataSet;
+    ds_jorvic: TDataSetProvider;
+    cds_j: TClientDataSet;
+    s_jorvicRAZAOSOCIAL: TStringField;
+    s_jorvicCNPJ: TStringField;
+    s_jorvicLOGRADOURO: TStringField;
+    s_jorvicCIDADE: TStringField;
+    s_jorvicBAIRRO: TStringField;
+    s_jorvicUF: TStringField;
+    s_jorvicCEP: TStringField;
+    s_jorvicDDD: TStringField;
+    s_jorvicTELEFONE: TStringField;
+    s_jorvicDADOSADICIONAIS: TStringField;
+    s_jorvicNUMERO: TStringField;
+    s_jorvicDATAMOVIMENTO: TDateField;
+    s_jorvicCODMOVIMENTO: TIntegerField;
+    cds_jRAZAOSOCIAL: TStringField;
+    cds_jCNPJ: TStringField;
+    cds_jLOGRADOURO: TStringField;
+    cds_jCIDADE: TStringField;
+    cds_jBAIRRO: TStringField;
+    cds_jUF: TStringField;
+    cds_jCEP: TStringField;
+    cds_jDDD: TStringField;
+    cds_jTELEFONE: TStringField;
+    cds_jDADOSADICIONAIS: TStringField;
+    cds_jNUMERO: TStringField;
+    cds_jDATAMOVIMENTO: TDateField;
+    cds_jCODMOVIMENTO: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -566,6 +596,7 @@ type
     procedure RadioPedidoClick(Sender: TObject);
     procedure RadioOrcamentoClick(Sender: TObject);
     procedure cbPrazoChange(Sender: TObject);
+    procedure BtnClick(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -2029,7 +2060,7 @@ begin
  else
   BitBtn1.Enabled:=False;
  BitBtn2.Enabled:=DtSrc.State in [dsEdit,dsBrowse];
-
+ Btn.Enabled :=DtSrc.State in [dsEdit,dsBrowse];
 end;
 
 procedure TfVendas.cds_MovimentoNewRecord(DataSet: TDataSet);
@@ -3111,5 +3142,49 @@ procedure TfVendas.cbPrazoChange(Sender: TObject);
 begin
   cds_MovimentoFORMA_PAG.AsString := cbPrazo.Text;
 end;
+
+procedure TfVendas.BtnClick(Sender: TObject);
+var
+WinWord, Docs, Doc: Variant;
+caminho : String;
+begin
+  cds_j.Close;
+  cds_j.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  cds_j.Open;
+
+    // Cria objeto principal de controle
+    WinWord := CreateOleObject('Word.Application');
+    // Mostra o Word
+    WinWord.Visible := true;
+    // Pega uma interface para o objeto que manipula documentos
+    Docs := WinWord.Documents;
+    // Abre um Documento
+
+    caminho := ExtractFilePath(Application.ExeName);
+
+    Doc := Docs.Open( caminho + '\doc.doc') ;
+
+    // Substitui texto via "name parameters"
+    Doc.Content.Find.Execute(FindText := '<CLI.RAZAOSOCIAL>', ReplaceWith := cds_jRAZAOSOCIAL.AsString);
+    Doc.Content.Find.Execute(FindText := '<CLI.CNPJ>', ReplaceWith := cds_jCNPJ.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.LOGRADOURO>', ReplaceWith := cds_jLOGRADOURO.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.CIDADE>', ReplaceWith := cds_jCIDADE.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.BAIRRO>', ReplaceWith := cds_jBAIRRO.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.UF>', ReplaceWith := cds_jUF.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.CEP>', ReplaceWith := cds_jCEP.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.DDD>', ReplaceWith := cds_jDDD.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.TELEFONE>', ReplaceWith := cds_jTELEFONE.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.DADOSADICIONAIS>', ReplaceWith := cds_jDADOSADICIONAIS.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.NUMERO>', ReplaceWith := cds_jNUMERO.AsString);
+
+    // Grava documento
+
+
+    Doc.SaveAs( caminho + cds_jRAZAOSOCIAL.AsString + '.doc');
+    // Imprime
+    //Doc.PrintOut(false);
+    // Fecha o Word
+    //WinWord.Quit;
+    end;
 
 end.
