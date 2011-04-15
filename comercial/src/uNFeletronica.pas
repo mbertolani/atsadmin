@@ -932,7 +932,7 @@ begin
    end
    else
      ACBrNFe1.Enviar(0);
-   AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString + '\assinadas';
+   AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
    ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
    if ( (tp_amb <> 2) or (tp_amb <> 5)) then
    begin
@@ -1965,10 +1965,8 @@ var
 begin
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
-    if ((cdsNFFRETE.AsString = '') or (cdsNFFRETE.IsNull)) then
-     MessageDlg('Tipo de frete não definido', mtError, [mbOK], 0);
     if (cdsNFFRETE.IsNull) then
-      //tfrete := 9;
+      tfrete := 9
     else
     begin
       tpfrete := StrToInt(cdsNFFRETE.AsString);

@@ -3207,6 +3207,7 @@ object fNFeletronica: TfNFeletronica
       000000000000}
   end
   object ACBrNFe1: TACBrNFe
+    Configuracoes.Geral.Salvar = True
     Configuracoes.Geral.PathSalvar = 'C:\nfe\'
     Configuracoes.Geral.PathSchemas = 'c:\home\sisadmin\schemas'
     Configuracoes.WebServices.UF = 'SP'
