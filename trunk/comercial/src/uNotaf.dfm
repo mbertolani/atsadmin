@@ -2125,87 +2125,94 @@ object fNotaf: TfNotaf
             Expanded = False
             FieldName = 'CODPRO'
             Title.Caption = 'C'#243'digo'
-            Width = 34
+            Width = 23
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
             Title.Caption = 'Produtos'
-            Width = 197
+            Width = 127
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CFOP'
-            Width = 39
+            Width = 28
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CST'
-            Width = 24
+            Width = 17
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CSOSN'
-            Width = 57
+            Width = 40
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
-            Width = 55
+            Width = 38
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
             Title.Caption = 'Quantidade'
-            Width = 47
+            Width = 54
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASE'
             Title.Caption = 'Valor Unit'#225'rio'
-            Width = 62
+            Width = 58
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'QTDE_ALT'
-            Title.Caption = 'Desc.%'
-            Width = 38
+            FieldName = 'VALOR_DESCONTO'
+            Title.Caption = 'Desconto'
+            Width = 57
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
-            Width = 50
+            Width = 58
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ICMS'
             Title.Caption = 'ICMS %'
-            Width = 33
+            Width = 31
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASEICMS'
             Title.Caption = 'Base ICMS'
-            Width = 47
+            Width = 70
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALOR_ICMS'
             Title.Caption = 'Valor ICMS'
-            Width = 45
+            Width = 73
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'FRETE'
+            Title.Caption = 'Frete'
+            Width = 53
             Visible = True
           end>
       end
@@ -2701,8 +2708,8 @@ object fNotaf: TfNotaf
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 192
-    Top = 248
+    Left = 200
+    Top = 272
     object proc_transpCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True
