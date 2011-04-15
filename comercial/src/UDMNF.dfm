@@ -326,12 +326,12 @@ object DMNF: TDMNF
       'NTA_DESPESA  , prod.LOCALIZACAO  , prod.CLASSIFIC_FISCAL , cm.CO' +
       'DIGO, prod.LOTES, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS' +
       #13#10', udf_LEFT((prod.PRODUTO),80) as DETALHE , movd.VLR_BASE, movd' +
-      '.VLR_BASEICMS'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS ' +
-      'prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXA' +
-      'RIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'lef' +
-      't outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO ' +
-      #13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMO' +
-      'V order by movd.coddetalhe'
+      '.VLR_BASEICMS, movd.VALOR_DESCONTO, movd.FRETE'#13#10'from MOVIMENTODE' +
+      'TALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CO' +
+      'DPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARI' +
+      'FADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.' +
+      'COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDET' +
+      'ALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -513,6 +513,14 @@ object DMNF: TDMNF
     object sds_Mov_DetCSOSN: TStringField
       FieldName = 'CSOSN'
       Size = 3
+    end
+    object sds_Mov_DetVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+      ReadOnly = True
+    end
+    object sds_Mov_DetFRETE: TFloatField
+      FieldName = 'FRETE'
+      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -720,6 +728,14 @@ object DMNF: TDMNF
     object cds_Mov_detCSOSN: TStringField
       FieldName = 'CSOSN'
       Size = 3
+    end
+    object cds_Mov_detVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+      ReadOnly = True
+    end
+    object cds_Mov_detFRETE: TFloatField
+      FieldName = 'FRETE'
+      ReadOnly = True
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
