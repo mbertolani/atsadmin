@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, FMTBcd, DBClient, Provider, SqlExpr, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid;
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid, Mask, DBCtrls;
 
 type
   TfCompraRecebimento = class(TfPai_new)
@@ -40,10 +40,12 @@ type
     cdsPedidoVALTOTAL: TFloatField;
     sqlPedidoRECEBIDO: TBCDField;
     cdsPedidoRECEBIDO: TBCDField;
+    BitBtn1: TBitBtn;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
-    procedure cdsPedidoAfterPost(DataSet: TDataSet);
+    procedure cdsPedidoBeforePost(DataSet: TDataSet);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -80,10 +82,41 @@ begin
   //Teste
 end;
 
-procedure TfCompraRecebimento.cdsPedidoAfterPost(DataSet: TDataSet);
+procedure TfCompraRecebimento.cdsPedidoBeforePost(DataSet: TDataSet);
+ //var str_sql : string;
+  //TD: TTransactionDesc;
 begin
+  if (cdsPedidoRECEBIDO.AsFloat > cdsPedidoQUANTIDADE.AsFloat) then
+  begin
+    MessageDlg('Quantidade inválida (Maior do que o pedido).', mtWarning, [mbOK], 0);
+    cdsPedido.Cancel;
+    exit;
+  end;
+  {if (cdsPedidoRECEBIDO.AsFloat < cdsPedidoQUANTIDADE.AsFloat) then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      str_sql := 'INSERT '
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro para efetuar a baixa.', mtError, [mbOK], 0);
+      exit;
+    end;
+  end;}
   inherited;
-  cdsPedido.ApplyUpdates(0);
+end;
+
+procedure TfCompraRecebimento.BitBtn1Click(Sender: TObject);
+begin
+  //inherited;
+  try
+    cdsPedido.ApplyUpdates(0);
+  except
+  end;
 end;
 
 end.
