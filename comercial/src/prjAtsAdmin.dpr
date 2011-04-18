@@ -203,7 +203,8 @@ uses
   uCompraSolicProc in 'uCompraSolicProc.pas' {fCompraSolicProc},
   uProdutoProc in 'uProdutoProc.pas' {fProdutoProc},
   uCompraCotacao in 'uCompraCotacao.pas' {fCompraCotacao},
-  uApontHoras in 'uApontHoras.pas' {fApontHoras};
+  uApontHoras in 'uApontHoras.pas' {fApontHoras},
+  uRelNfe in 'uRelNfe.pas' {fRelNfe};
 
 {$R *.res}
 
