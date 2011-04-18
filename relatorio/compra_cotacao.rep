@@ -24,14 +24,12 @@ object TRpReport
       Alias = 'VENDAS'
       DatabaseAlias = 'SISADMIN'
       SQL = 
-        'SELECT '#13#10'  COTACAO_CODIGO '#13#10', COTACAO_DATA      '#13#10', COTACAO_FORN' +
-        'EC '#13#10', COTACAO_SOLICIT  '#13#10', COTACAO_ITEM       '#13#10', COTACAO_ITEMD' +
-        'ESCRICAO  '#13#10', COTACAO_SITUACAO       '#13#10', COTACAO_QTDE           ' +
-        #13#10', COTACAO_PRECO         '#13#10', COTACAO_USER'#13#10',COTACAO_PRAZO'#13#10',for' +
-        'necedor.nomefornecedor'#13#10'FROM COMPRA_COTACAO '#13#10'inner join fornece' +
-        'dor on (compra_cotacao.cotacao_fornec = fornecedor.codfornecedor' +
-        ')'#13#10'WHERE COTACAO_FORNEC = :PFORNEC '#13#10'    AND COTACAO_DATA = :PDA' +
-        'TA'
+        'SELECT '#13#10'udf_StrZero(cast(item as char(2)),2) as item'#13#10',COTACAO_' +
+        'CODIGO '#13#10', COTACAO_DATA      '#13#10', COTACAO_FORNEC '#13#10', COTACAO_SOLI' +
+        'CIT  '#13#10', COTACAO_ITEM       '#13#10', COTACAO_ITEMDESCRICAO  '#13#10', COTAC' +
+        'AO_SITUACAO       '#13#10', COTACAO_QTDE           '#13#10', COTACAO_PRECO  ' +
+        '       '#13#10', COTACAO_USER'#13#10',COTACAO_PRAZO'#13#10',nomefornecedor'#13#10'FROM C' +
+        'OTACAO ( :PFORNEC, :PDATA)'#13#10#13#10#13#10
     end>
   DatabaseInfo = <
     item
@@ -122,6 +120,9 @@ object TRpReport
       end
       item
         Component = TRpExpression16
+      end
+      item
+        Component = TRpExpression17
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -906,6 +907,28 @@ object TRpReport
     LFontName = 'Helvetica'
     Expression = 'VENDAS.COTACAO_QTDE*VENDAS.COTACAO_PRECO'
     DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression17: TRpExpression
+    Width = 795
+    Height = 315
+    PosX = 100
+    PosY = 50
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.ITEM'
+    DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
