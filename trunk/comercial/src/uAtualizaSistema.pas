@@ -899,13 +899,24 @@ begin
 
     if (versaoSistema = '1.0.0.85') then
     begin
-      executaSql('create generator gen_aponthorasdet);
-      executaSql('create generator gen_aponthoras);
+      executaSql('create generator gen_aponthorasdet');
+      executaSql('create generator gen_aponthoras');
       executaDDL('MOVIMENTO', 'DATA_ENTREGA', 'DATE');
       executaDDL('MOVIMENTO', 'PRAZO_PAGAMENTO', 'VARCHAR(30)');
       mudaVersao('1.0.0.86');
     end;  // Fim Ataulização Versao 1.0.0.86
 
+    if (versaoSistema = '1.0.0.86') then
+    begin
+      executaDDL('MOVIMENTODETALHE', 'RECEBIDO', 'DOUBLE PRECISION DEFAULT 0');
+      try
+        executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA,  ' +
+         ' GERATITULO, TIPOTITULO, TIPOMOVIMENTO, BAIXAMOVIMENTO) VALUES (' +
+         '5, ' + QuotedStr('Cotacao') +  ', 1, 2, 0, 0)');
+      except
+      end;
+      mudaVersao('1.0.0.87');
+    end;  
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
