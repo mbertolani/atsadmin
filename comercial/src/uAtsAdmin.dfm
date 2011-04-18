@@ -22,8 +22,8 @@ object fAtsAdmin: TfAtsAdmin
   object Image1: TImage
     Left = 0
     Top = 47
-    Width = 684
-    Height = 317
+    Width = 692
+    Height = 329
     Align = alClient
     Center = True
     Picture.Data = {
@@ -749,7 +749,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 684
+    Width = 692
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2042,8 +2042,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 364
-    Width = 684
+    Top = 376
+    Width = 692
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2392,6 +2392,10 @@ object fAtsAdmin: TfAtsAdmin
       object RelatrioListadeProdporLote2: TMenuItem
         Caption = 'Relat'#243'rio Lista de Prod. por Lote'
         OnClick = RelatrioListadeProdporLote2Click
+      end
+      object RecebimentoMateriais1: TMenuItem
+        Caption = 'Recebimento Materiais'
+        OnClick = RecebimentoMateriais1Click
       end
     end
     object Relatrios1: TMenuItem

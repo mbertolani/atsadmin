@@ -222,6 +222,7 @@ type
     Agenda1: TMenuItem;
     ApontamentodeHoras1: TMenuItem;
     NFeNoPeriodo1: TMenuItem;
+    RecebimentoMateriais1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -326,6 +327,7 @@ type
     procedure CotacaoCompras1Click(Sender: TObject);
     procedure ApontamentodeHoras1Click(Sender: TObject);
     procedure NFeNoPeriodo1Click(Sender: TObject);
+    procedure RecebimentoMateriais1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -365,7 +367,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
-  uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe;
+  uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
+  uCompraRecebimento;
 
 {$R *.dfm}
 
@@ -1731,6 +1734,17 @@ begin
   finally
     fRelNfe.Free;
   end;
+end;
+
+procedure TfAtsAdmin.RecebimentoMateriais1Click(Sender: TObject);
+begin
+  fCompraRecebimento := TfCompraRecebimento.Create(Application);
+  try
+    fCompraRecebimento.ShowModal;
+  finally
+    fCompraRecebimento.Free;
+  end;
+
 end;
 
 end.
