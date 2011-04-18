@@ -22,8 +22,8 @@ object fAtsAdmin: TfAtsAdmin
   object Image1: TImage
     Left = 0
     Top = 47
-    Width = 692
-    Height = 329
+    Width = 684
+    Height = 317
     Align = alClient
     Center = True
     Picture.Data = {
@@ -749,7 +749,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 692
+    Width = 684
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2042,8 +2042,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 376
-    Width = 692
+    Top = 364
+    Width = 684
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2311,6 +2311,10 @@ object fAtsAdmin: TfAtsAdmin
       object ExportaNotaFiscal1: TMenuItem
         Caption = 'Exporta Nota Fiscal'
         OnClick = ExportaNotaFiscal1Click
+      end
+      object NFeNoPeriodo1: TMenuItem
+        Caption = 'Emitidas no Periodo '
+        OnClick = NFeNoPeriodo1Click
       end
     end
     object N2: TMenuItem
