@@ -221,6 +221,7 @@ type
     CotacaoCompras1: TMenuItem;
     Agenda1: TMenuItem;
     ApontamentodeHoras1: TMenuItem;
+    NFeNoPeriodo1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -324,6 +325,7 @@ type
     procedure SolicitacaoCompras1Click(Sender: TObject);
     procedure CotacaoCompras1Click(Sender: TObject);
     procedure ApontamentodeHoras1Click(Sender: TObject);
+    procedure NFeNoPeriodo1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -363,7 +365,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
-  uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras;
+  uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe;
 
 {$R *.dfm}
 
@@ -1718,6 +1720,16 @@ begin
     fApontHoras.ShowModal;
   finally
     fApontHoras.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.NFeNoPeriodo1Click(Sender: TObject);
+begin
+  fRelNfe := TfRelNfe.Create(Application);
+  try
+    fRelNfe.ShowModal;
+  finally
+    fRelNfe.Free;
   end;
 end;
 
