@@ -204,7 +204,8 @@ uses
   uProdutoProc in 'uProdutoProc.pas' {fProdutoProc},
   uCompraCotacao in 'uCompraCotacao.pas' {fCompraCotacao},
   uApontHoras in 'uApontHoras.pas' {fApontHoras},
-  uRelNfe in 'uRelNfe.pas' {fRelNfe};
+  uRelNfe in 'uRelNfe.pas' {fRelNfe},
+  uCompraRecebimento in 'uCompraRecebimento.pas' {fCompraRecebimento};
 
 {$R *.res}
 
