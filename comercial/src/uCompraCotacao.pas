@@ -76,6 +76,18 @@ type
     edPreco: TJvCalcEdit;
     edObservacao: TEdit;
     jvdbgrd2: TJvDBGrid;
+    cdsCotacaoCOTACAO_IPI: TFloatField;
+    cdsCotacaoCOTACAO_DESCONTO: TFloatField;
+    cdsCotacaoCOTACAO_FRETE: TFloatField;
+    edFrete: TEdit;
+    edIPI: TEdit;
+    Label6: TLabel;
+    Label7: TLabel;
+    edDesconto: TEdit;
+    Label8: TLabel;
+    cdsSolicFAMILIA: TStringField;
+    cdsSolicCATEGORIA: TStringField;
+    cdsSolicMARCA: TStringField;
     procedure btnIncluiCotacaoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbnvgr1Click(Sender: TObject; Button: TNavigateBtn);
@@ -264,6 +276,9 @@ begin
     QuotedStr(FormatDateTime('mm/dd/yyyy', dtEntrega.Date)) + ', ';
 
   str_altera := str_altera + ' COTACAO_PRAZO        = ' + QuotedStr(cbPrazo.Text) + ', ';
+  str_altera := str_altera + ' COTACAO_FRETE        = ' + edFrete.Text + ', ';
+  str_altera := str_altera + ' COTACAO_IPI        = ' + edIPI.Text + ', ';
+  str_altera := str_altera + ' COTACAO_DESCONTO        = ' + edDesconto.Text + ', ';
   str_altera := str_altera + ' COTACAO_OBSERVACAO   = ' + QuotedStr(edObservacao.Text);
   str_altera := str_altera + ' WHERE COTACAO_CODIGO = ' + IntToStr(cdsCotacaoCOTACAO_CODIGO.AsInteger);
   DecimalSeparator := ',';
