@@ -70,6 +70,7 @@ type
     procedure btnIncluiClick(Sender: TObject);
     procedure btnRemoveTodosClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     procedure incluirInventario;
@@ -90,7 +91,7 @@ procedure TfInventario.btnProcClick(Sender: TObject);
 var sql, sqla: string;
 begin
   sqla := '';
-  sql := 'SELECT CODPRO, CODPRODUTO, PRODUTO, UNIDADEMEDIDA FROM PRODUTOS';
+  sql := 'SELECT CODPRO, CODPRODUTO, PRODUTO, UNIDADEMEDIDA ,CATEGORIA , FAMILIA FROM PRODUTOS';
   if (edProd.Text <> '') then
   begin
     sqla := ' WHERE CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
@@ -240,11 +241,19 @@ end;
 procedure TfInventario.btnIncluiTodosClick(Sender: TObject);
 begin
   //inherited;
+  if (edLista.Text = '') then
+  begin
+    MessageDlg('Informe o nome da Lista a executar.', mtWarning, [mbOK], 0);
+    edLista.SetFocus;
+  exit;
+
+  end;
   cdsProd.DisableControls;
   cdsProd.First;
   While not cdsProd.Eof do
   begin
     incluirInventario;
+    cdsProd.Next;
   end;
   cdsProd.EnableControls;
 end;
@@ -272,6 +281,12 @@ begin
   begin
     cdsInvent.Delete;
   end;  
+end;
+
+procedure TfInventario.FormCreate(Sender: TObject);
+begin
+  //inherited;
+
 end;
 
 end.
