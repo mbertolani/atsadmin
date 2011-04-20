@@ -11,25 +11,11 @@ uses
 
 type
   TfInventario = class(TfPai_new)
-    JvDBGrid1: TJvDBGrid;
-    Label1: TLabel;
-    btnIncluiTodos: TButton;
-    btnInclui: TButton;
-    btnRemoveTodos: TButton;
-    btnRemove: TButton;
-    Label5: TLabel;
-    edProd: TEdit;
-    Label6: TLabel;
-    edGrupo: TEdit;
-    Label7: TLabel;
-    edSubGrupo: TEdit;
     Panel1: TPanel;
-    Label2: TLabel;
     Label3: TLabel;
     edLista: TEdit;
     Label4: TLabel;
     JvDBGrid2: TJvDBGrid;
-    btnProc: TBitBtn;
     sdsProd: TSQLDataSet;
     dspProd: TDataSetProvider;
     cdsProd: TClientDataSet;
@@ -59,11 +45,31 @@ type
     dspLanca_Inv: TDataSetProvider;
     cdsLanca_InvMSG: TStringField;
     sdsLanca_InvMSG: TStringField;
+    cdsProdCATEGORIA: TStringField;
+    cdsProdFAMILIA: TStringField;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    edProd: TEdit;
+    edGrupo: TEdit;
+    edSubGrupo: TEdit;
+    btnProc: TBitBtn;
+    JvDBGrid1: TJvDBGrid;
+    btnIncluiTodos: TButton;
+    btnInclui: TButton;
+    btnRemoveTodos: TButton;
+    btnRemove: TButton;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
+    procedure btnIncluiTodosClick(Sender: TObject);
+    procedure btnIncluiClick(Sender: TObject);
+    procedure btnRemoveTodosClick(Sender: TObject);
+    procedure btnRemoveClick(Sender: TObject);
   private
     { Private declarations }
     procedure incluirInventario;
@@ -229,6 +235,43 @@ procedure TfInventario.btnIncluirClick(Sender: TObject);
   cdsLanca_Inv.Open;
   cdsLanca_Inv.ApplyUpdates(0);
   MessageDlg('Alterações executadas com sucesso!', mtInformation, [mbOK], 0);
+end;
+
+procedure TfInventario.btnIncluiTodosClick(Sender: TObject);
+begin
+  //inherited;
+  cdsProd.DisableControls;
+  cdsProd.First;
+  While not cdsProd.Eof do
+  begin
+    incluirInventario;
+  end;
+  cdsProd.EnableControls;
+end;
+
+procedure TfInventario.btnIncluiClick(Sender: TObject);
+begin
+  //inherited;
+  incluirInventario;
+end;
+
+procedure TfInventario.btnRemoveTodosClick(Sender: TObject);
+begin
+  btnExcluir.Click;
+end;
+
+procedure TfInventario.btnRemoveClick(Sender: TObject);
+begin
+  if (edLista.Text = '') then
+  begin
+    MessageDlg('Informe o nome da Lista', mtWarning, [mbOK], 0);
+    edLista.SetFocus;
+    exit;
+  end;
+  if (cdsInvent.Active) then
+  begin
+    cdsInvent.Delete;
+  end;  
 end;
 
 end.
