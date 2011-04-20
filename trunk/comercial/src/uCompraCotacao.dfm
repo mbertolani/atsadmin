@@ -209,6 +209,27 @@ inherited fCompraCotacao: TfCompraCotacao
         end
         item
           Expanded = False
+          FieldName = 'MARCA'
+          Title.Caption = 'Marca'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'FAMILIA'
+          Title.Caption = 'Grupo'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CATEGORIA'
+          Title.Caption = 'Sub-Gupo'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'SOLIC_DESCRICAO'
           Title.Caption = 'Descri'#231#227'o'
           Width = 250
@@ -464,14 +485,14 @@ inherited fCompraCotacao: TfCompraCotacao
   end
   object GroupBox4: TGroupBox [5]
     Left = 0
-    Top = 411
+    Top = 400
     Width = 905
-    Height = 190
+    Height = 201
     Align = alBottom
     Caption = 'Cota'#231#227'o'
     TabOrder = 5
     object Label3: TLabel
-      Left = 351
+      Left = 525
       Top = 15
       Width = 58
       Height = 13
@@ -479,7 +500,7 @@ inherited fCompraCotacao: TfCompraCotacao
       Transparent = True
     end
     object Label5: TLabel
-      Left = 243
+      Left = 224
       Top = 15
       Width = 28
       Height = 13
@@ -502,6 +523,30 @@ inherited fCompraCotacao: TfCompraCotacao
       Caption = 'Data Necessidade'
       Transparent = True
     end
+    object Label6: TLabel
+      Left = 452
+      Top = 15
+      Width = 24
+      Height = 13
+      Caption = 'Frete'
+      Transparent = True
+    end
+    object Label7: TLabel
+      Left = 378
+      Top = 15
+      Width = 13
+      Height = 13
+      Caption = 'IPI'
+      Transparent = True
+    end
+    object Label8: TLabel
+      Left = 302
+      Top = 15
+      Width = 46
+      Height = 13
+      Caption = 'Desconto'
+      Transparent = True
+    end
     object dtEntrega: TJvDatePickerEdit
       Left = 8
       Top = 31
@@ -514,23 +559,23 @@ inherited fCompraCotacao: TfCompraCotacao
     object cbPrazo: TComboBox
       Left = 102
       Top = 31
-      Width = 140
+      Width = 120
       Height = 21
       ItemHeight = 13
       TabOrder = 1
     end
     object edPreco: TJvCalcEdit
-      Left = 244
+      Left = 225
       Top = 30
-      Width = 105
+      Width = 70
       Height = 21
       TabOrder = 2
       DecimalPlacesAlwaysShown = False
     end
     object edObservacao: TEdit
-      Left = 352
+      Left = 523
       Top = 30
-      Width = 532
+      Width = 364
       Height = 21
       TabOrder = 3
     end
@@ -570,6 +615,12 @@ inherited fCompraCotacao: TfCompraCotacao
         end
         item
           Expanded = False
+          FieldName = 'COTACAO_DTENTREGA'
+          Title.Caption = 'Data Entrega'
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'COTACAO_FORNEC'
           Title.Caption = 'C'#243'd. Fornec.'
           Visible = True
@@ -604,32 +655,78 @@ inherited fCompraCotacao: TfCompraCotacao
           FieldName = 'COTACAO_PRECO'
           Title.Caption = 'Preco'
           Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_DESCONTO'
+          Title.Caption = 'Desconto'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_FRETE'
+          Title.Caption = 'Frete'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_IPI'
+          Title.Caption = 'IPI'
+          Visible = True
         end>
+    end
+    object edFrete: TEdit
+      Left = 449
+      Top = 30
+      Width = 70
+      Height = 21
+      TabOrder = 5
+    end
+    object edIPI: TEdit
+      Left = 374
+      Top = 30
+      Width = 70
+      Height = 21
+      TabOrder = 6
+    end
+    object edDesconto: TEdit
+      Left = 299
+      Top = 30
+      Width = 70
+      Height = 21
+      TabOrder = 7
     end
   end
   object sqlSolic: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (
-      'SELECT * FROM COMPRA_SOLIC '
+      
+        'SELECT p.FAMILIA , p.CATEGORIA, p.MARCA, cs.SOLIC_CODIGO, cs.SOL' +
+        'IC_DATA, cs.SOLIC_PRODUTO, cs.SOLIC_QUANTIDADE, cs.SOLIC_SOLICIT' +
+        'ANTE, cs.SOLIC_SITUACAO, cs.SOLIC_APROVACAO, cs.SOLIC_DATAAPROV,' +
+        ' cs.SOLIC_DESCRICAO, cs.SOLIC_TIPO, cs.SOLIC_DTNECESSIT, cs.SOLI' +
+        'C_OBSERVACAO'
+      'FROM COMPRA_SOLIC cs'
+      'inner join PRODUTOS p on p.codpro = cs.SOLIC_PRODUTO'
       'WHERE ((SOLIC_SITUACAO <> '#39'E'#39') '
       '      AND  (SOLIC_SITUACAO <> '#39'P'#39'))  '
       'ORDER BY SOLIC_SITUACAO DESC, SOLIC_DTNECESSIT DESC')
     SQLConnection = DM.sqlsisAdimin
-    Left = 232
-    Top = 56
+    Left = 248
+    Top = 120
   end
   object dspSolic: TDataSetProvider
     DataSet = sqlSolic
-    Left = 264
-    Top = 56
+    Left = 280
+    Top = 120
   end
   object cdsSolic: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspSolic'
-    Left = 296
-    Top = 56
+    Left = 312
+    Top = 120
     object cdsSolicSOLIC_CODIGO: TIntegerField
       FieldName = 'SOLIC_CODIGO'
       Required = True
@@ -677,11 +774,23 @@ inherited fCompraCotacao: TfCompraCotacao
       FieldName = 'SOLIC_OBSERVACAO'
       Size = 300
     end
+    object cdsSolicFAMILIA: TStringField
+      FieldName = 'FAMILIA'
+      Size = 30
+    end
+    object cdsSolicCATEGORIA: TStringField
+      FieldName = 'CATEGORIA'
+      Size = 30
+    end
+    object cdsSolicMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 30
+    end
   end
   object dsSolic: TDataSource
     DataSet = cdsSolic
-    Left = 328
-    Top = 56
+    Left = 344
+    Top = 120
   end
   object sqlCotacao: TSQLQuery
     MaxBlobSize = -1
@@ -773,6 +882,15 @@ inherited fCompraCotacao: TfCompraCotacao
     object cdsCotacaoCOTACAO_OBSERVACAO: TStringField
       FieldName = 'COTACAO_OBSERVACAO'
       Size = 200
+    end
+    object cdsCotacaoCOTACAO_IPI: TFloatField
+      FieldName = 'COTACAO_IPI'
+    end
+    object cdsCotacaoCOTACAO_DESCONTO: TFloatField
+      FieldName = 'COTACAO_DESCONTO'
+    end
+    object cdsCotacaoCOTACAO_FRETE: TFloatField
+      FieldName = 'COTACAO_FRETE'
     end
   end
   object dsCotacao: TDataSource
