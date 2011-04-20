@@ -7,12 +7,12 @@ inherited fSolicitacaoCompra: TfSolicitacaoCompra
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 847
+    Width = 855
     TabOrder = 5
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 258
-    Width = 847
+    Top = 269
+    Width = 855
     TabOrder = 6
     inherited btnGravar: TBitBtn
       Left = 183

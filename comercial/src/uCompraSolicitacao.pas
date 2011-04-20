@@ -104,7 +104,7 @@ begin
      cdsSolicSOLIC_DESCRICAO.AsString := fProdutoProc.cds.Fields[1].AsString;
      cdsSolicSOLIC_TIPO.AsString      := fProdutoProc.cds.Fields[2].AsString;
      edtUnidade.Text                  := fProdutoProc.cds.Fields[3].AsString;
-     cdsSolicSOLIC_DTNECESSIT.AsDateTime := today + sqlProc.Fields[4].AsInteger;
+//     cdsSolicSOLIC_DTNECESSIT.AsDateTime := today + sqlProc.Fields[4].AsInteger;
    end;
   finally
     fProdutoProc.Free;
@@ -113,13 +113,21 @@ end;
 
 procedure TfSolicitacaoCompra.btnGravarClick(Sender: TObject);
 begin
-  if (sq.Active) then
-    sq.Close;
-  sq.SQL.Clear;
-  sq.SQL.Add('SELECT MAX(SOLIC_CODIGO) FROM COMPRA_SOLIC');
-  sq.Open;
-  cdsSolicSOLIC_CODIGO.AsInteger := sq.Fields[0].AsInteger + 1;
+  if ((dbEdit6.Text = null) or (dbEdit6.Text = '  /  /  ') or (dbEdit6.Text = '__/__/__')) then
+  begin
+    MessageDlg('Data da necessidade é obrigatório.', mtWarning, [mbOK], 0);
+    exit;
+  end
+  else
+  begin
+    if (sq.Active) then
+      sq.Close;
+    sq.SQL.Clear;
+    sq.SQL.Add('SELECT MAX(SOLIC_CODIGO) FROM COMPRA_SOLIC');
+    sq.Open;
+    cdsSolicSOLIC_CODIGO.AsInteger := sq.Fields[0].AsInteger + 1;
   inherited;
+  end;
 end;
 
 procedure TfSolicitacaoCompra.btnIncluirClick(Sender: TObject);
