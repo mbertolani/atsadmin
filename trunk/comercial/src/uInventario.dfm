@@ -673,6 +673,7 @@ inherited fInventario: TfInventario
     Aggregates = <>
     Params = <>
     ProviderName = 'dspInvent'
+    AfterPost = cdsInventAfterPost
     Left = 752
     Top = 136
     object cdsInventCODIVENTARIO: TStringField
@@ -701,6 +702,8 @@ inherited fInventario: TfInventario
     end
     object cdsInventESTOQUE_ATUAL: TFloatField
       FieldName = 'ESTOQUE_ATUAL'
+      DisplayFormat = ',##0.000'
+      EditFormat = ',##0.000'
     end
     object cdsInventQTDE_INVENTARIO: TFloatField
       FieldName = 'QTDE_INVENTARIO'
