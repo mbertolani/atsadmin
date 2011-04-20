@@ -486,7 +486,6 @@ type
     sdsItensNFQUANTIDADE: TFloatField;
     sdsItensNFPRECO: TFloatField;
     sdsItensNFCFOP: TStringField;
-    sdsItensNFDESCPRODUTO: TStringField;
     sdsItensNFCODPRO: TStringField;
     sdsItensNFUNIDADEMEDIDA: TStringField;
     sdsItensNFCST: TStringField;
@@ -503,7 +502,6 @@ type
     cdsItensNFQUANTIDADE: TFloatField;
     cdsItensNFPRECO: TFloatField;
     cdsItensNFCFOP: TStringField;
-    cdsItensNFDESCPRODUTO: TStringField;
     cdsItensNFCODPRO: TStringField;
     cdsItensNFUNIDADEMEDIDA: TStringField;
     cdsItensNFCST: TStringField;
@@ -527,6 +525,8 @@ type
     sdsItensNFVALOR_DESCONTO: TFloatField;
     cdsItensNFFRETE: TFloatField;
     cdsItensNFVALOR_DESCONTO: TFloatField;
+    sdsItensNFDESCPRODUTO: TStringField;
+    cdsItensNFDESCPRODUTO: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -580,7 +580,7 @@ implementation
 
 uses pcnNFe, ACBrNFeNotasFiscais, DateUtils, ACBrNFeUtil, UDm,
  ACBrNFeWebServices, uNFeInutilizar, ACBrNFeConfiguracoes, sCtrlResize,
-  uNFeMail, uNotaf, uVendaFinalizar, uVendas;
+  uNFeMail, uNotaf, uVendaFinalizar, uVendas, StrUtils;
 
 {$R *.dfm}
 
@@ -715,6 +715,8 @@ begin
    begin
       if (cdsNFSELECIONOU.AsString = 'S') then
       begin
+        if(not cdsNFPROTOCOLOENV.IsNull) then
+          exit;
          { isto estava fora do IF}
          if (tpNF.ItemIndex = 1) then
          begin
@@ -815,7 +817,7 @@ begin
             //Carrega os itens da NF
             if (tpNF.ItemIndex = 0) then
             begin
-            itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
+            itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
@@ -827,7 +829,7 @@ begin
             end
             else
             begin
-            itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO, ' +
+            itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
                 'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
@@ -1411,7 +1413,7 @@ begin
     //Carrega os itens da NF
     if (tpNF.ItemIndex = 0) then
     begin
-    itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, udf_left(md.DESCPRODUTO, 120) as DESCPRODUTO,'+
+    itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
         'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.CSOSN, md.pIPI, md.vIPI, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
@@ -1423,7 +1425,7 @@ begin
     end
     else
     begin
-    itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, udf_left(md.DESCPRODUTO, 120 ) as DESCPRODUTO, ' +
+    itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
         'md.vIPI, md.VLR_BASEICMS, md.CSOSN, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
@@ -1626,7 +1628,7 @@ begin
     begin
       Prod.nItem    := contador;
       Prod.cProd    := cdsItensNFCODPRO.AsString;
-      Prod.xProd    := cdsItensNFDESCPRODUTO.AsString;
+      Prod.xProd    := LeftStr(cdsItensNFDESCPRODUTO.AsString, 99);
       Prod.CFOP     := cdsItensNFCFOP.AsString;
       if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull) or (sProdutosUNIDADEMEDIDA.AsString = ' ')) then
         MessageDlg('Produto sem Unidade de Medida', mtError, [mbOK], 0);
@@ -1636,7 +1638,7 @@ begin
       Prod.uTrib    := sProdutosUNIDADEMEDIDA.AsString;
       Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
       Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
-      infAdProd     := '';
+      infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200);
       Prod.NCM      := sProdutosNCM.AsString;
       Prod.vProd    := cdsItensNFVALTOTAL.AsFloat  - cdsItensNFVALOR_DESCONTO.AsCurrency;
       Prod.vFrete := cdsItensNFFRETE.AsCurrency;

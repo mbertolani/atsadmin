@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
-  Left = -4
-  Top = -4
+  Left = 317
+  Top = 23
   Width = 865
   Height = 578
   AutoSize = True
@@ -1508,24 +1508,24 @@ object fNFeletronica: TfNFeletronica
   object sdsItensNF: TSQLDataSet
     CommandText = 
       'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          md.PR' +
-      'ECO,'#13#10'          md.CFOP,'#13#10'          udf_left(md.DESCPRODUTO, 120' +
-      ' ) as DESCPRODUTO,'#13#10'          case when udf_Pos('#39'-'#39', pr.CODPRO) ' +
-      '> 0 then '#13#10'          udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.COD' +
-      'PRO)-1))'#13#10'          ELSE'#13#10'          pr.CODPRO'#13#10'          END as ' +
-      'codpro,'#13#10'          pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'       ' +
-      '   md.ICMS, md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 2) as pIP' +
-      'I,'#13#10'          UDF_ROUNDDEC(md.FRETE, 2) as FRETE,'#13#10'          UDF' +
-      '_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO,'#13#10'          UD' +
-      'F_ROUNDDEC(md.vIPI, 2) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VLR_B' +
-      'ASEICMS, 2) as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_IC' +
-      'MS, 2) as VALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) a' +
-      's VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SU' +
-      'BST,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBSTD, 2) as ICMS_SUBSTD, ' +
-      #13#10'          UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VA' +
-      'LTOTAL'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CO' +
-      'DMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.C' +
-      'ODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO' +
-      ' = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      'ECO,'#13#10'          md.CFOP,'#13#10'          md.DESCPRODUTO,'#13#10'          c' +
+      'ase when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'          udf_Copy(p' +
+      'r.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'          ELSE'#13#10'     ' +
+      '     pr.CODPRO'#13#10'          END as codpro,'#13#10'          pr.UNIDADEME' +
+      'DIDA,'#13#10'          md.CST,'#13#10'          md.ICMS, md.CSOSN,'#13#10'        ' +
+      '  UDF_ROUNDDEC(md.pIPI, 2) as pIPI,'#13#10'          UDF_ROUNDDEC(md.F' +
+      'RETE, 2) as FRETE,'#13#10'          UDF_ROUNDDEC(md.VALOR_DESCONTO, 2)' +
+      ' as VALOR_DESCONTO,'#13#10'          UDF_ROUNDDEC(md.vIPI, 2) as vIPI,' +
+      #13#10'          UDF_ROUNDDEC(md.VLR_BASEICMS, 2) as VLR_BASEICMS,'#13#10' ' +
+      '         UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, '#13#10'       ' +
+      '   UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE,'#13#10'          UDF_ROUN' +
+      'DDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'          UDF_ROUNDDEC(md' +
+      '.ICMS_SUBSTD, 2) as ICMS_SUBSTD, '#13#10'          UDF_ROUNDDEC((md.VL' +
+      'R_BASE * md.QUANTIDADE), 2) as VALTOTAL'#13#10'from VENDA vd '#13#10'inner j' +
+      'oin MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10 +
+      'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner jo' +
+      'in PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODV' +
+      'ENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -1549,11 +1549,6 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'CFOP'
       FixedChar = True
       Size = 4
-    end
-    object sdsItensNFDESCPRODUTO: TStringField
-      FieldName = 'DESCPRODUTO'
-      ReadOnly = True
-      Size = 254
     end
     object sdsItensNFCODPRO: TStringField
       FieldName = 'CODPRO'
@@ -1620,6 +1615,10 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'VALOR_DESCONTO'
       ReadOnly = True
     end
+    object sdsItensNFDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      Size = 300
+    end
   end
   object dspItensNF: TDataSetProvider
     DataSet = sdsItensNF
@@ -1651,11 +1650,6 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'CFOP'
       FixedChar = True
       Size = 4
-    end
-    object cdsItensNFDESCPRODUTO: TStringField
-      FieldName = 'DESCPRODUTO'
-      ReadOnly = True
-      Size = 254
     end
     object cdsItensNFCODPRO: TStringField
       FieldName = 'CODPRO'
@@ -1722,6 +1716,10 @@ object fNFeletronica: TfNFeletronica
     object cdsItensNFVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
       ReadOnly = True
+    end
+    object cdsItensNFDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      Size = 300
     end
   end
   object sMenorData: TSQLDataSet
