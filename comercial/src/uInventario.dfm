@@ -1,7 +1,8 @@
 inherited fInventario: TfInventario
-  Top = 84
-  Width = 803
-  Height = 609
+  Left = 203
+  Top = 65
+  Width = 811
+  Height = 621
   Caption = 'Inventario'
   OldCreateOrder = True
   PixelsPerInch = 96
@@ -11,7 +12,7 @@ inherited fInventario: TfInventario
     Height = 17
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 531
+    Top = 532
     Width = 795
     inherited btnGravar: TBitBtn
       Visible = False
@@ -38,7 +39,7 @@ inherited fInventario: TfInventario
   end
   object Panel1: TPanel [2]
     Left = 0
-    Top = 272
+    Top = 273
     Width = 795
     Height = 259
     Align = alBottom
