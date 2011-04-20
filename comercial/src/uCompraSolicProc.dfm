@@ -192,6 +192,14 @@ inherited fCompraSolicProc: TfCompraSolicProc
         Expanded = False
         FieldName = 'SOLIC_DATA'
         Title.Caption = 'Data'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SOLIC_DTNECESSIT'
+        Title.Caption = 'Data Necessidade'
+        Width = 95
         Visible = True
       end
       item
@@ -235,12 +243,21 @@ inherited fCompraSolicProc: TfCompraSolicProc
         Expanded = False
         FieldName = 'SOLIC_SOLICITANTE'
         Title.Caption = 'Solicitante'
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SOLIC_APROVACAO'
         Title.Caption = 'Aprovador'
+        Width = 120
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SOLIC_OBSERVACAO'
+        Title.Caption = 'Observa'#231#227'o'
+        Width = 500
         Visible = True
       end>
   end
@@ -306,6 +323,13 @@ inherited fCompraSolicProc: TfCompraSolicProc
     object cdsSolSOLIC_APROVACAO: TStringField
       FieldName = 'SOLIC_APROVACAO'
       Size = 30
+    end
+    object cdsSolSOLIC_DTNECESSIT: TDateField
+      FieldName = 'SOLIC_DTNECESSIT'
+    end
+    object cdsSolSOLIC_OBSERVACAO: TStringField
+      FieldName = 'SOLIC_OBSERVACAO'
+      Size = 300
     end
   end
 end

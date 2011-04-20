@@ -26,9 +26,12 @@ type
     cdsSolSOLIC_PRODUTO: TStringField;
     cdsSolSOLIC_SOLICITANTE: TStringField;
     cdsSolSOLIC_APROVACAO: TStringField;
+    cdsSolSOLIC_DTNECESSIT: TDateField;
+    cdsSolSOLIC_OBSERVACAO: TStringField;
     procedure rgSitClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     procedure listaSolicitacao;
     { Private declarations }
@@ -93,6 +96,12 @@ begin
       cdsSol.Close;
     cdsSol.Open;
   end;
+end;
+
+procedure TfCompraSolicProc.FormCreate(Sender: TObject);
+begin
+  //inherited;
+
 end;
 
 end.
