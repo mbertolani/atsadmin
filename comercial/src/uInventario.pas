@@ -71,6 +71,7 @@ type
     procedure btnRemoveTodosClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure cdsInventAfterPost(DataSet: TDataSet);
   private
     { Private declarations }
     procedure incluirInventario;
@@ -287,6 +288,12 @@ procedure TfInventario.FormCreate(Sender: TObject);
 begin
   //inherited;
 
+end;
+
+procedure TfInventario.cdsInventAfterPost(DataSet: TDataSet);
+begin
+  inherited;
+  cdsInvent.ApplyUpdates(0);
 end;
 
 end.
