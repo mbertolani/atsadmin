@@ -29,7 +29,7 @@ BEGIN
           insert into MOVIMENTO (codmovimento, datamovimento, codcliente, codnatureza, 
             status, codusuario, codfornecedor, data_sistema, controle, data_entrega, prazo_pagamento, obs)
           values (
-            :codmov, CURRENT_DATE, 0, 4, 0, 1, new.COTACAO_FORNEC, CURRENT_TIMESTAMP, new.COTACAO_CODIGO,
+            :codmov, CURRENT_DATE, 0, 5, 0, 1, new.COTACAO_FORNEC, CURRENT_TIMESTAMP, new.COTACAO_CODIGO,
             new.COTACAO_DTENTREGA, new.COTACAO_PRAZO, UDF_LEFT(new.COTACAO_OBSERVACAO,99));   
         end  
         select first 1 p.CODPRODUTO from produtos p where p.CODPRO =  new.COTACAO_ITEM
