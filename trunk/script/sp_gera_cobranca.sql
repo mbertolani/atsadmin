@@ -1,10 +1,10 @@
-ALTER PROCEDURE  SP_GERA_COBRANCA( CODIGO                           INTEGER
-                                 , EMISSAO                          DATE
-                                 , VENCIMENTO                       DATE
-                                 , USADATACADASTRO                  CHAR( 1 ) 
-                                 , UsuarioFezLancamento integer
-                                 
-)
+SET TERM ^ ;
+ALTER PROCEDURE SP_GERA_COBRANCA (
+    CODIGO Integer,
+    EMISSAO Date,
+    VENCIMENTO Date,
+    USADATACADASTRO Char(1),
+    USUARIOFEZLANCAMENTO Integer )
 AS
 declare variable valor_p double precision;
 declare variable d double precision;
@@ -47,6 +47,9 @@ begin
       ccusto = '0';
     if (ccusto = '') then
       ccusto = '0';
+      
+    if (dia is null) then 
+      dia = 10;
 
     IF (usaDataCadastro = 'S') THEN
     begin
@@ -85,18 +88,13 @@ begin
       p = 1;
 
     V = V + 1;
-  if (parcgera < parc) then
-  if (valor_p > 0) then
-  begin
+    
+  if (cod_f > 0) then  -- se não tiver faixa não precisa imprimir
+  begin   
+    if (parcgera < parc) then
+    if (valor_p > 0) then
+    begin
       -- Alterei para fazer o insert na Movimento, MovDet e Venda direto.
-      /**insert into RECEBIMENTO (CODRECEBIMENTO, TITULO, EMISSAO, CODCLIENTE, DATAVENCIMENTO,
-         STATUS, VIA, FORMARECEBIMENTO, CODALMOXARIFADO, CODVENDEDOR, CODUSUARIO,
-         DATASISTEMA, VALORRECEBIDO, JUROS, DESCONTO, PERDA, TROCA, FUNRURAL,
-         VALOR_PRIM_VIA, VALOR_RESTO, VALORTITULO, OUTRO_CREDITO, OUTRO_DEBITO, PARCELAS, CODVENDA)
-      values (GEN_ID(COD_AREC,1), :COD_C || udf_PadL(CAST(GEN_ID(COD_AREC,1) as VARCHAR(10)),'0', 10),
-         :emissao, :codigo, :vencimento, '5-', CAST(:V as char(3)), 1, :COD_B --CAST(:ccusto as integer)
-         , 1, 1, :EMISSAO, 0, 0, 0, 0, 0, 0,
-         :VALOR_P, :VALOR_P, :VALOR_P, 0, 0, :P, :COD_F);*/
     codmov_novo = GEN_ID("GENMOV",1);   
     
     insert into movimento (CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, CODNATUREZA, STATUS,
@@ -110,14 +108,17 @@ begin
       :coddet_novo, :codmov_novo, :cod_p, 1, :valor_p, 'un', 0, 0);
     coddet_novo = GEN_ID("GENVENDA",1);   
     INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA, DATAVENCIMENTO,
-      DESCONTO, VALOR, ENTRADA, CODUSUARIO, CODCCUSTO, SERIE, BANCO, CODVENDEDOR, 
+      VALOR, CODUSUARIO, CODCCUSTO, SERIE, BANCO, CODVENDEDOR, 
       NOTAFISCAL, CONTROLE, STATUS, N_PARCELA, DATASISTEMA, DESCONTO, MULTA_JUROS, 
       ENTRADA, VALOR_FRETE, VALOR_ICMS, VALOR_IPI, VALOR_PAGAR, VALOR_SEGURO) 
       VALUES 
       (:coddet_novo, :codmov_novo, :CODIGO, :emissao, :Vencimento, 
-      0, :valor_p, 0, :UsuarioFezLancamento, :CCUSTO, :SERIE, 1, :CODVendedor, 
+      :valor_p, :UsuarioFezLancamento, :CCUSTO, :SERIE, 1, :CODVendedor, 
       :codDet_Novo, 0, 0, :parc, current_date, 0, 0,
        0,0,0,0,0,0);
 
-  end
+    end
+  end  
+  cod_F = 0;
 end
+
