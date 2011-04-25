@@ -21,10 +21,11 @@ BEGIN
       VALUES (gen_id(GENMOVDET, 1), old.CODMOVIMENTO, old.CODALMOXARIFADO, old.CONTROLE, old.CODPRODUTO, (old.QUANTIDADE-new.RECEBIDO), 
       old.PRECO, old.ICMS, old.UN, old.QTDE_ALT, old.BAIXA, old.COD_COMISSAO, old.LOTE, old.DTAFAB, old.DTAVCTO, 
       old.DESCPRODUTO, 0);
-      
       new.STATUS = 1;
     end  
   end 
+  if ((new.RECEBIDO > 0) and (new.RECEBIDO = old.QUANTIDADE)) then   
+    new.STATUS = 1;
 END^
 
 SET TERM ; ^ 
