@@ -44,7 +44,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, uAtsAdmin;
 
 {$R *.dfm}
 
@@ -87,7 +87,7 @@ procedure TfCompraSolicProc.btnIncluirClick(Sender: TObject);
 var situa: string;
 begin
   // Ver se o usuario q esta aprovando e a pessoa responsavel
-  if (dm.userAprovaCompra = dm.varLogado) then
+  if (fAtsAdmin.UserControlComercial.CurrentUser.UserLogin = cdsSolSOLIC_APROVACAO.AsString) then
   begin
     dm.sqlsisAdimin.ExecuteDirect('UPDATE COMPRA_SOLIC SET SOLIC_SITUACAO = ' +
       QuotedStr('A') + ', SOLIC_DATAAPROV = CURRENT_DATE'  +
@@ -95,6 +95,9 @@ begin
     if (cdsSol.Active) then
       cdsSol.Close;
     cdsSol.Open;
+  end
+  else begin
+    MessageDlg('Responsável pela aprovação diferente do usuário atual;', mtWarning, [mbOK], 0);
   end;
 end;
 
