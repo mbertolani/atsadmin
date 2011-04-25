@@ -205,7 +205,8 @@ uses
   uCompraCotacao in 'uCompraCotacao.pas' {fCompraCotacao},
   uApontHoras in 'uApontHoras.pas' {fApontHoras},
   uRelNfe in 'uRelNfe.pas' {fRelNfe},
-  uCompraRecebimento in 'uCompraRecebimento.pas' {fCompraRecebimento};
+  uCompraRecebimento in 'uCompraRecebimento.pas' {fCompraRecebimento},
+  uEmail in 'uEmail.pas' {fEmail};
 
 {$R *.res}
 
