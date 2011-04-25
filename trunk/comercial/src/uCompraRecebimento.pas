@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, FMTBcd, DBClient, Provider, SqlExpr, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid, JvDBUltimGrid, Mask, DBCtrls;
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid, Mask, DBCtrls, JvExMask,
+  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit;
 
 type
   TfCompraRecebimento = class(TfPai_new)
@@ -38,14 +39,25 @@ type
     cdsPedidoQUANTIDADE: TFloatField;
     cdsPedidoPRECO: TFloatField;
     cdsPedidoVALTOTAL: TFloatField;
-    sqlPedidoRECEBIDO: TBCDField;
-    cdsPedidoRECEBIDO: TBCDField;
     BitBtn1: TBitBtn;
+    sqlPedidoRECEBIDO: TFloatField;
+    cdsPedidoRECEBIDO: TFloatField;
+    GroupBox2: TGroupBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    cbMes: TComboBox;
+    dta1: TJvDatePickerEdit;
+    dta2: TJvDatePickerEdit;
+    BitBtn2: TBitBtn;
+    sqlPedidoCONTROLE: TStringField;
+    cdsPedidoCONTROLE: TStringField;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure cdsPedidoBeforePost(DataSet: TDataSet);
     procedure BitBtn1Click(Sender: TObject);
+    procedure btnProcurarClick(Sender: TObject);
+    procedure cbMesChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,17 +69,13 @@ var
 
 implementation
 
-uses UDm;
+uses uUtils, UDm;
 
 {$R *.dfm}
 
 procedure TfCompraRecebimento.edFornecExit(Sender: TObject);
 begin
   //inherited;
-  if (cdsPedido.Active) then
-    cdsPedido.Close;
-  cdsPedido.Params[0].AsInteger := StrToInt(edFornec.Text);
-  cdsPedido.Open;
 end;
 
 procedure TfCompraRecebimento.FormCreate(Sender: TObject);
@@ -117,6 +125,57 @@ begin
     cdsPedido.ApplyUpdates(0);
   except
   end;
+end;
+
+procedure TfCompraRecebimento.btnProcurarClick(Sender: TObject);
+var str, stra: string;
+begin
+  stra := '';
+  str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
+    ', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
+    ',  m.CONTROLE ' +
+    ' from MOVIMENTODETALHE md ' +
+    ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
+    ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
+    ' where m.CODNATUREZA   = 5 ' +
+    '   and m.STATUS        = 0 ' +
+    '   and ((md.QUANTIDADE - md.RECEBIDO) > 0)';
+
+  if (cdsPedido.Active) then
+    cdsPedido.Close;
+
+  if (rgStatus.ItemIndex = 0) then
+    stra := stra + ' and md.STATUS is null ';
+
+  if (edFornec.Text <> '') then
+  begin
+    stra := stra + ' and m.CODFORNECEDOR = ' + edFornec.Text;
+  end;
+
+  if (edPedido.Text <> '') then
+  begin
+    stra := stra + ' and m.CONTROLE = ' + QuotedStr(edPedido.Text);
+  end;
+
+  // Período
+  stra := stra + ' and m.DATA_ENTREGA BETWEEN ' +
+    QuotedStr(FormatDateTime('mm/dd/yyyy', dta1.Date)) + ' AND '  +
+    QuotedStr(FormatDateTime('mm/dd/yyyy', dta2.Date));
+
+  cdsPedido.CommandText := str + stra;
+
+  cdsPedido.Open;
+end;
+
+procedure TfCompraRecebimento.cbMesChange(Sender: TObject);
+var  periodo : TUtils;
+begin
+  periodo := TUtils.Create;
+  periodo.criaIni(cbMes.text);
+  periodo.criaFim(cbMes.text);  
+  dta1.Text := periodo.PeriodoIni;
+  dta2.Text := periodo.PeriodoFim;
+  periodo.Destroy;
 end;
 
 end.
