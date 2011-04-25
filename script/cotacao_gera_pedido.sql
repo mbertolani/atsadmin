@@ -3,54 +3,63 @@ CREATE OR ALTER TRIGGER COTACAO_GERA_PEDIDO FOR MOVIMENTODETALHE ACTIVE
 AFTER UPDATE POSITION 0
 AS 
   DECLARE VARIABLE NAT SMALLINT;
+  DECLARE VARIABLE codUsuario SMALLINT;
+  DECLARE VARIABLE codVendedor SMALLINT;
+  DECLARE VARIABLE codMov INT;
+  DECLARE VARIABLE codProduto INT;  
+  DECLARE VARIABLE codFornece INT;  
+  DECLARE VARIABLE codCotacao INT; 
+  DECLARE VARIABLE prazo VARCHAR(30); 
+  DECLARE VARIABLE obs VARCHAR(100); 
+  DECLARE VARIABLE entrega date; 
+  DECLARE VARIABLE frete DOUBLE PRECISION; 
+  DECLARE VARIABLE descProd  VARCHAR(300); 
+  DECLARE VARIABLE qtde DOUBLE PRECISION; 
+  DECLARE VARIABLE preco DOUBLE PRECISION; 
 BEGIN 
 	-- Qdo conferido o pedido (qtde) gera se um pedido com a natureza = 4
-    if ((NEW.RECEBIDO > 0) and (NEW.STATUS = 1) and (OLD.STATUS IS NULL)) then 
+    if ((NEW.RECEBIDO > 0) and (New.STATUS = 1) and (OLD.RECEBIDO = 0)) then 
     begin
-      SELECT m.CODNATUREZA 
+      SELECT m.CODNATUREZA, m.CODFORNECEDOR, m.CONTROLE, m.DATA_ENTREGA, 
+        m.PRAZO_PAGAMENTO, m.OBS, m.VALOR_FRETE, m.CODUSUARIO, 
+        m.CODVENDEDOR 
         FROM MOVIMENTO m 
        where m.CODMOVIMENTO = old.CODMOVIMENTO
-      into :nat;
+      into :nat, :codFornece, :codCotacao, :entrega, :prazo, :obs, :frete, :codUsuario, 
+      :codVendedor;
       if (nat = 5) then 
       begin     
-        INSERT INTO MOVIMENTO(insert into MOVIMENTO (codmovimento, datamovimento, codcliente, codnatureza, 
-            status, codusuario, codfornecedor, data_sistema, controle, data_entrega, prazo_pagamento, obs)
-          values ( 
-      end;   
-    
-      -- verifica se é Compra ou Despesa
-      if (new.COTACAO_TIPO = 'C') then 
-      begin 
-        select first 1 m.codmovimento from MOVIMENTO m, MOVIMENTODETALHE md 
-         where m.CODMOVIMENTO = md.CODMOVIMENTO      
-           and md.BAIXA is null 
+        -- Vê se ja criou a MOVIMENTO 
+        codMov = 0;
+        Select m.CODMOVIMENTO from MOVIMENTO m 
+         where m.CODFORNECEDOR = :codFornece
+           and m.CONTROLE      = :codCotacao
            and m.DATAMOVIMENTO = CURRENT_DATE
-           and m.CODFORNECEDOR = new.COTACAO_FORNEC
-           order by m.CODMOVIMENTO desc 
-        into :codmov;
+           and m.CODNATUREZA   = 4
+        into :codMov;   
         
-        if (codmov is null) then 
+        if (codMov is null) then 
           codMov = 0;
-             
-        if (codmov = 0) then 
-        begin  
+        
+        if (codMov = 0) then 
+        begin 
           codmov = GEN_ID(GENMOV, 1);
-          insert into MOVIMENTO (codmovimento, datamovimento, codcliente, codnatureza, 
-            status, codusuario, codfornecedor, data_sistema, controle, data_entrega, prazo_pagamento, obs)
-          values (
-            :codmov, CURRENT_DATE, 0, 5, 1, 1, new.COTACAO_FORNEC, CURRENT_TIMESTAMP, new.COTACAO_CODIGO,
-            new.COTACAO_DTENTREGA, new.COTACAO_PRAZO, UDF_LEFT(new.COTACAO_OBSERVACAO,99));   
-        end  
-        select first 1 p.CODPRODUTO from produtos p where p.CODPRO =  new.COTACAO_ITEM
-          into :codProduto;
+          INSERT INTO MOVIMENTO(codmovimento, datamovimento, codcliente, codnatureza, 
+            status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
+            prazo_pagamento, obs, valor_frete, codVendedor)
+          values (:codmov, CURRENT_DATE, 0, 4, 
+            0,:codUsuario, :codFornece, CURRENT_TIMESTAMP, :codCotacao, :entrega,
+            :prazo, :obs, :frete, :codVendedor);    
+        end
+        Select codproduto, descproduto, quantidade, preco from MOVIMENTODETALHE md
+         where md.CODDETALHE = old.codDetalhe 
+         into :codProduto, :descProd, :qtde, :preco;  
         
         insert into MOVIMENTODETALHE (CODDETALHE, codmovimento, codproduto, descproduto, 
             quantidade, preco) values (
-            GEN_ID(GENMOVDET, 1), :codmov, :codProduto, new.COTACAO_ITEMDESCRICAO, 
-            new.COTACAO_QTDE, NEW.COTACAO_PRECO);  
-        UPDATE COMPRA_SOLIC  SET SOLIC_SITUACAO = 'E' 
-         WHERE SOLIC_CODIGO = NEW.COTACAO_CODSOLIC;              
-      end 
+            GEN_ID(GENMOVDET, 1), :codmov, :codProduto, :descProd, 
+            NEW.RECEBIDO, :preco); 
+      end
     end
 END^
 SET TERM ; ^
