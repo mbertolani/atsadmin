@@ -1539,7 +1539,7 @@ begin
           texto3 := texto3 + Format(' %-6.2n',[fCompra.cds_Mov_detPRECO.AsFloat]);
           texto3 := texto3 + Format('   %-6.2n',[fCompra.cds_Mov_detValorTotal.value]);
           //texto6 := texto6 + fVendas.cds_Mov_detDESCPRODUTO.Value;
-          texto6 := texto6 + '  ' + Copy(fCompra.cds_Mov_detPRODUTO.Value, 0, 36);       //descrição do produto
+          texto6 := texto6 + '  ' + Copy(fCompra.cds_Mov_detDESCPRODUTO.Value, 0, 36);       //descrição do produto
           Writeln(Impressora, c17cpi, RemoveAcento(texto6));
           Writeln(Impressora, c17cpi, RemoveAcento(texto3));//NOME DO PRODUTO
           with Printer.Canvas do

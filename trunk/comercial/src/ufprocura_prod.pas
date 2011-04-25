@@ -760,7 +760,7 @@ begin
      begin
        fCompra.cds_Mov_detCODPRODUTO.AsInteger := fCompra.cdslistaCODPRODUTO.AsInteger;
        fCompra.cds_Mov_detCODPRO.AsString := fCompra.cdslistaCODIGO.AsString;
-       fCompra.cds_Mov_detPRODUTO.Value := fCompra.cdslistaPRODUTO.Value;
+       fCompra.cds_Mov_detDESCPRODUTO.Value := fCompra.cdslistaPRODUTO.Value;
        fCompra.cds_Mov_detUN.AsString := fCompra.cdslistaUNIDADE.AsString;
        fCompra.cds_Mov_detPRECO.AsFloat := fCompra.cdslistaPRECOLISTA.AsFloat;
        Edit4.Text := Format('%-6.2n',[fCompra.cdsListaPRECOLISTA.value]);
@@ -981,7 +981,7 @@ begin
    begin
      fCompra.cds_Mov_detCODPRODUTO.AsInteger := fCompra.cdslistaCODPRODUTO.AsInteger;
      fCompra.cds_Mov_detCODPRO.AsString := fCompra.cdslistaCODIGO.AsString;
-     fCompra.cds_Mov_detPRODUTO.Value := fCompra.cdslistaPRODUTO.Value;
+     fCompra.cds_Mov_detDESCPRODUTO.Value := fCompra.cdslistaPRODUTO.Value;
      fCompra.cds_Mov_detUN.AsString := fCompra.cdslistaUNIDADE.AsString;
      if (edit3.Text <> '') then
        fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.text)
@@ -1007,7 +1007,7 @@ begin
      end;
      fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
      fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-     fCompra.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
+     fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
      fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
      fCompra.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
      fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
@@ -1107,8 +1107,7 @@ begin
     //---------------------------------
     fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fCompra.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-    fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;    
+    fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
     fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
     fCompra.cds_Mov_detPRECO.AsFloat := vlr;
     fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
@@ -1389,7 +1388,7 @@ begin
      begin
        fCompra.cds_Mov_detCODPRODUTO.AsInteger := fCompra.cdslistaCODPRODUTO.AsInteger;
        fCompra.cds_Mov_detCODPRO.AsString := fCompra.cdslistaCODIGO.AsString;
-       fCompra.cds_Mov_detPRODUTO.Value := fCompra.cdslistaPRODUTO.Value;
+       fCompra.cds_Mov_detDESCPRODUTO.Value := fCompra.cdslistaPRODUTO.Value;
        fCompra.cds_Mov_detUN.AsString := fCompra.cdslistaUNIDADE.AsString;
        fCompra.cds_Mov_detPRECO.AsFloat := fCompra.cdslistaPRECOLISTA.AsFloat;
        Edit4.Text := Format('%-6.2n',[fCompra.cdsListaPRECOLISTA.value]);
@@ -1490,7 +1489,6 @@ begin
       begin
         fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
         fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-        fCompra.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
         fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
         fCompra.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
         fCompra.cds_Mov_detPRECO.AsFloat := Edit4.Value;
@@ -1573,7 +1571,7 @@ begin
      begin
        fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
        fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-       fCompra.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
+       fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
        fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
        valorUnitario := cds_procPRECO_VENDA.AsFloat;
        fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;

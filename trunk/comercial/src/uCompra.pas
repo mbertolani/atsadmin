@@ -71,7 +71,6 @@ type
     cds_Mov_detICMS: TFloatField;
     cds_Mov_detPRECO: TFloatField;
     cds_Mov_detQUANTIDADE: TFloatField;
-    cds_Mov_detPRODUTO: TStringField;
     cds_Mov_detUN: TStringField;
     cds_Mov_detValorTotal: TCurrencyField;
     cds_Mov_detQTDE_ALT: TFloatField;
@@ -93,7 +92,6 @@ type
     sds_Mov_DetICMS: TFloatField;
     sds_Mov_DetPRECO: TFloatField;
     sds_Mov_DetQUANTIDADE: TFloatField;
-    sds_Mov_DetPRODUTO: TStringField;
     sds_Mov_DetUN: TStringField;
     sds_Mov_DetQTDE_ALT: TFloatField;
     sds_Mov_DetBAIXA: TStringField;
@@ -1073,7 +1071,6 @@ begin
     else
       usarateio := 'NAO';
     cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-    cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
     cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
     cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
     cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
@@ -1168,7 +1165,6 @@ begin
     begin
       cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
       cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-      cds_mov_detPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
       cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
       cds_Mov_detQTDE_ALT.AsFloat := fProcura_prod.cds_procIPI.AsFloat;
       cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
@@ -1211,7 +1207,7 @@ begin
       fLotes.cdslotes.Append;
       fLotes.cdslotesCODPRODUTO.AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
       fLotes.cdslotesCODPRO.AsString := cds_Mov_detCODPRO.AsString;
-      fLotes.cdslotesPRODUTO.Value := cds_Mov_detPRODUTO.Value;
+      fLotes.cdslotesPRODUTO.Value := cds_Mov_detDESCPRODUTO.Value;
       fLotes.cdslotesDATAFABRICACAO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
       fLotes.cdslotesDATAVENCIMENTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
       fLotes.cdslotesLOTE.AsString := cds_MovimentoCONTROLE.AsString;
@@ -1283,7 +1279,7 @@ begin
   if DtSrc.DataSet.State in [dsBrowse] then
      DtSrc.DataSet.edit;
 
-  if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detPRODUTO.AsString + '''?',
+  if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detDESCPRODUTO.AsString + '''?',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
      DtSrc1.DataSet.Delete;
 end;
@@ -1462,8 +1458,7 @@ begin
    begin
      cds_Mov_detCODPRODUTO.AsInteger := cdslistaCODPRODUTO.AsInteger;
      cds_Mov_detCODPRO.AsString := cdslistaCODIGO.AsString;
-     cds_Mov_detPRODUTO.Value := cdslistaPRODUTO.Value;
-      cds_Mov_detDESCPRODUTO.Value := cdslistaPRODUTO.Value;
+     cds_Mov_detDESCPRODUTO.Value := cdslistaPRODUTO.Value;
      cds_Mov_detUN.AsString := cdslistaUNIDADE.AsString;
      cds_Mov_detQUANTIDADE.AsFloat := 1;
      cds_Mov_detPRECO.AsFloat := cdslistaPRECOLISTA.AsFloat;
@@ -1484,7 +1479,6 @@ begin
         exit;
       end;
       cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;      
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
       cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;

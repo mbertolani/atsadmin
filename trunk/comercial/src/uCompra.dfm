@@ -954,8 +954,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 550
-    Width = 788
+    Top = 561
+    Width = 796
     Height = 27
     Align = alBottom
     inherited Label1: TLabel
@@ -2286,13 +2286,6 @@ inherited fCompra: TfCompra
       DisplayFormat = ',##0.0'
       EditFormat = ',##0.0'
     end
-    object cds_Mov_detPRODUTO: TStringField
-      DisplayWidth = 50
-      FieldName = 'PRODUTO'
-      ProviderFlags = []
-      Required = True
-      Size = 200
-    end
     object cds_Mov_detUN: TStringField
       FieldName = 'UN'
       ProviderFlags = [pfInUpdate]
@@ -2392,23 +2385,24 @@ inherited fCompra: TfCompra
   end
   object dsp_Mov_det: TDataSetProvider
     DataSet = sds_Mov_Det
+    Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
     Left = 103
     Top = 287
   end
   object sds_Mov_Det: TSQLDataSet
     CommandText = 
-      'select movd.CODDETALHE'#13#10', movd.CODMOVIMENTO'#13#10', movd.CODPRODUTO'#13#10 +
-      ', movd.ICMS, movd.PRECO'#13#10', movd.QUANTIDADE'#13#10', movd.QTDE_ALT'#13#10', m' +
-      'ovd.UN'#13#10', movd.BAIXA'#13#10', movd.CONTROLE'#13#10', movd.COD_COMISSAO'#13#10', mo' +
-      'vd.LOTE'#13#10', movd.DTAFAB'#13#10', movd.DTAVCTO, movd.DESCPRODUTO'#13#10', prod' +
-      '.CODPRO'#13#10',prod.PRODUTO'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNIT' +
-      'ARIOATUAL'#13#10', prod.QTDE_PCT'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DE' +
-      'SPESA, prod.RATEIO  '#13#10', prod.PESO_QTDE '#13#10'from MOVIMENTODETALHE m' +
-      'ovd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUT' +
-      'O '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = ' +
-      'prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd' +
-      '.CODMOVIMENTO=:pCODMOV '#13#10'order by movd.CODDETALHE'
+      'select movd.CODDETALHE, movd.CODMOVIMENTO, movd.CODPRODUTO, movd' +
+      '.ICMS, movd.PRECO, movd.QUANTIDADE, movd.QTDE_ALT, movd.UN, movd' +
+      '.BAIXA'#13#10', movd.CONTROLE, movd.COD_COMISSAO, movd.LOTE, movd.DTAF' +
+      'AB, movd.DTAVCTO, movd.DESCPRODUTO, prod.CODPRO,prod.PRODUTO, pr' +
+      'od.CODALMOXARIFADO, '#13#10'prod.VALORUNITARIOATUAL, prod.QTDE_PCT, cc' +
+      'us.ALMOXARIFADO, prod.CONTA_DESPESA, prod.RATEIO , prod.PESO_QTD' +
+      'E from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on prod.C' +
+      'ODPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus ' +
+      'on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDE' +
+      'TALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order by mov' +
+      'd.CODDETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -2449,13 +2443,6 @@ inherited fCompra: TfCompra
     object sds_Mov_DetQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
-    end
-    object sds_Mov_DetPRODUTO: TStringField
-      DisplayWidth = 50
-      FieldName = 'PRODUTO'
-      ProviderFlags = []
-      Required = True
-      Size = 200
     end
     object sds_Mov_DetUN: TStringField
       FieldName = 'UN'
