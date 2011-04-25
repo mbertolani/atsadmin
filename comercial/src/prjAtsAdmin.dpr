@@ -206,7 +206,8 @@ uses
   uApontHoras in 'uApontHoras.pas' {fApontHoras},
   uRelNfe in 'uRelNfe.pas' {fRelNfe},
   uCompraRecebimento in 'uCompraRecebimento.pas' {fCompraRecebimento},
-  uEmail in 'uEmail.pas' {fEmail};
+  uEmail in 'uEmail.pas' {fEmail},
+  uCotacoesHist in 'uCotacoesHist.pas' {fCotacoesHist};
 
 {$R *.res}
 
@@ -214,6 +215,7 @@ begin
   Application.Initialize;
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
+  Application.CreateForm(TfCotacoesHist, fCotacoesHist);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);    
