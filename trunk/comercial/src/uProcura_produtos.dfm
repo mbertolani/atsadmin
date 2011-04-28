@@ -1423,13 +1423,13 @@ object fProcura_produtos: TfProcura_produtos
   end
   object sds_proc: TSQLDataSet
     CommandText = 
-      'select CODPRODUTO'#13#10', CODPRO'#13#10', PRODUTO'#13#10', UNIDADEMEDIDA'#13#10', QTDE_' +
-      'PCT'#13#10', ICMS'#13#10', CODALMOXARIFADO'#13#10', PRECO_COMPRAULTIMO as  VALORUN' +
-      'ITARIOATUAL'#13#10', PRECO_VENDA AS VALOR_PRAZO'#13#10', TIPO  '#13#10', ESTOQUEAT' +
-      'UAL '#13#10', LOCALIZACAO'#13#10', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
-      ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI'#13#10'from LIST' +
-      'APRODUTO(0, '#39'TODOSPRODUTOS'#39', '#39'TODOSGRUPOS'#39', '#39'TODOSSUBGRUPOS'#39','#39'TO' +
-      'DASMARCAS'#39')'#13#10
+      'select CODPRODUTO'#13#10', CODPRO'#13#10', cast(PRODUTO as varchar(300)) as ' +
+      'PRODUTO'#13#10', UNIDADEMEDIDA'#13#10', QTDE_PCT'#13#10', ICMS'#13#10', CODALMOXARIFADO'#13 +
+      #10', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL'#13#10', PRECO_VENDA AS V' +
+      'ALOR_PRAZO'#13#10', TIPO  '#13#10', ESTOQUEATUAL '#13#10', LOCALIZACAO'#13#10', LOTES  ,' +
+      ' PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO, RATEI' +
+      'O, conta_despesa , IPI'#13#10'from LISTAPRODUTO(0, '#39'TODOSPRODUTOS'#39', '#39'T' +
+      'ODOSGRUPOS'#39', '#39'TODOSSUBGRUPOS'#39','#39'TODASMARCAS'#39')'#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1717,13 +1717,13 @@ object fProcura_produtos: TfProcura_produtos
   end
   object sds_proc1: TSQLDataSet
     CommandText = 
-      'select pro.CODPRODUTO, pro.CODPRO,pro.PRODUTO,  pro.VALOR_PRAZO ' +
-      'as PRECO_VENDA, pro.QTDE_PCT, pro.UNIDADEMEDIDA, pro.FAMILIA as ' +
-      'GRUPO, pro.CATEGORIA as SUBGRUPO, pro.MARCA, '#13#10'pro.ESTOQUEATUAL,' +
-      ' pro.CODALMOXARIFADO, cod.CODIGO, uso.DESCRICAO as USO '#13#10'from PR' +
-      'ODUTOS pro '#13#10'left outer join CODIGOS cod on cod.COD_PRODUTO = pr' +
-      'o.CODPRODUTO '#13#10'left outer join USO_PRODUTO uso on uso.COD_PRODUT' +
-      'O = pro.CODPRODUTO'
+      'select pro.CODPRODUTO, pro.CODPRO,cast(pro.PRODUTO as varchar(30' +
+      '0)) as PRODUTO,,  pro.VALOR_PRAZO as PRECO_VENDA, pro.QTDE_PCT, ' +
+      'pro.UNIDADEMEDIDA, pro.FAMILIA as GRUPO, pro.CATEGORIA as SUBGRU' +
+      'PO, pro.MARCA, '#13#10'pro.ESTOQUEATUAL, pro.CODALMOXARIFADO, cod.CODI' +
+      'GO, uso.DESCRICAO as USO '#13#10'from PRODUTOS pro '#13#10'left outer join C' +
+      'ODIGOS cod on cod.COD_PRODUTO = pro.CODPRODUTO '#13#10'left outer join' +
+      ' USO_PRODUTO uso on uso.COD_PRODUTO = pro.CODPRODUTO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin

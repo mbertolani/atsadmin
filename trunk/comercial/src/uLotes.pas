@@ -239,7 +239,7 @@ begin
   begin
     cdslotesCODPRODUTO.AsInteger := fVendas.cds_Mov_detCODPRODUTO.AsInteger;
     cdslotesCODPRO.AsString := fVendas.cds_Mov_detCODPRO.AsString;
-    cdslotesPRODUTO.Value := fVendas.cds_Mov_detPRODUTO.Value;
+    cdslotesPRODUTO.Value := fVendas.cds_Mov_detDESCPRODUTO.Value;
     cdslotesDATAFABRICACAO.AsDateTime := Now;
     cdslotesDATAVENCIMENTO.AsDateTime := Now;
   end;

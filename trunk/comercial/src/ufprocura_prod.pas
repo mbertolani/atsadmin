@@ -1150,7 +1150,6 @@ begin
     dmnf.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     dmnf.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     dmnf.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    dmnf.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
     dmnf.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
     dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
     dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
@@ -1193,7 +1192,6 @@ begin
     end;
     fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fVendas.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
     fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
     fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
     fVendas.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
@@ -1313,7 +1311,6 @@ begin
     dmnf.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     dmnf.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     dmnf.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    dmnf.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
     dmnf.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
     dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
     dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
@@ -1358,7 +1355,6 @@ begin
     dmnf.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     dmnf.cds_Mov_detLOTE.AsString := DMNF.cds_MovimentoCONTROLE.AsString;
     dmnf.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    dmnf.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
     dmnf.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
     dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
     dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
@@ -1408,7 +1404,6 @@ begin
    begin
      fVendas.cds_Mov_detCODPRODUTO.AsInteger := fVendas.cdslistaCODPRODUTO.AsInteger;
      fVendas.cds_Mov_detCODPRO.AsString := fVendas.cdslistaCODIGO.AsString;
-     fVendas.cds_Mov_detPRODUTO.Value := fVendas.cdslistaPRODUTO.Value;
      fVendas.cds_Mov_detDESCPRODUTO.Value := fVendas.cdslistaPRODUTO.Value;
      fVendas.cds_Mov_detUN.AsString := fVendas.cdslistaUNIDADE.AsString;
      fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.text);
@@ -1432,7 +1427,6 @@ begin
      end;
      fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
      fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-     fVendas.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
      fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
      if (edit3.Text > '0') then
        fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
@@ -1475,7 +1469,6 @@ begin
         begin
           fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
           fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-          fVendas.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
           fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
           fVendas.cds_Mov_detLOCALIZACAO.Value := cds_procLOCALIZACAO.Value;
           fVendas.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;

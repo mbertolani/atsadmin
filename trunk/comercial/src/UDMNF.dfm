@@ -1,7 +1,7 @@
 object DMNF: TDMNF
   OldCreateOrder = False
-  Left = 1
-  Top = 35
+  Left = 377
+  Top = 87
   Height = 687
   Width = 873
   object sCliente: TSQLDataSet
@@ -319,19 +319,20 @@ object DMNF: TDMNF
       'select movd.CODDETALHE, movd.CODMOVIMENTO, movd.CODPRODUTO, movd' +
       '.ICMS, movd.PRECO, movd.QUANTIDADE, movd.QTDE_ALT, movd.UN, movd' +
       '.BAIXA'#13#10', movd.CONTROLE, movd.COD_COMISSAO, movd.LOTE, movd.DTAF' +
-      'AB, movd.DTAVCTO, movd.PRECOCUSTO, movd.VALTOTAL, movd.DESCPRODU' +
-      'TO, movd.CFOP, movd.CSOSN'#13#10', movd.CST, prod.COD_BARRA , prod.COD' +
-      'PRO, prod.PRODUTO, prod.ESTOQUEATUAL, prod.CODALMOXARIFADO, prod' +
-      '.VALORUNITARIOATUAL'#13#10', prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CO' +
-      'NTA_DESPESA  , prod.LOCALIZACAO  , prod.CLASSIFIC_FISCAL , cm.CO' +
-      'DIGO, prod.LOTES, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS' +
-      #13#10', udf_LEFT((prod.PRODUTO),80) as DETALHE , movd.VLR_BASE, movd' +
-      '.VLR_BASEICMS, movd.VALOR_DESCONTO, movd.FRETE'#13#10'from MOVIMENTODE' +
-      'TALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CO' +
-      'DPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARI' +
-      'FADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.' +
-      'COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDET' +
-      'ALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
+      'AB, movd.DTAVCTO, movd.PRECOCUSTO, movd.VALTOTAL'#13#10', cast(movd.DE' +
+      'SCPRODUTO as varchar(300)) as DESCPRODUTO'#13#10', movd.CFOP, movd.CSO' +
+      'SN'#13#10', movd.CST, prod.COD_BARRA , prod.CODPRO, prod.ESTOQUEATUAL,' +
+      ' prod.CODALMOXARIFADO, prod.VALORUNITARIOATUAL'#13#10', prod.QTDE_PCT,' +
+      ' ccus.ALMOXARIFADO, prod.CONTA_DESPESA  , prod.LOCALIZACAO  , pr' +
+      'od.CLASSIFIC_FISCAL , cm.CODIGO, prod.LOTES, UDF_ROUNDDEC(movd.V' +
+      'ALOR_ICMS, 2) as VALOR_ICMS'#13#10', movd.VLR_BASE, movd.VLR_BASEICMS,' +
+      ' movd.VALOR_DESCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUB' +
+      'STD'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on pr' +
+      'od.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccu' +
+      's on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer jo' +
+      'in COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where mo' +
+      'vd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by' +
+      ' movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -370,12 +371,6 @@ object DMNF: TDMNF
     object sds_Mov_DetQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
-    end
-    object sds_Mov_DetPRODUTO: TStringField
-      DisplayWidth = 50
-      FieldName = 'PRODUTO'
-      ProviderFlags = []
-      Size = 200
     end
     object sds_Mov_DetUN: TStringField
       FieldName = 'UN'
@@ -449,7 +444,7 @@ object DMNF: TDMNF
     object sds_Mov_DetDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       ProviderFlags = [pfInUpdate]
-      Size = 300
+      Size = 305
     end
     object sds_Mov_DetDTAFAB: TDateField
       FieldName = 'DTAFAB'
@@ -469,13 +464,6 @@ object DMNF: TDMNF
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
-    end
-    object sds_Mov_DetDETALHE: TStringField
-      FieldName = 'DETALHE'
-      ProviderFlags = [pfInUpdate]
-      ReadOnly = True
-      FixedChar = True
-      Size = 254
     end
     object sds_Mov_DetPRECOCUSTO: TFloatField
       FieldName = 'PRECOCUSTO'
@@ -521,6 +509,12 @@ object DMNF: TDMNF
     object sds_Mov_DetFRETE: TFloatField
       FieldName = 'FRETE'
       ReadOnly = True
+    end
+    object sds_Mov_DetICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object sds_Mov_DetICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -576,12 +570,6 @@ object DMNF: TDMNF
     object cds_Mov_detQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
-    end
-    object cds_Mov_detPRODUTO: TStringField
-      DisplayWidth = 50
-      FieldName = 'PRODUTO'
-      ProviderFlags = []
-      Size = 200
     end
     object cds_Mov_detUN: TStringField
       FieldName = 'UN'
@@ -662,7 +650,7 @@ object DMNF: TDMNF
     object cds_Mov_detDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       ProviderFlags = [pfInUpdate]
-      Size = 300
+      Size = 305
     end
     object cds_Mov_detESTOQUEATUAL: TFloatField
       FieldName = 'ESTOQUEATUAL'
@@ -686,13 +674,6 @@ object DMNF: TDMNF
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
-    end
-    object cds_Mov_detDETALHE: TStringField
-      FieldName = 'DETALHE'
-      ProviderFlags = [pfInUpdate]
-      ReadOnly = True
-      FixedChar = True
-      Size = 254
     end
     object cds_Mov_detCOD_BARRA: TStringField
       FieldName = 'COD_BARRA'
@@ -736,6 +717,12 @@ object DMNF: TDMNF
     object cds_Mov_detFRETE: TFloatField
       FieldName = 'FRETE'
       ReadOnly = True
+    end
+    object cds_Mov_detICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object cds_Mov_detICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify

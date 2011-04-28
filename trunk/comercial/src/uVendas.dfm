@@ -62,7 +62,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 785
+    Width = 794
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -1418,8 +1418,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [15]
     Left = 0
-    Top = 521
-    Width = 785
+    Top = 522
+    Width = 794
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -1529,7 +1529,7 @@ inherited fVendas: TfVendas
     Top = 112
     Width = 633
     Height = 358
-    ActivePage = Orcamento
+    ActivePage = TabSheet1
     TabOrder = 6
     TabStop = False
     object TabSheet1: TTabSheet
@@ -2357,17 +2357,17 @@ inherited fVendas: TfVendas
       'select movd.CODDETALHE'#13#10', movd.CODMOVIMENTO'#13#10', movd.CODPRODUTO'#13#10 +
       ', movd.ICMS'#13#10', movd.PRECO'#13#10', movd.QUANTIDADE'#13#10', movd.QTDE_ALT'#13#10',' +
       ' movd.UN'#13#10', movd.BAIXA'#13#10', movd.CONTROLE'#13#10', movd.COD_COMISSAO'#13#10', ' +
-      'movd.LOTE'#13#10', movd.DTAFAB'#13#10', movd.DTAVCTO, movd.PRECOCUSTO'#13#10', mov' +
-      'd.DESCPRODUTO'#13#10', prod.CODPRO'#13#10', prod.PRODUTO'#13#10', prod.CODALMOXARI' +
-      'FADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTDE_PCT'#13#10', prod.PESO_QT' +
-      'DE'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPESA  '#13#10', prod.LOCALIZA' +
-      'CAO  '#13#10', cm.CODIGO, prod.LOTES  '#13#10', udf_LEFT((prod.PRODUTO),80) ' +
-      'as DETALHE '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS pr' +
-      'od on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARI' +
-      'FADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left ' +
-      'outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10 +
-      'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV ' +
-      'order by movd.coddetalhe'
+      'movd.LOTE'#13#10', movd.DTAFAB'#13#10', movd.DTAVCTO, movd.PRECOCUSTO'#13#10', cas' +
+      't(movd.DESCPRODUTO as varchar(300)) as DESCPRODUTO'#13#10', prod.CODPR' +
+      'O'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTD' +
+      'E_PCT'#13#10', prod.PESO_QTDE'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPE' +
+      'SA  '#13#10', prod.LOCALIZACAO  '#13#10', cm.CODIGO, prod.LOTES  '#13#10'from MOVI' +
+      'MENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=' +
+      'movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODA' +
+      'LMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm' +
+      ' on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=' +
+      ':CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetal' +
+      'he'
     MaxBlobSize = -1
     Params = <
       item
@@ -2408,13 +2408,6 @@ inherited fVendas: TfVendas
     object sds_Mov_DetQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
-    end
-    object sds_Mov_DetPRODUTO: TStringField
-      DisplayWidth = 50
-      FieldName = 'PRODUTO'
-      ProviderFlags = []
-      Required = True
-      Size = 200
     end
     object sds_Mov_DetUN: TStringField
       FieldName = 'UN'
@@ -2496,13 +2489,6 @@ inherited fVendas: TfVendas
       FixedChar = True
       Size = 1
     end
-    object sds_Mov_DetDETALHE: TStringField
-      FieldName = 'DETALHE'
-      ProviderFlags = []
-      ReadOnly = True
-      FixedChar = True
-      Size = 60
-    end
     object sds_Mov_DetPRECOCUSTO: TFloatField
       FieldName = 'PRECOCUSTO'
       ProviderFlags = [pfInUpdate]
@@ -2576,13 +2562,6 @@ inherited fVendas: TfVendas
       ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.000'
       EditFormat = ',##0.000'
-    end
-    object cds_Mov_detPRODUTO: TStringField
-      DisplayWidth = 50
-      FieldName = 'PRODUTO'
-      ProviderFlags = []
-      Required = True
-      Size = 200
     end
     object cds_Mov_detUN: TStringField
       FieldName = 'UN'
@@ -2672,13 +2651,6 @@ inherited fVendas: TfVendas
       ProviderFlags = []
       FixedChar = True
       Size = 1
-    end
-    object cds_Mov_detDETALHE: TStringField
-      FieldName = 'DETALHE'
-      ProviderFlags = []
-      ReadOnly = True
-      FixedChar = True
-      Size = 60
     end
     object cds_Mov_detPRECOCUSTO: TFloatField
       FieldName = 'PRECOCUSTO'

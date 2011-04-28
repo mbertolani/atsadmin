@@ -2125,94 +2125,108 @@ object fNotaf: TfNotaf
             Expanded = False
             FieldName = 'CODPRO'
             Title.Caption = 'C'#243'digo'
-            Width = 23
+            Width = 19
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
             Title.Caption = 'Produtos'
-            Width = 127
+            Width = 107
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CFOP'
-            Width = 28
+            Width = 24
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CST'
-            Width = 17
+            Width = 15
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CSOSN'
-            Width = 40
+            Width = 34
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
-            Width = 38
+            Width = 32
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
             Title.Caption = 'Quantidade'
-            Width = 54
+            Width = 46
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASE'
             Title.Caption = 'Valor Unit'#225'rio'
-            Width = 58
+            Width = 49
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALOR_DESCONTO'
             Title.Caption = 'Desconto'
-            Width = 57
+            Width = 48
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
-            Width = 58
+            Width = 49
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ICMS'
             Title.Caption = 'ICMS %'
-            Width = 31
+            Width = 26
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASEICMS'
             Title.Caption = 'Base ICMS'
-            Width = 70
+            Width = 59
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALOR_ICMS'
             Title.Caption = 'Valor ICMS'
-            Width = 73
+            Width = 61
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'FRETE'
             Title.Caption = 'Frete'
-            Width = 53
+            Width = 46
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ICMS_SUBSTD'
+            Title.Caption = 'Base ST'
+            Width = 58
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ICMS_SUBST'
+            Title.Caption = 'ST'
+            Width = 52
             Visible = True
           end>
       end
@@ -2298,12 +2312,13 @@ object fNotaf: TfNotaf
         Visible = False
       end
       object calcman: TCheckBox
-        Left = 0
+        Left = 1
         Top = 344
-        Width = 84
+        Width = 81
         Height = 17
         Caption = 'Calc. Manual'
         TabOrder = 48
+        OnClick = calcmanClick
       end
       object JvGroupBox55: TJvGroupBox
         Left = 119

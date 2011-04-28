@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, DBCtrls, JvExStdCtrls, JvGroupBox, ComCtrls,
   JvExComCtrls, JvComCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask,
   Buttons, ExtCtrls, MMJPanel, JvExMask, JvToolEdit, JvDBControls,
-  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider;
+  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider, DBXpress;
 
 type
   TfNotaf = class(TForm)
@@ -390,6 +390,7 @@ type
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure btnRemessaClick(Sender: TObject);
     procedure DBEdit7Change(Sender: TObject);
+    procedure calcmanClick(Sender: TObject);
   private
     { Private declarations }
     procedure carregaDadosAdicionais;    
@@ -1043,7 +1044,6 @@ begin
             [mbOk], 0);
             exit;
           end;
-          DMNF.cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
           DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
           DMNF.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
           DMNF.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -1264,8 +1264,28 @@ begin
 end;
 
 procedure TfNotaf.btnGravarClick(Sender: TObject);
-var nfe : string;
+var nfe, cm : string;
+var TD: TTransactionDesc;
 begin
+  if (calcman.Checked = True) then
+  begin
+    cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
+    try
+      begin
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(cm);
+        dm.sqlsisAdimin.Commit(TD);
+      end;
+      Except
+      begin
+        MessageDlg('Erro ao executar calculo Manual.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+    end;
+  end;
+
   if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
   if (dmnf.cds_Mov_det.State in [dsInsert]) then
      dmnf.cds_Mov_det.Post;
@@ -1288,6 +1308,17 @@ begin
    nfe := 'update movimento set nfe = ' + QuotedStr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_nfSERIE.AsString) + ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString;
    dm.sqlsisAdimin.ExecuteDirect(nfe);
  end;
+
+ if (calcman.Checked = True) then
+ begin
+   TD.TransactionID := 1;
+   TD.IsolationLevel := xilREADCOMMITTED;
+   dm.sqlsisAdimin.StartTransaction(TD);
+   cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
+   dm.sqlsisAdimin.ExecuteDirect(cm);
+   dm.sqlsisAdimin.Commit(TD);
+ end;
+
 end;
 
 procedure TfNotaf.gravamov_detalhe;
@@ -1772,7 +1803,6 @@ begin
             [mbOk], 0);
             exit;
           end;
-          DMNF.cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
           DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
           DMNF.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
           DMNF.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -1918,8 +1948,7 @@ begin
          if (DMNF.listaProduto.Locate('PRODUTO',dmnf.cds_Mov_detDESCPRODUTO.AsString,[loCaseInsensitive])) then
          begin
            dmnf.cds_Mov_detCODPRO.AsString := DMNF.listaProdutoCODPRO.AsString;
-           DMNF.cds_Mov_detPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
-           // DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+           DMNF.cds_Mov_detDESCPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
             DMNF.cds_Mov_detCODPRODUTO.AsInteger := DMNF.listaProdutoCODPRODUTO.AsInteger;
             DMNF.cds_Mov_detLOCALIZACAO.Value := DMNF.listaProdutoLOCALIZACAO.Value;
             DMNF.cds_Mov_detCOD_COMISSAO.AsInteger := DMNF.listaProdutoCOD_COMISSAO.AsInteger;
@@ -2020,8 +2049,7 @@ begin
          if (DMNF.listaProduto.Locate('PRODUTO',dmnf.cds_Mov_detDESCPRODUTO.AsString,[loCaseInsensitive])) then
          begin
            dmnf.cds_Mov_detCODPRO.AsString := DMNF.listaProdutoCODPRO.AsString;
-           DMNF.cds_Mov_detPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
-           // DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+           DMNF.cds_Mov_detDESCPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
             DMNF.cds_Mov_detCODPRODUTO.AsInteger := DMNF.listaProdutoCODPRODUTO.AsInteger;
             DMNF.cds_Mov_detLOCALIZACAO.Value := DMNF.listaProdutoLOCALIZACAO.Value;
             DMNF.cds_Mov_detCOD_COMISSAO.AsInteger := DMNF.listaProdutoCOD_COMISSAO.AsInteger;
@@ -2086,7 +2114,7 @@ begin
  begin
    if DMNF.DtSrc.DataSet.State in [dsBrowse] then
      DMNF.DtSrc.DataSet.edit;
-   if  MessageDlg('Confirma a exclusão do item ''' + DMNF.cds_Mov_detPRODUTO.AsString + '''?', mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+   if  MessageDlg('Confirma a exclusão do item ''' + DMNF.cds_Mov_detDESCPRODUTO.AsString + '''?', mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
    Begin
      if (DMNF.cds_nf.State in [dsBrowse]) then
         DMNF.cds_nf.Edit;
@@ -2159,6 +2187,12 @@ End;
 procedure TfNotaf.DBEdit7Change(Sender: TObject);
 begin
   carregaDadosAdicionais;
+end;
+
+procedure TfNotaf.calcmanClick(Sender: TObject);
+begin
+ if DMNF.DtSrc_NF.State in [dsBrowse] then
+      DMNF.DtSrc_NF.DataSet.Append;
 end;
 
 end.

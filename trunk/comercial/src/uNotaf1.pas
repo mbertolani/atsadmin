@@ -257,7 +257,7 @@ type
     procedure gravamovimento;
     procedure gravamov_detalhe;
     procedure gravavenda;
-    procedure alteraVlrVenda;
+   // procedure alteraVlrVenda;
   public
       vrr : double;
       codMovFin, codVendaFin, codCliFin : integer;
@@ -651,7 +651,6 @@ begin
             [mbOk], 0);
             exit;
           end;
-          DMNF.cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
           DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
           DMNF.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
           DMNF.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -950,8 +949,8 @@ begin
 end;
 
 procedure TfNotaf1.gravavenda;
-var  strSql, strTit, tipoMov: String;
-     diferenca : double;
+{var // strSql, strTit, tipoMov: String;
+     diferenca : double;}
 begin
     DMNF.cdsCompraCODFORNECEDOR.AsInteger := DMNF.cds_MovimentoCODFORNECEDOR.AsInteger;
     DMNF.cdsCompraCODCOMPRADOR.AsInteger := dmnf.cds_MovimentoCODUSUARIO.AsInteger;
@@ -1142,8 +1141,8 @@ begin
   dmnf.cds_nf1CODVENDA.AsInteger := dmnf.cdsCompraCODCOMPRA.AsInteger;
   dmnf.cds_nf1NATUREZA.AsInteger := dmnf.cds_MovimentoCODNATUREZA.AsInteger;
   dmnf.cds_nf1SERIE.AsString := dbeSerie.Text;
-  if (nfnum = 0) then
-    nfnum := dmnf.cds_nf1NUMNF.AsInteger;
+  {if (nfnum = 0) then
+    nfnum := dmnf.cds_nf1NUMNF.AsInteger;}
  // if (parametroNF <> 'S') then
  //   alteraVlrVenda;
 {  if (RadioGroup1.ItemIndex = 0) then
@@ -1316,7 +1315,6 @@ begin
             [mbOk], 0);
             exit;
           end;
-          DMNF.cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
           DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
           DMNF.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
           DMNF.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -1462,8 +1460,7 @@ begin
          if (DMNF.listaProduto.Locate('PRODUTO',dmnf.cds_Mov_detDESCPRODUTO.AsString,[loCaseInsensitive])) then
          begin
            dmnf.cds_Mov_detCODPRO.AsString := DMNF.listaProdutoCODPRO.AsString;
-           DMNF.cds_Mov_detPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
-           // DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+           DMNF.cds_Mov_detDESCPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
             DMNF.cds_Mov_detCODPRODUTO.AsInteger := DMNF.listaProdutoCODPRODUTO.AsInteger;
             DMNF.cds_Mov_detLOCALIZACAO.Value := DMNF.listaProdutoLOCALIZACAO.Value;
             DMNF.cds_Mov_detCOD_COMISSAO.AsInteger := DMNF.listaProdutoCOD_COMISSAO.AsInteger;
@@ -1507,9 +1504,9 @@ begin
 
 end;
 
-procedure TfNotaf1.alteraVlrVenda;
+{procedure TfNotaf1.alteraVlrVenda;
 begin
- { if (dmnf.cds_venda.state in [dsBrowse]) then
+  if (dmnf.cds_venda.state in [dsBrowse]) then
     dmnf.cds_venda.Edit;
   if (dmnf.cds_vendaVALOR_ICMS.AsFloat <> dmnf.cds_nfVALOR_ICMS.AsFloat) then
   begin
@@ -1530,8 +1527,8 @@ begin
   if (dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat <> dmnf.cds_vendaVALOR.AsFloat) then
     dmnf.cds_vendaVALOR.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat;
   if (dmnf.cds_venda.State in [dsEdit, dsInsert]) then
-    dmnf.cds_venda.ApplyUpdates(0);     }
-end;
+    dmnf.cds_venda.ApplyUpdates(0);
+end;}
 
 procedure TfNotaf1.BitBtn9Click(Sender: TObject);
 var nunf: integer;
@@ -1564,8 +1561,7 @@ begin
          if (DMNF.listaProduto.Locate('PRODUTO',dmnf.cds_Mov_detDESCPRODUTO.AsString,[loCaseInsensitive])) then
          begin
            dmnf.cds_Mov_detCODPRO.AsString := DMNF.listaProdutoCODPRO.AsString;
-           DMNF.cds_Mov_detPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
-           // DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+           DMNF.cds_Mov_detDESCPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
             DMNF.cds_Mov_detCODPRODUTO.AsInteger := DMNF.listaProdutoCODPRODUTO.AsInteger;
             DMNF.cds_Mov_detLOCALIZACAO.Value := DMNF.listaProdutoLOCALIZACAO.Value;
             DMNF.cds_Mov_detCOD_COMISSAO.AsInteger := DMNF.listaProdutoCOD_COMISSAO.AsInteger;
@@ -1630,7 +1626,7 @@ begin
  begin
    if DMNF.DtSrc.DataSet.State in [dsBrowse] then
      DMNF.DtSrc.DataSet.edit;
-   if  MessageDlg('Confirma a exclusão do item ''' + DMNF.cds_Mov_detPRODUTO.AsString + '''?', mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+   if  MessageDlg('Confirma a exclusão do item ''' + DMNF.cds_Mov_detDESCPRODUTO.AsString + '''?', mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
    Begin
      if (DMNF.cds_nf1.State in [dsBrowse]) then
         DMNF.cds_nf1.Edit;
