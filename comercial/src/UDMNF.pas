@@ -68,7 +68,6 @@ type
     sds_Mov_DetICMS: TFloatField;
     sds_Mov_DetPRECO: TFloatField;
     sds_Mov_DetQUANTIDADE: TFloatField;
-    sds_Mov_DetPRODUTO: TStringField;
     sds_Mov_DetUN: TStringField;
     sds_Mov_DetQTDE_ALT: TFloatField;
     sds_Mov_DetBAIXA: TStringField;
@@ -91,7 +90,6 @@ type
     cds_Mov_detICMS: TFloatField;
     cds_Mov_detPRECO: TFloatField;
     cds_Mov_detQUANTIDADE: TFloatField;
-    cds_Mov_detPRODUTO: TStringField;
     cds_Mov_detUN: TStringField;
     cds_Mov_detValorTotal: TCurrencyField;
     cds_Mov_detQTDE_ALT: TFloatField;
@@ -650,7 +648,6 @@ type
     sds_Mov_DetDTAVCTO: TDateField;
     sds_Mov_DetCODIGO: TStringField;
     sds_Mov_DetLOTES: TStringField;
-    sds_Mov_DetDETALHE: TStringField;
     sds_Mov_DetPRECOCUSTO: TFloatField;
     sds_Mov_DetCOD_BARRA: TStringField;
     cds_Mov_detESTOQUEATUAL: TFloatField;
@@ -658,7 +655,6 @@ type
     cds_Mov_detDTAVCTO: TDateField;
     cds_Mov_detCODIGO: TStringField;
     cds_Mov_detLOTES: TStringField;
-    cds_Mov_detDETALHE: TStringField;
     cds_Mov_detCOD_BARRA: TStringField;
     sds_MovimentoCNPJ: TStringField;
     cds_MovimentoCNPJ: TStringField;
@@ -1323,6 +1319,10 @@ type
     sds_Mov_DetFRETE: TFloatField;
     cds_Mov_detVALOR_DESCONTO: TFloatField;
     cds_Mov_detFRETE: TFloatField;
+    sds_Mov_DetICMS_SUBST: TFloatField;
+    sds_Mov_DetICMS_SUBSTD: TFloatField;
+    cds_Mov_detICMS_SUBST: TFloatField;
+    cds_Mov_detICMS_SUBSTD: TFloatField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

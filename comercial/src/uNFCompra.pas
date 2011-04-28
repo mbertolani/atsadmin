@@ -584,7 +584,7 @@ begin
   if DMNF.DtSrc.DataSet.State in [dsBrowse] then
      DMNF.DtSrc.DataSet.edit;
 
-  if  MessageDlg('Confirma a exclusão do item ''' + DMNF.cds_Mov_detPRODUTO.AsString + '''?',
+  if  MessageDlg('Confirma a exclusão do item ''' + DMNF.cds_Mov_detDESCPRODUTO.AsString + '''?',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
      DMNF.DtSrc1.DataSet.Delete;
 end;
@@ -660,7 +660,6 @@ begin
         exit;
       end;
       DMNF.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      DMNF.cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       DMNF.cds_Mov_detLOTE.AsString := DMNF.cds_MovimentoCONTROLE.AsString;
       DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       DMNF.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -702,7 +701,7 @@ begin
           fLotes.cdslotes.Append;
           fLotes.cdslotesCODPRODUTO.AsInteger := dmnf.cds_Mov_detCODPRODUTO.AsInteger;
           fLotes.cdslotesCODPRO.AsString := dmnf.cds_Mov_detCODPRO.AsString;
-          fLotes.cdslotesPRODUTO.Value := dmnf.cds_Mov_detPRODUTO.Value;
+          fLotes.cdslotesPRODUTO.Value := dmnf.cds_Mov_detDESCPRODUTO.Value;
           fLotes.cdslotesDATAFABRICACAO.AsDateTime := dmnf.cdsCompraDATACOMPRA.AsDateTime;
           fLotes.cdslotesDATAVENCIMENTO.AsDateTime := dmnf.cdsCompraDATACOMPRA.AsDateTime;
           fLotes.cdslotesLOTE.AsString := dmnf.cds_MovimentoCONTROLE.AsString;
@@ -806,7 +805,6 @@ begin
     begin
       DMNF.cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
       DMNF.cds_Mov_detCODPRODUTO.AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-      DMNF.cds_Mov_detPRODUTO.Value := fProcura_prod.cds_procPRODUTO.Value;
       DMNF.cds_Mov_detLOTE.AsString := DBComboBox1.Text;
       DMNF.cds_Mov_detDESCPRODUTO.Value := fProcura_prod.cds_procPRODUTO.Value;
       DMNF.cds_Mov_detLOCALIZACAO.Value := fProcura_prod.cds_procLOCALIZACAO.Value;
@@ -845,7 +843,7 @@ begin
         fLotes.cdslotes.Append;
         fLotes.cdslotesCODPRODUTO.AsInteger := dmnf.cds_Mov_detCODPRODUTO.AsInteger;
         fLotes.cdslotesCODPRO.AsString := dmnf.cds_Mov_detCODPRO.AsString;
-        fLotes.cdslotesPRODUTO.Value := dmnf.cds_Mov_detPRODUTO.Value;
+        fLotes.cdslotesPRODUTO.Value := dmnf.cds_Mov_detDESCPRODUTO.Value;
         fLotes.cdslotesDATAFABRICACAO.AsDateTime := dmnf.cds_MovimentoDATAMOVIMENTO.AsDateTime;
         fLotes.cdslotesDATAVENCIMENTO.AsDateTime := dmnf.cds_MovimentoDATAMOVIMENTO.AsDateTime;
         fLotes.cdslotesLOTE.AsString := dmnf.cds_MovimentoCONTROLE.AsString;
@@ -1673,7 +1671,7 @@ begin
           texto3 := texto3 + Format('%-6.2n',[dmnf.cds_Mov_detPRECO.AsFloat]);
           texto3 := texto3 + Format('  %-6.2n',[dmnf.cds_Mov_detValorTotal.value]);
           //texto6 := texto6 + fVendas.cds_Mov_detDETALHE.Value;
-          texto6 := texto6 + Copy(dmnf.cds_Mov_detDETALHE.Value, 0, 30);
+          //texto6 := texto6 + Copy(dmnf.cds_Mov_detDETALHE.Value, 0, 30);
           Writeln(Impressora, c17cpi, texto6);
           Writeln(Impressora, c17cpi, texto3);//NOME DO PRODUTO
           with Printer.Canvas do

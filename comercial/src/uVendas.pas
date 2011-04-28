@@ -36,7 +36,6 @@ type
     sds_Mov_DetICMS: TFloatField;
     sds_Mov_DetPRECO: TFloatField;
     sds_Mov_DetQUANTIDADE: TFloatField;
-    sds_Mov_DetPRODUTO: TStringField;
     sds_Mov_DetUN: TStringField;
     sds_Mov_DetQTDE_ALT: TFloatField;
     sds_Mov_DetBAIXA: TStringField;
@@ -56,7 +55,6 @@ type
     cds_Mov_detICMS: TFloatField;
     cds_Mov_detPRECO: TFloatField;
     cds_Mov_detQUANTIDADE: TFloatField;
-    cds_Mov_detPRODUTO: TStringField;
     cds_Mov_detUN: TStringField;
     cds_Mov_detValorTotal: TCurrencyField;
     cds_Mov_detQTDE_ALT: TFloatField;
@@ -386,8 +384,6 @@ type
     sdsLoteRepetido: TSQLDataSet;
     Label10: TLabel;
     sdsVeiculoCli: TSQLDataSet;
-    sds_Mov_DetDETALHE: TStringField;
-    cds_Mov_detDETALHE: TStringField;
     sds_MovimentoCNPJ: TStringField;
     cds_MovimentoCNPJ: TStringField;
     sMatPrima: TSQLDataSet;
@@ -1103,7 +1099,6 @@ begin
         exit;
       end;
       cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
       cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
@@ -1205,7 +1200,6 @@ begin
           end;
         end;
         cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-        cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
         cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
@@ -1267,7 +1261,6 @@ begin
     begin
       cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
       cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-      cds_mov_detPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
       cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
       cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
       if ( fProcura_prod.cds_procQTDE_PCT.AsFloat < 1) then
@@ -1366,7 +1359,7 @@ begin
   if DtSrc.DataSet.State in [dsBrowse] then
      DtSrc.DataSet.edit;
 
-  if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detPRODUTO.AsString + '''?',
+  if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detDESCPRODUTO.AsString + '''?',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
      DtSrc1.DataSet.Delete;
 end;
@@ -2449,7 +2442,7 @@ begin
               cds_Mov_detQUANTIDADE.AsFloat := tot //Estoque;
             else
               cds_Mov_detQUANTIDADE.AsFloat := Estoque;
-            cds_Mov_detPRODUTO.AsString := cdsPRODUTO.AsString;
+            cds_Mov_detDESCPRODUTO.AsString := cdsPRODUTO.AsString;
             cds_Mov_detCODPRO.AsString := cdsCODPRO.AsString;
             cds_Mov_detUN.AsString := cdsUNIDADEMEDIDA.AsString;
             if (cdsUSALOTE.AsString = 'S') then
@@ -2498,7 +2491,6 @@ begin
             cds_Mov_detCODPRODUTO.AsInteger := cdsCODPRODUTO.AsInteger;
             cds_Mov_detDESCPRODUTO.AsString := cdsPRODUTO.AsString;
             cds_Mov_detQUANTIDADE.AsFloat := tot; //Qtde Usada;
-            cds_Mov_detPRODUTO.AsString := cdsPRODUTO.AsString;
             cds_Mov_detCODPRO.AsString := cdsCODPRO.AsString;
             cds_Mov_detUN.AsString := cdsUNIDADEMEDIDA.AsString;
             if (cdsDetalheUSAPRECO.AsString = 'PRECOVENDA') THEN
@@ -2656,7 +2648,6 @@ begin
           end;
         end;
         cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-        cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
         cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
@@ -2824,7 +2815,6 @@ begin
         MessageDlg('Estoque de Produtos insuficiente, faltou ' +
         FloatToStr(estoqueNecessario) + ' itens.', mtWarning, [mbOK], 0);
       end;
-      cds_Mov_detPRODUTO.AsString := cMatPrimaPRODUTO.AsString;
       cds_Mov_detDESCPRODUTO.AsString := cMatPrimaPRODUTO.AsString;
       cds_Mov_detCODPRO.AsString := cMatPrimaCODPRO.AsString;
       cds_Mov_detUN.AsString := cMatPrimaUNIDADEMEDIDA.AsString;
@@ -2991,7 +2981,6 @@ begin
      cds_Mov_detCODPRODUTO.AsInteger := cdslistaCODPRODUTO.AsInteger;
       cds_Mov_detDESCPRODUTO.Value := cdslistaPRODUTO.Value;
      cds_Mov_detCODPRO.AsString := cdslistaCODIGO.AsString;
-     cds_Mov_detPRODUTO.Value := cdslistaPRODUTO.Value;
      cds_Mov_detUN.AsString := cdslistaUNIDADE.AsString;
      cds_Mov_detQUANTIDADE.AsFloat := 1;
      cds_Mov_detPRECO.AsFloat := cdslistaPRECOLISTA.AsFloat;
@@ -3012,7 +3001,6 @@ begin
         exit;
       end;
       cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
       cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
