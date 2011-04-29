@@ -33,12 +33,32 @@ inherited fCotacaoVer: TfCotacaoVer
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
       EditControls = <>
       RowsHeight = 17
       TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ITEM'
+          Width = 79
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO'
+          Width = 208
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Width = 48
+          Visible = True
+        end>
     end
   end
   object gb2: TGroupBox [3]
@@ -54,7 +74,7 @@ inherited fCotacaoVer: TfCotacaoVer
       Width = 354
       Height = 109
       Align = alClient
-      DataSource = DataSource1
+      DataSource = ds2
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
@@ -62,12 +82,32 @@ inherited fCotacaoVer: TfCotacaoVer
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
       EditControls = <>
       RowsHeight = 17
       TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ITEM'
+          Width = 79
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO'
+          Width = 208
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Width = 48
+          Visible = True
+        end>
     end
   end
   object GroupBox1: TGroupBox [4]
@@ -91,12 +131,32 @@ inherited fCotacaoVer: TfCotacaoVer
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
       EditControls = <>
       RowsHeight = 17
       TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ITEM'
+          Width = 79
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO'
+          Width = 208
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Width = 48
+          Visible = True
+        end>
     end
   end
   object GroupBox2: TGroupBox [5]
@@ -120,12 +180,32 @@ inherited fCotacaoVer: TfCotacaoVer
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
       EditControls = <>
       RowsHeight = 17
       TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ITEM'
+          Width = 79
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO'
+          Width = 208
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Width = 48
+          Visible = True
+        end>
     end
   end
   object GroupBox3: TGroupBox [6]
@@ -149,12 +229,32 @@ inherited fCotacaoVer: TfCotacaoVer
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
       EditControls = <>
       RowsHeight = 17
       TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ITEM'
+          Width = 79
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO'
+          Width = 208
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Width = 48
+          Visible = True
+        end>
     end
   end
   object GroupBox4: TGroupBox [7]
@@ -178,118 +278,291 @@ inherited fCotacaoVer: TfCotacaoVer
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
       EditControls = <>
       RowsHeight = 17
       TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ITEM'
+          Width = 79
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO'
+          Width = 208
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Width = 48
+          Visible = True
+        end>
     end
   end
-  object sql1: TSQLQuery
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    SQL.Strings = (
-      'SELECT r.COTACAO_CODIGO, r.COTACAO_DATA, r.COTACAO_FORNEC, '
-      'r.COTACAO_SOLICIT, r.COTACAO_ITEM, r.COTACAO_ITEMDESCRICAO, '
-      'r.COTACAO_SITUACAO, r.COTACAO_QTDE, r.COTACAO_PRECO, '
-      'r.COTACAO_USER, r.COTACAO_DTENTREGA, r.COTACAO_PRAZO, '
-      'r.COTACAO_OBSERVACAO, r.COTACAO_TIPO, r.COTACAO_CODSOLIC, '
-      'forn.RAZAOSOCIAL FORNECEDOR'
-      '   FROM COMPRA_COTACAO r, FORNECEDOR forn'
-      'WHERE forn.CODFORNECEDOR = r.COTACAO_FORNEC'
-      '      AND r.COTACAO_CODSOLIC = :pSolic')
-    SQLConnection = DM.sqlsisAdimin
-    Left = 72
-    Top = 120
-  end
   object dsp1: TDataSetProvider
-    DataSet = sql1
+    DataSet = SQLDataSet1
+    Options = [poAllowCommandText]
     Left = 104
     Top = 120
   end
   object cds1: TClientDataSet
     Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
+    Params = <>
     ProviderName = 'dsp1'
     Left = 136
     Top = 120
-    object cds1COTACAO_CODIGO: TIntegerField
-      FieldName = 'COTACAO_CODIGO'
-      Required = True
-    end
-    object cds1COTACAO_DATA: TDateField
-      FieldName = 'COTACAO_DATA'
-    end
-    object cds1COTACAO_FORNEC: TIntegerField
-      FieldName = 'COTACAO_FORNEC'
-      Required = True
-    end
-    object cds1COTACAO_SOLICIT: TStringField
-      FieldName = 'COTACAO_SOLICIT'
-    end
-    object cds1COTACAO_ITEM: TStringField
-      FieldName = 'COTACAO_ITEM'
+    object cds1ITEM: TStringField
+      FieldName = 'ITEM'
       Required = True
       Size = 15
     end
-    object cds1COTACAO_ITEMDESCRICAO: TStringField
-      FieldName = 'COTACAO_ITEMDESCRICAO'
-      Size = 300
-    end
-    object cds1COTACAO_SITUACAO: TStringField
-      FieldName = 'COTACAO_SITUACAO'
+    object cds1DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ReadOnly = True
       FixedChar = True
-      Size = 1
+      Size = 254
     end
-    object cds1COTACAO_QTDE: TFloatField
-      FieldName = 'COTACAO_QTDE'
-    end
-    object cds1COTACAO_PRECO: TFloatField
-      FieldName = 'COTACAO_PRECO'
-    end
-    object cds1COTACAO_USER: TStringField
-      FieldName = 'COTACAO_USER'
-    end
-    object cds1COTACAO_DTENTREGA: TDateField
-      FieldName = 'COTACAO_DTENTREGA'
-    end
-    object cds1COTACAO_PRAZO: TStringField
-      FieldName = 'COTACAO_PRAZO'
-      Size = 30
-    end
-    object cds1COTACAO_OBSERVACAO: TStringField
-      FieldName = 'COTACAO_OBSERVACAO'
-      Size = 200
-    end
-    object cds1COTACAO_TIPO: TStringField
-      FieldName = 'COTACAO_TIPO'
-      FixedChar = True
-      Size = 1
-    end
-    object cds1COTACAO_CODSOLIC: TIntegerField
-      FieldName = 'COTACAO_CODSOLIC'
-    end
-    object cds1FORNECEDOR: TStringField
-      FieldName = 'FORNECEDOR'
-      Required = True
-      Size = 50
+    object cds1PRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
     end
   end
   object ds1: TDataSource
     DataSet = cds1
     Left = 168
     Top = 120
+  end
+  object sql2: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      
+        'select c.COTACAO_ITEM ITEM, UDF_LEFT(c.COTACAO_ITEMDESCRICAO, 60' +
+        ') '
+      'DESCRICAO, c.COTACAO_PRECO PRECO from COMPRA_COTACAO c')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 488
+    Top = 120
+  end
+  object dsp2: TDataSetProvider
+    DataSet = sql2
+    Options = [poAllowCommandText]
+    Left = 520
+    Top = 120
+  end
+  object cds2: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dsp2'
+    Left = 552
+    Top = 120
+    object cds2ITEM: TStringField
+      FieldName = 'ITEM'
+      Required = True
+      Size = 15
+    end
+    object cds2DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object cds2PRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+  end
+  object ds2: TDataSource
+    DataSet = cds2
+    Left = 592
+    Top = 120
+  end
+  object SQLQuery2: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      
+        'select c.COTACAO_ITEM ITEM, UDF_LEFT(c.COTACAO_ITEMDESCRICAO, 60' +
+        ') '
+      'DESCRICAO, c.COTACAO_PRECO PRECO from COMPRA_COTACAO c')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 72
+    Top = 208
+  end
+  object DataSetProvider2: TDataSetProvider
+    DataSet = SQLQuery2
+    Options = [poAllowCommandText]
+    Left = 104
+    Top = 208
+  end
+  object cds3: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider2'
+    Left = 136
+    Top = 208
+    object cds3ITEM: TStringField
+      FieldName = 'ITEM'
+      Required = True
+      Size = 15
+    end
+    object cds3DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object cds3PRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+  end
+  object DataSource2: TDataSource
+    DataSet = cds3
+    Left = 168
+    Top = 208
+  end
+  object SQLQuery3: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      
+        'select c.COTACAO_ITEM ITEM, UDF_LEFT(c.COTACAO_ITEMDESCRICAO, 60' +
+        ') '
+      'DESCRICAO, c.COTACAO_PRECO PRECO from COMPRA_COTACAO c')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 488
+    Top = 248
+  end
+  object DataSetProvider3: TDataSetProvider
+    DataSet = SQLQuery3
+    Options = [poAllowCommandText]
+    Left = 520
+    Top = 248
+  end
+  object cds4: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider3'
+    Left = 552
+    Top = 248
+    object cds4ITEM: TStringField
+      FieldName = 'ITEM'
+      Required = True
+      Size = 15
+    end
+    object cds4DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object cds4PRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+  end
+  object DataSource3: TDataSource
+    DataSet = cds4
+    Left = 584
+    Top = 248
+  end
+  object SQLQuery4: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      
+        'select c.COTACAO_ITEM ITEM, UDF_LEFT(c.COTACAO_ITEMDESCRICAO, 60' +
+        ') '
+      'DESCRICAO, c.COTACAO_PRECO PRECO from COMPRA_COTACAO c')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 88
+    Top = 384
+  end
+  object DataSetProvider4: TDataSetProvider
+    DataSet = SQLQuery4
+    Options = [poAllowCommandText]
+    Left = 120
+    Top = 384
+  end
+  object cds5: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider4'
+    Left = 152
+    Top = 384
+    object cds5ITEM: TStringField
+      FieldName = 'ITEM'
+      Required = True
+      Size = 15
+    end
+    object cds5DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object cds5PRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+  end
+  object DataSource4: TDataSource
+    DataSet = cds5
+    Left = 184
+    Top = 384
+  end
+  object SQLQuery5: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      
+        'select c.COTACAO_ITEM ITEM, UDF_LEFT(c.COTACAO_ITEMDESCRICAO, 60' +
+        ') '
+      'DESCRICAO, c.COTACAO_PRECO PRECO from COMPRA_COTACAO c')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 464
+    Top = 376
+  end
+  object DataSetProvider5: TDataSetProvider
+    DataSet = SQLQuery5
+    Options = [poAllowCommandText]
+    Left = 496
+    Top = 376
+  end
+  object cds6: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider5'
+    Left = 528
+    Top = 376
+    object cds6ITEM: TStringField
+      FieldName = 'ITEM'
+      Required = True
+      Size = 15
+    end
+    object cds6DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object cds6PRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+  end
+  object DataSource5: TDataSource
+    DataSet = cds6
+    Left = 560
+    Top = 376
   end
   object SQLQuery1: TSQLQuery
     MaxBlobSize = -1
@@ -310,510 +583,35 @@ inherited fCotacaoVer: TfCotacaoVer
       'WHERE forn.CODFORNECEDOR = r.COTACAO_FORNEC'
       '      AND r.COTACAO_CODSOLIC = :pSolic')
     SQLConnection = DM.sqlsisAdimin
-    Left = 488
-    Top = 120
+    Left = 192
+    Top = 8
   end
   object DataSetProvider1: TDataSetProvider
     DataSet = SQLQuery1
-    Left = 520
+    Options = [poAllowCommandText]
+    Left = 224
+    Top = 8
+  end
+  object cdsFornec: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pSolic'
+        ParamType = ptUnknown
+      end>
+    ProviderName = 'DataSetProvider1'
+    Left = 256
+    Top = 8
+  end
+  object SQLDataSet1: TSQLDataSet
+    CommandText = 
+      'select COTACAO_ITEM ITEM, UDF_LEFT(COTACAO_ITEMDESCRICAO, 60) DE' +
+      'SCRICAO, COTACAO_PRECO PRECO '#13#10'from COMPRA_COTACAO'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 70
     Top = 120
-  end
-  object cds2: TClientDataSet
-    Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    ProviderName = 'dsp1'
-    Left = 552
-    Top = 120
-    object IntegerField1: TIntegerField
-      FieldName = 'COTACAO_CODIGO'
-      Required = True
-    end
-    object DateField1: TDateField
-      FieldName = 'COTACAO_DATA'
-    end
-    object IntegerField2: TIntegerField
-      FieldName = 'COTACAO_FORNEC'
-      Required = True
-    end
-    object StringField1: TStringField
-      FieldName = 'COTACAO_SOLICIT'
-    end
-    object StringField2: TStringField
-      FieldName = 'COTACAO_ITEM'
-      Required = True
-      Size = 15
-    end
-    object StringField3: TStringField
-      FieldName = 'COTACAO_ITEMDESCRICAO'
-      Size = 300
-    end
-    object StringField4: TStringField
-      FieldName = 'COTACAO_SITUACAO'
-      FixedChar = True
-      Size = 1
-    end
-    object FloatField1: TFloatField
-      FieldName = 'COTACAO_QTDE'
-    end
-    object FloatField2: TFloatField
-      FieldName = 'COTACAO_PRECO'
-    end
-    object StringField5: TStringField
-      FieldName = 'COTACAO_USER'
-    end
-    object DateField2: TDateField
-      FieldName = 'COTACAO_DTENTREGA'
-    end
-    object StringField6: TStringField
-      FieldName = 'COTACAO_PRAZO'
-      Size = 30
-    end
-    object StringField7: TStringField
-      FieldName = 'COTACAO_OBSERVACAO'
-      Size = 200
-    end
-    object StringField8: TStringField
-      FieldName = 'COTACAO_TIPO'
-      FixedChar = True
-      Size = 1
-    end
-    object IntegerField3: TIntegerField
-      FieldName = 'COTACAO_CODSOLIC'
-    end
-    object StringField9: TStringField
-      FieldName = 'FORNECEDOR'
-      Required = True
-      Size = 50
-    end
-  end
-  object DataSource1: TDataSource
-    DataSet = cds2
-    Left = 592
-    Top = 120
-  end
-  object SQLQuery2: TSQLQuery
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    SQL.Strings = (
-      'SELECT r.COTACAO_CODIGO, r.COTACAO_DATA, r.COTACAO_FORNEC, '
-      'r.COTACAO_SOLICIT, r.COTACAO_ITEM, r.COTACAO_ITEMDESCRICAO, '
-      'r.COTACAO_SITUACAO, r.COTACAO_QTDE, r.COTACAO_PRECO, '
-      'r.COTACAO_USER, r.COTACAO_DTENTREGA, r.COTACAO_PRAZO, '
-      'r.COTACAO_OBSERVACAO, r.COTACAO_TIPO, r.COTACAO_CODSOLIC, '
-      'forn.RAZAOSOCIAL FORNECEDOR'
-      '   FROM COMPRA_COTACAO r, FORNECEDOR forn'
-      'WHERE forn.CODFORNECEDOR = r.COTACAO_FORNEC'
-      '      AND r.COTACAO_CODSOLIC = :pSolic')
-    SQLConnection = DM.sqlsisAdimin
-    Left = 72
-    Top = 208
-  end
-  object DataSetProvider2: TDataSetProvider
-    DataSet = SQLQuery2
-    Left = 104
-    Top = 208
-  end
-  object cds3: TClientDataSet
-    Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    ProviderName = 'dsp1'
-    Left = 136
-    Top = 208
-    object IntegerField4: TIntegerField
-      FieldName = 'COTACAO_CODIGO'
-      Required = True
-    end
-    object DateField3: TDateField
-      FieldName = 'COTACAO_DATA'
-    end
-    object IntegerField5: TIntegerField
-      FieldName = 'COTACAO_FORNEC'
-      Required = True
-    end
-    object StringField10: TStringField
-      FieldName = 'COTACAO_SOLICIT'
-    end
-    object StringField11: TStringField
-      FieldName = 'COTACAO_ITEM'
-      Required = True
-      Size = 15
-    end
-    object StringField12: TStringField
-      FieldName = 'COTACAO_ITEMDESCRICAO'
-      Size = 300
-    end
-    object StringField13: TStringField
-      FieldName = 'COTACAO_SITUACAO'
-      FixedChar = True
-      Size = 1
-    end
-    object FloatField3: TFloatField
-      FieldName = 'COTACAO_QTDE'
-    end
-    object FloatField4: TFloatField
-      FieldName = 'COTACAO_PRECO'
-    end
-    object StringField14: TStringField
-      FieldName = 'COTACAO_USER'
-    end
-    object DateField4: TDateField
-      FieldName = 'COTACAO_DTENTREGA'
-    end
-    object StringField15: TStringField
-      FieldName = 'COTACAO_PRAZO'
-      Size = 30
-    end
-    object StringField16: TStringField
-      FieldName = 'COTACAO_OBSERVACAO'
-      Size = 200
-    end
-    object StringField17: TStringField
-      FieldName = 'COTACAO_TIPO'
-      FixedChar = True
-      Size = 1
-    end
-    object IntegerField6: TIntegerField
-      FieldName = 'COTACAO_CODSOLIC'
-    end
-    object StringField18: TStringField
-      FieldName = 'FORNECEDOR'
-      Required = True
-      Size = 50
-    end
-  end
-  object DataSource2: TDataSource
-    DataSet = cds3
-    Left = 168
-    Top = 208
-  end
-  object SQLQuery3: TSQLQuery
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    SQL.Strings = (
-      'SELECT r.COTACAO_CODIGO, r.COTACAO_DATA, r.COTACAO_FORNEC, '
-      'r.COTACAO_SOLICIT, r.COTACAO_ITEM, r.COTACAO_ITEMDESCRICAO, '
-      'r.COTACAO_SITUACAO, r.COTACAO_QTDE, r.COTACAO_PRECO, '
-      'r.COTACAO_USER, r.COTACAO_DTENTREGA, r.COTACAO_PRAZO, '
-      'r.COTACAO_OBSERVACAO, r.COTACAO_TIPO, r.COTACAO_CODSOLIC, '
-      'forn.RAZAOSOCIAL FORNECEDOR'
-      '   FROM COMPRA_COTACAO r, FORNECEDOR forn'
-      'WHERE forn.CODFORNECEDOR = r.COTACAO_FORNEC'
-      '      AND r.COTACAO_CODSOLIC = :pSolic')
-    SQLConnection = DM.sqlsisAdimin
-    Left = 488
-    Top = 248
-  end
-  object DataSetProvider3: TDataSetProvider
-    DataSet = SQLQuery3
-    Left = 520
-    Top = 248
-  end
-  object cds4: TClientDataSet
-    Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    ProviderName = 'dsp1'
-    Left = 552
-    Top = 248
-    object IntegerField7: TIntegerField
-      FieldName = 'COTACAO_CODIGO'
-      Required = True
-    end
-    object DateField5: TDateField
-      FieldName = 'COTACAO_DATA'
-    end
-    object IntegerField8: TIntegerField
-      FieldName = 'COTACAO_FORNEC'
-      Required = True
-    end
-    object StringField19: TStringField
-      FieldName = 'COTACAO_SOLICIT'
-    end
-    object StringField20: TStringField
-      FieldName = 'COTACAO_ITEM'
-      Required = True
-      Size = 15
-    end
-    object StringField21: TStringField
-      FieldName = 'COTACAO_ITEMDESCRICAO'
-      Size = 300
-    end
-    object StringField22: TStringField
-      FieldName = 'COTACAO_SITUACAO'
-      FixedChar = True
-      Size = 1
-    end
-    object FloatField5: TFloatField
-      FieldName = 'COTACAO_QTDE'
-    end
-    object FloatField6: TFloatField
-      FieldName = 'COTACAO_PRECO'
-    end
-    object StringField23: TStringField
-      FieldName = 'COTACAO_USER'
-    end
-    object DateField6: TDateField
-      FieldName = 'COTACAO_DTENTREGA'
-    end
-    object StringField24: TStringField
-      FieldName = 'COTACAO_PRAZO'
-      Size = 30
-    end
-    object StringField25: TStringField
-      FieldName = 'COTACAO_OBSERVACAO'
-      Size = 200
-    end
-    object StringField26: TStringField
-      FieldName = 'COTACAO_TIPO'
-      FixedChar = True
-      Size = 1
-    end
-    object IntegerField9: TIntegerField
-      FieldName = 'COTACAO_CODSOLIC'
-    end
-    object StringField27: TStringField
-      FieldName = 'FORNECEDOR'
-      Required = True
-      Size = 50
-    end
-  end
-  object DataSource3: TDataSource
-    DataSet = cds4
-    Left = 584
-    Top = 248
-  end
-  object SQLQuery4: TSQLQuery
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    SQL.Strings = (
-      'SELECT r.COTACAO_CODIGO, r.COTACAO_DATA, r.COTACAO_FORNEC, '
-      'r.COTACAO_SOLICIT, r.COTACAO_ITEM, r.COTACAO_ITEMDESCRICAO, '
-      'r.COTACAO_SITUACAO, r.COTACAO_QTDE, r.COTACAO_PRECO, '
-      'r.COTACAO_USER, r.COTACAO_DTENTREGA, r.COTACAO_PRAZO, '
-      'r.COTACAO_OBSERVACAO, r.COTACAO_TIPO, r.COTACAO_CODSOLIC, '
-      'forn.RAZAOSOCIAL FORNECEDOR'
-      '   FROM COMPRA_COTACAO r, FORNECEDOR forn'
-      'WHERE forn.CODFORNECEDOR = r.COTACAO_FORNEC'
-      '      AND r.COTACAO_CODSOLIC = :pSolic')
-    SQLConnection = DM.sqlsisAdimin
-    Left = 88
-    Top = 384
-  end
-  object DataSetProvider4: TDataSetProvider
-    DataSet = SQLQuery4
-    Left = 120
-    Top = 384
-  end
-  object cds5: TClientDataSet
-    Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    ProviderName = 'dsp1'
-    Left = 152
-    Top = 384
-    object IntegerField10: TIntegerField
-      FieldName = 'COTACAO_CODIGO'
-      Required = True
-    end
-    object DateField7: TDateField
-      FieldName = 'COTACAO_DATA'
-    end
-    object IntegerField11: TIntegerField
-      FieldName = 'COTACAO_FORNEC'
-      Required = True
-    end
-    object StringField28: TStringField
-      FieldName = 'COTACAO_SOLICIT'
-    end
-    object StringField29: TStringField
-      FieldName = 'COTACAO_ITEM'
-      Required = True
-      Size = 15
-    end
-    object StringField30: TStringField
-      FieldName = 'COTACAO_ITEMDESCRICAO'
-      Size = 300
-    end
-    object StringField31: TStringField
-      FieldName = 'COTACAO_SITUACAO'
-      FixedChar = True
-      Size = 1
-    end
-    object FloatField7: TFloatField
-      FieldName = 'COTACAO_QTDE'
-    end
-    object FloatField8: TFloatField
-      FieldName = 'COTACAO_PRECO'
-    end
-    object StringField32: TStringField
-      FieldName = 'COTACAO_USER'
-    end
-    object DateField8: TDateField
-      FieldName = 'COTACAO_DTENTREGA'
-    end
-    object StringField33: TStringField
-      FieldName = 'COTACAO_PRAZO'
-      Size = 30
-    end
-    object StringField34: TStringField
-      FieldName = 'COTACAO_OBSERVACAO'
-      Size = 200
-    end
-    object StringField35: TStringField
-      FieldName = 'COTACAO_TIPO'
-      FixedChar = True
-      Size = 1
-    end
-    object IntegerField12: TIntegerField
-      FieldName = 'COTACAO_CODSOLIC'
-    end
-    object StringField36: TStringField
-      FieldName = 'FORNECEDOR'
-      Required = True
-      Size = 50
-    end
-  end
-  object DataSource4: TDataSource
-    DataSet = cds5
-    Left = 184
-    Top = 384
-  end
-  object SQLQuery5: TSQLQuery
-    MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    SQL.Strings = (
-      'SELECT r.COTACAO_CODIGO, r.COTACAO_DATA, r.COTACAO_FORNEC, '
-      'r.COTACAO_SOLICIT, r.COTACAO_ITEM, r.COTACAO_ITEMDESCRICAO, '
-      'r.COTACAO_SITUACAO, r.COTACAO_QTDE, r.COTACAO_PRECO, '
-      'r.COTACAO_USER, r.COTACAO_DTENTREGA, r.COTACAO_PRAZO, '
-      'r.COTACAO_OBSERVACAO, r.COTACAO_TIPO, r.COTACAO_CODSOLIC, '
-      'forn.RAZAOSOCIAL FORNECEDOR'
-      '   FROM COMPRA_COTACAO r, FORNECEDOR forn'
-      'WHERE forn.CODFORNECEDOR = r.COTACAO_FORNEC'
-      '      AND r.COTACAO_CODSOLIC = :pSolic')
-    SQLConnection = DM.sqlsisAdimin
-    Left = 464
-    Top = 376
-  end
-  object DataSetProvider5: TDataSetProvider
-    DataSet = SQLQuery5
-    Left = 496
-    Top = 376
-  end
-  object cds6: TClientDataSet
-    Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'pSolic'
-        ParamType = ptUnknown
-      end>
-    ProviderName = 'dsp1'
-    Left = 528
-    Top = 376
-    object IntegerField13: TIntegerField
-      FieldName = 'COTACAO_CODIGO'
-      Required = True
-    end
-    object DateField9: TDateField
-      FieldName = 'COTACAO_DATA'
-    end
-    object IntegerField14: TIntegerField
-      FieldName = 'COTACAO_FORNEC'
-      Required = True
-    end
-    object StringField37: TStringField
-      FieldName = 'COTACAO_SOLICIT'
-    end
-    object StringField38: TStringField
-      FieldName = 'COTACAO_ITEM'
-      Required = True
-      Size = 15
-    end
-    object StringField39: TStringField
-      FieldName = 'COTACAO_ITEMDESCRICAO'
-      Size = 300
-    end
-    object StringField40: TStringField
-      FieldName = 'COTACAO_SITUACAO'
-      FixedChar = True
-      Size = 1
-    end
-    object FloatField9: TFloatField
-      FieldName = 'COTACAO_QTDE'
-    end
-    object FloatField10: TFloatField
-      FieldName = 'COTACAO_PRECO'
-    end
-    object StringField41: TStringField
-      FieldName = 'COTACAO_USER'
-    end
-    object DateField10: TDateField
-      FieldName = 'COTACAO_DTENTREGA'
-    end
-    object StringField42: TStringField
-      FieldName = 'COTACAO_PRAZO'
-      Size = 30
-    end
-    object StringField43: TStringField
-      FieldName = 'COTACAO_OBSERVACAO'
-      Size = 200
-    end
-    object StringField44: TStringField
-      FieldName = 'COTACAO_TIPO'
-      FixedChar = True
-      Size = 1
-    end
-    object IntegerField15: TIntegerField
-      FieldName = 'COTACAO_CODSOLIC'
-    end
-    object StringField45: TStringField
-      FieldName = 'FORNECEDOR'
-      Required = True
-      Size = 50
-    end
-  end
-  object DataSource5: TDataSource
-    DataSet = cds6
-    Left = 560
-    Top = 376
   end
 end
