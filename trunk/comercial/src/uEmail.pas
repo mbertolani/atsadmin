@@ -39,7 +39,7 @@ begin
     with IdSMTP1 do
     begin
       Connect;
-      with IdMessage1 do
+      {with IdMessage1 do
       begin
         Clear;
         From.Address := 'SeuEmail@xxxx.com.br'; // Email do remetente
@@ -57,11 +57,11 @@ begin
         Body.Add('<br>');
         Body.Add('<tr align="left" >');
         Body.Add('<th width=20%> <font face="Verdana" size=2 color=#003300> <strong> Cínthia Mélo </strong>');
-      end;
+      end;}
     end;
     try
     begin
-      IdSMTP1.Send(IdMessage1);  // Envia o email com os dados
+      //IdSMTP1.Send(IdMessage1);  // Envia o email com os dados
       Application.MessageBox('E-mail enviado com Sucesso!', 'Atenção' , MB_OK);
     end
     except

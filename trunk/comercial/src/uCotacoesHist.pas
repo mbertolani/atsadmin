@@ -72,11 +72,10 @@ begin
    ' a.COTACAO_CODSOLIC, a.COTACAO_DTENTREGA, a.COTACAO_PRAZO, a.COTACAO_OBSERVACAO, ' +
    ' a.COTACAO_IPI, a.COTACAO_DESCONTO, a.COTACAO_FRETE' +
    '  FROM COMPRA_COTACAO a ';
-  strP := strP + ' a.COTACAO_FORNEC = ' + edFornec.Text;
-  end;
+  strP := strP + 'where a.COTACAO_FORNEC = ' + edFornec.Text;
   if (edProduto.Text <> '') then
   begin
-    strCa := strCa + ' a.COTACAO_ITEM = ' + QuotedStr(edProduto.Text);
+    strP := strP + 'and a.COTACAO_ITEM = ' + QuotedStr(edProduto.Text);
   end;
 
 
