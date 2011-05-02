@@ -15,8 +15,10 @@ type
     Label4: TLabel;
     DBEdit2: TDBEdit;
     BitBtn1: TBitBtn;
-    DBGrid1: TDBGrid;
     DBNavigator1: TDBNavigator;
+    DBGrid1: TDBGrid;
+    DBCheckBox1: TDBCheckBox;
+    DBCheckBox2: TDBCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
