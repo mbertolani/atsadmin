@@ -209,6 +209,13 @@ inherited fCompraCotacao: TfCompraCotacao
         end
         item
           Expanded = False
+          FieldName = 'SOLIC_DESCRICAO'
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 250
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'MARCA'
           Title.Caption = 'Marca'
           Width = 100
@@ -226,13 +233,6 @@ inherited fCompraCotacao: TfCompraCotacao
           FieldName = 'CATEGORIA'
           Title.Caption = 'Sub-Gupo'
           Width = 100
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'SOLIC_DESCRICAO'
-          Title.Caption = 'Descri'#231#227'o'
-          Width = 250
           Visible = True
         end
         item
@@ -577,7 +577,7 @@ inherited fCompraCotacao: TfCompraCotacao
       Top = 30
       Width = 364
       Height = 21
-      TabOrder = 3
+      TabOrder = 6
     end
     object jvdbgrd2: TJvDBGrid
       Left = 8
@@ -586,7 +586,7 @@ inherited fCompraCotacao: TfCompraCotacao
       Height = 128
       DataSource = dsCotacao
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-      TabOrder = 4
+      TabOrder = 7
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -675,26 +675,29 @@ inherited fCompraCotacao: TfCompraCotacao
           Visible = True
         end>
     end
-    object edFrete: TEdit
-      Left = 449
-      Top = 30
-      Width = 70
-      Height = 21
-      TabOrder = 5
-    end
-    object edIPI: TEdit
-      Left = 374
-      Top = 30
-      Width = 70
-      Height = 21
-      TabOrder = 6
-    end
-    object edDesconto: TEdit
+    object edDesconto: TJvCalcEdit
       Left = 299
       Top = 30
       Width = 70
       Height = 21
-      TabOrder = 7
+      TabOrder = 3
+      DecimalPlacesAlwaysShown = False
+    end
+    object edFrete: TJvCalcEdit
+      Left = 448
+      Top = 30
+      Width = 70
+      Height = 21
+      TabOrder = 5
+      DecimalPlacesAlwaysShown = False
+    end
+    object edIPI: TJvCalcEdit
+      Left = 373
+      Top = 30
+      Width = 70
+      Height = 21
+      TabOrder = 4
+      DecimalPlacesAlwaysShown = False
     end
   end
   object sqlSolic: TSQLQuery

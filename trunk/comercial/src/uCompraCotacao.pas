@@ -79,15 +79,15 @@ type
     cdsCotacaoCOTACAO_IPI: TFloatField;
     cdsCotacaoCOTACAO_DESCONTO: TFloatField;
     cdsCotacaoCOTACAO_FRETE: TFloatField;
-    edFrete: TEdit;
-    edIPI: TEdit;
     Label6: TLabel;
     Label7: TLabel;
-    edDesconto: TEdit;
     Label8: TLabel;
     cdsSolicFAMILIA: TStringField;
     cdsSolicCATEGORIA: TStringField;
     cdsSolicMARCA: TStringField;
+    edDesconto: TJvCalcEdit;
+    edFrete: TJvCalcEdit;
+    edIPI: TJvCalcEdit;
     procedure btnIncluiCotacaoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbnvgr1Click(Sender: TObject; Button: TNavigateBtn);
@@ -276,9 +276,9 @@ begin
     QuotedStr(FormatDateTime('mm/dd/yyyy', dtEntrega.Date)) + ', ';
 
   str_altera := str_altera + ' COTACAO_PRAZO        = ' + QuotedStr(cbPrazo.Text) + ', ';
-  str_altera := str_altera + ' COTACAO_FRETE        = ' + edFrete.Text + ', ';
-  str_altera := str_altera + ' COTACAO_IPI        = ' + edIPI.Text + ', ';
-  str_altera := str_altera + ' COTACAO_DESCONTO        = ' + edDesconto.Text + ', ';
+  str_altera := str_altera + ' COTACAO_FRETE        = ' + FloatToStr(edFrete.Value) + ', ';
+  str_altera := str_altera + ' COTACAO_IPI        = ' + FloatToStr(edIPI.Value) + ', ';
+  str_altera := str_altera + ' COTACAO_DESCONTO        = ' + FloatToStr(edDesconto.Value) + ', ';
   str_altera := str_altera + ' COTACAO_OBSERVACAO   = ' + QuotedStr(edObservacao.Text);
   str_altera := str_altera + ' WHERE COTACAO_CODIGO = ' + IntToStr(cdsCotacaoCOTACAO_CODIGO.AsInteger);
   DecimalSeparator := ',';
@@ -376,6 +376,9 @@ begin
   cbPrazo.Text      := cdsCotacaoCOTACAO_PRAZO.AsString;
   edObservacao.Text := cdsCotacaoCOTACAO_OBSERVACAO.AsString;
   edPreco.Value     := cdsCotacaoCOTACAO_PRECO.AsFloat;
+  edDesconto.Value  := cdsCotacaoCOTACAO_DESCONTO.AsFloat;
+  edFrete.Value     := cdsCotacaoCOTACAO_FRETE.AsFloat;
+  edIPI.Value       := cdsCotacaoCOTACAO_IPI.AsFloat;
 end;
 
 procedure TfCompraCotacao.FormCreate(Sender: TObject);
