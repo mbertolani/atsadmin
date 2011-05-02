@@ -1,6 +1,6 @@
 inherited fCfop: TfCfop
   Width = 691
-  Height = 509
+  Height = 527
   OldCreateOrder = True
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -8,7 +8,7 @@ inherited fCfop: TfCfop
   TextHeight = 13
   object Label3: TLabel [0]
     Left = 19
-    Top = 59
+    Top = 56
     Width = 42
     Height = 16
     Caption = 'CFOP :'
@@ -21,7 +21,7 @@ inherited fCfop: TfCfop
   end
   object Label4: TLabel [1]
     Left = 182
-    Top = 59
+    Top = 56
     Width = 143
     Height = 16
     Caption = 'Natureza da Opera'#231#227'o :'
@@ -33,7 +33,7 @@ inherited fCfop: TfCfop
     ParentFont = False
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 428
+    Top = 446
     Width = 683
   end
   inherited MMJPanel2: TMMJPanel
@@ -51,7 +51,7 @@ inherited fCfop: TfCfop
   end
   object DBEdit1: TDBEdit [4]
     Left = 19
-    Top = 75
+    Top = 72
     Width = 121
     Height = 24
     BevelKind = bkFlat
@@ -69,7 +69,7 @@ inherited fCfop: TfCfop
   end
   object BitBtn12: TBitBtn [5]
     Left = 141
-    Top = 63
+    Top = 60
     Width = 39
     Height = 36
     PopupMenu = PopupMenu1
@@ -178,7 +178,7 @@ inherited fCfop: TfCfop
   end
   object DBEdit2: TDBEdit [6]
     Left = 182
-    Top = 75
+    Top = 72
     Width = 448
     Height = 24
     BevelKind = bkFlat
@@ -197,7 +197,7 @@ inherited fCfop: TfCfop
   end
   object BitBtn1: TBitBtn [7]
     Left = 629
-    Top = 63
+    Top = 60
     Width = 39
     Height = 36
     PopupMenu = PopupMenu1
@@ -304,13 +304,22 @@ inherited fCfop: TfCfop
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object DBGrid1: TDBGrid [8]
+  object DBNavigator1: TDBNavigator [8]
+    Left = 160
+    Top = 396
+    Width = 368
+    Height = 31
+    DataSource = DtSrc
+    VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+    TabOrder = 6
+  end
+  object DBGrid1: TDBGrid [9]
     Left = 19
-    Top = 102
+    Top = 134
     Width = 646
     Height = 259
     DataSource = DtSrc
-    TabOrder = 6
+    TabOrder = 7
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -332,14 +341,29 @@ inherited fCfop: TfCfop
         Visible = True
       end>
   end
-  object DBNavigator1: TDBNavigator [9]
-    Left = 160
-    Top = 366
-    Width = 368
-    Height = 31
+  object DBCheckBox1: TDBCheckBox [10]
+    Left = 24
+    Top = 101
+    Width = 185
+    Height = 17
+    Caption = 'Acrescentar IPI '#224' Base de Calculo'
+    DataField = 'IPIBC'
     DataSource = DtSrc
-    VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
-    TabOrder = 7
+    TabOrder = 8
+    ValueChecked = 'True'
+    ValueUnchecked = 'False'
+  end
+  object DBCheckBox2: TDBCheckBox [11]
+    Left = 213
+    Top = 101
+    Width = 197
+    Height = 17
+    Caption = 'Acrescentar Frete '#224' Base de Calculo'
+    DataField = 'FRETEBC'
+    DataSource = DtSrc
+    TabOrder = 9
+    ValueChecked = 'True'
+    ValueUnchecked = 'False'
   end
   inherited DtSrc: TDataSource
     DataSet = DM.cds_cfop
