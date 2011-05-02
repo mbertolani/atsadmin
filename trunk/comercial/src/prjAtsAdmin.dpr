@@ -215,7 +215,6 @@ begin
   Application.Initialize;
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
-  Application.CreateForm(TfCotacoesHist, fCotacoesHist);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);    
