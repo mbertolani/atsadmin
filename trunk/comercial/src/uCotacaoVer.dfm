@@ -110,7 +110,7 @@ inherited fCotacaoVer: TfCotacaoVer
         end>
     end
   end
-  object GroupBox1: TGroupBox [4]
+  object gb3: TGroupBox [4]
     Left = 3
     Top = 163
     Width = 358
@@ -159,7 +159,7 @@ inherited fCotacaoVer: TfCotacaoVer
         end>
     end
   end
-  object GroupBox2: TGroupBox [5]
+  object gb4: TGroupBox [5]
     Left = 371
     Top = 163
     Width = 358
@@ -208,7 +208,7 @@ inherited fCotacaoVer: TfCotacaoVer
         end>
     end
   end
-  object GroupBox3: TGroupBox [6]
+  object gb5: TGroupBox [6]
     Left = 3
     Top = 291
     Width = 358
@@ -257,7 +257,7 @@ inherited fCotacaoVer: TfCotacaoVer
         end>
     end
   end
-  object GroupBox4: TGroupBox [7]
+  object gb6: TGroupBox [7]
     Left = 371
     Top = 291
     Width = 358
@@ -332,6 +332,8 @@ inherited fCotacaoVer: TfCotacaoVer
     object cds1PRECO: TFloatField
       FieldName = 'PRECO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
   end
   object ds1: TDataSource
@@ -377,6 +379,8 @@ inherited fCotacaoVer: TfCotacaoVer
     object cds2PRECO: TFloatField
       FieldName = 'PRECO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
   end
   object ds2: TDataSource
@@ -422,6 +426,8 @@ inherited fCotacaoVer: TfCotacaoVer
     object cds3PRECO: TFloatField
       FieldName = 'PRECO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
   end
   object DataSource2: TDataSource
@@ -467,6 +473,8 @@ inherited fCotacaoVer: TfCotacaoVer
     object cds4PRECO: TFloatField
       FieldName = 'PRECO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
   end
   object DataSource3: TDataSource
@@ -512,6 +520,8 @@ inherited fCotacaoVer: TfCotacaoVer
     object cds5PRECO: TFloatField
       FieldName = 'PRECO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
   end
   object DataSource4: TDataSource
@@ -557,6 +567,8 @@ inherited fCotacaoVer: TfCotacaoVer
     object cds6PRECO: TFloatField
       FieldName = 'PRECO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
   end
   object DataSource5: TDataSource
