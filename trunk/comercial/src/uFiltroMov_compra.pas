@@ -92,6 +92,8 @@ type
     cds_cnsUSER_APROVA: TStringField;
     GroupBox1: TGroupBox;
     cbStatus: TComboBox;
+    sds_cnsDATA_ENTREGA: TDateField;
+    cds_cnsDATA_ENTREGA: TDateField;
     procedure btnProcurarClick(Sender: TObject);
     procedure edControleExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -140,7 +142,7 @@ begin
      cds_cns.Close;
   cds_cns.CommandText:= 'select mov.CODMOVIMENTO, comp.NOTAFISCAL, comp.SERIE, ' +
      ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, comp.VALOR, mov.COD_VEICULO,' +
-     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA from ' +
+     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA, mov.data_entrega from ' +
      ' MOVIMENTO mov ' +
      ' inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
      ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR ' +

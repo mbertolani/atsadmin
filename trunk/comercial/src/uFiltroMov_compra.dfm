@@ -461,8 +461,8 @@ object fFiltroMov_compra: TfFiltroMov_compra
     object Label10: TJvLabel
       Left = 144
       Top = 2
-      Width = 499
-      Height = 40
+      Width = 429
+      Height = 37
       Caption = 'Pesquisa Compras/ Or'#231'amentos'
       ShadowColor = clNavy
       ShadowSize = 4
@@ -1331,79 +1331,86 @@ object fFiltroMov_compra: TfFiltroMov_compra
     Columns = <
       item
         Expanded = False
-        FieldName = 'CODMOVIMENTO'
-        Title.Caption = 'Cod.'
-        Width = 46
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'NOTAFISCAL'
-        Title.Caption = 'T'#237'tulo'
-        Width = 46
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SERIE'
-        Title.Caption = 'S'#233'rie'
-        Width = 47
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATAMOVIMENTO'
-        Title.Caption = 'Data'
-        Width = 46
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'CODFORNECEDOR'
         Title.Caption = 'C'#243'd.For.'
-        Width = 46
+        Width = 43
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMEFORNECEDOR'
         Title.Caption = 'Fornecedor'
-        Width = 217
+        Width = 206
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODMOVIMENTO'
+        Title.Caption = 'N'#250'mero Pedido.'
+        Width = 43
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAMOVIMENTO'
+        Title.Caption = 'Data'
+        Width = 43
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_ENTREGA'
+        Title.Caption = 'Previs'#227'o'
+        Width = 42
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOTAFISCAL'
+        Title.Caption = 'T'#237'tulo'
+        Width = 43
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SERIE'
+        Title.Caption = 'S'#233'rie'
+        Width = 44
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR'
         Title.Caption = 'Valor R$'
-        Width = 46
+        Width = 43
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'd. Nat.'
-        Width = 46
+        Width = 43
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 132
+        Width = 126
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUS'
         Title.Caption = 'Status'
-        Width = 46
+        Width = 43
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'COD_VEICULO'
         Title.Caption = 'Numero'
-        Width = 44
+        Width = 42
         Visible = True
       end>
   end
@@ -1471,11 +1478,11 @@ object fFiltroMov_compra: TfFiltroMov_compra
       'select  mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CODMOVIMENTO' +
       ', mov.CODNATUREZA, mov.DATAMOVIMENTO, '#13#10'mov.STATUS, nat.DESCNATU' +
       'REZA , comp.NOTAFISCAL, comp.SERIE, comp.VALOR, mov.CONTROLE, mo' +
-      'v.COD_VEICULO, mov.USER_APROVA'#13#10' from MOVIMENTO mov '#13#10#13#10' inner j' +
-      'oin NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA ' +
-      #13#10#13#10'left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.' +
-      'CODFORNECEDOR '#13#10' left outer join COMPRA comp on comp.CODMOVIMENT' +
-      'O = mov.CODMOVIMENTO '
+      'v.COD_VEICULO, mov.USER_APROVA, mov.data_entrega'#13#10' from MOVIMENT' +
+      'O mov '#13#10#13#10' inner join NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA ' +
+      '= mov.CODNATUREZA '#13#10#13#10'left outer join FORNECEDOR forn on forn.CO' +
+      'DFORNECEDOR = mov.CODFORNECEDOR '#13#10' left outer join COMPRA comp o' +
+      'n comp.CODMOVIMENTO = mov.CODMOVIMENTO '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1527,6 +1534,9 @@ object fFiltroMov_compra: TfFiltroMov_compra
     end
     object sds_cnsUSER_APROVA: TStringField
       FieldName = 'USER_APROVA'
+    end
+    object sds_cnsDATA_ENTREGA: TDateField
+      FieldName = 'DATA_ENTREGA'
     end
   end
   object dsp_cns: TDataSetProvider
@@ -1589,6 +1599,9 @@ object fFiltroMov_compra: TfFiltroMov_compra
     end
     object cds_cnsUSER_APROVA: TStringField
       FieldName = 'USER_APROVA'
+    end
+    object cds_cnsDATA_ENTREGA: TDateField
+      FieldName = 'DATA_ENTREGA'
     end
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage
