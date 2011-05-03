@@ -568,7 +568,7 @@ object DM: TDM
     end
   end
   object sds_cfop: TSQLDataSet
-    CommandText = 'select CFCOD, CFNOME, TIPOMOVIMENTO from CFOP'
+    CommandText = 'select CFCOD, CFNOME, FRETEBC, IPIBC, TIPOMOVIMENTO from CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
@@ -589,6 +589,16 @@ object DM: TDM
     object sds_cfopTIPOMOVIMENTO: TStringField
       FieldName = 'TIPOMOVIMENTO'
       ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object sds_cfopFRETEBC: TStringField
+      FieldName = 'FRETEBC'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_cfopIPIBC: TStringField
+      FieldName = 'IPIBC'
       FixedChar = True
       Size = 1
     end
@@ -616,6 +626,16 @@ object DM: TDM
     end
     object cds_cfopTIPOMOVIMENTO: TStringField
       FieldName = 'TIPOMOVIMENTO'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_cfopFRETEBC: TStringField
+      FieldName = 'FRETEBC'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_cfopIPIBC: TStringField
+      FieldName = 'IPIBC'
       FixedChar = True
       Size = 1
     end
@@ -1198,17 +1218,20 @@ object DM: TDM
   end
   object scds_forn_proc: TSQLClientDataSet
     CommandText = 
-      'select CODFORNECEDOR, NOMEFORNECEDOR, RAZAOSOCIAL,  PRAZOPAGAMEN' +
-      'TO from FORNECEDOR where ((NOMEFORNECEDOR like :pFORNECEDOR) or ' +
-      '(RAZAOSOCIAL like :pRAZAO) or (CODFORNECEDOR = :pCODFORNECEDOR))' +
-      ' '#13#10'and  (status = :pStatus) '#13#10'and  (((segmento = :pSegmento) or ' +
-      '(segmento = 1) ) or (:pSegmento = 1 ))'#13#10'order by NOMEFORNECEDOR'
+      'select f.CODFORNECEDOR, f.NOMEFORNECEDOR, f.RAZAOSOCIAL, ef.DDD,' +
+      ' ef.TELEFONE,  f.PRAZOPAGAMENTO'#13#10'from FORNECEDOR f'#13#10'inner join E' +
+      'NDERECOFORNECEDOR EF on EF.CODFORNECEDOR = F.CODFORNECEDOR'#13#10'wher' +
+      'e ((f.NOMEFORNECEDOR like :pFORNECEDOR) or (f.RAZAOSOCIAL like :' +
+      'pRAZAO) or (f.CODFORNECEDOR = :pCODFORNECEDOR)) '#13#10'and  (f.status' +
+      ' = :pStatus) '#13#10'and  (((f.segmento = :pSegmento) or (f.segmento =' +
+      ' 1) ) or (:pSegmento = 1 ))'#13#10'and ef.TIPOEND = 0'#13#10'order by f.NOME' +
+      'FORNECEDOR'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftString
         Name = 'pFORNECEDOR'
         ParamType = ptInput
       end
@@ -1223,17 +1246,17 @@ object DM: TDM
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftString
         Name = 'pStatus'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftString
         Name = 'pSegmento'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftString
         Name = 'pSegmento'
         ParamType = ptInput
       end>
@@ -1254,6 +1277,13 @@ object DM: TDM
       FieldName = 'RAZAOSOCIAL'
       Required = True
       Size = 50
+    end
+    object scds_forn_procDDD: TSmallintField
+      FieldName = 'DDD'
+    end
+    object scds_forn_procTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
     end
     object scds_forn_procPRAZOPAGAMENTO: TSmallintField
       FieldName = 'PRAZOPAGAMENTO'
