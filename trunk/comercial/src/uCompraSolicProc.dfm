@@ -163,8 +163,8 @@ inherited fCompraSolicProc: TfCompraSolicProc
   object JvDBGrid1: TJvDBGrid [2]
     Left = 0
     Top = 57
-    Width = 772
-    Height = 417
+    Width = 764
+    Height = 406
     Align = alClient
     DataSource = DtSrc
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
@@ -223,6 +223,12 @@ inherited fCompraSolicProc: TfCompraSolicProc
       end
       item
         Expanded = False
+        FieldName = 'UNIDADEMEDIDA'
+        Title.Caption = 'UN.'
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'SOLIC_SITUACAO'
         Title.Caption = 'Status'
         Visible = True
@@ -265,7 +271,9 @@ inherited fCompraSolicProc: TfCompraSolicProc
     DataSet = cdsSol
   end
   object sdsSol: TSQLDataSet
-    CommandText = 'SELECT * FROM COMPRA_SOLIC'
+    CommandText = 
+      'SELECT * FROM COMPRA_SOLIC, PRODUTOS'#13#10'where codpro = SOLIC_PRODU' +
+      'TO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -330,6 +338,11 @@ inherited fCompraSolicProc: TfCompraSolicProc
     object cdsSolSOLIC_OBSERVACAO: TStringField
       FieldName = 'SOLIC_OBSERVACAO'
       Size = 300
+    end
+    object cdsSolUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
     end
   end
 end

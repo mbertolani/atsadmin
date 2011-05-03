@@ -28,6 +28,7 @@ type
     cdsSolSOLIC_APROVACAO: TStringField;
     cdsSolSOLIC_DTNECESSIT: TDateField;
     cdsSolSOLIC_OBSERVACAO: TStringField;
+    cdsSolUNIDADEMEDIDA: TStringField;
     procedure rgSitClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -60,9 +61,12 @@ begin
   // Busca Solicitacao
   if (cdsSol.Active) then
     cdsSol.Close;
-  str := 'SELECT * FROM COMPRA_SOLIC ';
+  str := 'SELECT * FROM COMPRA_SOLIC, produtos' ;
   if (sit <> '') then
-    str := str + ' WHERE SOLIC_SITUACAO = ' + QuotedStr(sit);
+    str := str + ' WHERE SOLIC_SITUACAO = ' + QuotedStr(sit) +
+     ' and codpro = SOLIC_PRODUTO'
+  else
+    str := str + ' WHERE codpro = SOLIC_PRODUTO';
   cdsSol.CommandText := str;
   cdsSol.Open;
 end;
