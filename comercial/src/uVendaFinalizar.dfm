@@ -1532,42 +1532,42 @@ inherited fVendaFinalizar: TfVendaFinalizar
     PopupMenu = PopupMenu1
     TabOrder = 3
     object Label7: TLabel
-      Left = 6
+      Left = 70
       Top = 14
       Width = 32
       Height = 16
       Caption = 'S'#233'rie'
     end
     object Label8: TLabel
-      Left = 118
+      Left = 159
       Top = 14
       Width = 68
       Height = 16
       Caption = 'Nota Fiscal'
     end
     object Label9: TLabel
-      Left = 209
+      Left = 233
       Top = 14
       Width = 91
       Height = 16
       Caption = 'Data da Venda'
     end
     object Label10: TLabel
-      Left = 310
+      Left = 338
       Top = 14
       Width = 71
       Height = 16
       Caption = 'Vencimento'
     end
     object Label11: TLabel
-      Left = 416
+      Left = 446
       Top = 14
       Width = 72
       Height = 16
       Caption = 'N'#186' Parcelas'
     end
     object Label12: TLabel
-      Left = 494
+      Left = 523
       Top = 14
       Width = 67
       Height = 16
@@ -1629,8 +1629,15 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Height = 16
       Caption = 'Outros Valores R$'
     end
+    object Label39: TLabel
+      Left = 9
+      Top = 14
+      Width = 44
+      Height = 16
+      Caption = 'Pedido'
+    end
     object cbPrazo: TJvComboBox
-      Left = 313
+      Left = 337
       Top = 32
       Width = 104
       Height = 24
@@ -1644,9 +1651,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       ItemIndex = 0
     end
     object dbDtaVencimento: TDBEdit
-      Left = 312
+      Left = 336
       Top = 32
-      Width = 105
+      Width = 103
       Height = 24
       DataField = 'DATAVENCIMENTO'
       DataSource = DtSrc
@@ -1661,9 +1668,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object dbeSerie: TDBEdit
-      Left = 5
+      Left = 69
       Top = 32
-      Width = 81
+      Width = 56
       Height = 24
       DataField = 'SERIE'
       DataSource = DtSrc
@@ -1678,9 +1685,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object btnSerie: TBitBtn
-      Left = 85
-      Top = 32
-      Width = 33
+      Left = 127
+      Top = 31
+      Width = 29
       Height = 25
       Caption = '. . .'
       TabOrder = 1
@@ -1688,9 +1695,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnClick = btnSerieClick
     end
     object DBEdit2: TDBEdit
-      Left = 117
+      Left = 158
       Top = 32
-      Width = 89
+      Width = 73
       Height = 24
       DataField = 'NOTAFISCAL'
       DataSource = DtSrc
@@ -1704,7 +1711,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object DBEdit3: TDBEdit
-      Left = 208
+      Left = 232
       Top = 32
       Width = 102
       Height = 24
@@ -1720,9 +1727,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object DBEdit5: TDBEdit
-      Left = 420
+      Left = 444
       Top = 32
-      Width = 71
+      Width = 75
       Height = 24
       DataField = 'N_PARCELA'
       DataSource = DtSrc
@@ -1736,9 +1743,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object DBEdit6: TDBEdit
-      Left = 493
+      Left = 522
       Top = 32
-      Width = 115
+      Width = 88
       Height = 24
       DataField = 'ENTRADA'
       DataSource = DtSrc
@@ -1883,12 +1890,29 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object CheckBox2: TCheckBox
-      Left = 390
+      Left = 414
       Top = 14
       Width = 16
       Height = 17
       TabOrder = 17
       OnClick = CheckBox2Click
+    end
+    object DBEdit4: TDBEdit
+      Left = 8
+      Top = 32
+      Width = 56
+      Height = 24
+      DataField = 'CODMOVIMENTO'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 18
+      OnExit = dbeSerieExit
+      OnKeyPress = FormKeyPress
     end
   end
   object GroupBox4: TGroupBox [5]

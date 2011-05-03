@@ -481,6 +481,8 @@ type
     sForn_NCCONTA_FORNECEDOR: TStringField;
     SQLDataSet1DATARECEBIMENTO: TDateField;
     scdsCr_procDATARECEBIMENTO: TDateField;
+    DBEdit4: TDBEdit;
+    Label39: TLabel;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
