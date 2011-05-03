@@ -16,10 +16,10 @@ type
     cds1: TClientDataSet;
     ds1: TDataSource;
     gb2: TGroupBox;
-    GroupBox1: TGroupBox;
-    GroupBox2: TGroupBox;
-    GroupBox3: TGroupBox;
-    GroupBox4: TGroupBox;
+    gb3: TGroupBox;
+    gb4: TGroupBox;
+    gb5: TGroupBox;
+    gb6: TGroupBox;
     sql2: TSQLQuery;
     dsp2: TDataSetProvider;
     cds2: TClientDataSet;
@@ -101,9 +101,11 @@ begin
 
   if (cdsFornec.Active) then
     cdsFornec.Close;
-  cdsFornec.CommandText := 'select c.COTACAO_FORNEC from COMPRA_COTACAO c' +
-    ' where c.COTACAO_ITEM = ' + QuotedStr(item) + ' AND c.COTACAO_SITUACAO = ' +
-    QuotedStr('P');
+  cdsFornec.CommandText := 'select c.COTACAO_FORNEC, f.RAZAOSOCIAL ' +
+    '  from COMPRA_COTACAO c, FORNECEDOR f ' +
+    ' where c.COTACAO_FORNEC = f.CODFORNECEDOR ' +
+    '   and c.COTACAO_ITEM   = ' + QuotedStr(item) +
+    '   and c.COTACAO_SITUACAO = ' + QuotedStr('P');
   cdsFornec.Open;
 
   if (cds1.Active) then
@@ -132,26 +134,43 @@ begin
   cds4.CommandText := cds1.CommandText;
   cds5.CommandText := cds1.CommandText;
   cds6.CommandText := cds1.CommandText;
-  
+
   While not cdsFornec.Eof do
   begin
     if (i = 1) then
+    begin
       cds1.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
-
+      gb1.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    end;
     if (i = 2) then
+    begin
       cds2.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
+      gb2.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    end;
 
     if (i = 3) then
+    begin
       cds3.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
+      gb3.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    end;
 
     if (i = 4) then
+    begin
       cds4.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
+      gb4.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    end;
 
     if (i = 5) then
+    begin
       cds5.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
+      gb5.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    end;
 
     if (i = 6) then
+    begin
       cds6.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
+      gb6.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    end;
 
     i := i + 1;
     cdsFornec.Next;
