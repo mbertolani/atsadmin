@@ -62,7 +62,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 794
+    Width = 785
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -1418,8 +1418,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [15]
     Left = 0
-    Top = 522
-    Width = 794
+    Top = 521
+    Width = 785
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -1529,7 +1529,7 @@ inherited fVendas: TfVendas
     Top = 112
     Width = 633
     Height = 358
-    ActivePage = TabSheet1
+    ActivePage = Orcamento
     TabOrder = 6
     TabStop = False
     object TabSheet1: TTabSheet
@@ -2134,6 +2134,7 @@ inherited fVendas: TfVendas
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
+        OnClick = cbPrazoClick
         OnKeyPress = FormKeyPress
         Items.Strings = (
           'PRAZO')

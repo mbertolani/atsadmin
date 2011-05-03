@@ -593,6 +593,7 @@ type
     procedure RadioOrcamentoClick(Sender: TObject);
     procedure cbPrazoChange(Sender: TObject);
     procedure BtnClick(Sender: TObject);
+    procedure cbPrazoClick(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -3107,8 +3108,8 @@ end;
 procedure TfVendas.RadioPedidoClick(Sender: TObject);
 begin
   RadioOrcamento.Checked := False;
-  Orcamento.Visible := False;
-  Orcamento.Enabled := False;
+  {Orcamento.Visible := False;
+  Orcamento.Enabled := False;}
   if (DtSrc.State in [dsBrowse]) then
     cds_Movimento.Edit;
   if (DtSrc1.State in [dsBrowse]) then
@@ -3118,8 +3119,8 @@ end;
 procedure TfVendas.RadioOrcamentoClick(Sender: TObject);
 begin
   RadioPedido.Checked  := False;
-  Orcamento.Visible := True;
-  Orcamento.Enabled := True;
+  {Orcamento.Visible := True;
+  Orcamento.Enabled := True;}
   if (DtSrc.State in [dsBrowse]) then
     cds_Movimento.Edit;
   if (DtSrc1.State in [dsBrowse]) then
@@ -3129,6 +3130,10 @@ end;
 procedure TfVendas.cbPrazoChange(Sender: TObject);
 begin
   cds_MovimentoFORMA_PAG.AsString := cbPrazo.Text;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_Movimento.Edit;
+  if (DtSrc1.State in [dsBrowse]) then
+    cds_Mov_det.Edit;
 end;
 
 procedure TfVendas.BtnClick(Sender: TObject);
@@ -3174,5 +3179,13 @@ begin
     // Fecha o Word
     //WinWord.Quit;
     end;
+
+procedure TfVendas.cbPrazoClick(Sender: TObject);
+begin
+  if (DtSrc.State in [dsBrowse]) then
+    cds_Movimento.Edit;
+  if (DtSrc1.State in [dsBrowse]) then
+    cds_Mov_det.Edit;
+end;
 
 end.
