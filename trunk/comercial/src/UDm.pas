@@ -1754,6 +1754,12 @@ type
     sdsPermissaoUCPROFILE: TIntegerField;
     sds_EmpresaCRT: TIntegerField;
     cds_empresaCRT: TIntegerField;
+    sds_cfopFRETEBC: TStringField;
+    sds_cfopIPIBC: TStringField;
+    cds_cfopFRETEBC: TStringField;
+    cds_cfopIPIBC: TStringField;
+    scds_forn_procTELEFONE: TStringField;
+    scds_forn_procDDD: TSmallintField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -1870,6 +1876,15 @@ begin
   finally
     dbxconec.Free;
   end;
+
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'COMPRA';
+  cds_parametro.Open;
+  if (dm.cds_parametroD1.AsString <> '') then
+    userAprovaCompra := dm.cds_parametroD1.AsString
+  else
+    userAprovaCompra := 'adm';
 
   if cds_parametro.Active then
     cds_parametro.Close;
