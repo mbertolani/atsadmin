@@ -21,8 +21,8 @@ object fListaClientes: TfListaClientes
   object DBGrid1: TDBGrid
     Left = 0
     Top = 187
-    Width = 792
-    Height = 359
+    Width = 784
+    Height = 348
     Align = alClient
     Color = clMoneyGreen
     DataSource = DataSource1
@@ -57,6 +57,13 @@ object fListaClientes: TfListaClientes
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Nome Cliente'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'RAZAOSOCIAL'
+        Title.Caption = 'Raz'#227'o Social'
         Width = 300
         Visible = True
       end
@@ -129,19 +136,12 @@ object fListaClientes: TfListaClientes
         Title.Caption = 'Fone Res.'
         Width = 90
         Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'RAZAOSOCIAL'
-        Title.Caption = 'Raz'#227'o Social'
-        Width = 180
-        Visible = True
       end>
   end
   object Panel1: TPanel
     Left = 0
     Top = 60
-    Width = 792
+    Width = 784
     Height = 127
     Align = alTop
     BevelInner = bvLowered
@@ -359,6 +359,13 @@ object fListaClientes: TfListaClientes
         Height = 13
         Caption = 'Nome (n'#227'o use ACENTOS ou "'#199'")'
       end
+      object Label11: TLabel
+        Left = 262
+        Top = 14
+        Width = 167
+        Height = 13
+        Caption = 'Raz'#227'o (n'#227'o use ACENTOS ou "'#199'")'
+      end
       object edCodigo: TEdit
         Left = 4
         Top = 32
@@ -374,7 +381,7 @@ object fListaClientes: TfListaClientes
       object edNome: TEdit
         Left = 60
         Top = 32
-        Width = 389
+        Width = 193
         Height = 24
         Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
         BevelKind = bkFlat
@@ -386,12 +393,27 @@ object fListaClientes: TfListaClientes
         TabOrder = 1
         OnKeyPress = edNomeKeyPress
       end
+      object edRazao: TEdit
+        Left = 256
+        Top = 31
+        Width = 193
+        Height = 24
+        Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        Color = clCream
+        ParentShowHint = False
+        PopupMenu = PopupMenu1
+        ShowHint = True
+        TabOrder = 2
+        OnKeyPress = edNomeKeyPress
+      end
     end
   end
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 792
+    Width = 784
     Height = 60
     Align = alTop
     BevelInner = bvRaised

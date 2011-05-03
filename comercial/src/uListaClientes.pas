@@ -158,6 +158,8 @@ type
     RadioButton5: TRadioButton;
     RadioButton3: TRadioButton;
     RadioButton4: TRadioButton;
+    edRazao: TEdit;
+    Label11: TLabel;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -304,6 +306,12 @@ begin
      varCondicao := varCondicao + ' and UDF_COLLATEBR(cli.NOMECLIENTE) containing ' + '''' + edNome.Text +  ''''
    else
      varCondicao := 'where UDF_COLLATEBR(cli.NOMECLIENTE) containing ' + '''' + edNome.Text + '''';
+//********************************************************************************************
+ if edRazao.Text <> '' then
+   if varCondicao <> '' then
+     varCondicao := varCondicao + ' and UDF_COLLATEBR(cli.RAZAOSOCIAL) containing ' + '''' + edRazao.Text +  ''''
+   else
+     varCondicao := 'where UDF_COLLATEBR(cli.RAZAOSOCIAL) containing ' + '''' + edRazao.Text + '''';
 //********************************************************************************************
  if edCidade.Text <> '' then
    if varCondicao <> '' then
