@@ -1446,7 +1446,7 @@ object fProcura_produtos: TfProcura_produtos
     object sds_procPRODUTO: TStringField
       FieldName = 'PRODUTO'
       Required = True
-      Size = 200
+      Size = 300
     end
     object sds_procPRECO_VENDA: TFloatField
       FieldName = 'PRECO_VENDA'
@@ -1535,7 +1535,7 @@ object fProcura_produtos: TfProcura_produtos
     object cds_procPRODUTO: TStringField
       FieldName = 'PRODUTO'
       Required = True
-      Size = 200
+      Size = 300
     end
     object cds_procPRECO_VENDA: TFloatField
       FieldName = 'PRECO_VENDA'

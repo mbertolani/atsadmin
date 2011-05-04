@@ -1388,18 +1388,18 @@ object fProcura_prod: TfProcura_prod
   object sds_proc: TSQLDataSet
     CommandText = 
       'select distinct pro.CODPRODUTO, '#13#10'          pro.COD_BARRA,  '#13#10'  ' +
-      '       pro.CODPRO, '#13#10'          pro.PRODUTO,  '#13#10'          pro.PRE' +
-      'CO_VENDA, '#13#10'          pro.PRECO_COMPRAULTIMO as PRECO_COMPRA, '#13#10 +
-      '          pro.QTDE_PCT, '#13#10'          pro.UNIDADEMEDIDA, '#13#10'       ' +
-      '   pro.GRUPO, '#13#10'          pro.SUBGRUPO, '#13#10'          pro.MARCA, '#13 +
-      #10'          pro.ESTOQUEATUAL, '#13#10'          pro.CODALMOXARIFADO,'#13#10' ' +
-      '         pro.ICMS, '#13#10'          pro.TIPO,  '#13#10'          pro.LOCALI' +
-      'ZACAO ,'#13#10'          pro.LOTES ,'#13#10'          cod.CODIGO, '#13#10'        ' +
-      '  uso.DESCRICAO as USO , pro.PRECO_COMPRAMEDIO as PRECOMEDIO, pr' +
-      'o.PESO_QTDE, pro.IPI ,pro.PEDIDO'#13#10'from LISTAPRODUTOCLI pro '#13#10'lef' +
-      't outer join CODIGOS cod on cod.COD_PRODUTO = pro.CODPRODUTO '#13#10'l' +
-      'eft outer join USO_PRODUTO uso on uso.COD_PRODUTO = pro.CODPRODU' +
-      'TO'
+      '       pro.CODPRO, '#13#10'          cast(pro.PRODUTO as varchar(300))' +
+      ' as Produto,  '#13#10'          pro.PRECO_VENDA, '#13#10'          pro.PRECO' +
+      '_COMPRAULTIMO as PRECO_COMPRA, '#13#10'          pro.QTDE_PCT, '#13#10'     ' +
+      '     pro.UNIDADEMEDIDA, '#13#10'          pro.GRUPO, '#13#10'          pro.S' +
+      'UBGRUPO, '#13#10'          pro.MARCA, '#13#10'          pro.ESTOQUEATUAL, '#13#10 +
+      '          pro.CODALMOXARIFADO,'#13#10'          pro.ICMS, '#13#10'          ' +
+      'pro.TIPO,  '#13#10'          pro.LOCALIZACAO ,'#13#10'          pro.LOTES ,'#13 +
+      #10'          cod.CODIGO, '#13#10'          uso.DESCRICAO as USO , pro.PR' +
+      'ECO_COMPRAMEDIO as PRECOMEDIO, pro.PESO_QTDE, pro.IPI ,pro.PEDID' +
+      'O'#13#10'from LISTAPRODUTOCLI pro '#13#10'left outer join CODIGOS cod on cod' +
+      '.COD_PRODUTO = pro.CODPRODUTO '#13#10'left outer join USO_PRODUTO uso ' +
+      'on uso.COD_PRODUTO = pro.CODPRODUTO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1416,7 +1416,7 @@ object fProcura_prod: TfProcura_prod
     object sds_procPRODUTO: TStringField
       FieldName = 'PRODUTO'
       Required = True
-      Size = 200
+      Size = 300
     end
     object sds_procPRECO_VENDA: TFloatField
       FieldName = 'PRECO_VENDA'
@@ -1508,7 +1508,7 @@ object fProcura_prod: TfProcura_prod
     object cds_procPRODUTO: TStringField
       FieldName = 'PRODUTO'
       Required = True
-      Size = 200
+      Size = 300
     end
     object cds_procPRECO_VENDA: TFloatField
       FieldName = 'PRECO_VENDA'
