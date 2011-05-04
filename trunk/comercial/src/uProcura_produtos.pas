@@ -460,9 +460,9 @@ begin
 
  if edProduto.Text <> '' then
    if varCondicaoA <> '' then
-     varCondicaoA := varCondicaoA + ' and UDF_COLLATEBR(PRODUTO) containing ' + '''' + edProduto.Text + ''''
+     varCondicaoA := varCondicaoA + ' and UDF_COLLATEBR(cast(PRODUTO as varchar(300))) containing ' + '''' + edProduto.Text + ''''
    else
-     varCondicaoA := 'where UDF_COLLATEBR(PRODUTO) containing ' + '''' + edProduto.Text + '''';
+     varCondicaoA := 'where UDF_COLLATEBR(cast(PRODUTO as varchar(300))) containing ' + '''' + edProduto.Text + '''';
 
  if edOutros.Text <> '' then
    if varCondicaoA <> '' then

@@ -448,7 +448,7 @@ begin
  cds_proc.CommandText := '';
  varCondicao := '';
  // Produtos
- varSql := 'select distinct CODPRODUTO, COD_BARRA, CODPRO, PRODUTO,  ' +
+ varSql := 'select distinct CODPRODUTO, COD_BARRA, CODPRO, cast(PRODUTO as varchar(300)) as PRODUTO,  ' +
    'PRECO_VENDA, PRECO_COMPRAULTIMO as PRECO_COMPRA, ' +
    'QTDE_PCT, UNIDADEMEDIDA, ' +
    'GRUPO, SUBGRUPO, MARCA, ' +
@@ -522,9 +522,9 @@ begin
   begin
     if edProduto.Text <> '' then
     if varCondicaoA <> '' then
-      varCondicaoA := varCondicaoA + ' and UDF_COLLATEBR(PRODUTO) containing ' + '''' + edProduto.Text + ''''
-    else
-      varCondicaoA := 'where UDF_COLLATEBR(PRODUTO) containing ' + '''' + edProduto.Text + '''';
+     varCondicaoA := varCondicaoA + ' and UDF_COLLATEBR(cast(PRODUTO as varchar(300))) containing ' + '''' + edProduto.Text + ''''
+   else
+     varCondicaoA := 'where UDF_COLLATEBR(cast(PRODUTO as varchar(300))) containing ' + '''' + edProduto.Text + '''';
   end;
   if (rbBuscaSimples.Checked) then
   begin
