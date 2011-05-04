@@ -122,6 +122,8 @@ begin
   str := str + ', ICMS = ' + FloatToStr(cdsClassFiscICMS.AsFloat);
   str := str + ', ICMS_BASE = ' + FloatToStr(cdsClassFiscICMS_BASE.AsFloat);
   str := str + ', CST = ' + QuotedStr(cdsClassFiscCST.AsString);
+  str := str + ', CSOSN = ' + QuotedStr(cdsClassFiscCSOSN.AsString);
+  str := str + ', IPI = ' + FloatToStr(cdsClassFiscIPI.AsFloat);
   str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
   str := str + ' AND CFOP = ' + QuotedStr(CFOP);
   str := str + ' AND UF = ' + QuotedStr(UF);
