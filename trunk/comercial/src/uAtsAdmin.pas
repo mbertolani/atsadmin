@@ -223,6 +223,8 @@ type
     ApontamentodeHoras1: TMenuItem;
     NFeNoPeriodo1: TMenuItem;
     RecebimentoMateriais1: TMenuItem;
+    Cotao1: TMenuItem;
+    CotaoPedido1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -328,6 +330,8 @@ type
     procedure ApontamentodeHoras1Click(Sender: TObject);
     procedure NFeNoPeriodo1Click(Sender: TObject);
     procedure RecebimentoMateriais1Click(Sender: TObject);
+    procedure Cotao1Click(Sender: TObject);
+    procedure CotaoPedido1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -368,7 +372,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
-  uCompraRecebimento;
+  uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra;
 
 {$R *.dfm}
 
@@ -1745,6 +1749,31 @@ begin
     fCompraRecebimento.Free;
   end;
 
+end;
+
+procedure TfAtsAdmin.Cotao1Click(Sender: TObject);
+begin
+  fCompraCotacao2 := TfCompraCotacao2.Create(Application);
+  fCotacoesHist := TfCotacoesHist.Create(Application);
+  try
+    fCompraCotacao2.ShowModal;
+  finally
+    fCompraCotacao2.Free;
+    fCotacoesHist.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CotaoPedido1Click(Sender: TObject);
+begin
+  fCompra.Caption := 'Pedido - Cotação';
+  fCompra.btnIncluir.Left := -200;
+  fCompra.BitBtn1.Visible := False;
+  dm.tipoCompra := 'COTACAO';
+  fCompra.MMJPanel1.Background.EndColor := clYellow;
+  fCompra.MMJPanel2.Background.StartColor := clYellow;
+  fCompra.ShowModal;
+  fCompra.btnIncluir.Left := 4;
+    fCompra.BitBtn1.Visible := True;
 end;
 
 end.
