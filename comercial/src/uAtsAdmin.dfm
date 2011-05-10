@@ -2293,6 +2293,14 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Cotacao Compras'
         OnClick = CotacaoCompras1Click
       end
+      object Cotao1: TMenuItem
+        Caption = 'Negocia'#231#245'es Compras'
+        OnClick = Cotao1Click
+      end
+      object CotaoPedido1: TMenuItem
+        Caption = 'Cota'#231#227'o - Pedido'
+        OnClick = CotaoPedido1Click
+      end
     end
     object NotaFiscal1: TMenuItem
       Caption = 'Nota Fiscal      '
