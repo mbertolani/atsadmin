@@ -998,6 +998,17 @@ begin
         ffiltromov_compra.MMJPanel1.Background.EndColor := clTeal;
         ffiltromov_compra.MMJPanel2.Background.EndColor := clTeal;
       end;
+      if (DM.tipoCompra = 'COTACAO') then
+      begin
+        fFiltroMov_compra.Edit3.Text := '5';
+        fFiltroMov_compra.Edit4.Text := 'Pedido - Cotação';
+        fFiltroMov_compra.Edit3.ReadOnly := True;
+        fFiltroMov_compra.Edit4.ReadOnly := True;
+        //fFiltroMov_compra.codigo := 'COTACAO';
+        ffiltromov_compra.Label10.Caption := 'Pedido - Cotação';
+        ffiltromov_compra.MMJPanel1.Background.EndColor := clYellow;
+        ffiltromov_compra.MMJPanel2.Background.EndColor := clYellow;
+      end;
       fFiltroMov_compra.ShowModal;
       if (GroupBox7.Visible = True) then
       begin
@@ -1403,8 +1414,8 @@ begin
     MMJPanel1.Background.EndColor := clOlive;
     MMJPanel2.Background.StartColor := clOlive;
     Label15.Caption := 'Devolução Compras';
-  end
-  else
+  end;
+  if (DM.tipoCompra = 'COMPRA') then
   begin
     MMJPanel1.Background.EndColor := clTeal;
     MMJPanel2.Background.StartColor := clTeal;
