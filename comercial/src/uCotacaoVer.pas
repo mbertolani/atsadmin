@@ -15,14 +15,6 @@ type
     dsp1: TDataSetProvider;
     cds1: TClientDataSet;
     ds1: TDataSource;
-<<<<<<< .mine
-=======
-    gb2: TGroupBox;
-    gb3: TGroupBox;
-    gb4: TGroupBox;
-    gb5: TGroupBox;
-    gb6: TGroupBox;
->>>>>>> .r752
     sql2: TSQLQuery;
     dsp2: TDataSetProvider;
     cds2: TClientDataSet;
@@ -205,7 +197,6 @@ begin
 
   if (cdsFornec.Active) then
     cdsFornec.Close;
-<<<<<<< .mine
   sqlFornec := 'select c.COTACAO_FORNEC, f.RAZAOSOCIAL, SUM(c.COTACAO_PRECO * c.COTACAO_QTDE) TOTAL' +
     '  from COMPRA_COTACAO c, FORNECEDOR f ' +
     ' where c.COTACAO_FORNEC = f.CODFORNECEDOR ';
@@ -233,13 +224,6 @@ begin
   sqlFornec := sqlFornec + ' GROUP BY c.COTACAO_FORNEC, f.RAZAOSOCIAL';
 
   cdsFornec.CommandText := sqlFornec;
-=======
-  cdsFornec.CommandText := 'select c.COTACAO_FORNEC, f.RAZAOSOCIAL ' +
-    '  from COMPRA_COTACAO c, FORNECEDOR f ' +
-    ' where c.COTACAO_FORNEC = f.CODFORNECEDOR ' +
-    '   and c.COTACAO_ITEM   = ' + QuotedStr(item) +
-    '   and c.COTACAO_SITUACAO = ' + QuotedStr('P');
->>>>>>> .r752
   cdsFornec.Open;
 
   if (cds1.Active) then
@@ -281,7 +265,6 @@ begin
     if (i = 1) then
     begin
       cds1.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
-<<<<<<< .mine
       gb1.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
       if (sqlBuscaTotal.Active) then
         sqlBuscaTotal.Close;
@@ -290,14 +273,9 @@ begin
       sqlBuscaTotal.Open;
       edTotal1.Value := sqlBuscaTotal.Fields[0].AsFloat;
     end;
-=======
-      gb1.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    end;
->>>>>>> .r752
     if (i = 2) then
     begin
       cds2.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
-<<<<<<< .mine
       gb2.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
       if (sqlBuscaTotal.Active) then
         sqlBuscaTotal.Close;
@@ -306,15 +284,10 @@ begin
       sqlBuscaTotal.Open;
       edTotal2.Value := sqlBuscaTotal.Fields[0].AsFloat;
     end;
-=======
-      gb2.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    end;
->>>>>>> .r752
 
     if (i = 3) then
     begin
       cds3.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
-<<<<<<< .mine
       gb3.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
       if (sqlBuscaTotal.Active) then
         sqlBuscaTotal.Close;
@@ -323,15 +296,10 @@ begin
       sqlBuscaTotal.Open;
       edTotal3.Value := sqlBuscaTotal.Fields[0].AsFloat;
     end;
-=======
-      gb3.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    end;
->>>>>>> .r752
 
     if (i = 4) then
     begin
       cds4.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
-<<<<<<< .mine
       gb4.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
       if (sqlBuscaTotal.Active) then
         sqlBuscaTotal.Close;
@@ -340,15 +308,10 @@ begin
       sqlBuscaTotal.Open;
       edTotal4.Value := sqlBuscaTotal.Fields[0].AsFloat;
     end;
-=======
-      gb4.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    end;
->>>>>>> .r752
 
     if (i = 5) then
     begin
       cds5.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
-<<<<<<< .mine
       gb5.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
       if (sqlBuscaTotal.Active) then
         sqlBuscaTotal.Close;
@@ -357,15 +320,10 @@ begin
       sqlBuscaTotal.Open;
       edTotal5.Value := sqlBuscaTotal.Fields[0].AsFloat;
     end;
-=======
-      gb5.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    end;
->>>>>>> .r752
 
     if (i = 6) then
     begin
       cds6.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
-<<<<<<< .mine
       gb6.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
       if (sqlBuscaTotal.Active) then
         sqlBuscaTotal.Close;
@@ -374,10 +332,6 @@ begin
       sqlBuscaTotal.Open;
       edTotal6.Value := sqlBuscaTotal.Fields[0].AsFloat;
     end;
-=======
-      gb6.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    end;
->>>>>>> .r752
 
     i := i + 1;
     cdsFornec.Next;
