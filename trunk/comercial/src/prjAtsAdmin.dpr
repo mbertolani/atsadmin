@@ -207,7 +207,11 @@ uses
   uRelNfe in 'uRelNfe.pas' {fRelNfe},
   uCompraRecebimento in 'uCompraRecebimento.pas' {fCompraRecebimento},
   uEmail in 'uEmail.pas' {fEmail},
-  uCotacoesHist in 'uCotacoesHist.pas' {fCotacoesHist};
+  uCotacoesHist in 'uCotacoesHist.pas' {fCotacoesHist},
+  uCompraCotacao2 in 'uCompraCotacao2.pas' {fCompraCotacao2},
+  uCotacaoVer in 'uCotacaoVer.pas' {fCotacaoVer},
+  uCompraCotacaoGerar in 'uCompraCotacaoGerar.pas' {fCompraCotacaoGerar},
+  uListaPedido in 'uListaPedido.pas' {fListaPedido};
 
 {$R *.res}
 
