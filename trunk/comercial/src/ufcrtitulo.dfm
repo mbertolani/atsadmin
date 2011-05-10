@@ -184,8 +184,8 @@ inherited fcpTitulo: TfcpTitulo
     Caption = 'Hist'#243'rico :'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 461
-    Width = 784
+    Top = 472
+    Width = 792
     TabOrder = 11
     inherited btnExcluir: TBitBtn [0]
       Left = 398
@@ -473,7 +473,7 @@ inherited fcpTitulo: TfcpTitulo
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 784
+    Width = 792
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -499,7 +499,7 @@ inherited fcpTitulo: TfcpTitulo
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 782
+      Width = 790
       Height = 52
       Align = alClient
       Alignment = taCenter
