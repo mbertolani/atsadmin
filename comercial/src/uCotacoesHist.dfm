@@ -1,55 +1,20 @@
 inherited fCotacoesHist: TfCotacoesHist
+  Width = 924
+  Height = 643
   Caption = 'Hist'#243'rico Cota'#231#245'es'
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Height = 81
-    object Label1: TLabel
-      Left = 8
-      Top = 8
-      Width = 67
-      Height = 13
-      Caption = 'Prod./Material'
-      Transparent = True
-    end
-    object Label4: TLabel
-      Left = 192
-      Top = 4
-      Width = 22
-      Height = 13
-      Caption = 'Forn.'
-      Transparent = True
-    end
-    object edProduto: TEdit
-      Left = 85
-      Top = 3
-      Width = 87
-      Height = 21
-      TabOrder = 0
-    end
-    object edFornec: TEdit
-      Left = 219
-      Top = 3
-      Width = 69
-      Height = 21
-      TabOrder = 1
-    end
-    object btnClienteProcura: TBitBtn
-      Left = 288
-      Top = 2
-      Width = 33
-      Height = 25
-      Caption = '...'
-      TabOrder = 2
-      TabStop = False
-    end
+    Width = 916
+    Height = 113
     object GroupBox2: TGroupBox
-      Left = 8
-      Top = 31
-      Width = 354
+      Left = 1
+      Top = 66
+      Width = 355
       Height = 46
       Caption = 'Per'#237'odo'
-      TabOrder = 3
+      TabOrder = 0
       object Label5: TLabel
         Left = 8
         Top = 16
@@ -104,18 +69,9 @@ inherited fCotacoesHist: TfCotacoesHist
         TabOrder = 2
       end
     end
-    object edFornecNome: TEdit
-      Left = 321
-      Top = 4
-      Width = 385
-      Height = 21
-      Color = clBtnShadow
-      Enabled = False
-      TabOrder = 4
-    end
     object BitBtn1: TBitBtn
-      Left = 600
-      Top = 35
+      Left = 762
+      Top = 68
       Width = 107
       Height = 42
       Caption = 'F8-Procura'
@@ -126,7 +82,7 @@ inherited fCotacoesHist: TfCotacoesHist
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 5
+      TabOrder = 1
       OnClick = BitBtn1Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -228,8 +184,118 @@ inherited fCotacoesHist: TfCotacoesHist
         D4D7D5D5D7D2D4D9D0D3DBCDCED6C8C9D4C7CFCEC6CDCBC0C8D4C9CBC2B2ACC0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object rgSituacao: TRadioGroup
+      Left = 356
+      Top = 66
+      Width = 403
+      Height = 46
+      Caption = 'Situa'#231#227'o'
+      Columns = 4
+      ItemIndex = 0
+      Items.Strings = (
+        'N'#227'o Cotado'
+        'Cotado'
+        'Finalizado'
+        'Todos')
+      TabOrder = 2
+    end
+    object GroupBox4: TGroupBox
+      Left = 1
+      Top = 1
+      Width = 914
+      Height = 64
+      Align = alTop
+      Caption = 'Filtro'
+      TabOrder = 3
+      object Label1: TLabel
+        Left = 6
+        Top = 11
+        Width = 67
+        Height = 13
+        Caption = 'Prod./Material'
+        Transparent = True
+      end
+      object Label4: TLabel
+        Left = 474
+        Top = 10
+        Width = 54
+        Height = 13
+        Caption = 'Fornecedor'
+        Transparent = True
+      end
+      object edProduto: TEdit
+        Left = 82
+        Top = 10
+        Width = 87
+        Height = 21
+        TabOrder = 0
+        OnExit = edProdutoExit
+      end
+      object edFornec: TEdit
+        Left = 535
+        Top = 9
+        Width = 69
+        Height = 21
+        TabOrder = 1
+        OnExit = edFornecExit
+      end
+      object btnClienteProcura: TBitBtn
+        Left = 605
+        Top = 9
+        Width = 33
+        Height = 21
+        Caption = '...'
+        TabOrder = 2
+        TabStop = False
+        OnClick = btnClienteProcuraClick
+      end
+      object edFornecNome: TEdit
+        Left = 473
+        Top = 35
+        Width = 415
+        Height = 21
+        Color = clBtnShadow
+        Enabled = False
+        TabOrder = 3
+      end
+      object edDescricao: TEdit
+        Left = 8
+        Top = 34
+        Width = 415
+        Height = 21
+        Color = clBtnShadow
+        Enabled = False
+        TabOrder = 4
+      end
+    end
   end
   inherited MMJPanel2: TMMJPanel
+    Top = 565
+    Width = 916
+    object Label11: TLabel [0]
+      Left = 16
+      Top = 8
+      Width = 91
+      Height = 13
+      Caption = 'Sit.:  P-N'#227'o Cotado'
+      Transparent = True
+    end
+    object Label12: TLabel [1]
+      Left = 39
+      Top = 22
+      Width = 45
+      Height = 11
+      Caption = 'G-Cotado'
+      Transparent = True
+    end
+    object Label13: TLabel [2]
+      Left = 39
+      Top = 36
+      Width = 56
+      Height = 13
+      Caption = 'F-Finalizado'
+      Transparent = True
+    end
     inherited btnGravar: TBitBtn
       Left = -200
     end
@@ -245,47 +311,425 @@ inherited fCotacoesHist: TfCotacoesHist
     inherited btnProcurar: TBitBtn
       Left = -200
     end
+    inherited btnSair: TBitBtn
+      Left = 725
+      Caption = 'Retornar'
+      Glyph.Data = {
+        360C0000424D360C000000000000360000002800000020000000200000000100
+        180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08A23F08C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08A23F08A23F08A2
+        3F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08BC5804BC5804A23F08A2
+        3F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08A74407C96501CC6701BC5804A2
+        3F08A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08B24E05CC6701CC6701BC
+        5804A23F08A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08B45105CC6701CC
+        6701B45105A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08BC5804CC
+        6701CC6701AF4C06A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08
+        A23F08A23F08A23F08A23F08A23F08A23F08A23F08A23F08A23F08A23F08A23F
+        08A23F08A23F08A23F08A23F08C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08C4
+        6002CC6701C96501A74407A23F08A23F08C0C0C0C0C0C0C0C0C0A23F08A23F08
+        A23F08A23F08A23F08A23F08A23F08A23F08A23F08A23F08A23F08A23F08A23F
+        08A23F08A23F08A23F08A23F08A23F08C0C0C0C0C0C0C0C0C0A23F08A23F08A5
+        4208C76202CC6701C25D03A23F08A23F08A23F08C0C0C0C0C0C0A23F08A23F08
+        C5681AC16214BD5D0FBA5709B75305B75305B75305B75305B75305B75305B753
+        05B75305B75305B75305AF4C06A23F08A23F08C0C0C0C0C0C0C0C0C0A23F08A2
+        3F08AA4707C96501CC6701B75305A23F08A23F08C0C0C0C0C0C0A23F08A23F08
+        EE9B37E7902BDF841FD87914D06E08CC6701CC6701CC6701CC6701CC6701CC67
+        01CC6701CC6701CC6701CC6701A54208A23F08C0C0C0C0C0C0C0C0C0C0C0C0A2
+        3F08A23F08AF4C06CC6701C96501A74407A23F08A23F08C0C0C0A23F08A23F08
+        F7A944F09D39E8922DE18621D97B15D26F0ACD6802CC6701CC6701CC6701CC67
+        01CC6701CC6701CC6701C25D03A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0A23F08A23F08BA5604CC6701BC5804A23F08A23F08C0C0C0A23F08A23F08
+        FCB04CF8AA46F19F3BE9942FE28823D77917A94609A23F08A23F08A23F08A23F
+        08A23F08A23F08A23F08A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0A23F08A23F08A74407CC6701CC6701A74407A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE9983CD37A27EB9531E38A25CB6C16A23F08A23F08A23F08A23F
+        08A23F08A23F08A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0A23F08A23F08BF5B03CC6701BA5604A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE6943BA7450CE38F33EC9733E48C27B95A11A23F08A23F08C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0A23F08A23F08B45105CC6701C25D03A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE6943BA23F08B25313EF9E3CED9935E28928AE4D0DA23F08A23F
+        08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0A23F08A23F08AD4906CC6701C96501A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08C36820F6A742EE9B37E38B29AE4D0EA23F
+        08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0A23F08A23F08AD4906CC6701CC6701A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08A23F08CF7729F7A844F09D39E48D2BAF4E
+        0EA23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0A23F08A23F08AD4906CC6701CC6701A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08A23F08A23F08DA8532F8AA46F19F3BE58F
+        2DAF4E0EA23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0A23F08A23F08B75305CC6701C76202A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08A23F08A23F08A23F08DA8632F9AC48F2A1
+        3DE6912FB75813A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0A23F08A23F08C76202CC6701BF5B03A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08C0C0C0A23F08A23F08A23F08DA8633FAAD
+        49F3A33EEC9733C06317A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A2
+        3F08A23F08A23F08B45105CC6701CC6701B24E05A23F08A23F08A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08C0C0C0C0C0C0A23F08A23F08A23F08C469
+        22FBAE4AF5A540ED9935CD721EA6440AA23F08A23F08A23F08A23F08A23F08A2
+        3F08A23F08AA4707CC6701CC6701C76202A23F08A23F08C0C0C0A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08C0C0C0C0C0C0C0C0C0A23F08A23F08A23F
+        08B95B19F6A846F6A742EE9B36DB8225B65611A23F08A23F08A23F08A23F08A2
+        3F08B45105CC6701CC6701C96501AA4707A23F08A23F08C0C0C0A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F
+        08A23F08A8460CDA8532F7A844F09D38E8912DDD8220CC6D13C6640AC25E03C4
+        6002CC6701CC6701C76202AA4707A23F08A23F08C0C0C0C0C0C0A23F08A23F08
+        FCB04CFCB04CE6943BA23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0A23F08A23F08A23F08B85B19DC8731F19F3AE9932FE28823DA7C17D2710BCD
+        6802C76202B75305A54208A23F08A23F08C0C0C0C0C0C0C0C0C0A23F08A23F08
+        D57F2EF6A948C46922A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0A23F08A23F08A23F08A23F08A7450BBF621AC5681BC16315B7560DAB
+        4808A23F08A23F08A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08
+        A23F08A23F08A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08A23F08A23F08A23F08A23F08A2
+        3F08A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        A23F08A23F08A23F08C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A23F08A23F08A23F08A23F08C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+    end
   end
-  object GroupBox1: TGroupBox [2]
+  object GroupBox3: TGroupBox [2]
     Left = 0
-    Top = 81
-    Width = 772
-    Height = 112
-    Align = alClient
-    Caption = 'Fornecedor'
+    Top = 249
+    Width = 916
+    Height = 316
+    Align = alBottom
+    Caption = 'Prod./ Material'
     TabOrder = 2
-    object JvDBGrid1: TJvDBGrid
+    object jvdbgrd2: TJvDBGrid
       Left = 2
       Top = 15
-      Width = 768
-      Height = 95
+      Width = 912
+      Height = 299
       Align = alClient
-      DataSource = DtSrc
+      DataSource = dsCotacao
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
-      OnDblClick = JvDBGrid1DblClick
-      FixedCols = 7
-      PostOnEnterKey = True
-      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
       EditControls = <>
       RowsHeight = 17
       TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'COTACAO_CODIGO'
+          Title.Caption = 'C'#243'd.'
+          Width = 50
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_DATA'
+          Title.Caption = 'Data'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_DTENTREGA'
+          Title.Caption = 'Data Entrega'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_ITEM'
+          Title.Caption = 'Prod./Material'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_ITEMDESCRICAO'
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 200
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_SITUACAO'
+          Title.Caption = 'Sit.'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_QTDE'
+          Title.Caption = 'Qtde.'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_PRECO'
+          Title.Caption = 'Preco'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_DESCONTO'
+          Title.Caption = 'Desconto'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_FRETE'
+          Title.Caption = 'Frete'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_IPI'
+          Title.Caption = 'IPI'
+          Visible = True
+        end>
     end
   end
-  object GroupBox3: TGroupBox [3]
+  object GroupBox1: TGroupBox [3]
     Left = 0
-    Top = 193
-    Width = 772
-    Height = 281
-    Align = alBottom
-    Caption = 'Prod./ Material'
+    Top = 113
+    Width = 916
+    Height = 136
+    Align = alTop
+    Caption = 'Fornecedores com Cota'#231#245'es existentes'
     TabOrder = 3
+    object JvDBGrid1: TJvDBGrid
+      Left = 2
+      Top = 15
+      Width = 912
+      Height = 119
+      Align = alClient
+      DataSource = DataSource1
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      OnCellClick = JvDBGrid1CellClick
+      OnKeyDown = JvDBGrid1KeyDown
+      OnKeyUp = JvDBGrid1KeyUp
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 17
+      TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'COTACAO_FORNEC'
+          Title.Caption = 'C'#243'digo Fornec.'
+          Width = 118
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NOMEFORNECEDOR'
+          Title.Caption = 'Fornecedor'
+          Width = 780
+          Visible = True
+        end>
+    end
+  end
+  inherited DtSrc: TDataSource
+    Left = 560
+    Top = 16
+  end
+  object sqlCotacao: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'FORNEC'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FORNEC'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      'SELECT * FROM COMPRA_COTACAO '
+      'WHERE ((COTACAO_FORNEC = :FORNEC) '
+      '         OR (:FORNEC = 0)) '
+      '       AND COTACAO_SITUACAO = '#39'P'#39)
+    SQLConnection = DM.sqlsisAdimin
+    Left = 376
+    Top = 24
+  end
+  object dspCotacao: TDataSetProvider
+    DataSet = sqlCotacao
+    Options = [poAllowCommandText]
+    Left = 408
+    Top = 24
+  end
+  object cdsCotacao: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'FORNEC'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FORNEC'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCotacao'
+    Left = 440
+    Top = 24
+    object cdsCotacaoCOTACAO_CODIGO: TIntegerField
+      FieldName = 'COTACAO_CODIGO'
+      Required = True
+    end
+    object cdsCotacaoCOTACAO_DATA: TDateField
+      FieldName = 'COTACAO_DATA'
+    end
+    object cdsCotacaoCOTACAO_FORNEC: TIntegerField
+      FieldName = 'COTACAO_FORNEC'
+      Required = True
+    end
+    object cdsCotacaoCOTACAO_SOLICIT: TStringField
+      FieldName = 'COTACAO_SOLICIT'
+    end
+    object cdsCotacaoCOTACAO_ITEMDESCRICAO: TStringField
+      FieldName = 'COTACAO_ITEMDESCRICAO'
+      Size = 300
+    end
+    object cdsCotacaoCOTACAO_SITUACAO: TStringField
+      FieldName = 'COTACAO_SITUACAO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCotacaoCOTACAO_QTDE: TFloatField
+      FieldName = 'COTACAO_QTDE'
+    end
+    object cdsCotacaoCOTACAO_PRECO: TFloatField
+      FieldName = 'COTACAO_PRECO'
+    end
+    object cdsCotacaoCOTACAO_USER: TStringField
+      FieldName = 'COTACAO_USER'
+    end
+    object cdsCotacaoCOTACAO_ITEM: TStringField
+      FieldName = 'COTACAO_ITEM'
+      Required = True
+      Size = 15
+    end
+    object cdsCotacaoCOTACAO_DTENTREGA: TDateField
+      FieldName = 'COTACAO_DTENTREGA'
+    end
+    object cdsCotacaoCOTACAO_PRAZO: TStringField
+      FieldName = 'COTACAO_PRAZO'
+      Size = 30
+    end
+    object cdsCotacaoCOTACAO_OBSERVACAO: TStringField
+      FieldName = 'COTACAO_OBSERVACAO'
+      Size = 200
+    end
+    object cdsCotacaoCOTACAO_IPI: TFloatField
+      FieldName = 'COTACAO_IPI'
+    end
+    object cdsCotacaoCOTACAO_DESCONTO: TFloatField
+      FieldName = 'COTACAO_DESCONTO'
+    end
+    object cdsCotacaoCOTACAO_FRETE: TFloatField
+      FieldName = 'COTACAO_FRETE'
+    end
+  end
+  object dsCotacao: TDataSource
+    DataSet = cdsCotacao
+    Left = 472
+    Top = 24
+  end
+  object SQLQuery1: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'ITEM'
+        ParamType = ptUnknown
+      end>
+    SQL.Strings = (
+      
+        'SELECT COTACAO_FORNEC, NOMEFORNECEDOR FROM COMPRA_COTACAO, FORNE' +
+        'CEDOR '
+      'WHERE COTACAO_FORNEC = CODFORNECEDOR '
+      '     AND COTACAO_ITEM = :ITEM '
+      '     AND COTACAO_SITUACAO = '#39'P'#39)
+    SQLConnection = DM.sqlsisAdimin
+    Left = 376
+    Top = 144
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = SQLQuery1
+    Options = [poAllowCommandText]
+    Left = 408
+    Top = 144
+  end
+  object ClientDataSet1: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'ITEM'
+        ParamType = ptUnknown
+      end>
+    ProviderName = 'DataSetProvider1'
+    Left = 440
+    Top = 144
+    object ClientDataSet1COTACAO_FORNEC: TIntegerField
+      FieldName = 'COTACAO_FORNEC'
+      Required = True
+    end
+    object ClientDataSet1NOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 400
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = ClientDataSet1
+    Left = 472
+    Top = 144
+  end
+  object sqlProc: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 304
+    Top = 112
   end
 end
