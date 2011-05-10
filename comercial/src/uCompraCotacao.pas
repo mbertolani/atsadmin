@@ -8,7 +8,7 @@ uses
   MMJPanel, Grids, DBGrids, JvExDBGrids, JvDBGrid, FMTBcd, DBClient,
   Provider, SqlExpr, dbxpress, dateutils, DBCtrls, rpcompobase, rpvclreport,
   JvExStdCtrls, JvHtControls, Mask, JvExMask, JvToolEdit, JvMaskEdit,
-  JvCheckedMaskEdit, JvDatePickerEdit, JvBaseEdits;
+  JvCheckedMaskEdit, JvDatePickerEdit, JvBaseEdits, ImgList;
 
 type
   TfCompraCotacao = class(TfPai_new)
@@ -64,30 +64,32 @@ type
     btnIncluiCotacao: TBitBtn;
     BitBtn1: TBitBtn;
     btnProcCotacao: TBitBtn;
-    GroupBox3: TGroupBox;
-    JvDBGrid1: TJvDBGrid;
     GroupBox4: TGroupBox;
-    Label3: TLabel;
-    Label5: TLabel;
-    Label4: TLabel;
-    Label2: TLabel;
-    dtEntrega: TJvDatePickerEdit;
-    cbPrazo: TComboBox;
-    edPreco: TJvCalcEdit;
-    edObservacao: TEdit;
     jvdbgrd2: TJvDBGrid;
     cdsCotacaoCOTACAO_IPI: TFloatField;
     cdsCotacaoCOTACAO_DESCONTO: TFloatField;
     cdsCotacaoCOTACAO_FRETE: TFloatField;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
     cdsSolicFAMILIA: TStringField;
     cdsSolicCATEGORIA: TStringField;
     cdsSolicMARCA: TStringField;
-    edDesconto: TJvCalcEdit;
-    edFrete: TJvCalcEdit;
-    edIPI: TJvCalcEdit;
+    BitBtn2: TBitBtn;
+    ImageList2: TImageList;
+    cdsSolicSELEC: TIntegerField;
+    ClientDataSet1TELEFONE: TStringField;
+    GroupBox3: TGroupBox;
+    JvDBGrid1: TJvDBGrid;
+    GroupBox5: TGroupBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    edDescricao: TEdit;
+    edMarca: TEdit;
+    edGrupo: TEdit;
+    edSubGrupo: TEdit;
+    edSolicitante: TEdit;
+    Label2: TLabel;
     procedure btnIncluiCotacaoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbnvgr1Click(Sender: TObject; Button: TNavigateBtn);
@@ -103,8 +105,22 @@ type
     procedure jvdbgrd2CellClick(Column: TColumn);
     procedure FormCreate(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure jvdbgrd2DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure jvdbgrd1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure jvdbgrd1TitleClick(Column: TColumn);
+    procedure edDescricaoKeyPress(Sender: TObject; var Key: Char);
+    procedure edMarcaKeyPress(Sender: TObject; var Key: Char);
+    procedure edGrupoKeyPress(Sender: TObject; var Key: Char);
+    procedure edSubGrupoKeyPress(Sender: TObject; var Key: Char);
   private
      TD: TTransactionDesc;
+     sql_solic : String;
+     function Selecionado(Codigos : TStringList; Codigo : String) : Integer;
+     procedure executaBusca;
     { Private declarations }
   public
     { Public declarations }
@@ -112,24 +128,37 @@ type
 
 var
   fCompraCotacao: TfCompraCotacao;
+  v_codigos : TStringList;
 
 implementation
 
-uses UDm, uProcurar;
+uses UDm, uProcurar, uCotacoesHist, uCotacaoVer;
 
 {$R *.dfm}
 
 procedure TfCompraCotacao.btnIncluiCotacaoClick(Sender: TObject);
 var str: string;
-  codCotacao: Integer;
-
+  codCotacao, x: Integer;
 begin
+  if (edit1.Text = '') then
+  begin
+    MessageDlg('Informe o Fornecedor.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
   sqlBusca.SQL.Add('SELECT MAX(COTACAO_CODIGO) FROM COMPRA_COTACAO');
   sqlBusca.Open;
   codCotacao := sqlBusca.Fields[0].AsInteger + 1;
+
+  Label2.Caption := 'Selecioados >> ';
+  for x := 0 to v_codigos.Count-1 do
+  begin
+    Label2.Caption := Label2.Caption + ' ' + v_codigos[x];
+  if (cdsSolic.Locate('SOLIC_CODIGO', v_codigos[x], [loCaseInsensitive])) then
+  begin
   str := 'INSERT INTO COMPRA_COTACAO (COTACAO_CODIGO, COTACAO_DATA, COTACAO_FORNEC, ' +
     ' COTACAO_SOLICIT, COTACAO_ITEM, COTACAO_ITEMDESCRICAO, COTACAO_SITUACAO, ' +
     ' COTACAO_QTDE, COTACAO_PRECO, COTACAO_USER, COTACAO_CODSOLIC, COTACAO_TIPO, ' +
@@ -160,13 +189,21 @@ begin
     dm.sqlsisAdimin.ExecuteDirect('UPDATE COMPRA_SOLIC SET SOLIC_SITUACAO = ' +
       QuotedStr('G') + ' WHERE SOLIC_CODIGO = ' + IntToStr(cdsSolicSOLIC_CODIGO.AsInteger)); // Altero o Status para G=Gerado Cotacao
     dm.sqlsisAdimin.Commit(TD);
-    MessageDlg('Cotação gravada com sucesso.', mtInformation, [mbOK], 0);
   except
     dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para gravar a cotação.', mtError, [mbOK], 0);
     exit;
   end;
 
+  end
+  else begin
+     // Não encontrou este registros
+     Label2.Caption := Label2.Caption + v_codigos[x];
+  end;
+
+  //Fim do Loop (FOR)
+  end;
+  MessageDlg('Cotação gravada com sucesso.', mtInformation, [mbOK], 0);
   if (cdsCotacao.Active) then
     cdsCotacao.Close;
   cdsCotacao.Params.ParamByName('FORNEC').AsInteger := StrToInt(edit1.Text);
@@ -181,10 +218,13 @@ end;
 
 procedure TfCompraCotacao.FormShow(Sender: TObject);
 begin
+  //Instanciando a lista de codigos
+  v_codigos := TStringList.Create;
   //inherited;
   if (cdsSolic.Active) then
     cdsSolic.Close;
   cdsSolic.Open;
+
 end;
 
 procedure TfCompraCotacao.dbnvgr1Click(Sender: TObject;
@@ -248,6 +288,13 @@ end;
 
 procedure TfCompraCotacao.btnProcCotacaoClick(Sender: TObject);
 begin
+  if (ClientDataSet1.Active) then
+    ClientDataSet1.Close;
+  if (Edit1.Text = '') then
+    ClientDataSet1.Params.ParamByName('item').AsInteger := StrToInt(Edit1.Text)
+  else
+    ClientDataSet1.Params.ParamByName('item').Clear;
+  ClientDataSet1.Open;
   if (cdsCotacao.Active) then
     cdsCotacao.Close;
   cdsCotacao.Params.ParamByName('FORNEC').AsInteger := StrToInt(Edit1.Text);
@@ -268,7 +315,7 @@ begin
   //inherited;
   //cdsCotacao.ApplyUpdates(0);
 
-  DecimalSeparator := '.';
+  {DecimalSeparator := '.';
   str_altera := 'UPDATE COMPRA_COTACAO SET ' +
     ' COTACAO_PRECO = ' + FloatToStr(edPreco.Value) + ', ';
 
@@ -301,11 +348,11 @@ begin
 
     MessageDlg('Alteração gravada com sucesso.', mtInformation, [mbOK], 0);
   except
-    //dm.sqlsisAdimin.SQLConnection.getErrorMessage();  
+    //dm.sqlsisAdimin.SQLConnection.getErrorMessage();
     dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para gravar a alteraçao.', mtError, [mbOK], 0);
     exit;
-  end;
+  end;}
 end;
 
 procedure TfCompraCotacao.BitBtn4Click(Sender: TObject);
@@ -332,12 +379,24 @@ begin
 end;
 
 procedure TfCompraCotacao.jvdbgrd1CellClick(Column: TColumn);
+var
+  x, y : integer;
 begin
-  inherited;
+
   if (ClientDataSet1.Active) then
     ClientDataSet1.Close;
   ClientDataSet1.Params.ParamByName('ITEM').AsString := cdsSolicSOLIC_PRODUTO.AsString;
   ClientDataSet1.Open;
+
+  //VERIFICAR SE JÁ ESTA INCLUSO
+  y := Selecionado(v_codigos, IntToStr(cdsSolicSOLIC_CODIGO.AsInteger));
+  if (y < 0) then // menor que zero, então não esta selecionado
+     v_codigos.Add(IntToStr(cdsSolicSOLIC_CODIGO.AsInteger)) //Adiciona à lista
+  else
+    v_codigos.Delete(y); //Senão remove ele da lista
+
+  jvDBGrd1.Repaint;
+
 end;
 
 procedure TfCompraCotacao.btnIncluirClick(Sender: TObject);
@@ -371,30 +430,30 @@ end;
 procedure TfCompraCotacao.jvdbgrd2CellClick(Column: TColumn);
 begin
   //inherited;
-  cdsCotacao.Edit;
+ { cdsCotacao.Edit;
   dtEntrega.Date    := cdsCotacaoCOTACAO_DTENTREGA.AsDateTime;
   cbPrazo.Text      := cdsCotacaoCOTACAO_PRAZO.AsString;
   edObservacao.Text := cdsCotacaoCOTACAO_OBSERVACAO.AsString;
   edPreco.Value     := cdsCotacaoCOTACAO_PRECO.AsFloat;
   edDesconto.Value  := cdsCotacaoCOTACAO_DESCONTO.AsFloat;
   edFrete.Value     := cdsCotacaoCOTACAO_FRETE.AsFloat;
-  edIPI.Value       := cdsCotacaoCOTACAO_IPI.AsFloat;
+  edIPI.Value       := cdsCotacaoCOTACAO_IPI.AsFloat;}
 end;
 
 procedure TfCompraCotacao.FormCreate(Sender: TObject);
 begin
-  if (not dm.cdsPrazo.Active) then
+  {if (not dm.cdsPrazo.Active) then
     dm.cdsPrazo.open;
   if (not dm.cdsPrazo.IsEmpty) then
   begin
     dm.CdsPrazo.first;
-    cbPrazo.Items.clear;
+    //cbPrazo.Items.clear;
     while not dm.CdsPrazo.eof do
     begin
       cbPrazo.Items.Add(dm.cdsPrazoPARAMETRO.asString);
       dm.cdsPrazo.next;
     end;
-  end;
+  end;}
 end;
 
 procedure TfCompraCotacao.btnExcluirClick(Sender: TObject);
@@ -417,6 +476,172 @@ begin
     exit;
   end;
 
+end;
+
+procedure TfCompraCotacao.BitBtn2Click(Sender: TObject);
+var st: string;
+begin
+ fCotacaoVer :=TfCotacaoVer.Create(Application);
+ fCotacaoVer.item := cdsSolicSOLIC_PRODUTO.AsString;
+ try
+   fCotacaoVer.ShowModal;
+ finally
+   fCotacaoVer.Free;
+ end;
+
+{ while not cdsSolic.Eof do
+ begin
+ if (DBCheckBox1.Checked) then
+   st := cdsSolicSOLIC_PRODUTO.AsString;
+   cdsSolic.Next;
+ end;}
+  //Trecho para teste (deve haver uma label no form chamada Label1
+end;
+
+procedure TfCompraCotacao.jvdbgrd2DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  {JvDBGrid1.Canvas.FillRect(Rect);
+  ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 1);
+  if scdsCr_procDUP_REC_NF.AsString = 'S' then
+    ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 2)
+  else
+    ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 0);}
+end;
+
+function TfCompraCotacao.Selecionado(Codigos: TStringList;
+  Codigo: String): Integer;
+var
+  x : integer;
+begin
+  //Verificando se o código já esta selecionado...
+  //Resultando -1 se não estiver e Resultando a posição
+  //dele na StringList caso já esteja selecionado.
+  Result := -1;
+  for x := 0 to Codigos.Count-1 do
+    if (Codigos[x] = Codigo) then
+      begin
+        Result := x; //Retorna a posição na StringList;
+        Break; //PARA DE EXECUTAR O LOOP
+      end;
+end;
+
+procedure TfCompraCotacao.jvdbgrd1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+var
+  x,y,Check : integer;
+  R: TRect;
+begin
+  //Desenhar o CheckBox na primeira coluna
+  if (DataCol = 0) then
+  begin
+    y := Selecionado(v_codigos, IntToStr(cdsSolicSOLIC_CODIGO.asInteger));
+    R := Rect;
+    R.Left :=  (Column.Width * -1) + 30; //Posicionando o CheckBox
+    InflateRect(R,-2,-2); //Diminuindo o CheckBox
+
+    if (y < 0) then //menor que zero, então não esta selecionado
+      DrawFrameControl(jvdbgrd1.Canvas.Handle,R,DFC_BUTTON, DFCS_BUTTONCHECK)
+    else
+      DrawFrameControl(jvDBGrd1.Canvas.Handle,R,DFC_BUTTON, DFCS_CHECKED);
+  end;
+end;
+
+procedure TfCompraCotacao.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+//Destruindo a lista de codigos
+  v_codigos.Free;
+end;
+
+procedure TfCompraCotacao.jvdbgrd1TitleClick(Column: TColumn);
+begin
+    cdsSolic.IndexFieldNames := Column.FieldName;
+end;
+
+procedure TfCompraCotacao.edDescricaoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+
+   if (edDescricao.Text <> '') then
+   begin
+     sql_solic := sql_solic + ' AND cs.SOLIC_DESCRICAO LIKE ' + QuotedStr(edDescricao.Text + '%');
+     executaBusca;
+   end
+   else
+     executaBusca;
+ end;
+end;
+
+procedure TfCompraCotacao.executaBusca;
+var sql_s : String;
+begin
+  sql_s := 'SELECT p.FAMILIA , p.CATEGORIA, p.MARCA, cs.SOLIC_CODIGO,' +
+    ' cs.SOLIC_DATA, cs.SOLIC_PRODUTO, cs.SOLIC_QUANTIDADE, ' +
+    ' cs.SOLIC_SOLICITANTE, cs.SOLIC_SITUACAO, cs.SOLIC_APROVACAO, ' +
+    ' cs.SOLIC_DATAAPROV, cs.SOLIC_DESCRICAO, cs.SOLIC_TIPO, ' +
+    ' cs.SOLIC_DTNECESSIT, cs.SOLIC_OBSERVACAO, 0 as SELEC ' +
+    '  FROM COMPRA_SOLIC cs ' +
+    ' inner join PRODUTOS p on p.codpro = cs.SOLIC_PRODUTO ' +
+    ' WHERE ((SOLIC_SITUACAO <> ' + QuotedStr('E') + ') ' +
+    '   AND  (SOLIC_SITUACAO <> ' + QuotedStr('P') + '))';
+
+  sql_s := sql_s + sql_solic + ' ORDER BY SOLIC_SITUACAO DESC, SOLIC_DTNECESSIT DESC';
+  if (cdsSolic.Active) then
+    cdsSolic.Close;
+  cdsSolic.CommandText := sql_s;
+  cdsSolic.Open;
+  sql_solic := '';
+end;
+
+procedure TfCompraCotacao.edMarcaKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   if (edMarca.Text <> '') then
+   begin
+     sql_solic := sql_solic + ' AND p.MARCA LIKE ' + QuotedStr(edMarca.Text + '%');
+     executaBusca;
+   end
+   else
+     executaBusca;
+ end;
+end;
+
+procedure TfCompraCotacao.edGrupoKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   if (edGrupo.Text <> '') then
+   begin
+     sql_solic := sql_solic + ' AND p.FAMILIA LIKE ' + QuotedStr(edGrupo.Text + '%');
+     executaBusca
+   end
+   else
+     executaBusca;
+ end;
+end;
+
+procedure TfCompraCotacao.edSubGrupoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   if (edSubGrupo.Text <> '') then
+   begin
+     sql_solic := sql_solic + ' AND p.CATEGORIA LIKE ' + QuotedStr(edSubGrupo.Text + '%');
+     executaBusca;
+   end
+   else
+     executaBusca;
+ end;
 end;
 
 end.
