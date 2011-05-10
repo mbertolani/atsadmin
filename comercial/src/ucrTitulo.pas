@@ -67,8 +67,6 @@ type
     Label6: TLabel;
     Label7: TLabel;
     DBEdit3: TDBEdit;
-    Label8: TLabel;
-    DBMemo1: TDBMemo;
     Label9: TLabel;
     DBEdit4: TDBEdit;
     DBEdit5: TDBEdit;
@@ -123,6 +121,10 @@ type
     DBEdit18: TDBEdit;
     DBEdit19: TDBEdit;
     Edit1: TEdit;
+    Label8: TLabel;
+    Label28: TLabel;
+    DBMemo2: TDBMemo;
+    Memo1: TMemo;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -219,6 +221,7 @@ var varsql : STRING;
  varCrTitulo : TUtils;
 begin
   inherited;
+  memo1.Text := '';
   DecimalSeparator := ',';  
   if (DM.MODULOUSERCONTROL = 'atsadmin') then
      Edit1.Text := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin
@@ -309,6 +312,13 @@ begin
       MessageDlg('Título já recebido.', mtWarning, [mbOK], 0);
       exit;
     end;
+
+    if (length(dm.cds_crHISTORICO.AsString + Memo1.Text) > 145) then
+    begin
+      MessageDlg('Histórico não pode ter mais de 150 caracteres.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+
     //Confirmando a baixa
     if (dm.cds_crTITULO.AsString = 'Diversos') then
       if  MessageDlg('Confirma a baixa dos título selecionados ?',
@@ -319,8 +329,8 @@ begin
     //Verifica se é cheque pre-datado e baixando o título
     for i:=1 to length(nrec) do
     begin
-      str_sql := 'UPDATE RECEBIMENTO SET DP = 0, HISTORICO = ';
-      str_sql := str_sql + QuotedStr(DBMemo1.Text);
+      str_sql := 'UPDATE RECEBIMENTO SET DP = 0, HISTORICO = HISTORICO || ';
+      str_sql := str_sql + QuotedStr(' - ') + ' || ' + QuotedStr(Memo1.Text);
       str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
       num := nrec[i - 1];
       str_sql := str_sql + IntToStr(num);
@@ -412,7 +422,7 @@ begin
   for j := 1 to length(nrec) do
   begin
     strsql2 := 'UPDATE RECEBIMENTO SET DP = 0, HISTORICO = ';
-    strsql2 := strsql2 + QuotedStr(DBMemo1.Text);
+    strsql2 := strsql2 + QuotedStr(Memo1.Text);
     strsql2 := strsql2 + ' WHERE CODRECEBIMENTO = ';
     num1 := nrec[j - 1];
     strsql2 := strsql2 + IntToStr(num1);
