@@ -305,6 +305,12 @@ begin
     exit;
   end;
 
+  if (length(dm.cds_4_pagarHISTORICO.AsString + Memo1.Text) > 145) then
+  begin
+    MessageDlg('Histórico não pode ter mais de 150 caracteres.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   if (dm.cds_4_pagarSTATUS.AsString = '7-') then
   begin
     MessageDlg('Título já pago.', mtWarning, [mbOK], 0);
@@ -323,7 +329,7 @@ begin
     begin
       str_sql := 'UPDATE PAGAMENTO SET DP = 0 , USERID = ' + QuotedStr(idusuario);
       str_sql := str_sql + ' ,HISTORICO = HISTORICO || ';
-      str_sql := str_sql + QuotedStr(Memo1.Text);
+      str_sql := str_sql + QuotedStr(' - ') + ' || ' + QuotedStr(Memo1.Text);
       str_sql := str_sql + ' WHERE CODPAGAMENTO = ';
       num := nrec[i - 1];
       str_sql := str_sql + IntToStr(num);

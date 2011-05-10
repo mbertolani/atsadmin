@@ -45,149 +45,156 @@ inherited fcrTitulo: TfcrTitulo
     Height = 16
     Caption = 'N'#250'mero do Documento :'
   end
-  object Label8: TLabel [5]
-    Left = 288
-    Top = 113
-    Width = 59
-    Height = 16
-    Caption = 'Hist'#243'rico :'
-  end
-  object Label9: TLabel [6]
+  object Label9: TLabel [5]
     Left = 40
     Top = 242
     Width = 105
     Height = 16
     Caption = 'Valor '#224' Receber :'
   end
-  object Label10: TLabel [7]
+  object Label10: TLabel [6]
     Left = 3
     Top = 274
     Width = 143
     Height = 16
     Caption = 'Corre'#231#227'o Monet'#225'ria (+) :'
   end
-  object Label11: TLabel [8]
+  object Label11: TLabel [7]
     Left = 45
     Top = 306
     Width = 100
     Height = 16
     Caption = 'Juros/Multas (+) :'
   end
-  object Label12: TLabel [9]
+  object Label12: TLabel [8]
     Left = 66
     Top = 336
     Width = 79
     Height = 16
     Caption = 'Desconto (-) :'
   end
-  object Label13: TLabel [10]
+  object Label13: TLabel [9]
     Left = 87
     Top = 366
     Width = 58
     Height = 16
     Caption = 'Perda (-) :'
   end
-  object Label14: TLabel [11]
+  object Label14: TLabel [10]
     Left = 25
     Top = 423
     Width = 78
     Height = 16
     Caption = 'Recebibo (=)'
   end
-  object Label15: TLabel [12]
+  object Label15: TLabel [11]
     Left = 288
     Top = 224
     Width = 47
     Height = 16
     Caption = 'Cliente :'
   end
-  object Label16: TLabel [13]
+  object Label16: TLabel [12]
     Left = 288
     Top = 272
     Width = 101
     Height = 16
     Caption = 'Centro de Custo :'
   end
-  object Label17: TLabel [14]
+  object Label17: TLabel [13]
     Left = 528
     Top = 272
     Width = 66
     Height = 16
     Caption = 'Vendedor :'
   end
-  object Label18: TLabel [15]
+  object Label18: TLabel [14]
     Left = 288
     Top = 320
     Width = 91
     Height = 16
     Caption = 'Data Emiss'#227'o :'
   end
-  object Label19: TLabel [16]
+  object Label19: TLabel [15]
     Left = 411
     Top = 320
     Width = 109
     Height = 16
     Caption = 'Data Vencimento :'
   end
-  object Label20: TLabel [17]
+  object Label20: TLabel [16]
     Left = 533
     Top = 320
     Width = 59
     Height = 16
     Caption = 'Situa'#231#227'o :'
   end
-  object Label21: TLabel [18]
+  object Label21: TLabel [17]
     Left = 733
     Top = 320
     Width = 26
     Height = 16
     Caption = 'Via :'
   end
-  object Label22: TLabel [19]
+  object Label22: TLabel [18]
     Left = 288
     Top = 364
     Width = 72
     Height = 16
     Caption = 'C'#243'd. receb.:'
   end
-  object Label23: TLabel [20]
+  object Label23: TLabel [19]
     Left = 364
     Top = 364
     Width = 77
     Height = 16
     Caption = 'C'#243'd. Venda :'
   end
-  object Label24: TLabel [21]
+  object Label24: TLabel [20]
     Left = 452
     Top = 364
     Width = 39
     Height = 16
     Caption = 'T'#237'tulo :'
   end
-  object Label25: TLabel [22]
+  object Label25: TLabel [21]
     Left = 558
     Top = 364
     Width = 103
     Height = 16
     Caption = 'Usu'#225'rio Logado :'
   end
-  object Label26: TLabel [23]
+  object Label26: TLabel [22]
     Left = 288
     Top = 408
     Width = 87
     Height = 16
     Caption = 'Data Sistema :'
   end
-  object Label27: TLabel [24]
+  object Label27: TLabel [23]
     Left = 496
     Top = 64
     Width = 105
     Height = 16
     Caption = 'Consolidado em :'
   end
+  object Label8: TLabel [24]
+    Left = 288
+    Top = 110
+    Width = 107
+    Height = 16
+    Caption = 'Hist'#243'rico anterior :'
+  end
+  object Label28: TLabel [25]
+    Left = 288
+    Top = 167
+    Width = 59
+    Height = 16
+    Caption = 'Hist'#243'rico :'
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 462
-    Width = 803
+    Top = 473
+    Width = 811
     TabOrder = 11
     object BitBtn2: TBitBtn [0]
       Left = 423
@@ -452,7 +459,7 @@ inherited fcrTitulo: TfcrTitulo
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 803
+    Width = 811
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -463,29 +470,30 @@ inherited fcrTitulo: TfcrTitulo
     inherited Label1: TLabel
       Left = 216
       Top = -75
-      Width = 397
+      Width = 366
+      Height = 44
       Caption = 'Baixar Lan'#231'amentos'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 214
       Top = -56
-      Width = 340
-      Height = 36
+      Width = 283
+      Height = 34
       Caption = 'Baixar Lan'#231'amentos'
       ParentFont = True
     end
     object RxLabel1: TRxLabel
       Left = 276
       Top = 11
-      Width = 342
-      Height = 36
+      Width = 285
+      Height = 34
       Caption = 'Baixar Lan'#231'amentos'
       ShadowColor = clBtnText
       Transparent = True
     end
   end
-  object DBLookupComboBox1: TDBLookupComboBox [27]
+  object DBLookupComboBox1: TDBLookupComboBox [28]
     Left = 16
     Top = 144
     Width = 253
@@ -500,7 +508,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [28]
+  object DBEdit3: TDBEdit [29]
     Left = 648
     Top = 80
     Width = 142
@@ -511,19 +519,6 @@ inherited fcrTitulo: TfcrTitulo
     DataSource = DtSrc
     TabOrder = 4
     OnKeyPress = FormKeyPress
-  end
-  object DBMemo1: TDBMemo [29]
-    Left = 288
-    Top = 129
-    Width = 489
-    Height = 89
-    TabStop = False
-    BevelKind = bkFlat
-    BorderStyle = bsNone
-    Color = clInfoBk
-    DataField = 'HISTORICO'
-    DataSource = DtSrc
-    TabOrder = 15
   end
   object DBEdit4: TDBEdit [30]
     Left = 148
@@ -537,7 +532,7 @@ inherited fcrTitulo: TfcrTitulo
     DataField = 'VALOR_RESTO'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 16
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
   object DBEdit5: TDBEdit [31]
@@ -611,7 +606,7 @@ inherited fcrTitulo: TfcrTitulo
     Width = 194
     Height = 38
     Caption = 'Relacionar Documentos'
-    TabOrder = 17
+    TabOrder = 16
     OnClick = BitBtn1Click
     Glyph.Data = {
       36080000424D3608000000000000360400002800000020000000200000000100
@@ -693,7 +688,7 @@ inherited fcrTitulo: TfcrTitulo
     DataField = 'NOMECLIENTE'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 18
+    TabOrder = 17
     OnKeyPress = FormKeyPress
   end
   object DBEdit11: TDBEdit [38]
@@ -708,7 +703,7 @@ inherited fcrTitulo: TfcrTitulo
     DataField = 'ALMOXARIFADO'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 19
+    TabOrder = 18
     OnKeyPress = FormKeyPress
   end
   object DBEdit12: TDBEdit [39]
@@ -723,7 +718,7 @@ inherited fcrTitulo: TfcrTitulo
     DataField = 'VENDEDOR'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 20
+    TabOrder = 19
     OnKeyPress = FormKeyPress
   end
   object DBEdit13: TDBEdit [40]
@@ -764,7 +759,7 @@ inherited fcrTitulo: TfcrTitulo
     DataField = 'STATUS'
     DataSource = DtSrc
     ItemHeight = 16
-    TabOrder = 21
+    TabOrder = 20
     TabStop = False
     OnKeyPress = FormKeyPress
   end
@@ -780,7 +775,7 @@ inherited fcrTitulo: TfcrTitulo
     DataField = 'VIA'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 22
+    TabOrder = 21
     OnKeyPress = FormKeyPress
   end
   object DBComboBox1: TComboBox [44]
@@ -847,7 +842,7 @@ inherited fcrTitulo: TfcrTitulo
     Width = 31
     Height = 30
     PopupMenu = PopupMenu1
-    TabOrder = 23
+    TabOrder = 22
     TabStop = False
     OnClick = BitBtn4Click
     Glyph.Data = {
@@ -915,7 +910,7 @@ inherited fcrTitulo: TfcrTitulo
     Top = 415
     Width = 36
     Height = 38
-    TabOrder = 24
+    TabOrder = 23
     OnClick = BitBtn5Click
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -1028,7 +1023,7 @@ inherited fcrTitulo: TfcrTitulo
     Color = clInfoBk
     DataField = 'CODRECEBIMENTO'
     DataSource = DtSrc
-    TabOrder = 25
+    TabOrder = 24
     OnKeyPress = FormKeyPress
   end
   object DBEdit17: TDBEdit [51]
@@ -1042,7 +1037,7 @@ inherited fcrTitulo: TfcrTitulo
     Color = clInfoBk
     DataField = 'CODVENDA'
     DataSource = DtSrc
-    TabOrder = 26
+    TabOrder = 25
     OnKeyPress = FormKeyPress
   end
   object DBEdit18: TDBEdit [52]
@@ -1056,7 +1051,7 @@ inherited fcrTitulo: TfcrTitulo
     Color = clInfoBk
     DataField = 'TITULO'
     DataSource = DtSrc
-    TabOrder = 27
+    TabOrder = 26
     OnKeyPress = FormKeyPress
   end
   object DBEdit19: TDBEdit [53]
@@ -1070,7 +1065,7 @@ inherited fcrTitulo: TfcrTitulo
     Color = clInfoBk
     DataField = 'DATASISTEMA'
     DataSource = DtSrc
-    TabOrder = 28
+    TabOrder = 27
     OnKeyPress = FormKeyPress
   end
   object Edit1: TEdit [54]
@@ -1082,7 +1077,30 @@ inherited fcrTitulo: TfcrTitulo
     BorderStyle = bsNone
     Color = clInfoBk
     ReadOnly = True
+    TabOrder = 28
+  end
+  object DBMemo2: TDBMemo [55]
+    Left = 288
+    Top = 126
+    Width = 489
+    Height = 40
+    TabStop = False
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataField = 'HISTORICO'
+    DataSource = DtSrc
+    MaxLength = 150
     TabOrder = 29
+  end
+  object Memo1: TMemo [56]
+    Left = 288
+    Top = 184
+    Width = 489
+    Height = 35
+    Lines.Strings = (
+      '')
+    TabOrder = 30
   end
   inherited PopupMenu1: TPopupMenu
     inherited Gravar1: TMenuItem
