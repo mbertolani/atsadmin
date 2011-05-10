@@ -21,8 +21,8 @@ object fFiltroMov_compra: TfFiltroMov_compra
   TextHeight = 13
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 468
-    Width = 789
+    Top = 479
+    Width = 797
     Height = 46
     Align = alBottom
     BevelInner = bvLowered
@@ -441,7 +441,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 789
+    Width = 797
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -477,7 +477,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
   object Panel1: TPanel
     Left = 0
     Top = 46
-    Width = 789
+    Width = 797
     Height = 132
     Align = alTop
     TabOrder = 2
@@ -1303,8 +1303,8 @@ object fFiltroMov_compra: TfFiltroMov_compra
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 178
-    Width = 789
-    Height = 290
+    Width = 797
+    Height = 301
     Align = alClient
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
@@ -1366,9 +1366,15 @@ object fFiltroMov_compra: TfFiltroMov_compra
       end
       item
         Expanded = False
+<<<<<<< .mine
+        FieldName = 'NOMEFORNECEDOR'
+        Title.Caption = 'Fornecedor'
+        Width = 219
+=======
         FieldName = 'NOTAFISCAL'
         Title.Caption = 'T'#237'tulo'
         Width = 43
+>>>>>>> .r752
         Visible = True
       end
       item
@@ -1396,7 +1402,11 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
+<<<<<<< .mine
+        Width = 133
+=======
         Width = 126
+>>>>>>> .r752
         Visible = True
       end
       item
@@ -1410,7 +1420,11 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'COD_VEICULO'
         Title.Caption = 'Numero'
+<<<<<<< .mine
+        Width = 49
+=======
         Width = 42
+>>>>>>> .r752
         Visible = True
       end>
   end
