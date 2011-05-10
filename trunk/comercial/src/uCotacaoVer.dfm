@@ -1,15 +1,152 @@
 inherited fCotacaoVer: TfCotacaoVer
-  Left = 174
-  Top = 82
-  Width = 915
-  Height = 775
+  Left = 112
+  Top = 83
+  Width = 1111
+  Height = 687
   Caption = 'Cota'#231#245'es'
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object gb6: TGroupBox [0]
+    Left = 455
+    Top = 373
+    Width = 450
+    Height = 213
+    Caption = 'Cota'#231#227'o 1'
+    TabOrder = 7
+    object Label21: TLabel
+      Left = 314
+      Top = 194
+      Width = 27
+      Height = 13
+      Caption = 'Total '
+    end
+    object Label22: TLabel
+      Left = 9
+      Top = 15
+      Width = 107
+      Height = 13
+      Caption = 'Condi'#231#245'es Pagamento'
+    end
+    object Label23: TLabel
+      Left = 322
+      Top = 14
+      Width = 24
+      Height = 13
+      Caption = 'Frete'
+    end
+    object Label24: TLabel
+      Left = 8
+      Top = 34
+      Width = 22
+      Height = 13
+      Caption = 'Obs.'
+    end
+    object JvDBGrid6: TJvDBGrid
+      Left = 2
+      Top = 52
+      Width = 445
+      Height = 136
+      Align = alCustom
+      DataSource = ds6
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      AutoSizeColumns = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 17
+      TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ITEM'
+          Title.Caption = 'Item'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO'
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 192
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Title.Caption = 'Pre'#231'o'
+          Width = 61
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COTACAO_QTDE'
+          Title.Caption = 'Qtde.'
+          Width = 53
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOTAL'
+          Title.Caption = 'Total'
+          Width = 58
+          Visible = True
+        end>
+    end
+    object edTotal6: TJvCalcEdit
+      Left = 354
+      Top = 189
+      Width = 83
+      Height = 21
+      DisplayFormat = ',##0.00'
+      Enabled = False
+      ShowButton = False
+      TabOrder = 1
+      DisabledColor = clMenuBar
+      DecimalPlacesAlwaysShown = False
+    end
+    object edFrete6: TJvCalcEdit
+      Left = 351
+      Top = 9
+      Width = 93
+      Height = 21
+      Color = clMenu
+      DisplayFormat = ',##0.00'
+      Enabled = False
+      ShowButton = False
+      TabOrder = 2
+      DisabledColor = clMenuBar
+      DecimalPlacesAlwaysShown = False
+    end
+    object edCond6: TEdit
+      Left = 150
+      Top = 13
+      Width = 166
+      Height = 21
+      Color = clMenuBar
+      Enabled = False
+      TabOrder = 3
+    end
+    object edObs6: TEdit
+      Left = 35
+      Top = 31
+      Width = 410
+      Height = 21
+      Color = clMenuBar
+      Enabled = False
+      TabOrder = 4
+    end
+  end
   inherited MMJPanel1: TMMJPanel
-    Width = 907
+    Width = 1103
     Height = 50
     object GroupBox1: TGroupBox
       Left = 2
@@ -72,8 +209,41 @@ inherited fCotacaoVer: TfCotacaoVer
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 697
-    Width = 907
+    Top = 592
+    Width = 1103
+    Height = 68
+    object Label18: TLabel [0]
+      Left = 168
+      Top = 21
+      Width = 85
+      Height = 13
+      Caption = 'Cond. Pagamento'
+      Transparent = True
+    end
+    object Label19: TLabel [1]
+      Left = 168
+      Top = 47
+      Width = 63
+      Height = 13
+      Caption = 'Data Entrega'
+      Transparent = True
+    end
+    object Label20: TLabel [2]
+      Left = 275
+      Top = 3
+      Width = 45
+      Height = 13
+      Caption = 'Fornec. 1'
+      Transparent = True
+    end
+    object Label28: TLabel [3]
+      Left = 364
+      Top = 2
+      Width = 45
+      Height = 13
+      Caption = 'Fornec. 2'
+      Transparent = True
+    end
     inherited btnGravar: TBitBtn
       Left = -200
     end
@@ -87,10 +257,11 @@ inherited fCotacaoVer: TfCotacaoVer
       Left = -200
     end
     inherited btnProcurar: TBitBtn
-      Left = 404
+      Left = 780
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
+      Left = 893
       Caption = 'Retornar'
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -192,8 +363,44 @@ inherited fCotacaoVer: TfCotacaoVer
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object JvCalcEdit1: TJvCalcEdit
+      Left = 272
+      Top = 18
+      Width = 79
+      Height = 21
+      ShowButton = False
+      TabOrder = 6
+      DecimalPlacesAlwaysShown = False
+    end
+    object JvCalcEdit2: TJvCalcEdit
+      Left = 271
+      Top = 42
+      Width = 79
+      Height = 21
+      ShowButton = False
+      TabOrder = 7
+      DecimalPlacesAlwaysShown = False
+    end
+    object JvCalcEdit3: TJvCalcEdit
+      Left = 360
+      Top = 18
+      Width = 79
+      Height = 21
+      ShowButton = False
+      TabOrder = 8
+      DecimalPlacesAlwaysShown = False
+    end
+    object JvCalcEdit4: TJvCalcEdit
+      Left = 359
+      Top = 43
+      Width = 79
+      Height = 21
+      ShowButton = False
+      TabOrder = 9
+      DecimalPlacesAlwaysShown = False
+    end
   end
-  object gb1: TGroupBox [2]
+  object gb1: TGroupBox [3]
     Left = 0
     Top = 51
     Width = 450
@@ -334,7 +541,7 @@ inherited fCotacaoVer: TfCotacaoVer
       Left = 6
       Top = 25
       Width = 112
-      Height = 17
+      Height = 21
       Color = clMenuBar
       Enabled = False
       TabOrder = 3
@@ -343,7 +550,7 @@ inherited fCotacaoVer: TfCotacaoVer
       Left = 121
       Top = 24
       Width = 324
-      Height = 19
+      Height = 21
       Color = clMenuBar
       Enabled = False
       TabOrder = 4
@@ -367,7 +574,7 @@ inherited fCotacaoVer: TfCotacaoVer
       DecimalPlacesAlwaysShown = False
     end
   end
-  object gb2: TGroupBox [3]
+  object gb2: TGroupBox [4]
     Left = 455
     Top = 51
     Width = 450
@@ -541,7 +748,7 @@ inherited fCotacaoVer: TfCotacaoVer
       DecimalPlacesAlwaysShown = False
     end
   end
-  object gb3: TGroupBox [4]
+  object gb3: TGroupBox [5]
     Left = 0
     Top = 264
     Width = 450
@@ -715,7 +922,7 @@ inherited fCotacaoVer: TfCotacaoVer
       DecimalPlacesAlwaysShown = False
     end
   end
-  object gb4: TGroupBox [5]
+  object gb4: TGroupBox [6]
     Left = 455
     Top = 264
     Width = 450
@@ -852,11 +1059,12 @@ inherited fCotacaoVer: TfCotacaoVer
       TabOrder = 4
     end
   end
-  object gb5: TGroupBox [6]
-    Left = 1
-    Top = 477
-    Width = 450
-    Height = 213
+  object gb5: TGroupBox [7]
+    Left = 0
+    Top = 50
+    Width = 1103
+    Height = 542
+    Align = alClient
     Caption = 'Cota'#231#227'o 1'
     TabOrder = 6
     object Label17: TLabel
@@ -865,85 +1073,6 @@ inherited fCotacaoVer: TfCotacaoVer
       Width = 27
       Height = 13
       Caption = 'Total '
-    end
-    object Label18: TLabel
-      Left = 9
-      Top = 15
-      Width = 107
-      Height = 13
-      Caption = 'Condi'#231#245'es Pagamento'
-    end
-    object Label19: TLabel
-      Left = 322
-      Top = 14
-      Width = 24
-      Height = 13
-      Caption = 'Frete'
-    end
-    object Label20: TLabel
-      Left = 8
-      Top = 34
-      Width = 22
-      Height = 13
-      Caption = 'Obs.'
-    end
-    object JvDBGrid5: TJvDBGrid
-      Left = 2
-      Top = 52
-      Width = 445
-      Height = 136
-      Align = alCustom
-      DataSource = ds5
-      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-      TabOrder = 0
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'MS Sans Serif'
-      TitleFont.Style = []
-      AutoSizeColumns = True
-      SelectColumnsDialogStrings.Caption = 'Select columns'
-      SelectColumnsDialogStrings.OK = '&OK'
-      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-      EditControls = <>
-      RowsHeight = 17
-      TitleRowHeight = 17
-      Columns = <
-        item
-          Expanded = False
-          FieldName = 'ITEM'
-          Title.Caption = 'Item'
-          Width = 60
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'DESCRICAO'
-          Title.Caption = 'Descri'#231#227'o'
-          Width = 192
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PRECO'
-          Title.Caption = 'Pre'#231'o'
-          Width = 61
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'COTACAO_QTDE'
-          Title.Caption = 'Qtde.'
-          Width = 53
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'TOTAL'
-          Title.Caption = 'Total'
-          Width = 58
-          Visible = True
-        end>
     end
     object edTotal5: TJvCalcEdit
       Left = 354
@@ -957,80 +1086,13 @@ inherited fCotacaoVer: TfCotacaoVer
       DisabledColor = clMenuBar
       DecimalPlacesAlwaysShown = False
     end
-    object edFrete5: TJvCalcEdit
-      Left = 351
-      Top = 9
-      Width = 93
-      Height = 21
-      Color = clMenu
-      DisplayFormat = ',##0.00'
-      Enabled = False
-      ShowButton = False
-      TabOrder = 2
-      DisabledColor = clMenuBar
-      DecimalPlacesAlwaysShown = False
-    end
-    object edCond5: TEdit
-      Left = 150
-      Top = 13
-      Width = 166
-      Height = 21
-      Color = clMenuBar
-      Enabled = False
-      TabOrder = 3
-    end
-    object edObs5: TEdit
-      Left = 35
-      Top = 31
-      Width = 410
-      Height = 21
-      Color = clMenuBar
-      Enabled = False
-      TabOrder = 4
-    end
-  end
-  object gb6: TGroupBox [7]
-    Left = 455
-    Top = 477
-    Width = 450
-    Height = 213
-    Caption = 'Cota'#231#227'o 1'
-    TabOrder = 7
-    object Label21: TLabel
-      Left = 314
-      Top = 194
-      Width = 27
-      Height = 13
-      Caption = 'Total '
-    end
-    object Label22: TLabel
-      Left = 9
-      Top = 15
-      Width = 107
-      Height = 13
-      Caption = 'Condi'#231#245'es Pagamento'
-    end
-    object Label23: TLabel
-      Left = 322
-      Top = 14
-      Width = 24
-      Height = 13
-      Caption = 'Frete'
-    end
-    object Label24: TLabel
-      Left = 8
-      Top = 34
-      Width = 22
-      Height = 13
-      Caption = 'Obs.'
-    end
-    object JvDBGrid6: TJvDBGrid
+    object grid1: TJvDBGrid
       Left = 2
-      Top = 52
-      Width = 445
-      Height = 136
-      Align = alCustom
-      DataSource = ds6
+      Top = 15
+      Width = 1099
+      Height = 525
+      Align = alClient
+      DataSource = ds5
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
@@ -1038,7 +1100,6 @@ inherited fCotacaoVer: TfCotacaoVer
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
-      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -1048,82 +1109,136 @@ inherited fCotacaoVer: TfCotacaoVer
       Columns = <
         item
           Expanded = False
-          FieldName = 'ITEM'
+          FieldName = 'CODPRO'
           Title.Caption = 'Item'
-          Width = 60
+          Width = 46
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DESCRICAO'
           Title.Caption = 'Descri'#231#227'o'
-          Width = 192
+          Width = 130
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'PRECO'
-          Title.Caption = 'Pre'#231'o'
-          Width = 61
+          FieldName = 'UN'
+          Title.Caption = 'Un.'
+          Width = 46
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'COTACAO_QTDE'
+          FieldName = 'QTDE'
           Title.Caption = 'Qtde.'
-          Width = 53
+          Width = 41
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'TOTAL'
-          Title.Caption = 'Total'
-          Width = 58
+          FieldName = 'PRECO1'
+          Title.Caption = 'Forn1'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOT1'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO2'
+          Title.Caption = 'Forn2'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOT2'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO3'
+          Title.Caption = 'Forn3'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOT3'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO4'
+          Title.Caption = 'Forn4'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOT4'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO5'
+          Title.Caption = 'Forn5'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOT5'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO6'
+          Title.Caption = 'Forn6'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOT6'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO7'
+          Title.Caption = 'Forn7'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOT7'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO8'
+          Title.Caption = 'Forn8'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TOT8'
+          Width = 80
           Visible = True
         end>
-    end
-    object edTotal6: TJvCalcEdit
-      Left = 354
-      Top = 189
-      Width = 83
-      Height = 21
-      DisplayFormat = ',##0.00'
-      Enabled = False
-      ShowButton = False
-      TabOrder = 1
-      DisabledColor = clMenuBar
-      DecimalPlacesAlwaysShown = False
-    end
-    object edFrete6: TJvCalcEdit
-      Left = 351
-      Top = 9
-      Width = 93
-      Height = 21
-      Color = clMenu
-      DisplayFormat = ',##0.00'
-      Enabled = False
-      ShowButton = False
-      TabOrder = 2
-      DisabledColor = clMenuBar
-      DecimalPlacesAlwaysShown = False
-    end
-    object edCond6: TEdit
-      Left = 150
-      Top = 13
-      Width = 166
-      Height = 21
-      Color = clMenuBar
-      Enabled = False
-      TabOrder = 3
-    end
-    object edObs6: TEdit
-      Left = 35
-      Top = 31
-      Width = 410
-      Height = 21
-      Color = clMenuBar
-      Enabled = False
-      TabOrder = 4
     end
   end
   object dsp1: TDataSetProvider
@@ -1421,13 +1536,14 @@ inherited fCotacaoVer: TfCotacaoVer
   end
   object SQLQuery4: TSQLQuery
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PITEM'
+        ParamType = ptUnknown
+      end>
     SQL.Strings = (
-      'select COTACAO_ITEM ITEM, UDF_LEFT(COTACAO_ITEMDESCRICAO, 60)'
-      ' DESCRICAO, COTACAO_PRECO PRECO , COTACAO_PRAZO, '
-      'COTACAO_FRETE, COTACAO_OBSERVACAO, COTACAO_QTDE, '
-      '(COTACAO_PRECO * COTACAO_QTDE) TOTAL'
-      'from COMPRA_COTACAO')
+      'select * from COTACAO_NEGOCIACAO(:PITEM);')
     SQLConnection = DM.sqlsisAdimin
     Left = 96
     Top = 536
@@ -1440,48 +1556,124 @@ inherited fCotacaoVer: TfCotacaoVer
   end
   object cds5: TClientDataSet
     Aggregates = <>
-    Params = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PITEM'
+        ParamType = ptUnknown
+      end>
     ProviderName = 'DataSetProvider4'
     Left = 160
     Top = 536
-    object cds5ITEM: TStringField
-      FieldName = 'ITEM'
-      Required = True
+    object cds5CODPRO: TStringField
+      FieldName = 'CODPRO'
       Size = 15
     end
     object cds5DESCRICAO: TStringField
       FieldName = 'DESCRICAO'
-      ReadOnly = True
-      FixedChar = True
-      Size = 254
+      Size = 300
     end
-    object cds5PRECO: TFloatField
-      FieldName = 'PRECO'
-      ReadOnly = True
+    object cds5PRECO1: TFloatField
+      FieldName = 'PRECO1'
       DisplayFormat = ',##0.00'
       EditFormat = ',##0.00'
     end
-    object cds5COTACAO_PRAZO: TStringField
-      FieldName = 'COTACAO_PRAZO'
-      ReadOnly = True
+    object cds5PRECO2: TFloatField
+      FieldName = 'PRECO2'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5PRECO3: TFloatField
+      FieldName = 'PRECO3'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5PRECO4: TFloatField
+      FieldName = 'PRECO4'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5PRECO5: TFloatField
+      FieldName = 'PRECO5'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5PRECO6: TFloatField
+      FieldName = 'PRECO6'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5PRECO7: TFloatField
+      FieldName = 'PRECO7'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5PRECO8: TFloatField
+      FieldName = 'PRECO8'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5UN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 3
+    end
+    object cds5QTDE: TFloatField
+      FieldName = 'QTDE'
+    end
+    object cds5PRAZO: TStringField
+      FieldName = 'PRAZO'
       Size = 30
     end
-    object cds5COTACAO_FRETE: TFloatField
-      FieldName = 'COTACAO_FRETE'
-      ReadOnly = True
+    object cds5FRETE: TFloatField
+      FieldName = 'FRETE'
     end
-    object cds5COTACAO_OBSERVACAO: TStringField
-      FieldName = 'COTACAO_OBSERVACAO'
-      ReadOnly = True
+    object cds5OBS: TStringField
+      FieldName = 'OBS'
       Size = 200
-    end
-    object cds5COTACAO_QTDE: TFloatField
-      FieldName = 'COTACAO_QTDE'
-      ReadOnly = True
     end
     object cds5TOTAL: TFloatField
       FieldName = 'TOTAL'
-      ReadOnly = True
+    end
+    object cds5TOT1: TFloatField
+      FieldName = 'TOT1'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5TOT2: TFloatField
+      FieldName = 'TOT2'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5TOT3: TFloatField
+      FieldName = 'TOT3'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5TOT4: TFloatField
+      FieldName = 'TOT4'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5TOT5: TFloatField
+      FieldName = 'TOT5'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5TOT6: TFloatField
+      FieldName = 'TOT6'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5TOT7: TFloatField
+      FieldName = 'TOT7'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds5TOT8: TFloatField
+      FieldName = 'TOT8'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
   end
   object ds5: TDataSource
