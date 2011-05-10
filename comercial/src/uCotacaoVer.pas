@@ -51,9 +51,6 @@ type
     cds4ITEM: TStringField;
     cds4DESCRICAO: TStringField;
     cds4PRECO: TFloatField;
-    cds5ITEM: TStringField;
-    cds5DESCRICAO: TStringField;
-    cds5PRECO: TFloatField;
     cds6ITEM: TStringField;
     cds6DESCRICAO: TStringField;
     cds6PRECO: TFloatField;
@@ -103,11 +100,6 @@ type
     edFrete3: TJvCalcEdit;
     edCond3: TEdit;
     edObs3: TEdit;
-    cds5COTACAO_PRAZO: TStringField;
-    cds5COTACAO_FRETE: TFloatField;
-    cds5COTACAO_OBSERVACAO: TStringField;
-    cds5COTACAO_QTDE: TFloatField;
-    cds5TOTAL: TFloatField;
     gb4: TGroupBox;
     Label13: TLabel;
     Label14: TLabel;
@@ -135,14 +127,8 @@ type
     cds3TOTAL: TFloatField;
     gb5: TGroupBox;
     Label17: TLabel;
-    Label18: TLabel;
-    Label19: TLabel;
-    Label20: TLabel;
-    JvDBGrid5: TJvDBGrid;
+    grid1: TJvDBGrid;
     edTotal5: TJvCalcEdit;
-    edFrete5: TJvCalcEdit;
-    edCond5: TEdit;
-    edObs5: TEdit;
     gb6: TGroupBox;
     Label21: TLabel;
     Label22: TLabel;
@@ -159,12 +145,45 @@ type
     edTotalGeral2: TJvCalcEdit;
     Label27: TLabel;
     edTotalGeral3: TJvCalcEdit;
+    cds5CODPRO: TStringField;
+    cds5DESCRICAO: TStringField;
+    cds5PRECO1: TFloatField;
+    cds5PRECO2: TFloatField;
+    cds5PRECO3: TFloatField;
+    cds5PRECO4: TFloatField;
+    cds5PRECO5: TFloatField;
+    cds5PRECO6: TFloatField;
+    cds5PRECO7: TFloatField;
+    cds5PRECO8: TFloatField;
+    cds5UN: TStringField;
+    cds5QTDE: TFloatField;
+    cds5PRAZO: TStringField;
+    cds5FRETE: TFloatField;
+    cds5OBS: TStringField;
+    cds5TOTAL: TFloatField;
+    Label18: TLabel;
+    Label19: TLabel;
+    JvCalcEdit1: TJvCalcEdit;
+    JvCalcEdit2: TJvCalcEdit;
+    JvCalcEdit3: TJvCalcEdit;
+    JvCalcEdit4: TJvCalcEdit;
+    Label20: TLabel;
+    Label28: TLabel;
+    cds5TOT1: TFloatField;
+    cds5TOT2: TFloatField;
+    cds5TOT3: TFloatField;
+    cds5TOT4: TFloatField;
+    cds5TOT5: TFloatField;
+    cds5TOT6: TFloatField;
+    cds5TOT7: TFloatField;
+    cds5TOT8: TFloatField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edProdutoKeyPress(Sender: TObject; var Key: Char);
     procedure edFornecKeyPress(Sender: TObject; var Key: Char);
   private
+    procedure avaliarCotacao;
     { Private declarations }
   public
     solic : integer;
@@ -253,7 +272,7 @@ begin
   cds2.CommandText := cds1.CommandText;
   cds3.CommandText := cds1.CommandText;
   cds4.CommandText := cds1.CommandText;
-  cds5.CommandText := cds1.CommandText;
+  //cds5.CommandText := cds1.CommandText;
   cds6.CommandText := cds1.CommandText;
 
   While not cdsFornec.Eof do
@@ -311,7 +330,7 @@ begin
 
     if (i = 5) then
     begin
-      cds5.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
+      //cds5.CommandText := sql + IntToStr(cdsFornec.Fields[0].AsInteger) + ordem;
       gb5.Caption      := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
       if (sqlBuscaTotal.Active) then
         sqlBuscaTotal.Close;
@@ -350,7 +369,7 @@ begin
     edCond2.Text     := cds2.Fields[3].AsString;
     edFrete2.Value   := cds2.Fields[4].AsFloat;
     edObs2.Text      := cds2.Fields[5].AsString;
-    edTotalGeral2.Value := edFrete2.Value + edTotal2.Value;    
+    edTotalGeral2.Value := edFrete2.Value + edTotal2.Value;
   end;
 
   cds3.Open;
@@ -370,21 +389,24 @@ begin
     edObs4.Text      := cds4.Fields[5].AsString;
   end;
 
-  cds5.Open;
+  {cds5.Open;
   if (cds5.RecordCount > 0) then
   begin
     edCond5.Text     := cds5.Fields[3].AsString;
     edFrete5.Value   := cds5.Fields[4].AsFloat;
     edObs5.Text      := cds5.Fields[5].AsString;
-  end;
+  end;}
 
-  cds6.Open;  
+  cds6.Open;
   if (cds6.RecordCount > 0) then
   begin
     edCond6.Text     := cds6.Fields[3].AsString;
     edFrete6.Value   := cds6.Fields[4].AsFloat;
     edObs6.Text      := cds6.Fields[5].AsString;
   end;
+
+  avaliarCotacao;
+
 end;
 
 procedure TfCotacaoVer.FormShow(Sender: TObject);
@@ -451,6 +473,28 @@ begin
    btnProcurar.Click;
  end;
 
+end;
+
+procedure TfCotacaoVer.avaliarCotacao;
+var j: integer;
+  frete, total :double;
+begin
+  j := 4;
+  // Cria o Grid com as Colunas de Fornecedores;
+  cdsFornec.First;
+  While not cdsFornec.Eof do
+  begin
+    grid1.Columns[j].Title.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    j := j + 1;
+    cdsFornec.next;
+  end;
+
+  cds5.Params.ParamByName('PITEM').AsString := item;
+  cds5.Open;
+  //while not cds5.Eof do
+  //begin
+
+  //end;
 end;
 
 end.
