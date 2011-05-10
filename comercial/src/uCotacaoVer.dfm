@@ -541,21 +541,12 @@ inherited fCotacaoVer: TfCotacaoVer
       DecimalPlacesAlwaysShown = False
     end
   end
-<<<<<<< .mine
   object gb3: TGroupBox [4]
     Left = 0
     Top = 264
     Width = 450
     Height = 213
     Caption = 'Cota'#231#227'o 1'
-=======
-  object gb3: TGroupBox [4]
-    Left = 3
-    Top = 163
-    Width = 358
-    Height = 126
-    Caption = 'Cota'#231#227'o '
->>>>>>> .r752
     TabOrder = 4
     object Label9: TLabel
       Left = 143
@@ -724,21 +715,12 @@ inherited fCotacaoVer: TfCotacaoVer
       DecimalPlacesAlwaysShown = False
     end
   end
-<<<<<<< .mine
   object gb4: TGroupBox [5]
     Left = 455
     Top = 264
     Width = 450
     Height = 213
     Caption = 'Cota'#231#227'o 1'
-=======
-  object gb4: TGroupBox [5]
-    Left = 371
-    Top = 163
-    Width = 358
-    Height = 126
-    Caption = 'Cota'#231#227'o '
->>>>>>> .r752
     TabOrder = 5
     object Label13: TLabel
       Left = 314
@@ -870,21 +852,12 @@ inherited fCotacaoVer: TfCotacaoVer
       TabOrder = 4
     end
   end
-<<<<<<< .mine
   object gb5: TGroupBox [6]
     Left = 1
     Top = 477
     Width = 450
     Height = 213
     Caption = 'Cota'#231#227'o 1'
-=======
-  object gb5: TGroupBox [6]
-    Left = 3
-    Top = 291
-    Width = 358
-    Height = 126
-    Caption = 'Cota'#231#227'o '
->>>>>>> .r752
     TabOrder = 6
     object Label17: TLabel
       Left = 314
@@ -1016,21 +989,12 @@ inherited fCotacaoVer: TfCotacaoVer
       TabOrder = 4
     end
   end
-<<<<<<< .mine
   object gb6: TGroupBox [7]
     Left = 455
     Top = 477
     Width = 450
     Height = 213
     Caption = 'Cota'#231#227'o 1'
-=======
-  object gb6: TGroupBox [7]
-    Left = 371
-    Top = 291
-    Width = 358
-    Height = 126
-    Caption = 'Cota'#231#227'o '
->>>>>>> .r752
     TabOrder = 7
     object Label21: TLabel
       Left = 314
