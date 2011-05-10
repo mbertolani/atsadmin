@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_dnz'
+      'Database=quad:sge_jorvic'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
