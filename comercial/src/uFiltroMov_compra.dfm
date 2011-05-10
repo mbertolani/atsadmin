@@ -1366,15 +1366,16 @@ object fFiltroMov_compra: TfFiltroMov_compra
       end
       item
         Expanded = False
-<<<<<<< .mine
         FieldName = 'NOMEFORNECEDOR'
         Title.Caption = 'Fornecedor'
         Width = 219
-=======
+        Visible = True
+      end
+      item
+	Expanded = False
         FieldName = 'NOTAFISCAL'
         Title.Caption = 'T'#237'tulo'
         Width = 43
->>>>>>> .r752
         Visible = True
       end
       item
@@ -1402,11 +1403,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-<<<<<<< .mine
-        Width = 133
-=======
         Width = 126
->>>>>>> .r752
         Visible = True
       end
       item
@@ -1420,11 +1417,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'COD_VEICULO'
         Title.Caption = 'Numero'
-<<<<<<< .mine
-        Width = 49
-=======
         Width = 42
->>>>>>> .r752
         Visible = True
       end>
   end
