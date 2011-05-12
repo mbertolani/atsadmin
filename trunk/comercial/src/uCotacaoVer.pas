@@ -157,18 +157,9 @@ type
     cds5PRECO8: TFloatField;
     cds5UN: TStringField;
     cds5QTDE: TFloatField;
-    cds5PRAZO: TStringField;
     cds5FRETE: TFloatField;
     cds5OBS: TStringField;
     cds5TOTAL: TFloatField;
-    Label18: TLabel;
-    Label19: TLabel;
-    JvCalcEdit1: TJvCalcEdit;
-    JvCalcEdit2: TJvCalcEdit;
-    JvCalcEdit3: TJvCalcEdit;
-    JvCalcEdit4: TJvCalcEdit;
-    Label20: TLabel;
-    Label28: TLabel;
     cds5TOT1: TFloatField;
     cds5TOT2: TFloatField;
     cds5TOT3: TFloatField;
@@ -177,6 +168,30 @@ type
     cds5TOT6: TFloatField;
     cds5TOT7: TFloatField;
     cds5TOT8: TFloatField;
+    cds5PRAZO1: TStringField;
+    cds5PRAZO2: TStringField;
+    cds5PRAZO3: TStringField;
+    cds5PRAZO4: TStringField;
+    cds5PRAZO5: TStringField;
+    cds5PRAZO6: TStringField;
+    cds5PRAZO7: TStringField;
+    cds5PRAZO8: TStringField;
+    cds5DENTREGA1: TDateField;
+    cds5DENTREGA2: TDateField;
+    cds5DENTREGA3: TDateField;
+    cds5DENTREGA4: TDateField;
+    cds5DENTREGA5: TDateField;
+    cds5DENTREGA6: TDateField;
+    cds5DENTREGA7: TDateField;
+    cds5DENTREGA8: TDateField;
+    gbF1: TGroupBox;
+    edCondPg1: TEdit;
+    edDtEnt1: TEdit;
+    Label18: TLabel;
+    Label19: TLabel;
+    gbF2: TGroupBox;
+    edDtEnt2: TEdit;
+    edCondPg2: TEdit;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -196,7 +211,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, StrUtils;
 
 {$R *.dfm}
 
@@ -479,18 +494,28 @@ procedure TfCotacaoVer.avaliarCotacao;
 var j: integer;
   frete, total :double;
 begin
-  j := 4;
+  //j := 4;
   // Cria o Grid com as Colunas de Fornecedores;
   cdsFornec.First;
-  While not cdsFornec.Eof do
-  begin
-    grid1.Columns[j].Title.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    j := j + 1;
+  //While not cdsFornec.Eof do
+  //begin
+    //grid1.Columns[j].Title.Caption := copy(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString,1,14);
+    //grid1.Columns[j+1].Title.Caption := MidStr(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString, 15,40);
+    //j := j + 2;
+    gbf1.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
     cdsFornec.next;
-  end;
+    gbf2.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    cdsFornec.next;
+
+  //end;
 
   cds5.Params.ParamByName('PITEM').AsString := item;
   cds5.Open;
+  edCondPg1.Text := cds5PRAZO1.AsString;
+  edDtEnt1.Text  := DateToStr(cds5DENTREGA1.AsDateTime);
+  edCondPg2.Text := cds5PRAZO2.AsString;
+  edDtEnt2.Text  := DateToStr(cds5DENTREGA2.AsDateTime);
+
   //while not cds5.Eof do
   //begin
 

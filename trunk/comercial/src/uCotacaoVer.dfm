@@ -147,7 +147,7 @@ inherited fCotacaoVer: TfCotacaoVer
   end
   inherited MMJPanel1: TMMJPanel
     Width = 1103
-    Height = 50
+    Height = 57
     object GroupBox1: TGroupBox
       Left = 2
       Top = 3
@@ -212,38 +212,6 @@ inherited fCotacaoVer: TfCotacaoVer
     Top = 592
     Width = 1103
     Height = 68
-    object Label18: TLabel [0]
-      Left = 168
-      Top = 21
-      Width = 85
-      Height = 13
-      Caption = 'Cond. Pagamento'
-      Transparent = True
-    end
-    object Label19: TLabel [1]
-      Left = 168
-      Top = 47
-      Width = 63
-      Height = 13
-      Caption = 'Data Entrega'
-      Transparent = True
-    end
-    object Label20: TLabel [2]
-      Left = 275
-      Top = 3
-      Width = 45
-      Height = 13
-      Caption = 'Fornec. 1'
-      Transparent = True
-    end
-    object Label28: TLabel [3]
-      Left = 364
-      Top = 2
-      Width = 45
-      Height = 13
-      Caption = 'Fornec. 2'
-      Transparent = True
-    end
     inherited btnGravar: TBitBtn
       Left = -200
     end
@@ -363,46 +331,10 @@ inherited fCotacaoVer: TfCotacaoVer
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
-    object JvCalcEdit1: TJvCalcEdit
-      Left = 272
-      Top = 18
-      Width = 79
-      Height = 21
-      ShowButton = False
-      TabOrder = 6
-      DecimalPlacesAlwaysShown = False
-    end
-    object JvCalcEdit2: TJvCalcEdit
-      Left = 271
-      Top = 42
-      Width = 79
-      Height = 21
-      ShowButton = False
-      TabOrder = 7
-      DecimalPlacesAlwaysShown = False
-    end
-    object JvCalcEdit3: TJvCalcEdit
-      Left = 360
-      Top = 18
-      Width = 79
-      Height = 21
-      ShowButton = False
-      TabOrder = 8
-      DecimalPlacesAlwaysShown = False
-    end
-    object JvCalcEdit4: TJvCalcEdit
-      Left = 359
-      Top = 43
-      Width = 79
-      Height = 21
-      ShowButton = False
-      TabOrder = 9
-      DecimalPlacesAlwaysShown = False
-    end
   end
   object gb1: TGroupBox [3]
-    Left = 0
-    Top = 51
+    Left = 8
+    Top = 107
     Width = 450
     Height = 213
     Caption = 'Cota'#231#227'o 1'
@@ -575,8 +507,8 @@ inherited fCotacaoVer: TfCotacaoVer
     end
   end
   object gb2: TGroupBox [4]
-    Left = 455
-    Top = 51
+    Left = 583
+    Top = 107
     Width = 450
     Height = 213
     Caption = 'Cota'#231#227'o 1'
@@ -1061,9 +993,9 @@ inherited fCotacaoVer: TfCotacaoVer
   end
   object gb5: TGroupBox [7]
     Left = 0
-    Top = 50
+    Top = 57
     Width = 1103
-    Height = 542
+    Height = 535
     Align = alClient
     Caption = 'Cota'#231#227'o 1'
     TabOrder = 6
@@ -1073,6 +1005,22 @@ inherited fCotacaoVer: TfCotacaoVer
       Width = 27
       Height = 13
       Caption = 'Total '
+    end
+    object Label18: TLabel
+      Left = 186
+      Top = 15
+      Width = 85
+      Height = 13
+      Caption = 'Cond. Pagamento'
+      Transparent = True
+    end
+    object Label19: TLabel
+      Left = 186
+      Top = 35
+      Width = 63
+      Height = 13
+      Caption = 'Data Entrega'
+      Transparent = True
     end
     object edTotal5: TJvCalcEdit
       Left = 354
@@ -1088,18 +1036,19 @@ inherited fCotacaoVer: TfCotacaoVer
     end
     object grid1: TJvDBGrid
       Left = 2
-      Top = 15
+      Top = 72
       Width = 1099
-      Height = 525
-      Align = alClient
+      Height = 423
+      Align = alCustom
       DataSource = ds5
-      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      SelectColumn = scGrid
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -1138,60 +1087,64 @@ inherited fCotacaoVer: TfCotacaoVer
         item
           Expanded = False
           FieldName = 'PRECO1'
-          Title.Caption = 'Forn1'
-          Width = 100
+          Title.Caption = 'Pre'#231'o'
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'TOT1'
+          Title.Caption = 'Total'
           Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRECO2'
-          Title.Caption = 'Forn2'
-          Width = 100
+          Title.Caption = 'Pre'#231'o'
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'TOT2'
+          Title.Caption = 'Total'
           Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRECO3'
-          Title.Caption = 'Forn3'
-          Width = 100
+          Title.Caption = 'Pre'#231'o'
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'TOT3'
+          Title.Caption = 'Total'
           Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRECO4'
-          Title.Caption = 'Forn4'
-          Width = 100
+          Title.Caption = 'Pre'#231'o'
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'TOT4'
+          Title.Caption = 'Total'
           Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRECO5'
-          Title.Caption = 'Forn5'
-          Width = 100
+          Title.Caption = 'Pre'#231'o'
+          Width = 80
           Visible = True
         end
         item
@@ -1204,7 +1157,7 @@ inherited fCotacaoVer: TfCotacaoVer
           Expanded = False
           FieldName = 'PRECO6'
           Title.Caption = 'Forn6'
-          Width = 100
+          Width = 80
           Visible = True
         end
         item
@@ -1217,7 +1170,7 @@ inherited fCotacaoVer: TfCotacaoVer
           Expanded = False
           FieldName = 'PRECO7'
           Title.Caption = 'Forn7'
-          Width = 100
+          Width = 80
           Visible = True
         end
         item
@@ -1230,7 +1183,7 @@ inherited fCotacaoVer: TfCotacaoVer
           Expanded = False
           FieldName = 'PRECO8'
           Title.Caption = 'Forn8'
-          Width = 100
+          Width = 80
           Visible = True
         end
         item
@@ -1239,6 +1192,54 @@ inherited fCotacaoVer: TfCotacaoVer
           Width = 80
           Visible = True
         end>
+    end
+    object gbF1: TGroupBox
+      Left = 282
+      Top = 6
+      Width = 163
+      Height = 64
+      Caption = 'gbF1'
+      TabOrder = 2
+      object edCondPg1: TEdit
+        Left = 39
+        Top = 40
+        Width = 121
+        Height = 16
+        Color = clScrollBar
+        TabOrder = 0
+      end
+      object edDtEnt1: TEdit
+        Left = 39
+        Top = 17
+        Width = 121
+        Height = 17
+        Color = clScrollBar
+        TabOrder = 1
+      end
+    end
+    object gbF2: TGroupBox
+      Left = 445
+      Top = 6
+      Width = 163
+      Height = 64
+      Caption = 'gbF1'
+      TabOrder = 3
+      object edDtEnt2: TEdit
+        Left = 37
+        Top = 40
+        Width = 121
+        Height = 17
+        Color = clScrollBar
+        TabOrder = 0
+      end
+      object edCondPg2: TEdit
+        Left = 37
+        Top = 17
+        Width = 121
+        Height = 17
+        Color = clScrollBar
+        TabOrder = 1
+      end
     end
   end
   object dsp1: TDataSetProvider
@@ -1315,21 +1316,21 @@ inherited fCotacaoVer: TfCotacaoVer
         'TAL'
       'from COMPRA_COTACAO')
     SQLConnection = DM.sqlsisAdimin
-    Left = 488
-    Top = 120
+    Left = 464
+    Top = 168
   end
   object dsp2: TDataSetProvider
     DataSet = sql2
     Options = [poAllowCommandText]
-    Left = 520
-    Top = 120
+    Left = 512
+    Top = 200
   end
   object cds2: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp2'
     Left = 552
-    Top = 120
+    Top = 200
     object cds2ITEM: TStringField
       FieldName = 'ITEM'
       Required = True
@@ -1379,7 +1380,7 @@ inherited fCotacaoVer: TfCotacaoVer
   object ds2: TDataSource
     DataSet = cds2
     Left = 592
-    Top = 120
+    Top = 240
   end
   object SQLQuery2: TSQLQuery
     MaxBlobSize = -1
@@ -1621,10 +1622,6 @@ inherited fCotacaoVer: TfCotacaoVer
     object cds5QTDE: TFloatField
       FieldName = 'QTDE'
     end
-    object cds5PRAZO: TStringField
-      FieldName = 'PRAZO'
-      Size = 30
-    end
     object cds5FRETE: TFloatField
       FieldName = 'FRETE'
     end
@@ -1674,6 +1671,62 @@ inherited fCotacaoVer: TfCotacaoVer
       FieldName = 'TOT8'
       DisplayFormat = ',##0.00'
       EditFormat = ',##0.00'
+    end
+    object cds5PRAZO1: TStringField
+      FieldName = 'PRAZO1'
+      Size = 30
+    end
+    object cds5PRAZO2: TStringField
+      FieldName = 'PRAZO2'
+      Size = 30
+    end
+    object cds5PRAZO3: TStringField
+      FieldName = 'PRAZO3'
+      Size = 30
+    end
+    object cds5PRAZO4: TStringField
+      FieldName = 'PRAZO4'
+      Size = 30
+    end
+    object cds5PRAZO5: TStringField
+      FieldName = 'PRAZO5'
+      Size = 30
+    end
+    object cds5PRAZO6: TStringField
+      FieldName = 'PRAZO6'
+      Size = 30
+    end
+    object cds5PRAZO7: TStringField
+      FieldName = 'PRAZO7'
+      Size = 30
+    end
+    object cds5PRAZO8: TStringField
+      FieldName = 'PRAZO8'
+      Size = 30
+    end
+    object cds5DENTREGA1: TDateField
+      FieldName = 'DENTREGA1'
+    end
+    object cds5DENTREGA2: TDateField
+      FieldName = 'DENTREGA2'
+    end
+    object cds5DENTREGA3: TDateField
+      FieldName = 'DENTREGA3'
+    end
+    object cds5DENTREGA4: TDateField
+      FieldName = 'DENTREGA4'
+    end
+    object cds5DENTREGA5: TDateField
+      FieldName = 'DENTREGA5'
+    end
+    object cds5DENTREGA6: TDateField
+      FieldName = 'DENTREGA6'
+    end
+    object cds5DENTREGA7: TDateField
+      FieldName = 'DENTREGA7'
+    end
+    object cds5DENTREGA8: TDateField
+      FieldName = 'DENTREGA8'
     end
   end
   object ds5: TDataSource
@@ -1814,6 +1867,6 @@ inherited fCotacaoVer: TfCotacaoVer
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 424
-    Top = 104
+    Top = 176
   end
 end

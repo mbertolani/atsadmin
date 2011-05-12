@@ -571,6 +571,7 @@ inherited fCompraCotacao2: TfCompraCotacao2
         ParamType = ptUnknown
       end>
     ProviderName = 'dspCotacao'
+    AfterScroll = cdsCotacaoAfterScroll
     Left = 304
     Top = 8
     object cdsCotacaoCOTACAO_CODIGO: TIntegerField
