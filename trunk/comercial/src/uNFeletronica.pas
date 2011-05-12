@@ -747,6 +747,11 @@ begin
           sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
          end;
          sCFOP.Open;
+         if (sCFOP.IsEmpty) then
+         begin
+           MessageDlg('Não existe este CFOP cadastrado para este ESTADO.'+#13+#10+'(Cadastros -> CFOP-ESTADO).', mtWarning, [mbOK], 0);
+           exit;
+         end;
 
           ACBrNFe1.NotasFiscais.Clear;
           with ACBrNFe1.NotasFiscais.Add.NFe do
