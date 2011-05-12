@@ -1964,23 +1964,23 @@ object fNFeletronica: TfNFeletronica
       'ICMS_SUBSTRIB'#13#10'        , esta.ICMS_SUBSTRIB_IC'#13#10'        , esta.I' +
       'CMS_SUBSTRIB_IND'#13#10'        , esta.NAOENVFATURA'#13#10'        , esta.CS' +
       'TPIS'#13#10'        , esta.CSTCOFINS'#13#10'        , esta.COFINS'#13#10'        ,' +
-      ' esta.PIS'#13#10'from CFOP cf'#13#10'left outer join ESTADO_ICMS esta on est' +
-      'a.CFOP = cf.CFCOD'#13#10'where CFCOD = :id and esta.UF = :ESTADO and e' +
-      'sta.CFOP = :codcfop'
+      ' esta.PIS'#13#10'from CFOP cf'#13#10'inner join ESTADO_ICMS esta on esta.CFO' +
+      'P = cf.CFCOD'#13#10'where CFCOD = :id and esta.UF = :ESTADO and esta.C' +
+      'FOP = :codcfop'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftUnknown
         Name = 'ESTADO'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'codcfop'
         ParamType = ptInput
       end>
