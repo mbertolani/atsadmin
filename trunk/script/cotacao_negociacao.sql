@@ -23,12 +23,29 @@ RETURNS
   TOT8    DOUBLE PRECISION,  
   UN        CHAR(3),
   QTDE      DOUBLE PRECISION,
-  PRAZO     VARCHAR(30),
+  PRAZO1     VARCHAR(30),
+  PRAZO2     VARCHAR(30),
+  PRAZO3     VARCHAR(30),
+  PRAZO4     VARCHAR(30),
+  PRAZO5     VARCHAR(30),
+  PRAZO6     VARCHAR(30),
+  PRAZO7     VARCHAR(30),
+  PRAZO8     VARCHAR(30),
   FRETE     DOUBLE PRECISION,
   OBS       VARCHAR(200),
-  TOTAL     DOUBLE PRECISION 
+  TOTAL     DOUBLE PRECISION,
+  DENTREGA1 DATE,
+  DENTREGA2 DATE,
+  DENTREGA3 DATE,
+  DENTREGA4 DATE,
+  DENTREGA5 DATE,
+  DENTREGA6 DATE,
+  DENTREGA7 DATE,
+  DENTREGA8 DATE
 )
 AS 
+  DECLARE VARIABLE PRAZO     VARCHAR(30);
+  DECLARE VARIABLE DENTREGA  DATE;
   DECLARE VARIABLE codFornec integer; 
   DECLARE VARIABLE numFornec SMALLINT; 
   DECLARE VARIABLE Fornec    varchar(60); 
@@ -50,34 +67,69 @@ AS
   DECLARE VARIABLE T6    DOUBLE PRECISION;
   DECLARE VARIABLE T7    DOUBLE PRECISION;
   DECLARE VARIABLE T8    DOUBLE PRECISION;
-  DECLARE VARIABLE DENTREGA DATE;
 BEGIN
   numFornec = 0;
   -- Lista todos os fornecedores com Cotações em aberto para o item 
-  FOR SELECT COTACAO_FORNEC, COTACAO_FRETE
+  FOR SELECT COTACAO_FORNEC, COTACAO_FRETE, COTACAO_PRAZO, COTACAO_DTENTREGA
     FROM COMPRA_COTACAO
    WHERE COTACAO_SITUACAO = 'G'
      AND COTACAO_ITEM     = :ITEM
    ORDER BY COTACAO_CODIGO  
-  INTO :codFornec, :FRETE 
+  INTO :codFornec, :FRETE, :PRAZO , :DENTREGA
   do begin 
     numFornec = numFornec + 1;
     if (numFornec = 1) then 
-      fornec1 = codfornec;
-    if (numFornec = 2) then 
+    begin
+      fornec1   = codfornec;
+      prazo1    = prazo;
+      dentrega1 = dentrega;     
+    end   
+    if (numFornec = 2) then
+    begin
       fornec2 = codfornec;
-    if (numFornec = 3) then 
-      fornec3 = codfornec;    
+      prazo2    = prazo;
+      dentrega2 = dentrega;
+    end  
+    if (numFornec = 3) then
+    begin
+      fornec3   = codfornec;
+      prazo3    = prazo;
+      dentrega3 = dentrega;
+    end  
     if (numFornec = 4) then 
-      fornec4 = codfornec;    
+    begin
+      fornec4   = codfornec;
+      prazo4    = prazo;
+      dentrega4 = dentrega;
+    end  
     if (numFornec = 5) then 
-      fornec5 = codfornec;    
+    begin
+      fornec5   = codfornec;
+      prazo5    = prazo;
+      dentrega5 = dentrega;
+    end  
+
     if (numFornec = 6) then 
-      fornec6 = codfornec;    
+    begin
+      fornec6   = codfornec;
+      prazo6    = prazo;
+      dentrega6 = dentrega;
+    end  
+
     if (numFornec = 7) then 
-      fornec7 = codfornec;    
+    begin
+      fornec7   = codfornec;
+      prazo7    = prazo;
+      dentrega7 = dentrega;
+    end  
+
     if (numFornec = 8) then 
-      fornec8 = codfornec;          
+    begin
+      fornec8   = codfornec;
+      prazo8    = prazo;
+      dentrega8 = dentrega;
+    end  
+
   end  
   
   --Busca todos as cotaçoes para o fornecedor
@@ -92,12 +144,12 @@ BEGIN
   T8    = 0;
   
   FOR SELECT COTACAO_ITEM, UDF_LEFT(COTACAO_ITEMDESCRICAO, 60)
-    DESCRICAO, COTACAO_PRECO, COTACAO_PRAZO, COTACAO_OBSERVACAO, 
-    COTACAO_QTDE, (COTACAO_PRECO * COTACAO_QTDE) TOTAL, COTACAO_DTENTREGA
+    DESCRICAO, COTACAO_PRECO, COTACAO_OBSERVACAO, 
+    COTACAO_QTDE, (COTACAO_PRECO * COTACAO_QTDE) TOTAL
    FROM COMPRA_COTACAO
   WHERE COTACAO_FORNEC = :codFornec
     AND COTACAO_SITUACAO = 'G'
-   INTO :CODPRO, :DESCRICAO, :PRECO, :PRAZO, :OBS, :QTDE, :TTOTAL, :DENTREGA 
+   INTO :CODPRO, :DESCRICAO, :PRECO, :OBS, :QTDE, :TTOTAL 
   do begin
     
     TOTAL = TOTAL + TTOTAL;
