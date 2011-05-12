@@ -1239,6 +1239,13 @@ begin
   begin
     btnGravar.Click;
   end;
+
+  if (scdsCr_proc.RecordCount = 0) then
+  begin
+    MessageDlg('Título do Financeiro não foi gerado.'+#13+#10+'Clique no botão gravar, para gera-lo.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   {inherited;
   if (cdsCOD_TRANPORTADORA.AsInteger > 0) then
       dm.varCodTransp := cdsCOD_TRANPORTADORA.AsInteger
