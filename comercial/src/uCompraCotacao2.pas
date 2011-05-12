@@ -79,6 +79,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
+    procedure cdsCotacaoAfterScroll(DataSet: TDataSet);
   private
     TD: TTransactionDesc;
     procedure editaItens;
@@ -153,6 +154,7 @@ end;
 
 procedure TfCompraCotacao2.btnGravarClick(Sender: TObject);
 var str_altera: string;
+  linha: integer;
 begin
   //inherited;
   //cdsCotacao.ApplyUpdates(0);
@@ -189,14 +191,16 @@ begin
     dm.sqlsisAdimin.Commit(TD);
 
     cdsCotacao.DisableControls;
+    linha := cdsCotacao.RecNo;
     if (cdsCotacao.Active) then
       cdsCotacao.Close;
     cdsCotacao.Params.ParamByName('FORNEC').AsInteger := StrToInt(Edit1.Text);
     cdsCotacao.Params.ParamByName('COD').AsInteger    := StrToInt(Edit3.Text);
     cdsCotacao.Open;
+    cdsCotacao.RecNo := linha;
     cdsCotacao.EnableControls;
-
-    MessageDlg('Alteração gravada com sucesso.', mtInformation, [mbOK], 0);
+    cdsCotacao.Next;
+    //MessageDlg('Alteração gravada com sucesso.', mtInformation, [mbOK], 0);
   except
     //dm.sqlsisAdimin.SQLConnection.getErrorMessage();
     dm.sqlsisAdimin.Rollback(TD);
@@ -271,6 +275,12 @@ begin
     MessageDlg('Erro para gerar o pedido.', mtError, [mbOK], 0);
     exit;
   end;
+end;
+
+procedure TfCompraCotacao2.cdsCotacaoAfterScroll(DataSet: TDataSet);
+begin
+  inherited;
+  editaItens;
 end;
 
 end.
