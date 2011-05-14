@@ -1,6 +1,6 @@
 object fAtualizaSistema: TfAtualizaSistema
   Left = 131
-  Top = 106
+  Top = 100
   Width = 696
   Height = 473
   Color = clBtnFace
