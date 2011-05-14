@@ -35,6 +35,8 @@ type
     procedure ExecutaSql(sql : string);
     procedure ExecutaDDL(Tabela, Campo, Tipo : string);
     procedure MudaVersao(versaoNova: string);
+    function NaoExisteTabela(Tabela : String): Boolean;
+    function NaoExisteGenerator(Generator: String): Boolean;
     { Private declarations }
   public
     TD: TTransactionDesc;
@@ -714,7 +716,7 @@ begin
       executaDDL('NOTAFISCAL', 'NOTAMAE','INTEGER');
       executaDDL('NOTAFISCAL', 'VALOR_PIS','DOUBLE PRECISION');
       executaDDL('NOTAFISCAL', 'VALOR_COFINS','DOUBLE PRECISION');
-      executaDDL('ESTADO_ICMS', 'NAOENVFATURA','CHAR(1)');      
+      executaDDL('ESTADO_ICMS', 'NAOENVFATURA','CHAR(1)');
       mudaVersao('1.0.0.70');
     end;  // Fim Ataulização Versao 1.0.0.70
 
@@ -845,62 +847,80 @@ begin
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSOSN', 'Varchar(3)');
       executaScript('trg_calcula_icms_st.sql');
       executaScript('calcula_icms.sql');
-      executaScript('trg_gera_pedido.sql');
+      executaScript('gera_pedido.sql');
       mudaVersao('1.0.0.81');
     end;  // Fim Ataulização Versao 1.0.0.81
 
     if (versaoSistema = '1.0.0.81') then
     begin
-      executaSql('CREATE TABLE COMPRA_SOLIC (SOLIC_CODIGO INTEGER NOT NULL primary key, ' +
-     'SOLIC_DATA DATE DEFAULT current_date, SOLIC_PRODUTO VARCHAR (15) NOT NULL, ' +
-     'SOLIC_QUANTIDADE DOUBLE precision, SOLIC_SOLICITANTE Varchar(30), ' +
-     'SOLIC_SITUACAO CHAR(1), SOLIC_APROVACAO Varchar(30), ' +
-     'SOLIC_SITUACAO CHAR(1), SOLIC_APROVACAO Varchar(30), ' +
-     'SOLIC_TIPO CHAR(1), SOLIC_DTNECESSIT date)');
+      if (NaoExisteTabela('COMPRA_SOLIC')) then
+      begin
+        executaSql('CREATE TABLE COMPRA_SOLIC (SOLIC_CODIGO INTEGER NOT NULL primary key, ' +
+        'SOLIC_DATA DATE DEFAULT current_date, SOLIC_PRODUTO VARCHAR (15) NOT NULL, ' +
+        'SOLIC_QUANTIDADE DOUBLE precision, SOLIC_SOLICITANTE Varchar(30), ' +
+        'SOLIC_SITUACAO CHAR(1), SOLIC_APROVACAO Varchar(30), ' +
+        'SOLIC_SITUACAO CHAR(1), SOLIC_APROVACAO Varchar(30), ' +
+        'SOLIC_TIPO CHAR(1), SOLIC_DTNECESSIT date)');
+      end;
       mudaVersao('1.0.0.82');
     end;  // Fim Ataulização Versao 1.0.0.82
 
     if (versaoSistema = '1.0.0.82') then
     begin
-      executaSql('CREATE TABLE COMPRA_COTACAO (COTACAO_CODIGO INTEGER NOT NULL, ' +
-     'COTACAO_DATA   DATE DEFAULT current_date, COTACAO_FORNEC INTEGER NOT NULL, ' +
-     'COTACAO_SOLICIT VARCHAR(20),  COTACAO_ITEM   VARCHAR(15) NOT NULL, ' +
-     'COTACAO_ITEMDESCRICAO VARCHAR(300),  COTACAO_SITUACAO CHAR(1), ' +
-     'COTACAO_QTDE  DOUBLE precision,  COTACAO_PRECO  DOUBLE precision, ' +
-     'COTACAO_USER   VARCHAR(20),  COTACAO_TIPO CHAR(1), ' +
-     'COTACAO_CODSOLIC integer,  COTACAO_DTENTREGA DATE, ' +
-     'COTACAO_PRAZO VARCHAR(30), COTACAO_OBSERVACAO VARCHAR(200), ' +
-     'PRIMARY KEY (COTACAO_CODIGO, COTACAO_FORNEC))');
+      if (NaoExisteTabela('COMPRA_COTACAO')) then
+      begin
+        executaSql('CREATE TABLE COMPRA_COTACAO (COTACAO_CODIGO INTEGER NOT NULL, ' +
+        'COTACAO_DATA   DATE DEFAULT current_date, COTACAO_FORNEC INTEGER NOT NULL, ' +
+        'COTACAO_SOLICIT VARCHAR(20),  COTACAO_ITEM   VARCHAR(15) NOT NULL, ' +
+        'COTACAO_ITEMDESCRICAO VARCHAR(300),  COTACAO_SITUACAO CHAR(1), ' +
+        'COTACAO_QTDE  DOUBLE precision,  COTACAO_PRECO  DOUBLE precision, ' +
+        'COTACAO_USER   VARCHAR(20),  COTACAO_TIPO CHAR(1), ' +
+        'COTACAO_CODSOLIC integer,  COTACAO_DTENTREGA DATE, ' +
+        'COTACAO_PRAZO VARCHAR(30), COTACAO_OBSERVACAO VARCHAR(200), ' +
+        'PRIMARY KEY (COTACAO_CODIGO, COTACAO_FORNEC, COTACAO_ITEM))');
+      end;
       mudaVersao('1.0.0.83');
     end;  // Fim Ataulização Versao 1.0.0.83
 
     if (versaoSistema = '1.0.0.83') then
     begin
-      executaSql('create table aponthoras ( id_aponthoras integer not null primary key, ' +
-     'cod_cliente integer, cod_fornecedor integer, ' +
-     'cod_usuario integer, data_movimento date, ' +
-     'PRIMARY KEY (COTACAO_CODIGO, COTACAO_FORNEC))');
+      if (NaoExisteTabela('APONTHORAS')) then
+      begin
+        executaSql('create table aponthoras ( id_aponthoras integer not null primary key, ' +
+        'cod_cliente integer, cod_fornecedor integer, ' +
+        'cod_usuario integer, data_movimento date, ' +
+        'PRIMARY KEY (COTACAO_CODIGO, COTACAO_FORNEC))');
+      end;
       mudaVersao('1.0.0.84');
     end;  // Fim Ataulização Versao 1.0.0.84
 
     if (versaoSistema = '1.0.0.84') then
     begin
-      executaSql('create table aponthorasdet (id_aponthorasdet integer not null primary key, ' +
-     'id_aponthoras integer not null, data date, ' +
-     'Tarefa_local varchar(150), inicio time, ' +
-     'termino time, obs varchar(300), ' +
-     'km double precision,  km_valor double precision, ' +
-     'km_total double precision, despesa double precision, ' +
-     'pedagio double precision, valor_hora double precision, ' +
-     'total_hora double precision, total_geral double precision, ' +
-     'n_relatorio integer) ');
+      if (NaoExisteTabela('APONTHORASDET')) then
+      begin
+        executaSql('create table aponthorasdet (id_aponthorasdet integer not null primary key, ' +
+        'id_aponthoras integer not null, data date, ' +
+        'Tarefa_local varchar(150), inicio time, ' +
+        'termino time, obs varchar(300), ' +
+        'km double precision,  km_valor double precision, ' +
+        'km_total double precision, despesa double precision, ' +
+        'pedagio double precision, valor_hora double precision, ' +
+        'total_hora double precision, total_geral double precision, ' +
+        'n_relatorio integer) ');
+      end;
       mudaVersao('1.0.0.85');
     end;  // Fim Ataulização Versao 1.0.0.85
 
     if (versaoSistema = '1.0.0.85') then
     begin
-      executaSql('create generator gen_aponthorasdet');
-      executaSql('create generator gen_aponthoras');
+      if (NaoExisteGenerator('GEN_APONTHORASDET')) then
+      begin
+        executaSql('create generator gen_aponthorasdet');
+      end;
+      if (NaoExisteGenerator('GEN_APONTHORAS')) then
+      begin
+        executaSql('create generator gen_aponthoras');
+      end;
       executaDDL('MOVIMENTO', 'DATA_ENTREGA', 'DATE');
       executaDDL('MOVIMENTO', 'PRAZO_PAGAMENTO', 'VARCHAR(30)');
       mudaVersao('1.0.0.86');
@@ -916,7 +936,18 @@ begin
       except
       end;
       mudaVersao('1.0.0.87');
-    end;  
+    end;
+
+    if (versaoSistema = '1.0.0.87') then
+    begin
+      executaDDL('NOTAFISCAL', 'CCUSTO', 'INTEGER');
+      executaDDL('COMPRA_COTACAO', 'COTACAO_IPI', 'DOUBLE PRECISION DEFAULT 0');
+      executaDDL('COMPRA_COTACAO', 'COTACAO_FRETE', 'DOUBLE PRECISION DEFAULT 0');
+      executaDDL('COMPRA_COTACAO', 'COTACAO_DESCONTO', 'DOUBLE PRECISION DEFAULT 0');
+      mudaVersao('1.0.0.88');
+    end;
+
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
@@ -1098,6 +1129,45 @@ begin
     end;
     ftpupdate.Disconnect;
    end;
+end;
+
+function TfAtualizaSistema.NaoExisteTabela(Tabela: String): Boolean;
+begin
+  if (cds.Active) then
+    cds.Close;
+  cds.CommandText := 'select rdb$relation_name ' +
+     ' from rdb$relations ' +
+     'where rdb$view_blr is null' +
+     '  and (rdb$system_flag is null or rdb$system_flag = 0)' +
+     '  and rdb$relation_name = ' + QuotedStr(tabela);
+  cds.Open;
+  if (cds.IsEmpty) then
+  begin
+    result := True;
+  end
+  else begin
+    result := False;
+  end;
+
+end;
+
+function TfAtualizaSistema.NaoExisteGenerator(Generator: String): Boolean;
+begin
+  if (cds.Active) then
+    cds.Close;
+  cds.CommandText := 'SELECT RDB$GENERATOR_NAME ' +
+     '  FROM RDB$GENERATORS ' +
+     ' WHERE RDB$SYSTEM_FLAG IS NULL' +
+     '   AND RDB$GENERATOR_NAME = ' + QuotedStr(Generator);
+  cds.Open;
+  if (cds.IsEmpty) then
+  begin
+    result := True;
+  end
+  else begin
+    result := False;
+  end;
+
 end;
 
 end.
