@@ -200,6 +200,8 @@ begin
     cdsCotacao.RecNo := linha;
     cdsCotacao.EnableControls;
     cdsCotacao.Next;
+    editaItens;
+    edPreco.SetFocus;
     //MessageDlg('Alteração gravada com sucesso.', mtInformation, [mbOK], 0);
   except
     //dm.sqlsisAdimin.SQLConnection.getErrorMessage();
