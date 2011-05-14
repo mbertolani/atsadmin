@@ -235,6 +235,9 @@ end;
 
 procedure TfCompraCotacao.Edit1Exit(Sender: TObject);
 begin
+  if (edit1.Text = '') then
+    exit;
+    
   if dm.scds_forn_proc.Active then
     dm.scds_forn_proc.Close;
   dm.scds_forn_proc.Params[0].Clear;

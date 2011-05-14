@@ -1,6 +1,6 @@
 inherited fCompraCotacao: TfCompraCotacao
   Left = 111
-  Top = 26
+  Top = 25
   Width = 998
   Height = 743
   Caption = 'Cota'#231#227'o de Compras'
