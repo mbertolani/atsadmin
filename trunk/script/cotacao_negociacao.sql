@@ -31,9 +31,9 @@ RETURNS
   PRAZO6     VARCHAR(30),
   PRAZO7     VARCHAR(30),
   PRAZO8     VARCHAR(30),
-  FRETE     DOUBLE PRECISION,
   OBS       VARCHAR(200),
   TOTAL     DOUBLE PRECISION,
+  FRETE     DOUBLE PRECISION,  
   DENTREGA1 DATE,
   DENTREGA2 DATE,
   DENTREGA3 DATE,
@@ -67,16 +67,19 @@ AS
   DECLARE VARIABLE T6    DOUBLE PRECISION;
   DECLARE VARIABLE T7    DOUBLE PRECISION;
   DECLARE VARIABLE T8    DOUBLE PRECISION;
+  DECLARE VARIABLE FRETE1 DOUBLE PRECISION;
+  DECLARE VARIABLE FRETE2 DOUBLE PRECISION;
 BEGIN
   numFornec = 0;
   -- Lista todos os fornecedores com Cotações em aberto para o item 
-  FOR SELECT COTACAO_FORNEC, COTACAO_FRETE, COTACAO_PRAZO, COTACAO_DTENTREGA
+  FOR SELECT COTACAO_FORNEC, COTACAO_PRAZO, COTACAO_DTENTREGA
     FROM COMPRA_COTACAO
    WHERE COTACAO_SITUACAO = 'G'
      AND COTACAO_ITEM     = :ITEM
    ORDER BY COTACAO_CODIGO  
-  INTO :codFornec, :FRETE, :PRAZO , :DENTREGA
+  INTO :codFornec, :PRAZO , :DENTREGA
   do begin 
+       
     numFornec = numFornec + 1;
     if (numFornec = 1) then 
     begin
@@ -160,7 +163,14 @@ BEGIN
        AND COTACAO_SITUACAO = 'G'
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO1, :TOT1;
-      
+
+      SELECT COTACAO_FRETE
+        FROM COMPRA_COTACAO
+       WHERE COTACAO_FORNEC = :Fornec1
+         AND COTACAO_SITUACAO = 'G'    
+         AND COTACAO_FRETE > 0
+        INTO :FRETE1; 
+
       T1 = T1 + TOT1;
 
     SELECT FIRST 1 COTACAO_PRECO, (COTACAO_PRECO * COTACAO_QTDE) TOTAL
@@ -169,6 +179,13 @@ BEGIN
        AND COTACAO_SITUACAO = 'G'
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO2, :TOT2;
+
+      SELECT COTACAO_FRETE
+        FROM COMPRA_COTACAO
+       WHERE COTACAO_FORNEC = :Fornec2
+         AND COTACAO_SITUACAO = 'G'    
+         AND COTACAO_FRETE > 0
+        INTO :FRETE2; 
 
     T2 = T2 + TOT2;
 
@@ -240,11 +257,11 @@ BEGIN
   CODPRO = '';
   DESCRICAO = ' FRETE ';
   if (numFornec = 1) then 
-    PRECO1 = FRETE;
+    TOT1 = FRETE1;
   if (numFornec = 2) then     
-    PRECO2 = FRETE;
-  if (numFornec = 3) then     
-    PRECO3 = FRETE;
+    TOT2 = FRETE2;
+ -- if (numFornec = 3) then     
+ --   PRECO3 = FRETE;
   
   SUSPEND;
   
@@ -267,7 +284,7 @@ BEGIN
   
   SUSPEND;
 
-  
+  /* 
   CODPRO = '';
   DESCRICAO = '';
   PRECO1 = null;
@@ -304,7 +321,7 @@ BEGIN
   PRECO2 = null;
   PRECO3 = null;
   
-  SUSPEND;
+  SUSPEND;*/
 
 END^
 
