@@ -46,7 +46,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
       Left = 219
       Top = 3
       Width = 73
-      Height = 22
+      Height = 21
       TabOrder = 2
       OnExit = edFornecExit
     end
@@ -409,6 +409,8 @@ inherited fCompraRecebimento: TfCompraRecebimento
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      OnKeyPress = JvDBGrid1KeyPress
+      AutoAppend = False
       FixedCols = 7
       PostOnEnterKey = True
       AutoSizeColumns = True
@@ -424,7 +426,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           Expanded = False
           FieldName = 'CONTROLE'
           Title.Caption = 'Cota'#231#227'o'
-          Width = 61
+          Width = 64
           Visible = True
         end
         item
@@ -433,7 +435,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'CODMOVIMENTO'
           ReadOnly = True
           Title.Caption = 'C'#243'd.'
-          Width = 63
+          Width = 66
           Visible = True
         end
         item
@@ -442,7 +444,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'DATA_ENTREGA'
           ReadOnly = True
           Title.Caption = 'Dt. Entrega'
-          Width = 63
+          Width = 66
           Visible = True
         end
         item
@@ -451,6 +453,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'CODPRO'
           ReadOnly = True
           Title.Caption = 'Material'
+          Width = 67
           Visible = True
         end
         item
@@ -459,7 +462,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'PRODUTO'
           ReadOnly = True
           Title.Caption = 'Descri'#231#227'o'
-          Width = 199
+          Width = 207
           Visible = True
         end
         item
@@ -468,7 +471,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'QUANTIDADE'
           ReadOnly = True
           Title.Caption = 'Quantidade'
-          Width = 74
+          Width = 77
           Visible = True
         end
         item
@@ -477,7 +480,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'PRECO'
           ReadOnly = True
           Title.Caption = 'Pre'#231'o'
-          Width = 63
+          Width = 66
           Visible = True
         end
         item
@@ -486,7 +489,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'VALTOTAL'
           ReadOnly = True
           Title.Caption = 'Val. Total'
-          Width = 63
+          Width = 66
           Visible = True
         end
         item
@@ -494,7 +497,6 @@ inherited fCompraRecebimento: TfCompraRecebimento
           Expanded = False
           FieldName = 'RECEBIDO'
           Title.Caption = 'Recebido'
-          Width = 63
           Visible = True
         end>
     end
