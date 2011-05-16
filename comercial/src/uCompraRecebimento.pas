@@ -7,7 +7,7 @@ uses
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, FMTBcd, DBClient, Provider, SqlExpr, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, Mask, DBCtrls, JvExMask,
-  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit;
+  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, dbxpress;
 
 type
   TfCompraRecebimento = class(TfPai_new)
@@ -55,9 +55,10 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure cdsPedidoBeforePost(DataSet: TDataSet);
-    procedure BitBtn1Click(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure cbMesChange(Sender: TObject);
+    procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -118,15 +119,6 @@ begin
   inherited;
 end;
 
-procedure TfCompraRecebimento.BitBtn1Click(Sender: TObject);
-begin
-  //inherited;
-  try
-    cdsPedido.ApplyUpdates(0);
-  except
-  end;
-end;
-
 procedure TfCompraRecebimento.btnProcurarClick(Sender: TObject);
 var str, stra: string;
 begin
@@ -138,8 +130,9 @@ begin
     ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
     ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
     ' where m.CODNATUREZA   = 5 ' +
-    '   and m.STATUS        = 0 ' +
-    '   and ((md.QUANTIDADE - md.RECEBIDO) > 0)';
+    '   and m.STATUS        = 3 ' +
+    '   and ((md.QUANTIDADE - md.RECEBIDO) > 0) ' +
+    '   and md.RECEBIDO = 0';
 
   if (cdsPedido.Active) then
     cdsPedido.Close;
@@ -172,10 +165,53 @@ var  periodo : TUtils;
 begin
   periodo := TUtils.Create;
   periodo.criaIni(cbMes.text);
-  periodo.criaFim(cbMes.text);  
+  periodo.criaFim(cbMes.text);
   dta1.Text := periodo.PeriodoIni;
   dta2.Text := periodo.PeriodoFim;
   periodo.Destroy;
+end;
+
+procedure TfCompraRecebimento.JvDBGrid1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if (key = #13) then
+  begin
+    if (not cdsPedido.Eof) then
+      cdsPedido.Next;
+  end;
+end;
+
+procedure TfCompraRecebimento.BitBtn1Click(Sender: TObject);
+var TD: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    cdsPedido.DisableControls;
+    cdsPedido.First;
+    DecimalSeparator := '.';
+    While not cdsPedido.Eof do
+    begin
+      if (cdsPedidoRECEBIDO.AsFloat > 0) then
+      begin
+        dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET RECEBIDO = ' +
+          FloatToStr(cdsPedidoRECEBIDO.asFloat) +
+          ' WHERE CODDETALHE = ' + IntToStr(cdsPedidoCODDETALHE.AsInteger));
+      end;    
+      cdsPedido.Next;
+    end;
+    DecimalSeparator := ',';
+    dm.sqlsisAdimin.Commit(TD);
+    cdsPedido.EnableControls;
+    MessageDlg('Recebimento Gravado com sucesso.', mtInformation, [mbOK], 0);
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro para gravar o recebimento.', mtError, [mbOK], 0);
+    DecimalSeparator := ',';
+    exit;
+  end;
+
 end;
 
 end.
