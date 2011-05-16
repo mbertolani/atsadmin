@@ -947,6 +947,13 @@ begin
       mudaVersao('1.0.0.88');
     end;
 
+    if (versaoSistema = '1.0.0.88') then
+    begin
+      executaScript('baixaTitulosPagEdita.sql');
+      executaSql('ALTER TABLE PAGAMENTO ALTER USERID TYPE TEXTO3');
+      executaScript('baixaTitulosPag.sql');
+      mudaVersao('1.0.0.89');
+    end;
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
