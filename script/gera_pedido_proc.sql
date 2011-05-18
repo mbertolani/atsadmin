@@ -1,10 +1,10 @@
-SET TERM ^ ;
 CREATE OR ALTER PROCEDURE GERA_PEDIDO_PROC(CODIGO INTEGER, FORNEC INTEGER, codMov integer)
 AS 
   declare variable codProduto integer;
   declare variable codSolic   integer;
   declare variable dtentrega  date;
   declare variable prazo      varchar(30);
+  declare variable userAprova varchar(30);
   declare variable codPro     varchar(15);
   declare variable obs        varchar(200);
   declare variable descricao  varchar(200);
@@ -16,6 +16,9 @@ AS
   declare variable frete      double precision;
   declare variable desconto   double precision;
 BEGIN 
+  SELECT D2 FROM PARAMETRO WHERE PARAMETRO = 'COMPRA'
+    INTO :userAprova;
+    
   FOR SELECT c.COTACAO_DTENTREGA, c.COTACAO_PRAZO, c.COTACAO_OBSERVACAO, c.COTACAO_ITEMDESCRICAO, 
        c.COTACAO_SITUACAO, c.COTACAO_TIPO, c.COTACAO_QTDE, c.COTACAO_PRECO, c.COTACAO_IPI,
        c.COTACAO_FRETE, c.COTACAO_DESCONTO, c.COTACAO_CODSOLIC, c.COTACAO_ITEM
@@ -44,10 +47,10 @@ BEGIN
         begin  
           codmov = GEN_ID(GENMOV, 1);
           insert into MOVIMENTO (codmovimento, datamovimento, codcliente, codnatureza, 
-            status, codusuario, codfornecedor, data_sistema, controle, data_entrega, prazo_pagamento, obs)
+            status, codusuario, codfornecedor, data_sistema, controle, data_entrega, prazo_pagamento, obs, user_aprova)
           values (
             :codmov, CURRENT_DATE, 0, 5, 0, 1, :FORNEC, CURRENT_TIMESTAMP, :CODIGO,
-            :DTENTREGA, :PRAZO, UDF_LEFT(:obs,99));   
+            :DTENTREGA, :PRAZO, UDF_LEFT(:obs,99),  :userAprova);   
         end  
         select first 1 p.CODPRODUTO from produtos p where p.CODPRO = :codPro
           into :codProduto;
@@ -66,5 +69,4 @@ BEGIN
     end
     end
   end   
-END^
-SET TERM ; ^
+END
