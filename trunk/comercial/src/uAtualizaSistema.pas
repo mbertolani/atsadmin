@@ -21,6 +21,7 @@ type
     btnSair: TBitBtn;
     Label2: TLabel;
     ftpupdate: TIdFTP;
+    SQLQuery1: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure VerSeTemAtualiza;
   private
@@ -37,6 +38,8 @@ type
     procedure MudaVersao(versaoNova: string);
     function NaoExisteTabela(Tabela : String): Boolean;
     function NaoExisteGenerator(Generator: String): Boolean;
+    procedure VerBoleto;
+    procedure ExecutaDDL_Drop(Tabela, Campo: string);
     { Private declarations }
   public
     TD: TTransactionDesc;
@@ -955,6 +958,41 @@ begin
       mudaVersao('1.0.0.89');
     end;
 
+    if (versaoSistema = '1.0.0.89') then
+    begin
+      executaScript('cotacao_gera_pedido.sql');
+      executaScript('altera_status_cotacao.sql');
+      executaScript('cotacao_negociacao.sql');
+      executaScript('gera_nf_venda.sql');
+
+      SQLQuery1.SQL.Clear;
+      SQLQuery1.SQL.Add('select * from RDB$RELATION_CONSTRAINTS ' +
+        ' where rdb$relation_name = ' + QuotedStr('COMPRA_COTACAO') +
+        '   and RDB$CONSTRAINT_NAME = ' + QuotedStr('INTEG_402'));
+      SQLQuery1.Open;
+
+      if (not SQLQuery1.IsEmpty) then
+      begin
+        executaSql('ALTER TABLE COMPRA_COTACAO DROP CONSTRAINT INTEG_402');
+      end;
+
+      executaSql('ALTER TRIGGER GERA_PEDIDO INACTIVE;');
+
+      SQLQuery1.SQL.Clear;
+      SQLQuery1.SQL.Add('select * from RDB$RELATION_CONSTRAINTS ' +
+        ' where rdb$relation_name = ' + QuotedStr('COMPRA_COTACAO') +
+        '   and RDB$CONSTRAINT_NAME = ' + QuotedStr('PK_COMPRA_COTACAO_1'));
+      SQLQuery1.Open;
+
+      if (SQLQuery1.IsEmpty) then
+      begin
+        executaSql('alter table COMPRA_COTACAO add constraint PK_COMPRA_COTACAO_1 ' +
+          'primary key (COTACAO_CODIGO, COTACAO_FORNEC, COTACAO_ITEM)');
+      end;
+
+      mudaVersao('1.0.0.90');
+    end;
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
@@ -1175,6 +1213,16 @@ begin
     result := False;
   end;
 
+end;
+
+procedure TfAtualizaSistema.ExecutaDDL_Drop(Tabela, Campo: string);
+begin
+
+end;
+
+procedure TfAtualizaSistema.VerBoleto;
+begin
+  
 end;
 
 end.

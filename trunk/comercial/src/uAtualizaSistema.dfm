@@ -197,4 +197,11 @@ object fAtualizaSistema: TfAtualizaSistema
     Left = 192
     Top = 12
   end
+  object SQLQuery1: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 504
+    Top = 16
+  end
 end
