@@ -106,7 +106,7 @@ begin
   FROM ESTADO_ICMS WHERE UF = :uf AND CFOP = :cfop
       INTO :vIcmsT, :baseIcms;
 
-  -- pega número do novo movimento
+  -- pega nÃºmero do novo movimento
   select GEN_ID(GENMOV, 1) from RDB$DATABASE
   into :codMovNovo;
 
@@ -131,13 +131,7 @@ begin
       where md.CODMOVIMENTO = :codMov
     into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd
     do begin 
-      /*if (desconto is null) then 
-        desconto = 0;
-      if (desconto > 0) then 
-        desconto = 1 - (desconto / 100);
-      if (desconto = 0) then 
-         desconto = 1;  
-*/
+
      if (pesoUn is null) then 
         pesoUn = 0;
       pesoTotal = pesoTotal + (:pesoUn * :qtde);
@@ -196,9 +190,9 @@ begin
       end  
           
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
-       , preco, un, descProduto, icms, valor_icms, cst, qtde_alt) 
+       , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto);  
+       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, ((:qtde * :preco)*(:desconto/100)),(:preco-((:preco)*(:desconto/100))));  
       total = total + (qtde * (:preco*(1-(:desconto/100))));--((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto)
       totalIcms = totalIcms + :valoricms;
     end 
@@ -225,7 +219,8 @@ begin
     tBaseIcms = 0; 
   end
   
-  SELECT FIRST 1 ei.DADOSADC1, ei.DADOSADC2, ei.DADOSADC3, ei.DADOSADC4, ei.DADOSADC5, ei.DADOSADC6 
+  SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,75), UDF_LEFT(ei.DADOSADC2,75), UDF_LEFT(ei.DADOSADC3,75), 
+     UDF_LEFT(ei.DADOSADC4,75), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
   FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf
   into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
 
@@ -256,13 +251,15 @@ begin
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
     , :serie, :UF, 0);
  
-   -- Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
+   -- FaÃ§o um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
    -- da nf qdo esta e parcelada (dnz)
    select valor_total_nota from notafiscal where numnf = :codnf
     into :total;
 
    EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
        :vOutrosT, :total, 'N', 0, 0);
+       
+  
 end
 
 end 
