@@ -31,7 +31,8 @@ implementation
 
 uses uNotafiscal, uNFCompra, uNF, uNotaf, ufNotafiscalProc, UDMNF,
   uLotes, uNotaf1,
-  uNotafc;
+  uNotafc,
+  UDm;
 
 {$R *.dfm}
 
@@ -71,8 +72,9 @@ procedure TfEscolherNF.dxButton3Click(Sender: TObject);
 begin
    fNotaf := TfNotaf.Create(Application);
    try
-      TipoNF := 'Cliente';
-      fNotaf.ShowModal;
+     DM.tipoVenda := 'NF';
+     TipoNF := 'Cliente';
+     fNotaf.ShowModal;
    finally
       fNotaf.Free;
    end;
