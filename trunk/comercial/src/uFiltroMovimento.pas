@@ -646,7 +646,12 @@ end;
 
 procedure TfFiltroMovimento.FormShow(Sender: TObject);
 begin
-//   Edit3.Text := '3';
+  if (DM.tipoVenda = 'VENDA') then
+  begin
+    edit3.Text := '3';
+    edit4.Text := 'VENDA';
+  end;
+    
    btnProcurar.Click;
 end;
 
