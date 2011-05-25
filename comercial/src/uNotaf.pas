@@ -356,6 +356,7 @@ type
     JvGroupBox55: TJvGroupBox;
     DBEdit50: TDBEdit;
     listaCliente1TIPOFIRMA: TSmallintField;
+    sqlValida: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -404,6 +405,7 @@ type
     procedure gravamov_detalhe;
     procedure gravavenda;
     procedure alteraVlrVenda;
+    procedure validaNF;
   public
       vrr : double;
       codMovFin, codVendaFin, codCliFin : integer;
@@ -1267,6 +1269,21 @@ procedure TfNotaf.btnGravarClick(Sender: TObject);
 var nfe, cm : string;
 var TD: TTransactionDesc;
 begin
+  if (sqlValida.Active) then
+    sqlValida.Close;
+
+  sqlValida.SQL.Clear;
+  sqlValida.SQL.Add('SELECT a.CODESTADO FROM ESTADO_ICMS a WHERE a.CFOP = ' +
+    QuotedStr(dmnf.cds_nfCFOP.AsString) + ' AND a.UF = ' + QuotedStr(dmnf.cds_nfUF.AsString));
+  sqlValida.Open;
+
+  if (sqlValida.IsEmpty) then
+  begin
+    MessageDlg('Não existe cadastro deste CFOP para este UF.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+
   if (calcman.Checked = True) then
   begin
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
@@ -1533,8 +1550,12 @@ begin
       dm.sqlsisAdimin.executedirect(varsql);
     end;
 
+    dm.tipoVenda := 'NF';
     fFiltroMovimento.Edit3.Text := dm.cds_parametroDADOS.AsString;
-    fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
+    if (dm.cds_parametroD1.AsString <> '') then
+      fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString
+    else
+      fFiltroMovimento.Edit4.Text := 'NOTA FISCAL';  
     dm.cds_parametro.Close;
     fFiltroMovimento.BitBtn8.Enabled := False;
     fFiltroMovimento.ShowModal;
@@ -1631,7 +1652,7 @@ begin
     cdsNotaMae.ApplyUpdates(0);
     end;
   end;
-  dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat; 
+  dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat;
   dmnf.cds_nf.ApplyUpdates(0);
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
@@ -2193,6 +2214,12 @@ procedure TfNotaf.calcmanClick(Sender: TObject);
 begin
  if DMNF.DtSrc_NF.State in [dsBrowse] then
       DMNF.DtSrc_NF.DataSet.Append;
+end;
+
+procedure TfNotaf.validaNF;
+begin
+  // Faz a validaçaõ da NF.
+
 end;
 
 end.
