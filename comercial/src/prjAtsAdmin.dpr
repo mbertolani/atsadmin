@@ -211,7 +211,8 @@ uses
   uCompraCotacao2 in 'uCompraCotacao2.pas' {fCompraCotacao2},
   uCotacaoVer in 'uCotacaoVer.pas' {fCotacaoVer},
   uCompraCotacaoGerar in 'uCompraCotacaoGerar.pas' {fCompraCotacaoGerar},
-  uListaPedido in 'uListaPedido.pas' {fListaPedido};
+  uListaPedido in 'uListaPedido.pas' {fListaPedido},
+  uNFClasse in 'uNFClasse.pas';
 
 {$R *.res}
 
