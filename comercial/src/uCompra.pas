@@ -728,6 +728,14 @@ end;
 
 procedure TfCompra.btnGravarClick(Sender: TObject);
 begin
+  if (dm.AprovaCompra = 'S') then
+  begin
+    if (cds_MovimentoSTATUS.AsInteger = 3) then
+    begin
+      MessageDlg('Pedido não pode ser alterado, já foi aprovado.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+  end;
 
    //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
    if(DBEdit15.Text <> '') then
@@ -1304,12 +1312,7 @@ begin
     exit;
   end;
 
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'COMPRA';
-  // Busca se esta usando o Modulo Compras, se sim os pedidos tem q estarem aprovados
-  dm.cds_parametro.Open;
-  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  if (dm.AprovaCompra = 'S') then
   begin
     if (cds_MovimentoSTATUS.AsInteger < 3) then
     begin
@@ -1703,6 +1706,15 @@ end;
 procedure TfCompra.BitBtn4Click(Sender: TObject);
 begin
   inherited;
+  if (dm.AprovaCompra = 'S') then
+  begin
+    if (cds_MovimentoSTATUS.AsInteger < 3) then
+    begin
+      MessageDlg('Pedido não aprovado.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+  end;
+
   VCLReport1.FileName := str_relatorio + 'lista_compra.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('PCOMPRA').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
