@@ -19,44 +19,6 @@ object fFiltroMovimento: TfFiltroMovimento
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object MMJPanel1: TMMJPanel
-    Left = 0
-    Top = 0
-    Width = 792
-    Height = 46
-    Align = alTop
-    BevelInner = bvLowered
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindow
-    Font.Height = -29
-    Font.Name = 'Cooper Blk BT'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 0
-    Silhuette.Shape.ShapeText = 'Shape text'
-    Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
-    Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clSilver
-    Background.EndColor = clTeal
-    Background.FillType = GradUpDown
-    object Label10: TJvLabel
-      Left = 2
-      Top = 2
-      Width = 788
-      Height = 42
-      Align = alClient
-      Alignment = taCenter
-      Caption = 'Pesquisa Vendas / Or'#231'amentos'
-      ShadowColor = clNavy
-      ShadowSize = 4
-      Transparent = True
-      HotTrackFont.Charset = DEFAULT_CHARSET
-      HotTrackFont.Color = clWindowText
-      HotTrackFont.Height = -29
-      HotTrackFont.Name = 'Cooper Blk BT'
-      HotTrackFont.Style = []
-    end
-  end
   object Panel1: TPanel
     Left = 0
     Top = 46
@@ -436,7 +398,7 @@ object fFiltroMovimento: TfFiltroMovimento
         C0C0C0C0C0C0C0C00000}
     end
     object Edit3: TEdit
-      Left = 1
+      Left = 25
       Top = 105
       Width = 78
       Height = 24
@@ -447,8 +409,8 @@ object fFiltroMovimento: TfFiltroMovimento
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
+      ReadOnly = True
       TabOrder = 4
-      Text = '3'
       OnExit = Edit3Exit
       OnKeyPress = ComboBox1KeyPress
     end
@@ -475,6 +437,7 @@ object fFiltroMovimento: TfFiltroMovimento
       Top = 91
       Width = 42
       Height = 39
+      Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 12
       TabStop = False
@@ -584,6 +547,7 @@ object fFiltroMovimento: TfFiltroMovimento
       Top = 91
       Width = 42
       Height = 39
+      Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 13
       TabStop = False
@@ -1043,6 +1007,44 @@ object fFiltroMovimento: TfFiltroMovimento
       HotTrackFont.Color = clWindowText
       HotTrackFont.Height = -11
       HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+    end
+  end
+  object MMJPanel1: TMMJPanel
+    Left = 0
+    Top = 0
+    Width = 792
+    Height = 46
+    Align = alTop
+    BevelInner = bvLowered
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindow
+    Font.Height = -29
+    Font.Name = 'Cooper Blk BT'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    Silhuette.Shape.ShapeText = 'Shape text'
+    Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
+    Silhuette.PictureShape.DisplayPicture = True
+    Background.StartColor = clSilver
+    Background.EndColor = clTeal
+    Background.FillType = GradUpDown
+    object Label10: TJvLabel
+      Left = 2
+      Top = 2
+      Width = 788
+      Height = 42
+      Align = alClient
+      Alignment = taCenter
+      Caption = 'Pesquisa Vendas / Or'#231'amentos'
+      ShadowColor = clNavy
+      ShadowSize = 4
+      Transparent = True
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -29
+      HotTrackFont.Name = 'Cooper Blk BT'
       HotTrackFont.Style = []
     end
   end
