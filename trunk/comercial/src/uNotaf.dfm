@@ -3520,4 +3520,11 @@ object fNotaf: TfNotaf
       Size = 1
     end
   end
+  object sqlValida: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 200
+    Top = 64
+  end
 end
