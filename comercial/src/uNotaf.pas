@@ -1274,7 +1274,7 @@ begin
 
   sqlValida.SQL.Clear;
   sqlValida.SQL.Add('SELECT a.CODESTADO FROM ESTADO_ICMS a WHERE a.CFOP = ' +
-    QuotedStr(dmnf.cds_nfCFOP.AsString) + ' AND a.UF = ' + QuotedStr(dmnf.cds_nfUF.AsString));
+    QuotedStr(dmnf.cds_nfCFOP.AsString) + ' AND a.UF = ' + QuotedStr(DBEdit7.Text));
   sqlValida.Open;
 
   if (sqlValida.IsEmpty) then

@@ -651,8 +651,14 @@ begin
     edit3.Text := '3';
     edit4.Text := 'VENDA';
   end;
-    
-   btnProcurar.Click;
+
+  if (DM.tipoVenda = 'NF') then
+  begin
+    edit3.Text := '12';
+    edit4.Text := 'NOTA FISCAL';
+  end;
+
+  btnProcurar.Click;
 end;
 
 procedure TfFiltroMovimento.JvDBGrid1TitleClick(Column: TColumn);
