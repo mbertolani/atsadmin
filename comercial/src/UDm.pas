@@ -1816,7 +1816,7 @@ type
     { Public declarations }
     conectado :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra: string;
-    varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin: String;
+    varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
     idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov : integer;
     varDataCaixa : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao: string;
@@ -1879,8 +1879,14 @@ begin
 
   if cds_parametro.Active then
     cds_parametro.Close;
+  // Busca se esta usando o Modulo Compras, se sim os pedidos tem q estarem aprovados
   cds_parametro.Params[0].AsString := 'COMPRA';
   cds_parametro.Open;
+
+  AprovaCompra := 'N';
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+    AprovaCompra := 'S';
+
   if (dm.cds_parametroD1.AsString <> '') then
     userAprovaCompra := dm.cds_parametroD1.AsString
   else
