@@ -1,6 +1,6 @@
 object fAtualizaSistema: TfAtualizaSistema
-  Left = 131
-  Top = 100
+  Left = 210
+  Top = 117
   Width = 696
   Height = 473
   Color = clBtnFace
@@ -192,6 +192,10 @@ object fAtualizaSistema: TfAtualizaSistema
   object ftpupdate: TIdFTP
     MaxLineAction = maException
     ReadTimeout = 0
+    Host = 'www.atsti.com.br'
+    Passive = True
+    Password = 'ats0333'
+    Username = 'atsti'
     ProxySettings.ProxyType = fpcmNone
     ProxySettings.Port = 0
     Left = 192
@@ -203,5 +207,13 @@ object fAtualizaSistema: TfAtualizaSistema
     SQLConnection = DM.sqlsisAdimin
     Left = 504
     Top = 16
+  end
+  object IdFTP1: TIdFTP
+    MaxLineAction = maException
+    ReadTimeout = 0
+    ProxySettings.ProxyType = fpcmNone
+    ProxySettings.Port = 0
+    Left = 440
+    Top = 8
   end
 end
