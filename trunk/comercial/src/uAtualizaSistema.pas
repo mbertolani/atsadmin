@@ -831,7 +831,6 @@ begin
       executaDDL('ESTADO_ICMS', 'CSOSN', 'Varchar(3)');
       executaDDL('EMPRESA', 'CRT', 'INTEGER');
       executaScript('altera_vlrvenda.sql');
-      executaScript('frete_nf.sql');
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
       executaScript('gera_nf_compra.sql');
@@ -850,10 +849,10 @@ begin
       executaDDL('MOVIMENTODETALHE', 'CSOSN', 'Varchar(3)');
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSOSN', 'Varchar(3)');
-      executaScript('trg_calcula_icms_st.sql');
+	  executaDDL('NOTAFISCAL', 'VALOR_DESCONTO', 'DOUBLE PRECISION');
       executaScript('calcula_icms.sql');
       executaScript('gera_pedido.sql');
-      mudaVersao('1.0.0.81');
+	  mudaVersao('1.0.0.81');
     end;  // Fim Ataulização Versao 1.0.0.81
 
     if (versaoSistema = '1.0.0.81') then
@@ -928,12 +927,29 @@ begin
       end;
       executaDDL('MOVIMENTO', 'DATA_ENTREGA', 'DATE');
       executaDDL('MOVIMENTO', 'PRAZO_PAGAMENTO', 'VARCHAR(30)');
+ 	  executaScript('trg_gera_pedido.sql');
       mudaVersao('1.0.0.86');
     end;  // Fim Ataulização Versao 1.0.0.86
 
     if (versaoSistema = '1.0.0.86') then
     begin
+      executaDDL('MOVIMENTO', 'USER_APROVA', 'varchar(20)');
+      executaDDL('MOVIMENTODETALHE', 'VALOR_DESCONTO', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'RECEBIDO', 'DOUBLE PRECISION DEFAULT 0');
+      executaDDL('MOVIMENTODETALHE', 'VALOR_SEGURO', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'VALOR_OUTROS', 'DOUBLE PRECISION');
+      executaDDL('COMPRA_COTACAO', 'COTACAO_IPI', 'double precision');
+      executaDDL('COMPRA_COTACAO', 'COTACAO_DESCONTO', 'double precision');
+      executaDDL('COMPRA_COTACAO', 'COTACAO_FRETE', 'double precision');
+      executaDDL('CFOP', 'FRETEBC', 'char(1)');
+      executaDDL('CFOP', 'IPIBC', 'char(1)');
+      executaScript('trg_calcula_icms_st.sql');
+      executaScript('calcula_icms.sql');
+      executaScript('frete_nf.sql');
+      executaScript('baixa_estoque.sql');
+      executaScript('insere_estoque.sql');
+      executaScript('mov_estoque.sql');
+      executaScript('proc_cotacao.sql');
       try
         executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA,  ' +
          ' GERATITULO, TIPOTITULO, TIPOMOVIMENTO, BAIXAMOVIMENTO) VALUES (' +
