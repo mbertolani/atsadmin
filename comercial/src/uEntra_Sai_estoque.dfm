@@ -1,7 +1,7 @@
 object fEntra_Sai_estoque: TfEntra_Sai_estoque
   Left = 215
   Top = 106
-  Width = 698
+  Width = 706
   Height = 574
   BorderIcons = [biSystemMenu]
   Caption = 'Movimenta'#231#227'o de Estoque'
@@ -76,7 +76,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Caption = 'Total R$'
   end
   object Label8: TLabel
-    Left = 8
+    Left = 160
     Top = 294
     Width = 61
     Height = 13
@@ -84,7 +84,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Visible = False
   end
   object Label10: TLabel
-    Left = 361
+    Left = 417
     Top = 293
     Width = 53
     Height = 13
@@ -132,6 +132,64 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Width = 19
     Height = 13
     Caption = 'Obs'
+  end
+  object DBGrid1: TDBGrid
+    Left = 7
+    Top = 231
+    Width = 676
+    Height = 275
+    TabStop = False
+    DataSource = DtSrc1
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    ReadOnly = True
+    TabOrder = 18
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODPRO'
+        Title.Caption = 'C'#243'digo'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRODUTO'
+        Title.Caption = 'Mercadoria'
+        Width = 350
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QUANTIDADE'
+        Title.Caption = 'Qtde'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO'
+        Title.Caption = 'Unt.'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ValorTotal'
+        Title.Caption = 'Total R$'
+        Visible = True
+      end>
   end
   object MMJPanel1: TMMJPanel
     Left = 0
@@ -1200,7 +1258,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 519
+    Top = 508
     Width = 690
     Height = 28
     Align = alBottom
@@ -1230,8 +1288,8 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     end
   end
   object ComboBox3: TComboBox
-    Left = 80
-    Top = 294
+    Left = 144
+    Top = 310
     Width = 265
     Height = 21
     ItemHeight = 13
@@ -1364,64 +1422,6 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     PopupMenu = PopupMenu1
     TabOrder = 8
     OnKeyPress = FormKeyPress
-  end
-  object DBGrid1: TDBGrid
-    Left = 6
-    Top = 232
-    Width = 676
-    Height = 275
-    TabStop = False
-    DataSource = DtSrc1
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
-    ParentFont = False
-    PopupMenu = PopupMenu1
-    ReadOnly = True
-    TabOrder = 18
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'CODPRO'
-        Title.Caption = 'C'#243'digo'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRODUTO'
-        Title.Caption = 'Mercadoria'
-        Width = 350
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'QUANTIDADE'
-        Title.Caption = 'Qtde'
-        Width = 50
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO'
-        Title.Caption = 'Unt.'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ValorTotal'
-        Title.Caption = 'Total R$'
-        Visible = True
-      end>
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_ccusto
