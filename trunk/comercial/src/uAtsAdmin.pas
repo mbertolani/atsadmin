@@ -225,8 +225,12 @@ type
     RecebimentoMateriais1: TMenuItem;
     Cotao1: TMenuItem;
     CotaoPedido1: TMenuItem;
+<<<<<<< .mine
+    Similares1: TMenuItem;
+=======
     Button1: TButton;
     lblBoleto: TLabel;
+>>>>>>> .r826
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -334,8 +338,12 @@ type
     procedure RecebimentoMateriais1Click(Sender: TObject);
     procedure Cotao1Click(Sender: TObject);
     procedure CotaoPedido1Click(Sender: TObject);
+<<<<<<< .mine
+    procedure Similares1Click(Sender: TObject);
+=======
     procedure Button1Click(Sender: TObject);
     procedure lblBoletoClick(Sender: TObject);
+>>>>>>> .r826
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -377,7 +385,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
-  uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra;
+  uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
+  u_SIMILARES, U_AUTOPECAS;
 
 {$R *.dfm}
 
@@ -891,7 +900,14 @@ begin
   empresaemuso := dm.cds_parametroDADOS.AsString;
   fMovCaixa := TfMovCaixa.Create(Application);
   if (empresaemuso = 'COMETA') then
-    fTerminal.ShowModal
+  begin
+    F_AUTOPECAS := TF_AUTOPECAS.Create(Application);
+    try
+      F_AUTOPECAS.ShowModal; //fTerminal.ShowModal
+    finally
+      F_AUTOPECAS.Free;
+    end;
+  end
   else
     fTerminal_Delivery.ShowModal;
 
@@ -1781,6 +1797,18 @@ begin
     fCompra.BitBtn1.Visible := True;
 end;
 
+<<<<<<< .mine
+procedure TfAtsAdmin.Similares1Click(Sender: TObject);
+begin
+  F_SIMILARES := TF_SIMILARES.Create(Application);
+  try
+    F_SIMILARES.ShowModal;
+  finally
+    F_SIMILARES.Free;
+  end;
+end;
+
+=======
 procedure TfAtsAdmin.Button1Click(Sender: TObject);
 var str: string;
 begin
@@ -1844,4 +1872,5 @@ begin
 
 end;
 
+>>>>>>> .r826
 end.
