@@ -9,9 +9,9 @@ inherited fCompraRecebimento: TfCompraRecebimento
     object Label1: TLabel
       Left = 5
       Top = 3
-      Width = 40
+      Width = 33
       Height = 13
-      Caption = 'Cota'#231#227'o'
+      Caption = 'Pedido'
       Transparent = True
     end
     object Label2: TLabel
@@ -426,7 +426,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           Expanded = False
           FieldName = 'CONTROLE'
           Title.Caption = 'Cota'#231#227'o'
-          Width = 64
+          Width = 158
           Visible = True
         end
         item
@@ -435,7 +435,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'CODMOVIMENTO'
           ReadOnly = True
           Title.Caption = 'C'#243'd.'
-          Width = 66
+          Width = 57
           Visible = True
         end
         item
@@ -444,7 +444,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'DATA_ENTREGA'
           ReadOnly = True
           Title.Caption = 'Dt. Entrega'
-          Width = 66
+          Width = 57
           Visible = True
         end
         item
@@ -453,7 +453,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'CODPRO'
           ReadOnly = True
           Title.Caption = 'Material'
-          Width = 67
+          Width = 58
           Visible = True
         end
         item
@@ -462,7 +462,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'PRODUTO'
           ReadOnly = True
           Title.Caption = 'Descri'#231#227'o'
-          Width = 207
+          Width = 178
           Visible = True
         end
         item
@@ -471,7 +471,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'QUANTIDADE'
           ReadOnly = True
           Title.Caption = 'Quantidade'
-          Width = 77
+          Width = 66
           Visible = True
         end
         item
@@ -480,7 +480,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'PRECO'
           ReadOnly = True
           Title.Caption = 'Pre'#231'o'
-          Width = 66
+          Width = 57
           Visible = True
         end
         item
@@ -489,7 +489,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'VALTOTAL'
           ReadOnly = True
           Title.Caption = 'Val. Total'
-          Width = 66
+          Width = 57
           Visible = True
         end
         item
@@ -497,6 +497,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           Expanded = False
           FieldName = 'RECEBIDO'
           Title.Caption = 'Recebido'
+          Width = 55
           Visible = True
         end>
     end
