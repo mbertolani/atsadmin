@@ -1,9 +1,8 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 1
-  Top = 1
-  Height = 738
+  Left = 2
+  Height = 680
   Width = 1022
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sge'
