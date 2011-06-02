@@ -22,7 +22,6 @@ type
     Label2: TLabel;
     ftpupdate: TIdFTP;
     SQLQuery1: TSQLQuery;
-    IdFTP1: TIdFTP;
     procedure FormCreate(Sender: TObject);
     procedure VerSeTemAtualiza;
     procedure VerBoleto(Empresa : String);
@@ -982,6 +981,8 @@ begin
       executaScript('altera_status_cotacao.sql');
       executaScript('cotacao_negociacao.sql');
       executaScript('gera_nf_venda.sql');
+      executaDDL('MOVIMENTO', 'CODTRANSP', 'INTEGER');
+      executaDDL('MOVIMENTO', 'TPFRETE', 'char(1)');
 
       SQLQuery1.SQL.Clear;
       SQLQuery1.SQL.Add('select * from RDB$RELATION_CONSTRAINTS ' +
@@ -1240,7 +1241,7 @@ end;
 
 procedure TfAtualizaSistema.VerBoleto(Empresa : String);
 begin
-  if (dm.VISTO_FTP <> FormatDateTime('dd', now)) then
+  {if (dm.VISTO_FTP <> FormatDateTime('dd', now)) then
   begin
     try
       IdFTP1.Disconnect();
@@ -1248,10 +1249,10 @@ begin
       IdFTP1.Username   := 'atsti';
       IdFTP1.Password   := 'ats0333';
       IdFTP1.Port := 21;
-      IdFTP1.Passive := false; { usa modo ativo }
+      IdFTP1.Passive := false; // usa modo ativo
       IdFTP1.RecvBufferSize := 8192;
       try
-        { Espera até 10 segundos pela conexão }
+        // Espera até 10 segundos pela conexão
         IdFTP1.Connect(true, 10000);
       except
         on E: Exception do
@@ -1274,7 +1275,7 @@ begin
     finally
       IdFTP1.Disconnect;
     end;
-  end;  
+  end;    }
 end;
 
 end.
