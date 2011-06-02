@@ -8,7 +8,7 @@ uses
   Buttons, StdCtrls, FMTBcd, DBClient, Provider, SqlExpr, EOneInst, ImgList,
   rpcompobase, rpvclreport, DBxpress, UCBase, ActnList, RXCtrls, RxGIF,
   jpeg, EAppProt, TFlatSpeedButtonUnit, StdActns, UCHist_Base,
-  UCHistDataset, JvGIF;
+  UCHistDataset, JvGIF, WinInet;
 
 type
   TfAtsAdmin = class(TForm)
@@ -225,6 +225,8 @@ type
     RecebimentoMateriais1: TMenuItem;
     Cotao1: TMenuItem;
     CotaoPedido1: TMenuItem;
+    Button1: TButton;
+    lblBoleto: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -332,11 +334,14 @@ type
     procedure RecebimentoMateriais1Click(Sender: TObject);
     procedure Cotao1Click(Sender: TObject);
     procedure CotaoPedido1Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure lblBoletoClick(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
     bytes_transf: longword;
     tamanho_arquivo : longword;
+    function GetInetFile (const fileURL, FileName: String): boolean;    
     { Private declarations }
   public
     { Public declarations }
@@ -685,6 +690,7 @@ end;
 procedure TfAtsAdmin.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
 begin
+  Dm.varLogado := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   //Se tiver Agendamento para o dia abro a agenda
   if (dm.cds_ag.Active) then
     dm.cds_ag.Close;
@@ -767,7 +773,6 @@ begin
     dm.cds_parametroD4.AsString := FormatDateTime('ddmmyyyy', today);
     dm.cds_parametro.ApplyUpdates(0);
   end;
-  Dm.varLogado        := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
 
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -1774,6 +1779,69 @@ begin
   fCompra.ShowModal;
   fCompra.btnIncluir.Left := 4;
     fCompra.BitBtn1.Visible := True;
+end;
+
+procedure TfAtsAdmin.Button1Click(Sender: TObject);
+var str: string;
+begin
+
+  Dm.varLogado        := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+
+  str := 'INSERT INTO LOG_ACESSO (LOGIN, MICRO, ' +
+    'ID_LOG)  VALUES (' +
+    QuotedStr(dm.varLogado) + ', ' + QuotedStr(dm.NomeComputador) + ', ' +
+    'GEN_ID(GEN_ID_LOG,1))';
+
+  dm.sqlsisAdimin.ExecuteDirect(str);
+
+end;
+
+procedure TfAtsAdmin.lblBoletoClick(Sender: TObject);
+var
+   internetFile,
+   localFileName: string;
+begin
+  // Baixa o boleto.
+  internetFile := 'http://www.atsti.com.br/boleto/teste.pdf';
+  localFileName := 'About Delphi Programming RSS Feed.xml';
+
+  if GetInetFile(internetFile, localFileName) then
+    ShowMessage('Download successful.')
+  else
+    ShowMessage('Error in file download.') ;
+end;
+
+function TfAtsAdmin.GetInetFile(const fileURL, FileName: String): boolean;
+ const
+   BufferSize = 1024;
+ var
+   hSession, hURL: HInternet;
+   Buffer: array[1..BufferSize] of Byte;
+   BufferLen: DWORD;
+   f: File;
+   sAppName: string;
+begin
+  result := false;
+  sAppName := ExtractFileName(Application.ExeName) ;
+  hSession := InternetOpen(PChar(sAppName), INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0) ;
+  try
+    hURL := InternetOpenURL(hSession, PChar(fileURL), nil, 0, 0, 0) ;
+    try
+      AssignFile(f, FileName) ;
+      Rewrite(f,1) ;
+    repeat
+      InternetReadFile(hURL, @Buffer, SizeOf(Buffer), BufferLen) ;
+      BlockWrite(f, Buffer, BufferLen)
+    until BufferLen = 0;
+      CloseFile(f) ;
+      result := True;
+    finally
+      InternetCloseHandle(hURL)
+    end;
+  finally
+    InternetCloseHandle(hSession)
+  end;
+
 end;
 
 end.
