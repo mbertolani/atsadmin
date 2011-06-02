@@ -73,6 +73,7 @@ type
     DBEdit1: TDBEdit;
     cdsCotacaoCOTACAO_TIPO: TStringField;
     cdsCotacaoTOTALPROD: TFloatField;
+    cdsPedidoSTATUS: TSmallintField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure jvdbgrd2CellClick(Column: TColumn);
@@ -232,7 +233,7 @@ begin
   cdsPedido.Params.ParamByName('FORNEC').AsInteger := cdsCotacaoCOTACAO_FORNEC.AsInteger;
   cdsPedido.Open;
   codMov := 0;
-  if (cdsPedido.RecordCount > 0) then
+  if ( (cdsPedido.RecordCount > 0) and (cdsPedidoSTATUS.AsInteger <> 3) ) then
   begin
     if  (MessageDlg('Existe pedido em aberto para este fornecedor, '  + #10#13 +
        ' Incluir neste pedido ? ',
