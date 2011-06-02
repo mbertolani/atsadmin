@@ -371,10 +371,23 @@ type
     cds_MovimentoPRAZO_PAGAMENTO: TStringField;
     GroupBox9: TGroupBox;
     cbPrazo: TDBComboBox;
-    GroupBox10: TGroupBox;
-    edRespAprovacao: TDBEdit;
     sds_MovimentoUSER_APROVA: TStringField;
     cds_MovimentoUSER_APROVA: TStringField;
+    edRespAprovacao: TDBEdit;
+    Label16: TLabel;
+    GroupBox10: TGroupBox;
+    DBEdit7: TDBEdit;
+    btnTransp: TBitBtn;
+    Label17: TLabel;
+    Label19: TLabel;
+    cbTransportadora: TComboBox;
+    cbTpTransp: TComboBox;
+    sds_MovimentoCODTRANSP: TIntegerField;
+    sds_MovimentoTPFRETE: TStringField;
+    cds_MovimentoCODTRANSP: TIntegerField;
+    cds_MovimentoTPFRETE: TStringField;
+    Edit1: TEdit;
+    Label20: TLabel;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -417,6 +430,9 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure JvDBGrid1TitleClick(Column: TColumn);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure btnTranspClick(Sender: TObject);
+    procedure cbTransportadoraChange(Sender: TObject);
+    procedure cbTpTranspChange(Sender: TObject);
   private
     modo :string;
     { Private declarations }
@@ -437,7 +453,7 @@ implementation
 
 uses uComercial, UDm, uRateioPag, uFiltroMov_compra, ufprocura_prod,
   uCompraFinalizar, uProdutoLote, uProcurar, uLotes, uClienteVeiculo,
-  sCtrlResize, uAtsAdmin, uUtils;
+  sCtrlResize, uAtsAdmin, uUtils, UDMNF, uftransp;
 
 
 {$R *.dfm}
@@ -667,6 +683,17 @@ begin
       dm.cdsPrazo.next;
     end;
   end;
+
+  //Populo combobox Transportadora
+  if (not dmnf.listaTransp.Active) then
+    dmnf.listaTransp.Open;
+  dmnf.listaTransp.First;
+  while not dmnf.listaTransp.Eof do
+  begin
+     cbTransportadora.Items.Add(dmnf.listaTranspNOMETRANSP.AsString);
+     dmnf.listaTransp.Next;
+  end;
+  dmnf.listaTransp.Close;
   
 end;
 
@@ -728,12 +755,24 @@ end;
 
 procedure TfCompra.btnGravarClick(Sender: TObject);
 begin
+
   if (dm.AprovaCompra = 'S') then
   begin
     if (cds_MovimentoSTATUS.AsInteger = 3) then
     begin
-      MessageDlg('Pedido não pode ser alterado, já foi aprovado.', mtWarning, [mbOK], 0);
-      exit;
+      if(DMNF.cds_compra.Active) then
+        DMNF.cds_compra.Close;
+      DMNF.cds_compra.Params.ParamByName('CODcompra').Clear;
+      DMNF.cds_compra.Params.ParamByName('PCODMOV').AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+      DMNF.cds_compra.Open;
+      if(DMNF.cds_compra.IsEmpty) then
+        cds_MovimentoSTATUS.AsInteger := 0
+      else
+      begin
+        MessageDlg('Compra finalizada, não é possivel executar a alteração.', mtWarning, [mbOk], 0);
+        btnCancelar.Click;
+        exit;
+      end;
     end;
   end;
 
@@ -1033,6 +1072,31 @@ begin
       modo := 'EDITAR';
       if ( not cds_Mov_detBAIXA.IsNull ) then
         modo := 'FINALIZADO';
+
+     //CARREGA TRANSPORTADORA
+     if(not cds_MovimentoCODTRANSP.IsNull) then
+     begin
+       DMNF.listaTransp.Open;
+       DMNF.listaTransp.Locate('CODTRANSP',cds_MovimentoCODTRANSP.AsInteger, [loCaseInsensitive]);
+       cbTransportadora.Text := dmnf.listaTranspNOMETRANSP.AsString;
+       Edit1.Text := dmnf.listaTranspFONE.AsString;
+       DMNF.listaTransp.Close;
+     end
+     else
+     begin
+       cbTransportadora.Text := '';
+       Edit1.Text := '';
+     end;
+
+     //CARREGA TIPO DO FRETE
+     if (cds_MovimentoTPFRETE.AsString = 'S') then
+       cbTpTransp.Text := 'Sem Frete'
+     else if(cds_MovimentoTPFRETE.AsString = 'E') then
+       cbTpTransp.Text := 'Emitente'
+     else if(cds_MovimentoTPFRETE.AsString = 'D') then
+       cbTpTransp.Text := 'Destinatario'
+     else
+       cbTpTransp.Text := '';
 
     //finally
      // fFiltroMov_compra.Free;
@@ -1746,6 +1810,56 @@ begin
     dm.scds_usuario_proc.Close;
     fProcurar.Free;
    end;
+end;
+
+procedure TfCompra.btnTranspClick(Sender: TObject);
+begin
+//  inherited;
+   ftransp := Tftransp.Create(Application);
+   try
+     ftransp.ShowModal;
+   finally
+     ftransp.Free;
+   end;
+  //Populo combobox Transportadora
+  if (not dmnf.listaTransp.Active) then
+    dmnf.listaTransp.Open;
+  dmnf.listaTransp.First;
+  cbTransportadora.Items.Clear;
+  while not dmnf.listaTransp.Eof do
+  begin
+     cbTransportadora.Items.Add(dmnf.listaTranspNOMETRANSP.AsString);
+     dmnf.listaTransp.Next;
+  end;
+  dmnf.listaTransp.Close;
+end;
+
+procedure TfCompra.cbTransportadoraChange(Sender: TObject);
+begin
+  if (cds_Movimento.state in [dsBrowse]) then
+   cds_Mov_det.Edit;
+  if (cds_Movimento.State in [dsinsert, dsEdit]) then
+    if (cbTransportadora.Text <> '') then
+    begin
+       DMNF.listaTransp.Open;
+       DMNF.listaTransp.Locate('NOMETRANSP',cbTransportadora.Text,[loCaseInsensitive]);
+       cds_MovimentoCODTRANSP.AsInteger := dmnf.listaTranspCODTRANSP.AsInteger;
+       Edit1.Text := dmnf.listaTranspFONE.AsString;
+       DMNF.listaTransp.Close;
+    end;
+end;
+
+procedure TfCompra.cbTpTranspChange(Sender: TObject);
+begin
+  if (cds_Movimento.state in [dsBrowse]) then
+   cds_Mov_det.Edit;
+  if (cds_Movimento.State in [dsinsert, dsEdit]) then
+  if (cbTpTransp.Text = 'Sem Frete') then
+    cds_MovimentoTPFRETE.AsString := 'S'
+  else if(cbTpTransp.Text = 'Emitente') then
+    cds_MovimentoTPFRETE.AsString := 'E'
+  else if(cbTpTransp.Text = 'Destinatario') then
+    cds_MovimentoTPFRETE.AsString := 'D';
 end;
 
 end.

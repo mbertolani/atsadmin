@@ -1,7 +1,7 @@
 inherited fCompra: TfCompra
-  Left = 193
+  Left = 187
   Top = 113
-  Width = 804
+  Width = 800
   Height = 615
   Caption = 'Compra'
   OldCreateOrder = True
@@ -23,28 +23,56 @@ inherited fCompra: TfCompra
   end
   object Label18: TLabel [1]
     Left = 4
-    Top = 497
+    Top = 470
     Width = 33
     Height = 13
     Caption = 'C'#243'digo'
   end
   object Label12: TLabel [2]
     Left = 7
-    Top = 525
+    Top = 502
     Width = 25
     Height = 13
     Caption = 'Obs.:'
   end
   object Label11: TLabel [3]
-    Left = 136
-    Top = 496
+    Left = 108
+    Top = 471
     Width = 57
     Height = 13
     Caption = 'Comprador: '
   end
+  object Label16: TLabel [4]
+    Left = 412
+    Top = 473
+    Width = 68
+    Height = 13
+    Caption = 'Resp. Aprova.'
+  end
+  object Label17: TLabel [5]
+    Left = 0
+    Top = 525
+    Width = 51
+    Height = 26
+    Caption = 'Tipo '#13#10'Transporte'
+  end
+  object Label19: TLabel [6]
+    Left = 139
+    Top = 532
+    Width = 39
+    Height = 13
+    Caption = 'Transp.:'
+  end
+  object Label20: TLabel [7]
+    Left = 451
+    Top = 524
+    Width = 42
+    Height = 26
+    Caption = 'Telefone'#13#10'Transp.:'
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 788
+    Width = 792
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -955,7 +983,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel2: TMMJPanel
     Top = 561
-    Width = 796
+    Width = 792
     Height = 27
     Align = alBottom
     inherited Label1: TLabel
@@ -979,7 +1007,7 @@ inherited fCompra: TfCompra
       Transparent = True
     end
   end
-  object GroupBox1: TGroupBox [6]
+  object GroupBox1: TGroupBox [10]
     Left = 0
     Top = 63
     Width = 489
@@ -1103,7 +1131,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox2: TGroupBox [7]
+  object GroupBox2: TGroupBox [11]
     Left = 489
     Top = 63
     Width = 184
@@ -1129,7 +1157,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox3: TGroupBox [8]
+  object GroupBox3: TGroupBox [12]
     Left = 674
     Top = 63
     Width = 109
@@ -1155,9 +1183,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox4: TGroupBox [9]
+  object GroupBox4: TGroupBox [13]
     Left = 634
-    Top = 204
+    Top = 249
     Width = 149
     Height = 48
     Caption = 'CONTROLE'
@@ -1182,7 +1210,7 @@ inherited fCompra: TfCompra
     end
     object dbLote: TDBComboBox
       Left = 6
-      Top = 20
+      Top = 17
       Width = 140
       Height = 21
       DataField = 'CONTROLE'
@@ -1194,8 +1222,8 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object DBMemo1: TDBMemo [10]
-    Left = 635
+  object DBMemo1: TDBMemo [14]
+    Left = 636
     Top = 369
     Width = 148
     Height = 81
@@ -1205,16 +1233,16 @@ inherited fCompra: TfCompra
     DataSource = DtSrc
     PopupMenu = PopupMenu1
     ReadOnly = True
-    TabOrder = 11
+    TabOrder = 12
   end
-  object GroupBox5: TGroupBox [11]
+  object GroupBox5: TGroupBox [15]
     Left = 635
-    Top = 301
+    Top = 302
     Width = 150
     Height = 55
     Caption = 'TOTAL R$.'
     PopupMenu = PopupMenu1
-    TabOrder = 12
+    TabOrder = 13
     object DBEdit4: TDBEdit
       Left = 8
       Top = 14
@@ -1237,11 +1265,11 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox6: TGroupBox [12]
+  object GroupBox6: TGroupBox [16]
     Left = 0
     Top = 111
     Width = 633
-    Height = 378
+    Height = 350
     Caption = 'MERCADORIAS'
     TabOrder = 5
     object Label3: TLabel
@@ -1539,7 +1567,7 @@ inherited fCompra: TfCompra
       Left = 5
       Top = 95
       Width = 619
-      Height = 277
+      Height = 250
       DataSource = DtSrc1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -1625,23 +1653,23 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object CheckBox1: TCheckBox [13]
+  object CheckBox1: TCheckBox [17]
     Left = 640
     Top = 448
     Width = 97
     Height = 17
     Caption = '1 % Desconto'
-    TabOrder = 13
+    TabOrder = 14
     Visible = False
   end
-  object GroupBox7: TGroupBox [14]
+  object GroupBox7: TGroupBox [18]
     Left = 635
     Top = 461
     Width = 150
     Height = 89
     Caption = 'PLACA DO VE'#205'CULO'
     PopupMenu = PopupMenu1
-    TabOrder = 14
+    TabOrder = 15
     Visible = False
     object Label10: TLabel
       Left = 8
@@ -1678,10 +1706,10 @@ inherited fCompra: TfCompra
       OnClick = BitBtn9Click
     end
   end
-  object DBEdit13: TDBEdit [15]
-    Left = 52
-    Top = 520
-    Width = 541
+  object DBEdit13: TDBEdit [19]
+    Left = 54
+    Top = 497
+    Width = 574
     Height = 25
     TabStop = False
     BevelKind = bkFlat
@@ -1695,13 +1723,13 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 15
+    TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBEdit15: TDBEdit [16]
-    Left = 51
-    Top = 495
-    Width = 78
+  object DBEdit15: TDBEdit [20]
+    Left = 53
+    Top = 468
+    Width = 52
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -1714,13 +1742,13 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [17]
-    Left = 224
-    Top = 495
-    Width = 369
+  object DBEdit16: TDBEdit [21]
+    Left = 172
+    Top = 468
+    Width = 196
     Height = 24
     TabStop = False
     BevelKind = bkFlat
@@ -1737,11 +1765,11 @@ inherited fCompra: TfCompra
     TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object SpeedButton1: TBitBtn [18]
-    Left = 595
-    Top = 495
-    Width = 37
-    Height = 37
+  object SpeedButton1: TBitBtn [22]
+    Left = 375
+    Top = 464
+    Width = 27
+    Height = 27
     PopupMenu = PopupMenu1
     TabOrder = 17
     TabStop = False
@@ -1814,7 +1842,7 @@ inherited fCompra: TfCompra
       0000000000000000000022222222222222222222222222222222222222222222
       2222222222222222222222222222222222222222222222222222}
   end
-  object CheckBox2: TCheckBox [19]
+  object CheckBox2: TCheckBox [23]
     Left = 88
     Top = 272
     Width = 97
@@ -1823,9 +1851,9 @@ inherited fCompra: TfCompra
     TabOrder = 18
     Visible = False
   end
-  object GroupBox8: TGroupBox [20]
+  object GroupBox8: TGroupBox [24]
     Left = 634
-    Top = 111
+    Top = 157
     Width = 149
     Height = 45
     Caption = 'Data Entrega'
@@ -1849,9 +1877,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox9: TGroupBox [21]
+  object GroupBox9: TGroupBox [25]
     Left = 634
-    Top = 157
+    Top = 203
     Width = 149
     Height = 46
     Caption = 'Prazo Pagamento'
@@ -1868,21 +1896,41 @@ inherited fCompra: TfCompra
       TabOrder = 0
     end
   end
-  object GroupBox10: TGroupBox [22]
-    Left = 634
-    Top = 252
-    Width = 149
-    Height = 46
-    Caption = 'Resp.Aprov.'
+  object edRespAprovacao: TDBEdit [26]
+    Left = 489
+    Top = 468
+    Width = 139
+    Height = 24
+    Hint = 'Usu'#225'rio Respons'#225'vel pela aprova'#231#227'o do pedido de compras'
+    Color = clInfoBk
+    DataField = 'USER_APROVA'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    ParentShowHint = False
     PopupMenu = PopupMenu1
-    TabOrder = 9
-    object edRespAprovacao: TDBEdit
-      Left = 5
-      Top = 16
-      Width = 140
+    ShowHint = True
+    TabOrder = 19
+    OnKeyPress = FormKeyPress
+  end
+  object GroupBox10: TGroupBox [27]
+    Left = 634
+    Top = 110
+    Width = 149
+    Height = 45
+    Caption = 'Codigo Pedido :'
+    PopupMenu = PopupMenu1
+    TabOrder = 20
+    object DBEdit7: TDBEdit
+      Left = 4
+      Top = 19
+      Width = 141
       Height = 24
-      Hint = 'Usu'#225'rio Respons'#225'vel pela aprova'#231#227'o do pedido de compras'
-      DataField = 'USER_APROVA'
+      DataField = 'CODMOVIMENTO'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -1890,12 +1938,53 @@ inherited fCompra: TfCompra
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      ParentShowHint = False
       PopupMenu = PopupMenu1
-      ShowHint = True
+      ReadOnly = True
       TabOrder = 0
       OnKeyPress = FormKeyPress
     end
+  end
+  object btnTransp: TBitBtn [28]
+    Left = 416
+    Top = 526
+    Width = 32
+    Height = 25
+    Caption = '...'
+    TabOrder = 21
+    OnClick = btnTranspClick
+  end
+  object cbTransportadora: TComboBox [29]
+    Left = 184
+    Top = 528
+    Width = 229
+    Height = 21
+    Color = clInfoBk
+    ItemHeight = 13
+    TabOrder = 11
+    OnChange = cbTransportadoraChange
+  end
+  object cbTpTransp: TComboBox [30]
+    Left = 56
+    Top = 528
+    Width = 80
+    Height = 21
+    Color = clInfoBk
+    ItemHeight = 13
+    TabOrder = 22
+    OnChange = cbTpTranspChange
+    Items.Strings = (
+      'Sem Frete'
+      'Emitente'
+      'Destinatario')
+  end
+  object Edit1: TEdit [31]
+    Left = 498
+    Top = 528
+    Width = 113
+    Height = 21
+    Color = clInfoBk
+    ReadOnly = True
+    TabOrder = 23
   end
   inherited XPMenu1: TXPMenu
     Left = 720
@@ -2079,6 +2168,14 @@ inherited fCompra: TfCompra
     object sds_MovimentoUSER_APROVA: TStringField
       FieldName = 'USER_APROVA'
     end
+    object sds_MovimentoCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object sds_MovimentoTPFRETE: TStringField
+      FieldName = 'TPFRETE'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
@@ -2227,6 +2324,14 @@ inherited fCompra: TfCompra
     end
     object cds_MovimentoUSER_APROVA: TStringField
       FieldName = 'USER_APROVA'
+    end
+    object cds_MovimentoCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object cds_MovimentoTPFRETE: TStringField
+      FieldName = 'TPFRETE'
+      FixedChar = True
+      Size = 1
     end
   end
   object DtSrc1: TDataSource
@@ -3106,7 +3211,7 @@ inherited fCompra: TfCompra
   object ds_ccusto: TDataSource
     DataSet = DM.cds_ccusto
     Left = 166
-    Top = 440
+    Top = 438
   end
   object sdslote: TSQLDataSet
     CommandText = 
