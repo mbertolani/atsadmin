@@ -1821,7 +1821,7 @@ type
     varDataCaixa : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao: string;
     LOTEQTDE, totalpago : double;
-    CAIXABAR, RESULTADOCAIXA, CAIXAABERTO : String;
+    CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP : String;
     tipoCompra, tipoVenda : String;
     userAprovaCompra, varLogado : String;
     Function Arredondar(value: double;casas : integer): double;
@@ -1839,6 +1839,8 @@ var
   ScreenWidth: LongInt;
 
 implementation
+
+uses uAtualizaSistema;
 
 {$R *.dfm}
 
@@ -1896,6 +1898,14 @@ begin
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'EMPRESA';
   cds_parametro.Open;
+  VISTO_FTP := '0';
+  if (cds_parametro.IsEmpty) then
+  begin
+    dm.sqlsisAdimin.ExecuteDirect('INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, ' +
+     ' CONFIGURADO) VALUES (' + QuotedStr('Modulo usado') +
+     ', ' + QuotedStr('EMPRESA') + ', ' + QuotedStr('S'));
+  end;
+  VISTO_FTP := cds_parametroD9.asString;
   moduloUsado := dm.cds_parametroD1.AsString;
   if cds_parametro.Active then
     cds_parametro.Close;
@@ -1934,6 +1944,9 @@ begin
   // verifiSeExisteCampo('CLIENTES', 'RAZAOSOCIAL', 'VARCHAR(60)');
   { Adiciona Tabela se não existir}
   // verificaSeExisteTabela('CLIENTESXX', 'TESTE1', 'INTEGER');
+
+  //fAtualizaSistema.VerBoleto('teste');
+
 end;
 
 procedure TDM.cds_produtoNewRecord(DataSet: TDataSet);
