@@ -1323,6 +1323,12 @@ type
     sds_Mov_DetICMS_SUBSTD: TFloatField;
     cds_Mov_detICMS_SUBST: TFloatField;
     cds_Mov_detICMS_SUBSTD: TFloatField;
+    sds_Mov_DetVALOR_SEGURO: TFloatField;
+    sds_Mov_DetVALOR_OUTROS: TFloatField;
+    cds_Mov_detVALOR_SEGURO: TFloatField;
+    cds_Mov_detVALOR_OUTROS: TFloatField;
+    sdslistaTranspFONE: TStringField;
+    listaTranspFONE: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

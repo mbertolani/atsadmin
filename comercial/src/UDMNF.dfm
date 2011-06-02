@@ -327,12 +327,12 @@ object DMNF: TDMNF
       'od.CLASSIFIC_FISCAL , cm.CODIGO, prod.LOTES, UDF_ROUNDDEC(movd.V' +
       'ALOR_ICMS, 2) as VALOR_ICMS'#13#10', movd.VLR_BASE, movd.VLR_BASEICMS,' +
       ' movd.VALOR_DESCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUB' +
-      'STD'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on pr' +
-      'od.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccu' +
-      's on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer jo' +
-      'in COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where mo' +
-      'vd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by' +
-      ' movd.coddetalhe'
+      'STD, movd.VALOR_SEGURO, movd.VALOR_OUTROS'#13#10'from MOVIMENTODETALHE' +
+      ' movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPROD' +
+      'UTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO ' +
+      '= prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_C' +
+      'OMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE ' +
+      'or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -515,6 +515,14 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetICMS_SUBSTD: TFloatField
       FieldName = 'ICMS_SUBSTD'
+    end
+    object sds_Mov_DetVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+      ReadOnly = True
+    end
+    object sds_Mov_DetVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -723,6 +731,14 @@ object DMNF: TDMNF
     end
     object cds_Mov_detICMS_SUBSTD: TFloatField
       FieldName = 'ICMS_SUBSTD'
+    end
+    object cds_Mov_detVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+      ReadOnly = True
+    end
+    object cds_Mov_detVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+      ReadOnly = True
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -5550,6 +5566,10 @@ object DMNF: TDMNF
       FieldName = 'CORPONF6'
       Size = 75
     end
+    object sdslistaTranspFONE: TStringField
+      FieldName = 'FONE'
+      Size = 15
+    end
   end
   object sdsVeiculoCli: TSQLDataSet
     CommandText = 
@@ -5812,6 +5832,10 @@ object DMNF: TDMNF
     object listaTranspCORPONF6: TStringField
       FieldName = 'CORPONF6'
       Size = 75
+    end
+    object listaTranspFONE: TStringField
+      FieldName = 'FONE'
+      Size = 15
     end
   end
   object sqlNumeroSerie: TSQLDataSet
