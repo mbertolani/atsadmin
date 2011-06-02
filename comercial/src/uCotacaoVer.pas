@@ -192,6 +192,15 @@ type
     gbF2: TGroupBox;
     edDtEnt2: TEdit;
     edCondPg2: TEdit;
+    gbF3: TGroupBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    gbf4: TGroupBox;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    gbf5: TGroupBox;
+    Edit5: TEdit;
+    Edit6: TEdit;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -497,15 +506,23 @@ begin
   //j := 4;
   // Cria o Grid com as Colunas de Fornecedores;
   cdsFornec.First;
-  //While not cdsFornec.Eof do
-  //begin
-    //grid1.Columns[j].Title.Caption := copy(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString,1,14);
-    //grid1.Columns[j+1].Title.Caption := MidStr(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString, 15,40);
-    //j := j + 2;
-    gbf1.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    cdsFornec.next;
+
+  if (cdsFornec.RecordCount < 6) then
+
+  gbf1.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+  cdsFornec.next;
+  if (cdsFornec.RecordCount < 3) then
     gbf2.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-    cdsFornec.next;
+  cdsFornec.next;
+  if (cdsFornec.RecordCount < 4) then
+    gbf3.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+  cdsFornec.next;
+  if (cdsFornec.RecordCount < 5) then
+    gbf4.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+  cdsFornec.next;
+  if (cdsFornec.RecordCount < 6) then
+    gbf5.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+  cdsFornec.next;
 
   //end;
 

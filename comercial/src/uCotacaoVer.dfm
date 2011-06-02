@@ -1008,7 +1008,7 @@ inherited fCotacaoVer: TfCotacaoVer
     end
     object Label18: TLabel
       Left = 186
-      Top = 15
+      Top = 47
       Width = 85
       Height = 13
       Caption = 'Cond. Pagamento'
@@ -1016,7 +1016,7 @@ inherited fCotacaoVer: TfCotacaoVer
     end
     object Label19: TLabel
       Left = 186
-      Top = 35
+      Top = 25
       Width = 63
       Height = 13
       Caption = 'Data Entrega'
@@ -1204,7 +1204,7 @@ inherited fCotacaoVer: TfCotacaoVer
         Left = 39
         Top = 40
         Width = 121
-        Height = 16
+        Height = 21
         Color = clScrollBar
         TabOrder = 0
       end
@@ -1212,7 +1212,7 @@ inherited fCotacaoVer: TfCotacaoVer
         Left = 39
         Top = 17
         Width = 121
-        Height = 17
+        Height = 21
         Color = clScrollBar
         TabOrder = 1
       end
@@ -1226,17 +1226,89 @@ inherited fCotacaoVer: TfCotacaoVer
       TabOrder = 3
       object edDtEnt2: TEdit
         Left = 37
-        Top = 40
+        Top = 16
         Width = 121
-        Height = 17
+        Height = 21
         Color = clScrollBar
         TabOrder = 0
       end
       object edCondPg2: TEdit
         Left = 37
+        Top = 41
+        Width = 121
+        Height = 21
+        Color = clScrollBar
+        TabOrder = 1
+      end
+    end
+    object gbF3: TGroupBox
+      Left = 608
+      Top = 6
+      Width = 163
+      Height = 64
+      Caption = 'gbF1'
+      TabOrder = 4
+      object Edit1: TEdit
+        Left = 37
+        Top = 40
+        Width = 121
+        Height = 21
+        Color = clScrollBar
+        TabOrder = 0
+      end
+      object Edit2: TEdit
+        Left = 37
         Top = 17
         Width = 121
-        Height = 17
+        Height = 21
+        Color = clScrollBar
+        TabOrder = 1
+      end
+    end
+    object gbf4: TGroupBox
+      Left = 770
+      Top = 6
+      Width = 163
+      Height = 64
+      Caption = 'gbF1'
+      TabOrder = 5
+      object Edit3: TEdit
+        Left = 37
+        Top = 40
+        Width = 121
+        Height = 21
+        Color = clScrollBar
+        TabOrder = 0
+      end
+      object Edit4: TEdit
+        Left = 37
+        Top = 17
+        Width = 121
+        Height = 21
+        Color = clScrollBar
+        TabOrder = 1
+      end
+    end
+    object gbf5: TGroupBox
+      Left = 931
+      Top = 8
+      Width = 163
+      Height = 64
+      Caption = 'gbF1'
+      TabOrder = 6
+      object Edit5: TEdit
+        Left = 37
+        Top = 40
+        Width = 121
+        Height = 21
+        Color = clScrollBar
+        TabOrder = 0
+      end
+      object Edit6: TEdit
+        Left = 37
+        Top = 17
+        Width = 121
+        Height = 21
         Color = clScrollBar
         TabOrder = 1
       end
