@@ -90,14 +90,14 @@ MaxStackSize=1048576
 ImageBase=4194304
 ExeDescription=
 [Directories]
-OutputDir=C:\Home\sisadmin
-UnitOutputDir=C:\tmp
-PackageDLLOutputDir=C:\tmp
-PackageDCPOutputDir=C:\tmp
-SearchPath=C:\tmp
-Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;rppack_del;rppackvcl_del;rppackdesignvcl_del;rppackv_del;rppackdesign_del;TCFLib70;TCFDsg70;RxCtl7;RxDB7;RxBDE7;mj;FlatStyle_D6;dclDesignExperienceD6;fac;qrpt;gbCob7;RLibWinD7vcl;RLBoletoD7
-Conditionals=C:\tmp
-DebugSourceDirs=C:\tmp
+OutputDir=c:\home\sisadmin
+UnitOutputDir=c:\tmp
+PackageDLLOutputDir=c:\tmp
+PackageDCPOutputDir=c:\tmp
+SearchPath=
+Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;TCFLib70;TCFDsg70;rppack_del;rppackvcl_del;rppackdesignvcl_del;rppackv_del;rppackdesign_del;FlatStyle_D6;RLibWinD7vcl;gbCob7;qrpt;VDOPrint;RLBoletoD7;Tiss;fac;mmjp;xpm;zpm
+Conditionals=
+DebugSourceDirs=c:\tmp
 UsePackages=0
 [Parameters]
 RunParams=
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=0
 Release=0
-Build=87
+Build=90
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=ATS - Comércio e Serviços LTDA ME.
 FileDescription=
-FileVersion=1.0.0.87
+FileVersion=1.0.0.90
 InternalName=
 LegalCopyright=
 LegalTrademarks=
@@ -153,26 +153,19 @@ Z:\carlos\ats-admin1.0\transportadora\visao\uPaiNew.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\teste.bpl=(untitled)
 [HistoryLists\hlDebugSourcePath]
 Count=1
-Item0=C:\tmp
-[HistoryLists\hlConditionals]
-Count=1
-Item0=C:\tmp
+Item0=c:\tmp
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
-[HistoryLists\hlSearchPath]
-Count=1
-Item0=C:\tmp
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
-Item0=C:\tmp
+Item0=c:\tmp
 [HistoryLists\hlOutputDirectorry]
-Count=2
-Item0=C:\Home\sisadmin
-Item1=C:\Home_douglas\sisadmin
+Count=1
+Item0=c:\home\sisadmin
 [HistoryLists\hlBPLOutput]
 Count=1
-Item0=C:\tmp
+Item0=c:\tmp
 [HistoryLists\hlDCPOutput]
 Count=1
-Item0=C:\tmp
+Item0=c:\tmp
