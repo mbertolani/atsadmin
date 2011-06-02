@@ -1,3 +1,4 @@
+set term  ^ ;
 create or alter procedure gera_nf_venda(cliente integer, dtEmissao date,
   dtVcto date, serie char(8), numero varchar(7), codMov integer)
 as
