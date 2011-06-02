@@ -562,16 +562,19 @@ begin
   begin
     if (MaskEdit1.Visible = False) then
       MaskEdit1.Date := DbEdit1.Date;
-    if (MaskEdit1.text <> '') then
-      cds_MovimentoCONTROLE.AsString := formatdatetime('mm/dd/yyyy', MaskEdit1.Date);
+   { if (MaskEdit1.text <> '') then
+      cds_MovimentoCONTROLE.AsString := formatdatetime('mm/dd/yyyy', MaskEdit1.Date)
       //if (ComboBox1.Text = '') then
-      cds_MovimentoDATAMOVIMENTO.AsDateTime := MaskEdit1.Date;
-      dt_mov := MaskEdit1.Date;
-      if (cds_MovimentoOBS.IsNull) then
-        cds_MovimentoOBS.AsString := 'BAIXADO' // Uso pra baixar Materia Prima só uma vez
-      else
-        cds_MovimentoOBS.AsString := 'BAIXADO2';  // Já foi gravado
-
+     cds_MovimentoDATAMOVIMENTO.AsDateTime := MaskEdit1.Date;}
+    if (MaskEdit1.Visible = False) then
+      MaskEdit1.Date := DbEdit1.Date;
+    if (MaskEdit1.text = '') then
+      MaskEdit1.Date := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+    dt_mov := MaskEdit1.Date;
+    if (cds_MovimentoOBS.IsNull) then
+      cds_MovimentoOBS.AsString := 'BAIXADO' // Uso pra baixar Materia Prima só uma vez
+    else
+      cds_MovimentoOBS.AsString := 'BAIXADO2';  // Já foi gravado
   end;
   { ---------------------------------------------------------------------}
   if (cds_MovimentoDATAMOVIMENTO.AsDateTime < StrToDate('01/01/1990') ) then
