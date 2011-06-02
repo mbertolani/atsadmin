@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
-  Left = 193
-  Top = 103
+  Left = 309
+  Top = 119
   Width = 700
   Height = 446
   Color = clWhite
@@ -745,6 +745,21 @@ object fAtsAdmin: TfAtsAdmin
       0BF22CEF3F22CEDB33D6FDB56224B5F02939E2B63BA200D7C7598928C5CFC27E
       759DE083E53F68892D7C1A442D95F68035F01FFFD9}
     PopupMenu = PopupMenu1
+  end
+  object lblBoleto: TLabel
+    Left = 384
+    Top = 344
+    Width = 13
+    Height = 16
+    Caption = '...'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold, fsUnderline]
+    ParentFont = False
+    Visible = False
+    OnClick = lblBoletoClick
   end
   object MMJPanel2: TMMJPanel
     Left = 0
@@ -2064,6 +2079,16 @@ object fAtsAdmin: TfAtsAdmin
     SizeGrip = False
     UseSystemFont = False
     OnDrawPanel = StatusBar1DrawPanel
+  end
+  object Button1: TButton
+    Left = 584
+    Top = 336
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 2
+    Visible = False
+    OnClick = Button1Click
   end
   object PopupMenu1: TPopupMenu
     Left = 384
