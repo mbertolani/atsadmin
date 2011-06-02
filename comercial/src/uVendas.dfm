@@ -62,7 +62,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 785
+    Width = 794
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -1418,8 +1418,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [15]
     Left = 0
-    Top = 521
-    Width = 785
+    Top = 522
+    Width = 794
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -1529,7 +1529,7 @@ inherited fVendas: TfVendas
     Top = 112
     Width = 633
     Height = 358
-    ActivePage = Orcamento
+    ActivePage = TabSheet1
     TabOrder = 6
     TabStop = False
     object TabSheet1: TTabSheet
@@ -2113,24 +2113,45 @@ inherited fVendas: TfVendas
       end
       object Label23: TLabel
         Left = 5
-        Top = 47
+        Top = 46
         Width = 37
         Height = 16
         Caption = 'Frete :'
       end
       object Label24: TLabel
-        Left = 96
-        Top = 56
-        Width = 38
+        Left = 205
+        Top = 113
+        Width = 41
         Height = 16
-        Caption = 'Valor :'
+        Caption = 'Valor .:'
+      end
+      object Label25: TLabel
+        Left = 227
+        Top = 67
+        Width = 100
+        Height = 16
+        Caption = 'Transportadora.:'
+      end
+      object Label26: TLabel
+        Left = 3
+        Top = 61
+        Width = 72
+        Height = 32
+        Caption = 'Tipo '#13#10'Transporte.:'
+      end
+      object Label27: TLabel
+        Left = 3
+        Top = 101
+        Width = 57
+        Height = 32
+        Caption = 'Telefone '#13#10'Transp .:'
       end
       object cbPrazo: TJvComboBox
         Left = 134
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2139,26 +2160,6 @@ inherited fVendas: TfVendas
         Items.Strings = (
           'PRAZO')
         ItemIndex = 0
-      end
-      object RadioButton2: TRadioButton
-        Left = 0
-        Top = 81
-        Width = 90
-        Height = 17
-        Caption = 'Destinatario'
-        TabOrder = 1
-        OnClick = RadioButton2Click
-      end
-      object RadioButton1: TRadioButton
-        Left = 0
-        Top = 64
-        Width = 90
-        Height = 17
-        Caption = 'Emitente'
-        Checked = True
-        TabOrder = 2
-        TabStop = True
-        OnClick = RadioButton1Click
       end
       object JvDBDateEdit1: TJvDBDateEdit
         Left = 3
@@ -2170,7 +2171,7 @@ inherited fVendas: TfVendas
         BorderStyle = bsNone
         DefaultToday = True
         BevelKind = bkFlat
-        TabOrder = 3
+        TabOrder = 1
       end
       object DBEdit14: TDBEdit
         Left = 247
@@ -2179,16 +2180,56 @@ inherited fVendas: TfVendas
         Height = 24
         DataField = 'PRAZO_ENT'
         DataSource = DtSrc
-        TabOrder = 4
+        TabOrder = 2
       end
       object DBEdit18: TDBEdit
-        Left = 95
-        Top = 73
+        Left = 256
+        Top = 106
         Width = 121
         Height = 24
         DataField = 'VALOR_FRETE'
         DataSource = DtSrc
+        TabOrder = 3
+      end
+      object btnTransp: TBitBtn
+        Left = 593
+        Top = 62
+        Width = 32
+        Height = 25
+        Caption = '...'
+        TabOrder = 4
+        OnClick = btnTranspClick
+      end
+      object cbTransportadora: TComboBox
+        Left = 330
+        Top = 64
+        Width = 259
+        Height = 24
+        ItemHeight = 0
         TabOrder = 5
+        OnChange = cbTransportadoraChange
+      end
+      object cbTpTransp: TComboBox
+        Left = 76
+        Top = 64
+        Width = 142
+        Height = 24
+        ItemHeight = 16
+        TabOrder = 6
+        OnChange = cbTpTranspChange
+        Items.Strings = (
+          'Sem Frete'
+          'Emitente'
+          'Destinatario')
+      end
+      object Edit1: TEdit
+        Left = 76
+        Top = 104
+        Width = 121
+        Height = 24
+        ReadOnly = True
+        TabOrder = 7
+        Text = 'Edit1'
       end
     end
   end
@@ -3562,6 +3603,14 @@ inherited fVendas: TfVendas
     object sds_MovimentoVALOR_FRETE: TFloatField
       FieldName = 'VALOR_FRETE'
     end
+    object sds_MovimentoCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object sds_MovimentoTPFRETE: TStringField
+      FieldName = 'TPFRETE'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
@@ -3708,6 +3757,14 @@ inherited fVendas: TfVendas
     object cds_MovimentoVALOR_FRETE: TFloatField
       FieldName = 'VALOR_FRETE'
       DisplayFormat = ',#0.00'
+    end
+    object cds_MovimentoCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object cds_MovimentoTPFRETE: TStringField
+      FieldName = 'TPFRETE'
+      FixedChar = True
+      Size = 1
     end
   end
   object sdslote: TSQLDataSet

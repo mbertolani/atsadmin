@@ -475,8 +475,6 @@ type
     Label23: TLabel;
     RadioOrcamento: TJvRadioButton;
     Label24: TLabel;
-    RadioButton2: TRadioButton;
-    RadioButton1: TRadioButton;
     JvDBDateEdit1: TJvDBDateEdit;
     sds_MovimentoPRAZO_ENT: TIntegerField;
     sds_MovimentoVAL_PROP: TDateField;
@@ -518,6 +516,17 @@ type
     cds_jNUMERO: TStringField;
     cds_jDATAMOVIMENTO: TDateField;
     cds_jCODMOVIMENTO: TIntegerField;
+    btnTransp: TBitBtn;
+    cbTransportadora: TComboBox;
+    Label25: TLabel;
+    cbTpTransp: TComboBox;
+    Label26: TLabel;
+    sds_MovimentoCODTRANSP: TIntegerField;
+    sds_MovimentoTPFRETE: TStringField;
+    cds_MovimentoCODTRANSP: TIntegerField;
+    cds_MovimentoTPFRETE: TStringField;
+    Edit1: TEdit;
+    Label27: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -587,13 +596,14 @@ type
     procedure BitBtn6Click(Sender: TObject);
     procedure edChassiExit(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
-    procedure RadioButton1Click(Sender: TObject);
-    procedure RadioButton2Click(Sender: TObject);
     procedure RadioPedidoClick(Sender: TObject);
     procedure RadioOrcamentoClick(Sender: TObject);
     procedure cbPrazoChange(Sender: TObject);
     procedure BtnClick(Sender: TObject);
     procedure cbPrazoClick(Sender: TObject);
+    procedure cbTpTranspChange(Sender: TObject);
+    procedure cbTransportadoraChange(Sender: TObject);
+    procedure btnTranspClick(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -619,7 +629,7 @@ implementation
 uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
-  uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils;
+  uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils, uftransp;
 
 {$R *.dfm}
 
@@ -837,6 +847,17 @@ begin
       if dm.cds_parametroCONFIGURADO.AsString = 'S' then
          usaprecolistavenda := 'S';
   end;
+
+  //Populo combobox Transportadora
+  if (not dmnf.listaTransp.Active) then
+    dmnf.listaTransp.Open;
+  dmnf.listaTransp.First;
+  while not dmnf.listaTransp.Eof do
+  begin
+     cbTransportadora.Items.Add(dmnf.listaTranspNOMETRANSP.AsString);
+     dmnf.listaTransp.Next;
+  end;
+  dmnf.listaTransp.Close;
 
 end;
 
@@ -2044,6 +2065,31 @@ begin
      RadioPedido.Checked  := False;
     end;
 
+     //CARREGA TRANSPORTADORA
+     if(not cds_MovimentoCODTRANSP.IsNull) then
+     begin
+       DMNF.listaTransp.Open;
+       DMNF.listaTransp.Locate('CODTRANSP',cds_MovimentoCODTRANSP.AsInteger, [loCaseInsensitive]);
+       cbTransportadora.Text := dmnf.listaTranspNOMETRANSP.AsString;
+       Edit1.Text := dmnf.listaTranspFONE.AsString;
+       DMNF.listaTransp.Close;
+     end
+     else
+     begin
+       cbTransportadora.Text := '';
+       Edit1.Text := '';
+     end;
+
+     //CARREGA TIPO DO FRETE
+     if (cds_MovimentoTPFRETE.AsString = 'S') then
+       cbTpTransp.Text := 'Sem Frete'
+     else if(cds_MovimentoTPFRETE.AsString = 'E') then
+       cbTpTransp.Text := 'Emitente'
+     else if(cds_MovimentoTPFRETE.AsString = 'D') then
+       cbTpTransp.Text := 'Destinatario'
+     else
+       cbTpTransp.Text := '';
+
 end;
 
 procedure TfVendas.DtSrcStateChange(Sender: TObject);
@@ -3087,24 +3133,6 @@ begin
  end;
 end;
 
-procedure TfVendas.RadioButton1Click(Sender: TObject);
-begin
-  RadioButton2.Checked := False;
-  if (DtSrc.State in [dsBrowse]) then
-    cds_Movimento.Edit;
-  if (DtSrc1.State in [dsBrowse]) then
-    cds_Mov_det.Edit;
-end;
-
-procedure TfVendas.RadioButton2Click(Sender: TObject);
-begin
-  RadioButton1.Checked := False;
-  if (DtSrc.State in [dsBrowse]) then
-    cds_Movimento.Edit;
-  if (DtSrc1.State in [dsBrowse]) then
-    cds_Mov_det.Edit;
-end;
-
 procedure TfVendas.RadioPedidoClick(Sender: TObject);
 begin
   RadioOrcamento.Checked := False;
@@ -3186,6 +3214,57 @@ begin
     cds_Movimento.Edit;
   if (DtSrc1.State in [dsBrowse]) then
     cds_Mov_det.Edit;
+end;
+
+procedure TfVendas.cbTransportadoraChange(Sender: TObject);
+begin
+  if (cds_Movimento.state in [dsBrowse]) then
+   cds_Mov_det.Edit;
+ if (cds_Movimento.State in [dsinsert, dsEdit]) then
+  if (cbTransportadora.Text <> '') then
+  begin
+     DMNF.listaTransp.Open;
+     DMNF.listaTransp.Locate('NOMETRANSP',cbTransportadora.Text,[loCaseInsensitive]);
+     cds_MovimentoCODTRANSP.AsInteger := dmnf.listaTranspCODTRANSP.AsInteger;
+     Edit1.Text := dmnf.listaTranspFONE.AsString;     
+     DMNF.listaTransp.Close;
+  end;
+
+end;
+
+procedure TfVendas.cbTpTranspChange(Sender: TObject);
+begin
+  if (cds_Movimento.state in [dsBrowse]) then
+   cds_Mov_det.Edit;
+  if (cds_Movimento.State in [dsinsert, dsEdit]) then
+  if (cbTpTransp.Text = 'Sem Frete') then
+    cds_MovimentoTPFRETE.AsString := 'S'
+  else if(cbTpTransp.Text = 'Emitente') then
+    cds_MovimentoTPFRETE.AsString := 'E'
+  else if(cbTpTransp.Text = 'Destinatario') then
+    cds_MovimentoTPFRETE.AsString := 'D';
+end;
+
+procedure TfVendas.btnTranspClick(Sender: TObject);
+begin
+   ftransp := Tftransp.Create(Application);
+   try
+     ftransp.ShowModal;
+   finally
+     ftransp.Free;
+   end;
+  //Populo combobox Transportadora
+  if (not dmnf.listaTransp.Active) then
+    dmnf.listaTransp.Open;
+  dmnf.listaTransp.First;
+  cbTransportadora.Items.Clear;
+  while not dmnf.listaTransp.Eof do
+  begin
+     cbTransportadora.Items.Add(dmnf.listaTranspNOMETRANSP.AsString);
+     dmnf.listaTransp.Next;
+  end;
+  dmnf.listaTransp.Close;
+
 end;
 
 end.
