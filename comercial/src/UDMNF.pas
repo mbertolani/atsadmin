@@ -1360,7 +1360,8 @@ var
 
 implementation
 
-uses UDm, uNF, uClienteCadastro, uNotaf, uNFCompra, uNotaf1, uNotafc;
+uses UDm, uNF, uClienteCadastro, uNotaf, uNFCompra, uNotaf1, uNotafc,
+  uAtsAdmin;
 
 {$R *.dfm}
 
