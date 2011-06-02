@@ -147,7 +147,7 @@ begin
 
   if (edPedido.Text <> '') then
   begin
-    stra := stra + ' and m.CONTROLE = ' + QuotedStr(edPedido.Text);
+    stra := stra + ' and m.CODMOVIMENTO = ' + edPedido.Text;
   end;
 
   // Período
