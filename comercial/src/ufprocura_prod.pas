@@ -1407,7 +1407,7 @@ begin
      fVendas.cds_Mov_detDESCPRODUTO.Value := fVendas.cdslistaPRODUTO.Value;
      fVendas.cds_Mov_detUN.AsString := fVendas.cdslistaUNIDADE.AsString;
      fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.text);
-     fVendas.cds_Mov_detPRECO.AsFloat := fVendas.cdslistaPRECOLISTA.AsFloat;
+     fVendas.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.text);//fVendas.cdslistaPRECOLISTA.AsFloat;
      fVendas.cds_Mov_det.Post;
    end
    else
