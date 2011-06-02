@@ -17,6 +17,7 @@ type
     Label1: TLabel;
     RadioButton3: TRadioButton;
     RadioButton4: TRadioButton;
+    rb1: TRadioButton;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
   private
@@ -38,12 +39,18 @@ procedure TfRelestoque.BitBtn1Click(Sender: TObject);
 begin
   if (RadioButton1.Checked = True) then
     fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueproduto.rep';
+
   if (RadioButton2.Checked = True) then
     fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueproduto1.rep';
+
   if (RadioButton3.Checked = True) then
     fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueprodutoVenda.rep';
+
   if (RadioButton4.Checked = True) then
     fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'lista_estoque.rep';
+
+  if (rb1.Checked = True) then
+    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'lista_estoque_total.rep';
 
   fFiltroEstoque.repRelItem.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   if (RadioButton1.Checked = True) then
@@ -57,7 +64,7 @@ begin
     fFiltroEstoque.RepRelItem.Report.Params.ParamByName('PDTA2').Value := StrToDate(fFiltroEstoque.medta2.Text);
   end;
 
-  if (RadioButton4.Checked = True) then
+  if ((RadioButton4.Checked = True) or (rb1.Checked = True)) then
   begin
     fFiltroEstoque.RepRelItem.Report.Params.ParamByName('DTA1').Value := StrToDate(fFiltroEstoque.medta1.Text);
     fFiltroEstoque.RepRelItem.Report.Params.ParamByName('DTA2').Value := StrToDate(fFiltroEstoque.medta2.Text);

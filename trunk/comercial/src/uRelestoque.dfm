@@ -23,7 +23,7 @@ object fRelestoque: TfRelestoque
   end
   object RadioButton1: TRadioButton
     Left = 50
-    Top = 44
+    Top = 39
     Width = 191
     Height = 16
     Caption = 'Relat'#243'rio Estoque pre'#231'o Compra'
@@ -31,7 +31,7 @@ object fRelestoque: TfRelestoque
   end
   object RadioButton2: TRadioButton
     Left = 50
-    Top = 83
+    Top = 78
     Width = 169
     Height = 17
     Caption = 'Relat'#243'rio Estoque sem Totais'
@@ -80,7 +80,7 @@ object fRelestoque: TfRelestoque
   end
   object RadioButton3: TRadioButton
     Left = 50
-    Top = 63
+    Top = 58
     Width = 169
     Height = 17
     Caption = 'Relat'#243'rio Estoque pre'#231'o Venda'
@@ -90,10 +90,18 @@ object fRelestoque: TfRelestoque
   end
   object RadioButton4: TRadioButton
     Left = 50
-    Top = 105
+    Top = 100
     Width = 191
     Height = 14
     Caption = 'Relat'#243'rio Estoque Simples de Total'
     TabOrder = 6
+  end
+  object rb1: TRadioButton
+    Left = 50
+    Top = 120
+    Width = 207
+    Height = 14
+    Caption = 'Relat'#243'rio Estoque(Cod./Produto/Qude)'
+    TabOrder = 7
   end
 end
