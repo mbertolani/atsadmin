@@ -683,7 +683,9 @@ inherited fCompraCotacao2: TfCompraCotacao2
         ParamType = ptUnknown
       end>
     SQL.Strings = (
-      'select m.codmovimento from MOVIMENTO m, MOVIMENTODETALHE md '
+      
+        'select m.codmovimento, m.STATUS from MOVIMENTO m, MOVIMENTODETAL' +
+        'HE md '
       '         where m.CODMOVIMENTO = md.CODMOVIMENTO      '
       '           and md.BAIXA is null '
       '           and m.CODNATUREZA       = 5'
@@ -711,6 +713,10 @@ inherited fCompraCotacao2: TfCompraCotacao2
     Top = 200
     object cdsPedidoCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
+      Required = True
+    end
+    object cdsPedidoSTATUS: TSmallintField
+      FieldName = 'STATUS'
       Required = True
     end
   end
