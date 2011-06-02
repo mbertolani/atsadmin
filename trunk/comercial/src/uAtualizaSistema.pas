@@ -22,8 +22,10 @@ type
     Label2: TLabel;
     ftpupdate: TIdFTP;
     SQLQuery1: TSQLQuery;
+    IdFTP1: TIdFTP;
     procedure FormCreate(Sender: TObject);
     procedure VerSeTemAtualiza;
+    procedure VerBoleto(Empresa : String);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -38,7 +40,7 @@ type
     procedure MudaVersao(versaoNova: string);
     function NaoExisteTabela(Tabela : String): Boolean;
     function NaoExisteGenerator(Generator: String): Boolean;
-    procedure VerBoleto;
+
     procedure ExecutaDDL_Drop(Tabela, Campo: string);
     { Private declarations }
   public
@@ -52,7 +54,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, uAtsAdmin;
 
 {$R *.dfm}
 
@@ -1220,9 +1222,43 @@ begin
 
 end;
 
-procedure TfAtualizaSistema.VerBoleto;
+procedure TfAtualizaSistema.VerBoleto(Empresa : String);
 begin
-  
+  if (dm.VISTO_FTP <> FormatDateTime('dd', now)) then
+  begin
+    try
+      IdFTP1.Disconnect();
+      IdFTP1.Host       := 'ftp.atsti.com.br';
+      IdFTP1.Username   := 'atsti';
+      IdFTP1.Password   := 'ats0333';
+      IdFTP1.Port := 21;
+      IdFTP1.Passive := false; { usa modo ativo }
+      IdFTP1.RecvBufferSize := 8192;
+      try
+        { Espera até 10 segundos pela conexão }
+        IdFTP1.Connect(true, 10000);
+      except
+        on E: Exception do
+          MessageDlg(E.Message, mtWarning, [mbOK], 0);
+      end;
+
+    begin
+      // Atualiza o sistema para não fazer conexao, toda a vez que abre o sistema;
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET D9 = ' + FormatDateTime('dd', now) +
+        ' WHERE PARAMETRO = ' + QuotedStr('EMPRESA'));
+      IdFTP1.changedir('httpdocs/boletos/');
+      IdFTP1.list(nil);
+      if (FileExists((ExtractFilePath(Application.ExeName)) + '\' + Empresa + '.ftp')) then
+      begin
+        fAtsAdmin.lblBoleto.Visible := true;
+        fAtsAdmin.lblBoleto.Caption := 'Existe Boleto.';
+      end;
+
+    end;
+    finally
+      IdFTP1.Disconnect;
+    end;
+  end;  
 end;
 
 end.
