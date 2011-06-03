@@ -1,6 +1,6 @@
 set term  ^ ;
 CREATE OR ALTER PROCEDURE COTACAO_NEGOCIACAO 
- (ITEM VARCHAR(15))
+ (CODIGO INTEGER)
 RETURNS 
  (CODPRO   VARCHAR(15),
   DESCRICAO VARCHAR(300), 
@@ -68,47 +68,64 @@ AS
   DECLARE VARIABLE T8    DOUBLE PRECISION;
   DECLARE VARIABLE FRETE1 DOUBLE PRECISION;
   DECLARE VARIABLE FRETE2 DOUBLE PRECISION;
+  DECLARE VARIABLE FRETE3 DOUBLE PRECISION;
+  DECLARE VARIABLE FRETE4 DOUBLE PRECISION;
+  DECLARE VARIABLE FRETE5 DOUBLE PRECISION;
+  DECLARE VARIABLE FRETE6 DOUBLE PRECISION;
 BEGIN
   numFornec = 0;
   -- Lista todos os fornecedores com Cotações em aberto para o item 
-  FOR SELECT COTACAO_FORNEC, COTACAO_PRAZO, COTACAO_DTENTREGA
+  FOR SELECT DISTINCT COTACAO_FORNEC
     FROM COMPRA_COTACAO
    WHERE COTACAO_SITUACAO = 'G'
-     AND COTACAO_ITEM     = :ITEM
+     AND COTACAO_CODIGO = :CODIGO
    ORDER BY COTACAO_CODIGO  
-  INTO :codFornec, :PRAZO , :DENTREGA
+  INTO :codFornec
   do begin 
-       
+    
+    SELECT FIRST 1 COTACAO_PRAZO, COTACAO_DTENTREGA, UNIDADEMEDIDA, COTACAO_FRETE 
+      FROM COMPRA_COTACAO, PRODUTOS 
+     WHERE COTACAO_CODIGO   = :CODIGO
+       AND COTACAO_SITUACAO = 'G'
+       AND COTACAO_FORNEC   = :codFornec
+     ORDER BY COTACAO_FRETE DESC   
+      INTO :PRAZO, :DENTREGA, :UN, :frete ; 
+      
     numFornec = numFornec + 1;
     if (numFornec = 1) then 
     begin
       fornec1   = codfornec;
       prazo1    = prazo;
       dentrega1 = dentrega;     
+      frete1    = frete;  
     end   
     if (numFornec = 2) then
     begin
       fornec2 = codfornec;
       prazo2    = prazo;
       dentrega2 = dentrega;
+      frete2    = frete;  
     end  
     if (numFornec = 3) then
     begin
       fornec3   = codfornec;
       prazo3    = prazo;
       dentrega3 = dentrega;
+      frete3    = frete;  
     end  
     if (numFornec = 4) then 
     begin
       fornec4   = codfornec;
       prazo4    = prazo;
       dentrega4 = dentrega;
+      frete4    = frete;  
     end  
     if (numFornec = 5) then 
     begin
       fornec5   = codfornec;
       prazo5    = prazo;
       dentrega5 = dentrega;
+      frete5    = frete;  
     end  
 
     if (numFornec = 6) then 
@@ -116,6 +133,7 @@ BEGIN
       fornec6   = codfornec;
       prazo6    = prazo;
       dentrega6 = dentrega;
+      frete6    = frete;  
     end  
 
     if (numFornec = 7) then 
@@ -151,7 +169,7 @@ BEGIN
    FROM COMPRA_COTACAO
   WHERE COTACAO_FORNEC = :codFornec
     AND COTACAO_SITUACAO = 'G'
-   INTO :CODPRO, :DESCRICAO, :PRECO, :OBS, :QTDE, :TTOTAL 
+   INTO :CODPRO, :DESCRICAO, :PRECO, :OBS, :QTDE, :TTOTAL
   do begin
     
     TOTAL = TOTAL + TTOTAL;
@@ -163,13 +181,6 @@ BEGIN
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO1, :TOT1;
 
-      SELECT COTACAO_FRETE
-        FROM COMPRA_COTACAO
-       WHERE COTACAO_FORNEC = :Fornec1
-         AND COTACAO_SITUACAO = 'G'    
-         AND COTACAO_FRETE > 0
-        INTO :FRETE1; 
-
       T1 = T1 + TOT1;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
@@ -178,13 +189,6 @@ BEGIN
        AND COTACAO_SITUACAO = 'G'
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO2, :TOT2;
-
-      SELECT COTACAO_FRETE
-        FROM COMPRA_COTACAO
-       WHERE COTACAO_FORNEC = :Fornec2
-         AND COTACAO_SITUACAO = 'G'    
-         AND COTACAO_FRETE > 0
-        INTO :FRETE2; 
 
     T2 = T2 + TOT2;
 
@@ -250,15 +254,20 @@ BEGIN
   tot6   = null;
   tot7   = null;
   tot8   = null;
+  un     = null;
   
   SUSPEND;
   
   CODPRO = '';
   DESCRICAO = ' FRETE ';
-  if (numFornec = 1) then 
-    TOT1 = FRETE1;
-  if (numFornec = 2) then     
-    TOT2 = FRETE2;
+  --if (numFornec = 1) then 
+  TOT1 = FRETE1;
+  --if (numFornec = 2) then     
+  TOT2 = FRETE2;
+  TOT3 = FRETE3;
+  TOT4 = FRETE4;
+  TOT5 = FRETE5;
+  TOT6 = FRETE6;
  -- if (numFornec = 3) then     
  --   PRECO3 = FRETE;
   
@@ -268,7 +277,7 @@ BEGIN
   DESCRICAO = '';
   PRECO1 = null;
   PRECO2 = null;
-  PRECO3 = null;
+  --PRECO3 = null;
   tot1   = null;
   tot2   = null;
   tot3   = null;
@@ -277,9 +286,12 @@ BEGIN
   
   CODPRO = '';
   DESCRICAO = ' TOTAL ';
-  TOT1 = T1;
-  TOT2 = T2;
-  TOT3 = T3;
+  TOT1 = T1+FRETE1;
+  TOT2 = T2+FRETE2;
+  TOT3 = T3+FRETE3;
+  TOT4 = T4+FRETE4;
+  TOT5 = T5+FRETE5;
+  TOT6 = T6+FRETE6;
   
   SUSPEND;
 
