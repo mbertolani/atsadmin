@@ -90,6 +90,7 @@ type
     edSubGrupo: TEdit;
     edSolicitante: TEdit;
     Label2: TLabel;
+    cdsSolicUNIDADEMEDIDA: TStringField;
     procedure btnIncluiCotacaoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbnvgr1Click(Sender: TObject; Button: TNavigateBtn);
@@ -146,13 +147,28 @@ begin
     exit;
   end;
 
+  // Ve se ja existe alguma cotação para o item
   if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
-  sqlBusca.SQL.Add('SELECT MAX(COTACAO_CODIGO) FROM COMPRA_COTACAO');
+  cdsSolic.Locate('SOLIC_CODIGO', v_codigos[1], [loCaseInsensitive]);
+  str := 'SELECT COTACAO_CODIGO FROM COMPRA_COTACAO ' +
+    ' WHERE COTACAO_ITEM = ' + QuotedStr(cdsSolicSOLIC_PRODUTO.AsString) +
+    '   AND COTACAO_SITUACAO IN (' + QuotedStr('P')  +  ', ' + QuotedStr('G')+ ')' ;
+  sqlBusca.SQL.Add(str);
   sqlBusca.Open;
-  codCotacao := sqlBusca.Fields[0].AsInteger + 1;
-
+  str := '';
+  if (sqlBusca.IsEmpty) then
+  begin
+    if (sqlBusca.Active) then
+      sqlBusca.Close;
+    sqlBusca.SQL.Clear;
+    sqlBusca.SQL.Add('SELECT MAX(COTACAO_CODIGO) FROM COMPRA_COTACAO');
+    sqlBusca.Open;
+    codCotacao := sqlBusca.Fields[0].AsInteger + 1;
+  end  else begin
+    codCotacao := sqlBusca.Fields[0].AsInteger;
+  end;
   Label2.Caption := 'Selecioados >> ';
   for x := 0 to v_codigos.Count-1 do
   begin
@@ -484,13 +500,13 @@ end;
 procedure TfCompraCotacao.BitBtn2Click(Sender: TObject);
 var st: string;
 begin
- fCotacaoVer :=TfCotacaoVer.Create(Application);
- fCotacaoVer.item := cdsSolicSOLIC_PRODUTO.AsString;
+ {fCotacaoVer :=TfCotacaoVer.Create(Application);
+ fCotacaoVer.cotacao := cdsSolicSOLIC_PRODUTO.AsString;
  try
    fCotacaoVer.ShowModal;
  finally
    fCotacaoVer.Free;
- end;
+ end;}
 
 { while not cdsSolic.Eof do
  begin

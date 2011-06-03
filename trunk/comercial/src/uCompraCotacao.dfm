@@ -326,6 +326,12 @@ inherited fCompraCotacao: TfCompraCotacao
         end
         item
           Expanded = False
+          FieldName = 'UNIDADEMEDIDA'
+          Title.Caption = 'UN'
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'SOLIC_QUANTIDADE'
           Title.Caption = 'Qtde'
           Visible = True
@@ -738,11 +744,12 @@ inherited fCompraCotacao: TfCompraCotacao
       'cs.SOLIC_SOLICITANTE, cs.SOLIC_SITUACAO, cs.SOLIC_APROVACAO, '
       'cs.SOLIC_DATAAPROV, cs.SOLIC_DESCRICAO, cs.SOLIC_TIPO, '
       'cs.SOLIC_DTNECESSIT, cs.SOLIC_OBSERVACAO'
-      ', 0 as SELEC'
+      ', 0 as SELEC, p.UNIDADEMEDIDA'
       'FROM COMPRA_SOLIC cs'
       'inner join PRODUTOS p on p.codpro = cs.SOLIC_PRODUTO'
       'WHERE ((SOLIC_SITUACAO <> '#39'E'#39') '
-      '      AND  (SOLIC_SITUACAO <> '#39'P'#39'))  '
+      '      AND  (SOLIC_SITUACAO <> '#39'P'#39')'
+      '      AND  (SOLIC_SITUACAO <> '#39'C'#39'))  '
       'ORDER BY SOLIC_SITUACAO DESC, SOLIC_DTNECESSIT DESC')
     SQLConnection = DM.sqlsisAdimin
     Left = 248
@@ -821,6 +828,12 @@ inherited fCompraCotacao: TfCompraCotacao
     end
     object cdsSolicSELEC: TIntegerField
       FieldName = 'SELEC'
+    end
+    object cdsSolicUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
     end
   end
   object dsSolic: TDataSource

@@ -33,7 +33,7 @@ inherited fCompraCotacao2: TfCompraCotacao2
         Transparent = True
       end
       object Label6: TLabel
-        Left = 310
+        Left = 243
         Top = 48
         Width = 24
         Height = 13
@@ -41,20 +41,42 @@ inherited fCompraCotacao2: TfCompraCotacao2
         Transparent = True
       end
       object Label9: TLabel
-        Left = 458
-        Top = 48
+        Left = 651
+        Top = 50
         Width = 66
         Height = 13
         Caption = 'Data Cota'#231#227'o'
         Transparent = True
       end
       object Label10: TLabel
-        Left = 633
-        Top = 49
+        Left = 676
+        Top = 22
         Width = 40
         Height = 13
         Caption = 'Cota'#231#227'o'
         Transparent = True
+      end
+      object Label16: TLabel
+        Left = 382
+        Top = 47
+        Width = 46
+        Height = 13
+        Caption = 'Desconto'
+        Transparent = True
+      end
+      object Label17: TLabel
+        Left = 441
+        Top = 50
+        Width = 8
+        Height = 13
+        Caption = '%'
+      end
+      object Label18: TLabel
+        Left = 528
+        Top = 50
+        Width = 6
+        Height = 13
+        Caption = '$'
       end
       object Edit1: TEdit
         Left = 109
@@ -65,11 +87,12 @@ inherited fCompraCotacao2: TfCompraCotacao2
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
+        OnKeyPress = FormKeyPress
       end
       object Edit2: TEdit
         Left = 192
         Top = 21
-        Width = 569
+        Width = 474
         Height = 21
         Color = clBtnShadow
         Enabled = False
@@ -78,21 +101,24 @@ inherited fCompraCotacao2: TfCompraCotacao2
       object cbPrazo: TComboBox
         Left = 109
         Top = 46
-        Width = 193
+        Width = 121
         Height = 21
         ItemHeight = 13
         TabOrder = 2
+        OnKeyPress = FormKeyPress
       end
       object edFrete: TJvCalcEdit
-        Left = 345
+        Left = 281
         Top = 46
-        Width = 105
+        Width = 88
         Height = 21
         TabOrder = 3
         DecimalPlacesAlwaysShown = False
+        OnExit = edFreteExit
+        OnKeyPress = FormKeyPress
       end
       object dtCotacao: TJvDatePickerEdit
-        Left = 529
+        Left = 747
         Top = 47
         Width = 88
         Height = 21
@@ -100,19 +126,48 @@ inherited fCompraCotacao2: TfCompraCotacao2
         Checked = True
         Color = clScrollBar
         ReadOnly = True
-        TabOrder = 4
+        TabOrder = 6
       end
       object Edit3: TEdit
-        Left = 680
-        Top = 46
-        Width = 81
+        Left = 747
+        Top = 19
+        Width = 86
         Height = 21
         Hint = 'C'#243'digo do Fornecedor'
         Color = clScrollBar
         ParentShowHint = False
         ReadOnly = True
         ShowHint = True
+        TabOrder = 7
+      end
+      object edDescPercentGeral: TJvCalcEdit
+        Left = 451
+        Top = 46
+        Width = 67
+        Height = 21
+        Hint = 'Desconto Geral'
+        DecimalPlaceRound = True
+        DecimalPlaces = 3
+        DisplayFormat = '0.###'
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 4
+        DecimalPlacesAlwaysShown = False
+        OnExit = edDescPercentGeralExit
+        OnKeyPress = FormKeyPress
+      end
+      object edDescontoGeral: TJvCalcEdit
+        Left = 536
+        Top = 46
+        Width = 83
+        Height = 21
+        Hint = 'Desconto Geral'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 5
+        DecimalPlacesAlwaysShown = False
+        OnExit = edDescontoGeralExit
+        OnKeyPress = FormKeyPress
       end
     end
     object GroupBox4: TGroupBox
@@ -148,7 +203,7 @@ inherited fCompraCotacao2: TfCompraCotacao2
         Transparent = True
       end
       object Label7: TLabel
-        Left = 527
+        Left = 631
         Top = 15
         Width = 13
         Height = 13
@@ -163,6 +218,20 @@ inherited fCompraCotacao2: TfCompraCotacao2
         Caption = 'Desconto'
         Transparent = True
       end
+      object Label14: TLabel
+        Left = 442
+        Top = 19
+        Width = 8
+        Height = 13
+        Caption = '%'
+      end
+      object Label15: TLabel
+        Left = 528
+        Top = 19
+        Width = 6
+        Height = 13
+        Caption = '$'
+      end
       object dtEntrega: TJvDatePickerEdit
         Left = 109
         Top = 15
@@ -171,46 +240,53 @@ inherited fCompraCotacao2: TfCompraCotacao2
         AllowNoDate = True
         Checked = True
         TabOrder = 0
+        OnKeyPress = FormKeyPress
       end
       object edPreco: TJvCalcEdit
         Left = 281
         Top = 14
         Width = 88
         Height = 21
+        DecimalPlaces = 4
+        DisplayFormat = '0.0000'
         TabOrder = 1
-        DecimalPlacesAlwaysShown = False
+        DecimalPlacesAlwaysShown = True
+        OnKeyPress = FormKeyPress
       end
       object edObservacao: TEdit
         Left = 109
         Top = 42
-        Width = 526
+        Width = 628
         Height = 21
-        TabOrder = 4
+        TabOrder = 5
+        OnKeyPress = FormKeyPress
       end
       object edDesconto: TJvCalcEdit
-        Left = 438
+        Left = 537
         Top = 14
-        Width = 77
-        Height = 21
-        TabOrder = 2
-        DecimalPlacesAlwaysShown = False
-      end
-      object edIPI: TJvCalcEdit
-        Left = 557
-        Top = 13
-        Width = 78
+        Width = 83
         Height = 21
         TabOrder = 3
         DecimalPlacesAlwaysShown = False
+        OnKeyPress = FormKeyPress
+      end
+      object edIPI: TJvCalcEdit
+        Left = 656
+        Top = 13
+        Width = 83
+        Height = 21
+        TabOrder = 4
+        DecimalPlacesAlwaysShown = False
+        OnKeyPress = FormKeyPress
       end
       object BitBtn2: TBitBtn
-        Left = 672
-        Top = 23
+        Left = 749
+        Top = 11
         Width = 87
         Height = 40
         Caption = 'F4-Gravar'
         PopupMenu = PopupMenu1
-        TabOrder = 5
+        TabOrder = 6
         OnClick = btnGravarClick
         Glyph.Data = {
           36030000424D3603000000000000360000002800000010000000100000000100
@@ -239,6 +315,19 @@ inherited fCompraCotacao2: TfCompraCotacao2
           0000000000000000000000000000000000000000000000000000000000000000
           000000007F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
           BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF}
+      end
+      object edDescPercent: TJvCalcEdit
+        Left = 452
+        Top = 14
+        Width = 67
+        Height = 21
+        DecimalPlaceRound = True
+        DecimalPlaces = 3
+        DisplayFormat = '0.###'
+        TabOrder = 2
+        DecimalPlacesAlwaysShown = False
+        OnExit = edDescPercentExit
+        OnKeyPress = FormKeyPress
       end
     end
   end
@@ -478,6 +567,12 @@ inherited fCompraCotacao2: TfCompraCotacao2
       end
       item
         Expanded = False
+        FieldName = 'UNIDADEMEDIDA'
+        Title.Caption = 'Un'
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'COTACAO_SITUACAO'
         Title.Caption = 'Sit.'
         Width = 20
@@ -537,9 +632,12 @@ inherited fCompraCotacao2: TfCompraCotacao2
       end>
     SQL.Strings = (
       'SELECT COMPRA_COTACAO.*, RAZAOSOCIAL '
-      ', (COTACAO_QTDE*COTACAO_PRECO) TOTALPROD'
-      'FROM COMPRA_COTACAO, FORNECEDOR  '
+      
+        ', (COTACAO_QTDE*(COTACAO_PRECO-COTACAO_DESCONTO)) TOTALPROD , UN' +
+        'IDADEMEDIDA'
+      'FROM COMPRA_COTACAO, FORNECEDOR, PRODUTOS'
       'WHERE  COTACAO_FORNEC =  CODFORNECEDOR  '
+      '      AND (COTACAO_ITEM = CODPRO)'
       '      AND (COTACAO_FORNEC   = :FORNEC)'
       '      AND (COTACAO_CODIGO    = :COD)'
       '      AND COTACAO_SITUACAO  <> '#39'F'#39
@@ -660,13 +758,19 @@ inherited fCompraCotacao2: TfCompraCotacao2
       DisplayFormat = ',##0.00'
       EditFormat = ',##0.00'
     end
+    object cdsCotacaoUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
     object cdsCotacaoTotal: TAggregateField
       Alignment = taRightJustify
       FieldName = 'Total'
       Active = True
       currency = True
       DisplayFormat = ',#0.00'
-      Expression = 'SUM(COTACAO_PRECO*COTACAO_QTDE)'
+      Expression = 'SUM((COTACAO_PRECO-COTACAO_DESCONTO)*COTACAO_QTDE)'
     end
   end
   object DataSource1: TDataSource

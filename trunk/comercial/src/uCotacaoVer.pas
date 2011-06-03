@@ -211,7 +211,7 @@ type
     { Private declarations }
   public
     solic : integer;
-    item  : string;
+    cotacao  : integer;
     { Public declarations }
   end;
 
@@ -249,9 +249,9 @@ begin
     sqlFornec := sqlFornec +  ' and c.COTACAO_FORNEC = ' + edFornec.Text;
   end
   else begin
-    if (item <> '') then
+    if (cotacao > 0) then
     begin
-      sqlFornec := sqlFornec +  '   and c.COTACAO_ITEM   = ' + QuotedStr(item);
+      sqlFornec := sqlFornec +  '   and c.COTACAO_CODIGO   = ' + IntToStr(cotacao);
     end
     else begin
       if (edProduto.Text = '') then
@@ -471,7 +471,7 @@ end;
 procedure TfCotacaoVer.FormCreate(Sender: TObject);
 begin
   //inherited;
-
+  cotacao := 0;
 end;
 
 procedure TfCotacaoVer.edProdutoKeyPress(Sender: TObject; var Key: Char);
@@ -507,31 +507,58 @@ begin
   // Cria o Grid com as Colunas de Fornecedores;
   cdsFornec.First;
 
-  if (cdsFornec.RecordCount < 6) then
-
   gbf1.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-  cdsFornec.next;
-  if (cdsFornec.RecordCount < 3) then
+  if (cdsFornec.RecordCount > 1) then
+  begin
+    cdsFornec.next;
     gbf2.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-  cdsFornec.next;
-  if (cdsFornec.RecordCount < 4) then
+  end;
+  if (cdsFornec.RecordCount > 2) then
+  begin
+    cdsFornec.next;
     gbf3.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-  cdsFornec.next;
-  if (cdsFornec.RecordCount < 5) then
+  end;
+  if (cdsFornec.RecordCount > 3) then
+  begin
+    cdsFornec.next;
     gbf4.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-  cdsFornec.next;
-  if (cdsFornec.RecordCount < 6) then
+  end;
+
+  if (cdsFornec.RecordCount > 4) then
+  begin
+    cdsFornec.next;
     gbf5.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
-  cdsFornec.next;
+  end;
+
+  if (cdsFornec.RecordCount > 5) then
+    cdsFornec.next;
 
   //end;
 
-  cds5.Params.ParamByName('PITEM').AsString := item;
+  cds5.Params.ParamByName('PITEM').AsInteger := cotacao;
   cds5.Open;
   edCondPg1.Text := cds5PRAZO1.AsString;
   edDtEnt1.Text  := DateToStr(cds5DENTREGA1.AsDateTime);
-  edCondPg2.Text := cds5PRAZO2.AsString;
-  edDtEnt2.Text  := DateToStr(cds5DENTREGA2.AsDateTime);
+  if (cdsFornec.RecordCount > 1) then
+  begin
+    edCondPg2.Text := cds5PRAZO2.AsString;
+    edDtEnt2.Text  := DateToStr(cds5DENTREGA2.AsDateTime);
+  end;
+  if (cdsFornec.RecordCount > 2) then
+  begin
+    edit1.Text     := cds5PRAZO3.AsString;
+    edit2.Text     := DateToStr(cds5DENTREGA3.AsDateTime);
+  end;
+  if (cdsFornec.RecordCount > 3) then
+  begin
+    edit3.Text     := cds5PRAZO4.AsString;
+    edit4.Text     := DateToStr(cds5DENTREGA4.AsDateTime);
+  end;
+  if (cdsFornec.RecordCount > 4) then
+  begin
+    edit5.Text     := cds5PRAZO5.AsString;
+    edit6.Text     := DateToStr(cds5DENTREGA5.AsDateTime);
+  end;
 
   //while not cds5.Eof do
   //begin
