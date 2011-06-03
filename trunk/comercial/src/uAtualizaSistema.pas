@@ -813,7 +813,6 @@ begin
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');
       executaScript('baixa_estoque.sql');
       executaScript('gera_valor.sql');
-      executaScript('gera_nf_venda.sql');
       executaScript('lote_entrada.sql');
       executaScript('lote_saida.sql');
       executaScript('lanca_ent_saida.sql');
@@ -833,7 +832,6 @@ begin
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
       executaScript('gera_nf_compra.sql');
-      executaScript('gera_nf_venda.sql');
       mudaVersao('1.0.0.80');
     end;  // Fim Ataulização Versao 1.0.0.80
 
@@ -848,9 +846,8 @@ begin
       executaDDL('MOVIMENTODETALHE', 'CSOSN', 'Varchar(3)');
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSOSN', 'Varchar(3)');
-	  executaDDL('NOTAFISCAL', 'VALOR_DESCONTO', 'DOUBLE PRECISION');
+  	  executaDDL('NOTAFISCAL', 'VALOR_DESCONTO', 'DOUBLE PRECISION');
       executaScript('calcula_icms.sql');
-      executaScript('gera_pedido.sql');
 	  mudaVersao('1.0.0.81');
     end;  // Fim Ataulização Versao 1.0.0.81
 
@@ -858,12 +855,12 @@ begin
     begin
       if (NaoExisteTabela('COMPRA_SOLIC')) then
       begin
-        executaSql('CREATE TABLE COMPRA_SOLIC (SOLIC_CODIGO INTEGER NOT NULL primary key, ' +
+        Sql := 'CREATE TABLE COMPRA_SOLIC (SOLIC_CODIGO INTEGER NOT NULL primary key, ' +
         'SOLIC_DATA DATE DEFAULT current_date, SOLIC_PRODUTO VARCHAR (15) NOT NULL, ' +
         'SOLIC_QUANTIDADE DOUBLE precision, SOLIC_SOLICITANTE Varchar(30), ' +
         'SOLIC_SITUACAO CHAR(1), SOLIC_APROVACAO Varchar(30), ' +
-        'SOLIC_SITUACAO CHAR(1), SOLIC_APROVACAO Varchar(30), ' +
-        'SOLIC_TIPO CHAR(1), SOLIC_DTNECESSIT date)');
+        'SOLIC_TIPO CHAR(1), SOLIC_DTNECESSIT date)';
+        ExecutaSql(sql);
       end;
       mudaVersao('1.0.0.82');
     end;  // Fim Ataulização Versao 1.0.0.82
@@ -892,7 +889,7 @@ begin
         executaSql('create table aponthoras ( id_aponthoras integer not null primary key, ' +
         'cod_cliente integer, cod_fornecedor integer, ' +
         'cod_usuario integer, data_movimento date, ' +
-        'PRIMARY KEY (COTACAO_CODIGO, COTACAO_FORNEC))');
+        'COD_PRODUTO Integer,  COD_CC Integer)');
       end;
       mudaVersao('1.0.0.84');
     end;  // Fim Ataulização Versao 1.0.0.84
@@ -926,7 +923,6 @@ begin
       end;
       executaDDL('MOVIMENTO', 'DATA_ENTREGA', 'DATE');
       executaDDL('MOVIMENTO', 'PRAZO_PAGAMENTO', 'VARCHAR(30)');
- 	  executaScript('trg_gera_pedido.sql');
       mudaVersao('1.0.0.86');
     end;  // Fim Ataulização Versao 1.0.0.86
 
@@ -949,6 +945,7 @@ begin
       executaScript('insere_estoque.sql');
       executaScript('mov_estoque.sql');
       executaScript('proc_cotacao.sql');
+      executaScript('gera_nf_venda.sql');
       try
         executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA,  ' +
          ' GERATITULO, TIPOTITULO, TIPOMOVIMENTO, BAIXAMOVIMENTO) VALUES (' +
@@ -984,7 +981,7 @@ begin
       executaDDL('MOVIMENTO', 'CODTRANSP', 'INTEGER');
       executaDDL('MOVIMENTO', 'TPFRETE', 'char(1)');
 
-      SQLQuery1.SQL.Clear;
+      {SQLQuery1.SQL.Clear;
       SQLQuery1.SQL.Add('select * from RDB$RELATION_CONSTRAINTS ' +
         ' where rdb$relation_name = ' + QuotedStr('COMPRA_COTACAO') +
         '   and RDB$CONSTRAINT_NAME = ' + QuotedStr('INTEG_402'));
@@ -993,11 +990,11 @@ begin
       if (not SQLQuery1.IsEmpty) then
       begin
         executaSql('ALTER TABLE COMPRA_COTACAO DROP CONSTRAINT INTEG_402');
-      end;
+      end;}
 
-      executaSql('ALTER TRIGGER GERA_PEDIDO INACTIVE;');
+      //executaSql('ALTER TRIGGER GERA_PEDIDO INACTIVE;');
 
-      SQLQuery1.SQL.Clear;
+      {SQLQuery1.SQL.Clear;
       SQLQuery1.SQL.Add('select * from RDB$RELATION_CONSTRAINTS ' +
         ' where rdb$relation_name = ' + QuotedStr('COMPRA_COTACAO') +
         '   and RDB$CONSTRAINT_NAME = ' + QuotedStr('PK_COMPRA_COTACAO_1'));
@@ -1007,7 +1004,7 @@ begin
       begin
         executaSql('alter table COMPRA_COTACAO add constraint PK_COMPRA_COTACAO_1 ' +
           'primary key (COTACAO_CODIGO, COTACAO_FORNEC, COTACAO_ITEM)');
-      end;
+      end;}
 
       mudaVersao('1.0.0.90');
     end;
@@ -1221,8 +1218,7 @@ begin
     cds.Close;
   cds.CommandText := 'SELECT RDB$GENERATOR_NAME ' +
      '  FROM RDB$GENERATORS ' +
-     ' WHERE RDB$SYSTEM_FLAG IS NULL' +
-     '   AND RDB$GENERATOR_NAME = ' + QuotedStr(Generator);
+     ' WHERE RDB$GENERATOR_NAME = ' + QuotedStr(Generator);
   cds.Open;
   if (cds.IsEmpty) then
   begin
