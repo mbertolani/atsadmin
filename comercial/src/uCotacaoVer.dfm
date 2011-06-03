@@ -1198,7 +1198,7 @@ inherited fCotacaoVer: TfCotacaoVer
       Top = 6
       Width = 163
       Height = 64
-      Caption = 'gbF1'
+      Caption = '.'
       TabOrder = 2
       object edCondPg1: TEdit
         Left = 39
@@ -1222,7 +1222,7 @@ inherited fCotacaoVer: TfCotacaoVer
       Top = 6
       Width = 163
       Height = 64
-      Caption = 'gbF1'
+      Caption = '.'
       TabOrder = 3
       object edDtEnt2: TEdit
         Left = 37
@@ -1246,7 +1246,7 @@ inherited fCotacaoVer: TfCotacaoVer
       Top = 6
       Width = 163
       Height = 64
-      Caption = 'gbF1'
+      Caption = '.'
       TabOrder = 4
       object Edit1: TEdit
         Left = 37
@@ -1270,7 +1270,7 @@ inherited fCotacaoVer: TfCotacaoVer
       Top = 6
       Width = 163
       Height = 64
-      Caption = 'gbF1'
+      Caption = '.'
       TabOrder = 5
       object Edit3: TEdit
         Left = 37
@@ -1294,7 +1294,7 @@ inherited fCotacaoVer: TfCotacaoVer
       Top = 8
       Width = 163
       Height = 64
-      Caption = 'gbF1'
+      Caption = '.'
       TabOrder = 6
       object Edit5: TEdit
         Left = 37
@@ -1611,7 +1611,7 @@ inherited fCotacaoVer: TfCotacaoVer
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'PITEM'
         ParamType = ptUnknown
       end>
@@ -1631,7 +1631,7 @@ inherited fCotacaoVer: TfCotacaoVer
     Aggregates = <>
     Params = <
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'PITEM'
         ParamType = ptUnknown
       end>

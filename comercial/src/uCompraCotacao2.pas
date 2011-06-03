@@ -74,6 +74,15 @@ type
     cdsCotacaoCOTACAO_TIPO: TStringField;
     cdsCotacaoTOTALPROD: TFloatField;
     cdsPedidoSTATUS: TSmallintField;
+    cdsCotacaoUNIDADEMEDIDA: TStringField;
+    edDescPercent: TJvCalcEdit;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    edDescPercentGeral: TJvCalcEdit;
+    edDescontoGeral: TJvCalcEdit;
+    Label17: TLabel;
+    Label18: TLabel;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure jvdbgrd2CellClick(Column: TColumn);
@@ -81,6 +90,11 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure cdsCotacaoAfterScroll(DataSet: TDataSet);
+    procedure edFreteExit(Sender: TObject);
+    procedure edDescPercentExit(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure edDescPercentGeralExit(Sender: TObject);
+    procedure edDescontoGeralExit(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure editaItens;
@@ -178,6 +192,7 @@ begin
   str_altera := str_altera + ' COTACAO_SITUACAO     = ' + QuotedStr('G');
   str_altera := str_altera + ' WHERE COTACAO_CODIGO = ' + IntToStr(cdsCotacaoCOTACAO_CODIGO.AsInteger);
   str_altera := str_altera + '   AND COTACAO_ITEM   = ' + QuotedStr(cdsCotacaoCOTACAO_ITEM.AsString);
+  str_altera := str_altera + '   AND COTACAO_FORNEC = ' + IntToStr(cdsCotacaoCOTACAO_FORNEC.AsInteger);
   DecimalSeparator := ',';
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -217,7 +232,7 @@ procedure TfCompraCotacao2.BitBtn1Click(Sender: TObject);
 var st: string;
 begin
  fCotacaoVer :=TfCotacaoVer.Create(Application);
- fCotacaoVer.item := cdsCotacaoCOTACAO_ITEM.AsString;
+ fCotacaoVer.cotacao := cdsCotacaoCOTACAO_CODIGO.AsInteger;
  try
    fCotacaoVer.ShowModal;
  finally
@@ -284,6 +299,52 @@ procedure TfCompraCotacao2.cdsCotacaoAfterScroll(DataSet: TDataSet);
 begin
   inherited;
   editaItens;
+end;
+
+procedure TfCompraCotacao2.edFreteExit(Sender: TObject);
+begin
+  inherited;
+  if (edFrete.Value > 0) then
+    cdsCotacao.First;
+end;
+
+procedure TfCompraCotacao2.edDescPercentExit(Sender: TObject);
+begin
+  inherited;
+  if ((edPreco.Value > 0) and (edDescPercent.Value > 0)) then
+    edDesconto.Value := (edDescPercent.Value/100)*edPreco.Value;
+end;
+
+procedure TfCompraCotacao2.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+  end;
+
+end;
+
+procedure TfCompraCotacao2.edDescPercentGeralExit(Sender: TObject);
+begin
+  if ((edPreco.Value > 0) and (edDescPercentGeral.Value > 0)) then
+    edDescontoGeral.Value := (edDescPercentGeral.Value/100)*edPreco.Value;
+end;
+
+procedure TfCompraCotacao2.edDescontoGeralExit(Sender: TObject);
+var tot : Double;
+begin
+  cdsCotacao.DisableControls;
+  tot := cdsCotacaoTotal.Value;
+  while not cdsCotacao.Eof do
+  begin
+    cdsCotacao.Edit;
+    cdsCotacaoCOTACAO_DESCONTO.AsFloat := (cdsCotacaoTOTALPROD.AsFloat/tot)*cdsCotacaoCOTACAO_PRECO.AsFloat;
+    cdsCotacao.Next;
+  end;
+  cdsCotacao.EnableControls;
+
 end;
 
 end.
