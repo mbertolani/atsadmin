@@ -225,12 +225,9 @@ type
     RecebimentoMateriais1: TMenuItem;
     Cotao1: TMenuItem;
     CotaoPedido1: TMenuItem;
-<<<<<<< .mine
     Similares1: TMenuItem;
-=======
     Button1: TButton;
     lblBoleto: TLabel;
->>>>>>> .r826
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -338,12 +335,9 @@ type
     procedure RecebimentoMateriais1Click(Sender: TObject);
     procedure Cotao1Click(Sender: TObject);
     procedure CotaoPedido1Click(Sender: TObject);
-<<<<<<< .mine
     procedure Similares1Click(Sender: TObject);
-=======
     procedure Button1Click(Sender: TObject);
     procedure lblBoletoClick(Sender: TObject);
->>>>>>> .r826
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -1797,7 +1791,6 @@ begin
     fCompra.BitBtn1.Visible := True;
 end;
 
-<<<<<<< .mine
 procedure TfAtsAdmin.Similares1Click(Sender: TObject);
 begin
   F_SIMILARES := TF_SIMILARES.Create(Application);
@@ -1808,7 +1801,6 @@ begin
   end;
 end;
 
-=======
 procedure TfAtsAdmin.Button1Click(Sender: TObject);
 var str: string;
 begin
@@ -1872,5 +1864,5 @@ begin
 
 end;
 
->>>>>>> .r826
+
 end.
