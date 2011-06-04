@@ -507,27 +507,27 @@ begin
   // Cria o Grid com as Colunas de Fornecedores;
   cdsFornec.First;
 
-  gbf1.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+  gbf1.Caption := copy(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString,0,30);
   if (cdsFornec.RecordCount > 1) then
   begin
     cdsFornec.next;
-    gbf2.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    gbf2.Caption := copy(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString,0,30);
   end;
   if (cdsFornec.RecordCount > 2) then
   begin
     cdsFornec.next;
-    gbf3.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    gbf3.Caption := copy(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString,0,30);
   end;
   if (cdsFornec.RecordCount > 3) then
   begin
     cdsFornec.next;
-    gbf4.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    gbf4.Caption := copy(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString,0,30);
   end;
 
   if (cdsFornec.RecordCount > 4) then
   begin
     cdsFornec.next;
-    gbf5.Caption := IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString;
+    gbf5.Caption := copy(IntToStr(cdsFornec.Fields[0].AsInteger) + '-' + cdsFornec.Fields[1].AsString,0,30);
   end;
 
   if (cdsFornec.RecordCount > 5) then

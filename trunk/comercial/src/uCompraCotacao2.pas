@@ -83,6 +83,7 @@ type
     edDescontoGeral: TJvCalcEdit;
     Label17: TLabel;
     Label18: TLabel;
+    BitBtn4: TBitBtn;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure jvdbgrd2CellClick(Column: TColumn);
@@ -94,10 +95,11 @@ type
     procedure edDescPercentExit(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure edDescPercentGeralExit(Sender: TObject);
-    procedure edDescontoGeralExit(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure editaItens;
+    procedure daDesconto;
     { Private declarations }
   public
     { Public declarations }
@@ -328,22 +330,50 @@ end;
 
 procedure TfCompraCotacao2.edDescPercentGeralExit(Sender: TObject);
 begin
-  if ((edPreco.Value > 0) and (edDescPercentGeral.Value > 0)) then
-    edDescontoGeral.Value := (edDescPercentGeral.Value/100)*edPreco.Value;
+  if ((cdsCotacaoTotal.Value > 0) and (edDescPercentGeral.Value > 0)) then
+    edDescontoGeral.Value := (edDescPercentGeral.Value/100)*cdsCotacaoTotal.Value;
 end;
 
-procedure TfCompraCotacao2.edDescontoGeralExit(Sender: TObject);
-var tot : Double;
+procedure TfCompraCotacao2.daDesconto;
+var tot, desc : double;
+  str: string;
 begin
-  cdsCotacao.DisableControls;
-  tot := cdsCotacaoTotal.Value;
-  while not cdsCotacao.Eof do
-  begin
-    cdsCotacao.Edit;
-    cdsCotacaoCOTACAO_DESCONTO.AsFloat := (cdsCotacaoTOTALPROD.AsFloat/tot)*cdsCotacaoCOTACAO_PRECO.AsFloat;
-    cdsCotacao.Next;
+  DecimalSeparator := '.';
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    cdsCotacao.DisableControls;
+    tot := cdsCotacaoTotal.Value;
+    cdsCotacao.First;
+    while not cdsCotacao.Eof do
+    begin
+      if (edDescontoGeral.Value > 0) then
+        desc := ((cdsCotacaoTOTALPROD.AsFloat/tot)*edDescontoGeral.Value)/cdsCotacaoCOTACAO_QTDE.AsFloat
+      else
+        desc := 0;
+      str := 'UPDATE COMPRA_COTACAO SET COTACAO_DESCONTO = ' + FloatToStr(desc);
+      str := str + ' WHERE COTACAO_CODIGO = ' + IntToStr(cdsCotacaoCOTACAO_CODIGO.AsInteger);
+      str := str + '   AND COTACAO_FORNEC = ' + IntToStr(cdsCotacaoCOTACAO_FORNEC.AsInteger);
+      str := str + '   AND COTACAO_ITEM   = ' + QuotedStr(cdsCotacaoCOTACAO_ITEM.AsString);
+      dm.sqlsisAdimin.ExecuteDirect(str);
+      cdsCotacao.Next;
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+    cdsCotacao.Close;
+    cdsCotacao.Open;
+    cdsCotacao.EnableControls;
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro para gravar o desconto.', mtError, [mbOK], 0);
+    exit;
   end;
-  cdsCotacao.EnableControls;
+
+end;
+
+procedure TfCompraCotacao2.BitBtn4Click(Sender: TObject);
+begin
+  daDesconto;
 
 end;
 
