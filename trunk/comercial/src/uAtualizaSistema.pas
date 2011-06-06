@@ -792,12 +792,15 @@ begin
 
     if (versaoSistema = '1.0.0.77') then
     begin
-      executaSql('CREATE TABLE INVENTARIO (CODIVENTARIO Varchar(40) NOT NULL, ' +
-     'DATAIVENTARIO Date, CODPRODUTO Integer NOT NULL, ' +
-     'CODPRO Varchar(15), SITUACAO Char(1), ' +
-     'DATAEXECUTADO Date, ESTOQUE_ATUAL VALOR DEFAULT 0, ' +
-     'QTDE_INVENTARIO VALOR DEFAULT 0, UN TEXTO3, ' +
-     'PRIMARY KEY (CODIVENTARIO, CODPRODUTO))');
+      if (NaoExisteTabela('INVENTARIO')) then
+      begin
+        executaSql('CREATE TABLE INVENTARIO (CODIVENTARIO Varchar(40) NOT NULL, ' +
+       'DATAIVENTARIO Date, CODPRODUTO Integer NOT NULL, ' +
+       'CODPRO Varchar(15), SITUACAO Char(1), ' +
+       'DATAEXECUTADO Date, ESTOQUE_ATUAL VALOR DEFAULT 0, ' +
+       'QTDE_INVENTARIO VALOR DEFAULT 0, UN TEXTO3, ' +
+       'PRIMARY KEY (CODIVENTARIO, CODPRODUTO))');
+      end;
       executaScript('inventario_lanca.sql');
       executaScript('invent_estoque.sql');
       mudaVersao('1.0.0.78');
