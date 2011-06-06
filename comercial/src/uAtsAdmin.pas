@@ -223,8 +223,10 @@ type
     ApontamentodeHoras1: TMenuItem;
     NFeNoPeriodo1: TMenuItem;
     RecebimentoMateriais1: TMenuItem;
+	DeclaraodeImportao1: TMenuItem;
     Cotao1: TMenuItem;
     CotaoPedido1: TMenuItem;
+    Compra1: TMenuItem;
     Similares1: TMenuItem;
     Button1: TButton;
     lblBoleto: TLabel;
@@ -333,8 +335,10 @@ type
     procedure ApontamentodeHoras1Click(Sender: TObject);
     procedure NFeNoPeriodo1Click(Sender: TObject);
     procedure RecebimentoMateriais1Click(Sender: TObject);
-    procedure Cotao1Click(Sender: TObject);
     procedure CotaoPedido1Click(Sender: TObject);
+    procedure Cotao1Click(Sender: TObject);
+  procedure DeclaraodeImportao1Click(Sender: TObject);
+
     procedure Similares1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure lblBoletoClick(Sender: TObject);
@@ -380,7 +384,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
-  u_SIMILARES, U_AUTOPECAS;
+  uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS;
 
 {$R *.dfm}
 
@@ -1790,7 +1794,15 @@ begin
   fCompra.btnIncluir.Left := 4;
     fCompra.BitBtn1.Visible := True;
 end;
-
+procedure TfAtsAdmin.DeclaraodeImportao1Click(Sender: TObject);
+begin
+  fDadosImportacao := TfDadosImportacao.Create(Application);
+  try
+    fDadosImportacao.ShowModal;
+  finally
+    fDadosImportacao.Free;
+  end;
+end;
 procedure TfAtsAdmin.Similares1Click(Sender: TObject);
 begin
   F_SIMILARES := TF_SIMILARES.Create(Application);
