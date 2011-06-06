@@ -56,7 +56,7 @@ inherited fCotacoesHist: TfCotacoesHist
         Width = 90
         Height = 21
         AllowNoDate = True
-        Checked = True
+        Checked = False
         TabOrder = 1
       end
       object dta2: TJvDatePickerEdit
@@ -65,7 +65,7 @@ inherited fCotacoesHist: TfCotacoesHist
         Width = 88
         Height = 21
         AllowNoDate = True
-        Checked = True
+        Checked = False
         TabOrder = 2
       end
     end
@@ -284,7 +284,7 @@ inherited fCotacoesHist: TfCotacoesHist
       Left = 39
       Top = 22
       Width = 45
-      Height = 11
+      Height = 13
       Caption = 'G-Cotado'
       Transparent = True
     end
@@ -671,8 +671,8 @@ inherited fCotacoesHist: TfCotacoesHist
   end
   object dsCotacao: TDataSource
     DataSet = cdsCotacao
-    Left = 472
-    Top = 24
+    Left = 536
+    Top = 16
   end
   object SQLQuery1: TSQLQuery
     MaxBlobSize = -1
