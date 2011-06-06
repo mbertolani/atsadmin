@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, DBCtrls, JvExStdCtrls, JvGroupBox, ComCtrls,
   JvExComCtrls, JvComCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask,
   Buttons, ExtCtrls, MMJPanel, JvExMask, JvToolEdit, JvDBControls,
-  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider;
+  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider, DBXpress;
 
 type
   TfNotaFc = class(TForm)
@@ -244,6 +244,9 @@ type
     listaFornecedoresUF: TStringField;
     listaFornecedoresCEP: TStringField;
     listaFornecedoresTELEFONE: TStringField;
+    calcman: TCheckBox;
+    JvGroupBox55: TJvGroupBox;
+    DBEdit51: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -1020,7 +1023,7 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;
- cbCFOPChange(Sender);
+// cbCFOPChange(Sender);
 end;
 
 procedure TfNotaFc.btnCancelarClick(Sender: TObject);
@@ -1063,13 +1066,6 @@ begin
      dmnf.cds_nf1END_TRANSP.AsString := DMNF.listaTranspEND_TRANSP.AsString;
      dmnf.cds_nf1CIDADE_TRANSP.AsString := DMNF.listaTranspCIDADE_TRANSP.AsString;
      dmnf.cds_nf1UF_TRANSP.AsString := DMNF.listaTranspUF_TRANSP.AsString;
-     {dmnf.cds_nf1INSCRICAOESTADUAL.AsString := DMNF.listaTranspINSCRICAOESTADUAL.AsString;
-     dmnf.cds_nf1CORPONF1.AsString := DMNF.listaTranspCORPONF1.AsString;
-     dmnf.cds_nf1CORPONF2.AsString := DMNF.listaTranspCORPONF2.AsString;
-     dmnf.cds_nf1CORPONF3.AsString := DMNF.listaTranspCORPONF3.AsString;
-     dmnf.cds_nf1CORPONF4.AsString := DMNF.listaTranspCORPONF4.AsString;
-     dmnf.cds_nf1CORPONF5.AsString := DMNF.listaTranspCORPONF5.AsString;
-     dmnf.cds_nf1CORPONF6.AsString := DMNF.listaTranspCORPONF6.AsString;}
      DMNF.listaTransp.Close;
   end;
 end;
@@ -1096,7 +1092,28 @@ begin
 end;
 
 procedure TfNotaFc.btnGravarClick(Sender: TObject);
+var nfe, cm : string;
+var TD: TTransactionDesc;
 begin
+  if (calcman.Checked = True) then
+  begin
+    cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
+    try
+      begin
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(cm);
+        dm.sqlsisAdimin.Commit(TD);
+      end;
+      Except
+      begin
+        MessageDlg('Erro ao executar calculo Manual.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+    end;
+  end;
+
   if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
   if (dmnf.cds_Mov_det.State in [dsInsert]) then
      dmnf.cds_Mov_det.Post;
@@ -1114,6 +1131,16 @@ begin
  //Salvo Nota Fiscal
  if (DMNF.DtSrc_NF1.State in [dsInsert, dsEdit]) then
    gravanotafiscal;
+
+  if (calcman.Checked = True) then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
+    dm.sqlsisAdimin.ExecuteDirect(cm);
+    dm.sqlsisAdimin.Commit(TD);
+  end;
 end;
 
 procedure TfNotaFc.gravamov_detalhe;
@@ -1384,8 +1411,8 @@ begin
 //    alteraVlrVenda;
   dmnf.cds_nf1.ApplyUpdates(0);
   // Calcula ICMS - IPI
-  //if (codVendaFin = 0) then
-  //calculaicms(dmnf.cds_nf1UF.AsString);
+  if (not calcman.Checked) then
+    calculaicms(dmnf.cds_nf1UF.AsString);
   DMNF.cds_Mov_det.Refresh;
   dmnf.cds_nf1.close;
   dmnf.cds_nf1.Params[0].AsInteger := nfnum;
@@ -1467,7 +1494,7 @@ begin
 //     dmnf.cds_nf1VALOR_ICMS.Value +
      varTotalnota :=  dmnf.cds_nf1VALOR_FRETE.Value
                     + dmnf.cds_nf1VALOR_SEGURO.Value + dmnf.cds_nf1OUTRAS_DESP.Value
-                    + dmnf.cds_nf1VALOR_IPI.Value;
+                    + dmnf.cds_nf1VALOR_IPI.Value - dmnf.cds_nf1VALOR_DESCONTO.Value;
      if (varTotalnota <> dmnf.cds_nf1VALOR_TOTAL_NOTA.value) then
          dmnf.cds_nf1VALOR_TOTAL_NOTA.value := dmnf.cds_nf1VALOR_PRODUTO.value + varTotalnota;
 end;
@@ -1765,7 +1792,8 @@ begin
   end;
   nunf := dmnf.cds_nf1NUMNF.AsInteger;
   // Calcula ICMS - IPI
-  calculaicms('OUTROS');
+  if( not calcman.Checked) then
+    calculaicms('OUTROS');
   // Abre a tabela Novamente.
   dmnf.cds_nf1.Close;
   dmnf.cds_nf1.Params[0].AsInteger := nunf;
