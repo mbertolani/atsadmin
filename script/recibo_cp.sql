@@ -30,7 +30,7 @@ Begin
     left outer join compra c on c.CODCOMPRA = p.CODCOMPRA
     left outer join MOVIMENTODETALHE l on l.CODMOVIMENTO = c.CODMOVIMENTO
     left outer join PRODUTOS prod on prod.CODPRODUTO = l.CODPRODUTO
-   where p.DP = 0
+   where p.DP = 0 AND p.USERID is not null 
    order by codpagamento desc
    Into :Lote, :Fornecedor , :CodProduto, :Produto, :Titulo ,
         :Emissao, :Qtde, :Preco, :Valor, :codCompra, :lote1, :vlr, :codMov, :peso, :cp ,:userid
