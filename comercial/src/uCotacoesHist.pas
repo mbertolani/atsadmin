@@ -95,9 +95,13 @@ begin
    ' f.RAZAOSOCIAL NOMEFORNECEDOR ' +
    '  FROM COMPRA_COTACAO a , FORNECEDOR F' +
    ' WHERE a.COTACAO_FORNEC = f.CODFORNECEDOR';
-  strCa := ' AND a.COTACAO_DATA BETWEEN ' +
-    QuotedStr(FormatDateTime('mm/dd/yyyy', dta1.Date)) + ' AND '  +
-    QuotedStr(FormatDateTime('mm/dd/yyyy', dta2.Date));
+
+  if ((dta1.Checked) and (dta2.Checked)) then
+  begin
+    strCa := ' AND a.COTACAO_DATA BETWEEN ' +
+      QuotedStr(FormatDateTime('mm/dd/yyyy', dta1.Date)) + ' AND '  +
+      QuotedStr(FormatDateTime('mm/dd/yyyy', dta2.Date));
+  end;    
   if (edFornec.Text <> '') then
   begin
     strCa := strCa + ' AND a.COTACAO_FORNEC = ' + edFornec.Text;
