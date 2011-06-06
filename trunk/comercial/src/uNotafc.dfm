@@ -1,8 +1,8 @@
 object fNotafc: TfNotafc
-  Left = 223
-  Top = 85
+  Left = 151
+  Top = 177
   Width = 799
-  Height = 590
+  Height = 619
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
   Color = clBtnFace
@@ -751,7 +751,7 @@ object fNotafc: TfNotafc
     Left = 0
     Top = 59
     Width = 775
-    Height = 691
+    Height = 686
     ActivePage = TabNF
     Align = alTop
     PopupMenu = PopupMenu1
@@ -767,15 +767,15 @@ object fNotafc: TfNotafc
       Font.Style = []
       ParentFont = False
       object Label26: TLabel
-        Left = 9
-        Top = 342
+        Left = 7
+        Top = 341
         Width = 40
         Height = 13
         Caption = 'ICMS(%)'
       end
       object Label36: TLabel
-        Left = 7
-        Top = 378
+        Left = 60
+        Top = 341
         Width = 77
         Height = 13
         Caption = 'Red. Base Calc.'
@@ -1133,7 +1133,7 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox18: TJvGroupBox
-        Left = 136
+        Left = 144
         Top = 336
         Width = 110
         Height = 41
@@ -1153,16 +1153,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox19: TJvGroupBox
-        Left = 248
+        Left = 257
         Top = 336
-        Width = 103
+        Width = 98
         Height = 41
         Caption = 'Valor do ICMS'
         TabOrder = 20
         object DBEdit11: TDBEdit
           Left = 5
           Top = 14
-          Width = 92
+          Width = 87
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1174,7 +1174,7 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox20: TJvGroupBox
-        Left = 352
+        Left = 357
         Top = 336
         Width = 117
         Height = 41
@@ -1194,7 +1194,7 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox21: TJvGroupBox
-        Left = 472
+        Left = 477
         Top = 336
         Width = 133
         Height = 41
@@ -1214,16 +1214,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox22: TJvGroupBox
-        Left = 608
+        Left = 613
         Top = 336
-        Width = 150
+        Width = 145
         Height = 41
         Caption = 'Valor Total dos Produtos'
         TabOrder = 23
         object DBEdit14: TDBEdit
           Left = 7
           Top = 14
-          Width = 135
+          Width = 130
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1234,16 +1234,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox23: TJvGroupBox
-        Left = 136
+        Left = 212
         Top = 378
-        Width = 110
+        Width = 84
         Height = 41
         Caption = 'Valor do Frete'
         TabOrder = 24
         object DBEdit15: TDBEdit
           Left = 5
           Top = 14
-          Width = 99
+          Width = 73
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1255,16 +1255,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox24: TJvGroupBox
-        Left = 248
+        Left = 298
         Top = 378
-        Width = 103
+        Width = 92
         Height = 41
         Caption = 'Valor do Seguro'
         TabOrder = 25
         object DBEdit16: TDBEdit
           Left = 5
           Top = 14
-          Width = 91
+          Width = 81
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1276,7 +1276,7 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox25: TJvGroupBox
-        Left = 352
+        Left = 392
         Top = 378
         Width = 117
         Height = 41
@@ -1297,16 +1297,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox26: TJvGroupBox
-        Left = 472
+        Left = 511
         Top = 378
-        Width = 134
+        Width = 100
         Height = 41
         Caption = 'Valor Total do IPI'
         TabOrder = 27
         object DBEdit18: TDBEdit
           Left = 6
           Top = 14
-          Width = 121
+          Width = 88
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1318,9 +1318,9 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox27: TJvGroupBox
-        Left = 608
+        Left = 613
         Top = 378
-        Width = 150
+        Width = 145
         Height = 41
         Caption = 'Valor Total da Nota'
         Font.Charset = DEFAULT_CHARSET
@@ -1333,7 +1333,7 @@ object fNotafc: TfNotafc
         object DBEdit19: TDBEdit
           Left = 7
           Top = 14
-          Width = 136
+          Width = 131
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1873,98 +1873,149 @@ object fNotafc: TfNotafc
             Expanded = False
             FieldName = 'CODPRO'
             Title.Caption = 'C'#243'digo'
-            Width = 42
+            Width = 24
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
             Title.Caption = 'Produtos'
-            Width = 241
+            Width = 129
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CFOP'
-            Width = 53
+            Width = 28
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CST'
-            Width = 32
+            Width = 17
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CSOSN'
-            Width = 59
+            Width = 32
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
-            Width = 22
+            Width = 12
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
             Title.Caption = 'Quantidade'
-            Width = 51
+            Width = 28
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASE'
             Title.Caption = 'Valor Unit'#225'rio'
-            Width = 77
+            Width = 42
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'QTDE_ALT'
-            Title.Caption = 'Desc.%'
-            Width = 49
+            FieldName = 'VALOR_DESCONTO'
+            Title.Caption = 'Desconto'
+            Width = 35
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'FRETE'
+            Title.Caption = 'Frete'
+            Width = 39
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
-            Width = 71
+            Width = 38
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ICMS'
-            Width = 33
+            Width = 17
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VLR_BASEICMS'
+            Title.Caption = 'Base ICMS'
+            Width = 36
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_ICMS'
+            Title.Caption = 'ICMS'
+            Width = 49
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ICMS_SUBSTD'
+            Title.Caption = 'Base ST'
+            Width = 40
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ICMS_SUBST'
+            Title.Caption = 'ST'
+            Width = 45
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_OUTROS'
+            ReadOnly = False
+            Title.Caption = 'Outras Desp.'
+            Width = 54
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_SEGURO'
+            ReadOnly = False
+            Title.Caption = 'Seguro'
+            Width = 58
             Visible = True
           end>
       end
       object DBEdit48: TDBEdit
-        Left = 6
-        Top = 355
-        Width = 88
+        Left = 4
+        Top = 354
+        Width = 51
         Height = 21
         DataField = 'ICMS'
         DataSource = DMNF.DtSrc_NF
         TabOrder = 45
       end
       object DBEdit49: TDBEdit
-        Left = 5
-        Top = 391
-        Width = 90
+        Left = 59
+        Top = 354
+        Width = 80
         Height = 21
         DataField = 'REDUZICMS'
         DataSource = DMNF.DtSrc_NF
         TabOrder = 46
       end
       object BitBtn9: TBitBtn
-        Left = 98
-        Top = 377
-        Width = 34
-        Height = 36
+        Left = 87
+        Top = 381
+        Width = 29
+        Height = 31
         TabOrder = 47
         OnClick = BitBtn9Click
         Glyph.Data = {
@@ -2022,6 +2073,35 @@ object fNotafc: TfNotafc
           'Recebe descri'#231#227'o classifica'#231#227'o fiscal')
         TabOrder = 48
         Visible = False
+      end
+      object calcman: TCheckBox
+        Left = 6
+        Top = 391
+        Width = 81
+        Height = 17
+        Caption = 'Calc. Manual'
+        TabOrder = 49
+      end
+      object JvGroupBox55: TJvGroupBox
+        Left = 120
+        Top = 378
+        Width = 90
+        Height = 41
+        Caption = 'Valor Desconto'
+        TabOrder = 50
+        object DBEdit51: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 80
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_DESCONTO'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
       end
     end
     object TabSheet1: TTabSheet
@@ -2432,8 +2512,8 @@ object fNotafc: TfNotafc
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 320
-    Top = 408
+    Left = 336
+    Top = 384
     object proc_transpCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True
