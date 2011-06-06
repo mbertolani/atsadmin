@@ -525,7 +525,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     inherited btnSair: TBitBtn
-      Left = 547
+      Left = 565
       Top = 2
       Width = 77
       Height = 55
@@ -960,7 +960,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     object RadioPedido: TJvRadioButton
-      Left = 631
+      Left = 669
       Top = 16
       Width = 65
       Height = 17
@@ -976,7 +976,7 @@ inherited fVendas: TfVendas
       LinkedControls = <>
     end
     object RadioOrcamento: TJvRadioButton
-      Left = 631
+      Left = 669
       Top = 32
       Width = 87
       Height = 17
@@ -995,9 +995,9 @@ inherited fVendas: TfVendas
     end
     object Btn: TBitBtn
       Left = 486
-      Top = 4
-      Width = 61
-      Height = 52
+      Top = 2
+      Width = 77
+      Height = 55
       Hint = 'Gerar Or'#231'amento Arquivo Word'
       Caption = 'Or'#231'.Word'
       Enabled = False
