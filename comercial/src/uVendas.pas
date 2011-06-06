@@ -1293,7 +1293,7 @@ begin
       cds_Mov_detPRECOCUSTO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
       estoque := fProcura_prod.cds_procESTOQUEATUAL.AsFloat;
     end;
-  end;
+  end;    
   // Usa Lote
   if (fProcura_prod.cds_procLOTES.AsString <> 'S') then
   begin

@@ -1197,6 +1197,13 @@ begin
     fVendas.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
     fVendas.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
     fVendas.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
+    if (dm.moduloUsado = 'CITRUS') then
+    begin
+      fVendas.qtde := cds_procPESO_QTDE.AsFloat;
+      if (fVendas.cds_Mov_detQTDE_ALT.AsFloat = 0) then
+        fVendas.cds_Mov_detQTDE_ALT.AsFloat := fVendas.cds_Mov_detQUANTIDADE.AsFloat * fVendas.qtde;
+      fVendas.cds_Mov_detICMS.AsFloat := cds_procICMS.AsFloat;
+    end;
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
     fVendas.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     fVendas.estoque := cds_procESTOQUEATUAL.AsFloat;
