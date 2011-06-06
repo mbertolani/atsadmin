@@ -4,42 +4,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, FMTBcd, DB, Provider, SqlExpr, DBClient, Buttons, Grids,
-  DBGrids, StdCtrls, Mask, DBCtrls;
+  Dialogs, uPai, FMTBcd, Grids, DBGrids, StdCtrls, Mask, DBCtrls, SqlExpr,
+  DB, DBClient, Provider, Menus, XPMenu, Buttons, ExtCtrls, MMJPanel, DBXpress;
 
 type
-  TfDeclaracaoImportacao = class(TForm)
-    DBEdit1: TDBEdit;
-    Label3: TLabel;
-    DBEdit2: TDBEdit;
-    Label4: TLabel;
-    Label5: TLabel;
-    DBEdit3: TDBEdit;
-    Label6: TLabel;
-    DBEdit4: TDBEdit;
-    Label7: TLabel;
-    DBEdit5: TDBEdit;
-    Label8: TLabel;
-    DBEdit6: TDBEdit;
-    Button1: TButton;
-    DBEdit7: TDBEdit;
-    DBGrid1: TDBGrid;
-    btnProcurar: TBitBtn;
-    btnIncluir: TBitBtn;
-    btnExcluir: TBitBtn;
-    btnSair: TBitBtn;
-    btnGravar: TBitBtn;
-    btnCancelar: TBitBtn;
-    cdsDI: TClientDataSet;
-    sdsDI: TSQLDataSet;
+  TfDeclaracaoImportacao = class(TfPai)
     dspDI: TDataSetProvider;
-    sdsDIDI_CODDI: TIntegerField;
-    sdsDIDI_NUMDI: TStringField;
-    sdsDIDI_DATA: TDateField;
-    sdsDIDI_LOCALDESEMB: TStringField;
-    sdsDIDI_UFDESEMB: TStringField;
-    sdsDIDI_DATADESEMB: TDateField;
-    sdsDIDI_CODEXPORTADOR: TStringField;
+    cdsDI: TClientDataSet;
     cdsDIDI_CODDI: TIntegerField;
     cdsDIDI_NUMDI: TStringField;
     cdsDIDI_DATA: TDateField;
@@ -47,14 +18,36 @@ type
     cdsDIDI_UFDESEMB: TStringField;
     cdsDIDI_DATADESEMB: TDateField;
     cdsDIDI_CODEXPORTADOR: TStringField;
-    dtsrc_DI: TDataSource;
-    sdsDINOMEFORNECEDOR: TStringField;
     cdsDINOMEFORNECEDOR: TStringField;
-    procedure Button1Click(Sender: TObject);
-    procedure btnIncluirClick(Sender: TObject);
+    sdsDI: TSQLDataSet;
+    sdsDIDI_CODDI: TIntegerField;
+    sdsDIDI_NUMDI: TStringField;
+    sdsDIDI_DATA: TDateField;
+    sdsDIDI_LOCALDESEMB: TStringField;
+    sdsDIDI_UFDESEMB: TStringField;
+    sdsDIDI_DATADESEMB: TDateField;
+    sdsDIDI_CODEXPORTADOR: TStringField;
+    sdsDINOMEFORNECEDOR: TStringField;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    Button1: TButton;
+    DBEdit7: TDBEdit;
+    DBGrid1: TDBGrid;
     procedure btnGravarClick(Sender: TObject);
-    procedure btnSairClick(Sender: TObject);
-    procedure btnCancelarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -70,6 +63,44 @@ uses UDm, uProcurar;
 
 {$R *.dfm}
 
+procedure TfDeclaracaoImportacao.btnGravarClick(Sender: TObject);
+var cm : string;
+var TD: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  if cdsDI.State in [dsInsert] then
+   begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_DI, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cdsDIDI_CODDI.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+    cm :=  'INSERT INTO DECLARACAOIMPORTACAO (DI_CODDI, DI_NUMDI, DI_DATA, DI_LOCALDESEMB, DI_UFDESEMB, DI_DATADESEMB, DI_CODEXPORTADOR) ' +
+    'VALUES (' + IntToStr(cdsDIDI_CODDI.AsInteger) + ', ' + QuotedStr(cdsDIDI_NUMDI.AsString) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDIDI_DATA.AsDateTime)) + ', ' +
+    QuotedStr(cdsDIDI_LOCALDESEMB.AsString) + ', ' + QuotedStr(cdsDIDI_UFDESEMB.AsString) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDIDI_DATADESEMB.AsDateTime)) + ', ' + IntToStr(cdsDIDI_CODEXPORTADOR.AsInteger) + ')';
+   end
+   else
+   begin
+     cm := 'UPDATE DECLARACAOIMPORTACAO SET DI_NUMDI = ' + QuotedStr(cdsDIDI_NUMDI.AsString) + ', DI_DATA = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDIDI_DATA.AsDateTime)) +
+     ', DI_LOCALDESEMB = ' + QuotedStr(cdsDIDI_LOCALDESEMB.AsString) + ', DI_UFDESEMB = ' + QuotedStr(cdsDIDI_UFDESEMB.AsString) +
+     ', DI_DATADESEMB = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDIDI_DATADESEMB.AsDateTime)) + ', DI_CODEXPORTADOR = ' + IntToStr(cdsDIDI_CODEXPORTADOR.AsInteger) +
+     ' WHERE DI_CODDI =  ' + IntToStr(cdsDIDI_CODDI.AsInteger);
+   end;
+  dm.sqlsisAdimin.ExecuteDirect(cm);
+  dm.sqlsisAdimin.Commit(TD);
+  inherited;
+
+end;
+
+procedure TfDeclaracaoImportacao.FormCreate(Sender: TObject);
+begin
+//  inherited;
+
+end;
+
 procedure TfDeclaracaoImportacao.Button1Click(Sender: TObject);
 begin
   fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
@@ -80,43 +111,36 @@ begin
   fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
   fProcurar.btnIncluir.Visible := True;
   try
-    varForm1 := 'compra';
-    cod_forn := 0;
    fProcurar.ShowModal;
-   if dtsrc_DI.State=dsBrowse then
+   if dtSrc.State=dsBrowse then
      cdsDI.Edit;
    cdsDIDI_CODEXPORTADOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
+   cdsDINOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
    finally
     dm.scds_forn_proc.Close;
     fProcurar.Free;
    end;
+
 end;
 
-procedure TfDeclaracaoImportacao.btnIncluirClick(Sender: TObject);
+procedure TfDeclaracaoImportacao.FormShow(Sender: TObject);
 begin
-  if (cdsDI.Active) then
-    cdsDI.Close;
+//  inherited;
+  cdsdi.Params[0].Clear;
   cdsDI.Open;
-  cdsDI.Append;
-  btnGravar.Visible := True;
-  btnIncluir.Visible := False;
 end;
 
-procedure TfDeclaracaoImportacao.btnGravarClick(Sender: TObject);
+procedure TfDeclaracaoImportacao.btnExcluirClick(Sender: TObject);
+var cm : string;
+var TD: TTransactionDesc;
 begin
-  cdsDI.ApplyUpdates(0);
-  btnGravar.Visible := False;
-  btnIncluir.Visible := True;
-end;
-
-procedure TfDeclaracaoImportacao.btnSairClick(Sender: TObject);
-begin
-  Close;
-end;
-
-procedure TfDeclaracaoImportacao.btnCancelarClick(Sender: TObject);
-begin
-  cdsDI.Cancel;
+//  inherited;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  cm := 'delete from DECLARACAOIMPORTACAO where DI_CODDI = ' + IntToStr(cdsDIDI_CODDI.AsInteger);
+  dm.sqlsisAdimin.ExecuteDirect(cm);
+  dm.sqlsisAdimin.Commit(TD);
 end;
 
 end.
