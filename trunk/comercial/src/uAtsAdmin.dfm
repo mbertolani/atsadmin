@@ -2242,9 +2242,32 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Apontamento de Horas'
         OnClick = ApontamentodeHoras1Click
       end
-      object compras: TMenuItem
-        Caption = '&Compras'
-        OnClick = acComprasExecute
+      object Compra1: TMenuItem
+        Caption = 'Compras'
+        object SolicitacaoCompras1: TMenuItem
+          Caption = 'Solicitacao Compras'
+          OnClick = SolicitacaoCompras1Click
+        end
+        object CotacaoCompras1: TMenuItem
+          Caption = 'Cotacao Compras'
+          OnClick = CotacaoCompras1Click
+        end
+        object Cotao1: TMenuItem
+          Caption = 'Negocia'#231#245'es Compras'
+          OnClick = Cotao1Click
+        end
+        object CotaoPedido1: TMenuItem
+          Caption = 'Cota'#231#227'o - Pedido'
+          OnClick = CotaoPedido1Click
+        end
+        object compras: TMenuItem
+          Caption = '&Compras'
+          OnClick = acComprasExecute
+        end
+        object mnDevCompra: TMenuItem
+          Caption = 'Devolucao Compra'
+          OnClick = mnDevCompraClick
+        end
       end
       object venda: TMenuItem
         Caption = '&Vendas'
@@ -2261,10 +2284,6 @@ object fAtsAdmin: TfAtsAdmin
       object ListadeCompras1: TMenuItem
         Caption = 'Lista de Compras'
         OnClick = ListadeCompras1Click
-      end
-      object mnDevCompra: TMenuItem
-        Caption = 'Devolucao Compra'
-        OnClick = mnDevCompraClick
       end
       object DevolucaoVendas1: TMenuItem
         Caption = 'Devolucao Venda'
@@ -2314,22 +2333,6 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Call Center'
         OnClick = CallCenter1Click
       end
-      object SolicitacaoCompras1: TMenuItem
-        Caption = 'Solicitacao Compras'
-        OnClick = SolicitacaoCompras1Click
-      end
-      object CotacaoCompras1: TMenuItem
-        Caption = 'Cotacao Compras'
-        OnClick = CotacaoCompras1Click
-      end
-      object Cotao1: TMenuItem
-        Caption = 'Negocia'#231#245'es Compras'
-        OnClick = Cotao1Click
-      end
-      object CotaoPedido1: TMenuItem
-        Caption = 'Cota'#231#227'o - Pedido'
-        OnClick = CotaoPedido1Click
-      end
     end
     object NotaFiscal1: TMenuItem
       Caption = 'Nota Fiscal      '
@@ -2352,6 +2355,10 @@ object fAtsAdmin: TfAtsAdmin
       object NFeNoPeriodo1: TMenuItem
         Caption = 'Emitidas no Periodo '
         OnClick = NFeNoPeriodo1Click
+      end
+      object DeclaraodeImportao1: TMenuItem
+        Caption = 'Dados de Importa'#231#227'o'
+        OnClick = DeclaraodeImportao1Click
       end
     end
     object N2: TMenuItem
