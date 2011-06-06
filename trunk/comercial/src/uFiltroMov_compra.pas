@@ -33,8 +33,6 @@ type
     BitBtn1: TBitBtn;
     Edit3: TEdit;
     Edit4: TEdit;
-    BitBtn3: TBitBtn;
-    BitBtn4: TBitBtn;
     BitBtn6: TBitBtn;
     edtNF: TEdit;
     Edit8: TEdit;
@@ -94,6 +92,8 @@ type
     cbStatus: TComboBox;
     sds_cnsDATA_ENTREGA: TDateField;
     cds_cnsDATA_ENTREGA: TDateField;
+    sds_cnsSITUACAO: TStringField;
+    cds_cnsSITUACAO: TStringField;
     procedure btnProcurarClick(Sender: TObject);
     procedure edControleExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -114,6 +114,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure btnAprovarClick(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -142,8 +143,11 @@ begin
      cds_cns.Close;
   cds_cns.CommandText:= 'select mov.CODMOVIMENTO, comp.NOTAFISCAL, comp.SERIE, ' +
      ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, comp.VALOR, mov.COD_VEICULO,' +
-     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA, mov.data_entrega from ' +
-     ' MOVIMENTO mov ' +
+     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA, ' +
+     ' mov.data_entrega, CASE mov.STATUS WHEN 0 THEN ' + QuotedStr('PENDENTE') +
+     ' WHEN 3 THEN ' + QuotedStr('APROVADO') + ' WHEN 4 THEN ' + QuotedStr('REC. PARCIAL') +
+     ' WHEN 5 THEN ' + QuotedStr('RECEBIDO') + ' END SITUACAO ' +
+     ' from MOVIMENTO mov ' +
      ' inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
      ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR ' +
      ' left outer join COMPRA comp on comp.CODMOVIMENTO = mov.CODMOVIMENTO ';
@@ -339,7 +343,7 @@ procedure TfFiltroMov_compra.BitBtn2Click(Sender: TObject);
 begin
   fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
   try
-   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;  
+   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
    fProcurar.BtnProcurar.Click;
    fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
    fProcurar.ShowModal;
@@ -555,6 +559,11 @@ begin
   else begin
       MessageDlg('Responsável pela aprovação diferente do usuário atual;', mtWarning, [mbOK], 0);
   end;
+end;
+
+procedure TfFiltroMov_compra.DBGrid1DblClick(Sender: TObject);
+begin
+  // Abre as cotações se existirem
 end;
 
 end.
