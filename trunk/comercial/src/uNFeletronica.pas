@@ -527,6 +527,27 @@ type
     cdsItensNFVALOR_DESCONTO: TFloatField;
     sdsItensNFDESCPRODUTO: TStringField;
     cdsItensNFDESCPRODUTO: TStringField;
+    sdsItensNFVALOR_SEGURO: TFloatField;
+    sdsItensNFVALOR_OUTROS: TFloatField;
+    cdsItensNFVALOR_SEGURO: TFloatField;
+    cdsItensNFVALOR_OUTROS: TFloatField;
+    sAdicao: TSQLDataSet;
+    sDI: TSQLDataSet;
+    sAdicaoADIC_CODDET: TIntegerField;
+    sAdicaoADIC_CODDI: TIntegerField;
+    sAdicaoADIC_NADICAO: TIntegerField;
+    sAdicaoADIC_NSEQUEN: TIntegerField;
+    sAdicaoADIC_CODFAB: TStringField;
+    sAdicaoADIC_VDESC: TIntegerField;
+    sDIDI_CODDI: TIntegerField;
+    sDIDI_NUMDI: TStringField;
+    sDIDI_DATA: TDateField;
+    sDIDI_LOCALDESEMB: TStringField;
+    sDIDI_UFDESEMB: TStringField;
+    sDIDI_DATADESEMB: TDateField;
+    sDIDI_CODEXPORTADOR: TStringField;
+    sdsItensNFCODDETALHE: TIntegerField;
+    cdsItensNFCODDETALHE: TIntegerField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -822,11 +843,11 @@ begin
             //Carrega os itens da NF
             if (tpNF.ItemIndex = 0) then
             begin
-            itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
+            itensnf := 'select md.CODPRODUTO, md.coddetalhe, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
                 'pr.UNIDADEMEDIDA, md.CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
+                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS from compra cp ' +
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -834,12 +855,12 @@ begin
             end
             else
             begin
-            itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
+            itensnf :=  'select md.CODPRODUTO, md.coddetalhe, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
                 'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
                 'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
-                'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
+                'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS ' +
                 'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -885,7 +906,7 @@ begin
             Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
             if (cdsNFVALOR_PRODUTO.IsNull) then
                 MessageDlg('Valor dos produtos nulo', mtError, [mbOK], 0);
-            Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant - cdsNFVALOR_DESCONTO.AsVariant;
+            Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
             if (cdsNFVALOR_FRETE.IsNull) then
                 MessageDlg('Valor do Frete nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
@@ -1418,11 +1439,11 @@ begin
     //Carrega os itens da NF
     if (tpNF.ItemIndex = 0) then
     begin
-    itensnf := 'select md.CODPRODUTO, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
+    itensnf := 'select md.CODPRODUTO, md.coddetalhe, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
         'pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.CSOSN, md.pIPI, md.vIPI, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-        'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL from compra cp ' +
+        'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS from compra cp ' +
         'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
         'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -1430,12 +1451,12 @@ begin
     end
     else
     begin
-    itensnf :=  'select md.CODPRODUTO, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
+    itensnf :=  'select md.CODPRODUTO, md.coddetalhe, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, md.CST, md.ICMS, md.pIPI, ' +
         'md.vIPI, md.VLR_BASEICMS, md.CSOSN, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
         'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
-        'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL ' +
+        'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS ' +
         'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
         'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -1470,7 +1491,7 @@ begin
     Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
     Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
     Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
-    Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant - cdsNFVALOR_DESCONTO.AsVariant;
+    Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
     Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
     Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
     Total.ICMSTot.vDesc   := cdsNFVALOR_DESCONTO.AsVariant;
@@ -1645,11 +1666,40 @@ begin
       Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
       infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200);
       Prod.NCM      := sProdutosNCM.AsString;
-      Prod.vProd    := cdsItensNFVALTOTAL.AsFloat  - cdsItensNFVALOR_DESCONTO.AsCurrency;
-      Prod.vFrete := cdsItensNFFRETE.AsCurrency;
-      Prod.vDesc := cdsItensNFVALOR_DESCONTO.AsCurrency;
+      Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
+      Prod.vFrete   := cdsItensNFFRETE.AsCurrency;
+      Prod.vDesc    := cdsItensNFVALOR_DESCONTO.AsCurrency;
+      Prod.vOutro   := cdsItensNFVALOR_OUTROS.AsCurrency;
+      Prod.vSeg     := cdsItensNFVALOR_SEGURO.AsCurrency;
 
-
+      if(sFornec.Active) then
+        if(sFornecUF.AsString = 'EX') then
+        begin
+          if(sAdicao.Active) then
+            sAdicao.Close;
+          sAdicao.Params[0].AsInteger := cdsItensNFCODDETALHE.AsInteger;
+          sAdicao.Open;
+          if(sDI.Active) then
+           sDI.Close;
+          sDi.Params[0].AsInteger := sAdicaoADIC_CODDI.AsInteger;
+          sDI.Open;
+          with prod.DI.Add do
+          begin
+            nDi         := sDIDI_NUMDI.AsString;
+            dDi         := sDIDI_DATA.AsDateTime;
+            xLocDesemb  := sDIDI_LOCALDESEMB.AsString;
+            UFDesemb    := sDIDI_UFDESEMB.AsString;
+            dDesemb     := sDIDI_DATADESEMB.AsDateTime;
+            cExportador := sDIDI_CODEXPORTADOR.AsString;
+            with adi.Add do
+            begin
+              nAdicao     := sAdicaoADIC_NADICAO.AsInteger;
+              nSeqAdi     := sAdicaoADIC_NSEQUEN.AsInteger;
+              cFabricante := sAdicaoADIC_CODFAB.AsString;
+              vDescDI     := sAdicaoADIC_VDESC.AsInteger;
+            end;
+          end;
+        end;
       Prod.genero   := sProdutosGENERO.AsInteger;
       //IMPOSTOS Do Produto
       with Imposto do
