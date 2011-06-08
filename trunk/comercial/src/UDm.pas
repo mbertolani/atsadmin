@@ -1901,9 +1901,8 @@ begin
   VISTO_FTP := '0';
   if (cds_parametro.IsEmpty) then
   begin
-    dm.sqlsisAdimin.ExecuteDirect('INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, ' +
-     ' CONFIGURADO) VALUES (' + QuotedStr('Modulo usado') +
-     ', ' + QuotedStr('EMPRESA') + ', ' + QuotedStr('S'));
+    dm.sqlsisAdimin.ExecuteDirect('INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO)' +
+    ' VALUES (' + QuotedStr('Modulo usado') + ', ' + QuotedStr('EMPRESA') + ', ' + QuotedStr('S') +')');
   end;
   VISTO_FTP := cds_parametroD9.asString;
   moduloUsado := dm.cds_parametroD1.AsString;
