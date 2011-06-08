@@ -48,12 +48,13 @@ object fGeraEtiquetas: TfGeraEtiquetas
   object Label2: TLabel
     Left = 624
     Top = 337
-    Width = 332
-    Height = 39
+    Width = 325
+    Height = 65
     Caption = 
-      'A5Q - 2737  : Etiquetas de 27 mm  X 37 mm  -  5 colunas  x 5 Lin' +
-      'has'#13#10#13#10'6080            : Etiquetas de 25,4 mm  X  66,7 mm - 3 Co' +
-      'lunas 10 Linhas'
+      'A 4251 A 4351 :Etiq.  21,2mm X 38,2 mm    -  5 Colunas  X 13 Lin' +
+      'has'#13#10#13#10'A5Q - 2737      : Etiq.   27 mm  X  37 mm      -  5 Colun' +
+      'as  X   5 Linhas'#13#10#13#10'6080                : Etiq. 25,4 mm  X  66,7' +
+      ' mm -  3 Colunas   X 10 Linhas'
   end
   object Label3: TLabel
     Left = 224
@@ -534,6 +535,7 @@ object fGeraEtiquetas: TfGeraEtiquetas
     ItemHeight = 13
     TabOrder = 10
     Items.Strings = (
+      'A 4251 A 4351'
       'A5Q-2337'
       '6080'
       '')
