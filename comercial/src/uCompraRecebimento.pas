@@ -51,6 +51,8 @@ type
     BitBtn2: TBitBtn;
     sqlPedidoCONTROLE: TStringField;
     cdsPedidoCONTROLE: TStringField;
+    sqlPedidoCODPEDIDO: TIntegerField;
+    cdsPedidoCODPEDIDO: TIntegerField;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -165,7 +167,7 @@ begin
 
   if (edPedido.Text <> '') then
   begin
-    stra := stra + ' and m.CODMOVIMENTO = ' + edPedido.Text;
+    stra := stra + ' and m.CODPEDIDO = ' + edPedido.Text;
   end;
 
   // Período

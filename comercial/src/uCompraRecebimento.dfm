@@ -439,9 +439,8 @@ inherited fCompraRecebimento: TfCompraRecebimento
         item
           Color = clMenuBar
           Expanded = False
-          FieldName = 'CODMOVIMENTO'
-          ReadOnly = True
-          Title.Caption = 'C'#243'd.'
+          FieldName = 'CODPEDIDO'
+          Title.Caption = 'Pedido'
           Width = 65
           Visible = True
         end
@@ -576,17 +575,21 @@ inherited fCompraRecebimento: TfCompraRecebimento
       ReadOnly = True
       Size = 30
     end
+    object cdsPedidoCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
+      ReadOnly = True
+    end
   end
   object sqlPedido: TSQLDataSet
     CommandText = 
       'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO,' +
       ' p.PRODUTO'#13#10', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO' +
-      ', md.VALTOTAL , md.RECEBIDO, m.CONTROLE'#13#10' from MOVIMENTODETALHE ' +
-      'md'#13#10'inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO' +
-      #13#10'inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO'#13#10'w' +
-      'here md.STATUS is null '#13#10'    and m.CODNATUREZA   = 5'#13#10'    and m.' +
-      'STATUS                = 0'#13#10'    and m.CODFORNECEDOR = :pFornec'#13#10' ' +
-      '   and ((md.QUANTIDADE - md.RECEBIDO) > 0)'
+      ', md.VALTOTAL , md.RECEBIDO, m.CONTROLE, m.CODPEDIDO'#13#10' from MOVI' +
+      'MENTODETALHE md'#13#10'inner join MOVIMENTO m on  m.CODMOVIMENTO  = md' +
+      '.CODMOVIMENTO'#13#10'inner join PRODUTOS   p on  md.CODPRODUTO    = p.' +
+      'CODPRODUTO'#13#10'where md.STATUS is null '#13#10'    and m.CODNATUREZA   = ' +
+      '5'#13#10'    and m.STATUS                = 0'#13#10'    and m.CODFORNECEDOR ' +
+      '= :pFornec'#13#10'    and ((md.QUANTIDADE - md.RECEBIDO) > 0)'
     MaxBlobSize = -1
     Params = <
       item
@@ -639,6 +642,10 @@ inherited fCompraRecebimento: TfCompraRecebimento
       FieldName = 'CONTROLE'
       ReadOnly = True
       Size = 30
+    end
+    object sqlPedidoCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
+      ReadOnly = True
     end
   end
 end
