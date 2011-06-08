@@ -1902,7 +1902,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Top = 32
       Width = 56
       Height = 24
-      DataField = 'CODMOVIMENTO'
+      DataField = 'CODPEDIDO'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -3517,12 +3517,13 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object sds_venda: TSQLDataSet
     CommandText = 
-      'select ven.*, cli.NOMECLIENTE, cli.COD_TRANPORTADORA, usu.NOMEUS' +
-      'UARIO, banc.BANCO '#13#10' from VENDA ven '#13#10' inner join CLIENTES cli o' +
-      'n cli.CODCLIENTE=ven.CODCLIENTE '#13#10' inner join USUARIO usu on usu' +
-      '.CODUSUARIO=ven.CODVENDEDOR '#13#10' left outer join BANCO banc on ban' +
-      'c.CODBANCO=ven.BANCO '#13#10' where CODVENDA = :CODVENDA or CODMOVIMEN' +
-      'TO = :PCODMOV'
+      'select ven.*, m.CODPEDIDO, cli.NOMECLIENTE, cli.COD_TRANPORTADOR' +
+      'A, usu.NOMEUSUARIO, banc.BANCO '#13#10' from VENDA ven '#13#10' inner join C' +
+      'LIENTES cli on cli.CODCLIENTE=ven.CODCLIENTE '#13#10' inner join USUAR' +
+      'IO usu on usu.CODUSUARIO=ven.CODVENDEDOR '#13#10' left outer join BANC' +
+      'O banc on banc.CODBANCO=ven.BANCO '#13#10' inner join MOVIMENTO m on m' +
+      '.codmovimento = ven.CODMOVIMENTO'#13#10' where ven.CODVENDA = :CODVEND' +
+      'A or ven.CODMOVIMENTO = :PCODMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -3713,6 +3714,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       FieldName = 'PRAZO'
       ProviderFlags = [pfInUpdate]
       Size = 40
+    end
+    object sds_vendaCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
     end
   end
   object dsp_venda: TDataSetProvider
@@ -3935,6 +3939,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
     object cdsPRAZO: TStringField
       FieldName = 'PRAZO'
       Size = 40
+    end
+    object cdsCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
     end
   end
   object scds_serie_proc: TSQLClientDataSet

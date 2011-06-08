@@ -2151,7 +2151,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2205,7 +2205,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2240,7 +2240,7 @@ inherited fVendas: TfVendas
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'CODMOVIMENTO'
+    DataField = 'CODPEDIDO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -3611,6 +3611,9 @@ inherited fVendas: TfVendas
       FixedChar = True
       Size = 1
     end
+    object sds_MovimentoCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
+    end
   end
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
@@ -3765,6 +3768,9 @@ inherited fVendas: TfVendas
       FieldName = 'TPFRETE'
       FixedChar = True
       Size = 1
+    end
+    object cds_MovimentoCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
     end
   end
   object sdslote: TSQLDataSet

@@ -981,9 +981,6 @@ begin
       executaScript('altera_status_cotacao.sql');
       executaScript('cotacao_negociacao.sql');
       executaScript('gera_nf_venda.sql');
-      executaDDL('MOVIMENTO', 'CODTRANSP', 'INTEGER');
-      executaDDL('MOVIMENTO', 'TPFRETE', 'char(1)');
-
       {SQLQuery1.SQL.Clear;
       SQLQuery1.SQL.Add('select * from RDB$RELATION_CONSTRAINTS ' +
         ' where rdb$relation_name = ' + QuotedStr('COMPRA_COTACAO') +
@@ -1008,8 +1005,22 @@ begin
         executaSql('alter table COMPRA_COTACAO add constraint PK_COMPRA_COTACAO_1 ' +
           'primary key (COTACAO_CODIGO, COTACAO_FORNEC, COTACAO_ITEM)');
       end;}
-
       mudaVersao('1.0.0.90');
+    end;
+
+    if (versaoSistema = '1.0.0.90') then
+    begin
+      executaDDL('MOVIMENTO', 'CODTRANSP', 'INTEGER');
+      executaDDL('MOVIMENTO', 'TPFRETE', 'char(1)');
+      executaDDL('movimento', 'codpedido', 'integer');
+      executaDDL('produtos', 'qtd', 'integer');
+      executaDDL('OS', 'status', 'char(1)');
+      executaDDL('OS', 'data_ini', 'date');
+      executaDDL('OS', 'data_fim', 'date');
+      executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
+        'id_OS integer not null, descricao_serv varchar(300), ' +
+        'responsavel varchar(150), status char(1) ) ' );
+      mudaVersao('1.0.0.91');
     end;
 
     try

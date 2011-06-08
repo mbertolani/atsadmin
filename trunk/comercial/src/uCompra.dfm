@@ -1930,7 +1930,7 @@ inherited fCompra: TfCompra
       Top = 19
       Width = 141
       Height = 24
-      DataField = 'CODMOVIMENTO'
+      DataField = 'CODPEDIDO'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -1939,7 +1939,6 @@ inherited fCompra: TfCompra
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      ReadOnly = True
       TabOrder = 0
       OnKeyPress = FormKeyPress
     end
@@ -2176,6 +2175,9 @@ inherited fCompra: TfCompra
       FixedChar = True
       Size = 1
     end
+    object sds_MovimentoCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
+    end
   end
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
@@ -2332,6 +2334,9 @@ inherited fCompra: TfCompra
       FieldName = 'TPFRETE'
       FixedChar = True
       Size = 1
+    end
+    object cds_MovimentoCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
     end
   end
   object DtSrc1: TDataSource
