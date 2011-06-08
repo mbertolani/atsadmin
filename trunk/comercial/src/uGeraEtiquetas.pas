@@ -190,6 +190,28 @@ type
     EvDBFind2: TEvDBFind;
     Label5: TLabel;
     BitBtn3: TBitBtn;
+    sds_procQTD: TIntegerField;
+    cds_procQTD: TIntegerField;
+    SQLProIMPRESSORA_1: TStringField;
+    SQLProIMPRESSORA_2: TStringField;
+    SQLProIMPRESSORA_3: TStringField;
+    SQLProQTD: TIntegerField;
+    CDSProIMPRESSORA_1: TStringField;
+    CDSProIMPRESSORA_2: TStringField;
+    CDSProIMPRESSORA_3: TStringField;
+    CDSProQTD: TIntegerField;
+    SQLqQTD: TIntegerField;
+    SQLqCODPROD: TStringField;
+    SQLqLOCALIZACAO: TStringField;
+    CDSqQTD: TIntegerField;
+    CDSqCODPROD: TStringField;
+    CDSqLOCALIZACAO: TStringField;
+    SQLD1QTD: TIntegerField;
+    SQLD1CODPROD: TStringField;
+    SQLD1LOCALIZACAO: TStringField;
+    CDS1QTD: TIntegerField;
+    CDS1CODPROD: TStringField;
+    CDS1LOCALIZACAO: TStringField;
     procedure BitBtn2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cbMarcaChange(Sender: TObject);
@@ -357,7 +379,7 @@ begin
    ' MARCA, ' +
    'ESTOQUEATUAL, CODALMOXARIFADO, ICMS, TIPO, LOCALIZACAO, LOTES,    ' +
    ' CATEGORIA, PESO_QTDE, ' +
-   ' IPI , ORIGEM ' +
+   ' IPI , ORIGEM ,QTD ' +
    'from PRODUTOS ';
 
   if (cbMarca.Text <> '') then
@@ -432,12 +454,11 @@ begin
   while not CDS1.Eof do
   begin
        { Escreve na  célula }
-       MSWord.Selection.TypeText(Text :=#13+trim(CDS1CODPRODUTO.AsString)+#13+trim (CDS1PRODUTO.AsString));
+       MSWord.Selection.TypeText(Text :=#13+trim(CDS1CODPROD.AsString)+#13+trim (CDS1PRODUTO.AsString)+#13+trim (CDS1LOCALIZACAO.AsString));
        if finallinha=false then
          begin
            { Pula 1 celula}
            MSWord.Selection.MoveRight(12);
-        //   MSWord.Selection.MoveRight(12);
            finallinha:=true;
          end
        else
@@ -480,8 +501,8 @@ begin
   TD.IsolationLevel := xilREADCOMMITTED;
     try
       dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect('Update PRODUTOS set ORIGEM = NULL '+
-      'where ORIGEM <> 0 ');
+      dm.sqlsisAdimin.ExecuteDirect('Update PRODUTOS set QTD = NULL '+
+      'where QTD <> 0 ');
       dm.sqlsisAdimin.Commit(TD);
     except
       dm.sqlsisAdimin.Rollback(TD);
