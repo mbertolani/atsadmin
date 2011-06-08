@@ -666,7 +666,7 @@ inherited fCompraCotacao2: TfCompraCotacao2
       item
         DataType = ftInteger
         Name = 'COD'
-        ParamType = ptUnknown
+        ParamType = ptInput
       end>
     SQL.Strings = (
       'SELECT COMPRA_COTACAO.*, RAZAOSOCIAL '
@@ -704,7 +704,7 @@ inherited fCompraCotacao2: TfCompraCotacao2
       item
         DataType = ftInteger
         Name = 'COD'
-        ParamType = ptUnknown
+        ParamType = ptInput
       end>
     ProviderName = 'dspCotacao'
     AfterScroll = cdsCotacaoAfterScroll
