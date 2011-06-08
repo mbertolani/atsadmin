@@ -1,8 +1,8 @@
 object fGeraEtiquetas: TfGeraEtiquetas
-  Left = 254
-  Top = 150
-  Width = 976
-  Height = 555
+  Left = 251
+  Top = 122
+  Width = 980
+  Height = 560
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'fGeraEtiquetas'
   Color = clBtnFace
@@ -384,7 +384,7 @@ object fGeraEtiquetas: TfGeraEtiquetas
     Columns = <
       item
         Expanded = False
-        FieldName = 'CODPRODUTO'
+        FieldName = 'CODPROD'
         Title.Caption = 'Codigo'
         Visible = True
       end
@@ -397,7 +397,7 @@ object fGeraEtiquetas: TfGeraEtiquetas
       end
       item
         Expanded = False
-        FieldName = 'ORIGEM'
+        FieldName = 'QTD'
         Title.Caption = 'QTDE'
         Visible = True
       end>
@@ -481,8 +481,8 @@ object fGeraEtiquetas: TfGeraEtiquetas
     Layout = blGlyphTop
   end
   object BitBtn2: TBitBtn
-    Left = 560
-    Top = 494
+    Left = 552
+    Top = 462
     Width = 75
     Height = 25
     Caption = 'BitBtn2'
@@ -521,7 +521,7 @@ object fGeraEtiquetas: TfGeraEtiquetas
       end
       item
         Expanded = False
-        FieldName = 'ORIGEM'
+        FieldName = 'QTD'
         Title.Caption = 'QTDE'
         Visible = True
       end>
@@ -560,10 +560,11 @@ object fGeraEtiquetas: TfGeraEtiquetas
     Height = 25
     Caption = 'BitBtn3'
     TabOrder = 12
+    Visible = False
     OnClick = BitBtn3Click
   end
   object SQLPro: TSQLDataSet
-    CommandText = 'select  * from PRODUTOS where familia = '#39'BICICLETA'#39
+    CommandText = 'select  * from PRODUTOS '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -745,6 +746,21 @@ object fGeraEtiquetas: TfGeraEtiquetas
     object SQLProNCM: TStringField
       FieldName = 'NCM'
       Size = 8
+    end
+    object SQLProIMPRESSORA_1: TStringField
+      FieldName = 'IMPRESSORA_1'
+      Size = 10
+    end
+    object SQLProIMPRESSORA_2: TStringField
+      FieldName = 'IMPRESSORA_2'
+      Size = 10
+    end
+    object SQLProIMPRESSORA_3: TStringField
+      FieldName = 'IMPRESSORA_3'
+      Size = 10
+    end
+    object SQLProQTD: TIntegerField
+      FieldName = 'QTD'
     end
   end
   object CDSPro: TClientDataSet
@@ -978,6 +994,21 @@ object fGeraEtiquetas: TfGeraEtiquetas
       FieldName = 'NCM'
       Size = 8
     end
+    object CDSProIMPRESSORA_1: TStringField
+      FieldName = 'IMPRESSORA_1'
+      Size = 10
+    end
+    object CDSProIMPRESSORA_2: TStringField
+      FieldName = 'IMPRESSORA_2'
+      Size = 10
+    end
+    object CDSProIMPRESSORA_3: TStringField
+      FieldName = 'IMPRESSORA_3'
+      Size = 10
+    end
+    object CDSProQTD: TIntegerField
+      FieldName = 'QTD'
+    end
   end
   object DSPPro: TDataSetProvider
     DataSet = SQLPro
@@ -1006,6 +1037,17 @@ object fGeraEtiquetas: TfGeraEtiquetas
       FieldName = 'PRODUTO'
       Size = 300
     end
+    object SQLD1QTD: TIntegerField
+      FieldName = 'QTD'
+    end
+    object SQLD1CODPROD: TStringField
+      FieldName = 'CODPROD'
+      Size = 15
+    end
+    object SQLD1LOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
+    end
   end
   object CDS1: TClientDataSet
     Aggregates = <>
@@ -1022,6 +1064,17 @@ object fGeraEtiquetas: TfGeraEtiquetas
     object CDS1PRODUTO: TStringField
       FieldName = 'PRODUTO'
       Size = 300
+    end
+    object CDS1QTD: TIntegerField
+      FieldName = 'QTD'
+    end
+    object CDS1CODPROD: TStringField
+      FieldName = 'CODPROD'
+      Size = 15
+    end
+    object CDS1LOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
     end
   end
   object DSP1: TDataSetProvider
@@ -1108,6 +1161,9 @@ object fGeraEtiquetas: TfGeraEtiquetas
     object cds_procORIGEM: TIntegerField
       FieldName = 'ORIGEM'
     end
+    object cds_procQTD: TIntegerField
+      FieldName = 'QTD'
+    end
   end
   object dsp_proc: TDataSetProvider
     DataSet = sds_proc
@@ -1120,8 +1176,8 @@ object fGeraEtiquetas: TfGeraEtiquetas
     CommandText = 
       'select  CODPRODUTO, COD_BARRA, CODPRO,  PRODUTO,FAMILIA ,QTDE_PC' +
       'T, UNIDADEMEDIDA, MARCA, ESTOQUEATUAL, CODALMOXARIFADO, ICMS, TI' +
-      'PO, LOCALIZACAO, LOTES, CATEGORIA, PESO_QTDE, IPI ,origem'#13#10#13#10#13#10'f' +
-      'rom PRODUTOS'
+      'PO, LOCALIZACAO, LOTES, CATEGORIA, PESO_QTDE, IPI ,origem , qtd'#13 +
+      #10#13#10#13#10'from PRODUTOS'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1194,6 +1250,9 @@ object fGeraEtiquetas: TfGeraEtiquetas
     object sds_procORIGEM: TIntegerField
       FieldName = 'ORIGEM'
     end
+    object sds_procQTD: TIntegerField
+      FieldName = 'QTD'
+    end
   end
   object Dtsrc: TDataSource
     DataSet = cds_proc
@@ -1217,6 +1276,17 @@ object fGeraEtiquetas: TfGeraEtiquetas
       FieldName = 'PRODUTO'
       Size = 300
     end
+    object SQLqQTD: TIntegerField
+      FieldName = 'QTD'
+    end
+    object SQLqCODPROD: TStringField
+      FieldName = 'CODPROD'
+      Size = 15
+    end
+    object SQLqLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
+    end
   end
   object CDSq: TClientDataSet
     Aggregates = <>
@@ -1233,6 +1303,17 @@ object fGeraEtiquetas: TfGeraEtiquetas
     object StringField2: TStringField
       FieldName = 'PRODUTO'
       Size = 300
+    end
+    object CDSqQTD: TIntegerField
+      FieldName = 'QTD'
+    end
+    object CDSqCODPROD: TStringField
+      FieldName = 'CODPROD'
+      Size = 15
+    end
+    object CDSqLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
     end
   end
   object DSPq: TDataSetProvider
