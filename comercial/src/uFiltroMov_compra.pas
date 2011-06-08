@@ -94,6 +94,8 @@ type
     cds_cnsDATA_ENTREGA: TDateField;
     sds_cnsSITUACAO: TStringField;
     cds_cnsSITUACAO: TStringField;
+    sds_cnsCODPEDIDO: TIntegerField;
+    cds_cnsCODPEDIDO: TIntegerField;
     procedure btnProcurarClick(Sender: TObject);
     procedure edControleExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -141,7 +143,7 @@ begin
   SqlTexto := '';
   if cds_cns.Active then
      cds_cns.Close;
-  cds_cns.CommandText:= 'select mov.CODMOVIMENTO, comp.NOTAFISCAL, comp.SERIE, ' +
+  cds_cns.CommandText:= 'select mov.CODMOVIMENTO, mov.codpedido, comp.NOTAFISCAL, comp.SERIE, ' +
      ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, comp.VALOR, mov.COD_VEICULO,' +
      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA, ' +
      ' mov.data_entrega, CASE mov.STATUS WHEN 0 THEN ' + QuotedStr('PENDENTE') +

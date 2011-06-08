@@ -461,8 +461,8 @@ object fFiltroMov_compra: TfFiltroMov_compra
     object Label10: TJvLabel
       Left = 144
       Top = 2
-      Width = 429
-      Height = 37
+      Width = 499
+      Height = 40
       Caption = 'Pesquisa Compras/ Or'#231'amentos'
       ShadowColor = clNavy
       ShadowSize = 4
@@ -1169,7 +1169,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
       end
       item
         Expanded = False
-        FieldName = 'CODMOVIMENTO'
+        FieldName = 'CODPEDIDO'
         Title.Caption = 'N'#250'mero Pedido.'
         Width = 33
         Visible = True
@@ -1306,15 +1306,15 @@ object fFiltroMov_compra: TfFiltroMov_compra
   end
   object sds_cns: TSQLDataSet
     CommandText = 
-      'select  mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CODMOVIMENTO' +
-      ', mov.CODNATUREZA, mov.DATAMOVIMENTO, '#13#10'mov.STATUS, nat.DESCNATU' +
-      'REZA , comp.NOTAFISCAL, comp.SERIE, comp.VALOR, mov.CONTROLE, mo' +
-      'v.COD_VEICULO, mov.USER_APROVA, mov.data_entrega,  '#39'SITUACAO STA' +
-      'TUS'#39' SITUACAO '#13#10' from MOVIMENTO mov '#13#10#13#10' inner join NATUREZAOPER' +
-      'ACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA '#13#10#13#10'left outer j' +
-      'oin FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR '#13#10 +
-      ' left outer join COMPRA comp on comp.CODMOVIMENTO = mov.CODMOVIM' +
-      'ENTO '
+      'select  mov.CODFORNECEDOR, mov.codpedido,  forn.NOMEFORNECEDOR, ' +
+      'mov.CODMOVIMENTO, mov.CODNATUREZA, mov.DATAMOVIMENTO, '#13#10'mov.STAT' +
+      'US, nat.DESCNATUREZA , comp.NOTAFISCAL, comp.SERIE, comp.VALOR, ' +
+      'mov.CONTROLE, mov.COD_VEICULO, mov.USER_APROVA, mov.data_entrega' +
+      ',  '#39'SITUACAO STATUS'#39' SITUACAO '#13#10' from MOVIMENTO mov '#13#10#13#10' inner j' +
+      'oin NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA ' +
+      #13#10#13#10'left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.' +
+      'CODFORNECEDOR '#13#10' left outer join COMPRA comp on comp.CODMOVIMENT' +
+      'O = mov.CODMOVIMENTO '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1376,6 +1376,9 @@ object fFiltroMov_compra: TfFiltroMov_compra
       Required = True
       FixedChar = True
       Size = 15
+    end
+    object sds_cnsCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
     end
   end
   object dsp_cns: TDataSetProvider
@@ -1448,6 +1451,9 @@ object fFiltroMov_compra: TfFiltroMov_compra
       Required = True
       FixedChar = True
       Size = 15
+    end
+    object cds_cnsCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
     end
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage

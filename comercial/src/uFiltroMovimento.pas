@@ -123,6 +123,8 @@ type
     scds_NaturezaProcuraBAIXAMOVIMENTO: TSmallintField;
     sds_cnsNFE: TStringField;
     cds_cnsNFE: TStringField;
+    sds_cnsCODPEDIDO: TIntegerField;
+    cds_cnsCODPEDIDO: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1TitleClick(Column: TColumn);
@@ -391,7 +393,7 @@ begin
      cds_cns.Close;
   if (rbData.Checked) then
   begin
-    cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, ' +
+    cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM((movd.QUANTIDADE * movd.PRECO) - (movd.VALTOTAL * (movd.QTDE_ALT/100))) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
@@ -403,7 +405,7 @@ begin
       ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO';
   end
   else begin
-    cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, ' +
+    cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM((movd.QUANTIDADE * movd.PRECO) - (movd.VALTOTAL * (movd.QTDE_ALT/100))) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
@@ -590,7 +592,7 @@ begin
   end;
   sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +      'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       'mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
-      'ven.VALOR, ven.APAGAR, ven.DATAVENDA, mov.NFE ';
+      'ven.VALOR, ven.APAGAR, ven.DATAVENDA, mov.NFE, mov.CODPEDIDO';
 
   ordenar := '';
 

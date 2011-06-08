@@ -483,6 +483,8 @@ type
     scdsCr_procDATARECEBIMENTO: TDateField;
     DBEdit4: TDBEdit;
     Label39: TLabel;
+    sds_vendaCODPEDIDO: TIntegerField;
+    cdsCODPEDIDO: TIntegerField;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);

@@ -388,6 +388,8 @@ type
     cds_MovimentoTPFRETE: TStringField;
     Edit1: TEdit;
     Label20: TLabel;
+    sds_MovimentoCODPEDIDO: TIntegerField;
+    cds_MovimentoCODPEDIDO: TIntegerField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);

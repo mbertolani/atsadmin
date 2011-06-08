@@ -527,6 +527,8 @@ type
     cds_MovimentoTPFRETE: TStringField;
     Edit1: TEdit;
     Label27: TLabel;
+    sds_MovimentoCODPEDIDO: TIntegerField;
+    cds_MovimentoCODPEDIDO: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
