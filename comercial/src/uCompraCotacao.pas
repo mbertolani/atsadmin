@@ -415,7 +415,7 @@ begin
     v_codigos.Delete(y); //Senão remove ele da lista
 
   jvDBGrd1.Repaint;
-
+  
 end;
 
 procedure TfCompraCotacao.btnIncluirClick(Sender: TObject);
@@ -606,7 +606,7 @@ begin
     ' cs.SOLIC_DATA, cs.SOLIC_PRODUTO, cs.SOLIC_QUANTIDADE, ' +
     ' cs.SOLIC_SOLICITANTE, cs.SOLIC_SITUACAO, cs.SOLIC_APROVACAO, ' +
     ' cs.SOLIC_DATAAPROV, cs.SOLIC_DESCRICAO, cs.SOLIC_TIPO, ' +
-    ' cs.SOLIC_DTNECESSIT, cs.SOLIC_OBSERVACAO, 0 as SELEC ' +
+    ' cs.SOLIC_DTNECESSIT, cs.SOLIC_OBSERVACAO, 0 as SELEC, p.UNIDADEMEDIDA ' +
     '  FROM COMPRA_SOLIC cs ' +
     ' inner join PRODUTOS p on p.codpro = cs.SOLIC_PRODUTO ' +
     ' WHERE ((SOLIC_SITUACAO <> ' + QuotedStr('E') + ') ' +
