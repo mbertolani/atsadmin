@@ -138,9 +138,12 @@ begin
    ' a.COTACAO_IPI, a.COTACAO_DESCONTO, a.COTACAO_FRETE' +
    '  FROM COMPRA_COTACAO a ';
   strP := strP + 'where a.COTACAO_FORNEC = ' + IntToStr(ClientDataSet1COTACAO_FORNEC.AsInteger);
-  strP := strP + '  and a.COTACAO_DATA BETWEEN ' +
-    QuotedStr(FormatDateTime('mm/dd/yyyy', dta1.Date)) + ' AND '  +
-    QuotedStr(FormatDateTime('mm/dd/yyyy', dta2.Date));
+  if ((dta1.Checked) and (dta2.Checked)) then
+  begin
+    strP := strP + '  and a.COTACAO_DATA BETWEEN ' +
+      QuotedStr(FormatDateTime('mm/dd/yyyy', dta1.Date)) + ' AND '  +
+      QuotedStr(FormatDateTime('mm/dd/yyyy', dta2.Date));
+  end;    
   if (edProduto.Text <> '') then
   begin
     strP := strP + 'and a.COTACAO_ITEM = ' + QuotedStr(edProduto.Text);
