@@ -2,25 +2,35 @@ set term ^;
 
 CREATE OR ALTER PROCEDURE  ETIQUETA
 RETURNS ( CODPRODUTO                       INTEGER
+        , QTD                              INTEGER
+        , PRODUTO                          VARCHAR( 300 )
+        , codprod                          VARCHAR( 15 )  
+        , LOCALIZACAO                      VARCHAR( 50 )
         , ORIGEM                           INTEGER
-        , PRODUTO                          VARCHAR( 300 ) )
+  )
 AS
 declare variable i integer;
 BEGIN
    for
     select 
         produtos.codproduto,
-        produtos.origem,
-        produtos.produto
+        produtos.qtd,
+        produtos.produto,
+        produtos.codpro,
+        produtos.localizacao,
+        produtos.origem 
     from produtos
-    WHERE  produtos.origem is not null
+    WHERE  produtos.qtd is not null
     INTO :CODPRODUTO,
-         :ORIGEM,
-         :PRODUTO
+         :QTD,
+         :PRODUTO,
+         :CODPROD,
+         :LOCALIZACAO,
+         :ORIGEM
   DO
   BEGIN
     i = 1;
-    while (i <= origem) do
+    while (i <= qtd) do
     begin
       SUSPEND;
     i = i+1;
