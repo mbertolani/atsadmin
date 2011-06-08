@@ -8,7 +8,7 @@ uses
   Buttons, StdCtrls, FMTBcd, DBClient, Provider, SqlExpr, EOneInst, ImgList,
   rpcompobase, rpvclreport, DBxpress, UCBase, ActnList, RXCtrls, RxGIF,
   jpeg, EAppProt, TFlatSpeedButtonUnit, StdActns, UCHist_Base,
-  UCHistDataset, JvGIF, WinInet;
+  UCHistDataset, JvGIF, WinInet,URLMon, ShellApi, JvExControls, JvLinkLabel;
 
 type
   TfAtsAdmin = class(TForm)
@@ -229,7 +229,8 @@ type
     Compra1: TMenuItem;
     Similares1: TMenuItem;
     Button1: TButton;
-    lblBoleto: TLabel;
+    btnBoleto: TButton;
+    SaveDialog1: TSaveDialog;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -341,13 +342,14 @@ type
 
     procedure Similares1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure lblBoletoClick(Sender: TObject);
+    procedure btnBoletoClick(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
     bytes_transf: longword;
     tamanho_arquivo : longword;
-    function GetInetFile (const fileURL, FileName: String): boolean;    
+    function DownloadFile(SourceFile, DestFile: string): Boolean;
+    function RemoveChar(Const Texto:String):String;
     { Private declarations }
   public
     { Public declarations }
@@ -696,7 +698,26 @@ end;
 
 procedure TfAtsAdmin.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
+ caminho, arquivo, empresa: String;
 begin
+  empresa := RemoveChar(dm.empresa);
+  // URL Location
+  caminho := 'http://www.atsti.com.br/boleto/' + empresa + '.pdf';
+  // Where to save the file
+  arquivo := 'ATS_Boleto.pdf';
+
+  if DownloadFile(caminho, arquivo) then
+  begin
+    //ShowMessage('Download succesful!');
+    // Show downloaded image in your browser
+    //ShellExecute(Application.Handle, PChar('open'), PChar(DestFile),
+    //  PChar(''), nil, SW_NORMAL)
+    btnBoleto.Top := screen.DesktopHeight - 200;
+    btnBoleto.Left := Screen.DesktopWidth - 350;
+    btnBoleto.Visible := True;
+    btnBoleto.Caption := 'Boleto Mensal.';
+  end;
+
   Dm.varLogado := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   //Se tiver Agendamento para o dia abro a agenda
   if (dm.cds_ag.Active) then
@@ -1816,65 +1837,68 @@ end;
 procedure TfAtsAdmin.Button1Click(Sender: TObject);
 var str: string;
 begin
-
   Dm.varLogado        := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
-
   str := 'INSERT INTO LOG_ACESSO (LOGIN, MICRO, ' +
     'ID_LOG)  VALUES (' +
     QuotedStr(dm.varLogado) + ', ' + QuotedStr(dm.NomeComputador) + ', ' +
     'GEN_ID(GEN_ID_LOG,1))';
-
   dm.sqlsisAdimin.ExecuteDirect(str);
-
 end;
 
-procedure TfAtsAdmin.lblBoletoClick(Sender: TObject);
-var
-   internetFile,
-   localFileName: string;
+function TfAtsAdmin.DownloadFile(SourceFile, DestFile: string): Boolean;
 begin
-  // Baixa o boleto.
-  internetFile := 'http://www.atsti.com.br/boleto/teste.pdf';
-  localFileName := 'About Delphi Programming RSS Feed.xml';
-
-  if GetInetFile(internetFile, localFileName) then
-    ShowMessage('Download successful.')
-  else
-    ShowMessage('Error in file download.') ;
-end;
-
-function TfAtsAdmin.GetInetFile(const fileURL, FileName: String): boolean;
- const
-   BufferSize = 1024;
- var
-   hSession, hURL: HInternet;
-   Buffer: array[1..BufferSize] of Byte;
-   BufferLen: DWORD;
-   f: File;
-   sAppName: string;
-begin
-  result := false;
-  sAppName := ExtractFileName(Application.ExeName) ;
-  hSession := InternetOpen(PChar(sAppName), INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0) ;
   try
-    hURL := InternetOpenURL(hSession, PChar(fileURL), nil, 0, 0, 0) ;
-    try
-      AssignFile(f, FileName) ;
-      Rewrite(f,1) ;
-    repeat
-      InternetReadFile(hURL, @Buffer, SizeOf(Buffer), BufferLen) ;
-      BlockWrite(f, Buffer, BufferLen)
-    until BufferLen = 0;
-      CloseFile(f) ;
-      result := True;
-    finally
-      InternetCloseHandle(hURL)
-    end;
-  finally
-    InternetCloseHandle(hSession)
+    Result := UrlDownloadToFile(nil, PChar(SourceFile), PChar(DestFile), 0, nil) = 0;
+  except
+    Result := False;
   end;
-
 end;
 
+function TfAtsAdmin.RemoveChar(const Texto: String): String;
+var
+I: integer;
+S: string;
+begin
+  S := '';
+  for I := 1 To Length(Texto) Do
+  begin
+    if (Texto[I] in ['0'..'9']) then
+    begin
+      S := S + Copy(Texto, I, 1);
+    end;
+  end;
+  result := S;
+end;
+
+procedure TfAtsAdmin.btnBoletoClick(Sender: TObject);
+var caminho, arquivo, empresa: String;
+Save_Cursor:TCursor;
+begin
+  empresa := RemoveChar(dm.empresa);
+  // URL Location
+  caminho := 'http://www.atsti.com.br/boleto/' + empresa + '.pdf';
+  // Where to save the file
+  arquivo := 'ATS_Boleto.pdf';
+  if (SaveDialog1.Execute) then
+  begin
+    SaveDialog1.InitialDir := GetCurrentDir;
+    arquivo := SaveDialog1.FileName;
+  end;
+  try
+    Save_Cursor := Screen.Cursor;
+    Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+    if DownloadFile(caminho, arquivo) then
+    begin
+      ShowMessage('Baixado com sucesso!');
+      // Show downloaded image in your browser
+      ShellExecute(Application.Handle, PChar('open'), PChar(arquivo),
+       PChar(''), nil, SW_NORMAL)
+    end
+    else
+      ShowMessage('Erro para baixar arquivo ' + empresa + '.pdf')
+  finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+  end;
+end;
 
 end.
