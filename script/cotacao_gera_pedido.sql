@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER TRIGGER COTACAO_GERA_PEDIDO FOR MOVIMENTODETALHE ACTIVE 
 AFTER UPDATE POSITION 0
 AS 
@@ -43,10 +44,10 @@ BEGIN
           codmov = GEN_ID(GENMOV, 1);
           INSERT INTO MOVIMENTO(codmovimento, datamovimento, codcliente, codnatureza, 
             status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
-            prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova)
+            prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido)
           values (:codmov, CURRENT_DATE, 0, 4, 
             3,:codUsuario, :codFornece, CURRENT_TIMESTAMP, :codCotacao, :entrega,
-            :prazo, :obs, :frete, :codVendedor, :userAprova);    
+            :prazo, :obs, :frete, :codVendedor, :userAprova, old.CODMOVIMENTO);    
           When any do
           begin
             EXCEPTION ERRO_TRG;
