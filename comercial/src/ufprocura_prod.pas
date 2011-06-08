@@ -1257,7 +1257,17 @@ begin
     fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     fEntra_Sai_estoque.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
     fEntra_Sai_estoque.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
+    if not( ((Edit4.Text) = '') or ((Edit4.Text) = '0'))  then
+      fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text)
+    else
+    begin
+      if dm.scds_produto_proc.Active then
+        dm.scds_produto_proc.Close;
+      dm.scds_produto_proc.Params[0].AsInteger := 0;
+      dm.scds_produto_proc.Params[1].AsString := cds_procCODPRO.AsString;
+      dm.scds_produto_proc.Open;
+      fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
+    end;
     fEntra_Sai_estoque.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
     fEntra_Sai_estoque.cds_Mov_detValorTotal.Value := fEntra_Sai_estoque.cds_Mov_detPRECO.Value *
        fEntra_Sai_estoque.cds_Mov_detQUANTIDADE.Value;
@@ -1502,7 +1512,17 @@ begin
         fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
         fEntra_Sai_estoque.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
         fEntra_Sai_estoque.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
-        fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := Edit4.value;
+        if not( ((Edit4.Text) = '') or ((Edit4.Text) = '0'))  then
+          fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text)
+        else
+        begin
+          if dm.scds_produto_proc.Active then
+            dm.scds_produto_proc.Close;
+          dm.scds_produto_proc.Params[0].AsInteger := 0;
+          dm.scds_produto_proc.Params[1].AsString := cds_procCODPRO.AsString;
+          dm.scds_produto_proc.Open;
+          fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
+        end;
         fEntra_Sai_estoque.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
         fEntra_Sai_estoque.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
         valorUnitario := cds_procPRECO_VENDA.AsFloat;
