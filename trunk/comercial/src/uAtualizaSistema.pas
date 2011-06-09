@@ -977,9 +977,6 @@ begin
 
     if (versaoSistema = '1.0.0.89') then
     begin
-      executaScript('cotacao_gera_pedido.sql');
-      executaScript('altera_status_cotacao.sql');
-      executaScript('cotacao_negociacao.sql');
       executaScript('gera_nf_venda.sql');
       {SQLQuery1.SQL.Clear;
       SQLQuery1.SQL.Add('select * from RDB$RELATION_CONSTRAINTS ' +
@@ -1017,7 +1014,10 @@ begin
       executaDDL('OS', 'status', 'char(1)');
       executaDDL('OS', 'data_ini', 'date');
       executaDDL('OS', 'data_fim', 'date');
-	  executaScript('codpedido_null.sql');
+	    executaScript('codpedido_null.sql');
+      executaScript('cotacao_gera_pedido.sql');
+      executaScript('altera_status_cotacao.sql');
+      executaScript('cotacao_negociacao.sql');
       executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
         'id_OS integer not null, descricao_serv varchar(300), ' +
         'responsavel varchar(150), status char(1) ) ' );
