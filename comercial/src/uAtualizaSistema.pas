@@ -1009,18 +1009,22 @@ begin
     begin
       executaDDL('MOVIMENTO', 'CODTRANSP', 'INTEGER');
       executaDDL('MOVIMENTO', 'TPFRETE', 'char(1)');
-      executaDDL('movimento', 'codpedido', 'integer');
-      executaDDL('produtos', 'qtd', 'integer');
-      executaDDL('OS', 'status', 'char(1)');
-      executaDDL('OS', 'data_ini', 'date');
-      executaDDL('OS', 'data_fim', 'date');
+      executaDDL('MOVIMENTO', 'CODPEDIDO', 'INTEGER');
+      executaDDL('PRODUTOS', 'QTD', 'integer');
+      executaDDL('OS', 'STATUS', 'char(1)');
+      executaDDL('OS', 'DATA_INI', 'date');
+      executaDDL('OS', 'DATA_FIM', 'date');
 	    executaScript('codpedido_null.sql');
       executaScript('cotacao_gera_pedido.sql');
       executaScript('altera_status_cotacao.sql');
       executaScript('cotacao_negociacao.sql');
-      executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
-        'id_OS integer not null, descricao_serv varchar(300), ' +
-        'responsavel varchar(150), status char(1) ) ' );
+      executaScript('cotacao_estorna.sql');      
+      if (NaoExisteTabela('OS_DET')) then
+      begin
+        executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
+          'id_OS integer not null, descricao_serv varchar(300), ' +
+          'responsavel varchar(150), status char(1) ) ' );
+      end;
       mudaVersao('1.0.0.91');
     end;
 
