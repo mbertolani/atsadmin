@@ -132,7 +132,7 @@ implementation
 
 uses UDm, uProcurar, uCompra, uComercial, uPdm, uFiltroMovimento,
   ufDlgLogin, uListadeCompra, uAgendamento, sCtrlResize, uRateioPag, dbXpress,
-  uAtsAdmin;
+  uAtsAdmin, uCotacaoVer;
 
 {$R *.dfm}
 
@@ -566,6 +566,16 @@ end;
 procedure TfFiltroMov_compra.DBGrid1DblClick(Sender: TObject);
 begin
   // Abre as cotações se existirem
+  if (dm.tipoCompra = 'COTACAO') then
+  begin
+     fCotacaoVer :=TfCotacaoVer.Create(Application);
+     fCotacaoVer.cotacao := StrToInt(cds_cnsCONTROLE.AsString);
+     try
+       fCotacaoVer.ShowModal;
+     finally
+       fCotacaoVer.Free;
+     end;
+  end;
 end;
 
 end.
