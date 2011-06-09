@@ -212,6 +212,8 @@ type
     CDS1QTD: TIntegerField;
     CDS1CODPROD: TStringField;
     CDS1LOCALIZACAO: TStringField;
+    edt1: TEdit;
+    lbl3: TLabel;
     procedure BitBtn2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cbMarcaChange(Sender: TObject);
@@ -433,6 +435,7 @@ procedure TfGeraEtiquetas.SpeedButton1Click(Sender: TObject);
 var
 MSWord: Variant;
 finallinha:boolean;
+i : Integer;
 begin
   if(Combo.Text = '')then
   begin
@@ -451,6 +454,17 @@ begin
   MSWord.Documents.Open(ExtractFilePath(Application.ExeName)+ Combo.Text + '.doc' ); //'a5.doc');//'Doc1.doc') ;//'Etiqueta_Pimaco_6181.doc');
   finallinha:=false;{Essa variavel foi criada para controlar o avanço de para cada celula da coluna }
   CDS1.First;
+
+  if finallinha=false then
+  begin
+    for i := 0 to (StrToInt(edt1.Text)-1) do
+    begin
+      MSWord.Selection.MoveRight(12);
+    end;
+    finallinha:=true;
+  end;
+
+
   while not CDS1.Eof do
   begin
        { Escreve na  célula }

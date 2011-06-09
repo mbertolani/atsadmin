@@ -89,6 +89,13 @@ object fGeraEtiquetas: TfGeraEtiquetas
     Height = 13
     Caption = 'Codigo'
   end
+  object lbl3: TLabel
+    Left = 784
+    Top = 503
+    Width = 121
+    Height = 13
+    Caption = 'Qtd. Ja Utilizada na Folha'
+  end
   object cbMarca: TComboBox
     Left = 473
     Top = 18
@@ -134,8 +141,8 @@ object fGeraEtiquetas: TfGeraEtiquetas
     TabOrder = 2
   end
   object BitBtn1: TBitBtn
-    Left = 767
-    Top = 440
+    Left = 751
+    Top = 424
     Width = 77
     Height = 55
     Caption = 'F8-Procurar'
@@ -244,8 +251,8 @@ object fGeraEtiquetas: TfGeraEtiquetas
     Layout = blGlyphTop
   end
   object SpeedButton1: TBitBtn
-    Left = 859
-    Top = 440
+    Left = 851
+    Top = 424
     Width = 77
     Height = 55
     Caption = 'Ctrl+I-Imprimir'
@@ -404,8 +411,8 @@ object fGeraEtiquetas: TfGeraEtiquetas
       end>
   end
   object SpeedButton2: TBitBtn
-    Left = 670
-    Top = 440
+    Left = 654
+    Top = 424
     Width = 77
     Height = 55
     Caption = 'Etiquetas'
@@ -564,6 +571,14 @@ object fGeraEtiquetas: TfGeraEtiquetas
     TabOrder = 12
     Visible = False
     OnClick = BitBtn3Click
+  end
+  object edt1: TEdit
+    Left = 734
+    Top = 500
+    Width = 35
+    Height = 21
+    TabOrder = 13
+    Text = '0'
   end
   object SQLPro: TSQLDataSet
     CommandText = 'select  * from PRODUTOS '
