@@ -139,7 +139,7 @@ uses UDm, uProcurar, uCotacoesHist, uCotacaoVer;
 
 procedure TfCompraCotacao.btnIncluiCotacaoClick(Sender: TObject);
 var str: string;
-  codCotacao, x: Integer;
+  codCotacao, x, codSolic: Integer;
 begin
   if (edit1.Text = '') then
   begin
@@ -151,10 +151,11 @@ begin
   if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
-  cdsSolic.Locate('SOLIC_CODIGO', v_codigos[1], [loCaseInsensitive]);
+  codSolic := StrToInt(v_codigos[0]);
+  cdsSolic.Locate('SOLIC_CODIGO', codSolic, [loCaseInsensitive]);
   str := 'SELECT COTACAO_CODIGO FROM COMPRA_COTACAO ' +
-    ' WHERE COTACAO_ITEM = ' + QuotedStr(cdsSolicSOLIC_PRODUTO.AsString) +
-    '   AND COTACAO_SITUACAO IN (' + QuotedStr('P')  +  ', ' + QuotedStr('G')+ ')' ;
+    ' WHERE COTACAO_FORNEC = ' + Edit1.Text +
+    '   AND COTACAO_SITUACAO IN (' + QuotedStr('P')  +  ')'; //  retirei isto pois, so deve incluir se não foi cotado ainda ', ' + QuotedStr('G')+ ')' ;
   sqlBusca.SQL.Add(str);
   sqlBusca.Open;
   str := '';
