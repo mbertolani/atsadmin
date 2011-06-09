@@ -231,6 +231,7 @@ type
     Button1: TButton;
     btnBoleto: TButton;
     SaveDialog1: TSaveDialog;
+    acBoletoAts: TAction;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -342,7 +343,7 @@ type
 
     procedure Similares1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure btnBoletoClick(Sender: TObject);
+    procedure acBoletoAtsExecute(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -1870,7 +1871,7 @@ begin
   result := S;
 end;
 
-procedure TfAtsAdmin.btnBoletoClick(Sender: TObject);
+procedure TfAtsAdmin.acBoletoAtsExecute(Sender: TObject);
 var caminho, arquivo, empresa: String;
 Save_Cursor:TCursor;
 begin
@@ -1891,8 +1892,7 @@ begin
     begin
       ShowMessage('Baixado com sucesso!');
       // Show downloaded image in your browser
-      ShellExecute(Application.Handle, PChar('open'), PChar(arquivo),
-       PChar(''), nil, SW_NORMAL)
+      ShellExecute(Application.Handle, PChar('open'), PChar(arquivo), PChar(''), nil, SW_NORMAL);
     end
     else
       ShowMessage('Erro para baixar arquivo ' + empresa + '.pdf')

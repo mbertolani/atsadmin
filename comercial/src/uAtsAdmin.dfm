@@ -2083,9 +2083,9 @@ object fAtsAdmin: TfAtsAdmin
     Top = 344
     Width = 145
     Height = 25
+    Action = acBoletoAts
     Anchors = [akRight, akBottom]
     BiDiMode = bdRightToLeftNoAlign
-    Caption = 'Boleto'
     DragCursor = crHandPoint
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlue
@@ -2095,8 +2095,6 @@ object fAtsAdmin: TfAtsAdmin
     ParentBiDiMode = False
     ParentFont = False
     TabOrder = 3
-    Visible = False
-    OnClick = btnBoletoClick
   end
   object PopupMenu1: TPopupMenu
     Left = 384
@@ -3775,6 +3773,11 @@ object fAtsAdmin: TfAtsAdmin
     object acCupom: TAction
       Hint = 'Cupom Fiscal'
       OnExecute = acCupomExecute
+    end
+    object acBoletoAts: TAction
+      Category = 'Financeiro'
+      Caption = 'Boleto ATS'
+      OnExecute = acBoletoAtsExecute
     end
   end
   object UserControlComercial: TUserControl
