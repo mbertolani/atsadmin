@@ -7,7 +7,7 @@ uses
   Dialogs, uPai_new, Mask, StdCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid,
   Menus, XPMenu, DB, Buttons, ExtCtrls, MMJPanel, FMTBcd, DBClient,
   Provider, SqlExpr, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit;
+  JvDatePickerEdit, rpcompobase, rpvclreport;
 
 type
   TfInventario = class(TfPai_new)
@@ -61,6 +61,9 @@ type
     btnInclui: TButton;
     btnRemoveTodos: TButton;
     btnRemove: TButton;
+    BitBtn2: TBitBtn;
+    btnImprimir: TBitBtn;
+    VCLReport1: TVCLReport;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -72,6 +75,8 @@ type
     procedure btnRemoveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cdsInventAfterPost(DataSet: TDataSet);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure btnImprimirClick(Sender: TObject);
   private
     { Private declarations }
     procedure incluirInventario;
@@ -137,10 +142,11 @@ begin
   begin
     sqlb := sqlb + ' AND CODIVENTARIO LIKE ' + QuotedStr(edLista.Text + '%');
   end;
-  if (Dta.Text <> '  /  /  ') then
-  begin
-    sqlb := sqlb + ' AND DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date))
-  end;
+
+  if (Dta.Text = '  /  /    ') then
+    sqlb := sqlb 
+  else
+    sqlb := sqlb + ' AND DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));
 
   cdsInvent.CommandText := 'SELECT * FROM INVENTARIO ' + sqlb;
   cdsInvent.Open;
@@ -192,7 +198,7 @@ end;
 
 procedure TfInventario.JvDBGrid1CellClick(Column: TColumn);
 begin
-  incluirInventario;
+//  incluirInventario;
 end;
 
 procedure TfInventario.btnExcluirClick(Sender: TObject);
@@ -294,6 +300,24 @@ procedure TfInventario.cdsInventAfterPost(DataSet: TDataSet);
 begin
   inherited;
   cdsInvent.ApplyUpdates(0);
+end;
+
+procedure TfInventario.BitBtn2Click(Sender: TObject);
+begin
+ // inherited;
+ Dta.Text := '';
+end;
+
+procedure TfInventario.btnImprimirClick(Sender: TObject);
+begin
+ // inherited;
+    VCLReport1.Filename := str_relatorio + 'inventario.rep';
+    VCLReport1.Title := VCLReport1.Filename;
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Report.Params.ParamByName('SITUACAO').Value := cdsInventSITUACAO.AsString;
+    VCLReport1.Report.Params.ParamByName('CODIVENTARIO').Value := cdsInventCODIVENTARIO.AsString;
+    VCLReport1.Report.Params.ParamByName('DATAIVENTARIO').Value :=  formatdatetime('dd/mm/yy', StrToDate(cdsInventDATAIVENTARIO.AsString));
+    VCLReport1.Execute;
 end;
 
 end.
