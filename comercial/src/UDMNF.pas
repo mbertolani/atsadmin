@@ -1329,6 +1329,8 @@ type
     cds_Mov_detVALOR_OUTROS: TFloatField;
     sdslistaTranspFONE: TStringField;
     listaTranspFONE: TStringField;
+    sds_nfIDCOMPLEMENTAR: TStringField;
+    cds_nfIDCOMPLEMENTAR: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

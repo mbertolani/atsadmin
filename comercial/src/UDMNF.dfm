@@ -2459,6 +2459,10 @@ object DMNF: TDMNF
       FieldName = 'VALOR_DESCONTO'
       DisplayFormat = ',##0.00'
     end
+    object cds_nfIDCOMPLEMENTAR: TStringField
+      FieldName = 'IDCOMPLEMENTAR'
+      Size = 44
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2795,6 +2799,10 @@ object DMNF: TDMNF
     end
     object sds_nfVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
+    end
+    object sds_nfIDCOMPLEMENTAR: TStringField
+      FieldName = 'IDCOMPLEMENTAR'
+      Size = 44
     end
   end
   object scds: TSQLClientDataSet

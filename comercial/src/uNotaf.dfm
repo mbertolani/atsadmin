@@ -42,7 +42,7 @@ object fNotaf: TfNotaf
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
     object btnCancelar: TBitBtn
-      Left = 71
+      Left = 68
       Top = 2
       Width = 68
       Height = 55
@@ -152,7 +152,7 @@ object fNotaf: TfNotaf
       Layout = blGlyphTop
     end
     object btnExcluir: TBitBtn
-      Left = 71
+      Left = 69
       Top = 2
       Width = 68
       Height = 55
@@ -225,7 +225,7 @@ object fNotaf: TfNotaf
     object btnGravar: TBitBtn
       Left = 1
       Top = 2
-      Width = 70
+      Width = 68
       Height = 55
       Caption = 'F4-Gravar'
       PopupMenu = PopupMenu1
@@ -335,7 +335,7 @@ object fNotaf: TfNotaf
     object btnIncluir: TBitBtn
       Left = 1
       Top = 1
-      Width = 70
+      Width = 68
       Height = 55
       Caption = 'F2-Incluir'
       PopupMenu = PopupMenu1
@@ -431,7 +431,7 @@ object fNotaf: TfNotaf
       TabOrder = 0
     end
     object btnProcurar: TBitBtn
-      Left = 421
+      Left = 419
       Top = 2
       Width = 72
       Height = 55
@@ -481,9 +481,9 @@ object fNotaf: TfNotaf
       Layout = blGlyphTop
     end
     object btnSair: TBitBtn
-      Left = 493
+      Left = 491
       Top = 2
-      Width = 72
+      Width = 70
       Height = 55
       Caption = 'F9-Sair'
       PopupMenu = PopupMenu1
@@ -623,7 +623,7 @@ object fNotaf: TfNotaf
       Layout = blGlyphTop
     end
     object cbFinanceiro: TJvCheckBox
-      Left = 659
+      Left = 657
       Top = 13
       Width = 73
       Height = 17
@@ -646,11 +646,11 @@ object fNotaf: TfNotaf
       HotTrackFont.Style = []
     end
     object cbEstoque: TJvCheckBox
-      Left = 659
+      Left = 657
       Top = 31
-      Width = 114
+      Width = 116
       Height = 17
-      Caption = 'Movimenta estoque'
+      Caption = 'Movimenta Estoque'
       Color = clTeal
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -749,7 +749,7 @@ object fNotaf: TfNotaf
       Layout = blGlyphTop
     end
     object RadioGroup1: TRadioGroup
-      Left = 568
+      Left = 563
       Top = 3
       Width = 91
       Height = 52
@@ -771,7 +771,7 @@ object fNotaf: TfNotaf
     object BitBtn10: TBitBtn
       Left = 349
       Top = 2
-      Width = 72
+      Width = 70
       Height = 55
       Caption = 'Guia'
       PopupMenu = PopupMenu1
@@ -911,9 +911,9 @@ object fNotaf: TfNotaf
       Layout = blGlyphTop
     end
     object btnNotaFiscal: TBitBtn
-      Left = 139
+      Left = 137
       Top = 2
-      Width = 66
+      Width = 67
       Height = 55
       Caption = 'NFe'
       PopupMenu = PopupMenu1
@@ -2707,6 +2707,15 @@ object fNotaf: TfNotaf
           end>
       end
     end
+  end
+  object ChkComp: TCheckBox
+    Left = 650
+    Top = 64
+    Width = 111
+    Height = 17
+    Caption = 'Nota Complemetar'
+    TabOrder = 3
+    OnClick = ChkCompClick
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa

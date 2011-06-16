@@ -357,6 +357,7 @@ type
     DBEdit50: TDBEdit;
     listaCliente1TIPOFIRMA: TSmallintField;
     sqlValida: TSQLQuery;
+    ChkComp: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -392,6 +393,7 @@ type
     procedure btnRemessaClick(Sender: TObject);
     procedure DBEdit7Change(Sender: TObject);
     procedure calcmanClick(Sender: TObject);
+    procedure ChkCompClick(Sender: TObject);
   private
     { Private declarations }
     procedure carregaDadosAdicionais;    
@@ -433,7 +435,7 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
-  uNFeletronica, uNotafRemessa;
+  uNFeletronica, uNotafRemessa, uComplementar;
 
 {$R *.dfm}
 
@@ -1595,6 +1597,8 @@ begin
 
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
+  if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
+    ChkComp.Checked := True; 
 end;
 
 procedure TfNotaf.gravanotafiscal;
@@ -1653,6 +1657,21 @@ begin
     end;
   end;
   dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat;
+  if (ChkComp.Checked) then
+  begin
+    fComplementar := TfComplementar.Create(Application);
+    try
+      fComplementar.ShowModal;
+    finally
+      fComplementar.Free;
+    end;
+  end
+  else
+  begin
+    if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
+      dmnf.cds_nfIDCOMPLEMENTAR.AsString := '';
+  end;
+
   dmnf.cds_nf.ApplyUpdates(0);
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
@@ -2220,6 +2239,12 @@ procedure TfNotaf.validaNF;
 begin
   // Faz a validaçaõ da NF.
 
+end;
+
+procedure TfNotaf.ChkCompClick(Sender: TObject);
+begin
+  if (dmnf.cds_nf.State in [dsBrowse]) then
+   dmnf.cds_nf.Edit;
 end;
 
 end.

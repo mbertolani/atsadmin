@@ -1028,6 +1028,13 @@ begin
       mudaVersao('1.0.0.91');
     end;
 
+    if (versaoSistema = '1.0.0.91') then
+    begin
+      executaDDL('NOTAFISCAL', 'IDCOMPLEMENTAR', 'VARCHAR(44)');
+      executaDDL('NOTAFISCAL', 'XMLNFE', 'BLOB');
+      mudaVersao('1.0.0.92');
+    end;
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
