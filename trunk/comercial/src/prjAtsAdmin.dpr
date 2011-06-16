@@ -212,7 +212,11 @@ uses
   uCotacaoVer in 'uCotacaoVer.pas' {fCotacaoVer},
   uCompraCotacaoGerar in 'uCompraCotacaoGerar.pas' {fCompraCotacaoGerar},
   uListaPedido in 'uListaPedido.pas' {fListaPedido},
-  uNFClasse in 'uNFClasse.pas';
+  uNFClasse in 'uNFClasse.pas',
+  uDeclaracaoImportacao in 'uDeclaracaoImportacao.pas' {fDeclaracaoImportacao},
+  uDadosImportacao in 'uDadosImportacao.pas' {fDadosImportacao},
+  uDIAdicao in 'uDIAdicao.pas' {fDIAdicao},
+  uComplementar in 'uComplementar.pas' {fComplementar};
 
 {$R *.res}
 

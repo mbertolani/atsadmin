@@ -966,36 +966,37 @@ object fNFeletronica: TfNFeletronica
   end
   object sdsNF: TSQLDataSet
     CommandText = 
-      'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.CO' +
-      'RPONF2, nf.CORPONF3, nf.CORPONF4 , nf.CORPONF5, nf.CORPONF6, nf.' +
-      'CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.fatura, nf.natureza,'#13#10'UDF_' +
-      'ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, '#13#10'UDF_ROUNDDEC(nf.VALOR_' +
-      'ICMS, 2) as VALOR_ICMS,'#13#10'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as ' +
-      'BASE_ICMS_SUBST, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR' +
-      '_ICMS_SUBST, '#13#10'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUT' +
-      'O, '#13#10'UDF_ROUNDDEC(nf.VALOR_FRETE, 2) as VALOR_FRETE, '#13#10'UDF_ROUND' +
-      'DEC(nf.VALOR_SEGURO, 2) as VALOR_SEGURO, '#13#10'UDF_ROUNDDEC(nf.OUTRA' +
-      'S_DESP, 2) as OUTRAS_DESP, '#13#10'UDF_ROUNDDEC(nf.VALOR_IPI, 2) as VA' +
-      'LOR_IPI,'#13#10'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NO' +
-      'TA,  nf.FRETE,   nf.CNPJ_CPF,  cast(nf.NOMETRANSP as varchar (60' +
-      ') )as NOMETRANSP,  nf.INSCRICAOESTADUAL,     '#13#10'cast(nf.END_TRANS' +
-      'P as varchar (60) )as END_TRANSP,    cast(nf.CIDADE_TRANSP as va' +
-      'rchar (60) )as CIDADE_TRANSP,   nf.UF_TRANSP,'#13#10'nf.PLACATRANSP,  ' +
-      ' nf.UF_VEICULO_TRANSP,           nf.QUANTIDADE,           nf.ESP' +
-      'ECIE,           nf.MARCA,           nf.NUMERO,           nf.PESO' +
-      'LIQUIDO,'#13#10'nf.PESOBRUTO,  cl.RAZAOSOCIAL,           cl.CNPJ ,    ' +
-      '       nf.HORASAIDA,           nf.NOTASERIE,           nf.SELECI' +
-      'ONOU,           nf.REDUZICMS, nf.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf' +
-      '.PROTOCOLOCANC, v.ENTRADA, v.VALOR_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_P' +
-      'IS, 2) as VALOR_PIS, '#13#10'UDF_ROUNDDEC(VALOR_COFINS, 2) as VALOR_CO' +
-      'FINS, nf.VALOR_DESCONTO'#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTE' +
-      'S cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderecoclient' +
-      'e endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer join' +
-      ' VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO betwe' +
-      'en :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacusto) or' +
-      ' (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endecl' +
-      'i.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV I' +
-      'S NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DESC'
+      'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA,  nf.CORPONF1, nf.XM' +
+      'LNFE, nf.IDCOMPLEMENTAR, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4 ,' +
+      ' nf.CORPONF5, nf.CORPONF6, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA,' +
+      ' nf.fatura, nf.natureza,'#13#10'UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_' +
+      'ICMS, '#13#10'UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS,'#13#10'UDF_ROUND' +
+      'DEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, '#13#10'UDF_ROUNDDEC(nf' +
+      '.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, '#13#10'UDF_ROUNDDEC(nf.VAL' +
+      'OR_PRODUTO, 2) as VALOR_PRODUTO, '#13#10'UDF_ROUNDDEC(nf.VALOR_FRETE, ' +
+      '2) as VALOR_FRETE, '#13#10'UDF_ROUNDDEC(nf.VALOR_SEGURO, 2) as VALOR_S' +
+      'EGURO, '#13#10'UDF_ROUNDDEC(nf.OUTRAS_DESP, 2) as OUTRAS_DESP, '#13#10'UDF_R' +
+      'OUNDDEC(nf.VALOR_IPI, 2) as VALOR_IPI,'#13#10'UDF_ROUNDDEC(nf.VALOR_TO' +
+      'TAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  cas' +
+      't(nf.NOMETRANSP as varchar (60) )as NOMETRANSP,  nf.INSCRICAOEST' +
+      'ADUAL,     '#13#10'cast(nf.END_TRANSP as varchar (60) )as END_TRANSP, ' +
+      '   cast(nf.CIDADE_TRANSP as varchar (60) )as CIDADE_TRANSP,   nf' +
+      '.UF_TRANSP,'#13#10'nf.PLACATRANSP,   nf.UF_VEICULO_TRANSP,           n' +
+      'f.QUANTIDADE,           nf.ESPECIE,           nf.MARCA,         ' +
+      '  nf.NUMERO,           nf.PESOLIQUIDO,'#13#10'nf.PESOBRUTO,  cl.RAZAOS' +
+      'OCIAL,           cl.CNPJ ,           nf.HORASAIDA,           nf.' +
+      'NOTASERIE,           nf.SELECIONOU,           nf.REDUZICMS, nf.P' +
+      'ROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC, v.ENTRADA, v.VALOR' +
+      '_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_PIS, 2) as VALOR_PIS, '#13#10'UDF_ROUNDDE' +
+      'C(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO'#13#10'from NOTA' +
+      'FISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIE' +
+      'NTE'#13#10'inner join enderecocliente endecli on endecli.CODCLIENTE = ' +
+      'cl.CODCLIENTE'#13#10'left outer join VENDA v on v.CODVENDA = nf.CODVEN' +
+      'DA'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'          and' +
+      ' ((nf.SERIE = :pvendacusto) or (:pvendacusto = '#39'todasasseriesden' +
+      'otaf'#39'))'#13#10'          and (endecli.TIPOEND = 0) and NF.NATUREZA = :' +
+      'natnf  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'orde' +
+      'r by nf.DTAEMISSAO DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -1009,17 +1010,17 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end
       item
-        DataType = ftString
-        Name = 'pvendacusto'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pvendacusto'
         ParamType = ptInput
       end
       item
         DataType = ftInteger
+        Name = 'pvendacusto'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
         Name = 'natnf'
         ParamType = ptInput
       end
@@ -1226,6 +1227,14 @@ object fNFeletronica: TfNFeletronica
     object sdsNFVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
       ReadOnly = True
+    end
+    object sdsNFIDCOMPLEMENTAR: TStringField
+      FieldName = 'IDCOMPLEMENTAR'
+      Size = 44
+    end
+    object sdsNFXMLNFE: TGraphicField
+      FieldName = 'XMLNFE'
+      BlobType = ftMemo
     end
   end
   object cdsNF: TClientDataSet
@@ -1498,6 +1507,14 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'VALOR_DESCONTO'
       ReadOnly = True
     end
+    object cdsNFIDCOMPLEMENTAR: TStringField
+      FieldName = 'IDCOMPLEMENTAR'
+      Size = 44
+    end
+    object cdsNFXMLNFE: TMemoField
+      FieldName = 'XMLNFE'
+      BlobType = ftMemo
+    end
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
@@ -1507,25 +1524,25 @@ object fNFeletronica: TfNFeletronica
   end
   object sdsItensNF: TSQLDataSet
     CommandText = 
-      'select md.CODPRODUTO,'#13#10'          md.QUANTIDADE,'#13#10'          md.PR' +
-      'ECO,'#13#10'          md.CFOP,'#13#10'          md.DESCPRODUTO,'#13#10'          c' +
-      'ase when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'          udf_Copy(p' +
-      'r.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'          ELSE'#13#10'     ' +
-      '     pr.CODPRO'#13#10'          END as codpro,'#13#10'          pr.UNIDADEME' +
-      'DIDA,'#13#10'          md.CST,'#13#10'          md.ICMS, md.CSOSN,'#13#10'        ' +
-      '  UDF_ROUNDDEC(md.pIPI, 2) as pIPI,'#13#10'          UDF_ROUNDDEC(md.F' +
-      'RETE, 2) as FRETE,'#13#10'          UDF_ROUNDDEC(md.VALOR_DESCONTO, 2)' +
-      ' as VALOR_DESCONTO,'#13#10'          UDF_ROUNDDEC(md.vIPI, 2) as vIPI,' +
-      #13#10'          UDF_ROUNDDEC(md.VLR_BASEICMS, 2) as VLR_BASEICMS,'#13#10' ' +
-      '         UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, '#13#10'       ' +
-      '   UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE,'#13#10'          UDF_ROUN' +
-      'DDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'          UDF_ROUNDDEC(md' +
-      '.ICMS_SUBSTD, 2) as ICMS_SUBSTD, '#13#10'          UDF_ROUNDDEC((md.VL' +
-      'R_BASE * md.QUANTIDADE), 2) as VALTOTAL'#13#10'from VENDA vd '#13#10'inner j' +
-      'oin MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10 +
-      'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner jo' +
-      'in PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODV' +
-      'ENDA = :id'
+      'select md.CODPRODUTO, md.coddetalhe, '#13#10'          md.QUANTIDADE,'#13 +
+      #10'          md.PRECO,'#13#10'          md.CFOP,'#13#10'          md.DESCPRODU' +
+      'TO,'#13#10'          case when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'    ' +
+      '      udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'     ' +
+      '     ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'      ' +
+      '    pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS, md.' +
+      'CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 2) as pIPI,'#13#10'          U' +
+      'DF_ROUNDDEC(md.FRETE, 2) as FRETE,'#13#10'          UDF_ROUNDDEC(md.VA' +
+      'LOR_DESCONTO, 2) as VALOR_DESCONTO,'#13#10'          UDF_ROUNDDEC(md.v' +
+      'IPI, 2) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VLR_BASEICMS, 2) as ' +
+      'VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR' +
+      '_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE,'#13#10'  ' +
+      '        UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'         ' +
+      ' UDF_ROUNDDEC(md.ICMS_SUBSTD, 2) as ICMS_SUBSTD, '#13#10'          UDF' +
+      '_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALO' +
+      'R_SEGURO, md.VALOR_OUTROS'#13#10'from VENDA vd '#13#10'inner join MOVIMENTOD' +
+      'ETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOT' +
+      'AFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr' +
+      ' on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -1618,6 +1635,18 @@ object fNFeletronica: TfNFeletronica
     object sdsItensNFDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 300
+    end
+    object sdsItensNFVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+      ReadOnly = True
+    end
+    object sdsItensNFVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+      ReadOnly = True
+    end
+    object sdsItensNFCODDETALHE: TIntegerField
+      FieldName = 'CODDETALHE'
+      Required = True
     end
   end
   object dspItensNF: TDataSetProvider
@@ -1720,6 +1749,18 @@ object fNFeletronica: TfNFeletronica
     object cdsItensNFDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 300
+    end
+    object cdsItensNFVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+      ReadOnly = True
+    end
+    object cdsItensNFVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+      ReadOnly = True
+    end
+    object cdsItensNFCODDETALHE: TIntegerField
+      FieldName = 'CODDETALHE'
+      Required = True
     end
   end
   object sMenorData: TSQLDataSet
@@ -3906,6 +3947,80 @@ object fNFeletronica: TfNFeletronica
     object sEmpresa1CD_IBGE: TStringField
       FieldName = 'CD_IBGE'
       Size = 10
+    end
+  end
+  object sAdicao: TSQLDataSet
+    CommandText = 'select * FROM DIADICAO'#13#10'where ADIC_CODDET = :CODDET'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODDET'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 423
+    Top = 424
+    object sAdicaoADIC_CODDET: TIntegerField
+      FieldName = 'ADIC_CODDET'
+    end
+    object sAdicaoADIC_CODDI: TIntegerField
+      FieldName = 'ADIC_CODDI'
+    end
+    object sAdicaoADIC_NADICAO: TIntegerField
+      FieldName = 'ADIC_NADICAO'
+      Required = True
+    end
+    object sAdicaoADIC_NSEQUEN: TIntegerField
+      FieldName = 'ADIC_NSEQUEN'
+      Required = True
+    end
+    object sAdicaoADIC_CODFAB: TStringField
+      FieldName = 'ADIC_CODFAB'
+      Size = 60
+    end
+    object sAdicaoADIC_VDESC: TIntegerField
+      FieldName = 'ADIC_VDESC'
+    end
+  end
+  object sDI: TSQLDataSet
+    CommandText = 'select * from DECLARACAOIMPORTACAO'#13#10'where DI_CODDI = :CODDI'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODDI'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 454
+    Top = 424
+    object sDIDI_CODDI: TIntegerField
+      FieldName = 'DI_CODDI'
+      Required = True
+    end
+    object sDIDI_NUMDI: TStringField
+      FieldName = 'DI_NUMDI'
+      Required = True
+      Size = 10
+    end
+    object sDIDI_DATA: TDateField
+      FieldName = 'DI_DATA'
+    end
+    object sDIDI_LOCALDESEMB: TStringField
+      FieldName = 'DI_LOCALDESEMB'
+      Size = 60
+    end
+    object sDIDI_UFDESEMB: TStringField
+      FieldName = 'DI_UFDESEMB'
+      Size = 2
+    end
+    object sDIDI_DATADESEMB: TDateField
+      FieldName = 'DI_DATADESEMB'
+    end
+    object sDIDI_CODEXPORTADOR: TStringField
+      FieldName = 'DI_CODEXPORTADOR'
+      Size = 60
     end
   end
 end
