@@ -420,7 +420,7 @@ begin
   if (dm.moduloUsado = 'CITRUS') then
   begin
 
-   cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, ' +
+   cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO, ' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM((movd.QUANTIDADE * movd.PRECO)) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
