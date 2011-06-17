@@ -134,7 +134,7 @@ begin
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
       ', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
-      ',  m.CONTROLE ' +
+      ',  m.CONTROLE, m.CODPEDIDO ' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
       ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
@@ -150,7 +150,7 @@ begin
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
       ', md.RECEBIDO QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
-      ',  m.CONTROLE ' +
+      ',  m.CONTROLE, m.CODPEDIDO ' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
       ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
