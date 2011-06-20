@@ -9,6 +9,7 @@ AS
  Declare variable CICMS double precision;
  Declare variable IND_IPI double precision;
  Declare variable CST_P char (5);
+ Declare variable CSOSN char (3);
  Declare variable ind_reduzicms double precision;
  Declare variable PESSOA SMALLINT;   
  Declare variable ICMS_SUBST double precision;
@@ -45,13 +46,15 @@ BEGIN
 	end
 	
 	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), 
-    COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0) 
-    from CLASSIFICACAOFISCALPRODUTO cfp
+	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN 
+	from CLASSIFICACAOFISCALPRODUTO cfp
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
+        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN;
+    
+    new.CSOSN = CSOSN;
 	if ( (CICMS> 0 ) or (CICMS_SUBST >0) )then
 	begin
-
+	  new.icms = :cicms;
     if (IND_IPI > 0) then
     begin
         new.VIPI = ((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100);
@@ -82,17 +85,17 @@ BEGIN
 
 	else
 	begin	
-        select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+        select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN from ESTADO_ICMS ei
         where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'J'
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
+        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN;
     
         if (pessoa = 0) then
         begin
-            select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0) from ESTADO_ICMS ei
+            select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN from ESTADO_ICMS ei
             where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'F'
-            into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI;
+            into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN;
         end
-    
+        new.CSOSN = CSOSN;
         if (IND_IPI > 0) then
         begin
             new.VIPI = ((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100);
@@ -111,7 +114,8 @@ BEGIN
     
 			
         if (CICMS > 0) then 
-        begin 
+        begin
+		  new.icms = :cicms; 
           new.VLR_BASEICMS = (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms;
           new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);  
         end
@@ -132,7 +136,7 @@ BEGIN
             if (CICMS_SUBST_IND > 0) then 
                 CICMS_SUBST_IND = CICMS_SUBST_IND / 100;
         
-        --CORRE√á√ÉO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
+        --CORRE«√O DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
             if (CICMS_SUBST_IC <> CICMS_SUBST_IND)  then
             begin
                 cormva = ((1-CICMS_SUBST_IND)/ (1-CICMS_SUBST_IC));
@@ -147,15 +151,23 @@ BEGIN
     
     if( new.FRETE > 0) then
     begin
-      new.BCFRETE = new.FRETE * UDF_ROUNDDEC(CICMS_SUBST, 4);
+     if (CICMS >0) then
+     begin
+       new.BCFRETE = new.frete * ind_reduzicms;
+       new.ICMSFRETE = new.BCFRETE * (CICMS/100);  
+     end
+     if (CICMS_SUBST > 0) then 
+     begin
+      new.BCSTFRETE = new.FRETE * UDF_ROUNDDEC(CICMS_SUBST, 4);
       VALOR_SUBDesc = new.FRETE * CICMS_SUBST_IND;
       new.STFRETE = (new.BCFRETE * CICMS_SUBST_IC) - Valor_SubDesc;
-      new.VLR_BASEICMS = new.VLR_BASEICMS + new.FRETE;
-      new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);        
+     end
     end
     if( new.FRETE = 0) then
     begin
       new.BCFRETE = 0;
       new.STFRETE = 0;
+    new.ICMSFRETE = 0;
+    new.BCSTFRETE = 0;
     end 
 END
