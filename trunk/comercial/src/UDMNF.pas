@@ -1331,6 +1331,10 @@ type
     listaTranspFONE: TStringField;
     sds_nfIDCOMPLEMENTAR: TStringField;
     cds_nfIDCOMPLEMENTAR: TStringField;
+    sds_Mov_DetPIPI: TFloatField;
+    sds_Mov_DetVIPI: TFloatField;
+    cds_Mov_detPIPI: TFloatField;
+    cds_Mov_detVIPI: TFloatField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
