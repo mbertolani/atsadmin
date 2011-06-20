@@ -2111,6 +2111,7 @@ object fNotaf: TfNotaf
         TitleFont.Height = -11
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
+        OnDblClick = JvDBGrid1DblClick
         OnKeyPress = JvDBGrid1KeyPress
         OnEditChange = JvDBGrid1EditChange
         AutoSizeColumns = True
