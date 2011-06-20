@@ -394,6 +394,7 @@ type
     procedure DBEdit7Change(Sender: TObject);
     procedure calcmanClick(Sender: TObject);
     procedure ChkCompClick(Sender: TObject);
+    procedure JvDBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
     procedure carregaDadosAdicionais;    
@@ -404,7 +405,6 @@ type
     procedure buscaserieNF;
     procedure CarregaParametros;
     procedure gravamovimento;
-    procedure gravamov_detalhe;
     procedure gravavenda;
     procedure alteraVlrVenda;
     procedure validaNF;
@@ -412,9 +412,12 @@ type
       vrr : double;
       codMovFin, codVendaFin, codCliFin : integer;
       parametroNF: string;
+    procedure gravamov_detalhe;      
     procedure gravanotafiscal;
     procedure calculaicms(Estado: String);
     procedure somavalores;
+    procedure ativaCalc;
+    procedure inativaCalc;
     { Public declarations }
   end;
 
@@ -435,7 +438,7 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
-  uNFeletronica, uNotafRemessa, uComplementar;
+  uNFeletronica, uNotafRemessa, uComplementar, uDetalheNF;
 
 {$R *.dfm}
 
@@ -1268,8 +1271,7 @@ begin
 end;
 
 procedure TfNotaf.btnGravarClick(Sender: TObject);
-var nfe, cm : string;
-var TD: TTransactionDesc;
+var nfe : string;
 begin
   if (sqlValida.Active) then
     sqlValida.Close;
@@ -1284,26 +1286,8 @@ begin
     MessageDlg('Não existe cadastro deste CFOP para este UF.', mtWarning, [mbOK], 0);
     exit;
   end;
-
-
   if (calcman.Checked = True) then
-  begin
-    cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
-    try
-      begin
-        TD.TransactionID := 1;
-        TD.IsolationLevel := xilREADCOMMITTED;
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(cm);
-        dm.sqlsisAdimin.Commit(TD);
-      end;
-      Except
-      begin
-        MessageDlg('Erro ao executar calculo Manual.', mtWarning, [mbOK], 0);
-        exit;
-      end;
-    end;
-  end;
+    inativaCalc;
 
   if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
   if (dmnf.cds_Mov_det.State in [dsInsert]) then
@@ -1329,14 +1313,9 @@ begin
  end;
 
  if (calcman.Checked = True) then
- begin
-   TD.TransactionID := 1;
-   TD.IsolationLevel := xilREADCOMMITTED;
-   dm.sqlsisAdimin.StartTransaction(TD);
-   cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
-   dm.sqlsisAdimin.ExecuteDirect(cm);
-   dm.sqlsisAdimin.Commit(TD);
- end;
+  ativaCalc;
+
+ dmnf.cds_Mov_det.Refresh;
 
 end;
 
@@ -1492,6 +1471,11 @@ begin
   dmnf.scds_serie_proc.Close;
   // Coloquei aqui pois na rotina da movimento detalhe nao surtia efeito
   dmnf.cds_Mov_det.close;
+  if(dmnf.cds_MovimentoCODNATUREZA.AsInteger = 12) then
+  begin
+    dmnf.cds_Mov_det.Params[0].clear;
+    dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_vendaCODMOVIMENTO.AsInteger;
+  end;
   dmnf.cds_Mov_det.open;
 end;
 
@@ -2245,6 +2229,58 @@ procedure TfNotaf.ChkCompClick(Sender: TObject);
 begin
   if (dmnf.cds_nf.State in [dsBrowse]) then
    dmnf.cds_nf.Edit;
+end;
+
+procedure TfNotaf.JvDBGrid1DblClick(Sender: TObject);
+begin
+  fDetalheNF := TfDetalheNF.Create(Application);
+  try
+    fDetalheNF.ShowModal;
+  finally
+    fDetalheNF.Free;
+  end;
+end;
+
+procedure Tfnotaf.ativaCalc;
+var  cm : string;
+     TD: TTransactionDesc;
+begin
+    cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
+    try
+      begin
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(cm);
+        dm.sqlsisAdimin.Commit(TD);
+      end;
+      Except
+      begin
+        MessageDlg('Erro ao executar calculo Manual.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+    end;
+end;
+
+procedure Tfnotaf.inativaCalc;
+var  cm : string;
+     TD: TTransactionDesc;
+begin
+    cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
+    try
+      begin
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(cm);
+        dm.sqlsisAdimin.Commit(TD);
+      end;
+      Except
+      begin
+        MessageDlg('Erro ao executar calculo Manual.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+    end;
 end;
 
 end.
