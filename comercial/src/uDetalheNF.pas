@@ -53,9 +53,15 @@ type
     btnSair: TBitBtn;
     DBNavigator1: TDBNavigator;
     btnGravar: TBitBtn;
+    btnProdutoProcura: TBitBtn;
     procedure btnSairClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);
+    procedure btnProdutoProcuraClick(Sender: TObject);
+    procedure DBNavigator1Click(Sender: TObject; Button: TNavigateBtn);
+    procedure abproc(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure DBEdit8Exit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -67,13 +73,14 @@ var
 
 implementation
 
-uses UDMNF, uNotaf, UDm;
+uses UDMNF, uNotaf, UDm, ufprocura_prod;
 
 {$R *.dfm}
 
 procedure TfDetalheNF.btnSairClick(Sender: TObject);
 begin
-  fNotaf.calculaicms(dmnf.cds_nfUF.AsString);
+  if( dmnf.cds_nf.active) then
+    fNotaf.calculaicms(dmnf.cds_nfUF.AsString);
   Close;
 end;
 
@@ -149,6 +156,11 @@ if (dmnf.DtSrc1.State in [dsInsert, dsEdit]) then
       dmnf.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       dmnf.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
       dmnf.cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+      dmnf.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+      if ( dmnf.cds_nf.Active) then
+        dmnf.cds_Mov_detCFOP.AsString := dmnf.cds_nfCFOP.AsString
+      else
+        dmnf.cds_Mov_detCFOP.AsString := dmnf.cds_nf1CFOP.AsString;
       if ( dmnf.cds_Mov_detQTDE_PCT.AsFloat < 1) then
         dmnf.cds_Mov_detQTDE_PCT.AsFloat := 1;
       dmnf.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
@@ -214,6 +226,11 @@ if (dmnf.DtSrc1.State in [dsInsert, dsEdit]) then
         dmnf.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         dmnf.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
         dmnf.cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+        dmnf.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+        if ( dmnf.cds_nf.Active) then
+          dmnf.cds_Mov_detCFOP.AsString := dmnf.cds_nfCFOP.AsString
+        else
+          dmnf.cds_Mov_detCFOP.AsString := dmnf.cds_nf1CFOP.AsString;
         if ( dmnf.cds_Mov_detQTDE_PCT.AsFloat < 1) then
           dmnf.cds_Mov_detQTDE_PCT.AsFloat := 1;
         dmnf.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
@@ -232,6 +249,77 @@ if (dmnf.DtSrc1.State in [dsInsert, dsEdit]) then
       end;
     end;
   end;
+end;
+
+procedure TfDetalheNF.btnProdutoProcuraClick(Sender: TObject);
+begin
+  if DMNF.DtSrc1.DataSet.State in [dsInactive] then
+   exit;
+  fProcura_prod.cbTipo.ItemIndex := 4;
+  fProcura_prod.btnIncluir.Visible := true;
+  if (procprod <> 'PROC_PROD_COMPLETO') then
+  begin
+    fProcura_prod.Panel1.Visible := false;
+    fProcura_prod.Panel2.Visible := true;
+    fProcura_prod.BitBtn1.Click;
+  end
+  else begin
+    fProcura_prod.Panel2.Visible := false;
+    fProcura_prod.Panel1.Visible := true;
+    if (fProcura_prod.cds_proc.Active) then
+      fProcura_prod.cds_proc.Close;
+  end;
+  varonde := 'compra';
+  var_F := 'formnotaf';
+  fProcura_prod.codcli := DMNF.cds_MovimentoCODCLIENTE.AsInteger;
+  fProcura_prod.ShowModal;
+
+  if (procprod = 'PROC_PROD_COMPLETO') then
+  begin
+    if (DMNF.cds_Mov_det.State in [dsInsert, dsEdit]) then
+    begin
+      DMNF.cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
+      DMNF.cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+      DMNF.cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
+      DMNF.cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
+      if ( fProcura_prod.cds_procQTDE_PCT.AsFloat < 1) then
+        DMNF.cds_Mov_detQUANTIDADE.AsFloat := 1
+      else
+        DMNF.cds_Mov_detQUANTIDADE.AsFloat := fProcura_prod.cds_procQTDE_PCT.AsFloat;
+      DMNF.cds_Mov_detPRECOCUSTO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
+    end;
+  end;
+  DBNavigator1.SetFocus;
+end;
+
+procedure TfDetalheNF.DBNavigator1Click(Sender: TObject;
+  Button: TNavigateBtn);
+begin
+  abproc(Sender);
+end;
+
+procedure TfDetalheNF.abproc(Sender: TObject);
+begin
+    if ( (DMNF.DtSrc1.DataSet.State in [dsInsert, dsEdit]) or (DMNF.DtSrc_NF.DataSet.State in [dsInsert, dsEdit])
+     or (DMNF.DtSrc_NF1.DataSet.State in [dsInsert, dsEdit])) then
+    btnProdutoProcura.Enabled := true
+  else
+    btnProdutoProcura.Enabled := false;
+  if( dmnf.cds_nf.active) then
+    dmnf.cds_nf.edit
+  else
+    dmnf.cds_nf1.edit;
+end;
+
+procedure TfDetalheNF.FormCreate(Sender: TObject);
+begin
+    if (DMNF.DtSrc1.DataSet.State in [dsBrowse]) then
+     DMNF.cds_Mov_det.edit;
+end;
+
+procedure TfDetalheNF.DBEdit8Exit(Sender: TObject);
+begin
+  dmnf.cds_Mov_detPRECO.AsFloat := dmnf.cds_Mov_detVLR_BASE.AsFloat;
 end;
 
 end.

@@ -216,7 +216,9 @@ uses
   uDeclaracaoImportacao in 'uDeclaracaoImportacao.pas' {fDeclaracaoImportacao},
   uDadosImportacao in 'uDadosImportacao.pas' {fDadosImportacao},
   uDIAdicao in 'uDIAdicao.pas' {fDIAdicao},
-  uComplementar in 'uComplementar.pas' {fComplementar};
+  uComplementar in 'uComplementar.pas' {fComplementar},
+  uDetalheNF in 'uDetalheNF.pas' {fDetalheNF},
+  uFiltroMov_NFcompra in 'uFiltroMov_NFcompra.pas' {fFiltroMov_NFcompra};
 
 {$R *.res}
 

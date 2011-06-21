@@ -1859,6 +1859,7 @@ object fNotafc: TfNotafc
         TitleFont.Height = -11
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
+        OnDblClick = JvDBGrid1DblClick
         OnKeyPress = JvDBGrid1KeyPress
         OnEditChange = JvDBGrid1EditChange
         AutoSizeColumns = True
@@ -1872,6 +1873,7 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'CODPRO'
+            ReadOnly = True
             Title.Caption = 'C'#243'digo'
             Width = 24
             Visible = True
@@ -1879,6 +1881,7 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
+            ReadOnly = True
             Title.Caption = 'Produtos'
             Width = 129
             Visible = True
@@ -1892,24 +1895,28 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'CST'
+            ReadOnly = True
             Width = 17
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CSOSN'
+            ReadOnly = True
             Width = 32
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
+            ReadOnly = True
             Width = 12
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
+            ReadOnly = True
             Title.Caption = 'Quantidade'
             Width = 28
             Visible = True
@@ -1917,6 +1924,7 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'VLR_BASE'
+            ReadOnly = True
             Title.Caption = 'Valor Unit'#225'rio'
             Width = 42
             Visible = True
@@ -1938,6 +1946,7 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'ValorTotal'
+            ReadOnly = True
             Title.Caption = 'Valor Total'
             Width = 38
             Visible = True
@@ -1945,12 +1954,14 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'ICMS'
+            ReadOnly = True
             Width = 17
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VLR_BASEICMS'
+            ReadOnly = True
             Title.Caption = 'Base ICMS'
             Width = 36
             Visible = True
@@ -1958,6 +1969,7 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'VALOR_ICMS'
+            ReadOnly = True
             Title.Caption = 'ICMS'
             Width = 49
             Visible = True
@@ -1965,6 +1977,7 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'ICMS_SUBSTD'
+            ReadOnly = True
             Title.Caption = 'Base ST'
             Width = 40
             Visible = True
@@ -1972,6 +1985,7 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'ICMS_SUBST'
+            ReadOnly = True
             Title.Caption = 'ST'
             Width = 45
             Visible = True
@@ -1979,7 +1993,6 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'VALOR_OUTROS'
-            ReadOnly = False
             Title.Caption = 'Outras Desp.'
             Width = 54
             Visible = True
@@ -1987,7 +2000,6 @@ object fNotafc: TfNotafc
           item
             Expanded = False
             FieldName = 'VALOR_SEGURO'
-            ReadOnly = False
             Title.Caption = 'Seguro'
             Width = 58
             Visible = True
