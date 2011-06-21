@@ -1506,6 +1506,16 @@ begin
         valorUnitario := cds_procPRECO_VENDA.AsFloat;
         fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
       end;
+      if (var_F = 'formnotaf') then
+      begin
+        DMNF.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
+        DMNF.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
+        DMNF.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
+        DMNF.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
+        DMNF.cds_Mov_detPRECO.AsFloat := Edit4.Value;
+        DMNF.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
+        DMNF.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
+      end;
       if (var_F = 'estoque') then
       begin
         fEntra_Sai_estoque.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;

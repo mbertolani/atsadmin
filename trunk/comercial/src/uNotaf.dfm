@@ -2125,6 +2125,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'CODPRO'
+            ReadOnly = True
             Title.Caption = 'C'#243'digo'
             Width = 19
             Visible = True
@@ -2132,6 +2133,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
+            ReadOnly = True
             Title.Caption = 'Produtos'
             Width = 107
             Visible = True
@@ -2145,24 +2147,28 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'CST'
+            ReadOnly = True
             Width = 15
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CSOSN'
+            ReadOnly = True
             Width = 34
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
+            ReadOnly = True
             Width = 32
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
+            ReadOnly = True
             Title.Caption = 'Quantidade'
             Width = 46
             Visible = True
@@ -2170,6 +2176,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'VLR_BASE'
+            ReadOnly = True
             Title.Caption = 'Valor Unit'#225'rio'
             Width = 49
             Visible = True
@@ -2184,6 +2191,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'ValorTotal'
+            ReadOnly = True
             Title.Caption = 'Valor Total'
             Width = 49
             Visible = True
@@ -2191,6 +2199,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'ICMS'
+            ReadOnly = True
             Title.Caption = 'ICMS %'
             Width = 26
             Visible = True
@@ -2198,6 +2207,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'VLR_BASEICMS'
+            ReadOnly = True
             Title.Caption = 'Base ICMS'
             Width = 59
             Visible = True
@@ -2205,6 +2215,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'VALOR_ICMS'
+            ReadOnly = True
             Title.Caption = 'Valor ICMS'
             Width = 61
             Visible = True
@@ -2219,6 +2230,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'ICMS_SUBSTD'
+            ReadOnly = True
             Title.Caption = 'Base ST'
             Width = 58
             Visible = True
@@ -2226,6 +2238,7 @@ object fNotaf: TfNotaf
           item
             Expanded = False
             FieldName = 'ICMS_SUBST'
+            ReadOnly = True
             Title.Caption = 'ST'
             Width = 52
             Visible = True

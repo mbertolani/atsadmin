@@ -278,6 +278,7 @@ type
     procedure ExcluirItemNF1Click(Sender: TObject);
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure cbCFOPExit(Sender: TObject);
+    procedure JvDBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
     procedure incluiEntrada;
@@ -319,7 +320,7 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math, uFiltroMov_compra, uFiltroMov_NFcompra,
-  uNFeletronica;
+  uNFeletronica, uDetalheNF;
 
 {$R *.dfm}
 
@@ -1092,7 +1093,7 @@ begin
 end;
 
 procedure TfNotaFc.btnGravarClick(Sender: TObject);
-var nfe, cm : string;
+var cm : string;
 var TD: TTransactionDesc;
 begin
   if (calcman.Checked = True) then
@@ -1490,7 +1491,7 @@ procedure TfNotaFc.somavalores;
 var
   varTotalnota : double;
 begin
-     varTotalnota := 0;
+//     varTotalnota := 0;
 //     dmnf.cds_nf1VALOR_ICMS.Value +
      varTotalnota :=  dmnf.cds_nf1VALOR_FRETE.Value
                     + dmnf.cds_nf1VALOR_SEGURO.Value + dmnf.cds_nf1OUTRAS_DESP.Value
@@ -1921,6 +1922,16 @@ procedure TfNotaFc.cbCFOPExit(Sender: TObject);
 begin
   cbCFOPChange(Sender);
   SelectNext((Sender as TwinControl),True,True);
+end;
+
+procedure TfNotaFc.JvDBGrid1DblClick(Sender: TObject);
+begin
+  fDetalheNF := TfDetalheNF.Create(Application);
+  try
+    fDetalheNF.ShowModal;
+  finally
+    fDetalheNF.Free;
+  end;
 end;
 
 end.

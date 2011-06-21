@@ -1,6 +1,6 @@
 object fDetalheNF: TfDetalheNF
-  Left = 228
-  Top = 261
+  Left = 342
+  Top = 247
   BorderStyle = bsNone
   Caption = 'fDetalheNF'
   ClientHeight = 185
@@ -13,6 +13,7 @@ object fDetalheNF: TfDetalheNF
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -32,12 +33,12 @@ object fDetalheNF: TfDetalheNF
   object Label3: TLabel
     Left = 17
     Top = 9
-    Width = 46
+    Width = 61
     Height = 13
-    Caption = 'CODPRO'
+    Caption = 'Codigo Prod.'
   end
   object Label4: TLabel
-    Left = 657
+    Left = 609
     Top = 9
     Width = 16
     Height = 13
@@ -53,9 +54,9 @@ object fDetalheNF: TfDetalheNF
   object Label6: TLabel
     Left = 97
     Top = 9
-    Width = 62
+    Width = 48
     Height = 13
-    Caption = 'DESCRI'#199#195'O'
+    Caption = 'Descri'#231#227'o'
   end
   object Label7: TLabel
     Left = 97
@@ -162,7 +163,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'ICMS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 0
+    TabOrder = 15
+    OnChange = abproc
   end
   object DBEdit2: TDBEdit
     Left = 13
@@ -171,15 +173,17 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'QUANTIDADE'
     DataSource = DMNF.DtSrc1
-    TabOrder = 1
+    TabOrder = 4
+    OnChange = abproc
   end
   object DBEdit3: TDBEdit
-    Left = 653
+    Left = 605
     Top = 25
     Width = 73
     Height = 21
     DataSource = DMNF.DtSrc1
-    TabOrder = 2
+    TabOrder = 3
+    OnChange = abproc
   end
   object dbeCodpro: TDBEdit
     Left = 13
@@ -188,7 +192,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'CODPRO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 3
+    TabOrder = 1
+    OnChange = abproc
     OnExit = dbeCodproExit
   end
   object DBEdit5: TDBEdit
@@ -198,16 +203,18 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'VALTOTAL'
     DataSource = DMNF.DtSrc1
-    TabOrder = 4
+    TabOrder = 20
+    OnChange = abproc
   end
   object DBEdit6: TDBEdit
     Left = 93
     Top = 25
-    Width = 553
+    Width = 503
     Height = 21
     DataField = 'DESCPRODUTO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 5
+    TabOrder = 2
+    OnChange = abproc
   end
   object DBEdit7: TDBEdit
     Left = 253
@@ -216,7 +223,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'CST'
     DataSource = DMNF.DtSrc1
-    TabOrder = 6
+    TabOrder = 7
+    OnChange = abproc
   end
   object DBEdit8: TDBEdit
     Left = 93
@@ -225,7 +233,9 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'VLR_BASE'
     DataSource = DMNF.DtSrc1
-    TabOrder = 7
+    TabOrder = 5
+    OnChange = abproc
+    OnExit = DBEdit8Exit
   end
   object DBEdit9: TDBEdit
     Left = 253
@@ -234,7 +244,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'VLR_BASEICMS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 8
+    TabOrder = 16
+    OnChange = abproc
   end
   object DBEdit10: TDBEdit
     Left = 333
@@ -243,7 +254,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'VALOR_ICMS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 9
+    TabOrder = 17
+    OnChange = abproc
   end
   object DBEdit11: TDBEdit
     Left = 173
@@ -252,7 +264,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'CFOP'
     DataSource = DMNF.DtSrc1
-    TabOrder = 10
+    TabOrder = 6
+    OnChange = abproc
   end
   object DBEdit12: TDBEdit
     Left = 333
@@ -261,7 +274,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'CSOSN'
     DataSource = DMNF.DtSrc1
-    TabOrder = 11
+    TabOrder = 8
+    OnChange = abproc
   end
   object DBEdit13: TDBEdit
     Left = 413
@@ -270,7 +284,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'VALOR_DESCONTO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 12
+    TabOrder = 9
+    OnChange = abproc
   end
   object DBEdit14: TDBEdit
     Left = 653
@@ -279,7 +294,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'FRETE'
     DataSource = DMNF.DtSrc1
-    TabOrder = 13
+    TabOrder = 12
+    OnChange = abproc
   end
   object DBEdit15: TDBEdit
     Left = 493
@@ -288,7 +304,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'ICMS_SUBST'
     DataSource = DMNF.DtSrc1
-    TabOrder = 14
+    TabOrder = 19
+    OnChange = abproc
   end
   object DBEdit16: TDBEdit
     Left = 413
@@ -297,7 +314,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'ICMS_SUBSTD'
     DataSource = DMNF.DtSrc1
-    TabOrder = 15
+    TabOrder = 18
+    OnChange = abproc
   end
   object DBEdit17: TDBEdit
     Left = 493
@@ -306,7 +324,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'VALOR_SEGURO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 16
+    TabOrder = 10
+    OnChange = abproc
   end
   object DBEdit18: TDBEdit
     Left = 573
@@ -315,7 +334,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'VALOR_OUTROS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 17
+    TabOrder = 11
+    OnChange = abproc
   end
   object DBEdit19: TDBEdit
     Left = 13
@@ -324,7 +344,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'PIPI'
     DataSource = DMNF.DtSrc1
-    TabOrder = 18
+    TabOrder = 13
+    OnChange = abproc
   end
   object DBEdit20: TDBEdit
     Left = 93
@@ -333,7 +354,8 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'VIPI'
     DataSource = DMNF.DtSrc1
-    TabOrder = 19
+    TabOrder = 14
+    OnChange = abproc
   end
   object Calcman: TCheckBox
     Left = 279
@@ -341,7 +363,8 @@ object fDetalheNF: TfDetalheNF
     Width = 97
     Height = 17
     Caption = 'Calculo Manual'
-    TabOrder = 20
+    TabOrder = 23
+    Visible = False
   end
   object btnSair: TBitBtn
     Left = 656
@@ -349,7 +372,7 @@ object fDetalheNF: TfDetalheNF
     Width = 70
     Height = 55
     Caption = 'F9-Sair'
-    TabOrder = 21
+    TabOrder = 22
     OnClick = btnSairClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -459,14 +482,16 @@ object fDetalheNF: TfDetalheNF
     Height = 38
     DataSource = DMNF.DtSrc1
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete]
-    TabOrder = 22
+    TabOrder = 21
+    OnClick = DBNavigator1Click
   end
   object btnGravar: TBitBtn
     Left = 232
     Top = 144
     Width = 38
     Height = 38
-    TabOrder = 23
+    TabOrder = 24
+    Visible = False
     OnClick = btnGravarClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -567,5 +592,79 @@ object fDetalheNF: TfDetalheNF
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+  end
+  object btnProdutoProcura: TBitBtn
+    Left = 686
+    Top = 18
+    Width = 35
+    Height = 26
+    Enabled = False
+    TabOrder = 0
+    TabStop = False
+    OnClick = btnProdutoProcuraClick
+    Glyph.Data = {
+      C2070000424DC20700000000000036000000280000001E000000150000000100
+      1800000000008C070000120B0000120B00000000000000000000BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0070A01F70A01F80AF0070
+      A0BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBF108FBF2F8FB00F0F0F0000001F4F600F7FB0
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBF0070A020AFDF3FCFFF50909FF0C090806F500000002F607FBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0F70AF
+      108FC03FCFFF3FCFFF50909FFFCF9FFFCF9F4F4030101F1F2F80B0BFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00609F1F9FCF3FCFFF1F9FCF3F
+      CFFF4FCFFF50A0BFF0C090FFCF9FAF8F6F0000005F90B0BFBFBFBFBFBF005080
+      2F80B000609FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBF0F7FB02FBFEF3FCFFF3FCFFF2090C070DFFF90E0
+      FFAFE0FFAF9F80FFCF9FCFA080000000508FAF00609F409FC0609FB01F1F1F1F
+      30400F70A0BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF108FC03FCFFF40CFFF5FD0FF7FDFFF409FC0AFE0FFD0F0FFE0F0FF
+      EFEFF0A09080806F50304F5F308FBF80D0F07FDFFF5F8F9F9F8060000000102F
+      3F00609FBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBF0070A01080
+      BF4FD0FF6FD0FF8FDFFFA0E0FFC0EFFFBFE0F05F9FC0F0FFFFF0FFFFDFF0FFBF
+      E0FF5FAFCF0F90C050C0EF50D0FF3FCFFF50909FFFCF9F6F5F400000000F5F80
+      BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF0F7FAF30AFDF4FAFDF90E0FF
+      AFEFFFCFEFFFDFF0FFEFFFFFF0FFFF2F9FC02F9FC060BFDF409FC00F8FB00070
+      A000AFD030BFEF3FCFFF3FCFFF309FBFF0C090CFA0800000001F709FBFBFBFBF
+      BFBFBFBFBFBFBFBF0000BFBFBFBFBFBF00609F90DFFF3F8FBFD0F0FFE0F0FFF0
+      FFFFF0FFFFE0F0FFCFF0FF90D0EF1F9FCF00A0CF0090C000AFD00080B000AFD0
+      20BFEF3FCFFF3FCFFF3FCFFF809080CFA0800000001F6F90BFBFBFBFBFBFBFBF
+      BFBFBFBF0000BFBFBFBFBFBF00609FD0F0FF80BFD07FB0CFF0FFFFDFF0FFC0EF
+      FFAFE0FF8FDFFF70DFFF50D0FF1FA0D00070AF0090C0007FAF00A0CF0F9FCF3F
+      CFFF3FCFFF3FCFFF3FC0F050808000304F0070A0BFBFBFBFBFBFBFBFBFBFBFBF
+      0000BFBFBFBFBFBF00609F8FBFD0D0E0F02F80AF207FAF60B0DF60BFDF60D0FF
+      4FCFFF3FCFFF3FCFFF3FCFFF30C0FF1F9FD00090BF00A0CF00A0CF10A0D030C0
+      FF1FAFDF1090C00070AF005080BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+      BFBFBFBFBFBFBF00609F00609FBFBFBFBFBFBF0F70A020A0D020A0DF20A0DF30
+      C0FF3FCFFF3FCFFF3FCFFF3FCFFF30C0FF20A0DF006F9F0070A0005080BFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0F7FAF20AFDF108FC01F9F
+      CF109FD01090C0007FB0006F9F005080BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0070A0007FAF00609FBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBF0000}
   end
 end
