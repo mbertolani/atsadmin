@@ -1133,6 +1133,11 @@ begin
  if (DMNF.DtSrc_NF1.State in [dsInsert, dsEdit]) then
    gravanotafiscal;
 
+  dmnf.cds_Mov_det.close;
+  dmnf.cds_Mov_det.Params[0].Clear;
+  dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_compraCODMOVIMENTO.AsInteger;
+  dmnf.cds_Mov_det.Open;
+
   if (calcman.Checked = True) then
   begin
     TD.TransactionID := 1;
