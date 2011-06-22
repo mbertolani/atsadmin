@@ -850,7 +850,6 @@ begin
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSOSN', 'Varchar(3)');
   	  executaDDL('NOTAFISCAL', 'VALOR_DESCONTO', 'DOUBLE PRECISION');
-      executaScript('calcula_icms.sql');
 	  mudaVersao('1.0.0.81');
     end;  // Fim Ataulização Versao 1.0.0.81
 
