@@ -90,14 +90,14 @@ MaxStackSize=1048576
 ImageBase=4194304
 ExeDescription=
 [Directories]
-OutputDir=
-UnitOutputDir=
-PackageDLLOutputDir=
-PackageDCPOutputDir=
+OutputDir=C:\Home\sisadmin
+UnitOutputDir=c:\tmp
+PackageDLLOutputDir=c:\tmp
+PackageDCPOutputDir=c:\tmp
 SearchPath=
 Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;TCFLib70;TCFDsg70;rppack_del;rppackvcl_del;rppackdesignvcl_del;rppackv_del;rppackdesign_del;FlatStyle_D6;RLibWinD7vcl;gbCob7;qrpt;VDOPrint;RLBoletoD7;Tiss;fac;mmjp;xpm;zpm
 Conditionals=
-DebugSourceDirs=
+DebugSourceDirs=c:\tmp
 UsePackages=0
 [Parameters]
 RunParams=
@@ -136,6 +136,8 @@ ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
 C:\Arquivos de programas\Borland\Delphi7\Projects\Bpl\JvNetD7D.bpl=JVCL Network Components
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70VCL.bpl=(untitled)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70CLX.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
 c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclDAD77.bpl=ReportBuilder Data Access Environment
 c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclRBU77.bpl=ReportBuilder Sample Components
