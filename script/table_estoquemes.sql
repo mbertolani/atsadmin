@@ -5,13 +5,16 @@ CREATE TABLE ESTOQUEMES
   MESANO DATE not null,
   QTDEENTRADA Double precision,
   QTDECOMPRA Double precision,
-  QTDEDEVOLUCAO Double precision,
+  QTDEDEVCOMPRA Double precision, 
   QTDESAIDA Double precision,
   QTDEVENDA Double precision,
   QTDEPERDA Double precision,
   PRECOCUSTO Double precision,
   PRECOVENDA Double precision,
   CENTROCUSTO Integer not null,
+  QTDEDEVVENDA Double precision,  
+  SALDOESTOQUE Double Precision COMPUTED BY (
+  QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA),
   PRIMARY KEY (CODPRODUTO, LOTE, MESANO, CENTROCUSTO)
 );
 
