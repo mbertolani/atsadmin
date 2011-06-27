@@ -2,7 +2,7 @@ CREATE TABLE ESTOQUEMES
 (
   CODPRODUTO INTEGER NOT NULL,
   LOTE VARCHAR(60) not null,
-  MESANO INTEGER not null,
+  MESANO DATE not null,
   QTDEENTRADA Double precision,
   QTDECOMPRA Double precision,
   QTDEDEVOLUCAO Double precision,
