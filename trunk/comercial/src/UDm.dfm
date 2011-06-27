@@ -9465,4 +9465,11 @@ object DM: TDM
       FieldName = 'UCPROFILE'
     end
   end
+  object sqlBusca: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = sqlsisAdimin
+    Left = 728
+    Top = 264
+  end
 end
