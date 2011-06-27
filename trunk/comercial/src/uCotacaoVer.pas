@@ -229,11 +229,14 @@ var sql, sqlFornec, sqlTotal, ordem: string;
   i : integer;
 begin
   i := 1;
+
+  // COLOQUEI X NO SQL PARA TRAZER  TUDO .....
+  
   sql := 'select c.COTACAO_ITEM ITEM, UDF_LEFT(c.COTACAO_ITEMDESCRICAO, 60) DESCRICAO, ' +
     ' c.COTACAO_PRECO PRECO, COTACAO_PRAZO, COTACAO_FRETE, COTACAO_OBSERVACAO, ' +
     ' c.COTACAO_QTDE, (COTACAO_PRECO * COTACAO_QTDE) TOTAL ' +
     '  from COMPRA_COTACAO c ' +
-    ' where c.COTACAO_SITUACAO = ' + QuotedStr('G') +
+    ' where c.COTACAO_SITUACAO <> ' + QuotedStr('X') +
     '   and c.COTACAO_FORNEC   = ';
 
   ordem := ' ORDER BY c.COTACAO_ITEM';
@@ -263,7 +266,7 @@ begin
     end;
   end;
 
-  sqlFornec := sqlFornec + ' and c.COTACAO_SITUACAO = ' + QuotedStr('G');
+  //sqlFornec := sqlFornec + ' and c.COTACAO_SITUACAO = ' + QuotedStr('G');  -- Vou ver tudo
   sqlFornec := sqlFornec + ' GROUP BY c.COTACAO_FORNEC, f.RAZAOSOCIAL';
 
   cdsFornec.CommandText := sqlFornec;
@@ -302,7 +305,7 @@ begin
   While not cdsFornec.Eof do
   begin
     sqltotal := 'select sum(c.COTACAO_PRECO * c.COTACAO_QTDE) TOTAL from COMPRA_COTACAO c ' +
-    ' where c.COTACAO_SITUACAO = ' + QuotedStr('G') +
+    ' where c.COTACAO_SITUACAO <> ' + QuotedStr('X') +
     '   and c.COTACAO_FORNEC   = ';
 
     if (i = 1) then
@@ -436,36 +439,7 @@ end;
 procedure TfCotacaoVer.FormShow(Sender: TObject);
 begin
   //inherited;
-  {if (cds1.Active) then
-    cds1.Close;
-  cds1.Params[0].AsInteger := solic;
-  cds1.Open;
-
-  if (cds2.Active) then
-    cds2.Close;
-  cds2.Params[0].AsInteger := solic;
-  cds2.Open;
-
-    if (cds3.Active) then
-    cds3.Close;
-  cds3.Params[0].AsInteger := solic;
-  cds3.Open;
-
-  if (cds4.Active) then
-    cds4.Close;
-  cds4.Params[0].AsInteger := solic;
-  cds4.Open;
-
-  if (cds5.Active) then
-    cds5.Close;
-  cds5.Params[0].AsInteger := solic;
-  cds5.Open;
-
-  if (cds6.Active) then
-    cds6.Close;
-  cds6.Params[0].AsInteger := solic;
-  cds6.Open;
-  }
+  btnProcurar.Click;
 end;
 
 procedure TfCotacaoVer.FormCreate(Sender: TObject);
