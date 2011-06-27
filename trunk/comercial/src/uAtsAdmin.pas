@@ -701,25 +701,29 @@ procedure TfAtsAdmin.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
  caminho, arquivo, empresa: String;
 begin
-  empresa := RemoveChar(dm.empresa);
-  // URL Location
-  caminho := 'http://www.atsti.com.br/boleto/' + empresa + '.pdf';
-  // Where to save the file
-  arquivo := 'ATS_Boleto.pdf';
-
-  if DownloadFile(caminho, arquivo) then
+  if (StrToDateTime(dm.VISTO_FTP) <> today) then
   begin
-    //ShowMessage('Download succesful!');
-    // Show downloaded image in your browser
-    //ShellExecute(Application.Handle, PChar('open'), PChar(DestFile),
-    //  PChar(''), nil, SW_NORMAL)
-    btnBoleto.Top := screen.DesktopHeight - 200;
-    btnBoleto.Left := Screen.DesktopWidth - 350;
-    btnBoleto.Visible := True;
-    btnBoleto.Caption := 'Boleto Mensal.';
-  end;
+    empresa := RemoveChar(dm.empresa);
+    // URL Location
+    caminho := 'http://www.atsti.com.br/boleto/' + empresa + '.pdf';
+    // Where to save the file
+    arquivo := 'ATS_Boleto.pdf';
 
-  Dm.varLogado := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+    if DownloadFile(caminho, arquivo) then
+    begin
+      //ShowMessage('Download succesful!');
+      // Show downloaded image in your browser
+      //ShellExecute(Application.Handle, PChar('open'), PChar(DestFile),
+      //  PChar(''), nil, SW_NORMAL)
+      btnBoleto.Top := screen.DesktopHeight - 200;
+      btnBoleto.Left := Screen.DesktopWidth - 350;
+      btnBoleto.Visible := True;
+      btnBoleto.Caption := 'Boleto Mensal.';
+    end;
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET D9 = ' + QuotedStr(FormatDateTime('dd/mm/yyyy', today))  +
+    ' WHERE PARAMETRO = ' + QuotedStr('EMPRESA'));
+  end;
+    Dm.varLogado := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   //Se tiver Agendamento para o dia abro a agenda
   if (dm.cds_ag.Active) then
     dm.cds_ag.Close;
