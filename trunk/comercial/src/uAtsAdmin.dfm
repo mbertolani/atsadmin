@@ -2095,6 +2095,7 @@ object fAtsAdmin: TfAtsAdmin
     ParentBiDiMode = False
     ParentFont = False
     TabOrder = 3
+    Visible = False
   end
   object PopupMenu1: TPopupMenu
     Left = 384
