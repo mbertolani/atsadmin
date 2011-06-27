@@ -1760,6 +1760,7 @@ type
     cds_cfopIPIBC: TStringField;
     scds_forn_procTELEFONE: TStringField;
     scds_forn_procDDD: TSmallintField;
+    sqlBusca: TSQLQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -1840,7 +1841,7 @@ var
 
 implementation
 
-uses uAtualizaSistema;
+//uses uAtualizaSistema;
 
 {$R *.dfm}
 
