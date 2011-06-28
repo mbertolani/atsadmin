@@ -7,6 +7,7 @@ type
   TEstoqueTeste = class(TTestCase)
   private
     FEstoque: TEstoque;
+    pcusto, pTeste : Double;
 
   protected
     procedure SetUp; override;
@@ -16,8 +17,8 @@ type
     procedure TestInserirPrimeiraEntradaSistema;
     procedure TestNovaEntradaNoMes;   // Segunda entrada no mesmo mes
     procedure TestInserirPrimeiraEntradaNovoMes; // Entrada em um novo mes, com estoque no mes anterior
+    procedure TestInserirEntradaNoMesAnteriorNaoFechado; // Entrada no mes Anterior Nao Fechado, e que ja houve Movimento mes Posterior
     procedure TestInserirEntradaNoMesAnteriorFechado; // Entrada no mes Anterior que ja foi fechado
-    procedure TestInserirEntradaNoMesAnteriorNaoFechado; // Entrada no mes Anterior Nao Fechado, e que ja houve Movimento mes Posterior 
     procedure TestSaidaSemTerSaldo;
     procedure TestSaidaSemSaldoNoMes;
     procedure TestSaidaComSaldoNoMes;
@@ -84,7 +85,6 @@ begin
 end;
 
 procedure TEstoqueTeste.TestInserirPrimeiraEntradaNovoMes;
-var pcusto, p : Double;
 begin
   // Teste se esta Somando esta nova inclusão no item q ja existe
   FEstoque.QtdeCompra := 40;
@@ -106,10 +106,10 @@ begin
         '  AND CENTROCUSTO = ' + IntToStr(FEstoque.CentroCusto));
   dm.sqlBusca.Open;
   //DecimalSeparator := '.';
-  pcusto := Trunc(dm.sqlBusca.FieldByName('PRECOCUSTO').AsFloat * 10000) / 10000;  // 4 Casas Decimais
-  p := StrToFloat('3,5714');
+  pCusto := Trunc(dm.sqlBusca.FieldByName('PRECOCUSTO').AsFloat * 10000) / 10000;  // 4 Casas Decimais
+  pTeste := StrToFloat('3,5714');
   //DecimalSeparator := ',';
-  check(pcusto = p , 'Preco Custo Errado.');
+  check(pCusto = pTeste , 'Preco Custo Errado.');
   check(dm.sqlBusca.FieldByName('QTDECOMPRA').AsFloat = 70 , 'Quantidade Compra Errado.');
 
 end;
@@ -185,7 +185,31 @@ end;
 
 procedure TEstoqueTeste.TestInserirEntradaNoMesAnteriorNaoFechado;
 begin
-  check(False , 'Nao Validado.');
+  // Testa uma Entrada no Mes Anterior onde existe lançamento em mes posterior
+  FEstoque.QtdeCompra := 30;
+  FEstoque.CodProduto := 50;
+  FEstoque.Lote       := '0';
+  FEstoque.CentroCusto := 0;
+  FEstoque.MesAno      := StrToDate('06/01/2011');
+  FEstoque.PrecoCusto  := 9;
+  FEstoque.inserirMes;
+
+  dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
+        'QTDEPERDA, PRECOCUSTO, PRECOVENDA ' +
+        ' FROM ESTOQUEMES ' +
+        'WHERE CODPRODUTO  = ' + IntToStr(FEstoque.CodProduto) +
+        '  AND LOTE        = ' + QuotedStr(FEstoque.Lote) +
+        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', FEstoque.MesAno)) +
+        '  AND CENTROCUSTO = ' + IntToStr(FEstoque.CentroCusto));
+  dm.sqlBusca.Open;
+  pCusto := Trunc(dm.sqlBusca.FieldByName('PRECOCUSTO').AsFloat * 10000) / 10000;  // 4 Casas Decimais
+  pTeste := StrToFloat('4,5');
+
+  check(pCusto = pTeste , 'Preco Custo Errado.');
+  check(dm.sqlBusca.FieldByName('QTDECOMPRA').AsFloat = 60 , 'Quantidade Compra Errado.');
+
 end;
 
 initialization
