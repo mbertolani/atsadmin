@@ -110,7 +110,7 @@ begin
   pTeste := StrToFloat('3,5714');
   //DecimalSeparator := ',';
   check(pCusto = pTeste , 'Preco Custo Errado.');
-  check(dm.sqlBusca.FieldByName('QTDECOMPRA').AsFloat = 70 , 'Quantidade Compra Errado.');
+  check(dm.sqlBusca.FieldByName('QTDECOMPRA').AsFloat = 40 , 'Quantidade Compra Errado.');
 
 end;
 
@@ -149,7 +149,7 @@ begin
   FEstoque.CodProduto := 50;
   FEstoque.Lote       := '0';
   FEstoque.CentroCusto := 0;
-  FEstoque.MesAno      := StrToDate('06/01/2011');
+  //FEstoque.MesAno      := StrToDate('01/01/2011');
   FEstoque.PrecoCusto  := 4;
   FEstoque.inserirMes;
 
@@ -190,7 +190,7 @@ begin
   FEstoque.CodProduto := 50;
   FEstoque.Lote       := '0';
   FEstoque.CentroCusto := 0;
-  FEstoque.MesAno      := StrToDate('06/01/2011');
+  FEstoque.MesAno      := StrToDate(CMesAnoAnterior);
   FEstoque.PrecoCusto  := 9;
   FEstoque.inserirMes;
 
