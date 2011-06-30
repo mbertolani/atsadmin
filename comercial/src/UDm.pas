@@ -1760,6 +1760,7 @@ type
     cds_cfopIPIBC: TStringField;
     scds_forn_procTELEFONE: TStringField;
     scds_forn_procDDD: TSmallintField;
+    QryGetObject: TSQLQuery;
     sqlBusca: TSQLQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);

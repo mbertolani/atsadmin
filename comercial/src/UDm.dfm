@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_jorvic'
+      'Database=quad:sge_dnz'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -25,7 +25,7 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
       'WaitOnLocks=True'
-      'str_relatorio=C:\home\atsadmin\relatorio\')
+      'str_relatorio=C:\home\sisAdmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -9464,6 +9464,13 @@ object DM: TDM
     object sdsPermissaoUCPROFILE: TIntegerField
       FieldName = 'UCPROFILE'
     end
+  end
+  object QryGetObject: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = sqlsisAdimin
+    Left = 720
+    Top = 256
   end
   object sqlBusca: TSQLQuery
     MaxBlobSize = -1
