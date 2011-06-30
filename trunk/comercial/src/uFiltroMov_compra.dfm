@@ -1144,6 +1144,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
     OnDblClick = DBGrid1DblClick
+    OnTitleClick = DBGrid1TitleClick
     AlternateRowColor = clMoneyGreen
     AutoSizeColumns = True
     SelectColumnsDialogStrings.Caption = 'Select columns'
