@@ -915,7 +915,7 @@ begin
       Self._PesoRemessa := dm.QryGetObject.FieldByName('PESOREMESSA').AsFloat;
       Self._CidadeTransp := dm.QryGetObject.FieldByName('CIDADE_TRANSP').AsString;
       Self._Status := dm.QryGetObject.FieldByName('STATUS').AsString;
-      Self._XMLNFE := dm.QryGetObject.FieldByName('XMLNFE').AsblFloat;
+//      Self._XMLNFE := dm.QryGetObject.FieldByName('XMLNFE').AsblFloat;
 
       //PEGA O CODIGO DO MOVIMENTO DA NOTA
       with DM.QryGetObject do
