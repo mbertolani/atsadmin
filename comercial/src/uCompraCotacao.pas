@@ -154,7 +154,7 @@ begin
   codSolic := StrToInt(v_codigos[0]);
   cdsSolic.Locate('SOLIC_CODIGO', codSolic, [loCaseInsensitive]);
   str := 'SELECT COTACAO_CODIGO FROM COMPRA_COTACAO ' +
-    ' WHERE COTACAO_FORNEC = ' + Edit1.Text +
+    ' WHERE COTACAO_CODSOLIC = ' + IntToStr(cdsSolicSOLIC_CODIGO.AsInteger) +
     '   AND COTACAO_SITUACAO IN (' + QuotedStr('P')  +  ')'; //  retirei isto pois, so deve incluir se não foi cotado ainda ', ' + QuotedStr('G')+ ')' ;
   sqlBusca.SQL.Add(str);
   sqlBusca.Open;
@@ -174,49 +174,49 @@ begin
   for x := 0 to v_codigos.Count-1 do
   begin
     Label2.Caption := Label2.Caption + ' ' + v_codigos[x];
-  if (cdsSolic.Locate('SOLIC_CODIGO', v_codigos[x], [loCaseInsensitive])) then
-  begin
-  str := 'INSERT INTO COMPRA_COTACAO (COTACAO_CODIGO, COTACAO_DATA, COTACAO_FORNEC, ' +
-    ' COTACAO_SOLICIT, COTACAO_ITEM, COTACAO_ITEMDESCRICAO, COTACAO_SITUACAO, ' +
-    ' COTACAO_QTDE, COTACAO_PRECO, COTACAO_USER, COTACAO_CODSOLIC, COTACAO_TIPO, ' +
-    ' COTACAO_DTENTREGA, COTACAO_OBSERVACAO)' +
-    ' VALUES (';
-  str := str + IntToStr(codCotacao) + ', ';
-  str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',today)) + ', ';
-  str := str + edit1.Text + ', ';  // Fornecedor
-  str := str + QuotedStr(cdsSolicSOLIC_SOLICITANTE.AsString) + ', ';
-  str := str + QuotedStr(cdsSolicSOLIC_PRODUTO.AsString) + ', ';
-  str := str + QuotedStr(cdsSolicSOLIC_DESCRICAO.AsString) + ', ';
-  str := str + QuotedStr('P') + ', ';
-  DecimalSeparator := '.';
-  str := str + FloatToStr(cdsSolicSOLIC_QUANTIDADE.AsFloat) + ', ';
-  DecimalSeparator := ',';
-  str := str + '0, ';
-  str := str + QuotedStr(DM.varLogado) + ', ';
-  str := str + IntToStr(cdsSolicSOLIC_CODIGO.AsInteger) + ', ';
-  str := str + QuotedStr(cdsSolicSOLIC_TIPO.AsString) + ', ';
-  str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',cdsSolicSOLIC_DTNECESSIT.AsDateTime)) + ', ';
-  str := str + QuotedStr(cdsSolicSOLIC_OBSERVACAO.AsString);
-  str := str + ')';
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
-  try
-    dm.sqlsisAdimin.ExecuteDirect(str);
-    dm.sqlsisAdimin.ExecuteDirect('UPDATE COMPRA_SOLIC SET SOLIC_SITUACAO = ' +
-      QuotedStr('G') + ' WHERE SOLIC_CODIGO = ' + IntToStr(cdsSolicSOLIC_CODIGO.AsInteger)); // Altero o Status para G=Gerado Cotacao
-    dm.sqlsisAdimin.Commit(TD);
-  except
-    dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro para gravar a cotação.', mtError, [mbOK], 0);
-    exit;
-  end;
-
-  end
-  else begin
-     // Não encontrou este registros
-     Label2.Caption := Label2.Caption + v_codigos[x];
-  end;
+    if (cdsSolic.Locate('SOLIC_CODIGO', v_codigos[x], [loCaseInsensitive])) then
+    begin
+      str := 'INSERT INTO COMPRA_COTACAO (COTACAO_CODIGO, COTACAO_DATA, COTACAO_FORNEC, ' +
+        ' COTACAO_SOLICIT, COTACAO_ITEM, COTACAO_ITEMDESCRICAO, COTACAO_SITUACAO, ' +
+        ' COTACAO_QTDE, COTACAO_PRECO, COTACAO_USER, COTACAO_CODSOLIC, COTACAO_TIPO, ' +
+        ' COTACAO_DTENTREGA, COTACAO_OBSERVACAO)' +
+        ' VALUES (';
+      str := str + IntToStr(codCotacao) + ', ';
+      str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',today)) + ', ';
+      str := str + edit1.Text + ', ';  // Fornecedor
+      str := str + QuotedStr(cdsSolicSOLIC_SOLICITANTE.AsString) + ', ';
+      str := str + QuotedStr(cdsSolicSOLIC_PRODUTO.AsString) + ', ';
+      str := str + QuotedStr(cdsSolicSOLIC_DESCRICAO.AsString) + ', ';
+      str := str + QuotedStr('P') + ', ';
+      DecimalSeparator := '.';
+      str := str + FloatToStr(cdsSolicSOLIC_QUANTIDADE.AsFloat) + ', ';
+      DecimalSeparator := ',';
+      str := str + '0, ';
+      str := str + QuotedStr(DM.varLogado) + ', ';
+      str := str + IntToStr(cdsSolicSOLIC_CODIGO.AsInteger) + ', ';
+      str := str + QuotedStr(cdsSolicSOLIC_TIPO.AsString) + ', ';
+      str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',cdsSolicSOLIC_DTNECESSIT.AsDateTime)) + ', ';
+      str := str + QuotedStr(cdsSolicSOLIC_OBSERVACAO.AsString);
+      str := str + ')';
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        dm.sqlsisAdimin.ExecuteDirect('UPDATE COMPRA_SOLIC SET SOLIC_SITUACAO = ' +
+          QuotedStr('G') + ' WHERE SOLIC_CODIGO = ' + IntToStr(cdsSolicSOLIC_CODIGO.AsInteger)); // Altero o Status para G=Gerado Cotacao
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro para gravar a cotação.', mtError, [mbOK], 0);
+        exit;
+      end;
+    end
+    else
+    begin
+       // Não encontrou este registros
+       Label2.Caption := Label2.Caption + v_codigos[x];
+    end;
 
   //Fim do Loop (FOR)
   end;
