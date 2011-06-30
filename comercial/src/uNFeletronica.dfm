@@ -1529,20 +1529,21 @@ object fNFeletronica: TfNFeletronica
       'TO,'#13#10'          case when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10'    ' +
       '      udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10'     ' +
       '     ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'      ' +
-      '    pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS, md.' +
-      'CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 2) as pIPI,'#13#10'          U' +
-      'DF_ROUNDDEC(md.FRETE, 2) as FRETE,'#13#10'          UDF_ROUNDDEC(md.VA' +
-      'LOR_DESCONTO, 2) as VALOR_DESCONTO,'#13#10'          UDF_ROUNDDEC(md.v' +
-      'IPI, 2) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VLR_BASEICMS, 2) as ' +
-      'VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR' +
-      '_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE,'#13#10'  ' +
-      '        UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST,'#13#10'         ' +
-      ' UDF_ROUNDDEC(md.ICMS_SUBSTD, 2) as ICMS_SUBSTD, '#13#10'          UDF' +
-      '_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALO' +
-      'R_SEGURO, md.VALOR_OUTROS'#13#10'from VENDA vd '#13#10'inner join MOVIMENTOD' +
-      'ETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOT' +
-      'AFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr' +
-      ' on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      '    pr.UNIDADEMEDIDA,'#13#10'          UDF_TRIM(md.CST) CST,'#13#10'        ' +
+      '  md.ICMS, md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 2) as pIPI' +
+      ','#13#10'          UDF_ROUNDDEC(md.FRETE, 2) as FRETE,'#13#10'          UDF_' +
+      'ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO,'#13#10'          UDF' +
+      '_ROUNDDEC(md.vIPI, 2) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VLR_BA' +
+      'SEICMS, 2) as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICM' +
+      'S, 2) as VALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2) as' +
+      ' VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUB' +
+      'ST,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBSTD, 2) as ICMS_SUBSTD, '#13 +
+      #10'          UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VAL' +
+      'TOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS'#13#10'from VENDA vd '#13#10'inner j' +
+      'oin MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10 +
+      'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner jo' +
+      'in PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODV' +
+      'ENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -1577,11 +1578,6 @@ object fNFeletronica: TfNFeletronica
       ReadOnly = True
       FixedChar = True
       Size = 2
-    end
-    object sdsItensNFCST: TStringField
-      FieldName = 'CST'
-      ReadOnly = True
-      Size = 5
     end
     object sdsItensNFICMS: TFloatField
       FieldName = 'ICMS'
@@ -1648,6 +1644,11 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'CODDETALHE'
       Required = True
     end
+    object sdsItensNFCST: TStringField
+      FieldName = 'CST'
+      ReadOnly = True
+      Size = 254
+    end
   end
   object dspItensNF: TDataSetProvider
     DataSet = sdsItensNF
@@ -1690,11 +1691,6 @@ object fNFeletronica: TfNFeletronica
       ReadOnly = True
       FixedChar = True
       Size = 2
-    end
-    object cdsItensNFCST: TStringField
-      FieldName = 'CST'
-      ReadOnly = True
-      Size = 5
     end
     object cdsItensNFICMS: TFloatField
       FieldName = 'ICMS'
@@ -1761,6 +1757,11 @@ object fNFeletronica: TfNFeletronica
     object cdsItensNFCODDETALHE: TIntegerField
       FieldName = 'CODDETALHE'
       Required = True
+    end
+    object cdsItensNFCST: TStringField
+      FieldName = 'CST'
+      ReadOnly = True
+      Size = 254
     end
   end
   object sMenorData: TSQLDataSet
@@ -1832,7 +1833,7 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 486
+    Left = 488
     Top = 360
     object sMaiorDataMAIORDATA: TDateField
       FieldName = 'MAIORDATA'
@@ -3960,7 +3961,7 @@ object fNFeletronica: TfNFeletronica
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 423
-    Top = 424
+    Top = 422
     object sAdicaoADIC_CODDET: TIntegerField
       FieldName = 'ADIC_CODDET'
     end
@@ -3993,8 +3994,8 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 454
-    Top = 424
+    Left = 455
+    Top = 422
     object sDIDI_CODDI: TIntegerField
       FieldName = 'DI_CODDI'
       Required = True
