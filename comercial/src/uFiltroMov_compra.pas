@@ -117,6 +117,7 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure btnAprovarClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -575,6 +576,46 @@ begin
      finally
        fCotacaoVer.Free;
      end;
+  end;
+
+  if (dm.tipoCompra = 'COMPRA') then
+    BitBtn9Click(Sender);
+end;
+
+procedure TfFiltroMov_compra.DBGrid1TitleClick(Column: TColumn);
+var
+  enum_IndexOption: TIndexOptions;
+  str_IndexAsc,
+  str_IndexDesc,
+  str_IndexName: String;
+begin
+//  cds_cns.IndexFieldNames := Column.FieldName;
+  if (Column.Field.FieldKind = fkData) then
+  begin
+    str_IndexAsc := Concat('asc_',Column.FieldName);
+    str_IndexDesc := Concat('desc_',Column.FieldName);
+
+    str_IndexName := '';
+    enum_IndexOption := [];
+
+    if (cds_cns.IndexName = str_IndexAsc) then
+    begin
+    str_IndexName := str_IndexDesc;
+    enum_IndexOption := [ixDescending];
+    end
+    else if (cds_cns.IndexName = str_IndexDesc) then
+    begin
+    str_IndexName := str_IndexAsc;
+    end
+    else
+    begin
+    str_IndexName := str_IndexAsc;
+    end;
+
+    cds_cns.IndexDefs.Clear;
+
+    cds_cns.IndexDefs.Add(str_IndexName,Column.FieldName,enum_IndexOption);
+    cds_cns.IndexName := str_IndexName;
   end;
 end;
 

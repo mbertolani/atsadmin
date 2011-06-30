@@ -692,6 +692,8 @@ begin
   scds_serie_proc.Close;
 
   scdsCr_proc.Close;
+  scdsCr_proc.Params[0].AsInteger := cds_compraCODCOMPRA.AsInteger;
+  scdsCr_proc.Open;
   
 end;
 
