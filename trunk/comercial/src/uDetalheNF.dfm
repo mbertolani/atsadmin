@@ -181,6 +181,7 @@ object fDetalheNF: TfDetalheNF
     Top = 25
     Width = 73
     Height = 21
+    DataField = 'UN'
     DataSource = DMNF.DtSrc1
     TabOrder = 3
     OnChange = abproc
