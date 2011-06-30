@@ -947,7 +947,6 @@ begin
       executaScript('insere_estoque.sql');
       executaScript('mov_estoque.sql');
       executaScript('proc_cotacao.sql');
-      executaScript('gera_nf_venda.sql');
       try
         executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA,  ' +
          ' GERATITULO, TIPOTITULO, TIPOMOVIMENTO, BAIXAMOVIMENTO) VALUES (' +
@@ -976,7 +975,6 @@ begin
 
     if (versaoSistema = '1.0.0.89') then
     begin
-      executaScript('gera_nf_venda.sql');
       {SQLQuery1.SQL.Clear;
       SQLQuery1.SQL.Add('select * from RDB$RELATION_CONSTRAINTS ' +
         ' where rdb$relation_name = ' + QuotedStr('COMPRA_COTACAO') +
@@ -1017,7 +1015,8 @@ begin
       executaScript('cotacao_gera_pedido.sql');
       executaScript('altera_status_cotacao.sql');
       executaScript('cotacao_negociacao.sql');
-      executaScript('cotacao_estorna.sql');      
+      executaScript('cotacao_estorna.sql');
+      executaScript('gera_nf_venda.sql');
       if (NaoExisteTabela('OS_DET')) then
       begin
         executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
@@ -1031,6 +1030,7 @@ begin
     begin
       executaDDL('NOTAFISCAL', 'IDCOMPLEMENTAR', 'VARCHAR(44)');
       executaDDL('NOTAFISCAL', 'XMLNFE', 'BLOB');
+      executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
       mudaVersao('1.0.0.92');
     end;
 
