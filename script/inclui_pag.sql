@@ -126,6 +126,11 @@ begin
 
      if (dif > 0) then 
        j = (dif*(i+1));
+     else if ((d1 = 0) and (i = 0)) then
+     begin
+        j = d1;
+        d1 = 0;
+     end	   
      else if (d1 > 0) then 
      begin 
        j = d1;   
