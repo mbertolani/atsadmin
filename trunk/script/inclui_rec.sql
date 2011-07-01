@@ -1,4 +1,4 @@
-CREATE OR ALTER TRIGGER INCLUI_REC FOR VENDA
+﻿CREATE OR ALTER TRIGGER INCLUI_REC FOR VENDA
 ACTIVE AFTER INSERT
 POSITION 0
 AS
@@ -38,7 +38,6 @@ AS
   DECLARE VARIABLE d6 smallint;
   DECLARE VARIABLE d7 smallint;
   DECLARE VARIABLE d8 smallint;
-  DECLARE VARIABLE d9 smallint;
   Declare variable dif1 smallint;
   Declare variable dif2 smallint;
   Declare variable dif3 smallint;
@@ -53,9 +52,9 @@ begin
    forma = new.FORMARECEBIMENTO;
    if (new.FORMARECEBIMENTO is null) then
      forma = '1';
-   SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9 FROM PARAMETRO
+   SELECT D1, D2, D3, D4, D5, D6, D7, D8 FROM PARAMETRO
      WHERE DADOS = 'PRAZO' and PARAMETRO = NEW.PRAZO
-     INTO :D1, :D2, :D3, :D4, :D5, :D6, :D7, :D8, :D9;
+     INTO :D1, :D2, :D3, :D4, :D5, :D6, :D7, :D8;
    
    if (d1 is null) then d1 = 0;
    if (d2 is null) then d2 = 0;
@@ -65,7 +64,6 @@ begin
    if (d6 is null) then d6 = 0;
    if (d7 is null) then d7 = 0;
    if (d8 is null) then d8 = 0;
-   if (d9 is null) then d9 = 0;
    if ((d2-d1)=(d3-d2)) then
    if ((d1-0) = (d2-d1)) then
      dif = d2-d1;
@@ -234,11 +232,6 @@ begin
              j = d8;
              d8 = 0;
            end
-           /*else if (d9 > 0) then
-           begin
-             j = d9;
-             d9 = 0;
-           end*/
 
            -- Se j = 0 então não usa prazo , usa a data Vencimento
            if (j = 0) then
@@ -355,13 +348,7 @@ begin
          else if (dif > 0) then
            j = (dif*(i+1));
 
-         /*else if (d9 > 0) then
-         begin
-           j = d9;
-           d9 = 0;
-         end*/
-
-         if (NEW.STATUS = 0) then
+		 if (NEW.STATUS = 0) then
          begin
            status_venda = '5-';
            CAIXA = null;
@@ -403,12 +390,12 @@ begin
            CODVENDA , CODALMOXARIFADO, CODVENDEDOR, CODUSUARIO
            , DATASISTEMA, VALOR_PRIM_VIA, VALOR_RESTO, VALORTITULO, PARCELAS, VALORRECEBIDO
            , DESCONTO, JUROS, FUNRURAL, PERDA, TROCA,N_DOCUMENTO, OUTRO_CREDITO, CAIXA, DATARECEBIMENTO
-           , SITUACAO, CODORIGEM, SITUACAO, GERARQREM)
+           , SITUACAO, CODORIGEM)
          VALUES
            ((NEW.NOTAFISCAL || '-' || NEW.SERIE), NEW.DATAVENDA, NEW.CODCLIENTE, :dtaVenc,
            :status_venda, CAST((:i) as CHAR(3)), :forma, NEW.CODVENDA, NEW.CODCCUSTO, NEW.CODVENDEDOR, NEW.CODUSUARIO,
            'NOW', :VLR_PRIM_VIA, :VLR_RESTO, :VLR_TITULO, NEW.N_PARCELA,0,0,0,0,0,0, NEW.N_DOCUMENTO,0, :CAIXA, :DTAREC,
-           0, NEW.CODORIGEM, :J, :I);
+           0, NEW.CODORIGEM);
            i = i + 1;
        end
      end
@@ -428,4 +415,3 @@ begin
      end
    end -- Fim do IF tipoEmpresa
 end
-

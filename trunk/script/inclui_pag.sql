@@ -21,7 +21,6 @@ AS
   DECLARE VARIABLE d6 smallint;
   DECLARE VARIABLE d7 smallint;
   DECLARE VARIABLE d8 smallint;
-  DECLARE VARIABLE d9 smallint;
   Declare variable dif1 smallint;
   Declare variable dif2 smallint;
   Declare variable dif3 smallint;
@@ -46,9 +45,9 @@ begin
      tipoEmpresa = 'vazio';
    -- Se a empresa for de Logistica a Tela de Compra e Venda não gera 
    -- Contas a Pagar nem a Receber
-   SELECT D1, D2, D3, D4, D5, D6, D7, D8, D9 FROM PARAMETRO
+   SELECT D1, D2, D3, D4, D5, D6, D7, D8 FROM PARAMETRO
      WHERE DADOS = 'PRAZO' and PARAMETRO = NEW.PRAZO
-     INTO :D1, :D2, :D3, :D4, :D5, :D6, :D7, :D8, :D9;
+     INTO :D1, :D2, :D3, :D4, :D5, :D6, :D7, :D8;
    if (d1 is null) then d1 = 0;
    if (d2 is null) then d2 = 0;
    if (d3 is null) then d3 = 0;
@@ -57,7 +56,6 @@ begin
    if (d6 is null) then d6 = 0;
    if (d7 is null) then d7 = 0;
    if (d8 is null) then d8 = 0;
-   if (d9 is null) then d9 = 0;
    if ((d2-d1)=(d3-d2)) then 
    if ((d1-0) = (d2-d1)) then 
      dif = d2-d1;
@@ -167,11 +165,6 @@ begin
      begin 
        j = d8;   
        d8 = 0;
-     end 
-     else if (d9 > 0) then 
-     begin 
-       j = d9;   
-       d9 = 0;
      end 
 
      -- Se j = 0 então não usa prazo , usa a data Vencimento     
