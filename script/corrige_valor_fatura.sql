@@ -3,8 +3,9 @@ BEFORE UPDATE POSITION 0
 AS 
 BEGIN 
     if ((old.VALOR_RESTO_SST is null) and (new.STATUS = '5-') )then
-        if(new.VALOR_RESTO <> old.VALOR_RESTO) then
-            new.VALOR_RESTO_SST = old.VALOR_RESTO;
+        new.VALOR_RESTO_SST = old.VALOR_RESTO;
+    if(new.VALOR_RESTO <> old.VALOR_RESTO) then
+        new.VALOR_RESTO_SST = new.VALOR_RESTO;
     if ((old.VALOR_RESTO_SST is null) and (new.STATUS = '7-') )then
         if(new.VALOR_RESTO <> old.VALOR_RESTO) then
             new.VALOR_RESTO_SST = old.VALORRECEBIDO;
