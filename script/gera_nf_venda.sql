@@ -22,13 +22,12 @@ as
   declare variable vSeguro DOUBLE PRECISION;
   declare variable vIcms DOUBLE PRECISION;
   declare variable vOutros DOUBLE PRECISION;
-  declare variable vIpi DOUBLE PRECISION;
+  declare variable vIpiT DOUBLE PRECISION;
   declare variable vFreteT DOUBLE PRECISION;
   declare variable vSeguroT DOUBLE PRECISION;
   declare variable vIcmsT DOUBLE PRECISION;
   declare variable vIcmsSubst DOUBLE PRECISION;
   declare variable vOutrosT DOUBLE PRECISION;
-  declare variable vIpiT DOUBLE PRECISION;
   declare variable pesoUn DOUBLE PRECISION;
   declare variable pesoTotal DOUBLE PRECISION;
   declare variable un char(2);
@@ -63,7 +62,9 @@ as
   declare variable BAIRRO Varchar(40);
   declare variable PRAZO Varchar(40);
   declare variable CODNATUREZA smallint;
-  declare variable CFOP_CLI char(4);    
+  declare variable CFOP_CLI char(4);  
+  declare variable CODTRANSPORTADORA INTEGER;
+    
 begin 
 
     Select first 1 mov.CODNATUREZA
@@ -111,16 +112,16 @@ begin
   into :codMovNovo;
 
   -- insiro o Movimento   
-  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, ven.VALOR_FRETE
+  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, ven.VALOR_FRETE, mov.CODTRANSP
     from movimento mov 
     inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
     where mov.CODMOVIMENTO = :codMov
-  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT
+  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA
   do begin 
     insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario
-      , codVendedor, dataMovimento, status, codNatureza, controle) 
+      , codVendedor, dataMovimento, status, codNatureza, controle, codtransp) 
     values (:codMovNovo, :Cliente, :codCCusto, :codUser 
-        , :codVendedor, :dtEmissao, 0, 15, :codMov);  
+        , :codVendedor, :dtEmissao, 0, 15, :codMov, :CODTRANSPORTADORA);  
   end 
     pesoTotal = 0;
     -- localiza o mov. detalhe
@@ -223,7 +224,9 @@ begin
      UDF_LEFT(ei.DADOSADC4,75), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
   FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf
   into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
-
+ 
+  if(:CODTRANSPORTADORA is null) then
+  begin
   select first 1 t.CODTRANSP, t.NOMETRANSP, t.PLACATRANSP, t.CNPJ_CPF, t.END_TRANSP
    , t.CIDADE_TRANSP, t.UF_VEICULO_TRANSP, t.UF_TRANSP, t.FRETE, t.INSCRICAOESTADUAL
    , t.FONE, t.FONE2, t.FAX, t.CONTATO, t.CEP, t.BAIRRO
@@ -232,7 +235,17 @@ begin
   into :CODTRANSP, :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
     , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :FRETE, :INSCRICAOESTADUAL
     , :FONE, :FONE2, :FAX, :CONTATO, :CEP, :BAIRRO;
-
+  end
+  else
+  begin
+  select first 1 t.NOMETRANSP, t.PLACATRANSP, t.CNPJ_CPF, t.END_TRANSP
+   , t.CIDADE_TRANSP, t.UF_VEICULO_TRANSP, t.UF_TRANSP, t.INSCRICAOESTADUAL
+   from TRANSPORTADORA t
+    where t.CODTRANSP = :CODTRANSPORTADORA
+  into :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
+    , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :INSCRICAOESTADUAL;
+  end
+  
   select GEN_ID(GEN_NF, 1) from RDB$DATABASE
   into :codNF;
 
