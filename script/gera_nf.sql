@@ -1,7 +1,11 @@
-create or alter procedure gera_nf(cliente integer, dtEmissao date, 
-  dtVcto date, serie char(2), numero varchar(7))
-as
-  declare variable codRec integer;
+CREATE OR ALTER PROCEDURE GERA_NF (
+    CLIENTE Integer,
+    DTEMISSAO Date,
+    DTVCTO Date,
+    SERIE Char(2),
+    NUMERO Varchar(7) )
+AS
+declare variable codRec integer;
   declare variable codMov integer;
   declare variable codVen integer;
   declare variable codNf integer;
@@ -201,7 +205,7 @@ begin
     , MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, VALOR_ICMS, VALOR_FRETE
     , VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, STATUS, Banco, CODUSUARIO, CODVENDEDOR, DataSistema)
      VALUES (:codVen, :codMovNovo, :Cliente, :dtEmissao, :dtVcto
-    , :total, :numero, :serie, 0, :codCCusto, 1, 1,  0, 0, :total, 0, :vIcmsT, :vFreteT
+    , :total, :numero, :serie, 0, :codCCusto, 1, 1,  0, :total, :total, 0, :vIcmsT, :vFreteT
     ,:vSeguroT, :vOutrosT, :vIpiT, 0, 1, :codUser, :codVendedor, CURRENT_DATE);
 
   if (tBaseIcms = 0) then 
@@ -218,10 +222,10 @@ begin
   INSERT INTO NOTAFISCAL (NOTASERIE, NUMNF, NATUREZA, codVenda, codCliente, cfop
     , valor_total_nota, dtaEmissao, VALOR_ICMS, BASE_ICMS_SUBST, VALOR_ICMS_SUBST
     , VALOR_FRETE, VALOR_PRODUTO, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, BASE_ICMS, NOTAFISCAL
-    , SERIE,UF)
+    , SERIE,UF, VALOR_DESCONTO)
     VALUES (:numero, :CodNF, 12, :codVen, :Cliente, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
-    , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero,:serie, :uf);
+    , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero,:serie, :uf, 0);
  
    EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
        :vOutrosT, :total, 'N', 0, 0);
