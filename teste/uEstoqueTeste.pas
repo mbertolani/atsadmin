@@ -201,14 +201,14 @@ begin
         ' FROM ESTOQUEMES ' +
         'WHERE CODPRODUTO  = ' + IntToStr(FEstoque.CodProduto) +
         '  AND LOTE        = ' + QuotedStr(FEstoque.Lote) +
-        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', FEstoque.MesAno)) +
+        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', FEstoque.MesAnoPost)) +
         '  AND CENTROCUSTO = ' + IntToStr(FEstoque.CentroCusto));
   dm.sqlBusca.Open;
   pCusto := Trunc(dm.sqlBusca.FieldByName('PRECOCUSTO').AsFloat * 10000) / 10000;  // 4 Casas Decimais
-  pTeste := StrToFloat('4,5');
+  pTeste := StrToFloat('5,0285');
 
-  check(pCusto = pTeste , 'Preco Custo Errado.');
-  check(dm.sqlBusca.FieldByName('QTDECOMPRA').AsFloat = 60 , 'Quantidade Compra Errado.');
+  check(pCusto = pTeste , 'Preco Custo Errado.');   // Preco de Custo do Ultimo Mes
+  check(dm.sqlBusca.FieldByName('QTDECOMPRA').AsFloat = 40 , 'Quantidade Compra Errado.');  // Preco de Compra do Ultimo Mes que existe no sistema.
 
 end;
 
