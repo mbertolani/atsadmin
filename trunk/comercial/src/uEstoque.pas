@@ -30,6 +30,7 @@ type
     function getLote: String;
     function getUn: String;
     function getMesAno: TDateTime;
+    function getMesAnoPost: TDateTime;
     function getCentroCusto: Integer;
     function getQtdeCompra: Double;
     function getQtdeVenda: Double;
@@ -43,6 +44,7 @@ type
     function getSaldoAnterior: Double;
     procedure setCodProduto(const Value: Integer);
     procedure setMesAno(const Value: TDateTime);
+    procedure setMesAnoPost(const Value: TDateTime);
     procedure setCentroCusto(const Value: Integer);
     procedure setLote(const Value: String);
     procedure setUn(const Value: String);
@@ -76,9 +78,11 @@ type
     _precoVenda: Double;
     _saldoAnterior: Double;
     _centroCusto: integer;
+    _mesAnoPost: TDateTime;
   public
     property CodProduto: Integer read getCodProduto write setCodProduto;
     property MesAno: TDateTime read getMesAno write setMesAno;
+    property MesAnoPost: TDateTime read getMesAno write setMesAno;
     property CentroCusto: Integer read getCentroCusto write setCentroCusto;
     property Lote: String read getLote write setLote;
     property Un: String read getUn write setUn;
@@ -111,7 +115,8 @@ uses SqlExpr, DB, UDm;
 
 procedure TEstoque.corrigeCustoEstoquePosterior;
 var sqlBuscaPosterior : TSqlQuery;
-    mesAnteriorA: TDateTime;
+    mesPost, mesAnt: TDateTime;
+    PCusto1, Estoque1, EstoqueAnterior1, VlrEstoque1: Double;
 begin
   // Corrigindo Custo e Estoque mes Posterior
 
@@ -129,16 +134,37 @@ begin
   sqlBuscaPosterior.SQLConnection := dm.sqlsisAdimin;
   sqlBuscaPosterior.SQL.Add(sqlStr);
   sqlBuscaPosterior.Active := True;
-
+  mesAnt := Self.MesAno;
   While (not sqlBuscaPosterior.Eof) do
   begin
-    mesAnteriorA := sqlBuscaPosterior.fieldByName('MESANO').AsDateTime;
+    mesPost := sqlBuscaPosterior.fieldByName('MESANO').AsDateTime;
+    mesAnt := mesAnterior(mesPost);
+    self.MesAnoPost := mesPost;
     With dm  do begin
-      sqlStr := 'SELECT PRECOCUSTO , MESANO, SALDOESTOQUE ' +
+      // Mes Atual
+      sqlStr := 'SELECT PRECOCUSTO , MESANO, SALDOMESANTERIOR, SALDOESTOQUE ' +
         '  FROM ESTOQUEMES ' +
         ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
         '   AND LOTE        = ' + QuotedStr(Self.Lote) +
-        '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesAnteriorA)) +
+        '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesAnt)) +
+        '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
+        ' ORDER BY MESANO';
+      if (sqlBusca.Active) then
+        sqlBusca.Close;
+      sqlBusca.SQL.Clear;
+      sqlBusca.SQL.Add(sqlStr);
+      sqlBusca.Open;
+
+      PCusto1             := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
+      Estoque1            := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
+      EstoqueAnterior1    := sqlBusca.FieldByName('SALDOMESANTERIOR').AsFloat;
+      VlrEstoque1         := PCusto1 * Estoque1;
+
+      sqlStr := 'SELECT PRECOCUSTO , MESANO, (SALDOESTOQUE - SALDOMESANTERIOR) as SALDOESTOQUE ' +
+        '  FROM ESTOQUEMES ' +
+        ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
+        '   AND LOTE        = ' + QuotedStr(Self.Lote) +
+        '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesPost)) +
         '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
         ' ORDER BY MESANO';
       if (sqlBusca.Active) then
@@ -149,21 +175,26 @@ begin
       PCusto     := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
       QSaldo     := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
       QMes       := sqlBusca.FieldByName('MESANO').AsDateTime;
+
+      //Estoque1   := Estoque1 + QSaldo;
+      PCusto1    := ((PCusto * QSaldo) + VlrEstoque1) / (Estoque1 + Qsaldo);
     end;
 
     // Atualiza mes Posterior
+    DecimalSeparator := '.';
     sqlStr := 'UPDATE ESTOQUEMES SET ';
-    sqlStr := sqlStr + ' SALDOMESANTERIOR  = ' + FloatToStr(QSaldoAnterior);
-    sqlStr := sqlStr + ', PRECOCUSTO    = ' + FloatToStr(Self.PrecoCusto);
+    sqlStr := sqlStr + ' SALDOMESANTERIOR  = ' + FloatToStr(Estoque1);
+    sqlStr := sqlStr + '     , PRECOCUSTO  = ' + FloatToStr(PCusto1);
     sqlStr := sqlStr + ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto);
     sqlStr := sqlStr + '   AND LOTE        = ' + QuotedStr(Self.Lote);
     sqlStr := sqlStr + '   AND MESANO      = ' +
     QuotedStr(FormatDateTime('mm/dd/yyyy', QMes));
     sqlStr := sqlStr + '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto);
+    DecimalSeparator := ',';
     dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+    //QSaldoAnterior := dm.sqlBusca.FieldByName('SALDOMESANTERIOR').AsFloat;
     sqlBuscaPosterior.Next;
   end;
-
   sqlBuscaPosterior.Free;
 end;
 
@@ -196,6 +227,11 @@ function TEstoque.getMesAno: TDateTime;
 begin
   mesAnterior(_mesAno);
   Result := _mesano;
+end;
+
+function TEstoque.getMesAnoPost: TDateTime;
+begin
+  Result := _mesAnoPost;
 end;
 
 function TEstoque.getPrecoCusto: Double;
@@ -305,7 +341,9 @@ begin
       // Se tiver Movimento no Mes posterior, o Custo tem que ser Refeito
       if (temMesPosterior = True) then
       begin
-        QSaldoAnterior := Self.SaldoAnterior;
+        // ********************** carregar aqui o preco de custo e o saldo do mes que acabou de ser inserido
+
+        QSaldoAnterior := totalEstoque;
         PCustoAnterior := Self.PrecoCusto;
         corrigeCustoEstoquePosterior;
       end;
@@ -442,6 +480,11 @@ begin
   decodedate(Value, anoa, mesa, diaa);
   diaa := 1;
   _mesAno := EncodeDate(anoa, mesa, diaa);
+end;
+
+procedure TEstoque.setMesAnoPost(const Value: TDateTime);
+begin
+  _mesAnoPost := Value;
 end;
 
 procedure TEstoque.setPrecoCusto(const Value: Double);
