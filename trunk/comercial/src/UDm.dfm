@@ -3,9 +3,9 @@ object DM: TDM
   OnCreate = DataModuleCreate
   Left = 2
   Height = 680
-  Width = 1022
+  Width = 1021
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sge'
+    ConnectionName = 'sisadmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -15,7 +15,11 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
+<<<<<<< .mine
+      'Database=localhost:F:\home\bd\sge_ats.fdb'
+=======
       'Database=quad:sge_dnz'
+>>>>>>> .r925
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -23,9 +27,14 @@ object DM: TDM
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
+<<<<<<< .mine
+      'User_Name=SYSDBA'
+      'WaitOnLocks=True')
+=======
       'User_Name=sysdba'
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisAdmin\relatorio\')
+>>>>>>> .r925
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -3207,6 +3216,35 @@ object DM: TDM
       FieldName = 'INSTRUCAO4'
       Size = 100
     end
+    object sdsBancoCEDENTE: TStringField
+      FieldName = 'CEDENTE'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object sdsBancoNCONVENIO: TIntegerField
+      FieldName = 'NCONVENIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sdsBancoESPECIEDOC: TStringField
+      FieldName = 'ESPECIEDOC'
+      ProviderFlags = [pfInUpdate]
+      Size = 5
+    end
+    object sdsBancoACEITE: TStringField
+      FieldName = 'ACEITE'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
+    end
+    object sdsBancoCONVENIO: TStringField
+      FieldName = 'CONVENIO'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object sdsBancoLOCALPGTO: TStringField
+      FieldName = 'LOCALPGTO'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
   end
   object dspBanco: TDataSetProvider
     DataSet = sdsBanco
@@ -3283,6 +3321,35 @@ object DM: TDM
     end
     object cdsBancoINSTRUCAO4: TStringField
       FieldName = 'INSTRUCAO4'
+      Size = 100
+    end
+    object cdsBancoCEDENTE: TStringField
+      FieldName = 'CEDENTE'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object cdsBancoNCONVENIO: TIntegerField
+      FieldName = 'NCONVENIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsBancoESPECIEDOC: TStringField
+      FieldName = 'ESPECIEDOC'
+      ProviderFlags = [pfInUpdate]
+      Size = 5
+    end
+    object cdsBancoACEITE: TStringField
+      FieldName = 'ACEITE'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
+    end
+    object cdsBancoCONVENIO: TStringField
+      FieldName = 'CONVENIO'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object cdsBancoLOCALPGTO: TStringField
+      FieldName = 'LOCALPGTO'
+      ProviderFlags = [pfInUpdate]
       Size = 100
     end
   end
