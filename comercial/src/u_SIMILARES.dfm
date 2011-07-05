@@ -43,7 +43,7 @@ object F_SIMILARES: TF_SIMILARES
       Transparent = True
     end
     object RxLabel1: TRxLabel
-      Left = 388
+      Left = 425
       Top = 18
       Width = 20
       Height = 26
@@ -90,6 +90,15 @@ object F_SIMILARES: TF_SIMILARES
       BevelKind = bkFlat
       ItemHeight = 13
       TabOrder = 2
+    end
+    object BitBtn2: TBitBtn
+      Left = 377
+      Top = 18
+      Width = 43
+      Height = 27
+      Caption = '...'
+      TabOrder = 3
+      OnClick = BitBtn2Click
     end
   end
   object grp4: TGroupBox
@@ -213,7 +222,7 @@ object F_SIMILARES: TF_SIMILARES
       OnClick = btn4Click
     end
     object btn5: TBitBtn
-      Left = 217
+      Left = 291
       Top = 18
       Width = 75
       Height = 27
@@ -222,13 +231,22 @@ object F_SIMILARES: TF_SIMILARES
       OnClick = btn5Click
     end
     object btn8: TBitBtn
-      Left = 294
+      Left = 368
       Top = 18
       Width = 75
       Height = 27
       Caption = 'EXCLUIR'
       TabOrder = 3
       OnClick = btn8Click
+    end
+    object BitBtn1: TBitBtn
+      Left = 216
+      Top = 18
+      Width = 75
+      Height = 27
+      Caption = 'BUSCA '
+      TabOrder = 4
+      OnClick = BitBtn1Click
     end
   end
   object grp1: TGroupBox

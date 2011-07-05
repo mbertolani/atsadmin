@@ -74,12 +74,16 @@ type
     s_similarPRECOMEDIO: TBCDField;
     ds_similarVALORUNITARIOATUAL: TFloatField;
     ds_similarPRECOMEDIO: TBCDField;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
     procedure btn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edt1KeyPress(Sender: TObject; var Key: Char);
     procedure btn4Click(Sender: TObject);
     procedure btn5Click(Sender: TObject);
     procedure btn8Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -93,7 +97,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, ufprocura_prod;
 
 {$R *.dfm}
 
@@ -211,6 +215,34 @@ begin
   end
   else
     exit;
+end;
+
+procedure TF_SIMILARES.BitBtn1Click(Sender: TObject);
+begin
+  procprod := 'PROC_PROD_COMPLETO';
+  fProcura_prod.CheckBox1.Visible := False;
+  fProcura_prod.RadioButton2.Visible := False;
+  fProcura_prod.Panel2.Visible := False;
+  fProcura_prod.Panel1.Visible := True;
+  fProcura_prod.ShowModal;
+  //cbb1.Text :=  fProcura_prod.cds_procMARCA.AsString;
+  edt3.Text := fProcura_prod.cds_procCODPRO.AsString;
+  btn4.Click;
+  edt3.SetFocus;
+end;
+
+procedure TF_SIMILARES.BitBtn2Click(Sender: TObject);
+begin
+  procprod := 'PROC_PROD_COMPLETO';
+  fProcura_prod.CheckBox1.Visible := False;
+  fProcura_prod.RadioButton2.Visible := False;
+  fProcura_prod.Panel2.Visible := False;
+  fProcura_prod.Panel1.Visible := True;
+  fProcura_prod.ShowModal;
+  edt1.Text := fProcura_prod.cds_procCODPRO.AsString;
+  cbb1.Text :=  fProcura_prod.cds_procMARCA.AsString;
+  btn1.Click;
+  edt1.SetFocus;
 end;
 
 end.
