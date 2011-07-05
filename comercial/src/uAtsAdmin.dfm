@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    692
-    400)
+    684
+    388)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 0
     Top = 47
-    Width = 692
-    Height = 329
+    Width = 684
+    Height = 317
     Align = alClient
     Center = True
     Picture.Data = {
@@ -752,7 +752,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 692
+    Width = 684
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2045,8 +2045,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 376
-    Width = 692
+    Top = 364
+    Width = 684
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2080,7 +2080,7 @@ object fAtsAdmin: TfAtsAdmin
   end
   object btnBoleto: TButton
     Left = 504
-    Top = 344
+    Top = 336
     Width = 145
     Height = 25
     Action = acBoletoAts
@@ -3827,14 +3827,6 @@ object fAtsAdmin: TfAtsAdmin
     Left = 241
     Top = 113
   end
-  object EvAppProtect1: TEvAppProtect
-    Active = False
-    EvalDays = 1
-    IdApplication = 3027
-    RegKey = '\SOFTWARE\TCF Software\AppProtect\'
-    Left = 64
-    Top = 200
-  end
   object VCLReport1: TVCLReport
     AsyncExecution = False
     Title = 'Untitled'
@@ -3888,5 +3880,13 @@ object fAtsAdmin: TfAtsAdmin
     Filter = 'pdf'
     Left = 24
     Top = 272
+  end
+  object EvAppProtect1: TEvAppProtect
+    Active = False
+    FileName = 'ATS'
+    IdApplication = 150568
+    RegKey = '\SOFTWARE\TCF Software\AppProtect\'
+    Left = 144
+    Top = 215
   end
 end

@@ -158,7 +158,6 @@ type
     dxButton7: TdxButton;
     SpeedButton4: TdxButton;
     btnsair: TdxButton;
-    EvAppProtect1: TEvAppProtect;
     mPlanoContas: TMenuItem;
     mSuporte: TMenuItem;
     mCadColaborador: TMenuItem;
@@ -231,7 +230,11 @@ type
     Button1: TButton;
     btnBoleto: TButton;
     SaveDialog1: TSaveDialog;
+<<<<<<< .mine
+    EvAppProtect1: TEvAppProtect;
+=======
     acBoletoAts: TAction;
+>>>>>>> .r925
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
