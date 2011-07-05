@@ -22,7 +22,7 @@ object fFiltroMovimento: TfFiltroMovimento
   object Panel1: TPanel
     Left = 0
     Top = 46
-    Width = 792
+    Width = 784
     Height = 132
     Align = alTop
     PopupMenu = PopupMenu1
@@ -105,6 +105,7 @@ object fFiltroMovimento: TfFiltroMovimento
       Top = 19
       Width = 217
       Height = 24
+      BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -120,6 +121,8 @@ object fFiltroMovimento: TfFiltroMovimento
       Top = 63
       Width = 78
       Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -137,6 +140,8 @@ object fFiltroMovimento: TfFiltroMovimento
       Width = 400
       Height = 24
       TabStop = False
+      BevelKind = bkFlat
+      BorderStyle = bsNone
       Color = clInfoBk
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -398,10 +403,12 @@ object fFiltroMovimento: TfFiltroMovimento
         C0C0C0C0C0C0C0C00000}
     end
     object Edit3: TEdit
-      Left = 25
+      Left = 1
       Top = 105
       Width = 78
       Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -420,6 +427,8 @@ object fFiltroMovimento: TfFiltroMovimento
       Width = 200
       Height = 24
       TabStop = False
+      BevelKind = bkFlat
+      BorderStyle = bsNone
       Color = clInfoBk
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -686,6 +695,8 @@ object fFiltroMovimento: TfFiltroMovimento
       Top = 63
       Width = 86
       Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -699,8 +710,10 @@ object fFiltroMovimento: TfFiltroMovimento
     object Edit8: TEdit
       Left = 673
       Top = 63
-      Width = 73
+      Width = 64
       Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -712,7 +725,7 @@ object fFiltroMovimento: TfFiltroMovimento
       OnKeyPress = ComboBox1KeyPress
     end
     object BitBtn7: TBitBtn
-      Left = 747
+      Left = 740
       Top = 48
       Width = 42
       Height = 39
@@ -781,7 +794,7 @@ object fFiltroMovimento: TfFiltroMovimento
         0000}
     end
     object BitBtn10: TBitBtn
-      Left = 748
+      Left = 742
       Top = 92
       Width = 42
       Height = 39
@@ -852,7 +865,7 @@ object fFiltroMovimento: TfFiltroMovimento
     object RadioGroup1: TRadioGroup
       Left = 387
       Top = 1
-      Width = 401
+      Width = 394
       Height = 43
       Caption = 'Finalizado'
       Columns = 5
@@ -881,6 +894,8 @@ object fFiltroMovimento: TfFiltroMovimento
         Top = 13
         Width = 77
         Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
         EditMask = '>LLL-0000;1;_'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -969,6 +984,7 @@ object fFiltroMovimento: TfFiltroMovimento
       Top = 105
       Width = 214
       Height = 24
+      BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -982,15 +998,19 @@ object fFiltroMovimento: TfFiltroMovimento
     object meDta1: TJvDateEdit
       Left = 584
       Top = 106
-      Width = 82
+      Width = 81
       Height = 21
+      BorderStyle = bsNone
+      BevelKind = bkFlat
       TabOrder = 6
     end
     object meDta2: TJvDateEdit
-      Left = 667
+      Left = 664
       Top = 106
-      Width = 80
+      Width = 78
       Height = 21
+      BorderStyle = bsNone
+      BevelKind = bkFlat
       TabOrder = 7
     end
     object rbData: TJvCheckBox
@@ -1013,7 +1033,7 @@ object fFiltroMovimento: TfFiltroMovimento
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 792
+    Width = 784
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -1033,7 +1053,7 @@ object fFiltroMovimento: TfFiltroMovimento
     object Label10: TJvLabel
       Left = 2
       Top = 2
-      Width = 788
+      Width = 780
       Height = 42
       Align = alClient
       Alignment = taCenter
@@ -1050,8 +1070,8 @@ object fFiltroMovimento: TfFiltroMovimento
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 479
-    Width = 792
+    Top = 468
+    Width = 784
     Height = 46
     Align = alBottom
     BevelInner = bvLowered
@@ -1483,8 +1503,8 @@ object fFiltroMovimento: TfFiltroMovimento
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 178
-    Width = 792
-    Height = 301
+    Width = 784
+    Height = 290
     Align = alClient
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
@@ -1514,21 +1534,21 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'CODPEDIDO'
         Title.Caption = 'Cod. Pedido'
-        Width = 48
+        Width = 47
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOTAFISCAL'
         Title.Caption = 'T'#237'tulo'
-        Width = 48
+        Width = 47
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NFE'
         Title.Caption = 'NFe'
-        Width = 60
+        Width = 59
         Visible = True
       end
       item
@@ -1542,14 +1562,13 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'DATAMOVIMENTO'
         Title.Caption = 'Data'
-        Width = 48
+        Width = 47
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAVENDA'
         Title.Caption = 'Data Venda'
-        Width = 65
         Visible = True
       end
       item
@@ -1563,7 +1582,7 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
-        Width = 231
+        Width = 229
         Visible = True
       end
       item
@@ -1576,21 +1595,21 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'VALOR'
         Title.Caption = 'Valor R$'
-        Width = 56
+        Width = 55
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'd. Nat.'
-        Width = 48
+        Width = 47
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 88
+        Width = 89
         Visible = True
       end>
   end
