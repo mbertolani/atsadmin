@@ -1,8 +1,9 @@
-CREATE OR ALTER TRIGGER GERA_PEDIDO  for COMPRA_COTACAO  ACTIVE
+﻿CREATE OR ALTER TRIGGER GERA_PEDIDO  for COMPRA_COTACAO  ACTIVE
 AFTER UPDATE POSITION 0
 AS 
   declare variable codmov integer;
   declare variable codProduto integer;
+  declare variable ccusto integer;
 BEGIN 
     codmov = 0;
 	-- Gera o Pedido de Compra ou de Despesa apos a Solicitacao ser aprovada 
