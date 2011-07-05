@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
-  DBCtrls, Grids, DBGrids, Mask, FMTBcd, DBClient, Provider, SqlExpr;
+  DBCtrls, Grids, DBGrids, Mask, FMTBcd, DBClient, Provider, SqlExpr,
+  RXCtrls;
 
 type
   Tfbanco = class(TfPai)
@@ -20,7 +21,7 @@ type
     Label6: TLabel;
     DBEdit4: TDBEdit;
     Label7: TLabel;
-    DBEdit5: TDBEdit;
+    dbedtCODBANCO: TDBEdit;
     Label8: TLabel;
     DBEdit6: TDBEdit;
     Label9: TLabel;
@@ -33,12 +34,23 @@ type
     DBEdit11: TDBEdit;
     DBEdit12: TDBEdit;
     DBEdit13: TDBEdit;
+    RxLabel2: TRxLabel;
+    dbedtCODIGO_CEDENTE: TDBEdit;
+    lbl1: TLabel;
+    dbedtCODIGO_CEDENTE1: TDBEdit;
+    lbl2: TLabel;
+    dbedtCODIGO_AGENCIA: TDBEdit;
+    lbl3: TLabel;
+    dbedtINSTRUCAO1: TDBEdit;
+    lbl4: TLabel;
+    lbl5: TLabel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,7 +64,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, sCtrlResize;
 
 {$R *.dfm}
 
@@ -69,7 +81,8 @@ end;
 
 procedure Tfbanco.FormShow(Sender: TObject);
 begin
-  inherited;
+ // inherited;
+   sCtrlResize.CtrlResize(TForm(fbanco));
   if (not dm.cdsBanco.Active) then
     dm.cdsBanco.Open;
 end;
@@ -82,7 +95,7 @@ end;
 
 procedure Tfbanco.btnGravarClick(Sender: TObject);
 begin
-  if DtSrc.DataSet.State in [dsInsert] then
+ { if DtSrc.DataSet.State in [dsInsert] then
   begin
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
@@ -90,7 +103,14 @@ begin
     dm.c_6_genid.Open;
     dm.cdsBancoCODBANCO.AsInteger := dm.c_6_genidCODIGO.AsInteger;
     dm.c_6_genid.Close;
-  end;  
+  end;}
+  if (dbedtCODBANCO.Text = '') then
+  begin
+    showmessage('Informe o Código do Banco');
+    dbedtCODBANCO.SetFocus;
+    exit;
+  end;
+
   inherited;
   btnIncluir.SetFocus;
 end;
@@ -107,6 +127,12 @@ begin
   inherited;
   codbanco :=  dm.cdsBancoCODBANCO.value;
   nomebanco := dm.cdsBancoBANCO.AsString;
+end;
+
+procedure Tfbanco.FormCreate(Sender: TObject);
+begin
+//  inherited;
+
 end;
 
 end.
