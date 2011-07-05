@@ -5,8 +5,7 @@ interface
 uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
-  Variants, DBClient;
-
+  Variants, DBClient, EAppProt;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -1760,8 +1759,23 @@ type
     cds_cfopIPIBC: TStringField;
     scds_forn_procTELEFONE: TStringField;
     scds_forn_procDDD: TSmallintField;
+<<<<<<< .mine
+    sdsBancoCEDENTE: TStringField;
+    sdsBancoNCONVENIO: TIntegerField;
+    sdsBancoESPECIEDOC: TStringField;
+    sdsBancoACEITE: TStringField;
+    sdsBancoCONVENIO: TStringField;
+    sdsBancoLOCALPGTO: TStringField;
+    cdsBancoCEDENTE: TStringField;
+    cdsBancoNCONVENIO: TIntegerField;
+    cdsBancoESPECIEDOC: TStringField;
+    cdsBancoACEITE: TStringField;
+    cdsBancoCONVENIO: TStringField;
+    cdsBancoLOCALPGTO: TStringField;
+=======
     QryGetObject: TSQLQuery;
     sqlBusca: TSQLQuery;
+>>>>>>> .r925
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
