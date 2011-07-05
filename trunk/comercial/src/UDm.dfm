@@ -15,11 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-<<<<<<< .mine
       'Database=localhost:F:\home\bd\sge_ats.fdb'
-=======
-      'Database=quad:sge_dnz'
->>>>>>> .r925
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -27,14 +23,9 @@ object DM: TDM
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-<<<<<<< .mine
       'User_Name=SYSDBA'
-      'WaitOnLocks=True')
-=======
-      'User_Name=sysdba'
-      'WaitOnLocks=True'
+      'WaitOnLocks=True'   
       'str_relatorio=C:\home\sisAdmin\relatorio\')
->>>>>>> .r925
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
