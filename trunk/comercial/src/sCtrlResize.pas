@@ -2,7 +2,12 @@ unit sCtrlResize;
 
 interface
 
-uses StdCtrls, Controls, Forms, JvLabel;
+uses StdCtrls, Controls, Forms, JvLabel,
+      Dialogs, ExtCtrls, JvExStdCtrls, JvGroupBox, Mask, DBCtrls,
+      Grids, DBGrids, JvExDBGrids, JvDBGrid, Buttons, MMJPanel, FMTBcd, DB,
+      DBClient, Provider, SqlExpr, ComCtrls, uUtils, JvExMask, JvToolEdit,
+      JvBaseEdits, JvDBControls, Menus, DBXpress, jpeg, JvExExtCtrls, JvImage,
+      JvSpin, JvDBSpinEdit;
 
 procedure CtrlResize(var Sender: TForm); export;
 
@@ -12,8 +17,8 @@ procedure CtrlResize(var Sender: TForm);
 //Aqui vc especifica a resolução que vc
 //desenvolveu o aplicativo
 const
-  iWidth = 800;
-  iHeight = 600;
+  iWidth = 800; //1024;
+  iHeight = 600; //768;
 var
   i : Integer;
 begin
@@ -42,8 +47,18 @@ begin
         TJvLabel(Components[i]).Left := Round(TWinControl(Components[i]).Left * (Screen.Width / iWidth));
         TJvLabel(Components[i]).Top := Round(TWinControl(Components[i]).Top * (Screen.Height / iHeight));
       end;
+     { if Components[i] is TJvGroupBox then
+      begin // Redefine os componentes em proporção ao original
+        TJvGroupBox(Components[i]).Width := Canvas.TextWidth(TJvGroupBox(Components[i]).Caption); // Round(TWinControl(Components[i]).Width * (Screen.Width / iWidth));
+        TJvGroupBox(Components[i]).Height := Canvas.TextHeight(TJvGroupBox(Components[i]).Caption); // Round(TWinControl(Components[i]).Height * (Screen.Height / iHeight));
+        TJvGroupBox(Components[i]).Left := Round(TWinControl(Components[i]).Left * (Screen.Width / iWidth));
+        TJvGroupBox(Components[i]).Top := Round(TWinControl(Components[i]).Top * (Screen.Height / iHeight));
+      end;
+      }
 
     end;
+
+
     //Para não alterar o tamanho e posição do form
     //Comente as linhas abaixo
    { Redefine o Formulário }
