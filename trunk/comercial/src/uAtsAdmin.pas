@@ -230,11 +230,8 @@ type
     Button1: TButton;
     btnBoleto: TButton;
     SaveDialog1: TSaveDialog;
-<<<<<<< .mine
     EvAppProtect1: TEvAppProtect;
-=======
     acBoletoAts: TAction;
->>>>>>> .r925
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
