@@ -1759,7 +1759,6 @@ type
     cds_cfopIPIBC: TStringField;
     scds_forn_procTELEFONE: TStringField;
     scds_forn_procDDD: TSmallintField;
-<<<<<<< .mine
     sdsBancoCEDENTE: TStringField;
     sdsBancoNCONVENIO: TIntegerField;
     sdsBancoESPECIEDOC: TStringField;
@@ -1772,10 +1771,8 @@ type
     cdsBancoACEITE: TStringField;
     cdsBancoCONVENIO: TStringField;
     cdsBancoLOCALPGTO: TStringField;
-=======
     QryGetObject: TSQLQuery;
     sqlBusca: TSQLQuery;
->>>>>>> .r925
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
