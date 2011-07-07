@@ -527,6 +527,7 @@ type
     procedure medt1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeSerieExit(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
+    procedure btn4Click(Sender: TObject);
   private
     { Private declarations }
     centro_receita, cod_nat, cod_vendedor_padrao, COD_VENDA: integer;
@@ -574,7 +575,7 @@ var
 implementation
 
 uses UDm, sCtrlResize, uListaClientes, U_Boletos, ufprocura_prod,
-  uFiltroMovimento, uClienteVeiculo, uProcurar;
+  uFiltroMovimento, uClienteVeiculo, uProcurar, U_OSBUSCA;
 
 {$R *.dfm}
 
@@ -1934,6 +1935,36 @@ begin
     fProcurar.Free;
    end;
    //DBEdit2.SetFocus;
+end;
+
+procedure TF_AUTOPECAS.btn4Click(Sender: TObject);
+var
+  codosvar : integer;
+begin
+
+  if dm.c_6_genid.Active then
+     dm.c_6_genid.Close;
+     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_OS, 1) AS INTEGER) AS CODOS FROM RDB$DATABASE';
+     dm.c_6_genid.Open;
+     codosvar := dm.c_6_genid.Fields[0].AsInteger;
+     dm.c_6_genid.Close;
+
+
+      strSql := 'INSERT OS(CODOS, CODCLIENTE, CODVEICULO, CODMOVIMENTO, ' +
+      ' DATAMOVIMENTO, DATA_SISTEMA, STATUS, DATA_INI) VALUES (';
+
+      strSql := strSql + IntToStr(codosvar) + ', ';
+      strSql := strSql + IntToStr(ds_movimentoCODCLIENTE.AsInteger) + ', ';
+      strSql := strSql + IntToStr(ds_movimentoCOD_VEICULO.AsInteger) + ', ';
+      strSql := strSql + IntToStr(ds_movimentoCODMOVIMENTO.AsInteger) + ', ';
+      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',ds_movimentoDATAMOVIMENTO.AsDateTime) + ', ';
+      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW) + ', ';
+      strSql := strSql + QuotedStr('PENDENTE') + ', ';
+      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW) + ')';
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
 end;
 
 end.

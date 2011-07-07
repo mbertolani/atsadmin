@@ -1,11 +1,11 @@
 object F_AUTOPECAS: TF_AUTOPECAS
-  Left = 212
-  Top = 1
+  Left = 377
+  Top = 46
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'TERMINAL'
   ClientHeight = 649
-  ClientWidth = 843
+  ClientWidth = 840
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -24,7 +24,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 843
+    Width = 840
     Height = 45
     Align = alTop
     PopupMenu = pm1
@@ -143,7 +143,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
   object MMJPanel5: TMMJPanel
     Left = 0
     Top = 609
-    Width = 843
+    Width = 840
     Height = 40
     Align = alBottom
     TabOrder = 1
@@ -202,6 +202,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       Caption = 'Apr. Or'#231'amento'
       PopupMenu = pm1
       TabOrder = 1
+      OnClick = btn4Click
     end
     object btn_procura: TBitBtn
       Left = 162
@@ -245,7 +246,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
   object pgc1: TPageControl
     Left = 0
     Top = 45
-    Width = 421
+    Width = 418
     Height = 564
     ActivePage = ts3
     Align = alClient
@@ -256,7 +257,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       object MMJPanel4: TMMJPanel
         Left = 0
         Top = 0
-        Width = 413
+        Width = 410
         Height = 536
         Align = alClient
         BevelInner = bvLowered
@@ -270,7 +271,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox2: TJvGroupBox
           Left = 2
           Top = 265
-          Width = 409
+          Width = 406
           Height = 54
           Align = alBottom
           Caption = 'Dados do Ve'#237'culo'
@@ -354,7 +355,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox4: TJvGroupBox
           Left = 2
           Top = 319
-          Width = 409
+          Width = 406
           Height = 215
           Align = alBottom
           Caption = 'SIMILARES'
@@ -363,7 +364,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           object JvDBGrid2: TJvDBGrid
             Left = 2
             Top = 15
-            Width = 405
+            Width = 402
             Height = 198
             Align = alClient
             BorderStyle = bsNone
@@ -402,7 +403,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
                 Expanded = False
                 FieldName = 'MARCA'
                 Title.Caption = 'Marca'
-                Width = 77
+                Width = 76
                 Visible = True
               end
               item
@@ -415,7 +416,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
                 Expanded = False
                 FieldName = 'PRECOMEDIO'
                 Title.Caption = 'R$Venda'
-                Width = 67
+                Width = 65
                 Visible = True
               end>
           end
@@ -423,7 +424,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox5: TJvGroupBox
           Left = 2
           Top = 2
-          Width = 409
+          Width = 406
           Height = 48
           Align = alTop
           PopupMenu = pm1
@@ -487,14 +488,14 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object pnl2: TPanel
           Left = 2
           Top = 50
-          Width = 409
+          Width = 406
           Height = 215
           Align = alClient
           TabOrder = 3
           object JvImage1: TJvImage
             Left = 1
             Top = 1
-            Width = 407
+            Width = 404
             Height = 213
             Align = alClient
             AutoSize = True
@@ -1265,7 +1266,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       object MMJPanel6: TMMJPanel
         Left = 0
         Top = 0
-        Width = 413
+        Width = 410
         Height = 536
         Align = alClient
         BevelInner = bvLowered
@@ -1279,7 +1280,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox11: TJvGroupBox
           Left = 2
           Top = 360
-          Width = 409
+          Width = 406
           Height = 174
           Align = alClient
           Caption = 'T'#205'TULOS'
@@ -1288,7 +1289,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           object JvDBGrid4: TJvDBGrid
             Left = 2
             Top = 15
-            Width = 405
+            Width = 402
             Height = 157
             Align = alClient
             BorderStyle = bsNone
@@ -1327,28 +1328,28 @@ object F_AUTOPECAS: TF_AUTOPECAS
                 Expanded = False
                 FieldName = 'DATAVENCIMENTO'
                 Title.Caption = 'Vencimento'
-                Width = 98
+                Width = 96
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'STATUS'
                 Title.Caption = 'Status'
-                Width = 85
+                Width = 84
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'VALORTITULO'
                 Title.Caption = 'T'#237'tulo R$'
-                Width = 68
+                Width = 67
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'VALOR_RESTO'
                 Title.Caption = 'Valor'
-                Width = 58
+                Width = 59
                 Visible = True
               end>
           end
@@ -1356,7 +1357,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox12: TJvGroupBox
           Left = 2
           Top = 61
-          Width = 409
+          Width = 406
           Height = 53
           Align = alTop
           Caption = 'Dados da N.F'
@@ -1490,7 +1491,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox1: TJvGroupBox
           Left = 2
           Top = 2
-          Width = 409
+          Width = 406
           Height = 59
           Align = alTop
           Caption = 'Dados do Cliente'
@@ -1548,7 +1549,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox6: TJvGroupBox
           Left = 2
           Top = 324
-          Width = 409
+          Width = 406
           Height = 36
           Align = alTop
           Caption = 'Obs.:'
@@ -1570,7 +1571,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox10: TJvGroupBox
           Left = 2
           Top = 114
-          Width = 409
+          Width = 406
           Height = 87
           Align = alTop
           PopupMenu = pm1
@@ -1609,7 +1610,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Width = 169
             Height = 21
             BevelKind = bkFlat
-            ItemHeight = 0
+            ItemHeight = 13
             PopupMenu = pm1
             TabOrder = 0
           end
@@ -1619,7 +1620,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Width = 157
             Height = 21
             BevelKind = bkFlat
-            ItemHeight = 0
+            ItemHeight = 13
             PopupMenu = pm1
             TabOrder = 1
           end
@@ -1638,7 +1639,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Width = 169
             Height = 21
             BevelKind = bkFlat
-            ItemHeight = 0
+            ItemHeight = 13
             PopupMenu = pm1
             TabOrder = 3
           end
@@ -1664,7 +1665,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object pnl3: TPanel
           Left = 2
           Top = 287
-          Width = 409
+          Width = 406
           Height = 37
           Align = alTop
           TabOrder = 4
@@ -1690,7 +1691,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object GroupBox1: TGroupBox
           Left = 2
           Top = 201
-          Width = 409
+          Width = 406
           Height = 86
           Align = alTop
           TabOrder = 6
@@ -1871,7 +1872,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       object MMJPanel7: TMMJPanel
         Left = 0
         Top = 0
-        Width = 413
+        Width = 410
         Height = 536
         Align = alClient
         BevelInner = bvLowered
@@ -1885,7 +1886,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox8: TJvGroupBox
           Left = 2
           Top = 149
-          Width = 409
+          Width = 406
           Height = 191
           Align = alTop
           Caption = 'SERVI'#199'OS'
@@ -1894,7 +1895,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           object JvDBGrid5: TJvDBGrid
             Left = 2
             Top = 15
-            Width = 405
+            Width = 402
             Height = 174
             Align = alClient
             BorderStyle = bsNone
@@ -1918,7 +1919,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox9: TJvGroupBox
           Left = 2
           Top = 381
-          Width = 409
+          Width = 406
           Height = 96
           Align = alTop
           Caption = 'OBSERVA'#199#213'ES'
@@ -1927,7 +1928,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           object dbmmo1: TDBMemo
             Left = 2
             Top = 15
-            Width = 405
+            Width = 402
             Height = 79
             Align = alClient
             BevelKind = bkFlat
@@ -1939,7 +1940,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object pnl1: TPanel
           Left = 2
           Top = 340
-          Width = 409
+          Width = 406
           Height = 41
           Align = alTop
           Color = clMoneyGreen
@@ -1976,7 +1977,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox3: TJvGroupBox
           Left = 2
           Top = 50
-          Width = 409
+          Width = 406
           Height = 99
           Align = alTop
           Caption = 'Dados do Ve'#237'culo'
@@ -2113,7 +2114,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox14: TJvGroupBox
           Left = 2
           Top = 2
-          Width = 409
+          Width = 406
           Height = 48
           Align = alTop
           PopupMenu = pm1
@@ -2197,7 +2198,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         object JvGroupBox7: TJvGroupBox
           Left = 2
           Top = 477
-          Width = 409
+          Width = 406
           Height = 57
           Align = alClient
           Caption = 'APLICA'#199#195'O DO PRODUTO'
@@ -2206,7 +2207,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           object JvDBGrid3: TJvDBGrid
             Left = 2
             Top = 15
-            Width = 405
+            Width = 402
             Height = 40
             Align = alClient
             BorderStyle = bsNone
@@ -2235,7 +2236,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
     end
   end
   object MMJPanel2: TMMJPanel
-    Left = 421
+    Left = 418
     Top = 45
     Width = 422
     Height = 564
