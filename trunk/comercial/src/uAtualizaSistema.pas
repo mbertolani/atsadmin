@@ -942,7 +942,6 @@ begin
       executaDDL('CFOP', 'IPIBC', 'char(1)');
       executaScript('trg_calcula_icms_st.sql');
       executaScript('calcula_icms.sql');
-      executaScript('frete_nf.sql');
       executaScript('baixa_estoque.sql');
       executaScript('insere_estoque.sql');
       executaScript('mov_estoque.sql');
@@ -1031,6 +1030,11 @@ begin
       executaDDL('NOTAFISCAL', 'IDCOMPLEMENTAR', 'VARCHAR(44)');
       executaDDL('NOTAFISCAL', 'XMLNFE', 'BLOB');
       executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
+      executaScript('gera_pedido.sql');
+      executaScript('inclui_rec.sql');
+      executaScript('inclui_pag.sql');
+      executaScript('frete_nf.sql');
+      executaScript('gera_pedido_proc.sql');
       mudaVersao('1.0.0.92');
     end;
 
