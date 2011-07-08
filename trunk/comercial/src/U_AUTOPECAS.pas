@@ -1957,10 +1957,10 @@ begin
       strSql := strSql + IntToStr(ds_movimentoCODCLIENTE.AsInteger) + ', ';
       strSql := strSql + IntToStr(ds_movimentoCOD_VEICULO.AsInteger) + ', ';
       strSql := strSql + IntToStr(ds_movimentoCODMOVIMENTO.AsInteger) + ', ';
-      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',ds_movimentoDATAMOVIMENTO.AsDateTime) + ', ';
-      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW) + ', ';
+      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',ds_movimentoDATAMOVIMENTO.AsDateTime)) + ', ';
+      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW)) + ', ';
       strSql := strSql + QuotedStr('PENDENTE') + ', ';
-      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW) + ')';
+      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW)) + ')';
 
       dm.sqlsisAdimin.StartTransaction(TD);
       dm.sqlsisAdimin.ExecuteDirect(strSql);
