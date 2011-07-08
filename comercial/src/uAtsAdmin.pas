@@ -701,6 +701,7 @@ procedure TfAtsAdmin.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
  caminho, arquivo, empresa: String;
 begin
+  if (dm.VISTO_FTP <> '') then
   if (StrToDateTime(dm.VISTO_FTP) <> today) then
   begin
     empresa := RemoveChar(dm.empresa);
