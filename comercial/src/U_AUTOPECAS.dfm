@@ -38,8 +38,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object lbl1: TLabel
       Left = 66
       Top = 42
-      Width = 323
-      Height = 25
+      Width = 358
+      Height = 28
       Caption = 'Entre com o C'#243'digo de Barras -->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -52,8 +52,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object RxLabel2: TRxLabel
       Left = 9
       Top = 11
-      Width = 255
-      Height = 21
+      Width = 292
+      Height = 23
       Caption = 'Entre com o C'#243'digo de Barras -->'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -495,8 +495,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
           object JvImage1: TJvImage
             Left = 1
             Top = 1
-            Width = 404
-            Height = 213
+            Width = 765
+            Height = 370
             Align = alClient
             AutoSize = True
             Center = True
@@ -1610,7 +1610,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Width = 169
             Height = 21
             BevelKind = bkFlat
-            ItemHeight = 13
+            ItemHeight = 0
             PopupMenu = pm1
             TabOrder = 0
           end
@@ -1620,7 +1620,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Width = 157
             Height = 21
             BevelKind = bkFlat
-            ItemHeight = 13
+            ItemHeight = 0
             PopupMenu = pm1
             TabOrder = 1
           end
@@ -1639,7 +1639,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Width = 169
             Height = 21
             BevelKind = bkFlat
-            ItemHeight = 13
+            ItemHeight = 0
             PopupMenu = pm1
             TabOrder = 3
           end
@@ -2337,8 +2337,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
       object RxLabel1: TRxLabel
         Left = 44
         Top = 16
-        Width = 190
-        Height = 25
+        Width = 207
+        Height = 28
         Caption = 'Total do Pedido -->'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
