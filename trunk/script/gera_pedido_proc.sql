@@ -1,14 +1,15 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE GERA_PEDIDO_PROC(CODIGO INTEGER, FORNEC INTEGER, codMov integer)
 AS 
   declare variable codProduto integer;
   declare variable codSolic   integer;
-  declare variable ccusto integer;  
+  declare variable ccusto     integer;  
   declare variable dtentrega  date;
   declare variable prazo      varchar(30);
   declare variable userAprova varchar(30);
   declare variable codPro     varchar(15);
-  declare variable obs        varchar(200);
-  declare variable descricao  varchar(300);
+  declare variable obs        varchar(300);
+  declare variable descricao  varchar(350);
   declare variable situacao   char(1);
   declare variable tipo       char(1);
   declare variable qtde       double precision;
@@ -51,10 +52,12 @@ BEGIN
         begin  
           codmov = GEN_ID(GENMOV, 1);
           insert into MOVIMENTO (codmovimento, datamovimento, codcliente, codnatureza, 
-            status, codusuario, codfornecedor, data_sistema, controle, data_entrega, prazo_pagamento, obs, user_aprova, CODALMOXARIFADO)
+            status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
+            prazo_pagamento, obs, user_aprova, CODALMOXARIFADO)
           values (
-            :codmov, CURRENT_DATE, 0, 5, 0, 1, :FORNEC, CURRENT_TIMESTAMP, :CODIGO, :CCUSTO,
-            :DTENTREGA, :PRAZO, UDF_LEFT(:obs,99),  :userAprova);   
+            :codmov, CURRENT_DATE, 0, 5, 
+            0,       1,         :FORNEC, CURRENT_TIMESTAMP, Cast(:CODIGO as Varchar(20)), :DTENTREGA, 
+            :PRAZO, UDF_LEFT(:obs,99),  :userAprova, :CCUSTO); 
         end  
         select first 1 p.CODPRODUTO from produtos p where p.CODPRO = :codPro
           into :codProduto;
@@ -63,12 +66,14 @@ BEGIN
             quantidade, preco, QTDE_ALT, frete, valor_desconto) values (
             GEN_ID(GENMOVDET, 1), :codmov, :codProduto, :descricao, :qtde, :preco, :ipi 
             , :frete, :desconto);  
+            
         -- Muda o Status da Compra_Solic    
         UPDATE COMPRA_SOLIC  SET SOLIC_SITUACAO = 'E' WHERE SOLIC_CODIGO = :codSolic;              
         -- Muda o Status da Compra_Cotacao
         update COMPRA_COTACAO set COTACAO_SITUACAO = 'F'
          WHERE COTACAO_SITUACAO = 'G'
            AND COTACAO_ITEM   = :codPro;
+           
       end 
     end
     end
