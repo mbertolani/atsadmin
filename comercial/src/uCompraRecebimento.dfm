@@ -417,6 +417,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
       OnKeyPress = JvDBGrid1KeyPress
+      OnTitleClick = JvDBGrid1TitleClick
       AutoAppend = False
       FixedCols = 7
       PostOnEnterKey = True
@@ -433,7 +434,15 @@ inherited fCompraRecebimento: TfCompraRecebimento
           Expanded = False
           FieldName = 'CONTROLE'
           Title.Caption = 'Cota'#231#227'o'
-          Width = 194
+          Width = 90
+          Visible = True
+        end
+        item
+          Color = clMenuBar
+          Expanded = False
+          FieldName = 'CODFORNECEDOR'
+          Title.Caption = 'Fornec.'
+          Width = 65
           Visible = True
         end
         item
@@ -441,7 +450,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           Expanded = False
           FieldName = 'CODPEDIDO'
           Title.Caption = 'Pedido'
-          Width = 65
+          Width = 68
           Visible = True
         end
         item
@@ -450,7 +459,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'DATA_ENTREGA'
           ReadOnly = True
           Title.Caption = 'Dt. Entrega'
-          Width = 65
+          Width = 68
           Visible = True
         end
         item
@@ -459,7 +468,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'CODPRO'
           ReadOnly = True
           Title.Caption = 'Material'
-          Width = 66
+          Width = 69
           Visible = True
         end
         item
@@ -468,7 +477,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'PRODUTO'
           ReadOnly = True
           Title.Caption = 'Descri'#231#227'o'
-          Width = 217
+          Width = 228
           Visible = True
         end
         item
@@ -477,7 +486,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'QUANTIDADE'
           ReadOnly = True
           Title.Caption = 'Quantidade'
-          Width = 79
+          Width = 83
           Visible = True
         end
         item
@@ -486,7 +495,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'PRECO'
           ReadOnly = True
           Title.Caption = 'Pre'#231'o'
-          Width = 65
+          Width = 68
           Visible = True
         end
         item
@@ -495,7 +504,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           FieldName = 'VALTOTAL'
           ReadOnly = True
           Title.Caption = 'Val. Total'
-          Width = 65
+          Width = 68
           Visible = True
         end
         item
@@ -503,7 +512,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
           Expanded = False
           FieldName = 'RECEBIDO'
           Title.Caption = 'Recebido'
-          Width = 131
+          Width = 139
           Visible = True
         end>
     end
@@ -579,17 +588,22 @@ inherited fCompraRecebimento: TfCompraRecebimento
       FieldName = 'CODPEDIDO'
       ReadOnly = True
     end
+    object cdsPedidoCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      ReadOnly = True
+    end
   end
   object sqlPedido: TSQLDataSet
     CommandText = 
       'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO,' +
       ' p.PRODUTO'#13#10', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO' +
-      ', md.VALTOTAL , md.RECEBIDO, m.CONTROLE, m.CODPEDIDO'#13#10' from MOVI' +
-      'MENTODETALHE md'#13#10'inner join MOVIMENTO m on  m.CODMOVIMENTO  = md' +
-      '.CODMOVIMENTO'#13#10'inner join PRODUTOS   p on  md.CODPRODUTO    = p.' +
-      'CODPRODUTO'#13#10'where md.STATUS is null '#13#10'    and m.CODNATUREZA   = ' +
-      '5'#13#10'    and m.STATUS                = 0'#13#10'    and m.CODFORNECEDOR ' +
-      '= :pFornec'#13#10'    and ((md.QUANTIDADE - md.RECEBIDO) > 0)'
+      ', md.VALTOTAL , md.RECEBIDO, m.CONTROLE, m.CODPEDIDO,'#13#10'm.CODFORN' +
+      'ECEDOR'#13#10' from MOVIMENTODETALHE md'#13#10'inner join MOVIMENTO m on  m.' +
+      'CODMOVIMENTO  = md.CODMOVIMENTO'#13#10'inner join PRODUTOS   p on  md.' +
+      'CODPRODUTO    = p.CODPRODUTO'#13#10'where md.STATUS is null '#13#10'    and ' +
+      'm.CODNATUREZA   = 5'#13#10'    and m.STATUS                = 0'#13#10'    an' +
+      'd m.CODFORNECEDOR = :pFornec'#13#10'    and ((md.QUANTIDADE - md.RECEB' +
+      'IDO) > 0)'
     MaxBlobSize = -1
     Params = <
       item
@@ -645,6 +659,10 @@ inherited fCompraRecebimento: TfCompraRecebimento
     end
     object sqlPedidoCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+      ReadOnly = True
+    end
+    object sqlPedidoCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
       ReadOnly = True
     end
   end
