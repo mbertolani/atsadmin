@@ -488,7 +488,9 @@ begin
   dm.sqlsisAdimin.StartTransaction(TD);
   try
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM COMPRA_COTACAO WHERE COTACAO_CODIGO = ' +
-      IntToStr(cdsCotacaoCOTACAO_CODIGO.AsInteger));
+      IntToStr(cdsCotacaoCOTACAO_CODIGO.AsInteger) +
+      ' AND COTACAO_ITEM = ' + QuotedStr(cdsCotacaoCOTACAO_ITEM.AsString) +
+      ' AND COTACAO_FORNEC = ' + IntToStr(cdsCotacaoCOTACAO_FORNEC.AsInteger));
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Item excluído com sucesso.', mtInformation, [mbOK], 0);
     if (cdsCotacao.Active) then
@@ -500,7 +502,6 @@ begin
     MessageDlg('Erro para excluir o pedido.', mtError, [mbOK], 0);
     exit;
   end;
-
 end;
 
 procedure TfCompraCotacao.BitBtn2Click(Sender: TObject);

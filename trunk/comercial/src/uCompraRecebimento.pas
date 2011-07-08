@@ -53,6 +53,8 @@ type
     cdsPedidoCONTROLE: TStringField;
     sqlPedidoCODPEDIDO: TIntegerField;
     cdsPedidoCODPEDIDO: TIntegerField;
+    sqlPedidoCODFORNECEDOR: TIntegerField;
+    cdsPedidoCODFORNECEDOR: TIntegerField;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -62,6 +64,7 @@ type
     procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn1Click(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
+    procedure JvDBGrid1TitleClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -80,6 +83,16 @@ uses uUtils, UDm, uProcurar;
 procedure TfCompraRecebimento.edFornecExit(Sender: TObject);
 begin
   //inherited;
+   if edFornec.Text = '' then exit;
+   if dm.scds_forn_proc.Active then
+     dm.scds_forn_proc.Close;
+   dm.scds_forn_proc.Params[0].Clear;
+   dm.scds_forn_proc.Params[1].Clear;
+   dm.scds_forn_proc.Params[2].AsInteger := StrToInt(edFornec.Text);
+   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+   dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1;
+   dm.scds_forn_proc.Open;
+   edFornecNome.Text := dm.scds_forn_procNOMEFORNECEDOR.asString;
 end;
 
 procedure TfCompraRecebimento.FormCreate(Sender: TObject);
@@ -134,7 +147,7 @@ begin
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
       ', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
-      ',  m.CONTROLE, m.CODPEDIDO ' +
+      ',  m.CONTROLE, m.CODPEDIDO , m.CODFORNECEDOR ' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
       ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
@@ -150,7 +163,7 @@ begin
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
       ', md.RECEBIDO QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
-      ',  m.CONTROLE, m.CODPEDIDO ' +
+      ',  m.CONTROLE, m.CODPEDIDO, m.CODFORNECEDOR ' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
       ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
@@ -207,12 +220,26 @@ end;
 procedure TfCompraRecebimento.BitBtn1Click(Sender: TObject);
 var TD: TTransactionDesc;
   tudo, alteraStatus: String;
+  codFornec: Integer;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
   try
     cdsPedido.DisableControls;
+    cdsPedido.First;
+    codFornec := cdsPedidoCODFORNECEDOR.AsInteger;
+    While not cdsPedido.Eof do
+    begin
+      // Se tiver um fornecedor diferente não executa o processo
+      if (codFornec <> cdsPedidoCODFORNECEDOR.AsInteger) then
+      begin
+        MessageDlg('A lista de Pedidos deve ser de um único Fornecedor.', mtInformation, [mbOK], 0);
+        Exit;
+      end;
+      cdsPedido.Next;
+    end;
+
     cdsPedido.First;
     DecimalSeparator := '.';
     tudo := 'S';
@@ -229,6 +256,7 @@ begin
       cdsPedido.Next;
     end;
     DecimalSeparator := ',';
+    { -- Fazendo pela PROC
     if (tudo = 'S') then
     begin
       alteraStatus := 'UPDATE MOVIMENTO SET STATUS = 5 WHERE CODMOVIMENTO = ' + IntToStr(cdsPedidoCODMOVIMENTO.AsInteger);
@@ -237,6 +265,12 @@ begin
     end;
     dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
     dm.sqlsisAdimin.Commit(TD);
+                                 }
+    alteraStatus := 'EXECUTE PROCEDURE COTACAO_GERA_PEDIDO(' + IntToStr(cdsPedidoCODFORNECEDOR.AsInteger)+ ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
+    dm.sqlsisAdimin.Commit(TD);
+
     cdsPedido.EnableControls;
     MessageDlg('Recebimento Gravado com sucesso.', mtInformation, [mbOK], 0);
   except
@@ -266,6 +300,44 @@ begin
     dm.scds_forn_proc.Close;
     fProcurar.Free;
   end;
+end;
+
+procedure TfCompraRecebimento.JvDBGrid1TitleClick(Column: TColumn);
+var
+  enum_IndexOption: TIndexOptions;
+  str_IndexAsc,
+  str_IndexDesc,
+  str_IndexName: String;
+begin
+//  cdsPedido.IndexFieldNames := Column.FieldName;
+  if (Column.Field.FieldKind = fkData) then
+  begin
+    str_IndexAsc := Concat('asc_',Column.FieldName);
+    str_IndexDesc := Concat('desc_',Column.FieldName);
+
+    str_IndexName := '';
+    enum_IndexOption := [];
+
+    if (cdsPedido.IndexName = str_IndexAsc) then
+    begin
+    str_IndexName := str_IndexDesc;
+    enum_IndexOption := [ixDescending];
+    end
+    else if (cdsPedido.IndexName = str_IndexDesc) then
+    begin
+    str_IndexName := str_IndexAsc;
+    end
+    else
+    begin
+    str_IndexName := str_IndexAsc;
+    end;
+
+    cdsPedido.IndexDefs.Clear;
+
+    cdsPedido.IndexDefs.Add(str_IndexName,Column.FieldName,enum_IndexOption);
+    cdsPedido.IndexName := str_IndexName;
+  end;
+
 end;
 
 end.
