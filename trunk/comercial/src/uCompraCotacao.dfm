@@ -515,12 +515,12 @@ inherited fCompraCotacao: TfCompraCotacao
       TabOrder = 2
     end
     object btnIncluiCotacao: TBitBtn
-      Left = 626
+      Left = 621
       Top = 20
-      Width = 32
+      Width = 93
       Height = 25
       Hint = 'Incluir cota'#231#227'o para o Fornecedor Selecionado'
-      Caption = '+'
+      Caption = '+ Nova Cota'#231#227'o'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -534,7 +534,7 @@ inherited fCompraCotacao: TfCompraCotacao
       OnClick = btnIncluiCotacaoClick
     end
     object BitBtn1: TBitBtn
-      Left = 660
+      Left = 915
       Top = 20
       Width = 32
       Height = 25
@@ -547,7 +547,7 @@ inherited fCompraCotacao: TfCompraCotacao
       OnClick = btnExcluirClick
     end
     object btnProcCotacao: TBitBtn
-      Left = 694
+      Left = 949
       Top = 20
       Width = 32
       Height = 25
@@ -564,6 +564,36 @@ inherited fCompraCotacao: TfCompraCotacao
       ShowHint = True
       TabOrder = 5
       OnClick = btnProcCotacaoClick
+    end
+    object BitBtn3: TBitBtn
+      Left = 806
+      Top = 20
+      Width = 108
+      Height = 25
+      Hint = 'Incluir cota'#231#227'o para o Fornecedor Selecionado'
+      Caption = '+ Cota'#231#227'o Existente'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 6
+      OnClick = BitBtn3Click
+    end
+    object edCodCotacao: TEdit
+      Left = 723
+      Top = 20
+      Width = 81
+      Height = 21
+      Hint = 'C'#243'digo da Cota'#231#227'o '
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 7
+      OnExit = edCodCotacaoExit
     end
   end
   object GroupBox4: TGroupBox [4]
@@ -704,8 +734,15 @@ inherited fCompraCotacao: TfCompraCotacao
         Columns = <
           item
             Expanded = False
+            FieldName = 'COTACAO_CODIGO'
+            Title.Caption = 'Cot.'
+            Width = 45
+            Visible = True
+          end
+          item
+            Expanded = False
             FieldName = 'COTACAO_FORNEC'
-            Title.Caption = 'C'#243'digo Fornec.'
+            Title.Caption = 'C'#243'd. Fornec.'
             Visible = True
           end
           item
@@ -963,21 +1000,16 @@ inherited fCompraCotacao: TfCompraCotacao
   end
   object SQLQuery1: TSQLQuery
     MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftString
-        Name = 'ITEM'
-        ParamType = ptUnknown
-      end>
+    Params = <>
     SQL.Strings = (
+      'SELECT distinct(COTACAO_FORNEC), f.NOMEFORNECEDOR, '
       
-        'SELECT distinct(COTACAO_FORNEC), f.NOMEFORNECEDOR, ('#39'( '#39' || ef.D' +
-        'DD ||  '#39' )   '#39' || ef.TELEFONE) as TELEFONE FROM COMPRA_COTACAO, ' +
-        'FORNECEDOR f, ENDERECOFORNECEDOR ef'
+        '('#39'( '#39' || ef.DDD ||  '#39' )   '#39' || ef.TELEFONE) as TELEFONE, COTACAO' +
+        '_CODIGO'
+      '  FROM COMPRA_COTACAO, FORNECEDOR f, ENDERECOFORNECEDOR ef'
       'WHERE COTACAO_FORNEC = f.CODFORNECEDOR '
       '     AND f.CODFORNECEDOR = ef.CODFORNECEDOR'
       '     AND ef.TIPOEND = 0'
-      '     AND COTACAO_ITEM = :ITEM '
       '     AND COTACAO_SITUACAO = '#39'P'#39)
     SQLConnection = DM.sqlsisAdimin
     Left = 432
@@ -985,17 +1017,13 @@ inherited fCompraCotacao: TfCompraCotacao
   end
   object DataSetProvider1: TDataSetProvider
     DataSet = SQLQuery1
+    Options = [poAllowCommandText]
     Left = 464
     Top = 64
   end
   object ClientDataSet1: TClientDataSet
     Aggregates = <>
-    Params = <
-      item
-        DataType = ftString
-        Name = 'ITEM'
-        ParamType = ptUnknown
-      end>
+    Params = <>
     ProviderName = 'DataSetProvider1'
     Left = 496
     Top = 72
@@ -1012,6 +1040,11 @@ inherited fCompraCotacao: TfCompraCotacao
       FieldName = 'TELEFONE'
       ReadOnly = True
       Size = 22
+    end
+    object ClientDataSet1COTACAO_CODIGO: TIntegerField
+      FieldName = 'COTACAO_CODIGO'
+      ReadOnly = True
+      Required = True
     end
   end
   object DataSource1: TDataSource

@@ -91,6 +91,9 @@ type
     edSolicitante: TEdit;
     Label2: TLabel;
     cdsSolicUNIDADEMEDIDA: TStringField;
+    BitBtn3: TBitBtn;
+    ClientDataSet1COTACAO_CODIGO: TIntegerField;
+    edCodCotacao: TEdit;
     procedure btnIncluiCotacaoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbnvgr1Click(Sender: TObject; Button: TNavigateBtn);
@@ -117,11 +120,14 @@ type
     procedure edMarcaKeyPress(Sender: TObject; var Key: Char);
     procedure edGrupoKeyPress(Sender: TObject; var Key: Char);
     procedure edSubGrupoKeyPress(Sender: TObject; var Key: Char);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure edCodCotacaoExit(Sender: TObject);
   private
      TD: TTransactionDesc;
      sql_solic : String;
      function Selecionado(Codigos : TStringList; Codigo : String) : Integer;
      procedure executaBusca;
+     procedure abrirCotacoes(Item: String; codCotacao: Integer);
     { Private declarations }
   public
     { Public declarations }
@@ -139,7 +145,7 @@ uses UDm, uProcurar, uCotacoesHist, uCotacaoVer;
 
 procedure TfCompraCotacao.btnIncluiCotacaoClick(Sender: TObject);
 var str: string;
-  codCotacao, x, codSolic: Integer;
+  codCotacao, x, codSolic, z: Integer;
 begin
   if (edit1.Text = '') then
   begin
@@ -147,8 +153,15 @@ begin
     exit;
   end;
 
+  if (edCodCotacao.Text <> '') then
+  begin
+    MessageDlg('Existe Código de Cotação Informado, deixe o campo Vazio.', mtWarning, [mbOK], 0);
+    edCodCotacao.SetFocus;
+    exit;
+  end;
+
   // Ve se ja existe alguma cotação para o item
-  if (sqlBusca.Active) then
+  {if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
   codSolic := StrToInt(v_codigos[0]);
@@ -159,7 +172,7 @@ begin
   sqlBusca.SQL.Add(str);
   sqlBusca.Open;
   str := '';
-  if (sqlBusca.IsEmpty) then
+  if (sqlBusca.IsEmpty) then}
   begin
     if (sqlBusca.Active) then
       sqlBusca.Close;
@@ -167,10 +180,11 @@ begin
     sqlBusca.SQL.Add('SELECT MAX(COTACAO_CODIGO) FROM COMPRA_COTACAO');
     sqlBusca.Open;
     codCotacao := sqlBusca.Fields[0].AsInteger + 1;
-  end  else begin
+  end;{  else begin
     codCotacao := sqlBusca.Fields[0].AsInteger;
-  end;
+  end; }
   Label2.Caption := 'Selecioados >> ';
+  z := cdsSolic.RecNo;
   for x := 0 to v_codigos.Count-1 do
   begin
     Label2.Caption := Label2.Caption + ' ' + v_codigos[x];
@@ -220,16 +234,14 @@ begin
 
   //Fim do Loop (FOR)
   end;
+  cdsSolic.RecNo := z;
   MessageDlg('Cotação gravada com sucesso.', mtInformation, [mbOK], 0);
   if (cdsCotacao.Active) then
     cdsCotacao.Close;
   cdsCotacao.Params.ParamByName('FORNEC').AsInteger := StrToInt(edit1.Text);
   cdsCotacao.Open;
 
-
-  if (cdsSolic.Active) then
-    cdsSolic.Close;
-  cdsSolic.Open;
+  abrirCotacoes(cdsSolicSOLIC_PRODUTO.AsString, 0);
 
 end;
 
@@ -308,13 +320,8 @@ end;
 
 procedure TfCompraCotacao.btnProcCotacaoClick(Sender: TObject);
 begin
-  if (ClientDataSet1.Active) then
-    ClientDataSet1.Close;
-  if (Edit1.Text = '') then
-    ClientDataSet1.Params.ParamByName('item').AsInteger := StrToInt(Edit1.Text)
-  else
-    ClientDataSet1.Params.ParamByName('item').Clear;
-  ClientDataSet1.Open;
+  if (Edit1.Text <> '') then
+    abrirCotacoes(Edit1.Text, 0);
   if (cdsCotacao.Active) then
     cdsCotacao.Close;
   cdsCotacao.Params.ParamByName('FORNEC').AsInteger := StrToInt(Edit1.Text);
@@ -395,7 +402,8 @@ begin
   cdsCotacao.Params.ParamByName('FORNEC').AsInteger := ClientDataSet1COTACAO_FORNEC.AsInteger;
   cdsCotacao.Open;
 
-
+  if (not ClientDataSet1.IsEmpty) then
+    edCodCotacao.Text := IntToStr(ClientDataSet1COTACAO_CODIGO.AsInteger);
 end;
 
 procedure TfCompraCotacao.jvdbgrd1CellClick(Column: TColumn);
@@ -403,10 +411,7 @@ var
   x, y : integer;
 begin
 
-  if (ClientDataSet1.Active) then
-    ClientDataSet1.Close;
-  ClientDataSet1.Params.ParamByName('ITEM').AsString := cdsSolicSOLIC_PRODUTO.AsString;
-  ClientDataSet1.Open;
+  abrirCotacoes(cdsSolicSOLIC_PRODUTO.AsString, 0);
 
   //VERIFICAR SE JÁ ESTA INCLUSO
   y := Selecionado(v_codigos, IntToStr(cdsSolicSOLIC_CODIGO.AsInteger));
@@ -416,7 +421,7 @@ begin
     v_codigos.Delete(y); //Senão remove ele da lista
 
   jvDBGrd1.Repaint;
-  
+
 end;
 
 procedure TfCompraCotacao.btnIncluirClick(Sender: TObject);
@@ -664,4 +669,130 @@ begin
  end;
 end;
 
+procedure TfCompraCotacao.BitBtn3Click(Sender: TObject);
+var str: string;
+  codCotacao, x, z, codSolic: Integer;
+begin
+  if (edit1.Text = '') then
+  begin
+    MessageDlg('Informe o Fornecedor.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  if (edCodCotacao.Text = '') then
+  begin
+    MessageDlg('Informe o Código da Cotação.', mtWarning, [mbOK], 0);
+    edCodCotacao.SetFocus;
+    exit;
+  end;
+
+  if  MessageDlg('Inserir itens na Cotação : '+ IntToStr(ClientDataSet1COTACAO_CODIGO.AsInteger) + ' ?',
+     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+
+  codCotacao := StrToInt(edCodCotacao.Text);
+  Label2.Caption := 'Selecioados >> ';
+  
+  z := cdsSolic.RecNo;
+
+  for x := 0 to v_codigos.Count-1 do
+  begin
+    Label2.Caption := Label2.Caption + ' ' + v_codigos[x];
+    if (cdsSolic.Locate('SOLIC_CODIGO', v_codigos[x], [loCaseInsensitive])) then
+    begin
+      str := 'INSERT INTO COMPRA_COTACAO (COTACAO_CODIGO, COTACAO_DATA, COTACAO_FORNEC, ' +
+        ' COTACAO_SOLICIT, COTACAO_ITEM, COTACAO_ITEMDESCRICAO, COTACAO_SITUACAO, ' +
+        ' COTACAO_QTDE, COTACAO_PRECO, COTACAO_USER, COTACAO_CODSOLIC, COTACAO_TIPO, ' +
+        ' COTACAO_DTENTREGA, COTACAO_OBSERVACAO)' +
+        ' VALUES (';
+      str := str + IntToStr(codCotacao) + ', ';
+      str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',today)) + ', ';
+      str := str + edit1.Text + ', ';  // Fornecedor
+      str := str + QuotedStr(cdsSolicSOLIC_SOLICITANTE.AsString) + ', ';
+      str := str + QuotedStr(cdsSolicSOLIC_PRODUTO.AsString) + ', ';
+      str := str + QuotedStr(cdsSolicSOLIC_DESCRICAO.AsString) + ', ';
+      str := str + QuotedStr('P') + ', ';
+      DecimalSeparator := '.';
+      str := str + FloatToStr(cdsSolicSOLIC_QUANTIDADE.AsFloat) + ', ';
+      DecimalSeparator := ',';
+      str := str + '0, ';
+      str := str + QuotedStr(DM.varLogado) + ', ';
+      str := str + IntToStr(cdsSolicSOLIC_CODIGO.AsInteger) + ', ';
+      str := str + QuotedStr(cdsSolicSOLIC_TIPO.AsString) + ', ';
+      str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',cdsSolicSOLIC_DTNECESSIT.AsDateTime)) + ', ';
+      str := str + QuotedStr(cdsSolicSOLIC_OBSERVACAO.AsString);
+      str := str + ')';
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        dm.sqlsisAdimin.ExecuteDirect('UPDATE COMPRA_SOLIC SET SOLIC_SITUACAO = ' +
+          QuotedStr('G') + ' WHERE SOLIC_CODIGO = ' + IntToStr(cdsSolicSOLIC_CODIGO.AsInteger)); // Altero o Status para G=Gerado Cotacao
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro para gravar a cotação.', mtError, [mbOK], 0);
+        exit;
+      end;
+    end
+    else
+    begin
+       // Não encontrou este registros
+       Label2.Caption := Label2.Caption + v_codigos[x];
+    end;
+
+  //Fim do Loop (FOR)
+  end;
+  cdsSolic.RecNo := z;
+  MessageDlg('Cotação gravada com sucesso.', mtInformation, [mbOK], 0);
+  if (cdsCotacao.Active) then
+    cdsCotacao.Close;
+  cdsCotacao.Params.ParamByName('FORNEC').AsInteger := StrToInt(edit1.Text);
+  cdsCotacao.Open;
+
+
+  {if (cdsSolic.Active) then
+    cdsSolic.Close;
+  cdsSolic.Open;}
+
+  abrirCotacoes(cdsSolicSOLIC_PRODUTO.AsString, 0);
+end;
+
+procedure TfCompraCotacao.edCodCotacaoExit(Sender: TObject);
+begin
+  inherited;
+  if (edCodCotacao.Text <> '') then
+  begin
+    abrirCotacoes('', StrToInt(edCodCotacao.Text));
+  end;
+end;
+
+procedure TfCompraCotacao.abrirCotacoes(Item: String; codCotacao: Integer);
+var str1: String;
+begin
+  str1 := 'SELECT distinct(COTACAO_FORNEC), f.NOMEFORNECEDOR, ' +
+    '(' + QuotedStr('( ') + ' || ef.DDD || ' + QuotedStr(' )   ') +
+    ' || ef.TELEFONE) as TELEFONE, COTACAO_CODIGO ' +
+    '  FROM COMPRA_COTACAO, FORNECEDOR f, ENDERECOFORNECEDOR ef ' +
+    ' WHERE COTACAO_FORNEC = f.CODFORNECEDOR '   +
+    '   AND f.CODFORNECEDOR = ef.CODFORNECEDOR ' +
+    '   AND ef.TIPOEND = 0 ' +
+    ' AND COTACAO_SITUACAO = ' + QuotedStr('P');
+
+  if (Item <> '') then
+  begin
+    str1 := str1 + '   AND COTACAO_ITEM = ' + QuotedStr(Item);
+  end;
+  if (codCotacao > 0) then
+  begin
+    str1 := str1 + '   AND COTACAO_CODIGO = ' + IntToStr(codcotacao);
+  end;
+  if (ClientDataSet1.Active) then
+    ClientDataSet1.Close;
+  ClientDataSet1.CommandText := str1;
+  ClientDataSet1.Open;
+  if (not ClientDataSet1.IsEmpty) then
+    edCodCotacao.Text := IntToStr(ClientDataSet1COTACAO_CODIGO.AsInteger);
+end;
+
 end.
+
