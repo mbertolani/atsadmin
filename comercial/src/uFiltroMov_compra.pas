@@ -310,8 +310,12 @@ begin
    dm.scds_forn_proc.Params[0].Clear;
    dm.scds_forn_proc.Params[1].Clear;
    dm.scds_forn_proc.Params[2].AsInteger := StrToInt(edControle.Text);
+   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+   dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1;
+
    dm.scds_forn_proc.Open;
-     Edit2.Text := dm.scds_forn_procNOMEFORNECEDOR.asString;
+
+   Edit2.Text := dm.scds_forn_procNOMEFORNECEDOR.asString;
    dm.scds_forn_proc.Close;
 end;
 
