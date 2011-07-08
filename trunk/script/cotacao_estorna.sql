@@ -5,12 +5,13 @@ AS
   declare variable codSolic int;
   declare variable codFornec int;
   declare variable codCot int;
+  declare variable codDet int;
   declare variable codCotacao varchar(30);
   declare variable codPro varchar(30);
 BEGIN 
   codNat = 0;
   -- Item excluído de um pedido de compra(cotacao), volta para a lista de solicitacao novamente
-  SELECT m.CODNATUREZA, m.CODFORNECEDOR, m.CONTROLE FROM MOVIMENTO m WHERE m.CODMOVIMENTO = old.CODMOVIMENTO
+  SELECT m.CODNATUREZA, m.CODFORNECEDOR, m.CODPEDIDO FROM MOVIMENTO m WHERE m.CODMOVIMENTO = old.CODMOVIMENTO
     into :codNat, :codFornec, :codCotacao; 
   if (codNat is null) then 
     codNat = 0;
@@ -27,6 +28,18 @@ BEGIN
       into :codSolic;    
        
     UPDATE COMPRA_SOLIC SET SOLIC_SITUACAO = 'A' WHERE SOLIC_CODIGO = :codSolic;
-    
   end  
+  if (codNat = 4) then   
+  begin 
+    -- Colocar quantidade Recebida = 0 e mudar o Status para 3    
+    FOR SELECT md.CODIGO, md.CODDETALHE
+      FROM MOVIMENTO m, MOVIMENTODETALHE md
+     WHERE m.CODMOVIMENTO = old.CODMOVIMENTO
+       and md.CODMOVIMENTO = m.CODMOVIMENTO
+      into :codCot, :codDet
+    do begin    
+      UPDATE MOVIMENTO SET STATUS = 3 WHERE CODPEDIDO = :codCot AND CODNATUREZA = 5; 
+      update MOVIMENTODETALHE set RECEBIDO = 0 WHERE CODDETALHE = :codDet;
+    end 
+  end 
 END
