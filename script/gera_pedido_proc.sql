@@ -53,11 +53,11 @@ BEGIN
           codmov = GEN_ID(GENMOV, 1);
           insert into MOVIMENTO (codmovimento, datamovimento, codcliente, codnatureza, 
             status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
-            prazo_pagamento, obs, user_aprova, CODALMOXARIFADO)
+            prazo_pagamento, obs, user_aprova, CODALMOXARIFADO, CODPEDIDO)
           values (
             :codmov, CURRENT_DATE, 0, 5, 
             0,       1,         :FORNEC, CURRENT_TIMESTAMP, Cast(:CODIGO as Varchar(20)), :DTENTREGA, 
-            :PRAZO, UDF_LEFT(:obs,99),  :userAprova, :CCUSTO); 
+            :PRAZO, UDF_LEFT(:obs,99),  :userAprova, :CCUSTO, :CODIGO); 
         end  
         select first 1 p.CODPRODUTO from produtos p where p.CODPRO = :codPro
           into :codProduto;
