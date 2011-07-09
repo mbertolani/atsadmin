@@ -249,6 +249,7 @@ begin
       begin
         dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET RECEBIDO = ' +
           FloatToStr(cdsPedidoRECEBIDO.asFloat) +
+          ' , CODIGO1 = 99999 ' +
           ' WHERE CODDETALHE = ' + IntToStr(cdsPedidoCODDETALHE.AsInteger));
       end;
       if (cdsPedidoRECEBIDO.AsFloat < cdsPedidoQUANTIDADE.AsFloat) then
@@ -267,6 +268,12 @@ begin
     dm.sqlsisAdimin.Commit(TD);
                                  }
     alteraStatus := 'EXECUTE PROCEDURE COTACAO_GERA_PEDIDO(' + IntToStr(cdsPedidoCODFORNECEDOR.AsInteger)+ ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
+    dm.sqlsisAdimin.Commit(TD);
+
+    // Limpa o CODIGO1 - usado apenas para marcar os Itens que vão ser incluidos
+    alteraStatus := 'UPDATE MOVIMENTODETALHE SET CODIGO1 = NULL WHERE CODIGO1 = 99999';
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
     dm.sqlsisAdimin.Commit(TD);
