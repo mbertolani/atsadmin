@@ -1,3 +1,4 @@
+Set TERM ^  ;
 CREATE or ALTER TRIGGER COTACAO_ESTORNA FOR MOVIMENTODETALHE
 ACTIVE AFTER DELETE POSITION 0
 AS 
@@ -31,14 +32,16 @@ BEGIN
   end  
   if (codNat = 4) then   
   begin 
+    -- O Pedido foi Excluido, volta para novo Recebimento 
     -- Colocar quantidade Recebida = 0 e mudar o Status para 3    
-    FOR SELECT md.CODIGO, md.CODDETALHE
+    FOR SELECT md.CODDETALHE, md.CODMOVIMENTO
       FROM MOVIMENTO m, MOVIMENTODETALHE md
-     WHERE m.CODMOVIMENTO = old.CODMOVIMENTO
-       and md.CODMOVIMENTO = m.CODMOVIMENTO
-      into :codCot, :codDet
+     WHERE md.CODMOVIMENTO = m.CODMOVIMENTO
+       and m.CODPEDIDO = old.CODPEDIDO
+       and m.CODFORNECEDOR = old.CODF 
+      into :codDet, :codCot
     do begin    
-      UPDATE MOVIMENTO SET STATUS = 3 WHERE CODPEDIDO = :codCot AND CODNATUREZA = 5; 
+      UPDATE MOVIMENTO SET STATUS = 3 WHERE CODMOVIMENTO = :codCot AND CODNATUREZA = 5; 
       update MOVIMENTODETALHE set RECEBIDO = 0 WHERE CODDETALHE = :codDet;
     end 
   end 

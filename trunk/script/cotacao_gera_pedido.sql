@@ -24,31 +24,39 @@ AS
   DECLARE VARIABLE qtdeAlt DOUBLE PRECISION; 
   DECLARE VARIABLE preco DOUBLE PRECISION; 
 BEGIN 
+  /* Gera um Registro novo na Movimento  e Movimento Detalhe com a Natureza 4, 
+     para o Usuário dar entrada na Nota;
+     
+     Se a quantidade Recebida for Parcial , então gera um novo MovimentoDetalhe 
+     com o que sobrou do pedido Cotado;
+  */
+  
   -- No campo CODIGO na tabela MOVIMENTODETALHE sera Armazenado o CodMovimento 
   -- criado qdo gera um pedido de natureza 5;
-   codmov = GEN_ID(GENMOV, 1);
+   codNovoMov = GEN_ID(GENMOV, 1);
    IncluidoMov = 'N';
    -- Qdo conferido o pedido (qtde) gera se um pedido com a natureza = 4
    FOR SELECT m.CODNATUREZA, m.CODFORNECEDOR, m.CONTROLE, m.DATA_ENTREGA, 
         m.PRAZO_PAGAMENTO, m.OBS, m.VALOR_FRETE, m.CODUSUARIO, 
         m.CODVENDEDOR , m.USER_APROVA, 
         md.codproduto, md.descproduto, md.RECEBIDO, md.preco, md.un, md.qtde_alt,
-        md.QUANTIDADE
+        md.QUANTIDADE, m.CODMOVIMENTO
         FROM MOVIMENTO m, MOVIMENTODETALHE md  
        where md.CODMOVIMENTO = m.CODMOVIMENTO
          and ((m.STATUS = 3) OR (m.STATUS = 4)) 
-         and ((md.QUANTIDADE - md.RECEBIDO) > 0)
+         and ((md.QUANTIDADE - md.RECEBIDO) >= 0)
          and (m.CODNATUREZA = 5)
-         and m.CODFORNECEDOR = :codFornec
+         and (md.CODIGO1 = 99999) 
+         and (m.CODFORNECEDOR = :codFornec)
       into :nat, :codFornec, :codCotacao, :entrega, :prazo, :obs, :frete, :codUsuario, 
-      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde 
+      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov
     do begin     
       if (IncluidoMov = 'N') then 
       begin 
         INSERT INTO MOVIMENTO(codmovimento, datamovimento, codcliente, codnatureza, 
           status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
           prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido)
-          values (:codmov, CURRENT_DATE, 0, 4, 
+          values (:codNovoMov, CURRENT_DATE, 0, 4, 
           0,:codUsuario, :codFornec, CURRENT_TIMESTAMP, :codCotacao, :entrega,
           :prazo, :obs, :frete, :codVendedor, :userAprova, :codCotacao);    
        end 
@@ -59,10 +67,11 @@ BEGIN
       end*/
       insert into MOVIMENTODETALHE (CODDETALHE, codmovimento, codproduto, descproduto,   
         quantidade, preco, un, qtde_alt, codigo) values (
-        GEN_ID(GENMOVDET, 1), :codMov, :codProd, :prodDesc, 
+        GEN_ID(GENMOVDET, 1), :codNovoMov, :codProd, :prodDesc, 
         :recebido, :PRECO, :UN, :QTDEALT, :codCotacao); 
             
-      if (recebido < qtde) then 
+      -- Novo Movimento Detalhe do que Sobrou do Pedido Cotado  
+      if (recebido < qtde) then   
       begin 
         insert into MOVIMENTODETALHE (CODDETALHE, codmovimento, codproduto, descproduto, 
           quantidade, preco, un, qtde_alt, recebido, codigo) values (
@@ -74,12 +83,16 @@ BEGIN
         EXCEPTION ERRO_TRG;
       end 
     end  
+    
+    
    FOR SELECT DISTINCT m.CODMOVIMENTO
         FROM MOVIMENTO m, MOVIMENTODETALHE md  
        where md.CODMOVIMENTO = m.CODMOVIMENTO
          and ((m.STATUS = 3) OR (m.STATUS = 4)) 
-         and md.RECEBIDO > 0
-         and m.CODFORNECEDOR = :codFornec
+         and ((md.QUANTIDADE - md.RECEBIDO) >= 0)
+         and (m.CODNATUREZA = 5)
+         and (md.CODIGO1 = 99999) 
+         and (m.CODFORNECEDOR = :codFornec)
       into :codMov
     do begin
     
@@ -97,4 +110,5 @@ BEGIN
         UPDATE MOVIMENTO SET STATUS = 4 WHERE CODMOVIMENTO = :codMov;
         
     end 
+    
 END
