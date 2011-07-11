@@ -5,36 +5,32 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Mask, ExtCtrls, MMJPanel, rpcompobase,
-  rpvclreport, DB;
+  rpvclreport, DB, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
+  JvDatePickerEdit;
 
 type
   TfRelatorioFin = class(TForm)
-    MMJPanel2: TMMJPanel;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label11: TLabel;
-    MaskEdit1: TMaskEdit;
-    MaskEdit2: TMaskEdit;
-    edCodCCusto: TComboBox;
     rep: TVCLReport;
-    RadioGroup1: TRadioGroup;
-    MMJPanel3: TMMJPanel;
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
-    BitBtn4: TBitBtn;
-    Label3: TLabel;
-    Label4: TLabel;
-    MaskEdit3: TMaskEdit;
-    Label5: TLabel;
-    MaskEdit4: TMaskEdit;
-    Label6: TLabel;
+    GroupBox3: TGroupBox;
+    btnSair: TBitBtn;
     BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    GroupBox2: TGroupBox;
+    edCodCCusto: TComboBox;
+    GroupBox1: TGroupBox;
+    Label4: TLabel;
+    Label5: TLabel;
+    cbMes: TComboBox;
+    MaskEdit1: TJvDatePickerEdit;
+    MaskEdit2: TJvDatePickerEdit;
     procedure BitBtn4Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure MaskEdit1KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
+    procedure cbMesChange(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,7 +42,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, uUtils;
 
 {$R *.dfm}
 
@@ -131,7 +127,7 @@ end;
 
 procedure TfRelatorioFin.BitBtn1Click(Sender: TObject);
 begin
-    rep.Filename := str_relatorio + 'rel_fluxocaixa.rep';
+    {rep.Filename := str_relatorio + 'rel_fluxocaixa.rep';
     rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     if MaskEdit4.Text = '  /  /    ' then
     begin
@@ -152,7 +148,7 @@ begin
       rep.Report.Params.ParamByName('DATA2').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit3.Text));
 
     rep.Execute;
-
+    }
 end;
 
 procedure TfRelatorioFin.MaskEdit1KeyPress(Sender: TObject; var Key: Char);
@@ -199,6 +195,23 @@ begin
 
     rep.Execute;
 
+end;
+
+procedure TfRelatorioFin.cbMesChange(Sender: TObject);
+var  periodo : TUtils;
+begin
+  periodo := TUtils.Create;
+  periodo.criaIni(cbMes.text);
+  periodo.criaFim(cbMes.text);
+  MaskEdit1.Text := periodo.PeriodoIni;
+  MaskEdit2.Text := periodo.PeriodoFim;
+  periodo.Destroy;
+
+end;
+
+procedure TfRelatorioFin.btnSairClick(Sender: TObject);
+begin
+  Close;
 end;
 
 end.

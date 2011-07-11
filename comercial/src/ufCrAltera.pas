@@ -182,6 +182,10 @@ type
     JvLabel1: TJvLabel;
     sdsVALOR_RESTO_SST: TFloatField;
     cdsVALOR_RESTO_SST: TFloatField;
+    DBEdit10: TDBEdit;
+    Label11: TLabel;
+    Label20: TLabel;
+    DBComboBox2: TDBComboBox;
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -197,11 +201,12 @@ type
     procedure DBEdit5Change(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DBEdit5Exit(Sender: TObject);
+    procedure cdsNewRecord(DataSet: TDataSet);
   private
     { Private declarations }
   public
-   ntitulo, nvia, uso : string;
-   nparcela, nVia1, codVenda, codcliente : integer;
+   ntitulo, nvia, uso, formaRec : string;
+   nparcela, nVia1, codVenda, codcliente, codCCusto : integer;
    demissao : TDate;
    vTitulo : double;
 
@@ -442,6 +447,12 @@ begin
     combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
   end;
 
+  // Popula Status
+  j := utilcrtitulo.StatusRec.Count;
+  for i := 0 to j - 1 do
+  begin
+    DbComboBox2.Items.Add(utilcrtitulo.StatusRec.Strings[i]);
+  end;
 end;
 
 procedure TfCrAltera.btnIncluirClick(Sender: TObject);
@@ -505,7 +516,15 @@ begin
     end;
   end;  
   JvLabel1.Caption := Label1.Caption;
-  
+  if (not cds.IsEmpty) then
+  begin
+    codcliente := cdsCODCLIENTE.AsInteger;
+    ntitulo    := cdsTITULO.AsString;
+    formaRec   := cdsFORMARECEBIMENTO.AsString;
+    nvia       := cdsVIA.AsString;
+    statusdavenda := cdsSTATUS.AsString;
+    codCCusto  := cdsCODALMOXARIFADO.AsInteger;
+  end;
 end;
 
 procedure TfCrAltera.DBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -597,6 +616,22 @@ begin
   if (cds.State in [dsEdit]) then
     if( cdsVIA.AsString = '1  ') then
       cdsVALOR_RESTO_SST.AsFloat := cdsVALOR_RESTO.AsFloat;
+end;
+
+procedure TfCrAltera.cdsNewRecord(DataSet: TDataSet);
+begin
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(COD_AREC, 1) as INTEGER) as CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  cdsCODRECEBIMENTO.AsInteger := dm.c_6_genid.fields[0].AsInteger;
+  dm.c_6_genid.Close;
+  cdsCODCLIENTE.AsInteger      := codcliente;
+  cdsTITULO.AsString           := ntitulo;
+  cdsCODALMOXARIFADO.AsInteger := codCCusto;
+  cdsVIA.AsString              := nvia;
+  cdsSTATUS.AsString           := '5-';
+  cdsFORMARECEBIMENTO.AsString := '1';
 end;
 
 end.
