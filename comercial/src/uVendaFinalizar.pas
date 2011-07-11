@@ -2774,7 +2774,7 @@ begin
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
   sqlBuscaNota.SQL.Clear;
-  sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where CONTROLE = ' +
+  sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where CODNATUREZA = 15 and CONTROLE = ' +
     QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
   sqlBuscaNota.Open;
   if (sqlBuscaNota.IsEmpty) then
