@@ -198,7 +198,7 @@ begin
     else
       sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));
 
-    cdsListaInventario.CommandText := 'SELECT i.*FROM INVENTARIO i ' + sqlb;
+    cdsListaInventario.CommandText := 'SELECT distinct i.CODIVENTARIO, i.DATAIVENTARIO FROM INVENTARIO i ' + sqlb;
     cdsListaInventario.Open;
     if (cdsListaInventario.IsEmpty) then
     begin

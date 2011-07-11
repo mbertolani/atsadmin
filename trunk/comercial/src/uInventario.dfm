@@ -926,7 +926,9 @@ inherited fInventario: TfInventario
     Top = 489
   end
   object sdsListaInventario: TSQLDataSet
-    CommandText = 'SELECT * FROM INVENTARIO i'
+    CommandText = 
+      'SELECT distinct i.CODIVENTARIO, i.DATAIVENTARIO FROM INVENTARIO ' +
+      'i'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
