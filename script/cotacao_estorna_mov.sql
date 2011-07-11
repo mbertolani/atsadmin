@@ -17,6 +17,7 @@ BEGIN
       -- Colocar quantidade Recebida = 0 e mudar o Status para 3    
       UPDATE MOVIMENTO        SET STATUS   = 3 WHERE CODMOVIMENTO = :codMov AND CODNATUREZA = 5; 
       UPDATE MOVIMENTODETALHE SET RECEBIDO = 0 WHERE CODMOVIMENTO = :codMov;
+      DELETE FROM MOVIMENTODETALHE WHERE CODIGO = OLD.CODPEDIDO;
     end 
   end  
 end  
