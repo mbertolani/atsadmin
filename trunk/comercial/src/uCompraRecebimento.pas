@@ -224,6 +224,8 @@ var TD: TTransactionDesc;
   tudo, alteraStatus: String;
   codFornec: Integer;
 begin
+  if  MessageDlg('Confirma recebimento ?', mtConfirmation, [mbYes, mbNo],0) = mrNo then
+     exit;
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
