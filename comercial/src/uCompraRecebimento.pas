@@ -65,6 +65,8 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
     procedure JvDBGrid1TitleClick(Column: TColumn);
+    procedure edPedidoKeyPress(Sender: TObject; var Key: Char);
+    procedure edFornecKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -344,6 +346,29 @@ begin
     cdsPedido.IndexDefs.Add(str_IndexName,Column.FieldName,enum_IndexOption);
     cdsPedido.IndexName := str_IndexName;
   end;
+
+end;
+
+procedure TfCompraRecebimento.edPedidoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   bitbtn2.Click;
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
+end;
+
+procedure TfCompraRecebimento.edFornecKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   bitbtn2.Click;
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
 
 end;
 
