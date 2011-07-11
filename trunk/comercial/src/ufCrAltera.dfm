@@ -16,7 +16,7 @@ inherited fCrAltera: TfCrAltera
     FocusControl = DBEdit1
   end
   object Label4: TLabel [1]
-    Left = 114
+    Left = 90
     Top = 62
     Width = 56
     Height = 13
@@ -24,7 +24,7 @@ inherited fCrAltera: TfCrAltera
     FocusControl = DBEdit2
   end
   object Label5: TLabel [2]
-    Left = 223
+    Left = 183
     Top = 62
     Width = 60
     Height = 13
@@ -32,7 +32,7 @@ inherited fCrAltera: TfCrAltera
     FocusControl = DBEdit3
   end
   object Label6: TLabel [3]
-    Left = 438
+    Left = 470
     Top = 62
     Width = 64
     Height = 13
@@ -40,7 +40,7 @@ inherited fCrAltera: TfCrAltera
     FocusControl = DBEdit4
   end
   object Label7: TLabel [4]
-    Left = 562
+    Left = 578
     Top = 62
     Width = 64
     Height = 13
@@ -56,21 +56,21 @@ inherited fCrAltera: TfCrAltera
     FocusControl = DBEdit7
   end
   object Label24: TLabel [6]
-    Left = 211
+    Left = 379
     Top = 105
     Width = 98
     Height = 13
     Caption = 'Forma Recebimento:'
   end
   object Label13: TLabel [7]
-    Left = 5
-    Top = 104
+    Left = 195
+    Top = 106
     Width = 68
     Height = 13
     Caption = 'Caixa / Banco'
   end
   object Label10: TLabel [8]
-    Left = 471
+    Left = 551
     Top = 105
     Width = 110
     Height = 13
@@ -78,19 +78,34 @@ inherited fCrAltera: TfCrAltera
     FocusControl = DBEdit9
   end
   object Label8: TLabel [9]
-    Left = 327
+    Left = 287
     Top = 62
     Width = 60
     Height = 13
     Caption = 'D. Consolida'
     FocusControl = DBEdit3
   end
+  object Label11: TLabel [10]
+    Left = 374
+    Top = 62
+    Width = 46
+    Height = 13
+    Caption = 'Vlr. T'#237'tulo'
+    FocusControl = DBEdit4
+  end
+  object Label20: TLabel [11]
+    Left = 5
+    Top = 107
+    Width = 32
+    Height = 13
+    Caption = 'Situa'#231#227'o :'
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 0
     Width = 758
     Height = 60
     Align = alTop
-    TabOrder = 8
+    TabOrder = 10
     inherited btnCancelar: TBitBtn [0]
       Left = 81
       Top = 3
@@ -515,7 +530,7 @@ inherited fCrAltera: TfCrAltera
     Font.Height = -29
     Font.Name = 'Cooper Blk BT'
     ParentFont = False
-    TabOrder = 9
+    TabOrder = 11
     inherited Label1: TLabel
       Left = 12
       Top = 77
@@ -551,10 +566,10 @@ inherited fCrAltera: TfCrAltera
       TabOrder = 0
     end
   end
-  object DBEdit1: TDBEdit [12]
+  object DBEdit1: TDBEdit [14]
     Left = 5
     Top = 78
-    Width = 100
+    Width = 84
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -569,10 +584,10 @@ inherited fCrAltera: TfCrAltera
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [13]
-    Left = 114
+  object DBEdit2: TDBEdit [15]
+    Left = 90
     Top = 78
-    Width = 103
+    Width = 87
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -587,10 +602,10 @@ inherited fCrAltera: TfCrAltera
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [14]
-    Left = 223
+  object DBEdit3: TDBEdit [16]
+    Left = 183
     Top = 78
-    Width = 98
+    Width = 90
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -605,10 +620,10 @@ inherited fCrAltera: TfCrAltera
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [15]
-    Left = 438
+  object DBEdit4: TDBEdit [17]
+    Left = 470
     Top = 78
-    Width = 117
+    Width = 99
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -620,13 +635,13 @@ inherited fCrAltera: TfCrAltera
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [16]
-    Left = 560
+  object DBEdit5: TDBEdit [18]
+    Left = 576
     Top = 78
-    Width = 103
+    Width = 89
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -638,12 +653,12 @@ inherited fCrAltera: TfCrAltera
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 5
+    TabOrder = 6
     OnChange = DBEdit5Change
     OnExit = DBEdit5Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [17]
+  object DBEdit7: TDBEdit [19]
     Left = 703
     Top = 78
     Width = 44
@@ -658,10 +673,10 @@ inherited fCrAltera: TfCrAltera
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 7
+    TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [18]
+  object DBEdit8: TDBEdit [20]
     Left = 671
     Top = 78
     Width = 31
@@ -676,10 +691,10 @@ inherited fCrAltera: TfCrAltera
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 6
+    TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBGrid1: TDBGrid [19]
+  object DBGrid1: TDBGrid [21]
     Left = 4
     Top = 147
     Width = 749
@@ -692,7 +707,7 @@ inherited fCrAltera: TfCrAltera
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgMultiSelect]
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 12
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -778,10 +793,10 @@ inherited fCrAltera: TfCrAltera
         Visible = True
       end>
   end
-  object ComboBox1: TComboBox [20]
-    Left = 211
+  object ComboBox1: TComboBox [22]
+    Left = 379
     Top = 121
-    Width = 249
+    Width = 166
     Height = 24
     BevelKind = bkFlat
     Font.Charset = DEFAULT_CHARSET
@@ -791,14 +806,14 @@ inherited fCrAltera: TfCrAltera
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 13
     OnChange = ComboBox1Change
     OnKeyPress = FormKeyPress
   end
-  object cbConta: TComboBox [21]
-    Left = 5
+  object cbConta: TComboBox [23]
+    Left = 193
     Top = 121
-    Width = 189
+    Width = 180
     Height = 24
     BevelKind = bkFlat
     Font.Charset = DEFAULT_CHARSET
@@ -808,14 +823,14 @@ inherited fCrAltera: TfCrAltera
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 14
     Text = 'CAIXA INTERNO'
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [22]
-    Left = 471
+  object DBEdit9: TDBEdit [24]
+    Left = 552
     Top = 121
-    Width = 276
+    Width = 195
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -827,13 +842,13 @@ inherited fCrAltera: TfCrAltera
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [23]
-    Left = 327
+  object DBEdit6: TDBEdit [25]
+    Left = 279
     Top = 78
-    Width = 106
+    Width = 90
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -846,6 +861,38 @@ inherited fCrAltera: TfCrAltera
     Font.Style = []
     ParentFont = False
     TabOrder = 3
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit10: TDBEdit [26]
+    Left = 374
+    Top = 78
+    Width = 91
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'VALORTITULO'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
+    OnKeyPress = FormKeyPress
+  end
+  object DBComboBox2: TDBComboBox [27]
+    Left = 5
+    Top = 123
+    Width = 182
+    Height = 21
+    BevelKind = bkFlat
+    Color = clInfoBk
+    DataField = 'STATUS'
+    DataSource = DtSrc
+    ItemHeight = 13
+    TabOrder = 9
+    TabStop = False
     OnKeyPress = FormKeyPress
   end
   inherited XPMenu1: TXPMenu
@@ -893,7 +940,7 @@ inherited fCrAltera: TfCrAltera
     Top = 256
     object sdsCODRECEBIMENTO: TIntegerField
       FieldName = 'CODRECEBIMENTO'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      ProviderFlags = [pfInWhere, pfInKey]
       Required = True
     end
     object sdsCODVENDA: TIntegerField
@@ -1005,12 +1052,13 @@ inherited fCrAltera: TfCrAltera
         ParamType = ptInput
       end>
     ProviderName = 'dsp'
+    OnNewRecord = cdsNewRecord
     OnReconcileError = cdsReconcileError
     Left = 128
     Top = 256
     object cdsCODRECEBIMENTO: TIntegerField
       FieldName = 'CODRECEBIMENTO'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      ProviderFlags = [pfInWhere, pfInKey]
       Required = True
     end
     object cdsCODVENDA: TIntegerField

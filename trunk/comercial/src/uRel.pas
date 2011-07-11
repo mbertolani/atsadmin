@@ -108,7 +108,7 @@ end;
 procedure TfRel.BitBtn3Click(Sender: TObject);
 begin
   Rep.Filename := str_relatorio + 'comprasFornecedorProduto.rep';
-  Rep.Title := Rep.Filename;
+  Rep.Title    := Rep.Filename;
   Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Dta1.Text);
   Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Dta2.Text);
@@ -126,7 +126,7 @@ end;
 procedure TfRel.BitBtn5Click(Sender: TObject);
 begin
   Rep.Filename := str_relatorio + 'comprasFornecedor.rep';
-  Rep.Title := Rep.Filename;
+  Rep.Title    := Rep.Filename;
   Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Dta1.Text);
   Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Dta2.Text);
