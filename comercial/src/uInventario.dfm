@@ -8,12 +8,12 @@ inherited fInventario: TfInventario
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 795
+    Width = 803
     Height = 17
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 532
-    Width = 795
+    Top = 543
+    Width = 803
     inherited btnGravar: TBitBtn
       Left = 183
       Visible = False
@@ -75,8 +75,8 @@ inherited fInventario: TfInventario
   end
   object Panel1: TPanel [2]
     Left = 0
-    Top = 273
-    Width = 795
+    Top = 284
+    Width = 803
     Height = 259
     Align = alBottom
     TabOrder = 2
@@ -102,9 +102,9 @@ inherited fInventario: TfInventario
       TabOrder = 0
     end
     object JvDBGrid2: TJvDBGrid
-      Left = 1
+      Left = 161
       Top = 43
-      Width = 792
+      Width = 633
       Height = 213
       Align = alCustom
       DataSource = dsInvent
@@ -114,6 +114,7 @@ inherited fInventario: TfInventario
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      OnTitleClick = JvDBGrid2TitleClick
       AlternateRowColor = 13562879
       AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
@@ -128,7 +129,7 @@ inherited fInventario: TfInventario
           FieldName = 'CODIVENTARIO'
           ReadOnly = True
           Title.Caption = 'Lista'
-          Width = 188
+          Width = 96
           Visible = True
         end
         item
@@ -136,7 +137,7 @@ inherited fInventario: TfInventario
           FieldName = 'DATAIVENTARIO'
           ReadOnly = True
           Title.Caption = 'Data'
-          Width = 90
+          Width = 55
           Visible = True
         end
         item
@@ -144,7 +145,14 @@ inherited fInventario: TfInventario
           FieldName = 'CODPRO'
           ReadOnly = True
           Title.Caption = 'C'#243'digo'
-          Width = 125
+          Width = 72
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRODUTO'
+          Title.Caption = 'Produto'
+          Width = 143
           Visible = True
         end
         item
@@ -160,7 +168,7 @@ inherited fInventario: TfInventario
           FieldName = 'DATAEXECUTADO'
           ReadOnly = True
           Title.Caption = 'Data'
-          Width = 98
+          Width = 55
           Visible = True
         end
         item
@@ -168,14 +176,14 @@ inherited fInventario: TfInventario
           FieldName = 'ESTOQUE_ATUAL'
           ReadOnly = True
           Title.Caption = 'Est. atual'
-          Width = 96
+          Width = 58
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'QTDE_INVENTARIO'
           Title.Caption = 'Invent'#225'rio'
-          Width = 106
+          Width = 60
           Visible = True
         end
         item
@@ -183,7 +191,7 @@ inherited fInventario: TfInventario
           FieldName = 'UN'
           ReadOnly = True
           Title.Caption = 'Un.'
-          Width = 26
+          Width = 30
           Visible = True
         end>
     end
@@ -395,11 +403,51 @@ inherited fInventario: TfInventario
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         0000}
     end
+    object JvDBGrid3: TJvDBGrid
+      Left = 9
+      Top = 43
+      Width = 144
+      Height = 213
+      Align = alCustom
+      DataSource = dsListaInventario
+      ReadOnly = True
+      TabOrder = 6
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      OnCellClick = JvDBGrid3CellClick
+      OnTitleClick = JvDBGrid2TitleClick
+      AlternateRowColor = 13562879
+      AutoSizeColumns = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 17
+      TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'CODIVENTARIO'
+          Title.Caption = 'Inventario'
+          Width = 76
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAIVENTARIO'
+          Title.Caption = 'Data'
+          Width = 50
+          Visible = True
+        end>
+    end
   end
   object GroupBox1: TGroupBox [3]
     Left = 0
     Top = 17
-    Width = 795
+    Width = 803
     Height = 255
     Align = alTop
     Caption = 'Produtos / Materiais'
@@ -708,8 +756,8 @@ inherited fInventario: TfInventario
   end
   object sdsProd: TSQLDataSet
     CommandText = 
-      'SELECT CODPRO, CODPRODUTO, PRODUTO, UNIDADEMEDIDA, CATEGORIA, FA' +
-      'MILIA FROM PRODUTOS'
+      'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as Varchar(300)) PRODUTO' +
+      ', UNIDADEMEDIDA, CATEGORIA, FAMILIA FROM PRODUTOS'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -736,11 +784,6 @@ inherited fInventario: TfInventario
       FieldName = 'CODPRODUTO'
       Required = True
     end
-    object cdsProdPRODUTO: TStringField
-      FieldName = 'PRODUTO'
-      Required = True
-      Size = 300
-    end
     object cdsProdUNIDADEMEDIDA: TStringField
       FieldName = 'UNIDADEMEDIDA'
       FixedChar = True
@@ -754,6 +797,12 @@ inherited fInventario: TfInventario
       FieldName = 'FAMILIA'
       Size = 30
     end
+    object cdsProdPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ReadOnly = True
+      Required = True
+      Size = 300
+    end
   end
   object dsProd: TDataSource
     DataSet = cdsProd
@@ -761,7 +810,9 @@ inherited fInventario: TfInventario
     Top = 128
   end
   object sdsInvent: TSQLDataSet
-    CommandText = 'SELECT * FROM INVENTARIO'
+    CommandText = 
+      'SELECT i.*, cast(p.produto as varchar(300)) PRODUTO FROM INVENTA' +
+      'RIO i'#13#10'inner join produtos p on p.codproduto = i.codproduto'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -818,6 +869,11 @@ inherited fInventario: TfInventario
       FixedChar = True
       Size = 3
     end
+    object cdsInventPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
   end
   object dsInvent: TDataSource
     DataSet = cdsInvent
@@ -868,5 +924,42 @@ inherited fInventario: TfInventario
     Title = 'Untitled'
     Left = 328
     Top = 489
+  end
+  object sdsListaInventario: TSQLDataSet
+    CommandText = 'SELECT * FROM INVENTARIO i'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 16
+    Top = 464
+  end
+  object dspListaInventario: TDataSetProvider
+    DataSet = sdsListaInventario
+    Options = [poAllowCommandText]
+    Left = 48
+    Top = 464
+  end
+  object cdsListaInventario: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspInvent'
+    AfterPost = cdsInventAfterPost
+    Left = 80
+    Top = 464
+    object cdsListaInventarioCODIVENTARIO: TStringField
+      FieldName = 'CODIVENTARIO'
+      ReadOnly = True
+      Required = True
+      Size = 40
+    end
+    object cdsListaInventarioDATAIVENTARIO: TDateField
+      FieldName = 'DATAIVENTARIO'
+      ReadOnly = True
+    end
+  end
+  object dsListaInventario: TDataSource
+    DataSet = cdsListaInventario
+    Left = 16
+    Top = 496
   end
 end
