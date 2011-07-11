@@ -43,7 +43,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
       Width = 91
       Height = 21
       TabOrder = 1
-      OnKeyPress = FormKeyPress
+      OnKeyPress = edPedidoKeyPress
     end
     object edFornec: TEdit
       Left = 219
@@ -52,7 +52,7 @@ inherited fCompraRecebimento: TfCompraRecebimento
       Height = 21
       TabOrder = 2
       OnExit = edFornecExit
-      OnKeyPress = FormKeyPress
+      OnKeyPress = edFornecKeyPress
     end
     object edFornecNome: TEdit
       Left = 329
