@@ -35,7 +35,7 @@ object TRpReport
         'c.DATACOMPRA between :DATA1 and :DATA2   and rec.codFornecedor >' +
         ' 0 '#13#10'and ((rec.CODFORNECEDOR = :PRO1) or (:PRO1 = 9999999)) '#13#10'GR' +
         'OUP by  prod.CODPRO, prod.PRODUTO, prod.VALORUNITARIOATUAL '#13#10'ord' +
-        'er by cast(prod.CODPRO as integer)'
+        'er by prod.CODPRO'
     end>
   DatabaseInfo = <
     item
