@@ -2,7 +2,7 @@ set term ^ ;
 CREATE OR ALTER PROCEDURE  RELDRE( PDTA1                            DATE
                                  , PDTA2                            DATE, PCC INTEGER )
 RETURNS ( CONTA                            VARCHAR( 30 )
-        , DESC_CONTA                       VARCHAR( 80 )
+        , DESC_CONTA                       VARCHAR( 180 )
         , CREDITO                          DOUBLE PRECISION
         , TOTAL                            DOUBLE PRECISION
         , ACUMULA                          DOUBLE PRECISION
@@ -152,7 +152,7 @@ BEGIN
   TOTALIZA = 0;
 
   -- Outras Receitas de Vendas (FRETE , SEGUROS, etc )
-  FOR select sum(v.VALOR_ICMS + v.VALOR_FRETE + v.VALOR_SEGURO + v.OUTRAS_DESP + v.VALOR_IPI)
+  FOR select sum(v.VALOR_FRETE + v.VALOR_SEGURO + v.OUTRAS_DESP)
      FROM VENDA v
   where (v.DATAVENDA between :PDTA1 AND :PDTA2)
      INTO :CREDITO

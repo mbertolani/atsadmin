@@ -132,7 +132,7 @@ BEGIN
   TOTALIZA = 0;
 
   /* Outras Receitas de Vendas (FRETE , SEGUROS, etc ) */
-  FOR select sum(v.VALOR_ICMS + v.VALOR_FRETE + v.VALOR_SEGURO + v.OUTRAS_DESP + v.VALOR_IPI)
+  FOR select sum(v.VALOR_FRETE + v.VALOR_SEGURO + v.OUTRAS_DESP)
      FROM VENDA v
   where (v.DATAVENDA between :PDTA1 AND :PDTA2) and ((v.CODCCUSTO = :PCC) OR (:PCC = 0))
      INTO :CREDITO
