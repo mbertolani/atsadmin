@@ -6,13 +6,13 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, Grids, DBGrids, JvExDBGrids, JvDBGrid, FMTBcd, DBClient,
-  Provider, SqlExpr;
+  Provider, SqlExpr, Mask, JvExMask, JvToolEdit, JvMaskEdit,
+  JvCheckedMaskEdit, JvDatePickerEdit;
 
 type
   TfCompraSolicProc = class(TfPai_new)
     rgSit: TRadioGroup;
     JvDBGrid1: TJvDBGrid;
-    btnAprovar: TBitBtn;
     sdsSol: TSQLDataSet;
     dspSol: TDataSetProvider;
     cdsSol: TClientDataSet;
@@ -29,13 +29,23 @@ type
     cdsSolSOLIC_DTNECESSIT: TDateField;
     cdsSolSOLIC_OBSERVACAO: TStringField;
     cdsSolUNIDADEMEDIDA: TStringField;
+    GroupBox1: TGroupBox;
+    dtSolic: TJvDatePickerEdit;
+    dtSolic2: TJvDatePickerEdit;
+    Label1: TLabel;
     btnStatus: TBitBtn;
+    btnAprovar: TBitBtn;
+    GroupBox2: TGroupBox;
+    Label2: TLabel;
+    dtNece: TJvDatePickerEdit;
+    dtNece2: TJvDatePickerEdit;
     procedure rgSitClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnStatusClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure JvDBGrid1TitleClick(Column: TColumn);
   private
     procedure listaSolicitacao;
     procedure atualizaSolic;
@@ -54,8 +64,9 @@ uses UDm, uAtsAdmin;
 {$R *.dfm}
 
 procedure TfCompraSolicProc.listaSolicitacao;
-var sit, str: string;
+var sit, str, cond: string;
 begin
+  cond := '';
   sit := '';
   case rgSit.ItemIndex of
     0 : sit := 'P';
@@ -68,11 +79,20 @@ begin
     cdsSol.Close;
   str := 'SELECT * FROM COMPRA_SOLIC, produtos' ;
   if (sit <> '') then
-    str := str + ' WHERE SOLIC_SITUACAO = ' + QuotedStr(sit) +
+    cond := cond + ' WHERE SOLIC_SITUACAO =' + QuotedStr(sit) +
      ' and codpro = SOLIC_PRODUTO'
   else
-    str := str + ' WHERE codpro = SOLIC_PRODUTO';
-  cdsSol.CommandText := str;
+    cond := cond + ' WHERE codpro = SOLIC_PRODUTO AND SOLIC_SITUACAO <> ' + QuotedStr('C');
+  if( ( not dtSolic.IsEmpty) and ( not dtSolic2.IsEmpty)) then
+    cond := cond + ' and SOLIC_DATA between ' +
+    QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtSolic.Text))) + ' and ' +
+    QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtSolic2.Text)));
+  if( ( not dtNece.IsEmpty) and ( not dtNece2.IsEmpty)) then
+    cond := cond + ' and SOLIC_DTNECESSIT between ' +
+    QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtNece.Text))) + ' and ' +
+    QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtNece2.Text)));
+
+  cdsSol.CommandText := str + cond;
   cdsSol.Open;
 end;
 
@@ -93,7 +113,7 @@ begin
 end;
 
 procedure TfCompraSolicProc.btnIncluirClick(Sender: TObject);
-var situa: string;
+//var situa: string;
 begin
   if (cdsSolSOLIC_SITUACAO.AsString = 'C') then
   begin
@@ -167,6 +187,42 @@ begin
   else
     cdsSol.RecNo := numLinha - 1;
   cdsSol.EnableControls;
+end;
+
+procedure TfCompraSolicProc.JvDBGrid1TitleClick(Column: TColumn);
+var
+  enum_IndexOption: TIndexOptions;
+  str_IndexAsc,
+  str_IndexDesc,
+  str_IndexName: String;
+begin
+  if (Column.Field.FieldKind = fkData) then
+  begin
+    str_IndexAsc := Concat('asc_',Column.FieldName);
+    str_IndexDesc := Concat('desc_',Column.FieldName);
+
+    str_IndexName := '';
+    enum_IndexOption := [];
+
+    if (cdsSol.IndexName = str_IndexAsc) then
+    begin
+    str_IndexName := str_IndexDesc;
+    enum_IndexOption := [ixDescending];
+    end
+    else if (cdsSol.IndexName = str_IndexDesc) then
+    begin
+    str_IndexName := str_IndexAsc;
+    end
+    else
+    begin
+    str_IndexName := str_IndexAsc;
+    end;
+
+    cdsSol.IndexDefs.Clear;
+
+    cdsSol.IndexDefs.Add(str_IndexName,Column.FieldName,enum_IndexOption);
+    cdsSol.IndexName := str_IndexName;
+  end;
 end;
 
 end.
