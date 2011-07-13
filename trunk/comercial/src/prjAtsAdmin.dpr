@@ -221,7 +221,10 @@ uses
   uDIAdicao in 'uDIAdicao.pas' {fDIAdicao},
   uComplementar in 'uComplementar.pas' {fComplementar},
   uDetalheNF in 'uDetalheNF.pas' {fDetalheNF},
-  uFiltroMov_NFcompra in 'uFiltroMov_NFcompra.pas' {fFiltroMov_NFcompra};
+  uFiltroMov_NFcompra in 'uFiltroMov_NFcompra.pas' {fFiltroMov_NFcompra},
+  uMovimento in 'uMovimento.pas',
+  uMovimentoDetalhe in 'uMovimentoDetalhe.pas',
+  uExpedicao in 'uExpedicao.pas' {fExpedicao};
 
 {$R *.res}
 
@@ -231,7 +234,7 @@ begin
   Application.CreateForm(TDM, DM);
   if (dm.conectado = False) then
     Application.Terminate;
-  Application.CreateForm(TfAtsAdmin, fAtsAdmin);    
+  Application.CreateForm(TfAtsAdmin, fAtsAdmin);
   Application.CreateForm(TDMNF, DMNF);
   Application.CreateForm(TDmCitrus, DmCitrus);
   Application.CreateForm(TfAtualizaSistema, fAtualizaSistema);
