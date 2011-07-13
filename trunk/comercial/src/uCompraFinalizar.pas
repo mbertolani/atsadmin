@@ -380,7 +380,7 @@ implementation
 
 uses uComercial, UDm, uProcurar, uCheques_bol, uCompra, ufCpAltera,
   uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize, uNotafc, UDMNF,
-  uAtsAdmin;
+  uAtsAdmin, uEstoque;
 
 {$R *.dfm}
 
@@ -464,9 +464,10 @@ end;
 
 procedure TfCompraFinalizar.btnGravarClick(Sender: TObject);
 var cod_id : integer;
-    utilcrtitulo : Tutils;
-    strSql, tipoMov: String;
-    TD: TTransactionDesc;    
+  utilcrtitulo : Tutils;
+  strSql, tipoMov: String;
+  TD: TTransactionDesc;
+  FEstoque: TEstoque;
 begin
   if (cbPrazo.Visible = true) then
   begin
@@ -591,7 +592,6 @@ begin
 
   inherited;
 
-
   if (dm.moduloUsado = 'CITRUS') then
   begin
     if (cds_7_contas.Locate('NOME', cbDespesaFrete.Text, [loCaseInsensitive])) then
@@ -654,24 +654,27 @@ begin
     grava.Destroy;
   end;
 
-
-  // atualizo o Lote - está sendo atualizado pela triger LOTE_ENTRADA
-{  cds_Mov_det.First;
-  While not cds_Mov_det.Eof do
-  begin
-     if cds_Mov_detLOTE.AsString <> '' then
-     begin
-       if cdslotes.Active then
-          cdslotes.Close;
-       cdslotes.Params[0].AsString := cds_Mov_detLOTE.AsString;
-       cdslotes.Open;
-       cdslotes.Edit;
-       cdslotesESTOQUE.Value := cdslotesESTOQUE.Value + cds_Mov_detQUANTIDADE.Value;
-       cdslotes.ApplyUpdates(0);
-     end;
-     cds_Mov_det.Next;
+  Try
+    FEstoque := TEstoque.Create;
+    // Gravando o Estoque
+    with fCompra do begin
+    cds_Mov_det.First;
+    While not cds_Mov_det.Eof do
+    begin
+      FEstoque.QtdeCompra  := cds_Mov_detQUANTIDADE.AsFloat;
+      FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+      FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+      FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+      FEstoque.MesAno      := cds_compraDATACOMPRA.AsDateTime;
+      FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+      FEstoque.inserirMes;
+      cds_Mov_det.Next;
+    end;
+    end;
+  Finally
+    FEstoque.Free;
   end;
-  }
+
   scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := cod_id;
   scdsCr_proc.Open;
@@ -1428,7 +1431,7 @@ begin
     if (sqlBuscaNota.Active) then
       sqlBuscaNota.Close;
     sqlBuscaNota.SQL.Clear;
-    sqlBuscaNota.SQL.Add('select codMovimento, codFornecedor from MOVIMENTO where CONTROLE = ' +
+    sqlBuscaNota.SQL.Add('select codMovimento, codFornecedor from MOVIMENTO where CODNATUREZA = 20 and CONTROLE = ' +
       QuotedStr(IntToStr(cds_compraCODMOVIMENTO.AsInteger)));
     sqlBuscaNota.Open;
     // Abrindo a tela da nota
@@ -1656,7 +1659,10 @@ end;
 procedure TfCompraFinalizar.btnExcluirClick(Sender: TObject);
 var     usu_n, usu_s, str : string;
         utilcrtitulo : Tutils;
+        FEstoque : TEstoque;
+        dataCompra  : TDateTime;
 begin
+  dataCompra := cds_compraDATACOMPRA.AsDateTime;
   usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
   utilcrtitulo := Tutils.Create;
@@ -1668,6 +1674,26 @@ begin
     begin
        DtSrc.DataSet.Delete;
        (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+        Try
+          FEstoque := TEstoque.Create;
+          // Gravando o Estoque
+          with fCompra do begin
+          cds_Mov_det.First;
+          While not cds_Mov_det.Eof do
+          begin
+            FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+            FEstoque.MesAno      := dataCompra;
+            FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+            FEstoque.inserirMes;
+            cds_Mov_det.Next;
+          end;
+          end;
+        Finally
+          FEstoque.Free;
+        end;
     end
     else
       Abort;
@@ -1683,6 +1709,26 @@ begin
        dm.sqlsisAdimin.ExecuteDirect(str);
        str := 'update PAGAMENTO set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
        dm.sqlsisAdimin.ExecuteDirect(str);
+        Try
+          FEstoque := TEstoque.Create;
+          // Gravando o Estoque
+          with fCompra do begin
+          cds_Mov_det.First;
+          While not cds_Mov_det.Eof do
+          begin
+            FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+            FEstoque.MesAno      := dataCompra;
+            FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+            FEstoque.inserirMes;
+            cds_Mov_det.Next;
+          end;
+          end;
+        Finally
+          FEstoque.Free;
+        end;
     end;
   end;
   fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);  
