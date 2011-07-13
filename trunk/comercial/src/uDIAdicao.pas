@@ -81,6 +81,7 @@ procedure TfDIAdicao.btnIncluirClick(Sender: TObject);
 begin
   inherited;
   cdsAdicADIC_CODDI.AsInteger := fDadosImportacao.cdsDIDI_CODDI.AsInteger;
+  cdsAdicADIC_CODDET.AsInteger := cdsMov_DetCODDETALHE.AsInteger;
 end;
 
 procedure TfDIAdicao.DBGrid1CellClick(Column: TColumn);
