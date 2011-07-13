@@ -2023,11 +2023,11 @@ inherited fCompra: TfCompra
       #10'        , nat.BAIXAMOVIMENTO '#13#10'from MOVIMENTO mov '#13#10'left outer ' +
       'join CLIENTES cli on cli.CODCLIENTE = mov.CODCLIENTE '#13#10'left oute' +
       'r join VEICULO vei on vei.COD_VEICULO = mov.COD_VEICULO '#13#10'left o' +
-      'uter join USUARIO usu on usu.CODUSUARIO = mov.CODUSUARIO '#13#10'left ' +
-      'outer join FORNECEDOR forn on forn.CODFORNECEDOR =  mov.CODFORNE' +
-      'CEDOR '#13#10'inner join NATUREZAOPERACAO nat on  nat.CODNATUREZA = mo' +
-      'v.CODNATUREZA '#13#10'left outer join PLANO alm on alm.CODIGO =  mov.C' +
-      'ODALMOXARIFADO where mov.CODMOVIMENTO = :pCODMOV'
+      'uter join USUARIO usu on usu.CODUSUARIO = mov.CODVENDEDOR '#13#10'left' +
+      ' outer join FORNECEDOR forn on forn.CODFORNECEDOR =  mov.CODFORN' +
+      'ECEDOR '#13#10'inner join NATUREZAOPERACAO nat on  nat.CODNATUREZA = m' +
+      'ov.CODNATUREZA '#13#10'left outer join PLANO alm on alm.CODIGO =  mov.' +
+      'CODALMOXARIFADO where mov.CODMOVIMENTO = :pCODMOV'
     MaxBlobSize = -1
     Params = <
       item
