@@ -11,25 +11,27 @@ uses
 
 type
   TfRel = class(TForm)
+    GroupBox5: TGroupBox;
     GroupBox1: TGroupBox;
-    cbMes: TComboBox;
     Label1: TLabel;
+    Label2: TLabel;
+    cbMes: TComboBox;
     dta1: TJvDatePickerEdit;
     dta2: TJvDatePickerEdit;
-    Label2: TLabel;
     RadioGroup1: TRadioGroup;
     BitBtn3: TBitBtn;
     BitBtn4: TBitBtn;
     BitBtn5: TBitBtn;
-    rep: TVCLReport;
     GroupBox2: TGroupBox;
     btnClienteProcura: TBitBtn;
+    Edit1: TEdit;
+    Edit2: TJvDBSearchComboBox;
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
-    Edit1: TEdit;
     GroupBox3: TGroupBox;
     BitBtn1: TBitBtn;
     Edit3: TEdit;
+    edit4: TJvDBSearchComboBox;
     GroupBox4: TGroupBox;
     Label8: TLabel;
     Label9: TLabel;
@@ -41,8 +43,6 @@ type
     cbProduto: TCheckBox;
     cbSubGrupo: TCheckBox;
     BitBtn6: TBitBtn;
-    Edit2: TJvDBSearchComboBox;
-    dsForn: TDataSource;
     BitBtn7: TBitBtn;
     btnSair: TBitBtn;
     GroupBox6: TGroupBox;
@@ -53,12 +53,14 @@ type
     Edit5: TEdit;
     dbComboBoxComprador: TJvDBSearchComboBox;
     CheckBox3: TCheckBox;
+    rep: TVCLReport;
+    dsForn: TDataSource;
     dsProd: TDataSource;
-    edit4: TJvDBSearchComboBox;
     scds_Prod: TSQLClientDataSet;
     scds_ProdCODPRODUTO: TIntegerField;
     scds_ProdCODPRO: TStringField;
     scds_ProdPRODUTO: TStringField;
+    BitBtn11: TBitBtn;
     procedure cbMesChange(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
@@ -78,6 +80,7 @@ type
     procedure BitBtn10Click(Sender: TObject);
     procedure CheckBox3Click(Sender: TObject);
     procedure edit4Change(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -325,7 +328,7 @@ end;
 
 procedure TfRel.BitBtn6Click(Sender: TObject);
 begin
-  Rep.Filename := str_relatorio + 'citrus_relCompra.rep';
+  Rep.Filename := str_relatorio + 'rel_compra_pedido.rep';
   Rep.Title := Rep.Filename;
   Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   Rep.Report.Params.ParamByName('PDATA1').Value := StrToDate(Dta1.Text);
@@ -469,6 +472,20 @@ end;
 procedure TfRel.edit4Change(Sender: TObject);
 begin
   Edit3.Text := scds_ProdCODPRO.AsString;
+end;
+
+procedure TfRel.BitBtn11Click(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'rel_compra_pedido.rep';
+  Rep.Title := Rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Dta1.Text);
+  Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Dta2.Text);
+  if (Edit1.Text <> '') then
+    Rep.Report.Params.ParamByName('FORNEC').Value := Edit1.Text
+  else
+    Rep.Report.Params.ParamByName('FORNEC').Value := '0';
+  rep.execute;
 end;
 
 end.
