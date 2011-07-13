@@ -578,7 +578,7 @@ implementation
 
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
-  uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase;
+  uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque;
 
 {$R *.dfm}
 
@@ -819,6 +819,7 @@ var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
      TD: TTransactionDesc;
+     FEstoque: TEstoque;
 begin
   if (cbPrazo.Visible = True) then
   begin
@@ -1154,12 +1155,37 @@ begin
 //           [mbOk], 0);
 //    end;
 
+  Try
+    FEstoque := TEstoque.Create;
+    // Gravando o Estoque
+    with fVendas do begin
+    cds_Mov_det.First;
+    While not cds_Mov_det.Eof do
+    begin
+      FEstoque.QtdeVenda   := cds_Mov_detQUANTIDADE.AsFloat;
+      FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+      FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+      FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+      FEstoque.MesAno      := cdsDATAVENDA.AsDateTime;
+      FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+      FEstoque.inserirMes;
+      cds_Mov_det.Next;
+    end;
+    end;
+  Finally
+    FEstoque.Free;
+  end;
+
 end;
 
 procedure TfVendaFinalizar.btnExcluirClick(Sender: TObject);
 var    utilcrtitulo : Tutils;
-        usu_n, usu_s : string;
+  usu_n, usu_s : string;
+  FEstoque: TEstoque;
+  dataVenda: TDateTime;
 begin
+  dataVenda := cdsDATAVENDA.AsDateTime;
+
   usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
   utilcrtitulo := Tutils.Create;
@@ -1199,6 +1225,28 @@ begin
              ShowMessage('Erro ao Excluir a Venda');
            end;
          end;
+
+        Try
+          FEstoque := TEstoque.Create;
+          // Gravando o Estoque
+          with fVendas do begin
+          cds_Mov_det.First;
+          While not cds_Mov_det.Eof do
+          begin
+            FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+            FEstoque.MesAno      := dataVenda;
+            FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+            FEstoque.inserirMes;
+            cds_Mov_det.Next;
+          end;
+          end;
+        Finally
+          FEstoque.Free;
+        end;
+
       end;
     end
     else if (cds_cr.IsEmpty) then
@@ -2774,7 +2822,7 @@ begin
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
   sqlBuscaNota.SQL.Clear;
-  sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where CODNATUREZA = 15 and CONTROLE = ' +
+  sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where CODNATUREZA = 15 AND CONTROLE = ' + 
     QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
   sqlBuscaNota.Open;
   if (sqlBuscaNota.IsEmpty) then
