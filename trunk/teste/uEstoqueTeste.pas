@@ -51,7 +51,7 @@ uses SysUtils, UDm;
      03  07/2011   Compra         40      R$  4,00
      04  05/2011   Compra         30      R$  9,00
      05  06/2011   Venda          20      R$  3,90
-     --06  06/2011   Venda          20      R$
+     06  06/2011   Venda          20      R$  2,40
  }
 
 procedure TEstoqueTeste.SetUp;
@@ -349,6 +349,6 @@ end;
 
 
 initialization
-  RegisterTest('Tutorial/Teste', TEstoqueTeste.Suite);
+  RegisterTest('Estoque/Teste', TEstoqueTeste.Suite);
 
 end.
