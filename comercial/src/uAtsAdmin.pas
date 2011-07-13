@@ -232,6 +232,7 @@ type
     SaveDialog1: TSaveDialog;
     EvAppProtect1: TEvAppProtect;
     acBoletoAts: TAction;
+    Expedio1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -344,6 +345,7 @@ type
     procedure Similares1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure acBoletoAtsExecute(Sender: TObject);
+    procedure Expedio1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -387,7 +389,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
-  uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS;
+  uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
+  uExpedicao;
 
 {$R *.dfm}
 
@@ -1904,6 +1907,17 @@ begin
   finally
     Screen.Cursor := Save_Cursor;  { Always restore to normal }
   end;
+end;
+
+procedure TfAtsAdmin.Expedio1Click(Sender: TObject);
+begin
+  fExpedicao := TfExpedicao.Create(Application);
+  try
+    fExpedicao.ShowModal;
+  finally
+    fExpedicao.Free;
+  end;
+
 end;
 
 end.
