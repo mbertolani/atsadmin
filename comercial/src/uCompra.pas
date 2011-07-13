@@ -592,6 +592,12 @@ begin
     ComboBox1.Enabled := True;
     conta_desp := dm.cds_parametroDADOS.AsString;
     campocentrocusto := 'SIM';
+    Try
+      if (dm.cds_parametroD1.asString <> '') then
+        ccustoCompras := StrToInT(dm.cds_parametroD1.asString);
+    except
+      ccustoCompras := 0;
+    end;
   end
   else begin
     ComboBox1.Enabled := False;
@@ -779,7 +785,7 @@ begin
   end;
 
    //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
-   if(DBEdit15.Text <> '') then
+   if(DBEdit15.Text = '') then
    begin
    if dm.scds_usuario_proc.Active then
     dm.scds_usuario_proc.Close;
@@ -882,10 +888,14 @@ begin
   cds_MovimentoDATA_SISTEMA.AsDateTime := Now;
   cds_MovimentoSTATUS.Value := 0;
   cds_MovimentoCODUSUARIO.AsInteger := usulog;
+  //DBEdit15.Text := IntToStr(compradorPadrao);
+  //DBEdit16.Text := compradorPadraoNome;
   cds_MovimentoCODVENDEDOR.Value := compradorPadrao;
   cds_MovimentoNOMEUSUARIO.Value := compradorPadraoNome;
   cds_MovimentoCODCLIENTE.AsInteger := 0;
   cds_MovimentoCODALMOXARIFADO.AsInteger := ccustoCompras;
+  if (cds_ccusto.Locate('CODIGO', ccustoCompras, [loCaseInsensitive])) then
+    ComboBox1.Text := cds_ccustoNOME.AsString;
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'COMPRA'; // Busca o Resp. pela Aprovacao Cadastrado
