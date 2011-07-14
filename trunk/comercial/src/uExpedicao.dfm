@@ -1,7 +1,7 @@
 inherited fExpedicao: TfExpedicao
   Top = 153
   Width = 987
-  Height = 755
+  Height = 745
   Caption = 'Recebimento Materiais'
   OldCreateOrder = True
   PixelsPerInch = 96
@@ -371,7 +371,7 @@ inherited fExpedicao: TfExpedicao
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 677
+    Top = 667
     Width = 979
     inherited btnGravar: TBitBtn
       Left = -200
@@ -500,7 +500,7 @@ inherited fExpedicao: TfExpedicao
     Left = 0
     Top = 337
     Width = 979
-    Height = 340
+    Height = 330
     Align = alClient
     Caption = 'Expedi'#231#227'o'
     TabOrder = 3
@@ -556,7 +556,7 @@ inherited fExpedicao: TfExpedicao
           Expanded = False
           FieldName = 'CODPEDIDO'
           Title.Caption = 'Pedido'
-          Width = 79
+          Width = 80
           Visible = True
         end
         item
@@ -565,7 +565,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'DATA_ENTREGA'
           ReadOnly = True
           Title.Caption = 'Dt. Entrega'
-          Width = 79
+          Width = 80
           Visible = True
         end
         item
@@ -573,7 +573,7 @@ inherited fExpedicao: TfExpedicao
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'C'#243'd.'
-          Width = 61
+          Width = 62
           Visible = True
         end
         item
@@ -581,7 +581,7 @@ inherited fExpedicao: TfExpedicao
           Expanded = False
           FieldName = 'NOMECLIENTE'
           Title.Caption = 'Cliente'
-          Width = 194
+          Width = 197
           Visible = True
         end
         item
@@ -590,7 +590,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'CODPRO'
           ReadOnly = True
           Title.Caption = 'Material'
-          Width = 80
+          Width = 81
           Visible = True
         end
         item
@@ -599,7 +599,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'PRODUTO'
           ReadOnly = True
           Title.Caption = 'Descri'#231#227'o'
-          Width = 205
+          Width = 209
           Visible = True
         end
         item
@@ -608,7 +608,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'VALTOTAL'
           ReadOnly = True
           Title.Caption = 'Val. Total'
-          Width = 80
+          Width = 81
           Visible = True
         end
         item
@@ -617,7 +617,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'QUANTIDADE'
           ReadOnly = True
           Title.Caption = 'Quantidade'
-          Width = 95
+          Width = 97
           Visible = True
         end
         item
@@ -625,7 +625,7 @@ inherited fExpedicao: TfExpedicao
           Expanded = False
           FieldName = 'STATUS'
           Title.Caption = 'Situa'#231#227'o'
-          Width = 61
+          Width = 63
           Visible = True
         end>
     end
@@ -1063,11 +1063,11 @@ inherited fExpedicao: TfExpedicao
       'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO,' +
       ' p.PRODUTO'#13#10', md.QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
       ', m.CONTROLE, m.CODPEDIDO,'#13#10'm.CODCLIENTE, cli.NOMECLIENTE, '#39'TEXT' +
-      'O STATUS PEDIDO'#39'  STATUS'#13#10' from MOVIMENTODETALHE md'#13#10'inner join ' +
-      'MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO'#13#10'inner join PR' +
-      'ODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO'#13#10'inner join CLIEN' +
-      'TES cli on cli.CodCliente = m.CodCliente'#13#10'where m.CODNATUREZA  =' +
-      ' 6 '#13#10#13#10'  '
+      'O STATUS PEDIDO'#39'  STATUS, m.CODALMOXARIFADO, md.CODPRODUTO'#13#10' fro' +
+      'm MOVIMENTODETALHE md'#13#10'inner join MOVIMENTO m on  m.CODMOVIMENTO' +
+      '  = md.CODMOVIMENTO'#13#10'inner join PRODUTOS   p on  md.CODPRODUTO  ' +
+      '  = p.CODPRODUTO'#13#10'inner join CLIENTES cli on cli.CodCliente = m.' +
+      'CodCliente'#13#10'where m.CODNATUREZA  = 6 '#13#10#13#10'  '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1138,6 +1138,14 @@ inherited fExpedicao: TfExpedicao
       Required = True
       FixedChar = True
       Size = 25
+    end
+    object sqlExpedicaoCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ReadOnly = True
+    end
+    object sqlExpedicaoCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ReadOnly = True
     end
   end
   object dspExpedicao: TDataSetProvider
@@ -1210,6 +1218,14 @@ inherited fExpedicao: TfExpedicao
       Required = True
       FixedChar = True
       Size = 25
+    end
+    object cdsExpedicaoCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ReadOnly = True
+    end
+    object cdsExpedicaoCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ReadOnly = True
     end
   end
   object DataSource1: TDataSource
