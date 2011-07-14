@@ -64,6 +64,7 @@ type
     function jaFoiInserido(): Boolean;
     procedure corrigeCustoEstoquePosterior; // Qdo Inseri uma entrada no mes Anterior e existe movimento Mes Posterior
     function mesAnterior(MesAtual: TDateTime): TDateTime;
+    function validoMovimento(): Boolean;
   protected
     //Atributos
     _codProduto: Integer;
@@ -104,11 +105,11 @@ type
     //Metodos
     function inserirMes(): Boolean;
     function verEstoque(MesAno: TDateTime): Boolean;
+    function excluirMes(): Boolean;
     constructor Create;
     Destructor Destroy; Override;
   end;
-
-
+  
   const
     TABLENAME = 'ESTOQUE';
 
@@ -213,6 +214,12 @@ begin
   inherited;
 end;
 
+function TEstoque.excluirMes: Boolean;
+begin
+  // Movimento Excluído
+
+end;
+
 function TEstoque.getCentroCusto: Integer;
 begin
   Result := _centroCusto;
@@ -282,7 +289,7 @@ end;
 
 function TEstoque.getQtdeDevCompra: Double;
 begin
-  Result := _qtdeDevCompra - QDevCompra;
+  Result := _qtdeDevCompra + QDevCompra;
 end;
 
 function TEstoque.getQtdeDevVenda: Double;
@@ -322,6 +329,11 @@ end;
 
 function TEstoque.inserirMes: Boolean;
 begin
+  {// Valida se o Tipo de Movimento é Válido
+  if (validoMovimento = False) then
+  begin
+    exit;
+  end;}
   Try
     Result := false;
     DecimalSeparator := '.';
@@ -577,6 +589,22 @@ end;
 procedure TEstoque.setUn(const Value: String);
 begin
   _un := Trim(Value);
+end;
+
+function TEstoque.validoMovimento: Boolean;
+begin
+  {sqlBusca.Close;
+  sqlBusca.sql.Clear;
+  sqlBusca.sql.Add('SELECT BAIXAMOVIMENTO ' +
+    ' FROM NATUREZAOPERACAO ' +
+    'WHERE CODNATUREZA = ' + IntToStr(Self.CodProduto) +
+    '  AND LOTE        = ' + QuotedStr(Self.Lote) +
+    '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesAnoAnterior)) +
+    '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto));
+  sqlBusca.Open;
+  if (sqlBusca.IsEmpty) then      // Não achou nada no sistema
+  begin
+  end;}
 end;
 
 function TEstoque.verEstoque(MesAno: TDateTime): Boolean;
