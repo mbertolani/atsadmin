@@ -373,7 +373,8 @@ inherited fCompraCotacao: TfCompraCotacao
         item
           Expanded = False
           FieldName = 'SOLIC_SITUACAO'
-          Title.Caption = 'Sit.'
+          Title.Caption = 'Situa'#231#227'o'
+          Width = 50
           Visible = True
         end
         item
@@ -778,7 +779,13 @@ inherited fCompraCotacao: TfCompraCotacao
     SQL.Strings = (
       'SELECT p.FAMILIA , p.CATEGORIA, p.MARCA, cs.SOLIC_CODIGO, '
       'cs.SOLIC_DATA, cs.SOLIC_PRODUTO, cs.SOLIC_QUANTIDADE, '
-      'cs.SOLIC_SOLICITANTE, cs.SOLIC_SITUACAO, cs.SOLIC_APROVACAO, '
+      'cs.SOLIC_SOLICITANTE, cs.SOLIC_APROVACAO, '
+      
+        'CASE cs.SOLIC_SITUACAO WHEN '#39'A'#39' THEN '#39'APROVADO'#39' WHEN '#39'C'#39' THEN '#39'C' +
+        'ANCELADO'#39
+      
+        '      WHEN '#39'G'#39' THEN '#39'EM COTA'#199#195'O'#39' WHEN '#39'E'#39' THEN '#39'ENCERRADO'#39' ELSE ' +
+        #39'OUTROS'#39' END AS SOLIC_SITUACAO,'
       'cs.SOLIC_DATAAPROV, cs.SOLIC_DESCRICAO, cs.SOLIC_TIPO, '
       'cs.SOLIC_DTNECESSIT, cs.SOLIC_OBSERVACAO'
       ', 0 as SELEC, p.UNIDADEMEDIDA'
