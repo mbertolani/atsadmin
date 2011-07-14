@@ -99,6 +99,10 @@ type
     cdsExpedicaoNOMECLIENTE: TStringField;
     sqlExpedicaoSTATUS: TStringField;
     cdsExpedicaoSTATUS: TStringField;
+    sqlExpedicaoCODALMOXARIFADO: TIntegerField;
+    cdsExpedicaoCODALMOXARIFADO: TIntegerField;
+    sqlExpedicaoCODPRODUTO: TIntegerField;
+    cdsExpedicaoCODPRODUTO: TIntegerField;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -125,7 +129,7 @@ var
 
 implementation
 
-uses uUtils, UDm, uProcurar;
+uses uUtils, UDm, uProcurar, uEstoque;
 
 {$R *.dfm}
 
@@ -455,10 +459,10 @@ begin
     '      WHEN m.STATUS = 1 THEN ' + QuotedStr('Expedido') +
     '      WHEN m.STATUS = 2 THEN ' + QuotedStr('Entregue') +
     '      WHEN m.STATUS = 3 THEN ' + QuotedStr('Cancelado') +
-    ' END STATUS ' +
+    ' END STATUS , m.CODALMOXARIFADO, md.CODPRODUTO ' +
     ' from MOVIMENTODETALHE md ' +
-    ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
-    ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
+    ' inner join MOVIMENTO m on  m.CODMOVIMENTO = md.CODMOVIMENTO ' +
+    ' inner join PRODUTOS   p on  md.CODPRODUTO = p.CODPRODUTO ' +
     ' inner join CLIENTES cli on cli.CodCliente = m.CodCliente ' +
     ' WHERE m.CODNATUREZA  = 6 ';
 
@@ -489,6 +493,7 @@ procedure TfExpedicao.BitBtn4Click(Sender: TObject);
 var codMov: Integer;
  TD: TTransactionDesc;
  strAltera: String;
+ FEstoque : TEstoque;
 begin
   codMov := 0;
   cdsExpedicao.DisableControls;
@@ -497,55 +502,48 @@ begin
   TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
   try
-    While not cdsExpedicao.Eof do
-    begin
-      if (codMov <> cdsExpedicaoCODMOVIMENTO.AsInteger) then
+    try
+      FEstoque := TEstoque.Create;
+      While not cdsExpedicao.Eof do
       begin
-        strAltera := 'UPDATE MOVIMENTO SET STATUS = ' + IntToStr(cbSituacao.ItemIndex) +
-         ' WHERE CODMOVIMENTO = ' + IntToStr(cdsExpedicaoCODMOVIMENTO.AsInteger);
-        dm.sqlsisAdimin.ExecuteDirect(strAltera);
-
-        if (cbSituacao.ItemIndex = 2) then
+        if (codMov <> cdsExpedicaoCODMOVIMENTO.AsInteger) then
         begin
-          strAltera := 'UPDATE MOVIMENTODETALHE SET BAIXA = 1 ' +
+          strAltera := 'UPDATE MOVIMENTO SET STATUS = ' + IntToStr(cbSituacao.ItemIndex) +
            ' WHERE CODMOVIMENTO = ' + IntToStr(cdsExpedicaoCODMOVIMENTO.AsInteger);
           dm.sqlsisAdimin.ExecuteDirect(strAltera);
-          // Rodar Classe que grava Estoque
-          Try
-            FEstoque := TEstoque.Create;
-            // Gravando o Estoque
-            with fVendas do begin
-            cds_Mov_det.First;
-            While not cds_Mov_det.Eof do
-            begin
-              FEstoque.QtdeVenda   := cds_Mov_detQUANTIDADE.AsFloat;
-              FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-              FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-              FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-              FEstoque.MesAno      := cdsDATAVENDA.AsDateTime;
-              FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-              FEstoque.inserirMes;
-              cds_Mov_det.Next;
-            end;
-            end;
-          Finally
-            FEstoque.Free;
-          end;
 
+          if (cbSituacao.ItemIndex = 2) then
+          begin
+            strAltera := 'UPDATE MOVIMENTODETALHE SET BAIXA = 1 ' +
+             ' WHERE CODMOVIMENTO = ' + IntToStr(cdsExpedicaoCODMOVIMENTO.AsInteger);
+            dm.sqlsisAdimin.ExecuteDirect(strAltera);
+          end;
+          codMov := cdsExpedicaoCODMOVIMENTO.AsInteger;
         end;
-        codMov := cdsExpedicaoCODMOVIMENTO.AsInteger;
+        // Rodar Classe que grava Estoque
+        // Gravando o Estoque
+        FEstoque.QtdeVenda   := cdsExpedicaoQUANTIDADE.AsFloat;
+        FEstoque.CodProduto  := cdsExpedicaoCODPRODUTO.AsInteger;
+        FEstoque.Lote        := '0';
+        FEstoque.CentroCusto := cdsExpedicaoCODALMOXARIFADO.AsInteger;
+        FEstoque.MesAno      := cdsExpedicaoDATA_ENTREGA.AsDateTime;
+        FEstoque.PrecoVenda  := cdsExpedicaoPRECO.AsFloat;
+        FEstoque.inserirMes;
+        cdsExpedicao.Next;
       end;
-      cdsExpedicao.Next;
+      dm.sqlsisAdimin.Commit(TD);
+      cdsExpedicao.EnableControls;
+      MessageDlg('Situação da Expedição alterada com sucesso.', mtInformation, [mbOK], 0);
+      BitBtn3.Click;
+    Finally
+      FEstoque.Free;
     end;
-    dm.sqlsisAdimin.Commit(TD);
-    cdsExpedicao.EnableControls;
-    MessageDlg('Situação da Expedição alterada com sucesso.', mtInformation, [mbOK], 0);
-    BitBtn3.Click;
   except
     dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para alterar a Situação, alteração não realizada.', mtError, [mbOK], 0);
     exit;
   end;
+
 
 end;
 
