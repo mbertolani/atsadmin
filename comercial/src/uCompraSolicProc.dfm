@@ -6,9 +6,9 @@ inherited fCompraSolicProc: TfCompraSolicProc
   inherited MMJPanel1: TMMJPanel
     Height = 57
     object rgSit: TRadioGroup
-      Left = 8
+      Left = 472
       Top = 8
-      Width = 313
+      Width = 298
       Height = 44
       Caption = 'Situacao'
       Columns = 4
@@ -22,73 +22,88 @@ inherited fCompraSolicProc: TfCompraSolicProc
       OnClick = rgSitClick
     end
     object GroupBox1: TGroupBox
-      Left = 325
+      Left = 85
       Top = 8
-      Width = 203
+      Width = 195
       Height = 44
       Caption = 'Data da Solicita'#231#227'o'
       TabOrder = 1
       object Label1: TLabel
-        Left = 97
+        Left = 94
         Top = 20
         Width = 6
         Height = 13
         Caption = #224
       end
       object dtSolic: TJvDatePickerEdit
-        Left = 8
+        Left = 5
         Top = 15
         Width = 84
         Height = 21
         AllowNoDate = True
-        Checked = True
+        Checked = False
         TabOrder = 0
         OnKeyPress = FormKeyPress
       end
       object dtSolic2: TJvDatePickerEdit
-        Left = 110
+        Left = 107
         Top = 15
         Width = 84
         Height = 21
         AllowNoDate = True
-        Checked = True
+        Checked = False
         TabOrder = 1
         OnKeyPress = FormKeyPress
       end
     end
     object GroupBox2: TGroupBox
-      Left = 533
+      Left = 279
       Top = 8
-      Width = 201
+      Width = 193
       Height = 44
       Caption = 'Data da Necessidade'
       TabOrder = 2
       object Label2: TLabel
-        Left = 97
+        Left = 93
         Top = 20
         Width = 6
         Height = 13
         Caption = #224
       end
       object dtNece: TJvDatePickerEdit
-        Left = 8
+        Left = 4
         Top = 15
         Width = 84
         Height = 21
         AllowNoDate = True
-        Checked = True
+        Checked = False
         TabOrder = 0
         OnKeyPress = FormKeyPress
       end
       object dtNece2: TJvDatePickerEdit
-        Left = 110
+        Left = 106
         Top = 15
         Width = 84
         Height = 21
         AllowNoDate = True
-        Checked = True
+        Checked = False
         TabOrder = 1
         OnKeyPress = FormKeyPress
+      end
+    end
+    object GroupBox3: TGroupBox
+      Left = 2
+      Top = 8
+      Width = 83
+      Height = 44
+      Caption = 'C'#243'digo'
+      TabOrder = 3
+      object Edit1: TEdit
+        Left = 5
+        Top = 16
+        Width = 73
+        Height = 21
+        TabOrder = 0
       end
     end
   end
@@ -451,6 +466,7 @@ inherited fCompraSolicProc: TfCompraSolicProc
         Expanded = False
         FieldName = 'SOLIC_SITUACAO'
         Title.Caption = 'Status'
+        Width = 50
         Visible = True
       end
       item
@@ -492,8 +508,14 @@ inherited fCompraSolicProc: TfCompraSolicProc
   end
   object sdsSol: TSQLDataSet
     CommandText = 
-      'SELECT * FROM COMPRA_SOLIC, PRODUTOS'#13#10'where codpro = SOLIC_PRODU' +
-      'TO'
+      'SELECT cs.SOLIC_CODIGO, cs.SOLIC_DATA, cs.SOLIC_QUANTIDADE, cs.S' +
+      'OLIC_DATAAPROV, cs.SOLIC_DESCRICAO,'#13#10'cs.SOLIC_TIPO, cs.SOLIC_PRO' +
+      'DUTO, cs.SOLIC_SOLICITANTE, cs.SOLIC_APROVACAO, cs.SOLIC_DTNECES' +
+      'SIT, '#13#10'cs.SOLIC_OBSERVACAO, p.UNIDADEMEDIDA, CASE cs.SOLIC_SITUA' +
+      'CAO WHEN '#39'A'#39' THEN '#39'APROVADO'#39' WHEN '#39'C'#39' '#13#10'THEN '#39'CANCELADO'#39' WHEN '#39'G' +
+      #39' THEN '#39'EM COTA'#199#195'O'#39' WHEN '#39'E'#39' THEN '#39'ENCERRADO'#39' ELSE '#39'OUTROS'#39' END ' +
+      #13#10'AS SOLIC_SITUACAO'#13#10'FROM COMPRA_SOLIC cs, PRODUTOS p'#13#10'where p.C' +
+      'ODPRO = cs.SOLIC_PRODUTO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin

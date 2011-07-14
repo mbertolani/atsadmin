@@ -39,6 +39,8 @@ type
     Label2: TLabel;
     dtNece: TJvDatePickerEdit;
     dtNece2: TJvDatePickerEdit;
+    GroupBox3: TGroupBox;
+    Edit1: TEdit;
     procedure rgSitClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -77,12 +79,23 @@ begin
   // Busca Solicitacao
   if (cdsSol.Active) then
     cdsSol.Close;
-  str := 'SELECT * FROM COMPRA_SOLIC, produtos' ;
+  str := 'SELECT cs.SOLIC_CODIGO, cs.SOLIC_DATA, cs.SOLIC_QUANTIDADE, cs.SOLIC_DATAAPROV, cs.SOLIC_DESCRICAO, ' +
+    'cs.SOLIC_TIPO, cs.SOLIC_PRODUTO, cs.SOLIC_SOLICITANTE, cs.SOLIC_APROVACAO, cs.SOLIC_DTNECESSIT, ' +
+    'cs.SOLIC_OBSERVACAO, p.UNIDADEMEDIDA, ' +
+    'CASE cs.SOLIC_SITUACAO WHEN ' + QuotedStr('A') + ' THEN ' + QuotedStr('APROVADO') +
+    ' WHEN ' + QuotedStr('C') + ' THEN ' + QuotedStr('CANCELADO') + 'WHEN ' + QuotedStr('G') +
+    ' THEN ' + QuotedStr('EM COTAÇÃO') + ' WHEN ' + QuotedStr('E') + ' THEN ' +
+    QuotedStr('ENCERRADO') + 'WHEN ' + QuotedStr('P') + ' THEN ' +
+    QuotedStr('PENDENTE') + ' ELSE ' + QuotedStr('OUTROS') + ' END AS SOLIC_SITUACAO ' +
+    '  FROM COMPRA_SOLIC cs, PRODUTOS p where p.CODPRO = cs.SOLIC_PRODUTO ' ;
   if (sit <> '') then
-    cond := cond + ' WHERE SOLIC_SITUACAO =' + QuotedStr(sit) +
+    cond := cond + ' AND SOLIC_SITUACAO =' + QuotedStr(sit) +
      ' and codpro = SOLIC_PRODUTO'
   else
-    cond := cond + ' WHERE codpro = SOLIC_PRODUTO AND SOLIC_SITUACAO <> ' + QuotedStr('C');
+    cond := cond + ' AND SOLIC_SITUACAO <> ' + QuotedStr('C');
+  if( Edit1.Text <> '') then
+    cond := cond + ' and SOLIC_CODIGO = ' + Edit1.Text;
+
   if( ( not dtSolic.IsEmpty) and ( not dtSolic2.IsEmpty)) then
     cond := cond + ' and SOLIC_DATA between ' +
     QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtSolic.Text))) + ' and ' +

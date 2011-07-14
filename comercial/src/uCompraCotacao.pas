@@ -611,7 +611,12 @@ var sql_s : String;
 begin
   sql_s := 'SELECT p.FAMILIA , p.CATEGORIA, p.MARCA, cs.SOLIC_CODIGO,' +
     ' cs.SOLIC_DATA, cs.SOLIC_PRODUTO, cs.SOLIC_QUANTIDADE, ' +
-    ' cs.SOLIC_SOLICITANTE, cs.SOLIC_SITUACAO, cs.SOLIC_APROVACAO, ' +
+    ' cs.SOLIC_SOLICITANTE, cs.SOLIC_APROVACAO, ' +
+    'CASE cs.SOLIC_SITUACAO WHEN ' + QuotedStr('A') + ' THEN ' + QuotedStr('APROVADO') +
+    ' WHEN ' + QuotedStr('C') + ' THEN ' + QuotedStr('CANCELADO') + 'WHEN ' + QuotedStr('G') +
+    ' THEN ' + QuotedStr('EM COTAÇÃO') + ' WHEN ' + QuotedStr('E') + ' THEN ' +
+    QuotedStr('ENCERRADO') + 'WHEN ' + QuotedStr('P') + ' THEN ' +
+    QuotedStr('PENDENTE') + ' ELSE ' + QuotedStr('OUTROS') + ' END AS SOLIC_SITUACAO, ' +
     ' cs.SOLIC_DATAAPROV, cs.SOLIC_DESCRICAO, cs.SOLIC_TIPO, ' +
     ' cs.SOLIC_DTNECESSIT, cs.SOLIC_OBSERVACAO, 0 as SELEC, p.UNIDADEMEDIDA ' +
     '  FROM COMPRA_SOLIC cs ' +
