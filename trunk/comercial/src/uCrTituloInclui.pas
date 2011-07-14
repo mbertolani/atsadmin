@@ -539,7 +539,8 @@ procedure TfcrTituloInclui.btnGravarClick(Sender: TObject);
    varCrTituloRec : TUtils;
 begin
   dm.cds_crDATASISTEMA.AsDateTime := Now;
-  dm.cds_crVALOR_PRIM_VIA.AsFloat := dm.cds_crVALORTITULO.AsFloat;
+  if (dm.cds_crVIA.AsString = '1') then
+    dm.cds_crVALOR_PRIM_VIA.AsFloat := dm.cds_crVALORTITULO.AsFloat;
   dm.cds_crVALOR_RESTO.AsFloat := dm.cds_crVALORTITULO.AsFloat;
   if (dm.cds_crOUTRO_CREDITO.AsFloat > 0) then
   begin
