@@ -7,6 +7,7 @@ AS
   DECLARE VARIABLE codVendedor SMALLINT;
   DECLARE VARIABLE codProd INT;  
   DECLARE VARIABLE codMov INT;  
+  DECLARE VARIABLE codCCusto INT;  
   DECLARE VARIABLE codCliente INT;  
   DECLARE VARIABLE codPedido INT; 
   DECLARE VARIABLE codNovoMov INT; 
@@ -53,24 +54,24 @@ BEGIN
         m.PRAZO_PAGAMENTO, m.OBS, m.VALOR_FRETE, m.CODUSUARIO, 
         m.CODVENDEDOR , m.USER_APROVA, 
         md.codproduto, md.descproduto, md.RECEBIDO, md.preco, md.un, md.qtde_alt,
-        md.QUANTIDADE, m.CODMOVIMENTO, m.CODPEDIDO
+        md.QUANTIDADE, m.CODMOVIMENTO, m.CODPEDIDO, m.CODALMOXARIFADO
         FROM MOVIMENTO m, MOVIMENTODETALHE md  
        where md.CODMOVIMENTO = m.CODMOVIMENTO
          and ((md.QUANTIDADE - md.RECEBIDO) >= 0)
          and (m.CODNATUREZA = 3)
          and (md.CODIGO1 = 99999) 
       into :nat, :codCliente, :entrega, :prazo, :obs, :frete, :codUsuario, 
-      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov, :codPedido
+      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov, :codPedido, :codCCusto
     do begin     
           
       if (IncluidoMov = 'N') then 
       begin 
         INSERT INTO MOVIMENTO(codmovimento, datamovimento, codcliente, codnatureza, 
           status, codusuario, codfornecedor, data_sistema,  data_entrega, 
-          prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido, Controle)
+          prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido, Controle, CodAlmoxarifado)
           values (:codNovoMov, CURRENT_DATE, :codCliente, 6, 
           1,:codUsuario, 0, CURRENT_TIMESTAMP, :dataEntrega,
-          :prazo, :obs, :frete, :codVendedor, :userAprova, :codPedido, :carga);    
+          :prazo, :obs, :frete, :codVendedor, :userAprova, :codPedido, :carga, :codCCusto);    
        end 
        IncluidoMov = 'S';
      /* When any do
@@ -85,6 +86,10 @@ BEGIN
       -- Novo Movimento Detalhe do que Sobrou do Pedido Cotado  
       if (recebido < qtde) then   
       begin 
+        update MOVIMENTODETALHE SET QUANTIDADE = :recebido 
+         WHERE CODMOVIMENTO = :codMov 
+           and QUANTIDADE = :qtde 
+           and CODPRODUTO = :codProd;
         insert into MOVIMENTODETALHE (CODDETALHE, codmovimento, codproduto, descproduto, 
           quantidade, preco, un, qtde_alt, recebido, codigo) values (
           GEN_ID(GENMOVDET, 1), :codMov, :codProd, :prodDesc, 
