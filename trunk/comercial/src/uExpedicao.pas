@@ -103,6 +103,9 @@ type
     cdsExpedicaoCODALMOXARIFADO: TIntegerField;
     sqlExpedicaoCODPRODUTO: TIntegerField;
     cdsExpedicaoCODPRODUTO: TIntegerField;
+    sqlExpedicaoSITUACAO: TSmallintField;
+    cdsExpedicaoSITUACAO: TSmallintField;
+    BitBtn5: TBitBtn;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -118,7 +121,9 @@ type
     procedure edExpedicaoKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
+    TD: TTransactionDesc;
     { Private declarations }
   public
     { Public declarations }
@@ -273,7 +278,7 @@ begin
 end;
 
 procedure TfExpedicao.BitBtn1Click(Sender: TObject);
-var TD: TTransactionDesc;
+var
   tudo, alteraStatus: String;
   codFornec: Integer;
 begin
@@ -290,21 +295,6 @@ begin
   try
     cdsPedido.DisableControls;
     cdsPedido.First;
-
-    // Nao precisa disto, vai ter entrega para varios fornecedores.
-
-    {codFornec := cdsPedidoCODFORNECEDOR.AsInteger;
-    While not cdsPedido.Eof do
-    begin
-      // Se tiver um  diferente não executa o processo
-      if (codFornec <> cdsPedidoCODFORNECEDOR.AsInteger) then
-      begin
-        MessageDlg('A lista de Pedidos deve ser de um único Fornecedor.', mtInformation, [mbOK], 0);
-        Exit;
-      end;
-      cdsPedido.Next;
-    end;}
-
     cdsPedido.First;
     DecimalSeparator := '.';
     tudo := 'S';
@@ -322,16 +312,6 @@ begin
       cdsPedido.Next;
     end;
     DecimalSeparator := ',';
-    { -- Fazendo pela PROC
-    if (tudo = 'S') then
-    begin
-      alteraStatus := 'UPDATE MOVIMENTO SET STATUS = 5 WHERE CODMOVIMENTO = ' + IntToStr(cdsPedidoCODMOVIMENTO.AsInteger);
-    end else begin
-      alteraStatus := 'UPDATE MOVIMENTO SET STATUS = 4 WHERE CODMOVIMENTO = ' + IntToStr(cdsPedidoCODMOVIMENTO.AsInteger);
-    end;
-    dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
-    dm.sqlsisAdimin.Commit(TD);
-                                 }
     alteraStatus := 'EXECUTE PROCEDURE EXPEDICAO_GERA_PEDIDO(' + QuotedStr(edExpedicao.Text) +
       ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', dtEntrega.Date)) + ')';
     dm.sqlsisAdimin.StartTransaction(TD);
@@ -459,7 +439,7 @@ begin
     '      WHEN m.STATUS = 1 THEN ' + QuotedStr('Expedido') +
     '      WHEN m.STATUS = 2 THEN ' + QuotedStr('Entregue') +
     '      WHEN m.STATUS = 3 THEN ' + QuotedStr('Cancelado') +
-    ' END STATUS , m.CODALMOXARIFADO, md.CODPRODUTO ' +
+    ' END STATUS , m.CODALMOXARIFADO, md.CODPRODUTO, m.STATUS SITUACAO ' +
     ' from MOVIMENTODETALHE md ' +
     ' inner join MOVIMENTO m on  m.CODMOVIMENTO = md.CODMOVIMENTO ' +
     ' inner join PRODUTOS   p on  md.CODPRODUTO = p.CODPRODUTO ' +
@@ -470,7 +450,7 @@ begin
 
   if (edExpedicao.Text <> '') then
   begin
-    sqlX := ' AND m.CONTROLE LIKE ' + QuotedStr(edExpedicao.Text + '%');
+    sqlX := ' AND UDF_COLLATEBR(m.CONTROLE) LIKE UDF_COLLATEBR(' + QuotedStr(edExpedicao.Text + '%)');
   end;
 
   if (dtEntrega.Checked) then
@@ -490,12 +470,13 @@ begin
 end;
 
 procedure TfExpedicao.BitBtn4Click(Sender: TObject);
-var codMov: Integer;
- TD: TTransactionDesc;
+var codMov, SituacaoAtual: Integer;
  strAltera: String;
  FEstoque : TEstoque;
+ qtde: Double;
 begin
   codMov := 0;
+  situacaoAtual := cdsExpedicaoSITUACAO.AsInteger;
   cdsExpedicao.DisableControls;
   cdsExpedicao.First;
   TD.TransactionID := 1;
@@ -520,9 +501,18 @@ begin
           end;
           codMov := cdsExpedicaoCODMOVIMENTO.AsInteger;
         end;
-        // Rodar Classe que grava Estoque
-        // Gravando o Estoque
-        FEstoque.QtdeVenda   := cdsExpedicaoQUANTIDADE.AsFloat;
+        // Baixa Estoque
+        if ((situacaoAtual <> 2) and (cbSituacao.ItemIndex = 2)) then
+        begin
+          qtde := cdsExpedicaoQUANTIDADE.AsFloat;
+        end;
+        // Cancela Baixa do Estoque
+        if ((situacaoAtual = 2) and (cbSituacao.ItemIndex <> 2)) then
+        begin
+          qtde := (-1) * cdsExpedicaoQUANTIDADE.AsFloat;
+        end;
+        // Rodar Classe que grava Estoque (qtde Positiva baixa o estoque, Negativa cancela Baixa)
+        FEstoque.QtdeVenda   := qtde;
         FEstoque.CodProduto  := cdsExpedicaoCODPRODUTO.AsInteger;
         FEstoque.Lote        := '0';
         FEstoque.CentroCusto := cdsExpedicaoCODALMOXARIFADO.AsInteger;
@@ -545,6 +535,28 @@ begin
   end;
 
 
+end;
+
+procedure TfExpedicao.BitBtn5Click(Sender: TObject);
+begin
+  if (cdsExpedicaoSITUACAO.AsInteger = 2) then
+  begin
+    MessageDlg('Não é possível excluir cotação com situação ENTREGUE.', mtError, [mbOK], 0);
+    exit;
+  end;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTODETALHE ' +
+    ' WHERE CODDETALHE = ' + IntToStr(cdsExpedicaoCODDETALHE.AsInteger));
+    dm.sqlsisAdimin.Commit(TD);
+    MessageDlg('Item Excluído com sucesso.', mtInformation, [mbOK], 0);
+    BitBtn3.Click;
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro para Excluir o Item.', mtError, [mbOK], 0);
+  end;
 end;
 
 end.
