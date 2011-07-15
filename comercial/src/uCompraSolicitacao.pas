@@ -113,9 +113,24 @@ end;
 
 procedure TfSolicitacaoCompra.btnGravarClick(Sender: TObject);
 begin
-  if ((dbEdit6.Text = null) or (dbEdit6.Text = '  /  /  ') or (dbEdit6.Text = '__/__/__')) then
+  if (dbEdit1.Text = '')  then
+  begin
+    MessageDlg('Insira o produto da necessidade.', mtWarning, [mbOK], 0);
+    exit;
+  end
+  else if ((dbEdit6.Text = null) or (dbEdit6.Text = '  /  /  ') or (dbEdit6.Text = '__/__/__')) then
   begin
     MessageDlg('Data da necessidade é obrigatório.', mtWarning, [mbOK], 0);
+    exit;
+  end
+  else if (dbEdit3.Text = '')  then
+  begin
+    MessageDlg('Quantidade da necessidade é obrigatório.', mtWarning, [mbOK], 0);
+    exit;
+  end
+  else if (DBEdit7.Text = '')  then
+  begin
+    MessageDlg('Observação da necessidade é obrigatório.', mtWarning, [mbOK], 0);
     exit;
   end
   else

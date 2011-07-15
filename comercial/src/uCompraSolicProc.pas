@@ -35,12 +35,10 @@ type
     Label1: TLabel;
     btnStatus: TBitBtn;
     btnAprovar: TBitBtn;
-    GroupBox2: TGroupBox;
-    Label2: TLabel;
-    dtNece: TJvDatePickerEdit;
-    dtNece2: TJvDatePickerEdit;
     GroupBox3: TGroupBox;
     Edit1: TEdit;
+    GroupBox2: TGroupBox;
+    edProd: TEdit;
     procedure rgSitClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -100,10 +98,12 @@ begin
     cond := cond + ' and SOLIC_DATA between ' +
     QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtSolic.Text))) + ' and ' +
     QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtSolic2.Text)));
-  if( ( not dtNece.IsEmpty) and ( not dtNece2.IsEmpty)) then
+  {if( ( not dtNece.IsEmpty) and ( not dtNece2.IsEmpty)) then
     cond := cond + ' and SOLIC_DTNECESSIT between ' +
     QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtNece.Text))) + ' and ' +
-    QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtNece2.Text)));
+    QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtNece2.Text)));}
+   if( edProd.Text <> '')then
+    cond := cond + ' and SOLIC_PRODUTO LIKE ' + QuotedStr(edProd.Text + '%');
 
   cdsSol.CommandText := str + cond;
   cdsSol.Open;
@@ -128,7 +128,7 @@ end;
 procedure TfCompraSolicProc.btnIncluirClick(Sender: TObject);
 //var situa: string;
 begin
-  if (cdsSolSOLIC_SITUACAO.AsString = 'C') then
+  if (cdsSolSOLIC_SITUACAO.AsString = 'CANCELADO') then
   begin
     MessageDlg('Solicitação Cancelada, altere a situação para Pendente.'+#13+#10+'Para poder aprova-la.', mtWarning, [mbOK], 0);
     exit;
@@ -157,14 +157,14 @@ procedure TfCompraSolicProc.btnStatusClick(Sender: TObject);
 begin
   // inherited;
   //Cancela Solicitacao
-  if (cdsSolSOLIC_SITUACAO.AsString = 'P') then
+  if (cdsSolSOLIC_SITUACAO.AsString = 'PENDENTE  ') then
   begin
     dm.sqlsisAdimin.ExecuteDirect('UPDATE COMPRA_SOLIC SET SOLIC_SITUACAO = ' +
       QuotedStr('C') + ', SOLIC_DATAAPROV = CURRENT_DATE'  +
         ' WHERE SOLIC_CODIGO = ' + IntToStr(cdsSolSOLIC_CODIGO.AsInteger));
     atualizaSolic;
   end;
-  if ((cdsSolSOLIC_SITUACAO.AsString = 'C') or (cdsSolSOLIC_SITUACAO.AsString = 'A')) then
+  if ((cdsSolSOLIC_SITUACAO.AsString = 'C') or (cdsSolSOLIC_SITUACAO.AsString = 'APROVADO') or (cdsSolSOLIC_SITUACAO.AsString = 'APROVADO  ')) then
   begin
     dm.sqlsisAdimin.ExecuteDirect('UPDATE COMPRA_SOLIC SET SOLIC_SITUACAO = ' +
       QuotedStr('P') + ', SOLIC_DATAAPROV = CURRENT_DATE'  +
@@ -176,11 +176,11 @@ end;
 procedure TfCompraSolicProc.JvDBGrid1CellClick(Column: TColumn);
 begin
   //inherited;
-  if (cdsSolSOLIC_SITUACAO.AsString = 'P') then
+  if (cdsSolSOLIC_SITUACAO.AsString = 'PENDENTE  ') then
   begin
     btnStatus.Caption := 'Cancelar';
   end;
-  if (cdsSolSOLIC_SITUACAO.AsString = 'C') then
+  if (cdsSolSOLIC_SITUACAO.AsString = 'APROVADO  ') then
   begin
     btnStatus.Caption := 'Pendente';
   end;
