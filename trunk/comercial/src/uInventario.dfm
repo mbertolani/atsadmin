@@ -763,6 +763,36 @@ inherited fInventario: TfInventario
     SQLConnection = DM.sqlsisAdimin
     Left = 184
     Top = 128
+    object sdsProdCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object sdsProdCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object sdsProdPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ReadOnly = True
+      Required = True
+      Size = 300
+    end
+    object sdsProdUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object sdsProdCATEGORIA: TStringField
+      FieldName = 'CATEGORIA'
+      ReadOnly = True
+      Size = 30
+    end
+    object sdsProdFAMILIA: TStringField
+      FieldName = 'FAMILIA'
+      ReadOnly = True
+      Size = 30
+    end
   end
   object dspProd: TDataSetProvider
     DataSet = sdsProd
@@ -784,24 +814,27 @@ inherited fInventario: TfInventario
       FieldName = 'CODPRODUTO'
       Required = True
     end
-    object cdsProdUNIDADEMEDIDA: TStringField
-      FieldName = 'UNIDADEMEDIDA'
-      FixedChar = True
-      Size = 2
-    end
-    object cdsProdCATEGORIA: TStringField
-      FieldName = 'CATEGORIA'
-      Size = 30
-    end
-    object cdsProdFAMILIA: TStringField
-      FieldName = 'FAMILIA'
-      Size = 30
-    end
     object cdsProdPRODUTO: TStringField
       FieldName = 'PRODUTO'
       ReadOnly = True
       Required = True
       Size = 300
+    end
+    object cdsProdUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object cdsProdCATEGORIA: TStringField
+      FieldName = 'CATEGORIA'
+      ReadOnly = True
+      Size = 30
+    end
+    object cdsProdFAMILIA: TStringField
+      FieldName = 'FAMILIA'
+      ReadOnly = True
+      Size = 30
     end
   end
   object dsProd: TDataSource
