@@ -232,7 +232,10 @@ end;
 
 function TEstoque.getLote: String;
 begin
-  Result := _lote;
+  if (_lote = '') then
+    Result := '0'
+  else
+    Result := _lote;
 end;
 
 function TEstoque.getMesAno: TDateTime;
@@ -384,11 +387,24 @@ begin
       if (temMesPosterior = True) then
       begin
         // ********************** carregar aqui o preco de custo e o saldo do mes que acabou de ser inserido
-
         QSaldoAnterior := totalEstoque;
         PCustoAnterior := Self.PrecoCusto;
         corrigeCustoEstoquePosterior;
       end;
+
+      // Atualiza Cadastro de Produtos
+      sqlStr := 'UPDATE PRODUTOS SET ESTOQUEATUAL = ' + FloatToStr(totalEstoque);
+
+      // Se foi Compra, Atualiza valores
+      if (Self.QtdeCompra > 0) then
+      begin
+        sqlStr := sqlStr + ', VALORUNITARIOATUAL = ' + FloatToStr(Self.PrecoCompra);
+        sqlStr := sqlStr + ', PRECOMEDIO         = ' + FloatToStr(Self.PrecoCusto);
+      end;
+
+      sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(Self.CodProduto);
+      dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+
 
       Result := True;
     Except
