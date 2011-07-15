@@ -6,9 +6,9 @@ inherited fCompraSolicProc: TfCompraSolicProc
   inherited MMJPanel1: TMMJPanel
     Height = 57
     object rgSit: TRadioGroup
-      Left = 472
+      Left = 413
       Top = 8
-      Width = 298
+      Width = 355
       Height = 44
       Caption = 'Situacao'
       Columns = 4
@@ -22,21 +22,21 @@ inherited fCompraSolicProc: TfCompraSolicProc
       OnClick = rgSitClick
     end
     object GroupBox1: TGroupBox
-      Left = 85
+      Left = 205
       Top = 8
-      Width = 195
+      Width = 205
       Height = 44
       Caption = 'Data da Solicita'#231#227'o'
       TabOrder = 1
       object Label1: TLabel
-        Left = 94
+        Left = 97
         Top = 20
         Width = 6
         Height = 13
         Caption = #224
       end
       object dtSolic: TJvDatePickerEdit
-        Left = 5
+        Left = 8
         Top = 15
         Width = 84
         Height = 21
@@ -46,42 +46,7 @@ inherited fCompraSolicProc: TfCompraSolicProc
         OnKeyPress = FormKeyPress
       end
       object dtSolic2: TJvDatePickerEdit
-        Left = 107
-        Top = 15
-        Width = 84
-        Height = 21
-        AllowNoDate = True
-        Checked = False
-        TabOrder = 1
-        OnKeyPress = FormKeyPress
-      end
-    end
-    object GroupBox2: TGroupBox
-      Left = 279
-      Top = 8
-      Width = 193
-      Height = 44
-      Caption = 'Data da Necessidade'
-      TabOrder = 2
-      object Label2: TLabel
-        Left = 93
-        Top = 20
-        Width = 6
-        Height = 13
-        Caption = #224
-      end
-      object dtNece: TJvDatePickerEdit
-        Left = 4
-        Top = 15
-        Width = 84
-        Height = 21
-        AllowNoDate = True
-        Checked = False
-        TabOrder = 0
-        OnKeyPress = FormKeyPress
-      end
-      object dtNece2: TJvDatePickerEdit
-        Left = 106
+        Left = 111
         Top = 15
         Width = 84
         Height = 21
@@ -92,16 +57,31 @@ inherited fCompraSolicProc: TfCompraSolicProc
       end
     end
     object GroupBox3: TGroupBox
-      Left = 2
+      Left = 4
       Top = 8
-      Width = 83
+      Width = 100
       Height = 44
-      Caption = 'C'#243'digo'
-      TabOrder = 3
+      Caption = 'C'#243'digo Solicita'#231#227'o'
+      TabOrder = 2
       object Edit1: TEdit
         Left = 5
         Top = 16
-        Width = 73
+        Width = 89
+        Height = 21
+        TabOrder = 0
+      end
+    end
+    object GroupBox2: TGroupBox
+      Left = 107
+      Top = 8
+      Width = 95
+      Height = 44
+      Caption = 'C'#243'digo Produto'
+      TabOrder = 3
+      object edProd: TEdit
+        Left = 5
+        Top = 16
+        Width = 85
         Height = 21
         TabOrder = 0
       end
