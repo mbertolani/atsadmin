@@ -1,7 +1,7 @@
 unit uEstoqueTeste;
 
 interface
-uses TestFramework, uEstoque;
+uses TestFramework, uEstoque, Math;
 
 type
   TEstoqueTeste = class(TTestCase)
@@ -26,7 +26,9 @@ type
     procedure TestSaidaComSaldoNoMes;
     procedure TestSaidaComSaldoNoMes2;
     procedure TestNovaEntradaDepoisSaida;
-    
+    procedure TestaCancelamentoEntrada;
+    procedure TestaCancelamentoSaida;
+
     procedure TestSaidaSemTerSaldo;
     procedure TestSaidaSemSaldoNoMes;
 end;
@@ -347,6 +349,92 @@ end;
 
 
 
+
+procedure TEstoqueTeste.TestaCancelamentoEntrada;
+begin
+  // Entrada de Materiais
+  FEstoque.QtdeCompra := 100;
+  FEstoque.CodProduto := CCodProduto;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAnoPosterior);
+  FEstoque.PrecoCompra := 5;
+  FEstoque.inserirMes;
+
+  // Cancelando ou Excluindo a Entrada Acima
+  FEstoque.QtdeCompra := (-1) * 100;
+  FEstoque.CodProduto := CCodProduto;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAnoPosterior);
+  FEstoque.PrecoCompra := 5;
+  FEstoque.inserirMes;
+
+
+  dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
+        'QTDEPERDA, PRECOCUSTO, PRECOVENDA, PRECOCOMPRA ' +
+        ' FROM ESTOQUEMES ' +
+        'WHERE CODPRODUTO  = ' + IntToStr(FEstoque.CodProduto) +
+        '  AND LOTE        = ' + QuotedStr(FEstoque.Lote) +
+        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', FEstoque.MesAno)) +
+        '  AND CENTROCUSTO = ' + IntToStr(FEstoque.CentroCusto));
+  dm.sqlBusca.Open;
+  //DecimalSeparator := '.';
+  pCusto := Trunc(dm.sqlBusca.FieldByName('PRECOCUSTO').AsFloat * 10000) / 10000;  // 4 Casas Decimais
+  pTeste := StrToFloat('4,6505');
+  //DecimalSeparator := ',';
+  check(pCusto = pTeste , 'Preco Custo Errado.');
+  check(dm.sqlBusca.FieldByName('QTDECOMPRA').AsFloat = 80 , 'Quantidade Compra Errado.');
+  pTeste := StrToFloat('3,7');
+  pCusto := dm.sqlBusca.FieldByName('PRECOCOMPRA').AsFloat;
+  pCusto := trunc((pCusto-pTeste)*1000);
+  CheckEquals(pCusto, 0, 'Preço Compra Errado.');
+end;
+
+procedure TEstoqueTeste.TestaCancelamentoSaida;
+begin
+  // Entrada de Materiais
+  FEstoque.QtdeVenda  := 100;
+  FEstoque.CodProduto := CCodProduto;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAnoPosterior);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.inserirMes;
+
+  // Cancelando ou Excluindo a Entrada Acima
+  FEstoque.QtdeVenda := (-1) * 100;
+  FEstoque.CodProduto := CCodProduto;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAnoPosterior);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.inserirMes;
+
+
+  dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
+        'QTDEPERDA, PRECOCUSTO, PRECOVENDA, PRECOCOMPRA ' +
+        ' FROM ESTOQUEMES ' +
+        'WHERE CODPRODUTO  = ' + IntToStr(FEstoque.CodProduto) +
+        '  AND LOTE        = ' + QuotedStr(FEstoque.Lote) +
+        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', FEstoque.MesAno)) +
+        '  AND CENTROCUSTO = ' + IntToStr(FEstoque.CentroCusto));
+  dm.sqlBusca.Open;
+  //DecimalSeparator := '.';
+  pCusto := Trunc(dm.sqlBusca.FieldByName('PRECOCUSTO').AsFloat * 10000) / 10000;  // 4 Casas Decimais
+  pTeste := StrToFloat('4,6505');
+  //DecimalSeparator := ',';
+  check(pCusto = pTeste , 'Preco Custo Errado.');
+  check(dm.sqlBusca.FieldByName('QTDEVENDA').AsFloat = 80 , 'Quantidade Venda Errado.');
+  pTeste := StrToFloat('4,125');
+  pCusto := dm.sqlBusca.FieldByName('PRECOVENDA').AsFloat;
+  pCusto := trunc((pCusto-pTeste)*1000);
+  CheckEquals(pCusto, 0, 'Preço Venda Errado.');
+end;
 
 initialization
   RegisterTest('Estoque/Teste', TEstoqueTeste.Suite);
