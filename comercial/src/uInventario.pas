@@ -35,17 +35,12 @@ type
     cdsInventESTOQUE_ATUAL: TFloatField;
     cdsInventQTDE_INVENTARIO: TFloatField;
     cdsInventUN: TStringField;
-    cdsProdCODPRO: TStringField;
-    cdsProdCODPRODUTO: TIntegerField;
-    cdsProdUNIDADEMEDIDA: TStringField;
     rgLista: TRadioGroup;
     cdsLanca_Inv: TClientDataSet;
     sdsLanca_Inv: TSQLDataSet;
     dspLanca_Inv: TDataSetProvider;
     cdsLanca_InvMSG: TStringField;
     sdsLanca_InvMSG: TStringField;
-    cdsProdCATEGORIA: TStringField;
-    cdsProdFAMILIA: TStringField;
     GroupBox1: TGroupBox;
     Label1: TLabel;
     Label5: TLabel;
@@ -63,7 +58,6 @@ type
     BitBtn2: TBitBtn;
     btnImprimir: TBitBtn;
     VCLReport1: TVCLReport;
-    cdsProdPRODUTO: TStringField;
     cdsInventPRODUTO: TStringField;
     JvDBGrid3: TJvDBGrid;
     sdsListaInventario: TSQLDataSet;
@@ -72,6 +66,18 @@ type
     dsListaInventario: TDataSource;
     cdsListaInventarioCODIVENTARIO: TStringField;
     cdsListaInventarioDATAIVENTARIO: TDateField;
+    sdsProdCODPRO: TStringField;
+    sdsProdCODPRODUTO: TIntegerField;
+    sdsProdPRODUTO: TStringField;
+    sdsProdUNIDADEMEDIDA: TStringField;
+    sdsProdCATEGORIA: TStringField;
+    sdsProdFAMILIA: TStringField;
+    cdsProdCODPRO: TStringField;
+    cdsProdCODPRODUTO: TIntegerField;
+    cdsProdPRODUTO: TStringField;
+    cdsProdUNIDADEMEDIDA: TStringField;
+    cdsProdCATEGORIA: TStringField;
+    cdsProdFAMILIA: TStringField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -107,7 +113,7 @@ procedure TfInventario.btnProcClick(Sender: TObject);
 var sql, sqla: string;
 begin
   sqla := '';
-  sql := 'SELECT CODPRO, CODPRODUTO, PRODUTO, UNIDADEMEDIDA ,CATEGORIA , FAMILIA FROM PRODUTOS';
+  sql := 'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as varchar(300)) PRODUTO, UNIDADEMEDIDA ,CATEGORIA , FAMILIA FROM PRODUTOS';
   if (edProd.Text <> '') then
   begin
     sqla := ' WHERE CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
@@ -226,11 +232,11 @@ begin
   end;
   if (cdsInvent.Active) then
   begin
-    if (cdsInvent.State in [dsBrowse]) then
-    begin
+    //if (cdsInvent.State in [dsInsert]) then
+    //begin
         sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO, CODPRO, SITUACAO, UN) VALUES ('  +
       QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) + ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
-      QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' + QuotedStr(cdsProd.Fields[3].AsString) + ')';
+      QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' + QuotedStr(cdsProdUNIDADEMEDIDA.AsString) + ')';
     try
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
@@ -248,8 +254,8 @@ begin
       cdsInventSITUACAO.AsString        := 'A';
       cdsInventUN.AsString              := cdsProd.Fields[3].AsString;
       cdsInvent.ApplyUpdates(0);}
-    end;
-    if (cdsInvent.State in [dsInsert]) then
+    {end;
+    if (cdsInvent.State in [dsBrowse]) then
     begin
       cdsInventDATAIVENTARIO.AsDateTime := now;
       cdsInventCODPRODUTO.AsInteger     := cdsProd.Fields[1].AsInteger;
@@ -257,7 +263,7 @@ begin
       cdsInventSITUACAO.AsString        := 'A';
       cdsInventUN.AsString              := cdsProd.Fields[3].AsString;
       cdsInvent.ApplyUpdates(0);
-    end;
+    end;}
   end;
 
 end;
@@ -280,7 +286,7 @@ begin
   if MessageDlg('Confirma a exclusão da Lista ?',mtConfirmation,
                 [mbYes,mbNo],0) = mrYes then
   begin
-    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM INVENTARIO WHERE CODINVENTARIO = ' +
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM INVENTARIO WHERE CODIVENTARIO = ' +
       QuotedStr(edLista.Text));
     if (cdsInvent.Active) then
       cdsInvent.Close;
