@@ -8,6 +8,7 @@ AS
   DECLARE VARIABLE codUsuario SMALLINT;
   DECLARE VARIABLE codVendedor SMALLINT;
   DECLARE VARIABLE codProd INT;  
+  DECLARE VARIABLE codCCusto INT;  
   DECLARE VARIABLE codMov INT;  
   DECLARE VARIABLE codCotacao INT; 
   DECLARE VARIABLE codNovoMov INT; 
@@ -40,7 +41,7 @@ BEGIN
         m.PRAZO_PAGAMENTO, m.OBS, m.VALOR_FRETE, m.CODUSUARIO, 
         m.CODVENDEDOR , m.USER_APROVA, 
         md.codproduto, md.descproduto, md.RECEBIDO, md.preco, md.un, md.qtde_alt,
-        md.QUANTIDADE, m.CODMOVIMENTO
+        md.QUANTIDADE, m.CODMOVIMENTO, m.CODALMOXARIFADO
         FROM MOVIMENTO m, MOVIMENTODETALHE md  
        where md.CODMOVIMENTO = m.CODMOVIMENTO
          and ((m.STATUS = 3) OR (m.STATUS = 4)) 
@@ -49,16 +50,16 @@ BEGIN
          and (md.CODIGO1 = 99999) 
          and (m.CODFORNECEDOR = :codFornec)
       into :nat, :codFornec, :codCotacao, :entrega, :prazo, :obs, :frete, :codUsuario, 
-      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov
+      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov, :codCCusto
     do begin     
       if (IncluidoMov = 'N') then 
       begin 
         INSERT INTO MOVIMENTO(codmovimento, datamovimento, codcliente, codnatureza, 
           status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
-          prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido)
+          prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido, codAlmoxarifado)
           values (:codNovoMov, CURRENT_DATE, 0, 4, 
           0,:codUsuario, :codFornec, CURRENT_TIMESTAMP, :codCotacao, :entrega,
-          :prazo, :obs, :frete, :codVendedor, :userAprova, :codCotacao);    
+          :prazo, :obs, :frete, :codVendedor, :userAprova, :codCotacao, :codCCusto);    
        end 
        IncluidoMov = 'S';
      /* When any do
