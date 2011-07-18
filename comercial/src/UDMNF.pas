@@ -1437,11 +1437,11 @@ begin
         cdsCompraVALOR.AsFloat := cds_Mov_detTotalPedido.Value;
         cdsCompraVALOR_PAGAR.AsFloat := cds_Mov_detTotalPedido.Value;
       end;
-      if (cds_nf1.State in [dsInsert, dsEdit]) then
+      {if (cds_nf1.State in [dsInsert, dsEdit]) then
       begin
         cds_nf1VALOR_PRODUTO.AsFloat := cds_Mov_detTotalPedido.Value;
         cds_nf1VALOR_TOTAL_NOTA.AsFloat := cds_Mov_detTotalPedido.Value;
-      end;
+      end;}
     end;
   end;
 end;
