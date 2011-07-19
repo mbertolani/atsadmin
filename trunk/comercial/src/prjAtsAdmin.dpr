@@ -225,7 +225,8 @@ uses
   uMovimento in 'uMovimento.pas',
   uMovimentoDetalhe in 'uMovimentoDetalhe.pas',
   uExpedicao in 'uExpedicao.pas' {fExpedicao},
-  uEstoque in 'uEstoque.pas';
+  uEstoque in 'uEstoque.pas',
+  uProcura_prodOficina in 'uProcura_ProdOficina.pas' {fProcura_ProdOficina};
 
 {$R *.res}
 
@@ -297,5 +298,7 @@ begin
   Application.CreateForm(TfSolicitacaoCompra, fSolicitacaoCompra);
   Application.CreateForm(TfCompraSolicProc, fCompraSolicProc);
   Application.CreateForm(TfProdutoProc, fProdutoProc);
+  if (dm.moduloUsado = 'AUTOMOTIVA') then
+    Application.CreateForm(TfProcura_ProdOficina, fProcura_ProdOficina);
   Application.Run;
 end.
