@@ -402,7 +402,7 @@ begin
 end;
 
 procedure TfProcura_produtos.BitBtn1Click(Sender: TObject);
-var varSql, varCondicao, varCondicaoA, varSql1, varCond2, varSql2, varCondicao1, s: string;
+var varSql, varCondicao, varCondicaoA, varCondicaoA1, varSql1, varCond2, varSql2, varCondicao1, s: string;
 i : integer;
 begin
   if (panel2.Visible = True) then
@@ -431,7 +431,7 @@ begin
    'left outer join CODIGOS cod on cod.COD_PRODUTO = pro.CODPRODUTO ' +
    'left outer join USO_PRODUTO uso on uso.COD_PRODUTO = pro.CODPRODUTO ';
 
-{  ***** Comentei pois n�o � usado mais - Carlos 09/08/2006 ****}
+{  ***** Comentei pois nao e usado mais - Carlos 09/08/2006 ****}
 
   if edCodigo.Text <> '' then
     varCondicao := QuotedStr(edCodigo.Text)
@@ -456,7 +456,10 @@ begin
   varCondicao := varCondicao + ') ';
 
   if edUso.Text <> '' then
-     varCondicaoA := varCondicaoA + ' where DESCRICAO like ' + '''' + edUso.Text + '%' + '''';
+  begin
+    varCondicaoA := varCondicaoA + ' where USO like ' + '''' + edUso.Text + '%' + '''';
+    varCondicaoA1 := ' where uso.DESCRICAO like ' + '''' + edUso.Text + '%' + '''';
+  end;
 
  if edProduto.Text <> '' then
    if varCondicaoA <> '' then
@@ -507,7 +510,7 @@ begin
    end;
 
  varCondicao1 := varSql1 + varCondicaoA + ' order by pro.PRODUTO ';
- varCond2 := varSql2 + varCondicaoA + ' order by pro.PRODUTO ';
+ varCond2 := varSql2 + varCondicaoA1 + ' order by pro.PRODUTO ';
  varCondicao := varSql + varCondicao + varCondicaoA + ' order by PRODUTO ';
 
 //***************************************************************************
