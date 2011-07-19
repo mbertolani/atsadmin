@@ -101,100 +101,6 @@ inherited fInventario: TfInventario
       Height = 21
       TabOrder = 0
     end
-    object JvDBGrid2: TJvDBGrid
-      Left = 161
-      Top = 43
-      Width = 633
-      Height = 213
-      Align = alCustom
-      DataSource = dsInvent
-      TabOrder = 1
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'MS Sans Serif'
-      TitleFont.Style = []
-      OnTitleClick = JvDBGrid2TitleClick
-      AlternateRowColor = 13562879
-      AutoSizeColumns = True
-      SelectColumnsDialogStrings.Caption = 'Select columns'
-      SelectColumnsDialogStrings.OK = '&OK'
-      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-      EditControls = <>
-      RowsHeight = 17
-      TitleRowHeight = 17
-      Columns = <
-        item
-          Expanded = False
-          FieldName = 'CODIVENTARIO'
-          ReadOnly = True
-          Title.Caption = 'Lista'
-          Width = 96
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'DATAIVENTARIO'
-          ReadOnly = True
-          Title.Caption = 'Data'
-          Width = 55
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CODPRO'
-          ReadOnly = True
-          Title.Caption = 'C'#243'digo'
-          Width = 72
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PRODUTO'
-          Title.Caption = 'Produto'
-          Width = 143
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'SITUACAO'
-          ReadOnly = True
-          Title.Caption = 'Sit.'
-          Width = 39
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'DATAEXECUTADO'
-          ReadOnly = True
-          Title.Caption = 'Data'
-          Width = 55
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'ESTOQUE_ATUAL'
-          ReadOnly = True
-          Title.Caption = 'Est. atual'
-          Width = 58
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'QTDE_INVENTARIO'
-          Title.Caption = 'Invent'#225'rio'
-          Width = 60
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UN'
-          ReadOnly = True
-          Title.Caption = 'Un.'
-          Width = 30
-          Visible = True
-        end>
-    end
     object btnProcLista: TBitBtn
       Left = 704
       Top = 5
@@ -210,7 +116,7 @@ inherited fInventario: TfInventario
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
-      TabOrder = 2
+      TabOrder = 1
       OnClick = btnProcListaClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -319,7 +225,7 @@ inherited fInventario: TfInventario
       Height = 21
       AllowNoDate = True
       Checked = True
-      TabOrder = 3
+      TabOrder = 2
     end
     object rgLista: TRadioGroup
       Left = 444
@@ -332,7 +238,7 @@ inherited fInventario: TfInventario
       Items.Strings = (
         'Pendente'
         'Finalizada')
-      TabOrder = 4
+      TabOrder = 3
     end
     object BitBtn2: TBitBtn
       Left = 402
@@ -340,7 +246,7 @@ inherited fInventario: TfInventario
       Width = 30
       Height = 24
       PopupMenu = PopupMenu1
-      TabOrder = 5
+      TabOrder = 4
       TabStop = False
       OnClick = BitBtn2Click
       Glyph.Data = {
@@ -440,6 +346,92 @@ inherited fInventario: TfInventario
           FieldName = 'DATAIVENTARIO'
           Title.Caption = 'Data'
           Width = 50
+          Visible = True
+        end>
+    end
+    object JvDBGrid2: TJvDBGrid
+      Left = 157
+      Top = 42
+      Width = 642
+      Height = 213
+      Align = alCustom
+      DataSource = dsInvent
+      TabOrder = 5
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      OnKeyPress = JvDBGrid2KeyPress
+      AutoAppend = False
+      FixedCols = 5
+      PostOnEnterKey = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 17
+      TitleRowHeight = 17
+      Columns = <
+        item
+          Color = clScrollBar
+          Expanded = False
+          FieldName = 'CODIVENTARIO'
+          ReadOnly = True
+          Title.Caption = 'Invent'#225'rio'
+          Width = 80
+          Visible = True
+        end
+        item
+          Color = clScrollBar
+          Expanded = False
+          FieldName = 'DATAIVENTARIO'
+          ReadOnly = True
+          Title.Caption = 'Data'
+          Width = 80
+          Visible = True
+        end
+        item
+          Color = clScrollBar
+          Expanded = False
+          FieldName = 'CODPRO'
+          ReadOnly = True
+          Title.Caption = 'Material'
+          Width = 70
+          Visible = True
+        end
+        item
+          Color = clScrollBar
+          Expanded = False
+          FieldName = 'PRODUTO'
+          ReadOnly = True
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 180
+          Visible = True
+        end
+        item
+          Color = clScrollBar
+          Expanded = False
+          FieldName = 'ESTOQUE_ATUAL'
+          ReadOnly = True
+          Title.Caption = 'Estoque'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QTDE_INVENTARIO'
+          Title.Caption = 'Inventariado'
+          Width = 80
+          Visible = True
+        end
+        item
+          Color = clMenuBar
+          Expanded = False
+          FieldName = 'UN'
+          ReadOnly = True
+          Title.Caption = 'Un'
+          Width = 30
           Visible = True
         end>
     end
@@ -862,7 +854,6 @@ inherited fInventario: TfInventario
     Aggregates = <>
     Params = <>
     ProviderName = 'dspInvent'
-    AfterPost = cdsInventAfterPost
     Left = 752
     Top = 136
     object cdsInventCODIVENTARIO: TStringField
@@ -894,9 +885,6 @@ inherited fInventario: TfInventario
       DisplayFormat = ',##0.000'
       EditFormat = ',##0.000'
     end
-    object cdsInventQTDE_INVENTARIO: TFloatField
-      FieldName = 'QTDE_INVENTARIO'
-    end
     object cdsInventUN: TStringField
       FieldName = 'UN'
       FixedChar = True
@@ -906,6 +894,9 @@ inherited fInventario: TfInventario
       FieldName = 'PRODUTO'
       Required = True
       Size = 300
+    end
+    object cdsInventQTDE_INVENTARIO: TFloatField
+      FieldName = 'QTDE_INVENTARIO'
     end
   end
   object dsInvent: TDataSource

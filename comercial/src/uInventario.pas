@@ -7,7 +7,7 @@ uses
   Dialogs, uPai_new, Mask, StdCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid,
   Menus, XPMenu, DB, Buttons, ExtCtrls, MMJPanel, FMTBcd, DBClient,
   Provider, SqlExpr, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, rpcompobase, rpvclreport;
+  JvDatePickerEdit, rpcompobase, rpvclreport, dbxpress;
 
 type
   TfInventario = class(TfPai_new)
@@ -15,7 +15,6 @@ type
     Label3: TLabel;
     edLista: TEdit;
     Label4: TLabel;
-    JvDBGrid2: TJvDBGrid;
     sdsProd: TSQLDataSet;
     dspProd: TDataSetProvider;
     cdsProd: TClientDataSet;
@@ -33,7 +32,6 @@ type
     cdsInventSITUACAO: TStringField;
     cdsInventDATAEXECUTADO: TDateField;
     cdsInventESTOQUE_ATUAL: TFloatField;
-    cdsInventQTDE_INVENTARIO: TFloatField;
     cdsInventUN: TStringField;
     rgLista: TRadioGroup;
     cdsLanca_Inv: TClientDataSet;
@@ -78,6 +76,8 @@ type
     cdsProdUNIDADEMEDIDA: TStringField;
     cdsProdCATEGORIA: TStringField;
     cdsProdFAMILIA: TStringField;
+    JvDBGrid2: TJvDBGrid;
+    cdsInventQTDE_INVENTARIO: TFloatField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -93,8 +93,11 @@ type
     procedure btnImprimirClick(Sender: TObject);
     procedure JvDBGrid2TitleClick(Column: TColumn);
     procedure JvDBGrid3CellClick(Column: TColumn);
+    procedure dsInventStateChange(Sender: TObject);
+    procedure JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
+    TD: TTransactionDesc;
     procedure incluirInventario;
   public
     { Public declarations }
@@ -105,7 +108,7 @@ var
 
 implementation
 
-uses UDm, dbXpress;
+uses UDm;
 
 {$R *.dfm}
 
@@ -142,6 +145,8 @@ procedure TfInventario.btnProcListaClick(Sender: TObject);
 var sqlb : string;
 begin
   sqlb := '';
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
 
   if( (edLista.Text <> '') and (Dta.Text <> '  /  /    ')) then
   begin
@@ -244,7 +249,7 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(sql);
     dm.sqlsisAdimin.Commit(TD);
     except
-     MessageDlg('Erro ao inserir no banco de dados', mtError, [mbOK], 0);
+      MessageDlg('Erro ao inserir no banco de dados', mtError, [mbOK], 0);
     end;
       {cdsInvent.Append;
       cdsInventCODIVENTARIO.AsString    := edLista.text;
@@ -307,14 +312,17 @@ procedure TfInventario.btnIncluirClick(Sender: TObject);
   begin
     cdsInvent.ApplyUpdates(0);
   end;
-  {dm.sqlsisAdimin.ExecuteDirect('SELECT * FROM INVENTARIO_LANCA(' +
-    QuotedStr(edLista.Text) + ')');}
-  if (cdsLanca_Inv.Active) then
-    cdsLanca_Inv.Close;
-  cdsLanca_Inv.Params[0].asString := edLista.Text;
-  cdsLanca_Inv.Open;
-  cdsLanca_Inv.ApplyUpdates(0);
-  MessageDlg('Alterações executadas com sucesso!', mtInformation, [mbOK], 0);
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect('EXECUTE PROCEDURE INVENTARIO_LANCA(' +
+      QuotedStr(edLista.Text) + ')');
+    dm.sqlsisAdimin.Commit(TD);
+    MessageDlg('Alterações executadas com sucesso!', mtInformation, [mbOK], 0);
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro para Gerar o Inventário', mtError, [mbOK], 0);
+    Exit;
+  end;
 end;
 
 procedure TfInventario.btnIncluiTodosClick(Sender: TObject);
@@ -452,6 +460,42 @@ begin
   cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto FROM INVENTARIO i ' +
   'inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
   cdsInvent.Open;
+end;
+
+procedure TfInventario.dsInventStateChange(Sender: TObject);
+begin
+  inherited;
+  {if (cdsInvent.State in [dsInsert, dsEdit]) then
+  begin
+    cdsInvent.ApplyUpdates(0);
+  end;}
+end;
+
+procedure TfInventario.JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
+var Sql1: String;
+begin
+  inherited;
+  if (key = #13) then
+  begin
+    //cdsInvent.ApplyUpdates(0);
+    Try
+      DecimalSeparator := '.';
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Sql1 := 'UPDATE INVENTARIO SET QTDE_INVENTARIO = ' +
+        FloatToStr(cdsInventQTDE_INVENTARIO.AsFloat) + ' WHERE CODIVENTARIO = ' +
+        QuotedStr(cdsInventCODIVENTARIO.AsString) +
+        ' AND CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(sql1);
+      DecimalSeparator := ',';
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro ao Gravar o Inventário', mtError, [mbOK], 0);
+      Exit;
+    end;
+    if (not cdsInvent.Eof) then
+      cdsInvent.Next;
+  end;
 end;
 
 end.
