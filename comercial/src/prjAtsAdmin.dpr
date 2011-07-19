@@ -224,7 +224,8 @@ uses
   uFiltroMov_NFcompra in 'uFiltroMov_NFcompra.pas' {fFiltroMov_NFcompra},
   uMovimento in 'uMovimento.pas',
   uMovimentoDetalhe in 'uMovimentoDetalhe.pas',
-  uExpedicao in 'uExpedicao.pas' {fExpedicao};
+  uExpedicao in 'uExpedicao.pas' {fExpedicao},
+  uEstoque in 'uEstoque.pas';
 
 {$R *.res}
 

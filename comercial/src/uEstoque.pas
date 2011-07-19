@@ -16,10 +16,12 @@ type
     QDevVenda: Double;
     QPerda: Double;
     PCompra: Double;
+    PCompraUltima: Double;
     PCusto: Double;
     PCustoAnterior: Double;
     PVenda: Double;
     QSaldo: Double;
+    QInventario: Double;
     QMes  : TDateTime;
     QSaldoAnterior : Double;
     jaConsultado : String;
@@ -38,9 +40,11 @@ type
     function getQtdeEntrada: Double;
     function getQtdeSaida: Double;
     function getQtdePerda: Double;
+    function getQtdeInventario: Double;
     function getQtdeDevCompra: Double;
     function getQtdeDevVenda: Double;
     function getPrecoCompra: Double;
+    function getPrecoCompraUltima: Double;
     function getPrecoCusto: Double;
     function getPrecoVenda: Double;
     function getSaldoAnterior: Double;
@@ -52,12 +56,14 @@ type
     procedure setUn(const Value: String);
     procedure setQtdeCompra(const Value: Double);
     procedure setQtdeVenda(const Value: Double);
+    procedure setQtdeInventario(const Value: Double);
     procedure setQtdeEntrada(const Value: Double);
     procedure setQtdeSaida(const Value: Double);
     procedure setQtdePerda(const Value: Double);
     procedure setQtdeDevCompra(const Value: Double);
     procedure setQtdeDevVenda(const Value: Double);
     procedure setPrecoCompra(const Value: Double);
+    procedure setPrecoCompraUltima(const Value: Double);
     procedure setPrecoCusto(const Value: Double);
     procedure setPrecoVenda(const Value: Double);
     procedure setSaldoAnterior(const Value: Double);
@@ -78,8 +84,10 @@ type
     _qtdeDevCompra: Double;
     _qtdeDevVenda: Double;
     _qtdePerda: Double;
+    _qtdeInventario: Double;    
     _precoCusto: Double;
     _precoCompra: Double;
+    _precoCompraUltima: Double;
     _precoVenda: Double;
     _saldoAnterior: Double;
     _centroCusto: integer;
@@ -93,6 +101,7 @@ type
     property Un: String read getUn write setUn;
     property QtdeCompra: Double read getQtdeCompra write setQtdeCompra;
     property QtdeVenda: Double read getQtdeVenda write setQtdeVenda;
+    property QtdeInventario: Double read getQtdeInventario write setQtdeInventario;    
     property QtdeEntrada: Double read getQtdeEntrada write setQtdeEntrada;
     property QtdeSaida: Double read getQtdeSaida write setQtdeSaida;
     property QtdePerda: Double read getQtdePerda write setQtdePerda;
@@ -100,6 +109,7 @@ type
     property QtdeDevVenda: Double read getQtdeDevVenda write setQtdeDevVenda;
     property PrecoCusto: Double read getPrecoCusto write setPrecoCusto;
     property PrecoCompra: Double read getPrecoCompra write setPrecoCompra;
+    property PrecoCompraUltima: Double read getPrecoCompraUltima write setPrecoCompraUltima;
     property PrecoVenda: Double read getPrecoVenda write setPrecoVenda;
     property SaldoAnterior: Double read getSaldoAnterior write setSaldoAnterior;
     //Metodos
@@ -261,6 +271,11 @@ begin
     Result := _precoCompra;
 end;
 
+function TEstoque.getPrecoCompraUltima: Double;
+begin
+  Result := _precoCompraUltima;
+end;
+
 function TEstoque.getPrecoCusto: Double;
 begin
   totalEstoque := QSaldo + QSaldoAnterior;
@@ -282,7 +297,7 @@ begin
     novoCusto    := (novoCusto + (_precoVenda * _qtdeVenda))/(totalEstoque + _qtdeVenda);
     Result       := novoCusto;
   end else
-    Result := _precoVenda;  
+    Result := _precoVenda;
 end;
 
 function TEstoque.getQtdeCompra: Double;
@@ -303,6 +318,11 @@ end;
 function TEstoque.getQtdeEntrada: Double;
 begin
   Result := _qtdeEntrada + QEntrada;
+end;
+
+function TEstoque.getQtdeInventario: Double;
+begin
+  Result := _qtdeInventario + QInventario;
 end;
 
 function TEstoque.getQtdePerda: Double;
@@ -350,8 +370,10 @@ begin
       sqlStr := sqlStr + ', QTDESAIDA     = ' + FloatToStr(Self.QtdeSaida);
       sqlStr := sqlStr + ', QTDEVENDA     = ' + FloatToStr(Self.QtdeVenda);
       sqlStr := sqlStr + ', QTDEPERDA     = ' + FloatToStr(Self.QtdePerda);
+      sqlStr := sqlStr + ', QTDEINVENTARIO= ' + FloatToStr(Self.QtdeInventario);
       sqlStr := sqlStr + ', PRECOCUSTO    = ' + FloatToStr(Self.PrecoCusto);
       sqlStr := sqlStr + ', PRECOCOMPRA   = ' + FloatToStr(Self.PrecoCompra);
+      sqlStr := sqlStr + ', PRECOCOMPRAULTIMA  = ' + FloatToStr(Self.PrecoCompraUltima);
       sqlStr := sqlStr + ', PRECOVENDA    = ' + FloatToStr(Self.PrecoVenda);
       sqlStr := sqlStr + ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto);
       sqlStr := sqlStr + '   AND LOTE        = ' + QuotedStr(Self.Lote);
@@ -361,7 +383,7 @@ begin
     else begin  // Primeira Entrada no Mes
       sqlStr := 'INSERT INTO ESTOQUEMES (CODPRODUTO, LOTE, MESANO, QTDEENTRADA, ' +
         'QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA, QTDEPERDA, PRECOCUSTO, ' +
-        'PRECOCOMPRA, PRECOVENDA, CENTROCUSTO, SALDOMESANTERIOR) VALUES (';
+        'PRECOCOMPRA, PRECOVENDA, CENTROCUSTO, SALDOMESANTERIOR, PRECOCOMPRAULTIMA, QTDEINVENTARIO) VALUES (';
       sqlStr := sqlStr + IntToStr(Self.CodProduto) + ', ';
       sqlStr := sqlStr + QuotedStr(Self.Lote) + ', ';
       sqlStr := sqlStr + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.MesAno)) + ', ';
@@ -376,6 +398,8 @@ begin
       sqlStr := sqlStr + FloatToStr(Self.PrecoCompra) + ', ';
       sqlStr := sqlStr + FloatToStr(Self.PrecoVenda) + ', ';
       sqlStr := sqlStr + IntToStr(Self.CentroCusto) + ', ';
+      sqlStr := sqlStr + FloatToStr(Self.PrecoCompraUltima) + ', ';
+      sqlStr := sqlStr + FloatToStr(Self.QtdeInventario) + ', ';
       sqlStr := sqlStr + FloatToStr(Self.SaldoAnterior) + ')';
     end;
     Try
@@ -424,7 +448,7 @@ begin
       sqlBusca.Close;
     sqlBusca.sql.Clear;
     sqlBusca.sql.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
-      'QTDEPERDA, PRECOCUSTO, PRECOVENDA, SALDOESTOQUE ' +
+      'QTDEPERDA, PRECOCUSTO, PRECOVENDA, SALDOESTOQUE, PRECOCOMPRAULTIMA, QTDEINVENTARIO ' +
       ' FROM ESTOQUEMES ' +
       'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
       '  AND LOTE        = ' + QuotedStr(Self.Lote) +
@@ -440,7 +464,7 @@ begin
       sqlBusca.Close;
     sqlBusca.sql.Clear;
     sqlBusca.sql.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
-      'QTDEPERDA, PRECOCUSTO, PRECOVENDA, SALDOESTOQUE, PRECOCOMPRA ' +
+      'QTDEPERDA, PRECOCUSTO, PRECOVENDA, SALDOESTOQUE, PRECOCOMPRA, PRECOCOMPRAULTIMA, QTDEINVENTARIO ' +
       ' FROM ESTOQUEMES ' +
       'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
       '  AND LOTE        = ' + QuotedStr(Self.Lote) +
@@ -459,8 +483,10 @@ begin
       QVenda     := 0;
       QPerda     := 0;
       QSaldo     := 0;
+      QInventario := 0;
       PCusto     := 0;
       PCompra    := 0;
+      PCompraUltima := 0;
       PVenda     := 0;
       // Não Encontrou mes atual , busca Qtdes e Precos do Mês Anterior
       sqlBusca.Close;
@@ -494,8 +520,10 @@ begin
       QSaida     := sqlBusca.FieldByName('QTDESAIDA').AsFloat;
       QVenda     := sqlBusca.FieldByName('QTDEVENDA').AsFloat;
       QPerda     := sqlBusca.FieldByName('QTDEPERDA').AsFloat;
+      QInventario     := sqlBusca.FieldByName('QTDEINVENTARIO').AsFloat;
       PCusto     := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
       PCompra    := sqlBusca.FieldByName('PRECOCOMPRA').AsFloat;
+      PCompraUltima    := sqlBusca.FieldByName('PRECOCOMPRAULTIMA').AsFloat;
       PVenda     := sqlBusca.FieldByName('PRECOVENDA').AsFloat;
       QSaldo     := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
     end;
@@ -552,6 +580,11 @@ begin
   _precoCompra := Value;
 end;
 
+procedure TEstoque.setPrecoCompraUltima(const Value: Double);
+begin
+  _precoCompraUltima := Value;
+end;
+
 procedure TEstoque.setPrecoCusto(const Value: Double);
 begin
   _precoCusto := Value;
@@ -580,6 +613,11 @@ end;
 procedure TEstoque.setQtdeEntrada(const Value: Double);
 begin
   _qtdeEntrada := Value;
+end;
+
+procedure TEstoque.setQtdeInventario(const Value: Double);
+begin
+  _qtdeInventario := Value;
 end;
 
 procedure TEstoque.setQtdePerda(const Value: Double);
