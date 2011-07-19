@@ -390,7 +390,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
-  uExpedicao;
+  uExpedicao, uProcura_prodOficina;
 
 {$R *.dfm}
 
@@ -979,9 +979,16 @@ end;
 
 procedure TfAtsAdmin.acEstoqueExecute(Sender: TObject);
 begin
-  fProcura_produtos.btnIncluir.Visible := true;
-  fProcura_produtos.ShowModal;
-  fProcura_produtos.cbMarca.Text := '';
+  if (dm.moduloUsado = 'AUTOMOTIVA') then
+  begin
+    fProcura_prodOficina.btnIncluir.Visible := true;
+    fProcura_prodOficina.ShowModal;
+    fProcura_prodOficina.cbMarca.Text := '';
+  end else begin
+    fProcura_produtos.btnIncluir.Visible := true;
+    fProcura_produtos.ShowModal;
+    fProcura_produtos.cbMarca.Text := '';
+  end;
 end;
 
 procedure TfAtsAdmin.acClientesExecute(Sender: TObject);
