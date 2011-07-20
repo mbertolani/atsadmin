@@ -12,7 +12,6 @@ type
     MMJPanel1: TMMJPanel;
     BitBtn5: TBitBtn;
     BitBtn3: TBitBtn;
-    BitBtn4: TBitBtn;
     BitBtn6: TBitBtn;
     MMJPanel2: TMMJPanel;
     Label1: TLabel;
@@ -39,6 +38,10 @@ type
     XPMenu1: TXPMenu;
     BitBtn7: TBitBtn;
     BitBtn9: TBitBtn;
+    GroupBox1: TGroupBox;
+    BitBtn4: TBitBtn;
+    BitBtn10: TBitBtn;
+    BitBtn11: TBitBtn;
     procedure BitBtn8Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -53,6 +56,8 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn7Click(Sender: TObject);
     procedure BitBtn9Click(Sender: TObject);
+    procedure BitBtn10Click(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -376,6 +381,86 @@ procedure TfRelatorio.BitBtn7Click(Sender: TObject);
 begin
 
 VCLReport1.Filename := str_relatorio + 'rel_despesas_pagar.rep';
+    VCLReport1.Title := VCLReport1.Filename;
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
+    VCLReport1.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+    if edCodCliente.Text <> '' then
+      VCLReport1.Report.Params.ParamByName('COD_FOR').Value := StrToInt(edCodCliente.Text)
+    else
+      VCLReport1.Report.Params.ParamByName('COD_FOR').Value := 9999999;
+
+    if edCodCCusto.Text <> '' then
+    begin
+      if (not dm.cds_ccusto.Active) then
+         dm.cds_ccusto.Open;
+      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+      VCLReport1.Report.Params.ParamByName('COD_CCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
+    end
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CCUSTO').Value := 0;
+
+    if edtcodred.Text <> '' then
+      VCLReport1.Report.Params.ParamByName('COD_CONTA').Value := StrToInt(edtcodred.Text)
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CONTA').Value := 9999999;
+
+    if ComboBox1.Text <> '' then
+    begin
+      if (not dm.cds_7_contas.Active) then
+         dm.cds_7_contas.Open;
+      dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loPartialKey]);
+      VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := dm.cds_7_contasCODIGO.asInteger;
+    end
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := 0;
+    VCLReport1.Execute;
+
+end;
+
+procedure TfRelatorio.BitBtn10Click(Sender: TObject);
+begin
+    VCLReport1.Filename := str_relatorio + 'rel_lista_pag_vctoSintetico.rep';
+    VCLReport1.Title := VCLReport1.Filename;
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
+    VCLReport1.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+    if edCodCliente.Text <> '' then
+      VCLReport1.Report.Params.ParamByName('COD_FOR').Value := StrToInt(edCodCliente.Text)
+    else
+      VCLReport1.Report.Params.ParamByName('COD_FOR').Value := 9999999;
+
+    if edCodCCusto.Text <> '' then
+    begin
+      if (not dm.cds_ccusto.Active) then
+         dm.cds_ccusto.Open;
+      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+      VCLReport1.Report.Params.ParamByName('COD_CCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
+    end
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CCUSTO').Value := 0;
+
+    if edtcodred.Text <> '' then
+      VCLReport1.Report.Params.ParamByName('COD_CONTA').Value := StrToInt(edtcodred.Text)
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CONTA').Value := 9999999;
+
+    if ComboBox1.Text <> '' then
+    begin
+      if (not dm.cds_7_contas.Active) then
+         dm.cds_7_contas.Open;
+      dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loPartialKey]);
+      VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := dm.cds_7_contasCODIGO.asInteger;
+    end
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := 0;
+    VCLReport1.Execute;
+
+end;
+
+procedure TfRelatorio.BitBtn11Click(Sender: TObject);
+begin
+    VCLReport1.Filename := str_relatorio + 'rel_lista_pag_vcto.rep';
     VCLReport1.Title := VCLReport1.Filename;
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLReport1.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
