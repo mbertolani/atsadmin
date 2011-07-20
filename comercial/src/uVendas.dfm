@@ -2568,6 +2568,7 @@ inherited fVendas: TfVendas
         ParamType = ptInput
       end>
     ProviderName = 'dsp_Mov_det'
+    BeforePost = cds_Mov_detBeforePost
     OnCalcFields = cds_Mov_detCalcFields
     OnNewRecord = cds_Mov_detNewRecord
     OnReconcileError = cds_Mov_detReconcileError
@@ -4855,5 +4856,12 @@ inherited fVendas: TfVendas
       FieldName = 'CODMOVIMENTO'
       Required = True
     end
+  end
+  object sqlCusto: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 208
+    Top = 120
   end
 end
