@@ -529,6 +529,7 @@ type
     Label27: TLabel;
     sds_MovimentoCODPEDIDO: TIntegerField;
     cds_MovimentoCODPEDIDO: TIntegerField;
+    sqlCusto: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -606,13 +607,14 @@ type
     procedure cbTpTranspChange(Sender: TObject);
     procedure cbTransportadoraChange(Sender: TObject);
     procedure btnTranspClick(Sender: TObject);
+    procedure cds_Mov_detBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
     modo :string;
     procedure insereMatPrima;
   public
-    conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO : string; //, tipoVenda
-    estoque, qtde: Double;
+    conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda : string; //, tipoVenda
+    estoque, qtde, mVendaPermi: Double;         // mVendaPermi = Margem de venda minima permitida
     procedure buscaServico();
     procedure baixamatprimas(tipomat: string; codmovt: integer);
     procedure existevenda;
@@ -670,6 +672,17 @@ begin
   dm.cds_parametro.Open;
   if dm.cds_parametroDADOS.AsString = 'S' then
     ComboBox1.Enabled := True;
+  {------Pesquisando na tab Parametro se Margem Venda para P. Venda ---------}
+  margemVenda := 'NAO';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'MARGEMVENDA';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    margemVenda := dm.cds_parametroDADOS.AsString;
+    mVendaPermi := FloatToStr(dm.cds_parametroD1.AsFloat);
+  end;
   {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
     if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
@@ -3267,6 +3280,39 @@ begin
   end;
   dmnf.listaTransp.Close;
 
+end;
+
+procedure TfVendas.cds_Mov_detBeforePost(DataSet: TDataSet);
+var pCusto, margem: Double;
+begin
+  if (margemVenda = 'MARGEMVENDA') then
+  begin
+    if (sqlCusto.Active) then
+      sqlCusto.Close;
+    sqlCusto.SQL.Clear;
+    sqlCusto.SQL.Add('SELECT FIRST COALESCE(P.PRECOMEDIO, 0), COALESCE(M.PRECO, 0) ' +
+      ' FROM MOVIMENTODETALHE M, PRODUTOS P ' +
+      ' WHERE CODPRODUTO   = ' + InttoStr(cds_Mov_detCODPRODUTO.AsInteger) +
+      '   AND m.CODPRODUTO = p.CODPRODUTO ' +
+      '   AND m.baixa      = 0 ' +
+      ' order by m.CODDETALHE desc');
+    sqlCusto.Open;
+    if (sqlCusto.FieldByName('PRECO').AsFloat > 0) then
+      pCusto := sqlCusto.FieldByName('PRECO').AsFloat;
+    if (pCusto = 0) then
+      pCusto := sqlCusto.FieldByName('PRECOMEDIO').AsFloat;
+    if (pCusto > 0) then
+    begin
+      margem := pCusto / cds_Mov_detPRECO.AsFloat;
+      margem := 100*(1 - margem);
+      if (margem < mVendaPermi) then
+      begin
+        MessageDlg('Margem de Venda abaixo do permitido.', mtWarning,
+        exit;
+      end;
+    end;
+  end;
+  inherited;
 end;
 
 end.
