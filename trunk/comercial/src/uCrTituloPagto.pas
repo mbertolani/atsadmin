@@ -157,6 +157,7 @@ type
     DBEdit11: TDBEdit;
     DBEdit12: TDBEdit;
     JvLabel1: TJvLabel;
+    BitBtn5: TBitBtn;
     procedure dxButton1Click(Sender: TObject);
     procedure dxButton2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -183,6 +184,7 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure DBEdit2Exit(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -812,31 +814,42 @@ begin
   if  MessageDlg('Confirma a exclusão do Título? ' ,
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
 
-  deleta := 'Delete from PAGAMENTO WHERE TITULO = ';
+  deleta := 'SELECT * from PAGAMENTO WHERE TITULO = ';
   deleta := deleta + '''' + DM.cds_4_pagarTITULO.AsString + '''';
   deleta := deleta + ' and CODFORNECEDOR = ';
   deleta := deleta +  IntToStr(DM.cds_4_pagarCODFORNECEDOR.AsInteger);
-  // Comentei estas linhas pois, a data de emissão não é igual qdo é
-  // marcado despesa mensal.
-  // deleta := deleta + ' and EMISSAO = ';
-  // deleta := deleta + '''' + formatdatetime('mm/dd/yy',DM.cds_4_pagarEMISSAO.AsDateTime) + '''';
+  //deleta := deleta + ' and STATUS = ' + QuotedStr('5-');
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
-  try
-    dm.sqlsisAdimin.ExecuteDirect(deleta);
-    dm.sqlsisAdimin.Commit(TD);
-    if (cds_4_pagar.Active) then
-      cds_4_pagar.Close;
-    if (dm.cds_4_pagar.Active) then
-      dm.cds_4_pagar.Close;
-    dbeCliente.Text := '';
-    DBEdit4.Text := '';
-    MessageDlg('Registro excluído com sucesso.', mtError, [mbOK], 0);
-  except
-    dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro para excluir, exclusão não efetuada.', mtError, [mbOK], 0);
+
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := deleta;
+  dm.cdsBusca.Open;
+  if (dm.cdsBusca.RecordCount = 0) then
+  begin
+    MessageDlg('Nenhum Título a ser excluído.', mtInformation, [mbOK], 0);
   end;
+  Try
+  dm.sqlsisAdimin.StartTransaction(TD);
+  While not dm.cdsBusca.Eof do
+  begin
+    dm.cdsBusca.Delete;
+    if (dm.cdsBusca.ApplyUpdates(0) > 0) then
+      exit;
+  end;
+  dm.sqlsisAdimin.Commit(TD);
+  if (cds_4_pagar.Active) then
+    cds_4_pagar.Close;
+  if (dm.cds_4_pagar.Active) then
+    dm.cds_4_pagar.Close;
+  dbeCliente.Text := '';
+  DBEdit4.Text := '';
+  MessageDlg('Títulos excluídos com sucesso.', mtInformation, [mbOK], 0);
+  except
+    //MessageDlg('Erro para excluir, exclusão não efetuada.', mtError, [mbOK], 0);
+    dm.sqlsisAdimin.Rollback(TD);
+  end;  // Mostrar a mensagem do erro
 
 end;
 
@@ -973,6 +986,50 @@ begin
   for i := 0 to j - 1 do
   begin
     combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
+  end;
+
+end;
+
+procedure TfcrTituloPagto.BitBtn5Click(Sender: TObject);
+var
+  deleta : String;
+  TD: TTransactionDesc;
+begin
+
+  if  MessageDlg('Confirma a exclusão do Título? ' ,
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+
+  deleta := 'Delete from PAGAMENTO WHERE CODPAGAMENTO = ';
+  deleta := deleta + IntToStr(DM.cds_4_pagarCODPAGAMENTO.AsInteger);
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := deleta;
+  dm.cdsBusca.Open;
+  if (dm.cdsBusca.RecordCount = 0) then
+  begin
+    MessageDlg('Nenhum Título a ser excluído.', mtInformation, [mbOK], 0);
+  end;
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    While not dm.cdsBusca.Eof do
+    begin
+      dm.cdsBusca.Delete;
+      if (dm.cdsBusca.ApplyUpdates(0) > 0) then
+        exit;
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+    if (cds_4_pagar.Active) then
+      cds_4_pagar.Close;
+    if (dm.cds_4_pagar.Active) then
+      dm.cds_4_pagar.Close;
+    dbeCliente.Text := '';
+    DBEdit4.Text := '';
+    MessageDlg('Parcela excluída com sucesso.', mtInformation, [mbOK], 0);
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    //MessageDlg('Erro para excluir, exclusão não efetuada.', mtError, [mbOK], 0);
   end;
 
 end;
