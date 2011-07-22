@@ -233,6 +233,7 @@ type
     EvAppProtect1: TEvAppProtect;
     acBoletoAts: TAction;
     Expedio1: TMenuItem;
+    AdmCaixaBanco1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -346,6 +347,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure acBoletoAtsExecute(Sender: TObject);
     procedure Expedio1Click(Sender: TObject);
+    procedure AdmCaixaBanco1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -390,7 +392,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
-  uExpedicao, uProcura_prodOficina;
+  uExpedicao, uProcura_prodOficina, uCaixaBanco;
 
 {$R *.dfm}
 
@@ -1923,6 +1925,17 @@ begin
     fExpedicao.ShowModal;
   finally
     fExpedicao.Free;
+  end;
+
+end;
+
+procedure TfAtsAdmin.AdmCaixaBanco1Click(Sender: TObject);
+begin
+  fCaixaBanco := TfCaixaBanco.Create(Application);
+  try
+    fCaixaBanco.ShowModal;
+  finally
+    fCaixaBanco.Free;
   end;
 
 end;
