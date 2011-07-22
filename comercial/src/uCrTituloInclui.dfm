@@ -160,6 +160,7 @@ inherited fcrTituloInclui: TfcrTituloInclui
     inherited btnGravar: TBitBtn [1]
       Left = 176
       Width = 107
+      Font.Height = -13
       ParentFont = False
     end
     inherited btnCancelar: TBitBtn
@@ -170,6 +171,7 @@ inherited fcrTituloInclui: TfcrTituloInclui
       Left = 404
       Width = 107
       Hint = 'Exluir todas as Parcelas Pendente do T'#237'tulo acima'
+      Font.Height = -13
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
@@ -177,12 +179,14 @@ inherited fcrTituloInclui: TfcrTituloInclui
     inherited btnProcurar: TBitBtn
       Left = 63
       Width = 107
+      Font.Height = -13
       ParentFont = False
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
       Left = 519
       Width = 107
+      Font.Height = -13
       ParentFont = False
     end
     object BitBtn5: TBitBtn

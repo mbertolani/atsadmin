@@ -814,7 +814,7 @@ begin
   if  MessageDlg('Confirma a exclusão do Título? ' ,
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
 
-  deleta := 'SELECT * from PAGAMENTO WHERE TITULO = ';
+  deleta := 'SELECT * FROM PAGAMENTO WHERE TITULO = ';
   deleta := deleta + '''' + DM.cds_4_pagarTITULO.AsString + '''';
   deleta := deleta + ' and CODFORNECEDOR = ';
   deleta := deleta +  IntToStr(DM.cds_4_pagarCODFORNECEDOR.AsInteger);
@@ -999,7 +999,7 @@ begin
   if  MessageDlg('Confirma a exclusão do Título? ' ,
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
 
-  deleta := 'Delete from PAGAMENTO WHERE CODPAGAMENTO = ';
+  deleta := 'SELECT * FROM PAGAMENTO WHERE CODPAGAMENTO = ';
   deleta := deleta + IntToStr(DM.cds_4_pagarCODPAGAMENTO.AsInteger);
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
