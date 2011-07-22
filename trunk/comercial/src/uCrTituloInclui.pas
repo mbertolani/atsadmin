@@ -640,7 +640,7 @@ begin
   if  MessageDlg('Confirma a exclusão do Título? ' ,
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
 
-  deleta := 'Delete from RECEBIMENTO WHERE TITULO = ';
+  deleta := 'SELECT * FROM RECEBIMENTO WHERE TITULO = ';
   deleta := deleta + '''' + DM.cds_crTITULO.AsString + '''';
   deleta := deleta + ' and CODCLIENTE = ';
   deleta := deleta +  IntToStr(DM.cds_crCODCLIENTE.AsInteger);
@@ -883,7 +883,7 @@ begin
   if  MessageDlg('Confirma a exclusão do Título? ' ,
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
 
-  deleta := 'Delete from RECEBIMENTO WHERE CODRECEBIMENTO = ';
+  deleta := 'SELECT * FROM RECEBIMENTO WHERE CODRECEBIMENTO = ';
   deleta := deleta +  IntToStr(DM.cds_crCODRECEBIMENTO.AsInteger);
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
