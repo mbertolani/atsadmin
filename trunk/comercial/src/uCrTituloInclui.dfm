@@ -155,23 +155,62 @@ inherited fcrTituloInclui: TfcrTituloInclui
     Font.Height = -13
     ParentFont = False
     inherited btnIncluir: TBitBtn [0]
-      Left = 288
+      Left = 176
     end
     inherited btnGravar: TBitBtn [1]
-      Left = 288
+      Left = 176
+      Width = 107
+      ParentFont = False
     end
     inherited btnCancelar: TBitBtn
-      Left = 401
+      Left = 404
+      Width = 106
     end
     inherited btnExcluir: TBitBtn
-      Left = 401
+      Left = 404
+      Width = 107
+      Hint = 'Exluir todas as Parcelas Pendente do T'#237'tulo acima'
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
     end
     inherited btnProcurar: TBitBtn
-      Left = 175
+      Left = 63
+      Width = 107
+      ParentFont = False
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
-      Left = 514
+      Left = 519
+      Width = 107
+      ParentFont = False
+    end
+    object BitBtn5: TBitBtn
+      Left = 290
+      Top = 7
+      Width = 107
+      Height = 40
+      Hint = 'Exclui somente a parcela Selecionada'
+      Caption = 'Excluir Parcela'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 6
+      OnClick = BitBtn5Click
+      Glyph.Data = {
+        F6000000424DF600000000000000760000002800000010000000100000000100
+        04000000000080000000120B0000120B00001000000010000000000000000000
+        BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+        77777777777777777777777700000000007777770FFFFFFFF07777770FFFFFFF
+        F077771F0F888888F077711F0F85BFB8F0777711F11BFBF8F077777151788888
+        F077777511FFFFFFF07775111F1FFF00007771570FF1FF0F077777770FFFFF00
+        7777777700000007777777777777777777777777777777777777}
     end
   end
   inherited MMJPanel2: TMMJPanel
