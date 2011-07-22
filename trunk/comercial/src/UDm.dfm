@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:F:\home\bd\sge_ats.fdb'
+      'Database=quad:sge_jorvic'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -24,11 +24,11 @@ object DM: TDM
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
       'User_Name=SYSDBA'
-      'WaitOnLocks=True'   
+      'WaitOnLocks=True'
       'str_relatorio=C:\home\sisAdmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
-    Top = 8
+    Top = 16
   end
   object sds_parametro: TSQLDataSet
     CommandText = 
@@ -8466,6 +8466,7 @@ object DM: TDM
     Aggregates = <>
     Params = <>
     ProviderName = 'dspBusca'
+    OnReconcileError = cdsBuscaReconcileError
     Left = 1124
     Top = 218
   end
@@ -9534,7 +9535,7 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 728
-    Top = 264
+    Left = 704
+    Top = 328
   end
 end
