@@ -1,7 +1,3 @@
---DROP TRIGGER COTACAO_GERA_PEDIDO; 
---commit;
-set term ^ ;   
-
 CREATE OR ALTER PROCEDURE COTACAO_GERA_PEDIDO(codFornec integer)  
 AS 
   DECLARE VARIABLE NAT SMALLINT;
@@ -58,8 +54,8 @@ BEGIN
           status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
           prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido, codAlmoxarifado)
           values (:codNovoMov, CURRENT_DATE, 0, 4, 
-          0,:codUsuario, :codFornec, CURRENT_TIMESTAMP, :codCotacao, :entrega,
-          :prazo, :obs, :frete, :codVendedor, :userAprova, :codCotacao, :codCCusto);    
+          3,:codUsuario, :codFornec, CURRENT_TIMESTAMP, :codCotacao, :entrega,
+          :prazo, :obs, :frete, :codVendedor, :userAprova, :codCotacao, :codCCusto);
        end 
        IncluidoMov = 'S';
      /* When any do
