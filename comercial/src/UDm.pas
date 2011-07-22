@@ -1821,6 +1821,9 @@ type
     procedure c3_contabilReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
+    procedure cdsBuscaReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
   private
     { Private declarations }
     procedure verifiSeExisteCampo(nTabela, nCampo, nCampoTipo: string);
@@ -2519,6 +2522,14 @@ procedure TDM.c3_contabilReconcileError(DataSet: TCustomClientDataSet;
   var Action: TReconcileAction);
 begin
   MessageDlg('Não é possível gravar o registro. Erro : ' + E.Message , mtWarning,
+        [mbOk], 0);
+end;
+
+procedure TDM.cdsBuscaReconcileError(DataSet: TCustomClientDataSet;
+  E: EReconcileError; UpdateKind: TUpdateKind;
+  var Action: TReconcileAction);
+begin
+  MessageDlg(E.Message , mtWarning,
         [mbOk], 0);
 end;
 
