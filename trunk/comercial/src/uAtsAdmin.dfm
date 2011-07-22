@@ -2340,6 +2340,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Call Center'
         OnClick = CallCenter1Click
       end
+      object AdmCaixaBanco1: TMenuItem
+        Caption = 'Adm. Caixa / Banco'
+        OnClick = AdmCaixaBanco1Click
+      end
     end
     object NotaFiscal1: TMenuItem
       Caption = 'Nota Fiscal      '
