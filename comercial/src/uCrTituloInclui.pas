@@ -161,6 +161,7 @@ type
     DBEdit13: TDBEdit;
     DBEdit14: TDBEdit;
     JvLabel1: TJvLabel;
+    BitBtn5: TBitBtn;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -180,6 +181,7 @@ type
     procedure cds_crSTATUSGetText(Sender: TField; var Text: String;
       DisplayText: Boolean);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     { Private declarations }
     procedure formarecebimento;
@@ -644,11 +646,25 @@ begin
   deleta := deleta +  IntToStr(DM.cds_crCODCLIENTE.AsInteger);
   deleta := deleta + ' and EMISSAO = ';
   deleta := deleta + '''' + formatdatetime('mm/dd/yy',DM.cds_crEMISSAO.AsDateTime) + '''';
+  deleta := deleta + ' and STATUS = ' + QuotedStr('5-');
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
-  try
-    dm.sqlsisAdimin.ExecuteDirect(deleta);
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := deleta;
+  dm.cdsBusca.Open;
+  if (dm.cdsBusca.RecordCount = 0) then
+  begin
+    MessageDlg('Nenhum Título a ser excluído.', mtInformation, [mbOK], 0);
+  end;
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    While not dm.cdsBusca.Eof do
+    begin
+      dm.cdsBusca.Delete;
+      if (dm.cdsBusca.ApplyUpdates(0) > 0) then
+        exit;
+    end;
     dm.sqlsisAdimin.Commit(TD);
     if (dm.cds_cr.Active) then
       dm.cds_cr.Close;
@@ -656,10 +672,10 @@ begin
     if (cds_cr.Active) then
       cds_cr.Close;
 
-    MessageDlg('Registro excluído com sucesso.', mtError, [mbOK], 0);
+    MessageDlg('Título excluído com sucesso.', mtInformation, [mbOK], 0);
   except
     dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro para excluir, exclusão não efetuada.', mtError, [mbOK], 0);
+    //MessageDlg('Erro para excluir, exclusão não efetuada.', mtError, [mbOK], 0);
   end;
 
 end;
@@ -856,6 +872,50 @@ begin
     formaRecebimento;
     //aqui mostro parcelas no dbgrig...
   end;
+end;
+
+procedure TfcrTituloInclui.BitBtn5Click(Sender: TObject);
+var
+  deleta : String;
+  TD: TTransactionDesc;
+begin
+
+  if  MessageDlg('Confirma a exclusão do Título? ' ,
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+
+  deleta := 'Delete from RECEBIMENTO WHERE CODRECEBIMENTO = ';
+  deleta := deleta +  IntToStr(DM.cds_crCODRECEBIMENTO.AsInteger);
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := deleta;
+  dm.cdsBusca.Open;
+  if (dm.cdsBusca.RecordCount = 0) then
+  begin
+    MessageDlg('Nenhum Título a ser excluído.', mtInformation, [mbOK], 0);
+  end;
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    While not dm.cdsBusca.Eof do
+    begin
+      dm.cdsBusca.Delete;
+      if (dm.cdsBusca.ApplyUpdates(0) > 0) then
+        exit;
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+    if (dm.cds_cr.Active) then
+      dm.cds_cr.Close;
+
+    if (cds_cr.Active) then
+      cds_cr.Close;
+
+    MessageDlg('Título excluído com sucesso.', mtInformation, [mbOK], 0);
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    //MessageDlg('Erro para excluir, exclusão não efetuada.', mtError, [mbOK], 0);
+  end;
+
 end;
 
 end.
