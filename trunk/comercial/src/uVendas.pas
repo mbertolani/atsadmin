@@ -680,7 +680,7 @@ begin
   dm.cds_parametro.Open;
   if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
   begin
-    margemVenda := dm.cds_parametroDADOS.AsString;
+    margemVenda := 'SIM'; //dm.cds_parametroDADOS.AsString;
     mVendaPermi := dm.cds_parametroD1.AsFloat;
   end;
   {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
@@ -1734,13 +1734,13 @@ begin
               end;
             end;
             cds_Mov_detCODDETALHE.AsInteger := codmovdet;
-            if (margemVenda = 'ULTIMACOMPRA') then
+            if (margemVenda = 'SIM') then
               Margem_Confere;
             if (valida = 'N') then
               Exit;
             cds_Mov_det.post;
           end;
-          if (margemVenda = 'ULTIMACOMPRA') then
+          if (margemVenda = 'SIM') then
             Margem_Confere;
           if (valida= 'N') then
           begin
@@ -3318,7 +3318,8 @@ begin
       margem := 100*(1 - margem);
       if (margem < mVendaPermi) then
       begin
-        MessageDlg('Margem de Venda abaixo do permitido.', mtWarning, [mbOK], 0);
+        MessageDlg('Margem de Venda abaixo do permitido. ' + #13+#10 + ' Item: ' + cds_Mov_detCODPRO.AsString +
+        ' - MV: ' + FormatFloat('##0.00',margem) + '% - PC: ' + FormatFloat('#,##0.00', pCusto), mtWarning, [mbOK], 0);
         valida := 'N';
       end;
     end;
