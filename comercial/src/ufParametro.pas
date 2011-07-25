@@ -26,10 +26,6 @@ type
     Label6: TLabel;
     Edit12: TEdit;
     BitBtn4: TBitBtn;
-    GroupBox4: TGroupBox;
-    Label7: TLabel;
-    Edit13: TEdit;
-    BitBtn2: TBitBtn;
     GroupBox5: TGroupBox;
     Label8: TLabel;
     BitBtn5: TBitBtn;
@@ -83,14 +79,6 @@ type
     meDta1: TMaskEdit;
     meDta2: TMaskEdit;
     Label13: TLabel;
-    GroupBox11: TGroupBox;
-    Label21: TLabel;
-    Label22: TLabel;
-    Label23: TLabel;
-    BitBtn11: TBitBtn;
-    ComboBox6: TComboBox;
-    meDta3: TMaskEdit;
-    meDta4: TMaskEdit;
     GroupBox12: TGroupBox;
     Label25: TLabel;
     Label26: TLabel;
@@ -134,10 +122,6 @@ type
     BitBtn18: TBitBtn;
     cbCentroCusto: TComboBox;
     Edit21: TEdit;
-    GroupBox19: TGroupBox;
-    Label34: TLabel;
-    BitBtn19: TBitBtn;
-    ComboBox9: TComboBox;
     TabSheet6: TTabSheet;
     GroupBox20: TGroupBox;
     Label35: TLabel;
@@ -147,13 +131,59 @@ type
     BitBtn21: TBitBtn;
     GroupBox22: TGroupBox;
     BitBtn22: TBitBtn;
-    TabSheet7: TTabSheet;
     GroupBox23: TGroupBox;
     Label36: TLabel;
     BitBtn23: TBitBtn;
-    edCompraUserAprova: TEdit;
+    GroupBox24: TGroupBox;
+    Label37: TLabel;
+    BitBtn24: TBitBtn;
+    Label38: TLabel;
+    Label39: TLabel;
+    Image3: TImage;
+    Image2: TImage;
+    Image4: TImage;
+    Compras: TTabSheet;
+    GroupBox4: TGroupBox;
+    Label7: TLabel;
+    Edit13: TEdit;
+    BitBtn2: TBitBtn;
+    GroupBox11: TGroupBox;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    BitBtn11: TBitBtn;
+    ComboBox6: TComboBox;
+    meDta3: TMaskEdit;
+    meDta4: TMaskEdit;
+    GroupBox19: TGroupBox;
+    Label34: TLabel;
+    BitBtn19: TBitBtn;
+    ComboBox9: TComboBox;
+    GroupBox25: TGroupBox;
+    Label40: TLabel;
+    BitBtn25: TBitBtn;
+    ComboBox11: TComboBox;
+    Label41: TLabel;
+    edUserRespAprovaCompra: TEdit;
+    GroupBox26: TGroupBox;
+    Label43: TLabel;
+    BitBtn26: TBitBtn;
+    Edit22: TEdit;
+    GroupBox27: TGroupBox;
+    Label42: TLabel;
+    Image5: TImage;
+    Image6: TImage;
+    BitBtn27: TBitBtn;
+    GroupBox28: TGroupBox;
+    Label44: TLabel;
+    Image7: TImage;
+    Image8: TImage;
+    BitBtn28: TBitBtn;
+    Image9: TImage;
+    Image10: TImage;
+    Image11: TImage;
+    Image12: TImage;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -177,6 +207,11 @@ type
     procedure BitBtn19Click(Sender: TObject);
     procedure BitBtn20Click(Sender: TObject);
     procedure BitBtn23Click(Sender: TObject);
+    procedure BitBtn24Click(Sender: TObject);
+    procedure BitBtn25Click(Sender: TObject);
+    procedure BitBtn26Click(Sender: TObject);
+    procedure BitBtn27Click(Sender: TObject);
+    procedure BitBtn28Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -197,19 +232,6 @@ begin
   inherited;
  if dm.cds_param.Active then
    dm.cds_param.Close;
-end;
-
-procedure TfParametro.FormShow(Sender: TObject);
-begin
-  inherited;
-  if not dm.cds_param.Active then
-      dm.cds_param.Open;
-
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'COMPRA';
-  dm.cds_parametro.Open;
-  edCompraUserAprova.Text  := dm.cds_parametroD1.AsString;
 end;
 
 procedure TfParametro.DtSrcStateChange(Sender: TObject);
@@ -531,6 +553,118 @@ begin
     Edit21.Text := dm.cds_paramD1.AsString;
   end;
 
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT SERIE, ULTIMO_NUMERO FROM SERIES WHERE SERIE = ' + QuotedStr('I') +
+    ' OR SERIE = ' + QuotedStr('O');
+  dm.cdsBusca.Open;
+  if (dm.cdsBusca.RecordCount > 0) then
+  begin
+    While not dm.cdsBusca.Eof do
+    begin
+      if (dm.cdsBusca.FieldByName('SERIE').AsString = 'O') then
+      begin
+        Label39.Caption := 'Sério "O"  = ' + IntToStr(dm.cdsBusca.FieldByName('ULTIMO_NUMERO').AsInteger);
+        Label39.Font.Color := clHotLight;
+        Image9.Visible := False;
+        Image10.Visible := True;
+      end;
+      if (dm.cdsBusca.FieldByName('SERIE').AsString = 'I') then
+      begin
+        Label38.Caption := 'Sério "I"  = ' + IntToStr(dm.cdsBusca.FieldByName('ULTIMO_NUMERO').AsInteger);
+        Label38.Font.Color := clHotLight;
+        Image12.Visible := False;
+        Image11.Visible := True;
+      end;
+      dm.cdsBusca.Next;
+    end;
+  end
+  else begin
+    Label39.Caption := 'Sério "O" não incluída.';
+    Label39.Font.Color := clRed;
+    Label38.Caption := 'Sério "I" não incluída.';
+    Label38.Font.Color := clRed;
+    Image10.Visible := False;
+    Image9.Visible := True;
+    Image11.Visible := False;
+    Image12.Visible := True;
+  end;
+
+  // Usuarios Obrigatorios
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT CODUSUARIO FROM USUARIO WHERE CODUSUARIO = 0' + 
+    ' OR CODUSUARIO = 1';
+  dm.cdsBusca.Open;
+  if (dm.cdsBusca.RecordCount > 0) then
+  begin
+    While not dm.cdsBusca.Eof do
+    begin
+      if (dm.cdsBusca.FieldByName('CODUSUARIO').AsInteger = 0) then
+      begin
+       Image1.Visible := False;
+       Image3.Visible := True;
+      end;
+      if (dm.cdsBusca.FieldByName('CODUSUARIO').AsInteger = 1) then
+      begin
+       Image2.Visible := False;
+       Image4.Visible := True;
+      end;
+      dm.cdsBusca.Next;
+    end;
+  end
+  else begin
+    Image1.Visible := True;
+    Image2.Visible := True;
+    Image3.Visible := False;
+    Image4.Visible := False;
+  end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'COMPRA';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      ComboBox11.ItemIndex := 0;
+    if (dm.cds_parametroCONFIGURADO.AsString = 'N') then
+      ComboBox11.ItemIndex := 1;
+    edUserRespAprovaCompra.Text  := dm.cds_parametroD1.AsString;
+    edit22.Text := dm.cds_parametroD1.AsString;
+  end;
+
+
+  // Cliente Obrigatorio
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE CODCLIENTE = 0';
+  dm.cdsBusca.Open;
+  if (not dm.cdsBusca.IsEmpty) then
+  begin
+    Image5.Visible := False;
+    Image6.Visible := True;
+  end
+  else begin
+    Image6.Visible := True;
+    Image5.Visible := False;
+  end;
+
+  // Fornecedor Obrigatorio
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT CODFORNECEDOR FROM FORNECEDOR WHERE CODFORNECEDOR = 0';
+  dm.cdsBusca.Open;
+  if (not dm.cdsBusca.IsEmpty) then
+  begin
+    Image7.Visible := False;
+    Image8.Visible := True;
+  end
+  else begin
+    Image7.Visible := True;
+    Image8.Visible := False;
+  end;
+
 end;
 
 procedure TfParametro.BitBtn2Click(Sender: TObject);
@@ -599,6 +733,8 @@ begin
   dm.sqlsisAdimin.ExecuteDirect(strsql);
   Try
      dm.sqlsisAdimin.Commit(TD);
+     Image1.Visible := True;
+     Image3.Visible := False;
      MessageDlg('Usuário inserido com sucesso!', mtInformation,
          [mbOk], 0);
   except
@@ -1372,8 +1508,58 @@ begin
 end;
 
 procedure TfParametro.BitBtn23Click(Sender: TObject);
+var
+   TD: TTransactionDesc;
+   strsql : string;
 begin
-  //inherited;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  strsql := 'insert into USUARIO (CODUSUARIO, NOMEUSUARIO, STATUS' +
+            ', PERFIL) VALUES (1, ' + QuotedStr('Usuário Sistema') +
+            ',0,'+ QuotedStr('Ambos') + ')';
+  dm.sqlsisAdimin.ExecuteDirect(strsql);
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+     Image2.Visible := True;
+     Image4.Visible := False;
+     MessageDlg('Usuário inserido com sucesso!', mtInformation,
+         [mbOk], 0);
+  except
+     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+     MessageDlg('Erro no sistema, Usuário não incluído!', mtError,
+         [mbOk], 0);
+  end;
+
+end;
+
+procedure TfParametro.BitBtn24Click(Sender: TObject);
+var
+   TD: TTransactionDesc;
+   strsql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  strsql := 'insert into SERIE (SERIE, ULTIMO_NUMERO' +
+    ') VALUES (' + QuotedStr('O') + ', 0)';
+  dm.sqlsisAdimin.ExecuteDirect(strsql);
+  strsql := 'insert into SERIE (SERIE, ULTIMO_NUMERO' +
+    ') VALUES (' + QuotedStr('I') + ', 0)';
+  dm.sqlsisAdimin.ExecuteDirect(strsql);
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+     MessageDlg('Séries inserida com sucesso!', mtInformation,
+         [mbOk], 0);
+  except
+     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+     MessageDlg('Erro no sistema, Séries não incluída!', mtError,
+         [mbOk], 0);
+  end;
+end;
+
+procedure TfParametro.BitBtn25Click(Sender: TObject);
+begin
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].asString := 'COMPRA';
@@ -1384,14 +1570,116 @@ begin
     dm.cds_parametro.Append;
     dm.cds_parametroDESCRICAO.AsString := 'Compras - Paramentros.';
     dm.cds_parametroPARAMETRO.AsString := 'COMPRA';
-    dm.cds_parametroDADOS.AsString     := 'S';
-    dm.cds_parametroD1.AsString        := edCompraUserAprova.Text;
+    if (ComboBox11.ItemIndex = -1) then
+    begin
+      MessageDlg('Selecione a opção SIM/NÃO.', mtError,[mbOk], 0);
+      exit;
+    end;
+    if (ComboBox11.ItemIndex = 0) then
+    begin
+      dm.cds_parametroDADOS.AsString := 'S';
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
+      dm.cds_parametroD1.AsString    := edUserRespAprovaCompra.Text;
+    end;
+    if (ComboBox11.ItemIndex = 1) then
+    begin
+      dm.cds_parametroDADOS.AsString := 'N';
+      dm.cds_parametroCONFIGURADO.AsString := 'N';
+      dm.cds_parametroD1.AsString    := '';
+    end;
   end
   else begin
     dm.cds_parametro.Edit;
-    dm.cds_parametroD1.AsString        := edCompraUserAprova.Text;
+    if (ComboBox11.ItemIndex = 0) then
+    begin
+      dm.cds_parametroDADOS.AsString := 'S';
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
+      dm.cds_parametroD1.AsString    := edUserRespAprovaCompra.Text;
+    end;
+    if (ComboBox11.ItemIndex = 1) then
+    begin
+      dm.cds_parametroDADOS.AsString := 'N';
+      dm.cds_parametroCONFIGURADO.AsString := 'N';
+      dm.cds_parametroD1.AsString    := '';
+    end;
   end;
   dm.cds_parametro.ApplyUpdates(0);
+end;
+
+procedure TfParametro.BitBtn26Click(Sender: TObject);
+begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'COMPRA';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    begin
+      MessageDlg('O Parametro "Aprovação de Compras" é obrigatório para usar esta opção.', mtError,[mbOk], 0);
+      exit;
+    end;
+  end
+  else begin
+    dm.cds_parametro.Edit;
+    dm.cds_parametroD2.AsString := edit22.Text;
+  end;
+  dm.cds_parametro.ApplyUpdates(0);
+end;
+
+procedure TfParametro.BitBtn27Click(Sender: TObject);
+var
+   TD: TTransactionDesc;
+   strsql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  strsql := 'INSERT INTO CLIENTES (CODCLIENTE, NOMECLIENTE, RAZAOSOCIAL, ' +
+    'CONTATO, TIPOFIRMA, CPF, CNPJ, INSCESTADUAL, RG, SEGMENTO, REGIAO, LIMITECREDITO, ' +
+    'DATACADASTRO, CODUSUARIO, STATUS, CONTA_CLIENTE) VALUES (' +
+    '0, ' + QuotedStr('Cliente Sistema') + ', ' + QuotedStr('Cliente Sistema') + ', NULL, 0, ' +
+    ' NULL, NULL, NULL, NULL, 0, 0, NULL, ' + QuotedStr('01.01.2006') +
+    ' , 1, 1, ' + QuotedStr('1.1.2.03.0') + ')';
+  dm.sqlsisAdimin.ExecuteDirect(strsql);
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+     MessageDlg('Cliente inserido com sucesso!', mtInformation,
+         [mbOk], 0);
+  except
+     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+     MessageDlg('Erro no sistema, Cliente não incluído!', mtError,
+         [mbOk], 0);
+  end;
+
+end;
+
+procedure TfParametro.BitBtn28Click(Sender: TObject);
+var
+   TD: TTransactionDesc;
+   strsql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  strsql := 'INSERT INTO FORNECEDOR (CODFORNECEDOR, NOMEFORNECEDOR, RAZAOSOCIAL, ' +
+  ' CONTATO, TIPOFIRMA, CPF, CNPJ, INSCESTADUAL, RG, SEGMENTO, REGIAO, LIMITECREDITO, ' +
+  ' DATACADASTRO, CODUSUARIO, STATUS, HOMEPAGE, PRAZOPAGAMENTO, PRAZOENTREGA, ' +
+  ' CONTA_FORNECEDOR) VALUES (0, ' +
+  QuotedStr('Fornecedor  do Sistema') + ', ' +  QuotedStr('Fornecedor  do Sistema') +
+  ', NULL, 1, NULL, NULL, NULL, NULL, 1, 1, NULL,' + QuotedStr('09.10.2006') + ', 1, 1, ' +
+  ' NULL, NULL, NULL, ' + QuotedStr('2.1.1.01.15') + ')';
+  dm.sqlsisAdimin.ExecuteDirect(strsql);
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+     MessageDlg('Fornecedor inserido com sucesso!', mtInformation,
+         [mbOk], 0);
+  except
+     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+     MessageDlg('Erro no sistema, Fornecedor não incluído!', mtError,
+         [mbOk], 0);
+  end;
+
 end;
 
 end.
