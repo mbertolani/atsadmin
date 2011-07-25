@@ -592,6 +592,20 @@ begin
 
   inherited;
 
+  if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then // Alterando o Status para Finalizado
+  begin
+    strSql := 'UPDATE MOVIMENTO set STATUS = 4 ' +
+      ' WHERE CODMOVIMENTO = ' + IntToStr(cds_compraCODMOVIMENTO.AsInteger);
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       MessageDlg('Status do pedido não alterado.', mtError, [mbOk], 0);
+    end;
+  end;
+
   if (dm.moduloUsado = 'CITRUS') then
   begin
     if (cds_7_contas.Locate('NOME', cbDespesaFrete.Text, [loCaseInsensitive])) then
