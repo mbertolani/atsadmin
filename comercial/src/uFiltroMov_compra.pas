@@ -146,11 +146,20 @@ begin
      cds_cns.Close;
   cds_cns.CommandText:= 'select mov.CODMOVIMENTO, mov.codpedido, comp.NOTAFISCAL, comp.SERIE, ' +
      ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, comp.VALOR, mov.COD_VEICULO,' +
-     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA, ' +
-     ' mov.data_entrega, CASE mov.STATUS WHEN 0 THEN ' + QuotedStr('PENDENTE') +
+     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA, ';
+  if (dm.tipoCompra = 'COTACAO') then
+  begin
+    cds_cns.CommandText := cds_cns.CommandText + ' mov.data_entrega, CASE mov.STATUS WHEN 0 THEN ' + QuotedStr('PENDENTE') +
      ' WHEN 3 THEN ' + QuotedStr('APROVADO') + ' WHEN 4 THEN ' + QuotedStr('REC. PARCIAL') +
-     ' WHEN 5 THEN ' + QuotedStr('RECEBIDO') + ' END SITUACAO ' +
-     ' from MOVIMENTO mov ' +
+     ' WHEN 5 THEN ' + QuotedStr('RECEBIDO') + ' END SITUACAO ' ;
+  end
+  else
+  begin
+    cds_cns.CommandText := cds_cns.CommandText + ' mov.data_entrega, CASE mov.STATUS WHEN 0 THEN ' + QuotedStr('PENDENTE') +
+     ' WHEN 3 THEN ' + QuotedStr('APROVADO') + ' WHEN 4 THEN ' + QuotedStr('FINALIZADO') +
+     ' WHEN 5 THEN ' + QuotedStr('OUTROS') + ' END SITUACAO ' ;
+  end;
+  cds_cns.CommandText := cds_cns.CommandText + ' from MOVIMENTO mov ' +
      ' inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
      ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR ' +
      ' left outer join COMPRA comp on comp.CODMOVIMENTO = mov.CODMOVIMENTO ';
