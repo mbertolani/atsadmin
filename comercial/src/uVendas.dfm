@@ -1107,7 +1107,7 @@ inherited fVendas: TfVendas
       OnKeyPress = dbeClienteKeyPress
     end
     object btnClienteProcura: TBitBtn
-      Left = 416
+      Left = 415
       Top = 10
       Width = 35
       Height = 33
@@ -1204,6 +1204,7 @@ inherited fVendas: TfVendas
       Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 2
+      TabStop = False
       OnClick = BitBtn5Click
       Glyph.Data = {
         F6060000424DF606000000000000360000002800000018000000180000000100
