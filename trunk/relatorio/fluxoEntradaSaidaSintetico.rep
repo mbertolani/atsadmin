@@ -315,7 +315,7 @@ object TRpReport
     PosX = 1350
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -500,7 +500,7 @@ object TRpReport
     PosX = 3445
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -612,7 +612,7 @@ object TRpReport
     PosX = 2495
     PosY = 150
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGeneral
@@ -639,6 +639,7 @@ object TRpReport
     PosX = 1350
     PosY = 105
     Type1Font = poHelvetica
+    FontSize = 6
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
@@ -668,7 +669,7 @@ object TRpReport
     PosX = 3400
     PosY = 150
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGeneral
@@ -707,9 +708,9 @@ object TRpReport
   end
   object TRpLabel12: TRpLabel
     Width = 787
-    Height = 250
+    Height = 225
     PosX = 9800
-    PosY = 1605
+    PosY = 1594
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -725,7 +726,7 @@ object TRpReport
     PosX = 2550
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -746,9 +747,9 @@ object TRpReport
   end
   object TRpLabel2: TRpLabel
     Width = 787
-    Height = 250
+    Height = 225
     PosX = 5353
-    PosY = 1599
+    PosY = 1594
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -760,9 +761,9 @@ object TRpReport
   end
   object TRpLabel8: TRpLabel
     Width = 787
-    Height = 250
+    Height = 225
     PosX = 6448
-    PosY = 1599
+    PosY = 1594
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -778,7 +779,7 @@ object TRpReport
     PosX = 5398
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -803,7 +804,7 @@ object TRpReport
     PosX = 5398
     PosY = 144
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGroup
@@ -830,7 +831,7 @@ object TRpReport
     PosX = 9750
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -855,7 +856,7 @@ object TRpReport
     PosX = 9750
     PosY = 150
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -880,7 +881,7 @@ object TRpReport
     PosX = 6708
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -905,7 +906,7 @@ object TRpReport
     PosX = 7855
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -930,7 +931,7 @@ object TRpReport
     PosX = 6708
     PosY = 144
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGroup
@@ -957,7 +958,7 @@ object TRpReport
     PosX = 7855
     PosY = 150
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGroup
@@ -980,9 +981,9 @@ object TRpReport
   end
   object TRpLabel13: TRpLabel
     Width = 600
-    Height = 300
+    Height = 225
     PosX = 7700
-    PosY = 1605
+    PosY = 1594
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -994,9 +995,9 @@ object TRpReport
   end
   object TRpLabel14: TRpLabel
     Width = 600
-    Height = 300
+    Height = 225
     PosX = 9200
-    PosY = 1605
+    PosY = 1594
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -1008,9 +1009,9 @@ object TRpReport
   end
   object TRpLabel7: TRpLabel
     Width = 705
-    Height = 240
+    Height = 225
     PosX = 3655
-    PosY = 1605
+    PosY = 1594
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -1022,9 +1023,9 @@ object TRpReport
   end
   object TRpLabel1: TRpLabel
     Width = 787
-    Height = 250
+    Height = 225
     PosX = 2605
-    PosY = 1605
+    PosY = 1594
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -1036,9 +1037,9 @@ object TRpReport
   end
   object TRpLabel3: TRpLabel
     Width = 600
-    Height = 300
+    Height = 225
     PosX = 4650
-    PosY = 1605
+    PosY = 1594
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -1054,7 +1055,7 @@ object TRpReport
     PosX = 4150
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -1079,7 +1080,7 @@ object TRpReport
     PosX = 8700
     PosY = 0
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -1106,7 +1107,7 @@ object TRpReport
     PosX = 4200
     PosY = 150
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGeneral
@@ -1133,7 +1134,7 @@ object TRpReport
     PosX = 8700
     PosY = 150
     Type1Font = poHelvetica
-    FontSize = 8
+    FontSize = 6
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGeneral
