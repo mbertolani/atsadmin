@@ -32,19 +32,6 @@ type
     Image1: TImage;
     sbusca: TSQLDataSet;
     TabSheet3: TTabSheet;
-    GroupBox1: TGroupBox;
-    Label3: TLabel;
-    BitBtn1: TBitBtn;
-    RadioGroup1: TRadioGroup;
-    Edit3: TEdit;
-    Edit4: TEdit;
-    Edit5: TEdit;
-    Edit6: TEdit;
-    Edit7: TEdit;
-    Edit8: TEdit;
-    Edit9: TEdit;
-    Edit10: TEdit;
-    Edit11: TEdit;
     GroupBox6: TGroupBox;
     Label14: TLabel;
     Label15: TLabel;
@@ -56,29 +43,12 @@ type
     Edit18: TEdit;
     Edit19: TEdit;
     ComboBox2: TComboBox;
-    GroupBox8: TGroupBox;
-    BitBtn8: TBitBtn;
-    RadioGroup2: TRadioGroup;
     GroupBox9: TGroupBox;
     Label19: TLabel;
     BitBtn9: TBitBtn;
     ComboBox3: TComboBox;
     ComboBox4: TComboBox;
     Label20: TLabel;
-    GroupBox7: TGroupBox;
-    Label9: TLabel;
-    Edit14: TEdit;
-    BitBtn6: TBitBtn;
-    ComboBox1: TComboBox;
-    Label10: TLabel;
-    GroupBox10: TGroupBox;
-    Label11: TLabel;
-    Label12: TLabel;
-    BitBtn10: TBitBtn;
-    ComboBox5: TComboBox;
-    meDta1: TMaskEdit;
-    meDta2: TMaskEdit;
-    Label13: TLabel;
     GroupBox12: TGroupBox;
     Label25: TLabel;
     Label26: TLabel;
@@ -183,6 +153,43 @@ type
     Image10: TImage;
     Image11: TImage;
     Image12: TImage;
+    TabSheet7: TTabSheet;
+    GroupBox8: TGroupBox;
+    BitBtn8: TBitBtn;
+    RadioGroup2: TRadioGroup;
+    GroupBox1: TGroupBox;
+    Label3: TLabel;
+    RadioGroup1: TRadioGroup;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    Edit5: TEdit;
+    Edit6: TEdit;
+    Edit7: TEdit;
+    Edit8: TEdit;
+    Edit9: TEdit;
+    Edit10: TEdit;
+    Edit11: TEdit;
+    GroupBox29: TGroupBox;
+    Label45: TLabel;
+    Label46: TLabel;
+    Edit23: TEdit;
+    ComboBox12: TComboBox;
+    GroupBox10: TGroupBox;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    BitBtn10: TBitBtn;
+    ComboBox5: TComboBox;
+    meDta1: TMaskEdit;
+    meDta2: TMaskEdit;
+    GroupBox7: TGroupBox;
+    Label9: TLabel;
+    Label47: TLabel;
+    ComboBox1: TComboBox;
+    MaskEdit4: TMaskEdit;
+    BitBtn6: TBitBtn;
+    BitBtn29: TBitBtn;
+    BitBtn1: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -212,6 +219,7 @@ type
     procedure BitBtn26Click(Sender: TObject);
     procedure BitBtn27Click(Sender: TObject);
     procedure BitBtn28Click(Sender: TObject);
+    procedure BitBtn29Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -449,10 +457,10 @@ begin
   if (dm.cds_param.Locate('PARAMETRO','CONTROLE', [loCaseInsensitive])) then
   begin
     if (dm.cds_paramCONFIGURADO.AsString = 'S') then
-      ComboBox1.ItemIndex := 0
+      ComboBox12.ItemIndex := 0
     else
-      ComboBox1.ItemIndex := 1;
-    edit14.Text := dm.cds_paramDADOS.AsString;
+      ComboBox12.ItemIndex := 1;
+    edit23.Text := dm.cds_paramDADOS.AsString;
   end;
 
   if (dm.cds_param.Locate('PARAMETRO','PADRAOFILTROVENDA', [loCaseInsensitive])) then
@@ -665,6 +673,17 @@ begin
     Image8.Visible := False;
   end;
 
+  // Margem Venda
+  if (dm.cds_param.Locate('PARAMETRO','MARGEMVENDA', [loCaseInsensitive])) then
+  begin
+    if (dm.cds_paramCONFIGURADO.AsString = 'S') then
+    begin
+      ComboBox1.ItemIndex := 0;
+      MaskEdit4.Text := dm.cds_paramD1.AsString;
+    end
+    else
+      ComboBox1.ItemIndex := 1;
+  end;
 end;
 
 procedure TfParametro.BitBtn2Click(Sender: TObject);
@@ -928,7 +947,7 @@ begin
         dm.cds_parametroCONFIGURADO.AsString := 'S'
        else
         dm.cds_parametroCONFIGURADO.AsString := 'N';
-      dm.cds_parametroDADOS.AsString := edit14.Text;
+      dm.cds_parametroDADOS.AsString := edit23.Text;
     end
     else begin
       dm.cds_parametro.Edit;
@@ -936,7 +955,7 @@ begin
         dm.cds_parametroCONFIGURADO.AsString := 'S'
        else
         dm.cds_parametroCONFIGURADO.AsString := 'N';
-      dm.cds_parametroDADOS.AsString := edit14.Text;
+      dm.cds_parametroDADOS.AsString := edit23.Text;
     end;
     dm.cds_parametro.ApplyUpdates(0);
     MessageDlg('Registro gravado com sucesso.', mtInformation,
@@ -1677,6 +1696,31 @@ begin
   except
      dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
      MessageDlg('Erro no sistema, Fornecedor não incluído!', mtError,
+         [mbOk], 0);
+  end;
+
+end;
+
+procedure TfParametro.BitBtn29Click(Sender: TObject);
+var
+   TD: TTransactionDesc;
+   strsql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  strsql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, DADOS, D1, D2)' +
+    ' VALUES (' + QuotedStr('Margem de venda Minima permitida por Pedido') + ', ' +
+    QuotedStr('MARGEMVENDA') + ', ' + QuotedStr('S') + ', NULL,' + QuotedStr('30') +
+    ', NULL)';
+  dm.sqlsisAdimin.ExecuteDirect(strsql);
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+     MessageDlg('Margem Venda inserida com sucesso!', mtInformation,
+         [mbOk], 0);
+  except
+     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+     MessageDlg('Erro no sistema, Margem não incluída!', mtError,
          [mbOk], 0);
   end;
 
