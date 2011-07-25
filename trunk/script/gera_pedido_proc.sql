@@ -64,8 +64,8 @@ BEGIN
 
         insert into MOVIMENTODETALHE (codDetalhe, codmovimento, codproduto, descproduto, 
             quantidade, preco, QTDE_ALT, frete, valor_desconto) values (
-            GEN_ID(GENMOVDET, 1), :codmov, :codProduto, :descricao, :qtde, :preco, :ipi 
-            , :frete, :desconto);  
+            GEN_ID(GENMOVDET, 1), :codmov, :codProduto, :descricao, :qtde, (:preco - :desconto), :ipi 
+            , :frete, 0);  
             
         -- Muda o Status da Compra_Solic    
         UPDATE COMPRA_SOLIC  SET SOLIC_SITUACAO = 'E' WHERE SOLIC_CODIGO = :codSolic;              
