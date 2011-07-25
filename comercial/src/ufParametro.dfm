@@ -27,7 +27,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 792
     Height = 473
-    ActivePage = TabSheet2
+    ActivePage = TabSheet7
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Par'#226'metros'
@@ -360,125 +360,6 @@ inherited fParametro: TfParametro
     object TabSheet3: TTabSheet
       Caption = 'Par'#226'metros Formul'#225'rios '
       ImageIndex = 2
-      object GroupBox1: TGroupBox
-        Left = 1
-        Top = 83
-        Width = 769
-        Height = 89
-        Caption = 
-          'Usa anota'#231#245'es em Vendas (Campo Controle tabela Movimento Detalhe' +
-          ') - Combobox usa D1 a D9. - ANOTACOESVENDAS'
-        TabOrder = 0
-        object Label3: TLabel
-          Left = 8
-          Top = 31
-          Width = 70
-          Height = 13
-          Caption = 'Insira os itens :'
-        end
-        object BitBtn1: TBitBtn
-          Left = 678
-          Top = 60
-          Width = 75
-          Height = 25
-          Caption = 'Gravar'
-          TabOrder = 0
-          OnClick = BitBtn1Click
-        end
-        object RadioGroup1: TRadioGroup
-          Left = 640
-          Top = 16
-          Width = 113
-          Height = 41
-          Caption = 'Usa Anota'#231#245'es:'
-          Columns = 2
-          Items.Strings = (
-            'Sim'
-            'N'#227'o')
-          TabOrder = 1
-        end
-        object Edit3: TEdit
-          Left = 96
-          Top = 24
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 2
-        end
-        object Edit4: TEdit
-          Left = 232
-          Top = 24
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 3
-        end
-        object Edit5: TEdit
-          Left = 368
-          Top = 24
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 4
-        end
-        object Edit6: TEdit
-          Left = 496
-          Top = 24
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 5
-        end
-        object Edit7: TEdit
-          Left = 8
-          Top = 56
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 6
-        end
-        object Edit8: TEdit
-          Left = 136
-          Top = 56
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 7
-        end
-        object Edit9: TEdit
-          Left = 264
-          Top = 56
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 8
-        end
-        object Edit10: TEdit
-          Left = 392
-          Top = 56
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 9
-        end
-        object Edit11: TEdit
-          Left = 528
-          Top = 56
-          Width = 121
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 10
-        end
-      end
       object GroupBox6: TGroupBox
         Left = 1
         Top = 180
@@ -487,7 +368,7 @@ inherited fParametro: TfParametro
         Caption = 
           'Usado PDV: Inseri CODCLIENTE, CODALMOXARIFADO, CODNATUREZA (PDV)' +
           ' e CUPOM ou PEDIDO(mesmo Venda Finalizar) para o bot'#227'o imprimir'
-        TabOrder = 1
+        TabOrder = 0
         object Label14: TLabel
           Left = 8
           Top = 24
@@ -573,152 +454,6 @@ inherited fParametro: TfParametro
             'PEDIDO')
         end
       end
-      object GroupBox8: TGroupBox
-        Left = 0
-        Top = 22
-        Width = 769
-        Height = 48
-        Caption = 
-          'Tipo de Form de Procura do Produto para o Form VENDA (TERMINALVE' +
-          'NDAS)'
-        TabOrder = 2
-        object BitBtn8: TBitBtn
-          Left = 679
-          Top = 16
-          Width = 75
-          Height = 25
-          Caption = 'Gravar'
-          TabOrder = 0
-          OnClick = BitBtn8Click
-        end
-        object RadioGroup2: TRadioGroup
-          Left = 9
-          Top = 14
-          Width = 647
-          Height = 31
-          Columns = 2
-          Items.Strings = (
-            'Simples (somento descri'#231#227'o, com op'#231#227'o de inserir direto)'
-            'Completo , todas op'#231#245'es de busca.')
-          TabOrder = 1
-        end
-      end
-      object GroupBox7: TGroupBox
-        Left = 2
-        Top = 233
-        Width = 769
-        Height = 41
-        Caption = 'Campo Controle  e Obs. no Formul'#225'rio FINALIZAR VENDA (CONTROLE)'
-        TabOrder = 3
-        object Label9: TLabel
-          Left = 8
-          Top = 19
-          Width = 99
-          Height = 13
-          Caption = 'Usa campo Controle:'
-        end
-        object Label10: TLabel
-          Left = 224
-          Top = 16
-          Width = 85
-          Height = 13
-          Caption = 'Nome do Campo :'
-        end
-        object Edit14: TEdit
-          Left = 320
-          Top = 16
-          Width = 345
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 0
-        end
-        object BitBtn6: TBitBtn
-          Left = 678
-          Top = 11
-          Width = 75
-          Height = 25
-          Caption = 'Gravar'
-          TabOrder = 1
-          OnClick = BitBtn6Click
-        end
-        object ComboBox1: TComboBox
-          Left = 117
-          Top = 16
-          Width = 55
-          Height = 21
-          ItemHeight = 13
-          TabOrder = 2
-          Items.Strings = (
-            'Sim'
-            'N'#227'o')
-        end
-      end
-      object GroupBox10: TGroupBox
-        Left = 2
-        Top = 274
-        Width = 769
-        Height = 41
-        Caption = 
-          'Dados padr'#245'es para abertura do FiltroMovimentoVenda(PADRAOFILTRO' +
-          'VENDA)'
-        TabOrder = 4
-        object Label11: TLabel
-          Left = 8
-          Top = 19
-          Width = 100
-          Height = 13
-          Caption = 'Usa valores padr'#245'es:'
-        end
-        object Label12: TLabel
-          Left = 184
-          Top = 14
-          Width = 59
-          Height = 13
-          Caption = 'Data Inicial :'
-        end
-        object Label13: TLabel
-          Left = 344
-          Top = 16
-          Width = 54
-          Height = 13
-          Caption = 'Data Final :'
-        end
-        object BitBtn10: TBitBtn
-          Left = 678
-          Top = 11
-          Width = 75
-          Height = 25
-          Caption = 'Gravar'
-          TabOrder = 0
-          OnClick = BitBtn10Click
-        end
-        object ComboBox5: TComboBox
-          Left = 117
-          Top = 16
-          Width = 55
-          Height = 21
-          ItemHeight = 13
-          TabOrder = 1
-          Items.Strings = (
-            'Sim'
-            'N'#227'o')
-        end
-        object meDta1: TMaskEdit
-          Left = 256
-          Top = 15
-          Width = 80
-          Height = 21
-          TabOrder = 2
-        end
-        object meDta2: TMaskEdit
-          Left = 407
-          Top = 14
-          Width = 83
-          Height = 21
-          TabOrder = 3
-        end
-      end
       object GroupBox12: TGroupBox
         Left = 2
         Top = 357
@@ -727,7 +462,7 @@ inherited fParametro: TfParametro
         Caption = 
           'Formata'#231#227'o usadas no sistema (n. casas decimais...) D1 : Qtde, D' +
           '2 : Valor'
-        TabOrder = 5
+        TabOrder = 1
         object Label25: TLabel
           Left = 40
           Top = 14
@@ -2329,6 +2064,324 @@ inherited fParametro: TfParametro
           Width = 121
           Height = 21
           TabOrder = 1
+        end
+      end
+    end
+    object TabSheet7: TTabSheet
+      Caption = 'Veendas'
+      ImageIndex = 7
+      object GroupBox8: TGroupBox
+        Left = 0
+        Top = 8
+        Width = 769
+        Height = 60
+        Caption = 
+          'Tipo de Form de Procura do Produto para o Form VENDA (TERMINALVE' +
+          'NDAS)'
+        TabOrder = 0
+        object BitBtn8: TBitBtn
+          Left = 679
+          Top = 20
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = BitBtn8Click
+        end
+        object RadioGroup2: TRadioGroup
+          Left = 9
+          Top = 20
+          Width = 647
+          Height = 31
+          Columns = 2
+          Items.Strings = (
+            'Simples (somento descri'#231#227'o, com op'#231#227'o de inserir direto)'
+            'Completo , todas op'#231#245'es de busca.')
+          TabOrder = 1
+        end
+      end
+      object GroupBox1: TGroupBox
+        Left = 1
+        Top = 83
+        Width = 769
+        Height = 89
+        Caption = 
+          'Usa anota'#231#245'es em Vendas (Campo Controle tabela Movimento Detalhe' +
+          ') - Combobox usa D1 a D9. - ANOTACOESVENDAS'
+        TabOrder = 1
+        object Label3: TLabel
+          Left = 8
+          Top = 31
+          Width = 70
+          Height = 13
+          Caption = 'Insira os itens :'
+        end
+        object RadioGroup1: TRadioGroup
+          Left = 640
+          Top = 8
+          Width = 113
+          Height = 41
+          Caption = 'Usa Anota'#231#245'es:'
+          Columns = 2
+          Items.Strings = (
+            'Sim'
+            'N'#227'o')
+          TabOrder = 0
+        end
+        object Edit3: TEdit
+          Left = 96
+          Top = 24
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 1
+        end
+        object Edit4: TEdit
+          Left = 232
+          Top = 24
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 2
+        end
+        object Edit5: TEdit
+          Left = 368
+          Top = 24
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 3
+        end
+        object Edit6: TEdit
+          Left = 496
+          Top = 24
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 4
+        end
+        object Edit7: TEdit
+          Left = 8
+          Top = 56
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 5
+        end
+        object Edit8: TEdit
+          Left = 136
+          Top = 56
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 6
+        end
+        object Edit9: TEdit
+          Left = 264
+          Top = 56
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 7
+        end
+        object Edit10: TEdit
+          Left = 392
+          Top = 56
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 8
+        end
+        object Edit11: TEdit
+          Left = 528
+          Top = 56
+          Width = 121
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 9
+        end
+        object BitBtn1: TBitBtn
+          Left = 678
+          Top = 55
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 10
+          OnClick = BitBtn1Click
+        end
+      end
+      object GroupBox29: TGroupBox
+        Left = 2
+        Top = 176
+        Width = 769
+        Height = 48
+        Caption = 'Campo Controle  e Obs. no Formul'#225'rio FINALIZAR VENDA (CONTROLE)'
+        TabOrder = 2
+        object Label45: TLabel
+          Left = 8
+          Top = 20
+          Width = 99
+          Height = 13
+          Caption = 'Usa campo Controle:'
+        end
+        object Label46: TLabel
+          Left = 224
+          Top = 20
+          Width = 85
+          Height = 13
+          Caption = 'Nome do Campo :'
+        end
+        object Edit23: TEdit
+          Left = 320
+          Top = 20
+          Width = 345
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 0
+        end
+        object ComboBox12: TComboBox
+          Left = 117
+          Top = 20
+          Width = 55
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 1
+          Items.Strings = (
+            'Sim'
+            'N'#227'o')
+        end
+        object BitBtn6: TBitBtn
+          Left = 678
+          Top = 16
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 2
+          OnClick = BitBtn6Click
+        end
+      end
+      object GroupBox10: TGroupBox
+        Left = 2
+        Top = 227
+        Width = 769
+        Height = 48
+        Caption = 
+          'Dados padr'#245'es para abertura do FiltroMovimentoVenda(PADRAOFILTRO' +
+          'VENDA)'
+        TabOrder = 3
+        object Label11: TLabel
+          Left = 8
+          Top = 20
+          Width = 100
+          Height = 13
+          Caption = 'Usa valores padr'#245'es:'
+        end
+        object Label12: TLabel
+          Left = 184
+          Top = 20
+          Width = 59
+          Height = 13
+          Caption = 'Data Inicial :'
+        end
+        object Label13: TLabel
+          Left = 344
+          Top = 20
+          Width = 54
+          Height = 13
+          Caption = 'Data Final :'
+        end
+        object BitBtn10: TBitBtn
+          Left = 678
+          Top = 20
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = BitBtn10Click
+        end
+        object ComboBox5: TComboBox
+          Left = 117
+          Top = 20
+          Width = 55
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 1
+          Items.Strings = (
+            'Sim'
+            'N'#227'o')
+        end
+        object meDta1: TMaskEdit
+          Left = 256
+          Top = 20
+          Width = 80
+          Height = 21
+          TabOrder = 2
+        end
+        object meDta2: TMaskEdit
+          Left = 407
+          Top = 20
+          Width = 83
+          Height = 21
+          TabOrder = 3
+        end
+      end
+      object GroupBox7: TGroupBox
+        Left = 2
+        Top = 278
+        Width = 769
+        Height = 48
+        Caption = 'Margem de Lucro Permitido no Pedido de Venda'
+        TabOrder = 4
+        object Label9: TLabel
+          Left = 8
+          Top = 20
+          Width = 129
+          Height = 13
+          Caption = 'Utiliza limite Margem Venda'
+        end
+        object Label47: TLabel
+          Left = 256
+          Top = 20
+          Width = 122
+          Height = 13
+          Caption = 'Margem M'#237'nima Permitida'
+        end
+        object ComboBox1: TComboBox
+          Left = 173
+          Top = 20
+          Width = 55
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 0
+          Items.Strings = (
+            'Sim'
+            'N'#227'o')
+        end
+        object MaskEdit4: TMaskEdit
+          Left = 391
+          Top = 20
+          Width = 66
+          Height = 21
+          TabOrder = 1
+        end
+        object BitBtn29: TBitBtn
+          Left = 677
+          Top = 19
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 2
+          OnClick = BitBtn29Click
         end
       end
     end
