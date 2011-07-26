@@ -933,13 +933,13 @@ procedure TfEntra_Sai_estoque.btnExcluirClick(Sender: TObject);
 var deleta, delmov, delmovprim, delvenprim: string;
 begin
   MessageDlg('Tem certeza que Deseja Excluir?', mtConfirmation, [mbYes, mbNo], 0);
-  if (texto_1 = 'Entrada de Mercadorias de Estoque') then
+  if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
   begin
      deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
      delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
   end;
 
-  if (texto_1 = 'Saida de Mercadorias de Estoque') then
+  if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
   begin
      deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
      delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
@@ -1075,7 +1075,7 @@ begin
        dm.scds_produto_procVALORUNITARIOATUAL.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
     else
        cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;}
-    cds_Mov_detPRECO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
+    cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
     valorUnitario := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
     cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
     cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
@@ -1533,7 +1533,7 @@ end;
 
 procedure TfEntra_Sai_estoque.DBEdit1Exit(Sender: TObject);
 begin
-  MaskEdit1.Text := DateToStr(cds_MovimentoDATAMOVIMENTO.AsDateTime);
+  MaskEdit1.Text := dbEdit1.Text;
 end;
 
 procedure TfEntra_Sai_estoque.DtSrc1StateChange(Sender: TObject);
@@ -1610,7 +1610,7 @@ begin
     dm.c_6_genid.Open;
     cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
-    cds_Mov_detPRECO.AsFloat := cdsmdPRECO.AsFloat;
+    cds_Mov_detPRECO.AsFloat := cdsmdVALORUNITARIOATUAL.AsFloat;
     if (cds_Mov_det.State in [dsInsert, dsEdit]) then
       cds_Mov_det.Post;
     cdsmd.Next;
