@@ -106,6 +106,9 @@ type
     sqlExpedicaoSITUACAO: TSmallintField;
     cdsExpedicaoSITUACAO: TSmallintField;
     BitBtn5: TBitBtn;
+    sProc: TSQLStoredProc;
+    sqlPedidoCODPRODUTO: TIntegerField;
+    cdsPedidoCODPRODUTO: TIntegerField;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -134,7 +137,7 @@ var
 
 implementation
 
-uses uUtils, UDm, uProcurar, uEstoque;
+uses uUtils, UDm, uProcurar, uEstoque, uMovimento, uMovimentoDetalhe;
 
 {$R *.dfm}
 
@@ -205,7 +208,7 @@ begin
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
       ', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
-      ',  m.CONTROLE, m.CODPEDIDO , m.CODCLIENTE, cli.NOMECLIENTE ' +
+      ',  m.CONTROLE, m.CODPEDIDO , m.CODCLIENTE, cli.NOMECLIENTE, md.codproduto ' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
       ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
@@ -222,7 +225,7 @@ begin
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
       ', md.RECEBIDO QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
-      ',  m.CONTROLE, m.CODPEDIDO, m.CODCLIENTE, cli.NOMECLIENTE ' +
+      ',  m.CONTROLE, m.CODPEDIDO, m.CODCLIENTE, cli.NOMECLIENTE , md.codproduto' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
       ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
@@ -280,7 +283,10 @@ end;
 procedure TfExpedicao.BitBtn1Click(Sender: TObject);
 var
   tudo, alteraStatus: String;
-  codFornec: Integer;
+  codFornec, codMov: Integer;
+  fMov: TMovimento;
+  fDet: TMovimentoDetalhe;
+  jaInclui : Boolean;
 begin
   if ((edExpedicao.Text = '') or (dtEntrega.Checked = False)) then
   begin
@@ -289,45 +295,78 @@ begin
   end;
   if  MessageDlg('Confirma Envio Pedido ?', mtConfirmation, [mbYes, mbNo],0) = mrNo then
      exit;
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
+  //TD.TransactionID := 1;
+  //TD.IsolationLevel := xilREADCOMMITTED;
   try
     cdsPedido.DisableControls;
     cdsPedido.First;
     cdsPedido.First;
     DecimalSeparator := '.';
     tudo := 'S';
-    While not cdsPedido.Eof do
-    begin
-      if (cdsPedidoRECEBIDO.AsFloat > 0) then
-      begin
-        dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET RECEBIDO = ' +
-          FloatToStr(cdsPedidoRECEBIDO.asFloat) +
-          ' , CODIGO1 = 99999 ' +
-          ' WHERE CODDETALHE = ' + IntToStr(cdsPedidoCODDETALHE.AsInteger));
+   // dm.sqlsisAdimin.StartTransaction(TD);
+   Try
+     fMov := TMovimento.Create;
+     jaInclui := fMov.verMovimento(cdsPedidoCODMOVIMENTO.AsInteger, 6);
+     if (jaInclui = False) then
+     begin
+       fMov.CodMov      := 0;
+       fMov.CodNatureza := 6;
+       fMov.DataMov     := dtEntrega.Date;
+       fMov.CodCliente  := cdsPedidoCODCLIENTE.AsInteger;
+       fMov.Status      := 0;
+       fMov.CodUsuario  := 1;
+       fMov.CodVendedor := 1;
+       fMov.CodFornec   := 0;
+       fmov.Controle    := edExpedicao.Text;
+       codMov := fMov.inserirMovimento;
+       While not cdsPedido.Eof do
+        begin
+          if (cdsPedidoRECEBIDO.AsFloat > 0) then
+          begin
+            fDet.CodMov       := codMov;
+            fDet.CodProduto   := cdsPedidoCODPRODUTO.AsInteger;
+            fDet.Qtde         := cdsPedidoRECEBIDO.asFloat;
+            fDet.Preco        := cdsPedidoPRECO.AsFloat;
+            fDet.Descricao    := cdsPedidoPRODUTO.AsString;
+            fDet.Desconto     := 0;
+            fDet.Un           := 'UN';
+            fDet.Baixa        := '1';
+            fDet.inserirMovDet;
+                { FloatToStr(cdsPedidoRECEBIDO.asFloat) +
+              ' , CODIGO1 = 99999 ' +
+              ' WHERE CODDETALHE = ' + IntToStr(cdsPedidoCODDETALHE.AsInteger));}
+          end;
+          if (cdsPedidoRECEBIDO.AsFloat < cdsPedidoQUANTIDADE.AsFloat) then
+            tudo := 'N';
+          cdsPedido.Next;
+        end;
       end;
-      if (cdsPedidoRECEBIDO.AsFloat < cdsPedidoQUANTIDADE.AsFloat) then
-        tudo := 'N';
-      cdsPedido.Next;
+      DecimalSeparator := ',';
+      dm.sqlsisAdimin.Commit(TD);
+    Finally
+      fMov.Free;
     end;
-    DecimalSeparator := ',';
-    alteraStatus := 'EXECUTE PROCEDURE EXPEDICAO_GERA_PEDIDO(' + QuotedStr(edExpedicao.Text) +
-      ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', dtEntrega.Date)) + ')';
-    dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
-    dm.sqlsisAdimin.Commit(TD);
+    {dm.sqlsisAdimin.StartTransaction(TD);
+    if (sProc.Active) then
+      sProc.Close;
+    sProc.ParamByName('CARGA').AsString     := edExpedicao.Text;
+    sProc.ParamByName('DATAENTREGA').AsDate := dtEntrega.Date;
+    sProc.ExecProc;
+    dm.sqlsisAdimin.Commit(TD);}
+      // Gravando o Estoque
+
+
 
     // Limpa o CODIGO1 - usado apenas para marcar os Itens que vão ser incluidos
-    alteraStatus := 'UPDATE MOVIMENTODETALHE SET CODIGO1 = NULL WHERE CODIGO1 = 99999';
+    {alteraStatus := 'UPDATE MOVIMENTODETALHE SET CODIGO1 = NULL WHERE CODIGO1 = 99999';
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
-    dm.sqlsisAdimin.Commit(TD);
+    dm.sqlsisAdimin.Commit(TD);}
 
     cdsPedido.EnableControls;
     MessageDlg('Recebimento Gravado com sucesso.', mtInformation, [mbOK], 0);
   except
-    dm.sqlsisAdimin.Rollback(TD);
+    //dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para gravar o recebimento.', mtError, [mbOK], 0);
     DecimalSeparator := ',';
     exit;
