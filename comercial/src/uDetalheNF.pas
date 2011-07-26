@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, JvExDBGrids, JvDBGrid, StdCtrls, Mask, DBCtrls,
-  SqlExpr, Provider, DBXpress, Buttons, ExtCtrls, DB, DBClient;
+  SqlExpr, Provider, DBXpress, Buttons, ExtCtrls, DB, DBClient, FMTBcd;
 
 type
   TfDetalheNF = class(TForm)
@@ -54,6 +54,8 @@ type
     DBNavigator1: TDBNavigator;
     btnGravar: TBitBtn;
     btnProdutoProcura: TBitBtn;
+    Label21: TLabel;
+    DBEdit4: TDBEdit;
     procedure btnSairClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);
