@@ -363,6 +363,7 @@ inherited fInventario: TfInventario
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
       OnKeyPress = JvDBGrid2KeyPress
+      OnTitleClick = JvDBGrid2TitleClick
       AutoAppend = False
       FixedCols = 5
       PostOnEnterKey = True
