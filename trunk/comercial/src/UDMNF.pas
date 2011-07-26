@@ -1335,6 +1335,8 @@ type
     sds_Mov_DetVIPI: TFloatField;
     cds_Mov_detPIPI: TFloatField;
     cds_Mov_detVIPI: TFloatField;
+    sds_Mov_DetNCM: TStringField;
+    cds_Mov_detNCM: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

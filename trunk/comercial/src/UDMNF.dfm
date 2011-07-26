@@ -327,13 +327,13 @@ object DMNF: TDMNF
       'prod.LOCALIZACAO  , prod.CLASSIFIC_FISCAL , cm.CODIGO, prod.LOTE' +
       'S, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS'#13#10', movd.VLR_BA' +
       'SE, movd.VLR_BASEICMS, movd.VALOR_DESCONTO, movd.FRETE, movd.ICM' +
-      'S_SUBST, movd.ICMS_SUBSTD, movd.VALOR_SEGURO, movd.VALOR_OUTROS'#13 +
-      #10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.C' +
-      'ODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on' +
-      ' ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join C' +
-      'OMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.C' +
-      'ODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by mov' +
-      'd.coddetalhe'
+      'S_SUBST, movd.ICMS_SUBSTD, movd.VALOR_SEGURO, movd.VALOR_OUTROS,' +
+      ' prod.NCM'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod' +
+      ' on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFA' +
+      'DO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left ou' +
+      'ter join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'wh' +
+      'ere movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV or' +
+      'der by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -530,6 +530,11 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetVIPI: TFloatField
       FieldName = 'VIPI'
+    end
+    object sds_Mov_DetNCM: TStringField
+      FieldName = 'NCM'
+      ReadOnly = True
+      Size = 8
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -752,6 +757,11 @@ object DMNF: TDMNF
     end
     object cds_Mov_detVIPI: TFloatField
       FieldName = 'VIPI'
+    end
+    object cds_Mov_detNCM: TStringField
+      FieldName = 'NCM'
+      ReadOnly = True
+      Size = 8
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
