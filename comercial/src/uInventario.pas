@@ -78,6 +78,7 @@ type
     cdsProdFAMILIA: TStringField;
     JvDBGrid2: TJvDBGrid;
     cdsInventQTDE_INVENTARIO: TFloatField;
+    sProc: TSQLStoredProc;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -315,7 +316,9 @@ procedure TfInventario.btnIncluirClick(Sender: TObject);
   end;
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect('EXECUTE PROCEDURE INVENTARIO_LANCA(' + QuotedStr(edLista.Text) + ')');
+    //dm.sqlsisAdimin.ExecuteDirect('EXECUTE PROCEDURE INVENTARIO_LANCA(' + QuotedStr(edLista.Text) + ')');
+    sProc.Params[0].AsString := edLista.Text;
+    sProc.ExecProc;
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Alterações executadas com sucesso!', mtInformation, [mbOK], 0);
   except

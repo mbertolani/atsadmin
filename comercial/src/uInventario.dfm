@@ -988,4 +988,23 @@ inherited fInventario: TfInventario
     Left = 16
     Top = 496
   end
+  object sProc: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'LISTAINVENTARIO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'MSG'
+        ParamType = ptOutput
+        Size = 100
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    StoredProcName = 'INVENTARIO_LANCA'
+    Left = 512
+    Top = 272
+  end
 end
