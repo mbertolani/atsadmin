@@ -1102,19 +1102,22 @@ inherited fExpedicao: TfExpedicao
       Required = True
       Size = 50
     end
+    object cdsPedidoCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
   end
   object sqlPedido: TSQLDataSet
     CommandText = 
       'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO,' +
-      ' p.PRODUTO'#13#10', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO' +
-      ', md.VALTOTAL , md.RECEBIDO, m.CONTROLE, m.CODPEDIDO,'#13#10'm.CODCLIE' +
-      'NTE, cli.NOMECLIENTE'#13#10' from MOVIMENTODETALHE md'#13#10'inner join MOVI' +
-      'MENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO'#13#10'inner join PRODUT' +
-      'OS   p on  md.CODPRODUTO    = p.CODPRODUTO'#13#10'inner join CLIENTES ' +
-      'cli on cli.codcliente = m.codcliente'#13#10'where md.STATUS is null '#13#10 +
-      '    and m.CODNATUREZA   = 3'#13#10'    and m.STATUS                = 0' +
-      #13#10'    and m.CODCLIENTE = :pFornec'#13#10'    and ((md.QUANTIDADE - md.' +
-      'RECEBIDO) > 0)'
+      ' p.PRODUTO, md.codproduto'#13#10', (md.QUANTIDADE - md.RECEBIDO) QUANT' +
+      'IDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO, m.CONTROLE, m.CODPED' +
+      'IDO,'#13#10'm.CODCLIENTE, cli.NOMECLIENTE'#13#10' from MOVIMENTODETALHE md'#13#10 +
+      'inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO'#13#10'in' +
+      'ner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO'#13#10'inner' +
+      ' join CLIENTES cli on cli.codcliente = m.codcliente'#13#10'where md.ST' +
+      'ATUS is null '#13#10'    and m.CODNATUREZA   = 3'#13#10'    and m.STATUS    ' +
+      '            = 0'#13#10'    and m.CODCLIENTE = :pFornec'#13#10'    and ((md.Q' +
+      'UANTIDADE - md.RECEBIDO) > 0)'
     MaxBlobSize = -1
     Params = <
       item
@@ -1182,6 +1185,9 @@ inherited fExpedicao: TfExpedicao
       ReadOnly = True
       Required = True
       Size = 50
+    end
+    object sqlPedidoCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
     end
   end
   object sqlExpedicao: TSQLDataSet
@@ -1368,5 +1374,23 @@ inherited fExpedicao: TfExpedicao
     DataSet = cdsExpedicao
     Left = 432
     Top = 473
+  end
+  object sProc: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'CARGA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DATAENTREGA'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    StoredProcName = 'EXPEDICAO_GERA_PEDIDO'
+    Left = 440
+    Top = 417
   end
 end
