@@ -176,14 +176,15 @@ begin
     'inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
     cdsInvent.Open;
     if (cdsInvent.IsEmpty) then
-    begin
-      if MessageDlg('Não existe esta Lista, criar uma ?',mtConfirmation,
-                  [mbYes,mbNo],0) = mrYes then
+      if ((Dta.Text <> '  /  /    ') and  (edLista.Text <> '')) then
       begin
-        cdsInvent.Append;
-        cdsInventCODIVENTARIO.AsString := edLista.text;
+        if MessageDlg('Não existe esta Lista, criar uma ?',mtConfirmation,
+                    [mbYes,mbNo],0) = mrYes then
+        begin
+          cdsInvent.Append;
+          cdsInventCODIVENTARIO.AsString := edLista.text;
+        end;
       end;
-    end;
   end
   else
   begin
@@ -314,8 +315,7 @@ procedure TfInventario.btnIncluirClick(Sender: TObject);
   end;
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect('EXECUTE PROCEDURE INVENTARIO_LANCA(' +
-      QuotedStr(edLista.Text) + ')');
+    dm.sqlsisAdimin.ExecuteDirect('EXECUTE PROCEDURE INVENTARIO_LANCA(' + QuotedStr(edLista.Text) + ')');
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Alterações executadas com sucesso!', mtInformation, [mbOK], 0);
   except
@@ -368,7 +368,10 @@ begin
   end;
   if (cdsInvent.Active) then
   begin
-    cdsInvent.Delete;
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM INVENTARIO WHERE CODIVENTARIO = ' +
+      QuotedStr(edLista.Text) + ' and CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger));
+      cdsInvent.Close;
+      cdsInvent.Open;      
   end;
 end;
 
@@ -460,6 +463,8 @@ begin
   cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto FROM INVENTARIO i ' +
   'inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
   cdsInvent.Open;
+  edLista.Text := cdsListaInventarioCODIVENTARIO.AsString;
+  Dta.Text := DateToStr(cdsListaInventarioDATAIVENTARIO.AsDateTime);
 end;
 
 procedure TfInventario.dsInventStateChange(Sender: TObject);
