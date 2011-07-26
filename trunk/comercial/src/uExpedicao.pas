@@ -450,7 +450,7 @@ begin
 
   if (edExpedicao.Text <> '') then
   begin
-    sqlX := ' AND UDF_COLLATEBR(m.CONTROLE) LIKE UDF_COLLATEBR(' + QuotedStr(edExpedicao.Text + '%)');
+    sqlX := ' AND UDF_COLLATEBR(m.CONTROLE) LIKE UDF_COLLATEBR(' + QuotedStr(edExpedicao.Text + '%') + ')';
   end;
 
   if (dtEntrega.Checked) then
