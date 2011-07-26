@@ -1875,7 +1875,7 @@ object fNotafc: TfNotafc
             FieldName = 'CODPRO'
             ReadOnly = True
             Title.Caption = 'C'#243'digo'
-            Width = 24
+            Width = 22
             Visible = True
           end
           item
@@ -1883,34 +1883,40 @@ object fNotafc: TfNotafc
             FieldName = 'DESCPRODUTO'
             ReadOnly = True
             Title.Caption = 'Produtos'
-            Width = 129
+            Width = 120
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'NCM'
+            Width = 45
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CFOP'
-            Width = 28
+            Width = 26
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CST'
             ReadOnly = True
-            Width = 17
+            Width = 16
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CSOSN'
             ReadOnly = True
-            Width = 32
+            Width = 29
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
             ReadOnly = True
-            Width = 12
+            Width = 11
             Visible = True
           end
           item
@@ -1918,7 +1924,7 @@ object fNotafc: TfNotafc
             FieldName = 'QUANTIDADE'
             ReadOnly = True
             Title.Caption = 'Quantidade'
-            Width = 28
+            Width = 26
             Visible = True
           end
           item
@@ -1926,21 +1932,21 @@ object fNotafc: TfNotafc
             FieldName = 'VLR_BASE'
             ReadOnly = True
             Title.Caption = 'Valor Unit'#225'rio'
-            Width = 42
+            Width = 40
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALOR_DESCONTO'
             Title.Caption = 'Desconto'
-            Width = 35
+            Width = 33
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'FRETE'
             Title.Caption = 'Frete'
-            Width = 39
+            Width = 37
             Visible = True
           end
           item
@@ -1948,14 +1954,14 @@ object fNotafc: TfNotafc
             FieldName = 'ValorTotal'
             ReadOnly = True
             Title.Caption = 'Valor Total'
-            Width = 38
+            Width = 36
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ICMS'
             ReadOnly = True
-            Width = 17
+            Width = 16
             Visible = True
           end
           item
@@ -1963,7 +1969,7 @@ object fNotafc: TfNotafc
             FieldName = 'VLR_BASEICMS'
             ReadOnly = True
             Title.Caption = 'Base ICMS'
-            Width = 36
+            Width = 34
             Visible = True
           end
           item
@@ -1971,7 +1977,7 @@ object fNotafc: TfNotafc
             FieldName = 'VALOR_ICMS'
             ReadOnly = True
             Title.Caption = 'ICMS'
-            Width = 49
+            Width = 46
             Visible = True
           end
           item
@@ -1979,7 +1985,7 @@ object fNotafc: TfNotafc
             FieldName = 'ICMS_SUBSTD'
             ReadOnly = True
             Title.Caption = 'Base ST'
-            Width = 40
+            Width = 38
             Visible = True
           end
           item
@@ -1987,21 +1993,21 @@ object fNotafc: TfNotafc
             FieldName = 'ICMS_SUBST'
             ReadOnly = True
             Title.Caption = 'ST'
-            Width = 45
+            Width = 42
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALOR_OUTROS'
             Title.Caption = 'Outras Desp.'
-            Width = 54
+            Width = 51
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALOR_SEGURO'
             Title.Caption = 'Seguro'
-            Width = 58
+            Width = 54
             Visible = True
           end>
       end
