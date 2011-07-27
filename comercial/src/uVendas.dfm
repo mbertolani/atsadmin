@@ -2152,7 +2152,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2206,7 +2206,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2404,13 +2404,13 @@ inherited fVendas: TfVendas
       't(movd.DESCPRODUTO as varchar(300)) as DESCPRODUTO'#13#10', prod.CODPR' +
       'O'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTD' +
       'E_PCT'#13#10', prod.PESO_QTDE'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPE' +
-      'SA  '#13#10', prod.LOCALIZACAO  '#13#10', cm.CODIGO, prod.LOTES  '#13#10'from MOVI' +
-      'MENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=' +
-      'movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODA' +
-      'LMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm' +
-      ' on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=' +
-      ':CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetal' +
-      'he'
+      'SA  '#13#10', prod.LOCALIZACAO  '#13#10', cm.CODIGO'#13#10', prod.LOTES'#13#10', movd.ST' +
+      'ATUS  '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on' +
+      ' prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ' +
+      'ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer' +
+      ' join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where' +
+      ' movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order' +
+      ' by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -2544,6 +2544,12 @@ inherited fVendas: TfVendas
     object sds_Mov_DetPESO_QTDE: TFloatField
       FieldName = 'PESO_QTDE'
       ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetSTATUS: TStringField
+      FieldName = 'STATUS'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -2706,6 +2712,12 @@ inherited fVendas: TfVendas
     object cds_Mov_detPESO_QTDE: TFloatField
       FieldName = 'PESO_QTDE'
       ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detSTATUS: TStringField
+      FieldName = 'STATUS'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -3776,12 +3788,15 @@ inherited fVendas: TfVendas
   end
   object sdslote: TSQLDataSet
     CommandText = 
-      'SELECT lote.*, '#13#10'               prod.PRODUTO, '#13#10'               p' +
-      'rod.CODPRO '#13#10'FROM LOTES lote, PRODUTOS prod '#13#10'WHERE prod.CODPROD' +
-      'UTO = lote.CODPRODUTO '#13#10'AND (((lote.LOTE = :PLOTE) OR (:PLOTE = ' +
-      #39'TODOSLOTESCADASTRADOS'#39')) and (lote.CODPRODUTO = :PPROD) AND (lo' +
-      'te.ESTOQUE > 0.00099999999999999999)) order by lote.DATAFABRICAC' +
-      'AO'
+      'SELECT 1 CODLOTE, lote.LOTE, lote.CODPRODUTO, lote.MESANO DATAFA' +
+      'BRICACAO, lote.MESANO DATAVENCIMENTO, '#13#10'lote.SALDOESTOQUE ESTOQU' +
+      'E, lote.PRECOCUSTO PRECO, lote.LOTE NOTAFISCAL, 1 SERIEINI, 2 SE' +
+      'RIEFIM , prod.PRODUTO, prod.CODPRO FROM ESTOQUEMES lote '#13#10'inner ' +
+      'join PRODUTOS prod on prod.codproduto = lote.CODPRODUTO '#13#10'WHERE ' +
+      'prod.CODPRODUTO = lote.CODPRODUTO '#13#10'AND (((lote.LOTE = :PLOTE) O' +
+      'R (:PLOTE = '#39'TODOSLOTESCADASTRADOS'#39')) and (lote.CODPRODUTO = :PP' +
+      'ROD) AND (lote.SALDOESTOQUE > 0.00099999999999999999)) order by ' +
+      'lote.MESANO'
     MaxBlobSize = -1
     Params = <
       item
