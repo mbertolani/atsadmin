@@ -590,27 +590,35 @@ begin
     end;
   end;
 
-  inherited;
+  try
+    inherited;
 
-  // Gravando o Estoque
-  Try
-    FEstoque := TEstoque.Create;
-    with fCompra do begin
-    cds_Mov_det.First;
-    While not cds_Mov_det.Eof do
-    begin
-      FEstoque.QtdeCompra  := cds_Mov_detQUANTIDADE.AsFloat;
-      FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-      FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-      FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-      FEstoque.MesAno      := cds_compraDATACOMPRA.AsDateTime;
-      FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-      FEstoque.inserirMes;
-      cds_Mov_det.Next;
+    // Gravando o Estoque
+    Try
+      FEstoque := TEstoque.Create;
+      with fCompra do begin
+      cds_Mov_det.First;
+      While not cds_Mov_det.Eof do
+      begin
+        if (cds_Mov_detSTATUS.IsNull) then
+        begin
+          FEstoque.QtdeCompra  := cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+          FEstoque.MesAno      := cds_compraDATACOMPRA.AsDateTime;
+          FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+          FEstoque.inserirMes;
+        end;  
+        cds_Mov_det.Next;
+      end;
+      end;
+    Finally
+      FEstoque.Free;
     end;
-    end;
-  Finally
-    FEstoque.Free;
+  Except
+    MessageDlg('Erro para Gravar Compras.', mtError, [mbOk], 0);
   end;
 
   if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then // Alterando o Status para Finalizado
@@ -1695,13 +1703,17 @@ begin
           cds_Mov_det.First;
           While not cds_Mov_det.Eof do
           begin
-            FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-            FEstoque.MesAno      := dataCompra;
-            FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-            FEstoque.inserirMes;
+            if (cds_Mov_detSTATUS.AsString = '9') then
+              begin
+              FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+              FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+              FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+              FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+              FEstoque.MesAno      := dataCompra;
+              FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+              FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+              FEstoque.inserirMes;
+            end;
             cds_Mov_det.Next;
           end;
           end;
