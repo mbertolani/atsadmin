@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE LISTAPRODUTO(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -87,9 +88,8 @@ begin
       pedido = 0;
 
     if (usaListaTerceiros = 'N') then
-    select first 1 precoCusto, qtdeEstoque, precoUltimaCompra from MOVIMENTODETALHE d
-      inner join movimento m on m.CODMOVIMENTO = d.CODMOVIMENTO
-      where codProduto = :codProduto and baixa is not null order by m.CODMOVIMENTO DESC, codDetalhe desc
+    select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
+      where m.CODPRODUTO = :codProduto order by m.MESANO DESC
     into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
     if (preco_compraMedio is null) then
       preco_compraMedio = 0;
