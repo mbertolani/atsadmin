@@ -443,7 +443,7 @@ var
 implementation
 
 uses UDm, ufprocura_prod, uProdutoLote, uEnt_Sai_Lote, uFiltroEstoque,
-  uLotes, uFiltroMovMaterias, sCtrlResize;
+  uLotes, uFiltroMovMaterias, sCtrlResize, uEstoque;
 
 {$R *.dfm}
 
@@ -550,7 +550,7 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.btnGravarClick(Sender: TObject);
-var
+var   FEstoque: TEstoque;
   sql_sp: string;
   TD: TTransactionDesc;
 begin
@@ -738,6 +738,7 @@ begin
       end;
     end;
     cds_Mov_det.ApplyUpdates(0);
+
     //********************************************************************************
 
     if DtSrc1.State in [dsInsert, dsEdit] then
@@ -806,7 +807,27 @@ begin
       dm.sqlsisAdimin.StartTransaction(TD);
       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
       Try
-         dm.sqlsisAdimin.Commit(TD);
+        dm.sqlsisAdimin.Commit(TD);
+
+        // Gravando o Estoque
+        Try
+          FEstoque := TEstoque.Create;
+          cds_Mov_det.First;
+          While not cds_Mov_det.Eof do
+          begin
+            FEstoque.QtdeEntrada := cds_Mov_detQUANTIDADE.AsFloat;
+            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+            FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+            FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+            FEstoque.inserirMes;
+            cds_Mov_det.Next;
+          end;
+        Finally
+          FEstoque.Free;
+        end;
+
       except
          dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
          MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
@@ -853,6 +874,24 @@ begin
       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
       Try
          dm.sqlsisAdimin.Commit(TD);
+        // Gravando o Estoque
+        Try
+          FEstoque := TEstoque.Create;
+          cds_Mov_det.First;
+          While not cds_Mov_det.Eof do
+          begin
+            FEstoque.QtdeSaida   := cds_Mov_detQUANTIDADE.AsFloat;
+            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+            FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+            FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+            FEstoque.inserirMes;
+            cds_Mov_det.Next;
+          end;
+        Finally
+          FEstoque.Free;
+        end;
       except
          dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
          MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
@@ -931,18 +970,59 @@ end;
 
 procedure TfEntra_Sai_estoque.btnExcluirClick(Sender: TObject);
 var deleta, delmov, delmovprim, delvenprim: string;
+  FEstoque : TEstoque;
 begin
   MessageDlg('Tem certeza que Deseja Excluir?', mtConfirmation, [mbYes, mbNo], 0);
   if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
   begin
-     deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
-     delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+    deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
+    delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+    Try
+      FEstoque := TEstoque.Create;
+      // Gravando o Estoque
+      cds_Mov_det.First;
+      While not cds_Mov_det.Eof do
+      begin
+        FEstoque.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+        FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+        FEstoque.inserirMes;
+        cds_Mov_det.Next;
+      end;
+    Finally
+      FEstoque.Free;
+    end;
+
   end;
 
   if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
   begin
-     deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
-     delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+    deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+    delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+
+    Try
+      FEstoque := TEstoque.Create;
+      // Gravando o Estoque
+      cds_Mov_det.First;
+      While not cds_Mov_det.Eof do
+      begin
+        FEstoque.QtdeSaida   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+        FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+        FEstoque.inserirMes;
+        cds_Mov_det.Next;
+      end;
+    Finally
+      FEstoque.Free;
+    end;
+
+
   end;
 
   deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
@@ -962,6 +1042,8 @@ begin
   DM.sqlsisAdimin.ExecuteDirect(delmov);
   DM.sqlsisAdimin.ExecuteDirect(delvenprim);
   DM.sqlsisAdimin.ExecuteDirect(delmovprim);
+
+
 
   cds_Movimento.Close;
   cds_Mov_det.close;
