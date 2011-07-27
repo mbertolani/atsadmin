@@ -1,4 +1,3 @@
-SET TERM   ^  ;
 CREATE OR ALTER PROCEDURE COTACAO_NEGOCIACAO 
  (CODIGO INTEGER)
 RETURNS 
@@ -72,9 +71,11 @@ AS
   DECLARE VARIABLE FRETE4 DOUBLE PRECISION;
   DECLARE VARIABLE FRETE5 DOUBLE PRECISION;
   DECLARE VARIABLE FRETE6 DOUBLE PRECISION;
+  DECLARE VARIABLE FRETE7 DOUBLE PRECISION;
+  DECLARE VARIABLE FRETE8 DOUBLE PRECISION;  
 BEGIN
   numFornec = 0;
-  -- Lista todos os fornecedores com CotaÃ§Ãµes em aberto para o item 
+  -- Lista todos os fornecedores com Cotações em aberto para o item 
   FOR SELECT DISTINCT COTACAO_FORNEC
     FROM COMPRA_COTACAO
    WHERE COTACAO_CODIGO = :CODIGO
@@ -151,7 +152,7 @@ BEGIN
 
   end  
   
-  --Busca todos as cotaÃ§oes para o fornecedor
+  --Busca todos as cotaçoes para o fornecedor
   TOTAL = 0;
   T1    = 0; 
   T2    = 0;
@@ -206,6 +207,8 @@ BEGIN
        AND COTACAO_CODIGO = :CODIGO
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO4, :TOT4;
+      
+    T4 = T4 + TOT4;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO * COTACAO_QTDE)) TOTAL
       FROM COMPRA_COTACAO
@@ -213,6 +216,8 @@ BEGIN
        AND COTACAO_CODIGO = :CODIGO-- AND COTACAO_SITUACAO = 'G'
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO5, :TOT5;
+      
+    T5 = T5 + TOT5;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO * COTACAO_QTDE)) TOTAL
       FROM COMPRA_COTACAO
@@ -220,6 +225,8 @@ BEGIN
        AND COTACAO_CODIGO = :CODIGO-- AND COTACAO_SITUACAO = 'G'
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO6, :TOT6;
+      
+    T6 = T6 + TOT6;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO * COTACAO_QTDE)) TOTAL
       FROM COMPRA_COTACAO
@@ -227,6 +234,8 @@ BEGIN
        AND COTACAO_CODIGO = :CODIGO-- AND COTACAO_SITUACAO = 'G'
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO7, :TOT7;
+      
+    T7 = T7 + TOT7;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO * COTACAO_QTDE)) TOTAL
       FROM COMPRA_COTACAO
@@ -234,6 +243,8 @@ BEGIN
        AND COTACAO_CODIGO = :CODIGO-- AND COTACAO_SITUACAO = 'G'
        AND COTACAO_ITEM     = :codPro
       INTO :PRECO8, :TOT8;
+    
+    T8 = T8 + TOT8;
 
     suspend;
     
@@ -244,6 +255,11 @@ BEGIN
   PRECO1 = null;
   PRECO2 = null;
   PRECO3 = null;
+  PRECO4 = null;
+  PRECO5 = null;
+  PRECO6 = null;
+  PRECO7 = null;
+  PRECO8 = null;
   qtde   = null;
   tot1   = null;
   tot2   = null;
@@ -267,6 +283,8 @@ BEGIN
   TOT4 = FRETE4;
   TOT5 = FRETE5;
   TOT6 = FRETE6;
+  TOT7 = FRETE7;
+  TOT8 = FRETE8;
  -- if (numFornec = 3) then     
  --   PRECO3 = FRETE;
   
@@ -276,10 +294,20 @@ BEGIN
   DESCRICAO = '';
   PRECO1 = null;
   PRECO2 = null;
-  --PRECO3 = null;
+  PRECO3 = null;
+  PRECO4 = null;
+  PRECO5 = null;
+  PRECO6 = null;
+  PRECO7 = null;
+  PRECO8 = null;
   tot1   = null;
   tot2   = null;
   tot3   = null;
+  tot4   = null;
+  tot5   = null;
+  tot6   = null;
+  tot7   = null;
+  tot8   = null;
   
   SUSPEND;
   
@@ -291,6 +319,8 @@ BEGIN
   TOT4 = T4+FRETE4;
   TOT5 = T5+FRETE5;
   TOT6 = T6+FRETE6;
+  TOT7 = T7+FRETE7;
+  TOT8 = T8+FRETE8;
   
   SUSPEND;
 
