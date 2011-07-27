@@ -2483,6 +2483,11 @@ inherited fCompra: TfCompra
       FieldName = 'DESCPRODUTO'
       Size = 300
     end
+    object cds_Mov_detSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2502,17 +2507,17 @@ inherited fCompra: TfCompra
   end
   object sds_Mov_Det: TSQLDataSet
     CommandText = 
-      'select movd.CODDETALHE, movd.CODMOVIMENTO, movd.CODPRODUTO, movd' +
-      '.ICMS, movd.PRECO, movd.QUANTIDADE, movd.QTDE_ALT, movd.UN, movd' +
-      '.BAIXA'#13#10', movd.CONTROLE, movd.COD_COMISSAO, movd.LOTE, movd.DTAF' +
-      'AB, movd.DTAVCTO, movd.DESCPRODUTO, prod.CODPRO,prod.PRODUTO, pr' +
-      'od.CODALMOXARIFADO, '#13#10'prod.VALORUNITARIOATUAL, prod.QTDE_PCT, cc' +
-      'us.ALMOXARIFADO, prod.CONTA_DESPESA, prod.RATEIO , prod.PESO_QTD' +
-      'E from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on prod.C' +
-      'ODPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus ' +
-      'on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDE' +
-      'TALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order by mov' +
-      'd.CODDETALHE'
+      'select movd.CODDETALHE, movd.CODMOVIMENTO, movd.STATUS, movd.COD' +
+      'PRODUTO, movd.ICMS, movd.PRECO, movd.QUANTIDADE, movd.QTDE_ALT, ' +
+      'movd.UN, movd.BAIXA'#13#10', movd.CONTROLE, movd.COD_COMISSAO, movd.LO' +
+      'TE, movd.DTAFAB, movd.DTAVCTO, movd.DESCPRODUTO, prod.CODPRO,pro' +
+      'd.PRODUTO, prod.CODALMOXARIFADO, '#13#10'prod.VALORUNITARIOATUAL, prod' +
+      '.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA, prod.RATEIO , ' +
+      'prod.PESO_QTDE from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS p' +
+      'rod on prod.CODPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOX' +
+      'ARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'whe' +
+      're movd.CODDETALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV' +
+      ' order by movd.CODDETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -2631,6 +2636,11 @@ inherited fCompra: TfCompra
     object sds_Mov_DetDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 300
+    end
+    object sds_Mov_DetSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
     end
   end
   object s_8: TSQLDataSet

@@ -530,6 +530,8 @@ type
     sds_MovimentoCODPEDIDO: TIntegerField;
     cds_MovimentoCODPEDIDO: TIntegerField;
     sqlCusto: TSQLQuery;
+    sds_Mov_DetSTATUS: TStringField;
+    cds_Mov_detSTATUS: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -1444,8 +1446,8 @@ begin
   if (not dm.scds_produto_proc.Active) then
   begin
     dm.scds_produto_proc.Params[0].Clear;
-    dm.scds_produto_proc.Params[1].Clear;
-    dm.scds_produto_proc.Params[2].AsString:=dbeProduto.Text;
+    //dm.scds_produto_proc.Params[1].Clear;
+    dm.scds_produto_proc.Params[1].AsString:=dbeProduto.Text;
     dm.scds_produto_proc.Open;
   end;
   if dm.scds_produto_procLOTES.AsString = 'S' then

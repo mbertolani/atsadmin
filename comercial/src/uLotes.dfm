@@ -403,13 +403,16 @@ inherited fLotes: TfLotes
   end
   object sdslote: TSQLDataSet
     CommandText = 
-      'SELECT lote.*, prod.PRODUTO, prod.CODPRO FROM LOTES lote '#13#10'inner' +
-      ' join PRODUTOS prod on prod.codproduto = lote.CODPRODUTO WHERE l' +
-      'ote.codproduto = :codpro and lote.ESTOQUE > 0.009'
+      'SELECT 1 CODLOTE, lote.LOTE, lote.CODPRODUTO, lote.MESANO DATAFA' +
+      'BRICACAO, lote.MESANO DATAVENCIMENTO, '#13#10'lote.SALDOESTOQUE ESTOQU' +
+      'E, lote.PRECOCUSTO PRECO, lote.LOTE NOTAFISCAL, 1 SERIEINI, 2 SE' +
+      'RIEFIM , prod.PRODUTO, prod.CODPRO FROM ESTOQUEMES lote '#13#10'inner ' +
+      'join PRODUTOS prod on prod.codproduto = lote.CODPRODUTO WHERE lo' +
+      'te.codproduto = :codpro and lote.SALDOESTOQUE > 0.009'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'codpro'
         ParamType = ptInput
       end>
