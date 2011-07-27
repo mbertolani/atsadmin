@@ -194,7 +194,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 690
+    Width = 698
     Height = 60
     Align = alTop
     BevelInner = bvLowered
@@ -1258,8 +1258,8 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 508
-    Width = 690
+    Top = 519
+    Width = 698
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
