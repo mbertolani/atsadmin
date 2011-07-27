@@ -390,6 +390,8 @@ type
     Label20: TLabel;
     sds_MovimentoCODPEDIDO: TIntegerField;
     cds_MovimentoCODPEDIDO: TIntegerField;
+    sds_Mov_DetSTATUS: TStringField;
+    cds_Mov_detSTATUS: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);

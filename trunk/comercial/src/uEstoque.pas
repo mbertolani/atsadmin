@@ -30,6 +30,7 @@ type
     mesAnoPosterior : TDateTime;
     temMesPosterior: Boolean;
     function getCodProduto: Integer;
+    function getCodDetalhe: Integer;
     function getLote: String;
     function getUn: String;
     function getMesAno: TDateTime;
@@ -49,6 +50,7 @@ type
     function getPrecoVenda: Double;
     function getSaldoAnterior: Double;
     procedure setCodProduto(const Value: Integer);
+    procedure setCodDetalhe(const Value: Integer);
     procedure setMesAno(const Value: TDateTime);
     procedure setMesAnoPost(const Value: TDateTime);
     procedure setCentroCusto(const Value: Integer);
@@ -74,6 +76,7 @@ type
   protected
     //Atributos
     _codProduto: Integer;
+    _codDetalhe: Integer;
     _lote: String;
     _mesano: TDateTime;
     _un: String;
@@ -94,6 +97,7 @@ type
     _mesAnoPost: TDateTime;
   public
     property CodProduto: Integer read getCodProduto write setCodProduto;
+    property CodDetalhe: Integer read getCodDetalhe write setCodDetalhe;
     property MesAno: TDateTime read getMesAno write setMesAno;
     property MesAnoPost: TDateTime read getMesAno write setMesAno;
     property CentroCusto: Integer read getCentroCusto write setCentroCusto;
@@ -233,6 +237,11 @@ end;
 function TEstoque.getCentroCusto: Integer;
 begin
   Result := _centroCusto;
+end;
+
+function TEstoque.getCodDetalhe: Integer;
+begin
+  Result := _codDetalhe;
 end;
 
 function TEstoque.getCodProduto: Integer;
@@ -429,6 +438,8 @@ begin
       sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(Self.CodProduto);
       dm.sqlsisAdimin.ExecuteDirect(sqlStr);
 
+      sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr('9') + ' WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
+      dm.sqlsisAdimin.ExecuteDirect(sqlStr);
 
       Result := True;
     Except
@@ -549,6 +560,11 @@ end;
 procedure TEstoque.setCentroCusto(const Value: Integer);
 begin
   _centroCusto := Value;
+end;
+
+procedure TEstoque.setCodDetalhe(const Value: Integer);
+begin
+  _codDetalhe := Value;
 end;
 
 procedure TEstoque.setCodProduto(const Value: Integer);
