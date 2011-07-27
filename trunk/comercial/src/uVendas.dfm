@@ -2152,7 +2152,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2206,7 +2206,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
