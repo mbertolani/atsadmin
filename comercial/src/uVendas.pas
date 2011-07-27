@@ -1564,6 +1564,17 @@ end;
 
 procedure TfVendas.btnGravarClick(Sender: TObject);
 begin
+  // Se Venda ja Finalizada não permite alteração sem excluir a Finalizacao
+  // Isto é necessario para não atrapalhar o estoque
+  if dm.scds_venda_proc.Active then
+    dm.scds_venda_proc.Close;
+  dm.scds_venda_proc.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  dm.scds_venda_proc.Open;
+  if (not dm.scds_venda_proc.IsEmpty) then
+  begin
+    MessageDlg('Venda finalizada, não é possivel executar a alteração.', mtWarning, [mbOk], 0);
+    exit;
+  end;
    valida := 'S';
    //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
    if(DBEdit15.Text <> '') then
@@ -1905,7 +1916,7 @@ begin
     MessageDlg('Pedido/Venda Cancelado', mtWarning, [mbOK], 0);
     exit;
   end;
-  
+
   compra := StrToFloat(cds_Mov_detTotalPedido.AsString);
 
   if Dm.cds_parametro.Active then
@@ -1977,7 +1988,7 @@ begin
   end;
 
   fFiltroMovimento.Edit3.Text := '3';
-  
+
   if (not cds_ccusto.Active) then
       cds_ccusto.Open;
   cds_ccusto.First;

@@ -763,6 +763,17 @@ end;
 
 procedure TfCompra.btnGravarClick(Sender: TObject);
 begin
+  //Não é permitido alteração em Compra ja finalizada
+  if(DMNF.cds_compra.Active) then
+    DMNF.cds_compra.Close;
+  DMNF.cds_compra.Params.ParamByName('CODcompra').Clear;
+  DMNF.cds_compra.Params.ParamByName('PCODMOV').AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  DMNF.cds_compra.Open;
+  if(not DMNF.cds_compra.IsEmpty) then
+  begin
+    MessageDlg('Compra finalizada, não é possivel executar a alteração.', mtWarning, [mbOk], 0);
+    exit;
+  end;
 
   if (dm.AprovaCompra = 'S') then
   begin
