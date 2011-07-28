@@ -699,7 +699,7 @@ begin
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   if (ordenar = '') then
   begin
-  VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi + 'order by mov.CODMOVIMENTO DESC'
+  VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi + ' order by mov.CODMOVIMENTO DESC'
   end else
   VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi + ' order by '+ ordenar ;
   VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
