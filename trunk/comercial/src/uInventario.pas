@@ -96,6 +96,7 @@ type
     procedure JvDBGrid3CellClick(Column: TColumn);
     procedure dsInventStateChange(Sender: TObject);
     procedure JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
+    procedure btnGravarClick(Sender: TObject);
   private
     { Private declarations }
     TD: TTransactionDesc;
@@ -177,6 +178,7 @@ begin
     'inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
     cdsInvent.Open;
     if (cdsInvent.IsEmpty) then
+    begin
       if ((Dta.Text <> '  /  /    ') and  (edLista.Text <> '')) then
       begin
         if MessageDlg('Não existe esta Lista, criar uma ?',mtConfirmation,
@@ -184,8 +186,12 @@ begin
         begin
           cdsInvent.Append;
           cdsInventCODIVENTARIO.AsString := edLista.text;
+          btnGravar.Enabled := True;          
         end;
       end;
+    end
+    else
+      btnGravar.Enabled := True;
   end
   else
   begin
@@ -213,6 +219,9 @@ begin
 
     cdsListaInventario.CommandText := 'SELECT distinct i.CODIVENTARIO, i.DATAIVENTARIO FROM INVENTARIO i ' + sqlb;
     cdsListaInventario.Open;
+
+    btnGravar.Enabled := False;
+
     if (cdsListaInventario.IsEmpty) then
     begin
       if MessageDlg('Não existe esta Lista, criar uma ?',mtConfirmation,
@@ -220,6 +229,7 @@ begin
       begin
         cdsInvent.Append;
         cdsInventCODIVENTARIO.AsString := edLista.text;
+        btnGravar.Enabled := True;
       end;
     end;
 
@@ -397,8 +407,15 @@ begin
 end;
 
 procedure TfInventario.btnImprimirClick(Sender: TObject);
+var str, credec: string;
 begin
  // inherited;
+    credec := Copy(cdsInvent.IndexName, 0, 3);
+    str := cdsInvent.CommandText;
+    if( credec = 'asc') then
+      str := str  + ' order by ' + Copy(cdsInvent.IndexName, 5, 20)
+    else if( credec = 'des') then
+      str := str + ' order by ' + Copy(cdsInvent.IndexName, 6, 20) + ' desc';
     VCLReport1.Filename := str_relatorio + 'inventario.rep';
     VCLReport1.Title := VCLReport1.Filename;
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
@@ -468,6 +485,7 @@ begin
   cdsInvent.Open;
   edLista.Text := cdsListaInventarioCODIVENTARIO.AsString;
   Dta.Text := DateToStr(cdsListaInventarioDATAIVENTARIO.AsDateTime);
+  btnGravar.Enabled := True;  
 end;
 
 procedure TfInventario.dsInventStateChange(Sender: TObject);
@@ -503,6 +521,35 @@ begin
     end;
     if (not cdsInvent.Eof) then
       cdsInvent.Next;
+  end;
+end;
+
+procedure TfInventario.btnGravarClick(Sender: TObject);
+var Sql1: String;
+begin
+  if (cdsInvent.State in [dsInsert, dsEdit]) then
+  begin
+    cdsInvent.ApplyUpdates(0);
+  end;
+  cdsInvent.First;
+  while not cdsInvent.Eof do
+  begin
+    Try
+      DecimalSeparator := '.';
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Sql1 := 'UPDATE INVENTARIO SET QTDE_INVENTARIO = ' +
+        FloatToStr(cdsInventQTDE_INVENTARIO.AsFloat) + ' WHERE CODIVENTARIO = ' +
+        QuotedStr(cdsInventCODIVENTARIO.AsString) +
+        ' AND CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(sql1);
+      DecimalSeparator := ',';
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro ao Gravar o Inventário', mtError, [mbOK], 0);
+      Exit;
+    end;
+    cdsInvent.Next;
   end;
 end;
 
