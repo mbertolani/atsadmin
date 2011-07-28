@@ -15,20 +15,21 @@ inherited fInventario: TfInventario
     Top = 543
     Width = 803
     inherited btnGravar: TBitBtn
-      Left = 183
-      Visible = False
+      Left = 298
+      Caption = 'Gravar'
+      Enabled = False
     end
     inherited btnIncluir: TBitBtn
-      Left = 543
+      Left = 539
       Caption = 'Executar'
     end
     inherited btnCancelar: TBitBtn
-      Left = 426
+      Left = 418
       Caption = 'Cancelar'
       Visible = False
     end
     inherited btnExcluir: TBitBtn
-      Left = 426
+      Left = 418
       Caption = 'Excluir Lista'
     end
     inherited btnProcurar: TBitBtn
@@ -36,11 +37,11 @@ inherited fInventario: TfInventario
       Visible = False
     end
     inherited btnSair: TBitBtn
-      Left = 661
+      Left = 662
     end
     object btnImprimir: TBitBtn
-      Left = 314
-      Top = 4
+      Left = 187
+      Top = 6
       Width = 87
       Height = 41
       BiDiMode = bdLeftToRight
