@@ -228,6 +228,7 @@ begin
               FEst.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
               FEst.PrecoCompra := cds_Mov_detPRECO.AsFloat;
               FEst.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+              FEst.Status      := '0';
               FEst.inserirMes;
             end;
             cds_Mov_det.Next;
