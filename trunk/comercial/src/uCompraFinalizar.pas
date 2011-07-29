@@ -609,6 +609,7 @@ begin
           FEstoque.MesAno      := cds_compraDATACOMPRA.AsDateTime;
           FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
           FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+          FEstoque.Status      := '9';
           FEstoque.inserirMes;
         end;  
         cds_Mov_det.Next;

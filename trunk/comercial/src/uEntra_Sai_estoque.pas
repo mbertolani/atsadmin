@@ -382,6 +382,8 @@ type
     cds_movMatCODORIGEM: TIntegerField;
     sMatPrima: TSQLDataSet;
     sMatPrimaCODMOVIMENTO: TIntegerField;
+    sds_Mov_DetSTATUS: TStringField;
+    cds_Mov_detSTATUS: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -545,8 +547,8 @@ procedure TfEntra_Sai_estoque.btnCancelarClick(Sender: TObject);
 begin
   DtSrc.DataSet.Cancel;
   DtSrc1.DataSet.Cancel;
-  DtSrc.DataSet.Close;
-  DtSrc1.DataSet.Close;
+  //DtSrc.DataSet.Close;
+  //DtSrc1.DataSet.Close;
 end;
 
 procedure TfEntra_Sai_estoque.btnGravarClick(Sender: TObject);
@@ -554,6 +556,12 @@ var   FEstoque: TEstoque;
   sql_sp: string;
   TD: TTransactionDesc;
 begin
+  if (DtSrc1.State in [dsEdit]) then
+  begin
+    MessageDlg('Para alterar um item, exclua-o e faça a inclusão novamente!', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
 
@@ -815,13 +823,18 @@ begin
           cds_Mov_det.First;
           While not cds_Mov_det.Eof do
           begin
-            FEstoque.QtdeEntrada := cds_Mov_detQUANTIDADE.AsFloat;
-            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-            FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-            FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-            FEstoque.inserirMes;
+            if (cds_Mov_detSTATUS.IsNull) then
+            begin
+              FEstoque.QtdeEntrada := cds_Mov_detQUANTIDADE.AsFloat;
+              FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+              FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+              FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+              FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+              FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+              FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+              FEstoque.Status      := '9';
+              FEstoque.inserirMes;
+            end;  
             cds_Mov_det.Next;
           end;
         Finally
@@ -886,6 +899,8 @@ begin
             FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
             FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
             FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+            FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+            FEstoque.Status      := '9';
             FEstoque.inserirMes;
             cds_Mov_det.Next;
           end;
@@ -952,7 +967,10 @@ begin
        sds_s.Fields[1].AsInteger;
     end;
   except
-    MessageDlg('Erro ao gravar !', mtError, [mbOK], 0);
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+    end;
   end;
   {------Pesquisando na tab Parametro qual form de Procura Produtos ---}
   if Dm.cds_parametro.Active then
@@ -989,6 +1007,7 @@ begin
         FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
         FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
         FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
         FEstoque.inserirMes;
         cds_Mov_det.Next;
       end;
@@ -1015,6 +1034,7 @@ begin
         FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
         FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
         FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
         FEstoque.inserirMes;
         cds_Mov_det.Next;
       end;
@@ -1062,7 +1082,7 @@ end;
 procedure TfEntra_Sai_estoque.btnNovoClick(Sender: TObject);
 begin
   try
-    if DtSrc1.State in [dsInsert, dsEdit] then
+    if DtSrc1.State in [dsInsert] then
     begin
       DtSrc1.DataSet.Post;
       DtSrc1.DataSet.Append;
@@ -1080,6 +1100,7 @@ end;
 
 procedure TfEntra_Sai_estoque.BitBtn8Click(Sender: TObject);
 // Var str_del: String;
+var FEst: TEstoque;
 begin
 {  str_del := 'DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ';
   str_del := str_del + IntToStr(cds_Mov_detCODDETALHE.AsInteger);
@@ -1100,7 +1121,48 @@ begin
 
   if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detPRODUTO.AsString + '''?',
     mtConfirmation, [mbYes, mbNo],0) = mrYes then
-     DtSrc1.DataSet.Delete;
+  begin
+    try
+      if (cds_Mov_detSTATUS.AsString = '9') then
+      begin
+        // Item ja Lancado no Estoque baixa-lo;
+        // Gravando o Estoque
+        Try
+          FEst := TEstoque.Create;
+          if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
+          begin
+            FEst.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+            FEst.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+          end;
+
+          if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
+          begin
+            FEst.QtdeSaida := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+            FEst.PrecoVenda := cds_Mov_detPRECO.AsFloat;
+          end;
+
+          FEst.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+          FEst.Lote        := cds_Mov_detLOTE.AsString;
+          FEst.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+          FEst.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          FEst.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+          FEst.inserirMes;
+        Finally
+          FEst.Free;
+        end;
+
+      end;
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ' + InttoStr(cds_Mov_detCODDETALHE.AsInteger));
+      //DtSrc1.DataSet.Delete;
+      cds_Mov_det.Close;
+      cds_Mov_det.Open;
+    Except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      end;
+    end;
+  end;
 
   if cds_Movimento.State in [dsBrowse] then
      cds_Movimento.Edit;
@@ -1301,6 +1363,7 @@ begin
  fFiltroEstoque := TfFiltroEstoque.Create(Application);
  form_1 := 1;
  try
+   fFiltroEstoque.btnSair.Caption := 'F9-Retornar';
    fFiltroEstoque.ShowModal;
    if (cds_Movimento.Active) then
        cds_Movimento.Close;

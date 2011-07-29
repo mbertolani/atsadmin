@@ -132,6 +132,10 @@ type
     sds_Mov_DetDESCRICAO: TStringField;
     cds_Mov_detDESCRICAO: TStringField;
     JvLabel1: TJvLabel;
+    sds_Mov_DetSTATUS: TStringField;
+    cds_Mov_detSTATUS: TStringField;
+    sds_Mov_DetLOTE: TStringField;
+    cds_Mov_detLOTE: TStringField;
     procedure btnSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -149,7 +153,7 @@ var
 
 implementation
 
-uses uComercial, UDm, uProcurar, uVendas, uCompra, sCtrlResize;
+uses uComercial, UDm, uProcurar, uVendas, uCompra, sCtrlResize, uEstoque;
 
 {$R *.dfm}
 
@@ -202,15 +206,62 @@ end;
 
 procedure TfPdm.btnExcluirClick(Sender: TObject);
 var deleta, delmov: string;
+  fEst: TEstoque;
 begin
-   if (cds_MovimentoCODNATUREZA.AsInteger < 3) then
-   begin
-     if (cds_MovimentoBAIXAMOVIMENTO.AsInteger = 0) then // Entrada
-       deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
+  try
+    if (cds_MovimentoCODNATUREZA.AsInteger < 3) then
+    begin
+      if (cds_MovimentoBAIXAMOVIMENTO.AsInteger = 0) then // Entrada
+      begin
+        deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
+        Try
+          cds_Mov_det.First;
+          While not cds_Mov_det.Eof do
+          begin
+            if (cds_Mov_detSTATUS.AsString = '9') then
+            begin
+              FEst := TEstoque.Create;
+              FEst.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+              FEst.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+              FEst.Lote        := cds_Mov_detLOTE.AsString;
+              FEst.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+              FEst.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+              FEst.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+              FEst.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+              FEst.inserirMes;
+            end;
+            cds_Mov_det.Next;
+          end;
+        Finally
+          FEst.Free;
+        end;
 
-     if (cds_MovimentoBAIXAMOVIMENTO.AsInteger = 1) then // Saída
-       deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
-
+      end;
+      if (cds_MovimentoBAIXAMOVIMENTO.AsInteger = 1) then // Saída
+      begin
+        deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+        Try
+          cds_Mov_det.First;
+          While not cds_Mov_det.Eof do
+          begin
+            if (cds_Mov_detSTATUS.AsString = '9') then
+            begin
+              FEst := TEstoque.Create;
+              FEst.QtdeSaida   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+              FEst.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+              FEst.Lote        := cds_Mov_detLOTE.AsString;
+              FEst.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+              FEst.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+              FEst.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+              FEst.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+              FEst.inserirMes;
+            end;
+            cds_Mov_det.Next;
+          end;
+        Finally
+          FEst.Free;
+        end;
+      end;
      deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
      delmov := 'Delete From MOVIMENTO WHERE CODMOVIMENTO = ';
      delmov := delmov + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
@@ -226,6 +277,14 @@ begin
      if (not cds_Mov_detDESCRICAO.IsNull) then
        DBGrid1.Columns[1].FieldName := 'DESCRICAO';
     end;
+
+  Except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+    end;
+  end;
+
 end;
 
 end.
