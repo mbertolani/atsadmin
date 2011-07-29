@@ -452,6 +452,12 @@ begin
         sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr(Self.Status) + ' WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
         dm.sqlsisAdimin.ExecuteDirect(sqlStr);
       end;
+      if (Self.Status = '0') then   // Excluido a Finalizacao
+      begin
+        sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = null WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
+        dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+      end;
+
       Result := True;
     Except
       DecimalSeparator := ',';
