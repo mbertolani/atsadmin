@@ -1226,6 +1226,7 @@ begin
               FEstoque.MesAno      := dataVenda;
               FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
               FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+              FEstoque.Status      := '0';
               FEstoque.inserirMes;
             end;
             cds_Mov_det.Next;
@@ -1251,7 +1252,7 @@ begin
              (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
              ShowMessage('Venda Excluida com Suscesso');
            except
-             ShowMessage('Erro ao Excluir a Venda');
+             ShowMessage('Erro para excluir venda.');
            end;
          end;
 
@@ -1278,6 +1279,7 @@ begin
               FEstoque.MesAno      := dataVenda;
               FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
               FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+              FEstoque.Status      := '0';
               FEstoque.inserirMes;
             end;
             cds_Mov_det.Next;
