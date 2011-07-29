@@ -33,6 +33,7 @@ type
     function getCodDetalhe: Integer;
     function getLote: String;
     function getUn: String;
+    function getStatus: String;
     function getMesAno: TDateTime;
     function getMesAnoPost: TDateTime;
     function getCentroCusto: Integer;
@@ -56,6 +57,7 @@ type
     procedure setCentroCusto(const Value: Integer);
     procedure setLote(const Value: String);
     procedure setUn(const Value: String);
+    procedure setStatus(const Value: String);
     procedure setQtdeCompra(const Value: Double);
     procedure setQtdeVenda(const Value: Double);
     procedure setQtdeInventario(const Value: Double);
@@ -80,6 +82,7 @@ type
     _lote: String;
     _mesano: TDateTime;
     _un: String;
+    _status: String;     // Grava 9 na Movimento Detalhe qdo o Movto Detalhe foi Inserido
     _qtdeCompra: Double;
     _qtdeVenda: Double;
     _qtdeEntrada: Double;
@@ -87,7 +90,7 @@ type
     _qtdeDevCompra: Double;
     _qtdeDevVenda: Double;
     _qtdePerda: Double;
-    _qtdeInventario: Double;    
+    _qtdeInventario: Double;
     _precoCusto: Double;
     _precoCompra: Double;
     _precoCompraUltima: Double;
@@ -103,9 +106,10 @@ type
     property CentroCusto: Integer read getCentroCusto write setCentroCusto;
     property Lote: String read getLote write setLote;
     property Un: String read getUn write setUn;
+    property Status: String read getStatus write setStatus;
     property QtdeCompra: Double read getQtdeCompra write setQtdeCompra;
     property QtdeVenda: Double read getQtdeVenda write setQtdeVenda;
-    property QtdeInventario: Double read getQtdeInventario write setQtdeInventario;    
+    property QtdeInventario: Double read getQtdeInventario write setQtdeInventario;
     property QtdeEntrada: Double read getQtdeEntrada write setQtdeEntrada;
     property QtdeSaida: Double read getQtdeSaida write setQtdeSaida;
     property QtdePerda: Double read getQtdePerda write setQtdePerda;
@@ -354,6 +358,11 @@ begin
   Result := _saldoAnterior;
 end;
 
+function TEstoque.getStatus: String;
+begin
+  Result := _status;
+end;
+
 function TEstoque.getUn: String;
 begin
   Result := _un;
@@ -438,9 +447,11 @@ begin
       sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(Self.CodProduto);
       dm.sqlsisAdimin.ExecuteDirect(sqlStr);
 
-      sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr('9') + ' WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
-      dm.sqlsisAdimin.ExecuteDirect(sqlStr);
-
+      if (Self.Status = '9') then
+      begin
+        sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr(Self.Status) + ' WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
+        dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+      end;
       Result := True;
     Except
       DecimalSeparator := ',';
@@ -654,6 +665,11 @@ end;
 procedure TEstoque.setSaldoAnterior(const Value: Double);
 begin
   _saldoAnterior := Value;
+end;
+
+procedure TEstoque.setStatus(const Value: String);
+begin
+  _status := Trim(Value);
 end;
 
 procedure TEstoque.setUn(const Value: String);

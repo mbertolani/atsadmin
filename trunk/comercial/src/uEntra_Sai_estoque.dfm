@@ -1850,6 +1850,11 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     object cds_Mov_detPRECOCUSTO: TFloatField
       FieldName = 'PRECOCUSTO'
     end
+    object cds_Mov_detSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -1873,12 +1878,12 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       ' movd.UN'#13#10', movd.BAIXA'#13#10', movd.CONTROLE'#13#10', movd.COD_COMISSAO'#13#10', ' +
       'movd.LOTE'#13#10', movd.DTAFAB'#13#10', movd.DTAVCTO'#13#10', prod.CODPRO'#13#10', prod.' +
       'PRODUTO'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', pr' +
-      'od.QTDE_PCT'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPESA , prod.LO' +
-      'TES , movd.PRECOCUSTO'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join P' +
-      'RODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer joi' +
-      'n ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFA' +
-      'DO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCO' +
-      'DMOV'
+      'od.QTDE_PCT'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPESA '#13#10', prod.' +
+      'LOTES '#13#10', movd.PRECOCUSTO'#13#10', movd.STATUS'#13#10'from MOVIMENTODETALHE ' +
+      'movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODU' +
+      'TO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO =' +
+      ' prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDETALHE or mov' +
+      'd.CODMOVIMENTO=:pCODMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -1999,6 +2004,11 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     object sds_Mov_DetPRECOCUSTO: TFloatField
       FieldName = 'PRECOCUSTO'
       ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
     end
   end
   object PopupMenu1: TPopupMenu
