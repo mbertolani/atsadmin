@@ -64,6 +64,7 @@ type
     procedure abproc(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure DBEdit8Exit(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -322,6 +323,21 @@ end;
 procedure TfDetalheNF.DBEdit8Exit(Sender: TObject);
 begin
   dmnf.cds_Mov_detPRECO.AsFloat := dmnf.cds_Mov_detVLR_BASE.AsFloat;
+end;
+
+procedure TfDetalheNF.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if (dm.scds_produto_proc.Active) then
+  begin
+    dm.scds_produto_proc.Close;
+    dm.scds_produto_proc.CommandText := 'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
+    ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
+    ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
+    ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
+    ', RATEIO, conta_despesa , IPI '  +
+    'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+    ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') + ')';
+  end;
 end;
 
 end.
