@@ -99,8 +99,8 @@ object fPdm: TfPdm
     object Label9: TLabel
       Left = 260
       Top = -64
-      Width = 163
-      Height = 34
+      Width = 140
+      Height = 33
       Caption = 'Movimento'
       Font.Charset = ANSI_CHARSET
       Font.Color = clNavy
@@ -113,8 +113,8 @@ object fPdm: TfPdm
     object Label10: TLabel
       Left = 265
       Top = -63
-      Width = 163
-      Height = 34
+      Width = 140
+      Height = 33
       Caption = 'Movimento'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
@@ -144,7 +144,7 @@ object fPdm: TfPdm
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 416
+    Top = 423
     Width = 695
     Height = 46
     Align = alBottom
@@ -745,12 +745,13 @@ object fPdm: TfPdm
       '.ICMS, movd.PRECO, movd.QUANTIDADE, movd.QTDE_ALT, movd.UN, movd' +
       '.BAIXA, movd.CONTROLE,  movd.COD_COMISSAO, prod.CODPRO,prod.PROD' +
       'UTO, prod.CODALMOXARIFADO, prod.VALORUNITARIOATUAL, '#13#10'prod.QTDE_' +
-      'PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA  , mserv.DESCRICAO '#13#10 +
-      'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CO' +
-      'DPRODUTO=movd.CODPRODUTO '#13#10'left outer join mov_detalhe_serv mser' +
-      'v on mserv.codmovimento = movd.coddetalhe '#13#10'left outer join ALMO' +
-      'XARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'w' +
-      'here movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV'
+      'PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA  , mserv.DESCRICAO , ' +
+      'movd.STATUS , movd.LOTE'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join' +
+      ' PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer j' +
+      'oin mov_detalhe_serv mserv on mserv.codmovimento = movd.coddetal' +
+      'he '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO =' +
+      ' prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDETALHE or mov' +
+      'd.CODMOVIMENTO=:pCODMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -853,6 +854,15 @@ object fPdm: TfPdm
     object sds_Mov_DetDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 400
+    end
+    object sds_Mov_DetSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_Mov_DetLOTE: TStringField
+      FieldName = 'LOTE'
+      Size = 60
     end
   end
   object cds_Mov_det: TClientDataSet
@@ -968,6 +978,15 @@ object fPdm: TfPdm
     object cds_Mov_detDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 400
+    end
+    object cds_Mov_detSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_Mov_detLOTE: TStringField
+      FieldName = 'LOTE'
+      Size = 60
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify

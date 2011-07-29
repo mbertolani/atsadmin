@@ -557,6 +557,8 @@ begin
         FEstoque.CentroCusto := cdsExpedicaoCODALMOXARIFADO.AsInteger;
         FEstoque.MesAno      := cdsExpedicaoDATA_ENTREGA.AsDateTime;
         FEstoque.PrecoVenda  := cdsExpedicaoPRECO.AsFloat;
+        FEstoque.Status      := '9';
+        FEstoque.CodDetalhe  := cdsExpedicaoCODDETALHE.AsInteger;
         FEstoque.inserirMes;
         cdsExpedicao.Next;
       end;
