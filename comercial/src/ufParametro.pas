@@ -1709,14 +1709,24 @@ begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
-  strsql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, DADOS, D1, D2)' +
-    ' VALUES (' + QuotedStr('Margem de venda Minima permitida por Pedido') + ', ' +
-    QuotedStr('MARGEMVENDA') + ', ' + QuotedStr('S') + ', NULL,' + QuotedStr('30') +
-    ', NULL)';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'MARGEMVENDA';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strsql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, DADOS, D1, D2)' +
+      ' VALUES (' + QuotedStr('Margem de venda Minima permitida por Pedido') + ', ' +
+      QuotedStr('MARGEMVENDA') + ', ' + QuotedStr('S') + ', NULL,' + QuotedStr(MaskEdit4.Text) +
+      ', NULL)';
+  end
+  else
+    strsql := 'UPDATE PARAMETRO SET D1 = ' + QuotedStr(MaskEdit4.Text) + ' WHERE PARAMETRO = ' + QuotedStr('MARGEMVENDA');
+
   dm.sqlsisAdimin.ExecuteDirect(strsql);
   Try
      dm.sqlsisAdimin.Commit(TD);
-     MessageDlg('Margem Venda inserida com sucesso!', mtInformation,
+     MessageDlg('Margem Venda inserida ou alterada com sucesso!', mtInformation,
          [mbOk], 0);
   except
      dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
