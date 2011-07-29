@@ -2172,6 +2172,17 @@ begin
     cds_Veiculocli.Close;
   if cds_cm.Active then
     cds_cm.Close;
+  if (dm.scds_produto_proc.Active) then
+  begin
+    dm.scds_produto_proc.Close;
+    dm.scds_produto_proc.CommandText := 'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
+    ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
+    ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
+    ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
+    ', RATEIO, conta_despesa , IPI '  +
+    'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+    ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') + ')';
+  end;
 end;
 
 procedure TfVendas.DBEdit15Exit(Sender: TObject);
@@ -2648,7 +2659,7 @@ begin
   if (cds_Veiculocli.Active) then
     cds_Veiculocli.Close;
   cds_Veiculocli.Params[1].Clear;
-  cds_Veiculocli.Params[2].Clear;  
+  cds_Veiculocli.Params[2].Clear;
   cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
   cds_Veiculocli.Open;
   if (cds_Veiculocli.IsEmpty) then
