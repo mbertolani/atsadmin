@@ -60,7 +60,7 @@ type
     property DataMov     : TDateTime read getDataMov write setDataMov;
     //Metodos
     function inserirMovimento(): Integer;
-    function verMovimento(codMovV: Integer; codNat: Integer): Boolean;
+    function verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Boolean;
     function excluirMovimento(codMovE: Integer): Boolean;
     constructor Create;
     Destructor Destroy; Override;
@@ -250,7 +250,7 @@ begin
   _status := Value;
 end;
 
-function TMovimento.verMovimento(codMovV: Integer; codNat: Integer): Boolean;
+function TMovimento.verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Boolean;
 begin
   Try
     Result := False;
@@ -258,7 +258,15 @@ begin
     With dm.cdsBusca do begin
       Close;
       CommandText := 'SELECT * FROM MOVIMENTO';
-      CommandText := CommandText + ' WHERE CODMOVIMENTO = ' + IntToStr(codMovV);
+      if (Tipo = 'INTEGER') then
+      begin
+        CommandText := CommandText + ' WHERE ' + Campo + ' = ' + Controle;
+      end;
+      if (Tipo = 'STRING') then
+      begin
+        CommandText := CommandText + ' WHERE ' + Campo + ' = ' + QuotedStr(Controle);
+      end;
+
       CommandText := CommandText + '   AND CODNATUREZA  = ' + IntToStr(codNat);
       Open;
     end;
@@ -279,7 +287,8 @@ begin
       Result := True;
     end
     else
-      ShowMessage('Registro não encontrado');
+      //ShowMessage('Registro não encontrado');
+      Result := False;
   Except
     on E : Exception do
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);

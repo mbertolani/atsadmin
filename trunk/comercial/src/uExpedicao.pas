@@ -299,6 +299,7 @@ begin
   //TD.IsolationLevel := xilREADCOMMITTED;
   try
     cdsPedido.DisableControls;
+  try
     cdsPedido.First;
     cdsPedido.First;
     DecimalSeparator := '.';
@@ -306,7 +307,8 @@ begin
    // dm.sqlsisAdimin.StartTransaction(TD);
    Try
      fMov := TMovimento.Create;
-     jaInclui := fMov.verMovimento(cdsPedidoCODMOVIMENTO.AsInteger, 6);
+     fDet := TMovimentoDetalhe.Create;
+     jaInclui := fMov.verMovimento(edExpedicao.Text, 'CONTROLE',  'STRING', 6);
      if (jaInclui = False) then
      begin
        fMov.CodMov      := 0;
@@ -342,8 +344,9 @@ begin
         end;
       end;
       DecimalSeparator := ',';
-      dm.sqlsisAdimin.Commit(TD);
+      //dm.sqlsisAdimin.Commit(TD);
     Finally
+      fDet.Free;
       fMov.Free;
     end;
     {dm.sqlsisAdimin.StartTransaction(TD);
@@ -363,13 +366,15 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
     dm.sqlsisAdimin.Commit(TD);}
 
-    cdsPedido.EnableControls;
     MessageDlg('Recebimento Gravado com sucesso.', mtInformation, [mbOK], 0);
   except
     //dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para gravar o recebimento.', mtError, [mbOK], 0);
     DecimalSeparator := ',';
     exit;
+  end;
+  finally
+    cdsPedido.EnableControls;
   end;
   bitbtn2.Click;
   BitBtn3.Click;
