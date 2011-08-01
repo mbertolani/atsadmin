@@ -2396,28 +2396,11 @@ inherited fParametro: TfParametro
         object Label10: TLabel
           Left = 8
           Top = 20
-          Width = 84
+          Width = 610
           Height = 13
-          Caption = 'Utiliza Expedi'#231#227'o '
-        end
-        object cbExpedicao: TComboBox
-          Left = 133
-          Top = 20
-          Width = 55
-          Height = 21
-          ItemHeight = 13
-          TabOrder = 0
-          Items.Strings = (
-            'Sim'
-            'N'#227'o')
-        end
-        object BitBtn30: TBitBtn
-          Left = 677
-          Top = 19
-          Width = 75
-          Height = 25
-          Caption = 'Gravar'
-          TabOrder = 1
+          Caption = 
+            'Este parametro '#233' configurado em Natureza da Opera'#231#227'o, a Natureza' +
+            ' c'#243'digo 3 deve ter o campo BaixaMovimento alterado para 9'
         end
       end
     end
