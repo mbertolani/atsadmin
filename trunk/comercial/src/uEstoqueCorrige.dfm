@@ -97,11 +97,40 @@ object fEstoqueCorrige: TfEstoqueCorrige
     TabOrder = 3
     OnKeyPress = Edit1KeyPress
   end
+  object Button2: TButton
+    Left = 256
+    Top = 176
+    Width = 121
+    Height = 25
+    Caption = 'Executar EstoqueMes'
+    TabOrder = 5
+    OnClick = Button2Click
+  end
   object sqlQ: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 352
     Top = 72
+  end
+  object SQLDataSet1: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 24
+    Top = 168
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = SQLDataSet1
+    Options = [poAllowCommandText]
+    Left = 56
+    Top = 168
+  end
+  object cds: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider1'
+    Left = 88
+    Top = 168
   end
 end

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DBXpress, Mask, JvExMask, JvToolEdit, FMTBcd, DB,
-  SqlExpr;
+  SqlExpr, DBClient, Provider;
 
 type
   TfEstoqueCorrige = class(TForm)
@@ -21,8 +21,13 @@ type
     JvDateEdit2: TJvDateEdit;
     Label7: TLabel;
     sqlQ: TSQLQuery;
+    Button2: TButton;
+    SQLDataSet1: TSQLDataSet;
+    DataSetProvider1: TDataSetProvider;
+    cds: TClientDataSet;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,7 +39,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, UDMNF;
 
 {$R *.dfm}
 
@@ -93,6 +98,30 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;
+end;
+
+procedure TfEstoqueCorrige.Button2Click(Sender: TObject);
+var str: string;
+begin
+  if (cds.Active) then
+    cds.Close;
+  str := 'SELECT CODDETALHE, CODNATUREZA, ';
+  str := str + '  CASE WHEN m.CODNATUREZA < 3 THEN m.DATAMOVIMENTO';
+  str := str + '  WHEN m.CODNATUREZA = 3 THEN V.DATAVENDA';
+  str := str + '  WHEN m.CODNATUREZA = 4 THEN C.DATACOMPRA END DATAMOVIMENTO';
+  str := str + '  FROM MOVIMENTO m';
+  str := str + ' INNER JOIN MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO';
+  str := str + '  LEFT OUTER JOIN VENDA  V ON V.CODMOVIMENTO = M.CODMOVIMENTO';
+  str := str + '  LEFT OUTER JOIN COMPRA C ON C.CODMOVIMENTO = M.CODMOVIMENTO';
+  str := str + ' WHERE md.BAIXA is not null ' ;
+  str := str + '   AND m.CODNATUREZA < 5' ;
+  str := str + ' ORDER BY 3';
+  cds.CommandText := str;
+  cds.Open;
+  while not cds.Eof do
+  begin
+    
+  end;
 end;
 
 end.
