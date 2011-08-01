@@ -1183,6 +1183,7 @@ begin
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+    ACBrNFeDANFERave1.PathPDF := Edit1.Text;
     ACBrNFe1.NotasFiscais.ImprimirPDF;
   end;
 end;
@@ -1742,7 +1743,7 @@ end;
 
 procedure TfNFeletronica.getItens(contador: integer);
 var
-  BC, BCST : Variant;
+  BC, BCST, desc : Variant;
   valpis, valcofins : Variant;
 begin
    BC := 0;
@@ -1761,7 +1762,11 @@ begin
       Prod.uTrib    := sProdutosUNIDADEMEDIDA.AsString;
       Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
       Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
-      infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200);
+      desc := StrLen(PChar(MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)));
+      if ( desc > 0) then
+        infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)
+      else
+        infAdProd     := '';
       Prod.NCM      := sProdutosNCM.AsString;
       Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
       Prod.vFrete   := cdsItensNFFRETE.AsCurrency;
@@ -1863,49 +1868,29 @@ begin
           //90 OUTROS
 
           if (cdsItensNFCST.AsString = '000') then
-          begin
+            CST := cst00
+          else if (cdsItensNFCST.AsString = '010') then
+            CST := cst10
+          else if (cdsItensNFCST.AsString = '020')then
+            CST := cst20
+          else if (cdsItensNFCST.AsString = '030') then
+            CST := cst30
+          else if (cdsItensNFCST.AsString = '040') then
+            CST :=  cst40
+          else if (cdsItensNFCST.AsString = '041') then
+            CST :=  cst41
+          else if (cdsItensNFCST.AsString = '050') then
+            CST :=  cst50
+          else if (cdsItensNFCST.AsString = '051') then
+            CST := cst51
+          else if (cdsItensNFCST.AsString = '060') then
+            CST := cst60
+          else if (cdsItensNFCST.AsString = '070') then
+            CST := cst70
+          else if (cdsItensNFCST.AsString = '090') then
+            CST := cst90
+          else
             CST := cst00;
-          end;
-          if (cdsItensNFCST.AsString = '010') then
-          begin
-            CST := cst10;
-          end;
-          if (cdsItensNFCST.AsString = '020')then
-          begin
-            CST := cst20;
-          end;
-          if (cdsItensNFCST.AsString = '030') then
-          begin
-            CST := cst30;
-          end;
-          if (cdsItensNFCST.AsString = '040') then
-          begin
-            CST :=  cst40;
-          end;
-          if (cdsItensNFCST.AsString = '041') then
-          begin
-            CST :=  cst41;
-          end;
-          if (cdsItensNFCST.AsString = '050') then
-          begin
-            CST :=  cst50;
-          end;
-          if (cdsItensNFCST.AsString = '051') then
-          begin
-            CST := cst51;
-          end;
-          if (cdsItensNFCST.AsString = '060') then
-          begin
-            CST := cst60;
-          end;
-          if (cdsItensNFCST.AsString = '070') then
-          begin
-            CST := cst70;
-          end;
-          if (cdsItensNFCST.AsString = '090') then
-          begin
-            CST := cst90;
-          end;
 
           orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
           modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
@@ -1930,41 +1915,24 @@ begin
         with PIS do
         begin
           if (sCFOPCSTPIS.AsString = '01') then
-          begin
-            CST   := pis01;
-          end;
-          if (sCFOPCSTPIS.AsString = '02') then
-          begin
-            CST   := pis02;
-          end;
-          if (sCFOPCSTPIS.AsString = '03') then
-          begin
-            CST   := pis03;
-          end;
-          if (sCFOPCSTPIS.AsString = '04') then
-          begin
-            CST   := pis04;
-          end;
-          if (sCFOPCSTPIS.AsString = '06') then
-          begin
-            CST   := pis06;
-          end;
-          if (sCFOPCSTPIS.AsString = '07') then
-          begin
-            CST   := pis07;
-          end;
-          if (sCFOPCSTPIS.AsString = '08') then
-          begin
-            CST   := pis08;
-          end;
-          if (sCFOPCSTPIS.AsString = '09') then
-          begin
-            CST   := pis09;
-          end;
-          if (sCFOPCSTPIS.AsString = '99') then
-          begin
+            CST   := pis01
+          else if (sCFOPCSTPIS.AsString = '02') then
+            CST   := pis02
+          else if (sCFOPCSTPIS.AsString = '03') then
+            CST   := pis03
+          else if (sCFOPCSTPIS.AsString = '04') then
+            CST   := pis04
+          else if (sCFOPCSTPIS.AsString = '06') then
+            CST   := pis06
+          else if (sCFOPCSTPIS.AsString = '07') then
+            CST   := pis07
+          else if (sCFOPCSTPIS.AsString = '08') then
+            CST   := pis08
+          else if (sCFOPCSTPIS.AsString = '09') then
+            CST   := pis09
+          else if (sCFOPCSTPIS.AsString = '99') then
             CST   := pis99;
-          end;
+
           if ( valpis >0 ) then
           begin
             vBC   := cdsItensNFVALTOTAL.AsVariant;
@@ -1976,41 +1944,24 @@ begin
         with COFINS do
         begin
           if (sCFOPCSTCOFINS.AsString = '01') then
-          begin
-            CST   := cof01;
-          end;
-          if (sCFOPCSTCOFINS.AsString = '02') then
-          begin
-            CST   := cof02;
-          end;
-          if (sCFOPCSTCOFINS.AsString = '03') then
-          begin
-            CST   := cof03;
-          end;
-          if (sCFOPCSTCOFINS.AsString = '04') then
-          begin
-            CST   := cof04;
-          end;
-          if (sCFOPCSTCOFINS.AsString = '06') then
-          begin
-            CST   := cof06;
-          end;
-          if (sCFOPCSTCOFINS.AsString = '07') then
-          begin
-            CST   := cof07;
-          end;
-          if (sCFOPCSTCOFINS.AsString = '08') then
-          begin
-            CST   := cof08;
-          end;
-          if (sCFOPCSTCOFINS.AsString = '09') then
-          begin
-            CST   := cof09;
-          end;
-          if (sCFOPCSTCOFINS.AsString = '99') then
-          begin
+            CST   := cof01
+          else if (sCFOPCSTCOFINS.AsString = '02') then
+            CST   := cof02
+          else if (sCFOPCSTCOFINS.AsString = '03') then
+            CST   := cof03
+          else if (sCFOPCSTCOFINS.AsString = '04') then
+            CST   := cof04
+          else if (sCFOPCSTCOFINS.AsString = '06') then
+            CST   := cof06
+          else if (sCFOPCSTCOFINS.AsString = '07') then
+            CST   := cof07
+          else if (sCFOPCSTCOFINS.AsString = '08') then
+            CST   := cof08
+          else if (sCFOPCSTCOFINS.AsString = '09') then
+            CST   := cof09
+          else if (sCFOPCSTCOFINS.AsString = '99') then
             CST   := cof99;
-          end;
+
           if ( valcofins >0 ) then
           begin
           vBC   := cdsItensNFVALTOTAL.AsVariant;
