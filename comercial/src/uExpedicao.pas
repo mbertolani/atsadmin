@@ -13,12 +13,6 @@ type
   TfExpedicao = class(TfPai_new)
     rgStatus: TRadioGroup;
     GroupBox1: TGroupBox;
-    Label1: TLabel;
-    edPedido: TEdit;
-    Label2: TLabel;
-    edFornec: TEdit;
-    edFornecNome: TEdit;
-    btnClienteProcura: TBitBtn;
     JvDBGrid1: TJvDBGrid;
     dspPedido: TDataSetProvider;
     cdsPedido: TClientDataSet;
@@ -56,7 +50,6 @@ type
     Label12: TLabel;
     Label13: TLabel;
     Label14: TLabel;
-    JvDBGrid2: TJvDBGrid;
     cbSituacao: TComboBox;
     dtEntrega: TJvDatePickerEdit;
     edExpedicao: TEdit;
@@ -109,6 +102,16 @@ type
     sProc: TSQLStoredProc;
     sqlPedidoCODPRODUTO: TIntegerField;
     cdsPedidoCODPRODUTO: TIntegerField;
+    sqlPedidoUN: TStringField;
+    cdsPedidoUN: TStringField;
+    JvDBGrid2: TJvDBGrid;
+    GroupBox4: TGroupBox;
+    Label1: TLabel;
+    edPedido: TEdit;
+    Label2: TLabel;
+    edFornec: TEdit;
+    btnClienteProcura: TBitBtn;
+    edFornecNome: TEdit;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -125,6 +128,7 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     TD: TTransactionDesc;
     { Private declarations }
@@ -207,24 +211,26 @@ begin
   if (rgStatus.ItemIndex = 0) then
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
-      ', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
-      ',  m.CONTROLE, m.CODPEDIDO , m.CODCLIENTE, cli.NOMECLIENTE, md.codproduto ' +
+      ', (md.QUANTIDADE - COALESCE((select sum(mdc.QUANTIDADE) from MOVIMENTO mc, MOVIMENTODETALHE mdc ' +
+      ' where mc.CODMOVIMENTO = mdc.CODMOVIMENTO '+
+      '   and mc.CODNATUREZA  = 6 '+
+      '   and mc.CODPEDIDO    = m.CODPEDIDO ' +
+      '   and mdc.CODPRODUTO  = md.CODPRODUTO),0)) QUANTIDADE ' +
+      ',  md.PRECO, md.VALTOTAL , md.RECEBIDO' +
+      ',  m.CONTROLE, m.CODPEDIDO , m.CODCLIENTE, cli.NOMECLIENTE, md.codproduto, md.UN ' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
       ' inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO ' +
       ' inner join CLIENTES cli on cli.codcliente = m.codcliente ' +
       ' where m.CODNATUREZA   = 3 ';
-
-    //stra := stra + ' and ((m.STATUS = 3) OR (m.STATUS = 4)) ';
     stra := stra + ' and ((md.QUANTIDADE - md.RECEBIDO) > 0) ';
-    stra := stra + ' and md.RECEBIDO = 0';
     BitBtn1.Enabled := True;
   end;
 
   if (rgStatus.ItemIndex = 1) then
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
-      ', md.RECEBIDO QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
+      ', md.RECEBIDO QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO, md.UN' +
       ',  m.CONTROLE, m.CODPEDIDO, m.CODCLIENTE, cli.NOMECLIENTE , md.codproduto' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
@@ -286,7 +292,7 @@ var
   codFornec, codMov: Integer;
   fMov: TMovimento;
   fDet: TMovimentoDetalhe;
-  jaInclui : Boolean;
+  jaInclui : Integer;
 begin
   if ((edExpedicao.Text = '') or (dtEntrega.Checked = False)) then
   begin
@@ -299,17 +305,16 @@ begin
   //TD.IsolationLevel := xilREADCOMMITTED;
   try
     cdsPedido.DisableControls;
+    DecimalSeparator := '.';
   try
     cdsPedido.First;
     cdsPedido.First;
-    DecimalSeparator := '.';
     tudo := 'S';
-   // dm.sqlsisAdimin.StartTransaction(TD);
    Try
      fMov := TMovimento.Create;
      fDet := TMovimentoDetalhe.Create;
      jaInclui := fMov.verMovimento(edExpedicao.Text, 'CONTROLE',  'STRING', 6);
-     if (jaInclui = False) then
+     if (jaInclui = 0) then
      begin
        fMov.CodMov      := 0;
        fMov.CodNatureza := 6;
@@ -320,30 +325,56 @@ begin
        fMov.CodVendedor := 1;
        fMov.CodFornec   := 0;
        fmov.Controle    := edExpedicao.Text;
+       fMov.DataEntrega := dtEntrega.Date;
+       fMov.CodPedido   := cdsPedidoCODPEDIDO.AsInteger;
+
        codMov := fMov.inserirMovimento;
-       While not cdsPedido.Eof do
+     end
+     else begin
+       codMov := jaInclui;
+     end;
+       //dm.sqlsisAdimin.StartTransaction(TD);
+
+     While not cdsPedido.Eof do
+      begin
+        if (cdsPedidoRECEBIDO.AsFloat > 0) then
         begin
-          if (cdsPedidoRECEBIDO.AsFloat > 0) then
+          // Detalhe Natureza 6
+          fDet.CodMov       := codMov;
+          fDet.CodProduto   := cdsPedidoCODPRODUTO.AsInteger;
+          fDet.Qtde         := cdsPedidoRECEBIDO.asFloat;
+          fDet.Preco        := cdsPedidoPRECO.AsFloat;
+          fDet.Descricao    := cdsPedidoPRODUTO.AsString;
+          fDet.Desconto     := 0;
+          fDet.Un           := cdsPedidoUN.AsString;
+          fDet.Baixa        := '1';
+          fDet.Codigo       := cdsPedidoCODPEDIDO.AsInteger;
+          fDet.inserirMovDet;
+
+          {if (cdsPedidoRECEBIDO.AsFloat < cdsPedidoQUANTIDADE.AsFloat) then
           begin
-            fDet.CodMov       := codMov;
+            // Detalhe Natureza 3 - se sobrou qtde a ser entregue deste item
+            fDet.CodMov       := cdsPedidoCODMOVIMENTO.AsInteger;
             fDet.CodProduto   := cdsPedidoCODPRODUTO.AsInteger;
-            fDet.Qtde         := cdsPedidoRECEBIDO.asFloat;
+            fDet.Qtde         := cdsPedidoQUANTIDADE.AsFloat - cdsPedidoRECEBIDO.asFloat;
             fDet.Preco        := cdsPedidoPRECO.AsFloat;
             fDet.Descricao    := cdsPedidoPRODUTO.AsString;
             fDet.Desconto     := 0;
-            fDet.Un           := 'UN';
-            fDet.Baixa        := '1';
+            fDet.Un           := cdsPedidoUN.AsString;
+            //fDet.Baixa        := null;
             fDet.inserirMovDet;
-                { FloatToStr(cdsPedidoRECEBIDO.asFloat) +
-              ' , CODIGO1 = 99999 ' +
-              ' WHERE CODDETALHE = ' + IntToStr(cdsPedidoCODDETALHE.AsInteger));}
-          end;
-          if (cdsPedidoRECEBIDO.AsFloat < cdsPedidoQUANTIDADE.AsFloat) then
-            tudo := 'N';
-          cdsPedido.Next;
+          end;}
+
+          {alteraStatus := 'UPDATE MOVIMENTODETALHE SET RECEBIDO = ' +
+            FloatToStr(cdsPedidoRECEBIDO.asFloat) +
+            ' WHERE CODDETALHE = ' + IntToStr(cdsPedidoCODDETALHE.AsInteger);
+          dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
+           }
         end;
+        cdsPedido.Next;
       end;
-      DecimalSeparator := ',';
+      //dm.sqlsisAdimin.Commit(TD);
+
       //dm.sqlsisAdimin.Commit(TD);
     Finally
       fDet.Free;
@@ -366,15 +397,16 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(alteraStatus);
     dm.sqlsisAdimin.Commit(TD);}
 
-    MessageDlg('Recebimento Gravado com sucesso.', mtInformation, [mbOK], 0);
+    MessageDlg('Expedição Gerada com sucesso.', mtInformation, [mbOK], 0);
   except
     //dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro para gravar o recebimento.', mtError, [mbOK], 0);
+    MessageDlg('Erro para gravar a Expedição.', mtError, [mbOK], 0);
     DecimalSeparator := ',';
     exit;
   end;
   finally
     cdsPedido.EnableControls;
+    DecimalSeparator := ',';
   end;
   bitbtn2.Click;
   BitBtn3.Click;
@@ -478,7 +510,7 @@ var sqlQ, sqlX: String;
 begin
   sqlQ := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, ' +
     ' p.PRODUTO, md.QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO, ' +
-    ' m.CONTROLE, md.CODIGO  CODPEDIDO, m.CODCLIENTE, cli.NOMECLIENTE, ' +
+    ' m.CONTROLE, md.CODIGO CODPEDIDO, m.CODCLIENTE, cli.NOMECLIENTE, ' +
     ' CASE WHEN m.STATUS = 0 THEN ' + QuotedStr('Pendente') +
     '      WHEN m.STATUS = 1 THEN ' + QuotedStr('Expedido') +
     '      WHEN m.STATUS = 2 THEN ' + QuotedStr('Entregue') +
@@ -603,6 +635,12 @@ begin
     dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para Excluir o Item.', mtError, [mbOK], 0);
   end;
+end;
+
+procedure TfExpedicao.FormShow(Sender: TObject);
+begin
+  inherited;
+  cbSituacao.ItemIndex := 0;
 end;
 
 end.

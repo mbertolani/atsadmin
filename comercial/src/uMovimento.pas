@@ -19,6 +19,7 @@ type
     function getCodFornec  : Integer;
     function getControle   : String;
     function getDataMov    : TDateTime;
+    function getDataEntrega: TDateTime;
 
     procedure setCodMov(const Value: Integer);
     procedure setCodPedido(const Value: Integer);
@@ -31,6 +32,7 @@ type
     procedure setCodFornec(const Value: Integer);
     procedure setControle(const Value: String);
     procedure setDataMov(const Value: TDateTime);
+    procedure setDataEntrega(const Value: TDateTime);
   protected
     //Atributos
     _codMov          : Integer;
@@ -44,6 +46,7 @@ type
     _codFornec       : Integer;
     _controle        : String;
     _dataMov         : TDateTime;
+    _dataEntrega     : TDateTime;
     _movDetalhe      : TMovimentoDetalhe;
     function executaSql(strSql: String): Boolean;
   public
@@ -58,9 +61,11 @@ type
     property CodFornec   : Integer read getCodFornec write setCodFornec;
     property Controle    : String  read getControle write setControle;
     property DataMov     : TDateTime read getDataMov write setDataMov;
+    property DataEntrega : TDateTime read getDataEntrega write setDataEntrega;
+
     //Metodos
     function inserirMovimento(): Integer;
-    function verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Boolean;
+    function verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
     function excluirMovimento(codMovE: Integer): Boolean;
     constructor Create;
     Destructor Destroy; Override;
@@ -159,6 +164,11 @@ begin
   Result := _controle;
 end;
 
+function TMovimento.getDataEntrega: TDateTime;
+begin
+  Result := _dataEntrega;
+end;
+
 function TMovimento.getDataMov: TDateTime;
 begin
   Result := _dataMov;
@@ -181,13 +191,14 @@ begin
   dm.c_6_genid.Close;
   str := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, ';
   str := str + 'CODNATUREZA, STATUS, CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, ';
-  str := str + 'CODFORNECEDOR, DATA_SISTEMA, CONTROLE, CODPEDIDO) VALUES (';
+  str := str + 'CODFORNECEDOR, DATA_SISTEMA, CONTROLE, CODPEDIDO, DATA_ENTREGA) VALUES (';
   str := str + IntToStr(Self.CodMov) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataMov));
   str := str + ', ' + IntToStr(Self.CodCliente) + ', ' + IntToStr(Self.CodNatureza);
   str := str + ', ' + IntToStr(Self.Status) + ', ' + IntToStr(Self.CodUsuario);
   str := str + ', ' + IntToStr(Self.CodVendedor) + ', ' + IntToStr(Self.CodCCusto);
   str := str + ', ' + IntToStr(Self.CodFornec) + ', CURRENT_TIMESTAMP ';
   str := str + ', ' + QuotedStr(Self.Controle) + ', ' + IntToStr(Self.CodPedido);
+  str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataEntrega));
   str := str + ')';
   if (executaSql(str)) then
     Result := Self.CodMov
@@ -240,6 +251,11 @@ begin
   _controle := Trim(Value);
 end;
 
+procedure TMovimento.setDataEntrega(const Value: TDateTime);
+begin
+  _dataEntrega := Value;
+end;
+
 procedure TMovimento.setDataMov(const Value: TDateTime);
 begin
   _dataMov := Value;
@@ -250,10 +266,10 @@ begin
   _status := Value;
 end;
 
-function TMovimento.verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Boolean;
+function TMovimento.verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
 begin
   Try
-    Result := False;
+    Result := 0;
 
     With dm.cdsBusca do begin
       Close;
@@ -284,11 +300,11 @@ begin
       Self.CodCCusto     := dm.cdsBusca.FieldByName('CODALMOXARIFADO').AsInteger;
       Self.Controle      := dm.cdsBusca.FieldByName('CONTROLE').AsString;
       Self.DataMov       := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
-      Result := True;
+      Result := Self.CodMov;
     end
     else
       //ShowMessage('Registro não encontrado');
-      Result := False;
+      Result := 0;
   Except
     on E : Exception do
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
