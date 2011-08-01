@@ -1043,8 +1043,6 @@ begin
   end;
 
 
-
-
   //A lançamento do cr tem que ser antes de salvar á venda
   //pois, caso o título já tenha sido baixado não é permitido alterar a venda.
   //Gerando o contas a receber
@@ -1084,7 +1082,6 @@ begin
     // Retirei do Inherited a opção de gravar, pois, não exibe mensagem de erro, e aqui e necessario
     cds.ApplyUpdates(0);
 
-    // Gravando o Estoque
     Try
       FEstoque := TEstoque.Create;
       with fVendas do begin
@@ -1102,14 +1099,13 @@ begin
           FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
           FEstoque.Status      := '9';
           FEstoque.inserirMes;
-        end;  
+        end;
         cds_Mov_det.Next;
       end;
       end;
     Finally
       FEstoque.Free;
     end;
-
   end;
   //baixando o movimento na tabela estoque
   btnIncluir.Visible:=False;
@@ -1252,7 +1248,8 @@ begin
              (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
              ShowMessage('Venda Excluida com Suscesso');
            except
-             ShowMessage('Erro para excluir venda.');
+             on E : Exception do
+              ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
            end;
          end;
 
@@ -1893,7 +1890,6 @@ begin
     else
       contaDespesaPiscina := dm.cds_parametroDADOS.AsString;
   end;
-
 
 end;
 
