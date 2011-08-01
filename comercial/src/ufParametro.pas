@@ -192,8 +192,6 @@ type
     BitBtn1: TBitBtn;
     GroupBox30: TGroupBox;
     Label10: TLabel;
-    cbExpedicao: TComboBox;
-    BitBtn30: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -1730,7 +1728,7 @@ begin
   dm.sqlsisAdimin.ExecuteDirect(strsql);
   Try
      dm.sqlsisAdimin.Commit(TD);
-     MessageDlg('Margem Venda inserida ou alterada com sucesso!', mtInformation,
+     MessageDlg('Margem Venda inserida/alterada com sucesso!', mtInformation,
          [mbOk], 0);
   except
      dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
