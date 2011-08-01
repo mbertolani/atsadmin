@@ -1,5 +1,3 @@
-SET TERM ^ ;
-
 CREATE OR ALTER PROCEDURE inventario_lanca
  (listaInventario varchar(80)) 
  Returns (msg varchar(100))
@@ -130,6 +128,5 @@ BEGIN
     WHERE CODIVENTARIO      = :listaInventario  
       and SITUACAO          = 'A' ;        
   
-END^
-
-SET TERM ; ^
+  execute procedure CORRIGEESTOQUE(:codProd, :codProd, current_date, current_date , 'N');
+END
