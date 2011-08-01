@@ -2384,6 +2384,42 @@ inherited fParametro: TfParametro
           OnClick = BitBtn29Click
         end
       end
+      object GroupBox30: TGroupBox
+        Left = 2
+        Top = 329
+        Width = 769
+        Height = 48
+        Caption = 
+          'Utiliza Expedi'#231#227'o para Vendas (O Estoque so ser'#225' baixado no mome' +
+          'nto que o Status da Expedi'#231#227'o for igual a ENTREGUE'
+        TabOrder = 5
+        object Label10: TLabel
+          Left = 8
+          Top = 20
+          Width = 84
+          Height = 13
+          Caption = 'Utiliza Expedi'#231#227'o '
+        end
+        object cbExpedicao: TComboBox
+          Left = 133
+          Top = 20
+          Width = 55
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 0
+          Items.Strings = (
+            'Sim'
+            'N'#227'o')
+        end
+        object BitBtn30: TBitBtn
+          Left = 677
+          Top = 19
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+        end
+      end
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
