@@ -127,7 +127,7 @@ type
     constructor Create;
     Destructor Destroy; Override;
   end;
-  
+
   const
     TABLENAME = 'ESTOQUE';
 
@@ -370,11 +370,11 @@ end;
 
 function TEstoque.inserirMes: Boolean;
 begin
-  {// Valida se o Tipo de Movimento é Válido
+  // Valida se o Tipo de Movimento é Válido
   if (validoMovimento = False) then
   begin
-    exit;
-  end;}
+    exit;      // SE O CAMPO BAIXAMOVIMENTO na TABELA NATUREZAOPERACAO estiver <> de 0 ou 1 então não executa a rotina
+  end;
   Try
     Result := false;
     DecimalSeparator := '.';
@@ -685,18 +685,27 @@ end;
 
 function TEstoque.validoMovimento: Boolean;
 begin
-  {sqlBusca.Close;
-  sqlBusca.sql.Clear;
-  sqlBusca.sql.Add('SELECT BAIXAMOVIMENTO ' +
-    ' FROM NATUREZAOPERACAO ' +
-    'WHERE CODNATUREZA = ' + IntToStr(Self.CodProduto) +
-    '  AND LOTE        = ' + QuotedStr(Self.Lote) +
-    '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesAnoAnterior)) +
-    '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto));
-  sqlBusca.Open;
-  if (sqlBusca.IsEmpty) then      // Não achou nada no sistema
+  Result := False;
+  dm.sqlBusca.Close;
+  dm.sqlBusca.sql.Clear;
+  dm.sqlBusca.sql.Add('SELECT BAIXAMOVIMENTO ' +
+    ' FROM MOVIMENTO M, MOVIMENTODETALHE MD, NATUREZAOPERACAO NATOPER ' +
+    'WHERE M.CODMOVIMENTO = MD.CODMOVIMENTO ' +
+    '  AND M.CODNATUREZA  = NATOPER.CODNATUREZA  ' +
+    '  AND MD.CODDETALHE  = ' + IntToStr(Self.CodDetalhe));
+  dm.sqlBusca.Open;
+  if (not dm.sqlBusca.IsEmpty) then      // Não achou nada no sistema
   begin
-  end;}
+    if ((dm.sqlBusca.FieldByName('BAIXAMOVIMENTO').AsInteger = 0) or (dm.sqlBusca.FieldByName('BAIXAMOVIMENTO').AsInteger = 1)) then
+    begin
+      Result := True;
+    end;
+  end;
+
+
+
+
+
 end;
 
 function TEstoque.verEstoque(MesAno: TDateTime): Boolean;
