@@ -190,6 +190,10 @@ type
     BitBtn6: TBitBtn;
     BitBtn29: TBitBtn;
     BitBtn1: TBitBtn;
+    GroupBox30: TGroupBox;
+    Label10: TLabel;
+    cbExpedicao: TComboBox;
+    BitBtn30: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
