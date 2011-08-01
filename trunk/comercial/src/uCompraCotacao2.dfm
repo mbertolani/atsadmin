@@ -735,8 +735,8 @@ inherited fCompraCotacao2: TfCompraCotacao2
     end
     object cdsCotacaoCOTACAO_QTDE: TFloatField
       FieldName = 'COTACAO_QTDE'
-      DisplayFormat = ',##0.0'
-      EditFormat = ',##0.0'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsCotacaoCOTACAO_PRECO: TFloatField
       FieldName = 'COTACAO_PRECO'
