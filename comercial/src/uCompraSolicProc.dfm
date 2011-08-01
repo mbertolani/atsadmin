@@ -401,6 +401,41 @@ inherited fCompraSolicProc: TfCompraSolicProc
         Expanded = False
         FieldName = 'SOLIC_CODIGO'
         Title.Caption = 'Codigo'
+        Width = 42
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SOLIC_PRODUTO'
+        Title.Caption = 'Material'
+        Width = 61
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SOLIC_DESCRICAO'
+        Title.Caption = 'Descri'#231#227'o'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SOLIC_QUANTIDADE'
+        Title.Caption = 'Quantidade'
+        Width = 28
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADEMEDIDA'
+        Title.Caption = 'UN.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SOLIC_OBSERVACAO'
+        Title.Caption = 'Observa'#231#227'o'
+        Width = 300
         Visible = True
       end
       item
@@ -414,72 +449,41 @@ inherited fCompraSolicProc: TfCompraSolicProc
         Expanded = False
         FieldName = 'SOLIC_DTNECESSIT'
         Title.Caption = 'Data Necessidade'
-        Width = 95
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SOLIC_PRODUTO'
-        Title.Caption = 'Material'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SOLIC_DESCRICAO'
-        Title.Caption = 'Descri'#231#227'o'
-        Width = 300
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SOLIC_QUANTIDADE'
-        Title.Caption = 'Quantidade'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'UNIDADEMEDIDA'
-        Title.Caption = 'UN.'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SOLIC_SITUACAO'
-        Title.Caption = 'Status'
-        Width = 50
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SOLIC_DATAAPROV'
-        Title.Caption = 'Data Aprova'#231#227'o'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SOLIC_TIPO'
-        Title.Caption = 'Tipo'
+        Width = 60
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SOLIC_SOLICITANTE'
         Title.Caption = 'Solicitante'
-        Width = 120
+        Width = 80
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SOLIC_APROVACAO'
         Title.Caption = 'Aprovador'
-        Width = 120
+        Width = 80
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'SOLIC_OBSERVACAO'
-        Title.Caption = 'Observa'#231#227'o'
-        Width = 500
+        FieldName = 'SOLIC_DATAAPROV'
+        Title.Caption = 'Data Aprova'#231#227'o'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SOLIC_SITUACAO'
+        Title.Caption = 'Status'
+        Width = 65
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SOLIC_TIPO'
+        Title.Caption = 'Tipo'
         Visible = True
       end>
   end

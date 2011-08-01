@@ -211,8 +211,8 @@ inherited fSolicitacaoCompra: TfSolicitacaoCompra
     end
     object cdsSolicSOLIC_QUANTIDADE: TFloatField
       FieldName = 'SOLIC_QUANTIDADE'
-      DisplayFormat = '##0.0'
-      EditFormat = '##0.0'
+      DisplayFormat = '##0.00'
+      EditFormat = '##0.00'
     end
     object cdsSolicSOLIC_SOLICITANTE: TStringField
       FieldName = 'SOLIC_SOLICITANTE'
