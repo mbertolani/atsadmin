@@ -10,6 +10,7 @@ type
   private
     function getCodDet     : Integer;
     function getCodMov     : Integer;
+    function getCodigo     : Integer;
     function getCodProduto : Integer;
     function getQtde       : Double;
     function getPreco      : Double;
@@ -21,6 +22,7 @@ type
 
     procedure setCodDet(const Value: Integer);
     procedure setCodMov(const Value: Integer);
+    procedure setCodigo(const Value: Integer);
     procedure setCodProduto(const Value: Integer);
     procedure setQtde(const Value: Double);
     procedure setPreco(const Value: Double);
@@ -33,6 +35,7 @@ type
     //Atributos
     _codDet          : Integer;
     _codMov          : Integer;
+    _codigo          : Integer;
     _codProduto      : Integer;
     _qtde            : Double;
     _preco           : Double;
@@ -45,6 +48,7 @@ type
   public
     property CodDet      : Integer read getCodDet write setCodDet;
     property CodMov      : Integer read getCodMov write setCodMov;
+    property Codigo      : Integer read getCodigo write setCodigo;
     property CodProduto  : Integer read getCodProduto write setCodProduto;
     property Qtde        : Double read getQtde write setQtde;
     property Preco       : Double read getPreco write setPreco;
@@ -119,6 +123,11 @@ begin
   Result := _codDet;
 end;
 
+function TMovimentoDetalhe.getCodigo: Integer;
+begin
+  Result := _codigo;
+end;
+
 function TMovimentoDetalhe.getCodMov: Integer;
 begin
   Result := _codMov;
@@ -164,12 +173,16 @@ var str: String;
 begin
   DecimalSeparator := '.';
   str := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODMOVIMENTO, ' +
-    'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO,' +
+    'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO, CODIGO' +
     ') VALUES (';
   str := str + 'GEN_ID(GENMOVDET,1), ' + IntToStr(self.CodMov) + ', ' + IntToStr(Self.CodProduto);
   str := str + ', ' + FloatToStr(Self.Qtde) + ', ' + FloatToStr(Self.Preco);
   str := str + ', ' + FloatToStr(Self.Icms) + ', ' + FloatToStr(Self.Desconto);
+  str := str + ', ' + QuotedStr(Self.Un)    + ', ' + QuotedStr(Self.Baixa);
+  str := str + ', ' + QuotedStr(Self.Descricao);
+  str := str + ', ' + IntToStr(Self.Codigo);
   str := str + ')';
+  executaSql(str);
 end;
 
 procedure TMovimentoDetalhe.setBaixa(const Value: String);
@@ -180,6 +193,11 @@ end;
 procedure TMovimentoDetalhe.setCodDet(const Value: Integer);
 begin
   _codDet := Value;
+end;
+
+procedure TMovimentoDetalhe.setCodigo(const Value: Integer);
+begin
+  _codigo := Value;
 end;
 
 procedure TMovimentoDetalhe.setCodMov(const Value: Integer);

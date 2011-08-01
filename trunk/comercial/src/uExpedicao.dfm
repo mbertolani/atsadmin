@@ -1,33 +1,21 @@
 inherited fExpedicao: TfExpedicao
-  Top = 153
+  Left = 181
+  Top = 14
   Width = 987
-  Height = 745
+  Height = 701
   Caption = 'Recebimento Materiais'
   OldCreateOrder = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
     Width = 979
     Height = 77
-    object Label1: TLabel
-      Left = 5
-      Top = 3
-      Width = 33
-      Height = 13
-      Caption = 'Pedido'
-      Transparent = True
-    end
-    object Label2: TLabel
-      Left = 192
-      Top = 4
-      Width = 32
-      Height = 13
-      Caption = 'Cliente'
-      Transparent = True
-    end
+    Background.StartColor = clBtnFace
+    Background.EndColor = clBtnFace
     object rgStatus: TRadioGroup
       Left = 2
-      Top = 28
+      Top = 29
       Width = 415
       Height = 46
       Caption = 'Pedido'
@@ -41,49 +29,15 @@ inherited fExpedicao: TfExpedicao
         'Cancelado')
       TabOrder = 0
     end
-    object edPedido: TEdit
-      Left = 53
-      Top = 3
-      Width = 91
-      Height = 21
-      TabOrder = 1
-      OnKeyPress = edPedidoKeyPress
-    end
-    object edFornec: TEdit
-      Left = 251
-      Top = 3
-      Width = 73
-      Height = 21
-      TabOrder = 2
-      OnExit = edFornecExit
-      OnKeyPress = edFornecKeyPress
-    end
-    object edFornecNome: TEdit
-      Left = 369
-      Top = 4
-      Width = 385
-      Height = 21
-      Color = clBtnShadow
-      Enabled = False
-      TabOrder = 3
-    end
-    object btnClienteProcura: TBitBtn
-      Left = 332
-      Top = 2
-      Width = 37
-      Height = 25
-      Caption = '...'
-      TabOrder = 4
-      TabStop = False
-      OnClick = btnClienteProcuraClick
-    end
     object GroupBox2: TGroupBox
       Left = 419
-      Top = 28
+      Top = 29
       Width = 356
       Height = 46
       Caption = 'Per'#237'odo Entrega'
-      TabOrder = 5
+      Color = clBtnFace
+      ParentColor = False
+      TabOrder = 1
       object Label3: TLabel
         Left = 8
         Top = 16
@@ -141,7 +95,7 @@ inherited fExpedicao: TfExpedicao
     end
     object BitBtn2: TBitBtn
       Left = 777
-      Top = 30
+      Top = 33
       Width = 98
       Height = 42
       Caption = 'F8-Procura'
@@ -152,7 +106,7 @@ inherited fExpedicao: TfExpedicao
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 6
+      TabOrder = 2
       OnClick = btnProcurarClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -256,7 +210,7 @@ inherited fExpedicao: TfExpedicao
     end
     object BitBtn1: TBitBtn
       Left = 878
-      Top = 31
+      Top = 34
       Width = 95
       Height = 40
       Caption = 'Gerar Exp.'
@@ -267,7 +221,7 @@ inherited fExpedicao: TfExpedicao
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 7
+      TabOrder = 3
       OnClick = BitBtn1Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -369,9 +323,68 @@ inherited fExpedicao: TfExpedicao
         C0C0C0C0C0C0C0DFFFFF258797168A95398C845B8E8072827B7C7C7CC0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object GroupBox4: TGroupBox
+      Left = 3
+      Top = -4
+      Width = 771
+      Height = 34
+      TabOrder = 4
+      object Label1: TLabel
+        Left = 5
+        Top = 11
+        Width = 33
+        Height = 13
+        Caption = 'Pedido'
+        Transparent = True
+      end
+      object Label2: TLabel
+        Left = 147
+        Top = 13
+        Width = 32
+        Height = 13
+        Caption = 'Cliente'
+        Transparent = True
+      end
+      object edPedido: TEdit
+        Left = 46
+        Top = 10
+        Width = 91
+        Height = 21
+        TabOrder = 0
+        OnKeyPress = edPedidoKeyPress
+      end
+      object edFornec: TEdit
+        Left = 188
+        Top = 10
+        Width = 73
+        Height = 21
+        TabOrder = 1
+        OnExit = edFornecExit
+        OnKeyPress = edFornecKeyPress
+      end
+      object btnClienteProcura: TBitBtn
+        Left = 261
+        Top = 9
+        Width = 37
+        Height = 22
+        Caption = '...'
+        TabOrder = 2
+        TabStop = False
+        OnClick = btnClienteProcuraClick
+      end
+      object edFornecNome: TEdit
+        Left = 305
+        Top = 11
+        Width = 444
+        Height = 21
+        Color = clBtnShadow
+        Enabled = False
+        TabOrder = 3
+      end
+    end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 667
+    Top = 623
     Width = 979
     inherited btnGravar: TBitBtn
       Left = -200
@@ -395,8 +408,7 @@ inherited fExpedicao: TfExpedicao
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
-      Left = 637
-      Top = 4
+      Left = 865
     end
   end
   object GroupBox1: TGroupBox [2]
@@ -500,7 +512,7 @@ inherited fExpedicao: TfExpedicao
     Left = 0
     Top = 337
     Width = 979
-    Height = 330
+    Height = 63
     Align = alClient
     Caption = 'Expedi'#231#227'o'
     TabOrder = 3
@@ -525,125 +537,13 @@ inherited fExpedicao: TfExpedicao
       Height = 13
       Caption = 'Expedi'#231#227'o'
     end
-    object JvDBGrid2: TJvDBGrid
-      Left = 2
-      Top = 56
-      Width = 975
-      Height = 281
-      Align = alCustom
-      DataSource = DataSource1
-      TabOrder = 0
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'MS Sans Serif'
-      TitleFont.Style = []
-      OnKeyPress = JvDBGrid1KeyPress
-      OnTitleClick = JvDBGrid1TitleClick
-      AutoAppend = False
-      FixedCols = 7
-      PostOnEnterKey = True
-      AutoSizeColumns = True
-      SelectColumnsDialogStrings.Caption = 'Select columns'
-      SelectColumnsDialogStrings.OK = '&OK'
-      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-      EditControls = <>
-      RowsHeight = 17
-      TitleRowHeight = 17
-      Columns = <
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'CODPEDIDO'
-          Title.Caption = 'Pedido'
-          Width = 72
-          Visible = True
-        end
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'DATA_ENTREGA'
-          ReadOnly = True
-          Title.Caption = 'Dt. Entrega'
-          Width = 72
-          Visible = True
-        end
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'CONTROLE'
-          Title.Caption = 'Controle'
-          Width = 96
-          Visible = True
-        end
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'CODCLIENTE'
-          Title.Caption = 'C'#243'd.'
-          Width = 56
-          Visible = True
-        end
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'NOMECLIENTE'
-          Title.Caption = 'Cliente'
-          Width = 176
-          Visible = True
-        end
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'CODPRO'
-          ReadOnly = True
-          Title.Caption = 'Material'
-          Width = 73
-          Visible = True
-        end
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'PRODUTO'
-          ReadOnly = True
-          Title.Caption = 'Descri'#231#227'o'
-          Width = 188
-          Visible = True
-        end
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'VALTOTAL'
-          ReadOnly = True
-          Title.Caption = 'Val. Total'
-          Width = 73
-          Visible = True
-        end
-        item
-          Color = clMenuBar
-          Expanded = False
-          FieldName = 'QUANTIDADE'
-          ReadOnly = True
-          Title.Caption = 'Quantidade'
-          Width = 87
-          Visible = True
-        end
-        item
-          Color = clSilver
-          Expanded = False
-          FieldName = 'STATUS'
-          Title.Caption = 'Situa'#231#227'o'
-          Width = 56
-          Visible = True
-        end>
-    end
     object cbSituacao: TComboBox
       Left = 495
       Top = 24
       Width = 145
       Height = 21
       ItemHeight = 13
-      TabOrder = 1
+      TabOrder = 2
       Text = 'Expedido'
       Items.Strings = (
         'Pendente'
@@ -658,7 +558,7 @@ inherited fExpedicao: TfExpedicao
       Height = 21
       AllowNoDate = True
       Checked = False
-      TabOrder = 2
+      TabOrder = 1
     end
     object edExpedicao: TEdit
       Left = 71
@@ -666,7 +566,7 @@ inherited fExpedicao: TfExpedicao
       Width = 298
       Height = 21
       MaxLength = 30
-      TabOrder = 3
+      TabOrder = 0
       OnKeyPress = edExpedicaoKeyPress
     end
     object BitBtn3: TBitBtn
@@ -681,7 +581,7 @@ inherited fExpedicao: TfExpedicao
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 3
       OnClick = BitBtn3Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -799,7 +699,7 @@ inherited fExpedicao: TfExpedicao
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
-      TabOrder = 5
+      TabOrder = 4
       OnClick = BitBtn4Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -917,7 +817,7 @@ inherited fExpedicao: TfExpedicao
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
-      TabOrder = 6
+      TabOrder = 5
       OnClick = BitBtn5Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -1020,6 +920,118 @@ inherited fExpedicao: TfExpedicao
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
   end
+  object JvDBGrid2: TJvDBGrid [4]
+    Left = 0
+    Top = 400
+    Width = 979
+    Height = 223
+    Align = alBottom
+    DataSource = DataSource1
+    TabOrder = 4
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnKeyPress = JvDBGrid1KeyPress
+    OnTitleClick = JvDBGrid1TitleClick
+    AutoAppend = False
+    FixedCols = 7
+    PostOnEnterKey = True
+    AutoSizeColumns = True
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'CODPEDIDO'
+        Title.Caption = 'Pedido'
+        Width = 72
+        Visible = True
+      end
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'DATA_ENTREGA'
+        ReadOnly = True
+        Title.Caption = 'Dt. Entrega'
+        Width = 72
+        Visible = True
+      end
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'CONTROLE'
+        Title.Caption = 'Controle'
+        Width = 96
+        Visible = True
+      end
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'CODCLIENTE'
+        Title.Caption = 'C'#243'd.'
+        Width = 56
+        Visible = True
+      end
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'NOMECLIENTE'
+        Title.Caption = 'Cliente'
+        Width = 177
+        Visible = True
+      end
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'CODPRO'
+        ReadOnly = True
+        Title.Caption = 'Material'
+        Width = 73
+        Visible = True
+      end
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'PRODUTO'
+        ReadOnly = True
+        Title.Caption = 'Descri'#231#227'o'
+        Width = 189
+        Visible = True
+      end
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'VALTOTAL'
+        ReadOnly = True
+        Title.Caption = 'Val. Total'
+        Width = 73
+        Visible = True
+      end
+      item
+        Color = clMenuBar
+        Expanded = False
+        FieldName = 'QUANTIDADE'
+        ReadOnly = True
+        Title.Caption = 'Quantidade'
+        Width = 87
+        Visible = True
+      end
+      item
+        Color = clSilver
+        Expanded = False
+        FieldName = 'STATUS'
+        Title.Caption = 'Situa'#231#227'o'
+        Width = 58
+        Visible = True
+      end>
+  end
   inherited DtSrc: TDataSource
     DataSet = cdsPedido
   end
@@ -1105,19 +1117,25 @@ inherited fExpedicao: TfExpedicao
     object cdsPedidoCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
+    object cdsPedidoUN: TStringField
+      FieldName = 'UN'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
   end
   object sqlPedido: TSQLDataSet
     CommandText = 
       'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO,' +
       ' p.PRODUTO, md.codproduto'#13#10', (md.QUANTIDADE - md.RECEBIDO) QUANT' +
       'IDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO, m.CONTROLE, m.CODPED' +
-      'IDO,'#13#10'm.CODCLIENTE, cli.NOMECLIENTE'#13#10' from MOVIMENTODETALHE md'#13#10 +
-      'inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO'#13#10'in' +
-      'ner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO'#13#10'inner' +
-      ' join CLIENTES cli on cli.codcliente = m.codcliente'#13#10'where md.ST' +
-      'ATUS is null '#13#10'    and m.CODNATUREZA   = 3'#13#10'    and m.STATUS    ' +
-      '            = 0'#13#10'    and m.CODCLIENTE = :pFornec'#13#10'    and ((md.Q' +
-      'UANTIDADE - md.RECEBIDO) > 0)'
+      'IDO,'#13#10'm.CODCLIENTE, cli.NOMECLIENTE, md.UN'#13#10' from MOVIMENTODETAL' +
+      'HE md'#13#10'inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIME' +
+      'NTO'#13#10'inner join PRODUTOS   p on  md.CODPRODUTO    = p.CODPRODUTO' +
+      #13#10'inner join CLIENTES cli on cli.codcliente = m.codcliente'#13#10'wher' +
+      'e md.STATUS is null '#13#10'    and m.CODNATUREZA   = 3'#13#10'    and m.STA' +
+      'TUS                = 0'#13#10'    and m.CODCLIENTE = :pFornec'#13#10'    and' +
+      ' ((md.QUANTIDADE - md.RECEBIDO) > 0)'
     MaxBlobSize = -1
     Params = <
       item
@@ -1188,6 +1206,12 @@ inherited fExpedicao: TfExpedicao
     end
     object sqlPedidoCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
+    end
+    object sqlPedidoUN: TStringField
+      FieldName = 'UN'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
     end
   end
   object sqlExpedicao: TSQLDataSet
