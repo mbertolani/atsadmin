@@ -927,7 +927,6 @@ object fFiltroEstoque: TfFiltroEstoque
   end
   object cds_estoque: TClientDataSet
     Aggregates = <>
-    AggregatesActive = True
     Params = <>
     ProviderName = 'dsp_estoque'
     Left = 216

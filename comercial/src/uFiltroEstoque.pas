@@ -362,6 +362,7 @@ end;
 procedure TfFiltroEstoque.BitBtn3Click(Sender: TObject);
 begin
   RepRelEstoque.FileName := str_relatorio + 'estoque_grupo.rep';
+  RepRelEstoque.Title    := RepRelEstoque.FileName;
   repRelEstoque.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   RepRelEstoque.Report.Params.ParamByName('PDTA1').Value := StrToDate(medta1.Text);
   RepRelEstoque.Report.Params.ParamByName('PDTA2').Value := StrToDate(medta2.Text);
@@ -380,7 +381,6 @@ begin
   else
      RepRelEstoque.Report.Params.ParamByName('SUBGRUPOA').Value := 'TODOS OS SUBGRUPOS CADASTRADOS NO SISTEMA';
   RepRelEstoque.Execute;
-
 end;
 
 procedure TfFiltroEstoque.BitBtn4Click(Sender: TObject);
