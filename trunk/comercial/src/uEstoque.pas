@@ -381,22 +381,22 @@ begin
     if (jaFoiInserido = True) then   // Ja tenho dados no mes so Adiciono
     begin
       sqlStr := 'UPDATE ESTOQUEMES SET ';
-      sqlStr := sqlStr + '  QTDEENTRADA   = ' + FloatToStr(Self.QtdeEntrada);
-      sqlStr := sqlStr + ', QTDECOMPRA    = ' + FloatToStr(Self.QtdeCompra);
-      sqlStr := sqlStr + ', QTDEDEVCOMPRA = ' + FloatToStr(Self.QtdeDevCompra);
-      sqlStr := sqlStr + ', QTDEDEVVENDA  = ' + FloatToStr(Self.QtdeDevVenda);
-      sqlStr := sqlStr + ', QTDESAIDA     = ' + FloatToStr(Self.QtdeSaida);
-      sqlStr := sqlStr + ', QTDEVENDA     = ' + FloatToStr(Self.QtdeVenda);
-      sqlStr := sqlStr + ', QTDEPERDA     = ' + FloatToStr(Self.QtdePerda);
-      sqlStr := sqlStr + ', QTDEINVENTARIO= ' + FloatToStr(Self.QtdeInventario);
-      sqlStr := sqlStr + ', PRECOCUSTO    = ' + FloatToStr(Self.PrecoCusto);
-      sqlStr := sqlStr + ', PRECOCOMPRA   = ' + FloatToStr(Self.PrecoCompra);
-      sqlStr := sqlStr + ', PRECOCOMPRAULTIMA  = ' + FloatToStr(Self.PrecoCompraUltima);
-      sqlStr := sqlStr + ', PRECOVENDA    = ' + FloatToStr(Self.PrecoVenda);
-      sqlStr := sqlStr + ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto);
-      sqlStr := sqlStr + '   AND LOTE        = ' + QuotedStr(Self.Lote);
-      sqlStr := sqlStr + '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.MesAno));
-      sqlStr := sqlStr + '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto);
+      sqlStr := sqlStr + '  QTDEENTRADA       = ' + FloatToStr(Self.QtdeEntrada);
+      sqlStr := sqlStr + ', QTDECOMPRA        = ' + FloatToStr(Self.QtdeCompra);
+      sqlStr := sqlStr + ', QTDEDEVCOMPRA     = ' + FloatToStr(Self.QtdeDevCompra);
+      sqlStr := sqlStr + ', QTDEDEVVENDA      = ' + FloatToStr(Self.QtdeDevVenda);
+      sqlStr := sqlStr + ', QTDESAIDA         = ' + FloatToStr(Self.QtdeSaida);
+      sqlStr := sqlStr + ', QTDEVENDA         = ' + FloatToStr(Self.QtdeVenda);
+      sqlStr := sqlStr + ', QTDEPERDA         = ' + FloatToStr(Self.QtdePerda);
+      sqlStr := sqlStr + ', QTDEINVENTARIO    = ' + FloatToStr(Self.QtdeInventario);
+      sqlStr := sqlStr + ', PRECOCUSTO        = ' + FloatToStr(Self.PrecoCusto);
+      sqlStr := sqlStr + ', PRECOCOMPRA       = ' + FloatToStr(Self.PrecoCompra);
+      sqlStr := sqlStr + ', PRECOCOMPRAULTIMA = ' + FloatToStr(Self.PrecoCompraUltima);
+      sqlStr := sqlStr + ', PRECOVENDA        = ' + FloatToStr(Self.PrecoVenda);
+      sqlStr := sqlStr + ' WHERE CODPRODUTO   = ' + IntToStr(Self.CodProduto);
+      sqlStr := sqlStr + '   AND LOTE         = ' + QuotedStr(Self.Lote);
+      sqlStr := sqlStr + '   AND MESANO       = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.MesAno));
+      sqlStr := sqlStr + '   AND CENTROCUSTO  = ' + IntToStr(Self.CentroCusto);
     end
     else begin  // Primeira Entrada no Mes
       sqlStr := 'INSERT INTO ESTOQUEMES (CODPRODUTO, LOTE, MESANO, QTDEENTRADA, ' +
@@ -416,12 +416,11 @@ begin
       sqlStr := sqlStr + FloatToStr(Self.PrecoCompra) + ', ';
       sqlStr := sqlStr + FloatToStr(Self.PrecoVenda) + ', ';
       sqlStr := sqlStr + IntToStr(Self.CentroCusto) + ', ';
+      sqlStr := sqlStr + FloatToStr(Self.SaldoAnterior) + ', ';
       sqlStr := sqlStr + FloatToStr(Self.PrecoCompraUltima) + ', ';
-      sqlStr := sqlStr + FloatToStr(Self.QtdeInventario) + ', ';
-      sqlStr := sqlStr + FloatToStr(Self.SaldoAnterior) + ')';
+      sqlStr := sqlStr + FloatToStr(Self.QtdeInventario) + ')';
     end;
     Try
-      DecimalSeparator := ',';
       dm.sqlsisAdimin.ExecuteDirect(sqlStr);
       //dm.sqlsisAdimin.Commit();
 
@@ -458,9 +457,14 @@ begin
         dm.sqlsisAdimin.ExecuteDirect(sqlStr);
       end;
 
+      DecimalSeparator := ',';
       Result := True;
     Except
-      DecimalSeparator := ',';
+      on E : Exception do
+      begin
+        ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+        DecimalSeparator := ',';
+      end;
     end;
   Except
     on E : Exception do
@@ -503,19 +507,20 @@ begin
     if (sqlBusca.IsEmpty) then
     begin
       Result := False;
-      QEntrada   := 0;
-      QCompra    := 0;
-      QDevCompra := 0;
-      QDevVenda  := 0;
-      QSaida     := 0;
-      QVenda     := 0;
-      QPerda     := 0;
-      QSaldo     := 0;
-      QInventario := 0;
-      PCusto     := 0;
-      PCompra    := 0;
+      QEntrada      := 0;
+      QCompra       := 0;
+      QDevCompra    := 0;
+      QDevVenda     := 0;
+      QSaida        := 0;
+      QVenda        := 0;
+      QPerda        := 0;
+      QSaldo        := 0;
+      QInventario   := 0;
+      PCusto        := 0;
+      PCompra       := 0;
       PCompraUltima := 0;
-      PVenda     := 0;
+      PVenda        := 0;
+      QSaldoAnterior:= 0;
       // Não Encontrou mes atual , busca Qtdes e Precos do Mês Anterior
       sqlBusca.Close;
       sqlBusca.sql.Clear;
@@ -528,8 +533,9 @@ begin
       sqlBusca.Open;
       if (sqlBusca.IsEmpty) then      // Não achou nada no sistema
       begin
-        PCustoAnterior := 0;
-        QSaldoAnterior := 0;
+        PCustoAnterior     := 0;
+        QSaldoAnterior     := 0;
+        Self.SaldoAnterior := 0;
       end else begin
         PCustoAnterior := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
         QSaldoAnterior := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
@@ -541,19 +547,19 @@ begin
     else begin
       Result := True;
       resultadoJaInserido := True;
-      QEntrada   := sqlBusca.FieldByName('QTDEENTRADA').AsFloat;
-      QCompra    := sqlBusca.FieldByName('QTDECOMPRA').AsFloat;
-      QDevCompra := sqlBusca.FieldByName('QTDEDEVCOMPRA').AsFloat;
-      QDevVenda  := sqlBusca.FieldByName('QTDEDEVVENDA').AsFloat;
-      QSaida     := sqlBusca.FieldByName('QTDESAIDA').AsFloat;
-      QVenda     := sqlBusca.FieldByName('QTDEVENDA').AsFloat;
-      QPerda     := sqlBusca.FieldByName('QTDEPERDA').AsFloat;
-      QInventario     := sqlBusca.FieldByName('QTDEINVENTARIO').AsFloat;
-      PCusto     := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
-      PCompra    := sqlBusca.FieldByName('PRECOCOMPRA').AsFloat;
-      PCompraUltima    := sqlBusca.FieldByName('PRECOCOMPRAULTIMA').AsFloat;
-      PVenda     := sqlBusca.FieldByName('PRECOVENDA').AsFloat;
-      QSaldo     := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
+      QEntrada      := sqlBusca.FieldByName('QTDEENTRADA').AsFloat;
+      QCompra       := sqlBusca.FieldByName('QTDECOMPRA').AsFloat;
+      QDevCompra    := sqlBusca.FieldByName('QTDEDEVCOMPRA').AsFloat;
+      QDevVenda     := sqlBusca.FieldByName('QTDEDEVVENDA').AsFloat;
+      QSaida        := sqlBusca.FieldByName('QTDESAIDA').AsFloat;
+      QVenda        := sqlBusca.FieldByName('QTDEVENDA').AsFloat;
+      QPerda        := sqlBusca.FieldByName('QTDEPERDA').AsFloat;
+      QInventario   := sqlBusca.FieldByName('QTDEINVENTARIO').AsFloat;
+      PCusto        := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
+      PCompra       := sqlBusca.FieldByName('PRECOCOMPRA').AsFloat;
+      PCompraUltima := sqlBusca.FieldByName('PRECOCOMPRAULTIMA').AsFloat;
+      PVenda        := sqlBusca.FieldByName('PRECOVENDA').AsFloat;
+      QSaldo        := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
     end;
   end;
 end;
