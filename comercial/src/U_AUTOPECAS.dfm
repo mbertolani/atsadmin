@@ -97,7 +97,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       OnClick = btn1Click
     end
     object db_qtde: TJvDBCalcEdit
-      Left = 631
+      Left = 633
       Top = 6
       Width = 61
       Height = 32
@@ -118,7 +118,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       DataSource = d_movdet
     end
     object db_valor: TJvDBCalcEdit
-      Left = 692
+      Left = 695
       Top = 6
       Width = 91
       Height = 32
@@ -248,7 +248,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
     Top = 45
     Width = 418
     Height = 564
-    ActivePage = ts1
+    ActivePage = ts2
     Align = alClient
     PopupMenu = pm1
     TabOrder = 2
@@ -1305,18 +1305,18 @@ object F_AUTOPECAS: TF_AUTOPECAS
         Background.FillType = GradUpDown
         object JvGroupBox11: TJvGroupBox
           Left = 2
-          Top = 360
+          Top = 324
           Width = 406
-          Height = 174
+          Height = 210
           Align = alClient
           Caption = 'T'#205'TULOS'
           PopupMenu = pm1
-          TabOrder = 5
+          TabOrder = 4
           object JvDBGrid4: TJvDBGrid
             Left = 2
             Top = 15
             Width = 402
-            Height = 157
+            Height = 193
             Align = alClient
             BorderStyle = bsNone
             DataSource = d_cr
@@ -1524,7 +1524,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           PopupMenu = pm1
           TabOrder = 0
           object lbl3: TLabel
-            Left = 4
+            Left = 5
             Top = 14
             Width = 40
             Height = 13
@@ -1577,28 +1577,6 @@ object F_AUTOPECAS: TF_AUTOPECAS
             PopupMenu = pm1
             TabOrder = 2
             OnClick = btn2Click
-          end
-        end
-        object JvGroupBox6: TJvGroupBox
-          Left = 2
-          Top = 324
-          Width = 406
-          Height = 36
-          Align = alTop
-          Caption = 'Obs.:'
-          PopupMenu = pm1
-          TabOrder = 3
-          object dbedtOBS: TDBEdit
-            Left = 4
-            Top = 12
-            Width = 361
-            Height = 21
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            DataField = 'OBS'
-            DataSource = d_movimento
-            PopupMenu = pm1
-            TabOrder = 0
           end
         end
         object JvGroupBox10: TJvGroupBox
@@ -1701,7 +1679,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           Width = 406
           Height = 37
           Align = alTop
-          TabOrder = 4
+          TabOrder = 3
           object btn5: TBitBtn
             Left = 34
             Top = 8
@@ -1727,7 +1705,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           Width = 406
           Height = 86
           Align = alTop
-          TabOrder = 6
+          TabOrder = 5
           object lbl13: TLabel
             Left = 4
             Top = 8
@@ -3858,8 +3836,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 264
-    Top = 249
+    Left = 640
+    Top = 233
     object scds_serie_procCODSERIE: TStringField
       FieldName = 'CODSERIE'
       FixedChar = True
@@ -3875,6 +3853,18 @@ object F_AUTOPECAS: TF_AUTOPECAS
     end
     object scds_serie_procNOTAFISCAL: TSmallintField
       FieldName = 'NOTAFISCAL'
+    end
+  end
+  object pm3: TPopupMenu
+    Left = 466
+    Top = 501
+    object AprovarOramento1: TMenuItem
+      Caption = 'Aprovar Or'#231'amento'
+      OnClick = AprovarOramento1Click
+    end
+    object AbrirOS1: TMenuItem
+      Caption = 'Abrir O.S.'
+      OnClick = AbrirOS1Click
     end
   end
 end
