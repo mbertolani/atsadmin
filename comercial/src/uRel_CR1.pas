@@ -100,7 +100,7 @@ var
 
 implementation
 
-uses UDm, ufcr, gbCobranca, uImpr_Boleto;
+uses UDm, ufcr, gbCobranca, uImpr_Boleto, U_Boletos;
 
 {$R *.dfm}
 
@@ -214,10 +214,16 @@ end;
 procedure TfRel_CR1.BitBtn1Click(Sender: TObject);
 begin
   Marcatitulos;
-  BitBtn4.Click;
-  VCLReport1.Filename := str_relatorio + 'boleto_BB.rep';
-  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Execute;
+//  BitBtn4.Click;
+//  VCLReport1.Filename := str_relatorio + 'boleto_BB.rep';
+//  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+//  VCLReport1.Execute;
+   F_Boletos := TF_Boletos.Create(Application);
+   try
+      F_Boletos.ShowModal;
+   finally
+      F_Boletos.Free;
+   end;   
 end;
 
 procedure TfRel_CR1.BitBtn3Click(Sender: TObject);
