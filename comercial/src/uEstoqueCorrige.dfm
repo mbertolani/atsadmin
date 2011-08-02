@@ -106,6 +106,13 @@ object fEstoqueCorrige: TfEstoqueCorrige
     TabOrder = 5
     OnClick = Button2Click
   end
+  object JvProgressBar1: TJvProgressBar
+    Left = 24
+    Top = 144
+    Width = 361
+    Height = 16
+    TabOrder = 6
+  end
   object sqlQ: TSQLQuery
     MaxBlobSize = -1
     Params = <>
