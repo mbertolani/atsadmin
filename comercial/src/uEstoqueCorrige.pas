@@ -104,8 +104,11 @@ end;
 procedure TfEstoqueCorrige.Button2Click(Sender: TObject);
 var str: string;
   FEstoque : TEstoque;
+  Save_Cursor:TCursor;
 begin
+  Save_Cursor := Screen.Cursor;
   Try
+    Screen.Cursor := crHourGlass;
     FEstoque := TEstoque.Create;
 
     if (cds.Active) then
@@ -114,10 +117,12 @@ begin
     str := str + '  CASE WHEN m.CODNATUREZA < 3 THEN m.DATAMOVIMENTO';
     str := str + '  WHEN m.CODNATUREZA = 3 THEN V.DATAVENDA';
     str := str + '  WHEN m.CODNATUREZA = 4 THEN C.DATACOMPRA END DATAMOVIMENTO,';
-    str := str + '  md.QUANTIDADE, (md.PRECO * (1-(md.QTDE_ALT/100))) PRECO,';
+    str := str + '  md.QUANTIDADE, md.PRECO,';
+    //(md.PRECO * (1-(md.QTDE_ALT/100))) PRECO
     str := str + '  md.LOTE, m.CODALMOXARIFADO, md.CODPRODUTO';
-    str := str + '  FROM MOVIMENTO m';                                
+    str := str + '  FROM MOVIMENTO m';
     str := str + ' INNER JOIN MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO';
+    str := str + ' INNER JOIN PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO';
     str := str + '  LEFT OUTER JOIN VENDA  V ON V.CODMOVIMENTO = M.CODMOVIMENTO';
     str := str + '  LEFT OUTER JOIN COMPRA C ON C.CODMOVIMENTO = M.CODMOVIMENTO';
     str := str + ' WHERE md.BAIXA is not null ' ;
@@ -126,14 +131,19 @@ begin
     str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
     str := str + '   AND ' ;
     str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit2.Text)));
+    if ((Edit1.Text <> '') and (Edit2.Text <> '')) then
+    begin
+      str := str + '   AND ' ;
+      str := str + '   prod.CODPRO BETWEEN ' + QuotedStr(Edit1.Text) + ' AND ' +  QuotedStr(Edit2.Text);
+    end;  
     str := str + ' ORDER BY 4, 1';
     cds.CommandText := str;
     cds.Open;
     JvProgressBar1.Max := cds.RecordCount;
-    JvProgressBar1.Step := 0;
+    JvProgressBar1.Position := 0;
     while not cds.Eof do
     begin
-      JvProgressBar1.Step := cds.RecNo;
+      JvProgressBar1.Position := cds.RecNo;
       if (cds.FieldByName('STATUS').IsNull) then
       begin
         Case cds.FieldByName('CODNATUREZA').AsInteger of
@@ -157,10 +167,20 @@ begin
         FEstoque.CodDetalhe  := cds.FieldByName('CODDETALHE').AsInteger;
         FEstoque.Status      := '9';
         FEstoque.inserirMes;
+        FEstoque.QtdeCompra  := 0;
+        FEstoque.QtdeVenda   := 0;
+        FEstoque.QtdeEntrada := 0;
+        FEstoque.QtdeSaida   := 0;
+        FEstoque.PrecoCompra := 0;
+        FEstoque.PrecoVenda  := 0;
+        FEstoque.Lote        := '';
+        FEstoque.CentroCusto := 0;
       end;
       cds.Next;
     end;
+    MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
     Finally
+      Screen.Cursor := Save_Cursor;  { Always restore to normal }
       FEstoque.Free;
     end;
 end;

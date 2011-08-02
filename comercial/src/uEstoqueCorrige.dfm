@@ -1,7 +1,7 @@
 object fEstoqueCorrige: TfEstoqueCorrige
   Left = 235
   Top = 117
-  Width = 404
+  Width = 384
   Height = 246
   Caption = 'Corrige Estoque'
   Color = clBtnFace
@@ -22,21 +22,21 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Caption = 'Atualiza no Cadastro Produto o Estoque atual de cada item'
   end
   object Label2: TLabel
-    Left = 16
+    Left = 24
     Top = 40
     Width = 138
     Height = 13
     Caption = 'C'#243'digo Produto (CodProduto)'
   end
   object Label3: TLabel
-    Left = 176
+    Left = 192
     Top = 40
     Width = 159
     Height = 13
     Caption = 'C'#243'digo Produto (CodProduto)and '
   end
   object Label4: TLabel
-    Left = 160
+    Left = 176
     Top = 56
     Width = 6
     Height = 13
@@ -50,16 +50,16 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Caption = 'Corrige estoque no per'#237'odo : '
   end
   object Label7: TLabel
-    Left = 161
+    Left = 177
     Top = 116
     Width = 6
     Height = 13
     Caption = #224
   end
   object Edit1: TEdit
-    Left = 24
+    Left = 16
     Top = 56
-    Width = 121
+    Width = 153
     Height = 21
     TabOrder = 0
     OnKeyPress = Edit1KeyPress
@@ -67,13 +67,13 @@ object fEstoqueCorrige: TfEstoqueCorrige
   object Edit2: TEdit
     Left = 192
     Top = 56
-    Width = 121
+    Width = 161
     Height = 21
     TabOrder = 1
     OnKeyPress = Edit1KeyPress
   end
   object Button1: TButton
-    Left = 128
+    Left = 33
     Top = 176
     Width = 121
     Height = 25
@@ -82,9 +82,9 @@ object fEstoqueCorrige: TfEstoqueCorrige
     OnClick = Button1Click
   end
   object JvDateEdit1: TJvDateEdit
-    Left = 25
+    Left = 16
     Top = 113
-    Width = 121
+    Width = 153
     Height = 21
     TabOrder = 2
     OnKeyPress = Edit1KeyPress
@@ -92,13 +92,13 @@ object fEstoqueCorrige: TfEstoqueCorrige
   object JvDateEdit2: TJvDateEdit
     Left = 194
     Top = 113
-    Width = 121
+    Width = 159
     Height = 21
     TabOrder = 3
     OnKeyPress = Edit1KeyPress
   end
   object Button2: TButton
-    Left = 256
+    Left = 215
     Top = 176
     Width = 121
     Height = 25
@@ -107,9 +107,9 @@ object fEstoqueCorrige: TfEstoqueCorrige
     OnClick = Button2Click
   end
   object JvProgressBar1: TJvProgressBar
-    Left = 24
-    Top = 144
-    Width = 361
+    Left = 16
+    Top = 146
+    Width = 337
     Height = 16
     TabOrder = 6
   end
