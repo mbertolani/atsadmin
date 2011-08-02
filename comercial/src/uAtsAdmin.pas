@@ -923,7 +923,7 @@ var
 begin
   usulog :=  UserControlComercial.CurrentUser.UserID;
   nome_user := UserControlComercial.CurrentUser.UserName;
-  if Dm.cds_parametro.Active then
+{  if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'EMPRESA';
   dm.cds_parametro.Open;
@@ -931,17 +931,19 @@ begin
   fMovCaixa := TfMovCaixa.Create(Application);
   if (empresaemuso = 'COMETA') then
   begin
+ }
     F_AUTOPECAS := TF_AUTOPECAS.Create(Application);
     try
       F_AUTOPECAS.ShowModal; //fTerminal.ShowModal
     finally
       F_AUTOPECAS.Free;
     end;
-  end
+{  end
   else
     fTerminal_Delivery.ShowModal;
 
   fMovCaixa.Free;
+  }
  //fTerminal.ShowModal;
 { fTerminalLoja := TfTerminalLoja.Create(Application);
  try
