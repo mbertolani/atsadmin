@@ -390,8 +390,6 @@ type
     dbedtCODCLIENTE: TDBEdit;
     dbedtNOMECLIENTE: TDBEdit;
     btn2: TBitBtn;
-    JvGroupBox6: TJvGroupBox;
-    dbedtOBS: TDBEdit;
     JvGroupBox10: TJvGroupBox;
     lbl18: TLabel;
     lbl27: TLabel;
@@ -458,6 +456,9 @@ type
     JvImage1: TJvImage;
     DBMemo1: TDBMemo;
     TabSheet3: TTabSheet;
+    pm3: TPopupMenu;
+    AprovarOramento1: TMenuItem;
+    AbrirOS1: TMenuItem;
     procedure edt_produtoKeyPress(Sender: TObject; var Key: Char);
     procedure btn_incluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -499,6 +500,8 @@ type
     procedure btnSerieClick(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure lbl3Click(Sender: TObject);
+    procedure AbrirOS1Click(Sender: TObject);
+    procedure AprovarOramento1Click(Sender: TObject);
   private
     { Private declarations }
     centro_receita, cod_nat, cod_vendedor_padrao, COD_VENDA: integer;
@@ -547,7 +550,7 @@ implementation
 
 uses UDm, sCtrlResize, uListaClientes, U_Boletos, ufprocura_prod,
   uFiltroMovimento, uClienteVeiculo, uProcurar, U_OSBUSCA,
-  uClienteCadastro;
+  uClienteCadastro, U_FiltroOS;
 
 {$R *.dfm}
 
@@ -1343,7 +1346,7 @@ var
 begin
      XY := Point(50, -10);
      XY := btn12.ClientToScreen(XY);
-     pm2.Popup(XY.X, XY.Y + btn1.Height - 2);
+     pm2.Popup(XY.X, XY.Y + btn12.Height - 2);
 end;
 
 procedure TF_AUTOPECAS.rg1Click(Sender: TObject);
@@ -1911,7 +1914,42 @@ end;
 
 procedure TF_AUTOPECAS.btn4Click(Sender: TObject);
 var
-  codosvar : integer;
+   XY: TPoint;
+begin
+     XY := Point(50, -10);
+     XY := btn4.ClientToScreen(XY);
+     pm3.Popup(XY.X, XY.Y + btn4.Height - 2);
+end;
+
+procedure TF_AUTOPECAS.lbl3Click(Sender: TObject);
+begin
+     fClienteCadastro:=TfClienteCadastro.Create(Application);
+     try
+      fClienteCadastro.cds_cli.Params[0].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
+      fClienteCadastro.cds_cli.Open;
+      if fClienteCadastro.cdsEnderecoCli.Active then
+         fClienteCadastro.cdsEnderecoCli.Close;
+      fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
+      fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
+      fClienteCadastro.cdsEnderecoCli.Open;
+      fClienteCadastro.ShowModal;
+     finally
+       fClienteCadastro.Free;
+     end;
+end;
+
+procedure TF_AUTOPECAS.AbrirOS1Click(Sender: TObject);
+begin
+  F_FiltroOS := TF_FiltroOS.Create(Application);
+  try
+    F_FiltroOS.ShowModal;
+  finally
+    F_FiltroOS.Free;
+  end;  
+end;
+
+procedure TF_AUTOPECAS.AprovarOramento1Click(Sender: TObject);
+var codosvar :integer;
 begin
   if dm.c_6_genid.Active then
      dm.c_6_genid.Close;
@@ -1936,23 +1974,6 @@ begin
   dm.sqlsisAdimin.StartTransaction(TD);
   dm.sqlsisAdimin.ExecuteDirect(strSql);
   dm.sqlsisAdimin.Commit(TD);
-end;
-
-procedure TF_AUTOPECAS.lbl3Click(Sender: TObject);
-begin
-     fClienteCadastro:=TfClienteCadastro.Create(Application);
-     try
-      fClienteCadastro.cds_cli.Params[0].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
-      fClienteCadastro.cds_cli.Open;
-      if fClienteCadastro.cdsEnderecoCli.Active then
-         fClienteCadastro.cdsEnderecoCli.Close;
-      fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
-      fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
-      fClienteCadastro.cdsEnderecoCli.Open;
-      fClienteCadastro.ShowModal;
-     finally
-       fClienteCadastro.Free;
-     end;
 end;
 
 end.
