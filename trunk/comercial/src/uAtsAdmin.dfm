@@ -2166,6 +2166,7 @@ object fAtsAdmin: TfAtsAdmin
       end
       object CFOP1: TMenuItem
         Caption = 'CFOP'
+        OnClick = CFOP1Click
       end
       object CFOPEstados1: TMenuItem
         Caption = 'CFOP-Estados'
@@ -2200,7 +2201,7 @@ object fAtsAdmin: TfAtsAdmin
         OnClick = produtosClick
       end
       object SriaNotaFiscal1: TMenuItem
-        Caption = '&S'#233'ria Nota Fiscal'
+        Caption = '&S'#233'rie Nota Fiscal'
         OnClick = SriaNotaFiscal1Click
       end
       object transportadoras: TMenuItem
