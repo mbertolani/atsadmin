@@ -359,7 +359,7 @@ type
     lbl36: TLabel;
     dbedtCHASSIS: TDBEdit;
     btn3: TBitBtn;
-    dbedtMARCA_MODELO: TDBEdit;
+    dbedtKM: TDBEdit;
     JvGroupBox4: TJvGroupBox;
     JvDBGrid2: TJvDBGrid;
     JvGroupBox5: TJvGroupBox;
@@ -368,8 +368,6 @@ type
     dbedtCODPEDIDO: TDBEdit;
     dbedtDATAMOVIMENTO: TDBEdit;
     rg1: TRadioGroup;
-    pnl2: TPanel;
-    JvImage1: TJvImage;
     ts2: TTabSheet;
     MMJPanel6: TMMJPanel;
     JvGroupBox11: TJvGroupBox;
@@ -407,41 +405,6 @@ type
     pnl3: TPanel;
     btn5: TBitBtn;
     btn10: TBitBtn;
-    ts3: TTabSheet;
-    MMJPanel7: TMMJPanel;
-    JvGroupBox8: TJvGroupBox;
-    JvDBGrid5: TJvDBGrid;
-    JvGroupBox9: TJvGroupBox;
-    dbmmo1: TDBMemo;
-    pnl1: TPanel;
-    btn6: TBitBtn;
-    btn7: TBitBtn;
-    btn8: TBitBtn;
-    JvGroupBox3: TJvGroupBox;
-    lbl5: TLabel;
-    lbl6: TLabel;
-    lbl21: TLabel;
-    lbl22: TLabel;
-    lbl12: TLabel;
-    lbl35: TLabel;
-    dbedtPLACA: TDBEdit;
-    dbedtMARCA_MODELO1: TDBEdit;
-    btn11: TBitBtn;
-    dbedt16: TDBEdit;
-    dbedt17: TDBEdit;
-    dbedt1: TDBEdit;
-    dbedt2: TDBEdit;
-    JvGroupBox14: TJvGroupBox;
-    lbl11: TLabel;
-    lbl14: TLabel;
-    lbl15: TLabel;
-    lbl16: TLabel;
-    dbedt10: TDBEdit;
-    dbedt13: TDBEdit;
-    JvDBDateEdit2: TJvDBDateEdit;
-    JvDBDateEdit3: TJvDBDateEdit;
-    JvGroupBox7: TJvGroupBox;
-    JvDBGrid3: TJvDBGrid;
     ts4: TTabSheet;
     MMJPanel2: TMMJPanel;
     JvDBGrid1: TJvDBGrid;
@@ -488,6 +451,13 @@ type
     ds_movimentoCOMBUSTIVEL: TStringField;
     ds_movimentoANO_FAB: TStringField;
     ds_movimentoANO_MOD: TStringField;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    pnl2: TPanel;
+    JvImage1: TJvImage;
+    DBMemo1: TDBMemo;
+    TabSheet3: TTabSheet;
     procedure edt_produtoKeyPress(Sender: TObject; var Key: Char);
     procedure btn_incluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -528,6 +498,7 @@ type
     procedure dbeSerieExit(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
     procedure btn4Click(Sender: TObject);
+    procedure lbl3Click(Sender: TObject);
   private
     { Private declarations }
     centro_receita, cod_nat, cod_vendedor_padrao, COD_VENDA: integer;
@@ -575,7 +546,8 @@ var
 implementation
 
 uses UDm, sCtrlResize, uListaClientes, U_Boletos, ufprocura_prod,
-  uFiltroMovimento, uClienteVeiculo, uProcurar, U_OSBUSCA;
+  uFiltroMovimento, uClienteVeiculo, uProcurar, U_OSBUSCA,
+  uClienteCadastro;
 
 {$R *.dfm}
 
@@ -653,7 +625,7 @@ begin
   if (rg1.ItemIndex = 1) then
   begin
      ts2.TabVisible := False;
-     ts3.TabVisible := False;
+     //ts3.TabVisible := False;
      ts4.TabVisible := False;
   end;
   
@@ -1380,14 +1352,14 @@ begin
   begin
      ts1.TabVisible := True;
      ts2.TabVisible := False;
-     ts3.TabVisible := False;
+     //ts3.TabVisible := False;
      ts4.TabVisible := False;
   end
   else
   begin
      ts1.TabVisible := True;
      ts2.TabVisible := True;
-     ts3.TabVisible := True;
+     //ts3.TabVisible := True;
      ts4.TabVisible := False;
   end;
 end;
@@ -1660,7 +1632,7 @@ begin
 
    ts1.TabVisible := True;
    ts2.TabVisible := False;
-   ts3.TabVisible := False;
+   //ts3.TabVisible := False;
    ts4.TabVisible := False;
    rg1.ItemIndex := 1;
     if (ds_movimentoCODNATUREZA.AsInteger = 3) then
@@ -1689,7 +1661,7 @@ begin
 
       ts1.TabVisible := True;
       ts2.TabVisible := True;
-      ts3.TabVisible := False;
+      //ts3.TabVisible := False;
       ts4.TabVisible := False;
       rg1.ItemIndex := 0;
     end;
@@ -1941,30 +1913,46 @@ procedure TF_AUTOPECAS.btn4Click(Sender: TObject);
 var
   codosvar : integer;
 begin
-
   if dm.c_6_genid.Active then
      dm.c_6_genid.Close;
-     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_OS, 1) AS INTEGER) AS CODOS FROM RDB$DATABASE';
-     dm.c_6_genid.Open;
-     codosvar := dm.c_6_genid.Fields[0].AsInteger;
-     dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_OS, 1) AS INTEGER) AS CODOS FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  codosvar := dm.c_6_genid.Fields[0].AsInteger;
+  dm.c_6_genid.Close;
 
 
-      strSql := 'INSERT OS(CODOS, CODCLIENTE, CODVEICULO, CODMOVIMENTO, ' +
-      ' DATAMOVIMENTO, DATA_SISTEMA, STATUS, DATA_INI) VALUES (';
+  strSql := 'INSERT OS(CODOS, CODCLIENTE, CODVEICULO, CODMOVIMENTO, ' +
+  ' DATAMOVIMENTO, DATA_SISTEMA, STATUS, DATA_INI) VALUES (';
 
-      strSql := strSql + IntToStr(codosvar) + ', ';
-      strSql := strSql + IntToStr(ds_movimentoCODCLIENTE.AsInteger) + ', ';
-      strSql := strSql + IntToStr(ds_movimentoCOD_VEICULO.AsInteger) + ', ';
-      strSql := strSql + IntToStr(ds_movimentoCODMOVIMENTO.AsInteger) + ', ';
-      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',ds_movimentoDATAMOVIMENTO.AsDateTime)) + ', ';
-      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW)) + ', ';
-      strSql := strSql + QuotedStr('PENDENTE') + ', ';
-      strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW)) + ')';
+  strSql := strSql + IntToStr(codosvar) + ', ';
+  strSql := strSql + IntToStr(ds_movimentoCODCLIENTE.AsInteger) + ', ';
+  strSql := strSql + IntToStr(ds_movimentoCOD_VEICULO.AsInteger) + ', ';
+  strSql := strSql + IntToStr(ds_movimentoCODMOVIMENTO.AsInteger) + ', ';
+  strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',ds_movimentoDATAMOVIMENTO.AsDateTime)) + ', ';
+  strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW)) + ', ';
+  strSql := strSql + QuotedStr('PENDENTE') + ', ';
+  strSql := strSql + QuotedStr(FormatDateTime('MM/dd/yyyy',NOW)) + ')';
 
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect(strSql);
-      dm.sqlsisAdimin.Commit(TD);
+  dm.sqlsisAdimin.StartTransaction(TD);
+  dm.sqlsisAdimin.ExecuteDirect(strSql);
+  dm.sqlsisAdimin.Commit(TD);
+end;
+
+procedure TF_AUTOPECAS.lbl3Click(Sender: TObject);
+begin
+     fClienteCadastro:=TfClienteCadastro.Create(Application);
+     try
+      fClienteCadastro.cds_cli.Params[0].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
+      fClienteCadastro.cds_cli.Open;
+      if fClienteCadastro.cdsEnderecoCli.Active then
+         fClienteCadastro.cdsEnderecoCli.Close;
+      fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
+      fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
+      fClienteCadastro.cdsEnderecoCli.Open;
+      fClienteCadastro.ShowModal;
+     finally
+       fClienteCadastro.Free;
+     end;
 end;
 
 end.
