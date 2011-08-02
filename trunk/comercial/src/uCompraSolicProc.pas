@@ -104,6 +104,10 @@ begin
     QuotedStr(FormatDateTime('mm/dd/yyyy' , StrToDate(dtNece2.Text)));}
    if( edProd.Text <> '')then
     cond := cond + ' and SOLIC_PRODUTO LIKE ' + QuotedStr(edProd.Text + '%');
+  if (rgSit.ItemIndex = 2) then
+    JvDBGrid1.Columns[10].Title.Caption := 'Data Cancelamento'
+  else
+    JvDBGrid1.Columns[10].Title.Caption := 'Data Aprovação';
 
   cdsSol.CommandText := str + cond;
   cdsSol.Open;
