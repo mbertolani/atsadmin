@@ -141,7 +141,7 @@ var
 
 implementation
 
-uses uUtils, UDm, uProcurar, uEstoque, uMovimento, uMovimentoDetalhe;
+uses uUtils, UDm, uProcurar, uEstoque, uMovimento;
 
 {$R *.dfm}
 
@@ -291,7 +291,6 @@ var
   tudo, alteraStatus: String;
   codFornec, codMov: Integer;
   fMov: TMovimento;
-  fDet: TMovimentoDetalhe;
   jaInclui : Integer;
 begin
   if ((edExpedicao.Text = '') or (dtEntrega.Checked = False)) then
@@ -312,7 +311,6 @@ begin
     tudo := 'S';
    Try
      fMov := TMovimento.Create;
-     fDet := TMovimentoDetalhe.Create;
      jaInclui := fMov.verMovimento(edExpedicao.Text, 'CONTROLE',  'STRING', 6);
      if (jaInclui = 0) then
      begin
@@ -340,17 +338,16 @@ begin
         if (cdsPedidoRECEBIDO.AsFloat > 0) then
         begin
           // Detalhe Natureza 6
-          fDet.CodMov       := codMov;
-          fDet.CodProduto   := cdsPedidoCODPRODUTO.AsInteger;
-          fDet.Qtde         := cdsPedidoRECEBIDO.asFloat;
-          fDet.Preco        := cdsPedidoPRECO.AsFloat;
-          fDet.Descricao    := cdsPedidoPRODUTO.AsString;
-          fDet.Desconto     := 0;
-          fDet.Un           := cdsPedidoUN.AsString;
-          fDet.Baixa        := '1';
-          fDet.Codigo       := cdsPedidoCODPEDIDO.AsInteger;
-          fDet.inserirMovDet;
-
+          fMov.MovDetalhe.CodMov     := codMov;
+          fMov.MovDetalhe.CodProduto := cdsPedidoCODPRODUTO.AsInteger;
+          fMov.MovDetalhe.Qtde       := cdsPedidoRECEBIDO.asFloat;
+          fMov.MovDetalhe.Preco      := cdsPedidoPRECO.AsFloat;
+          fMov.MovDetalhe.Descricao  := cdsPedidoPRODUTO.AsString;
+          fMov.MovDetalhe.Desconto   := 0;
+          fMov.MovDetalhe.Un         := cdsPedidoUN.AsString;
+          fMov.MovDetalhe.Baixa      := '1';
+          fMov.MovDetalhe.Codigo     := cdsPedidoCODPEDIDO.AsInteger;
+          fMov.MovDetalhe.inserirMovDet;
           {if (cdsPedidoRECEBIDO.AsFloat < cdsPedidoQUANTIDADE.AsFloat) then
           begin
             // Detalhe Natureza 3 - se sobrou qtde a ser entregue deste item
@@ -377,7 +374,6 @@ begin
 
       //dm.sqlsisAdimin.Commit(TD);
     Finally
-      fDet.Free;
       fMov.Free;
     end;
     {dm.sqlsisAdimin.StartTransaction(TD);
