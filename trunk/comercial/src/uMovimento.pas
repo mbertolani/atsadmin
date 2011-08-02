@@ -20,6 +20,7 @@ type
     function getControle   : String;
     function getDataMov    : TDateTime;
     function getDataEntrega: TDateTime;
+    function getMovDetalhe : TMovimentoDetalhe;
 
     procedure setCodMov(const Value: Integer);
     procedure setCodPedido(const Value: Integer);
@@ -33,6 +34,7 @@ type
     procedure setControle(const Value: String);
     procedure setDataMov(const Value: TDateTime);
     procedure setDataEntrega(const Value: TDateTime);
+    procedure setMovDetalhe(const Value: TMovimentoDetalhe);
   protected
     //Atributos
     _codMov          : Integer;
@@ -62,6 +64,7 @@ type
     property Controle    : String  read getControle write setControle;
     property DataMov     : TDateTime read getDataMov write setDataMov;
     property DataEntrega : TDateTime read getDataEntrega write setDataEntrega;
+    property MovDetalhe  : TMovimentoDetalhe read getMovDetalhe write setMovDetalhe;
 
     //Metodos
     function inserirMovimento(): Integer;
@@ -87,7 +90,7 @@ end;
 
 destructor TMovimento.Destroy;
 begin
-  //_movDetalhe.Destroy;
+  _movDetalhe.Destroy;
   inherited;
 end;
 
@@ -172,6 +175,11 @@ end;
 function TMovimento.getDataMov: TDateTime;
 begin
   Result := _dataMov;
+end;
+
+function TMovimento.getMovDetalhe: TMovimentoDetalhe;
+begin
+  Result := _movDetalhe;
 end;
 
 function TMovimento.getStatus: Integer;
@@ -259,6 +267,11 @@ end;
 procedure TMovimento.setDataMov(const Value: TDateTime);
 begin
   _dataMov := Value;
+end;
+
+procedure TMovimento.setMovDetalhe(const Value: TMovimentoDetalhe);
+begin
+  _movDetalhe := Value;
 end;
 
 procedure TMovimento.setStatus(const Value: Integer);

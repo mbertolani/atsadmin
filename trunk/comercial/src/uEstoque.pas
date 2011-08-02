@@ -707,11 +707,6 @@ begin
       Result := True;
     end;
   end;
-
-
-
-
-
 end;
 
 function TEstoque.verEstoque(MesAno: TDateTime): Boolean;
