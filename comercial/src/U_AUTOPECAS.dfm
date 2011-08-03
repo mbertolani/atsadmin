@@ -38,8 +38,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object lbl1: TLabel
       Left = 66
       Top = 42
-      Width = 323
-      Height = 25
+      Width = 358
+      Height = 28
       Caption = 'Entre com o C'#243'digo de Barras -->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -52,8 +52,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object RxLabel2: TRxLabel
       Left = 9
       Top = 11
-      Width = 255
-      Height = 21
+      Width = 292
+      Height = 23
       Caption = 'Entre com o C'#243'digo de Barras -->'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -248,7 +248,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
     Top = 45
     Width = 418
     Height = 564
-    ActivePage = ts2
+    ActivePage = ts1
     Align = alClient
     PopupMenu = pm1
     TabOrder = 2
@@ -1919,7 +1919,6 @@ object F_AUTOPECAS: TF_AUTOPECAS
       OnKeyDown = JvDBGrid1KeyDown
       OnKeyUp = JvDBGrid1KeyUp
       OnMouseDown = JvDBGrid1MouseDown
-      OnMouseUp = JvDBGrid1MouseUp
       BevelKind = bkFlat
       AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
@@ -1989,8 +1988,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
       object RxLabel1: TRxLabel
         Left = 44
         Top = 16
-        Width = 190
-        Height = 25
+        Width = 207
+        Height = 28
         Caption = 'Total do Pedido -->'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

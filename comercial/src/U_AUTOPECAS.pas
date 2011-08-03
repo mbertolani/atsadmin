@@ -469,8 +469,6 @@ type
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure JvDBGrid1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure JvDBGrid1MouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure JvDBGrid1KeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure JvDBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -510,6 +508,7 @@ type
     strSql, serie, usaprecolista, usacadveiculo, tiporel: string;
     vrr, precovenda : double;
     result : Boolean;
+    procedure buscaSimilar;
   public
     { Public declarations }
     procedure BUSCA_PRODUTO;
@@ -550,7 +549,7 @@ implementation
 
 uses UDm, sCtrlResize, uListaClientes, U_Boletos, ufprocura_prod,
   uFiltroMovimento, uClienteVeiculo, uProcurar, U_OSBUSCA,
-  uClienteCadastro, U_FiltroOS;
+  uClienteCadastro, U_FiltroOS, uProcura_prodOficina;
 
 {$R *.dfm}
 
@@ -771,10 +770,7 @@ procedure TF_AUTOPECAS.JvDBGrid1DblClick(Sender: TObject);
 begin
     if (not ds_movdet.Active) then
        Exit;
-    if (ds_similar.Active) then
-        ds_similar.Close;
-    ds_similar.Params[0].AsInteger := ds_movdetCODPRODUTO.AsInteger;
-    ds_similar.Open;
+    buscaSimilar;
 end;
 
 procedure TF_AUTOPECAS.JvDBGrid1MouseDown(Sender: TObject;
@@ -782,21 +778,7 @@ procedure TF_AUTOPECAS.JvDBGrid1MouseDown(Sender: TObject;
 begin
     if (not ds_movdet.Active) then
        Exit;
-    if (ds_similar.Active) then
-        ds_similar.Close;
-    ds_similar.Params[0].AsInteger := ds_movdetCODPRODUTO.AsInteger;
-    ds_similar.Open;
-end;
-
-procedure TF_AUTOPECAS.JvDBGrid1MouseUp(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-begin
-    if (not ds_movdet.Active) then
-       Exit;
-    if (ds_similar.Active) then
-        ds_similar.Close;
-    ds_similar.Params[0].AsInteger := ds_movdetCODPRODUTO.AsInteger;
-    ds_similar.Open;
+    buscaSimilar;
 end;
 
 procedure TF_AUTOPECAS.JvDBGrid1KeyUp(Sender: TObject; var Key: Word;
@@ -804,10 +786,7 @@ procedure TF_AUTOPECAS.JvDBGrid1KeyUp(Sender: TObject; var Key: Word;
 begin
     if (not ds_movdet.Active) then
        Exit;
-    if (ds_similar.Active) then
-        ds_similar.Close;
-    ds_similar.Params[0].AsInteger := ds_movdetCODPRODUTO.AsInteger;
-    ds_similar.Open;
+    buscaSimilar;
 end;
 
 procedure TF_AUTOPECAS.JvDBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -815,10 +794,7 @@ procedure TF_AUTOPECAS.JvDBGrid1KeyDown(Sender: TObject; var Key: Word;
 begin
     if (not ds_movdet.Active) then
        Exit;
-    if (ds_similar.Active) then
-        ds_similar.Close;
-    ds_similar.Params[0].AsInteger := ds_movdetCODPRODUTO.AsInteger;
-    ds_similar.Open;
+    buscaSimilar;
 end;
 
 procedure TF_AUTOPECAS.d_movimentoStateChange(Sender: TObject);
@@ -835,7 +811,7 @@ begin
         exit;
      end;
   end;
-  
+
   btn_sair.Enabled := d_movimento.State in [dsBrowse,dsInactive];
 
   if (d_movimento.State in [dsInsert, dsEdit]) then
@@ -1220,12 +1196,12 @@ end;
 procedure TF_AUTOPECAS.btn1Click(Sender: TObject);
 begin
   procprod := 'PROC_PROD_COMPLETO';
-  fProcura_prod.CheckBox1.Visible := False;
-  fProcura_prod.RadioButton2.Visible := False;
-  fProcura_prod.Panel2.Visible := False;
-  fProcura_prod.Panel1.Visible := True;
-  fProcura_prod.ShowModal;
-  edt_produto.Text := fProcura_prod.cds_procCODPRO.AsString;
+  //fProcura_prodOficina.CheckBox1.Visible := False;
+  //fProcura_prodOficina.RadioButton2.Visible := False;
+  fProcura_prodOficina.Panel2.Visible := False;
+  fProcura_prodOficina.Panel1.Visible := True;
+  fProcura_prodOficina.ShowModal;
+  edt_produto.Text := fProcura_prodOficina.cds_procCODPRO.AsString;
   edt_produto.SetFocus;
 end;
 
@@ -1296,11 +1272,8 @@ begin
   }
 
 
-    if (ds_similar.Active) then
-        ds_similar.Close;
-    ds_similar.Params[0].AsInteger := s_buscaProCODPRODUTO.AsInteger;
-    ds_similar.Open;
-    // Alimento a tabela Mivimento detalhe
+  buscaSimilar;
+  // Alimento a tabela Mivimento detalhe
 
 
    if (not ds_movdet.Active) then
@@ -1945,7 +1918,7 @@ begin
     F_FiltroOS.ShowModal;
   finally
     F_FiltroOS.Free;
-  end;  
+  end;
 end;
 
 procedure TF_AUTOPECAS.AprovarOramento1Click(Sender: TObject);
@@ -1974,6 +1947,14 @@ begin
   dm.sqlsisAdimin.StartTransaction(TD);
   dm.sqlsisAdimin.ExecuteDirect(strSql);
   dm.sqlsisAdimin.Commit(TD);
+end;
+
+procedure TF_AUTOPECAS.buscaSimilar;
+begin
+  {if (ds_similar.Active) then
+     ds_similar.Close;
+  ds_similar.Params[0].AsInteger := ds_movdetCODPRODUTO.AsInteger;
+  ds_similar.Open;}
 end;
 
 end.
