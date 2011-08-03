@@ -86,7 +86,7 @@ end;
 procedure TfClienteVeiculo.cds_VeiculocliNewRecord(DataSet: TDataSet);
 begin
   inherited;
-  cds_VeiculocliCOD_CLIENTE.AsInteger := 1;
+  cds_VeiculocliCOD_CLIENTE.AsInteger := 0;
 end;
 
 procedure TfClienteVeiculo.btnGravarClick(Sender: TObject);
