@@ -1218,13 +1218,13 @@ object DM: TDM
   object scds_forn_proc: TSQLClientDataSet
     CommandText = 
       'select f.CODFORNECEDOR, f.NOMEFORNECEDOR, f.RAZAOSOCIAL, ef.DDD,' +
-      ' ef.TELEFONE,  f.PRAZOPAGAMENTO'#13#10'from FORNECEDOR f'#13#10'inner join E' +
-      'NDERECOFORNECEDOR EF on EF.CODFORNECEDOR = F.CODFORNECEDOR'#13#10'wher' +
-      'e ((f.NOMEFORNECEDOR like :pFORNECEDOR) or (f.RAZAOSOCIAL like :' +
-      'pRAZAO) or (f.CODFORNECEDOR = :pCODFORNECEDOR)) '#13#10'and  (f.status' +
-      ' = :pStatus) '#13#10'and  (((f.segmento = :pSegmento) or (f.segmento =' +
-      ' 1) ) or (:pSegmento = 1 ))'#13#10'and ef.TIPOEND = 0'#13#10'order by f.NOME' +
-      'FORNECEDOR'
+      ' ef.TELEFONE,  f.PRAZOPAGAMENTO'#13#10'from FORNECEDOR f'#13#10'left outer j' +
+      'oin ENDERECOFORNECEDOR EF on EF.CODFORNECEDOR = F.CODFORNECEDOR'#13 +
+      #10'where ((f.NOMEFORNECEDOR like :pFORNECEDOR) or (f.RAZAOSOCIAL l' +
+      'ike :pRAZAO) or (f.CODFORNECEDOR = :pCODFORNECEDOR)) '#13#10'and  (f.s' +
+      'tatus = :pStatus) '#13#10'and  (((f.segmento = :pSegmento) or (f.segme' +
+      'nto = 1) ) or (:pSegmento = 1 ))'#13#10'and ( (ef.TIPOEND = 0) or (ef.' +
+      'TIPOEND is null) )'#13#10'order by f.NOMEFORNECEDOR'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -1245,17 +1245,17 @@ object DM: TDM
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pStatus'
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pSegmento'
         ParamType = ptInput
       end
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'pSegmento'
         ParamType = ptInput
       end>
