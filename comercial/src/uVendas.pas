@@ -2657,7 +2657,7 @@ begin
      end;
   end;
   fVendas.SetFocus;
-  MessageDlg('Inclusão realizada com sucesso.', mtInformation, [mbOK], 0);
+  MessageDlg('Venda Finalizada com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 procedure TfVendas.DBEdit12Exit(Sender: TObject);
