@@ -65,10 +65,10 @@ BEGIN
         VLFUNT = VLFUNT - VLFUN;
         IF (VLDESC > VLDESCT) THEN
            VLDESC = 0;   
-        VLDESC = VLDESCT - VLDESC;
+        VLDESC = VLDESCT;
         IF (VLDESC < 0) then
           VLDESC = 0; 
-        VLDESCT = VLDESCT - VLDESC;
+--        VLDESCT = VLDESCT - VLDESC;
         IF (VLPER > VLPERT) THEN
           VLPER = 0;   
         VLPER = VLPERT - VLPER;
@@ -100,7 +100,7 @@ BEGIN
         end
         IF (VLR < VLDESC) then
         begin
-          vldesct = vldesc - VLR;
+          vldesct = vldesct - VLR;
           vldesc = vlr;
         end         
         IF (VLR < VLPER) then
@@ -108,8 +108,12 @@ BEGIN
           vlpert = vlper - VLR;
           vlper = vlr;
         end         
-     
       end
+      else
+      begin
+        vldesct = 0;
+      end
+      
       IF (VLR > 0) THEN
       BEGIN   
          UPDATE PAGAMENTO SET
