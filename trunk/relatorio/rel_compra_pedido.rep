@@ -766,6 +766,7 @@ object TRpReport
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
+    CutText = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
