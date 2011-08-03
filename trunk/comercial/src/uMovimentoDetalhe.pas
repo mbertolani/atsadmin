@@ -60,6 +60,7 @@ type
     //Metodos
     function inserirMovDet(): Boolean;
     function verMovDetalhe(codDetV: Integer): Boolean;
+    function verMovimentoDet(codMov: Integer): Boolean;
     function excluirMovDetalhe(codDetE: Integer): Boolean;
     constructor Create;
     Destructor Destroy; Override;
@@ -267,6 +268,31 @@ begin
     end
     else
       ShowMessage('Registro não encontrado');
+  Except
+    on E : Exception do
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+  end;
+end;
+
+function TMovimentoDetalhe.verMovimentoDet(codMov: Integer): Boolean;
+begin
+  Try
+    Result := False;
+
+    With dm.cdsBusca do begin
+      Close;
+      CommandText := 'SELECT * FROM MOVIMENTODETALHE WHERE CODDETALHE = ' + IntToStr(codMov);
+      Open;
+    end;
+
+    if (dm.cdsBusca.RecordCount > 0) then
+    begin
+      Result := True;
+    end
+    else begin
+      ShowMessage('Registro não encontrado');
+      Result := False;
+    end;  
   Except
     on E : Exception do
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
