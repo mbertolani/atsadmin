@@ -301,7 +301,7 @@ end;
 
 procedure TfProcura_prodOficina.FormCreate(Sender: TObject);
 begin
-  sCtrlResize.CtrlResize(TForm(fProcura_prodOficina));
+  //sCtrlResize.CtrlResize(TForm(fProcura_prodOficina));
 end;
 
 procedure TfProcura_prodOficina.FormShow(Sender: TObject);

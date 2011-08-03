@@ -1,8 +1,8 @@
 object fProcura_ProdOficina: TfProcura_ProdOficina
   Left = 0
   Top = 0
-  Width = 813
-  Height = 577
+  Width = 962
+  Height = 611
   Caption = 'Lista de Produtos'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,8 +12,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = PopupMenu1
-  Position = poDefault
-  WindowState = wsMaximized
+  Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -23,7 +22,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 805
+    Width = 954
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -259,10 +258,11 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
   end
   object Panel2: TPanel
-    Left = 1
-    Top = 59
-    Width = 790
-    Height = 86
+    Left = 0
+    Top = 146
+    Width = 793
+    Height = 438
+    Align = alClient
     BevelOuter = bvLowered
     PopupMenu = PopupMenu1
     TabOrder = 0
@@ -402,8 +402,8 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object DBGrid1: TDBGrid
     Left = 0
     Top = 146
-    Width = 644
-    Height = 404
+    Width = 793
+    Height = 438
     Align = alClient
     Color = clCream
     DataSource = Dtsrc
@@ -512,7 +512,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 805
+    Width = 954
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1346,10 +1346,10 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
   end
   object DBGrid2: TDBGrid
-    Left = 644
+    Left = 793
     Top = 146
     Width = 161
-    Height = 404
+    Height = 438
     Align = alRight
     Color = clCream
     DataSource = DataSource2
