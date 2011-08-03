@@ -636,7 +636,7 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
   uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils, uftransp,
-  uEstoque;
+  uEstoque, uProcura_prodOficina;
 
 {$R *.dfm}
 
@@ -1273,64 +1273,128 @@ begin
   inherited;
   if DtSrc1.DataSet.State in [dsInactive] then
    exit;
-  fProcura_prod.cbTipo.ItemIndex := 4;
-  fProcura_prod.btnIncluir.Visible := true;
-  if (procprod <> 'PROC_PROD_COMPLETO') then
+  if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
-    fProcura_prod.Panel1.Visible := false;
-    fProcura_prod.Panel2.Visible := true;
-    //fProcura_prod.CheckBox1.Checked := True;
-    fProcura_prod.BitBtn1.Click;
-  end
-  else begin
-    fProcura_prod.Panel2.Visible := false;
-    fProcura_prod.Panel1.Visible := true;
-    //fProcura_prod.CheckBox1.Checked := False;
-    if (fProcura_prod.cds_proc.Active) then
-      fProcura_prod.cds_proc.Close;
-  end;
-  varonde := 'compra';
-  var_F := 'venda';
-  cds_Mov_detLOTE.AsString := '';
-  fProcura_prod.codcli := cds_MovimentoCODCLIENTE.AsInteger;
-  fProcura_prod.ShowModal;
+    //fProcura_prodOficina.cbTipo.ItemIndex := 4;
+    fProcura_prodOficina.btnIncluir.Visible := true;
+    if (procprod <> 'PROC_PROD_COMPLETO') then
+    begin
+      fProcura_prodOficina.Panel1.Visible := false;
+      fProcura_prodOficina.Panel2.Visible := true;
+      //fProcura_prodOficina.CheckBox1.Checked := True;
+      fProcura_prodOficina.BitBtn1.Click;
+    end
+    else begin
+      fProcura_prodOficina.Panel2.Visible := false;
+      fProcura_prodOficina.Panel1.Visible := true;
+      //fProcura_prodOficina.CheckBox1.Checked := False;
+      if (fProcura_prodOficina.cds_proc.Active) then
+        fProcura_prodOficina.cds_proc.Close;
+    end;
+    varonde := 'compra';
+    var_F := 'venda';
+    cds_Mov_detLOTE.AsString := '';
+    //fProcura_prodOficina.codcli := cds_MovimentoCODCLIENTE.AsInteger;
+    fProcura_prodOficina.ShowModal;
 
-  if (procprod = 'PROC_PROD_COMPLETO') then
-  begin
-    if (cds_Mov_det.State in [dsInsert, dsEdit]) then
+    if (procprod = 'PROC_PROD_COMPLETO') then
     begin
-      cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
-      cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-      cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
-      cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
-      if ( fProcura_prod.cds_procQTDE_PCT.AsFloat < 1) then
-        cds_Mov_detQUANTIDADE.AsFloat := 1
-      else
-        cds_Mov_detQUANTIDADE.AsFloat := fProcura_prod.cds_procQTDE_PCT.AsFloat;
-      qtde := fProcura_prod.cds_procPESO_QTDE.AsFloat;
-      cds_Mov_detPRECOCUSTO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
-      estoque := fProcura_prod.cds_procESTOQUEATUAL.AsFloat;
+      if (cds_Mov_det.State in [dsInsert, dsEdit]) then
+      begin
+        cds_Mov_detCODPRO.AsString := fProcura_prodOficina.cds_procCODPRO.AsString;
+        cds_Mov_detCODPRODUTO.asInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+        cds_Mov_detDESCPRODUTO.asString := fProcura_prodOficina.cds_procPRODUTO.AsString;
+        cds_Mov_detPRECO.AsFloat := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+        if ( fProcura_prodOficina.cds_procQTDE_PCT.AsFloat < 1) then
+          cds_Mov_detQUANTIDADE.AsFloat := 1
+        else
+          cds_Mov_detQUANTIDADE.AsFloat := fProcura_prodOficina.cds_procQTDE_PCT.AsFloat;
+        qtde := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
+        cds_Mov_detPRECOCUSTO.AsFloat := fProcura_prodOficina.cds_procPRECOMEDIO.AsFloat;
+        estoque := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
+      end;
     end;
-  end;    
-  // Usa Lote
-  if (fProcura_prod.cds_procLOTES.AsString <> 'S') then
-  begin
-    usaLote := 'S';
-    if (fProcura_prod.cds_proc.Active) then
-      fProcura_prod.cds_proc.Close;
-    if cds_Mov_det.State in [dsInsert] then
-      DBEdit9.SetFocus;
-    if cds_Mov_det.State in [dsBrowse] then
+    // Usa Lote
+    if (fProcura_prodOficina.cds_procLOTES.AsString <> 'S') then
     begin
-      //cds_Mov_det.Edit;
-      DBEdit17.SetFocus;
-      //btnNovo.SetFocus;
-      //if DBEdit17.Text <> '' then
-      //DBEdit17.SetFocus;
+      usaLote := 'S';
+      if (fProcura_prodOficina.cds_proc.Active) then
+        fProcura_prodOficina.cds_proc.Close;
+      if cds_Mov_det.State in [dsInsert] then
+        DBEdit9.SetFocus;
+      if cds_Mov_det.State in [dsBrowse] then
+      begin
+        //cds_Mov_det.Edit;
+        DBEdit17.SetFocus;
+        //btnNovo.SetFocus;
+        //if DBEdit17.Text <> '' then
+        //DBEdit17.SetFocus;
+      end;
+    end
+    else begin
+      Bitbtn4.SetFocus;
     end;
   end
   else begin
-    Bitbtn4.SetFocus;
+    fProcura_prod.cbTipo.ItemIndex := 4;
+    fProcura_prod.btnIncluir.Visible := true;
+    if (procprod <> 'PROC_PROD_COMPLETO') then
+    begin
+      fProcura_prod.Panel1.Visible := false;
+      fProcura_prod.Panel2.Visible := true;
+      //fProcura_prod.CheckBox1.Checked := True;
+      fProcura_prod.BitBtn1.Click;
+    end
+    else begin
+      fProcura_prod.Panel2.Visible := false;
+      fProcura_prod.Panel1.Visible := true;
+      //fProcura_prod.CheckBox1.Checked := False;
+      if (fProcura_prod.cds_proc.Active) then
+        fProcura_prod.cds_proc.Close;
+    end;
+    varonde := 'compra';
+    var_F := 'venda';
+    cds_Mov_detLOTE.AsString := '';
+    fProcura_prod.codcli := cds_MovimentoCODCLIENTE.AsInteger;
+    fProcura_prod.ShowModal;
+
+    if (procprod = 'PROC_PROD_COMPLETO') then
+    begin
+      if (cds_Mov_det.State in [dsInsert, dsEdit]) then
+      begin
+        cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
+        cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+        cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
+        cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
+        if ( fProcura_prod.cds_procQTDE_PCT.AsFloat < 1) then
+          cds_Mov_detQUANTIDADE.AsFloat := 1
+        else
+          cds_Mov_detQUANTIDADE.AsFloat := fProcura_prod.cds_procQTDE_PCT.AsFloat;
+        qtde := fProcura_prod.cds_procPESO_QTDE.AsFloat;
+        cds_Mov_detPRECOCUSTO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
+        estoque := fProcura_prod.cds_procESTOQUEATUAL.AsFloat;
+      end;
+    end;
+    // Usa Lote
+    if (fProcura_prod.cds_procLOTES.AsString <> 'S') then
+    begin
+      usaLote := 'S';
+      if (fProcura_prod.cds_proc.Active) then
+        fProcura_prod.cds_proc.Close;
+      if cds_Mov_det.State in [dsInsert] then
+        DBEdit9.SetFocus;
+      if cds_Mov_det.State in [dsBrowse] then
+      begin
+        //cds_Mov_det.Edit;
+        DBEdit17.SetFocus;
+        //btnNovo.SetFocus;
+        //if DBEdit17.Text <> '' then
+        //DBEdit17.SetFocus;
+      end;
+    end
+    else begin
+      Bitbtn4.SetFocus;
+    end;
   end;
 end;
 
