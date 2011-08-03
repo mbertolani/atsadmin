@@ -578,7 +578,8 @@ implementation
 
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
-  uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque;
+  uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque,
+  uMovimento;
 
 {$R *.dfm}
 
@@ -1136,7 +1137,7 @@ begin
   if DtSrc.State in [dsInsert, dsEdit] then
      btnGravar.Click;
 
-  {------Pesquisando na tab Parametro qual form de Procura Produtos ---}
+  {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
@@ -1184,6 +1185,7 @@ var    utilcrtitulo : Tutils;
   usu_n, usu_s : string;
   FEstoque: TEstoque;
   dataVenda: TDateTime;
+  FMov : TMovimento;
 begin
   dataVenda := cdsDATAVENDA.AsDateTime;
 
@@ -1286,7 +1288,6 @@ begin
           FEstoque.Free;
         end;
 
-
         if (dm.moduloUsado = 'CITRUS') then
         begin
           grava := TCompras.Create;
@@ -1301,6 +1302,54 @@ begin
          (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
       end;
     end;
+
+  {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    // Excluindo a baixa da materia Prima
+    codigo_cliente :=  fVendas.cds_MovimentoCODCLIENTE.AsInteger;
+    data_movimento :=  DateToStr(fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime);
+
+    Try
+      FEstoque := TEstoque.Create;
+      // Gravando o Estoque
+      with fVendas do begin
+      cds_Mov_det.First;
+      While not cds_Mov_det.Eof do
+      begin
+        if (cds_Mov_detSTATUS.AsString = '9') then
+        begin
+          FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+          FEstoque.MesAno      := dataVenda;
+          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+          FEstoque.Status      := '0';
+          FEstoque.inserirMes;
+        end;
+        cds_Mov_det.Next;
+      end;
+      end;
+    Finally
+      FEstoque.Free;
+    end;
+
+    Try
+      FMov := TMovimento.Create;
+      //FMov.MovDetalhe.verMovimentoDet();
+      //FMov.excluirMovimento();
+    Finally
+      FMov.Free;
+    end;
+
+  end;
+
   if (dm.moduloUsado = 'CITRUS') then
   begin
     grava.ExcluiLancamento;
