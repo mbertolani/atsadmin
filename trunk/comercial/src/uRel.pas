@@ -60,7 +60,10 @@ type
     scds_ProdCODPRODUTO: TIntegerField;
     scds_ProdCODPRO: TStringField;
     scds_ProdPRODUTO: TStringField;
+    GroupBox8: TGroupBox;
+    chkPedido: TCheckBox;
     BitBtn11: TBitBtn;
+    cbPedido: TComboBox;
     procedure cbMesChange(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
@@ -81,6 +84,7 @@ type
     procedure CheckBox3Click(Sender: TObject);
     procedure edit4Change(Sender: TObject);
     procedure BitBtn11Click(Sender: TObject);
+    procedure chkPedidoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -102,7 +106,7 @@ var  periodo : TUtils;
 begin
   periodo := TUtils.Create;
   periodo.criaIni(cbMes.text);
-  periodo.criaFim(cbMes.text);  
+  periodo.criaFim(cbMes.text);
   dta1.Text := periodo.PeriodoIni;
   dta2.Text := periodo.PeriodoFim;
   periodo.Destroy;
@@ -204,7 +208,7 @@ begin
     dm.scds_forn_proc.Params[1].Clear;
     dm.scds_forn_proc.Params[2].AsInteger:=StrToInt(Edit1.Text);
     dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
-    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1; //Compra e Despesa    
+    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1; //Compra e Despesa
     dm.scds_forn_proc.Open;
     if dm.scds_forn_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
@@ -475,10 +479,23 @@ begin
 end;
 
 procedure TfRel.BitBtn11Click(Sender: TObject);
+var strRelPedido: String;
 begin
   Rep.Filename := str_relatorio + 'rel_compra_pedido.rep';
   Rep.Title := Rep.Filename;
   Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  strRelPedido := 'select * from  rel_compra_pedido ' +
+    '(:Fornec, :DATA1, :DATA2) ' ;
+  if (chkPedido.Checked) then
+  begin
+    Case cbPedido.ItemIndex of
+      0: strRelPedido := strRelPedido + ' WHERE SITUACAO = ' + QuotedStr('Finalizado');
+      1: strRelPedido := strRelPedido + ' WHERE SITUACAO = ' + QuotedStr('Pend. Entr. NF');
+      2: strRelPedido := strRelPedido + ' WHERE SITUACAO = ' + QuotedStr('Nao Recebido');
+    end;  
+  end;
+  strRelPedido := strRelPedido + ' order by fornecedor, nf_pedido';
+  Rep.Report.DataInfo.Items[1].SQL := strRelPedido;
   Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Dta1.Text);
   Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Dta2.Text);
   if (Edit1.Text <> '') then
@@ -486,6 +503,11 @@ begin
   else
     Rep.Report.Params.ParamByName('FORNEC').Value := '0';
   rep.execute;
+end;
+
+procedure TfRel.chkPedidoClick(Sender: TObject);
+begin
+  cbPedido.Enabled := chkPedido.Checked;
 end;
 
 end.
