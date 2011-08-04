@@ -70,7 +70,7 @@ inherited fCotacoesHist: TfCotacoesHist
       end
     end
     object BitBtn1: TBitBtn
-      Left = 762
+      Left = 786
       Top = 68
       Width = 107
       Height = 42
@@ -185,9 +185,9 @@ inherited fCotacoesHist: TfCotacoesHist
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object rgSituacao: TRadioGroup
-      Left = 356
+      Left = 358
       Top = 66
-      Width = 403
+      Width = 416
       Height = 46
       Caption = 'Situa'#231#227'o'
       Columns = 4
@@ -216,11 +216,19 @@ inherited fCotacoesHist: TfCotacoesHist
         Transparent = True
       end
       object Label4: TLabel
-        Left = 474
+        Left = 410
         Top = 10
         Width = 54
         Height = 13
         Caption = 'Fornecedor'
+        Transparent = True
+      end
+      object Label2: TLabel
+        Left = 825
+        Top = 11
+        Width = 33
+        Height = 13
+        Caption = 'Pedido'
         Transparent = True
       end
       object edProduto: TEdit
@@ -232,7 +240,7 @@ inherited fCotacoesHist: TfCotacoesHist
         OnExit = edProdutoExit
       end
       object edFornec: TEdit
-        Left = 535
+        Left = 471
         Top = 9
         Width = 69
         Height = 21
@@ -240,7 +248,7 @@ inherited fCotacoesHist: TfCotacoesHist
         OnExit = edFornecExit
       end
       object btnClienteProcura: TBitBtn
-        Left = 605
+        Left = 541
         Top = 9
         Width = 33
         Height = 21
@@ -250,9 +258,9 @@ inherited fCotacoesHist: TfCotacoesHist
         OnClick = btnClienteProcuraClick
       end
       object edFornecNome: TEdit
-        Left = 473
-        Top = 35
-        Width = 415
+        Left = 409
+        Top = 34
+        Width = 390
         Height = 21
         Color = clBtnShadow
         Enabled = False
@@ -261,11 +269,19 @@ inherited fCotacoesHist: TfCotacoesHist
       object edDescricao: TEdit
         Left = 8
         Top = 34
-        Width = 415
+        Width = 390
         Height = 21
         Color = clBtnShadow
         Enabled = False
         TabOrder = 4
+      end
+      object edPedido: TEdit
+        Left = 815
+        Top = 35
+        Width = 69
+        Height = 21
+        TabOrder = 5
+        OnExit = edFornecExit
       end
     end
   end
