@@ -61,6 +61,8 @@ type
     Label13: TLabel;
     edDescricao: TEdit;
     sqlProc: TSQLQuery;
+    Label2: TLabel;
+    edPedido: TEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -101,7 +103,7 @@ begin
     strCa := ' AND a.COTACAO_DATA BETWEEN ' +
       QuotedStr(FormatDateTime('mm/dd/yyyy', dta1.Date)) + ' AND '  +
       QuotedStr(FormatDateTime('mm/dd/yyyy', dta2.Date));
-  end;    
+  end;
   if (edFornec.Text <> '') then
   begin
     strCa := strCa + ' AND a.COTACAO_FORNEC = ' + edFornec.Text;
@@ -115,6 +117,11 @@ begin
     1: strCa := strCa + ' AND a.COTACAO_SITUACAO = ' + QuotedStr('G');
     2: strCa := strCa + ' AND a.COTACAO_SITUACAO = ' + QuotedStr('F');
   end;
+  if (edPedido.Text <> '') then
+  begin
+    strCa := strCa + ' AND a.COTACAO_CODIGO = ' + edPedido.Text;
+  end;
+
   if (ClientDataSet1.Active) then
     ClientDataSet1.Close;
   ClientDataSet1.CommandText := strC + strCa;
