@@ -440,7 +440,10 @@ begin
       if (Self.QtdeCompra > 0) then
       begin
         sqlStr := sqlStr + ', VALORUNITARIOATUAL = ' + FloatToStr(Self.PrecoCompra);
-        sqlStr := sqlStr + ', PRECOMEDIO         = ' + FloatToStr(Self.PrecoCusto);
+        if (Self.PrecoCusto < 0) then
+          sqlStr := sqlStr + ', PRECOMEDIO = 0 '
+        else
+          sqlStr := sqlStr + ', PRECOMEDIO         = ' + FloatToStr(Self.PrecoCusto);
       end;
 
       sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(Self.CodProduto);
