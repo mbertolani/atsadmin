@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   DBCtrls, dxCore, dxButton, EDBFind, Mask, FMTBcd, SqlExpr, JvExStdCtrls,
-  JvCombobox, JvDBSearchComboBox, JvExMask, JvSpin, JvDBSpinEdit;
+  JvCombobox, JvDBSearchComboBox, JvExMask, JvSpin, JvDBSpinEdit, ComCtrls,
+  JvExComCtrls, JvComCtrls;
 
 type
   TfProdutoCadastro = class(TfPai)
@@ -38,22 +39,14 @@ type
     GroupBox2: TGroupBox;
     DBEdit11: TDBEdit;
     Label18: TLabel;
-    GroupBox3: TGroupBox;
     DBEdit12: TDBEdit;
     Label16: TLabel;
     DBEdit13: TDBEdit;
     Label17: TLabel;
     DBEdit17: TDBEdit;
     Label19: TLabel;
-    Label20: TLabel;
-    DBEdit18: TDBEdit;
-    Label26: TLabel;
-    Panel1: TPanel;
-    Chk_lote: TCheckBox;
     dxButton1: TdxButton;
     dxButton2: TdxButton;
-    Panel2: TPanel;
-    Chk_rateio: TCheckBox;
     dst_familia: TDataSource;
     dstMarca: TDataSource;
     dstCategoria: TDataSource;
@@ -68,30 +61,42 @@ type
     SpeedButton1: TBitBtn;
     SpeedButton2: TBitBtn;
     SpeedButton3: TBitBtn;
-    btnRateio: TBitBtn;
-    DBRadioGroup2: TDBRadioGroup;
     cbTipo: TComboBox;
     Label28: TLabel;
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     DBEdit20: TDBEdit;
     Label29: TLabel;
-    DBEdit21: TDBEdit;
-    DBRadioGroup1: TDBRadioGroup;
-    Label30: TLabel;
-    Label31: TLabel;
-    DBRadioGroup3: TDBRadioGroup;
-    DBOrigem: TDBRadioGroup;
-    DBEdit22: TDBEdit;
-    Label32: TLabel;
-    DBRadioGroup4: TDBRadioGroup;
-    DBRadioGroup5: TDBRadioGroup;
-    DBRadioGroup6: TDBRadioGroup;
     DBEdit14: TDBEdit;
     dbMarca: TDBEdit;
     DBEdit16: TDBEdit;
-    DBEdit15: TDBEdit;
+    JvPageControl1: TJvPageControl;
+    TabSheet1: TTabSheet;
+    GroupBox3: TGroupBox;
+    Label32: TLabel;
     Label21: TLabel;
+    DBEdit22: TDBEdit;
+    DBEdit15: TDBEdit;
+    DBOrigem: TDBRadioGroup;
+    TabSheet2: TTabSheet;
+    DBRadioGroup4: TDBRadioGroup;
+    DBRadioGroup5: TDBRadioGroup;
+    DBRadioGroup6: TDBRadioGroup;
+    DBRadioGroup3: TDBRadioGroup;
+    Label31: TLabel;
+    TabSheet3: TTabSheet;
+    DBRadioGroup1: TDBRadioGroup;
+    Label30: TLabel;
+    Panel1: TPanel;
+    Chk_lote: TCheckBox;
+    Panel2: TPanel;
+    Chk_rateio: TCheckBox;
+    btnRateio: TBitBtn;
+    DBRadioGroup2: TDBRadioGroup;
+    Label20: TLabel;
+    DBEdit21: TDBEdit;
+    DBEdit18: TDBEdit;
+    Label26: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);

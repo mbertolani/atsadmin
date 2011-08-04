@@ -1,7 +1,7 @@
 inherited fProdutoCadastro: TfProdutoCadastro
   Top = 58
-  Width = 797
-  Height = 507
+  Width = 799
+  Height = 555
   Font.Height = -13
   OldCreateOrder = True
   OnShow = FormShow
@@ -9,20 +9,20 @@ inherited fProdutoCadastro: TfProdutoCadastro
   TextHeight = 16
   object Label3: TLabel [0]
     Left = 195
-    Top = 62
+    Top = 63
     Width = 105
     Height = 16
     Caption = 'C'#243'digo de Barra :'
   end
   object Label4: TLabel [1]
-    Left = 559
-    Top = 62
-    Width = 85
+    Left = 522
+    Top = 63
+    Width = 100
     Height = 16
-    Caption = 'C'#243'digo Prod. :'
+    Caption = 'C'#243'digo Produto :'
   end
   object Label5: TLabel [2]
-    Left = 3
+    Left = 5
     Top = 87
     Width = 131
     Height = 16
@@ -50,83 +50,37 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Quantidade'
   end
   object Label9: TLabel [6]
-    Left = 4
+    Left = 5
     Top = 130
     Width = 38
     Height = 16
     Caption = 'Marca'
   end
   object Label10: TLabel [7]
-    Left = 234
+    Left = 235
     Top = 130
     Width = 91
     Height = 16
     Caption = 'Fam'#237'lia / Grupo'
   end
   object Label11: TLabel [8]
-    Left = 516
+    Left = 518
     Top = 130
     Width = 134
     Height = 16
     Caption = 'Categoria / Sub-Grupo'
   end
   object Label28: TLabel [9]
-    Left = 8
-    Top = 59
+    Left = 5
+    Top = 63
     Width = 28
     Height = 16
     Caption = 'Tipo'
   end
-  object Label30: TLabel [10]
-    Left = 668
-    Top = 293
-    Width = 89
-    Height = 16
-    Caption = 'Gera Despesa'
-  end
-  object Label31: TLabel [11]
-    Left = 538
-    Top = 293
-    Width = 47
-    Height = 16
-    Caption = 'Imprimir'
-  end
-  object DBRadioGroup3: TDBRadioGroup [12]
-    Left = 507
-    Top = 310
-    Width = 129
-    Height = 35
-    Columns = 2
-    DataField = 'IMPRIMIR'
-    DataSource = DtSrc
-    Items.Strings = (
-      'Sim'
-      'N'#227'o')
-    TabOrder = 26
-    Values.Strings = (
-      'S'
-      'N')
-  end
-  object DBRadioGroup1: TDBRadioGroup [13]
-    Left = 649
-    Top = 311
-    Width = 129
-    Height = 35
-    Columns = 2
-    DataField = 'GERADESCONTO'
-    DataSource = DtSrc
-    Items.Strings = (
-      'Sim'
-      'N'#227'o')
-    TabOrder = 25
-    Values.Strings = (
-      'S'
-      'N')
-  end
   inherited MMJPanel1: TMMJPanel
-    Top = 426
-    Width = 789
-    TabOrder = 9
+    Top = 474
+    Width = 791
+    TabOrder = 12
     inherited btnGravar: TBitBtn
       Left = 278
       Width = 112
@@ -154,13 +108,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 789
+    Width = 791
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
     Font.Name = 'Cooper Blk BT'
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 13
     inherited Label1: TLabel
       Top = -58
     end
@@ -195,8 +149,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
       OnClick = rgEmUsoClick
     end
   end
-  object DBEdit1: TDBEdit [16]
-    Left = 315
+  object DBEdit1: TDBEdit [12]
+    Left = 303
     Top = 63
     Width = 211
     Height = 24
@@ -214,10 +168,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [17]
-    Left = 648
+  object DBEdit2: TDBEdit [13]
+    Left = 626
     Top = 63
-    Width = 137
+    Width = 158
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -233,8 +187,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [18]
-    Left = 3
+  object DBEdit3: TDBEdit [14]
+    Left = 5
     Top = 104
     Width = 511
     Height = 24
@@ -250,7 +204,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [19]
+  object DBEdit4: TDBEdit [15]
     Left = 517
     Top = 104
     Width = 86
@@ -269,7 +223,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [20]
+  object DBEdit5: TDBEdit [16]
     Left = 605
     Top = 104
     Width = 86
@@ -288,7 +242,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [21]
+  object DBEdit6: TDBEdit [17]
     Left = 693
     Top = 104
     Width = 92
@@ -307,46 +261,54 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object GroupBox1: TGroupBox [22]
-    Left = 3
-    Top = 173
-    Width = 517
-    Height = 51
+  object GroupBox1: TGroupBox [18]
+    Left = 411
+    Top = 172
+    Width = 375
+    Height = 157
     Caption = 'Estoque'
-    TabOrder = 6
+    TabOrder = 10
     object Label12: TLabel
-      Left = 26
-      Top = 18
+      Left = 10
+      Top = 28
       Width = 39
       Height = 16
       Caption = 'Atual..:'
     end
     object Label13: TLabel
-      Left = 128
-      Top = 18
+      Left = 192
+      Top = 62
       Width = 56
       Height = 16
       Caption = 'Maximo..:'
     end
     object Label14: TLabel
-      Left = 249
-      Top = 18
+      Left = 193
+      Top = 27
       Width = 52
       Height = 16
       Caption = 'Minimo..:'
     end
     object Label15: TLabel
-      Left = 363
-      Top = 18
+      Left = 10
+      Top = 61
       Width = 76
       Height = 16
       Caption = 'Reposi'#231#227'o..:'
     end
+    object Label26: TLabel
+      Left = 11
+      Top = 102
+      Width = 73
+      Height = 16
+      Caption = 'Localiza'#231#227'o'
+    end
     object DBEdit7: TDBEdit
-      Left = 68
+      Left = 92
       Top = 24
-      Width = 58
+      Width = 80
       Height = 24
+      TabStop = False
       BevelKind = bkFlat
       BorderStyle = bsNone
       Color = clMenuBar
@@ -360,13 +322,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
       PopupMenu = PopupMenu1
       ReadOnly = True
-      TabOrder = 3
+      TabOrder = 4
       OnKeyPress = FormKeyPress
     end
     object DBEdit8: TDBEdit
-      Left = 187
-      Top = 23
-      Width = 58
+      Left = 265
+      Top = 59
+      Width = 80
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -379,13 +341,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 0
+      TabOrder = 3
       OnKeyPress = FormKeyPress
     end
     object DBEdit9: TDBEdit
-      Left = 303
-      Top = 22
-      Width = 58
+      Left = 265
+      Top = 24
+      Width = 80
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -398,13 +360,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 2
       OnKeyPress = FormKeyPress
     end
     object DBEdit10: TDBEdit
-      Left = 441
-      Top = 22
-      Width = 58
+      Left = 92
+      Top = 60
+      Width = 80
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -417,77 +379,84 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 2
+      TabOrder = 0
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit18: TDBEdit
+      Left = 91
+      Top = 97
+      Width = 254
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DataField = 'LOCALIZACAO'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 1
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox2: TGroupBox [23]
-    Left = 3
-    Top = 224
-    Width = 782
-    Height = 62
-    TabOrder = 7
+  object GroupBox2: TGroupBox [19]
+    Left = 5
+    Top = 172
+    Width = 404
+    Height = 157
+    Caption = 'Pre'#231'os'
+    TabOrder = 9
     object Label18: TLabel
-      Left = 6
-      Top = 16
+      Left = 12
+      Top = 20
       Width = 94
       Height = 16
       Caption = 'Ultima Entrada :'
     end
     object Label16: TLabel
-      Left = 107
-      Top = 16
+      Left = 15
+      Top = 46
       Width = 73
       Height = 16
       Caption = 'Pre'#231'o Custo'
     end
     object Label17: TLabel
-      Left = 199
-      Top = 16
+      Left = 14
+      Top = 74
       Width = 96
       Height = 16
       Caption = 'V. Compra Atual'
     end
     object Label19: TLabel
-      Left = 302
-      Top = 16
+      Left = 211
+      Top = 19
       Width = 65
       Height = 16
       Caption = 'Margem %'
     end
-    object Label20: TLabel
-      Left = 569
-      Top = 16
-      Width = 61
-      Height = 16
-      Caption = 'Comiss'#227'o'
-    end
-    object Label26: TLabel
-      Left = 645
-      Top = 16
-      Width = 73
-      Height = 16
-      Caption = 'Localiza'#231#227'o'
-    end
     object Label27: TLabel
-      Left = 373
-      Top = 16
+      Left = 213
+      Top = 49
       Width = 75
       Height = 16
       Caption = 'Valor Venda'
     end
     object Label29: TLabel
-      Left = 472
-      Top = 18
+      Left = 212
+      Top = 75
       Width = 93
       Height = 16
       Caption = 'Valor V. Minimo'
     end
     object DBEdit11: TDBEdit
-      Left = 5
-      Top = 32
-      Width = 100
+      Left = 118
+      Top = 18
+      Width = 80
       Height = 24
+      TabStop = False
       BevelKind = bkFlat
       BorderStyle = bsNone
       Color = clMenuBar
@@ -501,13 +470,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
       PopupMenu = PopupMenu1
       ReadOnly = True
-      TabOrder = 0
+      TabOrder = 5
       OnKeyPress = FormKeyPress
     end
     object DBEdit12: TDBEdit
-      Left = 106
-      Top = 32
-      Width = 91
+      Left = 118
+      Top = 45
+      Width = 80
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -520,14 +489,15 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 0
       OnKeyPress = FormKeyPress
     end
     object DBEdit13: TDBEdit
-      Left = 198
-      Top = 32
-      Width = 102
+      Left = 118
+      Top = 71
+      Width = 80
       Height = 24
+      TabStop = False
       BevelKind = bkFlat
       BorderStyle = bsNone
       Color = clMenuBar
@@ -541,14 +511,14 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
       PopupMenu = PopupMenu1
       ReadOnly = True
-      TabOrder = 2
+      TabOrder = 6
       OnExit = DBEdit13Exit
       OnKeyPress = FormKeyPress
     end
     object DBEdit17: TDBEdit
-      Left = 301
-      Top = 32
-      Width = 70
+      Left = 309
+      Top = 18
+      Width = 80
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -561,33 +531,14 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 3
+      TabOrder = 1
       OnExit = DBEdit17Exit
       OnKeyPress = FormKeyPress
     end
-    object DBEdit18: TDBEdit
-      Left = 644
-      Top = 32
-      Width = 132
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      DataField = 'LOCALIZACAO'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 7
-      OnKeyPress = FormKeyPress
-    end
     object DBEdit19: TDBEdit
-      Left = 372
-      Top = 32
-      Width = 98
+      Left = 309
+      Top = 45
+      Width = 80
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -600,14 +551,14 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 2
       OnExit = DBEdit19Exit
       OnKeyPress = FormKeyPress
     end
     object DBEdit20: TDBEdit
-      Left = 471
-      Top = 32
-      Width = 98
+      Left = 309
+      Top = 72
+      Width = 80
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -620,137 +571,37 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 5
+      TabOrder = 3
       OnExit = DBEdit19Exit
       OnKeyPress = FormKeyPress
     end
-    object DBEdit21: TDBEdit
-      Left = 570
-      Top = 32
-      Width = 72
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      DataField = 'VALORCOMISSAO'
+    object DBRadioGroup2: TDBRadioGroup
+      Left = 14
+      Top = 96
+      Width = 376
+      Height = 55
+      Caption = 'Forma'#231#227'o Pre'#231'o Venda'
+      Color = clBtnFace
+      Columns = 3
+      DataField = 'TIPOPRECOVENDA'
       DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
+      Items.Strings = (
+        'Pre'#231'o M'#233'dio'
+        #218'lt. Compra'
+        'Fixo')
+      ParentColor = False
       PopupMenu = PopupMenu1
-      TabOrder = 6
-      OnExit = DBEdit19Exit
-      OnKeyPress = FormKeyPress
+      TabOrder = 4
+      Values.Strings = (
+        'M'
+        'U'
+        'F')
+      OnChange = DBRadioGroup2Change
     end
   end
-  object GroupBox3: TGroupBox [24]
-    Left = 3
-    Top = 288
-    Width = 177
-    Height = 58
-    Caption = 'Classifica'#231#227'o Fiscal'
-    TabOrder = 8
-    object Label32: TLabel
-      Left = 23
-      Top = 15
-      Width = 30
-      Height = 16
-      Hint = 'Nomenclatura Comum do Mercosul'
-      Caption = 'NCM'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-    end
-    object Label21: TLabel
-      Left = 126
-      Top = 15
-      Width = 15
-      Height = 16
-      Hint = 'Imposto sobre Produtos Industrializados'
-      Caption = 'IPI'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-    end
-    object DBEdit22: TDBEdit
-      Left = 9
-      Top = 30
-      Width = 77
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      DataField = 'NCM'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit15: TDBEdit
-      Left = 97
-      Top = 30
-      Width = 70
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      DataField = 'IPI'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 1
-      OnKeyPress = FormKeyPress
-    end
-  end
-  object Panel1: TPanel [25]
-    Left = 491
-    Top = 357
-    Width = 140
-    Height = 30
-    PopupMenu = PopupMenu1
-    TabOrder = 13
-    object Chk_lote: TCheckBox
-      Left = 6
-      Top = 11
-      Width = 98
-      Height = 17
-      TabStop = False
-      Caption = 'Usa Lote ?'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-      OnClick = Chk_loteClick
-    end
-  end
-  object dxButton1: TdxButton [26]
+  object dxButton1: TdxButton [20]
     Left = 10
-    Top = 390
+    Top = 446
     Width = 180
     Height = 28
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -758,11 +609,11 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Version = '1.0.2e'
     OnClick = dxButton1Click
     Caption = 'Cad. &Codigos de Terceiros'
-    TabOrder = 11
+    TabOrder = 14
   end
-  object dxButton2: TdxButton [27]
+  object dxButton2: TdxButton [21]
     Left = 198
-    Top = 390
+    Top = 446
     Width = 180
     Height = 28
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -770,90 +621,11 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Version = '1.0.2e'
     OnClick = dxButton2Click
     Caption = 'Cad. &Uso para os Produtos'
-    TabOrder = 12
+    TabOrder = 15
   end
-  object Panel2: TPanel [28]
-    Left = 636
-    Top = 357
-    Width = 149
-    Height = 30
-    PopupMenu = PopupMenu1
-    TabOrder = 14
-    object Chk_rateio: TCheckBox
-      Left = 7
-      Top = 11
-      Width = 80
-      Height = 17
-      TabStop = False
-      Caption = 'Rateio ?'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-      OnClick = Chk_rateioClick
-    end
-    object btnRateio: TBitBtn
-      Left = 102
-      Top = 2
-      Width = 34
-      Height = 26
-      TabOrder = 1
-      OnClick = btnRateioClick
-      Glyph.Data = {
-        86050000424D8605000000000000360000002800000016000000140000000100
-        18000000000050050000120B0000120B00000000000000000000BFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F
-        7FCF6760CF67607F7F7F60302F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FCF6760CF
-        6760CF6760CF6760FF9790FF97907F7F7F60302F7F7F7F7F7F7FBFBFBFBFBFBF
-        0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FCF6760CF6760
-        CF6760CF6760CF6760CF6760FFC8CFCF67601F201F7F7F7F60302F60302FCF67
-        607F7F7F0000BFBFBFBFBFBFBFBFBFBFBFBFFF9790CF6760CF6760CF6760FF97
-        90CF6760FF9790CF6760FF9790CF6760FFFFFFCF67601F201F1F201FBFBFBFBF
-        BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFFF9790CF6760FF9790CF6760FF
-        9790CF6760FF9790CF6760FF9790CF6760FF9790FFFFFF60302F1F201F1F201F
-        60302FBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFFF9790FF9790FF9790
-        FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFFFFF1F201F1F20
-        1F60302F1F201F60302FBFBFBFBFBFBF0000BFBFBFBFBFBFFF9790FF9790FF97
-        90FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFC8CFCF67601F
-        201F60302F60302F60302F60302F60302FBFBFBF0000BFBFBFBFBFBFFF9790FF
-        9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFFFFF
-        CF67606097CF60302F60302F60302F60302F60302F60302F0000BFBFBFFF9790
-        FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF97
-        90FFFFFFCF6760007F7F6097CF60302F60302F60302F60302FBFBFBF0000BFBF
-        BFFF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF
-        9790FF9790FFC8CFCF67606097CF007F7F007F7F60302FFF9790BFBFBFBFBFBF
-        0000FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFC8CFFFC8CFFFC8CF
-        FF9790FF9790FF9790FFC8CFCF6760FFC8CFCF6760BFBFBF007F7FBFBFBFBFBF
-        BFBFBFBF0000FF9790FF9790FF9790FF9790BFBFBFCFFFFFCFFFFFCFFFFF007F
-        7F007F7FFF9790FF9790FF9790FFC8CFFFC8CFBFBFBFFFC8CFBFBFBFCF6760BF
-        BFBFBFBFBFBFBFBF0000FF9790FFC8CFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCF
-        FFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFF
-        CF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        CFFFFFCFFFFFCF6760CFFFFFCF6760007F7FCF6760007F7FCFFFFFCF6760CFFF
-        FFCFFFFFCF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCF
-        FFFFCFFFFFCFFFFFCF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFCFFFFFCFFFFF007F7FCF6760007F7FCF6760CFFFFFFF9790
-        007F7F007F7F007F7F007F7F6097CFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFF
-        FFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCF6760007F7FCF6760CF
-        FFFFCFFFFFBFBFBFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFF
-        CFFFFFCFFFFFCFFFFFFF979000FFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-        BFBFBFBFBFBFBFBF0000}
-    end
-  end
-  object dxButton3: TdxButton [29]
+  object dxButton3: TdxButton [22]
     Left = 388
-    Top = 390
+    Top = 446
     Width = 148
     Height = 28
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -861,19 +633,19 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Version = '1.0.2e'
     OnClick = dxButton3Click
     Caption = 'Similares'
-    TabOrder = 15
+    TabOrder = 16
   end
-  object Button1: TButton [30]
+  object Button1: TButton [23]
     Left = 544
     Top = -60
     Width = 75
     Height = 25
     Caption = 'Button1'
-    TabOrder = 16
+    TabOrder = 17
   end
-  object dxButton4: TdxButton [31]
+  object dxButton4: TdxButton [24]
     Left = 543
-    Top = 390
+    Top = 446
     Width = 148
     Height = 28
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -881,14 +653,14 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Version = '1.0.2e'
     OnClick = dxButton4Click
     Caption = 'Materia Prima'
-    TabOrder = 17
+    TabOrder = 18
   end
-  object SpeedButton1: TBitBtn [32]
-    Left = 199
-    Top = 144
+  object SpeedButton1: TBitBtn [25]
+    Left = 194
+    Top = 145
     Width = 34
     Height = 26
-    TabOrder = 18
+    TabOrder = 19
     OnClick = SpeedButton1Click
     Glyph.Data = {
       C2070000424DC20700000000000036000000280000001E000000150000000100
@@ -955,12 +727,12 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       BFBFBFBF0000}
   end
-  object SpeedButton2: TBitBtn [33]
-    Left = 482
-    Top = 144
+  object SpeedButton2: TBitBtn [26]
+    Left = 474
+    Top = 145
     Width = 34
     Height = 26
-    TabOrder = 19
+    TabOrder = 20
     OnClick = SpeedButton2Click
     Glyph.Data = {
       C2070000424DC20700000000000036000000280000001E000000150000000100
@@ -1027,12 +799,12 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       BFBFBFBF0000}
   end
-  object SpeedButton3: TBitBtn [34]
-    Left = 752
-    Top = 144
+  object SpeedButton3: TBitBtn [27]
+    Left = 751
+    Top = 145
     Width = 34
     Height = 26
-    TabOrder = 20
+    TabOrder = 21
     OnClick = SpeedButton3Click
     Glyph.Data = {
       C2070000424DC20700000000000036000000280000001E000000150000000100
@@ -1099,33 +871,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       BFBFBFBF0000}
   end
-  object DBRadioGroup2: TDBRadioGroup [35]
-    Left = 188
-    Top = 288
-    Width = 311
-    Height = 58
-    Caption = 'Forma'#231#227'o Pre'#231'o Venda'
-    Color = clBtnFace
-    Columns = 3
-    DataField = 'TIPOPRECOVENDA'
-    DataSource = DtSrc
-    Items.Strings = (
-      'Pre'#231'o M'#233'dio'
-      #218'lt. Compra'
-      'Fixo')
-    ParentColor = False
-    PopupMenu = PopupMenu1
-    TabOrder = 21
-    Values.Strings = (
-      'M'
-      'U'
-      'F')
-    OnChange = DBRadioGroup2Change
-  end
-  object cbTipo: TComboBox [36]
+  object cbTipo: TComboBox [28]
     Left = 55
-    Top = 61
-    Width = 122
+    Top = 63
+    Width = 130
     Height = 24
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -1146,9 +895,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'Servi'#231'o'
       'Loca'#231#227'o')
   end
-  object BitBtn1: TBitBtn [37]
+  object BitBtn1: TBitBtn [29]
     Left = 695
-    Top = 392
+    Top = 448
     Width = 41
     Height = 22
     Enabled = False
@@ -1169,9 +918,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
       3333333333333333333333333333333333333333333333333333}
     NumGlyphs = 2
   end
-  object BitBtn2: TBitBtn [38]
+  object BitBtn2: TBitBtn [30]
     Left = 741
-    Top = 392
+    Top = 448
     Width = 41
     Height = 22
     Enabled = False
@@ -1192,75 +941,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
       3333333333333333333333333333333333333333333333333333}
     NumGlyphs = 2
   end
-  object DBOrigem: TDBRadioGroup [39]
-    Left = 4
-    Top = 350
-    Width = 481
-    Height = 38
-    Caption = 'Origem do Produto'
-    Color = clBtnFace
-    Columns = 3
-    DataField = 'ORIGEM'
-    DataSource = DtSrc
-    Items.Strings = (
-      'Nacional'
-      'Importado Exterior'
-      'Importado Interno')
-    ParentColor = False
-    PopupMenu = PopupMenu1
-    TabOrder = 27
-    Values.Strings = (
-      '0'
-      '1'
-      '2')
-  end
-  object DBRadioGroup4: TDBRadioGroup [40]
-    Left = 525
-    Top = 173
-    Width = 85
-    Height = 51
-    Caption = 'Impressora'
-    DataField = 'IMPRESSORA_1'
-    DataSource = DtSrc
-    Items.Strings = (
-      'Setor 1')
-    TabOrder = 28
-    Values.Strings = (
-      'SIM'
-      'N'#195'O')
-  end
-  object DBRadioGroup5: TDBRadioGroup [41]
-    Left = 613
-    Top = 173
-    Width = 85
-    Height = 51
-    Caption = 'Impressora'
-    DataField = 'IMPRESSORA_2'
-    DataSource = DtSrc
-    Items.Strings = (
-      'Setor 2')
-    TabOrder = 29
-    Values.Strings = (
-      'SIM'
-      'N'#195'O')
-  end
-  object DBRadioGroup6: TDBRadioGroup [42]
-    Left = 701
-    Top = 173
-    Width = 85
-    Height = 51
-    Caption = 'Impressora'
-    DataField = 'IMPRESSORA_3'
-    DataSource = DtSrc
-    Items.Strings = (
-      'Setor 3')
-    TabOrder = 30
-    Values.Strings = (
-      'SIM'
-      'N'#195'O')
-  end
-  object DBEdit14: TDBEdit [43]
-    Left = 238
+  object DBEdit14: TDBEdit [31]
+    Left = 235
     Top = 145
     Width = 238
     Height = 24
@@ -1275,11 +957,11 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 31
+    TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object dbMarca: TDBEdit [44]
-    Left = 3
+  object dbMarca: TDBEdit [32]
+    Left = 5
     Top = 145
     Width = 189
     Height = 24
@@ -1294,13 +976,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 32
+    TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [45]
-    Left = 521
+  object DBEdit16: TDBEdit [33]
+    Left = 518
     Top = 145
-    Width = 224
+    Width = 232
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -1313,8 +995,349 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 33
+    TabOrder = 8
     OnKeyPress = FormKeyPress
+  end
+  object JvPageControl1: TJvPageControl [34]
+    Left = 6
+    Top = 332
+    Width = 780
+    Height = 109
+    ActivePage = TabSheet1
+    TabOrder = 11
+    object TabSheet1: TTabSheet
+      Caption = 'Fiscal'
+      object GroupBox3: TGroupBox
+        Left = 1
+        Top = 10
+        Width = 201
+        Height = 62
+        Caption = 'Classifica'#231#227'o Fiscal'
+        TabOrder = 0
+        object Label32: TLabel
+          Left = 11
+          Top = 15
+          Width = 30
+          Height = 16
+          Hint = 'Nomenclatura Comum do Mercosul'
+          Caption = 'NCM'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object Label21: TLabel
+          Left = 120
+          Top = 15
+          Width = 15
+          Height = 16
+          Hint = 'Imposto sobre Produtos Industrializados'
+          Caption = 'IPI'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object DBEdit22: TDBEdit
+          Left = 9
+          Top = 33
+          Width = 104
+          Height = 24
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'NCM'
+          DataSource = DtSrc
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+        object DBEdit15: TDBEdit
+          Left = 118
+          Top = 33
+          Width = 78
+          Height = 24
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'IPI'
+          DataSource = DtSrc
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 1
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object DBOrigem: TDBRadioGroup
+        Left = 204
+        Top = 10
+        Width = 557
+        Height = 62
+        Caption = 'Origem do Produto'
+        Color = clBtnFace
+        Columns = 3
+        DataField = 'ORIGEM'
+        DataSource = DtSrc
+        Items.Strings = (
+          'Nacional'
+          'Importado Exterior'
+          'Importado Interno')
+        ParentColor = False
+        PopupMenu = PopupMenu1
+        TabOrder = 1
+        Values.Strings = (
+          '0'
+          '1'
+          '2')
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Impress'#227'o'
+      ImageIndex = 1
+      object Label31: TLabel
+        Left = 290
+        Top = 18
+        Width = 47
+        Height = 16
+        Caption = 'Imprimir'
+      end
+      object DBRadioGroup4: TDBRadioGroup
+        Left = 4
+        Top = 15
+        Width = 85
+        Height = 51
+        Caption = 'Impressora'
+        DataField = 'IMPRESSORA_1'
+        DataSource = DtSrc
+        Items.Strings = (
+          'Setor 1')
+        TabOrder = 0
+        Values.Strings = (
+          'SIM'
+          'N'#195'O')
+      end
+      object DBRadioGroup5: TDBRadioGroup
+        Left = 92
+        Top = 15
+        Width = 85
+        Height = 51
+        Caption = 'Impressora'
+        DataField = 'IMPRESSORA_2'
+        DataSource = DtSrc
+        Items.Strings = (
+          'Setor 2')
+        TabOrder = 1
+        Values.Strings = (
+          'SIM'
+          'N'#195'O')
+      end
+      object DBRadioGroup6: TDBRadioGroup
+        Left = 180
+        Top = 15
+        Width = 85
+        Height = 51
+        Caption = 'Impressora'
+        DataField = 'IMPRESSORA_3'
+        DataSource = DtSrc
+        Items.Strings = (
+          'Setor 3')
+        TabOrder = 2
+        Values.Strings = (
+          'SIM'
+          'N'#195'O')
+      end
+      object DBRadioGroup3: TDBRadioGroup
+        Left = 288
+        Top = 31
+        Width = 129
+        Height = 35
+        Columns = 2
+        DataField = 'IMPRIMIR'
+        DataSource = DtSrc
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+        TabOrder = 3
+        Values.Strings = (
+          'S'
+          'N')
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'Outras Configura'#231#245'es'
+      ImageIndex = 2
+      object Label30: TLabel
+        Left = 8
+        Top = 10
+        Width = 89
+        Height = 16
+        Caption = 'Gera Despesa'
+      end
+      object Label20: TLabel
+        Left = 305
+        Top = 32
+        Width = 61
+        Height = 16
+        Caption = 'Comiss'#227'o'
+      end
+      object DBRadioGroup1: TDBRadioGroup
+        Left = 8
+        Top = 23
+        Width = 129
+        Height = 35
+        Columns = 2
+        DataField = 'GERADESCONTO'
+        DataSource = DtSrc
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+        TabOrder = 0
+        Values.Strings = (
+          'S'
+          'N')
+      end
+      object Panel1: TPanel
+        Left = 141
+        Top = 28
+        Width = 140
+        Height = 30
+        PopupMenu = PopupMenu1
+        TabOrder = 1
+        object Chk_lote: TCheckBox
+          Left = 6
+          Top = 11
+          Width = 98
+          Height = 17
+          TabStop = False
+          Caption = 'Usa Lote ?'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlue
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 0
+          OnClick = Chk_loteClick
+        end
+      end
+      object Panel2: TPanel
+        Left = 4
+        Top = 108
+        Width = 149
+        Height = 30
+        PopupMenu = PopupMenu1
+        TabOrder = 2
+        object Chk_rateio: TCheckBox
+          Left = 7
+          Top = 11
+          Width = 80
+          Height = 17
+          TabStop = False
+          Caption = 'Rateio ?'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlue
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 0
+          OnClick = Chk_rateioClick
+        end
+        object btnRateio: TBitBtn
+          Left = 102
+          Top = 2
+          Width = 34
+          Height = 26
+          TabOrder = 1
+          OnClick = btnRateioClick
+          Glyph.Data = {
+            86050000424D8605000000000000360000002800000016000000140000000100
+            18000000000050050000120B0000120B00000000000000000000BFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F
+            7FCF6760CF67607F7F7F60302F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FCF6760CF
+            6760CF6760CF6760FF9790FF97907F7F7F60302F7F7F7F7F7F7FBFBFBFBFBFBF
+            0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF7F7F7FCF6760CF6760
+            CF6760CF6760CF6760CF6760FFC8CFCF67601F201F7F7F7F60302F60302FCF67
+            607F7F7F0000BFBFBFBFBFBFBFBFBFBFBFBFFF9790CF6760CF6760CF6760FF97
+            90CF6760FF9790CF6760FF9790CF6760FFFFFFCF67601F201F1F201FBFBFBFBF
+            BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFFF9790CF6760FF9790CF6760FF
+            9790CF6760FF9790CF6760FF9790CF6760FF9790FFFFFF60302F1F201F1F201F
+            60302FBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFFF9790FF9790FF9790
+            FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFFFFF1F201F1F20
+            1F60302F1F201F60302FBFBFBFBFBFBF0000BFBFBFBFBFBFFF9790FF9790FF97
+            90FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFC8CFCF67601F
+            201F60302F60302F60302F60302F60302FBFBFBF0000BFBFBFBFBFBFFF9790FF
+            9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFFFFF
+            CF67606097CF60302F60302F60302F60302F60302F60302F0000BFBFBFFF9790
+            FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF97
+            90FFFFFFCF6760007F7F6097CF60302F60302F60302F60302FBFBFBF0000BFBF
+            BFFF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF9790FF
+            9790FF9790FFC8CFCF67606097CF007F7F007F7F60302FFF9790BFBFBFBFBFBF
+            0000FF9790FF9790FF9790FF9790FF9790FF9790FF9790FFC8CFFFC8CFFFC8CF
+            FF9790FF9790FF9790FFC8CFCF6760FFC8CFCF6760BFBFBF007F7FBFBFBFBFBF
+            BFBFBFBF0000FF9790FF9790FF9790FF9790BFBFBFCFFFFFCFFFFFCFFFFF007F
+            7F007F7FFF9790FF9790FF9790FFC8CFFFC8CFBFBFBFFFC8CFBFBFBFCF6760BF
+            BFBFBFBFBFBFBFBF0000FF9790FFC8CFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCF
+            FFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFF
+            CF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            CFFFFFCFFFFFCF6760CFFFFFCF6760007F7FCF6760007F7FCFFFFFCF6760CFFF
+            FFCFFFFFCF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCF
+            FFFFCFFFFFCFFFFFCF6760BFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFCFFFFFCFFFFF007F7FCF6760007F7FCF6760CFFFFFFF9790
+            007F7F007F7F007F7F007F7F6097CFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFFFFCFFF
+            FFBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCF6760007F7FCF6760CF
+            FFFFCFFFFFBFBFBFFFFFFFFFFFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFCFFFFFCFFFFFCFFFFFCFFFFF
+            CFFFFFCFFFFFCFFFFFFF979000FFFFFFFFFFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBF0000}
+        end
+      end
+      object DBEdit21: TDBEdit
+        Left = 378
+        Top = 33
+        Width = 80
+        Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'VALORCOMISSAO'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 3
+        OnExit = DBEdit19Exit
+        OnKeyPress = FormKeyPress
+      end
+    end
   end
   inherited XPMenu1: TXPMenu
     Left = 608
