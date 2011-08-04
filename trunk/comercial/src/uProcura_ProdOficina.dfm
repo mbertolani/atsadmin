@@ -1,8 +1,8 @@
 object fProcura_ProdOficina: TfProcura_ProdOficina
   Left = 0
   Top = 0
-  Width = 962
-  Height = 611
+  Width = 1099
+  Height = 645
   Caption = 'Lista de Produtos'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 954
+    Width = 1091
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -45,7 +45,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       PopupMenu = PopupMenu1
     end
     object Label6: TLabel
-      Left = 250
+      Left = 338
       Top = 45
       Width = 30
       Height = 13
@@ -77,7 +77,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       PopupMenu = PopupMenu1
     end
     object Label7: TLabel
-      Left = 410
+      Left = 570
       Top = 45
       Width = 29
       Height = 13
@@ -85,7 +85,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       PopupMenu = PopupMenu1
     end
     object Label8: TLabel
-      Left = 607
+      Left = 823
       Top = 45
       Width = 46
       Height = 13
@@ -93,7 +93,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       PopupMenu = PopupMenu1
     end
     object Label10: TLabel
-      Left = 668
+      Left = 900
       Top = 3
       Width = 21
       Height = 13
@@ -117,7 +117,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     object edUso: TEdit
       Left = 72
       Top = 61
-      Width = 174
+      Width = 265
       Height = 24
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -162,7 +162,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     object edProduto: TEdit
       Left = 353
       Top = 18
-      Width = 311
+      Width = 536
       Height = 24
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -186,9 +186,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       TabOrder = 5
     end
     object cbMarca: TComboBox
-      Left = 248
+      Left = 340
       Top = 61
-      Width = 161
+      Width = 225
       Height = 24
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -202,9 +202,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       OnChange = cbMarcaChange
     end
     object cbFamilia: TComboBox
-      Left = 410
-      Top = 60
-      Width = 195
+      Left = 570
+      Top = 61
+      Width = 247
       Height = 24
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -218,9 +218,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       OnChange = cbFamiliaChange
     end
     object cbCategoria: TComboBox
-      Left = 606
+      Left = 822
       Top = 60
-      Width = 184
+      Width = 251
       Height = 24
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -233,9 +233,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       TabOrder = 8
     end
     object cbTipo: TComboBox
-      Left = 665
+      Left = 897
       Top = 18
-      Width = 122
+      Width = 176
       Height = 24
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -260,8 +260,8 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel2: TPanel
     Left = 0
     Top = 146
-    Width = 793
-    Height = 438
+    Width = 873
+    Height = 472
     Align = alClient
     BevelOuter = bvLowered
     PopupMenu = PopupMenu1
@@ -402,8 +402,8 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object DBGrid1: TDBGrid
     Left = 0
     Top = 146
-    Width = 793
-    Height = 438
+    Width = 873
+    Height = 472
     Align = alClient
     Color = clCream
     DataSource = Dtsrc
@@ -512,7 +512,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 954
+    Width = 1091
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -544,9 +544,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       OnClick = RadioButton2Click
     end
     object btnIncluir: TBitBtn
-      Left = 178
+      Left = 256
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'F2-Cadastro'
       PopupMenu = PopupMenu1
@@ -624,9 +624,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object BitBtn1: TBitBtn
-      Left = 255
+      Left = 357
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'F8-Procurar'
       PopupMenu = PopupMenu1
@@ -735,9 +735,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object BitBtn2: TBitBtn
-      Left = 332
+      Left = 458
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'F7-Limpar'
       PopupMenu = PopupMenu1
@@ -806,9 +806,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object SpeedButton3: TBitBtn
-      Left = 409
+      Left = 559
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'Ctrl+L-Lotes'
       PopupMenu = PopupMenu1
@@ -839,9 +839,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object SpeedButton2: TBitBtn
-      Left = 486
+      Left = 660
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'Ctrl+T-Lista'
       Enabled = False
@@ -919,9 +919,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object SpeedButton1: TBitBtn
-      Left = 563
+      Left = 761
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'Ctrl+I-Imprimir'
       PopupMenu = PopupMenu1
@@ -1030,9 +1030,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object SpeedButton4: TBitBtn
-      Left = 640
+      Left = 862
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'Ctrl+E-Etiquetas'
       PopupMenu = PopupMenu1
@@ -1140,8 +1140,8 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object Edit5: TEdit
-      Left = 693
-      Top = 11
+      Left = 925
+      Top = 8
       Width = 17
       Height = 19
       BevelKind = bkFlat
@@ -1156,9 +1156,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       TabOrder = 0
     end
     object BitBtn6: TBitBtn
-      Left = 717
+      Left = 963
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'F9-Fechar'
       PopupMenu = PopupMenu1
@@ -1266,9 +1266,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object BitBtn3: TBitBtn
-      Left = 106
+      Left = 155
       Top = 2
-      Width = 77
+      Width = 100
       Height = 55
       Caption = 'Class.Fiscal'
       PopupMenu = PopupMenu1
@@ -1346,10 +1346,10 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
   end
   object DBGrid2: TDBGrid
-    Left = 793
+    Left = 873
     Top = 146
-    Width = 161
-    Height = 438
+    Width = 218
+    Height = 472
     Align = alRight
     Color = clCream
     DataSource = DataSource2
