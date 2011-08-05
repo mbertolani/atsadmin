@@ -40,14 +40,14 @@ BEGIN
 
   SELECT SUM(pag.VALORRECEBIDO + pag.JUROS) FROM PAGAMENTO pag 
     inner join plano pl on pl.CODIGO = pag.CAIXA 
-    WHERE ((pag.STATUS = '7-') or (pag.STATUS = '1-'))
+    WHERE (pag.STATUS = '7-')
     and pag.DATAPAGAMENTO < :DTAINI and PLNCTAMAIN(pl.CONTA) = PLNCTAMAIN(:CONTACAIXA)
     and ((pag.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
   INTO :VLINID;
   -- Total Recebido ate esta data
   SELECT SUM(rec.VALORRECEBIDO + rec.JUROS) FROM RECEBIMENTO rec 
     inner join plano pl on pl.CODIGO = rec.CAIXA 
-    WHERE  ((rec.STATUS = '7-')  or (rec.STATUS = '1-'))
+    WHERE  (rec.STATUS = '7-')
     and rec.DATARECEBIMENTO < :DTAINI  and PLNCTAMAIN(pl.CONTA) = PLNCTAMAIN(:CONTACAIXA)
     and ((rec.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
   INTO :VLINIC;
@@ -96,6 +96,7 @@ BEGIN
     FROM RECEBIMENTO rec, CLIENTES cli where cli.CODCLIENTE = rec.CODCLIENTE 
     and rec.DATARECEBIMENTO BETWEEN :DTAINI AND :DTAFIM
     and ((rec.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
+    and (rec.STATUS = '7-')
     order by rec.DATARECEBIMENTO
   INTO :DTAPAGTO, :FORN, :DESCRICAO, :VALORD, :CCONTABIL, :FORMA, :N_DOC
   DO BEGIN
@@ -212,6 +213,7 @@ BEGIN
     FROM PAGAMENTO pag, FORNECEDOR forn where forn.CODFORNECEDOR = pag.CODFORNECEDOR 
     and pag.DATAPAGAMENTO BETWEEN :DTAINI AND :DTAFIM
     and ((pag.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
+    and (pag.STATUS = '7-')
     order by pag.DATAPAGAMENTO
   INTO :DTAPAGTO, :FORN, :DESCRICAO, :VALORC, :CCONTABIL, :FORMA, :N_DOC, :compensado
   DO BEGIN
