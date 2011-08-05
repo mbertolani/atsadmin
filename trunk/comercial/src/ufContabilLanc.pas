@@ -471,6 +471,11 @@ procedure TfContabilLanc.btnGravarClick(Sender: TObject);
 begin
   cod_id := 0;
   valor := StrToFloat(edValor.text);
+  if (valor < 0) then
+  begin
+    MessageDlg('Valor não pode ser negativo.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   DecimalSeparator := '.';
     valor_str := FloatToStr(valor);  //Format('%-6.2n',[valor]);
   DecimalSeparator := ',';
