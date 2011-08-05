@@ -26,6 +26,12 @@ type
     DataSetProvider1: TDataSetProvider;
     cds: TClientDataSet;
     JvProgressBar1: TJvProgressBar;
+    sdsA: TSQLDataSet;
+    dspA: TDataSetProvider;
+    cdsA: TClientDataSet;
+    SQLDataSet2: TSQLDataSet;
+    DataSetProvider2: TDataSetProvider;
+    cdsB: TClientDataSet;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
@@ -111,15 +117,9 @@ begin
     Screen.Cursor := crHourGlass;
     FEstoque := TEstoque.Create;
 
-    if (cds.Active) then
-      cds.Close;
-    str := 'SELECT md.CODDETALHE, m.CODNATUREZA, md.STATUS,';
-    str := str + '  CASE WHEN m.CODNATUREZA < 3 THEN m.DATAMOVIMENTO';
-    str := str + '  WHEN m.CODNATUREZA = 3 THEN V.DATAVENDA';
-    str := str + '  WHEN m.CODNATUREZA = 4 THEN C.DATACOMPRA END DATAMOVIMENTO,';
-    str := str + '  md.QUANTIDADE, md.PRECO,';
-    //(md.PRECO * (1-(md.QTDE_ALT/100))) PRECO
-    str := str + '  md.LOTE, m.CODALMOXARIFADO, md.CODPRODUTO';
+    if (cdsB.Active) then
+      cdsB.Close;
+    str := 'SELECT DISTINCT md.CODPRODUTO';
     str := str + '  FROM MOVIMENTO m';
     str := str + ' INNER JOIN MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO';
     str := str + ' INNER JOIN PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO';
@@ -135,48 +135,100 @@ begin
     begin
       str := str + '   AND ' ;
       str := str + '   prod.CODPRO BETWEEN ' + QuotedStr(Edit1.Text) + ' AND ' +  QuotedStr(Edit2.Text);
-    end;  
-    str := str + ' ORDER BY 4, 1';
+    end;
+    str := str + ' ORDER BY  1';
+    cdsB.CommandText := str;
+    cdsB.Open;
+
+    While not cdsB.Eof do
+    begin
+
+    if (cds.Active) then
+      cds.Close;
+    str := 'SELECT FIRST 1 md.CODDETALHE, m.CODNATUREZA, md.STATUS,';
+    str := str + '  CASE WHEN m.CODNATUREZA < 3 THEN m.DATAMOVIMENTO';
+    str := str + '  WHEN m.CODNATUREZA = 3 THEN V.DATAVENDA';
+    str := str + '  WHEN m.CODNATUREZA = 4 THEN C.DATACOMPRA END DATAMOVIMENTO,';
+    str := str + '  md.QUANTIDADE, md.PRECO,';
+    str := str + '  md.LOTE, m.CODALMOXARIFADO, md.CODPRODUTO';
+    str := str + '  FROM MOVIMENTO m';
+    str := str + ' INNER JOIN MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO';
+    str := str + ' INNER JOIN PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO';
+    str := str + '  LEFT OUTER JOIN VENDA  V ON V.CODMOVIMENTO = M.CODMOVIMENTO';
+    str := str + '  LEFT OUTER JOIN COMPRA C ON C.CODMOVIMENTO = M.CODMOVIMENTO';
+    str := str + ' WHERE md.BAIXA is not null ' ;
+    str := str + '   AND m.CODNATUREZA < 5' ;
+    str := str + '   AND m.DATAMOVIMENTO BETWEEN ';
+    str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
+    str := str + '   AND ' ;
+    str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit2.Text)));
+    str := str + '   AND md.CODPRODUTO = ' + InttoStr(cdsB.FieldByName('CODPRODUTO').asInteger);
+    str := str + ' ORDER BY 9, 4 DESC, 1';
     cds.CommandText := str;
     cds.Open;
-    JvProgressBar1.Max := cds.RecordCount;
-    JvProgressBar1.Position := 0;
+    str := IntToStr(cds.RecordCount);
     while not cds.Eof do
     begin
-      JvProgressBar1.Position := cds.RecNo;
-      if (cds.FieldByName('STATUS').IsNull) then
+
+      str := 'select * FROM SPESTOQUEFILTRO('  + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
+      str := str + ', ';
+      str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit2.Text)));
+      str := str + ', ';
+      str := str + IntToStr(cds.FieldByName('CODPRODUTO').AsInteger) + ' ,' ;
+      str := str + IntToStr(cds.FieldByName('CODPRODUTO').AsInteger);
+      str := str + ',''TODOS SUBGRUPOS DO CADASTRO CATEGORIA''';
+      str := str + ', 100';
+      str := str + ', 1';
+      str := str + ', ''TODAS AS MARCAS CADASTRADAS NO SISTEMA''';
+      str := str + ', ''TODOS OS LOTES CADASTRADOS NO SISTEMA''';
+      str := str + ',''TODOS OS GRUPOS CADASTRADOS NO SISTEMA'')';
+      if (cdsA.Active) then
+        cdsA.Close;
+      cdsA.CommandText := str;
+      cdsA.Open;
+
+      JvProgressBar1.Max := cdsA.RecordCount;
+      JvProgressBar1.Position := 0;
+
+      While not cdsA.Eof do
       begin
-        Case cds.FieldByName('CODNATUREZA').AsInteger of
-          1 : FEstoque.QtdeEntrada  := cds.FieldByName('QUANTIDADE').AsFloat;
-          2 : FEstoque.QtdeSaida    := cds.FieldByName('QUANTIDADE').AsFloat;
-          3 : begin
-                FEstoque.QtdeVenda   := cds.FieldByName('QUANTIDADE').AsFloat;
-                FEstoque.PrecoVenda  := cds.FieldByName('PRECO').AsFloat;
-              end;
-          4 : begin
-                FEstoque.QtdeCompra  := cds.FieldByName('QUANTIDADE').AsFloat;
-                FEstoque.PrecoCompra := cds.FieldByName('PRECO').AsFloat;
-              end;
+        JvProgressBar1.Position := cdsA.RecNo;
+        cdsA.Last;  // So interessa a ultima linha
+
+        if ((cds.FieldByName('STATUS').IsNull) and (cdsA.FieldByName('SALDOFIMACUM').AsFloat <> 0)) then
+        begin
+          if (cdsA.FieldByName('SALDOFIMACUM').AsFloat > 0) then
+          begin
+            FEstoque.QtdeEntrada  := cdsA.FieldByName('SALDOFIMACUM').AsFloat;
+            FEstoque.PrecoCompra  := cdsA.FieldByName('PRECOUNIT').AsFloat;
+          end;
+          if (cdsA.FieldByName('SALDOFIMACUM').AsFloat < 0) then
+          begin
+            FEstoque.QtdeSaida    := cdsA.FieldByName('SALDOFIMACUM').AsFloat;
+          end;
+
+          FEstoque.CodProduto  := cds.FieldByName('CODPRODUTO').AsInteger;
+          FEstoque.Lote        := cds.FieldByName('LOTE').AsString;
+          FEstoque.CentroCusto := cds.FieldByName('CODALMOXARIFADO').AsInteger;
+          FEstoque.MesAno      := cds.FieldByName('DATAMOVIMENTO').AsDateTime;
+
+          FEstoque.CodDetalhe  := cds.FieldByName('CODDETALHE').AsInteger;
+          FEstoque.Status      := '9';
+          FEstoque.inserirMes;
+          FEstoque.QtdeCompra  := 0;
+          FEstoque.QtdeVenda   := 0;
+          FEstoque.QtdeEntrada := 0;
+          FEstoque.QtdeSaida   := 0;
+          FEstoque.PrecoCompra := 0;
+          FEstoque.PrecoVenda  := 0;
+          FEstoque.Lote        := '';
+          FEstoque.CentroCusto := 0;
         end;
-
-        FEstoque.CodProduto  := cds.FieldByName('CODPRODUTO').AsInteger;
-        FEstoque.Lote        := cds.FieldByName('LOTE').AsString;
-        FEstoque.CentroCusto := cds.FieldByName('CODALMOXARIFADO').AsInteger;
-        FEstoque.MesAno      := cds.FieldByName('DATAMOVIMENTO').AsDateTime;
-
-        FEstoque.CodDetalhe  := cds.FieldByName('CODDETALHE').AsInteger;
-        FEstoque.Status      := '9';
-        FEstoque.inserirMes;
-        FEstoque.QtdeCompra  := 0;
-        FEstoque.QtdeVenda   := 0;
-        FEstoque.QtdeEntrada := 0;
-        FEstoque.QtdeSaida   := 0;
-        FEstoque.PrecoCompra := 0;
-        FEstoque.PrecoVenda  := 0;
-        FEstoque.Lote        := '';
-        FEstoque.CentroCusto := 0;
+        cdsA.Next;
       end;
       cds.Next;
+    end;
+    cdsb.next;
     end;
     MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
     Finally
