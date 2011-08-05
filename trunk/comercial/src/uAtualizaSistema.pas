@@ -26,9 +26,9 @@ type
     procedure VerSeTemAtualiza;
     procedure VerBoleto(Empresa : String);
   private
-    STime: TDateTime;
-    tempo_medio:  double;
-    bytes_transf: longword;
+    //STime: TDateTime;
+    //tempo_medio:  double;
+    //bytes_transf: longword;
     tamanho_arquivo : longword;
     procedure atualizaSistema;
     function VersaoAtual: String;
@@ -40,7 +40,7 @@ type
     function NaoExisteTabela(Tabela : String): Boolean;
     function NaoExisteGenerator(Generator: String): Boolean;
 
-    procedure ExecutaDDL_Drop(Tabela, Campo: string);
+//    procedure ExecutaDDL_Drop(Tabela, Campo: string);
     { Private declarations }
   public
     TD: TTransactionDesc;
@@ -1029,13 +1029,38 @@ begin
     begin
       executaDDL('NOTAFISCAL', 'IDCOMPLEMENTAR', 'VARCHAR(44)');
       executaDDL('NOTAFISCAL', 'XMLNFE', 'BLOB');
-      executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
       executaScript('gera_pedido.sql');
       executaScript('inclui_rec.sql');
       executaScript('inclui_pag.sql');
       executaScript('frete_nf.sql');
       executaScript('gera_pedido_proc.sql');
+      executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
       mudaVersao('1.0.0.92');
+    end;
+
+    if (versaoSistema = '1.0.0.92') then
+    begin
+      executaScript('estoqueccustoent.sql');
+      executaScript('expedicao_gera_pedido.sql');
+      executaScript('invent_estoque.sql');
+      executaScript('inventario_lanca.sql');
+      executaScript('listaProduto.sql');
+      executaScript('baixaTitulosPag.sql');
+      if (NaoExisteTabela('ESTOQUEMES')) then
+      begin
+        executaSql('create table ESTOQUEMES ( CODPRODUTO Integer NOT NULL, LOTE Varchar(60) NOT NULL,' +
+          'MESANO Date NOT NULL, QTDEENTRADA Double precision, ' +
+          'QTDECOMPRA Double precision, QTDEDEVCOMPRA Double precision, ' +
+          'QTDESAIDA Double precision, QTDEVENDA Double precision, ' +
+          'QTDEPERDA Double precision, PRECOCUSTO Double precision, ' +
+          'PRECOCOMPRA Double precision, PRECOCOMPRAULTIMA Double precision, ' +
+          'PRECOVENDA Double precision, CENTROCUSTO Integer NOT NULL, ' +
+          'QTDEDEVVENDA Double precision, QTDEINVENTARIO Double precision, ' +
+          'SALDOMESANTERIOR Double precision, PRIMARY KEY (CODPRODUTO,LOTE,MESANO,CENTROCUSTO) ');
+        executaSql('ALTER TABLE ESTOQUEMES ADD SALDOESTOQUE COMPUTED BY (SALDOMESANTERIOR + ' +
+        'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) '); 
+      end;
+      mudaVersao('1.0.0.93');
     end;
 
     try
@@ -1256,11 +1281,6 @@ begin
   else begin
     result := False;
   end;
-
-end;
-
-procedure TfAtualizaSistema.ExecutaDDL_Drop(Tabela, Campo: string);
-begin
 
 end;
 
