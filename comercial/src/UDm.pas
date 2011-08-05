@@ -1839,7 +1839,7 @@ type
     LOTEQTDE, totalpago : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP : String;
     tipoCompra, tipoVenda : String;
-    userAprovaCompra, varLogado : String;
+    userAprovaCompra, varLogado, usaCentroCusto : String;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
   end;
@@ -1944,6 +1944,14 @@ begin
   cds_parametro.Open;
   if (not cds_parametro.IsEmpty) then
     BlVendaFin := cds_parametroCONFIGURADO.AsString;
+
+  usaCentroCusto := 'N';
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CENTRO CUSTO'; // Usa Centro de Custo (Afeta principalmente controle de Estoque
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+    usaCentroCusto := cds_parametroCONFIGURADO.AsString;
 
   if cds_parametro.Active then
     cds_parametro.Close;
