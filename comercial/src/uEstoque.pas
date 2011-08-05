@@ -240,7 +240,10 @@ end;
 
 function TEstoque.getCentroCusto: Integer;
 begin
-  Result := _centroCusto;
+  if (dm.usaCentroCusto = 'S') then
+    Result := _centroCusto
+  else
+    Result := 0;  
 end;
 
 function TEstoque.getCodDetalhe: Integer;
