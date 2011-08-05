@@ -140,4 +140,44 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Left = 88
     Top = 168
   end
+  object sdsA: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 184
+    Top = 160
+  end
+  object dspA: TDataSetProvider
+    DataSet = sdsA
+    Options = [poAllowCommandText]
+    Left = 216
+    Top = 160
+  end
+  object cdsA: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspA'
+    Left = 248
+    Top = 160
+  end
+  object SQLDataSet2: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 232
+    Top = 192
+  end
+  object DataSetProvider2: TDataSetProvider
+    DataSet = SQLDataSet2
+    Options = [poAllowCommandText]
+    Left = 264
+    Top = 192
+  end
+  object cdsB: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider2'
+    Left = 296
+    Top = 192
+  end
 end
