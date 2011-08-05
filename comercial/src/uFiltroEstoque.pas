@@ -476,8 +476,7 @@ begin
        if dm.scds_produto_proc.Active then
           dm.scds_produto_proc.Close;
        dm.scds_produto_proc.Params[0].Clear;
-       dm.scds_produto_proc.Params[1].Clear;
-       dm.scds_produto_proc.Params[2].AsString := Edit3.Text;
+       dm.scds_produto_proc.Params[1].AsString := Edit3.Text;
        dm.scds_produto_proc.Open;
        Edit4.Text:=dm.scds_produto_procPRODUTO.asString;
        varProd := dm.scds_produto_procCODPRODUTO.AsInteger;
