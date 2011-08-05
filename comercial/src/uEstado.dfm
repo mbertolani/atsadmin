@@ -2,7 +2,7 @@ inherited fEstado: TfEstado
   Left = 287
   Top = 141
   Width = 676
-  Height = 764
+  Height = 700
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
   Font.Height = -13
@@ -29,7 +29,7 @@ inherited fEstado: TfEstado
     Transparent = True
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 683
+    Top = 619
     Width = 668
     Anchors = [akBottom]
     inherited btnIncluir: TBitBtn [0]
@@ -61,7 +61,7 @@ inherited fEstado: TfEstado
   end
   inherited MMJPanel2: TMMJPanel
     Width = 668
-    Height = 153
+    Height = 140
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -85,7 +85,7 @@ inherited fEstado: TfEstado
     end
     object Label3: TLabel
       Left = 11
-      Top = 57
+      Top = 45
       Width = 39
       Height = 16
       Anchors = [akTop]
@@ -100,7 +100,7 @@ inherited fEstado: TfEstado
     end
     object Label4: TLabel
       Left = 98
-      Top = 57
+      Top = 45
       Width = 20
       Height = 16
       Hint = 'Estado'
@@ -118,7 +118,7 @@ inherited fEstado: TfEstado
     end
     object Label8: TLabel
       Left = 269
-      Top = 57
+      Top = 45
       Width = 76
       Height = 16
       Anchors = [akTop]
@@ -133,7 +133,7 @@ inherited fEstado: TfEstado
     end
     object Label6: TLabel
       Left = 350
-      Top = 57
+      Top = 45
       Width = 83
       Height = 16
       Anchors = [akTop]
@@ -148,7 +148,7 @@ inherited fEstado: TfEstado
     end
     object Label10: TLabel
       Left = 437
-      Top = 57
+      Top = 45
       Width = 35
       Height = 16
       Hint = 'Margem De Valor Agregado(ST)'
@@ -166,7 +166,7 @@ inherited fEstado: TfEstado
     end
     object Label11: TLabel
       Left = 503
-      Top = 57
+      Top = 45
       Width = 87
       Height = 16
       Anchors = [akTop]
@@ -181,7 +181,7 @@ inherited fEstado: TfEstado
     end
     object Label12: TLabel
       Left = 587
-      Top = 57
+      Top = 45
       Width = 89
       Height = 16
       Anchors = [akTop]
@@ -196,7 +196,7 @@ inherited fEstado: TfEstado
     end
     object Label13: TLabel
       Left = 142
-      Top = 57
+      Top = 45
       Width = 29
       Height = 16
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
@@ -214,7 +214,7 @@ inherited fEstado: TfEstado
     end
     object Label7: TLabel
       Left = 76
-      Top = 105
+      Top = 93
       Width = 21
       Height = 16
       Hint = 'Imposto sobre produtos industrializados'
@@ -232,7 +232,7 @@ inherited fEstado: TfEstado
     end
     object Label5: TLabel
       Left = 431
-      Top = 105
+      Top = 93
       Width = 80
       Height = 16
       Anchors = [akTop]
@@ -247,7 +247,7 @@ inherited fEstado: TfEstado
     end
     object Label9: TLabel
       Left = 207
-      Top = 105
+      Top = 93
       Width = 24
       Height = 16
       Hint = 'Programa de Integra'#231#227'o Social'
@@ -265,7 +265,7 @@ inherited fEstado: TfEstado
     end
     object Label14: TLabel
       Left = 365
-      Top = 105
+      Top = 93
       Width = 56
       Height = 16
       Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
@@ -283,7 +283,7 @@ inherited fEstado: TfEstado
     end
     object Label15: TLabel
       Left = 11
-      Top = 105
+      Top = 93
       Width = 54
       Height = 16
       Anchors = [akTop]
@@ -298,7 +298,7 @@ inherited fEstado: TfEstado
     end
     object Label16: TLabel
       Left = 136
-      Top = 105
+      Top = 93
       Width = 57
       Height = 16
       Anchors = [akTop]
@@ -313,7 +313,7 @@ inherited fEstado: TfEstado
     end
     object Label17: TLabel
       Left = 275
-      Top = 105
+      Top = 93
       Width = 89
       Height = 16
       Anchors = [akTop]
@@ -328,7 +328,7 @@ inherited fEstado: TfEstado
     end
     object Label19: TLabel
       Left = 205
-      Top = 57
+      Top = 45
       Width = 50
       Height = 16
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
@@ -346,7 +346,7 @@ inherited fEstado: TfEstado
     end
     object DBEdit1: TDBEdit
       Left = 8
-      Top = 73
+      Top = 61
       Width = 81
       Height = 24
       Anchors = [akTop]
@@ -366,7 +366,7 @@ inherited fEstado: TfEstado
     end
     object DBEdit2: TDBEdit
       Left = 93
-      Top = 73
+      Top = 61
       Width = 38
       Height = 24
       Anchors = [akTop]
@@ -386,7 +386,7 @@ inherited fEstado: TfEstado
     end
     object DBEdit9: TDBEdit
       Left = 133
-      Top = 73
+      Top = 61
       Width = 61
       Height = 24
       Anchors = [akTop]
@@ -406,7 +406,7 @@ inherited fEstado: TfEstado
     end
     object DBEdit3: TDBEdit
       Left = 263
-      Top = 73
+      Top = 61
       Width = 76
       Height = 24
       Anchors = [akTop]
@@ -421,12 +421,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 4
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
       Left = 344
-      Top = 73
+      Top = 61
       Width = 79
       Height = 24
       Anchors = [akTop]
@@ -441,12 +441,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 5
       OnKeyPress = FormKeyPress
     end
     object DBEdit6: TDBEdit
       Left = 429
-      Top = 73
+      Top = 61
       Width = 69
       Height = 24
       Anchors = [akTop]
@@ -461,12 +461,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 6
       OnKeyPress = FormKeyPress
     end
     object DBEdit7: TDBEdit
       Left = 502
-      Top = 73
+      Top = 61
       Width = 77
       Height = 24
       Anchors = [akTop]
@@ -481,12 +481,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 7
       OnKeyPress = FormKeyPress
     end
     object DBEdit8: TDBEdit
       Left = 584
-      Top = 73
+      Top = 61
       Width = 79
       Height = 24
       Anchors = [akTop]
@@ -501,12 +501,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 8
       OnKeyPress = FormKeyPress
     end
     object DBEdit5: TDBEdit
       Left = 71
-      Top = 121
+      Top = 109
       Width = 56
       Height = 24
       Anchors = [akTop]
@@ -521,12 +521,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 8
+      TabOrder = 10
       OnKeyPress = FormKeyPress
     end
     object ComboBox1: TComboBox
       Left = 428
-      Top = 121
+      Top = 109
       Width = 93
       Height = 24
       AutoComplete = False
@@ -538,7 +538,7 @@ inherited fEstado: TfEstado
       Font.Style = []
       ItemHeight = 16
       ParentFont = False
-      TabOrder = 9
+      TabOrder = 15
       OnChange = ComboBox1Change
       OnKeyPress = FormKeyPress
       Items.Strings = (
@@ -547,7 +547,7 @@ inherited fEstado: TfEstado
     end
     object DBEdit10: TDBEdit
       Left = 203
-      Top = 121
+      Top = 109
       Width = 64
       Height = 24
       Anchors = [akTop]
@@ -562,12 +562,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 10
+      TabOrder = 12
       OnKeyPress = FormKeyPress
     end
     object DBEdit11: TDBEdit
       Left = 362
-      Top = 121
+      Top = 109
       Width = 63
       Height = 24
       Anchors = [akTop]
@@ -582,12 +582,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 11
+      TabOrder = 14
       OnKeyPress = FormKeyPress
     end
     object DBEdit12: TDBEdit
       Left = 8
-      Top = 121
+      Top = 109
       Width = 57
       Height = 24
       Anchors = [akTop]
@@ -602,12 +602,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 12
+      TabOrder = 9
       OnKeyPress = FormKeyPress
     end
     object DBEdit13: TDBEdit
       Left = 133
-      Top = 121
+      Top = 109
       Width = 66
       Height = 24
       Anchors = [akTop]
@@ -622,12 +622,12 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 13
+      TabOrder = 11
       OnKeyPress = FormKeyPress
     end
     object DBEdit14: TDBEdit
       Left = 273
-      Top = 121
+      Top = 109
       Width = 84
       Height = 24
       Anchors = [akTop]
@@ -642,13 +642,13 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 14
+      TabOrder = 13
       OnKeyPress = FormKeyPress
     end
     object CheckBox1: TCheckBox
       Left = 527
-      Top = 124
-      Width = 122
+      Top = 112
+      Width = 135
       Height = 13
       Anchors = [akTop]
       Caption = 'N'#227'o Gera Fatura'
@@ -660,12 +660,12 @@ inherited fEstado: TfEstado
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      TabOrder = 15
+      TabOrder = 16
       OnClick = CheckBox1Click
     end
     object DBEdit21: TDBEdit
       Left = 199
-      Top = 73
+      Top = 61
       Width = 61
       Height = 24
       Anchors = [akTop]
@@ -680,15 +680,15 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 16
+      TabOrder = 3
       OnKeyPress = FormKeyPress
     end
   end
   object DBGrid1: TDBGrid [3]
     Left = 0
-    Top = 344
+    Top = 331
     Width = 668
-    Height = 339
+    Height = 288
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -852,7 +852,7 @@ inherited fEstado: TfEstado
   end
   object GroupBox1: TGroupBox [4]
     Left = 0
-    Top = 153
+    Top = 140
     Width = 668
     Height = 191
     Align = alTop
