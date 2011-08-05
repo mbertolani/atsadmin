@@ -983,7 +983,7 @@ end;
 
 procedure TfAtsAdmin.acEstoqueExecute(Sender: TObject);
 begin
-  if (dm.moduloUsado = 'AUTOMOTIVA') then
+  if (dm.moduloUsado = 'AUTOMOTIVAXXX') then
   begin
     fProcura_prodOficina.btnIncluir.Visible := true;
     fProcura_prodOficina.ShowModal;
