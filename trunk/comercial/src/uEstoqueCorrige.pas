@@ -32,6 +32,8 @@ type
     SQLDataSet2: TSQLDataSet;
     DataSetProvider2: TDataSetProvider;
     cdsB: TClientDataSet;
+    prog2: TJvProgressBar;
+    Label6: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
@@ -119,7 +121,7 @@ begin
 
     if (cdsB.Active) then
       cdsB.Close;
-    str := 'SELECT DISTINCT md.CODPRODUTO';
+    str := 'SELECT DISTINCT md.CODPRODUTO, prod.CODPRO ';
     str := str + '  FROM MOVIMENTO m';
     str := str + ' INNER JOIN MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO';
     str := str + ' INNER JOIN PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO';
@@ -140,9 +142,14 @@ begin
     cdsB.CommandText := str;
     cdsB.Open;
 
+    Label6.Caption := cdsB.FieldByName('CODPRO').asString;
+    FEstoqueCorrige.Refresh;
+    JvProgressBar1.Max := cdsB.RecordCount;
+    JvProgressBar1.Position := 0;
+
     While not cdsB.Eof do
     begin
-
+      JvProgressBar1.Position := cdsB.RecNo;
     if (cds.Active) then
       cds.Close;
     str := 'SELECT FIRST 1 md.CODDETALHE, m.CODNATUREZA, md.STATUS,';
@@ -185,14 +192,16 @@ begin
       if (cdsA.Active) then
         cdsA.Close;
       cdsA.CommandText := str;
+      if (sdsA.Active) then
+        sdsA.Close;
       cdsA.Open;
 
-      JvProgressBar1.Max := cdsA.RecordCount;
-      JvProgressBar1.Position := 0;
+      Prog2.Max := cdsA.RecordCount;
+      Prog2.Position := 0;
 
       While not cdsA.Eof do
       begin
-        JvProgressBar1.Position := cdsA.RecNo;
+        Prog2.Position := cdsA.RecNo;
         cdsA.Last;  // So interessa a ultima linha
 
         if ((cds.FieldByName('STATUS').IsNull) and (cdsA.FieldByName('SALDOFIMACUM').AsFloat <> 0)) then
@@ -223,6 +232,8 @@ begin
           FEstoque.PrecoVenda  := 0;
           FEstoque.Lote        := '';
           FEstoque.CentroCusto := 0;
+          dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr('9') +
+          ' WHERE CODPRODUTO = ' + IntToStr(cds.FieldByName('CODPRODUTO').AsInteger));
         end;
         cdsA.Next;
       end;
@@ -232,6 +243,7 @@ begin
     end;
     MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
     Finally
+      Label6.Caption := cdsB.FieldByName('CODPRO').asString;
       Screen.Cursor := Save_Cursor;  { Always restore to normal }
       FEstoque.Free;
     end;
