@@ -44,17 +44,23 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object Label5: TLabel
     Left = 120
-    Top = 96
+    Top = 79
     Width = 138
     Height = 13
     Caption = 'Corrige estoque no per'#237'odo : '
   end
   object Label7: TLabel
     Left = 177
-    Top = 116
+    Top = 99
     Width = 6
     Height = 13
     Caption = #224
+  end
+  object Label6: TLabel
+    Left = 16
+    Top = 120
+    Width = 3
+    Height = 13
   end
   object Edit1: TEdit
     Left = 16
@@ -74,7 +80,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object Button1: TButton
     Left = 33
-    Top = 176
+    Top = 192
     Width = 121
     Height = 25
     Caption = 'Executar corre'#231#227'o'
@@ -83,7 +89,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object JvDateEdit1: TJvDateEdit
     Left = 16
-    Top = 113
+    Top = 96
     Width = 153
     Height = 21
     TabOrder = 2
@@ -91,7 +97,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object JvDateEdit2: TJvDateEdit
     Left = 194
-    Top = 113
+    Top = 96
     Width = 159
     Height = 21
     TabOrder = 3
@@ -99,7 +105,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object Button2: TButton
     Left = 215
-    Top = 176
+    Top = 192
     Width = 121
     Height = 25
     Caption = 'Executar EstoqueMes'
@@ -108,10 +114,17 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object JvProgressBar1: TJvProgressBar
     Left = 16
-    Top = 146
+    Top = 144
     Width = 337
     Height = 16
     TabOrder = 6
+  end
+  object prog2: TJvProgressBar
+    Left = 16
+    Top = 166
+    Width = 337
+    Height = 16
+    TabOrder = 7
   end
   object sqlQ: TSQLQuery
     MaxBlobSize = -1
