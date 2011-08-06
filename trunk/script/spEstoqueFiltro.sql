@@ -1,3 +1,4 @@
+Set term  ^ ;
 CREATE OR ALTER PROCEDURE SPESTOQUEFILTRO (
     DTA1 Date,
     DTA2 Date,
@@ -13,7 +14,7 @@ RETURNS (
     CODPROD Varchar(20),
     CODMOV Integer,
     TIPOMOVIMENTO Varchar(30),
-    PRODUTO Varchar(200),
+    PRODUTO Varchar(300),
     GRUPO Varchar(30),
     SUBGRUPOPROD Varchar(30),
     SALDOINIACUM Double precision,

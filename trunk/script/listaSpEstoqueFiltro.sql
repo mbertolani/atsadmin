@@ -12,7 +12,7 @@ CREATE OR ALTER PROCEDURE  LISTASPESTOQUEFILTRO( DTA1                           
 RETURNS ( CODPROD                          VARCHAR( 20 )
         , CODMOV                           INTEGER
         , TIPOMOVIMENTO                    VARCHAR( 30 )
-        , PRODUTO                          VARCHAR( 200 )
+        , PRODUTO                          VARCHAR( 300 )
         , GRUPO                            VARCHAR( 30 )
         , SUBGRUPOPROD                     VARCHAR( 30 )
         , SALDOINIACUM                     DOUBLE PRECISION
