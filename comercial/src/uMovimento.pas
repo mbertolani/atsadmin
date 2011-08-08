@@ -70,6 +70,7 @@ type
     function inserirMovimento(): Integer;
     function verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
     function excluirMovimento(codMovE: Integer): Boolean;
+    function alterarMovimento(codMovA: Integer): Boolean;    
     constructor Create;
     Destructor Destroy; Override;
   end;
@@ -82,6 +83,22 @@ implementation
 uses SqlExpr, DB, UDm, DBClient;
 
 { TMovimento }
+
+function TMovimento.alterarMovimento(codMovA: Integer): Boolean;
+var sqlAltera : String;
+begin
+  sqlAltera := 'UPDATE MOVIMENTO SET ';
+  sqlAltera := sqlAltera + '  DATAMOVIMENTO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataMov));
+  sqlAltera := sqlAltera + ', CODCLIENTE    = ' + IntToStr(Self.CodCliente);
+  sqlAltera := sqlAltera + ', STATUS        = ' + IntToStr(Self.Status);
+  sqlAltera := sqlAltera + ', CODVENDEDOR   = ' + IntToStr(Self.CodVendedor);
+  sqlAltera := sqlAltera + ', CONTROLE      = ' + QuotedStr(Self.Controle);
+  sqlAltera := sqlAltera + ' WHERE CODMOVIMENTO = ' + IntToStr(codMovA);
+  if (executaSql(sqlAltera)) then
+    Result := True
+  else
+    Result := False;
+end;
 
 constructor TMovimento.Create;
 begin
@@ -191,12 +208,15 @@ function TMovimento.inserirMovimento: Integer;
 var str: String;
 begin
   // Inserindo o Movimento
-  if dm.c_6_genid.Active then
+  if (Self.CodMov = 0) then
+  begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    _codMov := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
-  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-  dm.c_6_genid.Open;
-  _codMov := dm.c_6_genid.Fields[0].AsInteger;
-  dm.c_6_genid.Close;
+  end;  
   str := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, ';
   str := str + 'CODNATUREZA, STATUS, CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, ';
   str := str + 'CODFORNECEDOR, DATA_SISTEMA, CONTROLE, CODPEDIDO, DATA_ENTREGA) VALUES (';
