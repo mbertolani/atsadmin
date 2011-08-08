@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, Dialogs,
-  DBLocal, DBLocalS, rpcompobase, rpvclreport, Forms, ADODB;
+  DBLocal, DBLocalS, rpcompobase, rpvclreport, Forms;
 type
   TDMNF = class(TDataModule)
     sCliente: TSQLDataSet;
