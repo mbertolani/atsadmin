@@ -1369,7 +1369,10 @@ type
     estoque, qtde: Double;
     { Public declarations }
     function FormExiste(aberto: Tform): Boolean;
+    function baixouEstoque(codMovtod: Integer): Boolean;
+    function cancelouEstoque(codMovtoC: Integer): Boolean;
     procedure baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
+    procedure cancelaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
   end;
 
 var
@@ -2059,15 +2062,12 @@ begin
       fNotaFc.btnSair.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
     end;
   end;}
+  
 end;
 
 procedure TDMNF.baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
 var FEstoque: TEstoque;
 begin
-  if (cds_Movimento.Active) then
-    cds_Movimento.Close;
-  cds_Movimento.Params.ParamByName('pCodMov').AsInteger := codMovto;
-  cds_Movimento.Open;
   if (cds_Mov_det.Active) then
     cds_Mov_det.Close;
   cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovto;
@@ -2107,6 +2107,90 @@ begin
 
         FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
         FEstoque.Status      := '9';
+        FEstoque.inserirMes;
+      end;
+      cds_Mov_det.Next;
+    end;
+  Finally
+    FEstoque.Free;
+  end;
+end;
+
+function TDMNF.baixouEstoque(codMovtod: Integer): Boolean;
+begin
+  Result := False;
+  if (cds_Mov_det.Active) then
+    cds_Mov_det.Close;
+  cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovtod;
+  cds_Mov_det.Open;
+  While not cds_Mov_det.Eof do
+  begin
+    if (cds_Mov_detSTATUS.IsNull) then
+    begin
+      Result := False;
+      Exit;
+    end;
+    cds_Mov_det.Next;
+  end;
+  Result := True;
+end;
+
+function TDMNF.cancelouEstoque(codMovtoC: Integer): Boolean;
+begin
+  Result := False;
+  if (cds_Mov_det.Active) then
+    cds_Mov_det.Close;
+  cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovtoC;
+  cds_Mov_det.Open;
+  While not cds_Mov_det.Eof do
+  begin
+    if (cds_Mov_detSTATUS.AsString = '9') then
+    begin
+      Result := False;
+      Exit;
+    end;
+    cds_Mov_det.Next;
+  end;
+  Result := True;
+end;
+
+procedure TDMNF.cancelaEstoque(codMovto: Integer; DtaMovto: TDateTime;
+  tipo: String);
+  var FEstoque: TEstoque;
+begin
+  Try
+    FEstoque := TEstoque.Create;
+    if (cds_Mov_det.Active) then
+      cds_Mov_det.Close;
+    cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovto;
+    cds_Mov_det.Open;
+    While not cds_Mov_det.Eof do
+    begin
+      if (cds_Mov_detSTATUS.AsString = '9') then
+      begin
+        if (tipo = 'VENDA') then
+        begin
+          FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+        end;
+        if (tipo = 'COMPRA') then
+        begin
+          FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+        end;
+        if (tipo = 'ENTRADA') then
+        begin
+          FEstoque.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+        end;
+        if (tipo = 'SAIDA') then
+        begin
+          FEstoque.QtdeSaida   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+        end;
+
+        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+        FEstoque.MesAno      := dtaMovto;
+        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+        FEstoque.Status      := '0';
         FEstoque.inserirMes;
       end;
       cds_Mov_det.Next;
