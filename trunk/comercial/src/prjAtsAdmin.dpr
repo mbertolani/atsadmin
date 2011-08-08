@@ -227,7 +227,8 @@ uses
   uExpedicao in 'uExpedicao.pas' {fExpedicao},
   uEstoque in 'uEstoque.pas',
   uProcura_prodOficina in 'uProcura_ProdOficina.pas' {fProcura_ProdOficina},
-  uCaixaBanco in 'uCaixaBanco.pas' {fCaixaBanco};
+  uCaixaBanco in 'uCaixaBanco.pas' {fCaixaBanco},
+  uCliente in 'uCliente.pas';
 
 {$R *.res}
 
