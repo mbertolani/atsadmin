@@ -636,7 +636,7 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
   uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils, uftransp,
-  uEstoque, uProcura_prodOficina;
+  uEstoque;
 
 {$R *.dfm}
 
@@ -1271,9 +1271,10 @@ end;
 procedure TfVendas.btnProdutoProcuraClick(Sender: TObject);
 begin
   inherited;
+  var_F := 'venda';
   if DtSrc1.DataSet.State in [dsInactive] then
    exit;
-  if (dm.moduloUsado = 'AUTOMOTIVA') then
+  {if (dm.moduloUsado = 'AUTOMOTIVAXXXXXX') then
   begin
     //fProcura_prodOficina.cbTipo.ItemIndex := 4;
     fProcura_prodOficina.btnIncluir.Visible := true;
@@ -1335,7 +1336,7 @@ begin
       Bitbtn4.SetFocus;
     end;
   end
-  else begin
+  else begin }
     fProcura_prod.cbTipo.ItemIndex := 4;
     fProcura_prod.btnIncluir.Visible := true;
     if (procprod <> 'PROC_PROD_COMPLETO') then
@@ -1395,7 +1396,7 @@ begin
     else begin
       Bitbtn4.SetFocus;
     end;
-  end;
+ // end;
 end;
 
 procedure TfVendas.btnNovoClick(Sender: TObject);
