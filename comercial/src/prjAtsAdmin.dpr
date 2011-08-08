@@ -228,7 +228,8 @@ uses
   uEstoque in 'uEstoque.pas',
   uProcura_prodOficina in 'uProcura_ProdOficina.pas' {fProcura_ProdOficina},
   uCaixaBanco in 'uCaixaBanco.pas' {fCaixaBanco},
-  uCliente in 'uCliente.pas';
+  uCliente in 'uCliente.pas',
+  uClienteEnderecos in 'uClienteEnderecos.pas';
 
 {$R *.res}
 
