@@ -64,8 +64,8 @@ end;
 
 procedure TEstoqueTeste.TearDown;
 begin
+  FEstoque.Destroy;
   inherited;
-  FEstoque.Free;
 end;
 
 procedure TEstoqueTeste.TestInserirPrimeiraEntradaSistema;
