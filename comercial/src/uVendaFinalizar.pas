@@ -1158,6 +1158,14 @@ begin
 //           [mbOk], 0);
 //    end;
 
+   if (dmnf.baixouEstoque(cdsCODMOVIMENTO.AsInteger) = False) then
+   begin
+     Try
+       dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+     Except
+       MessageDlg('Processo de Baixa no Estoque não realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
+     end;
+   end;
 end;
 
 procedure TfVendaFinalizar.btnExcluirClick(Sender: TObject);
@@ -1188,31 +1196,7 @@ begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
       begin
-        Try
-          FEstoque := TEstoque.Create;
-          // Gravando o Estoque
-          with fVendas do begin
-          cds_Mov_det.First;
-          While not cds_Mov_det.Eof do
-          begin
-            if (cds_Mov_detSTATUS.AsString = '9') then
-            begin
-              FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-              FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-              FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-              FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-              FEstoque.MesAno      := dataVenda;
-              FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-              FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-              FEstoque.Status      := '0';
-              FEstoque.inserirMes;
-            end;
-            cds_Mov_det.Next;
-          end;
-          end;
-        Finally
-          FEstoque.Free;
-        end;
+        dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
         if (dm.moduloUsado = 'CITRUS') then
         begin
           grava := TCompras.Create;
@@ -1343,6 +1327,16 @@ begin
   end
   else
     BitBtn2.Click;
+
+  if (dmnf.cancelouEstoque(cdsCODMOVIMENTO.AsInteger) = False) then
+  begin
+    dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+    if (dmnf.cancelouEstoque(cdsCODMOVIMENTO.AsInteger) = False) then
+    begin
+      MessageDlg('O Sistema não conseguiu cancelar a baixa no Estoque;', mtWarning, [mbOK], 0);
+    end;
+  end;
+
   fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
 end;
 
