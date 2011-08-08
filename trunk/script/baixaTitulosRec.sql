@@ -1,4 +1,4 @@
-ALTER PROCEDURE  BAIXATITULOSREC( VALOR                            DOUBLE PRECISION
+﻿ALTER PROCEDURE  BAIXATITULOSREC( VALOR                            DOUBLE PRECISION
                                 , FUNRURAL                         DOUBLE PRECISION
                                 , JUROS                            DOUBLE PRECISION
                                 , DESCONTO                         DOUBLE PRECISION
@@ -40,10 +40,10 @@ BEGIN
   VLDESCT = DESCONTO;
   VLPERT = PERDA;
 
-  /* Se Valor é negativo então baixa o título */
+  /* Se Valor e negativo entao baixa o titulo */
 
   FOR SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODCLIENTE = :CLIENTE AND DP = 0 
-     AND STATUS IN ('5-', '9-') order by CODRECEBIMENTO -- busco pelos tÃ­tulos a baixar
+     AND STATUS IN ('5-', '9-') order by CODRECEBIMENTO -- busco pelos titulos a baixar
   INTO :CODREC, :VLRESTO 
   DO BEGIN
         VLJU = VLJUT - VLJU;
@@ -105,7 +105,7 @@ BEGIN
       BEGIN   
          UPDATE RECEBIMENTO SET
             STATUS = :STATUS
-            , VALORRECEBIDO = (:VLR - :VLDESC - :VLPER)
+            , VALORRECEBIDO = (:VLR - :VLDESC - :VLPER + :VLJU)
             , VALOR_RESTO = (:VLR)
             , FORMARECEBIMENTO = :FORMAREC
             , DATABAIXA = :DATA
@@ -122,7 +122,7 @@ BEGIN
             WHERE CODRECEBIMENTO = :CODREC;
       END
 
-     /* Se Valor é negativo então baixa o título */
+     /* Se Valor e negativo entao baixa o titulo */
       IF (VALOR < 0) THEN
       BEGIN   
          UPDATE RECEBIMENTO SET
