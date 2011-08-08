@@ -1337,6 +1337,8 @@ type
     cds_Mov_detVIPI: TFloatField;
     sds_Mov_DetNCM: TStringField;
     cds_Mov_detNCM: TStringField;
+    sds_Mov_DetSTATUS: TStringField;
+    cds_Mov_detSTATUS: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
@@ -1366,7 +1368,8 @@ type
   public
     estoque, qtde: Double;
     { Public declarations }
-   function FormExiste(aberto: Tform): Boolean;    
+    function FormExiste(aberto: Tform): Boolean;
+    procedure baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
   end;
 
 var
@@ -1375,7 +1378,7 @@ var
 implementation
 
 uses UDm, uNF, uClienteCadastro, uNotaf, uNFCompra, uNotaf1, uNotafc,
-  uAtsAdmin;
+  uAtsAdmin, uEstoque;
 
 {$R *.dfm}
 
@@ -1456,7 +1459,7 @@ begin
   end
   else begin
     codmd := 1999999;
-  end;  
+  end;
   cds_mov_detCODDETALHE.AsInteger := codmd;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
 end;
@@ -2056,6 +2059,61 @@ begin
       fNotaFc.btnSair.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
     end;
   end;}
+end;
+
+procedure TDMNF.baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
+var FEstoque: TEstoque;
+begin
+  if (cds_Movimento.Active) then
+    cds_Movimento.Close;
+  cds_Movimento.Params.ParamByName('pCodMov').AsInteger := codMovto;
+  cds_Movimento.Open;
+  if (cds_Mov_det.Active) then
+    cds_Mov_det.Close;
+  cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovto;
+  cds_Mov_det.Open;
+  Try
+    FEstoque := TEstoque.Create;
+    cds_Mov_det.First;
+    While not cds_Mov_det.Eof do
+    begin
+      if (cds_Mov_detSTATUS.IsNull) then
+      begin
+        if (tipo = 'VENDA') then
+        begin
+          FEstoque.QtdeVenda   := cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+        end;
+        if (tipo = 'COMPRA') then
+        begin
+          FEstoque.QtdeCompra   := cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.PrecoCompra  := cds_Mov_detPRECO.AsFloat;
+        end;
+        if (tipo = 'ENTRADA') then
+        begin
+          FEstoque.QtdeEntrada   := cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.PrecoCompra   := cds_Mov_detPRECO.AsFloat;
+        end;
+        if (tipo = 'SAIDA') then
+        begin
+          FEstoque.QtdeSaida   := cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+        end;
+
+        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+        FEstoque.MesAno      := DtaMovto;
+
+        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+        FEstoque.Status      := '9';
+        FEstoque.inserirMes;
+      end;
+      cds_Mov_det.Next;
+    end;
+  Finally
+    FEstoque.Free;
+  end;
 end;
 
 end.
