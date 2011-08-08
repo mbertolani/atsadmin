@@ -3741,6 +3741,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
         ParamType = ptInput
       end>
     ProviderName = 'dsp_venda'
+    AfterPost = cdsAfterPost
     OnNewRecord = cdsNewRecord
     OnReconcileError = cdsReconcileError
     Left = 191

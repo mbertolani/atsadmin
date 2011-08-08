@@ -539,6 +539,7 @@ type
     procedure edCodFretistaExit(Sender: TObject);
     procedure JvCalcEdit3Change(Sender: TObject);
     procedure JvCalcEdit2Change(Sender: TObject);
+    procedure cdsAfterPost(DataSet: TDataSet);
   private
     { Private declarations }
     procedure excluinf;
@@ -820,7 +821,6 @@ var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
      TD: TTransactionDesc;
-     FEstoque: TEstoque;
 begin
   if (cbPrazo.Visible = True) then
   begin
@@ -1081,31 +1081,11 @@ begin
 
     //inherited;
     // Retirei do Inherited a opção de gravar, pois, não exibe mensagem de erro, e aqui e necessario
-    cds.ApplyUpdates(0);
-
     Try
-      FEstoque := TEstoque.Create;
-      with fVendas do begin
-      cds_Mov_det.First;
-      While not cds_Mov_det.Eof do
-      begin
-        if (cds_Mov_detSTATUS.IsNull) then
-        begin
-          FEstoque.QtdeVenda   := cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-          FEstoque.MesAno      := cdsDATAVENDA.AsDateTime;
-          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-          FEstoque.Status      := '9';
-          FEstoque.inserirMes;
-        end;
-        cds_Mov_det.Next;
-      end;
-      end;
-    Finally
-      FEstoque.Free;
+      cds.ApplyUpdates(0);
+      dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+    Except
+      MessageDlg('Processo de Venda não finalizado CORRETAMENTE.', mtWarning, [mbOK], 0);
     end;
   end;
   //baixando o movimento na tabela estoque
@@ -3156,6 +3136,12 @@ begin;
   if Pos(Str[x],ComAcento) <> 0 then
     Str[x] := SemAcento[Pos(Str[x], ComAcento)];
   Result := Str;
+end;
+
+procedure TfVendaFinalizar.cdsAfterPost(DataSet: TDataSet);
+var  FEstoque: TEstoque;
+begin
+  inherited;
 end;
 
 end.
