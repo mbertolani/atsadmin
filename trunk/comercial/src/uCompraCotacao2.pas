@@ -96,10 +96,17 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure edDescPercentGeralExit(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
+    procedure jvdbgrd2DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     TD: TTransactionDesc;
     procedure editaItens;
     procedure daDesconto;
+    procedure abrirCotacoes(Item: String; codCotacao: Integer);
+    function Selecionado(Codigos : TStringList; Codigo : String) : Integer;
+    procedure alteraStatusItensSelec;
     { Private declarations }
   public
     { Public declarations }
@@ -107,6 +114,7 @@ type
 
 var
   fCompraCotacao2: TfCompraCotacao2;
+  v_codigos : TStringList;
 
 implementation
 
@@ -163,9 +171,18 @@ begin
 end;
 
 procedure TfCompraCotacao2.jvdbgrd2CellClick(Column: TColumn);
+var
+  x, y : integer;
 begin
-  //inherited;
-  // Edita Itens
+  //VERIFICAR SE JÁ ESTA INCLUSO
+  y := Selecionado(v_codigos, IntToStr(cdsCotacaoCOTACAO_CODSOLIC.AsInteger));
+  if (y < 0) then // menor que zero, então não esta selecionado
+     v_codigos.Add(IntToStr(cdsCotacaoCOTACAO_CODSOLIC.AsInteger)) //Adiciona à lista
+  else
+    v_codigos.Delete(y); //Senão remove ele da lista
+
+  jvDBGrd2.Repaint;
+
   editaItens;
 end;
 
@@ -245,10 +262,12 @@ end;
 procedure TfCompraCotacao2.btnIncluirClick(Sender: TObject);
 var codMov: integer;
 begin
+  abrirCotacoes(cdsCotacaoCOTACAO_ITEM.AsString, 0);
   if (cdsPedido.Active) then
     cdsPedido.Close;
   cdsPedido.Params.ParamByName('FORNEC').AsInteger := cdsCotacaoCOTACAO_FORNEC.AsInteger;
   cdsPedido.Open;
+
   codMov := 0;
   if ( (cdsPedido.RecordCount > 0) and (cdsPedidoSTATUS.AsInteger <> 3) ) then
   begin
@@ -260,10 +279,13 @@ begin
       if (cdsPedido.RecordCount > 1) then
       begin
         fListaPedido := TfListaPedido.Create(Application);
+        if (fListaPedido.cdsPedido.Active) then
+          fListaPedido.cdsPedido.Close;
+        fListaPedido.cdsPedido.Params.ParamByName('FORNEC').AsInteger := cdsCotacaoCOTACAO_FORNEC.AsInteger;
+        fListaPedido.cdsPedido.Open;
         try
-          fListaPedido.dsPedido.DataSet := cdsPedido;
           fListaPedido.ShowModal;
-          codMov := cdsPedido.Fields[0].AsInteger;
+          codMov := fListaPedido.cdsPedido.Fields[0].AsInteger;
         finally
          fListaPedido.Free;
         end;
@@ -375,6 +397,93 @@ procedure TfCompraCotacao2.BitBtn4Click(Sender: TObject);
 begin
   daDesconto;
 
+end;
+
+procedure TfCompraCotacao2.jvdbgrd2DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+var
+  x,y,Check : integer;
+  R: TRect;
+begin
+  //Desenhar o CheckBox na primeira coluna
+  if (DataCol = 0) then
+  begin
+    y := Selecionado(v_codigos, IntToStr(cdsCotacaoCOTACAO_CODSOLIC.asInteger));
+    R := Rect;
+    R.Left :=  (Column.Width * -1) + 30; //Posicionando o CheckBox
+    InflateRect(R,-2,-2); //Diminuindo o CheckBox
+
+    if (y < 0) then //menor que zero, então não esta selecionado
+      DrawFrameControl(jvdbgrd2.Canvas.Handle,R,DFC_BUTTON, DFCS_BUTTONCHECK)
+    else
+      DrawFrameControl(jvDBGrd2.Canvas.Handle,R,DFC_BUTTON, DFCS_CHECKED);
+  end;
+
+end;
+
+procedure TfCompraCotacao2.FormShow(Sender: TObject);
+begin
+  inherited;
+  v_codigos := TStringList.Create;
+end;
+
+procedure TfCompraCotacao2.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  v_codigos.Free;
+end;
+
+procedure TfCompraCotacao2.abrirCotacoes(Item: String;
+  codCotacao: Integer);
+  var x, posicao : integer;
+    str : String;
+begin
+  posicao := cdsCotacao.RecNo;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    for x := 0 to v_codigos.Count-1 do
+    begin
+      if (cdsCotacao.Locate('COTACAO_CODSOLIC', v_codigos[x], [loCaseInsensitive])) then
+      begin
+        str := 'UPDATE COMPRA_COTACAO SET COTACAO_SITUACAO = '+ QuotedStr('X');
+        str := str + ' WHERE COTACAO_CODSOLIC = ' + InttoStr(cdsCotacaoCOTACAO_CODSOLIC.AsInteger);
+        str := str + '   AND COTACAO_CODIGO   = ' + InttoStr(cdsCotacaoCOTACAO_CODIGO.AsInteger);
+        str := str + '   AND COTACAO_FORNEC   = ' + InttoStr(cdsCotacaoCOTACAO_FORNEC.AsInteger);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+      end;  
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro para gravar a cotação.', mtError, [mbOK], 0);
+    exit;
+  end;
+end;
+
+procedure TfCompraCotacao2.alteraStatusItensSelec;
+begin
+
+end;
+
+function TfCompraCotacao2.Selecionado(Codigos: TStringList;
+  Codigo: String): Integer;
+var
+  x : integer;
+begin
+  //Verificando se o código já esta selecionado...
+  //Resultando -1 se não estiver e Resultando a posição
+  //dele na StringList caso já esteja selecionado.
+  Result := -1;
+  for x := 0 to Codigos.Count-1 do
+    if (Codigos[x] = Codigo) then
+      begin
+        Result := x; //Retorna a posição na StringList;
+        Break; //PARA DE EXECUTAR O LOOP
+      end;
 end;
 
 end.

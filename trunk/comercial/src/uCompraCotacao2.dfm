@@ -3,6 +3,7 @@ inherited fCompraCotacao2: TfCompraCotacao2
   Height = 614
   Caption = 'Negocia'#231#245'es de Compras'
   OldCreateOrder = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
@@ -583,6 +584,7 @@ inherited fCompraCotacao2: TfCompraCotacao2
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
     OnCellClick = jvdbgrd2CellClick
+    OnDrawColumnCell = jvdbgrd2DrawColumnCell
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -590,6 +592,12 @@ inherited fCompraCotacao2: TfCompraCotacao2
     RowsHeight = 17
     TitleRowHeight = 17
     Columns = <
+      item
+        Expanded = False
+        Title.Caption = 'Sel.'
+        Width = 30
+        Visible = True
+      end
       item
         Expanded = False
         FieldName = 'COTACAO_ITEM'
@@ -832,6 +840,7 @@ inherited fCompraCotacao2: TfCompraCotacao2
       '         where m.CODMOVIMENTO = md.CODMOVIMENTO      '
       '           and md.BAIXA is null '
       '           and m.CODNATUREZA       = 5'
+      '           and m.STATUS                    = 0'
       '           and m.CODFORNECEDOR = :FORNEC'
       '           order by m.CODMOVIMENTO ')
     SQLConnection = DM.sqlsisAdimin
