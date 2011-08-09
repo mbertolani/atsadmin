@@ -229,7 +229,8 @@ uses
   uProcura_prodOficina in 'uProcura_ProdOficina.pas' {fProcura_ProdOficina},
   uCaixaBanco in 'uCaixaBanco.pas' {fCaixaBanco},
   uCliente in 'uCliente.pas',
-  uClienteEnderecos in 'uClienteEnderecos.pas';
+  uClienteEnderecos in 'uClienteEnderecos.pas',
+  uCliente1 in 'uCliente1.pas' {fCliente1};
 
 {$R *.res}
 
