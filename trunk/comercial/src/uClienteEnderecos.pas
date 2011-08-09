@@ -59,6 +59,7 @@ type
     _codCli          : Integer;
     _codEndereco     : Integer;
     _tipoEndereco    : Smallint;
+    {<fd> 0 = Principal  1 = Cobranca  2 = Entrega </fd>}
     _logradouro      : String;
     _bairro          : String;
     _cidade          : String;
@@ -77,6 +78,7 @@ type
     _ramal           : String;
     _fax             : String;
     _codIbge         : String;
+    {<fd> Código do IBGE da Cidade , usado na emissão NF-e </fd>}
     _dadosAdicionais : String;
     _pais            : String;
 
@@ -110,6 +112,7 @@ type
     function inserirEndereco(): Integer;
     function verEndereco(Controle: String; Campo: String; Tipo: String): Integer;
     function excluirEndereco(codEndE: Integer): Boolean;
+    function excluirEnderecoCliente(codCliE: Integer): Boolean;
     function alterarEndereco(codEndA: Integer): Boolean;
     constructor Create;
     Destructor Destroy; Override;
@@ -125,8 +128,37 @@ uses SqlExpr, DB, UDm, DBClient;
 { TEnderecos }
 
 function TEnderecos.alterarEndereco(codEndA: Integer): Boolean;
+var endAlt: String;
 begin
   // Altera Endereco
+  endAlt := 'UPDATE ENDERECOCLIENTE SET ';
+  endAlt := endAlt + ' LOGRADOURO = ' + QuotedStr(Self.Logradouro) + ', ';
+  endAlt := endAlt + ' BAIRRO     = ' + QuotedStr(Self.Bairro) + ', ';
+  endAlt := endAlt + ' COMPLEMENTO= ' + QuotedStr(Self.Complemento) + ', ';
+  endAlt := endAlt + ' CIDADE     = ' + QuotedStr(Self.Cidade) + ', ';
+  endAlt := endAlt + ' UF         = ' + QuotedStr(Self.Uf) + ', ';
+  endAlt := endAlt + ' CEP        = ' + QuotedStr(Self.Cep) + ', ';
+  endAlt := endAlt + ' TELEFONE   = ' + QuotedStr(Self.Fone1) + ', ';
+  endAlt := endAlt + ' TELEFONE1  = ' + QuotedStr(Self.Fone2) + ', ';
+  endAlt := endAlt + ' TELEFONE2  = ' + QuotedStr(Self.Fone3) + ', ';
+  endAlt := endAlt + ' FAX        = ' + QuotedStr(Self.getFax) + ', ';
+  endAlt := endAlt + ' E_MAIL     = ' + QuotedStr(Self.Email) + ', ';
+  endAlt := endAlt + ' RAMAL      = ' + QuotedStr(Self.Ramal) + ', ';
+  endAlt := endAlt + ' TIPOEND    = ' + IntToStr(Self.TipoEndereco) + ', ';
+  endAlt := endAlt + ' DDD        = ' + QuotedStr(Self.DDD1) + ', ';
+  endAlt := endAlt + ' DDD1       = ' + QuotedStr(Self.DDD2) + ', ';
+  endAlt := endAlt + ' DDD2       = ' + QuotedStr(Self.DDD3) + ', ';
+  endAlt := endAlt + ' DDD3       = ' + QuotedStr(Self.DDD4) + ', ';
+  endAlt := endAlt + ' NUMERO     = ' + QuotedStr(Self.Numero) + ', ';
+  endAlt := endAlt + ' CD_IBGE    = ' + QuotedStr(Self.CodIbge) + ', ';
+  endAlt := endAlt + ' DADOSADICIONAIS = ' + QuotedStr(Self.DadosAdicionais);
+  endAlt := endAlt + ' WHERE CODENDERECO = ' + IntToStr(codEndA);
+
+  if (executaSql(endAlt)) then
+    Result := True
+  else
+    Result := False;  
+
 end;
 
 constructor TEnderecos.Create;
@@ -143,6 +175,17 @@ end;
 function TEnderecos.excluirEndereco(codEndE: Integer): Boolean;
 begin
   // Exclui Endereco
+  Result := False;
+  if (executaSql('DELETE FROM ENDERECOCLIENTE WHERE CODENDERECO = ' + IntToStr(codEndE))) then
+    Result := True;
+end;
+
+function TEnderecos.excluirEnderecoCliente(codCliE: Integer): Boolean;
+begin
+  // Exclui Endereco do Cliente
+  Result := False;
+  if (executaSql('DELETE FROM ENDERECOCLIENTE WHERE CODCLIENTE = ' + IntToStr(codCliE))) then
+    Result := True;
 end;
 
 function TEnderecos.executaSql(strSql: String): Boolean;
@@ -281,8 +324,52 @@ begin
 end;
 
 function TEnderecos.inserirEndereco: Integer;
+var endInc: String;
 begin
+  // Cadastrar Cliente
+  if (Self.CodEndereco = 0) then
+  begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_END_CLI, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    _codEndereco := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+  end;
   // Inserir Endereco
+  endInc := 'INSERT INTO ENDERECOCLIENTE (CODENDERECO, ';
+  endInc := endInc + ' CODCLIENTE , LOGRADOURO, BAIRRO, ';
+  endInc := endInc + ' COMPLEMENTO, CIDADE    , UF,     ';
+  endInc := endInc + ' CEP        , TELEFONE  , TELEFONE1,';
+  endInc := endInc + ' TELEFONE2  , FAX       , E_MAIL   ,';
+  endInc := endInc + ' RAMAL      , TIPOEND   , DDD      ,';
+  endInc := endInc + ' DDD1       , DDD2      , DDD3     ,';
+  endInc := endInc + ' NUMERO     , CD_IBGE   , DADOSADICIONAIS)';
+  endInc := endInc + ' VALUES(';
+  endInc := endInc + IntToStr(Self.CodEndereco) + ', ';
+  endInc := endInc + IntToStr(Self.CodCli) + ', ';
+  endInc := endInc + QuotedStr(Self.Logradouro) + ', ';
+  endInc := endInc + QuotedStr(Self.Bairro) + ', ';
+  endInc := endInc + QuotedStr(Self.Complemento) + ', ';
+  endInc := endInc + QuotedStr(Self.Cidade) + ', ';
+  endInc := endInc + QuotedStr(Self.Uf) + ', ';
+  endInc := endInc + QuotedStr(Self.Cep) + ', ';
+  endInc := endInc + QuotedStr(Self.Fone1) + ', ';
+  endInc := endInc + QuotedStr(Self.Fone2) + ', ';
+  endInc := endInc + QuotedStr(Self.Fone3) + ', ';
+  endInc := endInc + QuotedStr(Self.getFax) + ', ';
+  endInc := endInc + QuotedStr(Self.Email) + ', ';
+  endInc := endInc + QuotedStr(Self.Ramal) + ', ';
+  endInc := endInc + IntToStr(Self.TipoEndereco) + ', ';
+  endInc := endInc + QuotedStr(Self.DDD1) + ', ';
+  endInc := endInc + QuotedStr(Self.DDD2) + ', ';
+  endInc := endInc + QuotedStr(Self.DDD3) + ', ';
+  endInc := endInc + QuotedStr(Self.DDD4) + ', ';
+  endInc := endInc + QuotedStr(Self.Numero) + ', ';
+  endInc := endInc + QuotedStr(Self.CodIbge) + ', ';
+  endInc := endInc + QuotedStr(Self.DadosAdicionais) + ')';
+  executaSql(endInc);
+  Result := Self.CodEndereco;
 end;
 
 procedure TEnderecos.setBairro(const Value: String);
@@ -403,6 +490,57 @@ end;
 function TEnderecos.verEndereco(Controle, Campo, Tipo: String): Integer;
 begin
   // VerEndereco
+  Try
+    Result := 0;
+
+    With dm.cdsBusca do begin
+      Close;
+      CommandText := 'SELECT * FROM ENDERECOCLIENTE';
+      if (Tipo = 'INTEGER') then
+      begin
+        CommandText := CommandText + ' WHERE ' + Campo + ' = ' + Controle;
+      end;
+      if (Tipo = 'STRING') then
+      begin
+        CommandText := CommandText + ' WHERE ' + Campo + ' = ' + QuotedStr(Controle);
+      end;
+
+      Open;
+    end;
+
+    if (dm.cdsBusca.RecordCount > 0) then
+    begin
+      Self.CodCli        := dm.cdsBusca.FieldByName('CODCLIENTE').AsInteger;
+      Self.Logradouro    := dm.cdsBusca.FieldByName('LOGRADOURO').AsString;
+      Self.TipoEndereco  := dm.cdsBusca.FieldByName('TIPOEND').AsInteger;
+      Self.Bairro        := dm.cdsBusca.FieldByName('BAIRRO').AsString;
+      Self.Complemento   := dm.cdsBusca.FieldByName('COMPLEMENTO').AsString;
+      Self.Cidade        := dm.cdsBusca.FieldByName('CIDADE').AsString;
+      Self.Uf            := dm.cdsBusca.FieldByName('UF').AsString;
+      Self.Cep           := dm.cdsBusca.FieldByName('CEP').AsString;
+      Self.Fone1         := dm.cdsBusca.FieldByName('TELEFONE').AsString;
+      Self.Fone2         := dm.cdsBusca.FieldByName('TELEFONE1').AsString;
+      Self.Fone3         := dm.cdsBusca.FieldByName('TELEFONE2').AsString;
+      Self.Fax           := dm.cdsBusca.FieldByName('FAX').AsString;
+      Self.DDD1          := dm.cdsBusca.FieldByName('DDD').AsString;
+      Self.DDD2          := dm.cdsBusca.FieldByName('DDD1').AsString;
+      Self.DDD3          := dm.cdsBusca.FieldByName('DDD2').AsString;
+      Self.DDD4          := dm.cdsBusca.FieldByName('DDD3').AsString;
+      Self.Email         := dm.cdsBusca.FieldByName('E_MAIL').AsString;
+      Self.Numero        := dm.cdsBusca.FieldByName('NUMERO').AsString;
+      Self.CodIbge       := dm.cdsBusca.FieldByName('CD_IBGE').AsString;
+      Self.DadosAdicionais   := dm.cdsBusca.FieldByName('DADOSADICIONAIS').AsString;
+      Self.Ramal         := dm.cdsBusca.FieldByName('RAMAL').AsString;
+      Result := Self.CodCli;
+    end
+    else
+      //ShowMessage('Registro não encontrado');
+      Result := 0;
+  Except
+    on E : Exception do
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+  end;
 end;
+
 
 end.
