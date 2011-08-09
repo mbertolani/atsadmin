@@ -1,5 +1,6 @@
 inherited fProdutoCadastro: TfProdutoCadastro
-  Top = 58
+  Left = 340
+  Top = 130
   Width = 799
   Height = 555
   Font.Height = -13
@@ -1192,10 +1193,17 @@ inherited fProdutoCadastro: TfProdutoCadastro
       end
       object Label20: TLabel
         Left = 305
-        Top = 32
+        Top = 11
         Width = 61
         Height = 16
         Caption = 'Comiss'#227'o'
+      end
+      object Label22: TLabel
+        Left = 401
+        Top = 11
+        Width = 131
+        Height = 16
+        Caption = 'Data Ultima Altera'#231#227'o'
       end
       object DBRadioGroup1: TDBRadioGroup
         Left = 8
@@ -1318,8 +1326,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
         end
       end
       object DBEdit21: TDBEdit
-        Left = 378
-        Top = 33
+        Left = 302
+        Top = 32
         Width = 80
         Height = 24
         BevelKind = bkFlat
@@ -1336,6 +1344,23 @@ inherited fProdutoCadastro: TfProdutoCadastro
         TabOrder = 3
         OnExit = DBEdit19Exit
         OnKeyPress = FormKeyPress
+      end
+      object DBEdit23: TDBEdit
+        Left = 400
+        Top = 32
+        Width = 80
+        Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'DATACADASTRO'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 4
       end
     end
   end
