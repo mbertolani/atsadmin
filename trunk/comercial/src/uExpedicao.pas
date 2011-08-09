@@ -214,7 +214,7 @@ begin
       ', (md.QUANTIDADE - COALESCE((select sum(mdc.QUANTIDADE) from MOVIMENTO mc, MOVIMENTODETALHE mdc ' +
       ' where mc.CODMOVIMENTO = mdc.CODMOVIMENTO '+
       '   and mc.CODNATUREZA  = 6 '+
-      '   and mc.CODPEDIDO    = m.CODPEDIDO ' +
+      '   and mdc.CODIGO      = m.CODPEDIDO ' +
       '   and mdc.CODPRODUTO  = md.CODPRODUTO),0)) QUANTIDADE ' +
       ',  md.PRECO, md.VALTOTAL , md.RECEBIDO' +
       ',  m.CONTROLE, m.CODPEDIDO , m.CODCLIENTE, cli.NOMECLIENTE, md.codproduto, md.UN ' +
