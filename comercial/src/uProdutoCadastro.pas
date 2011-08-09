@@ -97,6 +97,8 @@ type
     DBEdit21: TDBEdit;
     DBEdit18: TDBEdit;
     Label26: TLabel;
+    DBEdit23: TDBEdit;
+    Label22: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
