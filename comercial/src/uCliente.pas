@@ -2,7 +2,7 @@ unit uCliente;
 
 interface
 
-uses SysUtils, Dialogs, dbXpress;
+uses SysUtils, Dialogs, dbXpress, uClienteEnderecos;
 
 type
 
@@ -33,12 +33,16 @@ type
     procedure setInscEstadual(const Value: String);
     procedure setObs(const Value: String);
     procedure setRazaoSocial(const Value: String);
+    function getEndereco: TEnderecos;
+    procedure setEndereco(const Value: TEnderecos);
   protected
     //Atributos
     _codCli          : Integer;
     _codUsuario      : Integer;
     _status          : Smallint;
+    {<fd> 1 = Ativo  2 = Inativo </fd>}
     _tipoFirma       : Smallint;
+    {<fd> 0 = Pessoa Fisica 1 = Pessoa Juridica </fd>}
     _nomeCliente     : String;
     _razaoSocial     : String;
     _contato         : String;
@@ -47,6 +51,7 @@ type
     _obs             : String;
     _dataCadastro    : TDateTime;
     _dataNasc        : TDateTime;
+    _endereco        : TEnderecos;
 
     function executaSql(strSql: String): Boolean;
   public
@@ -62,6 +67,7 @@ type
     property Obs         : String read getObs write setObs;
     property DataCadastro: TDateTime read getDataCadastro write setDataCadastro;
     property DataNasc    : TDateTime read getDataNasc write setDataNasc;
+    property Endereco    : TEnderecos read getEndereco write setEndereco;
 
     //Metodos
     function inserirCliente(): Integer;
@@ -102,11 +108,12 @@ end;
 
 constructor TCliente.Create;
 begin
+  _endereco := TEnderecos.Create;
 end;
 
 destructor TCliente.Destroy;
 begin
-
+  _endereco.Destroy;
   inherited;
 end;
 
@@ -114,6 +121,10 @@ function TCliente.excluirCliente(codCliE: Integer): Boolean;
 begin
   // Excluir Cadastro Cliente
   Result := executaSql('DELETE FROM CLIENTES WHERE CODCLIENTE = ' + IntToStr(codCliE));
+  if (Result = True) then
+  begin
+    _endereco.excluirEnderecoCliente(CodCliE);
+  end;
 end;
 
 function TCliente.executaSql(strSql: String): Boolean;
@@ -166,6 +177,11 @@ begin
   Result := _dataNasc;
 end;
 
+function TCliente.getEndereco: TEnderecos;
+begin
+  Result := _endereco;
+end;
+
 function TCliente.getInscEstadual: String;
 begin
   Result := Trim(_inscEstadual);
@@ -184,16 +200,18 @@ end;
 function TCliente.getRazaoSocial: String;
 begin
   Result := Trim(_razaoSocial);
+  if (_razaoSocial = '') then
+    Result := Trim(_nomeCliente);
 end;
 
 function TCliente.getStatus: Smallint;
 begin
-  Result := status;
+  Result := _status;
 end;
 
 function TCliente.getTipoFirma: Smallint;
 begin
-  Result := tipoFirma;
+  Result := _tipoFirma;
 end;
 
 function TCliente.inserirCliente: Integer;
@@ -213,14 +231,14 @@ begin
   sqlInc := 'INSERT INTO CLIENTES (';
   sqlInc := sqlInc + ' CODCLIENTE,   NOMECLIENTE,  RAZAOSOCIAL, CONTATO,';
   sqlInc := sqlInc + ' CNPJ,         INSCESTADUAL, SEGMENTO,    REGIAO, ';
-  sqlInc := sqlInc + ' DATACADASTRO, CODUSUARIO,   STATUS,      TIPOFIRMA';
+  sqlInc := sqlInc + ' DATACADASTRO, CODUSUARIO,   STATUS,      TIPOFIRMA)';
   sqlInc := sqlInc + ' VALUES(';
   sqlInc := sqlInc + IntToStr(Self.CodCli) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.NomeCliente) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.RazaoSocial) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.Contato) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.Cnpj) + ', ';
-  sqlInc := sqlInc + QuotedStr(Self.InscEstadual) + ', 0, 0';
+  sqlInc := sqlInc + QuotedStr(Self.InscEstadual) + ', 0, 0,';
   sqlInc := sqlInc + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataCadastro)) + ', ';
   sqlInc := sqlInc + IntToStr(Self.CodUsuario) + ', ';
   sqlInc := sqlInc + IntToStr(Self.Status) + ', ';
@@ -257,6 +275,11 @@ end;
 procedure TCliente.setDataNasc(const Value: TDateTime);
 begin
  _dataNasc := Value;
+end;
+
+procedure TCliente.setEndereco(const Value: TEnderecos);
+begin
+  _endereco := Value;
 end;
 
 procedure TCliente.setInscEstadual(const Value: String);
