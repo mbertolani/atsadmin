@@ -9,7 +9,10 @@ uses
   uEstoque in '..\comercial\src\uEstoque.pas',
   uMovimento in '..\comercial\src\uMovimento.pas',
   uMovimentoDetalhe in '..\comercial\src\uMovimentoDetalhe.pas',
-  uMovimentoTeste in 'uMovimentoTeste.pas';
+  uMovimentoTeste in 'uMovimentoTeste.pas',
+  uCliente in '..\comercial\src\uCliente.pas',
+  uClienteEnderecos in '..\comercial\src\uClienteEnderecos.pas',
+  uClienteTeste in 'uClienteTeste.pas';
 
 {$R *.res}
 
