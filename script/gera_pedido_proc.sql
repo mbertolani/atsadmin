@@ -27,12 +27,13 @@ BEGIN
         FROM COMPRA_COTACAO c 
        WHERE c.COTACAO_CODIGO = :codigo 
          AND c.COTACAO_FORNEC = :fornec 
+         AND c.COTACAO_SITUACAO = 'X'
         into :dtEntrega, :prazo, :obs, :descricao, :situacao, :tipo, :qtde, :preco, :ipi, :frete, :desconto, :codSolic, :codPro
   do begin      
     if (preco > 0) then 
     begin 
 	/* Gera o Pedido de Compra ou de Despesa apos a Solicitacao ser aprovada  */
-    if (situacao = 'G') then /* C = gerado pedido P = Nao gerado Pedido  G = Cotado */
+    if (situacao = 'X') then /* C = gerado pedido P = Nao gerado Pedido  G = Cotado */
     begin
       /* verifica se Compra ou Despesa */
       if (tipo = 'C') then 
@@ -71,7 +72,7 @@ BEGIN
         UPDATE COMPRA_SOLIC  SET SOLIC_SITUACAO = 'E' WHERE SOLIC_CODIGO = :codSolic;              
         -- Muda o Status da Compra_Cotacao
         update COMPRA_COTACAO set COTACAO_SITUACAO = 'F'
-         WHERE COTACAO_SITUACAO = 'G'
+         WHERE COTACAO_SITUACAO = 'X'
            AND COTACAO_ITEM   = :codPro;
            
       end 
