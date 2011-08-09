@@ -1360,6 +1360,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
+        ReadOnly = True
         TabOrder = 4
       end
     end
