@@ -200,7 +200,7 @@ inherited fFuncionario: TfFuncionario
     FocusControl = DBEdit25
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 404
+    Top = 411
     Width = 682
     inherited btnProcurar: TBitBtn
       OnClick = btnProcurarClick
@@ -496,9 +496,9 @@ inherited fFuncionario: TfFuncionario
   end
   object DBRadioGroup1: TDBRadioGroup [46]
     Left = 568
-    Top = 288
+    Top = 298
     Width = 105
-    Height = 113
+    Height = 98
     Caption = 'USUARIO'
     DataField = 'RECEBE_COMISSAO'
     DataSource = DtSrc
@@ -515,9 +515,9 @@ inherited fFuncionario: TfFuncionario
   end
   object GroupBox1: TGroupBox [47]
     Left = 430
-    Top = 288
+    Top = 298
     Width = 65
-    Height = 50
+    Height = 45
     Caption = '% Comiss'#227'o'
     TabOrder = 27
     object DBEdit16: TDBEdit
@@ -571,10 +571,10 @@ inherited fFuncionario: TfFuncionario
   end
   object GroupBox2: TGroupBox [51]
     Left = 431
-    Top = 180
+    Top = 168
     Width = 242
-    Height = 105
-    Caption = 'Banco'
+    Height = 127
+    Caption = 'Financeiro'
     TabOrder = 28
     object Label27: TLabel
       Left = 8
@@ -585,21 +585,28 @@ inherited fFuncionario: TfFuncionario
     end
     object Label28: TLabel
       Left = 8
-      Top = 48
+      Top = 43
       Width = 39
       Height = 13
       Caption = 'Ag'#234'ncia'
     end
     object Label29: TLabel
       Left = 8
-      Top = 80
+      Top = 73
       Width = 53
       Height = 13
       Caption = 'Conta Corr.'
     end
+    object Label30: TLabel
+      Left = 10
+      Top = 101
+      Width = 35
+      Height = 13
+      Caption = 'Salario.'
+    end
     object DBEdit26: TDBEdit
       Left = 64
-      Top = 48
+      Top = 43
       Width = 145
       Height = 21
       BevelKind = bkFlat
@@ -611,7 +618,7 @@ inherited fFuncionario: TfFuncionario
     end
     object DBEdit27: TDBEdit
       Left = 64
-      Top = 77
+      Top = 70
       Width = 145
       Height = 21
       BevelKind = bkFlat
@@ -640,6 +647,18 @@ inherited fFuncionario: TfFuncionario
       TabOrder = 0
       OnKeyPress = FormKeyPress
     end
+    object DBEdit17: TDBEdit
+      Left = 64
+      Top = 96
+      Width = 145
+      Height = 21
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DataField = 'SALARIO'
+      DataSource = DtSrc
+      TabOrder = 3
+      OnKeyPress = FormKeyPress
+    end
   end
   object dbcargos: TDBComboBox [52]
     Left = 431
@@ -664,9 +683,9 @@ inherited fFuncionario: TfFuncionario
   end
   object rgCliFor: TDBRadioGroup [54]
     Left = 430
-    Top = 337
+    Top = 344
     Width = 136
-    Height = 41
+    Height = 33
     DataField = 'CLIFOR'
     DataSource = DtSrc
     Items.Strings = (
@@ -677,9 +696,9 @@ inherited fFuncionario: TfFuncionario
   end
   object DBRadioGroup2: TDBRadioGroup [55]
     Left = 496
-    Top = 289
+    Top = 298
     Width = 70
-    Height = 49
+    Height = 45
     Caption = 'Ativo ?'
     DataField = 'STATUS'
     DataSource = DtSrc
@@ -877,6 +896,10 @@ inherited fFuncionario: TfFuncionario
       FixedChar = True
       Size = 1
     end
+    object cds_funSALARIO: TFloatField
+      FieldName = 'SALARIO'
+      DisplayFormat = ',#.00'
+    end
   end
   object sql_fun: TSQLDataSet
     CommandText = 
@@ -1051,6 +1074,10 @@ inherited fFuncionario: TfFuncionario
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
+    end
+    object sql_funSALARIO: TFloatField
+      FieldName = 'SALARIO'
+      DisplayFormat = ',#.00'
     end
   end
   object sql_proc_fun: TSQLClientDataSet

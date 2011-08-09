@@ -214,6 +214,10 @@ type
     DBRadioGroup2: TDBRadioGroup;
     sql_funSTATUS: TStringField;
     cds_funSTATUS: TStringField;
+    Label30: TLabel;
+    DBEdit17: TDBEdit;
+    sql_funSALARIO: TFloatField;
+    cds_funSALARIO: TFloatField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
