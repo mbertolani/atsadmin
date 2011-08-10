@@ -1004,7 +1004,7 @@ begin
     if (versaoSistema = '1.0.0.90') then
     begin
       executaDDL('MOVIMENTO', 'CODTRANSP', 'INTEGER');
-      executaDDL('MOVIMENTO', 'TPFRETE', 'char(1)');
+      executaDDL('MOVIMENTO', 'TPFRETE', 'CHAR(1)');
       executaDDL('MOVIMENTO', 'CODPEDIDO', 'INTEGER');
       executaDDL('PRODUTOS', 'QTD', 'integer');
       executaDDL('OS', 'STATUS', 'char(1)');
@@ -1040,12 +1040,29 @@ begin
 
     if (versaoSistema = '1.0.0.92') then
     begin
+      executaDDL('FUNCIONARIO', 'SALARIO',  'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'STATUS', 'VARCHAR(30)');
+      executaDDL('MOVIMENTODETALHE', 'OBS', 'VARCHAR(300)');
+      executaDDL('MOVIMENTODETALHE', 'COD_FUNCIONARIO', 'INTEGER');
+      executaScript('baixaTitulosPag.sql');
+      executaScript('baixaTitulosRec.sql');
       executaScript('estoqueccustoent.sql');
       executaScript('expedicao_gera_pedido.sql');
+      executaScript('gera_pedido_proc.sql');
+      executaScript('insere_transp_fornec.sql');
       executaScript('invent_estoque.sql');
       executaScript('inventario_lanca.sql');
+      executaScript('listaSpEstoqueFiltro.sql');
+      executaScript('listaProdutocli.sql');
       executaScript('listaProduto.sql');
-      executaScript('baixaTitulosPag.sql');
+      executaScript('rel_compra_pedido.sql');
+      executaScript('sp_mov_caixa.sql');
+      executaScript('spEstoqueFiltro.sql');
+      executaScript('trg_data_altera_preco.sql');
+      if (NaoExisteGenerator('GEN_SIMILAR')) then
+      begin
+        executaSql('CREATE GENERATOR GEN_SIMILAR');
+      end;
       if (NaoExisteTabela('ESTOQUEMES')) then
       begin
         executaSql('create table ESTOQUEMES ( CODPRODUTO Integer NOT NULL, LOTE Varchar(60) NOT NULL,' +
@@ -1058,9 +1075,11 @@ begin
           'QTDEDEVVENDA Double precision, QTDEINVENTARIO Double precision, ' +
           'SALDOMESANTERIOR Double precision, PRIMARY KEY (CODPRODUTO,LOTE,MESANO,CENTROCUSTO) ');
         executaSql('ALTER TABLE ESTOQUEMES ADD SALDOESTOQUE COMPUTED BY (SALDOMESANTERIOR + ' +
-        'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) '); 
+        'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) ');
       end;
       mudaVersao('1.0.0.93');
+      executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
+      '6, ' + QuotedStr('Expedição') + ', 1, 0, 6)');
     end;
 
     try
