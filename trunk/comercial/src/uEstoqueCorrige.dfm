@@ -1,8 +1,8 @@
 object fEstoqueCorrige: TfEstoqueCorrige
   Left = 235
   Top = 117
-  Width = 384
-  Height = 246
+  Width = 397
+  Height = 270
   Caption = 'Corrige Estoque'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
