@@ -104,7 +104,7 @@ begin
     if (usaListaTerceiros = 'N') then
     if (tipoPrecoParametro = 'PRECOMEDIO') then
     begin
-      if (margem > 0) then
+      if ((margem > 0) and (preco_compraMedio > 0)) then
         Preco_venda = preco_compraMedio * (1 + (margem / 100));
     end
 
