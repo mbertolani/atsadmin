@@ -230,7 +230,8 @@ uses
   uCaixaBanco in 'uCaixaBanco.pas' {fCaixaBanco},
   uCliente in 'uCliente.pas',
   uClienteEnderecos in 'uClienteEnderecos.pas',
-  uCliente1 in 'uCliente1.pas' {fCliente1};
+  uCliente1 in 'uCliente1.pas' {fCliente1},
+  uOsDetalheClasse in 'uOsDetalheClasse.pas';
 
 {$R *.res}
 
