@@ -1046,15 +1046,11 @@ begin
       executaDDL('MOVIMENTODETALHE', 'COD_FUNCIONARIO', 'INTEGER');
       executaScript('baixaTitulosPag.sql');
       executaScript('baixaTitulosRec.sql');
-      executaScript('estoqueccustoent.sql');
       executaScript('expedicao_gera_pedido.sql');
       executaScript('gera_pedido_proc.sql');
       executaScript('insere_transp_fornec.sql');
       executaScript('invent_estoque.sql');
       executaScript('inventario_lanca.sql');
-      executaScript('listaSpEstoqueFiltro.sql');
-      executaScript('listaProdutocli.sql');
-      executaScript('listaProduto.sql');
       executaScript('rel_compra_pedido.sql');
       executaScript('sp_mov_caixa.sql');
       executaScript('spEstoqueFiltro.sql');
@@ -1077,9 +1073,13 @@ begin
         executaSql('ALTER TABLE ESTOQUEMES ADD SALDOESTOQUE COMPUTED BY (SALDOMESANTERIOR + ' +
         'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) ');
       end;
+      executaScript('listaSpEstoqueFiltro.sql');
+      executaScript('listaProdutocli.sql');
+      executaScript('listaProduto.sql');
       mudaVersao('1.0.0.93');
       executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
       '6, ' + QuotedStr('Expedição') + ', 1, 0, 6)');
+	  executaSql('DROP TRIGGER ESTOQUECCUSTOENT');
     end;
 
     try
