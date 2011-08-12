@@ -2,470 +2,257 @@ unit uOsClasse;
 
 interface
 
-uses Windows, Forms, Dialogs, Messages, SysUtils, Classes,
-    DBXpress, DB, SqlExpr, DBClient, Provider, StdCtrls, DateUtils,
-    Variants, Graphics, Controls,
-    FMTBcd, Buttons, ExtCtrls, DBCtrls;
-
+uses  SysUtils, Dialogs, dbXpress, uMovimentoDetalhe;
 
 Type
-  TOsClasse = class
+  TOsClasse = class(TObject)
   private
-    FCodCond : String;
-    FCodMaq : String;
-    FDataMov: String;
-    FDataVcto: String;
-    FCodCli: Integer;
-    FCodCResult: Integer;
-    FCodDet: Integer;
-    FCodMov: String;
-    FCodNat: Integer;
-    FCodProd: Integer;
-    FCodResp: Integer;
-    FCodUser: Integer;
-    FCodVenda: Integer;
-    FNf: Integer;
-    FObsMov: String;
-    FPreco: Double;
-    FQtde: Double;
-    FSerie: String;
-    FStatus: String;
-    FVlrVenda: Double;
-    FtotalProdutos: Double;
-    Fdataini: String;
-    Fdatafim: String;
-    codMov : string;    
-    function getCodCli: Integer;
-    function getCodCResult: Integer;
-    function getCodDet: Integer;
-    function getCodMov: String;
-    function getCodNat: Integer;
-    function getCodProd: Integer;
-    function getCodResp: Integer;
-    function getCodUser: Integer;
-    function getCodVenda: Integer;
-    function getDataMov: String;
-    function getDataVcto: String;
-    function getNf: Integer;
-    function getObsMov: String;
-    function getPreco: Double;
-    function getQtde: Double;
-    function getSerie: String;
+    function getCodCliente: Integer;
+    function getCodOs: Integer;
+    function getCodUsuario: Integer;
+    function getCodVeiculo: Integer;
+    function getDataFim: TDateTime;
+    function getDataInicio: TDateTime;
+    function getDataOs: TDateTime;
+    function getKm: Integer;
     function getStatus: String;
-    function getVlrVenda: Double;
-    function totalProdutos: Double;
-    procedure setCodCli(const Value: Integer);
-    procedure setCodCResult(const Value: Integer);
-    procedure setCodDet(const Value: Integer);
-    procedure setCodMov(const Value: String);
-    procedure setCodNat(const Value: Integer);
-    procedure setCodProd(const Value: Integer);
-    procedure setCodResp(const Value: Integer);
-    procedure setCodUser(const Value: Integer);
-    procedure setCodVenda(const Value: Integer);
-    procedure setDataMov(const Value: String);
-    procedure setDataVcto(const Value: String);
-    procedure setNf(const Value: Integer);
-    procedure setObsMov(const Value: String);
-    procedure setPreco(const Value: Double);
-    procedure setQtde(const Value: Double);
-    procedure setSerie(const Value: String);
+    function executaSql(strSql: String): Boolean;
+    procedure setCodCliente(const Value: Integer);
+    procedure setCodOs(const Value: Integer);
+    procedure setCodUsuario(const Value: Integer);
+    procedure setCodVeiculo(const Value: Integer);
+    procedure setDataFim(const Value: TDateTime);
+    procedure setDataInicio(const Value: TDateTime);
+    procedure setDataOs(const Value: TDateTime);
+    procedure setKm(const Value: Integer);
     procedure setStatus(const Value: String);
-    procedure setTotalProdutos(const Value: Double);
-    procedure setVlrVenda(const Value: Double);
-    procedure setCodMaq(const Value: String);
-    procedure setCodCond(const Value: String);
-    procedure setdataini(const Value: String);
-    procedure setdatafim(const Value: String);
+  protected
+    //Atributos
+    _codOs      : Integer;
+    _codCliente : Integer;
+    _codVeiculo : Integer;
+    _dataOs     : TDateTime;
+    _dataInicio : TDateTime;
+    _dataFim    : TDateTime;
+    _status     : String;
+    _codUsuario : Integer;
+    _km         : Integer;
+
   public
-    procedure IncluiOs;
-    procedure EditaOs;
-    procedure ExcluiOs;
+    property codOs : Integer read getCodOs write setCodOs;
+    property codCliente : Integer read getCodCliente write setCodCliente;
+    property codVeiculo: Integer read getCodVeiculo write setCodVeiculo;
+    property dataOs: TDateTime read getDataOs write setDataOs;
+    property dataInicio: TDateTime read getDataInicio write setDataInicio;
+    property dataFim: TDateTime read getDataFim write setDataFim;
+    property status: String read getStatus write setStatus;
+    property codUsuario: Integer read getCodUsuario write setCodUsuario;
+    property km: Integer read getKm write setKm;
+
+    function IncluirOs(codOsI: Integer): Integer;
+    function alterarOs(codOsA: Integer): Boolean;
+    function excluirOs(codMovE: Integer): Boolean;
+
     procedure ListaOs(DataIni: TdateTime; DataFim: TDateTime; codCliente: Integer);
-    property codCondutor: String read FCodCond write setCodCond;
-    property codMaquina: String read FCodMaq write setCodMaq;
-    property codMovimento: String read FCodMov write setCodMov;
-    property dataMovimento: String read FDataMov write setDataMov;
-    property codNatureza: Integer read FCodNat write setCodNat;
-    property status: String read FStatus write setStatus;
-    property codCliente : Integer read FCodCli write setCodCli;
-    property codUsuario: Integer read FCodUser write setCodUser;
-    property codResponsavel: Integer read FCodResp write setCodResp;
-    property codCentroResultado: Integer read FCodCResult write setCodCResult;
-    property obsMovimento : String read FObsMov write setObsMov;
-    property codDetalhe : Integer read FCodDet write setCodDet;
-    property codProduto : Integer read FCodProd write setCodProd;
-    property Quantidade : Double read FQtde write setQtde;
-    property preco : Double read FPreco write setPreco;
-    property TotalProduto: Double read FtotalProdutos write setTotalProdutos;
-    property codVenda: Integer read FCodVenda write setCodVenda;
-    property dataVencimento: String read FDataVcto write setDataVcto;
-    property valorVenda: Double read FVlrVenda write setVlrVenda;
-    property serie : String read FSerie write setSerie;
-    property notaFiscal: Integer read FNf write setNf;
-    property codigo: Integer read FNf write setNf;
-    property datainicio: String read Fdataini write setdataini;
-    property datafinal: String read Fdatafim write setdatafim;
+
   end;
 
 implementation
 
-uses UDm, uUtils, uMaquinaControle;
-
-var VarPeriodoIni, VarPeriodoFim : String;
+uses UDm;
 
 { TOsClasse }
 
-function TOsClasse.GetCodMov: String;
-var t: TUtils;
-begin
-  t := TUtils.Create;
-  result := t.buscaChave('GENMOV');
-  t.Destroy;
-end;
-
-
-procedure TOsClasse.EditaOs;
-var sqlEdit: String;
-  TD: TTransactionDesc;
+function TOsClasse.alterarOs(codOsA: Integer): Boolean;
+var sqlAltera: String;
 begin
   try
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    // Movimento
-    DecimalSeparator := '.';
-    codMov := IntToStr(fMaquinasControle.varCodMovimento);
-    sqlEdit := 'UPDATE MOVIMENTO set DATAMOVIMENTO = ' + QuotedStr(getDataMov) + ', ' +
-                 'CODCLIENTE = ' + IntToStr(getCodCli) + ', ' +
-                 'CODNATUREZA = ' + IntToStr(getCodNat) + ', ' +
-                 'STATUS = ' + getStatus + ', ' +
-                 'CODUSUARIO = ' + IntToStr(getCodUser) + ', ' +
-                 'CODVENDEDOR = ' + FCodCond + ', ' +
-                 'CODALMOXARIFADO = ' + IntToStr(getCodCResult) + ', ' +
-                 'DATA_SISTEMA = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',today)) + ', ' +
-                 'COD_VEICULO = ' + FCodMaq +
-                 ' where CODMOVIMENTO = ' + codMov;
-    dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(sqlEdit);
+    sqlAltera := 'UPDATE OS SET ';
+    sqlAltera := sqlAltera + ' CODCLIENTE = ' + IntToStr(Self.codCliente) + ', ';
+    sqlAltera := sqlAltera + ' CODVEICULO = ' + IntToStr(Self.codVeiculo) + ', ';
+    sqlAltera := sqlAltera + ' CODUSUARIO = ' + IntToStr(Self.codUsuario) + ', ';
+    sqlAltera := sqlAltera + ' DATAOS     = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataOs)) + ', ';
+    sqlAltera := sqlAltera + ' DATA_INI   = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataInicio)) + ', ';
+    sqlAltera := sqlAltera + ' DATA_FIM   = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataFim)) + ', ';
+    sqlAltera := sqlAltera + ' STATUS     = ' + QuotedStr(Self.status) + ', ';
+    sqlAltera := sqlAltera + ' KM         = ' + IntToStr(Self.km);
+    sqlAltera := sqlAltera + ' WHERE CODOS= ' + IntToStr(Self.codOs);
 
-    // MovimentoDetalhe               ]
-    sqlEdit := 'UPDATE MOVIMENTODETALHE SET CODPRODUTO = ' + IntToStr(getCodProd) + ', ' +
-      'QUANTIDADE = ' + FloatToStr(getQtde) + ', ' +
-      'PRECO = ' + FloatToStr(getPreco) + ', ' +
-      'DESCPRODUTO = ' + QuotedStr(getObsMov) + ', ' +
-      'PERIODOINI = ' + QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm', StrToDateTime(DateToStr(today) + Fdataini))) + ', ' +
-      'PERIODOFIM = ' + QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm', StrToDateTime(DateToStr(today) + Fdatafim))) +
-      ' where CODMOVIMENTO = ' + codMov;
-    dm.sqlsisAdimin.ExecuteDirect(sqlEdit);
-
-    // Venda
-    sqlEdit := 'UPDATE VENDA SET CODCLIENTE = ' + IntToStr(getCodCli) + ', ' +
-      'DATAVENDA = ' + QuotedStr(getDataMov) + ', ' +
-      'DATAVENCIMENTO = ' + QuotedStr(getDataVcto) + ', ' +
-      'CODVENDEDOR = ' + FCodCond + ', ' +
-      'STATUS = ' + getStatus + ', ' +
-      'CODUSUARIO = ' + IntToStr(getCodUser) + ', ' +
-      'DATASISTEMA = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',today)) +  ', ' +
-      'VALOR = ' + FloatToStr(getVlrVenda) + ', ' +
-      'NOTAFISCAL = ' + IntToStr(getNf) + ', ' +
-      'SERIE = ' + QuotedStr(getSerie) + ', ' +
-      'DESCONTO = 0, ' +
-      'CODCCUSTO = ' + IntToStr(getCodCResult) + ', ' +
-      'N_PARCELA = 1, ' + 'FORMARECEBIMENTO = 1, ' + 'MULTA_JUROS = 0, ' +
-      'APAGAR = ' + FloatToStr(getVlrVenda) + ', ' +
-      'VALOR_PAGAR = '+ FloatToStr(getVlrVenda) + ', ' +
-      'ENTRADA = 0' + ' where CODMOVIMENTO = ' + codMov;
-    dm.sqlsisAdimin.ExecuteDirect(sqlEdit);
-    dm.sqlsisAdimin.Commit(TD);
-    DecimalSeparator := ',';
+    executaSql(sqlAltera);
+    Result := True;
   except
-    DecimalSeparator := ',';
-    dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro para gravar o lançamento.', mtError, [mbOK], 0);
+    Result := False;
   end;
+
 end;
 
-procedure TOsClasse.ExcluiOs;
-var sqlInsere: String;
-  TD: TTransactionDesc;
+function TOsClasse.excluirOs(codMovE: Integer): Boolean;
+var sqlExclui: String;
 begin
-  if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
-  begin
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    // Movimento
-    DecimalSeparator := '.';
-    codMov := IntToStr(fMaquinasControle.varCodMovimento);
-    sqlInsere := 'DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = ' + codMov;
+  {
+    So e permitido excluir OS  PENDENTE
+  }
+  Result := False;
+  sqlExclui := 'DELETE FROM OS ';
+  sqlExclui := sqlExclui + ' WHERE CODOS  = ' + IntToStr(Self.codOs);
+  sqlExclui := sqlExclui + '   AND STATUS = ' + QuotedStr('P');
+
+  if (executaSql(sqlExclui)) then
+    Result := True;
+
+end;
+
+function TOsClasse.executaSql(strSql: String): Boolean;
+var     TD: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  try
     dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(sqlInsere);
-    fMaquinasControle.varCodMovimento := 0;
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    dm.sqlsisAdimin.Commit(TD);
+    Result := True;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+      Result := False;
+    end;
   end;
 end;
 
-function TOsClasse.getCodCli: Integer;
+function TOsClasse.getCodCliente: Integer;
 begin
-  result := FCodCli;
+  Result := _codCliente;
 end;
 
-function TOsClasse.getCodCResult: Integer;
+function TOsClasse.getCodOs: Integer;
 begin
-  result := FCodCResult;
+  Result := _codOs;
 end;
 
-function TOsClasse.getCodDet: Integer;
+function TOsClasse.getCodUsuario: Integer;
 begin
-  result := FCodDet;
+  Result := _codUsuario;
 end;
 
-function TOsClasse.getCodNat: Integer;
+function TOsClasse.getCodVeiculo: Integer;
 begin
-  result := FCodNat;
+  Result := _codVeiculo;
 end;
 
-function TOsClasse.getCodProd: Integer;
+function TOsClasse.getDataFim: TDateTime;
 begin
-  result := FCodProd;
+  Result := _dataFim;
 end;
 
-function TOsClasse.getCodResp: Integer;
+function TOsClasse.getDataInicio: TDateTime;
 begin
-  result := FCodResp;
+  Result := _datInicio;
 end;
 
-function TOsClasse.getCodUser: Integer;
+function TOsClasse.getDataOs: TDateTime;
 begin
-  result := FCodUser;
+  Result := _dataOs;
 end;
 
-function TOsClasse.getCodVenda: Integer;
+function TOsClasse.getKm: Integer;
 begin
-  result := FCodVenda;
-end;
-
-function TOsClasse.getDataMov: String;
-begin
-  result := FDataMov;
-end;
-
-function TOsClasse.getDataVcto: String;
-begin
-  result := FDataVcto;
-end;
-
-function TOsClasse.getNf: Integer;
-begin
-  result := FNf;
-end;
-
-function TOsClasse.getObsMov: String;
-begin
-  result := FObsMov;
-end;
-
-function TOsClasse.getPreco: Double;
-begin
-  result := FPreco;
-end;
-
-function TOsClasse.getQtde: Double;
-begin
-  result := FQtde;
-end;
-
-function TOsClasse.getSerie: String;
-begin
-  result := FSerie;
+  Result := _km;
 end;
 
 function TOsClasse.getStatus: String;
 begin
-  result := FStatus;
+  Result := Trim(_status);
 end;
 
-function TOsClasse.getVlrVenda: Double;
+procedure TOsClasse.IncluiOs(codOs: Integer);
 begin
-  result := FVlrVenda;
 end;
 
-procedure TOsClasse.IncluiOs;
+function TOsClasse.IncluirOs(codOsI: Integer): Integer;
 var sqlInsere: String;
-  TD: TTransactionDesc;
 begin
   try
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    // Movimento
-    DecimalSeparator := '.';
-    codMov := getCodMov;
-    sqlInsere := 'INSERT INTO MOVIMENTO(CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE,'+
-      ' CODNATUREZA, STATUS, CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, ' +
-      'DATA_SISTEMA, COD_VEICULO) VALUES (';
-    sqlInsere := sqlInsere + codMov + ', ' + QuotedStr(getDataMov) + ', ' + IntToStr(getCodCli) +
-       ', ' + IntToStr(getCodNat) + ', ' + getStatus + ', ' + IntToStr(getCodUser) +
-       ', ' + FCodCond + ', ' + IntToStr(getCodCResult) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',today)) +
-       ', ' + FCodMaq + ')'
-       ;
-    dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(sqlInsere);
-    // MovimentoDetalhe               ]
-    sqlInsere := 'INSERT INTO MOVIMENTODETALHE(CODDETALHE, CODMOVIMENTO, CODPRODUTO,' +
-      ' QUANTIDADE, PRECO, DESCPRODUTO, PERIODOINI, PERIODOFIM) VALUES (' ;
-    sqlInsere := sqlInsere + 'Gen_id(GENMOVDET, 1), ' + codMov + ', ' +
-      IntToStr(getCodProd) + ', ' + FloatToStr(getQtde) + ', ' + FloatToStr(getPreco) +
-      ', ' + QuotedStr(getObsMov) + ', ' +
-      QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm', StrToDateTime(DateToStr(today) + Fdataini))) + ', ' +
-      QuotedStr(FormatDateTime('MM/dd/yyyy hh:mm', StrToDateTime(DateToStr(today) + Fdatafim))) +')';
-    dm.sqlsisAdimin.ExecuteDirect(sqlInsere);
-    // Venda
-    sqlInsere := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA, ' +
-      'DATAVENCIMENTO, CODVENDEDOR, STATUS, CODUSUARIO, DATASISTEMA, VALOR, ' +
-      'NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA, FORMARECEBIMENTO, ' +
-      'MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA ) VALUES (';
-    sqlInsere := sqlInsere + 'Gen_id(GENVENDA, 1), ' + codMov + ', ' + IntToStr(getCodCli) +
-      ', ' + QuotedStr(getDataMov) + ', ' + QuotedStr(getDataVcto) +
-      ', ' + FCodCond + ', ' + getStatus +
-      ', ' + IntToStr(getCodUser) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',today)) +
-      ', ' + FloatToStr(getVlrVenda) + ', ' + IntToStr(getNf) + ', ' + QuotedStr(getSerie) +
-      ', 0, ' + IntToStr(getCodCResult) + ', 1, 1, 0, ' + FloatToStr(getVlrVenda) +
-      ', ' + FloatToStr(getVlrVenda) +  ',0)';
-    dm.sqlsisAdimin.ExecuteDirect(sqlInsere);
-    dm.sqlsisAdimin.Commit(TD);
-    DecimalSeparator := ',';
+    _codOs := codOsI;
+    if (Self.CodOs = 0) then
+    begin
+      if dm.c_6_genid.Active then
+        dm.c_6_genid.Close;
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_OS, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.Open;
+      _codOs := dm.c_6_genid.Fields[0].AsInteger;
+      dm.c_6_genid.Close;
+    end
+    sqlInsere := 'INSERT INTO OS(CODOS, CODCLIENTE, CODVEICULO, CODUSUARIO, DATAOS,'+
+      'DATA_SISTEMA, DATA_INI, DATA_FIM, KM, STATUS) VALUES (';
+    sqlInsere := sqlInsere + IntToStr(Self.codOs) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.codCliente) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.codVeiculo) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.codUsuario) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataOs)) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', today)) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataInicio)) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataFim)) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.status) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.km) + ')';
+    executaSql(sqlInsere);
+    Result := Self.codOs;
   except
-    DecimalSeparator := ',';
-    dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro para gravar o lançamento.', mtError, [mbOK], 0);
+    Result := 0;
   end;
 end;
 
-procedure TOsClasse.ListaOs(DataIni, DataFim: TDateTime; codCliente: Integer);
+procedure TOsClasse.ListaOs(DataIni, DataFim: TDateTime;
+  codCliente: Integer);
 begin
 
 end;
 
-procedure TOsClasse.setCodCli(const Value: Integer);
+procedure TOsClasse.setCodCliente(const Value: Integer);
 begin
-  FCodCli := Value;
+  _codCliente := Value;
 end;
 
-procedure TOsClasse.setCodCResult(const Value: Integer);
+procedure TOsClasse.setCodOs(const Value: Integer);
 begin
-  FCodCResult := Value;
+  _codOs := Value;
 end;
 
-procedure TOsClasse.setCodDet(const Value: Integer);
+procedure TOsClasse.setCodUsuario(const Value: Integer);
 begin
-  FCodDet := Value;
+  _codUsuario := Value;
 end;
 
-procedure TOsClasse.setCodMov(const Value: String);
+procedure TOsClasse.setCodVeiculo(const Value: Integer);
 begin
-  FCodMov := Value;
+  _codVeiculo := Value;
 end;
 
-procedure TOsClasse.setCodNat(const Value: Integer);
+procedure TOsClasse.setDataFim(const Value: TDateTime);
 begin
-  FCodNat := Value;
+  _dataFim := Value;
 end;
 
-procedure TOsClasse.setCodProd(const Value: Integer);
+procedure TOsClasse.setDataInicio(const Value: TDateTime);
 begin
-  if (Value > 0) then
-    FCodProd := Value
-  else
-    raise Exception.Create('Produto não informado.');
+  _dataInicio := Value;
 end;
 
-procedure TOsClasse.setCodResp(const Value: Integer);
+procedure TOsClasse.setDataOs(const Value: TDateTime);
 begin
-  FCodResp := Value;
+  _dataOs := Value;
 end;
 
-procedure TOsClasse.setCodUser(const Value: Integer);
+procedure TOsClasse.setKm(const Value: Integer);
 begin
-  FCodUser := Value;
-end;
-
-procedure TOsClasse.setCodVenda(const Value: Integer);
-begin
-  FCodVenda := Value;
-end;
-
-procedure TOsClasse.setDataMov(const Value: String);
-begin
-  FDataMov := FormatDateTime('mm/dd/yyyy', StrToDateTime(Value));
-end;
-
-procedure TOsClasse.setDataVcto(const Value: String);
-begin
-  FDataVcto := FormatDateTime('mm/dd/yyyy', StrToDateTime(Value));
-end;
-
-procedure TOsClasse.setNf(const Value: Integer);
-begin
-  FNf := Value;
-end;
-
-procedure TOsClasse.setObsMov(const Value: String);
-begin
-  FObsMov := Value;
-end;
-
-procedure TOsClasse.setPreco(const Value: Double);
-begin
-  FPreco := Value;
-end;
-
-procedure TOsClasse.setQtde(const Value: Double);
-begin
-  FQtde := Value;
-end;
-
-procedure TOsClasse.setSerie(const Value: String);
-begin
-  FSerie := Value;
+  _km := Value;
 end;
 
 procedure TOsClasse.setStatus(const Value: String);
 begin
-  FStatus := Value;
-end;
-
-procedure TOsClasse.setTotalProdutos(const Value: Double);
-begin
-  FtotalProdutos := FQtde * FPreco;
-end;
-
-procedure TOsClasse.setVlrVenda(const Value: Double);
-begin
-  FVlrVenda := Value;
-end;
-
-function TOsClasse.totalProdutos: Double;
-begin
-
-end;
-
-procedure TOsClasse.setCodMaq(const Value: String);
-begin
-  FCodMaq := Value;
-end;
-
-procedure TOsClasse.setCodCond(const Value: String);
-begin
-  FCodCond := Value;
-end;
-
-
-procedure TOsClasse.setdataini(const Value: String);
-begin
-  Fdataini := Value;
-end;
-
-procedure TOsClasse.setdatafim(const Value: String);
-begin
-  Fdatafim := Value;
+  _status := Value;
 end;
 
 end.
