@@ -7,7 +7,8 @@ uses
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, FMTBcd, DBClient, Provider, SqlExpr, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, Mask, DBCtrls, JvExMask,
-  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, dbxpress;
+  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, dbxpress,
+  rpcompobase, rpvclreport;
 
 type
   TfExpedicao = class(TfPai_new)
@@ -112,6 +113,8 @@ type
     edFornec: TEdit;
     btnClienteProcura: TBitBtn;
     edFornecNome: TEdit;
+    BitBtn6: TBitBtn;
+    VCLReport1: TVCLReport;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -129,6 +132,7 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     { Private declarations }
@@ -141,7 +145,7 @@ var
 
 implementation
 
-uses uUtils, UDm, uProcurar, uEstoque, uMovimento;
+uses uUtils, UDm, uProcurar, uEstoque, uMovimento, uProcurar_nf, UDMNF;
 
 {$R *.dfm}
 
@@ -230,7 +234,7 @@ begin
   if (rgStatus.ItemIndex = 1) then
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, p.PRODUTO' +
-      ', md.RECEBIDO QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO, md.UN' +
+      ', md.QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO, md.UN' +
       ',  m.CONTROLE, m.CODPEDIDO, m.CODCLIENTE, cli.NOMECLIENTE , md.codproduto' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
@@ -238,7 +242,7 @@ begin
       ' inner join CLIENTES cli on cli.codcliente = m.codcliente ' +
       ' where m.CODNATUREZA   = 6 ';
 
-    stra := stra + ' and m.STATUS = 0';
+   // stra := stra + ' and m.STATUS = 0';
     BitBtn1.Enabled := False;
   end;
 
@@ -410,21 +414,17 @@ end;
 
 procedure TfExpedicao.btnClienteProcuraClick(Sender: TObject);
 begin
-  inherited;
-  fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
-  dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
-  dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;
-  fProcurar.RadioGroup2.Visible := True;
-  fProcurar.BtnProcurar.Click;
-  fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
-  fProcurar.btnIncluir.Visible := True;
+  fProcurar_nf := TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
+  fProcurar_nf.BtnProcurar.Click;
+  fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
+  fProcurar_nf.btnIncluir.Visible := True;
   try
-    fProcurar.ShowModal;
-    edFornec.Text     := IntToStr(dm.scds_forn_procCODFORNECEDOR.AsInteger);
-    edFornecNome.Text := dm.scds_forn_procNOMEFORNECEDOR.AsString;
+    fProcurar_nf.ShowModal;
+    edFornec.Text     := IntToStr(dm.codcli);
+    edFornecNome.Text := dm.varNomeCliente;
   finally
-    dm.scds_forn_proc.Close;
-    fProcurar.Free;
+    dmnf.scds_cli_proc.Close;
+    fProcurar_nf.Free;
   end;
 end;
 
@@ -637,6 +637,15 @@ procedure TfExpedicao.FormShow(Sender: TObject);
 begin
   inherited;
   cbSituacao.ItemIndex := 0;
+end;
+
+procedure TfExpedicao.BitBtn6Click(Sender: TObject);
+begin
+  VCLReport1.FileName := str_relatorio + 'expedicao.rep' ; //'expedicao.rep';
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('CONTROLE').Value := cdsExpedicaoCONTROLE.AsString;
+  VCLReport1.Execute;
+
 end;
 
 end.
