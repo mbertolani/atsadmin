@@ -392,6 +392,8 @@ type
     cds_MovimentoCODPEDIDO: TIntegerField;
     sds_Mov_DetSTATUS: TStringField;
     cds_Mov_detSTATUS: TStringField;
+    DBEdit14: TDBEdit;
+    Label21: TLabel;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
