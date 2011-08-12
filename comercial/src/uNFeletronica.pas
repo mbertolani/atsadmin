@@ -1147,19 +1147,18 @@ begin
   begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
-    ACBrNFe1.Consultar;
-    //ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Consulta.Protocolo;
-    protocol := ACBrNFe1.DANFE.ProtocoloNFe;
-    //if ((Strlen(Pchar(protocol))) > 0) then
     ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
     ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
     if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
     begin
       ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
-      ACBrNFe1.WebServices.Consulta.Executar;
       ACBrNFe1.WebServices.ConsultaDPEC.Executar;
       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
+    end
+    else
+    begin
+      ACBrNFe1.Consultar;
     end;
     ACBrNFe1.NotasFiscais.Imprimir;
   end;
