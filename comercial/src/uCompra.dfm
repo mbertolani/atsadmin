@@ -1280,42 +1280,42 @@ inherited fCompra: TfCompra
       Caption = 'C'#243'digo'
     end
     object Label5: TLabel
-      Left = 127
+      Left = 114
       Top = 18
       Width = 17
       Height = 13
       Caption = 'Un.'
     end
     object Label6: TLabel
-      Left = 167
+      Left = 151
       Top = 18
       Width = 23
       Height = 13
       Caption = 'Qtde'
     end
     object Label7: TLabel
-      Left = 230
+      Left = 210
       Top = 18
       Width = 39
       Height = 13
       Caption = 'Unit. R$'
     end
     object Label8: TLabel
-      Left = 361
+      Left = 380
       Top = 18
       Width = 22
       Height = 13
       Caption = 'Icms'
     end
     object Label9: TLabel
-      Left = 420
+      Left = 437
       Top = 18
       Width = 41
       Height = 13
       Caption = 'Total R$'
     end
     object Label4: TLabel
-      Left = 302
+      Left = 327
       Top = 18
       Width = 11
       Height = 13
@@ -1328,10 +1328,17 @@ inherited fCompra: TfCompra
       Height = 13
       Caption = 'Descri'#231#227'o Produto'
     end
+    object Label21: TLabel
+      Left = 269
+      Top = 18
+      Width = 39
+      Height = 13
+      Caption = 'Desc. %'
+    end
     object dbeProduto: TDBEdit
       Left = 6
       Top = 34
-      Width = 85
+      Width = 70
       Height = 24
       DataField = 'CODPRO'
       DataSource = DtSrc1
@@ -1347,7 +1354,7 @@ inherited fCompra: TfCompra
       OnKeyPress = dbeProdutoKeyPress
     end
     object btnProdutoProcura: TBitBtn
-      Left = 91
+      Left = 77
       Top = 33
       Width = 35
       Height = 26
@@ -1422,9 +1429,9 @@ inherited fCompra: TfCompra
         BFBFBFBF0000}
     end
     object DBEdit8: TDBEdit
-      Left = 127
+      Left = 114
       Top = 34
-      Width = 40
+      Width = 35
       Height = 24
       TabStop = False
       Color = clInfoBk
@@ -1442,9 +1449,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit9: TDBEdit
-      Left = 167
+      Left = 151
       Top = 34
-      Width = 59
+      Width = 55
       Height = 24
       DataField = 'QUANTIDADE'
       DataSource = DtSrc1
@@ -1460,9 +1467,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit10: TDBEdit
-      Left = 228
+      Left = 206
       Top = 34
-      Width = 70
+      Width = 60
       Height = 24
       DataField = 'PRECO'
       DataSource = DtSrc1
@@ -1477,9 +1484,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit11: TDBEdit
-      Left = 355
+      Left = 378
       Top = 34
-      Width = 59
+      Width = 55
       Height = 24
       DataField = 'ICMS'
       DataSource = DtSrc1
@@ -1495,9 +1502,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit12: TDBEdit
-      Left = 416
+      Left = 434
       Top = 34
-      Width = 80
+      Width = 70
       Height = 24
       Color = clInfoBk
       DataField = 'ValorTotal'
@@ -1514,9 +1521,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object btnNovo: TBitBtn
-      Left = 496
+      Left = 505
       Top = 33
-      Width = 41
+      Width = 38
       Height = 25
       Caption = 'Novo'
       PopupMenu = PopupMenu1
@@ -1524,9 +1531,9 @@ inherited fCompra: TfCompra
       OnClick = btnNovoClick
     end
     object BitBtn8: TBitBtn
-      Left = 538
+      Left = 544
       Top = 33
-      Width = 41
+      Width = 38
       Height = 25
       Caption = 'Excluir'
       PopupMenu = PopupMenu1
@@ -1535,7 +1542,7 @@ inherited fCompra: TfCompra
       NumGlyphs = 2
     end
     object DBEdit5: TDBEdit
-      Left = 300
+      Left = 323
       Top = 34
       Width = 54
       Height = 24
@@ -1553,9 +1560,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object btnRateio: TBitBtn
-      Left = 580
+      Left = 583
       Top = 33
-      Width = 41
+      Width = 38
       Height = 25
       Caption = 'Rateio'
       PopupMenu = PopupMenu1
@@ -1650,6 +1657,23 @@ inherited fCompra: TfCompra
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 8
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit14: TDBEdit
+      Left = 267
+      Top = 34
+      Width = 55
+      Height = 24
+      DataField = 'QTDE_ALT'
+      DataSource = DtSrc1
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 13
       OnKeyPress = FormKeyPress
     end
   end
@@ -1939,6 +1963,7 @@ inherited fCompra: TfCompra
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
+      ReadOnly = True
       TabOrder = 0
       OnKeyPress = FormKeyPress
     end
