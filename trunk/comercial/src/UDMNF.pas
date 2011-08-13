@@ -2062,12 +2062,16 @@ begin
       fNotaFc.btnSair.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
     end;
   end;}
-  
+
 end;
 
 procedure TDMNF.baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
 var FEstoque: TEstoque;
 begin
+  if (cds_Movimento.Active) then
+    cds_Movimento.Close;
+  cds_Movimento.Params.ParamByName('pCodMov').AsInteger := codMovto;
+  cds_Movimento.Open;
   if (cds_Mov_det.Active) then
     cds_Mov_det.Close;
   cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovto;
@@ -2160,6 +2164,11 @@ procedure TDMNF.cancelaEstoque(codMovto: Integer; DtaMovto: TDateTime;
 begin
   Try
     FEstoque := TEstoque.Create;
+    if (cds_Movimento.Active) then
+      cds_Movimento.Close;
+    cds_Movimento.Params.ParamByName('pCodMov').AsInteger := codMovto;
+    cds_Movimento.Open;
+
     if (cds_Mov_det.Active) then
       cds_Mov_det.Close;
     cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovto;
@@ -2171,10 +2180,12 @@ begin
         if (tipo = 'VENDA') then
         begin
           FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
         end;
         if (tipo = 'COMPRA') then
         begin
           FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
         end;
         if (tipo = 'ENTRADA') then
         begin

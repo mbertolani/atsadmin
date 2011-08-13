@@ -2,7 +2,7 @@ unit uOsClasse;
 
 interface
 
-uses  SysUtils, Dialogs, dbXpress, uMovimentoDetalhe;
+uses  SysUtils, Dialogs, dbXpress, uMovimentoDetalhe, DateUtils;
 
 Type
   TOsClasse = class(TObject)
@@ -149,7 +149,7 @@ end;
 
 function TOsClasse.getDataInicio: TDateTime;
 begin
-  Result := _datInicio;
+  Result := _dataInicio;
 end;
 
 function TOsClasse.getDataOs: TDateTime;
@@ -167,10 +167,6 @@ begin
   Result := Trim(_status);
 end;
 
-procedure TOsClasse.IncluiOs(codOs: Integer);
-begin
-end;
-
 function TOsClasse.IncluirOs(codOsI: Integer): Integer;
 var sqlInsere: String;
 begin
@@ -184,7 +180,7 @@ begin
       dm.c_6_genid.Open;
       _codOs := dm.c_6_genid.Fields[0].AsInteger;
       dm.c_6_genid.Close;
-    end
+    end;
     sqlInsere := 'INSERT INTO OS(CODOS, CODCLIENTE, CODVEICULO, CODUSUARIO, DATAOS,'+
       'DATA_SISTEMA, DATA_INI, DATA_FIM, KM, STATUS) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.codOs) + ', ';

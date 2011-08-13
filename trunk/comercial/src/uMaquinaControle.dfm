@@ -142,7 +142,7 @@ object fMaquinasControle: TfMaquinasControle
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 269
+    Top = 276
     Width = 660
     Height = 51
     Align = alBottom

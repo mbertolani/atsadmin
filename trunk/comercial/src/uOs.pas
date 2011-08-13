@@ -89,8 +89,8 @@ begin
       exit;
     end;
     Os := TOsClasse.Create;
-    Os.dataMovimento := edData.Text;
-    Os.codNatureza := 3;    
+    {Os.dataMovimento := edData.Text;
+    Os.codNatureza := 3;
     Os.status := '0';
     Os.codCliente := StrToInt(edCodCliente.Text);
     Os.codUsuario := usulog;
@@ -115,7 +115,7 @@ begin
     Os.IncluiOs;
     Os.Destroy;
     modo := 'Browse';
-    controlaEventos;
+    controlaEventos;}
   end;
 end;
 

@@ -134,11 +134,11 @@ begin
       dm.cds_parametro.Close;
       if (not cds_serie.IsEmpty) then
       begin
-        Os.serie := cds_serieSERIE.AsString;
+        {Os.serie := cds_serieSERIE.AsString;
         Os.notaFiscal := cds_serieULTIMO_NUMERO.AsInteger + 1;
         cds_serie.Edit;
         cds_serieULTIMO_NUMERO.AsInteger := cds_serieULTIMO_NUMERO.AsInteger + 1;
-        cds_serie.ApplyUpdates(0);
+        cds_serie.ApplyUpdates(0);}
       end
       else
       begin
@@ -151,7 +151,7 @@ begin
        MessageDlg('Parametro SERIEMAQUINAS não encontrado', mtWarning, [mbOK], 0);
        exit;
     end;
-    if (not sds_Veiculo.Active) then
+    {if (not sds_Veiculo.Active) then
         sds_veiculo.Open;
     if (sds_veiculo.Locate('MARCA_MODELO', edMaquina.Text, [loCaseInsensitive])) then
       Os.codMaquina := IntToStr(sds_VeiculoCOD_VEICULO.AsInteger);
@@ -195,7 +195,7 @@ begin
       Os.EditaOs;
     Os.Destroy;
     modo := 'Browse';
-    controlaEventos;
+    controlaEventos;}
   end;
 
 end;
@@ -368,7 +368,7 @@ end;
 
 procedure TfMaquinasControle.btnExcluirClick(Sender: TObject);
 begin
-  Os.ExcluiOs;
+  //Os.ExcluiOs;
 
 end;
 
