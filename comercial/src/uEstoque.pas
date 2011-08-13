@@ -437,7 +437,7 @@ begin
       end;
 
       // Atualiza Cadastro de Produtos
-      sqlStr := 'UPDATE PRODUTOS SET ESTOQUEATUAL = ' + FloatToStr(totalEstoque);
+      sqlStr := 'UPDATE PRODUTOS SET ESTOQUEATUAL = ' + FloatToStr(Self.QSaldo);
 
       // Se foi Compra, Atualiza valores
       if (Self.QtdeCompra > 0) then

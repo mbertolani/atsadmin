@@ -12,17 +12,15 @@ Type
     function getCodUsuario: Integer;
     function getStatus: String;
     function executaSql(strSql: String): Boolean;
-    procedure setCodDet(const Value: Integer);
-    procedure setCodOs(const Value: Integer);
-    procedure setCodUsuario(const Value: Integer);
-    procedure setStatus(const Value: String);
-    function getCodDet: Integer;
     function getDescricao: String;
     function getKm: Integer;
     function getPreco: Double;
     function getQtde: Double;
     function getServExecutado: String;
     procedure setCodDet(const Value: Integer);
+    procedure setCodOs(const Value: Integer);
+    procedure setCodUsuario(const Value: Integer);
+    procedure setStatus(const Value: String);
     procedure setDescricao(const Value: String);
     procedure setKm(const Value: Integer);
     procedure setPreco(const Value: Double);
@@ -38,6 +36,7 @@ Type
     _servExecutado : String;
     _preco      : Double;
     _qtde       : Double;
+    _km         : Integer;
 
   public
     property CodOs         : Integer read getCodOs write setCodOs;
@@ -65,18 +64,63 @@ uses UDm;
 { TOsDetalheClasse }
 
 function TOsDetalheClasse.alterarOsDet(codOsDetA: Integer): Boolean;
+var sqlAltera: String;
 begin
   // Alteracao
+  try
+    DecimalSeparator := '.';
+    sqlAltera := 'UPDATE OS_DET SET ';
+    sqlAltera := sqlAltera + ' CODUSUARIO      = ' + IntToStr(Self.codUsuario) + ', ';
+    sqlAltera := sqlAltera + ' DESCRICAO       = ' + QuotedStr(Self.Descricao) + ', ';
+    sqlAltera := sqlAltera + ' SERV_EXECUTADO  = ' + QuotedStr(Self.ServExecutado) + ', ';
+    sqlAltera := sqlAltera + ' STATUS          = ' + QuotedStr(Self.status) + ', ';
+    sqlAltera := sqlAltera + ' QTDE            = ' + FloatToStr(Self.Qtde);
+    sqlAltera := sqlAltera + ' PRECO           = ' + FloatToStr(Self.Preco);
+    sqlAltera := sqlAltera + ' WHERE ID_OS_DET = ' + IntToStr(Self.CodDet);
+    executaSql(sqlAltera);
+    Result := True;
+    DecimalSeparator := ',';
+  except
+    Result := False;
+    DecimalSeparator := ',';
+  end;
 end;
 
 function TOsDetalheClasse.excluirOsDet(codMovDetE: Integer): Boolean;
+var sqlExclui: String;
 begin
   // Exclusao
+  {
+    So e permitido excluir OS  PENDENTE
+  }
+  Result := False;
+  sqlExclui := 'DELETE FROM OS_DET ';
+  sqlExclui := sqlExclui + ' WHERE ID_OS_DET  = ' + IntToStr(Self.CodDet);
+  sqlExclui := sqlExclui + '   AND STATUS     = ' + QuotedStr('P');
+
+  if (executaSql(sqlExclui)) then
+    Result := True;
+
 end;
 
 function TOsDetalheClasse.executaSql(strSql: String): Boolean;
+var     TD: TTransactionDesc;
 begin
-
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    dm.sqlsisAdimin.Commit(TD);
+    Result := True;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+      Result := False;
+    end;
+  end;
 end;
 
 function TOsDetalheClasse.getCodDet: Integer;
@@ -126,8 +170,36 @@ begin
 end;
 
 function TOsDetalheClasse.IncluirOsDet(codOsDetI: Integer): Integer;
+var sqlInsere: String;
 begin
   // Inclusao
+  try
+    _codDet := codOsDetI;
+    if (Self.CodDet = 0) then
+    begin
+      if dm.c_6_genid.Active then
+        dm.c_6_genid.Close;
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_OSDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.Open;
+      _codDet := dm.c_6_genid.Fields[0].AsInteger;
+      dm.c_6_genid.Close;
+    end;
+    sqlInsere := 'INSERT INTO OS_DET(ID_OS_DET, ID_OS, CODUSUARIO, '+
+      'DESCRICAO, SERV_EXECUTADO, QTDE, PRECO, STATUS) VALUES (';
+    sqlInsere := sqlInsere + IntToStr(Self.CodDet) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.CodOs) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.codUsuario) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.Descricao) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.ServExecutado) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.status) + ', ';
+    sqlInsere := sqlInsere + FloatToStr(Self.Qtde) + ', ';
+    sqlInsere := sqlInsere + FloatToStr(Self.Preco) + ')';
+    executaSql(sqlInsere);
+    Result := Self.CodDet;
+  except
+    Result := 0;
+  end;
+
 end;
 
 procedure TOsDetalheClasse.ListaOs(DataIni, DataFim: TDateTime;

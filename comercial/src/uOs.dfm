@@ -1,8 +1,8 @@
 object fOs: TfOs
   Left = 192
   Top = 137
-  Width = 696
-  Height = 334
+  Width = 761
+  Height = 614
   Caption = 'Ordem Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -131,8 +131,8 @@ object fOs: TfOs
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 256
-    Width = 688
+    Top = 536
+    Width = 753
     Height = 51
     Align = alBottom
     TabOrder = 8
