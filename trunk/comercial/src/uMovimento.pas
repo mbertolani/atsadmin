@@ -67,10 +67,10 @@ type
     property MovDetalhe  : TMovimentoDetalhe read getMovDetalhe write setMovDetalhe;
 
     //Metodos
-    function inserirMovimento(): Integer;
+    function inserirMovimento(CodMovI: Integer): Integer;
     function verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
     function excluirMovimento(codMovE: Integer): Boolean;
-    function alterarMovimento(codMovA: Integer): Boolean;    
+    function alterarMovimento(codMovA: Integer): Boolean;
     constructor Create;
     Destructor Destroy; Override;
   end;
@@ -204,10 +204,11 @@ begin
   Result := _status;
 end;
 
-function TMovimento.inserirMovimento: Integer;
+function TMovimento.inserirMovimento(CodMovI: Integer): Integer;
 var str: String;
 begin
   // Inserindo o Movimento
+  _codMov := CodMovI;
   if (Self.CodMov = 0) then
   begin
     if dm.c_6_genid.Active then
@@ -216,7 +217,7 @@ begin
     dm.c_6_genid.Open;
     _codMov := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
-  end;  
+  end;
   str := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, ';
   str := str + 'CODNATUREZA, STATUS, CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, ';
   str := str + 'CODFORNECEDOR, DATA_SISTEMA, CONTROLE, CODPEDIDO, DATA_ENTREGA) VALUES (';
