@@ -231,7 +231,8 @@ uses
   uCliente in 'uCliente.pas',
   uClienteEnderecos in 'uClienteEnderecos.pas',
   uCliente1 in 'uCliente1.pas' {fCliente1},
-  uOsDetalheClasse in 'uOsDetalheClasse.pas';
+  uOsDetalheClasse in 'uOsDetalheClasse.pas',
+  uVendaCls in 'uVendaCls.pas';
 
 {$R *.res}
 
