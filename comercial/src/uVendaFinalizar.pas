@@ -541,6 +541,7 @@ type
     procedure JvCalcEdit2Change(Sender: TObject);
     procedure cdsAfterPost(DataSet: TDataSet);
   private
+    TD: TTransactionDesc;
     { Private declarations }
     procedure excluinf;
     procedure notaFiscal;
@@ -820,7 +821,6 @@ procedure TfVendaFinalizar.btnGravarClick(Sender: TObject);
 var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
-     TD: TTransactionDesc;
 begin
   if (cbPrazo.Visible = True) then
   begin
@@ -903,27 +903,6 @@ begin
     dm.c_6_genid.Open;
     cdsCODVENDA.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
-    //Usa Agendamento
-    {** Verifico se tem mais de um tipo de visita}
-    {if dm.cds_parametro.Active then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'AGENDA';
-    dm.cds_parametro.Open;
-    if dm.cds_parametroDADOS.AsString = 'S' then
-    begin
-      if MessageDlg('Agendar nova visita ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-      begin
-         if (Vcont.Active) then
-            Vcont.Close;
-         Vcont.Params[0].AsInteger := cdsCODCLIENTE.AsInteger;
-         Vcont.Open;
-         if (VcontCOUNT.AsInteger > 0) then // se maior que 1
-           agendar
-         else
-           MessageDlg('Não foi cadastrado Visita para esse Cliente..', mtWarning, [mbOK], 0);
-      end;
-    end;}
-    //************************************************************
 
     if varcancela = 'varcancela' then
        exit;
@@ -1082,10 +1061,16 @@ begin
     //inherited;
     // Retirei do Inherited a opção de gravar, pois, não exibe mensagem de erro, e aqui e necessario
     Try
+      dm.sqlsisAdimin.StartTransaction(TD);
       cds.ApplyUpdates(0);
       dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
-    Except
-      MessageDlg('Processo de Venda não finalizado CORRETAMENTE.', mtWarning, [mbOK], 0);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
     end;
   end;
   //baixando o movimento na tabela estoque
@@ -1226,32 +1211,6 @@ begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
       begin
-        Try
-          FEstoque := TEstoque.Create;
-          // Gravando o Estoque
-          with fVendas do begin
-          cds_Mov_det.First;
-          While not cds_Mov_det.Eof do
-          begin
-            if (cds_Mov_detSTATUS.AsString = '9') then
-            begin
-              FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-              FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-              FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-              FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-              FEstoque.MesAno      := dataVenda;
-              FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-              FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-              FEstoque.Status      := '0';
-              FEstoque.inserirMes;
-            end;
-            cds_Mov_det.Next;
-          end;
-          end;
-        Finally
-          FEstoque.Free;
-        end;
-
         if (dm.moduloUsado = 'CITRUS') then
         begin
           grava := TCompras.Create;
@@ -1262,8 +1221,19 @@ begin
         end;
          agendarexcluir;
          excluinf;
-         DtSrc.DataSet.Delete;
-         (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+          Try
+            dm.sqlsisAdimin.StartTransaction(TD);
+            DtSrc.DataSet.Delete;
+            (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+            dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+            dm.sqlsisAdimin.Commit(TD);
+          except
+            on E : Exception do
+            begin
+              ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+            end;
+          end;
       end;
     end;
 
@@ -1596,8 +1566,6 @@ end;
 
 procedure TfVendaFinalizar.BitBtn4Click(Sender: TObject);
 var  strSql: String;
-     TD: TTransactionDesc;
-
 begin
   inherited;
   {Usado para inserir Despesa de Frete se o sistema for usado para o Citrus}
@@ -2871,7 +2839,6 @@ end;
 
 procedure TfVendaFinalizar.notaFiscal;
 var
-  TD: TTransactionDesc;
   Save_Cursor:TCursor;
   codClienteNF: integer;
   str_sql : string;
@@ -2954,7 +2921,6 @@ begin
 
 procedure TfVendaFinalizar.excluinf;
 var
-  TD: TTransactionDesc;
   str_sql : string;
 begin
   excluiuNF := True;
