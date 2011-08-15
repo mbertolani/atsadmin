@@ -9,7 +9,7 @@ inherited fExpedicao: TfExpedicao
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 971
+    Width = 979
     Height = 77
     Background.StartColor = clBtnFace
     Background.EndColor = clBtnFace
@@ -381,8 +381,8 @@ inherited fExpedicao: TfExpedicao
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 612
-    Width = 971
+    Top = 623
+    Width = 979
     inherited btnGravar: TBitBtn
       Left = -200
       Visible = False
@@ -520,7 +520,7 @@ inherited fExpedicao: TfExpedicao
   object GroupBox1: TGroupBox [2]
     Left = 0
     Top = 77
-    Width = 971
+    Width = 979
     Height = 260
     Align = alTop
     Caption = 'Pedido'
@@ -528,7 +528,7 @@ inherited fExpedicao: TfExpedicao
     object JvDBGrid1: TJvDBGrid
       Left = 2
       Top = 15
-      Width = 967
+      Width = 975
       Height = 243
       Align = alClient
       DataSource = DtSrc
@@ -556,7 +556,7 @@ inherited fExpedicao: TfExpedicao
           Expanded = False
           FieldName = 'CODPEDIDO'
           Title.Caption = 'Pedido'
-          Width = 88
+          Width = 89
           Visible = True
         end
         item
@@ -565,7 +565,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'DATA_ENTREGA'
           ReadOnly = True
           Title.Caption = 'Dt. Entrega'
-          Width = 88
+          Width = 89
           Visible = True
         end
         item
@@ -574,7 +574,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'CODPRO'
           ReadOnly = True
           Title.Caption = 'Material'
-          Width = 90
+          Width = 91
           Visible = True
         end
         item
@@ -583,7 +583,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'PRODUTO'
           ReadOnly = True
           Title.Caption = 'Descri'#231#227'o'
-          Width = 296
+          Width = 299
           Visible = True
         end
         item
@@ -592,7 +592,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'QUANTIDADE'
           ReadOnly = True
           Title.Caption = 'Quantidade'
-          Width = 107
+          Width = 108
           Visible = True
         end
         item
@@ -601,7 +601,7 @@ inherited fExpedicao: TfExpedicao
           FieldName = 'VALTOTAL'
           ReadOnly = True
           Title.Caption = 'Val. Total'
-          Width = 88
+          Width = 89
           Visible = True
         end
         item
@@ -617,8 +617,8 @@ inherited fExpedicao: TfExpedicao
   object GroupBox3: TGroupBox [3]
     Left = 0
     Top = 337
-    Width = 971
-    Height = 52
+    Width = 979
+    Height = 63
     Align = alClient
     Caption = 'Expedi'#231#227'o'
     TabOrder = 3
@@ -1028,8 +1028,8 @@ inherited fExpedicao: TfExpedicao
   end
   object JvDBGrid2: TJvDBGrid [4]
     Left = 0
-    Top = 389
-    Width = 971
+    Top = 400
+    Width = 979
     Height = 223
     Align = alBottom
     DataSource = DataSource1
@@ -1057,7 +1057,7 @@ inherited fExpedicao: TfExpedicao
         Expanded = False
         FieldName = 'CODPEDIDO'
         Title.Caption = 'Pedido'
-        Width = 71
+        Width = 72
         Visible = True
       end
       item
@@ -1066,7 +1066,7 @@ inherited fExpedicao: TfExpedicao
         FieldName = 'DATA_ENTREGA'
         ReadOnly = True
         Title.Caption = 'Dt. Entrega'
-        Width = 71
+        Width = 72
         Visible = True
       end
       item
@@ -1074,7 +1074,7 @@ inherited fExpedicao: TfExpedicao
         Expanded = False
         FieldName = 'CONTROLE'
         Title.Caption = 'Controle'
-        Width = 95
+        Width = 96
         Visible = True
       end
       item
@@ -1090,7 +1090,7 @@ inherited fExpedicao: TfExpedicao
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
-        Width = 176
+        Width = 177
         Visible = True
       end
       item
@@ -1099,7 +1099,7 @@ inherited fExpedicao: TfExpedicao
         FieldName = 'CODPRO'
         ReadOnly = True
         Title.Caption = 'Material'
-        Width = 72
+        Width = 73
         Visible = True
       end
       item
@@ -1108,7 +1108,7 @@ inherited fExpedicao: TfExpedicao
         FieldName = 'PRODUTO'
         ReadOnly = True
         Title.Caption = 'Descri'#231#227'o'
-        Width = 187
+        Width = 189
         Visible = True
       end
       item
@@ -1117,7 +1117,7 @@ inherited fExpedicao: TfExpedicao
         FieldName = 'VALTOTAL'
         ReadOnly = True
         Title.Caption = 'Val. Total'
-        Width = 72
+        Width = 73
         Visible = True
       end
       item
@@ -1126,7 +1126,7 @@ inherited fExpedicao: TfExpedicao
         FieldName = 'QUANTIDADE'
         ReadOnly = True
         Title.Caption = 'Quantidade'
-        Width = 86
+        Width = 87
         Visible = True
       end
       item
@@ -1134,7 +1134,7 @@ inherited fExpedicao: TfExpedicao
         Expanded = False
         FieldName = 'STATUS'
         Title.Caption = 'Situa'#231#227'o'
-        Width = 59
+        Width = 58
         Visible = True
       end>
   end

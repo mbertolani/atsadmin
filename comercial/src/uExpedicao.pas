@@ -330,7 +330,7 @@ begin
        fMov.DataEntrega := dtEntrega.Date;
        fMov.CodPedido   := cdsPedidoCODPEDIDO.AsInteger;
 
-       codMov := fMov.inserirMovimento;
+       codMov := fMov.inserirMovimento(0);
      end
      else begin
        codMov := jaInclui;
