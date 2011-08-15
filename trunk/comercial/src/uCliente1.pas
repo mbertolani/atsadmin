@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
-  MMJPanel, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid, uCliente;
+  MMJPanel, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid, uCliente,
+  Mask, JvExMask, JvToolEdit, JvMaskEdit;
 
 type
   TfCliente1 = class(TfPai_new)
@@ -18,12 +19,35 @@ type
     GroupBox1: TGroupBox;
     JvDBUltimGrid1: TJvDBUltimGrid;
     GroupBox2: TGroupBox;
-    edContato: TEdit;
-    Label1: TLabel;
     lblCnpj: TLabel;
     edCnpj: TEdit;
     lblIE: TLabel;
     edIE: TEdit;
+    edOrgaoEmissor: TEdit;
+    lblOrgaoEmissor: TLabel;
+    GroupBox3: TGroupBox;
+    Label1: TLabel;
+    edContato: TEdit;
+    RadioGroup1: TRadioGroup;
+    GroupBox4: TGroupBox;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Label3: TLabel;
+    Edit2: TEdit;
+    Label4: TLabel;
+    Edit3: TEdit;
+    Label5: TLabel;
+    Edit4: TEdit;
+    Label6: TLabel;
+    BitBtn1: TBitBtn;
+    Edit5: TEdit;
+    Label7: TLabel;
+    Edit6: TEdit;
+    Label8: TLabel;
+    JvMaskEdit1: TJvMaskEdit;
+    Label9: TLabel;
+    Edit7: TEdit;
+    RadioGroup2: TRadioGroup;
     procedure rgTipoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
