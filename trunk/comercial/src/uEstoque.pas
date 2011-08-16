@@ -454,7 +454,9 @@ begin
 
       if (Self.Status = '9') then
       begin
-        sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr(Self.Status) + ' WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
+        sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr(Self.Status) +
+                  ' WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
+
         dm.sqlsisAdimin.ExecuteDirect(sqlStr);
       end;
       if (Self.Status = '0') then   // Excluido a Finalizacao
