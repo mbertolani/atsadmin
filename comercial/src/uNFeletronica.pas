@@ -812,6 +812,9 @@ begin
             if (tp_amb = 4) then
             begin
               Ide.tpEmis    := teDPEC;
+              Ide.dhCont    := Now;
+              InputQuery('Justificativa de entrada em Contingência', 'Justificativa', vAux);
+              Ide.xJust     := vAux;
             end;
             if (tp_amb = 5) then
             begin
