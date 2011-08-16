@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DBXpress, Mask, JvExMask, JvToolEdit, FMTBcd, DB,
-  SqlExpr, DBClient, Provider, ComCtrls, JvExComCtrls, JvProgressBar;
+  SqlExpr, DBClient, Provider, ComCtrls, JvExComCtrls, JvProgressBar ,umovimento ,DateUtils,
+  Buttons;
 
 type
   TfEstoqueCorrige = class(TForm)
@@ -34,9 +35,11 @@ type
     cdsB: TClientDataSet;
     prog2: TJvProgressBar;
     Label6: TLabel;
+    BitBtn1: TBitBtn;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -121,7 +124,7 @@ begin
 
     if (cdsB.Active) then
       cdsB.Close;
-    str := 'SELECT DISTINCT md.CODPRODUTO, prod.CODPRO ';
+    str := 'SELECT DISTINCT md.CODPRODUTO, prod.CODPRO ,MD.LOTE ';
     str := str + '  FROM MOVIMENTO m';
     str := str + ' INNER JOIN MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO';
     str := str + ' INNER JOIN PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO';
@@ -164,6 +167,7 @@ begin
     str := str + '  LEFT OUTER JOIN VENDA  V ON V.CODMOVIMENTO = M.CODMOVIMENTO';
     str := str + '  LEFT OUTER JOIN COMPRA C ON C.CODMOVIMENTO = M.CODMOVIMENTO';
     str := str + ' WHERE md.BAIXA is not null ' ;
+    str := str + '   AND MD.LOTE  = ' + QuotedStr(cdsB.FieldByName('LOTE').AsString);
     str := str + '   AND m.CODNATUREZA < 5' ;
     str := str + '   AND m.DATAMOVIMENTO BETWEEN ';
     str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
@@ -185,9 +189,11 @@ begin
       str := str + IntToStr(cds.FieldByName('CODPRODUTO').AsInteger);
       str := str + ',''TODOS SUBGRUPOS DO CADASTRO CATEGORIA''';
       str := str + ', 100';
-      str := str + ', 1';
+      str := str + ', 1 ';
       str := str + ', ''TODAS AS MARCAS CADASTRADAS NO SISTEMA''';
-      str := str + ', ''TODOS OS LOTES CADASTRADOS NO SISTEMA''';
+      str := str + ', ';
+      str := str +  QuotedStr(cdsB.FieldByName('LOTE').AsString);
+      //str := str + ', ''TODOS OS LOTES CADASTRADOS NO SISTEMA''';
       str := str + ',''TODOS OS GRUPOS CADASTRADOS NO SISTEMA'')';
       if (cdsA.Active) then
         cdsA.Close;
@@ -233,7 +239,8 @@ begin
           FEstoque.Lote        := '';
           FEstoque.CentroCusto := 0;
           dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr('9') +
-          ' WHERE CODPRODUTO = ' + IntToStr(cds.FieldByName('CODPRODUTO').AsInteger));
+          ' WHERE CODPRODUTO = ' + IntToStr(cds.FieldByName('CODPRODUTO').AsInteger) +
+          ' and lote = ' + QuotedStr(cds.FieldByName('LOTE').AsString)) ;
         end;
         cdsA.Next;
       end;
@@ -247,6 +254,66 @@ begin
       Screen.Cursor := Save_Cursor;  { Always restore to normal }
       FEstoque.Free;
     end;
+end;
+
+procedure TfEstoqueCorrige.BitBtn1Click(Sender: TObject);
+var fmov : TMovimento;
+    sql_sp , str : string;
+    codMov : Integer;
+    TD: TTransactionDesc;
+begin
+  fmov := TMovimento.Create;
+  if (cdsB.Active) then
+  cdsB.Close;
+  str := 'SELECT * from estoquemes ';
+  str := str + ' WHERE mesano between ' ;
+  str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
+  str := str + '   AND ' ;
+  str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit2.Text)));
+  cdsB.CommandText := str;
+  cdsB.Open;
+
+  fMov.CodMov      := 0;
+  fMov.CodNatureza := 2;  // saida 
+  fMov.DataMov     := StrToDate('30/06/2011');
+  fMov.CodCliente  := 0;
+  fMov.Status      := 0;
+  fMov.CodUsuario  := 1;
+  fMov.CodVendedor := 1;
+  fMov.CodFornec   := 0;
+
+  codMov := fMov.inserirMovimento(0);
+  dm.sqlsisAdimin.StartTransaction(TD);
+  While not cdsB.Eof do
+  begin
+
+      // Detalhe Natureza 6
+      fMov.MovDetalhe.CodMov     := codMov;
+      fMov.MovDetalhe.CodProduto := cdsB.FieldByName('CODPRODUTO').AsInteger;
+      fMov.MovDetalhe.Qtde       := cdsB.FieldByName('SALDOESTOQUE').AsFloat; //CODPRODUTO cdsPedidoRECEBIDO.asFloat;
+      fMov.MovDetalhe.Preco      := 1 ;
+      fMov.MovDetalhe.Descricao  := ' ';
+      fMov.MovDetalhe.Desconto   := 0;
+      fMov.MovDetalhe.Un         := 'PC';
+      fMov.MovDetalhe.Lote       := cdsB.FieldByName('LOTE').AsString;
+      fMov.MovDetalhe.inserirMovDet;
+
+      sql_sp := 'execute procedure LANCA_ENT_SAIDA(';
+      sql_sp := sql_sp + '1 ,' + IntToStr(codMov);
+      sql_sp := sql_sp + ', 0 ,' ;
+      sql_sp := sql_sp +  QuotedStr(Formatdatetime('mm/dd/yyyy',today));
+      sql_sp := sql_sp +  ',';
+      sql_sp := sql_sp +  QuotedStr(Formatdatetime('mm/dd/yyyy',today));
+      sql_sp := sql_sp +  ',1';
+      sql_sp := sql_sp + ',' + IntToStr(cdsB.FieldByName('CENTROCUSTO').AsInteger);
+      sql_sp := sql_sp +  ',' +  QuotedStr('O');
+      sql_sp := sql_sp + ', null' ;
+      sql_sp := sql_sp + ', ' + QuotedStr('') + ')';
+
+      dm.sqlsisAdimin.ExecuteDirect(sql_sp);
+      cdsB.Next;
+  end;
+  dm.sqlsisAdimin.Commit(TD);
 end;
 
 end.
