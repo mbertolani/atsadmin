@@ -31,6 +31,8 @@ type
     procedure setBaixa(const Value: String);
     procedure setUn(const Value: String);
     procedure setDescricao(const Value: String);
+    function getLote: String;
+    procedure setLote(const Value: String);
   protected
     //Atributos
     _codDet          : Integer;
@@ -44,6 +46,7 @@ type
     _descricao       : String;
     _baixa           : String;
     _un              : String;
+    _lote            : String;
     function executaSql(strSql: String): Boolean;
   public
     property CodDet      : Integer read getCodDet write setCodDet;
@@ -57,6 +60,7 @@ type
     property Descricao   : String  read getDescricao write setDescricao;
     property Baixa       : String  read getBaixa write setBaixa;
     property Un          : String  read getUn write setUn;
+    property Lote        : String  read getLote write setLote;
     //Metodos
     function inserirMovDet(): Boolean;
     function verMovDetalhe(codDetV: Integer): Boolean;
@@ -154,6 +158,11 @@ begin
   Result := _icms;
 end;
 
+function TMovimentoDetalhe.getLote: String;
+begin
+  Result := _lote;
+end;
+
 function TMovimentoDetalhe.getPreco: Double;
 begin
   Result := _preco;
@@ -224,6 +233,11 @@ end;
 procedure TMovimentoDetalhe.setIcms(const Value: Double);
 begin
   _icms := Value;
+end;
+
+procedure TMovimentoDetalhe.setLote(const Value: String);
+begin
+  _lote := Value;
 end;
 
 procedure TMovimentoDetalhe.setPreco(const Value: Double);
