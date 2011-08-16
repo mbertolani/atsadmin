@@ -1,8 +1,8 @@
 object fEstoqueCorrige: TfEstoqueCorrige
   Left = 235
   Top = 117
-  Width = 397
-  Height = 270
+  Width = 415
+  Height = 352
   Caption = 'Corrige Estoque'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -126,6 +126,15 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Height = 16
     TabOrder = 7
   end
+  object BitBtn1: TBitBtn
+    Left = 152
+    Top = 224
+    Width = 75
+    Height = 25
+    Caption = 'BitBtn1'
+    TabOrder = 8
+    OnClick = BitBtn1Click
+  end
   object sqlQ: TSQLQuery
     MaxBlobSize = -1
     Params = <>
@@ -177,20 +186,20 @@ object fEstoqueCorrige: TfEstoqueCorrige
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 232
-    Top = 192
+    Left = 256
+    Top = 224
   end
   object DataSetProvider2: TDataSetProvider
     DataSet = SQLDataSet2
     Options = [poAllowCommandText]
-    Left = 264
-    Top = 192
+    Left = 288
+    Top = 224
   end
   object cdsB: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'DataSetProvider2'
-    Left = 296
-    Top = 192
+    Left = 320
+    Top = 224
   end
 end
