@@ -720,6 +720,15 @@ begin
   scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := cds_compraCODCOMPRA.AsInteger;
   scdsCr_proc.Open;
+
+  if (dmnf.baixouEstoque(cds_compraCODMOVIMENTO.AsInteger) = False) then
+  begin
+    Try
+      dmnf.baixaEstoque(cds_compraCODMOVIMENTO.AsInteger, cds_compraDATACOMPRA.AsDateTime, 'COMPRA');
+    Except
+      MessageDlg('Processo de Baixa no Estoque não realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
+    end;
+  end;
   
 end;
 
