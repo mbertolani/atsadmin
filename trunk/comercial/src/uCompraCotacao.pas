@@ -253,6 +253,7 @@ begin
   if (cdsSolic.Active) then
     cdsSolic.Close;
   cdsSolic.Open;
+  executaBusca;
 
 end;
 
