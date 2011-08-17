@@ -198,9 +198,6 @@ type
     procedure cdsReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
-    procedure DBEdit5Change(Sender: TObject);
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure DBEdit5Exit(Sender: TObject);
     procedure cdsNewRecord(DataSet: TDataSet);
   private
     { Private declarations }
@@ -592,30 +589,6 @@ begin
   inherited;
   MessageDlg('Não é possível gravar o registro. Erro : ' + E.Message , mtWarning,
         [mbOk], 0);
-end;
-
-procedure TfCrAltera.DBEdit5Change(Sender: TObject);
-begin
-//  inherited;
-  if (cds.State in [dsEdit]) then
-    if( cdsVIA.AsString = '1  ') then
-      cdsVALOR_RESTO_SST.AsFloat := cdsVALOR_RESTO.AsFloat;
-end;
-
-procedure TfCrAltera.FormKeyPress(Sender: TObject; var Key: Char);
-begin
-  inherited;
-  if (cds.State in [dsEdit]) then
-    if( cdsVIA.AsString = '1  ') then
-      cdsVALOR_RESTO_SST.AsFloat := cdsVALOR_RESTO.AsFloat;
-end;
-
-procedure TfCrAltera.DBEdit5Exit(Sender: TObject);
-begin
-//  inherited;
-  if (cds.State in [dsEdit]) then
-    if( cdsVIA.AsString = '1  ') then
-      cdsVALOR_RESTO_SST.AsFloat := cdsVALOR_RESTO.AsFloat;
 end;
 
 procedure TfCrAltera.cdsNewRecord(DataSet: TDataSet);

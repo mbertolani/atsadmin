@@ -96,7 +96,7 @@ inherited fCrAltera: TfCrAltera
   object Label20: TLabel [11]
     Left = 5
     Top = 107
-    Width = 32
+    Width = 48
     Height = 13
     Caption = 'Situa'#231#227'o :'
   end
@@ -654,9 +654,6 @@ inherited fCrAltera: TfCrAltera
     Font.Style = []
     ParentFont = False
     TabOrder = 6
-    OnChange = DBEdit5Change
-    OnExit = DBEdit5Exit
-    OnKeyPress = FormKeyPress
   end
   object DBEdit7: TDBEdit [19]
     Left = 703
