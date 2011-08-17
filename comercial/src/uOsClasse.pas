@@ -10,7 +10,7 @@ Type
     function getCodCliente: Integer;
     function getCodOs: Integer;
     function getCodUsuario: Integer;
-    function getCodVeiculo: Integer;
+    function getCodVeiculo: String; // Placa
     function getDataFim: TDateTime;
     function getDataInicio: TDateTime;
     function getDataOs: TDateTime;
@@ -20,7 +20,7 @@ Type
     procedure setCodCliente(const Value: Integer);
     procedure setCodOs(const Value: Integer);
     procedure setCodUsuario(const Value: Integer);
-    procedure setCodVeiculo(const Value: Integer);
+    procedure setCodVeiculo(const Value: String);
     procedure setDataFim(const Value: TDateTime);
     procedure setDataInicio(const Value: TDateTime);
     procedure setDataOs(const Value: TDateTime);
@@ -30,7 +30,7 @@ Type
     //Atributos
     _codOs      : Integer;
     _codCliente : Integer;
-    _codVeiculo : Integer;
+    _codVeiculo : String;
     _dataOs     : TDateTime;
     _dataInicio : TDateTime;
     _dataFim    : TDateTime;
@@ -41,7 +41,7 @@ Type
   public
     property codOs : Integer read getCodOs write setCodOs;
     property codCliente : Integer read getCodCliente write setCodCliente;
-    property codVeiculo: Integer read getCodVeiculo write setCodVeiculo;
+    property codVeiculo: String read getCodVeiculo write setCodVeiculo;
     property dataOs: TDateTime read getDataOs write setDataOs;
     property dataInicio: TDateTime read getDataInicio write setDataInicio;
     property dataFim: TDateTime read getDataFim write setDataFim;
@@ -69,7 +69,7 @@ begin
   try
     sqlAltera := 'UPDATE OS SET ';
     sqlAltera := sqlAltera + ' CODCLIENTE = ' + IntToStr(Self.codCliente) + ', ';
-    sqlAltera := sqlAltera + ' CODVEICULO = ' + IntToStr(Self.codVeiculo) + ', ';
+    sqlAltera := sqlAltera + ' CODVEICULO = ' + QuotedStr(Self.codVeiculo) + ', ';
     sqlAltera := sqlAltera + ' CODUSUARIO = ' + IntToStr(Self.codUsuario) + ', ';
     sqlAltera := sqlAltera + ' DATAOS     = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataOs)) + ', ';
     sqlAltera := sqlAltera + ' DATA_INI   = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataInicio)) + ', ';
@@ -137,9 +137,9 @@ begin
   Result := _codUsuario;
 end;
 
-function TOsClasse.getCodVeiculo: Integer;
+function TOsClasse.getCodVeiculo: String;
 begin
-  Result := _codVeiculo;
+  Result := Trim(_codVeiculo);
 end;
 
 function TOsClasse.getDataFim: TDateTime;
@@ -185,7 +185,7 @@ begin
       'DATA_SISTEMA, DATA_INI, DATA_FIM, KM, STATUS) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.codOs) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codCliente) + ', ';
-    sqlInsere := sqlInsere + IntToStr(Self.codVeiculo) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.codVeiculo) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codUsuario) + ', ';
     sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataOs)) + ', ';
     sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', today)) + ', ';
@@ -221,7 +221,7 @@ begin
   _codUsuario := Value;
 end;
 
-procedure TOsClasse.setCodVeiculo(const Value: Integer);
+procedure TOsClasse.setCodVeiculo(const Value: String);
 begin
   _codVeiculo := Value;
 end;

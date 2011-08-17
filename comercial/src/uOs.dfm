@@ -11,6 +11,8 @@ object fOs: TfOs
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -22,39 +24,18 @@ object fOs: TfOs
     Caption = 'Data'
   end
   object Label3: TLabel
-    Left = 31
-    Top = 54
+    Left = 36
+    Top = 100
     Width = 32
     Height = 13
     Caption = 'Cliente'
   end
-  object Label4: TLabel
-    Left = 32
-    Top = 8
-    Width = 61
-    Height = 13
-    Caption = 'C. Resultado'
-  end
-  object Label5: TLabel
-    Left = 414
-    Top = 51
-    Width = 36
-    Height = 13
-    Caption = 'Servi'#231'o'
-  end
-  object labelCondutor: TLabel
-    Left = 288
-    Top = 192
-    Width = 49
-    Height = 13
-    Caption = 'Atendente'
-  end
   object Label6: TLabel
     Left = 32
-    Top = 96
-    Width = 48
+    Top = 8
+    Width = 43
     Height = 13
-    Caption = 'Descri'#231#227'o'
+    Caption = 'Num. OS'
   end
   object Label1: TLabel
     Left = 408
@@ -62,6 +43,27 @@ object fOs: TfOs
     Width = 28
     Height = 13
     Caption = 'Para :'
+  end
+  object Label7: TLabel
+    Left = 165
+    Top = 50
+    Width = 15
+    Height = 13
+    Caption = 'Km'
+  end
+  object Label4: TLabel
+    Left = 32
+    Top = 149
+    Width = 36
+    Height = 13
+    Caption = 'Servi'#231'o'
+  end
+  object Label8: TLabel
+    Left = 34
+    Top = 52
+    Width = 35
+    Height = 13
+    Caption = 'Veiculo'
   end
   object edData: TJvDatePickerEdit
     Left = 272
@@ -72,62 +74,38 @@ object fOs: TfOs
     Checked = True
     TabOrder = 0
   end
-  object cbResultado: TJvComboBox
+  object edNumOS: TEdit
     Left = 32
     Top = 24
-    Width = 216
+    Width = 153
     Height = 21
-    ItemHeight = 13
+    MaxLength = 100
     TabOrder = 1
   end
-  object edServico: TEdit
-    Left = 32
-    Top = 112
-    Width = 608
+  object edKm: TEdit
+    Left = 161
+    Top = 66
+    Width = 153
     Height = 21
     MaxLength = 100
     TabOrder = 2
   end
-  object edCondutor: TJvComboBox
-    Left = 352
-    Top = 192
-    Width = 289
+  object edServico: TEdit
+    Left = 32
+    Top = 167
+    Width = 694
     Height = 21
-    ItemHeight = 13
+    MaxLength = 100
     TabOrder = 3
   end
-  object edServico1: TEdit
-    Left = 32
-    Top = 136
-    Width = 608
-    Height = 21
-    MaxLength = 100
-    TabOrder = 4
-  end
-  object edServico2: TEdit
-    Left = 32
-    Top = 160
-    Width = 608
-    Height = 21
-    MaxLength = 100
-    TabOrder = 5
-  end
-  object cbServico: TJvComboBox
-    Left = 414
-    Top = 67
-    Width = 224
-    Height = 21
-    ItemHeight = 13
-    TabOrder = 6
-  end
-  object JvDatePickerEdit1: TJvDatePickerEdit
+  object edDataFim: TJvDatePickerEdit
     Left = 408
     Top = 24
     Width = 121
     Height = 21
     AllowNoDate = True
     Checked = True
-    TabOrder = 7
+    TabOrder = 4
   end
   object MMJPanel2: TMMJPanel
     Left = 0
@@ -135,7 +113,7 @@ object fOs: TfOs
     Width = 753
     Height = 51
     Align = alBottom
-    TabOrder = 8
+    TabOrder = 5
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -257,7 +235,7 @@ object fOs: TfOs
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object btnIncluir: TBitBtn
-      Left = 271
+      Left = 295
       Top = 5
       Width = 107
       Height = 42
@@ -826,12 +804,12 @@ object fOs: TfOs
     end
   end
   object btnClienteProcura: TBitBtn
-    Left = 374
-    Top = 65
+    Left = 93
+    Top = 109
     Width = 35
     Height = 33
     Enabled = False
-    TabOrder = 9
+    TabOrder = 6
     TabStop = False
     OnClick = btnClienteProcuraClick
     Glyph.Data = {
@@ -894,17 +872,25 @@ object fOs: TfOs
   end
   object edCodCliente: TEdit
     Left = 32
-    Top = 72
+    Top = 116
     Width = 57
     Height = 21
-    TabOrder = 10
+    TabOrder = 7
   end
   object edNomeCliente: TEdit
-    Left = 96
-    Top = 72
+    Left = 131
+    Top = 117
     Width = 273
     Height = 21
-    TabOrder = 11
+    TabOrder = 8
+  end
+  object edVeiculo: TJvMaskEdit
+    Left = 32
+    Top = 66
+    Width = 121
+    Height = 21
+    TabOrder = 9
+    Text = 'edVeiculo'
   end
   object sdsProd: TSQLDataSet
     CommandText = 
@@ -956,6 +942,142 @@ object fOs: TfOs
     object cdsProdPRODUTO: TStringField
       FieldName = 'PRODUTO'
       Size = 300
+    end
+  end
+  object sds_Veiculocli: TSQLDataSet
+    CommandText = 
+      'select * from VEICULO '#13#10'where PLACA = :pplaca or COD_VEICULO =  ' +
+      ':PVEIC or CHASSIS = :PChassi'#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pplaca'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PVEIC'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PChassi'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 543
+    Top = 46
+    object sds_VeiculocliCOD_VEICULO: TIntegerField
+      FieldName = 'COD_VEICULO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sds_VeiculocliCOD_CLIENTE: TIntegerField
+      FieldName = 'COD_CLIENTE'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object sds_VeiculocliPLACA: TStringField
+      FieldName = 'PLACA'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object sds_VeiculocliMARCA_MODELO: TStringField
+      FieldName = 'MARCA_MODELO'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
+    end
+    object sds_VeiculocliTIPO: TStringField
+      FieldName = 'TIPO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_VeiculocliCOMBUSTIVEL: TStringField
+      FieldName = 'COMBUSTIVEL'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_VeiculocliANO_FAB: TStringField
+      FieldName = 'ANO_FAB'
+      ProviderFlags = [pfInUpdate]
+      Size = 4
+    end
+    object sds_VeiculocliANO_MOD: TStringField
+      FieldName = 'ANO_MOD'
+      ProviderFlags = [pfInUpdate]
+      Size = 4
+    end
+    object sds_VeiculocliCOR: TStringField
+      FieldName = 'COR'
+      ProviderFlags = [pfInUpdate]
+    end
+  end
+  object dsp_Veiculocli: TDataSetProvider
+    DataSet = sds_Veiculocli
+    UpdateMode = upWhereKeyOnly
+    Left = 575
+    Top = 46
+  end
+  object cds_Veiculocli: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pplaca'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PVEIC'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PChassi'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_Veiculocli'
+    Left = 607
+    Top = 46
+    object cds_VeiculocliCOD_VEICULO: TIntegerField
+      FieldName = 'COD_VEICULO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object cds_VeiculocliCOD_CLIENTE: TIntegerField
+      FieldName = 'COD_CLIENTE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_VeiculocliPLACA: TStringField
+      FieldName = 'PLACA'
+      ProviderFlags = [pfInUpdate]
+      EditMask = 'LLL\-0000;1;_'
+      Size = 10
+    end
+    object cds_VeiculocliMARCA_MODELO: TStringField
+      FieldName = 'MARCA_MODELO'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
+    end
+    object cds_VeiculocliTIPO: TStringField
+      FieldName = 'TIPO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_VeiculocliCOMBUSTIVEL: TStringField
+      FieldName = 'COMBUSTIVEL'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_VeiculocliANO_FAB: TStringField
+      FieldName = 'ANO_FAB'
+      ProviderFlags = [pfInUpdate]
+      Size = 4
+    end
+    object cds_VeiculocliANO_MOD: TStringField
+      FieldName = 'ANO_MOD'
+      ProviderFlags = [pfInUpdate]
+      Size = 4
+    end
+    object cds_VeiculocliCOR: TStringField
+      FieldName = 'COR'
+      ProviderFlags = [pfInUpdate]
     end
   end
 end
