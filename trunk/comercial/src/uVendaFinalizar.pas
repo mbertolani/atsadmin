@@ -542,6 +542,7 @@ type
     procedure cdsAfterPost(DataSet: TDataSet);
   private
     TD: TTransactionDesc;
+    usaMateriaPrima: String;
     { Private declarations }
     procedure excluinf;
     procedure notaFiscal;
@@ -1102,12 +1103,7 @@ begin
   if DtSrc.State in [dsInsert, dsEdit] then
      btnGravar.Click;
 
-  {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
-  dm.cds_parametro.Open;
-  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  if (usaMateriaPrima = 'S') then
   begin
     //BitBtn1.Click;
     baixaestoque('BAIXAAUTOMATICA');
@@ -1195,12 +1191,34 @@ begin
          if excluiuNF then
          begin
            try
+             dm.sqlsisAdimin.StartTransaction(TD);
              DtSrc.DataSet.Delete;
              (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+             dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+             if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
+             begin
+               if (dm.sqlBusca.Active) then
+                 dm.sqlBusca.Close;
+               dm.sqlBusca.SQL.Clear;
+               dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
+                 ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
+                 '   AND CODNATUREZA = 2'+
+                 '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
+               dm.sqlBusca.Open;
+               if (not dm.sqlBusca.IsEmpty) then
+               begin
+                 dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
+                 dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+               end;  
+             end;
+             dm.sqlsisAdimin.Commit(TD);
              ShowMessage('Venda Excluida com Suscesso');
            except
              on E : Exception do
-              ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+             begin
+               ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+               dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             end;
            end;
          end;
 
@@ -1226,6 +1244,23 @@ begin
             DtSrc.DataSet.Delete;
             (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
             dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+           if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
+           begin
+             if (dm.sqlBusca.Active) then
+               dm.sqlBusca.Close;
+             dm.sqlBusca.SQL.Clear;
+             dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
+               ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
+               '   AND CODNATUREZA = 2'+
+               '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
+             dm.sqlBusca.Open;
+             if (not dm.sqlBusca.IsEmpty) then
+             begin
+               dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
+                 dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+             end;
+           end;
+
             dm.sqlsisAdimin.Commit(TD);
           except
             on E : Exception do
@@ -1727,6 +1762,14 @@ begin
 //  inherited;
   sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
   nparc := 1;
+
+  {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
+  dm.cds_parametro.Open;
+  usaMateriaPrima := dm.cds_parametroCONFIGURADO.AsString;
+
   if (not dm.parametro.Active) then
     dm.parametro.Open;
   if (dm.parametro.locate('PARAMETRO', 'NOTAFISCALDESATIVADO', [loCaseInsensitive])) then
@@ -2295,6 +2338,8 @@ begin
   {** adiciono um novo movimento}
   fVendas.btnIncluir.Click;
   fVendas.cds_MovimentoCODCLIENTE.AsInteger := codigo_cliente;
+  fVendas.cds_MovimentoCODPEDIDO.AsInteger  := codigo_moviemento;
+
   fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime := StrToDate(data_movimento);
   { Natureza = 'Saída' }
   fVendas.cds_MovimentoCODNATUREZA.AsInteger := 2;
