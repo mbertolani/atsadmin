@@ -2691,35 +2691,15 @@ begin
       dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET BAIXA = ' +
         QuotedStr('1') + ' WHERE CODMOVIMENTO = ' +
         IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger));
+      dmnf.baixaEstoque(cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TD);
-
-      Try
-        FEstoque := TEstoque.Create;
-        cds_Mov_det.First;
-        While not cds_Mov_det.Eof do
-        begin
-          if (cds_Mov_detSTATUS.IsNull) then
-          begin
-            FEstoque.QtdeVenda   := cds_Mov_detQUANTIDADE.AsFloat;
-            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-            FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-            FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-            FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-            FEstoque.Status      := '9';
-            FEstoque.inserirMes;
-          end;
-          cds_Mov_det.Next;
-        end;
-      Finally
-        FEstoque.Free;
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
       end;
-
-     except
-       dm.sqlsisAdimin.Rollback(TD);
-       MessageDlg('Erro para Baixar Materias Primas.', mtError, [mbOK], 0);
-     end;
+    end;
   end;
   fVendas.SetFocus;
   MessageDlg('Venda Finalizada com sucesso.', mtInformation, [mbOK], 0);
