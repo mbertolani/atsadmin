@@ -13,17 +13,11 @@ type
     edData: TJvDatePickerEdit;
     Label2: TLabel;
     Label3: TLabel;
-    Label4: TLabel;
-    cbResultado: TJvComboBox;
+    edNumOS: TEdit;
+    edKm: TEdit;
     edServico: TEdit;
-    Label5: TLabel;
-    edCondutor: TJvComboBox;
-    labelCondutor: TLabel;
-    edServico1: TEdit;
-    edServico2: TEdit;
-    cbServico: TJvComboBox;
     Label6: TLabel;
-    JvDatePickerEdit1: TJvDatePickerEdit;
+    edDataFim: TJvDatePickerEdit;
     Label1: TLabel;
     MMJPanel2: TMMJPanel;
     btnGravar: TBitBtn;
@@ -46,13 +40,40 @@ type
     cdsProdCOD_BARRA: TStringField;
     cdsProdCODPRO: TStringField;
     cdsProdPRODUTO: TStringField;
+    Label7: TLabel;
+    Label4: TLabel;
+    edVeiculo: TJvMaskEdit;
+    Label8: TLabel;
+    sds_Veiculocli: TSQLDataSet;
+    sds_VeiculocliCOD_VEICULO: TIntegerField;
+    sds_VeiculocliCOD_CLIENTE: TIntegerField;
+    sds_VeiculocliPLACA: TStringField;
+    sds_VeiculocliMARCA_MODELO: TStringField;
+    sds_VeiculocliTIPO: TStringField;
+    sds_VeiculocliCOMBUSTIVEL: TStringField;
+    sds_VeiculocliANO_FAB: TStringField;
+    sds_VeiculocliANO_MOD: TStringField;
+    sds_VeiculocliCOR: TStringField;
+    dsp_Veiculocli: TDataSetProvider;
+    cds_Veiculocli: TClientDataSet;
+    cds_VeiculocliCOD_VEICULO: TIntegerField;
+    cds_VeiculocliCOD_CLIENTE: TIntegerField;
+    cds_VeiculocliPLACA: TStringField;
+    cds_VeiculocliMARCA_MODELO: TStringField;
+    cds_VeiculocliTIPO: TStringField;
+    cds_VeiculocliCOMBUSTIVEL: TStringField;
+    cds_VeiculocliANO_FAB: TStringField;
+    cds_VeiculocliANO_MOD: TStringField;
+    cds_VeiculocliCOR: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
-    Os: TOsClasse;
+    FOs: TOsClasse;
     Procedure limpaCampos;
     Procedure carregaCombos;
     Procedure controlaEventos;
@@ -80,15 +101,33 @@ end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
 begin
+  if (edCodCliente.Text = '') then
+  begin
+    MessageDlg('Cliente não informado', mtError, [mbOK], 0);
+    edCodCliente.SetFocus;
+    exit;
+  end;
+
+  FOs.codCliente := StrToInt(edCodCliente.Text);
+  FOs.codOs      := 0;
+  if (edVeiculo.Text = '') then
+  begin
+    MessageDlg('Veiculo não informado', mtError, [mbOK], 0);
+    edVeiculo.SetFocus;
+    exit;
+  end;
+  FOs.codVeiculo := edVeiculo.Text;
+  FOs.codUsuario := dm.varUSERID;
+  FOs.dataOs     := edData.Date;
+  FOs.dataInicio := edData.Date;
+  FOs.dataFim    := edDataFim.Date;
+  if ((modo = 'Insert') then
+    FOs.status := 'P';
+  
+
+
   if ((modo = 'Insert') or (modo = 'Edit')) then
   begin
-    if (edCodCliente.Text = '') then
-    begin
-      MessageDlg('Cliente não informado', mtError, [mbOK], 0);
-      edCodCliente.SetFocus;
-      exit;
-    end;
-    Os := TOsClasse.Create;
     {Os.dataMovimento := edData.Text;
     Os.codNatureza := 3;
     Os.status := '0';
@@ -235,6 +274,21 @@ procedure TfOs.btnCancelarClick(Sender: TObject);
 begin
   modo := 'Browse';
   controlaEventos;
+end;
+
+procedure TfOs.FormCreate(Sender: TObject);
+begin
+  FOs := TOsClasse.Create;
+end;
+
+procedure TfOs.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FOs.Destroy;
+end;
+
+procedure TfOs.VeiculoBusca;
+begin
+
 end;
 
 end.
