@@ -1763,6 +1763,17 @@ begin
       cTranportadora.Open;
   if (FormExiste(fNF) = True) then
      btnIncluir.Click;
+
+
+  if (cds_cli.Active) then
+  begin
+    if cdsEnderecoCli.Active then
+      cdsEnderecoCli.Close;
+    cdsEnderecoCli.Params[0].Clear;
+    cdsEnderecoCli.Params[1].AsInteger := cds_cliCODCLIENTE.AsInteger;
+    cdsEnderecoCli.Open;
+  end;
+
 end;
 
 procedure TfClienteCadastro.SpeedButton2Click(Sender: TObject);

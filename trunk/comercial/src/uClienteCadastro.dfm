@@ -85,8 +85,8 @@ inherited fClienteCadastro: TfClienteCadastro
     OnClick = SpeedButton7Click
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 499
-    Width = 772
+    Top = 488
+    Width = 764
     object BitBtn3: TBitBtn [0]
       Left = 8
       Top = -58
@@ -512,7 +512,7 @@ inherited fClienteCadastro: TfClienteCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 772
+    Width = 764
     Height = 46
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -567,8 +567,8 @@ inherited fClienteCadastro: TfClienteCadastro
   object PageControl1: TPageControl [6]
     Left = 0
     Top = 46
-    Width = 772
-    Height = 453
+    Width = 764
+    Height = 442
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
@@ -3165,8 +3165,8 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object MMJPanel3: TMMJPanel
         Left = 0
-        Top = 372
-        Width = 764
+        Top = 361
+        Width = 756
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -3922,8 +3922,8 @@ inherited fClienteCadastro: TfClienteCadastro
       ImageIndex = 1
       object MMJPanel4: TMMJPanel
         Left = 0
-        Top = 372
-        Width = 764
+        Top = 361
+        Width = 756
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4367,8 +4367,8 @@ inherited fClienteCadastro: TfClienteCadastro
       TabVisible = False
       object MMJPanel6: TMMJPanel
         Left = 0
-        Top = 372
-        Width = 764
+        Top = 361
+        Width = 756
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4856,8 +4856,8 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object MMJPanel7: TMMJPanel
         Left = 0
-        Top = 372
-        Width = 764
+        Top = 361
+        Width = 756
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
