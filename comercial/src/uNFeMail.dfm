@@ -1,8 +1,8 @@
 object fNFeMail: TfNFeMail
   Left = 194
   Top = 103
-  Width = 402
-  Height = 231
+  Width = 399
+  Height = 319
   Caption = 'Envio de Nf-e para email Cleinte/Fornecedor'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,8 +17,8 @@ object fNFeMail: TfNFeMail
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 394
-    Height = 204
+    Width = 391
+    Height = 292
     Align = alClient
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -146,9 +146,23 @@ object fNFeMail: TfNFeMail
       Transparent = False
       OnClick = sbtnCCClick
     end
+    object Label4: TLabel
+      Left = 17
+      Top = 144
+      Width = 131
+      Height = 16
+      Caption = 'Enviar email para :'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+    end
     object BtnSeleciona: TJvBitBtn
       Left = 45
-      Top = 144
+      Top = 240
       Width = 90
       Height = 33
       Caption = 'Seleciona NFe'
@@ -162,7 +176,7 @@ object fNFeMail: TfNFeMail
     end
     object btnSair: TJvBitBtn
       Left = 273
-      Top = 144
+      Top = 240
       Width = 90
       Height = 33
       Caption = 'Sair'
@@ -210,10 +224,17 @@ object fNFeMail: TfNFeMail
       TabOrder = 6
       Text = 'NF-e'
     end
+    object Memo1: TMemo
+      Left = 16
+      Top = 160
+      Width = 361
+      Height = 65
+      TabOrder = 7
+    end
   end
   object btnEnviar: TJvBitBtn
     Left = 159
-    Top = 144
+    Top = 240
     Width = 89
     Height = 33
     Caption = 'Enviar E-Mail'
