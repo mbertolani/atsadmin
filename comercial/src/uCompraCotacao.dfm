@@ -1,15 +1,15 @@
 inherited fCompraCotacao: TfCompraCotacao
-  Left = 111
-  Top = 25
+  Left = 188
+  Top = 0
   Width = 998
-  Height = 743
+  Height = 737
   Caption = 'Cota'#231#227'o de Compras'
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 990
+    Width = 982
     Height = 44
     object GroupBox5: TGroupBox
       Left = 4
@@ -95,8 +95,8 @@ inherited fCompraCotacao: TfCompraCotacao
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 667
-    Width = 990
+    Top = 650
+    Width = 982
     Height = 49
     object Label2: TLabel [0]
       Left = 72
@@ -263,7 +263,7 @@ inherited fCompraCotacao: TfCompraCotacao
   object GroupBox1: TGroupBox [2]
     Left = 0
     Top = 44
-    Width = 990
+    Width = 982
     Height = 284
     Align = alTop
     Caption = 'Solicita'#231#245'es em aberto'
@@ -271,7 +271,7 @@ inherited fCompraCotacao: TfCompraCotacao
     object jvdbgrd1: TJvDBGrid
       Left = 2
       Top = 15
-      Width = 986
+      Width = 978
       Height = 267
       Align = alClient
       DataSource = dsSolic
@@ -405,8 +405,8 @@ inherited fCompraCotacao: TfCompraCotacao
   end
   object GroupBox2: TGroupBox [3]
     Left = 0
-    Top = 330
-    Width = 990
+    Top = 338
+    Width = 982
     Height = 55
     Align = alBottom
     Caption = 'Criar Cota'#231#227'o'
@@ -599,17 +599,17 @@ inherited fCompraCotacao: TfCompraCotacao
   end
   object GroupBox4: TGroupBox [4]
     Left = 0
-    Top = 385
-    Width = 990
-    Height = 282
+    Top = 393
+    Width = 982
+    Height = 257
     Align = alBottom
     Caption = 'Cota'#231#227'o'
     TabOrder = 4
     object jvdbgrd2: TJvDBGrid
       Left = 2
       Top = 15
-      Width = 721
-      Height = 265
+      Width = 713
+      Height = 240
       Align = alClient
       DataSource = dsCotacao
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
@@ -704,10 +704,10 @@ inherited fCompraCotacao: TfCompraCotacao
         end>
     end
     object GroupBox3: TGroupBox
-      Left = 723
+      Left = 715
       Top = 15
       Width = 265
-      Height = 265
+      Height = 240
       Align = alRight
       Caption = 'Cota'#231#245'es em aberto'
       TabOrder = 1
