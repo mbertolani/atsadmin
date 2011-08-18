@@ -442,7 +442,7 @@ begin
   cod_cli_forn := dm.cds_crCODCLIENTE.AsInteger;
   c_f := 'C'; // C=Cliente
   caixa := dm.cds_crCAIXA.AsInteger;
-  titulo := dm.cds_CrTITULO.AsString;
+  fCheques_bol.titulo := dm.cds_CrTITULO.AsString;
   valortitulo := dm.cds_crVALOR_RESTO.AsFloat - dm.cds_crDESCONTO.AsFloat + dm.cds_crJUROS.AsFloat;
   fCheques_bol.ShowModal;
   if (dm.cds_crSTATUS.AsString = '5-') then // Somente qdo esta pendente faz a rotina abaixo
