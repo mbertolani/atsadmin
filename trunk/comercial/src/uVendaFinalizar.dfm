@@ -412,7 +412,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 781
+    Width = 777
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -2076,8 +2076,8 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object MMJPanel3: TMMJPanel [6]
     Left = 0
-    Top = 501
-    Width = 781
+    Top = 492
+    Width = 777
     Height = 37
     Align = alBottom
     BevelInner = bvLowered
