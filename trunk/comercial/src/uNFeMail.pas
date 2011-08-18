@@ -80,6 +80,8 @@ type
     Label5: TLabel;
     Label6: TLabel;
     sbtnCC: TSpeedButton;
+    Memo1: TMemo;
+    Label4: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BtnSelecionaClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -103,23 +105,24 @@ uses uNFeletronica, UDm;
 
 procedure TfNFeMail.FormCreate(Sender: TObject);
 begin
-    if dm.cds_parametro.Active then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
-    dm.cds_parametro.Open;
-    conta_local := dm.cds_parametroDADOS.AsString;
+  Memo1.Lines.Clear;
+  if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
-    if cds_ccusto.Active then
-      cds_ccusto.Close;
-    cds_ccusto.Params[0].AsString := conta_local;
-    cds_ccusto.Open;
-    // populo a combobox
-    cds_ccusto.First;
-    while not cds_ccusto.Eof do
-    begin
-      ComboBox1.Items.Add(cds_ccustoNOME.AsString);
-      cds_ccusto.Next;
-    end;
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+  dm.cds_parametro.Open;
+  conta_local := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+  if cds_ccusto.Active then
+    cds_ccusto.Close;
+  cds_ccusto.Params[0].AsString := conta_local;
+  cds_ccusto.Open;
+  // populo a combobox
+  cds_ccusto.First;
+  while not cds_ccusto.Eof do
+  begin
+    ComboBox1.Items.Add(cds_ccustoNOME.AsString);
+    cds_ccusto.Next;
+  end;
 end;
 
 procedure TfNFeMail.BtnSelecionaClick(Sender: TObject);
@@ -190,7 +193,7 @@ begin
           sEmail.Open;
     end;
     CC.Add(sEmpresaE_MAIL.AsString); //especifique um email válido
-
+    memo1.Lines.Add(sEmpresaE_MAIL.AsString);
     Edit1.Text := IntToStr(sEmailCODCLIENTE.AsInteger);
     Edit2.Text := sEmailRAZAOSOCIAL.AsString;
     Edit3.Text := sEmailE_MAIL.AsString;
@@ -233,6 +236,7 @@ end;
 procedure TfNFeMail.sbtnCCClick(Sender: TObject);
 begin
   CC.Add(Edit5.Text);
+  Memo1.Lines.Add(edit5.Text);
   Edit5.Clear;
 end;
 
