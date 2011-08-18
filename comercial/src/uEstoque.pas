@@ -138,33 +138,35 @@ uses SqlExpr, DB, UDm;
 { TEstoque }
 
 procedure TEstoque.corrigeCustoEstoquePosterior;
-var sqlBuscaPosterior : TSqlQuery;
+var sqlBuscaPosterior, sqlBuscaE : TSqlQuery;
     mesPost, mesAnt: TDateTime;
     PCusto1, Estoque1, EstoqueAnterior1, VlrEstoque1: Double;
 begin
-  // Corrigindo Custo e Estoque mes Posterior
+  Try
+    sqlBuscaE :=  TSqlQuery.Create(nil);
+    sqlBuscaE.SQLConnection := dm.sqlsisAdimin;
+    // Corrigindo Custo e Estoque mes Posterior
 
-  // Busca os meses posteriores que existirem
-  sqlStr := 'SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
-      'QTDEPERDA, PRECOCUSTO, PRECOVENDA, MESANO ' +
-      '  FROM ESTOQUEMES ' +
-      ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
-      '   AND LOTE        = ' + QuotedStr(Self.Lote) +
-      '   AND MESANO      > ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.MesAno)) +
-      '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
-      ' ORDER BY MESANO';
+    // Busca os meses posteriores que existirem
+    sqlStr := 'SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
+        'QTDEPERDA, PRECOCUSTO, PRECOVENDA, MESANO ' +
+        '  FROM ESTOQUEMES ' +
+        ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
+        '   AND LOTE        = ' + QuotedStr(Self.Lote) +
+        '   AND MESANO      > ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.MesAno)) +
+        '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
+        ' ORDER BY MESANO';
 
-  sqlBuscaPosterior := TSqlQuery.Create(nil);
-  sqlBuscaPosterior.SQLConnection := dm.sqlsisAdimin;
-  sqlBuscaPosterior.SQL.Add(sqlStr);
-  sqlBuscaPosterior.Active := True;
-  mesAnt := Self.MesAno;
-  While (not sqlBuscaPosterior.Eof) do
-  begin
-    mesPost := sqlBuscaPosterior.fieldByName('MESANO').AsDateTime;
-    mesAnt := mesAnterior(mesPost);
-    self.MesAnoPost := mesPost;
-    With dm  do begin
+    sqlBuscaPosterior := TSqlQuery.Create(nil);
+    sqlBuscaPosterior.SQLConnection := dm.sqlsisAdimin;
+    sqlBuscaPosterior.SQL.Add(sqlStr);
+    sqlBuscaPosterior.Active := True;
+    mesAnt := Self.MesAno;
+    While (not sqlBuscaPosterior.Eof) do
+    begin
+      mesPost := sqlBuscaPosterior.fieldByName('MESANO').AsDateTime;
+      mesAnt := mesAnterior(mesPost);
+      self.MesAnoPost := mesPost;
       // Mes Atual
       sqlStr := 'SELECT PRECOCUSTO , MESANO, SALDOMESANTERIOR, SALDOESTOQUE ' +
         '  FROM ESTOQUEMES ' +
@@ -173,15 +175,15 @@ begin
         '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesAnt)) +
         '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
         ' ORDER BY MESANO';
-      if (sqlBuscaEstoque.Active) then
-        sqlBuscaEstoque.Close;
-      sqlBuscaEstoque.SQL.Clear;
-      sqlBuscaEstoque.SQL.Add(sqlStr);
-      sqlBuscaEstoque.Open;
+      if (sqlBuscaE.Active) then
+        sqlBuscaE.Close;
+      sqlBuscaE.SQL.Clear;
+      sqlBuscaE.SQL.Add(sqlStr);
+      sqlBuscaE.Open;
 
-      PCusto1             := sqlBuscaEstoque.FieldByName('PRECOCUSTO').AsFloat;
-      Estoque1            := sqlBuscaEstoque.FieldByName('SALDOESTOQUE').AsFloat;
-      EstoqueAnterior1    := sqlBuscaEstoque.FieldByName('SALDOMESANTERIOR').AsFloat;
+      PCusto1             := sqlBuscaE.FieldByName('PRECOCUSTO').AsFloat;
+      Estoque1            := sqlBuscaE.FieldByName('SALDOESTOQUE').AsFloat;
+      EstoqueAnterior1    := sqlBuscaE.FieldByName('SALDOMESANTERIOR').AsFloat;
       VlrEstoque1         := PCusto1 * Estoque1;
 
       sqlStr := 'SELECT PRECOCOMPRA , MESANO, (SALDOESTOQUE - SALDOMESANTERIOR) as SALDOESTOQUE ' +
@@ -191,35 +193,37 @@ begin
         '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesPost)) +
         '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
         ' ORDER BY MESANO';
-      if (sqlBuscaEstoque.Active) then
-        sqlBuscaEstoque.Close;
-      sqlBuscaEstoque.SQL.Clear;
-      sqlBuscaEstoque.SQL.Add(sqlStr);
-      sqlBuscaEstoque.Open;
-      PCusto     := sqlBuscaEstoque.FieldByName('PRECOCOMPRA').AsFloat;
-      QSaldo     := sqlBuscaEstoque.FieldByName('SALDOESTOQUE').AsFloat;
-      QMes       := sqlBuscaEstoque.FieldByName('MESANO').AsDateTime;
+      if (sqlBuscaE.Active) then
+        sqlBuscaE.Close;
+      sqlBuscaE.SQL.Clear;
+      sqlBuscaE.SQL.Add(sqlStr);
+      sqlBuscaE.Open;
+      PCusto     := sqlBuscaE.FieldByName('PRECOCOMPRA').AsFloat;
+      QSaldo     := sqlBuscaE.FieldByName('SALDOESTOQUE').AsFloat;
+      QMes       := sqlBuscaE.FieldByName('MESANO').AsDateTime;
 
       //Estoque1   := Estoque1 + QSaldo;
       PCusto1    := ((PCusto * QSaldo) + VlrEstoque1) / (Estoque1 + Qsaldo);
-    end;
 
-    // Atualiza mes Posterior
-    DecimalSeparator := '.';
-    sqlStr := 'UPDATE ESTOQUEMES SET ';
-    sqlStr := sqlStr + ' SALDOMESANTERIOR  = ' + FloatToStr(Estoque1);
-    sqlStr := sqlStr + '     , PRECOCUSTO  = ' + FloatToStr(PCusto1);
-    sqlStr := sqlStr + ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto);
-    sqlStr := sqlStr + '   AND LOTE        = ' + QuotedStr(Self.Lote);
-    sqlStr := sqlStr + '   AND MESANO      = ' +
-    QuotedStr(FormatDateTime('mm/dd/yyyy', QMes));
-    sqlStr := sqlStr + '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto);
-    DecimalSeparator := ',';
-    dm.sqlsisAdimin.ExecuteDirect(sqlStr);
-    //QSaldoAnterior := dm.sqlBuscaEstoque.FieldByName('SALDOMESANTERIOR').AsFloat;
-    sqlBuscaPosterior.Next;
+      // Atualiza mes Posterior
+      DecimalSeparator := '.';
+      sqlStr := 'UPDATE ESTOQUEMES SET ';
+      sqlStr := sqlStr + ' SALDOMESANTERIOR  = ' + FloatToStr(Estoque1);
+      sqlStr := sqlStr + '     , PRECOCUSTO  = ' + FloatToStr(PCusto1);
+      sqlStr := sqlStr + ' WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto);
+      sqlStr := sqlStr + '   AND LOTE        = ' + QuotedStr(Self.Lote);
+      sqlStr := sqlStr + '   AND MESANO      = ' +
+      QuotedStr(FormatDateTime('mm/dd/yyyy', QMes));
+      sqlStr := sqlStr + '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto);
+      DecimalSeparator := ',';
+      dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+      //QSaldoAnterior := dm.sqlBuscaEstoque.FieldByName('SALDOMESANTERIOR').AsFloat;
+      sqlBuscaPosterior.Next;
+    end;
+    Finally
+      sqlBuscaPosterior.Free;
+      sqlBuscaE.Free;
   end;
-  sqlBuscaPosterior.Free;
 end;
 
 constructor TEstoque.Create;
