@@ -3432,11 +3432,6 @@ begin
    try
     fClienteCadastro.cds_cli.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
     fClienteCadastro.cds_cli.Open;
-    if fClienteCadastro.cdsEnderecoCli.Active then
-       fClienteCadastro.cdsEnderecoCli.Close;
-    fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
-    fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
-    fClienteCadastro.cdsEnderecoCli.Open;
     fClienteCadastro.ShowModal;
    finally
      fClienteCadastro.Free;
