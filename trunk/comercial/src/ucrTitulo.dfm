@@ -193,8 +193,8 @@ inherited fcrTitulo: TfcrTitulo
     Caption = 'Hist'#243'rico :'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 473
-    Width = 811
+    Top = 462
+    Width = 803
     TabOrder = 11
     object BitBtn2: TBitBtn [0]
       Left = 423
@@ -459,7 +459,7 @@ inherited fcrTitulo: TfcrTitulo
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 811
+    Width = 803
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -470,8 +470,7 @@ inherited fcrTitulo: TfcrTitulo
     inherited Label1: TLabel
       Left = 216
       Top = -75
-      Width = 366
-      Height = 44
+      Width = 397
       Caption = 'Baixar Lan'#231'amentos'
       Font.Name = 'Cooper Black'
     end
