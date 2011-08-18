@@ -1212,7 +1212,7 @@ begin
                end;  
              end;
              dm.sqlsisAdimin.Commit(TD);
-             ShowMessage('Venda Excluida com Suscesso');
+             ShowMessage('Venda Excluida com Sucesso');
            except
              on E : Exception do
              begin
