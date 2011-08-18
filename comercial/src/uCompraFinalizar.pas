@@ -1421,7 +1421,7 @@ begin
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
   sqlBuscaNota.SQL.Clear;
-  sqlBuscaNota.SQL.Add('select codMovimento, codFornecedor  from MOVIMENTO where CODNATUREZA = 20 and CONTROLE = ' +
+  sqlBuscaNota.SQL.Add('select codMovimento, codFornecedor  from MOVIMENTO where ( (CODNATUREZA = 20) or (CODNATUREZA = 21) ) and CONTROLE = ' +
     QuotedStr(IntToStr(cds_compraCODMOVIMENTO.AsInteger)));
   sqlBuscaNota.Open;
   if (sqlBuscaNota.IsEmpty) then
@@ -1463,7 +1463,7 @@ begin
     if (sqlBuscaNota.Active) then
       sqlBuscaNota.Close;
     sqlBuscaNota.SQL.Clear;
-    sqlBuscaNota.SQL.Add('select codMovimento, codFornecedor from MOVIMENTO where CODNATUREZA = 20 and CONTROLE = ' +
+    sqlBuscaNota.SQL.Add('select codMovimento, codFornecedor from MOVIMENTO where ( (CODNATUREZA = 20) or (CODNATUREZA = 21)) and CONTROLE = ' +
       QuotedStr(IntToStr(cds_compraCODMOVIMENTO.AsInteger)));
     sqlBuscaNota.Open;
     // Abrindo a tela da nota
