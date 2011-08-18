@@ -187,13 +187,14 @@ type
   private
     { Private declarations }
   public
+     titulo : string;
     { Public declarations }
   end;
 
 var
   fCheques_bol: TfCheques_bol;
   Cod_cli_forn, cod_Orig, caixa, codrec: Integer;
-  Tipo_origem, C_F, data_lancado, titulo: String;
+  Tipo_origem, C_F, data_lancado : String;
   valortitulo : double;
 
 implementation
