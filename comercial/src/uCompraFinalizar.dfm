@@ -1044,7 +1044,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 792
+    Width = 790
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -1600,8 +1600,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 503
-    Width = 792
+    Top = 491
+    Width = 790
     Height = 23
     Align = alBottom
     inherited Label1: TLabel

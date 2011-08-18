@@ -802,7 +802,7 @@ begin
   if (codrec = 0) then
     codrec := scdsCr_procCODPAGAMENTO.AsInteger;
   caixa := cds_compraCAIXA.AsInteger;
-  titulo := scdsCr_procTITULO.AsString;
+  fCheques_bol.titulo := scdsCr_procTITULO.AsString;
   valortitulo := cds_compraVALOR.AsFloat - cds_compraDESCONTO.AsFloat;
   fCheques_bol.btnBaixarTitulo.Enabled := True;
   fCheques_bol.ShowModal;
