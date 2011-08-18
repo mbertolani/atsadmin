@@ -11,6 +11,7 @@ object F_Boletos: TF_Boletos
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -443,21 +444,9 @@ object F_Boletos: TF_Boletos
     end
   end
   object s_cr: TSQLDataSet
-    CommandText = 
-      'select * from RECEBIMENTO '#13#10'where CODVENDA = :id_venda'#13#10'       o' +
-      'r DP = :dp'
+    CommandText = 'select * from RECEBIMENTO'
     MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'id_venda'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'dp'
-        ParamType = ptInput
-      end>
+    Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 240
     Top = 179
@@ -607,6 +596,21 @@ object F_Boletos: TF_Boletos
     object s_crDATACONSOLIDA: TDateField
       FieldName = 'DATACONSOLIDA'
     end
+    object s_crBANCO: TStringField
+      FieldName = 'BANCO'
+      Size = 60
+    end
+    object s_crAGENCIA: TStringField
+      FieldName = 'AGENCIA'
+      Size = 10
+    end
+    object s_crCONTA: TStringField
+      FieldName = 'CONTA'
+      Size = 10
+    end
+    object s_crSITUACAO: TIntegerField
+      FieldName = 'SITUACAO'
+    end
     object s_crSELECIONOU: TStringField
       FieldName = 'SELECIONOU'
       FixedChar = True
@@ -617,22 +621,8 @@ object F_Boletos: TF_Boletos
       FixedChar = True
       Size = 1
     end
-    object s_crSITUACAO: TStringField
-      FieldName = 'SITUACAO'
-      FixedChar = True
-      Size = 1
-    end
-    object s_crCONTA: TStringField
-      FieldName = 'CONTA'
-      FixedChar = True
-      Size = 10
-    end
-    object s_crBANCO: TStringField
-      FieldName = 'BANCO'
-      Size = 60
-    end
-    object s_crAGENCIA: TStringField
-      FieldName = 'AGENCIA'
+    object s_crSITUACAOCHEQUE: TStringField
+      FieldName = 'SITUACAOCHEQUE'
       Size = 10
     end
     object s_crGERARQREM: TIntegerField
@@ -640,10 +630,6 @@ object F_Boletos: TF_Boletos
     end
     object s_crDATAGERARQREM: TDateField
       FieldName = 'DATAGERARQREM'
-    end
-    object s_crSITUACAOCHEQUE: TStringField
-      FieldName = 'SITUACAOCHEQUE'
-      Size = 15
     end
     object s_crVALST: TFloatField
       FieldName = 'VALST'
@@ -1272,23 +1258,14 @@ object F_Boletos: TF_Boletos
   end
   object p_cr: TDataSetProvider
     DataSet = s_cr
+    Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
     Left = 272
     Top = 179
   end
   object ds_cr: TClientDataSet
     Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'id_venda'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'dp'
-        ParamType = ptInput
-      end>
+    Params = <>
     ProviderName = 'p_cr'
     Left = 304
     Top = 179
@@ -1438,6 +1415,21 @@ object F_Boletos: TF_Boletos
     object ds_crDATACONSOLIDA: TDateField
       FieldName = 'DATACONSOLIDA'
     end
+    object ds_crBANCO: TStringField
+      FieldName = 'BANCO'
+      Size = 60
+    end
+    object ds_crAGENCIA: TStringField
+      FieldName = 'AGENCIA'
+      Size = 10
+    end
+    object ds_crCONTA: TStringField
+      FieldName = 'CONTA'
+      Size = 10
+    end
+    object ds_crSITUACAO: TIntegerField
+      FieldName = 'SITUACAO'
+    end
     object ds_crSELECIONOU: TStringField
       FieldName = 'SELECIONOU'
       FixedChar = True
@@ -1448,22 +1440,8 @@ object F_Boletos: TF_Boletos
       FixedChar = True
       Size = 1
     end
-    object ds_crSITUACAO: TStringField
-      FieldName = 'SITUACAO'
-      FixedChar = True
-      Size = 1
-    end
-    object ds_crCONTA: TStringField
-      FieldName = 'CONTA'
-      FixedChar = True
-      Size = 10
-    end
-    object ds_crBANCO: TStringField
-      FieldName = 'BANCO'
-      Size = 60
-    end
-    object ds_crAGENCIA: TStringField
-      FieldName = 'AGENCIA'
+    object ds_crSITUACAOCHEQUE: TStringField
+      FieldName = 'SITUACAOCHEQUE'
       Size = 10
     end
     object ds_crGERARQREM: TIntegerField
@@ -1471,10 +1449,6 @@ object F_Boletos: TF_Boletos
     end
     object ds_crDATAGERARQREM: TDateField
       FieldName = 'DATAGERARQREM'
-    end
-    object ds_crSITUACAOCHEQUE: TStringField
-      FieldName = 'SITUACAOCHEQUE'
-      Size = 15
     end
     object ds_crVALST: TFloatField
       FieldName = 'VALST'
