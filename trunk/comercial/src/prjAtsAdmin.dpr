@@ -232,7 +232,8 @@ uses
   uClienteEnderecos in 'uClienteEnderecos.pas',
   uCliente1 in 'uCliente1.pas' {fCliente1},
   uOsDetalheClasse in 'uOsDetalheClasse.pas',
-  uVendaCls in 'uVendaCls.pas';
+  uVendaCls in 'uVendaCls.pas',
+  uMovimenta_Estoque in 'uMovimenta_Estoque.pas' {fMovimenta_Estoque};
 
 {$R *.res}
 
@@ -240,6 +241,7 @@ begin
   Application.Initialize;
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
+  Application.CreateForm(TfMovimenta_Estoque, fMovimenta_Estoque);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);
