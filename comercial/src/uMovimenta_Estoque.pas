@@ -7,7 +7,7 @@ uses
   Dialogs, FMTBcd, XPMenu, Menus, Grids, DBGrids, StdCtrls, Mask, DBCtrls,
   Buttons, ExtCtrls, MMJPanel, DB, DBClient, Provider, SqlExpr, DBXpress,
   JvDBDatePickerEdit, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvExStdCtrls, JvCombobox, JvDBSearchComboBox;
+  JvDatePickerEdit, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, uVendaCls, uMovimento;
 
 type
   TfMovimenta_Estoque = class(TForm)
@@ -252,10 +252,8 @@ type
     sds_MovimentoNOTAFISCAL_1: TIntegerField;
     cds_MovimentoNOTAFISCAL_1: TIntegerField;
     btnEntrada: TBitBtn;
-    MaskEdit1: TJvDatePickerEdit;
     sds_MovimentoSERIE: TStringField;
     cds_MovimentoSERIE: TStringField;
-    dbEdit1: TJvDBDatePickerEdit;
     sds_Mov_DetPRECOCUSTO: TFloatField;
     cds_Mov_detPRECOCUSTO: TFloatField;
     cbCodigo: TJvDBSearchComboBox;
@@ -384,6 +382,8 @@ type
     sMatPrimaCODMOVIMENTO: TIntegerField;
     sds_Mov_DetSTATUS: TStringField;
     cds_Mov_detSTATUS: TStringField;
+    dta1: TJvDatePickerEdit;
+    dta2: TJvDatePickerEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -552,9 +552,12 @@ begin
 end;
 
 procedure TfMovimenta_Estoque.btnGravarClick(Sender: TObject);
-var   FEstoque: TEstoque;
+var FEstoque: TEstoque;
   sql_sp: string;
   TD: TTransactionDesc;
+  FMov: TMovimento;
+  FVen: TVendaCls;
+  codMov : Integer;
 begin
   if (DtSrc1.State in [dsEdit]) then
   begin
@@ -562,428 +565,107 @@ begin
     exit;
   end;
 
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-
-  { Estou gravando a data de Entrada no Campo Controle da Tab. Movimento }
-  if (cds_Movimento.State in [dsEdit, dsInsert]) then
-  begin
-    if (MaskEdit1.Visible = False) then
-      MaskEdit1.Date := DbEdit1.Date;
-   { if (MaskEdit1.text <> '') then
-      cds_MovimentoCONTROLE.AsString := formatdatetime('mm/dd/yyyy', MaskEdit1.Date)
-      //if (ComboBox1.Text = '') then
-     cds_MovimentoDATAMOVIMENTO.AsDateTime := MaskEdit1.Date;}
-    if (MaskEdit1.Visible = False) then
-      MaskEdit1.Date := DbEdit1.Date;
-    if (MaskEdit1.text = '') then
-      MaskEdit1.Date := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-    dt_mov := MaskEdit1.Date;
-    if (cds_MovimentoOBS.IsNull) then
-      cds_MovimentoOBS.AsString := 'BAIXADO' // Uso pra baixar Materia Prima só uma vez
-    else
-      cds_MovimentoOBS.AsString := 'BAIXADO2';  // Já foi gravado
-  end;
-  { ---------------------------------------------------------------------}
-  if (cds_MovimentoDATAMOVIMENTO.AsDateTime < StrToDate('01/01/1990') ) then
+  if ((dta1.Date < (today-60)) and (dta2.Date < (today-60))) then
   begin
     MessageDlg('Data Inválida', mtError, [mbOK], 0);
     exit;
   end;
-  if DtSrc.DataSet.State in [dsInsert] then
-  if (ComboBox1.Text = '') then // Entrada
-  begin
-  // COMPRA
-      if (cbCodigo.Text <> '') then
+
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
+  Try
+    FMov := TMovimento.Create;
+    FVen := TVendaCls.Create;
+
+    Try
+      // SAIDA
+      FMov.CodMov      := 0;
+
+      FMov.CodCCusto   := 0;
+      IF (ComboBox1.Text <> '') then
       begin
-        cds_MovimentoCODFORNECEDOR.AsInteger := StrToInt(cbCodigo.Text);
-        cds_MovimentoNOMEFORNECEDOR.AsString := cbNome.Text;
+        if (dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive])) then
+          FMov.CodCCusto   := dm.cds_ccustoCODIGO.AsInteger;
       end;
 
-      {------Pesquisando na tab Parametro Código e Nome da Natureza da Venda---------}
-      if Dm.cds_parametro.Active then
-       dm.cds_parametro.Close;
-      dm.cds_parametro.Params[0].AsString := 'NATUREZAENTRADA';
-      dm.cds_parametro.Open;
-      if (dm.cds_parametro.IsEmpty) then
-      begin
-        dm.cds_parametro.Append;
-        dm.cds_parametroDESCRICAO.asString := 'ENTRADA DO ESTOQUE P/ PRODUÇÃO';
-        dm.cds_parametroPARAMETRO.asString := 'NATUREZAENTRADA';
-        dm.cds_parametroDADOS.asString := '1'; // CODNATUREZA -> Tab NATUREZAOPERACAO
-        dm.cds_parametroCONFIGURADO.asString := '1';
-        dm.cds_parametroD1.AsString := 'Entrada';
-        dm.cds_parametroD2.AsString := 'I'; // Serie - I = Input
-        dm.cds_parametro.ApplyUpdates(0);
-        if (sds_s.Active) then
-          sds_s.Close;
-        sds_s.CommandText := 'SELECT SERIE FROM SERIES WHERE SERIE = ' + '''' + 'I' + '''';
-        sds_s.open;
-        if (sds_s.IsEmpty) then
-        begin
-          if (sds_s.Active) then
-            sds_s.Close;
-          sds_s.CommandText := 'INSERT INTO SERIES (SERIE, ULTIMO_NUMERO) VALUES(' + '''' + 'I' + ''',' + '0)';
-          sds_s.ExecSQL();
-        end;
-        if (sds_s.Active) then
-          sds_s.Close;
-        sds_s.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE CODCLIENTE = 0';
-        sds_s.open;
-        if (sds_s.IsEmpty) then
-        begin
-          if (sds_s.Active) then
-            sds_s.Close;
-          sds_s.CommandText := 'INSERT INTO CLIENTES(CODCLIENTE, NOMECLIENTE, RAZAOSOCIAL, TIPOFIRMA'
-          + ',SEGMENTO, REGIAO, DATACADASTRO, CODUSUARIO, STATUS) VALUES('
-          + '0,''' + 'CLIENTE SISTEMA' + ''',' + '''' + 'CLIENTE SISTEMA' + ''','
-          + '0,0,0,''' + '01/01/01' + ''',1,0)';
-          sds_s.ExecSQL();
-        end;
-        if (sds_s.Active) then
-          sds_s.Close;
-        sds_s.CommandText := 'SELECT CODFORNECEDOR FROM FORNECEDOR WHERE CODFORNECEDOR = 0';
-        sds_s.open;
-        if (sds_s.IsEmpty) then
-        begin
-          if (sds_s.Active) then
-            sds_s.Close;
-          sds_s.CommandText := 'INSERT INTO FORNECEDOR(CODFORNECEDOR, NOMEFORNECEDOR, RAZAOSOCIAL, TIPOFIRMA'
-          + ',SEGMENTO, REGIAO, DATACADASTRO, CODUSUARIO, STATUS) VALUES('
-          + '0,''' + 'FORNECEDOR SISTEMA' + ''',' + '''' + 'FORNECEDOR SISTEMA' + ''','
-          + '0,0,0,''' + '01/01/01' + ''',1,0)';
-          sds_s.ExecSQL();
-        end;
-      end;
-      cod_nat := strToint(dm.cds_parametroDADOS.asString);
-      natureza := dm.cds_parametroD1.AsString;
-      serie := dm.cds_parametroD2.AsString;
-      dm.cds_parametro.Close;
-  end
-  else // Saida
-  begin
-    // VENDA
-      if (cbCodigo.Text <> '') then
-      begin
-        cds_MovimentoCODCLIENTE.AsInteger := StrToInt(cbCodigo.Text);
-        cds_MovimentoNOMECLIENTE.AsString := cbNome.Text;
-      end;
-      {------Pesquisando na tab Parametro Código e Nome da Natureza da Venda---------}
-      if Dm.cds_parametro.Active then
-       dm.cds_parametro.Close;
-      dm.cds_parametro.Params[0].AsString := 'NATUREZASAIDA';
-      dm.cds_parametro.Open;
-      if dm.cds_parametro.IsEmpty then
-      begin
-        dm.cds_parametro.Append;
-        dm.cds_parametroDESCRICAO.asString := 'SAIDA DE ESTOQUE P/ PRODUÇÃO';
-        dm.cds_parametroPARAMETRO.asString := 'NATUREZASAIDA';
-        dm.cds_parametroDADOS.asString := '2';  // CODNATUREZA -> Tab NATUREZAOPERACAO
-        dm.cds_parametroCONFIGURADO.asString := '2';
-        dm.cds_parametroD1.AsString := 'Saida';
-        dm.cds_parametroD2.AsString := 'O'; // Serie - O = Output
-        dm.cds_parametro.ApplyUpdates(0);
-        if (sds_s.Active) then
-          sds_s.Close;
-        sds_s.CommandText := 'SELECT SERIE FROM SERIES WHERE SERIE = ' + '''' + 'O' + '''';
-        sds_s.open;
-        if (sds_s.IsEmpty) then
-        begin
-          if (sds_s.Active) then
-            sds_s.Close;
-          sds_s.CommandText := 'INSERT INTO SERIES (SERIE, ULTIMO_NUMERO) VALUES(' + '''' + 'O' + ''',' + '0)';
-          sds_s.ExecSQL();
-        end;
-      end;
-      cod_nat := strToint(dm.cds_parametroDADOS.asString);
-      natureza := dm.cds_parametroD1.AsString;
-      serie := dm.cds_parametroD2.AsString;
-      dm.cds_parametro.Close;
-   end;
-
-    if DtSrc.DataSet.State in [dsInsert] then
-    begin
-      cds_MovimentoCODNATUREZA.AsInteger := cod_nat;
-      cds_MovimentoDESCNATUREZA.AsString := natureza;
-      cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
-      cds_MovimentoNOMEUSUARIO.AsString := nome_vendedor_padrao;
-    end;
-    //***************************************************************************
 
 
-  if cds_Movimento.State in [dsInsert] then
-  begin
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-    dm.c_6_genid.Close;
-  end;
+      FMov.CodCliente  := 0;
+      FMov.CodNatureza := 2;
+      FMov.Status      := 0;
+      FMov.CodUsuario  := 1;
+      FMov.CodVendedor := 1;
+      FMov.DataMov     := dta1.Date;
 
-  try
-    cds_Movimento.ApplyUpdates(0);
+      codMov := FMov.inserirMovimento(0);
 
-    //********************************************************************************
-    // aqui corrijo o codigo do movimento na tabela mov_detalhe
-    if (cds_Mov_detCODMOVIMENTO.AsInteger = 1999999) then
-    begin
       cds_Mov_det.First;
       While not cds_Mov_det.Eof do
       begin
-        cds_Mov_det.Edit;
-        cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-        if dm.c_6_genid.Active then
-          dm.c_6_genid.Close;
-        dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-        dm.c_6_genid.Open;
-        cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-        dm.c_6_genid.Close;
-        if (edit2.text <> '') then
-          cds_Mov_detLOTE.AsString := edit2.text;
-        cds_Mov_det.Post;
+        FMov.MovDetalhe.CodMov        := codMov;
+        FMov.MovDetalhe.CodProduto    := cds_Mov_detCODPRODUTO.AsInteger;
+        FMov.MovDetalhe.Qtde          := cds_Mov_detQUANTIDADE.AsFloat;
+        FMov.MovDetalhe.Preco         := cds_Mov_detPRECO.AsFloat;
+        FMov.MovDetalhe.Baixa         := '1';
+        FMov.MovDetalhe.inserirMovDet;
         cds_Mov_det.Next;
       end;
-    end;
-    cds_Mov_det.ApplyUpdates(0);
 
-    //********************************************************************************
+      dmnf.baixaEstoque(codMov, dta2.Date, 'SAIDA');
 
-    if DtSrc1.State in [dsInsert, dsEdit] then
-    begin
-      if (cds_Mov_detCODPRO.IsNull) then
-        cds_Mov_det.Cancel
-      else
+      // ENTRADA
+      FMov.CodMov      := 0;
+      FMov.CodCCusto   := 0;
+      IF (ComboBox2.Text <> '') then
       begin
-      if (cds_Mov_detCODMOVIMENTO.IsNull) then
-        cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-      cds_Mov_det.Post;
+        if (dm.cds_ccusto.Locate('NOME', ComboBox2.Text, [loCaseInsensitive])) then
+          FMov.CodCCusto   := dm.cds_ccustoCODIGO.AsInteger;
       end;
-    end;
-    if (cds_MovimentoCODMOVIMENTO.AsInteger <> cds_Mov_detCODMOVIMENTO.AsInteger) then
-    begin
+      FMov.CodCliente  := 0;
+      FMov.CodFornec   := 0;
+      FMov.CodNatureza := 1;
+      FMov.Status      := 0;
+      FMov.CodUsuario  := 1;
+      FMov.CodVendedor := 1;
+      FMov.DataMov     := dta2.Date;
+
+      codMov := FMov.inserirMovimento(0);
+
       cds_Mov_det.First;
       While not cds_Mov_det.Eof do
       begin
-        cds_Mov_det.Edit;
-        cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-        cds_Mov_det.Post;
+        FMov.MovDetalhe.CodMov        := codMov;
+        FMov.MovDetalhe.CodProduto    := cds_Mov_detCODPRODUTO.AsInteger;
+        FMov.MovDetalhe.Qtde          := cds_Mov_detQUANTIDADE.AsFloat;
+        FMov.MovDetalhe.Preco         := cds_Mov_detPRECO.AsFloat;
+        FMov.MovDetalhe.Baixa         := '0';
+        FMov.MovDetalhe.inserirMovDet;
         cds_Mov_det.Next;
       end;
-    end;
-    cds_Mov_det.ApplyUpdates(0);
 
-    if (ComboBox1.Text = '') then // Entrada
-    begin
-    // COMPRA
-      sql_sp := 'EXECUTE PROCEDURE LANCA_ENT_SAIDA(';
-      dm.cds_ccusto.Locate('NOME', ComboBox2.Text, [loCaseInsensitive]);
-      if (ComboBox3.Text <> '') then
-      if (usalote = 'sim') then
+      dmnf.baixaEstoque(codMov, dta2.Date, 'ENTRADA');
+
+    except
+      on E : Exception do
       begin
-        if (cds_Mov_det.State in [dsBrowse]) then
-          cds_mov_det.Edit;
-        cds_Mov_detLOTE.AsString := edit2.Text;
-        cds_mov_det.ApplyUpdates(0);
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
       end;
-      if cds_Movimento.State in [dsBrowse] then
-        cds_Movimento.Edit;
-      cds_MovimentoCODALMOXARIFADO.AsInteger := dm.cds_ccustoCODIGO.AsInteger;
-      cds_Movimento.ApplyUpdates(0);
-      // Executa insercao na tab Compra
-      sql_sp := sql_sp + '0,'; //Tipo (0=Entrada, 1=Saida)
-      sql_sp := sql_sp + IntToStr(cds_MovimentoCODMOVIMENTO.asInteger);
-      sql_sp := sql_sp + ',';
-      sql_sp := sql_sp + IntToStr(cds_MovimentoCODFORNECEDOR.asInteger);
-      sql_sp := sql_sp + ',';
-      sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
-      if (MaskEdit1.Text <> '') then
-        sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy', StrToDate(MaskEdit1.Text)) + ''','
-      else
-        sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
-      sql_sp := sql_sp + IntToStr(cds_MovimentoCODUSUARIO.asInteger);
-      sql_sp := sql_sp + ',' + IntToStr(dm.cds_ccustoCODIGO.AsInteger); //CodCentroCusto - Entrada para o Estoque nao precisa
-      sql_sp := sql_sp + ',''' + serie + ''',' ;
-      if (Edit2.Text = '') then
-        sql_sp := sql_sp + ' null, null)'
-      else
-        sql_sp := sql_sp + edit2.Text + ', null)';
-      {if (sds_s.Active) then
-        sds_s.Close;
-      sds_s.CommandText := sql_sp;
-      sds_s.ExecSQL(True);}
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect(sql_sp);
-      Try
-        dm.sqlsisAdimin.Commit(TD);
-
-        // Gravando o Estoque
-        Try
-          FEstoque := TEstoque.Create;
-          cds_Mov_det.First;
-          While not cds_Mov_det.Eof do
-          begin
-            if (cds_Mov_detSTATUS.IsNull) then
-            begin
-              FEstoque.QtdeEntrada := cds_Mov_detQUANTIDADE.AsFloat;
-              FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-              FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-              FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-              FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-              FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-              FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-              FEstoque.Status      := '9';
-              FEstoque.inserirMes;
-            end;  
-            cds_Mov_det.Next;
-          end;
-        Finally
-          FEstoque.Free;
-        end;
-
-      except
-         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-         MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-             [mbOk], 0);
-      end;
-    end
-    else // Saida
-    begin
-      // VENDA
-      if (ComboBox4.Text <> '') then
-      if (usalote = 'sim') then
-      begin
-        if (cds_Mov_det.State in [dsBrowse]) then
-          cds_mov_det.Edit;
-        cds_Mov_detLOTE.AsString := ComboBox4.Text;
-        cds_mov_det.ApplyUpdates(0);
-      end;
-
-      sql_sp := 'EXECUTE PROCEDURE LANCA_ENT_SAIDA(';
-      dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
-      if cds_Movimento.State in [dsBrowse] then
-        cds_Movimento.Edit;
-      cds_MovimentoCODALMOXARIFADO.AsInteger := dm.cds_ccustoCODIGO.AsInteger;
-      cds_Movimento.ApplyUpdates(0);
-       // Executa insercao na tab Venda
-      sql_sp := sql_sp + '1,'; //Tipo (0=Entrada, 1=Saida)
-      sql_sp := sql_sp + IntToStr(cds_MovimentoCODMOVIMENTO.asInteger);
-      sql_sp := sql_sp + ',';
-      sql_sp := sql_sp + IntToStr(cds_MovimentoCODCLIENTE.asInteger);
-      sql_sp := sql_sp + ',';
-      sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
-      if (MaskEdit1.Text <> '') then
-        sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy', StrToDate(MaskEdit1.Text)) + ''','
-      else
-        sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
-
-      sql_sp := sql_sp + IntToStr(cds_MovimentoCODUSUARIO.asInteger);
-      sql_sp := sql_sp + ',' + IntToStr(cds_MovimentoCODALMOXARIFADO.AsInteger); //CodCentrCusto
-      if (Edit1.text = '') then
-        sql_sp := sql_sp + ',''' + serie + ''',null,' + QuotedStr(edit2.Text) + ')'
-      else
-        sql_sp := sql_sp + ',''' + serie + ''',' + edit1.Text + ',' + QuotedStr(edit2.Text) + ')';
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect(sql_sp);
-      Try
-         dm.sqlsisAdimin.Commit(TD);
-        // Gravando o Estoque
-        Try
-          FEstoque := TEstoque.Create;
-          cds_Mov_det.First;
-          While not cds_Mov_det.Eof do
-          begin
-            FEstoque.QtdeSaida   := cds_Mov_detQUANTIDADE.AsFloat;
-            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-            FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-            FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-            FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-            FEstoque.Status      := '9';
-            FEstoque.inserirMes;
-            cds_Mov_det.Next;
-          end;
-        Finally
-          FEstoque.Free;
-        end;
-      except
-         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-         MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-             [mbOk], 0);
-      end;
-
     end;
-    // Se as 2 Combos está preenchida então executo a procedure para gerar a entrada
-    // no CCUsto informado.
-    IF (ComboBox1.Text <> '') then
-    IF (ComboBox2.Text <> '') then
-    begin
-      dm.cds_ccusto.Locate('NOME', ComboBox2.Text, [loCaseInsensitive]);
-      // Executa SP para lançar a entrada informada na segunda combo
-      sql_sp := 'execute procedure SP_ESTOQUE_ENTSAI(';
-      sql_sp := sql_sp + IntToStr(cds_MovimentoCODMOVIMENTO.asInteger);
-      sql_sp := sql_sp + ',' + IntToStr(dm.cds_ccustoCODIGO.AsInteger);//IntToStr(DBLookupComboBox1.KeyValue); //CodCentroCusto
-      if (Edit1.Text = '') then
-        sql_sp := sql_sp + ', null'
-      else
-        sql_sp := sql_sp + ',' + edit1.Text;
-      if (Edit2.Text = '') then
-        sql_sp := sql_sp + ', null)'
-      else
-        sql_sp := sql_sp + ',' + edit2.Text + ')';
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect(sql_sp);
-      Try
-         dm.sqlsisAdimin.Commit(TD);
-      except
-         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-         MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-             [mbOk], 0);
-      end;
-      if (ComboBox3.Text <> '') then
-      if (usalote = 'sim') then
-      begin
-        sql_sp := 'update movimentodetalhe set lote = ' ;
-        sql_sp := sql_sp + QuotedStr(ComboBox3.Text) + ' where CODMOVIMENTO = ';
-        sql_sp := sql_sp + IntToStr(cds_MovimentoCODMOVIMENTO.asInteger + 1);
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(sql_sp);
-        Try
-           dm.sqlsisAdimin.Commit(TD);
-        except
-           dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-           MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-               [mbOk], 0);
-        end;
-      end;
-
-
-      if (sds_s.Active) then
-        sds_s.Close;
-       sds_s.CommandText := 'SELECT CODMOVIMENTO, CODDETALHE from INFORMATIVO';
-       sds_s.Open;
-       sds_s.Fields[0].AsInteger;
-       sds_s.Fields[1].AsInteger;
-    end;
-  except
-    on E : Exception do
-    begin
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-    end;
-  end;
-  {------Pesquisando na tab Parametro qual form de Procura Produtos ---}
-  if Dm.cds_parametro.Active then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'BAIXAENTESTOQUE';
-  dm.cds_parametro.Open;
-  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
-  begin
-    //BitBtn1.Click;
-    if (cds_MovimentoOBS.AsString = 'BAIXADO') then
-      baixamatprimas('BAIXAENTESTOQUE', cds_MovimentoCODMOVIMENTO.AsInteger);
+  Finally
+    FMov.Free;
+    FVen.Free;
   end;
 
+
+    {dt_mov := MaskEdit1.Date;
+    if (cds_MovimentoOBS.IsNull) then
+      cds_MovimentoOBS.AsString := 'BAIXADO' // Uso pra baixar Materia Prima só uma vez
+    else
+      cds_MovimentoOBS.AsString := 'BAIXADO2';  // Já foi gravado
+  end;}
+  { ---------------------------------------------------------------------}
 end;
 
 procedure TfMovimenta_Estoque.btnExcluirClick(Sender: TObject);
