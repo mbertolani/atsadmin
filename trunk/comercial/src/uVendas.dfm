@@ -1,8 +1,8 @@
 inherited fVendas: TfVendas
   Left = 215
   Top = 108
-  Width = 802
-  Height = 577
+  Width = 806
+  Height = 594
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Venda'
   Font.Height = -13
@@ -62,7 +62,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 794
+    Width = 790
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -1083,9 +1083,17 @@ inherited fVendas: TfVendas
     Top = 63
     Width = 489
     Height = 48
+    Cursor = crHandPoint
     Caption = 'CLIENTE'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsUnderline]
+    ParentFont = False
     PopupMenu = PopupMenu1
     TabOrder = 2
+    OnClick = GroupBox1Click
     object dbeCliente: TDBEdit
       Left = 5
       Top = 16
@@ -1419,8 +1427,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [15]
     Left = 0
-    Top = 522
-    Width = 794
+    Top = 528
+    Width = 790
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -1537,10 +1545,18 @@ inherited fVendas: TfVendas
       Caption = 'Itens'
       object Label3: TLabel
         Left = 0
-        Top = 1
+        Top = 0
         Width = 44
         Height = 16
+        Cursor = crHandPoint
         Caption = 'C'#243'digo'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        OnClick = Label3Click
       end
       object Label4: TLabel
         Left = 100
@@ -2152,7 +2168,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2206,7 +2222,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end

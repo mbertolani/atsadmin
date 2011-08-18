@@ -609,6 +609,8 @@ type
     procedure cbTpTranspChange(Sender: TObject);
     procedure cbTransportadoraChange(Sender: TObject);
     procedure btnTranspClick(Sender: TObject);
+    procedure GroupBox1Click(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -636,7 +638,7 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
   uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils, uftransp,
-  uEstoque;
+  uEstoque, uClienteCadastro, uProdutoCadastro;
 
 {$R *.dfm}
 
@@ -3418,6 +3420,47 @@ begin
         valida := 'N';
       end;
     end;
+end;
+
+procedure TfVendas.GroupBox1Click(Sender: TObject);
+begin
+  inherited;
+  if (dbeCliente.Text = '') then
+     exit;
+
+   fClienteCadastro:=TfClienteCadastro.Create(Application);
+   try
+    fClienteCadastro.cds_cli.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
+    fClienteCadastro.cds_cli.Open;
+    if fClienteCadastro.cdsEnderecoCli.Active then
+       fClienteCadastro.cdsEnderecoCli.Close;
+    fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
+    fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
+    fClienteCadastro.cdsEnderecoCli.Open;
+    fClienteCadastro.ShowModal;
+   finally
+     fClienteCadastro.Free;
+   end;
+end;
+
+procedure TfVendas.Label3Click(Sender: TObject);
+begin
+  inherited;
+  if (dbeProduto.Text = '') then
+     exit;
+  fProdutoCadastro := TfProdutoCadastro.Create(Application);
+  try
+    fProdutoCadastro.btnProcurar.Visible := False;
+    if (dm.cds_produto.Active) then
+      dm.cds_produto.close;
+    dm.cds_produto.Params[0].AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
+    dm.cds_produto.Open;
+    fProdutoCadastro.ShowModal;
+  finally
+    fProdutoCadastro.Free;
+    dm.cds_produto.Close;
+  end;
+
 end;
 
 end.
