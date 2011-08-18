@@ -45,8 +45,6 @@ type
     JvGroupBox15: TJvGroupBox;
     DBEdit8: TDBEdit;
     JvGroupBox16: TJvGroupBox;
-    JvGroupBox17: TJvGroupBox;
-    DBEdit9: TDBEdit;
     JvGroupBox18: TJvGroupBox;
     DBEdit10: TDBEdit;
     JvGroupBox19: TJvGroupBox;
@@ -182,11 +180,6 @@ type
     proc_transpBAIRRO: TStringField;
     proc_transpCEP: TStringField;
     sdsTotal: TSQLDataSet;
-    Label26: TLabel;
-    Label36: TLabel;
-    DBEdit48: TDBEdit;
-    DBEdit49: TDBEdit;
-    BitBtn9: TBitBtn;
     localizaProduto: TSQLDataSet;
     localizaProdutoCODPRO: TStringField;
     localizaProdutoPRODUTO: TStringField;
