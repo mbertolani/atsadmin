@@ -220,6 +220,10 @@ begin
 //  VCLReport1.Execute;
    F_Boletos := TF_Boletos.Create(Application);
    try
+      if (F_Boletos.ds_cr.Active) then
+         F_Boletos.ds_cr.Close;
+      F_Boletos.ds_cr.CommandText := 'select * from RECEBIMENTO where DP = 1 ';
+      F_Boletos.ds_cr.Open;
       F_Boletos.ShowModal;
    finally
       F_Boletos.Free;
