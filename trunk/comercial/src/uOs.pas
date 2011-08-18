@@ -121,7 +121,7 @@ begin
   FOs.dataOs     := edData.Date;
   FOs.dataInicio := edData.Date;
   FOs.dataFim    := edDataFim.Date;
-  if ((modo = 'Insert') then
+  if (modo = 'Insert') then
     FOs.status := 'P';
   
 
@@ -160,18 +160,19 @@ end;
 
 procedure TfOs.limpaCampos;
 begin
-  cbResultado.Text := '';
+  edData.Clear;
+  edDataFim.Clear;
   edCodCliente.Text := '';
   edNomeCliente.Text := '';
-  cbServico.Text := '';
+  edNumOS.Text := '';
+  edVeiculo.Text := '';
   edServico.Text := '';
-  edServico1.Text := '';
-  edServico2.Text := '';
+  edKm.Text := '';
 end;
 
 procedure TfOs.carregaCombos;
 begin
-  //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+  {//Vejo quais são as contas de Receitas para listar no lookupcombobox.
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
@@ -188,8 +189,8 @@ begin
     cbResultado.Items.Add(dm.cds_ccustoNOME.AsString);
     DM.cds_ccusto.Next;
   end;
-  dm.cds_parametro.Close;
-  //Vejo quais são os produtos cadastrados como Serviços.
+  dm.cds_parametro.Close;}
+  {//Vejo quais são os produtos cadastrados como Serviços.
   if (cdsProd.Active) then
     cdsProd.CommandText := 'SELECT CODPRODUTO, COD_BARRA, CODPRO, PRODUTO FROM ' +
       'LISTAPRODUTO(0, ' + QuotedStr('TODOSPRODUTOS') +
@@ -202,7 +203,7 @@ begin
   begin
     cbServico.Items.Add(cdsProd.Fields[3].asString);
     cdsProd.Next;
-  end;
+  end;}
 end;
 
 procedure TfOs.btnClienteProcuraClick(Sender: TObject);
@@ -286,9 +287,5 @@ begin
   FOs.Destroy;
 end;
 
-procedure TfOs.VeiculoBusca;
-begin
-
-end;
 
 end.

@@ -173,15 +173,15 @@ begin
         '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesAnt)) +
         '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
         ' ORDER BY MESANO';
-      if (sqlBusca.Active) then
-        sqlBusca.Close;
-      sqlBusca.SQL.Clear;
-      sqlBusca.SQL.Add(sqlStr);
-      sqlBusca.Open;
+      if (sqlBuscaEstoque.Active) then
+        sqlBuscaEstoque.Close;
+      sqlBuscaEstoque.SQL.Clear;
+      sqlBuscaEstoque.SQL.Add(sqlStr);
+      sqlBuscaEstoque.Open;
 
-      PCusto1             := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
-      Estoque1            := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
-      EstoqueAnterior1    := sqlBusca.FieldByName('SALDOMESANTERIOR').AsFloat;
+      PCusto1             := sqlBuscaEstoque.FieldByName('PRECOCUSTO').AsFloat;
+      Estoque1            := sqlBuscaEstoque.FieldByName('SALDOESTOQUE').AsFloat;
+      EstoqueAnterior1    := sqlBuscaEstoque.FieldByName('SALDOMESANTERIOR').AsFloat;
       VlrEstoque1         := PCusto1 * Estoque1;
 
       sqlStr := 'SELECT PRECOCOMPRA , MESANO, (SALDOESTOQUE - SALDOMESANTERIOR) as SALDOESTOQUE ' +
@@ -191,14 +191,14 @@ begin
         '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesPost)) +
         '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
         ' ORDER BY MESANO';
-      if (sqlBusca.Active) then
-        sqlBusca.Close;
-      sqlBusca.SQL.Clear;
-      sqlBusca.SQL.Add(sqlStr);
-      sqlBusca.Open;
-      PCusto     := sqlBusca.FieldByName('PRECOCOMPRA').AsFloat;
-      QSaldo     := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
-      QMes       := sqlBusca.FieldByName('MESANO').AsDateTime;
+      if (sqlBuscaEstoque.Active) then
+        sqlBuscaEstoque.Close;
+      sqlBuscaEstoque.SQL.Clear;
+      sqlBuscaEstoque.SQL.Add(sqlStr);
+      sqlBuscaEstoque.Open;
+      PCusto     := sqlBuscaEstoque.FieldByName('PRECOCOMPRA').AsFloat;
+      QSaldo     := sqlBuscaEstoque.FieldByName('SALDOESTOQUE').AsFloat;
+      QMes       := sqlBuscaEstoque.FieldByName('MESANO').AsDateTime;
 
       //Estoque1   := Estoque1 + QSaldo;
       PCusto1    := ((PCusto * QSaldo) + VlrEstoque1) / (Estoque1 + Qsaldo);
@@ -216,7 +216,7 @@ begin
     sqlStr := sqlStr + '   AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto);
     DecimalSeparator := ',';
     dm.sqlsisAdimin.ExecuteDirect(sqlStr);
-    //QSaldoAnterior := dm.sqlBusca.FieldByName('SALDOMESANTERIOR').AsFloat;
+    //QSaldoAnterior := dm.sqlBuscaEstoque.FieldByName('SALDOMESANTERIOR').AsFloat;
     sqlBuscaPosterior.Next;
   end;
   sqlBuscaPosterior.Free;
@@ -481,38 +481,39 @@ begin
 end;
 
 function TEstoque.jaFoiInserido(): Boolean;
+var sqlBuscaI: TSqlQuery;
 begin
-  With dm  do begin
+  Try
+    sqlBuscai := TSqlQuery.Create(nil);
+    sqlBuscai.SQLConnection := dm.sqlsisAdimin;
     // Verificando se existe Lancamento em Mes Posterior o mes que esta inserindo
-    if (sqlBusca.Active) then
-      sqlBusca.Close;
-    sqlBusca.sql.Clear;
-    sqlBusca.sql.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
+    sqlBuscai.sql.Clear;
+    sqlBuscai.sql.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
       'QTDEPERDA, PRECOCUSTO, PRECOVENDA, SALDOESTOQUE, PRECOCOMPRAULTIMA, QTDEINVENTARIO ' +
       ' FROM ESTOQUEMES ' +
       'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
       '  AND LOTE        = ' + QuotedStr(Self.Lote) +
       '  AND MESANO      > ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.MesAno)) +
       '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto));
-    sqlBusca.Open;
+    sqlBuscai.Open;
     temMesPosterior := False;
-    if (not sqlBusca.IsEmpty) then
+    if (not sqlBuscai.IsEmpty) then
       temMesPosterior := True;
 
     // Verificando se ja foi feito algum lancameno no mes do lancamento
-    if (sqlBusca.Active) then
-      sqlBusca.Close;
-    sqlBusca.sql.Clear;
-    sqlBusca.sql.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
+    if (sqlBuscai.Active) then
+      sqlBuscai.Close;
+    sqlBuscai.sql.Clear;
+    sqlBuscai.sql.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
       'QTDEPERDA, PRECOCUSTO, PRECOVENDA, SALDOESTOQUE, PRECOCOMPRA, PRECOCOMPRAULTIMA, QTDEINVENTARIO ' +
       ' FROM ESTOQUEMES ' +
       'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
       '  AND LOTE        = ' + QuotedStr(Self.Lote) +
       '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.MesAno)) +
       '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto));
-    sqlBusca.Open;
+    sqlBuscai.Open;
     jaConsultado := 'SIM';
-    if (sqlBusca.IsEmpty) then
+    if (sqlBuscai.IsEmpty) then
     begin
       Result := False;
       QEntrada      := 0;
@@ -530,23 +531,23 @@ begin
       PVenda        := 0;
       QSaldoAnterior:= 0;
       // Não Encontrou mes atual , busca Qtdes e Precos do Mês Anterior
-      sqlBusca.Close;
-      sqlBusca.sql.Clear;
-      sqlBusca.sql.Add('SELECT PRECOCUSTO, SALDOESTOQUE' +
+      sqlBuscai.Close;
+      sqlBuscai.sql.Clear;
+      sqlBuscai.sql.Add('SELECT PRECOCUSTO, SALDOESTOQUE' +
         ' FROM ESTOQUEMES ' +
         'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
         '  AND LOTE        = ' + QuotedStr(Self.Lote) +
         '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesAnoAnterior)) +
         '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto));
-      sqlBusca.Open;
-      if (sqlBusca.IsEmpty) then      // Não achou nada no sistema
+      sqlBuscai.Open;
+      if (sqlBuscai.IsEmpty) then      // Não achou nada no sistema
       begin
         PCustoAnterior     := 0;
         QSaldoAnterior     := 0;
         Self.SaldoAnterior := 0;
       end else begin
-        PCustoAnterior := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
-        QSaldoAnterior := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
+        PCustoAnterior := sqlBuscai.FieldByName('PRECOCUSTO').AsFloat;
+        QSaldoAnterior := sqlBuscai.FieldByName('SALDOESTOQUE').AsFloat;
         Self.SaldoAnterior := QSaldoAnterior;
         //Self.PrecoCusto    := PCustoAnterior;
       end;
@@ -555,20 +556,22 @@ begin
     else begin
       Result := True;
       resultadoJaInserido := True;
-      QEntrada      := sqlBusca.FieldByName('QTDEENTRADA').AsFloat;
-      QCompra       := sqlBusca.FieldByName('QTDECOMPRA').AsFloat;
-      QDevCompra    := sqlBusca.FieldByName('QTDEDEVCOMPRA').AsFloat;
-      QDevVenda     := sqlBusca.FieldByName('QTDEDEVVENDA').AsFloat;
-      QSaida        := sqlBusca.FieldByName('QTDESAIDA').AsFloat;
-      QVenda        := sqlBusca.FieldByName('QTDEVENDA').AsFloat;
-      QPerda        := sqlBusca.FieldByName('QTDEPERDA').AsFloat;
-      QInventario   := sqlBusca.FieldByName('QTDEINVENTARIO').AsFloat;
-      PCusto        := sqlBusca.FieldByName('PRECOCUSTO').AsFloat;
-      PCompra       := sqlBusca.FieldByName('PRECOCOMPRA').AsFloat;
-      PCompraUltima := sqlBusca.FieldByName('PRECOCOMPRAULTIMA').AsFloat;
-      PVenda        := sqlBusca.FieldByName('PRECOVENDA').AsFloat;
-      QSaldo        := sqlBusca.FieldByName('SALDOESTOQUE').AsFloat;
+      QEntrada      := sqlBuscai.FieldByName('QTDEENTRADA').AsFloat;
+      QCompra       := sqlBuscai.FieldByName('QTDECOMPRA').AsFloat;
+      QDevCompra    := sqlBuscai.FieldByName('QTDEDEVCOMPRA').AsFloat;
+      QDevVenda     := sqlBuscai.FieldByName('QTDEDEVVENDA').AsFloat;
+      QSaida        := sqlBuscai.FieldByName('QTDESAIDA').AsFloat;
+      QVenda        := sqlBuscai.FieldByName('QTDEVENDA').AsFloat;
+      QPerda        := sqlBuscai.FieldByName('QTDEPERDA').AsFloat;
+      QInventario   := sqlBuscai.FieldByName('QTDEINVENTARIO').AsFloat;
+      PCusto        := sqlBuscai.FieldByName('PRECOCUSTO').AsFloat;
+      PCompra       := sqlBuscai.FieldByName('PRECOCOMPRA').AsFloat;
+      PCompraUltima := sqlBuscai.FieldByName('PRECOCOMPRAULTIMA').AsFloat;
+      PVenda        := sqlBuscai.FieldByName('PRECOVENDA').AsFloat;
+      QSaldo        := sqlBuscai.FieldByName('SALDOESTOQUE').AsFloat;
     end;
+  Finally
+    sqlBuscai.Destroy;
   end;
 end;
 
@@ -698,22 +701,28 @@ begin
 end;
 
 function TEstoque.validoMovimento: Boolean;
+var sqlBuscaEstoque: TSqlQuery;
 begin
+  Try
+    sqlBuscaEstoque := TSqlQuery.Create(nil);
+    sqlBuscaEstoque.SQLConnection := dm.sqlsisAdimin;
   Result := False;
-  dm.sqlBusca.Close;
-  dm.sqlBusca.sql.Clear;
-  dm.sqlBusca.sql.Add('SELECT BAIXAMOVIMENTO ' +
+  sqlBuscaEstoque.sql.Add('SELECT BAIXAMOVIMENTO ' +
     ' FROM MOVIMENTO M, MOVIMENTODETALHE MD, NATUREZAOPERACAO NATOPER ' +
     'WHERE M.CODMOVIMENTO = MD.CODMOVIMENTO ' +
     '  AND M.CODNATUREZA  = NATOPER.CODNATUREZA  ' +
     '  AND MD.CODDETALHE  = ' + IntToStr(Self.CodDetalhe));
-  dm.sqlBusca.Open;
-  if (not dm.sqlBusca.IsEmpty) then      // Não achou nada no sistema
+  sqlBuscaEstoque.Open;
+  if (not sqlBuscaEstoque.IsEmpty) then      // Não achou nada no sistema
   begin
-    if ((dm.sqlBusca.FieldByName('BAIXAMOVIMENTO').AsInteger = 0) or (dm.sqlBusca.FieldByName('BAIXAMOVIMENTO').AsInteger = 1)) then
+    if ((sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 0) or
+        (sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 1)) then
     begin
       Result := True;
     end;
+  end;
+  Finally
+    sqlBuscaEstoque.Destroy;
   end;
 end;
 
