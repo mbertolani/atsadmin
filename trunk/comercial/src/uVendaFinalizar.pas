@@ -582,7 +582,7 @@ implementation
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
   uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque,
-  uMovimento;
+  uMovimento, U_Boletos;
 
 {$R *.dfm}
 
@@ -1606,7 +1606,8 @@ begin
   {Usado para inserir Despesa de Frete se o sistema for usado para o Citrus}
   if (bitbtn4.Caption <> 'Frete') then
   begin
-    fImpr_Boleto := TfImpr_Boleto.Create(Application);
+    //fImpr_Boleto := TfImpr_Boleto.Create(Application);
+    F_Boletos := TF_Boletos.Create(Application);
     try
 
    strSql := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
@@ -1620,7 +1621,12 @@ begin
            [mbOk], 0);
     end;
 
-     fImpr_Boleto.ShowModal;
+      if (F_Boletos.ds_cr.Active) then
+        F_Boletos.ds_cr.Close;
+      F_Boletos.ds_cr.CommandText := 'select * from RECEBIMENTO where DP = 1 ';
+      F_Boletos.ds_cr.Open;
+      F_Boletos.ShowModal;
+     //fImpr_Boleto.ShowModal;
     finally
    strSql := 'UPDATE RECEBIMENTO SET DP = null where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
    dm.sqlsisAdimin.StartTransaction(TD);
@@ -1632,7 +1638,8 @@ begin
        MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
            [mbOk], 0);
     end;
-     fImpr_Boleto.Free;
+     //     fImpr_Boleto.Free;
+     F_Boletos.Free;
     end;
   end
   else begin
@@ -1706,7 +1713,7 @@ begin
   cod_cli_forn := cdsCODCLIENTE.AsInteger;
   c_f := 'C'; // C=Cliente
   caixa := cdsCAIXA.AsInteger;
-  titulo := scdsCr_procTITULO.AsString;
+  fCheques_bol.titulo := scdsCr_procTITULO.AsString;
   valortitulo := cdsVALOR.AsFloat - cdsDESCONTO.AsFloat;
   fCheques_bol.btnBaixarTitulo.Enabled := True;
   fCheques_bol.ShowModal;
