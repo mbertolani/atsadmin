@@ -233,7 +233,8 @@ uses
   uCliente1 in 'uCliente1.pas' {fCliente1},
   uOsDetalheClasse in 'uOsDetalheClasse.pas',
   uVendaCls in 'uVendaCls.pas',
-  uMovimenta_Estoque in 'uMovimenta_Estoque.pas' {fMovimenta_Estoque};
+  uMovimenta_Estoque in 'uMovimenta_Estoque.pas' {fMovimenta_Estoque},
+  uCompraCls in 'uCompraCls.pas';
 
 {$R *.res}
 
