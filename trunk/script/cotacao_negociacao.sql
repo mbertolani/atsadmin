@@ -75,7 +75,7 @@ AS
   DECLARE VARIABLE FRETE8 DOUBLE PRECISION;  
 BEGIN
   numFornec = 0;
-  /* Lista todos os fornecedores com Cotações em aberto para o item  */
+  /* Lista todos os fornecedores com CotaÃ§Ãµes em aberto para o item  */
   FOR SELECT DISTINCT COTACAO_FORNEC
     FROM COMPRA_COTACAO
    WHERE COTACAO_CODIGO = :CODIGO
@@ -152,7 +152,7 @@ BEGIN
 
   end  
   
-  /*Busca todos as cotaçoes para o fornecedor */
+  /*Busca todos as cotaÃ§oes para o fornecedor */
   TOTAL = 0;
   T1    = 0; 
   T2    = 0;
@@ -163,90 +163,162 @@ BEGIN
   T7    = 0;
   T8    = 0;
   
-  FOR SELECT COTACAO_ITEM, UDF_LEFT(COTACAO_ITEMDESCRICAO, 60)
-    DESCRICAO, (COTACAO_PRECO-COTACAO_DESCONTO) PRECO, COTACAO_OBSERVACAO, 
-    COTACAO_QTDE, ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+  FOR SELECT DISTINCT COTACAO_ITEM, UDF_LEFT(COTACAO_ITEMDESCRICAO, 60)
+    DESCRICAO , COTACAO_QTDE
    FROM COMPRA_COTACAO
-  WHERE COTACAO_FORNEC = :codFornec
-    AND COTACAO_CODIGO = :CODIGO
-   INTO :CODPRO, :DESCRICAO, :PRECO, :OBS, :QTDE, :TTOTAL
+  WHERE COTACAO_CODIGO = :CODIGO
+   INTO :CODPRO, :DESCRICAO, :QTDE
   do begin
     
     TOTAL = TOTAL + TTOTAL;
     
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+      , COTACAO_OBSERVACAO
       FROM COMPRA_COTACAO
      WHERE COTACAO_FORNEC   = :Fornec1
        AND COTACAO_CODIGO = :CODIGO
        AND COTACAO_ITEM     = :codPro
-      INTO :PRECO1, :TOT1;
+      INTO :PRECO1, :TOT1, :OBS;
+      
+      if (Preco1 is null) then 
+        preco1 = 0;
+        
+      if (Tot1 is null) then 
+        tot1 = 0;  
 
       T1 = T1 + TOT1;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+    , COTACAO_OBSERVACAO 
       FROM COMPRA_COTACAO
      WHERE COTACAO_FORNEC   = :Fornec2
        AND COTACAO_CODIGO = :CODIGO
        AND COTACAO_ITEM     = :codPro
-      INTO :PRECO2, :TOT2;
+      INTO :PRECO2, :TOT2, :OBS;
+
+      if (Preco2 is null) then 
+        preco2 = 0;
+        
+      if (Tot2 is null) then 
+        tot2 = 0;  
 
     T2 = T2 + TOT2;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+    , COTACAO_OBSERVACAO 
       FROM COMPRA_COTACAO
      WHERE COTACAO_FORNEC   = :Fornec3
        AND COTACAO_CODIGO = :CODIGO
        AND COTACAO_ITEM     = :codPro
-      INTO :PRECO3, :TOT3;
+      INTO :PRECO3, :TOT3, :OBS;
+
+      if (Preco3 is null) then 
+        preco3 = 0;
+        
+      if (Tot3 is null) then 
+        tot3 = 0;  
 
     T3 = T3 + TOT3;
     
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+    , COTACAO_OBSERVACAO 
       FROM COMPRA_COTACAO
      WHERE COTACAO_FORNEC   = :Fornec4
        AND COTACAO_CODIGO = :CODIGO
        AND COTACAO_ITEM     = :codPro
-      INTO :PRECO4, :TOT4;
+      INTO :PRECO4, :TOT4, :OBS;
+      
+      if (Preco4 is null) then 
+        preco4 = 0;
+        
+      if (Tot4 is null) then 
+        tot4 = 0;  
       
     T4 = T4 + TOT4;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+    , COTACAO_OBSERVACAO 
       FROM COMPRA_COTACAO
      WHERE COTACAO_FORNEC   = :Fornec5
        AND COTACAO_CODIGO = :CODIGO/* AND COTACAO_SITUACAO = 'G' */
        AND COTACAO_ITEM     = :codPro
-      INTO :PRECO5, :TOT5;
+      INTO :PRECO5, :TOT5, :OBS;
+      
+      if (Preco5 is null) then 
+        preco5 = 0;
+        
+      if (Tot5 is null) then 
+        tot5 = 0;  
       
     T5 = T5 + TOT5;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+    , COTACAO_OBSERVACAO 
       FROM COMPRA_COTACAO
      WHERE COTACAO_FORNEC   = :Fornec6
        AND COTACAO_CODIGO = :CODIGO/* AND COTACAO_SITUACAO = 'G' */
        AND COTACAO_ITEM     = :codPro
-      INTO :PRECO6, :TOT6;
+      INTO :PRECO6, :TOT6, :OBS;
+      
+      if (Preco6 is null) then 
+        preco6 = 0;
+        
+      if (Tot6 is null) then 
+        tot6 = 0;  
       
     T6 = T6 + TOT6;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+    , COTACAO_OBSERVACAO 
       FROM COMPRA_COTACAO
      WHERE COTACAO_FORNEC   = :Fornec7
        AND COTACAO_CODIGO = :CODIGO/* AND COTACAO_SITUACAO = 'G' */
        AND COTACAO_ITEM     = :codPro
-      INTO :PRECO7, :TOT7;
+      INTO :PRECO7, :TOT7, :OBS;
+      
+      if (Preco7 is null) then 
+        preco7 = 0;
+        
+      if (Tot7 is null) then 
+        tot7 = 0;  
+
       
     T7 = T7 + TOT7;
 
     SELECT FIRST 1 (COTACAO_PRECO-COTACAO_DESCONTO), ((COTACAO_PRECO-COTACAO_DESCONTO) * COTACAO_QTDE) TOTAL
+    , COTACAO_OBSERVACAO 
       FROM COMPRA_COTACAO
      WHERE COTACAO_FORNEC   = :Fornec8
        AND COTACAO_CODIGO = :CODIGO/* AND COTACAO_SITUACAO = 'G' */
        AND COTACAO_ITEM     = :codPro
-      INTO :PRECO8, :TOT8;
+      INTO :PRECO8, :TOT8, :OBS;
     
+      if (Preco8 is null) then 
+        preco8 = 0;
+        
+      if (Tot8 is null) then 
+        tot8 = 0;  
+
     T8 = T8 + TOT8;
 
     suspend;
+
+    PRECO1 = 0;
+    PRECO2 = 0;
+    PRECO3 = 0;
+    PRECO4 = 0;
+    PRECO5 = 0;
+    PRECO6 = 0;
+    PRECO7 = 0;
+    PRECO8 = 0;
+    tot1   = 0;
+    tot2   = 0;
+    tot3   = 0;
+    tot4   = 0;
+    tot5   = 0;
+    tot6   = 0;
+    tot7   = 0;
+    tot8   = 0;
     
   end    
   
