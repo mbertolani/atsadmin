@@ -736,6 +736,9 @@ begin
  if (var_F = 'formnfCompra') then
    fNFCompra.btnNovo.Click;
 
+  if (var_F = 'MovEstoque') then
+    fMovimenta_Estoque.btnNovo.Click;
+
  Edit3.Text := '';
  Edit4.Text := '';
  Edit2.Text := ''; 
@@ -752,8 +755,9 @@ begin
    if (Edit4.Text = '') then
      Edit4.Text := '0';
    Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
-   if (var_F = 'compra') then
+   if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
      Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+
    if (var_F = 'Lista') then
    begin
      if (fCompra.cdslista.Active) then
@@ -806,7 +810,7 @@ begin
  if (Edit4.Text = '') then
    Edit4.Text := '0';
  Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
- if (var_F = 'compra') then
+ if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
    Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   if (Panel2.Visible) then
     EvDBFind1.SetFocus;
@@ -848,7 +852,7 @@ procedure TfProcura_prod.DBGrid1KeyDown(Sender: TObject; var Key: Word;
 begin
  if var_F = 'venda' then
   Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
- if var_F = 'compra' then
+ if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
   Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   if (Panel2.Visible) then
     EvDBFind1.SetFocus;
@@ -861,7 +865,7 @@ begin
  if (Edit4.Text = '') then
    Edit4.Text := '0';
  Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
- if (var_F = 'compra') then
+ if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
    Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   if (Panel2.Visible) then
     EvDBFind1.SetFocus;
@@ -1393,7 +1397,7 @@ begin
    if (Edit4.Text = '') then
      Edit4.Text := '0';
    Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
-   if (var_F = 'compra') then
+   if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
      Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
    if (var_F = 'Lista') then
    begin
@@ -1563,7 +1567,7 @@ begin
         end;
         fMovimenta_Estoque.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
         fMovimenta_Estoque.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-        valorUnitario := cds_procPRECO_VENDA.AsFloat;
+        valorUnitario := cds_procPRECO_COMPRA.AsFloat;
         fMovimenta_Estoque.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
       end;
 
