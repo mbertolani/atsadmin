@@ -183,7 +183,7 @@ var str: String;
 begin
   DecimalSeparator := '.';
   str := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODMOVIMENTO, ' +
-    'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO, CODIGO' +
+    'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO, CODIGO , LOTE' +
     ') VALUES (';
   str := str + 'GEN_ID(GENMOVDET,1), ' + IntToStr(self.CodMov) + ', ' + IntToStr(Self.CodProduto);
   str := str + ', ' + FloatToStr(Self.Qtde) + ', ' + FloatToStr(Self.Preco);
@@ -191,6 +191,7 @@ begin
   str := str + ', ' + QuotedStr(Self.Un)    + ', ' + QuotedStr(Self.Baixa);
   str := str + ', ' + QuotedStr(Self.Descricao);
   str := str + ', ' + IntToStr(Self.Codigo);
+  str := str + ', ' + QuotedStr(Self.Lote);
   str := str + ')';
   executaSql(str);
 end;
