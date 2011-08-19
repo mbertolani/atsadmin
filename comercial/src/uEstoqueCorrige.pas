@@ -278,20 +278,24 @@ begin
   cdsB.CommandText := str;
   cdsB.Open;
 
+  prog2.Max := cdsB.RecordCount;
+  prog2.Position := 0;
+
   fMov.CodMov      := 0;
-  fMov.CodNatureza := 2;  // saida 
+  fMov.CodNatureza := 2;  // saida
   fMov.DataMov     := StrToDate('30/06/2011');
   fMov.CodCliente  := 0;
   fMov.Status      := 0;
   fMov.CodUsuario  := 1;
   fMov.CodVendedor := 1;
   fMov.CodFornec   := 0;
+  fMov.CodCCusto   := cdsB.FieldByName('CENTROCUSTO').AsInteger;
 
   codMov := fMov.inserirMovimento(0);
 
   While not cdsB.Eof do
   begin
-
+    prog2.Position := cdsB.RecNo;
     // Detalhe Natureza 6
     fMov.MovDetalhe.CodMov     := codMov;
     fMov.MovDetalhe.CodProduto := cdsB.FieldByName('CODPRODUTO').AsInteger;
@@ -321,6 +325,7 @@ begin
   dmnf.baixaEstoque(codMov, StrToDate('30/06/2011'), 'VENDA'); 
 
   dm.sqlsisAdimin.Commit(TD);
+
 
 end;
 
