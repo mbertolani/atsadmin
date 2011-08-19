@@ -1773,6 +1773,9 @@ type
     cdsBancoLOCALPGTO: TStringField;
     QryGetObject: TSQLQuery;
     sqlBusca: TSQLQuery;
+    cds_empresaPORTA: TIntegerField;
+    cds_empresaSMTP: TStringField;
+    cds_empresaSENHA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
