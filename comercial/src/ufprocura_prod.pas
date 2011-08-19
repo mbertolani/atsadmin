@@ -232,6 +232,7 @@ type
     procedure formcadproduto;
     procedure formnotaf;
     procedure formnfCompra;
+    procedure formMovEstoque;
 
   public
     { Public declarations }
@@ -252,7 +253,8 @@ uses UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   uEntra_Sai_estoque, uLotes, uLotesCadastro,
   ufDlgLogin, uProdFornecedor, uTerminalLoja, uProduto_Mat_prima,
   sCtrlResize, uTerminal_Delivery, UDMNF, uNF,
-  uNFCompra;
+  uNFCompra,
+  uMovimenta_Estoque;
 
 {$R *.dfm}
 
@@ -683,6 +685,9 @@ begin
     formentrasai;
   if (var_F = 'estoque') then
     formestoque;
+  if (var_F = 'MovEstoque') then
+    formMovEstoque;
+
   if (var_F = 'cadfornecedor') then
     formcadfornecedor;
   if (var_F = 'terminalloja') then
@@ -1480,7 +1485,7 @@ begin
           begin
             precolista2;
             fVendas.cds_Mov_det.Edit;
-          end;  
+          end;
         end
         else
         begin
@@ -1538,6 +1543,30 @@ begin
         valorUnitario := cds_procPRECO_VENDA.AsFloat;
         fEntra_Sai_estoque.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
       end;
+
+      if (var_F = 'MovEstoque') then
+      begin
+        fMovimenta_Estoque.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
+        fMovimenta_Estoque.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
+        fMovimenta_Estoque.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
+        fMovimenta_Estoque.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
+        if not( ((Edit4.Text) = '') or ((Edit4.Text) = '0'))  then
+          fMovimenta_Estoque.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text)
+        else
+        begin
+          if dm.scds_produto_proc.Active then
+            dm.scds_produto_proc.Close;
+          dm.scds_produto_proc.Params[0].AsInteger := 0;
+          dm.scds_produto_proc.Params[1].AsString := cds_procCODPRO.AsString;
+          dm.scds_produto_proc.Open;
+          fMovimenta_Estoque.cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
+        end;
+        fMovimenta_Estoque.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
+        fMovimenta_Estoque.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
+        valorUnitario := cds_procPRECO_VENDA.AsFloat;
+        fMovimenta_Estoque.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
+      end;
+
 
       if (var_F = 'cadfornecedor') then
       begin
@@ -1633,6 +1662,41 @@ end;
 procedure TfProcura_prod.DBGrid1DblClick(Sender: TObject);
 begin
  BitBtn6.Click;
+end;
+
+procedure TfProcura_prod.formMovEstoque;
+begin
+    if fProcura_prod.cds_procLOTES.AsString = 'S' then
+    begin
+      fLotes := TfLotes.Create(Application);
+      try
+        if fLotes.cdslotes.Active then
+          fLotes.cdslotes.Close;
+        fLotes.cdslotes.Params[0].AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+        fLotes.cdslotes.Open;
+        fLotes.btnProdutoProcura.Enabled := False;
+        var_F := 'procura_estoque';
+        fLotes.ShowModal;
+      finally
+        fLotes.Free;
+      end;
+      var_F := 'estoque';
+      if estoq1 < StrToInt(Edit3.Text) then
+      begin
+        MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
+        exit;
+      end;
+    end;
+    fMovimenta_Estoque.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
+    fMovimenta_Estoque.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
+    fMovimenta_Estoque.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
+    fMovimenta_Estoque.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
+    fMovimenta_Estoque.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
+    fMovimenta_Estoque.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
+    valorUnitario := cds_procPRECO_VENDA.AsFloat;
+    fMovimenta_Estoque.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
+    fMovimenta_Estoque.cds_Mov_det.Post;
+
 end;
 
 end.
