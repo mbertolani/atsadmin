@@ -1391,6 +1391,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     AllowNoDate = True
     Checked = False
     TabOrder = 0
+    OnChange = dta1Change
   end
   object dta2: TJvDatePickerEdit
     Left = 87
@@ -1589,7 +1590,6 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
       end>
     ProviderName = 'dsp_Movimento'
     OnNewRecord = cds_MovimentoNewRecord
-    OnReconcileError = cds_MovimentoReconcileError
     Left = 200
     Top = 366
     object cds_MovimentoCODMOVIMENTO: TIntegerField
@@ -1731,7 +1731,6 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     ProviderName = 'dsp_Mov_det'
     OnCalcFields = cds_Mov_detCalcFields
     OnNewRecord = cds_Mov_detNewRecord
-    OnReconcileError = cds_Mov_detReconcileError
     Left = 196
     Top = 398
     object cds_Mov_detCODDETALHE: TIntegerField
@@ -2749,7 +2748,6 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
       end>
     ProviderName = 'dsp_movMat'
     OnNewRecord = cds_movMatNewRecord
-    OnReconcileError = cds_movMatReconcileError
     Left = 198
     Top = 310
     object cds_movMatCODMOVIMENTO: TIntegerField
@@ -3010,7 +3008,6 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
       end>
     ProviderName = 'dsp_movDetMat'
     OnNewRecord = cds_movDetMatNewRecord
-    OnReconcileError = cds_movDetMatReconcileError
     Left = 198
     Top = 281
     object cds_movDetMatCODDETALHE: TIntegerField
