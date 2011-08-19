@@ -241,7 +241,6 @@ begin
   Application.Initialize;
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
-  Application.CreateForm(TfMovimenta_Estoque, fMovimenta_Estoque);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);

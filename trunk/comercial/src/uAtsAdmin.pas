@@ -392,7 +392,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
-  uExpedicao, uProcura_prodOficina, uCaixaBanco;
+  uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque;
 
 {$R *.dfm}
 
@@ -1247,7 +1247,7 @@ end;
 
 procedure TfAtsAdmin.MovimentaodeEstoque1Click(Sender: TObject);
 begin
-  fEntra_Sai_estoque := TfEntra_Sai_estoque.Create(Application);
+  {fEntra_Sai_estoque := TfEntra_Sai_estoque.Create(Application);
   try
    with fEntra_Sai_estoque do
    begin
@@ -1261,7 +1261,7 @@ begin
    end;
   finally
    fEntra_Sai_estoque.Free;
-  end;
+  end; }
   {
   fMovLinhas := TfMovLinhas.Create(Application);
   try
@@ -1270,6 +1270,15 @@ begin
     fMovLinhas.Free;
   end;
   }
+
+  fMovimenta_Estoque := TfMovimenta_Estoque.Create(Application);
+  try
+    fMovimenta_Estoque.ShowModal;
+  finally
+    fMovimenta_Estoque.Free;
+  end;
+
+
 end;
 
 procedure TfAtsAdmin.RelatrioListadeProdutos2Click(Sender: TObject);
