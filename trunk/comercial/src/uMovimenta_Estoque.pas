@@ -7,7 +7,8 @@ uses
   Dialogs, FMTBcd, XPMenu, Menus, Grids, DBGrids, StdCtrls, Mask, DBCtrls,
   Buttons, ExtCtrls, MMJPanel, DB, DBClient, Provider, SqlExpr, DBXpress,
   JvDBDatePickerEdit, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, uVendaCls, uMovimento;
+  JvDatePickerEdit, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, uVendaCls,
+  dateUtils, uMovimento, uEstoque;
 
 type
   TfMovimenta_Estoque = class(TForm)
@@ -403,11 +404,9 @@ type
     procedure btnProcurarClick(Sender: TObject);
     procedure DBEdit9Exit(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
-    procedure DBEdit1Exit(Sender: TObject);
     procedure DtSrc1StateChange(Sender: TObject);
     procedure SetDataEntrada(dta: TDateTime);
     function GetDataEntrada: TDateTime;
-    procedure btnEntradaClick(Sender: TObject);
     procedure DBEdit12KeyPress(Sender: TObject; var Key: Char);
     procedure cds_movDetMatNewRecord(DataSet: TDataSet);
     procedure cds_movMatNewRecord(DataSet: TDataSet);
@@ -445,7 +444,7 @@ var
 implementation
 
 uses UDm, ufprocura_prod, uProdutoLote, uEnt_Sai_Lote, uFiltroEstoque,
-  uLotes, uFiltroMovMaterias, sCtrlResize, uEstoque, uMovimento, uMovimentoDetalhe;
+  uLotes, uFiltroMovMaterias, sCtrlResize,  UDMNF;
 
 {$R *.dfm}
 
@@ -464,10 +463,6 @@ begin
       DtSrc1.DataSet.Open;
       DtSrc1.DataSet.Append;
     end;
-  if (DBEdit1.Visible = True) then
-    DBEdit1.SetFocus
-  else
-    MaskEdit1.Text;
 
 end;
 
@@ -579,6 +574,8 @@ begin
     FVen := TVendaCls.Create;
 
     Try
+      dm.sqlsisAdimin.StartTransaction(TD);
+
       // SAIDA
       FMov.CodMov      := 0;
 
@@ -588,8 +585,6 @@ begin
         if (dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive])) then
           FMov.CodCCusto   := dm.cds_ccustoCODIGO.AsInteger;
       end;
-
-
 
       FMov.CodCliente  := 0;
       FMov.CodNatureza := 2;
@@ -645,6 +640,13 @@ begin
       end;
 
       dmnf.baixaEstoque(codMov, dta2.Date, 'ENTRADA');
+
+      dm.sqlsisAdimin.Commit(TD);
+
+      cds_Movimento.Post;
+
+      MessageDlg('Movimento gravado com sucesso.', mtInformation,
+           [mbOk], 0);
 
     except
       on E : Exception do
@@ -874,80 +876,76 @@ end;
 procedure TfMovimenta_Estoque.dbeProdutoExit(Sender: TObject);
 begin
   varonde := 'compra';
-  if dbeProduto.Text='' then exit;
-  if dbeProduto.Field.OldValue<>dbeProduto.Field.NewValue then
+  if (dbeProduto.Text = '') then exit;
+  if dm.scds_produto_proc.Active then
+    dm.scds_produto_proc.Close;
+  dm.scds_produto_proc.Params[0].AsInteger := 0;
+  dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
+  dm.scds_produto_proc.Open;
+  if dm.scds_produto_proc.IsEmpty then begin
+    MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+    [mbOk], 0);
+    btnProdutoProcura.Click;
+    exit;
+  end;
+  cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+  cds_Mov_detCODPRO.AsString := dm.scds_produto_procCODPRO.AsString;
+  cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+  cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+  cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
+  cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+  cds_Mov_detQUANTIDADE.AsFloat := 1;
+  cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
+  {Alterei aqui por causa do Caetano usa preço de Custo para dar entrada no estoque}
+  {if dm.scds_produto_procQTDE_PCT.AsFloat >= 1 then
+     cds_Mov_detPRECO.AsFloat :=
+     dm.scds_produto_procVALORUNITARIOATUAL.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
+  else
+     cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;}
+  cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
+  valorUnitario := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
+  cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
+  cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
+  cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+  //Pego o Lote....
+  usalote := 'nao';
+  if (varonde <> 'compra') then
+  if dm.scds_produto_procLOTES.AsString = 'S' then
   begin
-    if dm.scds_produto_proc.Active then
-      dm.scds_produto_proc.Close;
-    dm.scds_produto_proc.Params[0].AsInteger := 0;
-    dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
-    dm.scds_produto_proc.Open;
-    if dm.scds_produto_proc.IsEmpty then begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-      [mbOk], 0);
-      btnProdutoProcura.Click;
-      exit;
-    end;
-    cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-    cds_Mov_detCODPRO.AsString := dm.scds_produto_procCODPRO.AsString;
-    cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
-    cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-    cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
-    cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-    cds_Mov_detQUANTIDADE.AsFloat := 1;
-    cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
-    {Alterei aqui por causa do Caetano usa preço de Custo para dar entrada no estoque}
-    {if dm.scds_produto_procQTDE_PCT.AsFloat >= 1 then
-       cds_Mov_detPRECO.AsFloat :=
-       dm.scds_produto_procVALORUNITARIOATUAL.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
-    else
-       cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;}
-    cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
-    valorUnitario := dm.scds_produto_procVALORUNITARIOATUAL.AsFloat;
-    cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
-    cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
-    cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
-    //Pego o Lote....
-    usalote := 'nao';
-    if (varonde <> 'compra') then
-    if dm.scds_produto_procLOTES.AsString = 'S' then
-    begin
-      usalote := 'sim';
-      label8.Visible := True;
-      label10.Visible := True;
-      ComboBox3.Visible := True;
-      ComboBox4.Visible := True;           
-      fLotes := TfLotes.Create(Application);
-      try
-        if fLotes.cdslotes.Active then
-          fLotes.cdslotes.Close;
-        fLotes.cdslotes.Params[0].AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-        fLotes.cdslotes.Open;
-        while (not fLotes.cdslotes.Eof) do
-        begin
-          ComboBox4.Items.Add(fLotes.cdslotesLOTE.AsString);
-          ComboBox3.Items.Add(fLotes.cdslotesLOTE.AsString);
-          fLotes.cdslotes.Next;
-        end;
-        fLotes.cdslotes.First;
-        fLotes.btnProdutoProcura.Enabled := False;
-        var_F := 'estoque';
-        fLotes.ShowModal;
-      finally
-        fLotes.Free;
-    end;
-   end;
-
-   dm.scds_produto_proc.Close;
- end;
+    usalote := 'sim';
+    label8.Visible := True;
+    label10.Visible := True;
+    ComboBox3.Visible := True;
+    ComboBox4.Visible := True;
+    fLotes := TfLotes.Create(Application);
+    try
+      if fLotes.cdslotes.Active then
+        fLotes.cdslotes.Close;
+      fLotes.cdslotes.Params[0].AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+      fLotes.cdslotes.Open;
+      while (not fLotes.cdslotes.Eof) do
+      begin
+        ComboBox4.Items.Add(fLotes.cdslotesLOTE.AsString);
+        ComboBox3.Items.Add(fLotes.cdslotesLOTE.AsString);
+        fLotes.cdslotes.Next;
+      end;
+      fLotes.cdslotes.First;
+      fLotes.btnProdutoProcura.Enabled := False;
+      var_F := 'estoque';
+      fLotes.ShowModal;
+    finally
+      fLotes.Free;
+    end;  
+  end;
+  dm.scds_produto_proc.Close;
 end;
 
 procedure TfMovimenta_Estoque.btnProdutoProcuraClick(Sender: TObject);
 begin
   if (fProcura_prod.cds_proc.Active) then
     fProcura_prod.cds_proc.Close;
-  varonde := 'EntraSai';
-  var_F := 'estoque';
+  varonde := 'MovEstoque';
+  var_F := 'MovEstoque';
   fProcura_prod.cbTipo.ItemIndex := -1;
   fProcura_prod.cbTipo.Text := '';
   fProcura_prod.btnIncluir.Visible := true;
@@ -956,7 +954,7 @@ begin
   fProcura_prod.BitBtn1.Click;
   cds_Mov_detLOTE.AsString := '';
   fProcura_prod.ShowModal;
-  {  if fProcura_prod.ShowModal = mrOk then
+  if fProcura_prod.ShowModal = mrOk then
   begin
     if dtSrc.State=dsBrowse then
      cds_Mov_det.Edit;
@@ -969,7 +967,7 @@ begin
      cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
      valorUnitario := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
      cds_Mov_detCODALMOXARIFADO.AsInteger := fProcura_prod.cds_procCODALMOXARIFADO.AsInteger;
-  end;}
+  end;
    usalote := 'nao';
    if (entsai <> 0) then
    if cds_Mov_detLOTE.AsString = '' then
@@ -1066,14 +1064,12 @@ begin
      begin
        ComboBox2.Text := dm.cds_ccustoNOME.AsString;
        ComboBox1.Text := '';
-       MaskEdit1.Text := DateToStr(cds_MovimentoDATAMOVIMENTO.AsDateTime);
        Edit2.Text := IntToStr(cds_MovimentoNOTAFISCAL_1.asInteger);
      end;
      if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
      begin
        ComboBox1.Text := dm.cds_ccustoNOME.AsString;
        ComboBox2.Text := '';
-       MaskEdit1.Text := '';
        Edit1.Text := IntToStr(cds_MovimentoNOTAFISCAL.asInteger);
      end;
    end;
@@ -1359,11 +1355,6 @@ begin
    end;
 end;
 
-procedure TfMovimenta_Estoque.DBEdit1Exit(Sender: TObject);
-begin
-  MaskEdit1.Text := dbEdit1.Text;
-end;
-
 procedure TfMovimenta_Estoque.DtSrc1StateChange(Sender: TObject);
 begin
   if (DtSrc1.State in [dsEdit, dsInsert]) then
@@ -1379,107 +1370,6 @@ end;
 procedure TfMovimenta_Estoque.SetDataEntrada(dta: TDateTime);
 begin
   { faz }
-end;
-
-procedure TfMovimenta_Estoque.btnEntradaClick(Sender: TObject);
-var TD: TTransactionDesc;
-    sql_sp1 : string;
-begin
-  if (ComboBox1.Text = '') then
-  begin
-    MessageDlg('Dados inválidos!', mtWarning, [mbOK], 0);
-    Exit;
-  end;
-
-  if (cds_Movimento.IsEmpty) then
-  begin
-    MessageDlg('Dados inválidos!', mtWarning, [mbOK], 0);
-    Exit;
-  end;
-  // Entrada de Itens que foram lançados apenas com sáida.
-  if (not cds_Movimento.Active) then
-    cds_Movimento.Open;
-  cds_Movimento.Append;
-  cds_MovimentoCODCLIENTE.AsInteger := cod_cli;
-  cds_MovimentoDATAMOVIMENTO.AsDateTime := MaskEdit1.Date;
-  cds_MovimentoNOMECLIENTE.AsString := cliente;
-  cds_MovimentoNOMEUSUARIO.AsString := vendedor;
-  cds_MovimentoCODVENDEDOR.AsInteger := cod_Ven;
-  { Natureza = 'Entrada' }
-  cds_MovimentoCODNATUREZA.AsInteger := 1;
-  cds_MovimentoDESCNATUREZA.AsString := natureza;
-  cds_MovimentoCODUSUARIO.AsInteger := cod_ven;
-
-  if dm.c_6_genid.Active then
-    dm.c_6_genid.Close;
-  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-  dm.c_6_genid.Open;
-  cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-  dm.c_6_genid.Close;
-
-  cds_Movimento.ApplyUpdates(0);
-  cdsmd.First;
-  while not cdsmd.Eof do
-  begin
-    if (not cds_Mov_det.Active) then
-      cds_Mov_det.Open;
-    if (cds_Mov_det.State in [dsBrowse, dsInactive]) then
-      cds_Mov_det.Append;
-    {** aqui pego as Materias primas e lanço na movimento detalhe}
-    cds_Mov_detCODPRODUTO.AsInteger := cdsmdCODPRODUTO.AsInteger;
-    cds_Mov_detQUANTIDADE.AsFloat := cdsmdQUANTIDADE.AsFloat;
-    cds_Mov_detPRODUTO.AsString := cdsmdPRODUTO.AsString;
-    cds_Mov_detCODPRO.AsString := cdsmdCODPRO.AsString;
-    cds_Mov_detUN.AsString := cdsmdUN.AsString;
-    cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-    dm.c_6_genid.Close;
-    cds_Mov_detPRECO.AsFloat := cdsmdVALORUNITARIOATUAL.AsFloat;
-    if (cds_Mov_det.State in [dsInsert, dsEdit]) then
-      cds_Mov_det.Post;
-    cdsmd.Next;
-  end;
-  cds_Mov_det.ApplyUpdates(0);
-
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-
-  sql_sp1 := 'EXECUTE PROCEDURE LANCA_ENT_SAIDA(';
-  dm.cds_ccusto.Locate('NOME', ComboBox2.Text, [loCaseInsensitive]);
-  if cds_Movimento.State in [dsBrowse] then
-    cds_Movimento.Edit;
-  cds_MovimentoCODALMOXARIFADO.AsInteger := dm.cds_ccustoCODIGO.AsInteger;
-  cds_Movimento.ApplyUpdates(0);
-   // Executa insercao na tab Venda
-  sql_sp1 := sql_sp1 + '0,'; //Tipo (0=Entrada, 1=Saida)
-  sql_sp1 := sql_sp1 + IntToStr(cds_MovimentoCODMOVIMENTO.asInteger);
-  sql_sp1 := sql_sp1 + ',';
-  sql_sp1 := sql_sp1 + IntToStr(cds_MovimentoCODCLIENTE.asInteger);
-  sql_sp1 := sql_sp1 + ',';
-  sql_sp1 := sql_sp1 + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
-  sql_sp1 := sql_sp1 + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
-  sql_sp1 := sql_sp1 + IntToStr(cds_MovimentoCODUSUARIO.asInteger);
-  sql_sp1 := sql_sp1 + ',' + IntToStr(cds_MovimentoCODALMOXARIFADO.AsInteger);//IntToStr(DBLookupComboBox1.KeyValue); //CodCentroCusto
-  sql_sp1 := sql_sp1 + ', null';
-  sql_sp1 := sql_sp1 + ',' + Edit2.Text;
-  if (nSerie = '') then
-    nSerie := 'O';
-  sql_sp1 := sql_sp1 + ',' + QuotedStr(nSerie) + ')';
-  dm.sqlsisAdimin.StartTransaction(TD);
-  dm.sqlsisAdimin.ExecuteDirect(sql_sp1);
-  Try
-    dm.sqlsisAdimin.Commit(TD);
-  except
-    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-    MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-      [mbOk], 0);
-  end;
-  btnEntrada.Enabled := False;
-  MessageDlg('Entrada gerada com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 procedure TfMovimenta_Estoque.DBEdit12KeyPress(Sender: TObject;

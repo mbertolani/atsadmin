@@ -149,7 +149,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     ParentFont = False
     PopupMenu = PopupMenu1
     ReadOnly = True
-    TabOrder = 16
+    TabOrder = 18
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -199,7 +199,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Align = alTop
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
-    TabOrder = 14
+    TabOrder = 16
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -927,7 +927,6 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
       Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 8
-      OnClick = btnEntradaClick
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
         0800000000000004000000000000000000000001000000000000000000000000
@@ -1012,7 +1011,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     ItemHeight = 16
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 0
+    TabOrder = 1
     OnKeyPress = FormKeyPress
   end
   object ComboBox2: TComboBox
@@ -1029,7 +1028,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     ItemHeight = 16
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 2
+    TabOrder = 4
     OnKeyPress = FormKeyPress
   end
   object dbeProduto: TDBEdit
@@ -1048,7 +1047,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 7
+    TabOrder = 9
     OnExit = dbeProdutoExit
     OnKeyPress = FormKeyPress
   end
@@ -1059,7 +1058,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Height = 26
     Caption = 'CTRL + P'
     PopupMenu = PopupMenu1
-    TabOrder = 15
+    TabOrder = 17
     TabStop = False
     OnClick = btnProdutoProcuraClick
     Glyph.Data = {
@@ -1146,7 +1145,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     ParentFont = False
     PopupMenu = PopupMenu1
     ReadOnly = True
-    TabOrder = 8
+    TabOrder = 10
     OnKeyPress = FormKeyPress
   end
   object DBEdit9: TDBEdit
@@ -1165,7 +1164,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 9
+    TabOrder = 11
     OnExit = DBEdit9Exit
     OnKeyPress = FormKeyPress
   end
@@ -1185,7 +1184,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 10
+    TabOrder = 12
     OnKeyPress = FormKeyPress
   end
   object DBEdit12: TDBEdit
@@ -1205,7 +1204,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 11
+    TabOrder = 13
     OnKeyPress = DBEdit12KeyPress
   end
   object btnNovo: TBitBtn
@@ -1215,7 +1214,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Height = 25
     Caption = 'Novo Iten'
     PopupMenu = PopupMenu1
-    TabOrder = 12
+    TabOrder = 14
     OnClick = btnNovoClick
     Glyph.Data = {
       76010000424D7601000000000000760000002800000020000000100000000100
@@ -1239,7 +1238,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Height = 25
     Caption = 'Exclui Iten'
     PopupMenu = PopupMenu1
-    TabOrder = 13
+    TabOrder = 15
     OnClick = BitBtn8Click
     Glyph.Data = {
       76010000424D7601000000000000760000002800000020000000100000000100
@@ -1264,7 +1263,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Align = alBottom
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
-    TabOrder = 17
+    TabOrder = 19
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -1293,7 +1292,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Width = 265
     Height = 21
     ItemHeight = 13
-    TabOrder = 18
+    TabOrder = 20
     Visible = False
   end
   object ComboBox4: TComboBox
@@ -1302,7 +1301,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Width = 265
     Height = 21
     ItemHeight = 13
-    TabOrder = 19
+    TabOrder = 21
     Visible = False
   end
   object Edit1: TEdit
@@ -1316,7 +1315,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 1
+    TabOrder = 2
     OnKeyPress = FormKeyPress
   end
   object Edit2: TEdit
@@ -1330,7 +1329,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 5
     OnKeyPress = FormKeyPress
   end
   object cbCodigo: TJvDBSearchComboBox
@@ -1346,7 +1345,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 6
     OnKeyPress = FormKeyPress
   end
   object cbNome: TJvDBSearchComboBox
@@ -1362,7 +1361,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 5
+    TabOrder = 7
     OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit
@@ -1381,7 +1380,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 6
+    TabOrder = 8
     OnKeyPress = FormKeyPress
   end
   object dta1: TJvDatePickerEdit
@@ -1391,7 +1390,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Height = 21
     AllowNoDate = True
     Checked = False
-    TabOrder = 20
+    TabOrder = 0
   end
   object dta2: TJvDatePickerEdit
     Left = 87
@@ -1400,7 +1399,7 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
     Height = 21
     AllowNoDate = True
     Checked = False
-    TabOrder = 21
+    TabOrder = 3
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_ccusto
