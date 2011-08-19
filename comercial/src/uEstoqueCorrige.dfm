@@ -1,5 +1,5 @@
 object fEstoqueCorrige: TfEstoqueCorrige
-  Left = 235
+  Left = 310
   Top = 117
   Width = 415
   Height = 352
@@ -131,7 +131,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Top = 224
     Width = 75
     Height = 25
-    Caption = 'BitBtn1'
+    Caption = 'Corrigir Lote'
     TabOrder = 8
     OnClick = BitBtn1Click
   end

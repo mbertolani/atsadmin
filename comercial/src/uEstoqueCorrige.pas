@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DBXpress, Mask, JvExMask, JvToolEdit, FMTBcd, DB,
   SqlExpr, DBClient, Provider, ComCtrls, JvExComCtrls, JvProgressBar ,umovimento ,DateUtils,
-  Buttons;
+  Buttons , uVendaCls;
 
 type
   TfEstoqueCorrige = class(TForm)
@@ -258,11 +258,14 @@ end;
 
 procedure TfEstoqueCorrige.BitBtn1Click(Sender: TObject);
 var fmov : TMovimento;
+    fven : TVendaCls;
     sql_sp , str : string;
     codMov : Integer;
     TD: TTransactionDesc;
 begin
   fmov := TMovimento.Create;
+  fven := TVendaCls.Create;
+  dm.sqlsisAdimin.StartTransaction(TD);
   if (cdsB.Active) then
   cdsB.Close;
   str := 'SELECT * from estoquemes ';
@@ -270,6 +273,8 @@ begin
   str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
   str := str + '   AND ' ;
   str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit2.Text)));
+  str := str + '   AND ' ;
+  str := str + ' saldoestoque > 0 ' ;
   cdsB.CommandText := str;
   cdsB.Open;
 
@@ -283,37 +288,40 @@ begin
   fMov.CodFornec   := 0;
 
   codMov := fMov.inserirMovimento(0);
-  dm.sqlsisAdimin.StartTransaction(TD);
+
   While not cdsB.Eof do
   begin
 
-      // Detalhe Natureza 6
-      fMov.MovDetalhe.CodMov     := codMov;
-      fMov.MovDetalhe.CodProduto := cdsB.FieldByName('CODPRODUTO').AsInteger;
-      fMov.MovDetalhe.Qtde       := cdsB.FieldByName('SALDOESTOQUE').AsFloat; //CODPRODUTO cdsPedidoRECEBIDO.asFloat;
-      fMov.MovDetalhe.Preco      := 1 ;
-      fMov.MovDetalhe.Descricao  := ' ';
-      fMov.MovDetalhe.Desconto   := 0;
-      fMov.MovDetalhe.Un         := 'PC';
-      fMov.MovDetalhe.Lote       := cdsB.FieldByName('LOTE').AsString;
-      fMov.MovDetalhe.inserirMovDet;
+    // Detalhe Natureza 6
+    fMov.MovDetalhe.CodMov     := codMov;
+    fMov.MovDetalhe.CodProduto := cdsB.FieldByName('CODPRODUTO').AsInteger;
+    fMov.MovDetalhe.Qtde       := cdsB.FieldByName('SALDOESTOQUE').AsFloat; //CODPRODUTO cdsPedidoRECEBIDO.asFloat;
+    fMov.MovDetalhe.Preco      := 1 ;
+    fMov.MovDetalhe.Descricao  := ' ';
+    fMov.MovDetalhe.Desconto   := 0;
+    fMov.MovDetalhe.Un         := 'PC';
+    fMov.MovDetalhe.Lote       := cdsB.FieldByName('LOTE').AsString;
+    fMov.MovDetalhe.inserirMovDet;
 
-      sql_sp := 'execute procedure LANCA_ENT_SAIDA(';
-      sql_sp := sql_sp + '1 ,' + IntToStr(codMov);
-      sql_sp := sql_sp + ', 0 ,' ;
-      sql_sp := sql_sp +  QuotedStr(Formatdatetime('mm/dd/yyyy',today));
-      sql_sp := sql_sp +  ',';
-      sql_sp := sql_sp +  QuotedStr(Formatdatetime('mm/dd/yyyy',today));
-      sql_sp := sql_sp +  ',1';
-      sql_sp := sql_sp + ',' + IntToStr(cdsB.FieldByName('CENTROCUSTO').AsInteger);
-      sql_sp := sql_sp +  ',' +  QuotedStr('O');
-      sql_sp := sql_sp + ', null' ;
-      sql_sp := sql_sp + ', ' + QuotedStr('') + ')';
-
-      dm.sqlsisAdimin.ExecuteDirect(sql_sp);
-      cdsB.Next;
+    cdsB.Next;
   end;
+
+  fven.CodMov               := codMov;
+  fven.DataVenda            := StrToDate('30/06/2011');
+  fven.DataVcto             := StrToDate('30/06/2011');
+  fven.Serie                := 'O';
+  fven.NotaFiscal           := codMov;
+  fven.CodCliente           := 1;
+  fven.CodVendedor          := 1;
+  fven.CodCCusto            := 51;
+  fven.ValorPagar           := 0;
+  fven.NParcela             := 1;
+  fven.inserirVenda(0);
+
+  dmnf.baixaEstoque(codMov, StrToDate('30/06/2011'), 'VENDA'); 
+
   dm.sqlsisAdimin.Commit(TD);
+
 end;
 
 end.
