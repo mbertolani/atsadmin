@@ -1,4 +1,3 @@
-Set term ^ ;
 CREATE OR ALTER PROCEDURE rel_compra_pedido(codFornec Integer, pData1 date, pData2 date)
 RETURNS (
     CODPRODUTO Varchar(15),

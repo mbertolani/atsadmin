@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE  BAIXATITULOSREC( VALOR                            DOUBLE PRECISION
+CREATE OR ALTER PROCEDURE  BAIXATITULOSREC( VALOR                            DOUBLE PRECISION
                                 , FUNRURAL                         DOUBLE PRECISION
                                 , JUROS                            DOUBLE PRECISION
                                 , DESCONTO                         DOUBLE PRECISION
