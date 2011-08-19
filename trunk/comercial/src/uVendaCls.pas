@@ -2,7 +2,7 @@ unit uVendaCls;
 
 interface
 
-uses SysUtils, Dialogs, dbXpress, uMovimentoDetalhe, dateUtils;
+uses SysUtils, Dialogs, dbXpress, dateUtils;
 
 type
 
@@ -154,6 +154,7 @@ uses SqlExpr, DB, UDm, DBClient;
 function TVendaCls.alterarVenda(codVendaA: Integer): Boolean;
 begin
   // Alterar Venda
+  Result := False;
 end;
 
 constructor TVendaCls.Create;
@@ -378,7 +379,7 @@ begin
   str := str + QuotedStr(Self.FormaRec)   + ', ' + QuotedStr(Self.NDoc)        + ', ';
   str := str + IntToStr(Self.Caixa)       + ', ' + FloatToStr(Self.MultaJuros) + ', ';
   str := str + FloatToStr(Self.Apagar)    + ', ' + FloatToStr(Self.ValorPagar) + ', ';
-  str := str + FloatToStr(Self.Entrada)   + ', ';// + FloatToStr(Self.ValorPagar) + ', ';
+  str := str + FloatToStr(Self.Entrada)   + ', ';
   str := str + QuotedStr(Self.Obs)        + ', ' + FloatToStr(Self.Icms)       + ', ';
   str := str + FloatToStr(Self.Frete)     + ', ' + FloatToStr(Self.Seguro)     + ', ';
   str := str + FloatToStr(Self.OutrosVlr) + ', ' + FloatToStr(Self.Ipi)        + ', ';
@@ -541,6 +542,7 @@ function TVendaCls.verVenda(Controle, Campo, Tipo: String;
   codNat: Integer): Integer;
 begin
   // Ver Venda
+  Result := 0;
 end;
 
 end.
