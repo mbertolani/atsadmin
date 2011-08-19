@@ -167,7 +167,10 @@ begin
     str := str + '  LEFT OUTER JOIN VENDA  V ON V.CODMOVIMENTO = M.CODMOVIMENTO';
     str := str + '  LEFT OUTER JOIN COMPRA C ON C.CODMOVIMENTO = M.CODMOVIMENTO';
     str := str + ' WHERE md.BAIXA is not null ' ;
-    str := str + '   AND MD.LOTE  = ' + QuotedStr(cdsB.FieldByName('LOTE').AsString);
+    if(cdsB.FieldByName('LOTE').AsString <> '')then
+      begin
+       str := str + '   AND MD.LOTE  = ' + QuotedStr(cdsB.FieldByName('LOTE').AsString);
+      end;
     str := str + '   AND m.CODNATUREZA < 5' ;
     str := str + '   AND m.DATAMOVIMENTO BETWEEN ';
     str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
@@ -191,9 +194,14 @@ begin
       str := str + ', 100';
       str := str + ', 1 ';
       str := str + ', ''TODAS AS MARCAS CADASTRADAS NO SISTEMA''';
-      str := str + ', ';
-      str := str +  QuotedStr(cdsB.FieldByName('LOTE').AsString);
-      //str := str + ', ''TODOS OS LOTES CADASTRADOS NO SISTEMA''';
+
+      if(cdsB.FieldByName('LOTE').AsString <> '')then
+      begin
+        str := str + ', ';
+        str := str +  QuotedStr(cdsB.FieldByName('LOTE').AsString);
+      end
+      else
+        str := str + ', ''TODOS OS LOTES CADASTRADOS NO SISTEMA''';
       str := str + ',''TODOS OS GRUPOS CADASTRADOS NO SISTEMA'')';
       if (cdsA.Active) then
         cdsA.Close;
