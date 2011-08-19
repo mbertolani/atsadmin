@@ -6,6 +6,7 @@ AS
   DECLARE VARIABLE codProd INT;  
   DECLARE VARIABLE codCCusto INT;  
   DECLARE VARIABLE codMov INT;  
+  DECLARE VARIABLE codDet INT;  
   DECLARE VARIABLE codCotacao INT; 
   DECLARE VARIABLE codNovoMov INT; 
   DECLARE VARIABLE prazo VARCHAR(30);
@@ -37,7 +38,7 @@ BEGIN
         m.PRAZO_PAGAMENTO, m.OBS, m.VALOR_FRETE, m.CODUSUARIO, 
         m.CODVENDEDOR , m.USER_APROVA, 
         md.codproduto, md.descproduto, md.RECEBIDO, md.preco, md.un, md.qtde_alt,
-        md.QUANTIDADE, m.CODMOVIMENTO, m.CODALMOXARIFADO
+        md.QUANTIDADE, m.CODMOVIMENTO, m.CODALMOXARIFADO, md.CODDETALHE
         FROM MOVIMENTO m, MOVIMENTODETALHE md  
        where md.CODMOVIMENTO = m.CODMOVIMENTO
          and ((m.STATUS = 3) OR (m.STATUS = 4)) 
@@ -46,7 +47,7 @@ BEGIN
          and (md.CODIGO1 = 99999) 
          and (m.CODFORNECEDOR = :codFornec)
       into :nat, :codFornec, :codCotacao, :entrega, :prazo, :obs, :frete, :codUsuario, 
-      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov, :codCCusto
+      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov, :codCCusto, :codDet
     do begin     
       if (IncluidoMov = 'N') then 
       begin 
@@ -74,6 +75,7 @@ BEGIN
           quantidade, preco, un, qtde_alt, recebido, codigo) values (
           GEN_ID(GENMOVDET, 1), :codMov, :codProd, :prodDesc, 
           :qtde - :recebido, :PRECO, :UN, :qtdeAlt, 0, :codCotacao);
+        update MOVIMENTODETALHE set QUANTIDADE = :recebido where coddetalhe = :codDet;  
       end  
       When any do
       begin
