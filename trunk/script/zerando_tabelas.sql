@@ -1,6 +1,6 @@
 SET TERM ^ ;
 
-/* Altero as Trigger primeiro de COMPRA E VENDA, pois, estas n„o deixa„o excluir */
+/* Altero as Trigger primeiro de COMPRA E VENDA, pois, estas n√£o deixa√£o excluir */
 
 /*create generator gen_cli_end^ 
 */
@@ -24,7 +24,7 @@ SET GENERATOR GENMOV TO 0^
 SET GENERATOR GENVENDA TO 0^
 SET GENERATOR GENORCAMENTO TO 0^
 SET GENERATOR GEN_CLI TO 0^
-SET GENERATOR GEN_CLI_END TO 0^
+--SET GENERATOR GEN_CLI_END TO 0^
 SET GENERATOR GEN_COD_FUNC TO 0^
 SET GENERATOR GEN_FOR TO 0^
 SET GENERATOR GEN_FOR_END TO 0^
@@ -84,7 +84,7 @@ DELETE FROM CHEQ_BOLETOS_DUPL^
 DELETE FROM PARAMETRO WHERE PARAMETRO = 'NATUREZAENTRADA'^
 DELETE FROM PARAMETRO WHERE PARAMETRO = 'NATUREZASAIDA'^
 */
-/* Para Teste n„o precisa limpar estas tabelas*/
+/* Para Teste n√£o precisa limpar estas tabelas*/
 
 /*Zerando tabela informativo */
 

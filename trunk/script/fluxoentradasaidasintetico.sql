@@ -1,3 +1,4 @@
+set term  ^  ;
 CREATE OR ALTER PROCEDURE FLUXOENTRADASAIDASINTETICO (
     DTAINI Date,
     DTAFIM Date )
@@ -20,7 +21,7 @@ BEGIN
   valorCaixad = 0;
   dtaPagto = dtaIni - 1;
   /*Pegando os Saldos de Caixas/Bancos */
-  SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CAIXA'
+  /*SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CAIXA'
   Into :Caixa;
   for SELECT CODIGO FROM PLANO WHERE CONTAPAI = PLNCTAMAIN(:CAIXA)
   into :codCaixa
@@ -43,13 +44,14 @@ BEGIN
   valor = 0;
   valorCaixac = 0;
   valorCaixad = 0;
+  */
 
   /*                                                    */
   /*                                                    */
   /*     Total de Debitos (em aberto) por RECEBIMENTOS     */
   /*                                                    */
   /*           */
-  SELECT sum(rec.VALOR_RESTO)
+  /*SELECT sum(rec.VALOR_RESTO)
      FROM RECEBIMENTO rec where 
      rec.DATAVENCIMENTO < :DTAINI and rec.STATUS = '5-'
     INTO :VALORD;
@@ -97,7 +99,7 @@ BEGIN
     --FORMA = null;
     --CODCONTA = null;
     --N_DOC = null;
-
+  */
 
   /*                                                    */
   /*                                                    */

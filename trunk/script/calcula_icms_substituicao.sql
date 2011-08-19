@@ -32,7 +32,7 @@ begin
   
   -- Inicio por PRODUTO
   -- Vejo no cadastro da ClassificaoFiscal se tem substituicao tributaria se 
-  -- tiver o calculo é por produto e não pelo cfop 
+  -- tiver o calculo Ã© por produto e nÃ£o pelo cfop 
   
   select first 1 ven.CODMOVIMENTO from VENDA ven where ven.NOTAFISCAL = :notafiscalVenda and ven.SERIE = :serie
     into :codMov;
@@ -87,7 +87,7 @@ begin
 
          if (icms_subst_ind_desc > 0) then 
            icms_subst_ind_desc = icms_subst_ind_desc / 100;
-        --CORRE��O DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
+        --CORREÇÃO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
         if (icms_subst_ind <> icms_subst_ind_desc)  then
          begin
             cormva = ((1-icms_subst_ind_desc)/ (1-icms_subst_ind));
@@ -107,7 +107,7 @@ begin
          begin 
          
            --update recebimento set historico =  historico || cast(:icms_subst as varchar(20))  || '1' where titulo = :notafiscalVenda || '-' || :serie and via = 1;
-           /* N�o usa mais, nao altera mais o campo Fatura na NF
+           /* Não usa mais, nao altera mais o campo Fatura na NF
            fatura = '';  
            For select UDF_DAY(dataVencimento) || '/' || UDF_MONTH(dataVencimento) || '/' || UDF_YEAR(dataVencimento)
                 , via, valor_resto from RECEBIMENTO where  titulo = :notafiscalVenda || '-' || :serie
