@@ -378,7 +378,7 @@ begin
   str := str + QuotedStr(Self.FormaRec)   + ', ' + QuotedStr(Self.NDoc)        + ', ';
   str := str + IntToStr(Self.Caixa)       + ', ' + FloatToStr(Self.MultaJuros) + ', ';
   str := str + FloatToStr(Self.Apagar)    + ', ' + FloatToStr(Self.ValorPagar) + ', ';
-  str := str + FloatToStr(Self.Entrada)   + ', ' + FloatToStr(Self.ValorPagar) + ', ';
+  str := str + FloatToStr(Self.Entrada)   + ', ';// + FloatToStr(Self.ValorPagar) + ', ';
   str := str + QuotedStr(Self.Obs)        + ', ' + FloatToStr(Self.Icms)       + ', ';
   str := str + FloatToStr(Self.Frete)     + ', ' + FloatToStr(Self.Seguro)     + ', ';
   str := str + FloatToStr(Self.OutrosVlr) + ', ' + FloatToStr(Self.Ipi)        + ', ';
@@ -387,7 +387,7 @@ begin
   DecimalSeparator := '.';
 
   if (executaSql(str)) then
-    Result := Self.CodMov
+    Result := Self.CodVenda
   else
     Result := 0;
 end;
