@@ -91,7 +91,7 @@ begin
   FMov.CodUsuario  := 1;
   FMov.CodVendedor := 1;
   FMov.CodMov      := CCodMov;
-  codMovInserido := FMov.inserirMovimento;
+  codMovInserido := FMov.inserirMovimento(0);
 
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;

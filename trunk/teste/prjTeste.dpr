@@ -12,7 +12,11 @@ uses
   uMovimentoTeste in 'uMovimentoTeste.pas',
   uCliente in '..\comercial\src\uCliente.pas',
   uClienteEnderecos in '..\comercial\src\uClienteEnderecos.pas',
-  uClienteTeste in 'uClienteTeste.pas';
+  uClienteTeste in 'uClienteTeste.pas',
+  uCompraCls in '..\comercial\src\uCompraCls.pas',
+  uCompraTeste in 'uCompraTeste.pas',
+  uVendaTeste in 'uVendaTeste.pas',
+  uVendaCls in '..\comercial\src\uVendaCls.pas';
 
 {$R *.res}
 
