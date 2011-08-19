@@ -2,13 +2,12 @@ unit uMovimenta_Estoque;
 
 interface
 
-uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, FMTBcd, XPMenu, Menus, Grids, DBGrids, StdCtrls, Mask, DBCtrls,
-  Buttons, ExtCtrls, MMJPanel, DB, DBClient, Provider, SqlExpr, DBXpress,
-  JvDBDatePickerEdit, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, uVendaCls,
-  dateUtils, uMovimento, uEstoque;
+uses  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+   FMTBcd, XPMenu, Menus, DB, DBClient, Provider, SqlExpr,
+  JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
+  JvExStdCtrls, JvCombobox, JvDBSearchComboBox, StdCtrls, Mask, DBCtrls,
+  Buttons, ExtCtrls, MMJPanel, Grids, DBGrids, DBXpress, uMovimento, uCompraCls,
+  uVendaCls, Dialogs, dateUtils;
 
 type
   TfMovimenta_Estoque = class(TForm)
@@ -422,6 +421,7 @@ type
     procedure cds_Mov_detReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
+    procedure dta1Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -547,12 +547,14 @@ begin
 end;
 
 procedure TfMovimenta_Estoque.btnGravarClick(Sender: TObject);
-var FEstoque: TEstoque;
+var
   sql_sp: string;
-  TD: TTransactionDesc;
+  TDA: TTransactionDesc;
   FMov: TMovimento;
   FVen: TVendaCls;
-  codMov : Integer;
+  FCom: TCompraCls;
+  codMovSaida, codMovEntrada : Integer;
+  Save_Cursor:TCursor;
 begin
   if (DtSrc1.State in [dsEdit]) then
   begin
@@ -566,17 +568,20 @@ begin
     exit;
   end;
 
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
+  TDA.TransactionID := 1;
+  TDA.IsolationLevel := xilREADCOMMITTED;
 
+  Save_Cursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   Try
     FMov := TMovimento.Create;
     FVen := TVendaCls.Create;
+    FCom := TCompraCls.Create;
 
     Try
-      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.StartTransaction(TDA);
 
-      // SAIDA
+      // ######  SAIDA   ###################
       FMov.CodMov      := 0;
 
       FMov.CodCCusto   := 0;
@@ -593,12 +598,12 @@ begin
       FMov.CodVendedor := 1;
       FMov.DataMov     := dta1.Date;
 
-      codMov := FMov.inserirMovimento(0);
+      codMovSaida := FMov.inserirMovimento(0);
 
       cds_Mov_det.First;
       While not cds_Mov_det.Eof do
       begin
-        FMov.MovDetalhe.CodMov        := codMov;
+        FMov.MovDetalhe.CodMov        := codMovSaida;
         FMov.MovDetalhe.CodProduto    := cds_Mov_detCODPRODUTO.AsInteger;
         FMov.MovDetalhe.Qtde          := cds_Mov_detQUANTIDADE.AsFloat;
         FMov.MovDetalhe.Preco         := cds_Mov_detPRECO.AsFloat;
@@ -607,9 +612,28 @@ begin
         cds_Mov_det.Next;
       end;
 
-      dmnf.baixaEstoque(codMov, dta2.Date, 'SAIDA');
+      fven.CodMov               := codMovSaida;
+      fven.DataVenda            := dta1.Date;
+      fven.DataVcto             := dta1.Date;
+      fven.Serie                := 'O';
+      fven.NotaFiscal           := codMovSaida;
+      fven.CodCliente           := 1;
+      fven.CodVendedor          := 1;
+      fven.CodCCusto            := 51;
+      fven.ValorPagar           := 0;
+      fven.NParcela             := 1;
+      fven.inserirVenda(0);
 
-      // ENTRADA
+      dmnf.baixaEstoque(codMovSaida, dta2.Date, 'SAIDA');
+
+      dm.sqlsisAdimin.Commit(TDA);
+
+      // ########### Fim SAIDA  ######################
+
+
+      dm.sqlsisAdimin.StartTransaction(TDA);
+
+      // ########### ENTRADA    ######################
       FMov.CodMov      := 0;
       FMov.CodCCusto   := 0;
       IF (ComboBox2.Text <> '') then
@@ -625,12 +649,12 @@ begin
       FMov.CodVendedor := 1;
       FMov.DataMov     := dta2.Date;
 
-      codMov := FMov.inserirMovimento(0);
+      codMovEntrada := FMov.inserirMovimento(0);
 
       cds_Mov_det.First;
       While not cds_Mov_det.Eof do
       begin
-        FMov.MovDetalhe.CodMov        := codMov;
+        FMov.MovDetalhe.CodMov        := codMovEntrada;
         FMov.MovDetalhe.CodProduto    := cds_Mov_detCODPRODUTO.AsInteger;
         FMov.MovDetalhe.Qtde          := cds_Mov_detQUANTIDADE.AsFloat;
         FMov.MovDetalhe.Preco         := cds_Mov_detPRECO.AsFloat;
@@ -639,11 +663,25 @@ begin
         cds_Mov_det.Next;
       end;
 
-      dmnf.baixaEstoque(codMov, dta2.Date, 'ENTRADA');
+      fCom.CodMov               := codMovEntrada;
+      fCom.DataCompra           := dta2.Date;
+      fCom.DataVcto             := dta2.Date;
+      fCom.Serie                := 'I';
+      fCom.NotaFiscal           := codMovEntrada;
+      fCom.CodFornecedor        := 1;
+      fCom.CodComprador         := 1;
+      fCom.CodCCusto            := 51;
+      fCom.ValorPagar           := 0;
+      fCom.NParcela             := 1;
+      fCom.inserirCompra(0);
 
-      dm.sqlsisAdimin.Commit(TD);
+      dmnf.baixaEstoque(codMovEntrada, dta2.Date, 'ENTRADA');
 
-      cds_Movimento.Post;
+      // ########### Fim ENTRADA  ######################
+
+      dm.sqlsisAdimin.Commit(TDA);
+
+      cds_Movimento.Cancel;
 
       MessageDlg('Movimento gravado com sucesso.', mtInformation,
            [mbOk], 0);
@@ -652,14 +690,15 @@ begin
       on E : Exception do
       begin
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
       end;
     end;
   Finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    FCom.Free;
     FMov.Free;
     FVen.Free;
   end;
-
 
     {dt_mov := MaskEdit1.Date;
     if (cds_MovimentoOBS.IsNull) then
@@ -672,15 +711,14 @@ end;
 
 procedure TfMovimenta_Estoque.btnExcluirClick(Sender: TObject);
 var deleta, delmov, delmovprim, delvenprim: string;
-  FEstoque : TEstoque;
 begin
   MessageDlg('Tem certeza que Deseja Excluir?', mtConfirmation, [mbYes, mbNo], 0);
   if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
   begin
-    deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
+    deleta     := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
     delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
-    Try
-      FEstoque := TEstoque.Create;
+  {  Try
+     FEstoque := TEstoque.Create;
       // Gravando o Estoque
       cds_Mov_det.First;
       While not cds_Mov_det.Eof do
@@ -699,7 +737,7 @@ begin
     Finally
       FEstoque.Free;
     end;
-
+   }
   end;
 
   if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
@@ -707,7 +745,7 @@ begin
     deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
     delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
 
-    Try
+    {Try
       FEstoque := TEstoque.Create;
       // Gravando o Estoque
       cds_Mov_det.First;
@@ -725,7 +763,7 @@ begin
       end;
     Finally
       FEstoque.Free;
-    end;
+    end;}
 
 
   end;
@@ -785,7 +823,7 @@ end;
 
 procedure TfMovimenta_Estoque.BitBtn8Click(Sender: TObject);
 // Var str_del: String;
-var FEst: TEstoque;
+//var FEst: TEstoque;
 begin
 {  str_del := 'DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ';
   str_del := str_del + IntToStr(cds_Mov_detCODDETALHE.AsInteger);
@@ -812,7 +850,7 @@ begin
       begin
         // Item ja Lancado no Estoque baixa-lo;
         // Gravando o Estoque
-        Try
+  {      Try
           FEst := TEstoque.Create;
           if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
           begin
@@ -835,7 +873,7 @@ begin
         Finally
           FEst.Free;
         end;
-
+   }
       end;
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ' + InttoStr(cds_Mov_detCODDETALHE.AsInteger));
       //DtSrc1.DataSet.Delete;
@@ -1445,6 +1483,11 @@ procedure TfMovimenta_Estoque.cds_Mov_detReconcileError(
 begin
 Action := raCancel;
 raise exception.create(e.Message);
+end;
+
+procedure TfMovimenta_Estoque.dta1Change(Sender: TObject);
+begin
+  dta2.Date := dta1.date;
 end;
 
 end.
