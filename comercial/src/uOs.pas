@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, JvExStdCtrls, JvCombobox, Mask, JvExMask, JvToolEdit,
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uOsClasse, Buttons,
-  ExtCtrls, MMJPanel, DB, FMTBcd, DBClient, Provider, SqlExpr;
+  ExtCtrls, MMJPanel, DB, FMTBcd, DBClient, Provider, SqlExpr, Grids,
+  DBGrids, JvExDBGrids, JvDBGrid;
 
 type
   TfOs = class(TForm)
@@ -15,7 +16,7 @@ type
     Label3: TLabel;
     edNumOS: TEdit;
     edKm: TEdit;
-    edServico: TEdit;
+    edObs: TEdit;
     Label6: TLabel;
     edDataFim: TJvDatePickerEdit;
     Label1: TLabel;
@@ -65,6 +66,29 @@ type
     cds_VeiculocliANO_FAB: TStringField;
     cds_VeiculocliANO_MOD: TStringField;
     cds_VeiculocliCOR: TStringField;
+    GroupBox1: TGroupBox;
+    Edit1: TEdit;
+    Label5: TLabel;
+    edStatus: TEdit;
+    GroupBox2: TGroupBox;
+    JvDBGrid1: TJvDBGrid;
+    sqlOS: TSQLDataSet;
+    dspOS: TDataSetProvider;
+    cdsOS: TClientDataSet;
+    dtsrc: TDataSource;
+    cdsOSCODOS: TIntegerField;
+    cdsOSCODCLIENTE: TIntegerField;
+    cdsOSCODVEICULO: TIntegerField;
+    cdsOSCODMOVIMENTO: TIntegerField;
+    cdsOSDATAMOVIMENTO: TDateField;
+    cdsOSDATA_SISTEMA: TSQLTimeStampField;
+    cdsOSPROBLEMAS: TStringField;
+    cdsOSSTATUS: TStringField;
+    cdsOSDATA_INI: TDateField;
+    cdsOSDATA_FIM: TDateField;
+    cdsOSRESPONSAVEL: TStringField;
+    cdsOSDESCRICAO_SERV: TStringField;
+    cdsOSSTATUS_1: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
