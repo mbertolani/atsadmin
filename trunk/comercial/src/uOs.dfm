@@ -54,9 +54,9 @@ object fOs: TfOs
   object Label4: TLabel
     Left = 32
     Top = 149
-    Width = 36
+    Width = 25
     Height = 13
-    Caption = 'Servi'#231'o'
+    Caption = 'Obs.:'
   end
   object Label8: TLabel
     Left = 34
@@ -90,7 +90,7 @@ object fOs: TfOs
     MaxLength = 100
     TabOrder = 2
   end
-  object edServico: TEdit
+  object edObs: TEdit
     Left = 32
     Top = 167
     Width = 694
@@ -892,6 +892,87 @@ object fOs: TfOs
     TabOrder = 9
     Text = 'edVeiculo'
   end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 200
+    Width = 721
+    Height = 97
+    Caption = 'Servi'#231'o'
+    TabOrder = 10
+    object Label5: TLabel
+      Left = 8
+      Top = 56
+      Width = 42
+      Height = 13
+      Caption = 'Situa'#231#227'o'
+    end
+    object Edit1: TEdit
+      Left = 3
+      Top = 28
+      Width = 662
+      Height = 21
+      MaxLength = 100
+      TabOrder = 0
+    end
+    object edStatus: TEdit
+      Left = 72
+      Top = 56
+      Width = 145
+      Height = 21
+      ReadOnly = True
+      TabOrder = 1
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 8
+    Top = 304
+    Width = 721
+    Height = 193
+    TabOrder = 11
+    object JvDBGrid1: TJvDBGrid
+      Left = 2
+      Top = 15
+      Width = 717
+      Height = 176
+      Align = alClient
+      DataSource = dtsrc
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      AutoAppend = False
+      FixedCols = 7
+      PostOnEnterKey = True
+      AutoSizeColumns = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 17
+      TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO_SERV'
+          Width = 447
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'RESPONSAVEL'
+          Width = 226
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'STATUS_1'
+          Width = 25
+          Visible = True
+        end>
+    end
+  end
   object sdsProd: TSQLDataSet
     CommandText = 
       'SELECT CODPRODUTO, COD_BARRA, CODPRO, PRODUTO FROM '#13#10'      LISTA' +
@@ -1079,5 +1160,95 @@ object fOs: TfOs
       FieldName = 'COR'
       ProviderFlags = [pfInUpdate]
     end
+  end
+  object sqlOS: TSQLDataSet
+    CommandText = 
+      'SELECT OSP.CODOS, OSP.CODCLIENTE, OSP.CODVEICULO,'#13#10'    OSP.CODMO' +
+      'VIMENTO, OSP.DATAMOVIMENTO, OSP.DATA_SISTEMA,'#13#10'    OSP.PROBLEMAS' +
+      ', OSP.STATUS, OSP.DATA_INI, OSP.DATA_FIM, '#13#10'    OSDET.RESPONSAVE' +
+      'L, OSDET.DESCRICAO_SERV, OSDET.STATUS'#13#10'   FROM OS OSP, OS_DET OS' +
+      'DET '#13#10'WHERE OSDET.ID_OS = OSP.CODOS'#13#10'      AND OSP.CODOS = :POS'#13 +
+      #10'    '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'POS'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 512
+    Top = 112
+  end
+  object dspOS: TDataSetProvider
+    DataSet = sqlOS
+    Options = [poAllowCommandText]
+    Left = 544
+    Top = 112
+  end
+  object cdsOS: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'POS'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspOS'
+    Left = 576
+    Top = 112
+    object cdsOSCODOS: TIntegerField
+      FieldName = 'CODOS'
+      Required = True
+    end
+    object cdsOSCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object cdsOSCODVEICULO: TIntegerField
+      FieldName = 'CODVEICULO'
+    end
+    object cdsOSCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+    end
+    object cdsOSDATAMOVIMENTO: TDateField
+      FieldName = 'DATAMOVIMENTO'
+    end
+    object cdsOSDATA_SISTEMA: TSQLTimeStampField
+      FieldName = 'DATA_SISTEMA'
+    end
+    object cdsOSPROBLEMAS: TStringField
+      FieldName = 'PROBLEMAS'
+      Size = 300
+    end
+    object cdsOSSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsOSDATA_INI: TDateField
+      FieldName = 'DATA_INI'
+    end
+    object cdsOSDATA_FIM: TDateField
+      FieldName = 'DATA_FIM'
+    end
+    object cdsOSRESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Size = 150
+    end
+    object cdsOSDESCRICAO_SERV: TStringField
+      FieldName = 'DESCRICAO_SERV'
+      Size = 300
+    end
+    object cdsOSSTATUS_1: TStringField
+      FieldName = 'STATUS_1'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dtsrc: TDataSource
+    DataSet = cdsOS
+    Left = 608
+    Top = 112
   end
 end
