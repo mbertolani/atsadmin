@@ -1019,7 +1019,7 @@ begin
       if (NaoExisteTabela('OS_DET')) then
       begin
         executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
-          'id_OS integer not null, descricao_serv varchar(300), ' +
+          'id_OS integer not null, descricao_serv varchar(1024), ' +
           'responsavel varchar(150), status char(1) ) ' );
       end;
       mudaVersao('1.0.0.91');
@@ -1076,6 +1076,7 @@ begin
       executaScript('listaSpEstoqueFiltro.sql');
       executaScript('listaProdutocli.sql');
       executaScript('listaProduto.sql');
+      executaScript('estoqueccustoent.sql');
       mudaVersao('1.0.0.93');
       executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
       '6, ' + QuotedStr('Expedição') + ', 1, 0, 6)');
