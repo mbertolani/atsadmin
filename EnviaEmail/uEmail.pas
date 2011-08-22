@@ -47,8 +47,6 @@ uses UDm;
 
 procedure TForm1.BitBtn1Click(Sender: TObject);
 var email,responsavel:string;
-  SSL : TIdSSLIOHandlerSocket;
-
 begin
   Cursor := crHourGlass;
 
@@ -61,54 +59,56 @@ begin
   FlatGauge1.MaxValue := cdsEnvia.RecordCount;
 
 
-
-  SSL := TIdSSLIOHandlerSocket.Create(nil);
-
-  SSL.SSLOptions.Method := sslvSSLv2;
-  SSL.SSLOptions.Mode := sslmClient;
-
-{ seta as propriedades do componente IdSMTP }
-
-  IdSMTP1.IOHandler := SSL;
-
-  //IdSmtp1.AuthenticationType := utUseImplicitTLS;
-  //IdSMTP1.Host := 'smtp.gmail.com';
-  //IdSMTP1.Port := 465;
-
-  IdSMTP1.AuthenticationType := atLogin;
-
-
   if (cdsEnvia.RecordCount > 0) then
   begin
     cdsEnvia.DisableControls;
     cdsEnvia.First;
     while not cdsEnvia.Eof do
     begin
+     // cria a parte HTML
+      Html := TIdText.Create(IdMessage1.MessageParts);
+       //Coloca o Logotipo da Empresa
+                                    Html.Body.Text := '<html><body>' + '<img src="cid:imagem.jpg" >' + '</p>';
+                                    Html.Body.Text := Html.Body.Text + '<font color="#000080"><b><u>REMESSA DE ARQUIVO DE FATURA</u></b><br>';
+                                    Html.Body.Text := Html.Body.Text + 'Data Fechamento da Fatura = ' + StrDataFechamento + '<br>';
+                                    Html.Body.Text := Html.Body.Text + 'Número da Fatura = ' + StrCodigoFatura + '<br>';
+                                    Html.Body.Text := Html.Body.Text + 'Valor da Fatura = R$'+ StrValorFatura + '<br>';
+                                    Html.Body.Text := Html.Body.Text + '</body></html>';
+                                    Html.ContentType := 'text/html';                 //
+                                                    //
+                                    Anexo := TIdAttachment.Create(idmessage1.MessageParts, 'c:\imagem.jpg');
+                                    Anexo.ContentType := 'image/jpg';
+                                     Anexo.Headers.Add('Content-ID: <imagem.jpg>');
+
+
+      TIdAttachment.Create(IdMessage1.MessageParts,imagem.jpg);
+
+
+
       // dados da mensagem
       // e-mail do remetente
-      IdMessage1.From.Address := dm.cds_empresaE_MAIL.AsString;
-
+      IdMessage1.From.Address := 'atsti@bol.com.br' ; //
       // e-mail do destinatário
-      IdMessage1.Recipients.EMailAddresses := 'comercial@atsti.com.br';// cdsEnviaEMAIL.AsString;
+      IdMessage1.Recipients.EMailAddresses := cdsEnviaEMAIL.AsString;
       // Assunto
       IdMessage1.Subject := edtAssunto.Text;
       // Cabeçalho da mensagem
-      IdMessage1.Body.Add(('Senhores Pais :'));
-      IdMessage1.Body.Add('');//linha em branco espaço
-      IdMessage1.Body.Add('');//linha em branco espaço
+      //IdMessage1.Body.Add(('Senhores Pais :'));
+      //IdMessage1.Body.Add('dedede');//linha em branco espaço
+      //IdMessage1.Body.Add('ggsgsg');//linha em branco espaço
       // Corpo da mensagem
       IdMessage1.Body.Add(Memo1.Text);
       //fim da mensagem
       //Configuração do IdSMTP SMTP
-      IdSMTP1.Host := dm.cds_empresaSMTP.AsString;
-      // Port do Provedor =  25
-      IdSMTP1.Port := dm.cds_empresaPORTA.AsInteger;
+      IdSMTP1.Host := 'smtps.bol.com.br';
+      // Port do Provedor
+      IdSMTP1.Port := 587;
       // Login do usuário
-      IdSMTP1.Username := dm.cds_empresaE_MAIL.AsString;
+      IdSMTP1.Username := 'atsti@bol.com.br' ;
       // Password Senha do usuário
-      IdSMTP1.Password := dm.cds_empresaSENHA.AsString;
+      IdSMTP1.Password := 'a2t00s7' ;
       try
-        IdSMTP1.Connect;
+        IdSMTP1.Connect ;
         IdSMTP1.Authenticate; //Faz a autenticação
         IdSMTP1.Send(IdMessage1); //Envia a mensagem
         dm.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET DATAENVIO = ' +
