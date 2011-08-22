@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, JvExStdCtrls, JvCombobox, Mask, JvExMask, JvToolEdit,
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uOsClasse, Buttons,
   ExtCtrls, MMJPanel, DB, FMTBcd, DBClient, Provider, SqlExpr, Grids,
-  DBGrids, JvExDBGrids, JvDBGrid, JvBaseEdits, JvMemo;
+  DBGrids, JvExDBGrids, JvDBGrid, JvBaseEdits, JvMemo, DateUtils;
 
 type
   TfOs = class(TForm)
@@ -63,7 +63,6 @@ type
     cdsOSCODMOVIMENTO: TIntegerField;
     cdsOSDATAMOVIMENTO: TDateField;
     cdsOSDATA_SISTEMA: TSQLTimeStampField;
-    cdsOSPROBLEMAS: TStringField;
     cdsOSSTATUS: TStringField;
     cdsOSDATA_INI: TDateField;
     cdsOSDATA_FIM: TDateField;
@@ -130,6 +129,17 @@ type
     cdsOSSTATUSDESC: TStringField;
     cdsPecasSTATUSDESC: TStringField;
     edServico: TJvMemo;
+    cdsOSOBS: TStringField;
+    cdsOSID_OS_DET: TIntegerField;
+    sdsServico: TSQLDataSet;
+    dspServico: TDataSetProvider;
+    cdsServico: TClientDataSet;
+    cdsServicoSTATUS: TStringField;
+    cdsServicoRESPONSAVEL: TStringField;
+    cdsServicoDESCRICAO_SERV: TStringField;
+    cdsServicoSTATUSDESC: TStringField;
+    cdsServicoID_OS_DET: TIntegerField;
+    cdsServicoID_OS: TIntegerField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -137,11 +147,14 @@ type
     procedure btnCancelarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnNovoClick(Sender: TObject);
   private
     FOs: TOsClasse;
     Procedure limpaCampos;
     Procedure carregaCombos;
     Procedure controlaEventos;
+    Procedure abrirOs(codOs :Integer);
+    Procedure abrirPecas;
     { Private declarations }
   public
     modo: String; // Insert, Edit, Browse, Inactive
@@ -162,6 +175,11 @@ begin
   modo := 'Insert';
   limpaCampos;
   controlaEventos;
+  abrirOs(0);
+  abrirPecas;
+  edData.Date    := Today;
+  edDataFim.Date := Today;
+  edNumOS.SetFocus;
 end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
@@ -227,12 +245,15 @@ procedure TfOs.limpaCampos;
 begin
   edData.Clear;
   edDataFim.Clear;
+  edDesc.Value := 0;
   edCodCliente.Text := '';
   edNomeCliente.Text := '';
   edNumOS.Text := '';
   edVeiculo.Text := '';
-  edServico.Text := '';
+  edServico.Lines.Clear;
   edKm.Text := '';
+  cdsOs.Close;
+  cdsPecas.Close;
 end;
 
 procedure TfOs.carregaCombos;
@@ -352,5 +373,40 @@ begin
   FOs.Destroy;
 end;
 
+
+procedure TfOs.abrirOs(codOs :Integer);
+begin
+  // Abre a OS
+  if (cdsServico.Active) then
+    cdsServico.Close;
+  cdsServico.Params.ParamByName('pOs').AsInteger := codOs;
+  cdsServico.Open;
+end;
+
+procedure TfOs.abrirPecas;
+begin
+  // Abre as Peças por Serviço da OS
+  if (cdsPecas.Active) then
+    cdsPecas.Close;
+  cdsPecas.Params.ParamByName('pOs').AsInteger := cdsServicoID_OS.AsInteger;
+  cdsPecas.Params.ParamByName('p_Sev').AsInteger := cdsOSID_OS_DET.AsInteger;
+  cdsPecas.Open;
+end;
+
+procedure TfOs.btnNovoClick(Sender: TObject);
+var str: string;
+  I : Integer;
+begin
+  if (cdsServico.Active) then
+  begin
+    cdsServico.Append;
+    cdsServicoSTATUS.AsString := 'O';
+    str := '';
+    for I := 0 to edServico.Lines.Count -1 do
+      str := str + edServico.Lines[I] + #13#10;
+    cdsServicoDESCRICAO_SERV.AsString := str;
+    cdsServico.Post; 
+  end;
+end;
 
 end.

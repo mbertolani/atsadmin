@@ -22,7 +22,7 @@ object fOs: TfOs
     Width = 892
     Height = 51
     Align = alBottom
-    TabOrder = 0
+    TabOrder = 5
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -721,13 +721,14 @@ object fOs: TfOs
     Caption = 'Servi'#231'o'
     Color = clSilver
     ParentColor = False
-    TabOrder = 1
+    TabOrder = 3
     object btnNovo: TBitBtn
       Left = 811
       Top = 13
       Width = 36
       Height = 36
-      TabOrder = 0
+      TabOrder = 1
+      OnClick = btnNovoClick
       Glyph.Data = {
         1E060000424D1E06000000000000360000002800000018000000150000000100
         180000000000E8050000120B0000120B00000000000000000000BFBFBFBFBFBF
@@ -785,7 +786,7 @@ object fOs: TfOs
       Top = 13
       Width = 36
       Height = 36
-      TabOrder = 1
+      TabOrder = 2
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
         0800000000000004000000000000000000000001000000000000000000000000
@@ -862,7 +863,7 @@ object fOs: TfOs
       AutoSize = False
       MaxLines = 0
       HideCaret = False
-      TabOrder = 2
+      TabOrder = 0
     end
   end
   object GroupBox2: TGroupBox
@@ -873,7 +874,7 @@ object fOs: TfOs
     Align = alTop
     Color = clHotLight
     ParentColor = False
-    TabOrder = 2
+    TabOrder = 6
     object JvDBGrid1: TJvDBGrid
       Left = 2
       Top = 15
@@ -930,11 +931,11 @@ object fOs: TfOs
     Caption = 'O.S.'
     Color = clBtnFace
     ParentColor = False
-    TabOrder = 3
+    TabOrder = 0
     object Label2: TLabel
       Left = 280
       Top = 16
-      Width = 41
+      Width = 23
       Height = 13
       Caption = 'Data'
     end
@@ -948,7 +949,7 @@ object fOs: TfOs
     object Label1: TLabel
       Left = 496
       Top = 16
-      Width = 26
+      Width = 28
       Height = 13
       Caption = 'Para :'
     end
@@ -959,7 +960,7 @@ object fOs: TfOs
       Height = 21
       AllowNoDate = True
       Checked = True
-      TabOrder = 0
+      TabOrder = 1
     end
     object edNumOS: TEdit
       Left = 49
@@ -967,7 +968,7 @@ object fOs: TfOs
       Width = 121
       Height = 21
       MaxLength = 100
-      TabOrder = 1
+      TabOrder = 0
     end
     object edDataFim: TJvDatePickerEdit
       Left = 536
@@ -986,7 +987,7 @@ object fOs: TfOs
     Height = 41
     Align = alTop
     Caption = 'Cliente'
-    TabOrder = 4
+    TabOrder = 1
     object Label3: TLabel
       Left = 8
       Top = 14
@@ -1026,7 +1027,7 @@ object fOs: TfOs
     Height = 73
     Align = alTop
     Caption = 'Ve'#237'culo'
-    TabOrder = 5
+    TabOrder = 2
     object Label7: TLabel
       Left = 280
       Top = 15
@@ -1054,14 +1055,14 @@ object fOs: TfOs
       Width = 119
       Height = 21
       MaxLength = 100
-      TabOrder = 0
+      TabOrder = 1
     end
     object edVeiculo: TJvMaskEdit
       Left = 49
       Top = 15
       Width = 121
       Height = 21
-      TabOrder = 1
+      TabOrder = 0
       Text = 'edVeiculo'
     end
     object edObs: TEdit
@@ -1082,7 +1083,7 @@ object fOs: TfOs
     Caption = 'Pe'#231'as'
     Color = clSilver
     ParentColor = False
-    TabOrder = 6
+    TabOrder = 4
     object Label5: TLabel
       Left = 10
       Top = 11
@@ -1094,7 +1095,7 @@ object fOs: TfOs
       Left = 143
       Top = 9
       Width = 48
-      Height = 15
+      Height = 13
       Caption = 'Descri'#231'ao'
     end
     object Label10: TLabel
@@ -1121,7 +1122,7 @@ object fOs: TfOs
     object Label13: TLabel
       Left = 731
       Top = 11
-      Width = 26
+      Width = 24
       Height = 13
       Caption = 'Total'
     end
@@ -1137,15 +1138,16 @@ object fOs: TfOs
       Top = 26
       Width = 373
       Height = 21
+      TabStop = False
       MaxLength = 100
-      TabOrder = 0
+      TabOrder = 1
     end
     object BitBtn1: TBitBtn
       Left = 809
       Top = 12
       Width = 36
       Height = 36
-      TabOrder = 1
+      TabOrder = 6
       Glyph.Data = {
         1E060000424D1E06000000000000360000002800000018000000150000000100
         180000000000E8050000120B0000120B00000000000000000000BFBFBFBFBFBF
@@ -1203,7 +1205,7 @@ object fOs: TfOs
       Top = 12
       Width = 36
       Height = 36
-      TabOrder = 2
+      TabOrder = 7
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
         0800000000000004000000000000000000000001000000000000000000000000
@@ -1278,7 +1280,7 @@ object fOs: TfOs
       Width = 35
       Height = 26
       Enabled = False
-      TabOrder = 3
+      TabOrder = 8
       TabStop = False
       Glyph.Data = {
         C2070000424DC20700000000000036000000280000001E000000150000000100
@@ -1350,7 +1352,7 @@ object fOs: TfOs
       Top = 26
       Width = 97
       Height = 21
-      TabOrder = 4
+      TabOrder = 0
       Text = 'Edit3'
     end
     object JvCalcEdit1: TJvCalcEdit
@@ -1359,7 +1361,7 @@ object fOs: TfOs
       Width = 48
       Height = 21
       ShowButton = False
-      TabOrder = 5
+      TabOrder = 2
       DecimalPlacesAlwaysShown = False
     end
     object edDesc: TJvCalcEdit
@@ -1368,7 +1370,7 @@ object fOs: TfOs
       Width = 45
       Height = 21
       ShowButton = False
-      TabOrder = 6
+      TabOrder = 4
       DecimalPlacesAlwaysShown = False
     end
     object JvCalcEdit2: TJvCalcEdit
@@ -1377,7 +1379,7 @@ object fOs: TfOs
       Width = 62
       Height = 21
       ShowButton = False
-      TabOrder = 7
+      TabOrder = 3
       DecimalPlacesAlwaysShown = False
     end
     object JvCalcEdit3: TJvCalcEdit
@@ -1387,7 +1389,7 @@ object fOs: TfOs
       Height = 21
       ReadOnly = True
       ShowButton = False
-      TabOrder = 8
+      TabOrder = 9
       DecimalPlacesAlwaysShown = False
     end
     object JvCalcEdit4: TJvCalcEdit
@@ -1396,7 +1398,7 @@ object fOs: TfOs
       Width = 52
       Height = 21
       ShowButton = False
-      TabOrder = 9
+      TabOrder = 5
       DecimalPlacesAlwaysShown = False
     end
   end
@@ -1675,16 +1677,16 @@ object fOs: TfOs
   object sqlOS: TSQLDataSet
     CommandText = 
       'SELECT OSP.CODOS, OSP.CODCLIENTE, OSP.CODVEICULO,'#13#10'    OSP.CODMO' +
-      'VIMENTO, OSP.DATAMOVIMENTO, OSP.DATA_SISTEMA,'#13#10'    OSP.PROBLEMAS' +
-      ', OSP.STATUS, OSP.DATA_INI, OSP.DATA_FIM, '#13#10'    OSDET.RESPONSAVE' +
-      'L, OSDET.DESCRICAO_SERV, CASE WHEN OS.STATUS = '#39'O'#39' THEN '#39'Or'#231'amen' +
-      'to'#39'  WHEN OS.STATUS = '#39'P'#39' THEN '#39'Orc. Aprovado'#39'  WHEN OS.STATUS =' +
-      ' '#39'E'#39' THEN '#39'Em Execu'#231#227'o'#39#13#10' WHEN OS.STATUS = '#39'A'#39' THEN '#39'Aguardando ' +
-      'Pe'#231'a'#39'  WHEN OS.STATUS = '#39'F'#39' THEN '#39'Finalizada'#39'  WHEN OS.STATUS = ' +
-      #39'N'#39' THEN '#39'N'#227'o Aprovada'#39'   WHEN OS.STATUS = '#39'C'#39' THEN '#39'Cancelada'#39' ' +
-      #13#10'END STATUSDESC'#13#10'   FROM OS OSP, OS_DET OSDET '#13#10'WHERE OSDET.ID_' +
-      'OS = OSP.CODOS'#13#10'      AND OSP.CODOS    = :POS'#13#10'      AND OS_DET.' +
-      'TIPO = '#39'S'#39#13#10'    '
+      'VIMENTO, OSP.DATAMOVIMENTO, OSP.DATA_SISTEMA,'#13#10'    OSP.OBS, OSP.' +
+      'STATUS, OSP.DATA_INI, OSP.DATA_FIM, '#13#10'    OSDET.RESPONSAVEL, OSD' +
+      'ET.DESCRICAO_SERV, CASE WHEN OSP.STATUS = '#39'O'#39' THEN '#39'Or'#231'amento'#39'  ' +
+      'WHEN OSP.STATUS = '#39'P'#39' THEN '#39'Orc. Aprovado'#39'  WHEN OSP.STATUS = '#39'E' +
+      #39' THEN '#39'Em Execu'#231#227'o'#39#13#10' WHEN OSP.STATUS = '#39'A'#39' THEN '#39'Aguardando Pe' +
+      #231'a'#39'  WHEN OSP.STATUS = '#39'F'#39' THEN '#39'Finalizada'#39'  WHEN OSP.STATUS = ' +
+      #39'N'#39' THEN '#39'N'#227'o Aprovada'#39'   WHEN OSP.STATUS = '#39'C'#39' THEN '#39'Cancelada'#39 +
+      ' '#13#10'END STATUSDESC, OSDET.ID_OS_DET'#13#10'   FROM OS OSP, OS_DET OSDET' +
+      ' '#13#10'WHERE OSDET.ID_OS = OSP.CODOS'#13#10'      AND OSP.CODOS    = :POS'#13 +
+      #10'      AND OSDET.TIPO = '#39'S'#39#13#10'    '
     MaxBlobSize = -1
     Params = <
       item
@@ -1733,10 +1735,6 @@ object fOs: TfOs
     object cdsOSDATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
     end
-    object cdsOSPROBLEMAS: TStringField
-      FieldName = 'PROBLEMAS'
-      Size = 300
-    end
     object cdsOSSTATUS: TStringField
       FieldName = 'STATUS'
       FixedChar = True
@@ -1762,10 +1760,19 @@ object fOs: TfOs
       FixedChar = True
       Size = 15
     end
+    object cdsOSOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
+    end
+    object cdsOSID_OS_DET: TIntegerField
+      FieldName = 'ID_OS_DET'
+      ReadOnly = True
+      Required = True
+    end
   end
   object dtsrc: TDataSource
-    DataSet = cdsOS
-    Left = 608
+    DataSet = cdsServico
+    Left = 416
     Top = 208
   end
   object sdsPecas: TSQLDataSet
@@ -1808,6 +1815,11 @@ object fOs: TfOs
       item
         DataType = ftInteger
         Name = 'POS'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'P_SEV'
         ParamType = ptInput
       end>
     ProviderName = 'dspPecas'
@@ -1873,5 +1885,72 @@ object fOs: TfOs
     DataSet = cdsPecas
     Left = 480
     Top = 432
+  end
+  object sdsServico: TSQLDataSet
+    CommandText = 
+      'SELECT STATUS, RESPONSAVEL, DESCRICAO_SERV, CASE WHEN STATUS = '#39 +
+      'O'#39' THEN '#39'Or'#231'amento'#39'  WHEN STATUS = '#39'P'#39' THEN '#39'Orc. Aprovado'#39'  WHE' +
+      'N STATUS = '#39'E'#39' THEN '#39'Em Execu'#231#227'o'#39#13#10' WHEN STATUS = '#39'A'#39' THEN '#39'Agua' +
+      'rdando Pe'#231'a'#39'  WHEN STATUS = '#39'F'#39' THEN '#39'Finalizada'#39'  WHEN STATUS =' +
+      ' '#39'N'#39' THEN '#39'N'#227'o Aprovada'#39'   WHEN STATUS = '#39'C'#39' THEN '#39'Cancelada'#39' '#13#10 +
+      'END STATUSDESC,  ID_OS_DET, ID_OS'#13#10'   FROM OS_DET '#13#10'WHERE ID_OS ' +
+      '= :POS'#13#10'      AND TIPO   = '#39'S'#39#13#10'    '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'POS'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 320
+    Top = 208
+  end
+  object dspServico: TDataSetProvider
+    DataSet = sdsServico
+    Options = [poAllowCommandText]
+    Left = 352
+    Top = 208
+  end
+  object cdsServico: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'POS'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspServico'
+    Left = 384
+    Top = 208
+    object cdsServicoSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsServicoRESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Size = 150
+    end
+    object cdsServicoDESCRICAO_SERV: TStringField
+      FieldName = 'DESCRICAO_SERV'
+      Size = 1024
+    end
+    object cdsServicoSTATUSDESC: TStringField
+      FieldName = 'STATUSDESC'
+      ReadOnly = True
+      FixedChar = True
+      Size = 15
+    end
+    object cdsServicoID_OS_DET: TIntegerField
+      FieldName = 'ID_OS_DET'
+      ReadOnly = True
+      Required = True
+    end
+    object cdsServicoID_OS: TIntegerField
+      FieldName = 'ID_OS'
+      ReadOnly = True
+      Required = True
+    end
   end
 end
