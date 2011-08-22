@@ -1,3 +1,4 @@
+set term  ^;
 CREATE OR ALTER PROCEDURE LISTAPRODUTO(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -40,8 +41,17 @@ declare variable precoVenda double PRECISION;
   declare variable tipoPreco char(1);
   declare variable tipoPrecoParametro Varchar(20);
   declare variable usaListaTerceiros char(1);
+  declare variable CCusto INTEGER;
 begin
-
+    CCusto = 0;
+    
+    SELECT CAST(D1 AS INTEGER) FROM PARAMETRO WHERE PARAMETRO = 'CENTROCUSTO'
+    INTO :CCusto;
+    
+    if (ccusto is null) then 
+      CCusto = 0;
+    
+    
     /* Verificando que tipo de Preco e usado pelo Cliente  (Preco Medio ou o ultimo   */
     /* Preco no calculo do estoque)                                                   */
     SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'PRECOESTOQUE'
@@ -87,9 +97,21 @@ begin
       pedido = 0;
 
     if (usaListaTerceiros = 'N') then
-    select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
-      where m.CODPRODUTO = :codProduto order by m.MESANO DESC
-    into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
+    begin
+      if (CCusto = 0) then 
+      begin 
+        select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
+          where m.CODPRODUTO = :codProduto order by m.MESANO DESC
+        into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
+      end 
+      else begin 
+        select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
+          where m.CODPRODUTO = :codProduto 
+            and m.CENTROCUSTO = :CCusto
+          order by m.MESANO DESC
+        into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
+      end   
+    end 
     if (preco_compraMedio is null) then
       preco_compraMedio = 0;
 
