@@ -1053,6 +1053,7 @@ begin
       executaScript('inventario_lanca.sql');
       executaScript('rel_compra_pedido.sql');
       executaScript('sp_mov_caixa.sql');
+      executaScript('listaSpEstoqueFiltro.sql');
       executaScript('spEstoqueFiltro.sql');
       executaScript('trg_data_altera_preco.sql');
       if (NaoExisteGenerator('GEN_SIMILAR')) then
@@ -1073,7 +1074,7 @@ begin
         executaSql('ALTER TABLE ESTOQUEMES ADD SALDOESTOQUE COMPUTED BY (SALDOMESANTERIOR + ' +
         'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) ');
       end;
-      executaScript('listaSpEstoqueFiltro.sql');
+
       executaScript('listaProdutocli.sql');
       executaScript('listaProduto.sql');
       executaScript('estoqueccustoent.sql');
