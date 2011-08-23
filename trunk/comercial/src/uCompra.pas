@@ -847,6 +847,8 @@ begin
         cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
       end;
     end;
+    if(cds_MovimentoCODPEDIDO.IsNull) then
+      cds_MovimentoCODPEDIDO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
     inherited;  // Preciso ver se gravou, do contrário, cancela o processo e para aqui
     {cds_Movimento.ApplyUpdates(0);
     if cds_Movimento.ChangeCount > 0 then
