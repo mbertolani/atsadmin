@@ -1762,6 +1762,8 @@ begin
       if (RadioPedido.Checked = True) then
         cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
       // salvo o Movimento
+      if(cds_MovimentoCODPEDIDO.IsNull) then
+        cds_MovimentoCODPEDIDO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
       inherited;
 
       {if (cds_Mov_det.State in [dsEdit, dsInsert]) then
@@ -3411,8 +3413,8 @@ begin
       pCusto := sqlCusto.FieldByName('PRECOMEDIO').AsFloat;
     if (pCusto > 0) then
     begin
-      margem := pCusto / cds_Mov_detPRECO.AsFloat;
-      margem := 100*(1 - margem);
+      margem := cds_Mov_detPRECO.AsFloat / pCusto;
+      margem := 100*(margem - 1);
       if (margem < mVendaPermi) then
       begin
         MessageDlg('Margem de Venda abaixo do permitido. ' + #13+#10 + ' Item: ' + cds_Mov_detCODPRO.AsString +
