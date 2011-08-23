@@ -1,7 +1,7 @@
 unit uVendas;
      
 interface
-
+                                                                                                
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, DB, DBClient, Provider, SqlExpr, Menus, XPMenu,
@@ -532,6 +532,10 @@ type
     sqlCusto: TSQLQuery;
     sds_Mov_DetSTATUS: TStringField;
     cds_Mov_detSTATUS: TStringField;
+    sds_Mov_DetVALOR_DESCONTO: TFloatField;
+    cds_Mov_detVALOR_DESCONTO: TFloatField;
+    dbedtVALOR_DESCONTO: TDBEdit;
+    lbl1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -611,6 +615,7 @@ type
     procedure btnTranspClick(Sender: TObject);
     procedure GroupBox1Click(Sender: TObject);
     procedure Label3Click(Sender: TObject);
+    procedure dbedtVALOR_DESCONTOExit(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -1154,10 +1159,12 @@ begin
       qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
       cds_Mov_detQTDE_ALT.AsFloat := 0;
       cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
+     { Estava calculando o preço errado , estava valor dividido pelo campo quantidade  erro IME 23/08/2011
       if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
          cds_Mov_detPRECO.AsFloat :=
          dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
       else
+      }
          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
       valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat;
       cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
@@ -1505,6 +1512,7 @@ begin
     codmd := codmd + 1;
   cds_mov_detCODDETALHE.AsInteger := codmd;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
+  cds_Mov_detVALOR_DESCONTO.AsFloat := 0;
 end;
 
 procedure TfVendas.BitBtn4Click(Sender: TObject);
@@ -3458,6 +3466,14 @@ begin
     dm.cds_produto.Close;
   end;
 
+end;
+
+procedure TfVendas.dbedtVALOR_DESCONTOExit(Sender: TObject);
+begin
+  inherited;
+  //
+  if(cds_Mov_detValorTotal.AsFloat > 0 ) then
+  cds_Mov_detQTDE_ALT.AsFloat := (cds_Mov_detVALOR_DESCONTO.AsFloat/cds_Mov_detValorTotal.AsFloat)*100;
 end;
 
 end.
