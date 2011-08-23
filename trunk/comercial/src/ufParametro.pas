@@ -86,12 +86,6 @@ type
     Label31: TLabel;
     Label32: TLabel;
     edJuros: TJvCalcEdit;
-    GroupBox18: TGroupBox;
-    Label33: TLabel;
-    Edit20: TEdit;
-    BitBtn18: TBitBtn;
-    cbCentroCusto: TComboBox;
-    Edit21: TEdit;
     TabSheet6: TTabSheet;
     GroupBox20: TGroupBox;
     Label35: TLabel;
@@ -192,6 +186,13 @@ type
     BitBtn1: TBitBtn;
     GroupBox30: TGroupBox;
     Label10: TLabel;
+    TabSheet8: TTabSheet;
+    GroupBox18: TGroupBox;
+    Label33: TLabel;
+    Edit20: TEdit;
+    BitBtn18: TBitBtn;
+    cbCentroCusto: TComboBox;
+    Edit21: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);

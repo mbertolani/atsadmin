@@ -27,7 +27,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 792
     Height = 473
-    ActivePage = TabSheet7
+    ActivePage = TabSheet8
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Par'#226'metros'
@@ -1619,70 +1619,13 @@ inherited fParametro: TfParametro
           OnClick = BitBtn15Click
         end
       end
-      object GroupBox18: TGroupBox
-        Left = 0
-        Top = 136
-        Width = 778
-        Height = 43
-        Caption = 
-          'Usa CENTROCUSTO (Veja qual '#233' o n'#250'mero da Conta(Plano de Contas) ' +
-          'do Centro de Custo (geralmente come'#231'a no 6% ou 7% c'#243'digo Conta)'
-        TabOrder = 2
-        object Label33: TLabel
-          Left = 8
-          Top = 19
-          Width = 465
-          Height = 13
-          Caption = 
-            'Informe S usa o Centro de Custo Form Compra (o N'#250'mero Contabil i' +
-            'nicial (ger. 6) e o c'#243'digo conta .'
-        end
-        object Edit20: TEdit
-          Left = 540
-          Top = 16
-          Width = 57
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 1
-        end
-        object BitBtn18: TBitBtn
-          Left = 682
-          Top = 11
-          Width = 75
-          Height = 25
-          Caption = 'Gravar'
-          TabOrder = 3
-          OnClick = BitBtn18Click
-        end
-        object cbCentroCusto: TComboBox
-          Left = 479
-          Top = 16
-          Width = 57
-          Height = 21
-          ItemHeight = 13
-          TabOrder = 0
-          Items.Strings = (
-            'S'
-            'N')
-        end
-        object Edit21: TEdit
-          Left = 603
-          Top = 16
-          Width = 57
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 2
-        end
-      end
       object GroupBox21: TGroupBox
         Left = 0
         Top = 243
         Width = 778
         Height = 43
         Caption = 'COMPRADORPADRAO / VENDEDORPADRAO'
-        TabOrder = 3
+        TabOrder = 2
         object BitBtn21: TBitBtn
           Left = 682
           Top = 11
@@ -1699,7 +1642,7 @@ inherited fParametro: TfParametro
         Width = 778
         Height = 43
         Caption = 'BLOQUEIOVENDACADASTROIMCOMPLETO'
-        TabOrder = 4
+        TabOrder = 3
         object BitBtn22: TBitBtn
           Left = 682
           Top = 11
@@ -2068,7 +2011,7 @@ inherited fParametro: TfParametro
       end
     end
     object TabSheet7: TTabSheet
-      Caption = 'Veendas'
+      Caption = 'Vendas'
       ImageIndex = 7
       object GroupBox8: TGroupBox
         Left = 0
@@ -2404,6 +2347,65 @@ inherited fParametro: TfParametro
         end
       end
     end
+    object TabSheet8: TTabSheet
+      Caption = 'TabSheet8'
+      ImageIndex = 8
+      object GroupBox18: TGroupBox
+        Left = 0
+        Top = 136
+        Width = 778
+        Height = 43
+        Caption = 'Centro de Custo Padr'#227'o - Usado para exibir o Estoque do Item'
+        TabOrder = 0
+        object Label33: TLabel
+          Left = 8
+          Top = 19
+          Width = 465
+          Height = 13
+          Caption = 
+            'Informe S usa o Centro de Custo Form Compra (o N'#250'mero Contabil i' +
+            'nicial (ger. 6) e o c'#243'digo conta .'
+        end
+        object Edit20: TEdit
+          Left = 540
+          Top = 16
+          Width = 57
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 1
+        end
+        object BitBtn18: TBitBtn
+          Left = 682
+          Top = 11
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 3
+          OnClick = BitBtn18Click
+        end
+        object cbCentroCusto: TComboBox
+          Left = 479
+          Top = 16
+          Width = 57
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 0
+          Items.Strings = (
+            'S'
+            'N')
+        end
+        object Edit21: TEdit
+          Left = 603
+          Top = 16
+          Width = 57
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 2
+        end
+      end
+    end
   end
   inherited MMJPanel1: TMMJPanel [2]
     Top = 489
@@ -2429,6 +2431,8 @@ inherited fParametro: TfParametro
   end
   inherited DtSrc: TDataSource
     DataSet = DM.cds_param
+    Left = 536
+    Top = 40
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_parametro
