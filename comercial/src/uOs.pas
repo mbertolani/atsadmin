@@ -7,7 +7,8 @@ uses
   Dialogs, StdCtrls, JvExStdCtrls, JvCombobox, Mask, JvExMask, JvToolEdit,
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uOsClasse, Buttons,
   ExtCtrls, MMJPanel, DB, FMTBcd, DBClient, Provider, SqlExpr, Grids,
-  DBGrids, JvExDBGrids, JvDBGrid, JvBaseEdits, JvMemo, DateUtils;
+  DBGrids, JvExDBGrids, JvDBGrid, JvBaseEdits, JvMemo, DateUtils,
+  JvComponentBase, JvFormAutoSize;
 
 type
   TfOs = class(TForm)
@@ -50,9 +51,6 @@ type
     cds_VeiculocliANO_FAB: TStringField;
     cds_VeiculocliANO_MOD: TStringField;
     cds_VeiculocliCOR: TStringField;
-    GroupBox1: TGroupBox;
-    GroupBox2: TGroupBox;
-    JvDBGrid1: TJvDBGrid;
     sqlOS: TSQLDataSet;
     dspOS: TDataSetProvider;
     cdsOS: TClientDataSet;
@@ -68,33 +66,12 @@ type
     cdsOSDATA_FIM: TDateField;
     cdsOSRESPONSAVEL: TStringField;
     cdsOSDESCRICAO_SERV: TStringField;
-    GroupBox3: TGroupBox;
-    Label2: TLabel;
-    Label6: TLabel;
-    Label1: TLabel;
-    edData: TJvDatePickerEdit;
-    edNumOS: TEdit;
-    edDataFim: TJvDatePickerEdit;
-    GroupBox4: TGroupBox;
-    edCodCliente: TEdit;
-    edNomeCliente: TEdit;
-    Label3: TLabel;
-    btnClienteProcura: TBitBtn;
-    GroupBox5: TGroupBox;
-    Label7: TLabel;
-    Label8: TLabel;
-    edKm: TEdit;
-    edVeiculo: TJvMaskEdit;
-    Label4: TLabel;
-    edObs: TEdit;
-    btnNovo: TBitBtn;
-    BitBtn8: TBitBtn;
     GroupBox6: TGroupBox;
-    Edit2: TEdit;
+    edDescricao: TEdit;
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     btnProdutoProcura: TBitBtn;
-    Edit3: TEdit;
+    edProduto: TEdit;
     Label5: TLabel;
     Label9: TLabel;
     Label10: TLabel;
@@ -102,7 +79,7 @@ type
     edDesc: TJvCalcEdit;
     Label11: TLabel;
     Label12: TLabel;
-    JvCalcEdit2: TJvCalcEdit;
+    edPreco: TJvCalcEdit;
     JvCalcEdit3: TJvCalcEdit;
     Label13: TLabel;
     JvCalcEdit4: TJvCalcEdit;
@@ -128,7 +105,6 @@ type
     cdsPecasCODPRO: TStringField;
     cdsOSSTATUSDESC: TStringField;
     cdsPecasSTATUSDESC: TStringField;
-    edServico: TJvMemo;
     cdsOSOBS: TStringField;
     cdsOSID_OS_DET: TIntegerField;
     sdsServico: TSQLDataSet;
@@ -140,6 +116,33 @@ type
     cdsServicoSTATUSDESC: TStringField;
     cdsServicoID_OS_DET: TIntegerField;
     cdsServicoID_OS: TIntegerField;
+    Panel1: TPanel;
+    GroupBox3: TGroupBox;
+    Label2: TLabel;
+    Label6: TLabel;
+    Label1: TLabel;
+    edData: TJvDatePickerEdit;
+    edNumOS: TEdit;
+    edDataFim: TJvDatePickerEdit;
+    GroupBox4: TGroupBox;
+    Label3: TLabel;
+    edCodCliente: TEdit;
+    edNomeCliente: TEdit;
+    btnClienteProcura: TBitBtn;
+    GroupBox5: TGroupBox;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label4: TLabel;
+    edKm: TEdit;
+    edVeiculo: TJvMaskEdit;
+    edObs: TEdit;
+    Panel2: TPanel;
+    GroupBox1: TGroupBox;
+    btnNovo: TBitBtn;
+    BitBtn8: TBitBtn;
+    edServico: TJvMemo;
+    GroupBox2: TGroupBox;
+    JvDBGrid1: TJvDBGrid;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -148,13 +151,20 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnNovoClick(Sender: TObject);
+    procedure btnProdutoProcuraClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure edProdutoExit(Sender: TObject);
+    procedure edCodClienteExit(Sender: TObject);
   private
+    numOsDet: Integer;
+    estoque, qtde : Double;
     FOs: TOsClasse;
     Procedure limpaCampos;
     Procedure carregaCombos;
     Procedure controlaEventos;
     Procedure abrirOs(codOs :Integer);
     Procedure abrirPecas;
+    Procedure buscaProduto;
     { Private declarations }
   public
     modo: String; // Insert, Edit, Browse, Inactive
@@ -166,7 +176,7 @@ var
 
 implementation
 
-uses UDm, uProcurar_nf, UDMNF;
+uses UDm, uProcurar_nf, UDMNF, uProcura_prodOficina, sCtrlResize;
 
 {$R *.dfm}
 
@@ -180,6 +190,7 @@ begin
   edData.Date    := Today;
   edDataFim.Date := Today;
   edNumOS.SetFocus;
+  numOsDet := 1;
 end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
@@ -354,6 +365,7 @@ end;
 
 procedure TfOs.FormShow(Sender: TObject);
 begin
+  //sCtrlResize.CtrlResize(TForm(fOs));
   carregaCombos;
 end;
 
@@ -401,12 +413,128 @@ begin
   begin
     cdsServico.Append;
     cdsServicoSTATUS.AsString := 'O';
+    cdsServicoID_OS.AsInteger := 99999999;
+    cdsServicoID_OS_DET.AsInteger := numOsDet;
+    numOsDet := numOsDet + 1;
+    cdsServicoRESPONSAVEL.AsString := 'CARLOS';
     str := '';
     for I := 0 to edServico.Lines.Count -1 do
       str := str + edServico.Lines[I] + #13#10;
     cdsServicoDESCRICAO_SERV.AsString := str;
     cdsServico.Post; 
   end;
+end;
+
+procedure TfOs.btnProdutoProcuraClick(Sender: TObject);
+begin
+    //fProcura_prodOficina.cbTipo.ItemIndex := 4;
+    fProcura_prodOficina.btnIncluir.Visible := true;
+    if (procprod <> 'PROC_PROD_COMPLETO') then
+    begin
+      fProcura_prodOficina.Panel1.Visible := false;
+      fProcura_prodOficina.Panel2.Visible := true;
+      //fProcura_prodOficina.CheckBox1.Checked := True;
+      //fProcura_prodOficina.BitBtn1.Click;
+    end
+    else begin
+      fProcura_prodOficina.Panel2.Visible := false;
+      fProcura_prodOficina.Panel1.Visible := true;
+      //fProcura_prodOficina.CheckBox1.Checked := False;
+      if (fProcura_prodOficina.cds_proc.Active) then
+        fProcura_prodOficina.cds_proc.Close;
+    end;
+    varonde := 'compra';
+    var_F := 'venda';
+
+    fProcura_prodOficina.ShowModal;
+    if (procprod = 'PROC_PROD_COMPLETO') then
+    begin
+      if (cdsPecas.State in [dsInsert, dsEdit]) then
+      begin
+        cdsPecasCODPRO.AsString := fProcura_prodOficina.cds_procCODPRO.AsString;
+        cdsPecasCODPRODUTO.asInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+        cdsPecasDESCRICAO_SERV.asString := fProcura_prodOficina.cds_procPRODUTO.AsString;
+        cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+        if ( fProcura_prodOficina.cds_procQTDE_PCT.AsFloat < 1) then
+          cdsPecasQTDE.AsFloat := 1
+        else
+          cdsPecasQTDE.AsFloat := fProcura_prodOficina.cds_procQTDE_PCT.AsFloat;
+        qtde := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
+        //cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECOMEDIO.AsFloat;
+        estoque := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
+      end;
+    end;
+    edProduto.Text   := fProcura_prodOficina.cds_procCODPRO.AsString;
+    edDescricao.Text := fProcura_prodOficina.cds_procPRODUTO.AsString;
+    edPreco.Value    := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+
+end;
+
+procedure TfOs.btnSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfOs.edProdutoExit(Sender: TObject);
+begin
+  // Busca Produto
+  buscaProduto;
+end;
+
+procedure TfOs.buscaProduto;
+begin
+  if (CdsPecas.State in [dsInactive]) then exit;
+  if (edProduto.Text = '') then exit;
+
+  if (cdsPecas.State in [dsBrowse]) then
+    cdsPecas.Edit;
+  if dm.scds_produto_proc.Active then
+    dm.scds_produto_proc.Close;
+  dm.scds_produto_proc.Params[0].AsInteger := 0;
+  dm.scds_produto_proc.Params[1].AsString := edProduto.Text;
+  dm.scds_produto_proc.Open;
+  if dm.scds_produto_proc.IsEmpty then begin
+    MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+    [mbOk], 0);
+    //btnProdutoProcura.Click;
+    exit;
+  end;
+  cdsPecasCODPRO.AsString := fProcura_prodOficina.cds_procCODPRO.AsString;
+  cdsPecasCODPRODUTO.asInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+  cdsPecasDESCRICAO_SERV.asString := fProcura_prodOficina.cds_procPRODUTO.AsString;
+  cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+  if ( fProcura_prodOficina.cds_procQTDE_PCT.AsFloat < 1) then
+    cdsPecasQTDE.AsFloat := 1
+  else
+    cdsPecasQTDE.AsFloat := fProcura_prodOficina.cds_procQTDE_PCT.AsFloat;
+  qtde := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
+  //cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECOMEDIO.AsFloat;
+  estoque := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
+  edProduto.Text   := fProcura_prodOficina.cds_procCODPRO.AsString;
+  edDescricao.Text := fProcura_prodOficina.cds_procPRODUTO.AsString;
+  edPreco.Value    := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+end;
+
+procedure TfOs.edCodClienteExit(Sender: TObject);
+begin
+  if (edCodCliente.Text = '') then
+  begin
+    exit;
+  end;
+  if dm.scds_cliente_proc.Active then
+  dm.scds_cliente_proc.Close;
+  dm.scds_cliente_proc.Params[0].Clear;
+  dm.scds_cliente_proc.Params[1].Clear;
+  dm.scds_cliente_proc.Params[2].Clear;
+  dm.scds_cliente_proc.Params[2].AsInteger := StrToInt(edCodCliente.Text);
+  dm.scds_cliente_proc.Open;
+  if (dm.scds_cliente_proc.IsEmpty) then
+  begin
+    MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning, [mbOk], 0);
+    //btnClienteProcura.Click;
+    exit;
+  end;
+
 end;
 
 end.
