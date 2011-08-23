@@ -1172,6 +1172,16 @@ begin
   end;   }
     fClienteCadastro:=TfClienteCadastro.Create(Application);
     try
+      if ( fClienteCadastro.cds_cli.Active) then
+        fClienteCadastro.cds_cli.Close;
+      fClienteCadastro.cds_cli.Params[0].AsInteger := DMNF.cds_nfCODCLIENTE.AsInteger;
+      fClienteCadastro.cds_cli.Open;
+      if ( fClienteCadastro.cdsEnderecoCli.Active) then
+        fClienteCadastro.cdsEnderecoCli.Close;
+      fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
+      fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := DMNF.cds_nfCODCLIENTE.AsInteger;
+      fClienteCadastro.cdsEnderecoCli.Open;
+
       fClienteCadastro.ShowModal;
     finally
       fClienteCadastro.free;
@@ -2171,7 +2181,6 @@ end;
 
 Procedure TfNotaf.carregaDadosAdicionais;
 Begin
-  //lblFatura.Caption := sCfopNAOENVFATURA.AsString;
   if (DMNF.DtSrc_NF.State in [dsEdit]) then
   begin
     if( (not DMNF.cds_nfCFOP.IsNull)  or (DMNF.cds_nfCFOP.AsString <> '') )then
@@ -2216,7 +2225,7 @@ end;
 procedure TfNotaf.calcmanClick(Sender: TObject);
 begin
  if DMNF.DtSrc_NF.State in [dsBrowse] then
-      DMNF.DtSrc_NF.DataSet.Append;
+      DMNF.DtSrc_NF.DataSet.Edit;
 end;
 
 procedure TfNotaf.validaNF;

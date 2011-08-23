@@ -1995,6 +1995,7 @@ object fNotafc: TfNotafc
         Height = 17
         Caption = 'Calc. Manual'
         TabOrder = 45
+        OnClick = calcmanClick
       end
       object JvGroupBox55: TJvGroupBox
         Left = 121
