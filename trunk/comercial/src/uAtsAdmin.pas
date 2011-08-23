@@ -1433,18 +1433,18 @@ end;
 
 procedure TfAtsAdmin.LanarOS1Click(Sender: TObject);
 begin
-  {fMaquinasControle := TfMaquinasControle.Create(Application);
+  f_Os := Tf_Os.Create(Application);
+  try
+    f_Os.ShowModal;
+  finally
+    f_OS.Free;
+  end;
+{  fMaquinasControle := TfMaquinasControle.Create(Application);
   try
     fMaquinasControle.ShowModal;
   finally
     fMaquinasControle.Free;
   end;}
-  fOs := TfOs.Create(Application);
-  try
-    fOs.ShowModal;
-  finally
-    fOs.Free;
-  end;
 end;
 
 procedure TfAtsAdmin.ExportaNotaFiscal1Click(Sender: TObject);
@@ -1637,11 +1637,11 @@ end;
 
 Procedure TfAtsAdmin.OS1Click(Sender: TObject);
 begin   
-	fOs := TfOs.Create(Application);   
-	try     
-		fOs.ShowModal;   
-	finally     
-		fOs.Free;   
+	f_Os := Tf_Os.Create(Application);
+	try
+		f_Os.ShowModal;
+	finally
+		f_Os.Free;
 	end;
 end;
 
