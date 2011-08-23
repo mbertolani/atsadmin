@@ -1580,14 +1580,14 @@ inherited fVendas: TfVendas
         Caption = 'Qtde'
       end
       object Label7: TLabel
-        Left = 254
+        Left = 243
         Top = 1
         Width = 46
         Height = 16
         Caption = 'Unit. R$'
       end
       object Label8: TLabel
-        Left = 392
+        Left = 408
         Top = 1
         Width = 28
         Height = 16
@@ -1601,11 +1601,18 @@ inherited fVendas: TfVendas
         Caption = 'Total R$'
       end
       object Label16: TLabel
-        Left = 325
+        Left = 306
         Top = 1
         Width = 50
         Height = 16
         Caption = 'Desc. %'
+      end
+      object lbl1: TLabel
+        Left = 360
+        Top = 2
+        Width = 42
+        Height = 16
+        Caption = 'Desc.$'
       end
       object DBEdit7: TDBEdit
         Left = 113
@@ -1624,7 +1631,7 @@ inherited fVendas: TfVendas
         ParentFont = False
         PopupMenu = PopupMenu1
         ReadOnly = True
-        TabOrder = 9
+        TabOrder = 10
         Visible = False
         OnKeyPress = FormKeyPress
       end
@@ -1670,7 +1677,7 @@ inherited fVendas: TfVendas
         Height = 26
         Enabled = False
         PopupMenu = PopupMenu1
-        TabOrder = 10
+        TabOrder = 11
         TabStop = False
         OnClick = btnProdutoProcuraClick
         Glyph.Data = {
@@ -1759,7 +1766,7 @@ inherited fVendas: TfVendas
       object DBEdit9: TDBEdit
         Left = 182
         Top = 17
-        Width = 65
+        Width = 55
         Height = 24
         DataField = 'QUANTIDADE'
         DataSource = DtSrc1
@@ -1775,9 +1782,9 @@ inherited fVendas: TfVendas
         OnKeyPress = FormKeyPress
       end
       object DBEdit10: TDBEdit
-        Left = 249
+        Left = 238
         Top = 17
-        Width = 73
+        Width = 62
         Height = 24
         DataField = 'PRECO'
         DataSource = DtSrc1
@@ -1792,9 +1799,9 @@ inherited fVendas: TfVendas
         OnKeyPress = DBEdit9KeyPress
       end
       object DBEdit11: TDBEdit
-        Left = 389
+        Left = 405
         Top = 17
-        Width = 64
+        Width = 52
         Height = 24
         DataField = 'ICMS'
         DataSource = DtSrc1
@@ -1805,7 +1812,7 @@ inherited fVendas: TfVendas
         Font.Style = []
         ParentFont = False
         PopupMenu = PopupMenu1
-        TabOrder = 8
+        TabOrder = 9
         OnKeyPress = FormKeyPress
       end
       object DBEdit12: TDBEdit
@@ -1823,7 +1830,7 @@ inherited fVendas: TfVendas
         Font.Style = []
         ParentFont = False
         PopupMenu = PopupMenu1
-        TabOrder = 11
+        TabOrder = 12
         OnExit = DBEdit12Exit
         OnKeyPress = FormKeyPress
       end
@@ -1833,7 +1840,7 @@ inherited fVendas: TfVendas
         Width = 36
         Height = 36
         PopupMenu = PopupMenu1
-        TabOrder = 12
+        TabOrder = 13
         OnClick = btnNovoClick
         Glyph.Data = {
           1E060000424D1E06000000000000360000002800000018000000150000000100
@@ -1893,7 +1900,7 @@ inherited fVendas: TfVendas
         Width = 36
         Height = 36
         PopupMenu = PopupMenu1
-        TabOrder = 13
+        TabOrder = 14
         OnClick = BitBtn8Click
         Glyph.Data = {
           36080000424D3608000000000000360400002800000020000000200000000100
@@ -1964,9 +1971,9 @@ inherited fVendas: TfVendas
           0707070707070707070707070707070707070707070707070707}
       end
       object DBEdit6: TDBEdit
-        Left = 323
+        Left = 301
         Top = 17
-        Width = 65
+        Width = 54
         Height = 24
         DataField = 'QTDE_ALT'
         DataSource = DtSrc1
@@ -2006,7 +2013,7 @@ inherited fVendas: TfVendas
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
         ParentFont = False
         PopupMenu = PopupMenu1
-        TabOrder = 14
+        TabOrder = 15
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
@@ -2103,6 +2110,17 @@ inherited fVendas: TfVendas
         TabOrder = 1
         OnKeyPress = FormKeyPress
       end
+      object dbedtVALOR_DESCONTO: TDBEdit
+        Left = 357
+        Top = 17
+        Width = 43
+        Height = 24
+        DataField = 'VALOR_DESCONTO'
+        DataSource = DtSrc1
+        TabOrder = 8
+        OnExit = dbedtVALOR_DESCONTOExit
+        OnKeyPress = FormKeyPress
+      end
     end
     object Orcamento: TTabSheet
       Caption = 'Dados Or'#231'amento'
@@ -2168,7 +2186,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2222,7 +2240,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2421,12 +2439,12 @@ inherited fVendas: TfVendas
       'O'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTD' +
       'E_PCT'#13#10', prod.PESO_QTDE'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPE' +
       'SA  '#13#10', prod.LOCALIZACAO  '#13#10', cm.CODIGO'#13#10', prod.LOTES'#13#10', movd.ST' +
-      'ATUS  '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on' +
-      ' prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ' +
-      'ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer' +
-      ' join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where' +
-      ' movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order' +
-      ' by movd.coddetalhe'
+      'ATUS'#13#10',movd.VALOR_DESCONTO  '#13#10'from MOVIMENTODETALHE movd '#13#10'inner' +
+      ' join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left ou' +
+      'ter join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALM' +
+      'OXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_COMISSAO = mov' +
+      'd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMO' +
+      'VIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -2566,6 +2584,9 @@ inherited fVendas: TfVendas
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object sds_Mov_DetVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -2734,6 +2755,9 @@ inherited fVendas: TfVendas
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object cds_Mov_detVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
