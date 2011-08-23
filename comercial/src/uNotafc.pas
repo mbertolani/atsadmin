@@ -272,6 +272,7 @@ type
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure cbCFOPExit(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
+    procedure calcmanClick(Sender: TObject);
   private
     { Private declarations }
     procedure incluiEntrada;
@@ -1930,6 +1931,12 @@ begin
   finally
     fDetalheNF.Free;
   end;
+end;
+
+procedure TfNotaFc.calcmanClick(Sender: TObject);
+begin
+ if DMNF.DtSrc_NF1.State in [dsBrowse] then
+      DMNF.DtSrc_NF1.DataSet.Edit;
 end;
 
 end.
