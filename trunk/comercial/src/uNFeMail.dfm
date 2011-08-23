@@ -207,6 +207,7 @@ object fNFeMail: TfNFeMail
       Top = 112
       Width = 177
       Height = 21
+      ReadOnly = True
       TabOrder = 4
     end
     object Edit5: TEdit
@@ -229,6 +230,7 @@ object fNFeMail: TfNFeMail
       Top = 160
       Width = 361
       Height = 65
+      ReadOnly = True
       TabOrder = 7
     end
   end
