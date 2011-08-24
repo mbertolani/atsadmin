@@ -1433,11 +1433,11 @@ end;
 
 procedure TfAtsAdmin.LanarOS1Click(Sender: TObject);
 begin
-  f_Os := Tf_Os.Create(Application);
+  fOs := TfOs.Create(Application);
   try
-    f_Os.ShowModal;
+    fOs.ShowModal;
   finally
-    f_OS.Free;
+    fOS.Free;
   end;
 {  fMaquinasControle := TfMaquinasControle.Create(Application);
   try
@@ -1637,11 +1637,11 @@ end;
 
 Procedure TfAtsAdmin.OS1Click(Sender: TObject);
 begin   
-	f_Os := Tf_Os.Create(Application);
+	fOs := TfOs.Create(Application);
 	try
-		f_Os.ShowModal;
+		fOs.ShowModal;
 	finally
-		f_Os.Free;
+		fOs.Free;
 	end;
 end;
 
