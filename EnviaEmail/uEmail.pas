@@ -7,7 +7,8 @@ uses
   Dialogs, StdCtrls, Mask, JvExMask, JvToolEdit, TFlatGaugeUnit, Buttons,
   IdMessage, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient,
   IdMessageClient, IdSMTP, FMTBcd, DB, Grids, DBGrids, JvExDBGrids,
-  JvDBGrid, JvDBUltimGrid, Provider, DBClient, SqlExpr,IdSSLOpenSSL, dateutils;
+  JvDBGrid, JvDBUltimGrid, Provider, DBClient, SqlExpr,IdSSLOpenSSL, dateutils,
+  JvExStdCtrls, JvRichEdit;
 
 type
   TForm1 = class(TForm)
@@ -16,7 +17,6 @@ type
     Label73: TLabel;
     FlatGauge1: TFlatGauge;
     edtAssunto: TEdit;
-    Memo1: TMemo;
     IdSMTP1: TIdSMTP;
     IdMessage1: TIdMessage;
     SQLDataSet1: TSQLDataSet;
@@ -28,6 +28,7 @@ type
     cdsEnviaEMAIL: TStringField;
     cdsEnviaASSUNTO: TStringField;
     cdsEnviaDATAENVIO: TDateField;
+    edText: TJvRichEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -66,22 +67,28 @@ begin
     while not cdsEnvia.Eof do
     begin
      // cria a parte HTML
-      Html := TIdText.Create(IdMessage1.MessageParts);
+      //Html := TIdText.Create(IdMessage1.MessageParts);
        //Coloca o Logotipo da Empresa
-                                    Html.Body.Text := '<html><body>' + '<img src="cid:imagem.jpg" >' + '</p>';
+             {                       Html.Body.Text := '<html><body>' + '<img src="cid:imagem.jpg" >' + '</p>';
                                     Html.Body.Text := Html.Body.Text + '<font color="#000080"><b><u>REMESSA DE ARQUIVO DE FATURA</u></b><br>';
                                     Html.Body.Text := Html.Body.Text + 'Data Fechamento da Fatura = ' + StrDataFechamento + '<br>';
                                     Html.Body.Text := Html.Body.Text + 'Número da Fatura = ' + StrCodigoFatura + '<br>';
                                     Html.Body.Text := Html.Body.Text + 'Valor da Fatura = R$'+ StrValorFatura + '<br>';
                                     Html.Body.Text := Html.Body.Text + '</body></html>';
                                     Html.ContentType := 'text/html';                 //
-                                                    //
-                                    Anexo := TIdAttachment.Create(idmessage1.MessageParts, 'c:\imagem.jpg');
+              }
+
+      //Html.Body.Text := edText.Lines.GetText;
+      //Html.ContentType := 'text/html';
+      //IdMessage1.Body.Add(edText.Lines.GetText);
+
+                                            //
+                                   { Anexo := TIdAttachment.Create(idmessage1.MessageParts, 'c:\imagem.jpg');
                                     Anexo.ContentType := 'image/jpg';
                                      Anexo.Headers.Add('Content-ID: <imagem.jpg>');
 
 
-      TIdAttachment.Create(IdMessage1.MessageParts,imagem.jpg);
+      TIdAttachment.Create(IdMessage1.MessageParts,imagem.jpg);}
 
 
 
@@ -91,13 +98,27 @@ begin
       // e-mail do destinatário
       IdMessage1.Recipients.EMailAddresses := cdsEnviaEMAIL.AsString;
       // Assunto
-      IdMessage1.Subject := edtAssunto.Text;
+
+   //   IdMessage1.Subject := edtAssunto.Text;
+
+
       // Cabeçalho da mensagem
-      //IdMessage1.Body.Add(('Senhores Pais :'));
+      IdMessage1.Body.Add('<TR>');
+      IdMessage1.Body.Add('<TD><A href="http://www.atsti.com.br/publicidade/" target=_blank><IMG style="DISPLAY: block" border=0 alt="Gerenciador Comercial Nota Fiscal Eletronica"');
+      IdMessage1.Body.Add('src="http://www.atsti.com.br/publicidade/images/index_01.jpg"');
+      IdMessage1.Body.Add('width=670></A></TD>');
+      IdMessage1.Body.Add('</TR>');
+      IdMessage1.Body.Add('<TR>');
+      IdMessage1.Body.Add('<TD><A href="http://www.atsti.com.br/publicidade/" target=_blank><IMG src="http://www.atsti.com.br/publicidade/images/index_02.jpg" alt="Gerenciador Comercial Nota Fiscal Eletronica"');
+      IdMessage1.Body.Add('width=670 border=0 style="DISPLAY: block"></A></TD>');
+      IdMessage1.Body.Add('</TR>');
       //IdMessage1.Body.Add('dedede');//linha em branco espaço
       //IdMessage1.Body.Add('ggsgsg');//linha em branco espaço
       // Corpo da mensagem
-      IdMessage1.Body.Add(Memo1.Text);
+      IdMessage1.Body.Add(edText.Text);
+
+      IdMessage1.ContentType := 'text/html';
+
       //fim da mensagem
       //Configuração do IdSMTP SMTP
       IdSMTP1.Host := 'smtps.bol.com.br';

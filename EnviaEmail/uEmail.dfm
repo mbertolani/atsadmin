@@ -15,8 +15,8 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object Label86: TLabel
-    Left = 160
-    Top = 292
+    Left = 16
+    Top = 252
     Width = 91
     Height = 16
     Caption = 'Assunto : Email'
@@ -28,8 +28,8 @@ object Form1: TForm1
     ParentFont = False
   end
   object Label73: TLabel
-    Left = 158
-    Top = 339
+    Left = 334
+    Top = 283
     Width = 68
     Height = 16
     Caption = 'Descri'#231#227'o :'
@@ -41,8 +41,8 @@ object Form1: TForm1
     ParentFont = False
   end
   object FlatGauge1: TFlatGauge
-    Left = 158
-    Top = 492
+    Left = 14
+    Top = 556
     Width = 457
     Height = 25
     AdvColorBorder = 0
@@ -50,8 +50,8 @@ object Form1: TForm1
     Progress = 0
   end
   object BitBtn1: TBitBtn
-    Left = 497
-    Top = 525
+    Left = 489
+    Top = 549
     Width = 107
     Height = 42
     Caption = 'E-Mail'
@@ -165,7 +165,7 @@ object Form1: TForm1
   end
   object edtAssunto: TEdit
     Left = 159
-    Top = 309
+    Top = 253
     Width = 457
     Height = 24
     Font.Charset = DEFAULT_CHARSET
@@ -176,29 +176,13 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 1
   end
-  object Memo1: TMemo
-    Left = 159
-    Top = 364
-    Width = 457
-    Height = 115
-    Lines.Strings = (
-      
-        '<a href="http://www.atsti.com.br/publicidade/" target=_blank><IM' +
-        'G '
-      
-        'src="http://www.atsti.com.br/publicidade/images/index_02.jpg" al' +
-        't="Gerenciador Comercial '
-      'Nota Fiscal Eletronica" '
-      '                  width=670 border=0 style="DISPLAY: block"></A>')
-    TabOrder = 2
-  end
   object JvDBUltimGrid1: TJvDBUltimGrid
     Left = 56
     Top = 0
     Width = 793
-    Height = 273
+    Height = 241
     DataSource = dsEnvia
-    TabOrder = 3
+    TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -235,6 +219,14 @@ object Form1: TForm1
         Visible = True
       end>
   end
+  object edText: TJvRichEdit
+    Left = 0
+    Top = 304
+    Width = 849
+    Height = 241
+    AutoSize = False
+    TabOrder = 3
+  end
   object IdSMTP1: TIdSMTP
     MaxLineAction = maException
     ReadTimeout = 0
@@ -247,6 +239,7 @@ object Form1: TForm1
     AttachmentEncoding = 'MIME'
     BccList = <>
     CCList = <>
+    ContentType = 'text/html'
     Encoding = meMIME
     Recipients = <>
     ReplyTo = <>
@@ -254,7 +247,7 @@ object Form1: TForm1
     Top = 39
   end
   object SQLDataSet1: TSQLDataSet
-    CommandText = 'SELECT * FROM EMAIL_ENVIAR WHERE DATAENVIO IS NULL'
+    CommandText = 'SELECT * FROM EMAIL_ENVIAR '#13#10'WHERE DATAENVIO IS NULL'#13#10'       '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
