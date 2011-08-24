@@ -1,6 +1,6 @@
 inherited fCompra: TfCompra
-  Left = 187
-  Top = 113
+  Left = 271
+  Top = 215
   Width = 800
   Height = 615
   Caption = 'Compra'
@@ -1012,9 +1012,17 @@ inherited fCompra: TfCompra
     Top = 63
     Width = 489
     Height = 48
+    Cursor = crHandPoint
     Caption = 'FORNECEDOR'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsUnderline]
+    ParentFont = False
     PopupMenu = PopupMenu1
     TabOrder = 2
+    OnClick = GroupBox1Click
     object dbeCliente: TDBEdit
       Left = 5
       Top = 16
@@ -1273,11 +1281,19 @@ inherited fCompra: TfCompra
     Caption = 'MERCADORIAS'
     TabOrder = 5
     object Label3: TLabel
-      Left = 6
+      Left = 10
       Top = 18
-      Width = 33
-      Height = 13
+      Width = 44
+      Height = 16
+      Cursor = crHandPoint
       Caption = 'C'#243'digo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
+      ParentFont = False
+      OnClick = Label3Click
     end
     object Label5: TLabel
       Left = 114
@@ -1698,9 +1714,9 @@ inherited fCompra: TfCompra
     object Label10: TLabel
       Left = 8
       Top = 62
-      Width = 38
+      Width = 9
       Height = 13
-      Caption = 'Label10'
+      Caption = '...'
     end
     object MaskEdit1: TMaskEdit
       Left = 8

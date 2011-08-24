@@ -439,6 +439,8 @@ type
     procedure btnTranspClick(Sender: TObject);
     procedure cbTransportadoraChange(Sender: TObject);
     procedure cbTpTranspChange(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
+    procedure GroupBox1Click(Sender: TObject);
   private
     modo :string;
     { Private declarations }
@@ -459,7 +461,8 @@ implementation
 
 uses uComercial, UDm, uRateioPag, uFiltroMov_compra, ufprocura_prod,
   uCompraFinalizar, uProdutoLote, uProcurar, uLotes, uClienteVeiculo,
-  sCtrlResize, uAtsAdmin, uUtils, UDMNF, uftransp;
+  sCtrlResize, uAtsAdmin, uUtils, UDMNF, uftransp, uFornecedorCadastro,
+  uProdutoCadastro;
 
 
 {$R *.dfm}
@@ -1889,6 +1892,41 @@ begin
     cds_MovimentoTPFRETE.AsString := 'E'
   else if(cbTpTransp.Text = 'Destinatario') then
     cds_MovimentoTPFRETE.AsString := 'D';
+end;
+
+procedure TfCompra.Label3Click(Sender: TObject);
+begin
+  inherited;
+  if (dbeProduto.Text = '') then
+     exit;
+  fProdutoCadastro := TfProdutoCadastro.Create(Application);
+  try
+    fProdutoCadastro.btnProcurar.Visible := False;
+    if (dm.cds_produto.Active) then
+      dm.cds_produto.close;
+    dm.cds_produto.Params[0].AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
+    dm.cds_produto.Open;
+    fProdutoCadastro.ShowModal;
+  finally
+    fProdutoCadastro.Free;
+    dm.cds_produto.Close;
+  end;
+end;
+
+procedure TfCompra.GroupBox1Click(Sender: TObject);
+begin
+  inherited;
+  if (dbeCliente.Text = '') then
+     exit;
+
+   fFornecedorCadastro:=TfFornecedorCadastro.Create(Application);
+   try
+    fFornecedorCadastro.cds_fornecedor.Params[0].AsInteger := cds_MovimentoCODFORNECEDOR.AsInteger;
+    fFornecedorCadastro.cds_fornecedor.Open;
+    fFornecedorCadastro.ShowModal;
+   finally
+     fFornecedorCadastro.Free;
+   end;
 end;
 
 end.
