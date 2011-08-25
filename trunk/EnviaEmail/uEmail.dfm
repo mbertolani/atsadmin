@@ -1,8 +1,8 @@
 object Form1: TForm1
   Left = 222
   Top = 84
-  Width = 870
-  Height = 618
+  Width = 887
+  Height = 635
   Caption = 'Form1'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,12 +11,14 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label86: TLabel
-    Left = 16
-    Top = 252
+    Left = 48
+    Top = 212
     Width = 91
     Height = 16
     Caption = 'Assunto : Email'
@@ -29,7 +31,7 @@ object Form1: TForm1
   end
   object Label73: TLabel
     Left = 334
-    Top = 283
+    Top = 323
     Width = 68
     Height = 16
     Caption = 'Descri'#231#227'o :'
@@ -41,19 +43,19 @@ object Form1: TForm1
     ParentFont = False
   end
   object FlatGauge1: TFlatGauge
-    Left = 14
-    Top = 556
-    Width = 457
-    Height = 25
+    Left = 10
+    Top = 566
+    Width = 720
+    Height = 23
     AdvColorBorder = 0
     ColorBorder = 8623776
     Progress = 0
   end
   object BitBtn1: TBitBtn
-    Left = 489
-    Top = 549
+    Left = 742
+    Top = 560
     Width = 107
-    Height = 42
+    Height = 36
     Caption = 'E-Mail'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -165,8 +167,8 @@ object Form1: TForm1
   end
   object edtAssunto: TEdit
     Left = 159
-    Top = 253
-    Width = 457
+    Top = 205
+    Width = 594
     Height = 24
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -177,10 +179,10 @@ object Form1: TForm1
     TabOrder = 1
   end
   object JvDBUltimGrid1: TJvDBUltimGrid
-    Left = 56
+    Left = 45
     Top = 0
-    Width = 793
-    Height = 241
+    Width = 797
+    Height = 203
     DataSource = dsEnvia
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
@@ -219,13 +221,157 @@ object Form1: TForm1
         Visible = True
       end>
   end
-  object edText: TJvRichEdit
-    Left = 0
-    Top = 304
-    Width = 849
-    Height = 241
-    AutoSize = False
+  object lbxAnexos: TTextListBox
+    Left = 48
+    Top = 232
+    Width = 705
+    Height = 33
+    ItemHeight = 13
     TabOrder = 3
+  end
+  object BitBtn2: TBitBtn
+    Left = 760
+    Top = 232
+    Width = 75
+    Height = 33
+    Caption = 'Anexar'
+    TabOrder = 4
+    OnClick = BitBtn2Click
+  end
+  object pgc1: TPageControl
+    Left = 8
+    Top = 268
+    Width = 841
+    Height = 289
+    ActivePage = ts1
+    TabOrder = 5
+    object ts1: TTabSheet
+      Caption = 'Mensagem'
+      object edText: TJvRichEdit
+        Left = 6
+        Top = 1
+        Width = 822
+        Height = 256
+        AutoSize = False
+        TabOrder = 0
+      end
+    end
+    object ts2: TTabSheet
+      Caption = 'Cadastrar Email'
+      ImageIndex = 1
+      object lbl1: TLabel
+        Left = 24
+        Top = 0
+        Width = 55
+        Height = 13
+        Caption = 'CODEMAIL'
+        FocusControl = dbedtCODEMAIL
+      end
+      object lbl2: TLabel
+        Left = 88
+        Top = 0
+        Width = 32
+        Height = 13
+        Caption = 'EMAIL'
+        FocusControl = dbedtEMAIL
+      end
+      object lbl3: TLabel
+        Left = 752
+        Top = 0
+        Width = 62
+        Height = 13
+        Caption = 'DATAENVIO'
+        FocusControl = dbedtDATAENVIO
+      end
+      object lbl4: TLabel
+        Left = 544
+        Top = 0
+        Width = 52
+        Height = 13
+        Caption = 'ASSUNTO'
+        FocusControl = dbedtASSUNTO
+      end
+      object btnAdiconar: TBitBtn
+        Left = 254
+        Top = 232
+        Width = 75
+        Height = 25
+        Caption = 'Adicionar'
+        TabOrder = 0
+        OnClick = btnAdiconarClick
+      end
+      object btnExcluir: TBitBtn
+        Left = 390
+        Top = 232
+        Width = 75
+        Height = 25
+        Caption = 'Gravar'
+        TabOrder = 1
+        OnClick = btnExcluirClick
+      end
+      object BitBtn3: TBitBtn
+        Left = 512
+        Top = 232
+        Width = 75
+        Height = 25
+        Caption = 'Excluir'
+        TabOrder = 2
+        OnClick = BitBtn3Click
+      end
+      object dbedtCODEMAIL: TDBEdit
+        Left = 24
+        Top = 16
+        Width = 56
+        Height = 21
+        DataField = 'CODEMAIL'
+        DataSource = dsEnvia
+        TabOrder = 3
+        OnKeyPress = FormKeyPress
+      end
+      object dbedtEMAIL: TDBEdit
+        Left = 88
+        Top = 16
+        Width = 452
+        Height = 21
+        DataField = 'EMAIL'
+        DataSource = dsEnvia
+        TabOrder = 4
+        OnKeyPress = FormKeyPress
+      end
+      object dbedtDATAENVIO: TDBEdit
+        Left = 750
+        Top = 16
+        Width = 72
+        Height = 21
+        DataField = 'DATAENVIO'
+        DataSource = dsEnvia
+        TabOrder = 6
+        OnKeyPress = FormKeyPress
+      end
+      object dbgrd1: TDBGrid
+        Left = 24
+        Top = 48
+        Width = 801
+        Height = 176
+        DataSource = dsEnvia
+        TabOrder = 7
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+      end
+      object dbedtASSUNTO: TDBEdit
+        Left = 544
+        Top = 16
+        Width = 201
+        Height = 21
+        DataField = 'ASSUNTO'
+        DataSource = dsEnvia
+        TabOrder = 5
+        OnKeyPress = FormKeyPress
+      end
+    end
   end
   object IdSMTP1: TIdSMTP
     MaxLineAction = maException
@@ -286,5 +432,9 @@ object Form1: TForm1
     DataSet = cdsEnvia
     Left = 8
     Top = 136
+  end
+  object dlgOpenAnexos: TOpenDialog
+    Left = 760
+    Top = 200
   end
 end
