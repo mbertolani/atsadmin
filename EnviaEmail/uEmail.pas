@@ -8,7 +8,7 @@ uses
   IdMessage, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient,
   IdMessageClient, IdSMTP, FMTBcd, DB, Grids, DBGrids, JvExDBGrids,
   JvDBGrid, JvDBUltimGrid, Provider, DBClient, SqlExpr,IdSSLOpenSSL, dateutils,
-  JvExStdCtrls, JvRichEdit;
+  JvExStdCtrls, JvRichEdit, RXCtrls, ComCtrls,dbxpress, DBCtrls ;
 
 type
   TForm1 = class(TForm)
@@ -28,11 +28,35 @@ type
     cdsEnviaEMAIL: TStringField;
     cdsEnviaASSUNTO: TStringField;
     cdsEnviaDATAENVIO: TDateField;
+    lbxAnexos: TTextListBox;
+    BitBtn2: TBitBtn;
+    dlgOpenAnexos: TOpenDialog;
+    pgc1: TPageControl;
+    ts1: TTabSheet;
+    ts2: TTabSheet;
+    btnAdiconar: TBitBtn;
+    btnExcluir: TBitBtn;
+    BitBtn3: TBitBtn;
     edText: TJvRichEdit;
+    lbl1: TLabel;
+    dbedtCODEMAIL: TDBEdit;
+    lbl2: TLabel;
+    dbedtEMAIL: TDBEdit;
+    lbl3: TLabel;
+    dbedtDATAENVIO: TDBEdit;
+    dbgrd1: TDBGrid;
+    lbl4: TLabel;
+    dbedtASSUNTO: TDBEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure btnAdiconarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
+        TD: TTransactionDesc;
   public
     { Public declarations }
   end;
@@ -48,6 +72,7 @@ uses UDm;
 
 procedure TForm1.BitBtn1Click(Sender: TObject);
 var email,responsavel:string;
+   Anexo : Integer;   
 begin
   Cursor := crHourGlass;
 
@@ -99,25 +124,30 @@ begin
       IdMessage1.Recipients.EMailAddresses := cdsEnviaEMAIL.AsString;
       // Assunto
 
-   //   IdMessage1.Subject := edtAssunto.Text;
+      IdMessage1.Subject := edtAssunto.Text;
 
 
       // Cabeçalho da mensagem
-      IdMessage1.Body.Add('<TR>');
-      IdMessage1.Body.Add('<TD><A href="http://www.atsti.com.br/publicidade/" target=_blank><IMG style="DISPLAY: block" border=0 alt="Gerenciador Comercial Nota Fiscal Eletronica"');
-      IdMessage1.Body.Add('src="http://www.atsti.com.br/publicidade/images/index_01.jpg"');
-      IdMessage1.Body.Add('width=670></A></TD>');
-      IdMessage1.Body.Add('</TR>');
-      IdMessage1.Body.Add('<TR>');
-      IdMessage1.Body.Add('<TD><A href="http://www.atsti.com.br/publicidade/" target=_blank><IMG src="http://www.atsti.com.br/publicidade/images/index_02.jpg" alt="Gerenciador Comercial Nota Fiscal Eletronica"');
-      IdMessage1.Body.Add('width=670 border=0 style="DISPLAY: block"></A></TD>');
-      IdMessage1.Body.Add('</TR>');
+     // IdMessage1.Body.Add('<TR>');
+     // IdMessage1.Body.Add('<TD><A href="http://www.atsti.com.br/publicidade/" target=_blank><IMG style="DISPLAY: block" border=0 alt="Gerenciador Comercial Nota Fiscal Eletronica"');
+     // IdMessage1.Body.Add('src="http://www.atsti.com.br/publicidade/images/index_01.jpg"');
+     // IdMessage1.Body.Add('width=670></A></TD>');
+     // IdMessage1.Body.Add('</TR>');
+     // IdMessage1.Body.Add('<TR>');
+     //IdMessage1.Body.Add('<TD><A href="http://www.atsti.com.br/publicidade/" target=_blank><IMG src="http://www.atsti.com.br/publicidade/images/index_02.jpg" alt="Gerenciador Comercial Nota Fiscal Eletronica"');
+     // IdMessage1.Body.Add('width=670 border=0 style="DISPLAY: block"></A></TD>');
+     // IdMessage1.Body.Add('</TR>');
       //IdMessage1.Body.Add('dedede');//linha em branco espaço
       //IdMessage1.Body.Add('ggsgsg');//linha em branco espaço
       // Corpo da mensagem
       IdMessage1.Body.Add(edText.Text);
 
       IdMessage1.ContentType := 'text/html';
+
+     // TIdAttachment.Create(IdMessage1.MessageParts, TFileName('C:\home\avisos\gerenciador.jpg'));
+      for Anexo := 0 to lbxAnexos.Items.Count-1 do
+      TIdAttachment.Create(idmessage1.MessageParts, TFileName(lbxAnexos.Items.Strings[Anexo]));
+
 
       //fim da mensagem
       //Configuração do IdSMTP SMTP
@@ -148,6 +178,10 @@ begin
   FlatGauge1.Progress := 0;
   Cursor := crDefault;
   Refresh;
+
+  Application.MessageBox('Email enviado com sucesso!', 'Confirmação',
+  MB_ICONINFORMATION +   MB_OK);
+
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -155,6 +189,59 @@ begin
   if (not cdsEnvia.Active) then
     cdsEnvia.Open;
 
+end;
+
+procedure TForm1.BitBtn2Click(Sender: TObject);
+begin
+if dlgOpenAnexos.Execute then
+     lbxAnexos.Items.Add(dlgOpenAnexos.FileName);
+
+end;
+
+procedure TForm1.btnAdiconarClick(Sender: TObject);
+begin
+  if not(dsEnvia.DataSet.Active) then
+     dsEnvia.DataSet.open;
+  dsEnvia.DataSet.Append;
+
+
+
+end;
+
+procedure TForm1.btnExcluirClick(Sender: TObject);
+begin
+    cdsEnviaCODEMAIL.AsInteger := StrToInt(dbedtCODEMAIL.Text);
+    cdsEnviaEMAIL.AsString := dbedtEMAIL.Text;
+    cdsEnviaASSUNTO.AsString := edtAssunto.Text;
+    cdsEnvia.ApplyUpdates(0) ;
+end;
+
+procedure TForm1.BitBtn3Click(Sender: TObject);
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  DM.sqlsisAdimin.StartTransaction(TD);
+  try
+    DM.sqlsisAdimin.ExecuteDirect('DELETE FROM EMAIL_ENVIAR WHERE CODEMAIL = ' +
+      IntToStr(cdsEnviaCODEMAIL.AsInteger));
+    DM.sqlsisAdimin.Commit(TD);
+    MessageDlg('Item excluído com sucesso.', mtInformation, [mbOK], 0);
+    cdsEnvia.Close;
+    cdsEnvia.Open;
+  except
+    DM.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro para excluir Registro .', mtError, [mbOK], 0);
+    exit;
+  end;
+end;
+
+procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
 end;
 
 end.
