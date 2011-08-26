@@ -2,7 +2,7 @@ unit uOsClasse;
 
 interface
 
-uses  SysUtils, Dialogs, dbXpress, DateUtils, uOsDetalheClasse;
+uses  SysUtils, Dialogs, dbXpress, DateUtils, uOsDetalheClasse, SqlExpr;
 
 Type
   TOsClasse = class(TObject)
@@ -59,6 +59,9 @@ Type
 
     procedure ListaOs(DataIni: TdateTime; DataFim: TDateTime; codCliente: Integer);
 
+    constructor Create;
+    Destructor Destroy; Override;
+
   end;
 
 implementation
@@ -92,6 +95,17 @@ begin
     end;
   end;
 
+end;
+
+constructor TOsClasse.Create;
+begin
+  _osDet := TOsDetalheClasse.Create;
+end;
+
+destructor TOsClasse.Destroy;
+begin
+  _osDet.Destroy;
+  inherited;
 end;
 
 function TOsClasse.excluirOs(codMovE: Integer): Boolean;
@@ -182,17 +196,22 @@ end;
 
 function TOsClasse.IncluirOs(codOsI: Integer): Integer;
 var sqlInsere: String;
+    sqlBuscaI: TSqlQuery;
 begin
   try
     _codOs := codOsI;
     if (Self.CodOs = 0) then
     begin
-      if dm.c_6_genid.Active then
-        dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_OS, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-      dm.c_6_genid.Open;
-      _codOs := dm.c_6_genid.Fields[0].AsInteger;
-      dm.c_6_genid.Close;
+      Try
+        sqlBuscai := TSqlQuery.Create(nil);
+        sqlBuscai.SQLConnection := dm.sqlsisAdimin;
+        sqlBuscai.sql.Clear;
+        sqlBuscai.sql.Add('SELECT CAST(GEN_ID(GEN_OS, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE');
+        sqlBuscai.Open;
+        _codOs := sqlBuscai.Fields[0].AsInteger;
+      Finally
+        sqlBuscai.Destroy;
+      end;
     end;
     sqlInsere := 'INSERT INTO OS(CODOS, CODCLIENTE, CODVEICULO, CODUSUARIO, DATAOS,'+
       'DATA_SISTEMA, DATA_INI, DATA_FIM, KM, STATUS) VALUES (';
