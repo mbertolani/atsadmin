@@ -2,7 +2,7 @@ unit uOsClasse;
 
 interface
 
-uses  SysUtils, Dialogs, dbXpress, uMovimentoDetalhe, DateUtils;
+uses  SysUtils, Dialogs, dbXpress, DateUtils, uOsDetalheClasse;
 
 Type
   TOsClasse = class(TObject)
@@ -26,6 +26,8 @@ Type
     procedure setDataOs(const Value: TDateTime);
     procedure setKm(const Value: Integer);
     procedure setStatus(const Value: String);
+    function getOsDet: TOsDetalheClasse;
+    procedure setOsDet(const Value: TOsDetalheClasse);
   protected
     //Atributos
     _codOs      : Integer;
@@ -37,6 +39,7 @@ Type
     _status     : String;
     _codUsuario : Integer;
     _km         : Integer;
+    _osDet       : TOsDetalheClasse;
 
   public
     property codOs : Integer read getCodOs write setCodOs;
@@ -48,6 +51,7 @@ Type
     property status: String read getStatus write setStatus;
     property codUsuario: Integer read getCodUsuario write setCodUsuario;
     property km: Integer read getKm write setKm;
+    property osDet: TOsDetalheClasse read getOsDet write setOsDet;
 
     function IncluirOs(codOsI: Integer): Integer;
     function alterarOs(codOsA: Integer): Boolean;
@@ -81,7 +85,11 @@ begin
     executaSql(sqlAltera);
     Result := True;
   except
-    Result := False;
+    on E : Exception do
+    begin
+      ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+      Result := False;
+    end;
   end;
 
 end;
@@ -103,20 +111,20 @@ begin
 end;
 
 function TOsClasse.executaSql(strSql: String): Boolean;
-var     TD: TTransactionDesc;
+//var     TD: TTransactionDesc;
 begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
+  //TD.TransactionID := 1;
+  //TD.IsolationLevel := xilREADCOMMITTED;
   try
-    dm.sqlsisAdimin.StartTransaction(TD);
+    //dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
-    dm.sqlsisAdimin.Commit(TD);
+    //dm.sqlsisAdimin.Commit(TD);
     Result := True;
   except
     on E : Exception do
     begin
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      dm.sqlsisAdimin.Rollback(TD);
+      //dm.sqlsisAdimin.Rollback(TD);
       Result := False;
     end;
   end;
@@ -160,6 +168,11 @@ end;
 function TOsClasse.getKm: Integer;
 begin
   Result := _km;
+end;
+
+function TOsClasse.getOsDet: TOsDetalheClasse;
+begin
+  Result := _osDet;
 end;
 
 function TOsClasse.getStatus: String;
@@ -244,6 +257,11 @@ end;
 procedure TOsClasse.setKm(const Value: Integer);
 begin
   _km := Value;
+end;
+
+procedure TOsClasse.setOsDet(const Value: TOsDetalheClasse);
+begin
+  _osDet := Value;
 end;
 
 procedure TOsClasse.setStatus(const Value: String);

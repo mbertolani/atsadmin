@@ -8,7 +8,7 @@ uses
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uOsClasse, Buttons,
   ExtCtrls, MMJPanel, DB, FMTBcd, DBClient, Provider, SqlExpr, Grids,
   DBGrids, JvExDBGrids, JvDBGrid, JvBaseEdits, JvMemo, DateUtils,
-  JvComponentBase, JvFormAutoSize;
+  JvComponentBase, JvFormAutoSize, dbXpress;
 
 type
   TfOs = class(TForm)
@@ -80,7 +80,7 @@ type
     Label11: TLabel;
     Label12: TLabel;
     edPreco: TJvCalcEdit;
-    JvCalcEdit3: TJvCalcEdit;
+    edTotal: TJvCalcEdit;
     Label13: TLabel;
     edDescVlr: TJvCalcEdit;
     Label14: TLabel;
@@ -133,7 +133,6 @@ type
     Label7: TLabel;
     Label8: TLabel;
     Label4: TLabel;
-    edKm: TEdit;
     edVeiculo: TJvMaskEdit;
     edObs: TEdit;
     Panel2: TPanel;
@@ -143,6 +142,8 @@ type
     edServico: TJvMemo;
     GroupBox2: TGroupBox;
     JvDBGrid1: TJvDBGrid;
+    cdsPecasVlrTotal: TAggregateField;
+    edKm: TJvCalcEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -157,6 +158,9 @@ type
     procedure edCodClienteExit(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn1Click(Sender: TObject);
+    procedure edPrecoExit(Sender: TObject);
+    procedure edDescExit(Sender: TObject);
+    procedure edDescVlrExit(Sender: TObject);
   private
     numOsDet, codProduto: Integer;
     estoque, qtde : Double;
@@ -196,7 +200,11 @@ begin
 end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
+var codOs : Integer;
+    TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   if (edCodCliente.Text = '') then
   begin
     MessageDlg('Cliente não informado', mtError, [mbOK], 0);
@@ -204,24 +212,65 @@ begin
     exit;
   end;
 
-  FOsCls.codCliente := StrToInt(edCodCliente.Text);
-  FOsCls.codOs      := 0;
-  if (edVeiculo.Text = '') then
-  begin
-    MessageDlg('Veiculo não informado', mtError, [mbOK], 0);
-    edVeiculo.SetFocus;
-    exit;
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    FOsCls.codCliente := StrToInt(edCodCliente.Text);
+    FOsCls.codOs      := 0;
+    if (edVeiculo.Text = '') then
+    begin
+      MessageDlg('Veiculo não informado', mtError, [mbOK], 0);
+      edVeiculo.SetFocus;
+      exit;
+    end;
+    FOsCls.codVeiculo := edVeiculo.Text;
+    FOsCls.codUsuario := dm.varUSERID;
+    FOsCls.dataOs     := edData.Date;
+    FOsCls.dataInicio := edData.Date;
+    FOsCls.dataFim    := edDataFim.Date;
+    if (modo = 'Insert') then
+      FOsCls.status := 'P';
+    FOsCls.km         := StrToInt(edKm.Text);
+
+    CodOs := FOsCls.IncluirOs(0);
+
+    cdsServico.DisableControls;
+    cdsServico.First;
+    While not cdsServico.Eof do
+    begin
+      FOsCls.osDet.CodOs    := CodOs;
+      FOsCls.osDet.CodDet   := 0;
+      FOsCls.osDet.Status   := 'O';
+      FOsCls.osDet.Descricao:= cdsServicoDESCRICAO_SERV.AsString;
+      FOsCls.osDet.Qtde     := 1;
+      FOsCls.osDet.Preco    := 0;
+      FOsCls.osDet.Desconto := 0;
+      FOsCls.osDet.IncluirOsDet(0);
+      cdsServico.Next;
+    end;
+    cdsServico.EnableControls;
+
+    cdsPecas.DisableControls;
+    cdsPecas.First;
+    While not cdsPecas.Eof do
+    begin
+      FOsCls.osDet.CodOs    := CodOs;
+      FOsCls.osDet.CodDet   := 0;
+      FOsCls.osDet.Status   := 'O';
+      FOsCls.osDet.Descricao:= cdsPecasDESCRICAO_SERV.AsString;
+      FOsCls.osDet.Qtde     := 1;
+      FOsCls.osDet.Preco    := 0;
+      FOsCls.osDet.Desconto := 0;
+      FOsCls.osDet.IncluirOsDet(0);
+      cdsPecas.Next;
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+    end;
   end;
-  FOsCls.codVeiculo := edVeiculo.Text;
-  FOsCls.codUsuario := dm.varUSERID;
-  FOsCls.dataOs     := edData.Date;
-  FOsCls.dataInicio := edData.Date;
-  FOsCls.dataFim    := edDataFim.Date;
-  if (modo = 'Insert') then
-    FOsCls.status := 'P';
-
-
-
   if ((modo = 'Insert') or (modo = 'Edit')) then
   begin
     {Os.dataMovimento := edData.Text;
@@ -395,6 +444,7 @@ begin
     cdsServico.Close;
   cdsServico.Params.ParamByName('pOs').AsInteger := codOs;
   cdsServico.Open;
+  cdsServico.Append;
 end;
 
 procedure TfOs.abrirPecas;
@@ -569,8 +619,38 @@ begin
   cdsPecasPRECO.AsFloat           := edPreco.Value;
   cdsPecasDESCONTO.AsFloat        := edDescVlr.Value;
   cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
-  cdsPecasCODPRODUTO.AsInteger    :=  
+  cdsPecasCODPRODUTO.AsInteger    := codProduto;
+  cdsPecas.Post;
+  edProduto.Text    := '';
+  edDescricao.Text  := '';
+  edQtde.Value      := 0;
+  edPreco.Value     := 0;
+  edDesc.Value      := 0;
+  edDescVlr.Value   := 0;
+  edTotal.Value     := 0;  
+end;
 
+procedure TfOs.edPrecoExit(Sender: TObject);
+begin
+  edTotal.Value := edPreco.Value * edQtde.Value;
+end;
+
+procedure TfOs.edDescExit(Sender: TObject);
+begin
+  if (edDesc.Value > 0) then
+  begin
+    edDescVlr.Value := edPreco.Value * (edDesc.Value / 100);
+    edTotal.Value   := (edPreco.Value * edQtde.Value) - edDescVlr.Value;
+  end;
+end;
+
+procedure TfOs.edDescVlrExit(Sender: TObject);
+begin
+  if ((edDescVlr.Value > 0) and (edDesc.Value = 0) and (edPreco.Value > 0)) then
+  begin
+    edDesc.Value  := (edDescVlr.Value / edPreco.Value) * 100;
+    edTotal.Value := (edPreco.Value * edQtde.Value) - edDescVlr.Value;
+  end;
 end;
 
 end.
