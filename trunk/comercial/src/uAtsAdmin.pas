@@ -392,7 +392,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
-  uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque;
+  uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
+  uEndereco, uCliente1;
 
 {$R *.dfm}
 
@@ -437,13 +438,23 @@ procedure TfAtsAdmin.ClientesClick(Sender: TObject);
 begin
   if (varform <> '') then
     varform := '';
-  fClienteCadastro := TfClienteCadastro.Create(Application);
+  {fClienteCadastro := TfClienteCadastro.Create(Application);
   try
     fClienteCadastro.ShowModal;
   finally
     fClienteCadastro.Free;
     varform := '';
+  end;  }
+  fCliente1 := TfCliente1.Create(Application);
+  fEndereco := TfEndereco.Create(Application);
+  try
+    fCliente1.ShowModal;
+  finally
+    fEndereco.Free;
+    fCliente1.Free;
+    varform := '';
   end;
+
 end;
 
 procedure TfAtsAdmin.FornecedoresClick(Sender: TObject);
