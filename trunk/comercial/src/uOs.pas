@@ -200,7 +200,7 @@ begin
 end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
-var codOs : Integer;
+var codigoOs : Integer;
     TD: TTransactionDesc;
 begin
   TD.TransactionID := 1;
@@ -231,13 +231,13 @@ begin
       FOsCls.status := 'P';
     FOsCls.km         := StrToInt(edKm.Text);
 
-    CodOs := FOsCls.IncluirOs(0);
+    CodigoOs := FOsCls.IncluirOs(0);
 
     cdsServico.DisableControls;
     cdsServico.First;
     While not cdsServico.Eof do
     begin
-      FOsCls.osDet.CodOs    := CodOs;
+      FOsCls.osDet.CodOsP   := CodigoOs;
       FOsCls.osDet.CodDet   := 0;
       FOsCls.osDet.Status   := 'O';
       FOsCls.osDet.Descricao:= cdsServicoDESCRICAO_SERV.AsString;
@@ -253,7 +253,7 @@ begin
     cdsPecas.First;
     While not cdsPecas.Eof do
     begin
-      FOsCls.osDet.CodOs    := CodOs;
+      FOsCls.osDet.CodOsP   := CodigoOs;
       FOsCls.osDet.CodDet   := 0;
       FOsCls.osDet.Status   := 'O';
       FOsCls.osDet.Descricao:= cdsPecasDESCRICAO_SERV.AsString;
@@ -553,17 +553,18 @@ begin
     //btnProdutoProcura.Click;
     exit;
   end;
-  cdsPecasCODPRO.AsString := fProcura_prodOficina.cds_procCODPRO.AsString;
-  cdsPecasCODPRODUTO.asInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+  cdsPecasCODPRO.AsString         := fProcura_prodOficina.cds_procCODPRO.AsString;
+  cdsPecasCODPRODUTO.asInteger    := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
   cdsPecasDESCRICAO_SERV.asString := fProcura_prodOficina.cds_procPRODUTO.AsString;
-  cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+  edDescricao.Text                := fProcura_prodOficina.cds_procPRODUTO.AsString;
+  cdsPecasPRECO.AsFloat           := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
   if ( fProcura_prodOficina.cds_procQTDE_PCT.AsFloat < 1) then
     cdsPecasQTDE.AsFloat := 1
   else
-    cdsPecasQTDE.AsFloat := fProcura_prodOficina.cds_procQTDE_PCT.AsFloat;
-  qtde := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
+    cdsPecasQTDE.AsFloat          := fProcura_prodOficina.cds_procQTDE_PCT.AsFloat;
+  qtde                            := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
   //cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECOMEDIO.AsFloat;
-  estoque := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
+  estoque          := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
   edProduto.Text   := fProcura_prodOficina.cds_procCODPRO.AsString;
   edDescricao.Text := fProcura_prodOficina.cds_procPRODUTO.AsString;
   edPreco.Value    := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
@@ -589,7 +590,7 @@ begin
     //btnClienteProcura.Click;
     exit;
   end;
-
+  edNomeCliente.Text := dm.scds_cliente_procNOMECLIENTE.AsString;
 end;
 
 procedure TfOs.FormKeyPress(Sender: TObject; var Key: Char);
@@ -607,7 +608,8 @@ begin
   begin
     abrirPecas;
   end;
-  cdsPecas.Append;
+  if (cdsPecas.State in [dsBrowse]) then
+    cdsPecas.Append;
   cdsPecasID_OS.AsInteger         := cdsServicoID_OS.AsInteger;
   cdsPecasID_OS_DET.AsInteger     := NumOsDet;
   numOsDet                        := numOsDet + 1;

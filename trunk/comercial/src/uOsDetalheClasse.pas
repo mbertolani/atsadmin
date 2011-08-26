@@ -2,7 +2,7 @@ unit uOsDetalheClasse;
 
 interface
 
-uses  SysUtils, Dialogs, dbXpress;
+uses  SysUtils, Dialogs, dbXpress, SqlExpr;
 
 Type
   TOsDetalheClasse = class(TObject)
@@ -28,7 +28,7 @@ Type
     procedure setDesconto(const Value: Double);
   protected
     //Atributos
-    _codOs      : Integer;
+    _codOsP     : Integer;
     _codDet     : Integer;
     _codUsuario : Integer;
     _status     : String;
@@ -39,7 +39,7 @@ Type
     _desconto   : Double;
 
   public
-    property CodOs         : Integer read getCodOs write setCodOs;
+    property CodOsP        : Integer read getCodOs write setCodOs;
     property CodDet        : Integer read getCodDet write setCodDet;
     property CodUsuario    : Integer read getCodUsuario write setCodUsuario;
     property Status        : String read getStatus write setStatus;
@@ -124,7 +124,7 @@ end;
 
 function TOsDetalheClasse.getCodOs: Integer;
 begin
-  Result := _codOs;
+  Result := _codOsP;
 end;
 
 
@@ -165,23 +165,28 @@ end;
 
 function TOsDetalheClasse.IncluirOsDet(codOsDetI: Integer): Integer;
 var sqlInsere: String;
+    sqlBuscaI: TSqlQuery;
 begin
   // Inclusao
   try
     _codDet := codOsDetI;
     if (Self.CodDet = 0) then
     begin
-      if dm.c_6_genid.Active then
-        dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_OSDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-      dm.c_6_genid.Open;
-      _codDet := dm.c_6_genid.Fields[0].AsInteger;
-      dm.c_6_genid.Close;
+      Try
+        sqlBuscai := TSqlQuery.Create(nil);
+        sqlBuscai.SQLConnection := dm.sqlsisAdimin;
+        sqlBuscai.sql.Clear;
+        sqlBuscai.sql.Add('SELECT CAST(GEN_ID(GEN_OSDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE');
+        sqlBuscai.Open;
+        _codDet := sqlBuscai.Fields[0].AsInteger;
+      Finally
+        sqlBuscai.Destroy;
+      end;
     end;
     sqlInsere := 'INSERT INTO OS_DET(ID_OS_DET, ID_OS, CODUSUARIO, '+
       'DESCRICAO, SERV_EXECUTADO, QTDE, PRECO, STATUS) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.CodDet) + ', ';
-    sqlInsere := sqlInsere + IntToStr(Self.CodOs) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.CodOsP) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codUsuario) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.Descricao) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.ServExecutado) + ', ';
@@ -209,7 +214,7 @@ end;
 
 procedure TOsDetalheClasse.setCodOs(const Value: Integer);
 begin
-  _codOs := Value;
+  _codOsP := Value;
 end;
 
 procedure TOsDetalheClasse.setCodUsuario(const Value: Integer);
