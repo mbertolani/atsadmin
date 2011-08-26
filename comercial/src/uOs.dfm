@@ -1,6 +1,6 @@
 object fOs: TfOs
-  Left = 220
-  Top = 137
+  Left = 265
+  Top = 60
   Width = 825
   Height = 660
   Caption = 'Ordem Servi'#231'o'
@@ -739,35 +739,35 @@ object fOs: TfOs
       Caption = 'Descri'#231'ao'
     end
     object Label10: TLabel
-      Left = 433
+      Left = 429
       Top = 11
       Width = 26
       Height = 13
       Caption = 'Qtde.'
     end
     object Label11: TLabel
-      Left = 548
+      Left = 553
       Top = 11
       Width = 36
       Height = 13
       Caption = 'Desc.%'
     end
     object Label12: TLabel
-      Left = 483
+      Left = 489
       Top = 11
       Width = 28
       Height = 13
       Caption = 'Pre'#231'o'
     end
     object Label13: TLabel
-      Left = 648
+      Left = 663
       Top = 11
       Width = 24
       Height = 13
       Caption = 'Total'
     end
     object Label14: TLabel
-      Left = 595
+      Left = 605
       Top = 11
       Width = 34
       Height = 13
@@ -776,7 +776,7 @@ object fOs: TfOs
     object edDescricao: TEdit
       Left = 140
       Top = 26
-      Width = 289
+      Width = 284
       Height = 21
       TabStop = False
       MaxLength = 100
@@ -998,9 +998,9 @@ object fOs: TfOs
       OnKeyPress = FormKeyPress
     end
     object edQtde: TJvCalcEdit
-      Left = 431
+      Left = 426
       Top = 26
-      Width = 48
+      Width = 57
       Height = 21
       ShowButton = False
       TabOrder = 2
@@ -1008,27 +1008,29 @@ object fOs: TfOs
       OnKeyPress = FormKeyPress
     end
     object edDesc: TJvCalcEdit
-      Left = 546
+      Left = 550
       Top = 26
-      Width = 45
+      Width = 50
       Height = 21
       ShowButton = False
       TabOrder = 4
       DecimalPlacesAlwaysShown = False
+      OnExit = edDescExit
       OnKeyPress = FormKeyPress
     end
     object edPreco: TJvCalcEdit
-      Left = 481
+      Left = 486
       Top = 26
       Width = 62
       Height = 21
       ShowButton = False
       TabOrder = 3
       DecimalPlacesAlwaysShown = False
+      OnExit = edPrecoExit
       OnKeyPress = FormKeyPress
     end
-    object JvCalcEdit3: TJvCalcEdit
-      Left = 646
+    object edTotal: TJvCalcEdit
+      Left = 661
       Top = 26
       Width = 77
       Height = 21
@@ -1039,13 +1041,14 @@ object fOs: TfOs
       DecimalPlacesAlwaysShown = False
     end
     object edDescVlr: TJvCalcEdit
-      Left = 593
+      Left = 602
       Top = 26
-      Width = 52
+      Width = 58
       Height = 21
       ShowButton = False
       TabOrder = 5
       DecimalPlacesAlwaysShown = False
+      OnExit = edDescVlrExit
       OnKeyPress = FormKeyPress
     end
   end
@@ -1352,22 +1355,15 @@ object fOs: TfOs
         Height = 13
         Caption = 'Obs.:'
       end
-      object edKm: TEdit
-        Left = 325
-        Top = 15
-        Width = 119
-        Height = 21
-        MaxLength = 100
-        TabOrder = 1
-        OnKeyPress = FormKeyPress
-      end
       object edVeiculo: TJvMaskEdit
         Left = 49
         Top = 15
-        Width = 121
+        Width = 120
         Height = 21
+        EditMask = '!>LLL-0000;1;_'
+        MaxLength = 8
         TabOrder = 0
-        Text = 'edVeiculo'
+        Text = '   -    '
         OnKeyPress = FormKeyPress
       end
       object edObs: TEdit
@@ -1377,6 +1373,18 @@ object fOs: TfOs
         Height = 21
         MaxLength = 100
         TabOrder = 2
+        OnKeyPress = FormKeyPress
+      end
+      object edKm: TJvCalcEdit
+        Left = 317
+        Top = 15
+        Width = 95
+        Height = 21
+        DecimalPlaces = 0
+        DisplayFormat = ',##0'
+        ShowButton = False
+        TabOrder = 1
+        DecimalPlacesAlwaysShown = False
         OnKeyPress = FormKeyPress
       end
     end
@@ -1974,12 +1982,18 @@ object fOs: TfOs
     end
     object cdsPecasQTDE: TFloatField
       FieldName = 'QTDE'
+      DisplayFormat = ',##0.0'
+      EditFormat = ',##0.0'
     end
     object cdsPecasPRECO: TFloatField
       FieldName = 'PRECO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsPecasDESCONTO: TFloatField
       FieldName = 'DESCONTO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsPecasDESCPERCENT: TFloatField
       FieldName = 'DESCPERCENT'
@@ -2000,6 +2014,12 @@ object fOs: TfOs
       ReadOnly = True
       FixedChar = True
       Size = 18
+    end
+    object cdsPecasVlrTotal: TAggregateField
+      FieldName = 'VlrTotal'
+      Active = True
+      DisplayFormat = ',##0.00'
+      Expression = 'SUM((PRECO*QTDE)-DESCONTO)'
     end
   end
   object dsPecas: TDataSource

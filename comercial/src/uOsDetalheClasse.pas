@@ -13,7 +13,6 @@ Type
     function getStatus: String;
     function executaSql(strSql: String): Boolean;
     function getDescricao: String;
-    function getKm: Integer;
     function getPreco: Double;
     function getQtde: Double;
     function getServExecutado: String;
@@ -22,10 +21,11 @@ Type
     procedure setCodUsuario(const Value: Integer);
     procedure setStatus(const Value: String);
     procedure setDescricao(const Value: String);
-    procedure setKm(const Value: Integer);
     procedure setPreco(const Value: Double);
     procedure setQtde(const Value: Double);
     procedure setServExecutado(const Value: String);
+    function getDesconto: Double;
+    procedure setDesconto(const Value: Double);
   protected
     //Atributos
     _codOs      : Integer;
@@ -36,18 +36,18 @@ Type
     _servExecutado : String;
     _preco      : Double;
     _qtde       : Double;
-    _km         : Integer;
+    _desconto   : Double;
 
   public
     property CodOs         : Integer read getCodOs write setCodOs;
     property CodDet        : Integer read getCodDet write setCodDet;
     property CodUsuario    : Integer read getCodUsuario write setCodUsuario;
     property Status        : String read getStatus write setStatus;
-    property km            : Integer read getKm write setKm;
     property Descricao     : String read getDescricao write setDescricao;
     property ServExecutado : String read getServExecutado write setServExecutado;
     property Qtde          : Double read getQtde write setQtde;
     property Preco         : Double read getPreco write setPreco;
+    property Desconto      : Double read getDesconto write setDesconto;
 
     function IncluirOsDet(codOsDetI: Integer): Integer;
     function alterarOsDet(codOsDetA: Integer): Boolean;
@@ -133,14 +133,14 @@ begin
   Result := _codUsuario;
 end;
 
+function TOsDetalheClasse.getDesconto: Double;
+begin
+  Result := _desconto;
+end;
+
 function TOsDetalheClasse.getDescricao: String;
 begin
   Result := Trim(_descricao);
-end;
-
-function TOsDetalheClasse.getKm: Integer;
-begin
-  Result := _km;
 end;
 
 function TOsDetalheClasse.getPreco: Double;
@@ -217,14 +217,14 @@ begin
   _codUsuario := Value;
 end;
 
+procedure TOsDetalheClasse.setDesconto(const Value: Double);
+begin
+  _desconto := Value;
+end;
+
 procedure TOsDetalheClasse.setDescricao(const Value: String);
 begin
   _descricao := Value;
-end;
-
-procedure TOsDetalheClasse.setKm(const Value: Integer);
-begin
-  _km := Value;
 end;
 
 procedure TOsDetalheClasse.setPreco(const Value: Double);
