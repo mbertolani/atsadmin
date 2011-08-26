@@ -29,29 +29,11 @@ type
     Label1: TLabel;
     edContato: TEdit;
     RadioGroup1: TRadioGroup;
-    GroupBox4: TGroupBox;
-    Label2: TLabel;
-    Edit1: TEdit;
-    Label3: TLabel;
-    Edit2: TEdit;
-    Label4: TLabel;
-    Edit3: TEdit;
-    Label5: TLabel;
-    Edit4: TEdit;
-    Label6: TLabel;
-    BitBtn1: TBitBtn;
-    Edit5: TEdit;
-    Label7: TLabel;
-    Edit6: TEdit;
-    Label8: TLabel;
-    JvMaskEdit1: TJvMaskEdit;
-    Label9: TLabel;
-    Edit7: TEdit;
-    RadioGroup2: TRadioGroup;
     procedure rgTipoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure JvDBUltimGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
     FCli : TCliente;
@@ -63,6 +45,8 @@ var
   fCliente1: TfCliente1;
 
 implementation
+
+uses uEndereco, UDm;
 
 
 {$R *.dfm}
@@ -105,6 +89,12 @@ procedure TfCliente1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   FCli.Destroy;
+end;
+
+procedure TfCliente1.JvDBUltimGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  fEndereco.ShowModal;
 end;
 
 end.

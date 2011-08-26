@@ -234,7 +234,8 @@ uses
   uOsDetalheClasse in 'uOsDetalheClasse.pas',
   uVendaCls in 'uVendaCls.pas',
   uMovimenta_Estoque in 'uMovimenta_Estoque.pas' {fMovimenta_Estoque},
-  uCompraCls in 'uCompraCls.pas';
+  uCompraCls in 'uCompraCls.pas',
+  uEndereco in 'uEndereco.pas' {fEndereco};
 
 {$R *.res}
 
