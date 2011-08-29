@@ -1000,15 +1000,15 @@ begin
    end
    else if (tp_amb = 4) then
    begin
+     ACBrNFe1.NotasFiscais.Assinar;
+     ACBrNFe1.NotasFiscais.Valida;
      ACBrNFe1.WebServices.EnviarDPEC.Executar;
-
-    //protocolo de envio ao DPEC e impressão do DANFE
-    ACBrNFe1.DANFE.ProtocoloNFe:=ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC+' '+
-                               DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
-    ACBrNFe1.NotasFiscais.Imprimir;
-
-    ShowMessage(DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC));
-    ShowMessage(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
+    //protocolo de envio ao DPEC e impressão do DANFE
+     ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC + ' ' +
+      DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
+     ACBrNFe1.NotasFiscais.Imprimir;
+     ShowMessage(DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC));
+     ShowMessage(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
    end
    else
      ACBrNFe1.Enviar(0);
@@ -1154,6 +1154,8 @@ begin
     ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
     if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
     begin
+      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC + ' ' +
+       DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
       ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
       ACBrNFe1.WebServices.ConsultaDPEC.Executar;
       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
@@ -1164,6 +1166,7 @@ begin
       ACBrNFe1.Consultar;
     end;
     ACBrNFe1.NotasFiscais.Imprimir;
+
   end;
 end;
 
