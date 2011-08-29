@@ -6,23 +6,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Mask, Buttons, ExtCtrls, MMJPanel, rpcompobase,
   rpvclreport, DB, DBClient, JvFormPlacement, JvComponentBase,
-  JvAppStorage, JvAppXMLStorage;
+  JvAppStorage, JvAppXMLStorage, JvExMask, JvToolEdit, JvMaskEdit,
+  JvCheckedMaskEdit, JvDatePickerEdit, uUtils;
 
 type
   TfRelatorioCaixa = class(TForm)
     MMJPanel3: TMMJPanel;
     Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
     BitBtn2: TBitBtn;
-    MaskEdit2: TMaskEdit;
-    MaskEdit1: TMaskEdit;
-    Label1: TLabel;
-    ComboBox1: TComboBox;
-    ComboBox2: TComboBox;
-    Label2: TLabel;
-    Label11: TLabel;
-    edCodCCusto: TComboBox;
     BitBtn3: TBitBtn;
     VCLReport1: TVCLReport;
     JvAppXMLFileStorage1: TJvAppXMLFileStorage;
@@ -31,6 +22,18 @@ type
     BitBtn5: TBitBtn;
     RadioGroup1: TRadioGroup;
     BitBtn1: TBitBtn;
+    GroupBox1: TGroupBox;
+    Label3: TLabel;
+    Label7: TLabel;
+    cbMes: TComboBox;
+    MaskEdit1: TJvDatePickerEdit;
+    MaskEdit2: TJvDatePickerEdit;
+    GroupBox2: TGroupBox;
+    ComboBox1: TComboBox;
+    GroupBox3: TGroupBox;
+    ComboBox2: TComboBox;
+    GroupBox4: TGroupBox;
+    edCodCCusto: TComboBox;
     procedure FormShow(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -39,7 +42,10 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure cbMesChange(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    util: TUtils;
     { Private declarations }
   public
     { Public declarations }
@@ -50,22 +56,22 @@ var
 
 implementation
 
-uses UDm, uUtils;
+uses UDm;
 
 {$R *.dfm}
 
 procedure TfRelatorioCaixa.FormShow(Sender: TObject);
 var conta_local: String;
 begin
-  if (dm.moduloUsado <> 'SAUDE') then
-    begin
-      BitBtn3.Visible := False;
-      BitBtn4.Visible := False;
-      ComboBox2.Visible := False;
-      edCodCCusto.Visible := False;
-      Label2.Visible := False;
-      Label11.Visible := False;
-    end;
+  {if (dm.moduloUsado <> 'SAUDE') then
+  begin
+    BitBtn3.Visible := False;
+    BitBtn4.Visible := False;
+    ComboBox2.Visible := False;
+    edCodCCusto.Visible := False;
+    Label2.Visible := False;
+    Label11.Visible := False;
+  end;}
 
     //Vejo quais são as contas de Receitas para listar no lookupcombobox.
     if dm.cds_parametro.Active then
@@ -226,15 +232,15 @@ begin
 end;
 
 procedure TfRelatorioCaixa.FormCreate(Sender: TObject);
-var utilcrtitulo : Tutils;
+var
   i, j : integer;
 begin
-  utilcrtitulo := Tutils.Create;
+  util := TUtils.Create;
   // Popula Status
-  j := utilcrtitulo.Forma.Count;
+  j := util.Forma.Count;
   for i := 0 to j - 1 do
   begin
-    ComboBox2.Items.Add(utilcrtitulo.Forma.Strings[i]);
+    ComboBox2.Items.Add(util.Forma.Strings[i]);
   end;
 end;
 
@@ -263,6 +269,19 @@ begin
   VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
 
 
+end;
+
+procedure TfRelatorioCaixa.cbMesChange(Sender: TObject);
+begin
+  util.criaIni(cbMes.text);
+  util.criaFim(cbMes.text);
+  MaskEdit1.Text := util.PeriodoIni;
+  MaskEdit2.Text := util.PeriodoFim;
+end;
+
+procedure TfRelatorioCaixa.FormDestroy(Sender: TObject);
+begin
+  util.Destroy;
 end;
 
 end.
