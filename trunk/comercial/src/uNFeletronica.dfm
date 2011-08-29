@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
-  Left = 317
-  Top = 23
+  Left = 209
+  Top = 220
   Width = 865
   Height = 578
   AutoSize = True
@@ -1647,7 +1647,7 @@ object fNFeletronica: TfNFeletronica
     object sdsItensNFCST: TStringField
       FieldName = 'CST'
       ReadOnly = True
-      Size = 254
+      Size = 3
     end
   end
   object dspItensNF: TDataSetProvider
@@ -1761,7 +1761,7 @@ object fNFeletronica: TfNFeletronica
     object cdsItensNFCST: TStringField
       FieldName = 'CST'
       ReadOnly = True
-      Size = 254
+      Size = 3
     end
   end
   object sMenorData: TSQLDataSet
