@@ -44,13 +44,6 @@ declare variable vlrDesc  DOUBLE PRECISION;
 begin
    tituloAtual = 'vazio';
    valorTitulo = 0;
-   for SELECT rec.TITULO, rec.VALOR_PRIM_VIA, rec.CODCLIENTE
-      FROM RECEBIMENTO rec
-      where rec.Valor_prim_via > 0
-      into :titulo, valorTitulo, :codcliente
-   do begin  
-     valor_prim_via = valorTitulo;
-     saldo = valorTitulo;
      for SELECT rec.STATUS, rec.DATARECEBIMENTO, rec.DATACONSOLIDA
       , rec.VALORRECEBIDO, rec.JUROS, rec.FUNRURAL, rec.PERDA, rec.DESCONTO
       , rec.DESCONTO
@@ -68,7 +61,6 @@ begin
       FROM RECEBIMENTO rec 
       left outer join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE 
       left outer join VENDA v on v.CODVENDA = rec.CODVENDA
-      where (rec.codcliente = :codCliente)  and rec.titulo = :titulo 
       group by 
         cli.NOMECLIENTE, 
         rec.CODCLIENTE 
@@ -87,6 +79,19 @@ begin
         , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO, :CONTACREDITO
       do
       begin
+
+      For SELECT rec.TITULO, rec.VALOR_PRIM_VIA, rec.CODCLIENTE
+        FROM RECEBIMENTO rec
+       where rec.Valor_prim_via > 0 
+         and (rec.codcliente = :codCliente)  
+         and rec.titulo      = :titulo 
+         and rec.VIA         = 1
+        into :titulo, valorTitulo, :codcliente
+     do begin  
+       valor_prim_via = valorTitulo;
+       saldo = valorTitulo;
+     end 
+
         if (vlrRec is null) then 
           vlrRec = 0;
         if (vlrJuros is null) THEN  
@@ -122,4 +127,3 @@ begin
         codMovimento = null;
       end
    end
-end
