@@ -1,8 +1,8 @@
 object fRelatorioCaixa: TfRelatorioCaixa
-  Left = 220
-  Top = 163
-  Width = 527
-  Height = 336
+  Left = 690
+  Top = 182
+  Width = 438
+  Height = 324
   AutoSize = True
   Caption = 'Relat'#243'rio Caixa'
   Color = clBtnFace
@@ -13,15 +13,16 @@ object fRelatorioCaixa: TfRelatorioCaixa
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object MMJPanel3: TMMJPanel
     Left = 0
     Top = 0
-    Width = 519
-    Height = 309
-    Align = alClient
+    Width = 430
+    Height = 297
+    Align = alCustom
     AutoSize = True
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -44,83 +45,13 @@ object fRelatorioCaixa: TfRelatorioCaixa
       ParentFont = False
       Transparent = True
     end
-    object Label5: TLabel
-      Left = 208
-      Top = 58
-      Width = 8
-      Height = 16
-      Caption = #224
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object Label6: TLabel
-      Left = 24
-      Top = 61
-      Width = 70
-      Height = 16
-      Caption = 'Per'#237'odo de:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object Label1: TLabel
-      Left = 24
-      Top = 92
-      Width = 83
-      Height = 16
-      Caption = 'Caixa / Banco'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object Label2: TLabel
-      Left = 25
-      Top = 120
-      Width = 86
-      Height = 16
-      Caption = 'Forma Receb.'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object Label11: TLabel
-      Left = 24
-      Top = 156
-      Width = 95
-      Height = 16
-      Caption = 'Centro de Custo'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
     object BitBtn2: TBitBtn
-      Left = 413
-      Top = 225
-      Width = 89
+      Left = 345
+      Top = 231
+      Width = 82
       Height = 59
       Caption = '&Fechar'
-      TabOrder = 5
+      TabOrder = 7
       OnClick = BitBtn2Click
       Glyph.Data = {
         E60C0000424DE60C0000000000003600000028000000250000001D0000000100
@@ -230,96 +161,10 @@ object fRelatorioCaixa: TfRelatorioCaixa
       Layout = blGlyphTop
       Margin = 0
     end
-    object MaskEdit2: TMaskEdit
-      Left = 221
-      Top = 58
-      Width = 77
-      Height = 21
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      EditMask = '!99/99/00;1;_'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      MaxLength = 8
-      ParentFont = False
-      TabOrder = 1
-      Text = '  /  /  '
-      OnKeyPress = MaskEdit1KeyPress
-    end
-    object MaskEdit1: TMaskEdit
-      Left = 128
-      Top = 58
-      Width = 79
-      Height = 21
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      EditMask = '!99/99/00;1;_'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      MaxLength = 8
-      ParentFont = False
-      TabOrder = 0
-      Text = '  /  /  '
-      OnKeyPress = MaskEdit1KeyPress
-    end
-    object ComboBox1: TComboBox
-      Left = 126
-      Top = 88
-      Width = 264
-      Height = 24
-      BevelKind = bkFlat
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      TabOrder = 2
-      OnKeyPress = MaskEdit1KeyPress
-    end
-    object ComboBox2: TComboBox
-      Left = 126
-      Top = 120
-      Width = 264
-      Height = 24
-      BevelKind = bkFlat
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      TabOrder = 3
-      OnKeyPress = MaskEdit1KeyPress
-    end
-    object edCodCCusto: TComboBox
-      Left = 126
-      Top = 152
-      Width = 264
-      Height = 24
-      BevelKind = bkFlat
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      TabOrder = 4
-      OnKeyPress = MaskEdit1KeyPress
-    end
     object BitBtn3: TBitBtn
-      Left = 40
-      Top = 225
-      Width = 89
+      Left = 5
+      Top = 231
+      Width = 85
       Height = 59
       Hint = 
         'Preecha o Per'#237'odo, escolha o Caixa, opcional (Forma e Centro de ' +
@@ -327,7 +172,7 @@ object fRelatorioCaixa: TfRelatorioCaixa
       Caption = 'Total Caixa'
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 6
+      TabOrder = 8
       OnClick = BitBtn3Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -432,15 +277,15 @@ object fRelatorioCaixa: TfRelatorioCaixa
       Margin = 0
     end
     object BitBtn4: TBitBtn
-      Left = 133
-      Top = 225
-      Width = 89
+      Left = 90
+      Top = 231
+      Width = 85
       Height = 59
       Hint = 'Preecha o Per'#237'odo e escolha o CAIXA.'
       Caption = 'Mov. Detalhado'
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 7
+      TabOrder = 9
       OnClick = BitBtn4Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -545,15 +390,15 @@ object fRelatorioCaixa: TfRelatorioCaixa
       Margin = 0
     end
     object BitBtn5: TBitBtn
-      Left = 227
-      Top = 225
-      Width = 89
+      Left = 175
+      Top = 231
+      Width = 85
       Height = 59
       Hint = 'Preecha o Per'#237'odo e escolha o CAIXA.'
       Caption = 'Caixa Sintetico'
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 8
+      TabOrder = 6
       OnClick = BitBtn5Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -658,9 +503,9 @@ object fRelatorioCaixa: TfRelatorioCaixa
       Margin = 0
     end
     object RadioGroup1: TRadioGroup
-      Left = 127
-      Top = 178
-      Width = 262
+      Left = 5
+      Top = 184
+      Width = 421
       Height = 44
       Caption = 'Tipo de Data do Caixa Analitico'
       Columns = 2
@@ -668,18 +513,18 @@ object fRelatorioCaixa: TfRelatorioCaixa
       Items.Strings = (
         'Data Pag/Rec.'
         'Data Consolida')
-      TabOrder = 9
+      TabOrder = 4
     end
     object BitBtn1: TBitBtn
-      Left = 320
-      Top = 225
-      Width = 89
+      Left = 260
+      Top = 231
+      Width = 85
       Height = 59
       Hint = 'Preecha o Per'#237'odo e escolha o CAIXA.'
       Caption = 'Caixa Analitico'
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 10
+      TabOrder = 5
       OnClick = BitBtn1Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -783,12 +628,146 @@ object fRelatorioCaixa: TfRelatorioCaixa
       Layout = blGlyphTop
       Margin = 0
     end
+    object GroupBox1: TGroupBox
+      Left = 5
+      Top = 6
+      Width = 421
+      Height = 49
+      Caption = 'Per'#237'odo'
+      TabOrder = 0
+      object Label3: TLabel
+        Left = 8
+        Top = 16
+        Width = 20
+        Height = 13
+        Caption = 'M'#234's'
+      end
+      object Label7: TLabel
+        Left = 294
+        Top = 18
+        Width = 6
+        Height = 13
+        Caption = 'a'
+      end
+      object cbMes: TComboBox
+        Left = 32
+        Top = 16
+        Width = 137
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 0
+        OnChange = cbMesChange
+        Items.Strings = (
+          'Janeiro'
+          'Fevereiro'
+          'Mar'#231'o'
+          'Abril'
+          'Maio'
+          'Junho'
+          'Julho'
+          'Agosto'
+          'Setembro'
+          'Outubro'
+          'Novembro'
+          'Dezembro')
+      end
+      object MaskEdit1: TJvDatePickerEdit
+        Left = 182
+        Top = 16
+        Width = 100
+        Height = 21
+        AllowNoDate = True
+        Checked = True
+        TabOrder = 1
+      end
+      object MaskEdit2: TJvDatePickerEdit
+        Left = 313
+        Top = 16
+        Width = 100
+        Height = 21
+        AllowNoDate = True
+        Checked = True
+        TabOrder = 2
+      end
+    end
+    object GroupBox2: TGroupBox
+      Left = 5
+      Top = 55
+      Width = 421
+      Height = 43
+      Caption = 'Caixa / Banco'
+      TabOrder = 1
+      object ComboBox1: TComboBox
+        Left = 83
+        Top = 13
+        Width = 330
+        Height = 24
+        BevelKind = bkFlat
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ItemHeight = 16
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = MaskEdit1KeyPress
+      end
+    end
+    object GroupBox3: TGroupBox
+      Left = 5
+      Top = 98
+      Width = 421
+      Height = 43
+      Caption = 'Forma Recebimento'
+      TabOrder = 2
+      object ComboBox2: TComboBox
+        Left = 85
+        Top = 14
+        Width = 328
+        Height = 24
+        BevelKind = bkFlat
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ItemHeight = 16
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = MaskEdit1KeyPress
+      end
+    end
+    object GroupBox4: TGroupBox
+      Left = 5
+      Top = 141
+      Width = 421
+      Height = 43
+      Caption = 'Centro de Custo'
+      TabOrder = 3
+      object edCodCCusto: TComboBox
+        Left = 86
+        Top = 14
+        Width = 326
+        Height = 24
+        BevelKind = bkFlat
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ItemHeight = 16
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = MaskEdit1KeyPress
+      end
+    end
   end
   object VCLReport1: TVCLReport
     AsyncExecution = False
     Title = 'Untitled'
     Left = 392
-    Top = 24
+    Top = 8
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
@@ -798,19 +777,16 @@ object fRelatorioCaixa: TfRelatorioCaixa
     RootNodeName = 'Configuration'
     SubStorages = <>
     Left = 328
-    Top = 24
+    Top = 8
   end
   object JvFormStorage1: TJvFormStorage
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fRelatorioCaixa\'
     StoredProps.Strings = (
-      'ComboBox1.Text'
-      'ComboBox2.Text'
-      'MaskEdit1.Text'
-      'MaskEdit2.Text'
-      'edCodCCusto.Text')
+      'MaskEdit1.Date'
+      'MaskEdit2.Date')
     StoredValues = <>
     Left = 360
-    Top = 24
+    Top = 8
   end
 end
