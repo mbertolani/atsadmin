@@ -360,7 +360,7 @@ object fRelatorioFin: TfRelatorioFin
     end
     object GroupBox2: TGroupBox
       Left = 7
-      Top = 104
+      Top = 87
       Width = 355
       Height = 49
       Caption = 'Centro de Resultado'
@@ -448,6 +448,19 @@ object fRelatorioFin: TfRelatorioFin
         Checked = True
         TabOrder = 2
       end
+    end
+    object rgTipo: TRadioGroup
+      Left = 8
+      Top = 136
+      Width = 354
+      Height = 40
+      Caption = 'Resultado Por'
+      Columns = 2
+      ItemIndex = 0
+      Items.Strings = (
+        'Compet'#234'ncia'
+        'Caixa')
+      TabOrder = 5
     end
   end
   object rep: TVCLReport

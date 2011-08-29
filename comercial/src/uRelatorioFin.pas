@@ -23,6 +23,7 @@ type
     cbMes: TComboBox;
     MaskEdit1: TJvDatePickerEdit;
     MaskEdit2: TJvDatePickerEdit;
+    rgTipo: TRadioGroup;
     procedure BitBtn4Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
@@ -48,51 +49,55 @@ uses UDm, uUtils;
 
 procedure TfRelatorioFin.BitBtn4Click(Sender: TObject);
 begin
-    rep.Filename := str_relatorio + 'rel_dre.rep';
-    rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-    if MaskEdit1.Text = '  /  /    ' then
-    begin
-      MessageDlg('Preencha o Campo Período !', mtWarning, [mbOK], 0);
-      MaskEdit1.SetFocus;
-      exit;
-    end
-    else
-      rep.Report.Params.ParamByName('PDTA1').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
+  Case rgTipo.ItemIndex of
+    0 : rep.Filename := str_relatorio + 'rel_dre.rep';
+    1 : rep.Filename := str_relatorio + 'rel_dreCaixa.rep';
+  end;
+  rep.Title    := rep.Filename;
+  rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  if MaskEdit1.Text = '  /  /    ' then
+  begin
+    MessageDlg('Preencha o Campo Período !', mtWarning, [mbOK], 0);
+    MaskEdit1.SetFocus;
+    exit;
+  end
+  else
+    rep.Report.Params.ParamByName('PDTA1').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
 
-    if MaskEdit2.Text = '  /  /    ' then
-    begin
-      MessageDlg('Preencha o Campo Período !', mtWarning, [mbOK], 0);
-      MaskEdit2.SetFocus;
-      exit;
-    end
-    else
-      rep.Report.Params.ParamByName('PDTA2').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+  if MaskEdit2.Text = '  /  /    ' then
+  begin
+    MessageDlg('Preencha o Campo Período !', mtWarning, [mbOK], 0);
+    MaskEdit2.SetFocus;
+    exit;
+  end
+  else
+    rep.Report.Params.ParamByName('PDTA2').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
 
-    if edCodCCusto.Text <> '' then
-    begin
-      if (not dm.cds_ccusto.Active) then
-         dm.cds_ccusto.Open;
-      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
-      rep.Report.Params.ParamByName('PCC').Value := dm.cds_ccustoCODIGO.asInteger;
-    end
-    else
-      rep.Report.Params.ParamByName('PCC').Value := 0;
+  if edCodCCusto.Text <> '' then
+  begin
+    if (not dm.cds_ccusto.Active) then
+       dm.cds_ccusto.Open;
+    dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+    rep.Report.Params.ParamByName('PCC').Value := dm.cds_ccustoCODIGO.asInteger;
+  end
+  else
+    rep.Report.Params.ParamByName('PCC').Value := 0;
 
-    {case RadioGroup1.ItemIndex of
-      0: begin
-           rep.Report.Params.ParamByName('GRUPO').Value := 'N';
-           rep.Report.Params.ParamByName('SUB').Value := 'N';
-         end;
-      1: begin
-           rep.Report.Params.ParamByName('GRUPO').Value := 'S';
-           rep.Report.Params.ParamByName('SUB').Value := 'N';
-         end;
-      2: begin
-           rep.Report.Params.ParamByName('GRUPO').Value := 'N';
-           rep.Report.Params.ParamByName('SUB').Value := 'S';
-         end;
-    end;}
-    rep.Execute;
+  {case RadioGroup1.ItemIndex of
+    0: begin
+         rep.Report.Params.ParamByName('GRUPO').Value := 'N';
+         rep.Report.Params.ParamByName('SUB').Value := 'N';
+       end;
+    1: begin
+         rep.Report.Params.ParamByName('GRUPO').Value := 'S';
+         rep.Report.Params.ParamByName('SUB').Value := 'N';
+       end;
+    2: begin
+         rep.Report.Params.ParamByName('GRUPO').Value := 'N';
+         rep.Report.Params.ParamByName('SUB').Value := 'S';
+       end;
+  end;}
+  rep.Execute;
 end;
 
 procedure TfRelatorioFin.FormCreate(Sender: TObject);
@@ -163,37 +168,41 @@ end;
 
 procedure TfRelatorioFin.BitBtn3Click(Sender: TObject);
 begin
-    rep.Filename := str_relatorio + 'rel_dreSintetico.rep';
-    rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-    if MaskEdit1.Text = '  /  /    ' then
-    begin
-      MessageDlg('Preencha o Campo Período !', mtWarning, [mbOK], 0);
-      MaskEdit1.SetFocus;
-      exit;
-    end
-    else
-      rep.Report.Params.ParamByName('PDTA1').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
+  Case rgTipo.ItemIndex of
+    0 : rep.Filename := str_relatorio + 'rel_dreSintetico.rep';
+    1 : rep.Filename := str_relatorio + 'rel_dreSinteticoCaixa.rep';
+  end;
+  rep.Title    := rep.Filename;
+  rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  if MaskEdit1.Text = '  /  /    ' then
+  begin
+    MessageDlg('Preencha o Campo Período !', mtWarning, [mbOK], 0);
+    MaskEdit1.SetFocus;
+    exit;
+  end
+  else
+    rep.Report.Params.ParamByName('PDTA1').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
 
-    if MaskEdit2.Text = '  /  /    ' then
-    begin
-      MessageDlg('Preencha o Campo Período !', mtWarning, [mbOK], 0);
-      MaskEdit2.SetFocus;
-      exit;
-    end
-    else
-      rep.Report.Params.ParamByName('PDTA2').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+  if MaskEdit2.Text = '  /  /    ' then
+  begin
+    MessageDlg('Preencha o Campo Período !', mtWarning, [mbOK], 0);
+    MaskEdit2.SetFocus;
+    exit;
+  end
+  else
+    rep.Report.Params.ParamByName('PDTA2').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
 
-    if edCodCCusto.Text <> '' then
-    begin
-      if (not dm.cds_ccusto.Active) then
-         dm.cds_ccusto.Open;
-      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
-      rep.Report.Params.ParamByName('PCC').Value := dm.cds_ccustoCODIGO.asInteger;
-    end
-    else
-      rep.Report.Params.ParamByName('PCC').Value := 0;
+  if edCodCCusto.Text <> '' then
+  begin
+    if (not dm.cds_ccusto.Active) then
+       dm.cds_ccusto.Open;
+    dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+    rep.Report.Params.ParamByName('PCC').Value := dm.cds_ccustoCODIGO.asInteger;
+  end
+  else
+    rep.Report.Params.ParamByName('PCC').Value := 0;
 
-    rep.Execute;
+  rep.Execute;
 
 end;
 
