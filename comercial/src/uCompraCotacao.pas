@@ -599,8 +599,7 @@ begin
 
    if (edDescricao.Text <> '') then
    begin
-     sql_solic := sql_solic + ' AND cs.SOLIC_DESCRICAO LIKE ' + QuotedStr(edDescricao.Text + '%') + ' and ((SOLIC_SITUACAO <> ' + QuotedStr('E') + ') ' +
-    '   AND  (SOLIC_SITUACAO <> ' + QuotedStr('P') + ')   AND  (SOLIC_SITUACAO <> ' + QuotedStr('C') + '))';
+     sql_solic := sql_solic + ' AND cs.SOLIC_DESCRICAO LIKE ' + QuotedStr(edDescricao.Text + '%');
      executaBusca;
    end
    else
@@ -624,7 +623,7 @@ begin
     '  FROM COMPRA_SOLIC cs ' +
     ' inner join PRODUTOS p on p.codpro = cs.SOLIC_PRODUTO ' +
     ' WHERE ((SOLIC_SITUACAO <> ' + QuotedStr('E') + ') ' +
-    '   AND  (SOLIC_SITUACAO <> ' + QuotedStr('P') + '))';
+    '   AND  (SOLIC_SITUACAO <> ' + QuotedStr('P') + ') AND  (SOLIC_SITUACAO <> ' + QuotedStr('C') + '))';
 
   sql_s := sql_s + sql_solic + ' ORDER BY SOLIC_SITUACAO DESC, SOLIC_DTNECESSIT DESC';
   if (cdsSolic.Active) then
@@ -640,8 +639,7 @@ begin
  begin
    if (edMarca.Text <> '') then
    begin
-     sql_solic := sql_solic + ' AND p.MARCA LIKE ' + QuotedStr(edMarca.Text + '%') + ' and ((SOLIC_SITUACAO <> ' + QuotedStr('E') + ') ' +
-    '   AND  (SOLIC_SITUACAO <> ' + QuotedStr('P') + ')   AND  (SOLIC_SITUACAO <> ' + QuotedStr('C') + '))';
+     sql_solic := sql_solic + ' AND p.MARCA LIKE ' + QuotedStr(edMarca.Text + '%');
      executaBusca;
    end
    else
@@ -655,8 +653,7 @@ begin
  begin
    if (edGrupo.Text <> '') then
    begin
-     sql_solic := sql_solic + ' AND p.FAMILIA LIKE ' + QuotedStr(edGrupo.Text + '%') + ' and ((SOLIC_SITUACAO <> ' + QuotedStr('E') + ') ' +
-    '   AND  (SOLIC_SITUACAO <> ' + QuotedStr('P') + ')   AND  (SOLIC_SITUACAO <> ' + QuotedStr('C') + '))';
+     sql_solic := sql_solic + ' AND p.FAMILIA LIKE ' + QuotedStr(edGrupo.Text + '%');
      executaBusca
    end
    else
@@ -671,8 +668,7 @@ begin
  begin
    if (edSubGrupo.Text <> '') then
    begin
-     sql_solic := sql_solic + ' AND p.CATEGORIA LIKE ' + QuotedStr(edSubGrupo.Text + '%') + ' and ((SOLIC_SITUACAO <> ' + QuotedStr('E') + ') ' +
-    '   AND  (SOLIC_SITUACAO <> ' + QuotedStr('P') + ')   AND  (SOLIC_SITUACAO <> ' + QuotedStr('C') + '))';
+     sql_solic := sql_solic + ' AND p.CATEGORIA LIKE ' + QuotedStr(edSubGrupo.Text + '%');
      executaBusca;
    end
    else
