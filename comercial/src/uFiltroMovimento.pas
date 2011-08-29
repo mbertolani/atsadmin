@@ -696,6 +696,7 @@ begin
   VCLReport1.FileName := str_relatorio + 'listavenda.rep';
   if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1)) then
     VCLReport1.FileName := str_relatorio + 'listamovimento.rep';
+  VCLReport1.Title := VCLReport1.FileName;    
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   if (ordenar = '') then
   begin
