@@ -63,15 +63,15 @@ uses UDm;
 procedure TfRelatorioCaixa.FormShow(Sender: TObject);
 var conta_local: String;
 begin
-  {if (dm.moduloUsado <> 'SAUDE') then
+  if (dm.moduloUsado <> 'SAUDE') then
   begin
-    BitBtn3.Visible := False;
-    BitBtn4.Visible := False;
-    ComboBox2.Visible := False;
-    edCodCCusto.Visible := False;
-    Label2.Visible := False;
-    Label11.Visible := False;
-  end;}
+    BitBtn3.Enabled := False;
+    BitBtn4.Enabled := False;
+    ComboBox2.Enabled := False;
+    edCodCCusto.Enabled := False;
+    //Label2.Visible := False;
+    //Label11.Visible := False;
+  end;
 
     //Vejo quais são as contas de Receitas para listar no lookupcombobox.
     if dm.cds_parametro.Active then
