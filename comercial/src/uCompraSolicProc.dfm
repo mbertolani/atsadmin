@@ -7,9 +7,9 @@ inherited fCompraSolicProc: TfCompraSolicProc
     Height = 57
     object rgSit: TRadioGroup
       Left = 413
-      Top = 8
-      Width = 355
-      Height = 44
+      Top = 1
+      Width = 359
+      Height = 55
       Caption = 'Situacao'
       Columns = 4
       ItemIndex = 0
@@ -17,6 +17,8 @@ inherited fCompraSolicProc: TfCompraSolicProc
         'Pendente'
         'Aprovada'
         'Cancelada'
+        'Em Cota'#231'ao'
+        'Encerrado'
         'Todas')
       TabOrder = 0
       OnClick = rgSitClick
@@ -420,15 +422,15 @@ inherited fCompraSolicProc: TfCompraSolicProc
       end
       item
         Expanded = False
-        FieldName = 'SOLIC_QUANTIDADE'
-        Title.Caption = 'Quantidade'
-        Width = 28
+        FieldName = 'UNIDADEMEDIDA'
+        Title.Caption = 'UN.'
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'UNIDADEMEDIDA'
-        Title.Caption = 'UN.'
+        FieldName = 'SOLIC_QUANTIDADE'
+        Title.Caption = 'Quantidade'
+        Width = 60
         Visible = True
       end
       item
@@ -489,6 +491,13 @@ inherited fCompraSolicProc: TfCompraSolicProc
   end
   inherited DtSrc: TDataSource
     DataSet = cdsSol
+    Top = 56
+  end
+  inherited XPMenu1: TXPMenu
+    Top = 56
+  end
+  inherited PopupMenu1: TPopupMenu
+    Top = 56
   end
   object sdsSol: TSQLDataSet
     CommandText = 

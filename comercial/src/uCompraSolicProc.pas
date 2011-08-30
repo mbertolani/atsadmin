@@ -69,9 +69,11 @@ begin
   cond := '';
   sit := '';
   case rgSit.ItemIndex of
-    0 : sit := 'P';
-    1 : sit := 'A';
-    2 : sit := 'C';
+    0 : sit := 'P';  // Pendente
+    1 : sit := 'A';  // Aprovado
+    2 : sit := 'C';  // Cancelado
+    3 : sit := 'G';  // Em Cotação
+    4 : sit := 'E';  // Encerrado
   end;
 
   // Busca Solicitacao
