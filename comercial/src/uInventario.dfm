@@ -31,6 +31,7 @@ inherited fInventario: TfInventario
     inherited btnExcluir: TBitBtn
       Left = 418
       Caption = 'Excluir Lista'
+      Enabled = True
     end
     inherited btnProcurar: TBitBtn
       Left = 60
@@ -82,29 +83,36 @@ inherited fInventario: TfInventario
     Align = alBottom
     TabOrder = 2
     object Label3: TLabel
-      Left = 19
-      Top = 8
+      Left = 15
+      Top = 2
       Width = 22
       Height = 13
       Caption = 'Lista'
     end
     object Label4: TLabel
-      Left = 274
-      Top = 11
+      Left = 234
+      Top = 3
       Width = 23
       Height = 13
       Caption = 'Data'
     end
+    object Label8: TLabel
+      Left = 386
+      Top = 1
+      Width = 68
+      Height = 13
+      Caption = 'Local Estoque'
+    end
     object edLista: TEdit
-      Left = 48
-      Top = 8
-      Width = 201
+      Left = 11
+      Top = 18
+      Width = 216
       Height = 21
       TabOrder = 0
     end
     object btnProcLista: TBitBtn
-      Left = 704
-      Top = 5
+      Left = 747
+      Top = 4
       Width = 49
       Height = 36
       Hint = 'Abrir Lista informada.'
@@ -117,7 +125,7 @@ inherited fInventario: TfInventario
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
-      TabOrder = 1
+      TabOrder = 3
       OnClick = btnProcListaClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -220,18 +228,18 @@ inherited fInventario: TfInventario
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object Dta: TJvDatePickerEdit
-      Left = 314
-      Top = 7
-      Width = 85
+      Left = 234
+      Top = 19
+      Width = 103
       Height = 21
       AllowNoDate = True
       Checked = True
-      TabOrder = 2
+      TabOrder = 1
     end
     object rgLista: TRadioGroup
-      Left = 444
-      Top = 1
-      Width = 253
+      Left = 574
+      Top = 3
+      Width = 171
       Height = 37
       Caption = 'Lista'
       Columns = 2
@@ -239,15 +247,15 @@ inherited fInventario: TfInventario
       Items.Strings = (
         'Pendente'
         'Finalizada')
-      TabOrder = 3
+      TabOrder = 4
     end
     object BitBtn2: TBitBtn
-      Left = 402
-      Top = 6
-      Width = 30
-      Height = 24
+      Left = 338
+      Top = 10
+      Width = 32
+      Height = 30
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 5
       TabStop = False
       OnClick = BitBtn2Click
       Glyph.Data = {
@@ -318,7 +326,7 @@ inherited fInventario: TfInventario
       Align = alCustom
       DataSource = dsListaInventario
       ReadOnly = True
-      TabOrder = 6
+      TabOrder = 7
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -357,7 +365,7 @@ inherited fInventario: TfInventario
       Height = 213
       Align = alCustom
       DataSource = dsInvent
-      TabOrder = 5
+      TabOrder = 6
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -437,6 +445,22 @@ inherited fInventario: TfInventario
           Visible = True
         end>
     end
+    object cbCCusto1: TComboBox
+      Left = 384
+      Top = 15
+      Width = 185
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 2
+      OnKeyPress = FormKeyPress
+    end
   end
   object GroupBox1: TGroupBox [3]
     Left = 0
@@ -448,7 +472,7 @@ inherited fInventario: TfInventario
     TabOrder = 3
     object Label1: TLabel
       Left = 2
-      Top = 130
+      Top = 178
       Width = 160
       Height = 13
       Caption = 'Lista Produtos com opcao de filtro'
@@ -477,6 +501,13 @@ inherited fInventario: TfInventario
       Height = 13
       Caption = 'Sub-Grupo'
     end
+    object Label2: TLabel
+      Left = 10
+      Top = 126
+      Width = 68
+      Height = 13
+      Caption = 'Local Estoque'
+    end
     object edProd: TEdit
       Left = 8
       Top = 26
@@ -489,14 +520,14 @@ inherited fInventario: TfInventario
       Top = 103
       Width = 145
       Height = 21
-      TabOrder = 1
+      TabOrder = 2
     end
     object edSubGrupo: TEdit
       Left = 9
       Top = 63
       Width = 145
       Height = 21
-      TabOrder = 2
+      TabOrder = 1
     end
     object btnProc: TBitBtn
       Left = 108
@@ -513,7 +544,7 @@ inherited fInventario: TfInventario
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
-      TabOrder = 3
+      TabOrder = 4
       OnClick = btnProcClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -623,7 +654,7 @@ inherited fInventario: TfInventario
       Align = alCustom
       DataSource = dsProd
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-      TabOrder = 4
+      TabOrder = 5
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -690,7 +721,7 @@ inherited fInventario: TfInventario
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 5
+      TabOrder = 6
       OnClick = btnIncluiTodosClick
     end
     object btnInclui: TButton
@@ -708,7 +739,7 @@ inherited fInventario: TfInventario
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 6
+      TabOrder = 7
       OnClick = btnIncluiClick
     end
     object btnRemoveTodos: TButton
@@ -726,7 +757,7 @@ inherited fInventario: TfInventario
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 7
+      TabOrder = 8
       OnClick = btnRemoveTodosClick
     end
     object btnRemove: TButton
@@ -744,8 +775,25 @@ inherited fInventario: TfInventario
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 8
+      TabOrder = 9
       OnClick = btnRemoveClick
+    end
+    object cbCCusto: TComboBox
+      Left = 8
+      Top = 140
+      Width = 147
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 3
+      OnChange = cbCCustoChange
+      OnKeyPress = FormKeyPress
     end
   end
   object sdsProd: TSQLDataSet
@@ -1008,5 +1056,65 @@ inherited fInventario: TfInventario
     StoredProcName = 'INVENTARIO_LANCA'
     Left = 512
     Top = 272
+  end
+  object cds_ccusto: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PCONTADESPESA'
+        ParamType = ptInput
+      end>
+    ProviderName = 'd_2'
+    Left = 104
+    Top = 163
+    object cds_ccustoCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cds_ccustoCONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+    object cds_ccustoNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 40
+    end
+  end
+  object d_2: TDataSetProvider
+    DataSet = s_2
+    Left = 62
+    Top = 162
+  end
+  object s_2: TSQLDataSet
+    CommandText = 
+      'select CODIGO, CONTA, NOME from PLANO where plnCtaRoot(CONTA) = ' +
+      ':PCONTADESPESA AND CONSOLIDA = '#39'S'#39
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PCONTADESPESA'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 29
+    Top = 162
+    object s_2CODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object s_2CONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+    object s_2NOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 40
+    end
   end
 end
