@@ -392,6 +392,21 @@ begin
     dm.cds_produto.Post;
     if (dm.cds_produtoMARCA.AsString <> '') then
       fProdutoCadastro.dbMarca.Text := dm.cds_produtoMARCA.AsString;
+
+    fProdutoCadastro.cbAplicacao.ItemIndex := -1;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'REVENDA') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 0;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'MATERIA PRIMA') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 1;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'USO CONSUMO') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 2;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'ATIVO IMOBILIZADO') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 1;
+
+    fProdutoCadastro.cbLocal.ItemIndex := -1;
+    if (dm.cds_ccusto.Locate('CODIGO', dm.cds_produtoCODALMOXARIFADO.AsInteger, [loCaseInsensitive])) then
+      fProdutoCadastro.cbLocal.ItemIndex := dm.cds_ccusto.RecNo-1;
+
     fProdutoCadastro.ShowModal;
     EvDBFind1.Text := PRODUTO_DESC;//dm.cds_produtoPRODUTO.asString;
   finally
