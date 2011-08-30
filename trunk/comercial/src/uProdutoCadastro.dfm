@@ -1147,25 +1147,29 @@ inherited fProdutoCadastro: TfProdutoCadastro
           Top = 24
           Width = 216
           Height = 24
-          CharCase = ecUpperCase
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ItemHeight = 16
-          ItemIndex = 0
           ParentFont = False
           TabOrder = 0
           Text = 'REVENDA'
           OnChange = cbAplicacaoChange
           Items.Strings = (
-            'REVENDA'
-            'MATERIA PRIMA'
-            'USO CONSUMO'
-            'ATIVO IMOBILIZADO'
-            ''
-            '')
+            '00 - MERCADORIA PARA REVENDA'
+            '01 - MAT'#201'RIA-PRIMA'
+            '02 - EMBALAGEM'
+            '03 - PRODUTO EM PROCESSO'
+            '04 - PRODUTO ACABADO'
+            '05 - SUBPRODUTO'
+            '06 - PRODUTO INTERMEDI'#193'RIO'
+            '07 - MATERIAL DE USO E CONSUMO'
+            '08 - ATIVO IMOBILIZADO'
+            '09 - SERVI'#199'OS'
+            '10 - OUTROS INSUMOS'
+            '99 - OUTRAS')
         end
       end
     end
