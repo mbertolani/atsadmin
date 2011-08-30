@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE COTACAO_GERA_PEDIDO(codFornec integer)  
 AS 
   DECLARE VARIABLE NAT SMALLINT;
@@ -8,6 +9,8 @@ AS
   DECLARE VARIABLE codMov INT;  
   DECLARE VARIABLE codDet INT;  
   DECLARE VARIABLE codCotacao INT; 
+  DECLARE VARIABLE codSolicitacao INT; 
+  DECLARE VARIABLE codPedido INT; 
   DECLARE VARIABLE codNovoMov INT; 
   DECLARE VARIABLE prazo VARCHAR(30);
   DECLARE VARIABLE userAprova VARCHAR(30);
@@ -38,7 +41,7 @@ BEGIN
         m.PRAZO_PAGAMENTO, m.OBS, m.VALOR_FRETE, m.CODUSUARIO, 
         m.CODVENDEDOR , m.USER_APROVA, 
         md.codproduto, md.descproduto, md.RECEBIDO, md.preco, md.un, md.qtde_alt,
-        md.QUANTIDADE, m.CODMOVIMENTO, m.CODALMOXARIFADO, md.CODDETALHE
+        md.QUANTIDADE, m.CODMOVIMENTO, m.CODALMOXARIFADO, md.CODDETALHE, md.CODSOLICITACAO, m.CODPEDIDO
         FROM MOVIMENTO m, MOVIMENTODETALHE md  
        where md.CODMOVIMENTO = m.CODMOVIMENTO
          and ((m.STATUS = 3) OR (m.STATUS = 4)) 
@@ -47,16 +50,17 @@ BEGIN
          and (md.CODIGO1 = 99999) 
          and (m.CODFORNECEDOR = :codFornec)
       into :nat, :codFornec, :codCotacao, :entrega, :prazo, :obs, :frete, :codUsuario, 
-      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov, :codCCusto, :codDet
+      :codVendedor, :userAprova, :codProd, :prodDesc, :recebido, :preco, :un, :qtdeAlt, :qtde, :codMov, :codCCusto, :codDet, :codSolicitacao, :codPedido
     do begin     
       if (IncluidoMov = 'N') then 
       begin 
+        --codPedido = GEN_ID(CODPEDIDO, 1);
         INSERT INTO MOVIMENTO(codmovimento, datamovimento, codcliente, codnatureza, 
           status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
-          prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido, codAlmoxarifado)
+          prazo_pagamento, obs, valor_frete, codVendedor, user_Aprova, codpedido, codAlmoxarifado, codCotacao, codOrigem)
           values (:codNovoMov, CURRENT_DATE, 0, 4, 
           3,:codUsuario, :codFornec, CURRENT_TIMESTAMP, :codCotacao, :entrega,
-          :prazo, :obs, :frete, :codVendedor, :userAprova, :codCotacao, :codCCusto);
+          :prazo, :obs, :frete, :codVendedor, :userAprova, :codPedido, :codCCusto, :codCotacao, :codMov);
        end 
        IncluidoMov = 'S';
      /* When any do
@@ -64,17 +68,17 @@ BEGIN
          EXCEPTION ERRO_TRG;
       end*/
       insert into MOVIMENTODETALHE (CODDETALHE, codmovimento, codproduto, descproduto,   
-        quantidade, preco, un, qtde_alt, codigo) values (
+        quantidade, preco, un, qtde_alt, codigo, codSolicitacao) values (
         GEN_ID(GENMOVDET, 1), :codNovoMov, :codProd, :prodDesc, 
-        :recebido, :PRECO, :UN, :QTDEALT, :codCotacao); 
+        :recebido, :PRECO, :UN, :QTDEALT, :codCotacao, :codSolicitacao); 
             
       -- Novo Movimento Detalhe do que Sobrou do Pedido Cotado  
       if (recebido < qtde) then   
       begin 
         insert into MOVIMENTODETALHE (CODDETALHE, codmovimento, codproduto, descproduto, 
-          quantidade, preco, un, qtde_alt, recebido, codigo) values (
+          quantidade, preco, un, qtde_alt, recebido, codigo, CodSolicitacao) values (
           GEN_ID(GENMOVDET, 1), :codMov, :codProd, :prodDesc, 
-          :qtde - :recebido, :PRECO, :UN, :qtdeAlt, 0, :codCotacao);
+          :qtde - :recebido, :PRECO, :UN, :qtdeAlt, 0, :codCotacao, :codSolicitacao);
         update MOVIMENTODETALHE set QUANTIDADE = :recebido where coddetalhe = :codDet;  
       end  
       When any do
