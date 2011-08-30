@@ -2297,6 +2297,17 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Devolucao Venda'
         OnClick = DevolucaoVendas1Click
       end
+      object Maquinas2: TMenuItem
+        Caption = 'M'#225'quinas'
+        object LanarOS1: TMenuItem
+          Caption = 'Lan'#231'ar O.S.'
+          OnClick = LanarOS1Click
+        end
+        object ListaOS1: TMenuItem
+          Caption = 'Lista O.S.'
+          OnClick = ListaOS1Click
+        end
+      end
       object MovimentaoFinanceira1: TMenuItem
         Caption = '&Movimenta'#231#227'o Financeira'
         OnClick = MovimentaoFinanceira1Click
@@ -2312,14 +2323,6 @@ object fAtsAdmin: TfAtsAdmin
       object LanamentoPassivo1: TMenuItem
         Caption = 'Lan'#231'amento Passivo'
         OnClick = LanamentoPassivo1Click
-      end
-      object LanarOS1: TMenuItem
-        Caption = 'Lan'#231'ar O.S.'
-        OnClick = LanarOS1Click
-      end
-      object ListaOS1: TMenuItem
-        Caption = 'Lista O.S.'
-        OnClick = ListaOS1Click
       end
       object FechamentodeContas1: TMenuItem
         Caption = 'Fechamento de Contas'
@@ -2511,6 +2514,14 @@ object fAtsAdmin: TfAtsAdmin
       object RelatriodePrFaturamento1: TMenuItem
         Caption = 'Relat'#243'rio de Pr'#233' Faturamento'
         OnClick = RelatriodePrFaturamento1Click
+      end
+      object RelatriodeFornecedores1: TMenuItem
+        Caption = 'Relat'#243'rio de Fornecedores'
+        OnClick = RelatriodeFornecedores1Click
+      end
+      object RelatriodeClientes1: TMenuItem
+        Caption = 'Relat'#243'rio de Clientes'
+        OnClick = RelatriodeClientes1Click
       end
     end
     object RelastriosFinanceiros1: TMenuItem

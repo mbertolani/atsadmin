@@ -234,6 +234,9 @@ type
     acBoletoAts: TAction;
     Expedio1: TMenuItem;
     AdmCaixaBanco1: TMenuItem;
+    Maquinas2: TMenuItem;
+    RelatriodeFornecedores1: TMenuItem;
+    RelatriodeClientes1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -348,6 +351,8 @@ type
     procedure acBoletoAtsExecute(Sender: TObject);
     procedure Expedio1Click(Sender: TObject);
     procedure AdmCaixaBanco1Click(Sender: TObject);
+    procedure RelatriodeFornecedores1Click(Sender: TObject);
+    procedure RelatriodeClientes1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -438,14 +443,14 @@ procedure TfAtsAdmin.ClientesClick(Sender: TObject);
 begin
   if (varform <> '') then
     varform := '';
-  {fClienteCadastro := TfClienteCadastro.Create(Application);
+  fClienteCadastro := TfClienteCadastro.Create(Application);
   try
     fClienteCadastro.ShowModal;
   finally
     fClienteCadastro.Free;
     varform := '';
-  end;  }
-  fCliente1 := TfCliente1.Create(Application);
+  end;
+  {fCliente1 := TfCliente1.Create(Application);
   fEndereco := TfEndereco.Create(Application);
   try
     fCliente1.ShowModal;
@@ -453,7 +458,7 @@ begin
     fEndereco.Free;
     fCliente1.Free;
     varform := '';
-  end;
+  end; }
 
 end;
 
@@ -1966,6 +1971,22 @@ begin
     fCaixaBanco.Free;
   end;
 
+end;
+
+procedure TfAtsAdmin.RelatriodeFornecedores1Click(Sender: TObject);
+begin
+  VCLReport1.FileName := str_relatorio + 'fornecedorCadastro.rep';
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Title := VCLReport1.FileName;
+  VCLReport1.Execute;
+end;
+
+procedure TfAtsAdmin.RelatriodeClientes1Click(Sender: TObject);
+begin
+  VCLReport1.FileName := str_relatorio + 'rel_cliente.rep';  
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Title := VCLReport1.FileName;
+  VCLReport1.Execute;
 end;
 
 end.
