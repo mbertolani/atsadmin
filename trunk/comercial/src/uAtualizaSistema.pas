@@ -1011,11 +1011,9 @@ begin
       executaDDL('OS', 'DATA_INI', 'date');
       executaDDL('OS', 'DATA_FIM', 'date');
 	    executaScript('codpedido_null.sql');
-      executaScript('cotacao_gera_pedido.sql');
       executaScript('altera_status_cotacao.sql');
       executaScript('cotacao_negociacao.sql');
       executaScript('cotacao_estorna.sql');
-      executaScript('gera_nf_venda.sql');
       if (NaoExisteTabela('OS_DET')) then
       begin
         executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
@@ -1029,11 +1027,9 @@ begin
     begin
       executaDDL('NOTAFISCAL', 'IDCOMPLEMENTAR', 'VARCHAR(44)');
       executaDDL('NOTAFISCAL', 'XMLNFE', 'BLOB');
-      executaScript('gera_pedido.sql');
       executaScript('inclui_rec.sql');
       executaScript('inclui_pag.sql');
       executaScript('frete_nf.sql');
-      executaScript('gera_pedido_proc.sql');
       executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
       mudaVersao('1.0.0.92');
     end;
@@ -1047,11 +1043,9 @@ begin
       executaScript('baixaTitulosPag.sql');
       executaScript('baixaTitulosRec.sql');
       executaScript('expedicao_gera_pedido.sql');
-      executaScript('gera_pedido_proc.sql');
       executaScript('insere_transp_fornec.sql');
       executaScript('invent_estoque.sql');
       executaScript('inventario_lanca.sql');
-      executaScript('rel_compra_pedido.sql');
       executaScript('sp_mov_caixa.sql');
       executaScript('listaSpEstoqueFiltro.sql');
       executaScript('spEstoqueFiltro.sql');
@@ -1075,6 +1069,7 @@ begin
         'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) ');
       end;
 
+      executaScript('spEstoqueFiltro.sql');
       executaScript('listaProdutocli.sql');
       executaScript('listaProduto.sql');
       executaScript('estoqueccustoent.sql');
@@ -1086,9 +1081,15 @@ begin
 
     if (versaoSistema = '1.0.0.93') then
     begin
-      {--ALTER TABLE MOVIMENTO ADD CODCOTACAO INTEGER;
-      --ALTER TABLE MOVIMENTODETALHE ADD CODSOLICITACAO INTEGER;
-       create generator codpedido;}
+      executaDDL('MOVIMENTO', 'CODCOTACAO',  'INTEGER');
+      executaDDL('MOVIMENTODETALHE', 'CODSOLICITACAO',  'INTEGER');
+      executaDDL('INVENTARIO', 'CODCCUSTO',  'INTEGER');
+      executaScript('gera_nf_venda.sql');
+      executaScript('gera_pedido_proc.sql');
+      executaScript('rel_compra_pedido.sql');
+      executaScript('cotacao_gera_pedido.sql');
+      if(NaoExisteGenerator('CODPEDIDO')) then
+       executaSql('create generator codpedido');
     end;
 
     
