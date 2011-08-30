@@ -270,14 +270,30 @@ begin
     varonde := '';
 
     cbAplicacao.ItemIndex := -1;
-    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'REVENDA') then
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '00 - MERCADORIA PARA REVENDA') then
       cbAplicacao.ItemIndex := 0;
-    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'MATERIA PRIMA') then
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '01 - MATÉRIA-PRIMA') then
       cbAplicacao.ItemIndex := 1;
-    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'USO CONSUMO') then
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '02 - EMBALAGEM') then
       cbAplicacao.ItemIndex := 2;
-    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'ATIVO IMOBILIZADO') then
-      cbAplicacao.ItemIndex := 1;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '03 - PRODUTO EM PROCESSO') then
+      cbAplicacao.ItemIndex := 3;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '04 - PRODUTO ACABADO') then
+      cbAplicacao.ItemIndex := 4;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '05 - SUBPRODUTO') then
+      cbAplicacao.ItemIndex := 5;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '06 - PRODUTO INTERMEDIÁRIO') then
+      cbAplicacao.ItemIndex := 6;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '07 - MATERIAL DE USO E CONSUMO') then
+      cbAplicacao.ItemIndex := 7;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '08 - ATIVO IMOBILIZADO') then
+      cbAplicacao.ItemIndex := 8;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '09 - SERVIÇOS') then
+      cbAplicacao.ItemIndex := 9;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '10 - OUTROS INSUMOS') then
+      cbAplicacao.ItemIndex := 10;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '99 - OUTRAS') then
+      cbAplicacao.ItemIndex := 11;
 
   cbLocal.ItemIndex := -1;
   if (dm.cds_ccusto.Locate('CODIGO', dm.cds_produtoCODALMOXARIFADO.AsInteger, [loCaseInsensitive])) then
