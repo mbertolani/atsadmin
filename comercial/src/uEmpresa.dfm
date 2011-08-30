@@ -1,8 +1,8 @@
 inherited fEmpresa: TfEmpresa
   Left = 373
   Top = 177
-  Width = 671
-  Height = 582
+  Width = 721
+  Height = 637
   Caption = 'Cadastro de Empresa'
   Font.Charset = ANSI_CHARSET
   Font.Height = -29
@@ -10,383 +10,383 @@ inherited fEmpresa: TfEmpresa
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 33
+  TextHeight = 36
   object Label3: TLabel [0]
-    Left = 22
-    Top = 61
-    Width = 33
-    Height = 13
+    Left = 24
+    Top = 67
+    Width = 44
+    Height = 16
     Caption = 'C'#243'digo'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label4: TLabel [1]
-    Left = 83
-    Top = 61
-    Width = 87
-    Height = 13
+    Left = 91
+    Top = 67
+    Width = 114
+    Height = 16
     Caption = 'Nome da Empresa'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label5: TLabel [2]
-    Left = 22
-    Top = 97
-    Width = 63
-    Height = 13
+    Left = 24
+    Top = 106
+    Width = 81
+    Height = 16
     Caption = 'Raz'#227'o Social'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label6: TLabel [3]
-    Left = 125
-    Top = 135
-    Width = 58
-    Height = 13
+    Left = 136
+    Top = 147
+    Width = 71
+    Height = 16
     Caption = 'CNPJ / CPF'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label7: TLabel [4]
-    Left = 126
-    Top = 172
-    Width = 37
-    Height = 13
+    Left = 137
+    Top = 188
+    Width = 42
+    Height = 16
     Caption = 'RG / IE'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label9: TLabel [5]
-    Left = 23
-    Top = 200
-    Width = 46
-    Height = 13
+    Left = 25
+    Top = 218
+    Width = 59
+    Height = 16
     Caption = 'Endere'#231'o'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label10: TLabel [6]
-    Left = 22
-    Top = 238
-    Width = 64
-    Height = 13
+    Left = 24
+    Top = 260
+    Width = 84
+    Height = 16
     Caption = 'Complemento'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label11: TLabel [7]
-    Left = 201
-    Top = 238
-    Width = 27
-    Height = 13
+    Left = 219
+    Top = 260
+    Width = 36
+    Height = 16
     Caption = 'Bairro'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label12: TLabel [8]
-    Left = 394
-    Top = 238
-    Width = 33
-    Height = 13
+    Left = 430
+    Top = 260
+    Width = 44
+    Height = 16
     Caption = 'Cidade'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label13: TLabel [9]
-    Left = 22
-    Top = 277
-    Width = 33
-    Height = 13
+    Left = 24
+    Top = 302
+    Width = 43
+    Height = 16
     Caption = 'Estado'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label14: TLabel [10]
-    Left = 168
-    Top = 277
-    Width = 19
-    Height = 13
+    Left = 183
+    Top = 302
+    Width = 25
+    Height = 16
     Caption = 'Cep'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label15: TLabel [11]
-    Left = 320
-    Top = 277
-    Width = 42
-    Height = 13
+    Left = 349
+    Top = 302
+    Width = 54
+    Height = 16
     Caption = 'Telefone'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label16: TLabel [12]
-    Left = 429
-    Top = 277
-    Width = 17
-    Height = 13
+    Left = 468
+    Top = 302
+    Width = 22
+    Height = 16
     Caption = 'Fax'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label17: TLabel [13]
-    Left = 537
-    Top = 278
-    Width = 32
-    Height = 13
+    Left = 586
+    Top = 303
+    Width = 42
+    Height = 16
     Caption = 'Celular'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label18: TLabel [14]
-    Left = 23
-    Top = 422
-    Width = 28
-    Height = 13
+    Left = 25
+    Top = 460
+    Width = 38
+    Height = 16
     Caption = 'E-mail'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label19: TLabel [15]
-    Left = 22
-    Top = 311
-    Width = 56
-    Height = 13
+    Left = 24
+    Top = 339
+    Width = 73
+    Height = 16
     Caption = 'Home Page'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label20: TLabel [16]
-    Left = 271
-    Top = 277
-    Width = 24
-    Height = 13
+    Left = 296
+    Top = 302
+    Width = 30
+    Height = 16
     Caption = 'DDD'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label8: TLabel [17]
-    Left = 22
-    Top = 347
-    Width = 33
-    Height = 13
+    Left = 24
+    Top = 379
+    Width = 43
+    Height = 16
     Caption = 'Slogan'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label21: TLabel [18]
-    Left = 22
-    Top = 385
-    Width = 92
-    Height = 13
+    Left = 24
+    Top = 420
+    Width = 116
+    Height = 16
     Caption = 'Outras Informa'#231#245'es'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label22: TLabel [19]
-    Left = 355
-    Top = 420
-    Width = 40
-    Height = 13
+    Left = 387
+    Top = 458
+    Width = 49
+    Height = 16
     Caption = 'C. Custo'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label23: TLabel [20]
-    Left = 551
-    Top = 200
-    Width = 37
-    Height = 13
+    Left = 601
+    Top = 218
+    Width = 48
+    Height = 16
     Caption = 'N'#250'mero'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label24: TLabel [21]
-    Left = 554
-    Top = 238
-    Width = 61
-    Height = 13
+    Left = 604
+    Top = 260
+    Width = 78
+    Height = 16
     Caption = 'C'#243'digo IBGE'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label25: TLabel [22]
-    Left = 149
-    Top = 462
-    Width = 30
-    Height = 13
+    Left = 163
+    Top = 504
+    Width = 38
+    Height = 16
     Caption = 'SMTP'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label26: TLabel [23]
-    Left = 276
-    Top = 462
-    Width = 25
-    Height = 13
+    Left = 301
+    Top = 504
+    Width = 32
+    Height = 16
     Caption = 'Porta'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label27: TLabel [24]
-    Left = 22
-    Top = 462
-    Width = 59
-    Height = 13
+    Left = 24
+    Top = 504
+    Width = 76
+    Height = 16
     Caption = 'Senha Email'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object Label28: TLabel [25]
-    Left = 356
-    Top = 462
-    Width = 100
-    Height = 13
+    Left = 388
+    Top = 504
+    Width = 127
+    Height = 16
     Caption = 'Caminho  Salvar NFe'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
   end
   object DBEdit1: TDBEdit [26]
-    Left = 22
-    Top = 76
-    Width = 59
-    Height = 22
+    Left = 24
+    Top = 83
+    Width = 64
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'CODIGO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -395,17 +395,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit [27]
-    Left = 83
-    Top = 76
-    Width = 556
-    Height = 22
+    Left = 91
+    Top = 83
+    Width = 606
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'EMPRESA'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -414,17 +414,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit3: TDBEdit [28]
-    Left = 22
-    Top = 110
-    Width = 617
-    Height = 22
+    Left = 24
+    Top = 120
+    Width = 673
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'RAZAO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -433,16 +433,16 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBRadioGroup1: TDBRadioGroup [29]
-    Left = 21
-    Top = 139
-    Width = 98
-    Height = 60
+    Left = 23
+    Top = 152
+    Width = 107
+    Height = 65
     Caption = 'Tipo Empresa'
     DataField = 'TIPO'
     DataSource = DtSrc
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'Arial'
     Font.Style = []
     Items.Strings = (
@@ -456,17 +456,17 @@ inherited fEmpresa: TfEmpresa
       'J')
   end
   object DBEdit4: TDBEdit [30]
-    Left = 124
-    Top = 150
-    Width = 230
-    Height = 22
+    Left = 135
+    Top = 164
+    Width = 251
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'CNPJ_CPF'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -475,17 +475,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit5: TDBEdit [31]
-    Left = 124
-    Top = 186
-    Width = 230
-    Height = 22
+    Left = 135
+    Top = 203
+    Width = 251
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'IE_RG'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -494,17 +494,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit7: TDBEdit [32]
-    Left = 22
-    Top = 215
-    Width = 526
-    Height = 22
+    Left = 24
+    Top = 235
+    Width = 574
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'ENDERECO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -513,17 +513,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit8: TDBEdit [33]
-    Left = 22
-    Top = 254
-    Width = 177
-    Height = 22
+    Left = 24
+    Top = 277
+    Width = 193
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'LOGRADOURO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -532,17 +532,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit9: TDBEdit [34]
-    Left = 201
-    Top = 254
-    Width = 157
-    Height = 22
+    Left = 219
+    Top = 277
+    Width = 172
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'BAIRRO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -551,17 +551,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit10: TDBEdit [35]
-    Left = 394
-    Top = 254
-    Width = 156
-    Height = 22
+    Left = 430
+    Top = 277
+    Width = 170
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'CIDADE'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -570,19 +570,19 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBComboBox1: TDBComboBox [36]
-    Left = 23
-    Top = 291
-    Width = 139
-    Height = 21
+    Left = 25
+    Top = 317
+    Width = 152
+    Height = 24
     BevelKind = bkFlat
     DataField = 'UF'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
-    ItemHeight = 13
+    ItemHeight = 16
     Items.Strings = (
       'AC - ACRE'
       'AL - ALAGOAS'
@@ -617,17 +617,17 @@ inherited fEmpresa: TfEmpresa
     TabOrder = 12
   end
   object DBEdit11: TDBEdit [37]
-    Left = 166
-    Top = 291
-    Width = 99
-    Height = 22
+    Left = 181
+    Top = 317
+    Width = 108
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'CEP'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -636,17 +636,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit12: TDBEdit [38]
-    Left = 269
-    Top = 291
-    Width = 48
-    Height = 22
+    Left = 293
+    Top = 317
+    Width = 53
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'DDD'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -655,17 +655,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit13: TDBEdit [39]
-    Left = 320
-    Top = 291
-    Width = 105
-    Height = 22
+    Left = 349
+    Top = 317
+    Width = 115
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'FONE'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -674,17 +674,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit14: TDBEdit [40]
-    Left = 429
-    Top = 291
-    Width = 102
-    Height = 22
+    Left = 468
+    Top = 317
+    Width = 111
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'FAX'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -693,17 +693,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit15: TDBEdit [41]
-    Left = 22
-    Top = 437
-    Width = 327
-    Height = 22
+    Left = 24
+    Top = 477
+    Width = 357
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'E_MAIL'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -712,17 +712,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit16: TDBEdit [42]
-    Left = 22
-    Top = 326
-    Width = 327
-    Height = 22
+    Left = 24
+    Top = 356
+    Width = 357
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'WEB'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -731,17 +731,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit17: TDBEdit [43]
-    Left = 536
-    Top = 291
-    Width = 102
-    Height = 22
+    Left = 585
+    Top = 317
+    Width = 111
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'FONE_1'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -750,88 +750,88 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 501
-    Width = 663
+    Top = 556
+    Width = 713
     TabOrder = 28
     inherited btnCancelar: TBitBtn [0]
       Font.Charset = ANSI_CHARSET
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Arial'
       ParentFont = False
     end
     inherited btnExcluir: TBitBtn [1]
       Font.Charset = ANSI_CHARSET
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Arial'
       ParentFont = False
     end
     inherited btnGravar: TBitBtn [2]
       Font.Charset = ANSI_CHARSET
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Arial'
       ParentFont = False
     end
     inherited btnIncluir: TBitBtn [3]
       Font.Charset = ANSI_CHARSET
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Arial'
       ParentFont = False
     end
     inherited btnProcurar: TBitBtn
       Enabled = False
       Font.Charset = ANSI_CHARSET
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Arial'
       ParentFont = False
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
       Font.Charset = ANSI_CHARSET
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Arial'
       ParentFont = False
     end
     object DBNavigator1: TDBNavigator
-      Left = 17
-      Top = 12
-      Width = 96
-      Height = 23
+      Left = 19
+      Top = 13
+      Width = 104
+      Height = 25
       DataSource = DtSrc
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       TabOrder = 6
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 663
+    Width = 713
     TabOrder = 29
     inherited Label1: TLabel
-      Left = 151
-      Top = -78
-      Width = 279
-      Height = 32
+      Left = 165
+      Top = -85
+      Width = 347
+      Height = 36
       Caption = 'Cadastro de Empresas'
       Font.Color = clWindowText
-      Font.Height = -27
+      Font.Height = -29
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
     end
     inherited Label2: TLabel
-      Left = 151
-      Top = -82
+      Left = 165
+      Top = -89
       Width = 106
       Height = 13
       Caption = 'Cadastro de Empresas'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -9
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
     end
     object JvLabel1: TJvLabel
-      Left = 178
-      Top = 7
-      Width = 287
-      Height = 35
+      Left = 194
+      Top = 8
+      Width = 337
+      Height = 38
       Caption = 'Cadastro de Empresa'
       ShadowColor = clWhite
       ShadowSize = 2
@@ -844,17 +844,17 @@ inherited fEmpresa: TfEmpresa
     end
   end
   object DBEdit6: TDBEdit [46]
-    Left = 22
-    Top = 362
-    Width = 327
-    Height = 22
+    Left = 24
+    Top = 395
+    Width = 357
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'SLOGAN'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -863,17 +863,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit18: TDBEdit [47]
-    Left = 22
-    Top = 401
-    Width = 327
-    Height = 22
+    Left = 24
+    Top = 437
+    Width = 357
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'OUTRAS_INFO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -882,14 +882,14 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object BitBtn1: TBitBtn [48]
-    Left = 371
-    Top = 328
-    Width = 88
-    Height = 34
+    Left = 405
+    Top = 358
+    Width = 96
+    Height = 37
     Caption = 'Procura'
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
@@ -996,14 +996,14 @@ inherited fEmpresa: TfEmpresa
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
   object BitBtn2: TBitBtn [49]
-    Left = 371
-    Top = 368
-    Width = 88
-    Height = 33
+    Left = 405
+    Top = 401
+    Width = 96
+    Height = 36
     Caption = 'Exclui'
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
@@ -1070,10 +1070,10 @@ inherited fEmpresa: TfEmpresa
       0000}
   end
   object Panel3: TPanel [50]
-    Left = 470
-    Top = 325
-    Width = 168
-    Height = 155
+    Left = 513
+    Top = 355
+    Width = 183
+    Height = 169
     BevelInner = bvLowered
     BevelWidth = 3
     Color = clMoneyGreen
@@ -1081,39 +1081,39 @@ inherited fEmpresa: TfEmpresa
     object Image1: TJvImage
       Left = 6
       Top = 6
-      Width = 156
-      Height = 143
+      Width = 171
+      Height = 157
       Align = alClient
       Stretch = True
     end
   end
   object ComboBox1: TComboBox [51]
-    Left = 354
-    Top = 437
-    Width = 109
-    Height = 23
+    Left = 386
+    Top = 477
+    Width = 119
+    Height = 24
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'Arial'
     Font.Style = []
-    ItemHeight = 15
+    ItemHeight = 16
     ParentFont = False
     TabOrder = 27
     OnChange = ComboBox1Change
   end
   object DBEdit19: TDBEdit [52]
-    Left = 550
-    Top = 215
-    Width = 89
-    Height = 22
+    Left = 600
+    Top = 235
+    Width = 97
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'NUMERO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -1122,14 +1122,14 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object BitBtn3: TBitBtn [53]
-    Left = 362
-    Top = 251
-    Width = 27
-    Height = 25
+    Left = 395
+    Top = 274
+    Width = 29
+    Height = 27
     Caption = '...'
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -15
     Font.Name = 'Cooper Blk BT'
     Font.Style = []
     ParentFont = False
@@ -1137,17 +1137,17 @@ inherited fEmpresa: TfEmpresa
     OnClick = BitBtn3Click
   end
   object DBEdit20: TDBEdit [54]
-    Left = 553
-    Top = 254
-    Width = 86
-    Height = 22
+    Left = 603
+    Top = 277
+    Width = 94
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'CD_IBGE'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -1156,17 +1156,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit21: TDBEdit [55]
-    Left = 149
-    Top = 476
-    Width = 120
-    Height = 22
+    Left = 163
+    Top = 519
+    Width = 130
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'SMTP'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -1175,17 +1175,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit22: TDBEdit [56]
-    Left = 275
-    Top = 476
-    Width = 74
-    Height = 22
+    Left = 300
+    Top = 519
+    Width = 81
+    Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'PORTA'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -1194,17 +1194,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit23: TDBEdit [57]
-    Left = 22
-    Top = 476
-    Width = 121
-    Height = 23
+    Left = 24
+    Top = 519
+    Width = 132
+    Height = 25
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'SENHA'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -1214,17 +1214,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBEdit24: TDBEdit [58]
-    Left = 356
-    Top = 477
-    Width = 228
-    Height = 21
+    Left = 388
+    Top = 520
+    Width = 249
+    Height = 23
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'DIVERSOS1'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
@@ -1233,17 +1233,17 @@ inherited fEmpresa: TfEmpresa
     OnKeyPress = FormKeyPress
   end
   object DBRadioGroup2: TDBRadioGroup [59]
-    Left = 371
-    Top = 136
-    Width = 267
-    Height = 62
+    Left = 405
+    Top = 148
+    Width = 291
+    Height = 68
     Hint = 'C'#243'digo de Regime Tribut'#225'rio '
     Caption = 'CRT'
     DataField = 'CRT'
     DataSource = DtSrc
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'Arial'
     Font.Style = []
     Items.Strings = (

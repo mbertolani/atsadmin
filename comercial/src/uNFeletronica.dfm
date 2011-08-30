@@ -1841,7 +1841,9 @@ object fNFeletronica: TfNFeletronica
     end
   end
   object sEmpresa: TSQLDataSet
-    CommandText = 'select * from EMPRESA where ccusto = :pcusto'
+    CommandText = 
+      'select e.* from EMPRESA e,  PLANO p'#13#10'where p.codigo = :pcusto an' +
+      'd p.CODEMPRESA = e.CODIGO'
     MaxBlobSize = -1
     Params = <
       item
