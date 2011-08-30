@@ -25,7 +25,7 @@ object TRpReport
       DatabaseAlias = 'SISADMIN'
       SQL = 
         'select * from  rel_compra_pedido (:Fornec, :DATA1, :DATA2) order' +
-        ' by fornecedor, nf_pedido'
+        ' by fornecedor, situacao, pedido'
     end>
   DatabaseInfo = <
     item
@@ -53,7 +53,7 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 40695d
+      Value = 40756d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -65,7 +65,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 40724d
+      Value = 40785d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -78,7 +78,7 @@ object TRpReport
     item
       Name = 'FORNEC'
       AllowNulls = False
-      Value = 0
+      Value = 373
       ParamType = rpParamInteger
       Datasets.Strings = (
         'VENDAS')
@@ -145,6 +145,9 @@ object TRpReport
       end
       item
         Component = TRpExpression20
+      end
+      item
+        Component = TRpExpression22
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -207,6 +210,9 @@ object TRpReport
       end
       item
         Component = TRpLabel11
+      end
+      item
+        Component = TRpLabel13
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -315,9 +321,6 @@ object TRpReport
         Component = TRpExpression14
       end
       item
-        Component = TRpExpression15
-      end
-      item
         Component = TRpExpression8
       end
       item
@@ -345,9 +348,9 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-    ChangeExpression = 'VENDAS.NF_PEDIDO'
+    ChangeExpression = 'VENDAS.SITUACAO'
     BeginPageExpression = ''
-    ChangeExpression = 'VENDAS.NF_PEDIDO'
+    ChangeExpression = 'VENDAS.SITUACAO'
     SkipExpreV = ''
     SkipExpreH = ''
     SkipToPageExpre = ''
@@ -381,9 +384,9 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-    ChangeExpression = 'VENDAS.NF_PEDIDO'
+    ChangeExpression = 'VENDAS.SITUACAO'
     BeginPageExpression = ''
-    ChangeExpression = 'VENDAS.NF_PEDIDO'
+    ChangeExpression = 'VENDAS.SITUACAO'
     SkipExpreV = ''
     SkipExpreH = ''
     SkipToPageExpre = ''
@@ -427,7 +430,7 @@ object TRpReport
   object TRpLabel1: TRpLabel
     Width = 810
     Height = 240
-    PosX = 3480
+    PosX = 3135
     PosY = 870
     Type1Font = poHelvetica
     FontSize = 8
@@ -438,22 +441,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial Narrow'
     LFontName = 'Helvetica'
-    WideText = 'NF/Pedido'
-  end
-  object TRpLabel3: TRpLabel
-    Width = 930
-    Height = 230
-    PosX = 5340
-    PosY = 870
-    Type1Font = poHelvetica
-    FontSize = 8
-    FontStyle = 1
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial Narrow'
-    LFontName = 'Helvetica'
-    WideText = 'Vencimento'
+    WideText = 'NF'
   end
   object TRpLabel5: TRpLabel
     Width = 760
@@ -616,7 +604,7 @@ object TRpReport
   object TRpExpression12: TRpExpression
     Width = 810
     Height = 220
-    PosX = 3480
+    PosX = 3135
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -632,7 +620,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial Narrow'
     LFontName = 'Helvetica'
-    Expression = 'VENDAS.TIPO +'#39'-'#39'+ VENDAS.NF_PEDIDO'
+    Expression = 'VENDAS.TIPO +'#39'-'#39'+ IIF(VENDAS.NF <> null,VENDAS.NF,VENDAS.PEDIDO)'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -687,30 +675,6 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpExpression15: TRpExpression
-    Width = 3360
-    Height = 230
-    PosX = 60
-    PosY = 0
-    Type1Font = poHelvetica
-    FontSize = 8
-    FontStyle = 1
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial Narrow'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.FORNECEDOR'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
   object TRpExpression0: TRpExpression
     Width = 640
     Height = 230
@@ -760,9 +724,9 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression2: TRpExpression
-    Width = 6090
-    Height = 230
-    PosX = 1220
+    Width = 5100
+    Height = 225
+    PosX = 1215
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -944,8 +908,8 @@ object TRpReport
   object TRpLabel10: TRpLabel
     Width = 930
     Height = 180
-    PosX = 230
-    PosY = 290
+    PosX = 225
+    PosY = 285
     Type1Font = poHelvetica
     FontSize = 8
     FontStyle = 1
@@ -999,7 +963,7 @@ object TRpReport
   end
   object TRpSection5: TRpSection
     Width = 10772
-    Height = 0
+    Height = 225
     SubReport = TRpSubReport0
     GroupName = 'T_FORNECEDOR'
     ChangeBool = False
@@ -1007,7 +971,10 @@ object TRpReport
     SkipPage = False
     AlignBottom = False
     SectionType = rpsecgheader
-    Components = <>
+    Components = <
+      item
+        Component = TRpExpression15
+      end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
     ExternalSearchField = 'REPORT_NAME'
@@ -1280,5 +1247,84 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
+  end
+  object TRpLabel3: TRpLabel
+    Width = 930
+    Height = 230
+    PosX = 5340
+    PosY = 870
+    Type1Font = poHelvetica
+    FontSize = 8
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial Narrow'
+    LFontName = 'Helvetica'
+    WideText = 'Vencimento'
+  end
+  object TRpLabel13: TRpLabel
+    Width = 750
+    Height = 225
+    PosX = 6506
+    PosY = 870
+    Type1Font = poHelvetica
+    FontSize = 8
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial Narrow'
+    LFontName = 'Helvetica'
+    WideText = 'Pedido'
+  end
+  object TRpExpression22: TRpExpression
+    Width = 810
+    Height = 225
+    PosX = 6375
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    FontStyle = 1
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial Narrow'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.PEDIDO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression15: TRpExpression
+    Width = 3360
+    Height = 230
+    PosX = 60
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    FontStyle = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial Narrow'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.FORNECEDOR'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
   end
 end
