@@ -1587,28 +1587,28 @@ inherited fVendas: TfVendas
         Caption = 'Unit. R$'
       end
       object Label8: TLabel
-        Left = 408
+        Left = 412
         Top = 1
         Width = 28
         Height = 16
         Caption = 'Icms'
       end
       object Label9: TLabel
-        Left = 456
+        Left = 463
         Top = 1
         Width = 51
         Height = 16
         Caption = 'Total R$'
       end
       object Label16: TLabel
-        Left = 306
+        Left = 303
         Top = 1
         Width = 50
         Height = 16
         Caption = 'Desc. %'
       end
       object lbl1: TLabel
-        Left = 360
+        Left = 358
         Top = 2
         Width = 42
         Height = 16
@@ -1784,7 +1784,7 @@ inherited fVendas: TfVendas
       object DBEdit10: TDBEdit
         Left = 238
         Top = 17
-        Width = 62
+        Width = 60
         Height = 24
         DataField = 'PRECO'
         DataSource = DtSrc1
@@ -1799,7 +1799,7 @@ inherited fVendas: TfVendas
         OnKeyPress = DBEdit9KeyPress
       end
       object DBEdit11: TDBEdit
-        Left = 405
+        Left = 408
         Top = 17
         Width = 52
         Height = 24
@@ -1816,9 +1816,9 @@ inherited fVendas: TfVendas
         OnKeyPress = FormKeyPress
       end
       object DBEdit12: TDBEdit
-        Left = 456
+        Left = 463
         Top = 17
-        Width = 96
+        Width = 89
         Height = 24
         Color = clInfoBk
         DataField = 'ValorTotal'
@@ -1971,7 +1971,7 @@ inherited fVendas: TfVendas
           0707070707070707070707070707070707070707070707070707}
       end
       object DBEdit6: TDBEdit
-        Left = 301
+        Left = 299
         Top = 17
         Width = 54
         Height = 24
@@ -2111,12 +2111,19 @@ inherited fVendas: TfVendas
         OnKeyPress = FormKeyPress
       end
       object dbedtVALOR_DESCONTO: TDBEdit
-        Left = 357
+        Left = 355
         Top = 17
-        Width = 43
+        Width = 50
         Height = 24
         DataField = 'VALOR_DESCONTO'
         DataSource = DtSrc1
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
         TabOrder = 8
         OnExit = dbedtVALOR_DESCONTOExit
         OnKeyPress = FormKeyPress
@@ -2186,7 +2193,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2240,7 +2247,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
