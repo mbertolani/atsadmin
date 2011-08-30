@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER PROCEDURE GERA_PEDIDO_PROC(CODIGO INTEGER, FORNEC INTEGER, codMov integer)
 AS 
   declare variable codProduto integer;
@@ -16,6 +17,7 @@ AS
   declare variable preco      double precision;
   declare variable frete      double precision;
   declare variable desconto   double precision;
+  declare variable codPedido  integer;
 BEGIN 
   SELECT D2 FROM PARAMETRO WHERE PARAMETRO = 'COMPRA'
     INTO :userAprova;
@@ -50,22 +52,23 @@ BEGIN
 
         if (codmov = 0) then 
         begin  
-          codmov = GEN_ID(GENMOV, 1);
+          codPedido = GEN_ID(CODPEDIDO, 1);
+          codmov    = GEN_ID(GENMOV, 1);
           insert into MOVIMENTO (codmovimento, datamovimento, codcliente, codnatureza, 
             status, codusuario, codfornecedor, data_sistema, controle, data_entrega, 
-            prazo_pagamento, obs, user_aprova, CODALMOXARIFADO, CODPEDIDO)
+            prazo_pagamento, obs, user_aprova, CODALMOXARIFADO, CODPEDIDO, CODCOTACAO)
           values (
             :codmov, CURRENT_DATE, 0, 5, 
             0,       1,         :FORNEC, CURRENT_TIMESTAMP, Cast(:CODIGO as Varchar(20)), :DTENTREGA, 
-            :PRAZO, UDF_LEFT(:obs,99),  :userAprova, :CCUSTO, :CODIGO); 
+            :PRAZO, UDF_LEFT(:obs,99),  :userAprova, :CCUSTO, :CODPEDIDO, :CODIGO); 
         end  
         select first 1 p.CODPRODUTO from produtos p where p.CODPRO = :codPro
           into :codProduto;
 
         insert into MOVIMENTODETALHE (codDetalhe, codmovimento, codproduto, descproduto, 
-            quantidade, preco, QTDE_ALT, frete, valor_desconto) values (
+            quantidade, preco, QTDE_ALT, frete, valor_desconto, codSolicitacao) values (
             GEN_ID(GENMOVDET, 1), :codmov, :codProduto, :descricao, :qtde, (:preco - :desconto), :ipi 
-            , :frete, 0);  
+            , :frete, 0, :codSolic);  
             
         -- Muda o Status da Compra_Solic    
         UPDATE COMPRA_SOLIC  SET SOLIC_SITUACAO = 'E' WHERE SOLIC_CODIGO = :codSolic;              
