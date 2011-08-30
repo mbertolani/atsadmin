@@ -79,6 +79,19 @@ type
     JvDBGrid2: TJvDBGrid;
     cdsInventQTDE_INVENTARIO: TFloatField;
     sProc: TSQLStoredProc;
+    cbCCusto: TComboBox;
+    Label2: TLabel;
+    cds_ccusto: TClientDataSet;
+    cds_ccustoCODIGO: TIntegerField;
+    cds_ccustoCONTA: TStringField;
+    cds_ccustoNOME: TStringField;
+    d_2: TDataSetProvider;
+    s_2: TSQLDataSet;
+    s_2CODIGO: TIntegerField;
+    s_2CONTA: TStringField;
+    s_2NOME: TStringField;
+    cbCCusto1: TComboBox;
+    Label8: TLabel;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -97,6 +110,7 @@ type
     procedure dsInventStateChange(Sender: TObject);
     procedure JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
     procedure btnGravarClick(Sender: TObject);
+    procedure cbCCustoChange(Sender: TObject);
   private
     { Private declarations }
     TD: TTransactionDesc;
@@ -136,6 +150,17 @@ begin
       sqla := sqla + ' AND CATEGORIA = ' + QuotedStr(edSubGrupo.Text)
     else
       sqla := ' WHERE CATEGORIA = ' + QuotedStr(edSubGrupo.Text);
+  end;
+  if (cbCCusto.ItemIndex > -1) then
+  begin
+    if (sqla <> '') then
+    begin
+      if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+        sqla := sqla + ' AND CODALMOXARIFADO = ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+    end
+    else
+      if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+        sqla := ' WHERE CODALMOXARIFADO = ' + IntToStr(cds_ccustoCODIGO.AsInteger);
   end;
   if (cdsProd.Active) then
     cdsProd.Close;
@@ -251,9 +276,18 @@ begin
   begin
     //if (cdsInvent.State in [dsInsert]) then
     //begin
-        sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO, CODPRO, SITUACAO, UN) VALUES ('  +
-      QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) + ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
-      QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' + QuotedStr(cdsProdUNIDADEMEDIDA.AsString) + ')';
+        sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
+        ' CODPRO, SITUACAO, UN, CODCCUSTO) VALUES ('  +
+      QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
+      ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
+      QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' +
+      QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
+      if (cbCCusto1.ItemIndex > -1) then
+      begin
+        if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+          sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+      end;
+      sql := sql + ')';
     try
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
@@ -304,7 +338,7 @@ begin
                 [mbYes,mbNo],0) = mrYes then
   begin
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM INVENTARIO WHERE CODIVENTARIO = ' +
-      QuotedStr(edLista.Text));
+      QuotedStr(edLista.Text) + ' AND SITUACAO = ' + QuotedStr('A'));
     if (cdsInvent.Active) then
       cdsInvent.Close;
     cdsInvent.Open;
@@ -382,16 +416,38 @@ begin
   if (cdsInvent.Active) then
   begin
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM INVENTARIO WHERE CODIVENTARIO = ' +
-      QuotedStr(edLista.Text) + ' and CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger));
+      QuotedStr(edLista.Text) + ' and CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger) +
+      ' AND SITUACAO = ' + QuotedStr('A'));
       cdsInvent.Close;
       cdsInvent.Open;      
   end;
 end;
 
 procedure TfInventario.FormCreate(Sender: TObject);
+var contaCCusto: String;
 begin
   //inherited;
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
+  dm.cds_parametro.Open;
+  {------Pesquisando na tab Parametro se usa centro de Receita ---------}
+  if dm.cds_parametroCONFIGURADO.AsString = 'S' then
+  begin
+    contaCCusto := dm.cds_parametroDADOS.AsString;
+  end;
 
+  if (cds_ccusto.Active) then
+    cds_ccusto.Close;
+  cds_ccusto.Params[0].AsString := contaCCusto;
+  cds_ccusto.Open;
+  cds_ccusto.First;
+  while not cds_ccusto.Eof do
+  begin
+    cbCCusto.Items.Add(cds_ccustoNOME.AsString);
+    cbCCusto1.Items.Add(cds_ccustoNOME.AsString);
+    cds_ccusto.Next;
+  end;
 end;
 
 procedure TfInventario.cdsInventAfterPost(DataSet: TDataSet);
@@ -550,6 +606,15 @@ begin
       Exit;
     end;
     cdsInvent.Next;
+  end;
+end;
+
+procedure TfInventario.cbCCustoChange(Sender: TObject);
+begin
+  inherited;
+  if (cbCCusto.ItemIndex > -1) then
+  begin
+    cbCCusto1.ItemIndex := cbCCusto.ItemIndex;
   end;
 end;
 
