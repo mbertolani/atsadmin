@@ -646,6 +646,12 @@ begin
     cdsBANCO.AsInteger := 0;
     cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime  + prazo;
     cdsSTATUS.AsInteger:=0;
+    cbPrazo.Text := fVendas.cds_MovimentoFORMA_PAG.AsString;
+    if (not dm.cdsPrazo.Active) then
+      dm.cdsPrazo.Open;
+    if (dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
+      cdsN_PARCELA.asInteger := StrToInt(FloatToStr(dm.cdsPrazoValor.asFloat));
+    cdsCOD_TRANPORTADORA.AsInteger := fVendas.cds_MovimentoCODTRANSP.AsInteger;
     if (sqs_tit.Active) then
       sqs_tit.Close;
 
@@ -2898,7 +2904,7 @@ begin
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
   sqlBuscaNota.SQL.Clear;
-  sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where CODNATUREZA = 15 AND CONTROLE = ' + 
+  sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
     QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
   sqlBuscaNota.Open;
   if (sqlBuscaNota.IsEmpty) then
@@ -2943,7 +2949,7 @@ begin
     if (sqlBuscaNota.Active) then
       sqlBuscaNota.Close;
     sqlBuscaNota.SQL.Clear;
-    sqlBuscaNota.SQL.Add('select codMovimento, codCliente from MOVIMENTO where CODNATUREZA = 15 AND CONTROLE = ' +
+    sqlBuscaNota.SQL.Add('select codMovimento, codCliente from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
       QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
     sqlBuscaNota.Open;
     // Abrindo a tela da nota
