@@ -1081,9 +1081,17 @@ begin
       mudaVersao('1.0.0.93');
       executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
       '6, ' + QuotedStr('Expedição') + ', 1, 0, 6)');
-	  executaSql('DROP TRIGGER ESTOQUECCUSTOENT');
+	    executaSql('DROP TRIGGER ESTOQUECCUSTOENT');
     end;
 
+    if (versaoSistema = '1.0.0.93') then
+    begin
+      {--ALTER TABLE MOVIMENTO ADD CODCOTACAO INTEGER;
+      --ALTER TABLE MOVIMENTODETALHE ADD CODSOLICITACAO INTEGER;
+       create generator codpedido;}
+    end;
+
+    
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
