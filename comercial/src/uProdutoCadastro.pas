@@ -99,6 +99,10 @@ type
     Label26: TLabel;
     DBEdit23: TDBEdit;
     Label22: TLabel;
+    cbLocal: TComboBox;
+    Label23: TLabel;
+    GroupBox4: TGroupBox;
+    cbAplicacao: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -126,6 +130,8 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure DBRadioGroup2Change(Sender: TObject);
+    procedure cbLocalChange(Sender: TObject);
+    procedure cbAplicacaoChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -147,6 +153,7 @@ uses uComercial, UDm, ufprocura_prod, uMarcas_Grupos, uFamilia, uCategoria,
 {$R *.dfm}
 
 procedure TfProdutoCadastro.FormCreate(Sender: TObject);
+var contaEstoque: String;
 begin
  // inherited;
 
@@ -170,6 +177,26 @@ begin
   begin
     DBEdit19.Enabled := False;
     DBEdit19.Color := clMenuBar;
+  end;
+
+
+  //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+  dm.cds_parametro.Open;
+  contaEstoque := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+  if (dm.cds_ccusto.Active) then
+    dm.cds_ccusto.Close;
+  dm.cds_ccusto.Params[0].AsString := contaEstoque;
+  dm.cds_ccusto.Open;
+  // populo a combobox
+  dm.cds_ccusto.First;
+  while not dm.cds_ccusto.Eof do
+  begin
+    cbLocal.Items.Add(dm.cds_ccustoNOME.AsString);
+    dm.cds_ccusto.Next;
   end;
 
 end;
@@ -242,6 +269,21 @@ begin
     end;
     varonde := '';
 
+    cbAplicacao.ItemIndex := -1;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'REVENDA') then
+      cbAplicacao.ItemIndex := 0;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'MATERIA PRIMA') then
+      cbAplicacao.ItemIndex := 1;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'USO CONSUMO') then
+      cbAplicacao.ItemIndex := 2;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = 'ATIVO IMOBILIZADO') then
+      cbAplicacao.ItemIndex := 1;
+
+  cbLocal.ItemIndex := -1;
+  if (dm.cds_ccusto.Locate('CODIGO', dm.cds_produtoCODALMOXARIFADO.AsInteger, [loCaseInsensitive])) then
+     cbLocal.ItemIndex := dm.cds_ccusto.RecNo-1;
+
+
    { if DM.cds_familia.Active then
       DM.cds_familia.Close;
     dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
@@ -300,6 +342,11 @@ begin
     1 : dm.cds_produtoORIGEM.AsInteger := 1 ; // Importado pelo Mesmo
     2 : dm.cds_produtoORIGEM.AsInteger := 2 ; // Importado por Terceiro
   end;
+
+  dm.cds_ccusto.Locate('NOME', cbLocal.Text, [loCaseInsensitive]);
+  dm.cds_produtoCODALMOXARIFADO.AsInteger := dm.cds_ccustoCODIGO.AsInteger;
+
+  dm.cds_produtoCLASSIFIC_FISCAL.AsString := cbAplicacao.Text;
 
   if (dbMarca.Text <> '') then
     dm.cds_produtoMARCA.AsString := dbMarca.Text;
@@ -776,6 +823,21 @@ begin
     DBEdit19.Enabled := True;
     DBEdit19.Color := clWindow;
   end;
+
+end;
+
+procedure TfProdutoCadastro.cbLocalChange(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.DataSet.State in [dsBrowse, dsInactive]) then
+    dm.cds_produto.Edit;
+end;
+
+procedure TfProdutoCadastro.cbAplicacaoChange(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.DataSet.State in [dsBrowse, dsInactive]) then
+    dm.cds_produto.Edit;
 
 end;
 
