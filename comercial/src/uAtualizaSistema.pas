@@ -1084,6 +1084,7 @@ begin
       executaDDL('MOVIMENTO', 'CODCOTACAO',  'INTEGER');
       executaDDL('MOVIMENTODETALHE', 'CODSOLICITACAO',  'INTEGER');
       executaDDL('INVENTARIO', 'CODCCUSTO',  'INTEGER');
+      executaDDL('PLANO', 'CODEMPRESA',  'INTEGER');      
       executaScript('gera_nf_venda.sql');
       executaScript('gera_pedido_proc.sql');
       executaScript('rel_compra_pedido.sql');
