@@ -494,7 +494,7 @@ begin
       2: strRelPedido := strRelPedido + ' WHERE SITUACAO = ' + QuotedStr('Nao Recebido');
     end;  
   end;
-  strRelPedido := strRelPedido + ' order by fornecedor, nf_pedido';
+  strRelPedido := strRelPedido + ' order by fornecedor, pedido';
   Rep.Report.DataInfo.Items[1].SQL := strRelPedido;
   Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Dta1.Text);
   Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Dta2.Text);
