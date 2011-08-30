@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, StdCtrls, DBCtrls, ExtCtrls, Mask, DB, DBClient,
   Provider, SqlExpr, Menus, XPMenu, Buttons, MMJPanel,jpeg, JvExExtCtrls,
-  JvImage, ExtDlgs, JvExControls, JvLabel, DBLocal, DBLocalS;
+  JvImage, ExtDlgs, JvExControls, JvLabel, DBLocal, DBLocalS, DBXpress;
 
 type
   TfEmpresa = class(TfPai)
@@ -92,6 +92,7 @@ type
   private
     { Private declarations }
   public
+    TD: TTransactionDesc;
     { Public declarations }
   end;
 
@@ -225,6 +226,19 @@ begin
      dm.cds_ccusto.Open;
    dm.cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
        DM.cds_empresaCCusto.asInteger := dm.cds_ccustoCODIGO.AsInteger;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    if (dm.sqlsisAdimin.ExecuteDirect('update plano set CODEMPRESA = ' + IntToStr(dm.cds_empresaCODIGO.AsInteger) + ' where CODIGO = ' + IntToStr(DM.cds_empresaCCusto.asInteger)  ) = 0) then
+    begin
+      dm.sqlsisAdimin.Commit(TD);
+    end;
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro ao gravar o centro de resultado)', mtWarning, [mbOK], 0);
+    abort;
+  end;
   inherited;
 
 end;
