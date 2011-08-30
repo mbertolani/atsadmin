@@ -224,11 +224,11 @@ inherited fCotacoesHist: TfCotacoesHist
         Transparent = True
       end
       object Label2: TLabel
-        Left = 825
-        Top = 11
-        Width = 33
+        Left = 819
+        Top = 14
+        Width = 40
         Height = 13
-        Caption = 'Pedido'
+        Caption = 'Cota'#231#227'o'
         Transparent = True
       end
       object edProduto: TEdit
@@ -277,7 +277,7 @@ inherited fCotacoesHist: TfCotacoesHist
       end
       object edPedido: TEdit
         Left = 815
-        Top = 35
+        Top = 32
         Width = 69
         Height = 21
         TabOrder = 5
