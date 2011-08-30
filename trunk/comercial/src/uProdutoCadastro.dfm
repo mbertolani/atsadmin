@@ -191,7 +191,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   object DBEdit3: TDBEdit [14]
     Left = 5
     Top = 104
-    Width = 511
+    Width = 509
     Height = 24
     DataField = 'PRODUTO'
     DataSource = DtSrc
@@ -278,7 +278,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
     object Label13: TLabel
       Left = 192
-      Top = 62
+      Top = 58
       Width = 56
       Height = 16
       Caption = 'Maximo..:'
@@ -292,17 +292,24 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
     object Label15: TLabel
       Left = 10
-      Top = 61
+      Top = 58
       Width = 76
       Height = 16
       Caption = 'Reposi'#231#227'o..:'
     end
     object Label26: TLabel
       Left = 11
-      Top = 102
+      Top = 93
       Width = 73
       Height = 16
       Caption = 'Localiza'#231#227'o'
+    end
+    object Label23: TLabel
+      Left = 12
+      Top = 128
+      Width = 33
+      Height = 16
+      Caption = 'Local'
     end
     object DBEdit7: TDBEdit
       Left = 92
@@ -328,7 +335,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
     object DBEdit8: TDBEdit
       Left = 265
-      Top = 59
+      Top = 56
       Width = 80
       Height = 24
       BevelKind = bkFlat
@@ -366,7 +373,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
     object DBEdit10: TDBEdit
       Left = 92
-      Top = 60
+      Top = 57
       Width = 80
       Height = 24
       BevelKind = bkFlat
@@ -385,7 +392,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
     object DBEdit18: TDBEdit
       Left = 91
-      Top = 97
+      Top = 90
       Width = 254
       Height = 24
       BevelKind = bkFlat
@@ -400,6 +407,27 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 1
+      OnKeyPress = FormKeyPress
+    end
+    object cbLocal: TComboBox
+      Left = 91
+      Top = 123
+      Width = 253
+      Height = 24
+      Hint = 'Local Padr'#227'o do Estoque (Centro Resultado)'
+      BevelKind = bkFlat
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 5
+      OnChange = cbLocalChange
       OnKeyPress = FormKeyPress
     end
   end
@@ -729,7 +757,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBF0000}
   end
   object SpeedButton2: TBitBtn [26]
-    Left = 474
+    Left = 480
     Top = 145
     Width = 34
     Height = 26
@@ -883,7 +911,6 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ItemHeight = 16
-    ItemIndex = 0
     ParentFont = False
     PopupMenu = PopupMenu1
     TabOrder = 22
@@ -945,7 +972,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   object DBEdit14: TDBEdit [31]
     Left = 235
     Top = 145
-    Width = 238
+    Width = 244
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -1089,7 +1116,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       object DBOrigem: TDBRadioGroup
         Left = 204
         Top = 10
-        Width = 557
+        Width = 317
         Height = 62
         Caption = 'Origem do Produto'
         Color = clBtnFace
@@ -1098,8 +1125,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
         DataSource = DtSrc
         Items.Strings = (
           'Nacional'
-          'Importado Exterior'
-          'Importado Interno')
+          'Imp. Exterior'
+          'Imp. Interno')
         ParentColor = False
         PopupMenu = PopupMenu1
         TabOrder = 1
@@ -1107,6 +1134,39 @@ inherited fProdutoCadastro: TfProdutoCadastro
           '0'
           '1'
           '2')
+      end
+      object GroupBox4: TGroupBox
+        Left = 525
+        Top = 10
+        Width = 241
+        Height = 62
+        Caption = 'Aplica'#231#227'o'
+        TabOrder = 2
+        object cbAplicacao: TComboBox
+          Left = 14
+          Top = 24
+          Width = 216
+          Height = 24
+          CharCase = ecUpperCase
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ItemHeight = 16
+          ItemIndex = 0
+          ParentFont = False
+          TabOrder = 0
+          Text = 'REVENDA'
+          OnChange = cbAplicacaoChange
+          Items.Strings = (
+            'REVENDA'
+            'MATERIA PRIMA'
+            'USO CONSUMO'
+            'ATIVO IMOBILIZADO'
+            ''
+            '')
+        end
       end
     end
     object TabSheet2: TTabSheet
