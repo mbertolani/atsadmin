@@ -62,7 +62,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 790
+    Width = 798
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -1427,8 +1427,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [15]
     Left = 0
-    Top = 528
-    Width = 790
+    Top = 539
+    Width = 798
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -2193,7 +2193,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2247,7 +2247,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end

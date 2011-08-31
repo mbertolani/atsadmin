@@ -404,7 +404,7 @@ end;
 
 procedure TfParametro.FormCreate(Sender: TObject);
 begin
-  inherited;
+  //inherited;
   dm.cds_param.Open;
   if (dm.cds_param.Locate('PARAMETRO','ANOTACOESVENDAS', [loCaseInsensitive])) then
   begin
@@ -1336,7 +1336,7 @@ end;
 procedure TfParametro.BitBtn18Click(Sender: TObject);
 begin
   inherited;
-  if ((edit20.Text = '') or (edit21.Text)) then
+  if ((edit20.Text = '') or (edit21.Text = '')) then
   begin
     MessageDlg('Preencha a Conta Padrão e o Local Padrão.', mtWarning,
     [mbOk], 0) ;
