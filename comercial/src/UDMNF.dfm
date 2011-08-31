@@ -1765,13 +1765,13 @@ object DMNF: TDMNF
       'i.NOMECLIENTE, '#13#10'          cli.RAZAOSOCIAL, '#13#10'          cli.CODB' +
       'ANCO, '#13#10'          cli.PRAZORECEBIMENTO, '#13#10'          cli.OBS,  '#13#10 +
       '          cli.SEGMENTO, '#13#10'          cli.STATUS, '#13#10'          usu.' +
-      'NOMEUSUARIO, ende.UF , cli.CNPJ, ende.LOGRADOURO, cli.BLOQUEIO '#13 +
-      #10'from CLIENTES cli '#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSU' +
-      'ARIO=cli.CODUSUARIO '#13#10'left outer join ENDERECOCLIENTE ende on en' +
-      'de.CODCLIENTE = cli.CODCLIENTE '#13#10'where  ((ende.TIPOEND = 0) and ' +
-      '(cli.STATUS = 1) and ((cli.NOMECLIENTE like :pCLIENTE) '#13#10'or (cli' +
-      '.RAZAOSOCIAL like :pRAZAO) '#13#10'or (cli.CODCLIENTE = :pCODCLIENTE))' +
-      ') '#13#10'order by cli.NOMECLIENTE '
+      'NOMEUSUARIO, ende.UF , cli.CNPJ, ende.LOGRADOURO, cli.BLOQUEIO ,' +
+      ' cli.desconto'#13#10'from CLIENTES cli '#13#10'left outer join USUARIO usu '#13 +
+      #10'on usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left outer join ENDERECOCLIE' +
+      'NTE ende on ende.CODCLIENTE = cli.CODCLIENTE '#13#10'where  ((ende.TIP' +
+      'OEND = 0) and (cli.STATUS = 1) and ((cli.NOMECLIENTE like :pCLIE' +
+      'NTE) '#13#10'or (cli.RAZAOSOCIAL like :pRAZAO) '#13#10'or (cli.CODCLIENTE = ' +
+      ':pCODCLIENTE))) '#13#10'order by cli.NOMECLIENTE '
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -1862,6 +1862,9 @@ object DMNF: TDMNF
       FieldName = 'BLOQUEIO'
       FixedChar = True
       Size = 1
+    end
+    object scds_cli_procDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
     end
   end
   object ds_Cr: TDataSource
@@ -2498,6 +2501,42 @@ object DMNF: TDMNF
       FieldName = 'IDCOMPLEMENTAR'
       Size = 44
     end
+    object cds_nfVLRTOTALEXP: TFloatField
+      FieldName = 'VLRTOTALEXP'
+    end
+    object cds_nfID_GUIA: TIntegerField
+      FieldName = 'ID_GUIA'
+    end
+    object cds_nfSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_nfPROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object cds_nfNUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object cds_nfPROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
+    end
+    object cds_nfVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object cds_nfVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object cds_nfDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object cds_nfCCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
+    end
+    object cds_nfXMLNFE: TGraphicField
+      FieldName = 'XMLNFE'
+      BlobType = ftGraphic
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2838,6 +2877,42 @@ object DMNF: TDMNF
     object sds_nfIDCOMPLEMENTAR: TStringField
       FieldName = 'IDCOMPLEMENTAR'
       Size = 44
+    end
+    object sds_nfVLRTOTALEXP: TFloatField
+      FieldName = 'VLRTOTALEXP'
+    end
+    object sds_nfID_GUIA: TIntegerField
+      FieldName = 'ID_GUIA'
+    end
+    object sds_nfSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_nfPROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object sds_nfNUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object sds_nfPROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
+    end
+    object sds_nfVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object sds_nfVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object sds_nfDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object sds_nfCCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
+    end
+    object sds_nfXMLNFE: TGraphicField
+      FieldName = 'XMLNFE'
+      BlobType = ftGraphic
     end
   end
   object scds: TSQLClientDataSet
