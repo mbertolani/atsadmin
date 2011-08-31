@@ -210,7 +210,10 @@ end;
 
 function TVendaCls.getCodCCusto: Integer;
 begin
-  Result := _codCCusto;
+  if (dm.usaCentroCusto = 'S') then
+    Result := _codCCusto
+  else
+    Result := 0;
 end;
 
 function TVendaCls.getCodCliente: Integer;
