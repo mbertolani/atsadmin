@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE LISTAPRODUTOCLI(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -81,7 +82,12 @@ begin
     :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
     :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc
   do begin
-
+    if (codAlmoxarifado is null) then 
+      codAlmoxarifado = 0;
+      
+    if (codAlmoxarifado > 0) then 
+      cCusto = codAlmoxarifado;
+          
     Preco_venda = precoVenda;
     if (preco_venda is null) then
       preco_venda = 0;
