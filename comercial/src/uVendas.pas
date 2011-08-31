@@ -623,7 +623,7 @@ type
     procedure insereMatPrima;
   public
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda : string; //, tipoVenda
-    estoque, qtde, mVendaPermi: Double;         // mVendaPermi = Margem de venda minima permitida
+    estoque, qtde, mVendaPermi , desconto: Double;         // mVendaPermi = Margem de venda minima permitida
     procedure buscaServico();
     procedure baixamatprimas(tipomat: string; codmovt: integer);
     procedure existevenda;
@@ -888,6 +888,7 @@ end;
 
 procedure TfVendas.btnIncluirClick(Sender: TObject);
 begin
+  desconto := 0;
   //usaprecolistavenda := '';
   modo := 'INSERIR';
   if cds_Movimento.Active then
@@ -943,6 +944,7 @@ begin
     MaskEdit1.SetFocus;
   end;
   cds_MovimentoVALOR_FRETE.AsFloat := 0;
+
 end;
 
 procedure TfVendas.FormShow(Sender: TObject);
@@ -1034,6 +1036,8 @@ begin
     cds_MovimentoNOMEUSUARIO.AsString := dm.scds_cliente_procNOMEUSUARIO.AsString;
     cds_MovimentoOBS.AsString := dm.scds_cliente_procOBS.AsString;
     prazo := dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
+    desconto := dm.scds_cliente_procDESCONTO.AsFloat;
+    cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
     dm.scds_cliente_proc.Close;
 
     //mostra veiculos do cliente
@@ -1157,7 +1161,7 @@ begin
       if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
         cds_Mov_detQUANTIDADE.AsFloat := 1;
       qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-      cds_Mov_detQTDE_ALT.AsFloat := 0;
+     // cds_Mov_detQTDE_ALT.AsFloat := 0;
       cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
      { Estava calculando o preço errado , estava valor dividido pelo campo quantidade  erro IME 23/08/2011
       if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
@@ -1166,7 +1170,7 @@ begin
       else
       }
          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-      valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+      valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat ;
       cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
       cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
       cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
@@ -1260,7 +1264,7 @@ begin
         if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
           cds_Mov_detQUANTIDADE.AsFloat := 1;
         qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-        cds_Mov_detQTDE_ALT.AsFloat := 0;
+       // cds_Mov_detQTDE_ALT.AsFloat := 0;
         cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
         if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
            cds_Mov_detPRECO.AsFloat :=
@@ -1513,6 +1517,7 @@ begin
   cds_mov_detCODDETALHE.AsInteger := codmd;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
   cds_Mov_detVALOR_DESCONTO.AsFloat := 0;
+  cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
 end;
 
 procedure TfVendas.BitBtn4Click(Sender: TObject);
@@ -1932,9 +1937,11 @@ begin
 end;
 
 procedure TfVendas.btnClienteProcuraClick(Sender: TObject);
+
 begin
   if (dtsrc.State in [dsInsert, dsEdit]) then
   begin
+  desconto := 0;
   inherited;
   DM.varNomeCliente := '';
   dm.codcli := 0;
@@ -1958,6 +1965,8 @@ begin
         //dbeCliente.SetFocus;
       end;
     prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
+    desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
+    cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
     cds_MovimentoCODVENDEDOR.AsInteger := dmnf.scds_cli_procCODUSUARIO.AsInteger;
     cds_MovimentoNOMEUSUARIO.AsString := dmnf.scds_cli_procNOMEUSUARIO.AsString;
   finally
@@ -2841,7 +2850,7 @@ begin
         if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
           cds_Mov_detQUANTIDADE.AsFloat := 1;
         qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-        cds_Mov_detQTDE_ALT.AsFloat := 0;
+        //cds_Mov_detQTDE_ALT.AsFloat := 0;
         cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
         if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
            cds_Mov_detPRECO.AsFloat :=
@@ -3472,7 +3481,7 @@ procedure TfVendas.dbedtVALOR_DESCONTOExit(Sender: TObject);
 begin
   inherited;
   //
-  if(cds_Mov_detValorTotal.AsFloat > 0 ) then
+  if((cds_Mov_detValorTotal.AsFloat > 0 )  and (cds_Mov_detVALOR_DESCONTO.AsFloat > 0)) then
   cds_Mov_detQTDE_ALT.AsFloat := (cds_Mov_detVALOR_DESCONTO.AsFloat/cds_Mov_detValorTotal.AsFloat)*100;
 end;
 
