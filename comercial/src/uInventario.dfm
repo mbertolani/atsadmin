@@ -12,37 +12,44 @@ inherited fInventario: TfInventario
     Height = 17
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 543
+    Top = 528
     Width = 803
+    Height = 66
     inherited btnGravar: TBitBtn
       Left = 298
+      Top = 22
       Caption = 'Gravar'
       Enabled = False
     end
     inherited btnIncluir: TBitBtn
       Left = 539
+      Top = 22
       Caption = 'Executar'
     end
     inherited btnCancelar: TBitBtn
       Left = 418
+      Top = 22
       Caption = 'Cancelar'
       Visible = False
     end
     inherited btnExcluir: TBitBtn
       Left = 418
+      Top = 22
       Caption = 'Excluir Lista'
       Enabled = True
     end
     inherited btnProcurar: TBitBtn
       Left = 60
+      Top = 22
       Visible = False
     end
     inherited btnSair: TBitBtn
       Left = 662
+      Top = 22
     end
     object btnImprimir: TBitBtn
       Left = 187
-      Top = 6
+      Top = 23
       Width = 87
       Height = 41
       BiDiMode = bdLeftToRight
@@ -74,13 +81,20 @@ inherited fInventario: TfInventario
         8888888888888888888888888888888888888888888888888888}
       Margin = 0
     end
+    object prog: TJvProgressBar
+      Left = 1
+      Top = 2
+      Width = 800
+      Height = 16
+      TabOrder = 7
+    end
   end
   object Panel1: TPanel [2]
     Left = 0
-    Top = 284
+    Top = 271
     Width = 803
     Height = 259
-    Align = alBottom
+    Align = alCustom
     TabOrder = 2
     object Label3: TLabel
       Left = 15
@@ -886,8 +900,12 @@ inherited fInventario: TfInventario
   end
   object sdsInvent: TSQLDataSet
     CommandText = 
-      'SELECT i.*, cast(p.produto as varchar(300)) PRODUTO FROM INVENTA' +
-      'RIO i'#13#10'inner join produtos p on p.codproduto = i.codproduto'
+      'SELECT (r.ESTOQUE_ATUAL - r.QTDE_INVENTARIO) SALDO, r.CODIVENTAR' +
+      'IO, r.DATAIVENTARIO, r.CODPRODUTO, r.CODPRO, r.SITUACAO, r.DATAE' +
+      'XECUTADO, r.ESTOQUE_ATUAL, r.QTDE_INVENTARIO, r.UN, r.CODCCUSTO,' +
+      ' cast(p.produto as varchar(300)) PRODUTO FROM INVENTARIO r'#13#10'inne' +
+      'r join produtos p on p.codproduto = r.codproduto '#13#10'order by 10, ' +
+      '1, 5 '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -947,6 +965,9 @@ inherited fInventario: TfInventario
     end
     object cdsInventQTDE_INVENTARIO: TFloatField
       FieldName = 'QTDE_INVENTARIO'
+    end
+    object cdsInventCODCCUSTO: TIntegerField
+      FieldName = 'CODCCUSTO'
     end
   end
   object dsInvent: TDataSource
