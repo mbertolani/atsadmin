@@ -2348,7 +2348,7 @@ inherited fParametro: TfParametro
       end
     end
     object TabSheet8: TTabSheet
-      Caption = 'TabSheet8'
+      Caption = 'Centro de Resultado'
       ImageIndex = 8
       object GroupBox18: TGroupBox
         Left = 0
@@ -2360,14 +2360,26 @@ inherited fParametro: TfParametro
         object Label33: TLabel
           Left = 8
           Top = 19
-          Width = 465
+          Width = 125
           Height = 13
-          Caption = 
-            'Informe S usa o Centro de Custo Form Compra (o N'#250'mero Contabil i' +
-            'nicial (ger. 6) e o c'#243'digo conta .'
+          Caption = 'Usa Centro de Resultado :'
+        end
+        object Label48: TLabel
+          Left = 216
+          Top = 16
+          Width = 222
+          Height = 13
+          Caption = 'C'#243'digo da Conta Principal Centro de Resultado'
+        end
+        object Label49: TLabel
+          Left = 520
+          Top = 19
+          Width = 80
+          Height = 13
+          Caption = 'C.Result. Padr'#227'o'
         end
         object Edit20: TEdit
-          Left = 540
+          Left = 444
           Top = 16
           Width = 57
           Height = 21
@@ -2377,7 +2389,7 @@ inherited fParametro: TfParametro
         end
         object BitBtn18: TBitBtn
           Left = 682
-          Top = 11
+          Top = 12
           Width = 75
           Height = 25
           Caption = 'Gravar'
@@ -2385,7 +2397,7 @@ inherited fParametro: TfParametro
           OnClick = BitBtn18Click
         end
         object cbCentroCusto: TComboBox
-          Left = 479
+          Left = 143
           Top = 16
           Width = 57
           Height = 21
@@ -2396,7 +2408,7 @@ inherited fParametro: TfParametro
             'N')
         end
         object Edit21: TEdit
-          Left = 603
+          Left = 605
           Top = 16
           Width = 57
           Height = 21
