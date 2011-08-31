@@ -41,7 +41,7 @@ type
     cds_cliOBS: TStringField;
     cds_cliBANCO: TStringField;
     cds_cliNOMEUSUARIO: TStringField;
-    sds_cliCODCLIENTE: TIntegerField;
+    sds_cliCODICLIENTE: TIntegerField;
     sds_cliNOMECLIENTE: TStringField;
     sds_cliRAZAOSOCIAL: TStringField;
     sds_cliCONTATO: TStringField;
@@ -613,6 +613,8 @@ type
     Label78: TLabel;
     sds_cliCFOP: TStringField;
     cds_cliCFOP: TStringField;
+    dbedtPRAZORECEBIMENTO: TDBEdit;
+    lbl1: TLabel;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
