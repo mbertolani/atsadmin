@@ -274,6 +274,7 @@ type
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure calcmanClick(Sender: TObject);
   private
+    baixaMovimento : String;
     { Private declarations }
     procedure incluiEntrada;
     procedure incluiSAida;
@@ -368,22 +369,23 @@ begin
      dmnf.listaTransp.Next;
   end;
   dmnf.listaTransp.Close;
+
 end;
 
 procedure TfNotaFc.btnIncluirClick(Sender: TObject);
 var varsql: string;
 begin
-   if dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-   dm.cds_parametro.Params[0].AsString := 'Nota Fiscal Compra';
-   dm.cds_parametro.Open;
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'Nota Fiscal Compra';
+  dm.cds_parametro.Open;
 
-   if (dm.cds_parametro.IsEmpty) then
-   begin
-     varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS) ' ;
-     varsql := varsql + 'values (''Nota Fiscal Compra'',''S'',''20'')';
-     dm.sqlsisAdimin.executedirect(varsql);
-   end;   
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS) ' ;
+    varsql := varsql + 'values (''Nota Fiscal Compra'',''S'',''20'')';
+    dm.sqlsisAdimin.executedirect(varsql);
+  end;
 
   incluiEntrada;
   if (not dm.cds_empresa.Active) then
@@ -780,6 +782,13 @@ begin
       natureza := dm.parametroD1.AsString;
     end;
 
+  if (dm.sqlNatureza.Active) then
+    dm.sqlNatureza.Close;
+  dm.sqlNatureza.ParamByname('pNat').asInteger := cod_nat;
+  dm.sqlNatureza.Open;
+  baixaMovimento := 'N';
+  if (dm.sqlNaturezaBAIXAMOVIMENTO.AsInteger = 0) then
+    baixaMovimento := 'S';
 end;
 
 procedure TfNotaFc.cbCLienteChange(Sender: TObject);
@@ -1112,20 +1121,29 @@ begin
   if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
   if (dmnf.cds_Mov_det.State in [dsInsert]) then
      dmnf.cds_Mov_det.Post;
- // Grava o Movimento
- if (DMNF.DtSrc.State in [dsInsert, dsEdit]) then
-   gravamovimento;
- // Grava o Movimento Detalhe
- if (DMNF.DtSrc1.State in [dsInsert, dsEdit, dsBrowse]) then
-   gravamov_detalhe;
- // Salvar Venda
- //if (cbFinanceiro.Checked) then  -- Neste caso usa a tabela venda ,
- //  -- pois, a natureza q está nota é gravado não gera financeiro
- if (DMNF.DtSrc_Compra.State in [dsInsert, dsEdit]) then
-   gravavenda;
- //Salvo Nota Fiscal
- if (DMNF.DtSrc_NF1.State in [dsInsert, dsEdit]) then
-   gravanotafiscal;
+  // Grava o Movimento
+  if (DMNF.DtSrc.State in [dsInsert, dsEdit]) then
+    gravamovimento;
+  // Grava o Movimento Detalhe
+  if (DMNF.DtSrc1.State in [dsInsert, dsEdit, dsBrowse]) then
+    gravamov_detalhe;
+  // Salvar Venda
+  //if (cbFinanceiro.Checked) then  -- Neste caso usa a tabela venda ,
+  //  -- pois, a natureza q está nota é gravado não gera financeiro
+  if (DMNF.DtSrc_Compra.State in [dsInsert, dsEdit]) then
+    gravavenda;
+  //Salvo Nota Fiscal
+  if (DMNF.DtSrc_NF1.State in [dsInsert, dsEdit]) then
+    gravanotafiscal;
+
+  if (baixaMovimento = 'S') then
+  begin
+    Try
+      dmnf.baixaEstoque(dmnf.cds_compraCODMOVIMENTO.AsInteger, dmnf.cds_compraDATACOMPRA.AsDateTime, 'ENTRADA');
+    Except
+      MessageDlg('Processo de Baixa no Estoque não realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
+    end;
+  end;
 
   dmnf.cds_Mov_det.close;
   dmnf.cds_Mov_det.Params[0].Clear;
