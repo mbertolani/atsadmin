@@ -1776,6 +1776,7 @@ type
     cds_empresaPORTA: TIntegerField;
     cds_empresaSMTP: TStringField;
     cds_empresaSENHA: TStringField;
+    scds_cliente_procDESCONTO: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
