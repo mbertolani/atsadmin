@@ -1,11 +1,11 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 2
+  Left = 310
   Height = 680
   Width = 1021
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisadmin'
+    ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_jorvic'
+      'Database=localhost:c:\home\bd\sge_ime.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -23,9 +23,9 @@ object DM: TDM
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
+      'User_Name=sysdba'
       'WaitOnLocks=True'
-      'str_relatorio=C:\home\sisAdmin\relatorio\')
+      'str_relatorio=C:\home\atsfinanceiro\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 16
@@ -674,12 +674,12 @@ object DM: TDM
       'i.NOMECLIENTE, '#13#10'          cli.RAZAOSOCIAL, '#13#10'          cli.CODB' +
       'ANCO, '#13#10'          cli.PRAZORECEBIMENTO, '#13#10'          cli.OBS,  '#13#10 +
       '          cli.SEGMENTO, '#13#10'          cli.STATUS, '#13#10'          usu.' +
-      'NOMEUSUARIO, ende.UF, cli.BLOQUEIO  '#13#10'from CLIENTES cli '#13#10'left o' +
-      'uter join USUARIO usu '#13#10'on usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left ' +
-      'outer join ENDERECOCLIENTE ende on ende.CODCLIENTE = cli.CODCLIE' +
-      'NTE '#13#10'where cli.NOMECLIENTE like :pCLIENTE '#13#10'or cli.RAZAOSOCIAL ' +
-      'like :pRAZAO '#13#10'or cli.CODCLIENTE = :pCODCLIENTE '#13#10'order by cli.N' +
-      'OMECLIENTE'
+      'NOMEUSUARIO, ende.UF, cli.BLOQUEIO  , cli.desconto'#13#10'from CLIENTE' +
+      'S cli '#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSUARIO=cli.CODU' +
+      'SUARIO '#13#10'left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE' +
+      ' = cli.CODCLIENTE '#13#10'where cli.NOMECLIENTE like :pCLIENTE '#13#10'or cl' +
+      'i.RAZAOSOCIAL like :pRAZAO '#13#10'or cli.CODCLIENTE = :pCODCLIENTE '#13#10 +
+      'order by cli.NOMECLIENTE'
     MaxBlobSize = -1
     Params = <
       item
@@ -749,6 +749,9 @@ object DM: TDM
       FieldName = 'BLOQUEIO'
       FixedChar = True
       Size = 1
+    end
+    object scds_cliente_procDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
     end
   end
   object scds_produto_proc: TSQLDataSet
@@ -852,8 +855,8 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 478
-    Top = 192
+    Left = 502
+    Top = 184
     object proc_empresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -2471,7 +2474,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 487
+    Left = 503
     Top = 336
     object sds_crCODRECEBIMENTO: TIntegerField
       FieldName = 'CODRECEBIMENTO'
