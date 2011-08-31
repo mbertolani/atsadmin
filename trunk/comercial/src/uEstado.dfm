@@ -1,7 +1,7 @@
 inherited fEstado: TfEstado
   Left = 287
   Top = 141
-  Width = 676
+  Width = 791
   Height = 700
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
@@ -11,9 +11,9 @@ inherited fEstado: TfEstado
   PixelsPerInch = 96
   TextHeight = 16
   object Label18: TLabel [0]
-    Left = 150
+    Left = 178
     Top = 57
-    Width = 29
+    Width = 25
     Height = 16
     Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
     Anchors = [akTop]
@@ -30,37 +30,37 @@ inherited fEstado: TfEstado
   end
   inherited MMJPanel1: TMMJPanel
     Top = 619
-    Width = 668
+    Width = 783
     Anchors = [akBottom]
     inherited btnIncluir: TBitBtn [0]
-      Left = 220
+      Left = 267
       Anchors = [akTop, akBottom]
     end
     inherited btnGravar: TBitBtn [1]
-      Left = 220
+      Left = 267
       Anchors = [akTop, akBottom]
     end
     inherited btnCancelar: TBitBtn
-      Left = 333
+      Left = 399
       Anchors = [akTop, akBottom]
     end
     inherited btnExcluir: TBitBtn
-      Left = 333
+      Left = 399
       Anchors = [akTop, akBottom]
     end
     inherited btnProcurar: TBitBtn
-      Left = 106
+      Left = 133
       Anchors = [akTop, akBottom]
       Caption = 'CFOP'
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
-      Left = 446
+      Left = 532
       Anchors = [akTop, akBottom]
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 668
+    Width = 783
     Height = 140
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -84,9 +84,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label3: TLabel
-      Left = 11
+      Left = 16
       Top = 45
-      Width = 39
+      Width = 36
       Height = 16
       Anchors = [akTop]
       Caption = 'CFOP'
@@ -99,9 +99,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label4: TLabel
-      Left = 98
-      Top = 45
-      Width = 20
+      Left = 104
+      Top = 44
+      Width = 17
       Height = 16
       Hint = 'Estado'
       Anchors = [akTop]
@@ -117,9 +117,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label8: TLabel
-      Left = 269
-      Top = 45
-      Width = 76
+      Left = 272
+      Top = 44
+      Width = 62
       Height = 16
       Anchors = [akTop]
       Caption = 'Aliq. ICMS'
@@ -132,9 +132,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label6: TLabel
-      Left = 350
-      Top = 45
-      Width = 83
+      Left = 356
+      Top = 44
+      Width = 74
       Height = 16
       Anchors = [akTop]
       Caption = 'Red.B. C'#225'lc.'
@@ -147,9 +147,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label10: TLabel
-      Left = 437
-      Top = 45
-      Width = 35
+      Left = 442
+      Top = 44
+      Width = 29
       Height = 16
       Hint = 'Margem De Valor Agregado(ST)'
       Anchors = [akTop]
@@ -165,12 +165,12 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label11: TLabel
-      Left = 503
-      Top = 45
-      Width = 87
+      Left = 527
+      Top = 44
+      Width = 78
       Height = 16
       Anchors = [akTop]
-      Caption = 'Icms Origem'
+      Caption = 'ICMS Origem'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
@@ -180,12 +180,12 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label12: TLabel
-      Left = 587
-      Top = 45
-      Width = 89
+      Left = 612
+      Top = 44
+      Width = 67
       Height = 16
       Anchors = [akTop]
-      Caption = 'Icms Destino'
+      Caption = 'ICMS Dest.'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
@@ -195,9 +195,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label13: TLabel
-      Left = 142
-      Top = 45
-      Width = 29
+      Left = 135
+      Top = 44
+      Width = 25
       Height = 16
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
@@ -213,9 +213,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label7: TLabel
-      Left = 76
-      Top = 93
-      Width = 21
+      Left = 102
+      Top = 91
+      Width = 15
       Height = 16
       Hint = 'Imposto sobre produtos industrializados'
       Anchors = [akTop]
@@ -231,9 +231,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label5: TLabel
-      Left = 431
-      Top = 93
-      Width = 80
+      Left = 528
+      Top = 91
+      Width = 72
       Height = 16
       Anchors = [akTop]
       Caption = 'Tipo Pessoa'
@@ -246,9 +246,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label9: TLabel
-      Left = 207
+      Left = 271
       Top = 93
-      Width = 24
+      Width = 21
       Height = 16
       Hint = 'Programa de Integra'#231#227'o Social'
       Anchors = [akTop]
@@ -264,9 +264,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label14: TLabel
-      Left = 365
-      Top = 93
-      Width = 56
+      Left = 442
+      Top = 91
+      Width = 48
       Height = 16
       Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
       Anchors = [akTop]
@@ -282,9 +282,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label15: TLabel
-      Left = 11
+      Left = 17
       Top = 93
-      Width = 54
+      Width = 44
       Height = 16
       Anchors = [akTop]
       Caption = 'CST IPI'
@@ -297,9 +297,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label16: TLabel
-      Left = 136
-      Top = 93
-      Width = 57
+      Left = 186
+      Top = 91
+      Width = 50
       Height = 16
       Anchors = [akTop]
       Caption = 'CST PIS'
@@ -312,9 +312,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label17: TLabel
-      Left = 275
-      Top = 93
-      Width = 89
+      Left = 354
+      Top = 91
+      Width = 77
       Height = 16
       Anchors = [akTop]
       Caption = 'CST COFINS'
@@ -327,9 +327,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label19: TLabel
-      Left = 205
-      Top = 45
-      Width = 50
+      Left = 187
+      Top = 44
+      Width = 46
       Height = 16
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
@@ -345,7 +345,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object DBEdit1: TDBEdit
-      Left = 8
+      Left = 16
       Top = 61
       Width = 81
       Height = 24
@@ -365,9 +365,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit2: TDBEdit
-      Left = 93
+      Left = 100
       Top = 61
-      Width = 38
+      Width = 28
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -385,9 +385,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit9: TDBEdit
-      Left = 133
+      Left = 131
       Top = 61
-      Width = 61
+      Width = 49
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -405,9 +405,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit3: TDBEdit
-      Left = 263
+      Left = 268
       Top = 61
-      Width = 76
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -425,9 +425,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
-      Left = 344
+      Left = 353
       Top = 61
-      Width = 79
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -445,9 +445,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit6: TDBEdit
-      Left = 429
+      Left = 439
       Top = 61
-      Width = 69
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -465,9 +465,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit7: TDBEdit
-      Left = 502
+      Left = 524
       Top = 61
-      Width = 77
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -485,9 +485,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit8: TDBEdit
-      Left = 584
+      Left = 609
       Top = 61
-      Width = 79
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -505,9 +505,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit5: TDBEdit
-      Left = 71
+      Left = 99
       Top = 109
-      Width = 56
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -525,8 +525,8 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object ComboBox1: TComboBox
-      Left = 428
-      Top = 109
+      Left = 525
+      Top = 108
       Width = 93
       Height = 24
       AutoComplete = False
@@ -546,9 +546,9 @@ inherited fEstado: TfEstado
         'Jur'#237'dica')
     end
     object DBEdit10: TDBEdit
-      Left = 203
+      Left = 268
       Top = 109
-      Width = 64
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -566,9 +566,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit11: TDBEdit
-      Left = 362
+      Left = 439
       Top = 109
-      Width = 63
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -586,9 +586,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit12: TDBEdit
-      Left = 8
+      Left = 14
       Top = 109
-      Width = 57
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -606,9 +606,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit13: TDBEdit
-      Left = 133
+      Left = 183
       Top = 109
-      Width = 66
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -626,9 +626,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit14: TDBEdit
-      Left = 273
+      Left = 352
       Top = 109
-      Width = 84
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -646,9 +646,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object CheckBox1: TCheckBox
-      Left = 527
+      Left = 625
       Top = 112
-      Width = 135
+      Width = 121
       Height = 13
       Anchors = [akTop]
       Caption = 'N'#227'o Gera Fatura'
@@ -664,9 +664,9 @@ inherited fEstado: TfEstado
       OnClick = CheckBox1Click
     end
     object DBEdit21: TDBEdit
-      Left = 199
+      Left = 183
       Top = 61
-      Width = 61
+      Width = 81
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -687,7 +687,7 @@ inherited fEstado: TfEstado
   object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 331
-    Width = 668
+    Width = 783
     Height = 288
     Align = alClient
     DataSource = DtSrc
@@ -853,7 +853,7 @@ inherited fEstado: TfEstado
   object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 140
-    Width = 668
+    Width = 783
     Height = 191
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -865,10 +865,10 @@ inherited fEstado: TfEstado
     ParentFont = False
     TabOrder = 3
     DesignSize = (
-      668
+      783
       191)
     object DBEdit15: TDBEdit
-      Left = 9
+      Left = 64
       Top = 18
       Width = 627
       Height = 24
@@ -888,7 +888,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit16: TDBEdit
-      Left = 9
+      Left = 64
       Top = 47
       Width = 627
       Height = 24
@@ -908,7 +908,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit17: TDBEdit
-      Left = 9
+      Left = 64
       Top = 76
       Width = 627
       Height = 24
@@ -928,7 +928,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit18: TDBEdit
-      Left = 9
+      Left = 64
       Top = 104
       Width = 627
       Height = 24
@@ -948,7 +948,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit19: TDBEdit
-      Left = 9
+      Left = 64
       Top = 132
       Width = 627
       Height = 24
@@ -968,7 +968,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit20: TDBEdit
-      Left = 9
+      Left = 64
       Top = 160
       Width = 627
       Height = 24
