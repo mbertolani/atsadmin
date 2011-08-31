@@ -7,7 +7,8 @@ uses
   Dialogs, uPai_new, Mask, StdCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid,
   Menus, XPMenu, DB, Buttons, ExtCtrls, MMJPanel, FMTBcd, DBClient,
   Provider, SqlExpr, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, rpcompobase, rpvclreport, dbxpress;
+  JvDatePickerEdit, rpcompobase, rpvclreport, dbxpress, ComCtrls,
+  JvExComCtrls, JvProgressBar, umovimento, uVendaCls, uCompraCls, DateUtils;
 
 type
   TfInventario = class(TfPai_new)
@@ -92,6 +93,8 @@ type
     s_2NOME: TStringField;
     cbCCusto1: TComboBox;
     Label8: TLabel;
+    prog: TJvProgressBar;
+    cdsInventCODCCUSTO: TIntegerField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -115,6 +118,7 @@ type
     { Private declarations }
     TD: TTransactionDesc;
     procedure incluirInventario;
+    procedure executaLista;
   public
     { Public declarations }
   end;
@@ -124,7 +128,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, UDMNF;
 
 {$R *.dfm}
 
@@ -358,7 +362,7 @@ procedure TfInventario.btnIncluirClick(Sender: TObject);
   begin
     cdsInvent.ApplyUpdates(0);
   end;
-  Try
+  {Try
     dm.sqlsisAdimin.StartTransaction(TD);
     //dm.sqlsisAdimin.ExecuteDirect('EXECUTE PROCEDURE INVENTARIO_LANCA(' + QuotedStr(edLista.Text) + ')');
     sProc.Params[0].AsString := edLista.Text;
@@ -369,7 +373,9 @@ procedure TfInventario.btnIncluirClick(Sender: TObject);
     dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para Gerar o Inventário', mtError, [mbOK], 0);
     Exit;
-  end;
+  end;}
+
+  executaLista;
 end;
 
 procedure TfInventario.btnIncluiTodosClick(Sender: TObject);
@@ -616,6 +622,164 @@ begin
   begin
     cbCCusto1.ItemIndex := cbCCusto.ItemIndex;
   end;
+end;
+
+procedure TfInventario.executaLista;
+var
+  sql_sp, movSaida, movEntrada: string;
+  TDA: TTransactionDesc;
+  FMov: TMovimento;
+  FVen: TVendaCls;
+  FCom: TCompraCls;
+  codMovSaida, codMovEntrada : Integer;
+  Save_Cursor:TCursor;
+begin
+  if (dta.Date < today) then
+  begin
+    MessageDlg('Data Inválida', mtError, [mbOK], 0);
+    exit;
+  end;
+
+  if (cdsInventSITUACAO.AsString = 'G') then
+  begin
+    MessageDlg('Lista já Executada.', mtError, [mbOK], 0);
+    exit;
+  end;
+
+  TDA.TransactionID  := 1;
+  TDA.IsolationLevel := xilREADCOMMITTED;
+
+  Save_Cursor   := Screen.Cursor;
+  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+
+  prog.Max      := cdsInvent.RecordCount;
+  prog.Position := 0;
+
+  Try
+    FMov := TMovimento.Create;
+    FVen := TVendaCls.Create;
+    FCom := TCompraCls.Create;
+
+    Try
+      dm.sqlsisAdimin.StartTransaction(TDA);
+
+      movSaida   := 'N';
+      movEntrada := 'N';
+      cdsInvent.DisableControls;
+      cdsInvent.First;
+
+      While not cdsInvent.Eof do
+      begin
+        prog.Position := cdsInvent.RecNo;
+
+        // ######  SAIDA   ###################
+        if (cdsInventESTOQUE_ATUAL.AsFloat > cdsInventQTDE_INVENTARIO.AsFloat) then
+        begin
+          // Cria o Movimento de SAIDA uma vez
+          if (movSaida = 'N') then
+          begin
+            FMov.CodMov      := 0;
+            FMov.CodCCusto   := cdsInventCODCCUSTO.AsInteger;
+            FMov.CodCliente  := 0;
+            FMov.CodNatureza := 2;
+            FMov.Status      := 0;
+            FMov.CodUsuario  := 1;
+            FMov.CodVendedor := 1;
+            FMov.DataMov     := dta.Date;
+            codMovSaida := FMov.inserirMovimento(0);
+            movSaida := 'S';
+          end;
+          FMov.MovDetalhe.CodMov        := codMovSaida;
+          FMov.MovDetalhe.CodProduto    := cdsInventCODPRODUTO.AsInteger;
+          FMov.MovDetalhe.Qtde          := cdsInventESTOQUE_ATUAL.AsFloat - cdsInventQTDE_INVENTARIO.AsFloat;
+          //FMov.MovDetalhe.Preco       := cds_Mov_detPRECO.AsFloat;
+          FMov.MovDetalhe.Baixa         := '1';
+          FMov.MovDetalhe.inserirMovDet;
+        end;
+
+        if (cdsInventESTOQUE_ATUAL.AsFloat < cdsInventQTDE_INVENTARIO.AsFloat) then
+        begin
+
+          // ########### ENTRADA    ######################
+          if (movEntrada = 'N') then
+          begin
+            FMov.CodMov      := 0;
+            FMov.CodCCusto   := cdsInventCODCCUSTO.AsInteger;
+            FMov.CodCliente  := 0;
+            FMov.CodFornec   := 0;
+            FMov.CodNatureza := 1;
+            FMov.Status      := 0;
+            FMov.CodUsuario  := 1;
+            FMov.CodVendedor := 1;
+            FMov.DataMov     := dta.Date;
+            codMovEntrada := FMov.inserirMovimento(0);
+            movEntrada := 'S';
+          end;
+          FMov.MovDetalhe.CodMov        := codMovEntrada;
+          FMov.MovDetalhe.CodProduto    := cdsInventCODPRODUTO.AsInteger;
+          FMov.MovDetalhe.Qtde          := cdsInventQTDE_INVENTARIO.AsFloat - cdsInventESTOQUE_ATUAL.AsFloat;
+          //FMov.MovDetalhe.Preco       := cds_Mov_detPRECO.AsFloat;
+          FMov.MovDetalhe.Baixa         := '0';
+          FMov.MovDetalhe.inserirMovDet;
+        end;
+        cdsInvent.Next;
+      end; // Fim While
+
+      if (movSaida = 'S') then
+      begin
+        fven.CodMov               := codMovSaida;
+        fven.DataVenda            := dta.Date;
+        fven.DataVcto             := dta.Date;
+        fven.Serie                := 'O';
+        fven.NotaFiscal           := codMovSaida;
+        fven.CodCliente           := 1;
+        fven.CodVendedor          := 1;
+        fven.CodCCusto            := cdsInventCODCCUSTO.AsInteger;
+        fven.ValorPagar           := 0;
+        fven.NParcela             := 1;
+        fven.inserirVenda(0);
+
+        dmnf.baixaEstoque(codMovSaida, dta.Date, 'SAIDA');
+      end;
+      if (movEntrada = 'S') then
+      begin
+        fCom.CodMov               := codMovEntrada;
+        fCom.DataCompra           := dta.Date;
+        fCom.DataVcto             := dta.Date;
+        fCom.Serie                := 'I';
+        fCom.NotaFiscal           := codMovEntrada;
+        fCom.CodFornecedor        := 1;
+        fCom.CodComprador         := 1;
+        fCom.CodCCusto            := cdsInventCODCCUSTO.AsInteger;
+        fCom.ValorPagar           := 0;
+        fCom.NParcela             := 1;
+        fCom.inserirCompra(0);
+
+        dmnf.baixaEstoque(codMovEntrada, dta.Date, 'ENTRADA');
+      end;
+
+      // Muda o Status da Lista
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE INVENTARIO SET SITUACAO = ' + QuotedStr('G') +
+        ' WHERE CODIVENTARIO = ' + QuotedStr(edLista.Text) +
+        '   and SITUACAO     = ' + QuotedStr('A'));
+
+      dm.sqlsisAdimin.Commit(TDA);
+      MessageDlg('Inventário gerado com sucesso.', mtInformation,
+           [mbOk], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+      end;
+    end;
+  Finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    FCom.Free;
+    FMov.Free;
+    FVen.Free;
+  end;
+
 end;
 
 end.
