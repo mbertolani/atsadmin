@@ -2429,6 +2429,12 @@ inherited fParametro: TfParametro
       Left = 514
     end
   end
+  inherited XPMenu1: TXPMenu
+    Top = 32
+  end
+  inherited PopupMenu1: TPopupMenu
+    Top = 32
+  end
   inherited DtSrc: TDataSource
     DataSet = DM.cds_param
     Left = 536
@@ -2444,6 +2450,6 @@ inherited fParametro: TfParametro
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 488
-    Top = 8
+    Top = 40
   end
 end
