@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:c:\home\bd\sge_ime.fdb'
+      'Database=c:\home\sisadmin\bd\sge_jorvic.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -25,7 +25,7 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
       'WaitOnLocks=True'
-      'str_relatorio=C:\home\atsfinanceiro\relatorio\')
+      'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 16
@@ -9540,5 +9540,42 @@ object DM: TDM
     SQLConnection = sqlsisAdimin
     Left = 704
     Top = 328
+  end
+  object sqlNatureza: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pNat'
+        ParamType = ptUnknown
+      end>
+    SQL.Strings = (
+      'SELECT * FROM NATUREZAOPERACAO WHERE CODNATUREZA = :pNat')
+    SQLConnection = sqlsisAdimin
+    Left = 749
+    Top = 200
+    object sqlNaturezaCODNATUREZA: TSmallintField
+      FieldName = 'CODNATUREZA'
+      Required = True
+    end
+    object sqlNaturezaDESCNATUREZA: TStringField
+      FieldName = 'DESCNATUREZA'
+      Required = True
+      Size = 30
+    end
+    object sqlNaturezaGERATITULO: TSmallintField
+      FieldName = 'GERATITULO'
+      Required = True
+    end
+    object sqlNaturezaTIPOTITULO: TSmallintField
+      FieldName = 'TIPOTITULO'
+      Required = True
+    end
+    object sqlNaturezaTIPOMOVIMENTO: TSmallintField
+      FieldName = 'TIPOMOVIMENTO'
+    end
+    object sqlNaturezaBAIXAMOVIMENTO: TSmallintField
+      FieldName = 'BAIXAMOVIMENTO'
+    end
   end
 end

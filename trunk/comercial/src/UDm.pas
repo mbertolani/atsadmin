@@ -1777,6 +1777,13 @@ type
     cds_empresaSMTP: TStringField;
     cds_empresaSENHA: TStringField;
     scds_cliente_procDESCONTO: TFloatField;
+    sqlNatureza: TSQLQuery;
+    sqlNaturezaCODNATUREZA: TSmallintField;
+    sqlNaturezaDESCNATUREZA: TStringField;
+    sqlNaturezaGERATITULO: TSmallintField;
+    sqlNaturezaTIPOTITULO: TSmallintField;
+    sqlNaturezaTIPOMOVIMENTO: TSmallintField;
+    sqlNaturezaBAIXAMOVIMENTO: TSmallintField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
