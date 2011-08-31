@@ -358,6 +358,9 @@ type
     listaCliente1TIPOFIRMA: TSmallintField;
     sqlValida: TSQLQuery;
     ChkComp: TCheckBox;
+    GroupBox2: TGroupBox;
+    DBEdit9: TDBEdit;
+    DBEdit43: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
