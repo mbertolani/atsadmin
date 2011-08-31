@@ -2527,9 +2527,6 @@ object DMNF: TDMNF
     object cds_nfVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
     end
-    object cds_nfDESCONTO: TFloatField
-      FieldName = 'DESCONTO'
-    end
     object cds_nfCCUSTO: TIntegerField
       FieldName = 'CCUSTO'
     end
@@ -2903,9 +2900,6 @@ object DMNF: TDMNF
     end
     object sds_nfVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
-    end
-    object sds_nfDESCONTO: TFloatField
-      FieldName = 'DESCONTO'
     end
     object sds_nfCCUSTO: TIntegerField
       FieldName = 'CCUSTO'

@@ -1347,7 +1347,6 @@ type
     sds_nfPROTOCOLOCANC: TStringField;
     sds_nfVALOR_PIS: TFloatField;
     sds_nfVALOR_COFINS: TFloatField;
-    sds_nfDESCONTO: TFloatField;
     sds_nfCCUSTO: TIntegerField;
     sds_nfXMLNFE: TGraphicField;
     cds_nfVLRTOTALEXP: TFloatField;
@@ -1358,7 +1357,6 @@ type
     cds_nfPROTOCOLOCANC: TStringField;
     cds_nfVALOR_PIS: TFloatField;
     cds_nfVALOR_COFINS: TFloatField;
-    cds_nfDESCONTO: TFloatField;
     cds_nfCCUSTO: TIntegerField;
     cds_nfXMLNFE: TGraphicField;
     cdsCompraVALOR_IPI: TFloatField;
