@@ -620,6 +620,11 @@ begin
       fven.CodCliente           := 1;
       fven.CodVendedor          := 1;
       fven.CodCCusto            := 51;
+      IF (ComboBox1.Text <> '') then
+      begin
+        if (dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive])) then
+          fven.CodCCusto        := dm.cds_ccustoCODIGO.AsInteger;
+      end;
       fven.ValorPagar           := 0;
       fven.NParcela             := 1;
       fven.inserirVenda(0);
@@ -671,6 +676,11 @@ begin
       fCom.CodFornecedor        := 1;
       fCom.CodComprador         := 1;
       fCom.CodCCusto            := 51;
+      IF (ComboBox2.Text <> '') then
+      begin
+        if (dm.cds_ccusto.Locate('NOME', ComboBox2.Text, [loCaseInsensitive])) then
+          fCom.CodCCusto        := dm.cds_ccustoCODIGO.AsInteger;
+      end;
       fCom.ValorPagar           := 0;
       fCom.NParcela             := 1;
       fCom.inserirCompra(0);
