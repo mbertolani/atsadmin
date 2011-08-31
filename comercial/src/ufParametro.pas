@@ -1336,7 +1336,7 @@ begin
   inherited;
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'CENTROCUSTO';
+  dm.cds_parametro.Params[0].asString := 'CENTROCUSTO';   // Centro de Custo Padrao
   dm.cds_parametro.Open;
   try
     // Insere ou Altera a tabela PARAMETROS
@@ -1356,13 +1356,37 @@ begin
       dm.cds_parametroD1.AsString := Edit21.Text;
     end;
     dm.cds_parametro.ApplyUpdates(0);
-    MessageDlg('Registro gravado com sucesso.', mtInformation,
-    [mbOk], 0);
   except
     MessageDlg('Erro para gravar, feche o sistema e tente novamente !', mtError,
     [mbOk], 0);
   end;
 
+  // USA CENTRO DE CUSTO
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'CENTRO CUSTO';
+  dm.cds_parametro.Open;
+  try
+    // Insere ou Altera a tabela PARAMETROS
+    if (dm.cds_parametro.IsEmpty) then
+    begin
+      dm.cds_parametro.Append;
+      dm.cds_parametroDESCRICAO.AsString := 'Usado para Buscar Estoque por Centro Custo';
+      dm.cds_parametroPARAMETRO.AsString := 'CENTRO CUSTO';
+      dm.cds_parametroCONFIGURADO.AsString := cbCentroCusto.Text;
+      dm.cds_parametro.ApplyUpdates(0);
+    end
+    else begin
+      dm.cds_parametro.Edit;
+      dm.cds_parametroCONFIGURADO.AsString := cbCentroCusto.Text;
+    end;
+    dm.cds_parametro.ApplyUpdates(0);
+  except
+    MessageDlg('Erro para gravar, feche o sistema e tente novamente !', mtError,
+    [mbOk], 0);
+  end;
+  MessageDlg('Registro gravado com sucesso.', mtInformation,
+  [mbOk], 0);
 end;
 
 procedure TfParametro.BitBtn19Click(Sender: TObject);
