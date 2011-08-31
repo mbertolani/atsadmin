@@ -593,11 +593,12 @@ begin
         obrigatorio := dm.cds_parametroD1.AsString;
     end;
 
+  conta_desp := dm.cds_parametroDADOS.AsString;
+
   {------Pesquisando na tab Parametro se usa centro de Receita ---------}
   if dm.cds_parametroCONFIGURADO.AsString = 'S' then
   begin
     ComboBox1.Enabled := True;
-    conta_desp := dm.cds_parametroDADOS.AsString;
     campocentrocusto := 'SIM';
     Try
       if (dm.cds_parametroD1.asString <> '') then
@@ -661,6 +662,11 @@ begin
     ComboBox1.Items.Add(cds_ccustoNOME.AsString);
     cds_ccusto.Next;
   end;
+
+  if (not cds_ccusto.Active) then
+    cds_ccusto.Open;
+  cds_ccusto.Locate('CODIGO', dm.CCustoPadrao, [loCaseInsensitive]);
+  ComboBox1.Text := cds_ccustoNOME.AsString;
 
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
