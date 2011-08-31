@@ -626,7 +626,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = 'Limite Cr'#233'd.'
       end
       object Label12: TLabel
-        Left = 374
+        Left = 367
         Top = 89
         Width = 56
         Height = 13
@@ -725,7 +725,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = 'C'#243'digo :'
       end
       object Label11: TLabel
-        Left = 437
+        Left = 482
         Top = 90
         Width = 34
         Height = 13
@@ -760,6 +760,13 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 62
         Height = 13
         Caption = 'CFOP Venda'
+      end
+      object lbl1: TLabel
+        Left = 430
+        Top = 89
+        Width = 57
+        Height = 13
+        Caption = '% Desconto'
       end
       object DBNavigator1: TDBNavigator
         Left = 511
@@ -921,7 +928,7 @@ inherited fClienteCadastro: TfClienteCadastro
       object DBEdit7: TDBEdit
         Left = 303
         Top = 105
-        Width = 71
+        Width = 63
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -939,9 +946,9 @@ inherited fClienteCadastro: TfClienteCadastro
         OnKeyPress = FormKeyPress
       end
       object DBEdit9: TDBEdit
-        Left = 375
+        Left = 368
         Top = 105
-        Width = 61
+        Width = 59
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -971,7 +978,7 @@ inherited fClienteCadastro: TfClienteCadastro
         DataSource = DtSrc
         PopupMenu = PopupMenu1
         ScrollBars = ssVertical
-        TabOrder = 10
+        TabOrder = 11
         OnKeyPress = FormKeyPress
       end
       object DBEdit13: TDBEdit
@@ -992,7 +999,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Style = []
         ParentFont = False
         PopupMenu = PopupMenu1
-        TabOrder = 11
+        TabOrder = 12
         OnExit = DBEdit13Exit
         OnKeyPress = FormKeyPress
       end
@@ -1015,7 +1022,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Style = []
         ParentFont = False
         PopupMenu = PopupMenu1
-        TabOrder = 12
+        TabOrder = 13
         OnKeyPress = FormKeyPress
       end
       object BitBtn1: TBitBtn
@@ -1026,7 +1033,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = '&Endere'#231'o'
         Enabled = False
         PopupMenu = PopupMenu1
-        TabOrder = 13
+        TabOrder = 14
         Visible = False
         OnClick = BitBtn1Click
         Glyph.Data = {
@@ -1167,7 +1174,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 90
         Height = 17
         Caption = 'Insc. Estadual'
-        TabOrder = 14
+        TabOrder = 15
       end
       object DBRadioGroup2: TDBRadioGroup
         Left = 644
@@ -1182,7 +1189,7 @@ inherited fClienteCadastro: TfClienteCadastro
           'Cobran'#231'a'
           'Entrega')
         PopupMenu = PopupMenu1
-        TabOrder = 15
+        TabOrder = 16
         Values.Strings = (
           '0'
           '1'
@@ -1204,7 +1211,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 16
+        TabOrder = 17
         OnKeyPress = FormKeyPress
       end
       object DBEdit11: TDBEdit
@@ -1222,7 +1229,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 18
+        TabOrder = 19
         OnKeyPress = FormKeyPress
       end
       object DBEdit12: TDBEdit
@@ -1240,7 +1247,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 19
+        TabOrder = 20
         OnKeyPress = FormKeyPress
       end
       object DBComboBox1: TDBComboBox
@@ -1262,7 +1269,7 @@ inherited fClienteCadastro: TfClienteCadastro
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 23
+        TabOrder = 24
         OnKeyPress = FormKeyPress
       end
       object DBEdit15: TDBEdit
@@ -1280,7 +1287,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 21
+        TabOrder = 22
         OnKeyPress = FormKeyPress
       end
       object DBEdit16: TDBEdit
@@ -1298,7 +1305,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 22
+        TabOrder = 23
         OnKeyPress = FormKeyPress
       end
       object GroupBox2: TGroupBox
@@ -1307,7 +1314,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 686
         Height = 53
         Caption = 'Telefones :'
-        TabOrder = 24
+        TabOrder = 25
         object Label30: TLabel
           Left = 552
           Top = 12
@@ -1567,7 +1574,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 25
+        TabOrder = 26
         OnKeyPress = FormKeyPress
       end
       object DBEdit24: TDBEdit
@@ -1585,7 +1592,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 26
+        TabOrder = 27
         OnKeyPress = FormKeyPress
       end
       object DBEdit1: TDBEdit
@@ -1605,14 +1612,14 @@ inherited fClienteCadastro: TfClienteCadastro
         ParentFont = False
         PopupMenu = PopupMenu1
         ReadOnly = True
-        TabOrder = 27
+        TabOrder = 28
         OnExit = DBEdit2Exit
         OnKeyPress = FormKeyPress
       end
       object DBLookupComboBox1: TDBLookupComboBox
-        Left = 437
+        Left = 480
         Top = 106
-        Width = 248
+        Width = 204
         Height = 24
         BevelKind = bkFlat
         Ctl3D = True
@@ -1628,7 +1635,7 @@ inherited fClienteCadastro: TfClienteCadastro
         ListSource = DtSrcReg
         ParentCtl3D = False
         ParentFont = False
-        TabOrder = 28
+        TabOrder = 29
         OnKeyPress = FormKeyPress
       end
       object SpeedButton1: TBitBtn
@@ -1637,7 +1644,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 39
         Height = 36
         PopupMenu = PopupMenu1
-        TabOrder = 29
+        TabOrder = 30
         TabStop = False
         OnClick = SpeedButton1Click
         Glyph.Data = {
@@ -1713,7 +1720,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Top = 390
         Width = 33
         Height = 27
-        TabOrder = 30
+        TabOrder = 31
         OnClick = SpeedButton4Click
         Glyph.Data = {
           36030000424D3603000000000000360000002800000010000000100000000100
@@ -1748,7 +1755,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Top = 390
         Width = 33
         Height = 27
-        TabOrder = 31
+        TabOrder = 32
         OnClick = SpeedButton5Click
         Glyph.Data = {
           F6060000424DF606000000000000360000002800000018000000180000000100
@@ -1813,7 +1820,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Top = 95
         Width = 39
         Height = 36
-        TabOrder = 32
+        TabOrder = 33
         OnClick = SpeedButton6Click
         Glyph.Data = {
           36080000424D3608000000000000360400002800000020000000200000000100
@@ -1888,7 +1895,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Top = 260
         Width = 41
         Height = 34
-        TabOrder = 33
+        TabOrder = 34
         OnClick = SpeedButton3Click
         Glyph.Data = {
           5A0D0000424D5A0D0000000000003604000028000000310000002D0000000100
@@ -2004,7 +2011,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Top = 59
         Width = 33
         Height = 27
-        TabOrder = 34
+        TabOrder = 35
         OnClick = SpeedButton2Click
         Glyph.Data = {
           F6060000424DF606000000000000360000002800000018000000180000000100
@@ -2082,7 +2089,7 @@ inherited fClienteCadastro: TfClienteCadastro
         ListSource = dTransp
         ParentCtl3D = False
         ParentFont = False
-        TabOrder = 35
+        TabOrder = 36
         OnKeyPress = FormKeyPress
       end
       object DBEdit34: TDBEdit
@@ -2093,7 +2100,7 @@ inherited fClienteCadastro: TfClienteCadastro
         AutoSize = False
         DataField = 'NUMERO'
         DataSource = DtSrcE
-        TabOrder = 17
+        TabOrder = 18
       end
       object DBEdit59: TDBEdit
         Left = 455
@@ -2110,7 +2117,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 36
+        TabOrder = 37
         OnKeyPress = FormKeyPress
       end
       object BitBtn22: TBitBtn
@@ -2119,7 +2126,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 39
         Height = 31
         Caption = '...'
-        TabOrder = 20
+        TabOrder = 21
         OnClick = BitBtn22Click
       end
       object cbCFOP: TDBComboBox
@@ -2132,7 +2139,27 @@ inherited fClienteCadastro: TfClienteCadastro
         DataField = 'CFOP'
         DataSource = DtSrc
         ItemHeight = 13
-        TabOrder = 37
+        TabOrder = 38
+        OnKeyPress = FormKeyPress
+      end
+      object dbedtPRAZORECEBIMENTO: TDBEdit
+        Left = 429
+        Top = 105
+        Width = 47
+        Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'DESCONTO'
+        DataSource = DtSrc
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 10
         OnKeyPress = FormKeyPress
       end
     end
@@ -2246,7 +2273,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2546,7 +2573,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2656,7 +2683,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 14
       end
@@ -3046,7 +3073,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 19
       end
@@ -5478,7 +5505,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -6113,7 +6140,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change
@@ -6154,7 +6181,7 @@ inherited fClienteCadastro: TfClienteCadastro
     SQLConnection = DM.sqlsisAdimin
     Left = 352
     Top = 8
-    object sds_cliCODCLIENTE: TIntegerField
+    object sds_cliCODICLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
