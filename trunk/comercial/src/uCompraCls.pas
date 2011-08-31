@@ -209,7 +209,7 @@ begin
   if (dm.usaCentroCusto = 'S') then
     Result := _codCCusto
   else
-    Result := 0;
+    Result := dm.CCustoPadrao;
 end;
 
 function TCompraCls.getCodFornecedor: Integer;
