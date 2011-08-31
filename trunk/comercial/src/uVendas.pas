@@ -700,7 +700,7 @@ begin
     dm.cds_parametro.Open;
     if not dm.cds_parametro.IsEmpty then
     begin
-      centro_receita := strToint(dm.cds_parametroDADOS.AsString);
+      centro_receita := strToint(dm.cds_parametroD1.AsString);
       if (dm.cds_parametroD1.AsString = 'SIM') then
         obrigatorio := dm.cds_parametroD1.AsString;
     end;
