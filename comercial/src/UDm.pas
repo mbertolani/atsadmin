@@ -1837,7 +1837,7 @@ type
     conectado :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
-    idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov : integer;
+    idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov, CCustoPadrao: integer;
     varDataCaixa : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao: string;
     LOTEQTDE, totalpago : double;
@@ -1955,7 +1955,18 @@ begin
   cds_parametro.Params[0].AsString := 'CENTRO CUSTO'; // Usa Centro de Custo (Afeta principalmente controle de Estoque
   cds_parametro.Open;
   if (not cds_parametro.IsEmpty) then
+  begin
     usaCentroCusto := cds_parametroCONFIGURADO.AsString;
+  end;
+
+  if (cds_parametro.Active) then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+  begin
+    CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
+  end;
 
   if cds_parametro.Active then
     cds_parametro.Close;
