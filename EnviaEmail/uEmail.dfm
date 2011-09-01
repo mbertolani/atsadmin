@@ -168,7 +168,7 @@ object Form1: TForm1
   object edtAssunto: TEdit
     Left = 159
     Top = 205
-    Width = 594
+    Width = 546
     Height = 24
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -224,15 +224,15 @@ object Form1: TForm1
   object lbxAnexos: TTextListBox
     Left = 48
     Top = 232
-    Width = 705
+    Width = 657
     Height = 33
     ItemHeight = 13
     TabOrder = 3
   end
   object BitBtn2: TBitBtn
-    Left = 760
+    Left = 704
     Top = 232
-    Width = 75
+    Width = 57
     Height = 33
     Caption = 'Anexar'
     TabOrder = 4
@@ -245,6 +245,7 @@ object Form1: TForm1
     Height = 289
     ActivePage = ts1
     TabOrder = 5
+    OnChange = pgc1Change
     object ts1: TTabSheet
       Caption = 'Mensagem'
       object edText: TJvRichEdit
@@ -292,7 +293,7 @@ object Form1: TForm1
         FocusControl = dbedtASSUNTO
       end
       object btnAdiconar: TBitBtn
-        Left = 254
+        Left = 302
         Top = 232
         Width = 75
         Height = 25
@@ -300,23 +301,23 @@ object Form1: TForm1
         TabOrder = 0
         OnClick = btnAdiconarClick
       end
-      object btnExcluir: TBitBtn
-        Left = 390
+      object btnGravar: TBitBtn
+        Left = 430
         Top = 232
         Width = 75
         Height = 25
         Caption = 'Gravar'
         TabOrder = 1
-        OnClick = btnExcluirClick
+        OnClick = btnGravarClick
       end
-      object BitBtn3: TBitBtn
-        Left = 512
+      object btnExcluir: TBitBtn
+        Left = 560
         Top = 232
         Width = 75
         Height = 25
         Caption = 'Excluir'
         TabOrder = 2
-        OnClick = BitBtn3Click
+        OnClick = btnExcluirClick
       end
       object dbedtCODEMAIL: TDBEdit
         Left = 24
@@ -324,7 +325,7 @@ object Form1: TForm1
         Width = 56
         Height = 21
         DataField = 'CODEMAIL'
-        DataSource = dsEnvia
+        DataSource = ds2
         TabOrder = 3
         OnKeyPress = FormKeyPress
       end
@@ -334,7 +335,7 @@ object Form1: TForm1
         Width = 452
         Height = 21
         DataField = 'EMAIL'
-        DataSource = dsEnvia
+        DataSource = ds2
         TabOrder = 4
         OnKeyPress = FormKeyPress
       end
@@ -344,7 +345,7 @@ object Form1: TForm1
         Width = 72
         Height = 21
         DataField = 'DATAENVIO'
-        DataSource = dsEnvia
+        DataSource = ds2
         TabOrder = 6
         OnKeyPress = FormKeyPress
       end
@@ -353,13 +354,36 @@ object Form1: TForm1
         Top = 48
         Width = 801
         Height = 176
-        DataSource = dsEnvia
+        DataSource = ds2
         TabOrder = 7
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'CODEMAIL'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'EMAIL'
+            Width = 382
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ASSUNTO'
+            Width = 234
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATAENVIO'
+            Visible = True
+          end>
       end
       object dbedtASSUNTO: TDBEdit
         Left = 544
@@ -367,11 +391,29 @@ object Form1: TForm1
         Width = 201
         Height = 21
         DataField = 'ASSUNTO'
-        DataSource = dsEnvia
+        DataSource = ds2
         TabOrder = 5
         OnKeyPress = FormKeyPress
       end
+      object BitBtn4: TBitBtn
+        Left = 168
+        Top = 232
+        Width = 75
+        Height = 25
+        Caption = 'Cancelar'
+        TabOrder = 8
+        OnClick = BitBtn4Click
+      end
     end
+  end
+  object BitBtn3: TBitBtn
+    Left = 770
+    Top = 232
+    Width = 75
+    Height = 33
+    Caption = 'Excluir Anexo'
+    TabOrder = 6
+    OnClick = BitBtn3Click
   end
   object IdSMTP1: TIdSMTP
     MaxLineAction = maException
@@ -436,5 +478,46 @@ object Form1: TForm1
   object dlgOpenAnexos: TOpenDialog
     Left = 760
     Top = 200
+  end
+  object sqldtst1: TSQLDataSet
+    CommandText = 'SELECT * FROM EMAIL_ENVIAR '#13#10#13#10'       '
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 208
+    Top = 264
+  end
+  object ds1: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider2'
+    Left = 304
+    Top = 264
+    object ds1CODEMAIL: TIntegerField
+      FieldName = 'CODEMAIL'
+      Required = True
+    end
+    object ds1EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Required = True
+      Size = 80
+    end
+    object ds1ASSUNTO: TStringField
+      FieldName = 'ASSUNTO'
+      Size = 200
+    end
+    object ds1DATAENVIO: TDateField
+      FieldName = 'DATAENVIO'
+    end
+  end
+  object DataSetProvider2: TDataSetProvider
+    DataSet = sqldtst1
+    Left = 256
+    Top = 264
+  end
+  object ds2: TDataSource
+    DataSet = ds1
+    Left = 352
+    Top = 264
   end
 end
