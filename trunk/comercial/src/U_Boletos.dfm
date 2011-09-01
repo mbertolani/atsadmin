@@ -292,7 +292,7 @@ object F_Boletos: TF_Boletos
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clSilver
+    Background.StartColor = 16776176
     Background.EndColor = clSkyBlue
     Background.FillType = GradUpDown
     object btn2: TBitBtn
