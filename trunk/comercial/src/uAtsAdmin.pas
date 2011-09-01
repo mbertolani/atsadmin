@@ -237,6 +237,8 @@ type
     Maquinas2: TMenuItem;
     RelatriodeFornecedores1: TMenuItem;
     RelatriodeClientes1: TMenuItem;
+    natOperacao: TMenuItem;
+    NaturezaOperao1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -353,6 +355,7 @@ type
     procedure AdmCaixaBanco1Click(Sender: TObject);
     procedure RelatriodeFornecedores1Click(Sender: TObject);
     procedure RelatriodeClientes1Click(Sender: TObject);
+    procedure NaturezaOperao1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -398,7 +401,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
-  uEndereco, uCliente1;
+  uEndereco, uCliente1, uNaturezaOperacao;
 
 {$R *.dfm}
 
@@ -948,17 +951,18 @@ begin
   if (empresaemuso = 'COMETA') then
   begin
  }
-    F_AUTOPECAS := TF_AUTOPECAS.Create(Application);
+ {   F_AUTOPECAS := TF_AUTOPECAS.Create(Application);
     try
       F_AUTOPECAS.ShowModal; //fTerminal.ShowModal
     finally
       F_AUTOPECAS.Free;
     end;
-{  end
-  else
+
+  end
+  else }
     fTerminal_Delivery.ShowModal;
 
-  fMovCaixa.Free;
+  {fMovCaixa.Free;
   }
  //fTerminal.ShowModal;
 { fTerminalLoja := TfTerminalLoja.Create(Application);
@@ -993,7 +997,7 @@ begin
     fCaixaReceber.Free;
     fRatearConta.Free;
     fMostraSuites.Free;
-    fControle.Free;    
+    fControle.Free;
   end;         }
 end;
 
@@ -1983,10 +1987,21 @@ end;
 
 procedure TfAtsAdmin.RelatriodeClientes1Click(Sender: TObject);
 begin
-  VCLReport1.FileName := str_relatorio + 'rel_cliente.rep';  
+  VCLReport1.FileName := str_relatorio + 'rel_cliente.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Title := VCLReport1.FileName;
   VCLReport1.Execute;
+end;
+
+procedure TfAtsAdmin.NaturezaOperao1Click(Sender: TObject);
+begin
+  fNaturezaOperacao := TfNaturezaOperacao.Create(Application);
+  try
+    fNaturezaOperacao.ShowModal;
+  finally
+    fNaturezaOperacao.Free;
+  end;
+
 end;
 
 end.

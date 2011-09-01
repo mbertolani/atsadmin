@@ -235,7 +235,8 @@ uses
   uVendaCls in 'uVendaCls.pas',
   uMovimenta_Estoque in 'uMovimenta_Estoque.pas' {fMovimenta_Estoque},
   uCompraCls in 'uCompraCls.pas',
-  uEndereco in 'uEndereco.pas' {fEndereco};
+  uEndereco in 'uEndereco.pas' {fEndereco},
+  uNaturezaOperacao in 'uNaturezaOperacao.pas' {fNaturezaOperacao};
 
 {$R *.res}
 
