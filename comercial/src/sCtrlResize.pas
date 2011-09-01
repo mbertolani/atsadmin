@@ -22,7 +22,7 @@ const
 var
   i : Integer;
 begin
-    with Sender do
+  with Sender do
     for i := 0 to ComponentCount -1 do
     begin { Varre todos os componentes do form que possam ser redefinidos (classe TWinControl) }
       if Components[i] is TWinControl then
@@ -31,8 +31,8 @@ begin
         TWinControl(Components[i]).Height := Round(TWinControl(Components[i]).Height * (Screen.Height / iHeight));
         TWinControl(Components[i]).Left := Round(TWinControl(Components[i]).Left * (Screen.Width / iWidth));
         TWinControl(Components[i]).Top := Round(TWinControl(Components[i]).Top * (Screen.Height / iHeight));
-      end
-      else
+      end;
+//      else
       if Components[i] is TLabel then
       begin // Redefine os componentes em proporção ao original
         TLabel(Components[i]).Width := Canvas.TextWidth(TLabel(Components[i]).Caption); // Round(TWinControl(Components[i]).Width * (Screen.Width / iWidth));
@@ -47,15 +47,15 @@ begin
         TJvLabel(Components[i]).Left := Round(TWinControl(Components[i]).Left * (Screen.Width / iWidth));
         TJvLabel(Components[i]).Top := Round(TWinControl(Components[i]).Top * (Screen.Height / iHeight));
       end;
-     { if Components[i] is TJvGroupBox then
+
+     { if Components[i] is TGroupBox then
       begin // Redefine os componentes em proporção ao original
-        TJvGroupBox(Components[i]).Width := Canvas.TextWidth(TJvGroupBox(Components[i]).Caption); // Round(TWinControl(Components[i]).Width * (Screen.Width / iWidth));
-        TJvGroupBox(Components[i]).Height := Canvas.TextHeight(TJvGroupBox(Components[i]).Caption); // Round(TWinControl(Components[i]).Height * (Screen.Height / iHeight));
-        TJvGroupBox(Components[i]).Left := Round(TWinControl(Components[i]).Left * (Screen.Width / iWidth));
-        TJvGroupBox(Components[i]).Top := Round(TWinControl(Components[i]).Top * (Screen.Height / iHeight));
+        TGroupBox(Components[i]).Width := Canvas.TextWidth(TGroupBox(Components[i]).Caption); // Round(TWinControl(Components[i]).Width * (Screen.Width / iWidth));
+        TGroupBox(Components[i]).Height := Canvas.TextHeight(TGroupBox(Components[i]).Caption); // Round(TWinControl(Components[i]).Height * (Screen.Height / iHeight));
+        TGroupBox(Components[i]).Left := Round(TWinControl(Components[i]).Left * (Screen.Width / iWidth));
+        TGroupBox(Components[i]).Top := Round(TWinControl(Components[i]).Top * (Screen.Height / iHeight));
       end;
       }
-
     end;
 
 
