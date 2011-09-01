@@ -35,8 +35,8 @@ type
     ts1: TTabSheet;
     ts2: TTabSheet;
     btnAdiconar: TBitBtn;
+    btnGravar: TBitBtn;
     btnExcluir: TBitBtn;
-    BitBtn3: TBitBtn;
     edText: TJvRichEdit;
     lbl1: TLabel;
     dbedtCODEMAIL: TDBEdit;
@@ -47,13 +47,26 @@ type
     dbgrd1: TDBGrid;
     lbl4: TLabel;
     dbedtASSUNTO: TDBEdit;
+    sqldtst1: TSQLDataSet;
+    ds1: TClientDataSet;
+    DataSetProvider2: TDataSetProvider;
+    ds2: TDataSource;
+    ds1CODEMAIL: TIntegerField;
+    ds1EMAIL: TStringField;
+    ds1ASSUNTO: TStringField;
+    ds1DATAENVIO: TDateField;
+    BitBtn4: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure btnAdiconarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
-    procedure BitBtn3Click(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure pgc1Change(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     { Private declarations }
         TD: TTransactionDesc;
@@ -200,34 +213,39 @@ end;
 
 procedure TForm1.btnAdiconarClick(Sender: TObject);
 begin
-  if not(dsEnvia.DataSet.Active) then
-     dsEnvia.DataSet.open;
-  dsEnvia.DataSet.Append;
+  if not(ds2.DataSet.Active) then
+     ds2.DataSet.open;
+  ds2.DataSet.Append;
 
+end;
 
+procedure TForm1.btnGravarClick(Sender: TObject);
+begin
+    if not(ds2.DataSet.Active) then
+     ds2.DataSet.open;
 
+    ds1CODEMAIL.AsInteger := StrToInt(dbedtCODEMAIL.Text);
+    ds1EMAIL.AsString := dbedtEMAIL.Text;
+    ds1ASSUNTO.AsString := edtAssunto.Text;
+    ds1.ApplyUpdates(0) ;
+    cdsEnvia.Close;
+    cdsEnvia.Open
 end;
 
 procedure TForm1.btnExcluirClick(Sender: TObject);
-begin
-    cdsEnviaCODEMAIL.AsInteger := StrToInt(dbedtCODEMAIL.Text);
-    cdsEnviaEMAIL.AsString := dbedtEMAIL.Text;
-    cdsEnviaASSUNTO.AsString := edtAssunto.Text;
-    cdsEnvia.ApplyUpdates(0) ;
-end;
-
-procedure TForm1.BitBtn3Click(Sender: TObject);
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   DM.sqlsisAdimin.StartTransaction(TD);
   try
     DM.sqlsisAdimin.ExecuteDirect('DELETE FROM EMAIL_ENVIAR WHERE CODEMAIL = ' +
-      IntToStr(cdsEnviaCODEMAIL.AsInteger));
+      IntToStr(ds1CODEMAIL.AsInteger));
     DM.sqlsisAdimin.Commit(TD);
     MessageDlg('Item excluído com sucesso.', mtInformation, [mbOK], 0);
+    ds1.Close;
+    ds1.Open;
     cdsEnvia.Close;
-    cdsEnvia.Open;
+    cdsEnvia.Open
   except
     DM.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro para excluir Registro .', mtError, [mbOK], 0);
@@ -244,4 +262,23 @@ begin
  end;
 end;
 
+procedure TForm1.pgc1Change(Sender: TObject);
+begin
+    if not(ds1.Active) then
+     ds1.open;
+end;
+
+
+procedure TForm1.BitBtn4Click(Sender: TObject);
+begin
+  ds1.Cancel;
+end;
+
+
+procedure TForm1.BitBtn3Click(Sender: TObject);
+begin
+ lbxAnexos.Clear;
+end;
+
 end.
+
