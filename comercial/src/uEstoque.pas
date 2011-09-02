@@ -537,12 +537,13 @@ begin
       // Não Encontrou mes atual , busca Qtdes e Precos do Mês Anterior
       sqlBuscai.Close;
       sqlBuscai.sql.Clear;
-      sqlBuscai.sql.Add('SELECT PRECOCUSTO, SALDOESTOQUE' +
+      sqlBuscai.sql.Add('SELECT FIRST 1 PRECOCUSTO, SALDOESTOQUE, MESANO' +
         ' FROM ESTOQUEMES ' +
         'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
         '  AND LOTE        = ' + QuotedStr(Self.Lote) +
-        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', mesAnoAnterior)) +
-        '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto));
+        '  AND MESANO      < ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.MesAno)) +
+        '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto)+
+        ' ORDER BY MESANO DESC');
       sqlBuscai.Open;
       if (sqlBuscai.IsEmpty) then      // Não achou nada no sistema
       begin
