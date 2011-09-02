@@ -1081,23 +1081,21 @@ begin
 
     if (versaoSistema = '1.0.0.93') then
     begin
+      if(NaoExisteGenerator('CODPEDIDO')) then
+       executaSql('create generator codpedido');
       executaDDL('MOVIMENTO', 'CODCOTACAO',  'INTEGER');
       executaDDL('MOVIMENTODETALHE', 'CODSOLICITACAO',  'INTEGER');
       executaDDL('INVENTARIO', 'CODCCUSTO',  'INTEGER');
-      executaDDL('PLANO', 'CODEMPRESA',  'INTEGER');      
-      executaScript('gera_nf_venda.sql');
-      executaScript('gera_pedido_proc.sql');
-      executaScript('rel_compra_pedido.sql');
-      executaScript('cotacao_gera_pedido.sql');
-      if(NaoExisteGenerator('CODPEDIDO')) then
-       executaSql('create generator codpedido');
-    end;
-
-    if (versaoSistema = '1.0.0.94') then
-    begin
+      executaDDL('PLANO', 'CODEMPRESA',  'INTEGER');
       executaDDL('NATUREZAOPERACAO', 'CFOP_ESTADO',  'TEXTO30');
       executaDDL('NATUREZAOPERACAO', 'CFOP_FORA_ESTADO',  'TEXTO30');
       executaDDL('NATUREZAOPERACAO', 'CFOP_INTERNACIONAL',  'TEXTO30');
+      executaScript('gera_nf_venda.sql');
+      executaScript('gera_pedido_proc.sql');
+      executaScript('rel_compra_pedido.sql');
+      executaScript('cotacao_gera_pedido.sql')
+      executaScript('invent_estoque.sql');
+      mudaVersao('1.0.0.94');       
     end;
 
     
