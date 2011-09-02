@@ -240,6 +240,7 @@ type
     calcman: TCheckBox;
     JvGroupBox55: TJvGroupBox;
     DBEdit51: TDBEdit;
+    lblNaturezaOperacao: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -274,7 +275,9 @@ type
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure calcmanClick(Sender: TObject);
   private
-    baixaMovimento : String;
+    codNat     : Integer;
+    movEstoque : String;
+    geraTitulo : String;
     { Private declarations }
     procedure incluiEntrada;
     procedure incluiSAida;
@@ -287,6 +290,7 @@ type
     procedure gravamov_detalhe;
     procedure gravavenda;
     procedure alteraVlrVenda;
+    procedure carregaNaturezaOperacao;
   public
       vrr : double;
       codMovFin, codVendaFin, codCliFin : integer;
@@ -339,6 +343,16 @@ begin
   //Populo combobox com a Razão do Fornecedor
   if (not dmnf.listaCFOP.Active) then
     dmnf.listaCFOP.Open;
+    
+  { // Trazer so o CFOP de "ENTRADAS"
+    select DISTINCT c.CFCOD, c.CFNOME from CFOP c
+     inner JOIN ESTADO_ICMS ei on ei.CFOP = c.CFCOD
+     where exists (select 1 from NATUREZAOPERACAO noper
+     where ((noper.CFOP_ESTADO = c.CFCOD)
+        or (noper.CFOP_FORA_ESTADO = c.CFCOD)
+        or (noper.CFOP_INTERNACIONAL = c.CFCOD))
+       and (noper.TIPOMOVIMENTO = ????) }
+
   dmnf.listaCFOP.First;
   //cbCLiente.Clear;
   while not dmnf.listaCFOP.Eof do
@@ -782,13 +796,6 @@ begin
       natureza := dm.parametroD1.AsString;
     end;
 
-  if (dm.sqlNatureza.Active) then
-    dm.sqlNatureza.Close;
-  dm.sqlNatureza.ParamByname('pNat').asInteger := cod_nat;
-  dm.sqlNatureza.Open;
-  baixaMovimento := 'N';
-  if (dm.sqlNaturezaBAIXAMOVIMENTO.AsInteger = 0) then
-    baixaMovimento := 'S';
 end;
 
 procedure TfNotaFc.cbCLienteChange(Sender: TObject);
@@ -850,6 +857,7 @@ begin
     dmnf.cds_nf1CFOP.AsString := DMNF.listaCFOPCFCOD.AsString;
     DMNF.listaCFOP.Close;
   end;
+  carregaNaturezaOperacao;
 end;
 
 procedure TfNotaFc.cbCFOPChange(Sender: TObject);
@@ -862,7 +870,7 @@ begin
     DMNF.listaCFOP.Close;
   end;
   carregaDadosAdicionais;
-  
+  carregaNaturezaOperacao;
 end;
 
 procedure TfNotaFc.btnSairClick(Sender: TObject);
@@ -1136,7 +1144,7 @@ begin
   if (DMNF.DtSrc_NF1.State in [dsInsert, dsEdit]) then
     gravanotafiscal;
 
-  if (baixaMovimento = 'S') then
+  if (movEstoque = 'S') then
   begin
     Try
       dmnf.baixaEstoque(dmnf.cds_compraCODMOVIMENTO.AsInteger, dmnf.cds_compraDATACOMPRA.AsDateTime, 'ENTRADA');
@@ -1216,8 +1224,8 @@ begin
       dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := strToint(dm.cds_parametroDADOS.AsString);
 
     dm.cds_parametro.Close;
-    DMNF.cds_MovimentoCODNATUREZA.AsInteger := 20;
-    DMNF.cds_MovimentoDESCNATUREZA.AsString := 'Nota Fiscal Compra';
+    DMNF.cds_MovimentoCODNATUREZA.AsInteger := codNat;
+    DMNF.cds_MovimentoDESCNATUREZA.AsString := lblNaturezaOperacao.Caption;
 
    //*******************************************************************************
    dmnf.cds_Movimento.ApplyUpdates(0);
@@ -1254,11 +1262,16 @@ begin
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.asInteger);
   dmnf.sqs_tit.Open;
-  if (parametroNF <> 'S') then
+  if (geraTitulo = 'S') then
   begin
     dmnf.cds_compraVALOR.AsCurrency := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
     dmnf.cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
+  end
+  else begin
+    dmnf.cds_compraVALOR.AsCurrency       := 0;
+    dmnf.cds_compraVALOR_PAGAR.AsCurrency := 0;
   end;
+
   vrr := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
   dmnf.sqs_tit.Close;
 
@@ -1271,7 +1284,7 @@ begin
     dmnf.cds_compraCODCOMPRA.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
-  if (parametroNF <> 'S') then
+  if (geraTitulo = 'S') then
     alteraVlrVenda;
 
   {dmnf.cds_compraVALOR.AsFloat := dmnf.cds_compraVALOR.AsFloat +
@@ -1955,6 +1968,26 @@ procedure TfNotaFc.calcmanClick(Sender: TObject);
 begin
  if DMNF.DtSrc_NF1.State in [dsBrowse] then
       DMNF.DtSrc_NF1.DataSet.Edit;
+end;
+
+procedure TfNotaFc.carregaNaturezaOperacao;
+begin
+  if (dm.sqlNatureza.Active) then
+    dm.sqlNatureza.Close;
+  dm.sqlNatureza.ParamByname('pNat').asInteger := cod_nat;
+  dm.sqlNatureza.Open;
+  movEstoque := 'N';
+  geraTitulo := 'N';
+  lblNaturezaOperacao.Caption := '';
+  if (not dm.sqlNatureza.IsEmpty) then
+  begin
+    if (dm.sqlNaturezaBAIXAMOVIMENTO.AsInteger = 0) then
+      movEstoque := 'S';
+    codNat     := dm.sqlNaturezaCODNATUREZA.AsInteger;
+    if (dm.sqlNaturezaGERATITULO.AsInteger = 0) then
+      geraTitulo := 'S';
+    lblNaturezaOperacao.Caption := dm.sqlNaturezaDESCNATUREZA.AsString;
+  end;
 end;
 
 end.
