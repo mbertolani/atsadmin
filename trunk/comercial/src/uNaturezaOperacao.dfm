@@ -1,14 +1,17 @@
 inherited fNaturezaOperacao: TfNaturezaOperacao
+  Width = 833
   Caption = 'Natureza Opera'#231#227'o'
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
+    Width = 825
     Height = 105
     object DBRadioGroup1: TDBRadioGroup
       Left = 1
       Top = 44
-      Width = 70
+      Width = 89
       Height = 59
       Caption = 'Gera T'#237'tulo'
       DataField = 'GERATITULO'
@@ -22,9 +25,9 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
         '1')
     end
     object DBRadioGroup2: TDBRadioGroup
-      Left = 71
+      Left = 90
       Top = 44
-      Width = 494
+      Width = 506
       Height = 59
       Caption = 'Tipo Movimento'
       Columns = 5
@@ -54,9 +57,9 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
         '9')
     end
     object DBRadioGroup3: TDBRadioGroup
-      Left = 565
+      Left = 596
       Top = 44
-      Width = 206
+      Width = 228
       Height = 59
       Caption = 'Movimenta Estoque'
       Columns = 2
@@ -75,46 +78,86 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
     object GroupBox1: TGroupBox
       Left = 1
       Top = 1
-      Width = 770
+      Width = 823
       Height = 43
       Align = alTop
       Caption = 'Natureza'
       TabOrder = 3
       object Label1: TLabel
-        Left = 11
-        Top = 18
+        Left = 9
+        Top = 17
         Width = 33
         Height = 13
         Caption = 'C'#243'digo'
       end
       object Label2: TLabel
-        Left = 260
+        Left = 113
         Top = 17
         Width = 48
         Height = 13
         Caption = 'Descri'#231#227'o'
       end
+      object Label3: TLabel
+        Left = 417
+        Top = 17
+        Width = 153
+        Height = 13
+        Caption = 'CFOP-Estad./Outros E./Exterior)'
+      end
       object DBEdit1: TDBEdit
-        Left = 56
-        Top = 13
-        Width = 145
+        Left = 48
+        Top = 16
+        Width = 41
         Height = 21
         DataField = 'CODNATUREZA'
         DataSource = DtSrc
         TabOrder = 0
       end
       object DBEdit2: TDBEdit
-        Left = 319
-        Top = 12
-        Width = 428
+        Left = 165
+        Top = 16
+        Width = 227
         Height = 21
         DataField = 'DESCNATUREZA'
         DataSource = DtSrc
         TabOrder = 1
       end
+      object DBEdit3: TDBEdit
+        Left = 574
+        Top = 16
+        Width = 71
+        Height = 21
+        Hint = 'CFOP Estadual'
+        DataField = 'CFOP_ESTADO'
+        DataSource = DtSrc
+        TabOrder = 2
+      end
+      object DBEdit4: TDBEdit
+        Left = 649
+        Top = 16
+        Width = 71
+        Height = 21
+        Hint = 'CFOP Inter-Estadual'
+        DataField = 'CFOP_FORA_ESTADO'
+        DataSource = DtSrc
+        TabOrder = 3
+      end
+      object DBEdit5: TDBEdit
+        Left = 724
+        Top = 16
+        Width = 71
+        Height = 21
+        Hint = 'CFOP Internacional'
+        DataField = 'CFOP_INTERNACIONAL'
+        DataSource = DtSrc
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 4
+      end
     end
   end
   inherited MMJPanel2: TMMJPanel
+    Width = 825
     inherited btnProcurar: TBitBtn
       Visible = False
     end
@@ -122,7 +165,7 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
   object JvDBUltimGrid1: TJvDBUltimGrid [2]
     Left = 0
     Top = 105
-    Width = 772
+    Width = 825
     Height = 369
     Align = alClient
     DataSource = DtSrc
@@ -145,34 +188,55 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
         Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'digo'
+        Width = 40
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Descri'#231#227'o'
-        Width = 320
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CFOP_ESTADO'
+        Title.Caption = 'CFOP-Estado'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CFOP_FORA_ESTADO'
+        Title.Caption = 'CFOP-Outros Estado'
+        Width = 105
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CFOP_INTERNACIONAL'
+        Title.Caption = 'CFOP-Exterior'
+        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'GERARTITULOS'
         Title.Caption = 'Gera T'#237'tulo'
-        Width = 80
+        Width = 60
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'TIPOMOVIMENTOS'
         Title.Caption = 'Tipo Movimento'
-        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'BAIXAMOVIMENTOS'
         Title.Caption = 'Movimenta Estoque'
-        Width = 150
+        Width = 100
         Visible = True
       end>
   end
@@ -180,6 +244,12 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
     DataSet = cdsNat
     Left = 256
     Top = 128
+  end
+  inherited XPMenu1: TXPMenu
+    Top = 40
+  end
+  inherited PopupMenu1: TPopupMenu
+    Top = 32
   end
   object sdsNat: TSQLDataSet
     CommandText = 
@@ -195,7 +265,8 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
       'O = 7 THEN '#39'REMESSA'#39'     '#13#10'WHEN r.TIPOMOVIMENTO = 8 THEN '#39'OUTROS' +
       #39'       END TIPOMOVIMENTOS,'#13#10'CASE WHEN r.BAIXAMOVIMENTO = 0 THEN' +
       ' '#39'ENTRADA'#39'  WHEN r.BAIXAMOVIMENTO = 1 THEN '#39'SAIDA'#39' ELSE '#39'NAO MOV' +
-      'IMENTA'#39' '#13#10'END BAIXAMOVIMENTOS '#13#10'FROM  NATUREZAOPERACAO r'
+      'IMENTA'#39' '#13#10'END BAIXAMOVIMENTOS , r.CFOP_ESTADO, r.CFOP_FORA_ESTAD' +
+      'O, r.CFOP_INTERNACIONAL '#13#10'FROM  NATUREZAOPERACAO r'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -250,6 +321,21 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
       ReadOnly = True
       FixedChar = True
       Size = 13
+    end
+    object sdsNatCFOP_ESTADO: TStringField
+      FieldName = 'CFOP_ESTADO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sdsNatCFOP_FORA_ESTADO: TStringField
+      FieldName = 'CFOP_FORA_ESTADO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sdsNatCFOP_INTERNACIONAL: TStringField
+      FieldName = 'CFOP_INTERNACIONAL'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
     end
   end
   object dspNat: TDataSetProvider
@@ -307,6 +393,18 @@ inherited fNaturezaOperacao: TfNaturezaOperacao
       ReadOnly = True
       FixedChar = True
       Size = 13
+    end
+    object cdsNatCFOP_ESTADO: TStringField
+      FieldName = 'CFOP_ESTADO'
+      Size = 30
+    end
+    object cdsNatCFOP_FORA_ESTADO: TStringField
+      FieldName = 'CFOP_FORA_ESTADO'
+      Size = 30
+    end
+    object cdsNatCFOP_INTERNACIONAL: TStringField
+      FieldName = 'CFOP_INTERNACIONAL'
+      Size = 30
     end
   end
 end
