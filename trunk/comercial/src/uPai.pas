@@ -161,8 +161,11 @@ begin
       DtSrc.DataSet.Post;
       (DtSrc.DataSet as TClientDataset).ApplyUpdates(0);
     except
-      MessageDlg('Erro para gravar o registro.', mtWarning,
-        [mbOk], 0);
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        
+      end;
     end;
   end
   else abort;
