@@ -1258,6 +1258,7 @@ begin
   begin
     VCLReport1.FileName := str_relatorio + 'impr_compra.rep';
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Title := VCLReport1.FileName;    
     VCLReport1.Report.Params.ParamByName('PCOMPRA').Value := cds_compraCODCOMPRA.AsInteger;
     VCLReport1.Execute;
   end;
