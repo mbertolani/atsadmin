@@ -461,8 +461,8 @@ object fFiltroMov_compra: TfFiltroMov_compra
     object Label10: TJvLabel
       Left = 144
       Top = 2
-      Width = 429
-      Height = 37
+      Width = 499
+      Height = 40
       Caption = 'Pesquisa Compras/ Or'#231'amentos'
       ShadowColor = clNavy
       ShadowSize = 4
@@ -1158,91 +1158,84 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'CODFORNECEDOR'
         Title.Caption = 'C'#243'd.For.'
-        Width = 33
+        Width = 42
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMEFORNECEDOR'
         Title.Caption = 'Fornecedor'
-        Width = 156
+        Width = 199
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODPEDIDO'
         Title.Caption = 'N'#250'mero Pedido.'
-        Width = 33
+        Width = 42
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAMOVIMENTO'
         Title.Caption = 'Data'
-        Width = 33
+        Width = 42
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_ENTREGA'
         Title.Caption = 'Previs'#227'o'
-        Width = 32
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'NOMEFORNECEDOR'
-        Title.Caption = 'Fornecedor'
-        Width = 166
+        Width = 41
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOTAFISCAL'
         Title.Caption = 'T'#237'tulo'
-        Width = 33
+        Width = 42
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SERIE'
         Title.Caption = 'S'#233'rie'
-        Width = 33
+        Width = 42
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR'
         Title.Caption = 'Valor R$'
-        Width = 33
+        Width = 42
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'd. Nat.'
-        Width = 33
+        Width = 42
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 96
+        Width = 123
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SITUACAO'
         Title.Caption = 'Status'
-        Width = 60
+        Width = 77
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'COD_VEICULO'
         Title.Caption = 'Numero'
-        Width = 27
+        Width = 35
         Visible = True
       end>
   end
