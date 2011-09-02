@@ -345,29 +345,12 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Left = 560
   end
   object sds_Veiculocli: TSQLDataSet
-    CommandText = 
-      'select * from VEICULO '#13#10'where COD_CLIENTE= :Pcod '#13#10'or ((COD_CLIE' +
-      'NTE= :Pcod1) and  (PLACA = :pplaca)) or (COD_VEICULO =  :PVEIC)'
+    CommandText = 'select * from VEICULO '#13#10'where PLACA = :pplaca'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
-        Name = 'Pcod'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'Pcod1'
-        ParamType = ptInput
-      end
-      item
         DataType = ftString
         Name = 'pplaca'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'PVEIC'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -430,23 +413,8 @@ inherited fClienteVeiculo: TfClienteVeiculo
     Aggregates = <>
     Params = <
       item
-        DataType = ftInteger
-        Name = 'Pcod'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'Pcod1'
-        ParamType = ptInput
-      end
-      item
         DataType = ftString
         Name = 'pplaca'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'PVEIC'
         ParamType = ptInput
       end>
     ProviderName = 'dsp_Veiculocli'
