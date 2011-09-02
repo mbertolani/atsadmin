@@ -111,8 +111,7 @@ begin
    sCtrlResize.CtrlResize(TForm(fClienteVeiculo));
   if cds_Veiculocli.Active then
     cds_Veiculocli.Close;
-  cds_Veiculocli.Params[1].asInteger := 1;
-  cds_Veiculocli.Params[2].asString := varPlaca;
+  cds_Veiculocli.Params[0].asString := varPlaca;
   cds_Veiculocli.Open;
   if (cds_Veiculocli.IsEmpty) then
   begin
