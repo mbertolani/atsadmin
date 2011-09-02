@@ -1093,6 +1093,13 @@ begin
        executaSql('create generator codpedido');
     end;
 
+    if (versaoSistema = '1.0.0.94') then
+    begin
+      executaDDL('NATUREZAOPERACAO', 'CFOP_ESTADO',  'TEXTO30');
+      executaDDL('NATUREZAOPERACAO', 'CFOP_FORA_ESTADO',  'TEXTO30');
+      executaDDL('NATUREZAOPERACAO', 'CFOP_INTERNACIONAL',  'TEXTO30');
+    end;
+
     
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
