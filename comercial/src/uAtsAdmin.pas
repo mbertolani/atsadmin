@@ -237,7 +237,6 @@ type
     Maquinas2: TMenuItem;
     RelatriodeFornecedores1: TMenuItem;
     RelatriodeClientes1: TMenuItem;
-    natOperacao: TMenuItem;
     NaturezaOperao1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
@@ -356,6 +355,7 @@ type
     procedure RelatriodeFornecedores1Click(Sender: TObject);
     procedure RelatriodeClientes1Click(Sender: TObject);
     procedure NaturezaOperao1Click(Sender: TObject);
+    procedure acAgendaExecute(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2002,6 +2002,16 @@ begin
     fNaturezaOperacao.Free;
   end;
 
+end;
+
+procedure TfAtsAdmin.acAgendaExecute(Sender: TObject);
+begin
+  fAgendamento := TfAgendamento.Create(Application);
+  try
+    fAgendamento.ShowModal;
+  finally
+    fAgendamento.Free;
+  end;
 end;
 
 end.
