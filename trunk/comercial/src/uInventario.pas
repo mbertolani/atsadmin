@@ -270,55 +270,43 @@ procedure TfInventario.incluirInventario;
 var sql :string;
     TD : TTransactionDesc;
 begin
-  if (edLista.Text = '') then
-  begin
-    MessageDlg('Informe o nome da Lista', mtWarning, [mbOK], 0);
-    edLista.SetFocus;
-    exit;
-  end;
-  if (cdsInvent.Active) then
-  begin
-    //if (cdsInvent.State in [dsInsert]) then
-    //begin
-        sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
-        ' CODPRO, SITUACAO, UN, CODCCUSTO) VALUES ('  +
-      QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
-      ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
-      QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' +
-      QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
-      if (cbCCusto1.ItemIndex > -1) then
-      begin
-        if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
-          sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
-      end;
-      sql := sql + ')';
-    try
+  cdsProd.DisableControls;
+  cdsProd.First;
+  try
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(sql);
-    dm.sqlsisAdimin.Commit(TD);
-    except
-      MessageDlg('Erro ao inserir no banco de dados', mtError, [mbOK], 0);
-    end;
-      {cdsInvent.Append;
-      cdsInventCODIVENTARIO.AsString    := edLista.text;
-      cdsInventDATAIVENTARIO.AsDateTime := now;
-      cdsInventCODPRODUTO.AsInteger     := cdsProd.Fields[1].AsInteger;
-      cdsInventCODPRO.AsString          := cdsProd.Fields[0].AsString;
-      cdsInventSITUACAO.AsString        := 'A';
-      cdsInventUN.AsString              := cdsProd.Fields[3].AsString;
-      cdsInvent.ApplyUpdates(0);}
-    {end;
-    if (cdsInvent.State in [dsBrowse]) then
+    While not cdsProd.Eof do
     begin
-      cdsInventDATAIVENTARIO.AsDateTime := now;
-      cdsInventCODPRODUTO.AsInteger     := cdsProd.Fields[1].AsInteger;
-      cdsInventCODPRO.AsString          := cdsProd.Fields[0].AsString;
-      cdsInventSITUACAO.AsString        := 'A';
-      cdsInventUN.AsString              := cdsProd.Fields[3].AsString;
-      cdsInvent.ApplyUpdates(0);
-    end;}
+      if (cdsInvent.Active) then
+      begin
+        sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
+          ' CODPRO, SITUACAO, UN, CODCCUSTO) VALUES ('  +
+          QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
+          ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
+          QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' +
+          QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
+        if (cbCCusto1.ItemIndex > -1) then
+        begin
+          if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+            sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+        end
+        else begin
+          sql := sql + ', null';
+        end;
+        sql := sql + ')';
+        dm.sqlsisAdimin.ExecuteDirect(sql);
+      end;
+      cdsProd.Next;
+    end;
+    cdsProd.EnableControls;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
   end;
 
 end;
@@ -362,6 +350,11 @@ procedure TfInventario.btnIncluirClick(Sender: TObject);
   begin
     cdsInvent.ApplyUpdates(0);
   end;
+
+  if  (MessageDlg('Confirma a execução do inventário ?' + #13#10  +
+     'O estoque destes itens serão ajustados conforme o valor da coluna INVENTARIADO.',
+      mtConfirmation, [mbYes, mbNo],0) = mrNo) then exit;
+
   {Try
     dm.sqlsisAdimin.StartTransaction(TD);
     //dm.sqlsisAdimin.ExecuteDirect('EXECUTE PROCEDURE INVENTARIO_LANCA(' + QuotedStr(edLista.Text) + ')');
@@ -385,24 +378,53 @@ begin
   begin
     MessageDlg('Informe o nome da Lista a executar.', mtWarning, [mbOK], 0);
     edLista.SetFocus;
-  exit;
-
+    exit;
   end;
-  cdsProd.DisableControls;
-  cdsProd.First;
-  While not cdsProd.Eof do
-  begin
-    incluirInventario;
-    cdsProd.Next;
-  end;
-  cdsProd.EnableControls;
+  incluirInventario;
   btnProcLista.Click;
 end;
 
 procedure TfInventario.btnIncluiClick(Sender: TObject);
+var sql :string;
+    TD : TTransactionDesc;
 begin
-  //inherited;
-  incluirInventario;
+  if (edLista.Text = '') then
+  begin
+    MessageDlg('Informe o nome da Lista', mtWarning, [mbOK], 0);
+    edLista.SetFocus;
+    exit;
+  end;
+  if (cdsInvent.Active) then
+  begin
+    sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
+      ' CODPRO, SITUACAO, UN, CODCCUSTO) VALUES ('  +
+      QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
+      ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
+      QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' +
+      QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
+    if (cbCCusto1.ItemIndex > -1) then
+    begin
+      if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+        sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+    end
+    else begin
+      sql := sql + ', null';
+    end;
+    sql := sql + ')';
+    try
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(sql);
+    dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  end;
   btnProcLista.Click;
 end;
 
