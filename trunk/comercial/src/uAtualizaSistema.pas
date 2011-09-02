@@ -1093,7 +1093,7 @@ begin
       executaScript('gera_nf_venda.sql');
       executaScript('gera_pedido_proc.sql');
       executaScript('rel_compra_pedido.sql');
-      executaScript('cotacao_gera_pedido.sql')
+      executaScript('cotacao_gera_pedido.sql');
       executaScript('invent_estoque.sql');
       mudaVersao('1.0.0.94');       
     end;
