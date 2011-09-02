@@ -2237,9 +2237,6 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Similares'
         OnClick = Similares1Click
       end
-      object natOperacao: TMenuItem
-        Caption = 'Agenda'
-      end
       object NaturezaOperao1: TMenuItem
         Caption = 'Natureza Opera'#231#227'o'
         OnClick = NaturezaOperao1Click
@@ -3727,6 +3724,7 @@ object fAtsAdmin: TfAtsAdmin
     end
     object acAgenda: TAction
       Caption = 'Agenda'
+      OnExecute = acAgendaExecute
     end
     object acVendas: TAction
       Caption = 'Vendas'
