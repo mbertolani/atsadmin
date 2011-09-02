@@ -1700,8 +1700,8 @@ object fNotafc: TfNotafc
     object lblNaturezaOperacao: TLabel
       Left = 394
       Top = 5
-      Width = 12
-      Height = 23
+      Width = 9
+      Height = 16
       Caption = '...'
       Transparent = False
     end

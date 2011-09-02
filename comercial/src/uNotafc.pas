@@ -1971,10 +1971,18 @@ begin
 end;
 
 procedure TfNotaFc.carregaNaturezaOperacao;
+var sqlSql: String;
 begin
   if (dm.sqlNatureza.Active) then
     dm.sqlNatureza.Close;
-  dm.sqlNatureza.ParamByname('pNat').asInteger := cod_nat;
+  sqlSql := dm.sqlNatureza.SQL.GetText;
+  dm.sqlNatureza.SQL.Clear;
+  dm.sqlNatureza.SQL.Add('SELECT NOPER.* FROM NATUREZAOPERACAO NOPER, ESTADO_ICMS ICMS '+
+    ' WHERE (noper.CFOP_ESTADO = icms.CFOP) ' +
+    '    or (noper.CFOP_FORA_ESTADO = icms.CFOP)' +
+    '    or (noper.CFOP_INTERNACIONAL = icms.CFOP)' +
+    '   and ((NOPER.CODNATUREZA = :pNat) or (:pNat = 0))');
+  dm.sqlNatureza.ParamByName('pNat').AsInteger := 0;
   dm.sqlNatureza.Open;
   movEstoque := 'N';
   geraTitulo := 'N';
