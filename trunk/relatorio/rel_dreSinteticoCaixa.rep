@@ -65,7 +65,7 @@ object TRpReport
     item
       Name = 'PDTA1'
       AllowNulls = False
-      Value = 39479d
+      Value = 40695d
       ParamType = rpParamDate
       Datasets.Strings = (
         'IMPR')
@@ -78,7 +78,7 @@ object TRpReport
     item
       Name = 'PDTA2'
       AllowNulls = False
-      Value = 39507d
+      Value = 40724d
       ParamType = rpParamDate
       Datasets.Strings = (
         'IMPR')
@@ -436,7 +436,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = #39'D.R.E.   '#39
+    Expression = #39'Demonstra'#231#227'o Resultado Caixa   '#39
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
