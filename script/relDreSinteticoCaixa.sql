@@ -11,7 +11,8 @@ RETURNS (
     ACUMULA Double precision,
     TOT Char(1) )
 AS
-DECLARE VARIABLE CODREC INTEGER;
+  DECLARE VARIABLE CODREC INTEGER;
+  DECLARE VARIABLE CODVENDA INTEGER;
   DECLARE VARIABLE CENTROPERDA INTEGER;
   DECLARE VARIABLE TOTALIZA Double precision;
   DECLARE VARIABLE TOTALREC Double precision = 0;
@@ -54,17 +55,24 @@ BEGIN
   CREDITO = null;
   SUSPEND;
   TOTALIZA = 0;
-  TOTAL = 0;
-  FOR select sum(r.VALORRECEBIDO)    
-     FROM MOVIMENTO mov 
+  TOTAL = 0;     
+  FOR SELECT DISTINCT r.CODRECEBIMENTO FROM MOVIMENTO mov 
        inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
        inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
        inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
        inner join RECEBIMENTO r on r.CODVENDA      = ven.CODVENDA
      where  (mov.codnatureza = 3) and (r.DATARECEBIMENTO between :PDTA1 AND :PDTA2) 
           and ((PROD.TIPO = 'PROD') OR (PROD.TIPO IS NULL)) and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
-     INTO :CREDITO
-  do
+     into :codVenda
+  do begin   
+     select sum(r.VALORRECEBIDO)    
+       FROM RECEBIMENTO r
+      where r.CODRECEBIMENTO = :CODVENDA
+     INTO :CREDITO;
+     TOTALIZA = TOTALIZA + CREDITO;
+  end 
+  CREDITO = TOTALIZA;      
+  TOTALIZA = 0; 
   begin    
       IF (CREDITO IS NULL) THEN
         CREDITO = 0;
@@ -75,20 +83,27 @@ BEGIN
       TOT = 'N';
       SUSPEND; 
   end
-  /*  Receitas Serviços OS */
+  /*  Receitas Servicos OS */
   CONTA  = null;
   CREDITO = null;
   TOTALIZA = 0;
-  FOR select sum(r.VALORRECEBIDO)    
-     FROM MOVIMENTO mov 
+  FOR SELECT DISTINCT r.CODRECEBIMENTO FROM MOVIMENTO mov 
        inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
        inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
        inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
        inner join RECEBIMENTO r on r.CODVENDA      = ven.CODVENDA
-     where (mov.codnatureza = 3) and (r.DATARECEBIMENTO between :PDTA1 AND :PDTA2) 
-          and PROD.TIPO = 'SERV' and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
-     INTO :CREDITO
-  do
+     where  (mov.codnatureza = 3) and (r.DATARECEBIMENTO between :PDTA1 AND :PDTA2) 
+          and ((PROD.TIPO = 'SERV')) and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
+     into :codVenda
+  do begin   
+     select sum(r.VALORRECEBIDO)    
+       FROM RECEBIMENTO r
+      where r.CODRECEBIMENTO = :CODVENDA
+     INTO :CREDITO;
+     TOTALIZA = TOTALIZA + CREDITO;
+  end     
+  CREDITO = TOTALIZA;  
+  TOTALIZA = 0; 
   begin    
       IF (CREDITO IS NULL) THEN
         CREDITO = 0;
@@ -155,7 +170,7 @@ BEGIN
   TOTALIZA = 0;
   
   /* Receitas Diversas */
-  FOR select sum(r.VALOR_RESTO), p.NOME
+  FOR select sum(r.VALORRECEBIDO), p.NOME
      FROM RECEBIMENTO r
   inner join plano p on p.CODIGO = r.CONTACREDITO
   where (r.DATARECEBIMENTO between :PDTA1 AND :PDTA2) And (r.CODVENDA is null) and ((R.CODALMOXARIFADO = :PCC) OR (:PCC = 0))
@@ -191,7 +206,7 @@ BEGIN
   TOT = 'S';
   SUSPEND;
 
-  /*  Deduções das Receitas*/
+  /*  Deducoes das Receitas*/
   CONTA  = null;
   CREDITO = null;
   TOTALIZA = 0;
@@ -252,7 +267,7 @@ BEGIN
   /* ########### FIM Receita ############*/
 
   /* ########### Gerando a Despesas ############*/
-  DESC_CONTA = '(-) Custo das Vendas';
+  DESC_CONTA = '(-) Compras pagas periodo';
   CONTA  = null;
   CREDITO = null;
   TOT = 'N';
@@ -261,18 +276,12 @@ BEGIN
   TOTALIZA = 0;
 
    /* Total dos produtos VENDIDOS * seu custo  */
-   FOR select md.codproduto, case when sum(md.VLRESTOQUE) > 0 then sum(md.VLRESTOQUE) else   
-    sum(md.QUANTIDADE*(case when prod.VALORUNITARIOATUAL > 0 then prod.VALORUNITARIOATUAL else prod.PRECOMEDIO end)) end total
-     FROM MOVIMENTO mov 
-       inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
-       inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
-       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
-       inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA
-       inner join RECEBIMENTO r on r.CODVENDA      = ven.CODVENDA
-     where  (natu.TIPOMOVIMENTO = 3) and (r.DATARECEBIMENTO between :PDTA1 AND :PDTA2)
-       and ((prod.TIPO = 'PROD') or (prod.TIPO is null))  and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
-     group by md.codproduto
-    INTO :pro, :CREDITO
+   FOR  select sum(r.VALORRECEBIDO)   
+     FROM PAGAMENTO r 
+     where r.CODCOMPRA is not null 
+       and (r.DATAPAGAMENTO between :PDTA1 AND :PDTA2)
+       and ((r.CODALMOXARIFADO = :PCC) OR (:PCC = 0))
+    INTO :CREDITO
     do
     begin
       IF (CREDITO IS NULL) THEN
@@ -282,7 +291,7 @@ BEGIN
     end
     
 
-    DESC_CONTA = '   Custo dos Produtos Vendidos';
+    DESC_CONTA = '   Total de Compras';
     --TOTALIZA = TOTALIZA - CREDITO;
     TOTAL = TOTAL + TOTALIZA;
     ACUMULA = TOTAL;
@@ -291,25 +300,6 @@ BEGIN
     
     TOTALIZA = 0;
     
-    FOR select md.codproduto, 
-      sum(md.QUANTIDADE * (case when prod.VALORUNITARIOATUAL > 0 then prod.VALORUNITARIOATUAL else prod.PRECOMEDIO end)) total
-     FROM MOVIMENTO mov 
-       inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
-       inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
-       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
-       inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA
-       inner join RECEBIMENTO r on r.CODVENDA      = ven.CODVENDA   
-     where (natu.TIPOMOVIMENTO = 3) 
-       and (r.DATARECEBIMENTO between :PDTA1 AND :PDTA2) 
-       and prod.TIPO = 'SERV'  
-       and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
-     group by md.codproduto
-    INTO :pro, :CREDITO
-    do
-    begin
-      IF (CREDITO IS NULL) THEN
-        CREDITO = 0;
-    end 
       --DESC_CONTA = '   Custo dos Serviços Vendidos';
       --TOTALIZA = TOTALIZA - CREDITO;
       --TOTAL = TOTAL + TOTALIZA;
@@ -338,7 +328,7 @@ BEGIN
      /* SUSPEND;  -- Nao imprimi esse grupos , aparecem tudo em Custos de Vendas */
      TOTAL = ACUMULA; 
      /* A maioria das despesas nao tem produto, sao compras ligado ao plano de contas    */
-     FOR  select sum(pag.VALOR_RESTO), pl.NOME  FROM PAGAMENTO pag
+     FOR  select sum(pag.VALORRECEBIDO), pl.NOME  FROM PAGAMENTO pag
        left outer join COMPRA cp on cp.CODCOMPRA = pag.CODCOMPRA
        inner join plano pl on pl.CODIGO = pag.CONTACREDITO
        where (pl.REDUZRECEITA = 'S') and (pag.DATAPAGAMENTO between :PDTA1 AND :PDTA2) 
@@ -398,7 +388,7 @@ BEGIN
      /*SUSPEND; */
      TOTAL = ACUMULA; 
      /* A maioria das despesas não tem produto, são compras ligado ao plano de contas    */
-     FOR  select sum(pag.VALOR_RESTO)  FROM PAGAMENTO pag
+     FOR  select sum(pag.VALORRECEBIDO)  FROM PAGAMENTO pag
        left outer join COMPRA cp on cp.CODCOMPRA = pag.CODCOMPRA
        inner join plano pl on pl.CODIGO = pag.CONTACREDITO
        where  (pag.DATAPAGAMENTO between :PDTA1 AND :PDTA2) and pl.contapai = :CONTAPAI  
@@ -430,7 +420,7 @@ BEGIN
   TOTAL = ACUMULA + TOTALIZA;
 
   /* Resultado Geral do Período */
-  DESC_CONTA = ' Resultado Geral no período : ';
+  DESC_CONTA = ' Resultado Geral no periodo : ';
   CONTA  = null;
   CREDITO = null;
   
