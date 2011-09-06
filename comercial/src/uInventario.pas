@@ -95,6 +95,7 @@ type
     Label8: TLabel;
     prog: TJvProgressBar;
     cdsInventCODCCUSTO: TIntegerField;
+    cdsInventLOTE: TStringField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -281,11 +282,11 @@ begin
       if (cdsInvent.Active) then
       begin
         sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
-          ' CODPRO, SITUACAO, UN, CODCCUSTO) VALUES ('  +
+          ' CODPRO, SITUACAO, UN, CODCCUSTO ) VALUES ('  +
           QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
           ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
-          QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' +
-          QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
+          QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
+          QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
         if (cbCCusto1.ItemIndex > -1) then
         begin
           if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
@@ -714,7 +715,7 @@ begin
           FMov.MovDetalhe.CodMov        := codMovSaida;
           FMov.MovDetalhe.CodProduto    := cdsInventCODPRODUTO.AsInteger;
           FMov.MovDetalhe.Qtde          := cdsInventESTOQUE_ATUAL.AsFloat - cdsInventQTDE_INVENTARIO.AsFloat;
-          //FMov.MovDetalhe.Preco       := cds_Mov_detPRECO.AsFloat;
+          FMov.MovDetalhe.Lote          := cdsInventLOTE.AsString;
           FMov.MovDetalhe.Baixa         := '1';
           FMov.MovDetalhe.inserirMovDet;
         end;
@@ -740,7 +741,7 @@ begin
           FMov.MovDetalhe.CodMov        := codMovEntrada;
           FMov.MovDetalhe.CodProduto    := cdsInventCODPRODUTO.AsInteger;
           FMov.MovDetalhe.Qtde          := cdsInventQTDE_INVENTARIO.AsFloat - cdsInventESTOQUE_ATUAL.AsFloat;
-          //FMov.MovDetalhe.Preco       := cds_Mov_detPRECO.AsFloat;
+          FMov.MovDetalhe.Lote          := cdsInventLOTE.AsString;
           FMov.MovDetalhe.Baixa         := '0';
           FMov.MovDetalhe.inserirMovDet;
         end;
