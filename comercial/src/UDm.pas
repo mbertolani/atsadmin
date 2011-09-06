@@ -1966,15 +1966,6 @@ begin
     usaCentroCusto := cds_parametroCONFIGURADO.AsString;
   end;
 
-  if (cds_parametro.Active) then
-    cds_parametro.Close;
-  cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
-  cds_parametro.Open;
-  if (not cds_parametro.IsEmpty) then
-  begin
-    CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
-  end;
-
   if cds_parametro.Active then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'BUSCAPRODUTO'; // Forma de Busca Produto
@@ -1994,6 +1985,21 @@ begin
   // verificaSeExisteTabela('CLIENTESXX', 'TESTE1', 'INTEGER');
 
   //fAtualizaSistema.VerBoleto('teste');
+
+  if (cds_parametro.Active) then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroD1.AsString <> '') then
+    begin
+      Try
+        CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
+      Except
+      end;
+    end;    
+  end;
 
 end;
 
