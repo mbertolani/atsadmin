@@ -8,12 +8,12 @@ inherited fInventario: TfInventario
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 795
+    Width = 803
     Height = 17
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 517
-    Width = 795
+    Top = 528
+    Width = 803
     Height = 66
     inherited btnGravar: TBitBtn
       Left = 298
@@ -479,7 +479,7 @@ inherited fInventario: TfInventario
   object GroupBox1: TGroupBox [3]
     Left = 0
     Top = 17
-    Width = 795
+    Width = 803
     Height = 255
     Align = alTop
     Caption = 'Produtos / Materiais'
@@ -813,7 +813,7 @@ inherited fInventario: TfInventario
   object sdsProd: TSQLDataSet
     CommandText = 
       'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as Varchar(300)) PRODUTO' +
-      ', UNIDADEMEDIDA, CATEGORIA, FAMILIA FROM PRODUTOS'
+      ', UNIDADEMEDIDA, CATEGORIA, FAMILIA, LOTES FROM PRODUTOS'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -848,6 +848,12 @@ inherited fInventario: TfInventario
       FieldName = 'FAMILIA'
       ReadOnly = True
       Size = 30
+    end
+    object sdsProdLOTES: TStringField
+      FieldName = 'LOTES'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object dspProd: TDataSetProvider
@@ -891,6 +897,12 @@ inherited fInventario: TfInventario
       FieldName = 'FAMILIA'
       ReadOnly = True
       Size = 30
+    end
+    object cdsProdLOTES: TStringField
+      FieldName = 'LOTES'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object dsProd: TDataSource
@@ -1141,6 +1153,40 @@ inherited fInventario: TfInventario
       FieldName = 'NOME'
       Required = True
       Size = 40
+    end
+  end
+  object sqlEstoque: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pProd'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      
+        'select DISTINCT p.LOTE, p.MESANO, p.SALDOESTOQUE  from ESTOQUEME' +
+        'S p '
+      'where ((p.LOTE is not null) and (p.LOTE <> '#39'0'#39'))'
+      
+        '  and ((UDF_TRUNCDEC(p.SALDOESTOQUE,8) > 0) or (UDF_TRUNCDEC(p.S' +
+        'ALDOESTOQUE,8) < 0))  '
+      '  and p.CODPRODUTO = :pProd'
+      ' order by 2 DESC')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 240
+    Top = 241
+    object sqlEstoqueLOTE: TStringField
+      FieldName = 'LOTE'
+      Required = True
+      Size = 60
+    end
+    object sqlEstoqueMESANO: TDateField
+      FieldName = 'MESANO'
+      Required = True
+    end
+    object sqlEstoqueSALDOESTOQUE: TFloatField
+      FieldName = 'SALDOESTOQUE'
     end
   end
 end
