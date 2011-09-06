@@ -164,7 +164,7 @@ object fProcura_produtos: TfProcura_produtos
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 805
+    Width = 797
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -511,7 +511,7 @@ object fProcura_produtos: TfProcura_produtos
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 805
+    Width = 797
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1519,7 +1519,6 @@ object fProcura_produtos: TfProcura_produtos
   end
   object cds_proc: TClientDataSet
     Aggregates = <>
-    PacketRecords = 30
     Params = <>
     ProviderName = 'dsp_proc'
     Left = 88
