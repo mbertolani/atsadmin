@@ -96,6 +96,12 @@ type
     prog: TJvProgressBar;
     cdsInventCODCCUSTO: TIntegerField;
     cdsInventLOTE: TStringField;
+    sdsProdLOTES: TStringField;
+    cdsProdLOTES: TStringField;
+    sqlEstoque: TSQLQuery;
+    sqlEstoqueLOTE: TStringField;
+    sqlEstoqueMESANO: TDateField;
+    sqlEstoqueSALDOESTOQUE: TFloatField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -137,7 +143,8 @@ procedure TfInventario.btnProcClick(Sender: TObject);
 var sql, sqla: string;
 begin
   sqla := '';
-  sql := 'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as varchar(300)) PRODUTO, UNIDADEMEDIDA ,CATEGORIA , FAMILIA FROM PRODUTOS';
+  sql := 'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as varchar(300)) PRODUTO, ' +
+    ' UNIDADEMEDIDA ,CATEGORIA , FAMILIA, LOTES FROM PRODUTOS';
   if (edProd.Text <> '') then
   begin
     sqla := ' WHERE CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
@@ -268,7 +275,7 @@ begin
 end;
 
 procedure TfInventario.incluirInventario;
-var sql :string;
+var sql, lote :string;
     TD : TTransactionDesc;
 begin
   cdsProd.DisableControls;
@@ -281,22 +288,52 @@ begin
     begin
       if (cdsInvent.Active) then
       begin
-        sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
-          ' CODPRO, SITUACAO, UN, CODCCUSTO ) VALUES ('  +
-          QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
-          ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
-          QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
-          QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
-        if (cbCCusto1.ItemIndex > -1) then
+        lote := '';
+        if (cdsInventLOTE.AsString = 'S') then
         begin
-          if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
-            sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+          if (sqlEstoque.Active) then
+            sqlEstoque.Close;
+          sqlEstoque.ParamByName('pProd').AsInteger := cdsProd.Fields[1].AsInteger;
+          sqlEstoque.Open;
+          lote := sqlEstoqueLOTE.asString;
+          while not sqlEstoque.Eof do
+          begin
+            sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
+              ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE) VALUES ('  +
+              QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
+              ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
+              QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
+              QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
+            if (cbCCusto1.ItemIndex > -1) then
+            begin
+              if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+                sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+            end
+            else begin
+              sql := sql + ', null';
+            end;
+            sql := sql + QuotedStr(lote) + ')';
+            dm.sqlsisAdimin.ExecuteDirect(sql);
+          end;
         end
         else begin
-          sql := sql + ', null';
+          sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
+            ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE) VALUES ('  +
+            QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
+            ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
+            QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
+            QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
+          if (cbCCusto1.ItemIndex > -1) then
+          begin
+            if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+              sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+          end
+          else begin
+            sql := sql + ', null';
+          end;
+          sql := sql + QuotedStr(lote) + ')';
+          dm.sqlsisAdimin.ExecuteDirect(sql);
         end;
-        sql := sql + ')';
-        dm.sqlsisAdimin.ExecuteDirect(sql);
       end;
       cdsProd.Next;
     end;
