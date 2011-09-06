@@ -835,6 +835,8 @@ procedure TfMovimenta_Estoque.BitBtn8Click(Sender: TObject);
 // Var str_del: String;
 //var FEst: TEstoque;
 begin
+  if (cds_Movimento.State in [dsInsert, dsEdit]) then
+    (DtSrc1.DataSet as TClientDataSet).ApplyUpdates(0);
 {  str_del := 'DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ';
   str_del := str_del + IntToStr(cds_Mov_detCODDETALHE.AsInteger);
 //  str_del := str_del + '
