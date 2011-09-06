@@ -1018,7 +1018,16 @@ begin
       begin
         executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
           'id_OS integer not null, descricao_serv varchar(1024), ' +
-          'responsavel varchar(150), status char(1) ) ' );
+          'responsavel varchar(150), status char(1) ' +
+          ' CODPRODUTO INTEGER NOT NULL, ' +
+          ' TIPO CHAR(1), -- comment P-PRODUTO ou S-SERVICO ' +
+          ' QTDE VALOR DEFAULT 0, '  +
+          ' PRECO VALOR  DEFAULT 0, ' +
+          ' DESCONTO VALOR  DEFAULT 0, ' +
+          ' DESCPERCENT COMPUTED BY ((DESCONTO/PRECO)*100)  DEFAULT 0, ' +
+          ' VALORTOTAL  COMPUTED BY ((PRECO-DESCONTO)*QTDE)  DEFAULT 0, ' +
+          ' ID_OSDET_SERV INTEGER, -- Codigo da OS DET. SERVICO ' +
+          ' CONSTRAINT INTEG_404 PRIMARY KEY (ID_OS_DET))');
       end;
       mudaVersao('1.0.0.91');
     end;
