@@ -8,12 +8,12 @@ inherited fInventario: TfInventario
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 803
+    Width = 795
     Height = 17
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 528
-    Width = 803
+    Top = 517
+    Width = 795
     Height = 66
     inherited btnGravar: TBitBtn
       Left = 298
@@ -479,7 +479,7 @@ inherited fInventario: TfInventario
   object GroupBox1: TGroupBox [3]
     Left = 0
     Top = 17
-    Width = 803
+    Width = 795
     Height = 255
     Align = alTop
     Caption = 'Produtos / Materiais'
@@ -903,9 +903,9 @@ inherited fInventario: TfInventario
       'SELECT (r.ESTOQUE_ATUAL - r.QTDE_INVENTARIO) SALDO, r.CODIVENTAR' +
       'IO, r.DATAIVENTARIO, r.CODPRODUTO, r.CODPRO, r.SITUACAO, r.DATAE' +
       'XECUTADO, r.ESTOQUE_ATUAL, r.QTDE_INVENTARIO, r.UN, r.CODCCUSTO,' +
-      ' cast(p.produto as varchar(300)) PRODUTO FROM INVENTARIO r'#13#10'inne' +
-      'r join produtos p on p.codproduto = r.codproduto '#13#10'order by 10, ' +
-      '1, 5 '#13#10
+      ' cast(p.produto as varchar(300)) PRODUTO  , r.LOTE  FROM INVENTA' +
+      'RIO r'#13#10'inner join produtos p on p.codproduto = r.codproduto '#13#10'or' +
+      'der by 10, 1, 5 '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -968,6 +968,11 @@ inherited fInventario: TfInventario
     end
     object cdsInventCODCCUSTO: TIntegerField
       FieldName = 'CODCCUSTO'
+    end
+    object cdsInventLOTE: TStringField
+      FieldName = 'LOTE'
+      ReadOnly = True
+      Size = 60
     end
   end
   object dsInvent: TDataSource
