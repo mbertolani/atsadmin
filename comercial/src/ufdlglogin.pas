@@ -111,7 +111,7 @@ end;
 
 procedure TfDlgLogin.BitBtnCancelarClick(Sender: TObject);
 begin
-    fControle.sitacao  := 'Cancelou';
+   // fControle.sitacao  := 'Cancelou';
 end;
 
 end.
