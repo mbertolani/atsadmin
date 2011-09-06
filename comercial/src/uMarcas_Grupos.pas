@@ -5,16 +5,17 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
-  DBCtrls, Grids, DBGrids, Mask, JvExControls, JvLabel;
+  DBCtrls, Grids, DBGrids, Mask, JvExControls, JvLabel, JvExStdCtrls,
+  JvEdit, JvDBSearchEdit;
 
 type
   TfMarcas_Grupos = class(TfPai)
     Label3: TLabel;
-    DBEdit1: TDBEdit;
     DBGrid1: TDBGrid;
     DBNavigator1: TDBNavigator;
     JvLabel1: TJvLabel;
     btnConfirma: TBitBtn;
+    JvDBSearchEdit1: TJvDBSearchEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -41,7 +42,7 @@ uses uComercial, UDm, sCtrlResize;
 procedure TfMarcas_Grupos.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  DBEdit1.SetFocus;
+  JvDBSearchEdit1.SetFocus;
 end;
 
 procedure TfMarcas_Grupos.btnGravarClick(Sender: TObject);
@@ -87,6 +88,10 @@ procedure TfMarcas_Grupos.FormShow(Sender: TObject);
 begin
 //  inherited;
   sCtrlResize.CtrlResize(TForm(fMarcas_Grupos));
+  if(dm.cds_Marca.Active) then
+  dm.cds_Marca.Close;
+  dm.cds_Marca.Open;
+
 end;
 
 procedure TfMarcas_Grupos.btnConfirmaClick(Sender: TObject);
