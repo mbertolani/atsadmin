@@ -1,8 +1,7 @@
 inherited fMarcas_Grupos: TfMarcas_Grupos
   Left = 235
   Top = 139
-  Width = 492
-  Height = 433
+  Width = 550
   OldCreateOrder = True
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -16,8 +15,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     Caption = 'Descri'#231#227'o'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 352
-    Width = 484
+    Width = 534
     inherited btnGravar: TBitBtn
       Left = 22
     end
@@ -138,7 +136,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 484
+    Width = 534
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -147,21 +145,23 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     inherited Label1: TLabel
       Left = 49
       Top = -69
-      Width = 382
+      Width = 355
+      Height = 44
       Caption = 'Cadastro de Marcas'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 53
       Top = -70
-      Width = 382
+      Width = 355
+      Height = 44
       Caption = 'Cadastro de Marcas'
       Font.Name = 'Cooper Black'
     end
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 482
+      Width = 532
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -178,24 +178,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
       HotTrackFont.Style = []
     end
   end
-  object DBEdit1: TDBEdit [3]
-    Left = 8
-    Top = 80
-    Width = 465
-    Height = 24
-    CharCase = ecUpperCase
-    DataField = 'DESCMARCAS'
-    DataSource = DtSrc
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    OnExit = DBEdit1Exit
-  end
-  object DBGrid1: TDBGrid [4]
+  object DBGrid1: TDBGrid [3]
     Left = 8
     Top = 104
     Width = 465
@@ -203,7 +186,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     DataSource = DtSrc
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ReadOnly = True
-    TabOrder = 3
+    TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -218,7 +201,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
         Visible = True
       end>
   end
-  object DBNavigator1: TDBNavigator [5]
+  object DBNavigator1: TDBNavigator [4]
     Left = 130
     Top = 320
     Width = 224
@@ -226,7 +209,17 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     DataSource = DtSrc
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
     Flat = True
+    TabOrder = 3
+  end
+  object JvDBSearchEdit1: TJvDBSearchEdit [5]
+    Left = 8
+    Top = 80
+    Width = 465
+    Height = 21
+    DataSource = DtSrc
+    DataField = 'DESCMARCAS'
     TabOrder = 4
+    Text = 'JvDBSearchEdit1'
   end
   inherited XPMenu1: TXPMenu
     Left = 384
