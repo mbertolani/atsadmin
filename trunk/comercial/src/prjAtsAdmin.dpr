@@ -236,7 +236,11 @@ uses
   uMovimenta_Estoque in 'uMovimenta_Estoque.pas' {fMovimenta_Estoque},
   uCompraCls in 'uCompraCls.pas',
   uEndereco in 'uEndereco.pas' {fEndereco},
-  uNaturezaOperacao in 'uNaturezaOperacao.pas' {fNaturezaOperacao};
+  uNaturezaOperacao in 'uNaturezaOperacao.pas' {fNaturezaOperacao},
+  U_Terminal in 'U_Terminal.pas' {F_Terminal},
+  UDM_MOV in 'UDM_MOV.pas' {DM_MOV: TDataModule},
+  U_AlteraPedido in 'U_AlteraPedido.pas' {F_AlteraPedido},
+  U_TerminalFinaliza in 'U_TerminalFinaliza.pas' {F_TerminalFinaliza};
 
 {$R *.res}
 
@@ -244,6 +248,7 @@ begin
   Application.Initialize;
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
+  Application.CreateForm(TDM_MOV, DM_MOV);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);
