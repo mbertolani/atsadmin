@@ -47,7 +47,7 @@ var
 
 implementation
 
-uses uEndereco, UDm, sCtrlResize;
+uses uEndereco, UDm, sCtrlResize, uListaClientes;
 
 
 {$R *.dfm}
@@ -105,26 +105,20 @@ begin
   fListaClientes.BitBtn8.Enabled := False;
   fListaClientes.ShowModal;
   try
-    PageControl1.ActivePage := TabSheet1;
-    if cds_cliTIPOFIRMA.AsInteger = 0 then
+    {if cds_cliTIPOFIRMA.AsInteger = 0 then
       cds_cliCNPJ.EditMask := '000.000.000-00;1;_'
     else
-      cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';
-    if cds_cliTEM_IE.AsString = 'S' then
-      CheckBox1.Checked := True;
-    if cds_cliTEM_IE.AsString = '' then
-      CheckBox1.Checked := False;
+      cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';    }
   finally
     fListaClientes.Free;
-    dbEdit2.SetFocus;
   end;
 
-  if cdsEnderecoCli.Active then
+  {if cdsEnderecoCli.Active then
      cdsEnderecoCli.Close;
   cdsEnderecoCli.Params[0].Clear;
   cdsEnderecoCli.Params[1].AsInteger := cds_cliCODCLIENTE.AsInteger;
   cdsEnderecoCli.Open;
-
+   }
 end;
 
 end.
