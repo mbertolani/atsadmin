@@ -26,6 +26,8 @@ Type
     procedure setServExecutado(const Value: String);
     function getDesconto: Double;
     procedure setDesconto(const Value: Double);
+    function getTipo: String;
+    procedure setTipo(const Value: String);
   protected
     //Atributos
     _codOsP     : Integer;
@@ -37,12 +39,13 @@ Type
     _preco      : Double;
     _qtde       : Double;
     _desconto   : Double;
-
+    _tipo       : String;
   public
     property CodOsP        : Integer read getCodOs write setCodOs;
     property CodDet        : Integer read getCodDet write setCodDet;
     property CodUsuario    : Integer read getCodUsuario write setCodUsuario;
     property Status        : String read getStatus write setStatus;
+    property Tipo          : String read getTipo write setTipo;
     property Descricao     : String read getDescricao write setDescricao;
     property ServExecutado : String read getServExecutado write setServExecutado;
     property Qtde          : Double read getQtde write setQtde;
@@ -163,6 +166,11 @@ begin
   Result := Trim(_status);
 end;
 
+function TOsDetalheClasse.getTipo: String;
+begin
+  Result := Trim(_tipo);
+end;
+
 function TOsDetalheClasse.IncluirOsDet(codOsDetI: Integer): Integer;
 var sqlInsere: String;
     sqlBuscaI: TSqlQuery;
@@ -184,7 +192,7 @@ begin
       end;
     end;
     sqlInsere := 'INSERT INTO OS_DET(ID_OS_DET, ID_OS, CODUSUARIO, '+
-      'DESCRICAO, SERV_EXECUTADO, QTDE, PRECO, STATUS) VALUES (';
+      'DESCRICAO, SERV_EXECUTADO, QTDE, PRECO, STATUS, TIPO) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.CodDet) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.CodOsP) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codUsuario) + ', ';
@@ -192,7 +200,8 @@ begin
     sqlInsere := sqlInsere + QuotedStr(Self.ServExecutado) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.status) + ', ';
     sqlInsere := sqlInsere + FloatToStr(Self.Qtde) + ', ';
-    sqlInsere := sqlInsere + FloatToStr(Self.Preco) + ')';
+    sqlInsere := sqlInsere + FloatToStr(Self.Preco) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.Tipo) + ')';
     executaSql(sqlInsere);
     Result := Self.CodDet;
   except
@@ -250,6 +259,11 @@ end;
 procedure TOsDetalheClasse.setStatus(const Value: String);
 begin
   _status := Value;
+end;
+
+procedure TOsDetalheClasse.setTipo(const Value: String);
+begin
+  _tipo := Value;
 end;
 
 end.
