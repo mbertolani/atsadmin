@@ -1966,6 +1966,19 @@ begin
     usaCentroCusto := cds_parametroCONFIGURADO.AsString;
   end;
 
+
+  if (cds_parametro.Active) then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+  begin
+    if (not dm.cds_parametroD1.IsNull) then
+      CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
+  end;
+
+
+
   if cds_parametro.Active then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'BUSCAPRODUTO'; // Forma de Busca Produto
