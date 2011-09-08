@@ -1024,7 +1024,6 @@ begin
           ' QTDE VALOR DEFAULT 0, '  +
           ' PRECO VALOR  DEFAULT 0, ' +
           ' DESCONTO VALOR  DEFAULT 0, ' +
-          ' DESCPERCENT COMPUTED BY ((DESCONTO/PRECO)*100)  DEFAULT 0, ' +
           ' VALORTOTAL  COMPUTED BY ((PRECO-DESCONTO)*QTDE)  DEFAULT 0, ' +
           ' ID_OSDET_SERV INTEGER, -- Codigo da OS DET. SERVICO ' +
           ' CONSTRAINT INTEG_404 PRIMARY KEY (ID_OS_DET))');
@@ -1111,9 +1110,16 @@ begin
       executaScript('rel_compra_pedido.sql');
       executaScript('cotacao_gera_pedido.sql');
       executaScript('invent_estoque.sql');
-      mudaVersao('1.0.0.94');       
+      mudaVersao('1.0.0.94');
     end;
 
+    if (versaoSistema = '1.0.0.94') then
+    begin
+      executaSql('ALTER TABLE OS DROP CODVEICULO');
+      executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
+      executaDDL('OS_DET', 'CODUSUARIO', 'INTEGER');
+      //mudaVersao('1.0.0.95');
+    end;
     
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
