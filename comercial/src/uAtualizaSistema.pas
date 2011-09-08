@@ -1077,6 +1077,10 @@ begin
         executaSql('ALTER TABLE ESTOQUEMES ADD SALDOESTOQUE COMPUTED BY (SALDOMESANTERIOR + ' +
         'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) ');
       end;
+      if (NaoExisteGenerator('GEN_OS')) then
+      begin
+        executaSql('CREATE GENERATOR GEN_OS');
+      end;
 
       executaScript('spEstoqueFiltro.sql');
       executaScript('listaProdutocli.sql');
@@ -1099,6 +1103,9 @@ begin
       executaDDL('NATUREZAOPERACAO', 'CFOP_ESTADO',  'TEXTO30');
       executaDDL('NATUREZAOPERACAO', 'CFOP_FORA_ESTADO',  'TEXTO30');
       executaDDL('NATUREZAOPERACAO', 'CFOP_INTERNACIONAL',  'TEXTO30');
+      executaDDL('OS', 'KM', 'Integer');
+      executaDDL('OS', 'CODUSUARIO', 'Integer');
+      executaDDL('OS', 'DATAOS', 'Date');
       executaScript('gera_nf_venda.sql');
       executaScript('gera_pedido_proc.sql');
       executaScript('rel_compra_pedido.sql');
