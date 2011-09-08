@@ -34,6 +34,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure JvDBUltimGrid1DblClick(Sender: TObject);
+    procedure btnProcurarClick(Sender: TObject);
   private
     { Private declarations }
     FCli : TCliente;
@@ -46,7 +47,7 @@ var
 
 implementation
 
-uses uEndereco, UDm;
+uses uEndereco, UDm, sCtrlResize;
 
 
 {$R *.dfm}
@@ -81,7 +82,7 @@ end;
 
 procedure TfCliente1.FormCreate(Sender: TObject);
 begin
-  inherited;
+  //inherited;
   Fcli := TCliente.Create;
 end;
 
@@ -93,8 +94,37 @@ end;
 
 procedure TfCliente1.JvDBUltimGrid1DblClick(Sender: TObject);
 begin
-  inherited;
+  //inherited;
+  sCtrlResize.CtrlResize(TForm(fCliente1));
   fEndereco.ShowModal;
+end;
+
+procedure TfCliente1.btnProcurarClick(Sender: TObject);
+begin
+  fListaClientes:=TfListaClientes.Create(Application);
+  fListaClientes.BitBtn8.Enabled := False;
+  fListaClientes.ShowModal;
+  try
+    PageControl1.ActivePage := TabSheet1;
+    if cds_cliTIPOFIRMA.AsInteger = 0 then
+      cds_cliCNPJ.EditMask := '000.000.000-00;1;_'
+    else
+      cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';
+    if cds_cliTEM_IE.AsString = 'S' then
+      CheckBox1.Checked := True;
+    if cds_cliTEM_IE.AsString = '' then
+      CheckBox1.Checked := False;
+  finally
+    fListaClientes.Free;
+    dbEdit2.SetFocus;
+  end;
+
+  if cdsEnderecoCli.Active then
+     cdsEnderecoCli.Close;
+  cdsEnderecoCli.Params[0].Clear;
+  cdsEnderecoCli.Params[1].AsInteger := cds_cliCODCLIENTE.AsInteger;
+  cdsEnderecoCli.Open;
+
 end;
 
 end.

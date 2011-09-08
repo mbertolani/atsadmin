@@ -28,6 +28,7 @@ type
     edCEP: TJvMaskEdit;
     edIBGE: TEdit;
     RadioGroup2: TRadioGroup;
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,6 +40,14 @@ var
 
 implementation
 
+uses UDm, sCtrlResize;
+
 {$R *.dfm}
+
+procedure TfEndereco.FormShow(Sender: TObject);
+begin
+  //inherited;
+  sCtrlResize.CtrlResize(TForm(fEndereco));
+end;
 
 end.

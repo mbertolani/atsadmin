@@ -8,7 +8,7 @@ uses
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uOsClasse, Buttons,
   ExtCtrls, MMJPanel, DB, FMTBcd, DBClient, Provider, SqlExpr, Grids,
   DBGrids, JvExDBGrids, JvDBGrid, JvBaseEdits, JvMemo, DateUtils,
-  JvComponentBase, JvFormAutoSize, dbXpress;
+  JvComponentBase, JvFormAutoSize, dbXpress, JvEdit;
 
 type
   TfOs = class(TForm)
@@ -144,6 +144,19 @@ type
     JvDBGrid1: TJvDBGrid;
     cdsPecasVlrTotal: TAggregateField;
     edKm: TJvCalcEdit;
+    cdsServicoQTDE: TFloatField;
+    cdsServicoPRECO: TFloatField;
+    cdsServicoVALORTOTAL: TFloatField;
+    Label15: TLabel;
+    edQtdeServ: TJvCalcEdit;
+    Label16: TLabel;
+    edPrecoServ: TJvCalcEdit;
+    Label17: TLabel;
+    edDescServ: TJvCalcEdit;
+    Label18: TLabel;
+    edDescVlrServ: TJvCalcEdit;
+    Label19: TLabel;
+    edTotalServ: TJvCalcEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -161,6 +174,8 @@ type
     procedure edPrecoExit(Sender: TObject);
     procedure edDescExit(Sender: TObject);
     procedure edDescVlrExit(Sender: TObject);
+    procedure edDescServExit(Sender: TObject);
+    procedure edDescVlrServExit(Sender: TObject);
   private
     numOsDet, codProduto: Integer;
     estoque, qtde : Double;
@@ -264,6 +279,9 @@ begin
       cdsPecas.Next;
     end;
     dm.sqlsisAdimin.Commit(TD);
+    MessageDlg('OS gerada com sucesso.', mtError, [mbOK], 0);
+
+    cdsServico.Post;
   except
     on E : Exception do
     begin
@@ -428,6 +446,7 @@ end;
 
 procedure TfOs.FormCreate(Sender: TObject);
 begin
+  sCtrlResize.CtrlResize(TForm(fOs));
   FOsCls := TOsClasse.Create;
 end;
 
@@ -473,6 +492,9 @@ begin
     for I := 0 to edServico.Lines.Count -1 do
       str := str + edServico.Lines[I] + #13#10;
     cdsServicoDESCRICAO_SERV.AsString := str;
+    cdsServicoQTDE.AsFloat            := edQtdeServ.Value;
+    cdsServicoPRECO.AsFloat           := edPrecoServ.Value;
+    cdsServicoVALORTOTAL.AsFloat      := edQtdeServ.Value * edPrecoServ.Value;
     cdsServico.Post;
   end;
 end;
@@ -653,6 +675,26 @@ begin
     edDesc.Value  := (edDescVlr.Value / edPreco.Value) * 100;
     edTotal.Value := (edPreco.Value * edQtde.Value) - edDescVlr.Value;
   end;
+end;
+
+procedure TfOs.edDescServExit(Sender: TObject);
+begin
+  if (edDescServ.Value > 0) then
+  begin
+    edDescVlrServ.Value := edPrecoServ.Value * (edDescServ.Value / 100);
+    edTotalServ.Value   := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
+  end;
+
+end;
+
+procedure TfOs.edDescVlrServExit(Sender: TObject);
+begin
+  if ((edDescVlrServ.Value > 0) and (edDescServ.Value = 0) and (edPrecoServ.Value > 0)) then
+  begin
+    edDescServ.Value  := (edDescVlrServ.Value / edPrecoServ.Value) * 100;
+    edTotalServ.Value := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
+  end;
+
 end;
 
 end.
