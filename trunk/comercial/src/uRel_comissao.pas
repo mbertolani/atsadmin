@@ -171,7 +171,7 @@ begin
   if (Edit3.Text <> '') then
     Rep.Report.Params.ParamByName('PROD').Value := Edit3.Text
   else
-    Rep.Report.Params.ParamByName('PROD').Value := '000000000000000';
+    Rep.Report.Params.ParamByName('PROD').Value := 'TODOS PRODUTOS';
   rep.execute;
   
 end;
