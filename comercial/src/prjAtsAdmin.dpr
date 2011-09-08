@@ -240,7 +240,8 @@ uses
   U_Terminal in 'U_Terminal.pas' {F_Terminal},
   UDM_MOV in 'UDM_MOV.pas' {DM_MOV: TDataModule},
   U_AlteraPedido in 'U_AlteraPedido.pas' {F_AlteraPedido},
-  U_TerminalFinaliza in 'U_TerminalFinaliza.pas' {F_TerminalFinaliza};
+  U_TerminalFinaliza in 'U_TerminalFinaliza.pas' {F_TerminalFinaliza},
+  uOsFiltro in 'uOsFiltro.pas' {fOsFiltro};
 
 {$R *.res}
 
@@ -314,6 +315,10 @@ begin
   Application.CreateForm(TfCompraSolicProc, fCompraSolicProc);
   Application.CreateForm(TfProdutoProc, fProdutoProc);
   if (dm.moduloUsado = 'AUTOMOTIVA') then
+  begin
+    Application.CreateForm(TfOs, fOs);
+    Application.CreateForm(TfOsFiltro, fOsFiltro);
     Application.CreateForm(TfProcura_ProdOficina, fProcura_ProdOficina);
+  end;
   Application.Run;
 end.
