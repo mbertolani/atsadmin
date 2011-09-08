@@ -14,6 +14,9 @@ inherited fCliente1: TfCliente1
     Width = 731
     Font.Height = -13
     ParentFont = False
+    inherited btnProcurar: TBitBtn
+      OnClick = btnProcurarClick
+    end
   end
   object rgTipo: TRadioGroup [2]
     Left = 0

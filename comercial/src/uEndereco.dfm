@@ -1,6 +1,8 @@
 inherited fEndereco: TfEndereco
   Height = 314
   Caption = 'Cadastro de Endere'#231'o'
+  OldCreateOrder = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel

@@ -1,7 +1,7 @@
 object fOs: TfOs
   Left = 265
   Top = 60
-  Width = 825
+  Width = 806
   Height = 660
   Caption = 'Ordem Servi'#231'o'
   Color = clBtnFace
@@ -11,6 +11,7 @@ object fOs: TfOs
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -20,7 +21,7 @@ object fOs: TfOs
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 582
-    Width = 817
+    Width = 798
     Height = 51
     Align = alBottom
     TabOrder = 1
@@ -717,7 +718,7 @@ object fOs: TfOs
   object GroupBox6: TGroupBox
     Left = 0
     Top = 330
-    Width = 817
+    Width = 798
     Height = 54
     Align = alTop
     Caption = 'Pe'#231'as'
@@ -783,7 +784,7 @@ object fOs: TfOs
       TabOrder = 1
     end
     object BitBtn1: TBitBtn
-      Left = 739
+      Left = 723
       Top = 12
       Width = 36
       Height = 36
@@ -842,7 +843,7 @@ object fOs: TfOs
         BFBF}
     end
     object BitBtn2: TBitBtn
-      Left = 776
+      Left = 760
       Top = 12
       Width = 36
       Height = 36
@@ -1032,7 +1033,7 @@ object fOs: TfOs
     object edTotal: TJvCalcEdit
       Left = 661
       Top = 26
-      Width = 77
+      Width = 60
       Height = 21
       TabStop = False
       ReadOnly = True
@@ -1055,7 +1056,7 @@ object fOs: TfOs
   object GroupBox7: TGroupBox
     Left = 0
     Top = 384
-    Width = 817
+    Width = 798
     Height = 198
     Align = alClient
     Color = clHighlight
@@ -1064,7 +1065,7 @@ object fOs: TfOs
     object JvDBGrid2: TJvDBGrid
       Left = 2
       Top = 15
-      Width = 813
+      Width = 794
       Height = 181
       Align = alClient
       Color = clSilver
@@ -1092,7 +1093,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'CODPRO'
           Title.Caption = 'Pe'#231'a'
-          Width = 73
+          Width = 72
           Visible = True
         end
         item
@@ -1101,7 +1102,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'DESCRICAO_SERV'
           Title.Caption = 'Descri'#231#227'o'
-          Width = 413
+          Width = 403
           Visible = True
         end
         item
@@ -1110,7 +1111,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'QTDE'
           Title.Caption = 'Qtde.'
-          Width = 46
+          Width = 45
           Visible = True
         end
         item
@@ -1119,7 +1120,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'PRECO'
           Title.Caption = 'Pre'#231'o'
-          Width = 55
+          Width = 53
           Visible = True
         end
         item
@@ -1128,7 +1129,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'DESCONTO'
           Title.Caption = 'Desconto'
-          Width = 55
+          Width = 53
           Visible = True
         end
         item
@@ -1137,7 +1138,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'VALORTOTAL'
           Title.Caption = 'Valor Total'
-          Width = 73
+          Width = 72
           Visible = True
         end
         item
@@ -1146,7 +1147,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'STATUSDESC'
           Title.Caption = 'Situa'#231#227'o'
-          Width = 75
+          Width = 73
           Visible = True
         end>
     end
@@ -1154,16 +1155,15 @@ object fOs: TfOs
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 817
+    Width = 798
     Height = 169
     Align = alTop
-    AutoSize = True
     ParentBackground = False
     TabOrder = 3
     object GroupBox3: TGroupBox
       Left = 1
       Top = 1
-      Width = 815
+      Width = 796
       Height = 49
       Align = alTop
       Caption = 'O.S.'
@@ -1224,10 +1224,11 @@ object fOs: TfOs
     object GroupBox4: TGroupBox
       Left = 1
       Top = 50
-      Width = 815
+      Width = 796
       Height = 45
       Align = alClient
       Caption = 'Cliente'
+      ParentBackground = False
       TabOrder = 1
       object Label3: TLabel
         Left = 8
@@ -1329,7 +1330,7 @@ object fOs: TfOs
     object GroupBox5: TGroupBox
       Left = 1
       Top = 95
-      Width = 815
+      Width = 796
       Height = 73
       Align = alBottom
       Caption = 'Ve'#237'culo'
@@ -1392,27 +1393,61 @@ object fOs: TfOs
   object Panel2: TPanel
     Left = 0
     Top = 169
-    Width = 817
+    Width = 798
     Height = 161
     Align = alTop
-    AutoSize = True
     TabOrder = 4
     object GroupBox1: TGroupBox
       Left = 1
       Top = 1
-      Width = 815
+      Width = 796
       Height = 54
       Align = alTop
       Caption = 'Servi'#231'o'
       Color = clSilver
       ParentColor = False
       TabOrder = 0
+      object Label15: TLabel
+        Left = 430
+        Top = 11
+        Width = 26
+        Height = 13
+        Caption = 'Qtde.'
+      end
+      object Label16: TLabel
+        Left = 488
+        Top = 11
+        Width = 28
+        Height = 13
+        Caption = 'Pre'#231'o'
+      end
+      object Label17: TLabel
+        Left = 551
+        Top = 11
+        Width = 36
+        Height = 13
+        Caption = 'Desc.%'
+      end
+      object Label18: TLabel
+        Left = 603
+        Top = 11
+        Width = 34
+        Height = 13
+        Caption = 'Desc.$'
+      end
+      object Label19: TLabel
+        Left = 661
+        Top = 11
+        Width = 24
+        Height = 13
+        Caption = 'Total'
+      end
       object btnNovo: TBitBtn
-        Left = 737
+        Left = 721
         Top = 13
         Width = 36
         Height = 36
-        TabOrder = 1
+        TabOrder = 6
         OnClick = btnNovoClick
         Glyph.Data = {
           1E060000424D1E06000000000000360000002800000018000000150000000100
@@ -1465,13 +1500,14 @@ object fOs: TfOs
           BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
           BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
           BFBF}
+        Layout = blGlyphRight
       end
       object BitBtn8: TBitBtn
-        Left = 774
+        Left = 758
         Top = 13
         Width = 36
         Height = 36
-        TabOrder = 2
+        TabOrder = 7
         Glyph.Data = {
           36080000424D3608000000000000360400002800000020000000200000000100
           0800000000000004000000000000000000000001000000000000000000000000
@@ -1539,22 +1575,77 @@ object fOs: TfOs
           ECEBEBEBEBEBEBEBEBEBEBEBEBEBEBEBEBEB0707070707073333070707070707
           0707070707070707070707070707070707070707070707070707070707070707
           0707070707070707070707070707070707070707070707070707}
+        Layout = blGlyphRight
       end
       object edServico: TJvMemo
         Left = 8
         Top = 13
-        Width = 729
+        Width = 417
         Height = 36
         AutoSize = False
         MaxLines = 0
         HideCaret = False
         TabOrder = 0
       end
+      object edQtdeServ: TJvCalcEdit
+        Left = 427
+        Top = 26
+        Width = 57
+        Height = 21
+        ShowButton = False
+        TabOrder = 1
+        DecimalPlacesAlwaysShown = False
+        OnKeyPress = FormKeyPress
+      end
+      object edPrecoServ: TJvCalcEdit
+        Left = 485
+        Top = 26
+        Width = 62
+        Height = 21
+        ShowButton = False
+        TabOrder = 2
+        DecimalPlacesAlwaysShown = False
+        OnExit = edPrecoExit
+        OnKeyPress = FormKeyPress
+      end
+      object edDescServ: TJvCalcEdit
+        Left = 548
+        Top = 26
+        Width = 50
+        Height = 21
+        ShowButton = False
+        TabOrder = 3
+        DecimalPlacesAlwaysShown = False
+        OnExit = edDescServExit
+        OnKeyPress = FormKeyPress
+      end
+      object edDescVlrServ: TJvCalcEdit
+        Left = 600
+        Top = 26
+        Width = 58
+        Height = 21
+        ShowButton = False
+        TabOrder = 4
+        DecimalPlacesAlwaysShown = False
+        OnExit = edDescVlrServExit
+        OnKeyPress = FormKeyPress
+      end
+      object edTotalServ: TJvCalcEdit
+        Left = 659
+        Top = 26
+        Width = 59
+        Height = 21
+        TabStop = False
+        ReadOnly = True
+        ShowButton = False
+        TabOrder = 5
+        DecimalPlacesAlwaysShown = False
+      end
     end
     object GroupBox2: TGroupBox
       Left = 1
       Top = 55
-      Width = 815
+      Width = 796
       Height = 105
       Align = alClient
       Color = clHotLight
@@ -1563,7 +1654,7 @@ object fOs: TfOs
       object JvDBGrid1: TJvDBGrid
         Left = 2
         Top = 15
-        Width = 811
+        Width = 792
         Height = 88
         Align = alClient
         Color = clSilver
@@ -1591,7 +1682,7 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'DESCRICAO_SERV'
             Title.Caption = 'Descri'#231#227'o Servi'#231'o'
-            Width = 578
+            Width = 435
             Visible = True
           end
           item
@@ -1600,7 +1691,7 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'RESPONSAVEL'
             Title.Caption = 'Respons'#225'vel'
-            Width = 140
+            Width = 106
             Visible = True
           end
           item
@@ -1609,7 +1700,28 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'STATUSDESC'
             Title.Caption = 'Situa'#231#227'o'
-            Width = 74
+            Width = 55
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'QTDE'
+            Title.Caption = 'Quantidade'
+            Width = 57
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PRECO'
+            Title.Caption = 'Pre'#231'o'
+            Width = 58
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALORTOTAL'
+            Title.Caption = 'Total'
+            Width = 59
             Visible = True
           end>
       end
@@ -2034,8 +2146,8 @@ object fOs: TfOs
       'N STATUS = '#39'E'#39' THEN '#39'Em Execu'#231#227'o'#39#13#10' WHEN STATUS = '#39'A'#39' THEN '#39'Agua' +
       'rdando Pe'#231'a'#39'  WHEN STATUS = '#39'F'#39' THEN '#39'Finalizada'#39'  WHEN STATUS =' +
       ' '#39'N'#39' THEN '#39'N'#227'o Aprovada'#39'   WHEN STATUS = '#39'C'#39' THEN '#39'Cancelada'#39' '#13#10 +
-      'END STATUSDESC,  ID_OS_DET, ID_OS'#13#10'   FROM OS_DET '#13#10'WHERE ID_OS ' +
-      '= :POS'#13#10'      AND TIPO   = '#39'S'#39#13#10'    '
+      'END STATUSDESC,  ID_OS_DET, ID_OS,  QTDE, PRECO, VALORTOTAL'#13#10'   ' +
+      'FROM OS_DET '#13#10'WHERE ID_OS = :POS'#13#10'      AND TIPO   = '#39'S'#39#13#10'    '
     MaxBlobSize = -1
     Params = <
       item
@@ -2090,6 +2202,18 @@ object fOs: TfOs
     object cdsServicoID_OS: TIntegerField
       FieldName = 'ID_OS'
       Required = True
+    end
+    object cdsServicoQTDE: TFloatField
+      FieldName = 'QTDE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsServicoPRECO: TFloatField
+      FieldName = 'PRECO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsServicoVALORTOTAL: TFloatField
+      FieldName = 'VALORTOTAL'
+      ProviderFlags = [pfInUpdate]
     end
   end
 end
