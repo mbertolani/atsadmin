@@ -7,7 +7,8 @@ uses
   Dialogs, uPai, FMTBcd, Grids, DBGrids, DBClient, Provider, DB, SqlExpr,
   Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel, Mask, DBCtrls,
   ComCtrls,DBXpress, JvExExtCtrls, JvExtComponent, JvDBRadioPanel,
-  JvExStdCtrls, JvCheckBox, JvExMask, JvToolEdit, JvBaseEdits;
+  JvExStdCtrls, JvCheckBox, JvExMask, JvToolEdit, JvBaseEdits,
+  JvComponentBase, JvNavigationPane, ImgList, JvExControls, JvOutlookBar;
 
 type
   TfParametro = class(TfPai)
@@ -195,6 +196,13 @@ type
     Edit21: TEdit;
     Label48: TLabel;
     Label49: TLabel;
+    TabSheet9: TTabSheet;
+    JvOutlookBar1: TJvOutlookBar;
+    ComboBox13: TComboBox;
+    ComboBox14: TComboBox;
+    ImageList1: TImageList;
+    ImageList2: TImageList;
+    JvNavPaneStyleManager1: TJvNavPaneStyleManager;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -225,9 +233,14 @@ type
     procedure BitBtn27Click(Sender: TObject);
     procedure BitBtn28Click(Sender: TObject);
     procedure BitBtn29Click(Sender: TObject);
+    procedure ComboBox14Change(Sender: TObject);
+    procedure ComboBox13Change(Sender: TObject);
   private
     { Private declarations }
   public
+    procedure DoCustomDraw(Sender: TObject; ACanvas: TCanvas; ARect: TRect;
+    AStage: TJvOutlookBarCustomDrawStage; AIndex:integer; ADown, AInside: boolean;
+    var DefaultDraw:boolean);
     { Public declarations }
   end;
 
@@ -236,7 +249,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, JvJVCLUtils, uAtsAdmin;
 
 {$R *.dfm}
 
@@ -245,6 +258,8 @@ begin
   inherited;
  if dm.cds_param.Active then
    dm.cds_param.Close;
+  fAtsAdmin.ComboBox14.ItemIndex := ComboBox14.ItemIndex;
+  fAtsAdmin.ComboBox13.ItemIndex := ComboBox13.ItemIndex;
 end;
 
 procedure TfParametro.DtSrcStateChange(Sender: TObject);
@@ -404,6 +419,12 @@ end;
 
 procedure TfParametro.FormCreate(Sender: TObject);
 begin
+  ComboBox14.ItemIndex := 0;
+  JvOutlookBar1.OnCustomDraw := DoCustomDraw;
+  ComboBox13.ItemIndex := 0;
+  ComboBox14Change(ComboBox14);
+  ComboBox13Change(ComboBox13);
+
   //inherited;
   dm.cds_param.Open;
   if (dm.cds_param.Locate('PARAMETRO','ANOTACOESVENDAS', [loCaseInsensitive])) then
@@ -1799,6 +1820,55 @@ begin
          [mbOk], 0);
   end;
 
+end;
+
+procedure TfParametro.ComboBox14Change(Sender: TObject);
+begin
+//  inherited;
+  JvNavPaneStyleManager1.Theme := TJvNavPanelTheme(ComboBox14.ItemIndex);
+  JvOutlookBar1.Invalidate;
+end;
+
+procedure TfParametro.ComboBox13Change(Sender: TObject);
+begin
+//  inherited;
+  JvOutlookBar1.ButtonSize := TJvBarButtonSize(ComboBox13.ItemIndex);
+end;
+
+procedure TfParametro.DoCustomDraw(Sender: TObject; ACanvas: TCanvas;  ARect: TRect; AStage: TJvOutlookBarCustomDrawStage; AIndex: integer;  ADown, AInside: boolean; var DefaultDraw: boolean);
+begin
+  DefaultDraw := False;
+  case AStage of
+  odsBackground:
+     with JvNavPaneStyleManager1.Colors do
+       GradientFillRect(ACanvas, ARect, HeaderColorFrom, HeaderColorTo, fdTopToBottom, 255);
+  odsPage:
+     with JvNavPaneStyleManager1.Colors do
+       GradientFillRect(ACanvas,ARect, ButtonColorFrom, ButtonColorTo, fdTopToBottom, 255);
+  odsPageButton:
+  begin
+     with JvNavPaneStyleManager1.Colors do
+       GradientFillRect(ACanvas,ARect, HeaderColorFrom, HeaderColorTo, fdTopToBottom, 255);
+     if ADown then
+       OffsetRect(ARect,1,1);
+     ACanvas.Font.Color := clWhite;
+     DrawText(ACanvas.Handle, PChar(JvOutlookBar1.Pages[AIndex].Caption), Length(JvOutlookBar1.Pages[AIndex].Caption), ARect, DT_SINGLELINE or DT_VCENTER or DT_CENTER);
+  end;
+  odsButtonFrame:
+  begin
+    if ADown then
+      ACanvas.Brush.Color := clNavy
+    else
+      ACanvas.Brush.Color := clBlack;
+    ACanvas.FrameRect(ARect);
+    InflateRect(ARect,-1,-1);
+    if not ADown then
+      ACanvas.Brush.Color := clWhite;
+    ACanvas.FrameRect(ARect);
+  end;
+  odsButton:
+    DefaultDraw := True;
+  end;
 end;
 
 end.
