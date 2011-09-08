@@ -214,7 +214,7 @@ begin
       end;
     end;
     sqlInsere := 'INSERT INTO OS(CODOS, CODCLIENTE, CODVEICULO, CODUSUARIO, DATAOS,'+
-      'DATA_SISTEMA, DATA_INI, DATA_FIM, KM, STATUS) VALUES (';
+      'DATA_SISTEMA, DATA_INI, DATA_FIM, STATUS, KM) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.codOs) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codCliente) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.codVeiculo) + ', ';

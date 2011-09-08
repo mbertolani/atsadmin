@@ -28,14 +28,19 @@ Type
     procedure setDesconto(const Value: Double);
     function getTipo: String;
     procedure setTipo(const Value: String);
+    function getCodOsServ: Integer;
+    function getCodProduto: Integer;
+    procedure setCodOsServ(const Value: Integer);
+    procedure setCodProduto(const Value: Integer);
   protected
     //Atributos
     _codOsP     : Integer;
     _codDet     : Integer;
+    _codOsServ  : Integer;
     _codUsuario : Integer;
+    _codProduto : Integer;
     _status     : String;
     _descricao  : String;
-    _servExecutado : String;
     _preco      : Double;
     _qtde       : Double;
     _desconto   : Double;
@@ -43,7 +48,9 @@ Type
   public
     property CodOsP        : Integer read getCodOs write setCodOs;
     property CodDet        : Integer read getCodDet write setCodDet;
+    property CodOsServ     : Integer read getCodOsServ write setCodOsServ;
     property CodUsuario    : Integer read getCodUsuario write setCodUsuario;
+    property CodProduto    : Integer read getCodProduto write setCodProduto;
     property Status        : String read getStatus write setStatus;
     property Tipo          : String read getTipo write setTipo;
     property Descricao     : String read getDescricao write setDescricao;
@@ -131,6 +138,16 @@ begin
 end;
 
 
+function TOsDetalheClasse.getCodOsServ: Integer;
+begin
+  Result := _codOsServ;
+end;
+
+function TOsDetalheClasse.getCodProduto: Integer;
+begin
+  Result := _codProduto;
+end;
+
 function TOsDetalheClasse.getCodUsuario: Integer;
 begin
   Result := _codUsuario;
@@ -158,7 +175,7 @@ end;
 
 function TOsDetalheClasse.getServExecutado: String;
 begin
-  Result := Trim(_servExecutado);
+
 end;
 
 function TOsDetalheClasse.getStatus: String;
@@ -191,17 +208,20 @@ begin
         sqlBuscai.Destroy;
       end;
     end;
-    sqlInsere := 'INSERT INTO OS_DET(ID_OS_DET, ID_OS, CODUSUARIO, '+
-      'DESCRICAO, SERV_EXECUTADO, QTDE, PRECO, STATUS, TIPO) VALUES (';
+    sqlInsere := 'INSERT INTO OS_DET(ID_OS_DET, ID_OS, CODUSUARIO, CODPRODUTO, '+
+      ' DESCRICAO_SERV, STATUS, QTDE, PRECO, TIPO, DESCONTO, ' +
+      ' ID_OSDET_SERV) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.CodDet) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.CodOsP) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codUsuario) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.codProduto) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.Descricao) + ', ';
-    sqlInsere := sqlInsere + QuotedStr(Self.ServExecutado) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.status) + ', ';
     sqlInsere := sqlInsere + FloatToStr(Self.Qtde) + ', ';
     sqlInsere := sqlInsere + FloatToStr(Self.Preco) + ', ';
-    sqlInsere := sqlInsere + QuotedStr(Self.Tipo) + ')';
+    sqlInsere := sqlInsere + QuotedStr(Self.Tipo) + ', ';
+    sqlInsere := sqlInsere + FloatToStr(Self.Desconto) + ', ';
+    sqlInsere := sqlInsere + IntToStr(Self.CodOsServ) + ')';
     executaSql(sqlInsere);
     Result := Self.CodDet;
   except
@@ -224,6 +244,16 @@ end;
 procedure TOsDetalheClasse.setCodOs(const Value: Integer);
 begin
   _codOsP := Value;
+end;
+
+procedure TOsDetalheClasse.setCodOsServ(const Value: Integer);
+begin
+  _codOsServ := Value;
+end;
+
+procedure TOsDetalheClasse.setCodProduto(const Value: Integer);
+begin
+  _codProduto := Value;
 end;
 
 procedure TOsDetalheClasse.setCodUsuario(const Value: Integer);
@@ -253,7 +283,7 @@ end;
 
 procedure TOsDetalheClasse.setServExecutado(const Value: String);
 begin
-  _servExecutado := Value;
+
 end;
 
 procedure TOsDetalheClasse.setStatus(const Value: String);

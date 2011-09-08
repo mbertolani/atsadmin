@@ -255,11 +255,13 @@ begin
       FOsCls.osDet.CodOsP   := CodigoOs;
       FOsCls.osDet.CodDet   := 0;
       FOsCls.osDet.Status   := 'O';
+      FOsCls.osDet.Tipo     := 'S';
       FOsCls.osDet.Descricao:= cdsServicoDESCRICAO_SERV.AsString;
       FOsCls.osDet.Qtde     := 1;
       FOsCls.osDet.Preco    := 0;
       FOsCls.osDet.Desconto := 0;
-      FOsCls.osDet.IncluirOsDet(0);
+      if (FOsCls.osDet.IncluirOsDet(0) = 0) then
+        ShowMessage('Erro na Inclusao Os Detalhe');
       cdsServico.Next;
     end;
     cdsServico.EnableControls;
@@ -271,11 +273,14 @@ begin
       FOsCls.osDet.CodOsP   := CodigoOs;
       FOsCls.osDet.CodDet   := 0;
       FOsCls.osDet.Status   := 'O';
+      FOsCls.osDet.Tipo     := 'P';
       FOsCls.osDet.Descricao:= cdsPecasDESCRICAO_SERV.AsString;
       FOsCls.osDet.Qtde     := 1;
       FOsCls.osDet.Preco    := 0;
       FOsCls.osDet.Desconto := 0;
-      FOsCls.osDet.IncluirOsDet(0);
+      FOSCls.osDet.CodOsServ := cdsServicoID_OS_DET.AsInteger;
+      if (FOsCls.osDet.IncluirOsDet(0) = 0) then
+        ShowMessage('Erro na Inclusao Os Detalhe');
       cdsPecas.Next;
     end;
     dm.sqlsisAdimin.Commit(TD);
