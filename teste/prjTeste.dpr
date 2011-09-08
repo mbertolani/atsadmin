@@ -16,7 +16,10 @@ uses
   uCompraCls in '..\comercial\src\uCompraCls.pas',
   uCompraTeste in 'uCompraTeste.pas',
   uVendaTeste in 'uVendaTeste.pas',
-  uVendaCls in '..\comercial\src\uVendaCls.pas';
+  uVendaCls in '..\comercial\src\uVendaCls.pas',
+  uOsClasse in '..\comercial\src\uOsClasse.pas',
+  uOsDetalheClasse in '..\comercial\src\uOsDetalheClasse.pas',
+  uOsTeste in 'uOsTeste.pas';
 
 {$R *.res}
 
