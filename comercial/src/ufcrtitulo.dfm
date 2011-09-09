@@ -277,7 +277,7 @@ inherited fcpTitulo: TfcpTitulo
       Visible = False
     end
     inherited btnCancelar: TBitBtn [4]
-      Left = 396
+      Left = 398
     end
     inherited btnProcurar: TBitBtn
       Top = 79
