@@ -8,7 +8,7 @@ uses
   IdMessage, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient,
   IdMessageClient, IdSMTP, FMTBcd, DB, Grids, DBGrids, JvExDBGrids,
   JvDBGrid, JvDBUltimGrid, Provider, DBClient, SqlExpr,IdSSLOpenSSL, dateutils,
-  JvExStdCtrls, JvRichEdit, RXCtrls, ComCtrls,dbxpress, DBCtrls ;
+  JvExStdCtrls, JvRichEdit, RXCtrls, ComCtrls,dbxpress, DBCtrls, ExtCtrls ;
 
 type
   TForm1 = class(TForm)
@@ -57,6 +57,30 @@ type
     ds1DATAENVIO: TDateField;
     BitBtn4: TBitBtn;
     BitBtn3: TBitBtn;
+    sdsSQLDataSet1CODEMAIL: TIntegerField;
+    SQLDataSet1EMAIL: TStringField;
+    SQLDataSet1ASSUNTO: TStringField;
+    SQLDataSet1DATAENVIO: TDateField;
+    SQLDataSet1GRUPO: TStringField;
+    cdsEnviaGRUPO: TStringField;
+    sdssqldtst1CODEMAIL: TIntegerField;
+    sqldtst1EMAIL: TStringField;
+    sqldtst1ASSUNTO: TStringField;
+    sqldtst1DATAENVIO: TDateField;
+    sqldtst1GRUPO: TStringField;
+    ds1GRUPO: TStringField;
+    cbbSerie: TComboBox;
+    rgSituacao: TRadioGroup;
+    lbl5: TLabel;
+    dbGRUPO: TDBEdit;
+    sqldtst1ENVIADO: TStringField;
+    lbl6: TLabel;
+    dbENVIADO: TDBEdit;
+    ds3: TDataSource;
+    lbl7: TLabel;
+    ds1ENVIADO: TStringField;
+    rg1: TRadioGroup;
+    BitBtn5: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -67,6 +91,9 @@ type
     procedure pgc1Change(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure rgSi(Sender: TObject);
+    procedure rg1Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     { Private declarations }
         TD: TTransactionDesc;
@@ -177,6 +204,7 @@ begin
         IdSMTP1.Send(IdMessage1); //Envia a mensagem
         dm.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET DATAENVIO = ' +
         QuotedStr(Formatdatetime('mm/dd/yyyy', today)) +
+        ', ENVIADO = ' + QuotedStr('S') +
         ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.AsInteger));
         //MessageDlg('Email enviado com sucesso para, ' + FormCadastroAlunoConsulta.scdsAlunoNOME.AsString, mtWarning, [mbOK], 0);
       finally
@@ -227,6 +255,9 @@ begin
     ds1CODEMAIL.AsInteger := StrToInt(dbedtCODEMAIL.Text);
     ds1EMAIL.AsString := dbedtEMAIL.Text;
     ds1ASSUNTO.AsString := edtAssunto.Text;
+    ds1GRUPO.AsString := dbGRUPO.Text;
+    if(dbENVIADO.Text = '') then
+    ds1ENVIADO.Text := 'N';
     ds1.ApplyUpdates(0) ;
     cdsEnvia.Close;
     cdsEnvia.Open
@@ -278,6 +309,105 @@ end;
 procedure TForm1.BitBtn3Click(Sender: TObject);
 begin
  lbxAnexos.Clear;
+end;
+
+procedure TForm1.rgSi(Sender: TObject);
+var str,str1 : string;
+begin
+  str := '';
+  str1 := '';
+  if(cbBSerie.Text = '') then
+  begin
+    MessageDlg('Escolha um Grupo', mtWarning, [mbOK], 0);
+    cbBSerie.SetFocus;
+    Exit;
+  end;
+  Case rgSituacao.ItemIndex of
+     0: str := 'S'; // Enviado Sim
+     1: str := 'N'; // Enviado Não
+
+  end;
+  if cbBSerie.Text <> '' then
+  begin
+   // if (cbSerie.Text) then
+      str1 := cbBSerie.Text;
+  end;
+  if cdsEnvia.Active then
+    cdsEnvia.Close;
+
+  if (str = 'N') then
+    cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (GRUPO = '+
+    QuotedStr(cbBSerie.Text) + ') AND (ENVIADO = ' +  QuotedStr(str) +
+    ') order by  ASSUNTO'
+  else
+  cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (GRUPO = '+
+  QuotedStr(cbBSerie.Text) + ') AND (ENVIADO = ' +  QuotedStr(str) +
+  ') order by  ASSUNTO';
+  cdsEnvia.Open;
+
+end;
+
+procedure TForm1.rg1Click(Sender: TObject);
+var str,str1 : string;
+begin
+  str := '';
+  str1 := '';
+  if(cbBSerie.Text = '') then
+  begin
+    MessageDlg('Escolha um Grupo', mtWarning, [mbOK], 0);
+    cbBSerie.SetFocus;
+    Exit;
+  end;
+  Case rg1.ItemIndex of
+     0: str := 'S'; // Enviado Sim
+     1: str := 'N'; // Enviado Não
+
+  end;
+  if cbBSerie.Text <> '' then
+  begin
+   // if (cbSerie.Text) then
+      str1 := cbBSerie.Text;
+  end;
+  if ds1.Active then
+    ds1.Close;
+
+  if (str = 'S') then
+    ds1.CommandText := 'Select * from EMAIL_ENVIAR where (GRUPO = '+
+    QuotedStr(cbBSerie.Text) +
+    ') order by  ASSUNTO'
+  else
+  ds1.CommandText := 'Select * from EMAIL_ENVIAR  order by  ASSUNTO';
+  ds1.Open;
+
+end;
+
+procedure TForm1.BitBtn5Click(Sender: TObject);
+begin
+  if(cbBSerie.Text = '') then
+  begin
+    MessageDlg('Escolha um Grupo Para Alterar ', mtWarning, [mbOK], 0);
+    cbBSerie.SetFocus;
+    Exit;
+  end;
+
+
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  DM.sqlsisAdimin.StartTransaction(TD);
+  try
+    DM.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET ENVIADO = ' + QuotedStr('N') +
+     ' WHERE GRUPO = ' + QuotedStr(cbBSerie.Text));
+    DM.sqlsisAdimin.Commit(TD);
+    MessageDlg('Alteração com Sucesso.', mtInformation, [mbOK], 0);
+    ds1.Close;
+    ds1.Open;
+    cdsEnvia.Close;
+    cdsEnvia.Open
+  except
+    DM.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro ao alterar Registro .', mtError, [mbOK], 0);
+    exit;
+  end;
 end;
 
 end.

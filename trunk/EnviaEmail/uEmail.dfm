@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 222
   Top = 84
-  Width = 887
+  Width = 1002
   Height = 635
   Caption = 'Form1'
   Color = clBtnFace
@@ -45,14 +45,14 @@ object Form1: TForm1
   object FlatGauge1: TFlatGauge
     Left = 10
     Top = 566
-    Width = 720
+    Width = 535
     Height = 23
     AdvColorBorder = 0
     ColorBorder = 8623776
     Progress = 0
   end
   object BitBtn1: TBitBtn
-    Left = 742
+    Left = 558
     Top = 560
     Width = 107
     Height = 36
@@ -181,7 +181,7 @@ object Form1: TForm1
   object JvDBUltimGrid1: TJvDBUltimGrid
     Left = 45
     Top = 0
-    Width = 797
+    Width = 932
     Height = 203
     DataSource = dsEnvia
     TabOrder = 2
@@ -205,19 +205,24 @@ object Form1: TForm1
       item
         Expanded = False
         FieldName = 'EMAIL'
-        Width = 300
+        Width = 366
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ASSUNTO'
-        Width = 300
+        Width = 201
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAENVIO'
-        Width = 80
+        Width = 82
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'GRUPO'
         Visible = True
       end>
   end
@@ -230,7 +235,7 @@ object Form1: TForm1
     TabOrder = 3
   end
   object BitBtn2: TBitBtn
-    Left = 704
+    Left = 708
     Top = 232
     Width = 57
     Height = 33
@@ -240,18 +245,26 @@ object Form1: TForm1
   end
   object pgc1: TPageControl
     Left = 8
-    Top = 268
-    Width = 841
-    Height = 289
+    Top = 272
+    Width = 961
+    Height = 285
     ActivePage = ts1
     TabOrder = 5
     OnChange = pgc1Change
     object ts1: TTabSheet
       Caption = 'Mensagem'
+      object lbl6: TLabel
+        Left = 856
+        Top = 0
+        Width = 48
+        Height = 13
+        Caption = 'ENVIADO'
+        FocusControl = dbENVIADO
+      end
       object edText: TJvRichEdit
         Left = 6
         Top = 1
-        Width = 822
+        Width = 939
         Height = 256
         AutoSize = False
         TabOrder = 0
@@ -277,7 +290,7 @@ object Form1: TForm1
         FocusControl = dbedtEMAIL
       end
       object lbl3: TLabel
-        Left = 752
+        Left = 664
         Top = 0
         Width = 62
         Height = 13
@@ -285,12 +298,28 @@ object Form1: TForm1
         FocusControl = dbedtDATAENVIO
       end
       object lbl4: TLabel
-        Left = 544
+        Left = 480
         Top = 0
         Width = 52
         Height = 13
         Caption = 'ASSUNTO'
         FocusControl = dbedtASSUNTO
+      end
+      object lbl5: TLabel
+        Left = 746
+        Top = 0
+        Width = 39
+        Height = 13
+        Caption = 'GRUPO'
+        FocusControl = dbGRUPO
+      end
+      object lbl7: TLabel
+        Left = 898
+        Top = 0
+        Width = 48
+        Height = 13
+        Caption = 'ENVIADO'
+        FocusControl = dbGRUPO
       end
       object btnAdiconar: TBitBtn
         Left = 302
@@ -332,7 +361,7 @@ object Form1: TForm1
       object dbedtEMAIL: TDBEdit
         Left = 88
         Top = 16
-        Width = 452
+        Width = 385
         Height = 21
         DataField = 'EMAIL'
         DataSource = ds2
@@ -340,7 +369,7 @@ object Form1: TForm1
         OnKeyPress = FormKeyPress
       end
       object dbedtDATAENVIO: TDBEdit
-        Left = 750
+        Left = 662
         Top = 16
         Width = 72
         Height = 21
@@ -352,7 +381,7 @@ object Form1: TForm1
       object dbgrd1: TDBGrid
         Left = 24
         Top = 48
-        Width = 801
+        Width = 905
         Height = 176
         DataSource = ds2
         TabOrder = 7
@@ -370,25 +399,31 @@ object Form1: TForm1
           item
             Expanded = False
             FieldName = 'EMAIL'
-            Width = 382
+            Width = 462
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ASSUNTO'
-            Width = 234
+            Width = 150
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DATAENVIO'
+            Width = 78
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'GRUPO'
             Visible = True
           end>
       end
       object dbedtASSUNTO: TDBEdit
-        Left = 544
+        Left = 480
         Top = 16
-        Width = 201
+        Width = 177
         Height = 21
         DataField = 'ASSUNTO'
         DataSource = ds2
@@ -404,6 +439,25 @@ object Form1: TForm1
         TabOrder = 8
         OnClick = BitBtn4Click
       end
+      object dbGRUPO: TDBEdit
+        Left = 744
+        Top = 16
+        Width = 153
+        Height = 21
+        DataField = 'GRUPO'
+        DataSource = ds2
+        TabOrder = 9
+      end
+      object dbENVIADO: TDBEdit
+        Left = 912
+        Top = 16
+        Width = 25
+        Height = 21
+        CharCase = ecUpperCase
+        DataField = 'ENVIADO'
+        DataSource = ds2
+        TabOrder = 10
+      end
     end
   end
   object BitBtn3: TBitBtn
@@ -414,6 +468,82 @@ object Form1: TForm1
     Caption = 'Excluir Anexo'
     TabOrder = 6
     OnClick = BitBtn3Click
+  end
+  object cbbSerie: TComboBox
+    Left = 707
+    Top = 209
+    Width = 148
+    Height = 21
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemHeight = 13
+    ParentFont = False
+    TabOrder = 7
+    Items.Strings = (
+      'Artur Nogueira'
+      'Cosmopolis'
+      'Posse'
+      'Holambra'
+      'Funeraria'
+      'Limeira'
+      'Jaguariuna'
+      'Mogi Mirim'
+      'Mogi Gua'#231'u'
+      'Paulinia'
+      'Conchal'
+      'Teste')
+  end
+  object rgSituacao: TRadioGroup
+    Left = 860
+    Top = 199
+    Width = 112
+    Height = 33
+    Caption = 'Enviado'
+    Columns = 2
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemIndex = 1
+    Items.Strings = (
+      'Sim'
+      'N'#227'o')
+    ParentFont = False
+    TabOrder = 8
+    OnClick = rgSi
+  end
+  object rg1: TRadioGroup
+    Left = 672
+    Top = 559
+    Width = 161
+    Height = 33
+    Caption = 'Email'
+    Columns = 2
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemIndex = 1
+    Items.Strings = (
+      'Grupo'
+      'Todos')
+    ParentFont = False
+    TabOrder = 9
+    OnClick = rg1Click
+  end
+  object BitBtn5: TBitBtn
+    Left = 856
+    Top = 565
+    Width = 113
+    Height = 25
+    Caption = 'Alterar Grupo Para '#39'N'#39
+    TabOrder = 10
+    OnClick = BitBtn5Click
   end
   object IdSMTP1: TIdSMTP
     MaxLineAction = maException
@@ -435,12 +565,32 @@ object Form1: TForm1
     Top = 39
   end
   object SQLDataSet1: TSQLDataSet
-    CommandText = 'SELECT * FROM EMAIL_ENVIAR '#13#10'WHERE DATAENVIO IS NULL'#13#10'       '
+    CommandText = 'SELECT * FROM EMAIL_ENVIAR '#13#10'       '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 8
     Top = 8
+    object sdsSQLDataSet1CODEMAIL: TIntegerField
+      FieldName = 'CODEMAIL'
+      Required = True
+    end
+    object SQLDataSet1EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Required = True
+      Size = 80
+    end
+    object SQLDataSet1ASSUNTO: TStringField
+      FieldName = 'ASSUNTO'
+      Size = 200
+    end
+    object SQLDataSet1DATAENVIO: TDateField
+      FieldName = 'DATAENVIO'
+    end
+    object SQLDataSet1GRUPO: TStringField
+      FieldName = 'GRUPO'
+      Size = 30
+    end
   end
   object cdsEnvia: TClientDataSet
     Aggregates = <>
@@ -464,9 +614,14 @@ object Form1: TForm1
     object cdsEnviaDATAENVIO: TDateField
       FieldName = 'DATAENVIO'
     end
+    object cdsEnviaGRUPO: TStringField
+      FieldName = 'GRUPO'
+      Size = 30
+    end
   end
   object DataSetProvider1: TDataSetProvider
     DataSet = SQLDataSet1
+    Options = [poAllowCommandText]
     Left = 8
     Top = 40
   end
@@ -486,6 +641,31 @@ object Form1: TForm1
     SQLConnection = DM.sqlsisAdimin
     Left = 208
     Top = 264
+    object sdssqldtst1CODEMAIL: TIntegerField
+      FieldName = 'CODEMAIL'
+      Required = True
+    end
+    object sqldtst1EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Required = True
+      Size = 80
+    end
+    object sqldtst1ASSUNTO: TStringField
+      FieldName = 'ASSUNTO'
+      Size = 200
+    end
+    object sqldtst1DATAENVIO: TDateField
+      FieldName = 'DATAENVIO'
+    end
+    object sqldtst1GRUPO: TStringField
+      FieldName = 'GRUPO'
+      Size = 30
+    end
+    object sqldtst1ENVIADO: TStringField
+      FieldName = 'ENVIADO'
+      FixedChar = True
+      Size = 1
+    end
   end
   object ds1: TClientDataSet
     Aggregates = <>
@@ -509,9 +689,19 @@ object Form1: TForm1
     object ds1DATAENVIO: TDateField
       FieldName = 'DATAENVIO'
     end
+    object ds1GRUPO: TStringField
+      FieldName = 'GRUPO'
+      Size = 30
+    end
+    object ds1ENVIADO: TStringField
+      FieldName = 'ENVIADO'
+      FixedChar = True
+      Size = 1
+    end
   end
   object DataSetProvider2: TDataSetProvider
     DataSet = sqldtst1
+    Options = [poAllowCommandText]
     Left = 256
     Top = 264
   end
@@ -519,5 +709,10 @@ object Form1: TForm1
     DataSet = ds1
     Left = 352
     Top = 264
+  end
+  object ds3: TDataSource
+    DataSet = sqldtst1
+    Left = 488
+    Top = 304
   end
 end
