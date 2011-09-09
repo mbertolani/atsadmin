@@ -185,6 +185,7 @@ type
     procedure DBEdit2Exit(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -522,6 +523,7 @@ begin
     if (cds_4_pagar.Active) then
        cds_4_pagar.Close;
     cds_4_pagar.Params[0].AsString := dm.cds_4_pagarTITULO.AsString;
+    cds_4_pagar.Params[1].AsInteger := dm.cds_4_pagarCODFORNECEDOR.AsInteger;
     cds_4_pagar.Open;
 end;
 
@@ -556,7 +558,8 @@ begin
      //aqui mostro parcelas no dbgrig...
      if (cds_4_pagar.Active) then
        cds_4_pagar.Close;
-     cds_4_pagar.Params[0].AsString := dm.cds_4_pagarTITULO.AsString;
+     cds_4_pagar.Params[0].AsString  := dm.cds_4_pagarTITULO.AsString;
+     cds_4_pagar.Params[1].AsInteger := dm.cds_4_pagarCODFORNECEDOR.AsInteger;
      cds_4_pagar.Open;
      // para mostrar valores na COMBO
      if (dm.cds_ccusto.Active) then
@@ -810,45 +813,73 @@ var
   deleta : String;
   TD: TTransactionDesc;
 begin
-
-  if  MessageDlg('Confirma a exclusão do Título? ' ,
-    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
-
-  deleta := 'SELECT * FROM PAGAMENTO WHERE TITULO = ';
-  deleta := deleta + '''' + DM.cds_4_pagarTITULO.AsString + '''';
+  deleta := 'SELECT CODPAGAMENTO FROM PAGAMENTO WHERE TITULO = ';
+  deleta := deleta + '''' + cds_4_pagarTITULO.AsString + '''';
   deleta := deleta + ' and CODFORNECEDOR = ';
-  deleta := deleta +  IntToStr(DM.cds_4_pagarCODFORNECEDOR.AsInteger);
-  //deleta := deleta + ' and STATUS = ' + QuotedStr('5-');
+  deleta := deleta +  IntToStr(cds_4_pagarCODFORNECEDOR.AsInteger);
+  deleta := deleta + ' and STATUS = ' + QuotedStr('5-');
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
-
   if (dm.cdsBusca.Active) then
     dm.cdsBusca.Close;
   dm.cdsBusca.CommandText := deleta;
   dm.cdsBusca.Open;
   if (dm.cdsBusca.RecordCount = 0) then
   begin
-    MessageDlg('Nenhum Título a ser excluído.', mtInformation, [mbOK], 0);
+    MessageDlg('Nenhum Título a ser excluído.' + #13#10 +
+    ' Título com Status Recebido não pode ser excluído.', mtInformation, [mbOK], 0);
+    Exit;
   end;
+
+  if (MessageDlg('Confirma a exclusão de ' + IntToStr(dm.cdsBusca.RecordCount) + ' Título(s)? ' ,
+    mtConfirmation, [mbYes, mbNo],0) = mrNo) then exit;
+
   Try
   dm.sqlsisAdimin.StartTransaction(TD);
   While not dm.cdsBusca.Eof do
   begin
-    dm.cdsBusca.Delete;
-    if (dm.cdsBusca.ApplyUpdates(0) > 0) then
-      exit;
+    deleta := 'DELETE FROM PAGAMENTO WHERE CODPAGAMENTO = ';
+    deleta := deleta + IntToStr(dm.cdsBusca.Fields[0].AsInteger);
+    dm.sqlsisAdimin.ExecuteDirect(deleta);
+    dm.cdsBusca.Next;
   end;
   dm.sqlsisAdimin.Commit(TD);
   if (cds_4_pagar.Active) then
     cds_4_pagar.Close;
+  cds_4_pagar.Open;
   if (dm.cds_4_pagar.Active) then
     dm.cds_4_pagar.Close;
+  dm.cds_4_pagar.Open;
+
   dbeCliente.Text := '';
   DBEdit4.Text := '';
+
+  if (not dm.cds_4_pagar.IsEmpty) then
+  begin
+    if (sds.Active) then
+      sds.Close;
+    sds.Params[0].AsInteger := dm.cds_4_pagarCONTACREDITO.AsInteger;
+    sds.Open;
+    edtcodred.Text := sds.Fields[1].AsString;
+    edtconta.Text := sds.Fields[2].AsString;
+    conta_rateio := sds.Fields[3].AsString;
+    if (sds_for.Active) then
+      sds_for.Close;
+    sds_for.Params[0].AsInteger := dm.cds_4_pagarCODFORNECEDOR.AsInteger;
+    sds_for.Open;
+    dbeCliente.Text := sds_for.Fields[0].AsString;
+    DBEdit4.Text := sds_for.Fields[1].AsString;
+    sds.Close;
+    sds_for.Close;
+  end;
+
   MessageDlg('Títulos excluídos com sucesso.', mtInformation, [mbOK], 0);
   except
-    //MessageDlg('Erro para excluir, exclusão não efetuada.', mtError, [mbOK], 0);
-    dm.sqlsisAdimin.Rollback(TD);
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+    end;
   end;  // Mostrar a mensagem do erro
 
 end;
@@ -995,12 +1026,9 @@ var
   deleta : String;
   TD: TTransactionDesc;
 begin
-
-  if  MessageDlg('Confirma a exclusão do Título? ' ,
-    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
-
-  deleta := 'SELECT * FROM PAGAMENTO WHERE CODPAGAMENTO = ';
-  deleta := deleta + IntToStr(DM.cds_4_pagarCODPAGAMENTO.AsInteger);
+  deleta := 'SELECT CODPAGAMENTO FROM PAGAMENTO WHERE CODPAGAMENTO = ';
+  deleta := deleta + IntToStr(cds_4_pagarCODPAGAMENTO.AsInteger);
+  deleta := deleta + ' and STATUS = ' + QuotedStr('5-');
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   if (dm.cdsBusca.Active) then
@@ -1009,29 +1037,74 @@ begin
   dm.cdsBusca.Open;
   if (dm.cdsBusca.RecordCount = 0) then
   begin
-    MessageDlg('Nenhum Título a ser excluído.', mtInformation, [mbOK], 0);
+    MessageDlg('Nenhum Título a ser excluído.' + #13#10 +
+    ' Título com Status Recebido não pode ser excluído.', mtInformation, [mbOK], 0);
+    Exit;
   end;
+
+  if (MessageDlg('Confirma a exclusão do Título : ' + cds_4_pagarTITULO.AsString +
+   '-' + cds_4_pagarVIA.AsString,
+    mtConfirmation, [mbYes, mbNo],0) = mrNo) then exit;
+
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
-    While not dm.cdsBusca.Eof do
-    begin
-      dm.cdsBusca.Delete;
-      if (dm.cdsBusca.ApplyUpdates(0) > 0) then
-        exit;
-    end;
+    deleta := 'DELETE FROM PAGAMENTO WHERE CODPAGAMENTO = ';
+    deleta := deleta + IntToStr(cds_4_pagarCODPAGAMENTO.AsInteger);
+    deleta := deleta + ' and STATUS = ' + QuotedStr('5-');
+    dm.sqlsisAdimin.ExecuteDirect(deleta);
     dm.sqlsisAdimin.Commit(TD);
     if (cds_4_pagar.Active) then
       cds_4_pagar.Close;
+    cds_4_pagar.Open;
     if (dm.cds_4_pagar.Active) then
       dm.cds_4_pagar.Close;
+    dm.cds_4_pagar.Open;
+
     dbeCliente.Text := '';
     DBEdit4.Text := '';
+
+    if (not dm.cds_4_pagar.IsEmpty) then
+    begin
+      if (sds.Active) then
+        sds.Close;
+      sds.Params[0].AsInteger := dm.cds_4_pagarCONTACREDITO.AsInteger;
+      sds.Open;
+      edtcodred.Text := sds.Fields[1].AsString;
+      edtconta.Text := sds.Fields[2].AsString;
+      conta_rateio := sds.Fields[3].AsString;
+      if (sds_for.Active) then
+        sds_for.Close;
+      sds_for.Params[0].AsInteger := dm.cds_4_pagarCODFORNECEDOR.AsInteger;
+      sds_for.Open;
+      dbeCliente.Text := sds_for.Fields[0].AsString;
+      DBEdit4.Text := sds_for.Fields[1].AsString;
+      sds.Close;
+      sds_for.Close;
+    end;
     MessageDlg('Parcela excluída com sucesso.', mtInformation, [mbOK], 0);
   except
-    dm.sqlsisAdimin.Rollback(TD);
-    //MessageDlg('Erro para excluir, exclusão não efetuada.', mtError, [mbOK], 0);
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+    end;
   end;
 
+end;
+
+procedure TfcrTituloPagto.DBGrid1CellClick(Column: TColumn);
+begin
+  inherited;
+  if (sds.Active) then
+    sds.Close;
+  sds.Params[0].AsInteger := dm.cds_4_pagarCONTACREDITO.AsInteger;
+  sds.Open;
+  if (not sds.IsEmpty) then
+  begin
+    edtcodred.Text := sds.Fields[1].AsString;
+    edtconta.Text := sds.Fields[2].AsString;
+    conta_rateio := sds.Fields[3].AsString;
+  end;  
 end;
 
 end.

@@ -634,6 +634,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnCellClick = DBGrid1CellClick
     Columns = <
       item
         Expanded = False
@@ -1276,14 +1277,18 @@ inherited fcrTituloPagto: TfcrTituloPagto
   object s_4: TSQLDataSet
     CommandText = 
       'select pag.*  '#13#10'from PAGAMENTO pag  '#13#10'where pag.TITULO = :ptitul' +
-      'o'
+      'o'#13#10'   and pag.CODFORNECEDOR = :fornec'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
-        Name = 'pCODREC'
+        DataType = ftString
+        Name = 'ptitulo'
         ParamType = ptInput
-        Value = '20'
+      end
+      item
+        DataType = ftInteger
+        Name = 'fornec'
+        ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 56
@@ -1401,20 +1406,24 @@ inherited fcrTituloPagto: TfcrTituloPagto
   object d_4: TDataSetProvider
     DataSet = s_4
     UpdateMode = upWhereKeyOnly
-    Left = 112
+    Left = 88
     Top = 376
   end
   object cds_4_pagar: TClientDataSet
     Aggregates = <>
     Params = <
       item
-        DataType = ftInteger
-        Name = 'pCODREC'
+        DataType = ftString
+        Name = 'ptitulo'
         ParamType = ptInput
-        Value = '20'
+      end
+      item
+        DataType = ftInteger
+        Name = 'fornec'
+        ParamType = ptInput
       end>
     ProviderName = 'd_4'
-    Left = 176
+    Left = 120
     Top = 376
     object cds_4_pagarCODPAGAMENTO: TIntegerField
       FieldName = 'CODPAGAMENTO'
@@ -1541,7 +1550,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
   end
   object DataSource2: TDataSource
     DataSet = cds_4_pagar
-    Left = 240
+    Left = 152
     Top = 376
   end
   object sds_for: TSQLDataSet
