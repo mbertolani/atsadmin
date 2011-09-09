@@ -1,6 +1,5 @@
-ï»¿CREATE OR ALTER TRIGGER INCLUI_REC FOR VENDA
-ACTIVE AFTER INSERT
-POSITION 0
+CREATE OR ALTER TRIGGER INCLUI_REC FOR VENDA ACTIVE
+AFTER INSERT POSITION 0
 AS
   DECLARE VARIABLE i integer;
   DECLARE VARIABLE status_venda char(2);
@@ -28,6 +27,7 @@ AS
   DECLARE VARIABLE CAIXA INTEGER;
   DECLARE VARIABLE DTAREC DATE;
   DECLARE VARIABLE DTAVENC DATE;
+  DECLARE VARIABLE DTA_ALT INTEGER;  
   DECLARE VARIABLE MESMOTITULO CHAR(1);
   Declare Variable existeTitulo integer;
   DECLARE VARIABLE d1 smallint;
@@ -243,6 +243,14 @@ begin
              dtaVenc = UDF_INCMONTH(NEW.DATAVENCIMENTO, i);
            else
              dtaVenc = UDF_INCDAY(NEW.DATAVENDA, J);
+             
+           /*VERIFICA SE O VENCIMENTO É EM UM SABADO OU DOMINGO*/
+           DTA_ALT = EXTRACT(WEEKDAY FROM :dtaVenc);
+           IF (DTA_ALT = 0) then
+             dtaVenc = UDF_INCDAY(dtaVenc, 1);
+           IF (DTA_ALT = 6) then
+             dtaVenc = UDF_INCDAY(dtaVenc, 2);
+             
            select gen_id(COD_AREC,1) FROM RDB$DATABASE
              into :codRec;
            INSERT INTO RECEBIMENTO
@@ -381,7 +389,13 @@ begin
          end   
          else
            dtaVenc = UDF_INCDAY(NEW.DATAVENDA, J);
-
+                   /*VERIFICA SE O VENCIMENTO É EM UM SABADO OU DOMINGO*/
+          
+         DTA_ALT = EXTRACT(WEEKDAY FROM :dtaVenc);
+         IF (DTA_ALT = 0) then
+           dtaVenc = UDF_INCDAY(dtaVenc, 1);
+         IF (DTA_ALT = 6) then
+           dtaVenc = UDF_INCDAY(dtaVenc, 2);
          
          --VLR_RESTO =  VLT/N_PARC;
 

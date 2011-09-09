@@ -1,6 +1,5 @@
-CREATE OR ALTER TRIGGER INCLUI_PAG for COMPRA
-AFTER INSERT
-POSITION 0
+CREATE OR ALTER TRIGGER INCLUI_PAG FOR COMPRA ACTIVE
+AFTER INSERT POSITION 0
 AS
   DECLARE VARIABLE i integer;
   DECLARE VARIABLE status_venda char(2);
@@ -28,6 +27,7 @@ AS
   Declare variable j smallint;
   DECLARE VARIABLE DTAVENC DATE;
   Declare variable forma char(1);
+  declare variable DTA_ALT INTEGER;
 begin
    i = 0;
    j = 0;
@@ -177,6 +177,13 @@ begin
        dtaVenc = UDF_INCMONTH(NEW.DATAVENCIMENTO, i);
      else
        dtaVenc = UDF_INCDAY(NEW.DATACOMPRA, J);
+       
+            
+    DTA_ALT = EXTRACT(WEEKDAY FROM :dtaVenc);
+    IF (DTA_ALT = 0) then
+        dtaVenc = UDF_INCDAY(dtaVenc, 1);
+    IF (DTA_ALT = 6) then
+        dtaVenc = UDF_INCDAY(dtaVenc, 2);
 
      INSERT INTO PAGAMENTO
        (TITULO, EMISSAO, CODFORNECEDOR, DATAVENCIMENTO, STATUS , VIA, FORMAPAGAMENTO,
