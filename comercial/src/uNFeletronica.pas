@@ -1009,11 +1009,20 @@ begin
      ACBrNFe1.NotasFiscais.Imprimir;
      ShowMessage(DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC));
      ShowMessage(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
+
+     TD.TransactionID := 1;
+     TD.IsolationLevel := xilREADCOMMITTED;
+     DecimalSeparator := '.';
+     str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
+     str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
+     dm.sqlsisAdimin.ExecuteDirect(str);
+     dm.sqlsisAdimin.StartTransaction(TD);
+     dm.sqlsisAdimin.Commit(TD);
+
    end
    else
      ACBrNFe1.Enviar(0);
    AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
-   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
    if ( (tp_amb <> 2) or (tp_amb <> 5)) then
    begin
    ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
@@ -1043,7 +1052,7 @@ begin
    DecimalSeparator := ',';
    end;
    btnListar.Click;
-
+   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
 end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
@@ -1383,6 +1392,7 @@ begin
   Label5.Caption :=  'HOMOLOGAÇÃO.';
  end;
  ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresa1DIVERSOS1.AsString;
+ ACBrNFeDANFERave1.PathPDF := sEmpresa1DIVERSOS1.AsString;
  sEmpresa1.Close;
 end;
 
