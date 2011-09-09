@@ -12,7 +12,6 @@ type
     Panel1: TPanel;
     DBGrid1: TJvDBGrid;
     Panel2: TPanel;
-    sqlOs: TSQLQuery;
     dspOs: TDataSetProvider;
     cdsOs: TClientDataSet;
     dsOs: TDataSource;
@@ -20,7 +19,6 @@ type
     JvDBGrid2: TJvDBGrid;
     cdsOsCODOS: TIntegerField;
     cdsOsCODCLIENTE: TIntegerField;
-    cdsOsCODVEICULO: TIntegerField;
     cdsOsCODMOVIMENTO: TIntegerField;
     cdsOsDATAMOVIMENTO: TDateField;
     cdsOsDATA_SISTEMA: TSQLTimeStampField;
@@ -34,17 +32,6 @@ type
     cdsPeca: TClientDataSet;
     dsPeca: TDataSource;
     sqlServico: TSQLDataSet;
-    sqlOsCODOS: TIntegerField;
-    sqlOsCODCLIENTE: TIntegerField;
-    sqlOsCODVEICULO: TIntegerField;
-    sqlOsCODMOVIMENTO: TIntegerField;
-    sqlOsDATAMOVIMENTO: TDateField;
-    sqlOsDATA_SISTEMA: TSQLTimeStampField;
-    sqlOsPROBLEMAS: TStringField;
-    sqlOsSTATUS: TStringField;
-    sqlOsDATA_INI: TDateField;
-    sqlOsDATA_FIM: TDateField;
-    dspServico: TDataSetProvider;
     sqlServicoID_OS_DET: TIntegerField;
     sqlServicoID_OS: TIntegerField;
     sqlServicoCODPRODUTO: TIntegerField;
@@ -55,7 +42,6 @@ type
     sqlServicoQTDE: TFloatField;
     sqlServicoPRECO: TFloatField;
     sqlServicoDESCONTO: TFloatField;
-    sqlServicoDESCPERCENT: TFloatField;
     sqlServicoVALORTOTAL: TFloatField;
     sqlServicoID_OSDET_SERV: TIntegerField;
     cdsServicoID_OS_DET: TIntegerField;
@@ -68,10 +54,8 @@ type
     cdsServicoQTDE: TFloatField;
     cdsServicoPRECO: TFloatField;
     cdsServicoDESCONTO: TFloatField;
-    cdsServicoDESCPERCENT: TFloatField;
     cdsServicoVALORTOTAL: TFloatField;
     cdsServicoID_OSDET_SERV: TIntegerField;
-    dspPeca: TDataSetProvider;
     sqlPecaID_OS_DET: TIntegerField;
     sqlPecaID_OS: TIntegerField;
     sqlPecaCODPRODUTO: TIntegerField;
@@ -82,7 +66,6 @@ type
     sqlPecaQTDE: TFloatField;
     sqlPecaPRECO: TFloatField;
     sqlPecaDESCONTO: TFloatField;
-    sqlPecaDESCPERCENT: TFloatField;
     sqlPecaVALORTOTAL: TFloatField;
     sqlPecaID_OSDET_SERV: TIntegerField;
     cdsPecaID_OS_DET: TIntegerField;
@@ -95,10 +78,34 @@ type
     cdsPecaQTDE: TFloatField;
     cdsPecaPRECO: TFloatField;
     cdsPecaDESCONTO: TFloatField;
-    cdsPecaDESCPERCENT: TFloatField;
     cdsPecaVALORTOTAL: TFloatField;
     cdsPecaID_OSDET_SERV: TIntegerField;
+    cdsOsKM: TIntegerField;
+    cdsOsCODUSUARIO: TIntegerField;
+    cdsOsDATAOS: TDateField;
+    cdsOsCODVEICULO: TStringField;
+    cdsOsOBS: TStringField;
+    sqlServicoCODUSUARIO: TIntegerField;
+    cdsServicoCODUSUARIO: TIntegerField;
+    dsLinkMestreDetalhe: TDataSource;
+    sdsOs: TSQLDataSet;
+    sdsOsCODOS: TIntegerField;
+    sdsOsCODCLIENTE: TIntegerField;
+    sdsOsCODMOVIMENTO: TIntegerField;
+    sdsOsDATAMOVIMENTO: TDateField;
+    sdsOsDATA_SISTEMA: TSQLTimeStampField;
+    sdsOsPROBLEMAS: TStringField;
+    sdsOsSTATUS: TStringField;
+    sdsOsDATA_INI: TDateField;
+    sdsOsDATA_FIM: TDateField;
+    sdsOsKM: TIntegerField;
+    sdsOsCODUSUARIO: TIntegerField;
+    sdsOsDATAOS: TDateField;
+    sdsOsCODVEICULO: TStringField;
+    sdsOsOBS: TStringField;
+    cdsOssqlServico: TDataSetField;
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -117,6 +124,11 @@ uses UDm, uOs;
 procedure TfOsFiltro.DBGrid1DblClick(Sender: TObject);
 begin
   fOs.ShowModal;
+  cdsOs.Open;
+end;
+
+procedure TfOsFiltro.FormShow(Sender: TObject);
+begin
   cdsOs.Open;
 end;
 

@@ -57,7 +57,6 @@ type
     dtsrc: TDataSource;
     cdsOSCODOS: TIntegerField;
     cdsOSCODCLIENTE: TIntegerField;
-    cdsOSCODVEICULO: TIntegerField;
     cdsOSCODMOVIMENTO: TIntegerField;
     cdsOSDATAMOVIMENTO: TDateField;
     cdsOSDATA_SISTEMA: TSQLTimeStampField;
@@ -99,7 +98,6 @@ type
     cdsPecasQTDE: TFloatField;
     cdsPecasPRECO: TFloatField;
     cdsPecasDESCONTO: TFloatField;
-    cdsPecasDESCPERCENT: TFloatField;
     cdsPecasVALORTOTAL: TFloatField;
     cdsPecasCODPRODUTO: TIntegerField;
     cdsPecasCODPRO: TStringField;
@@ -157,6 +155,7 @@ type
     edDescVlrServ: TJvCalcEdit;
     Label19: TLabel;
     edTotalServ: TJvCalcEdit;
+    cdsOSCODVEICULO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -257,8 +256,8 @@ begin
       FOsCls.osDet.Status   := 'O';
       FOsCls.osDet.Tipo     := 'S';
       FOsCls.osDet.Descricao:= cdsServicoDESCRICAO_SERV.AsString;
-      FOsCls.osDet.Qtde     := 1;
-      FOsCls.osDet.Preco    := 0;
+      FOsCls.osDet.Qtde     := cdsServicoQTDE.AsFloat;
+      FOsCls.osDet.Preco    := cdsServicoPRECO.AsFloat;
       FOsCls.osDet.Desconto := 0;
       if (FOsCls.osDet.IncluirOsDet(0) = 0) then
         ShowMessage('Erro na Inclusao Os Detalhe');
@@ -275,9 +274,9 @@ begin
       FOsCls.osDet.Status   := 'O';
       FOsCls.osDet.Tipo     := 'P';
       FOsCls.osDet.Descricao:= cdsPecasDESCRICAO_SERV.AsString;
-      FOsCls.osDet.Qtde     := 1;
-      FOsCls.osDet.Preco    := 0;
-      FOsCls.osDet.Desconto := 0;
+      FOsCls.osDet.Qtde     := cdsPecasQTDE.AsFloat;
+      FOsCls.osDet.Preco    := cdsPecasPRECO.AsFloat;
+      FOsCls.osDet.Desconto := cdsPecasDESCONTO.AsFloat;
       FOSCls.osDet.CodOsServ := cdsServicoID_OS_DET.AsInteger;
       if (FOsCls.osDet.IncluirOsDet(0) = 0) then
         ShowMessage('Erro na Inclusao Os Detalhe');
@@ -647,7 +646,7 @@ begin
   cdsPecasQTDE.AsFloat            := edQtde.Value;
   cdsPecasPRECO.AsFloat           := edPreco.Value;
   cdsPecasDESCONTO.AsFloat        := edDescVlr.Value;
-  cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
+  //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
   cdsPecasCODPRODUTO.AsInteger    := codProduto;
   cdsPecas.Post;
   edProduto.Text    := '';
