@@ -205,6 +205,9 @@ object fOsFiltro: TfOsFiltro
     object cdsOssqlServico: TDataSetField
       FieldName = 'sqlServico'
     end
+    object cdsOssdsPeca: TDataSetField
+      FieldName = 'sdsPeca'
+    end
   end
   object dsOs: TDataSource
     DataSet = cdsOs
@@ -220,7 +223,7 @@ object fOsFiltro: TfOsFiltro
         Name = 'CODOS'
         ParamType = ptInput
       end>
-    Left = 288
+    Left = 224
     Top = 248
     object cdsServicoID_OS_DET: TIntegerField
       FieldName = 'ID_OS_DET'
@@ -273,77 +276,20 @@ object fOsFiltro: TfOsFiltro
   end
   object dsServico: TDataSource
     DataSet = cdsServico
-    Left = 320
+    Left = 256
     Top = 248
   end
-  object sqlPeca: TSQLQuery
-    DataSource = dsLinkMestreDetalhe
-    MaxBlobSize = -1
+  object cdsPeca: TClientDataSet
+    Aggregates = <>
+    DataSetField = cdsOssdsPeca
     Params = <
       item
         DataType = ftInteger
         Name = 'CODOS'
         ParamType = ptInput
-        Size = 4
       end>
-    SQL.Strings = (
-      'SELECT DET.* FROM OS_DET DET'
-      'WHERE ID_OS = :CODOS'
-      '      AND TIPO = '#39'P'#39)
-    SQLConnection = DM.sqlsisAdimin
-    Left = 232
-    Top = 440
-    object sqlPecaID_OS_DET: TIntegerField
-      FieldName = 'ID_OS_DET'
-      Required = True
-    end
-    object sqlPecaID_OS: TIntegerField
-      FieldName = 'ID_OS'
-      Required = True
-    end
-    object sqlPecaCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-      Required = True
-    end
-    object sqlPecaDESCRICAO_SERV: TStringField
-      FieldName = 'DESCRICAO_SERV'
-      Size = 1024
-    end
-    object sqlPecaRESPONSAVEL: TStringField
-      FieldName = 'RESPONSAVEL'
-      Size = 150
-    end
-    object sqlPecaSTATUS: TStringField
-      FieldName = 'STATUS'
-      FixedChar = True
-      Size = 1
-    end
-    object sqlPecaTIPO: TStringField
-      FieldName = 'TIPO'
-      FixedChar = True
-      Size = 1
-    end
-    object sqlPecaQTDE: TFloatField
-      FieldName = 'QTDE'
-    end
-    object sqlPecaPRECO: TFloatField
-      FieldName = 'PRECO'
-    end
-    object sqlPecaDESCONTO: TFloatField
-      FieldName = 'DESCONTO'
-    end
-    object sqlPecaVALORTOTAL: TFloatField
-      FieldName = 'VALORTOTAL'
-    end
-    object sqlPecaID_OSDET_SERV: TIntegerField
-      FieldName = 'ID_OSDET_SERV'
-    end
-  end
-  object cdsPeca: TClientDataSet
-    Aggregates = <>
-    Params = <>
-    Left = 312
-    Top = 440
+    Left = 216
+    Top = 432
     object cdsPecaID_OS_DET: TIntegerField
       FieldName = 'ID_OS_DET'
       Required = True
@@ -392,8 +338,8 @@ object fOsFiltro: TfOsFiltro
   end
   object dsPeca: TDataSource
     DataSet = cdsPeca
-    Left = 344
-    Top = 440
+    Left = 248
+    Top = 432
   end
   object sqlServico: TSQLDataSet
     CommandText = 
@@ -406,9 +352,10 @@ object fOsFiltro: TfOsFiltro
         DataType = ftInteger
         Name = 'CODOS'
         ParamType = ptInput
+        Size = 4
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 208
+    Left = 192
     Top = 248
     object sqlServicoID_OS_DET: TIntegerField
       FieldName = 'ID_OS_DET'
@@ -461,8 +408,8 @@ object fOsFiltro: TfOsFiltro
   end
   object dsLinkMestreDetalhe: TDataSource
     DataSet = sdsOs
-    Left = 80
-    Top = 64
+    Left = 160
+    Top = 248
   end
   object sdsOs: TSQLDataSet
     CommandText = 'SELECT * FROM OS '
@@ -519,6 +466,76 @@ object fOsFiltro: TfOsFiltro
     object sdsOsOBS: TStringField
       FieldName = 'OBS'
       Size = 512
+    end
+  end
+  object dsLinkPeca: TDataSource
+    DataSet = sdsOs
+    Left = 152
+    Top = 432
+  end
+  object sdsPeca: TSQLDataSet
+    CommandText = 
+      'SELECT DET.* FROM OS_DET DET'#13#10'WHERE ID_OS = :CODOS'#13#10'      AND TI' +
+      'PO = '#39'P'#39
+    DataSource = dsLinkPeca
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODOS'
+        ParamType = ptInput
+        Size = 4
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 184
+    Top = 432
+    object IntegerField1: TIntegerField
+      FieldName = 'ID_OS_DET'
+      Required = True
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'ID_OS'
+      Required = True
+    end
+    object IntegerField3: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object StringField1: TStringField
+      FieldName = 'DESCRICAO_SERV'
+      Size = 1024
+    end
+    object StringField2: TStringField
+      FieldName = 'RESPONSAVEL'
+      Size = 150
+    end
+    object StringField3: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object StringField4: TStringField
+      FieldName = 'TIPO'
+      FixedChar = True
+      Size = 1
+    end
+    object FloatField1: TFloatField
+      FieldName = 'QTDE'
+    end
+    object FloatField2: TFloatField
+      FieldName = 'PRECO'
+    end
+    object FloatField3: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object FloatField4: TFloatField
+      FieldName = 'VALORTOTAL'
+    end
+    object IntegerField4: TIntegerField
+      FieldName = 'ID_OSDET_SERV'
+    end
+    object IntegerField5: TIntegerField
+      FieldName = 'CODUSUARIO'
     end
   end
 end
