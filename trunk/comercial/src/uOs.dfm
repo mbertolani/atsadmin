@@ -1964,9 +1964,6 @@ object fOs: TfOs
       FieldName = 'CODCLIENTE'
       Required = True
     end
-    object cdsOSCODVEICULO: TIntegerField
-      FieldName = 'CODVEICULO'
-    end
     object cdsOSCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
     end
@@ -2010,6 +2007,10 @@ object fOs: TfOs
       ReadOnly = True
       Required = True
     end
+    object cdsOSCODVEICULO: TStringField
+      FieldName = 'CODVEICULO'
+      Size = 30
+    end
   end
   object dtsrc: TDataSource
     DataSet = cdsServico
@@ -2019,24 +2020,24 @@ object fOs: TfOs
   object sdsPecas: TSQLDataSet
     CommandText = 
       'SELECT  r.ID_OS_DET, r.ID_OS, r.CODPRODUTO, r.DESCRICAO_SERV, r.' +
-      'RESPONSAVEL, r.TIPO, r.QTDE, r.PRECO, r.DESCONTO, r.DESCPERCENT,' +
-      ' r.VALORTOTAL, PRO.CODPRO,'#13#10' CASE WHEN r.STATUS = '#39'O'#39' THEN '#39'Or'#231'a' +
-      'mento'#39'  WHEN r.STATUS = '#39'P'#39' THEN '#39'Aprovado Troca'#39'  WHEN r.STATUS' +
-      ' = '#39'S'#39' THEN '#39'Trocada'#39#13#10' WHEN r.STATUS = '#39'A'#39' THEN '#39'Aguardando Pe'#231 +
-      'a'#39'   WHEN r.STATUS = '#39'N'#39' THEN '#39'N'#227'o Aprovado Troca'#39'   END STATUSD' +
-      'ESC, r.STATUS'#13#10'   FROM OS_DET R , PRODUTOS PRO'#13#10'WHERE R.CODPRODU' +
-      'TO     = PRO.CODPRODUTO'#13#10'      AND R.ID_OS                    = ' +
-      ':POS'#13#10'      AND R.ID_OSDET_SERV = :P_SEV'#13#10'      AND R.TIPO      ' +
-      '                = '#39'P'#39' '
+      'RESPONSAVEL, r.TIPO, r.QTDE, r.PRECO, r.DESCONTO, r.VALORTOTAL, ' +
+      'PRO.CODPRO,'#13#10' CASE WHEN r.STATUS = '#39'O'#39' THEN '#39'Or'#231'amento'#39'  WHEN r.' +
+      'STATUS = '#39'P'#39' THEN '#39'Aprovado Troca'#39'  WHEN r.STATUS = '#39'S'#39' THEN '#39'Tr' +
+      'ocada'#39#13#10' WHEN r.STATUS = '#39'A'#39' THEN '#39'Aguardando Pe'#231'a'#39'   WHEN r.STA' +
+      'TUS = '#39'N'#39' THEN '#39'N'#227'o Aprovado Troca'#39'   END STATUSDESC, r.STATUS'#13#10 +
+      '   FROM OS_DET R , PRODUTOS PRO'#13#10'WHERE R.CODPRODUTO     = PRO.CO' +
+      'DPRODUTO'#13#10'      AND R.ID_OS                    = :POS'#13#10'      AND' +
+      ' R.ID_OSDET_SERV = :P_SEV'#13#10'      AND R.TIPO                     ' +
+      ' = '#39'P'#39' '
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'POS'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'P_SEV'
         ParamType = ptInput
       end>
@@ -2106,9 +2107,6 @@ object fOs: TfOs
       FieldName = 'DESCONTO'
       DisplayFormat = ',##0.00'
       EditFormat = ',##0.00'
-    end
-    object cdsPecasDESCPERCENT: TFloatField
-      FieldName = 'DESCPERCENT'
     end
     object cdsPecasVALORTOTAL: TFloatField
       FieldName = 'VALORTOTAL'
