@@ -1050,7 +1050,7 @@ begin
       executaDDL('MOVIMENTODETALHE', 'COD_FUNCIONARIO', 'INTEGER');
       executaScript('baixaTitulosPag.sql');
       executaScript('baixaTitulosRec.sql');
-      executaScript('expedicao_gera_pedido.sql');
+      //executaScript('expedicao_gera_pedido.sql');
       executaScript('insere_transp_fornec.sql');
       executaScript('invent_estoque.sql');
       executaScript('inventario_lanca.sql');
