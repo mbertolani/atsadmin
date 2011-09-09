@@ -91,7 +91,6 @@ type
     sdsOsCODVEICULO: TStringField;
     sdsOsOBS: TStringField;
     cdsOssqlServico: TDataSetField;
-    dsLinkPeca: TDataSource;
     sdsPeca: TSQLDataSet;
     IntegerField1: TIntegerField;
     IntegerField2: TIntegerField;
@@ -106,9 +105,11 @@ type
     FloatField4: TFloatField;
     IntegerField4: TIntegerField;
     IntegerField5: TIntegerField;
-    cdsOssdsPeca: TDataSetField;
+    dspPeca: TDataSetProvider;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure dsServicoDataChange(Sender: TObject; Field: TField);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -133,6 +134,19 @@ end;
 procedure TfOsFiltro.FormShow(Sender: TObject);
 begin
   cdsOs.Open;
+end;
+
+procedure TfOsFiltro.dsServicoDataChange(Sender: TObject; Field: TField);
+begin
+  if (cdsPeca.Active) then
+    cdsPeca.Close;
+  cdsPeca.Params.ParamByName('CODOSSERV').AsInteger := cdsServicoID_OS_DET.AsInteger;
+  cdsPeca.Open;  
+end;
+
+procedure TfOsFiltro.FormCreate(Sender: TObject);
+begin
+  sCtrlResize.CtrlResize(TForm(fOsFiltro));
 end;
 
 end.

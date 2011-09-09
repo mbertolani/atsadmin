@@ -11,6 +11,7 @@ object fOsFiltro: TfOsFiltro
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -59,6 +60,74 @@ object fOsFiltro: TfOsFiltro
     EditControls = <>
     RowsHeight = 23
     TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'STATUS'
+        Title.Caption = 'Sit.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODOS'
+        Title.Caption = 'C'#243'd. OS'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODCLIENTE'
+        Title.Caption = 'C'#243'd. Cliente'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAMOVIMENTO'
+        Title.Caption = 'Data'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_INI'
+        Title.Caption = 'Inicio'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA_FIM'
+        Title.Caption = 'Fim'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODVEICULO'
+        Title.Caption = 'Ve'#237'culo'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'KM'
+        Title.Caption = 'km'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODUSUARIO'
+        Title.Caption = 'Colaborador'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'OBS'
+        Title.Caption = 'Obs.'
+        Width = 168
+        Visible = True
+      end>
   end
   object Panel2: TPanel
     Left = 0
@@ -104,6 +173,62 @@ object fOsFiltro: TfOsFiltro
     EditControls = <>
     RowsHeight = 23
     TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'STATUS'
+        Title.Caption = 'Sit.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODPRODUTO'
+        Title.Caption = 'C'#243'digo'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRICAO_SERV'
+        Title.Caption = 'Descri'#231#227'o'
+        Width = 300
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODUSUARIO'
+        Title.Caption = 'Colaborador'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QTDE'
+        Title.Caption = 'Qtde'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO'
+        Title.Caption = 'Pre'#231'o'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCONTO'
+        Title.Caption = 'Desconto'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALORTOTAL'
+        Title.Caption = 'Valor Total'
+        Width = 88
+        Visible = True
+      end>
   end
   object JvDBGrid2: TJvDBGrid
     Left = 0
@@ -205,9 +330,6 @@ object fOsFiltro: TfOsFiltro
     object cdsOssqlServico: TDataSetField
       FieldName = 'sqlServico'
     end
-    object cdsOssdsPeca: TDataSetField
-      FieldName = 'sdsPeca'
-    end
   end
   object dsOs: TDataSource
     DataSet = cdsOs
@@ -276,18 +398,19 @@ object fOsFiltro: TfOsFiltro
   end
   object dsServico: TDataSource
     DataSet = cdsServico
+    OnDataChange = dsServicoDataChange
     Left = 256
     Top = 248
   end
   object cdsPeca: TClientDataSet
     Aggregates = <>
-    DataSetField = cdsOssdsPeca
     Params = <
       item
         DataType = ftInteger
-        Name = 'CODOS'
+        Name = 'CODOSSERV'
         ParamType = ptInput
       end>
+    ProviderName = 'dspPeca'
     Left = 216
     Top = 432
     object cdsPecaID_OS_DET: TIntegerField
@@ -468,26 +591,19 @@ object fOsFiltro: TfOsFiltro
       Size = 512
     end
   end
-  object dsLinkPeca: TDataSource
-    DataSet = sdsOs
-    Left = 152
-    Top = 432
-  end
   object sdsPeca: TSQLDataSet
     CommandText = 
-      'SELECT DET.* FROM OS_DET DET'#13#10'WHERE ID_OS = :CODOS'#13#10'      AND TI' +
-      'PO = '#39'P'#39
-    DataSource = dsLinkPeca
+      'SELECT DET.* FROM OS_DET DET'#13#10'WHERE ID_OSDET_SERV = :CODOSSERV'#13#10 +
+      '      AND TIPO = '#39'P'#39
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
-        Name = 'CODOS'
+        Name = 'CODOSSERV'
         ParamType = ptInput
-        Size = 4
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 184
+    Left = 144
     Top = 432
     object IntegerField1: TIntegerField
       FieldName = 'ID_OS_DET'
@@ -537,5 +653,10 @@ object fOsFiltro: TfOsFiltro
     object IntegerField5: TIntegerField
       FieldName = 'CODUSUARIO'
     end
+  end
+  object dspPeca: TDataSetProvider
+    DataSet = sdsPeca
+    Left = 176
+    Top = 432
   end
 end
