@@ -457,11 +457,11 @@ begin
   Save_Cursor := Screen.Cursor;
   Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   try
-    sqlStr := 'select p.CODPROD, p.CODMOV, p.TIPOMOVIMENTO, ' +
-     ' cast(p.PRODUTO as varchar(300)) PRODUTO, p.GRUPO, ' +
-     ' p.SUBGRUPOPROD, p.SALDOINIACUM, p.ENTRADA, p.SAIDA, p.SALDOFIMACUM, p.PRECOUNIT, ' +
-     ' p.VALORESTOQUE, p.VALORVENDA, p.LOTES, p.CCUSTOS, p.DTAFAB, p.DTAVCTO, p.NF, ' +
-     ' p.CLIFOR, p.CODLOTE, p.ANOTACOES FROM SPESTOQUEFILTRO(';
+    sqlStr := 'select CODPROD, CODMOV, TIPOMOVIMENTO, ' +
+     ' cast(PRODUTO as varchar(300)) PRODUTO, GRUPO, ' +
+     ' SUBGRUPOPROD, SALDOINIACUM, ENTRADA, SAIDA, SALDOFIMACUM, PRECOUNIT, ' +
+     ' VALORESTOQUE, VALORVENDA, LOTES, CCUSTOS, DTAFAB, DTAVCTO, NF, ' +
+     ' CLIFOR, CODLOTE, ANOTACOES FROM SPESTOQUEFILTRO(';
     //==============================================================================
     //Verifica se a data de emissão foi preenchido
     //------------------------------------------------------------------------------
