@@ -241,7 +241,8 @@ uses
   UDM_MOV in 'UDM_MOV.pas' {DM_MOV: TDataModule},
   U_AlteraPedido in 'U_AlteraPedido.pas' {F_AlteraPedido},
   U_TerminalFinaliza in 'U_TerminalFinaliza.pas' {F_TerminalFinaliza},
-  uOsFiltro in 'uOsFiltro.pas' {fOsFiltro};
+  uOsFiltro in 'uOsFiltro.pas' {fOsFiltro},
+  uOsInsere in 'uOsInsere.pas' {fOsInsere};
 
 {$R *.res}
 
@@ -250,6 +251,7 @@ begin
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDM_MOV, DM_MOV);
+  Application.CreateForm(TfOsInsere, fOsInsere);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);

@@ -415,7 +415,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
-  uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils;
+  uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
+  uOsFiltro;
 
 {$R *.dfm}
 
@@ -1434,12 +1435,12 @@ end;
 
 procedure TfAtsAdmin.LanarOS1Click(Sender: TObject);
 begin
-  fOs := TfOs.Create(Application);
-  try
-    fOs.ShowModal;
-  finally
+  {fOs := TfOs.Create(Application);
+  try}
+    fOsFiltro.ShowModal;
+  {finally
     fOS.Free;
-  end;
+  end;}
 {  fMaquinasControle := TfMaquinasControle.Create(Application);
   try
     fMaquinasControle.ShowModal;
