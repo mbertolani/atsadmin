@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    624
-    369)
+    632
+    400)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 169
     Top = 47
-    Width = 455
-    Height = 298
+    Width = 463
+    Height = 329
     Align = alClient
     Center = True
     Picture.Data = {
@@ -752,7 +752,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 624
+    Width = 632
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2045,8 +2045,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 345
-    Width = 624
+    Top = 376
+    Width = 632
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2101,7 +2101,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 169
-    Height = 298
+    Height = 329
     Align = alLeft
     Pages = <
       item
