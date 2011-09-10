@@ -156,6 +156,12 @@ type
     Label19: TLabel;
     edTotalServ: TJvCalcEdit;
     cdsOSCODVEICULO: TStringField;
+    Label20: TLabel;
+    Edit1: TEdit;
+    Label21: TLabel;
+    Edit2: TEdit;
+    BitBtn3: TBitBtn;
+    Edit3: TEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -175,6 +181,7 @@ type
     procedure edDescVlrExit(Sender: TObject);
     procedure edDescServExit(Sender: TObject);
     procedure edDescVlrServExit(Sender: TObject);
+    procedure BitBtn8Click(Sender: TObject);
   private
     numOsDet, codProduto: Integer;
     estoque, qtde : Double;
@@ -187,7 +194,7 @@ type
     Procedure buscaProduto;
     { Private declarations }
   public
-    modo: String; // Insert, Edit, Browse, Inactive
+    modoOs: String; // Insert, Edit, Browse, Inactive
     { Public declarations }
   end;
 
@@ -202,7 +209,7 @@ uses UDm, uProcurar_nf, UDMNF, uProcura_prodOficina, sCtrlResize;
 
 procedure TfOs.btnIncluirClick(Sender: TObject);
 begin
-  modo := 'Insert';
+  modoOs := 'Insert';
   limpaCampos;
   controlaEventos;
   abrirOs(0);
@@ -237,11 +244,11 @@ begin
       exit;
     end;
     FOsCls.codVeiculo := edVeiculo.Text;
-    FOsCls.codUsuario := dm.varUSERID;
+    FOsCls.codUsuario := usulog;
     FOsCls.dataOs     := edData.Date;
     FOsCls.dataInicio := edData.Date;
     FOsCls.dataFim    := edDataFim.Date;
-    if (modo = 'Insert') then
+    if (modoOs = 'Insert') then
       FOsCls.status := 'P';
     FOsCls.km         := StrToInt(edKm.Text);
 
@@ -293,7 +300,7 @@ begin
       dm.sqlsisAdimin.Rollback(TD);
     end;
   end;
-  if ((modo = 'Insert') or (modo = 'Edit')) then
+  if ((modoOs = 'Insert') or (modoOs = 'Edit')) then
   begin
     {Os.dataMovimento := edData.Text;
     Os.codNatureza := 3;
@@ -320,7 +327,7 @@ begin
     Os.Quantidade := 0;
     Os.IncluiOs;
     Os.Destroy;
-    modo := 'Browse';
+    modoOs := 'Browse';
     controlaEventos;}
   end;
 end;
@@ -378,7 +385,7 @@ end;
 
 procedure TfOs.btnClienteProcuraClick(Sender: TObject);
 begin
-  if ((modo = 'Insert') or (modo = 'Edit')) then
+  if ((modoOs = 'Insert') or (modoOs = 'Edit')) then
   begin
     //DM.varNomeCliente := '';
     //dm.codcli := 0;
@@ -397,7 +404,7 @@ begin
         if dmnf.scds_cli_procBLOQUEIO.AsString = 'S' then
         begin
           MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
-          modo := 'Browse';
+          modoOs := 'Browse';
           controlaEventos;
           exit;
           //dbeCliente.SetFocus;
@@ -414,7 +421,7 @@ end;
 
 procedure TfOs.controlaEventos;
 begin
-  if ((modo = 'Insert') or (modo = 'Edit')) then
+  if ((modoOs = 'Insert') or (modoOs = 'Edit')) then
   begin
     btnGravar.Visible := True;
     btnIncluir.Visible := False;
@@ -424,7 +431,7 @@ begin
     btnCancelar.Visible := True;
     btnClienteProcura.Enabled := True;
   end;
-  if ((modo = 'Browse') or (modo = 'Inactive')) then
+  if ((modoOs = 'Browse') or (modoOs = 'Inactive')) then
   begin
     btnGravar.Visible := False;
     btnIncluir.Visible := True;
@@ -444,7 +451,7 @@ end;
 
 procedure TfOs.btnCancelarClick(Sender: TObject);
 begin
-  modo := 'Browse';
+  modoOs := 'Browse';
   controlaEventos;
 end;
 
@@ -699,6 +706,11 @@ begin
     edTotalServ.Value := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
   end;
 
+end;
+
+procedure TfOs.BitBtn8Click(Sender: TObject);
+begin
+  edPrecoServ.Value := 0; 
 end;
 
 end.
