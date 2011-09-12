@@ -16,6 +16,7 @@ type
     JvLabel1: TJvLabel;
     btnConfirma: TBitBtn;
     JvDBSearchEdit1: TJvDBSearchEdit;
+    DBEdit1: TDBEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -42,7 +43,7 @@ uses uComercial, UDm, sCtrlResize;
 procedure TfMarcas_Grupos.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  JvDBSearchEdit1.SetFocus;
+  DBEdit1.SetFocus;
 end;
 
 procedure TfMarcas_Grupos.btnGravarClick(Sender: TObject);

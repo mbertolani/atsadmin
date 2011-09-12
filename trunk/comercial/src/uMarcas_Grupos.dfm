@@ -15,7 +15,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     Caption = 'Descri'#231#227'o'
   end
   inherited MMJPanel1: TMMJPanel
-    Width = 534
+    Width = 542
     inherited btnGravar: TBitBtn
       Left = 22
     end
@@ -136,7 +136,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 534
+    Width = 542
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -145,23 +145,21 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     inherited Label1: TLabel
       Left = 49
       Top = -69
-      Width = 355
-      Height = 44
+      Width = 382
       Caption = 'Cadastro de Marcas'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 53
       Top = -70
-      Width = 355
-      Height = 44
+      Width = 382
       Caption = 'Cadastro de Marcas'
       Font.Name = 'Cooper Black'
     end
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 532
+      Width = 540
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -220,6 +218,24 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     DataField = 'DESCMARCAS'
     TabOrder = 4
     Text = 'JvDBSearchEdit1'
+  end
+  object DBEdit1: TDBEdit [6]
+    Left = 8
+    Top = 78
+    Width = 465
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    CharCase = ecUpperCase
+    DataField = 'DESCMARCAS'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
   end
   inherited XPMenu1: TXPMenu
     Left = 384
