@@ -572,7 +572,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 14
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
   object DBEdit12: TDBEdit [35]
@@ -591,7 +591,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 15
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
   object DBRadioGroup2: TDBRadioGroup [36]
@@ -607,7 +607,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       'Cobran'#231'a'
       'Entrega')
     PopupMenu = PopupMenu1
-    TabOrder = 16
+    TabOrder = 21
     Values.Strings = (
       '0'
       '1'
@@ -629,7 +629,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 17
+    TabOrder = 18
     OnKeyPress = FormKeyPress
   end
   object DBEdit14: TDBEdit [38]
@@ -649,7 +649,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 18
+    TabOrder = 19
     OnKeyPress = FormKeyPress
   end
   object GroupBox1: TGroupBox [39]
@@ -658,7 +658,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Width = 665
     Height = 62
     Caption = 'Telefones :'
-    TabOrder = 19
+    TabOrder = 22
     object Label21: TLabel
       Left = 34
       Top = 13
@@ -838,7 +838,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 20
+    TabOrder = 23
     OnKeyPress = FormKeyPress
   end
   object DBEdit22: TDBEdit [41]
@@ -857,7 +857,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 21
+    TabOrder = 24
     OnKeyPress = FormKeyPress
   end
   object DBNavigator1: TDBNavigator [42]
@@ -875,7 +875,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       ''
       '')
     PopupMenu = PopupMenu1
-    TabOrder = 22
+    TabOrder = 25
   end
   object DBComboBox1: TDBComboBox [43]
     Left = 366
@@ -921,7 +921,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       'SE'
       'TO')
     ParentFont = False
-    TabOrder = 23
+    TabOrder = 20
     OnKeyPress = FormKeyPress
   end
   object ComboBox1: TComboBox [44]
@@ -930,7 +930,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Width = 121
     Height = 21
     ItemHeight = 13
-    TabOrder = 24
+    TabOrder = 26
     Text = 'ComboBox1'
     Visible = False
   end
@@ -941,7 +941,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Height = 47
     Caption = 'Lista Prod.'
     PopupMenu = PopupMenu1
-    TabOrder = 25
+    TabOrder = 27
     OnClick = BitBtn2Click
     Glyph.Data = {
       6E0B0000424D6E0B00000000000036040000280000002A0000002A0000000100
@@ -1043,7 +1043,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Width = 97
     Height = 17
     Caption = 'Compras'
-    TabOrder = 26
+    TabOrder = 28
   end
   object CheckBox2: TCheckBox [47]
     Left = 144
@@ -1051,7 +1051,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Width = 97
     Height = 17
     Caption = 'Despesas'
-    TabOrder = 27
+    TabOrder = 29
   end
   object DBLookupComboBox1: TDBLookupComboBox [48]
     Left = 392
@@ -1080,7 +1080,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Top = 150
     Width = 40
     Height = 36
-    TabOrder = 28
+    TabOrder = 30
     OnClick = SpeedButton6Click
     Glyph.Data = {
       36080000424D3608000000000000360400002800000020000000200000000100
@@ -1155,7 +1155,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Top = 102
     Width = 33
     Height = 27
-    TabOrder = 29
+    TabOrder = 31
     Glyph.Data = {
       F6060000424DF606000000000000360000002800000018000000180000000100
       180000000000C006000000000000000000000000000000000000C0C0C0C0C0C0
@@ -1219,7 +1219,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Top = 150
     Width = 37
     Height = 36
-    TabOrder = 30
+    TabOrder = 32
     Glyph.Data = {
       F6060000424DF606000000000000360000002800000018000000180000000100
       180000000000C006000000000000000000000000000000000000C0C0C0C0C0C0
@@ -1295,7 +1295,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 31
+    TabOrder = 14
     OnKeyPress = FormKeyPress
   end
   object BitBtn22: TBitBtn [53]
@@ -1304,7 +1304,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Width = 39
     Height = 31
     Caption = '...'
-    TabOrder = 32
+    TabOrder = 17
     OnClick = BitBtn22Click
   end
   object DBEdit23: TDBEdit [54]
