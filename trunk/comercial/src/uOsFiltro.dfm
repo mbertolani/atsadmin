@@ -71,21 +71,14 @@ object fOsFiltro: TfOsFiltro
         Expanded = False
         FieldName = 'CODOS'
         Title.Caption = 'C'#243'd. OS'
-        Width = 50
+        Width = 60
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODCLIENTE'
-        Title.Caption = 'C'#243'd.'
-        Width = 50
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'RAZAOSOCIAL'
-        Title.Caption = 'Cliente'
-        Width = 150
+        Title.Caption = 'C'#243'd. Cliente'
+        Width = 70
         Visible = True
       end
       item
@@ -113,28 +106,26 @@ object fOsFiltro: TfOsFiltro
         Expanded = False
         FieldName = 'CODVEICULO'
         Title.Caption = 'Ve'#237'culo'
-        Width = 70
+        Width = 80
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'KM'
         Title.Caption = 'km'
-        Width = 60
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'NOMEUSUARIO'
+        FieldName = 'CODUSUARIO'
         Title.Caption = 'Colaborador'
-        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'OBS'
         Title.Caption = 'Obs.'
-        Width = 85
+        Width = 168
         Visible = True
       end>
   end
@@ -151,7 +142,7 @@ object fOsFiltro: TfOsFiltro
     Left = 0
     Top = 241
     Width = 792
-    Height = 120
+    Height = 160
     Align = alCustom
     DataSource = dsServico
     Font.Charset = ANSI_CHARSET
@@ -191,7 +182,7 @@ object fOsFiltro: TfOsFiltro
       end
       item
         Expanded = False
-        FieldName = 'CODPRO'
+        FieldName = 'CODPRODUTO'
         Title.Caption = 'C'#243'digo'
         Width = 80
         Visible = True
@@ -205,7 +196,7 @@ object fOsFiltro: TfOsFiltro
       end
       item
         Expanded = False
-        FieldName = 'NOMEUSUARIO'
+        FieldName = 'CODUSUARIO'
         Title.Caption = 'Colaborador'
         Width = 100
         Visible = True
@@ -213,7 +204,7 @@ object fOsFiltro: TfOsFiltro
       item
         Expanded = False
         FieldName = 'QTDE'
-        Title.Caption = 'Quantidade'
+        Title.Caption = 'Qtde'
         Width = 60
         Visible = True
       end
@@ -241,9 +232,9 @@ object fOsFiltro: TfOsFiltro
   end
   object JvDBGrid2: TJvDBGrid
     Left = 0
-    Top = 368
+    Top = 417
     Width = 792
-    Height = 209
+    Height = 160
     Align = alCustom
     DataSource = dsPeca
     Font.Charset = ANSI_CHARSET
@@ -274,62 +265,6 @@ object fOsFiltro: TfOsFiltro
     EditControls = <>
     RowsHeight = 23
     TitleRowHeight = 17
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'STATUS'
-        Title.Caption = 'Sit.'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CODPRO'
-        Title.Caption = 'C'#243'd.'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DESCRICAO_SERV'
-        Title.Caption = 'Pe'#231'a'
-        Width = 300
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'NOMEUSUARIO'
-        Title.Caption = 'Colaborador'
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'QTDE'
-        Title.Caption = 'Quantidade'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO'
-        Title.Caption = 'Preco'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DESCONTO'
-        Title.Caption = 'Desconto'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'VALORTOTAL'
-        Title.Caption = 'Valor Total'
-        Width = 88
-        Visible = True
-      end>
   end
   object dspOs: TDataSetProvider
     DataSet = sdsOs
@@ -360,6 +295,10 @@ object fOsFiltro: TfOsFiltro
     object cdsOsDATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
     end
+    object cdsOsPROBLEMAS: TStringField
+      FieldName = 'PROBLEMAS'
+      Size = 300
+    end
     object cdsOsSTATUS: TStringField
       FieldName = 'STATUS'
       FixedChar = True
@@ -371,6 +310,9 @@ object fOsFiltro: TfOsFiltro
     object cdsOsDATA_FIM: TDateField
       FieldName = 'DATA_FIM'
     end
+    object cdsOsKM: TIntegerField
+      FieldName = 'KM'
+    end
     object cdsOsCODUSUARIO: TIntegerField
       FieldName = 'CODUSUARIO'
     end
@@ -379,7 +321,6 @@ object fOsFiltro: TfOsFiltro
     end
     object cdsOsCODVEICULO: TStringField
       FieldName = 'CODVEICULO'
-      EditMask = '!>LLL-9999;1;_'
       Size = 30
     end
     object cdsOsOBS: TStringField
@@ -388,21 +329,6 @@ object fOsFiltro: TfOsFiltro
     end
     object cdsOssqlServico: TDataSetField
       FieldName = 'sqlServico'
-    end
-    object cdsOsKM: TIntegerField
-      FieldName = 'KM'
-      DisplayFormat = ',##0'
-      EditFormat = ',##0'
-    end
-    object cdsOsRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      Required = True
-      Size = 50
-    end
-    object cdsOsNOMEUSUARIO: TStringField
-      FieldName = 'NOMEUSUARIO'
-      Required = True
-      Size = 30
     end
   end
   object dsOs: TDataSource
@@ -469,15 +395,6 @@ object fOsFiltro: TfOsFiltro
     object cdsServicoCODUSUARIO: TIntegerField
       FieldName = 'CODUSUARIO'
     end
-    object cdsServicoCODPRO: TStringField
-      FieldName = 'CODPRO'
-      Size = 15
-    end
-    object cdsServicoNOMEUSUARIO: TStringField
-      FieldName = 'NOMEUSUARIO'
-      Required = True
-      Size = 30
-    end
   end
   object dsServico: TDataSource
     DataSet = cdsServico
@@ -541,18 +458,6 @@ object fOsFiltro: TfOsFiltro
     object cdsPecaID_OSDET_SERV: TIntegerField
       FieldName = 'ID_OSDET_SERV'
     end
-    object cdsPecaCODUSUARIO: TIntegerField
-      FieldName = 'CODUSUARIO'
-    end
-    object cdsPecaCODPRO: TStringField
-      FieldName = 'CODPRO'
-      Size = 15
-    end
-    object cdsPecaNOMEUSUARIO: TStringField
-      FieldName = 'NOMEUSUARIO'
-      Required = True
-      Size = 30
-    end
   end
   object dsPeca: TDataSource
     DataSet = cdsPeca
@@ -561,10 +466,8 @@ object fOsFiltro: TfOsFiltro
   end
   object sqlServico: TSQLDataSet
     CommandText = 
-      'SELECT DET.*, P.CODPRO, USU.NOMEUSUARIO '#13#10'FROM OS_DET DET, PRODU' +
-      'TOS P, USUARIO USU '#13#10'WHERE DET.ID_OS = :CODOS'#13#10'      AND DET.COD' +
-      'PRODUTO = P.CODPRODUTO '#13#10'      AND DET.CODUSUARIO = USU.CODUSUAR' +
-      'IO'#13#10'      AND DET.TIPO = '#39'S'#39
+      'SELECT DET.* FROM OS_DET DET'#13#10'WHERE ID_OS = :CODOS'#13#10'      AND TI' +
+      'PO = '#39'S'#39
     DataSource = dsLinkMestreDetalhe
     MaxBlobSize = -1
     Params = <
@@ -625,15 +528,6 @@ object fOsFiltro: TfOsFiltro
     object sqlServicoCODUSUARIO: TIntegerField
       FieldName = 'CODUSUARIO'
     end
-    object sqlServicoCODPRO: TStringField
-      FieldName = 'CODPRO'
-      Size = 15
-    end
-    object sqlServicoNOMEUSUARIO: TStringField
-      FieldName = 'NOMEUSUARIO'
-      Required = True
-      Size = 30
-    end
   end
   object dsLinkMestreDetalhe: TDataSource
     DataSet = sdsOs
@@ -641,10 +535,7 @@ object fOsFiltro: TfOsFiltro
     Top = 248
   end
   object sdsOs: TSQLDataSet
-    CommandText = 
-      'SELECT OS.*, c.RAZAOSOCIAL, USU.NOMEUSUARIO '#13#10'FROM OS, CLIENTES ' +
-      'C, USUARIO USU'#13#10'WHERE c.CODCLIENTE = os.CODCLIENTE'#13#10'      AND OS' +
-      '.CODUSUARIO = USU.CODUSUARIO     '
+    CommandText = 'SELECT * FROM OS '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -666,6 +557,10 @@ object fOsFiltro: TfOsFiltro
     end
     object sdsOsDATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
+    end
+    object sdsOsPROBLEMAS: TStringField
+      FieldName = 'PROBLEMAS'
+      Size = 300
     end
     object sdsOsSTATUS: TStringField
       FieldName = 'STATUS'
@@ -695,23 +590,11 @@ object fOsFiltro: TfOsFiltro
       FieldName = 'OBS'
       Size = 512
     end
-    object sdsOsRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      Required = True
-      Size = 50
-    end
-    object sdsOsNOMEUSUARIO: TStringField
-      FieldName = 'NOMEUSUARIO'
-      Required = True
-      Size = 30
-    end
   end
   object sdsPeca: TSQLDataSet
     CommandText = 
-      'SELECT DET.*, P.CODPRO, USU.NOMEUSUARIO FROM OS_DET DET, PRODUTO' +
-      'S P, USUARIO USU'#13#10'WHERE DET.ID_OSDET_SERV = :CODOSSERV'#13#10'      AN' +
-      'D DET.CODPRODUTO = P.CODPRODUTO '#13#10'      AND DET.CODUSUARIO = USU' +
-      '.CODUSUARIO'#13#10'      AND DET.TIPO = '#39'P'#39
+      'SELECT DET.* FROM OS_DET DET'#13#10'WHERE ID_OSDET_SERV = :CODOSSERV'#13#10 +
+      '      AND TIPO = '#39'P'#39
     MaxBlobSize = -1
     Params = <
       item
@@ -769,15 +652,6 @@ object fOsFiltro: TfOsFiltro
     end
     object IntegerField5: TIntegerField
       FieldName = 'CODUSUARIO'
-    end
-    object sdsPecaCODPRO: TStringField
-      FieldName = 'CODPRO'
-      Size = 15
-    end
-    object sdsPecaNOMEUSUARIO: TStringField
-      FieldName = 'NOMEUSUARIO'
-      Required = True
-      Size = 30
     end
   end
   object dspPeca: TDataSetProvider

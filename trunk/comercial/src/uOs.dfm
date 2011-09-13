@@ -720,7 +720,7 @@ object fOs: TfOs
     Top = 330
     Width = 798
     Height = 54
-    Align = alTop
+    Align = alCustom
     Caption = 'Pe'#231'as'
     Color = clSilver
     ParentColor = False
@@ -1058,7 +1058,7 @@ object fOs: TfOs
     Top = 384
     Width = 798
     Height = 198
-    Align = alClient
+    Align = alCustom
     Color = clHighlight
     ParentColor = False
     TabOrder = 2
@@ -1394,7 +1394,7 @@ object fOs: TfOs
     Left = 0
     Top = 169
     Width = 798
-    Height = 161
+    Height = 160
     Align = alTop
     TabOrder = 4
     object GroupBox1: TGroupBox
@@ -1402,7 +1402,7 @@ object fOs: TfOs
       Top = 1
       Width = 796
       Height = 88
-      Align = alTop
+      Align = alCustom
       Caption = 'Servi'#231'o'
       Color = clSilver
       ParentColor = False
@@ -1758,10 +1758,10 @@ object fOs: TfOs
     end
     object GroupBox2: TGroupBox
       Left = 1
-      Top = 89
+      Top = 68
       Width = 796
-      Height = 71
-      Align = alClient
+      Height = 89
+      Align = alCustom
       Color = clHotLight
       ParentColor = False
       TabOrder = 1
@@ -1769,7 +1769,7 @@ object fOs: TfOs
         Left = 2
         Top = 15
         Width = 792
-        Height = 54
+        Height = 72
         Align = alClient
         Color = clSilver
         DataSource = dtsrc
@@ -1780,6 +1780,7 @@ object fOs: TfOs
         TitleFont.Height = -11
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
+        OnCellClick = JvDBGrid1CellClick
         FixedCols = 7
         PostOnEnterKey = True
         AutoSizeColumns = True
@@ -1796,16 +1797,16 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'DESCRICAO_SERV'
             Title.Caption = 'Descri'#231#227'o Servi'#231'o'
-            Width = 435
+            Width = 438
             Visible = True
           end
           item
             ButtonStyle = cbsNone
             Color = clWhite
             Expanded = False
-            FieldName = 'RESPONSAVEL'
+            FieldName = 'NOMEUSUARIO'
             Title.Caption = 'Respons'#225'vel'
-            Width = 106
+            Width = 107
             Visible = True
           end
           item
@@ -1821,7 +1822,7 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'QTDE'
             Title.Caption = 'Quantidade'
-            Width = 57
+            Width = 52
             Visible = True
           end
           item
@@ -1835,7 +1836,7 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'VALORTOTAL'
             Title.Caption = 'Total'
-            Width = 59
+            Width = 60
             Visible = True
           end>
       end
@@ -2254,13 +2255,17 @@ object fOs: TfOs
   end
   object sdsServico: TSQLDataSet
     CommandText = 
-      'SELECT STATUS, RESPONSAVEL, DESCRICAO_SERV, CASE WHEN STATUS = '#39 +
-      'O'#39' THEN '#39'Or'#231'amento'#39'  WHEN STATUS = '#39'P'#39' THEN '#39'Orc. Aprovado'#39'  WHE' +
-      'N STATUS = '#39'E'#39' THEN '#39'Em Execu'#231#227'o'#39#13#10' WHEN STATUS = '#39'A'#39' THEN '#39'Agua' +
-      'rdando Pe'#231'a'#39'  WHEN STATUS = '#39'F'#39' THEN '#39'Finalizada'#39'  WHEN STATUS =' +
-      ' '#39'N'#39' THEN '#39'N'#227'o Aprovada'#39'   WHEN STATUS = '#39'C'#39' THEN '#39'Cancelada'#39' '#13#10 +
-      'END STATUSDESC,  ID_OS_DET, ID_OS,  QTDE, PRECO, VALORTOTAL'#13#10'   ' +
-      'FROM OS_DET '#13#10'WHERE ID_OS = :POS'#13#10'      AND TIPO   = '#39'S'#39#13#10'    '
+      'SELECT D.STATUS, D.CODUSUARIO, D.DESCRICAO_SERV,'#13#10'CASE WHEN D.ST' +
+      'ATUS = '#39'O'#39' THEN '#39'Or'#231'amento'#39'  '#13#10'          WHEN D.STATUS = '#39'P'#39' THE' +
+      'N '#39'Orc. Aprovado'#39'  '#13#10'          WHEN D.STATUS = '#39'E'#39' THEN '#39'Em Exec' +
+      'u'#231#227'o'#39#13#10'          WHEN D.STATUS = '#39'A'#39' THEN '#39'Aguardando Pe'#231'a'#39'  '#13#10' ' +
+      '         WHEN D.STATUS = '#39'F'#39' THEN '#39'Finalizada'#39'  '#13#10'          WHEN' +
+      ' D.STATUS = '#39'N'#39' THEN '#39'N'#227'o Aprovada'#39'  '#13#10'          WHEN D.STATUS =' +
+      ' '#39'C'#39' THEN '#39'Cancelada'#39' '#13#10'         END STATUSDESC,  '#13#10'   D.ID_OS_D' +
+      'ET, D.ID_OS,  D.QTDE, D.PRECO, D.VALORTOTAL, USUA.NOMEUSUARIO, D' +
+      '.CODPRODUTO'#13#10'   FROM OS_DET D, USUARIO USUA'#13#10'WHERE D.ID_OS = :PO' +
+      'S'#13#10'      AND D.TIPO   = '#39'S'#39#13#10'      AND USUA.CODUSUARIO = D.CODUS' +
+      'UARIO  '#13#10'    '
     MaxBlobSize = -1
     Params = <
       item
@@ -2271,6 +2276,57 @@ object fOs: TfOs
     SQLConnection = DM.sqlsisAdimin
     Left = 320
     Top = 208
+    object sdsServicoSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsServicoCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+    end
+    object sdsServicoDESCRICAO_SERV: TStringField
+      FieldName = 'DESCRICAO_SERV'
+      Size = 1024
+    end
+    object sdsServicoSTATUSDESC: TStringField
+      FieldName = 'STATUSDESC'
+      ReadOnly = True
+      FixedChar = True
+      Size = 15
+    end
+    object sdsServicoID_OS_DET: TIntegerField
+      FieldName = 'ID_OS_DET'
+      ReadOnly = True
+      Required = True
+    end
+    object sdsServicoID_OS: TIntegerField
+      FieldName = 'ID_OS'
+      ReadOnly = True
+      Required = True
+    end
+    object sdsServicoQTDE: TFloatField
+      FieldName = 'QTDE'
+      ReadOnly = True
+    end
+    object sdsServicoPRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+    object sdsServicoVALORTOTAL: TFloatField
+      FieldName = 'VALORTOTAL'
+      ReadOnly = True
+    end
+    object sdsServicoNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      ReadOnly = True
+      Required = True
+      Size = 30
+    end
+    object sdsServicoCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ReadOnly = True
+      Required = True
+    end
   end
   object dspServico: TDataSetProvider
     DataSet = sdsServico
@@ -2293,10 +2349,6 @@ object fOs: TfOs
       FieldName = 'STATUS'
       FixedChar = True
       Size = 1
-    end
-    object cdsServicoRESPONSAVEL: TStringField
-      FieldName = 'RESPONSAVEL'
-      Size = 150
     end
     object cdsServicoDESCRICAO_SERV: TStringField
       FieldName = 'DESCRICAO_SERV'
@@ -2327,6 +2379,20 @@ object fOs: TfOs
     object cdsServicoVALORTOTAL: TFloatField
       FieldName = 'VALORTOTAL'
       ProviderFlags = [pfInUpdate]
+    end
+    object cdsServicoCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+    end
+    object cdsServicoNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      ReadOnly = True
+      Required = True
+      Size = 30
+    end
+    object cdsServicoCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ReadOnly = True
+      Required = True
     end
   end
 end

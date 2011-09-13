@@ -22,6 +22,7 @@ type
     cdsOsCODMOVIMENTO: TIntegerField;
     cdsOsDATAMOVIMENTO: TDateField;
     cdsOsDATA_SISTEMA: TSQLTimeStampField;
+    cdsOsPROBLEMAS: TStringField;
     cdsOsSTATUS: TStringField;
     cdsOsDATA_INI: TDateField;
     cdsOsDATA_FIM: TDateField;
@@ -66,6 +67,7 @@ type
     cdsPecaDESCONTO: TFloatField;
     cdsPecaVALORTOTAL: TFloatField;
     cdsPecaID_OSDET_SERV: TIntegerField;
+    cdsOsKM: TIntegerField;
     cdsOsCODUSUARIO: TIntegerField;
     cdsOsDATAOS: TDateField;
     cdsOsCODVEICULO: TStringField;
@@ -79,6 +81,7 @@ type
     sdsOsCODMOVIMENTO: TIntegerField;
     sdsOsDATAMOVIMENTO: TDateField;
     sdsOsDATA_SISTEMA: TSQLTimeStampField;
+    sdsOsPROBLEMAS: TStringField;
     sdsOsSTATUS: TStringField;
     sdsOsDATA_INI: TDateField;
     sdsOsDATA_FIM: TDateField;
@@ -103,20 +106,6 @@ type
     IntegerField4: TIntegerField;
     IntegerField5: TIntegerField;
     dspPeca: TDataSetProvider;
-    sdsOsRAZAOSOCIAL: TStringField;
-    cdsOsKM: TIntegerField;
-    cdsOsRAZAOSOCIAL: TStringField;
-    sqlServicoCODPRO: TStringField;
-    cdsServicoCODPRO: TStringField;
-    sdsPecaCODPRO: TStringField;
-    cdsPecaCODUSUARIO: TIntegerField;
-    cdsPecaCODPRO: TStringField;
-    sdsPecaNOMEUSUARIO: TStringField;
-    cdsPecaNOMEUSUARIO: TStringField;
-    sqlServicoNOMEUSUARIO: TStringField;
-    cdsServicoNOMEUSUARIO: TStringField;
-    sdsOsNOMEUSUARIO: TStringField;
-    cdsOsNOMEUSUARIO: TStringField;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
