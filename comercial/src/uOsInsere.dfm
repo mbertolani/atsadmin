@@ -1,7 +1,8 @@
 inherited fOsInsere: TfOsInsere
   Width = 445
   Height = 425
-  Caption = 'Order Servi'#231'o - Detalhe'
+  Caption = 'Ordem Servi'#231'o - Detalhe'
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
@@ -328,6 +329,7 @@ inherited fOsInsere: TfOsInsere
       Height = 35
       TabOrder = 10
       TabStop = False
+      OnClick = BitBtn3Click
       Glyph.Data = {
         C2070000424DC20700000000000036000000280000001E000000150000000100
         1800000000008C070000120B0000120B00000000000000000000BFBFBFBFBFBF
@@ -393,7 +395,7 @@ inherited fOsInsere: TfOsInsere
         BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
         BFBFBFBF0000}
     end
-    object Edit3: TEdit
+    object edProdDescr: TEdit
       Left = 127
       Top = 63
       Width = 225
@@ -410,6 +412,7 @@ inherited fOsInsere: TfOsInsere
       Height = 35
       TabOrder = 12
       TabStop = False
+      OnClick = BitBtn1Click
       Glyph.Data = {
         C2070000424DC20700000000000036000000280000001E000000150000000100
         1800000000008C070000120B0000120B00000000000000000000BFBFBFBFBFBF

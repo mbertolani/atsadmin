@@ -109,7 +109,6 @@ type
     dspServico: TDataSetProvider;
     cdsServico: TClientDataSet;
     cdsServicoSTATUS: TStringField;
-    cdsServicoRESPONSAVEL: TStringField;
     cdsServicoDESCRICAO_SERV: TStringField;
     cdsServicoSTATUSDESC: TStringField;
     cdsServicoID_OS_DET: TIntegerField;
@@ -162,6 +161,20 @@ type
     Edit2: TEdit;
     BitBtn3: TBitBtn;
     Edit3: TEdit;
+    cdsServicoCODUSUARIO: TIntegerField;
+    sdsServicoSTATUS: TStringField;
+    sdsServicoCODUSUARIO: TIntegerField;
+    sdsServicoDESCRICAO_SERV: TStringField;
+    sdsServicoSTATUSDESC: TStringField;
+    sdsServicoID_OS_DET: TIntegerField;
+    sdsServicoID_OS: TIntegerField;
+    sdsServicoQTDE: TFloatField;
+    sdsServicoPRECO: TFloatField;
+    sdsServicoVALORTOTAL: TFloatField;
+    sdsServicoNOMEUSUARIO: TStringField;
+    cdsServicoNOMEUSUARIO: TStringField;
+    sdsServicoCODPRODUTO: TIntegerField;
+    cdsServicoCODPRODUTO: TIntegerField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -182,6 +195,7 @@ type
     procedure edDescServExit(Sender: TObject);
     procedure edDescVlrServExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
   private
     numOsDet, codProduto: Integer;
     estoque, qtde : Double;
@@ -203,7 +217,8 @@ var
 
 implementation
 
-uses UDm, uProcurar_nf, UDMNF, uProcura_prodOficina, sCtrlResize;
+uses UDm, uProcurar_nf, UDMNF, uProcura_prodOficina, sCtrlResize,
+  uOsInsere;
 
 {$R *.dfm}
 
@@ -711,6 +726,11 @@ end;
 procedure TfOs.BitBtn8Click(Sender: TObject);
 begin
   edPrecoServ.Value := 0; 
+end;
+
+procedure TfOs.JvDBGrid1CellClick(Column: TColumn);
+begin
+  fOsInsere.ShowModal;
 end;
 
 end.
