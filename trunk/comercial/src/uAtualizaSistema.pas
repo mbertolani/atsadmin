@@ -1016,17 +1016,17 @@ begin
       executaScript('cotacao_estorna.sql');
       if (NaoExisteTabela('OS_DET')) then
       begin
-        executaSql('create table OS_DET ( id_OS_DET integer not null primary key, ' +
+        executaSql('create table OS_DET ( id_OS_DET integer not null, ' +
           'id_OS integer not null, descricao_serv varchar(1024), ' +
-          'responsavel varchar(150), status char(1) ' +
+          'responsavel varchar(150), status char(1), ' +
           ' CODPRODUTO INTEGER NOT NULL, ' +
-          ' TIPO CHAR(1), -- comment P-PRODUTO ou S-SERVICO ' +
+          ' TIPO CHAR(1),  ' +
           ' QTDE VALOR DEFAULT 0, '  +
           ' PRECO VALOR  DEFAULT 0, ' +
           ' DESCONTO VALOR  DEFAULT 0, ' +
-          ' VALORTOTAL  COMPUTED BY ((PRECO-DESCONTO)*QTDE)  DEFAULT 0, ' +
-          ' ID_OSDET_SERV INTEGER, -- Codigo da OS DET. SERVICO ' +
-          ' CONSTRAINT INTEG_404 PRIMARY KEY (ID_OS_DET))');
+          ' VALORTOTAL  COMPUTED BY ((PRECO-DESCONTO)*QTDE) , ' +
+          ' ID_OSDET_SERV INTEGER, ' +
+          ' CONSTRAINT INTEG_404 PRIMARY KEY (ID_OS_DET)) ');
       end;
       mudaVersao('1.0.0.91');
     end;
@@ -1052,7 +1052,6 @@ begin
       executaScript('baixaTitulosRec.sql');
       //executaScript('expedicao_gera_pedido.sql');
       executaScript('insere_transp_fornec.sql');
-      executaScript('invent_estoque.sql');
       executaScript('inventario_lanca.sql');
       executaScript('sp_mov_caixa.sql');
       executaScript('listaSpEstoqueFiltro.sql');
@@ -1109,7 +1108,6 @@ begin
       executaScript('gera_pedido_proc.sql');
       executaScript('rel_compra_pedido.sql');
       executaScript('cotacao_gera_pedido.sql');
-      executaScript('invent_estoque.sql');
       mudaVersao('1.0.0.94');
     end;
 
@@ -1118,6 +1116,9 @@ begin
       executaSql('ALTER TABLE OS DROP CODVEICULO');
       executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
       executaDDL('OS_DET', 'CODUSUARIO', 'INTEGER');
+      executaDDL('INVENTARIO', 'LOTE',  'VARCHAR(60)');
+      executaDDL('INVENTARIO', 'CODCCUSTO', 'INTEGER');
+      executaScript('invent_estoque.sql');      
       //mudaVersao('1.0.0.95');
     end;
     
