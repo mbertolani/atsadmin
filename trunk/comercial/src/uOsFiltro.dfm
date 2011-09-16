@@ -2,7 +2,7 @@ object fOsFiltro: TfOsFiltro
   Left = 230
   Top = 122
   Width = 800
-  Height = 640
+  Height = 600
   Caption = 'Ordem de Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,6 +11,7 @@ object fOsFiltro: TfOsFiltro
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -44,9 +45,12 @@ object fOsFiltro: TfOsFiltro
     TitleFont.Height = -11
     TitleFont.Name = 'MS Shell Dlg 2'
     TitleFont.Style = []
+    OnDrawColumnCell = DBGrid1DrawColumnCell
     OnDblClick = DBGrid1DblClick
+    OnTitleClick = DBGrid1TitleClick
     MultiSelect = True
     TitleButtons = True
+    OnGetBtnParams = DBGrid1GetBtnParams
     AlternateRowColor = 16768667
     SortedField = 'Filename'
     TitleArrow = True
@@ -129,20 +133,11 @@ object fOsFiltro: TfOsFiltro
         Visible = True
       end>
   end
-  object Panel2: TPanel
-    Left = 0
-    Top = 580
-    Width = 792
-    Height = 33
-    Align = alBottom
-    Caption = 'Panel2'
-    TabOrder = 2
-  end
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 241
     Width = 792
-    Height = 160
+    Height = 136
     Align = alCustom
     DataSource = dsServico
     Font.Charset = ANSI_CHARSET
@@ -152,7 +147,7 @@ object fOsFiltro: TfOsFiltro
     Font.Style = []
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -232,7 +227,7 @@ object fOsFiltro: TfOsFiltro
   end
   object JvDBGrid2: TJvDBGrid
     Left = 0
-    Top = 417
+    Top = 393
     Width = 792
     Height = 160
     Align = alCustom
@@ -244,7 +239,7 @@ object fOsFiltro: TfOsFiltro
     Font.Style = []
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 3
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -265,6 +260,20 @@ object fOsFiltro: TfOsFiltro
     EditControls = <>
     RowsHeight = 23
     TitleRowHeight = 17
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 554
+    Width = 792
+    Height = 19
+    Panels = <
+      item
+        Width = 350
+      end
+      item
+        Width = 50
+      end>
+    OnResize = StatusBar1Resize
   end
   object dspOs: TDataSetProvider
     DataSet = sdsOs
@@ -333,6 +342,7 @@ object fOsFiltro: TfOsFiltro
   end
   object dsOs: TDataSource
     DataSet = cdsOs
+    OnDataChange = dsOsDataChange
     Left = 336
     Top = 56
   end

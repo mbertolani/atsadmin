@@ -5,13 +5,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DB, DBClient, Provider, SqlExpr, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid, ExtCtrls;
+  JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls;
 
 type
   TfOsFiltro = class(TForm)
     Panel1: TPanel;
     DBGrid1: TJvDBGrid;
-    Panel2: TPanel;
     dspOs: TDataSetProvider;
     cdsOs: TClientDataSet;
     dsOs: TDataSource;
@@ -106,11 +105,21 @@ type
     IntegerField4: TIntegerField;
     IntegerField5: TIntegerField;
     dspPeca: TDataSetProvider;
+    StatusBar1: TStatusBar;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
     procedure FormCreate(Sender: TObject);
+    procedure dsOsDataChange(Sender: TObject; Field: TField);
+    procedure StatusBar1Resize(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
+    procedure DBGrid1GetBtnParams(Sender: TObject; Field: TField;
+      AFont: TFont; var Background: TColor; var ASortMarker: TSortMarker;
+      IsDown: Boolean);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
   private
+    Ascending : boolean;
     { Private declarations }
   public
     { Public declarations }
@@ -128,7 +137,8 @@ uses UDm, uOs, sCtrlResize;
 procedure TfOsFiltro.DBGrid1DblClick(Sender: TObject);
 begin
   fOs.ShowModal;
-  cdsOs.Open;
+  if (not cdsOs.Active) then
+    cdsOs.Open;
 end;
 
 procedure TfOsFiltro.FormShow(Sender: TObject);
@@ -147,6 +157,83 @@ end;
 procedure TfOsFiltro.FormCreate(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fOsFiltro));
+end;
+
+procedure TfOsFiltro.dsOsDataChange(Sender: TObject; Field: TField);
+begin
+  StatusBar1.Panels[0].Text := 'Orderm de Serviços';//MinimizeName(' ' + CdsOS.Filename, StatusBar1.Canvas, StatusBar1.Panels[0].Width);
+  if (CdsOS.RecNo >= 0) then
+    StatusBar1.Panels[1].Text := Format('  %d of %d', [CdsOs.RecNo + 1, CdsOS.RecordCount])
+  else
+    StatusBar1.Panels[1].Text := '  Inserindo...';
+end;
+
+procedure TfOsFiltro.StatusBar1Resize(Sender: TObject);
+begin
+  StatusBar1.Panels[0].Width := ClientWidth - 100;
+  dsOsDataChange(nil, nil);
+end;
+
+procedure TfOsFiltro.DBGrid1TitleClick(Column: TColumn);
+var
+  enum_IndexOption: TIndexOptions;
+  str_IndexAsc,
+  str_IndexDesc,
+  str_IndexName: String;
+begin
+  if (Column.Field.FieldKind = fkData) then
+  begin
+    str_IndexAsc := Concat('asc_',Column.FieldName);
+    str_IndexDesc := Concat('desc_',Column.FieldName);
+
+    str_IndexName := '';
+    enum_IndexOption := [];
+
+    if (cdsOs.IndexName = str_IndexAsc) then
+    begin
+      str_IndexName := str_IndexDesc;
+      enum_IndexOption := [ixDescending];
+    end
+    else if (cdsOs.IndexName = str_IndexDesc) then
+    begin
+      str_IndexName := str_IndexAsc;
+    end
+    else
+    begin
+      str_IndexName := str_IndexAsc;
+    end;
+
+    cdsOs.IndexDefs.Clear;
+
+    cdsOs.IndexDefs.Add(str_IndexName,Column.FieldName,enum_IndexOption);
+    cdsOs.IndexName := str_IndexName;
+  end;
+
+  DBGrid1.SortedField := Column.FieldName;
+end;
+
+procedure TfOsFiltro.DBGrid1GetBtnParams(Sender: TObject; Field: TField;
+  AFont: TFont; var Background: TColor; var ASortMarker: TSortMarker;
+  IsDown: Boolean);
+const
+  Direction: array[boolean] of TSortmarker = (smDown, smUp);
+begin
+  if Field.FieldName = DBGrid1.SortedField then
+    ASortMarker := Direction[Ascending]
+  else
+    ASortMarker := smNone;
+end;
+
+procedure TfOsFiltro.DBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  if (cdsOsSTATUS.AsString = 'P') then
+    DBGrid1.Canvas.Brush.Color := clYellow;
+  if (cdsOsSTATUS.AsString = 'F') then
+    DBGrid1.Canvas.Brush.Color := clGray;
+
+  DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
 
 end.
