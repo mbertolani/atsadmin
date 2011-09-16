@@ -1,8 +1,8 @@
 inherited fLotes: TfLotes
   Left = 181
   Top = 76
-  Width = 792
-  Height = 492
+  Width = 808
+  Height = 512
   Caption = 'Lotes'
   OldCreateOrder = True
   OnShow = FormShow
@@ -65,8 +65,8 @@ inherited fLotes: TfLotes
     Caption = 'S'#233'rie Final'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 411
-    Width = 784
+    Top = 420
+    Width = 792
     TabOrder = 6
     inherited btnProcurar: TBitBtn
       Enabled = False
@@ -74,7 +74,7 @@ inherited fLotes: TfLotes
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 784
+    Width = 792
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -37
@@ -96,7 +96,7 @@ inherited fLotes: TfLotes
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 782
+      Width = 790
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -403,12 +403,13 @@ inherited fLotes: TfLotes
   end
   object sdslote: TSQLDataSet
     CommandText = 
-      'SELECT 1 CODLOTE, lote.LOTE, lote.CODPRODUTO, lote.MESANO DATAFA' +
-      'BRICACAO, lote.MESANO DATAVENCIMENTO, '#13#10'lote.SALDOESTOQUE ESTOQU' +
-      'E, lote.PRECOCUSTO PRECO, lote.LOTE NOTAFISCAL, 1 SERIEINI, 2 SE' +
-      'RIEFIM , prod.PRODUTO, prod.CODPRO FROM ESTOQUEMES lote '#13#10'inner ' +
-      'join PRODUTOS prod on prod.codproduto = lote.CODPRODUTO WHERE lo' +
-      'te.codproduto = :codpro and lote.SALDOESTOQUE > 0.009'
+      'SELECT *  FROM lote_estoquemes(:codpro)'#13#10#13#10'/*SELECT 1 CODLOTE, l' +
+      'ote.LOTE, lote.CODPRODUTO, lote.MESANO DATAFABRICACAO, lote.MESA' +
+      'NO DATAVENCIMENTO, '#13#10'lote.SALDOESTOQUE ESTOQUE, lote.PRECOCUSTO ' +
+      'PRECO, lote.LOTE NOTAFISCAL, 1 SERIEINI, 2 SERIEFIM , prod.PRODU' +
+      'TO, prod.CODPRO FROM ESTOQUEMES lote '#13#10'inner join PRODUTOS prod ' +
+      'on prod.codproduto = lote.CODPRODUTO WHERE lote.codproduto = :co' +
+      'dpro and lote.SALDOESTOQUE > 0.009*/'
     MaxBlobSize = -1
     Params = <
       item
