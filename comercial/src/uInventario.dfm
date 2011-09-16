@@ -1,19 +1,19 @@
 inherited fInventario: TfInventario
   Left = 203
   Top = 65
-  Width = 811
+  Width = 922
   Height = 621
   Caption = 'Inventario'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 803
+    Width = 906
     Height = 17
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 528
-    Width = 803
+    Top = 517
+    Width = 906
     Height = 66
     inherited btnGravar: TBitBtn
       Left = 298
@@ -92,7 +92,7 @@ inherited fInventario: TfInventario
   object Panel1: TPanel [2]
     Left = 0
     Top = 271
-    Width = 803
+    Width = 905
     Height = 259
     Align = alCustom
     TabOrder = 2
@@ -375,7 +375,7 @@ inherited fInventario: TfInventario
     object JvDBGrid2: TJvDBGrid
       Left = 157
       Top = 42
-      Width = 642
+      Width = 740
       Height = 213
       Align = alCustom
       DataSource = dsInvent
@@ -402,7 +402,7 @@ inherited fInventario: TfInventario
           Expanded = False
           FieldName = 'CODIVENTARIO'
           ReadOnly = True
-          Title.Caption = 'Invent'#225'rio'
+          Title.Caption = 'Lista'
           Width = 80
           Visible = True
         end
@@ -457,6 +457,12 @@ inherited fInventario: TfInventario
           Title.Caption = 'Un'
           Width = 30
           Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'LOTE'
+          Title.Caption = 'Lote'
+          Visible = True
         end>
     end
     object cbCCusto1: TComboBox
@@ -479,7 +485,7 @@ inherited fInventario: TfInventario
   object GroupBox1: TGroupBox [3]
     Left = 0
     Top = 17
-    Width = 803
+    Width = 906
     Height = 255
     Align = alTop
     Caption = 'Produtos / Materiais'
@@ -663,7 +669,7 @@ inherited fInventario: TfInventario
     object JvDBGrid1: TJvDBGrid
       Left = 162
       Top = 11
-      Width = 625
+      Width = 735
       Height = 239
       Align = alCustom
       DataSource = dsProd
@@ -688,35 +694,35 @@ inherited fInventario: TfInventario
           Expanded = False
           FieldName = 'CODPRO'
           Title.Caption = 'C'#243'digo'
-          Width = 77
+          Width = 86
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRODUTO'
           Title.Caption = 'Produto'
-          Width = 342
+          Width = 381
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'UNIDADEMEDIDA'
           Title.Caption = 'Un.'
-          Width = 18
+          Width = 60
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CATEGORIA'
           Title.Caption = 'Subgrupo'
-          Width = 82
+          Width = 91
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'FAMILIA'
           Title.Caption = 'Grupo'
-          Width = 85
+          Width = 96
           Visible = True
         end>
     end
