@@ -712,7 +712,7 @@ begin
     sqlBuscaEstoque := TSqlQuery.Create(nil);
     sqlBuscaEstoque.SQLConnection := dm.sqlsisAdimin;
   Result := False;
-  sqlBuscaEstoque.sql.Add('SELECT BAIXAMOVIMENTO ' +
+  sqlBuscaEstoque.sql.Add('SELECT BAIXAMOVIMENTO, MD.STATUS ' +
     ' FROM MOVIMENTO M, MOVIMENTODETALHE MD, NATUREZAOPERACAO NATOPER ' +
     'WHERE M.CODMOVIMENTO = MD.CODMOVIMENTO ' +
     '  AND M.CODNATUREZA  = NATOPER.CODNATUREZA  ' +
@@ -720,8 +720,9 @@ begin
   sqlBuscaEstoque.Open;
   if (not sqlBuscaEstoque.IsEmpty) then      // Não achou nada no sistema
   begin
-    if ((sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 0) or
-        (sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 1)) then
+    if (((sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 0)   or
+        (sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 1)) and
+        (sqlBuscaEstoque.FieldByName('STATUS').IsNull)) then
     begin
       Result := True;
     end;
