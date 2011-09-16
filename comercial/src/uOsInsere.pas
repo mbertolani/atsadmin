@@ -92,7 +92,7 @@ end;
 
 procedure TfOsInsere.BitBtn3Click(Sender: TObject);
 begin
-  fProcura_prodOficina.btnIncluir.Visible := true;
+  //fProcura_prodOficina.btnIncluir.Visible := true;
   if (procprod <> 'PROC_PROD_COMPLETO') then
   begin
     fProcura_prodOficina.Panel1.Visible := false;

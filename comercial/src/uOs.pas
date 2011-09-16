@@ -63,7 +63,6 @@ type
     cdsOSSTATUS: TStringField;
     cdsOSDATA_INI: TDateField;
     cdsOSDATA_FIM: TDateField;
-    cdsOSRESPONSAVEL: TStringField;
     cdsOSDESCRICAO_SERV: TStringField;
     GroupBox6: TGroupBox;
     edDescricao: TEdit;
@@ -175,6 +174,7 @@ type
     cdsServicoNOMEUSUARIO: TStringField;
     sdsServicoCODPRODUTO: TIntegerField;
     cdsServicoCODPRODUTO: TIntegerField;
+    cdsOSRESPONSAVEL: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -736,7 +736,9 @@ begin
   if (not cdsServico.Active) then
     cdsServico.Open;
   if (cdsServico.IsEmpty) then
-    cdsServico.Append;  
+    cdsServico.Append;
+  cdsServicoID_OS_DET.AsInteger := numOsDet;
+  cdsServicoID_OS.AsInteger     := cdsOSCODOS.AsInteger;
   fOsInsere.ShowModal;
 end;
 
