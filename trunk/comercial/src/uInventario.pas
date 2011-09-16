@@ -275,7 +275,7 @@ begin
 end;
 
 procedure TfInventario.incluirInventario;
-var sql, lote :string;
+var sql, lote :string; 
     TD : TTransactionDesc;
 begin
   cdsProd.DisableControls;
@@ -289,15 +289,16 @@ begin
       if (cdsInvent.Active) then
       begin
         lote := '';
-        if (cdsInventLOTE.AsString = 'S') then
+        if (cdsProdLOTES.AsString = 'S') then
         begin
           if (sqlEstoque.Active) then
             sqlEstoque.Close;
           sqlEstoque.ParamByName('pProd').AsInteger := cdsProd.Fields[1].AsInteger;
           sqlEstoque.Open;
-          lote := sqlEstoqueLOTE.asString;
+
           while not sqlEstoque.Eof do
           begin
+            lote := sqlEstoqueLOTE.asString;
             sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
               ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE) VALUES ('  +
               QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
@@ -307,13 +308,14 @@ begin
             if (cbCCusto1.ItemIndex > -1) then
             begin
               cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive]);
-                sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+                sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger) + ',';
             end
             else begin
-              sql := sql + ', null';
+              sql := sql + ', null,';
             end;
             sql := sql + ', ' + QuotedStr(lote) + ')';
             dm.sqlsisAdimin.ExecuteDirect(sql);
+            sqlEstoque.Next;
           end;
         end
         else begin
@@ -326,10 +328,10 @@ begin
           if (cbCCusto1.ItemIndex > -1) then
           begin
             cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive]);
-              sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+              sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger) + ',';
           end
           else begin
-            sql := sql + ', null';
+            sql := sql + ', null,';
           end;
           sql := sql +  ', ' + QuotedStr(lote) + ')';
           dm.sqlsisAdimin.ExecuteDirect(sql);
