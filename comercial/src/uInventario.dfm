@@ -975,9 +975,6 @@ inherited fInventario: TfInventario
       Required = True
       Size = 300
     end
-    object cdsInventQTDE_INVENTARIO: TFloatField
-      FieldName = 'QTDE_INVENTARIO'
-    end
     object cdsInventCODCCUSTO: TIntegerField
       FieldName = 'CODCCUSTO'
     end
@@ -985,6 +982,11 @@ inherited fInventario: TfInventario
       FieldName = 'LOTE'
       ReadOnly = True
       Size = 60
+    end
+    object cdsInventQTDE_INVENTARIO: TFloatField
+      FieldName = 'QTDE_INVENTARIO'
+      DisplayFormat = ',##0.000'
+      EditFormat = ',##0.000'
     end
   end
   object dsInvent: TDataSource
