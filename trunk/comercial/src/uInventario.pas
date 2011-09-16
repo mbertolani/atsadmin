@@ -78,7 +78,6 @@ type
     cdsProdCATEGORIA: TStringField;
     cdsProdFAMILIA: TStringField;
     JvDBGrid2: TJvDBGrid;
-    cdsInventQTDE_INVENTARIO: TFloatField;
     sProc: TSQLStoredProc;
     cbCCusto: TComboBox;
     Label2: TLabel;
@@ -102,6 +101,7 @@ type
     sqlEstoqueLOTE: TStringField;
     sqlEstoqueMESANO: TDateField;
     sqlEstoqueSALDOESTOQUE: TFloatField;
+    cdsInventQTDE_INVENTARIO: TFloatField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -306,13 +306,13 @@ begin
               QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
             if (cbCCusto1.ItemIndex > -1) then
             begin
-              if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+              cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive]);
                 sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
             end
             else begin
               sql := sql + ', null';
             end;
-            sql := sql + QuotedStr(lote) + ')';
+            sql := sql + ', ' + QuotedStr(lote) + ')';
             dm.sqlsisAdimin.ExecuteDirect(sql);
           end;
         end
@@ -325,13 +325,13 @@ begin
             QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
           if (cbCCusto1.ItemIndex > -1) then
           begin
-            if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+            cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive]);
               sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
           end
           else begin
             sql := sql + ', null';
           end;
-          sql := sql + QuotedStr(lote) + ')';
+          sql := sql +  ', ' + QuotedStr(lote) + ')';
           dm.sqlsisAdimin.ExecuteDirect(sql);
         end;
       end;
@@ -442,7 +442,7 @@ begin
       QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
     if (cbCCusto1.ItemIndex > -1) then
     begin
-      if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+      cds_ccusto.Locate('NOME',cbCCusto.Text, [loCaseInsensitive]);
         sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
     end
     else begin
