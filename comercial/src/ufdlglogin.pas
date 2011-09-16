@@ -98,9 +98,9 @@ begin
     edtLogin.Text := '';
     edtSenha.Text := '';
     edtLogin.SetFocus;
-    Tentativas := Tentativas +1;
-    if (Tentativas >3) then
-      Close;
+    Tentativas := Tentativas + 1;
+    if (Tentativas > 3) then
+      Exit;
   end;
 end;
 

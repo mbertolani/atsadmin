@@ -453,6 +453,12 @@ begin
     finally
       fDlgLogin.free;
     end;
+    if (usuautorizacao = 0) then
+    begin
+      ShowMessage('Usuario não tem permissão para efetuar essa operação');
+      Result := False;
+      exit;
+    end;
     if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
