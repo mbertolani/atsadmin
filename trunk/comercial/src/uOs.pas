@@ -196,6 +196,7 @@ type
     procedure edDescVlrServExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
   private
     numOsDet, codProduto: Integer;
     estoque, qtde : Double;
@@ -213,7 +214,7 @@ type
   end;
 
 var
-  fOs: TfOs;
+  fOs: TfOs;                              
 
 implementation
 
@@ -513,7 +514,8 @@ begin
     cdsServicoID_OS.AsInteger := 99999999;
     cdsServicoID_OS_DET.AsInteger := numOsDet;
     numOsDet := numOsDet + 1;
-    cdsServicoRESPONSAVEL.AsString := 'CARLOS';
+    cdsServicoCODUSUARIO.AsInteger := 1;
+    cdsServicoNOMEUSUARIO.AsString := 'Usuario';
     str := '';
     for I := 0 to edServico.Lines.Count -1 do
       str := str + edServico.Lines[I] + #13#10;
@@ -730,7 +732,21 @@ end;
 
 procedure TfOs.JvDBGrid1CellClick(Column: TColumn);
 begin
+  fOsInsere.modoOsInsere := 'SERVICO';
+  if (not cdsServico.Active) then
+    cdsServico.Open;
+  if (cdsServico.IsEmpty) then
+    cdsServico.Append;  
   fOsInsere.ShowModal;
+end;
+
+procedure TfOs.JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #13) then
+  begin
+    fOsInsere.modoOsInsere := 'SERVICO';
+    fOsInsere.ShowModal;
+  end;
 end;
 
 end.

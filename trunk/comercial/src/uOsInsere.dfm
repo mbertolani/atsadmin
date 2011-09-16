@@ -3,11 +3,13 @@ inherited fOsInsere: TfOsInsere
   Height = 425
   Caption = 'Ordem Servi'#231'o - Detalhe'
   OldCreateOrder = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
     Width = 437
     Height = 41
+    TabOrder = 3
     object lblServico: TLabel
       Left = 16
       Top = 8
@@ -49,7 +51,7 @@ inherited fOsInsere: TfOsInsere
     Caption = 'Servi'#231'o'
     Color = clSilver
     ParentColor = False
-    TabOrder = 2
+    TabOrder = 0
     object Label15: TLabel
       Left = 152
       Top = 179
@@ -86,15 +88,15 @@ inherited fOsInsere: TfOsInsere
       Caption = 'Total'
     end
     object Label20: TLabel
-      Left = 8
-      Top = 23
+      Left = 12
+      Top = 12
       Width = 60
       Height = 13
       Caption = 'Colaborador '
     end
     object Label21: TLabel
       Left = 11
-      Top = 48
+      Top = 56
       Width = 36
       Height = 13
       Caption = 'Servi'#231'o'
@@ -108,10 +110,10 @@ inherited fOsInsere: TfOsInsere
     end
     object btnNovo: TBitBtn
       Left = 352
-      Top = 50
+      Top = 58
       Width = 36
       Height = 35
-      TabOrder = 6
+      TabOrder = 9
       Glyph.Data = {
         1E060000424D1E06000000000000360000002800000018000000150000000100
         180000000000E8050000120B0000120B00000000000000000000BFBFBFBFBFBF
@@ -167,10 +169,10 @@ inherited fOsInsere: TfOsInsere
     end
     object BitBtn8: TBitBtn
       Left = 388
-      Top = 50
+      Top = 58
       Width = 36
       Height = 35
-      TabOrder = 7
+      TabOrder = 10
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
         0800000000000004000000000000000000000001000000000000000000000000
@@ -242,13 +244,13 @@ inherited fOsInsere: TfOsInsere
     end
     object edServico: TJvMemo
       Left = 8
-      Top = 88
+      Top = 98
       Width = 416
       Height = 58
       AutoSize = False
       MaxLines = 0
       HideCaret = False
-      TabOrder = 0
+      TabOrder = 3
     end
     object edQtdeServ: TJvCalcEdit
       Left = 198
@@ -256,7 +258,7 @@ inherited fOsInsere: TfOsInsere
       Width = 80
       Height = 21
       ShowButton = False
-      TabOrder = 1
+      TabOrder = 4
       DecimalPlacesAlwaysShown = False
       OnKeyPress = FormKeyPress
     end
@@ -267,7 +269,7 @@ inherited fOsInsere: TfOsInsere
       Height = 21
       DisplayFormat = ',##0.00'
       ShowButton = False
-      TabOrder = 2
+      TabOrder = 5
       DecimalPlacesAlwaysShown = False
       OnKeyPress = FormKeyPress
     end
@@ -277,7 +279,7 @@ inherited fOsInsere: TfOsInsere
       Width = 80
       Height = 21
       ShowButton = False
-      TabOrder = 3
+      TabOrder = 6
       DecimalPlacesAlwaysShown = False
       OnKeyPress = FormKeyPress
     end
@@ -288,7 +290,7 @@ inherited fOsInsere: TfOsInsere
       Height = 21
       DisplayFormat = ',##0.00'
       ShowButton = False
-      TabOrder = 4
+      TabOrder = 8
       DecimalPlacesAlwaysShown = False
       OnKeyPress = FormKeyPress
     end
@@ -302,32 +304,34 @@ inherited fOsInsere: TfOsInsere
       DisplayFormat = ',##0.00'
       ReadOnly = True
       ShowButton = False
-      TabOrder = 5
+      TabOrder = 7
       DecimalPlacesAlwaysShown = False
     end
     object edColaborador: TEdit
-      Left = 72
-      Top = 21
-      Width = 315
+      Left = 128
+      Top = 25
+      Width = 296
       Height = 21
+      TabStop = False
       Color = clInactiveBorder
       ReadOnly = True
-      TabOrder = 8
+      TabOrder = 0
     end
     object edProduto: TEdit
       Left = 9
-      Top = 63
+      Top = 71
       Width = 83
       Height = 21
-      TabOrder = 9
+      TabOrder = 1
+      OnExit = edProdutoExit
       OnKeyPress = FormKeyPress
     end
     object BitBtn3: TBitBtn
       Left = 92
-      Top = 50
+      Top = 58
       Width = 35
       Height = 35
-      TabOrder = 10
+      TabOrder = 11
       TabStop = False
       OnClick = BitBtn3Click
       Glyph.Data = {
@@ -397,17 +401,17 @@ inherited fOsInsere: TfOsInsere
     end
     object edProdDescr: TEdit
       Left = 127
-      Top = 63
+      Top = 71
       Width = 225
       Height = 21
       TabStop = False
       Color = clInactiveBorder
       MaxLength = 100
-      TabOrder = 11
+      TabOrder = 2
     end
     object BitBtn1: TBitBtn
-      Left = 388
-      Top = 8
+      Left = 93
+      Top = 13
       Width = 35
       Height = 35
       TabOrder = 12
@@ -479,7 +483,17 @@ inherited fOsInsere: TfOsInsere
         BFBFBFBF0000}
     end
   end
+  object edCodUsuario: TEdit [3]
+    Left = 9
+    Top = 67
+    Width = 83
+    Height = 21
+    TabOrder = 2
+    OnExit = edCodUsuarioExit
+    OnKeyPress = FormKeyPress
+  end
   inherited DtSrc: TDataSource
+    DataSet = fOs.cdsServico
     Left = 320
   end
   inherited XPMenu1: TXPMenu

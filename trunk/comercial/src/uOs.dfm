@@ -1781,6 +1781,7 @@ object fOs: TfOs
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
         OnCellClick = JvDBGrid1CellClick
+        OnKeyPress = JvDBGrid1KeyPress
         FixedCols = 7
         PostOnEnterKey = True
         AutoSizeColumns = True
