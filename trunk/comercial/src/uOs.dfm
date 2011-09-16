@@ -2100,10 +2100,6 @@ object fOs: TfOs
     object cdsOSDATA_FIM: TDateField
       FieldName = 'DATA_FIM'
     end
-    object cdsOSRESPONSAVEL: TStringField
-      FieldName = 'RESPONSAVEL'
-      Size = 150
-    end
     object cdsOSDESCRICAO_SERV: TStringField
       FieldName = 'DESCRICAO_SERV'
       Size = 300
@@ -2127,6 +2123,10 @@ object fOs: TfOs
       FieldName = 'CODVEICULO'
       EditMask = '!>LLL-9999;1;_'
       Size = 30
+    end
+    object cdsOSRESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Size = 150
     end
   end
   object dtsrc: TDataSource
@@ -2319,14 +2319,10 @@ object fOs: TfOs
     end
     object sdsServicoNOMEUSUARIO: TStringField
       FieldName = 'NOMEUSUARIO'
-      ReadOnly = True
-      Required = True
       Size = 30
     end
     object sdsServicoCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
-      ReadOnly = True
-      Required = True
     end
   end
   object dspServico: TDataSetProvider
@@ -2386,14 +2382,10 @@ object fOs: TfOs
     end
     object cdsServicoNOMEUSUARIO: TStringField
       FieldName = 'NOMEUSUARIO'
-      ReadOnly = True
-      Required = True
       Size = 30
     end
     object cdsServicoCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
-      ReadOnly = True
-      Required = True
     end
   end
 end
