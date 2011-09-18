@@ -281,6 +281,7 @@ inherited fOsInsere: TfOsInsere
       ShowButton = False
       TabOrder = 6
       DecimalPlacesAlwaysShown = False
+      OnExit = edDescServExit
       OnKeyPress = FormKeyPress
     end
     object edDescVlrServ: TJvCalcEdit
@@ -292,6 +293,7 @@ inherited fOsInsere: TfOsInsere
       ShowButton = False
       TabOrder = 8
       DecimalPlacesAlwaysShown = False
+      OnExit = edDescVlrServExit
       OnKeyPress = FormKeyPress
     end
     object edTotalServ: TJvCalcEdit

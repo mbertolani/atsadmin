@@ -132,10 +132,6 @@ type
     edVeiculo: TJvMaskEdit;
     edObs: TEdit;
     Panel2: TPanel;
-    GroupBox1: TGroupBox;
-    btnNovo: TBitBtn;
-    BitBtn8: TBitBtn;
-    edServico: TJvMemo;
     GroupBox2: TGroupBox;
     JvDBGrid1: TJvDBGrid;
     cdsPecasVlrTotal: TAggregateField;
@@ -143,23 +139,7 @@ type
     cdsServicoQTDE: TFloatField;
     cdsServicoPRECO: TFloatField;
     cdsServicoVALORTOTAL: TFloatField;
-    Label15: TLabel;
-    edQtdeServ: TJvCalcEdit;
-    Label16: TLabel;
-    edPrecoServ: TJvCalcEdit;
-    Label17: TLabel;
-    edDescServ: TJvCalcEdit;
-    Label18: TLabel;
-    edDescVlrServ: TJvCalcEdit;
-    Label19: TLabel;
-    edTotalServ: TJvCalcEdit;
     cdsOSCODVEICULO: TStringField;
-    Label20: TLabel;
-    Edit1: TEdit;
-    Label21: TLabel;
-    Edit2: TEdit;
-    BitBtn3: TBitBtn;
-    Edit3: TEdit;
     cdsServicoCODUSUARIO: TIntegerField;
     sdsServicoSTATUS: TStringField;
     sdsServicoCODUSUARIO: TIntegerField;
@@ -175,6 +155,10 @@ type
     sdsServicoCODPRODUTO: TIntegerField;
     cdsServicoCODPRODUTO: TIntegerField;
     cdsOSRESPONSAVEL: TStringField;
+    sdsServicoCODPRO: TStringField;
+    cdsServicoCODPRO: TStringField;
+    sdsServicoDESCONTO: TFloatField;
+    cdsServicoDESCONTO: TFloatField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -193,12 +177,12 @@ type
     procedure edDescExit(Sender: TObject);
     procedure edDescVlrExit(Sender: TObject);
     procedure edDescServExit(Sender: TObject);
-    procedure edDescVlrServExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure cdsServicoNewRecord(DataSet: TDataSet);
+    procedure cdsPecasNewRecord(DataSet: TDataSet);
   private
-    numOsDet, codProduto: Integer;
     estoque, qtde : Double;
     FOsCls: TOsClasse;
     Procedure limpaCampos;
@@ -210,6 +194,7 @@ type
     { Private declarations }
   public
     modoOs: String; // Insert, Edit, Browse, Inactive
+    numOsDet: Integer;
     { Public declarations }
   end;
 
@@ -357,7 +342,6 @@ begin
   edNomeCliente.Text := '';
   edNumOS.Text := '';
   edVeiculo.Text := '';
-  edServico.Lines.Clear;
   edKm.Text := '';
   cdsOs.Close;
   cdsPecas.Close;
@@ -463,6 +447,7 @@ procedure TfOs.FormShow(Sender: TObject);
 begin
   //sCtrlResize.CtrlResize(TForm(fOs));
   carregaCombos;
+  numOsDet := 1;
 end;
 
 procedure TfOs.btnCancelarClick(Sender: TObject);
@@ -473,7 +458,7 @@ end;
 
 procedure TfOs.FormCreate(Sender: TObject);
 begin
-  sCtrlResize.CtrlResize(TForm(fOs));
+  //sCtrlResize.CtrlResize(TForm(fOs));
   FOsCls := TOsClasse.Create;
 end;
 
@@ -517,13 +502,13 @@ begin
     cdsServicoCODUSUARIO.AsInteger := 1;
     cdsServicoNOMEUSUARIO.AsString := 'Usuario';
     str := '';
-    for I := 0 to edServico.Lines.Count -1 do
+    {for I := 0 to edServico.Lines.Count -1 do
       str := str + edServico.Lines[I] + #13#10;
     cdsServicoDESCRICAO_SERV.AsString := str;
     cdsServicoQTDE.AsFloat            := edQtdeServ.Value;
     cdsServicoPRECO.AsFloat           := edPrecoServ.Value;
     cdsServicoVALORTOTAL.AsFloat      := edQtdeServ.Value * edPrecoServ.Value;
-    cdsServico.Post;
+    cdsServico.Post;  }
   end;
 end;
 
@@ -707,27 +692,17 @@ end;
 
 procedure TfOs.edDescServExit(Sender: TObject);
 begin
-  if (edDescServ.Value > 0) then
+  {if (edDescServ.Value > 0) then
   begin
     edDescVlrServ.Value := edPrecoServ.Value * (edDescServ.Value / 100);
     edTotalServ.Value   := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
-  end;
-
-end;
-
-procedure TfOs.edDescVlrServExit(Sender: TObject);
-begin
-  if ((edDescVlrServ.Value > 0) and (edDescServ.Value = 0) and (edPrecoServ.Value > 0)) then
-  begin
-    edDescServ.Value  := (edDescVlrServ.Value / edPrecoServ.Value) * 100;
-    edTotalServ.Value := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
-  end;
+  end;}
 
 end;
 
 procedure TfOs.BitBtn8Click(Sender: TObject);
 begin
-  edPrecoServ.Value := 0; 
+  //edPrecoServ.Value := 0; 
 end;
 
 procedure TfOs.JvDBGrid1CellClick(Column: TColumn);
@@ -738,7 +713,6 @@ begin
   if (cdsServico.IsEmpty) then
     cdsServico.Append;
   cdsServicoID_OS_DET.AsInteger := numOsDet;
-  cdsServicoID_OS.AsInteger     := cdsOSCODOS.AsInteger;
   fOsInsere.ShowModal;
 end;
 
@@ -749,6 +723,16 @@ begin
     fOsInsere.modoOsInsere := 'SERVICO';
     fOsInsere.ShowModal;
   end;
+end;
+
+procedure TfOs.cdsServicoNewRecord(DataSet: TDataSet);
+begin
+  cdsServicoID_OS.AsInteger := 1;
+end;
+
+procedure TfOs.cdsPecasNewRecord(DataSet: TDataSet);
+begin
+  cdsPecasID_OS.AsInteger := 1;
 end;
 
 end.
