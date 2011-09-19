@@ -407,7 +407,7 @@ begin
    + ' rec.DATAVENCIMENTO, rec.CODFORNECEDOR, rec.VALORTITULO, rec.VALOR_RESTO, rec.VALOR_PRIM_VIA,rec.CONTACREDITO, '
    + ' CASE rec.STATUS WHEN ' + '''5-''' + ' THEN ' + '''PENDENTE''' + ' when ' + '''6-'''
    + ' then ' + '''PENDENTE CONTAB.''' +  ' when ' + '''7-''' + ' then ' + '''PAGO'''
-   + ' when ' + '''8-''' + ' then ' + '''SUSPENSO'''
+   + ' when ' + '''8-''' + ' then ' + '''SUSPENSO''' + ' when ' + '''14''' + ' then ' + '''CANCELADO'''
    + ' END AS STATUS, rec.DATAPAGAMENTO, '
    + 'sum(rec.VALORRECEBIDO + FUNRURAL + JUROS) as VALORRECEBIDO, rec.VIA, rec.N_DOCUMENTO '
    + ' , cli.NOMEFORNECEDOR, ' +
@@ -574,6 +574,14 @@ begin
         else
           sqlTexto := sqlTexto + ' AND (rec.STATUS = ';
         sqlTexto := sqlTexto + '''' + '8-' + ''')';
+      end;
+      6:  // Cancelado
+      begin
+        if sqlTexto='' then
+          sqlTexto := sqlTexto + ' WHERE (rec.STATUS = '
+        else
+          sqlTexto := sqlTexto + ' AND (rec.STATUS = ';
+        sqlTexto := sqlTexto + '''' + '14' + ''')';
       end;
     end;
   end;
@@ -859,8 +867,8 @@ procedure TfCpProc.btnImprimirClick(Sender: TObject);
    sqlGrupo: String;
 begin
 //  repContasReceber.Report.Params.ParamByName('PVENDA').Value := dm.cds_vendaCODVENDA.AsInteger;
-  sqlGrupo := ' group by cli.NOMEFORNECEDOR, rec.CODFORNECEDOR, '
-            + ' rec.DATAVENCIMENTO, rec.EMISSAO, rec.CODPAGAMENTO, '
+  sqlGrupo := ' group by rec.DATAVENCIMENTO, cli.NOMEFORNECEDOR, rec.CODFORNECEDOR, '
+            + ' rec.EMISSAO, rec.CODPAGAMENTO, '
             + ' rec.TITULO,  rec.VALOR_RESTO, rec.VALORTITULO, '
             + ' rec.STATUS, rec.DATAPAGAMENTO, rec.VALORRECEBIDO , '
             + ' rec.VIA, rec.N_DOCUMENTO, rec.VALOR_PRIM_VIA, rec.dp, rec.dup_rec_nf' +
@@ -1081,25 +1089,28 @@ begin
 // destacando Campos
 //***************************************************
   if Column.Field = scdsCr_procSTATUS then
+  begin
    if ((scdsCr_procSTATUS.AsString = '5-')) then
    begin
      DBGrid1.Canvas.Font.Color := clRed;
      DBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
-   end;
-  if Column.Field = scdsCr_procSTATUS then
-   if (scdsCr_procSTATUS.AsString = '7-') then
+   end
+   else if (scdsCr_procSTATUS.AsString = '7-') then
    begin
      DBGrid1.Canvas.Font.Color := clBlue;
      DBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
-   end;
-
-  if Column.Field = scdsCr_procSTATUS then
-   if (scdsCr_procSTATUS.AsString = '8-') then
+   end
+   else if (scdsCr_procSTATUS.AsString = '8-') then
    begin
      DBGrid1.Canvas.Font.Color := clYellow;
      DBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
+   end
+   else if (scdsCr_procSTATUS.AsString = '14') then
+   begin
+     DBGrid1.Canvas.Font.Color := clRed;
+     DBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
    end;
-
+  end;
   ChkDBGridDrawColumnCell(Sender as TDBGrid, Rect,
     DataCol, Column, State);
 

@@ -228,6 +228,7 @@ begin
   resultado.Add('10-Novo Título');
   resultado.Add('11-Todos');
   resultado.Add('3-Em Protesto');
+  resultado.Add('14-Cancelado');
   result := resultado;
 end;
 
@@ -279,6 +280,7 @@ begin
   resultado.Add('7-Pago');
   resultado.Add('8-Suspenso');
   resultado.Add('11-Todos');
+  resultado.Add('14-Cancelado');
   result := resultado;
 end;
 

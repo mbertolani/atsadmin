@@ -704,6 +704,15 @@ begin
         SqlCr := SqlCr + '''' + '3-' + ''')';
       end;
 
+      9:  // Cancelado
+      begin
+        if SqlCr='' then
+          SqlCr := SqlCr + ' WHERE (rec.STATUS = '
+        else
+          SqlCr := SqlCr + ' AND (rec.STATUS = ';
+        SqlCr := SqlCr + '''' + '14' + ''')';
+      end;
+
 
     end;
 
@@ -1602,24 +1611,28 @@ begin
 // destacando Campos
 //***************************************************
   if Column.Field = scdsCr_procSTATUSP then
-   if ((scdsCr_procSTATUS.AsString = '5-')) then
-   begin
-     JvDBGrid1.Canvas.Font.Color := clRed;
-     JvDBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
-   end;
-  if Column.Field = scdsCr_procSTATUSP then
-   if (scdsCr_procSTATUS.AsString = '7-') then
-   begin
-     JvDBGrid1.Canvas.Font.Color := clBlue;
-     JvDBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
-   end;
+  begin
+    if ((scdsCr_procSTATUS.AsString = '5-')) then
+    begin
+      JvDBGrid1.Canvas.Font.Color := clRed;
+      JvDBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
+    end
+    else if (scdsCr_procSTATUS.AsString = '7-') then
+    begin
+      JvDBGrid1.Canvas.Font.Color := clBlue;
+      JvDBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
+    end
+    else if (scdsCr_procSTATUS.AsString = '8-') then
+    begin
+      JvDBGrid1.Canvas.Font.Color := clYellow;
+      JvDBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
+    end
+    else if (scdsCr_procSTATUS.AsString = '14') then
+    begin
+      JvDBGrid1.Canvas.Font.Color := clRed;
+      JvDBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
+    end;
 
-  if Column.Field = scdsCr_procSTATUSP then
-   if (scdsCr_procSTATUS.AsString = '8-') then
-   begin
-     JvDBGrid1.Canvas.Font.Color := clYellow;
-     JvDBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
-   end;
   // Selecionou ?
    if Column.Field = scdsCr_procDUP_REC_NF then
    begin
@@ -1630,6 +1643,7 @@ begin
        else
          ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 0);
    end;
+  end;
 end;
 
 procedure Tfcrproc.JvDBGrid1ColEnter(Sender: TObject);
