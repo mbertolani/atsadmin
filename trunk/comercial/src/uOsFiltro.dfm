@@ -1,7 +1,7 @@
 object fOsFiltro: TfOsFiltro
   Left = 230
   Top = 122
-  Width = 800
+  Width = 760
   Height = 600
   Caption = 'Ordem de Servi'#231'o'
   Color = clBtnFace
@@ -19,11 +19,24 @@ object fOsFiltro: TfOsFiltro
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 792
+    Width = 752
     Height = 81
     Align = alTop
-    Caption = 'Panel1'
     TabOrder = 0
+    object rgStatus: TRadioGroup
+      Left = 48
+      Top = 10
+      Width = 270
+      Height = 56
+      Caption = 'Situa'#231#227'o'
+      Columns = 3
+      Items.Strings = (
+        'Pendente'
+        'Execu'#231#227'o'
+        'Finalizada')
+      TabOrder = 0
+      OnClick = rgStatusClick
+    end
   end
   object DBGrid1: TJvDBGrid
     Left = 0
@@ -264,7 +277,7 @@ object fOsFiltro: TfOsFiltro
   object StatusBar1: TStatusBar
     Left = 0
     Top = 554
-    Width = 792
+    Width = 752
     Height = 19
     Panels = <
       item
