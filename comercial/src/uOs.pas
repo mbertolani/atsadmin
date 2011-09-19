@@ -141,6 +141,12 @@ type
     cdsServicoCODPRO: TStringField;
     sdsServicoDESCONTO: TFloatField;
     cdsServicoDESCONTO: TFloatField;
+    cdsOSRAZAOSOCIAL: TStringField;
+    cdsOSKM: TIntegerField;
+    Panel3: TPanel;
+    btnIncluirServico: TBitBtn;
+    btnExcluirServico: TBitBtn;
+    dsServico: TDataSource;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -154,8 +160,7 @@ type
     procedure edProdutoExit(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure BitBtn1Click(Sender: TObject);
-    procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure btnIncluirServicoClick(Sender: TObject);
     procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure cdsServicoNewRecord(DataSet: TDataSet);
     procedure cdsPecasNewRecord(DataSet: TDataSet);
@@ -163,11 +168,12 @@ type
     estoque, qtde : Double;
     FOsCls: TOsClasse;
     Procedure limpaCampos;
-    Procedure carregaCombos;
+    Procedure carregaCampos;
     Procedure controlaEventos;
     Procedure abrirOs(codOs :Integer);
     Procedure abrirPecas;
     Procedure buscaProduto;
+    procedure carregaCombos;
     { Private declarations }
   public
     modoOs: String; // Insert, Edit, Browse, Inactive
@@ -195,7 +201,7 @@ begin
   edData.Date    := Today;
   edDataFim.Date := Today;
   edNumOS.SetFocus;
-  numOsDet := 1;
+  numOsDet := 90000001;
 end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
@@ -214,7 +220,8 @@ begin
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
     FOsCls.codCliente := StrToInt(edCodCliente.Text);
-    FOsCls.codOs      := 0;
+    if (modoOs = 'Insert') then
+      FOsCls.codOs      := 0;
     if (edVeiculo.Text = '') then
     begin
       MessageDlg('Veiculo não informado', mtError, [mbOK], 0);
@@ -230,22 +237,39 @@ begin
       FOsCls.status := 'P';
     FOsCls.km         := StrToInt(edKm.Text);
 
-    CodigoOs := FOsCls.IncluirOs(0);
+    if (modoOs = 'Insert') then
+      CodigoOs := FOsCls.IncluirOs(0);
+
+    if (modoOs = 'Edit') then
+    begin
+      FOsCls.alterarOs(cdsOSCODOS.AsInteger);
+      CodigoOs := cdsOSCODOS.AsInteger;
+    end;
 
     cdsServico.DisableControls;
     cdsServico.First;
     While not cdsServico.Eof do
     begin
       FOsCls.osDet.CodOsP   := CodigoOs;
-      FOsCls.osDet.CodDet   := 0;
-      FOsCls.osDet.Status   := 'O';
-      FOsCls.osDet.Tipo     := 'S';
+      if (cdsServicoID_OS_DET.AsInteger > 90000000) then
+      begin
+        FOsCls.osDet.CodDet   := 0;
+        FOsCls.osDet.Status   := 'O';
+        FOsCls.osDet.Tipo     := 'S';
+      end;
       FOsCls.osDet.Descricao:= cdsServicoDESCRICAO_SERV.AsString;
       FOsCls.osDet.Qtde     := cdsServicoQTDE.AsFloat;
       FOsCls.osDet.Preco    := cdsServicoPRECO.AsFloat;
-      FOsCls.osDet.Desconto := 0;
-      if (FOsCls.osDet.IncluirOsDet(0) = 0) then
-        ShowMessage('Erro na Inclusao Os Detalhe');
+      FOsCls.osDet.Desconto := cdsServicoDESCONTO.AsFloat;
+
+      if (cdsServicoID_OS_DET.AsInteger > 90000000) then
+      begin
+        if (FOsCls.osDet.IncluirOsDet(0) = 0) then
+          ShowMessage('Erro na Inclusao Os Detalhe');
+      end
+      else begin
+        FOsCls.osDet.alterarOsDet(cdsServicoID_OS.AsInteger);
+      end;
       cdsServico.Next;
     end;
     cdsServico.EnableControls;
@@ -255,16 +279,26 @@ begin
     While not cdsPecas.Eof do
     begin
       FOsCls.osDet.CodOsP   := CodigoOs;
-      FOsCls.osDet.CodDet   := 0;
-      FOsCls.osDet.Status   := 'O';
-      FOsCls.osDet.Tipo     := 'P';
+      if (cdsPecasID_OS_DET.AsInteger > 90000000) then
+      begin
+        FOsCls.osDet.CodDet   := 0;
+        FOsCls.osDet.Status   := 'O';
+        FOsCls.osDet.Tipo     := 'P';
+      end;
       FOsCls.osDet.Descricao:= cdsPecasDESCRICAO_SERV.AsString;
       FOsCls.osDet.Qtde     := cdsPecasQTDE.AsFloat;
       FOsCls.osDet.Preco    := cdsPecasPRECO.AsFloat;
       FOsCls.osDet.Desconto := cdsPecasDESCONTO.AsFloat;
       FOSCls.osDet.CodOsServ := cdsServicoID_OS_DET.AsInteger;
-      if (FOsCls.osDet.IncluirOsDet(0) = 0) then
-        ShowMessage('Erro na Inclusao Os Detalhe');
+
+      if (cdsPecasID_OS_DET.AsInteger > 90000000) then
+      begin
+        if (FOsCls.osDet.IncluirOsDet(0) = 0) then
+          ShowMessage('Erro na Inclusao Os Detalhe');
+      end
+      else begin
+        FOsCls.osDet.alterarOsDet(cdsPecasID_OS.AsInteger);
+      end;
       cdsPecas.Next;
     end;
     dm.sqlsisAdimin.Commit(TD);
@@ -422,8 +456,9 @@ end;
 procedure TfOs.FormShow(Sender: TObject);
 begin
   //sCtrlResize.CtrlResize(TForm(fOs));
-  carregaCombos;
+  FOsCls := TOsClasse.Create;
   numOsDet := 1;
+  carregaCampos;
 end;
 
 procedure TfOs.btnCancelarClick(Sender: TObject);
@@ -435,7 +470,6 @@ end;
 procedure TfOs.FormCreate(Sender: TObject);
 begin
   //sCtrlResize.CtrlResize(TForm(fOs));
-  FOsCls := TOsClasse.Create;
 end;
 
 procedure TfOs.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -451,7 +485,6 @@ begin
     cdsServico.Close;
   cdsServico.Params.ParamByName('pOs').AsInteger := codOs;
   cdsServico.Open;
-  cdsServico.Append;
 end;
 
 procedure TfOs.abrirPecas;
@@ -577,36 +610,19 @@ begin
   end;
 end;
 
-procedure TfOs.BitBtn1Click(Sender: TObject);
-begin
-  {if (not cdsPecas.Active) then
-  begin
-    abrirPecas;
-  end;
-  if (cdsPecas.State in [dsBrowse]) then
-    cdsPecas.Append;
-  cdsPecasID_OS.AsInteger         := cdsServicoID_OS.AsInteger;
-  cdsPecasID_OS_DET.AsInteger     := NumOsDet;
-  numOsDet                        := numOsDet + 1;
-  cdsPecasDESCRICAO_SERV.AsString := edDescricao.Text;
-  cdsPecasCODPRO.AsString         := edProduto.Text;
-  cdsPecasSTATUS.AsString         := 'O';
-  cdsPecasTIPO.AsString           := 'P';
-  cdsPecasQTDE.AsFloat            := edQtde.Value;
-  cdsPecasPRECO.AsFloat           := edPreco.Value;
-  cdsPecasDESCONTO.AsFloat        := edDescVlr.Value;
-  //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
-  //cdsPecasCODPRODUTO.AsInteger    := codProduto; }
-end;
-
-procedure TfOs.JvDBGrid1CellClick(Column: TColumn);
+procedure TfOs.btnIncluirServicoClick(Sender: TObject);
 begin
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
     exit;
-    
+
   fOsInsere.modoOsInsere := 'SERVICO';
-  if (not cdsServico.Active) then
-    cdsServico.Open;
+
+  {if (cdsServico.Active) then
+    cdsServico.Close;
+
+  cdsServico.Params.ParamByName('POS').AsInteger := cdsOSCODOS.AsInteger;
+  cdsServico.Open;}
+
   if (cdsServico.IsEmpty) then
   begin
     cdsServico.Append;
@@ -616,6 +632,7 @@ begin
     cdsServico.Edit;
   end;
   fOsInsere.ShowModal;
+
 end;
 
 procedure TfOs.JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
@@ -635,6 +652,25 @@ end;
 procedure TfOs.cdsPecasNewRecord(DataSet: TDataSet);
 begin
   cdsPecasID_OS.AsInteger := 1;
+end;
+
+procedure TfOs.carregaCampos;
+begin
+  if ((cdsOs.Active) and (not cdsOs.IsEmpty)) then
+  begin
+    edNumOS.Text       := IntToStr(cdsOSCODOS.AsInteger);
+    edData.Date        := cdsOSDATAMOVIMENTO.AsDateTime;
+    edDataFim.Date     := cdsOSDATA_FIM.AsDateTime;
+    edCodCliente.Text  := IntToStr(cdsOSCODCLIENTE.AsInteger);
+    edNomeCliente.Text := cdsOSRAZAOSOCIAL.AsString;
+    edVeiculo.Text     := cdsOSCODVEICULO.AsString;
+    edKm.Text          := IntToStr(cdsOSKM.AsInteger);
+    edObs.Text         := cdsOSOBS.AsString;
+    abrirOs(cdsOSCODOS.AsInteger);
+    abrirPecas;
+    modoOs := 'Edit';
+    controlaEventos;
+  end;
 end;
 
 end.
