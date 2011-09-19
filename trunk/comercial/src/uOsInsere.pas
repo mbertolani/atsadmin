@@ -221,6 +221,18 @@ begin
   if (modoOsInsere = 'SERVICO') then
   begin
     DtSrc.DataSet := fOs.cdsServico;
+    if (DtSrc.State in [dsEdit]) then
+    begin
+      edServico.Lines.Add(fOs.cdsServicoDESCRICAO_SERV.AsString);
+      edProduto.Text      := fOs.cdsServicoCODPRO.AsString;
+      codProduto          := fOs.cdsServicoCODPRODUTO.asInteger;
+      edQtdeServ.Value    := fOs.cdsServicoQTDE.AsFloat;
+      edPrecoServ.Value   := fOs.cdsServicoPRECO.AsFloat;
+      edDescVlrServ.Value := fOs.cdsServicoDESCONTO.AsFloat;
+      edTotalServ.Value   := fOs.cdsServicoVALORTOTAL.AsFloat;
+      edCodUsuario.Text   := IntToStr(fOs.cdsServicoCODUSUARIO.AsInteger);
+      edColaborador.Text  := fOs.cdsServicoNOMEUSUARIO.AsString;
+    end;
   end;
   if (modoOsInsere = 'PECA') then
   begin
@@ -328,12 +340,12 @@ end;
 procedure TfOsInsere.DtSrcStateChange(Sender: TObject);
 begin
   inherited;
-  edCodUsuario.Enabled := DtSrc.State in [dsEdit, dsInsert];
-  edProduto.Enabled    := DtSrc.State in [dsEdit, dsInsert];
-  edServico.Enabled    := DtSrc.State in [dsEdit, dsInsert];
-  edQtdeServ.Enabled   := DtSrc.State in [dsEdit, dsInsert];
-  edPrecoServ.Enabled  := DtSrc.State in [dsEdit, dsInsert];
-  edDescServ.Enabled   := DtSrc.State in [dsEdit, dsInsert];
+  edCodUsuario.Enabled  := DtSrc.State in [dsEdit, dsInsert];
+  edProduto.Enabled     := DtSrc.State in [dsEdit, dsInsert];
+  edServico.Enabled     := DtSrc.State in [dsEdit, dsInsert];
+  edQtdeServ.Enabled    := DtSrc.State in [dsEdit, dsInsert];
+  edPrecoServ.Enabled   := DtSrc.State in [dsEdit, dsInsert];
+  edDescServ.Enabled    := DtSrc.State in [dsEdit, dsInsert];
   edDescVlrServ.Enabled := DtSrc.State in [dsEdit, dsInsert];
 end;
 

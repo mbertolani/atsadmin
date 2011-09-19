@@ -139,9 +139,18 @@ uses UDm, uOs, sCtrlResize;
 
 procedure TfOsFiltro.DBGrid1DblClick(Sender: TObject);
 begin
-  fOs.ShowModal;
   if (not cdsOs.Active) then
     cdsOs.Open;
+  if (fOs.cdsOS.Active) then
+    fOs.cdsOS.Close;
+  fOs.cdsOS.Params.ParamByName('POS').AsInteger := cdsOsCODOS.AsInteger;
+  fOs.cdsOS.Open;
+  if (not fOs.cdsOS.IsEmpty) then
+  begin
+    fOs.modoOs := 'Edit';
+    fOs.cdsOS.Edit;
+  end;
+  fOs.ShowModal;
 end;
 
 procedure TfOsFiltro.FormShow(Sender: TObject);
