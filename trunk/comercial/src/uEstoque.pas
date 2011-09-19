@@ -140,7 +140,7 @@ uses SqlExpr, DB, UDm;
 procedure TEstoque.corrigeCustoEstoquePosterior;
 var sqlBuscaPosterior, sqlBuscaE : TSqlQuery;
     mesPost, mesAnt: TDateTime;
-    PCusto1, Estoque1, EstoqueAnterior1, VlrEstoque1: Double;
+    PCusto1, Estoque1, EstoqueAnterior1, VlrEstoque1, QS: Double;
 begin
   Try
     sqlBuscaE :=  TSqlQuery.Create(nil);
@@ -203,7 +203,10 @@ begin
       QMes       := sqlBuscaE.FieldByName('MESANO').AsDateTime;
 
       //Estoque1   := Estoque1 + QSaldo;
-      PCusto1    := ((PCusto * QSaldo) + VlrEstoque1) / (Estoque1 + Qsaldo);
+      QS := (Estoque1 + Qsaldo);
+      if (QS = 0 )then
+        QS := 1;
+      PCusto1    := ((PCusto * QSaldo) + VlrEstoque1) / QS;
 
       // Atualiza mes Posterior
       DecimalSeparator := '.';
@@ -428,6 +431,7 @@ begin
       sqlStr := sqlStr + FloatToStr(Self.QtdeInventario) + ')';
     end;
     Try
+      DecimalSeparator := '.';
       dm.sqlsisAdimin.ExecuteDirect(sqlStr);
       //dm.sqlsisAdimin.Commit();
 
@@ -435,17 +439,20 @@ begin
       if (temMesPosterior = True) then
       begin
         // ********************** carregar aqui o preco de custo e o saldo do mes que acabou de ser inserido
+        DecimalSeparator := '.';
         QSaldoAnterior := totalEstoque;
         PCustoAnterior := Self.PrecoCusto;
         corrigeCustoEstoquePosterior;
       end;
 
       // Atualiza Cadastro de Produtos
+      DecimalSeparator := '.';
       sqlStr := 'UPDATE PRODUTOS SET ESTOQUEATUAL = ' + FloatToStr(Self.QSaldo);
 
       // Se foi Compra, Atualiza valores
       if (Self.QtdeCompra > 0) then
       begin
+        DecimalSeparator := '.';
         sqlStr := sqlStr + ', VALORUNITARIOATUAL = ' + FloatToStr(Self.PrecoCompra);
         if (Self.PrecoCusto < 0) then
           sqlStr := sqlStr + ', PRECOMEDIO = 0 '
