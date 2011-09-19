@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DB, DBClient, Provider, SqlExpr, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls;
+  JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls, StdCtrls;
 
 type
   TfOsFiltro = class(TForm)
@@ -106,6 +106,7 @@ type
     IntegerField5: TIntegerField;
     dspPeca: TDataSetProvider;
     StatusBar1: TStatusBar;
+    rgStatus: TRadioGroup;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -118,8 +119,10 @@ type
       IsDown: Boolean);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure rgStatusClick(Sender: TObject);
   private
     Ascending : boolean;
+    procedure abrirOs;
     { Private declarations }
   public
     { Public declarations }
@@ -143,7 +146,7 @@ end;
 
 procedure TfOsFiltro.FormShow(Sender: TObject);
 begin
-  cdsOs.Open;
+  abrirOs;
 end;
 
 procedure TfOsFiltro.dsServicoDataChange(Sender: TObject; Field: TField);
@@ -161,17 +164,23 @@ end;
 
 procedure TfOsFiltro.dsOsDataChange(Sender: TObject; Field: TField);
 begin
-  StatusBar1.Panels[0].Text := 'Orderm de Serviços';//MinimizeName(' ' + CdsOS.Filename, StatusBar1.Canvas, StatusBar1.Panels[0].Width);
-  if (CdsOS.RecNo >= 0) then
-    StatusBar1.Panels[1].Text := Format('  %d of %d', [CdsOs.RecNo + 1, CdsOS.RecordCount])
-  else
-    StatusBar1.Panels[1].Text := '  Inserindo...';
+  if (cdsOs.Active) then
+  begin
+    StatusBar1.Panels[0].Text := 'Orderm de Serviços';//MinimizeName(' ' + CdsOS.Filename, StatusBar1.Canvas, StatusBar1.Panels[0].Width);
+    if (CdsOS.RecNo >= 0) then
+      StatusBar1.Panels[1].Text := Format('  %d of %d', [CdsOs.RecNo + 1, CdsOS.RecordCount])
+    else
+      StatusBar1.Panels[1].Text := '  Inserindo...';
+  end;
 end;
 
 procedure TfOsFiltro.StatusBar1Resize(Sender: TObject);
 begin
-  StatusBar1.Panels[0].Width := ClientWidth - 100;
-  dsOsDataChange(nil, nil);
+  if (cdsOs.Active) then
+  begin
+    StatusBar1.Panels[0].Width := ClientWidth - 100;
+    dsOsDataChange(nil, nil);
+  end;
 end;
 
 procedure TfOsFiltro.DBGrid1TitleClick(Column: TColumn);
@@ -228,12 +237,36 @@ procedure TfOsFiltro.DBGrid1DrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn;
   State: TGridDrawState);
 begin
-  if (cdsOsSTATUS.AsString = 'P') then
-    DBGrid1.Canvas.Brush.Color := clYellow;
-  if (cdsOsSTATUS.AsString = 'F') then
-    DBGrid1.Canvas.Brush.Color := clGray;
+  if (cdsOs.Active) then
+  begin
+    if (cdsOsSTATUS.AsString = 'P') then
+      DBGrid1.Canvas.Brush.Color := clYellow;
+    if (cdsOsSTATUS.AsString = 'F') then
+      DBGrid1.Canvas.Brush.Color := clGray;
 
-  DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+    DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+  end;  
+end;
+
+procedure TfOsFiltro.abrirOs;
+var strAbrirOs: String;
+begin
+  if (cdsOs.Active) then
+    cdsOs.Close;
+
+
+  case (rgStatus.ItemIndex) of
+    0 : strAbrirOs := ' WHERE STATUS = ' + QuotedStr('P');
+    1 : strAbrirOs := ' WHERE STATUS = ' + QuotedStr('E');
+    2 : strAbrirOs := ' WHERE STATUS = ' + QuotedStr('F');
+  end;
+  cdsOs.CommandText :=  'SELECT * FROM OS ' + strAbrirOs;
+  cdsOs.Open;
+end;
+
+procedure TfOsFiltro.rgStatusClick(Sender: TObject);
+begin
+  abrirOs;
 end;
 
 end.

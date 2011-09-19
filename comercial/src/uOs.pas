@@ -64,24 +64,6 @@ type
     cdsOSDATA_INI: TDateField;
     cdsOSDATA_FIM: TDateField;
     cdsOSDESCRICAO_SERV: TStringField;
-    GroupBox6: TGroupBox;
-    edDescricao: TEdit;
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
-    btnProdutoProcura: TBitBtn;
-    edProduto: TEdit;
-    Label5: TLabel;
-    Label9: TLabel;
-    Label10: TLabel;
-    edQtde: TJvCalcEdit;
-    edDesc: TJvCalcEdit;
-    Label11: TLabel;
-    Label12: TLabel;
-    edPreco: TJvCalcEdit;
-    edTotal: TJvCalcEdit;
-    Label13: TLabel;
-    edDescVlr: TJvCalcEdit;
-    Label14: TLabel;
     GroupBox7: TGroupBox;
     JvDBGrid2: TJvDBGrid;
     sdsPecas: TSQLDataSet;
@@ -173,11 +155,6 @@ type
     procedure edCodClienteExit(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn1Click(Sender: TObject);
-    procedure edPrecoExit(Sender: TObject);
-    procedure edDescExit(Sender: TObject);
-    procedure edDescVlrExit(Sender: TObject);
-    procedure edDescServExit(Sender: TObject);
-    procedure BitBtn8Click(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure cdsServicoNewRecord(DataSet: TDataSet);
@@ -337,7 +314,6 @@ procedure TfOs.limpaCampos;
 begin
   edData.Clear;
   edDataFim.Clear;
-  edDesc.Value := 0;
   edCodCliente.Text := '';
   edNomeCliente.Text := '';
   edNumOS.Text := '';
@@ -549,13 +525,9 @@ begin
         qtde         := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
         //cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECOMEDIO.AsFloat;
         estoque      := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
-        codProduto   := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+        //codProduto   := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
       end;
     end;
-    edProduto.Text   := fProcura_prodOficina.cds_procCODPRO.AsString;
-    edDescricao.Text := fProcura_prodOficina.cds_procPRODUTO.AsString;
-    edPreco.Value    := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-    codProduto       := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
 
 end;
 
@@ -572,38 +544,6 @@ end;
 
 procedure TfOs.buscaProduto;
 begin
-  if (CdsPecas.State in [dsInactive]) then exit;
-  if (edProduto.Text = '') then exit;
-
-  if (cdsPecas.State in [dsBrowse]) then
-    cdsPecas.Edit;
-  if dm.scds_produto_proc.Active then
-    dm.scds_produto_proc.Close;
-  dm.scds_produto_proc.Params[0].AsInteger := 0;
-  dm.scds_produto_proc.Params[1].AsString := edProduto.Text;
-  dm.scds_produto_proc.Open;
-  if dm.scds_produto_proc.IsEmpty then begin
-    MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-    [mbOk], 0);
-    //btnProdutoProcura.Click;
-    exit;
-  end;
-  cdsPecasCODPRO.AsString         := fProcura_prodOficina.cds_procCODPRO.AsString;
-  cdsPecasCODPRODUTO.asInteger    := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  cdsPecasDESCRICAO_SERV.asString := fProcura_prodOficina.cds_procPRODUTO.AsString;
-  edDescricao.Text                := fProcura_prodOficina.cds_procPRODUTO.AsString;
-  cdsPecasPRECO.AsFloat           := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-  if ( fProcura_prodOficina.cds_procQTDE_PCT.AsFloat < 1) then
-    cdsPecasQTDE.AsFloat := 1
-  else
-    cdsPecasQTDE.AsFloat          := fProcura_prodOficina.cds_procQTDE_PCT.AsFloat;
-  qtde                            := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
-  //cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECOMEDIO.AsFloat;
-  estoque          := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
-  edProduto.Text   := fProcura_prodOficina.cds_procCODPRO.AsString;
-  edDescricao.Text := fProcura_prodOficina.cds_procPRODUTO.AsString;
-  edPreco.Value    := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-  codProduto       := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
 end;
 
 procedure TfOs.edCodClienteExit(Sender: TObject);
@@ -639,7 +579,7 @@ end;
 
 procedure TfOs.BitBtn1Click(Sender: TObject);
 begin
-  if (not cdsPecas.Active) then
+  {if (not cdsPecas.Active) then
   begin
     abrirPecas;
   end;
@@ -656,63 +596,25 @@ begin
   cdsPecasPRECO.AsFloat           := edPreco.Value;
   cdsPecasDESCONTO.AsFloat        := edDescVlr.Value;
   //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
-  cdsPecasCODPRODUTO.AsInteger    := codProduto;
-  cdsPecas.Post;
-  edProduto.Text    := '';
-  edDescricao.Text  := '';
-  edQtde.Value      := 0;
-  edPreco.Value     := 0;
-  edDesc.Value      := 0;
-  edDescVlr.Value   := 0;
-  edTotal.Value     := 0;  
-end;
-
-procedure TfOs.edPrecoExit(Sender: TObject);
-begin
-  edTotal.Value := edPreco.Value * edQtde.Value;
-end;
-
-procedure TfOs.edDescExit(Sender: TObject);
-begin
-  if (edDesc.Value > 0) then
-  begin
-    edDescVlr.Value := edPreco.Value * (edDesc.Value / 100);
-    edTotal.Value   := (edPreco.Value * edQtde.Value) - edDescVlr.Value;
-  end;
-end;
-
-procedure TfOs.edDescVlrExit(Sender: TObject);
-begin
-  if ((edDescVlr.Value > 0) and (edDesc.Value = 0) and (edPreco.Value > 0)) then
-  begin
-    edDesc.Value  := (edDescVlr.Value / edPreco.Value) * 100;
-    edTotal.Value := (edPreco.Value * edQtde.Value) - edDescVlr.Value;
-  end;
-end;
-
-procedure TfOs.edDescServExit(Sender: TObject);
-begin
-  {if (edDescServ.Value > 0) then
-  begin
-    edDescVlrServ.Value := edPrecoServ.Value * (edDescServ.Value / 100);
-    edTotalServ.Value   := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
-  end;}
-
-end;
-
-procedure TfOs.BitBtn8Click(Sender: TObject);
-begin
-  //edPrecoServ.Value := 0; 
+  //cdsPecasCODPRODUTO.AsInteger    := codProduto; }
 end;
 
 procedure TfOs.JvDBGrid1CellClick(Column: TColumn);
 begin
+  if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
+    exit;
+    
   fOsInsere.modoOsInsere := 'SERVICO';
   if (not cdsServico.Active) then
     cdsServico.Open;
   if (cdsServico.IsEmpty) then
+  begin
     cdsServico.Append;
-  cdsServicoID_OS_DET.AsInteger := numOsDet;
+    cdsServicoID_OS_DET.AsInteger := numOsDet;
+  end
+  else begin
+    cdsServico.Edit;
+  end;
   fOsInsere.ShowModal;
 end;
 

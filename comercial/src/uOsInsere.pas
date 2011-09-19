@@ -43,6 +43,8 @@ type
     procedure edDescServExit(Sender: TObject);
     procedure edDescVlrServExit(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DtSrcStateChange(Sender: TObject);
   private
     codProduto: Integer;
 
@@ -248,6 +250,7 @@ begin
     fOs.cdsPecas.Append;
     fOs.cdsPecasID_OS_DET.AsInteger := fOs.numOsDet;
   end;
+  edCodUsuario.SetFocus;
 end;
 
 procedure TfOsInsere.edDescServExit(Sender: TObject);
@@ -293,7 +296,10 @@ begin
 
   if (modoOsInsere = 'PECA') then
   begin
-    fOs.cdsPecasDESCRICAO_SERV.AsString := edDescricao.Text;
+    str := '';
+    for I := 0 to edServico.Lines.Count -1 do
+      str := str + edServico.Lines[I] + #13#10;
+    fOs.cdsServicoDESCRICAO_SERV.AsString := str;
     fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
     fOs.cdsPecasCODPRODUTO.asInteger    := codProduto;
     fOs.cdsPecasSTATUS.AsString         := 'O';
@@ -305,13 +311,30 @@ begin
     fOs.cdsPecasCODPRODUTO.AsInteger    := codProduto;
     fOs.cdsPecas.Post;
   end;
-  edProduto.Text    := '';
-  edDescricao.Text  := '';
-  edQtde.Value      := 0;
-  edPreco.Value     := 0;
-  edDesc.Value      := 0;
-  edDescVlr.Value   := 0;
-  edTotal.Value     := 0;
+  edServico.Lines.Clear;
+  edProduto.Text        := '';
+  edQtdeServ.Value      := 0;
+  edPrecoServ.Value     := 0;
+  edDescVlrServ.Value   := 0;
+  edTotalServ.Value     := 0;
+end;
+
+procedure TfOsInsere.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  //inherited;
+
+end;
+
+procedure TfOsInsere.DtSrcStateChange(Sender: TObject);
+begin
+  inherited;
+  edCodUsuario.Enabled := DtSrc.State in [dsEdit, dsInsert];
+  edProduto.Enabled    := DtSrc.State in [dsEdit, dsInsert];
+  edServico.Enabled    := DtSrc.State in [dsEdit, dsInsert];
+  edQtdeServ.Enabled   := DtSrc.State in [dsEdit, dsInsert];
+  edPrecoServ.Enabled  := DtSrc.State in [dsEdit, dsInsert];
+  edDescServ.Enabled   := DtSrc.State in [dsEdit, dsInsert];
+  edDescVlrServ.Enabled := DtSrc.State in [dsEdit, dsInsert];
 end;
 
 end.
