@@ -307,7 +307,7 @@ begin
               QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
             if (cbCCusto1.ItemIndex > -1) then
             begin
-              cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive]);
+              cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive]);
                 sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger) + ',';
             end
             else begin
@@ -327,7 +327,7 @@ begin
             QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
           if (cbCCusto1.ItemIndex > -1) then
           begin
-            cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive]);
+            cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive]);
               sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger) + ',';
           end
           else begin
@@ -445,7 +445,7 @@ begin
     if (cbCCusto1.ItemIndex > -1) then
     begin
       cds_ccusto.Locate('NOME',cbCCusto.Text, [loCaseInsensitive]);
-        sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+        sql := sql + ', ' + IntToStr(cds_ccusto1CODIGO.AsInteger);
     end
     else begin
       sql := sql + ', null';

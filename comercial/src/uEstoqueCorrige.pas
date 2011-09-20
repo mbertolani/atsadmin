@@ -36,6 +36,34 @@ type
     prog2: TJvProgressBar;
     Label6: TLabel;
     BitBtn1: TBitBtn;
+    cdsACODPROD: TStringField;
+    cdsACODMOV: TIntegerField;
+    cdsATIPOMOVIMENTO: TStringField;
+    cdsAPRODUTO: TStringField;
+    cdsAGRUPO: TStringField;
+    cdsASUBGRUPOPROD: TStringField;
+    cdsASALDOINIACUM: TFloatField;
+    cdsAENTRADA: TFloatField;
+    cdsASAIDA: TFloatField;
+    cdsASALDOFIMACUM: TFloatField;
+    cdsAPRECOUNIT: TFloatField;
+    cdsAVALORESTOQUE: TFloatField;
+    cdsAVALORVENDA: TFloatField;
+    cdsALOTES: TStringField;
+    cdsACCUSTOS: TIntegerField;
+    cdsADTAFAB: TDateField;
+    cdsADTAVCTO: TDateField;
+    cdsANF: TIntegerField;
+    cdsACLIFOR: TStringField;
+    cdsACODLOTE: TIntegerField;
+    cdsAANOTACOES: TStringField;
+    cdsC: TClientDataSet;
+    sdsC: TSQLDataSet;
+    dspC: TDataSetProvider;
+    sdsCDATAMOVIMENTO: TDateField;
+    cdsCDATAMOVIMENTO: TDateField;
+    sdsCSTATUS: TStringField;
+    cdsCSTATUS: TStringField;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
@@ -216,39 +244,36 @@ begin
       While not cdsA.Eof do
       begin
         Prog2.Position := cdsA.RecNo;
-        cdsA.Last;  // So interessa a ultima linha
+//        cdsA.Last;  // So interessa a ultima linha
+        if (cdsC.Active) then
+          cdsC.Close;
+        cdsC.CommandText := 'Select m.DATAMOVIMENTO, md.STATUS ' +
+          '  from MOVIMENTO m, MOVIMENTODETALHE md ' +
+          ' where m.CODMOVIMENTO = md.CODMOVIMENTO ' +
+          '   and m.CODMOVIMENTO = ' + IntToStr(cdsACODMOV.AsInteger) +
+          '   and md.CODPRODUTO  = ' + IntToStr(cds.FieldByName('CODPRODUTO').AsInteger);
+        if (sdsC.Active) then
+          sdsC.Close;
+        cdsC.Open;
 
-        if ((cds.FieldByName('STATUS').IsNull) and (cdsA.FieldByName('SALDOFIMACUM').AsFloat <> 0)) then
+        if (cdsC.FieldByName('STATUS').IsNull) then
         begin
-          if (cdsA.FieldByName('SALDOFIMACUM').AsFloat > 0) then
+          if (cdsA.FieldByName('TIPOMOVIMENTO').AsString = 'COMPRA') then
           begin
-            FEstoque.QtdeEntrada  := cdsA.FieldByName('SALDOFIMACUM').AsFloat;
-            FEstoque.PrecoCompra  := cdsA.FieldByName('PRECOUNIT').AsFloat;
+            dmnf.baixaEstoque(cdsACODMOV.AsInteger, cdsCDATAMOVIMENTO.AsDateTime, 'COMPRA');
           end;
-          if (cdsA.FieldByName('SALDOFIMACUM').AsFloat < 0) then
+          if (cdsA.FieldByName('TIPOMOVIMENTO').AsString = 'Entrada') then
           begin
-            FEstoque.QtdeSaida    := cdsA.FieldByName('SALDOFIMACUM').AsFloat;
+            dmnf.baixaEstoque(cdsACODMOV.AsInteger, cdsCDATAMOVIMENTO.AsDateTime, 'ENTRADA');
           end;
-
-          FEstoque.CodProduto  := cds.FieldByName('CODPRODUTO').AsInteger;
-          FEstoque.Lote        := cds.FieldByName('LOTE').AsString;
-          FEstoque.CentroCusto := cds.FieldByName('CODALMOXARIFADO').AsInteger;
-          FEstoque.MesAno      := cds.FieldByName('DATAMOVIMENTO').AsDateTime;
-
-          FEstoque.CodDetalhe  := cds.FieldByName('CODDETALHE').AsInteger;
-          FEstoque.Status      := '9';
-          FEstoque.inserirMes;
-          FEstoque.QtdeCompra  := 0;
-          FEstoque.QtdeVenda   := 0;
-          FEstoque.QtdeEntrada := 0;
-          FEstoque.QtdeSaida   := 0;
-          FEstoque.PrecoCompra := 0;
-          FEstoque.PrecoVenda  := 0;
-          FEstoque.Lote        := '';
-          FEstoque.CentroCusto := 0;
-          dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr('9') +
-          ' WHERE CODPRODUTO = ' + IntToStr(cds.FieldByName('CODPRODUTO').AsInteger) +
-          ' and lote = ' + QuotedStr(cds.FieldByName('LOTE').AsString)) ;
+          if (cdsA.FieldByName('TIPOMOVIMENTO').AsString = 'Saída') then
+          begin
+            dmnf.baixaEstoque(cdsACODMOV.AsInteger, cdsCDATAMOVIMENTO.AsDateTime, 'SAIDA');
+          end;
+          if (cdsA.FieldByName('TIPOMOVIMENTO').AsString = 'Venda') then
+          begin
+            dmnf.baixaEstoque(cdsACODMOV.AsInteger, cdsCDATAMOVIMENTO.AsDateTime, 'VENDA');
+          end;
         end;
         cdsA.Next;
       end;
