@@ -81,10 +81,10 @@ begin
     DecimalSeparator := '.';
     sqlAltera := 'UPDATE OS_DET SET ';
     sqlAltera := sqlAltera + ' CODUSUARIO      = ' + IntToStr(Self.codUsuario) + ', ';
-    sqlAltera := sqlAltera + ' DESCRICAO       = ' + QuotedStr(Self.Descricao) + ', ';
-    sqlAltera := sqlAltera + ' SERV_EXECUTADO  = ' + QuotedStr(Self.ServExecutado) + ', ';
+    sqlAltera := sqlAltera + ' DESCRICAO_SERV  = ' + QuotedStr(Self.Descricao) + ', ';
+    //sqlAltera := sqlAltera + ' SERV_EXECUTADO  = ' + QuotedStr(Self.ServExecutado) + ', ';
     sqlAltera := sqlAltera + ' STATUS          = ' + QuotedStr(Self.status) + ', ';
-    sqlAltera := sqlAltera + ' QTDE            = ' + FloatToStr(Self.Qtde);
+    sqlAltera := sqlAltera + ' QTDE            = ' + FloatToStr(Self.Qtde) + ', ';
     sqlAltera := sqlAltera + ' PRECO           = ' + FloatToStr(Self.Preco);
     sqlAltera := sqlAltera + ' WHERE ID_OS_DET = ' + IntToStr(Self.CodDet);
     executaSql(sqlAltera);
