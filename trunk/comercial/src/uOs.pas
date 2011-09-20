@@ -147,6 +147,9 @@ type
     btnIncluirServico: TBitBtn;
     btnExcluirServico: TBitBtn;
     dsServico: TDataSource;
+    Panel4: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -164,6 +167,7 @@ type
     procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure cdsServicoNewRecord(DataSet: TDataSet);
     procedure cdsPecasNewRecord(DataSet: TDataSet);
+    procedure BitBtn1Click(Sender: TObject);
   private
     estoque, qtde : Double;
     FOsCls: TOsClasse;
@@ -304,7 +308,7 @@ begin
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('OS gerada com sucesso.', mtError, [mbOK], 0);
 
-    cdsServico.Post;
+    cdsOs.Post;
   except
     on E : Exception do
     begin
@@ -617,12 +621,6 @@ begin
 
   fOsInsere.modoOsInsere := 'SERVICO';
 
-  {if (cdsServico.Active) then
-    cdsServico.Close;
-
-  cdsServico.Params.ParamByName('POS').AsInteger := cdsOSCODOS.AsInteger;
-  cdsServico.Open;}
-
   if (cdsServico.IsEmpty) then
   begin
     cdsServico.Append;
@@ -671,6 +669,25 @@ begin
     modoOs := 'Edit';
     controlaEventos;
   end;
+end;
+
+procedure TfOs.BitBtn1Click(Sender: TObject);
+begin
+  if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
+    exit;
+
+  fOsInsere.modoOsInsere := 'PECA';
+
+  if (cdsPecas.IsEmpty) then
+  begin
+    cdsPecas.Append;
+    cdsPecasID_OS_DET.AsInteger := numOsDet;
+  end
+  else begin
+    cdsPecas.Edit;
+  end;
+  fOsInsere.ShowModal;
+
 end;
 
 end.
