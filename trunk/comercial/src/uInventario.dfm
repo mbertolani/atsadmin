@@ -8,12 +8,12 @@ inherited fInventario: TfInventario
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 906
+    Width = 914
     Height = 17
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 517
-    Width = 906
+    Top = 528
+    Width = 914
     Height = 66
     inherited btnGravar: TBitBtn
       Left = 298
@@ -485,7 +485,7 @@ inherited fInventario: TfInventario
   object GroupBox1: TGroupBox [3]
     Left = 0
     Top = 17
-    Width = 906
+    Width = 914
     Height = 255
     Align = alTop
     Caption = 'Produtos / Materiais'

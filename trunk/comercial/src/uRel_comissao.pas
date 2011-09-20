@@ -62,6 +62,8 @@ type
     cds_produtoCODPRODUTO: TIntegerField;
     cds_produtoPRODUTO: TStringField;
     cds_produtoCODPRO: TStringField;
+    BitBtn3: TBitBtn;
+    btnVendaServico: TBitBtn;
     procedure cbMesChange(Sender: TObject);
     procedure Edit3KeyPress(Sender: TObject; var Key: Char);
     procedure CheckBox1Click(Sender: TObject);
@@ -73,6 +75,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Edit4Change(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure btnVendaServicoClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -231,6 +235,35 @@ end;
 procedure TfRel_comissao.Edit4Change(Sender: TObject);
 begin
   Edit3.Text := cds_produtoCODPRO.AsString;
+end;
+
+procedure TfRel_comissao.BitBtn3Click(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'comissao_sintetico.rep';
+  Rep.Title := Rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Dta1.Text);
+  Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Dta2.Text);
+  if (Edit1.Text <> '') then
+    Rep.Report.Params.ParamByName('PFUN').Value := Edit1.Text
+  else
+    Rep.Report.Params.ParamByName('PFUN').Value := '0';
+  rep.execute;
+end;
+
+procedure TfRel_comissao.btnVendaServicoClick(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'rel_servico.rep';
+  Rep.Title := Rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Dta1.Text);
+  Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Dta2.Text);
+  if (Edit1.Text <> '') then
+    Rep.Report.Params.ParamByName('PFUN').Value := Edit1.Text
+  else
+    Rep.Report.Params.ParamByName('PFUN').Value := '0';
+  rep.execute;
+
 end;
 
 end.
