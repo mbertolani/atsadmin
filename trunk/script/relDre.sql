@@ -110,7 +110,7 @@ BEGIN
       IF (CREDITO IS NULL) THEN
         CREDITO = 0;
 
-      DESC_CONTA = '    Receitas de Serviços ';
+      DESC_CONTA = '    Receitas de Servicos ';
       TOTALIZA = TOTALIZA + CREDITO;
       TOTAL = TOTAL + TOTALIZA;
       ACUMULA = TOTAL;
@@ -120,7 +120,7 @@ BEGIN
   end  
 
   /*  Receitas Vendas OS */
-  DESC_CONTA = 'Receitas não operacionais';
+  DESC_CONTA = 'Receitas nao operacionais';
   CONTA  = null;
   CREDITO = null;
   TOT = 'S';
@@ -140,7 +140,7 @@ BEGIN
       IF (CREDITO IS NULL) THEN
         CREDITO = 0;
 
-      DESC_CONTA = '    Receitas de Juros e Corr. Monetária ';
+      DESC_CONTA = '    Receitas de Juros e Corr. Monetaria ';
       TOTALIZA = TOTALIZA + CREDITO;
       TOTAL = TOTAL + TOTALIZA;
       ACUMULA = TOTAL;
@@ -206,7 +206,7 @@ BEGIN
 
 
   /* Gerando Total Receita */
-  DESC_CONTA = '(-) Deduções das Receitas';
+  DESC_CONTA = '(-) Deducoes das Receitas';
   CONTA  = null;
   CREDITO = null;
   TOTAL = null;
@@ -286,7 +286,7 @@ BEGIN
         SUSPEND; 
   end  
 
-  DESC_CONTA = '= Receitas Líquidas';
+  DESC_CONTA = '= Receitas Liquidas';
   CONTA  = null;
   CREDITO = null;
   --TOTAL = NULL;
@@ -349,41 +349,48 @@ BEGIN
        and prod.TIPO = 'SERV'  
        and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
      group by md.CODPRODUTO       
-    INTO :PRO, :CREDITO
+    INTO :PRO, :CUSTO
     do
     begin
-      IF (CREDITO IS NULL) THEN
-        CREDITO = 0;
+      IF (CUSTO IS NULL) THEN
+        CUSTO = 0;
 
-      DESC_CONTA = '     Custo dos Serviços Vendidos';
-      TOTALIZA = TOTALIZA - CREDITO;
-      TOTAL = TOTAL + TOTALIZA;
-      ACUMULA = TOTAL; 
+      DESC_CONTA = '     Custo dos Servicos Vendidos';
+      TOTALIZA = TOTALIZA - CUSTO;
       TOT = 'N';
     end
-    if (CREDITO > 0) then
-      SUSPEND; 
-    
-  TOTALIZA = 0;
+
+    CREDITO = TOTALIZA;
+    TOTAL   = TOTAL + TOTALIZA;
+    ACUMULA = TOTAL; 
+
+    SUSPEND; 
+
+    CREDITO = 0;   
+    TOTALIZA = 0;
 
   -- Outros Custos de Vendas (FRETE , SEGUROS, etc )
   FOR select sum(c.VALOR_ICMS + c.VALOR_FRETE + c.VALOR_SEGURO + c.OUTRAS_DESP + c.VALOR_IPI)
      FROM COMPRA c
   where (c.DATACOMPRA between :PDTA1 AND :PDTA2)
-     INTO :CREDITO
+     INTO :CUSTO
   do
   begin    
-      IF (CREDITO IS NULL) THEN
-        CREDITO = 0;
+      IF (CUSTO IS NULL) THEN
+        CUSTO = 0;
 
       DESC_CONTA = '     Outros custos CMV (FRETE, SEGURO) ';
-      TOTALIZA = TOTALIZA - CREDITO;
-      TOTAL = TOTAL + TOTALIZA;
-      ACUMULA = TOTAL;
+      TOTALIZA = TOTALIZA - CUSTO;
       TOT = 'N';
-      if (CREDITO > 0) THEN
-        SUSPEND; 
   end  
+
+  CREDITO = TOTALIZA;
+  TOTAL = TOTAL + TOTALIZA;
+  ACUMULA = TOTAL;
+  if (CREDITO > 0) THEN
+    SUSPEND; 
+
+  CREDITO = 0;   
   TOTALIZA = 0;
 
   -- ##################### Busca as contas que estão marcadas para reduzir da Receita
@@ -495,7 +502,7 @@ BEGIN
         IF (CREDITO IS NULL) THEN
           CREDITO = 0;
 
-        DESC_CONTA = '    Despesas Juros e Corr. Monetária ';
+        DESC_CONTA = '    Despesas Juros e Corr. Monetaria ';
         TOTALIZA = TOTALIZA - CREDITO;
         TOTAL = TOTAL + TOTALIZA;
         ACUMULA = TOTAL;
@@ -517,7 +524,7 @@ BEGIN
   TOTAL = ACUMULA + TOTALIZA;
 
   /* Resultado Geral do Período */
-  DESC_CONTA = ' Resultado Geral no período : ';
+  DESC_CONTA = ' Resultado Geral no periodo : ';
   CONTA  = null;
   CREDITO = null;
   
