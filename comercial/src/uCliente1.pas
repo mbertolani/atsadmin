@@ -95,7 +95,7 @@ end;
 procedure TfCliente1.JvDBUltimGrid1DblClick(Sender: TObject);
 begin
   //inherited;
-  sCtrlResize.CtrlResize(TForm(fCliente1));
+  //sCtrlResize.CtrlResize(TForm(fCliente1));
   fEndereco.ShowModal;
 end;
 
