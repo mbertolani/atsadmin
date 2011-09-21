@@ -24,13 +24,14 @@ object fOsFiltro: TfOsFiltro
     Align = alTop
     TabOrder = 0
     object rgStatus: TRadioGroup
-      Left = 48
+      Left = 8
       Top = 10
       Width = 270
       Height = 56
       Caption = 'Situa'#231#227'o'
       Columns = 3
       Items.Strings = (
+        'Or'#231'amento'
         'Pendente'
         'Execu'#231#227'o'
         'Finalizada')
