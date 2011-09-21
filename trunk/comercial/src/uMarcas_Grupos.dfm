@@ -1,21 +1,45 @@
 inherited fMarcas_Grupos: TfMarcas_Grupos
-  Left = 235
-  Top = 139
-  Width = 550
+  Left = 302
+  Top = 151
+  Width = 562
+  Height = 479
   OldCreateOrder = True
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel [0]
-    Left = 8
-    Top = 64
+    Left = 18
+    Top = 116
     Width = 48
     Height = 13
     Caption = 'Descri'#231#227'o'
   end
+  object bvl1: TBevel [1]
+    Left = 0
+    Top = 54
+    Width = 546
+    Height = 63
+    Align = alTop
+    Shape = bsFrame
+  end
+  object lbl1: TLabel [2]
+    Left = 16
+    Top = 56
+    Width = 36
+    Height = 13
+    Caption = 'Busca :'
+  end
+  object lbl2: TLabel [3]
+    Left = 225
+    Top = 105
+    Width = 65
+    Height = 13
+    Caption = 'CADASTRO :'
+  end
   inherited MMJPanel1: TMMJPanel
-    Width = 542
+    Top = 387
+    Width = 546
     inherited btnGravar: TBitBtn
       Left = 22
     end
@@ -136,7 +160,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 542
+    Width = 546
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -145,21 +169,23 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     inherited Label1: TLabel
       Left = 49
       Top = -69
-      Width = 382
+      Width = 355
+      Height = 44
       Caption = 'Cadastro de Marcas'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 53
       Top = -70
-      Width = 382
+      Width = 355
+      Height = 44
       Caption = 'Cadastro de Marcas'
       Font.Name = 'Cooper Black'
     end
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 540
+      Width = 544
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -176,11 +202,11 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
       HotTrackFont.Style = []
     end
   end
-  object DBGrid1: TDBGrid [3]
-    Left = 8
-    Top = 104
-    Width = 465
-    Height = 209
+  object DBGrid1: TDBGrid [6]
+    Left = 16
+    Top = 158
+    Width = 489
+    Height = 190
     DataSource = DtSrc
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ReadOnly = True
@@ -199,9 +225,9 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
         Visible = True
       end>
   end
-  object DBNavigator1: TDBNavigator [4]
-    Left = 130
-    Top = 320
+  object DBNavigator1: TDBNavigator [7]
+    Left = 148
+    Top = 358
     Width = 224
     Height = 25
     DataSource = DtSrc
@@ -209,9 +235,9 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     Flat = True
     TabOrder = 3
   end
-  object JvDBSearchEdit1: TJvDBSearchEdit [5]
-    Left = 8
-    Top = 80
+  object JvDBSearchEdit1: TJvDBSearchEdit [8]
+    Left = 16
+    Top = 71
     Width = 465
     Height = 21
     DataSource = DtSrc
@@ -219,10 +245,10 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     TabOrder = 4
     Text = 'JvDBSearchEdit1'
   end
-  object DBEdit1: TDBEdit [6]
-    Left = 8
-    Top = 78
-    Width = 465
+  object DBEdit1: TDBEdit [9]
+    Left = 16
+    Top = 132
+    Width = 487
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
