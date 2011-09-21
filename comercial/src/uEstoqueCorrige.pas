@@ -141,9 +141,10 @@ begin
 end;
 
 procedure TfEstoqueCorrige.Button2Click(Sender: TObject);
-var str: string;
+var str, tipo: string;
   FEstoque : TEstoque;
   Save_Cursor:TCursor;
+  td : TTRansactionDesc;
 begin
   Save_Cursor := Screen.Cursor;
   Try
@@ -152,7 +153,12 @@ begin
 
     if (cdsB.Active) then
       cdsB.Close;
-    str := 'SELECT DISTINCT md.CODPRODUTO, prod.CODPRO ,MD.LOTE ';
+    str := 'SELECT DISTINCT m.CODMOVIMENTO, m.CODNATUREZA ';
+
+    str := str + ',  CASE WHEN m.CODNATUREZA < 3 THEN m.DATAMOVIMENTO';
+    str := str + '  WHEN m.CODNATUREZA = 3 THEN V.DATAVENDA';
+    str := str + '  WHEN m.CODNATUREZA = 4 THEN C.DATACOMPRA END DATAMOVIMENTO ';
+
     str := str + '  FROM MOVIMENTO m';
     str := str + ' INNER JOIN MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO';
     str := str + ' INNER JOIN PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO';
@@ -169,19 +175,43 @@ begin
       str := str + '   AND ' ;
       str := str + '   prod.CODPRO BETWEEN ' + QuotedStr(Edit1.Text) + ' AND ' +  QuotedStr(Edit2.Text);
     end;
-    str := str + ' ORDER BY  1';
+    str := str + ' ORDER BY  3, 1, 2';
     cdsB.CommandText := str;
     cdsB.Open;
 
-    Label6.Caption := cdsB.FieldByName('CODPRO').asString;
+    Label6.Caption := cdsB.FieldByName('CODMOVIMENTO').asString;
     FEstoqueCorrige.Refresh;
     JvProgressBar1.Max := cdsB.RecordCount;
     JvProgressBar1.Position := 0;
 
+
+
     While not cdsB.Eof do
     begin
       JvProgressBar1.Position := cdsB.RecNo;
-    if (cds.Active) then
+
+      Case (cdsB.FieldByName('CODNATUREZA').AsInteger ) of
+        1 : tipo := 'ENTRADA';
+        2 : tipo := 'SAIDA';
+        3 : tipo := 'VENDA';
+        4 : tipo := 'COMPRA';
+      end;
+
+
+
+      Try
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dmnf.baixaEstoque(cdsB.FieldByName('CODMOVIMENTO').AsInteger, cdsB.FieldByName('DATAMOVIMENTO').AsDateTime, tipo);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
+
+      {    if (cds.Active) then
       cds.Close;
     str := 'SELECT FIRST 1 md.CODDETALHE, m.CODNATUREZA, md.STATUS,';
     str := str + '  CASE WHEN m.CODNATUREZA < 3 THEN m.DATAMOVIMENTO';
@@ -211,7 +241,6 @@ begin
     str := IntToStr(cds.RecordCount);
     while not cds.Eof do
     begin
-
       str := 'select * FROM SPESTOQUEFILTRO('  + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
       str := str + ', ';
       str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit2.Text)));
@@ -244,6 +273,9 @@ begin
       While not cdsA.Eof do
       begin
         Prog2.Position := cdsA.RecNo;
+<<<<<<< .mine
+        //cdsA.Last;  // So interessa a ultima linha
+=======
 //        cdsA.Last;  // So interessa a ultima linha
         if (cdsC.Active) then
           cdsC.Close;
@@ -255,8 +287,13 @@ begin
         if (sdsC.Active) then
           sdsC.Close;
         cdsC.Open;
+>>>>>>> .r1383
 
+<<<<<<< .mine
+        if ((cdsA.FieldByName('SALDOFIMACUM').AsFloat <> 0)) then
+=======
         if (cdsC.FieldByName('STATUS').IsNull) then
+>>>>>>> .r1383
         begin
           if (cdsA.FieldByName('TIPOMOVIMENTO').AsString = 'COMPRA') then
           begin
@@ -279,8 +316,12 @@ begin
       end;
       cds.Next;
     end;
+ }
     cdsb.next;
     end;
+
+
+
     MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
     Finally
       Label6.Caption := cdsB.FieldByName('CODPRO').asString;
