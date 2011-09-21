@@ -47,7 +47,7 @@ uses UDm, sCtrlResize;
 procedure TfEndereco.FormShow(Sender: TObject);
 begin
   //inherited;
-  sCtrlResize.CtrlResize(TForm(fEndereco));
+  //sCtrlResize.CtrlResize(TForm(fEndereco));
 end;
 
 end.
