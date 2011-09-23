@@ -84,8 +84,10 @@ begin
     sqlAltera := sqlAltera + ' DESCRICAO_SERV  = ' + QuotedStr(Self.Descricao) + ', ';
     //sqlAltera := sqlAltera + ' SERV_EXECUTADO  = ' + QuotedStr(Self.ServExecutado) + ', ';
     sqlAltera := sqlAltera + ' STATUS          = ' + QuotedStr(Self.status) + ', ';
+    DecimalSeparator := '.';
     sqlAltera := sqlAltera + ' QTDE            = ' + FloatToStr(Self.Qtde) + ', ';
     sqlAltera := sqlAltera + ' PRECO           = ' + FloatToStr(Self.Preco);
+    DecimalSeparator := ',';
     sqlAltera := sqlAltera + ' WHERE ID_OS_DET = ' + IntToStr(Self.CodDet);
     executaSql(sqlAltera);
     Result := True;
@@ -217,9 +219,11 @@ begin
     sqlInsere := sqlInsere + IntToStr(Self.codProduto) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.Descricao) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.status) + ', ';
+    DecimalSeparator := '.';
     sqlInsere := sqlInsere + FloatToStr(Self.Qtde) + ', ';
     sqlInsere := sqlInsere + FloatToStr(Self.Preco) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.Tipo) + ', ';
+    DecimalSeparator := ',';
     sqlInsere := sqlInsere + FloatToStr(Self.Desconto) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.CodOsServ) + ')';
     executaSql(sqlInsere);

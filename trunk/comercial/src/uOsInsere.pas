@@ -190,43 +190,41 @@ end;
 
 procedure TfOsInsere.edProdutoExit(Sender: TObject);
 begin
+  if (edProduto.Text = '') then exit;
+
+  if dm.scds_produto_proc.Active then
+    dm.scds_produto_proc.Close;
+  dm.scds_produto_proc.Params[0].AsInteger := 0;
+  dm.scds_produto_proc.Params[1].AsString := edProduto.Text;
+  dm.scds_produto_proc.Open;
+  if (dm.scds_produto_proc.IsEmpty) then
+  begin
+    MessageDlg('Código não cadastrado.', mtWarning,
+    [mbOk], 0);
+    exit;
+  end;
+
+  edProduto.Text    := dm.scds_produto_procCODPRO.AsString;
+  edProdDescr.Text  := dm.scds_produto_procPRODUTO.AsString;
+  edPrecoServ.Value := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+  codProduto        := dm.scds_produto_procCODPRODUTO.AsInteger;
   if (modoOsInsere = 'SERVICO') then
   begin
-    if (edProduto.Text = '') then exit;
-
-    if dm.scds_produto_proc.Active then
-      dm.scds_produto_proc.Close;
-    dm.scds_produto_proc.Params[0].AsInteger := 0;
-    dm.scds_produto_proc.Params[1].AsString := edProduto.Text;
-    dm.scds_produto_proc.Open;
-    if (dm.scds_produto_proc.IsEmpty) then
-    begin
-      MessageDlg('Código não cadastrado.', mtWarning,
-      [mbOk], 0);
-      exit;
-    end;
-
-    edProduto.Text    := dm.scds_produto_procCODPRO.AsString;
-    edProdDescr.Text  := dm.scds_produto_procPRODUTO.AsString;
-    edPrecoServ.Value := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-    codProduto        := dm.scds_produto_procCODPRODUTO.AsInteger;
-    if (modoOsInsere = 'SERVICO') then
-    begin
-      if (fOs.dsServico.State = dsBrowse) then
-        fOs.cdsServico.Edit;
-      fOs.cdsServicoCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      fOs.cdsServicoQTDE.AsFloat         := 1;
-      fOs.cdsServicoPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-    end;
-    if (modoOsInsere = 'PECA') then
-    begin
-      if (fOs.dsPecas.State = dsBrowse) then
-        fOs.cdsPecas.Edit;
-      fOs.cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      fOs.cdsPecasQTDE.AsFloat         := 1;
-      fOs.cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-    end;
+    if (fOs.dsServico.State = dsBrowse) then
+      fOs.cdsServico.Edit;
+    fOs.cdsServicoCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+    fOs.cdsServicoQTDE.AsFloat         := 1;
+    fOs.cdsServicoPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
   end;
+  if (modoOsInsere = 'PECA') then
+  begin
+    if (fOs.dsPecas.State = dsBrowse) then
+      fOs.cdsPecas.Edit;
+    fOs.cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+    fOs.cdsPecasQTDE.AsFloat         := 1;
+    fOs.cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+  end;
+
 end;
 
 procedure TfOsInsere.FormShow(Sender: TObject);
@@ -250,7 +248,9 @@ begin
   end;
   if (modoOsInsere = 'PECA') then
   begin
-    DtSrc.DataSet := fOs.cdsPecas;
+    DtSrc.DataSet                       := fOs.cdsPecas;
+    lblServico.Caption                  := fOs.ServDescricao;
+    fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
   end;
 end;
 
@@ -274,7 +274,8 @@ begin
   if (modoOsInsere = 'PECA') then
   begin
     fOs.cdsPecas.Append;
-    fOs.cdsPecasID_OS_DET.AsInteger := fOs.numOsDet;
+    fOs.cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
+    fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
   end;
   edCodUsuario.SetFocus;
 end;
@@ -302,14 +303,17 @@ procedure TfOsInsere.btnGravarClick(Sender: TObject);
 var str: string;
   I : Integer;
 begin
+  str := '';
+  for I := 0 to edServico.Lines.Count -1 do
+    str := str + edServico.Lines[I] + #13#10;
+  if (str = '') then
+    str := edProdDescr.Text;
+
   if (modoOsInsere = 'SERVICO') then
   begin
     fOs.cdsServicoSTATUS.AsString := 'O';
     fOs.cdsServicoCODUSUARIO.AsInteger := 1;
     fOs.cdsServicoNOMEUSUARIO.AsString := 'Usuario';
-    str := '';
-    for I := 0 to edServico.Lines.Count -1 do
-      str := str + edServico.Lines[I] + #13#10;
     fOs.cdsServicoDESCRICAO_SERV.AsString := str;
     fOs.cdsServicoCODPRO.AsString         := edProduto.Text;
     fOs.cdsServicoCODPRODUTO.asInteger    := codProduto;
@@ -322,9 +326,6 @@ begin
 
   if (modoOsInsere = 'PECA') then
   begin
-    str := '';
-    for I := 0 to edServico.Lines.Count -1 do
-      str := str + edServico.Lines[I] + #13#10;
     fOs.cdsPecasDESCRICAO_SERV.AsString := str;
     fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
     fOs.cdsPecasCODPRODUTO.asInteger    := codProduto;

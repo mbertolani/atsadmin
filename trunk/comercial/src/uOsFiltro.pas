@@ -143,6 +143,7 @@ begin
     cdsOs.Open;
   if (fOs.cdsOS.Active) then
     fOs.cdsOS.Close;
+  fOs.cdsOS.Params.ParamByName('POS').Clear;
   fOs.cdsOS.Params.ParamByName('POS').AsInteger := cdsOsCODOS.AsInteger;
   fOs.cdsOS.Open;
   if (not fOs.cdsOS.IsEmpty) then
