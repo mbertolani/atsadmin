@@ -105,7 +105,7 @@ BEGIN
       BEGIN   
          UPDATE RECEBIMENTO SET
             STATUS = :STATUS
-            , VALORRECEBIDO = (:VLR - :VLDESC - :VLPER + :VLJU)
+            , VALORRECEBIDO = (:VLR - :VLDESC - :VLPER)
             , VALOR_RESTO = (:VLR)
             , FORMARECEBIMENTO = :FORMAREC
             , DATABAIXA = :DATA
