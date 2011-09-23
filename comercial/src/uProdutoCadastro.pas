@@ -504,21 +504,25 @@ begin
 
   fFamilia:=TfFamilia.Create(Application);
   try
-    fFamilia.cbMarca.Text := '';
-    fFamilia.ShowModal;
+    //fFamilia.cbMarca.Text := '';
     if DM.cds_familia.Active then
       DM.cds_familia.Close;
-    if (dm.GrupoMarca <> '') then
-    begin
+    //if (dm.GrupoMarca <> '') then
+    //begin
       if (dbMarca.Text = '') then
         dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS '
       else
+      begin
+        fFamilia.edMarca.Text  := dbMarca.Text;
         dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
          'where MARCA = ' + QuotedStr(dbMarca.Text);
-    end
+      end;
+    {end
     else
-      dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS';
+      dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS'; }
+
     DM.cds_familia.Open;
+    fFamilia.ShowModal;
   finally
    fFamilia.Free;
    DBEdit16.SetFocus;
