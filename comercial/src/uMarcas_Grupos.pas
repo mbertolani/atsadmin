@@ -17,6 +17,9 @@ type
     btnConfirma: TBitBtn;
     JvDBSearchEdit1: TJvDBSearchEdit;
     DBEdit1: TDBEdit;
+    bvl1: TBevel;
+    lbl1: TLabel;
+    lbl2: TLabel;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -42,7 +45,7 @@ uses uComercial, UDm, sCtrlResize;
 
 procedure TfMarcas_Grupos.btnIncluirClick(Sender: TObject);
 begin
-  inherited;
+  inherited;     
   DBEdit1.SetFocus;
 end;
 

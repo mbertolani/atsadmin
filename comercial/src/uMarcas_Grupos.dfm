@@ -41,16 +41,16 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
     Top = 387
     Width = 546
     inherited btnGravar: TBitBtn
-      Left = 22
+      Left = 31
     end
     inherited btnIncluir: TBitBtn
-      Left = 22
+      Left = 30
     end
     inherited btnCancelar: TBitBtn
-      Left = 135
+      Left = 158
     end
     inherited btnExcluir: TBitBtn
-      Left = 135
+      Left = 159
     end
     inherited btnProcurar: TBitBtn
       Left = 10
@@ -58,10 +58,10 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
       Visible = False
     end
     inherited btnSair: TBitBtn
-      Left = 360
+      Left = 400
     end
     object btnConfirma: TBitBtn
-      Left = 248
+      Left = 278
       Top = 7
       Width = 103
       Height = 40
@@ -226,8 +226,8 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
       end>
   end
   object DBNavigator1: TDBNavigator [7]
-    Left = 148
-    Top = 358
+    Left = 154
+    Top = 357
     Width = 224
     Height = 25
     DataSource = DtSrc
@@ -238,7 +238,7 @@ inherited fMarcas_Grupos: TfMarcas_Grupos
   object JvDBSearchEdit1: TJvDBSearchEdit [8]
     Left = 16
     Top = 71
-    Width = 465
+    Width = 489
     Height = 21
     DataSource = DtSrc
     DataField = 'DESCMARCAS'
