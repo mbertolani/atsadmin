@@ -14,12 +14,11 @@ type
     DBEdit1: TDBEdit;
     DBGrid1: TDBGrid;
     DBNavigator1: TDBNavigator;
-    cbMarca: TJvDBSearchComboBox;
     Label4: TLabel;
     dsMarca: TDataSource;
-    BitBtn1: TBitBtn;
     JvLabel1: TJvLabel;
     btnConfirma: TBitBtn;
+    edMarca: TEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -52,7 +51,7 @@ end;
 
 procedure TfFamilia.btnGravarClick(Sender: TObject);
 begin
-  dm.cds_familiaMARCA.AsString := cbMarca.Text;
+  //dm.cds_familiaMARCA.AsString := cbMarca.Text;
   inherited;
   btnIncluir.SetFocus;
 end;
@@ -60,10 +59,10 @@ end;
 procedure TfFamilia.FormCreate(Sender: TObject);
 begin
   //inherited;
-  if DM.cds_familia.Active then
+  {if DM.cds_familia.Active then
     DM.cds_familia.Close;
   dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS';
-  DM.cds_familia.Open;
+  DM.cds_familia.Open; }
 end;
 
 procedure TfFamilia.DtSrcStateChange(Sender: TObject);
@@ -81,7 +80,7 @@ procedure TfFamilia.BitBtn1Click(Sender: TObject);
 var sqlFam: string;
 begin
   inherited;
-  if (cbMarca.Text = '') then
+  {if (cbMarca.Text = '') then
   begin
     if DM.cds_familia.Active then
       DM.cds_familia.Close;
@@ -97,7 +96,7 @@ begin
     dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
       'where MARCA = ' + QuotedStr(cbMarca.Text);
     DM.cds_familia.Open;
-  end;
+  end; }
 
 end;
 
