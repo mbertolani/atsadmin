@@ -169,6 +169,10 @@ type
     sds_procPEDIDO: TFloatField;
     cds_procPEDIDO: TFloatField;
     BitBtn3: TBitBtn;
+    cbAplicacao: TJvComboBox;
+    Label9: TLabel;
+    Label23: TLabel;
+    cbLocal: TJvComboBox;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -207,6 +211,7 @@ type
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure SpeedButton5Click(Sender: TObject);
   private
     { Private declarations }
     procedure precolista1;
@@ -306,8 +311,28 @@ begin
 end;
 
 procedure TfProcura_produtos.FormCreate(Sender: TObject);
+var contaEstoqueLocal: String ;
 begin
   sCtrlResize.CtrlResize(TForm(fProcura_produtos));
+  //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+  dm.cds_parametro.Open;
+  contaEstoqueLocal := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+  if (dm.cds_ccusto.Active) then
+    dm.cds_ccusto.Close;
+  dm.cds_ccusto.Params[0].AsString := contaEstoqueLocal;
+  dm.cds_ccusto.Open;
+  // populo a combobox
+  dm.cds_ccusto.First;
+  while not dm.cds_ccusto.Eof do
+  begin
+    cbLocal.Items.Add(dm.cds_ccustoNOME.AsString);
+    dm.cds_ccusto.Next;
+  end;
+
 end;
 
 procedure TfProcura_produtos.FormShow(Sender: TObject);
@@ -433,7 +458,7 @@ begin
 end;
 
 procedure TfProcura_produtos.BitBtn1Click(Sender: TObject);
-var varSql, varCondicao, varCondicaoA, varCondicaoA1, varSql1, varCond2, varSql2, varCondicao1, s: string;
+var varSql, varCondicao, varCondicaoA, varCondicaoA1, varSql1, varCond2, varSql2, varCondicao1, s, contaEstoque: string;
 i : integer;
 begin
   if (panel2.Visible = True) then
@@ -484,6 +509,37 @@ begin
   else
     varCondicao := varCondicao + ', ' + QuotedStr('TODASMARCAS');
 
+  if (cbAplicacao.ItemIndex > -1) then
+  begin
+    varCondicao := varCondicao + ', ' + QuotedStr(cbAplicacao.Text);
+  end
+  else begin
+    varCondicao :=  varCondicao + ', ' + QuotedStr('TODASAPLICACOES');
+  end;
+
+  if (cbLocal.ItemIndex > -1) then
+  begin
+    //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+    if dm.cds_parametro.Active then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+    dm.cds_parametro.Open;
+    contaEstoque := dm.cds_parametroDADOS.AsString;
+    dm.cds_parametro.Close;
+    if (dm.cds_ccusto.Active) then
+      dm.cds_ccusto.Close;
+    dm.cds_ccusto.Params[0].AsString := contaEstoque;
+    dm.cds_ccusto.Open;
+
+    if (dm.cds_ccusto.Locate('NOME', cbLocal.Text, [loCaseInsensitive])) then
+      varCondicao := varCondicao + ', ' + IntToStr(dm.cds_ccustoCODIGO.AsInteger)
+    else
+      varCondicao :=  varCondicao + ', 0';
+  end
+  else begin
+    varCondicao :=  varCondicao + ', 0';
+  end;
+
   varCondicao := varCondicao + ') ';
 
   if edUso.Text <> '' then
@@ -492,7 +548,7 @@ begin
     varCondicaoA1 := ' where uso.DESCRICAO like ' + '''' + edUso.Text + '%' + '''';
   end;
 
- if edProduto.Text <> '' then
+  if edProduto.Text <> '' then
    if varCondicaoA <> '' then
      varCondicaoA := varCondicaoA + ' and UDF_COLLATEBR(PRODUTO) containing ' + '''' + edProduto.Text + ''''
    else
@@ -579,6 +635,8 @@ begin
   cbFamilia.Text := '';
   cbCategoria.Text := '';
   cbCategoria.Items.Clear;
+  cbAplicacao.ItemIndex := -1;
+  cbLocal.ItemIndex     := -1; 
   if dm.cds_categoria.Active then
     dm.cds_categoria.Close;
   dm.cds_categoria.Params[0].Clear;
@@ -1440,6 +1498,11 @@ end;
 procedure TfProcura_produtos.DBGrid1DblClick(Sender: TObject);
 begin
   btnIncluir.Click;
+end;
+
+procedure TfProcura_produtos.SpeedButton5Click(Sender: TObject);
+begin
+  cbAplicacao.ItemHeight := -1;
 end;
 
 end.

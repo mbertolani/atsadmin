@@ -1,8 +1,8 @@
 object fFiltroEstoque: TfFiltroEstoque
-  Left = 0
-  Top = 0
-  Width = 808
-  Height = 578
+  Left = 2
+  Top = 1
+  Width = 805
+  Height = 470
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object fFiltroEstoque: TfFiltroEstoque
   object Panel1: TPanel
     Left = 0
     Top = 43
-    Width = 800
+    Width = 797
     Height = 170
     Align = alTop
     BevelInner = bvLowered
@@ -42,70 +42,70 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object Label4: TLabel
       Left = 50
-      Top = 52
+      Top = 44
       Width = 45
       Height = 13
       Caption = 'C'#243'd. Nat.'
     end
     object Label5: TLabel
       Left = 140
-      Top = 52
+      Top = 44
       Width = 93
       Height = 13
       Caption = 'Natureza Opera'#231#227'o'
     end
     object Label6: TLabel
       Left = 50
-      Top = 96
+      Top = 85
       Width = 62
       Height = 13
       Caption = 'C'#243'd. Produto'
     end
     object Label7: TLabel
       Left = 206
-      Top = 96
+      Top = 85
       Width = 37
       Height = 13
       Caption = 'Produto'
     end
     object Label10: TLabel
       Left = 523
-      Top = 52
+      Top = 44
       Width = 54
       Height = 13
       Caption = 'Sub. Grupo'
     end
     object Label11: TLabel
       Left = 526
-      Top = 96
+      Top = 85
       Width = 30
       Height = 13
       Caption = 'Marca'
     end
     object Label8: TLabel
-      Left = 213
-      Top = 142
+      Left = 423
+      Top = 134
       Width = 109
       Height = 13
       Caption = 'Faixa de Produtos, de: '
     end
     object Label9: TLabel
-      Left = 468
-      Top = 145
+      Left = 638
+      Top = 137
       Width = 6
       Height = 13
       Caption = 'a'
     end
     object Label13: TLabel
       Left = 315
-      Top = 52
+      Top = 44
       Width = 29
       Height = 13
       Caption = 'Grupo'
     end
     object ComboBox1: TComboBox
       Left = 50
-      Top = 23
+      Top = 19
       Width = 321
       Height = 24
       BevelKind = bkFlat
@@ -122,7 +122,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object ComboBox2: TComboBox
       Left = 378
-      Top = 23
+      Top = 19
       Width = 145
       Height = 24
       BevelKind = bkFlat
@@ -138,7 +138,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object GroupBox1: TGroupBox
       Left = 533
-      Top = 3
+      Top = -1
       Width = 206
       Height = 45
       Caption = 'Per'#237'odo do Movimento'
@@ -159,7 +159,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object edCodCliente: TEdit
       Left = 50
-      Top = 69
+      Top = 61
       Width = 54
       Height = 24
       BevelKind = bkFlat
@@ -176,7 +176,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object btnProdutoProcura: TBitBtn
       Left = 105
-      Top = 68
+      Top = 60
       Width = 34
       Height = 26
       TabOrder = 4
@@ -249,7 +249,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object edCliente: TEdit
       Left = 140
-      Top = 69
+      Top = 61
       Width = 172
       Height = 24
       BevelKind = bkFlat
@@ -265,7 +265,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object Edit3: TEdit
       Left = 50
-      Top = 112
+      Top = 101
       Width = 89
       Height = 24
       BevelKind = bkFlat
@@ -282,7 +282,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object BitBtn1: TBitBtn
       Left = 141
-      Top = 111
+      Top = 100
       Width = 62
       Height = 26
       TabOrder = 7
@@ -355,7 +355,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object Edit4: TEdit
       Left = 206
-      Top = 112
+      Top = 101
       Width = 317
       Height = 24
       BevelKind = bkFlat
@@ -371,7 +371,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object cbPRODUTO: TComboBox
       Left = 523
-      Top = 69
+      Top = 61
       Width = 217
       Height = 24
       BevelKind = bkFlat
@@ -387,7 +387,7 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object ComboBox4: TComboBox
       Left = 524
-      Top = 112
+      Top = 101
       Width = 217
       Height = 24
       BevelKind = bkFlat
@@ -402,8 +402,8 @@ object fFiltroEstoque: TfFiltroEstoque
       OnKeyPress = FormKeyPress
     end
     object Edit5: TEdit
-      Left = 370
-      Top = 141
+      Left = 540
+      Top = 133
       Width = 89
       Height = 24
       BevelKind = bkFlat
@@ -418,8 +418,8 @@ object fFiltroEstoque: TfFiltroEstoque
       OnKeyPress = FormKeyPress
     end
     object Edit6: TEdit
-      Left = 490
-      Top = 141
+      Left = 652
+      Top = 133
       Width = 89
       Height = 24
       BevelKind = bkFlat
@@ -453,12 +453,107 @@ object fFiltroEstoque: TfFiltroEstoque
       TabOrder = 14
       OnKeyPress = FormKeyPress
     end
+    object GroupBox4: TGroupBox
+      Left = 49
+      Top = 126
+      Width = 288
+      Height = 41
+      Caption = 'Aplica'#231#227'o'
+      TabOrder = 15
+      object cbAplicacao: TJvComboBox
+        Left = 5
+        Top = 13
+        Width = 241
+        Height = 22
+        Style = csOwnerDrawFixed
+        ItemHeight = 16
+        TabOrder = 0
+        Items.Strings = (
+          '00 - MERCADORIA PARA REVENDA'
+          '01 - MAT'#201'RIA-PRIMA'
+          '02 - EMBALAGEM'
+          '03 - PRODUTO EM PROCESSO'
+          '04 - PRODUTO ACABADO'
+          '05 - SUBPRODUTO'
+          '06 - PRODUTO INTERMEDI'#193'RIO'
+          '07 - MATERIAL DE USO E CONSUMO'
+          '08 - ATIVO IMOBILIZADO'
+          '09 - SERVI'#199'OS'
+          '10 - OUTROS INSUMOS'
+          '99 - OUTRAS')
+      end
+      object SpeedButton5: TBitBtn
+        Left = 248
+        Top = 8
+        Width = 33
+        Height = 27
+        TabOrder = 1
+        OnClick = SpeedButton5Click
+        Glyph.Data = {
+          F6060000424DF606000000000000360000002800000018000000180000000100
+          180000000000C006000000000000000000000000000000000000C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C01800
+          922C07AD342176C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C2C2EC5B47B0210486C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C02908B22F00D43212A55A4E8EC0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0B5ADE93D27A1260D93503AACC0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C06952CF2400C33204C8321F8D787B8FC0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A296E03A1FA01E00A57560D4C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07565CB2400BE30
+          0ABF2712869499A8C0C0C0C0C0C0C0C0C0C0C0C0C0C0C08168DB2400A52A08AD
+          A39ADEC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C04D34C32802B4300EB93D3674ADAEBDC0C0C0C0C0C0C0C0C09987DC25
+          01A53214AC9585E1C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C04F34C62600B73821994B4577BDC3C4C0C0
+          C09B86DF370CAF2A06AD9687E4C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C06349C72500B2
+          30169D3C33877257D62700A23107AEB1A4E2C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0664CCD2C11AC260DB22604B7341BA69487DCC0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C04B30D52200DB2901D433259699A2B2C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07E66DF2201B52902D32C00
+          DF2F11AE352E74909597C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C09889E02300A8
+          2F12A67D6ED7967EEC3314AB3A1AA3463880807C9EC0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C093
+          86DD2D0CAA2D04B17664C8C0C0C0C0C0C0C1ADFA3710AD310F9E423187616284
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C07C67DF2000AC2603B57566C2C0C0C0C0C0C0C0C0C0C0C0C0C0C0C052
+          34B82E08B22F14A1464A79C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C09483E02400AF2507B05240BEC0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C08169DB2A0DA235209841397FC0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C07D6DC82C0AAF2D04BF432EB3C4C1F3C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0B19CF71B00974E389EC0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0846BE32300BA2D00D13D24AABC
+          B3EFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C01B00A32E03
+          CB2000ADA69BE3C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C03D21B91F029E917FDEC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+          C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+      end
+    end
   end
   object DBGrid1: TDBGrid
     Left = 0
     Top = 213
-    Width = 800
-    Height = 310
+    Width = 797
+    Height = 202
     Align = alClient
     DataSource = ds_estoque
     Font.Charset = DEFAULT_CHARSET
@@ -596,7 +691,7 @@ object fFiltroEstoque: TfFiltroEstoque
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 800
+    Width = 797
     Height = 43
     Align = alTop
     BevelInner = bvLowered
@@ -798,8 +893,8 @@ object fFiltroEstoque: TfFiltroEstoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 523
-    Width = 800
+    Top = 415
+    Width = 797
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -832,7 +927,7 @@ object fFiltroEstoque: TfFiltroEstoque
   end
   object cbGrupo: TComboBox
     Left = 314
-    Top = 112
+    Top = 104
     Width = 206
     Height = 24
     BevelKind = bkFlat

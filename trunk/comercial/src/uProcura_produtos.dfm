@@ -1,7 +1,7 @@
 object fProcura_produtos: TfProcura_produtos
   Left = 0
   Top = 0
-  Width = 813
+  Width = 802
   Height = 577
   Caption = 'Lista de Produtos'
   Color = clBtnFace
@@ -161,244 +161,6 @@ object fProcura_produtos: TfProcura_produtos
       OnKeyPress = FormKeyPress
     end
   end
-  object Panel1: TPanel
-    Left = 0
-    Top = 57
-    Width = 797
-    Height = 89
-    Align = alTop
-    BevelInner = bvLowered
-    PopupMenu = PopupMenu1
-    TabOrder = 1
-    object Label1: TLabel
-      Left = 4
-      Top = 2
-      Width = 65
-      Height = 13
-      Caption = 'C'#243'd. de Barra'
-      PopupMenu = PopupMenu1
-    end
-    object Label5: TLabel
-      Left = 75
-      Top = 45
-      Width = 74
-      Height = 13
-      Caption = 'Uso do Produto'
-      PopupMenu = PopupMenu1
-    end
-    object Label6: TLabel
-      Left = 250
-      Top = 45
-      Width = 30
-      Height = 13
-      Caption = 'Marca'
-      PopupMenu = PopupMenu1
-    end
-    object Label2: TLabel
-      Left = 127
-      Top = 2
-      Width = 77
-      Height = 13
-      Caption = 'C'#243'd. do Produto'
-      PopupMenu = PopupMenu1
-    end
-    object Label3: TLabel
-      Left = 249
-      Top = 2
-      Width = 69
-      Height = 13
-      Caption = 'C'#243'd. Terceiros'
-      PopupMenu = PopupMenu1
-    end
-    object Label4: TLabel
-      Left = 353
-      Top = 2
-      Width = 103
-      Height = 13
-      Caption = 'Descri'#231#227'o do Produto'
-      PopupMenu = PopupMenu1
-    end
-    object Label7: TLabel
-      Left = 410
-      Top = 45
-      Width = 29
-      Height = 13
-      Caption = 'Grupo'
-      PopupMenu = PopupMenu1
-    end
-    object Label8: TLabel
-      Left = 607
-      Top = 45
-      Width = 46
-      Height = 13
-      Caption = 'Subgrupo'
-      PopupMenu = PopupMenu1
-    end
-    object Label10: TLabel
-      Left = 668
-      Top = 3
-      Width = 21
-      Height = 13
-      Caption = 'Tipo'
-    end
-    object Edit1: TEdit
-      Left = 3
-      Top = 18
-      Width = 121
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-      OnKeyPress = FormKeyPress
-    end
-    object edUso: TEdit
-      Left = 72
-      Top = 61
-      Width = 174
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 1
-      OnKeyPress = FormKeyPress
-    end
-    object edCodigo: TEdit
-      Left = 125
-      Top = 18
-      Width = 121
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 2
-      OnKeyPress = FormKeyPress
-    end
-    object edOutros: TEdit
-      Left = 247
-      Top = 18
-      Width = 105
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 3
-      OnKeyPress = FormKeyPress
-    end
-    object edProduto: TEdit
-      Left = 353
-      Top = 18
-      Width = 311
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 4
-      OnKeyPress = FormKeyPress
-    end
-    object rgEmUso: TCheckBox
-      Left = 8
-      Top = 64
-      Width = 57
-      Height = 17
-      Caption = 'Em uso'
-      Checked = True
-      PopupMenu = PopupMenu1
-      State = cbChecked
-      TabOrder = 5
-    end
-    object cbMarca: TComboBox
-      Left = 248
-      Top = 61
-      Width = 161
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 6
-      OnChange = cbMarcaChange
-    end
-    object cbFamilia: TComboBox
-      Left = 410
-      Top = 60
-      Width = 195
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 7
-      OnChange = cbFamiliaChange
-    end
-    object cbCategoria: TComboBox
-      Left = 606
-      Top = 60
-      Width = 184
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 8
-    end
-    object cbTipo: TComboBox
-      Left = 665
-      Top = 18
-      Width = 122
-      Height = 24
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ItemIndex = 0
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 9
-      Text = 'Compra/Venda'
-      Items.Strings = (
-        'Compra/Venda'
-        'Compra'
-        'Venda'
-        'Servi'#231'o'
-        'Venda/Servi'#231'o'
-        'Compra/Servi'#231'o')
-    end
-  end
   object DBGrid1: TDBGrid
     Left = 0
     Top = 147
@@ -511,7 +273,7 @@ object fProcura_produtos: TfProcura_produtos
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 797
+    Width = 794
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -543,7 +305,7 @@ object fProcura_produtos: TfProcura_produtos
       OnClick = RadioButton2Click
     end
     object btnIncluir: TBitBtn
-      Left = 178
+      Left = 175
       Top = 2
       Width = 77
       Height = 55
@@ -623,7 +385,7 @@ object fProcura_produtos: TfProcura_produtos
       Layout = blGlyphTop
     end
     object BitBtn1: TBitBtn
-      Left = 255
+      Left = 252
       Top = 2
       Width = 77
       Height = 55
@@ -734,7 +496,7 @@ object fProcura_produtos: TfProcura_produtos
       Layout = blGlyphTop
     end
     object BitBtn2: TBitBtn
-      Left = 332
+      Left = 329
       Top = 2
       Width = 77
       Height = 55
@@ -805,7 +567,7 @@ object fProcura_produtos: TfProcura_produtos
       Layout = blGlyphTop
     end
     object SpeedButton3: TBitBtn
-      Left = 409
+      Left = 406
       Top = 2
       Width = 77
       Height = 55
@@ -838,7 +600,7 @@ object fProcura_produtos: TfProcura_produtos
       Layout = blGlyphTop
     end
     object SpeedButton2: TBitBtn
-      Left = 486
+      Left = 483
       Top = 2
       Width = 77
       Height = 55
@@ -918,7 +680,7 @@ object fProcura_produtos: TfProcura_produtos
       Layout = blGlyphTop
     end
     object SpeedButton1: TBitBtn
-      Left = 563
+      Left = 560
       Top = 2
       Width = 77
       Height = 55
@@ -1029,7 +791,7 @@ object fProcura_produtos: TfProcura_produtos
       Layout = blGlyphTop
     end
     object SpeedButton4: TBitBtn
-      Left = 640
+      Left = 637
       Top = 2
       Width = 77
       Height = 55
@@ -1155,7 +917,7 @@ object fProcura_produtos: TfProcura_produtos
       TabOrder = 0
     end
     object BitBtn6: TBitBtn
-      Left = 717
+      Left = 714
       Top = 2
       Width = 77
       Height = 55
@@ -1265,7 +1027,7 @@ object fProcura_produtos: TfProcura_produtos
       Layout = blGlyphTop
     end
     object BitBtn3: TBitBtn
-      Left = 106
+      Left = 98
       Top = 2
       Width = 77
       Height = 55
@@ -1419,6 +1181,296 @@ object fProcura_produtos: TfProcura_produtos
       Caption = 'Adic.'
       TabOrder = 2
       OnClick = BitBtn8Click
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 57
+    Width = 794
+    Height = 89
+    Align = alTop
+    BevelInner = bvLowered
+    PopupMenu = PopupMenu1
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 4
+      Top = 2
+      Width = 65
+      Height = 13
+      Caption = 'C'#243'd. de Barra'
+      PopupMenu = PopupMenu1
+    end
+    object Label5: TLabel
+      Left = 68
+      Top = 45
+      Width = 74
+      Height = 13
+      Caption = 'Uso do Produto'
+      PopupMenu = PopupMenu1
+    end
+    object Label6: TLabel
+      Left = 178
+      Top = 46
+      Width = 30
+      Height = 13
+      Caption = 'Marca'
+      PopupMenu = PopupMenu1
+    end
+    object Label2: TLabel
+      Left = 93
+      Top = 2
+      Width = 77
+      Height = 13
+      Caption = 'C'#243'd. do Produto'
+      PopupMenu = PopupMenu1
+    end
+    object Label3: TLabel
+      Left = 178
+      Top = 2
+      Width = 69
+      Height = 13
+      Caption = 'C'#243'd. Terceiros'
+      PopupMenu = PopupMenu1
+    end
+    object Label4: TLabel
+      Left = 251
+      Top = 2
+      Width = 103
+      Height = 13
+      Caption = 'Descri'#231#227'o do Produto'
+      PopupMenu = PopupMenu1
+    end
+    object Label7: TLabel
+      Left = 329
+      Top = 45
+      Width = 29
+      Height = 13
+      Caption = 'Grupo'
+      PopupMenu = PopupMenu1
+    end
+    object Label8: TLabel
+      Left = 479
+      Top = 45
+      Width = 46
+      Height = 13
+      Caption = 'Subgrupo'
+      PopupMenu = PopupMenu1
+    end
+    object Label10: TLabel
+      Left = 680
+      Top = 3
+      Width = 21
+      Height = 13
+      Caption = 'Tipo'
+    end
+    object Label9: TLabel
+      Left = 480
+      Top = 4
+      Width = 47
+      Height = 13
+      Caption = 'Aplica'#231#227'o'
+      PopupMenu = PopupMenu1
+    end
+    object Label23: TLabel
+      Left = 646
+      Top = 45
+      Width = 26
+      Height = 13
+      Caption = 'Local'
+    end
+    object Edit1: TEdit
+      Left = 3
+      Top = 18
+      Width = 86
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 0
+      OnKeyPress = FormKeyPress
+    end
+    object edUso: TEdit
+      Left = 64
+      Top = 61
+      Width = 110
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 1
+      OnKeyPress = FormKeyPress
+    end
+    object edCodigo: TEdit
+      Left = 91
+      Top = 18
+      Width = 83
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 2
+      OnKeyPress = FormKeyPress
+    end
+    object edOutros: TEdit
+      Left = 176
+      Top = 18
+      Width = 69
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 3
+      OnKeyPress = FormKeyPress
+    end
+    object edProduto: TEdit
+      Left = 248
+      Top = 18
+      Width = 228
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 4
+      OnKeyPress = FormKeyPress
+    end
+    object rgEmUso: TCheckBox
+      Left = 6
+      Top = 63
+      Width = 55
+      Height = 17
+      Caption = 'Em uso'
+      Checked = True
+      PopupMenu = PopupMenu1
+      State = cbChecked
+      TabOrder = 5
+    end
+    object cbMarca: TComboBox
+      Left = 176
+      Top = 61
+      Width = 152
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 6
+      OnChange = cbMarcaChange
+    end
+    object cbFamilia: TComboBox
+      Left = 329
+      Top = 60
+      Width = 147
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 7
+      OnChange = cbFamiliaChange
+    end
+    object cbCategoria: TComboBox
+      Left = 478
+      Top = 60
+      Width = 163
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 8
+    end
+    object cbTipo: TComboBox
+      Left = 678
+      Top = 18
+      Width = 110
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ItemIndex = 0
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 9
+      Text = 'Compra/Venda'
+      Items.Strings = (
+        'Compra/Venda'
+        'Compra'
+        'Venda'
+        'Servi'#231'o'
+        'Venda/Servi'#231'o'
+        'Compra/Servi'#231'o')
+    end
+    object cbAplicacao: TJvComboBox
+      Left = 478
+      Top = 20
+      Width = 198
+      Height = 22
+      Style = csOwnerDrawFixed
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      TabOrder = 10
+      Items.Strings = (
+        '00 - MERCADORIA PARA REVENDA'
+        '01 - MAT'#201'RIA-PRIMA'
+        '02 - EMBALAGEM'
+        '03 - PRODUTO EM PROCESSO'
+        '04 - PRODUTO ACABADO'
+        '05 - SUBPRODUTO'
+        '06 - PRODUTO INTERMEDI'#193'RIO'
+        '07 - MATERIAL DE USO E CONSUMO'
+        '08 - ATIVO IMOBILIZADO'
+        '09 - SERVI'#199'OS'
+        '10 - OUTROS INSUMOS'
+        '99 - OUTRAS')
+    end
+    object cbLocal: TJvComboBox
+      Left = 643
+      Top = 60
+      Width = 145
+      Height = 22
+      Style = csOwnerDrawFixed
+      ItemHeight = 16
+      TabOrder = 11
     end
   end
   object sds_proc: TSQLDataSet
