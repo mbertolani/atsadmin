@@ -1225,7 +1225,8 @@ begin
              ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
              ', RATEIO, conta_despesa , IPI '  +
              'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
-             ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') + ')';
+             ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
+             ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
           dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
             QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
           dm.scds_produto_proc.Params[0].AsInteger := 0;
@@ -2268,7 +2269,8 @@ begin
     ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
     ', RATEIO, conta_despesa , IPI '  +
     'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
-    ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') + ')';
+    ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
+    ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
   end;
 end;
 
@@ -2811,7 +2813,8 @@ begin
              ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
              ', RATEIO, conta_despesa , IPI '  +
              'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
-             ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') + ')';
+             ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
+             ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
           dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
             QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
           dm.scds_produto_proc.Params[0].AsInteger := 0;
