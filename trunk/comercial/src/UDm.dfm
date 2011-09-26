@@ -1,10 +1,10 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 349
-  Top = 150
-  Height = 571
-  Width = 738
+  Left = 2
+  Top = 1
+  Height = 734
+  Width = 1365
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisadmin'
     DriverName = 'UIB FireBird15'
@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:F:\home\bd\sge_jorvic.fdb'
+      'Database=c:\home\sisadmin\bd\sge_checkupcar.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -762,7 +762,7 @@ object DM: TDM
       'UAL '#13#10', LOCALIZACAO'#13#10', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
       ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI'#13#10'from LIST' +
       'APRODUTO(:CODPRODUTO, :CODPRO, '#39'TODOSGRUPOS'#39', '#39'TODOSSUBGRUPOS'#39','#39 +
-      'TODASMARCAS'#39')'#13#10
+      'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39',0)'#13#10
     MaxBlobSize = -1
     Params = <
       item
