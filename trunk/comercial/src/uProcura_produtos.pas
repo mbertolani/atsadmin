@@ -173,6 +173,8 @@ type
     Label9: TLabel;
     Label23: TLabel;
     cbLocal: TJvComboBox;
+    panRelatorio: TPanel;
+    RadioGroup1: TRadioGroup;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -212,6 +214,7 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
   private
     { Private declarations }
     procedure precolista1;
@@ -837,10 +840,7 @@ end;
 
 procedure TfProcura_produtos.SpeedButton1Click(Sender: TObject);
 begin
-  VCLReport_lista_produtos.FileName := str_relatorio + 'lista_produtos.rep';
-  VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp;
-  VCLReport_lista_produtos.Execute;
+  panRelatorio.Visible := True;
 end;
 
 procedure TfProcura_produtos.DBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -1503,6 +1503,27 @@ end;
 procedure TfProcura_produtos.SpeedButton5Click(Sender: TObject);
 begin
   cbAplicacao.ItemHeight := -1;
+end;
+
+procedure TfProcura_produtos.RadioGroup1Click(Sender: TObject);
+begin
+  Case (RadioGroup1.ItemIndex) of
+    0 : begin
+      VCLReport_lista_produtos.FileName := str_relatorio + 'lista_produtos.rep';
+      VCLReport_lista_produtos.Title    := VCLReport_lista_produtos.FileName;
+      VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+      VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp;
+      VCLReport_lista_produtos.Execute;
+    end;
+    1 : begin
+      VCLReport_lista_produtos.FileName := str_relatorio + 'produto_estoque.rep';
+      VCLReport_lista_produtos.Title    := VCLReport_lista_produtos.FileName;
+      VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+      VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp;
+      VCLReport_lista_produtos.Execute;
+    end;
+  end;
+  panRelatorio.Visible := False;
 end;
 
 end.
