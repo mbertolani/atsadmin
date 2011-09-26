@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE SPESTOQUEFILTRO (
     DTA1 Date,
     DTA2 Date,
@@ -30,7 +31,8 @@ RETURNS (
     NF Integer,
     CLIFOR Varchar(60),
     CODLOTE Integer,
-    ANOTACOES Varchar(100) )
+    ANOTACOES Varchar(100),
+    APLICACAO varchar(30) )
 AS
 DECLARE VARIABLE COD INTEGER;
 DECLARE VARIABLE CODNATU SMALLINT;
@@ -57,6 +59,12 @@ BEGIN
            
         INTO :CODPROD, :CODMOV, :TIPOMOVIMENTO, :PRODUTO, :GRUPO, :SUBGRUPOPROD, :codlote, :Datanf, :CODNATU, :COD, :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, :ANOTACOES
         DO BEGIN
+        
+          -- Buscando a Aplicacao do Material
+          SELECT p.CLASSIFIC_FISCAL FROM PRODUTOS P WHERE p.CODPRODUTO = :COD 
+            INTO :APLICACAO;
+        
+        
           IF (CODNATU IS NULL) THEN 
             CODNATU = 9;
             

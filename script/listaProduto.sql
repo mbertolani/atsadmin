@@ -4,7 +4,9 @@ CREATE OR ALTER PROCEDURE LISTAPRODUTO(
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
   GP VARCHAR(30) CHARACTER SET WIN1252,
   SUBGP VARCHAR(30) CHARACTER SET WIN1252,
-  MC VARCHAR(30) CHARACTER SET WIN1252)
+  MC VARCHAR(30) CHARACTER SET WIN1252, 
+  APLICACAO VARCHAR(30) CHARACTER SET WIN1252,
+  LOCAL INTEGER)
 RETURNS(
   CODPRODUTO INTEGER,
   COD_BARRA VARCHAR(20) CHARACTER SET WIN1252,
@@ -33,7 +35,8 @@ RETURNS(
   USA CHAR(3) CHARACTER SET WIN1252,
   COD_COMISSAO INTEGER,
   RATEIO CHAR(1) CHARACTER SET WIN1252,
-  CONTA_DESPESA VARCHAR(15) CHARACTER SET WIN1252)
+  CONTA_DESPESA VARCHAR(15) CHARACTER SET WIN1252,
+  APLICACAO_PRODUTO VARCHAR(30)  CHARACTER SET WIN1252)
 AS
 declare variable precoVenda double PRECISION;
   declare variable CustoMateriaPrima double PRECISION;
@@ -65,7 +68,7 @@ begin
   for select p.codProduto, p.CODPRO, p.cod_barra, p.produto, p.qtde_pct, p.unidademedida,
     p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
     p.LOTES, p.margem, p.VALOR_PRAZO, p.TIPOPRECOVENDA, uso.DESCRICAO, cod.CODIGO, p.USA,
-    p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL
+    p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL
     from produtos p
     left outer join USO_PRODUTO uso  on uso.COD_PRODUTO = p.CODPRODUTO
     left outer join CODIGOS cod on cod.COD_PRODUTO = p.CODPRODUTO
@@ -74,12 +77,14 @@ begin
       and ((p.FAMILIA = :gp) or (:gp = 'TODOSGRUPOS'))
       and ((p.CATEGORIA = :subgp) or (:subgp = 'TODOSSUBGRUPOS'))
       and ((p.MARCA = :mc) OR (:mc = 'TODASMARCAS'))
+      and ((p.CLASSIFIC_FISCAL = :Aplicacao) OR (:Aplicacao = 'TODASAPLICACOES'))
+      and ((p.CODALMOXARIFADO = :Local) OR (:Local = 0))
       --and ((p.PRODUTO = :ProdutoDesc) or (:ProdutoDesc = 'TODOSPRODUTOS'))
       --and ((p.COD_BARRA = :codBarra) OR (:codBarra = 'CODIGOBARRA'))
       --and ((p.TIPO = :tipoProduto) OR (:tipoProduto = 'TODOSTIPOS'))
   into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
     :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
-    :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc
+    :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto
   do begin
   
     if (codAlmoxarifado is null) then 
