@@ -497,6 +497,37 @@ begin
   else
     varCondicao := varCondicao + ', ' + IntToStr(0);
 
+  {if (cbAplicacao.ItemIndex > -1) then
+  begin
+    varCondicao := varCondicao + ', ' + QuotedStr(cbAplicacao.Text);
+  end
+  else begin}
+    varCondicao :=  varCondicao + ', ' + QuotedStr('TODASAPLICACOES');
+  //end;
+
+  {if (cbLocal.ItemIndex > -1) then
+  begin
+    //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+    if dm.cds_parametro.Active then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+    dm.cds_parametro.Open;
+    contaEstoque := dm.cds_parametroDADOS.AsString;
+    dm.cds_parametro.Close;
+    if (dm.cds_ccusto.Active) then
+      dm.cds_ccusto.Close;
+    dm.cds_ccusto.Params[0].AsString := contaEstoque;
+    dm.cds_ccusto.Open;
+
+    if (dm.cds_ccusto.Locate('NOME', cbLocal.Text, [loCaseInsensitive])) then
+      varCondicao := varCondicao + ', ' + IntToStr(dm.cds_ccustoCODIGO.AsInteger)
+    else
+      varCondicao :=  varCondicao + ', 0';
+  end
+  else begin  }
+    varCondicao :=  varCondicao + ', 0';
+  //end;
+
   varCondicao := varCondicao + ') ';
 
   if (cbTipo.Text <> '') then

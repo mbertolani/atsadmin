@@ -7,7 +7,8 @@ uses
   Dialogs, FMTBcd, Mask, MMJPanel, StdCtrls, Buttons, Grids, DBGrids,
   ExtCtrls, Provider, DB, DBClient, rpcompobase, Menus,
   SqlExpr, XPMenu, rpvclreport, DBCtrls, JvExMask, JvToolEdit, JvMaskEdit,
-  JvCheckedMaskEdit, JvDatePickerEdit;
+  JvCheckedMaskEdit, JvDatePickerEdit, JvExDBGrids, JvDBGrid, JvExStdCtrls,
+  JvCombobox;
 
 type
   TfFiltroEstoque = class(TForm)
@@ -108,6 +109,9 @@ type
     BitBtn8: TBitBtn;
     sds_estoqueANOTACOES: TStringField;
     cds_estoqueANOTACOES: TStringField;
+    GroupBox4: TGroupBox;
+    cbAplicacao: TJvComboBox;
+    SpeedButton5: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -126,6 +130,7 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure SpeedButton5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -458,10 +463,10 @@ begin
   Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   try
     sqlStr := 'select CODPROD, CODMOV, TIPOMOVIMENTO, ' +
-     ' cast(PRODUTO as varchar(300)) PRODUTO, GRUPO, ' +
+     ' UDF_STRIP(PRODUTO, ' + QuotedStr('"´`') + ') PRODUTO, GRUPO, ' +
      ' SUBGRUPOPROD, SALDOINIACUM, ENTRADA, SAIDA, SALDOFIMACUM, PRECOUNIT, ' +
      ' VALORESTOQUE, VALORVENDA, LOTES, CCUSTOS, DTAFAB, DTAVCTO, NF, ' +
-     ' CLIFOR, CODLOTE, ANOTACOES FROM SPESTOQUEFILTRO(';
+     ' CLIFOR, CODLOTE, UDF_COLLATEBR(ANOTACOES) ANOTACOES FROM SPESTOQUEFILTRO(';
     //==============================================================================
     //Verifica se a data de emissão foi preenchido
     //------------------------------------------------------------------------------
@@ -563,6 +568,11 @@ begin
     end
     else
        sqlTexto := sqlTexto + ',''TODOS OS GRUPOS CADASTRADOS NO SISTEMA'')';
+
+    if (cbAplicacao.ItemIndex > -1) then
+    begin
+       sqlTexto := sqlTexto + ' WHERE APLICACAO = ' + QuotedStr(cbAplicacao.Text);
+    end;
     //==============================================================================
     IF (cds_estoque.Active) then
       cds_estoque.Close;
@@ -693,6 +703,11 @@ begin
    finally
      fRelestoque.Free;
    end;
+end;
+
+procedure TfFiltroEstoque.SpeedButton5Click(Sender: TObject);
+begin
+  cbAplicacao.ItemIndex := -1;
 end;
 
 end.

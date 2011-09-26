@@ -99,10 +99,12 @@ type
     Label26: TLabel;
     DBEdit23: TDBEdit;
     Label22: TLabel;
-    cbLocal: TComboBox;
     Label23: TLabel;
     GroupBox4: TGroupBox;
-    cbAplicacao: TComboBox;
+    cbAplicacao: TJvComboBox;
+    cbLocal: TJvComboBox;
+    SpeedButton5: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -132,6 +134,8 @@ type
     procedure DBRadioGroup2Change(Sender: TObject);
     procedure cbLocalChange(Sender: TObject);
     procedure cbAplicacaoChange(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure SpeedButton5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -359,10 +363,14 @@ begin
     2 : dm.cds_produtoORIGEM.AsInteger := 2 ; // Importado por Terceiro
   end;
 
-  dm.cds_ccusto.Locate('NOME', cbLocal.Text, [loCaseInsensitive]);
-  dm.cds_produtoCODALMOXARIFADO.AsInteger := dm.cds_ccustoCODIGO.AsInteger;
+  if (cbLocal.ItemIndex > -1) then
+  begin
+    dm.cds_ccusto.Locate('NOME', cbLocal.Text, [loCaseInsensitive]);
+    dm.cds_produtoCODALMOXARIFADO.AsInteger := dm.cds_ccustoCODIGO.AsInteger;
+  end;
 
-  dm.cds_produtoCLASSIFIC_FISCAL.AsString := cbAplicacao.Text;
+  if (cbAplicacao.ItemIndex > -1) then
+    dm.cds_produtoCLASSIFIC_FISCAL.AsString := cbAplicacao.Text;
 
   if (dbMarca.Text <> '') then
     dm.cds_produtoMARCA.AsString := dbMarca.Text;
@@ -859,6 +867,18 @@ begin
   if (DtSrc.DataSet.State in [dsBrowse, dsInactive]) then
     dm.cds_produto.Edit;
 
+end;
+
+procedure TfProdutoCadastro.BitBtn3Click(Sender: TObject);
+begin
+  inherited;
+  cbAplicacao.ItemIndex := -1;
+end;
+
+procedure TfProdutoCadastro.SpeedButton5Click(Sender: TObject);
+begin
+  inherited;
+  cbLocal.ItemIndex := -1;
 end;
 
 end.
