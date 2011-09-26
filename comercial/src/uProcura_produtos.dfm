@@ -1473,6 +1473,27 @@ object fProcura_produtos: TfProcura_produtos
       TabOrder = 11
     end
   end
+  object panRelatorio: TPanel
+    Left = 560
+    Top = 56
+    Width = 169
+    Height = 121
+    TabOrder = 5
+    Visible = False
+    object RadioGroup1: TRadioGroup
+      Left = 1
+      Top = 1
+      Width = 167
+      Height = 119
+      Align = alClient
+      Caption = 'Relat'#243'rio'
+      Items.Strings = (
+        'Lista Materias'
+        'Materiais+Estoque+Custo')
+      TabOrder = 0
+      OnClick = RadioGroup1Click
+    end
+  end
   object sds_proc: TSQLDataSet
     CommandText = 
       'select CODPRODUTO'#13#10', CODPRO'#13#10', cast(PRODUTO as varchar(300)) as ' +
