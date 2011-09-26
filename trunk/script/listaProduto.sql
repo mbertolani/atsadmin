@@ -195,7 +195,8 @@ begin
       inner join PRODUTOS p on p.CODPRODUTO = m.CODPRODMP
       where m.CODPRODUTO = :codProduto
     into :custoMateriaPrima;
-    preco_compraMedio = custoMateriaPrima;
+    if (preco_compraMedio = 0) then
+      preco_compraMedio = custoMateriaPrima;
 
     if (preco_compraUltimo = 0) then
       preco_compraUltimo = precoc;
