@@ -132,7 +132,8 @@ begin
             'PRECO_COMPRAMEDIO as PRECOMEDIO, IPI , PEDIDO ' +
             'from LISTAPRODUTO(0, ' + QuotedStr('TODOSPRODUTOS') + ', ' +
             QuotedStr('TODOSGRUPOS') + ', ' +
-            QuotedStr('TODOSSUBGRUPOS') + ', ' + QuotedSTr('TODASMARCAS') + ')';
+            QuotedStr('TODOSSUBGRUPOS') + ', ' + QuotedSTr('TODASMARCAS') +
+            ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
 
            //fProcura_prod1.cds_proc.CommandText;
     if (fProcura_prod1.cds_proc.Active) then
