@@ -394,6 +394,7 @@ type
     cds_Mov_detSTATUS: TStringField;
     DBEdit14: TDBEdit;
     Label21: TLabel;
+    BitBtn5: TBitBtn;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -441,6 +442,8 @@ type
     procedure cbTpTranspChange(Sender: TObject);
     procedure Label3Click(Sender: TObject);
     procedure GroupBox1Click(Sender: TObject);
+    procedure DBEdit10Exit(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     modo :string;
     { Private declarations }
@@ -462,7 +465,7 @@ implementation
 uses uComercial, UDm, uRateioPag, uFiltroMov_compra, ufprocura_prod,
   uCompraFinalizar, uProdutoLote, uProcurar, uLotes, uClienteVeiculo,
   sCtrlResize, uAtsAdmin, uUtils, UDMNF, uftransp, uFornecedorCadastro,
-  uProdutoCadastro;
+  uProdutoCadastro, uLotes_Produtos;
 
 
 {$R *.dfm}
@@ -882,6 +885,7 @@ begin
         if (cds_Mov_detLOTE.asString = '') then
           cds_Mov_detLOTE.Clear;
         cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+        DBEdit10Exit(Sender);
         if dm.c_6_genid.Active then
           dm.c_6_genid.Close;
         dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -1227,16 +1231,12 @@ begin
         cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
       end
       else begin}
-        if (DBEdit1.Text = '') then
+        if (DBEdit1.Text <> '') then
         begin
-          MessageDlg('Insira o número do Lote no campo CONTROLE.', mtWarning, [mbOK], 0);
-          dbEdit1.SetFocus;
-          Exit;
+          cds_Mov_detLOTE.AsString := cds_MovimentoCONTROLE.AsString;
+          cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
         end;
-        cds_Mov_detLOTE.AsString := cds_MovimentoCONTROLE.AsString;
-        cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-      //end;
     end;
     dm.scds_produto_proc.Close;
   end;
@@ -1311,9 +1311,11 @@ begin
   begin
     if (DbEdit1.Text = '') then
     begin
+      {//Informa que o Lote para COMPRA não esta informado
       MessageDlg('Insira o número do Lote no campo CONTROLE.', mtWarning, [mbOK], 0);
       dbEdit1.SetFocus;
-      Exit;
+      Exit;}
+
     end;
     if fLotes.cdslotes.Active then
       fLotes.cdslotes.Close;
@@ -1437,7 +1439,7 @@ begin
   inherited;
   fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
-  dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;  
+  dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;
   fProcurar.RadioGroup2.Visible := True;  
   fProcurar.BtnProcurar.Click;
   fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
@@ -1933,6 +1935,45 @@ begin
    finally
      fFornecedorCadastro.Free;
    end;
+end;
+
+procedure TfCompra.DBEdit10Exit(Sender: TObject);
+begin
+  inherited;
+     //CARREGA TELA PARA PREENCHIMENTO DO LOTE POR PRODUTO
+    if dm.scds_produto_proc.Active then
+      dm.scds_produto_proc.Close;
+    dm.scds_produto_proc.Params[0].AsInteger := 0;
+    dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
+    dm.scds_produto_proc.Open;
+    if dm.scds_produto_procLOTES.AsString = 'S' then
+    begin
+      if( (DbEdit1.Text = '') and (cds_Mov_detLOTE.AsString = '') ) then
+      begin
+        fLotes_Produtos := TfLotes_Produtos.Create(Application);
+        try
+          fLotes_Produtos.ShowModal;
+        finally
+          cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          fLotes_Produtos.Free;
+        end;
+      end;
+    end;
+    dm.scds_produto_proc.Close;
+end;
+
+procedure TfCompra.BitBtn5Click(Sender: TObject);
+begin
+  inherited;
+  fLotes_Produtos := TfLotes_Produtos.Create(Application);
+  try
+    fLotes_Produtos.ShowModal;
+  finally
+    cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+    cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+    fLotes_Produtos.Free;
+  end;
 end;
 
 end.
