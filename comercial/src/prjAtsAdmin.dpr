@@ -242,7 +242,8 @@ uses
   U_AlteraPedido in 'U_AlteraPedido.pas' {F_AlteraPedido},
   U_TerminalFinaliza in 'U_TerminalFinaliza.pas' {F_TerminalFinaliza},
   uOsFiltro in 'uOsFiltro.pas' {fOsFiltro},
-  uOsInsere in 'uOsInsere.pas' {fOsInsere};
+  uOsInsere in 'uOsInsere.pas' {fOsInsere},
+  uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
 
 {$R *.res}
 
@@ -251,7 +252,6 @@ begin
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDM_MOV, DM_MOV);
-  Application.CreateForm(TfOsInsere, fOsInsere);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);
