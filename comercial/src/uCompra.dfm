@@ -4,10 +4,11 @@ inherited fCompra: TfCompra
   Width = 800
   Height = 615
   Caption = 'Compra'
+  Font.Height = -13
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 16
   object Label14: TLabel [0]
     Left = 636
     Top = 354
@@ -24,50 +25,50 @@ inherited fCompra: TfCompra
   object Label18: TLabel [1]
     Left = 4
     Top = 470
-    Width = 33
-    Height = 13
+    Width = 44
+    Height = 16
     Caption = 'C'#243'digo'
   end
   object Label12: TLabel [2]
     Left = 7
-    Top = 502
-    Width = 25
-    Height = 13
+    Top = 501
+    Width = 31
+    Height = 16
     Caption = 'Obs.:'
   end
   object Label11: TLabel [3]
     Left = 108
-    Top = 471
-    Width = 57
-    Height = 13
+    Top = 470
+    Width = 74
+    Height = 16
     Caption = 'Comprador: '
   end
   object Label16: TLabel [4]
-    Left = 412
-    Top = 473
-    Width = 68
-    Height = 13
+    Left = 400
+    Top = 470
+    Width = 86
+    Height = 16
     Caption = 'Resp. Aprova.'
   end
   object Label17: TLabel [5]
     Left = 0
-    Top = 525
-    Width = 51
-    Height = 26
-    Caption = 'Tipo '#13#10'Transporte'
+    Top = 524
+    Width = 49
+    Height = 32
+    Caption = 'Tipo '#13#10'Transp.:'
   end
   object Label19: TLabel [6]
     Left = 139
     Top = 532
-    Width = 39
-    Height = 13
+    Width = 49
+    Height = 16
     Caption = 'Transp.:'
   end
   object Label20: TLabel [7]
     Left = 451
     Top = 524
-    Width = 42
-    Height = 26
+    Width = 54
+    Height = 32
     Caption = 'Telefone'#13#10'Transp.:'
   end
   inherited MMJPanel1: TMMJPanel
@@ -1220,10 +1221,10 @@ inherited fCompra: TfCompra
       Left = 6
       Top = 17
       Width = 140
-      Height = 21
+      Height = 24
       DataField = 'CONTROLE'
       DataSource = DtSrc
-      ItemHeight = 13
+      ItemHeight = 16
       TabOrder = 1
       Visible = False
       OnChange = dbLoteChange
@@ -1281,8 +1282,8 @@ inherited fCompra: TfCompra
     Caption = 'MERCADORIAS'
     TabOrder = 5
     object Label3: TLabel
-      Left = 10
-      Top = 18
+      Left = 9
+      Top = 19
       Width = 44
       Height = 16
       Cursor = crHandPoint
@@ -1298,57 +1299,57 @@ inherited fCompra: TfCompra
     object Label5: TLabel
       Left = 114
       Top = 18
-      Width = 17
-      Height = 13
+      Width = 20
+      Height = 16
       Caption = 'Un.'
     end
     object Label6: TLabel
       Left = 151
       Top = 18
-      Width = 23
-      Height = 13
+      Width = 29
+      Height = 16
       Caption = 'Qtde'
     end
     object Label7: TLabel
       Left = 210
       Top = 18
-      Width = 39
-      Height = 13
+      Width = 46
+      Height = 16
       Caption = 'Unit. R$'
     end
     object Label8: TLabel
       Left = 380
       Top = 18
-      Width = 22
-      Height = 13
+      Width = 28
+      Height = 16
       Caption = 'Icms'
     end
     object Label9: TLabel
       Left = 437
       Top = 18
-      Width = 41
-      Height = 13
+      Width = 51
+      Height = 16
       Caption = 'Total R$'
     end
     object Label4: TLabel
       Left = 327
       Top = 18
-      Width = 11
-      Height = 13
+      Width = 14
+      Height = 16
       Caption = 'Ipi'
     end
     object Label13: TLabel
-      Left = 8
-      Top = 58
-      Width = 88
-      Height = 13
+      Left = 49
+      Top = 56
+      Width = 112
+      Height = 16
       Caption = 'Descri'#231#227'o Produto'
     end
     object Label21: TLabel
       Left = 269
       Top = 18
-      Width = 39
-      Height = 13
+      Width = 50
+      Height = 16
       Caption = 'Desc. %'
     end
     object dbeProduto: TDBEdit
@@ -1497,6 +1498,7 @@ inherited fCompra: TfCompra
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 4
+      OnExit = DBEdit10Exit
       OnKeyPress = FormKeyPress
     end
     object DBEdit11: TDBEdit
@@ -1659,9 +1661,9 @@ inherited fCompra: TfCompra
         end>
     end
     object DBEdit17: TDBEdit
-      Left = 6
+      Left = 48
       Top = 70
-      Width = 615
+      Width = 575
       Height = 24
       DataField = 'DESCPRODUTO'
       DataSource = DtSrc1
@@ -1692,6 +1694,17 @@ inherited fCompra: TfCompra
       TabOrder = 13
       OnKeyPress = FormKeyPress
     end
+    object BitBtn5: TBitBtn
+      Left = 5
+      Top = 66
+      Width = 40
+      Height = 28
+      Caption = 'Lotes'
+      PopupMenu = PopupMenu1
+      TabOrder = 14
+      TabStop = False
+      OnClick = BitBtn5Click
+    end
   end
   object CheckBox1: TCheckBox [17]
     Left = 640
@@ -1715,7 +1728,7 @@ inherited fCompra: TfCompra
       Left = 8
       Top = 62
       Width = 9
-      Height = 13
+      Height = 16
       Caption = '...'
     end
     object MaskEdit1: TMaskEdit
@@ -1786,9 +1799,9 @@ inherited fCompra: TfCompra
     OnKeyPress = FormKeyPress
   end
   object DBEdit16: TDBEdit [21]
-    Left = 172
+    Left = 182
     Top = 468
-    Width = 196
+    Width = 178
     Height = 24
     TabStop = False
     BevelKind = bkFlat
@@ -1806,7 +1819,7 @@ inherited fCompra: TfCompra
     OnKeyPress = FormKeyPress
   end
   object SpeedButton1: TBitBtn [22]
-    Left = 375
+    Left = 367
     Top = 464
     Width = 27
     Height = 27
@@ -1929,10 +1942,10 @@ inherited fCompra: TfCompra
       Left = 5
       Top = 16
       Width = 141
-      Height = 21
+      Height = 24
       DataField = 'PRAZO_PAGAMENTO'
       DataSource = DtSrc
-      ItemHeight = 13
+      ItemHeight = 16
       TabOrder = 0
     end
   end
@@ -1942,6 +1955,8 @@ inherited fCompra: TfCompra
     Width = 139
     Height = 24
     Hint = 'Usu'#225'rio Respons'#225'vel pela aprova'#231#227'o do pedido de compras'
+    BevelKind = bkFlat
+    BorderStyle = bsNone
     Color = clInfoBk
     DataField = 'USER_APROVA'
     DataSource = DtSrc
@@ -1994,12 +2009,12 @@ inherited fCompra: TfCompra
     OnClick = btnTranspClick
   end
   object cbTransportadora: TComboBox [29]
-    Left = 184
+    Left = 189
     Top = 528
-    Width = 229
-    Height = 21
+    Width = 221
+    Height = 24
     Color = clInfoBk
-    ItemHeight = 13
+    ItemHeight = 16
     TabOrder = 11
     OnChange = cbTransportadoraChange
   end
@@ -2007,9 +2022,9 @@ inherited fCompra: TfCompra
     Left = 56
     Top = 528
     Width = 80
-    Height = 21
+    Height = 24
     Color = clInfoBk
-    ItemHeight = 13
+    ItemHeight = 16
     TabOrder = 22
     OnChange = cbTpTranspChange
     Items.Strings = (
@@ -2018,10 +2033,10 @@ inherited fCompra: TfCompra
       'Destinatario')
   end
   object Edit1: TEdit [31]
-    Left = 498
+    Left = 511
     Top = 528
     Width = 113
-    Height = 21
+    Height = 24
     Color = clInfoBk
     ReadOnly = True
     TabOrder = 23
