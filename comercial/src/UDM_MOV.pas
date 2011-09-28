@@ -418,6 +418,16 @@ type
     c_vendaTROCO: TFloatField;
     s_movimentoNOMECLIENTE: TStringField;
     c_movimentoNOMECLIENTE: TStringField;
+    s_movimentoNOMEUSUARIO: TStringField;
+    c_movimentoNOMEUSUARIO: TStringField;
+    s_movdetCODPRO: TStringField;
+    s_movdetCOD_BARRA: TStringField;
+    c_movdetCODPRO: TStringField;
+    c_movdetCOD_BARRA: TStringField;
+    s_movimentoCODCOTACAO: TIntegerField;
+    s_movimentoUSUARIOLOGADO: TStringField;
+    c_movimentoCODCOTACAO: TIntegerField;
+    c_movimentoUSUARIOLOGADO: TStringField;
     procedure c_movdetCalcFields(DataSet: TDataSet);
   private
     { Private declarations }

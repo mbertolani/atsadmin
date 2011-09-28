@@ -2,7 +2,7 @@ object DM_MOV: TDM_MOV
   OldCreateOrder = False
   Left = 663
   Top = 321
-  Height = 375
+  Height = 332
   Width = 449
   object s_buscaMov: TSQLDataSet
     CommandText = 
@@ -58,9 +58,10 @@ object DM_MOV: TDM_MOV
   end
   object s_movimento: TSQLDataSet
     CommandText = 
-      'select mov.* '#13#10'          ,cli.NOMECLIENTE '#13#10'   from MOVIMENTO mo' +
-      'v '#13#10'  inner join CLIENTES cli on cli.CODCLIENTE = mov.CODCLIENTE' +
-      ' '#13#10'where mov.CODMOVIMENTO = :id_mov'#13#10
+      'select mov.* '#13#10'          ,cli.NOMECLIENTE'#13#10'          ,usu.NOMEUS' +
+      'UARIO  '#13#10'   from MOVIMENTO mov '#13#10'  inner join CLIENTES cli on cl' +
+      'i.CODCLIENTE = mov.CODCLIENTE '#13#10'  inner join USUARIO usu on usu.' +
+      'CODUSUARIO= mov.CODUSUARIO '#13#10'where mov.CODMOVIMENTO = :id_mov'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -229,8 +230,21 @@ object DM_MOV: TDM_MOV
     object s_movimentoNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Required = True
       Size = 50
+    end
+    object s_movimentoNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      ProviderFlags = []
+      Size = 30
+    end
+    object s_movimentoCODCOTACAO: TIntegerField
+      FieldName = 'CODCOTACAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movimentoUSUARIOLOGADO: TStringField
+      FieldName = 'USUARIOLOGADO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
     end
   end
   object p_movimento: TDataSetProvider
@@ -411,6 +425,21 @@ object DM_MOV: TDM_MOV
       ProviderFlags = []
       Required = True
       Size = 50
+    end
+    object c_movimentoNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      ProviderFlags = []
+      Size = 30
+    end
+    object c_movimentoCODCOTACAO: TIntegerField
+      Alignment = taLeftJustify
+      FieldName = 'CODCOTACAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_movimentoUSUARIOLOGADO: TStringField
+      FieldName = 'USUARIOLOGADO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
     end
   end
   object p_movdet: TDataSetProvider
@@ -678,6 +707,15 @@ object DM_MOV: TDM_MOV
       DisplayFormat = ',#0.00'
       currency = True
     end
+    object c_movdetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      ProviderFlags = []
+      Size = 15
+    end
+    object c_movdetCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+      ProviderFlags = []
+    end
     object c_movdettotalpedido: TAggregateField
       FieldName = 'totalpedido'
       Active = True
@@ -697,7 +735,10 @@ object DM_MOV: TDM_MOV
     Top = 112
   end
   object s_movdet: TSQLDataSet
-    CommandText = 'select * from MOVIMENTODETALHE '#13#10'where CODMOVIMENTO = :id_mov'
+    CommandText = 
+      'select md.*,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA '#13#10' ' +
+      'from MOVIMENTODETALHE md '#13#10' left outer join PRODUTOS pr on pr.CO' +
+      'DPRODUTO = md.CODPRODUTO '#13#10'where md.CODMOVIMENTO = :id_mov'
     MaxBlobSize = -1
     Params = <
       item
@@ -706,7 +747,7 @@ object DM_MOV: TDM_MOV
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 40
+    Left = 32
     Top = 112
     object s_movdetCODDETALHE: TIntegerField
       FieldName = 'CODDETALHE'
@@ -947,16 +988,20 @@ object DM_MOV: TDM_MOV
       FieldName = 'COD_FUNCIONARIO'
       ProviderFlags = [pfInUpdate]
     end
+    object s_movdetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      ProviderFlags = []
+      Size = 15
+    end
+    object s_movdetCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+      ProviderFlags = []
+    end
   end
   object s_buscaProd: TSQLDataSet
-    CommandText = 'select * from PRODUTOS '#13#10'where CODPRO = :idp'
+    CommandText = 'select * from PRODUTOS '
     MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftString
-        Name = 'idp'
-        ParamType = ptInput
-      end>
+    Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 120
     Top = 8
@@ -1667,22 +1712,18 @@ object DM_MOV: TDM_MOV
     object s_vendaCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       ProviderFlags = [pfInUpdate]
-      Required = True
     end
     object s_vendaCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       ProviderFlags = [pfInUpdate]
-      Required = True
     end
     object s_vendaDATAVENDA: TDateField
       FieldName = 'DATAVENDA'
       ProviderFlags = [pfInUpdate]
-      Required = True
     end
     object s_vendaDATAVENCIMENTO: TDateField
       FieldName = 'DATAVENCIMENTO'
       ProviderFlags = [pfInUpdate]
-      Required = True
     end
     object s_vendaNUMEROBORDERO: TIntegerField
       FieldName = 'NUMEROBORDERO'
@@ -1897,6 +1938,7 @@ object DM_MOV: TDM_MOV
     object c_vendaVALOR: TFloatField
       FieldName = 'VALOR'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.00'
     end
     object c_vendaNOTAFISCAL: TIntegerField
       FieldName = 'NOTAFISCAL'
@@ -1909,10 +1951,12 @@ object DM_MOV: TDM_MOV
     object c_vendaDESCONTO: TFloatField
       FieldName = 'DESCONTO'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.00'
     end
     object c_vendaCODCCUSTO: TSmallintField
       FieldName = 'CODCCUSTO'
       ProviderFlags = [pfInUpdate]
+      EditFormat = ',#0.00'
     end
     object c_vendaN_PARCELA: TSmallintField
       FieldName = 'N_PARCELA'
@@ -1941,6 +1985,7 @@ object DM_MOV: TDM_MOV
     object c_vendaMULTA_JUROS: TFloatField
       FieldName = 'MULTA_JUROS'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.00'
     end
     object c_vendaAPAGAR: TFloatField
       FieldName = 'APAGAR'
@@ -1949,10 +1994,12 @@ object DM_MOV: TDM_MOV
     object c_vendaVALOR_PAGAR: TFloatField
       FieldName = 'VALOR_PAGAR'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.00'
     end
     object c_vendaENTRADA: TFloatField
       FieldName = 'ENTRADA'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.00'
     end
     object c_vendaN_BOLETO: TStringField
       FieldName = 'N_BOLETO'
@@ -2021,6 +2068,7 @@ object DM_MOV: TDM_MOV
     object c_vendaTROCO: TFloatField
       FieldKind = fkInternalCalc
       FieldName = 'TROCO'
+      DisplayFormat = ',#0.00'
     end
   end
   object d_venda: TDataSource
