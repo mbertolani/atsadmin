@@ -8,7 +8,8 @@ uses
   Mask, DBCtrls, JvExControls, JvLabel, JvExDBGrids, JvDBGrid, jpeg,
   ExtCtrls, JvExExtCtrls, JvImage, Grids, DBGrids, StdCtrls, ComCtrls,
   MMJPanel, JvSpeedButton, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
-  Menus, JvComponentBase, JvFormAutoSize;
+  Menus, JvComponentBase, JvFormAutoSize, FMTBcd, DB, SqlExpr, Provider,
+  DBClient, JvExButtons, JvBitBtn;
 
 type
   TF_Terminal = class(TForm)
@@ -17,20 +18,15 @@ type
     MMJPanel5: TMMJPanel;
     Panel1: TPanel;
     JvLabel3: TJvLabel;
-    JvExcluir: TJvSpeedButton;
-    JvProcurar: TJvSpeedButton;
     MMJPanel8: TMMJPanel;
     JvLabel1: TJvLabel;
     EdtCodBarra1: TEdit;
-    JvAlterar: TJvSpeedButton;
     JvTotal: TJvValidateEdit;
-    JvRelatorios: TJvSpeedButton;
     PopupMenu1: TPopupMenu;
     AlterarItendoPedido1: TMenuItem;
     F5ExcluirItemdoPedido1: TMenuItem;
     F7ExcluirPedido1: TMenuItem;
     LocalizarPedido1: TMenuItem;
-    JvSpeedButton1: TJvSpeedButton;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     Panel3: TPanel;
@@ -62,6 +58,39 @@ type
     Edit6: TEdit;
     Edit7: TEdit;
     Edit8: TEdit;
+    b_cliente: TSQLDataSet;
+    b_clienteCODCLIENTE: TIntegerField;
+    b_clienteNOMECLIENTE: TStringField;
+    btnProduto: TBitBtn;
+    scds_produto_proc: TClientDataSet;
+    dsp: TDataSetProvider;
+    sds: TSQLDataSet;
+    scds_produto_procCODPRODUTO: TIntegerField;
+    scds_produto_procCOD_BARRA: TStringField;
+    scds_produto_procPRODUTO: TStringField;
+    scds_produto_procUNIDADEMEDIDA: TStringField;
+    scds_produto_procQTDE_PCT: TFloatField;
+    scds_produto_procICMS: TFloatField;
+    scds_produto_procCODALMOXARIFADO: TIntegerField;
+    scds_produto_procCONTA_DESPESA: TStringField;
+    scds_produto_procALMOXARIFADO: TStringField;
+    scds_produto_procVALORUNITARIOATUAL: TFloatField;
+    scds_produto_procVALOR_PRAZO: TFloatField;
+    scds_produto_procCOD_COMISSAO: TIntegerField;
+    scds_produto_procRATEIO: TStringField;
+    scds_produto_procTIPO: TStringField;
+    scds_produto_procLOCALIZACAO: TStringField;
+    scds_produto_procESTOQUEATUAL: TFloatField;
+    JvProcurar: TJvBitBtn;
+    JvAlterar: TJvBitBtn;
+    JvBitBtn1: TJvBitBtn;
+    JvBitBtn2: TJvBitBtn;
+    JvBitBtn3: TJvBitBtn;
+    SQLDataSet1: TSQLDataSet;
+    Finalizar1: TMenuItem;
+    F11ImprimirPedido1: TMenuItem;
+    JvBitBtn5: TJvBitBtn;
+    F9Sair1: TMenuItem;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -76,12 +105,20 @@ type
       Shift: TShiftState);
     procedure JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
     procedure JvAlterarClick(Sender: TObject);
-    procedure JvSpeedButton1Click(Sender: TObject);
+    procedure btnProdutoClick(Sender: TObject);
+    procedure F5ExcluirItemdoPedido1Click(Sender: TObject);
+    procedure F7ExcluirPedido1Click(Sender: TObject);
+    procedure JvBitBtn3Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure JvBitBtn5Click(Sender: TObject);
   private
+    clienteConsumidor,nomecliente, tipo_busca : string;
+    codcliente : integer;
     procedure IncluiPedido;
     procedure AlteraPedido;
     procedure IncluiItemPedido;
     procedure BuscaProduto;
+    procedure BuscaLote;
     { Private declarations }
   public
     { Public declarations }
@@ -94,8 +131,8 @@ var
 
 implementation
 
-uses sCtrlResize, UDm, UDM_MOV, DB, UDMNF, uFiltroMovimento,
-  U_AlteraPedido, U_TerminalFinaliza;
+uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
+  U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod;
 
 {$R *.dfm}
 
@@ -179,9 +216,9 @@ begin
      DM_MOV.c_movdetCODMOVIMENTO.AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
    //DM_MOV.c_movdetBAIXA
    DM_MOV.c_movdetQUANTIDADE.AsInteger := 1;
-   DM_MOV.c_movdetUN.AsString := DM_MOV.s_buscaProdUNIDADEMEDIDA.AsString;
-   DM_MOV.c_movdetPRECO.AsFloat := DM_MOV.s_buscaProdVALOR_PRAZO.AsFloat;
-   DM_MOV.c_movdetDESCPRODUTO.AsString := DM_MOV.s_buscaProdPRODUTO.AsString;
+   DM_MOV.c_movdetUN.AsString := scds_produto_procUNIDADEMEDIDA.AsString;
+   DM_MOV.c_movdetPRECO.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
+   DM_MOV.c_movdetDESCPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
    DM_MOV.c_movdet.ApplyUpdates(0);
 end;
 
@@ -203,8 +240,11 @@ begin
     DM_MOV.c_movimentoDATA_SISTEMA.AsDateTime := Now;
     DM_MOV.c_movimentoSTATUS.Value := 20; //Venda em Aberto
     DM_MOV.c_movimentoCODUSUARIO.AsInteger := usulog;
+    DM_MOV.c_movimentoNOMEUSUARIO.AsString := nome_user;
+    DM_MOV.c_movimentoUSUARIOLOGADO.AsString := nome_user;
     DM_MOV.c_movimentoCODVENDEDOR.Value:=1;
-    DM_MOV.c_movimentoCODCLIENTE.AsInteger := 1;
+    DM_MOV.c_movimentoCODCLIENTE.AsInteger := codcliente;
+    DM_MOV.c_movimentoNOMECLIENTE.AsString := nomecliente;
     DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger := 1;
     DM_MOV.c_movimento.ApplyUpdates(0);
   end;
@@ -245,47 +285,160 @@ begin
 end;
 
 procedure TF_Terminal.BuscaProduto;
+var varsql:string;
 begin
+  RETORNO := '';
+  tipo_busca := '1'; //CODBARRA
+  {------Verifico se a busca sera efetuada pelo CODPRO ou pelo CODBARRA ---------}
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'BUSCAPRODUTO';
+  dm.cds_parametro.Open;
+  if not dm.cds_parametro.IsEmpty then
+     tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+  dm.cds_parametro.Close;
 
-  if (DM_MOV.s_buscaProd.Active) then
-      DM_MOV.s_buscaProd.Close;
+
+  varsql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
+         ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
+         ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
+         ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
+         ' from PRODUTOS prod ' +
+         ' left outer join ALMOXARIFADO ccus ' +
+         ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
+         ' where ';
+
+  if scds_produto_proc.Active then
+    scds_produto_proc.Close;
+  scds_produto_proc.CommandText := '';
   if (PageControl1.ActivePage = TabSheet1) then
-    DM_MOV.s_buscaProd.Params[0].AsString := EdtCodBarra.Text
-  else
-    DM_MOV.s_buscaProd.Params[0].AsString := EdtCodBarra1.Text;
-  DM_MOV.s_buscaProd.Open;
-  if (DM_MOV.s_buscaProd.IsEmpty) then
   begin
-     ShowMessage('Produto não Localizado');
-     DM_MOV.s_buscaProd.Close;
-     RETORNO := 'FALSO';
+    if (tipo_busca = 'CODBARRA') then
+      scds_produto_proc.CommandText := varsql + ' COD_BARRA = ' + '''' + EdtCodBarra.Text + ''''
+    else
+      scds_produto_proc.CommandText := varsql + ' CODPRO = ' + '''' + EdtCodBarra.Text + '''';
   end;
-  DM_MOV.s_buscaProd.Open;
+
+  if (PageControl1.ActivePage = TabComanda) then
+  begin
+    if (tipo_busca = 'CODBARRA') then
+      scds_produto_proc.CommandText := varsql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
+    else
+      scds_produto_proc.CommandText := varsql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+  end;
+
+  scds_produto_proc.Open;
+
+  if (scds_produto_proc.IsEmpty) then
+  begin
+     //BuscaLote;   // se não
+     RETORNO := 'FALSO';
+     scds_produto_proc.Close;
+  end;
+
 end;
 
 procedure TF_Terminal.EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
+var varsql:string;
 begin
    if (key = #13) then
    begin
-      BuscaProduto;
-      if (RETORNO = 'FALSO') then
-         Exit;
+      clienteConsumidor := '1';
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'CONSUMIDOR';
+      dm.cds_parametro.Open;
+      if not dm.cds_parametro.IsEmpty then
+        clienteConsumidor := dm.cds_parametroDADOS.AsString;
+      dm.cds_parametro.Close;
 
-      if (DM_MOV.c_movimento.State in [dsInactive]) then
-         IncluiPedido
+      if (b_cliente.Active) then
+        b_cliente.Close;
+      b_cliente.Params[0].AsInteger := StrToInt(clienteConsumidor);
+      b_cliente.Open;
+      if (b_cliente.IsEmpty) then
+      begin
+          ShowMessage('Cliente configurado nos parametros não consta no cadastro de clientes.');
+          exit;
+      end
       else
-         DM_MOV.c_movimento.Edit;
+      begin
+         codcliente := b_clienteCODCLIENTE.AsInteger;
+         nomecliente := b_clienteNOMECLIENTE.AsString;
+      end;
 
-      IncluiItemPedido;
-      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+      if (EdtCodBarra.Text <> '') then
+      begin
+        if Dm.cds_parametro.Active then
+            dm.cds_parametro.Close;
+        dm.cds_parametro.Params[0].AsString := 'BUSCACUPOM';
+        dm.cds_parametro.Open;
+        if not dm.cds_parametro.IsEmpty then
+           tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+        dm.cds_parametro.Close;
+
+        if (tipo_busca = '3') then
+        begin
+           BuscaLote;
+           if (RETORNO = 'FALSO') then
+             BuscaProduto;
+        end
+        else
+        begin
+           BuscaProduto;
+        end;
+
+        if (RETORNO = 'FALSO') then
+        begin
+          if (DM_MOV.c_movimento.State in [dsInactive]) then
+             IncluiPedido     // Tabela Movimento
+          else
+             DM_MOV.c_movimento.Edit;
+          btnProduto.Click
+        end
+        else
+        begin
+          if (DM_MOV.c_movimento.State in [dsInactive]) then
+             IncluiPedido     // Tabela Movimento
+          else
+             DM_MOV.c_movimento.Edit;
+          IncluiItemPedido;   // Tabela MovimentoDetalhe
+        end;
+      end
+      else
+      begin
+          if (DM_MOV.c_movimento.State in [dsInactive]) then
+             IncluiPedido     // Tabela Movimento
+          else
+             DM_MOV.c_movimento.Edit;
+
+          btnProduto.Click;
+          
+          JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+          if (scds_produto_proc.Active) then
+            scds_produto_proc.Close;
+      end;
    end;
 end;
 
 procedure TF_Terminal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+
   //  ActiveMDIChild.Close;
-  Action := caFree;
-  F_Terminal := nil;
+  //Action := caFree;
+  //F_Terminal := nil;
+  if (DM_MOV.c_movimento.Active) then
+     DM_MOV.c_movimento.Close;
+  if (DM_MOV.c_comanda.Active) then
+     DM_MOV.c_comanda.Close;
+  if (DM_MOV.c_movdet.Active) then
+     DM_MOV.c_movdet.Close;
+  if (DM_MOV.c_venda.Active) then
+     DM_MOV.c_venda.Close;
+  if (DM_MOV.c_movimento.Active) then
+     DM_MOV.c_movimento.Close;
+  close;
+  
 end;
 
 procedure TF_Terminal.JvProcurarClick(Sender: TObject);
@@ -304,8 +457,8 @@ begin
     dm.cds_parametro.Params[0].AsString := 'NATUREZAVENDA';
     dm.cds_parametro.Open;
 
-    fFiltroMovimento := TfFiltroMovimento.Create(Self);
-    sCtrlResize.CtrlResize(TForm(fFiltroMovimento));
+    //fFiltroMovimento := TfFiltroMovimento.Create(Self);
+    //sCtrlResize.CtrlResize(TForm(fFiltroMovimento));
     fFiltroMovimento.Edit3.Text := dm.cds_parametroDADOS.AsString;
     fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
     fFiltroMovimento.BitBtn8.Enabled := False;
@@ -335,6 +488,7 @@ begin
   begin
     TabSheet1.TabVisible := True;
     MMJPanel8.Visible := False;
+    
   end;
 
   {------Pesquisando na tab Parametro se usa DELIVERY ---}
@@ -355,6 +509,7 @@ begin
   dm.cds_parametro.Params[0].AsString := 'COMANDA';
   dm.cds_parametro.Open;
   TabComanda.TabVisible := False;
+
   if (not dm.cds_parametro.IsEmpty) then
   begin
     TabComanda.TabVisible := True;
@@ -379,6 +534,7 @@ procedure TF_Terminal.JvDBGrid2DblClick(Sender: TObject);
 begin
     EdtComanda.Text := IntToStr(DM_MOV.c_comandaCODCLIENTE.AsInteger);
     DM_MOV.c_movdet.Close;
+    DM_MOV.c_movdet.Params[0].Clear;
     DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
     DM_MOV.c_movdet.Open;
     if (not DM_MOV.c_movdet.IsEmpty) then
@@ -395,11 +551,21 @@ begin
       DM_MOV.c_movdet.Close;
   JvTotal.AsFloat := 0;    
   if (PageControl1.ActivePage = TabSheet1) then
+  begin
     MMJPanel8.Visible :=False;
+    EdtCodBarra.SetFocus;
+  end;
   if (PageControl1.ActivePage = TabComanda) then
-    MMJPanel8.Visible :=True;
+  begin
+    MMJPanel8.Visible := True;
+    EdtComanda.SetFocus;
+  end;
+
   if (PageControl1.ActivePage = TabDelivery) then
+  begin
     MMJPanel8.Visible :=True;
+    Edit6.SetFocus;
+  end;  
 
 end;
 
@@ -409,9 +575,14 @@ begin
    begin
       BuscaProduto;
       if (RETORNO = 'FALSO') then
-         Exit;
-      IncluiItemPedido;
+         btnProduto.Click
+      else
+         IncluiItemPedido;
+
       JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+
+      if (scds_produto_proc.Active) then
+        scds_produto_proc.Close;
    end;
 end;
 
@@ -469,9 +640,50 @@ begin
  end;
 end;
 
-procedure TF_Terminal.JvSpeedButton1Click(Sender: TObject);
+procedure TF_Terminal.btnProdutoClick(Sender: TObject);
 begin
+   if (PageControl1.ActivePage = TabSheet1) then
+     if DM_MOV.d_movimento.DataSet.State in [dsInactive] then
+       exit;
+   if (PageControl1.ActivePage = TabComanda) then
+     if DM_MOV.d_comanda.DataSet.State in [dsInactive] then
+       exit;
 
+   fProcura_prod.Panel2.Visible := True;
+   fProcura_prod.Panel1.Visible := False;
+   var_F := 'terminalloja';
+   fProcura_prod.Edit2.ReadOnly := True;
+   fProcura_prod.Edit2.TabStop := False;
+   fProcura_prod.BitBtn1.Click;
+   fProcura_prod.ShowModal;
+end;
+
+procedure TF_Terminal.F5ExcluirItemdoPedido1Click(Sender: TObject);
+begin
+  if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+                [mbYes,mbNo],0) = mrYes then
+  begin
+     DM_MOV.d_movdet.DataSet.Delete;
+     (DM_MOV.d_movdet.DataSet as TClientDataSet).ApplyUpdates(0);
+  end
+  else
+    Abort;
+end;
+
+procedure TF_Terminal.F7ExcluirPedido1Click(Sender: TObject);
+begin
+  if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+                [mbYes,mbNo],0) = mrYes then
+  begin
+     DM_MOV.d_movimento.DataSet.Delete;
+     (DM_MOV.d_movimento.DataSet as TClientDataSet).ApplyUpdates(0);
+  end
+  else
+    Abort;
+end;
+
+procedure TF_Terminal.JvBitBtn3Click(Sender: TObject);
+begin
  if (PageControl1.ActivePage = TabSheet1) then
  begin
     if (not DM_MOV.c_movimento.Active) then
@@ -495,6 +707,56 @@ begin
  finally
    F_TerminalFinaliza.Free;
  end;
+ 
+end;
+
+procedure TF_Terminal.BuscaLote;
+var varsql:string;
+begin
+
+  varsql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
+         ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
+         ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
+         ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
+         ', est.LOTE ' +
+         ' from PRODUTOS prod ' +
+         ' left outer join ALMOXARIFADO ccus ' +
+         ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
+         ' left outer join ESTOQUEMES est ' +
+         ' on est.CODPRODUTO = prod.CODPRODUTO ' +
+         ' where ';
+
+  if scds_produto_proc.Active then
+    scds_produto_proc.Close;
+  scds_produto_proc.CommandText := '';
+  if (PageControl1.ActivePage = TabSheet1) then
+      scds_produto_proc.CommandText := varsql + ' est.LOTE = ' + '''' + EdtCodBarra.Text + '''' ;
+
+
+  if (PageControl1.ActivePage = TabComanda) then
+      scds_produto_proc.CommandText := varsql + ' est.LOTE = ' + '''' + EdtCodBarra1.Text + '''' ;
+
+  scds_produto_proc.Open;
+  
+  if (scds_produto_proc.IsEmpty) then
+  begin
+     //ShowMessage('Produto não Localizado');
+     scds_produto_proc.Close;
+     RETORNO := 'FALSO';
+  end;
+
+
+end;
+
+procedure TF_Terminal.FormShow(Sender: TObject);
+begin
+  if (PageControl1.ActivePage = TabSheet1) then
+     EdtCodBarra.SetFocus;
+end;
+
+procedure TF_Terminal.JvBitBtn5Click(Sender: TObject);
+begin
+   close;
 end;
 
 end.
