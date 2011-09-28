@@ -971,7 +971,7 @@ var
 begin
   usulog :=  UserControlComercial.CurrentUser.UserID;
   nome_user := UserControlComercial.CurrentUser.UserName;
-  if (F_Terminal = nil) then
+{  if (F_Terminal = nil) then
   begin
     F_Terminal := TF_Terminal.Create(Self);
     sCtrlResize.CtrlResize(TForm(F_Terminal));
@@ -980,6 +980,13 @@ begin
   else
   begin
     F_Terminal.Show;
+  end;}
+  F_Terminal := TF_Terminal.Create(Application);
+  try
+   sCtrlResize.CtrlResize(TForm(F_Terminal));
+    F_Terminal.ShowModal;
+  finally
+    F_Terminal.Free;
   end;
 end;
 
