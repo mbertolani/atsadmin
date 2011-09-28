@@ -233,7 +233,7 @@ type
     procedure formnotaf;
     procedure formnfCompra;
     procedure formMovEstoque;
-
+    procedure incluimovimento;
   public
     { Public declarations }
     fecodProd, fenomeProduto, usouAdiciona : string;
@@ -254,7 +254,9 @@ uses UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   ufDlgLogin, uProdFornecedor, uTerminalLoja, uProduto_Mat_prima,
   sCtrlResize, uTerminal_Delivery, UDMNF, uNF,
   uNFCompra,
-  uMovimenta_Estoque;
+  uMovimenta_Estoque,
+  UDM_MOV,
+  U_Terminal;
 
 {$R *.dfm}
 
@@ -1270,12 +1272,13 @@ end;
 
 procedure TfProcura_prod.formterminaldelivery;
 begin
+  {
     if (fTerminal_Delivery.cds_Mov_det.State in [dsBrowse]) then
        fTerminal_Delivery.cds_Mov_det.Append;
     fTerminal_Delivery.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fTerminal_Delivery.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     fTerminal_Delivery.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-    fTerminal_Delivery.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;    
+    fTerminal_Delivery.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
     fTerminal_Delivery.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
     fTerminal_Delivery.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
     fTerminal_Delivery.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
@@ -1284,6 +1287,40 @@ begin
     fTerminal_Delivery.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     fTerminal_Delivery.estoque := cds_procESTOQUEATUAL.AsFloat;
     fTerminal_Delivery.cds_Mov_det.Post;
+    }
+   if (DM_MOV.c_movimento.State in [dsInactive]) then
+       incluimovimento;     // Tabela Movimento
+
+   if (not DM_MOV.c_movdet.active) then
+     DM_MOV.c_movdet.Open;
+   DM_MOV.c_movdet.Append;
+   if dm.c_6_genid.Active then
+     dm.c_6_genid.Close;
+   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+   dm.c_6_genid.Open;
+   DM_MOV.c_movdetCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+   dm.c_6_genid.Close;
+   DM_MOV.c_movdetSTATUS.AsInteger := 0; //0=Ativo, 1=Cancelado, 2=Excluido
+   DM_MOV.c_movdetCODALMOXARIFADO.AsInteger := 0;
+   if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+     DM_MOV.c_movdetCODMOVIMENTO.AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+   if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
+     DM_MOV.c_movdetCODMOVIMENTO.AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+
+   if (DM_MOV.c_movdet.State in [dsBrowse]) then
+       DM_MOV.c_movdet.Append;
+    DM_MOV.c_movdetCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
+    DM_MOV.c_movdetCODPRO.AsString := cds_procCODPRO.AsString;
+    DM_MOV.c_movdetDESCPRODUTO.Value := cds_procPRODUTO.Value;
+    DM_MOV.c_movdetQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
+    DM_MOV.c_movdetPRECO.AsFloat := StrToFloat(Edit4.Text);
+    DM_MOV.c_movdetUN.AsString := cds_procUNIDADEMEDIDA.AsString;
+    DM_MOV.c_movdetPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
+    valorUnitario := cds_procPRECO_VENDA.AsFloat;
+    DM_MOV.c_movdetCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
+   //    fTerminal_Delivery.estoque := cds_procESTOQUEATUAL.AsFloat;
+    DM_MOV.c_movdet.ApplyUpdates(0);
+
 end;
 
 procedure TfProcura_prod.formcadproduto;
@@ -1732,6 +1769,81 @@ begin
     fMovimenta_Estoque.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     fMovimenta_Estoque.cds_Mov_det.Post;
 
+end;
+
+procedure TfProcura_prod.incluimovimento;
+var codcliente :integer;
+    nomecliente, clienteConsumidor :string;
+begin
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'CONSUMIDOR';
+      dm.cds_parametro.Open;
+      if not dm.cds_parametro.IsEmpty then
+        clienteConsumidor := dm.cds_parametroDADOS.AsString;
+      dm.cds_parametro.Close;
+
+    if (F_Terminal.b_cliente.Active) then
+      F_Terminal.b_cliente.Close;
+    F_Terminal.b_cliente.Params[0].AsInteger := StrToInt(clienteConsumidor);
+    F_Terminal.b_cliente.Open;
+    if (F_Terminal.b_cliente.IsEmpty) then
+    begin
+        ShowMessage('Cliente configurado nos parametros não consta no cadastro de clientes.');
+        exit;
+    end
+    else
+    begin
+       codcliente := F_Terminal.b_clienteCODCLIENTE.AsInteger;
+       nomecliente := F_Terminal.b_clienteNOMECLIENTE.AsString;
+    end;
+
+
+  if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+  begin
+    DM_MOV.c_movimento.Open;
+    DM_MOV.c_movimento.Append;
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    DM_MOV.c_movimentoCODMOVIMENTO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+    DM_MOV.c_movimentoCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+    DM_MOV.c_movimentoCODNATUREZA.AsInteger := 3;
+    DM_MOV.c_movimentoDATAMOVIMENTO.Value := Date;
+    DM_MOV.c_movimentoDATA_SISTEMA.AsDateTime := Now;
+    DM_MOV.c_movimentoSTATUS.Value := 20; //Venda em Aberto
+    DM_MOV.c_movimentoCODUSUARIO.AsInteger := usulog;
+    DM_MOV.c_movimentoNOMEUSUARIO.AsString := nome_user;
+    DM_MOV.c_movimentoCODVENDEDOR.Value:=1;
+    DM_MOV.c_movimentoCODCLIENTE.AsInteger := codcliente;
+    DM_MOV.c_movimentoNOMECLIENTE.AsString := nomecliente;
+    DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger := 1;
+    DM_MOV.c_movimento.ApplyUpdates(0);
+  end;
+  if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
+  begin
+    DM_MOV.c_comanda.Open;
+    DM_MOV.c_comanda.Append;
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    DM_MOV.c_comandaCODMOVIMENTO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+    DM_MOV.c_comandaCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+    DM_MOV.c_comandaCODNATUREZA.AsInteger := 3;
+    DM_MOV.c_comandaDATAMOVIMENTO.Value := Date;
+    DM_MOV.c_comandaDATA_SISTEMA.AsDateTime := Now;
+    DM_MOV.c_comandaSTATUS.Value := 20; //Venda em Aberto
+    DM_MOV.c_comandaCODUSUARIO.AsInteger := usulog;
+    DM_MOV.c_comandaCODVENDEDOR.Value:=1;
+    DM_MOV.c_comandaCODCLIENTE.AsInteger := StrToInt(F_Terminal.EdtComanda.Text);
+    DM_MOV.c_comandaNOMECLIENTE.AsString := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
+    DM_MOV.c_comandaCODALMOXARIFADO.AsInteger := 1;
+    DM_MOV.c_comanda.ApplyUpdates(0);
+  end;
 end;
 
 end.
