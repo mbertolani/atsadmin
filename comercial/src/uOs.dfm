@@ -1249,14 +1249,23 @@ object fOs: TfOs
         AllowNoDate = True
         Checked = True
         TabOrder = 1
+        OnChange = edDataChange
         OnKeyPress = FormKeyPress
       end
       object edNumOS: TEdit
         Left = 49
         Top = 16
         Width = 121
-        Height = 21
+        Height = 24
+        Color = clScrollBar
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
         MaxLength = 100
+        ParentFont = False
         TabOrder = 0
         OnKeyPress = FormKeyPress
       end
@@ -1268,6 +1277,7 @@ object fOs: TfOs
         AllowNoDate = True
         Checked = True
         TabOrder = 2
+        OnChange = edDataChange
         OnKeyPress = FormKeyPress
       end
     end
@@ -1291,8 +1301,15 @@ object fOs: TfOs
         Left = 49
         Top = 14
         Width = 57
-        Height = 21
+        Height = 24
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 0
+        OnChange = edDataChange
         OnExit = edCodClienteExit
         OnKeyPress = FormKeyPress
       end
@@ -1300,9 +1317,15 @@ object fOs: TfOs
         Left = 147
         Top = 14
         Width = 510
-        Height = 21
+        Height = 24
         TabStop = False
         Color = clScrollBar
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         ReadOnly = True
         TabOrder = 1
       end
@@ -1413,32 +1436,53 @@ object fOs: TfOs
         Left = 49
         Top = 15
         Width = 120
-        Height = 21
+        Height = 24
         EditMask = '!>LLL-0000;1;_'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         MaxLength = 8
+        ParentFont = False
         TabOrder = 0
         Text = '   -    '
+        OnChange = edDataChange
         OnKeyPress = FormKeyPress
       end
       object edObs: TEdit
         Left = 49
         Top = 45
         Width = 759
-        Height = 21
+        Height = 24
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         MaxLength = 100
+        ParentFont = False
         TabOrder = 2
+        OnChange = edDataChange
         OnKeyPress = FormKeyPress
       end
       object edKm: TJvCalcEdit
         Left = 317
         Top = 15
         Width = 95
-        Height = 21
+        Height = 24
         DecimalPlaces = 0
         DisplayFormat = ',##0'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         ShowButton = False
         TabOrder = 1
         DecimalPlacesAlwaysShown = False
+        OnChange = edDataChange
         OnKeyPress = FormKeyPress
       end
     end
