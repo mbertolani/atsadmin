@@ -42,6 +42,7 @@ type
     codProdProc : Integer;
     codProProc  : String;
     DescProProc : String;
+    precoVenda  : Double;
 
  constructor Create (AOWner : TComponent; DataSet : TSQLClientDataset); reintroduce;
     { Public declarations }
@@ -170,6 +171,7 @@ begin
     codProdProc := dm.scds_prodCodProduto.asInteger;
     codProProc  := dm.scds_prodCodPro.asString;
     DescProProc := dm.scds_prodProduto.asString;
+    precoVenda  := dm.scds_ProdVALOR_PRAZO.AsFloat;
   end;
 end;
 
