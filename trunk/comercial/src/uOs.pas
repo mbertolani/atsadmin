@@ -245,6 +245,7 @@ begin
     FOsCls.dataOs     := edData.Date;
     FOsCls.dataInicio := edData.Date;
     FOsCls.dataFim    := edDataFim.Date;
+    FOsCls.obs        := edObs.Text;
     if (modoOs = 'Insert') then
       FOsCls.status := 'P';
     FOsCls.km         := StrToInt(edKm.Text);
@@ -324,13 +325,13 @@ begin
       cdsPecas.Next;
     end;
     dm.sqlsisAdimin.Commit(TD);
-    modoOs := 'Browse';
-    controlaEventos;
     edNumOS.Text := IntToStr(CodigoOs);
     if (modoOs = 'Insert') then
       MessageDlg('OS gerada com sucesso.', mtInformation, [mbOK], 0)
     else
-      MessageDlg('Alteracao gravada com sucesso.', mtInformation, [mbOK], 0);  
+      MessageDlg('Alteracao gravada com sucesso.', mtInformation, [mbOK], 0);
+    modoOs := 'Browse';
+    controlaEventos;
     if (cdsOs.State in [dsEdit, dsInsert]) then
       cdsOs.Post;
   except
@@ -681,7 +682,7 @@ begin
   if ((cdsOs.Active) and (not cdsOs.IsEmpty)) then
   begin
     edNumOS.Text       := IntToStr(cdsOSCODOS.AsInteger);
-    edData.Date        := cdsOSDATAMOVIMENTO.AsDateTime;
+    edData.Date        := cdsOSDATA_INI.AsDateTime;
     edDataFim.Date     := cdsOSDATA_FIM.AsDateTime;
     edCodCliente.Text  := IntToStr(cdsOSCODCLIENTE.AsInteger);
     edNomeCliente.Text := cdsOSRAZAOSOCIAL.AsString;

@@ -250,6 +250,8 @@ begin
   //inherited;
   if (modoOsInsere = 'SERVICO') then
   begin
+    Label21.Caption   := 'Cód. Serviço';
+    GroupBox1.Caption := 'Serviço';
     DtSrc.DataSet := fOs.cdsServico;
     if (DtSrc.State in [dsEdit]) then
     begin
@@ -266,9 +268,21 @@ begin
   end;
   if (modoOsInsere = 'PECA') then
   begin
+    Label21.Caption   := 'Cód. Peça';
+    GroupBox1.Caption := 'Peça';
     DtSrc.DataSet                       := fOs.cdsPecas;
     lblServico.Caption                  := fOs.ServDescricao;
     fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
+    if (DtSrc.State in [dsEdit]) then
+    begin
+      edServico.Lines.Add(fOs.cdsServicoDESCRICAO_SERV.AsString);
+      edProduto.Text      := fOs.cdsPecasCODPRO.AsString;
+      codProduto          := fOs.cdsPecasCODPRODUTO.asInteger;
+      edQtdeServ.Value    := fOs.cdsPecasQTDE.AsFloat;
+      edPrecoServ.Value   := fOs.cdsPecasPRECO.AsFloat;
+      edDescVlrServ.Value := fOs.cdsPecasDESCONTO.AsFloat;
+      edTotalServ.Value   := fOs.cdsPecasVALORTOTAL.AsFloat;
+    end;
   end;
 end;
 

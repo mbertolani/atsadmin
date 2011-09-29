@@ -1,6 +1,6 @@
 object fOs: TfOs
   Left = 265
-  Top = 60
+  Top = 61
   Width = 760
   Height = 600
   Caption = 'Ordem Servi'#231'o'
@@ -2168,9 +2168,9 @@ object fOs: TfOs
       #231'a'#39'  WHEN OSP.STATUS = '#39'F'#39' THEN '#39'Finalizada'#39'  WHEN OSP.STATUS = ' +
       #39'N'#39' THEN '#39'N'#227'o Aprovada'#39'   WHEN OSP.STATUS = '#39'C'#39' THEN '#39'Cancelada'#39 +
       ' '#13#10'END STATUSDESC, OSDET.ID_OS_DET, cli.RAZAOSOCIAL, osp.KM '#13#10'  ' +
-      ' FROM OS OSP, OS_DET OSDET , CLIENTES cli'#13#10'WHERE OSDET.ID_OS = O' +
-      'SP.CODOS'#13#10'      AND cli.CODCLIENTE = OSP.CODCLIENTE'#13#10'      AND O' +
-      'SP.CODOS    = :POS'#13#10'      AND OSDET.TIPO = '#39'S'#39#13#10'    '
+      ' FROM OS OSP'#13#10'   INNER JOIN CLIENTES cli     ON cli.CODCLIENTE =' +
+      ' OSP.CODCLIENTE'#13#10'  LEFT OUTER JOIN OS_DET OSDET ON OSDET.ID_OS =' +
+      ' OSP.CODOS'#13#10'WHERE OSP.CODOS    = :POS'#13#10'     '
     MaxBlobSize = -1
     Params = <
       item
