@@ -100,6 +100,32 @@ end;
 
 procedure TfOsInsere.BitBtn3Click(Sender: TObject);
 begin
+  if (modoOsInsere = 'SERVICO') then
+  begin
+    fProcurar := TfProcurar.Create(self,dm.scds_prod);
+    fProcurar.BtnProcurar.Click;
+    fProcurar.EvDBFind1.DataField := 'Serviço';
+    fProcurar.btnIncluir.Visible := False;
+    fProcurar.BtnProcurar.Click;
+    try
+      if (fProcurar.ShowModal = mrOK) then
+      begin
+        edProdDescr.Text := fProcurar.DescProProc;
+        edProduto.Text   := fProcurar.codProProc;
+        if (fOs.dsServico.State = dsBrowse) then
+          fOs.cdsServico.Edit;
+        fOs.cdsServicoCODPRODUTO.AsInteger := fProcurar.codProdProc;
+        fOs.cdsServicoQTDE.AsFloat         := 1;
+        fOs.cdsServicoPRECO.AsFloat        := fProcurar.precoVenda;
+      end;
+    finally
+      if (dm.scds_prod.Active) then
+        dm.scds_prod.Close;
+      fProcurar.Free;
+    end;
+    exit;
+  end;
+
   //fProcura_prodOficina.btnIncluir.Visible := true;
   if (procprod <> 'PROC_PROD_COMPLETO') then
   begin
@@ -137,14 +163,6 @@ begin
   edProdDescr.Text  := fProcura_prodOficina.cds_procPRODUTO.AsString;
   edPrecoServ.Value := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
   codProduto        := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  if (modoOsInsere = 'SERVICO') then
-  begin
-    if (fOs.dsServico.State = dsBrowse) then
-      fOs.cdsServico.Edit;
-    fOs.cdsServicoCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-    fOs.cdsServicoQTDE.AsFloat         := 1;
-    fOs.cdsServicoPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-  end;
   if (modoOsInsere = 'PECA') then
   begin
     if (fOs.dsPecas.State = dsBrowse) then

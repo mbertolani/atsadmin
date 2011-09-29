@@ -88,7 +88,7 @@ begin
     sqlAltera := sqlAltera + ' QTDE            = ' + FloatToStr(Self.Qtde) + ', ';
     sqlAltera := sqlAltera + ' PRECO           = ' + FloatToStr(Self.Preco);
     DecimalSeparator := ',';
-    sqlAltera := sqlAltera + ' WHERE ID_OS_DET = ' + IntToStr(Self.CodDet);
+    sqlAltera := sqlAltera + ' WHERE ID_OS_DET = ' + IntToStr(codOsDetA);
     executaSql(sqlAltera);
     Result := True;
     DecimalSeparator := ',';

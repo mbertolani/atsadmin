@@ -174,6 +174,7 @@ type
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure btnServAlteraClick(Sender: TObject);
     procedure btnPecaAlteraClick(Sender: TObject);
+    procedure edDataChange(Sender: TObject);
   private
     estoque, qtde : Double;
     FOsCls: TOsClasse;
@@ -204,13 +205,14 @@ uses UDm, uProcurar_nf, UDMNF, uProcura_prodOficina, sCtrlResize,
 procedure TfOs.btnIncluirClick(Sender: TObject);
 begin
   modoOs := 'Insert';
+  edNumOS.Text := 'Nova OS ...';
   limpaCampos;
   controlaEventos;
   abrirOs(0);
   abrirPecas;
   edData.Date    := Today;
   edDataFim.Date := Today;
-  edNumOS.SetFocus;
+  edData.SetFocus;
   numOsDet := 90000001;
 end;
 
@@ -261,7 +263,7 @@ begin
     While not cdsServico.Eof do
     begin
       FOsCls.osDet.CodOsP   := CodigoOs;
-      if (modoOsItem = 'Inclui') then
+      if (modoOsItem = 'IncluiServico') then
       begin
         FOsCls.osDet.CodDet   := 0;
         FOsCls.osDet.Status   := 'O';
@@ -274,7 +276,7 @@ begin
       FOsCls.osDet.Preco    := cdsServicoPRECO.AsFloat;
       FOsCls.osDet.Desconto := cdsServicoDESCONTO.AsFloat;
       DecimalSeparator := ',';
-      if (modoOsItem = 'Inclui') then
+      if (modoOsItem = 'IncluiServico') then
       begin
         if (FOsCls.osDet.IncluirOsDet(0) = 0) then
         begin
@@ -283,7 +285,7 @@ begin
         end;
       end
       else begin
-        FOsCls.osDet.alterarOsDet(cdsServicoID_OS.AsInteger);
+        FOsCls.osDet.alterarOsDet(cdsServicoID_OS_DET.AsInteger);
       end;
       cdsServico.Next;
     end;
@@ -294,7 +296,7 @@ begin
     While not cdsPecas.Eof do
     begin
       FOsCls.osDet.CodOsP   := CodigoOs;
-      if (cdsPecasID_OS_DET.AsInteger > 90000000) then
+      if (modoOsItem = 'IncluiPeca') then
       begin
         FOsCls.osDet.CodDet   := 0;
         FOsCls.osDet.Status   := 'O';
@@ -308,23 +310,29 @@ begin
       FOsCls.osDet.Desconto  := cdsPecasDESCONTO.AsFloat;
       FOSCls.osDet.CodOsServ := cdsPecasID_OSDET_SERV.AsInteger;
       DecimalSeparator := ',';
-      if (cdsPecasID_OS_DET.AsInteger > 90000000) then
+      if (modoOsItem = 'IncluiPeca') then
       begin
         if (FOsCls.osDet.IncluirOsDet(0) = 0) then
         begin
           ShowMessage('Erro na Inclusao Os Detalhe');
           Exit;
+        end
+        else begin
+          FOsCls.osDet.alterarOsDet(cdsPecasID_OS.AsInteger);
         end;
-      end
-      else begin
-        FOsCls.osDet.alterarOsDet(cdsPecasID_OS.AsInteger);
-      end;
+      end;  
       cdsPecas.Next;
     end;
     dm.sqlsisAdimin.Commit(TD);
-    MessageDlg('OS gerada com sucesso.', mtError, [mbOK], 0);
-
-    cdsOs.Post;
+    modoOs := 'Browse';
+    controlaEventos;
+    edNumOS.Text := IntToStr(CodigoOs);
+    if (modoOs = 'Insert') then
+      MessageDlg('OS gerada com sucesso.', mtInformation, [mbOK], 0)
+    else
+      MessageDlg('Alteracao gravada com sucesso.', mtInformation, [mbOK], 0);  
+    if (cdsOs.State in [dsEdit, dsInsert]) then
+      cdsOs.Post;
   except
     on E : Exception do
     begin
@@ -638,7 +646,7 @@ begin
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
     exit;
 
-  modoOsItem := 'Inclui';
+  modoOsItem := 'IncluiServico';
 
   fOsInsere.modoOsInsere := 'SERVICO';
 
@@ -697,7 +705,7 @@ begin
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
     exit;
 
-  modoOsItem := 'Inclui';
+  modoOsItem := 'IncluiPeca';
 
   if (cdsServico.IsEmpty) then
   begin
@@ -727,7 +735,7 @@ begin
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
     exit;
 
-  modoOsItem := 'Edita';
+  modoOsItem := 'EditaServico';
   fOsInsere.modoOsInsere := 'SERVICO';
 
   cdsServico.Edit;
@@ -737,7 +745,7 @@ end;
 
 procedure TfOs.btnPecaAlteraClick(Sender: TObject);
 begin
-  modoOsItem := 'Edita';
+  modoOsItem := 'EditaPeca';
 
   fOsInsere.modoOsInsere := 'PECA';
 
@@ -745,6 +753,15 @@ begin
 
   fOsInsere.ShowModal;
 
+end;
+
+procedure TfOs.edDataChange(Sender: TObject);
+begin
+  if ((modoOs <> 'Insert') and (modoOs <> 'Edit') and (edNumOS.Text <> '')) then
+  begin
+    modoOs := 'Edit';
+    controlaEventos;
+  end;  
 end;
 
 end.

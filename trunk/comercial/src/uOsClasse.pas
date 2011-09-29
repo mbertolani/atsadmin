@@ -83,7 +83,7 @@ begin
     sqlAltera := sqlAltera + ' DATA_FIM   = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataFim)) + ', ';
     sqlAltera := sqlAltera + ' STATUS     = ' + QuotedStr(Self.status) + ', ';
     sqlAltera := sqlAltera + ' KM         = ' + IntToStr(Self.km);
-    sqlAltera := sqlAltera + ' WHERE CODOS= ' + IntToStr(Self.codOs);
+    sqlAltera := sqlAltera + ' WHERE CODOS= ' + IntToStr(codOsA);
 
     executaSql(sqlAltera);
     Result := True;
