@@ -2,7 +2,7 @@ object fFiltroEstoque: TfFiltroEstoque
   Left = 2
   Top = 1
   Width = 805
-  Height = 470
+  Height = 640
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -553,7 +553,7 @@ object fFiltroEstoque: TfFiltroEstoque
     Left = 0
     Top = 213
     Width = 797
-    Height = 202
+    Height = 372
     Align = alClient
     DataSource = ds_estoque
     Font.Charset = DEFAULT_CHARSET
@@ -893,7 +893,7 @@ object fFiltroEstoque: TfFiltroEstoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 415
+    Top = 585
     Width = 797
     Height = 28
     Align = alBottom
