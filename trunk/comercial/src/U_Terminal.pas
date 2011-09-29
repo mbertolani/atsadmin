@@ -9,7 +9,7 @@ uses
   ExtCtrls, JvExExtCtrls, JvImage, Grids, DBGrids, StdCtrls, ComCtrls,
   MMJPanel, JvSpeedButton, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
   Menus, JvComponentBase, JvFormAutoSize, FMTBcd, DB, SqlExpr, Provider,
-  DBClient, JvExButtons, JvBitBtn;
+  DBClient, JvExButtons, JvBitBtn, rpcompobase, rpvclreport;
 
 type
   TF_Terminal = class(TForm)
@@ -83,14 +83,15 @@ type
     scds_produto_procESTOQUEATUAL: TFloatField;
     JvProcurar: TJvBitBtn;
     JvAlterar: TJvBitBtn;
-    JvBitBtn1: TJvBitBtn;
-    JvBitBtn2: TJvBitBtn;
-    JvBitBtn3: TJvBitBtn;
+    JvExcluir: TJvBitBtn;
+    JvImprimir: TJvBitBtn;
+    JvFinalizar: TJvBitBtn;
     SQLDataSet1: TSQLDataSet;
     Finalizar1: TMenuItem;
     F11ImprimirPedido1: TMenuItem;
-    JvBitBtn5: TJvBitBtn;
+    JvSair: TJvBitBtn;
     F9Sair1: TMenuItem;
+    VCLReport1: TVCLReport;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -108,9 +109,11 @@ type
     procedure btnProdutoClick(Sender: TObject);
     procedure F5ExcluirItemdoPedido1Click(Sender: TObject);
     procedure F7ExcluirPedido1Click(Sender: TObject);
-    procedure JvBitBtn3Click(Sender: TObject);
+    procedure JvFinalizarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure JvBitBtn5Click(Sender: TObject);
+    procedure JvSairClick(Sender: TObject);
+    procedure JvImprimirClick(Sender: TObject);
+    procedure JvExcluirClick(Sender: TObject);
   private
     clienteConsumidor,nomecliente, tipo_busca : string;
     codcliente : integer;
@@ -119,6 +122,7 @@ type
     procedure IncluiItemPedido;
     procedure BuscaProduto;
     procedure BuscaLote;
+    procedure existevenda;
     { Private declarations }
   public
     { Public declarations }
@@ -127,7 +131,7 @@ type
 var
   F_Terminal: TF_Terminal;
   CodigoProduto : Integer;
-  RETORNO : String;
+  RETORNO, vendaexiste : String;
 
 implementation
 
@@ -682,7 +686,7 @@ begin
     Abort;
 end;
 
-procedure TF_Terminal.JvBitBtn3Click(Sender: TObject);
+procedure TF_Terminal.JvFinalizarClick(Sender: TObject);
 begin
  if (PageControl1.ActivePage = TabSheet1) then
  begin
@@ -754,9 +758,55 @@ begin
      EdtCodBarra.SetFocus;
 end;
 
-procedure TF_Terminal.JvBitBtn5Click(Sender: TObject);
+procedure TF_Terminal.JvSairClick(Sender: TObject);
 begin
    close;
+end;
+
+procedure TF_Terminal.JvImprimirClick(Sender: TObject);
+begin
+  inherited;
+  VCLReport1.FileName := str_relatorio + 'orcamento.rep';
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('PVMOV').Value := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+  VCLReport1.Execute;
+end;
+
+procedure TF_Terminal.JvExcluirClick(Sender: TObject);
+begin
+if MessageDlg('Deseja realmente Excluir esse registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
+  begin
+    try
+      existevenda;
+      if (vendaexiste = 'SIM') then
+      begin
+        DM_MOV.c_venda.Delete;
+        DM_MOV.c_venda.ApplyUpdates(0);
+        DM_MOV.c_venda.Close;
+      end;
+        DM_MOV.d_movimento.DataSet.Delete;
+        (DM_MOV.d_movimento.DataSet as TClientDataSet).ApplyUpdates(0);
+        if DM_MOV.d_movdet.DataSet.Active then
+          DM_MOV.d_movdet.DataSet.Close;
+        DM_MOV.d_movimento.DataSet.Close;
+        ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+     Except
+      MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
+      exit;
+    end;
+  end;
+end;
+
+procedure TF_Terminal.existevenda;
+begin
+    if (DM_MOV.c_venda.Active) then
+      DM_MOV.c_venda.Close;
+    DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_MovimentoCODMOVIMENTO.AsInteger;
+    DM_MOV.c_venda.Open;
+    if (not DM_MOV.c_venda.IsEmpty) then
+      vendaexiste := 'SIM'
+    else
+      vendaexiste := 'NAO';
 end;
 
 end.
