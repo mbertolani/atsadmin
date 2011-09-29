@@ -655,18 +655,6 @@ object DM_MOV: TDM_MOV
       FieldName = 'FRETE'
       ProviderFlags = [pfInUpdate]
     end
-    object c_movdetBCFRETE: TFloatField
-      FieldName = 'BCFRETE'
-      ProviderFlags = [pfInUpdate]
-    end
-    object c_movdetBCSTFRETE: TFloatField
-      FieldName = 'BCSTFRETE'
-      ProviderFlags = [pfInUpdate]
-    end
-    object c_movdetICMSFRETE: TFloatField
-      FieldName = 'ICMSFRETE'
-      ProviderFlags = [pfInUpdate]
-    end
     object c_movdetCSOSN: TStringField
       FieldName = 'CSOSN'
       ProviderFlags = [pfInUpdate]
@@ -674,10 +662,6 @@ object DM_MOV: TDM_MOV
     end
     object c_movdetVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
-      ProviderFlags = [pfInUpdate]
-    end
-    object c_movdetSTFRETE: TFloatField
-      FieldName = 'STFRETE'
       ProviderFlags = [pfInUpdate]
     end
     object c_movdetRECEBIDO: TFloatField
@@ -942,18 +926,6 @@ object DM_MOV: TDM_MOV
       FieldName = 'FRETE'
       ProviderFlags = [pfInUpdate]
     end
-    object s_movdetBCFRETE: TFloatField
-      FieldName = 'BCFRETE'
-      ProviderFlags = [pfInUpdate]
-    end
-    object s_movdetBCSTFRETE: TFloatField
-      FieldName = 'BCSTFRETE'
-      ProviderFlags = [pfInUpdate]
-    end
-    object s_movdetICMSFRETE: TFloatField
-      FieldName = 'ICMSFRETE'
-      ProviderFlags = [pfInUpdate]
-    end
     object s_movdetCSOSN: TStringField
       FieldName = 'CSOSN'
       ProviderFlags = [pfInUpdate]
@@ -961,10 +933,6 @@ object DM_MOV: TDM_MOV
     end
     object s_movdetVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
-      ProviderFlags = [pfInUpdate]
-    end
-    object s_movdetSTFRETE: TFloatField
-      FieldName = 'STFRETE'
       ProviderFlags = [pfInUpdate]
     end
     object s_movdetRECEBIDO: TFloatField
