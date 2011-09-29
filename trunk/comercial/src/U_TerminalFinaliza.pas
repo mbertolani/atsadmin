@@ -138,6 +138,7 @@ type
     procedure JvBitBtn1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure JvBitBtn5Click(Sender: TObject);
+    procedure JvBitBtn4Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -159,7 +160,8 @@ var
 
 implementation
 
-uses UDM_MOV, uProcurar, uProcurar_nf, UDMNF, UDm, ufprocura_prod;
+uses UDM_MOV, uProcurar, uProcurar_nf, UDMNF, UDm, ufprocura_prod,
+  U_Boletos;
 
 {$R *.dfm}
 
@@ -780,6 +782,22 @@ begin
            [mbOk], 0);
    end;
 
+end;
+
+procedure TF_TerminalFinaliza.JvBitBtn4Click(Sender: TObject);
+begin
+    F_Boletos := TF_Boletos.Create(Application);
+    try
+      F_Boletos.varLocal := 'Terminal';
+      if (F_Boletos.ds_cr.Active) then
+         F_Boletos.ds_cr.Close;
+      F_Boletos.ds_cr.Params[1].Clear;
+      F_Boletos.ds_cr.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+      F_Boletos.ds_cr.Open;
+      F_Boletos.ShowModal;
+    finally
+      F_Boletos.Free;
+    end;
 end;
 
 end.

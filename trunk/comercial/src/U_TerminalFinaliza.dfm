@@ -1677,6 +1677,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       PopupMenu = PopupMenu1
       ShowHint = True
       TabOrder = 4
+      OnClick = JvBitBtn4Click
       Glyph.Data = {
         FA0E0000424DFA0E000000000000360000002800000023000000230000000100
         180000000000C40E0000C40E0000C40E0000000000000000000002009E00008B
