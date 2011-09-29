@@ -1784,6 +1784,7 @@ type
     sqlNaturezaTIPOTITULO: TSmallintField;
     sqlNaturezaTIPOMOVIMENTO: TSmallintField;
     sqlNaturezaBAIXAMOVIMENTO: TSmallintField;
+    scds_ProdVALOR_PRAZO: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
