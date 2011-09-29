@@ -296,7 +296,7 @@ begin
 
     MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
     Finally
-      Label6.Caption := cdsB.FieldByName('CODPRO').asString;
+      Label6.Caption := 'Codigo Movimento : ' + IntToStr(cdsB.FieldByName('CODMOVIMENTO').asInteger);
       Screen.Cursor := Save_Cursor;  { Always restore to normal }
       FEstoque.Free;
     end;
