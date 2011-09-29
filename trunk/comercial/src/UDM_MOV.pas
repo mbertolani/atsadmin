@@ -131,12 +131,8 @@ type
     s_movdetVIPI: TFloatField;
     s_movdetCFOP: TStringField;
     s_movdetFRETE: TFloatField;
-    s_movdetBCFRETE: TFloatField;
-    s_movdetBCSTFRETE: TFloatField;
-    s_movdetICMSFRETE: TFloatField;
     s_movdetCSOSN: TStringField;
     s_movdetVALOR_DESCONTO: TFloatField;
-    s_movdetSTFRETE: TFloatField;
     s_movdetRECEBIDO: TFloatField;
     s_movdetVALOR_SEGURO: TFloatField;
     s_movdetVALOR_OUTROS: TFloatField;
@@ -186,12 +182,8 @@ type
     c_movdetVIPI: TFloatField;
     c_movdetCFOP: TStringField;
     c_movdetFRETE: TFloatField;
-    c_movdetBCFRETE: TFloatField;
-    c_movdetBCSTFRETE: TFloatField;
-    c_movdetICMSFRETE: TFloatField;
     c_movdetCSOSN: TStringField;
     c_movdetVALOR_DESCONTO: TFloatField;
-    c_movdetSTFRETE: TFloatField;
     c_movdetRECEBIDO: TFloatField;
     c_movdetVALOR_SEGURO: TFloatField;
     c_movdetVALOR_OUTROS: TFloatField;
