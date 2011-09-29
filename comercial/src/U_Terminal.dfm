@@ -275,7 +275,9 @@ object F_Terminal: TF_Terminal
       Top = 2
       Width = 42
       Height = 42
+      ParentShowHint = False
       PopupMenu = PopupMenu1
+      ShowHint = True
       TabOrder = 0
       OnClick = JvProcurarClick
       Glyph.Data = {
@@ -414,7 +416,9 @@ object F_Terminal: TF_Terminal
       Top = 2
       Width = 42
       Height = 42
+      ParentShowHint = False
       PopupMenu = PopupMenu1
+      ShowHint = True
       TabOrder = 1
       OnClick = JvAlterarClick
       Glyph.Data = {
@@ -548,14 +552,17 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
-    object JvBitBtn1: TJvBitBtn
+    object JvExcluir: TJvBitBtn
       Left = 89
       Top = 2
       Width = 42
       Height = 42
       Hint = 'F7-Excluir Pedido'
+      ParentShowHint = False
       PopupMenu = PopupMenu1
+      ShowHint = True
       TabOrder = 2
+      OnClick = JvExcluirClick
       Glyph.Data = {
         660F0000424D660F000000000000360000002800000024000000240000000100
         180000000000300F0000120B0000120B00000000000000000000FFFFFFFFFFFF
@@ -687,14 +694,17 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
-    object JvBitBtn2: TJvBitBtn
+    object JvImprimir: TJvBitBtn
       Left = 132
       Top = 2
       Width = 42
       Height = 42
       Hint = 'F11-Imprimir Pedido'
+      ParentShowHint = False
       PopupMenu = PopupMenu1
+      ShowHint = True
       TabOrder = 3
+      OnClick = JvImprimirClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -800,15 +810,17 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
-    object JvBitBtn3: TJvBitBtn
+    object JvFinalizar: TJvBitBtn
       Left = 175
       Top = 2
       Width = 42
       Height = 42
       Hint = 'F6-Finalizar Pedido'
+      ParentShowHint = False
       PopupMenu = PopupMenu1
+      ShowHint = True
       TabOrder = 4
-      OnClick = JvBitBtn3Click
+      OnClick = JvFinalizarClick
       Glyph.Data = {
         660F0000424D660F000000000000360000002800000024000000240000000100
         180000000000300F0000120B0000120B00000000000000000000FFFFFFFFFFFF
@@ -940,14 +952,17 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
-    object JvBitBtn5: TJvBitBtn
+    object JvSair: TJvBitBtn
       Left = 218
       Top = 2
       Width = 42
       Height = 42
+      Hint = 'F9 - Sair'
+      ParentShowHint = False
       PopupMenu = PopupMenu1
+      ShowHint = True
       TabOrder = 5
-      OnClick = JvBitBtn5Click
+      OnClick = JvSairClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -2416,7 +2431,7 @@ object F_Terminal: TF_Terminal
     object Finalizar1: TMenuItem
       Caption = 'F6-Finalizar'
       ShortCut = 117
-      OnClick = JvBitBtn3Click
+      OnClick = JvFinalizarClick
     end
     object F11ImprimirPedido1: TMenuItem
       Caption = 'F11-Imprimir Pedido'
@@ -2425,7 +2440,7 @@ object F_Terminal: TF_Terminal
     object F9Sair1: TMenuItem
       Caption = 'F9-Sair'
       ShortCut = 120
-      OnClick = JvBitBtn5Click
+      OnClick = JvSairClick
     end
   end
   object b_cliente: TSQLDataSet
@@ -2558,5 +2573,12 @@ object F_Terminal: TF_Terminal
     SQLConnection = DM.sqlsisAdimin
     Left = 412
     Top = 149
+  end
+  object VCLReport1: TVCLReport
+    Filename = 'C:\home\sisAdmin\relatorio\promissoria.rep'
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 192
+    Top = 88
   end
 end
