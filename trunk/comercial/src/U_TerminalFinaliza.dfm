@@ -771,13 +771,13 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
           Visible = True
         end>
     end
-    object BitBtn8: TBitBtn
+    object btnAlteraRec: TBitBtn
       Left = 558
       Top = 255
       Width = 39
       Height = 37
       TabOrder = 14
-      OnClick = BitBtn8Click
+      OnClick = btnAlteraRecClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -878,13 +878,13 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
-    object BitBtn6: TBitBtn
+    object btnCancelaBaixa: TBitBtn
       Left = 558
       Top = 292
       Width = 39
       Height = 37
       TabOrder = 15
-      OnClick = BitBtn6Click
+      OnClick = btnCancelaBaixaClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -1441,7 +1441,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
-    object JvBitBtn2: TJvBitBtn
+    object JvExcluir: TJvBitBtn
       Left = 98
       Top = 2
       Width = 48
@@ -1451,7 +1451,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       PopupMenu = PopupMenu1
       ShowHint = True
       TabOrder = 2
-      OnClick = JvBitBtn2Click
+      OnClick = JvExcluirClick
       Glyph.Data = {
         660F0000424D660F000000000000360000002800000024000000240000000100
         180000000000300F0000120B0000120B00000000000000000000FFFFFFFFFFFF
@@ -1667,7 +1667,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
-    object JvBitBtn4: TJvBitBtn
+    object JvBoleto: TJvBitBtn
       Left = 194
       Top = 2
       Width = 48
@@ -1677,7 +1677,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       PopupMenu = PopupMenu1
       ShowHint = True
       TabOrder = 4
-      OnClick = JvBitBtn4Click
+      OnClick = JvBoletoClick
       Glyph.Data = {
         FA0E0000424DFA0E000000000000360000002800000023000000230000000100
         180000000000C40E0000C40E0000C40E0000000000000000000002009E00008B
@@ -1805,7 +1805,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
-    object JvBitBtn5: TJvBitBtn
+    object JvSair: TJvBitBtn
       Left = 242
       Top = 2
       Width = 48
@@ -1815,7 +1815,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       PopupMenu = PopupMenu1
       ShowHint = True
       TabOrder = 5
-      OnClick = JvBitBtn5Click
+      OnClick = JvSairClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -2278,7 +2278,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object F9Sair1: TMenuItem
       Caption = 'F9-Sair'
       ShortCut = 120
-      OnClick = JvBitBtn5Click
+      OnClick = JvSairClick
     end
   end
   object sql_rec: TSQLDataSet

@@ -107,11 +107,11 @@ type
     scds_serie_procULTIMO_NUMERO: TIntegerField;
     scds_serie_procNOTAFISCAL: TSmallintField;
     btnIncluir: TJvBitBtn;
-    JvBitBtn1: TJvBitBtn;
-    JvBitBtn2: TJvBitBtn;
+    JvGravar: TJvBitBtn;
+    JvExcluir: TJvBitBtn;
     btnNotaFiscal: TJvBitBtn;
-    JvBitBtn4: TJvBitBtn;
-    JvBitBtn5: TJvBitBtn;
+    JvBoleto: TJvBitBtn;
+    JvSair: TJvBitBtn;
     sqsTitulo: TSQLDataSet;
     sqsTituloSTATUS: TStringField;
     jvTotal: TJvValidateEdit;
@@ -127,6 +127,92 @@ type
     F7ExcluirPedido1: TMenuItem;
     F9Sair1: TMenuItem;
     sql_rec: TSQLDataSet;
+    btnAlteraRec: TBitBtn;
+    btnCancelaBaixa: TBitBtn;
+    sds_cr: TSQLDataSet;
+    sds_crCODRECEBIMENTO: TIntegerField;
+    sds_crTITULO: TStringField;
+    sds_crEMISSAO: TDateField;
+    sds_crCODCLIENTE: TIntegerField;
+    sds_crDATAVENCIMENTO: TDateField;
+    sds_crVALORRECEBIDO: TFloatField;
+    sds_crDATARECEBIMENTO: TDateField;
+    sds_crCAIXA: TSmallintField;
+    sds_crCONTADEBITO: TIntegerField;
+    sds_crCONTACREDITO: TIntegerField;
+    sds_crSTATUS: TStringField;
+    sds_crVIA: TStringField;
+    sds_crFORMARECEBIMENTO: TStringField;
+    sds_crDATABAIXA: TDateField;
+    sds_crHISTORICO: TStringField;
+    sds_crCODVENDA: TIntegerField;
+    sds_crCODVENDEDOR: TSmallintField;
+    sds_crCODUSUARIO: TSmallintField;
+    sds_crDATASISTEMA: TSQLTimeStampField;
+    sds_crN_DOCUMENTO: TStringField;
+    sds_crALMOXARIFADO: TStringField;
+    sds_crNOMEUSUARIO: TStringField;
+    sds_crVENDEDOR: TStringField;
+    sds_crNOMECLIENTE: TStringField;
+    sds_crJUROS: TFloatField;
+    sds_crDESCONTO: TFloatField;
+    sds_crPERDA: TFloatField;
+    sds_crTROCA: TFloatField;
+    sds_crFUNRURAL: TFloatField;
+    sds_crVALOR_PRIM_VIA: TFloatField;
+    sds_crVALOR_RESTO: TFloatField;
+    sds_crVALORTITULO: TFloatField;
+    sds_crCODALMOXARIFADO: TIntegerField;
+    sds_crOUTRO_CREDITO: TFloatField;
+    sds_crOUTRO_DEBITO: TFloatField;
+    sds_crPARCELAS: TSmallintField;
+    sds_crDUP_REC_NF: TStringField;
+    sds_crNF: TIntegerField;
+    sds_crDP: TIntegerField;
+    sds_crBL: TIntegerField;
+    dsp_cr: TDataSetProvider;
+    cds_cr: TClientDataSet;
+    cds_crCODRECEBIMENTO: TIntegerField;
+    cds_crTITULO: TStringField;
+    cds_crEMISSAO: TDateField;
+    cds_crCODCLIENTE: TIntegerField;
+    cds_crDATAVENCIMENTO: TDateField;
+    cds_crSTATUS: TStringField;
+    cds_crVIA: TStringField;
+    cds_crCODVENDA: TIntegerField;
+    cds_crCODALMOXARIFADO: TIntegerField;
+    cds_crCODVENDEDOR: TSmallintField;
+    cds_crFORMARECEBIMENTO: TStringField;
+    cds_crVALOR_PRIM_VIA: TFloatField;
+    cds_crVALOR_RESTO: TFloatField;
+    cds_crVALORTITULO: TFloatField;
+    cds_crCONTACREDITO: TIntegerField;
+    cds_crVALORRECEBIDO: TFloatField;
+    cds_crDATARECEBIMENTO: TDateField;
+    cds_crCONTADEBITO: TIntegerField;
+    cds_crCAIXA: TSmallintField;
+    cds_crDATABAIXA: TDateField;
+    cds_crHISTORICO: TStringField;
+    cds_crCODUSUARIO: TSmallintField;
+    cds_crN_DOCUMENTO: TStringField;
+    cds_crDATASISTEMA: TSQLTimeStampField;
+    cds_crALMOXARIFADO: TStringField;
+    cds_crNOMECLIENTE: TStringField;
+    cds_crNOMEUSUARIO: TStringField;
+    cds_crVENDEDOR: TStringField;
+    cds_crJUROS: TFloatField;
+    cds_crDESCONTO: TFloatField;
+    cds_crPERDA: TFloatField;
+    cds_crTROCA: TFloatField;
+    cds_crFUNRURAL: TFloatField;
+    cds_crOUTRO_CREDITO: TFloatField;
+    cds_crOUTRO_DEBITO: TFloatField;
+    cds_crPARCELAS: TSmallintField;
+    cds_crDUP_REC_NF: TStringField;
+    cds_crNF: TIntegerField;
+    cds_crDP: TIntegerField;
+    cds_crBL: TIntegerField;
+    sqlBuscaNota: TSQLQuery;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -135,10 +221,16 @@ type
     procedure dbeUsuarioExit(Sender: TObject);
     procedure dbeSerieExit(Sender: TObject);
     procedure cbPrazoChange(Sender: TObject);
-    procedure JvBitBtn1Click(Sender: TObject);
+    procedure JvGravarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure JvBitBtn5Click(Sender: TObject);
-    procedure JvBitBtn4Click(Sender: TObject);
+    procedure JvSairClick(Sender: TObject);
+    procedure btnCancelaBaixaClick(Sender: TObject);
+    procedure btnAlteraRecClick(Sender: TObject);
+    procedure btnNotaFiscalClick(Sender: TObject);
+    procedure NotaFiscal;
+    procedure excluinf;
+    procedure JvExcluirClick(Sender: TObject);
+    procedure JvBoletoClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -146,6 +238,7 @@ type
     desconto : Double;
     vrr, nparc : double;
     Cod_orig, cod_cli_forn, codigo_cliente, COD_VENDA : Integer;
+    excluiuNF : Boolean;
     procedure baixaestoque(Tipo: string);
     procedure INSEREVEDA;
     procedure ALTERAVENDA;
@@ -161,7 +254,7 @@ var
 implementation
 
 uses UDM_MOV, uProcurar, uProcurar_nf, UDMNF, UDm, ufprocura_prod,
-  U_Boletos;
+  ufCrAltera, uNotaf, uEstoque, uMovimento, U_Boletos;
 
 {$R *.dfm}
 
@@ -197,12 +290,12 @@ begin
     if (fProcurar_nf.ShowModal = mrOK) then
       if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
       begin
-        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc ter?ue mudar seu status para "ATIVO".', mtError, [mbOK], 0);
         exit;
       end;
       if dmnf.scds_cli_procBLOQUEIO.AsString = 'S' then
       begin
-        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
+        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda n?permitida.', mtError, [mbOK], 0);
         exit;
       end;
     prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
@@ -355,7 +448,6 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.btnIncluirClick(Sender: TObject);
-var texto : string;
 begin
   DM_MOV.c_venda.Append;
 
@@ -366,7 +458,7 @@ begin
   COD_VENDA := dm.c_6_genid.Fields[0].AsInteger;
   dm.c_6_genid.Close;
   DM_MOV.c_vendaCODVENDA.AsInteger := COD_VENDA;
-  {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
+  {------Pesquisando na tab Parametro o valor padr?para a Natureza Opera? ---------}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'SERIEPADRAO';
@@ -374,7 +466,7 @@ begin
   dbeSerie.Text := dm.cds_parametroDADOS.AsString;
   DM_MOV.c_vendaSERIE.AsString := dm.cds_parametroDADOS.AsString;
   dm.cds_parametro.Close;
-  { 006 ------Pesquisando na tab Parametro o Vendedor padrão ---- 09-05-2005 -----}
+  { 006 ------Pesquisando na tab Parametro o Vendedor padr?---- 09-05-2005 -----}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'VENDEDORPADRAO';
@@ -436,7 +528,7 @@ begin
     dm.scds_usuario_proc.Params.ParamByName('pPerfil1').AsString := 'AMBOS';
     dm.scds_usuario_proc.Open;
     if dm.scds_usuario_proc.IsEmpty then begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
       [mbOk], 0);
       btnUsuarioProcura.Click;
       exit;
@@ -454,7 +546,7 @@ begin
     dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(dbeUsuario.Text);
     dm.scds_usuario_proc.Open;
     if dm.scds_usuario_proc.IsEmpty then begin
-      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
       [mbOk], 0);
       btnUsuarioProcura.Click;
       exit;
@@ -476,13 +568,13 @@ begin
       scds_serie_proc.Params[0].AsString := dbeSerie.Text;
       scds_serie_proc.Open;
       if scds_serie_proc.IsEmpty then begin
-        MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+        MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
         [mbOk], 0);
         btnSerie.Click;
         exit;
       end;
       DM_MOV.c_vendaSERIE.AsString := scds_serie_procSERIE.AsString;
-      //É nota fiscal ?
+      //?nota fiscal ?
       if scds_serie_procNOTAFISCAL.AsInteger=0 then
       begin
         //    btnImprimir.Enabled:=False;
@@ -508,7 +600,7 @@ begin
     DM_MOV.c_vendaN_PARCELA.asInteger := StrToInt(FloatToStr(dm.cdsPrazoValor.asFloat));
 end;
 
-procedure TF_TerminalFinaliza.JvBitBtn1Click(Sender: TObject);
+procedure TF_TerminalFinaliza.JvGravarClick(Sender: TObject);
 var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
@@ -610,7 +702,7 @@ begin
      Try
        dmnf.baixaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
      Except
-       MessageDlg('Processo de Baixa no Estoque não realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
+       MessageDlg('Processo de Baixa no Estoque n?realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
      end;
    end;
 
@@ -628,7 +720,7 @@ begin
   fVendas.cds_MovimentoCODPEDIDO.AsInteger  := codigo_moviemento;
 
   fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime := StrToDate(data_movimento);
-  // Natureza = 'Saída'
+  // Natureza = 'Sa?'
   fVendas.cds_MovimentoCODNATUREZA.AsInteger := 2;
   //fVendas.cds_MovimentoCONTROLE.AsString := IntToStr(codigo_moviemento);
   fVendas.btnGravar.Click;
@@ -732,20 +824,14 @@ end;
 procedure TF_TerminalFinaliza.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-  if (DM_MOV.c_movimento.Active) then
-     DM_MOV.c_movimento.Close;
   if (DM_MOV.c_comanda.Active) then
      DM_MOV.c_comanda.Close;
-  if (DM_MOV.c_movdet.Active) then
-     DM_MOV.c_movdet.Close;
   if (DM_MOV.c_venda.Active) then
      DM_MOV.c_venda.Close;
-  if (DM_MOV.c_movimento.Active) then
-     DM_MOV.c_movimento.Close;
   close;
 end;
 
-procedure TF_TerminalFinaliza.JvBitBtn5Click(Sender: TObject);
+procedure TF_TerminalFinaliza.JvSairClick(Sender: TObject);
 begin
   Close;
 end;
@@ -764,7 +850,7 @@ begin
    if (not sql_rec.IsEmpty) then
    begin
       RESULTADO := 'TRUE';
-      ShowMessage('Não é permitido Alterar Venda com Titulos STATUS = RECEBIDO !');
+      ShowMessage('Não Permitido Alterar Venda com Titulos STATUS = RECEBIDO !');
       sql_rec.Close;
       exit;
    end;
@@ -778,13 +864,344 @@ begin
       dm.sqlsisAdimin.Commit(TD);
    except
       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       MessageDlg('Erro no sistema, a venda não foi gravada.', mtError,
+       MessageDlg('Erro no sistema, a venda n?foi gravada.', mtError,
            [mbOk], 0);
    end;
 
 end;
 
-procedure TF_TerminalFinaliza.JvBitBtn4Click(Sender: TObject);
+procedure TF_TerminalFinaliza.btnCancelaBaixaClick(Sender: TObject);
+var str :string;
+begin
+
+  if (DM_MOV.c_movimentoCODNATUREZA.AsInteger = 14) then //Cancelado
+  begin
+    if  MessageDlg('NF CANCELADA, confirma mudança do Status : ''' + scdscr_procTITULO.AsSTring + '''',
+      mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+    Try
+      if (scdsCr_proc.State in [dsBrowse, dsInactive]) then
+        scdsCr_proc.Edit;
+      scdsCr_procSTATUS.AsString := '5-';
+      scdsCr_proc.ApplyUpdates(0);
+      // NF ou Venda Cancelada
+      if (DM_MOV.c_venda.State in [dsBrowse]) then
+         DM_MOV.c_venda.Edit;
+      DM_MOV.c_vendaSTATUS.AsInteger := 0;
+      DM_MOV.c_venda.ApplyUpdates(0);
+      if (DM_MOV.c_movimento.State in [dsBrowse]) then
+         DM_MOV.c_movimento.edit;
+      DM_MOV.c_movimentoCODNATUREZA.AsInteger := 3; //Venda
+      DM_MOV.c_movimento.ApplyUpdates(0);
+
+      MessageDlg('Status alterado com sucesso.', mtInformation, [mbOK], 0);
+      scdsCr_proc.Refresh;
+    Except
+      MessageDlg('N?foi poss?l alterar STATUS.', mtError, [mbOK], 0);
+    end;
+  end
+  else
+  begin
+    if  MessageDlg('Confirma o cancelamento da baixa do T?lo : ''' + scdscr_procTITULO.AsSTring + '''',
+      mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+    Try
+      if (scdsCr_proc.State in [dsBrowse, dsInactive]) then
+        scdsCr_proc.Edit;
+      scdsCr_procSTATUS.AsString := '5-';
+      if( scdsCr_procSTATUS.AsString = '7-') then
+        scdsCr_procVALOR_RESTO.AsFloat := scdsCr_procVALORRECEBIDO.asFloat;
+      scdsCr_procVALORRECEBIDO.AsFloat := 0;
+      scdsCr_procCAIXA.Clear;
+      scdsCr_proc.ApplyUpdates(0);
+      MessageDlg('Baixa cancelada com sucesso.', mtInformation, [mbOK], 0);
+
+      DecimalSeparator := '.';
+      str := 'Update RECEBIMENTO set DATARECEBIMENTO = null, DATACONSOLIDA = null';
+      str := str + ' WHERE CODRECEBIMENTO = ' + IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str);
+      DecimalSeparator := ',';
+      scdsCr_proc.Refresh;
+    Except
+      MessageDlg('Não foi possível cancelar a baixa.', mtError, [mbOK], 0);
+    end;
+  end;
+end;
+
+procedure TF_TerminalFinaliza.btnAlteraRecClick(Sender: TObject);
+begin
+  fCrAltera := TfCrAltera.Create(Application);
+  try
+    fCrAltera.ntitulo := scdsCr_procTITULO.AsString;
+    fCrAltera.codcliente := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.demissao := scdsCr_procEMISSAO.AsDateTime;
+
+
+    if (fCrAltera.cds.Active) then
+      fCrAltera.cds.Close;
+    fCrAltera.cds.Params[0].AsString := scdsCr_procTITULO.AsString;
+    fCrAltera.cds.Params[1].AsInteger := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.cds.Params[2].AsDateTime := scdsCr_procEMISSAO.AsDateTime;
+    fCrAltera.cds.Open;
+
+    if (fCrAltera.cds1.Active) then
+      fCrAltera.cds1.Close;
+    fCrAltera.cds1.Params[0].AsString := scdsCr_procTITULO.AsString;
+    fCrAltera.cds1.Params[1].AsInteger := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.cds1.Params[2].AsDateTime := scdsCr_procEMISSAO.AsDateTime;
+    fCrAltera.cds1.Open;
+
+    fCrAltera.Label1.Caption := scdsCr_procTITULO.AsString;
+    fCrAltera.Label2.Caption := scdsCr_procTITULO.AsString;
+    fCrAltera.ShowModal;
+    scdsCr_proc.Close;
+    scdsCr_proc.Open;
+  finally
+    fCrAltera.Free;
+  end;
+end;
+
+procedure TF_TerminalFinaliza.btnNotaFiscalClick(Sender: TObject);
+var fatura_NF :string;
+begin
+  if DM_MOV.d_venda.State in [dsInsert] then
+    JvGravar.Click;
+
+  if (scdsCr_proc.RecordCount = 0) then
+  begin
+    MessageDlg('T?lo do Financeiro n?foi gerado.'+#13+#10+'Clique no bot?gravar, para gera-lo.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  NotaFiscal;
+end;
+
+procedure TF_TerminalFinaliza.NotaFiscal;
+var
+  Save_Cursor:TCursor;
+  codClienteNF: integer;
+  str_sql : string;
+begin
+  if (sqlBuscaNota.Active) then
+	sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
+    QuotedStr(IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger)));
+  sqlBuscaNota.Open;
+  if (sqlBuscaNota.IsEmpty) then
+  begin
+    try
+    codClienteNF := 0;
+    Save_Cursor := Screen.Cursor;
+    Screen.Cursor := crHourGlass;
+    // Nota Fiscal
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+	try
+	str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
+	str_sql := str_sql + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENDA.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENCIMENTO.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(DM_MOV.c_vendaSERIE.AsString);
+        str_sql := str_sql + ', ' + QuotedStr(inttostr(DM_MOV.c_vendaNOTAFISCAL.AsInteger));
+        str_sql := str_sql + ', ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) + ')';
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        dm.sqlsisAdimin.Commit(TD);
+		except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
+        exit;
+	end;
+    if (sqlBuscaNota.Active) then
+      sqlBuscaNota.Close;
+    sqlBuscaNota.SQL.Clear;
+    sqlBuscaNota.SQL.Add('select codMovimento, codCliente from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
+      QuotedStr(IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger)));
+    sqlBuscaNota.Open;
+    finally
+      Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    end;
+end;
+
+  fNotaf := TfNotaf.Create(Application);
+  try
+  fNotaF.codMovFin := sqlBuscaNota.Fields[0].AsInteger;
+  fNotaF.codCliFin := sqlBuscaNota.Fields[1].AsInteger;
+
+  if (not  dm.cds_empresa.Active) then
+  dm.cds_empresa.open;
+    fNotaf.cbFinanceiro.Checked := False;
+    fNotaf.cbEstoque.Checked := False;
+    fNotaf.ShowModal;
+    if (dmnf.cds_nfSTATUS.AsString = 'S') then
+	fNotaf.RadioGroup1.ItemIndex := 0
+    else
+      fNotaf.RadioGroup1.ItemIndex := 1;
+    finally
+	fNotaf.Free;
+  end;
+end;
+
+procedure TF_TerminalFinaliza.JvExcluirClick(Sender: TObject);
+var   FEstoque: TEstoque;
+      dataVenda: TDateTime;
+      FMov : TMovimento;      
+begin
+  dataVenda := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+  if scdscr_proc.Active then
+       scdscr_proc.Close;
+    scdscr_proc.Params[0].Clear;
+    scdscr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+    scdscr_proc.Open;
+    if cds_cr.Active then
+      cds_cr.Close;
+    cds_cr.Params[0].AsInteger := scdscr_procCODRECEBIMENTO.AsInteger;
+    cds_cr.Open;
+    if (cds_crSTATUS.AsString = '5-') then
+    begin
+      if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+                    [mbYes,mbNo],0) = mrYes then
+      begin
+        dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
+        excluinf;
+         if excluiuNF then
+         begin
+           try
+             dm.sqlsisAdimin.StartTransaction(TD);
+             DM_MOV.d_venda.DataSet.Delete;
+             (DM_MOV.d_venda.DataSet as TClientDataSet).ApplyUpdates(0);
+             dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
+             dm.sqlsisAdimin.Commit(TD);
+             ShowMessage('Venda Excluida com Sucesso');
+           except
+             on E : Exception do
+             begin
+               ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+               dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             end;
+           end;
+         end;
+      end
+      else if (cds_cr.IsEmpty) then
+      begin
+        if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+                      [mbYes,mbNo],0) = mrYes then
+        begin
+           excluinf;
+            Try
+              dm.sqlsisAdimin.StartTransaction(TD);
+              DM_MOV.d_venda.DataSet.Delete;
+              (DM_MOV.d_venda.DataSet as TClientDataSet).ApplyUpdates(0);
+              dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
+             if (usaMateriaPrima = 'S') then   // Usa Materia Prima ent?tem que excluir tbem;
+             begin
+               if (dm.sqlBusca.Active) then
+                 dm.sqlBusca.Close;
+               dm.sqlBusca.SQL.Clear;
+               dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
+                 ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
+                 '   AND CODNATUREZA = 2'+
+                 '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
+               dm.sqlBusca.Open;
+               if (not dm.sqlBusca.IsEmpty) then
+               begin
+                 dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
+                   dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+               end;
+             end;
+
+              dm.sqlsisAdimin.Commit(TD);
+            except
+              on E : Exception do
+              begin
+                ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+                dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+			end;
+		  end;
+        end;
+      end;
+
+      {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      begin
+        // Excluindo a baixa da materia Prima
+        codigo_cliente :=  DM_MOV.c_movimentoCODCLIENTE.AsInteger;
+        data_movimento :=  DateToStr(DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime);
+
+        Try
+          FEstoque := TEstoque.Create;
+          // Gravando o Estoque
+          with DM_MOV do begin
+          c_movdet.First;
+          While not c_movdet.Eof do
+          begin
+            if (c_movdetSTATUS.AsString = '9') then
+            begin
+              FEstoque.QtdeVenda   := (-1) * c_movdetQUANTIDADE.AsFloat;
+              FEstoque.CodProduto  := c_movdetCODPRODUTO.AsInteger;
+              FEstoque.Lote        := c_movdetLOTE.AsString;
+              FEstoque.CentroCusto := c_movdetCODALMOXARIFADO.AsInteger;
+              FEstoque.MesAno      := dataVenda;
+              FEstoque.PrecoVenda  := c_movdetPRECO.AsFloat;
+              FEstoque.CodDetalhe  := c_movdetCODDETALHE.AsInteger;
+              FEstoque.Status      := '0';
+              FEstoque.inserirMes;
+            end;
+            c_movdet.Next;
+          end;
+          end;
+        Finally
+          FEstoque.Free;
+        end;
+
+      end;
+
+    end;
+end;
+
+procedure TF_TerminalFinaliza.excluinf;
+var
+  str_sql : string;
+begin
+  excluiuNF := True;
+  if (sqlBuscaNota.Active) then
+  sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, v.CODVENDA  from MOVIMENTO m ' +
+    ' inner join venda v on v.CODMOVIMENTO = m.CODMOVIMENTO where ' +
+    ' m.CODNATUREZA = 15 and m.CONTROLE = ' +
+  QuotedStr(IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger)));
+  sqlBuscaNota.Open;
+  if (not sqlBuscaNota.IsEmpty) then
+  begin
+    // Nota Fiscal
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+	str_sql := 'DELETE FROM NOTAFISCAL ';
+	  str_sql := str_sql + ' where CODVENDA = ' + inttostr(sqlBuscaNota.Fields[2].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      str_sql := 'DELETE FROM VENDA ';
+	  str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+	  str_sql := 'DELETE FROM MOVIMENTO ';
+	  str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      dm.sqlsisAdimin.Commit(TD);
+      ShowMessage('Nota Fiscal Excluída com suscesso');
+      excluiuNF := True;
+	  except
+      dm.sqlsisAdimin.Rollback(TD);
+	  MessageDlg('Erro para Excluir a Nota Fiscal.', mtError, [mbOK], 0);
+      excluiuNF := False;
+	  end;
+  end;
+end;
+procedure TF_TerminalFinaliza.JvBoletoClick(Sender: TObject);
 begin
     F_Boletos := TF_Boletos.Create(Application);
     try
