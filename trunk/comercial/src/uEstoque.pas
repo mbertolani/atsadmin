@@ -305,6 +305,8 @@ begin
   novoCusto := (PCusto * QSaldo) + (QSaldoAnterior * PCustoAnterior);
   if ((totalEstoque + _qtdeCompra) > 0) then
   begin
+    if (totalEstoque < 0) then
+      totalEstoque := 0;
     novoCusto := (novoCusto + (_precoCompra * _qtdeCompra))/(totalEstoque + _qtdeCompra);
     Result := novoCusto;
   end else
@@ -495,6 +497,9 @@ function TEstoque.jaFoiInserido(): Boolean;
 var sqlBuscaI: TSqlQuery;
 begin
   Try
+    PCustoAnterior     := 0;
+    QSaldoAnterior     := 0;
+
     sqlBuscai := TSqlQuery.Create(nil);
     sqlBuscai.SQLConnection := dm.sqlsisAdimin;
     // Verificando se existe Lancamento em Mes Posterior o mes que esta inserindo
