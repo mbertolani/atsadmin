@@ -9440,8 +9440,9 @@ object DM: TDM
   end
   object scds_Prod: TSQLClientDataSet
     CommandText = 
-      'Select CODPRODUTO, CODPRO, PRODUTO from PRODUTOS WHERE '#13#10'TIPO = ' +
-      #39'SERV'#39' and ((PRODUTO LIKE :PRODUTO) OR (:PRODUTO = '#39'TODOS'#39'))'
+      'Select CODPRODUTO, CODPRO, PRODUTO, VALOR_PRAZO from PRODUTOS WH' +
+      'ERE '#13#10'TIPO = '#39'SERV'#39' and ((PRODUTO LIKE :PRODUTO) OR (:PRODUTO = ' +
+      #39'TODOS'#39'))'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -9471,6 +9472,9 @@ object DM: TDM
       FieldName = 'PRODUTO'
       Required = True
       Size = 300
+    end
+    object scds_ProdVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
     end
   end
   object sPermissao: TClientDataSet
