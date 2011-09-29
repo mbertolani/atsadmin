@@ -28,6 +28,8 @@ Type
     procedure setStatus(const Value: String);
     function getOsDet: TOsDetalheClasse;
     procedure setOsDet(const Value: TOsDetalheClasse);
+    function getObs: String;
+    procedure setObs(const Value: String);
   protected
     //Atributos
     _codOs      : Integer;
@@ -40,6 +42,7 @@ Type
     _codUsuario : Integer;
     _km         : Integer;
     _osDet       : TOsDetalheClasse;
+    _obs        : String;
 
   public
     property codOs : Integer read getCodOs write setCodOs;
@@ -52,6 +55,7 @@ Type
     property codUsuario: Integer read getCodUsuario write setCodUsuario;
     property km: Integer read getKm write setKm;
     property osDet: TOsDetalheClasse read getOsDet write setOsDet;
+    property obs: String read getObs write setObs;
 
     function IncluirOs(codOsI: Integer): Integer;
     function alterarOs(codOsA: Integer): Boolean;
@@ -184,6 +188,11 @@ begin
   Result := _km;
 end;
 
+function TOsClasse.getObs: String;
+begin
+  Result := _obs;
+end;
+
 function TOsClasse.getOsDet: TOsDetalheClasse;
 begin
   Result := _osDet;
@@ -214,17 +223,19 @@ begin
       end;
     end;
     sqlInsere := 'INSERT INTO OS(CODOS, CODCLIENTE, CODVEICULO, CODUSUARIO, DATAOS,'+
-      'DATA_SISTEMA, DATA_INI, DATA_FIM, STATUS, KM) VALUES (';
+      'DATA_SISTEMA, DATA_INI, DATA_FIM, STATUS, KM, OBS) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.codOs) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codCliente) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.codVeiculo) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codUsuario) + ', ';
     sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataOs)) + ', ';
-    sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', today)) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm', now)) + ', ';
     sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataInicio)) + ', ';
     sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataFim)) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.status) + ', ';
-    sqlInsere := sqlInsere + IntToStr(Self.km) + ')';
+    sqlInsere := sqlInsere + IntToStr(Self.km) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.Obs) + ')';
+
     executaSql(sqlInsere);
     Result := Self.codOs;
   except
@@ -276,6 +287,11 @@ end;
 procedure TOsClasse.setKm(const Value: Integer);
 begin
   _km := Value;
+end;
+
+procedure TOsClasse.setObs(const Value: String);
+begin
+  _obs := Value;
 end;
 
 procedure TOsClasse.setOsDet(const Value: TOsDetalheClasse);

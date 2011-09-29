@@ -5,7 +5,9 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DB, DBClient, Provider, SqlExpr, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls, StdCtrls;
+  JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls, StdCtrls, Mask, JvExMask,
+  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, Buttons,
+  JvExStdCtrls, JvCombobox, uUtils;
 
 type
   TfOsFiltro = class(TForm)
@@ -106,7 +108,22 @@ type
     IntegerField5: TIntegerField;
     dspPeca: TDataSetProvider;
     StatusBar1: TStatusBar;
-    rgStatus: TRadioGroup;
+    GroupBox4: TGroupBox;
+    edCodCliente: TEdit;
+    edNomeCliente: TEdit;
+    btnClienteProcura: TBitBtn;
+    GroupBox1: TGroupBox;
+    edOS: TEdit;
+    GroupBox2: TGroupBox;
+    Label3: TLabel;
+    Label7: TLabel;
+    cbMes: TComboBox;
+    MaskEdit1: TJvDatePickerEdit;
+    MaskEdit2: TJvDatePickerEdit;
+    GroupBox3: TGroupBox;
+    cbStatus: TJvComboBox;
+    btnProcurar: TBitBtn;
+    btnSair: TBitBtn;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -120,8 +137,15 @@ type
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure rgStatusClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure btnProcurarClick(Sender: TObject);
+    procedure cbMesChange(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure btnClienteProcuraClick(Sender: TObject);
+    procedure edCodClienteExit(Sender: TObject);
   private
     Ascending : boolean;
+    util: TUtils;
     procedure abrirOs;
     { Private declarations }
   public
@@ -133,7 +157,7 @@ var
 
 implementation
 
-uses UDm, uOs, sCtrlResize;
+uses UDm, uOs, sCtrlResize, uProcurar_nf, UDMNF;
 
 {$R *.dfm}
 
@@ -170,6 +194,7 @@ end;
 procedure TfOsFiltro.FormCreate(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fOsFiltro));
+  util := TUtils.Create;
 end;
 
 procedure TfOsFiltro.dsOsDataChange(Sender: TObject; Field: TField);
@@ -263,13 +288,27 @@ var strAbrirOs: String;
 begin
   if (cdsOs.Active) then
     cdsOs.Close;
+  strAbrirOs := '';
 
+  strAbrirOs := ' WHERE DATAOS BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit1.Date));
+  strAbrirOs := strAbrirOs + ' AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit2.Date));
 
-  case (rgStatus.ItemIndex) of
-    0 : strAbrirOs := ' WHERE STATUS = ' + QuotedStr('P');
-    1 : strAbrirOs := ' WHERE STATUS = ' + QuotedStr('E');
-    2 : strAbrirOs := ' WHERE STATUS = ' + QuotedStr('F');
+  case (cbStatus.ItemIndex) of
+    0 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('P');
+    1 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('E');
+    2 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('F');
   end;
+
+  if (edCodCliente.Text <> '') then
+  begin
+    strAbrirOs := strAbrirOs + ' AND CODCLIENTE = ' + edCodCliente.Text;
+  end;
+
+  if (edOS.Text <> '') then
+  begin
+    strAbrirOs := strAbrirOs + ' AND CODOS = ' + edOS.Text;
+  end;
+
   cdsOs.CommandText :=  'SELECT * FROM OS ' + strAbrirOs;
   cdsOs.Open;
 end;
@@ -277,6 +316,68 @@ end;
 procedure TfOsFiltro.rgStatusClick(Sender: TObject);
 begin
   abrirOs;
+end;
+
+procedure TfOsFiltro.btnSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfOsFiltro.btnProcurarClick(Sender: TObject);
+begin
+  abrirOs;
+end;
+
+procedure TfOsFiltro.cbMesChange(Sender: TObject);
+begin
+  util.criaIni(cbMes.text);
+  util.criaFim(cbMes.text);
+  MaskEdit1.Text := util.PeriodoIni;
+  MaskEdit2.Text := util.PeriodoFim;
+end;
+
+procedure TfOsFiltro.FormDestroy(Sender: TObject);
+begin
+  util.Destroy;
+end;
+
+procedure TfOsFiltro.btnClienteProcuraClick(Sender: TObject);
+begin
+  fProcurar_nf := TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
+  fProcurar_nf.BtnProcurar.Click;
+  fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
+  fProcurar_nf.btnIncluir.Visible := True;
+  try
+    if (fProcurar_nf.ShowModal = mrOK) then
+    begin
+      edCodCliente.Text := IntToStr(dmnf.scds_cli_procCODCLIENTE.AsInteger);
+      edNomeCliente.Text := dmnf.scds_cli_procNOMECLIENTE.AsString;
+    end;
+  finally
+   dmnf.scds_cli_proc.Close;
+   fProcurar_nf.Free;
+  end;
+end;
+
+procedure TfOsFiltro.edCodClienteExit(Sender: TObject);
+begin
+  if (edCodCliente.Text = '') then
+  begin
+    exit;
+  end;
+  if dm.scds_cliente_proc.Active then
+  dm.scds_cliente_proc.Close;
+  dm.scds_cliente_proc.Params[0].Clear;
+  dm.scds_cliente_proc.Params[1].Clear;
+  dm.scds_cliente_proc.Params[2].Clear;
+  dm.scds_cliente_proc.Params[2].AsInteger := StrToInt(edCodCliente.Text);
+  dm.scds_cliente_proc.Open;
+  if (dm.scds_cliente_proc.IsEmpty) then
+  begin
+    MessageDlg('Código não cadastrado.', mtWarning, [mbOk], 0);
+    exit;
+  end;
+  edNomeCliente.Text := dm.scds_cliente_procNOMECLIENTE.AsString;
 end;
 
 end.
