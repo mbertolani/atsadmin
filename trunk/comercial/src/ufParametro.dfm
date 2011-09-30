@@ -7,18 +7,18 @@ inherited fParametro: TfParametro
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel2: TMMJPanel [0]
-    Width = 798
+    Width = 806
     Height = 9
     inherited Label1: TLabel
       Left = 214
       Top = 0
-      Width = 359
+      Width = 360
       Caption = 'Par'#225'metros do Sistema'
     end
     inherited Label2: TLabel
       Left = 218
       Top = 1
-      Width = 359
+      Width = 360
       Caption = 'Par'#225'metros do Sistema'
     end
   end
@@ -27,7 +27,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 792
     Height = 473
-    ActivePage = TabSheet9
+    ActivePage = TabSheet1
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Par'#226'metros'
@@ -2610,8 +2610,8 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 483
-    Width = 798
+    Top = 494
+    Width = 806
     inherited btnGravar: TBitBtn
       Left = 288
     end
