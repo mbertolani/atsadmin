@@ -653,13 +653,17 @@ begin
      if DM_MOV.d_comanda.DataSet.State in [dsInactive] then
        exit;
 
-   fProcura_prod.Panel2.Visible := True;
-   fProcura_prod.Panel1.Visible := False;
-   var_F := 'terminalloja';
-   fProcura_prod.Edit2.ReadOnly := True;
-   fProcura_prod.Edit2.TabStop := False;
-   fProcura_prod.BitBtn1.Click;
-   fProcura_prod.ShowModal;
+   try
+     fProcura_prod.Panel2.Visible := True;
+     fProcura_prod.Panel1.Visible := False;
+     var_F := 'terminalloja';
+     fProcura_prod.Edit2.ReadOnly := True;
+     fProcura_prod.Edit2.TabStop := False;
+     fProcura_prod.BitBtn1.Click;
+     fProcura_prod.ShowModal;
+   finally
+     fProcura_prod.Free;
+   end;
 end;
 
 procedure TF_Terminal.F5ExcluirItemdoPedido1Click(Sender: TObject);
