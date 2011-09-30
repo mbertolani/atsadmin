@@ -256,7 +256,8 @@ uses UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   uNFCompra,
   uMovimenta_Estoque,
   UDM_MOV,
-  U_Terminal;
+  U_Terminal,
+  uLotes_Produtos;
 
 {$R *.dfm}
 
@@ -1122,31 +1123,6 @@ end;
 
 procedure TfProcura_prod.formcompra;
 begin
-    if fProcura_prod.cds_procLOTES.AsString = 'S' then
-    begin
-      fLotes := TfLotes.Create(Application);
-      try
-        if fLotes.cdslotes.Active then
-          fLotes.cdslotes.Close;
-        fLotes.cdslotes.Params[0].AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-        fLotes.cdslotes.Open;
-        if fLotes.cdslotes.IsEmpty then
-        begin
-          fLotes.cdslotes.Append;
-          fLotes.cdslotesCODPRODUTO.AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-          fLotes.cdslotesCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
-          fLotes.cdslotesPRODUTO.Value := fProcura_prod.cds_procPRODUTO.Value;
-          fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
-        end;
-        fLotes.btnProdutoProcura.Enabled := False;
-        var_F := 'procura';
-        fLotes.ShowModal;
-      finally
-        fLotes.Free;
-      end;
-      var_F := 'compra';
-    end;
-    //---------------------------------
     fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
@@ -1156,7 +1132,52 @@ begin
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
     fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     fCompra.cds_Mov_detQTDE_ALT.AsFloat := cds_procIPI.AsFloat;
+    if fProcura_prod.cds_procLOTES.AsString = 'S' then
+    begin
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'LOTEUNITARIO';
+      dm.cds_parametro.Open;
+      if( (fCompra.cds_Mov_detLOTE.AsString = '') and (dm.cds_parametroCONFIGURADO.AsString = 'S') ) then
+      begin
+        fLotes_Produtos := TfLotes_Produtos.Create(Application);
+        try
+          fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
+          fLotes_Produtos.ShowModal;
+        finally
+          fCompra.cds_Mov_detDTAFAB.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          fCompra.cds_Mov_detDTAVCTO.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          fLotes_Produtos.Free;
+        end;
+      end
+      else
+      begin
+        fLotes := TfLotes.Create(Application);
+        try
+          if fLotes.cdslotes.Active then
+            fLotes.cdslotes.Close;
+          fLotes.cdslotes.Params[0].AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+          fLotes.cdslotes.Open;
+          if fLotes.cdslotes.IsEmpty then
+          begin
+            fLotes.cdslotes.Append;
+            fLotes.cdslotesCODPRODUTO.AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+            fLotes.cdslotesCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
+            fLotes.cdslotesPRODUTO.Value := fProcura_prod.cds_procPRODUTO.Value;
+            fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
+          end;
+          fLotes.btnProdutoProcura.Enabled := False;
+          var_F := 'procura';
+          fLotes.ShowModal;
+        finally
+          fLotes.Free;
+        end;
+      end;
+      var_F := 'compra';
+    end;
+    //---------------------------------
     fCompra.cds_Mov_det.Post;
+    dm.cds_parametro.Close;
 end;
 
 procedure TfProcura_prod.formnf;

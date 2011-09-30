@@ -1309,36 +1309,46 @@ begin
 
   if fProcura_prod.cds_procLOTES.AsString = 'S' then
   begin
-    if (DbEdit1.Text = '') then
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'LOTEUNITARIO';
+    dm.cds_parametro.Open;
+    if( (DbEdit1.Text = '') and (cds_Mov_detLOTE.AsString = '') and (dm.cds_parametroCONFIGURADO.AsString = 'S') ) then
     begin
-      {//Informa que o Lote para COMPRA não esta informado
-      MessageDlg('Insira o número do Lote no campo CONTROLE.', mtWarning, [mbOK], 0);
-      dbEdit1.SetFocus;
-      Exit;}
-
-    end;
-    if fLotes.cdslotes.Active then
-      fLotes.cdslotes.Close;
-    sql1 := fLotes.sdslote.CommandText;
-    sql := ' and (lote.LOTE = ' + QuotedStr(dbedit1.Text) + ')';
-    fLotes.cdslotes.CommandText := sql1 + sql;
-    fLotes.cdslotes.Params[0].AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-    fLotes.cdslotes.Open;
-    var_F := 'compra';
-    if fLotes.cdslotes.IsEmpty then
+      fLotes_Produtos := TfLotes_Produtos.Create(Application);
+      try
+        fLotes_Produtos.ShowModal;
+      finally
+        cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        fLotes_Produtos.Free;
+      end;
+    end
+    else if ( (DbEdit1.Text = '')  and (dm.cds_parametroCONFIGURADO.AsString <> 'S') )then
     begin
-      fLotes.cdslotes.Append;
-      fLotes.cdslotesCODPRODUTO.AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
-      fLotes.cdslotesCODPRO.AsString := cds_Mov_detCODPRO.AsString;
-      fLotes.cdslotesPRODUTO.Value := cds_Mov_detDESCPRODUTO.Value;
-      fLotes.cdslotesDATAFABRICACAO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-      fLotes.cdslotesDATAVENCIMENTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-      fLotes.cdslotesLOTE.AsString := cds_MovimentoCONTROLE.AsString;
-      fLotes.btnGravar.Click;
-      cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTE.AsString;
-      cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
-      cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
-      //fLotes.cdslotes.ApplyUpdates(0);
+      if fLotes.cdslotes.Active then
+        fLotes.cdslotes.Close;
+      sql1 := fLotes.sdslote.CommandText;
+      sql := ' and (lote.LOTE = ' + QuotedStr(dbedit1.Text) + ')';
+      fLotes.cdslotes.CommandText := sql1 + sql;
+      fLotes.cdslotes.Params[0].AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+      fLotes.cdslotes.Open;
+      var_F := 'compra';
+      if fLotes.cdslotes.IsEmpty then
+      begin
+        fLotes.cdslotes.Append;
+        fLotes.cdslotesCODPRODUTO.AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
+        fLotes.cdslotesCODPRO.AsString := cds_Mov_detCODPRO.AsString;
+        fLotes.cdslotesPRODUTO.Value := cds_Mov_detDESCPRODUTO.Value;
+        fLotes.cdslotesDATAFABRICACAO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        fLotes.cdslotesDATAVENCIMENTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        fLotes.cdslotesLOTE.AsString := cds_MovimentoCONTROLE.AsString;
+        fLotes.btnGravar.Click;
+        cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTE.AsString;
+        cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
+        cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
+        //fLotes.cdslotes.ApplyUpdates(0);
+      end;
     end;
      { fLotes.btnProdutoProcura.Enabled := False;
       fLotes.ShowModal;}
