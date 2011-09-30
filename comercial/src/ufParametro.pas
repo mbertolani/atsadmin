@@ -1646,10 +1646,10 @@ begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
-  strsql := 'insert into SERIE (SERIE, ULTIMO_NUMERO' +
+  strsql := 'insert into SERIES (SERIE, ULTIMO_NUMERO' +
     ') VALUES (' + QuotedStr('O') + ', 0)';
   dm.sqlsisAdimin.ExecuteDirect(strsql);
-  strsql := 'insert into SERIE (SERIE, ULTIMO_NUMERO' +
+  strsql := 'insert into SERIES (SERIE, ULTIMO_NUMERO' +
     ') VALUES (' + QuotedStr('I') + ', 0)';
   dm.sqlsisAdimin.ExecuteDirect(strsql);
   Try
