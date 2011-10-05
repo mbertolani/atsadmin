@@ -4,21 +4,22 @@ inherited fParametro: TfParametro
   Width = 814
   Height = 575
   OldCreateOrder = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel2: TMMJPanel [0]
-    Width = 806
+    Width = 798
     Height = 9
     inherited Label1: TLabel
       Left = 214
       Top = 0
-      Width = 360
+      Width = 359
       Caption = 'Par'#225'metros do Sistema'
     end
     inherited Label2: TLabel
       Left = 218
       Top = 1
-      Width = 360
+      Width = 359
       Caption = 'Par'#225'metros do Sistema'
     end
   end
@@ -27,8 +28,9 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 792
     Height = 473
-    ActivePage = TabSheet1
+    ActivePage = TabPDV
     TabOrder = 2
+    OnChange = ParametroChange
     object TabSheet1: TTabSheet
       Caption = 'Par'#226'metros'
       object DBGrid1: TDBGrid
@@ -2608,10 +2610,80 @@ inherited fParametro: TfParametro
           'nptXPOlive')
       end
     end
+    object TabPDV: TTabSheet
+      Caption = 'PDV'
+      ImageIndex = 10
+      object Label50: TLabel
+        Left = 369
+        Top = 38
+        Width = 146
+        Height = 13
+        Caption = 'Mensagem impressa no cupom'
+      end
+      object RadioGroup3: TRadioGroup
+        Left = 8
+        Top = 16
+        Width = 289
+        Height = 65
+        Caption = 'Tipo de Impress'#227'o'
+        Columns = 2
+        Items.Strings = (
+          'Modelo Cupom'
+          'Modelo Recibo')
+        TabOrder = 0
+        OnClick = RadioGroup3Click
+      end
+      object RadioGroup4: TRadioGroup
+        Left = 9
+        Top = 88
+        Width = 289
+        Height = 65
+        Caption = 'Busca Padr'#227'o'
+        Columns = 2
+        Items.Strings = (
+          'Codigo de Barra'
+          'Codigo do Produto')
+        TabOrder = 1
+        OnClick = RadioGroup4Click
+      end
+      object RadioGroup5: TRadioGroup
+        Left = 9
+        Top = 165
+        Width = 289
+        Height = 65
+        Caption = 'Usa Controle de Lote'
+        Columns = 2
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+        TabOrder = 2
+        OnClick = RadioGroup5Click
+      end
+      object CheckBox1: TCheckBox
+        Left = 11
+        Top = 264
+        Width = 169
+        Height = 17
+        Alignment = taLeftJustify
+        Caption = 'Imprimor para Arquivo ?'
+        TabOrder = 3
+        OnClick = CheckBox1Click
+      end
+      object edtMensagem: TEdit
+        Left = 368
+        Top = 56
+        Width = 393
+        Height = 21
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        TabOrder = 4
+        OnChange = edtMensagemChange
+      end
+    end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 494
-    Width = 806
+    Top = 483
+    Width = 798
     inherited btnGravar: TBitBtn
       Left = 288
     end
@@ -2644,8 +2716,8 @@ inherited fParametro: TfParametro
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_parametro
-    Left = 656
-    Top = 352
+    Left = 704
+    Top = 40
   end
   object sbusca: TSQLDataSet
     MaxBlobSize = -1
@@ -2657,8 +2729,8 @@ inherited fParametro: TfParametro
   object ImageList1: TImageList
     Height = 17
     Width = 22
-    Left = 200
-    Top = 88
+    Left = 400
+    Top = 32
     Bitmap = {
       494C010111001300040016001100FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000058000000550000000100200000000000E074
@@ -3637,8 +3709,8 @@ inherited fParametro: TfParametro
   object ImageList2: TImageList
     Height = 26
     Width = 30
-    Left = 200
-    Top = 120
+    Left = 352
+    Top = 32
     Bitmap = {
       494C01011500180004001E001A00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000780000009C00000001002000000000008024
@@ -6067,7 +6139,81 @@ inherited fParametro: TfParametro
   end
   object JvNavPaneStyleManager1: TJvNavPaneStyleManager
     Theme = nptXPSilver
-    Left = 248
-    Top = 216
+    Left = 440
+    Top = 40
+  end
+  object s_parametro: TSQLDataSet
+    CommandText = 'select * from PARAMETRO '#13#10'where PARAMETRO = :pr'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pr'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 316
+    Top = 32
+    object s_parametroDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object s_parametroPARAMETRO: TStringField
+      FieldName = 'PARAMETRO'
+      Required = True
+      Size = 40
+    end
+    object s_parametroCONFIGURADO: TStringField
+      FieldName = 'CONFIGURADO'
+      FixedChar = True
+      Size = 1
+    end
+    object s_parametroDADOS: TStringField
+      FieldName = 'DADOS'
+      Size = 40
+    end
+    object s_parametroD1: TStringField
+      FieldName = 'D1'
+      Size = 30
+    end
+    object s_parametroD2: TStringField
+      FieldName = 'D2'
+      Size = 30
+    end
+    object s_parametroD3: TStringField
+      FieldName = 'D3'
+      Size = 30
+    end
+    object s_parametroD4: TStringField
+      FieldName = 'D4'
+      Size = 30
+    end
+    object s_parametroD5: TStringField
+      FieldName = 'D5'
+      Size = 30
+    end
+    object s_parametroD6: TStringField
+      FieldName = 'D6'
+      Size = 30
+    end
+    object s_parametroD7: TStringField
+      FieldName = 'D7'
+      Size = 30
+    end
+    object s_parametroD8: TStringField
+      FieldName = 'D8'
+      Size = 30
+    end
+    object s_parametroD9: TStringField
+      FieldName = 'D9'
+      Size = 30
+    end
+    object s_parametroINSTRUCOES: TStringField
+      FieldName = 'INSTRUCOES'
+      Size = 200
+    end
+    object s_parametroVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
   end
 end
