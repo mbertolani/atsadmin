@@ -248,8 +248,12 @@ end;
 procedure TfOsInsere.FormShow(Sender: TObject);
 begin
   //inherited;
+  edServico.Lines.Clear;
   if (modoOsInsere = 'SERVICO') then
   begin
+    edCodUsuario.Enabled  := True;
+    edColaborador.Enabled := True;
+
     Label21.Caption   := 'Cód. Serviço';
     GroupBox1.Caption := 'Serviço';
     DtSrc.DataSet := fOs.cdsServico;
@@ -268,6 +272,9 @@ begin
   end;
   if (modoOsInsere = 'PECA') then
   begin
+    edCodUsuario.Enabled  := False;
+    edColaborador.Enabled := False;
+
     Label21.Caption   := 'Cód. Peça';
     GroupBox1.Caption := 'Peça';
     DtSrc.DataSet                       := fOs.cdsPecas;
@@ -275,7 +282,7 @@ begin
     fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
     if (DtSrc.State in [dsEdit]) then
     begin
-      edServico.Lines.Add(fOs.cdsServicoDESCRICAO_SERV.AsString);
+      edServico.Lines.Add(fOs.cdsPecasDESCRICAO_SERV.AsString);
       edProduto.Text      := fOs.cdsPecasCODPRO.AsString;
       codProduto          := fOs.cdsPecasCODPRODUTO.asInteger;
       edQtdeServ.Value    := fOs.cdsPecasQTDE.AsFloat;

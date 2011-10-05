@@ -61,6 +61,7 @@ Type
 
     function IncluirOsDet(codOsDetI: Integer): Integer;
     function alterarOsDet(codOsDetA: Integer): Boolean;
+    function alterarOsDetS(codOsDetS: Integer; StatusOsDet: String): Boolean;
     function excluirOsDet(codMovDetE: Integer): Boolean;
 
     procedure ListaOs(DataIni: TdateTime; DataFim: TDateTime; codCliente: Integer);
@@ -96,6 +97,21 @@ begin
     Result := False;
     DecimalSeparator := ',';
   end;
+end;
+
+function TOsDetalheClasse.alterarOsDetS(codOsDetS: Integer;
+  StatusOsDet: String): Boolean;
+var sqlAlteraSt: String;
+begin
+  Result := False;
+  sqlAlteraSt := 'UPDATE OS_DET SET STATUS = ';
+  sqlAlteraSt := sqlAlteraSt + QuotedStr(StatusOsDet);
+
+  sqlAlteraSt := sqlAlteraSt + ' WHERE ID_OS_DET  = ' + IntToStr(CodOsDetS);
+
+  if (executaSql(sqlAlteraSt)) then
+    Result := True;
+
 end;
 
 function TOsDetalheClasse.excluirOsDet(codMovDetE: Integer): Boolean;
