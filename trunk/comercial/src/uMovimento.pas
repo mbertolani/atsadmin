@@ -35,6 +35,8 @@ type
     procedure setDataMov(const Value: TDateTime);
     procedure setDataEntrega(const Value: TDateTime);
     procedure setMovDetalhe(const Value: TMovimentoDetalhe);
+    function getObs: String;
+    procedure setObs(const Value: String);
   protected
     //Atributos
     _codMov          : Integer;
@@ -47,6 +49,7 @@ type
     _codCCusto       : Integer;
     _codFornec       : Integer;
     _controle        : String;
+    _obs             : String;
     _dataMov         : TDateTime;
     _dataEntrega     : TDateTime;
     _movDetalhe      : TMovimentoDetalhe;
@@ -62,6 +65,7 @@ type
     property CodCCusto   : Integer read getCodCCusto write setCodCCusto;
     property CodFornec   : Integer read getCodFornec write setCodFornec;
     property Controle    : String  read getControle write setControle;
+    property Obs         : String  read getObs write setObs;
     property DataMov     : TDateTime read getDataMov write setDataMov;
     property DataEntrega : TDateTime read getDataEntrega write setDataEntrega;
     property MovDetalhe  : TMovimentoDetalhe read getMovDetalhe write setMovDetalhe;
@@ -93,6 +97,7 @@ begin
   sqlAltera := sqlAltera + ', STATUS        = ' + IntToStr(Self.Status);
   sqlAltera := sqlAltera + ', CODVENDEDOR   = ' + IntToStr(Self.CodVendedor);
   sqlAltera := sqlAltera + ', CONTROLE      = ' + QuotedStr(Self.Controle);
+  sqlAltera := sqlAltera + ', OBS           = ' + QuotedStr(Self.Obs);
   sqlAltera := sqlAltera + ' WHERE CODMOVIMENTO = ' + IntToStr(codMovA);
   if (executaSql(sqlAltera)) then
     Result := True
@@ -202,6 +207,11 @@ begin
   Result := _movDetalhe;
 end;
 
+function TMovimento.getObs: String;
+begin
+  Result := _obs;
+end;
+
 function TMovimento.getStatus: Integer;
 begin
   Result := _status;
@@ -223,7 +233,7 @@ begin
   end;
   str := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, ';
   str := str + 'CODNATUREZA, STATUS, CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, ';
-  str := str + 'CODFORNECEDOR, DATA_SISTEMA, CONTROLE, CODPEDIDO, DATA_ENTREGA) VALUES (';
+  str := str + 'CODFORNECEDOR, DATA_SISTEMA, CONTROLE, CODPEDIDO, DATA_ENTREGA, OBS) VALUES (';
   str := str + IntToStr(Self.CodMov) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataMov));
   str := str + ', ' + IntToStr(Self.CodCliente) + ', ' + IntToStr(Self.CodNatureza);
   str := str + ', ' + IntToStr(Self.Status) + ', ' + IntToStr(Self.CodUsuario);
@@ -231,6 +241,7 @@ begin
   str := str + ', ' + IntToStr(Self.CodFornec) + ', CURRENT_TIMESTAMP ';
   str := str + ', ' + QuotedStr(Self.Controle) + ', ' + IntToStr(Self.CodPedido);
   str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataEntrega));
+  str := str + ', ' + QuotedStr(Self.Obs);
   str := str + ')';
   if (executaSql(str)) then
     Result := Self.CodMov
@@ -296,6 +307,11 @@ end;
 procedure TMovimento.setMovDetalhe(const Value: TMovimentoDetalhe);
 begin
   _movDetalhe := Value;
+end;
+
+procedure TMovimento.setObs(const Value: String);
+begin
+  _obs := Value;
 end;
 
 procedure TMovimento.setStatus(const Value: Integer);

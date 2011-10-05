@@ -696,11 +696,11 @@ var
   codMovSaida, codMovEntrada : Integer;
   Save_Cursor:TCursor;
 begin
-  if (dta.Date < today) then
+  {if (dta.Date < today) then
   begin
     MessageDlg('Data Inválida', mtError, [mbOK], 0);
     exit;
-  end;
+  end; }
 
   if (cdsInventSITUACAO.AsString = 'G') then
   begin
@@ -748,6 +748,7 @@ begin
             FMov.CodUsuario  := 1;
             FMov.CodVendedor := 1;
             FMov.DataMov     := dta.Date;
+            FMov.Obs         := cdsInventCODIVENTARIO.AsString; 
             codMovSaida := FMov.inserirMovimento(0);
             movSaida := 'S';
           end;
@@ -774,6 +775,7 @@ begin
             FMov.CodUsuario  := 1;
             FMov.CodVendedor := 1;
             FMov.DataMov     := dta.Date;
+            FMov.Obs         := cdsInventCODIVENTARIO.AsString;
             codMovEntrada := FMov.inserirMovimento(0);
             movEntrada := 'S';
           end;
