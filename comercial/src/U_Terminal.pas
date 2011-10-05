@@ -429,11 +429,11 @@ begin
              DM_MOV.c_movimento.Edit;
 
           btnProduto.Click;
-          
-          JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+
           if (scds_produto_proc.Active) then
             scds_produto_proc.Close;
       end;
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;      
    end;
 end;
 
@@ -833,6 +833,7 @@ begin
   if ( DM_MOV.c_movdet.Active) then
     DM_MOV.c_movdet.Close;
     EdtCodBarra.Text := '';
+    EdtCodBarra.SetFocus;
 end;
 
 end.
