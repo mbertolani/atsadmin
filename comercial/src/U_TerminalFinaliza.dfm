@@ -20,8 +20,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 443
-    Width = 743
+    Top = 432
+    Width = 735
     Height = 49
     Align = alBottom
     PopupMenu = PopupMenu1
@@ -36,8 +36,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   object Panel1: TPanel
     Left = 0
     Top = 49
-    Width = 597
-    Height = 394
+    Width = 589
+    Height = 383
     Align = alClient
     PopupMenu = PopupMenu1
     TabOrder = 1
@@ -987,10 +987,10 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     end
   end
   object Panel2: TPanel
-    Left = 597
+    Left = 589
     Top = 49
     Width = 146
-    Height = 394
+    Height = 383
     Align = alRight
     TabOrder = 2
     object JvGroupHeader4: TJvGroupHeader
@@ -1174,7 +1174,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 743
+    Width = 735
     Height = 49
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1593,7 +1593,6 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       PopupMenu = PopupMenu1
       ShowHint = True
       TabOrder = 3
-      OnClick = btnNotaFiscalClick
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
         0800000000000004000000000000000000000001000000000000000000000000

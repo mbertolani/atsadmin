@@ -1206,6 +1206,7 @@ begin
     F_Boletos := TF_Boletos.Create(Application);
     try
       F_Boletos.varLocal := 'Terminal';
+      F_Boletos.ID_VENDA := DM_MOV.c_vendaCODVENDA.AsInteger;
       if (F_Boletos.ds_cr.Active) then
          F_Boletos.ds_cr.Close;
       F_Boletos.ds_cr.Params[1].Clear;
