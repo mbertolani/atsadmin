@@ -9,7 +9,7 @@ uses
   ExtCtrls, JvExExtCtrls, JvImage, Grids, DBGrids, StdCtrls, ComCtrls,
   MMJPanel, JvSpeedButton, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
   Menus, JvComponentBase, JvFormAutoSize, FMTBcd, DB, SqlExpr, Provider,
-  DBClient, JvExButtons, JvBitBtn, rpcompobase, rpvclreport;
+  DBClient, JvExButtons, JvBitBtn, rpcompobase, rpvclreport, uUtils, DBxPress;
 
 type
   TF_Terminal = class(TForm)
@@ -92,6 +92,7 @@ type
     JvSair: TJvBitBtn;
     F9Sair1: TMenuItem;
     VCLReport1: TVCLReport;
+    btnIncluir: TJvBitBtn;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -114,7 +115,9 @@ type
     procedure JvSairClick(Sender: TObject);
     procedure JvImprimirClick(Sender: TObject);
     procedure JvExcluirClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
   private
+    TD: TTransactionDesc;  
     clienteConsumidor,nomecliente, tipo_busca : string;
     codcliente : integer;
     procedure IncluiPedido;
@@ -204,6 +207,7 @@ end;
 
 procedure TF_Terminal.IncluiItemPedido;
 begin
+  dm.sqlsisAdimin.StartTransaction(TD);
    DM_MOV.c_movdet.Open;
    DM_MOV.c_movdet.Append;
    if dm.c_6_genid.Active then
@@ -223,62 +227,70 @@ begin
    DM_MOV.c_movdetUN.AsString := scds_produto_procUNIDADEMEDIDA.AsString;
    DM_MOV.c_movdetPRECO.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
    DM_MOV.c_movdetDESCPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
+   DM_MOV.c_movdetLOTE.AsString := EdtCodBarra.Text;
    DM_MOV.c_movdet.ApplyUpdates(0);
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, o Iten não foi gravada.', mtError,
+         [mbOk], 0);
+  end;   
 end;
 
 procedure TF_Terminal.IncluiPedido;
+var sql : string;
 begin
+  dm.sqlsisAdimin.StartTransaction(TD);
+  DM_MOV.c_movimento.Open;
+  DM_MOV.c_movimento.Append;
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  DM_MOV.c_movimentoCODMOVIMENTO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+  DM_MOV.c_movimentoCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+  dm.c_6_genid.Close;
+  DM_MOV.c_movimentoCODNATUREZA.AsInteger := 3;
+  DM_MOV.c_movimentoDATAMOVIMENTO.Value := Date;
+  DM_MOV.c_movimentoDATA_SISTEMA.AsDateTime := Now;
+  DM_MOV.c_movimentoSTATUS.Value := 20; //Venda em Aberto
+  DM_MOV.c_movimentoCODUSUARIO.AsInteger := usulog;
+  DM_MOV.c_movimentoCODVENDEDOR.Value:=1;
+  DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger := 1;
+  DM_MOV.c_movimentoNOMEUSUARIO.AsString := nome_user;
+  DM_MOV.c_movimentoUSUARIOLOGADO.AsString := nome_user;
   if (PageControl1.ActivePage = TabSheet1) then
   begin
-    DM_MOV.c_movimento.Open;
-    DM_MOV.c_movimento.Append;
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    DM_MOV.c_movimentoCODMOVIMENTO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
-    DM_MOV.c_movimentoCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
-    dm.c_6_genid.Close;
-    DM_MOV.c_movimentoCODNATUREZA.AsInteger := 3;
-    DM_MOV.c_movimentoDATAMOVIMENTO.Value := Date;
-    DM_MOV.c_movimentoDATA_SISTEMA.AsDateTime := Now;
-    DM_MOV.c_movimentoSTATUS.Value := 20; //Venda em Aberto
-    DM_MOV.c_movimentoCODUSUARIO.AsInteger := usulog;
-    DM_MOV.c_movimentoNOMEUSUARIO.AsString := nome_user;
-    DM_MOV.c_movimentoUSUARIOLOGADO.AsString := nome_user;
-    DM_MOV.c_movimentoCODVENDEDOR.Value:=1;
     DM_MOV.c_movimentoCODCLIENTE.AsInteger := codcliente;
     DM_MOV.c_movimentoNOMECLIENTE.AsString := nomecliente;
-    DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger := 1;
-    DM_MOV.c_movimento.ApplyUpdates(0);
   end;
   if (PageControl1.ActivePage = TabComanda) then
   begin
-    DM_MOV.c_comanda.Open;
-    DM_MOV.c_comanda.Append;
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    DM_MOV.c_comandaCODMOVIMENTO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
-    DM_MOV.c_comandaCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
-    dm.c_6_genid.Close;
-    DM_MOV.c_comandaCODNATUREZA.AsInteger := 3;
-    DM_MOV.c_comandaDATAMOVIMENTO.Value := Date;
-    DM_MOV.c_comandaDATA_SISTEMA.AsDateTime := Now;
-    DM_MOV.c_comandaSTATUS.Value := 20; //Venda em Aberto
-    DM_MOV.c_comandaCODUSUARIO.AsInteger := usulog;
-    DM_MOV.c_comandaCODVENDEDOR.Value:=1;
-    DM_MOV.c_comandaCODCLIENTE.AsInteger := StrToInt(EdtComanda.Text);
-    DM_MOV.c_comandaNOMECLIENTE.AsString := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
-    DM_MOV.c_comandaCODALMOXARIFADO.AsInteger := 1;
-    DM_MOV.c_comanda.ApplyUpdates(0);
+    DM_MOV.c_movimentoCODCLIENTE.AsInteger := StrToInt(EdtComanda.Text);
+    DM_MOV.c_movimentoNOMECLIENTE.AsString := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
   end;
   if (PageControl1.ActivePage = TabDelivery) then
   begin
 
   end;
-
+  sql := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, CODPEDIDO, CODNATUREZA, DATAMOVIMENTO, DATA_SISTEMA, STATUS, '+
+    'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE) VALUES ( ' +
+    IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) +
+    ', ' + IntToStr(DM_MOV.c_movimentoCODNATUREZA.AsInteger) +
+    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime)) +
+    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', DM_MOV.c_movimentoDATA_SISTEMA.AsDateTime)) +
+    ', ' + IntToStr(DM_MOV.c_movimentoSTATUS.AsInteger) +
+    ', ' + IntToStr(DM_MOV.c_movimentoCODUSUARIO.AsInteger) + ', ' + IntToStr(1) + ', ' + IntToStr(1) +
+    ', ' + QuotedStr(DM_MOV.c_movimentoUSUARIOLOGADO.AsString) + ', ' + IntToStr(DM_MOV.c_movimentoCODCLIENTE.AsInteger) + '); ';
+  Try
+     dm.sqlsisAdimin.ExecuteDirect(sql);
+     dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, o Movimento não foi gravada.', mtError,
+         [mbOk], 0);
+  end;
 end;
 
 procedure TF_Terminal.AlteraPedido;
@@ -812,6 +824,15 @@ begin
       vendaexiste := 'SIM'
     else
       vendaexiste := 'NAO';
+end;
+
+procedure TF_Terminal.btnIncluirClick(Sender: TObject);
+begin
+  if ( DM_MOV.c_movimento.Active) then
+    DM_MOV.c_movimento.Close;
+  if ( DM_MOV.c_movdet.Active) then
+    DM_MOV.c_movdet.Close;
+    EdtCodBarra.Text := '';
 end;
 
 end.

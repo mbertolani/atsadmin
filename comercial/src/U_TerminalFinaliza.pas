@@ -301,8 +301,10 @@ begin
     prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
   finally
-   dmnf.scds_cli_proc.Close;
-   fProcurar_nf.Free;
+    DM_MOV.c_vendaCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
+    DM_MOV.c_vendaNOMECLIENTE.AsString := dmnf.scds_cli_procNOMECLIENTE.AsString;
+    dmnf.scds_cli_proc.Close;
+    fProcurar_nf.Free;
   end;
 {
   if (DM_MOV.c_movimento.State = dsBrowse) then
@@ -310,8 +312,8 @@ begin
   DM_MOV.c_movimentoCODCLIENTE.AsInteger := dm.codcli;//fListaClientes.cdsCODCLIENTE.AsInteger;
   DM_MOV.c_movimento.ApplyUpdates(0);
  }
-  DM_MOV.c_vendaCODCLIENTE.AsInteger := dm.codcli;//fListaClientes.cdsCODCLIENTE.AsInteger;
-  DM_MOV.c_vendaNOMECLIENTE.AsString := dm.varNomeCliente;//fListaClientes.cdsNOMECLIENTE.AsString;
+//  DM_MOV.c_vendaCODCLIENTE.AsInteger := dm.codcli;//fListaClientes.cdsCODCLIENTE.AsInteger;
+//  DM_MOV.c_vendaNOMECLIENTE.AsString := dm.varNomeCliente;//fListaClientes.cdsNOMECLIENTE.AsString;
 
 end;
 
@@ -439,12 +441,7 @@ begin
     end;
     if (dm.cds_7_contas.Locate('CODIGO', DM_MOV.c_vendaCAIXA.AsInteger, [loCaseInsensitive])) then
       cbConta.Text := dm.cds_7_contas.Fields[2].asString;
-
-{
-  scdsCr_proc.Close;
-  scdsCr_proc.Params[0].AsInteger := cdsCODVENDA.AsInteger;
-  scdsCr_proc.Open;
- }
+  cbPrazo.ItemIndex := -1;
 end;
 
 procedure TF_TerminalFinaliza.btnIncluirClick(Sender: TObject);
@@ -745,10 +742,11 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.INSEREVEDA;
-var strSql, usuario_venda: string;
+var strSql, strSqlMov, usuario_venda: string;
     Caixa : integer;
     total, vApagar, Valor : Double;
 begin
+    caixa := 0;
     strSql := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA';
     strSql := strSql + ',DATAVENCIMENTO ,BANCO ,CODVENDEDOR ,STATUS ,CODUSUARIO';
     strSql := strSql + ',VALOR ,NOTAFISCAL ,SERIE, DESCONTO, CODCCUSTO, N_PARCELA'; //
@@ -756,7 +754,7 @@ begin
     strSql := strSql + ') VALUES (';
     strSql := strSql + IntToStr(COD_VENDA);
     strSql := strSql + ',' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
-    strSql := strSql + ',' + IntToStr(DM_MOV.c_movimentoCODCLIENTE.AsInteger);
+    strSql := strSql + ',' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
     strSql := strSql + ',''' + formatdatetime('mm/dd/yyyy', DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime) + '''';
     strSql := strSql + ',''' + formatdatetime('mm/dd/yyyy', DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime) + '''';
     strSql := strSql + ',1'; //Banco
@@ -793,11 +791,15 @@ begin
     strSql := strSql + ',' + FloatToStr(jvApagar.Value);
     strSql := strSql + ')';
 
+    strSqlMov := 'UPDATE MOVIMENTO SET CODCLIENTE = ' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger) +
+    ' where CODMOVIMENTO = ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger);
+
     DM_MOV.c_venda.Cancel;
     DM_MOV.c_venda.Close;
 
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
+    dm.sqlsisAdimin.ExecuteDirect(strSqlMov);    
     Try
        dm.sqlsisAdimin.Commit(TD);
     except
