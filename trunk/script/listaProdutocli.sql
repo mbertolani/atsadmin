@@ -48,6 +48,7 @@ declare variable precoVenda double PRECISION;
   declare variable usaListaTerceiros char(1);
   declare variable precocliente double PRECISION;
   declare variable CCusto INTEGER;
+  declare variable CCustoV INTEGER;
 begin
     CCusto = 0;
     
@@ -56,6 +57,8 @@ begin
 
     if (ccusto is null) then 
       CCusto = 0;
+    
+    CCustoV = CCusto;
       
     /* Verificando que tipo de Preco e usado pelo Cliente  (Preco Medio ou o ultimo   */
     /* Preco no calculo do estoque)                                                   */
@@ -92,7 +95,7 @@ begin
       codAlmoxarifado = 0;
       
     if (codAlmoxarifado > 0) then 
-      cCusto = codAlmoxarifado;
+      cCustoV = codAlmoxarifado;
           
     Preco_venda = precoVenda;
     if (preco_venda is null) then
@@ -100,6 +103,9 @@ begin
 
     if (margem is null) then
       margem = 0;
+      
+    IF (PRECOC IS NULL) THEN 
+      PRECOC = 0;  
 
     --if (usaListaTerceiros = 'N') then
     select sum(quantidade) from MOVIMENTODETALHE d
@@ -111,7 +117,7 @@ begin
 
     if (usaListaTerceiros = 'N') then
     begin
-      if (CCusto = 0) then 
+      if (CCustoV = 0) then 
       begin 
         select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
           where m.CODPRODUTO = :codProduto order by m.MESANO DESC
@@ -127,6 +133,9 @@ begin
     end  
     if (preco_compraMedio is null) then
       preco_compraMedio = 0;
+      
+    IF (PRECO_COMPRAMEDIO = 0) THEN 
+      PRECO_COMPRAMEDIO = PRECOC;  
 
     if (preco_compraUltimo is null) then
       preco_compraUltimo = 0;
@@ -214,7 +223,7 @@ begin
       precocliente = 0;
     end
     suspend;
-
+    CCustoV = CCusto;
     preco_compraMedio = 0;
     preco_compraUltimo = 0;
     estoqueAtual = 0;
