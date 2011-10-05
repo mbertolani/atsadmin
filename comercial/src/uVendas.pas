@@ -1725,7 +1725,12 @@ begin
       //   essa parte é para cadastro de Veículo
       if (dm.moduloUsado = 'AUTOMOTIVA') then
       begin
-        if (maskEdit1.Text <> '   -    ') then
+        if ((maskEdit1.Text = '   -    ') and (cds_MovimentoNOMECLIENTE.AsString <> 'CONSUMIDOR') ) then
+        begin
+          MessageDlg('Preenchimento da placa é Obrigatório', mtWarning, [mbOK], 0);
+          Exit;
+        end
+        else
         begin
           if (cds_Veiculocli.Active) then
             cds_Veiculocli.Close;
@@ -1760,6 +1765,12 @@ begin
           end;
           cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
           cds_Veiculocli.Close;
+          if ((DBComboBox1.Text = '') and (cds_MovimentoNOMECLIENTE.AsString <> 'CONSUMIDOR')) then
+          begin
+            MessageDlg('Preenchimento da KM é Obrigatório', mtWarning, [mbOK], 0);
+            Exit;
+          end
+
         end;
 
       end;
