@@ -326,7 +326,6 @@ object F_Boletos: TF_Boletos
   object ACBrBoleto1: TACBrBoleto
     Cedente.TipoInscricao = pOutras
     Banco.Numero = 748
-    NumeroArquivo = 0
     ComprovanteEntrega = True
     ACBrBoletoFC = ACBrBoletoFCFortes1
     Left = 408
@@ -444,9 +443,21 @@ object F_Boletos: TF_Boletos
     end
   end
   object s_cr: TSQLDataSet
-    CommandText = 'select * from RECEBIMENTO'
+    CommandText = 
+      'select * from RECEBIMENTO '#13#10'where CODVENDA = :id '#13#10'       or COD' +
+      'RECEBIMENTO =:idr'#13#10
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'idr'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 240
     Top = 179
@@ -1265,7 +1276,17 @@ object F_Boletos: TF_Boletos
   end
   object ds_cr: TClientDataSet
     Aggregates = <>
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'idr'
+        ParamType = ptInput
+      end>
     ProviderName = 'p_cr'
     Left = 304
     Top = 179
@@ -1456,5 +1477,10 @@ object F_Boletos: TF_Boletos
     object ds_crVALOR_RESTO_SST: TFloatField
       FieldName = 'VALOR_RESTO_SST'
     end
+  end
+  object DataSource1: TDataSource
+    DataSet = ds_cr
+    Left = 336
+    Top = 179
   end
 end
