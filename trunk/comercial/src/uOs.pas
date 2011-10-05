@@ -206,7 +206,7 @@ uses UDm, uProcurar_nf, UDMNF, uProcura_prodOficina, sCtrlResize,
 
 procedure TfOs.btnIncluirClick(Sender: TObject);
 begin
-  modoOs := 'Browse';
+  modoOs := 'Insert';
   modoOsItem := '';
   edNumOS.Text := 'Nova OS ...';
   limpaCampos;
@@ -701,7 +701,7 @@ begin
     edObs.Text         := cdsOSOBS.AsString;
     abrirOs(cdsOSCODOS.AsInteger);
     abrirPecas;
-    modoOs := 'Edit';
+    //modoOs := 'Edit';
     controlaEventos;
   end
   else begin
@@ -714,7 +714,7 @@ end;
 procedure TfOs.BitBtn1Click(Sender: TObject);
 begin
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
-    exit;
+    modoOs := 'Edit';
 
   modoOsItem := 'IncluiPeca';
 
