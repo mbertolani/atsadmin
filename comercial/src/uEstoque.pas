@@ -283,6 +283,7 @@ begin
 end;
 
 function TEstoque.getPrecoCompra: Double;
+var sqlBuscaCu: TSqlQuery;
 begin
   totalEstoque := QCompra;
   novoCusto    := (PCompra * QCompra);
@@ -290,8 +291,56 @@ begin
   begin
     novoCusto    := (novoCusto + (_precoCompra * _qtdeCompra))/(totalEstoque + _qtdeCompra);
     Result       := novoCusto;
+    if (novoCusto = 0) then
+    begin
+      Try
+        sqlBuscaCu :=  TSqlQuery.Create(nil);
+        sqlBuscaCu.SQLConnection := dm.sqlsisAdimin;
+
+        sqlBuscaCu.sql.Add('SELECT FIRST 1 PRECOCOMPRA, MESANO' +
+          ' FROM ESTOQUEMES ' +
+          'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
+          '  AND LOTE        = ' + QuotedStr(Self.Lote) +
+          '  AND MESANO      < ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.MesAno)) +
+          '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
+          '  AND PRECOCOMPRA  > 0 ' +
+          ' ORDER BY MESANO DESC');
+        sqlBuscaCu.Open;
+        if (not sqlBuscaCu.IsEmpty) then      // Não achou nada no sistema
+        begin
+          Result := sqlBuscaCu.FieldByName('PRECOCOMPRA').AsFloat;
+        end;
+      Finally
+        SqlBuscaCu.Free;
+      end;
+    end;
   end else
+  begin
     Result := _precoCompra;
+    if (_precoCompra = 0) then
+    begin
+      Try
+        sqlBuscaCu :=  TSqlQuery.Create(nil);
+        sqlBuscaCu.SQLConnection := dm.sqlsisAdimin;
+
+        sqlBuscaCu.sql.Add('SELECT FIRST 1 PRECOCOMPRA, MESANO' +
+          ' FROM ESTOQUEMES ' +
+          'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
+          '  AND LOTE        = ' + QuotedStr(Self.Lote) +
+          '  AND MESANO      < ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.MesAno)) +
+          '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
+          '  AND PRECOCOMPRA  > 0 ' +
+          ' ORDER BY MESANO DESC');
+        sqlBuscaCu.Open;
+        if (not sqlBuscaCu.IsEmpty) then      // Não achou nada no sistema
+        begin
+          Result := sqlBuscaCu.FieldByName('PRECOCOMPRA').AsFloat;
+        end;
+      Finally
+        SqlBuscaCu.Free;
+      end;
+    end;
+  end;
 end;
 
 function TEstoque.getPrecoCompraUltima: Double;
@@ -300,6 +349,7 @@ begin
 end;
 
 function TEstoque.getPrecoCusto: Double;
+var sqlBuscaPc: TSqlQuery;
 begin
   totalEstoque := QSaldo + QSaldoAnterior;
   novoCusto := (PCusto * QSaldo) + (QSaldoAnterior * PCustoAnterior);
@@ -309,6 +359,29 @@ begin
       totalEstoque := 0;
     novoCusto := (novoCusto + (_precoCompra * _qtdeCompra))/(totalEstoque + _qtdeCompra);
     Result := novoCusto;
+    if (NovoCusto = 0) then
+    begin
+      Try
+        sqlBuscaPc :=  TSqlQuery.Create(nil);
+        sqlBuscaPc.SQLConnection := dm.sqlsisAdimin;
+
+        sqlBuscaPc.sql.Add('SELECT FIRST 1 PRECOCUSTO, SALDOESTOQUE, MESANO' +
+          ' FROM ESTOQUEMES ' +
+          'WHERE CODPRODUTO  = ' + IntToStr(Self.CodProduto) +
+          '  AND LOTE        = ' + QuotedStr(Self.Lote) +
+          '  AND MESANO      < ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.MesAno)) +
+          '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto) +
+          '  AND PRECOCUSTO  > 0 ' +
+          ' ORDER BY MESANO DESC');
+        sqlBuscaPc.Open;
+        if (not sqlBuscaPc.IsEmpty) then      // Não achou nada no sistema
+        begin
+          Result := sqlBuscaPc.FieldByName('PRECOCUSTO').AsFloat;
+        end;
+      Finally
+        sqlBuscaPc.Free;
+      end;
+    end;
   end else
     Result := _precoCompra;
 end;
