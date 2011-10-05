@@ -477,6 +477,7 @@ begin
     DM_MOV.c_movdet.Close;
     DM_MOV.c_movdet.Params[0].AsInteger := fFiltroMovimento.cod_mov;
     DM_MOV.c_movdet.Open;
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
 
 end;
 
