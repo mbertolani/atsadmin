@@ -351,8 +351,8 @@ begin
   if (modoOsInsere = 'SERVICO') then
   begin
     fOs.cdsServicoSTATUS.AsString := 'O';
-    fOs.cdsServicoCODUSUARIO.AsInteger := 1;
-    fOs.cdsServicoNOMEUSUARIO.AsString := 'Usuario';
+    fOs.cdsServicoCODUSUARIO.AsInteger    := StrToInt(edCodUsuario.Text);
+    fOs.cdsServicoNOMEUSUARIO.AsString    := edColaborador.Text;
     fOs.cdsServicoDESCRICAO_SERV.AsString := str;
     fOs.cdsServicoCODPRO.AsString         := edProduto.Text;
     fOs.cdsServicoCODPRODUTO.asInteger    := codProduto;
