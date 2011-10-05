@@ -8,7 +8,7 @@ uses
   Mask, DBCtrls, JvExControls, JvSpeedButton, ExtCtrls, MMJPanel, U_Terminal,
   FMTBcd, DB, SqlExpr, uUtils, DBxPress, Provider, DBClient, DBLocal,
   DBLocalS, JvExButtons, JvBitBtn, JvEdit, JvValidateEdit, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid, Menus;
+  JvExDBGrids, JvDBGrid, Menus, Printers, rpcompobase, rpvclreport;
 
 type
   TF_TerminalFinaliza = class(TForm)
@@ -213,6 +213,25 @@ type
     cds_crDP: TIntegerField;
     cds_crBL: TIntegerField;
     sqlBuscaNota: TSQLQuery;
+    JvBitBtn1: TJvBitBtn;
+    SaveDialog1: TSaveDialog;
+    s_parametro: TSQLDataSet;
+    s_parametroDESCRICAO: TStringField;
+    s_parametroPARAMETRO: TStringField;
+    s_parametroCONFIGURADO: TStringField;
+    s_parametroDADOS: TStringField;
+    s_parametroD1: TStringField;
+    s_parametroD2: TStringField;
+    s_parametroD3: TStringField;
+    s_parametroD4: TStringField;
+    s_parametroD5: TStringField;
+    s_parametroD6: TStringField;
+    s_parametroD7: TStringField;
+    s_parametroD8: TStringField;
+    s_parametroD9: TStringField;
+    s_parametroINSTRUCOES: TStringField;
+    s_parametroVALOR: TFloatField;
+    VCLReport2: TVCLReport;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -231,6 +250,7 @@ type
     procedure excluinf;
     procedure JvExcluirClick(Sender: TObject);
     procedure JvBoletoClick(Sender: TObject);
+    procedure JvBitBtn1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -242,14 +262,37 @@ type
     procedure baixaestoque(Tipo: string);
     procedure INSEREVEDA;
     procedure ALTERAVENDA;
+    procedure imprimeCupom;
+    procedure imprimeRecibo;
     { Private declarations }
   public
     { Public declarations }
   end;
 
+const
+    cJustif = #27#97#51;
+    cEject = #12;
+    { Tamanho da fonte }
+    c10cpi = #18;
+    c12cpi = #27#77;
+    c17cpi = #15;
+    cIExpandido = #14;
+    cFExpandido = #20;
+    { Formatação da fonte }
+    cINegrito = #27#71;
+    cFNegrito = #27#72;
+    cIItalico = #27#52;
+    cFItalico = #27#53;
+
 var
   F_TerminalFinaliza: TF_TerminalFinaliza;
   utilcrtitulo : Tutils;
+  tipoImpressao : string;
+  IMPRESSORA:TextFile;
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+  total, porc, totgeral , desconto : double;
+  porta : string;
+  cliente, vNomeCliente, vEnderecoCliente, vFonecli : string;
 
 implementation
 
@@ -1218,6 +1261,162 @@ begin
     finally
       F_Boletos.Free;
     end;
+end;
+
+procedure TF_TerminalFinaliza.imprimeCupom;
+begin
+ {  DM_MOV.c_venda.Close;
+   DM_MOV.c_venda.Params[0].Clear;
+   DM_MOV.c_venda.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+   DM_MOV.c_venda.Open;
+   }
+     if (not dm.cds_empresa.Active) then
+      dm.cds_empresa.Open;
+     {----- aqui monto o endereço-----}
+     logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+     cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+     ' - ' + dm.cds_empresaCEP.Value;
+     fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+     ' / ' + dm.cds_empresaFONE_2.Value;
+     Texto  := '------------------------------------------------------' ;
+     Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
+      IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
+     Texto2 := '------------------------------------------------------' ;
+     Texto3 := 'Produto xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ;
+     Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
+     Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
+     cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+     if (s_parametro.Active) then
+         s_parametro.close;
+     s_parametro.Params[0].AsString := 'MENSAGEM';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       DM.Mensagem := s_parametroDADOS.AsString
+     else
+       DM.Mensagem := '';
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'IMPARQUIVO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       SaveDialog1.Execute;
+       AssignFile(IMPRESSORA, SaveDialog1.FileName);
+       s_parametro.Close;
+     end
+     else
+     begin
+       s_parametro.Close;
+       AssignFile(IMPRESSORA,'LPT1:');
+     end;
+
+     Rewrite(IMPRESSORA);
+     Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
+     Writeln(Impressora, c17cpi, logradouro);
+     Writeln(Impressora, cep);
+     Writeln(Impressora, fone);
+     Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+     Writeln(Impressora, cliente);
+     Writeln(Impressora, c17cpi, texto);
+     Writeln(Impressora, c17cpi, texto1);
+     Writeln(Impressora, c17cpi, texto2);
+     Writeln(Impressora, c17cpi, texto3);
+     Writeln(Impressora, c17cpi, texto4);
+  {-----------------------------------------------------------}
+  {-------------------Imprimi itens do boleto-----------------}
+   try
+     DM_MOV.c_movdet.First;
+     while not DM_MOV.c_movdet.Eof do
+     begin
+       DM_MOV.c_movdet.RecordCount;
+      // imprime
+      Writeln(Impressora, c17cpi + Format('%-40s',[DM_MOV.c_movdetDESCPRODUTO.Value]));
+      Write(Impressora, c17cpi, Format('%-13s  ',[DM_MOV.c_movdetCOD_BARRA.Value]));
+      Write(Impressora, c17cpi + Format('   %-2s  ',[DM_MOV.c_movdetUN.Value]));
+      Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]));
+      Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetPRECO.AsFloat]));
+      Writeln(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetValorTotal.value]));
+
+      with Printer.Canvas do
+      begin
+       Font.Name := 'Courier New';
+       Font.Size := 4;
+      end;
+      DM_MOV.c_movdet.next;
+     end;
+     total := DM_MOV.c_movdettotalpedido.Value;
+     Writeln(Impressora, c17cpi, texto);
+     Write(Impressora, c17cpi, texto5);
+     Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+
+     // imprimir vencimentos
+     while not scdsCr_proc.Eof do
+     begin
+       Texto5 := 'Vencimento :   ';
+       Write(Impressora, c17cpi, texto5);
+       Texto5 := DateTimeToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
+       Texto5 := Texto5 + ' - Valor R$' + FloatToStr(scdsCr_procVALOR_RESTO.AsFloat);
+       Writeln(Impressora, c17cpi, texto5);
+       scdsCr_proc.Next;
+     end;
+     Writeln(IMPRESSORA);
+     Write(Impressora, c10cpi, DM.Mensagem);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+  finally
+    CloseFile(IMPRESSORA);
+  end;
+
+end;
+
+procedure TF_TerminalFinaliza.imprimeRecibo;
+begin
+  VCLReport2.FileName := str_relatorio + 'impr_texto.rep';
+  VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport2.Report.Params.ParamByName('PVENDA').Value := DM_MOV.c_vendaCODVENDA.AsInteger;
+  VCLReport2.Execute;
+end;
+
+procedure TF_TerminalFinaliza.JvBitBtn1Click(Sender: TObject);
+begin
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
+  begin
+    ShowMessage('Parametro Tipo Impressão não configurado');
+    exit;
+  end;
+
+  if (tipoImpressao = 'CUPOM') then
+    imprimeCupom;
+
+  if (tipoImpressao = 'RECIBO') then
+    imprimeRecibo;
+
 end;
 
 end.
