@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ACBrBoleto, ACBrBoletoFCQuickFr, ACBrBase,
   ACBrBoletoFCFortesFr, ExtCtrls, MMJPanel, Buttons, ACBrUtil, FMTBcd, DB,
-  SqlExpr, uRel_CR1, U_AUTOPECAS, uVendas, DBClient, Provider;
+  SqlExpr, uRel_CR1, U_AUTOPECAS, uVendas, DBClient, Provider, Grids,
+  DBGrids;
 
 type
   TF_Boletos = class(TForm)
@@ -325,6 +326,7 @@ type
     ds_crDATAGERARQREM: TDateField;
     ds_crVALST: TFloatField;
     ds_crVALOR_RESTO_SST: TFloatField;
+    DataSource1: TDataSource;
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -333,6 +335,7 @@ type
     { Private declarations }
   public
     varLocal : String;
+    ID_VENDA, ID_RECEBIMENTO : Integer;
     { Public declarations }
     procedure BANCO_SELECIONADO;    
     procedure CRIA_BOLETO_MEMORIA;
@@ -708,6 +711,15 @@ var
 begin
   DecodeDate(Now,ano,mes,dia);
   Edit1.Text := 'Remessa_' + IntToStr(dia) + IntToStr(mes) + IntToStr(ano);
+{  if (ID_VENDA > 0) then
+  begin
+     if (ds_cr.Active) then
+        ds_cr.Close;
+     ds_cr.Params[1].Clear;
+     ds_cr.Params[0].AsInteger := ID_VENDA;
+     ds_cr.Open;
+  end;
+  }
 end;
 
 procedure TF_Boletos.btn3Click(Sender: TObject);
