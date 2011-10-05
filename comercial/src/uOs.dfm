@@ -1,6 +1,6 @@
 object fOs: TfOs
   Left = 265
-  Top = 61
+  Top = 62
   Width = 760
   Height = 600
   Caption = 'Ordem Servi'#231'o'
@@ -952,6 +952,7 @@ object fOs: TfOs
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
+        OnClick = BitBtn2Click
         Glyph.Data = {
           360C0000424D360C000000000000360000002800000020000000200000000100
           180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -1705,7 +1706,7 @@ object fOs: TfOs
         end
         object btnExcluirServico: TBitBtn
           Left = 7
-          Top = 98
+          Top = 97
           Width = 50
           Height = 42
           Hint = 'Excluir servi'#231'o da OS.'
@@ -1718,6 +1719,7 @@ object fOs: TfOs
           ParentShowHint = False
           ShowHint = True
           TabOrder = 1
+          OnClick = btnExcluirServicoClick
           Glyph.Data = {
             360C0000424D360C000000000000360000002800000020000000200000000100
             180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -1820,7 +1822,7 @@ object fOs: TfOs
         end
         object btnServAltera: TBitBtn
           Left = 7
-          Top = 52
+          Top = 51
           Width = 50
           Height = 42
           Hint = 'Alterar servi'#231'o da OS.'

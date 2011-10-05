@@ -175,6 +175,8 @@ type
     procedure btnServAlteraClick(Sender: TObject);
     procedure btnPecaAlteraClick(Sender: TObject);
     procedure edDataChange(Sender: TObject);
+    procedure btnExcluirServicoClick(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
   private
     estoque, qtde : Double;
     FOsCls: TOsClasse;
@@ -204,7 +206,8 @@ uses UDm, uProcurar_nf, UDMNF, uProcura_prodOficina, sCtrlResize,
 
 procedure TfOs.btnIncluirClick(Sender: TObject);
 begin
-  modoOs := 'Insert';
+  modoOs := 'Browse';
+  modoOsItem := '';
   edNumOS.Text := 'Nova OS ...';
   limpaCampos;
   controlaEventos;
@@ -247,7 +250,12 @@ begin
     FOsCls.dataFim    := edDataFim.Date;
     FOsCls.obs        := edObs.Text;
     if (modoOs = 'Insert') then
+    begin
       FOsCls.status := 'P';
+    end;
+    {else begin
+      FOsCls.status := 'P';
+    end; } 
     FOsCls.km         := StrToInt(edKm.Text);
 
     if (modoOs = 'Insert') then
@@ -270,13 +278,14 @@ begin
         FOsCls.osDet.Status   := 'O';
         FOsCls.osDet.Tipo     := 'S';
       end;
-      DecimalSeparator := '.';
+      DecimalSeparator        := '.';
       FOsCls.osDet.CodProduto := cdsServicoCODPRODUTO.AsInteger;
-      FOsCls.osDet.Descricao:= cdsServicoDESCRICAO_SERV.AsString;
-      FOsCls.osDet.Qtde     := cdsServicoQTDE.AsFloat;
-      FOsCls.osDet.Preco    := cdsServicoPRECO.AsFloat;
-      FOsCls.osDet.Desconto := cdsServicoDESCONTO.AsFloat;
-      DecimalSeparator := ',';
+      FOsCls.osDet.Descricao  := cdsServicoDESCRICAO_SERV.AsString;
+      FOsCls.osDet.Qtde       := cdsServicoQTDE.AsFloat;
+      FOsCls.osDet.Preco      := cdsServicoPRECO.AsFloat;
+      FOsCls.osDet.Desconto   := cdsServicoDESCONTO.AsFloat;
+      FOsCls.osDet.CodUsuario := cdsServicoCODUSUARIO.AsInteger;
+      DecimalSeparator        := ',';
       if (modoOsItem = 'IncluiServico') then
       begin
         if (FOsCls.osDet.IncluirOsDet(0) = 0) then
@@ -487,6 +496,7 @@ begin
   //sCtrlResize.CtrlResize(TForm(fOs));
   FOsCls := TOsClasse.Create;
   numOsDet := 90000001;
+  modoOsItem := '';
   carregaCampos;
 end;
 
@@ -763,6 +773,16 @@ begin
     modoOs := 'Edit';
     controlaEventos;
   end;  
+end;
+
+procedure TfOs.btnExcluirServicoClick(Sender: TObject);
+begin
+  modoOsItem := '';
+end;
+
+procedure TfOs.BitBtn2Click(Sender: TObject);
+begin
+  modoOsItem := 'ExcluiPeca';
 end;
 
 end.

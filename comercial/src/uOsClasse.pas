@@ -60,6 +60,7 @@ Type
     function IncluirOs(codOsI: Integer): Integer;
     function alterarOs(codOsA: Integer): Boolean;
     function excluirOs(codMovE: Integer): Boolean;
+    function alterarStatusOs(codOsS: Integer; StatusOs: String): Boolean;
 
     procedure ListaOs(DataIni: TdateTime; DataFim: TDateTime; codCliente: Integer);
 
@@ -85,7 +86,8 @@ begin
     sqlAltera := sqlAltera + ' DATAOS     = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataOs)) + ', ';
     sqlAltera := sqlAltera + ' DATA_INI   = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataInicio)) + ', ';
     sqlAltera := sqlAltera + ' DATA_FIM   = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataFim)) + ', ';
-    sqlAltera := sqlAltera + ' STATUS     = ' + QuotedStr(Self.status) + ', ';
+    //sqlAltera := sqlAltera + ' STATUS     = ' + QuotedStr(Self.status) + ', ';
+    sqlAltera := sqlAltera + ' OBS        = ' + QuotedStr(Self.obs) + ', ';
     sqlAltera := sqlAltera + ' KM         = ' + IntToStr(Self.km);
     sqlAltera := sqlAltera + ' WHERE CODOS= ' + IntToStr(codOsA);
 
@@ -98,7 +100,18 @@ begin
       Result := False;
     end;
   end;
+end;
 
+function TOsClasse.alterarStatusOs(codOsS: Integer; StatusOs: String): Boolean;
+var sqlAlteraStatus: String;
+begin
+  Result := False;
+  sqlAlteraStatus := 'UPDATE OS SET STATUS = ';
+  sqlAlteraStatus := sqlAlteraStatus + QuotedStr(StatusOs);
+  sqlAlteraStatus := sqlAlteraStatus + ' WHERE CODOS  = ' + IntToStr(codOsS);
+
+  if (executaSql(sqlAlteraStatus)) then
+    Result := True;
 end;
 
 constructor TOsClasse.Create;
