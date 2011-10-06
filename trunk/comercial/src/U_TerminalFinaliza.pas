@@ -664,6 +664,10 @@ begin
       exit;
     end;
 
+    if (scdsCr_proc.Active) then
+        scdsCr_proc.Close;
+    scdsCr_proc.Params[0].Clear;
+
     INSEREVEDA;
 
     if (DM_MOV.c_venda.Active) then
@@ -839,7 +843,7 @@ begin
 
     DM_MOV.c_venda.Cancel;
     DM_MOV.c_venda.Close;
-
+    DM_MOV.c_venda.Params[0].Clear;
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
     dm.sqlsisAdimin.ExecuteDirect(strSqlMov);    
