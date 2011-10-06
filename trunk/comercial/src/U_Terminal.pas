@@ -9,7 +9,7 @@ uses
   ExtCtrls, JvExExtCtrls, JvImage, Grids, DBGrids, StdCtrls, ComCtrls,
   MMJPanel, JvSpeedButton, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
   Menus, JvComponentBase, JvFormAutoSize, FMTBcd, DB, SqlExpr, Provider,
-  DBClient, JvExButtons, JvBitBtn, rpcompobase, rpvclreport, uUtils, DBxPress;
+  DBClient, JvExButtons, JvBitBtn, rpcompobase, rpvclreport, uUtils, DBxPress, Printers;
 
 type
   TF_Terminal = class(TForm)
@@ -93,6 +93,23 @@ type
     F9Sair1: TMenuItem;
     VCLReport1: TVCLReport;
     btnIncluir: TJvBitBtn;
+    s_parametro: TSQLDataSet;
+    s_parametroDESCRICAO: TStringField;
+    s_parametroPARAMETRO: TStringField;
+    s_parametroCONFIGURADO: TStringField;
+    s_parametroDADOS: TStringField;
+    s_parametroD1: TStringField;
+    s_parametroD2: TStringField;
+    s_parametroD3: TStringField;
+    s_parametroD4: TStringField;
+    s_parametroD5: TStringField;
+    s_parametroD6: TStringField;
+    s_parametroD7: TStringField;
+    s_parametroD8: TStringField;
+    s_parametroD9: TStringField;
+    s_parametroINSTRUCOES: TStringField;
+    s_parametroVALOR: TFloatField;
+    SaveDialog1: TSaveDialog;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -120,21 +137,45 @@ type
     TD: TTransactionDesc;  
     clienteConsumidor,nomecliente, tipo_busca : string;
     codcliente : integer;
+    codlote : string;
     procedure IncluiPedido;
     procedure AlteraPedido;
     procedure IncluiItemPedido;
     procedure BuscaProduto;
     procedure BuscaLote;
     procedure existevenda;
+    procedure imprimeCupom;
+    procedure imprimeRecibo;
     { Private declarations }
   public
     { Public declarations }
   end;
 
+const
+    cJustif = #27#97#51;
+    cEject = #12;
+    { Tamanho da fonte }
+    c10cpi = #18;
+    c12cpi = #27#77;
+    c17cpi = #15;
+    cIExpandido = #14;
+    cFExpandido = #20;
+    { Formatação da fonte }
+    cINegrito = #27#71;
+    cFNegrito = #27#72;
+    cIItalico = #27#52;
+    cFItalico = #27#53;
+
 var
   F_Terminal: TF_Terminal;
   CodigoProduto : Integer;
   RETORNO, vendaexiste : String;
+  tipoImpressao : string;
+  IMPRESSORA:TextFile;
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+  total, porc, totgeral , desconto : double;
+  porta : string;
+  cliente : string;
 
 implementation
 
@@ -207,7 +248,10 @@ end;
 
 procedure TF_Terminal.IncluiItemPedido;
 begin
-  dm.sqlsisAdimin.StartTransaction(TD);
+   dm.sqlsisAdimin.StartTransaction(TD);
+   if (DM_MOV.c_movdet.Active) then
+         DM_MOV.c_movdet.Close;
+   DM_MOV.c_movdet.Params[0].Clear;
    DM_MOV.c_movdet.Open;
    DM_MOV.c_movdet.Append;
    if dm.c_6_genid.Active then
@@ -227,7 +271,10 @@ begin
    DM_MOV.c_movdetUN.AsString := scds_produto_procUNIDADEMEDIDA.AsString;
    DM_MOV.c_movdetPRECO.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
    DM_MOV.c_movdetDESCPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
-   DM_MOV.c_movdetLOTE.AsString := EdtCodBarra.Text;
+
+   if (tipo_busca = '3') then  // só preencho o campo Lote se o parametro usa lote for 3
+     DM_MOV.c_movdetLOTE.AsString := codlote;
+
    DM_MOV.c_movdet.ApplyUpdates(0);
   Try
      dm.sqlsisAdimin.Commit(TD);
@@ -240,7 +287,9 @@ end;
 
 procedure TF_Terminal.IncluiPedido;
 var sql : string;
+    id_movimento : integer;
 begin
+
   dm.sqlsisAdimin.StartTransaction(TD);
   DM_MOV.c_movimento.Open;
   DM_MOV.c_movimento.Append;
@@ -248,8 +297,9 @@ begin
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
   dm.c_6_genid.Open;
-  DM_MOV.c_movimentoCODMOVIMENTO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
-  DM_MOV.c_movimentoCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+  id_movimento := dm.c_6_genid.Fields[0].AsInteger;
+
+{  DM_MOV.c_movimentoCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
   dm.c_6_genid.Close;
   DM_MOV.c_movimentoCODNATUREZA.AsInteger := 3;
   DM_MOV.c_movimentoDATAMOVIMENTO.Value := Date;
@@ -270,20 +320,23 @@ begin
     DM_MOV.c_movimentoCODCLIENTE.AsInteger := StrToInt(EdtComanda.Text);
     DM_MOV.c_movimentoNOMECLIENTE.AsString := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
   end;
+  }
   if (PageControl1.ActivePage = TabDelivery) then
   begin
 
   end;
+
   sql := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, CODPEDIDO, CODNATUREZA, DATAMOVIMENTO, DATA_SISTEMA, STATUS, '+
     'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE) VALUES ( ' +
-    IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) +
-    ', ' + IntToStr(DM_MOV.c_movimentoCODNATUREZA.AsInteger) +
-    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime)) +
-    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', DM_MOV.c_movimentoDATA_SISTEMA.AsDateTime)) +
-    ', ' + IntToStr(DM_MOV.c_movimentoSTATUS.AsInteger) +
-    ', ' + IntToStr(DM_MOV.c_movimentoCODUSUARIO.AsInteger) + ', ' + IntToStr(1) + ', ' + IntToStr(1) +
-    ', ' + QuotedStr(DM_MOV.c_movimentoUSUARIOLOGADO.AsString) + ', ' + IntToStr(DM_MOV.c_movimentoCODCLIENTE.AsInteger) + '); ';
+    IntToStr(id_movimento) + ', ' + IntToStr(id_movimento) +
+    ', ' + IntToStr(3) +
+    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', now)) +
+    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', now)) +
+    ', ' + IntToStr(20) +
+    ', ' + IntToStr(1) + ', ' + IntToStr(1) + ', ' + IntToStr(1) +
+    ', ' + QuotedStr(nome_user) + ', ' + IntToStr(codcliente) + '); ';
   Try
+
      dm.sqlsisAdimin.ExecuteDirect(sql);
      dm.sqlsisAdimin.Commit(TD);
   except
@@ -291,6 +344,23 @@ begin
      MessageDlg('Erro no sistema, o Movimento não foi gravada.', mtError,
          [mbOk], 0);
   end;
+
+  if (PageControl1.ActivePage = TabSheet1) then
+  begin
+    if (DM_MOV.c_movimento.Active) then
+        DM_MOV.c_movimento.Close;
+    DM_MOV.c_movimento.Params[0].AsInteger := id_movimento;
+    DM_MOV.c_movimento.Open;
+  end;
+
+  if (PageControl1.ActivePage = TabSheet1) then
+  begin
+    if (DM_MOV.c_comanda.Active) then
+        DM_MOV.c_comanda.Close;
+    DM_MOV.c_comanda.Params[0].AsInteger := id_movimento;
+    DM_MOV.c_comanda.Open;
+  end;
+
 end;
 
 procedure TF_Terminal.AlteraPedido;
@@ -665,7 +735,6 @@ begin
    if (PageControl1.ActivePage = TabComanda) then
      if DM_MOV.d_comanda.DataSet.State in [dsInactive] then
        exit;
-
    try
      fProcura_prod.Panel2.Visible := True;
      fProcura_prod.Panel1.Visible := False;
@@ -758,12 +827,19 @@ begin
       scds_produto_proc.CommandText := varsql + ' est.LOTE = ' + '''' + EdtCodBarra1.Text + '''' ;
 
   scds_produto_proc.Open;
-  
+
   if (scds_produto_proc.IsEmpty) then
   begin
      //ShowMessage('Produto não Localizado');
      scds_produto_proc.Close;
      RETORNO := 'FALSO';
+  end
+  else
+  begin
+    if (PageControl1.ActivePage = TabSheet1) then
+       codlote := EdtCodBarra.Text;
+    if (PageControl1.ActivePage = TabComanda) then
+       codlote := EdtCodBarra1.Text;
   end;
 
 
@@ -782,11 +858,33 @@ end;
 
 procedure TF_Terminal.JvImprimirClick(Sender: TObject);
 begin
-  inherited;
-  VCLReport1.FileName := str_relatorio + 'orcamento.rep';
-  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.Params.ParamByName('PVMOV').Value := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
-  VCLReport1.Execute;
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
+  begin
+    ShowMessage('Parametro Tipo Impressão não configurado');
+    exit;
+  end;
+
+  if (tipoImpressao = 'CUPOM') then
+    imprimeCupom;
+
+  if (tipoImpressao = 'RECIBO') then
+    imprimeRecibo;
+
 end;
 
 procedure TF_Terminal.JvExcluirClick(Sender: TObject);
@@ -834,6 +932,116 @@ begin
     DM_MOV.c_movdet.Close;
     EdtCodBarra.Text := '';
     EdtCodBarra.SetFocus;
+end;
+
+procedure TF_Terminal.imprimeCupom;
+begin
+     if (not dm.cds_empresa.Active) then
+      dm.cds_empresa.Open;
+     {----- aqui monto o endereço-----}
+     logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+     cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+     ' - ' + dm.cds_empresaCEP.Value;
+     fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+     ' / ' + dm.cds_empresaFONE_2.Value;
+     Texto  := '------------------------------------------------------' ;
+     Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
+      IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
+     Texto2 := '------------------------------------------------------' ;
+     Texto3 := 'Produto ' ;
+     Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
+     Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
+     cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+     if (s_parametro.Active) then
+         s_parametro.close;
+     s_parametro.Params[0].AsString := 'MENSAGEM';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       DM.Mensagem := s_parametroDADOS.AsString
+     else
+       DM.Mensagem := '';
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'IMPARQUIVO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       SaveDialog1.Execute;
+       AssignFile(IMPRESSORA, SaveDialog1.FileName);
+       s_parametro.Close;
+     end
+     else
+     begin
+       s_parametro.Close;
+       AssignFile(IMPRESSORA,'LPT1:');
+     end;
+
+     Rewrite(IMPRESSORA);
+     Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
+     Writeln(Impressora, c17cpi, logradouro);
+     Writeln(Impressora, cep);
+     Writeln(Impressora, fone);
+     Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+     Writeln(Impressora, cliente);
+     Writeln(Impressora, c17cpi, texto);
+     Writeln(Impressora, c17cpi, texto1);
+     Writeln(Impressora, c17cpi, texto2);
+     Writeln(Impressora, c17cpi, texto3);
+     Writeln(Impressora, c17cpi, texto4);
+  {-----------------------------------------------------------}
+  {-------------------Imprimi itens do boleto-----------------}
+   try
+     DM_MOV.c_movdet.First;
+     while not DM_MOV.c_movdet.Eof do
+     begin
+       DM_MOV.c_movdet.RecordCount;
+      // imprime
+      Writeln(Impressora, c17cpi + Format('%-40s',[DM_MOV.c_movdetDESCPRODUTO.Value]));
+      Write(Impressora, c17cpi, Format('%-13s  ',[DM_MOV.c_movdetCOD_BARRA.Value]));
+      Write(Impressora, c17cpi + Format('   %-2s  ',[DM_MOV.c_movdetUN.Value]));
+      Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]));
+      Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetPRECO.AsFloat]));
+      Writeln(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetValorTotal.value]));
+
+      with Printer.Canvas do
+      begin
+       Font.Name := 'Courier New';
+       Font.Size := 4;
+      end;
+      DM_MOV.c_movdet.next;
+     end;
+     total := DM_MOV.c_movdettotalpedido.Value;
+     Writeln(Impressora, c17cpi, texto);
+     Write(Impressora, c17cpi, texto5);
+     Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+
+     Writeln(IMPRESSORA);
+     Write(Impressora, c10cpi, DM.Mensagem);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+  finally
+    CloseFile(IMPRESSORA);
+  end;
+
+end;
+
+procedure TF_Terminal.imprimeRecibo;
+begin
+  VCLReport1.FileName := str_relatorio + 'orcamento_new.rep';
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('PVMOV').Value := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+  VCLReport1.Execute;
 end;
 
 end.
