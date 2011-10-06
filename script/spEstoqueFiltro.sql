@@ -80,10 +80,10 @@ BEGIN
             -- SALDO INICIAL DO ESTOQUE 
             -- Qtde Inicial ENTRADA
            FOR SELECT SUM(movdet.QUANTIDADE), movdet.PRECOCUSTO, 
-             sum(movdet.PRECOCUSTO * movdet.QTDEESTOQUE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
-                WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
+             sum(movdet.PRECOCUSTO * movdet.QTDEESTOQUE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, COMPRA c 
+                WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA and c.CODMOVIMENTO = movdet.CODMOVIMENTO 
                 AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))  and ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))
-                AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 0 and movdet.BAIXA is not null  AND mov.DATAMOVIMENTO  < :DTA1 
+                AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 0 and movdet.BAIXA is not null  AND c.DATACOMPRA  < :DTA1 
                 group by movdet.PRECOCUSTO
 
             INTO :ENTRA, :PRECOUNIT, :VALORESTOQUE
@@ -92,10 +92,10 @@ BEGIN
             END
             -- Qtde Inicial SAIDA
             FOR SELECT SUM(movdet.QUANTIDADE), movdet.PRECOCUSTO 
-                 ,sum(movdet.PRECOCUSTO * movdet.QTDEESTOQUE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
-                WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
+                 ,sum(movdet.PRECOCUSTO * movdet.QTDEESTOQUE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu , VENDA v
+                WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA  and v.CODMOVIMENTO = movdet.CODMOVIMENTO 
                 AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))  and ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))
-                AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 AND movdet.BAIXA is not null and  mov.DATAMOVIMENTO  < :DTA1
+                AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 AND movdet.BAIXA is not null and  v.DATAVENDA  < :DTA1
                group by movdet.PRECOCUSTO
             INTO :SAI, :PRECOUNIT, :VALORESTOQUE
             DO BEGIN
