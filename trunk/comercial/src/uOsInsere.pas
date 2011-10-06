@@ -256,7 +256,6 @@ begin
 
     Label21.Caption   := 'Cód. Serviço';
     GroupBox1.Caption := 'Serviço';
-    DtSrc.DataSet := fOs.cdsServico;
     if (DtSrc.State in [dsEdit]) then
     begin
       edServico.Lines.Add(fOs.cdsServicoDESCRICAO_SERV.AsString);
@@ -277,7 +276,7 @@ begin
 
     Label21.Caption   := 'Cód. Peça';
     GroupBox1.Caption := 'Peça';
-    DtSrc.DataSet                       := fOs.cdsPecas;
+
     lblServico.Caption                  := fOs.ServDescricao;
     fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
     if (DtSrc.State in [dsEdit]) then
@@ -302,6 +301,12 @@ end;
 procedure TfOsInsere.btnIncluirClick(Sender: TObject);
 begin
   inherited;
+  edServico.Lines.Clear;
+  edProduto.Text        := '';
+  edQtdeServ.Value      := 0;
+  edPrecoServ.Value     := 0;
+  edDescVlrServ.Value   := 0;
+  edTotalServ.Value     := 0;
 
   fOs.numOsDet := fOs.numOsDet + 1;
 
@@ -377,12 +382,6 @@ begin
     fOs.cdsPecasCODPRODUTO.AsInteger    := codProduto;
     fOs.cdsPecas.Post;
   end;
-  edServico.Lines.Clear;
-  edProduto.Text        := '';
-  edQtdeServ.Value      := 0;
-  edPrecoServ.Value     := 0;
-  edDescVlrServ.Value   := 0;
-  edTotalServ.Value     := 0;
 end;
 
 procedure TfOsInsere.FormClose(Sender: TObject; var Action: TCloseAction);
