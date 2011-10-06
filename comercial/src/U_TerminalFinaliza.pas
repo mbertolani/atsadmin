@@ -869,11 +869,23 @@ end;
 procedure TF_TerminalFinaliza.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-  if (DM_MOV.c_comanda.Active) then
-     DM_MOV.c_comanda.Close;
-  if (DM_MOV.c_venda.Active) then
-     DM_MOV.c_venda.Close;
-  close;
+  if (scdsCr_proc.Active) then
+      scdsCr_proc.Close;
+  scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+  scdsCr_proc.Open;
+ if (not scdsCr_proc.Eof) then
+ begin
+   if (DM_MOV.c_movimento.Active) then
+      DM_MOV.c_movimento.Close;
+   if (DM_MOV.c_comanda.Active) then
+      DM_MOV.c_comanda.Close;
+   if (DM_MOV.c_movdet.Active) then
+      DM_MOV.c_movdet.Close;
+   if (DM_MOV.c_venda.Active) then
+      DM_MOV.c_venda.Close;
+ end;
+ scdsCr_proc.Close;
+ close;
 end;
 
 procedure TF_TerminalFinaliza.JvSairClick(Sender: TObject);
