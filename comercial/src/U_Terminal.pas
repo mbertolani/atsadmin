@@ -282,7 +282,15 @@ begin
      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
      MessageDlg('Erro no sistema, o Iten não foi gravada.', mtError,
          [mbOk], 0);
-  end;   
+  end;
+
+   if (DM_MOV.c_movdet.Active) then
+         DM_MOV.c_movdet.Close;
+   if (PageControl1.ActivePage = TabSheet1) then
+     DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+   if (PageControl1.ActivePage = TabComanda) then
+     DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+   DM_MOV.c_movdet.Open;
 end;
 
 procedure TF_Terminal.IncluiPedido;
