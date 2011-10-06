@@ -2661,7 +2661,7 @@ inherited fParametro: TfParametro
       end
       object CheckBox1: TCheckBox
         Left = 11
-        Top = 264
+        Top = 246
         Width = 169
         Height = 17
         Alignment = taLeftJustify
@@ -2678,6 +2678,36 @@ inherited fParametro: TfParametro
         BorderStyle = bsNone
         TabOrder = 4
         OnChange = edtMensagemChange
+      end
+      object CheckBox2: TCheckBox
+        Left = 11
+        Top = 309
+        Width = 169
+        Height = 17
+        Alignment = taLeftJustify
+        Caption = 'Usa Controle de Comandas ?'
+        TabOrder = 5
+        OnClick = CheckBox2Click
+      end
+      object CheckBox3: TCheckBox
+        Left = 11
+        Top = 338
+        Width = 169
+        Height = 17
+        Alignment = taLeftJustify
+        Caption = 'Usa Controle de Delivery ?'
+        TabOrder = 6
+        OnClick = CheckBox3Click
+      end
+      object CheckBox4: TCheckBox
+        Left = 11
+        Top = 278
+        Width = 169
+        Height = 17
+        Alignment = taLeftJustify
+        Caption = 'Usa Venda ao Consumidor ?'
+        TabOrder = 7
+        OnClick = CheckBox4Click
       end
     end
   end
