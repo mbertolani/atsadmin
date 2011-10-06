@@ -661,6 +661,8 @@ begin
 
   fOsInsere.modoOsInsere := 'SERVICO';
 
+  fOsInsere.DtSrc.DataSet := cdsServico;
+
   cdsServico.Append;
   cdsServicoID_OS_DET.AsInteger := numOsDet;
 
@@ -724,6 +726,8 @@ begin
     exit;
   end;
 
+  fOsInsere.DtSrc.DataSet := cdsPecas;
+
   ServCodServ   := cdsServicoID_OS_DET.AsInteger;
   ServDescricao := cdsServicoDESCRICAO_SERV.AsString;
 
@@ -749,6 +753,8 @@ begin
   modoOsItem := 'EditaServico';
   fOsInsere.modoOsInsere := 'SERVICO';
 
+  fOsInsere.DtSrc.DataSet := cdsServico;
+
   cdsServico.Edit;
 
   fOsInsere.ShowModal;
@@ -760,6 +766,8 @@ begin
 
   fOsInsere.modoOsInsere := 'PECA';
 
+  fOsInsere.DtSrc.DataSet := cdsPecas;
+  
   cdsPecas.Edit;
 
   fOsInsere.ShowModal;
