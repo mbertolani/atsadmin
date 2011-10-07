@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=c:\home\sisadmin\bd\sge_checkupcar.fdb'
+      'Database=localhost:F:\home\bd\sge_jorvic.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -28,7 +28,7 @@ object DM: TDM
       'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
     Left = 80
-    Top = 16
+    Top = 8
   end
   object sds_parametro: TSQLDataSet
     CommandText = 
@@ -3239,6 +3239,15 @@ object DM: TDM
       ProviderFlags = [pfInUpdate]
       Size = 100
     end
+    object sdsBancoN_BANCO: TStringField
+      FieldName = 'N_BANCO'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object sdsBancoDIGITOBANCO: TIntegerField
+      FieldName = 'DIGITOBANCO'
+      ProviderFlags = [pfInUpdate]
+    end
   end
   object dspBanco: TDataSetProvider
     DataSet = sdsBanco
@@ -3345,6 +3354,15 @@ object DM: TDM
       FieldName = 'LOCALPGTO'
       ProviderFlags = [pfInUpdate]
       Size = 100
+    end
+    object cdsBancoN_BANCO: TStringField
+      FieldName = 'N_BANCO'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object cdsBancoDIGITOBANCO: TIntegerField
+      FieldName = 'DIGITOBANCO'
+      ProviderFlags = [pfInUpdate]
     end
   end
   object s_4: TSQLDataSet
