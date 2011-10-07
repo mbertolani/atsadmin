@@ -1,3 +1,4 @@
+SET TERM ^ ;
 CREATE OR ALTER PROCEDURE SP_CR (
     PVENDA INTEGER)
 RETURNS (
@@ -35,7 +36,8 @@ begin
   do begin
     IF (I = 1) THEN
     begin
-      PARCELA = extract(day from venc) || '/' ||extract(month from venc)
+      PARCELA = tit || '-' || parc; 
+      PARCELA = PARCELA || ' ' || extract(day from venc) || '/' ||extract(month from venc)
       || '/' || extract(year from venc) || '    ' || cast(valor_n as numeric(9,2));
       if (status = 'Recebido') then
         PARCELA = PARCELA || '    ' || cast(valor_p as numeric(9,2)) || '    ' || parc
@@ -48,7 +50,8 @@ begin
 
     IF (I = 2) THEN
     begin
-      PARCELA1 = extract(day from venc) || '/' ||extract(month from venc)
+      PARCELA1 = tit || '-' || parc;
+      PARCELA1 = PARCELA1 || ' ' || extract(day from venc) || '/' ||extract(month from venc)
       || '/' || extract(year from venc) || '    ' || cast(valor_n as numeric(9,2));
       if (status = 'Recebido') then
         PARCELA1 = PARCELA1 || '    ' || cast(valor_p as numeric(9,2)) || '    ' || parc
@@ -61,7 +64,8 @@ begin
 
     IF (I = 3) THEN
     begin
-      PARCELA2 = extract(day from venc) || '/' ||extract(month from venc)
+      PARCELA2 = tit || '-' || parc;
+      PARCELA2 = PARCELA2 ||extract(day from venc) || '/' ||extract(month from venc)
       || '/' || extract(year from venc) || '    ' || cast(valor_n as numeric(9,2));
       if (status = 'Recebido') then
         PARCELA2 = PARCELA2 || '    ' || cast(valor_p as numeric(9,2)) || '    ' || parc
@@ -74,7 +78,8 @@ begin
 
     IF (I = 4) THEN
     begin
-      PARCELA3 = extract(day from venc) || '/' ||extract(month from venc)
+      PARCELA3 = tit || '-' || parc;
+      PARCELA3 = PARCELA3 || extract(day from venc) || '/' ||extract(month from venc)
       || '/' || extract(year from venc) || '    ' || cast(valor_n as numeric(9,2));
       if (status = 'Recebido') then
         PARCELA3 = PARCELA3 || '    ' || cast(valor_p as numeric(9,2)) || '    ' || parc
@@ -87,7 +92,8 @@ begin
 
     IF (I = 5) THEN
     begin
-      PARCELA4 = extract(day from venc) || '/' ||extract(month from venc)
+      PARCELA4 = tit || '-' || parc;
+      PARCELA4 = PARCELA4 || extract(day from venc) || '/' ||extract(month from venc)
       || '/' || extract(year from venc) || '    ' || cast(valor_n as numeric(9,2));
       if (status = 'Recebido') then
         PARCELA4 = PARCELA4 || '    ' || cast(valor_p as numeric(9,2)) || '    ' || parc
@@ -100,7 +106,8 @@ begin
 
     IF (I = 6) THEN
     begin
-      PARCELA5 = extract(day from venc) || '/' ||extract(month from venc)
+      PARCELA5 = tit || '-' || parc;
+      PARCELA5 = PARCELA5 || extract(day from venc) || '/' ||extract(month from venc)
       || '/' || extract(year from venc) || '    ' || cast(valor_n as numeric(9,2));
       if (status = 'Recebido') then
         PARCELA5 = PARCELA5 || '    ' || cast(valor_p as numeric(9,2)) || '    ' || parc
@@ -116,5 +123,7 @@ begin
 
     end
   suspend;
-end
+end^
+SET TERM ; ^
+
 
