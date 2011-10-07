@@ -11,7 +11,9 @@ object F_AlteraPedido: TF_AlteraPedido
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  PopupMenu = PopupMenu1
   Position = poDesktopCenter
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object MMJPanel8: TMMJPanel
@@ -26,7 +28,7 @@ object F_AlteraPedido: TF_AlteraPedido
     Font.Name = 'Cooper Blk BT'
     Font.Style = []
     ParentFont = False
-    TabOrder = 0
+    TabOrder = 1
     Visible = False
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
@@ -49,6 +51,7 @@ object F_AlteraPedido: TF_AlteraPedido
       Font.Style = []
       Layout = tlCenter
       ParentFont = False
+      PopupMenu = PopupMenu1
       ShadowColor = clWindow
       ShadowSize = 2
       Transparent = True
@@ -66,7 +69,8 @@ object F_AlteraPedido: TF_AlteraPedido
     Width = 548
     Height = 82
     Align = alClient
-    TabOrder = 1
+    PopupMenu = PopupMenu1
+    TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -151,7 +155,9 @@ object F_AlteraPedido: TF_AlteraPedido
       Font.Name = 'Times New Roman'
       Font.Style = []
       ParentFont = False
+      PopupMenu = PopupMenu1
       TabOrder = 0
+      OnKeyPress = FormKeyPress
     end
     object JvQtde: TJvValidateEdit
       Left = 381
@@ -172,7 +178,9 @@ object F_AlteraPedido: TF_AlteraPedido
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = PopupMenu1
       TabOrder = 1
+      OnKeyPress = FormKeyPress
     end
     object JvUnitario: TJvValidateEdit
       Left = 452
@@ -193,7 +201,9 @@ object F_AlteraPedido: TF_AlteraPedido
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = PopupMenu1
       TabOrder = 2
+      OnKeyPress = FormKeyPress
     end
   end
   object MMJPanel1: TMMJPanel
@@ -202,6 +212,7 @@ object F_AlteraPedido: TF_AlteraPedido
     Width = 548
     Height = 49
     Align = alBottom
+    PopupMenu = PopupMenu1
     TabOrder = 2
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
@@ -433,6 +444,21 @@ object F_AlteraPedido: TF_AlteraPedido
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
       Transparent = True
+      OnClick = JvSpeedButton5Click
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 152
+    Top = 55
+    object Salvar1: TMenuItem
+      Caption = 'F4-Salvar'
+      ShortCut = 115
+      OnClick = JvSpeedButton4Click
+    end
+    object F9Voltar1: TMenuItem
+      Caption = 'F9-Voltar'
+      ShortCut = 120
+      OnClick = JvSpeedButton5Click
     end
   end
 end

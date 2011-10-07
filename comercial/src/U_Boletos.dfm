@@ -109,19 +109,7 @@ object F_Boletos: TF_Boletos
       BevelKind = bkFlat
       Style = csDropDownList
       ItemHeight = 13
-      ItemIndex = 0
       TabOrder = 0
-      Text = '001 - Banco do Brasil'
-      Items.Strings = (
-        '001 - Banco do Brasil'
-        '104 - Caixa Economica'
-        '237 - Banco Bradesco'
-        '275 - Banco Real'
-        '341 - Banco Itau'
-        '399 - Banco HSBC'
-        '409 - Banco Unicanco'
-        '748 - Banco Sicredi'
-        '353 - Banco Santander')
     end
     object cbb2: TComboBox
       Left = 151
@@ -342,8 +330,8 @@ object F_Boletos: TF_Boletos
       'DENTE, a.CODIGO_EMPRESA, a.CODIGO_AGENCIA, a.DIGITO_AGENCIA, '#13#10'a' +
       '.NUMERO_CONTA, a.DIGITO_CONTA, a.CODIGO_PLANO, a.INSTRUCAO1, a.I' +
       'NSTRUCAO2, a.INSTRUCAO3, a.INSTRUCAO4, a.CEDENTE, a.NCONVENIO, '#13 +
-      #10'a.ESPECIEDOC, a.ACEITE, a.CONVENIO, a.LOCALPGTO '#13#10'FROM BANCO a'#13 +
-      #10'where CODBANCO = :bc'
+      #10'a.ESPECIEDOC, a.ACEITE, a.CONVENIO, a.LOCALPGTO, a.N_BANCO, '#13#10'a' +
+      '.DIGITOBANCO  '#13#10'FROM BANCO a'#13#10'where CODBANCO = :bc'
     MaxBlobSize = -1
     Params = <
       item
@@ -440,6 +428,13 @@ object F_Boletos: TF_Boletos
     object s_bancoLOCALPGTO: TStringField
       FieldName = 'LOCALPGTO'
       Size = 100
+    end
+    object s_bancoN_BANCO: TStringField
+      FieldName = 'N_BANCO'
+      Size = 10
+    end
+    object s_bancoDIGITOBANCO: TIntegerField
+      FieldName = 'DIGITOBANCO'
     end
   end
   object s_cr: TSQLDataSet

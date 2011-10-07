@@ -801,7 +801,7 @@ begin
     strSql := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA';
     strSql := strSql + ',DATAVENCIMENTO ,BANCO ,CODVENDEDOR ,STATUS ,CODUSUARIO';
     strSql := strSql + ',VALOR ,NOTAFISCAL ,SERIE, DESCONTO, CODCCUSTO, N_PARCELA'; //
-    strSql := strSql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR ';
+    strSql := strSql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, PRAZO ';
     strSql := strSql + ') VALUES (';
     strSql := strSql + IntToStr(COD_VENDA);
     strSql := strSql + ',' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
@@ -840,6 +840,7 @@ begin
     DecimalSeparator := '.';
     ThousandSeparator := ',';
     strSql := strSql + ',' + FloatToStr(jvApagar.Value);
+    strSql := strSql + ',' + QuotedStr(cbPrazo.Text);
     strSql := strSql + ')';
 
     strSqlMov := 'UPDATE MOVIMENTO SET CODCLIENTE = ' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger) +
