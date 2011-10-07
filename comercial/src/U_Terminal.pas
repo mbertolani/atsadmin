@@ -136,7 +136,7 @@ type
   private
     TD: TTransactionDesc;  
     clienteConsumidor,nomecliente, tipo_busca : string;
-    codcliente : integer;
+    codcliente, ID_MOVDET : integer;
     codlote : string;
     procedure IncluiPedido;
     procedure AlteraPedido;
@@ -247,20 +247,23 @@ begin
 end;
 
 procedure TF_Terminal.IncluiItemPedido;
+var sql : string;
 begin
    dm.sqlsisAdimin.StartTransaction(TD);
-   if (DM_MOV.c_movdet.Active) then
+ {  if (DM_MOV.c_movdet.Active) then
          DM_MOV.c_movdet.Close;
    DM_MOV.c_movdet.Params[0].Clear;
    DM_MOV.c_movdet.Open;
    DM_MOV.c_movdet.Append;
+  }
    if dm.c_6_genid.Active then
      dm.c_6_genid.Close;
    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
    dm.c_6_genid.Open;
-   DM_MOV.c_movdetCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+   ID_MOVDET := dm.c_6_genid.Fields[0].AsInteger;
+  // DM_MOV.c_movdetCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
    dm.c_6_genid.Close;
-   DM_MOV.c_movdetSTATUS.AsInteger := 0; //0=Ativo, 1=Cancelado, 2=Excluido
+ {  DM_MOV.c_movdetSTATUS.AsInteger := 0; //0=Ativo, 1=Cancelado, 2=Excluido
    DM_MOV.c_movdetCODALMOXARIFADO.AsInteger := 0;
    if (PageControl1.ActivePage = TabSheet1) then
      DM_MOV.c_movdetCODMOVIMENTO.AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
@@ -271,11 +274,24 @@ begin
    DM_MOV.c_movdetUN.AsString := scds_produto_procUNIDADEMEDIDA.AsString;
    DM_MOV.c_movdetPRECO.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
    DM_MOV.c_movdetDESCPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
-
    if (tipo_busca = '3') then  // só preencho o campo Lote se o parametro usa lote for 3
      DM_MOV.c_movdetLOTE.AsString := codlote;
-
    DM_MOV.c_movdet.ApplyUpdates(0);
+  }
+  sql := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODPRODUTO, STATUS, CODALMOXARIFADO, CODMOVIMENTO, QUANTIDADE, UN, '+
+         'PRECO, DESCPRODUTO, LOTE) VALUES ( ' +
+         IntToStr(ID_MOVDET) + ', ' + IntToStr(scds_produto_procCODPRODUTO.AsInteger) + ', ' +
+         IntToStr(0) + ', ' + IntToStr(0) + ', ' +
+         IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ' +
+         QuotedStr(scds_produto_procUNIDADEMEDIDA.AsString) + ', ' +
+         FloatToStr(scds_produto_procVALOR_PRAZO.AsFloat)  + ', ' +
+         QuotedStr(scds_produto_procPRODUTO.AsString) + ', ';
+   if (tipo_busca = '3') then  // só preencho o campo Lote se o parametro usa lote for 3
+     sql := sql + QuotedStr(codlote) + ')'
+   else
+     sql := sql + 'null' + ')' ;
+
+  dm.sqlsisAdimin.ExecuteDirect(sql);
   Try
      dm.sqlsisAdimin.Commit(TD);
   except
@@ -286,11 +302,13 @@ begin
 
    if (DM_MOV.c_movdet.Active) then
          DM_MOV.c_movdet.Close;
+   DM_MOV.c_movdet.Params[0].Clear;
    if (PageControl1.ActivePage = TabSheet1) then
      DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
    if (PageControl1.ActivePage = TabComanda) then
      DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
    DM_MOV.c_movdet.Open;
+
 end;
 
 procedure TF_Terminal.IncluiPedido;
