@@ -1785,6 +1785,10 @@ type
     sqlNaturezaTIPOMOVIMENTO: TSmallintField;
     sqlNaturezaBAIXAMOVIMENTO: TSmallintField;
     scds_ProdVALOR_PRAZO: TFloatField;
+    sdsBancoN_BANCO: TStringField;
+    cdsBancoN_BANCO: TStringField;
+    sdsBancoDIGITOBANCO: TIntegerField;
+    cdsBancoDIGITOBANCO: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
