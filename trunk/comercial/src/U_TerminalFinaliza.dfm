@@ -516,7 +516,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 2
+      TabOrder = 3
     end
     object DBEdit5: TDBEdit
       Left = 510
@@ -536,7 +536,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       ParentFont = False
       PopupMenu = PopupMenu1
       ReadOnly = True
-      TabOrder = 3
+      TabOrder = 8
     end
     object cbPrazo: TJvComboBox
       Left = 272
@@ -552,7 +552,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       ItemHeight = 16
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 7
       Text = 'PRAZO'
       OnChange = cbPrazoChange
       Items.Strings = (
@@ -583,7 +583,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Width = 29
       Height = 25
       Caption = '. . .'
-      TabOrder = 6
+      TabOrder = 12
       TabStop = False
     end
     object dbeSerie: TDBEdit
@@ -602,7 +602,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 7
+      TabOrder = 4
       OnExit = dbeSerieExit
     end
     object cbConta: TComboBox
@@ -619,10 +619,10 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       ItemHeight = 16
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 8
+      TabOrder = 9
     end
     object ComboBox1: TComboBox
-      Left = 172
+      Left = 173
       Top = 206
       Width = 180
       Height = 24
@@ -635,7 +635,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       ItemHeight = 16
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 9
+      TabOrder = 10
     end
     object DBEdit3: TDBEdit
       Left = 167
@@ -653,7 +653,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 10
+      TabOrder = 6
     end
     object DBEdit1: TDBEdit
       Left = 358
@@ -690,13 +690,13 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 12
+      TabOrder = 2
       OnExit = dbeUsuarioExit
     end
     object JvDBGrid1: TJvDBGrid
       Left = 4
       Top = 255
-      Width = 554
+      Width = 542
       Height = 120
       BorderStyle = bsNone
       DataSource = ds_Cr
@@ -772,7 +772,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         end>
     end
     object btnAlteraRec: TBitBtn
-      Left = 558
+      Left = 547
       Top = 255
       Width = 39
       Height = 37
@@ -879,7 +879,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object btnCancelaBaixa: TBitBtn
-      Left = 558
+      Left = 547
       Top = 292
       Width = 39
       Height = 37

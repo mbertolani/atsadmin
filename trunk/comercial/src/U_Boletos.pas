@@ -327,6 +327,8 @@ type
     ds_crVALST: TFloatField;
     ds_crVALOR_RESTO_SST: TFloatField;
     DataSource1: TDataSource;
+    s_bancoN_BANCO: TStringField;
+    s_bancoDIGITOBANCO: TIntegerField;
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -456,21 +458,22 @@ begin
 
               Titulo.DataProcessamento := Now;
               varNossoNumero := StrToInt(vartitulo);
-              case cbb1.ItemIndex of
-                0: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);//  001 - Banco do Brasil
-                1: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 104 - Caixa Economica
-                2: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 237 - Banco Bradesco
-                3: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 275 - Banco Real
-                4: Titulo.NossoNumero := IntToStrZero(varNossoNumero,8);// 341 - Banco Itau
-                5: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 399 - Banco HSBC
-                6: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 409 - Banco Unicanco
-                //7: Titulo.NossoNumero := IntToStrZero(varNossoNumero,6);// 748 - Banco Sicredi
-                8: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 353 - SANTANDER
+              case StrToInt(s_bancoN_BANCO.AsString) of
+                001: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);//  001 - Banco do Brasil
+                104: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 104 - Caixa Economica
+                237: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 237 - Banco Bradesco
+                275: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 275 - Banco Real
+                341: Titulo.NossoNumero := IntToStrZero(varNossoNumero,8);// 341 - Banco Itau
+                399: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 399 - Banco HSBC
+                409: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 409 - Banco Unicanco
+                748: Titulo.NossoNumero := IntToStrZero(varNossoNumero,6);// 748 - Banco Sicredi
+                353: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 353 - SANTANDER
               end;
-              if (cbb1.ItemIndex = 0) then
-                 Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';
 
-              if (cbb1.ItemIndex = 7) then
+              if (s_bancoN_BANCO.AsString = '001') then
+                Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';
+
+              if ((s_bancoN_BANCO.AsString = '743')) then
               begin
                  ACBrBoleto1.Cedente.AgenciaDigito := padR(s_bancoDIGITO_AGENCIA.AsString, 2, '0');
                  if (cbb4.Text = 'Cliente Emite') then
@@ -535,7 +538,7 @@ begin
      s_empresa.Close;
    if (s_banco.Active) then
      s_banco.Close;
-
+   s_banco.Params[0].Clear;
 end;
 
 procedure TF_Boletos.btn4Click(Sender: TObject);
@@ -544,10 +547,56 @@ begin
 end;
 
 procedure TF_Boletos.BANCO_SELECIONADO;
+var
+  bancosel : string;
+  id_banco : integer;
 begin
+  if (s_banco.Active) then
+     s_banco.Close;
+  s_banco.Params[0].Clear;
+  id_banco := 0;
+  if (DM.cdsBanco.Active) then
+      DM.cdsBanco.Close;
+  DM.cdsBanco.Open;
+  while not DM.cdsBanco.Eof do
+  begin
+    bancosel := DM.cdsBancoN_BANCO.AsString + '-' + DM.cdsBancoBANCO.AsString + '  '  + DM.cdsBancoCARTEIRA.AsString;
+    if (bancosel = cbb1.Text) then
+    begin
+       id_banco := DM.cdsBancoCODBANCO.AsInteger;
+    end;
+    DM.cdsBanco.Next;
+  end;
+  DM.cdsBanco.Close;
+
+  if (id_banco = 0) then
+  begin
+    showmessage('Banco não Localizado/Cadastrado');
+    exit;
+  end;
+
+  if (s_banco.Active) then
+     s_banco.Close;
+  s_banco.Params[0].AsInteger := id_banco;
+  s_banco.Open;
+  if (s_banco.IsEmpty) then
+  begin
+    showmessage('Banco não cadastrado');
+    exit;
+  end;
+
+  ACBrBoleto1.Banco.Numero := StrToInt(s_bancoN_BANCO.AsString);
+  ACBrBoleto1.Banco.Digito := s_bancoDIGITOBANCO.AsInteger;
+  ACBrBoleto1.Banco.Nome := s_bancoNOMEBANCO.AsString;
+{
+    //Cedente
+    if (s_banco.Active) then
+      s_banco.Close;
+    s_banco.Params[0].AsString := '001';
+    s_banco.Open;
+  // Banco
   if (cbb1.ItemIndex = 0) then   // 0 = 001 - Banco do Brasil
   begin
-    // Banco
     ACBrBoleto1.Banco.Numero := 001;
     ACBrBoleto1.Banco.Digito := 9;
     ACBrBoleto1.Banco.Nome := 'Banco Brasil';
@@ -703,6 +752,7 @@ begin
       exit;
     end;
   end;
+  }
 end;
 
 procedure TF_Boletos.FormShow(Sender: TObject);
@@ -711,7 +761,14 @@ var
 begin
   DecodeDate(Now,ano,mes,dia);
   Edit1.Text := 'Remessa_' + IntToStr(dia) + IntToStr(mes) + IntToStr(ano);
-{  if (ID_VENDA > 0) then
+  if (not DM.cdsBanco.Active) then
+      DM.cdsBanco.Open;
+   while not DM.cdsBanco.Eof do
+   begin
+      cbb1.Items.Add(DM.cdsBancoN_BANCO.AsString + '-' + DM.cdsBancoBANCO.AsString + '  '  + DM.cdsBancoCARTEIRA.AsString);
+      DM.cdsBanco.Next;
+   end;
+  {  if (ID_VENDA > 0) then
   begin
      if (ds_cr.Active) then
         ds_cr.Close;
