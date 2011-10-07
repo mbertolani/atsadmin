@@ -8,7 +8,7 @@ inherited fbanco: Tfbanco
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel [0]
-    Left = 107
+    Left = 173
     Top = 55
     Width = 45
     Height = 16
@@ -21,8 +21,8 @@ inherited fbanco: Tfbanco
     ParentFont = False
   end
   object Label4: TLabel [1]
-    Left = 294
-    Top = 56
+    Left = 353
+    Top = 55
     Width = 46
     Height = 16
     Caption = 'Raz'#227'o :'
@@ -129,6 +129,14 @@ inherited fbanco: Tfbanco
     Caption = 'Instru'#231#245'es'
     FocusControl = DBEdit3
   end
+  object Label12: TLabel [14]
+    Left = 97
+    Top = 57
+    Width = 46
+    Height = 13
+    Caption = 'N'#186' Banco'
+    FocusControl = DBEdit5
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 400
     Width = 667
@@ -189,8 +197,8 @@ inherited fbanco: Tfbanco
       Transparent = True
     end
   end
-  object DBEdit1: TDBEdit [16]
-    Left = 105
+  object DBEdit1: TDBEdit [17]
+    Left = 171
     Top = 70
     Width = 180
     Height = 24
@@ -207,10 +215,10 @@ inherited fbanco: Tfbanco
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [17]
-    Left = 292
+  object DBEdit2: TDBEdit [18]
+    Left = 352
     Top = 70
-    Width = 337
+    Width = 277
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -225,7 +233,7 @@ inherited fbanco: Tfbanco
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object DBGrid1: TDBGrid [18]
+  object DBGrid1: TDBGrid [19]
     Left = 36
     Top = 292
     Width = 616
@@ -287,7 +295,7 @@ inherited fbanco: Tfbanco
         Visible = True
       end>
   end
-  object DBNavigator1: TDBNavigator [19]
+  object DBNavigator1: TDBNavigator [20]
     Left = 220
     Top = 372
     Width = 248
@@ -296,7 +304,7 @@ inherited fbanco: Tfbanco
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
     TabOrder = 12
   end
-  object DBEdit3: TDBEdit [20]
+  object DBEdit3: TDBEdit [21]
     Left = 39
     Top = 116
     Width = 57
@@ -308,7 +316,7 @@ inherited fbanco: Tfbanco
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [21]
+  object DBEdit4: TDBEdit [22]
     Left = 385
     Top = 117
     Width = 103
@@ -320,7 +328,7 @@ inherited fbanco: Tfbanco
     TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODBANCO: TDBEdit [22]
+  object dbedtCODBANCO: TDBEdit [23]
     Left = 40
     Top = 73
     Width = 56
@@ -329,10 +337,11 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'CODBANCO'
     DataSource = DtSrc
+    ReadOnly = True
     TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [23]
+  object DBEdit6: TDBEdit [24]
     Left = 104
     Top = 116
     Width = 106
@@ -344,7 +353,7 @@ inherited fbanco: Tfbanco
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [24]
+  object DBEdit7: TDBEdit [25]
     Left = 214
     Top = 116
     Width = 17
@@ -356,7 +365,7 @@ inherited fbanco: Tfbanco
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [25]
+  object DBEdit8: TDBEdit [26]
     Left = 243
     Top = 116
     Width = 106
@@ -368,7 +377,7 @@ inherited fbanco: Tfbanco
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [26]
+  object DBEdit9: TDBEdit [27]
     Left = 355
     Top = 116
     Width = 17
@@ -380,7 +389,7 @@ inherited fbanco: Tfbanco
     TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [27]
+  object DBEdit10: TDBEdit [28]
     Left = 40
     Top = 200
     Width = 611
@@ -391,7 +400,7 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 13
   end
-  object DBEdit11: TDBEdit [28]
+  object DBEdit11: TDBEdit [29]
     Left = 40
     Top = 222
     Width = 611
@@ -402,7 +411,7 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 14
   end
-  object DBEdit12: TDBEdit [29]
+  object DBEdit12: TDBEdit [30]
     Left = 40
     Top = 244
     Width = 611
@@ -413,7 +422,7 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 15
   end
-  object DBEdit13: TDBEdit [30]
+  object DBEdit13: TDBEdit [31]
     Left = 40
     Top = 266
     Width = 611
@@ -424,7 +433,7 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 16
   end
-  object dbedtCODIGO_CEDENTE: TDBEdit [31]
+  object dbedtCODIGO_CEDENTE: TDBEdit [32]
     Left = 494
     Top = 117
     Width = 42
@@ -436,7 +445,7 @@ inherited fbanco: Tfbanco
     TabOrder = 17
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODIGO_CEDENTE1: TDBEdit [32]
+  object dbedtCODIGO_CEDENTE1: TDBEdit [33]
     Left = 538
     Top = 117
     Width = 33
@@ -448,7 +457,7 @@ inherited fbanco: Tfbanco
     TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODIGO_AGENCIA: TDBEdit [33]
+  object dbedtCODIGO_AGENCIA: TDBEdit [34]
     Left = 575
     Top = 116
     Width = 60
@@ -460,7 +469,7 @@ inherited fbanco: Tfbanco
     TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object dbedtINSTRUCAO1: TDBEdit [34]
+  object dbedtINSTRUCAO1: TDBEdit [35]
     Left = 40
     Top = 159
     Width = 611
@@ -470,6 +479,18 @@ inherited fbanco: Tfbanco
     DataField = 'LOCALPGTO'
     DataSource = DtSrc
     TabOrder = 20
+  end
+  object DBEdit5: TDBEdit [36]
+    Left = 97
+    Top = 73
+    Width = 72
+    Height = 21
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'N_BANCO'
+    DataSource = DtSrc
+    TabOrder = 21
+    OnKeyPress = FormKeyPress
   end
   inherited PopupMenu1: TPopupMenu
     Left = 632
