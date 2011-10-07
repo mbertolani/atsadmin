@@ -645,6 +645,10 @@ var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
 begin
+  if (cbPrazo.Text = '01-A Vista') then
+    if (jvPago.Text = 'R$ 0,00') then
+       jvPago.Value := jvTotal.Value;
+
   if (cbPrazo.Visible = True) then
   begin
     if (not dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
