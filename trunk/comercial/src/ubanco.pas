@@ -44,6 +44,8 @@ type
     dbedtINSTRUCAO1: TDBEdit;
     lbl4: TLabel;
     lbl5: TLabel;
+    DBEdit5: TDBEdit;
+    Label12: TLabel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -95,7 +97,7 @@ end;
 
 procedure Tfbanco.btnGravarClick(Sender: TObject);
 begin
- { if DtSrc.DataSet.State in [dsInsert] then
+  if DtSrc.DataSet.State in [dsInsert] then
   begin
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
@@ -103,7 +105,7 @@ begin
     dm.c_6_genid.Open;
     dm.cdsBancoCODBANCO.AsInteger := dm.c_6_genidCODIGO.AsInteger;
     dm.c_6_genid.Close;
-  end;}
+  end;
   if (dbedtCODBANCO.Text = '') then
   begin
     showmessage('Informe o Código do Banco');
