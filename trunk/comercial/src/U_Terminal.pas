@@ -281,7 +281,7 @@ begin
   sql := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODPRODUTO, STATUS, CODALMOXARIFADO, CODMOVIMENTO, QUANTIDADE, UN, '+
          'PRECO, DESCPRODUTO, LOTE) VALUES ( ' +
          IntToStr(ID_MOVDET) + ', ' + IntToStr(scds_produto_procCODPRODUTO.AsInteger) + ', ' +
-         IntToStr(0) + ', ' + IntToStr(0) + ', ' +
+         'null' + ', ' + IntToStr(0) + ', ' +
          IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ' +
          QuotedStr(scds_produto_procUNIDADEMEDIDA.AsString) + ', ' +
          FloatToStr(scds_produto_procVALOR_PRAZO.AsFloat)  + ', ' +
@@ -317,8 +317,8 @@ var sql : string;
 begin
 
   dm.sqlsisAdimin.StartTransaction(TD);
-  DM_MOV.c_movimento.Open;
-  DM_MOV.c_movimento.Append;
+//  DM_MOV.c_movimento.Open;
+//  DM_MOV.c_movimento.Append;
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -379,7 +379,7 @@ begin
     DM_MOV.c_movimento.Open;
   end;
 
-  if (PageControl1.ActivePage = TabSheet1) then
+  if (PageControl1.ActivePage = TabComanda) then
   begin
     if (DM_MOV.c_comanda.Active) then
         DM_MOV.c_comanda.Close;
@@ -579,10 +579,12 @@ begin
     dm.cds_parametro.Close;
     fFiltroMovimento.ShowModal;
     DM_MOV.c_movimento.Close;
+    DM_MOV.c_movimento.Params[0].Clear;
     DM_MOV.c_movimento.Params[0].AsInteger := fFiltroMovimento.cod_mov;
     DM_MOV.c_movimento.Open;
 
     DM_MOV.c_movdet.Close;
+    DM_MOV.c_movdet.Params[0].Clear;
     DM_MOV.c_movdet.Params[0].AsInteger := fFiltroMovimento.cod_mov;
     DM_MOV.c_movdet.Open;
     JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
@@ -865,6 +867,7 @@ begin
   end
   else
   begin
+
     if (PageControl1.ActivePage = TabSheet1) then
        codlote := EdtCodBarra.Text;
     if (PageControl1.ActivePage = TabComanda) then
