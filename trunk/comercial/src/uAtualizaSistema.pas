@@ -1114,11 +1114,21 @@ begin
     if (versaoSistema = '1.0.0.94') then
     begin
       executaSql('ALTER TABLE OS DROP CODVEICULO');
+      executaSql('CREATE OR ALTER EXCEPTION ALTERA_CODPRO ' + QuotedStr('Produto em uso na Solicitação, não é possível fazer alteração'));      
       executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
       executaDDL('OS_DET', 'CODUSUARIO', 'INTEGER');
       executaDDL('INVENTARIO', 'LOTE',  'VARCHAR(60)');
       executaDDL('INVENTARIO', 'CODCCUSTO', 'INTEGER');
-      executaScript('invent_estoque.sql');      
+      executaDDL('MOVIMENTO', 'USUARIOLOGADO', 'VARCHAR(30)');
+      executaDDL('BANCO', 'ESPECIEDOC', 'Varchar(5)');
+      executaDDL('BANCO', 'ACEITE', 'Varchar(2)');
+      executaDDL('BANCO', 'CONVENIO', 'Varchar(10)');
+      executaDDL('BANCO', 'LOCALPGTO', 'Varchar(100)');
+      executaDDL('BANCO', 'N_BANCO', 'Varchar(10)');
+      executaDDL('BANCO', 'DIGITOBANCO', 'Integer');
+      executaScript('invent_estoque.sql');
+      executaScript('sp_lote_estoquemes.sql');
+      executaScript('trg_altera_codpro');
       //mudaVersao('1.0.0.95');
     end;
     
