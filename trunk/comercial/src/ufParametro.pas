@@ -2157,88 +2157,64 @@ procedure TfParametro.RadioGroup4Click(Sender: TObject);
 begin
 //  inherited;
   strSql := '';
-  if (RadioGroup4.ItemIndex = 1) then  // Busca pelo Codigo do Produto
-  begin
-     if (s_parametro.Active) then
-       s_parametro.Close;
-     s_parametro.Params[0].AsString := 'BUSCAPRODUTO';
-     s_parametro.Open;
-     if (s_parametro.Eof) then
-     begin
-        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
-        strSql := strSql + ') VALUES (';
-        strSql := strSql + QuotedStr('Busca Produto CODIGO DE BARRA ou CODIGO do PRODUTO') + ', ';
-        strSql := strSql + QuotedStr('BUSCAPRODUTO') + ', ';
-        strSql := strSql + QuotedStr('CODPRO');
-        strSql := strSql + ')';
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(strSql);
-        Try
-           dm.sqlsisAdimin.Commit(TD);
-        except
-           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
-               [mbOk], 0);
-        end;
-     end
-     else
-     begin
-        strSql := 'UPDATE PARAMETRO SET DADOS = ';
-        strSql := strSql + QuotedStr('CODPRO');
-        strSql := strSql + ' where PARAMETRO = ' + QuotedStr('BUSCAPRODUTO');
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(strSql);
-        Try
-           dm.sqlsisAdimin.Commit(TD);
-        except
-           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
-               [mbOk], 0);
-        end;
-     end;
-  end;
-  //===========================================================================
-  if (RadioGroup4.ItemIndex = 0) then  // Busca pelo Codigo de Barra
-  begin
-     if (s_parametro.Active) then
-       s_parametro.Close;
-     s_parametro.Params[0].AsString := 'BUSCAPRODUTO';
-     s_parametro.Open;
-     if (s_parametro.Eof) then
-     begin
-        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
-        strSql := strSql + ') VALUES (';
-        strSql := strSql + QuotedStr('Busca Produto CODIGO DE BARRA ou CODIGO do PRODUTO') + ', ';
-        strSql := strSql + QuotedStr('BUSCAPRODUTO') + ', ';
-        strSql := strSql + QuotedStr('CODBARRA');
-        strSql := strSql + ')';
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(strSql);
-        Try
-           dm.sqlsisAdimin.Commit(TD);
-        except
-           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
-               [mbOk], 0);
-        end;
-     end
-     else
-     begin
-        strSql := 'UPDATE PARAMETRO SET DADOS = ';
-        strSql := strSql + QuotedStr('CODBARRA');
-        strSql := strSql + ' where PARAMETRO = ' + QuotedStr('BUSCAPRODUTO');
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(strSql);
-        Try
-           dm.sqlsisAdimin.Commit(TD);
-        except
-           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
-               [mbOk], 0);
-        end;
-     end;
-  end;
 
+
+   if (s_parametro.Active) then
+     s_parametro.Close;
+   s_parametro.Params[0].AsString := 'BUSCAPRODUTO';
+   s_parametro.Open;
+   if (s_parametro.Eof) then
+   begin
+      strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
+      strSql := strSql + ') VALUES (';
+      strSql := strSql + QuotedStr('Busca Produto CODIGO DE BARRA ou CODIGO do PRODUTO') + ', ';
+      strSql := strSql + QuotedStr('BUSCAPRODUTO') + ', ';
+      if (RadioGroup4.ItemIndex = 0) then
+        strSql := strSql + QuotedStr('CODBARRA')
+      else
+        strSql := strSql + QuotedStr('CODPRO');
+      strSql := strSql + ')';
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+             [mbOk], 0);
+      end;
+   end
+   else if (RadioGroup4.ItemIndex = 1) then  // Busca pelo Codigo do Produto
+   begin
+      strSql := 'UPDATE PARAMETRO SET DADOS = ';
+      strSql := strSql + QuotedStr('CODPRO');
+      strSql := strSql + ' where PARAMETRO = ' + QuotedStr('BUSCAPRODUTO');
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+             [mbOk], 0);
+      end;
+   end
+   else if (RadioGroup4.ItemIndex = 0) then  // Busca pelo Codigo de Barra
+   begin
+
+        strSql := 'UPDATE PARAMETRO SET DADOS = ';
+        strSql := strSql + QuotedStr('CODBARRA');
+        strSql := strSql + ' where PARAMETRO = ' + QuotedStr('BUSCAPRODUTO');
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+   end;
 end;
 
 procedure TfParametro.FormShow(Sender: TObject);
