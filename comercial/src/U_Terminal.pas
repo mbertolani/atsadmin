@@ -274,6 +274,8 @@ begin
    DM_MOV.c_movdetUN.AsString := scds_produto_procUNIDADEMEDIDA.AsString;
    DM_MOV.c_movdetPRECO.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
    DM_MOV.c_movdetDESCPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
+   DM_MOV.c_movdetCODPRODUTO.AsInteger := scds_produto_procCODPRODUTO.AsInteger;
+
    if (tipo_busca = '3') then  // só preencho o campo Lote se o parametro usa lote for 3
      DM_MOV.c_movdetLOTE.AsString := codlote;
    DM_MOV.c_movdet.ApplyUpdates(0);
@@ -451,7 +453,6 @@ begin
 end;
 
 procedure TF_Terminal.EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
-var varsql:string;
 begin
    if (key = #13) then
    begin
@@ -529,7 +530,8 @@ begin
           if (scds_produto_proc.Active) then
             scds_produto_proc.Close;
       end;
-    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;      
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    EdtCodBarra.Text := '';      
    end;
 end;
 
