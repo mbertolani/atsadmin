@@ -333,7 +333,7 @@ begin
           else begin
             sql := sql + ', null,';
           end;
-          sql := sql +  ', ' + QuotedStr(lote) + ')';
+          sql := sql + QuotedStr(lote) + ')';
           dm.sqlsisAdimin.ExecuteDirect(sql);
         end;
       end;
