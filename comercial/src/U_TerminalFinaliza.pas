@@ -850,8 +850,8 @@ begin
     DM_MOV.c_venda.Close;
     DM_MOV.c_venda.Params[0].Clear;
     dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(strSql);
     dm.sqlsisAdimin.ExecuteDirect(strSqlMov);    
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
        dm.sqlsisAdimin.Commit(TD);
     except
