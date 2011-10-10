@@ -26,7 +26,8 @@ var
 
 implementation
 
-uses UDm, UDMNF, uNF, uNotaf;
+uses UDm, UDMNF, uNF, uNotaf,
+  uNotafc;
 
 {$R *.dfm}
 
@@ -63,6 +64,32 @@ begin
     else
       Abort;
   end;
+  if (DMNF.FormExiste(fNotaFc) = True) then
+  begin
+    if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+                  [mbYes,mbNo],0) = mrYes then
+    begin
+      if (not dmnf.DtSrc_NF1.DataSet.IsEmpty) then
+      begin
+        if (dmnf.dtSrcCompra.DataSet.IsEmpty) then
+        begin
+          DMNF.cds_compra.Params[0].AsInteger := dmnf.cds_nf1CODVENDA.AsInteger;
+          DMNF.cds_compra.Params[1].Clear;
+          DMNF.cds_compra.Open;
+        end;
+        dmnf.dtSrcCompra.DataSet.Delete;
+        (dmnf.dtSrcCompra.DataSet as TClientDataSet).ApplyUpdates(0);
+        dmnf.DtSrc.DataSet.Delete;
+        (dmnf.DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+        dmnf.DtSrc_NF1.DataSet.Delete;
+        (dmnf.DtSrc_NF1.DataSet as TClientDataSet).ApplyUpdates(0);
+
+       MessageDlg('Registro excluido com sucesso.',mtConfirmation, [mbOK],0)
+      end;
+    end
+    else
+      Abort;
+  end;
 end;
 
 procedure TformExclusao.dxButton2Click(Sender: TObject);
@@ -76,6 +103,21 @@ begin
           dmnf.cds_venda.Edit;
        dmnf.cds_vendaSTATUS.AsInteger := 14;
        dmnf.cds_venda.ApplyUpdates(0);
+       if (dmnf.cds_Movimento.State in [dsBrowse]) then
+         dmnf.cds_Movimento.Edit;
+       dmnf.cds_MovimentoCODNATUREZA.AsInteger := 14;
+       dmnf.cds_Movimento.ApplyUpdates(0);
+    end;
+  end
+  else if (DMNF.FormExiste(fNotaFc) = True) then
+  begin
+    if MessageDlg('Atenção, confirmando essa operação o sistema vai alterar o status para'+#13+#10+' "CANCELADO", não será excluido do sistema.',mtConfirmation,
+                    [mbYes,mbNo],0) = mrYes then
+    begin
+       if (dmnf.cds_compra.State in [dsBrowse]) then
+          dmnf.cds_compra.Edit;
+       dmnf.cds_compraSTATUS.AsInteger := 14;
+       dmnf.cds_compra.ApplyUpdates(0);
        if (dmnf.cds_Movimento.State in [dsBrowse]) then
          dmnf.cds_Movimento.Edit;
        dmnf.cds_MovimentoCODNATUREZA.AsInteger := 14;
