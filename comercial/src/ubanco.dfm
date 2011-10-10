@@ -507,7 +507,7 @@ inherited fbanco: Tfbanco
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'N_BANCO'
+    DataField = 'DIGITOBANCO'
     DataSource = DtSrc
     TabOrder = 22
     OnKeyPress = FormKeyPress
