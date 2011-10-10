@@ -792,26 +792,31 @@ end;
 
 function TEstoque.validoMovimento: Boolean;
 var sqlBuscaEstoque: TSqlQuery;
+strd : string;
 begin
   Try
     sqlBuscaEstoque := TSqlQuery.Create(nil);
     sqlBuscaEstoque.SQLConnection := dm.sqlsisAdimin;
-  Result := False;
-  sqlBuscaEstoque.sql.Add('SELECT BAIXAMOVIMENTO, MD.STATUS ' +
-    ' FROM MOVIMENTO M, MOVIMENTODETALHE MD, NATUREZAOPERACAO NATOPER ' +
-    'WHERE M.CODMOVIMENTO = MD.CODMOVIMENTO ' +
-    '  AND M.CODNATUREZA  = NATOPER.CODNATUREZA  ' +
-    '  AND MD.CODDETALHE  = ' + IntToStr(Self.CodDetalhe));
-  sqlBuscaEstoque.Open;
-  if (not sqlBuscaEstoque.IsEmpty) then      // Não achou nada no sistema
-  begin
-    if (((sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 0)   or
-        (sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 1)) and
-        (sqlBuscaEstoque.FieldByName('STATUS').IsNull)) then
+    Result := False;
+    strd := 'SELECT BAIXAMOVIMENTO, MD.STATUS ' +
+      ' FROM MOVIMENTO M, MOVIMENTODETALHE MD, NATUREZAOPERACAO NATOPER ' +
+      'WHERE M.CODMOVIMENTO = MD.CODMOVIMENTO ' +
+      '  AND M.CODNATUREZA  = NATOPER.CODNATUREZA  ' +
+      '  AND MD.CODDETALHE  = ' + IntToStr(Self.CodDetalhe);
+    sqlBuscaEstoque.sql.Add(strd);
+    sqlBuscaEstoque.Open;
+    if (not sqlBuscaEstoque.IsEmpty) then      // Não achou nada no sistema
     begin
-      Result := True;
+      if (((sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 0)   or
+          (sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 1)) and
+          (sqlBuscaEstoque.FieldByName('STATUS').IsNull)) then
+      begin
+        Result := True;
+      end;
+      // Ve se e Exclusao
+      if ((Self.QtdeCompra + Self.QtdeVenda + Self.QtdeEntrada + Self.QtdeSaida) < 0) then
+        Result := True;
     end;
-  end;
   Finally
     sqlBuscaEstoque.Destroy;
   end;
