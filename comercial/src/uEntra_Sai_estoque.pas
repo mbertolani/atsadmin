@@ -989,66 +989,17 @@ end;
 procedure TfEntra_Sai_estoque.btnExcluirClick(Sender: TObject);
 var deleta, delmov, delmovprim, delvenprim: string;
   FEstoque : TEstoque;
+  TD: TTransactionDesc;
 begin
-  MessageDlg('Tem certeza que Deseja Excluir?', mtConfirmation, [mbYes, mbNo], 0);
-  if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
-  begin
-    deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
-    delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
-    Try
-      FEstoque := TEstoque.Create;
-      // Gravando o Estoque
-      cds_Mov_det.First;
-      While not cds_Mov_det.Eof do
-      begin
-        FEstoque.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-        FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-        FEstoque.Status      := '0';
-        FEstoque.inserirMes;
-        cds_Mov_det.Next;
-      end;
-    Finally
-      FEstoque.Free;
-    end;
+  if (MessageDlg('Tem certeza que Deseja Excluir?', mtConfirmation, [mbYes, mbNo], 0) = mrNo) then exit;
 
-  end;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
 
-  if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
-  begin
-    deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
-    delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
-
-    Try
-      FEstoque := TEstoque.Create;
-      // Gravando o Estoque
-      cds_Mov_det.First;
-      While not cds_Mov_det.Eof do
-      begin
-        FEstoque.QtdeSaida   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-        FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-        FEstoque.inserirMes;
-        cds_Mov_det.Next;
-      end;
-    Finally
-      FEstoque.Free;
-    end;
-
-
-  end;
-
-  deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
   delmov := 'Delete From MOVIMENTO WHERE CODMOVIMENTO = ';
   delmov := delmov + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+
+  delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
 
   if (sMatPrima.Active) then
     sMatPrima.Close;
@@ -1059,10 +1010,100 @@ begin
   delmovprim := 'Delete From MOVIMENTO WHERE CODORIGEM = ';
   delmovprim := delmovprim + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
 
-  DM.sqlsisAdimin.ExecuteDirect(deleta);
-  DM.sqlsisAdimin.ExecuteDirect(delmov);
-  DM.sqlsisAdimin.ExecuteDirect(delvenprim);
-  DM.sqlsisAdimin.ExecuteDirect(delmovprim);
+  if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
+  begin
+    deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
+    deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+    Try
+      FEstoque := TEstoque.Create;
+
+      Try
+        dm.sqlsisAdimin.StartTransaction(TD);
+
+        // Gravando o Estoque
+        cds_Mov_det.First;
+        While not cds_Mov_det.Eof do
+        begin
+          FEstoque.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+          FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+          FEstoque.Status      := '0';
+          FEstoque.inserirMes;
+          cds_Mov_det.Next;
+        end;
+        DM.sqlsisAdimin.ExecuteDirect(deleta);
+        DM.sqlsisAdimin.ExecuteDirect(delmov);
+        DM.sqlsisAdimin.ExecuteDirect(delvenprim);
+        DM.sqlsisAdimin.ExecuteDirect(delmovprim);
+        dm.sqlsisAdimin.Commit(TD);
+        MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
+      Except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD);
+          Exit;
+        end;
+      end;
+    Finally
+      FEstoque.Free;
+    end;
+
+  end;
+
+  if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
+  begin
+    deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+    deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+    //delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
+
+    Try
+      FEstoque := TEstoque.Create;
+
+      Try
+        dm.sqlsisAdimin.StartTransaction(TD);
+
+        // Gravando o Estoque
+        cds_Mov_det.First;
+        While not cds_Mov_det.Eof do
+        begin
+          FEstoque.QtdeSaida   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+          FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+          FEstoque.inserirMes;
+          cds_Mov_det.Next;
+        end;
+        DM.sqlsisAdimin.ExecuteDirect(deleta);
+        DM.sqlsisAdimin.ExecuteDirect(delmov);
+        DM.sqlsisAdimin.ExecuteDirect(delvenprim);
+        DM.sqlsisAdimin.ExecuteDirect(delmovprim);
+        dm.sqlsisAdimin.Commit(TD);
+        MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
+      Except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD);
+          Exit;
+        end;
+      end;
+
+    Finally
+      FEstoque.Free;
+    end;
+
+
+  end;
+
+
 
 
 
