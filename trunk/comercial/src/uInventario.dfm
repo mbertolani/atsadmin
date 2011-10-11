@@ -92,7 +92,7 @@ inherited fInventario: TfInventario
   object Panel1: TPanel [2]
     Left = 0
     Top = 271
-    Width = 905
+    Width = 913
     Height = 259
     Align = alCustom
     TabOrder = 2
