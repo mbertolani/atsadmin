@@ -275,7 +275,7 @@ begin
   if (cdsOs.Active) then
   begin
     if (cdsOsSTATUS.AsString = 'P') then
-      DBGrid1.Canvas.Brush.Color := clYellow;
+      DBGrid1.Canvas.Brush.Color := clMoneyGreen;
     if (cdsOsSTATUS.AsString = 'F') then
       DBGrid1.Canvas.Brush.Color := clGray;
 

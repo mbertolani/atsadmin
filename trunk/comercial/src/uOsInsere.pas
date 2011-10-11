@@ -47,7 +47,7 @@ type
     procedure DtSrcStateChange(Sender: TObject);
   private
     codProduto: Integer;
-
+    procedure LimpaCampos();
     { Private declarations }
   public
     modoOsInsere : String;
@@ -104,7 +104,7 @@ begin
   begin
     fProcurar := TfProcurar.Create(self,dm.scds_prod);
     fProcurar.BtnProcurar.Click;
-    fProcurar.EvDBFind1.DataField := 'Serviço';
+    //fProcurar.EvDBFind1.DataField := 'Serviço';
     fProcurar.btnIncluir.Visible := False;
     fProcurar.BtnProcurar.Click;
     try
@@ -248,7 +248,7 @@ end;
 procedure TfOsInsere.FormShow(Sender: TObject);
 begin
   //inherited;
-  edServico.Lines.Clear;
+  LimpaCampos;
   if (modoOsInsere = 'SERVICO') then
   begin
     edCodUsuario.Enabled  := True;
@@ -387,7 +387,6 @@ end;
 procedure TfOsInsere.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   //inherited;
-
 end;
 
 procedure TfOsInsere.DtSrcStateChange(Sender: TObject);
@@ -400,6 +399,18 @@ begin
   edPrecoServ.Enabled   := DtSrc.State in [dsEdit, dsInsert];
   edDescServ.Enabled    := DtSrc.State in [dsEdit, dsInsert];
   edDescVlrServ.Enabled := DtSrc.State in [dsEdit, dsInsert];
+end;
+
+procedure TfOsInsere.LimpaCampos;
+begin
+  edServico.Lines.Clear;
+  edQtdeServ.Value    := 0;
+  edPrecoServ.Value   := 0;
+  edDescServ.Value    := 0;
+  edDescVlrServ.Value := 0;
+  edTotalServ.Value   := 0;
+  edColaborador.Text  := '';
+  edCodUsuario.Text   := '';
 end;
 
 end.

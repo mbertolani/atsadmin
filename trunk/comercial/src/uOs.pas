@@ -255,7 +255,7 @@ begin
     end;
     {else begin
       FOsCls.status := 'P';
-    end; } 
+    end; }
     FOsCls.km         := StrToInt(edKm.Text);
 
     if (modoOs = 'Insert') then
@@ -272,7 +272,7 @@ begin
     While not cdsServico.Eof do
     begin
       FOsCls.osDet.CodOsP   := CodigoOs;
-      if (modoOsItem = 'IncluiServico') then
+      if ((cdsServicoTIPO.AsString = 'S') and (cdsServicoID_OS_DET.AsInteger > 90000000)) then
       begin
         FOsCls.osDet.CodDet   := 0;
         FOsCls.osDet.Status   := 'O';
@@ -286,7 +286,7 @@ begin
       FOsCls.osDet.Desconto   := cdsServicoDESCONTO.AsFloat;
       FOsCls.osDet.CodUsuario := cdsServicoCODUSUARIO.AsInteger;
       DecimalSeparator        := ',';
-      if (modoOsItem = 'IncluiServico') then
+      if ((cdsServicoTIPO.AsString = 'S')  and (cdsServicoID_OS_DET.AsInteger > 90000000)) then
       begin
         if (FOsCls.osDet.IncluirOsDet(0) = 0) then
         begin
@@ -306,7 +306,7 @@ begin
     While not cdsPecas.Eof do
     begin
       FOsCls.osDet.CodOsP   := CodigoOs;
-      if (modoOsItem = 'IncluiPeca') then
+      if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
       begin
         FOsCls.osDet.CodDet   := 0;
         FOsCls.osDet.Status   := 'O';
@@ -320,9 +320,9 @@ begin
       FOsCls.osDet.Desconto  := cdsPecasDESCONTO.AsFloat;
       FOSCls.osDet.CodOsServ := cdsPecasID_OSDET_SERV.AsInteger;
       DecimalSeparator := ',';
-      if (modoOsItem = 'IncluiPeca') then
+      if ((cdsPecasTIPO.AsString = 'P')) then
       begin
-        if (FOsCls.osDet.IncluirOsDet(0) = 0) then
+        if ((FOsCls.osDet.IncluirOsDet(0) = 0) and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
         begin
           ShowMessage('Erro na Inclusao Os Detalhe');
           Exit;
@@ -330,7 +330,7 @@ begin
         else begin
           FOsCls.osDet.alterarOsDet(cdsPecasID_OS.AsInteger);
         end;
-      end;  
+      end;
       cdsPecas.Next;
     end;
     dm.sqlsisAdimin.Commit(TD);
@@ -767,7 +767,7 @@ begin
   fOsInsere.modoOsInsere := 'PECA';
 
   fOsInsere.DtSrc.DataSet := cdsPecas;
-  
+
   cdsPecas.Edit;
 
   fOsInsere.ShowModal;
@@ -780,7 +780,7 @@ begin
   begin
     modoOs := 'Edit';
     controlaEventos;
-  end;  
+  end;
 end;
 
 procedure TfOs.btnExcluirServicoClick(Sender: TObject);
