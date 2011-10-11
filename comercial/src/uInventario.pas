@@ -123,6 +123,7 @@ type
     procedure cbCCustoChange(Sender: TObject);
   private
     { Private declarations }
+    CCusto: Integer;
     TD: TTransactionDesc;
     procedure incluirInventario;
     procedure executaLista;
@@ -307,8 +308,7 @@ begin
               QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
             if (cbCCusto1.ItemIndex > -1) then
             begin
-              cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive]);
-                sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger) + ',';
+              sql := sql + ', ' + IntToStr(CCusto) + ',';
             end
             else begin
               sql := sql + ', null,';
@@ -327,8 +327,7 @@ begin
             QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
           if (cbCCusto1.ItemIndex > -1) then
           begin
-            cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive]);
-              sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger) + ',';
+              sql := sql + ', ' + IntToStr(CCusto) + ',';
           end
           else begin
             sql := sql + ', null,';
@@ -386,6 +385,22 @@ procedure TfInventario.btnIncluirClick(Sender: TObject);
     exit;
   end;
 
+  if (cbCCusto1.Text = '') then
+  begin
+    MessageDlg('Informe o Local do Estoque.', mtWarning, [mbOK], 0);
+    cbCCusto1.SetFocus;
+    exit;
+  end;
+
+  if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
+    CCusto := cds_ccustoCODIGO.AsInteger
+  else begin
+    MessageDlg('Local de Estoque Inválido.', mtWarning, [mbOK], 0);
+    cbCCusto1.SetFocus;
+    exit;
+  end;
+
+
   if (cdsInvent.State in [dsInsert, dsEdit]) then
   begin
     cdsInvent.ApplyUpdates(0);
@@ -434,6 +449,23 @@ begin
     edLista.SetFocus;
     exit;
   end;
+
+  if (cbCCusto1.Text = '') then
+  begin
+    MessageDlg('Informe o Local do Estoque.', mtWarning, [mbOK], 0);
+    cbCCusto1.SetFocus;
+    exit;
+  end;
+
+  if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
+    CCusto := cds_ccustoCODIGO.AsInteger
+  else begin
+    MessageDlg('Local de Estoque Inválido.', mtWarning, [mbOK], 0);
+    cbCCusto1.SetFocus;
+    exit;
+  end;
+
+
   if (cdsInvent.Active) then
   begin
     sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
@@ -444,8 +476,7 @@ begin
       QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
     if (cbCCusto1.ItemIndex > -1) then
     begin
-      cds_ccusto.Locate('NOME',cbCCusto1.Text, [loCaseInsensitive]);
-        sql := sql + ', ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+      sql := sql + ', ' + IntToStr(CCusto);
     end
     else begin
       sql := sql + ', null';
