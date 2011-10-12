@@ -45,6 +45,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     codProduto: Integer;
     procedure LimpaCampos();
@@ -181,7 +182,7 @@ end;
 procedure TfOsInsere.FormCreate(Sender: TObject);
 begin
   //inherited;
-  sCtrlResize.CtrlResize(TForm(fOs));
+  sCtrlResize.CtrlResize(TForm(fOsInsere));
 end;
 
 procedure TfOsInsere.btnIncluirClick(Sender: TObject);
@@ -271,6 +272,12 @@ begin
   edTotalServ.Value   := 0;
   edColaborador.Text  := '';
   edCodUsuario.Text   := '';
+end;
+
+procedure TfOsInsere.btnSairClick(Sender: TObject);
+begin
+  //inherited;
+  Close;
 end;
 
 end.

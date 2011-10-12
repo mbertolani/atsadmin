@@ -179,6 +179,7 @@ type
     procedure edDataChange(Sender: TObject);
     procedure btnExcluirServicoClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure dsPecasStateChange(Sender: TObject);
   private
     estoque, qtde : Double;
     FOsCls: TOsClasse;
@@ -510,7 +511,7 @@ end;
 
 procedure TfOs.FormCreate(Sender: TObject);
 begin
-  //sCtrlResize.CtrlResize(TForm(fOs));
+  sCtrlResize.CtrlResize(TForm(fOs));
 end;
 
 procedure TfOs.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -726,10 +727,15 @@ begin
 
   ServCodServ   := cdsServicoID_OS_DET.AsInteger;
   ServDescricao := cdsServicoDESCRICAO_SERV.AsString;
-
+  if (fOsInserePeca.cdsPecas.Active) then
+    fOsInserePeca.cdsPecas.Close;
+  fOsInserePeca.cdsPecas.Data := cdsPecas.Data;
   cdsPecas.Append;
+  fOsInserePeca.cdsPecas.Append;
   cdsPecasID_OS_DET.AsInteger := numOsDet;
-  fOs.cdsPecasTIPO.AsString   := 'P';
+  cdsPecasTIPO.AsString   := 'P';
+  fOsInserePeca.cdsPecasID_OS_DET.AsInteger := numOsDet;
+  fOsInserePeca.cdsPecasTIPO.AsString   := 'P';
 
   fOsInserePeca.ShowModal;
 
@@ -779,6 +785,21 @@ end;
 procedure TfOs.BitBtn2Click(Sender: TObject);
 begin
   modoOsItem := 'ExcluiPeca';
+end;
+
+procedure TfOs.dsPecasStateChange(Sender: TObject);
+begin
+  fOsInserePeca.edProduto.Enabled     := cdsPecas.State in [dsEdit, dsInsert];
+  fOsInserePeca.edServico.Enabled     := cdsPecas.State in [dsEdit, dsInsert];
+  fOsInserePeca.edQtdeServ.Enabled    := cdsPecas.State in [dsEdit, dsInsert];
+  fOsInserePeca.edPrecoServ.Enabled   := cdsPecas.State in [dsEdit, dsInsert];
+  fOsInserePeca.edDescServ.Enabled    := cdsPecas.State in [dsEdit, dsInsert];
+  fOsInserePeca.edDescVlrServ.Enabled := cdsPecas.State in [dsEdit, dsInsert];
+  fOsInserePeca.btnIncluir.Visible    := cdsPecas.State in [dsBrowse, dsInactive];
+  fOsInserePeca.btnGravar.Visible     := cdsPecas.State in [dsEdit, dsInsert];
+  fOsInserePeca.btnExcluir.Visible    := cdsPecas.State in [dsBrowse, dsInactive];
+  fOsInserePeca.btnCancelar.Visible   := cdsPecas.State in [dsEdit, dsInsert];
+
 end;
 
 end.
