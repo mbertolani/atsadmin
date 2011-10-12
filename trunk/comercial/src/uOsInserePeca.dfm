@@ -1,12 +1,13 @@
 inherited fOsInserePeca: TfOsInserePeca
-  Width = 448
+  Width = 446
   Height = 419
   Caption = 'Pe'#231'as'
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 440
+    Width = 438
     object lblServico: TLabel
       Left = 16
       Top = 8
@@ -18,12 +19,12 @@ inherited fOsInserePeca: TfOsInserePeca
   end
   inherited MMJPanel2: TMMJPanel
     Top = 341
-    Width = 440
+    Width = 438
     inherited btnGravar: TBitBtn
       Left = 79
     end
     inherited btnIncluir: TBitBtn
-      Left = 63
+      Left = 79
     end
     inherited btnCancelar: TBitBtn
       Left = 194
@@ -41,11 +42,11 @@ inherited fOsInserePeca: TfOsInserePeca
   object GroupBox1: TGroupBox [2]
     Left = 0
     Top = 51
-    Width = 440
+    Width = 438
     Height = 290
     Align = alClient
     Caption = 'Pe'#231'as'
-    Color = cl3DDkShadow
+    Color = clMoneyGreen
     ParentColor = False
     TabOrder = 2
     object Label15: TLabel
@@ -392,7 +393,7 @@ inherited fOsInserePeca: TfOsInserePeca
     end
   end
   inherited DtSrc: TDataSource
-    DataSet = fOs.cdsPecas
+    DataSet = cdsPecas
     Left = 192
   end
   inherited XPMenu1: TXPMenu
@@ -400,5 +401,123 @@ inherited fOsInserePeca: TfOsInserePeca
   end
   inherited PopupMenu1: TPopupMenu
     Left = 256
+  end
+  object sdsPecas: TSQLDataSet
+    CommandText = 
+      'SELECT  r.ID_OS_DET, r.ID_OS, r.CODPRODUTO, r.DESCRICAO_SERV, r.' +
+      'RESPONSAVEL, r.TIPO, r.QTDE, r.PRECO, r.DESCONTO, r.VALORTOTAL, ' +
+      'PRO.CODPRO,'#13#10' CASE WHEN r.STATUS = '#39'O'#39' THEN '#39'Or'#231'amento'#39'  WHEN r.' +
+      'STATUS = '#39'P'#39' THEN '#39'Aprovado Troca'#39'  WHEN r.STATUS = '#39'S'#39' THEN '#39'Tr' +
+      'ocada'#39#13#10' WHEN r.STATUS = '#39'A'#39' THEN '#39'Aguardando Pe'#231'a'#39'   WHEN r.STA' +
+      'TUS = '#39'N'#39' THEN '#39'N'#227'o Aprovado Troca'#39'   END STATUSDESC, r.STATUS, ' +
+      #13#10'r.ID_OSDET_SERV'#13#10'   FROM OS_DET R , PRODUTOS PRO'#13#10'WHERE R.CODP' +
+      'RODUTO     = PRO.CODPRODUTO'#13#10'      AND R.ID_OS                  ' +
+      '  = :POS'#13#10'      AND R.ID_OSDET_SERV = :P_SEV'#13#10'      AND R.TIPO  ' +
+      '                    = '#39'P'#39' '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'POS'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'P_SEV'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 384
+    Top = 432
+  end
+  object dspPecas: TDataSetProvider
+    DataSet = sdsPecas
+    Options = [poAllowCommandText]
+    Left = 416
+    Top = 432
+  end
+  object cdsPecas: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'POS'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'P_SEV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspPecas'
+    OnNewRecord = cdsPecasNewRecord
+    Left = 448
+    Top = 432
+    object cdsPecasID_OS_DET: TIntegerField
+      FieldName = 'ID_OS_DET'
+      Required = True
+    end
+    object cdsPecasID_OS: TIntegerField
+      FieldName = 'ID_OS'
+      Required = True
+    end
+    object cdsPecasDESCRICAO_SERV: TStringField
+      FieldName = 'DESCRICAO_SERV'
+      Size = 1024
+    end
+    object cdsPecasRESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Size = 150
+    end
+    object cdsPecasSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsPecasTIPO: TStringField
+      FieldName = 'TIPO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsPecasQTDE: TFloatField
+      FieldName = 'QTDE'
+      DisplayFormat = ',##0.0'
+      EditFormat = ',##0.0'
+    end
+    object cdsPecasPRECO: TFloatField
+      FieldName = 'PRECO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsPecasDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cdsPecasVALORTOTAL: TFloatField
+      FieldName = 'VALORTOTAL'
+    end
+    object cdsPecasCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object cdsPecasCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object cdsPecasSTATUSDESC: TStringField
+      FieldName = 'STATUSDESC'
+      FixedChar = True
+      Size = 18
+    end
+    object cdsPecasID_OSDET_SERV: TIntegerField
+      FieldName = 'ID_OSDET_SERV'
+    end
+    object cdsPecasVlrTotal: TAggregateField
+      FieldName = 'VlrTotal'
+      Active = True
+      DisplayFormat = ',##0.00'
+      Expression = 'SUM((PRECO*QTDE)-DESCONTO)'
+    end
   end
 end

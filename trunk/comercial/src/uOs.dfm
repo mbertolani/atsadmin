@@ -819,7 +819,6 @@ object fOs: TfOs
       Width = 65
       Height = 176
       Align = alRight
-      Caption = 'Panel3'
       TabOrder = 1
       object BitBtn1: TBitBtn
         Left = 7
@@ -2393,6 +2392,7 @@ object fOs: TfOs
   end
   object dsPecas: TDataSource
     DataSet = cdsPecas
+    OnStateChange = dsPecasStateChange
     Left = 480
     Top = 432
   end

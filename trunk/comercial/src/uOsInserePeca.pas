@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, StdCtrls, Mask, JvExMask, JvToolEdit, JvBaseEdits,
-  JvExStdCtrls, JvMemo, Menus, XPMenu, DB, Buttons, ExtCtrls, MMJPanel;
+  JvExStdCtrls, JvMemo, Menus, XPMenu, DB, Buttons, ExtCtrls, MMJPanel,
+  FMTBcd, DBClient, Provider, SqlExpr;
 
 type
   TfOsInserePeca = class(TfPai_new)
@@ -29,15 +30,36 @@ type
     BitBtn3: TBitBtn;
     edProdDescr: TEdit;
     lblServico: TLabel;
+    sdsPecas: TSQLDataSet;
+    dspPecas: TDataSetProvider;
+    cdsPecas: TClientDataSet;
+    cdsPecasID_OS_DET: TIntegerField;
+    cdsPecasID_OS: TIntegerField;
+    cdsPecasDESCRICAO_SERV: TStringField;
+    cdsPecasRESPONSAVEL: TStringField;
+    cdsPecasSTATUS: TStringField;
+    cdsPecasTIPO: TStringField;
+    cdsPecasQTDE: TFloatField;
+    cdsPecasPRECO: TFloatField;
+    cdsPecasDESCONTO: TFloatField;
+    cdsPecasVALORTOTAL: TFloatField;
+    cdsPecasCODPRODUTO: TIntegerField;
+    cdsPecasCODPRO: TStringField;
+    cdsPecasSTATUSDESC: TStringField;
+    cdsPecasID_OSDET_SERV: TIntegerField;
+    cdsPecasVlrTotal: TAggregateField;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure DtSrcStateChange(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure edDescVlrServExit(Sender: TObject);
     procedure edDescServExit(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure edProdutoExit(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure cdsPecasNewRecord(DataSet: TDataSet);
+    procedure DtSrcStateChange(Sender: TObject);
   private
     codProdutoPeca: Integer;
     procedure LimpaCamposPeca();
@@ -58,7 +80,7 @@ uses uOs, uProcurar, UDm, uProcura_prodOficina, sCtrlResize;
 procedure TfOsInserePeca.FormCreate(Sender: TObject);
 begin
   //inherited;
-  sCtrlResize.CtrlResize(TForm(fOs));
+  sCtrlResize.CtrlResize(TForm(fOsInserePeca));
 end;
 
 procedure TfOsInserePeca.FormShow(Sender: TObject);
@@ -70,6 +92,7 @@ begin
   begin
     edServico.Lines.Add(fOs.cdsPecasDESCRICAO_SERV.AsString);
     edProduto.Text      := fOs.cdsPecasCODPRO.AsString;
+    edProdDescr.Text    := fOs.cdsPecasDESCRICAO_SERV.AsString;
     codProdutoPeca      := fOs.cdsPecasCODPRODUTO.asInteger;
     edQtdeServ.Value    := fOs.cdsPecasQTDE.AsFloat;
     edPrecoServ.Value   := fOs.cdsPecasPRECO.AsFloat;
@@ -86,17 +109,8 @@ begin
   edDescServ.Value    := 0;
   edDescVlrServ.Value := 0;
   edTotalServ.Value   := 0;
-end;
-
-procedure TfOsInserePeca.DtSrcStateChange(Sender: TObject);
-begin
-  inherited;
-  edProduto.Enabled     := DtSrc.State in [dsEdit, dsInsert];
-  edServico.Enabled     := DtSrc.State in [dsEdit, dsInsert];
-  edQtdeServ.Enabled    := DtSrc.State in [dsEdit, dsInsert];
-  edPrecoServ.Enabled   := DtSrc.State in [dsEdit, dsInsert];
-  edDescServ.Enabled    := DtSrc.State in [dsEdit, dsInsert];
-  edDescVlrServ.Enabled := DtSrc.State in [dsEdit, dsInsert];
+  edProduto.Text      := '';
+  edProdDescr.Text    := '';
 end;
 
 procedure TfOsInserePeca.btnGravarClick(Sender: TObject);
@@ -109,16 +123,17 @@ begin
   if (str = '') then
     str := edProdDescr.Text;
 
-  fOs.cdsPecasDESCRICAO_SERV.AsString := str;
-  fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
-  fOs.cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
-  fOs.cdsPecasSTATUS.AsString         := 'O';
-  fOs.cdsPecasTIPO.AsString           := 'P';
-  fOs.cdsPecasQTDE.AsFloat            := edQtdeServ.Value;
-  fOs.cdsPecasPRECO.AsFloat           := edPrecoServ.Value;
-  fOs.cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
+  cdsPecasDESCRICAO_SERV.AsString := str;
+  cdsPecasCODPRO.AsString         := edProduto.Text;
+  cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
+  cdsPecasSTATUS.AsString         := 'O';
+  cdsPecasTIPO.AsString           := 'P';
+  cdsPecasQTDE.AsFloat            := edQtdeServ.Value;
+  cdsPecasPRECO.AsFloat           := edPrecoServ.Value;
+  cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
   //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
-  fOs.cdsPecas.Post;
+  cdsPecas.Post;
+  fOs.cdsPecas.Data := cdsPecas.Data;
 
 end;
 
@@ -151,10 +166,11 @@ begin
   edTotalServ.Value     := 0;
 
   fOs.numOsDet := fOs.numOsDet + 1;
-  fOs.cdsPecas.Append;
-  fOs.cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
-  fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
-  fOs.cdsPecasTIPO.AsString           := 'P';
+
+  DtSrc.DataSet.Append;
+  cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
+  cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
+  cdsPecasTIPO.AsString           := 'P';
 end;
 
 procedure TfOsInserePeca.BitBtn3Click(Sender: TObject);
@@ -229,6 +245,43 @@ begin
   fOs.cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
   fOs.cdsPecasQTDE.AsFloat         := 1;
   fOs.cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+
+end;
+
+procedure TfOsInserePeca.btnSairClick(Sender: TObject);
+begin
+  //inherited;
+  Close;
+end;
+
+procedure TfOsInserePeca.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  //inherited;
+end;
+
+procedure TfOsInserePeca.cdsPecasNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  cdsPecasID_OS.AsInteger := 1;
+  cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
+  cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
+  cdsPecasTIPO.AsString           := 'P';
+end;
+
+procedure TfOsInserePeca.DtSrcStateChange(Sender: TObject);
+begin
+  inherited;
+  edProduto.Enabled     := cdsPecas.State in [dsEdit, dsInsert];
+  edServico.Enabled     := cdsPecas.State in [dsEdit, dsInsert];
+  edQtdeServ.Enabled    := cdsPecas.State in [dsEdit, dsInsert];
+  edPrecoServ.Enabled   := cdsPecas.State in [dsEdit, dsInsert];
+  edDescServ.Enabled    := cdsPecas.State in [dsEdit, dsInsert];
+  edDescVlrServ.Enabled := cdsPecas.State in [dsEdit, dsInsert];
+  btnIncluir.Visible    := cdsPecas.State in [dsBrowse, dsInactive];
+  btnGravar.Visible     := cdsPecas.State in [dsEdit, dsInsert];
+  btnExcluir.Visible    := cdsPecas.State in [dsBrowse, dsInactive];
+  btnCancelar.Visible   := cdsPecas.State in [dsEdit, dsInsert];
 
 end;
 
