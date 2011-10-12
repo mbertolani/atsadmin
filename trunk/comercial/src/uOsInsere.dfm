@@ -495,6 +495,7 @@ inherited fOsInsere: TfOsInsere
     OnKeyPress = FormKeyPress
   end
   inherited DtSrc: TDataSource
+    DataSet = fOs.cdsServico
     Left = 320
   end
   inherited XPMenu1: TXPMenu
