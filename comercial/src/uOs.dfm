@@ -2406,10 +2406,10 @@ object fOs: TfOs
       ' D.STATUS = '#39'N'#39' THEN '#39'N'#227'o Aprovada'#39'  '#13#10'          WHEN D.STATUS =' +
       ' '#39'C'#39' THEN '#39'Cancelada'#39' '#13#10'         END STATUSDESC,  '#13#10'   D.ID_OS_D' +
       'ET, D.ID_OS,  D.QTDE, D.PRECO, D.VALORTOTAL, USUA.NOMEUSUARIO, D' +
-      '.CODPRODUTO, PRO.CODPRO, D.DESCONTO  '#13#10'   FROM OS_DET D, USUARIO' +
-      ' USUA, PRODUTOS PRO'#13#10'WHERE D.ID_OS = :POS'#13#10'      AND D.TIPO   = ' +
-      #39'S'#39#13#10'      AND USUA.CODUSUARIO = D.CODUSUARIO '#13#10'      AND D.CODP' +
-      'RODUTO = PRO.CODPRODUTO '#13#10'    '
+      '.CODPRODUTO, PRO.CODPRO, D.DESCONTO  , D.TIPO'#13#10'   FROM OS_DET D,' +
+      ' USUARIO USUA, PRODUTOS PRO'#13#10'WHERE D.ID_OS = :POS'#13#10'      AND D.T' +
+      'IPO   = '#39'S'#39#13#10'      AND USUA.CODUSUARIO = D.CODUSUARIO '#13#10'      AN' +
+      'D D.CODPRODUTO = PRO.CODPRODUTO '#13#10'    '
     MaxBlobSize = -1
     Params = <
       item
@@ -2467,6 +2467,12 @@ object fOs: TfOs
     end
     object sdsServicoDESCONTO: TFloatField
       FieldName = 'DESCONTO'
+    end
+    object sdsServicoTIPO: TStringField
+      FieldName = 'TIPO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object dspServico: TDataSetProvider
@@ -2537,6 +2543,11 @@ object fOs: TfOs
     end
     object cdsServicoDESCONTO: TFloatField
       FieldName = 'DESCONTO'
+    end
+    object cdsServicoTIPO: TStringField
+      FieldName = 'TIPO'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsServico: TDataSource

@@ -153,6 +153,8 @@ type
     cdsPecasID_OSDET_SERV: TIntegerField;
     btnServAltera: TBitBtn;
     btnPecaAltera: TBitBtn;
+    sdsServicoTIPO: TStringField;
+    cdsServicoTIPO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -200,7 +202,7 @@ var
 implementation
 
 uses UDm, uProcurar_nf, UDMNF, uProcura_prodOficina, sCtrlResize,
-  uOsInsere;
+  uOsInsere, uOsInserePeca;
 
 {$R *.dfm}
 
@@ -320,16 +322,16 @@ begin
       FOsCls.osDet.Desconto  := cdsPecasDESCONTO.AsFloat;
       FOSCls.osDet.CodOsServ := cdsPecasID_OSDET_SERV.AsInteger;
       DecimalSeparator := ',';
-      if ((cdsPecasTIPO.AsString = 'P')) then
+      if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
       begin
-        if ((FOsCls.osDet.IncluirOsDet(0) = 0) and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
+        if ((FOsCls.osDet.IncluirOsDet(0) = 0)) then
         begin
           ShowMessage('Erro na Inclusao Os Detalhe');
           Exit;
-        end
-        else begin
-          FOsCls.osDet.alterarOsDet(cdsPecasID_OS.AsInteger);
         end;
+      end
+      else begin
+        FOsCls.osDet.alterarOsDet(cdsPecasID_OS.AsInteger);
       end;
       cdsPecas.Next;
     end;
@@ -659,12 +661,9 @@ begin
 
   modoOsItem := 'IncluiServico';
 
-  fOsInsere.modoOsInsere := 'SERVICO';
-
-  fOsInsere.DtSrc.DataSet := cdsServico;
-
   cdsServico.Append;
   cdsServicoID_OS_DET.AsInteger := numOsDet;
+  fOs.cdsServicoTIPO.AsString   := 'S';
 
   fOsInsere.ShowModal;
 
@@ -674,7 +673,6 @@ procedure TfOs.JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
 begin
   if (key = #13) then
   begin
-    fOsInsere.modoOsInsere := 'SERVICO';
     fOsInsere.ShowModal;
   end;
 end;
@@ -726,17 +724,14 @@ begin
     exit;
   end;
 
-  fOsInsere.DtSrc.DataSet := cdsPecas;
-
   ServCodServ   := cdsServicoID_OS_DET.AsInteger;
   ServDescricao := cdsServicoDESCRICAO_SERV.AsString;
 
-  fOsInsere.modoOsInsere := 'PECA';
-
   cdsPecas.Append;
   cdsPecasID_OS_DET.AsInteger := numOsDet;
+  fOs.cdsPecasTIPO.AsString   := 'P';
 
-  fOsInsere.ShowModal;
+  fOsInserePeca.ShowModal;
 
 end;
 
@@ -751,9 +746,6 @@ begin
     exit;
 
   modoOsItem := 'EditaServico';
-  fOsInsere.modoOsInsere := 'SERVICO';
-
-  fOsInsere.DtSrc.DataSet := cdsServico;
 
   cdsServico.Edit;
 
@@ -764,13 +756,9 @@ procedure TfOs.btnPecaAlteraClick(Sender: TObject);
 begin
   modoOsItem := 'EditaPeca';
 
-  fOsInsere.modoOsInsere := 'PECA';
-
-  fOsInsere.DtSrc.DataSet := cdsPecas;
-
   cdsPecas.Edit;
 
-  fOsInsere.ShowModal;
+  fOsInserePeca.ShowModal;
 
 end;
 

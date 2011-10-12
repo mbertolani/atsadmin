@@ -50,7 +50,6 @@ type
     procedure LimpaCampos();
     { Private declarations }
   public
-    modoOsInsere : String;
     { Public declarations }
   end;
 
@@ -72,24 +71,12 @@ begin
   try
    if fProcurar.ShowModal=mrOk then
     begin
-      if (modoOsInsere = 'SERVICO') then
-      begin
-        if (fOs.dsServico.State = dsBrowse) then
-          fOs.cdsServico.Edit;
-        fOs.cdsServicoCODUSUARIO.AsInteger := dm.scds_usuario_ProcCODusuario.AsInteger;
-        fOs.cdsServicoNOMEUSUARIO.AsString := dm.scds_usuario_procNOMEUSUARIO.AsString;
-        edColaborador.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
-        edCodUsuario.Text  := IntToStr(dm.scds_usuario_procCODUSUARIO.AsInteger);
-      end;
-      if (modoOsInsere = 'PECA') then
-      begin
-        if (fOs.dsPecas.State = dsBrowse) then
-          fOs.cdsPecas.Edit;
-        //fOs.cdsPecasCODUSUARIO.AsInteger := dm.scds_usuario_ProcCODusuario.AsInteger;
-        //fOs.cdsPecasNOMEUSUARIO.AsString := dm.scds_usuario_procNOMEUSUARIO.AsString;
-        edColaborador.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
-        edCodUsuario.Text  := IntToStr(dm.scds_usuario_procCODUSUARIO.AsInteger);
-      end;
+      if (fOs.dsServico.State = dsBrowse) then
+        fOs.cdsServico.Edit;
+      fOs.cdsServicoCODUSUARIO.AsInteger := dm.scds_usuario_ProcCODusuario.AsInteger;
+      fOs.cdsServicoNOMEUSUARIO.AsString := dm.scds_usuario_procNOMEUSUARIO.AsString;
+      edColaborador.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
+      edCodUsuario.Text  := IntToStr(dm.scds_usuario_procCODUSUARIO.AsInteger);
     end;
    finally
     dm.scds_usuario_proc.Close;
@@ -100,76 +87,26 @@ end;
 
 procedure TfOsInsere.BitBtn3Click(Sender: TObject);
 begin
-  if (modoOsInsere = 'SERVICO') then
-  begin
-    fProcurar := TfProcurar.Create(self,dm.scds_prod);
-    fProcurar.BtnProcurar.Click;
-    //fProcurar.EvDBFind1.DataField := 'Serviço';
-    fProcurar.btnIncluir.Visible := False;
-    fProcurar.BtnProcurar.Click;
-    try
-      if (fProcurar.ShowModal = mrOK) then
-      begin
-        edProdDescr.Text := fProcurar.DescProProc;
-        edProduto.Text   := fProcurar.codProProc;
-        if (fOs.dsServico.State = dsBrowse) then
-          fOs.cdsServico.Edit;
-        fOs.cdsServicoCODPRODUTO.AsInteger := fProcurar.codProdProc;
-        fOs.cdsServicoQTDE.AsFloat         := 1;
-        fOs.cdsServicoPRECO.AsFloat        := fProcurar.precoVenda;
-      end;
-    finally
-      if (dm.scds_prod.Active) then
-        dm.scds_prod.Close;
-      fProcurar.Free;
-    end;
-    exit;
-  end;
-
-  //fProcura_prodOficina.btnIncluir.Visible := true;
-  if (procprod <> 'PROC_PROD_COMPLETO') then
-  begin
-    fProcura_prodOficina.Panel1.Visible := false;
-    fProcura_prodOficina.Panel2.Visible := true;
-  end
-  else begin
-    fProcura_prodOficina.Panel2.Visible := false;
-    fProcura_prodOficina.Panel1.Visible := true;
-    if (fProcura_prodOficina.cds_proc.Active) then
-      fProcura_prodOficina.cds_proc.Close;
-  end;
-  varonde := 'compra';
-  var_F := 'venda';
-
-  fProcura_prodOficina.ShowModal;
-  if (procprod = 'PROC_PROD_COMPLETO') then
-  begin
-    {if (cdsPecas.State in [dsInsert, dsEdit]) then
+  fProcurar := TfProcurar.Create(self,dm.scds_prod);
+  fProcurar.BtnProcurar.Click;
+  //fProcurar.EvDBFind1.DataField := 'Serviço';
+  fProcurar.btnIncluir.Visible := False;
+  fProcurar.BtnProcurar.Click;
+  try
+    if (fProcurar.ShowModal = mrOK) then
     begin
-      cdsPecasCODPRO.AsString := fProcura_prodOficina.cds_procCODPRO.AsString;
-      cdsPecasCODPRODUTO.asInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-      cdsPecasDESCRICAO_SERV.asString := fProcura_prodOficina.cds_procPRODUTO.AsString;
-      cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-      if ( fProcura_prodOficina.cds_procQTDE_PCT.AsFloat < 1) then
-        cdsPecasQTDE.AsFloat := 1
-      else
-        cdsPecasQTDE.AsFloat := fProcura_prodOficina.cds_procQTDE_PCT.AsFloat; }
-      {qtde         := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
-      estoque      := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
-      codProduto   := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger; }
-    //end;
-  end;
-  edProduto.Text    := fProcura_prodOficina.cds_procCODPRO.AsString;
-  edProdDescr.Text  := fProcura_prodOficina.cds_procPRODUTO.AsString;
-  edPrecoServ.Value := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-  codProduto        := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  if (modoOsInsere = 'PECA') then
-  begin
-    if (fOs.dsPecas.State = dsBrowse) then
-      fOs.cdsPecas.Edit;
-    fOs.cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-    fOs.cdsPecasQTDE.AsFloat         := 1;
-    fOs.cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+      edProdDescr.Text := fProcurar.DescProProc;
+      edProduto.Text   := fProcurar.codProProc;
+      if (fOs.dsServico.State = dsBrowse) then
+        fOs.cdsServico.Edit;
+      fOs.cdsServicoCODPRODUTO.AsInteger := fProcurar.codProdProc;
+      fOs.cdsServicoQTDE.AsFloat         := 1;
+      fOs.cdsServicoPRECO.AsFloat        := fProcurar.precoVenda;
+    end;
+  finally
+    if (dm.scds_prod.Active) then
+      dm.scds_prod.Close;
+    fProcurar.Free;
   end;
 end;
 
@@ -188,20 +125,10 @@ begin
        [mbOk], 0);
        exit;
      end;
-      if (modoOsInsere = 'SERVICO') then
-      begin
-        if (fOs.dsServico.State = dsBrowse) then
-          fOs.cdsServico.Edit;
-        fOs.cdsServicoCODUSUARIO.AsInteger := dm.scds_usuario_ProcCODusuario.AsInteger;
-        fOs.cdsServicoNOMEUSUARIO.AsString := dm.scds_usuario_procNOMEUSUARIO.AsString;
-      end;
-      if (modoOsInsere = 'PECA') then
-      begin
-        if (fOs.dsPecas.State = dsBrowse) then
-          fOs.cdsPecas.Edit;
-        //fOs.cdsPecasCODUSUARIO.AsInteger := dm.scds_usuario_ProcCODusuario.AsInteger;
-        //fOs.cdsPecasNOMEUSUARIO.AsString := dm.scds_usuario_procNOMEUSUARIO.AsString;
-      end;
+      if (fOs.dsServico.State = dsBrowse) then
+        fOs.cdsServico.Edit;
+      fOs.cdsServicoCODUSUARIO.AsInteger := dm.scds_usuario_ProcCODusuario.AsInteger;
+      fOs.cdsServicoNOMEUSUARIO.AsString := dm.scds_usuario_procNOMEUSUARIO.AsString;
      edColaborador.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
    end;
 end;
@@ -226,69 +153,28 @@ begin
   edProdDescr.Text  := dm.scds_produto_procPRODUTO.AsString;
   edPrecoServ.Value := dm.scds_produto_procVALOR_PRAZO.AsFloat;
   codProduto        := dm.scds_produto_procCODPRODUTO.AsInteger;
-  if (modoOsInsere = 'SERVICO') then
-  begin
-    if (fOs.dsServico.State = dsBrowse) then
-      fOs.cdsServico.Edit;
-    fOs.cdsServicoCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-    fOs.cdsServicoQTDE.AsFloat         := 1;
-    fOs.cdsServicoPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-  end;
-  if (modoOsInsere = 'PECA') then
-  begin
-    if (fOs.dsPecas.State = dsBrowse) then
-      fOs.cdsPecas.Edit;
-    fOs.cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-    fOs.cdsPecasQTDE.AsFloat         := 1;
-    fOs.cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-  end;
-
+  if (fOs.dsServico.State = dsBrowse) then
+    fOs.cdsServico.Edit;
+  fOs.cdsServicoCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+  fOs.cdsServicoQTDE.AsFloat         := 1;
+  fOs.cdsServicoPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
 end;
 
 procedure TfOsInsere.FormShow(Sender: TObject);
 begin
   //inherited;
   LimpaCampos;
-  if (modoOsInsere = 'SERVICO') then
+  if (DtSrc.State in [dsEdit]) then
   begin
-    edCodUsuario.Enabled  := True;
-    edColaborador.Enabled := True;
-
-    Label21.Caption   := 'Cód. Serviço';
-    GroupBox1.Caption := 'Serviço';
-    if (DtSrc.State in [dsEdit]) then
-    begin
-      edServico.Lines.Add(fOs.cdsServicoDESCRICAO_SERV.AsString);
-      edProduto.Text      := fOs.cdsServicoCODPRO.AsString;
-      codProduto          := fOs.cdsServicoCODPRODUTO.asInteger;
-      edQtdeServ.Value    := fOs.cdsServicoQTDE.AsFloat;
-      edPrecoServ.Value   := fOs.cdsServicoPRECO.AsFloat;
-      edDescVlrServ.Value := fOs.cdsServicoDESCONTO.AsFloat;
-      edTotalServ.Value   := fOs.cdsServicoVALORTOTAL.AsFloat;
-      edCodUsuario.Text   := IntToStr(fOs.cdsServicoCODUSUARIO.AsInteger);
-      edColaborador.Text  := fOs.cdsServicoNOMEUSUARIO.AsString;
-    end;
-  end;
-  if (modoOsInsere = 'PECA') then
-  begin
-    edCodUsuario.Enabled  := False;
-    edColaborador.Enabled := False;
-
-    Label21.Caption   := 'Cód. Peça';
-    GroupBox1.Caption := 'Peça';
-
-    lblServico.Caption                  := fOs.ServDescricao;
-    fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
-    if (DtSrc.State in [dsEdit]) then
-    begin
-      edServico.Lines.Add(fOs.cdsPecasDESCRICAO_SERV.AsString);
-      edProduto.Text      := fOs.cdsPecasCODPRO.AsString;
-      codProduto          := fOs.cdsPecasCODPRODUTO.asInteger;
-      edQtdeServ.Value    := fOs.cdsPecasQTDE.AsFloat;
-      edPrecoServ.Value   := fOs.cdsPecasPRECO.AsFloat;
-      edDescVlrServ.Value := fOs.cdsPecasDESCONTO.AsFloat;
-      edTotalServ.Value   := fOs.cdsPecasVALORTOTAL.AsFloat;
-    end;
+    edServico.Lines.Add(fOs.cdsServicoDESCRICAO_SERV.AsString);
+    edProduto.Text      := fOs.cdsServicoCODPRO.AsString;
+    codProduto          := fOs.cdsServicoCODPRODUTO.asInteger;
+    edQtdeServ.Value    := fOs.cdsServicoQTDE.AsFloat;
+    edPrecoServ.Value   := fOs.cdsServicoPRECO.AsFloat;
+    edDescVlrServ.Value := fOs.cdsServicoDESCONTO.AsFloat;
+    edTotalServ.Value   := fOs.cdsServicoVALORTOTAL.AsFloat;
+    edCodUsuario.Text   := IntToStr(fOs.cdsServicoCODUSUARIO.AsInteger);
+    edColaborador.Text  := fOs.cdsServicoNOMEUSUARIO.AsString;
   end;
 end;
 
@@ -310,17 +196,9 @@ begin
 
   fOs.numOsDet := fOs.numOsDet + 1;
 
-  if (modoOsInsere = 'SERVICO') then
-  begin
-    fOs.cdsServico.Append;
-    fOs.cdsServicoID_OS_DET.AsInteger := fOs.numOsDet;
-  end;
-  if (modoOsInsere = 'PECA') then
-  begin
-    fOs.cdsPecas.Append;
-    fOs.cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
-    fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
-  end;
+  fOs.cdsServico.Append;
+  fOs.cdsServicoID_OS_DET.AsInteger := fOs.numOsDet;
+  fOs.cdsServicoTIPO.AsString       := 'S';
   edCodUsuario.SetFocus;
 end;
 
@@ -353,35 +231,17 @@ begin
   if (str = '') then
     str := edProdDescr.Text;
 
-  if (modoOsInsere = 'SERVICO') then
-  begin
-    fOs.cdsServicoSTATUS.AsString := 'O';
-    fOs.cdsServicoCODUSUARIO.AsInteger    := StrToInt(edCodUsuario.Text);
-    fOs.cdsServicoNOMEUSUARIO.AsString    := edColaborador.Text;
-    fOs.cdsServicoDESCRICAO_SERV.AsString := str;
-    fOs.cdsServicoCODPRO.AsString         := edProduto.Text;
-    fOs.cdsServicoCODPRODUTO.asInteger    := codProduto;
-    fOs.cdsServicoQTDE.AsFloat            := edQtdeServ.Value;
-    fOs.cdsServicoPRECO.AsFloat           := edPrecoServ.Value;
-    fOs.cdsServicoDESCONTO.AsFloat        := edDescVlrServ.Value;
-    fOs.cdsServicoVALORTOTAL.AsFloat      := edQtdeServ.Value * edPrecoServ.Value;
-    fOs.cdsServico.Post;
-  end;
-
-  if (modoOsInsere = 'PECA') then
-  begin
-    fOs.cdsPecasDESCRICAO_SERV.AsString := str;
-    fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
-    fOs.cdsPecasCODPRODUTO.asInteger    := codProduto;
-    fOs.cdsPecasSTATUS.AsString         := 'O';
-    fOs.cdsPecasTIPO.AsString           := 'P';
-    fOs.cdsPecasQTDE.AsFloat            := edQtdeServ.Value;
-    fOs.cdsPecasPRECO.AsFloat           := edPrecoServ.Value;
-    fOs.cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
-    //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
-    fOs.cdsPecasCODPRODUTO.AsInteger    := codProduto;
-    fOs.cdsPecas.Post;
-  end;
+  fOs.cdsServicoSTATUS.AsString := 'O';
+  fOs.cdsServicoCODUSUARIO.AsInteger    := StrToInt(edCodUsuario.Text);
+  fOs.cdsServicoNOMEUSUARIO.AsString    := edColaborador.Text;
+  fOs.cdsServicoDESCRICAO_SERV.AsString := str;
+  fOs.cdsServicoCODPRO.AsString         := edProduto.Text;
+  fOs.cdsServicoCODPRODUTO.asInteger    := codProduto;
+  fOs.cdsServicoQTDE.AsFloat            := edQtdeServ.Value;
+  fOs.cdsServicoPRECO.AsFloat           := edPrecoServ.Value;
+  fOs.cdsServicoDESCONTO.AsFloat        := edDescVlrServ.Value;
+  fOs.cdsServicoVALORTOTAL.AsFloat      := edQtdeServ.Value * edPrecoServ.Value;
+  fOs.cdsServico.Post;
 end;
 
 procedure TfOsInsere.FormClose(Sender: TObject; var Action: TCloseAction);
