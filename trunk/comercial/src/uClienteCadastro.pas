@@ -617,11 +617,15 @@ type
     lbl1: TLabel;
     cbPais: TJvComboBox;
     Label79: TLabel;
-    sqlPais: TSQLQuery;
-    sqlPaisCODPAIS: TStringField;
-    sqlPaisPAIS: TStringField;
     sdsEnderecoCliPAIS: TStringField;
     cdsEnderecoCliPAIS: TStringField;
+    sqlPais: TClientDataSet;
+    dspPais: TDataSetProvider;
+    sdsPais: TSQLDataSet;
+    sdsPaisCODPAIS: TStringField;
+    sdsPaisPAIS: TStringField;
+    sqlPaisCODPAIS: TStringField;
+    sqlPaisPAIS: TStringField;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -1107,6 +1111,11 @@ begin
     cdsTurma.Open;
     cbTurma.Text := '';
   end;
+  if (not sqlPais.Active) then
+    sqlPais.Open;
+  if (sqlPais.Locate('PAIS', cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
+     cbPais.ItemIndex := sqlPais.RecNo-1;
+
 
 end;
 
