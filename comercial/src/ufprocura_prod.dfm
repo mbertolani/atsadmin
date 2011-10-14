@@ -163,98 +163,10 @@ object fProcura_prod: TfProcura_prod
       OnKeyPress = FormKeyPress
     end
   end
-  object DBGrid1: TDBGrid
-    Left = 0
-    Top = 149
-    Width = 701
-    Height = 318
-    Color = clCream
-    DataSource = Dtsrc
-    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    PopupMenu = PopupMenu1
-    TabOrder = 2
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    OnCellClick = DBGrid1CellClick
-    OnDblClick = DBGrid1DblClick
-    OnKeyDown = DBGrid1KeyDown
-    OnKeyUp = DBGrid1KeyUp
-    OnTitleClick = DBGrid1TitleClick
-    Columns = <
-      item
-        Alignment = taRightJustify
-        Color = clGradientActiveCaption
-        Expanded = False
-        FieldName = 'CODPRO'
-        Title.Caption = 'C'#243'digo'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRODUTO'
-        Title.Caption = 'Descri'#231#227'o do Produto'
-        Width = 270
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PEDIDO'
-        Title.Caption = 'Pedido'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'QTDE_PCT'
-        Title.Caption = 'Qtde/Peso'
-        Width = 65
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'LOCALIZACAO'
-        Title.Caption = 'Localiz.'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'UNIDADEMEDIDA'
-        Title.Caption = 'Unde'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO_VENDA'
-        Title.Caption = 'V. Venda(R$)'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'GRUPO'
-        Title.Caption = 'Grupo'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'MARCA'
-        Title.Caption = 'Marca'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SUBGRUPO'
-        Title.Caption = 'SubGrupo'
-        Visible = True
-      end>
-  end
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 799
+    Width = 791
     Height = 90
     Align = alTop
     BevelInner = bvLowered
@@ -499,6 +411,94 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 10
     end
   end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 149
+    Width = 701
+    Height = 318
+    Color = clCream
+    DataSource = Dtsrc
+    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    PopupMenu = PopupMenu1
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnCellClick = DBGrid1CellClick
+    OnDblClick = DBGrid1DblClick
+    OnKeyDown = DBGrid1KeyDown
+    OnKeyUp = DBGrid1KeyUp
+    OnTitleClick = DBGrid1TitleClick
+    Columns = <
+      item
+        Alignment = taRightJustify
+        Color = clGradientActiveCaption
+        Expanded = False
+        FieldName = 'CODPRO'
+        Title.Caption = 'C'#243'digo'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRODUTO'
+        Title.Caption = 'Descri'#231#227'o do Produto'
+        Width = 270
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PEDIDO'
+        Title.Caption = 'Pedido'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QTDE_PCT'
+        Title.Caption = 'Qtde/Peso'
+        Width = 65
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LOCALIZACAO'
+        Title.Caption = 'Localiz.'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADEMEDIDA'
+        Title.Caption = 'Unde'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_VENDA'
+        Title.Caption = 'V. Venda(R$)'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'GRUPO'
+        Title.Caption = 'Grupo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MARCA'
+        Title.Caption = 'Marca'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUBGRUPO'
+        Title.Caption = 'SubGrupo'
+        Visible = True
+      end>
+  end
   object DBGrid2: TDBGrid
     Left = 702
     Top = 149
@@ -523,8 +523,8 @@ object fProcura_prod: TfProcura_prod
   end
   object DBGrid3: TDBGrid
     Left = 0
-    Top = 478
-    Width = 799
+    Top = 467
+    Width = 791
     Height = 65
     Align = alBottom
     Color = clCream
@@ -547,7 +547,7 @@ object fProcura_prod: TfProcura_prod
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 799
+    Width = 791
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
