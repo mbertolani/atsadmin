@@ -31,7 +31,7 @@ var
 
 implementation
 
-uses uCompra;
+uses uCompra, UDm;
 
 {$R *.dfm}
 
@@ -42,6 +42,20 @@ begin
     MessageDlg('É necessario preencher a Serie do Produto.', mtWarning, [mbOK], 0)
   else
   begin
+    if(DM.cds_Produto.Active) then
+      DM.cds_produto.Close;
+    dm.cds_produto.Params[0].AsInteger := fCompra.cds_Mov_detCODPRODUTO.AsInteger;
+//    dm.cds_produto.Params[1].Clear;
+    dm.cds_produto.Open;
+    if (not dm.cds_produtoTAM_LOTE.IsNull) then
+    begin
+      if (Length(fCompra.cds_Mov_detLOTE.AsString) <> DM.cds_produtoTAM_LOTE.AsInteger) then
+      begin
+        MessageDlg('Tamanho do lote incorreto.', mtWarning, [mbOK], 0);
+        Exit;
+      end;
+    end;
+
     if (fCompra.cds_Mov_detQUANTIDADE.AsFloat > 1) then
     begin
       quantidade := fCompra.cds_Mov_detQUANTIDADE.AsFloat;

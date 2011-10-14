@@ -87,8 +87,6 @@ type
     TabSheet3: TTabSheet;
     DBRadioGroup1: TDBRadioGroup;
     Label30: TLabel;
-    Panel1: TPanel;
-    Chk_lote: TCheckBox;
     Panel2: TPanel;
     Chk_rateio: TCheckBox;
     btnRateio: TBitBtn;
@@ -105,6 +103,10 @@ type
     cbLocal: TJvComboBox;
     SpeedButton5: TBitBtn;
     BitBtn3: TBitBtn;
+    GroupBox5: TGroupBox;
+    Chk_lote: TCheckBox;
+    DBEdit24: TDBEdit;
+    Label24: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
