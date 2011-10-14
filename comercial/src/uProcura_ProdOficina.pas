@@ -221,6 +221,10 @@ type
 
   public
     { Public declarations }
+    CODPRODUTO, CODALMOXARIFADO: Integer;
+    CODPRO, DESCPRODUTO, LOCALIZACAO, UN : String;
+    QUANTIDADE, PRECO_VENDA: Double;
+
     fecodProd, fenomeProduto, usouAdiciona : string;
     fecodProduto: integer;
   end;
@@ -352,9 +356,9 @@ begin
     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   cbMarca.Text := '';
 
-  if (Panel2.Visible = True) then
-    EvDBFind1.SetFocus;
-  bitBtn1.Click;
+  //if (Panel2.Visible = True) then
+  //  EvDBFind1.SetFocus;
+  //bitBtn1.Click;
 end;
 
 procedure TfProcura_prodOficina.btnIncluirClick(Sender: TObject);
@@ -446,6 +450,13 @@ begin
     varCondicao := varCondicao + ', ' + QuotedStr(cbMarca.Text)
   else
     varCondicao := varCondicao + ', ' + QuotedStr('TODASMARCAS');
+
+  varCondicao :=  varCondicao + ', ' + QuotedStr('TODASAPLICACOES');
+  //end;
+
+  varCondicao :=  varCondicao + ', 0';
+  //end;
+
 
   varCondicao := varCondicao + ') ';
 
@@ -1002,6 +1013,18 @@ begin
          if (var_F = 'compra') then
            Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
       end;
+      if (var_F = 'os') then
+      begin
+        {CODPRODUTO      := cds_procCODPRODUTO.AsInteger;
+        CODPRO          := cds_procCODPRO.AsString;
+        DESCPRODUTO     := cds_procPRODUTO.Value;
+        LOCALIZACAO     := cds_procLOCALIZACAO.Value;
+        QUANTIDADE      := 1;
+        PRECO_VENDA     := cds_procPRECO_VENDA.AsFloat;
+        UN              := cds_procUNIDADEMEDIDA.AsString;
+        CODALMOXARIFADO := cds_procCODALMOXARIFADO.AsInteger;}
+      end;
+
       if (var_F = 'venda') then
       begin
         fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
