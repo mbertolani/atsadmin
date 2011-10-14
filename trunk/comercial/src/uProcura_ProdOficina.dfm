@@ -95,7 +95,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     object Label10: TLabel
       Left = 670
       Top = 3
-      Width = 90
+      Width = 21
       Height = 13
       Caption = 'Tipo'
     end
