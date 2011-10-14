@@ -1124,11 +1124,19 @@ begin
       executaDDL('BANCO', 'N_BANCO', 'Varchar(10)');
       executaDDL('BANCO', 'DIGITOBANCO', 'Integer');
       executaDDL('PRODUTOS', 'TAM_LOTE', 'Integer');
+      executaDDL('ENDERECOCLIENTE', 'PAIS', 'varchar(60)');
       executaScript('invent_estoque.sql');
       executaScript('sp_lote_estoquemes.sql');
-      executaScript('trg_altera_codpro');
-      executaSql('ALTER TABLE OS DROP CODVEICULO');      
-      //mudaVersao('1.0.0.95');
+      executaScript('trg_altera_codpro.sql');
+      executaSql('ALTER TABLE OS DROP CODVEICULO');
+      if (NaoExisteTabela('PAIS')) then
+      begin
+        executaSql('create table PAIS ( CODPAIS char(4) NOT NULL, ' +
+          'PAIS VARCHAR(60) NOT null, ' +
+          'PRIMARY KEY(CODPAIS, PAIS) )');
+        executaScript('pais.sql');
+      end;
+      mudaVersao('1.0.0.95');
     end;
 
     try

@@ -615,6 +615,13 @@ type
     cds_cliCFOP: TStringField;
     dbedtPRAZORECEBIMENTO: TDBEdit;
     lbl1: TLabel;
+    cbPais: TJvComboBox;
+    Label79: TLabel;
+    sqlPais: TSQLQuery;
+    sqlPaisCODPAIS: TStringField;
+    sqlPaisPAIS: TStringField;
+    sdsEnderecoCliPAIS: TStringField;
+    cdsEnderecoCliPAIS: TStringField;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -680,6 +687,7 @@ type
     procedure btnClienteProcuraClick(Sender: TObject);
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure cbPlanoChange(Sender: TObject);
+    procedure cbPaisChange(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
@@ -926,6 +934,16 @@ begin
 
   PageControl1.ActivePage := TabSheet1;
   MMJPanel1.Align := alBottom;
+
+  if sqlPais.Active then
+    sqlPais.Close;
+  sqlPais.Open;
+  sqlPais.First;
+  while not sqlPais.Eof do
+  begin
+    cbPais.Items.Add(sqlPaisPAIS.AsString);
+    sqlPais.Next;
+  end;
 
 end;
 
@@ -1618,6 +1636,7 @@ var
 end;
 
 procedure TfClienteCadastro.FormShow(Sender: TObject);
+var Pos: Integer;
 begin
   inherited;
   sCtrlResize.CtrlResize(TForm(fClienteCadastro));
@@ -2622,6 +2641,16 @@ begin
   cds_faixa.Locate('DESCRICAO', cbPlano.Text,[loCaseInsensitive]);
 
   cds_cliCOD_FAIXA.AsInteger := cds_faixaCODFAIXA.AsInteger;
+end;
+
+procedure TfClienteCadastro.cbPaisChange(Sender: TObject);
+begin
+  inherited;
+  if (cds_cli.State in [dsBrowse]) then
+    cds_cli.Edit;
+  if(cdsEnderecoCli.State in [dsBrowse]) then
+    cdsEnderecoCli.Edit;
+  cdsEnderecoCliPAIS.AsString := cbPais.Text;
 end;
 
 end.
