@@ -8131,14 +8131,12 @@ inherited fClienteCadastro: TfClienteCadastro
       Size = 10
     end
   end
-  object sqlPais: TSQLQuery
-    MaxBlobSize = -1
+  object sqlPais: TClientDataSet
+    Aggregates = <>
     Params = <>
-    SQL.Strings = (
-      'Select * from PAIS')
-    SQLConnection = DM.sqlsisAdimin
-    Left = 588
-    Top = 334
+    ProviderName = 'dspPais'
+    Left = 672
+    Top = 342
     object sqlPaisCODPAIS: TStringField
       FieldName = 'CODPAIS'
       Required = True
@@ -8146,6 +8144,30 @@ inherited fClienteCadastro: TfClienteCadastro
       Size = 4
     end
     object sqlPaisPAIS: TStringField
+      FieldName = 'PAIS'
+      Required = True
+      Size = 60
+    end
+  end
+  object dspPais: TDataSetProvider
+    DataSet = sdsPais
+    Left = 636
+    Top = 342
+  end
+  object sdsPais: TSQLDataSet
+    CommandText = 'Select * from PAIS'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 596
+    Top = 342
+    object sdsPaisCODPAIS: TStringField
+      FieldName = 'CODPAIS'
+      Required = True
+      FixedChar = True
+      Size = 4
+    end
+    object sdsPaisPAIS: TStringField
       FieldName = 'PAIS'
       Required = True
       Size = 60
