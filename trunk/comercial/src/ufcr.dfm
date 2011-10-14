@@ -2957,8 +2957,8 @@ object fcrproc: Tfcrproc
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_cr
-    Left = 52
-    Top = 239
+    Left = 148
+    Top = 295
   end
   object cds_total: TClientDataSet
     Aggregates = <>
@@ -2994,8 +2994,8 @@ object fcrproc: Tfcrproc
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 16
-    Top = 240
+    Left = 120
+    Top = 296
   end
   object ImageList1: TImageList
     Left = 458
