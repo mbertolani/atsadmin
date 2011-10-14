@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
-  Left = 125
-  Top = 147
+  Left = 235
+  Top = 97
   Width = 814
   Height = 575
   OldCreateOrder = True
@@ -2620,6 +2620,13 @@ inherited fParametro: TfParametro
         Height = 13
         Caption = 'Mensagem impressa no cupom'
       end
+      object Label51: TLabel
+        Left = 369
+        Top = 86
+        Width = 91
+        Height = 13
+        Caption = 'Porta de Impress'#227'o'
+      end
       object RadioGroup3: TRadioGroup
         Left = 8
         Top = 16
@@ -2662,7 +2669,7 @@ inherited fParametro: TfParametro
       object CheckBox1: TCheckBox
         Left = 11
         Top = 246
-        Width = 169
+        Width = 211
         Height = 17
         Alignment = taLeftJustify
         Caption = 'Imprimor para Arquivo ?'
@@ -2682,7 +2689,7 @@ inherited fParametro: TfParametro
       object CheckBox2: TCheckBox
         Left = 11
         Top = 309
-        Width = 169
+        Width = 211
         Height = 17
         Alignment = taLeftJustify
         Caption = 'Usa Controle de Comandas ?'
@@ -2692,7 +2699,7 @@ inherited fParametro: TfParametro
       object CheckBox3: TCheckBox
         Left = 11
         Top = 338
-        Width = 169
+        Width = 211
         Height = 17
         Alignment = taLeftJustify
         Caption = 'Usa Controle de Delivery ?'
@@ -2702,12 +2709,117 @@ inherited fParametro: TfParametro
       object CheckBox4: TCheckBox
         Left = 11
         Top = 278
-        Width = 169
+        Width = 211
         Height = 17
         Alignment = taLeftJustify
         Caption = 'Usa Venda ao Consumidor ?'
         TabOrder = 7
         OnClick = CheckBox4Click
+      end
+      object EdtPorta: TEdit
+        Left = 368
+        Top = 104
+        Width = 393
+        Height = 21
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        TabOrder = 8
+        OnChange = EdtPortaChange
+      end
+      object CheckBox5: TCheckBox
+        Left = 11
+        Top = 373
+        Width = 211
+        Height = 17
+        Alignment = taLeftJustify
+        Caption = 'N'#227'o permitir altara'#231#245'es de pre'#231'o'
+        TabOrder = 9
+      end
+      object CheckBox6: TCheckBox
+        Left = 11
+        Top = 408
+        Width = 211
+        Height = 17
+        Alignment = taLeftJustify
+        Caption = 'Para Excluir ou cancelar Pedir Senha'
+        TabOrder = 10
+        OnClick = CheckBox6Click
+      end
+      object GroupBox31: TGroupBox
+        Left = 368
+        Top = 143
+        Width = 394
+        Height = 134
+        Caption = 'Perfil Para Aprova'#231#227'o '
+        TabOrder = 11
+        object Label52: TLabel
+          Left = 10
+          Top = 30
+          Width = 38
+          Height = 13
+          Caption = 'Perfil 01'
+        end
+        object Label53: TLabel
+          Left = 206
+          Top = 30
+          Width = 38
+          Height = 13
+          Caption = 'Perfil 02'
+        end
+        object Label54: TLabel
+          Left = 206
+          Top = 78
+          Width = 38
+          Height = 13
+          Caption = 'Perfil 04'
+        end
+        object Label55: TLabel
+          Left = 10
+          Top = 78
+          Width = 38
+          Height = 13
+          Caption = 'Perfil 03'
+        end
+        object edtPerfil01: TEdit
+          Left = 11
+          Top = 46
+          Width = 163
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 0
+          OnChange = edtPerfil01Change
+        end
+        object edtPerfil02: TEdit
+          Left = 207
+          Top = 46
+          Width = 163
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 1
+          OnChange = edtPerfil02Change
+        end
+        object edtPerfil04: TEdit
+          Left = 207
+          Top = 94
+          Width = 163
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 2
+          OnChange = edtPerfil04Change
+        end
+        object edtPerfil03: TEdit
+          Left = 11
+          Top = 94
+          Width = 163
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 3
+          OnChange = edtPerfil03Change
+        end
       end
     end
   end

@@ -229,6 +229,19 @@ type
     CheckBox2: TCheckBox;
     CheckBox3: TCheckBox;
     CheckBox4: TCheckBox;
+    EdtPorta: TEdit;
+    Label51: TLabel;
+    CheckBox5: TCheckBox;
+    CheckBox6: TCheckBox;
+    GroupBox31: TGroupBox;
+    edtPerfil01: TEdit;
+    Label52: TLabel;
+    edtPerfil02: TEdit;
+    Label53: TLabel;
+    Label54: TLabel;
+    edtPerfil04: TEdit;
+    edtPerfil03: TEdit;
+    Label55: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -271,6 +284,12 @@ type
     procedure CheckBox4Click(Sender: TObject);
     procedure CheckBox2Click(Sender: TObject);
     procedure CheckBox3Click(Sender: TObject);
+    procedure EdtPortaChange(Sender: TObject);
+    procedure edtPerfil01Change(Sender: TObject);
+    procedure edtPerfil02Change(Sender: TObject);
+    procedure edtPerfil03Change(Sender: TObject);
+    procedure edtPerfil04Change(Sender: TObject);
+    procedure CheckBox6Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2011,6 +2030,34 @@ begin
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFIL';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       edtPerfil01.Text := s_parametroD1.AsString;
+       edtPerfil02.Text := s_parametroD2.AsString;
+       edtPerfil03.Text := s_parametroD3.AsString;
+       edtPerfil04.Text := s_parametroD4.AsString;
+     end;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       EdtPorta.Text := s_parametroDADOS.AsString;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'APROVACAO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        CheckBox6.Checked := True
+     else
+        CheckBox6.Checked := False;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
      s_parametro.Params[0].AsString := 'PDV';
      s_parametro.Open;
      if (not s_parametro.Eof) then
@@ -2460,6 +2507,293 @@ begin
      begin
        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
        strSql := strSql + QuotedStr('DELIVERY');
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+          dm.sqlsisAdimin.Commit(TD);
+       except
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+              [mbOk], 0);
+       end;
+     end;
+     if (s_parametro.Active) then
+        s_parametro.Close;
+  end;
+end;
+
+procedure TfParametro.EdtPortaChange(Sender: TObject);
+begin
+  if (EdtPorta.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (EdtPorta.Text <> s_parametroDADOS.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET DADOS = ';
+          strSql := strSql + QuotedStr(EdtPorta.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PORTA IMPRESSORA');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Porta para impressão') + ', ';
+        strSql := strSql + QuotedStr('PORTA IMPRESSORA') + ', ';
+        strSql := strSql + QuotedStr(EdtPorta.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+
+end;
+
+procedure TfParametro.edtPerfil01Change(Sender: TObject);
+begin
+  if (edtPerfil01.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFIL';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtPerfil01.Text <> s_parametroD1.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET D1 = ';
+          strSql := strSql + QuotedStr(edtPerfil01.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PERFIL');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Perfil para Aprovação/exclusão/cancelamento') + ', ';
+        strSql := strSql + QuotedStr('PERFIL') + ', ';
+        strSql := strSql + QuotedStr(edtPerfil01.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtPerfil02Change(Sender: TObject);
+begin
+  if (edtPerfil02.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFIL';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtPerfil02.Text <> s_parametroD2.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET D2 = ';
+          strSql := strSql + QuotedStr(edtPerfil02.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PERFIL');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D2';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Perfil para Aprovação/exclusão/cancelamento') + ', ';
+        strSql := strSql + QuotedStr('PERFIL') + ', ';
+        strSql := strSql + QuotedStr(edtPerfil02.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtPerfil03Change(Sender: TObject);
+begin
+  if (edtPerfil03.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFIL';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtPerfil03.Text <> s_parametroD3.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET D3 = ';
+          strSql := strSql + QuotedStr(edtPerfil03.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PERFIL');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D3';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Perfil para Aprovação/exclusão/cancelamento') + ', ';
+        strSql := strSql + QuotedStr('PERFIL') + ', ';
+        strSql := strSql + QuotedStr(edtPerfil03.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtPerfil04Change(Sender: TObject);
+begin
+  if (edtPerfil04.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFIL';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtPerfil01.Text <> s_parametroD4.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET D4 = ';
+          strSql := strSql + QuotedStr(edtPerfil04.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PERFIL');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D4';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Perfil para Aprovação/exclusão/cancelamento') + ', ';
+        strSql := strSql + QuotedStr('PERFIL') + ', ';
+        strSql := strSql + QuotedStr(edtPerfil04.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.CheckBox6Click(Sender: TObject);
+begin
+  if (CheckBox6.Checked = True) then  // Usa Aprovação no exluir Pedido
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'APROVACAO';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Usa Aprovação na exclusão de Pedidos') + ', ';
+        strSql := strSql + QuotedStr('APROVACAO');
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'APROVACAO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+       strSql := strSql + QuotedStr('APROVACAO');
        dm.sqlsisAdimin.StartTransaction(TD);
        dm.sqlsisAdimin.ExecuteDirect(strSql);
        Try

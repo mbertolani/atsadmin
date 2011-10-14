@@ -253,7 +253,7 @@ type
     procedure JvBitBtn1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
-    usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
+    usaMateriaPrima, tipo_origem, c_f, RESULTADO, PORTA : String;
     prazo, codrec : Double;
     desconto : Double;
     vrr, nparc : double;
@@ -853,6 +853,7 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(strSqlMov);    
     dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
+       dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
        dm.sqlsisAdimin.Commit(TD);
     except
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
@@ -862,7 +863,7 @@ begin
     DecimalSeparator := ',';
     ThousandSeparator := '.';
 
-    Try
+  {  Try
       dm.sqlsisAdimin.StartTransaction(TD);
       dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TD);
@@ -870,9 +871,10 @@ begin
       on E : Exception do
       begin
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes
       end;
     end;
+    }
 end;
 
 procedure TF_TerminalFinaliza.FormClose(Sender: TObject;
@@ -1328,10 +1330,15 @@ begin
      end
      else
      begin
+       if (s_parametro.Active) then
+         s_parametro.Close;
+       s_parametro.Params[0].Clear;
+       s_parametro.Params[0].AsString := 'PORTAIMP';
+       s_parametro.Open;
+       PORTA := s_parametroDADOS.AsString;
        s_parametro.Close;
-       AssignFile(IMPRESSORA,'LPT1:');
+       AssignFile(IMPRESSORA,'COM5:');
      end;
-
      Rewrite(IMPRESSORA);
      Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
      Writeln(Impressora, c17cpi, logradouro);

@@ -447,8 +447,8 @@ begin
               Titulo.DataDocumento     := ds_crEMISSAO.AsDateTime; //EncodeDate(2010,04,10);
 
               varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
-              vartitulo := IntToStr(varNossoNumero);// + RemoveChar(ds_crVIA.AsString);
-              Titulo.NumeroDocumento   := padR(vartitulo,6,'0');
+              vartitulo := IntToStr(varNossoNumero); //+ '-' + RemoveChar(ds_crVIA.AsString);
+              //Titulo.NumeroDocumento   := padR(vartitulo,6,'0');
 
               Titulo.EspecieDoc        := s_bancoESPECIEDOC.AsString; //EspecieDoc;
               if (s_bancoACEITE.AsString = 'S') then
@@ -458,6 +458,9 @@ begin
 
               Titulo.DataProcessamento := Now;
               varNossoNumero := StrToInt(vartitulo);
+              vartitulo := vartitulo + '-' + RemoveChar(ds_crVIA.AsString);
+              Titulo.NumeroDocumento   := padR(vartitulo,8,'0');
+
               case StrToInt(s_bancoN_BANCO.AsString) of
                 001: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);//  001 - Banco do Brasil
                 104: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 104 - Caixa Economica

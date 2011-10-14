@@ -180,7 +180,7 @@ var
 implementation
 
 uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
-  U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod;
+  U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod, U_AUTORIZACAO;
 
 {$R *.dfm}
 
@@ -577,19 +577,29 @@ begin
     fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
     fFiltroMovimento.BitBtn8.Enabled := False;
     fFiltroMovimento.Edit3.Text := '';
-
-    dm.cds_parametro.Close;
+    fFiltroMovimento.cod_mov := 0;
     fFiltroMovimento.ShowModal;
-    DM_MOV.c_movimento.Close;
-    DM_MOV.c_movimento.Params[0].Clear;
-    DM_MOV.c_movimento.Params[0].AsInteger := fFiltroMovimento.cod_mov;
-    DM_MOV.c_movimento.Open;
+    dm.cds_parametro.Close;
+    if (fFiltroMovimento.cod_mov > 0) then
+    begin
+      DM_MOV.c_movimento.Close;
+      DM_MOV.c_movimento.Params[0].Clear;
+      DM_MOV.c_movimento.Params[0].AsInteger := fFiltroMovimento.cod_mov;
+      DM_MOV.c_movimento.Open;
 
-    DM_MOV.c_movdet.Close;
-    DM_MOV.c_movdet.Params[0].Clear;
-    DM_MOV.c_movdet.Params[0].AsInteger := fFiltroMovimento.cod_mov;
-    DM_MOV.c_movdet.Open;
-    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+      DM_MOV.c_movdet.Close;
+      DM_MOV.c_movdet.Params[0].Clear;
+      DM_MOV.c_movdet.Params[0].AsInteger := fFiltroMovimento.cod_mov;
+      DM_MOV.c_movdet.Open;
+      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    end
+    else
+    begin
+      if (DM_MOV.c_movdet.Active) then
+        DM_MOV.c_movdet.Close;
+      if (DM_MOV.c_movimento.Active) then
+        DM_MOV.c_movimento.Close;
+    end;
 
 end;
 
@@ -786,8 +796,40 @@ begin
   if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                 [mbYes,mbNo],0) = mrYes then
   begin
-     DM_MOV.d_movdet.DataSet.Delete;
-     (DM_MOV.d_movdet.DataSet as TClientDataSet).ApplyUpdates(0);
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'APROVACAO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+        F_AUTORIZACAO := TF_AUTORIZACAO.Create(Application);
+        if (EXISTEPERFIL = 'FALSE') then
+        begin
+          F_AUTORIZACAO.Free;
+          Exit;
+        end;
+
+        try
+          F_AUTORIZACAO.ShowModal;
+        finally
+          F_AUTORIZACAO.Free;
+        end;
+        if (DM.RESULTADO_APROVA = True) then
+        begin
+          DM_MOV.d_movdet.DataSet.Delete;
+         (DM_MOV.d_movdet.DataSet as TClientDataSet).ApplyUpdates(0);
+        end
+        else
+        begin
+          ShowMessage('Usuario sem altorização para Excluir/Cancelar Itens');
+          Exit;
+        end;
+     end
+     else
+     begin
+        DM_MOV.d_movdet.DataSet.Delete;
+       (DM_MOV.d_movdet.DataSet as TClientDataSet).ApplyUpdates(0);
+     end;
   end
   else
     Abort;
