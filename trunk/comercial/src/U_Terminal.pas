@@ -92,7 +92,6 @@ type
     JvSair: TJvBitBtn;
     F9Sair1: TMenuItem;
     VCLReport1: TVCLReport;
-    btnIncluir: TJvBitBtn;
     s_parametro: TSQLDataSet;
     s_parametroDESCRICAO: TStringField;
     s_parametroPARAMETRO: TStringField;
@@ -110,6 +109,8 @@ type
     s_parametroINSTRUCOES: TStringField;
     s_parametroVALOR: TFloatField;
     SaveDialog1: TSaveDialog;
+    scds_produto_procLOTE: TStringField;
+    scds_produto_procSALDOESTOQUE: TFloatField;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -132,7 +133,6 @@ type
     procedure JvSairClick(Sender: TObject);
     procedure JvImprimirClick(Sender: TObject);
     procedure JvExcluirClick(Sender: TObject);
-    procedure btnIncluirClick(Sender: TObject);
   private
     TD: TTransactionDesc;  
     clienteConsumidor,nomecliente, tipo_busca : string;
@@ -170,6 +170,7 @@ var
   F_Terminal: TF_Terminal;
   CodigoProduto : Integer;
   RETORNO, vendaexiste : String;
+  ESTOQUE : Boolean;
   tipoImpressao : string;
   IMPRESSORA:TextFile;
   Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
@@ -250,36 +251,15 @@ procedure TF_Terminal.IncluiItemPedido;
 var sql : string;
 begin
    dm.sqlsisAdimin.StartTransaction(TD);
- {  if (DM_MOV.c_movdet.Active) then
-         DM_MOV.c_movdet.Close;
-   DM_MOV.c_movdet.Params[0].Clear;
-   DM_MOV.c_movdet.Open;
-   DM_MOV.c_movdet.Append;
-  }
+
    if dm.c_6_genid.Active then
      dm.c_6_genid.Close;
    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
    dm.c_6_genid.Open;
    ID_MOVDET := dm.c_6_genid.Fields[0].AsInteger;
-  // DM_MOV.c_movdetCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-   dm.c_6_genid.Close;
- {  DM_MOV.c_movdetSTATUS.AsInteger := 0; //0=Ativo, 1=Cancelado, 2=Excluido
-   DM_MOV.c_movdetCODALMOXARIFADO.AsInteger := 0;
-   if (PageControl1.ActivePage = TabSheet1) then
-     DM_MOV.c_movdetCODMOVIMENTO.AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
-   if (PageControl1.ActivePage = TabComanda) then
-     DM_MOV.c_movdetCODMOVIMENTO.AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
-   //DM_MOV.c_movdetBAIXA
-   DM_MOV.c_movdetQUANTIDADE.AsInteger := 1;
-   DM_MOV.c_movdetUN.AsString := scds_produto_procUNIDADEMEDIDA.AsString;
-   DM_MOV.c_movdetPRECO.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
-   DM_MOV.c_movdetDESCPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
-   DM_MOV.c_movdetCODPRODUTO.AsInteger := scds_produto_procCODPRODUTO.AsInteger;
 
-   if (tipo_busca = '3') then  // só preencho o campo Lote se o parametro usa lote for 3
-     DM_MOV.c_movdetLOTE.AsString := codlote;
-   DM_MOV.c_movdet.ApplyUpdates(0);
-  }
+   dm.c_6_genid.Close;
+
   sql := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODPRODUTO, STATUS, CODALMOXARIFADO, CODMOVIMENTO, QUANTIDADE, UN, '+
          'PRECO, DESCPRODUTO, LOTE) VALUES ( ' +
          IntToStr(ID_MOVDET) + ', ' + IntToStr(scds_produto_procCODPRODUTO.AsInteger) + ', ' +
@@ -319,40 +299,22 @@ var sql : string;
 begin
 
   dm.sqlsisAdimin.StartTransaction(TD);
-//  DM_MOV.c_movimento.Open;
-//  DM_MOV.c_movimento.Append;
+
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
   dm.c_6_genid.Open;
   id_movimento := dm.c_6_genid.Fields[0].AsInteger;
 
-{  DM_MOV.c_movimentoCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
-  dm.c_6_genid.Close;
-  DM_MOV.c_movimentoCODNATUREZA.AsInteger := 3;
-  DM_MOV.c_movimentoDATAMOVIMENTO.Value := Date;
-  DM_MOV.c_movimentoDATA_SISTEMA.AsDateTime := Now;
-  DM_MOV.c_movimentoSTATUS.Value := 20; //Venda em Aberto
-  DM_MOV.c_movimentoCODUSUARIO.AsInteger := usulog;
-  DM_MOV.c_movimentoCODVENDEDOR.Value:=1;
-  DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger := 1;
-  DM_MOV.c_movimentoNOMEUSUARIO.AsString := nome_user;
-  DM_MOV.c_movimentoUSUARIOLOGADO.AsString := nome_user;
-  if (PageControl1.ActivePage = TabSheet1) then
-  begin
-    DM_MOV.c_movimentoCODCLIENTE.AsInteger := codcliente;
-    DM_MOV.c_movimentoNOMECLIENTE.AsString := nomecliente;
-  end;
-  if (PageControl1.ActivePage = TabComanda) then
-  begin
-    DM_MOV.c_movimentoCODCLIENTE.AsInteger := StrToInt(EdtComanda.Text);
-    DM_MOV.c_movimentoNOMECLIENTE.AsString := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
-  end;
-  }
   if (PageControl1.ActivePage = TabDelivery) then
   begin
 
   end;
+
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
+  dm.cds_parametro.Open;
 
   sql := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, CODPEDIDO, CODNATUREZA, DATAMOVIMENTO, DATA_SISTEMA, STATUS, '+
     'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE) VALUES ( ' +
@@ -361,7 +323,7 @@ begin
     ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', now)) +
     ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', now)) +
     ', ' + IntToStr(20) +
-    ', ' + IntToStr(1) + ', ' + IntToStr(1) + ', ' + IntToStr(1) +
+    ', ' + IntToStr(1) + ', ' + IntToStr(1) + ', ' + DM.cds_parametroD1.AsString +
     ', ' + QuotedStr(nome_user) + ', ' + IntToStr(codcliente) + '); ';
   Try
 
@@ -417,9 +379,12 @@ begin
          ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
          ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
          ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
+         ', est.LOTE, est.SALDOESTOQUE, est.MESANO ' +
          ' from PRODUTOS prod ' +
          ' left outer join ALMOXARIFADO ccus ' +
          ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
+         ' left outer join ESTOQUEMES est ' +
+         ' on est.CODPRODUTO = prod.CODPRODUTO ' +
          ' where ';
 
   if scds_produto_proc.Active then
@@ -493,6 +458,11 @@ begin
         if (tipo_busca = '3') then
         begin
            BuscaLote;
+           if ( (RETORNO = 'FALSO') and (ESTOQUE = False) ) then
+           begin
+             MessageDlg('Quantidade em estoque insuficiente.', mtWarning, [mbOK], 0);
+             Exit;
+           end;
            if (RETORNO = 'FALSO') then
              BuscaProduto;
         end
@@ -879,11 +849,11 @@ procedure TF_Terminal.BuscaLote;
 var varsql:string;
 begin
 
-  varsql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
+  varsql := 'select first 1 prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
          ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
          ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
          ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
-         ', est.LOTE ' +
+         ', est.LOTE, est.SALDOESTOQUE, est.MESANO ' +
          ' from PRODUTOS prod ' +
          ' left outer join ALMOXARIFADO ccus ' +
          ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
@@ -895,11 +865,17 @@ begin
     scds_produto_proc.Close;
   scds_produto_proc.CommandText := '';
   if (PageControl1.ActivePage = TabSheet1) then
-      scds_produto_proc.CommandText := varsql + ' est.LOTE = ' + '''' + EdtCodBarra.Text + '''' ;
+  begin
+    varsql := varsql + ' est.LOTE = ' + '''' + EdtCodBarra.Text + '''' ;
+    scds_produto_proc.CommandText := varsql + ' order by est.MESANO desc';
+  end;
 
 
   if (PageControl1.ActivePage = TabComanda) then
-      scds_produto_proc.CommandText := varsql + ' est.LOTE = ' + '''' + EdtCodBarra1.Text + '''' ;
+  begin
+    varsql := varsql + ' est.LOTE = ' + '''' + EdtCodBarra1.Text + '''' ;
+    scds_produto_proc.CommandText := varsql;
+  end;
 
   scds_produto_proc.Open;
 
@@ -908,10 +884,20 @@ begin
      //ShowMessage('Produto não Localizado');
      scds_produto_proc.Close;
      RETORNO := 'FALSO';
+     ESTOQUE := True;
   end
   else
   begin
-
+    if(scds_produto_procSALDOESTOQUE.asFloat > 0) then
+    begin
+      RETORNO := 'True';
+      ESTOQUE := True;
+    end
+    else
+    begin
+      RETORNO := 'FALSO';
+      ESTOQUE := False;
+    end;          
     if (PageControl1.ActivePage = TabSheet1) then
        codlote := EdtCodBarra.Text;
     if (PageControl1.ActivePage = TabComanda) then
@@ -998,16 +984,6 @@ begin
       vendaexiste := 'SIM'
     else
       vendaexiste := 'NAO';
-end;
-
-procedure TF_Terminal.btnIncluirClick(Sender: TObject);
-begin
-  if ( DM_MOV.c_movimento.Active) then
-    DM_MOV.c_movimento.Close;
-  if ( DM_MOV.c_movdet.Active) then
-    DM_MOV.c_movdet.Close;
-    EdtCodBarra.Text := '';
-    EdtCodBarra.SetFocus;
 end;
 
 procedure TF_Terminal.imprimeCupom;
