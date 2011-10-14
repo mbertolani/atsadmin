@@ -219,7 +219,6 @@ begin
       executaDDL('FUNCIONARIO', 'CODFORNECEDOR', 'integer');
       executaDDL('FUNCIONARIO', 'CLIFOR', 'char(1)');
       executaDDL('FUNCIONARIO', 'STATUS', 'CHAR(1)');
-      executaDDL('RECEBIMENTO', 'SITUACAO', 'integer');
       executaDDL('VENDA', 'CODORIGEM', 'INTEGER');
 
       mudaVersao('1.0.0.21');
@@ -320,7 +319,6 @@ begin
       executaDDL('RECEBIMENTO', 'DATAGERARQREM', 'DATE');
       executaDDL('RECEBIMENTO', 'SELECIONOU', 'char(1)');
       executaDDL('RECEBIMENTO', 'DESCONTADO', 'char(1)');
-      executaDDL('RECEBIMENTO', 'SITUACAO', 'INTEGER');
       executaScript('gera_parcelas_rec.sql');
       executaScript('spestoqueproduto.sql');
       executaScript('altera_contabil.sql');
@@ -1113,8 +1111,7 @@ begin
 
     if (versaoSistema = '1.0.0.94') then
     begin
-      executaSql('ALTER TABLE OS DROP CODVEICULO');
-      executaSql('CREATE OR ALTER EXCEPTION ALTERA_CODPRO ' + QuotedStr('Produto em uso na Solicitação, não é possível fazer alteração'));      
+      executaSql('CREATE OR ALTER EXCEPTION ALTERA_CODPRO ' + QuotedStr('Produto em uso na Solicitação, não é possível fazer alteração'));
       executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
       executaDDL('OS_DET', 'CODUSUARIO', 'INTEGER');
       executaDDL('INVENTARIO', 'LOTE',  'VARCHAR(60)');
@@ -1126,12 +1123,14 @@ begin
       executaDDL('BANCO', 'LOCALPGTO', 'Varchar(100)');
       executaDDL('BANCO', 'N_BANCO', 'Varchar(10)');
       executaDDL('BANCO', 'DIGITOBANCO', 'Integer');
+      executaDDL('PRODUTOS', 'TAM_LOTE', 'Integer');
       executaScript('invent_estoque.sql');
       executaScript('sp_lote_estoquemes.sql');
       executaScript('trg_altera_codpro');
+      executaSql('ALTER TABLE OS DROP CODVEICULO');      
       //mudaVersao('1.0.0.95');
     end;
-    
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));

@@ -1381,7 +1381,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
         Caption = 'Gera Despesa'
       end
       object Label20: TLabel
-        Left = 305
+        Left = 321
         Top = 11
         Width = 61
         Height = 16
@@ -1409,31 +1409,6 @@ inherited fProdutoCadastro: TfProdutoCadastro
         Values.Strings = (
           'S'
           'N')
-      end
-      object Panel1: TPanel
-        Left = 141
-        Top = 28
-        Width = 140
-        Height = 30
-        PopupMenu = PopupMenu1
-        TabOrder = 1
-        object Chk_lote: TCheckBox
-          Left = 6
-          Top = 11
-          Width = 98
-          Height = 17
-          TabStop = False
-          Caption = 'Usa Lote ?'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlue
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 0
-          OnClick = Chk_loteClick
-        end
       end
       object Panel2: TPanel
         Left = 4
@@ -1515,7 +1490,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
         end
       end
       object DBEdit21: TDBEdit
-        Left = 302
+        Left = 318
         Top = 32
         Width = 80
         Height = 24
@@ -1551,6 +1526,58 @@ inherited fProdutoCadastro: TfProdutoCadastro
         ParentFont = False
         ReadOnly = True
         TabOrder = 4
+      end
+      object GroupBox5: TGroupBox
+        Left = 145
+        Top = 3
+        Width = 168
+        Height = 56
+        Caption = 'Lotes'
+        TabOrder = 1
+        object Label24: TLabel
+          Left = 83
+          Top = 11
+          Width = 58
+          Height = 16
+          Caption = 'Tamanho'
+        end
+        object Chk_lote: TCheckBox
+          Left = 4
+          Top = 27
+          Width = 71
+          Height = 17
+          TabStop = False
+          Caption = 'Utiliza?'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlue
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 0
+          OnClick = Chk_loteClick
+        end
+        object DBEdit24: TDBEdit
+          Left = 80
+          Top = 28
+          Width = 80
+          Height = 24
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'TAM_LOTE'
+          DataSource = DtSrc
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 1
+          OnExit = DBEdit19Exit
+          OnKeyPress = FormKeyPress
+        end
       end
     end
   end

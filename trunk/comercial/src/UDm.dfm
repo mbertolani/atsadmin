@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:F:\home\bd\sge_jorvic.fdb'
+      'Database=localhost:sge_computel'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -1484,6 +1484,7 @@ object DM: TDM
     object cds_produtoDATACADASTRO: TSQLTimeStampField
       FieldName = 'DATACADASTRO'
       ProviderFlags = [pfInUpdate]
+      ReadOnly = True
     end
     object cds_produtoMARGEM: TFloatField
       FieldName = 'MARGEM'
@@ -1572,6 +1573,9 @@ object DM: TDM
       FieldName = 'IMPRESSORA_3'
       ProviderFlags = [pfInUpdate]
       Size = 10
+    end
+    object cds_produtoTAM_LOTE: TIntegerField
+      FieldName = 'TAM_LOTE'
     end
   end
   object dsp_produto: TDataSetProvider
@@ -1837,6 +1841,9 @@ object DM: TDM
       FieldName = 'IMPRESSORA_3'
       ProviderFlags = [pfInUpdate]
       Size = 10
+    end
+    object sds_produtoTAM_LOTE: TIntegerField
+      FieldName = 'TAM_LOTE'
     end
   end
   object sds_cm: TSQLDataSet

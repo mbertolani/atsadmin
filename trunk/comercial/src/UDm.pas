@@ -1789,6 +1789,8 @@ type
     cdsBancoN_BANCO: TStringField;
     sdsBancoDIGITOBANCO: TIntegerField;
     cdsBancoDIGITOBANCO: TIntegerField;
+    sds_produtoTAM_LOTE: TIntegerField;
+    cds_produtoTAM_LOTE: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -1856,6 +1858,7 @@ type
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP : String;
     tipoCompra, tipoVenda : String;
     userAprovaCompra, varLogado, usaCentroCusto : String;
+    RESULTADO_APROVA : Boolean;    
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
   end;
