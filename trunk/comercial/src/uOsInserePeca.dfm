@@ -24,7 +24,7 @@ inherited fOsInserePeca: TfOsInserePeca
       Left = 79
     end
     inherited btnIncluir: TBitBtn
-      Left = 79
+      Left = 63
     end
     inherited btnCancelar: TBitBtn
       Left = 194

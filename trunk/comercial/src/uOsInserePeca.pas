@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, StdCtrls, Mask, JvExMask, JvToolEdit, JvBaseEdits,
   JvExStdCtrls, JvMemo, Menus, XPMenu, DB, Buttons, ExtCtrls, MMJPanel,
-  FMTBcd, DBClient, Provider, SqlExpr;
+  FMTBcd, DBClient, Provider, SqlExpr, dbXpress;
 
 type
   TfOsInserePeca = class(TfPai_new)
@@ -86,18 +86,17 @@ end;
 procedure TfOsInserePeca.FormShow(Sender: TObject);
 begin
   LimpaCamposPeca;
-  lblServico.Caption                  := fOs.ServDescricao;
-  fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
+  lblServico.Caption := fOs.ServDescricao;
   if (DtSrc.State in [dsEdit]) then
   begin
-    edServico.Lines.Add(fOs.cdsPecasDESCRICAO_SERV.AsString);
-    edProduto.Text      := fOs.cdsPecasCODPRO.AsString;
-    edProdDescr.Text    := fOs.cdsPecasDESCRICAO_SERV.AsString;
-    codProdutoPeca      := fOs.cdsPecasCODPRODUTO.asInteger;
-    edQtdeServ.Value    := fOs.cdsPecasQTDE.AsFloat;
-    edPrecoServ.Value   := fOs.cdsPecasPRECO.AsFloat;
-    edDescVlrServ.Value := fOs.cdsPecasDESCONTO.AsFloat;
-    edTotalServ.Value   := fOs.cdsPecasVALORTOTAL.AsFloat;
+    edServico.Lines.Add(cdsPecasDESCRICAO_SERV.AsString);
+    edProduto.Text      := cdsPecasCODPRO.AsString;
+    edProdDescr.Text    := cdsPecasDESCRICAO_SERV.AsString;
+    codProdutoPeca      := cdsPecasCODPRODUTO.asInteger;
+    edQtdeServ.Value    := cdsPecasQTDE.AsFloat;
+    edPrecoServ.Value   := cdsPecasPRECO.AsFloat;
+    edDescVlrServ.Value := cdsPecasDESCONTO.AsFloat;
+    edTotalServ.Value   := cdsPecasVALORTOTAL.AsFloat;
   end;
 end;
 
@@ -116,7 +115,10 @@ end;
 procedure TfOsInserePeca.btnGravarClick(Sender: TObject);
 var str: string;
   I : Integer;
+  TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   str := '';
   for I := 0 to edServico.Lines.Count -1 do
     str := str + edServico.Lines[I] + #13#10;
@@ -133,7 +135,44 @@ begin
   cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
   //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
   cdsPecas.Post;
-  fOs.cdsPecas.Data := cdsPecas.Data;
+
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    fOs.FOsCls.osDet.CodOsP   := fOs.cdsOSCODOS.AsInteger;
+    if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
+    begin
+      fOs.FOsCls.osDet.CodDet   := 0;
+      fOs.FOsCls.osDet.Status   := 'O';
+      fOs.FOsCls.osDet.Tipo     := 'P';
+    end;
+    DecimalSeparator := '.';
+    fOs.FOsCls.osDet.CodProduto := cdsPecasCODPRODUTO.AsInteger;
+    fOs.FOsCls.osDet.Descricao := cdsPecasDESCRICAO_SERV.AsString;
+    fOs.FOsCls.osDet.Qtde      := cdsPecasQTDE.AsFloat;
+    fOs.FOsCls.osDet.Preco     := cdsPecasPRECO.AsFloat;
+    fOs.FOsCls.osDet.Desconto  := cdsPecasDESCONTO.AsFloat;
+    fOs.FOSCls.osDet.CodOsServ := cdsPecasID_OSDET_SERV.AsInteger;
+    DecimalSeparator := ',';
+    if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
+    begin
+      if ((fOs.FOsCls.osDet.IncluirOsDet(0) = 0)) then
+      begin
+        ShowMessage('Erro na Inclusao Os Detalhe');
+        Exit;
+      end;
+    end
+    else begin
+      fOs.FOsCls.osDet.alterarOsDet(cdsPecasID_OS.AsInteger);
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+    end;
+  end;
+  fOs.abrirPecas;
 
 end;
 
@@ -187,8 +226,8 @@ begin
     if (fProcura_prodOficina.cds_proc.Active) then
       fProcura_prodOficina.cds_proc.Close;
   end;
-  varonde := 'compra';
-  var_F := 'venda';
+  varonde := 'os';
+  var_F := 'os';
 
   fProcura_prodOficina.ShowModal;
   if (procprod = 'PROC_PROD_COMPLETO') then
@@ -212,11 +251,11 @@ begin
   edProdDescr.Text  := fProcura_prodOficina.cds_procPRODUTO.AsString;
   edPrecoServ.Value := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
   codProdutoPeca    := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  if (fOs.dsPecas.State = dsBrowse) then
-    fOs.cdsPecas.Edit;
-  fOs.cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  fOs.cdsPecasQTDE.AsFloat         := 1;
-  fOs.cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+  if (cdsPecas.State = dsBrowse) then
+    cdsPecas.Edit;
+  cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+  cdsPecasQTDE.AsFloat         := 1;
+  cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
 
 end;
 
@@ -240,12 +279,11 @@ begin
   edProdDescr.Text  := dm.scds_produto_procPRODUTO.AsString;
   edPrecoServ.Value := dm.scds_produto_procVALOR_PRAZO.AsFloat;
   codProdutoPeca    := dm.scds_produto_procCODPRODUTO.AsInteger;
-  if (fOs.dsPecas.State = dsBrowse) then
-    fOs.cdsPecas.Edit;
-  fOs.cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-  fOs.cdsPecasQTDE.AsFloat         := 1;
-  fOs.cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-
+  if (cdsPecas.State = dsBrowse) then
+    cdsPecas.Edit;
+  cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+  cdsPecasQTDE.AsFloat         := 1;
+  cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
 end;
 
 procedure TfOsInserePeca.btnSairClick(Sender: TObject);
