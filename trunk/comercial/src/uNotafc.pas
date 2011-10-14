@@ -1224,8 +1224,8 @@ begin
       dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := strToint(dm.cds_parametroDADOS.AsString);
 
     dm.cds_parametro.Close;
-    DMNF.cds_MovimentoCODNATUREZA.AsInteger := codNat;
-    DMNF.cds_MovimentoDESCNATUREZA.AsString := lblNaturezaOperacao.Caption;
+    DMNF.cds_MovimentoCODNATUREZA.AsInteger := 20;
+    DMNF.cds_MovimentoDESCNATUREZA.AsString := 'NOTA FISCAL COMPRA';
 
    //*******************************************************************************
    dmnf.cds_Movimento.ApplyUpdates(0);
