@@ -1632,7 +1632,7 @@ begin
       JvDBGrid1.Canvas.Font.Color := clRed;
       JvDBGrid1.DefaultDrawDataCell(Rect, Column.Field,State);
     end;
-
+  end;
   // Selecionou ?
    if Column.Field = scdsCr_procDUP_REC_NF then
    begin
@@ -1642,8 +1642,7 @@ begin
          ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 2)
        else
          ImageList2.Draw(JvDBGrid1.Canvas,Rect.Left+10,Rect.top, 0);
-   end;
-  end;
+   end;  
 end;
 
 procedure Tfcrproc.JvDBGrid1ColEnter(Sender: TObject);
