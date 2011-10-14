@@ -1,10 +1,10 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 2
+  Left = 1
   Top = 1
-  Height = 734
-  Width = 1365
+  Height = 726
+  Width = 1358
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisadmin'
     DriverName = 'UIB FireBird15'
@@ -27,6 +27,7 @@ object DM: TDM
       'User_Name=SYSDBA'
       'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
+    Connected = True
     Left = 80
     Top = 8
   end

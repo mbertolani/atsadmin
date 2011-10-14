@@ -1846,7 +1846,7 @@ type
     procedure verificaSeExisteTabela(nTabela, nCampo, nCampoTipo: string);
   public
     { Public declarations }
-    conectado :boolean;
+    conectado, RESULTADO_APROVA :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
     idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov, CCustoPadrao: integer;
