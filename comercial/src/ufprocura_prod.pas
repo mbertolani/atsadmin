@@ -1472,6 +1472,7 @@ begin
     dmnf.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
     dmnf.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
     dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
+    dmnf.cds_Mov_detVLR_BASE.AsFloat := StrToFloat(Edit4.Text);
     dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
     dmnf.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
