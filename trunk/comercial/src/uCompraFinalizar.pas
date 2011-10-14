@@ -361,6 +361,7 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
   private
+    TD: TTransactionDesc;
     procedure notafiscal ;
     procedure imprimecompra;
     function RemoveAcento(Str: string): string;
@@ -1694,45 +1695,34 @@ var     usu_n, usu_s, str : string;
         utilcrtitulo : Tutils;
         FEstoque : TEstoque;
         dataCompra  : TDateTime;
+        codmov : Integer;
 begin
-  dataCompra := cds_compraDATACOMPRA.AsDateTime;
-  usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
-  usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+  dataCompra   := cds_compraDATACOMPRA.AsDateTime;
+  codmov       := cds_compraCODMOVIMENTO.AsInteger;
+  usu_n        := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+  usu_s        := fAtsAdmin.UserControlComercial.CurrentUser.Password;
   utilcrtitulo := Tutils.Create;
   if (utilcrtitulo.verificapermissao = True) then
   begin
-    if Excluir = 'N' then Exit;
-    if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
-                  [mbYes,mbNo],0) = mrYes then
-    begin
-       DtSrc.DataSet.Delete;
-       (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
-        Try
-          FEstoque := TEstoque.Create;
-          // Gravando o Estoque
-          with fCompra do begin
-          cds_Mov_det.First;
-          While not cds_Mov_det.Eof do
-          begin
-            if (cds_Mov_detSTATUS.AsString = '9') then
-              begin
-              FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-              FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-              FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-              FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-              FEstoque.MesAno      := dataCompra;
-              FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-              FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-              FEstoque.Status      := '0';
-              FEstoque.inserirMes;
+    if Excluir = 'N' then
+    Exit;
+    if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
+      begin
+        try
+          dm.sqlsisAdimin.StartTransaction(TD);
+          DtSrc.DataSet.Delete;
+          (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+          dmnf.cancelaEstoque(codmov, dataCompra, 'COMPRA');
+          dm.sqlsisAdimin.Commit(TD);
+          ShowMessage('Compra Excluida com Sucesso');
+        except
+          on E : Exception do
+            begin
+              ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
             end;
-            cds_Mov_det.Next;
-          end;
-          end;
-        Finally
-          FEstoque.Free;
         end;
-    end
+      end
     else
       Abort;
   end
@@ -1741,35 +1731,28 @@ begin
     if MessageDlg('Atenção, confirmando essa operação o sistema vai alterar o status para'+#13+#10+' "CANCELADO", não será excluido do sistema.',mtConfirmation,
                   [mbYes,mbNo],0) = mrYes then
     begin
-       str := 'update MOVIMENTO set CODNATUREZA = 1 where CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.AsInteger);
-       dm.sqlsisAdimin.ExecuteDirect(str);
-       str := 'update COMPRA set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
-       dm.sqlsisAdimin.ExecuteDirect(str);
-       str := 'update PAGAMENTO set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
-       dm.sqlsisAdimin.ExecuteDirect(str);
-        Try
-          FEstoque := TEstoque.Create;
-          // Gravando o Estoque
-          with fCompra do begin
-          cds_Mov_det.First;
-          While not cds_Mov_det.Eof do
+      try
+        dm.sqlsisAdimin.StartTransaction(TD);
+        str := 'update MOVIMENTODETALHE set BAIXA = NULL where CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.AsInteger);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        str := 'update COMPRA set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        str := 'update PAGAMENTO set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+
+        dmnf.cancelaEstoque(codmov,dataCompra , 'COMPRA');
+        dm.sqlsisAdimin.Commit(TD);
+        ShowMessage('Compra Cancelada com Sucesso');
+      except
+        on E : Exception do
           begin
-            FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-            FEstoque.MesAno      := dataCompra;
-            FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-            FEstoque.inserirMes;
-            cds_Mov_det.Next;
+            ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+            dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
           end;
-          end;
-        Finally
-          FEstoque.Free;
-        end;
+      end;
     end;
   end;
-  fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);  
+  fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
 end;
 
 procedure TfCompraFinalizar.btnSairClick(Sender: TObject);
