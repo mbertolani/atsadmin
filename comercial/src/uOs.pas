@@ -182,18 +182,19 @@ type
     procedure dsPecasStateChange(Sender: TObject);
   private
     estoque, qtde : Double;
-    FOsCls: TOsClasse;
     Procedure limpaCampos;
     Procedure carregaCampos;
     Procedure controlaEventos;
     Procedure abrirOs(codOs :Integer);
-    Procedure abrirPecas;
     Procedure buscaProduto;
     procedure carregaCombos;
     { Private declarations }
   public
+    FOsCls: TOsClasse;
     modoOs, modoOsItem, ServDescricao: String; // Insert, Edit, Browse, Inactive
     numOsDet, ServCodServ: Integer;
+    Procedure abrirPecas;
+
     { Public declarations }
   end;
 
@@ -727,13 +728,11 @@ begin
 
   ServCodServ   := cdsServicoID_OS_DET.AsInteger;
   ServDescricao := cdsServicoDESCRICAO_SERV.AsString;
-  if (fOsInserePeca.cdsPecas.Active) then
-    fOsInserePeca.cdsPecas.Close;
-  fOsInserePeca.cdsPecas.Data := cdsPecas.Data;
-  cdsPecas.Append;
+  if (not fOsInserePeca.cdsPecas.Active) then
+    fOsInserePeca.cdsPecas.Open;
+
   fOsInserePeca.cdsPecas.Append;
-  cdsPecasID_OS_DET.AsInteger := numOsDet;
-  cdsPecasTIPO.AsString   := 'P';
+
   fOsInserePeca.cdsPecasID_OS_DET.AsInteger := numOsDet;
   fOsInserePeca.cdsPecasTIPO.AsString   := 'P';
 
@@ -762,7 +761,14 @@ procedure TfOs.btnPecaAlteraClick(Sender: TObject);
 begin
   modoOsItem := 'EditaPeca';
 
-  cdsPecas.Edit;
+  if (fOsInserePeca.cdsPecas.Active) then
+    fOsInserePeca.cdsPecas.Close;
+  fOsInserePeca.cdsPecas.Params.ParamByName('pOs').Clear;
+  fOsInserePeca.cdsPecas.Params.ParamByName('p_Sev').Clear;
+  fOsInserePeca.cdsPecas.Params.ParamByName('pOs').AsInteger := cdsPecasID_OS.AsInteger;
+  fOsInserePeca.cdsPecas.Params.ParamByName('p_Sev').AsInteger := cdsPecasID_OS_DET.AsInteger;
+  fOsInserePeca.cdsPecas.Open;
+  fOsInserePeca.cdsPecas.Edit;
 
   fOsInserePeca.ShowModal;
 
