@@ -245,6 +245,7 @@ type
     ComboBox13: TComboBox;
     ImageList2: TImageList;
     ImageList3: TImageList;
+    Fechamento1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -365,6 +366,7 @@ type
     procedure ComboBox14Change(Sender: TObject);
     procedure ComboBox13Change(Sender: TObject);
     procedure acAgendaExecute(Sender: TObject);
+    procedure Fechamento1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -416,7 +418,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
-  uOsFiltro;
+  uOsFiltro, U_FECHAMENTO;
 
 {$R *.dfm}
 
@@ -2057,6 +2059,16 @@ begin
   finally
     fAgendamento.Free;
   end;
+end;
+
+procedure TfAtsAdmin.Fechamento1Click(Sender: TObject);
+begin
+  F_Fechamento := TF_Fechamento.Create(Application);
+  try
+    F_Fechamento.ShowModal;
+  finally
+    F_Fechamento.Free;
+  end;  
 end;
 
 end.
