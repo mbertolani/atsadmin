@@ -7,7 +7,7 @@ uses
   Dialogs, FMTBcd, DB, DBClient, Provider, SqlExpr, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls, StdCtrls, Mask, JvExMask,
   JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, Buttons,
-  JvExStdCtrls, JvCombobox, uUtils;
+  JvExStdCtrls, JvCombobox, uUtils, Menus, uOsClasse;
 
 type
   TfOsFiltro = class(TForm)
@@ -124,6 +124,14 @@ type
     cbStatus: TJvComboBox;
     btnProcurar: TBitBtn;
     btnSair: TBitBtn;
+    btnStatusOs: TBitBtn;
+    PopupMenu1: TPopupMenu;
+    AAndamento1: TMenuItem;
+    CCancelado1: TMenuItem;
+    GAguardandoPea1: TMenuItem;
+    FFinalizado1: TMenuItem;
+    NNoAprovado1: TMenuItem;
+    btnStatusServico: TBitBtn;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -143,12 +151,23 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
+    procedure btnStatusOsClick(Sender: TObject);
+    procedure AAndamento1Click(Sender: TObject);
+    procedure CCancelado1Click(Sender: TObject);
+    procedure GAguardandoPea1Click(Sender: TObject);
+    procedure FFinalizado1Click(Sender: TObject);
+    procedure NNoAprovado1Click(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure btnStatusServicoClick(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
   private
     Ascending : boolean;
     util: TUtils;
     procedure abrirOs;
+    procedure TrocaStatus(StatusNovo: String, OsouServico: String);
     { Private declarations }
   public
+    FOsClsF: TOsClasse;
     { Public declarations }
   end;
 
@@ -157,9 +176,12 @@ var
 
 implementation
 
-uses UDm, uOs, sCtrlResize, uProcurar_nf, UDMNF;
+uses UDm, uOs, sCtrlResize, uProcurar_nf, UDMNF, UDM_MOV,
+  U_TerminalFinaliza;
 
 {$R *.dfm}
+
+ // A-Andamento F-Finalizada G-Aguardando Peça N-Não Aprovada  O-Orçamento
 
 procedure TfOsFiltro.DBGrid1DblClick(Sender: TObject);
 begin
@@ -188,7 +210,7 @@ begin
   if (cdsPeca.Active) then
     cdsPeca.Close;
   cdsPeca.Params.ParamByName('CODOSSERV').AsInteger := cdsServicoID_OS_DET.AsInteger;
-  cdsPeca.Open;  
+  cdsPeca.Open;
 end;
 
 procedure TfOsFiltro.FormCreate(Sender: TObject);
@@ -280,7 +302,7 @@ begin
       DBGrid1.Canvas.Brush.Color := clGray;
 
     DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
-  end;  
+  end;
 end;
 
 procedure TfOsFiltro.abrirOs;
@@ -354,8 +376,8 @@ begin
       edNomeCliente.Text := dmnf.scds_cli_procNOMECLIENTE.AsString;
     end;
   finally
-   dmnf.scds_cli_proc.Close;
-   fProcurar_nf.Free;
+    dmnf.scds_cli_proc.Close;
+    fProcurar_nf.Free;
   end;
 end;
 
@@ -378,6 +400,170 @@ begin
     exit;
   end;
   edNomeCliente.Text := dm.scds_cliente_procNOMECLIENTE.AsString;
+end;
+
+procedure TfOsFiltro.btnStatusOsClick(Sender: TObject);
+var
+  XY: TPoint;
+begin
+  //DM_MOV.PAGECONTROL := 'OS';
+
+  {F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
+  try
+    F_TerminalFinaliza.ShowModal;
+  finally
+    F_TerminalFinaliza.Free;
+  end;}
+
+  XY := Point(50, -10);
+  XY := btnStatusOs.ClientToScreen(XY);
+  PopupMenu1.Popup(XY.X, XY.Y + btnStatusOs.Height - 2);
+
+end;
+
+procedure TfOsFiltro.TrocaStatus(StatusNovo: String, OsouServico: String);
+begin
+  Try
+    FOsClsF := TOsClasse.Create;
+    if (FOsClsF.alterarStatusOs(cdsOsCODOS.AsInteger, StatusNovo)) then
+    begin
+      abrirOs;
+    end
+    else begin
+      MessageDlg('Situação da OS não alterado.', mtWarning, [mbOk], 0);
+    end;
+  Finally
+    FOsClsF.Destroy;
+  end;
+
+end;
+
+procedure TfOsFiltro.AAndamento1Click(Sender: TObject);
+begin
+  TrocaStatus('A');  //Andamento
+end;
+
+procedure TfOsFiltro.CCancelado1Click(Sender: TObject);
+begin
+  TrocaStatus('F');  //Finalizado
+end;
+
+procedure TfOsFiltro.GAguardandoPea1Click(Sender: TObject);
+begin
+  TrocaStatus('G');  //Aguardando Peça
+end;
+
+procedure TfOsFiltro.FFinalizado1Click(Sender: TObject);
+begin
+  TrocaStatus('N');  //Não Aprovado
+end;
+
+procedure TfOsFiltro.NNoAprovado1Click(Sender: TObject);
+begin
+  TrocaStatus('O');  // Orçamento
+end;
+
+procedure TfOsFiltro.DBGrid1CellClick(Column: TColumn);
+begin
+  btnStatusOs.Visible      := True;
+  btnStatusServico.Visible := False;
+  if (cdsOsSTATUS.AsString = 'A') then  //Andamento
+  begin
+    PopupMenu1.Items.Items[0].Enabled := False;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := True;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := True;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  if (cdsOsSTATUS.AsString = 'F') then // Fianlizado
+  begin
+    PopupMenu1.Items.Items[0].Enabled := False;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  if (cdsOsSTATUS.AsString = 'G') then // Aguardando Peça
+  begin
+    PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := True;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  if (cdsOsSTATUS.AsString = 'N') then // Nao Aprovado
+  begin
+    PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  if (cdsOsSTATUS.AsString = 'O') then // Orçamento
+  begin
+    PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := True;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := True;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+
+end;
+
+procedure TfOsFiltro.btnStatusServicoClick(Sender: TObject);
+var
+  XY: TPoint;
+begin
+  XY := Point(50, -10);
+  XY := btnStatusServico.ClientToScreen(XY);
+  PopupMenu1.Popup(XY.X, XY.Y + btnStatusServico.Height - 2);
+end;
+
+procedure TfOsFiltro.JvDBGrid1CellClick(Column: TColumn);
+begin
+  btnStatusOs.Visible      := False;
+  btnStatusServico.Visible := True;
+  if (cdsOsSTATUS.AsString = 'A') then  //Andamento
+  begin
+    PopupMenu1.Items.Items[0].Enabled := False;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := True;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := True;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  if (cdsOsSTATUS.AsString = 'F') then // Fianlizado
+  begin
+    PopupMenu1.Items.Items[0].Enabled := False;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  if (cdsOsSTATUS.AsString = 'G') then // Aguardando Peça
+  begin
+    PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := True;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  if (cdsOsSTATUS.AsString = 'N') then // Nao Aprovado
+  begin
+    PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  if (cdsOsSTATUS.AsString = 'O') then // Orçamento
+  begin
+    PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := True;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := True;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+  end;
+  
 end;
 
 end.
