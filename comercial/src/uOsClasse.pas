@@ -38,7 +38,7 @@ Type
     _dataOs     : TDateTime;
     _dataInicio : TDateTime;
     _dataFim    : TDateTime;
-    _status     : String;
+    _status     : String;    // A-Andamento F-Finalizada G-Aguardando Peça N-Não Aprovada  O-Orçamento
     _codUsuario : Integer;
     _km         : Integer;
     _osDet       : TOsDetalheClasse;
