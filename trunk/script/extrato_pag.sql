@@ -26,6 +26,7 @@ DECLARE VARIABLE CCONTABIL INTEGER;
 BEGIN
   /* Algo parecido com Holerit*/
   SALDO = 0;
+  valorpago = 0;
   /* Lista os lancamentos a pagar */
   FOR SELECT pag.DATAVENCIMENTO, pag.CODFORNECEDOR, forn.NOMEFORNECEDOR, 
     sum(pag.valor_RESTO), pag.CONTACREDITO, pag.TITULO, pag.EMISSAO, pag.HISTORICO
