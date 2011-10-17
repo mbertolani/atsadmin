@@ -12,8 +12,8 @@
 --select * from MOVIMENTODETALHE m where m.CODMOVIMENTO = 8
 
 --select * from MOVIMENTO m order by m.CODMOVIMENTO
-
-/*delete from compra m where m.CODMOVIMENTO = 2334;
+/*
+delete from compra m where m.CODMOVIMENTO = 2334;
 delete from movimento m where m.CODMOVIMENTO = 2334;
 
 
