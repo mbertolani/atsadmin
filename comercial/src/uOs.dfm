@@ -1,6 +1,6 @@
 object fOs: TfOs
   Left = 265
-  Top = 62
+  Top = 63
   Width = 760
   Height = 600
   Caption = 'Ordem Servi'#231'o'

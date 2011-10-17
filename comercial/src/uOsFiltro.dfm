@@ -1,6 +1,6 @@
 object fOsFiltro: TfOsFiltro
   Left = 260
-  Top = 118
+  Top = 119
   Width = 760
   Height = 600
   Caption = 'Ordem de Servi'#231'o'
