@@ -163,8 +163,9 @@ type
   private
     Ascending : boolean;
     util: TUtils;
+    OsServico: String;
     procedure abrirOs;
-    procedure TrocaStatus(StatusNovo: String, OsouServico: String);
+    procedure TrocaStatus(StatusNovo: String; OsouServico: String);
     { Private declarations }
   public
     FOsClsF: TOsClasse;
@@ -418,19 +419,32 @@ begin
   XY := Point(50, -10);
   XY := btnStatusOs.ClientToScreen(XY);
   PopupMenu1.Popup(XY.X, XY.Y + btnStatusOs.Height - 2);
-
+  OsServico := 'OS';
 end;
 
-procedure TfOsFiltro.TrocaStatus(StatusNovo: String, OsouServico: String);
+procedure TfOsFiltro.TrocaStatus(StatusNovo: String; OsouServico: String);
 begin
   Try
     FOsClsF := TOsClasse.Create;
-    if (FOsClsF.alterarStatusOs(cdsOsCODOS.AsInteger, StatusNovo)) then
+    if (OsServico = 'OS') then
     begin
-      abrirOs;
-    end
-    else begin
-      MessageDlg('Situação da OS não alterado.', mtWarning, [mbOk], 0);
+      if (FOsClsF.alterarStatusOs(cdsOsCODOS.AsInteger, StatusNovo)) then
+      begin
+        abrirOs;
+      end
+      else begin
+        MessageDlg('Situação da OS não alterado.', mtWarning, [mbOk], 0);
+      end;
+    end;
+    if (OsServico = 'SERVICO') then
+    begin
+      if (FOsClsF.osDet.alterarOsDetS(cdsServicoID_OS_DET.AsInteger, StatusNovo)) then
+      begin
+        abrirOs;
+      end
+      else begin
+        MessageDlg('Situação da OS não alterado.', mtWarning, [mbOk], 0);
+      end;
     end;
   Finally
     FOsClsF.Destroy;
@@ -440,27 +454,27 @@ end;
 
 procedure TfOsFiltro.AAndamento1Click(Sender: TObject);
 begin
-  TrocaStatus('A');  //Andamento
+  TrocaStatus('A', OsServico);  //Andamento
 end;
 
 procedure TfOsFiltro.CCancelado1Click(Sender: TObject);
 begin
-  TrocaStatus('F');  //Finalizado
+  TrocaStatus('F', OsServico);  //Finalizado
 end;
 
 procedure TfOsFiltro.GAguardandoPea1Click(Sender: TObject);
 begin
-  TrocaStatus('G');  //Aguardando Peça
+  TrocaStatus('G', OsServico);  //Aguardando Peça
 end;
 
 procedure TfOsFiltro.FFinalizado1Click(Sender: TObject);
 begin
-  TrocaStatus('N');  //Não Aprovado
+  TrocaStatus('N', OsServico);  //Não Aprovado
 end;
 
 procedure TfOsFiltro.NNoAprovado1Click(Sender: TObject);
 begin
-  TrocaStatus('O');  // Orçamento
+  TrocaStatus('O', OsServico);  // Orçamento
 end;
 
 procedure TfOsFiltro.DBGrid1CellClick(Column: TColumn);
@@ -517,13 +531,14 @@ begin
   XY := Point(50, -10);
   XY := btnStatusServico.ClientToScreen(XY);
   PopupMenu1.Popup(XY.X, XY.Y + btnStatusServico.Height - 2);
+  OsServico := 'SERVICO';
 end;
 
 procedure TfOsFiltro.JvDBGrid1CellClick(Column: TColumn);
 begin
   btnStatusOs.Visible      := False;
   btnStatusServico.Visible := True;
-  if (cdsOsSTATUS.AsString = 'A') then  //Andamento
+  if (cdsServicoSTATUS.AsString = 'A') then  //Andamento
   begin
     PopupMenu1.Items.Items[0].Enabled := False;  //Andamento
     PopupMenu1.Items.Items[1].Enabled := True;   //Finalizado
@@ -531,7 +546,7 @@ begin
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
   end;
-  if (cdsOsSTATUS.AsString = 'F') then // Fianlizado
+  if (cdsServicoSTATUS.AsString = 'F') then // Fianlizado
   begin
     PopupMenu1.Items.Items[0].Enabled := False;  //Andamento
     PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
@@ -539,7 +554,7 @@ begin
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
   end;
-  if (cdsOsSTATUS.AsString = 'G') then // Aguardando Peça
+  if (cdsServicoSTATUS.AsString = 'G') then // Aguardando Peça
   begin
     PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
     PopupMenu1.Items.Items[1].Enabled := True;   //Finalizado
@@ -547,7 +562,7 @@ begin
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
   end;
-  if (cdsOsSTATUS.AsString = 'N') then // Nao Aprovado
+  if (cdsServicoSTATUS.AsString = 'N') then // Nao Aprovado
   begin
     PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
     PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
@@ -555,7 +570,7 @@ begin
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
   end;
-  if (cdsOsSTATUS.AsString = 'O') then // Orçamento
+  if (cdsServicoSTATUS.AsString = 'O') then // Orçamento
   begin
     PopupMenu1.Items.Items[0].Enabled := True;  //Andamento
     PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
@@ -563,7 +578,7 @@ begin
     PopupMenu1.Items.Items[3].Enabled := True;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
   end;
-  
+
 end;
 
 end.
