@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Mask, rpcompobase, rpvclreport, ExtCtrls, DB,
-  MMJPanel, XPMenu;
+  MMJPanel, XPMenu, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
+  JvDatePickerEdit;
 
 type
   TfRelatorio = class(TForm)
@@ -14,10 +15,6 @@ type
     BitBtn3: TBitBtn;
     BitBtn6: TBitBtn;
     MMJPanel2: TMMJPanel;
-    Label1: TLabel;
-    Label2: TLabel;
-    MaskEdit1: TMaskEdit;
-    MaskEdit2: TMaskEdit;
     VCLReport1: TVCLReport;
     edCodCliente: TEdit;
     Label9: TLabel;
@@ -42,6 +39,14 @@ type
     BitBtn4: TBitBtn;
     BitBtn10: TBitBtn;
     BitBtn11: TBitBtn;
+    GroupBox2: TGroupBox;
+    Label6: TLabel;
+    Label7: TLabel;
+    cbMes: TComboBox;
+    MaskEdit1: TJvDatePickerEdit;
+    MaskEdit2: TJvDatePickerEdit;
+    Label1: TLabel;
+    BitBtn13: TBitBtn;
     procedure BitBtn8Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -58,6 +63,8 @@ type
     procedure BitBtn9Click(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
     procedure BitBtn11Click(Sender: TObject);
+    procedure cbMesChange(Sender: TObject);
+    procedure BitBtn13Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -69,7 +76,7 @@ var
 
 implementation
 
-uses UDm, uProcurar, uFiltro_forn_plano, sCtrlResize;
+uses UDm, uProcurar, uFiltro_forn_plano, sCtrlResize, uUtils;
 
 {$R *.dfm}
 
@@ -496,6 +503,56 @@ begin
       VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := 0;
     VCLReport1.Execute;
 
+end;
+
+procedure TfRelatorio.cbMesChange(Sender: TObject);
+var  periodo : TUtils;
+begin
+  periodo := TUtils.Create;
+  periodo.criaIni(cbMes.text);
+  periodo.criaFim(cbMes.text);
+  MaskEdit1.Text := periodo.PeriodoIni;
+  MaskEdit2.Text := periodo.PeriodoFim;
+  periodo.Destroy;
+end;
+
+procedure TfRelatorio.BitBtn13Click(Sender: TObject);
+begin
+  VCLReport1.Filename := str_relatorio + 'extrato_pag.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('DATAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
+  VCLReport1.Report.Params.ParamByName('DATAFIN').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+  if edCodCliente.Text <> '' then
+    VCLReport1.Report.Params.ParamByName('COD_FORNEC').Value := StrToInt(edCodCliente.Text)
+  else
+    VCLReport1.Report.Params.ParamByName('COD_FORNEC').Value := 9999999;
+
+  if edCodCCusto.Text <> '' then
+  begin
+    if (not dm.cds_ccusto.Active) then
+       dm.cds_ccusto.Open;
+    dm.cds_ccusto.Locate('NOME', edCodCCusto.Text,[loPartialKey]);
+    VCLReport1.Report.Params.ParamByName('PCCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
+  end
+  else
+    VCLReport1.Report.Params.ParamByName('PCCUSTO').Value := 0;
+
+  if edtcodred.Text <> '' then
+    VCLReport1.Report.Params.ParamByName('CONTA').Value := StrToInt(edtcodred.Text)
+  else
+    VCLReport1.Report.Params.ParamByName('CONTA').Value := 9999999;
+
+  if ComboBox1.Text <> '' then
+  begin
+    if (not dm.cds_7_contas.Active) then
+       dm.cds_7_contas.Open;
+    dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loPartialKey]);
+    VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := dm.cds_7_contasCODIGO.asInteger;
+  end
+  else
+    VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := 0;
+  VCLReport1.Execute;
 end;
 
 end.
