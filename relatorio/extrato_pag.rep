@@ -483,6 +483,12 @@ object TRpReport
       end
       item
         Component = TRpExpression11
+      end
+      item
+        Component = TRpLabel8
+      end
+      item
+        Component = TRpLabel9
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -577,7 +583,7 @@ object TRpReport
     Width = 10695
     Height = 345
     PosX = 120
-    PosY = 1275
+    PosY = 1271
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -783,7 +789,7 @@ object TRpReport
   object TRpShape3: TRpShape
     Width = 10695
     Height = 75
-    PosX = 180
+    PosX = 120
     PosY = 0
     BrushStyle = 1
     Shape = rpsHorzLine
@@ -795,7 +801,7 @@ object TRpReport
   object TRpShape4: TRpShape
     Width = 10695
     Height = 75
-    PosX = 180
+    PosX = 120
     PosY = 290
     BrushStyle = 1
     Shape = rpsHorzLine
@@ -890,28 +896,15 @@ object TRpReport
     WideText = #10'Lan'#231'amento'
   end
   object TRpShape0: TRpShape
-    Width = 10665
+    Width = 10695
     Height = 285
     PosX = 120
-    PosY = 120
+    PosY = 62
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-  end
-  object TRpLabel7: TRpLabel
-    Width = 465
-    Height = 225
-    PosX = 7545
-    PosY = 402
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Total'#10'Valor'
   end
   object TRpExpression11: TRpExpression
     Width = 4710
@@ -936,5 +929,44 @@ object TRpReport
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
+  end
+  object TRpLabel7: TRpLabel
+    Width = 465
+    Height = 225
+    PosX = 8010
+    PosY = 405
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total'#10'Valor'
+  end
+  object TRpLabel8: TRpLabel
+    Width = 465
+    Height = 225
+    PosX = 9165
+    PosY = 405
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total'#10'Pago'
+  end
+  object TRpLabel9: TRpLabel
+    Width = 465
+    Height = 225
+    PosX = 10267
+    PosY = 405
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total'#10'Saldo'
   end
 end
