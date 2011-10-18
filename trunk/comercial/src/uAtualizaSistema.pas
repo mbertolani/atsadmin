@@ -1125,6 +1125,8 @@ begin
       executaDDL('BANCO', 'DIGITOBANCO', 'Integer');
       executaDDL('PRODUTOS', 'TAM_LOTE', 'Integer');
       executaDDL('ENDERECOCLIENTE', 'PAIS', 'varchar(60)');
+      executaDDL('MOVIMENTODETALHE', 'VALOR_PIS',  'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'VALOR_COFINS',  'DOUBLE PRECISION');      
       executaScript('invent_estoque.sql');
       executaScript('sp_lote_estoquemes.sql');
       executaScript('trg_altera_codpro.sql');
