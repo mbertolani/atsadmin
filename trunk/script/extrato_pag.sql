@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE EXTRATO_PAG (
     DTAINI Date,
     DTAFIM Date,
