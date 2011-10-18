@@ -1,4 +1,3 @@
-set term  ^ ; 
 CREATE OR ALTER TRIGGER CALCULA_ICMS_ST FOR MOVIMENTODETALHE ACTIVE
 BEFORE UPDATE POSITION 0
 AS
@@ -24,7 +23,9 @@ AS
  DECLARE VARIABLE NAT integer; 
  DECLARE VARIABLE CODCLI integer; 
  DECLARE VARIABLE VFRETE DOUBLE PRECISION;
- 
+ DECLARE VARIABLE PIS DOUBLE PRECISION = 0;
+ DECLARE VARIABLE COFINS DOUBLE PRECISION = 0;
+
 BEGIN
 
     new.ICMS_SUBSTD = 0;
@@ -45,8 +46,8 @@ BEGIN
 	into :UF, :PESSOA;
 	end
 	
-	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), 
-	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN 
+	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
+	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN
 	from CLASSIFICACAOFISCALPRODUTO cfp
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN;
@@ -72,7 +73,7 @@ BEGIN
         ind_reduzicms = ind_reduzicms/100;
 		
     /**    ***** TEM ST **************/
-           if (CICMS_SUBST > 0) then    
+           if (CICMS_SUBST > 0) then
           new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100)));
           new.VLR_BASEICMS = ((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms);
           new.VALOR_ICMS = (new.VLR_BASEICMS) * (CICMS / 100);
@@ -84,16 +85,16 @@ BEGIN
 	end
 
 	else
-	begin	
-        select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN from ESTADO_ICMS ei
+	begin
+        select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0) from ESTADO_ICMS ei
         where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'J'
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN;
+        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS;
     
         if (pessoa = 0) then
         begin
-            select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN from ESTADO_ICMS ei
+            select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0) from ESTADO_ICMS ei
             where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'F'
-            into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN;
+            into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS;
         end
         new.CSOSN = CSOSN;
         if (IND_IPI > 0) then
@@ -115,7 +116,7 @@ BEGIN
 			
         if (CICMS > 0) then 
         begin
-		  new.icms = :cicms; 
+		  new.icms = :cicms;
           new.VLR_BASEICMS = (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms;
           new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);  
         end
@@ -125,9 +126,9 @@ BEGIN
           new.VALOR_ICMS = 0;
         end
     
-        if (CICMS_SUBST > 0) then 
-        begin       
-            if (CICMS_SUBST > 0) then 
+        if (CICMS_SUBST > 0) then
+        begin
+            if (CICMS_SUBST > 0) then
                 CICMS_SUBST = 1 + (CICMS_SUBST / 100);
             
             if (CICMS_SUBST_IC > 0) then 
@@ -147,6 +148,8 @@ BEGIN
             VALOR_SUBDesc = (new.VLR_BASE*new.QUANTIDADE) * CICMS_SUBST_IND; 
             new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
         end
+       new.VALOR_COFINS = ((new.VLR_BASE * new.QUANTIDADE) + new.VIPI + new.ICMS_SUBST + new.FRETE - new.VALOR_DESCONTO + new.VALOR_OUTROS + new.VALOR_SEGURO) * COFINS;
+       new.VALOR_PIS =  ((new.VLR_BASE * new.QUANTIDADE) + new.VIPI + new.ICMS_SUBST + new.FRETE - new.VALOR_DESCONTO + new.VALOR_OUTROS + new.VALOR_SEGURO) * PIS;
     end
     
     if( new.FRETE > 0) then
@@ -154,7 +157,7 @@ BEGIN
      if (CICMS >0) then
      begin
        new.BCFRETE = new.frete * ind_reduzicms;
-       new.ICMSFRETE = new.BCFRETE * (CICMS/100);  
+       new.ICMSFRETE = new.BCFRETE * (CICMS/100);
      end
      if (CICMS_SUBST > 0) then 
      begin
@@ -169,5 +172,5 @@ BEGIN
       new.STFRETE = 0;
     new.ICMSFRETE = 0;
     new.BCSTFRETE = 0;
-    end 
+    end
 END
