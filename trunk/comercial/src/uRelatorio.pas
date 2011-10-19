@@ -83,9 +83,15 @@ uses UDm, uProcurar, uFiltro_forn_plano, sCtrlResize, uUtils;
 procedure TfRelatorio.BitBtn8Click(Sender: TObject);
 begin
   fProcurar:=TfProcurar.create(self,dm.scds_forn_proc);
-  fProcurar.BtnProcurar.Click;
   try
+    fProcurar.btnImprimir.Visible := true;
+    fProcurar.RadioGroup1.Visible := true;
+    dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+    dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 0;    
+    fProcurar.BtnProcurar.Click;
     fProcurar.EvDBFind1.DataField := 'NOMEFORNECEDOR';
+    fProcurar.RadioGroup2.Visible := True;
+//    fProcurar.ShowModal;
     if fProcurar.ShowModal=mrOk then
     begin
      edCodCliente.Text:=IntToStr(dm.scds_forn_procCODFORNECEDOR.asInteger);
@@ -124,23 +130,26 @@ end;
 procedure TfRelatorio.edtcodredExit(Sender: TObject);
 var strc: string;
 begin
-  if (DM.c_1_planoc.Active) then
-    DM.c_1_planoc.Close;
-  strc := 'Select * from PLANO ';
-  strc := strc + 'WHERE ';
-  strc := strc + 'CODIGO = ';
-  strc := strc + '''' + edtcodred.Text + '''';
-  DM.c_1_planoc.CommandText := strc;
-  DM.c_1_planoc.Open;
-  if DM.c_1_planoc.IsEmpty then begin
-    MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-    [mbOk], 0);
-    BitBtn12.Click;
-    exit;
+  if (edtcodred.text <> '') then
+  begin
+    if (DM.c_1_planoc.Active) then
+      DM.c_1_planoc.Close;
+    strc := 'Select * from PLANO ';
+    strc := strc + 'WHERE ';
+    strc := strc + 'CODIGO = ';
+    strc := strc + '''' + edtcodred.Text + '''';
+    DM.c_1_planoc.CommandText := strc;
+    DM.c_1_planoc.Open;
+    if DM.c_1_planoc.IsEmpty then begin
+      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      [mbOk], 0);
+      BitBtn12.Click;
+      exit;
+    end;
+    edtconta.Text := dm.c_1_planocNOME.AsString;
+    edtcodred.Text := IntToStr(dm.c_1_planocCODIGO.AsInteger);
+    dm.c_1_planoc.Close;
   end;
-  edtconta.Text := dm.c_1_planocNOME.AsString;
-  edtcodred.Text := IntToStr(dm.c_1_planocCODIGO.AsInteger);
-  dm.c_1_planoc.Close;
 end;
 
 procedure TfRelatorio.edCodClienteExit(Sender: TObject);
