@@ -38,7 +38,8 @@ type
     procedure ExecutaDDL(Tabela, Campo, Tipo : string);
     procedure MudaVersao(versaoNova: string);
     function NaoExisteTabela(Tabela : String): Boolean;
-    function NaoExisteGenerator(Generator: String): Boolean;
+    procedure CriaGenerator(Generator: String);
+    procedure CriaException(Exception_nome, exception_msg: String);
 
 //    procedure ExecutaDDL_Drop(Tabela, Campo: string);
     { Private declarations }
@@ -252,7 +253,7 @@ begin
         'idCampo varchar(10) not null, ' +
         'tamCampo varchar(10) not null, ' +
         'tipoCampo varchar(60))');
-      executaSql('CREATE GENERATOR IDARQUIVO_RETORNO');
+      CriaGenerator('IDARQUIVO_RETORNO');
       mudaVersao('1.0.0.24');
     end; // Fim Ataulização Versao 1.0.0.23
 
@@ -444,7 +445,7 @@ begin
       'UN2 Char(3), ' +
       'DESCPRODUTO2 Varchar(100), ' +
       'PRIMARY KEY (ID_GUIA))');
-      executaSql('CREATE GENERATOR GEN_GUIA');
+      CriaGenerator('GEN_GUIA');
       mudaVersao('1.0.0.40');
     end;  // Fim Ataulização Versao 1.0.0.40
 
@@ -639,7 +640,7 @@ begin
          ' OFMotivo varchar(100), codproduto integer ' +
          ' ,PRIMARY KEY (OFID,OFID_IND))');
 
-      executaSql('CREATE GENERATOR GEN_OFID');
+      CriaGenerator('GEN_OFID');
 
       executaSql('CREATE TRIGGER TRG_OFID FOR OF_OF ACTIVE' +
                  ' BEFORE INSERT POSITION 0 ' +
@@ -913,14 +914,8 @@ begin
 
     if (versaoSistema = '1.0.0.85') then
     begin
-      if (NaoExisteGenerator('GEN_APONTHORASDET')) then
-      begin
-        executaSql('create generator gen_aponthorasdet');
-      end;
-      if (NaoExisteGenerator('GEN_APONTHORAS')) then
-      begin
-        executaSql('create generator gen_aponthoras');
-      end;
+      CriaGenerator('GEN_APONTHORASDET');
+      CriaGenerator('GEN_APONTHORAS');
       executaDDL('MOVIMENTO', 'DATA_ENTREGA', 'DATE');
       executaDDL('MOVIMENTO', 'PRAZO_PAGAMENTO', 'VARCHAR(30)');
       mudaVersao('1.0.0.86');
@@ -938,8 +933,6 @@ begin
       executaDDL('COMPRA_COTACAO', 'COTACAO_FRETE', 'double precision');
       executaDDL('CFOP', 'FRETEBC', 'char(1)');
       executaDDL('CFOP', 'IPIBC', 'char(1)');
-      executaScript('trg_calcula_icms_st.sql');
-      executaScript('calcula_icms.sql');
       executaScript('baixa_estoque.sql');
       executaScript('insere_estoque.sql');
       executaScript('mov_estoque.sql');
@@ -1055,10 +1048,7 @@ begin
       executaScript('listaSpEstoqueFiltro.sql');
       executaScript('spEstoqueFiltro.sql');
       executaScript('trg_data_altera_preco.sql');
-      if (NaoExisteGenerator('GEN_SIMILAR')) then
-      begin
-        executaSql('CREATE GENERATOR GEN_SIMILAR');
-      end;
+      CriaGenerator('GEN_SIMILAR');
       if (NaoExisteTabela('ESTOQUEMES')) then
       begin
         executaSql('create table ESTOQUEMES ( CODPRODUTO Integer NOT NULL, LOTE Varchar(60) NOT NULL,' +
@@ -1073,14 +1063,8 @@ begin
         executaSql('ALTER TABLE ESTOQUEMES ADD SALDOESTOQUE COMPUTED BY (SALDOMESANTERIOR + ' +
         'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) ');
       end;
-      if (NaoExisteGenerator('GEN_OS')) then
-      begin
-        executaSql('CREATE GENERATOR GEN_OS');
-      end;
-
+      CriaGenerator('GEN_OS');
       executaScript('spEstoqueFiltro.sql');
-      executaScript('listaProdutocli.sql');
-      executaScript('listaProduto.sql');
       executaScript('estoqueccustoent.sql');
       mudaVersao('1.0.0.93');
       executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
@@ -1090,8 +1074,7 @@ begin
 
     if (versaoSistema = '1.0.0.93') then
     begin
-      if(NaoExisteGenerator('CODPEDIDO')) then
-       executaSql('create generator codpedido');
+      CriaGenerator('CODPEDIDO');
       executaDDL('MOVIMENTO', 'CODCOTACAO',  'INTEGER');
       executaDDL('MOVIMENTODETALHE', 'CODSOLICITACAO',  'INTEGER');
       executaDDL('INVENTARIO', 'CODCCUSTO',  'INTEGER');
@@ -1111,7 +1094,7 @@ begin
 
     if (versaoSistema = '1.0.0.94') then
     begin
-      executaSql('CREATE OR ALTER EXCEPTION ALTERA_CODPRO ' + QuotedStr('Produto em uso na Solicitação, não é possível fazer alteração'));
+      CriaException('ALTERA_CODPRO ', 'Produto em uso na Solicitação, não é possível fazer alteração');
       executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
       executaDDL('OS_DET', 'CODUSUARIO', 'INTEGER');
       executaDDL('INVENTARIO', 'LOTE',  'VARCHAR(60)');
@@ -1126,10 +1109,11 @@ begin
       executaDDL('PRODUTOS', 'TAM_LOTE', 'Integer');
       executaDDL('ENDERECOCLIENTE', 'PAIS', 'varchar(60)');
       executaDDL('MOVIMENTODETALHE', 'VALOR_PIS',  'DOUBLE PRECISION');
-      executaDDL('MOVIMENTODETALHE', 'VALOR_COFINS',  'DOUBLE PRECISION');      
+      executaDDL('MOVIMENTODETALHE', 'VALOR_COFINS',  'DOUBLE PRECISION');     
       executaScript('invent_estoque.sql');
       executaScript('sp_lote_estoquemes.sql');
       executaScript('trg_altera_codpro.sql');
+      executaScript('extrato_pag.sql');
       executaSql('ALTER TABLE OS DROP CODVEICULO');
       if (NaoExisteTabela('PAIS')) then
       begin
@@ -1139,6 +1123,16 @@ begin
         executaScript('pais.sql');
       end;
       mudaVersao('1.0.0.95');
+    end;
+
+    if (versaoSistema = '1.0.0.95') then
+    begin
+      executaDDL('CLIENTES', 'COD_CLI', 'varchar(10)');    
+      executaScript('trg_calcula_icms_st.sql');
+      executaScript('calcula_icms.sql');
+      executaScript('listaProdutocli.sql');
+      executaScript('listaProduto.sql');      
+      //mudaVersao('1.0.0.95');
     end;
 
     try
@@ -1344,7 +1338,7 @@ begin
 
 end;
 
-function TfAtualizaSistema.NaoExisteGenerator(Generator: String): Boolean;
+procedure TfAtualizaSistema.CriaGenerator(Generator: String);
 begin
   if (cds.Active) then
     cds.Close;
@@ -1354,12 +1348,34 @@ begin
   cds.Open;
   if (cds.IsEmpty) then
   begin
-    result := True;
-  end
-  else begin
-    result := False;
+    executaSql('create generator ' + Generator);
   end;
+end;
 
+procedure TfAtualizaSistema.CriaException(Exception_nome, Exception_msg : String);
+var sql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  if (cds.Active) then
+    cds.Close;
+  cds.CommandText := 'SELECT RDB$EXCEPTION_NAME ' +
+     '  FROM RDB$EXCEPTIONS ' +
+     ' WHERE RDB$EXCEPTION_NAME = ' + QuotedStr(Exception_nome);
+  cds.Open;
+  if (cds.IsEmpty) then
+  begin
+  dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      sql := 'CREATE EXCEPTION ' + Exception_nome + ' ' + QuotedStr(Exception_msg);
+      dm.sqlsisAdimin.ExecuteDirect(sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro 003. (' + sql + ')', mtWarning, [mbOK], 0);
+      abort;
+    end;
+  end
 end;
 
 procedure TfAtualizaSistema.VerBoleto(Empresa : String);
