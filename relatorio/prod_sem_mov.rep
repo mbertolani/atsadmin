@@ -16,6 +16,11 @@ object TRpReport
         'to from produtos prod'#13#10'       where  not exists'#13#10'( select movd.c' +
         'odproduto from movimentodetalhe movd'#13#10'       where  prod.codprod' +
         'uto = movd.codproduto'#13#10')'
+    end
+    item
+      Alias = 'EMPRESA'
+      DatabaseAlias = 'SGE'
+      SQL = 'select * from empresa'
     end>
   DatabaseInfo = <
     item
@@ -287,6 +292,9 @@ object TRpReport
       end
       item
         Component = TRpExpression4
+      end
+      item
+        Component = TRpExpression5
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -480,7 +488,7 @@ object TRpReport
     Width = 3675
     Height = 345
     PosX = 3105
-    PosY = 120
+    PosY = 350
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -506,6 +514,29 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'NOW'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression5: TRpExpression
+    Width = 4200
+    Height = 264
+    PosX = 0
+    PosY = 0
+    Type1Font = poHelvetica
+    Alignment = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'EMPRESA.RAZAO'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
