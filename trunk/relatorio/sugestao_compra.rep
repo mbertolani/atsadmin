@@ -16,6 +16,11 @@ object TRpReport
       SQL = 
         'SELECT  * FROM LISTA_ESTOQUE('#39'10/01/11'#39')'#13#10'/* where codpro = 527*' +
         '/'
+    end
+    item
+      Alias = 'EMPRESA'
+      DatabaseAlias = 'SGE'
+      SQL = 'select * from EMPRESA'
     end>
   DatabaseInfo = <
     item
@@ -105,7 +110,7 @@ object TRpReport
   end
   object TRpSection5: TRpSection
     Width = 11910
-    Height = 1077
+    Height = 1410
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -142,6 +147,12 @@ object TRpReport
       end
       item
         Component = TRpLabel6
+      end
+      item
+        Component = TRpExpression8
+      end
+      item
+        Component = TRpExpression9
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -163,7 +174,7 @@ object TRpReport
     Width = 922
     Height = 346
     PosX = 230
-    PosY = 691
+    PosY = 1041
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -176,7 +187,7 @@ object TRpReport
     Width = 4245
     Height = 345
     PosX = 1155
-    PosY = 691
+    PosY = 1041
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -189,7 +200,7 @@ object TRpReport
     Width = 705
     Height = 315
     PosX = 6095
-    PosY = 691
+    PosY = 1041
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -203,7 +214,7 @@ object TRpReport
     Width = 10694
     Height = 461
     PosX = 0
-    PosY = 600
+    PosY = 950
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -214,7 +225,7 @@ object TRpReport
     Width = 10349
     Height = 461
     PosX = 345
-    PosY = 45
+    PosY = 395
     Type1Font = poHelvetica
     Alignment = 4
     VAlignment = 32
@@ -238,7 +249,7 @@ object TRpReport
     Width = 10694
     Height = 461
     PosX = 5
-    PosY = 55
+    PosY = 405
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -249,7 +260,7 @@ object TRpReport
     Width = 1037
     Height = 346
     PosX = 9600
-    PosY = 691
+    PosY = 1041
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -382,7 +393,7 @@ object TRpReport
     Width = 480
     Height = 315
     PosX = 7145
-    PosY = 691
+    PosY = 1041
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -447,7 +458,7 @@ object TRpReport
     Width = 480
     Height = 315
     PosX = 8250
-    PosY = 705
+    PosY = 1055
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -461,7 +472,7 @@ object TRpReport
     Width = 930
     Height = 320
     PosX = 8850
-    PosY = 691
+    PosY = 1041
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -470,5 +481,50 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     WideText = 'Reposi'#231#227'o'
+  end
+  object TRpExpression8: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 8595
+    PosY = 505
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'NOW'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression9: TRpExpression
+    Width = 4200
+    Height = 264
+    PosX = 0
+    PosY = 45
+    Type1Font = poHelvetica
+    Alignment = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'EMPRESA.RAZAO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
   end
 end
