@@ -438,7 +438,7 @@ begin
     end;
     if (OsServico = 'SERVICO') then
     begin
-      if (FOsClsF.osDet.alterarOsDetS(cdsServicoID_OS_DET.AsInteger, StatusNovo)) then
+      if (FOsClsF.osDet.alterarOsDetS(cdsOsCODOS.AsInteger, cdsServicoID_OS_DET.AsInteger, StatusNovo)) then
       begin
         abrirOs;
       end

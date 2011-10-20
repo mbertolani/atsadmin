@@ -103,7 +103,7 @@ begin
 end;
 
 function TOsClasse.alterarStatusOs(codOsS: Integer; StatusOs: String): Boolean;
-var sqlAlteraStatus: String;
+var sqlAlteraStatus, sqlAlteraStatusDet: String;
 begin
   Result := False;
   sqlAlteraStatus := 'UPDATE OS SET STATUS = ';
