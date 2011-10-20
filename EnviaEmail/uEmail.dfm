@@ -494,6 +494,10 @@ object Form1: TForm1
       'Mogi Gua'#231'u'
       'Paulinia'
       'Conchal'
+      'Promo'#231#227'o Social'
+      'Guarda Civil Municipal'
+      'Constru'#231#227'o'
+      'Imobiliaria'
       'Teste')
   end
   object rgSituacao: TRadioGroup
