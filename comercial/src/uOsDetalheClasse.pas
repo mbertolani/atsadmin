@@ -61,7 +61,7 @@ Type
 
     function IncluirOsDet(codOsDetI: Integer): Integer;
     function alterarOsDet(codOsDetA: Integer): Boolean;
-    function alterarOsDetS(codOsDetS: Integer; StatusOsDet: String): Boolean;
+    function alterarOsDetS(codOsS: Integer; codOsDetS: Integer; StatusOsDet: String): Boolean;
     function excluirOsDet(codMovDetE: Integer): Boolean;
 
     procedure ListaOs(DataIni: TdateTime; DataFim: TDateTime; codCliente: Integer);
@@ -99,9 +99,10 @@ begin
   end;
 end;
 
-function TOsDetalheClasse.alterarOsDetS(codOsDetS: Integer;
+function TOsDetalheClasse.alterarOsDetS(codOsS: Integer; codOsDetS: Integer;
   StatusOsDet: String): Boolean;
 var sqlAlteraSt: String;
+    sqlBuscaS: TSqlQuery;
 begin
   Result := False;
   sqlAlteraSt := 'UPDATE OS_DET SET STATUS = ';
@@ -110,8 +111,32 @@ begin
   sqlAlteraSt := sqlAlteraSt + ' WHERE ID_OS_DET  = ' + IntToStr(CodOsDetS);
 
   if (executaSql(sqlAlteraSt)) then
+  begin
     Result := True;
+    // Se todos Status forem 'F' ou 'A' entao altero o Status da OS para 'F' ou 'A' tbem
+    Try
+      sqlBuscaS := TSqlQuery.Create(nil);
+      sqlBuscaS.SQLConnection := dm.sqlsisAdimin;
+      sqlBuscaS.sql.Clear;
+      sqlBuscaS.sql.Add('SELECT COUNT(ID_OS) FROM OS_DET WHERE ID_OS = ' +
+        IntToStr(CodOsS) + ' AND STATUS <> ' + QuotedStr(StatusOSDet));
+      sqlBuscaS.Open;
+      if (sqlBuscaS.RecordCount = 0) then
+      begin
+        // Todos Status estao iguais, então altera o Status da OS
+        Result := False;
+        sqlAlteraSt := 'UPDATE OS SET STATUS = ';
+        sqlAlteraSt := sqlAlteraSt + QuotedStr(StatusOsDet);
+        sqlAlteraSt := sqlAlteraSt + ' WHERE CODOS  = ' + IntToStr(codOsS);
+        Result := False;
+        if (executaSql(sqlAlteraSt)) then
+          Result := True;
+      end;
+    Finally
+      sqlBuscaS.Destroy;
+    end;
 
+  end;
 end;
 
 function TOsDetalheClasse.excluirOsDet(codMovDetE: Integer): Boolean;
