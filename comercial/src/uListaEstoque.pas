@@ -60,6 +60,41 @@ type
     Sair1: TMenuItem;
     VerMovimento1: TMenuItem;
     btnSair: TBitBtn;
+    BitBtn2: TBitBtn;
+    sdscds1CODPRODUTO: TIntegerField;
+    strngfldcds1COD_BARRA: TStringField;
+    strngfldcds1CODPRO: TStringField;
+    strngfldcds1PRODUTO: TStringField;
+    cds1PRECO_VENDA: TFloatField;
+    cds1PRECO_COMPRAULTIMO: TFloatField;
+    cds1QTDE_PCT: TFloatField;
+    strngfldcds1UNIDADEMEDIDA: TStringField;
+    strngfldcds1GRUPO: TStringField;
+    strngfldcds1SUBGRUPO: TStringField;
+    strngfldcds1MARCA: TStringField;
+    cds1ESTOQUEATUAL: TFloatField;
+    cds1PEDIDO: TFloatField;
+    sdscds1CODALMOXARIFADO: TIntegerField;
+    cds1ICMS: TFloatField;
+    cds1IPI: TFloatField;
+    strngfldcds1TIPO: TStringField;
+    strngfldcds1LOCALIZACAO: TStringField;
+    strngfldcds1LOTES: TStringField;
+    cds1PESO_QTDE: TFloatField;
+    cds1PRECO_COMPRAMEDIO: TFloatField;
+    cds1MARGEM: TFloatField;
+    strngfldcds1CODIGO: TStringField;
+    strngfldcds1USO: TStringField;
+    strngfldcds1USA: TStringField;
+    sdscds1COD_COMISSAO: TIntegerField;
+    strngfldcds1RATEIO: TStringField;
+    strngfldcds1CONTA_DESPESA: TStringField;
+    strngfldcds1APLICACAO_PRODUTO: TStringField;
+    cds1MESANO: TDateField;
+    cds1ESTOQUEMAXIMO: TFloatField;
+    cds1ESTOQUEMINIMO: TFloatField;
+    cds1ESTOQUEREPOSICAO: TFloatField;
+    strngfldcds1LOTE: TStringField;
     procedure BitBtn1Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -76,6 +111,7 @@ type
     procedure BitBtn9Click(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -649,6 +685,118 @@ end;
 procedure TfListaEstoque.btnSairClick(Sender: TObject);
 begin
  close;
+end;
+
+procedure TfListaEstoque.BitBtn2Click(Sender: TObject);
+var SqlTexto, sqlStr : String;
+    Save_Cursor      :TCursor;
+begin
+  RepRel.FileName := str_relatorio + 'sugestao_compra.rep';
+  RepRel.Title    := RepRel.FileName;
+  repRel.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  try
+    sqlStr := 'select * ' +
+    ' FROM LISTA_ESTOQUE(';
+     sqlStr := sqlStr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + ''')';
+
+    //Produto
+
+     if edt3.Text<>'' then
+     begin
+     if sqlTexto ='' then
+       sqlTexto := sqlTexto + ' WHERE codproduto BETWEEN '
+     else
+       sqlTexto := sqlTexto + ' AND codproduto BETWEEN ' ;
+       sqlTexto := sqlTexto + '''' + edt3.Text + '''' ;
+       sqlTexto := sqlTexto + ' AND ';
+       sqlTexto := sqlTexto + '''' + edt4.Text + '''';
+     end;
+    {
+     try
+       if (medta1.Text<>datastr) then
+       StrToDate(medta1.Text);
+       if (medta1.Text<>datastr) then
+       begin
+         if sqlTexto = '' then
+           sqlTexto := sqlTexto + ' WHERE mesano BETWEEN '
+         else
+          sqlTexto := sqlTexto + ' AND mesano BETWEEN ';
+          sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
+          sqlTexto := sqlTexto + ' AND ';
+          sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
+       end;
+     except
+      on EConvertError do
+       begin
+         ShowMessage ('Data Inválida! dd/mm/aa');
+         medTa1.SetFocus;
+       end;
+     end;
+     }
+     // Aplicação
+
+     if (cbAplicacao.Text <> '') then
+     begin
+       if sqlTexto = '' then
+         sqlTexto := sqlTexto +  ' WHERE  aplicacao_produto = '
+       else
+         sqlTexto := sqlTexto +  ' AND (aplicacao_produto = ';
+        sqlTexto := sqlTexto +  QuotedStr(cbAplicacao.Text) ;
+     end;
+
+     // codproduto
+
+     if edit3.Text<>'' then
+     begin
+       if sqlTexto = '' then
+          sqlTexto := sqlTexto + ' WHERE codproduto = '
+       else
+         sqlTexto := sqlTexto + ' AND codproduto = ';
+        sqlTexto := sqlTexto + edit3.Text ;
+     end;
+
+    //------------------------------------------------------------------------------
+    //Marca
+    //------------------------------------------------------------------------------
+    if (ComboBox4.Text <> '') then
+    begin
+      if sqlTexto = '' then
+          sqlTexto := sqlTexto +  ' WHERE  marca = '
+      else
+        sqlTexto := sqlTexto +  ' AND marca = ';
+        sqlTexto := sqlTexto +  QuotedStr(ComboBox4.Text) ;
+    end;
+
+    //==============================================================================
+    //Grupo
+    //------------------------------------------------------------------------------
+    if (ComboBoxGrupo.Text <> '') then
+    begin
+      if sqlTexto = '' then
+          sqlTexto := sqlTexto +  ' WHERE  grupo = '
+      else
+        sqlTexto := sqlTexto +  ' AND grupo = ';
+        sqlTexto := sqlTexto +  QuotedStr(ComboBoxGrupo.Text) ;
+    end;
+
+    //==============================================================================
+    // Sub Grupo
+    //------------------------------------------------------------------------------
+    if (cbPRODUTO.Text <> '') then
+    begin
+      if sqlTexto = '' then
+          sqlTexto := sqlTexto +  ' WHERE subgrupo = '
+      else
+        sqlTexto := sqlTexto +  ' AND subgrupo = ';
+        sqlTexto := sqlTexto +  QuotedStr(cbPRODUTO.Text) ;
+    end;
+
+     repRel.Report.DataInfo.Items[0].SQL:=  sqlStr + sqlTexto ;
+     repRel.Execute;
+
+  finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+  end               
 end;
 
 end.
