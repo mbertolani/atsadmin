@@ -2635,6 +2635,14 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Inventario'
         OnClick = Inventario1Click
       end
+      object ListaEstoque1: TMenuItem
+        Caption = 'Lista Estoque'
+        OnClick = ListaEstoque1Click
+      end
+      object ProdutosSemMovimentao1: TMenuItem
+        Caption = 'Produtos Sem Movimenta'#231#227'o'
+        OnClick = ProdutosSemMovimentao1Click
+      end
       object N3: TMenuItem
         Caption = '-'
       end
