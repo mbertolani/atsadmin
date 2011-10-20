@@ -13,7 +13,9 @@ object TRpReport
     item
       Alias = 'E'
       DatabaseAlias = 'SGE'
-      SQL = 'SELECT  * FROM LISTA_ESTOQUE('#39'10/01/11'#39')'
+      SQL = 
+        'SELECT  * FROM LISTA_ESTOQUE('#39'10/01/11'#39')'#13#10'/* where codpro = 527*' +
+        '/'
     end>
   DatabaseInfo = <
     item
@@ -81,6 +83,9 @@ object TRpReport
       end
       item
         Component = TRpExpression5
+      end
+      item
+        Component = TRpExpression7
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -134,6 +139,9 @@ object TRpReport
       end
       item
         Component = TRpLabel4
+      end
+      item
+        Component = TRpLabel6
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -195,7 +203,7 @@ object TRpReport
     Width = 10694
     Height = 461
     PosX = 0
-    PosY = 550
+    PosY = 600
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -301,7 +309,7 @@ object TRpReport
   object TRpExpression4: TRpExpression
     Width = 795
     Height = 255
-    PosX = 8145
+    PosX = 7745
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -325,7 +333,7 @@ object TRpReport
   object TRpExpression3: TRpExpression
     Width = 600
     Height = 255
-    PosX = 7195
+    PosX = 6895
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -341,32 +349,6 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'E.ESTOQUEMINIMO'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression5: TRpExpression
-    Width = 600
-    Height = 255
-    PosX = 9795
-    PosY = 0
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 
-      'IIF(E.ESTOQUEMINIMO > E.ESTOQUEATUAL , (E.ESTOQUEATUAL-E.ESTOQUE' +
-      'MINIMO)*-1,0)'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -399,7 +381,7 @@ object TRpReport
   object TRpLabel3: TRpLabel
     Width = 480
     Height = 315
-    PosX = 7445
+    PosX = 7145
     PosY = 691
     Type1Font = poHelvetica
     Alignment = 2
@@ -410,10 +392,61 @@ object TRpReport
     LFontName = 'Helvetica'
     WideText = 'Minimo'
   end
+  object TRpExpression7: TRpExpression
+    Width = 550
+    Height = 210
+    PosX = 9000
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'E.ESTOQUEREPOSICAO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression5: TRpExpression
+    Width = 600
+    Height = 255
+    PosX = 9795
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(E.ESTOQUEREPOSICAO>E.ESTOQUEATUAL, ((E.ESTOQUEATUAL-E.ESTOQU' +
+      'EREPOSICAO)*-1)+1,  IIF(E.ESTOQUEMINIMO > E.ESTOQUEATUAL , (E.ES' +
+      'TOQUEATUAL-E.ESTOQUEMINIMO)*-1,0))'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
   object TRpLabel4: TRpLabel
     Width = 480
     Height = 315
-    PosX = 8650
+    PosX = 8250
     PosY = 705
     Type1Font = poHelvetica
     Alignment = 2
@@ -423,5 +456,19 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     WideText = 'Maximo'
+  end
+  object TRpLabel6: TRpLabel
+    Width = 930
+    Height = 320
+    PosX = 8850
+    PosY = 691
+    Type1Font = poHelvetica
+    Alignment = 2
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Reposi'#231#227'o'
   end
 end
