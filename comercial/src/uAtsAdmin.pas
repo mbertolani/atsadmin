@@ -245,6 +245,8 @@ type
     ComboBox13: TComboBox;
     ImageList2: TImageList;
     ImageList3: TImageList;
+    ListaEstoque1: TMenuItem;
+    ProdutosSemMovimentao1: TMenuItem;
     Fechamento1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
@@ -366,6 +368,8 @@ type
     procedure ComboBox14Change(Sender: TObject);
     procedure ComboBox13Change(Sender: TObject);
     procedure acAgendaExecute(Sender: TObject);
+    procedure ListaEstoque1Click(Sender: TObject);
+    procedure ProdutosSemMovimentao1Click(Sender: TObject);
     procedure Fechamento1Click(Sender: TObject);
   private
     STime: TDateTime;
@@ -409,7 +413,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uRelVendasUF, uControle, uFrequancia, uComanda, uProcura_prod2,
   uMovCaixa, uCaixaReceber, uComissaoColaborador, uRatearConta, uDespRec,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
-  ucrdescontado, uNFPaulista, uselectempresa, uSincronizar, uRel_comissao,
+  ucrdescontado, uNFPaulista, uselectempresa,  uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
   uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
@@ -418,7 +422,9 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
-  uOsFiltro, U_FECHAMENTO;
+  uListaEstoque, uOsFiltro;
+
+
 
 {$R *.dfm}
 
@@ -1533,12 +1539,13 @@ end;
 
 procedure TfAtsAdmin.ExportarTabelas1Click(Sender: TObject);
 begin
-  fSincronizar := TfSincronizar.Create(Application);
+ { fSincronizar := TfSincronizar.Create(Application);
   try
     fSincronizar.ShowModal;
   finally
     fSincronizar.Free;
   end;
+  }
 end;
 
 procedure TfAtsAdmin.RelatrioGuiaConehcimento1Click(Sender: TObject);
@@ -2061,14 +2068,34 @@ begin
   end;
 end;
 
+procedure TfAtsAdmin.ListaEstoque1Click(Sender: TObject);
+begin
+ fListaEstoque := TfListaEstoque.Create(Application);
+ try
+   fListaEstoque.ShowModal;
+ finally
+   fListaEstoque.Free;
+ end;
+end;
+
+procedure TfAtsAdmin.ProdutosSemMovimentao1Click(Sender: TObject);
+begin
+  VCLReport1.FileName := str_relatorio + 'prod_sem_mov.rep';
+  VCLReport1.Title    := VCLReport1.FileName;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Title := VCLReport1.FileName;
+  VCLReport1.Execute;
+end;
+
 procedure TfAtsAdmin.Fechamento1Click(Sender: TObject);
 begin
-  F_Fechamento := TF_Fechamento.Create(Application);
+ { F_Fechamento := TF_Fechamento.Create(Application);
   try
     F_Fechamento.ShowModal;
   finally
     F_Fechamento.Free;
-  end;  
+  end;
+  }
 end;
 
 end.
