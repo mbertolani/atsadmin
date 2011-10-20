@@ -14,6 +14,11 @@ object TRpReport
       Alias = 'E'
       DatabaseAlias = 'SGE'
       SQL = 'SELECT  * FROM LISTA_ESTOQUE('#39'10/01/11'#39')'
+    end
+    item
+      Alias = 'EMPRESA'
+      DatabaseAlias = 'SGE'
+      SQL = 'select * from empresa'
     end>
   DatabaseInfo = <
     item
@@ -100,7 +105,7 @@ object TRpReport
   end
   object TRpSection5: TRpSection
     Width = 11910
-    Height = 1077
+    Height = 1260
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -134,6 +139,12 @@ object TRpReport
       end
       item
         Component = TRpExpression6
+      end
+      item
+        Component = TRpExpression7
+      end
+      item
+        Component = TRpExpression8
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -155,7 +166,7 @@ object TRpReport
     Width = 922
     Height = 346
     PosX = 230
-    PosY = 691
+    PosY = 891
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -168,7 +179,7 @@ object TRpReport
     Width = 4245
     Height = 345
     PosX = 1155
-    PosY = 691
+    PosY = 891
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -180,8 +191,8 @@ object TRpReport
   object TRpLabel2: TRpLabel
     Width = 705
     Height = 315
-    PosX = 5850
-    PosY = 691
+    PosX = 6150
+    PosY = 891
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -194,8 +205,8 @@ object TRpReport
   object TRpLabel3: TRpLabel
     Width = 480
     Height = 315
-    PosX = 7095
-    PosY = 691
+    PosX = 7495
+    PosY = 891
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -203,13 +214,13 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'MIN'
+    WideText = 'Minimo'
   end
   object TRpLabel4: TRpLabel
     Width = 480
     Height = 360
     PosX = 8700
-    PosY = 691
+    PosY = 891
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -217,13 +228,13 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'MAX'
+    WideText = 'Maximo'
   end
   object TRpShape1: TRpShape
     Width = 10694
     Height = 461
     PosX = -5
-    PosY = 600
+    PosY = 750
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -234,7 +245,7 @@ object TRpReport
     Width = 10349
     Height = 461
     PosX = 345
-    PosY = 45
+    PosY = 245
     Type1Font = poHelvetica
     Alignment = 4
     VAlignment = 32
@@ -258,7 +269,7 @@ object TRpReport
     Width = 10694
     Height = 461
     PosX = 0
-    PosY = 45
+    PosY = 245
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -269,7 +280,7 @@ object TRpReport
     Width = 1037
     Height = 346
     PosX = 9600
-    PosY = 691
+    PosY = 891
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -329,11 +340,11 @@ object TRpReport
   object TRpExpression2: TRpExpression
     Width = 795
     Height = 300
-    PosX = 5955
+    PosX = 5805
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
-    Alignment = 1
+    Alignment = 2
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -353,7 +364,7 @@ object TRpReport
   object TRpExpression3: TRpExpression
     Width = 600
     Height = 255
-    PosX = 6945
+    PosX = 7195
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -401,7 +412,7 @@ object TRpReport
   object TRpExpression5: TRpExpression
     Width = 812
     Height = 264
-    PosX = 9855
+    PosX = 9805
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -417,6 +428,51 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'E.ESTOQUEREPOSICAO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression7: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 8745
+    PosY = 345
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'NOW'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression8: TRpExpression
+    Width = 4200
+    Height = 264
+    PosX = 0
+    PosY = 0
+    Type1Font = poHelvetica
+    Alignment = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'EMPRESA.RAZAO'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
