@@ -952,12 +952,21 @@ object fListaEstoque: TfListaEstoque
         BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
         BFBFBFBFBFBFBFBFBF00}
     end
+    object BitBtn2: TBitBtn
+      Left = 336
+      Top = 6
+      Width = 97
+      Height = 37
+      Caption = 'Sugest'#227'o Compra'
+      TabOrder = 23
+      OnClick = BitBtn2Click
+    end
   end
   object dbgrd1: TDBGrid
-    Left = 32
-    Top = 240
-    Width = 785
-    Height = 287
+    Left = 0
+    Top = 221
+    Width = 859
+    Height = 317
     DataSource = ds1
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -972,11 +981,103 @@ object fListaEstoque: TfListaEstoque
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODPRO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'COD_BARRA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRODUTO'
+        Width = 327
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_VENDA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_COMPRAULTIMO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QTDE_PCT'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADEMEDIDA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'GRUPO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUBGRUPO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MARCA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEATUAL'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_COMPRAMEDIO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'APLICACAO_PRODUTO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MESANO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEMAXIMO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEMINIMO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEREPOSICAO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LOTE'
+        Visible = True
+      end>
   end
   object ds1: TDataSource
     DataSet = cds1
     Left = 704
-    Top = 208
+    Top = 216
   end
   object cds1: TClientDataSet
     Aggregates = <>
@@ -984,6 +1085,128 @@ object fListaEstoque: TfListaEstoque
     ProviderName = 'DSP1'
     Left = 656
     Top = 216
+    object sdscds1CODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object strngfldcds1COD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
+    object strngfldcds1CODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object strngfldcds1PRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Size = 300
+    end
+    object cds1PRECO_VENDA: TFloatField
+      FieldName = 'PRECO_VENDA'
+    end
+    object cds1PRECO_COMPRAULTIMO: TFloatField
+      FieldName = 'PRECO_COMPRAULTIMO'
+    end
+    object cds1QTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+    end
+    object strngfldcds1UNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object strngfldcds1GRUPO: TStringField
+      FieldName = 'GRUPO'
+      Size = 30
+    end
+    object strngfldcds1SUBGRUPO: TStringField
+      FieldName = 'SUBGRUPO'
+      Size = 30
+    end
+    object strngfldcds1MARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 30
+    end
+    object cds1ESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+    end
+    object cds1PEDIDO: TFloatField
+      FieldName = 'PEDIDO'
+    end
+    object sdscds1CODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object cds1ICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object cds1IPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object strngfldcds1TIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 10
+    end
+    object strngfldcds1LOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
+    end
+    object strngfldcds1LOTES: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
+    end
+    object cds1PESO_QTDE: TFloatField
+      FieldName = 'PESO_QTDE'
+    end
+    object cds1PRECO_COMPRAMEDIO: TFloatField
+      FieldName = 'PRECO_COMPRAMEDIO'
+    end
+    object cds1MARGEM: TFloatField
+      FieldName = 'MARGEM'
+    end
+    object strngfldcds1CODIGO: TStringField
+      FieldName = 'CODIGO'
+      Size = 15
+    end
+    object strngfldcds1USO: TStringField
+      FieldName = 'USO'
+      Size = 150
+    end
+    object strngfldcds1USA: TStringField
+      FieldName = 'USA'
+      FixedChar = True
+      Size = 3
+    end
+    object sdscds1COD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+    end
+    object strngfldcds1RATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object strngfldcds1CONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object strngfldcds1APLICACAO_PRODUTO: TStringField
+      FieldName = 'APLICACAO_PRODUTO'
+      Size = 30
+    end
+    object cds1MESANO: TDateField
+      FieldName = 'MESANO'
+    end
+    object cds1ESTOQUEMAXIMO: TFloatField
+      FieldName = 'ESTOQUEMAXIMO'
+    end
+    object cds1ESTOQUEMINIMO: TFloatField
+      FieldName = 'ESTOQUEMINIMO'
+    end
+    object cds1ESTOQUEREPOSICAO: TFloatField
+      FieldName = 'ESTOQUEREPOSICAO'
+    end
+    object strngfldcds1LOTE: TStringField
+      FieldName = 'LOTE'
+      Size = 60
+    end
   end
   object DSP1: TDataSetProvider
     DataSet = sds1
@@ -992,9 +1215,14 @@ object fListaEstoque: TfListaEstoque
     Top = 216
   end
   object sds1: TSQLDataSet
-    CommandText = 'SELECT * FROM LISTA_ESTOQUE'
+    CommandText = 'SELECT * FROM LISTA_ESTOQUE(:mes)'
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'mes'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 608
     Top = 216
