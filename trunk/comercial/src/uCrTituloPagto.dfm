@@ -1,8 +1,8 @@
 inherited fcrTituloPagto: TfcrTituloPagto
   Left = 219
   Top = 107
-  Width = 797
-  Height = 563
+  Width = 805
+  Height = 571
   Caption = 'Lan'#231'ar Despesa'
   OldCreateOrder = True
   OnDestroy = FormDestroy
@@ -143,7 +143,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
     Caption = 'Data Consolidado'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 482
+    Top = 479
     Width = 789
     TabOrder = 21
     inherited btnGravar: TBitBtn
@@ -201,16 +201,14 @@ inherited fcrTituloPagto: TfcrTituloPagto
     inherited Label1: TLabel
       Left = 234
       Top = -81
-      Width = 309
-      Height = 44
+      Width = 323
       Caption = 'Lan'#231'ar Despesas'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 236
       Top = -80
-      Width = 309
-      Height = 44
+      Width = 323
       Caption = 'Lan'#231'ar Despesas'
       Font.Name = 'Cooper Black'
     end

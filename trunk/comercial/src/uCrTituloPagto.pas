@@ -317,6 +317,8 @@ var
   varCrTituloPagto : TUtils;
   TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   varCrTituloPagto := TUtils.Create;
   //dm.cds_4_pagarPERDA.AsFloat := 0;
   dm.cds_4_pagarFORMAPAGAMENTO.AsString := varCrTituloPagto.pegaForma(ComboBox1.Text);
@@ -372,7 +374,18 @@ begin
     if ( vlr_tit = vlr_rec ) then
       dm.cds_4_pagarSTATUS.AsString := '7-';
   end;
-  inherited;
+  try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    inherited;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      exit;
+    end;
+  end;
   if (inclusao = 'SIM') then
   begin
     // Verifica se a conta de despesa lançada usa rateio
@@ -389,9 +402,6 @@ begin
       '''' + dm.cds_4_pagarTITULO.AsString + ''',' + '''' + formatDateTime('mm/dd/yyyy',dm.cds_4_pagarEMISSAO.AsDateTime) + ''',' + IntTostr(dm.cds_4_pagarCODFORNECEDOR.AsInteger) + ')');
     str_sql := ('execute procedure GERA_PARCELAS_PAG (' +
       '''' + dm.cds_4_pagarTITULO.AsString + ''',' + '''' + formatDateTime('mm/dd/yyyy',dm.cds_4_pagarEMISSAO.AsDateTime) + ''',' + IntTostr(dm.cds_4_pagarCODFORNECEDOR.AsInteger) + ')');
-
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
 
     if (CheckBox1.Checked) then
     begin
@@ -418,30 +428,39 @@ begin
     end
     else
     begin
-      dm.sqlsisAdimin.ExecuteDirect(str_sqla);
-      // Executo o lancamento na contabilidade antes, pois, se houver
-      // parcelas isso não interfere no lancamento contábil.
-      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      try
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(str_sqla);
+        // Executo o lancamento na contabilidade antes, pois, se houver
+        // parcelas isso não interfere no lancamento contábil.
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
 
-        //log user control
-      dm.sqlsisAdimin.StartTransaction(TD);
+          //log user control
+        //dm.sqlsisAdimin.StartTransaction(TD);
 
-        historico := 'INSERT INTO UCTABHISTORY ( APPLICATIONID, USERID, EVENTDATE ,EVENTTIME ' +
-        ' ,FORM ,FORMCAPTION ,EVENT ,OBS ,TNAME'+
-        ') VALUES (' +
-        QuotedStr(DM.varAplicacaoID) + ',' +
-        IntToStr(Dm.varUSERID) + ',' +
-        QuotedStr(FormatDateTime('dd/mm/yyyy', now )) + ','+
-        QuotedStr(FormatDateTime('hh:mm:ss', now )) + ','+
-        QuotedStr(fcrTituloPagto.Name) + ',' +
-        QuotedStr(fcrTituloPagto.Caption) + ','+
-        QuotedStr('Inserido') + ','+
-        QuotedStr('CODPAGAMENTO||' + IntToStr(dm.cds_4_pagarCODPAGAMENTO.AsInteger ) +
-        'VALORTITULO||' +  FloatToStr(dm.cds_4_pagarVALORTITULO.AsFloat)) +
-        ','  +
-        QuotedStr('dm.cds_4_pagar') + ')';
-     dm.sqlsisAdimin.ExecuteDirect(historico);
-     dm.sqlsisAdimin.Commit(TD);
+          historico := 'INSERT INTO UCTABHISTORY ( APPLICATIONID, USERID, EVENTDATE ,EVENTTIME ' +
+          ' ,FORM ,FORMCAPTION ,EVENT ,OBS ,TNAME'+
+          ') VALUES (' +
+          QuotedStr(DM.varAplicacaoID) + ',' +
+          IntToStr(Dm.varUSERID) + ',' +
+          QuotedStr(FormatDateTime('dd/mm/yyyy', now )) + ','+
+          QuotedStr(FormatDateTime('hh:mm:ss', now )) + ','+
+          QuotedStr(fcrTituloPagto.Name) + ',' +
+          QuotedStr(fcrTituloPagto.Caption) + ','+
+          QuotedStr('Inserido') + ','+
+          QuotedStr('CODPAGAMENTO||' + IntToStr(dm.cds_4_pagarCODPAGAMENTO.AsInteger ) +
+          'VALORTITULO||' +  FloatToStr(dm.cds_4_pagarVALORTITULO.AsFloat)) +
+          ','  +
+          QuotedStr('dm.cds_4_pagar') + ')';
+       dm.sqlsisAdimin.ExecuteDirect(historico);
+       dm.sqlsisAdimin.Commit(TD);
+     except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+     end;
     end;
   end
   else begin
