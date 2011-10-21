@@ -1130,6 +1130,7 @@ begin
     begin
       executaDDL('CLIENTES', 'COD_CLI', 'varchar(10)');
       executaDDL('MOVIMENTO', 'TIPO_PEDIDO', 'char(1)');
+      executaDDL('ENDERECOFORNECEDOR', 'PAIS', 'varchar(60)');
       executaScript('trg_calcula_icms_st.sql');
       executaScript('calcula_icms.sql');
       executaScript('listaProdutocli.sql');
@@ -1137,7 +1138,9 @@ begin
       executaScript('lista_estoque.sql');
       executaScript('gera_parcelas_pag.sql');
       CriaCampoDescricao('MOVIMENTO', 'TIPO_PEDIDO', 'V - Venda, C - Comanda, D - Delivery');
-      //mudaVersao('1.0.0.95');
+      executaSql('UPDATE ENDERECOCLIENTE set PAIS = ' + QuotedStr('Brasil'));
+      executaSql('UPDATE ENDERECOFORNECEDOR set PAIS = ' + QuotedStr('Brasil'));      
+      mudaVersao('1.0.0.96');
     end;// Fim Ataulização Versao 1.0.0.96
 
     try
