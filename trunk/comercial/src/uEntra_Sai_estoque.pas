@@ -568,12 +568,11 @@ begin
   { Estou gravando a data de Entrada no Campo Controle da Tab. Movimento }
   if (cds_Movimento.State in [dsEdit, dsInsert]) then
   begin
+    if (MaskEdit1.Checked) then
+      cds_MovimentoDATAMOVIMENTO.AsDateTime := MaskEdit1.Date;
+
     if (MaskEdit1.Visible = False) then
       MaskEdit1.Date := DbEdit1.Date;
-   { if (MaskEdit1.text <> '') then
-      cds_MovimentoCONTROLE.AsString := formatdatetime('mm/dd/yyyy', MaskEdit1.Date)
-      //if (ComboBox1.Text = '') then
-     cds_MovimentoDATAMOVIMENTO.AsDateTime := MaskEdit1.Date;}
     if (MaskEdit1.Visible = False) then
       MaskEdit1.Date := DbEdit1.Date;
     if (MaskEdit1.text = '') then
@@ -599,7 +598,8 @@ begin
         cds_MovimentoCODFORNECEDOR.AsInteger := StrToInt(cbCodigo.Text);
         cds_MovimentoNOMEFORNECEDOR.AsString := cbNome.Text;
       end;
-
+      if (MaskEdit1.Checked) then
+        cds_MovimentoDATAMOVIMENTO.AsDateTime := MaskEdit1.Date;
       {------Pesquisando na tab Parametro Código e Nome da Natureza da Venda---------}
       if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
@@ -722,6 +722,7 @@ begin
   end;
 
   try
+    dm.sqlsisAdimin.StartTransaction(TD);
     cds_Movimento.ApplyUpdates(0);
 
     //********************************************************************************
@@ -808,43 +809,31 @@ begin
         sql_sp := sql_sp + ' null, null)'
       else
         sql_sp := sql_sp + edit2.Text + ', null)';
-      {if (sds_s.Active) then
-        sds_s.Close;
-      sds_s.CommandText := sql_sp;
-      sds_s.ExecSQL(True);}
-      dm.sqlsisAdimin.StartTransaction(TD);
+
       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
+
+      // Gravando o Estoque
       Try
-        dm.sqlsisAdimin.Commit(TD);
-
-        // Gravando o Estoque
-        Try
-          FEstoque := TEstoque.Create;
-          cds_Mov_det.First;
-          While not cds_Mov_det.Eof do
+        FEstoque := TEstoque.Create;
+        cds_Mov_det.First;
+        While not cds_Mov_det.Eof do
+        begin
+          if (cds_Mov_detSTATUS.IsNull) then
           begin
-            if (cds_Mov_detSTATUS.IsNull) then
-            begin
-              FEstoque.QtdeEntrada := cds_Mov_detQUANTIDADE.AsFloat;
-              FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-              FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-              FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-              FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-              FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-              FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-              FEstoque.Status      := '9';
-              FEstoque.inserirMes;
-            end;  
-            cds_Mov_det.Next;
+            FEstoque.QtdeEntrada := cds_Mov_detQUANTIDADE.AsFloat;
+            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+            FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+            FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+            FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+            FEstoque.Status      := '9';
+            FEstoque.inserirMes;
           end;
-        Finally
-          FEstoque.Free;
+          cds_Mov_det.Next;
         end;
-
-      except
-         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-         MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-             [mbOk], 0);
+      Finally
+        FEstoque.Free;
       end;
     end
     else // Saida
@@ -883,34 +872,26 @@ begin
         sql_sp := sql_sp + ',''' + serie + ''',null,' + QuotedStr(edit2.Text) + ')'
       else
         sql_sp := sql_sp + ',''' + serie + ''',' + edit1.Text + ',' + QuotedStr(edit2.Text) + ')';
-      dm.sqlsisAdimin.StartTransaction(TD);
       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
+      // Gravando o Estoque
       Try
-         dm.sqlsisAdimin.Commit(TD);
-        // Gravando o Estoque
-        Try
-          FEstoque := TEstoque.Create;
-          cds_Mov_det.First;
-          While not cds_Mov_det.Eof do
-          begin
-            FEstoque.QtdeSaida   := cds_Mov_detQUANTIDADE.AsFloat;
-            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-            FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-            FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-            FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-            FEstoque.Status      := '9';
-            FEstoque.inserirMes;
-            cds_Mov_det.Next;
-          end;
-        Finally
-          FEstoque.Free;
+        FEstoque := TEstoque.Create;
+        cds_Mov_det.First;
+        While not cds_Mov_det.Eof do
+        begin
+          FEstoque.QtdeSaida   := cds_Mov_detQUANTIDADE.AsFloat;
+          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
+          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
+          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
+          FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
+          FEstoque.Status      := '9';
+          FEstoque.inserirMes;
+          cds_Mov_det.Next;
         end;
-      except
-         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-         MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-             [mbOk], 0);
+      Finally
+        FEstoque.Free;
       end;
 
     end;
@@ -932,46 +913,33 @@ begin
         sql_sp := sql_sp + ', null)'
       else
         sql_sp := sql_sp + ',' + edit2.Text + ')';
-      dm.sqlsisAdimin.StartTransaction(TD);
       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
-      Try
-         dm.sqlsisAdimin.Commit(TD);
-      except
-         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-         MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-             [mbOk], 0);
-      end;
       if (ComboBox3.Text <> '') then
       if (usalote = 'sim') then
       begin
         sql_sp := 'update movimentodetalhe set lote = ' ;
         sql_sp := sql_sp + QuotedStr(ComboBox3.Text) + ' where CODMOVIMENTO = ';
         sql_sp := sql_sp + IntToStr(cds_MovimentoCODMOVIMENTO.asInteger + 1);
-        dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(sql_sp);
-        Try
-           dm.sqlsisAdimin.Commit(TD);
-        except
-           dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-           MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-               [mbOk], 0);
-        end;
       end;
 
 
       if (sds_s.Active) then
         sds_s.Close;
-       sds_s.CommandText := 'SELECT CODMOVIMENTO, CODDETALHE from INFORMATIVO';
-       sds_s.Open;
-       sds_s.Fields[0].AsInteger;
-       sds_s.Fields[1].AsInteger;
+      sds_s.CommandText := 'SELECT CODMOVIMENTO, CODDETALHE from INFORMATIVO';
+      sds_s.Open;
+      sds_s.Fields[0].AsInteger;
+      sds_s.Fields[1].AsInteger;
     end;
+    dm.sqlsisAdimin.Commit(TD);
   except
     on E : Exception do
     begin
+      dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
     end;
   end;
+
   {------Pesquisando na tab Parametro qual form de Procura Produtos ---}
   if Dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -1390,7 +1358,7 @@ end;
 procedure TfEntra_Sai_estoque.cds_MovimentoNewRecord(DataSet: TDataSet);
 begin
     cds_MovimentoCODMOVIMENTO.asInteger := 1999999;
-    cds_MovimentoDATAMOVIMENTO.AsDateTime := Now;
+    //cds_MovimentoDATAMOVIMENTO.AsDateTime := Now;
     cds_MovimentoDATA_SISTEMA.AsDateTime := Now;
     cds_MovimentoSTATUS.Value := 0;
     cds_MovimentoCODUSUARIO.AsInteger:=1 ;//usuario_logado;
