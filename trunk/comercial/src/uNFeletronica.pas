@@ -553,6 +553,10 @@ type
     cdsNFXMLNFE: TMemoField;
     sdsItensNFCST: TStringField;
     cdsItensNFCST: TStringField;
+    sClientePAIS: TStringField;
+    sFornecPAIS: TStringField;
+    sFornecCODPAIS: TStringField;
+    sClienteCODPAIS: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -940,6 +944,9 @@ begin
               cdsItensNF.Next;
             end;
             getTransportadora();
+
+            {exporta.UFembarq := 'SP';
+            exporta.xLocEmbarq := 'Aeroporto Internacional de Viracopos - Campinas';}
 
             //VALOR TORAL
             if (cdsNFBASE_ICMS.IsNull) then
@@ -1394,6 +1401,11 @@ begin
  ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresa1DIVERSOS1.AsString;
  ACBrNFeDANFERave1.PathPDF := sEmpresa1DIVERSOS1.AsString;
  sEmpresa1.Close;
+ if (JvDateEdit1.Text = '  /  /    ') then
+   JvDateEdit1.Text := DateToStr(Now);
+ if (JvDateEdit2.Text = '  /  /    ') then
+   JvDateEdit2.Text := DateToStr(Now)
+
 end;
 
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
@@ -1686,8 +1698,8 @@ begin
       Dest.EnderDest.xMun    := sFornecCIDADE.AsString;
       Dest.EnderDest.UF      := sFornecUF.AsString;
       Dest.EnderDest.CEP     := StrToInt(RemoveChar(sFornecCEP.AsString));
-      Dest.EnderDest.cPais   := 1058;
-      Dest.EnderDest.xPais   := 'BRASIL';
+      Dest.EnderDest.cPais   := StrToInt(sFornecCODPAIS.asString);
+      Dest.EnderDest.xPais   := sFornecPAIS.AsString;
       Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
       Dest.IE                := RemoveChar(sFornecINSCESTADUAL.AsString);
     end
@@ -1710,8 +1722,8 @@ begin
       Dest.EnderDest.xMun    := sClienteCIDADE.AsString;
       Dest.EnderDest.UF      := sClienteUF.AsString;
       Dest.EnderDest.CEP     := StrToInt(RemoveChar(sClienteCEP.AsString));
-      Dest.EnderDest.cPais   := 1058;
-      Dest.EnderDest.xPais   := 'BRASIL';
+      Dest.EnderDest.cPais   := StrToInt(sClienteCODPAIS.AsString);
+      Dest.EnderDest.xPais   := sClientePAIS.AsString;
       Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
       IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
       if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then

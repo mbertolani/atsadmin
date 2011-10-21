@@ -98,14 +98,14 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Caption = 'Cidade'
   end
   object Label17: TLabel [13]
-    Left = 267
+    Left = 245
     Top = 281
     Width = 19
     Height = 13
     Caption = 'Cep'
   end
   object Label18: TLabel [14]
-    Left = 366
+    Left = 338
     Top = 281
     Width = 14
     Height = 13
@@ -141,18 +141,26 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Caption = 'Tipo'
   end
   object Label28: TLabel [19]
-    Left = 560
+    Left = 451
     Top = 193
     Width = 37
     Height = 13
     Caption = 'N'#250'mero'
   end
   object Label29: TLabel [20]
-    Left = 459
+    Left = 432
     Top = 281
     Width = 61
     Height = 13
     Caption = 'C'#243'digo IBGE'
+  end
+  object Label79: TLabel [21]
+    Left = 534
+    Top = 282
+    Width = 20
+    Height = 13
+    Caption = 'Pais'
+    FocusControl = DBEdit16
   end
   inherited MMJPanel1: TMMJPanel
     Top = 492
@@ -338,7 +346,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
         '2')
     end
   end
-  object DBEdit1: TDBEdit [23]
+  object DBEdit1: TDBEdit [24]
     Left = 7
     Top = 58
     Width = 61
@@ -359,7 +367,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [24]
+  object DBEdit2: TDBEdit [25]
     Left = 70
     Top = 58
     Width = 308
@@ -379,7 +387,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [25]
+  object DBEdit3: TDBEdit [26]
     Left = 379
     Top = 58
     Width = 294
@@ -398,7 +406,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup1: TDBRadioGroup [26]
+  object DBRadioGroup1: TDBRadioGroup [27]
     Left = 7
     Top = 83
     Width = 141
@@ -417,7 +425,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       '1')
     OnClick = DBRadioGroup1Click
   end
-  object dbeCNPJ: TDBEdit [27]
+  object dbeCNPJ: TDBEdit [28]
     Left = 149
     Top = 105
     Width = 200
@@ -437,7 +445,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [28]
+  object DBEdit4: TDBEdit [29]
     Left = 384
     Top = 105
     Width = 195
@@ -457,7 +465,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [29]
+  object DBEdit5: TDBEdit [30]
     Left = 580
     Top = 105
     Width = 92
@@ -477,7 +485,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [30]
+  object DBEdit6: TDBEdit [31]
     Left = 9
     Top = 161
     Width = 256
@@ -497,7 +505,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [31]
+  object DBEdit7: TDBEdit [32]
     Left = 266
     Top = 161
     Width = 61
@@ -517,7 +525,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [32]
+  object DBEdit8: TDBEdit [33]
     Left = 328
     Top = 161
     Width = 63
@@ -537,10 +545,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 11
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [33]
+  object DBEdit10: TDBEdit [34]
     Left = 9
     Top = 209
-    Width = 547
+    Width = 437
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -556,7 +564,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object DBEdit11: TDBEdit [34]
+  object DBEdit11: TDBEdit [35]
     Left = 9
     Top = 255
     Width = 298
@@ -575,7 +583,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object DBEdit12: TDBEdit [35]
+  object DBEdit12: TDBEdit [36]
     Left = 308
     Top = 255
     Width = 249
@@ -594,9 +602,9 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup2: TDBRadioGroup [36]
+  object DBRadioGroup2: TDBRadioGroup [37]
     Left = 560
-    Top = 238
+    Top = 195
     Width = 113
     Height = 84
     Caption = 'Endere'#231'o'
@@ -613,10 +621,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       '1'
       '2')
   end
-  object DBEdit13: TDBEdit [37]
+  object DBEdit13: TDBEdit [38]
     Left = 9
     Top = 297
-    Width = 256
+    Width = 232
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -632,10 +640,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [38]
-    Left = 267
+  object DBEdit14: TDBEdit [39]
+    Left = 245
     Top = 297
-    Width = 97
+    Width = 89
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -652,7 +660,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object GroupBox1: TGroupBox [39]
+  object GroupBox1: TGroupBox [40]
     Left = 8
     Top = 326
     Width = 665
@@ -822,7 +830,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       OnKeyPress = FormKeyPress
     end
   end
-  object DBEdit21: TDBEdit [40]
+  object DBEdit21: TDBEdit [41]
     Left = 9
     Top = 407
     Width = 224
@@ -841,7 +849,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 23
     OnKeyPress = FormKeyPress
   end
-  object DBEdit22: TDBEdit [41]
+  object DBEdit22: TDBEdit [42]
     Left = 236
     Top = 407
     Width = 437
@@ -860,7 +868,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 24
     OnKeyPress = FormKeyPress
   end
-  object DBNavigator1: TDBNavigator [42]
+  object DBNavigator1: TDBNavigator [43]
     Left = 282
     Top = 447
     Width = 220
@@ -877,8 +885,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     PopupMenu = PopupMenu1
     TabOrder = 25
   end
-  object DBComboBox1: TDBComboBox [43]
-    Left = 366
+  object DBComboBox1: TDBComboBox [44]
+    Left = 338
     Top = 297
     Width = 43
     Height = 24
@@ -924,7 +932,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 20
     OnKeyPress = FormKeyPress
   end
-  object ComboBox1: TComboBox [44]
+  object ComboBox1: TComboBox [45]
     Left = 8
     Top = 450
     Width = 121
@@ -934,7 +942,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Text = 'ComboBox1'
     Visible = False
   end
-  object BitBtn2: TBitBtn [45]
+  object BitBtn2: TBitBtn [46]
     Left = 555
     Top = 433
     Width = 118
@@ -1037,7 +1045,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
       A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000}
   end
-  object CheckBox1: TCheckBox [46]
+  object CheckBox1: TCheckBox [47]
     Left = 144
     Top = 438
     Width = 97
@@ -1045,7 +1053,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Caption = 'Compras'
     TabOrder = 28
   end
-  object CheckBox2: TCheckBox [47]
+  object CheckBox2: TCheckBox [48]
     Left = 144
     Top = 456
     Width = 97
@@ -1053,7 +1061,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Caption = 'Despesas'
     TabOrder = 29
   end
-  object DBLookupComboBox1: TDBLookupComboBox [48]
+  object DBLookupComboBox1: TDBLookupComboBox [49]
     Left = 392
     Top = 161
     Width = 203
@@ -1075,7 +1083,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object SpeedButton6: TBitBtn [49]
+  object SpeedButton6: TBitBtn [50]
     Left = 632
     Top = 150
     Width = 40
@@ -1150,7 +1158,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       0F0F0F0F10160707070707070707070707070707070707070707071010101010
       1010101010070707070707070707070707070707070707070707}
   end
-  object SpeedButton2: TBitBtn [50]
+  object SpeedButton2: TBitBtn [51]
     Left = 350
     Top = 102
     Width = 33
@@ -1214,7 +1222,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object SpeedButton1: TBitBtn [51]
+  object SpeedButton1: TBitBtn [52]
     Left = 595
     Top = 150
     Width = 37
@@ -1278,10 +1286,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object DBEdit9: TDBEdit [52]
-    Left = 560
+  object DBEdit9: TDBEdit [53]
+    Left = 451
     Top = 209
-    Width = 112
+    Width = 103
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -1298,8 +1306,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 14
     OnKeyPress = FormKeyPress
   end
-  object BitBtn22: TBitBtn [53]
-    Left = 414
+  object BitBtn22: TBitBtn [54]
+    Left = 387
     Top = 290
     Width = 39
     Height = 31
@@ -1307,10 +1315,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 17
     OnClick = BitBtn22Click
   end
-  object DBEdit23: TDBEdit [54]
-    Left = 459
+  object DBEdit23: TDBEdit [55]
+    Left = 432
     Top = 295
-    Width = 98
+    Width = 93
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -1326,13 +1334,29 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 33
     OnKeyPress = FormKeyPress
   end
-  object chkAssistencia: TCheckBox [55]
+  object chkAssistencia: TCheckBox [56]
     Left = 144
     Top = 475
     Width = 97
     Height = 17
     Caption = 'Ass. T'#233'cnica'
     TabOrder = 34
+  end
+  object cbPais: TJvComboBox [57]
+    Left = 532
+    Top = 296
+    Width = 141
+    Height = 22
+    Style = csOwnerDrawFixed
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemHeight = 16
+    ParentFont = False
+    TabOrder = 35
+    OnChange = cbPaisChange
   end
   inherited PopupMenu1: TPopupMenu
     inherited Procurar1: TMenuItem
@@ -1647,6 +1671,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       FieldName = 'NUMERO'
       Size = 5
     end
+    object cds_endforPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
   end
   object dsp_endfor: TDataSetProvider
     DataSet = sds_endfor
@@ -1758,6 +1786,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     object sds_endforNUMERO: TStringField
       FieldName = 'NUMERO'
       Size = 5
+    end
+    object sds_endforPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
     end
   end
   object SQLDataSet1: TSQLDataSet
@@ -1874,6 +1906,48 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       FieldName = 'CD_IBGE'
       Required = True
       Size = 10
+    end
+  end
+  object sqlPais: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspPais'
+    Left = 648
+    Top = 286
+    object sqlPaisCODPAIS: TStringField
+      FieldName = 'CODPAIS'
+      Required = True
+      FixedChar = True
+      Size = 4
+    end
+    object sqlPaisPAIS: TStringField
+      FieldName = 'PAIS'
+      Required = True
+      Size = 60
+    end
+  end
+  object dspPais: TDataSetProvider
+    DataSet = sdsPais
+    Left = 612
+    Top = 286
+  end
+  object sdsPais: TSQLDataSet
+    CommandText = 'Select * from PAIS'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 572
+    Top = 286
+    object sdsPaisCODPAIS: TStringField
+      FieldName = 'CODPAIS'
+      Required = True
+      FixedChar = True
+      Size = 4
+    end
+    object sdsPaisPAIS: TStringField
+      FieldName = 'PAIS'
+      Required = True
+      Size = 60
     end
   end
 end

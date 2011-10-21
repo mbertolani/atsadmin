@@ -416,6 +416,10 @@ begin
       fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
       fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := cdsCODCLIENTE.AsInteger;
       fClienteCadastro.cdsEnderecoCli.Open;
+      if (not fClienteCadastro.sqlPais.Active) then
+        fClienteCadastro.sqlPais.Open;
+      if (fClienteCadastro.sqlPais.Locate('PAIS', fClienteCadastro.cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
+         fClienteCadastro.cbPais.ItemIndex := fClienteCadastro.sqlPais.RecNo-1;
 //      fClienteCadastro.btnIncluir.Click;
       fClienteCadastro.ShowModal;
      finally

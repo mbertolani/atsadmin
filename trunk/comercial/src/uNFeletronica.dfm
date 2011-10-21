@@ -2099,11 +2099,12 @@ object fNFeletronica: TfNFeletronica
       '0) ) as LOGRADOURO,'#13#10'           cast(e.BAIRRO as varchar (60) ) ' +
       'as BAIRRO, '#13#10'           cast(e.COMPLEMENTO as varchar (60) ) as ' +
       'COMPLEMENTO, '#13#10'           cast(e.CIDADE as varchar (60) ) as CID' +
-      'ADE, '#13#10'           e.UF, '#13#10'           e.CEP ,'#13#10'           e.NUMER' +
-      'O,'#13#10'           e.TELEFONE,'#13#10'           e.DDD,'#13#10'           e.CD_I' +
-      'BGE,'#13#10'           e.E_MAIL'#13#10'from CLIENTES c '#13#10'inner join ENDERECO' +
-      'CLIENTE e on'#13#10' e.CODCLIENTE = c.CODCLIENTE '#13#10'where c.CODCLIENTE ' +
-      '= :id and e.TIPOEND = 0'
+      'ADE, '#13#10'           e.UF,            e.CEP ,           e.NUMERO,  ' +
+      '         e.TELEFONE,'#13#10'           e.DDD,           e.CD_IBGE,    ' +
+      '       e.E_MAIL,'#13#10'           e.PAIS, p.CODPAIS'#13#10'from CLIENTES c ' +
+      #13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CODCLIENTE = c.CODCLIENTE ' +
+      #13#10'inner join PAIS p on p.PAIS = e.PAIS'#13#10'where c.CODCLIENTE = :id' +
+      ' and e.TIPOEND = 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -2197,6 +2198,18 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'E_MAIL'
       ReadOnly = True
       Size = 100
+    end
+    object sClientePAIS: TStringField
+      FieldName = 'PAIS'
+      ReadOnly = True
+      Size = 60
+    end
+    object sClienteCODPAIS: TStringField
+      FieldName = 'CODPAIS'
+      ReadOnly = True
+      Required = True
+      FixedChar = True
+      Size = 4
     end
   end
   object OpenDialog1: TOpenDialog
@@ -3249,7 +3262,6 @@ object fNFeletronica: TfNFeletronica
       000000000000}
   end
   object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.Salvar = True
     Configuracoes.Geral.PathSalvar = 'C:\nfe\'
     Configuracoes.Geral.PathSchemas = 'c:\home\sisadmin\schemas'
     Configuracoes.WebServices.UF = 'SP'
@@ -3708,12 +3720,13 @@ object fNFeletronica: TfNFeletronica
       '     cast(e.LOGRADOURO as varchar (60) ) as LOGRADOURO,'#13#10'       ' +
       '    cast(e.BAIRRO as varchar (60) ) as BAIRRO, '#13#10'           cast' +
       '(e.COMPLEMENTO as varchar (60) ) as COMPLEMENTO, '#13#10'           ca' +
-      'st(e.CIDADE as varchar (60) ) as CIDADE, '#13#10'           e.UF, '#13#10'  ' +
-      '         e.CEP ,'#13#10'           e.NUMERO,'#13#10'           e.TELEFONE,'#13#10 +
-      '           e.DDD,'#13#10'           e.CD_IBGE, '#13#10'           e.E_MAIL'#13#10 +
-      'from FORNECEDOR f'#13#10'inner join ENDERECOFORNECEDOR e on'#13#10' e.CODFOR' +
-      'NECEDOR = f.CODFORNECEDOR'#13#10'where f.CODFORNECEDOR = :id and e.TIP' +
-      'OEND = 0'
+      'st(e.CIDADE as varchar (60) ) as CIDADE, '#13#10'           e.UF,     ' +
+      '       e.CEP ,           e.NUMERO,           e.TELEFONE,        ' +
+      '   e.DDD,'#13#10'           e.CD_IBGE,            e.E_MAIL,           ' +
+      'e.PAIS, p.CODPAIS'#13#10'from FORNECEDOR f'#13#10'inner join ENDERECOFORNECE' +
+      'DOR e on'#13#10' e.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'inner join PAIS p ' +
+      'on p.PAIS = e.PAIS'#13#10'where f.CODFORNECEDOR = :id and e.TIPOEND = ' +
+      '0'
     MaxBlobSize = -1
     Params = <
       item
@@ -3806,6 +3819,18 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'E_MAIL'
       ReadOnly = True
       Size = 30
+    end
+    object sFornecPAIS: TStringField
+      FieldName = 'PAIS'
+      ReadOnly = True
+      Size = 60
+    end
+    object sFornecCODPAIS: TStringField
+      FieldName = 'CODPAIS'
+      ReadOnly = True
+      Required = True
+      FixedChar = True
+      Size = 4
     end
   end
   object sEmpresa1: TSQLDataSet

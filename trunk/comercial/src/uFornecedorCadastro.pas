@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   FMTBcd, DBClient, Provider, SqlExpr, DBCtrls, Mask, rpcompobase,
-  rpvclreport, DBLocal, DBLocalS;
+  rpvclreport, DBLocal, DBLocalS, JvExStdCtrls, JvCombobox;
 
 type
   TfFornecedorCadastro = class(TfPai)
@@ -183,6 +183,17 @@ type
     BitBtn22: TBitBtn;
     DBEdit23: TDBEdit;
     chkAssistencia: TCheckBox;
+    sqlPais: TClientDataSet;
+    sqlPaisCODPAIS: TStringField;
+    sqlPaisPAIS: TStringField;
+    dspPais: TDataSetProvider;
+    sdsPais: TSQLDataSet;
+    sdsPaisCODPAIS: TStringField;
+    sdsPaisPAIS: TStringField;
+    cbPais: TJvComboBox;
+    Label79: TLabel;
+    sds_endforPAIS: TStringField;
+    cds_endforPAIS: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -200,6 +211,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
     procedure BitBtn22Click(Sender: TObject);
+    procedure cbPaisChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -250,6 +262,7 @@ begin
   cds_FoRNECEDORDATACADASTRO.Value:=Date;
 
   dbEdit2.SetFocus;
+  cbPais.ItemIndex := 29;
 end;
 
 procedure TfFornecedorCadastro.btnGravarClick(Sender: TObject);
@@ -405,6 +418,10 @@ begin
     dm.scds_forn_proc.Close;
     fProcurar.Free;
   end;
+  if (not sqlPais.Active) then
+    sqlPais.Open;
+  if (sqlPais.Locate('PAIS', cds_endforPAIS.asString, [loCaseInsensitive])) then
+     cbPais.ItemIndex := sqlPais.RecNo-1;
 end;
 
 procedure TfFornecedorCadastro.BitBtn3Click(Sender: TObject);
@@ -464,6 +481,17 @@ begin
     ComboBox1.Items.Add(dm.cds_ccustoNOME.AsString);
     dm.cds_ccusto.Next;
   end;
+
+  if sqlPais.Active then
+    sqlPais.Close;
+  sqlPais.Open;
+  sqlPais.First;
+  while not sqlPais.Eof do
+  begin
+    cbPais.Items.Add(sqlPaisPAIS.AsString);
+    sqlPais.Next;
+  end;
+
 end;
 
 procedure TfFornecedorCadastro.ComboBox1Change(Sender: TObject);
@@ -554,6 +582,16 @@ begin
     procIBGE.Close;
     fProcurar.Free;
    end;
+end;
+
+procedure TfFornecedorCadastro.cbPaisChange(Sender: TObject);
+begin
+  inherited;
+  if (cds_fornecedor.State in [dsBrowse]) then
+    cds_fornecedor.Edit;
+  if(cds_endfor.State in [dsBrowse]) then
+    cds_endfor.Edit;
+  cds_endforPAIS.AsString := cbPais.Text;
 end;
 
 end.

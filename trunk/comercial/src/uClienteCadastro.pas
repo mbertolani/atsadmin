@@ -1400,7 +1400,7 @@ begin
  end;
  if (PageControl1.ActivePage = TabRepresentante) then
    btnIncluir_rep.Click;
-
+ cbPais.ItemIndex := 29;
 end;
 
 procedure TfClienteCadastro.DBEdit2Exit(Sender: TObject);
@@ -1700,6 +1700,10 @@ begin
        cdsEnderecoCli.Params[0].Clear;
        cdsEnderecoCli.Params[1].AsInteger := cds_cliCODCLIENTE.AsInteger;
     cdsEnderecoCli.Open;
+    if (not sqlPais.Active) then
+      sqlPais.Open;
+    if (sqlPais.Locate('PAIS', cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
+       cbPais.ItemIndex := sqlPais.RecNo-1;
   end;
 
   if ((varform = 'consultaescola') or (varform = 'consultapedagogico')) then
