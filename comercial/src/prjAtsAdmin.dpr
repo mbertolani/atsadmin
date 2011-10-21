@@ -242,9 +242,11 @@ uses
   U_AlteraPedido in 'U_AlteraPedido.pas' {F_AlteraPedido},
   U_TerminalFinaliza in 'U_TerminalFinaliza.pas' {F_TerminalFinaliza},
   uOsFiltro in 'uOsFiltro.pas' {fOsFiltro},
+  uProdutoProcOficina in 'uProdutoProcOficina.pas' {fProdutoProcOficina},
   uOsInsere in 'uOsInsere.pas' {fOsInsere},
-  uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
+  uOsInserePeca in 'uOsInserePeca.pas' {fOsInserePeca};
 
+//uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
 {$R *.res}
 
 begin
@@ -321,6 +323,8 @@ begin
     Application.CreateForm(TfOs, fOs);
     Application.CreateForm(TfOsFiltro, fOsFiltro);
     Application.CreateForm(TfProcura_ProdOficina, fProcura_ProdOficina);
+    Application.CreateForm(TfOsInsere, fOsInsere);
+    Application.CreateForm(TfOsInserePeca, fOsInserePeca);
   end;
   Application.Run;
 end.
