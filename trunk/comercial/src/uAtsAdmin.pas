@@ -8,8 +8,7 @@ uses
   Buttons, StdCtrls, FMTBcd, DBClient, Provider, SqlExpr, EOneInst, ImgList,
   rpcompobase, rpvclreport, DBxpress, UCBase, ActnList, RXCtrls, RxGIF,
   jpeg, EAppProt, TFlatSpeedButtonUnit, StdActns, UCHist_Base,
-  UCHistDataset, JvGIF, WinInet,URLMon, ShellApi, JvExControls, JvLinkLabel,
-  JvOutlookBar, JvComponentBase, JvNavigationPane;
+  UCHistDataset, JvGIF, WinInet,URLMon, ShellApi;
 
 type
   TfAtsAdmin = class(TForm)
@@ -239,12 +238,8 @@ type
     RelatriodeFornecedores1: TMenuItem;
     RelatriodeClientes1: TMenuItem;
     NaturezaOperao1: TMenuItem;
-    JvOutlookBar1: TJvOutlookBar;
-    JvNavPaneStyleManager1: TJvNavPaneStyleManager;
     ComboBox14: TComboBox;
     ComboBox13: TComboBox;
-    ImageList2: TImageList;
-    ImageList3: TImageList;
     ListaEstoque1: TMenuItem;
     ProdutosSemMovimentao1: TMenuItem;
     Fechamento1: TMenuItem;
@@ -365,8 +360,6 @@ type
     procedure RelatriodeFornecedores1Click(Sender: TObject);
     procedure RelatriodeClientes1Click(Sender: TObject);
     procedure NaturezaOperao1Click(Sender: TObject);
-    procedure ComboBox14Change(Sender: TObject);
-    procedure ComboBox13Change(Sender: TObject);
     procedure acAgendaExecute(Sender: TObject);
     procedure ListaEstoque1Click(Sender: TObject);
     procedure ProdutosSemMovimentao1Click(Sender: TObject);
@@ -381,10 +374,6 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure DoCustomDraw(Sender: TObject; ACanvas: TCanvas; ARect: TRect;
-    AStage: TJvOutlookBarCustomDrawStage; AIndex:integer; ADown, AInside: boolean;
-    var DefaultDraw:boolean);
-
     function GetVersion: string;
     Function NomeComputador: string;
   end;
@@ -443,22 +432,21 @@ var
 begin
   DM.MODULOUSERCONTROL := 'atsadmin';
   sCtrlResize.CtrlResize(TForm(fAtsAdmin));
-  StatusBar1.Panels[0].Text := ' ATS - Admin versão: ' + GetVersion;
-  StatusBar1.Panels[2].Text := Saudacao + ' Hoje é '+formatdatetime('dddddd',date);
+  StatusBar1.Panels[0].Text := ' ATS - Admin versao: ' + GetVersion;
+  StatusBar1.Panels[2].Text := Saudacao + ' Hoje e '+formatdatetime('dddddd',date);
 
-  ComboBox14.ItemIndex := 0;
-  JvOutlookBar1.OnCustomDraw := DoCustomDraw;
+  {ComboBox14.ItemIndex := 0;
   ComboBox13.ItemIndex := 0;
   ComboBox14Change(ComboBox14);
-  ComboBox13Change(ComboBox13);
+  ComboBox13Change(ComboBox13);}
   
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     //dxButton2.Caption := 'Ordem Serv.(CTRL+V)';
-    //dxButton5.Caption := 'Proc. Peças(CTRL+E)';
+    //dxButton5.Caption := 'Proc. Pecas(CTRL+E)';
     //dxButton4.Enabled := False;
     //dxButton6.Enabled := False;
-    MainMenu1.Items.Items[0].Items[9].Caption := 'Cad. Peças/Serviços';
+    MainMenu1.Items.Items[0].Items[9].Caption := 'Cad. Pecas/Servicos';
   end;
   if (dm.moduloUsado = 'CITRUS') then
   begin
@@ -491,8 +479,8 @@ begin
     fEndereco.Free;
     fCliente1.Free;
     varform := '';
-  end; }
-
+  end;
+   }
 end;
 
 procedure TfAtsAdmin.FornecedoresClick(Sender: TObject);
@@ -586,7 +574,7 @@ begin
   if MDIChildCount > 0 then
     for X := 0 to Pred(MDIChildCount) do
        MDIChildren[X].Close;
-  if MessageDlg('Você realmente deseja encerrar o sistema ?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
+  if MessageDlg('Voce realmente deseja encerrar o sistema ?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
      Application.Terminate
   else
     abort;
@@ -762,8 +750,9 @@ procedure TfAtsAdmin.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
  caminho, arquivo, empresa: String;
 begin
-  if (dm.VISTO_FTP <> '') then
-  if (StrToDateTime(dm.VISTO_FTP) <> today) then
+  if (dm.VISTO_FTP = '') then
+    dm.VISTO_FTP := '01/01/2001';
+  if (MonthOf(StrToDateTime(dm.VISTO_FTP)) <> MonthOf(today)) then
   begin
     empresa := RemoveChar(dm.empresa);
     // URL Location
@@ -1455,7 +1444,7 @@ begin
     fOsFiltro.ShowModal;
   {finally
     fOS.Free;
-  end;}
+  end; }
 {  fMaquinasControle := TfMaquinasControle.Create(Application);
   try
     fMaquinasControle.ShowModal;
@@ -1646,12 +1635,11 @@ begin
   finally
     fParametro.Free;
   end;
-  ComboBox14.ItemIndex := 3;
-  JvOutlookBar1.OnCustomDraw := DoCustomDraw;
+  {ComboBox14.ItemIndex := 3;
   ComboBox13.ItemIndex := 1;
   ComboBox14Change(ComboBox14);
   ComboBox13Change(ComboBox13);
-
+  }
 end;
 
 procedure TfAtsAdmin.acCupomExecute(Sender: TObject);
@@ -1864,7 +1852,7 @@ end;
 
 procedure TfAtsAdmin.CotaoPedido1Click(Sender: TObject);
 begin
-  fCompra.Caption := 'Pedido - Cotação';
+  fCompra.Caption := 'Pedido - Cotaï¿½ï¿½o';
   fCompra.btnIncluir.Left := -200;
   fCompra.BitBtn1.Visible := False;
   dm.tipoCompra := 'COTACAO';
@@ -2006,55 +1994,6 @@ begin
     fNaturezaOperacao.Free;
   end;
 
-end;
-
-procedure TfAtsAdmin.DoCustomDraw(Sender: TObject; ACanvas: TCanvas;
-  ARect: TRect; AStage: TJvOutlookBarCustomDrawStage; AIndex: integer;
-  ADown, AInside: boolean; var DefaultDraw: boolean);
-begin
-  DefaultDraw := False;
-  case AStage of
-  odsBackground:
-     with JvNavPaneStyleManager1.Colors do
-       GradientFillRect(ACanvas, ARect, HeaderColorFrom, HeaderColorTo, fdTopToBottom, 255);
-  odsPage:
-     with JvNavPaneStyleManager1.Colors do
-       GradientFillRect(ACanvas,ARect, ButtonColorFrom, ButtonColorTo, fdTopToBottom, 255);
-  odsPageButton:
-  begin
-     with JvNavPaneStyleManager1.Colors do
-       GradientFillRect(ACanvas,ARect, HeaderColorFrom, HeaderColorTo, fdTopToBottom, 255);
-     if ADown then
-       OffsetRect(ARect,1,1);
-     ACanvas.Font.Color := clWhite;
-     DrawText(ACanvas.Handle, PChar(JvOutlookBar1.Pages[AIndex].Caption), Length(JvOutlookBar1.Pages[AIndex].Caption), ARect, DT_SINGLELINE or DT_VCENTER or DT_CENTER);
-  end;
-  odsButtonFrame:
-  begin
-    if ADown then
-      ACanvas.Brush.Color := clNavy
-    else
-      ACanvas.Brush.Color := clBlack;
-    ACanvas.FrameRect(ARect);
-    InflateRect(ARect,-1,-1);
-    if not ADown then
-      ACanvas.Brush.Color := clWhite;
-    ACanvas.FrameRect(ARect);
-  end;
-  odsButton:
-    DefaultDraw := True;
-  end;
-end;
-
-procedure TfAtsAdmin.ComboBox14Change(Sender: TObject);
-begin
-  JvNavPaneStyleManager1.Theme := TJvNavPanelTheme(ComboBox14.ItemIndex);
-  JvOutlookBar1.Invalidate;
-end;
-
-procedure TfAtsAdmin.ComboBox13Change(Sender: TObject);
-begin
-  JvOutlookBar1.ButtonSize := TJvBarButtonSize(ComboBox13.ItemIndex);
 end;
 
 
