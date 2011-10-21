@@ -592,6 +592,8 @@ begin
   end;
 
   try
+    dm.sqlsisAdimin.StartTransaction(TD);
+
     inherited;
 
     // Gravando o Estoque
@@ -612,15 +614,22 @@ begin
           FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
           FEstoque.Status      := '9';
           FEstoque.inserirMes;
-        end;  
+        end;
         cds_Mov_det.Next;
       end;
       end;
     Finally
       FEstoque.Free;
     end;
+
+    dm.sqlsisAdimin.Commit(TD);
   Except
-    MessageDlg('Erro para Gravar Compras.', mtError, [mbOk], 0);
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+      Exit;
+    end;
   end;
 
   if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then // Alterando o Status para Finalizado
