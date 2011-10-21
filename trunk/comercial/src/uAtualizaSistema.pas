@@ -40,8 +40,9 @@ type
     function NaoExisteTabela(Tabela : String): Boolean;
     procedure CriaGenerator(Generator: String);
     procedure CriaException(Exception_nome, exception_msg: String);
+    procedure CriaCampoDescricao(TABELA, CAMPO, DESCRICAO : String);
+    procedure DeletaTrigger(Trigger: String);
 
-//    procedure ExecutaDDL_Drop(Tabela, Campo: string);
     { Private declarations }
   public
     TD: TTransactionDesc;
@@ -944,7 +945,7 @@ begin
       except
       end;
       mudaVersao('1.0.0.87');
-    end;
+    end;   // Fim Ataulização Versao 1.0.0.87
 
     if (versaoSistema = '1.0.0.87') then
     begin
@@ -953,7 +954,7 @@ begin
       executaDDL('COMPRA_COTACAO', 'COTACAO_FRETE', 'DOUBLE PRECISION DEFAULT 0');
       executaDDL('COMPRA_COTACAO', 'COTACAO_DESCONTO', 'DOUBLE PRECISION DEFAULT 0');
       mudaVersao('1.0.0.88');
-    end;
+    end; // Fim Ataulização Versao 1.0.0.88
 
     if (versaoSistema = '1.0.0.88') then
     begin
@@ -961,7 +962,7 @@ begin
       executaSql('ALTER TABLE PAGAMENTO ALTER USERID TYPE TEXTO3');
       executaScript('baixaTitulosPag.sql');
       mudaVersao('1.0.0.89');
-    end;
+    end; // Fim Ataulização Versao 1.0.0.89
 
     if (versaoSistema = '1.0.0.89') then
     begin
@@ -990,7 +991,7 @@ begin
           'primary key (COTACAO_CODIGO, COTACAO_FORNEC, COTACAO_ITEM)');
       end;}
       mudaVersao('1.0.0.90');
-    end;
+    end; // Fim Ataulização Versao 1.0.0.90
 
     if (versaoSistema = '1.0.0.90') then
     begin
@@ -1013,14 +1014,14 @@ begin
           ' CODPRODUTO INTEGER NOT NULL, ' +
           ' TIPO CHAR(1),  ' +
           ' QTDE VALOR DEFAULT 0, '  +
-          ' PRECO VALOR  DEFAULT 0, ' +
-          ' DESCONTO VALOR  DEFAULT 0, ' +
-          ' VALORTOTAL  COMPUTED BY ((PRECO-DESCONTO)*QTDE) , ' +
+          ' PRECO VALOR DEFAULT 0, ' +
+          ' DESCONTO VALOR DEFAULT 0, ' +
+          ' VALORTOTAL COMPUTED BY ((PRECO-DESCONTO)*QTDE) , ' +
           ' ID_OSDET_SERV INTEGER, ' +
           ' CONSTRAINT INTEG_404 PRIMARY KEY (ID_OS_DET)) ');
       end;
       mudaVersao('1.0.0.91');
-    end;
+    end; // Fim Ataulização Versao 1.0.0.91
 
     if (versaoSistema = '1.0.0.91') then
     begin
@@ -1031,7 +1032,7 @@ begin
       executaScript('frete_nf.sql');
       executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
       mudaVersao('1.0.0.92');
-    end;
+    end; // Fim Ataulização Versao 1.0.0.92
 
     if (versaoSistema = '1.0.0.92') then
     begin
@@ -1069,8 +1070,8 @@ begin
       mudaVersao('1.0.0.93');
       executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
       '6, ' + QuotedStr('Expedição') + ', 1, 0, 6)');
-	    executaSql('DROP TRIGGER ESTOQUECCUSTOENT');
-    end;
+	    DeletaTrigger('ESTOQUECCUSTOENT');
+    end; // Fim Ataulização Versao 1.0.0.93
 
     if (versaoSistema = '1.0.0.93') then
     begin
@@ -1090,7 +1091,7 @@ begin
       executaScript('rel_compra_pedido.sql');
       executaScript('cotacao_gera_pedido.sql');
       mudaVersao('1.0.0.94');
-    end;
+    end; // Fim Ataulização Versao 1.0.0.94
 
     if (versaoSistema = '1.0.0.94') then
     begin
@@ -1123,17 +1124,21 @@ begin
         executaScript('pais.sql');
       end;
       mudaVersao('1.0.0.95');
-    end;
+    end; //Fim Ataulização Versao 1.0.0.95
 
     if (versaoSistema = '1.0.0.95') then
     begin
-      executaDDL('CLIENTES', 'COD_CLI', 'varchar(10)');    
+      executaDDL('CLIENTES', 'COD_CLI', 'varchar(10)');
+      executaDDL('MOVIMENTO', 'TIPO_PEDIDO', 'char(1)');
       executaScript('trg_calcula_icms_st.sql');
       executaScript('calcula_icms.sql');
       executaScript('listaProdutocli.sql');
-      executaScript('listaProduto.sql');      
+      executaScript('listaProduto.sql');
+      executaScript('lista_estoque.sql');
+      executaScript('gera_parcelas_pag.sql');
+      CriaCampoDescricao('MOVIMENTO', 'TIPO_PEDIDO', 'V - Venda, C - Comanda, D - Delivery');
       //mudaVersao('1.0.0.95');
-    end;
+    end;// Fim Ataulização Versao 1.0.0.96
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
@@ -1376,6 +1381,49 @@ begin
       abort;
     end;
   end
+end;
+
+procedure TfAtualizaSistema.CriaCampoDescricao(TABELA, CAMPO, DESCRICAO : String);
+var sql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      sql := 'UPDATE RDB$RELATION_FIELDS set RDB$DESCRIPTION = ' + QuotedStr(DESCRICAO) + '  where RDB$FIELD_NAME = ' + QuotedStr(CAMPO) + ' and RDB$RELATION_NAME = ' + QuotedStr(TABELA);
+      dm.sqlsisAdimin.ExecuteDirect(sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro 003. (' + sql + ')', mtWarning, [mbOK], 0);
+      abort;
+    end;
+end;
+
+procedure TfAtualizaSistema.DeletaTrigger(Trigger: String);
+var sql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  if (cds.Active) then
+    cds.Close;
+  cds.CommandText := 'select RDB$TRIGGER_NAME ' +
+     '  FROM RDB$TRIGGERS ' +
+     ' WHERE RDB$TRIGGER_NAME = ' + QuotedStr(Trigger);
+  cds.Open;
+  if (not cds.IsEmpty) then
+  begin
+    try
+      sql := 'DROP TRIGGER ' + Trigger;
+      dm.sqlsisAdimin.ExecuteDirect(sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro 003. (' + sql + ')', mtWarning, [mbOK], 0);
+      abort;
+    end;
+  end;
 end;
 
 procedure TfAtualizaSistema.VerBoleto(Empresa : String);
