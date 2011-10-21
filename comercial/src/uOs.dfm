@@ -1,8 +1,8 @@
 object fOs: TfOs
-  Left = 265
-  Top = 69
-  Width = 760
-  Height = 600
+  Left = 5
+  Top = 1
+  Width = 822
+  Height = 570
   Caption = 'Ordem Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,8 +20,8 @@ object fOs: TfOs
   TextHeight = 13
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 522
-    Width = 752
+    Top = 492
+    Width = 814
     Height = 51
     Align = alBottom
     TabOrder = 0
@@ -488,7 +488,7 @@ object fOs: TfOs
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object btnProcurar: TBitBtn
-      Left = 148
+      Left = -200
       Top = 5
       Width = 107
       Height = 42
@@ -718,8 +718,8 @@ object fOs: TfOs
   object GroupBox7: TGroupBox
     Left = 0
     Top = 329
-    Width = 752
-    Height = 193
+    Width = 814
+    Height = 163
     Align = alClient
     Color = clHighlight
     ParentColor = False
@@ -727,8 +727,8 @@ object fOs: TfOs
     object JvDBGrid2: TJvDBGrid
       Left = 2
       Top = 15
-      Width = 683
-      Height = 176
+      Width = 745
+      Height = 146
       Align = alClient
       Color = clSilver
       DataSource = dsPecas
@@ -755,7 +755,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'CODPRO'
           Title.Caption = 'Pe'#231'a'
-          Width = 62
+          Width = 49
           Visible = True
         end
         item
@@ -764,7 +764,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'DESCRICAO_SERV'
           Title.Caption = 'Descri'#231#227'o'
-          Width = 345
+          Width = 426
           Visible = True
         end
         item
@@ -773,7 +773,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'QTDE'
           Title.Caption = 'Qtde.'
-          Width = 38
+          Width = 31
           Visible = True
         end
         item
@@ -782,7 +782,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'PRECO'
           Title.Caption = 'Pre'#231'o'
-          Width = 45
+          Width = 37
           Visible = True
         end
         item
@@ -791,7 +791,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'DESCONTO'
           Title.Caption = 'Desconto'
-          Width = 45
+          Width = 37
           Visible = True
         end
         item
@@ -800,7 +800,7 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'VALORTOTAL'
           Title.Caption = 'Valor Total'
-          Width = 62
+          Width = 49
           Visible = True
         end
         item
@@ -809,15 +809,15 @@ object fOs: TfOs
           Expanded = False
           FieldName = 'STATUSDESC'
           Title.Caption = 'Situa'#231#227'o'
-          Width = 63
+          Width = 93
           Visible = True
         end>
     end
     object Panel4: TPanel
-      Left = 685
+      Left = 747
       Top = 15
       Width = 65
-      Height = 176
+      Height = 146
       Align = alRight
       TabOrder = 1
       object BitBtn1: TBitBtn
@@ -1205,7 +1205,7 @@ object fOs: TfOs
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 752
+    Width = 814
     Height = 169
     Align = alTop
     ParentBackground = False
@@ -1213,7 +1213,7 @@ object fOs: TfOs
     object GroupBox3: TGroupBox
       Left = 1
       Top = 1
-      Width = 750
+      Width = 812
       Height = 49
       Align = alTop
       Caption = 'O.S.'
@@ -1284,7 +1284,7 @@ object fOs: TfOs
     object GroupBox4: TGroupBox
       Left = 1
       Top = 50
-      Width = 750
+      Width = 812
       Height = 45
       Align = alClient
       Caption = 'Cliente'
@@ -1406,7 +1406,7 @@ object fOs: TfOs
     object GroupBox5: TGroupBox
       Left = 1
       Top = 95
-      Width = 750
+      Width = 812
       Height = 73
       Align = alBottom
       Caption = 'Ve'#237'culo'
@@ -1490,14 +1490,14 @@ object fOs: TfOs
   object Panel2: TPanel
     Left = 0
     Top = 169
-    Width = 752
+    Width = 814
     Height = 160
     Align = alTop
     TabOrder = 3
     object GroupBox2: TGroupBox
       Left = 1
       Top = 1
-      Width = 750
+      Width = 812
       Height = 158
       Align = alClient
       Color = clHotLight
@@ -1506,7 +1506,7 @@ object fOs: TfOs
       object JvDBGrid1: TJvDBGrid
         Left = 2
         Top = 15
-        Width = 681
+        Width = 743
         Height = 141
         Align = alClient
         Color = clSilver
@@ -1536,7 +1536,7 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'DESCRICAO_SERV'
             Title.Caption = 'Descri'#231#227'o Servi'#231'o'
-            Width = 343
+            Width = 425
             Visible = True
           end
           item
@@ -1545,7 +1545,7 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'NOMEUSUARIO'
             Title.Caption = 'Respons'#225'vel'
-            Width = 102
+            Width = 86
             Visible = True
           end
           item
@@ -1554,33 +1554,33 @@ object fOs: TfOs
             Expanded = False
             FieldName = 'STATUSDESC'
             Title.Caption = 'Situa'#231#227'o'
-            Width = 53
+            Width = 43
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QTDE'
             Title.Caption = 'Quantidade'
-            Width = 50
+            Width = 41
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'PRECO'
             Title.Caption = 'Pre'#231'o'
-            Width = 56
+            Width = 46
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'VALORTOTAL'
             Title.Caption = 'Total'
-            Width = 55
+            Width = 80
             Visible = True
           end>
       end
       object Panel3: TPanel
-        Left = 683
+        Left = 745
         Top = 15
         Width = 65
         Height = 141

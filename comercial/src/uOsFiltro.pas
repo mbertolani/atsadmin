@@ -7,7 +7,8 @@ uses
   Dialogs, FMTBcd, DB, DBClient, Provider, SqlExpr, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls, StdCtrls, Mask, JvExMask,
   JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, Buttons,
-  JvExStdCtrls, JvCombobox, uUtils, Menus, uOsClasse;
+  JvExStdCtrls, JvCombobox, uUtils, Menus, uOsClasse, uMovimento,
+  JvExButtons, JvBitBtn, DBXpress, DateUtils;
 
 type
   TfOsFiltro = class(TForm)
@@ -132,6 +133,8 @@ type
     FFinalizado1: TMenuItem;
     NNoAprovado1: TMenuItem;
     btnStatusServico: TBitBtn;
+    btnIncluir: TBitBtn;
+    JvFinalizar: TJvBitBtn;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -160,6 +163,8 @@ type
     procedure DBGrid1CellClick(Column: TColumn);
     procedure btnStatusServicoClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure JvFinalizarClick(Sender: TObject);
   private
     Ascending : boolean;
     util: TUtils;
@@ -195,8 +200,14 @@ begin
   fOs.cdsOS.Open;
   if (not fOs.cdsOS.IsEmpty) then
   begin
-    fOs.modoOs := 'Edit';
-    fOs.cdsOS.Edit;
+    if (cdsOsSTATUS.AsString = 'F') then
+    begin
+      fOs.modoOs := 'VISUALIZAR';
+    end
+    else begin
+      fOs.modoOs := 'Edit';
+      fOs.cdsOS.Edit;
+    end;
   end;
   fOs.ShowModal;
 end;
@@ -308,32 +319,44 @@ end;
 
 procedure TfOsFiltro.abrirOs;
 var strAbrirOs: String;
+   linhaGrid: Integer;
 begin
-  if (cdsOs.Active) then
-    cdsOs.Close;
-  strAbrirOs := '';
+  Try
+    cdsOs.DisableControls;
+    if (cdsOs.Active) then
+      linhaGrid := cdsOs.RecNo
+    else
+      linhaGrid := 0;
+    if (cdsOs.Active) then
+      cdsOs.Close;
+    strAbrirOs := '';
 
-  strAbrirOs := ' WHERE DATAOS BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit1.Date));
-  strAbrirOs := strAbrirOs + ' AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit2.Date));
+    strAbrirOs := ' WHERE DATAOS BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit1.Date));
+    strAbrirOs := strAbrirOs + ' AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit2.Date));
 
-  case (cbStatus.ItemIndex) of
-    0 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('P');
-    1 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('E');
-    2 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('F');
+    case (cbStatus.ItemIndex) of
+      0 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('P');
+      1 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('E');
+      2 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('F');
+    end;
+
+    if (edCodCliente.Text <> '') then
+    begin
+      strAbrirOs := strAbrirOs + ' AND CODCLIENTE = ' + edCodCliente.Text;
+    end;
+
+    if (edOS.Text <> '') then
+    begin
+      strAbrirOs := strAbrirOs + ' AND CODOS = ' + edOS.Text;
+    end;
+
+    cdsOs.CommandText :=  'SELECT * FROM OS ' + strAbrirOs;
+    cdsOs.Open;
+    if (linhaGrid > 0) then
+      cdsOs.RecNo := linhaGrid;
+  Finally
+    cdsOs.EnableControls;
   end;
-
-  if (edCodCliente.Text <> '') then
-  begin
-    strAbrirOs := strAbrirOs + ' AND CODCLIENTE = ' + edCodCliente.Text;
-  end;
-
-  if (edOS.Text <> '') then
-  begin
-    strAbrirOs := strAbrirOs + ' AND CODOS = ' + edOS.Text;
-  end;
-
-  cdsOs.CommandText :=  'SELECT * FROM OS ' + strAbrirOs;
-  cdsOs.Open;
 end;
 
 procedure TfOsFiltro.rgStatusClick(Sender: TObject);
@@ -458,8 +481,110 @@ begin
 end;
 
 procedure TfOsFiltro.CCancelado1Click(Sender: TObject);
+var fmov  : TMovimento;
+    TD    : TTransactionDesc;
+    codMov, numGrid: Integer;
 begin
-  TrocaStatus('F', OsServico);  //Finalizado
+  // Gera o Movimento e Movimento Detalhe
+  Try
+    fmov := TMovimento.Create;
+    Try
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
+
+      TrocaStatus('F', OsServico);  //Finalizado
+
+      fMov.CodMov      := 0;
+      fMov.CodNatureza := 3;  // Venda
+      fMov.DataMov     := Today;
+      fMov.CodCliente  := cdsOsCODCLIENTE.AsInteger;
+      fMov.Status      := 0;
+      fMov.CodUsuario  := cdsOsCODUSUARIO.AsInteger;
+      fMov.CodVendedor := cdsOsCODUSUARIO.AsInteger;
+      fMov.CodFornec   := 0;
+      fMov.CodCCusto   := dm.CCustoPadrao;
+      fMov.CodOrigem   := cdsOsCODOS.AsInteger; // Identificar a OS
+
+      codMov := fMov.inserirMovimento(0);
+
+      // Grava Servico
+      cdsServico.DisableControls;
+      numGrid := cdsServico.RecNo;
+      cdsServico.First;
+      While not cdsServico.Eof do
+      begin
+        fMov.MovDetalhe.CodMov     := codMov;
+        fMov.MovDetalhe.Codigo     := cdsServicoID_OS_DET.AsInteger;   // Indentificar o Servico na OS_DET
+        fMov.MovDetalhe.CodProduto := cdsServico.FieldByName('CODPRODUTO').AsInteger;
+        fMov.MovDetalhe.Qtde       := cdsServico.FieldByName('QTDE').AsFloat;
+        fMov.MovDetalhe.Preco      := cdsServico.FieldByName('PRECO').AsFloat;
+        fMov.MovDetalhe.Descricao  := cdsServicoDESCRICAO_SERV.AsString;
+        fMov.MovDetalhe.Desconto   := cdsServico.FieldByName('DESCONTO').AsFloat;
+        fMov.MovDetalhe.Un         := 'SE';
+        fMov.MovDetalhe.Lote       := '0';
+        fMov.MovDetalhe.inserirMovDet;
+
+        cdsServico.Next;
+      end;
+      cdsServico.RecNo := numGrid;
+      cdsServico.EnableControls;
+
+      // Grava Peca
+      cdsPeca.DisableControls;
+      numGrid := cdsPeca.RecNo;
+      cdsPeca.First;
+      While not cdsPeca.Eof do
+      begin
+        fMov.MovDetalhe.CodMov     := codMov;
+        fMov.MovDetalhe.Codigo     := cdsPecaID_OS_DET.AsInteger;  // Indentificar a Peça na OS_DET
+        fMov.MovDetalhe.CodProduto := cdsPeca.FieldByName('CODPRODUTO').AsInteger;
+        fMov.MovDetalhe.Qtde       := cdsPeca.FieldByName('QTDE').AsFloat;
+        fMov.MovDetalhe.Preco      := cdsPeca.FieldByName('PRECO').AsFloat;
+        fMov.MovDetalhe.Descricao  := cdsPecaDESCRICAO_SERV.AsString;
+        fMov.MovDetalhe.Desconto   := cdsPeca.FieldByName('DESCONTO').AsFloat;
+        fMov.MovDetalhe.Un         := 'UN';
+        fMov.MovDetalhe.Lote       := '0';
+        fMov.MovDetalhe.inserirMovDet;
+
+        cdsPeca.Next;
+      end;
+      cdsPeca.RecNo := numGrid;
+      cdsPeca.EnableControls;
+
+      dm.sqlsisAdimin.Commit(TD);
+    Except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+        Exit;
+      end;
+    end;
+  Finally
+    FMov.Free;
+  end;
+
+  // Abre Financeiro
+  F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
+  try
+    DM_MOV.PAGECONTROL := 'PDV';
+
+    // Abre a Movimento e Mov Detalhe
+    DM_MOV.c_movimento.Close;
+    DM_MOV.c_movimento.Params[0].Clear;
+    DM_MOV.c_movimento.Params[0].AsInteger := codMov;
+    DM_MOV.c_movimento.Open;
+
+    DM_MOV.c_movdet.Close;
+    DM_MOV.c_movdet.Params[0].Clear;
+    DM_MOV.c_movdet.Params[0].AsInteger := codMov;
+    DM_MOV.c_movdet.Open;
+
+    F_TerminalFinaliza.ShowModal;
+  finally
+    F_TerminalFinaliza.Free;
+  end;
 end;
 
 procedure TfOsFiltro.GAguardandoPea1Click(Sender: TObject);
@@ -579,6 +704,55 @@ begin
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
   end;
 
+end;
+
+procedure TfOsFiltro.btnIncluirClick(Sender: TObject);
+begin
+  if (not cdsOs.Active) then
+    cdsOs.Open;
+  if (fOs.cdsOS.Active) then
+    fOs.cdsOS.Close;
+  fOs.cdsOS.Params.ParamByName('POS').Clear;
+  fOs.cdsOS.Open;
+  fOs.btnIncluir.Click;
+  fOs.ShowModal;
+end;
+
+procedure TfOsFiltro.JvFinalizarClick(Sender: TObject);
+begin
+  if (cdsOsSTATUS.AsString <> 'F') then
+  begin
+    MessageDlg('OS não finalizada.', mtWarning, [mbOk], 0);
+    Exit;
+  end
+  else begin
+    // Abre Financeiro
+    F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
+    try
+      DM_MOV.PAGECONTROL := 'PDV';
+
+      if (dm.sqlBusca.Active) then
+        dm.sqlBusca.Close;
+      dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO FROM MOVIMENTO WHERE CODORIGEM = ' +
+        IntToStr(cdsOsCODOS.AsInteger));
+      dm.sqlBusca.Open;
+
+      // Abre a Movimento e Mov Detalhe
+      DM_MOV.c_movimento.Close;
+      DM_MOV.c_movimento.Params[0].Clear;
+      DM_MOV.c_movimento.Params[0].AsInteger := dm.sqlBusca.FieldByName('CODMOVIMENTO').AsInteger;
+      DM_MOV.c_movimento.Open;
+
+      DM_MOV.c_movdet.Close;
+      DM_MOV.c_movdet.Params[0].Clear;
+      DM_MOV.c_movdet.Params[0].AsInteger := dm.sqlBusca.FieldByName('CODMOVIMENTO').AsInteger;
+      DM_MOV.c_movdet.Open;
+
+      F_TerminalFinaliza.ShowModal;
+    finally
+      F_TerminalFinaliza.Free;
+    end;
+  end;
 end;
 
 end.
