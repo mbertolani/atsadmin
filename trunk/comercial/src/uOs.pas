@@ -181,6 +181,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure dsPecasStateChange(Sender: TObject);
   private
+    TD: TTransactionDesc;
     estoque, qtde : Double;
     Procedure limpaCampos;
     Procedure carregaCampos;
@@ -225,8 +226,10 @@ end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
 var codigoOs : Integer;
-    TD: TTransactionDesc;
 begin
+  if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
+    exit;
+    
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   if (edCodCliente.Text = '') then
@@ -354,36 +357,6 @@ begin
       dm.sqlsisAdimin.Rollback(TD);
     end;
   end;
-  if ((modoOs = 'Insert') or (modoOs = 'Edit')) then
-  begin
-    {Os.dataMovimento := edData.Text;
-    Os.codNatureza := 3;
-    Os.status := '0';
-    Os.codCliente := StrToInt(edCodCliente.Text);
-    Os.codUsuario := usulog;
-    Os.codResponsavel := usulog;
-    if (dm.cds_ccusto.Locate('NOME', cbResultado.Text, [loCaseInsensitive])) then
-      Os.codCentroResultado := dm.cds_ccustoCODIGO.AsInteger
-    else begin
-      if (cbResultado.Text <> '') then
-      begin
-        MessageDlg('Centro de Resultado não encontrado.', mtError, [mbOK], 0);
-        cbResultado.SetFocus;
-        exit;
-      end;
-    end;
-    if (cdsProd.Locate('PRODUTO', cbServico.Text, [loCaseInsensitive])) then
-    begin
-      Os.codProduto := cdsProdCODPRODUTO.AsInteger;
-      Os.obsMovimento := edServico.Text + edServico1.Text + edServico2.Text;
-    end;
-    Os.preco := 0;
-    Os.Quantidade := 0;
-    Os.IncluiOs;
-    Os.Destroy;
-    modoOs := 'Browse';
-    controlaEventos;}
-  end;
 end;
 
 procedure TfOs.limpaCampos;
@@ -401,38 +374,7 @@ end;
 
 procedure TfOs.carregaCombos;
 begin
-  {//Vejo quais são as contas de Receitas para listar no lookupcombobox.
-  if dm.cds_parametro.Active then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
-  dm.cds_parametro.Open;
-  if dm.cds_ccusto.Active then
-    dm.cds_ccusto.Close;
-  dm.cds_ccusto.Params[0].AsString := dm.cds_parametroDADOS.AsString;;
-  dm.cds_ccusto.Open;
-  // populo a cbCResultado
-  DM.cds_ccusto.First;
-  cbResultado.Items.Clear;
-  while not DM.cds_ccusto.Eof do
-  begin
-    cbResultado.Items.Add(dm.cds_ccustoNOME.AsString);
-    DM.cds_ccusto.Next;
-  end;
-  dm.cds_parametro.Close;}
-  {//Vejo quais são os produtos cadastrados como Serviços.
-  if (cdsProd.Active) then
-    cdsProd.CommandText := 'SELECT CODPRODUTO, COD_BARRA, CODPRO, PRODUTO FROM ' +
-      'LISTAPRODUTO(0, ' + QuotedStr('TODOSPRODUTOS') +
-      ', ' + QuotedStr('TODOSPRODUTOS') + ', ' + QuotedStr('TODOSGRUPOS') +  ', ' +
-      QuotedStr('TODOSSUBGRUPOS')  + ',' + QuotedStr('TODASMARCAS')+') Where TIPOPROD = ' +
-      QuotedStr('SERV');
-  cdsProd.Open;
-  cbServico.Items.Clear;
-  While (not cdsProd.Eof) do
-  begin
-    cbServico.Items.Add(cdsProd.Fields[3].asString);
-    cdsProd.Next;
-  end;}
+
 end;
 
 procedure TfOs.btnClienteProcuraClick(Sender: TObject);
@@ -476,6 +418,7 @@ begin
   if ((modoOs = 'Insert') or (modoOs = 'Edit')) then
   begin
     btnGravar.Visible := True;
+    btnGravar.Enabled := True;
     btnIncluir.Visible := False;
     btnProcurar.Enabled := False;
     btnSair.Enabled := False;
@@ -490,6 +433,17 @@ begin
     btnProcurar.Enabled := True;
     btnSair.Enabled := True;
     btnExcluir.Visible := True;
+    btnCancelar.Visible := False;
+    btnClienteProcura.Enabled := False;
+  end;
+  if (modoOs = 'VISUALIZAR') then
+  begin
+    btnGravar.Visible := True;
+    btnGravar.Enabled := False;
+    btnIncluir.Visible := False;
+    btnProcurar.Enabled := False;
+    btnSair.Enabled := True;
+    btnExcluir.Visible := False;
     btnCancelar.Visible := False;
     btnClienteProcura.Enabled := False;
   end;
@@ -759,6 +713,9 @@ end;
 
 procedure TfOs.btnPecaAlteraClick(Sender: TObject);
 begin
+  if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
+    exit;
+    
   modoOsItem := 'EditaPeca';
 
   if (fOsInserePeca.cdsPecas.Active) then
@@ -785,12 +742,59 @@ end;
 
 procedure TfOs.btnExcluirServicoClick(Sender: TObject);
 begin
-  modoOsItem := '';
+  if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
+    exit;
+
+  if (MessageDlg('Confirma a exclusão deste Serviço ?' + #13#10 + '(Se houver peças' +
+    ' estas serão excluídas tambem).', mtConfirmation, [mbYes, mbNo],0) = mrNo) then
+    exit;
+
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM OS_DET WHERE ID_OS_DET = ' +
+      IntToStr(cdsServicoID_OS_DET.AsInteger));
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM OS_DET WHERE ID_OSDET_SERV = ' +
+      IntToStr(cdsServicoID_OS_DET.AsInteger));
+
+    dm.sqlsisAdimin.Commit(TD);
+    MessageDlg('Serviço excluído com sucesso.', mtWarning, [mbOk], 0);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+    end;
+  end;
 end;
 
 procedure TfOs.BitBtn2Click(Sender: TObject);
 begin
-  modoOsItem := 'ExcluiPeca';
+  if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
+    exit;
+
+  if (MessageDlg('Confirma a exclusão desta Peça ?', mtConfirmation, [mbYes, mbNo],0) = mrNo) then
+    exit;
+
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM OS_DET WHERE ID_OS_DET = ' +
+      IntToStr(cdsPecasID_OS_DET.AsInteger));
+
+    dm.sqlsisAdimin.Commit(TD);
+    MessageDlg('Peça excluída com sucesso.', mtWarning, [mbOk], 0);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+    end;
+  end;
 end;
 
 procedure TfOs.dsPecasStateChange(Sender: TObject);
