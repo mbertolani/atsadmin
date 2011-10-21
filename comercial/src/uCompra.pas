@@ -1413,7 +1413,7 @@ begin
      DtSrc.DataSet.edit;
 
   if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detDESCPRODUTO.AsString + '''?',
-    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+    mtConfirmation, [mbYes, mbNo],0) <> mrYes then exit;
      DtSrc1.DataSet.Delete;
 end;
 
