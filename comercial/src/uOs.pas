@@ -220,7 +220,7 @@ begin
   abrirPecas;
   edData.Date    := Today;
   edDataFim.Date := Today;
-  edData.SetFocus;
+  //edData.SetFocus;
   numOsDet := 90000001;
 end;
 

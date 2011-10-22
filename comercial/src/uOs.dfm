@@ -24,7 +24,7 @@ object fOs: TfOs
     Width = 814
     Height = 51
     Align = alBottom
-    TabOrder = 0
+    TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -723,7 +723,7 @@ object fOs: TfOs
     Align = alClient
     Color = clHighlight
     ParentColor = False
-    TabOrder = 1
+    TabOrder = 2
     object JvDBGrid2: TJvDBGrid
       Left = 2
       Top = 15
@@ -1209,7 +1209,7 @@ object fOs: TfOs
     Height = 169
     Align = alTop
     ParentBackground = False
-    TabOrder = 2
+    TabOrder = 0
     object GroupBox3: TGroupBox
       Left = 1
       Top = 1
@@ -1257,6 +1257,7 @@ object fOs: TfOs
         Top = 16
         Width = 121
         Height = 24
+        TabStop = False
         Color = clScrollBar
         Enabled = False
         Font.Charset = DEFAULT_CHARSET
