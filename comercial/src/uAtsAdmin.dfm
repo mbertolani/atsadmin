@@ -749,6 +749,19 @@ object fAtsAdmin: TfAtsAdmin
       759DE083E53F68892D7C1A442D95F68035F01FFFD9}
     PopupMenu = PopupMenu1
   end
+  object Label1: TLabel
+    Left = 24
+    Top = 352
+    Width = 5
+    Height = 16
+    Caption = '.'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0

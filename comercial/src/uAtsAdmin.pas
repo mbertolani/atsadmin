@@ -8,7 +8,7 @@ uses
   Buttons, StdCtrls, FMTBcd, DBClient, Provider, SqlExpr, EOneInst, ImgList,
   rpcompobase, rpvclreport, DBxpress, UCBase, ActnList, RXCtrls, RxGIF,
   jpeg, EAppProt, TFlatSpeedButtonUnit, StdActns, UCHist_Base,
-  UCHistDataset, JvGIF, WinInet,URLMon, ShellApi;
+  UCHistDataset, JvGIF, WinInet,URLMon, ShellApi, IniFiles;
 
 type
   TfAtsAdmin = class(TForm)
@@ -243,6 +243,7 @@ type
     ListaEstoque1: TMenuItem;
     ProdutosSemMovimentao1: TMenuItem;
     Fechamento1: TMenuItem;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -371,6 +372,7 @@ type
     tamanho_arquivo : longword;
     function DownloadFile(SourceFile, DestFile: string): Boolean;
     function RemoveChar(Const Texto:String):String;
+    function ClienteOk(): Boolean;
     { Private declarations }
   public
     { Public declarations }
@@ -748,11 +750,12 @@ end;
 
 procedure TfAtsAdmin.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
- caminho, arquivo, empresa: String;
+ caminho, caminho2, arquivo, empresa: String;
+ tempo : Integer;
 begin
   if (dm.VISTO_FTP = '') then
     dm.VISTO_FTP := '01/01/2001';
-  if (MonthOf(StrToDateTime(dm.VISTO_FTP)) <> MonthOf(today)) then
+  if (StrToDateTime(dm.VISTO_FTP) <> today) then
   begin
     empresa := RemoveChar(dm.empresa);
     // URL Location
@@ -762,15 +765,29 @@ begin
 
     if DownloadFile(caminho, arquivo) then
     begin
-      //ShowMessage('Download succesful!');
-      // Show downloaded image in your browser
-      //ShellExecute(Application.Handle, PChar('open'), PChar(DestFile),
-      //  PChar(''), nil, SW_NORMAL)
       btnBoleto.Top := screen.DesktopHeight - 200;
       btnBoleto.Left := Screen.DesktopWidth - 350;
       btnBoleto.Visible := True;
       btnBoleto.Caption := 'Boleto Mensal.';
     end;
+
+    empresa := RemoveChar(dm.empresa);
+    // URL Location
+    caminho := 'http://www.atsti.com.br/boleto/' + empresa + 'lock.pdf';
+    // Where to save the file
+    arquivo := 'ATS_Boleto.pdf';
+
+    if DownloadFile(caminho, arquivo) then
+    begin
+      tempo := DayOf(StrToDateTime(dm.VISTO_FTP));
+      Label1.Caption := 'A Licença do Aplicativo expirará em ' ;
+      btnBoleto.Left := Screen.DesktopWidth - 350;
+      btnBoleto.Visible := True;
+      btnBoleto.Caption := 'Boleto Mensal.';
+    end;
+
+
+
     dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET D9 = ' + QuotedStr(FormatDateTime('dd/mm/yyyy', today))  +
     ' WHERE PARAMETRO = ' + QuotedStr('EMPRESA'));
   end;
@@ -2035,6 +2052,22 @@ begin
     F_Fechamento.Free;
   end;
   }
+end;
+
+function TfAtsAdmin.ClienteOk: Boolean;
+var
+  // variável que irá conter o arquivo
+  config : TIniFile;
+  // variável que irá armazenar parâmetro a ser lido do arquivo
+  param : string;
+begin
+  {Exemplo de arquivo INI
+   [PARAMETRO]
+   SENHA=12345}
+  // associa o arquivo de configuração a variável
+  config := TIniFile.Create('C:\Aplicacao\config.ini');
+  //variável param recebe 12345
+  param := config.readstring('PARAMETRO','SENHA','');
 end;
 
 end.
