@@ -244,7 +244,9 @@ uses
   uOsFiltro in 'uOsFiltro.pas' {fOsFiltro},
   uProdutoProcOficina in 'uProdutoProcOficina.pas' {fProdutoProcOficina},
   uOsInsere in 'uOsInsere.pas' {fOsInsere},
-  uOsInserePeca in 'uOsInserePeca.pas' {fOsInserePeca};
+  uOsInserePeca in 'uOsInserePeca.pas' {fOsInserePeca},
+  uPainelControle in 'uPainelControle.pas' {fPainelControle},
+  uPeriodo in 'uPeriodo.pas' {fPeriodo};
 
 //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
 {$R *.res}
@@ -254,6 +256,7 @@ begin
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDM_MOV, DM_MOV);
+  Application.CreateForm(TfPainelControle, fPainelControle);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);
