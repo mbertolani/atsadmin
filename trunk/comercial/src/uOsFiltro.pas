@@ -714,6 +714,7 @@ begin
     fOs.cdsOS.Close;
   fOs.cdsOS.Params.ParamByName('POS').Clear;
   fOs.cdsOS.Open;
+  fOs.btnIncluir.Visible := True;
   fOs.btnIncluir.Click;
   fOs.ShowModal;
 end;

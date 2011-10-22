@@ -853,7 +853,7 @@ object fOsFiltro: TfOsFiltro
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object JvFinalizar: TJvBitBtn
-      Left = 549
+      Left = 550
       Top = 5
       Width = 98
       Height = 40
