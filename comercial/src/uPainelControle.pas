@@ -18,37 +18,17 @@ type
     cdsVendaVENDA: TFloatField;
     cdsVendaMES: TStringField;
     cdsVendaUDF_MONTH: TSmallintField;
-    GroupBox2: TGroupBox;
-    DBChart2: TDBChart;
-    BarSeries1: TBarSeries;
-    sdsCompras: TSQLDataSet;
-    dspCompras: TDataSetProvider;
-    cdsCompras: TClientDataSet;
-    StringField1: TStringField;
-    SmallintField1: TSmallintField;
     sdsPedidoVenda: TSQLDataSet;
     dspPedidoVenda: TDataSetProvider;
     cdsPedidoVenda: TClientDataSet;
     GroupBox3: TGroupBox;
     DBChart3: TDBChart;
     BarSeries2: TBarSeries;
-    cdsComprasCOMPRA: TFloatField;
     cdsPedidoVendaMESANO: TStringField;
     cdsPedidoVendaVALORVENDA: TFloatField;
     cdsPedidoVendaVALORPEDIDO: TFloatField;
     Series2: TBarSeries;
     cdsPedidoVendaMESANOV: TIntegerField;
-    GroupBox4: TGroupBox;
-    DBChart4: TDBChart;
-    BarSeries3: TBarSeries;
-    BarSeries4: TBarSeries;
-    sdsPedidoCompra: TSQLDataSet;
-    dspPedidoCompra: TDataSetProvider;
-    cdsPedidoCompra: TClientDataSet;
-    StringField2: TStringField;
-    FloatField1: TFloatField;
-    FloatField2: TFloatField;
-    IntegerField1: TIntegerField;
     PopupMenu1: TPopupMenu;
     MudarPerododesteGrfico1: TMenuItem;
     MudarPerododeTodososGrficos1: TMenuItem;
@@ -57,14 +37,30 @@ type
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
+    GroupBox2: TGroupBox;
+    DBChart2: TDBChart;
+    sdsVendaCliente: TSQLDataSet;
+    dspVendaCliente: TDataSetProvider;
+    cdsVendaCliente: TClientDataSet;
     PopupMenu3: TPopupMenu;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
+    cdsVendaClienteCLIENTE: TStringField;
+    cdsVendaClienteVENDA: TFloatField;
+    BarSeries1: TPieSeries;
+    GroupBox4: TGroupBox;
+    DBChart4: TDBChart;
+    PieSeries1: TPieSeries;
+    sdsVendaProduto: TSQLDataSet;
+    dspVendaProduto: TDataSetProvider;
+    cdsVendaProduto: TClientDataSet;
     PopupMenu4: TPopupMenu;
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
+    cdsVendaProdutoPRODUTO: TStringField;
+    cdsVendaProdutoVENDA: TFloatField;
     procedure FormShow(Sender: TObject);
     procedure DBChart1DblClick(Sender: TObject);
     procedure AtualizarGrficos1Click(Sender: TObject);
@@ -114,20 +110,20 @@ end;
 
 procedure TfPainelControle.AbreGrafico3(DataIni: TDateTime; DataFim : TDateTime);
 begin
-  if (cdsCompras.Active) then
-    cdsCompras.Close;
-  cdsCompras.Params.ParamByName('dataIni').asDateTime := DataIni;
-  cdsCompras.Params.ParamByName('dataFim').asDateTime := DataFim;
-  cdsCompras.Open;
+  if (cdsVendaCliente.Active) then
+    cdsVendaCliente.Close;
+  cdsVendaCliente.Params.ParamByName('dataIni').asDateTime := DataIni;
+  cdsVendaCliente.Params.ParamByName('dataFim').asDateTime := DataFim;
+  cdsVendaCliente.Open;
 end;
 
 procedure TfPainelControle.AbreGrafico4(DataIni: TDateTime; DataFim : TDateTime);
 begin
-  if (cdsPedidoCompra.Active) then
-    cdsPedidoCompra.Close;
-  cdsPedidoCompra.Params.ParamByName('dataIni').asDateTime := DataIni;
-  cdsPedidoCompra.Params.ParamByName('dataFim').asDateTime := DataFim;
-  cdsPedidoCompra.Open;
+  if (cdsVendaProduto.Active) then
+    cdsVendaProduto.Close;
+  cdsVendaProduto.Params.ParamByName('dataIni').asDateTime := DataIni;
+  cdsVendaProduto.Params.ParamByName('dataFim').asDateTime := DataFim;
+  cdsVendaProduto.Open;
 end;
 
 procedure TfPainelControle.FormShow(Sender: TObject);
