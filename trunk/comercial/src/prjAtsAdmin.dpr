@@ -246,7 +246,8 @@ uses
   uOsInsere in 'uOsInsere.pas' {fOsInsere},
   uOsInserePeca in 'uOsInserePeca.pas' {fOsInserePeca},
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
-  uPeriodo in 'uPeriodo.pas' {fPeriodo};
+  uPeriodo in 'uPeriodo.pas' {fPeriodo},
+  uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra};
 
 //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
 {$R *.res}
@@ -257,6 +258,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDM_MOV, DM_MOV);
   Application.CreateForm(TfPainelControle, fPainelControle);
+  Application.CreateForm(TfPainelControleCompra, fPainelControleCompra);
   if (dm.conectado = False) then
     Application.Terminate;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);
