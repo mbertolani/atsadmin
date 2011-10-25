@@ -1,6 +1,6 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 663
+  Left = 664
   Top = 321
   Height = 332
   Width = 449
@@ -246,6 +246,12 @@ object DM_MOV: TDM_MOV
       ProviderFlags = [pfInUpdate]
       Size = 30
     end
+    object s_movimentoTIPO_PEDIDO: TStringField
+      FieldName = 'TIPO_PEDIDO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
   end
   object p_movimento: TDataSetProvider
     DataSet = s_movimento
@@ -440,6 +446,12 @@ object DM_MOV: TDM_MOV
       FieldName = 'USUARIOLOGADO'
       ProviderFlags = [pfInUpdate]
       Size = 30
+    end
+    object c_movimentoTIPO_PEDIDO: TStringField
+      FieldName = 'TIPO_PEDIDO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
     end
   end
   object p_movdet: TDataSetProvider
@@ -1227,7 +1239,8 @@ object DM_MOV: TDM_MOV
       ' join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE '#13#10'where ((m.CODC' +
       'LIENTE = :id_cli) or (:id_cli = 9999999))'#13#10'   and ((m.CODNATUREZ' +
       'A = :id_nat) or (:id_nat = 9999999))  '#13#10'   and ((m.STATUS = :st)' +
-      ' or (:st = 999999))'
+      ' or (:st = 999999))'#13#10'   and ((m.CODMOVIMENTO = :idmov) or (:idmo' +
+      'v = 9999999))  '
     MaxBlobSize = -1
     Params = <
       item
@@ -1241,23 +1254,33 @@ object DM_MOV: TDM_MOV
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
         Name = 'id_nat'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
         Name = 'id_nat'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
+        Name = 'st'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
         Name = 'st'
         ParamType = ptInput
       end
       item
         DataType = ftInteger
-        Name = 'st'
+        Name = 'idmov'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'idmov'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -1445,23 +1468,33 @@ object DM_MOV: TDM_MOV
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
         Name = 'id_nat'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
         Name = 'id_nat'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
+        Name = 'st'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
         Name = 'st'
         ParamType = ptInput
       end
       item
         DataType = ftInteger
-        Name = 'st'
+        Name = 'idmov'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'idmov'
         ParamType = ptInput
       end>
     ProviderName = 'p_comanda'
@@ -1635,13 +1668,18 @@ object DM_MOV: TDM_MOV
   end
   object s_BuscaComanda: TSQLDataSet
     CommandText = 
-      'select CODCLIENTE, NOMECLIENTE from CLIENTES '#13#10'where CODCLIENTE ' +
-      '= :id'
+      'select CODCLIENTE, NOMECLIENTE, COD_CLI from CLIENTES '#13#10'where CO' +
+      'D_CLI = :id '#13#10'   or NOMECLIENTE = :nome'#13#10'   and SEGMENTO = 2'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftString
         Name = 'id'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'nome'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -1655,6 +1693,10 @@ object DM_MOV: TDM_MOV
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
       Size = 50
+    end
+    object s_BuscaComandaCOD_CLI: TStringField
+      FieldName = 'COD_CLI'
+      Size = 10
     end
   end
   object s_venda: TSQLDataSet
