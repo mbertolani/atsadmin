@@ -420,11 +420,15 @@ type
     s_movimentoUSUARIOLOGADO: TStringField;
     c_movimentoCODCOTACAO: TIntegerField;
     c_movimentoUSUARIOLOGADO: TStringField;
+    s_BuscaComandaCOD_CLI: TStringField;
+    s_movimentoTIPO_PEDIDO: TStringField;
+    c_movimentoTIPO_PEDIDO: TStringField;
     procedure c_movdetCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
     PAGECONTROL : String;
+    ID_DO_MOVIMENTO : integer;
     { Public declarations }
   end;
 
