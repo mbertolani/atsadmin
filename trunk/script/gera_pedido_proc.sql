@@ -1,4 +1,3 @@
-set term  ^ ;
 CREATE OR ALTER PROCEDURE GERA_PEDIDO_PROC(CODIGO INTEGER, FORNEC INTEGER, codMov integer)
 AS 
   declare variable codProduto integer;
