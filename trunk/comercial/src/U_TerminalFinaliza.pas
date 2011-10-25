@@ -8,10 +8,12 @@ uses
   Mask, DBCtrls, JvExControls, JvSpeedButton, ExtCtrls, MMJPanel, U_Terminal,
   FMTBcd, DB, SqlExpr, uUtils, DBxPress, Provider, DBClient, DBLocal,
   DBLocalS, JvExButtons, JvBitBtn, JvEdit, JvValidateEdit, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid, Menus, Printers, rpcompobase, rpvclreport;
+  JvExDBGrids, JvDBGrid, Menus, Printers, rpcompobase, rpvclreport,
+  ExtDlgs, ComCtrls, ImgList, uEstoque, uMovimento;
+
 
 type
-  TF_TerminalFinaliza = class(TForm)
+   TF_TerminalFinaliza = class(TForm)
     MMJPanel1: TMMJPanel;
     Panel1: TPanel;
     Panel2: TPanel;
@@ -253,7 +255,7 @@ type
     procedure JvBitBtn1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
-    usaMateriaPrima, tipo_origem, c_f, RESULTADO, PORTA : String;
+    usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
     prazo, codrec : Double;
     desconto : Double;
     vrr, nparc : double;
@@ -264,6 +266,7 @@ type
     procedure ALTERAVENDA;
     procedure imprimeCupom;
     procedure imprimeRecibo;
+    procedure imprimeDLLBema;
     { Private declarations }
   public
     { Public declarations }
@@ -287,17 +290,57 @@ const
 var
   F_TerminalFinaliza: TF_TerminalFinaliza;
   utilcrtitulo : Tutils;
-  tipoImpressao : string;
-  IMPRESSORA:TextFile;
+  tipoImpressao, usaDll : string;
+  IMPRESSORA : TextFile;
   Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
   total, porc, totgeral , desconto : double;
-  porta : string;
-  cliente, vNomeCliente, vEnderecoCliente, vFonecli : string;
+  iRetorno, comando : integer;
+  buffer, scomando : String;
+
+  i, j : integer;
+  strSql, strTit, tipoMov: String;
+  diferenca : double;
+  strSqlMov, usuario_venda: string;
+  Caixa : integer;
+  vApagar, Valor : Double;
+  str :string;
+  fatura_NF :string;
+
+  Save_Cursor:TCursor;
+  codClienteNF: integer;
+  dataVenda: TDateTime;
+  str_sql : string;
+  FEstoque: TEstoque;
+  FMov : TMovimento;
+
+
+function ConfiguraModeloImpressora(ModeloImpressora:integer):integer; stdcall; far; external 'Mp2032.dll';
+function IniciaPorta(Porta:string):integer; stdcall; far; external 'Mp2032.dll';
+function FechaPorta: integer	;  stdcall; far; external 'Mp2032.dll';
+function BematechTX(BufTrans:string):integer; stdcall; far; external 'Mp2032.dll';
+function FormataTX(BufTras:string; TpoLtra:integer; Italic:integer; Sublin:integer; expand:integer; enfat:integer):integer; stdcall; far; external 'Mp2032.dll';
+function ComandoTX (BufTrans:string;TamBufTrans:integer):integer; stdcall; far; external 'Mp2032.dll';
+function Status_Porta:integer; stdcall; far; external 'Mp2032.dll';
+function AutenticaDoc(BufTras:string;Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
+function Le_Status:integer; stdcall; far; external 'Mp2032.dll';
+function Le_Status_Gaveta:integer; stdcall; far; external 'Mp2032.dll';
+function DocumentInserted:integer; stdcall; far; external 'Mp2032.dll';
+function ConfiguraTamanhoExtrato(NumeroLinhas:Integer):integer; stdcall; far; external 'Mp2032.dll';
+function HabilitaExtratoLongo(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+function HabilitaEsperaImpressao(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+function EsperaImpressao:integer; stdcall; far; external 'Mp2032.dll';
+
+function AcionaGuilhotina(Modo:integer):integer; stdcall; far; external 'Mp2032.dll';
+function HabilitaPresenterRetratil(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+function ProgramaPresenterRetratil(Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
+function CaracterGrafico(Buffer: string; TamBuffer: integer):integer; stdcall; far; external 'Mp2032.dll';
+function VerificaPapelPresenter():integer; stdcall; far; external 'Mp2032.dll';
+
 
 implementation
 
 uses UDM_MOV, uProcurar, uProcurar_nf, UDMNF, UDm, ufprocura_prod,
-  ufCrAltera, uNotaf, uEstoque, uMovimento, U_Boletos;
+  ufCrAltera, uNotaf, U_Boletos;
 
 {$R *.dfm}
 
@@ -361,8 +404,17 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.FormCreate(Sender: TObject);
-var i, j : integer;
 begin
+  usaDll := 'FALSE';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    usaDll := 'TRUE';
+
+  dm.cds_parametro.Close;
+
   nparc := 1;
 
   {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
@@ -411,7 +463,6 @@ procedure TF_TerminalFinaliza.FormShow(Sender: TObject);
 begin
   DecimalSeparator := ',';
   codrec := 0;
-
   if (not dm.parametro.Active) then
     dm.parametro.Open;
   if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
@@ -641,9 +692,6 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.JvGravarClick(Sender: TObject);
-var  strSql, strTit, tipoMov: String;
-     diferenca : double;
-     utilcrtitulo : Tutils;
 begin
   if (cbPrazo.Text = '01-A Vista') then
     if (jvPago.Text = 'R$ 0,00') then
@@ -793,9 +841,6 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.INSEREVEDA;
-var strSql, strSqlMov, usuario_venda: string;
-    Caixa : integer;
-    total, vApagar, Valor : Double;
 begin
     caixa := 0;
     strSql := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA';
@@ -844,6 +889,7 @@ begin
     strSql := strSql + ')';
 
     strSqlMov := 'UPDATE MOVIMENTO SET CODCLIENTE = ' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger) +
+    ', STATUS = ' + '0 ' +
     ' where CODMOVIMENTO = ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger);
 
     DM_MOV.c_venda.Cancel;
@@ -880,6 +926,9 @@ end;
 procedure TF_TerminalFinaliza.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+  iRetorno := 0;
+  iRetorno := FechaPorta();
+
   if (scdsCr_proc.Active) then
       scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
@@ -905,7 +954,6 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.ALTERAVENDA;
-var texto : string;
 begin
    texto := 'select r.STATUS from RECEBIMENTO r ' +
             'where r.CODVENDA = ' +  IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger);
@@ -939,7 +987,6 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.btnCancelaBaixaClick(Sender: TObject);
-var str :string;
 begin
 
   if (DM_MOV.c_movimentoCODNATUREZA.AsInteger = 14) then //Cancelado
@@ -1028,7 +1075,6 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.btnNotaFiscalClick(Sender: TObject);
-var fatura_NF :string;
 begin
   if DM_MOV.d_venda.State in [dsInsert] then
     JvGravar.Click;
@@ -1043,10 +1089,6 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.NotaFiscal;
-var
-  Save_Cursor:TCursor;
-  codClienteNF: integer;
-  str_sql : string;
 begin
   if (sqlBuscaNota.Active) then
 	sqlBuscaNota.Close;
@@ -1064,9 +1106,9 @@ begin
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
-	try
-	str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
-	str_sql := str_sql + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
+	  try
+	  str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
+   	str_sql := str_sql + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
         str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENDA.AsDateTime));
         str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENCIMENTO.AsDateTime));
         str_sql := str_sql + ', ' + QuotedStr(DM_MOV.c_vendaSERIE.AsString);
@@ -1088,7 +1130,7 @@ begin
     finally
       Screen.Cursor := Save_Cursor;  { Always restore to normal }
     end;
-end;
+  end;
 
   fNotaf := TfNotaf.Create(Application);
   try
@@ -1110,9 +1152,6 @@ end;
 end;
 
 procedure TF_TerminalFinaliza.JvExcluirClick(Sender: TObject);
-var   FEstoque: TEstoque;
-      dataVenda: TDateTime;
-      FMov : TMovimento;      
 begin
   dataVenda := DM_MOV.c_vendaDATAVENDA.AsDateTime;
   if scdscr_proc.Active then
@@ -1231,8 +1270,6 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.excluinf;
-var
-  str_sql : string;
 begin
   excluiuNF := True;
   if (sqlBuscaNota.Active) then
@@ -1335,7 +1372,7 @@ begin
        s_parametro.Params[0].Clear;
        s_parametro.Params[0].AsString := 'PORTAIMP';
        s_parametro.Open;
-       PORTA := s_parametroDADOS.AsString;
+      // PORTA := s_parametroDADOS.AsString;
        s_parametro.Close;
        AssignFile(IMPRESSORA,'COM5:');
      end;
@@ -1423,6 +1460,7 @@ begin
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
   dm.cds_parametro.Open;
+
   if (not dm.cds_parametro.Eof) then
      tipoImpressao := 'CUPOM';
 
@@ -1440,10 +1478,233 @@ begin
   end;
 
   if (tipoImpressao = 'CUPOM') then
-    imprimeCupom;
-
+  begin
+     if (usaDll = 'TRUE') then
+       imprimeDLLBema
+     else
+       imprimeCupom;
+  end;
   if (tipoImpressao = 'RECIBO') then
     imprimeRecibo;
+
+end;
+
+procedure TF_TerminalFinaliza.imprimeDLLBema;
+begin
+     if (not dm.cds_empresa.Active) then
+      dm.cds_empresa.Open;
+     {----- aqui monto o endereço-----}
+     logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+     cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+     ' - ' + dm.cds_empresaCEP.Value;
+     fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+     ' / ' + dm.cds_empresaFONE_2.Value;
+     Texto  := '-----------------------------------------------------' ;
+     Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
+      IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
+     Texto2 := '-----------------------------------------------------' ;
+     Texto3 := 'Produto ' ;
+     Texto4 := 'Cod.Barra        UN      Qtde     V.Un.     V.Total ' ;
+     Texto5 := DateTimeToStr(Now) + '           Total.: R$ ';
+     cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+     if (s_parametro.Active) then
+         s_parametro.close;
+     s_parametro.Params[0].AsString := 'MENSAGEM';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       DM.Mensagem := s_parametroDADOS.AsString
+     else
+       DM.Mensagem := '';
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'IMPARQUIVO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       SaveDialog1.Execute;
+       AssignFile(IMPRESSORA, SaveDialog1.FileName);
+       s_parametro.Close;
+     end
+     else
+     begin
+        if (s_parametro.Active) then
+          s_parametro.Close;
+        s_parametro.Params[0].Clear;
+        s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+        s_parametro.Open;
+        porta := s_parametroDADOS.AsString;
+        s_parametro.Close;
+
+        //Configura o Modelo da Impressora
+        iRetorno := ConfiguraModeloImpressora( 7 );
+        if (iRetorno = -2) then
+          ShowMessage('Erro Configurando Impressora');
+        iRetorno := IniciaPorta( pchar( porta ) );
+        if (iRetorno <= 0) then
+          ShowMessage('Erro Abrindo Porta');
+     end;
+
+      buffer  := dm.cds_empresaRAZAO.AsString + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := logradouro + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := cep + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := fone + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := 'CNPJ :' + dm.cds_empresaCNPJ_CPF.AsString + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := cliente + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto1 + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto2 + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto3 + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto4 + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+     DM_MOV.c_movdet.First;
+     while not DM_MOV.c_movdet.Eof do
+     begin
+         // imprime
+        buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10);
+        comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+        if comando = 0 then
+        begin
+          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          exit;
+        end;
+        buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
+        buffer  := buffer + Format('   %2s  ',[DM_MOV.c_movdetUN.Value]);
+        buffer  := buffer + Format('   %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+        buffer  := buffer + Format('   %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
+        buffer  := buffer + Format('   %8.2n',[DM_MOV.c_movdetValorTotal.value]);
+        buffer  := buffer + Chr(13) + Chr(10);
+        comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+        if comando = 0 then
+        begin
+          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          exit;
+        end;
+        DM_MOV.c_movdet.next;
+     end;
+
+     buffer  := texto + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+     if comando = 0 then
+     begin
+       MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       exit;
+     end;
+
+     buffer  := texto5;
+     total   := DM_MOV.c_movdettotalpedido.Value;
+     buffer  := buffer + Format('%10.2n',[total]);
+     buffer  := buffer + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+
+  {   // imprimir vencimentos
+     while not scdsCr_proc.Eof do
+     begin
+       Texto5 := 'Vencimento :   ';
+       Write(Impressora, c17cpi, texto5);
+       Texto5 := DateTimeToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
+       Texto5 := Texto5 + ' - Valor R$' + FloatToStr(scdsCr_procVALOR_RESTO.AsFloat);
+       Writeln(Impressora, c17cpi, texto5);
+       scdsCr_proc.Next;
+     end;
+     Writeln(IMPRESSORA);
+     Write(Impressora, c10cpi, DM.Mensagem);
+
+     }
+
+      buffer  := '' + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      buffer  := '' + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      buffer  := '' + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      buffer  := '' + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+     // Corto o Papel
+     comando := AcionaGuilhotina(1);  // modo total (full cut)
+     if comando <> 1 then
+       MessageDlg('Problemas no corte do papel..' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+
+     // Comando para Acionar a Gaveta de Dinheiro
+     scomando := #27 + #118 + #140;
+     iRetorno := ComandoTX( scomando, Length( scomando ));
+
 
 end;
 
