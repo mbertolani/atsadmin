@@ -244,6 +244,7 @@ type
     ProdutosSemMovimentao1: TMenuItem;
     Fechamento1: TMenuItem;
     Label1: TLabel;
+    GrficodeVendas1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -365,6 +366,7 @@ type
     procedure ListaEstoque1Click(Sender: TObject);
     procedure ProdutosSemMovimentao1Click(Sender: TObject);
     procedure Fechamento1Click(Sender: TObject);
+    procedure GrficodeVendas1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -413,7 +415,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
-  uListaEstoque, uOsFiltro;
+  uListaEstoque, uOsFiltro, uPainelControle;
 
 
 
@@ -2068,6 +2070,16 @@ begin
   config := TIniFile.Create('C:\Aplicacao\config.ini');
   //variável param recebe 12345
   param := config.readstring('PARAMETRO','SENHA','');
+end;
+
+procedure TfAtsAdmin.GrficodeVendas1Click(Sender: TObject);
+begin
+  fPainelControle := TfPainelControle.Create(Application);
+  try
+    fPainelControle.ShowModal;
+  finally
+    fPainelControle.Free;
+  end;
 end;
 
 end.
