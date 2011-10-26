@@ -263,6 +263,7 @@ begin
 
   dbEdit2.SetFocus;
   cbPais.ItemIndex := 29;
+  cds_endforPAIS.AsString := cbPais.Text;
 end;
 
 procedure TfFornecedorCadastro.btnGravarClick(Sender: TObject);
