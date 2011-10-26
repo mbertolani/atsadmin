@@ -55,6 +55,8 @@ type
     cdsPedidoCODPEDIDO: TIntegerField;
     sqlPedidoCODFORNECEDOR: TIntegerField;
     cdsPedidoCODFORNECEDOR: TIntegerField;
+    sqlPedidoUN: TStringField;
+    cdsPedidoUN: TStringField;
     procedure edFornecExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);

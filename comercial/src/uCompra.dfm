@@ -1621,42 +1621,48 @@ inherited fCompra: TfCompra
           Expanded = False
           FieldName = 'CODPRO'
           Title.Caption = 'C'#243'digo'
-          Width = 72
+          Width = 65
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DESCPRODUTO'
           Title.Caption = 'Mercadoria'
-          Width = 306
+          Width = 276
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'UN'
+          Width = 57
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRECO'
           Title.Caption = 'Unit.'
-          Width = 66
+          Width = 60
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'QUANTIDADE'
           Title.Caption = 'Qtde'
-          Width = 41
+          Width = 37
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ValorTotal'
           Title.Caption = 'Total R$'
-          Width = 66
+          Width = 60
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'LOTE'
           Title.Caption = 'Lotes'
-          Width = 46
+          Width = 41
           Visible = True
         end>
     end

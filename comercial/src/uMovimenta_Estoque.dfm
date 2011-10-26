@@ -172,6 +172,11 @@ object fMovimenta_Estoque: TfMovimenta_Estoque
       end
       item
         Expanded = False
+        FieldName = 'UN'
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'QUANTIDADE'
         Title.Caption = 'Qtde'
         Width = 50
