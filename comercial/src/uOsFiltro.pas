@@ -135,6 +135,13 @@ type
     btnStatusServico: TBitBtn;
     btnIncluir: TBitBtn;
     JvFinalizar: TJvBitBtn;
+    sdsPecaCODPRO: TStringField;
+    cdsPecaCODUSUARIO: TIntegerField;
+    cdsPecaCODPRO: TStringField;
+    sqlServicoCODPRO: TStringField;
+    cdsServicoCODPRO: TStringField;
+    sqlServicoNOMEUSUARIO: TStringField;
+    cdsServicoNOMEUSUARIO: TStringField;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);

@@ -1100,7 +1100,7 @@ object fOsFiltro: TfOsFiltro
         Expanded = False
         FieldName = 'OBS'
         Title.Caption = 'Obs.'
-        Width = 168
+        Width = 152
         Visible = True
       end>
   end
@@ -1131,7 +1131,6 @@ object fOsFiltro: TfOsFiltro
     TitleArrow = True
     MinColumnWidth = 100
     AutoSizeColumns = True
-    AutoSizeColumnIndex = -2
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.RealNamesOption = '[With the real field name]'
     SelectColumnsDialogStrings.OK = '&OK'
@@ -1148,51 +1147,58 @@ object fOsFiltro: TfOsFiltro
       end
       item
         Expanded = False
-        FieldName = 'CODPRODUTO'
+        FieldName = 'ID_OS_DET'
+        Title.Caption = 'C'#243'd.Serv.'
+        Width = 59
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODPRO'
         Title.Caption = 'C'#243'digo'
-        Width = 80
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCRICAO_SERV'
         Title.Caption = 'Descri'#231#227'o'
-        Width = 300
+        Width = 259
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'CODUSUARIO'
+        FieldName = 'NOMEUSUARIO'
         Title.Caption = 'Colaborador'
-        Width = 100
+        Width = 97
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'QTDE'
-        Title.Caption = 'Qtde'
-        Width = 60
+        Title.Caption = 'Quantidade'
+        Width = 59
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO'
         Title.Caption = 'Pre'#231'o'
-        Width = 60
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCONTO'
         Title.Caption = 'Desconto'
-        Width = 60
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORTOTAL'
         Title.Caption = 'Valor Total'
-        Width = 48
+        Width = 77
         Visible = True
       end>
   end
@@ -1223,7 +1229,6 @@ object fOsFiltro: TfOsFiltro
     TitleArrow = True
     MinColumnWidth = 100
     AutoSizeColumns = True
-    AutoSizeColumnIndex = -2
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.RealNamesOption = '[With the real field name]'
     SelectColumnsDialogStrings.OK = '&OK'
@@ -1231,6 +1236,63 @@ object fOsFiltro: TfOsFiltro
     EditControls = <>
     RowsHeight = 20
     TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ID_OS_DET'
+        Title.Caption = 'C'#243'digo'
+        Width = 61
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODPRO'
+        Title.Caption = 'Pe'#231'a'
+        Width = 69
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRICAO_SERV'
+        Title.Caption = 'Descri'#231#227'o'
+        Width = 206
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ID_OSDET_SERV'
+        Title.Caption = 'C'#243'd. Servi'#231'o'
+        Width = 103
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QTDE'
+        Title.Caption = 'Quantidade'
+        Width = 69
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO'
+        Title.Caption = 'Pre'#231'o'
+        Width = 69
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCONTO'
+        Title.Caption = 'Desconto'
+        Width = 69
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALORTOTAL'
+        Title.Caption = 'Valor Total'
+        Width = 82
+        Visible = True
+      end>
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -1360,21 +1422,38 @@ object fOsFiltro: TfOsFiltro
     end
     object cdsServicoQTDE: TFloatField
       FieldName = 'QTDE'
+      DisplayFormat = ',##0.0'
+      EditFormat = ',##0.0'
     end
     object cdsServicoPRECO: TFloatField
       FieldName = 'PRECO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsServicoDESCONTO: TFloatField
       FieldName = 'DESCONTO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsServicoVALORTOTAL: TFloatField
       FieldName = 'VALORTOTAL'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsServicoID_OSDET_SERV: TIntegerField
       FieldName = 'ID_OSDET_SERV'
     end
     object cdsServicoCODUSUARIO: TIntegerField
       FieldName = 'CODUSUARIO'
+    end
+    object cdsServicoCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object cdsServicoNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Required = True
+      Size = 30
     end
   end
   object dsServico: TDataSource
@@ -1426,18 +1505,33 @@ object fOsFiltro: TfOsFiltro
     end
     object cdsPecaQTDE: TFloatField
       FieldName = 'QTDE'
+      DisplayFormat = ',##0.0'
+      EditFormat = ',##0.0'
     end
     object cdsPecaPRECO: TFloatField
       FieldName = 'PRECO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsPecaDESCONTO: TFloatField
       FieldName = 'DESCONTO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsPecaVALORTOTAL: TFloatField
       FieldName = 'VALORTOTAL'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsPecaID_OSDET_SERV: TIntegerField
       FieldName = 'ID_OSDET_SERV'
+    end
+    object cdsPecaCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+    end
+    object cdsPecaCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
     end
   end
   object dsPeca: TDataSource
@@ -1447,8 +1541,10 @@ object fOsFiltro: TfOsFiltro
   end
   object sqlServico: TSQLDataSet
     CommandText = 
-      'SELECT DET.* FROM OS_DET DET'#13#10'WHERE ID_OS = :CODOS'#13#10'      AND TI' +
-      'PO = '#39'S'#39
+      'SELECT DET.*, p.CODPRO, u.NOMEUSUARIO FROM OS_DET DET, PRODUTOS ' +
+      'P, USUARIO u'#13#10'WHERE DET.ID_OS = :CODOS'#13#10'      AND p.CODPRODUTO =' +
+      ' det.CODPRODUTO'#13#10'      AND u.CODUSUARIO  = det.CODUSUARIO'#13#10'     ' +
+      ' AND det.TIPO = '#39'S'#39
     DataSource = dsLinkMestreDetalhe
     MaxBlobSize = -1
     Params = <
@@ -1508,6 +1604,15 @@ object fOsFiltro: TfOsFiltro
     end
     object sqlServicoCODUSUARIO: TIntegerField
       FieldName = 'CODUSUARIO'
+    end
+    object sqlServicoCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object sqlServicoNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Required = True
+      Size = 30
     end
   end
   object dsLinkMestreDetalhe: TDataSource
@@ -1574,8 +1679,9 @@ object fOsFiltro: TfOsFiltro
   end
   object sdsPeca: TSQLDataSet
     CommandText = 
-      'SELECT DET.* FROM OS_DET DET'#13#10'WHERE ID_OSDET_SERV = :CODOSSERV'#13#10 +
-      '      AND TIPO = '#39'P'#39
+      'SELECT DET.*, p.CODPRO FROM OS_DET DET, PRODUTOS P'#13#10'WHERE DET.ID' +
+      '_OSDET_SERV = :CODOSSERV'#13#10'      AND DET.TIPO = '#39'P'#39#13#10'      AND p.' +
+      'CODPRODUTO = det.CODPRODUTO'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -1633,6 +1739,10 @@ object fOsFiltro: TfOsFiltro
     end
     object IntegerField5: TIntegerField
       FieldName = 'CODUSUARIO'
+    end
+    object sdsPecaCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
     end
   end
   object dspPeca: TDataSetProvider
