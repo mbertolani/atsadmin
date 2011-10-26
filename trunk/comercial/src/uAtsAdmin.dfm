@@ -2580,6 +2580,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Relat'#243'rio de Clientes'
         OnClick = RelatriodeClientes1Click
       end
+      object GrficodeVendas1: TMenuItem
+        Caption = 'Gr'#225'fico de Vendas'
+        OnClick = GrficodeVendas1Click
+      end
     end
     object RelastriosFinanceiros1: TMenuItem
       Caption = 'Rel. Financeiros      '
