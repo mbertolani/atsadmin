@@ -1030,7 +1030,7 @@ begin
       executaScript('inclui_rec.sql');
       executaScript('inclui_pag.sql');
       executaScript('frete_nf.sql');
-      executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
+      //executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
       mudaVersao('1.0.0.92');
     end; // Fim Ataulização Versao 1.0.0.92
 
@@ -1068,8 +1068,8 @@ begin
       executaScript('spEstoqueFiltro.sql');
       executaScript('estoqueccustoent.sql');
       mudaVersao('1.0.0.93');
-      executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
-      '6, ' + QuotedStr('Expedição') + ', 1, 0, 6)');
+      {executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
+      '6, ' + QuotedStr('Expedição') + ', 1, 0, 6)'); }
 	    DeletaTrigger('ESTOQUECCUSTOENT');
     end; // Fim Ataulização Versao 1.0.0.93
 
@@ -1095,6 +1095,7 @@ begin
 
     if (versaoSistema = '1.0.0.94') then
     begin
+      executaSql('ALTER TABLE OS DROP CODVEICULO');
       CriaException('ALTERA_CODPRO ', 'Produto em uso na Solicitação, não é possível fazer alteração');
       executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
       executaDDL('OS_DET', 'CODUSUARIO', 'INTEGER');
@@ -1115,13 +1116,13 @@ begin
       executaScript('sp_lote_estoquemes.sql');
       executaScript('trg_altera_codpro.sql');
       executaScript('extrato_pag.sql');
-      executaSql('ALTER TABLE OS DROP CODVEICULO');
       if (NaoExisteTabela('PAIS')) then
       begin
         executaSql('create table PAIS ( CODPAIS char(4) NOT NULL, ' +
           'PAIS VARCHAR(60) NOT null, ' +
           'PRIMARY KEY(CODPAIS, PAIS) )');
-        executaScript('pais.sql');
+        //executaScript('pais.sql');
+        MessageDlg('Execute o Script "pais.sql".', mtWarning, [mbOK], 0);
       end;
       mudaVersao('1.0.0.95');
     end; //Fim Ataulização Versao 1.0.0.95
