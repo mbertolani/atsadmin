@@ -172,6 +172,11 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       end
       item
         Expanded = False
+        FieldName = 'UN'
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'QUANTIDADE'
         Title.Caption = 'Qtde'
         Width = 50
@@ -1370,6 +1375,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     ParentFont = False
     StoreDateFormat = True
     TabOrder = 0
+    OnExit = dbEdit1Exit
     OnKeyPress = FormKeyPress
   end
   object cbCodigo: TJvDBSearchComboBox
