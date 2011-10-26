@@ -247,7 +247,8 @@ uses
   uOsInserePeca in 'uOsInserePeca.pas' {fOsInserePeca},
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
   uPeriodo in 'uPeriodo.pas' {fPeriodo},
-  uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra};
+  uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra},
+  uAtsOS in 'uAtsOS.pas' {fAtsOS};
 
 //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
 {$R *.res}
@@ -257,10 +258,12 @@ begin
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDM_MOV, DM_MOV);
-  Application.CreateForm(TfPainelControle, fPainelControle);
-  Application.CreateForm(TfPainelControleCompra, fPainelControleCompra);
   if (dm.conectado = False) then
     Application.Terminate;
+  if (dm.moduloUsado = 'AUTOMOTIVA') then
+  begin
+    Application.CreateForm(TfAtsOs, fAtsOs);
+  end;
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);
   Application.CreateForm(TDMNF, DMNF);
   Application.CreateForm(TDmCitrus, DmCitrus);
