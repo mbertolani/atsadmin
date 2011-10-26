@@ -1401,6 +1401,7 @@ begin
  if (PageControl1.ActivePage = TabRepresentante) then
    btnIncluir_rep.Click;
  cbPais.ItemIndex := 29;
+ cdsEnderecoCliPAIS.AsString := cbPais.Text; 
 end;
 
 procedure TfClienteCadastro.DBEdit2Exit(Sender: TObject);
