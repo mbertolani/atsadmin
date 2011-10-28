@@ -150,7 +150,7 @@ begin
   if (rgStatus.ItemIndex = 0) then
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, cast(md.DESCPRODUTO as varchar(300)) PRODUTO' +
-      ', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
+      ', (md.QUANTIDADE - md.RECEBIDO) QUANTIDADE, p.UNIDADEMEDIDA as UN, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
       ',  m.CONTROLE, m.CODPEDIDO , m.CODFORNECEDOR ' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
@@ -166,7 +166,7 @@ begin
   if (rgStatus.ItemIndex = 1) then
   begin
     str := 'select md.CODDETALHE, md.CODMOVIMENTO, m.DATA_ENTREGA, p.CODPRO, cast(md.DESCPRODUTO as varchar(300)) PRODUTO' +
-      ', md.RECEBIDO QUANTIDADE, md.PRECO, md.VALTOTAL , md.RECEBIDO' +
+      ', md.RECEBIDO QUANTIDADE, md.PRECO, md.VALTOTAL , p.UNIDADEMEDIDA as UN, md.RECEBIDO' +
       ',  m.CONTROLE, m.CODPEDIDO, m.CODFORNECEDOR ' +
       ' from MOVIMENTODETALHE md ' +
       ' inner join MOVIMENTO m on  m.CODMOVIMENTO  = md.CODMOVIMENTO ' +
