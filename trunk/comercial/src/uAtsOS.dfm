@@ -20,8 +20,8 @@ object fAtsOS: TfAtsOS
   object Image1: TImage
     Left = 165
     Top = 35
-    Width = 605
-    Height = 555
+    Width = 613
+    Height = 566
     Align = alClient
     Center = True
     Picture.Data = {
@@ -27781,8 +27781,8 @@ object fAtsOS: TfAtsOS
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 590
-    Width = 770
+    Top = 601
+    Width = 778
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -27806,7 +27806,7 @@ object fAtsOS: TfAtsOS
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 770
+    Width = 778
     Height = 35
     Align = alTop
     TabOrder = 1
@@ -27819,7 +27819,7 @@ object fAtsOS: TfAtsOS
     object RxLabel1: TRxLabel
       Left = 1
       Top = 1
-      Width = 768
+      Width = 776
       Height = 33
       Align = alClient
       Alignment = taCenter
@@ -27839,7 +27839,7 @@ object fAtsOS: TfAtsOS
     Left = 0
     Top = 35
     Width = 165
-    Height = 555
+    Height = 566
     Align = alLeft
     Pages = <
       item
@@ -28099,7 +28099,7 @@ object fAtsOS: TfAtsOS
       end>
     LargeImages = ImageList2
     PageButtonHeight = 34
-    ActivePageIndex = 5
+    ActivePageIndex = 1
     BorderStyle = bsNone
     Color = clWindow
     Font.Charset = ANSI_CHARSET
@@ -28673,7 +28673,7 @@ object fAtsOS: TfAtsOS
     Left = 680
     Top = 232
     Bitmap = {
-      494C010121002200040054004000FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C010121002200040054004000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000005001000040020000010020000000000000D0
       0B00000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -53661,6 +53661,7 @@ object fAtsOS: TfAtsOS
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE0FFFFFFF0000FFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFF0000}
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000000000000000000
+      000000000000}
   end
 end

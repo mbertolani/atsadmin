@@ -101,6 +101,7 @@ begin
       if (fOs.dsServico.State = dsBrowse) then
         fOs.cdsServico.Edit;
       fOs.cdsServicoCODPRODUTO.AsInteger := fProcurar.codProdProc;
+      codProduto                         := fProcurar.codProdProc;
       fOs.cdsServicoQTDE.AsFloat         := 1;
       fOs.cdsServicoPRECO.AsFloat        := fProcurar.precoVenda;
     end;
@@ -232,7 +233,7 @@ begin
   if (str = '') then
     str := edProdDescr.Text;
 
-  fOs.cdsServicoSTATUS.AsString := 'O';
+  fOs.cdsServicoSTATUS.AsString  := fOs.statusOs;
   fOs.cdsServicoCODUSUARIO.AsInteger    := StrToInt(edCodUsuario.Text);
   fOs.cdsServicoNOMEUSUARIO.AsString    := edColaborador.Text;
   fOs.cdsServicoDESCRICAO_SERV.AsString := str;

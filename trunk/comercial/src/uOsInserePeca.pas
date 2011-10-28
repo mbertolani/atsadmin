@@ -128,17 +128,17 @@ begin
   cdsPecasDESCRICAO_SERV.AsString := str;
   cdsPecasCODPRO.AsString         := edProduto.Text;
   cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
-  cdsPecasSTATUS.AsString         := 'O';
+  cdsPecasSTATUS.AsString         := fOs.statusOs;
   cdsPecasTIPO.AsString           := 'P';
   cdsPecasQTDE.AsFloat            := edQtdeServ.Value;
   cdsPecasPRECO.AsFloat           := edPrecoServ.Value;
   cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
   //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
   cdsPecas.Post;
-
+  //cdsPecas.ApplyUpdates(0);
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
-    fOs.FOsCls.osDet.CodOsP   := fOs.cdsOSCODOS.AsInteger;
+    fOs.FOsCls.osDet.CodOsP   := fOs.codigoOs;
     if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
     begin
       fOs.FOsCls.osDet.CodDet   := 0;
@@ -171,7 +171,7 @@ begin
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
       dm.sqlsisAdimin.Rollback(TD);
     end;
-  end;
+  end; 
   fOs.abrirPecas;
 
 end;
@@ -207,8 +207,9 @@ begin
   fOs.numOsDet := fOs.numOsDet + 1;
 
   DtSrc.DataSet.Append;
+  cdsPecasID_OS.AsInteger         := fOs.cdsServicoID_OS.AsInteger;
   cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
-  cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
+  cdsPecasID_OSDET_SERV.AsInteger := fOs.cdsServicoID_OS_DET.AsInteger;
   cdsPecasTIPO.AsString           := 'P';
 end;
 
@@ -301,9 +302,9 @@ end;
 procedure TfOsInserePeca.cdsPecasNewRecord(DataSet: TDataSet);
 begin
   inherited;
-  cdsPecasID_OS.AsInteger := 1;
+  cdsPecasID_OS.AsInteger     := fOs.cdsServicoID_OS.AsInteger;
   cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
-  cdsPecasID_OSDET_SERV.AsInteger := fOs.ServCodServ;
+  cdsPecasID_OSDET_SERV.AsInteger := fOs.cdsServicoID_OS_DET.AsInteger;
   cdsPecasTIPO.AsString           := 'P';
 end;
 
