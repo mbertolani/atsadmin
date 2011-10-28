@@ -1,5 +1,5 @@
 inherited fEndereco: TfEndereco
-  Height = 314
+  Height = 320
   Caption = 'Cadastro de Endere'#231'o'
   OldCreateOrder = True
   OnShow = FormShow
@@ -19,6 +19,7 @@ inherited fEndereco: TfEndereco
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
+      ItemIndex = 0
       Items.Strings = (
         'Principal'
         'Cobran'#231'a'
@@ -26,10 +27,11 @@ inherited fEndereco: TfEndereco
         'Outros')
       ParentFont = False
       TabOrder = 0
+      OnClick = RadioGroup2Click
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 236
+    Top = 242
     inherited btnProcurar: TBitBtn
       Visible = False
     end
@@ -41,7 +43,7 @@ inherited fEndereco: TfEndereco
     Left = 0
     Top = 51
     Width = 772
-    Height = 185
+    Height = 191
     Align = alClient
     Caption = 'Endere'#231'o'
     Font.Charset = DEFAULT_CHARSET
@@ -53,126 +55,412 @@ inherited fEndereco: TfEndereco
     TabOrder = 2
     object Label2: TLabel
       Left = 10
-      Top = 49
-      Width = 70
+      Top = 41
+      Width = 79
       Height = 16
-      Caption = 'Logradouro'
+      Caption = 'Logradouro .:'
     end
     object Label3: TLabel
-      Left = 591
-      Top = 47
-      Width = 48
+      Left = 629
+      Top = 39
+      Width = 54
       Height = 16
-      Caption = 'N'#250'mero'
+      Caption = 'N'#250'mero.:'
     end
     object Label4: TLabel
-      Left = 11
+      Left = 10
       Top = 80
-      Width = 36
+      Width = 42
       Height = 16
-      Caption = 'Bairro'
+      Caption = 'Bairro.:'
     end
     object Label5: TLabel
-      Left = 436
+      Left = 438
       Top = 82
-      Width = 84
+      Width = 90
       Height = 16
-      Caption = 'Complemento'
+      Caption = 'Complemento.:'
     end
     object Label6: TLabel
-      Left = 13
-      Top = 116
-      Width = 44
+      Left = 10
+      Top = 124
+      Width = 50
       Height = 16
-      Caption = 'Cidade'
+      Caption = 'Cidade.:'
     end
     object Label7: TLabel
-      Left = 406
-      Top = 116
-      Width = 18
+      Left = 402
+      Top = 124
+      Width = 24
       Height = 16
-      Caption = 'UF'
+      Caption = 'UF.:'
     end
     object Label8: TLabel
-      Left = 465
-      Top = 116
-      Width = 25
+      Left = 467
+      Top = 124
+      Width = 31
       Height = 16
-      Caption = 'Cep'
+      Caption = 'Cep.:'
     end
     object Label9: TLabel
-      Left = 591
-      Top = 116
-      Width = 62
+      Left = 597
+      Top = 124
+      Width = 68
       Height = 16
-      Caption = 'C'#243'd. IBGE'
-    end
-    object edLogradouro: TEdit
-      Left = 83
-      Top = 47
-      Width = 482
-      Height = 24
-      TabOrder = 0
-    end
-    object edNumero: TEdit
-      Left = 658
-      Top = 45
-      Width = 109
-      Height = 24
-      TabOrder = 1
-    end
-    object edBairro: TEdit
-      Left = 82
-      Top = 79
-      Width = 317
-      Height = 24
-      TabOrder = 2
-    end
-    object edComplemento: TEdit
-      Left = 532
-      Top = 79
-      Width = 235
-      Height = 24
-      TabOrder = 3
+      Caption = 'C'#243'd. IBGE.:'
     end
     object BitBtn1: TBitBtn
-      Left = 373
-      Top = 116
+      Left = 371
+      Top = 120
       Width = 27
       Height = 25
       Caption = '...'
       TabOrder = 4
+      OnClick = BitBtn1Click
     end
-    object edCidade: TEdit
-      Left = 82
-      Top = 116
-      Width = 291
+    object DBEdit1: TDBEdit
+      Left = 93
+      Top = 36
+      Width = 528
       Height = 24
-      TabOrder = 5
+      DataField = 'LOGRADOURO'
+      DataSource = DtSrc
+      TabOrder = 0
     end
-    object edUF: TEdit
-      Left = 429
-      Top = 116
-      Width = 29
+    object DBEdit2: TDBEdit
+      Left = 687
+      Top = 36
+      Width = 75
       Height = 24
+      DataField = 'NUMERO'
+      DataSource = DtSrc
+      TabOrder = 1
+    end
+    object DBEdit3: TDBEdit
+      Left = 57
+      Top = 76
+      Width = 370
+      Height = 24
+      DataField = 'BAIRRO'
+      DataSource = DtSrc
+      TabOrder = 2
+    end
+    object DBEdit4: TDBEdit
+      Left = 533
+      Top = 76
+      Width = 230
+      Height = 24
+      DataField = 'COMPLEMENTO'
+      DataSource = DtSrc
+      TabOrder = 3
+    end
+    object DBEdit5: TDBEdit
+      Left = 64
+      Top = 120
+      Width = 299
+      Height = 24
+      DataField = 'CIDADE'
+      DataSource = DtSrc
       TabOrder = 6
     end
-    object edCEP: TJvMaskEdit
-      Left = 501
-      Top = 116
-      Width = 79
+    object DBEdit6: TDBEdit
+      Left = 430
+      Top = 120
+      Width = 32
       Height = 24
-      EditMask = '00000\-999;1;_'
-      MaxLength = 9
+      DataField = 'UF'
+      DataSource = DtSrc
       TabOrder = 7
-      Text = '     -   '
     end
-    object edIBGE: TEdit
-      Left = 657
-      Top = 116
-      Width = 110
+    object DBEdit7: TDBEdit
+      Left = 502
+      Top = 120
+      Width = 90
       Height = 24
+      DataField = 'CEP'
+      DataSource = DtSrc
+      TabOrder = 5
+    end
+    object DBEdit8: TDBEdit
+      Left = 667
+      Top = 120
+      Width = 95
+      Height = 24
+      DataField = 'CD_IBGE'
+      DataSource = DtSrc
       TabOrder = 8
+    end
+  end
+  inherited DtSrc: TDataSource
+    DataSet = cds_CliEnd
+  end
+  object sds_CliEnd: TSQLDataSet
+    CommandText = 
+      'select *  from ENDERECOCLIENTE where CODCLIENTE = :pCli and TIPO' +
+      'END = :tpEnd'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCli'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'tpEnd'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 487
+    Top = 7
+    object sds_CliEndCODENDERECO: TIntegerField
+      FieldName = 'CODENDERECO'
+      Required = True
+    end
+    object sds_CliEndCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object sds_CliEndLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object sds_CliEndBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object sds_CliEndCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object sds_CliEndCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object sds_CliEndUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object sds_CliEndCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object sds_CliEndTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 11
+    end
+    object sds_CliEndTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 9
+    end
+    object sds_CliEndTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      Size = 9
+    end
+    object sds_CliEndFAX: TStringField
+      FieldName = 'FAX'
+      Size = 9
+    end
+    object sds_CliEndE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 200
+    end
+    object sds_CliEndRAMAL: TStringField
+      FieldName = 'RAMAL'
+      Size = 5
+    end
+    object sds_CliEndTIPOEND: TSmallintField
+      FieldName = 'TIPOEND'
+      Required = True
+    end
+    object sds_CliEndDADOSADICIONAIS: TStringField
+      FieldName = 'DADOSADICIONAIS'
+      Size = 200
+    end
+    object sds_CliEndDDD: TStringField
+      FieldName = 'DDD'
+      Size = 3
+    end
+    object sds_CliEndDDD1: TStringField
+      FieldName = 'DDD1'
+      Size = 3
+    end
+    object sds_CliEndDDD2: TStringField
+      FieldName = 'DDD2'
+      Size = 3
+    end
+    object sds_CliEndDDD3: TStringField
+      FieldName = 'DDD3'
+      Size = 3
+    end
+    object sds_CliEndNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object sds_CliEndCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object sds_CliEndPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+  end
+  object dsp_CliEnd: TDataSetProvider
+    DataSet = sds_CliEnd
+    UpdateMode = upWhereKeyOnly
+    Left = 519
+    Top = 7
+  end
+  object cds_CliEnd: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCli'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'tpEnd'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_CliEnd'
+    Left = 551
+    Top = 6
+    object cds_CliEndCODENDERECO: TIntegerField
+      FieldName = 'CODENDERECO'
+      Required = True
+    end
+    object cds_CliEndCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object cds_CliEndLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object cds_CliEndBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object cds_CliEndCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object cds_CliEndCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object cds_CliEndUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object cds_CliEndCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object cds_CliEndTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 11
+    end
+    object cds_CliEndTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 9
+    end
+    object cds_CliEndTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      Size = 9
+    end
+    object cds_CliEndFAX: TStringField
+      FieldName = 'FAX'
+      Size = 9
+    end
+    object cds_CliEndE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 200
+    end
+    object cds_CliEndRAMAL: TStringField
+      FieldName = 'RAMAL'
+      Size = 5
+    end
+    object cds_CliEndTIPOEND: TSmallintField
+      FieldName = 'TIPOEND'
+      Required = True
+    end
+    object cds_CliEndDADOSADICIONAIS: TStringField
+      FieldName = 'DADOSADICIONAIS'
+      Size = 200
+    end
+    object cds_CliEndDDD: TStringField
+      FieldName = 'DDD'
+      Size = 3
+    end
+    object cds_CliEndDDD1: TStringField
+      FieldName = 'DDD1'
+      Size = 3
+    end
+    object cds_CliEndDDD2: TStringField
+      FieldName = 'DDD2'
+      Size = 3
+    end
+    object cds_CliEndDDD3: TStringField
+      FieldName = 'DDD3'
+      Size = 3
+    end
+    object cds_CliEndNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object cds_CliEndCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object cds_CliEndPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+  end
+  object procIBGE: TSQLClientDataSet
+    CommandText = 
+      'select  NM_LOCALIDADE, CD_UF, CD_IBGE, NM_MUNICIPIO from TB_IBGE' +
+      ' where NM_LOCALIDADE LIKE :NOME'#13#10'order by NM_LOCALIDADE'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 392
+    Top = 208
+    object procIBGENM_LOCALIDADE2: TStringField
+      DisplayLabel = 'Cidade/Vila'
+      FieldName = 'NM_LOCALIDADE'
+      Required = True
+      Size = 40
+    end
+    object procIBGECD_UF: TStringField
+      DisplayLabel = 'UF'
+      FieldName = 'CD_UF'
+      FixedChar = True
+      Size = 2
+    end
+    object procIBGENM_MUNICIPIO: TStringField
+      DisplayLabel = 'Nome Munic'#237'pio'
+      FieldName = 'NM_MUNICIPIO'
+      Size = 40
+    end
+    object procIBGECD_IBGE: TStringField
+      DisplayLabel = 'C'#243'digo IBGE'
+      FieldName = 'CD_IBGE'
+      Required = True
+      Size = 10
     end
   end
 end
