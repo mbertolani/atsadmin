@@ -1486,6 +1486,20 @@ object fOs: TfOs
         OnChange = edDataChange
         OnKeyPress = FormKeyPress
       end
+      object RadioGroup1: TRadioGroup
+        Left = 427
+        Top = 8
+        Width = 235
+        Height = 32
+        Caption = 'Tipo'
+        Columns = 2
+        ItemIndex = 1
+        Items.Strings = (
+          'Or'#231'amento'
+          'O.S.')
+        TabOrder = 3
+        OnClick = RadioGroup1Click
+      end
     end
   end
   object Panel2: TPanel
@@ -2374,6 +2388,7 @@ object fOs: TfOs
     end
     object cdsPecasCODPRO: TStringField
       FieldName = 'CODPRO'
+      ProviderFlags = []
       Size = 15
     end
     object cdsPecasSTATUSDESC: TStringField
@@ -2533,6 +2548,7 @@ object fOs: TfOs
     end
     object cdsServicoNOMEUSUARIO: TStringField
       FieldName = 'NOMEUSUARIO'
+      ProviderFlags = []
       Size = 30
     end
     object cdsServicoCODPRODUTO: TIntegerField
@@ -2540,6 +2556,7 @@ object fOs: TfOs
     end
     object cdsServicoCODPRO: TStringField
       FieldName = 'CODPRO'
+      ProviderFlags = []
       Size = 15
     end
     object cdsServicoDESCONTO: TFloatField

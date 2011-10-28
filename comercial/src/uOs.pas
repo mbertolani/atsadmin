@@ -155,6 +155,7 @@ type
     btnPecaAltera: TBitBtn;
     sdsServicoTIPO: TStringField;
     cdsServicoTIPO: TStringField;
+    RadioGroup1: TRadioGroup;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -180,6 +181,7 @@ type
     procedure btnExcluirServicoClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure dsPecasStateChange(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     estoque, qtde : Double;
@@ -191,8 +193,9 @@ type
     procedure carregaCombos;
     { Private declarations }
   public
+    codigoOs : Integer;
     FOsCls: TOsClasse;
-    modoOs, modoOsItem, ServDescricao: String; // Insert, Edit, Browse, Inactive
+    modoOs, modoOsItem, ServDescricao, statusOs: String; // Insert, Edit, Browse, Inactive
     numOsDet, ServCodServ: Integer;
     Procedure abrirPecas;
 
@@ -225,7 +228,6 @@ begin
 end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
-var codigoOs : Integer;
 begin
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
     exit;
@@ -258,11 +260,8 @@ begin
     FOsCls.obs        := edObs.Text;
     if (modoOs = 'Insert') then
     begin
-      FOsCls.status := 'P';
+      FOsCls.status := statusOs;
     end;
-    {else begin
-      FOsCls.status := 'P';
-    end; }
     FOsCls.km         := StrToInt(edKm.Text);
 
     if (modoOs = 'Insert') then
@@ -282,7 +281,7 @@ begin
       if ((cdsServicoTIPO.AsString = 'S') and (cdsServicoID_OS_DET.AsInteger > 90000000)) then
       begin
         FOsCls.osDet.CodDet   := 0;
-        FOsCls.osDet.Status   := 'O';
+        FOsCls.osDet.Status   := statusOs;
         FOsCls.osDet.Tipo     := 'S';
       end;
       DecimalSeparator        := '.';
@@ -316,7 +315,7 @@ begin
       if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
       begin
         FOsCls.osDet.CodDet   := 0;
-        FOsCls.osDet.Status   := 'O';
+        FOsCls.osDet.Status   := statusOs;
         FOsCls.osDet.Tipo     := 'P';
       end;
       DecimalSeparator := '.';
@@ -454,6 +453,7 @@ begin
   //sCtrlResize.CtrlResize(TForm(fOs));
   FOsCls := TOsClasse.Create;
   numOsDet := 90000001;
+  statusOs := 'A'; // Andamento (Serviço Executando)
   modoOsItem := '';
   carregaCampos;
 end;
@@ -504,7 +504,7 @@ begin
   if (cdsServico.Active) then
   begin
     cdsServico.Append;
-    cdsServicoSTATUS.AsString := 'O';
+    cdsServicoSTATUS.AsString := statusOs;
     cdsServicoID_OS.AsInteger := 99999999;
     cdsServicoID_OS_DET.AsInteger := numOsDet;
     numOsDet := numOsDet + 1;
@@ -680,6 +680,8 @@ begin
     exit;
   end;
 
+  btnGravar.Click;
+
   ServCodServ   := cdsServicoID_OS_DET.AsInteger;
   ServDescricao := cdsServicoDESCRICAO_SERV.AsString;
   if (not fOsInserePeca.cdsPecas.Active) then
@@ -809,6 +811,15 @@ begin
   fOsInserePeca.btnGravar.Visible     := cdsPecas.State in [dsEdit, dsInsert];
   fOsInserePeca.btnExcluir.Visible    := cdsPecas.State in [dsBrowse, dsInactive];
   fOsInserePeca.btnCancelar.Visible   := cdsPecas.State in [dsEdit, dsInsert];
+
+end;
+
+procedure TfOs.RadioGroup1Click(Sender: TObject);
+begin
+  if (RadioGroup1.ItemIndex = 0) then
+    statusOs := 'O'; // Orcamento
+  if (RadioGroup1.ItemIndex = 1) then
+    statusOs := 'A'; // Andamento
 
 end;
 

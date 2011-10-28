@@ -1,6 +1,6 @@
 object fOsFiltro: TfOsFiltro
   Left = 260
-  Top = 119
+  Top = 96
   Width = 760
   Height = 600
   Caption = 'Ordem de Servi'#231'o'
@@ -1100,7 +1100,7 @@ object fOsFiltro: TfOsFiltro
         Expanded = False
         FieldName = 'OBS'
         Title.Caption = 'Obs.'
-        Width = 152
+        Width = 168
         Visible = True
       end>
   end
