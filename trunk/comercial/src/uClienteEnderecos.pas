@@ -152,6 +152,7 @@ begin
   endAlt := endAlt + ' NUMERO     = ' + QuotedStr(Self.Numero) + ', ';
   endAlt := endAlt + ' CD_IBGE    = ' + QuotedStr(Self.CodIbge) + ', ';
   endAlt := endAlt + ' DADOSADICIONAIS = ' + QuotedStr(Self.DadosAdicionais);
+  endAlt := endAlt + ' PAIS       = ' + QuotedStr(Self.Pais);
   endAlt := endAlt + ' WHERE CODENDERECO = ' + IntToStr(codEndA);
 
   if (executaSql(endAlt)) then
@@ -344,7 +345,7 @@ begin
   endInc := endInc + ' TELEFONE2  , FAX       , E_MAIL   ,';
   endInc := endInc + ' RAMAL      , TIPOEND   , DDD      ,';
   endInc := endInc + ' DDD1       , DDD2      , DDD3     ,';
-  endInc := endInc + ' NUMERO     , CD_IBGE   , DADOSADICIONAIS)';
+  endInc := endInc + ' NUMERO     , CD_IBGE   , DADOSADICIONAIS, PAIS)';
   endInc := endInc + ' VALUES(';
   endInc := endInc + IntToStr(Self.CodEndereco) + ', ';
   endInc := endInc + IntToStr(Self.CodCli) + ', ';
@@ -367,7 +368,8 @@ begin
   endInc := endInc + QuotedStr(Self.DDD4) + ', ';
   endInc := endInc + QuotedStr(Self.Numero) + ', ';
   endInc := endInc + QuotedStr(Self.CodIbge) + ', ';
-  endInc := endInc + QuotedStr(Self.DadosAdicionais) + ')';
+  endInc := endInc + QuotedStr(Self.DadosAdicionais) + ', ';
+  endInc := endInc + QuotedStr(Self.Pais) + ')';
   executaSql(endInc);
   Result := Self.CodEndereco;
 end;
@@ -530,6 +532,7 @@ begin
       Self.Numero        := dm.cdsBusca.FieldByName('NUMERO').AsString;
       Self.CodIbge       := dm.cdsBusca.FieldByName('CD_IBGE').AsString;
       Self.DadosAdicionais   := dm.cdsBusca.FieldByName('DADOSADICIONAIS').AsString;
+      Self.Pais          := dm.cdsBusca.FieldByName('PAIS').AsString;
       Self.Ramal         := dm.cdsBusca.FieldByName('RAMAL').AsString;
       Result := Self.CodCli;
     end
