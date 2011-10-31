@@ -72,6 +72,7 @@ inherited fCliente1: TfCliente1
       DataField = 'RAZAOSOCIAL'
       DataSource = DtSrc
       TabOrder = 0
+      OnExit = DBEdit1Exit
     end
     object DBEdit2: TDBEdit
       Left = 88
@@ -95,7 +96,7 @@ inherited fCliente1: TfCliente1
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 6
     object JvDBUltimGrid1: TJvDBUltimGrid
       Left = 2
       Top = 18
@@ -109,7 +110,7 @@ inherited fCliente1: TfCliente1
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       ParentCtl3D = False
       ReadOnly = True
-      TabOrder = 0
+      TabOrder = 1
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -13
@@ -130,41 +131,41 @@ inherited fCliente1: TfCliente1
           Expanded = False
           FieldName = 'TIPOEND'
           Title.Caption = 'Tipo'
-          Width = 113
+          Width = 97
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'LOGRADOURO'
           Title.Caption = 'Rua/Avenida'
-          Width = 108
+          Width = 182
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NUMERO'
           Title.Caption = 'N'#250'mero'
-          Width = 108
+          Width = 61
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'BAIRRO'
           Title.Caption = 'Bairro'
-          Width = 108
+          Width = 139
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CIDADE'
           Title.Caption = 'Cidade'
-          Width = 108
+          Width = 135
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'UF'
-          Width = 108
+          Width = 39
           Visible = True
         end>
     end
@@ -180,7 +181,7 @@ inherited fCliente1: TfCliente1
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 0
       OnClick = BitBtn1Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -295,7 +296,7 @@ inherited fCliente1: TfCliente1
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 5
+    TabOrder = 4
     object lblCnpj: TLabel
       Left = 50
       Top = 16
@@ -359,7 +360,7 @@ inherited fCliente1: TfCliente1
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 6
+    TabOrder = 5
     object Label1: TLabel
       Left = 40
       Top = 27
@@ -1143,9 +1144,9 @@ inherited fCliente1: TfCliente1
   object sds_CliEnd: TSQLDataSet
     CommandText = 
       'select LOGRADOURO, NUMERO, BAIRRO, CIDADE, UF, case  TIPOEND whe' +
-      'n 0 Then '#39'PRINCIPAL'#39' when 1 then '#39'COBRA'#199'A'#39' when 2 then '#39' ENTREGA' +
-      #39' else '#39'OUTROS'#39' END as TIPOEND, TIPOEND as TIPO from ENDERECOCLI' +
-      'ENTE where CODCLIENTE = :pCli'
+      'n 0 Then '#39'PRINCIPAL'#39' when 1 then '#39'COBRA'#199'A'#39' when 2 then '#39'ENTREGA'#39 +
+      ' else '#39'OUTROS'#39' END as TIPOEND, TIPOEND as TIPO from ENDERECOCLIE' +
+      'NTE where CODCLIENTE = :pCli'
     MaxBlobSize = -1
     Params = <
       item
