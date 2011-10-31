@@ -192,6 +192,9 @@ type
     procedure JvDBUltimGrid1DblClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure DBEdit1Exit(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
   private
     FCli : TCliente;
   public
@@ -266,6 +269,7 @@ begin
   FCli.inserirCliente;
   FCli.Endereco.CodCli        := FCli.CodCli;
   FCli.Endereco.TipoEndereco  := 0;
+  FCli.Endereco.Pais  := 'Brasil';  
   FCli.Endereco.inserirEndereco;
   if (cds_Cli.Active) then
     cds_Cli.Close;
@@ -306,6 +310,15 @@ begin
   fListaClientes.BitBtn8.Enabled := False;
   fListaClientes.ShowModal;
   try
+     cds_cli.Close;
+     cds_cli.Params[0].Clear;
+     cds_cli.Params[0].AsInteger := fListaClientes.cdsCODCLIENTE.AsInteger;
+     cds_cli.Open;
+
+     cds_CliEnd.Close;
+     cds_CliEnd.Params[0].Clear;
+     cds_CliEnd.Params[0].AsInteger := fListaClientes.cdsCODCLIENTE.AsInteger;
+     cds_CliEnd.Open;
     {if cds_cliTIPOFIRMA.AsInteger = 0 then
       cds_cliCNPJ.EditMask := '000.000.000-00;1;_'
     else
@@ -329,7 +342,30 @@ begin
     fEndereco.ShowModal;
   finally
     fEndereco.Free;
+    if (cds_CliEnd.Active) then
+      cds_CliEnd.Close;
+    cds_CliEnd.Open;
   end;
+end;
+
+procedure TfCliente1.btnExcluirClick(Sender: TObject);
+begin
+  dm.sqlsisAdimin.ExecuteDirect('delete from enderecocliente where codcliente='+
+    intToStr(cds_cliCODCLIENTE.asInteger));
+  inherited;
+end;
+
+procedure TfCliente1.DBEdit1Exit(Sender: TObject);
+begin
+  inherited;
+  if (cds_cliNOMECLIENTE.AsString = '') then
+    cds_cliNOMECLIENTE.AsString := cds_cliRAZAOSOCIAL.AsString;
+end;
+
+procedure TfCliente1.btnIncluirClick(Sender: TObject);
+begin
+  cds_CliEnd.Close;
+  inherited;
 end;
 
 end.

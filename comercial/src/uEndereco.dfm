@@ -1,5 +1,5 @@
 inherited fEndereco: TfEndereco
-  Height = 320
+  Height = 327
   Caption = 'Cadastro de Endere'#231'o'
   OldCreateOrder = True
   OnShow = FormShow
@@ -31,7 +31,7 @@ inherited fEndereco: TfEndereco
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 242
+    Top = 249
     inherited btnProcurar: TBitBtn
       Visible = False
     end
@@ -43,7 +43,7 @@ inherited fEndereco: TfEndereco
     Left = 0
     Top = 51
     Width = 772
-    Height = 191
+    Height = 198
     Align = alClient
     Caption = 'Endere'#231'o'
     Font.Charset = DEFAULT_CHARSET
@@ -108,6 +108,27 @@ inherited fEndereco: TfEndereco
       Width = 68
       Height = 16
       Caption = 'C'#243'd. IBGE.:'
+    end
+    object Label1: TLabel
+      Left = 10
+      Top = 164
+      Width = 36
+      Height = 16
+      Caption = 'DDD.:'
+    end
+    object Label10: TLabel
+      Left = 98
+      Top = 164
+      Width = 60
+      Height = 16
+      Caption = 'Telefone.:'
+    end
+    object Label11: TLabel
+      Left = 370
+      Top = 164
+      Width = 40
+      Height = 16
+      Caption = 'Email.:'
     end
     object BitBtn1: TBitBtn
       Left = 371
@@ -189,6 +210,33 @@ inherited fEndereco: TfEndereco
       DataField = 'CD_IBGE'
       DataSource = DtSrc
       TabOrder = 8
+    end
+    object DBEdit9: TDBEdit
+      Left = 51
+      Top = 160
+      Width = 40
+      Height = 24
+      DataField = 'DDD'
+      DataSource = DtSrc
+      TabOrder = 9
+    end
+    object DBEdit10: TDBEdit
+      Left = 160
+      Top = 160
+      Width = 202
+      Height = 24
+      DataField = 'TELEFONE'
+      DataSource = DtSrc
+      TabOrder = 10
+    end
+    object DBEdit11: TDBEdit
+      Left = 416
+      Top = 160
+      Width = 346
+      Height = 24
+      DataField = 'E_MAIL'
+      DataSource = DtSrc
+      TabOrder = 11
     end
   end
   inherited DtSrc: TDataSource
@@ -437,8 +485,8 @@ inherited fEndereco: TfEndereco
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 392
-    Top = 208
+    Left = 368
+    Top = 160
     object procIBGENM_LOCALIDADE2: TStringField
       DisplayLabel = 'Cidade/Vila'
       FieldName = 'NM_LOCALIDADE'

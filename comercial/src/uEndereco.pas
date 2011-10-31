@@ -83,11 +83,18 @@ type
     procIBGECD_UF: TStringField;
     procIBGENM_MUNICIPIO: TStringField;
     procIBGECD_IBGE: TStringField;
+    Label1: TLabel;
+    DBEdit9: TDBEdit;
+    Label10: TLabel;
+    DBEdit10: TDBEdit;
+    Label11: TLabel;
+    DBEdit11: TDBEdit;
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure RadioGroup2Click(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -135,6 +142,7 @@ procedure TfEndereco.btnGravarClick(Sender: TObject);
 begin
   if(DtSrc.State in [dsInsert]) then
   begin
+    cds_CliEndPAIS.AsString := 'Brasil';
     if dm.c_6_genid.Active then
             dm.c_6_genid.Close;
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_END_CLI, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -161,6 +169,12 @@ procedure TfEndereco.btnIncluirClick(Sender: TObject);
 begin
   inherited;
   cds_CliEndTIPOEND.AsInteger := RadioGroup2.ItemIndex;
+end;
+
+procedure TfEndereco.FormCreate(Sender: TObject);
+begin
+  //inherited;
+
 end;
 
 end.
