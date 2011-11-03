@@ -744,6 +744,7 @@ begin
 
       if (dm.sqlBusca.Active) then
         dm.sqlBusca.Close;
+      dm.sqlBusca.SQL.Clear;  
       dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO FROM MOVIMENTO WHERE CODORIGEM = ' +
         IntToStr(cdsOsCODOS.AsInteger));
       dm.sqlBusca.Open;
