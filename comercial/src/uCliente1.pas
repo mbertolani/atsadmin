@@ -299,9 +299,15 @@ end;
 
 procedure TfCliente1.JvDBUltimGrid1DblClick(Sender: TObject);
 begin
-  //inherited;
-  //sCtrlResize.CtrlResize(TForm(fCliente1));
-  fEndereco.ShowModal;
+  fEndereco := TfEndereco.Create(Application);
+  try
+    fEndereco.ShowModal;
+  finally
+    fEndereco.Free;
+    if (cds_CliEnd.Active) then
+      cds_CliEnd.Close;
+    cds_CliEnd.Open;
+  end;
 end;
 
 procedure TfCliente1.btnProcurarClick(Sender: TObject);
