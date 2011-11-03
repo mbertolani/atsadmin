@@ -8,7 +8,7 @@ uses
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uOsClasse, Buttons,
   ExtCtrls, MMJPanel, DB, FMTBcd, DBClient, Provider, SqlExpr, Grids,
   DBGrids, JvExDBGrids, JvDBGrid, JvBaseEdits, JvMemo, DateUtils,
-  JvComponentBase, JvFormAutoSize, dbXpress, JvEdit;
+  JvComponentBase, JvFormAutoSize, dbXpress, JvEdit, JvDBUltimGrid;
 
 type
   TfOs = class(TForm)
@@ -65,7 +65,6 @@ type
     cdsOSDATA_FIM: TDateField;
     cdsOSDESCRICAO_SERV: TStringField;
     GroupBox7: TGroupBox;
-    JvDBGrid2: TJvDBGrid;
     sdsPecas: TSQLDataSet;
     dspPecas: TDataSetProvider;
     cdsPecas: TClientDataSet;
@@ -115,7 +114,6 @@ type
     edObs: TEdit;
     Panel2: TPanel;
     GroupBox2: TGroupBox;
-    JvDBGrid1: TJvDBGrid;
     cdsPecasVlrTotal: TAggregateField;
     edKm: TJvCalcEdit;
     cdsServicoQTDE: TFloatField;
@@ -156,6 +154,8 @@ type
     sdsServicoTIPO: TStringField;
     cdsServicoTIPO: TStringField;
     RadioGroup1: TRadioGroup;
+    JvDBGrid1: TJvDBUltimGrid;
+    JvDBGrid2: TJvDBUltimGrid;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -245,7 +245,9 @@ begin
     dm.sqlsisAdimin.StartTransaction(TD);
     FOsCls.codCliente := StrToInt(edCodCliente.Text);
     if (modoOs = 'Insert') then
+    begin
       FOsCls.codOs      := 0;
+    end;
     if (edVeiculo.Text = '') then
     begin
       MessageDlg('Veiculo não informado', mtError, [mbOK], 0);
@@ -274,6 +276,8 @@ begin
     end;
 
     cdsServico.DisableControls;
+    if (cdsServico.State in [dsEdit,dsInsert]) then
+      cdsServico.Cancel;
     cdsServico.First;
     While not cdsServico.Eof do
     begin
@@ -308,6 +312,8 @@ begin
     cdsServico.EnableControls;
 
     cdsPecas.DisableControls;
+    if (cdsPecas.State in [dsEdit,dsInsert]) then
+      cdsPecas.Cancel;
     cdsPecas.First;
     While not cdsPecas.Eof do
     begin
@@ -416,34 +422,34 @@ procedure TfOs.controlaEventos;
 begin
   if ((modoOs = 'Insert') or (modoOs = 'Edit')) then
   begin
-    btnGravar.Visible := True;
-    btnGravar.Enabled := True;
-    btnIncluir.Visible := False;
-    btnProcurar.Enabled := False;
-    btnSair.Enabled := False;
-    btnExcluir.Visible := False;
-    btnCancelar.Visible := True;
+    btnGravar.Visible        := True;
+    btnGravar.Enabled        := True;
+    btnIncluir.Visible       := False;
+    btnProcurar.Enabled      := False;
+    btnSair.Enabled          := False;
+    btnExcluir.Visible       := False;
+    btnCancelar.Visible      := True;
     btnClienteProcura.Enabled := True;
   end;
   if ((modoOs = 'Browse') or (modoOs = 'Inactive')) then
   begin
-    btnGravar.Visible := False;
-    btnIncluir.Visible := True;
-    btnProcurar.Enabled := True;
-    btnSair.Enabled := True;
-    btnExcluir.Visible := True;
-    btnCancelar.Visible := False;
+    btnGravar.Visible         := False;
+    btnIncluir.Visible        := True;
+    btnProcurar.Enabled       := True;
+    btnSair.Enabled           := True;
+    btnExcluir.Visible        := True;
+    btnCancelar.Visible       := False;
     btnClienteProcura.Enabled := False;
   end;
   if (modoOs = 'VISUALIZAR') then
   begin
-    btnGravar.Visible := True;
-    btnGravar.Enabled := False;
-    btnIncluir.Visible := False;
-    btnProcurar.Enabled := False;
-    btnSair.Enabled := True;
-    btnExcluir.Visible := False;
-    btnCancelar.Visible := False;
+    btnGravar.Visible        := True;
+    btnGravar.Enabled        := False;
+    btnIncluir.Visible       := False;
+    btnProcurar.Enabled      := False;
+    btnSair.Enabled          := True;
+    btnExcluir.Visible       := False;
+    btnCancelar.Visible      := False;
     btnClienteProcura.Enabled := False;
   end;
 end;
@@ -451,10 +457,11 @@ end;
 procedure TfOs.FormShow(Sender: TObject);
 begin
   //sCtrlResize.CtrlResize(TForm(fOs));
-  FOsCls := TOsClasse.Create;
-  numOsDet := 90000001;
-  statusOs := 'A'; // Andamento (Serviço Executando)
-  modoOsItem := '';
+  FOsCls                := TOsClasse.Create;
+  numOsDet              := 90000001;
+  statusOs              := 'A'; // Andamento (Serviço Executando)
+  RadioGroup1.ItemIndex := 1;
+  modoOsItem            := '';
   carregaCampos;
 end;
 
@@ -680,17 +687,19 @@ begin
     exit;
   end;
 
-  btnGravar.Click;
+  //btnGravar.Click;
 
   ServCodServ   := cdsServicoID_OS_DET.AsInteger;
   ServDescricao := cdsServicoDESCRICAO_SERV.AsString;
-  if (not fOsInserePeca.cdsPecas.Active) then
-    fOsInserePeca.cdsPecas.Open;
+  if (not cdsPecas.Active) then
+    cdsPecas.Open;
 
-  fOsInserePeca.cdsPecas.Append;
+  cdsPecas.Append;
 
-  fOsInserePeca.cdsPecasID_OS_DET.AsInteger := numOsDet;
-  fOsInserePeca.cdsPecasTIPO.AsString   := 'P';
+  cdsPecasID_OS_DET.AsInteger := numOsDet;
+  cdsPecasSTATUS.AsString     := statusOs;
+  cdsPecasID_OSDET_SERV.AsInteger := ServCodServ;
+  cdsPecasTIPO.AsString   := 'P';
 
   fOsInserePeca.ShowModal;
 
@@ -720,14 +729,14 @@ begin
     
   modoOsItem := 'EditaPeca';
 
-  if (fOsInserePeca.cdsPecas.Active) then
-    fOsInserePeca.cdsPecas.Close;
-  fOsInserePeca.cdsPecas.Params.ParamByName('pOs').Clear;
-  fOsInserePeca.cdsPecas.Params.ParamByName('p_Sev').Clear;
-  fOsInserePeca.cdsPecas.Params.ParamByName('pOs').AsInteger := cdsPecasID_OS.AsInteger;
-  fOsInserePeca.cdsPecas.Params.ParamByName('p_Sev').AsInteger := cdsPecasID_OS_DET.AsInteger;
-  fOsInserePeca.cdsPecas.Open;
-  fOsInserePeca.cdsPecas.Edit;
+  if (fOsInserePeca.cdsPecas1.Active) then
+    fOsInserePeca.cdsPecas1.Close;
+  fOsInserePeca.cdsPecas1.Params.ParamByName('pOs').Clear;
+  fOsInserePeca.cdsPecas1.Params.ParamByName('p_Sev').Clear;
+  fOsInserePeca.cdsPecas1.Params.ParamByName('pOs').AsInteger := cdsPecasID_OS.AsInteger;
+  fOsInserePeca.cdsPecas1.Params.ParamByName('p_Sev').AsInteger := cdsPecasID_OS_DET.AsInteger;
+  fOsInserePeca.cdsPecas1.Open;
+  fOsInserePeca.cdsPecas1.Edit;
 
   fOsInserePeca.ShowModal;
 
@@ -817,10 +826,19 @@ end;
 procedure TfOs.RadioGroup1Click(Sender: TObject);
 begin
   if (RadioGroup1.ItemIndex = 0) then
+  begin
     statusOs := 'O'; // Orcamento
+    GroupBox3.Color := clSkyBlue;
+    GroupBox4.Color := clSkyBlue;
+    GroupBox5.Color := clSkyBlue;
+  end;
   if (RadioGroup1.ItemIndex = 1) then
+  begin
     statusOs := 'A'; // Andamento
-
+    GroupBox3.Color := clBtnFace;
+    GroupBox4.Color := clBtnFace;
+    GroupBox5.Color := clBtnFace;
+  end;
 end;
 
 end.

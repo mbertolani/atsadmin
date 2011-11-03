@@ -142,6 +142,8 @@ type
     cdsServicoCODPRO: TStringField;
     sqlServicoNOMEUSUARIO: TStringField;
     cdsServicoNOMEUSUARIO: TStringField;
+    sdsOsNOMECLIENTE: TStringField;
+    cdsOsNOMECLIENTE: TStringField;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -338,26 +340,27 @@ begin
       cdsOs.Close;
     strAbrirOs := '';
 
-    strAbrirOs := ' WHERE DATAOS BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit1.Date));
+    strAbrirOs := ' WHERE OS.CODCLIENTE = C.CODCLIENTE ';
+    strAbrirOs := strAbrirOs + ' AND OS.DATAOS BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit1.Date));
     strAbrirOs := strAbrirOs + ' AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', MaskEdit2.Date));
 
     case (cbStatus.ItemIndex) of
-      0 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('P');
-      1 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('E');
-      2 : strAbrirOs := strAbrirOs + ' AND STATUS = ' + QuotedStr('F');
+      0 : strAbrirOs := strAbrirOs + ' AND OS.STATUS = ' + QuotedStr('P');
+      1 : strAbrirOs := strAbrirOs + ' AND OS.STATUS = ' + QuotedStr('E');
+      2 : strAbrirOs := strAbrirOs + ' AND OS.STATUS = ' + QuotedStr('F');
     end;
 
     if (edCodCliente.Text <> '') then
     begin
-      strAbrirOs := strAbrirOs + ' AND CODCLIENTE = ' + edCodCliente.Text;
+      strAbrirOs := strAbrirOs + ' AND OS.CODCLIENTE = ' + edCodCliente.Text;
     end;
 
     if (edOS.Text <> '') then
     begin
-      strAbrirOs := strAbrirOs + ' AND CODOS = ' + edOS.Text;
+      strAbrirOs := strAbrirOs + ' AND OS.CODOS = ' + edOS.Text;
     end;
 
-    cdsOs.CommandText :=  'SELECT * FROM OS ' + strAbrirOs;
+    cdsOs.CommandText :=  'SELECT OS.*, C.NOMECLIENTE FROM OS, CLIENTES C ' + strAbrirOs;
     cdsOs.Open;
     if (linhaGrid > 0) then
       cdsOs.RecNo := linhaGrid;
