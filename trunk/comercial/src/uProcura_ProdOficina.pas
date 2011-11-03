@@ -277,7 +277,7 @@ end;
 procedure TfProcura_prodOficina.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
- //if varonde = 'cad_produto' then
+ {//if varonde = 'cad_produto' then
    // fProcura_prod.ModalResult := mrOk;
  codprodxa := cds_procCODPRODUTO.asInteger;
  if ((varonde <> 'compra') and (varonde <> 'itens') and (varonde <> 'venda')
@@ -299,7 +299,7 @@ begin
  begin
    //cds_proc.Close;
  end;
- varonde := '';
+ varonde := '';   }
  Close;
 end;
 
