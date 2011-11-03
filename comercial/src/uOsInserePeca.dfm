@@ -30,7 +30,7 @@ inherited fOsInserePeca: TfOsInserePeca
       Left = 194
     end
     inherited btnExcluir: TBitBtn
-      Left = 194
+      Left = 186
     end
     inherited btnProcurar: TBitBtn
       Left = -120
@@ -393,7 +393,6 @@ inherited fOsInserePeca: TfOsInserePeca
     end
   end
   inherited DtSrc: TDataSource
-    DataSet = cdsPecas
     Left = 192
   end
   inherited XPMenu1: TXPMenu
@@ -402,7 +401,7 @@ inherited fOsInserePeca: TfOsInserePeca
   inherited PopupMenu1: TPopupMenu
     Left = 256
   end
-  object sdsPecas: TSQLDataSet
+  object sdsPecas1: TSQLDataSet
     CommandText = 
       'SELECT  r.ID_OS_DET, r.ID_OS, r.CODPRODUTO, r.DESCRICAO_SERV, r.' +
       'RESPONSAVEL, r.TIPO, r.QTDE, r.PRECO, r.DESCONTO, r.VALORTOTAL, ' +
@@ -430,13 +429,13 @@ inherited fOsInserePeca: TfOsInserePeca
     Left = 384
     Top = 432
   end
-  object dspPecas: TDataSetProvider
-    DataSet = sdsPecas
+  object dspPecas1: TDataSetProvider
+    DataSet = sdsPecas1
     Options = [poAllowCommandText]
     Left = 416
     Top = 432
   end
-  object cdsPecas: TClientDataSet
+  object cdsPecas1: TClientDataSet
     Aggregates = <>
     Params = <
       item
@@ -449,71 +448,70 @@ inherited fOsInserePeca: TfOsInserePeca
         Name = 'P_SEV'
         ParamType = ptInput
       end>
-    ProviderName = 'dspPecas'
-    OnNewRecord = cdsPecasNewRecord
+    ProviderName = 'dspPecas1'
     Left = 448
     Top = 432
-    object cdsPecasID_OS_DET: TIntegerField
+    object cdsPecas1ID_OS_DET: TIntegerField
       FieldName = 'ID_OS_DET'
       Required = True
     end
-    object cdsPecasID_OS: TIntegerField
+    object cdsPecas1ID_OS: TIntegerField
       FieldName = 'ID_OS'
       Required = True
     end
-    object cdsPecasDESCRICAO_SERV: TStringField
+    object cdsPecas1DESCRICAO_SERV: TStringField
       FieldName = 'DESCRICAO_SERV'
       Size = 1024
     end
-    object cdsPecasRESPONSAVEL: TStringField
+    object cdsPecas1RESPONSAVEL: TStringField
       FieldName = 'RESPONSAVEL'
       Size = 150
     end
-    object cdsPecasSTATUS: TStringField
+    object cdsPecas1STATUS: TStringField
       FieldName = 'STATUS'
       FixedChar = True
       Size = 1
     end
-    object cdsPecasTIPO: TStringField
+    object cdsPecas1TIPO: TStringField
       FieldName = 'TIPO'
       FixedChar = True
       Size = 1
     end
-    object cdsPecasQTDE: TFloatField
+    object cdsPecas1QTDE: TFloatField
       FieldName = 'QTDE'
       DisplayFormat = ',##0.0'
       EditFormat = ',##0.0'
     end
-    object cdsPecasPRECO: TFloatField
+    object cdsPecas1PRECO: TFloatField
       FieldName = 'PRECO'
       DisplayFormat = ',##0.00'
       EditFormat = ',##0.00'
     end
-    object cdsPecasDESCONTO: TFloatField
+    object cdsPecas1DESCONTO: TFloatField
       FieldName = 'DESCONTO'
       DisplayFormat = ',##0.00'
       EditFormat = ',##0.00'
     end
-    object cdsPecasVALORTOTAL: TFloatField
+    object cdsPecas1VALORTOTAL: TFloatField
       FieldName = 'VALORTOTAL'
     end
-    object cdsPecasCODPRODUTO: TIntegerField
+    object cdsPecas1CODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
     end
-    object cdsPecasCODPRO: TStringField
+    object cdsPecas1CODPRO: TStringField
       FieldName = 'CODPRO'
       Size = 15
     end
-    object cdsPecasSTATUSDESC: TStringField
+    object cdsPecas1STATUSDESC: TStringField
       FieldName = 'STATUSDESC'
       FixedChar = True
       Size = 18
     end
-    object cdsPecasID_OSDET_SERV: TIntegerField
+    object cdsPecas1ID_OSDET_SERV: TIntegerField
       FieldName = 'ID_OSDET_SERV'
     end
-    object cdsPecasVlrTotal: TAggregateField
+    object cdsPecas1VlrTotal: TAggregateField
       FieldName = 'VlrTotal'
       Active = True
       DisplayFormat = ',##0.00'

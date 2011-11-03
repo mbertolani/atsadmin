@@ -30,24 +30,24 @@ type
     BitBtn3: TBitBtn;
     edProdDescr: TEdit;
     lblServico: TLabel;
-    sdsPecas: TSQLDataSet;
-    dspPecas: TDataSetProvider;
-    cdsPecas: TClientDataSet;
-    cdsPecasID_OS_DET: TIntegerField;
-    cdsPecasID_OS: TIntegerField;
-    cdsPecasDESCRICAO_SERV: TStringField;
-    cdsPecasRESPONSAVEL: TStringField;
-    cdsPecasSTATUS: TStringField;
-    cdsPecasTIPO: TStringField;
-    cdsPecasQTDE: TFloatField;
-    cdsPecasPRECO: TFloatField;
-    cdsPecasDESCONTO: TFloatField;
-    cdsPecasVALORTOTAL: TFloatField;
-    cdsPecasCODPRODUTO: TIntegerField;
-    cdsPecasCODPRO: TStringField;
-    cdsPecasSTATUSDESC: TStringField;
-    cdsPecasID_OSDET_SERV: TIntegerField;
-    cdsPecasVlrTotal: TAggregateField;
+    sdsPecas1: TSQLDataSet;
+    dspPecas1: TDataSetProvider;
+    cdsPecas1: TClientDataSet;
+    cdsPecas1ID_OS_DET: TIntegerField;
+    cdsPecas1ID_OS: TIntegerField;
+    cdsPecas1DESCRICAO_SERV: TStringField;
+    cdsPecas1RESPONSAVEL: TStringField;
+    cdsPecas1STATUS: TStringField;
+    cdsPecas1TIPO: TStringField;
+    cdsPecas1QTDE: TFloatField;
+    cdsPecas1PRECO: TFloatField;
+    cdsPecas1DESCONTO: TFloatField;
+    cdsPecas1VALORTOTAL: TFloatField;
+    cdsPecas1CODPRODUTO: TIntegerField;
+    cdsPecas1CODPRO: TStringField;
+    cdsPecas1STATUSDESC: TStringField;
+    cdsPecas1ID_OSDET_SERV: TIntegerField;
+    cdsPecas1VlrTotal: TAggregateField;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -58,8 +58,8 @@ type
     procedure edProdutoExit(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure cdsPecasNewRecord(DataSet: TDataSet);
     procedure DtSrcStateChange(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
     codProdutoPeca: Integer;
     procedure LimpaCamposPeca();
@@ -87,16 +87,31 @@ procedure TfOsInserePeca.FormShow(Sender: TObject);
 begin
   LimpaCamposPeca;
   lblServico.Caption := fOs.ServDescricao;
-  if (DtSrc.State in [dsEdit]) then
+  if (fOs.cdsPecas.State in [dsEdit]) then
   begin
-    edServico.Lines.Add(cdsPecasDESCRICAO_SERV.AsString);
-    edProduto.Text      := cdsPecasCODPRO.AsString;
-    edProdDescr.Text    := cdsPecasDESCRICAO_SERV.AsString;
-    codProdutoPeca      := cdsPecasCODPRODUTO.asInteger;
-    edQtdeServ.Value    := cdsPecasQTDE.AsFloat;
-    edPrecoServ.Value   := cdsPecasPRECO.AsFloat;
-    edDescVlrServ.Value := cdsPecasDESCONTO.AsFloat;
-    edTotalServ.Value   := cdsPecasVALORTOTAL.AsFloat;
+    edServico.Lines.Add(fOs.cdsPecasDESCRICAO_SERV.AsString);
+    edProduto.Text      := fOs.cdsPecasCODPRO.AsString;
+    edProdDescr.Text    := fOs.cdsPecasDESCRICAO_SERV.AsString;
+    codProdutoPeca      := fOs.cdsPecasCODPRODUTO.asInteger;
+    edQtdeServ.Value    := fOs.cdsPecasQTDE.AsFloat;
+    edPrecoServ.Value   := fOs.cdsPecasPRECO.AsFloat;
+    edDescVlrServ.Value := fOs.cdsPecasDESCONTO.AsFloat;
+    edTotalServ.Value   := fOs.cdsPecasVALORTOTAL.AsFloat;
+  end;
+  if (fOs.cdsPecas.State in [dsInsert, dsEdit]) then
+  begin
+    btnIncluir.Visible := False;
+    btnGravar.Visible := True;
+    edProduto.Enabled     := fOs.cdsPecas.State in [dsEdit, dsInsert];
+    edServico.Enabled     := fOs.cdsPecas.State in [dsEdit, dsInsert];
+    edQtdeServ.Enabled    := fOs.cdsPecas.State in [dsEdit, dsInsert];
+    edPrecoServ.Enabled   := fOs.cdsPecas.State in [dsEdit, dsInsert];
+    edDescServ.Enabled    := fOs.cdsPecas.State in [dsEdit, dsInsert];
+    edDescVlrServ.Enabled := fOs.cdsPecas.State in [dsEdit, dsInsert];
+    btnIncluir.Visible    := fOs.cdsPecas.State in [dsBrowse, dsInactive];
+    btnGravar.Visible     := fOs.cdsPecas.State in [dsEdit, dsInsert];
+    btnExcluir.Visible    := fOs.cdsPecas.State in [dsBrowse, dsInactive];
+    btnCancelar.Visible   := fOs.cdsPecas.State in [dsEdit, dsInsert];
   end;
 end;
 
@@ -115,34 +130,34 @@ end;
 procedure TfOsInserePeca.btnGravarClick(Sender: TObject);
 var str: string;
   I : Integer;
-  TD: TTransactionDesc;
+  //TD: TTransactionDesc;
 begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
+  //TD.TransactionID := 1;
+  //TD.IsolationLevel := xilREADCOMMITTED;
   str := '';
   for I := 0 to edServico.Lines.Count -1 do
     str := str + edServico.Lines[I] + #13#10;
   if (str = '') then
     str := edProdDescr.Text;
 
-  cdsPecasDESCRICAO_SERV.AsString := str;
-  cdsPecasCODPRO.AsString         := edProduto.Text;
-  cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
-  cdsPecasSTATUS.AsString         := fOs.statusOs;
-  cdsPecasTIPO.AsString           := 'P';
-  cdsPecasQTDE.AsFloat            := edQtdeServ.Value;
-  cdsPecasPRECO.AsFloat           := edPrecoServ.Value;
-  cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
+  fOs.cdsPecasDESCRICAO_SERV.AsString := str;
+  fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
+  fOs.cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
+  fOs.cdsPecasSTATUS.AsString         := fOs.statusOs;
+  fOs.cdsPecasTIPO.AsString           := 'P';
+  fOs.cdsPecasQTDE.AsFloat            := edQtdeServ.Value;
+  fOs.cdsPecasPRECO.AsFloat           := edPrecoServ.Value;
+  fOs.cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
   //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
-  cdsPecas.Post;
+  fOs.cdsPecas.Post;
   //cdsPecas.ApplyUpdates(0);
-  Try
+  {Try
     dm.sqlsisAdimin.StartTransaction(TD);
     fOs.FOsCls.osDet.CodOsP   := fOs.codigoOs;
     if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
     begin
       fOs.FOsCls.osDet.CodDet   := 0;
-      fOs.FOsCls.osDet.Status   := 'O';
+      fOs.FOsCls.osDet.Status   := fOs.statusOs;
       fOs.FOsCls.osDet.Tipo     := 'P';
     end;
     DecimalSeparator := '.';
@@ -171,8 +186,8 @@ begin
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
       dm.sqlsisAdimin.Rollback(TD);
     end;
-  end; 
-  fOs.abrirPecas;
+  end;
+  fOs.abrirPecas; }
 
 end;
 
@@ -206,11 +221,11 @@ begin
 
   fOs.numOsDet := fOs.numOsDet + 1;
 
-  DtSrc.DataSet.Append;
-  cdsPecasID_OS.AsInteger         := fOs.cdsServicoID_OS.AsInteger;
-  cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
-  cdsPecasID_OSDET_SERV.AsInteger := fOs.cdsServicoID_OS_DET.AsInteger;
-  cdsPecasTIPO.AsString           := 'P';
+  fOs.cdsPecas.Append;
+  fOs.cdsPecasID_OS.AsInteger         := fOs.cdsServicoID_OS.AsInteger;
+  fOs.cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
+  fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.cdsServicoID_OS_DET.AsInteger;
+  fOs.cdsPecasTIPO.AsString           := 'P';
 end;
 
 procedure TfOsInserePeca.BitBtn3Click(Sender: TObject);
@@ -252,11 +267,11 @@ begin
   edProdDescr.Text  := fProcura_prodOficina.cds_procPRODUTO.AsString;
   edPrecoServ.Value := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
   codProdutoPeca    := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  if (cdsPecas.State = dsBrowse) then
-    cdsPecas.Edit;
-  cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  cdsPecasQTDE.AsFloat         := 1;
-  cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+  if (fOs.cdsPecas.State = dsBrowse) then
+    fOs.cdsPecas.Edit;
+  fOs.cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+  fOs.cdsPecasQTDE.AsFloat         := 1;
+  fOs.cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
 
 end;
 
@@ -280,11 +295,11 @@ begin
   edProdDescr.Text  := dm.scds_produto_procPRODUTO.AsString;
   edPrecoServ.Value := dm.scds_produto_procVALOR_PRAZO.AsFloat;
   codProdutoPeca    := dm.scds_produto_procCODPRODUTO.AsInteger;
-  if (cdsPecas.State = dsBrowse) then
-    cdsPecas.Edit;
-  cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-  cdsPecasQTDE.AsFloat         := 1;
-  cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+  if (fOs.cdsPecas.State = dsBrowse) then
+    fOs.cdsPecas.Edit;
+  fOs.cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+  fOs.cdsPecasQTDE.AsFloat         := 1;
+  fOs.cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
 end;
 
 procedure TfOsInserePeca.btnSairClick(Sender: TObject);
@@ -299,29 +314,26 @@ begin
   //inherited;
 end;
 
-procedure TfOsInserePeca.cdsPecasNewRecord(DataSet: TDataSet);
-begin
-  inherited;
-  cdsPecasID_OS.AsInteger     := fOs.cdsServicoID_OS.AsInteger;
-  cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
-  cdsPecasID_OSDET_SERV.AsInteger := fOs.cdsServicoID_OS_DET.AsInteger;
-  cdsPecasTIPO.AsString           := 'P';
-end;
-
 procedure TfOsInserePeca.DtSrcStateChange(Sender: TObject);
 begin
   inherited;
-  edProduto.Enabled     := cdsPecas.State in [dsEdit, dsInsert];
-  edServico.Enabled     := cdsPecas.State in [dsEdit, dsInsert];
-  edQtdeServ.Enabled    := cdsPecas.State in [dsEdit, dsInsert];
-  edPrecoServ.Enabled   := cdsPecas.State in [dsEdit, dsInsert];
-  edDescServ.Enabled    := cdsPecas.State in [dsEdit, dsInsert];
-  edDescVlrServ.Enabled := cdsPecas.State in [dsEdit, dsInsert];
-  btnIncluir.Visible    := cdsPecas.State in [dsBrowse, dsInactive];
-  btnGravar.Visible     := cdsPecas.State in [dsEdit, dsInsert];
-  btnExcluir.Visible    := cdsPecas.State in [dsBrowse, dsInactive];
-  btnCancelar.Visible   := cdsPecas.State in [dsEdit, dsInsert];
+  edProduto.Enabled     := fOs.cdsPecas.State in [dsEdit, dsInsert];
+  edServico.Enabled     := fOs.cdsPecas.State in [dsEdit, dsInsert];
+  edQtdeServ.Enabled    := fOs.cdsPecas.State in [dsEdit, dsInsert];
+  edPrecoServ.Enabled   := fOs.cdsPecas.State in [dsEdit, dsInsert];
+  edDescServ.Enabled    := fOs.cdsPecas.State in [dsEdit, dsInsert];
+  edDescVlrServ.Enabled := fOs.cdsPecas.State in [dsEdit, dsInsert];
+  btnIncluir.Visible    := fOs.cdsPecas.State in [dsBrowse, dsInactive];
+  btnGravar.Visible     := fOs.cdsPecas.State in [dsEdit, dsInsert];
+  btnExcluir.Visible    := fOs.cdsPecas.State in [dsBrowse, dsInactive];
+  btnCancelar.Visible   := fOs.cdsPecas.State in [dsEdit, dsInsert];
 
+end;
+
+procedure TfOsInserePeca.btnCancelarClick(Sender: TObject);
+begin
+  //inherited;
+  fOs.cdsPecas.Cancel;
 end;
 
 end.

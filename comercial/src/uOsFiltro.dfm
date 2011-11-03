@@ -1058,6 +1058,13 @@ object fOsFiltro: TfOsFiltro
       end
       item
         Expanded = False
+        FieldName = 'NOMECLIENTE'
+        Title.Caption = 'Nome'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'DATAMOVIMENTO'
         Title.Caption = 'Data'
         Width = 60
@@ -1100,7 +1107,7 @@ object fOsFiltro: TfOsFiltro
         Expanded = False
         FieldName = 'OBS'
         Title.Caption = 'Obs.'
-        Width = 168
+        Width = 103
         Visible = True
       end>
   end
@@ -1372,6 +1379,11 @@ object fOsFiltro: TfOsFiltro
     object cdsOssqlServico: TDataSetField
       FieldName = 'sqlServico'
     end
+    object cdsOsNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
   end
   object dsOs: TDataSource
     DataSet = cdsOs
@@ -1621,7 +1633,9 @@ object fOsFiltro: TfOsFiltro
     Top = 248
   end
   object sdsOs: TSQLDataSet
-    CommandText = 'SELECT * FROM OS '
+    CommandText = 
+      'SELECT os.*, c.NOMECLIENTE FROM OS, CLIENTES c'#13#10'WHERE C.CODCLIEN' +
+      'TE = OS.CODCLIENTE'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1675,6 +1689,11 @@ object fOsFiltro: TfOsFiltro
     object sdsOsOBS: TStringField
       FieldName = 'OBS'
       Size = 512
+    end
+    object sdsOsNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
     end
   end
   object sdsPeca: TSQLDataSet
