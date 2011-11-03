@@ -65,7 +65,8 @@ uses
   JvJVCLUtils, uEmpresa, UDm, uAgendamento, uselectempresa, sCtrlResize,
   uClienteCadastro, uOs, uOsFiltro, uCompra, uVendas, ufcr, ufcpproc,
   uCrTituloPagto, uAtsAdmin, uProdutoCadastro, uFornecedorCadastro,
-  ufuncionario, uPainelControle, uSobre, ufParametro;
+  ufuncionario, uPainelControle, uSobre, ufParametro,
+  uCliente1;
 
 {$R *.dfm}
 
@@ -280,11 +281,11 @@ procedure TfAtsOS.JvOutlookBar1Pages0Buttons1Click(Sender: TObject);
 begin
   if (varform <> '') then
     varform := '';
-  fClienteCadastro := TfClienteCadastro.Create(Application);
+  fCliente1 := TfCliente1.Create(Application);
   try
-    fClienteCadastro.ShowModal;
+    fCliente1.ShowModal;
   finally
-    fClienteCadastro.Free;
+    fCliente1.Free;
     varform := '';
   end;
 
