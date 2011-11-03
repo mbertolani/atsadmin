@@ -55,56 +55,56 @@ inherited fEndereco: TfEndereco
     TabOrder = 2
     object Label2: TLabel
       Left = 10
-      Top = 41
+      Top = 19
       Width = 79
       Height = 16
       Caption = 'Logradouro .:'
     end
     object Label3: TLabel
-      Left = 629
-      Top = 39
+      Left = 617
+      Top = 12
       Width = 54
       Height = 16
       Caption = 'N'#250'mero.:'
     end
     object Label4: TLabel
       Left = 10
-      Top = 80
+      Top = 65
       Width = 42
       Height = 16
       Caption = 'Bairro.:'
     end
     object Label5: TLabel
-      Left = 438
-      Top = 82
+      Left = 377
+      Top = 63
       Width = 90
       Height = 16
       Caption = 'Complemento.:'
     end
     object Label6: TLabel
       Left = 10
-      Top = 124
+      Top = 111
       Width = 50
       Height = 16
       Caption = 'Cidade.:'
     end
     object Label7: TLabel
       Left = 402
-      Top = 124
+      Top = 110
       Width = 24
       Height = 16
       Caption = 'UF.:'
     end
     object Label8: TLabel
-      Left = 467
-      Top = 124
+      Left = 448
+      Top = 109
       Width = 31
       Height = 16
       Caption = 'Cep.:'
     end
     object Label9: TLabel
-      Left = 597
-      Top = 124
+      Left = 579
+      Top = 109
       Width = 68
       Height = 16
       Caption = 'C'#243'd. IBGE.:'
@@ -131,8 +131,8 @@ inherited fEndereco: TfEndereco
       Caption = 'Email.:'
     end
     object BitBtn1: TBitBtn
-      Left = 371
-      Top = 120
+      Left = 368
+      Top = 130
       Width = 27
       Height = 25
       Caption = '...'
@@ -140,53 +140,53 @@ inherited fEndereco: TfEndereco
       OnClick = BitBtn1Click
     end
     object DBEdit1: TDBEdit
-      Left = 93
+      Left = 10
       Top = 36
-      Width = 528
+      Width = 591
       Height = 24
       DataField = 'LOGRADOURO'
       DataSource = DtSrc
       TabOrder = 0
     end
     object DBEdit2: TDBEdit
-      Left = 687
+      Left = 617
       Top = 36
-      Width = 75
+      Width = 145
       Height = 24
       DataField = 'NUMERO'
       DataSource = DtSrc
       TabOrder = 1
     end
     object DBEdit3: TDBEdit
-      Left = 57
-      Top = 76
-      Width = 370
+      Left = 9
+      Top = 82
+      Width = 360
       Height = 24
       DataField = 'BAIRRO'
       DataSource = DtSrc
       TabOrder = 2
     end
     object DBEdit4: TDBEdit
-      Left = 533
-      Top = 76
-      Width = 230
+      Left = 377
+      Top = 82
+      Width = 385
       Height = 24
       DataField = 'COMPLEMENTO'
       DataSource = DtSrc
       TabOrder = 3
     end
     object DBEdit5: TDBEdit
-      Left = 64
-      Top = 120
-      Width = 299
+      Left = 8
+      Top = 130
+      Width = 360
       Height = 24
       DataField = 'CIDADE'
       DataSource = DtSrc
       TabOrder = 6
     end
     object DBEdit6: TDBEdit
-      Left = 430
-      Top = 120
+      Left = 403
+      Top = 129
       Width = 32
       Height = 24
       DataField = 'UF'
@@ -194,18 +194,18 @@ inherited fEndereco: TfEndereco
       TabOrder = 7
     end
     object DBEdit7: TDBEdit
-      Left = 502
-      Top = 120
-      Width = 90
+      Left = 448
+      Top = 128
+      Width = 117
       Height = 24
       DataField = 'CEP'
       DataSource = DtSrc
       TabOrder = 5
     end
     object DBEdit8: TDBEdit
-      Left = 667
-      Top = 120
-      Width = 95
+      Left = 579
+      Top = 127
+      Width = 183
       Height = 24
       DataField = 'CD_IBGE'
       DataSource = DtSrc
@@ -223,7 +223,7 @@ inherited fEndereco: TfEndereco
     object DBEdit10: TDBEdit
       Left = 160
       Top = 160
-      Width = 202
+      Width = 207
       Height = 24
       DataField = 'TELEFONE'
       DataSource = DtSrc
@@ -485,8 +485,8 @@ inherited fEndereco: TfEndereco
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 368
-    Top = 160
+    Left = 328
+    Top = 8
     object procIBGENM_LOCALIDADE2: TStringField
       DisplayLabel = 'Cidade/Vila'
       FieldName = 'NM_LOCALIDADE'
