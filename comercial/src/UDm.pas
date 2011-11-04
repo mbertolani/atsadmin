@@ -1858,7 +1858,6 @@ type
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP : String;
     tipoCompra, tipoVenda : String;
     userAprovaCompra, varLogado, usaCentroCusto : String;
-    RESULTADO_APROVA : Boolean;    
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
   end;
@@ -2440,8 +2439,7 @@ begin
  Properties := VarArrayCreate([0,4], varVariant);
   Properties[0] := VarArrayOf(['USUARIO',varUsuario,True]);
   Properties[1] := VarArrayOf(['MICRO',NomeComputador,True]);
-  Properties[2] := VarArrayOf(['TABELA',
-    IProviderSupport(DataSet).PSGetTableName,True]);
+  Properties[2] := VarArrayOf(['TABELA',IProviderSupport(DataSet).PSGetTableName,True]);
   Properties[3] := VarArrayOf(['DATA',Date,True]);
   Properties[4] := VarArrayOf(['HORA',Time,True]);
 end;
