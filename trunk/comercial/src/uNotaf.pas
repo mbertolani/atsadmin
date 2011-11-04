@@ -204,8 +204,6 @@ type
     cdsNotaMaePESOREMESSA: TBCDField;
     JvPageControl1: TJvPageControl;
     TabNF: TTabSheet;
-    Label26: TLabel;
-    Label36: TLabel;
     JvGroupBox1: TJvGroupBox;
     cbNatureza: TDBComboBox;
     JvGroupBox2: TJvGroupBox;
@@ -304,9 +302,6 @@ type
     DBEdit65: TDBEdit;
     DBEdit66: TDBEdit;
     JvDBGrid1: TJvDBGrid;
-    DBEdit48: TDBEdit;
-    DBEdit49: TDBEdit;
-    BitBtn9: TBitBtn;
     memo1: TMemo;
     calcman: TCheckBox;
     TabSheet1: TTabSheet;
