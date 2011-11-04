@@ -673,18 +673,21 @@ object fFiltroEstoque: TfFiltroEstoque
         Expanded = False
         FieldName = 'DTAFAB'
         Title.Caption = 'Data Fabrica'#231#227'o'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DTAVCTO'
         Title.Caption = 'Data Vencimento'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ANOTACOES'
         Title.Caption = 'OBS'
+        Width = 64
         Visible = True
       end>
   end
@@ -1028,21 +1031,22 @@ object fFiltroEstoque: TfFiltroEstoque
     Top = 488
     object cds_estoqueCODPROD: TStringField
       FieldName = 'CODPROD'
+      Size = 30
     end
     object cds_estoqueCODMOV: TIntegerField
       FieldName = 'CODMOV'
     end
     object cds_estoqueTIPOMOVIMENTO: TStringField
       FieldName = 'TIPOMOVIMENTO'
-      Size = 30
+      Size = 40
     end
     object cds_estoquePRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Size = 200
+      Size = 500
     end
     object cds_estoqueGRUPO: TStringField
       FieldName = 'GRUPO'
-      Size = 30
+      Size = 40
     end
     object cds_estoqueSUBGRUPOPROD: TStringField
       FieldName = 'SUBGRUPOPROD'
@@ -1050,42 +1054,38 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object cds_estoqueSALDOINIACUM: TFloatField
       FieldName = 'SALDOINIACUM'
-      DisplayFormat = ',##0.000'
-      EditFormat = ',##0.000'
+      DisplayFormat = ',0.000'
     end
     object cds_estoqueENTRADA: TFloatField
       FieldName = 'ENTRADA'
-      DisplayFormat = ',##0.000'
-      EditFormat = ',##0.000'
+      DisplayFormat = ',0.000'
     end
     object cds_estoqueSAIDA: TFloatField
       FieldName = 'SAIDA'
-      DisplayFormat = ',##0.000'
-      EditFormat = ',##0.000'
+      DisplayFormat = ',0.000'
     end
     object cds_estoqueSALDOFIMACUM: TFloatField
       FieldName = 'SALDOFIMACUM'
-      DisplayFormat = ',##0.000'
-      EditFormat = ',##0.000'
-    end
-    object cds_estoqueVALORESTOQUE: TFloatField
-      FieldName = 'VALORESTOQUE'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
+      DisplayFormat = ',0.000'
     end
     object cds_estoquePRECOUNIT: TFloatField
       FieldName = 'PRECOUNIT'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
+      DisplayFormat = ',0.00'
+    end
+    object cds_estoqueVALORESTOQUE: TFloatField
+      FieldName = 'VALORESTOQUE'
+      DisplayFormat = ',0.00'
     end
     object cds_estoqueVALORVENDA: TFloatField
       FieldName = 'VALORVENDA'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
+      DisplayFormat = ',0.00'
     end
     object cds_estoqueLOTES: TStringField
       FieldName = 'LOTES'
-      Size = 60
+      Size = 70
+    end
+    object cds_estoqueCCUSTOS: TIntegerField
+      FieldName = 'CCUSTOS'
     end
     object cds_estoqueDTAFAB: TDateField
       FieldName = 'DTAFAB'
@@ -1093,15 +1093,19 @@ object fFiltroEstoque: TfFiltroEstoque
     object cds_estoqueDTAVCTO: TDateField
       FieldName = 'DTAVCTO'
     end
-    object cds_estoqueCCUSTOS: TIntegerField
-      FieldName = 'CCUSTOS'
-    end
     object cds_estoqueNF: TIntegerField
       FieldName = 'NF'
     end
+    object cds_estoqueCLIFOR: TStringField
+      FieldName = 'CLIFOR'
+      Size = 120
+    end
+    object cds_estoqueCODLOTE: TIntegerField
+      FieldName = 'CODLOTE'
+    end
     object cds_estoqueANOTACOES: TStringField
       FieldName = 'ANOTACOES'
-      Size = 100
+      Size = 200
     end
   end
   object dsp_estoque: TDataSetProvider
@@ -1123,21 +1127,22 @@ object fFiltroEstoque: TfFiltroEstoque
     Top = 488
     object sds_estoqueCODPROD: TStringField
       FieldName = 'CODPROD'
+      Size = 30
     end
     object sds_estoqueCODMOV: TIntegerField
       FieldName = 'CODMOV'
     end
     object sds_estoqueTIPOMOVIMENTO: TStringField
       FieldName = 'TIPOMOVIMENTO'
-      Size = 30
+      Size = 40
     end
     object sds_estoquePRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Size = 200
+      Size = 500
     end
     object sds_estoqueGRUPO: TStringField
       FieldName = 'GRUPO'
-      Size = 30
+      Size = 40
     end
     object sds_estoqueSUBGRUPOPROD: TStringField
       FieldName = 'SUBGRUPOPROD'
@@ -1166,7 +1171,10 @@ object fFiltroEstoque: TfFiltroEstoque
     end
     object sds_estoqueLOTES: TStringField
       FieldName = 'LOTES'
-      Size = 60
+      Size = 70
+    end
+    object sds_estoqueCCUSTOS: TIntegerField
+      FieldName = 'CCUSTOS'
     end
     object sds_estoqueDTAFAB: TDateField
       FieldName = 'DTAFAB'
@@ -1174,15 +1182,19 @@ object fFiltroEstoque: TfFiltroEstoque
     object sds_estoqueDTAVCTO: TDateField
       FieldName = 'DTAVCTO'
     end
-    object sds_estoqueCCUSTOS: TIntegerField
-      FieldName = 'CCUSTOS'
-    end
     object sds_estoqueNF: TIntegerField
       FieldName = 'NF'
     end
+    object sds_estoqueCLIFOR: TStringField
+      FieldName = 'CLIFOR'
+      Size = 120
+    end
+    object sds_estoqueCODLOTE: TIntegerField
+      FieldName = 'CODLOTE'
+    end
     object sds_estoqueANOTACOES: TStringField
       FieldName = 'ANOTACOES'
-      Size = 100
+      Size = 200
     end
   end
   object repRelItem: TVCLReport
