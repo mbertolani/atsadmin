@@ -1,19 +1,23 @@
 inherited fCliente1: TfCliente1
-  Width = 739
-  Height = 438
+  Left = 231
+  Top = 18
+  Width = 740
+  Height = 556
   Caption = 'Cadastro Cliente'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 731
+    Width = 732
     Height = 33
+    TabOrder = 5
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 360
-    Width = 731
+    Top = 478
+    Width = 732
     Font.Height = -13
     ParentFont = False
+    TabOrder = 6
     inherited btnProcurar: TBitBtn
       OnClick = btnProcurarClick
     end
@@ -34,7 +38,7 @@ inherited fCliente1: TfCliente1
       'Fisica'
       'Juridica')
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 0
     OnClick = rgTipoClick
   end
   object gbNome: TGroupBox [3]
@@ -49,7 +53,7 @@ inherited fCliente1: TfCliente1
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 1
     object lblNome: TLabel
       Left = 6
       Top = 19
@@ -67,224 +71,26 @@ inherited fCliente1: TfCliente1
     object DBEdit1: TDBEdit
       Left = 88
       Top = 16
-      Width = 532
+      Width = 530
       Height = 24
       DataField = 'RAZAOSOCIAL'
       DataSource = DtSrc
       TabOrder = 0
       OnExit = DBEdit1Exit
+      OnKeyPress = FormKeyPress
     end
     object DBEdit2: TDBEdit
       Left = 88
       Top = 48
-      Width = 532
+      Width = 530
       Height = 24
       DataField = 'NOMECLIENTE'
       DataSource = DtSrc
       TabOrder = 1
+      OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox1: TGroupBox [4]
-    Left = 0
-    Top = 232
-    Width = 729
-    Height = 126
-    Caption = 'Endere'#231'o'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 6
-    object JvDBUltimGrid1: TJvDBUltimGrid
-      Left = 2
-      Top = 18
-      Width = 671
-      Height = 106
-      Align = alCustom
-      BorderStyle = bsNone
-      Ctl3D = False
-      DataSource = Dtsrc_e
-      FixedColor = clActiveBorder
-      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-      ParentCtl3D = False
-      ReadOnly = True
-      TabOrder = 1
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -13
-      TitleFont.Name = 'MS Sans Serif'
-      TitleFont.Style = []
-      OnDblClick = JvDBUltimGrid1DblClick
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      AutoSizeColumns = True
-      SelectColumnsDialogStrings.Caption = 'Select columns'
-      SelectColumnsDialogStrings.OK = '&OK'
-      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-      EditControls = <>
-      RowsHeight = 20
-      TitleRowHeight = 20
-      Columns = <
-        item
-          Expanded = False
-          FieldName = 'TIPOEND'
-          Title.Caption = 'Tipo'
-          Width = 97
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'LOGRADOURO'
-          Title.Caption = 'Rua/Avenida'
-          Width = 182
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'NUMERO'
-          Title.Caption = 'N'#250'mero'
-          Width = 61
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'BAIRRO'
-          Title.Caption = 'Bairro'
-          Width = 139
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CIDADE'
-          Title.Caption = 'Cidade'
-          Width = 135
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UF'
-          Width = 39
-          Visible = True
-        end>
-    end
-    object BitBtn1: TBitBtn
-      Left = 677
-      Top = 20
-      Width = 47
-      Height = 43
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-      OnClick = BitBtn1Click
-      Glyph.Data = {
-        360C0000424D360C000000000000360000002800000020000000200000000100
-        180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0ADD2B02A71
-        32196E2313741D0F761B11751B15741D1A6F242C7233ACD4B1C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C049854F1773200F77180C77
-        170E791C0A781A08781A08781A0A78180C78180C77160D781718731E558E5BC0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0D2F1D41871211078190D781808781A118A
-        2F22A2492CB65E2AB55D2AB65B37BD6324A2491389300A781A0D78180F77181F
-        7128C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C028762F12771B0C771A1B91403EC3732DBE691EC0
-        6117C16113C15D0FC05914C15F19BF6021C26626BF6938C1704DCA7B20903C0D
-        771A11761A28772EC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C01D6E2512771B10781B52C87D40C17635C06F2BBF6B1CBF
-        631EBB601BB15819A9561FAF5C23B05F22B46228BF6937C17443C1794DC27D54
-        C27A0E781B14771B1F6E25C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C028762F0F77180F771A36A25644BF7B3BC17533C06F28BF6920BF
-        63429F689AC4AB97BAA696B9A593BAA54F9E722ABD6836C17040C1764AC17D4F
-        BE80379E5310781B10761728742DC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C6E6C713761A0C751A4FB56E57C28448C07F40C17636C07229BC6A23BF
-        684F956CE9F3EDE0DFE1D7D6D8BBC2BF5E91752DBD6A38C07240C0784AC07F50
-        BE8364C88E52B3700F771A13751BCDECCFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C01C70220C741C6DCD8D62C98C58C2874CC07D42C07839C07430C06D27BD
-        694F956DF1FBF5F8F8F8F0F1EFCCD1CF62927635BF713BC17541BF774AC17D51
-        BF8460C68C66C78F6CCD8D0C761D1A7022C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        629B6811781724853B69C88F62C88E5CC68B4EC08043C07A3CC27635C06F2EC0
-        6E569672F2FCF6F8F8F8F0F0F0CED1CF63907539BF733FBF7744C07A4CC07D53
-        BF8460C68C69C7906DC89023863E0F7718649868C0C0C0C0C0C0C0C0C0C0C0C0
-        1973200F771875CF946BC79267C88F5FC68C4DC18047C07C40C0783AC17535BF
-        71589573F1FBF5F8F8F8F0F0F0CCD1CF6390753FBF7842BF7948C17D4EC08057
-        C18660C78A67C88F6DC89173CD910F771818721FC0C0C0C0C0C0C0C0C0B4DAB6
-        11771810761E73CB966BC89167C88F5FC78A4EC08048C07F43C07840C0783BC0
-        775A9674F2F9F4F8F8F8F0F0F0CDD0CE66917642BF7A46C17D49C07C4EC08055
-        C18660C88965C8906CC99272CB930C741C127819A7D2ADC0C0C0C0C0C0307836
-        0F771825853875CA986DC79264B48556A57A4FA2754DA47249A36E47A16C48A1
-        6F58826BF5FAF8F9F9F9EFEFEFCDD2D06C89794B9F6F4DA3734EA37653A27655
-        A2765AA47A62AF836CC6916FC791278C3E0F77182C7636C0C0C0C0C0C01F7926
-        0E761737994D70C9976AC79080AD93BBCFC3B2C6BAAEBEB7ACBFB6ADC0B7B3C7
-        BBCED5D0F1F1F1F8F8F8F7F7F7E0E0E0C4CAC5B3C4B9AFC0B7AFC0B7AFBFB8B0
-        BEB8ACBDB48CB09F6DC49268C68F4FB4690F771A177020C0C0C0C0C0C012731C
-        0F771853B5696DC7926CC69193B19EEEF0F0E0E0E0E3E1E1E2DFE1E2DFE1E0E0
-        E0EAE7E9F8F8F8F8F8F8FAF8F8F0F0F0EAE7E9E0E0E0E0E0E0E2DFE1E2DFE1E2
-        DFE1C8C9C795AC9E6CC69169C79065C57F12791E13751BC0C0C0C0C0C00F761B
-        0F771A51B5696AC8926AC8928DB39DF4F9F7F8F8F8F8F8F8F8F8F8F8F8F8F9F9
-        F9F9F9F9F8F8F8F8F8F8F8F8F8F8F8F8F9F9F9F8F9F7F8F9F7F8F8F8F8F8F8F9
-        F9F9D0D0D094AE9E6DC79267C89065C48112782011751BC0C0C0C0C0C012761E
-        0E76174CB26462C98C61C68F8CB39EF4F9F7F8F8F8F8F8F8F7F7F7F8F8F8F7F7
-        F7F8F8F8F8F8F8F9F9F9F8F7F9F8F8F8F7F7F7F8F9F7F8F8F8F8F8F8FAF8F8F6
-        F8F8E6E8E89BB5A764C58D61C88E62C57F12782011751BC0C0C0C0C0C0187622
-        0F771A47AD6060C8895FC68C8BBEA2E8FEF2ECFDF2ECFDF4ECFDF4EDFCF4EDFC
-        F4F4F9F7F8F8F8F8F8F8FAF8F8F8F8F8F4F9F7F0FDF5EEFDF5EDFCF4EDFCF4EC
-        FDF4ECFDF4BAE1CC68C68F61C98861C47E11771F13741DC0C0C0C0C0C0277930
-        0F7718298F3E5AC18859C0865DBB855BAB7C64B18566B38767B1876EB38E76B2
-        90738D7DF6F9F7F8F8F8F1F1F1DEE0E08A9E927DB39574B28E74B18F70B38E67
-        B08865B2865EB58362C68A61C98A47AD600F771A196F21C0C0C0C0C0C04E8D55
-        0F78171078215AC08657C18656BF8656BF8662C98C68C9906AC79074C99780C8
-        9D7A9787F4F9F7F8F9F7F1F1F1D0D1CF7C928688C8A47FCA9E77C79873C89468
-        C68F65C8905FC78A60C8895BC1871F86350E7617347A3BC0C0C0C0C0C0C0C0C0
-        13741D0D771A61CB8957C18657C18659C18465C98F6AC79077C8997FC99F8CCB
-        A4819A8CF6F8F8F8F8F8EFEFEFD0D0D07F91848FC8A787C8A182CA9F77C79872
-        CA9565C89061C88B60C88964C98B0D761B0F7718B4DCB9C0C0C0C0C0C0C0C0C0
-        2B743010791857BC7854BF8157C0875AC08667C79172CA957AC79B87C8A193C7
-        A985988FF6F8F8F9F9F9F0F0F0CED1CF83938893C7A98AC7A384C7A07CC79B74
-        C89869C88F62C88E62C78967CB890E76191C7022C0C0C0C0C0C0C0C0C0C0C0C0
-        B7DDB913751B0C741F63CB8A59C0875BC18769C79076CB9982CAA08BC9A59BCA
-        B0899A91F6F8F8F9F9F9F0F0F0CED0D083928A99C9AD90C9A887C8A17FCA9E74
-        C89869C88F62C78F63CA8D167C2B12771B71A478C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C03075380D78182D974A5CC38663C78D6CC79078C99A83CBA18ECBA7A0CA
-        B1899890F7F9F9F9F9F9F9F9F9D6D8D88A99919CC9AE8FC8A789C8A17FC99F76
-        CA9A69C88F63C98F52BB720D771A1E6F26C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C018721F0E7617137B2862CC876CCA9178C99A83C69F8FC8A79DC7
-        B096AA9EE4E9E7E4E9E7E5EAE8E3EAE7A6B9B09CC8B18EC7A88AC9A27FCA9E73
-        CA9862C98C2C964911771815741DC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C08EC69316741D0E771608751F63C88A70CA9580CAA08CC9A59EC9
-        AEA8C6B3AFC6B8B2C6B9ADC7B9A8C5B5A0C6B099C8AE8DC9A782C89F76CB9964
-        C789137E2F0C771713761A509257C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C06CA67016741D0E7617258E3F62CB8860BE877BC69A97CC
-        AB9DC8ADA4C9B5A8C8B5A1C7B19EC9AE98C9AD8ECAA87EC89E63BD8862C9863A
-        A2550E761713751B2D7533C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C019711E1078190C761D2A93485FC88561BE
-        876BBA8E7CC29D85C5A281C49D78C2986ABB8E62BE8962CA893FA7600C741F0F
-        771A16731E5A9961C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C049854F18721F1178170F771A0D75
-        1D0F77221C8633278F3C288F3A278F3A147C270C771B0D771A0F781712741A34
-        7A3BC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0DEFBE2639B681C71211278
-        191079181078191079181079181078191079181177181773223E8045C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A3CB
-        A86CA3723B80432D77352C79352E78365F996388B58EC0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
-    end
-  end
-  object GroupBox2: TGroupBox [5]
+  object GroupBox2: TGroupBox [4]
     Left = 0
     Top = 122
     Width = 729
@@ -296,59 +102,62 @@ inherited fCliente1: TfCliente1
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 2
     object lblCnpj: TLabel
-      Left = 50
-      Top = 16
+      Left = 31
+      Top = 21
       Width = 26
       Height = 16
       Alignment = taRightJustify
       Caption = 'CPF'
     end
     object lblIE: TLabel
-      Left = 293
-      Top = 16
+      Left = 286
+      Top = 21
       Width = 26
       Height = 16
       Alignment = taRightJustify
       Caption = 'R.G.'
     end
     object lblOrgaoEmissor: TLabel
-      Left = 491
-      Top = 18
+      Left = 486
+      Top = 21
       Width = 90
       Height = 16
       Caption = 'Org'#227'o Emissor'
     end
     object DBEdit3: TDBEdit
-      Left = 88
-      Top = 16
+      Left = 71
+      Top = 18
       Width = 161
       Height = 24
       DataField = 'CNPJ'
       DataSource = DtSrc
       TabOrder = 0
+      OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
-      Left = 329
-      Top = 16
+      Left = 318
+      Top = 18
       Width = 154
       Height = 24
       DataField = 'INSCESTADUAL'
       DataSource = DtSrc
       TabOrder = 1
+      OnKeyPress = FormKeyPress
     end
     object DBEdit5: TDBEdit
       Left = 585
-      Top = 16
-      Width = 120
+      Top = 18
+      Width = 116
       Height = 24
       DataField = 'RG'
       DataSource = DtSrc
       TabOrder = 2
+      OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox3: TGroupBox [6]
+  object GroupBox3: TGroupBox [5]
     Left = -1
     Top = 174
     Width = 730
@@ -360,28 +169,29 @@ inherited fCliente1: TfCliente1
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 5
+    TabOrder = 3
     object Label1: TLabel
-      Left = 40
-      Top = 27
+      Left = 14
+      Top = 22
       Width = 46
       Height = 16
       Caption = 'Contato'
       FocusControl = btnCancelar
     end
     object DBEdit6: TDBEdit
-      Left = 89
-      Top = 24
-      Width = 313
+      Left = 72
+      Top = 20
+      Width = 337
       Height = 24
       DataField = 'CONTATO'
       DataSource = DtSrc
       TabOrder = 0
+      OnKeyPress = FormKeyPress
     end
     object rgSitCad: TRadioGroup
       Left = 420
       Top = 9
-      Width = 300
+      Width = 282
       Height = 38
       Caption = 'Situa'#231#227'o do Cadastro'
       Columns = 3
@@ -391,6 +201,265 @@ inherited fCliente1: TfCliente1
         'Inativo'
         'Bloqueado')
       TabOrder = 1
+    end
+  end
+  object GroupBox4: TGroupBox [6]
+    Left = 0
+    Top = 232
+    Width = 729
+    Height = 245
+    Align = alCustom
+    Caption = 'Endere'#231'o'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
+    object Label2: TLabel
+      Left = 10
+      Top = 19
+      Width = 79
+      Height = 16
+      Caption = 'Logradouro .:'
+    end
+    object Label3: TLabel
+      Left = 585
+      Top = 12
+      Width = 54
+      Height = 16
+      Caption = 'N'#250'mero.:'
+    end
+    object Label4: TLabel
+      Left = 10
+      Top = 65
+      Width = 42
+      Height = 16
+      Caption = 'Bairro.:'
+    end
+    object Label5: TLabel
+      Left = 377
+      Top = 63
+      Width = 90
+      Height = 16
+      Caption = 'Complemento.:'
+    end
+    object Label6: TLabel
+      Left = 10
+      Top = 111
+      Width = 50
+      Height = 16
+      Caption = 'Cidade.:'
+    end
+    object Label7: TLabel
+      Left = 402
+      Top = 111
+      Width = 24
+      Height = 16
+      Caption = 'UF.:'
+    end
+    object Label8: TLabel
+      Left = 448
+      Top = 111
+      Width = 31
+      Height = 16
+      Caption = 'Cep.:'
+    end
+    object Label9: TLabel
+      Left = 579
+      Top = 111
+      Width = 68
+      Height = 16
+      Caption = 'C'#243'd. IBGE.:'
+    end
+    object Label11: TLabel
+      Left = 11
+      Top = 167
+      Width = 37
+      Height = 16
+      Caption = 'Fone :'
+    end
+    object Label12: TLabel
+      Left = 10
+      Top = 207
+      Width = 40
+      Height = 16
+      Caption = 'Email.:'
+    end
+    object Label14: TLabel
+      Left = 238
+      Top = 167
+      Width = 35
+      Height = 16
+      Caption = 'Fone:'
+    end
+    object Label16: TLabel
+      Left = 489
+      Top = 167
+      Width = 37
+      Height = 16
+      Caption = 'Fone :'
+    end
+    object BitBtn1: TBitBtn
+      Left = 368
+      Top = 130
+      Width = 27
+      Height = 25
+      Caption = '...'
+      TabOrder = 15
+      OnClick = BitBtn1Click
+    end
+    object DBEdit7: TDBEdit
+      Left = 10
+      Top = 36
+      Width = 566
+      Height = 24
+      DataField = 'LOGRADOURO'
+      DataSource = Dtsrc_e
+      TabOrder = 0
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit8: TDBEdit
+      Left = 585
+      Top = 36
+      Width = 114
+      Height = 24
+      DataField = 'NUMERO'
+      DataSource = Dtsrc_e
+      TabOrder = 1
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit9: TDBEdit
+      Left = 9
+      Top = 82
+      Width = 360
+      Height = 24
+      DataField = 'BAIRRO'
+      DataSource = Dtsrc_e
+      TabOrder = 2
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit10: TDBEdit
+      Left = 377
+      Top = 82
+      Width = 322
+      Height = 24
+      DataField = 'COMPLEMENTO'
+      DataSource = Dtsrc_e
+      TabOrder = 3
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit11: TDBEdit
+      Left = 8
+      Top = 130
+      Width = 360
+      Height = 24
+      DataField = 'CIDADE'
+      DataSource = Dtsrc_e
+      TabOrder = 4
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit12: TDBEdit
+      Left = 403
+      Top = 130
+      Width = 32
+      Height = 24
+      DataField = 'UF'
+      DataSource = Dtsrc_e
+      TabOrder = 5
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit13: TDBEdit
+      Left = 448
+      Top = 130
+      Width = 123
+      Height = 24
+      DataField = 'CEP'
+      DataSource = Dtsrc_e
+      TabOrder = 6
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit14: TDBEdit
+      Left = 579
+      Top = 130
+      Width = 119
+      Height = 24
+      DataField = 'CD_IBGE'
+      DataSource = Dtsrc_e
+      TabOrder = 7
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit15: TDBEdit
+      Left = 57
+      Top = 167
+      Width = 37
+      Height = 24
+      DataField = 'DDD'
+      DataSource = Dtsrc_e
+      TabOrder = 8
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit16: TDBEdit
+      Left = 96
+      Top = 167
+      Width = 111
+      Height = 24
+      DataField = 'TELEFONE'
+      DataSource = Dtsrc_e
+      TabOrder = 9
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit17: TDBEdit
+      Left = 56
+      Top = 204
+      Width = 642
+      Height = 24
+      DataField = 'E_MAIL'
+      DataSource = Dtsrc_e
+      MaxLength = 100
+      TabOrder = 14
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit18: TDBEdit
+      Left = 278
+      Top = 167
+      Width = 36
+      Height = 24
+      DataField = 'DDD1'
+      DataSource = Dtsrc_e
+      TabOrder = 10
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit19: TDBEdit
+      Left = 323
+      Top = 167
+      Width = 112
+      Height = 24
+      DataField = 'TELEFONE1'
+      DataSource = Dtsrc_e
+      TabOrder = 11
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit20: TDBEdit
+      Left = 534
+      Top = 167
+      Width = 36
+      Height = 24
+      DataField = 'DDD2'
+      DataSource = Dtsrc_e
+      TabOrder = 12
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit21: TDBEdit
+      Left = 580
+      Top = 167
+      Width = 118
+      Height = 24
+      DataField = 'TELEFONE2'
+      DataSource = Dtsrc_e
+      TabOrder = 13
+      OnKeyPress = FormKeyPress
     end
   end
   inherited DtSrc: TDataSource
@@ -1087,8 +1156,8 @@ inherited fCliente1: TfCliente1
   object Dtsrc_e: TDataSource
     DataSet = cds_CliEnd
     OnStateChange = DtSrcStateChange
-    Left = 680
-    Top = 304
+    Left = 520
+    Top = 288
   end
   object cds_CliEnd: TClientDataSet
     Aggregates = <>
@@ -1122,17 +1191,78 @@ inherited fCliente1: TfCliente1
       FixedChar = True
       Size = 2
     end
-    object cds_CliEndTIPOEND: TStringField
-      FieldName = 'TIPOEND'
-      ReadOnly = True
+    object cds_CliEndCODENDERECO: TIntegerField
+      FieldName = 'CODENDERECO'
       Required = True
-      FixedChar = True
+    end
+    object cds_CliEndCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object cds_CliEndCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object cds_CliEndCEP: TStringField
+      FieldName = 'CEP'
+      EditMask = '00000\-999;1;_'
+      Size = 10
+    end
+    object cds_CliEndTELEFONE: TStringField
+      FieldName = 'TELEFONE'
       Size = 9
     end
-    object cds_CliEndTIPO: TSmallintField
-      FieldName = 'TIPO'
-      ReadOnly = True
+    object cds_CliEndTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 9
+    end
+    object cds_CliEndTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      Size = 9
+    end
+    object cds_CliEndFAX: TStringField
+      FieldName = 'FAX'
+      Size = 9
+    end
+    object cds_CliEndE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 100
+    end
+    object cds_CliEndRAMAL: TStringField
+      FieldName = 'RAMAL'
+      Size = 5
+    end
+    object cds_CliEndTIPOEND: TSmallintField
+      FieldName = 'TIPOEND'
       Required = True
+    end
+    object cds_CliEndDADOSADICIONAIS: TStringField
+      FieldName = 'DADOSADICIONAIS'
+      Size = 200
+    end
+    object cds_CliEndDDD: TStringField
+      FieldName = 'DDD'
+      Size = 3
+    end
+    object cds_CliEndDDD1: TStringField
+      FieldName = 'DDD1'
+      Size = 3
+    end
+    object cds_CliEndDDD2: TStringField
+      FieldName = 'DDD2'
+      Size = 3
+    end
+    object cds_CliEndDDD3: TStringField
+      FieldName = 'DDD3'
+      Size = 3
+    end
+    object cds_CliEndCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object cds_CliEndPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
     end
   end
   object dsp_CliEnd: TDataSetProvider
@@ -1142,11 +1272,7 @@ inherited fCliente1: TfCliente1
     Top = 287
   end
   object sds_CliEnd: TSQLDataSet
-    CommandText = 
-      'select LOGRADOURO, NUMERO, BAIRRO, CIDADE, UF, case  TIPOEND whe' +
-      'n 0 Then '#39'PRINCIPAL'#39' when 1 then '#39'COBRA'#199'A'#39' when 2 then '#39'ENTREGA'#39 +
-      ' else '#39'OUTROS'#39' END as TIPOEND, TIPOEND as TIPO from ENDERECOCLIE' +
-      'NTE where CODCLIENTE = :pCli'
+    CommandText = 'select * from ENDERECOCLIENTE where CODCLIENTE = :pCli'
     MaxBlobSize = -1
     Params = <
       item
@@ -1178,17 +1304,117 @@ inherited fCliente1: TfCliente1
       FixedChar = True
       Size = 2
     end
-    object sds_CliEndTIPOEND: TStringField
-      FieldName = 'TIPOEND'
-      ReadOnly = True
+    object sds_CliEndCODENDERECO: TIntegerField
+      FieldName = 'CODENDERECO'
       Required = True
-      FixedChar = True
+    end
+    object sds_CliEndCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object sds_CliEndCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object sds_CliEndCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object sds_CliEndTELEFONE: TStringField
+      FieldName = 'TELEFONE'
       Size = 9
     end
-    object sds_CliEndTIPO: TSmallintField
-      FieldName = 'TIPO'
-      ReadOnly = True
+    object sds_CliEndTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 9
+    end
+    object sds_CliEndTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      Size = 9
+    end
+    object sds_CliEndFAX: TStringField
+      FieldName = 'FAX'
+      Size = 9
+    end
+    object sds_CliEndE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 100
+    end
+    object sds_CliEndRAMAL: TStringField
+      FieldName = 'RAMAL'
+      Size = 5
+    end
+    object sds_CliEndTIPOEND: TSmallintField
+      FieldName = 'TIPOEND'
       Required = True
+    end
+    object sds_CliEndDADOSADICIONAIS: TStringField
+      FieldName = 'DADOSADICIONAIS'
+      Size = 200
+    end
+    object sds_CliEndDDD: TStringField
+      FieldName = 'DDD'
+      Size = 3
+    end
+    object sds_CliEndDDD1: TStringField
+      FieldName = 'DDD1'
+      Size = 3
+    end
+    object sds_CliEndDDD2: TStringField
+      FieldName = 'DDD2'
+      Size = 3
+    end
+    object sds_CliEndDDD3: TStringField
+      FieldName = 'DDD3'
+      Size = 3
+    end
+    object sds_CliEndCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object sds_CliEndPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+  end
+  object procIBGE: TSQLClientDataSet
+    CommandText = 
+      'select  NM_LOCALIDADE, CD_UF, CD_IBGE, NM_MUNICIPIO from TB_IBGE' +
+      ' where NM_LOCALIDADE LIKE :NOME'#13#10'order by NM_LOCALIDADE'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 296
+    Top = 8
+    object procIBGENM_LOCALIDADE2: TStringField
+      DisplayLabel = 'Cidade/Vila'
+      FieldName = 'NM_LOCALIDADE'
+      Required = True
+      Size = 40
+    end
+    object procIBGECD_UF: TStringField
+      DisplayLabel = 'UF'
+      FieldName = 'CD_UF'
+      FixedChar = True
+      Size = 2
+    end
+    object procIBGENM_MUNICIPIO: TStringField
+      DisplayLabel = 'Nome Munic'#237'pio'
+      FieldName = 'NM_MUNICIPIO'
+      Size = 40
+    end
+    object procIBGECD_IBGE: TStringField
+      DisplayLabel = 'C'#243'digo IBGE'
+      FieldName = 'CD_IBGE'
+      Required = True
+      Size = 10
     end
   end
 end
