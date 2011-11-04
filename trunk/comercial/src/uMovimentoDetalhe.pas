@@ -188,7 +188,7 @@ begin
   str := str + 'GEN_ID(GENMOVDET,1), ' + IntToStr(self.CodMov) + ', ' + IntToStr(Self.CodProduto);
   str := str + ', ' + FloatToStr(Self.Qtde) + ', ' + FloatToStr(Self.Preco);
   str := str + ', ' + FloatToStr(Self.Icms) + ', ' + FloatToStr(Self.Desconto);
-  str := str + ', ' + QuotedStr(Self.Un)    + ', ' + QuotedStr(Self.Baixa);
+  str := str + ', ' + QuotedStr(Self.Un)    + ', null ';
   str := str + ', ' + QuotedStr(Self.Descricao);
   str := str + ', ' + IntToStr(Self.Codigo);
   str := str + ', ' + QuotedStr(Self.Lote);
