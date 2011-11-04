@@ -1111,7 +1111,7 @@ begin
       executaDDL('PRODUTOS', 'TAM_LOTE', 'Integer');
       executaDDL('ENDERECOCLIENTE', 'PAIS', 'varchar(60)');
       executaDDL('MOVIMENTODETALHE', 'VALOR_PIS',  'DOUBLE PRECISION');
-      executaDDL('MOVIMENTODETALHE', 'VALOR_COFINS',  'DOUBLE PRECISION');     
+      executaDDL('MOVIMENTODETALHE', 'VALOR_COFINS',  'DOUBLE PRECISION');
       executaScript('invent_estoque.sql');
       executaScript('sp_lote_estoquemes.sql');
       executaScript('trg_altera_codpro.sql');
@@ -1132,12 +1132,14 @@ begin
       executaDDL('CLIENTES', 'COD_CLI', 'varchar(10)');
       executaDDL('MOVIMENTO', 'TIPO_PEDIDO', 'char(1)');
       executaDDL('ENDERECOFORNECEDOR', 'PAIS', 'varchar(60)');
+      executaDDL('VENDA', 'TROCO', 'DOUBLE PRECISION');
       executaScript('trg_calcula_icms_st.sql');
       executaScript('calcula_icms.sql');
       executaScript('listaProdutocli.sql');
       executaScript('listaProduto.sql');
       executaScript('lista_estoque.sql');
       executaScript('gera_parcelas_pag.sql');
+      executaScript('pedido_x_venda.sql');
       CriaCampoDescricao('MOVIMENTO', 'TIPO_PEDIDO', 'V - Venda, C - Comanda, D - Delivery');
       executaSql('UPDATE ENDERECOCLIENTE set PAIS = ' + QuotedStr('Brasil'));
       executaSql('UPDATE ENDERECOFORNECEDOR set PAIS = ' + QuotedStr('Brasil'));      
