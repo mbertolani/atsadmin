@@ -7,7 +7,7 @@ uses
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid, uCliente,
   Mask, JvExMask, JvToolEdit, JvMaskEdit, DBCtrls, FMTBcd, Provider,
-  SqlExpr, DBXpress, DBClient;
+  SqlExpr, DBXpress, DBClient, DBLocal, DBLocalS;
 
 type
   TfCliente1 = class(TfPai_new)
@@ -15,8 +15,6 @@ type
     gbNome: TGroupBox;
     lblNome: TLabel;
     lblRazao: TLabel;
-    GroupBox1: TGroupBox;
-    JvDBUltimGrid1: TJvDBUltimGrid;
     GroupBox2: TGroupBox;
     lblCnpj: TLabel;
     lblIE: TLabel;
@@ -166,7 +164,6 @@ type
     cdsLocate: TClientDataSet;
     cdsLocateNOMECLIENTE: TStringField;
     rgSitCad: TRadioGroup;
-    BitBtn1: TBitBtn;
     Dtsrc_e: TDataSource;
     cds_CliEnd: TClientDataSet;
     dsp_CliEnd: TDataSetProvider;
@@ -176,25 +173,91 @@ type
     sds_CliEndBAIRRO: TStringField;
     sds_CliEndCIDADE: TStringField;
     sds_CliEndUF: TStringField;
-    sds_CliEndTIPOEND: TStringField;
     cds_CliEndLOGRADOURO: TStringField;
     cds_CliEndNUMERO: TStringField;
     cds_CliEndBAIRRO: TStringField;
     cds_CliEndCIDADE: TStringField;
     cds_CliEndUF: TStringField;
-    cds_CliEndTIPOEND: TStringField;
-    sds_CliEndTIPO: TSmallintField;
-    cds_CliEndTIPO: TSmallintField;
+    GroupBox4: TGroupBox;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    BitBtn1: TBitBtn;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    DBEdit9: TDBEdit;
+    DBEdit10: TDBEdit;
+    DBEdit11: TDBEdit;
+    DBEdit12: TDBEdit;
+    DBEdit13: TDBEdit;
+    DBEdit14: TDBEdit;
+    DBEdit15: TDBEdit;
+    DBEdit16: TDBEdit;
+    DBEdit17: TDBEdit;
+    DBEdit18: TDBEdit;
+    Label14: TLabel;
+    DBEdit19: TDBEdit;
+    DBEdit20: TDBEdit;
+    Label16: TLabel;
+    DBEdit21: TDBEdit;
+    sds_CliEndCODENDERECO: TIntegerField;
+    sds_CliEndCODCLIENTE: TIntegerField;
+    sds_CliEndCOMPLEMENTO: TStringField;
+    sds_CliEndCEP: TStringField;
+    sds_CliEndTELEFONE: TStringField;
+    sds_CliEndTELEFONE1: TStringField;
+    sds_CliEndTELEFONE2: TStringField;
+    sds_CliEndFAX: TStringField;
+    sds_CliEndE_MAIL: TStringField;
+    sds_CliEndRAMAL: TStringField;
+    sds_CliEndTIPOEND: TSmallintField;
+    sds_CliEndDADOSADICIONAIS: TStringField;
+    sds_CliEndDDD: TStringField;
+    sds_CliEndDDD1: TStringField;
+    sds_CliEndDDD2: TStringField;
+    sds_CliEndDDD3: TStringField;
+    sds_CliEndCD_IBGE: TStringField;
+    sds_CliEndPAIS: TStringField;
+    cds_CliEndCODENDERECO: TIntegerField;
+    cds_CliEndCODCLIENTE: TIntegerField;
+    cds_CliEndCOMPLEMENTO: TStringField;
+    cds_CliEndCEP: TStringField;
+    cds_CliEndTELEFONE: TStringField;
+    cds_CliEndTELEFONE1: TStringField;
+    cds_CliEndTELEFONE2: TStringField;
+    cds_CliEndFAX: TStringField;
+    cds_CliEndE_MAIL: TStringField;
+    cds_CliEndRAMAL: TStringField;
+    cds_CliEndTIPOEND: TSmallintField;
+    cds_CliEndDADOSADICIONAIS: TStringField;
+    cds_CliEndDDD: TStringField;
+    cds_CliEndDDD1: TStringField;
+    cds_CliEndDDD2: TStringField;
+    cds_CliEndDDD3: TStringField;
+    cds_CliEndCD_IBGE: TStringField;
+    cds_CliEndPAIS: TStringField;
+    procIBGE: TSQLClientDataSet;
+    procIBGENM_LOCALIDADE2: TStringField;
+    procIBGECD_UF: TStringField;
+    procIBGENM_MUNICIPIO: TStringField;
+    procIBGECD_IBGE: TStringField;
     procedure rgTipoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure JvDBUltimGrid1DblClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
-    procedure BitBtn1Click(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     FCli : TCliente;
   public
@@ -206,7 +269,7 @@ var
 
 implementation
 
-uses uEndereco, UDm, sCtrlResize, uListaClientes;
+uses uEndereco, UDm, sCtrlResize, uListaClientes, uProcurar;
 
 
 {$R *.dfm}
@@ -231,6 +294,8 @@ begin
 end;
 
 procedure TfCliente1.btnGravarClick(Sender: TObject);
+var cCli: Integer;
+  TD: TTransactionDesc;
 begin
   if DtSrc.DataSet.State in [dsInsert] then
   begin
@@ -255,22 +320,63 @@ begin
   cds_cliTIPOFIRMA.AsInteger := 0;
 
   cds_cli.Post;
-  Fcli := TCliente.Create;
-  Fcli.CodCli      := 0;
-  Fcli.NomeCliente := cds_cliNOMECLIENTE.AsString;
-  FCli.RazaoSocial := cds_cliRAZAOSOCIAL.AsString;
-  FCli.InscEstadual:= cds_cliINSCESTADUAL.AsString;
-  FCli.Cnpj        := cds_cliCNPJ.AsString;
-  FCli.TipoFirma   := rgTipo.ItemIndex;
-  FCli.CodUsuario  := DM.varUSERID;
-  FCli.DataCadastro:= Now;
-  FCli.Contato     := cds_cliCONTATO.AsString;
-  FCli.Status      := cds_cliSTATUS.AsInteger;
-  FCli.inserirCliente;
-  FCli.Endereco.CodCli        := FCli.CodCli;
-  FCli.Endereco.TipoEndereco  := 0;
-  FCli.Endereco.Pais  := 'Brasil';  
-  FCli.Endereco.inserirEndereco;
+  cds_CliEnd.Post;
+  Try
+    Fcli := TCliente.Create;
+
+    Try
+      TD.TransactionID  := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+
+      Fcli := TCliente.Create;
+      Fcli.CodCli      := 0;
+      Fcli.NomeCliente := cds_cliNOMECLIENTE.AsString;
+      FCli.RazaoSocial := cds_cliRAZAOSOCIAL.AsString;
+      FCli.InscEstadual:= cds_cliINSCESTADUAL.AsString;
+      FCli.Cnpj        := cds_cliCNPJ.AsString;
+      FCli.TipoFirma   := rgTipo.ItemIndex;
+      FCli.CodUsuario  := DM.varUSERID;
+      FCli.DataCadastro:= Now;
+      FCli.Contato     := cds_cliCONTATO.AsString;
+      FCli.Status      := cds_cliSTATUS.AsInteger;
+
+      cCli := FCli.inserirCliente;
+
+      FCli.Endereco.CodCli        := cCli;
+      FCli.Endereco.TipoEndereco  := 0;
+      FCli.Endereco.Pais          := 'Brasil';
+      FCli.Endereco.Logradouro    := cds_CliEndLOGRADOURO.AsString;
+      FCli.Endereco.Complemento   := cds_CliEndCOMPLEMENTO.AsString;
+      FCli.Endereco.Numero        := cds_CliEndNUMERO.AsString;
+      FCli.Endereco.Bairro        := cds_CliEndBAIRRO.AsString;
+      FCli.Endereco.Cidade        := cds_CliEndCIDADE.AsString;
+      FCli.Endereco.Uf            := cds_CliEndUF.AsString;
+      FCli.Endereco.Cep           := cds_CliEndCEP.AsString;
+      FCli.Endereco.DDD1          := cds_CliEndDDD.AsString;
+      FCli.Endereco.DDD2          := cds_CliEndDDD1.AsString;
+      FCli.Endereco.DDD3          := cds_CliEndDDD2.AsString;
+      FCli.Endereco.Fone1         := cds_CliEndTELEFONE.AsString;
+      FCli.Endereco.Fone2         := cds_CliEndTELEFONE1.AsString;
+      FCli.Endereco.Fone3         := cds_CliEndTELEFONE2.AsString;
+      FCli.Endereco.Email         := cds_CliEndE_MAIL.AsString;
+      FCli.Endereco.CodIbge       := cds_CliEndCD_IBGE.AsString;
+
+      FCli.Endereco.inserirEndereco;
+
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+      end;
+    end;
+  Finally
+    FCli.Free;
+  end;
+
   if (cds_Cli.Active) then
     cds_Cli.Close;
   cds_Cli.Params[0].AsInteger := FCli.CodCli;
@@ -282,7 +388,7 @@ begin
   if (cdsLocate.Active) then
     cdsLocate.Close;
   cdsLocate.Open;
-  FCli.Destroy;
+
 end;
 
 procedure TfCliente1.FormCreate(Sender: TObject);
@@ -341,19 +447,6 @@ begin
    }
 end;
 
-procedure TfCliente1.BitBtn1Click(Sender: TObject);
-begin
-  fEndereco := TfEndereco.Create(Application);
-  try
-    fEndereco.ShowModal;
-  finally
-    fEndereco.Free;
-    if (cds_CliEnd.Active) then
-      cds_CliEnd.Close;
-    cds_CliEnd.Open;
-  end;
-end;
-
 procedure TfCliente1.btnExcluirClick(Sender: TObject);
 begin
   dm.sqlsisAdimin.ExecuteDirect('delete from enderecocliente where codcliente='+
@@ -370,8 +463,32 @@ end;
 
 procedure TfCliente1.btnIncluirClick(Sender: TObject);
 begin
-  cds_CliEnd.Close;
   inherited;
+  if (cds_CliEnd.Active) then
+    cds_CliEnd.Close;
+  cds_CliEnd.Open;
+end;
+
+procedure TfCliente1.BitBtn1Click(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,procIBGE);
+  try
+   fProcurar.BtnProcurar.Click;
+   fProcurar.EvDBFind1.DataField := 'NM_LOCALIDADE';
+   if fProcurar.ShowModal=mrOk then
+   begin
+     if(DtSrc.State in [dsbrowse,dsinactive]) then
+       cds_CliEnd.Edit;
+     cds_CliEndCIDADE.AsString := procIBGENM_MUNICIPIO.AsString;
+     cds_CliEndCD_IBGE.AsString := procIBGECD_IBGE.AsString;
+     cds_CliEndUF.AsString := procIBGECD_UF.AsString;
+   end;
+   finally
+    procIBGE.Close;
+    fProcurar.Free;
+   end;
+
 end;
 
 end.
