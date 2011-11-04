@@ -21,40 +21,8 @@ type
     DataSource1: TDataSource;
     ds_estoque: TDataSource;
     cds_estoque: TClientDataSet;
-    cds_estoqueCODPROD: TStringField;
-    cds_estoqueCODMOV: TIntegerField;
-    cds_estoqueTIPOMOVIMENTO: TStringField;
-    cds_estoquePRODUTO: TStringField;
-    cds_estoqueGRUPO: TStringField;
-    cds_estoqueSUBGRUPOPROD: TStringField;
-    cds_estoqueSALDOINIACUM: TFloatField;
-    cds_estoqueENTRADA: TFloatField;
-    cds_estoqueSAIDA: TFloatField;
-    cds_estoqueSALDOFIMACUM: TFloatField;
-    cds_estoqueVALORESTOQUE: TFloatField;
-    cds_estoquePRECOUNIT: TFloatField;
-    cds_estoqueVALORVENDA: TFloatField;
-    cds_estoqueLOTES: TStringField;
-    cds_estoqueDTAFAB: TDateField;
-    cds_estoqueDTAVCTO: TDateField;
     dsp_estoque: TDataSetProvider;
     sds_estoque: TSQLDataSet;
-    sds_estoqueCODPROD: TStringField;
-    sds_estoqueCODMOV: TIntegerField;
-    sds_estoqueTIPOMOVIMENTO: TStringField;
-    sds_estoquePRODUTO: TStringField;
-    sds_estoqueGRUPO: TStringField;
-    sds_estoqueSUBGRUPOPROD: TStringField;
-    sds_estoqueSALDOINIACUM: TFloatField;
-    sds_estoqueENTRADA: TFloatField;
-    sds_estoqueSAIDA: TFloatField;
-    sds_estoqueSALDOFIMACUM: TFloatField;
-    sds_estoquePRECOUNIT: TFloatField;
-    sds_estoqueVALORESTOQUE: TFloatField;
-    sds_estoqueVALORVENDA: TFloatField;
-    sds_estoqueLOTES: TStringField;
-    sds_estoqueDTAFAB: TDateField;
-    sds_estoqueDTAVCTO: TDateField;
     Panel1: TPanel;
     DBGrid1: TDBGrid;
     ComboBox1: TComboBox;
@@ -94,10 +62,6 @@ type
     repRel: TVCLReport;
     DBText1: TDBText;
     DBText2: TDBText;
-    sds_estoqueCCUSTOS: TIntegerField;
-    cds_estoqueCCUSTOS: TIntegerField;
-    sds_estoqueNF: TIntegerField;
-    cds_estoqueNF: TIntegerField;
     Consultar1: TMenuItem;
     Sair1: TMenuItem;
     VerMovimento1: TMenuItem;
@@ -107,11 +71,51 @@ type
     Label13: TLabel;
     BitBtn5: TBitBtn;
     BitBtn8: TBitBtn;
-    sds_estoqueANOTACOES: TStringField;
-    cds_estoqueANOTACOES: TStringField;
     GroupBox4: TGroupBox;
     cbAplicacao: TJvComboBox;
     SpeedButton5: TBitBtn;
+    sds_estoqueCODPROD: TStringField;
+    sds_estoqueCODMOV: TIntegerField;
+    sds_estoqueTIPOMOVIMENTO: TStringField;
+    sds_estoquePRODUTO: TStringField;
+    sds_estoqueGRUPO: TStringField;
+    sds_estoqueSUBGRUPOPROD: TStringField;
+    sds_estoqueSALDOINIACUM: TFloatField;
+    sds_estoqueENTRADA: TFloatField;
+    sds_estoqueSAIDA: TFloatField;
+    sds_estoqueSALDOFIMACUM: TFloatField;
+    sds_estoquePRECOUNIT: TFloatField;
+    sds_estoqueVALORESTOQUE: TFloatField;
+    sds_estoqueVALORVENDA: TFloatField;
+    sds_estoqueLOTES: TStringField;
+    sds_estoqueCCUSTOS: TIntegerField;
+    sds_estoqueDTAFAB: TDateField;
+    sds_estoqueDTAVCTO: TDateField;
+    sds_estoqueNF: TIntegerField;
+    sds_estoqueCLIFOR: TStringField;
+    sds_estoqueCODLOTE: TIntegerField;
+    sds_estoqueANOTACOES: TStringField;
+    cds_estoqueCODPROD: TStringField;
+    cds_estoqueCODMOV: TIntegerField;
+    cds_estoqueTIPOMOVIMENTO: TStringField;
+    cds_estoquePRODUTO: TStringField;
+    cds_estoqueGRUPO: TStringField;
+    cds_estoqueSUBGRUPOPROD: TStringField;
+    cds_estoqueSALDOINIACUM: TFloatField;
+    cds_estoqueENTRADA: TFloatField;
+    cds_estoqueSAIDA: TFloatField;
+    cds_estoqueSALDOFIMACUM: TFloatField;
+    cds_estoquePRECOUNIT: TFloatField;
+    cds_estoqueVALORESTOQUE: TFloatField;
+    cds_estoqueVALORVENDA: TFloatField;
+    cds_estoqueLOTES: TStringField;
+    cds_estoqueCCUSTOS: TIntegerField;
+    cds_estoqueDTAFAB: TDateField;
+    cds_estoqueDTAVCTO: TDateField;
+    cds_estoqueNF: TIntegerField;
+    cds_estoqueCLIFOR: TStringField;
+    cds_estoqueCODLOTE: TIntegerField;
+    cds_estoqueANOTACOES: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -463,7 +467,8 @@ begin
   Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   try
     sqlStr := 'select CODPROD, CODMOV, TIPOMOVIMENTO, ' +
-     ' UDF_STRIP(PRODUTO, ' + QuotedStr('"´`') + ') PRODUTO, GRUPO, ' +
+     ' PRODUTO, GRUPO, ' +
+//      QuotedStr('a') + ' as PRODUTO  , GRUPO, ' +
      ' SUBGRUPOPROD, SALDOINIACUM, ENTRADA, SAIDA, SALDOFIMACUM, PRECOUNIT, ' +
      ' VALORESTOQUE, VALORVENDA, LOTES, CCUSTOS, DTAFAB, DTAVCTO, NF, ' +
      ' CLIFOR, CODLOTE, UDF_COLLATEBR(ANOTACOES) ANOTACOES FROM SPESTOQUEFILTRO(';
