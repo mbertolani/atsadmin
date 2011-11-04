@@ -700,9 +700,11 @@ begin
       DecimalSeparator := ',';
       dm.sqlsisAdimin.Commit(TD);
     except
-      dm.sqlsisAdimin.Rollback(TD);
-      MessageDlg('Erro ao Gravar o Inventário', mtError, [mbOK], 0);
-      Exit;
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
     end;
     cdsInvent.Next;
   end;
