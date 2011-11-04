@@ -23,7 +23,7 @@ inherited fUsoCadastro: TfUsoCadastro
     TabOrder = 4
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 405
+    Top = 412
     Width = 682
     inherited btnGravar: TBitBtn
       Left = 180

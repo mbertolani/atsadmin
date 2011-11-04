@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
-  FMTBcd, DBCtrls, Grids, DBGrids, Mask, DBClient, Provider, SqlExpr;
+  FMTBcd, DBCtrls, Grids, DBGrids, Mask, DBClient, Provider, SqlExpr, dbxpress;
 
 type
   TfUsoCadastro = class(TfPai)
@@ -85,19 +85,49 @@ begin
 end;
 
 procedure TfUsoCadastro.btnGravarClick(Sender: TObject);
+var  TD: TTransactionDesc;
 begin
   if (DtSrc.State in [dsInsert]) then
   begin
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_USOPROD, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    cds_usoCOD_USO.AsInteger := dm.c_6_genidCODIGO.AsInteger;
-    cds_usoCOD_PRODUTO.AsInteger := dm.cds_produtoCODPRODUTO.AsInteger;
-    dm.c_6_genid.Close;
+    TD.TransactionID  := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    Try
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect('INSERT INTO USO_PRODUTO (COD_PRODUTO, DESCRICAO)' +
+        ' VALUES(' + InttoStr(dm.cds_produtoCODPRODUTO.AsInteger) + ', ' + QuotedStr(DBEdit1.Text)+ ')');
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Gravado com sucesso.', mtInformation,
+           [mbOk], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
   end;
-  inherited;
-
+  if (DtSrc.State in [dsEdit]) then
+  begin
+    TD.TransactionID  := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    Try
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE USO_PRODUTO SET DESCRICAO = ' +
+        QuotedStr(DBEdit1.Text) + ' WHERE COD_USO = ' + InttoStr(cds_usoCOD_USO.AsInteger));
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Alterado com sucesso.', mtInformation,
+           [mbOk], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  end;
+  cds_uso.Cancel;
+  cds_uso.Close;
+  cds_uso.Open;
 end;
 
 procedure TfUsoCadastro.FormShow(Sender: TObject);
