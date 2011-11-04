@@ -49,7 +49,8 @@ var
 implementation
 
 uses UDM, uFornecedorCadastro, ufuncionario, uClienteCadastro,
-  uClientePlano, UDmSaude, sCtrlResize, UDMNF, uNF, uProcurar, uNotaf;
+  uClientePlano, UDmSaude, sCtrlResize, UDMNF, uNF, uProcurar, uNotaf,
+  U_Terminal,  U_TerminalFinaliza,  uCliente1;
 
 {$R *.dfm}
 
@@ -116,22 +117,25 @@ begin
   //Procura acessado para procurar Cliente
   if (DtSrc.DataSet = dmnf.scds_cli_proc) then
   begin
-    fClienteCadastro:=TfClienteCadastro.Create(Application);
-    try
-      fClienteCadastro.ShowModal;
-    finally
-      fClienteCadastro.free;
+    if( dmnf.FormExiste(F_TerminalFinaliza) = True ) then
+    begin
+      fCliente1 :=TfCliente1.Create(Application);
+      try
+        fCliente1.ShowModal;
+      finally
+        fCliente1.free;
+      end;
+    end
+    else
+    begin
+      fClienteCadastro:=TfClienteCadastro.Create(Application);
+      try
+        fClienteCadastro.ShowModal;
+      finally
+        fClienteCadastro.free;
+      end;
     end;
   end;
-{  if (FormExiste(fNotaF) = True) then
-  begin
-    fClienteCadastro:=TfClienteCadastro.Create(Application);
-    try
-      fClienteCadastro.ShowModal;
-    finally
-      fClienteCadastro.free;
-    end;
-  end;}
   BtnCancel.Click;
 end;
 
