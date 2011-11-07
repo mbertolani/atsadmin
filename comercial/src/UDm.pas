@@ -1853,7 +1853,7 @@ type
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
     idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov, CCustoPadrao: integer;
     varDataCaixa : TDateTime;
-    STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao: string;
+    STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao, cidadePadrao, cepPadrao, ibgePadrao: string;
     LOTEQTDE, totalpago : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP : String;
     tipoCompra, tipoVenda : String;
@@ -1995,9 +1995,13 @@ begin
     if (cds_parametroDADOS.AsString = 'CODBARRA') then
       codBarra := 'S';
 
-  if not dm.cds_empresa.Active then
-  dm.cds_empresa.Open;
-  empresa := cds_empresaCNPJ_CPF.AsString;
+  if (not dm.cds_empresa.Active) then
+    dm.cds_empresa.Open;
+  empresa      := cds_empresaCNPJ_CPF.AsString;
+  ufPadrao     := cds_empresaUF.AsString;
+  cidadePadrao := cds_empresaCIDADE.AsString;
+  cepPadrao    := cds_empresaCEP.AsString;
+  ibgePadrao   := cds_empresaCD_IBGE.AsString;
 
   { Adiciona CAMPO a uma tabela se não existir}
   // verifiSeExisteCampo('CLIENTES', 'RAZAOSOCIAL', 'VARCHAR(60)');
