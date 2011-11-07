@@ -148,8 +148,8 @@ BEGIN
             VALOR_SUBDesc = (new.VLR_BASE*new.QUANTIDADE) * CICMS_SUBST_IND; 
             new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
         end
-       new.VALOR_COFINS = ((new.VLR_BASE * new.QUANTIDADE) + new.VIPI + new.ICMS_SUBST + new.FRETE - new.VALOR_DESCONTO + new.VALOR_OUTROS + new.VALOR_SEGURO) * COFINS;
-       new.VALOR_PIS =  ((new.VLR_BASE * new.QUANTIDADE) + new.VIPI + new.ICMS_SUBST + new.FRETE - new.VALOR_DESCONTO + new.VALOR_OUTROS + new.VALOR_SEGURO) * PIS;
+       new.VALOR_COFINS = ((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100;
+       new.VALOR_PIS =  ((new.VLR_BASE * new.QUANTIDADE) * PIS) /100;
     end
     
     if( new.FRETE > 0) then
