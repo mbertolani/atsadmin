@@ -325,8 +325,6 @@ begin
   else
   cds_cliTIPOFIRMA.AsInteger := 0;
 
-  cds_cli.Post;
-  cds_CliEnd.Post;
   Try
     Fcli := TCliente.Create;
 
@@ -382,6 +380,9 @@ begin
         FCli.Endereco.alterarEndereco(cds_CliEndCODENDERECO.AsInteger);
 
       dm.sqlsisAdimin.Commit(TD);
+
+      cds_cli.Post;
+      cds_CliEnd.Post;
     except
       on E : Exception do
       begin
@@ -481,6 +482,8 @@ end;
 procedure TfCliente1.btnIncluirClick(Sender: TObject);
 begin
   inherited;
+  if (not cds_CliEnd.Active) then
+    cds_CliEnd.Open;
   cds_CliEnd.Append;
 end;
 
@@ -530,8 +533,13 @@ end;
 procedure TfCliente1.cds_CliEndNewRecord(DataSet: TDataSet);
 begin
   inherited;
-  cds_CliEndCODCLIENTE.AsInteger := cds_cliCODCLIENTE.AsInteger;
-  cds_CliEndCODENDERECO.AsInteger    := 0;
+  cds_CliEndCODCLIENTE.AsInteger  := cds_cliCODCLIENTE.AsInteger;
+  cds_CliEndCODENDERECO.AsInteger := 9999999;
+  cds_CliEndTIPOEND.AsInteger     := 0;
+  cds_CliEndUF.AsString           := dm.ufPadrao;
+  cds_CliEndCEP.AsString          := dm.cepPadrao;
+  cds_CliEndCIDADE.AsString       := dm.cidadePadrao;
+  cds_CliEndCD_IBGE.AsString      := dm.ibgePadrao; 
 end;
 
 end.
