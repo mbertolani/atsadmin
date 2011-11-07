@@ -290,7 +290,7 @@ inherited fCliente1: TfCliente1
     object Label14: TLabel
       Left = 238
       Top = 167
-      Width = 35
+      Width = 34
       Height = 16
       Caption = 'Fone:'
     end
@@ -417,7 +417,6 @@ inherited fCliente1: TfCliente1
       Height = 24
       DataField = 'E_MAIL'
       DataSource = Dtsrc_e
-      MaxLength = 100
       TabOrder = 14
       OnKeyPress = FormKeyPress
     end
@@ -1155,7 +1154,7 @@ inherited fCliente1: TfCliente1
   end
   object Dtsrc_e: TDataSource
     DataSet = cds_CliEnd
-    OnStateChange = DtSrcStateChange
+    OnStateChange = Dtsrc_eStateChange
     Left = 520
     Top = 288
   end
@@ -1168,6 +1167,7 @@ inherited fCliente1: TfCliente1
         ParamType = ptInput
       end>
     ProviderName = 'dsp_CliEnd'
+    OnNewRecord = cds_CliEndNewRecord
     Left = 479
     Top = 286
     object cds_CliEndLOGRADOURO: TStringField

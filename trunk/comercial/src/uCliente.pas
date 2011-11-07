@@ -128,22 +128,12 @@ begin
 end;
 
 function TCliente.executaSql(strSql: String): Boolean;
-var     TD: TTransactionDesc;
 begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
   try
-    dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
-    dm.sqlsisAdimin.Commit(TD);
     Result := True;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      dm.sqlsisAdimin.Rollback(TD);
-      Result := False;
-    end;
+    Result := False;
   end;
 end;
 

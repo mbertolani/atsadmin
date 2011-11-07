@@ -151,8 +151,8 @@ begin
   endAlt := endAlt + ' DDD3       = ' + QuotedStr(Self.DDD4) + ', ';
   endAlt := endAlt + ' NUMERO     = ' + QuotedStr(Self.Numero) + ', ';
   endAlt := endAlt + ' CD_IBGE    = ' + QuotedStr(Self.CodIbge) + ', ';
-  endAlt := endAlt + ' DADOSADICIONAIS = ' + QuotedStr(Self.DadosAdicionais);
-  endAlt := endAlt + ' PAIS       = ' + QuotedStr(Self.Pais);
+  endAlt := endAlt + ' DADOSADICIONAIS   = ' + QuotedStr(Self.DadosAdicionais) + ', ';
+  endAlt := endAlt + ' PAIS              = ' + QuotedStr(Self.Pais);
   endAlt := endAlt + ' WHERE CODENDERECO = ' + IntToStr(codEndA);
 
   if (executaSql(endAlt)) then
@@ -190,22 +190,12 @@ begin
 end;
 
 function TEnderecos.executaSql(strSql: String): Boolean;
-var     TD: TTransactionDesc;
 begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
   try
-    dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
-    dm.sqlsisAdimin.Commit(TD);
     Result := True;
   except
-    on E : Exception do
-    begin
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      dm.sqlsisAdimin.Rollback(TD);
-      Result := False;
-    end;
+    Result := False;
   end;
 end;
 
