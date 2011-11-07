@@ -557,6 +557,10 @@ type
     sFornecPAIS: TStringField;
     sFornecCODPAIS: TStringField;
     sClienteCODPAIS: TStringField;
+    sdsItensNFVALOR_PIS: TFloatField;
+    sdsItensNFVALOR_COFINS: TFloatField;
+    cdsItensNFVALOR_PIS: TFloatField;
+    cdsItensNFVALOR_COFINS: TFloatField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -800,27 +804,27 @@ begin
             if (tp_amb = 1) then
             begin
               Ide.tpEmis    := teNormal;
-            end;
-            if (tp_amb = 2) then
+            end
+            else if (tp_amb = 2) then
             begin
               Ide.tpEmis    := teContingencia;
               Ide.dhCont    := Now;
               InputQuery('Justificativa de entrada em Contingência', 'Justificativa', vAux);
-              Ide.xJust     := vAux;              
-            end;
-            if (tp_amb = 3) then
+              Ide.xJust     := vAux;
+            end
+            else if (tp_amb = 3) then
             begin
               Ide.tpEmis    := teSCAN;
               Ide.serie     := 900;
-            end;
-            if (tp_amb = 4) then
+            end
+            else if (tp_amb = 4) then
             begin
               Ide.tpEmis    := teDPEC;
               Ide.dhCont    := Now;
               InputQuery('Justificativa de entrada em Contingência', 'Justificativa', vAux);
               Ide.xJust     := vAux;
-            end;
-            if (tp_amb = 5) then
+            end
+            else if (tp_amb = 5) then
             begin
               Ide.tpEmis    := teFSDA;
               Ide.dhCont    := Now;
@@ -883,7 +887,8 @@ begin
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
                 'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS from compra cp ' +
+                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
+                'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS from compra cp ' +
                 'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -895,7 +900,8 @@ begin
                 'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
                 'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.pIPI, ' +
                 'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-                'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
+                'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+                'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
                 'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS ' +
                 'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
@@ -1182,6 +1188,7 @@ begin
       ACBrNFe1.Consultar;
     end;
     ACBrNFe1.NotasFiscais.Imprimir;
+   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;    
 
   end;
 end;
@@ -1479,29 +1486,28 @@ begin
     begin
       Ide.serie     := 1;
       Ide.tpEmis    := teNormal;
-    end;
-    if (tp_amb = 2) then
+    end
+    else if (tp_amb = 2) then
     begin
       Ide.tpEmis    := teContingencia;
       Ide.serie     := 1;
-    end;
-    if (tp_amb = 3) then
+    end
+    else if (tp_amb = 3) then
     begin
       Ide.tpEmis    := teSCAN;
       Ide.serie     := 900;
-    end;
-    if (tp_amb = 4) then
+    end
+    else if (tp_amb = 4) then
     begin
       Ide.tpEmis    := teDPEC;
       Ide.serie     := 1;
-    end;
-    if (tp_amb = 5) then
+    end
+    else if (tp_amb = 5) then
     begin
       Ide.tpEmis    := teFSDA;
       Ide.serie     := 1;
     end;
 
-    Ide.serie     := 1;
     if( (cdsNFIDCOMPLEMENTAR.IsNull) or (cdsNFIDCOMPLEMENTAR.AsString = '')) then
       ide.finNFe    := fnNormal
     else
@@ -1559,7 +1565,8 @@ begin
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
         'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.CSOSN, md.pIPI, md.vIPI, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-        'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS from compra cp ' +
+        'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, ' +
+        'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS from compra cp ' +
         'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
         'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -1572,7 +1579,7 @@ begin
         'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.pIPI, ' +
         'md.vIPI, md.VLR_BASEICMS, md.CSOSN, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
         'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
-        'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS ' +
+        'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS ' +
         'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
         'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -1760,10 +1767,10 @@ begin
     Emit.EnderEmit.fone    := sEmpresaDDD.AsString + sEmpresaFONE.AsString;
     Emit.IE                := RemoveChar(sEmpresaIE_RG.AsString);
     if ( sEmpresaCRT.AsInteger = 0) Then
-      Emit.CRT               := crtSimplesNacional;
-    if ( sEmpresaCRT.AsInteger = 1) Then
-      Emit.CRT               := crtSimplesExcessoReceita;
-    if ( sEmpresaCRT.AsInteger = 2) Then
+      Emit.CRT               := crtSimplesNacional
+    else if ( sEmpresaCRT.AsInteger = 1) Then
+      Emit.CRT               := crtSimplesExcessoReceita
+    else if ( sEmpresaCRT.AsInteger = 2) Then
       Emit.CRT               := crtRegimeNormal;
   end;
 end;
@@ -1858,26 +1865,26 @@ begin
           if( sEmpresaCRT.AsInteger = 0) then
           begin
             if (( cdsItensNFCSOSN.AsString = null) or ( cdsItensNFCSOSN.AsString = '')) then
-              CSOSN := csosnVazio;
-            if ( cdsItensNFCSOSN.AsString = '101') then
-              CSOSN := csosn101;
-            if ( cdsItensNFCSOSN.AsString = '102') then
-              CSOSN := csosn102;
-            if ( cdsItensNFCSOSN.AsString = '103') then
-              CSOSN := csosn103;
-            if ( cdsItensNFCSOSN.AsString = '201') then
-              CSOSN := csosn201;
-            if ( cdsItensNFCSOSN.AsString = '202') then
-              CSOSN := csosn202;
-            if ( cdsItensNFCSOSN.AsString = '203') then
-              CSOSN := csosn203;
-            if ( cdsItensNFCSOSN.AsString = '300') then
-              CSOSN := csosn300;
-            if ( cdsItensNFCSOSN.AsString = '400') then
-              CSOSN := csosn400;
-            if ( cdsItensNFCSOSN.AsString = '500') then
-              CSOSN := csosn500;
-            if ( cdsItensNFCSOSN.AsString = '900') then
+              CSOSN := csosnVazio
+            else if ( cdsItensNFCSOSN.AsString = '101') then
+              CSOSN := csosn101
+            else if ( cdsItensNFCSOSN.AsString = '102') then
+              CSOSN := csosn102
+            else if ( cdsItensNFCSOSN.AsString = '103') then
+              CSOSN := csosn103
+            else if ( cdsItensNFCSOSN.AsString = '201') then
+              CSOSN := csosn201
+            else if ( cdsItensNFCSOSN.AsString = '202') then
+              CSOSN := csosn202
+            else if ( cdsItensNFCSOSN.AsString = '203') then
+              CSOSN := csosn203
+            else if ( cdsItensNFCSOSN.AsString = '300') then
+              CSOSN := csosn300
+            else if ( cdsItensNFCSOSN.AsString = '400') then
+              CSOSN := csosn400
+            else if ( cdsItensNFCSOSN.AsString = '500') then
+              CSOSN := csosn500
+            else if ( cdsItensNFCSOSN.AsString = '900') then
               CSOSN := csosn900;
           end;
 
@@ -1933,11 +1940,40 @@ begin
           vICMSST := cdsItensNFICMS_SUBST.AsVariant;                  //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
         end;
 
-       //CALCULO DE PIS E COFINS
-       if (sCFOPPIS.AsFloat > 0) then
-          valpis := (sCFOPPIS.AsVariant * cdsItensNFVALTOTAL.AsVariant) /100;
-       if (sCFOPCOFINS.AsFloat > 0) then
-          valcofins := (sCFOPCOFINS.AsVariant * cdsItensNFVALTOTAL.AsVariant) /100;
+        //CST PIS E COFINS
+        //01	Operação Tributável com Alíquota Básica
+        //02	Operação Tributável com Alíquota Diferenciada
+        //03	Operação Tributável com Alíquota por Unidade de Medida de Produto
+        //04	Operação Tributável Monofásica - Revenda a Alíquota Zero
+        //05	Operação Tributável por Substituição Tributária
+        //06	Operação Tributável a Alíquota Zero
+        //07	Operação Isenta da Contribuição
+        //08	Operação sem Incidência da Contribuição
+        //09	Operação com Suspensão da Contribuição
+        //49	Outras Operações de Saída
+        //50	Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Tributada no Mercado Interno
+        //51	Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Não Tributada no Mercado Interno
+        //52	Operação com Direito a Crédito - Vinculada Exclusivamente a Receita de Exportação
+        //53	Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno
+        //54	Operação com Direito a Crédito - Vinculada a Receitas Tributadas no Mercado Interno e de Exportação
+        //55	Operação com Direito a Crédito - Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação
+        //56	Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno, e de Exportação
+        //60	Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Tributada no Mercado Interno
+        //61	Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno
+        //62	Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita de Exportação
+        //63	Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno
+        //64	Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas no Mercado Interno e de Exportação
+        //65	Crédito Presumido - Operação de Aquisição Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação
+        //66	Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno, e de Exportação
+        //67	Crédito Presumido - Outras Operações
+        //70	Operação de Aquisição sem Direito a Crédito
+        //71	Operação de Aquisição com Isenção
+        //72	Operação de Aquisição com Suspensão
+        //73	Operação de Aquisição a Alíquota Zero
+        //74	Operação de Aquisição sem Incidência da Contribuição
+        //75	Operação de Aquisição por Substituição Tributária
+        //98	Outras Operações de Entrada
+        //99	Outras Operações
 
         with PIS do
         begin
@@ -1960,12 +1996,10 @@ begin
           else if (sCFOPCSTPIS.AsString = '99') then
             CST   := pis99;
 
-          if ( valpis >0 ) then
-          begin
-            vBC   := cdsItensNFVALTOTAL.AsVariant;
-            pPIS  := sCFOPPIS.AsVariant;
-            vPIS  := valpis;
-          end;
+          vBC   := cdsItensNFVALTOTAL.AsVariant;
+          pPIS  := sCFOPPIS.AsVariant;
+          vPIS  := cdsItensNFVALOR_PIS.AsVariant;
+
 
         end;
         with COFINS do
@@ -1989,12 +2023,9 @@ begin
           else if (sCFOPCSTCOFINS.AsString = '99') then
             CST   := cof99;
 
-          if ( valcofins >0 ) then
-          begin
           vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCSTCOFINS.AsVariant;
-          vCOFINS  := valcofins;
-          end;
+          vCOFINS  := cdsItensNFVALOR_COFINS.AsVariant;
         end;
       end;
     end;
