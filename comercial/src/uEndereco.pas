@@ -114,7 +114,7 @@ procedure TfEndereco.FormShow(Sender: TObject);
 begin
   //inherited;
   //sCtrlResize.CtrlResize(TForm(fEndereco));
-  RadioGroup2.ItemIndex := fCliente1.cds_CliEndTIPO.AsInteger;
+  //RadioGroup2.ItemIndex := fCliente1.cds_CliEndTIPO.AsInteger;
   RadioGroup2Click(Sender);
 end;
 

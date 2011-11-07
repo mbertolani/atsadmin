@@ -258,8 +258,13 @@ type
     procedure DBEdit1Exit(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure DtSrcStateChange(Sender: TObject);
+    procedure Dtsrc_eStateChange(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure cds_CliEndNewRecord(DataSet: TDataSet);
   private
     FCli : TCliente;
+    cCli : Integer;
   public
     TD: TTransactionDesc;
   end;
@@ -294,11 +299,12 @@ begin
 end;
 
 procedure TfCliente1.btnGravarClick(Sender: TObject);
-var cCli: Integer;
+var
   TD: TTransactionDesc;
 begin
   if DtSrc.DataSet.State in [dsInsert] then
   begin
+    cCli := 0;
     if(not cdsLocate.active) then
       cdsLocate.open;
     if (cdsLocate.Locate('NOMECLIENTE', DBEdit2.Text ,[loCaseInsensitive])) then
@@ -331,7 +337,7 @@ begin
       dm.sqlsisAdimin.StartTransaction(TD);
 
       Fcli := TCliente.Create;
-      Fcli.CodCli      := 0;
+      Fcli.CodCli      := cCli;
       Fcli.NomeCliente := cds_cliNOMECLIENTE.AsString;
       FCli.RazaoSocial := cds_cliRAZAOSOCIAL.AsString;
       FCli.InscEstadual:= cds_cliINSCESTADUAL.AsString;
@@ -342,8 +348,15 @@ begin
       FCli.Contato     := cds_cliCONTATO.AsString;
       FCli.Status      := cds_cliSTATUS.AsInteger;
 
-      cCli := FCli.inserirCliente;
-
+      if (cCli = 0) then
+      begin
+        cCli := FCli.inserirCliente;
+        FCli.Endereco.CodEndereco := 0;
+      end
+      else begin
+        FCli.Endereco.CodEndereco := cds_CliEndCODENDERECO.AsInteger;
+        FCli.alterarCliente(cCli);
+      end;
       FCli.Endereco.CodCli        := cCli;
       FCli.Endereco.TipoEndereco  := 0;
       FCli.Endereco.Pais          := 'Brasil';
@@ -363,21 +376,24 @@ begin
       FCli.Endereco.Email         := cds_CliEndE_MAIL.AsString;
       FCli.Endereco.CodIbge       := cds_CliEndCD_IBGE.AsString;
 
-      FCli.Endereco.inserirEndereco;
+      if (FCli.Endereco.CodEndereco = 0) then
+        FCli.Endereco.inserirEndereco
+      else
+        FCli.Endereco.alterarEndereco(cds_CliEndCODENDERECO.AsInteger);
 
       dm.sqlsisAdimin.Commit(TD);
     except
       on E : Exception do
       begin
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
       end;
     end;
   Finally
     FCli.Free;
   end;
 
-  if (cds_Cli.Active) then
+  {if (cds_Cli.Active) then
     cds_Cli.Close;
   cds_Cli.Params[0].AsInteger := FCli.CodCli;
   cds_Cli.Open;
@@ -387,7 +403,7 @@ begin
   cds_CliEnd.Open;
   if (cdsLocate.Active) then
     cdsLocate.Close;
-  cdsLocate.Open;
+  cdsLocate.Open; }
 
 end;
 
@@ -426,6 +442,7 @@ begin
      cds_cli.Params[0].Clear;
      cds_cli.Params[0].AsInteger := fListaClientes.cdsCODCLIENTE.AsInteger;
      cds_cli.Open;
+     cCli := fListaClientes.cdsCODCLIENTE.AsInteger;
 
      cds_CliEnd.Close;
      cds_CliEnd.Params[0].Clear;
@@ -464,9 +481,7 @@ end;
 procedure TfCliente1.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  if (cds_CliEnd.Active) then
-    cds_CliEnd.Close;
-  cds_CliEnd.Open;
+  cds_CliEnd.Append;
 end;
 
 procedure TfCliente1.BitBtn1Click(Sender: TObject);
@@ -489,6 +504,34 @@ begin
     fProcurar.Free;
    end;
 
+end;
+
+procedure TfCliente1.DtSrcStateChange(Sender: TObject);
+begin
+  inherited;
+  if (cds_Cli.State in [dsEdit]) then
+    cds_cliEnd.Edit;
+end;
+
+procedure TfCliente1.Dtsrc_eStateChange(Sender: TObject);
+begin
+  inherited;
+  if (Dtsrc_e.State in [dsEdit]) then
+    cds_cli.Edit;
+
+end;
+
+procedure TfCliente1.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  cds_CliEnd.Cancel;
+end;
+
+procedure TfCliente1.cds_CliEndNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  cds_CliEndCODCLIENTE.AsInteger := cds_cliCODCLIENTE.AsInteger;
+  cds_CliEndCODENDERECO.AsInteger    := 0;
 end;
 
 end.
