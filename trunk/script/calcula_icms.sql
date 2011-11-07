@@ -14,7 +14,7 @@ declare variable cod integer;
 declare variable codv integer;
 declare variable NotaFiscalVenda integer;
 declare variable serie varchar(20);
-declare variable prazo varchar(20); 
+declare variable prazo varchar(40); 
 declare variable NUMEROFATURA VARCHAR(20);
 declare variable PARAMETRO VARCHAR(20);
 declare variable qtde DOUBLE PRECISION;
@@ -50,13 +50,13 @@ begin
     ICMS_DESTACADO_DESC = '';
     ICMS_DESTACADO_DESC2 = '';
 
-  /* ==============================================================*/
+  --==============================================================--
   --Carrega os dados da Nota Fiscal
   select v.SERIE from venda v
     inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf
   into :serie;
 
-  /* ==============================================================*/
+  --==============================================================--
   --Preenchimento do tipo da PESSOA
   pessoa = 1;      -- Pessoa Juridica
   Select first 1 c.TIPOFIRMA from CLIENTES c where c.CODCLIENTE = :CodCli
@@ -68,7 +68,7 @@ begin
   if (icms_destacado is null) then
     icms_destacado = 0;
 
-  /* ==============================================================*/
+  --==============================================================--
   --Preenchimento DADOS ADICIONAIS ICMS DESTACADO
   if (icms_destacado > 0) then
   begin
@@ -85,7 +85,7 @@ begin
     end
 	UPDATE NOTAFISCAL SET  CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2 where NUMNF = :NUMERO_NF;	
   end
-  /* ==============================================================*/
+  --==============================================================--
 
     select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA, v.prazo, n.NATUREZA, n.VALOR_FRETE, n.OUTRAS_DESP, n.VALOR_SEGURO, n.VALOR_DESCONTO from venda v
         inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf and (n.NATUREZA = 12 or n.NATUREZA = 15 or n.NATUREZA = 16)
@@ -107,13 +107,10 @@ begin
     UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTBASEST , VALOR_ICMS_SUBST = :TOTST , VALOR_IPI = :TOTIPI, VALOR_ICMS = :TOTICMS , BASE_ICMS = :TOTBASEICMS ,
       VALOR_TOTAL_NOTA = :TOTPROD + :TOTST + :TOTIPI + :VSEGURO - :DESCONTO + :OUTRAS  + :VFRETE, VALOR_PIS = :PIS, VALOR_COFINS = :COFINS 
       where NUMNF = :numero_nf;
-              
-  
-    select first 1 NUMEROFATURA from NFE_FATURA(:CODV)
-      into :numerofatura;        
+    
       NumeroFatura = notaFiscalVenda || '-' || serie;
         
-    /* vejo se usa nf Parcial */
+    -- vejo se usa nf Parcial
     select parametro from parametro where parametro = 'NFVALOR'
     into :parametro;
     if (parametro is not null) then
