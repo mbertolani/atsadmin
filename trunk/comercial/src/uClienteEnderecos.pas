@@ -190,12 +190,18 @@ begin
 end;
 
 function TEnderecos.executaSql(strSql: String): Boolean;
+var ErrorCode: Integer;
 begin
-  try
-    dm.sqlsisAdimin.ExecuteDirect(strSql);
+  ErrorCode := dm.sqlsisAdimin.ExecuteDirect(strSql);
+  if ErrorCode = 0 then
+  begin
     Result := True;
-  except
+  end;
+
+  if ErrorCode <> 0 then
+  begin
     Result := False;
+    raise Exception.Create( 'Error: code = ' + IntToStr( ErrorCode ) )
   end;
 end;
 
