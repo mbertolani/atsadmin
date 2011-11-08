@@ -246,7 +246,7 @@ begin
   begin
     StatusBar1.Panels[0].Text := 'Orderm de Serviços';//MinimizeName(' ' + CdsOS.Filename, StatusBar1.Canvas, StatusBar1.Panels[0].Width);
     if (CdsOS.RecNo >= 0) then
-      StatusBar1.Panels[1].Text := Format('  %d of %d', [CdsOs.RecNo + 1, CdsOS.RecordCount])
+      StatusBar1.Panels[1].Text := Format('  %d of %d', [CdsOs.RecNo , CdsOS.RecordCount])
     else
       StatusBar1.Panels[1].Text := '  Inserindo...';
   end;

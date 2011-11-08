@@ -298,11 +298,15 @@ begin
       DecimalSeparator        := ',';
       if ((cdsServicoTIPO.AsString = 'S')  and (cdsServicoID_OS_DET.AsInteger > 90000000)) then
       begin
-        if (FOsCls.osDet.IncluirOsDet(0) = 0) then
+        if (cdsServico.State in [dsBrowse]) then
+          cdsServico.Edit;
+        cdsServicoID_OS_DET.AsInteger := FOsCls.osDet.IncluirOsDet(0);
+        if (cdsServicoID_OS_DET.AsInteger = 0) then
         begin
           ShowMessage('Erro na Inclusao Os Detalhe');
           Exit;
         end;
+
       end
       else begin
         FOsCls.osDet.alterarOsDet(cdsServicoID_OS_DET.AsInteger);
@@ -330,7 +334,7 @@ begin
       FOsCls.osDet.Qtde      := cdsPecasQTDE.AsFloat;
       FOsCls.osDet.Preco     := cdsPecasPRECO.AsFloat;
       FOsCls.osDet.Desconto  := cdsPecasDESCONTO.AsFloat;
-      FOSCls.osDet.CodOsServ := cdsPecasID_OSDET_SERV.AsInteger;
+      FOSCls.osDet.CodOsServ := cdsServicoID_OS_DET.AsInteger;
       DecimalSeparator := ',';
       if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
       begin

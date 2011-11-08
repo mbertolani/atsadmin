@@ -75,6 +75,7 @@ type
     procedure corrigeCustoEstoquePosterior; // Qdo Inseri uma entrada no mes Anterior e existe movimento Mes Posterior
     function mesAnterior(MesAtual: TDateTime): TDateTime;
     function validoMovimento(): Boolean;
+    function executaSql(strSql: String): Boolean;
   protected
     //Atributos
     _codProduto: Integer;
@@ -243,6 +244,22 @@ function TEstoque.excluirMes: Boolean;
 begin
   // Movimento Excluído
 
+end;
+
+function TEstoque.executaSql(strSql: String): Boolean;
+var ErrorCode: Integer;
+begin
+  ErrorCode := dm.sqlsisAdimin.ExecuteDirect(strSql);
+  if ErrorCode = 0 then
+  begin
+    Result := True;
+  end;
+
+  if ErrorCode <> 0 then
+  begin
+    Result := False;
+    raise Exception.Create( 'Error: code = ' + IntToStr( ErrorCode ) )
+  end;
 end;
 
 function TEstoque.getCentroCusto: Integer;
@@ -507,7 +524,7 @@ begin
     end;
     Try
       DecimalSeparator := '.';
-      dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+      executaSql(sqlStr);
       //dm.sqlsisAdimin.Commit();
 
       // Se tiver Movimento no Mes posterior, o Custo tem que ser Refeito
@@ -536,19 +553,19 @@ begin
       end;
 
       sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(Self.CodProduto);
-      dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+      executaSql(sqlStr);
 
       if (Self.Status = '9') then
       begin
         sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr(Self.Status) +
                   ' WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
 
-        dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+        executaSql(sqlStr);
       end;
       if (Self.Status = '0') then   // Excluido a Finalizacao
       begin
         sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = null WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
-        dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+        executaSql(sqlStr);
       end;
 
       DecimalSeparator := ',';
