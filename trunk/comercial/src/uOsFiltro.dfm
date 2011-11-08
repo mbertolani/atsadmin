@@ -1000,7 +1000,7 @@ object fOsFiltro: TfOsFiltro
     Left = 0
     Top = 89
     Width = 752
-    Height = 169
+    Height = 188
     Align = alClient
     DataSource = dsOs
     Font.Charset = ANSI_CHARSET
@@ -1113,7 +1113,7 @@ object fOsFiltro: TfOsFiltro
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
-    Top = 258
+    Top = 277
     Width = 752
     Height = 136
     Align = alBottom
@@ -1211,7 +1211,7 @@ object fOsFiltro: TfOsFiltro
   end
   object JvDBGrid2: TJvDBGrid
     Left = 0
-    Top = 394
+    Top = 413
     Width = 752
     Height = 160
     Align = alBottom
@@ -1306,6 +1306,7 @@ object fOsFiltro: TfOsFiltro
     Top = 554
     Width = 752
     Height = 19
+    Align = alCustom
     Panels = <
       item
         Width = 350
