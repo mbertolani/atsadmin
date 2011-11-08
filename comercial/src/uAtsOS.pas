@@ -180,8 +180,11 @@ procedure TfAtsOS.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
  caminho, arquivo, empresa: String;
 begin
-  usulog := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
+  usulog    := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
   nome_user := fAtsAdmin.UserControlComercial.CurrentUser.UserName;
+  DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
+  Dm.varUSERID      := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
+
 
   if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
@@ -372,8 +375,6 @@ end;
 procedure TfAtsOS.JvOutlookBar1Pages2Buttons0Click(Sender: TObject);
 begin
   fcrTituloPagto.ShowModal;
-  DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
-  Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
 end;
 
 procedure TfAtsOS.JvOutlookBar1Pages0Buttons4Click(Sender: TObject);

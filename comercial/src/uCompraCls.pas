@@ -174,23 +174,18 @@ begin
 end;
 
 function TCompraCls.executaSql(strSql: String): Boolean;
-//var     TD: TTransactionDesc;
+var ErrorCode: Integer;
 begin
-  // SQL
-  //TD.TransactionID := 1;
-  //TD.IsolationLevel := xilREADCOMMITTED;
-  try
-    //dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(strSql);
-    //dm.sqlsisAdimin.Commit(TD);
+  ErrorCode := dm.sqlsisAdimin.ExecuteDirect(strSql);
+  if ErrorCode = 0 then
+  begin
     Result := True;
-  except
-    on E : Exception do
-    begin
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      //dm.sqlsisAdimin.Rollback(TD);
-      Result := False;
-    end;
+  end;
+
+  if ErrorCode <> 0 then
+  begin
+    Result := False;
+    raise Exception.Create( 'Error: code = ' + IntToStr( ErrorCode ) )
   end;
 end;
 
