@@ -128,12 +128,18 @@ begin
 end;
 
 function TCliente.executaSql(strSql: String): Boolean;
+var ErrorCode: Integer;
 begin
-  try
-    dm.sqlsisAdimin.ExecuteDirect(strSql);
+  ErrorCode := dm.sqlsisAdimin.ExecuteDirect(strSql);
+  if ErrorCode = 0 then
+  begin
     Result := True;
-  except
+  end;
+
+  if ErrorCode <> 0 then
+  begin
     Result := False;
+    raise Exception.Create( 'Error: code = ' + IntToStr( ErrorCode ) )
   end;
 end;
 
@@ -233,8 +239,16 @@ begin
   sqlInc := sqlInc + IntToStr(Self.CodUsuario) + ', ';
   sqlInc := sqlInc + IntToStr(Self.Status) + ', ';
   sqlInc := sqlInc + IntToStr(Self.TipoFirma) + ')';
-  executaSql(sqlInc);
-  Result := Self.CodCli;
+  try
+    executaSql(sqlInc);
+    Result := Self.CodCli;
+  Except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      Result := 0;
+    end;
+  end;
 end;
 
 procedure TCliente.setCnpj(const Value: String);
