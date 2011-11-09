@@ -1747,16 +1747,16 @@ object DM_MOV: TDM_MOV
       FieldName = 'CODVENDEDOR'
       ProviderFlags = [pfInUpdate]
     end
-    object s_vendaSTATUS: TSmallintField
-      FieldName = 'STATUS'
-      ProviderFlags = [pfInUpdate]
-    end
     object s_vendaCODUSUARIO: TSmallintField
       FieldName = 'CODUSUARIO'
       ProviderFlags = [pfInUpdate]
     end
     object s_vendaDATASISTEMA: TDateField
       FieldName = 'DATASISTEMA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_vendaSTATUS: TSmallintField
+      FieldName = 'STATUS'
       ProviderFlags = [pfInUpdate]
     end
     object s_vendaVALOR: TFloatField
@@ -1883,6 +1883,10 @@ object DM_MOV: TDM_MOV
       ProviderFlags = []
       Size = 30
     end
+    object s_vendaTROCO: TFloatField
+      FieldName = 'TROCO'
+      ProviderFlags = [pfInUpdate]
+    end
   end
   object p_venda: TDataSetProvider
     DataSet = s_venda
@@ -1933,10 +1937,6 @@ object DM_MOV: TDM_MOV
       FieldName = 'CODVENDEDOR'
       ProviderFlags = [pfInUpdate]
     end
-    object c_vendaSTATUS: TSmallintField
-      FieldName = 'STATUS'
-      ProviderFlags = [pfInUpdate]
-    end
     object c_vendaCODUSUARIO: TSmallintField
       FieldName = 'CODUSUARIO'
       ProviderFlags = [pfInUpdate]
@@ -1945,10 +1945,13 @@ object DM_MOV: TDM_MOV
       FieldName = 'DATASISTEMA'
       ProviderFlags = [pfInUpdate]
     end
+    object c_vendaSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+    end
     object c_vendaVALOR: TFloatField
       FieldName = 'VALOR'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',#0.00'
     end
     object c_vendaNOTAFISCAL: TIntegerField
       FieldName = 'NOTAFISCAL'
@@ -1961,12 +1964,10 @@ object DM_MOV: TDM_MOV
     object c_vendaDESCONTO: TFloatField
       FieldName = 'DESCONTO'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',#0.00'
     end
     object c_vendaCODCCUSTO: TSmallintField
       FieldName = 'CODCCUSTO'
       ProviderFlags = [pfInUpdate]
-      EditFormat = ',#0.00'
     end
     object c_vendaN_PARCELA: TSmallintField
       FieldName = 'N_PARCELA'
@@ -1995,7 +1996,6 @@ object DM_MOV: TDM_MOV
     object c_vendaMULTA_JUROS: TFloatField
       FieldName = 'MULTA_JUROS'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',#0.00'
     end
     object c_vendaAPAGAR: TFloatField
       FieldName = 'APAGAR'
@@ -2004,12 +2004,10 @@ object DM_MOV: TDM_MOV
     object c_vendaVALOR_PAGAR: TFloatField
       FieldName = 'VALOR_PAGAR'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',#0.00'
     end
     object c_vendaENTRADA: TFloatField
       FieldName = 'ENTRADA'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',#0.00'
     end
     object c_vendaN_BOLETO: TStringField
       FieldName = 'N_BOLETO'
@@ -2076,9 +2074,8 @@ object DM_MOV: TDM_MOV
       Size = 30
     end
     object c_vendaTROCO: TFloatField
-      FieldKind = fkInternalCalc
       FieldName = 'TROCO'
-      DisplayFormat = ',#0.00'
+      ProviderFlags = [pfInUpdate]
     end
   end
   object d_venda: TDataSource
