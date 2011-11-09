@@ -8,7 +8,7 @@ uses
   StdCtrls, Buttons, ExtCtrls, MMJPanel, DBCtrls, Mask, DBLocal, DBLocalS,
   EChkCNPJ, EChkCPF, ComCtrls, ImgList, rpcompobase, rpvclreport,
   JvExStdCtrls, JvDBCombobox, Grids, DBGrids, JvExDBGrids, JvDBGrid,
-  JvDBUltimGrid, dateUtils, JvCombobox;
+  JvDBUltimGrid, dateUtils, JvCombobox, JvComponentBase, JvFormAutoSize;
 
 type
   TfClienteCadastro = class(TfPai)
@@ -1486,7 +1486,9 @@ begin
   if (cTranportadora.Active) then
       cTranportadora.close;
 
-  //inherited;
+
+  Action := caFree;
+  fClienteCadastro := nil;
 
 end;
 
@@ -1648,7 +1650,7 @@ end;
 procedure TfClienteCadastro.FormShow(Sender: TObject);
 var Pos: Integer;
 begin
-  inherited;
+//  inherited;
   sCtrlResize.CtrlResize(TForm(fClienteCadastro));
   if (cdsEnderecoCli.Active) then
     cdsEnderecoCli.Close;
