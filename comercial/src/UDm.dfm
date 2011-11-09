@@ -6,7 +6,7 @@ object DM: TDM
   Height = 726
   Width = 1292
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisAdmin'
+    ConnectionName = 'sisadmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -16,17 +16,16 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_jorvic'
+      'Database=localhost:F:\home\bd\sge_pilequinho.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
       'RoleName=RoleName'
-      'ServerCharSet=win1252'
+      'ServerCharSet=WIN1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=sysdba'
-      'WaitOnLocks=True'
-      'str_relatorio=C:\home\sisAdmin\relatorio\')
+      'User_Name=SYSDBA'
+      'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -9607,5 +9606,26 @@ object DM: TDM
     object sqlNaturezaBAIXAMOVIMENTO: TSmallintField
       FieldName = 'BAIXAMOVIMENTO'
     end
+  end
+  object s_permissao: TSQLDataSet
+    CommandText = 
+      'SELECT a.UCIDUSER, a.UCMODULE, a.UCCOMPNAME, a.UCKEY, a.RDB$DB_K' +
+      'EY'#13#10'FROM UCTABRIGHTS a '#13#10'where a.UCIDUSER = :ID '#13#10'   and a.UCCOM' +
+      'PNAME = :pn'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pn'
+        ParamType = ptInput
+      end>
+    SQLConnection = sqlsisAdimin
+    Left = 1104
+    Top = 8
   end
 end

@@ -5,7 +5,7 @@ interface
 uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
-  Variants, DBClient, EAppProt;
+  Variants, DBClient, EAppProt, UCBase;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -1791,6 +1791,7 @@ type
     cdsBancoDIGITOBANCO: TIntegerField;
     sds_produtoTAM_LOTE: TIntegerField;
     cds_produtoTAM_LOTE: TIntegerField;
+    s_permissao: TSQLDataSet;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
