@@ -2627,6 +2627,13 @@ inherited fParametro: TfParametro
         Height = 13
         Caption = 'Porta de Impress'#227'o'
       end
+      object Label56: TLabel
+        Left = 481
+        Top = 86
+        Width = 61
+        Height = 13
+        Caption = 'S'#233'rie Padr'#227'o'
+      end
       object RadioGroup3: TRadioGroup
         Left = 8
         Top = 16
@@ -2719,7 +2726,7 @@ inherited fParametro: TfParametro
       object EdtPorta: TEdit
         Left = 368
         Top = 104
-        Width = 393
+        Width = 105
         Height = 21
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -2820,6 +2827,52 @@ inherited fParametro: TfParametro
           TabOrder = 3
           OnChange = edtPerfil03Change
         end
+      end
+      object GroupBox32: TGroupBox
+        Left = 368
+        Top = 280
+        Width = 401
+        Height = 105
+        Caption = 'Impressora Bematech n'#227'o Fiscal'
+        TabOrder = 12
+        object CheckBox7: TCheckBox
+          Left = 8
+          Top = 71
+          Width = 180
+          Height = 17
+          Alignment = taLeftJustify
+          Caption = 'Usa DLL  ?'
+          TabOrder = 0
+          OnClick = CheckBox7Click
+        end
+        object CheckBox8: TCheckBox
+          Left = 8
+          Top = 26
+          Width = 180
+          Height = 17
+          Alignment = taLeftJustify
+          Caption = 'Imprimir ao Gravar Pedido  ?'
+          TabOrder = 1
+        end
+        object CheckBox9: TCheckBox
+          Left = 7
+          Top = 49
+          Width = 181
+          Height = 17
+          Alignment = taLeftJustify
+          Caption = 'Abrir gaveta ao Gravar Pedido ?'
+          TabOrder = 2
+        end
+      end
+      object EdtSerie: TEdit
+        Left = 480
+        Top = 104
+        Width = 105
+        Height = 21
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        TabOrder = 13
+        OnChange = EdtSerieChange
       end
     end
   end

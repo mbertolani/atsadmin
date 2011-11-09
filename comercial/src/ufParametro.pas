@@ -242,6 +242,12 @@ type
     edtPerfil04: TEdit;
     edtPerfil03: TEdit;
     Label55: TLabel;
+    GroupBox32: TGroupBox;
+    CheckBox7: TCheckBox;
+    CheckBox8: TCheckBox;
+    CheckBox9: TCheckBox;
+    EdtSerie: TEdit;
+    Label56: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -290,6 +296,8 @@ type
     procedure edtPerfil03Change(Sender: TObject);
     procedure edtPerfil04Change(Sender: TObject);
     procedure CheckBox6Click(Sender: TObject);
+    procedure CheckBox7Click(Sender: TObject);
+    procedure EdtSerieChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2028,6 +2036,16 @@ begin
   inherited;
   if (Parametro.ActivePage = TabPDV) then
   begin
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'DLLBEMATECH';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        CheckBox7.Checked := True
+     else
+        CheckBox7.Checked := False;
+          
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'PERFIL';
@@ -2807,6 +2825,105 @@ begin
      if (s_parametro.Active) then
         s_parametro.Close;
   end;
+end;
+
+procedure TfParametro.CheckBox7Click(Sender: TObject);
+begin
+  if (CheckBox7.Checked = True) then  // Usa Aprovação no exluir Pedido
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'DLLBEMATECH';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Usa DLL Bematech para impressora não Fiscal') + ', ';
+        strSql := strSql + QuotedStr('DLLBEMATECH');
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'DLLBEMATECH';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+       strSql := strSql + QuotedStr('DLLBEMATECH');
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+          dm.sqlsisAdimin.Commit(TD);
+       except
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+              [mbOk], 0);
+       end;
+     end;
+     if (s_parametro.Active) then
+        s_parametro.Close;
+  end;
+end;
+
+procedure TfParametro.EdtSerieChange(Sender: TObject);
+begin
+  if (EdtPorta.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'SERIETERMINAL';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (EdtPorta.Text <> s_parametroDADOS.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET DADOS = ';
+          strSql := strSql + QuotedStr(EdtSerie.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('SERIETERMINAL');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Serie Padrão PDV') + ', ';
+        strSql := strSql + QuotedStr('SERIETERMINAL') + ', ';
+        strSql := strSql + QuotedStr(EdtSerie.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+
 end;
 
 end.
