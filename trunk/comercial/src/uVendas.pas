@@ -651,6 +651,12 @@ procedure TfVendas.FormCreate(Sender: TObject);
 begin
   //inherited;
   sCtrlResize.CtrlResize(TForm(fVendas));
+
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel3.Background.EndColor   := dm.corEnd;
+  MMJPanel3.Background.StartColor := dm.corStart;
+
   inseridoMatPrima := 'NAO';
   codmovdet := 1999999;
   codserv := 1999999;
@@ -965,8 +971,10 @@ begin
     Label15.Caption := 'Devolução Vendas';
   end
   else begin
-    MMJPanel1.Background.EndColor := clTeal;
-    MMJPanel3.Background.EndColor := clTeal;
+    MMJPanel1.Background.StartColor := dm.corEnd;
+    MMJPanel1.Background.EndColor := dm.corStart;
+    MMJPanel3.Background.EndColor := dm.corEnd;
+    MMJPanel3.Background.StartColor := dm.corStart;
     Label15.Caption := 'Vendas';
   end;
   if (dm.emppadrao <> '') then

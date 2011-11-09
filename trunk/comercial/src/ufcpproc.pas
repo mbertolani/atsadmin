@@ -780,6 +780,12 @@ var conta_local, str_sql2: String;
  varCpProc : TUtils;
   i, j : integer;
 begin
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
+  MMJPanel2.Background.StartColor := dm.corStart;
+
+
   // Popula Status
   j := varCpProc.Forma.Count;
   for i := 0 to j - 1 do

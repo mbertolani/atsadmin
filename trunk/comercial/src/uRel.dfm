@@ -1,6 +1,6 @@
 object fRel: TfRel
   Left = 280
-  Top = 129
+  Top = 46
   Width = 516
   Height = 648
   Caption = 'Relat'#243'rio'
