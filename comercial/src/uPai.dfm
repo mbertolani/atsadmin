@@ -20,7 +20,7 @@ object fPai: TfPai
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 360
+    Top = 367
     Width = 630
     Height = 54
     Align = alBottom
@@ -31,7 +31,7 @@ object fPai: TfPai
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
     Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.EndColor = clActiveCaption
     Background.FillType = GradUpDown
     object btnGravar: TBitBtn
       Left = 251
@@ -468,7 +468,7 @@ object fPai: TfPai
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clTeal
+    Background.StartColor = clActiveCaption
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object Label1: TLabel

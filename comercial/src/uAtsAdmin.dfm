@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
   Left = 0
-  Top = 53
+  Top = 54
   Width = 699
   Height = 452
   Color = clWhite
@@ -775,7 +775,7 @@ object fAtsAdmin: TfAtsAdmin
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clTeal
+    Background.StartColor = clActiveCaption
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object dxButton2: TdxButton
