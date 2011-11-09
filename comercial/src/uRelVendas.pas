@@ -76,10 +76,59 @@ type
     BitBtn13: TBitBtn;
     ComboBox9: TComboBox;
     Label15: TLabel;
-    scds_produto_proc: TSQLDataSet;
+    scds_produto_proc: TSQLQuery;
     scds_produto_procCODPRODUTO: TIntegerField;
+    scds_produto_procFAMILIA: TStringField;
+    scds_produto_procCATEGORIA: TStringField;
+    scds_produto_procMARCA: TStringField;
+    scds_produto_procUNIDADEMEDIDA: TStringField;
+    scds_produto_procDATAULTIMACOMPRA: TDateField;
+    scds_produto_procESTOQUEMAXIMO: TFloatField;
+    scds_produto_procESTOQUEATUAL: TFloatField;
+    scds_produto_procESTOQUEREPOSICAO: TFloatField;
+    scds_produto_procESTOQUEMINIMO: TFloatField;
+    scds_produto_procVALORUNITARIOATUAL: TFloatField;
+    scds_produto_procVALORUNITARIOANTERIOR: TFloatField;
+    scds_produto_procICMS: TFloatField;
+    scds_produto_procCODALMOXARIFADO: TIntegerField;
+    scds_produto_procIPI: TFloatField;
+    scds_produto_procCLASSIFIC_FISCAL: TStringField;
+    scds_produto_procCST: TStringField;
+    scds_produto_procBASE_ICMS: TFloatField;
     scds_produto_procPRODUTO: TStringField;
+    scds_produto_procPRECOMEDIO: TBCDField;
+    scds_produto_procCOD_COMISSAO: TIntegerField;
+    scds_produto_procMARGEM_LUCRO: TFloatField;
+    scds_produto_procCOD_BARRA: TStringField;
+    scds_produto_procVALOR_PRAZO: TFloatField;
+    scds_produto_procTIPO: TStringField;
+    scds_produto_procCONTA_DESPESA: TStringField;
+    scds_produto_procCONTA_RECEITA: TStringField;
+    scds_produto_procCONTA_ESTOQUE: TStringField;
+    scds_produto_procRATEIO: TStringField;
     scds_produto_procCODPRO: TStringField;
+    scds_produto_procQTDE_PCT: TFloatField;
+    scds_produto_procPESO_QTDE: TFloatField;
+    scds_produto_procDATACADASTRO: TSQLTimeStampField;
+    scds_produto_procMARGEM: TFloatField;
+    scds_produto_procPRO_COD: TStringField;
+    scds_produto_procDATAGRAV: TDateField;
+    scds_produto_procCODFORN: TStringField;
+    scds_produto_procFOTOPRODUTO: TStringField;
+    scds_produto_procLOTES: TStringField;
+    scds_produto_procUSA: TStringField;
+    scds_produto_procLOCALIZACAO: TStringField;
+    scds_produto_procTIPOPRECOVENDA: TStringField;
+    scds_produto_procVALORMINIMO: TFloatField;
+    scds_produto_procVALORCOMISSAO: TFloatField;
+    scds_produto_procGERADESCONTO: TStringField;
+    scds_produto_procIMPRIMIR: TStringField;
+    scds_produto_procORIGEM: TIntegerField;
+    scds_produto_procNCM: TStringField;
+    scds_produto_procIMPRESSORA_1: TStringField;
+    scds_produto_procIMPRESSORA_2: TStringField;
+    scds_produto_procIMPRESSORA_3: TStringField;
+    scds_produto_procTAM_LOTE: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -334,11 +383,11 @@ begin
     else
       Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
     {*** Produto **** }
-    if (Edit3.Text <> '') then
+    {if (Edit3.Text <> '') then
       Rep.Report.Params.ParamByName('PRODUTO').Value := Edit3.Text
     else
       Rep.Report.Params.ParamByName('PRODUTO').Value := 'TODOS PRODUTOS';
-
+     }
   except
     on EConvertError do
     begin
@@ -370,10 +419,10 @@ begin
         ShowMessage ('Não existe este Cliente no Cadastro.');
         exit;
       end;
-      Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
-    end
-    else
-      Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
+      //Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
+    end;
+    //else
+    //  Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
   except
     on EConvertError do
     begin
@@ -658,13 +707,13 @@ end;
 procedure TfRelVenda.Edit3Exit(Sender: TObject);
 begin
    if (Edit3.Text = '') then exit;
-   if scds_produto_proc.Active then
+   {if scds_produto_proc.Active then
       scds_produto_proc.Close;
    scds_produto_proc.Params[0].AsString := Edit3.Text;
    scds_produto_proc.Open;
    Edit4.Text:= scds_produto_procPRODUTO.asString;
    varProd := scds_produto_procCODPRODUTO.AsInteger;
-   scds_produto_proc.Close;
+   scds_produto_proc.Close;}
 end;
 
 procedure TfRelVenda.Edit3KeyPress(Sender: TObject; var Key: Char);

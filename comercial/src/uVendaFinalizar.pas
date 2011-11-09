@@ -1776,6 +1776,11 @@ begin
   sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
   nparc := 1;
 
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
+  MMJPanel2.Background.StartColor := dm.corStart;
+
   {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -1957,8 +1962,10 @@ begin
     MMJPanel3.Background.EndColor := clNavy;
   end
   else begin
-    MMJPanel1.Background.EndColor := clTeal;
-    MMJPanel3.Background.EndColor := clTeal;
+    MMJPanel1.Background.EndColor   := dm.corStart;
+    MMJPanel1.Background.StartColor := dm.corEnd;
+    MMJPanel3.Background.EndColor   := dm.corEnd;
+    MMJPanel3.Background.StartColor := dm.corStart;
   end;
   if (not dm.parametro.Active) then
     dm.parametro.Open;
