@@ -195,7 +195,7 @@ uses
   uGeraEtiquetas in 'uGeraEtiquetas.pas' {fGeraEtiquetas},
   uNFeMail in 'uNFeMail.pas' {fNFeMail},
   uBalancete in 'uBalancete.pas' {fBalancete},
-  uTexto in 'uTexto.pas' {Form1},
+  //uTexto in 'uTexto.pas' {Form1},
   uProdGeraAumento in 'uProdGeraAumento.pas' {fProdGeraAumento},
   uEtiquetas_cli in 'uEtiquetas_cli.pas' {fEtiquetas_cli},
   uInventario in 'uInventario.pas' {fInventario},
@@ -242,15 +242,20 @@ uses
   U_AlteraPedido in 'U_AlteraPedido.pas' {F_AlteraPedido},
   U_TerminalFinaliza in 'U_TerminalFinaliza.pas' {F_TerminalFinaliza},
   uOsFiltro in 'uOsFiltro.pas' {fOsFiltro},
-  uProdutoProcOficina in 'uProdutoProcOficina.pas' {fProdutoProcOficina},
   uOsInsere in 'uOsInsere.pas' {fOsInsere},
+  uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos},
+  U_FECHAMENTO in 'U_FECHAMENTO.pas' {F_Fechamento},
+  U_AUTORIZACAO in 'U_AUTORIZACAO.pas' {F_AUTORIZACAO},
+  uAtsOS in 'uAtsOS.pas' {fAtsOS},
+  uImprimeDLL in 'uImprimeDLL.pas' {F_ImprimeDLL},
+  u_mesas in 'u_mesas.pas' {F_MESAS},
   uOsInserePeca in 'uOsInserePeca.pas' {fOsInserePeca},
-  uPainelControle in 'uPainelControle.pas' {fPainelControle},
+  U_Entrada in 'U_Entrada.pas' {F_Entrada},
+  u_imagens in 'u_imagens.pas' {f_imagens},
+  U_MudaMesa in 'U_MudaMesa.pas' {F_MudaMesa},
   uPeriodo in 'uPeriodo.pas' {fPeriodo},
-  uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra},
-  uAtsOS in 'uAtsOS.pas' {fAtsOS};
-
-//uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
+  uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra};
+  //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
 {$R *.res}
 
 begin
@@ -258,15 +263,17 @@ begin
   Application.Title := 'ATS - Admin';
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDM_MOV, DM_MOV);
+  Application.CreateForm(TDMNF, DMNF);
+  Application.CreateForm(TDmCitrus, DmCitrus);
+  
   if (dm.conectado = False) then
     Application.Terminate;
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     Application.CreateForm(TfAtsOs, fAtsOs);
   end;
+
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);
-  Application.CreateForm(TDMNF, DMNF);
-  Application.CreateForm(TDmCitrus, DmCitrus);
   Application.CreateForm(TfAtualizaSistema, fAtualizaSistema);
   Application.CreateForm(TfProcurar_nf, fProcurar_nf);
   Application.CreateForm(TfProdudoBusca, fProdudoBusca);
@@ -292,7 +299,7 @@ begin
   Application.CreateForm(TfNFeletronica, fNFeletronica);
   Application.CreateForm(TfNFeMail, fNFeMail);
   Application.CreateForm(TfBalancete, fBalancete);
-  Application.CreateForm(TForm1, Form1);
+  //Application.CreateForm(TForm_1, Form_1);
   Application.CreateForm(TfEtiquetas_cli, fEtiquetas_cli);
   // Application.CreateForm(TfExpContMat, fExpContMat);
   //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
@@ -318,21 +325,23 @@ begin
   Application.CreateForm(TfProcura_prod, fProcura_prod);
   Application.CreateForm(TfUso_Prod, fUso_Prod);
   Application.CreateForm(TfProdutoLote, fProdutoLote);
-  Application.CreateForm(TfTerminal, fTerminal);
-  Application.CreateForm(TfTerminal_Delivery, fTerminal_Delivery);
+//  Application.CreateForm(TfTerminal, fTerminal);
+//  Application.CreateForm(TfTerminal_Delivery, fTerminal_Delivery);
   Application.CreateForm(TfcpTitulo, fcpTitulo);
   Application.CreateForm(TfFiltro_forn_plano, fFiltro_forn_plano);
   Application.CreateForm(TfRateioPag, fRateioPag);
   Application.CreateForm(TfSolicitacaoCompra, fSolicitacaoCompra);
   Application.CreateForm(TfCompraSolicProc, fCompraSolicProc);
   Application.CreateForm(TfProdutoProc, fProdutoProc);
+  Application.CreateForm(TfProcura_prod, fProcura_prod);
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     Application.CreateForm(TfOs, fOs);
-    Application.CreateForm(TfOsFiltro, fOsFiltro);
+   // Application.CreateForm(TfOsFiltro, fOsFiltro);
     Application.CreateForm(TfProcura_ProdOficina, fProcura_ProdOficina);
     Application.CreateForm(TfOsInsere, fOsInsere);
     Application.CreateForm(TfOsInserePeca, fOsInserePeca);
   end;
+
   Application.Run;
 end.
