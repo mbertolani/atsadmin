@@ -412,9 +412,11 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 777
+    Width = 781
     Height = 60
     Align = alTop
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     inherited btnCancelar: TBitBtn [0]
       Left = 157
       Top = 3
@@ -2076,8 +2078,8 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object MMJPanel3: TMMJPanel [6]
     Left = 0
-    Top = 492
-    Width = 777
+    Top = 501
+    Width = 781
     Height = 37
     Align = alBottom
     BevelInner = bvLowered
@@ -2086,7 +2088,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
     Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.EndColor = clActiveCaption
     Background.FillType = GradUpDown
     object Label6: TLabel
       Left = 168

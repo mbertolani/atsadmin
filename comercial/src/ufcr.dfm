@@ -31,8 +31,8 @@ object fcrproc: Tfcrproc
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object btnGravar: TBitBtn
       Left = 317
@@ -1090,7 +1090,7 @@ object fcrproc: Tfcrproc
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
     Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.EndColor = clActiveCaption
     Background.FillType = GradUpDown
     object Label16: TLabel
       Left = 394
