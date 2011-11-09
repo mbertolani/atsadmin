@@ -1095,6 +1095,7 @@ begin
 
     if (versaoSistema = '1.0.0.94') then
     begin
+     // executaSql('CREATE OR ALTER EXCEPTION ALTERA_CODPRO ' + QuotedStr('Produto em uso na Solicitação, não é possível fazer alteração'));
       executaSql('ALTER TABLE OS DROP CODVEICULO');
       CriaException('ALTERA_CODPRO ', 'Produto em uso na Solicitação, não é possível fazer alteração');
       executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
@@ -1113,6 +1114,9 @@ begin
       executaDDL('MOVIMENTODETALHE', 'VALOR_PIS',  'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'VALOR_COFINS',  'DOUBLE PRECISION');
       executaScript('invent_estoque.sql');
+      //executaScript('sp_lote_estoquemes.sql');
+      //executaScript('trg_altera_codpro');
+      mudaVersao('1.0.0.95');
       executaScript('sp_lote_estoquemes.sql');
       executaScript('trg_altera_codpro.sql');
       executaScript('extrato_pag.sql');
@@ -1131,6 +1135,7 @@ begin
     begin
       executaDDL('CLIENTES', 'COD_CLI', 'varchar(10)');
       executaDDL('MOVIMENTO', 'TIPO_PEDIDO', 'char(1)');
+      executaDDL('ENDERECOCLIENTE', 'PAIS', 'varchar(60)');
       executaDDL('ENDERECOFORNECEDOR', 'PAIS', 'varchar(60)');
       executaDDL('VENDA', 'TROCO', 'DOUBLE PRECISION');
       executaScript('trg_calcula_icms_st.sql');
@@ -1142,7 +1147,7 @@ begin
       executaScript('pedido_x_venda.sql');
       CriaCampoDescricao('MOVIMENTO', 'TIPO_PEDIDO', 'V - Venda, C - Comanda, D - Delivery');
       executaSql('UPDATE ENDERECOCLIENTE set PAIS = ' + QuotedStr('Brasil'));
-      executaSql('UPDATE ENDERECOFORNECEDOR set PAIS = ' + QuotedStr('Brasil'));      
+      executaSql('UPDATE ENDERECOFORNECEDOR set PAIS = ' + QuotedStr('Brasil'));
       mudaVersao('1.0.0.96');
     end;// Fim Ataulização Versao 1.0.0.96
 
