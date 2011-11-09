@@ -7,7 +7,7 @@ uses StdCtrls, Controls, Forms, JvLabel,
       Grids, DBGrids, JvExDBGrids, JvDBGrid, Buttons, MMJPanel, FMTBcd, DB,
       DBClient, Provider, SqlExpr, ComCtrls, uUtils, JvExMask, JvToolEdit,
       JvBaseEdits, JvDBControls, Menus, DBXpress, jpeg, JvExExtCtrls, JvImage,
-      JvSpin, JvDBSpinEdit;
+      JvSpin, JvDBSpinEdit, JvTransparentButton;
 
 procedure CtrlResize(var Sender: TForm); export;
 
@@ -17,8 +17,8 @@ procedure CtrlResize(var Sender: TForm);
 //Aqui vc especifica a resolução que vc
 //desenvolveu o aplicativo
 const
-  iWidth = 800; //1024;
-  iHeight = 600; //768;
+  iWidth = 800;
+  iHeight = 600;
 var
   i : Integer;
 begin
@@ -56,6 +56,13 @@ begin
         TGroupBox(Components[i]).Top := Round(TWinControl(Components[i]).Top * (Screen.Height / iHeight));
       end;
       }
+      if Components[i] is TJvTransparentButton then
+      begin
+        TJvTransparentButton(Components[i]).Width := Round(TJvTransparentButton(Components[i]).Width * (Screen.Width / iWidth));
+        TJvTransparentButton(Components[i]).Height := Round(TJvTransparentButton(Components[i]).Height * (Screen.Height / iHeight));
+        TJvTransparentButton(Components[i]).Left := Round(TJvTransparentButton(Components[i]).Left * (Screen.Width / iWidth));
+        TJvTransparentButton(Components[i]).Top := Round(TJvTransparentButton(Components[i]).Top * (Screen.Height / iHeight));
+      end;
     end;
 
 
