@@ -36,7 +36,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   object Panel1: TPanel
     Left = 0
     Top = 49
-    Width = 589
+    Width = 558
     Height = 383
     Align = alClient
     PopupMenu = PopupMenu1
@@ -49,7 +49,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Caption = 'C'#243'digo'
     end
     object btnUsuarioProcura: TJvSpeedButton
-      Left = 538
+      Left = 505
       Top = 82
       Width = 47
       Height = 45
@@ -202,8 +202,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Caption = 'Nome'
     end
     object JvSpeedButton3: TJvSpeedButton
-      Left = 538
-      Top = 19
+      Left = 505
+      Top = 20
       Width = 47
       Height = 45
       Flat = True
@@ -341,8 +341,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       OnClick = JvSpeedButton3Click
     end
     object Label11: TLabel
-      Left = 513
-      Top = 143
+      Left = 483
+      Top = 142
       Width = 56
       Height = 13
       Caption = 'N'#186' Parcelas'
@@ -399,7 +399,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvGroupHeader2: TJvGroupHeader
       Left = 2
       Top = 127
-      Width = 584
+      Width = 553
       Height = 17
       Caption = 'DADOS N.F.'
       Font.Charset = DEFAULT_CHARSET
@@ -413,7 +413,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvGroupHeader1: TJvGroupHeader
       Left = 2
       Top = 65
-      Width = 584
+      Width = 553
       Height = 17
       Caption = 'VENDEDOR'
       Font.Charset = DEFAULT_CHARSET
@@ -427,7 +427,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvGroupHeader3: TJvGroupHeader
       Left = 2
       Top = 3
-      Width = 584
+      Width = 553
       Height = 17
       Caption = 'CLIENTE'
       Font.Charset = DEFAULT_CHARSET
@@ -448,7 +448,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvGroupHeader5: TJvGroupHeader
       Left = 2
       Top = 237
-      Width = 584
+      Width = 553
       Height = 17
       Caption = 'T'#205'TULOS'
       Font.Charset = DEFAULT_CHARSET
@@ -462,7 +462,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object DBEdit7: TDBEdit
       Left = 5
       Top = 34
-      Width = 78
+      Width = 77
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -481,7 +481,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object DBEdit8: TDBEdit
       Left = 85
       Top = 34
-      Width = 450
+      Width = 416
       Height = 24
       TabStop = False
       BevelKind = bkFlat
@@ -501,7 +501,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object DBEdit14: TDBEdit
       Left = 85
       Top = 98
-      Width = 451
+      Width = 417
       Height = 24
       TabStop = False
       BevelKind = bkFlat
@@ -519,8 +519,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       TabOrder = 3
     end
     object DBEdit5: TDBEdit
-      Left = 510
-      Top = 161
+      Left = 480
+      Top = 160
       Width = 75
       Height = 24
       BevelKind = bkFlat
@@ -541,7 +541,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object cbPrazo: TJvComboBox
       Left = 272
       Top = 161
-      Width = 235
+      Width = 202
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -658,7 +658,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object DBEdit1: TDBEdit
       Left = 358
       Top = 206
-      Width = 227
+      Width = 195
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -696,7 +696,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvDBGrid1: TJvDBGrid
       Left = 4
       Top = 255
-      Width = 542
+      Width = 510
       Height = 120
       BorderStyle = bsNone
       DataSource = ds_Cr
@@ -738,6 +738,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
           Expanded = False
           FieldName = 'VALORTITULO'
           Title.Caption = 'R$ T'#237'tulo'
+          Width = 73
           Visible = True
         end
         item
@@ -772,8 +773,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         end>
     end
     object btnAlteraRec: TBitBtn
-      Left = 547
-      Top = 255
+      Left = 516
+      Top = 254
       Width = 39
       Height = 37
       TabOrder = 14
@@ -879,8 +880,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object btnCancelaBaixa: TBitBtn
-      Left = 547
-      Top = 292
+      Left = 516
+      Top = 291
       Width = 39
       Height = 37
       TabOrder = 15
@@ -987,16 +988,16 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     end
   end
   object Panel2: TPanel
-    Left = 589
+    Left = 558
     Top = 49
-    Width = 146
+    Width = 177
     Height = 383
     Align = alRight
     TabOrder = 2
     object JvGroupHeader4: TJvGroupHeader
       Left = 1
       Top = 1
-      Width = 144
+      Width = 175
       Height = 17
       Align = alTop
       Caption = 'VALORES R$'
@@ -1008,78 +1009,103 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       ParentFont = False
       BevelSpace = 4
     end
-    object Label5: TLabel
-      Left = 6
-      Top = 23
-      Width = 77
-      Height = 13
-      Caption = 'Total Pedido R$'
-    end
     object Label6: TLabel
       Left = 6
-      Top = 79
-      Width = 63
+      Top = 91
+      Width = 75
       Height = 13
       Caption = 'Desconto R$'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object Label12: TLabel
       Left = 6
-      Top = 140
-      Width = 66
+      Top = 152
+      Width = 79
       Height = 13
       Caption = 'Acrescimo R$'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object Label14: TLabel
       Left = 6
-      Top = 201
-      Width = 81
+      Top = 213
+      Width = 98
       Height = 13
       Caption = 'Valor '#224' Pagar R$'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object Label15: TLabel
-      Left = 6
-      Top = 319
-      Width = 72
+      Left = 7
+      Top = 328
+      Width = 87
       Height = 13
       Caption = 'Valor Troco R$'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object Label16: TLabel
       Left = 6
-      Top = 259
-      Width = 69
+      Top = 271
+      Width = 83
       Height = 13
       Caption = 'Valor Pago R$'
-    end
-    object jvTotal: TJvValidateEdit
-      Left = 7
-      Top = 39
-      Width = 134
-      Height = 34
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CriticalPoints.MaxValueIncluded = False
-      CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfCurrency
-      DecimalPlaces = 2
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clBlue
-      Font.Height = -24
-      Font.Name = 'Times New Roman'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 0
+    end
+    object JvLabel3: TJvLabel
+      Left = 5
+      Top = 14
+      Width = 164
+      Height = 23
+      Caption = 'Total do Pedido :'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = 'Cooper Black'
+      Font.Style = []
+      ParentFont = False
+      ShadowColor = clWindow
+      ShadowSize = 2
+      Transparent = True
+      HintColor = clBlack
+      HotTrackFont.Charset = ANSI_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -19
+      HotTrackFont.Name = 'Cooper Black'
+      HotTrackFont.Style = []
     end
     object jvDesconto: TJvValidateEdit
-      Left = 7
-      Top = 96
+      Left = 39
+      Top = 108
       Width = 134
       Height = 34
       BevelKind = bkFlat
       BorderStyle = bsNone
       CriticalPoints.MaxValueIncluded = False
       CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfCurrency
+      DisplayFormat = dfFloat
       DecimalPlaces = 2
       Font.Charset = ANSI_CHARSET
       Font.Color = clRed
@@ -1088,18 +1114,40 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 0
+      OnExit = jvDescontoExit
     end
     object jvAcrescimo: TJvValidateEdit
-      Left = 7
-      Top = 156
+      Left = 39
+      Top = 168
       Width = 134
       Height = 34
       BevelKind = bkFlat
       BorderStyle = bsNone
       CriticalPoints.MaxValueIncluded = False
       CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfCurrency
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -24
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 1
+      OnExit = jvAcrescimoExit
+    end
+    object jvApagar: TJvValidateEdit
+      Left = 39
+      Top = 229
+      Width = 134
+      Height = 34
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
       DecimalPlaces = 2
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlue
@@ -1110,16 +1158,16 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       PopupMenu = PopupMenu1
       TabOrder = 2
     end
-    object jvApagar: TJvValidateEdit
-      Left = 7
-      Top = 217
+    object jvPago: TJvValidateEdit
+      Left = 39
+      Top = 287
       Width = 134
       Height = 34
       BevelKind = bkFlat
       BorderStyle = bsNone
       CriticalPoints.MaxValueIncluded = False
       CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfCurrency
+      DisplayFormat = dfFloat
       DecimalPlaces = 2
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlue
@@ -1129,37 +1177,18 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 3
-    end
-    object jvPago: TJvValidateEdit
-      Left = 7
-      Top = 275
-      Width = 134
-      Height = 34
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CriticalPoints.MaxValueIncluded = False
-      CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfCurrency
-      DecimalPlaces = 2
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clBlue
-      Font.Height = -24
-      Font.Name = 'Times New Roman'
-      Font.Style = [fsBold]
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 4
+      OnExit = jvPagoExit
     end
     object jvTroco: TJvValidateEdit
-      Left = 7
-      Top = 335
+      Left = 40
+      Top = 344
       Width = 134
       Height = 34
       BevelKind = bkFlat
       BorderStyle = bsNone
       CriticalPoints.MaxValueIncluded = False
       CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfCurrency
+      DisplayFormat = dfFloat
       DecimalPlaces = 2
       Font.Charset = ANSI_CHARSET
       Font.Color = clRed
@@ -1168,7 +1197,35 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = PopupMenu1
+      TabOrder = 4
+    end
+    object BitBtn1: TBitBtn
+      Left = 13
+      Top = 296
+      Width = 24
+      Height = 25
+      Caption = '...'
       TabOrder = 5
+      OnClick = BitBtn1Click
+    end
+    object jvTotal: TJvValidateEdit
+      Left = 4
+      Top = 34
+      Width = 171
+      Height = 46
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -40
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 6
     end
   end
   object MMJPanel2: TMMJPanel
@@ -2381,8 +2438,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     end
   end
   object PopupMenu1: TPopupMenu
-    Left = 254
-    Top = 373
+    Left = 181
+    Top = 353
     object AlterarItendoPedido1: TMenuItem
       Caption = 'F4-Finaliza Fatura'
       ShortCut = 115
@@ -2401,8 +2458,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 112
-    Top = 369
+    Left = 41
+    Top = 352
   end
   object sds_cr: TSQLDataSet
     CommandText = 
@@ -2421,8 +2478,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 135
-    Top = 399
+    Left = 79
+    Top = 351
     object sds_crCODRECEBIMENTO: TIntegerField
       FieldName = 'CODRECEBIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2604,8 +2661,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   object dsp_cr: TDataSetProvider
     DataSet = sds_cr
     UpdateMode = upWhereKeyOnly
-    Left = 167
-    Top = 399
+    Left = 111
+    Top = 351
   end
   object cds_cr: TClientDataSet
     Aggregates = <>
@@ -2616,8 +2673,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         ParamType = ptInput
       end>
     ProviderName = 'dsp_cr'
-    Left = 199
-    Top = 399
+    Left = 143
+    Top = 351
     object cds_crCODRECEBIMENTO: TIntegerField
       FieldName = 'CODRECEBIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2820,8 +2877,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 592
-    Top = 328
+    Left = 504
+    Top = 264
   end
   object SaveDialog1: TSaveDialog
     Left = 208
@@ -2837,8 +2894,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 228
-    Top = 152
+    Left = 244
+    Top = 82
     object s_parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
