@@ -1085,6 +1085,12 @@ var utilcrtitulo : Tutils;
 begin
   //inherited;
   sCtrlResize.CtrlResize(TForm(fCompraFinalizar));
+
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
+  MMJPanel2.Background.StartColor := dm.corStart;
+
   utilcrtitulo := Tutils.Create;
   // Popula Status
   j := utilcrtitulo.Forma.Count;

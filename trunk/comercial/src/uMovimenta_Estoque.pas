@@ -489,6 +489,12 @@ var
 icompA: integer;
 begin
    sCtrlResize.CtrlResize(TForm(fMovimenta_Estoque));
+
+    MMJPanel1.Background.EndColor   := dm.corStart;
+    MMJPanel1.Background.StartColor := dm.corEnd;
+    MMJPanel3.Background.EndColor   := dm.corEnd;
+    MMJPanel3.Background.StartColor := dm.corStart;
+
     codmovdet := 1999999;
     centro_receita := 0;
     //Vejo quais são as contas de Receitas para listar no lookupcombobox.

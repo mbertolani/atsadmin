@@ -550,6 +550,7 @@ procedure TfCompra.FormCreate(Sender: TObject);
 begin
   //inherited;
   sCtrlResize.CtrlResize(TForm(fCompra));
+
   if (dm.moduloUsado = 'CITRUS') then
   begin
     CheckBox1.Visible := True;
@@ -1084,8 +1085,10 @@ begin
         ffiltromov_compra.Edit3.Text := '4';
         ffiltromov_compra.Edit4.Text := 'Compra';
         ffiltromov_compra.Label10.Caption := 'Compras';
-        ffiltromov_compra.MMJPanel1.Background.EndColor := clTeal;
-        ffiltromov_compra.MMJPanel2.Background.EndColor := clTeal;
+        ffiltromov_compra.MMJPanel1.Background.EndColor   := dm.corStart;
+        ffiltromov_compra.MMJPanel1.Background.StartColor := dm.corEnd;
+        ffiltromov_compra.MMJPanel2.Background.EndColor   := dm.corEnd;
+        ffiltromov_compra.MMJPanel2.Background.StartColor := dm.corStart;
       end;
       if (DM.tipoCompra = 'COTACAO') then
       begin
@@ -1534,8 +1537,11 @@ begin
   end;
   if (DM.tipoCompra = 'COMPRA') then
   begin
-    MMJPanel1.Background.EndColor := clTeal;
-    MMJPanel2.Background.StartColor := clTeal;
+    MMJPanel2.Background.EndColor   := dm.corEnd;
+    MMJPanel2.Background.StartColor := dm.corStart;
+    MMJPanel1.Background.EndColor   := dm.corEnd;
+    MMJPanel1.Background.StartColor := dm.corStart;
+
     Label15.Caption := 'Compras';
   end;
   if (dm.emppadrao <> '') then

@@ -530,6 +530,10 @@ end;
 procedure TfFiltroMov_compra.FormCreate(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fFiltroMov_compra));
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
+  MMJPanel2.Background.StartColor := dm.corStart;
 end;
 
 procedure TfFiltroMov_compra.BitBtn5Click(Sender: TObject);

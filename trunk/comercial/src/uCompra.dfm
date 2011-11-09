@@ -1,6 +1,6 @@
 inherited fCompra: TfCompra
-  Left = 271
-  Top = 215
+  Left = 259
+  Top = 85
   Width = 800
   Height = 615
   Caption = 'Compra'
@@ -76,6 +76,8 @@ inherited fCompra: TfCompra
     Width = 792
     Height = 60
     Align = alTop
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     inherited btnCancelar: TBitBtn [0]
       Left = 83
       Top = 2
@@ -987,6 +989,8 @@ inherited fCompra: TfCompra
     Width = 792
     Height = 27
     Align = alBottom
+    Background.StartColor = clSilver
+    Background.EndColor = clActiveCaption
     inherited Label1: TLabel
       Top = 64
     end
