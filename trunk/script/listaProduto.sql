@@ -35,6 +35,8 @@ RETURNS(
   COD_COMISSAO INTEGER,
   RATEIO CHAR(1) CHARACTER SET WIN1252,
   CONTA_DESPESA VARCHAR(15) CHARACTER SET WIN1252,
+  ORIGEM VARCHAR(15) CHARACTER SET WIN1252,
+  NCM VARCHAR(8) CHARACTER SET WIN1252,  
   APLICACAO_PRODUTO VARCHAR(30)  CHARACTER SET WIN1252)
 AS
 declare variable precoVenda double PRECISION;
@@ -70,6 +72,7 @@ begin
     p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
     p.LOTES, p.margem, p.VALOR_PRAZO, p.TIPOPRECOVENDA, uso.DESCRICAO, cod.CODIGO, p.USA,
     p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL
+	, p.NCM, CASE p.ORIGEM WHEN 0 then 'Nac.' WHEN 1 THEN 'Imp. Ext.' WHEN 2 THEN 'Imp. Int.' END as ORIGEM	
     from produtos p
     left outer join USO_PRODUTO uso  on uso.COD_PRODUTO = p.CODPRODUTO
     left outer join CODIGOS cod on cod.COD_PRODUTO = p.CODPRODUTO
@@ -85,7 +88,7 @@ begin
       --and ((p.TIPO = :tipoProduto) OR (:tipoProduto = 'TODOSTIPOS'))
   into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
     :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
-    :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto
+    :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto, :ncm, :origem
   do begin
   
     if (codAlmoxarifado is null) then 
@@ -203,6 +206,8 @@ begin
       preco_compraUltimo = precoc;
     if (preco_compraMedio = 0) then
       preco_compraMedio = precoc;
+	 if (preco_Venda = 0) then
+	  preco_Venda = precoVenda;
     suspend;
     preco_compraMedio = 0;
     preco_compraUltimo = 0;
