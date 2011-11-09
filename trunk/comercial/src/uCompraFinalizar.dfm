@@ -1047,6 +1047,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     Width = 792
     Height = 60
     Align = alTop
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     inherited btnCancelar: TBitBtn [0]
       Left = 83
       Top = 2
@@ -1604,6 +1606,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     Width = 792
     Height = 23
     Align = alBottom
+    Background.StartColor = clSilver
+    Background.EndColor = clActiveCaption
     inherited Label1: TLabel
       Top = 31
     end
