@@ -46,10 +46,13 @@ BEGIN
    if (SEGURO is null) then
     SEGURO = 0; 
    
-   Frete_UNIT = new.VALOR_FRETE / new.VALOR_PRODUTO;
-   DESCONTO_UNIT = new.VALOR_DESCONTO / new.VALOR_PRODUTO;
-   OUTRAS_UNIT = new.OUTRAS_DESP / new.VALOR_PRODUTO;
-   SEGURO_UNIT = new.VALOR_SEGURO / new.VALOR_PRODUTO;
+   if ( new.VALOR_PRODUTO > 0) then
+   begin
+     Frete_UNIT = new.VALOR_FRETE / new.VALOR_PRODUTO;
+     DESCONTO_UNIT = new.VALOR_DESCONTO / new.VALOR_PRODUTO;
+     OUTRAS_UNIT = new.OUTRAS_DESP / new.VALOR_PRODUTO;
+     SEGURO_UNIT = new.VALOR_SEGURO / new.VALOR_PRODUTO;
+   end
    
    Frete_TOTAL = new.VALOR_FRETE;
    DESCONTO_TOTAL = new.VALOR_DESCONTO;
@@ -64,6 +67,8 @@ BEGIN
    where md.CODMOVIMENTO = :codm
    into :coddet, :valtot
    do begin
+	if ((valtot is null) or (valtot = 0)) then
+		valtot = 1;
 	if (inserting) then
 	begin
 	 update MOVIMENTODETALHE set FRETE = UDF_ROUNDDEC((:Frete_UNIT * :valtot), 2), valor_desconto = UDF_ROUNDDEC((:DESCONTO_UNIT * :valtot), 2), valor_outros = UDF_ROUNDDEC((:OUTRAS_UNIT * :valtot), 2), valor_SEGURO = UDF_ROUNDDEC((:SEGURO_UNIT * :valtot), 2) where CODDETALHE = :coddet;
