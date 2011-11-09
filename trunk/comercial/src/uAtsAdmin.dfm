@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    691
-    406)
+    706
+    407)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
-    Left = 0
+    Left = 169
     Top = 47
-    Width = 691
-    Height = 335
+    Width = 537
+    Height = 336
     Align = alClient
     Center = True
     Picture.Data = {
@@ -765,7 +765,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 691
+    Width = 706
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2058,8 +2058,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 382
-    Width = 691
+    Top = 383
+    Width = 706
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2092,8 +2092,8 @@ object fAtsAdmin: TfAtsAdmin
     OnClick = Button1Click
   end
   object btnBoleto: TButton
-    Left = 503
-    Top = 342
+    Left = 526
+    Top = 374
     Width = 145
     Height = 25
     Action = acBoletoAts
@@ -2137,6 +2137,180 @@ object fAtsAdmin: TfAtsAdmin
     Items.Strings = (
       'Large'
       'Small')
+  end
+  object JvOutlookBar1: TJvOutlookBar
+    Left = 0
+    Top = 47
+    Width = 169
+    Height = 336
+    Align = alLeft
+    Pages = <
+      item
+        Buttons = <>
+        ButtonSize = olbsLarge
+        Caption = 'Cadastros'
+        Color = clBtnShadow
+        DownFont.Charset = DEFAULT_CHARSET
+        DownFont.Color = clWindowText
+        DownFont.Height = -11
+        DownFont.Name = 'MS Shell Dlg 2'
+        DownFont.Style = []
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentColor = True
+        TopButtonIndex = 0
+      end
+      item
+        Buttons = <
+          item
+            Caption = 'Compras'
+            ImageIndex = 0
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'Vendas'
+            ImageIndex = 1
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'Notas Fiscais'
+            ImageIndex = 2
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'PDV'
+            ImageIndex = 3
+            Tag = 0
+            AutoToggle = False
+          end>
+        ButtonSize = olbsLarge
+        Caption = 'Comercial'
+        Color = clBtnShadow
+        DownFont.Charset = DEFAULT_CHARSET
+        DownFont.Color = clWindowText
+        DownFont.Height = -11
+        DownFont.Name = 'MS Shell Dlg 2'
+        DownFont.Style = []
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentColor = True
+        TopButtonIndex = 0
+      end
+      item
+        Buttons = <
+          item
+            Caption = 'Lan'#231'ar Despesas'
+            ImageIndex = 7
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'Contas '#224' Pagar'
+            ImageIndex = 9
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'Lan'#231'ar Receitas'
+            ImageIndex = 8
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'Contas '#224' Receber'
+            ImageIndex = 0
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'Movimenta'#231#227'o Financeira'
+            ImageIndex = 0
+            Tag = 0
+            AutoToggle = False
+          end>
+        ButtonSize = olbsLarge
+        Caption = 'Financeiro'
+        Color = clBtnShadow
+        DownFont.Charset = DEFAULT_CHARSET
+        DownFont.Color = clWindowText
+        DownFont.Height = -11
+        DownFont.Name = 'MS Shell Dlg 2'
+        DownFont.Style = []
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentColor = True
+        TopButtonIndex = 0
+      end
+      item
+        Buttons = <
+          item
+            Caption = 'JvOutlookBarButton10'
+            ImageIndex = 10
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'JvOutlookBarButton11'
+            ImageIndex = 11
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'JvOutlookBarButton12'
+            ImageIndex = 12
+            Tag = 0
+            AutoToggle = False
+          end>
+        ButtonSize = olbsLarge
+        Caption = 'Materiais'
+        Color = clBtnShadow
+        DownFont.Charset = DEFAULT_CHARSET
+        DownFont.Color = clWindowText
+        DownFont.Height = -11
+        DownFont.Name = 'MS Shell Dlg 2'
+        DownFont.Style = []
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentColor = True
+        TopButtonIndex = 0
+      end
+      item
+        Buttons = <>
+        ButtonSize = olbsLarge
+        Caption = 'Sistema'
+        DownFont.Charset = DEFAULT_CHARSET
+        DownFont.Color = clWindowText
+        DownFont.Height = -11
+        DownFont.Name = 'MS Sans Serif'
+        DownFont.Style = []
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = True
+        TopButtonIndex = 0
+      end>
+    PageButtonHeight = 24
+    BorderStyle = bsNone
+    TabOrder = 6
+    Visible = False
+    OnClick = acTerminalExecute
   end
   object PopupMenu1: TPopupMenu
     Left = 384
@@ -2281,6 +2455,10 @@ object fAtsAdmin: TfAtsAdmin
       object NaturezaOperao1: TMenuItem
         Caption = 'Natureza Opera'#231#227'o'
         OnClick = NaturezaOperao1Click
+      end
+      object MesasComandas1: TMenuItem
+        Caption = 'Mesas / Comandas'
+        OnClick = MesasComandas1Click
       end
     end
     object Lanamentos1: TMenuItem
@@ -2647,7 +2825,6 @@ object fAtsAdmin: TfAtsAdmin
     CommandText = 'select * from PARAMETRO'
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DM.sqlsisAdimin
     Left = 592
     Top = 104
     object sds_parametroDESCRICAO: TStringField
@@ -3611,7 +3788,6 @@ object fAtsAdmin: TfAtsAdmin
         Name = 'mod'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
     Left = 448
     Top = 64
     object sds_LoginLOGIN: TStringField
@@ -3685,7 +3861,6 @@ object fAtsAdmin: TfAtsAdmin
         Name = 'LG'
         ParamType = ptInput
       end>
-    SQLConnection = DM.sqlsisAdimin
     Left = 208
     Top = 66
     object sds_parametroLOGIN: TStringField
@@ -3906,8 +4081,8 @@ object fAtsAdmin: TfAtsAdmin
     TableUsersLogged.FieldData = 'UCData'
     TableUsersLogged.TableName = 'UCTabUsersLogged'
     DataConnector = DM.UCDBXConnFinanceiro
-    Left = 241
-    Top = 113
+    Left = 281
+    Top = 265
   end
   object VCLReport1: TVCLReport
     AsyncExecution = False
@@ -3953,8 +4128,8 @@ object fAtsAdmin: TfAtsAdmin
     HistoryMsg.Hist_BtnFiltro = '&Aplicar Filtro'
     HistoryMsg.Hist_BtnExcluir = '&Excluir Hist'#243'rico'
     HistoryMsg.Hist_BtnFechar = '&Fechar'
-    Left = 528
-    Top = 112
+    Left = 280
+    Top = 304
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'pdf'

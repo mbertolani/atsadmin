@@ -8,7 +8,8 @@ uses
   Buttons, StdCtrls, FMTBcd, DBClient, Provider, SqlExpr, EOneInst, ImgList,
   rpcompobase, rpvclreport, DBxpress, UCBase, ActnList, RXCtrls, RxGIF,
   jpeg, EAppProt, TFlatSpeedButtonUnit, StdActns, UCHist_Base,
-  UCHistDataset, JvGIF, WinInet,URLMon, ShellApi, IniFiles;
+  UCHistDataset, JvGIF, WinInet,URLMon, ShellApi, JvExControls,
+  JvOutlookBar, IniFiles;
 
 type
   TfAtsAdmin = class(TForm)
@@ -243,6 +244,8 @@ type
     ListaEstoque1: TMenuItem;
     ProdutosSemMovimentao1: TMenuItem;
     Fechamento1: TMenuItem;
+    MesasComandas1: TMenuItem;
+    JvOutlookBar1: TJvOutlookBar;
     Label1: TLabel;
     GrficodeVendas1: TMenuItem;
     procedure FormCreate(Sender: TObject);
@@ -352,8 +355,7 @@ type
     procedure RecebimentoMateriais1Click(Sender: TObject);
     procedure CotaoPedido1Click(Sender: TObject);
     procedure Cotao1Click(Sender: TObject);
-  procedure DeclaraodeImportao1Click(Sender: TObject);
-
+    procedure DeclaraodeImportao1Click(Sender: TObject);
     procedure Similares1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure acBoletoAtsExecute(Sender: TObject);
@@ -366,6 +368,7 @@ type
     procedure ListaEstoque1Click(Sender: TObject);
     procedure ProdutosSemMovimentao1Click(Sender: TObject);
     procedure Fechamento1Click(Sender: TObject);
+    procedure MesasComandas1Click(Sender: TObject);
     procedure GrficodeVendas1Click(Sender: TObject);
   private
     STime: TDateTime;
@@ -390,7 +393,7 @@ implementation
 
 uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uClienteCadastro, uFornecedorCadastro, uProdutoCadastro,
-  uComissaoCadastro, uCompra, uCompraFinalizar, uSeriaNF, uRateioPag, UDm,
+  uComissaoCadastro, uCompra, uCompraFinalizar, uSeriaNF, uRateioPag, UDM,
   uftransp, ufNotafiscalProc, uSobre, uUso_Prod, uRelVendas, uITENS_NF,
   uLotes, uTerminal, uListaClientes, ufListaProd, uRel_vendas,
   uTerminal_Delivery, uTipoVisita, uAgendamento, uRomaneio, ufDlgLogin,
@@ -415,9 +418,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
-  uListaEstoque, uOsFiltro, uPainelControle;
-
-
+  uListaEstoque, uOsFiltro, uPainelControle, u_mesas;
 
 {$R *.dfm}
 
@@ -755,6 +756,7 @@ var TD: TTransactionDesc;
  caminho, caminho2, arquivo, empresa: String;
  tempo : Integer;
 begin
+
   if (dm.VISTO_FTP = '') then
     dm.VISTO_FTP := '01/01/2001';
   if (StrToDateTime(dm.VISTO_FTP) <> today) then
@@ -2056,6 +2058,16 @@ begin
   }
 end;
 
+procedure TfAtsAdmin.MesasComandas1Click(Sender: TObject);
+begin
+  F_MESAS := TF_MESAS.Create(Application);
+  try
+    F_MESAS.ShowModal;
+  finally
+    F_MESAS.Free;
+  end;
+end;
+
 function TfAtsAdmin.ClienteOk: Boolean;
 var
   // variável que irá conter o arquivo
@@ -2071,6 +2083,7 @@ begin
   //variável param recebe 12345
   param := config.readstring('PARAMETRO','SENHA','');
 end;
+
 
 procedure TfAtsAdmin.GrficodeVendas1Click(Sender: TObject);
 begin
