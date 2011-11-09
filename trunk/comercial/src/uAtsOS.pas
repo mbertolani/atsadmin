@@ -65,7 +65,7 @@ uses
   JvJVCLUtils, uEmpresa, UDm, uAgendamento, uselectempresa, sCtrlResize,
   uClienteCadastro, uOs, uOsFiltro, uCompra, uVendas, ufcr, ufcpproc,
   uCrTituloPagto, uAtsAdmin, uProdutoCadastro, uFornecedorCadastro,
-  ufuncionario, uPainelControle, uSobre, ufParametro,
+  ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
   uCliente1;
 
 {$R *.dfm}
@@ -180,6 +180,7 @@ procedure TfAtsOS.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
  caminho, arquivo, empresa: String;
 begin
+
   usulog    := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
   nome_user := fAtsAdmin.UserControlComercial.CurrentUser.UserName;
   DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
@@ -335,8 +336,19 @@ end;
 
 procedure TfAtsOS.JvOutlookBar1Pages1Buttons2Click(Sender: TObject);
 begin
-   DM.tipoVenda := 'VENDA';
-   fVendas.ShowModal;
+//   DM.tipoVenda := 'VENDA';
+  // fVendas.ShowModal;
+  usulog :=  fAtsAdmin.UserControlComercial.CurrentUser.UserID;
+  nome_user := fAtsAdmin.UserControlComercial.CurrentUser.UserName;
+
+  F_Terminal := TF_Terminal.Create(Application);
+  try
+   sCtrlResize.CtrlResize(TForm(F_Terminal));
+    F_Terminal.ShowModal;
+  finally
+    F_Terminal.Free;
+  end;
+
 end;
 
 procedure TfAtsOS.JvOutlookBar1Pages2Buttons2Click(Sender: TObject);
