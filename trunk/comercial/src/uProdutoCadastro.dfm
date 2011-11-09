@@ -1,10 +1,14 @@
 inherited fProdutoCadastro: TfProdutoCadastro
   Left = 340
   Top = 130
-  Width = 799
-  Height = 555
+  VertScrollBar.Range = 0
+  BorderStyle = bsSingle
+  ClientHeight = 528
+  ClientWidth = 784
   Font.Height = -13
   OldCreateOrder = True
+  Position = poDesigned
+  WindowState = wsMaximized
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
@@ -37,7 +41,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Unidade'
   end
   object Label7: TLabel [4]
-    Left = 701
+    Left = 694
     Top = 87
     Width = 34
     Height = 16
@@ -80,7 +84,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   end
   inherited MMJPanel1: TMMJPanel
     Top = 474
-    Width = 791
+    Width = 784
     TabOrder = 12
     inherited btnGravar: TBitBtn
       Left = 278
@@ -109,7 +113,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 791
+    Width = 784
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -170,7 +174,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit [13]
-    Left = 626
+    Left = 622
     Top = 63
     Width = 158
     Height = 24
@@ -244,9 +248,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object DBEdit6: TDBEdit [17]
-    Left = 693
+    Left = 692
     Top = 104
-    Width = 92
+    Width = 88
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -265,7 +269,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   object GroupBox1: TGroupBox [18]
     Left = 411
     Top = 172
-    Width = 375
+    Width = 370
     Height = 157
     Caption = 'Estoque'
     TabOrder = 10
@@ -889,8 +893,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBF0000}
   end
   object SpeedButton3: TBitBtn [27]
-    Left = 751
-    Top = 145
+    Left = 747
+    Top = 143
     Width = 34
     Height = 26
     TabOrder = 21
@@ -1070,7 +1074,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   object DBEdit16: TDBEdit [33]
     Left = 518
     Top = 145
-    Width = 232
+    Width = 227
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
