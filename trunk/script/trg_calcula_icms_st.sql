@@ -173,4 +173,4 @@ BEGIN
     new.ICMSFRETE = 0;
     new.BCSTFRETE = 0;
     end
-END
+END;
