@@ -9,7 +9,8 @@ uses
   FMTBcd, DB, SqlExpr, uUtils, DBxPress, Provider, DBClient, DBLocal,
   DBLocalS, JvExButtons, JvBitBtn, JvEdit, JvValidateEdit, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, Menus, Printers, rpcompobase, rpvclreport,
-  ExtDlgs, ComCtrls, ImgList, uEstoque, uMovimento;
+  ExtDlgs, ComCtrls, ImgList, uEstoque, uMovimento, JvLabel, JvExMask,
+  JvToolEdit, JvBaseEdits;
 
 
 type
@@ -48,7 +49,6 @@ type
     JvGroupHeader3: TJvGroupHeader;
     Label2: TLabel;
     JvGroupHeader4: TJvGroupHeader;
-    Label5: TLabel;
     Label6: TLabel;
     Label12: TLabel;
     Label14: TLabel;
@@ -116,7 +116,6 @@ type
     JvSair: TJvBitBtn;
     sqsTitulo: TSQLDataSet;
     sqsTituloSTATUS: TStringField;
-    jvTotal: TJvValidateEdit;
     jvDesconto: TJvValidateEdit;
     jvAcrescimo: TJvValidateEdit;
     jvApagar: TJvValidateEdit;
@@ -234,6 +233,9 @@ type
     s_parametroINSTRUCOES: TStringField;
     s_parametroVALOR: TFloatField;
     VCLReport2: TVCLReport;
+    BitBtn1: TBitBtn;
+    jvTotal: TJvValidateEdit;
+    JvLabel3: TJvLabel;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -253,6 +255,10 @@ type
     procedure JvExcluirClick(Sender: TObject);
     procedure JvBoletoClick(Sender: TObject);
     procedure JvBitBtn1Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure jvPagoExit(Sender: TObject);
+    procedure jvAcrescimoExit(Sender: TObject);
+    procedure jvDescontoExit(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -313,34 +319,32 @@ var
   FEstoque: TEstoque;
   FMov : TMovimento;
 
-
-function ConfiguraModeloImpressora(ModeloImpressora:integer):integer; stdcall; far; external 'Mp2032.dll';
-function IniciaPorta(Porta:string):integer; stdcall; far; external 'Mp2032.dll';
-function FechaPorta: integer	;  stdcall; far; external 'Mp2032.dll';
-function BematechTX(BufTrans:string):integer; stdcall; far; external 'Mp2032.dll';
-function FormataTX(BufTras:string; TpoLtra:integer; Italic:integer; Sublin:integer; expand:integer; enfat:integer):integer; stdcall; far; external 'Mp2032.dll';
-function ComandoTX (BufTrans:string;TamBufTrans:integer):integer; stdcall; far; external 'Mp2032.dll';
-function Status_Porta:integer; stdcall; far; external 'Mp2032.dll';
-function AutenticaDoc(BufTras:string;Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
-function Le_Status:integer; stdcall; far; external 'Mp2032.dll';
-function Le_Status_Gaveta:integer; stdcall; far; external 'Mp2032.dll';
-function DocumentInserted:integer; stdcall; far; external 'Mp2032.dll';
-function ConfiguraTamanhoExtrato(NumeroLinhas:Integer):integer; stdcall; far; external 'Mp2032.dll';
-function HabilitaExtratoLongo(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
-function HabilitaEsperaImpressao(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
-function EsperaImpressao:integer; stdcall; far; external 'Mp2032.dll';
-
-function AcionaGuilhotina(Modo:integer):integer; stdcall; far; external 'Mp2032.dll';
-function HabilitaPresenterRetratil(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
-function ProgramaPresenterRetratil(Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
-function CaracterGrafico(Buffer: string; TamBuffer: integer):integer; stdcall; far; external 'Mp2032.dll';
-function VerificaPapelPresenter():integer; stdcall; far; external 'Mp2032.dll';
+  function ConfiguraModeloImpressora(ModeloImpressora:integer):integer; stdcall; far; external 'Mp2032.dll';
+  function IniciaPorta(Porta:string):integer; stdcall; far; external 'Mp2032.dll';
+  function FechaPorta: integer	;  stdcall; far; external 'Mp2032.dll';
+  function BematechTX(BufTrans:string):integer; stdcall; far; external 'Mp2032.dll';
+  function FormataTX(BufTras:string; TpoLtra:integer; Italic:integer; Sublin:integer; expand:integer; enfat:integer):integer; stdcall; far; external 'Mp2032.dll';
+  function ComandoTX (BufTrans:string;TamBufTrans:integer):integer; stdcall; far; external 'Mp2032.dll';
+  function Status_Porta:integer; stdcall; far; external 'Mp2032.dll';
+  function AutenticaDoc(BufTras:string;Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function Le_Status:integer; stdcall; far; external 'Mp2032.dll';
+  function Le_Status_Gaveta:integer; stdcall; far; external 'Mp2032.dll';
+  function DocumentInserted:integer; stdcall; far; external 'Mp2032.dll';
+  function ConfiguraTamanhoExtrato(NumeroLinhas:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function HabilitaExtratoLongo(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function HabilitaEsperaImpressao(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function EsperaImpressao:integer; stdcall; far; external 'Mp2032.dll';
+  function AcionaGuilhotina(Modo:integer):integer; stdcall; far; external 'Mp2032.dll';
+  function HabilitaPresenterRetratil(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function ProgramaPresenterRetratil(Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function CaracterGrafico(Buffer: string; TamBuffer: integer):integer; stdcall; far; external 'Mp2032.dll';
+  function VerificaPapelPresenter():integer; stdcall; far; external 'Mp2032.dll';
 
 
 implementation
 
 uses UDM_MOV, uProcurar, uProcurar_nf, UDMNF, UDm, ufprocura_prod,
-  ufCrAltera, uNotaf, U_Boletos;
+  ufCrAltera, uNotaf, U_Boletos, U_Entrada;
 
 {$R *.dfm}
 
@@ -417,6 +421,7 @@ begin
 
   nparc := 1;
 
+  
   {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -449,13 +454,15 @@ begin
     dm.cds_7_contas.Next;
   end;
 
-  utilcrtitulo := Tutils.Create;
-  // Popula Status
-  j := utilcrtitulo.Forma.Count;
-  for i := 0 to j - 1 do
-  begin
-    combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
-  end;
+    utilcrtitulo := Tutils.Create;
+    // Popula Status
+    j := utilcrtitulo.Forma.Count;
+    for i := 0 to j - 1 do
+    begin
+      combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
+    end;
+    utilcrtitulo.Free;
+
 
 end;
 
@@ -498,25 +505,23 @@ begin
   if (DM_MOV.c_venda.IsEmpty) then
   begin
     btnIncluir.Click;
-    dbeSerie.SetFocus;
+    //dbeSerie.SetFocus;
     scdsCr_proc.Close;
   end
   else
   begin
     jvApagar.Value :=  DM_MOV.c_vendaVALOR.Value;
     jvTotal.Value := DM_MOV.c_vendaVALOR.Value;
-    jvDesconto.Value := DM_MOV.c_vendaDESCONTO.Value;;
-    jvAcrescimo.Value := DM_MOV.c_vendaMULTA_JUROS.Value;;
-    jvPago.Value := DM_MOV.c_vendaENTRADA.Value;;
-    jvTroco.Value := DM_MOV.c_vendaTROCO.Value;;
-
-
+    jvDesconto.Value := DM_MOV.c_vendaDESCONTO.Value;
+    jvAcrescimo.Value := DM_MOV.c_vendaMULTA_JUROS.Value;
+    jvPago.Value := DM_MOV.c_vendaVALOR_PAGAR.Value;
+    jvTroco.Value := DM_MOV.c_vendaTROCO.Value;
     if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
     begin
         utilcrtitulo := Tutils.Create;
         ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
+        utilcrtitulo.Free;
     end;
-
     if (dm.cds_7_contas.Locate('CODIGO', DM_MOV.c_vendaCAIXA.AsInteger, [loCaseInsensitive])) then
       cbConta.Text := dm.cds_7_contas.Fields[2].asString;
 
@@ -532,10 +537,12 @@ begin
     begin
         utilcrtitulo := Tutils.Create;
         ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
+        utilcrtitulo.Free;
     end;
     if (dm.cds_7_contas.Locate('CODIGO', DM_MOV.c_vendaCAIXA.AsInteger, [loCaseInsensitive])) then
       cbConta.Text := dm.cds_7_contas.Fields[2].asString;
-  cbPrazo.ItemIndex := -1;
+  cbPrazo.ItemIndex := 0; //= '1-DINHEIRO'
+
 end;
 
 procedure TF_TerminalFinaliza.btnIncluirClick(Sender: TObject);
@@ -552,7 +559,7 @@ begin
   {------Pesquisando na tab Parametro o valor padr?para a Natureza Opera? ---------}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'SERIEPADRAO';
+  dm.cds_parametro.Params[0].AsString := 'SERIETERMINAL';
   dm.cds_parametro.Open;
   dbeSerie.Text := dm.cds_parametroDADOS.AsString;
   DM_MOV.c_vendaSERIE.AsString := dm.cds_parametroDADOS.AsString;
@@ -602,7 +609,40 @@ begin
   cbConta.ItemIndex := 1;
   ComboBox1.ItemIndex := 0;
   cbPrazo.ItemIndex := 0;
-  
+  DBEdit5.Text := '1';
+  JvGravar.SetFocus;
+
+  //dbeSerie.OnExit;
+  if DM_MOV.d_venda.State in [dsInsert,dsEdit] then
+  begin
+    if dbeSerie.Text = '' then
+      exit;
+    if scds_serie_proc.Active then
+      scds_serie_proc.Close;
+    scds_serie_proc.Params[0].AsString := dbeSerie.Text;
+    scds_serie_proc.Open;
+    if scds_serie_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
+      [mbOk], 0);
+      btnSerie.Click;
+      exit;
+    end;
+    DM_MOV.c_vendaSERIE.AsString := scds_serie_procSERIE.AsString;
+    //?nota fiscal ?
+    if scds_serie_procNOTAFISCAL.AsInteger=0 then
+    begin
+      //    btnImprimir.Enabled:=False;
+      btnNotaFiscal.Enabled:=True;
+    end
+    else
+    begin
+      //    btnImprimir.Enabled:=True;
+      btnNotaFiscal.Enabled:=False;
+    end;
+    DM_MOV.c_vendaNOTAFISCAL.AsInteger := scds_serie_procULTIMO_NUMERO.AsInteger + 1;
+  end;
+  //==========================================================================
 end;
 
 procedure TF_TerminalFinaliza.dbeUsuarioExit(Sender: TObject);
@@ -694,8 +734,20 @@ end;
 procedure TF_TerminalFinaliza.JvGravarClick(Sender: TObject);
 begin
   if (cbPrazo.Text = '01-A Vista') then
-    if (jvPago.Text = 'R$ 0,00') then
-       jvPago.Value := jvTotal.Value;
+    if (jvPago.Text = '0,00') then
+    begin
+       ShowMessage('Valor Pago tem que ter um Valor');
+       jvPago.SetFocus;
+       exit;
+    end;
+
+  if (DBEdit5.Text = '1') then
+    if (jvPago.Value < jvApagar.Value) then
+    begin
+       MessageDlg('Valor pago menor que total a pagar, '+#13+#10+'  parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
+       cbPrazo.SetFocus;
+       exit;
+    end;
 
   if (cbPrazo.Visible = True) then
   begin
@@ -783,9 +835,9 @@ begin
   end;
 
    strSql := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger);
-   dm.sqlsisAdimin.StartTransaction(TD);
-   dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(strSql);
        dm.sqlsisAdimin.Commit(TD);
     except
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
@@ -802,6 +854,33 @@ begin
      end;
    end;
 
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+  dm.cds_parametro.Close;      
+  if (tipoImpressao = 'CUPOM') then
+     if (usaDll = 'TRUE') then
+     begin
+        //Configura o Modelo da Impressora
+        iRetorno := ConfiguraModeloImpressora( 7 );
+        if (iRetorno = -2) then
+          ShowMessage('Erro Configurando Impressora');
+        iRetorno := IniciaPorta( pchar( 'USB' ) );
+        if (iRetorno <= 0) then
+          ShowMessage('Erro Abrindo Porta');
+
+         // Comando para Acionar a Gaveta de Dinheiro
+         scomando := #27 + #118 + #140;
+         iRetorno := ComandoTX( scomando, Length( scomando ));
+
+        iRetorno := 0;
+        iRetorno := FechaPorta();
+     end;
 end;
 
 procedure TF_TerminalFinaliza.baixaestoque(Tipo: string);
@@ -841,12 +920,13 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.INSEREVEDA;
+Var vJvValor,  vJvValor1, vJvValor2: Double;
 begin
     caixa := 0;
     strSql := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA';
     strSql := strSql + ',DATAVENCIMENTO ,BANCO ,CODVENDEDOR ,STATUS ,CODUSUARIO';
     strSql := strSql + ',VALOR ,NOTAFISCAL ,SERIE, DESCONTO, CODCCUSTO, N_PARCELA'; //
-    strSql := strSql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, PRAZO ';
+    strSql := strSql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, TROCO, PRAZO ';
     strSql := strSql + ') VALUES (';
     strSql := strSql + IntToStr(COD_VENDA);
     strSql := strSql + ',' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
@@ -860,31 +940,62 @@ begin
 
     //total := StrToFloat(DBEdit6.Text);
     //vApagar := StrToFloat(DBEdit11.Text);
+    DecimalSeparator := ',';
+    vJvValor := StrToFloat(jvTotal.Text);
     DecimalSeparator := '.';
-    ThousandSeparator := ',';
-    strSql := strSql + ',' + FloatToStr(jvTotal.Value); //valor
+    strSql := strSql + ',' + FloatToStr(vJvValor); //valor
+
     strSql := strSql + ',' + DBEdit2.Text; //notafiscal
     strSql := strSql + ',''' + dbeSerie.Text + ''''; //serie
+
+
+    DecimalSeparator := ',';
+
+    vJvValor := StrToFloat(jvDesconto.Text);
     DecimalSeparator := '.';
-    ThousandSeparator := ',';
-    strSql := strSql + ',' + FloatToStr(jvDesconto.Value); //DEsconto
+    strSql := strSql + ',' + FloatToStr(vJvValor); //DEsconto
+
    // strSql := strSql + ',0'; //desconto
     strSql := strSql + ',' + IntToStr(DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger);//CODCUSTO
     strSql := strSql + ', ' + DBEdit5.Text + ',';
     utilcrtitulo := Tutils.Create;
     strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox1.Text));
+    utilcrtitulo.Free;
+    DecimalSeparator := ',';
+    vJvValor1 := StrToFloat(jvPago.Text);
+    vJvValor2 := StrToFloat(jvTroco.Text);
+    if (vJvValor2 > 0) then
+      vJvValor := vJvValor1 - vJvValor2
+    else
+      vJvValor := vJvValor1;
+
     DecimalSeparator := '.';
-    ThousandSeparator := ',';
-    strSql := strSql + ',' + FloatToStr(jvPago.Value);
+    strSql := strSql + ',' + FloatToStr(vJvValor); //ENTRADA
+
     if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
       caixa := dm.cds_7_contas.Fields[0].asInteger;
     strSql := strSql + ', ' + IntToStr(Caixa); //Caixa
+
+    DecimalSeparator := ',';
+    vJvValor := StrToFloat(jvAcrescimo.Text);
     DecimalSeparator := '.';
-    ThousandSeparator := ',';
-    strSql := strSql + ',' + FloatToStr(jvAcrescimo.Value); //Multa_juros
+    strSql := strSql + ',' + FloatToStr(vJvValor); //Multa_juros
+
+    DecimalSeparator := ',';
+    vJvValor := StrToFloat(jvApagar.Text);
     DecimalSeparator := '.';
-    ThousandSeparator := ',';
-    strSql := strSql + ',' + FloatToStr(jvApagar.Value);
+    strSql := strSql + ',' + FloatToStr(vJvValor); //VALOR A PaGAR
+
+    DecimalSeparator := ',';
+    vJvValor := StrToFloat(jvPago.Text);
+    DecimalSeparator := '.';
+    strSql := strSql + ',' + FloatToStr(vJvValor); //VALORPAGO
+
+    DecimalSeparator := ',';
+    vJvValor := StrToFloat(jvTroco.Text);
+    DecimalSeparator := '.';
+    strSql := strSql + ',' + FloatToStr(vJvValor); //TROCO
+
     strSql := strSql + ',' + QuotedStr(cbPrazo.Text);
     strSql := strSql + ')';
 
@@ -1706,6 +1817,34 @@ begin
      iRetorno := ComandoTX( scomando, Length( scomando ));
 
 
+end;
+
+procedure TF_TerminalFinaliza.BitBtn1Click(Sender: TObject);
+begin
+  F_Entrada := TF_Entrada.Create(Application);
+  try
+    F_Entrada.ShowModal;
+  finally
+    F_Entrada.Free;
+  end;  
+end;
+
+procedure TF_TerminalFinaliza.jvPagoExit(Sender: TObject);
+begin
+    jvTroco.AsFloat := jvPago.AsFloat - jvApagar.AsFloat;
+end;
+
+procedure TF_TerminalFinaliza.jvAcrescimoExit(Sender: TObject);
+begin
+    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat;
+end;
+
+procedure TF_TerminalFinaliza.jvDescontoExit(Sender: TObject);
+begin
+  if (jvAcrescimo.AsFloat > 0) then
+    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat
+  else
+    jvApagar.AsFloat := jvTotal.AsFloat - jvDesconto.AsFloat;
 end;
 
 end.
