@@ -172,6 +172,12 @@ uses uComercial, UDm, uProcurar, uListaClientes, uVendas, uPdm, ufDlgLogin,
 procedure TfFiltroMovimento.FormCreate(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fFiltroMovimento));
+
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
+  MMJPanel2.Background.StartColor := dm.corStart;
+
   if (dm.moduloUsado = 'AUTOMOTIVA') then
     GroupBox5.Visible := True;
 

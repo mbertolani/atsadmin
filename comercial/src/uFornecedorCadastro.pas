@@ -468,6 +468,13 @@ procedure TfFornecedorCadastro.FormCreate(Sender: TObject);
 begin
   //inherited;
   //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
+  MMJPanel2.Background.StartColor := dm.corStart;
+
+  DBRadioGroup3.Color := dm.corEnd;
+
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';

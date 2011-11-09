@@ -312,6 +312,11 @@ end;
 
 procedure TfPai.FormCreate(Sender: TObject);
 begin
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
+  MMJPanel2.Background.StartColor := dm.corStart;
+
   if (dm.sResolucao.Active) then
      dm.sResolucao.Close;
   dm.sResolucao.Params[0].AsString := MICRO;
