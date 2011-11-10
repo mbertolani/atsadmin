@@ -1,4 +1,5 @@
 inherited fOsInserePeca: TfOsInserePeca
+  Top = 3
   Width = 446
   Height = 419
   Caption = 'Pe'#231'as'
@@ -46,7 +47,7 @@ inherited fOsInserePeca: TfOsInserePeca
     Height = 290
     Align = alClient
     Caption = 'Pe'#231'as'
-    Color = clMoneyGreen
+    Color = clSilver
     ParentColor = False
     TabOrder = 2
     object Label15: TLabel
