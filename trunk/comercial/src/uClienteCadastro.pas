@@ -765,6 +765,12 @@ end;
 procedure TfClienteCadastro.FormCreate(Sender: TObject);
 begin
   //inherited;
+  MMJPanel1.Background.EndColor   := dm.corStart;
+  MMJPanel1.Background.StartColor := dm.corEnd;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
+  MMJPanel2.Background.StartColor := dm.corStart;
+
+  DBRadioGroup3.Color   := dm.corEnd;
 
   if (not cdsConvenio.Active) then
       cdsConvenio.Open;
