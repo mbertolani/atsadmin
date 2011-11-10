@@ -2593,8 +2593,7 @@ procedure TDM.cdsBuscaReconcileError(DataSet: TCustomClientDataSet;
   E: EReconcileError; UpdateKind: TUpdateKind;
   var Action: TReconcileAction);
 begin
-  MessageDlg(E.Message , mtWarning,
-        [mbOk], 0);
+  MessageDlg(E.Message , mtWarning, [mbOk], 0);
 end;
 
 end.
