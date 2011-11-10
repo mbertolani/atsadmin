@@ -241,6 +241,13 @@ begin
     exit;
   end;
 
+  if (edKm.Text = '') then
+  begin
+    MessageDlg('km não informada.', mtError, [mbOK], 0);
+    edKm.SetFocus;
+    exit;
+  end;
+
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
     FOsCls.codCliente := StrToInt(edCodCliente.Text);
@@ -466,7 +473,7 @@ begin
   statusOs              := 'A'; // Andamento (Serviço Executando)
   RadioGroup1.ItemIndex := 1;
   modoOsItem            := '';
-  carregaCampos;
+  //carregaCampos;
 end;
 
 procedure TfOs.btnCancelarClick(Sender: TObject);
