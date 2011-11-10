@@ -143,8 +143,6 @@ type
     cbMarca: TComboBox;
     cbFamilia: TComboBox;
     cbCategoria: TComboBox;
-    RadioButton1: TRadioButton;
-    RadioButton2: TRadioButton;
     btnIncluir: TBitBtn;
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
@@ -166,6 +164,7 @@ type
     cds_procPEDIDO: TFloatField;
     BitBtn3: TBitBtn;
     DBGrid2: TDBGrid;
+    RadioGroup1: TRadioGroup;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -197,12 +196,11 @@ type
     procedure cbMarcaChange(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
     procedure cbFamiliaChange(Sender: TObject);
-    procedure RadioButton1Click(Sender: TObject);
-    procedure RadioButton2Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
   private
     { Private declarations }
     procedure precolista1;
@@ -343,9 +341,8 @@ begin
      dm.cds_categoria.Next;
   end;
   dm.cds_categoria.Close;
-  Panel1.Visible := True;
+  //Panel1.Visible := True;
   //Panel2.Visible := True;
-  RadioButton1.Checked := True;
   {cbMarca.Text := '';
   panel2.TabOrder := 0;
   EvDBFind1.SetFocus;   }
@@ -356,7 +353,7 @@ begin
     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   cbMarca.Text := '';
 
-  //if (Panel2.Visible = True) then
+  //if (RadioGroup1.ItemIndex = 0) then
   //  EvDBFind1.SetFocus;
   //bitBtn1.Click;
 end;
@@ -571,7 +568,7 @@ procedure TfProcura_prodOficina.FormKeyPress(Sender: TObject; var Key: Char);
 begin
  if (key = #13) then
  begin
-   bitBtn1.Click; 
+   //bitBtn1.Click; 
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;
@@ -978,24 +975,6 @@ begin
     end;
     dm.cds_categoria.Close;
  end;
-end;
-
-procedure TfProcura_prodOficina.RadioButton1Click(Sender: TObject);
-begin
-  if (Panel1.Visible = False) then
-      Panel1.Visible := True;
-  Panel2.Visible := False;
-  RadioButton2.Checked := False;
-
-end;
-
-procedure TfProcura_prodOficina.RadioButton2Click(Sender: TObject);
-begin
-  if (Panel2.Visible = False) then
-      Panel2.Visible := True;
-  Panel1.Visible := False;
-  RadioButton1.Checked := False;
-  BitBtn1.Click;
 end;
 
 procedure TfProcura_prodOficina.BitBtn6Click(Sender: TObject);
@@ -1421,6 +1400,22 @@ end;
 procedure TfProcura_prodOficina.DBGrid1DblClick(Sender: TObject);
 begin
   btnIncluir.Click;
+end;
+
+procedure TfProcura_prodOficina.RadioGroup1Click(Sender: TObject);
+begin
+  if (RadioGroup1.ItemIndex = 0) then
+  begin
+    Panel2.Visible := True;
+    Panel1.Visible := False;
+    BitBtn2.Click;
+    BitBtn1.Click;
+  end;
+  if (RadioGroup1.ItemIndex = 1) then
+  begin
+    Panel2.Visible := False;
+    Panel1.Visible := True;
+  end;
 end;
 
 end.
