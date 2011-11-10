@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
-  Left = 209
-  Top = 220
-  Width = 865
-  Height = 578
+  Left = 261
+  Top = 24
+  Width = 873
+  Height = 588
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -26,15 +26,15 @@ object fNFeletronica: TfNFeletronica
     Caption = 'Gerar NF-e'
     TabOrder = 0
     object GroupBox3: TGroupBox
-      Left = 232
-      Top = 115
-      Width = 109
-      Height = 103
+      Left = 12
+      Top = 159
+      Width = 326
+      Height = 58
       Caption = 'Danfe'
       TabOrder = 0
       object btnImprime: TBitBtn
-        Left = 11
-        Top = 14
+        Left = 52
+        Top = 13
         Width = 91
         Height = 36
         Caption = 'Imprimir DANFe'
@@ -42,8 +42,8 @@ object fNFeletronica: TfNFeletronica
         OnClick = btnImprimeClick
       end
       object btnGeraPDF: TBitBtn
-        Left = 11
-        Top = 54
+        Left = 166
+        Top = 12
         Width = 91
         Height = 36
         Caption = 'DANFe em PDF'
@@ -51,156 +51,10 @@ object fNFeletronica: TfNFeletronica
         OnClick = btnGeraPDFClick
       end
     end
-    object GroupBox6: TGroupBox
-      Left = 8
-      Top = 11
-      Width = 109
-      Height = 103
-      Caption = 'Normal'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clRed
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 1
-      object btnGeraNFe: TBitBtn
-        Left = 10
-        Top = 19
-        Width = 91
-        Height = 36
-        Caption = 'Gerar NF-e'
-        Enabled = False
-        TabOrder = 0
-        OnClick = btnGeraNFeClick
-      end
-      object BtnPreVis: TBitBtn
-        Left = 11
-        Top = 61
-        Width = 91
-        Height = 36
-        Caption = 'Pr'#233' Visualizar'
-        Enabled = False
-        TabOrder = 1
-        OnClick = BtnPreVisClick
-      end
-    end
-    object GroupBox7: TGroupBox
-      Left = 231
-      Top = 11
-      Width = 109
-      Height = 103
-      Caption = 'Sped'
-      TabOrder = 2
-      object btnSPED: TBitBtn
-        Left = 10
-        Top = 19
-        Width = 91
-        Height = 36
-        Caption = 'Gerar NF-e'
-        Enabled = False
-        TabOrder = 0
-        OnClick = btnSPEDClick
-      end
-      object btnPreVisSped: TBitBtn
-        Left = 11
-        Top = 61
-        Width = 91
-        Height = 36
-        Caption = 'Pr'#233' Visualizar'
-        Enabled = False
-        TabOrder = 1
-        OnClick = btnPreVisSpedClick
-      end
-    end
-    object GroupBox8: TGroupBox
-      Left = 119
-      Top = 11
-      Width = 109
-      Height = 103
-      Caption = 'Conting'#234'ncia FS'
-      TabOrder = 3
-      object btnContingencia: TBitBtn
-        Left = 10
-        Top = 19
-        Width = 91
-        Height = 36
-        Caption = 'Gerar NF-e'
-        Enabled = False
-        TabOrder = 0
-        OnClick = btnContingenciaClick
-      end
-      object btnPreVisCont: TBitBtn
-        Left = 11
-        Top = 61
-        Width = 91
-        Height = 36
-        Caption = 'Pr'#233' Visualizar'
-        Enabled = False
-        TabOrder = 1
-        OnClick = btnPreVisContClick
-      end
-    end
-    object GroupBox9: TGroupBox
-      Left = 7
-      Top = 115
-      Width = 109
-      Height = 103
-      Caption = 'DPEC'
-      TabOrder = 4
-      object btnDpec: TBitBtn
-        Left = 10
-        Top = 19
-        Width = 91
-        Height = 36
-        Caption = 'Gerar NF-e'
-        Enabled = False
-        TabOrder = 0
-        OnClick = btnDpecClick
-      end
-      object btnPreVisDPEC: TBitBtn
-        Left = 11
-        Top = 61
-        Width = 91
-        Height = 36
-        Caption = 'Pr'#233' Visualizar'
-        Enabled = False
-        TabOrder = 1
-        OnClick = btnPreVisDPECClick
-      end
-    end
-    object GroupBox10: TGroupBox
-      Left = 119
-      Top = 115
-      Width = 109
-      Height = 103
-      Caption = 'Conting'#234'ncia FSDA'
-      TabOrder = 5
-      object btnFSDA: TBitBtn
-        Left = 10
-        Top = 19
-        Width = 91
-        Height = 36
-        Caption = 'Gerar NF-e'
-        Enabled = False
-        TabOrder = 0
-        OnClick = btnFSDAClick
-      end
-      object btnPreVisFSDA: TBitBtn
-        Left = 11
-        Top = 61
-        Width = 91
-        Height = 36
-        Caption = 'Pr'#233' Visualizar'
-        Enabled = False
-        TabOrder = 1
-        OnClick = btnPreVisFSDAClick
-      end
-    end
   end
   object Panel1: TPanel
     Left = 0
-    Top = 1
+    Top = 0
     Width = 504
     Height = 220
     Align = alCustom
@@ -785,7 +639,7 @@ object fNFeletronica: TfNFeletronica
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
-    Top = 320
+    Top = 319
     Width = 857
     Height = 231
     DataSource = DataSource1
@@ -878,7 +732,7 @@ object fNFeletronica: TfNFeletronica
   end
   object GroupBox12: TGroupBox
     Left = 0
-    Top = 222
+    Top = 221
     Width = 857
     Height = 97
     Caption = 'Outros Servi'#231'os'
@@ -961,6 +815,179 @@ object fNFeletronica: TfNFeletronica
         Caption = 'Enviar XML'
         TabOrder = 0
         OnClick = btnValidaXMLClick
+      end
+    end
+  end
+  object PageControl1: TPageControl
+    Left = 512
+    Top = 18
+    Width = 329
+    Height = 138
+    ActivePage = TabSheet1
+    TabOrder = 4
+    object TabSheet1: TTabSheet
+      Caption = 'Normal'
+      object GroupBox2: TGroupBox
+        Left = 5
+        Top = 3
+        Width = 312
+        Height = 104
+        Caption = 'Normal'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        object btnGeraNFe: TBitBtn
+          Left = 156
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Gerar NF-e'
+          Enabled = False
+          TabOrder = 0
+          OnClick = btnGeraNFeClick
+        end
+        object BtnPreVis: TBitBtn
+          Left = 42
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Pr'#233' Visualizar'
+          Enabled = False
+          TabOrder = 1
+          OnClick = BtnPreVisClick
+        end
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Contigencia FS'
+      ImageIndex = 1
+      object GroupBox6: TGroupBox
+        Left = 5
+        Top = 3
+        Width = 311
+        Height = 103
+        Caption = 'Conting'#234'ncia FS'
+        TabOrder = 0
+        object btnContingencia: TBitBtn
+          Left = 156
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Gerar NF-e'
+          Enabled = False
+          TabOrder = 0
+          OnClick = btnContingenciaClick
+        end
+        object btnPreVisCont: TBitBtn
+          Left = 42
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Pr'#233' Visualizar'
+          Enabled = False
+          TabOrder = 1
+          OnClick = btnPreVisContClick
+        end
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'Sped'
+      ImageIndex = 2
+      object GroupBox7: TGroupBox
+        Left = 4
+        Top = 3
+        Width = 313
+        Height = 106
+        Caption = 'Sped'
+        TabOrder = 0
+        object btnSPED: TBitBtn
+          Left = 156
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Gerar NF-e'
+          Enabled = False
+          TabOrder = 0
+          OnClick = btnSPEDClick
+        end
+        object btnPreVisSped: TBitBtn
+          Left = 42
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Pr'#233' Visualizar'
+          Enabled = False
+          TabOrder = 1
+          OnClick = btnPreVisSpedClick
+        end
+      end
+    end
+    object TabSheet4: TTabSheet
+      Caption = 'Depc'
+      ImageIndex = 3
+      object GroupBox8: TGroupBox
+        Left = 3
+        Top = 3
+        Width = 315
+        Height = 107
+        Caption = 'DPEC'
+        TabOrder = 0
+        object btnDpec: TBitBtn
+          Left = 156
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Gerar NF-e'
+          Enabled = False
+          TabOrder = 0
+          OnClick = btnDpecClick
+        end
+        object btnPreVisDPEC: TBitBtn
+          Left = 42
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Pr'#233' Visualizar'
+          Enabled = False
+          TabOrder = 1
+          OnClick = btnPreVisDPECClick
+        end
+      end
+    end
+    object TabSheet5: TTabSheet
+      Caption = 'Contigencia FSDA'
+      ImageIndex = 4
+      object GroupBox9: TGroupBox
+        Left = 4
+        Top = 3
+        Width = 315
+        Height = 104
+        Caption = 'Conting'#234'ncia FSDA'
+        TabOrder = 0
+        object btnFSDA: TBitBtn
+          Left = 156
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Gerar NF-e'
+          Enabled = False
+          TabOrder = 0
+          OnClick = btnFSDAClick
+        end
+        object btnPreVisFSDA: TBitBtn
+          Left = 42
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Pr'#233' Visualizar'
+          Enabled = False
+          TabOrder = 1
+          OnClick = btnPreVisFSDAClick
+        end
       end
     end
   end
@@ -3320,6 +3347,7 @@ object fNFeletronica: TfNFeletronica
     RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
     EspessuraBorda = 1
     TamanhoFonte_RazaoSocial = 12
+    TamanhoFonte_ANTT = 10
     Left = 457
     Top = 234
   end
