@@ -307,7 +307,7 @@ end;
 procedure TfAtsOS.StatusBar1DrawPanel(StatusBar: TStatusBar;
   Panel: TStatusPanel; const Rect: TRect);
 begin
- statusBar1.Canvas.Brush.Color:=clMoneyGreen;//$00AEB7D2;
+ statusBar1.Canvas.Brush.Color := clSkyBlue;//$00AEB7D2;
  StatusBar1.Canvas.FillRect(rect);
  StatusBar1.Canvas.TextOut(Rect.Left+18,rect.Top,Panel.Text);
 // ImageList1.Draw(StatusBar.Canvas,rect.Left,rect.Top,Panel.Index+0)
