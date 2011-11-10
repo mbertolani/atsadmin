@@ -49,7 +49,7 @@ inherited fOsInsere: TfOsInsere
     Height = 306
     Align = alClient
     Caption = 'Servi'#231'o'
-    Color = clSilver
+    Color = clActiveBorder
     ParentColor = False
     TabOrder = 0
     object Label15: TLabel
