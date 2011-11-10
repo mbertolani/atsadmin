@@ -5,7 +5,7 @@ interface
 uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
-  Variants, DBClient, EAppProt, UCBase;
+  Variants, DBClient, EAppProt, Graphics, ucBase;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -1859,6 +1859,7 @@ type
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP : String;
     tipoCompra, tipoVenda : String;
     userAprovaCompra, varLogado, usaCentroCusto : String;
+    corEnd, corStart: TColor;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
   end;
@@ -1895,7 +1896,7 @@ begin
   sqlsisAdimin.Connected := True;
   Except
     Conectado := false;
-    ShowMessage('Banco de Dados inválido!');
+    ShowMessage('Banco de Dados invalido!');
   end;
   // SQL Exporta
   sqlExporta.Connected := False;
@@ -1939,6 +1940,9 @@ begin
     dm.sqlsisAdimin.ExecuteDirect('INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO)' +
     ' VALUES (' + QuotedStr('Modulo usado') + ', ' + QuotedStr('EMPRESA') + ', ' + QuotedStr('S') +')');
   end;
+  corEnd   := clSilver;          // Colocar estas Cores no Parametro EMPRESA tipo D5 e D6
+  corStart := clActiveCaption;
+
   VISTO_FTP := cds_parametroD9.asString;
   moduloUsado := dm.cds_parametroD1.AsString;
   if cds_parametro.Active then
@@ -2004,9 +2008,9 @@ begin
   cepPadrao    := cds_empresaCEP.AsString;
   ibgePadrao   := cds_empresaCD_IBGE.AsString;
 
-  { Adiciona CAMPO a uma tabela se não existir}
+  { Adiciona CAMPO a uma tabela se nï¿½o existir}
   // verifiSeExisteCampo('CLIENTES', 'RAZAOSOCIAL', 'VARCHAR(60)');
-  { Adiciona Tabela se não existir}
+  { Adiciona Tabela se nï¿½o existir}
   // verificaSeExisteTabela('CLIENTESXX', 'TESTE1', 'INTEGER');
 
   //fAtualizaSistema.VerBoleto('teste');
@@ -2023,7 +2027,7 @@ begin
         CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
       Except
       end;
-    end;    
+    end;
   end;
 
 end;
@@ -2040,7 +2044,7 @@ begin
   cds_produtoIPI.AsFloat := 0;
   cds_produtoBASE_ICMS.AsFloat := 100;
   cds_produtoQTDE_PCT.AsFloat := 1;
-  cds_produtoRATEIO.AsString := 'NÃO';
+  cds_produtoRATEIO.AsString := 'NAO';
   cds_produtoLotes.AsString := 'N';
 end;
 
@@ -2070,7 +2074,7 @@ begin
     end;
   if Sender.AsString = '9-' then
     begin
-     Text:='EM COBRANÇA';
+     Text:='EM COBRANCA';
      exit;
     end;
   if Sender.AsString = '14' then
@@ -2084,7 +2088,7 @@ procedure TDM.cds_recReconcileError(DataSet: TCustomClientDataSet;
   E: EReconcileError; UpdateKind: TUpdateKind;
   var Action: TReconcileAction);
 begin
-  MessageDlg('Não é possível gravar o registro. Erro : ' + E.Message , mtWarning,
+  MessageDlg('Nao e possivel gravar o registro. Erro : ' + E.Message , mtWarning,
         [mbOk], 0);
 end;
 
@@ -2103,18 +2107,18 @@ begin
     end;
   if Sender.AsString = '3' then
     begin
-     Text:='3-DEPÓSITO';
+     Text:='3-DEPOSITO';
      exit;
     end;
 
   if Sender.AsString = '4' then
     begin
-     Text:='4-PRÉ-DATADO';
+     Text:='4-PRE-DATADO';
      exit;
     end;
   if Sender.AsString = '5' then
     begin
-     Text:='5-CARTÃO';
+     Text:='5-CARTAO';
      exit;
     end;
   if Sender.AsString = '6' then
@@ -2129,7 +2133,7 @@ begin
     end;
   if Sender.AsString = '8' then
     begin
-     Text:='8-CARTÓRIO';
+     Text:='8-CARTORIO';
      exit;
     end;
 
@@ -2163,18 +2167,18 @@ begin
     end;
   if Sender.AsString = '3' then
     begin
-     Text:='3-DEPÓSITO';
+     Text:='3-DEPOSITO';
      exit;
     end;
 
   if Sender.AsString = '4' then
     begin
-     Text:='4-PRÉ-DATADO';
+     Text:='4-PRE-DATADO';
      exit;
     end;
   if Sender.AsString = '5' then
     begin
-     Text:='5-CARTÃO';
+     Text:='5-CARTAO';
      exit;
     end;
   if Sender.AsString = '6' then
@@ -2189,7 +2193,7 @@ begin
     end;
   if Sender.AsString = '8' then
     begin
-     Text:='8-CARTÓRIO';
+     Text:='8-CARTORIO';
      exit;
     end;
 end;
@@ -2232,7 +2236,7 @@ begin
     end;
   if Sender.AsString = '4-' then
     begin
-     Text:='CARTÓRIO';
+     Text:='CARTORIO';
      exit;
     end;
   if Sender.AsString = '2-' then
@@ -2267,18 +2271,18 @@ begin
     end;
   if Sender.AsString = '3' then
     begin
-     Text:='3-DEPÓSITO';
+     Text:='3-DEPOSITO';
      exit;
     end;
 
   if Sender.AsString = '4' then
     begin
-     Text:='4-PRÉ-DATADO';
+     Text:='4-PRE-DATADO';
      exit;
     end;
   if Sender.AsString = '5' then
     begin
-     Text:='5-CARTÃO';
+     Text:='5-CARTAO';
      exit;
     end;
   if Sender.AsString = '6' then
@@ -2293,7 +2297,7 @@ begin
     end;
   if Sender.AsString = '8' then
     begin
-     Text:='8-CARTÓRIO';
+     Text:='8-CARTORIO';
      exit;
     end;
 end;
@@ -2304,25 +2308,25 @@ Var fracao, Total:real;
 decimal:string;
 begin
 try
-  fracao:=Frac(value); //Retorna a parte fracionária de um número
+  fracao:=Frac(value); //Retorna a parte fracionï¿½ria de um nï¿½mero
   if (fracao > 0.001) then
   begin
     decimal:=(RightStr(floattostr(fracao),length(floattostr(fracao))-2)); //decimal recebe a parte decimal
-    //enquanto o tamanho da variavel decimal for maior que o número de casas faça
+    //enquanto o tamanho da variavel decimal for maior que o nï¿½mero de casas faï¿½a
     while length(decimal) > casas do
     begin
-      //Verifica se o último digito da variável decimal é maior que 5
+      //Verifica se o ï¿½ltimo digito da variï¿½vel decimal ï¿½ maior que 5
       if strtoint(RightStr(decimal,1))>5 then
       begin
-        //Descarta o último digito da variável Decimal
+        //Descarta o ï¿½ltimo digito da variï¿½vel Decimal
         decimal:=leftstr(decimal,length(decimal)-1);
-        //Soma o valor número da variavel decimal + 1
+        //Soma o valor nï¿½mero da variavel decimal + 1
         decimal:=floattostr(strtofloat(decimal) + 1);
       end
       else
-        decimal:=leftstr(decimal,length(decimal)-1); //Descarta o último digito da variável Decimal
+        decimal:=leftstr(decimal,length(decimal)-1); //Descarta o ï¿½ltimo digito da variï¿½vel Decimal
       end;
-    result:=(int(value) + (strtofloat(decimal)/100)); //devolve o resultado para a função
+    result:=(int(value) + (strtofloat(decimal)/100)); //devolve o resultado para a funï¿½ï¿½o
   end
   else
     result := value;
@@ -2564,7 +2568,7 @@ procedure TDM.cds_crReconcileError(DataSet: TCustomClientDataSet;
   E: EReconcileError; UpdateKind: TUpdateKind;
   var Action: TReconcileAction);
 begin
-  MessageDlg('Não é possível gravar o registro. Erro : ' + E.Message , mtWarning,
+  MessageDlg('Nao e possivel gravar o registro. Erro : ' + E.Message , mtWarning,
         [mbOk], 0);
 end;
 
@@ -2572,7 +2576,7 @@ procedure TDM.cds_4_pagarReconcileError(DataSet: TCustomClientDataSet;
   E: EReconcileError; UpdateKind: TUpdateKind;
   var Action: TReconcileAction);
 begin
-  MessageDlg('Não é possível gravar o registro. Erro : ' + E.Message , mtWarning,
+  MessageDlg('Nao e possivel gravar o registro. Erro : ' + E.Message , mtWarning,
         [mbOk], 0);
 
 end;
@@ -2581,7 +2585,7 @@ procedure TDM.c3_contabilReconcileError(DataSet: TCustomClientDataSet;
   E: EReconcileError; UpdateKind: TUpdateKind;
   var Action: TReconcileAction);
 begin
-  MessageDlg('Não é possível gravar o registro. Erro : ' + E.Message , mtWarning,
+  MessageDlg('Nao e possivel gravar o registro. Erro : ' + E.Message , mtWarning,
         [mbOk], 0);
 end;
 

@@ -947,12 +947,17 @@ end;
 
 procedure TfAtsAdmin.acComprasExecute(Sender: TObject);
 begin
- // fRateioPag := TfRateioPag.Create(Application);
- // try
-    DM.tipoCompra := 'COMPRA';
-    fCompra.ShowModal;
+  // fRateioPag := TfRateioPag.Create(Application);
+  // try
+  DM.tipoCompra := 'COMPRA';
+  fCompra.MMJPanel1.Background.EndColor   := dm.corStart;
+  fCompra.MMJPanel1.Background.StartColor := dm.corEnd;
+  fCompra.MMJPanel2.Background.EndColor   := dm.corEnd;
+  fCompra.MMJPanel2.Background.StartColor := dm.corStart;
+
+  fCompra.ShowModal;
   //finally
-   // fRateioPag.Free;
+  // fRateioPag.Free;
   //end;
 end;
 
@@ -1873,7 +1878,7 @@ end;
 
 procedure TfAtsAdmin.CotaoPedido1Click(Sender: TObject);
 begin
-  fCompra.Caption := 'Pedido - Cota��o';
+  fCompra.Caption := 'Pedido - Cotacao';
   fCompra.btnIncluir.Left := -200;
   fCompra.BitBtn1.Visible := False;
   dm.tipoCompra := 'COTACAO';
