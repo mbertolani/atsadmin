@@ -325,8 +325,8 @@ begin
   Application.CreateForm(TfProcura_prod, fProcura_prod);
   Application.CreateForm(TfUso_Prod, fUso_Prod);
   Application.CreateForm(TfProdutoLote, fProdutoLote);
-//  Application.CreateForm(TfTerminal, fTerminal);
-//  Application.CreateForm(TfTerminal_Delivery, fTerminal_Delivery);
+  //Application.CreateForm(TfTerminal, fTerminal);
+  //Application.CreateForm(TfTerminal_Delivery, fTerminal_Delivery);
   Application.CreateForm(TfcpTitulo, fcpTitulo);
   Application.CreateForm(TfFiltro_forn_plano, fFiltro_forn_plano);
   Application.CreateForm(TfRateioPag, fRateioPag);
@@ -337,7 +337,7 @@ begin
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     Application.CreateForm(TfOs, fOs);
-   // Application.CreateForm(TfOsFiltro, fOsFiltro);
+    Application.CreateForm(TfOsFiltro, fOsFiltro);
     Application.CreateForm(TfProcura_ProdOficina, fProcura_ProdOficina);
     Application.CreateForm(TfOsInsere, fOsInsere);
     Application.CreateForm(TfOsInserePeca, fOsInserePeca);
