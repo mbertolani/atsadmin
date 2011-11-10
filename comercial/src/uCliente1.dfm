@@ -1,20 +1,19 @@
 inherited fCliente1: TfCliente1
-  Left = 231
-  Top = 18
-  Width = 740
-  Height = 556
+  Left = 232
+  Width = 737
+  Height = 597
   Caption = 'Cadastro Cliente'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 732
+    Width = 729
     Height = 33
     TabOrder = 5
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 478
-    Width = 732
+    Top = 519
+    Width = 729
     Font.Height = -13
     ParentFont = False
     TabOrder = 6
@@ -92,7 +91,7 @@ inherited fCliente1: TfCliente1
   end
   object GroupBox2: TGroupBox [4]
     Left = 0
-    Top = 122
+    Top = 120
     Width = 729
     Height = 49
     Caption = 'Documentos'
@@ -161,7 +160,7 @@ inherited fCliente1: TfCliente1
     Left = -1
     Top = 174
     Width = 730
-    Height = 54
+    Height = 99
     Caption = 'Outras Informa'#231#245'es'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -177,6 +176,20 @@ inherited fCliente1: TfCliente1
       Height = 16
       Caption = 'Contato'
       FocusControl = btnCancelar
+    end
+    object Label54: TLabel
+      Left = 9
+      Top = 48
+      Width = 123
+      Height = 16
+      Caption = 'Data de Nascimento'
+    end
+    object Label55: TLabel
+      Left = 146
+      Top = 48
+      Width = 144
+      Height = 16
+      Caption = 'Referencias Comerciais'
     end
     object DBEdit6: TDBEdit
       Left = 72
@@ -202,10 +215,48 @@ inherited fCliente1: TfCliente1
         'Bloqueado')
       TabOrder = 1
     end
+    object DBEdit48: TDBEdit
+      Left = 9
+      Top = 64
+      Width = 131
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DataField = 'DATANASC'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 2
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit49: TDBEdit
+      Left = 148
+      Top = 64
+      Width = 551
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DataField = 'MARCA'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 3
+      OnKeyPress = FormKeyPress
+    end
   end
   object GroupBox4: TGroupBox [6]
     Left = 0
-    Top = 232
+    Top = 273
     Width = 729
     Height = 245
     Align = alCustom

@@ -248,6 +248,10 @@ type
     procIBGECD_UF: TStringField;
     procIBGENM_MUNICIPIO: TStringField;
     procIBGECD_IBGE: TStringField;
+    Label54: TLabel;
+    DBEdit48: TDBEdit;
+    Label55: TLabel;
+    DBEdit49: TDBEdit;
     procedure rgTipoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -288,6 +292,10 @@ begin
     lblRazao.Caption := 'Apelido';
     lblIE.Caption    := 'R.G.';
     lblCnpj.Caption  := 'CPF';
+    DBEdit48.Visible := True;
+    DBEdit49.Visible := True;
+    Label54.Visible  := True;
+    Label55.Visible  := True;
   end;
   if (rgTipo.ItemIndex = 1) then
   begin
@@ -295,6 +303,10 @@ begin
     lblRazao.Caption := 'Nome Fantasia';
     lblIE.Caption    := 'Insc. Estadual';
     lblCnpj.Caption  := 'CNPJ';
+    DBEdit48.Visible := False;
+    DBEdit49.Visible := False;
+    Label54.Visible  := False;
+    Label55.Visible  := False;
   end;
 end;
 
