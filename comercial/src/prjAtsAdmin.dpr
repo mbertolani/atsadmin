@@ -195,7 +195,6 @@ uses
   uGeraEtiquetas in 'uGeraEtiquetas.pas' {fGeraEtiquetas},
   uNFeMail in 'uNFeMail.pas' {fNFeMail},
   uBalancete in 'uBalancete.pas' {fBalancete},
-  //uTexto in 'uTexto.pas' {Form1},
   uProdGeraAumento in 'uProdGeraAumento.pas' {fProdGeraAumento},
   uEtiquetas_cli in 'uEtiquetas_cli.pas' {fEtiquetas_cli},
   uInventario in 'uInventario.pas' {fInventario},
@@ -247,7 +246,6 @@ uses
   U_FECHAMENTO in 'U_FECHAMENTO.pas' {F_Fechamento},
   U_AUTORIZACAO in 'U_AUTORIZACAO.pas' {F_AUTORIZACAO},
   uAtsOS in 'uAtsOS.pas' {fAtsOS},
-  uImprimeDLL in 'uImprimeDLL.pas' {F_ImprimeDLL},
   u_mesas in 'u_mesas.pas' {F_MESAS},
   uOsInserePeca in 'uOsInserePeca.pas' {fOsInserePeca},
   U_Entrada in 'U_Entrada.pas' {F_Entrada},
@@ -255,7 +253,8 @@ uses
   U_MudaMesa in 'U_MudaMesa.pas' {F_MudaMesa},
   uPeriodo in 'uPeriodo.pas' {fPeriodo},
   uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra};
-  //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
+
+//uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
 {$R *.res}
 
 begin
@@ -264,8 +263,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDM_MOV, DM_MOV);
   Application.CreateForm(TDMNF, DMNF);
-  Application.CreateForm(TDmCitrus, DmCitrus);
-  
   if (dm.conectado = False) then
     Application.Terminate;
   if (dm.moduloUsado = 'AUTOMOTIVA') then
