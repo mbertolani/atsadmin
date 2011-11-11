@@ -746,6 +746,7 @@ begin
     end;
 
   if (DBEdit5.Text = '1') then
+   if (cbPrazo.Text = '01-A Vista') then
     if (jvPago.Value < jvApagar.Value) then
     begin
        MessageDlg('Valor pago menor que total a pagar, '+#13+#10+'  parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
