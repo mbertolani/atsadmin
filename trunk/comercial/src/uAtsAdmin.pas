@@ -756,6 +756,11 @@ var TD: TTransactionDesc;
  caminho, caminho2, arquivo, empresa: String;
  tempo : Integer;
 begin
+  if (UserControlComercial.AutoStart = False) then
+  begin
+    UserControlComercial.AutoStart := True;
+    UserControlComercial.Execute;
+  end;  
 
   if (dm.VISTO_FTP = '') then
     dm.VISTO_FTP := '01/01/2001';
