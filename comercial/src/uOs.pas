@@ -186,7 +186,6 @@ type
     TD: TTransactionDesc;
     estoque, qtde : Double;
     Procedure limpaCampos;
-    Procedure carregaCampos;
     Procedure controlaEventos;
     Procedure abrirOs(codOs :Integer);
     Procedure buscaProduto;
@@ -197,6 +196,7 @@ type
     FOsCls: TOsClasse;
     modoOs, modoOsItem, ServDescricao, statusOs: String; // Insert, Edit, Browse, Inactive
     numOsDet, ServCodServ: Integer;
+    Procedure carregaCampos;
     Procedure abrirPecas;
 
     { Public declarations }
@@ -485,6 +485,8 @@ end;
 procedure TfOs.FormCreate(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fOs));
+  MMJPanel2.Background.StartColor := dm.corStart;
+  MMJPanel2.Background.EndColor   := dm.corEnd;
 end;
 
 procedure TfOs.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -740,14 +742,15 @@ begin
     
   modoOsItem := 'EditaPeca';
 
-  if (fOsInserePeca.cdsPecas1.Active) then
+  {if (fOsInserePeca.cdsPecas1.Active) then
     fOsInserePeca.cdsPecas1.Close;
   fOsInserePeca.cdsPecas1.Params.ParamByName('pOs').Clear;
   fOsInserePeca.cdsPecas1.Params.ParamByName('p_Sev').Clear;
   fOsInserePeca.cdsPecas1.Params.ParamByName('pOs').AsInteger := cdsPecasID_OS.AsInteger;
   fOsInserePeca.cdsPecas1.Params.ParamByName('p_Sev').AsInteger := cdsPecasID_OS_DET.AsInteger;
-  fOsInserePeca.cdsPecas1.Open;
-  fOsInserePeca.cdsPecas1.Edit;
+  fOsInserePeca.cdsPecas1.Open;  }
+
+  cdsPecas.Edit;
 
   fOsInserePeca.ShowModal;
 

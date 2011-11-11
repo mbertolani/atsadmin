@@ -22,7 +22,7 @@ inherited fOsInserePeca: TfOsInserePeca
     Top = 341
     Width = 438
     inherited btnGravar: TBitBtn
-      Left = 79
+      Left = 73
     end
     inherited btnIncluir: TBitBtn
       Left = 63
@@ -307,7 +307,7 @@ inherited fOsInserePeca: TfOsInserePeca
       Height = 21
       TabOrder = 0
       OnExit = edProdutoExit
-      OnKeyPress = FormKeyPress
+      OnKeyPress = edProdutoKeyPress
     end
     object BitBtn3: TBitBtn
       Left = 92
