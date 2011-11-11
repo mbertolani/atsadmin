@@ -187,9 +187,10 @@ begin
   DM.UserControlAuto.UsersLogoff.Action := fAtsOS.Logoof;
   DM.UserControlAuto.User.Action := usuarios;
   DM.UserControlAuto.UserPasswordChange.Action := usuarios;
-  DM.UserControlAuto.AutoStart := True;
-  DM.UserControlAuto.Execute;
- }
+  }
+  UserControlAuto.AutoStart := True;
+  UserControlAuto.Execute;
+
  // usulog    := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
  // nome_user := fAtsAdmin.UserControlComercial.CurrentUser.UserName;
  // DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
