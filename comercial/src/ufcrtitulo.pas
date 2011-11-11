@@ -328,8 +328,15 @@ begin
     for i:=1 to length(nrec) do
     begin
       str_sql := 'UPDATE PAGAMENTO SET DP = 0 , USERID = ' + QuotedStr(idusuario);
-      str_sql := str_sql + ' ,HISTORICO = HISTORICO || ';
-      str_sql := str_sql + QuotedStr(' - ') + ' || ' + QuotedStr(Memo1.Text);
+      if (dm.cds_4_pagarHISTORICO.AsString <> '') then
+      begin
+        str_sql := str_sql + ' ,HISTORICO = HISTORICO || ';
+        str_sql := str_sql + QuotedStr(' - ') + ' || ' + QuotedStr(Memo1.Text);
+      end
+      else  begin
+        str_sql := str_sql + ' ,HISTORICO =  ';
+        str_sql := str_sql + QuotedStr(Memo1.Text);
+      end;
       str_sql := str_sql + ' WHERE CODPAGAMENTO = ';
       num := nrec[i - 1];
       str_sql := str_sql + IntToStr(num);
