@@ -571,7 +571,11 @@ begin
   dm.cds_parametro.Open;
   if (not dm.cds_parametro.IsEmpty) then
     dbeUsuario.Text := dm.cds_parametroDADOS.AsString;
-  DM_MOV.c_vendaCODVENDEDOR.AsInteger := StrToInt(dm.cds_parametroDADOS.AsString);
+  try
+    DM_MOV.c_vendaCODVENDEDOR.AsInteger := StrToInt(dm.cds_parametroDADOS.AsString);
+  except
+    DM_MOV.c_vendaCODVENDEDOR.AsInteger := 1;
+  end;
   dm.cds_parametro.Close;
   { ---- 06 ----}
   dbeUsuario.SetFocus;
