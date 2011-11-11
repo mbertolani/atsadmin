@@ -1,8 +1,8 @@
 object fProcura_prod: TfProcura_prod
-  Left = 0
+  Left = 22
   Top = 0
-  Width = 807
-  Height = 728
+  Width = 811
+  Height = 562
   Caption = 'Lista de Produtos'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -28,10 +28,145 @@ object fProcura_prod: TfProcura_prod
     Caption = 'Marca'
     PopupMenu = PopupMenu1
   end
+  object Panel2: TPanel
+    Left = 1
+    Top = 59
+    Width = 790
+    Height = 89
+    BevelOuter = bvLowered
+    PopupMenu = PopupMenu1
+    TabOrder = 0
+    TabStop = True
+    Visible = False
+    OnClick = BitBtn1Click
+    object Label11: TLabel
+      Left = 9
+      Top = 18
+      Width = 103
+      Height = 13
+      Caption = 'Descri'#231#227'o do Produto'
+      PopupMenu = PopupMenu1
+    end
+    object Label12: TLabel
+      Left = 418
+      Top = 18
+      Width = 55
+      Height = 13
+      Caption = 'Quantidade'
+      PopupMenu = PopupMenu1
+    end
+    object Label13: TLabel
+      Left = 500
+      Top = 18
+      Width = 49
+      Height = 13
+      Caption = 'Valor Unit.'
+      PopupMenu = PopupMenu1
+    end
+    object Label14: TLabel
+      Left = 582
+      Top = 19
+      Width = 51
+      Height = 13
+      Caption = 'Valor Total'
+    end
+    object EvDBFind1: TEvDBFind
+      Left = 8
+      Top = 33
+      Width = 401
+      Height = 24
+      DataField = 'PRODUTO'
+      DataSource = Dtsrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnChange = EvDBFind1Change
+      OnExit = EvDBFind1Exit
+      OnKeyPress = FormKeyPress
+    end
+    object BitBtn4: TBitBtn
+      Left = 674
+      Top = 33
+      Width = 52
+      Height = 25
+      Caption = 'Adiciona'
+      PopupMenu = PopupMenu1
+      TabOrder = 4
+      OnClick = BitBtn4Click
+    end
+    object BitBtn5: TBitBtn
+      Left = 726
+      Top = 33
+      Width = 52
+      Height = 25
+      Caption = 'Novo'
+      Enabled = False
+      PopupMenu = PopupMenu1
+      TabOrder = 5
+      OnClick = BitBtn5Click
+    end
+    object Edit4: TJvCalcEdit
+      Left = 498
+      Top = 33
+      Width = 70
+      Height = 24
+      DisplayFormat = ',##0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ShowButton = False
+      TabOrder = 2
+      DecimalPlacesAlwaysShown = False
+      OnExit = Edit4Exit
+      OnKeyPress = FormKeyPress
+    end
+    object Edit2: TJvCalcEdit
+      Left = 571
+      Top = 33
+      Width = 101
+      Height = 24
+      DisplayFormat = ',##0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      DecimalPlacesAlwaysShown = False
+      OnExit = Edit2Exit
+      OnKeyPress = FormKeyPress
+    end
+    object Edit3: TJvCalcEdit
+      Left = 413
+      Top = 33
+      Width = 81
+      Height = 24
+      DisplayFormat = ',##0.0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ShowButton = False
+      TabOrder = 1
+      DecimalPlacesAlwaysShown = False
+      OnExit = Edit3Exit
+      OnKeyPress = FormKeyPress
+    end
+  end
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 791
+    Width = 803
     Height = 90
     Align = alTop
     BevelInner = bvLowered
@@ -276,141 +411,6 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 10
     end
   end
-  object Panel2: TPanel
-    Left = 1
-    Top = 59
-    Width = 790
-    Height = 89
-    BevelOuter = bvLowered
-    PopupMenu = PopupMenu1
-    TabOrder = 0
-    TabStop = True
-    Visible = False
-    OnClick = BitBtn1Click
-    object Label11: TLabel
-      Left = 9
-      Top = 18
-      Width = 103
-      Height = 13
-      Caption = 'Descri'#231#227'o do Produto'
-      PopupMenu = PopupMenu1
-    end
-    object Label12: TLabel
-      Left = 418
-      Top = 18
-      Width = 55
-      Height = 13
-      Caption = 'Quantidade'
-      PopupMenu = PopupMenu1
-    end
-    object Label13: TLabel
-      Left = 500
-      Top = 18
-      Width = 49
-      Height = 13
-      Caption = 'Valor Unit.'
-      PopupMenu = PopupMenu1
-    end
-    object Label14: TLabel
-      Left = 582
-      Top = 19
-      Width = 51
-      Height = 13
-      Caption = 'Valor Total'
-    end
-    object EvDBFind1: TEvDBFind
-      Left = 8
-      Top = 33
-      Width = 401
-      Height = 24
-      DataField = 'PRODUTO'
-      DataSource = Dtsrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 0
-      OnChange = EvDBFind1Change
-      OnExit = EvDBFind1Exit
-      OnKeyPress = FormKeyPress
-    end
-    object BitBtn4: TBitBtn
-      Left = 674
-      Top = 33
-      Width = 52
-      Height = 25
-      Caption = 'Adiciona'
-      PopupMenu = PopupMenu1
-      TabOrder = 4
-      OnClick = BitBtn4Click
-    end
-    object BitBtn5: TBitBtn
-      Left = 726
-      Top = 33
-      Width = 52
-      Height = 25
-      Caption = 'Novo'
-      Enabled = False
-      PopupMenu = PopupMenu1
-      TabOrder = 5
-      OnClick = BitBtn5Click
-    end
-    object Edit4: TJvCalcEdit
-      Left = 498
-      Top = 33
-      Width = 70
-      Height = 24
-      DisplayFormat = ',##0.00'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      ShowButton = False
-      TabOrder = 2
-      DecimalPlacesAlwaysShown = False
-      OnExit = Edit4Exit
-      OnKeyPress = FormKeyPress
-    end
-    object Edit2: TJvCalcEdit
-      Left = 571
-      Top = 33
-      Width = 101
-      Height = 24
-      DisplayFormat = ',##0.00'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 3
-      DecimalPlacesAlwaysShown = False
-      OnExit = Edit2Exit
-      OnKeyPress = FormKeyPress
-    end
-    object Edit3: TJvCalcEdit
-      Left = 413
-      Top = 33
-      Width = 81
-      Height = 24
-      DisplayFormat = ',##0.0'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      ShowButton = False
-      TabOrder = 1
-      DecimalPlacesAlwaysShown = False
-      OnExit = Edit3Exit
-      OnKeyPress = FormKeyPress
-    end
-  end
   object DBGrid1: TDBGrid
     Left = 0
     Top = 149
@@ -438,14 +438,14 @@ object fProcura_prod: TfProcura_prod
         Expanded = False
         FieldName = 'CODPRO'
         Title.Caption = 'C'#243'digo'
-        Width = 80
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRODUTO'
         Title.Caption = 'Descri'#231#227'o do Produto'
-        Width = 270
+        Width = 400
         Visible = True
       end
       item
@@ -484,25 +484,28 @@ object fProcura_prod: TfProcura_prod
         Expanded = False
         FieldName = 'GRUPO'
         Title.Caption = 'Grupo'
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MARCA'
         Title.Caption = 'Marca'
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SUBGRUPO'
         Title.Caption = 'SubGrupo'
+        Width = 120
         Visible = True
       end>
   end
   object DBGrid2: TDBGrid
     Left = 702
     Top = 149
-    Width = 89
+    Width = 99
     Height = 318
     Color = clCream
     DataSource = DataSource1
@@ -523,10 +526,10 @@ object fProcura_prod: TfProcura_prod
   end
   object DBGrid3: TDBGrid
     Left = 0
-    Top = 625
-    Width = 791
+    Top = 468
+    Width = 799
     Height = 65
-    Align = alBottom
+    Align = alCustom
     Color = clCream
     DataSource = DataSource2
     PopupMenu = PopupMenu1
@@ -547,7 +550,7 @@ object fProcura_prod: TfProcura_prod
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 791
+    Width = 803
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
