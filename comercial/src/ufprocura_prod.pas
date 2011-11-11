@@ -341,8 +341,8 @@ end;
 
 procedure TfProcura_prod.FormShow(Sender: TObject);
 begin
-  if (procprod <> 'PROC_PROD_COMPLETO') then
-    CheckBox1.Checked := True;
+  //if (procprod <> 'PROC_PROD_COMPLETO') then
+  //  CheckBox1.Checked := True;
 
   if (not dm.cds_Marca.Active) then
     dm.cds_Marca.Open;
@@ -476,10 +476,10 @@ begin
 
 {  ***** Comentei pois nao e usado mais - Carlos 09/08/2006 ****}
 
-  if edCodigo.Text <> '' then
-    varCondicao := QuotedStr(edCodigo.Text)
-  else
-    varCondicao := QuotedStr('TODOSPRODUTOS');
+  //if edCodigo.Text <> '' then
+  //  varCondicao := QuotedStr(edCodigo.Text)
+  //else
+  varCondicao := QuotedStr('TODOSPRODUTOS');  // Carrega todos e abaixo coloquei para fazer a busca pelo codigo.
 
   if cbFamilia.Text <> '' then
     varCondicao := varCondicao + ', ' + QuotedStr(cbFamilia.Text)
@@ -592,6 +592,15 @@ begin
       varCondicaoA := 'where USA = ' + QuotedStr('N') ;
   end;
 
+  if (edCodigo.Text <> '') then
+  begin
+    if varCondicaoA <> '' then
+      varCondicaoA :=  varCondicaoA + ' and CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%')
+    else
+      varCondicaoA :=  ' WHERE CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%');
+  end;
+
+
   if Edit1.Text <> '' then
     if varCondicaoA <> '' then
     begin
@@ -680,7 +689,7 @@ procedure TfProcura_prod.DBGrid1DrawColumnCell(Sender: TObject;
   State: TGridDrawState);
 begin
   if not odd(cds_proc.RecNo) then // se for impar
-  // se a coluna � est� selecionada
+  // se a coluna nao estiver selecionada
    if not (gdSelected in State) then
    begin
     //define uma COR DE FUNDO
@@ -733,7 +742,7 @@ begin
     formnotaf;
   if (var_F = 'formnfCompra') then
     formnfCompra;
-  //vejo se usa pre�o p�r Fornecedor
+  //vejo se usa preco por Fornecedor
   if (var_F = 'Lista') then
   begin
     if (fCompra.usaprecolista = 'S') then
