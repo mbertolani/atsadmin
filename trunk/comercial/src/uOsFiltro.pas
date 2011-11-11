@@ -217,7 +217,9 @@ begin
       fOs.modoOs := 'Edit';
       fOs.cdsOS.Edit;
     end;
+    fOs.carregaCampos;
   end;
+
   fOs.ShowModal;
 end;
 
