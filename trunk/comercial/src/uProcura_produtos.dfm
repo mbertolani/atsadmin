@@ -139,6 +139,11 @@ object fProcura_produtos: TfProcura_produtos
         FieldName = 'LOCALIZACAO'
         Title.Caption = 'Local Estoque'
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS'
+        Visible = True
       end>
   end
   object Panel2: TPanel
@@ -1764,6 +1769,10 @@ object fProcura_produtos: TfProcura_produtos
     object Exportar1: TMenuItem
       Caption = 'Exportar'
       OnClick = Exportar1Click
+    end
+    object Importar1: TMenuItem
+      Caption = 'Importar'
+      OnClick = Importar1Click
     end
   end
   object DataSource1: TDataSource

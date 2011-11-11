@@ -180,6 +180,7 @@ type
     SaveDialog1: TSaveDialog;
     Exportar1: TMenuItem;
     DBGrid1: TJvDBGrid;
+    Importar1: TMenuItem;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -228,6 +229,7 @@ type
     procedure JvDBGrid1KeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure JvDBGrid1TitleClick(Column: TColumn);
+    procedure Importar1Click(Sender: TObject);
   private
     { Private declarations }
     Data: TJvCsvDataSet;
@@ -268,7 +270,8 @@ uses
   UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   uEntra_Sai_estoque, uLotes, uLotesCadastro,
   ufDlgLogin, uProdFornecedor, uTerminalLoja, uProduto_Mat_prima,
-  sCtrlResize, uTerminal_Delivery, UDMNF, uNF, uClassificacaoFiscalProduto;
+  sCtrlResize, uTerminal_Delivery, UDMNF, uNF, uClassificacaoFiscalProduto,
+  uImport;
 
 {$R *.dfm}
 
@@ -1671,6 +1674,16 @@ begin
   Data.Active := true;
   Data.Sort('Filename,Type,Attributes,Size', true);
   DataSource1.Dataset := Data;
+end;
+
+procedure TfProcura_produtos.Importar1Click(Sender: TObject);
+begin
+   fImport := TfImport.Create(Application);
+   try
+     fImport.ShowModal;
+   finally
+     fImport.Free;
+   end;
 end;
 
 end.
