@@ -20,8 +20,8 @@ object fAtsOS: TfAtsOS
   object Image1: TImage
     Left = 165
     Top = 35
-    Width = 613
-    Height = 335
+    Width = 605
+    Height = 324
     Align = alClient
     Center = True
     Picture.Data = {
@@ -27781,8 +27781,8 @@ object fAtsOS: TfAtsOS
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 370
-    Width = 778
+    Top = 359
+    Width = 770
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -27806,7 +27806,7 @@ object fAtsOS: TfAtsOS
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 778
+    Width = 770
     Height = 35
     Align = alTop
     TabOrder = 1
@@ -27819,7 +27819,7 @@ object fAtsOS: TfAtsOS
     object RxLabel1: TRxLabel
       Left = 1
       Top = 1
-      Width = 776
+      Width = 768
       Height = 33
       Align = alClient
       Alignment = taCenter
@@ -27839,7 +27839,7 @@ object fAtsOS: TfAtsOS
     Left = 0
     Top = 35
     Width = 165
-    Height = 335
+    Height = 324
     Align = alLeft
     Pages = <
       item
@@ -53684,7 +53684,6 @@ object fAtsOS: TfAtsOS
     end
   end
   object UserControlAuto: TUserControl
-    AutoStart = True
     ApplicationID = 'financeiro'
     ControlRight.ActionList = ActuserAcesso
     User.Action = usuarios
