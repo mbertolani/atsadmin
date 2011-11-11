@@ -7,7 +7,9 @@ uses
   Dialogs, FMTBcd, DBCtrls, StdCtrls, Grids, DBGrids, Buttons, ExtCtrls,
   Menus, DB, DBClient, Provider, SqlExpr, XPMenu, MMJPanel, EDBFind,
   rpcompobase, rpvclreport, JvExStdCtrls, JvCombobox, JvDBSearchComboBox,
-  JvEdit, JvValidateEdit, Mask, JvExMask, JvToolEdit, JvBaseEdits;
+  JvEdit, JvValidateEdit, Mask, JvExMask, JvToolEdit, JvBaseEdits,
+  JvBaseDlg, JvProgressDialog, JvExDBGrids, JvDBGrid,
+  JvComponent, JvDBGridExport, JvCsvData;
 
 type
   TfProcura_produtos = class(TForm)
@@ -65,7 +67,6 @@ type
     cds_proc2: TClientDataSet;
     cds_proc2USO: TStringField;
     DataSource2: TDataSource;
-    DBGrid1: TDBGrid;
     MMJPanel1: TMMJPanel;
     sds_parametro: TSQLDataSet;
     sds_parametroDESCRICAO: TStringField;
@@ -175,6 +176,10 @@ type
     cbLocal: TJvComboBox;
     panRelatorio: TPanel;
     RadioGroup1: TRadioGroup;
+    JvProgressDialog1: TJvProgressDialog;
+    SaveDialog1: TSaveDialog;
+    Exportar1: TMenuItem;
+    DBGrid1: TJvDBGrid;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -215,8 +220,17 @@ type
     procedure DBGrid1DblClick(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
+    procedure Exportar1Click(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure JvDBGrid1DblClick(Sender: TObject);
+    procedure JvDBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure JvDBGrid1KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure JvDBGrid1TitleClick(Column: TColumn);
   private
     { Private declarations }
+    Data: TJvCsvDataSet;
     procedure precolista1;
     procedure formcompra;
     procedure formvenda;
@@ -230,6 +244,10 @@ type
     procedure formcadproduto;
     procedure formnotaf;
     procedure formnfCompra;
+    procedure DoExportProgress(Sender: TObject; Min, Max, Position: Cardinal; const AText: string;
+      var AContinue: Boolean);
+    procedure SetupData;
+    procedure SaveDoc(AExportClass: TJvCustomDBGridExportClass; const Filename: string);    
 
   public
     { Public declarations }
@@ -241,10 +259,13 @@ var
   fProcura_produtos: TfProcura_produtos;
   codprodxa: Integer;
   varonde, var_F, imp, PRODUTO_DESC: string;
+  varSql1, varSql2, varCondicao : string;
 
 implementation
 
-uses UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
+uses
+  ShellAPI, ShlObj, CommDlg, Dlgs, JvTypes, JvJVCLUtils, JvJCLUtils,
+  UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   uEntra_Sai_estoque, uLotes, uLotesCadastro,
   ufDlgLogin, uProdFornecedor, uTerminalLoja, uProduto_Mat_prima,
   sCtrlResize, uTerminal_Delivery, UDMNF, uNF, uClassificacaoFiscalProduto;
@@ -1524,6 +1545,132 @@ begin
     end;
   end;
   panRelatorio.Visible := False;
+end;
+
+procedure TfProcura_produtos.Exportar1Click(Sender: TObject);
+begin
+  if SaveDialog1.Execute then
+  begin
+    case SaveDialog1.FilterIndex of
+      1: SaveDoc(TJvDBGridWordExport, SaveDialog1.Filename);
+      2: SaveDoc(TJvDBGridExcelExport, SaveDialog1.Filename);
+      3: SaveDoc(TJvDBGridHTMLExport, SaveDialog1.Filename);
+      4: SaveDoc(TJvDBGridCSVExport, SaveDialog1.Filename);
+      5: SaveDoc(TJvDBGridXMLExport, SaveDialog1.Filename);
+    end;
+    // Open doc in default app
+    //if mnuOpenFile.Checked then
+      ShellExecute(Handle, 'open', PChar(SaveDialog1.Filename), nil, nil, SW_SHOWNORMAL);
+  end;
+end;
+
+procedure TfProcura_produtos.JvDBGrid1CellClick(Column: TColumn);
+begin
+ // C�digos
+ varSql1 := 'select distinct cod.CODIGO ' +
+   'from PRODUTOS pro ' +
+   'left outer join CODIGOS cod on cod.COD_PRODUTO = pro.CODPRODUTO ' +
+   'left outer join USO_PRODUTO uso on uso.COD_PRODUTO = pro.CODPRODUTO ';
+
+ // Uso
+ varSql2 := 'select DISTINCT uso.DESCRICAO as USO ' +
+   'from PRODUTOS pro ' +
+   'left outer join CODIGOS cod on cod.COD_PRODUTO = pro.CODPRODUTO ' +
+   'left outer join USO_PRODUTO uso on uso.COD_PRODUTO = pro.CODPRODUTO ';
+
+  varCondicao := 'where pro.CODPRO like ' + '''' + cds_procCODPRO.AsString + '%' + '''';
+
+ if cds_proc1.Active then
+   cds_proc1.Close;
+ cds_proc1.CommandText := varSql1 + varCondicao;
+ cds_proc1.Open;
+ cds_proc1.CommandText := varSql1;
+
+ if cds_proc2.Active then
+   cds_proc2.Close;
+ cds_proc2.CommandText := varSql2 + varCondicao;
+ cds_proc2.Open;
+ cds_proc2.CommandText := varSql2;
+
+ Edit3.Text := '1';
+ if var_F = 'venda' then
+  Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
+ if var_F = 'compra' then
+  Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+end;
+
+procedure TfProcura_produtos.JvDBGrid1DblClick(Sender: TObject);
+begin
+  btnIncluir.Click;
+end;
+
+procedure TfProcura_produtos.JvDBGrid1KeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+ if var_F = 'venda' then
+  Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
+ if var_F = 'compra' then
+  Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+end;
+
+procedure TfProcura_produtos.JvDBGrid1KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+ if var_F = 'venda' then
+  Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
+ if var_F = 'compra' then
+  Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+end;
+
+procedure TfProcura_produtos.JvDBGrid1TitleClick(Column: TColumn);
+begin
+  cds_proc.IndexFieldNames:=Column.FieldName;
+end;
+
+procedure TfProcura_produtos.DoExportProgress(Sender: TObject; Min, Max,
+  Position: Cardinal; const AText: string; var AContinue: Boolean);
+begin
+  JvProgressDialog1.Min := Min;
+  JvProgressDialog1.Max := Max;
+  JvProgressDialog1.Position := Position;
+  JvProgressDialog1.Caption := AText;
+  if Max > 0 then
+    JvProgressDialog1.Text := Format('Exporting (%d%% finished)', [round(Position / Max * 100)]);
+  AContinue := not JvProgressDialog1.Cancelled;
+  if not AContinue or (Position >= Max) then
+    JvProgressDialog1.Hide;
+end;
+
+procedure TfProcura_produtos.SaveDoc(AExportClass: TJvCustomDBGridExportClass; const Filename: string);
+var
+  AExporter: TJvCustomDBGridExport;
+begin
+  AExporter := AExportClass.Create(self);
+  try
+    AExporter.Grid := DBGrid1;
+    if AExporter is TJvDBGridCSVExport then
+      TJvDBGridCSVExport(AExporter).ExportSeparator := esComma; // this to be compatible with JvCsvData
+    AExporter.Filename := Filename;
+    AExporter.OnProgress := DoExportProgress;
+    JvProgressDialog1.Caption := AExporter.Caption;
+    JvProgressDialog1.Show;
+    AExporter.ExportGrid;
+  finally
+    AExporter.Free;
+  end;
+end;
+
+procedure TfProcura_produtos.SetupData;
+begin
+  Data.CsvFieldDef := 'Filename:$255,Size:%,Attributes:$64,Type:$255';
+//  Data.FieldDefs.Add('Filename', ftString, 255, false);
+//  Data.FieldDefs.Add('Size', ftInteger, 0, false);
+//  Data.FieldDefs.Add('Attributes', ftString, 64, false);
+//  Data.FieldDefs.Add('Type', ftString, 255, false);
+  Data.Filename := ExtractFilePath(Application.Exename) + 'TestData.csv';
+  Data.Active := true;
+  Data.Sort('Filename,Type,Attributes,Size', true);
+  DataSource1.Dataset := Data;
 end;
 
 end.
