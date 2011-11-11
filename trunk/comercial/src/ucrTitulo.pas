@@ -329,8 +329,16 @@ begin
     //Verifica se é cheque pre-datado e baixando o título
     for i:=1 to length(nrec) do
     begin
-      str_sql := 'UPDATE RECEBIMENTO SET DP = 0, HISTORICO = HISTORICO || ';
-      str_sql := str_sql + QuotedStr(' - ') + ' || ' + QuotedStr(Memo1.Text);
+      str_sql := 'UPDATE RECEBIMENTO SET DP = 0 ';
+      if (dm.cds_crHISTORICO.AsString <> '') then
+      begin
+        str_sql := str_sql + ' ,HISTORICO = HISTORICO || ';
+        str_sql := str_sql + QuotedStr(' - ') + ' || ' + QuotedStr(Memo1.Text);
+      end
+      else  begin
+        str_sql := str_sql + ' ,HISTORICO =  ';
+        str_sql := str_sql + QuotedStr(Memo1.Text);
+      end;
       str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
       num := nrec[i - 1];
       str_sql := str_sql + IntToStr(num);
