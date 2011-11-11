@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
   Left = 261
   Top = 24
-  Width = 873
-  Height = 581
+  Width = 865
+  Height = 570
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -232,7 +232,7 @@ object fNFeletronica: TfNFeletronica
       object Label3: TLabel
         Left = 2
         Top = 13
-        Width = 115
+        Width = 119
         Height = 16
         Caption = 'Centro de Custo :'
         Font.Charset = DEFAULT_CHARSET
@@ -867,8 +867,8 @@ object fNFeletronica: TfNFeletronica
         Caption = 'DPEC'
         TabOrder = 0
         object btnDpec: TBitBtn
-          Left = 111
-          Top = 32
+          Left = 51
+          Top = 64
           Width = 91
           Height = 36
           Caption = 'Gerar NF-e'
@@ -877,8 +877,8 @@ object fNFeletronica: TfNFeletronica
           OnClick = btnDpecClick
         end
         object btnPreVisDPEC: TBitBtn
-          Left = 10
-          Top = 32
+          Left = 50
+          Top = 16
           Width = 91
           Height = 36
           Caption = 'Pr'#233' Visualizar'
@@ -887,13 +887,22 @@ object fNFeletronica: TfNFeletronica
           OnClick = btnPreVisDPECClick
         end
         object BitBtn1: TBitBtn
-          Left = 209
-          Top = 32
+          Left = 185
+          Top = 16
           Width = 91
           Height = 36
           Caption = 'Consulta DPEC'
           TabOrder = 2
           OnClick = BitBtn1Click
+        end
+        object BitBtn2: TBitBtn
+          Left = 185
+          Top = 64
+          Width = 91
+          Height = 36
+          Caption = 'Enviar XML'
+          TabOrder = 3
+          OnClick = btnValidaXMLClick
         end
       end
     end
@@ -908,7 +917,7 @@ object fNFeletronica: TfNFeletronica
         Caption = 'Conting'#234'ncia FSDA'
         TabOrder = 0
         object btnFSDA: TBitBtn
-          Left = 156
+          Left = 116
           Top = 32
           Width = 91
           Height = 36
@@ -918,7 +927,7 @@ object fNFeletronica: TfNFeletronica
           OnClick = btnFSDAClick
         end
         object btnPreVisFSDA: TBitBtn
-          Left = 42
+          Left = 18
           Top = 32
           Width = 91
           Height = 36
@@ -926,6 +935,15 @@ object fNFeletronica: TfNFeletronica
           Enabled = False
           TabOrder = 1
           OnClick = btnPreVisFSDAClick
+        end
+        object BitBtn3: TBitBtn
+          Left = 213
+          Top = 32
+          Width = 91
+          Height = 36
+          Caption = 'Enviar XML'
+          TabOrder = 2
+          OnClick = btnValidaXMLClick
         end
       end
     end
@@ -3335,7 +3353,6 @@ object fNFeletronica: TfNFeletronica
     RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
     EspessuraBorda = 1
     TamanhoFonte_RazaoSocial = 12
-    TamanhoFonte_ANTT = 10
     Left = 457
     Top = 317
   end
