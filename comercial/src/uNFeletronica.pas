@@ -566,6 +566,8 @@ type
     btnCancelaNFe: TBitBtn;
     btnInutilizar: TBitBtn;
     btnValidaXML: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -619,7 +621,7 @@ implementation
 
 uses pcnNFe, ACBrNFeNotasFiscais, DateUtils, ACBrNFeUtil, UDm,
  ACBrNFeWebServices, uNFeInutilizar, ACBrNFeConfiguracoes, sCtrlResize,
-  uNFeMail, uNotaf, uVendaFinalizar, uVendas, StrUtils;
+  uNFeMail, uNotaf, uVendaFinalizar, uVendas, StrUtils, UDMNF;
 
 {$R *.dfm}
 
@@ -1672,11 +1674,20 @@ end;
 
 procedure TfNFeletronica.btnSairVendaClick(Sender: TObject);
 begin
-  fNotaf.Close;
-  fVendaFinalizar.Close;
-  fVendas.btnIncluir.Click;
-  fVendas.btnCancelar.Click;
-  Close;
+  if (dmnf.FormExiste(fVendas) = True) then
+  begin
+    if (dmnf.FormExiste(fVendaFinalizar) = True) then
+    begin
+      if (dmnf.FormExiste(fNotaf) = True) then
+      begin
+        fNotaf.Close;
+        fVendaFinalizar.Close;
+        fVendas.btnIncluir.Click;
+        fVendas.btnCancelar.Click;
+        Close;
+      end;
+    end;
+  end;
 end;
 
 procedure TfNFeletronica.btnSairClick(Sender: TObject);
@@ -2029,7 +2040,7 @@ begin
             CST   := cof99;
 
           vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCSTCOFINS.AsVariant;
+          pCOFINS  := sCFOPCOFINS.AsVariant;
           vCOFINS  := cdsItensNFVALOR_COFINS.AsVariant;
         end;
       end;
