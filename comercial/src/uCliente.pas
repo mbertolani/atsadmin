@@ -35,6 +35,8 @@ type
     procedure setRazaoSocial(const Value: String);
     function getEndereco: TEnderecos;
     procedure setEndereco(const Value: TEnderecos);
+    function getReferencia: String;
+    procedure setReferencia(const Value: String);
   protected
     //Atributos
     _codCli          : Integer;
@@ -49,6 +51,7 @@ type
     _cnpj            : String;
     _inscEstadual    : String;
     _obs             : String;
+    _referencia      : String;
     _dataCadastro    : TDateTime;
     _dataNasc        : TDateTime;
     _endereco        : TEnderecos;
@@ -65,6 +68,7 @@ type
     property Cnpj        : String read getCnpj write setCnpj;
     property InscEstadual: String read getInscEstadual write setInscEstadual;
     property Obs         : String read getObs write setObs;
+    property Referencia  : String read getReferencia write setReferencia;
     property DataCadastro: TDateTime read getDataCadastro write setDataCadastro;
     property DataNasc    : TDateTime read getDataNasc write setDataNasc;
     property Endereco    : TEnderecos read getEndereco write setEndereco;
@@ -99,9 +103,11 @@ begin
   sqlAlt := sqlAlt + ' CNPJ         = ' + QuotedStr(Self.Cnpj) + ', ';
   sqlAlt := sqlAlt + ' INSCESTADUAL = ' + QuotedStr(Self.InscEstadual) + ', ';
   sqlAlt := sqlAlt + ' DATACADASTRO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataCadastro)) + ', ';
+  sqlAlt := sqlAlt + ' DATANASC     = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataNasc)) + ', ';
   sqlAlt := sqlAlt + ' CODUSUARIO   = ' + IntToStr(Self.CodUsuario) + ', ';
   sqlAlt := sqlAlt + ' STATUS       = ' + IntToStr(Self.Status) + ', ';
-  sqlAlt := sqlAlt + ' TIPOFIRMA    = ' + IntToStr(Self.TipoFirma);
+  sqlAlt := sqlAlt + ' TIPOFIRMA    = ' + IntToStr(Self.TipoFirma) + ', ';
+  sqlAlt := sqlAlt + ' MARCA        = ' + QuotedStr(Self.Referencia);
   sqlAlt := sqlAlt + ' WHERE CODCLIENTE = ' + IntToStr(codCliA);
   Result := executaSql(sqlAlt);
 end;
@@ -200,6 +206,11 @@ begin
     Result := Trim(_nomeCliente);
 end;
 
+function TCliente.getReferencia: String;
+begin
+  Result := _referencia;
+end;
+
 function TCliente.getStatus: Smallint;
 begin
   Result := _status;
@@ -227,7 +238,8 @@ begin
   sqlInc := 'INSERT INTO CLIENTES (';
   sqlInc := sqlInc + ' CODCLIENTE,   NOMECLIENTE,  RAZAOSOCIAL, CONTATO,';
   sqlInc := sqlInc + ' CNPJ,         INSCESTADUAL, SEGMENTO,    REGIAO, ';
-  sqlInc := sqlInc + ' DATACADASTRO, CODUSUARIO,   STATUS,      TIPOFIRMA)';
+  sqlInc := sqlInc + ' DATACADASTRO, DATANASC,     CODUSUARIO,  STATUS, ';
+  sqlInc := sqlInc + ' TIPOFIRMA, MARCA)';
   sqlInc := sqlInc + ' VALUES(';
   sqlInc := sqlInc + IntToStr(Self.CodCli) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.NomeCliente) + ', ';
@@ -236,9 +248,11 @@ begin
   sqlInc := sqlInc + QuotedStr(Self.Cnpj) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.InscEstadual) + ', 0, 0,';
   sqlInc := sqlInc + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataCadastro)) + ', ';
+  sqlInc := sqlInc + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataNasc)) + ', ';
   sqlInc := sqlInc + IntToStr(Self.CodUsuario) + ', ';
   sqlInc := sqlInc + IntToStr(Self.Status) + ', ';
-  sqlInc := sqlInc + IntToStr(Self.TipoFirma) + ')';
+  sqlInc := sqlInc + IntToStr(Self.TipoFirma) + ', ';
+  sqlInc := sqlInc + QuotedStr(Self.Referencia) + ')';
   try
     executaSql(sqlInc);
     Result := Self.CodCli;
@@ -304,6 +318,11 @@ end;
 procedure TCliente.setRazaoSocial(const Value: String);
 begin
   _razaoSocial := Value;
+end;
+
+procedure TCliente.setReferencia(const Value: String);
+begin
+  _referencia := Value;
 end;
 
 procedure TCliente.setStatus(const Value: Smallint);

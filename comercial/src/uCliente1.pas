@@ -357,6 +357,8 @@ begin
       FCli.DataCadastro:= Now;
       FCli.Contato     := cds_cliCONTATO.AsString;
       FCli.Status      := cds_cliSTATUS.AsInteger;
+      FCli.DataNasc    := cds_cliDATANASC.AsDateTime;
+      FCli.Referencia  := cds_cliMARCA.AsString;
 
       if (cCli = 0) then
       begin
