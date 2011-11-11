@@ -1,8 +1,8 @@
 object fProcura_ProdOficina: TfProcura_ProdOficina
   Left = 0
   Top = 0
-  Width = 820
-  Height = 640
+  Width = 812
+  Height = 642
   Caption = 'Lista de Produtos'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel2: TPanel
     Left = 0
     Top = 57
-    Width = 812
+    Width = 804
     Height = 89
     Align = alTop
     BevelOuter = bvLowered
@@ -40,31 +40,34 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
     object Label12: TLabel
       Left = 418
-      Top = 22
+      Top = -5
       Width = 55
       Height = 13
       Caption = 'Quantidade'
       PopupMenu = PopupMenu1
+      Visible = False
     end
     object Label13: TLabel
       Left = 500
-      Top = 22
+      Top = -5
       Width = 49
       Height = 13
       Caption = 'Valor Unit.'
       PopupMenu = PopupMenu1
+      Visible = False
     end
     object Label14: TLabel
       Left = 582
-      Top = 23
+      Top = -4
       Width = 51
       Height = 13
       Caption = 'Valor Total'
+      Visible = False
     end
     object EvDBFind1: TEvDBFind
       Left = 8
       Top = 33
-      Width = 401
+      Width = 793
       Height = 28
       DataField = 'PRODUTO'
       DataSource = Dtsrc
@@ -80,28 +83,30 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
     object BitBtn4: TBitBtn
       Left = 674
-      Top = 36
+      Top = 9
       Width = 52
       Height = 25
       Caption = 'Adiciona'
       PopupMenu = PopupMenu1
       TabOrder = 4
+      Visible = False
       OnClick = BitBtn4Click
     end
     object BitBtn5: TBitBtn
       Left = 726
-      Top = 36
+      Top = 9
       Width = 52
       Height = 25
       Caption = 'Novo'
       Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 5
+      Visible = False
       OnClick = BitBtn5Click
     end
     object Edit4: TJvCalcEdit
       Left = 498
-      Top = 37
+      Top = 10
       Width = 70
       Height = 24
       DisplayFormat = ',##0.00'
@@ -113,13 +118,14 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       ParentFont = False
       ShowButton = False
       TabOrder = 2
+      Visible = False
       DecimalPlacesAlwaysShown = False
       OnExit = Edit4Exit
       OnKeyPress = FormKeyPress
     end
     object Edit2: TJvCalcEdit
       Left = 571
-      Top = 37
+      Top = 10
       Width = 101
       Height = 24
       DisplayFormat = ',##0.00'
@@ -130,13 +136,14 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Font.Style = []
       ParentFont = False
       TabOrder = 3
+      Visible = False
       DecimalPlacesAlwaysShown = False
       OnExit = Edit2Exit
       OnKeyPress = FormKeyPress
     end
     object Edit3: TJvCalcEdit
       Left = 413
-      Top = 37
+      Top = 10
       Width = 81
       Height = 24
       DisplayFormat = ',##0.0'
@@ -148,6 +155,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       ParentFont = False
       ShowButton = False
       TabOrder = 1
+      Visible = False
       DecimalPlacesAlwaysShown = False
       OnExit = Edit3Exit
       OnKeyPress = FormKeyPress
@@ -156,7 +164,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel1: TPanel
     Left = 0
     Top = 146
-    Width = 812
+    Width = 804
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -394,8 +402,8 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object DBGrid1: TDBGrid
     Left = 0
     Top = 235
-    Width = 651
-    Height = 378
+    Width = 643
+    Height = 380
     Align = alClient
     Color = clCream
     DataSource = Dtsrc
@@ -420,14 +428,20 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
         Expanded = False
         FieldName = 'CODPRO'
         Title.Caption = 'C'#243'digo'
-        Width = 100
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRODUTO'
         Title.Caption = 'Descri'#231#227'o do Produto'
-        Width = 300
+        Width = 400
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADEMEDIDA'
+        Title.Caption = 'Unde'
         Visible = True
       end
       item
@@ -439,21 +453,9 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       end
       item
         Expanded = False
-        FieldName = 'PEDIDO'
-        Title.Caption = 'Pedido'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECOMEDIO'
-        Title.Caption = 'P. Custo(R$)'
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'QTDE_PCT'
-        Title.Caption = 'Qtde/Peso'
-        Width = 65
+        FieldName = 'PRECO_VENDA'
+        Title.Caption = 'V. Venda(R$)'
+        Width = 80
         Visible = True
       end
       item
@@ -465,33 +467,16 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       end
       item
         Expanded = False
-        FieldName = 'UNIDADEMEDIDA'
-        Title.Caption = 'Unde'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO_VENDA'
-        Title.Caption = 'V. Venda(R$)'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO_COMPRA'
-        Title.Caption = 'V. Compra(R$)'
-        Visible = False
-      end
-      item
-        Expanded = False
         FieldName = 'GRUPO'
         Title.Caption = 'Grupo'
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MARCA'
         Title.Caption = 'Marca'
+        Width = 120
         Visible = True
       end
       item
@@ -499,12 +484,19 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
         FieldName = 'SUBGRUPO'
         Title.Caption = 'SubGrupo'
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QTDE_PCT'
+        Title.Caption = 'Qtde/Peso'
+        Width = 65
+        Visible = True
       end>
   end
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 812
+    Width = 804
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -516,7 +508,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
     object btnIncluir: TBitBtn
-      Left = 164
+      Left = 564
       Top = 2
       Width = 80
       Height = 55
@@ -596,7 +588,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object BitBtn1: TBitBtn
-      Left = 244
+      Left = 644
       Top = 2
       Width = 80
       Height = 55
@@ -715,6 +707,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       PopupMenu = PopupMenu1
       TabOrder = 3
       TabStop = False
+      Visible = False
       OnClick = BitBtn2Click
       Glyph.Data = {
         1E070000424D1E070000000000003600000028000000160000001A0000000100
@@ -893,7 +886,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object SpeedButton1: TBitBtn
-      Left = 564
+      Left = 412
       Top = 2
       Width = 80
       Height = 55
@@ -901,6 +894,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       PopupMenu = PopupMenu1
       TabOrder = 6
       TabStop = False
+      Visible = False
       OnClick = SpeedButton1Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -1004,13 +998,14 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object SpeedButton4: TBitBtn
-      Left = 644
+      Left = 316
       Top = 2
       Width = 80
       Height = 55
       Caption = 'Ctrl+E-Etiquetas'
       PopupMenu = PopupMenu1
       TabOrder = 7
+      Visible = False
       OnClick = SpeedButton4Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -1248,6 +1243,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       PopupMenu = PopupMenu1
       TabOrder = 9
       TabStop = False
+      Visible = False
       OnClick = BitBtn3Click
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
@@ -1333,10 +1329,10 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
   end
   object DBGrid2: TDBGrid
-    Left = 651
+    Left = 643
     Top = 235
     Width = 161
-    Height = 378
+    Height = 380
     Align = alRight
     Color = clCream
     DataSource = DataSource2
