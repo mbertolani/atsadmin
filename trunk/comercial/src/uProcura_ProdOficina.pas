@@ -428,9 +428,9 @@ begin
 
 {  ***** Comentei pois nao e usado mais - Carlos 09/08/2006 ****}
 
-  if edCodigo.Text <> '' then
-    varCondicao := QuotedStr(edCodigo.Text)
-  else
+  //if edCodigo.Text <> '' then
+  //  varCondicao := QuotedStr(edCodigo.Text)
+  //else
     varCondicao := QuotedStr('TODOSPRODUTOS');
 
   if cbFamilia.Text <> '' then
@@ -511,6 +511,14 @@ begin
      varCondicaoA := varCondicaoA + ' or COD_BARRA = ' + '''' + s + '00001' + '''';
    end;
 
+  if (edCodigo.Text <> '') then
+  begin
+    if varCondicaoA <> '' then
+      varCondicaoA :=  varCondicaoA + ' and CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%')
+    else
+      varCondicaoA :=  ' WHERE CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%');
+  end;
+
  varCondicao1 := varSql1 + varCondicaoA + ' order by pro.PRODUTO ';
  varCond2 := varSql2 + varCondicaoA1;
  varCondicao := varSql + varCondicao + varCondicaoA + ' order by PRODUTO ';
@@ -566,12 +574,12 @@ end;
 
 procedure TfProcura_prodOficina.FormKeyPress(Sender: TObject; var Key: Char);
 begin
- if (key = #13) then
- begin
-   //bitBtn1.Click; 
-   key:= #0;
-   SelectNext((Sender as TwinControl),True,True);
- end;
+  if (key = #13) then
+  begin
+    bitBtn6.Click;   // Fecha a tela
+    //key:= #0;
+    //SelectNext((Sender as TwinControl),True,True);
+  end;
 end;
 
 procedure TfProcura_prodOficina.DBGrid1DrawColumnCell(Sender: TObject;
