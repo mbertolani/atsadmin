@@ -28047,11 +28047,18 @@ object fAtsOS: TfAtsOS
       item
         Buttons = <
           item
-            Caption = '&Controle Usuarios'
+            Action = usuarios
+            Caption = 'Usuarios'
             ImageIndex = 23
             Tag = 0
             AutoToggle = False
-            OnClick = JvOutlookBar1Pages5Buttons0Click
+          end
+          item
+            Action = Logoof
+            Caption = 'Logoof'
+            ImageIndex = 6
+            Tag = 0
+            AutoToggle = False
           end
           item
             Caption = '&Parametros'
@@ -28099,7 +28106,7 @@ object fAtsOS: TfAtsOS
       end>
     LargeImages = ImageList2
     PageButtonHeight = 34
-    ActivePageIndex = 1
+    ActivePageIndex = 5
     BorderStyle = bsNone
     Color = clWindow
     Font.Charset = ANSI_CHARSET
@@ -53663,5 +53670,62 @@ object fAtsOS: TfAtsOS
       FFFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000000000000000000
       000000000000}
+  end
+  object ActuserAcesso: TActionList
+    Left = 209
+    Top = 145
+    object usuarios: TAction
+      Category = 'acessos'
+      Caption = 'Usuarios'
+    end
+    object Logoof: TAction
+      Category = 'acessos'
+      Caption = 'Logoof'
+    end
+  end
+  object UserControlAuto: TUserControl
+    AutoStart = True
+    ApplicationID = 'financeiro'
+    ControlRight.ActionList = ActuserAcesso
+    User.Action = usuarios
+    UserPasswordChange.Action = usuarios
+    UsersLogoff.Action = Logoof
+    LogControl.TableLog = 'UCLog'
+    Language = ucPortuguesBr
+    EncryptKey = 0
+    Login.InitialLogin.User = 'adm'
+    Login.InitialLogin.Email = 'usercontrol@usercontrol.net'
+    Login.InitialLogin.Password = '321'
+    Login.MaxLoginAttempts = 0
+    ExtraRights = <>
+    TableUsers.FieldUserID = 'UCIdUser'
+    TableUsers.FieldUserName = 'UCUserName'
+    TableUsers.FieldLogin = 'UCLogin'
+    TableUsers.FieldPassword = 'UCPassword'
+    TableUsers.FieldEmail = 'UCEmail'
+    TableUsers.FieldPrivileged = 'UCPrivileged'
+    TableUsers.FieldTypeRec = 'UCTypeRec'
+    TableUsers.FieldProfile = 'UCProfile'
+    TableUsers.FieldKey = 'UCKey'
+    TableUsers.FieldDateExpired = 'UCPASSEXPIRED'
+    TableUsers.FieldUserExpired = 'UCUserExpired'
+    TableUsers.FieldUserDaysSun = 'UCUserDaysSun'
+    TableUsers.FieldUserInative = 'UCInative'
+    TableUsers.TableName = 'UCTabUsers'
+    TableRights.FieldUserID = 'UCIdUser'
+    TableRights.FieldModule = 'UCModule'
+    TableRights.FieldComponentName = 'UCCompName'
+    TableRights.FieldFormName = 'UCFormName'
+    TableRights.FieldKey = 'UCKey'
+    TableRights.TableName = 'UCTabRights'
+    TableUsersLogged.FieldLogonID = 'UCIdLogon'
+    TableUsersLogged.FieldUserID = 'UCIdUser'
+    TableUsersLogged.FieldApplicationID = 'UCApplicationId'
+    TableUsersLogged.FieldMachineName = 'UCMachineName'
+    TableUsersLogged.FieldData = 'UCData'
+    TableUsersLogged.TableName = 'UCTabUsersLogged'
+    DataConnector = DM.UCDBXConnFinanceiro
+    Left = 257
+    Top = 273
   end
 end
