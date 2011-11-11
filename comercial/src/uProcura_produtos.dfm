@@ -1,7 +1,7 @@
 object fProcura_produtos: TfProcura_produtos
   Left = 0
   Top = 0
-  Width = 802
+  Width = 810
   Height = 577
   Caption = 'Lista de Produtos'
   Color = clBtnFace
@@ -20,11 +20,133 @@ object fProcura_produtos: TfProcura_produtos
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object DBGrid1: TJvDBGrid
+    Left = 0
+    Top = 232
+    Width = 794
+    Height = 307
+    Align = alClient
+    BorderStyle = bsNone
+    Color = clWhite
+    DataSource = Dtsrc
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
+    ParentFont = False
+    TabOrder = 5
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Shell Dlg 2'
+    TitleFont.Style = []
+    OnCellClick = JvDBGrid1CellClick
+    OnDblClick = JvDBGrid1DblClick
+    OnKeyDown = JvDBGrid1KeyDown
+    OnKeyUp = JvDBGrid1KeyUp
+    OnTitleClick = JvDBGrid1TitleClick
+    MultiSelect = True
+    TitleButtons = True
+    BevelKind = bkFlat
+    SortedField = 'Filename'
+    TitleArrow = True
+    MinColumnWidth = 100
+    AutoSizeColumns = True
+    AutoSizeColumnIndex = -2
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.RealNamesOption = '[With the real field name]'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Color = clAqua
+        Expanded = False
+        FieldName = 'CODPRODUTO'
+        Title.Caption = 'Sequencial'
+        Visible = False
+      end
+      item
+        Color = clAqua
+        Expanded = False
+        FieldName = 'CODPRO'
+        Title.Caption = 'C'#243'digo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRODUTO'
+        Title.Caption = 'Descri'#231#227'o do Produto'
+        Width = 350
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QTDE_PCT'
+        Title.Caption = 'Qutde'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADEMEDIDA'
+        Title.Caption = 'UN'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEATUAL'
+        Title.Caption = 'Estoque'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_COMPRA'
+        Title.Caption = 'R$ Compra'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_VENDA'
+        Title.Caption = 'R$ Venda'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MARCA'
+        Title.Caption = 'Marca'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'GRUPO'
+        Title.Caption = 'Grupo'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUBGRUPO'
+        Title.Caption = 'SubGrupo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LOCALIZACAO'
+        Title.Caption = 'Local Estoque'
+        Visible = True
+      end>
+  end
   object Panel2: TPanel
-    Left = 1
-    Top = 59
-    Width = 790
+    Left = 0
+    Top = 146
+    Width = 794
     Height = 86
+    Align = alTop
     BevelOuter = bvLowered
     PopupMenu = PopupMenu1
     TabOrder = 0
@@ -161,115 +283,6 @@ object fProcura_produtos: TfProcura_produtos
       OnKeyPress = FormKeyPress
     end
   end
-  object DBGrid1: TDBGrid
-    Left = 0
-    Top = 147
-    Width = 793
-    Height = 390
-    Color = clCream
-    DataSource = Dtsrc
-    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    PopupMenu = PopupMenu1
-    TabOrder = 2
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    OnCellClick = DBGrid1CellClick
-    OnDblClick = DBGrid1DblClick
-    OnKeyDown = DBGrid1KeyDown
-    OnKeyPress = DBGrid1KeyPress
-    OnKeyUp = DBGrid1KeyUp
-    OnTitleClick = DBGrid1TitleClick
-    Columns = <
-      item
-        Alignment = taRightJustify
-        Color = clGradientActiveCaption
-        Expanded = False
-        FieldName = 'CODPRO'
-        Title.Caption = 'C'#243'digo'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRODUTO'
-        Title.Caption = 'Descri'#231#227'o do Produto'
-        Width = 300
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ESTOQUEATUAL'
-        Title.Caption = 'Q. Estoq.'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PEDIDO'
-        Title.Caption = 'Pedido'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECOMEDIO'
-        Title.Caption = 'P. Custo(R$)'
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'QTDE_PCT'
-        Title.Caption = 'Qtde/Peso'
-        Width = 65
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'LOCALIZACAO'
-        Title.Caption = 'Localiz.'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'UNIDADEMEDIDA'
-        Title.Caption = 'Unde'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO_VENDA'
-        Title.Caption = 'V. Venda(R$)'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO_COMPRA'
-        Title.Caption = 'V. Compra(R$)'
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'GRUPO'
-        Title.Caption = 'Grupo'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'MARCA'
-        Title.Caption = 'Marca'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SUBGRUPO'
-        Title.Caption = 'SubGrupo'
-        Visible = True
-      end>
-  end
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
@@ -277,7 +290,7 @@ object fProcura_produtos: TfProcura_produtos
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
-    TabOrder = 3
+    TabOrder = 2
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -1107,13 +1120,13 @@ object fProcura_produtos: TfProcura_produtos
     end
   end
   object Panel3: TPanel
-    Left = 176
+    Left = 168
     Top = 169
     Width = 425
     Height = 289
     Caption = 'Panel3'
     PopupMenu = PopupMenu1
-    TabOrder = 4
+    TabOrder = 3
     Visible = False
     object DBGrid4: TDBGrid
       Left = 6
@@ -1478,7 +1491,7 @@ object fProcura_produtos: TfProcura_produtos
     Top = 56
     Width = 169
     Height = 121
-    TabOrder = 5
+    TabOrder = 4
     Visible = False
     object RadioGroup1: TRadioGroup
       Left = 1
@@ -1747,6 +1760,10 @@ object fProcura_produtos: TfProcura_produtos
       Caption = '&Fechar'
       ShortCut = 120
       OnClick = BitBtn6Click
+    end
+    object Exportar1: TMenuItem
+      Caption = 'Exportar'
+      OnClick = Exportar1Click
     end
   end
   object DataSource1: TDataSource
@@ -2041,5 +2058,57 @@ object fProcura_produtos: TfProcura_produtos
     DataSet = cdsLista
     Left = 120
     Top = 328
+  end
+  object JvProgressDialog1: TJvProgressDialog
+    Image.Data = {
+      07544269746D61702C040000424D2C0400000000000000000000280000003100
+      0000310000000100040002000000B6030000C40E0000C40E0000000000000000
+      000000000000000080000080000000808000800000008000800080800000C0C0
+      C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF
+      FF0031C00000300C0100000031C00000020C2C0000030C0000000AC00008C8FF
+      77841FC00000020C0800024F06FF0004F778180000030C0000000AC0027F0CFF
+      0004F77015C00000020C080012FF0004F7780E0000030C0000000AC016FF0006
+      F0C778000BC00000020C0800027F14FF028804FF0280060000030C0000000CC0
+      0004C87710FF02CF04FF027009C00000020C0E00000608887F0008FF0004F88F
+      04FF0270060000030C00000010C0000AC788C0C8770004FF0004F87F04FF0270
+      09C00000020C0E00028F04FF000C78800488748F04FF0280060000030C000000
+      10C00AFF0008F788C08F04FF028009C00000020C0E000004FFF70CFF027F04FF
+      080000030C0000000EC0000CC8FF70C0C87F0CFF0BC00000020C0C0000080FFF
+      804004000004088706FF02F7080000030C0000000EC00008CFFF8F7808C00008
+      C488FFF80BC00000020C0C00000C8FF78F78F7780600000608FFF00008000003
+      0C0000000EC00004FFF004C8027F04FF000A7884C7FFF0000BC00000020C0C00
+      0006FFF080000600000C87FFF70FFF70080000030C0000000CC0000CC8FF88F7
+      C78008C00004CFFF0DC00000020C0A00000407FF048000087FFFF78804000004
+      7FFF0A0000030C0000000CC00004CFFF06C00004C87F04FF000680FFF8000DC0
+      0000020C0A0000088FF73F800600000A088708FFF8000A0000030C0000000CC0
+      000C7FF8CF78FF7806C00006C8FFF0000DC00000020C0A00000A7FF000087700
+      04FF000A78800FFF70000A0000030C0000000CC00004FFF008C0000C77FFF8CF
+      FF800DC00000020C0A00000AFF74F7488000080000048FFF0C0000030C000000
+      0AC00010C8FF80787FFFF78804C000047FFF0FC00000020C0800000608FF8000
+      04000004887F04FF0006807FF8000C0000030C0000000AC00008C8FFC77006C0
+      000AC88770FFF8000FC00000020C0800000C07FF0FF8F78808000004FFF00C00
+      00030C0000000AC00004C8FF04C0027F04FF000A7784C8FFF0000FC00000020C
+      0800000408FF0600000E08877FFF38FF70000C0000030C0000000AC00006C8FF
+      78000AC004C80004FF700FC00000020C0A0006FF000477800600000608FF7000
+      0C0000030C0000000CC0028F0AFF000A78C0C8FF80000FC00000020C0C00027F
+      0CFF000A7FFF70788000080000030C00000012C002770CFF027004FF02F009C0
+      0000020C14000004087F06FF0008F07FFFF0060000030C0000001AC0000EC487
+      FFF8CFFF700009C00000020C1E00040802F7080000030C00000031C00000020C
+      2C0000030C00000031C00000300C0100000031C000000001}
+    ShowCancel = False
+    ScreenPosition = poDesktopCenter
+    Left = 368
+    Top = 464
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'doc'
+    FileName = 'DBGridExport.doc'
+    Filter = 
+      'MS Word (*.doc)|*.doc|MS Excel (*.xls)|*.xls|HTML (*.htm;*.html)' +
+      '|*.htm;*.html|CSV (*.csv;*.txt)|*.csv;*.txt|XML files (*.xml)|*.' +
+      'xml'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Left = 288
+    Top = 464
   end
 end
