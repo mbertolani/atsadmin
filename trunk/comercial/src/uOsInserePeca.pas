@@ -60,6 +60,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure edProdutoKeyPress(Sender: TObject; var Key: Char);
   private
     codProdutoPeca: Integer;
     procedure LimpaCamposPeca();
@@ -226,6 +227,7 @@ begin
   fOs.cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
   fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.cdsServicoID_OS_DET.AsInteger;
   fOs.cdsPecasTIPO.AsString           := 'P';
+  edProduto.SetFocus;
 end;
 
 procedure TfOsInserePeca.BitBtn3Click(Sender: TObject);
@@ -235,6 +237,7 @@ begin
   begin
     fProcura_prodOficina.Panel1.Visible := false;
     fProcura_prodOficina.Panel2.Visible := true;
+    fProcura_prodOficina.BitBtn1.Click;
   end
   else begin
     fProcura_prodOficina.Panel2.Visible := false;
@@ -244,8 +247,9 @@ begin
   end;
   varonde := 'os';
   var_F := 'os';
-
   fProcura_prodOficina.ShowModal;
+
+  //fProcura_prodOficina.ShowModal;
   if (procprod = 'PROC_PROD_COMPLETO') then
   begin
     {if (cdsPecas.State in [dsInsert, dsEdit]) then
@@ -272,7 +276,7 @@ begin
   fOs.cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
   fOs.cdsPecasQTDE.AsFloat         := 1;
   fOs.cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-
+  edQtdeServ.SetFocus;
 end;
 
 procedure TfOsInserePeca.edProdutoExit(Sender: TObject);
@@ -334,6 +338,20 @@ procedure TfOsInserePeca.btnCancelarClick(Sender: TObject);
 begin
   //inherited;
   fOs.cdsPecas.Cancel;
+end;
+
+procedure TfOsInserePeca.edProdutoKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   if (edProduto.Text = '') then
+      bitBtn3.Click
+   else begin
+     key:= #0;
+     SelectNext((Sender as TwinControl),True,True);
+   end;  
+ end;
+
 end;
 
 end.
