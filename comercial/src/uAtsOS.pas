@@ -21,6 +21,10 @@ type
     ImageList2: TImageList;
     JvOutlookBar1: TJvOutlookBar;
     RxLabel1: TRxLabel;
+    ActuserAcesso: TActionList;
+    usuarios: TAction;
+    Logoof: TAction;
+    UserControlAuto: TUserControl;
     procedure FormCreate(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -153,7 +157,6 @@ var
  vSaudacao : string;
 begin
   JvOutlookBar1.OnCustomDraw := DoCustomDraw;
-
   //DM.MODULOUSERCONTROL := 'atsadmin';
   sCtrlResize.CtrlResize(TForm(fAtsOS));
   StatusBar1.Panels[0].Text := ' ATS - Admin versão: ' + GetVersion;
@@ -180,11 +183,17 @@ procedure TfAtsOS.FormShow(Sender: TObject);
 var TD: TTransactionDesc;
  caminho, arquivo, empresa: String;
 begin
-
-  usulog    := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
-  nome_user := fAtsAdmin.UserControlComercial.CurrentUser.UserName;
-  DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
-  Dm.varUSERID      := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
+{  DM.UserControlAuto.ControlRight.ActionList := fAtsOS.ActuserAcesso;
+  DM.UserControlAuto.UsersLogoff.Action := fAtsOS.Logoof;
+  DM.UserControlAuto.User.Action := usuarios;
+  DM.UserControlAuto.UserPasswordChange.Action := usuarios;
+  DM.UserControlAuto.AutoStart := True;
+  DM.UserControlAuto.Execute;
+ }
+ // usulog    := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
+ // nome_user := fAtsAdmin.UserControlComercial.CurrentUser.UserName;
+ // DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
+ // Dm.varUSERID      := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
 
 
   if (not dm.cds_empresa.Active) then
@@ -426,8 +435,8 @@ end;
 
 procedure TfAtsOS.JvOutlookBar1Pages5Buttons0Click(Sender: TObject);
 begin
-// teste
-  fAtsAdmin.Usuarios1.Click;
+  // teste
+  // fAtsAdmin.Usuarios1.Click;
 end;
 
 procedure TfAtsOS.JvOutlookBar1Pages5Buttons3Click(Sender: TObject);
