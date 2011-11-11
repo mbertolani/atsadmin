@@ -1,10 +1,9 @@
 inherited fProdutoCadastro: TfProdutoCadastro
-  Left = 340
-  Top = 130
+  Left = 342
   VertScrollBar.Range = 0
   BorderStyle = bsSingle
-  ClientHeight = 528
-  ClientWidth = 784
+  ClientHeight = 533
+  ClientWidth = 783
   Font.Height = -13
   OldCreateOrder = True
   Position = poDesigned
@@ -83,8 +82,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Tipo'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 474
-    Width = 784
+    Top = 479
+    Width = 783
     TabOrder = 12
     inherited btnGravar: TBitBtn
       Left = 278
@@ -113,7 +112,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 784
+    Width = 783
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
