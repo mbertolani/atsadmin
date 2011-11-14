@@ -1361,6 +1361,10 @@ type
     cds_nfXMLNFE: TGraphicField;
     cdsCompraVALOR_IPI: TFloatField;
     scds_cli_procDESCONTO: TFloatField;
+    sds_nf1II: TFloatField;
+    cds_nf1II: TFloatField;
+    sdslistaTranspFANTASIA: TStringField;
+    listaTranspFANTASIA: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

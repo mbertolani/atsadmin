@@ -5682,6 +5682,10 @@ object DMNF: TDMNF
       FieldName = 'FONE'
       Size = 15
     end
+    object sdslistaTranspFANTASIA: TStringField
+      FieldName = 'FANTASIA'
+      Size = 50
+    end
   end
   object sdsVeiculoCli: TSQLDataSet
     CommandText = 
@@ -5948,6 +5952,10 @@ object DMNF: TDMNF
     object listaTranspFONE: TStringField
       FieldName = 'FONE'
       Size = 15
+    end
+    object listaTranspFANTASIA: TStringField
+      FieldName = 'FANTASIA'
+      Size = 50
     end
   end
   object sqlNumeroSerie: TSQLDataSet
@@ -6316,6 +6324,9 @@ object DMNF: TDMNF
       FieldName = 'VALOR_DESCONTO'
       DisplayFormat = ',##0.00'
     end
+    object cds_nf1II: TFloatField
+      FieldName = 'II'
+    end
   end
   object dsp_nf1: TDataSetProvider
     DataSet = sds_nf1
@@ -6660,6 +6671,9 @@ object DMNF: TDMNF
     end
     object sds_nf1VALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
+    end
+    object sds_nf1II: TFloatField
+      FieldName = 'II'
     end
   end
   object sds_compra: TSQLDataSet

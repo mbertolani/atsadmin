@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:F:\home\bd\sge_pilequinho.fdb'
+      'Database=quad:sge_bouquet'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -26,6 +26,7 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'User_Name=SYSDBA'
       'WaitOnLocks=True')
+      'str_relatorio=C:\home\sisAdmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -4300,6 +4301,10 @@ object DM: TDM
       FieldName = 'BAIRRO'
       Size = 40
     end
+    object sdsTranspFANTASIA: TStringField
+      FieldName = 'FANTASIA'
+      Size = 50
+    end
   end
   object dspTransp: TDataSetProvider
     DataSet = sdsTransp
@@ -4405,6 +4410,10 @@ object DM: TDM
     object cdsTranspBAIRRO: TStringField
       FieldName = 'BAIRRO'
       Size = 40
+    end
+    object cdsTranspFANTASIA: TStringField
+      FieldName = 'FANTASIA'
+      Size = 50
     end
   end
   object s3_contabil: TSQLDataSet
