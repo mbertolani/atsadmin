@@ -1792,6 +1792,8 @@ type
     sds_produtoTAM_LOTE: TIntegerField;
     cds_produtoTAM_LOTE: TIntegerField;
     s_permissao: TSQLDataSet;
+    sdsTranspFANTASIA: TStringField;
+    cdsTranspFANTASIA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);

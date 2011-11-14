@@ -2070,7 +2070,10 @@ begin
         begin
           modFrete := tfrete;
           CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
-          xNome := cdsNFNOMETRANSP.AsString;
+          DMNF.listaTransp.Open;
+          DMNF.listaTransp.Locate('FANTASIA',cdsNFNOMETRANSP.AsString,[loCaseInsensitive]);
+          xNome := DMNF.listaTranspNOMETRANSP.AsString;
+          DMNF.listaTransp.Close;
           IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
           xEnder := cdsNFEND_TRANSP.AsString;
           xMun := cdsNFCIDADE_TRANSP.AsString;

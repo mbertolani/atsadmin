@@ -241,6 +241,8 @@ type
     JvGroupBox55: TJvGroupBox;
     DBEdit51: TDBEdit;
     lblNaturezaOperacao: TLabel;
+    JvGroupBox17: TJvGroupBox;
+    DBEdit9: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -428,6 +430,8 @@ begin
     dmnf.cds_nf1VALOR_ICMS.AsFloat := dmnf.cds_compraVALOR_ICMS.AsFloat;
     if (dmnf.cds_nf1VALOR_ICMS.IsNull) then
       dmnf.cds_nf1VALOR_ICMS.AsFloat := 0;
+    if (dmnf.cds_nf1VALOR_DESCONTO.IsNull) then
+      dmnf.cds_nf1VALOR_DESCONTO.AsFloat := 0;
     dmnf.cds_nf1REDUZICMS.AsFloat;
     dmnf.cds_nf1VALOR_FRETE.AsFloat := dmnf.cds_compraVALOR_FRETE.AsFloat;
     dmnf.cds_nf1VALOR_SEGURO.AsFloat := dmnf.cds_compraVALOR_SEGURO.AsFloat;
@@ -1071,7 +1075,7 @@ begin
   if (cbTransportadora.Text <> '') then
   begin
      DMNF.listaTransp.Open;
-     DMNF.listaTransp.Locate('NOMETRANSP',cbTransportadora.Text,[loCaseInsensitive]);
+     DMNF.listaTransp.Locate('FANTASIA',cbTransportadora.Text,[loCaseInsensitive]);
      dmnf.cds_nf1PLACATRANSP.AsString := DMNF.listaTranspPLACATRANSP.AsString;
      dmnf.cds_nf1UF_VEICULO_TRANSP.AsString := DMNF.listaTranspUF_VEICULO_TRANSP.AsString;
      dmnf.cds_nf1CNPJ_CPF.AsString := DMNF.listaTranspCNPJ_CPF.AsString;
@@ -1097,7 +1101,7 @@ begin
   cbTransportadora.Items.Clear;
   while not dmnf.listaTransp.Eof do
   begin
-     cbTransportadora.Items.Add(dmnf.listaTranspNOMETRANSP.AsString);
+     cbTransportadora.Items.Add(dmnf.listaTranspFANTASIA.AsString);
      dmnf.listaTransp.Next;
   end;
   dmnf.listaTransp.Close;

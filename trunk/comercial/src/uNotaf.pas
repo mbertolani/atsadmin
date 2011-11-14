@@ -486,7 +486,7 @@ begin
   dmnf.listaTransp.First;
   while not dmnf.listaTransp.Eof do
   begin
-     cbTransportadora.Items.Add(dmnf.listaTranspNOMETRANSP.AsString);
+     cbTransportadora.Items.Add(dmnf.listaTranspFANTASIA.AsString);
      dmnf.listaTransp.Next;
   end;
   dmnf.listaTransp.Close;
@@ -761,6 +761,7 @@ begin
   DMNF.cds_vendaDATAVENDA.AsDateTime := now;
   DMNF.cds_vendaDATAVENCIMENTO.AsDateTime := now;
   DMNF.cds_vendaSTATUS.AsInteger:=0;
+  DMNF.cds_vendaDESCONTO.AsFloat := 0;
 
   dbeSerie.Text := '';
   if (not Dm.parametro.Active) then
@@ -1239,7 +1240,7 @@ begin
   if (cbTransportadora.Text <> '') then
   begin
      DMNF.listaTransp.Open;
-     DMNF.listaTransp.Locate('NOMETRANSP',cbTransportadora.Text,[loCaseInsensitive]);
+     DMNF.listaTransp.Locate('FANTASIA',cbTransportadora.Text,[loCaseInsensitive]);
      DMNF.cds_nfPLACATRANSP.AsString := DMNF.listaTranspPLACATRANSP.AsString;
      DMNF.cds_nfUF_VEICULO_TRANSP.AsString := DMNF.listaTranspUF_VEICULO_TRANSP.AsString;
      DMNF.cds_nfCNPJ_CPF.AsString := DMNF.listaTranspCNPJ_CPF.AsString;
