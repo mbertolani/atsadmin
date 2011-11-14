@@ -25,7 +25,7 @@ object DM: TDM
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
       'User_Name=SYSDBA'
-      'WaitOnLocks=True')
+      'WaitOnLocks=True'
       'str_relatorio=C:\home\sisAdmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
