@@ -1631,9 +1631,9 @@ begin
    dmnf.cds_nfSTATUS.AsString := 'S';
    if ((dmnf.cds_nfCFOP.AsString = '6922') or (dmnf.cds_nfCFOP.AsString = '5922')) then
      dmnf.cds_nfPESOREMESSA.AsBCD := dmnf.cds_nfPESOLIQUIDO.AsBCD;
-   dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + dmnf.cds_nfVALOR_FRETE.Value +
-   dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value +
-   dmnf.cds_nfVALOR_IPI.Value;
+   if (not calcman.Checked) then
+     dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + dmnf.cds_nfVALOR_FRETE.Value +
+   dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value;
  if ((dmnf.cds_nfCFOP.AsString = '5116') or (dmnf.cds_nfCFOP.AsString = '5116')) then
   begin
     if (cdsNotaMae.Active) then
@@ -1641,15 +1641,16 @@ begin
     cdsNotaMae.Params[0].AsInteger := dmnf.cds_nfNOTAMAE.AsInteger;
     if (dmnf.cds_nfNOTAMAE.AsInteger <> 0) then
     begin
-    cdsNotaMae.Open;
-    cdsNotaMae.Edit;
-    pesoremessa := BcdToDouble(cdsNotaMaePESOREMESSA.AsBCD);
-    entrega := BcdToDouble(dmnf.cds_nfPESOLIQUIDO.AsBCD);
-    cdsNotaMaePESOREMESSA.AsBCD := DoubleToBcd(pesoremessa - entrega);
-    cdsNotaMae.ApplyUpdates(0);
+      cdsNotaMae.Open;
+      cdsNotaMae.Edit;
+      pesoremessa := BcdToDouble(cdsNotaMaePESOREMESSA.AsBCD);
+      entrega := BcdToDouble(dmnf.cds_nfPESOLIQUIDO.AsBCD);
+      cdsNotaMaePESOREMESSA.AsBCD := DoubleToBcd(pesoremessa - entrega);
+      cdsNotaMae.ApplyUpdates(0);
     end;
   end;
-  dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat;
+  if (not calcman.Checked) then
+    dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat;
   if (ChkComp.Checked) then
   begin
     fComplementar := TfComplementar.Create(Application);
@@ -2061,7 +2062,8 @@ begin
   end;
   nunf := DMNF.cds_nfNUMNF.AsInteger;
   // Calcula ICMS - IPI
-  calculaicms('OUTROS');
+  if (not calcman.Checked) then
+    calculaicms('OUTROS');
   // Abre a tabela Novamente.
   dmnf.cds_nf.Close;
   dmnf.cds_nf.Params[0].AsInteger := nunf;
