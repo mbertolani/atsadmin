@@ -105,8 +105,10 @@ uses UDm, uUtils, uProcurar, sCtrlResize, uFinanceiro, uAtsAdmin,
 procedure Tfcrdescontado.btnProcurarClick(Sender: TObject);
 var str, str1 : string;
 begin
-  str1 := sds_Titulos_Descontado.CommandText;
-  str := sds_Titulos_Descontado.CommandText;
+  str := 'Select rec.dp, rec.DESCONTADO, rec.STATUS, rec.CODRECEBIMENTO, rec.TITULO, rec.EMISSAO, ' +
+  'rec.DATARECEBIMENTO, rec.CODCLIENTE, cli.NOMECLIENTE, rec.SELECIONOU from RECEBIMENTO rec ' +
+  'inner join CLIENTES cli on cli.CODCLIENTE= rec.CODCLIENTE where rec.STATUS  = ' + QuotedStr('7-');
+
   if (edCodCliente.Text <> '') then
   begin
     str := str + ' and rec.CODCLIENTE = ' + edCodCliente.Text;
@@ -126,8 +128,6 @@ begin
     Titulos_Descontado.Close;
   Titulos_Descontado.CommandText := str;
   Titulos_Descontado.Open;
-  Titulos_Descontado.CommandText := str1;
-  
 end;
 
 
@@ -154,8 +154,8 @@ begin
     else begin
       Titulos_DescontadoSELECIONOU.AsString := '';
       Titulos_Descontado.post;
-      dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = ' +
-      QuotedStr('') + 'where CODRECEBIMENTO = ' + inttostr(Titulos_DescontadoCODRECEBIMENTO.asinteger)) ;
+      dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = ' + QuotedStr('')  +
+      ' where CODRECEBIMENTO = ' + inttostr(Titulos_DescontadoCODRECEBIMENTO.asinteger)) ;
     end;
   end;
 end;
@@ -231,8 +231,9 @@ begin
       else begin
         Titulos_DescontadoSELECIONOU.AsString := '';
         Titulos_Descontado.post;
-        dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = ' +
-        QuotedStr('') + 'where CODRECEBIMENTO = ' + inttostr(Titulos_DescontadoCODRECEBIMENTO.asinteger)) ;
+        dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = ' + QuotedStr('')  +
+        ' where CODRECEBIMENTO = ' + inttostr(Titulos_DescontadoCODRECEBIMENTO.asinteger)) ;
+
       end;
   end;
 
@@ -331,7 +332,6 @@ end;
 
 procedure Tfcrdescontado.DescontarClick(Sender: TObject);
 begin
-
     dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set DESCONTADO = ' +
     QuotedStr('S') + ' where SELECIONOU = ' + QuotedStr('S')) ;
     dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = null' +
@@ -347,8 +347,6 @@ begin
     dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = null' +
     ' where SELECIONOU = ' + QuotedStr('S')) ;
     btnProcurar.Click;
-
-
 end;
 
 procedure Tfcrdescontado.DBGrid1DrawColumnCell(Sender: TObject;
