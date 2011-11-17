@@ -28,7 +28,7 @@ object fNFeletronica: TfNFeletronica
     object GroupBox3: TGroupBox
       Left = 12
       Top = 159
-      Width = 326
+      Width = 360
       Height = 58
       Caption = 'Danfe'
       TabOrder = 0
@@ -742,7 +742,7 @@ object fNFeletronica: TfNFeletronica
       object GroupBox2: TGroupBox
         Left = 5
         Top = 3
-        Width = 312
+        Width = 348
         Height = 104
         Caption = 'Normal'
         Font.Charset = DEFAULT_CHARSET
@@ -753,7 +753,7 @@ object fNFeletronica: TfNFeletronica
         ParentFont = False
         TabOrder = 0
         object btnGeraNFe: TBitBtn
-          Left = 105
+          Left = 115
           Top = 32
           Width = 91
           Height = 36
@@ -773,7 +773,7 @@ object fNFeletronica: TfNFeletronica
           OnClick = BtnPreVisClick
         end
         object BtnEnvEmail: TBitBtn
-          Left = 200
+          Left = 227
           Top = 32
           Width = 105
           Height = 36
@@ -789,7 +789,7 @@ object fNFeletronica: TfNFeletronica
       object GroupBox6: TGroupBox
         Left = 5
         Top = 3
-        Width = 311
+        Width = 350
         Height = 103
         Caption = 'Conting'#234'ncia.FS'
         TabOrder = 0
@@ -830,7 +830,7 @@ object fNFeletronica: TfNFeletronica
       object GroupBox7: TGroupBox
         Left = 4
         Top = 3
-        Width = 313
+        Width = 350
         Height = 106
         Caption = 'Sped'
         TabOrder = 0
@@ -862,7 +862,7 @@ object fNFeletronica: TfNFeletronica
       object GroupBox8: TGroupBox
         Left = 3
         Top = 3
-        Width = 315
+        Width = 354
         Height = 107
         Caption = 'DPEC'
         TabOrder = 0
@@ -912,7 +912,7 @@ object fNFeletronica: TfNFeletronica
       object GroupBox9: TGroupBox
         Left = 4
         Top = 3
-        Width = 315
+        Width = 351
         Height = 104
         Caption = 'Conting'#234'ncia FSDA'
         TabOrder = 0
