@@ -1156,6 +1156,11 @@ begin
     if (versaoSistema = '1.0.0.96') then
     begin
       executaDDL('TRANSPORTADORA', 'FANTASIA', 'varchar(50)');
+      executaDDL('FUNCIONARIO', 'EMAIL', 'varchar(80)');
+      executaSql('ALTER TABLE FUNCIONARIO ALTER BAIRRO TYPE Varchar(60);');
+      executaSql('ALTER TABLE FUNCIONARIO ALTER COMPLEMENTO TYPE Varchar(60);');
+      executaSql('ALTER TABLE FUNCIONARIO ALTER RUA TYPE Varchar(60);');
+      executaSql('ALTER TABLE FUNCIONARIO ALTER CIDADE TYPE Varchar(60);');
       executaSql('update TRANSPORTADORA set FANTASIA = NOMETRANSP');
       //mudaVersao('1.0.0.96');
     end;// Fim Ataulização Versao 1.0.0.97
