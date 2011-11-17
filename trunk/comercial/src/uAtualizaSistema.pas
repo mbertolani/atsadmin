@@ -1138,6 +1138,8 @@ begin
       executaDDL('ENDERECOCLIENTE', 'PAIS', 'varchar(60)');
       executaDDL('ENDERECOFORNECEDOR', 'PAIS', 'varchar(60)');
       executaDDL('VENDA', 'TROCO', 'DOUBLE PRECISION');
+      executaDDL('NOTAFISCAL', 'II', 'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'II', 'DOUBLE PRECISION');
       executaScript('trg_calcula_icms_st.sql');
       executaScript('calcula_icms.sql');
       executaScript('listaProdutocli.sql');
@@ -1150,6 +1152,13 @@ begin
       executaSql('UPDATE ENDERECOFORNECEDOR set PAIS = ' + QuotedStr('Brasil'));
       mudaVersao('1.0.0.96');
     end;// Fim Ataulização Versao 1.0.0.96
+
+    if (versaoSistema = '1.0.0.96') then
+    begin
+      executaDDL('TRANSPORTADORA', 'FANTASIA', 'varchar(50)');
+      executaSql('update TRANSPORTADORA set FANTASIA = NOMETRANSP');
+      //mudaVersao('1.0.0.96');
+    end;// Fim Ataulização Versao 1.0.0.97
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
