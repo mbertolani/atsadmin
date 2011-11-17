@@ -104,12 +104,6 @@ object fProcura_produtos: TfProcura_produtos
       end
       item
         Expanded = False
-        FieldName = 'PRECO_COMPRA'
-        Title.Caption = 'R$ Compra'
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'PRECO_VENDA'
         Title.Caption = 'R$ Venda'
         Visible = True
