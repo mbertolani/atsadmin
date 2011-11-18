@@ -47,6 +47,17 @@ type
     procedure JvOutlookBar1Pages5Buttons3Click(Sender: TObject);
     procedure JvOutlookBar1Pages5Buttons2Click(Sender: TObject);
     procedure JvOutlookBar1Pages5Buttons1Click(Sender: TObject);
+    procedure JvOutlookBar1Pages3Buttons0Click(Sender: TObject);
+    procedure JvOutlookBar1Pages3Buttons1Click(Sender: TObject);
+    procedure JvOutlookBar1Pages3Buttons2Click(Sender: TObject);
+    procedure JvOutlookBar1Pages3Buttons3Click(Sender: TObject);
+    procedure JvOutlookBar1Pages3Buttons5Click(Sender: TObject);
+    procedure JvOutlookBar1Pages0Buttons5Click(Sender: TObject);
+    procedure JvOutlookBar1Pages2Buttons3Click(Sender: TObject);
+    procedure JvOutlookBar1Pages0Buttons6Click(Sender: TObject);
+    procedure JvOutlookBar1Pages4Buttons1Click(Sender: TObject);
+    procedure JvOutlookBar1Pages4Buttons2Click(Sender: TObject);
+    procedure JvOutlookBar1Pages4Buttons3Click(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -70,7 +81,9 @@ uses
   uClienteCadastro, uOs, uOsFiltro, uCompra, uVendas, ufcr, ufcpproc,
   uCrTituloPagto, uAtsAdmin, uProdutoCadastro, uFornecedorCadastro,
   ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
-  uCliente1;
+  uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
+  uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
+  uRel, uRelatorioCaixa;
 
 {$R *.dfm}
 
@@ -170,13 +183,13 @@ end;
 
 procedure TfAtsOS.JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
 begin
-  fEmpresa := TfEmpresa.Create(Self);
-{  fEmpresa := TfEmpresa.Create(Application);
+//  fEmpresa := TfEmpresa.Create(Self);
+  fEmpresa := TfEmpresa.Create(Application);
   try
     fEmpresa.ShowModal;
   finally
     fEmpresa.Free;
-  end;}
+  end;
 end;
 
 procedure TfAtsOS.FormShow(Sender: TObject);
@@ -469,6 +482,173 @@ begin
   finally
     fParametro.Free;
   end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages3Buttons0Click(Sender: TObject);
+begin
+ fEntra_Sai_estoque := TfEntra_Sai_estoque.Create(Application);
+ try
+   with fEntra_Sai_estoque do
+   begin
+     label1.visible := False;
+     dbEdit1.Visible := False;
+     Label2.Visible := False;
+     Combobox1.Visible := False;
+     Label11.Visible := False;
+     Edit1.Visible := False;
+     label13.Top := label13.Top - 15;
+     MaskEdit1.Top := MaskEdit1.Top - 15;
+     Label3.Top := Label3.Top - 15;
+     Combobox2.Top := Combobox2.Top - 15;
+     Label12.Top := Label12.Top - 15;
+     Edit2.Top := Edit2.Top - 15;
+     entsai := 0;
+     Label15.Caption := 'Entrada de Mercadorias de Estoque';
+
+     cbCodigo.DataField := '';
+     cbNome.DataField := '';
+     if (cdsB.Active) then
+       cdsB.Close;
+     cdsB.CommandText := 'SELECT CODFORNECEDOR, NOMEFORNECEDOR FROM FORNECEDOR WHERE ' +
+       ' STATUS = 1';
+     cdsB.Open;
+     cbCodigo.DataField := 'CODFORNECEDOR';
+     cbNome.DataField := 'NOMEFORNECEDOR';
+
+     ShowModal;
+   end;
+ finally
+   fEntra_Sai_estoque.Free;
+ end;
+
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages3Buttons1Click(Sender: TObject);
+begin
+  fEntra_Sai_estoque := TfEntra_Sai_estoque.Create(Application);
+ try
+   with fEntra_Sai_estoque do
+   begin
+     label13.visible := False;
+     MaskEdit1.Visible := False;
+     Label3.Visible := False;
+     Combobox2.Visible := False;
+     Label12.Visible := False;
+     Edit2.Visible := False;
+     label1.Top := label1.Top + 15;
+     DbEdit1.Top := DbEdit1.Top + 15;
+     Label2.Top := Label2.Top + 15;
+     Combobox1.Top := Combobox1.Top + 15;
+     Label11.Top := Label11.Top + 15;
+     Edit1.Top := Edit1.Top + 15;
+     entsai := 1;
+     Label15.Caption := 'Saida de Mercadorias de Estoque';
+
+     cbCodigo.DataField := '';
+     cbNome.DataField := '';
+     if (cdsB.Active) then
+       cdsB.Close;
+     cdsB.CommandText := 'SELECT CODCLIENTE, NOMECLIENTE FROM CLIENTES WHERE ' +
+       ' STATUS = 1';
+     cdsB.Open;
+     cbCodigo.DataField := 'CODCLIENTE';
+     cbNome.DataField := 'NOMECLIENTE';
+
+     ShowModal;
+   end;
+ finally
+   fEntra_Sai_estoque.Free;
+ end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages3Buttons2Click(Sender: TObject);
+begin
+  fMovimenta_Estoque := TfMovimenta_Estoque.Create(Application);
+  try
+    fMovimenta_Estoque.ShowModal;
+  finally
+    fMovimenta_Estoque.Free;
+  end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages3Buttons3Click(Sender: TObject);
+begin
+ fFiltroEstoque := TfFiltroEstoque.Create(Application);
+ try
+   fFiltroEstoque.ShowModal;
+ finally
+   fFiltroEstoque.Free;
+ end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages3Buttons5Click(Sender: TObject);
+begin
+ fInventario := TfInventario.Create(Application);
+ try
+   fInventario.ShowModal;
+ finally
+   fInventario.Free;
+ end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages0Buttons5Click(Sender: TObject);
+begin
+  fEstado := TfEstado.Create(Application);
+  try
+    fEstado.ShowModal;
+  finally
+    fEstado.Free;
+  end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages2Buttons3Click(Sender: TObject);
+begin
+  fContabilLanc := TfContabilLanc.Create(Application);
+  try
+    fContabilLanc.ShowModal;
+  finally
+    fContabilLanc.Free;
+  end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages0Buttons6Click(Sender: TObject);
+begin
+ fContasAssistente := TfContasAssistente.Create(Application);
+ try
+   fContasAssistente.ShowModal;
+ finally
+   fContasAssistente.Free;
+ end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages4Buttons1Click(Sender: TObject);
+begin
+  fRel := TfRel.Create(Application);
+  try
+    fRel.ShowModal;
+  finally
+    fRel.Free;
+  end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages4Buttons2Click(Sender: TObject);
+begin
+  fRelVenda := TfRelVenda.Create(Application);
+  try
+    fRelVenda.ShowModal;
+  finally
+    fRelVenda.Free;
+  end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages4Buttons3Click(Sender: TObject);
+begin
+ fRelatorioCaixa := TfRelatorioCaixa.Create(Application);
+ try
+   fRelatorioCaixa.ShowModal;
+ finally
+   fRelatorioCaixa.Free;
+ end;
 end;
 
 end.
