@@ -733,107 +733,85 @@ inherited fFuncionario: TfFuncionario
     Top = 24
     object cds_funCOD_FUNCIONARIO: TIntegerField
       FieldName = 'COD_FUNCIONARIO'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object cds_funSEXO: TStringField
       FieldName = 'SEXO'
-      ProviderFlags = [pfInUpdate]
       Size = 10
     end
     object cds_funESTADO_CIVIL: TStringField
       FieldName = 'ESTADO_CIVIL'
-      ProviderFlags = [pfInUpdate]
       Size = 15
     end
     object cds_funDATA_NASC: TDateField
       FieldName = 'DATA_NASC'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '!99/99/0000;1;_'
     end
     object cds_funRUA: TStringField
       FieldName = 'RUA'
-      ProviderFlags = [pfInUpdate]
-      Size = 30
+      Size = 60
     end
     object cds_funN: TStringField
       FieldName = 'N'
-      ProviderFlags = [pfInUpdate]
       Size = 5
     end
     object cds_funCOMPLEMENTO: TStringField
       FieldName = 'COMPLEMENTO'
-      ProviderFlags = [pfInUpdate]
-      Size = 10
+      Size = 60
     end
     object cds_funBAIRRO: TStringField
       FieldName = 'BAIRRO'
-      ProviderFlags = [pfInUpdate]
-      Size = 15
+      Size = 60
     end
     object cds_funCIDADE: TStringField
       FieldName = 'CIDADE'
-      ProviderFlags = [pfInUpdate]
+      Size = 60
     end
     object cds_funUF: TStringField
       FieldName = 'UF'
-      ProviderFlags = [pfInUpdate]
       Size = 3
     end
     object cds_funCEP: TStringField
       FieldName = 'CEP'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '00000\-999;1;_'
       Size = 10
     end
     object cds_funRG: TStringField
       FieldName = 'RG'
-      ProviderFlags = [pfInUpdate]
       Size = 13
     end
     object cds_funTELEFONE: TStringField
       FieldName = 'TELEFONE'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '0000\-0000;1;_'
       Size = 13
     end
     object cds_funCELULAR: TStringField
       FieldName = 'CELULAR'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '0000\-0000;1;_'
       Size = 13
     end
     object cds_funRECEBE_COMISSAO: TStringField
       FieldName = 'RECEBE_COMISSAO'
-      ProviderFlags = [pfInUpdate]
       Size = 1
     end
     object cds_funVALOR_COMISSAO: TFloatField
       FieldName = 'VALOR_COMISSAO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_funESPOSA: TStringField
       FieldName = 'ESPOSA'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_funPAI: TStringField
       FieldName = 'PAI'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_funMAE: TStringField
       FieldName = 'MAE'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_funNOME_FUNCIONARIO: TStringField
       FieldName = 'NOME_FUNCIONARIO'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_funCPF: TStringField
       FieldName = 'CPF'
-      EditMask = '000\.000\.000\/00;1;_'
+      FixedChar = True
       Size = 14
     end
     object cds_funDDD: TStringField
@@ -841,17 +819,18 @@ inherited fFuncionario: TfFuncionario
       FixedChar = True
       Size = 2
     end
+    object cds_funCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+    end
     object cds_funFUNCAO_CARGO: TStringField
       FieldName = 'FUNCAO_CARGO'
       Size = 50
     end
     object cds_funDATA_ADMISSAO: TDateField
       FieldName = 'DATA_ADMISSAO'
-      EditMask = '!99/99/0000;1;_'
     end
     object cds_funDATA_DESLIGAMENTO: TDateField
       FieldName = 'DATA_DESLIGAMENTO'
-      EditMask = '!99/99/0000;1;_'
     end
     object cds_funREGIAO_VENDA: TStringField
       FieldName = 'REGIAO_VENDA'
@@ -863,14 +842,11 @@ inherited fFuncionario: TfFuncionario
     end
     object cds_funCONTACORRENTE: TStringField
       FieldName = 'CONTACORRENTE'
-      Size = 10
+      Size = 30
     end
     object cds_funBANCO: TStringField
       FieldName = 'BANCO'
-      Size = 10
-    end
-    object cds_funCODUSUARIO: TIntegerField
-      FieldName = 'CODUSUARIO'
+      Size = 30
     end
     object cds_funAGENCIA: TStringField
       FieldName = 'AGENCIA'
@@ -878,27 +854,26 @@ inherited fFuncionario: TfFuncionario
     end
     object cds_funCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_funCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_funCLIFOR: TStringField
       FieldName = 'CLIFOR'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_funSTATUS: TStringField
       FieldName = 'STATUS'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_funSALARIO: TFloatField
       FieldName = 'SALARIO'
-      DisplayFormat = ',#.00'
+    end
+    object cds_funEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 80
     end
   end
   object sql_fun: TSQLDataSet
@@ -917,110 +892,94 @@ inherited fFuncionario: TfFuncionario
     Top = 24
     object sql_funCOD_FUNCIONARIO: TIntegerField
       FieldName = 'COD_FUNCIONARIO'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object sql_funSEXO: TStringField
       FieldName = 'SEXO'
-      ProviderFlags = [pfInUpdate]
       Size = 10
     end
     object sql_funESTADO_CIVIL: TStringField
       FieldName = 'ESTADO_CIVIL'
-      ProviderFlags = [pfInUpdate]
       Size = 15
     end
     object sql_funDATA_NASC: TDateField
       FieldName = 'DATA_NASC'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '!99/99/0000;1;_'
     end
     object sql_funRUA: TStringField
       FieldName = 'RUA'
-      ProviderFlags = [pfInUpdate]
-      Size = 30
+      Size = 60
     end
     object sql_funN: TStringField
       FieldName = 'N'
-      ProviderFlags = [pfInUpdate]
       Size = 5
     end
     object sql_funCOMPLEMENTO: TStringField
       FieldName = 'COMPLEMENTO'
-      ProviderFlags = [pfInUpdate]
-      Size = 10
+      Size = 60
     end
     object sql_funBAIRRO: TStringField
       FieldName = 'BAIRRO'
-      ProviderFlags = [pfInUpdate]
-      Size = 15
+      Size = 60
     end
     object sql_funCIDADE: TStringField
       FieldName = 'CIDADE'
-      ProviderFlags = [pfInUpdate]
+      Size = 60
     end
     object sql_funUF: TStringField
       FieldName = 'UF'
-      ProviderFlags = [pfInUpdate]
       Size = 3
     end
     object sql_funCEP: TStringField
       FieldName = 'CEP'
-      ProviderFlags = [pfInUpdate]
       Size = 10
     end
     object sql_funRG: TStringField
       FieldName = 'RG'
-      ProviderFlags = [pfInUpdate]
       Size = 13
     end
     object sql_funTELEFONE: TStringField
       FieldName = 'TELEFONE'
-      ProviderFlags = [pfInUpdate]
       Size = 13
     end
     object sql_funCELULAR: TStringField
       FieldName = 'CELULAR'
-      ProviderFlags = [pfInUpdate]
       Size = 13
     end
     object sql_funRECEBE_COMISSAO: TStringField
       FieldName = 'RECEBE_COMISSAO'
-      ProviderFlags = [pfInUpdate]
       Size = 1
     end
     object sql_funVALOR_COMISSAO: TFloatField
       FieldName = 'VALOR_COMISSAO'
-      ProviderFlags = [pfInUpdate]
     end
     object sql_funESPOSA: TStringField
       FieldName = 'ESPOSA'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sql_funPAI: TStringField
       FieldName = 'PAI'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sql_funMAE: TStringField
       FieldName = 'MAE'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sql_funNOME_FUNCIONARIO: TStringField
       FieldName = 'NOME_FUNCIONARIO'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sql_funCPF: TStringField
       FieldName = 'CPF'
-      EditMask = '000\.000\.000\/00;1;_'
+      FixedChar = True
       Size = 14
     end
     object sql_funDDD: TStringField
       FieldName = 'DDD'
       FixedChar = True
       Size = 2
+    end
+    object sql_funCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
     end
     object sql_funFUNCAO_CARGO: TStringField
       FieldName = 'FUNCAO_CARGO'
@@ -1042,14 +1001,11 @@ inherited fFuncionario: TfFuncionario
     end
     object sql_funCONTACORRENTE: TStringField
       FieldName = 'CONTACORRENTE'
-      Size = 10
+      Size = 30
     end
     object sql_funBANCO: TStringField
       FieldName = 'BANCO'
-      Size = 10
-    end
-    object sql_funCODUSUARIO: TIntegerField
-      FieldName = 'CODUSUARIO'
+      Size = 30
     end
     object sql_funAGENCIA: TStringField
       FieldName = 'AGENCIA'
@@ -1057,27 +1013,26 @@ inherited fFuncionario: TfFuncionario
     end
     object sql_funCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
-      ProviderFlags = [pfInUpdate]
     end
     object sql_funCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
-      ProviderFlags = [pfInUpdate]
     end
     object sql_funCLIFOR: TStringField
       FieldName = 'CLIFOR'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sql_funSTATUS: TStringField
       FieldName = 'STATUS'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sql_funSALARIO: TFloatField
       FieldName = 'SALARIO'
-      DisplayFormat = ',#.00'
+    end
+    object sql_funEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 80
     end
   end
   object sql_proc_fun: TSQLClientDataSet
