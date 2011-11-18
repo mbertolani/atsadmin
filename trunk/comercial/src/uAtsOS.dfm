@@ -20,8 +20,8 @@ object fAtsOS: TfAtsOS
   object Image1: TImage
     Left = 165
     Top = 35
-    Width = 605
-    Height = 324
+    Width = 613
+    Height = 335
     Align = alClient
     Center = True
     Picture.Data = {
@@ -27781,8 +27781,8 @@ object fAtsOS: TfAtsOS
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 359
-    Width = 770
+    Top = 370
+    Width = 778
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -27806,7 +27806,7 @@ object fAtsOS: TfAtsOS
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 770
+    Width = 778
     Height = 35
     Align = alTop
     TabOrder = 1
@@ -27819,7 +27819,7 @@ object fAtsOS: TfAtsOS
     object RxLabel1: TRxLabel
       Left = 1
       Top = 1
-      Width = 768
+      Width = 776
       Height = 33
       Align = alClient
       Alignment = taCenter
@@ -27839,7 +27839,7 @@ object fAtsOS: TfAtsOS
     Left = 0
     Top = 35
     Width = 165
-    Height = 324
+    Height = 335
     Align = alLeft
     Pages = <
       item
@@ -27849,6 +27849,7 @@ object fAtsOS: TfAtsOS
             ImageIndex = 22
             Tag = 0
             AutoToggle = False
+            OnClick = JvOutlookBar1Pages0Buttons0Click
           end
           item
             Caption = '&Cliente'
@@ -27877,6 +27878,20 @@ object fAtsOS: TfAtsOS
             Tag = 0
             AutoToggle = False
             OnClick = JvOutlookBar1Pages0Buttons4Click
+          end
+          item
+            Caption = 'Cadastro CFOP'
+            ImageIndex = 22
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages0Buttons5Click
+          end
+          item
+            Caption = 'Plano de Contas'
+            ImageIndex = 17
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages0Buttons6Click
           end>
         ButtonSize = olbsLarge
         Caption = '&Cadastro'
@@ -27955,6 +27970,13 @@ object fAtsOS: TfAtsOS
             Tag = 0
             AutoToggle = False
             OnClick = JvOutlookBar1Pages2Buttons2Click
+          end
+          item
+            Caption = 'Movimenta'#231#227'o Financeira'
+            ImageIndex = 17
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages2Buttons3Click
           end>
         ButtonSize = olbsLarge
         Caption = '&Financeiro'
@@ -27975,10 +27997,32 @@ object fAtsOS: TfAtsOS
       item
         Buttons = <
           item
+            Caption = 'Entrada Materiais'
+            ImageIndex = 28
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages3Buttons0Click
+          end
+          item
+            Caption = 'Saida Materiais'
+            ImageIndex = 26
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages3Buttons1Click
+          end
+          item
+            Caption = 'Movimenta'#231#227'o de Materiais'
+            ImageIndex = 27
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages3Buttons2Click
+          end
+          item
             Caption = 'Ver &Movimenta'#231#227'o'
             ImageIndex = 30
             Tag = 0
             AutoToggle = False
+            OnClick = JvOutlookBar1Pages3Buttons3Click
           end
           item
             Caption = 'Ver &Estoque'
@@ -27991,6 +28035,7 @@ object fAtsOS: TfAtsOS
             ImageIndex = 31
             Tag = 0
             AutoToggle = False
+            OnClick = JvOutlookBar1Pages3Buttons5Click
           end>
         ButtonSize = olbsLarge
         Caption = 'Ma&teriais'
@@ -28021,12 +28066,21 @@ object fAtsOS: TfAtsOS
             ImageIndex = 1
             Tag = 0
             AutoToggle = False
+            OnClick = JvOutlookBar1Pages4Buttons1Click
           end
           item
             Caption = 'Vendas'
             ImageIndex = 5
             Tag = 0
             AutoToggle = False
+            OnClick = JvOutlookBar1Pages4Buttons2Click
+          end
+          item
+            Caption = 'Relatorio de Caixa'
+            ImageIndex = 19
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages4Buttons3Click
           end>
         ButtonSize = olbsLarge
         Caption = '&Relat'#243'rios'
@@ -28106,7 +28160,6 @@ object fAtsOS: TfAtsOS
       end>
     LargeImages = ImageList2
     PageButtonHeight = 34
-    ActivePageIndex = 5
     BorderStyle = bsNone
     Color = clWindow
     Font.Charset = ANSI_CHARSET
