@@ -54,10 +54,10 @@ declare variable codRec integer;
   declare variable UF_TRANSP Char(2);
   declare variable FRETE Char(1);
   declare variable INSCRICAOESTADUAL Varchar(20);
-  declare variable CORPONF1 Varchar(75);
-  declare variable CORPONF2 Varchar(75);
-  declare variable CORPONF3 Varchar(75);
-  declare variable CORPONF4 Varchar(75);
+  declare variable CORPONF1 Varchar(200);
+  declare variable CORPONF2 Varchar(200);
+  declare variable CORPONF3 Varchar(200);
+  declare variable CORPONF4 Varchar(200);
   declare variable CORPONF5 Varchar(75);
   declare variable CORPONF6 Varchar(75);
   declare variable FONE Varchar(15);
@@ -241,7 +241,8 @@ begin
     tBaseIcms = 0; 
   end
   
-  SELECT FIRST 1 ei.DADOSADC1, ei.DADOSADC2, ei.DADOSADC3, ei.DADOSADC4, ei.DADOSADC5, ei.DADOSADC6 
+  SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1, 200), UDF_LEFT(ei.DADOSADC2, 200), UDF_LEFT(ei.DADOSADC3, 200),
+  UDF_LEFT(ei.DADOSADC4, 200), ei.DADOSADC5, ei.DADOSADC6 
   FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf
   into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
 
