@@ -584,10 +584,10 @@ begin
     if (MaskEdit1.text = '') then
       MaskEdit1.Date := cds_MovimentoDATAMOVIMENTO.AsDateTime;
     dt_mov := MaskEdit1.Date;
-    if (cds_MovimentoOBS.IsNull) then
-      cds_MovimentoOBS.AsString := 'BAIXADO' // Uso pra baixar Materia Prima só uma vez
-    else
-      cds_MovimentoOBS.AsString := 'BAIXADO2';  // Já foi gravado
+    //if (cds_MovimentoOBS.IsNull) then
+    //  cds_MovimentoOBS.AsString := 'BAIXADO' // Uso pra baixar Materia Prima só uma vez
+    //else
+    //  cds_MovimentoOBS.AsString := 'BAIXADO2';  // Já foi gravado
   end;
   { ---------------------------------------------------------------------}
   if (cds_MovimentoDATAMOVIMENTO.AsDateTime < StrToDate('01/01/1990') ) then
@@ -1852,7 +1852,7 @@ end;
 procedure TfEntra_Sai_estoque.cds_movMatNewRecord(DataSet: TDataSet);
 begin
   cds_movMatCODMOVIMENTO.asInteger := 1999999;
-  cds_movMatDATAMOVIMENTO.AsDateTime := Now;
+  cds_movMatDATAMOVIMENTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
   cds_movMatDATA_SISTEMA.AsDateTime := Now;
   cds_movMatSTATUS.Value := 0;
   cds_movMatCODUSUARIO.AsInteger := 1;//usuario_logado;
