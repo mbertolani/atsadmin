@@ -236,6 +236,7 @@ type
     BitBtn1: TBitBtn;
     jvTotal: TJvValidateEdit;
     JvLabel3: TJvLabel;
+    JvBitBtn2: TJvBitBtn;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -259,6 +260,7 @@ type
     procedure jvPagoExit(Sender: TObject);
     procedure jvAcrescimoExit(Sender: TObject);
     procedure jvDescontoExit(Sender: TObject);
+    procedure JvBitBtn2Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -1850,6 +1852,14 @@ begin
     jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat
   else
     jvApagar.AsFloat := jvTotal.AsFloat - jvDesconto.AsFloat;
+end;
+
+procedure TF_TerminalFinaliza.JvBitBtn2Click(Sender: TObject);
+begin
+  VCLReport2.FileName := str_relatorio + 'impr_carne.rep';
+  VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport2.Report.Params.ParamByName('PVENDA').Value := DM_MOV.c_vendaCODVENDA.AsInteger;
+  VCLReport2.Execute;
 end;
 
 end.

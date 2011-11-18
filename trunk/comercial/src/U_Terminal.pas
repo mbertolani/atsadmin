@@ -528,8 +528,8 @@ var
   total, porc, totgeral , desconto : double;
   porta : string;
   cliente : string;
-
-
+  vTIPO_PEDIDO, teste_codigo : String;
+  numeroComp : Smallint;
 
 
 implementation
@@ -898,7 +898,8 @@ begin
           if (scds_produto_proc.Active) then
             scds_produto_proc.Close;
       end;
-    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    if (not DM_MOV.c_movdet.IsEmpty) then
+      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
     EdtCodBarra.Text := '';      
    end;
 end;
@@ -924,8 +925,6 @@ begin
 end;
 
 procedure TF_Terminal.JvProcurarClick(Sender: TObject);
-var
-  vTIPO_PEDIDO, teste_codigo : String;
 begin
     if (not dmnf.cds_ccusto.Active) then
         dmnf.cds_ccusto.Open;
@@ -975,7 +974,8 @@ begin
       DM_MOV.c_movdet.Params[0].Clear;
       DM_MOV.c_movdet.Params[0].AsInteger := fFiltroMovimento.cod_mov;
       DM_MOV.c_movdet.Open;
-      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+      if (not DM_MOV.c_movdet.IsEmpty) then
+        JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
     end
     else
     begin
@@ -2212,8 +2212,6 @@ begin
 end;
 
 procedure TF_Terminal.pinta_botao;
-var i:integer;
- numeroComp : Smallint;
 begin
     if (DM_MOV.c_comanda.Active) then
       DM_MOV.c_comanda.Close;
@@ -2357,8 +2355,6 @@ begin
 end;
 
 procedure TF_Terminal.pinta_botao_1;
-var i:integer;
- numeroComp : Smallint;
 begin
     if (DM_MOV.c_comanda.Active) then
       DM_MOV.c_comanda.Close;
@@ -2553,8 +2549,8 @@ begin
 end;
 
 procedure TF_Terminal.CtrlResize;
-var i:integer;
- numeroComp : Smallint;
+var
+  i : integer;
 begin
   numeroComp := 0;
   for i := 0 to  componentCount -1 do
