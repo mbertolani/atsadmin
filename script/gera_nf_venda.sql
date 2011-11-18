@@ -48,12 +48,12 @@ as
   declare variable UF_TRANSP Char(2);
   declare variable FRETE Char(1);
   declare variable INSCRICAOESTADUAL Varchar(20);
-  declare variable CORPONF1 Varchar(75);
-  declare variable CORPONF2 Varchar(75);
-  declare variable CORPONF3 Varchar(75);
-  declare variable CORPONF4 Varchar(75);
-  declare variable CORPONF5 Varchar(75);
-  declare variable CORPONF6 Varchar(75);
+  declare variable CORPONF1 Varchar(200);
+  declare variable CORPONF2 Varchar(200);
+  declare variable CORPONF3 Varchar(200);
+  declare variable CORPONF4 Varchar(200);
+  declare variable CORPONF5 Varchar(200);
+  declare variable CORPONF6 Varchar(200);
   declare variable FONE Varchar(15);
   declare variable FONE2 Varchar(15);
   declare variable FAX Varchar(15);
@@ -222,11 +222,11 @@ begin
     tBaseIcms = 0; 
   end
   
-  SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,75), UDF_LEFT(ei.DADOSADC2,75), UDF_LEFT(ei.DADOSADC3,75), 
-     UDF_LEFT(ei.DADOSADC4,75), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
+  SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,200), UDF_LEFT(ei.DADOSADC2,200), UDF_LEFT(ei.DADOSADC3,200), 
+     UDF_LEFT(ei.DADOSADC4,200), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
   FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf
   into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
- 
+
   if(:CODTRANSPORTADORA is null) then
   begin
   select first 1 t.CODTRANSP, t.NOMETRANSP, t.PLACATRANSP, t.CNPJ_CPF, t.END_TRANSP
