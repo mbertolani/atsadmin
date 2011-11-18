@@ -188,6 +188,7 @@ begin
   DM.UserControlAuto.User.Action := usuarios;
   DM.UserControlAuto.UserPasswordChange.Action := usuarios;
   }
+
   UserControlAuto.AutoStart := True;
   UserControlAuto.Execute;
 
