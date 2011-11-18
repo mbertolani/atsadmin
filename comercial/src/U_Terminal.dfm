@@ -1355,7 +1355,7 @@ object F_Terminal: TF_Terminal
     Top = 45
     Width = 372
     Height = 490
-    ActivePage = TabComanda
+    ActivePage = TabSheet1
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -1391,8 +1391,8 @@ object F_Terminal: TF_Terminal
           object JvImage1: TJvImage
             Left = 2
             Top = 2
-            Width = 765
-            Height = 370
+            Width = 358
+            Height = 355
             Align = alClient
             AutoSize = True
             Center = True
