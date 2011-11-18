@@ -1162,6 +1162,18 @@ begin
       executaSql('ALTER TABLE FUNCIONARIO ALTER RUA TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER CIDADE TYPE Varchar(60);');
       executaSql('update TRANSPORTADORA set FANTASIA = NOMETRANSP');
+      executaSql('DROP PROCEDURE GERA_NF_DEVOLUCAOCOMPRA');
+      executaSql('DROP PROCEDURE GERA_NF_DEVOLUCAOVENDA');
+      executaSql('DROP PROCEDURE GERA_NF_VENDA');
+      executaSql('DROP PROCEDURE GERA_NF_COMPRA');
+      executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF1 TYPE Varchar(200)');
+      executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF2 TYPE Varchar(200)');
+      executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF3 TYPE Varchar(200)');
+      executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF4 TYPE Varchar(200)');
+      executaScript('gera_nf_venda.sql');
+      executaScript('gera_nf_compra.sql');
+      executaScript('gera_nf_devolucaocompra.sql');
+      executaScript('gera_nf_devolucaovenda.sql');
       //mudaVersao('1.0.0.96');
     end;// Fim Ataulização Versao 1.0.0.97
 
