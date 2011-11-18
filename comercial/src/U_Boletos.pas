@@ -209,7 +209,6 @@ type
     lbl10: TLabel;
     SQLDataSet1: TSQLDataSet;
     btn5: TBitBtn;
-    btn6: TBitBtn;
     s_bancoESPECIEDOC: TStringField;
     s_bancoACEITE: TStringField;
     s_bancoCONVENIO: TStringField;
@@ -447,7 +446,7 @@ begin
               Titulo.DataDocumento     := ds_crEMISSAO.AsDateTime; //EncodeDate(2010,04,10);
 
               varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
-              vartitulo := IntToStr(varNossoNumero); //+ '-' + RemoveChar(ds_crVIA.AsString);
+              vartitulo := IntToStr(varNossoNumero) + '-' + RemoveChar(ds_crVIA.AsString);
               //Titulo.NumeroDocumento   := padR(vartitulo,6,'0');
 
               Titulo.EspecieDoc        := s_bancoESPECIEDOC.AsString; //EspecieDoc;
@@ -457,8 +456,8 @@ begin
                 Titulo.Aceite            := atNao;
 
               Titulo.DataProcessamento := Now;
-              varNossoNumero := StrToInt(vartitulo);
-              vartitulo := vartitulo + '-' + RemoveChar(ds_crVIA.AsString);
+              varNossoNumero := StrToInt(RemoveChar(vartitulo));
+              //vartitulo := vartitulo + '-' + RemoveChar(ds_crVIA.AsString);
               Titulo.NumeroDocumento   := padR(vartitulo,8,'0');
 
               case StrToInt(s_bancoN_BANCO.AsString) of
@@ -476,7 +475,7 @@ begin
               if (s_bancoN_BANCO.AsString = '001') then
                 Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';
 
-              if ((s_bancoN_BANCO.AsString = '743')) then
+              if ((s_bancoN_BANCO.AsString = '748')) then
               begin
                  ACBrBoleto1.Cedente.AgenciaDigito := padR(s_bancoDIGITO_AGENCIA.AsString, 2, '0');
                  if (cbb4.Text = 'Cliente Emite') then
@@ -762,6 +761,7 @@ procedure TF_Boletos.FormShow(Sender: TObject);
 var
  dia, mes, ano : Word;
 begin
+  edt2.Text := ExtractFilePath(Application.ExeName) + 'LogoBanco';
   DecodeDate(Now,ano,mes,dia);
   Edit1.Text := 'Remessa_' + IntToStr(dia) + IntToStr(mes) + IntToStr(ano);
   if (not DM.cdsBanco.Active) then

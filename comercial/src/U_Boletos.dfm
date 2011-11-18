@@ -178,12 +178,11 @@ object F_Boletos: TF_Boletos
     object edt2: TEdit
       Left = 6
       Top = 72
-      Width = 479
+      Width = 506
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
       TabOrder = 6
-      Text = 'C:\Home\LogoBanco'
     end
     object edt3: TEdit
       Left = 5
@@ -203,14 +202,6 @@ object F_Boletos: TF_Boletos
       Caption = '...'
       TabOrder = 8
     end
-    object btn6: TBitBtn
-      Left = 486
-      Top = 69
-      Width = 29
-      Height = 25
-      Caption = '...'
-      TabOrder = 9
-    end
     object cbb5: TComboBox
       Left = 443
       Top = 22
@@ -220,7 +211,7 @@ object F_Boletos: TF_Boletos
       Style = csDropDownList
       ItemHeight = 13
       ItemIndex = 0
-      TabOrder = 10
+      TabOrder = 9
       Text = 'SIM'
       Items.Strings = (
         'SIM'
@@ -233,7 +224,7 @@ object F_Boletos: TF_Boletos
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
-      TabOrder = 11
+      TabOrder = 10
       Text = 'Remessa'
     end
   end
