@@ -103,7 +103,8 @@ begin
   inherited;
   if dm.cds_produto.State = dsbrowse then
     dm.cds_produto.Edit;
-  dm.cds_produtoMARCA.AsString := DM.cds_MarcaDESCMARCAS.AsString;
+  if ( not DM.cds_MarcaDESCMARCAS.IsNull) then
+    dm.cds_produtoMARCA.AsString := DM.cds_MarcaDESCMARCAS.AsString;
   btnSair.Click;
 end;
 

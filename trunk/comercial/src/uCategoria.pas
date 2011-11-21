@@ -121,7 +121,8 @@ begin
   begin
     if dm.cds_produto.State = dsbrowse then
       dm.cds_produto.Edit;
-    dm.cds_produtoCATEGORIA.AsString := DM.cds_categoriaDESCCATEGORIA.AsString;
+    if ( not DM.cds_categoriaDESCCATEGORIA.IsNull) then
+      dm.cds_produtoCATEGORIA.AsString := DM.cds_categoriaDESCCATEGORIA.AsString;
   end;
   btnSair.Click;
 end;
