@@ -1039,6 +1039,8 @@ begin
       exit;
       //dbeCliente.SetFocus;
     end;
+    if ( cds_Movimento.State in [dsBrowse]) then
+      cds_Movimento.Edit;
     cds_MovimentoCODCLIENTE.AsInteger := dm.scds_cliente_procCODCLIENTE.AsInteger;
     cds_MovimentoNOMECLIENTE.AsString := dm.scds_cliente_procNOMECLIENTE.AsString;
     cds_MovimentoCODVENDEDOR.AsInteger := dm.scds_cliente_procCODUSUARIO.AsInteger;
@@ -1046,6 +1048,8 @@ begin
     cds_MovimentoOBS.AsString := dm.scds_cliente_procOBS.AsString;
     prazo := dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
     desconto := dm.scds_cliente_procDESCONTO.AsFloat;
+    if ( cds_Mov_det.State in [dsBrowse]) then
+      cds_Mov_det.Edit;
     cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
     dm.scds_cliente_proc.Close;
 
