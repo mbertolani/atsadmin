@@ -119,7 +119,8 @@ begin
     exit;
   if dm.cds_produto.State = dsbrowse then
     dm.cds_produto.Edit;
-  dm.cds_produtoFAMILIA.AsString :=  DM.cds_familiaDESCFAMILIA.AsString;
+  if ( not DM.cds_familiaDESCFAMILIA.IsNull) then
+    dm.cds_produtoFAMILIA.AsString :=  DM.cds_familiaDESCFAMILIA.AsString;
   btnSair.Click;
 end;
 
