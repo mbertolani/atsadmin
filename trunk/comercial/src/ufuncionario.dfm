@@ -202,6 +202,7 @@ inherited fFuncionario: TfFuncionario
   inherited MMJPanel1: TMMJPanel
     Top = 411
     Width = 682
+    TabOrder = 25
     inherited btnProcurar: TBitBtn
       OnClick = btnProcurarClick
     end
@@ -213,7 +214,7 @@ inherited fFuncionario: TfFuncionario
     Font.Height = -29
     Font.Name = 'Cooper Blk BT'
     ParentFont = False
-    TabOrder = 25
+    TabOrder = 28
     inherited Label1: TLabel
       Left = 128
       Top = -96
@@ -261,7 +262,7 @@ inherited fFuncionario: TfFuncionario
     BorderStyle = bsNone
     DataField = 'COD_FUNCIONARIO'
     DataSource = DtSrc
-    TabOrder = 26
+    TabOrder = 0
     OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit [27]
@@ -297,7 +298,7 @@ inherited fFuncionario: TfFuncionario
     BorderStyle = bsNone
     DataField = 'DATA_NASC'
     DataSource = DtSrc
-    TabOrder = 17
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
   object DBEdit5: TDBEdit [30]
@@ -394,7 +395,7 @@ inherited fFuncionario: TfFuncionario
     BorderStyle = bsNone
     DataField = 'CPF'
     DataSource = DtSrc
-    TabOrder = 15
+    TabOrder = 13
     OnKeyPress = FormKeyPress
   end
   object DBEdit13: TDBEdit [38]
@@ -406,7 +407,7 @@ inherited fFuncionario: TfFuncionario
     BorderStyle = bsNone
     DataField = 'RG'
     DataSource = DtSrc
-    TabOrder = 16
+    TabOrder = 14
     OnKeyPress = FormKeyPress
   end
   object DBEdit14: TDBEdit [39]
@@ -507,7 +508,7 @@ inherited fFuncionario: TfFuncionario
       'COMPRADOR'
       'AMBOS')
     PopupMenu = PopupMenu1
-    TabOrder = 23
+    TabOrder = 27
     Values.Strings = (
       'VENDEDOR'
       'COMPRADOR'
@@ -519,7 +520,7 @@ inherited fFuncionario: TfFuncionario
     Width = 65
     Height = 45
     Caption = '% Comiss'#227'o'
-    TabOrder = 27
+    TabOrder = 26
     object DBEdit16: TDBEdit
       Left = 7
       Top = 18
@@ -542,7 +543,7 @@ inherited fFuncionario: TfFuncionario
     BorderStyle = bsNone
     DataField = 'DATA_ADMISSAO'
     DataSource = DtSrc
-    TabOrder = 13
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
   object DBEdit24: TDBEdit [49]
@@ -554,7 +555,7 @@ inherited fFuncionario: TfFuncionario
     BorderStyle = bsNone
     DataField = 'DATA_DESLIGAMENTO'
     DataSource = DtSrc
-    TabOrder = 14
+    TabOrder = 17
     OnKeyPress = FormKeyPress
   end
   object DBEdit25: TDBEdit [50]
@@ -566,7 +567,7 @@ inherited fFuncionario: TfFuncionario
     BorderStyle = bsNone
     DataField = 'REGIAO_VENDA'
     DataSource = DtSrc
-    TabOrder = 24
+    TabOrder = 23
     OnKeyPress = FormKeyPress
   end
   object GroupBox2: TGroupBox [51]
@@ -575,7 +576,7 @@ inherited fFuncionario: TfFuncionario
     Width = 242
     Height = 127
     Caption = 'Financeiro'
-    TabOrder = 28
+    TabOrder = 24
     object Label27: TLabel
       Left = 8
       Top = 16
