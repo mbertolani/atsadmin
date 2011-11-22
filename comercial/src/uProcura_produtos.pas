@@ -14,38 +14,8 @@ uses
 type
   TfProcura_produtos = class(TForm)
     sds_proc: TSQLDataSet;
-    sds_procCODPRODUTO: TIntegerField;
-    sds_procCODPRO: TStringField;
-    sds_procPRODUTO: TStringField;
-    sds_procPRECO_VENDA: TFloatField;
-    sds_procQTDE_PCT: TFloatField;
-    sds_procUNIDADEMEDIDA: TStringField;
-    sds_procGRUPO: TStringField;
-    sds_procSUBGRUPO: TStringField;
-    sds_procMARCA: TStringField;
-    sds_procESTOQUEATUAL: TFloatField;
-    sds_procCODALMOXARIFADO: TIntegerField;
-    sds_procICMS: TFloatField;
-    sds_procPRECO_COMPRA: TFloatField;
-    sds_procTIPO: TStringField;
-    sds_procCOD_BARRA: TStringField;
     dsp_proc: TDataSetProvider;
     cds_proc: TClientDataSet;
-    cds_procCODPRODUTO: TIntegerField;
-    cds_procCODPRO: TStringField;
-    cds_procPRODUTO: TStringField;
-    cds_procPRECO_VENDA: TFloatField;
-    cds_procQTDE_PCT: TFloatField;
-    cds_procUNIDADEMEDIDA: TStringField;
-    cds_procGRUPO: TStringField;
-    cds_procSUBGRUPO: TStringField;
-    cds_procMARCA: TStringField;
-    cds_procESTOQUEATUAL: TFloatField;
-    cds_procCODALMOXARIFADO: TIntegerField;
-    cds_procICMS: TFloatField;
-    cds_procPRECO_COMPRA: TFloatField;
-    cds_procTIPO: TStringField;
-    cds_procCOD_BARRA: TStringField;
     Dtsrc: TDataSource;
     ds: TDataSource;
     dsSub: TDataSource;
@@ -119,8 +89,6 @@ type
     Label13: TLabel;
     BitBtn4: TBitBtn;
     EvDBFind1: TEvDBFind;
-    sds_procLOTES: TStringField;
-    cds_procLOTES: TStringField;
     BitBtn5: TBitBtn;
     VCLReport_lista_produtos: TVCLReport;
     Panel3: TPanel;
@@ -138,13 +106,9 @@ type
     dsLista: TDataSource;
     BitBtn7: TBitBtn;
     BitBtn8: TBitBtn;
-    sds_procLOCALIZACAO: TStringField;
-    cds_procLOCALIZACAO: TStringField;
     Label14: TLabel;
     Edit5: TEdit;
     rgEmUso: TCheckBox;
-    sds_procPESO_QTDE: TFloatField;
-    cds_procPESO_QTDE: TFloatField;
     cbMarca: TComboBox;
     cbFamilia: TComboBox;
     cbCategoria: TComboBox;
@@ -162,13 +126,9 @@ type
     Imprimir1: TMenuItem;
     Etiquetas1: TMenuItem;
     BitBtn6: TBitBtn;
-    sds_procPRECOMEDIO: TFloatField;
-    cds_procPRECOMEDIO: TFloatField;
     Edit4: TJvCalcEdit;
     Edit2: TJvCalcEdit;
     Edit3: TJvCalcEdit;
-    sds_procPEDIDO: TFloatField;
-    cds_procPEDIDO: TFloatField;
     BitBtn3: TBitBtn;
     cbAplicacao: TJvComboBox;
     Label9: TLabel;
@@ -181,6 +141,76 @@ type
     Exportar1: TMenuItem;
     DBGrid1: TJvDBGrid;
     Importar1: TMenuItem;
+    sds_procCODPRODUTO: TIntegerField;
+    sds_procCODPRO: TStringField;
+    sds_procPRODUTO: TStringField;
+    sds_procUNIDADEMEDIDA: TStringField;
+    sds_procQTDE_PCT: TFloatField;
+    sds_procICMS: TFloatField;
+    sds_procCODALMOXARIFADO: TIntegerField;
+    sds_procPRECO_COMPRA: TFloatField;
+    sds_procVALOR_PRAZO: TFloatField;
+    sds_procTIPO: TStringField;
+    sds_procESTOQUEATUAL: TFloatField;
+    sds_procLOCALIZACAO: TStringField;
+    sds_procPRECO_VENDA: TFloatField;
+    sds_procLOTES: TStringField;
+    sds_procPRECOMEDIO: TFloatField;
+    sds_procPESO_QTDE: TFloatField;
+    sds_procCOD_COMISSAO: TIntegerField;
+    sds_procRATEIO: TStringField;
+    sds_procCONTA_DESPESA: TStringField;
+    sds_procIPI: TFloatField;
+    sds_procNCM: TStringField;
+    sds_procORIGEM: TStringField;
+    sds_procESTOQUEMAXIMO: TFloatField;
+    sds_procESTOQUEREPOSICAO: TFloatField;
+    sds_procESTOQUEMINIMO: TFloatField;
+    sds_procPRECOMEDIO_1: TBCDField;
+    sds_procMARGEM_LUCRO: TFloatField;
+    sds_procDATACADASTRO: TSQLTimeStampField;
+    sds_procPRO_COD: TStringField;
+    sds_procDATAGRAV: TDateField;
+    sds_procTIPOPRECOVENDA: TStringField;
+    sds_procVALORMINIMO: TFloatField;
+    cds_procCODPRODUTO: TIntegerField;
+    cds_procCODPRO: TStringField;
+    cds_procPRODUTO: TStringField;
+    cds_procUNIDADEMEDIDA: TStringField;
+    cds_procQTDE_PCT: TFloatField;
+    cds_procICMS: TFloatField;
+    cds_procCODALMOXARIFADO: TIntegerField;
+    cds_procPRECO_COMPRA: TFloatField;
+    cds_procVALOR_PRAZO: TFloatField;
+    cds_procTIPO: TStringField;
+    cds_procESTOQUEATUAL: TFloatField;
+    cds_procLOCALIZACAO: TStringField;
+    cds_procPRECO_VENDA: TFloatField;
+    cds_procLOTES: TStringField;
+    cds_procPRECOMEDIO: TFloatField;
+    cds_procPESO_QTDE: TFloatField;
+    cds_procCOD_COMISSAO: TIntegerField;
+    cds_procRATEIO: TStringField;
+    cds_procCONTA_DESPESA: TStringField;
+    cds_procIPI: TFloatField;
+    cds_procNCM: TStringField;
+    cds_procORIGEM: TStringField;
+    cds_procESTOQUEMAXIMO: TFloatField;
+    cds_procESTOQUEREPOSICAO: TFloatField;
+    cds_procESTOQUEMINIMO: TFloatField;
+    cds_procPRECOMEDIO_1: TBCDField;
+    cds_procMARGEM_LUCRO: TFloatField;
+    cds_procDATACADASTRO: TSQLTimeStampField;
+    cds_procPRO_COD: TStringField;
+    cds_procDATAGRAV: TDateField;
+    cds_procTIPOPRECOVENDA: TStringField;
+    cds_procVALORMINIMO: TFloatField;
+    sds_procMARCA: TStringField;
+    sds_procGRUPO: TStringField;
+    sds_procSUBGRUPO: TStringField;
+    cds_procMARCA: TStringField;
+    cds_procGRUPO: TStringField;
+    cds_procSUBGRUPO: TStringField;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -498,10 +528,13 @@ begin
  varSql := 'select distinct CODPRODUTO, COD_BARRA, CODPRO, cast(PRODUTO as varchar(300)) as PRODUTO,  ' +
    'PRECO_VENDA, PRECO_COMPRAULTIMO as PRECO_COMPRA, ' +
    'QTDE_PCT, UNIDADEMEDIDA, ' +
-   'GRUPO, SUBGRUPO, MARCA, ' +
-   'ESTOQUEATUAL, CODALMOXARIFADO, ICMS, TIPO, LOCALIZACAO, LOTES,    ' +
+   'GRUPO, SUBGRUPO, MARCA, COD_COMISSAO, ' +
+   'ESTOQUEATUAL, CODALMOXARIFADO, ICMS, TIPO, LOCALIZACAO, LOTES, RATEIO, conta_despesa, IPI,  ' +
    'SUBGRUPO as CATEGORIA, PRECO_VENDA as VALOR_PRAZO, PESO_QTDE, ' +
-   'PRECO_COMPRAMEDIO as PRECOMEDIO, PEDIDO, NCM, ORIGEM ' +
+   'PRECO_COMPRAMEDIO as PRECOMEDIO, PEDIDO, NCM, ORIGEM, ' +
+   'ESTOQUEMAXIMO, ESTOQUEREPOSICAO, ESTOQUEMINIMO, ' +
+   'PRECOMEDIO , MARGEM_LUCRO , DATACADASTRO , PRO_COD, ' +
+   'DATAGRAV, TIPOPRECOVENDA, VALORMINIMO ' +
    'from LISTAPRODUTO(0, ';
  // Códigos
  varSql1 := 'select distinct cod.CODIGO ' +
