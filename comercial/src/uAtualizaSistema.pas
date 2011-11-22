@@ -1174,8 +1174,10 @@ begin
       executaScript('gera_nf_compra.sql');
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
+      executaDDL('OS', 'VEICULO', 'VARCHAR(200)');
       //mudaVersao('1.0.0.96');
     end;// Fim Ataulização Versao 1.0.0.97
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');

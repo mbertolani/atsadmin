@@ -456,12 +456,12 @@ end;
 
 procedure TfAtsOS.JvOutlookBar1Pages5Buttons3Click(Sender: TObject);
 begin
-// fPainelControle := fPainelControle.Create(Application);
-// Try
+ fPainelControle := fPainelControle.Create(Application);
+ Try
    fPainelControle.ShowModal;
-// finally
-//   fPainelControle.Free;
-// end;
+ finally
+   fPainelControle.Free;
+ end;
 end;
 
 procedure TfAtsOS.JvOutlookBar1Pages5Buttons2Click(Sender: TObject);
