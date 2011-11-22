@@ -1405,8 +1405,8 @@ object fOs: TfOs
       Caption = 'Ve'#237'culo'
       TabOrder = 2
       object Label7: TLabel
-        Left = 280
-        Top = 15
+        Left = 520
+        Top = 17
         Width = 15
         Height = 13
         Caption = 'Km'
@@ -1425,10 +1425,17 @@ object fOs: TfOs
         Height = 13
         Caption = 'Obs.:'
       end
+      object Label5: TLabel
+        Left = 151
+        Top = 15
+        Width = 37
+        Height = 13
+        Caption = 'Ve'#237'culo'
+      end
       object edVeiculo: TJvMaskEdit
         Left = 49
         Top = 15
-        Width = 120
+        Width = 90
         Height = 24
         EditMask = '!>LLL-0000;1;_'
         Font.Charset = DEFAULT_CHARSET
@@ -1455,14 +1462,14 @@ object fOs: TfOs
         Font.Style = []
         MaxLength = 100
         ParentFont = False
-        TabOrder = 2
+        TabOrder = 3
         OnChange = edDataChange
         OnKeyPress = FormKeyPress
       end
       object edKm: TJvCalcEdit
-        Left = 317
+        Left = 540
         Top = 15
-        Width = 95
+        Width = 78
         Height = 24
         DecimalPlaces = 0
         DisplayFormat = ',##0'
@@ -1473,15 +1480,15 @@ object fOs: TfOs
         Font.Style = []
         ParentFont = False
         ShowButton = False
-        TabOrder = 1
+        TabOrder = 2
         DecimalPlacesAlwaysShown = False
         OnChange = edDataChange
         OnKeyPress = FormKeyPress
       end
       object RadioGroup1: TRadioGroup
-        Left = 427
+        Left = 624
         Top = 8
-        Width = 235
+        Width = 184
         Height = 32
         Caption = 'Tipo'
         Columns = 2
@@ -1489,8 +1496,24 @@ object fOs: TfOs
         Items.Strings = (
           'Or'#231'amento'
           'O.S.')
-        TabOrder = 3
+        TabOrder = 4
         OnClick = RadioGroup1Click
+      end
+      object edVeiculoDesc: TEdit
+        Left = 195
+        Top = 15
+        Width = 313
+        Height = 24
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        MaxLength = 100
+        ParentFont = False
+        TabOrder = 1
+        OnChange = edDataChange
+        OnKeyPress = FormKeyPress
       end
     end
   end
@@ -2192,10 +2215,10 @@ object fOs: TfOs
       #39' THEN '#39'Em Execu'#231#227'o'#39#13#10' WHEN OSP.STATUS = '#39'A'#39' THEN '#39'Aguardando Pe' +
       #231'a'#39'  WHEN OSP.STATUS = '#39'F'#39' THEN '#39'Finalizada'#39'  WHEN OSP.STATUS = ' +
       #39'N'#39' THEN '#39'N'#227'o Aprovada'#39'   WHEN OSP.STATUS = '#39'C'#39' THEN '#39'Cancelada'#39 +
-      ' '#13#10'END STATUSDESC, OSDET.ID_OS_DET, cli.RAZAOSOCIAL, osp.KM '#13#10'  ' +
-      ' FROM OS OSP'#13#10'   INNER JOIN CLIENTES cli     ON cli.CODCLIENTE =' +
-      ' OSP.CODCLIENTE'#13#10'  LEFT OUTER JOIN OS_DET OSDET ON OSDET.ID_OS =' +
-      ' OSP.CODOS'#13#10'WHERE OSP.CODOS    = :POS'#13#10'     '
+      ' '#13#10'END STATUSDESC, OSDET.ID_OS_DET, cli.RAZAOSOCIAL, osp.KM, osp' +
+      '.VEICULO  '#13#10'   FROM OS OSP'#13#10'   INNER JOIN CLIENTES cli     ON cl' +
+      'i.CODCLIENTE = OSP.CODCLIENTE'#13#10'  LEFT OUTER JOIN OS_DET OSDET ON' +
+      ' OSDET.ID_OS = OSP.CODOS'#13#10'WHERE OSP.CODOS    = :POS'#13#10'     '
     MaxBlobSize = -1
     Params = <
       item
@@ -2289,6 +2312,11 @@ object fOs: TfOs
     object cdsOSKM: TIntegerField
       FieldName = 'KM'
       ReadOnly = True
+    end
+    object cdsOSVEICULO: TStringField
+      FieldName = 'VEICULO'
+      ReadOnly = True
+      Size = 200
     end
   end
   object dtsrc: TDataSource
