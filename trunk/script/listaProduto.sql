@@ -37,7 +37,17 @@ RETURNS(
   CONTA_DESPESA VARCHAR(15) CHARACTER SET WIN1252,
   ORIGEM VARCHAR(15) CHARACTER SET WIN1252,
   NCM VARCHAR(8) CHARACTER SET WIN1252,  
-  APLICACAO_PRODUTO VARCHAR(30)  CHARACTER SET WIN1252)
+  APLICACAO_PRODUTO VARCHAR(30)  CHARACTER SET WIN1252,
+  ESTOQUEMAXIMO Double precision  CHARACTER SET WIN1252,
+  ESTOQUEREPOSICAO Double precision  CHARACTER SET WIN1252,
+  ESTOQUEMINIMO Double precision  CHARACTER SET WIN1252,
+  PRECOMEDIO Numeric(9,2)  CHARACTER SET WIN1252,
+  MARGEM_LUCRO Double precision  CHARACTER SET WIN1252,
+  DATACADASTRO Timestamp  CHARACTER SET WIN1252,
+  PRO_COD Varchar(15)  CHARACTER SET WIN1252,
+  DATAGRAV Date  CHARACTER SET WIN1252,
+  TIPOPRECOVENDA Char(1)  CHARACTER SET WIN1252,
+  VALORMINIMO Double precision  CHARACTER SET WIN1252 )
 AS
 declare variable precoVenda double PRECISION;
   declare variable CustoMateriaPrima double PRECISION;
@@ -72,7 +82,9 @@ begin
     p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
     p.LOTES, p.margem, p.VALOR_PRAZO, p.TIPOPRECOVENDA, uso.DESCRICAO, cod.CODIGO, p.USA,
     p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL
-	, p.NCM, CASE p.ORIGEM WHEN 0 then 'Nac.' WHEN 1 THEN 'Imp. Ext.' WHEN 2 THEN 'Imp. Int.' END as ORIGEM	
+	, p.NCM, CASE p.ORIGEM WHEN 0 then 'Nac.' WHEN 1 THEN 'Imp. Ext.' WHEN 2 THEN 'Imp. Int.' END as ORIGEM, 
+	p.ESTOQUEMAXIMO, p.ESTOQUEREPOSICAO, p.ESTOQUEMINIMO, p.PRECOMEDIO , p.MARGEM_LUCRO , p.DATACADASTRO,
+	p.PRO_COD, p.DATAGRAV, p.TIPOPRECOVENDA, p.VALORMINIMO
     from produtos p
     left outer join USO_PRODUTO uso  on uso.COD_PRODUTO = p.CODPRODUTO
     left outer join CODIGOS cod on cod.COD_PRODUTO = p.CODPRODUTO
@@ -88,7 +100,8 @@ begin
       --and ((p.TIPO = :tipoProduto) OR (:tipoProduto = 'TODOSTIPOS'))
   into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
     :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
-    :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto, :ncm, :origem
+    :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto, :ncm, :origem,
+    :ESTOQUEMAXIMO, :ESTOQUEREPOSICAO, :ESTOQUEMINIMO, :PRECOMEDIO , :MARGEM_LUCRO , :DATACADASTRO ,:PRO_COD, :DATAGRAV, :TIPOPRECOVENDA, :VALORMINIMO
   do begin
   
     if (codAlmoxarifado is null) then 
