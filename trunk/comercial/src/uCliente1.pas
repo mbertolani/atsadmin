@@ -296,6 +296,7 @@ begin
     DBEdit49.Visible := True;
     Label54.Visible  := True;
     Label55.Visible  := True;
+    cds_cliCNPJ.EditMask := '000.000.000-00;1;_'
   end;
   if (rgTipo.ItemIndex = 1) then
   begin
@@ -307,6 +308,7 @@ begin
     DBEdit49.Visible := False;
     Label54.Visible  := False;
     Label55.Visible  := False;
+    cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';
   end;
 end;
 
