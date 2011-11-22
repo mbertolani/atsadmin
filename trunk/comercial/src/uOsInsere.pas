@@ -137,6 +137,7 @@ end;
 
 procedure TfOsInsere.edProdutoExit(Sender: TObject);
 begin
+
   if (edProduto.Text = '') then exit;
 
   if dm.scds_produto_proc.Active then

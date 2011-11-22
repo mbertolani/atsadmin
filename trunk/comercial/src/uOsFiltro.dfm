@@ -364,7 +364,7 @@ object fOsFiltro: TfOsFiltro
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object btnSair: TBitBtn
-      Left = 650
+      Left = 649
       Top = 47
       Width = 98
       Height = 40
@@ -1000,7 +1000,7 @@ object fOsFiltro: TfOsFiltro
     Left = 0
     Top = 89
     Width = 752
-    Height = 188
+    Height = 169
     Align = alClient
     DataSource = dsOs
     Font.Charset = ANSI_CHARSET
@@ -1310,10 +1310,9 @@ object fOsFiltro: TfOsFiltro
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 554
+    Top = 258
     Width = 752
     Height = 19
-    Align = alCustom
     Panels = <
       item
         Width = 450
