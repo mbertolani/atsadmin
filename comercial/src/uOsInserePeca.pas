@@ -151,6 +151,8 @@ begin
   fOs.cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
   //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
   fOs.cdsPecas.Post;
+  btnGravar.Visible := False;
+  btnIncluir.Visible := True;
   //cdsPecas.ApplyUpdates(0);
   {Try
     dm.sqlsisAdimin.StartTransaction(TD);

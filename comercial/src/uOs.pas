@@ -356,10 +356,11 @@ begin
         end;
       end
       else begin
-        FOsCls.osDet.alterarOsDet(cdsPecasID_OS.AsInteger);
+        FOsCls.osDet.alterarOsDet(cdsPecasID_OS_DET.AsInteger);
       end;
       cdsPecas.Next;
     end;
+    cdsPecas.EnableControls;
     dm.sqlsisAdimin.Commit(TD);
     edNumOS.Text := IntToStr(CodigoOs);
     if (modoOs = 'Insert') then
@@ -373,6 +374,8 @@ begin
   except
     on E : Exception do
     begin
+      cdsPecas.EnableControls;
+      cdsServico.EnableControls;
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
       dm.sqlsisAdimin.Rollback(TD);
     end;
