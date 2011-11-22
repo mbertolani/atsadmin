@@ -5,7 +5,7 @@ create or ALTER PROCEDURE  SP_MOV_CAIXA_ORDEM( DTAINI                           
   
 RETURNS ( DTAPAGTO                         DATE
         , ORDEM                            SMALLINT
-        , DESCRICAO                        VARCHAR( 300 )
+        , DESCRICAO                        VARCHAR( 350 )
         , VALORC                           DOUBLE PRECISION
         , VALORD                           DOUBLE PRECISION
         , VALOR                            DOUBLE PRECISION
