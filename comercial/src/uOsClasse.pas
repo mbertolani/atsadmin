@@ -30,6 +30,8 @@ Type
     procedure setOsDet(const Value: TOsDetalheClasse);
     function getObs: String;
     procedure setObs(const Value: String);
+    function getVeiculo: String;
+    procedure setVeiculo(const Value: String);
   protected
     //Atributos
     _codOs      : Integer;
@@ -41,8 +43,9 @@ Type
     _status     : String;    // A-Andamento F-Finalizada G-Aguardando Peça N-Não Aprovada  O-Orçamento
     _codUsuario : Integer;
     _km         : Integer;
-    _osDet       : TOsDetalheClasse;
+    _osDet      : TOsDetalheClasse;
     _obs        : String;
+    _veiculo    : String;
 
   public
     property codOs : Integer read getCodOs write setCodOs;
@@ -56,6 +59,7 @@ Type
     property km: Integer read getKm write setKm;
     property osDet: TOsDetalheClasse read getOsDet write setOsDet;
     property obs: String read getObs write setObs;
+    property veiculo: String read getVeiculo write setVeiculo;
 
     function IncluirOs(codOsI: Integer): Integer;
     function alterarOs(codOsA: Integer): Boolean;
@@ -86,8 +90,9 @@ begin
     sqlAltera := sqlAltera + ' DATAOS     = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataOs)) + ', ';
     sqlAltera := sqlAltera + ' DATA_INI   = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataInicio)) + ', ';
     sqlAltera := sqlAltera + ' DATA_FIM   = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataFim)) + ', ';
-    //sqlAltera := sqlAltera + ' STATUS     = ' + QuotedStr(Self.status) + ', ';
+    //sqlAltera := sqlAltera + ' STATUS   = ' + QuotedStr(Self.status) + ', ';
     sqlAltera := sqlAltera + ' OBS        = ' + QuotedStr(Self.obs) + ', ';
+    sqlAltera := sqlAltera + ' VEICULO    = ' + QuotedStr(Self.veiculo) + ', ';
     sqlAltera := sqlAltera + ' KM         = ' + IntToStr(Self.km);
     sqlAltera := sqlAltera + ' WHERE CODOS= ' + IntToStr(codOsA);
 
@@ -212,6 +217,11 @@ begin
   Result := Trim(_status);
 end;
 
+function TOsClasse.getVeiculo: String;
+begin
+  Result := Trim(_veiculo);
+end;
+
 function TOsClasse.IncluirOs(codOsI: Integer): Integer;
 var sqlInsere: String;
     sqlBuscaI: TSqlQuery;
@@ -232,7 +242,7 @@ begin
       end;
     end;
     sqlInsere := 'INSERT INTO OS(CODOS, CODCLIENTE, CODVEICULO, CODUSUARIO, DATAOS,'+
-      'DATA_SISTEMA, DATA_INI, DATA_FIM, STATUS, KM, OBS) VALUES (';
+      'DATA_SISTEMA, DATA_INI, DATA_FIM, STATUS, KM, OBS, VEICULO) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.codOs) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codCliente) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.codVeiculo) + ', ';
@@ -243,7 +253,8 @@ begin
     sqlInsere := sqlInsere + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.dataFim)) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.status) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.km) + ', ';
-    sqlInsere := sqlInsere + QuotedStr(Self.Obs) + ')';
+    sqlInsere := sqlInsere + QuotedStr(Self.Obs) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.Veiculo) + ')';
 
     executaSql(sqlInsere);
     Result := Self.codOs;
@@ -311,6 +322,11 @@ end;
 procedure TOsClasse.setStatus(const Value: String);
 begin
   _status := Value;
+end;
+
+procedure TOsClasse.setVeiculo(const Value: String);
+begin
+  _veiculo := Value;
 end;
 
 end.

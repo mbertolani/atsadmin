@@ -156,6 +156,9 @@ type
     RadioGroup1: TRadioGroup;
     JvDBGrid1: TJvDBUltimGrid;
     JvDBGrid2: TJvDBUltimGrid;
+    Label5: TLabel;
+    edVeiculoDesc: TEdit;
+    cdsOSVEICULO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -267,6 +270,7 @@ begin
     FOsCls.dataInicio := edData.Date;
     FOsCls.dataFim    := edDataFim.Date;
     FOsCls.obs        := edObs.Text;
+    FOsCls.veiculo    := edVeiculoDesc.Text;
     if (modoOs = 'Insert') then
     begin
       FOsCls.status := statusOs;
@@ -379,11 +383,13 @@ procedure TfOs.limpaCampos;
 begin
   edData.Clear;
   edDataFim.Clear;
-  edCodCliente.Text := '';
+  edCodCliente.Text  := '';
   edNomeCliente.Text := '';
-  edNumOS.Text := '';
-  edVeiculo.Text := '';
-  edKm.Text := '';
+  edNumOS.Text       := '';
+  edVeiculo.Text     := '';
+  edKm.Text          := '';
+  edObs.Text         := '';
+  edVeiculoDesc.Text := '';
   cdsOs.Close;
   cdsPecas.Close;
 end;
@@ -675,6 +681,7 @@ begin
     edVeiculo.Text     := cdsOSCODVEICULO.AsString;
     edKm.Text          := IntToStr(cdsOSKM.AsInteger);
     edObs.Text         := cdsOSOBS.AsString;
+    edVeiculoDesc.Text := cdsOSVEICULO.AsString;
     abrirOs(cdsOSCODOS.AsInteger);
     abrirPecas;
     //modoOs := 'Edit';

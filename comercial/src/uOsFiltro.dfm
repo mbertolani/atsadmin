@@ -1087,8 +1087,15 @@ object fOsFiltro: TfOsFiltro
       item
         Expanded = False
         FieldName = 'CODVEICULO'
-        Title.Caption = 'Ve'#237'culo'
+        Title.Caption = 'Placa'
         Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VEICULO'
+        Title.Caption = 'Ve'#237'culo'
+        Width = 200
         Visible = True
       end
       item
@@ -1309,10 +1316,14 @@ object fOsFiltro: TfOsFiltro
     Align = alCustom
     Panels = <
       item
-        Width = 350
+        Width = 450
       end
       item
-        Width = 50
+        Width = 400
+      end
+      item
+        Alignment = taRightJustify
+        Width = 200
       end>
     OnResize = StatusBar1Resize
   end
@@ -1385,10 +1396,13 @@ object fOsFiltro: TfOsFiltro
       Required = True
       Size = 50
     end
+    object cdsOsVEICULO: TStringField
+      FieldName = 'VEICULO'
+      Size = 200
+    end
   end
   object dsOs: TDataSource
     DataSet = cdsOs
-    OnDataChange = dsOsDataChange
     Left = 384
     Top = 24
   end
@@ -1696,6 +1710,10 @@ object fOsFiltro: TfOsFiltro
       Required = True
       Size = 50
     end
+    object sdsOsVEICULO: TStringField
+      FieldName = 'VEICULO'
+      Size = 200
+    end
   end
   object sdsPeca: TSQLDataSet
     CommandText = 
@@ -1793,5 +1811,16 @@ object fOsFiltro: TfOsFiltro
       Caption = 'O-Or'#231'amento'
       OnClick = NNoAprovado1Click
     end
+    object EExcluido1: TMenuItem
+      Caption = 'E-Excluido'
+      OnClick = EExcluido1Click
+    end
+  end
+  object sqlTotal: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 184
+    Top = 160
   end
 end

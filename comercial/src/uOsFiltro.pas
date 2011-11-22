@@ -144,11 +144,14 @@ type
     cdsServicoNOMEUSUARIO: TStringField;
     sdsOsNOMECLIENTE: TStringField;
     cdsOsNOMECLIENTE: TStringField;
+    EExcluido1: TMenuItem;
+    sdsOsVEICULO: TStringField;
+    cdsOsVEICULO: TStringField;
+    sqlTotal: TSQLQuery;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
     procedure FormCreate(Sender: TObject);
-    procedure dsOsDataChange(Sender: TObject; Field: TField);
     procedure StatusBar1Resize(Sender: TObject);
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1GetBtnParams(Sender: TObject; Field: TField;
@@ -174,12 +177,14 @@ type
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure btnIncluirClick(Sender: TObject);
     procedure JvFinalizarClick(Sender: TObject);
+    procedure EExcluido1Click(Sender: TObject);
   private
     Ascending : boolean;
     util: TUtils;
     OsServico: String;
     procedure abrirOs;
     procedure TrocaStatus(StatusNovo: String; OsouServico: String);
+    function TotalOs(OsTot: Integer): Double;
     { Private declarations }
   public
     FOsClsF: TOsClasse;
@@ -221,6 +226,7 @@ begin
   end;
 
   fOs.ShowModal;
+  btnProcurar.Click;
 end;
 
 procedure TfOsFiltro.FormShow(Sender: TObject);
@@ -242,24 +248,12 @@ begin
   util := TUtils.Create;
 end;
 
-procedure TfOsFiltro.dsOsDataChange(Sender: TObject; Field: TField);
-begin
-  if (cdsOs.Active) then
-  begin
-    StatusBar1.Panels[0].Text := 'Orderm de Serviços';//MinimizeName(' ' + CdsOS.Filename, StatusBar1.Canvas, StatusBar1.Panels[0].Width);
-    if (CdsOS.RecNo >= 0) then
-      StatusBar1.Panels[1].Text := Format('  %d of %d', [CdsOs.RecNo , CdsOS.RecordCount])
-    else
-      StatusBar1.Panels[1].Text := '  Inserindo...';
-  end;
-end;
-
 procedure TfOsFiltro.StatusBar1Resize(Sender: TObject);
 begin
   if (cdsOs.Active) then
   begin
     StatusBar1.Panels[0].Width := ClientWidth - 100;
-    dsOsDataChange(nil, nil);
+    //dsOsDataChange(nil, nil);
   end;
 end;
 
@@ -384,6 +378,7 @@ end;
 procedure TfOsFiltro.btnProcurarClick(Sender: TObject);
 begin
   abrirOs;
+  TotalOs(cdsOsCODOS.AsInteger);
 end;
 
 procedure TfOsFiltro.cbMesChange(Sender: TObject);
@@ -658,7 +653,7 @@ begin
     PopupMenu1.Items.Items[3].Enabled := True;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
   end;
-
+  TotalOs(cdsOsCODOS.AsInteger);
 end;
 
 procedure TfOsFiltro.btnStatusServicoClick(Sender: TObject);
@@ -729,6 +724,7 @@ begin
   fOs.btnIncluir.Visible := True;
   fOs.btnIncluir.Click;
   fOs.ShowModal;
+  btnProcurar.Click;
 end;
 
 procedure TfOsFiltro.JvFinalizarClick(Sender: TObject);
@@ -746,7 +742,7 @@ begin
 
       if (dm.sqlBusca.Active) then
         dm.sqlBusca.Close;
-      dm.sqlBusca.SQL.Clear;  
+      dm.sqlBusca.SQL.Clear;
       dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO FROM MOVIMENTO WHERE CODORIGEM = ' +
         IntToStr(cdsOsCODOS.AsInteger));
       dm.sqlBusca.Open;
@@ -767,6 +763,35 @@ begin
       F_TerminalFinaliza.Free;
     end;
   end;
+end;
+
+procedure TfOsFiltro.EExcluido1Click(Sender: TObject);
+begin
+  TrocaStatus('E', OsServico);  // Excluido
+end;
+
+function TfOsFiltro.TotalOs(OsTot: Integer): Double;
+begin
+  If (sqlTotal.Active) then
+    sqlTotal.Close;
+  sqlTotal.SQL.Clear;
+  sqlTotal.SQL.Add('SELECT sum(VALORTOTAL) FROM OS_DET WHERE ID_OS = ' + IntToStr(OsTot));
+  sqlTotal.Open;
+  Result := 0;
+  if (not sqlTotal.IsEmpty) then
+    Result := sqlTotal.Fields[0].AsFloat;
+
+  if (cdsOs.Active) then
+  begin
+    StatusBar1.Panels[0].Text := 'Ordem de Serviço n. ' + IntToStr(cdsOsCODOS.AsInteger);//MinimizeName(' ' + CdsOS.Filename, StatusBar1.Canvas, StatusBar1.Panels[0].Width);
+    if (CdsOS.RecNo >= 0) then
+      StatusBar1.Panels[1].Text := Format('  %d of %d', [CdsOs.RecNo , CdsOS.RecordCount])
+    else
+      StatusBar1.Panels[1].Text := '  Inserindo...';
+  end;
+  if (sqlTotal.Active) then
+    StatusBar1.Panels[2].Text := '  Total : ' + Format('%-6.2n', [sqlTotal.Fields[0].AsFloat]);
+
 end;
 
 end.
