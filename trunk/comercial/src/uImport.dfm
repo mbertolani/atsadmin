@@ -15,7 +15,7 @@ object fImport: TfImport
   object DBGrid1: TDBGrid
     Left = 0
     Top = 0
-    Width = 882
+    Width = 890
     Height = 223
     Align = alTop
     DataSource = DataSource1
@@ -29,80 +29,206 @@ object fImport: TfImport
       item
         Expanded = False
         FieldName = 'Sequencial'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'C'#243'digo'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Descri'#231#227'o do Produto'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Qutde'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'UN'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'R$ Compra'
-        Width = 70
+        FieldName = 'Estoque'
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'R$ Venda'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Marca'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Grupo'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SubGrupo'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Local Estoque'
-        Width = 70
+        Width = 150
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'ICMS'
-        Width = 70
+        FieldName = 'CODALMOXARIFADO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_COMPRA'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR_PRAZO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LOTES'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOMEDIO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PESO_QTDE'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'COD_COMISSAO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'RATEIO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CONTA_DESPESA'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IPI'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NCM'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ORIGEM'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEMAXIMO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEREPOSICAO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEMINIMO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MARGEM_LUCRO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATACADASTRO'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRO_COD'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAGRAV'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPOPRECOVENDA'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALORMINIMO'
+        Width = 150
         Visible = True
       end>
   end
   object Panel1: TPanel
     Left = 0
-    Top = 505
-    Width = 882
+    Top = 516
+    Width = 890
     Height = 41
     Align = alBottom
     TabOrder = 1
@@ -137,8 +263,8 @@ object fImport: TfImport
   object Memo1: TMemo
     Left = 0
     Top = 223
-    Width = 882
-    Height = 282
+    Width = 890
+    Height = 293
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -147,8 +273,12 @@ object fImport: TfImport
     Font.Style = []
     Lines.Strings = (
       
-        'Sequencial,C'#243'digo,Descri'#231#227'o do Produto,Qutde,UN,R$ Compra,R$ Ven' +
-        'da,Marca,Grupo,SubGrupo,Local Estoque,ICMS')
+        'Sequencial,C'#243'digo,Descri'#231#227'o do Produto,Qutde,UN,Estoque,R$ Venda' +
+        ',Marca,Grupo,SubGrupo,Local Estoque,CODALMOXARIFADO,PRECO_COMPRA' +
+        ',VALOR_PRAZO,TIPO,LOTES,PRECOMEDIO,PESO_QTDE,COD_COMISSAO,RATEIO' +
+        ',CONTA_DESPESA,IPI,NCM,ORIGEM,ESTOQUEMAXIMO,ESTOQUEREPOSICAO,EST' +
+        'OQUEMINIMO,MARGEM_LUCRO,DATACADASTRO,PRO_COD,DATAGRAV,TIPOPRECOV' +
+        'ENDA,VALORMINIMO')
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 2
@@ -157,8 +287,12 @@ object fImport: TfImport
     FileName = 'PhoneList.csv'
     Changed = False
     CsvFieldDef = 
-      'Sequencial,C'#243'digo,Descri'#231#227'o do Produto,Qutde,UN,R$ Compra,R$ Ven' +
-      'da,Marca,Grupo,SubGrupo,Local Estoque,ICMS'
+      'Sequencial,C'#243'digo,Descri'#231#227'o do Produto,Qutde,UN,Estoque,R$ Venda' +
+      ',Marca,Grupo,SubGrupo,Local Estoque,CODALMOXARIFADO,PRECO_COMPRA' +
+      ',VALOR_PRAZO,TIPO,LOTES,PRECOMEDIO,PESO_QTDE,COD_COMISSAO,RATEIO' +
+      ',CONTA_DESPESA,IPI,NCM,ORIGEM,ESTOQUEMAXIMO,ESTOQUEREPOSICAO,EST' +
+      'OQUEMINIMO,MARGEM_LUCRO,DATACADASTRO,PRO_COD,DATAGRAV,TIPOPRECOV' +
+      'ENDA,VALORMINIMO'
     CsvUniqueKeys = False
     ExtendedHeaderInfo = False
     CaseInsensitive = False
@@ -186,8 +320,8 @@ object fImport: TfImport
       FieldName = 'UN'
       Size = 80
     end
-    object JvCsvDataSet1RCompra: TStringField
-      FieldName = 'R$ Compra'
+    object JvCsvDataSet1Estoque: TStringField
+      FieldName = 'Estoque'
       Size = 80
     end
     object JvCsvDataSet1RVenda: TStringField
@@ -210,8 +344,92 @@ object fImport: TfImport
       FieldName = 'Local Estoque'
       Size = 80
     end
-    object JvCsvDataSet1ICMS: TStringField
-      FieldName = 'ICMS'
+    object JvCsvDataSet1CODALMOXARIFADO: TStringField
+      FieldName = 'CODALMOXARIFADO'
+      Size = 80
+    end
+    object JvCsvDataSet1PRECO_COMPRA: TStringField
+      FieldName = 'PRECO_COMPRA'
+      Size = 80
+    end
+    object JvCsvDataSet1VALOR_PRAZO: TStringField
+      FieldName = 'VALOR_PRAZO'
+      Size = 80
+    end
+    object JvCsvDataSet1TIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 80
+    end
+    object JvCsvDataSet1LOTES: TStringField
+      FieldName = 'LOTES'
+      Size = 80
+    end
+    object JvCsvDataSet1PRECOMEDIO: TStringField
+      FieldName = 'PRECOMEDIO'
+      Size = 80
+    end
+    object JvCsvDataSet1PESO_QTDE: TStringField
+      FieldName = 'PESO_QTDE'
+      Size = 80
+    end
+    object JvCsvDataSet1COD_COMISSAO: TStringField
+      FieldName = 'COD_COMISSAO'
+      Size = 80
+    end
+    object JvCsvDataSet1RATEIO: TStringField
+      FieldName = 'RATEIO'
+      Size = 80
+    end
+    object JvCsvDataSet1CONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 80
+    end
+    object JvCsvDataSet1IPI: TStringField
+      FieldName = 'IPI'
+      Size = 80
+    end
+    object JvCsvDataSet1NCM: TStringField
+      FieldName = 'NCM'
+      Size = 80
+    end
+    object JvCsvDataSet1ORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      Size = 80
+    end
+    object JvCsvDataSet1ESTOQUEMAXIMO: TStringField
+      FieldName = 'ESTOQUEMAXIMO'
+      Size = 80
+    end
+    object JvCsvDataSet1ESTOQUEREPOSICAO: TStringField
+      FieldName = 'ESTOQUEREPOSICAO'
+      Size = 80
+    end
+    object JvCsvDataSet1ESTOQUEMINIMO: TStringField
+      FieldName = 'ESTOQUEMINIMO'
+      Size = 80
+    end
+    object JvCsvDataSet1MARGEM_LUCRO: TStringField
+      FieldName = 'MARGEM_LUCRO'
+      Size = 80
+    end
+    object JvCsvDataSet1DATACADASTRO: TStringField
+      FieldName = 'DATACADASTRO'
+      Size = 80
+    end
+    object JvCsvDataSet1PRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      Size = 80
+    end
+    object JvCsvDataSet1DATAGRAV: TStringField
+      FieldName = 'DATAGRAV'
+      Size = 80
+    end
+    object JvCsvDataSet1TIPOPRECOVENDA: TStringField
+      FieldName = 'TIPOPRECOVENDA'
+      Size = 80
+    end
+    object JvCsvDataSet1VALORMINIMO: TStringField
+      FieldName = 'VALORMINIMO'
       Size = 80
     end
   end

@@ -16,18 +16,6 @@ type
     DBGrid1: TDBGrid;
     Panel1: TPanel;
     BitBtn1: TBitBtn;
-    JvCsvDataSet1Sequencial: TStringField;
-    JvCsvDataSet1Cdigo: TStringField;
-    JvCsvDataSet1DescriodoProduto: TStringField;
-    JvCsvDataSet1Qutde: TStringField;
-    JvCsvDataSet1UN: TStringField;
-    JvCsvDataSet1RCompra: TStringField;
-    JvCsvDataSet1RVenda: TStringField;
-    JvCsvDataSet1Marca: TStringField;
-    JvCsvDataSet1Grupo: TStringField;
-    JvCsvDataSet1SubGrupo: TStringField;
-    JvCsvDataSet1LocalEstoque: TStringField;
-    JvCsvDataSet1ICMS: TStringField;
     BitBtn2: TBitBtn;
     s_produtos: TSQLDataSet;
     p_produtos: TDataSetProvider;
@@ -88,6 +76,39 @@ type
     s_produtosTAM_LOTE: TIntegerField;
     Memo1: TMemo;
     FlatGauge1: TFlatGauge;
+    JvCsvDataSet1Sequencial: TStringField;
+    JvCsvDataSet1Cdigo: TStringField;
+    JvCsvDataSet1DescriodoProduto: TStringField;
+    JvCsvDataSet1Qutde: TStringField;
+    JvCsvDataSet1UN: TStringField;
+    JvCsvDataSet1Estoque: TStringField;
+    JvCsvDataSet1RVenda: TStringField;
+    JvCsvDataSet1Marca: TStringField;
+    JvCsvDataSet1Grupo: TStringField;
+    JvCsvDataSet1SubGrupo: TStringField;
+    JvCsvDataSet1LocalEstoque: TStringField;
+    JvCsvDataSet1CODALMOXARIFADO: TStringField;
+    JvCsvDataSet1PRECO_COMPRA: TStringField;
+    JvCsvDataSet1VALOR_PRAZO: TStringField;
+    JvCsvDataSet1TIPO: TStringField;
+    JvCsvDataSet1LOTES: TStringField;
+    JvCsvDataSet1PRECOMEDIO: TStringField;
+    JvCsvDataSet1PESO_QTDE: TStringField;
+    JvCsvDataSet1COD_COMISSAO: TStringField;
+    JvCsvDataSet1RATEIO: TStringField;
+    JvCsvDataSet1CONTA_DESPESA: TStringField;
+    JvCsvDataSet1IPI: TStringField;
+    JvCsvDataSet1NCM: TStringField;
+    JvCsvDataSet1ORIGEM: TStringField;
+    JvCsvDataSet1ESTOQUEMAXIMO: TStringField;
+    JvCsvDataSet1ESTOQUEREPOSICAO: TStringField;
+    JvCsvDataSet1ESTOQUEMINIMO: TStringField;
+    JvCsvDataSet1MARGEM_LUCRO: TStringField;
+    JvCsvDataSet1DATACADASTRO: TStringField;
+    JvCsvDataSet1PRO_COD: TStringField;
+    JvCsvDataSet1DATAGRAV: TStringField;
+    JvCsvDataSet1TIPOPRECOVENDA: TStringField;
+    JvCsvDataSet1VALORMINIMO: TStringField;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
   private
@@ -133,8 +154,7 @@ begin
     c_produtos.Open;
     if (c_produtos.IsEmpty) then
     begin
-       {
-        sql_insert := 'INSERT INTO SIMILARES (ID_SIMILAR, ID_PRODUTO, CODPRO, CODPROSIMILAR) ';
+      {  sql_insert := 'INSERT INTO PRODUTOS (ID_SIMILAR, ID_PRODUTO, CODPRO, CODPROSIMILAR) ';
         sql_insert := sql_insert + 'VALUES (';
         sql_insert := sql_insert + IntToStr(ds_buscaprodCODPRODUTO.AsInteger) + ', ';
         sql_insert := sql_insert + IntToStr(ds_produtoCODPRODUTO.AsInteger) + ', ';
@@ -144,7 +164,7 @@ begin
     end
     else
     begin
-     //    sql_insert := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(ds_vendaCODVENDA.AsInteger);
+     //    sql_insert := 'UPDATE PRODUTOS SET VALOR_PRAZO = 1 where CODPRO = ' + quotedstr(JvCsvDataSet1Cdigo.AsString);
     end;
     try
       dm.sqlsisAdimin.StartTransaction(TD);

@@ -23,8 +23,8 @@ object fProcura_produtos: TfProcura_produtos
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 232
-    Width = 794
-    Height = 307
+    Width = 802
+    Height = 318
     Align = alClient
     BorderStyle = bsNone
     Color = clWhite
@@ -136,14 +136,119 @@ object fProcura_produtos: TfProcura_produtos
       end
       item
         Expanded = False
-        FieldName = 'ICMS'
-        Visible = True
+        FieldName = 'CODALMOXARIFADO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_COMPRA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR_PRAZO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'LOTES'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOMEDIO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'PESO_QTDE'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'COD_COMISSAO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'RATEIO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'CONTA_DESPESA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'IPI'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'NCM'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'ORIGEM'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEMAXIMO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEREPOSICAO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEMINIMO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'MARGEM_LUCRO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'DATACADASTRO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'PRO_COD'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAGRAV'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPOPRECOVENDA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'VALORMINIMO'
+        Visible = False
       end>
   end
   object Panel2: TPanel
     Left = 0
     Top = 146
-    Width = 794
+    Width = 802
     Height = 86
     Align = alTop
     BevelOuter = bvLowered
@@ -285,7 +390,7 @@ object fProcura_produtos: TfProcura_produtos
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 794
+    Width = 802
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1198,7 +1303,7 @@ object fProcura_produtos: TfProcura_produtos
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 794
+    Width = 802
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -1509,12 +1614,16 @@ object fProcura_produtos: TfProcura_produtos
   object sds_proc: TSQLDataSet
     CommandText = 
       'select CODPRODUTO'#13#10', CODPRO'#13#10', cast(PRODUTO as varchar(300)) as ' +
-      'PRODUTO'#13#10', UNIDADEMEDIDA'#13#10', QTDE_PCT'#13#10', ICMS'#13#10', CODALMOXARIFADO'#13 +
-      #10', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL'#13#10', PRECO_VENDA AS V' +
-      'ALOR_PRAZO'#13#10', TIPO  '#13#10', ESTOQUEATUAL '#13#10', LOCALIZACAO'#13#10', LOTES  ,' +
-      ' PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO, RATEI' +
-      'O, conta_despesa , IPI'#13#10'from LISTAPRODUTO(0, '#39'TODOSPRODUTOS'#39', '#39'T' +
-      'ODOSGRUPOS'#39', '#39'TODOSSUBGRUPOS'#39','#39'TODASMARCAS'#39')'#13#10
+      'PRODUTO'#13#10', UNIDADEMEDIDA'#13#10', QTDE_PCT, MARCA,  GRUPO, SUBGRUPO'#13#10',' +
+      ' ICMS'#13#10', CODALMOXARIFADO'#13#10',PRECO_COMPRAULTIMO as PRECO_COMPRA'#13#10',' +
+      ' PRECO_VENDA AS VALOR_PRAZO'#13#10', TIPO  '#13#10', ESTOQUEATUAL '#13#10', LOCALI' +
+      'ZACAO, PRECO_VENDA'#13#10', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, ' +
+      'PESO_QTDE, '#13#10'COD_COMISSAO, RATEIO, conta_despesa , IPI, ncm, ori' +
+      'gem, '#13#10'ESTOQUEMAXIMO, ESTOQUEREPOSICAO, ESTOQUEMINIMO, '#13#10'PRECOME' +
+      'DIO , MARGEM_LUCRO , DATACADASTRO , PRO_COD, '#13#10'DATAGRAV, TIPOPRE' +
+      'COVENDA, VALORMINIMO'#13#10'from LISTAPRODUTO(0, '#39'TODOSPRODUTOS'#39', '#39'TOD' +
+      'OSGRUPOS'#39', '#39'TODOSSUBGRUPOS'#39', '#39'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39', 0' +
+      ')'#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1522,7 +1631,6 @@ object fProcura_produtos: TfProcura_produtos
     Top = 200
     object sds_procCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
-      Required = True
     end
     object sds_procCODPRO: TStringField
       FieldName = 'CODPRO'
@@ -1530,69 +1638,155 @@ object fProcura_produtos: TfProcura_produtos
     end
     object sds_procPRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Required = True
+      ReadOnly = True
       Size = 300
-    end
-    object sds_procPRECO_VENDA: TFloatField
-      FieldName = 'PRECO_VENDA'
-    end
-    object sds_procQTDE_PCT: TFloatField
-      FieldName = 'QTDE_PCT'
     end
     object sds_procUNIDADEMEDIDA: TStringField
       FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
       FixedChar = True
       Size = 2
     end
+    object sds_procQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+      ReadOnly = True
+    end
+    object sds_procICMS: TFloatField
+      FieldName = 'ICMS'
+      ReadOnly = True
+    end
+    object sds_procCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ReadOnly = True
+    end
+    object sds_procPRECO_COMPRA: TFloatField
+      FieldName = 'PRECO_COMPRA'
+      ReadOnly = True
+    end
+    object sds_procVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+      ReadOnly = True
+    end
+    object sds_procTIPO: TStringField
+      FieldName = 'TIPO'
+      ReadOnly = True
+      Size = 10
+    end
+    object sds_procESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+      ReadOnly = True
+    end
+    object sds_procLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      ReadOnly = True
+      Size = 50
+    end
+    object sds_procPRECO_VENDA: TFloatField
+      FieldName = 'PRECO_VENDA'
+      ReadOnly = True
+    end
+    object sds_procLOTES: TStringField
+      FieldName = 'LOTES'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object sds_procPRECOMEDIO: TFloatField
+      FieldName = 'PRECOMEDIO'
+      ReadOnly = True
+    end
+    object sds_procPESO_QTDE: TFloatField
+      FieldName = 'PESO_QTDE'
+      ReadOnly = True
+    end
+    object sds_procCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+      ReadOnly = True
+    end
+    object sds_procRATEIO: TStringField
+      FieldName = 'RATEIO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object sds_procCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      ReadOnly = True
+      Size = 15
+    end
+    object sds_procIPI: TFloatField
+      FieldName = 'IPI'
+      ReadOnly = True
+    end
+    object sds_procNCM: TStringField
+      FieldName = 'NCM'
+      ReadOnly = True
+      Size = 8
+    end
+    object sds_procORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      ReadOnly = True
+      Size = 15
+    end
+    object sds_procESTOQUEMAXIMO: TFloatField
+      FieldName = 'ESTOQUEMAXIMO'
+      ReadOnly = True
+    end
+    object sds_procESTOQUEREPOSICAO: TFloatField
+      FieldName = 'ESTOQUEREPOSICAO'
+      ReadOnly = True
+    end
+    object sds_procESTOQUEMINIMO: TFloatField
+      FieldName = 'ESTOQUEMINIMO'
+      ReadOnly = True
+    end
+    object sds_procPRECOMEDIO_1: TBCDField
+      FieldName = 'PRECOMEDIO_1'
+      ReadOnly = True
+      Precision = 9
+      Size = 2
+    end
+    object sds_procMARGEM_LUCRO: TFloatField
+      FieldName = 'MARGEM_LUCRO'
+      ReadOnly = True
+    end
+    object sds_procDATACADASTRO: TSQLTimeStampField
+      FieldName = 'DATACADASTRO'
+      ReadOnly = True
+    end
+    object sds_procPRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      ReadOnly = True
+      Size = 15
+    end
+    object sds_procDATAGRAV: TDateField
+      FieldName = 'DATAGRAV'
+      ReadOnly = True
+    end
+    object sds_procTIPOPRECOVENDA: TStringField
+      FieldName = 'TIPOPRECOVENDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object sds_procVALORMINIMO: TFloatField
+      FieldName = 'VALORMINIMO'
+      ReadOnly = True
+    end
+    object sds_procMARCA: TStringField
+      FieldName = 'MARCA'
+      ReadOnly = True
+      Size = 30
+    end
     object sds_procGRUPO: TStringField
       FieldName = 'GRUPO'
+      ReadOnly = True
       Size = 30
     end
     object sds_procSUBGRUPO: TStringField
       FieldName = 'SUBGRUPO'
+      ReadOnly = True
       Size = 30
-    end
-    object sds_procMARCA: TStringField
-      FieldName = 'MARCA'
-      Size = 30
-    end
-    object sds_procESTOQUEATUAL: TFloatField
-      FieldName = 'ESTOQUEATUAL'
-    end
-    object sds_procCODALMOXARIFADO: TIntegerField
-      FieldName = 'CODALMOXARIFADO'
-    end
-    object sds_procICMS: TFloatField
-      FieldName = 'ICMS'
-    end
-    object sds_procPRECO_COMPRA: TFloatField
-      FieldName = 'PRECO_COMPRA'
-    end
-    object sds_procTIPO: TStringField
-      FieldName = 'TIPO'
-      Size = 10
-    end
-    object sds_procCOD_BARRA: TStringField
-      FieldName = 'COD_BARRA'
-    end
-    object sds_procLOTES: TStringField
-      FieldName = 'LOTES'
-      ProviderFlags = [pfInUpdate]
-      FixedChar = True
-      Size = 1
-    end
-    object sds_procLOCALIZACAO: TStringField
-      FieldName = 'LOCALIZACAO'
-      Size = 50
-    end
-    object sds_procPESO_QTDE: TFloatField
-      FieldName = 'PESO_QTDE'
-    end
-    object sds_procPRECOMEDIO: TFloatField
-      FieldName = 'PRECOMEDIO'
-    end
-    object sds_procPEDIDO: TFloatField
-      FieldName = 'PEDIDO'
     end
   end
   object dsp_proc: TDataSetProvider
@@ -1610,7 +1804,6 @@ object fProcura_produtos: TfProcura_produtos
     Top = 200
     object cds_procCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
-      Required = True
     end
     object cds_procCODPRO: TStringField
       FieldName = 'CODPRO'
@@ -1618,83 +1811,155 @@ object fProcura_produtos: TfProcura_produtos
     end
     object cds_procPRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Required = True
+      ReadOnly = True
       Size = 300
-    end
-    object cds_procPRECO_VENDA: TFloatField
-      FieldName = 'PRECO_VENDA'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
-    end
-    object cds_procQTDE_PCT: TFloatField
-      FieldName = 'QTDE_PCT'
-      DisplayFormat = ',##0.0'
-      EditFormat = ',##0.0'
     end
     object cds_procUNIDADEMEDIDA: TStringField
       FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
       FixedChar = True
       Size = 2
     end
+    object cds_procQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+      ReadOnly = True
+    end
+    object cds_procICMS: TFloatField
+      FieldName = 'ICMS'
+      ReadOnly = True
+    end
+    object cds_procCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ReadOnly = True
+    end
+    object cds_procPRECO_COMPRA: TFloatField
+      FieldName = 'PRECO_COMPRA'
+      ReadOnly = True
+    end
+    object cds_procVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+      ReadOnly = True
+    end
+    object cds_procTIPO: TStringField
+      FieldName = 'TIPO'
+      ReadOnly = True
+      Size = 10
+    end
+    object cds_procESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+      ReadOnly = True
+    end
+    object cds_procLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      ReadOnly = True
+      Size = 50
+    end
+    object cds_procPRECO_VENDA: TFloatField
+      FieldName = 'PRECO_VENDA'
+      ReadOnly = True
+    end
+    object cds_procLOTES: TStringField
+      FieldName = 'LOTES'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object cds_procPRECOMEDIO: TFloatField
+      FieldName = 'PRECOMEDIO'
+      ReadOnly = True
+    end
+    object cds_procPESO_QTDE: TFloatField
+      FieldName = 'PESO_QTDE'
+      ReadOnly = True
+    end
+    object cds_procCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+      ReadOnly = True
+    end
+    object cds_procRATEIO: TStringField
+      FieldName = 'RATEIO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object cds_procCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      ReadOnly = True
+      Size = 15
+    end
+    object cds_procIPI: TFloatField
+      FieldName = 'IPI'
+      ReadOnly = True
+    end
+    object cds_procNCM: TStringField
+      FieldName = 'NCM'
+      ReadOnly = True
+      Size = 8
+    end
+    object cds_procORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      ReadOnly = True
+      Size = 15
+    end
+    object cds_procESTOQUEMAXIMO: TFloatField
+      FieldName = 'ESTOQUEMAXIMO'
+      ReadOnly = True
+    end
+    object cds_procESTOQUEREPOSICAO: TFloatField
+      FieldName = 'ESTOQUEREPOSICAO'
+      ReadOnly = True
+    end
+    object cds_procESTOQUEMINIMO: TFloatField
+      FieldName = 'ESTOQUEMINIMO'
+      ReadOnly = True
+    end
+    object cds_procPRECOMEDIO_1: TBCDField
+      FieldName = 'PRECOMEDIO_1'
+      ReadOnly = True
+      Precision = 9
+      Size = 2
+    end
+    object cds_procMARGEM_LUCRO: TFloatField
+      FieldName = 'MARGEM_LUCRO'
+      ReadOnly = True
+    end
+    object cds_procDATACADASTRO: TSQLTimeStampField
+      FieldName = 'DATACADASTRO'
+      ReadOnly = True
+    end
+    object cds_procPRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      ReadOnly = True
+      Size = 15
+    end
+    object cds_procDATAGRAV: TDateField
+      FieldName = 'DATAGRAV'
+      ReadOnly = True
+    end
+    object cds_procTIPOPRECOVENDA: TStringField
+      FieldName = 'TIPOPRECOVENDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object cds_procVALORMINIMO: TFloatField
+      FieldName = 'VALORMINIMO'
+      ReadOnly = True
+    end
+    object cds_procMARCA: TStringField
+      FieldName = 'MARCA'
+      ReadOnly = True
+      Size = 30
+    end
     object cds_procGRUPO: TStringField
       FieldName = 'GRUPO'
+      ReadOnly = True
       Size = 30
     end
     object cds_procSUBGRUPO: TStringField
       FieldName = 'SUBGRUPO'
+      ReadOnly = True
       Size = 30
-    end
-    object cds_procMARCA: TStringField
-      FieldName = 'MARCA'
-      Size = 30
-    end
-    object cds_procESTOQUEATUAL: TFloatField
-      FieldName = 'ESTOQUEATUAL'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.0'
-    end
-    object cds_procCODALMOXARIFADO: TIntegerField
-      FieldName = 'CODALMOXARIFADO'
-    end
-    object cds_procICMS: TFloatField
-      FieldName = 'ICMS'
-    end
-    object cds_procPRECO_COMPRA: TFloatField
-      FieldName = 'PRECO_COMPRA'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
-    end
-    object cds_procTIPO: TStringField
-      FieldName = 'TIPO'
-      Size = 10
-    end
-    object cds_procCOD_BARRA: TStringField
-      FieldName = 'COD_BARRA'
-    end
-    object cds_procLOTES: TStringField
-      FieldName = 'LOTES'
-      ProviderFlags = [pfInUpdate]
-      FixedChar = True
-      Size = 1
-    end
-    object cds_procLOCALIZACAO: TStringField
-      FieldName = 'LOCALIZACAO'
-      Size = 50
-    end
-    object cds_procPESO_QTDE: TFloatField
-      FieldName = 'PESO_QTDE'
-      DisplayFormat = ',##0.0'
-      EditFormat = ',##0.0'
-    end
-    object cds_procPRECOMEDIO: TFloatField
-      FieldName = 'PRECOMEDIO'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
-    end
-    object cds_procPEDIDO: TFloatField
-      FieldName = 'PEDIDO'
-      DisplayFormat = ',##0.0'
-      EditFormat = ',##0.0'
     end
   end
   object Dtsrc: TDataSource
