@@ -154,7 +154,37 @@ begin
     c_produtos.Open;
     if (c_produtos.IsEmpty) then
     begin
-      {  sql_insert := 'INSERT INTO PRODUTOS (ID_SIMILAR, ID_PRODUTO, CODPRO, CODPROSIMILAR) ';
+      {JvCsvDataSet1Cdigo.AsString;
+      JvCsvDataSet1DescriodoProduto.AsString;
+      JvCsvDataSet1Qutde.AsString;
+      JvCsvDataSet1UN.AsString;
+      JvCsvDataSet1RVenda.AsString;
+      JvCsvDataSet1Marca.AsString;
+      JvCsvDataSet1Grupo.AsString;
+      JvCsvDataSet1SubGrupo.AsString;
+      JvCsvDataSet1LocalEstoque.AsString;
+      JvCsvDataSet1CODALMOXARIFADO.AsString;
+      JvCsvDataSet1PRECO_COMPRA.AsString;
+      JvCsvDataSet1VALOR_PRAZO.AsString;
+      JvCsvDataSet1TIPO.AsString;
+      JvCsvDataSet1LOTES.AsString;
+      JvCsvDataSet1PRECOMEDIO.AsString;
+      JvCsvDataSet1PESO_QTDE.AsString;
+      JvCsvDataSet1COD_COMISSAO.AsString;
+      JvCsvDataSet1RATEIO.AsString;
+      JvCsvDataSet1CONTA_DESPESA.AsString;
+      JvCsvDataSet1NCM.AsString;
+//      JvCsvDataSet1ORIGEM.AsString;
+      JvCsvDataSet1ESTOQUEMAXIMO.AsString;
+      JvCsvDataSet1ESTOQUEREPOSICAO.AsString;
+      JvCsvDataSet1ESTOQUEMINIMO.AsString;
+      JvCsvDataSet1MARGEM_LUCRO.AsString;
+      JvCsvDataSet1DATACADASTRO.AsString;
+      JvCsvDataSet1PRO_COD.AsString;
+      JvCsvDataSet1DATAGRAV.AsString;
+      JvCsvDataSet1TIPOPRECOVENDA.AsString;
+      JvCsvDataSet1VALORMINIMO.AsString;
+        sql_insert := 'INSERT INTO PRODUTOS (ID_SIMILAR, ID_PRODUTO, CODPRO, CODPROSIMILAR) ';
         sql_insert := sql_insert + 'VALUES (';
         sql_insert := sql_insert + IntToStr(ds_buscaprodCODPRODUTO.AsInteger) + ', ';
         sql_insert := sql_insert + IntToStr(ds_produtoCODPRODUTO.AsInteger) + ', ';
@@ -164,7 +194,20 @@ begin
     end
     else
     begin
-     //    sql_insert := 'UPDATE PRODUTOS SET VALOR_PRAZO = 1 where CODPRO = ' + quotedstr(JvCsvDataSet1Cdigo.AsString);
+         sql_insert := 'UPDATE PRODUTOS SET VALOR_PRAZO = ' + JvCsvDataSet1RVenda.AsString +
+         ', PRODUTO = ' + QuotedStr(JvCsvDataSet1DescriodoProduto.AsString) +
+         ', NCM = ' + QuotedStr(JvCsvDataSet1NCM.AsString) +
+         ', PRECOMEDIO = ' + JvCsvDataSet1PRECOMEDIO.AsString +
+         ', VALORUNITARIOATUAL = ' + JvCsvDataSet1PRECO_COMPRA.AsString +
+         ', MARGEM = '+ JvCsvDataSet1MARGEM_LUCRO.AsString +
+         ', TIPOPRECOVENDA = ' + QuotedStr(JvCsvDataSet1TIPOPRECOVENDA.AsString);
+         if (JvCsvDataSet1ORIGEM.AsString = 'Nac.') then
+            sql_insert := sql_insert + ', ORIGEM = 0'
+         else if(JvCsvDataSet1ORIGEM.AsString = 'Imp. Ext.') then
+            sql_insert := sql_insert + ', ORIGEM = 1'
+         else
+            sql_insert := sql_insert + ', ORIGEM = 2';
+         sql_insert := sql_insert + ' where CODPRO = ' + QuotedStr(JvCsvDataSet1Cdigo.AsString);
     end;
     try
       dm.sqlsisAdimin.StartTransaction(TD);
