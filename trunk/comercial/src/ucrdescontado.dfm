@@ -3,6 +3,7 @@ inherited fcrdescontado: Tfcrdescontado
   Top = 119
   Width = 819
   Caption = 'T'#237'tulos Descontados'
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
@@ -568,7 +569,7 @@ inherited fcrdescontado: Tfcrdescontado
     Left = 0
     Top = 51
     Width = 811
-    Height = 416
+    Height = 423
     Align = alClient
     DataSource = DataSource1
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]

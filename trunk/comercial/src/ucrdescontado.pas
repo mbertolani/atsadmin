@@ -107,7 +107,7 @@ var str, str1 : string;
 begin
   str := 'Select rec.dp, rec.DESCONTADO, rec.STATUS, rec.CODRECEBIMENTO, rec.TITULO, rec.EMISSAO, ' +
   'rec.DATARECEBIMENTO, rec.CODCLIENTE, cli.NOMECLIENTE, rec.SELECIONOU from RECEBIMENTO rec ' +
-  'inner join CLIENTES cli on cli.CODCLIENTE= rec.CODCLIENTE where rec.STATUS  = ' + QuotedStr('7-');
+  'inner join CLIENTES cli on cli.CODCLIENTE= rec.CODCLIENTE ' ;
 
   if (edCodCliente.Text <> '') then
   begin
@@ -154,7 +154,7 @@ begin
     else begin
       Titulos_DescontadoSELECIONOU.AsString := '';
       Titulos_Descontado.post;
-      dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = ' + QuotedStr('')  +
+      dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = null'  +
       ' where CODRECEBIMENTO = ' + inttostr(Titulos_DescontadoCODRECEBIMENTO.asinteger)) ;
     end;
   end;
@@ -231,7 +231,7 @@ begin
       else begin
         Titulos_DescontadoSELECIONOU.AsString := '';
         Titulos_Descontado.post;
-        dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = ' + QuotedStr('')  +
+        dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set SELECIONOU = null' +
         ' where CODRECEBIMENTO = ' + inttostr(Titulos_DescontadoCODRECEBIMENTO.asinteger)) ;
 
       end;
