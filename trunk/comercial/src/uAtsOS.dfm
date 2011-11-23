@@ -27892,6 +27892,13 @@ object fAtsOS: TfAtsOS
             Tag = 0
             AutoToggle = False
             OnClick = JvOutlookBar1Pages0Buttons6Click
+          end
+          item
+            Caption = 'Cadastro de Prazos'
+            ImageIndex = 24
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages0Buttons7Click
           end>
         ButtonSize = olbsLarge
         Caption = '&Cadastro'
@@ -28160,7 +28167,6 @@ object fAtsOS: TfAtsOS
       end>
     LargeImages = ImageList2
     PageButtonHeight = 34
-    ActivePageIndex = 1
     BorderStyle = bsNone
     Color = clWindow
     Font.Charset = ANSI_CHARSET
