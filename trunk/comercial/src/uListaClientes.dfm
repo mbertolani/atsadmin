@@ -1,7 +1,7 @@
 object fListaClientes: TfListaClientes
-  Left = 0
+  Left = 1
   Top = 2
-  Width = 800
+  Width = 799
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
   Color = clBtnFace
@@ -18,139 +18,14 @@ object fListaClientes: TfListaClientes
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object DBGrid1: TDBGrid
-    Left = 0
-    Top = 187
-    Width = 784
-    Height = 348
-    Align = alClient
-    Color = clMoneyGreen
-    DataSource = DataSource1
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    Options = [dgTitles, dgColumnResize, dgColLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    ParentFont = False
-    PopupMenu = PopupMenu1
-    TabOrder = 0
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -12
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    OnDrawColumnCell = DBGrid1DrawColumnCell
-    OnDblClick = DBGrid1DblClick
-    OnKeyPress = DBGrid1KeyPress
-    OnTitleClick = DBGrid1TitleClick
-    Columns = <
-      item
-        Color = 16776176
-        Expanded = False
-        FieldName = 'CODCLIENTE'
-        Title.Caption = 'C'#243'digo'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'NOMECLIENTE'
-        Title.Caption = 'Nome Cliente'
-        Width = 200
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'RAZAOSOCIAL'
-        Title.Caption = 'Raz'#227'o Social'
-        Width = 300
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'TELEFONE'
-        Title.Caption = 'Telefone'
-        Width = 98
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'TELEFONE1'
-        Title.Caption = 'Telefone 2'
-        Width = 98
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'TELEFONE2'
-        Title.Caption = 'Telefone 3'
-        Width = 98
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CONTATO'
-        Title.Caption = 'Contato'
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CIDADE'
-        Title.Caption = 'Cidade'
-        Width = 145
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'NOMEUSUARIO'
-        Title.Caption = 'Vendedor'
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'TELEFONE_1'
-        Title.Caption = 'Fone Vend.'
-        Width = 90
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CELULAR'
-        Title.Caption = 'Celular Vend.'
-        Width = 90
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'NOME_REPRCLI'
-        Title.Caption = 'Representante'
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'FAX'
-        Title.Caption = 'Fone Res.'
-        Width = 90
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'E_MAIL'
-        Visible = True
-      end>
-  end
   object Panel1: TPanel
     Left = 0
     Top = 60
-    Width = 784
+    Width = 783
     Height = 127
     Align = alTop
     BevelInner = bvLowered
-    TabOrder = 1
+    TabOrder = 0
     object GroupBox5: TGroupBox
       Left = 662
       Top = 3
@@ -215,6 +90,12 @@ object fListaClientes: TfListaClientes
       Width = 490
       Height = 59
       Caption = 'VENDEDOR'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 1
       object Label1: TLabel
@@ -269,13 +150,19 @@ object fListaClientes: TfListaClientes
       Left = 2
       Top = 3
       Width = 165
-      Height = 59
+      Height = 32
       Caption = 'SITUA'#199#195'O'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 0
       object CBox1: TRadioButton
         Left = 14
-        Top = 31
+        Top = 11
         Width = 57
         Height = 17
         Caption = 'Ativo'
@@ -292,7 +179,7 @@ object fListaClientes: TfListaClientes
       end
       object CBox2: TRadioButton
         Left = 94
-        Top = 31
+        Top = 11
         Width = 57
         Height = 17
         Caption = 'Inativo'
@@ -312,6 +199,12 @@ object fListaClientes: TfListaClientes
       Width = 331
       Height = 62
       Caption = 'CIDADE'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 3
       object Label6: TLabel
@@ -345,36 +238,42 @@ object fListaClientes: TfListaClientes
     end
     object GroupBox3: TGroupBox
       Left = 2
-      Top = 62
+      Top = 68
       Width = 455
-      Height = 62
+      Height = 55
       Caption = 'CLIENTE'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 2
       object Label3: TLabel
         Left = 7
-        Top = 15
+        Top = 12
         Width = 33
         Height = 13
         Caption = 'C'#243'digo'
       end
       object Label4: TLabel
         Left = 62
-        Top = 14
+        Top = 11
         Width = 164
         Height = 13
         Caption = 'Nome (n'#227'o use ACENTOS ou "'#199'")'
       end
       object Label11: TLabel
         Left = 262
-        Top = 14
+        Top = 11
         Width = 167
         Height = 13
         Caption = 'Raz'#227'o (n'#227'o use ACENTOS ou "'#199'")'
       end
       object edCodigo: TEdit
         Left = 4
-        Top = 32
+        Top = 26
         Width = 57
         Height = 24
         BevelKind = bkFlat
@@ -386,7 +285,7 @@ object fListaClientes: TfListaClientes
       end
       object edNome: TEdit
         Left = 60
-        Top = 32
+        Top = 26
         Width = 193
         Height = 24
         Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
@@ -401,7 +300,7 @@ object fListaClientes: TfListaClientes
       end
       object edRazao: TEdit
         Left = 256
-        Top = 31
+        Top = 25
         Width = 193
         Height = 24
         Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
@@ -415,17 +314,79 @@ object fListaClientes: TfListaClientes
         OnKeyPress = edNomeKeyPress
       end
     end
+    object GroupBox6: TGroupBox
+      Left = 2
+      Top = 34
+      Width = 165
+      Height = 34
+      Caption = 'Tem Email'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 5
+      object CBox3: TRadioButton
+        Left = 6
+        Top = 13
+        Width = 46
+        Height = 17
+        Caption = 'Sim'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 0
+      end
+      object CBox4: TRadioButton
+        Left = 52
+        Top = 13
+        Width = 55
+        Height = 17
+        Caption = 'N'#227'o'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 1
+      end
+      object RadioButton6: TRadioButton
+        Left = 101
+        Top = 13
+        Width = 59
+        Height = 17
+        Caption = 'Todos'
+        Checked = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 2
+        TabStop = True
+      end
+    end
   end
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 784
+    Width = 783
     Height = 60
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     PopupMenu = PopupMenu1
-    TabOrder = 2
+    TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -1160,7 +1121,8 @@ object fListaClientes: TfListaClientes
     Left = 0
     Top = 187
     Width = 783
-    Height = 347
+    Height = 348
+    Align = alClient
     BorderStyle = bsNone
     Color = clWhite
     DataSource = DataSource1
@@ -1171,12 +1133,16 @@ object fListaClientes: TfListaClientes
     Font.Style = []
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'MS Shell Dlg 2'
     TitleFont.Style = []
+    OnDrawColumnCell = JvDBGrid1DrawColumnCell
+    OnDblClick = JvDBGrid1DblClick
+    OnKeyPress = JvDBGrid1KeyPress
+    OnTitleClick = JvDBGrid1TitleClick
     MultiSelect = True
     TitleButtons = True
     BevelKind = bkFlat
@@ -1201,6 +1167,7 @@ object fListaClientes: TfListaClientes
       item
         Expanded = False
         FieldName = 'NOMECLIENTE'
+        Width = 260
         Visible = True
       end
       item
@@ -1397,7 +1364,7 @@ object fListaClientes: TfListaClientes
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 304
+    Left = 305
     Top = 328
     object ListaClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'

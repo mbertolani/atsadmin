@@ -25,7 +25,6 @@ type
     SQLDataSet1NOMECLIENTE: TStringField;
     SQLDataSet1TELEFONE: TStringField;
     SQLDataSet1CIDADE: TStringField;
-    DBGrid1: TDBGrid;
     VCLReport1: TVCLReport;
     ListaCliente: TSQLDataSet;
     ListaClienteCODCLIENTE: TIntegerField;
@@ -167,6 +166,10 @@ type
     Exportar1: TMenuItem;
     SaveDialog1: TSaveDialog;
     JvProgressDialog1: TJvProgressDialog;
+    GroupBox6: TGroupBox;
+    CBox3: TRadioButton;
+    CBox4: TRadioButton;
+    RadioButton6: TRadioButton;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -192,6 +195,11 @@ type
     procedure BuscapeloCdigo1Click(Sender: TObject);
     procedure RadioButton5Click(Sender: TObject);
     procedure Exportar1Click(Sender: TObject);
+    procedure JvDBGrid1DblClick(Sender: TObject);
+    procedure JvDBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure JvDBGrid1TitleClick(Column: TColumn);
 
   private
     { Private declarations }
@@ -232,10 +240,10 @@ begin
    if not (gdSelected in State) then
    begin
     //define uma COR DE FUNDO
-    DBGrid1.Canvas.Brush.Color := $00FFEFDF;
-    DBGrid1.Canvas.FillRect(Rect); //Pinta a celula
+    JvDBGrid1.Canvas.Brush.Color := $00FFEFDF;
+    JvDBGrid1.Canvas.FillRect(Rect); //Pinta a celula
     //Pinta o texto padrão
-    DBGrid1.DefaultDrawDataCell(Rect,Column.Field,State);
+    JvDBGrid1.DefaultDrawDataCell(Rect,Column.Field,State);
    end;
 end;
 
@@ -286,7 +294,17 @@ begin
    else
      varCondicao := 'where UDF_COLLATEBR(usu.NOMEUSUARIO) containing ' + '''' + nomeVen.Text + '''';
 //********************************************************************************************
-
+ if CBox3.Checked = true then
+   if varCondicao <> '' then
+      varCondicao := varCondicao + ' and ende.e_mail is not null '
+   else
+   varCondicao := 'where ende.e_mail is not null ';
+//********************************************************************************************
+ if CBox4.Checked = true then
+   if varCondicao <> '' then
+      varCondicao := varCondicao + ' and ((ende.e_mail = ' + QuotedStr('') + ')or(ende.e_mail is null)) '
+   else
+   varCondicao := 'where ((ende.e_mail = ' + QuotedStr('') + ' or(ende.e_mail is null)) ';
 //********************************************************************************************
  if CBox1.Checked = true then
    if varCondicao <> '' then
@@ -354,7 +372,7 @@ begin
   cds.CommandText := varCondicao + ' order by cli.NOMECLIENTE '; //ende.CIDADE,;
   cds.Open;
 
-  DBGrid1.SetFocus;
+  JvDBGrid1.SetFocus;
   
 end;
 
@@ -696,7 +714,7 @@ var
 begin
   AExporter := AExportClass.Create(self);
   try
-    AExporter.Grid := DBGrid1;
+    AExporter.Grid := JvDBGrid1;
     if AExporter is TJvDBGridCSVExport then
       TJvDBGridCSVExport(AExporter).ExportSeparator := esComma; // this to be compatible with JvCsvData
     AExporter.Filename := Filename;
@@ -736,6 +754,46 @@ begin
   Data.Active := true;
   Data.Sort('Filename,Type,Attributes,Size', true);
   DataSource1.Dataset := Data;
+end;
+
+procedure TfListaClientes.JvDBGrid1DblClick(Sender: TObject);
+begin
+  if (dm.var_teste = 'consulta') then
+    bitbtn8.Click//fClienteCadastro.ShowModal;
+  else
+    bitbtn13.Click;
+end;
+
+procedure TfListaClientes.JvDBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  if not odd(ListaCliente.RecNo) then // se for impar
+  // se a coluna ñ está selecionada
+   if not (gdSelected in State) then
+   begin
+    //define uma COR DE FUNDO
+    JvDBGrid1.Canvas.Brush.Color := $00FFEFDF;
+    JvDBGrid1.Canvas.FillRect(Rect); //Pinta a celula
+    //Pinta o texto padrão
+    JvDBGrid1.DefaultDrawDataCell(Rect,Column.Field,State);
+   end;
+end;
+
+procedure TfListaClientes.JvDBGrid1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+  //if (varform = 'consulta') then
+  if (dm.var_teste = 'consulta') then
+    fClienteCadastro.ShowModal;
+ end;
+end;
+
+procedure TfListaClientes.JvDBGrid1TitleClick(Column: TColumn);
+begin
+    cds.IndexFieldNames := Column.FieldName;
 end;
 
 end.
