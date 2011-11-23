@@ -834,7 +834,7 @@ object fListaEstoque: TfListaEstoque
       Top = 6
       Width = 99
       Height = 37
-      Caption = 'Min / Max Grupo'
+      Caption = 'Valor Estoque'
       TabOrder = 21
       OnClick = BitBtn10Click
     end
