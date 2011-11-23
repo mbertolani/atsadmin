@@ -136,6 +136,11 @@ object fListaClientes: TfListaClientes
         Title.Caption = 'Fone Res.'
         Width = 90
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'E_MAIL'
+        Visible = True
       end>
   end
   object Panel1: TPanel
@@ -335,6 +340,7 @@ object fListaClientes: TfListaClientes
         Height = 25
         Caption = '...'
         TabOrder = 1
+        OnClick = BitBtn1Click
       end
     end
     object GroupBox3: TGroupBox
@@ -1150,6 +1156,129 @@ object fListaClientes: TfListaClientes
       OnClick = RadioButton4Click
     end
   end
+  object JvDBGrid1: TJvDBGrid
+    Left = 0
+    Top = 187
+    Width = 783
+    Height = 347
+    BorderStyle = bsNone
+    Color = clWhite
+    DataSource = DataSource1
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
+    ParentFont = False
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Shell Dlg 2'
+    TitleFont.Style = []
+    MultiSelect = True
+    TitleButtons = True
+    BevelKind = bkFlat
+    SortedField = 'Filename'
+    TitleArrow = True
+    MinColumnWidth = 100
+    AutoSizeColumns = True
+    AutoSizeColumnIndex = -2
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.RealNamesOption = '[With the real field name]'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODCLIENTE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOMECLIENTE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'RAZAOSOCIAL'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CONTATO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TELEFONE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TELEFONE1'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TELEFONE2'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FAX'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CIDADE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOMEUSUARIO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UF'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ENDERECO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FONE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TEL'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'E_MAIL'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CNPJ'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'INSCESTADUAL'
+        Visible = True
+      end>
+  end
   object PopupMenu1: TPopupMenu
     Left = 248
     Top = 392
@@ -1182,6 +1311,10 @@ object fListaClientes: TfListaClientes
       Caption = 'Busca pelo Nome'
       ShortCut = 16462
       OnClick = BuscapeloNome1Click
+    end
+    object Exportar1: TMenuItem
+      Caption = 'Exportar'
+      OnClick = Exportar1Click
     end
   end
   object DataSource1: TDataSource
@@ -1249,18 +1382,18 @@ object fListaClientes: TfListaClientes
       ' '#39'('#39' || ende.DDD2 || '#39')'#39' || ende.TELEFONE2 end) as TELEFONE2 , '#13 +
       #10'          (CASE when ende.DDD3 is null then  ende.FAX ELSE'#13#10'   ' +
       '       '#39'('#39' || ende.DDD3 || '#39')'#39' || ende.FAX end) as FAX,         ' +
-      '               '#13#10'          ende.CIDADE,'#13#10'          ende.UF,     ' +
-      '       '#13#10'          ende.LOGRADOURO || '#39', '#39' || ende.BAIRRO as END' +
-      'ERECO,'#13#10'          ende.TELEFONE as FONE,'#13#10'          cli.CODBANCO' +
-      ', '#13#10'          cli.PRAZORECEBIMENTO, '#13#10'          cli.OBS,  '#13#10'    ' +
-      '      rep.NOME_REPRCLI,'#13#10'          usu.NOMEUSUARIO,'#13#10'          f' +
-      'un.NOME_FUNCIONARIO,   '#13#10'          fun.TELEFONE, '#13#10'          fun' +
-      '.CELULAR,'#13#10'          ende.TELEFONE as tel '#13#10'from CLIENTES cli '#13#10 +
-      'left outer join ENDERECOCLIENTE ende '#13#10'on ende.CODCLIENTE=cli.CO' +
-      'DCLIENTE'#13#10'left outer join REPR_CLIENTE rep '#13#10'on rep.COD_CLIENTE=' +
-      'cli.CODCLIENTE'#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSUARIO=' +
-      'cli.CODUSUARIO '#13#10'left outer join FUNCIONARIO fun  '#13#10'on fun.CODUS' +
-      'UARIO = cli.CODUSUARIO '#13#10' '#13#10
+      '               '#13#10'          ende.CIDADE,'#13#10'          ende.UF,'#13#10'   ' +
+      '       ende.e_mail,            '#13#10'          ende.LOGRADOURO || '#39',' +
+      ' '#39' || ende.BAIRRO as ENDERECO,'#13#10'          ende.TELEFONE as FONE,' +
+      #13#10'          cli.CODBANCO, '#13#10'          cli.PRAZORECEBIMENTO, '#13#10'  ' +
+      '        cli.OBS,  '#13#10'          rep.NOME_REPRCLI,'#13#10'          usu.N' +
+      'OMEUSUARIO,'#13#10'          fun.NOME_FUNCIONARIO,   '#13#10'          fun.T' +
+      'ELEFONE, '#13#10'          fun.CELULAR,'#13#10'          ende.TELEFONE as te' +
+      'l '#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ende '#13#10'o' +
+      'n ende.CODCLIENTE=cli.CODCLIENTE'#13#10'left outer join REPR_CLIENTE r' +
+      'ep '#13#10'on rep.COD_CLIENTE=cli.CODCLIENTE'#13#10'left outer join USUARIO ' +
+      'usu '#13#10'on usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left outer join FUNCION' +
+      'ARIO fun  '#13#10'on fun.CODUSUARIO = cli.CODUSUARIO '#13#10' '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1380,6 +1513,11 @@ object fListaClientes: TfListaClientes
       FieldName = 'TEL'
       ReadOnly = True
       Size = 9
+    end
+    object ListaClienteE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      ReadOnly = True
+      Size = 100
     end
   end
   object dsp: TDataSetProvider
@@ -1508,6 +1646,11 @@ object fListaClientes: TfListaClientes
       FieldName = 'TEL'
       ReadOnly = True
       Size = 9
+    end
+    object cdsE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      ReadOnly = True
+      Size = 100
     end
   end
   object sds_parametro: TSQLDataSet
@@ -1653,5 +1796,57 @@ object fListaClientes: TfListaClientes
     Title = 'Untitled'
     Left = 256
     Top = 272
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'doc'
+    FileName = 'DBGridExport.doc'
+    Filter = 
+      'MS Word (*.doc)|*.doc|MS Excel (*.xls)|*.xls|HTML (*.htm;*.html)' +
+      '|*.htm;*.html|CSV (*.csv;*.txt)|*.csv;*.txt|XML files (*.xml)|*.' +
+      'xml'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Left = 288
+    Top = 464
+  end
+  object JvProgressDialog1: TJvProgressDialog
+    Image.Data = {
+      07544269746D61702C040000424D2C0400000000000000000000280000003100
+      0000310000000100040002000000B6030000C40E0000C40E0000000000000000
+      000000000000000080000080000000808000800000008000800080800000C0C0
+      C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF
+      FF0031C00000300C0100000031C00000020C2C0000030C0000000AC00008C8FF
+      77841FC00000020C0800024F06FF0004F778180000030C0000000AC0027F0CFF
+      0004F77015C00000020C080012FF0004F7780E0000030C0000000AC016FF0006
+      F0C778000BC00000020C0800027F14FF028804FF0280060000030C0000000CC0
+      0004C87710FF02CF04FF027009C00000020C0E00000608887F0008FF0004F88F
+      04FF0270060000030C00000010C0000AC788C0C8770004FF0004F87F04FF0270
+      09C00000020C0E00028F04FF000C78800488748F04FF0280060000030C000000
+      10C00AFF0008F788C08F04FF028009C00000020C0E000004FFF70CFF027F04FF
+      080000030C0000000EC0000CC8FF70C0C87F0CFF0BC00000020C0C0000080FFF
+      804004000004088706FF02F7080000030C0000000EC00008CFFF8F7808C00008
+      C488FFF80BC00000020C0C00000C8FF78F78F7780600000608FFF00008000003
+      0C0000000EC00004FFF004C8027F04FF000A7884C7FFF0000BC00000020C0C00
+      0006FFF080000600000C87FFF70FFF70080000030C0000000CC0000CC8FF88F7
+      C78008C00004CFFF0DC00000020C0A00000407FF048000087FFFF78804000004
+      7FFF0A0000030C0000000CC00004CFFF06C00004C87F04FF000680FFF8000DC0
+      0000020C0A0000088FF73F800600000A088708FFF8000A0000030C0000000CC0
+      000C7FF8CF78FF7806C00006C8FFF0000DC00000020C0A00000A7FF000087700
+      04FF000A78800FFF70000A0000030C0000000CC00004FFF008C0000C77FFF8CF
+      FF800DC00000020C0A00000AFF74F7488000080000048FFF0C0000030C000000
+      0AC00010C8FF80787FFFF78804C000047FFF0FC00000020C0800000608FF8000
+      04000004887F04FF0006807FF8000C0000030C0000000AC00008C8FFC77006C0
+      000AC88770FFF8000FC00000020C0800000C07FF0FF8F78808000004FFF00C00
+      00030C0000000AC00004C8FF04C0027F04FF000A7784C8FFF0000FC00000020C
+      0800000408FF0600000E08877FFF38FF70000C0000030C0000000AC00006C8FF
+      78000AC004C80004FF700FC00000020C0A0006FF000477800600000608FF7000
+      0C0000030C0000000CC0028F0AFF000A78C0C8FF80000FC00000020C0C00027F
+      0CFF000A7FFF70788000080000030C00000012C002770CFF027004FF02F009C0
+      0000020C14000004087F06FF0008F07FFFF0060000030C0000001AC0000EC487
+      FFF8CFFF700009C00000020C1E00040802F7080000030C00000031C00000020C
+      2C0000030C00000031C00000300C0100000031C000000001}
+    ShowCancel = False
+    ScreenPosition = poDesktopCenter
+    Left = 368
+    Top = 464
   end
 end

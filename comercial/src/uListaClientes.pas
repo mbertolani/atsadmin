@@ -7,7 +7,8 @@ uses
   Dialogs, Provider, SqlExpr, FMTBcd, Grids, DBGrids, rpcompobase,
   DBClient, DB, DBLocal, DBLocalS, Menus, StdCtrls, Buttons,
   ExtCtrls, rpvclreport, XPMenu, MMJPanel, Mask, JvExMask, JvToolEdit,
-  JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit;
+  JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, JvExDBGrids, JvDBGrid,
+  JvBaseDlg, JvProgressDialog ,JvComponent, JvDBGridExport, JvCsvData;
 
 type
   TfListaClientes = class(TForm)
@@ -160,6 +161,12 @@ type
     RadioButton4: TRadioButton;
     edRazao: TEdit;
     Label11: TLabel;
+    ListaClienteE_MAIL: TStringField;
+    cdsE_MAIL: TStringField;
+    JvDBGrid1: TJvDBGrid;
+    Exportar1: TMenuItem;
+    SaveDialog1: TSaveDialog;
+    JvProgressDialog1: TJvProgressDialog;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -184,8 +191,16 @@ type
     procedure BuscapeloNome1Click(Sender: TObject);
     procedure BuscapeloCdigo1Click(Sender: TObject);
     procedure RadioButton5Click(Sender: TObject);
+    procedure Exportar1Click(Sender: TObject);
+
   private
     { Private declarations }
+
+    Data: TJvCsvDataSet;
+    procedure SaveDoc(AExportClass: TJvCustomDBGridExportClass; const Filename: string);
+    procedure DoExportProgress(Sender: TObject; Min, Max, Position: Cardinal; const AText: string;
+    var AContinue: Boolean);
+    procedure SetupData;
   public
     { Public declarations }
     //, nome_user, varform
@@ -199,7 +214,7 @@ var
 
 implementation
 
-uses UDm, uProcurar, uClienteCadastro, ufDlgLogin, sCtrlResize,
+uses ShellAPI,ShlObj, CommDlg, UDm, uProcurar, uClienteCadastro, ufDlgLogin, sCtrlResize,
   uEtiquetas_cli;
 
 {$R *.dfm}
@@ -315,9 +330,9 @@ begin
 //********************************************************************************************
  if edCidade.Text <> '' then
    if varCondicao <> '' then
-     varCondicao := varCondicao + ' and UDF_COLLATEBR(ende.CIDADE) containing  ' + '''' + edCidade.Text + '' + ''''
+     varCondicao := varCondicao + ' and UDF_COLLATEBR(ende.CIDADE) containing UDF_COLLATEBR(' + '''' + edCidade.Text + '' + ''')'
    else
-     varCondicao := 'where UDF_COLLATEBR(ende.CIDADE) containing ' + '''' + edCidade.Text +  '''';
+     varCondicao := 'where UDF_COLLATEBR(ende.CIDADE) containing UDF_COLLATEBR(' + '''' + edCidade.Text +  ''')';
 //********************************************************************************************
  if edtUF.Text <> '' then
    if varCondicao <> '' then
@@ -655,6 +670,72 @@ begin
   //else begin
   //  RadioButton2.Checked := false;
   //end;
+end;
+
+procedure TfListaClientes.Exportar1Click(Sender: TObject);
+begin
+  if SaveDialog1.Execute then
+  begin
+    case SaveDialog1.FilterIndex of
+      1: SaveDoc(TJvDBGridWordExport, SaveDialog1.Filename);
+      2: SaveDoc(TJvDBGridExcelExport, SaveDialog1.Filename);
+      3: SaveDoc(TJvDBGridHTMLExport, SaveDialog1.Filename);
+      4: SaveDoc(TJvDBGridCSVExport, SaveDialog1.Filename);
+      5: SaveDoc(TJvDBGridXMLExport, SaveDialog1.Filename);
+    end;
+    // Open doc in default app
+    //if mnuOpenFile.Checked then
+      ShellExecute(Handle, 'open', PChar(SaveDialog1.Filename), nil, nil, SW_SHOWNORMAL);
+  end;
+end;
+
+procedure TfListaClientes.SaveDoc(AExportClass: TJvCustomDBGridExportClass;
+  const Filename: string);
+var
+  AExporter: TJvCustomDBGridExport;
+begin
+  AExporter := AExportClass.Create(self);
+  try
+    AExporter.Grid := DBGrid1;
+    if AExporter is TJvDBGridCSVExport then
+      TJvDBGridCSVExport(AExporter).ExportSeparator := esComma; // this to be compatible with JvCsvData
+    AExporter.Filename := Filename;
+    AExporter.OnProgress := DoExportProgress;
+    JvProgressDialog1.Caption := AExporter.Caption;
+    JvProgressDialog1.Show;
+    AExporter.ExportGrid;
+  finally
+    AExporter.Free;
+  end;
+
+end;
+
+procedure TfListaClientes.DoExportProgress(Sender: TObject; Min, Max,
+  Position: Cardinal; const AText: string; var AContinue: Boolean);
+begin
+ JvProgressDialog1.Min := Min;
+  JvProgressDialog1.Max := Max;
+  JvProgressDialog1.Position := Position;
+  JvProgressDialog1.Caption := AText;
+  if Max > 0 then
+    JvProgressDialog1.Text := Format('Exporting (%d%% finished)', [round(Position / Max * 100)]);
+  AContinue := not JvProgressDialog1.Cancelled;
+  if not AContinue or (Position >= Max) then
+    JvProgressDialog1.Hide;
+end;
+
+
+procedure TfListaClientes.SetupData;
+begin
+  Data.CsvFieldDef := 'Filename:$255,Size:%,Attributes:$64,Type:$255';
+//  Data.FieldDefs.Add('Filename', ftString, 255, false);
+//  Data.FieldDefs.Add('Size', ftInteger, 0, false);
+//  Data.FieldDefs.Add('Attributes', ftString, 64, false);
+//  Data.FieldDefs.Add('Type', ftString, 255, false);
+  Data.Filename := ExtractFilePath(Application.Exename) + 'TestData.csv';
+  Data.Active := true;
+  Data.Sort('Filename,Type,Attributes,Size', true);
+  DataSource1.Dataset := Data;
 end;
 
 end.
