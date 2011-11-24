@@ -1205,6 +1205,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Width = 24
       Height = 25
       Caption = '...'
+      Enabled = False
       TabOrder = 5
       OnClick = BitBtn1Click
     end
@@ -2099,7 +2100,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Top = 2
       Width = 48
       Height = 45
-      Hint = 'Nota Fiscal'
+      Hint = 'Imprimir Carn'#234
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
