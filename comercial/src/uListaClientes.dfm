@@ -30,12 +30,12 @@ object fListaClientes: TfListaClientes
       Left = 662
       Top = 3
       Width = 126
-      Height = 59
+      Height = 51
       PopupMenu = PopupMenu1
       TabOrder = 4
       object Label5: TLabel
         Left = 11
-        Top = 13
+        Top = 6
         Width = 43
         Height = 16
         Caption = 'Estado'
@@ -48,7 +48,7 @@ object fListaClientes: TfListaClientes
       end
       object Label7: TLabel
         Left = 66
-        Top = 15
+        Top = 6
         Width = 30
         Height = 16
         Caption = 'DDD'
@@ -61,11 +61,12 @@ object fListaClientes: TfListaClientes
       end
       object edtUF: TEdit
         Left = 8
-        Top = 30
+        Top = 21
         Width = 53
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
+        CharCase = ecUpperCase
         Color = clCream
         PopupMenu = PopupMenu1
         TabOrder = 0
@@ -73,7 +74,7 @@ object fListaClientes: TfListaClientes
       end
       object edtDDD: TEdit
         Left = 63
-        Top = 30
+        Top = 22
         Width = 53
         Height = 24
         BevelKind = bkFlat
@@ -88,7 +89,7 @@ object fListaClientes: TfListaClientes
       Left = 170
       Top = 3
       Width = 490
-      Height = 59
+      Height = 54
       Caption = 'VENDEDOR'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -100,21 +101,21 @@ object fListaClientes: TfListaClientes
       TabOrder = 1
       object Label1: TLabel
         Left = 11
-        Top = 15
+        Top = 12
         Width = 33
         Height = 13
         Caption = 'C'#243'digo'
       end
       object Label2: TLabel
         Left = 69
-        Top = 14
+        Top = 12
         Width = 28
         Height = 13
         Caption = 'Nome'
       end
       object codVen: TEdit
         Left = 8
-        Top = 30
+        Top = 25
         Width = 58
         Height = 24
         BevelKind = bkFlat
@@ -126,7 +127,7 @@ object fListaClientes: TfListaClientes
       end
       object nomeVen: TEdit
         Left = 67
-        Top = 30
+        Top = 26
         Width = 377
         Height = 24
         BevelKind = bkFlat
@@ -137,9 +138,9 @@ object fListaClientes: TfListaClientes
         OnKeyPress = edNomeKeyPress
       end
       object BitBtn5: TBitBtn
-        Left = 446
-        Top = 29
-        Width = 40
+        Left = 447
+        Top = 24
+        Width = 37
         Height = 25
         Caption = '...'
         TabOrder = 2
@@ -176,6 +177,7 @@ object fListaClientes: TfListaClientes
         PopupMenu = PopupMenu1
         TabOrder = 0
         TabStop = True
+        OnClick = BitBtn2Click
       end
       object CBox2: TRadioButton
         Left = 94
@@ -191,13 +193,14 @@ object fListaClientes: TfListaClientes
         ParentFont = False
         PopupMenu = PopupMenu1
         TabOrder = 1
+        OnClick = BitBtn2Click
       end
     end
     object GroupBox4: TGroupBox
       Left = 458
-      Top = 61
+      Top = 84
       Width = 331
-      Height = 62
+      Height = 39
       Caption = 'CIDADE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -207,18 +210,11 @@ object fListaClientes: TfListaClientes
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 3
-      object Label6: TLabel
-        Left = 6
-        Top = 14
-        Width = 28
-        Height = 13
-        Caption = 'Nome'
-      end
       object edCidade: TEdit
         Left = 3
-        Top = 32
+        Top = 13
         Width = 284
-        Height = 24
+        Height = 22
         BevelKind = bkFlat
         BorderStyle = bsNone
         Color = clCream
@@ -227,10 +223,10 @@ object fListaClientes: TfListaClientes
         OnKeyPress = edNomeKeyPress
       end
       object BitBtn1: TBitBtn
-        Left = 288
-        Top = 31
-        Width = 40
-        Height = 25
+        Left = 289
+        Top = 11
+        Width = 35
+        Height = 24
         Caption = '...'
         TabOrder = 1
         OnClick = BitBtn1Click
@@ -342,6 +338,7 @@ object fListaClientes: TfListaClientes
         ParentFont = False
         PopupMenu = PopupMenu1
         TabOrder = 0
+        OnClick = BitBtn2Click
       end
       object CBox4: TRadioButton
         Left = 52
@@ -357,8 +354,9 @@ object fListaClientes: TfListaClientes
         ParentFont = False
         PopupMenu = PopupMenu1
         TabOrder = 1
+        OnClick = BitBtn2Click
       end
-      object RadioButton6: TRadioButton
+      object cbtemail: TRadioButton
         Left = 101
         Top = 13
         Width = 59
@@ -374,6 +372,72 @@ object fListaClientes: TfListaClientes
         PopupMenu = PopupMenu1
         TabOrder = 2
         TabStop = True
+        OnClick = BitBtn2Click
+      end
+    end
+    object GroupBox7: TGroupBox
+      Left = 533
+      Top = 53
+      Width = 244
+      Height = 35
+      Caption = 'Tipo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 6
+      object cbfisica: TRadioButton
+        Left = 6
+        Top = 13
+        Width = 59
+        Height = 17
+        Caption = 'Fisica'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 0
+        OnClick = BitBtn2Click
+      end
+      object cbjuridica: TRadioButton
+        Left = 76
+        Top = 11
+        Width = 77
+        Height = 22
+        Caption = 'Juridica'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 1
+        OnClick = BitBtn2Click
+      end
+      object cbttipo: TRadioButton
+        Left = 165
+        Top = 12
+        Width = 59
+        Height = 17
+        Caption = 'Todos'
+        Checked = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 2
+        TabStop = True
+        OnClick = BitBtn2Click
       end
     end
   end
