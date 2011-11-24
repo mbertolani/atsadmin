@@ -131,7 +131,6 @@ type
     edCodigo: TEdit;
     edNome: TEdit;
     GroupBox4: TGroupBox;
-    Label6: TLabel;
     edCidade: TEdit;
     BitBtn1: TBitBtn;
     GroupBox5: TGroupBox;
@@ -169,7 +168,11 @@ type
     GroupBox6: TGroupBox;
     CBox3: TRadioButton;
     CBox4: TRadioButton;
-    RadioButton6: TRadioButton;
+    cbtemail: TRadioButton;
+    GroupBox7: TGroupBox;
+    cbfisica: TRadioButton;
+    cbjuridica: TRadioButton;
+    cbttipo: TRadioButton;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -255,6 +258,11 @@ begin
   edCidade.Text := '';
   codVen.Text := '';
   nomeVen.Text := '';
+  cbtemail.Checked := true;
+  cbttipo.Checked := true;
+  CBox1.Checked := true;
+  RadioButton5.Checked := False;
+  BitBtn2.Click;
 end;
 
 procedure TfListaClientes.BitBtn2Click(Sender: TObject);
@@ -318,6 +326,21 @@ begin
    else
    varCondicao := 'where cli.STATUS = 2 ';
   //********************************************************************************************
+
+ if cbfisica.Checked = true then
+   if varCondicao <> '' then
+      varCondicao := varCondicao + ' and cli.TIPOFIRMA = 0 '
+   else
+   varCondicao := 'where cli.TIPOFIRMA = 0 ';
+//********************************************************************************************
+ if cbjuridica.Checked = true then
+   if varCondicao <> '' then
+      varCondicao := varCondicao + ' and cli.TIPOFIRMA = 1 '
+   else
+   varCondicao := 'where cli.TIPOFIRMA = 1 ';
+  //********************************************************************************************
+
+
   if (RadioButton5.Checked = true) then
   begin
     if varCondicao <> '' then
@@ -664,6 +687,7 @@ begin
     dm.Proc_end_cli.Close;
     fProcurar.Free;
    end;
+   BitBtn2.Click;
 end;
 
 procedure TfListaClientes.BuscapeloNome1Click(Sender: TObject);
