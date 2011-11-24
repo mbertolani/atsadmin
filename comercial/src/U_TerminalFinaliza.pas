@@ -948,7 +948,7 @@ begin
     //total := StrToFloat(DBEdit6.Text);
     //vApagar := StrToFloat(DBEdit11.Text);
     DecimalSeparator := ',';
-    vJvValor := StrToFloat(jvTotal.Text);
+    vJvValor := jvTotal.AsFloat; //StrToFloat(jvTotal.Text);
     DecimalSeparator := '.';
     strSql := strSql + ',' + FloatToStr(vJvValor); //valor
 
@@ -958,7 +958,7 @@ begin
 
     DecimalSeparator := ',';
 
-    vJvValor := StrToFloat(jvDesconto.Text);
+    vJvValor := jvDesconto.AsFloat;
     DecimalSeparator := '.';
     strSql := strSql + ',' + FloatToStr(vJvValor); //DEsconto
 
@@ -969,8 +969,8 @@ begin
     strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox1.Text));
     utilcrtitulo.Free;
     DecimalSeparator := ',';
-    vJvValor1 := StrToFloat(jvPago.Text);
-    vJvValor2 := StrToFloat(jvTroco.Text);
+    vJvValor1 := jvPago.AsFloat;
+    vJvValor2 := jvTroco.AsFloat; //StrToFloat(jvTroco.Text);
     if (vJvValor2 > 0) then
       vJvValor := vJvValor1 - vJvValor2
     else
@@ -984,22 +984,22 @@ begin
     strSql := strSql + ', ' + IntToStr(Caixa); //Caixa
 
     DecimalSeparator := ',';
-    vJvValor := StrToFloat(jvAcrescimo.Text);
+    vJvValor := jvAcrescimo.AsFloat; //StrToFloat(jvAcrescimo.Text);
     DecimalSeparator := '.';
     strSql := strSql + ',' + FloatToStr(vJvValor); //Multa_juros
 
     DecimalSeparator := ',';
-    vJvValor := StrToFloat(jvApagar.Text);
+    vJvValor := jvApagar.AsFloat; //StrToFloat(jvApagar.Text);
     DecimalSeparator := '.';
     strSql := strSql + ',' + FloatToStr(vJvValor); //VALOR A PaGAR
 
     DecimalSeparator := ',';
-    vJvValor := StrToFloat(jvPago.Text);
+    vJvValor := jvPago.AsFloat; //StrToFloat(jvPago.Text);
     DecimalSeparator := '.';
     strSql := strSql + ',' + FloatToStr(vJvValor); //VALORPAGO
 
     DecimalSeparator := ',';
-    vJvValor := StrToFloat(jvTroco.Text);
+    vJvValor := jvTroco.AsFloat; //StrToFloat(jvTroco.Text);
     DecimalSeparator := '.';
     strSql := strSql + ',' + FloatToStr(vJvValor); //TROCO
 
