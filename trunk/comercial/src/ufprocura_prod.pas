@@ -246,7 +246,7 @@ type
 var
   fProcura_prod: TfProcura_prod;
   codprodxa: Integer;
-  varonde, var_F, imp, PRODUTO_DESC: string;
+  varonde, var_F, imp, PRODUTO_DESC, saldo_negativo: string;
 
 implementation
 
@@ -709,14 +709,15 @@ end;
 
 procedure TfProcura_prod.BitBtn4Click(Sender: TObject);
 begin
+  saldo_negativo := 'FALSE';
   usouAdiciona := 'usou';
   if (var_F = 'compra') then
     formcompra;
   if (var_F = 'venda') then
   begin
     // formvenda;
-  //if (var_F = 'Lista') then
-  //begin
+    //if (var_F = 'Lista') then
+    //begin
     if (fVendas.usaprecolistavenda = 'S') then
        precolista2
     else
@@ -748,9 +749,12 @@ begin
     if (fCompra.usaprecolista = 'S') then
        precolista1;
   end;
-  BitBtn4.Enabled := false;
-  BitBtn5.Enabled := true;
-  BitBtn5.SetFocus;
+  if (saldo_negativo = 'FALSE') then
+  begin
+    BitBtn4.Enabled := false;
+    BitBtn5.Enabled := true;
+    BitBtn5.SetFocus;
+  end;  
 end;
 
 procedure TfProcura_prod.BitBtn5Click(Sender: TObject);
@@ -1305,25 +1309,23 @@ procedure TfProcura_prod.formterminaldelivery;
 var strSql : string;
    unitario, qtd : double;
 begin
-  {
-    if (fTerminal_Delivery.cds_Mov_det.State in [dsBrowse]) then
-       fTerminal_Delivery.cds_Mov_det.Append;
-    fTerminal_Delivery.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fTerminal_Delivery.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fTerminal_Delivery.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-    fTerminal_Delivery.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    fTerminal_Delivery.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fTerminal_Delivery.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    fTerminal_Delivery.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    fTerminal_Delivery.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
-    fTerminal_Delivery.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    fTerminal_Delivery.estoque := cds_procESTOQUEATUAL.AsFloat;
-    fTerminal_Delivery.cds_Mov_det.Post;
-    }
+   if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+   dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+   dm.cds_parametro.Open;
 
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
+   if (not dm.cds_parametro.IsEmpty) then
+      if (cds_procESTOQUEATUAL.Value <= 0) then
+      begin
+        saldo_negativo := 'TRUE';
+        ShowMessage('Produto com saldo negativo !');
+        dm.cds_parametro.Close;
+        Exit;
+      end;
+   dm.cds_parametro.Close;
+
+   TD.TransactionID := 1;
+   TD.IsolationLevel := xilREADCOMMITTED;
 
    if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
      if (DM_MOV.c_movimento.State in [dsInactive]) then
