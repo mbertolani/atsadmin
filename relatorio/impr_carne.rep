@@ -117,7 +117,7 @@ object TRpReport
     item
       Name = 'PVENDA'
       AllowNulls = False
-      Value = '129'
+      Value = '56'
       Datasets.Strings = (
         'IMPR')
       Description = 'C'#243'digo da Venda'
@@ -140,7 +140,7 @@ object TRpReport
     Alias = 'CARNE'
   end
   object TRpSection0: TRpSection
-    Width = 6480
+    Width = 9090
     Height = 2850
     SubReport = TRpSubReport0
     ChangeBool = False
@@ -149,6 +149,12 @@ object TRpReport
     AlignBottom = False
     SectionType = rpsecdetail
     Components = <
+      item
+        Component = TRpShape1
+      end
+      item
+        Component = TRpShape0
+      end
       item
         Component = TRpExpression0
       end
@@ -159,34 +165,22 @@ object TRpReport
         Component = TRpExpression2
       end
       item
-        Component = TRpExpression3
-      end
-      item
         Component = TRpLabel0
-      end
-      item
-        Component = TRpExpression4
       end
       item
         Component = TRpExpression5
       end
       item
+        Component = TRpExpression6
+      end
+      item
         Component = TRpExpression7
-      end
-      item
-        Component = TRpExpression8
-      end
-      item
-        Component = TRpExpression9
       end
       item
         Component = TRpLabel1
       end
       item
-        Component = TRpExpression10
-      end
-      item
-        Component = TRpExpression11
+        Component = TRpExpression9
       end
       item
         Component = TRpLabel2
@@ -201,10 +195,34 @@ object TRpReport
         Component = TRpLabel5
       end
       item
-        Component = TRpExpression6
+        Component = TRpExpression12
       end
       item
-        Component = TRpExpression12
+        Component = TRpExpression3
+      end
+      item
+        Component = TRpExpression4
+      end
+      item
+        Component = TRpExpression8
+      end
+      item
+        Component = TRpShape4
+      end
+      item
+        Component = TRpExpression10
+      end
+      item
+        Component = TRpExpression11
+      end
+      item
+        Component = TRpExpression13
+      end
+      item
+        Component = TRpExpression14
+      end
+      item
+        Component = TRpShape5
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -222,56 +240,13 @@ object TRpReport
     BackExpression = ''
     Stream = {0000000000000000}
   end
-  object TRpExpression1: TRpExpression
-    Width = 1050
-    Height = 264
-    PosX = 822
-    PosY = 5
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = #39'Nota Fiscal : '#39' + str(IMPR.NOTAFISCAL)'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
   object TRpExpression2: TRpExpression
-    Width = 1050
-    Height = 264
-    PosX = 822
-    PosY = 500
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = #39'Vencimento : '#39' + str(carne.DATAVENCIMENTO)'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression3: TRpExpression
     Width = 1005
     Height = 255
-    PosX = 1995
-    PosY = 746
+    PosX = 1395
+    PosY = 1146
     Type1Font = poHelvetica
+    FontStyle = 1
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -293,8 +268,8 @@ object TRpReport
   object TRpLabel0: TRpLabel
     Width = 555
     Height = 240
-    PosX = 822
-    PosY = 746
+    PosX = 222
+    PosY = 1146
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -303,79 +278,11 @@ object TRpReport
     LFontName = 'Helvetica'
     WideText = #10'Valor :'
   end
-  object TRpExpression4: TRpExpression
-    Width = 420
-    Height = 264
-    PosX = 2545
-    PosY = 5
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'CARNE.VIA'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression0: TRpExpression
-    Width = 1050
-    Height = 264
-    PosX = 822
-    PosY = 255
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 
-      #39'N'#186' Parcelas : '#39' + str(IMPR.N_PARCELA) + '#39' :  '#39'  + str(CARNE.VIA' +
-      ')'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
   object TRpExpression5: TRpExpression
     Width = 1050
     Height = 264
-    PosX = 3560
-    PosY = 5
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = #39'Nota Fiscal : '#39' + str(IMPR.NOTAFISCAL)'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression7: TRpExpression
-    Width = 1050
-    Height = 264
-    PosX = 3560
-    PosY = 450
+    PosX = 2760
+    PosY = 800
     Type1Font = poHelvetica
     AutoExpand = False
     AutoContract = False
@@ -393,12 +300,13 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpExpression8: TRpExpression
+  object TRpExpression6: TRpExpression
     Width = 1005
     Height = 255
-    PosX = 4745
-    PosY = 745
+    PosX = 3945
+    PosY = 1145
     Type1Font = poHelvetica
+    FontStyle = 1
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -417,11 +325,11 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpExpression9: TRpExpression
+  object TRpExpression7: TRpExpression
     Width = 1050
     Height = 264
-    PosX = 3560
-    PosY = 1495
+    PosX = 2760
+    PosY = 1545
     Type1Font = poHelvetica
     AutoExpand = False
     AutoContract = False
@@ -442,8 +350,8 @@ object TRpReport
   object TRpLabel1: TRpLabel
     Width = 555
     Height = 240
-    PosX = 3560
-    PosY = 745
+    PosX = 2750
+    PosY = 1150
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -452,11 +360,11 @@ object TRpReport
     LFontName = 'Helvetica'
     WideText = #10'Valor :'
   end
-  object TRpExpression10: TRpExpression
-    Width = 420
+  object TRpExpression9: TRpExpression
+    Width = 1050
     Height = 264
-    PosX = 5295
-    PosY = 5
+    PosX = 2760
+    PosY = 305
     Type1Font = poHelvetica
     AutoExpand = False
     AutoContract = False
@@ -468,18 +376,186 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'CARNE.VIA'
+    Expression = #39'N'#186' Parcelas : '#39' + str(IMPR.N_PARCELA) + '#39'/'#39'  + str(CARNE.VIA)'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpExpression11: TRpExpression
+  object TRpLabel2: TRpLabel
+    Width = 980
+    Height = 240
+    PosX = 222
+    PosY = 1760
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Data Pag.'
+  end
+  object TRpLabel3: TRpLabel
+    Width = 1400
+    Height = 240
+    PosX = 1200
+    PosY = 1760
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'____/____/____'
+  end
+  object TRpLabel4: TRpLabel
+    Width = 1826
+    Height = 206
+    PosX = 573
+    PosY = 2446
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Visto Recebedor'
+  end
+  object TRpLabel5: TRpLabel
+    Width = 2331
+    Height = 154
+    PosX = 223
+    PosY = 2247
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'___________________'
+  end
+  object TRpExpression12: TRpExpression
     Width = 1050
     Height = 264
-    PosX = 3560
-    PosY = 255
+    PosX = 222
+    PosY = 305
     Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39'N'#186' Parcelas : '#39' + str(IMPR.N_PARCELA) + '#39'/'#39'  + str(CARNE.VIA)'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression0: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 222
+    PosY = 55
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39'Nota Fiscal :  '#39' + str(IMPR.NOTAFISCAL) + '#39'-'#39' + CARNE.VIA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression3: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 2750
+    PosY = 50
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39'Nota Fiscal : '#39' + str(IMPR.NOTAFISCAL) + '#39'-'#39' + CARNE.VIA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpShape0: TRpShape
+    Width = 2550
+    Height = 2700
+    PosX = 100
+    PosY = 50
+    BrushStyle = 1
+    PenStyle = 2
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape1: TRpShape
+    Width = 3051
+    Height = 2700
+    PosX = 2649
+    PosY = 51
+    BrushStyle = 1
+    PenStyle = 2
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpExpression8: TRpExpression
+    Width = 2900
+    Height = 200
+    PosX = 2750
+    PosY = 2000
+    Type1Font = poHelvetica
+    FontSize = 8
+    WordWrap = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39'CPF : '#39' + IMPR.CNPJ'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression10: TRpExpression
+    Width = 2897
+    Height = 497
+    PosX = 2747
+    PosY = 2203
+    Type1Font = poHelvetica
+    FontSize = 8
+    WordWrap = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -491,70 +567,18 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 
-      #39'N'#186' Parcelas : '#39' + str(IMPR.N_PARCELA) + '#39' :  '#39'  + str(CARNE.VIA' +
-      ')'
+      #39'End.: '#39' + IMPR.LOGRADOURO + '#39' - '#39' + IMPR.BAIRRO + '#39' - '#39' + IMPR.' +
+      'CIDADE'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpLabel3: TRpLabel
-    Width = 1395
-    Height = 150
-    PosX = 822
-    PosY = 1345
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = #10'____/____/____'
-  end
-  object TRpLabel2: TRpLabel
-    Width = 855
-    Height = 210
-    PosX = 822
-    PosY = 1595
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = #10'Data Pagamento'
-  end
-  object TRpLabel4: TRpLabel
-    Width = 855
-    Height = 210
-    PosX = 822
-    PosY = 2200
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = #10'Visto Recebedor'
-  end
-  object TRpLabel5: TRpLabel
-    Width = 1395
-    Height = 150
-    PosX = 822
-    PosY = 1945
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = #10'___________________'
-  end
-  object TRpExpression6: TRpExpression
-    Width = 2280
-    Height = 270
-    PosX = 822
-    PosY = 985
+  object TRpExpression4: TRpExpression
+    Width = 2900
+    Height = 200
+    PosX = 2750
+    PosY = 1800
     Type1Font = poHelvetica
     FontSize = 8
     WordWrap = True
@@ -568,17 +592,17 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'IMPR.CLI'
+    Expression = #39'Cliente : '#39' + IMPR.CLI'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpExpression12: TRpExpression
-    Width = 2895
-    Height = 270
-    PosX = 3560
-    PosY = 1035
+  object TRpExpression11: TRpExpression
+    Width = 2400
+    Height = 200
+    PosX = 222
+    PosY = 1500
     Type1Font = poHelvetica
     FontSize = 8
     WordWrap = True
@@ -592,7 +616,97 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'IMPR.CLI'
+    Expression = #39'Cliente : '#39' + IMPR.CLI'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression1: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 222
+    PosY = 800
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39'Vencimento : '#39' + str(carne.DATAVENCIMENTO)'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression14: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 2760
+    PosY = 550
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39'Emiss'#227'o :     '#39' + str(IMPR.DATAVENDA)'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpShape4: TRpShape
+    Width = 5597
+    Height = 103
+    PosX = 103
+    PosY = 1449
+    PenStyle = 2
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape5: TRpShape
+    Width = 5597
+    Height = 103
+    PosX = 103
+    PosY = 1046
+    PenStyle = 2
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpExpression13: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 222
+    PosY = 550
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39'Emiss'#227'o :     '#39' + str(IMPR.DATAVENDA)'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
