@@ -425,6 +425,7 @@ begin
      ACBrBoleto1.Cedente.ResponEmissao := tbCliEmite
    else
      ACBrBoleto1.Cedente.ResponEmissao := tbBancoEmite;
+
    ACBrBoleto1.Cedente.TipoInscricao := pJuridica;
    ACBrBoleto1.Cedente.CNPJCPF := s_empresaCNPJ_CPF.AsString;
 
@@ -471,6 +472,19 @@ begin
                 748: Titulo.NossoNumero := IntToStrZero(varNossoNumero,6);// 748 - Banco Sicredi
                 353: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 353 - SANTANDER
               end;
+
+                // DADOS DO BANCO
+                with ACBrBoleto1.Banco do
+                begin
+                   case StrToInt(s_bancoN_BANCO.AsString) of
+                      237: TipoCobranca := cobBradesco;
+                      001: TipoCobranca := cobBancoDoBrasil;
+                      341: TipoCobranca := cobItau;
+                      748: TipoCobranca := cobSicred;
+                   else
+                      TipoCobranca := cobNenhum;
+                   end;
+                end;
 
               if (s_bancoN_BANCO.AsString = '001') then
                 Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';

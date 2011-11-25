@@ -303,6 +303,7 @@ object F_Boletos: TF_Boletos
     end
   end
   object ACBrBoleto1: TACBrBoleto
+    Cedente.ResponEmissao = tbBancoEmite
     Cedente.TipoInscricao = pOutras
     Banco.Numero = 748
     ComprovanteEntrega = True
