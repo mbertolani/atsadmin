@@ -4,13 +4,14 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Buttons, dxCore, dxButton, JvExStdCtrls, JvEdit, JvValidateEdit,
+  Dialogs, Buttons, JvExStdCtrls, JvEdit, JvValidateEdit,
   Mask, DBCtrls, JvExControls, JvLabel, JvExDBGrids, JvDBGrid, jpeg,
   ExtCtrls, JvExExtCtrls, JvImage, Grids, DBGrids, StdCtrls, ComCtrls,
   MMJPanel, JvSpeedButton, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
   Menus, JvComponentBase, JvFormAutoSize, FMTBcd, DB, SqlExpr, Provider,
   DBClient, JvExButtons, JvBitBtn, rpcompobase, rpvclreport, uUtils, DBxPress, Printers,
   JvButton, JvTransparentButton;
+  //dxCore, dxButton,
 
 type
   TF_Terminal = class(TForm)
@@ -528,7 +529,7 @@ var
   total, porc, totgeral , desconto : double;
   porta : string;
   cliente : string;
-  vTIPO_PEDIDO, teste_codigo : String;
+  vTIPO_PEDIDO, teste_codigo, estoque_negativo, SaldoNegativo : String;
   numeroComp : Smallint;
 
 
@@ -538,7 +539,7 @@ uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
   U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod, U_AUTORIZACAO,
   u_mesas, U_MudaMesa;
 
-{$R *.dfm}
+{$R *.dfm}    // Têste téste opção
 
 procedure TF_Terminal.EdtComandaKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -813,12 +814,32 @@ begin
      scds_produto_proc.Close;
   end;
 
+  if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+    if (scds_produto_procESTOQUEATUAL.Value <= 0) then
+    begin
+       ShowMessage('Produto com saldo negativo !');
+       SaldoNegativo := 'TRUE';
+       scds_produto_proc.Close;
+    end;
+
+
 end;
 
 procedure TF_Terminal.EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
 begin
    if (key = #13) then
    begin
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametro.IsEmpty) then
+         estoque_negativo := 'FALSO'
+      else
+         estoque_negativo := 'TRUE';
+
+      SaldoNegativo := 'FALSE';
+
       clienteConsumidor := '1';
       if Dm.cds_parametro.Active then
          dm.cds_parametro.Close;
@@ -869,6 +890,14 @@ begin
            BuscaProduto;
         end;
 
+        if (SaldoNegativo = 'TRUE') then
+        begin
+           //ShowMessage('Produto com saldo negativo !');
+           EdtCodBarra.Clear;
+           EdtCodBarra.SetFocus;
+           exit;
+        end;
+
         if (RETORNO = 'FALSO') then
         begin
           if (DM_MOV.c_movimento.State in [dsInactive]) then
@@ -906,26 +935,90 @@ end;
 
 procedure TF_Terminal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-
+  if (PageControl1.ActivePage = TabSheet1) then
+  begin
+    if (DM_MOV.c_movimento.Active) then
+    begin
+       if (s_venda.Active) then
+          s_venda.Close;
+       s_venda.Params[0].Clear;
+       s_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+       s_venda.Open;
+       if (s_venda.IsEmpty) then
+       begin
+          if (MessageDlg('Existe Pedido em aberto, Excluir pedido ?', mtWarning, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
+          begin
+            DM_MOV.c_movimento.Delete;
+            DM_MOV.c_movimento.ApplyUpdates(0);
+          end;
+       end;
+       s_venda.Close;
+    end;
+  end;
   //  ActiveMDIChild.Close;
   //Action := caFree;
   //F_Terminal := nil;
-  if (DM_MOV.c_movimento.Active) then
-     DM_MOV.c_movimento.Close;
-  if (DM_MOV.c_comanda.Active) then
-     DM_MOV.c_comanda.Close;
-  if (DM_MOV.c_movdet.Active) then
-     DM_MOV.c_movdet.Close;
   if (DM_MOV.c_venda.Active) then
      DM_MOV.c_venda.Close;
+
+  if (DM_MOV.c_movdet.Active) then
+     DM_MOV.c_movdet.Close;
+
   if (DM_MOV.c_movimento.Active) then
      DM_MOV.c_movimento.Close;
+
+  if (DM_MOV.c_comanda.Active) then
+     DM_MOV.c_comanda.Close;
+
   close;
   
 end;
 
 procedure TF_Terminal.JvProcurarClick(Sender: TObject);
 begin
+  if (PageControl1.ActivePage = TabSheet1) then
+  begin
+    if (DM_MOV.c_movimento.Active) then
+    begin
+       if (s_venda.Active) then
+          s_venda.Close;
+       s_venda.Params[0].Clear;
+       s_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+       s_venda.Open;
+       if (s_venda.IsEmpty) then
+       begin
+          if (MessageDlg('Existe Pedido em aberto, Excluir pedido ?', mtWarning, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
+          begin
+            DM_MOV.c_movimento.Delete;
+            DM_MOV.c_movimento.ApplyUpdates(0);
+          end;
+       end;
+       s_venda.Close;       
+    end;
+  end;
+
+{  if (PageControl1.ActivePage = TabComanda) then
+  begin
+    if (DM_MOV.c_comanda.Active) then
+    begin
+       if (s_venda.Active) then
+          s_venda.Close;
+       s_venda.Params[0].Clear;
+       s_venda.Params[0].AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+       s_venda.Open;
+       if (s_venda.IsEmpty) then
+       begin
+          if (MessageDlg('Existe Pedido emaberto, Excluir pedido ?', mtWarning, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
+          begin
+            DM_MOV.c_comanda.Delete;
+            DM_MOV.c_comanda.ApplyUpdates(0);
+          end;
+       end;
+    end;
+  end;
+ }
+
+    // ==================================
     if (not dmnf.cds_ccusto.Active) then
         dmnf.cds_ccusto.Open;
     dmnf.cds_ccusto.First;
@@ -1131,10 +1224,28 @@ procedure TF_Terminal.EdtCodBarra1KeyPress(Sender: TObject; var Key: Char);
 begin
    if (key = #13) then
    begin
+      SaldoNegativo := 'FALSE';
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametro.IsEmpty) then
+         estoque_negativo := 'FALSO'
+      else
+         estoque_negativo := 'TRUE';
+
       if (EdtCodBarra1.Text <> '') then
         BuscaProduto
       else
         RETORNO := 'FALSO';
+
+      if (SaldoNegativo = 'TRUE') then
+      begin
+         //ShowMessage('Produto com saldo negativo !');
+         EdtCodBarra1.Clear;
+         EdtCodBarra1.SetFocus;
+         exit;
+      end;
 
       if (RETORNO = 'FALSO') then
          btnProduto.Click
@@ -1495,6 +1606,7 @@ begin
               if DM_MOV.d_movdet.DataSet.Active then
                 DM_MOV.d_movdet.DataSet.Close;
               DM_MOV.d_movimento.DataSet.Close;
+              JvTotal.Value := 0;
               ShowMessage('Pedido/Orçamento Excluido com Suscesso');
            Except
             MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
