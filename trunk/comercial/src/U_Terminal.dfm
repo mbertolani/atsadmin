@@ -1,9 +1,9 @@
 object F_Terminal: TF_Terminal
   Left = 222
   Top = 93
-  BorderStyle = bsSingle
-  ClientHeight = 535
-  ClientWidth = 780
+  Width = 796
+  Height = 573
+  BorderIcons = [biSystemMenu, biMaximize]
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clBlack
@@ -151,7 +151,7 @@ object F_Terminal: TF_Terminal
       Color = clMoneyGreen
       TabOrder = 1
       object JvLabel3: TJvLabel
-        Left = 128
+        Left = 137
         Top = 18
         Width = 100
         Height = 23
@@ -173,7 +173,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvTotal: TJvValidateEdit
-        Left = 252
+        Left = 245
         Top = 5
         Width = 152
         Height = 49
@@ -2212,8 +2212,8 @@ object F_Terminal: TF_Terminal
             OnKeyPress = EdtCodBarraKeyPress
           end
           object btnProduto: TBitBtn
-            Left = 280
-            Top = 6
+            Left = 281
+            Top = 7
             Width = 75
             Height = 25
             Caption = 'btnProduto'
