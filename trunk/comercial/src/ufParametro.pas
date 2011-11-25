@@ -248,6 +248,7 @@ type
     CheckBox9: TCheckBox;
     EdtSerie: TEdit;
     Label56: TLabel;
+    RadioGroup6: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -298,6 +299,7 @@ type
     procedure CheckBox6Click(Sender: TObject);
     procedure CheckBox7Click(Sender: TObject);
     procedure EdtSerieChange(Sender: TObject);
+    procedure RadioGroup6Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2154,6 +2156,15 @@ begin
      else
         RadioGroup5.ItemIndex := 1;
 
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        RadioGroup6.ItemIndex := 0
+     else
+        RadioGroup6.ItemIndex := 1;
+                
      s_parametro.Close;
      MMJPanel1.Visible := False;
   end
@@ -2912,6 +2923,60 @@ begin
         strSql := strSql + QuotedStr('SERIETERMINAL') + ', ';
         strSql := strSql + QuotedStr(EdtSerie.Text);
         strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+
+end;
+
+procedure TfParametro.RadioGroup6Click(Sender: TObject);
+begin
+//  inherited;
+  strSql := '';
+  if (RadioGroup6.ItemIndex = 0) then  // Utiliza Lote no PDV
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('não aceita estoque negativo') + ', ';
+        strSql := strSql + QuotedStr('ESTOQUENEGATIVO') + ', ';
+        strSql := strSql + '3';
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+        strSql := strSql + QuotedStr('ESTOQUENEGATIVO');
+
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
         Try

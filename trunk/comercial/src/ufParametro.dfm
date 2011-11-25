@@ -2679,7 +2679,7 @@ inherited fParametro: TfParametro
         Width = 211
         Height = 17
         Alignment = taLeftJustify
-        Caption = 'Imprimor para Arquivo ?'
+        Caption = 'Imprimr para Arquivo ?'
         TabOrder = 3
         OnClick = CheckBox1Click
       end
@@ -2832,7 +2832,7 @@ inherited fParametro: TfParametro
         Left = 368
         Top = 280
         Width = 401
-        Height = 105
+        Height = 97
         Caption = 'Impressora Bematech n'#227'o Fiscal'
         TabOrder = 12
         object CheckBox7: TCheckBox
@@ -2873,6 +2873,19 @@ inherited fParametro: TfParametro
         BorderStyle = bsNone
         TabOrder = 13
         OnChange = EdtSerieChange
+      end
+      object RadioGroup6: TRadioGroup
+        Left = 369
+        Top = 382
+        Width = 400
+        Height = 50
+        Caption = 'N'#227'o permitir Estoque Negativo'
+        Columns = 2
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+        TabOrder = 14
+        OnClick = RadioGroup6Click
       end
     end
   end
