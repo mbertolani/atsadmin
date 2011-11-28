@@ -232,6 +232,18 @@ end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
 begin
+  if (cdsOSSTATUS.AsString = 'F') then
+  begin
+    ShowMessage('OS já finalizada.');
+    Exit;
+  end;
+
+  if (cdsOSSTATUS.AsString = 'E') then
+  begin
+    ShowMessage('OS excluída.');
+    Exit;            
+  end;
+
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
     exit;
     

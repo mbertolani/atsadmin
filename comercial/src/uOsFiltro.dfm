@@ -1,6 +1,6 @@
 object fOsFiltro: TfOsFiltro
   Left = 260
-  Top = 96
+  Top = 85
   Width = 760
   Height = 600
   Caption = 'Ordem de Servi'#231'o'
@@ -12,6 +12,7 @@ object fOsFiltro: TfOsFiltro
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  WindowState = wsMaximized
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -243,10 +244,12 @@ object fOsFiltro: TfOsFiltro
         TabOrder = 0
         Items.Strings = (
           'A-Andamento'
+          'E-Exclu'#237'da'
           'F-Finalizada'
           'G-Aguardando Pe'#231'a'
           'N-N'#227'o Aprovado'
-          'O-Or'#231'amento')
+          'O-Or'#231'amento'
+          'Todos')
       end
     end
     object btnProcurar: TBitBtn
@@ -1019,6 +1022,8 @@ object fOsFiltro: TfOsFiltro
     OnCellClick = DBGrid1CellClick
     OnDrawColumnCell = DBGrid1DrawColumnCell
     OnDblClick = DBGrid1DblClick
+    OnKeyDown = DBGrid1KeyDown
+    OnKeyUp = DBGrid1KeyDown
     OnTitleClick = DBGrid1TitleClick
     TitleButtons = True
     OnGetBtnParams = DBGrid1GetBtnParams
@@ -1074,14 +1079,14 @@ object fOsFiltro: TfOsFiltro
         Expanded = False
         FieldName = 'DATA_INI'
         Title.Caption = 'Inicio'
-        Width = 60
+        Width = 80
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_FIM'
         Title.Caption = 'Fim'
-        Width = 60
+        Width = 80
         Visible = True
       end
       item
