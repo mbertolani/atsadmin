@@ -100,6 +100,7 @@ type
     _centroCusto: integer;
     _mesAnoPost: TDateTime;
   public
+    DataEntrada : TDateTime;
     property CodProduto: Integer read getCodProduto write setCodProduto;
     property CodDetalhe: Integer read getCodDetalhe write setCodDetalhe;
     property MesAno: TDateTime read getMesAno write setMesAno;
@@ -550,6 +551,7 @@ begin
           sqlStr := sqlStr + ', PRECOMEDIO = 0 '
         else
           sqlStr := sqlStr + ', PRECOMEDIO         = ' + FloatToStr(Self.PrecoCusto);
+        sqlStr := sqlStr + ', DATAULTIMACOMPRA     = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataEntrada));
       end;
 
       sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(Self.CodProduto);
@@ -723,6 +725,7 @@ procedure TEstoque.setMesAno(const Value: TDateTime);
   var    anoa, mesa, diaa: word;
 begin
   decodedate(Value, anoa, mesa, diaa);
+  DataEntrada := Value;
   diaa := 1;
   _mesAno := EncodeDate(anoa, mesa, diaa);
 end;
