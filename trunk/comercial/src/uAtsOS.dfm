@@ -28167,6 +28167,7 @@ object fAtsOS: TfAtsOS
       end>
     LargeImages = ImageList2
     PageButtonHeight = 34
+    ActivePageIndex = 1
     BorderStyle = bsNone
     Color = clWindow
     Font.Charset = ANSI_CHARSET
