@@ -186,6 +186,8 @@ type
     Label11: TLabel;
     Label20: TLabel;
     DBComboBox2: TDBComboBox;
+    sdsVALST: TFloatField;
+    cdsVALST: TFloatField;
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -199,6 +201,7 @@ type
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
     procedure cdsNewRecord(DataSet: TDataSet);
+    procedure DBEdit5Exit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -605,6 +608,12 @@ begin
   cdsVIA.AsString              := nvia;
   cdsSTATUS.AsString           := '5-';
   cdsFORMARECEBIMENTO.AsString := '1';
+end;
+
+procedure TfCrAltera.DBEdit5Exit(Sender: TObject);
+begin
+  inherited;
+  cdsVALOR_RESTO_SST.AsFloat := cdsVALOR_RESTO.AsFloat - cdsVALST.AsFloat;
 end;
 
 end.
