@@ -3,6 +3,7 @@ object fOsFiltro: TfOsFiltro
   Top = 85
   Width = 760
   Height = 600
+  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Ordem de Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -10,7 +11,7 @@ object fOsFiltro: TfOsFiltro
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
+  OldCreateOrder = True
   Position = poDesktopCenter
   WindowState = wsMaximized
   OnCreate = FormCreate
