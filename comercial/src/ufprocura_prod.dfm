@@ -471,7 +471,7 @@ object fProcura_prod: TfProcura_prod
       item
         Expanded = False
         FieldName = 'UNIDADEMEDIDA'
-        Title.Caption = 'Unde'
+        Title.Caption = 'UN'
         Visible = True
       end
       item
