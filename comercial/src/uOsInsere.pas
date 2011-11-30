@@ -229,22 +229,27 @@ var str: string;
   I : Integer;
 begin
   str := '';
-  for I := 0 to edServico.Lines.Count -1 do
-    str := str + edServico.Lines[I] + #13#10;
-  if (str = '') then
-    str := edProdDescr.Text;
+  if (edCodUsuario.Text <> '') then
+  begin
+    for I := 0 to edServico.Lines.Count -1 do
+      str := str + edServico.Lines[I] + #13#10;
+    if (str = '') then
+      str := edProdDescr.Text;
 
-  fOs.cdsServicoSTATUS.AsString  := fOs.statusOs;
-  fOs.cdsServicoCODUSUARIO.AsInteger    := StrToInt(edCodUsuario.Text);
-  fOs.cdsServicoNOMEUSUARIO.AsString    := edColaborador.Text;
-  fOs.cdsServicoDESCRICAO_SERV.AsString := str;
-  fOs.cdsServicoCODPRO.AsString         := edProduto.Text;
-  fOs.cdsServicoCODPRODUTO.asInteger    := codProduto;
-  fOs.cdsServicoQTDE.AsFloat            := edQtdeServ.Value;
-  fOs.cdsServicoPRECO.AsFloat           := edPrecoServ.Value;
-  fOs.cdsServicoDESCONTO.AsFloat        := edDescVlrServ.Value;
-  fOs.cdsServicoVALORTOTAL.AsFloat      := edQtdeServ.Value * edPrecoServ.Value;
-  fOs.cdsServico.Post;
+    fOs.cdsServicoSTATUS.AsString  := fOs.statusOs;
+    fOs.cdsServicoCODUSUARIO.AsInteger    := StrToInt(edCodUsuario.Text);
+    fOs.cdsServicoNOMEUSUARIO.AsString    := edColaborador.Text;
+    fOs.cdsServicoDESCRICAO_SERV.AsString := str;
+    fOs.cdsServicoCODPRO.AsString         := edProduto.Text;
+    fOs.cdsServicoCODPRODUTO.asInteger    := codProduto;
+    fOs.cdsServicoQTDE.AsFloat            := edQtdeServ.Value;
+    fOs.cdsServicoPRECO.AsFloat           := edPrecoServ.Value;
+    fOs.cdsServicoDESCONTO.AsFloat        := edDescVlrServ.Value;
+    fOs.cdsServicoVALORTOTAL.AsFloat      := edQtdeServ.Value * edPrecoServ.Value;
+    fOs.cdsServico.Post;
+  end
+  else
+    MessageDlg('É necessário preencher o Colaborador', mtWarning, [mbOK], 0);
 end;
 
 procedure TfOsInsere.FormClose(Sender: TObject; var Action: TCloseAction);
