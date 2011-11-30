@@ -540,22 +540,10 @@ procedure TfFiltroMov_compra.BitBtn5Click(Sender: TObject);
 var sql:string;
 begin
   VCLReport1.FileName := str_relatorio + 'filtroCompras.rep';
+  //Relatorio recebe o CAMINHO do relatorio, a CONEXÃO so sistema e o SQL da pesquisa na Tela do sistema
+  VCLReport1.Title := VCLReport1.FileName;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  {sql := 'select prod.CODPRO, prod.PRODUTO, prod.VALORUNITARIOATUAL , ' +
-    ' SUM(IT.QUANTIDADE), SUM(IT.VALTOTAL) , mov.CODFORNECEDOR, ' +
-    ' forn.NOMEFORNECEDOR, comp.NOTAFISCAL, comp.SERIE, mov.DATAMOVIMENTO, ' +
-    ' mov.STATUS, mov.CODNATUREZA, mov.CODALMOXARIFADO, mov.CONTROLE ' +
-    ' from MOVIMENTO mov ' +
-    ' left outer join COMPRA comp on comp.codmovimento = mov.codmovimento ' +
-    ' inner join FORNECEDOR forn on forn.codFornecedor = mov.codFornecedor ' +
-    ' inner join MOVIMENTODETALHE it on it.CODMOVIMENTO = mov.CODMOVIMENTO ' +
-    ' inner join PRODUTOS prod on prod.CODPRODUTO = it.CODPRODUTO ';
-  VCLReport1.Report.DataInfo.Items[1].SQL := sql + sqlTexto +
-    ' GROUP by mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.DATAMOVIMENTO, ' +
-    ' comp.NOTAFISCAL, ' +
-    ' comp.SERIE,  prod.CODPRO, prod.PRODUTO, prod.VALORUNITARIOATUAL, ' +
-    ' mov.STATUS, mov.CODNATUREZA, mov.CODALMOXARIFADO, mov.CONTROLE ' +
-    ' order by mov.DATAMOVIMENTO , forn.NOMEFORNECEDOR';  }
+  VCLReport1.Report.DataInfo.Items[1].SQL := cds_cns.CommandText;
   VCLReport1.Execute;
 end;
 
