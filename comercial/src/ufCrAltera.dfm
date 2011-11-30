@@ -654,6 +654,7 @@ inherited fCrAltera: TfCrAltera
     Font.Style = []
     ParentFont = False
     TabOrder = 6
+    OnExit = DBEdit5Exit
   end
   object DBEdit7: TDBEdit [19]
     Left = 703
@@ -912,9 +913,9 @@ inherited fCrAltera: TfCrAltera
       ' CODALMOXARIFADO, N_DOCUMENTO, VALORRECEBIDO, JUROS, DESCONTO, V' +
       'ALOR_RESTO, VALORTITULO, PARCELAS, VIA, DP, VALOR_RESTO_SST  , c' +
       'ase when status = '#39'5-'#39' then '#39'Pendente'#39' when status = '#39'7-'#39' then '#39 +
-      'Recebido'#39' else '#39'Outros'#39' end as STATUSP, DATACONSOLIDA'#13#10' from REC' +
-      'EBIMENTO WHERE TITULO = :TIT AND CODCLIENTE = :CODCI AND EMISSAO' +
-      ' = :DTAEMI'
+      'Recebido'#39' else '#39'Outros'#39' end as STATUSP, DATACONSOLIDA, VALST'#13#10' f' +
+      'rom RECEBIMENTO WHERE TITULO = :TIT AND CODCLIENTE = :CODCI AND ' +
+      'EMISSAO = :DTAEMI'
     MaxBlobSize = -1
     Params = <
       item
@@ -1021,6 +1022,9 @@ inherited fCrAltera: TfCrAltera
     end
     object sdsVALOR_RESTO_SST: TFloatField
       FieldName = 'VALOR_RESTO_SST'
+    end
+    object sdsVALST: TFloatField
+      FieldName = 'VALST'
     end
   end
   object dsp: TDataSetProvider
@@ -1153,6 +1157,9 @@ inherited fCrAltera: TfCrAltera
     end
     object cdsVALOR_RESTO_SST: TFloatField
       FieldName = 'VALOR_RESTO_SST'
+    end
+    object cdsVALST: TFloatField
+      FieldName = 'VALST'
     end
   end
   object sdscp: TSQLDataSet
