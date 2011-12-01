@@ -374,6 +374,12 @@ begin
       3 : strAbrirOs := strAbrirOs + ' AND OS.STATUS = ' + QuotedStr('G');
       4 : strAbrirOs := strAbrirOs + ' AND OS.STATUS = ' + QuotedStr('N');
       5 : strAbrirOs := strAbrirOs + ' AND OS.STATUS = ' + QuotedStr('O'); 
+      6 : strAbrirOs := strAbrirOs + ' AND OS.STATUS <> ' + QuotedStr('E'); // Todos Exceto os  Excluidos
+    end;
+
+    if (cbStatus.ItemIndex <> 1) then
+    begin
+      strAbrirOs := strAbrirOs + ' AND OS.STATUS <> ' + QuotedStr('E');  // Não Mostra os Excluidos
     end;
 
     if (edCodCliente.Text <> '') then

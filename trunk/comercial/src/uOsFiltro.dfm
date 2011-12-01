@@ -22,7 +22,7 @@ object fOsFiltro: TfOsFiltro
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 750
+    Width = 758
     Height = 89
     Align = alTop
     TabOrder = 0
@@ -1003,8 +1003,8 @@ object fOsFiltro: TfOsFiltro
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 89
-    Width = 750
-    Height = 145
+    Width = 758
+    Height = 156
     Align = alClient
     DataSource = dsOs
     Font.Charset = ANSI_CHARSET
@@ -1044,7 +1044,7 @@ object fOsFiltro: TfOsFiltro
       item
         Expanded = False
         FieldName = 'STATUS'
-        Title.Caption = 'Sit.'
+        Title.Caption = 'Situa'#231#227'o'
         Width = 62
         Visible = True
       end
@@ -1126,8 +1126,8 @@ object fOsFiltro: TfOsFiltro
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
-    Top = 253
-    Width = 750
+    Top = 264
+    Width = 758
     Height = 136
     Align = alBottom
     DataSource = dsServico
@@ -1169,63 +1169,63 @@ object fOsFiltro: TfOsFiltro
         Expanded = False
         FieldName = 'ID_OS_DET'
         Title.Caption = 'C'#243'd.Serv.'
-        Width = 59
+        Width = 60
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODPRO'
         Title.Caption = 'C'#243'digo'
-        Width = 51
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCRICAO_SERV'
         Title.Caption = 'Descri'#231#227'o'
-        Width = 258
+        Width = 261
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMEUSUARIO'
         Title.Caption = 'Colaborador'
-        Width = 97
+        Width = 98
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'QTDE'
         Title.Caption = 'Quantidade'
-        Width = 59
+        Width = 60
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO'
         Title.Caption = 'Pre'#231'o'
-        Width = 51
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCONTO'
         Title.Caption = 'Desconto'
-        Width = 51
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORTOTAL'
         Title.Caption = 'Valor Total'
-        Width = 79
+        Width = 78
         Visible = True
       end>
   end
   object JvDBGrid2: TJvDBGrid
     Left = 0
-    Top = 389
-    Width = 750
+    Top = 400
+    Width = 758
     Height = 160
     Align = alBottom
     DataSource = dsPeca
@@ -1261,49 +1261,49 @@ object fOsFiltro: TfOsFiltro
         Expanded = False
         FieldName = 'ID_OS_DET'
         Title.Caption = 'C'#243'digo'
-        Width = 61
+        Width = 62
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODPRO'
         Title.Caption = 'Pe'#231'a'
-        Width = 69
+        Width = 70
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCRICAO_SERV'
         Title.Caption = 'Descri'#231#227'o'
-        Width = 206
+        Width = 208
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ID_OSDET_SERV'
         Title.Caption = 'C'#243'd. Servi'#231'o'
-        Width = 103
+        Width = 104
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'QTDE'
         Title.Caption = 'Quantidade'
-        Width = 69
+        Width = 70
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO'
         Title.Caption = 'Pre'#231'o'
-        Width = 69
+        Width = 70
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCONTO'
         Title.Caption = 'Desconto'
-        Width = 69
+        Width = 70
         Visible = True
       end
       item
@@ -1316,8 +1316,8 @@ object fOsFiltro: TfOsFiltro
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 234
-    Width = 750
+    Top = 245
+    Width = 758
     Height = 19
     Panels = <
       item
@@ -1834,7 +1834,7 @@ object fOsFiltro: TfOsFiltro
     Left = 424
     Top = 184
     Bitmap = {
-      494C01010400090004002A001600FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C01010400090004002A001600FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000A800000042000000010020000000000040AD
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3273,6 +3273,7 @@ object fOsFiltro: TfOsFiltro
       0000000000000000000000000000000000083000000000000000000000000000
       00000000000000000000160000000900110000000000000080000000003FFFFF
       FFFFF000000000000000000000000000FF8000003EFFFFFFFFFFF00000000000
-      0000000000000000FFC000003FFFFFFFFFFFFFF000000FFFFF400000FF000000}
+      0000000000000000FFC000003FFFFFFFFFFFFFF000000FFFFF400000FF000000
+      00000000000000000000000000000000000000000000}
   end
 end
