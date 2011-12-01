@@ -1663,6 +1663,7 @@ begin
        scdsCr_procDUP_REC_NF.AsString := ''
      else
        scdsCr_procDUP_REC_NF.AsString := 'S';
+     scdsCr_proc.post;
   end;
 end;
 
