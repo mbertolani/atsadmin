@@ -8,7 +8,7 @@ uses
   JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls, StdCtrls, Mask, JvExMask,
   JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, Buttons,
   JvExStdCtrls, JvCombobox, uUtils, Menus, uOsClasse, uMovimento,
-  JvExButtons, JvBitBtn, DBXpress, DateUtils;
+  JvExButtons, JvBitBtn, DBXpress, DateUtils, ImgList;
 
 type
   TfOsFiltro = class(TForm)
@@ -148,6 +148,7 @@ type
     sdsOsVEICULO: TStringField;
     cdsOsVEICULO: TStringField;
     sqlTotal: TSQLQuery;
+    ImageList1: TImageList;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -318,11 +319,33 @@ begin
   if (cdsOs.Active) then
   begin
     if (cdsOsSTATUS.AsString = 'P') then
-      DBGrid1.Canvas.Brush.Color := clMoneyGreen;
+      DBGrid1.Canvas.Brush.Color := clActiveBorder; //clMoneyGreen;
     if (cdsOsSTATUS.AsString = 'F') then
       DBGrid1.Canvas.Brush.Color := clGray;
 
+    if (cdsOsSTATUS.AsString = 'E') then
+      DBGrid1.Canvas.Brush.Color := clMoneyGreen;
+
+    if (cdsOsSTATUS.AsString = 'O') then
+    begin
+      DBGrid1.Canvas.Brush.Color := clYellow;
+      DBGrid1.Canvas.Font.Color := clNavy; //clBlack;
+    end;
+
     DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+   if Column.Field = cdsOsSTATUS then
+   begin
+       DBGrid1.Canvas.FillRect(Rect);
+       if (cdsOsSTATUS.AsString = 'O') then
+         ImageList1.Draw(DBGrid1.Canvas,Rect.Left+10,Rect.top, 0);
+       if (cdsOsSTATUS.AsString = 'A') then
+         ImageList1.Draw(DBGrid1.Canvas,Rect.Left+10,Rect.top, 1);
+       if (cdsOsSTATUS.AsString = 'F') then
+         ImageList1.Draw(DBGrid1.Canvas,Rect.Left+10,Rect.top, 2);
+       if (cdsOsSTATUS.AsString = 'E') then
+         ImageList1.Draw(DBGrid1.Canvas,Rect.Left+10,Rect.top, 3);
+   end;
   end;
 end;
 
