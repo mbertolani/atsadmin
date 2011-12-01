@@ -490,6 +490,11 @@ begin
     MessageDlg('Não foi informado Serviços para esta OS.', mtWarning, [mbOk], 0);
     Exit;
   end;
+  if ((StatusNovo = 'E') and (cdsOsSTATUS.AsString = 'F')) then
+  begin
+    MessageDlg('OS já finalizada.', mtWarning, [mbOk], 0);
+    Exit;
+  end;
   Try
     FOsClsF := TOsClasse.Create;
     if (OsServico = 'OS') then
@@ -530,6 +535,11 @@ var fmov  : TMovimento;
     TD    : TTransactionDesc;
     codMov, numGrid: Integer;
 begin
+  if (cdsOsSTATUS.AsString = 'F') then
+  begin
+    MessageDlg('OS já finalizada.', mtWarning, [mbOk], 0);
+    Exit;
+  end;
   // Gera o Movimento e Movimento Detalhe
   Try
     fmov := TMovimento.Create;
@@ -553,6 +563,7 @@ begin
       fMov.CodFornec   := 0;
       fMov.CodCCusto   := dm.CCustoPadrao;
       fMov.CodOrigem   := cdsOsCODOS.AsInteger; // Identificar a OS
+      fMov.Controle    := 'OS';
 
       codMov := fMov.inserirMovimento(0);
 
@@ -601,11 +612,16 @@ begin
       cdsPeca.EnableControls;
 
       dm.sqlsisAdimin.Commit(TD);
+      numGrid     := cdsOs.recNo;
+      btnProcurar.Click;
+      cdsOs.recNo := numGrid;
     Except
       on E : Exception do
       begin
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
         dm.sqlsisAdimin.Rollback(TD);
+        cdsServico.EnableControls;
+        cdsPeca.EnableControls;
         Exit;
       end;
     end;
@@ -676,6 +692,16 @@ begin
     PopupMenu1.Items.Items[2].Enabled := True;   //Aguardando Peca
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := True;   //Excluido
+  end;
+  if (cdsServicoSTATUS.AsString = 'E') then // Fianlizado
+  begin
+    PopupMenu1.Items.Items[0].Enabled := False;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := False;   //Excluido
   end;
   if (cdsServicoSTATUS.AsString = 'F') then // Fianlizado
   begin
@@ -684,6 +710,7 @@ begin
     PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := False;   //Excluido
   end;
   if (cdsServicoSTATUS.AsString = 'G') then // Aguardando Peça
   begin
@@ -692,6 +719,7 @@ begin
     PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := True;   //Excluido
   end;
   if (cdsServicoSTATUS.AsString = 'N') then // Nao Aprovado
   begin
@@ -708,6 +736,7 @@ begin
     PopupMenu1.Items.Items[2].Enabled := True;   //Aguardando Peca
     PopupMenu1.Items.Items[3].Enabled := True;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := True;   //Excluido
   end;
 
 end;
@@ -758,6 +787,7 @@ begin
       DM_MOV.c_movdet.Open;
 
       F_TerminalFinaliza.ShowModal;
+      
     finally
       F_TerminalFinaliza.Free;
     end;
@@ -804,6 +834,16 @@ begin
     PopupMenu1.Items.Items[2].Enabled := True;   //Aguardando Peca
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := True;   //Excluido
+  end;
+  if (cdsOsSTATUS.AsString = 'E') then // Fianlizado
+  begin
+    PopupMenu1.Items.Items[0].Enabled := False;  //Andamento
+    PopupMenu1.Items.Items[1].Enabled := False;   //Finalizado
+    PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
+    PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
+    PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := False;   //Excluido
   end;
   if (cdsOsSTATUS.AsString = 'F') then // Fianlizado
   begin
@@ -812,6 +852,7 @@ begin
     PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := False;   //Excluido
   end;
   if (cdsOsSTATUS.AsString = 'G') then // Aguardando Peça
   begin
@@ -820,6 +861,7 @@ begin
     PopupMenu1.Items.Items[2].Enabled := False;   //Aguardando Peca
     PopupMenu1.Items.Items[3].Enabled := False;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := True;   //Excluido
   end;
   if (cdsOsSTATUS.AsString = 'N') then // Nao Aprovado
   begin
@@ -836,6 +878,7 @@ begin
     PopupMenu1.Items.Items[2].Enabled := True;   //Aguardando Peca
     PopupMenu1.Items.Items[3].Enabled := True;   //Nao Aprovado
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
+    PopupMenu1.Items.Items[5].Enabled := True;   //Excluidov
   end;
   TotalOs(cdsOsCODOS.AsInteger);
 
