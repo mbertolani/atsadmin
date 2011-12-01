@@ -439,8 +439,11 @@ begin
          dm.sqlsisAdimin.ExecuteDirect(str_sql);
 
        Except
-         MessageDlg('Não foi possível gerar Título.', mtError, [mbOK], 0);
-         Abort;
+         on E : Exception do
+         begin
+           ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+           //dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         end;
        end;
      end
      else
