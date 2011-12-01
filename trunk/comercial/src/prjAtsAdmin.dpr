@@ -253,7 +253,7 @@ uses
   U_MudaMesa in 'U_MudaMesa.pas' {F_MudaMesa},
   uPeriodo in 'uPeriodo.pas' {fPeriodo},
   uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra},
-  ucrdescontado in 'ucrdescontado.pas' {fcrdescontado},
+  ucrdescontado in 'ucrdescontado.pas' {fcrdescontado};
   uImport in 'uImport.pas' {fImport};
 
 //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
