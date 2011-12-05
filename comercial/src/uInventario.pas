@@ -224,7 +224,7 @@ begin
         begin
           cdsInvent.Append;
           cdsInventCODIVENTARIO.AsString := edLista.text;
-          btnGravar.Enabled := True;          
+          btnGravar.Enabled := True;
         end;
       end;
     end
@@ -465,6 +465,12 @@ begin
     exit;
   end;
 
+  if (CCusto = 0) then
+  begin
+    MessageDlg('Informe o Local de Estoque.', mtWarning, [mbOK], 0);
+    cbCCusto1.SetFocus;
+    exit;
+  end;
 
   if (cdsInvent.Active) then
   begin
@@ -474,20 +480,14 @@ begin
       ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
       QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' +
       QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
-    if (cbCCusto1.ItemIndex > -1) then
-    begin
-      sql := sql + ', ' + IntToStr(CCusto);
-    end
-    else begin
-      sql := sql + ', null';
-    end;
+    sql := sql + ', ' + IntToStr(CCusto);
     sql := sql + ')';
     try
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(sql);
-    dm.sqlsisAdimin.Commit(TD);
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(sql);
+      dm.sqlsisAdimin.Commit(TD);
     except
       on E : Exception do
       begin
@@ -684,6 +684,7 @@ var Sql1: String;
 begin
   if (cdsInvent.State in [dsInsert, dsEdit]) then
   begin
+    cdsInventCODCCUSTO.AsInteger := 
     cdsInvent.ApplyUpdates(0);
   end;
   cdsInvent.First;
