@@ -866,25 +866,29 @@ begin
             sTabIBGE.Params[0].AsString := sEmpresaCIDADE.AsString;
             sTabIBGE.Open;
             //Carrega dados do Emitente
-            if (sEmpresaCD_IBGE.IsNull) then
+            if ((sEmpresaCD_IBGE.IsNull) or (sEmpresaCD_IBGE.AsString = '')) then
             begin
               MessageDlg('Codigo do IBGE da empresa não definido', mtError, [mbOK], 0);
               valida := 'N';
             end;
-            getEmpresa();            
+            if (valida = 'N') then
+              exit;
+            getEmpresa();
             //CARREGA OS DADOS DO DESTINATARIO CLIENTE/FORNECEDOR
             if( sFornec.Active) then
-              if (sFornecCD_IBGE.IsNull) then
+              if ((sFornecCD_IBGE.IsNull) or (sFornecCD_IBGE.AsString = '')) then
               begin
                 MessageDlg('Codigo do IBGE do Fornecedor não definido', mtError, [mbOK], 0);
                 valida := 'N';
               end;
             if( sCliente.Active) then
-              if (sClienteCD_IBGE.IsNull) then
+              if ((sClienteCD_IBGE.IsNull) or (sClienteCD_IBGE.AsString = '')) then
               begin
                 MessageDlg('Codigo do IBGE do Cliente não definido', mtError, [mbOK], 0);
                 valida := 'N';
               end;
+            if (valida = 'N') then
+              exit;
             getCLi_Fornec();
 
             //Carrega os itens da NF
@@ -1001,8 +1005,6 @@ begin
           end;
       end;
       cdsNF.Next;
-     if (valida = 'N') then
-      exit;
    end;
    AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
    ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
@@ -1543,7 +1545,7 @@ begin
     sTabIBGE.Open;
     //Carrega dados do Emitente
     //VERIFICA SE CODIGO IBGE ESTÁ PREENCHIDO NA EMPRESA
-    if (sEmpresaCD_IBGE.IsNull) then
+    if ( (sEmpresaCD_IBGE.IsNull) or (sEmpresaCD_IBGE.AsString = '') ) then
     begin
       MessageDlg('Codigo do IBGE da empresa não definido', mtError, [mbOK], 0);
       valida := 'N';
@@ -1551,17 +1553,19 @@ begin
     getEmpresa();
     //CARREGA OS DADOS DO DESTINATARIO CLIENTE/FORNECEDOR
     if( sFornec.Active) then
-      if (sFornecCD_IBGE.IsNull) then
+      if ((sFornecCD_IBGE.IsNull) or (sFornecCD_IBGE.AsString = '') ) then
       begin
         MessageDlg('Codigo do IBGE do Fornecedor não definido', mtError, [mbOK], 0);
         valida := 'N';
       end;
     if( sCliente.Active) then
-      if (sClienteCD_IBGE.IsNull) then
+      if ((sClienteCD_IBGE.IsNull) or (sClienteCD_IBGE.AsString = '') ) then
       begin
         MessageDlg('Codigo do IBGE do Cliente não definido', mtError, [mbOK], 0);
         valida := 'N';
       end;
+      if (valida = 'N') then
+        exit;
     getCLi_Fornec();
 
 
@@ -1628,6 +1632,8 @@ begin
          valida := 'N';
        end;
      end;
+     if (valida = 'N') then
+       exit;
       // DADOS DOS PRODUTOS DA NOTA
       getItens(i);
       i := i + 1;
@@ -1654,8 +1660,6 @@ begin
   end;
   cdsNF.Next;
  end;
- if (valida = 'N') then
-  exit;
  ACBrNFeDANFERave1.RavFile := str_relatorio + 'NFe_Teste.rav';
  ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
  ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
@@ -1771,7 +1775,7 @@ begin
     Emit.EnderEmit.xLgr    := sEmpresaENDERECO.AsString;
     Emit.EnderEmit.nro     := sEmpresaNUMERO.AsString;
     if ((not sEmpresaOUTRAS_INFO.IsNull) or ( sEmpresaOUTRAS_INFO.AsString <> '')) then
-    Emit.EnderEmit.xCpl    := sEmpresaLOGRADOURO.AsString;
+      Emit.EnderEmit.xCpl    := sEmpresaLOGRADOURO.AsString;
     Emit.EnderEmit.xBairro := sEmpresaBAIRRO.AsString;
     Emit.EnderEmit.cMun    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
     Emit.EnderEmit.xMun    := sEmpresaCIDADE.AsString;
@@ -1917,43 +1921,43 @@ begin
           //70 COM REDUÇÃO DA BASE DE CALCULO E COBRANÇA DO ICMS POR SUBS.TRIB. ICMS POR SUBS.TRIB.
           //90 OUTROS
 
-          if (cdsItensNFCST.AsString = '000') then
+          if ((cdsItensNFCST.AsString = '000') or (cdsItensNFCST.AsString = '00')) then
             CST := cst00
-          else if (cdsItensNFCST.AsString = '010') then
+          else if ((cdsItensNFCST.AsString = '010') or (cdsItensNFCST.AsString = '10')) then
             CST := cst10
-          else if (cdsItensNFCST.AsString = '020')then
+          else if ((cdsItensNFCST.AsString = '020') or (cdsItensNFCST.AsString = '20'))then
             CST := cst20
-          else if (cdsItensNFCST.AsString = '030') then
+          else if ((cdsItensNFCST.AsString = '030') or (cdsItensNFCST.AsString = '30')) then
             CST := cst30
-          else if (cdsItensNFCST.AsString = '040') then
+          else if ((cdsItensNFCST.AsString = '040') or (cdsItensNFCST.AsString = '40')) then
             CST :=  cst40
-          else if (cdsItensNFCST.AsString = '041') then
+          else if ((cdsItensNFCST.AsString = '041') or (cdsItensNFCST.AsString = '41')) then
             CST :=  cst41
-          else if (cdsItensNFCST.AsString = '050') then
+          else if ((cdsItensNFCST.AsString = '050') or (cdsItensNFCST.AsString = '50')) then
             CST :=  cst50
-          else if (cdsItensNFCST.AsString = '051') then
+          else if ((cdsItensNFCST.AsString = '051') or (cdsItensNFCST.AsString = '51')) then
             CST := cst51
-          else if (cdsItensNFCST.AsString = '060') then
+          else if ((cdsItensNFCST.AsString = '060') or (cdsItensNFCST.AsString = '60')) then
             CST := cst60
-          else if (cdsItensNFCST.AsString = '070') then
+          else if ((cdsItensNFCST.AsString = '070') or (cdsItensNFCST.AsString = '70')) then
             CST := cst70
-          else if (cdsItensNFCST.AsString = '090') then
+          else if ((cdsItensNFCST.AsString = '090') or (cdsItensNFCST.AsString = '90')) then
             CST := cst90
           else
             CST := cst00;
 
-          orig := sProdutosORIGEM.AsVariant;                          //ORIGEM DO PRODUTO
-          modBC := BC;                                                //MODO DE BASE DE CALCULO (0) POR %
-          pRedBC := sCFOPREDUCAO.AsVariant;                           //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-          vBC := cdsItensNFVLR_BASEICMS.AsVariant;                    //VALOR DA BASE DE CALCULO
-          pICMS := cdsItensNFICMS.AsVariant;                          //ALIQUOTA DO ICMS
-          vICMS := cdsItensNFVALOR_ICMS.AsVariant;                    //VALOR DO ICMS
-          modBCST := BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
-          pMVAST := sCFOPICMS_SUBSTRIB_IND.AsVariant;                 //% MARGEM DE VALOR ADICIONADO DO ICMSST
-          pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          vBCST := cdsItensNFICMS_SUBSTD.AsVariant;                   //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          pICMSST := sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-          vICMSST := cdsItensNFICMS_SUBST.AsVariant;                  //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
+          orig :=     sProdutosORIGEM.AsVariant;                       //ORIGEM DO PRODUTO
+          modBC :=    BC;                                              //MODO DE BASE DE CALCULO (0) POR %
+          vBC :=      cdsItensNFVLR_BASEICMS.AsVariant;                //VALOR DA BASE DE CALCULO
+          pICMS :=    cdsItensNFICMS.AsVariant;                        //ALIQUOTA DO ICMS
+          vICMS :=    cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
+          modBCST :=  BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
+          vBCST :=    cdsItensNFICMS_SUBSTD.AsVariant;                 //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+          pMVAST :=   sCFOPICMS_SUBSTRIB_IND.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+          pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+          pICMSST :=  sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+          pRedBC :=   sCFOPREDUCAO.AsVariant;                          //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+          vICMSST :=  cdsItensNFICMS_SUBST.AsVariant;                  //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
         end;
 
         //CST PIS E COFINS
