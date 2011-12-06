@@ -1,4 +1,4 @@
-unit U_TerminalFinaliza;
+Ôªøunit U_TerminalFinaliza;
 
 interface
 
@@ -275,6 +275,7 @@ type
     procedure imprimeCupom;
     procedure imprimeRecibo;
     procedure imprimeDLLBema;
+    procedure baixa_titulos;
     { Private declarations }
   public
     { Public declarations }
@@ -289,7 +290,7 @@ const
     c17cpi = #15;
     cIExpandido = #14;
     cFExpandido = #20;
-    { FormataÁ„o da fonte }
+    { Formata√ß√£o da fonte }
     cINegrito = #27#71;
     cFNegrito = #27#72;
     cIItalico = #27#52;
@@ -300,7 +301,7 @@ var
   utilcrtitulo : Tutils;
   tipoImpressao, usaDll : string;
   IMPRESSORA : TextFile;
-  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descriÁ„o do produto,nome
+  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descri√ß√£o do produto,nome
   total, porc, totgeral , desconto : double;
   iRetorno, comando : integer;
   buffer, scomando : String;
@@ -509,6 +510,17 @@ begin
     btnIncluir.Click;
     //dbeSerie.SetFocus;
     scdsCr_proc.Close;
+     // Verifico se teve entrada
+     if (DM_MOV.c_forma.Active) then
+        DM_MOV.c_forma.close;
+     DM_MOV.c_forma.Params[0].Clear;
+     DM_MOV.c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+     DM_MOV.c_forma.Open;
+     if (not DM_MOV.c_forma.IsEmpty) then
+        F_TerminalFinaliza.jvPago.Value := DM_MOV.c_formatotal.Value;
+     DM_MOV.c_forma.Close;
+     DM_MOV.c_forma.Params[0].Clear;
+     //-------------------------
   end
   else
   begin
@@ -629,7 +641,7 @@ begin
     scds_serie_proc.Open;
     if scds_serie_proc.IsEmpty then
     begin
-      MessageDlg('CÛdigo n„o cadastrado, deseja cadastra-lo?', mtWarning,
+      MessageDlg('C√≥digo n√£o cadastrado, deseja cadastra-lo?', mtWarning,
       [mbOk], 0);
       btnSerie.Click;
       exit;
@@ -665,7 +677,7 @@ begin
     dm.scds_usuario_proc.Params.ParamByName('pPerfil1').AsString := 'AMBOS';
     dm.scds_usuario_proc.Open;
     if dm.scds_usuario_proc.IsEmpty then begin
-      MessageDlg('CÛdigo n„o cadastrado, deseja cadastra-lo?', mtWarning,
+      MessageDlg('C√≥digo n√£o cadastrado, deseja cadastra-lo?', mtWarning,
       [mbOk], 0);
       btnUsuarioProcura.Click;
       exit;
@@ -683,7 +695,7 @@ begin
     dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(dbeUsuario.Text);
     dm.scds_usuario_proc.Open;
     if dm.scds_usuario_proc.IsEmpty then begin
-      MessageDlg('CÛdigo n„o cadastrado, deseja cadastra-lo?', mtWarning,
+      MessageDlg('C√≥digo n√£o cadastrado, deseja cadastra-lo?', mtWarning,
       [mbOk], 0);
       btnUsuarioProcura.Click;
       exit;
@@ -705,7 +717,7 @@ begin
       scds_serie_proc.Params[0].AsString := dbeSerie.Text;
       scds_serie_proc.Open;
       if scds_serie_proc.IsEmpty then begin
-        MessageDlg('CÛdigo n„o cadastrado, deseja cadastra-lo?', mtWarning,
+        MessageDlg('C√≥digo n√£o cadastrado, deseja cadastra-lo?', mtWarning,
         [mbOk], 0);
         btnSerie.Click;
         exit;
@@ -739,23 +751,30 @@ end;
 
 procedure TF_TerminalFinaliza.JvGravarClick(Sender: TObject);
 begin
-  if (cbPrazo.Text = '01-A Vista') then
-    if (jvPago.Text = '0,00') then
-    begin
-       ShowMessage('Valor Pago tem que ter um Valor');
-       jvPago.SetFocus;
-       exit;
-    end;
+    if (DBEdit5.Text = '1') then
+     if (cbPrazo.Text = '01-A Vista') then
+      if (jvPago.Value < jvApagar.Value) then
+      begin
+         MessageDlg('Valor pago menor que total a pagar, '+#13+#10+'  parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
+         cbPrazo.SetFocus;
+         exit;
+      end;
 
-  if (DBEdit5.Text = '1') then
-   if (cbPrazo.Text = '01-A Vista') then
-    if (jvPago.Value < jvApagar.Value) then
-    begin
-       MessageDlg('Valor pago menor que total a pagar, '+#13+#10+'  parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
-       cbPrazo.SetFocus;
-       exit;
-    end;
-
+  if (DM_MOV.c_forma.Active) then
+      DM_MOV.c_forma.close;
+  DM_MOV.c_forma.Params[0].Clear;
+  DM_MOV.c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+  DM_MOV.c_forma.Open;
+  if (DM_MOV.c_forma.IsEmpty) then
+  begin
+    if (cbPrazo.Text = '01-A Vista') then
+      if (jvPago.Text = '0,00') then
+      begin
+         ShowMessage('Valor Pago tem que ter um Valor');
+         jvPago.SetFocus;
+         exit;
+      end;
+  end;
   if (cbPrazo.Visible = True) then
   begin
     if (not dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
@@ -770,7 +789,7 @@ begin
   begin
     if (dbeSerie.Text = '') then
     begin
-      MessageDlg('Informe uma SÈrie.', mtError, [mbOK], 0);
+      MessageDlg('Informe uma S√©rie.', mtError, [mbOK], 0);
       dbeSerie.SetFocus;
       exit;
     end;
@@ -792,9 +811,24 @@ begin
     scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
     scdsCr_proc.Open;
 
-
+   //  se tiver pagamento parcial ----------------------------------------------
+    if (not DM_MOV.c_forma.IsEmpty) then
+    begin
+       strSql := 'UPDATE RECEBIMENTO SET DP = 0 where CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger);
+        Try
+           dm.sqlsisAdimin.StartTransaction(TD);
+           dm.sqlsisAdimin.ExecuteDirect(strSql);
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
+               [mbOk], 0);
+        end;
+        baixa_titulos;
+    end;
+    DM_MOV.c_forma.Close;
+    //-------------------------------------------------------------------------
     strTit := IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + '-' + DM_MOV.c_vendaSERIE.AsString;
-
   end
   else
   begin
@@ -977,7 +1011,10 @@ begin
       vJvValor := vJvValor1;
 
     DecimalSeparator := '.';
-    strSql := strSql + ',' + FloatToStr(vJvValor); //ENTRADA
+    if (DM_MOV.c_forma.IsEmpty) then
+      strSql := strSql + ',' + FloatToStr(vJvValor) //ENTRADA
+    else
+      strSql := strSql + ',' + '0'; //ENTRADA
 
     if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
       caixa := dm.cds_7_contas.Fields[0].asInteger;
@@ -1001,7 +1038,10 @@ begin
     DecimalSeparator := ',';
     vJvValor := jvTroco.AsFloat; //StrToFloat(jvTroco.Text);
     DecimalSeparator := '.';
-    strSql := strSql + ',' + FloatToStr(vJvValor); //TROCO
+    if (DM_MOV.c_forma.IsEmpty) then
+      strSql := strSql + ',' + FloatToStr(vJvValor) //TROCO
+    else
+      strSql := strSql + ',' + '0'; //ENTRADA
 
     strSql := strSql + ',' + QuotedStr(cbPrazo.Text);
     strSql := strSql + ')';
@@ -1021,7 +1061,7 @@ begin
        dm.sqlsisAdimin.Commit(TD);
     except
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       MessageDlg('Erro no sistema, a venda n„o foi gravada.', mtError,
+       MessageDlg('Erro no sistema, a venda n√£o foi gravada.', mtError,
            [mbOk], 0);
     end;
     DecimalSeparator := ',';
@@ -1084,7 +1124,7 @@ begin
    if (not sql_rec.IsEmpty) then
    begin
       RESULTADO := 'TRUE';
-      ShowMessage('N„o Permitido Alterar Venda com Titulos STATUS = RECEBIDO !');
+      ShowMessage('N√£o Permitido Alterar Venda com Titulos STATUS = RECEBIDO !');
       sql_rec.Close;
       exit;
    end;
@@ -1109,7 +1149,7 @@ begin
 
   if (DM_MOV.c_movimentoCODNATUREZA.AsInteger = 14) then //Cancelado
   begin
-    if  MessageDlg('NF CANCELADA, confirma mudanÁa do Status : ''' + scdscr_procTITULO.AsSTring + '''',
+    if  MessageDlg('NF CANCELADA, confirma mudan√ßa do Status : ''' + scdscr_procTITULO.AsSTring + '''',
       mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
     Try
       if (scdsCr_proc.State in [dsBrowse, dsInactive]) then
@@ -1154,7 +1194,7 @@ begin
       DecimalSeparator := ',';
       scdsCr_proc.Refresh;
     Except
-      MessageDlg('N„o foi possÌvel cancelar a baixa.', mtError, [mbOK], 0);
+      MessageDlg('N√£o foi poss√≠vel cancelar a baixa.', mtError, [mbOK], 0);
     end;
   end;
 end;
@@ -1415,7 +1455,7 @@ begin
 	  str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
       dm.sqlsisAdimin.Commit(TD);
-      ShowMessage('Nota Fiscal ExcluÌda com suscesso');
+      ShowMessage('Nota Fiscal Exclu√≠da com suscesso');
       excluiuNF := True;
 	  except
       dm.sqlsisAdimin.Rollback(TD);
@@ -1450,7 +1490,7 @@ begin
    }
      if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
-     {----- aqui monto o endereÁo-----}
+     {----- aqui monto o endere√ßo-----}
      logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
      cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
      ' - ' + dm.cds_empresaCEP.Value;
@@ -1591,7 +1631,7 @@ begin
 
   if (tipoImpressao = '') then
   begin
-    ShowMessage('Parametro Tipo Impress„o n„o configurado');
+    ShowMessage('Parametro Tipo Impress√£o n√£o configurado');
     exit;
   end;
 
@@ -1611,7 +1651,7 @@ procedure TF_TerminalFinaliza.imprimeDLLBema;
 begin
      if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
-     {----- aqui monto o endereÁo-----}
+     {----- aqui monto o endere√ßo-----}
      logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
      cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
      ' - ' + dm.cds_empresaCEP.Value;
@@ -1667,7 +1707,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1675,7 +1715,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1683,7 +1723,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1691,7 +1731,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1699,7 +1739,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1707,7 +1747,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1715,7 +1755,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1723,7 +1763,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1731,7 +1771,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1739,7 +1779,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1747,7 +1787,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1759,7 +1799,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
@@ -1771,7 +1811,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         DM_MOV.c_movdet.next;
@@ -1781,7 +1821,7 @@ begin
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
      if comando = 0 then
      begin
-       MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       MessageDlg('Problemas na impress√£o do texto.' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
        exit;
      end;
 
@@ -1817,7 +1857,7 @@ begin
      // Corto o Papel
      comando := AcionaGuilhotina(1);  // modo total (full cut)
      if comando <> 1 then
-       MessageDlg('Problemas no corte do papel..' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       MessageDlg('Problemas no corte do papel..' + #10 + 'Poss√≠veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
 
      // Comando para Acionar a Gaveta de Dinheiro
      scomando := #27 + #118 + #140;
@@ -1830,10 +1870,32 @@ procedure TF_TerminalFinaliza.BitBtn1Click(Sender: TObject);
 begin
   F_Entrada := TF_Entrada.Create(Application);
   try
+    if (F_Entrada.c_forma.Active) then
+      F_Entrada.c_forma.Close;
+    F_Entrada.c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+    F_Entrada.c_forma.Open;
+
+    if (F_Entrada.c_forma.IsEmpty) then
+      F_Entrada.c_forma.Append
+    else
+      F_Entrada.c_forma.Edit;
+    F_Entrada.JvPedido.Value := jvTotal.Value;
     F_Entrada.ShowModal;
   finally
     F_Entrada.Free;
-  end;  
+  end;
+  if (DM_MOV.c_forma.Active) then
+      DM_MOV.c_forma.close;
+  DM_MOV.c_forma.Params[0].Clear;
+  DM_MOV.c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+  DM_MOV.c_forma.Open;
+  if (DM_MOV.c_formatotal.IsNull) then
+    jvPago.Value := jvPago.Value
+  else
+    jvPago.Value := DM_MOV.c_formatotal.Value;
+  DM_MOV.c_forma.Close;  
+
+
 end;
 
 procedure TF_TerminalFinaliza.jvPagoExit(Sender: TObject);
@@ -1860,6 +1922,48 @@ begin
   VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport2.Report.Params.ParamByName('PVENDA').Value := DM_MOV.c_vendaCODVENDA.AsInteger;
   VCLReport2.Execute;
+end;
+
+procedure TF_TerminalFinaliza.baixa_titulos;
+var totalPago : double;
+begin
+ totalPago := jvPago.Value;
+ while totalPago > 0 do
+ begin
+    while not DM_MOV.c_forma.Eof do
+    begin
+      totalPago := totalPago - DM_MOV.c_formaVALOR_PAGO.AsFloat;
+      //Faco a baixa pela SP
+      DecimalSeparator := '.';
+      str_sql := 'EXECUTE PROCEDURE BAIXATITULOSREC(';
+      str_sql := str_sql + FloatToStr(DM_MOV.c_formaVALOR_PAGO.AsFloat);
+      str_sql := str_sql + ',' + FloatToStr(0);
+      str_sql := str_sql + ',' + FloatToStr(0);
+      str_sql := str_sql + ',' + FloatToStr(0);
+      str_sql := str_sql + ',' + FloatToStr(0);
+      str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', Now) + ''''; //dataBaixa
+      str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', Now) + ''''; //dataRecebimento
+      str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', Now) + ''''; //dataconsolida
+      str_sql := str_sql + ',''' + DM_MOV.c_formaFORMA_PGTO.AsString + ''''; //Forma Recebimento
+      str_sql := str_sql + ',''' + DM_MOV.c_formaN_DOC.AsString + '''';
+      str_sql := str_sql + ',' + FloatToStr(DM_MOV.c_formaCAIXA.AsInteger);
+      str_sql := str_sql + ',' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
+      str_sql := str_sql + ',''' + '7-' + '''';
+      str_sql := str_sql + ')';
+      DecimalSeparator := ',';
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Baixa n√£o efetuada.' + #10#13 +
+        '(Este Caixa pode estar fechado para esta data)', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      DM_MOV.c_forma.Next;
+    end;
+  end;  
 end;
 
 end.
