@@ -1,9 +1,10 @@
-create table forma_entrada (
-    cod_venda  integer not null, 
-    id_entrada integer not null primary key,
-    forma_pgto char(1),
-    caixa Smallint,
-    n_doc varchar(60)
-    )
-    
-    
+CREATE TABLE FORMA_ENTRADA
+(
+  COD_VENDA Integer NOT NULL,
+  ID_ENTRADA Integer NOT NULL primary key,
+  FORMA_PGTO Char(1),
+  CAIXA Smallint,
+  N_DOC Varchar(60),
+  VALOR_PAGO Double precision
+  )
+  
