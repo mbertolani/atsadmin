@@ -424,6 +424,26 @@ type
     c_vendaNOMECLIENTE: TStringField;
     c_vendaNOMEUSUARIO: TStringField;
     c_vendaTROCO: TFloatField;
+    s_forma: TSQLDataSet;
+    s_formaCOD_VENDA: TIntegerField;
+    s_formaID_ENTRADA: TIntegerField;
+    s_formaCAIXA: TSmallintField;
+    s_formaN_DOC: TStringField;
+    s_formaFORMA_PGTO: TStringField;
+    s_formaVALOR_PAGO: TFloatField;
+    s_formaFORMA: TStringField;
+    s_formaNOME: TStringField;
+    p_forma: TDataSetProvider;
+    c_forma: TClientDataSet;
+    c_formaCOD_VENDA: TIntegerField;
+    c_formaID_ENTRADA: TIntegerField;
+    c_formaCAIXA: TSmallintField;
+    c_formaN_DOC: TStringField;
+    c_formaFORMA_PGTO: TStringField;
+    c_formaVALOR_PAGO: TFloatField;
+    c_formaFORMA: TStringField;
+    c_formaNOME: TStringField;
+    c_formatotal: TAggregateField;
     procedure c_movdetCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
