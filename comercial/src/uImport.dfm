@@ -15,7 +15,7 @@ object fImport: TfImport
   object DBGrid1: TDBGrid
     Left = 0
     Top = 0
-    Width = 890
+    Width = 882
     Height = 223
     Align = alTop
     DataSource = DataSource1
@@ -26,12 +26,6 @@ object fImport: TfImport
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
     Columns = <
-      item
-        Expanded = False
-        FieldName = 'Sequencial'
-        Width = 150
-        Visible = True
-      end
       item
         Expanded = False
         FieldName = 'C'#243'digo'
@@ -106,12 +100,6 @@ object fImport: TfImport
       end
       item
         Expanded = False
-        FieldName = 'VALOR_PRAZO'
-        Width = 150
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'TIPO'
         Width = 150
         Visible = True
@@ -149,12 +137,6 @@ object fImport: TfImport
       item
         Expanded = False
         FieldName = 'CONTA_DESPESA'
-        Width = 150
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'IPI'
         Width = 150
         Visible = True
       end
@@ -227,8 +209,8 @@ object fImport: TfImport
   end
   object Panel1: TPanel
     Left = 0
-    Top = 516
-    Width = 890
+    Top = 505
+    Width = 882
     Height = 41
     Align = alBottom
     TabOrder = 1
@@ -263,8 +245,8 @@ object fImport: TfImport
   object Memo1: TMemo
     Left = 0
     Top = 223
-    Width = 890
-    Height = 293
+    Width = 882
+    Height = 282
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -273,12 +255,12 @@ object fImport: TfImport
     Font.Style = []
     Lines.Strings = (
       
-        'Sequencial,C'#243'digo,Descri'#231#227'o do Produto,Qutde,UN,Estoque,R$ Venda' +
-        ',Marca,Grupo,SubGrupo,Local Estoque,CODALMOXARIFADO,PRECO_COMPRA' +
-        ',VALOR_PRAZO,TIPO,LOTES,PRECOMEDIO,PESO_QTDE,COD_COMISSAO,RATEIO' +
-        ',CONTA_DESPESA,IPI,NCM,ORIGEM,ESTOQUEMAXIMO,ESTOQUEREPOSICAO,EST' +
-        'OQUEMINIMO,MARGEM_LUCRO,DATACADASTRO,PRO_COD,DATAGRAV,TIPOPRECOV' +
-        'ENDA,VALORMINIMO')
+        'C'#243'digo,Descri'#231#227'o do Produto,Qutde,UN,Estoque,R$ Venda,Marca,Grup' +
+        'o,SubGrupo,Local Estoque,CODALMOXARIFADO,PRECO_COMPRA,VALOR_PRAZ' +
+        'O,TIPO,LOTES,PRECOMEDIO,PESO_QTDE,COD_COMISSAO,RATEIO,CONTA_DESP' +
+        'ESA,IPI,NCM,ORIGEM,ESTOQUEMAXIMO,ESTOQUEREPOSICAO,ESTOQUEMINIMO,' +
+        'MARGEM_LUCRO,DATACADASTRO,PRO_COD,DATAGRAV,TIPOPRECOVENDA,VALORM' +
+        'INIMO')
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 2
@@ -300,10 +282,6 @@ object fImport: TfImport
     StoreDefs = True
     Left = 368
     Top = 184
-    object JvCsvDataSet1Sequencial: TStringField
-      FieldName = 'Sequencial'
-      Size = 80
-    end
     object JvCsvDataSet1Cdigo: TStringField
       FieldName = 'C'#243'digo'
       Size = 80
@@ -352,10 +330,6 @@ object fImport: TfImport
       FieldName = 'PRECO_COMPRA'
       Size = 80
     end
-    object JvCsvDataSet1VALOR_PRAZO: TStringField
-      FieldName = 'VALOR_PRAZO'
-      Size = 80
-    end
     object JvCsvDataSet1TIPO: TStringField
       FieldName = 'TIPO'
       Size = 80
@@ -382,10 +356,6 @@ object fImport: TfImport
     end
     object JvCsvDataSet1CONTA_DESPESA: TStringField
       FieldName = 'CONTA_DESPESA'
-      Size = 80
-    end
-    object JvCsvDataSet1IPI: TStringField
-      FieldName = 'IPI'
       Size = 80
     end
     object JvCsvDataSet1NCM: TStringField
@@ -441,8 +411,8 @@ object fImport: TfImport
   object OpenDialog1: TOpenDialog
     DefaultExt = 'csv'
     Filter = 'CSV files (*.csv)|*.csv|all files (*.*)|*.*'
-    Left = 200
-    Top = 216
+    Left = 408
+    Top = 184
   end
   object s_produtos: TSQLDataSet
     CommandText = 'select * from PRODUTOS '#13#10'where CODPRO = :cod'

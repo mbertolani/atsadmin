@@ -76,7 +76,6 @@ type
     s_produtosTAM_LOTE: TIntegerField;
     Memo1: TMemo;
     FlatGauge1: TFlatGauge;
-    JvCsvDataSet1Sequencial: TStringField;
     JvCsvDataSet1Cdigo: TStringField;
     JvCsvDataSet1DescriodoProduto: TStringField;
     JvCsvDataSet1Qutde: TStringField;
@@ -89,7 +88,6 @@ type
     JvCsvDataSet1LocalEstoque: TStringField;
     JvCsvDataSet1CODALMOXARIFADO: TStringField;
     JvCsvDataSet1PRECO_COMPRA: TStringField;
-    JvCsvDataSet1VALOR_PRAZO: TStringField;
     JvCsvDataSet1TIPO: TStringField;
     JvCsvDataSet1LOTES: TStringField;
     JvCsvDataSet1PRECOMEDIO: TStringField;
@@ -97,7 +95,6 @@ type
     JvCsvDataSet1COD_COMISSAO: TStringField;
     JvCsvDataSet1RATEIO: TStringField;
     JvCsvDataSet1CONTA_DESPESA: TStringField;
-    JvCsvDataSet1IPI: TStringField;
     JvCsvDataSet1NCM: TStringField;
     JvCsvDataSet1ORIGEM: TStringField;
     JvCsvDataSet1ESTOQUEMAXIMO: TStringField;
@@ -154,43 +151,52 @@ begin
     c_produtos.Open;
     if (c_produtos.IsEmpty) then
     begin
-      {JvCsvDataSet1Cdigo.AsString;
-      JvCsvDataSet1DescriodoProduto.AsString;
-      JvCsvDataSet1Qutde.AsString;
-      JvCsvDataSet1UN.AsString;
-      JvCsvDataSet1RVenda.AsString;
-      JvCsvDataSet1Marca.AsString;
-      JvCsvDataSet1Grupo.AsString;
-      JvCsvDataSet1SubGrupo.AsString;
-      JvCsvDataSet1LocalEstoque.AsString;
-      JvCsvDataSet1CODALMOXARIFADO.AsString;
-      JvCsvDataSet1PRECO_COMPRA.AsString;
-      JvCsvDataSet1VALOR_PRAZO.AsString;
-      JvCsvDataSet1TIPO.AsString;
-      JvCsvDataSet1LOTES.AsString;
-      JvCsvDataSet1PRECOMEDIO.AsString;
-      JvCsvDataSet1PESO_QTDE.AsString;
-      JvCsvDataSet1COD_COMISSAO.AsString;
-      JvCsvDataSet1RATEIO.AsString;
-      JvCsvDataSet1CONTA_DESPESA.AsString;
-      JvCsvDataSet1NCM.AsString;
-//      JvCsvDataSet1ORIGEM.AsString;
-      JvCsvDataSet1ESTOQUEMAXIMO.AsString;
-      JvCsvDataSet1ESTOQUEREPOSICAO.AsString;
-      JvCsvDataSet1ESTOQUEMINIMO.AsString;
-      JvCsvDataSet1MARGEM_LUCRO.AsString;
-      JvCsvDataSet1DATACADASTRO.AsString;
-      JvCsvDataSet1PRO_COD.AsString;
-      JvCsvDataSet1DATAGRAV.AsString;
-      JvCsvDataSet1TIPOPRECOVENDA.AsString;
-      JvCsvDataSet1VALORMINIMO.AsString;
-        sql_insert := 'INSERT INTO PRODUTOS (ID_SIMILAR, ID_PRODUTO, CODPRO, CODPROSIMILAR) ';
-        sql_insert := sql_insert + 'VALUES (';
-        sql_insert := sql_insert + IntToStr(ds_buscaprodCODPRODUTO.AsInteger) + ', ';
-        sql_insert := sql_insert + IntToStr(ds_produtoCODPRODUTO.AsInteger) + ', ';
-        sql_insert := sql_insert + QuotedStr(ds_produtoCODPRO.AsString) + ', ';//CODPRO
-        sql_insert := sql_insert + QuotedStr(ds_buscaprodCODPRO.AsString) + ') ';//CODPROSIMILAR
-        }
+      sql_insert := 'INSERT INTO PRODUTOS (CODPRO, PRODUTO, QTDE_PCT, UNIDADEMEDIDA, VALOR_PRAZO, MARCA, ' +
+                                 'FAMILIA, CATEGORIA, CODALMOXARIFADO, VALORUNITARIOATUAL, TIPO, ' +
+                                 'LOTES, PRECOMEDIO, PESO_QTDE, COD_COMISSAO, RATEIO, NCM, ORIGEM, ' +
+                                 'ESTOQUEMAXIMO, ESTOQUEREPOSICAO, ESTOQUEMINIMO, DATACADASTRO, ' +
+                                 'PRO_COD, DATAGRAV, TIPOPRECOVENDA, VALORMINIMO ';
+      sql_insert := sql_insert + ') VALUES (';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1Cdigo.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1DescriodoProduto.AsString) + ', ';
+      DecimalSeparator := '.';
+      sql_insert := sql_insert + JvCsvDataSet1Qutde.AsString + ', ';
+      DecimalSeparator := ',';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1UN.AsString) + ', ';
+      DecimalSeparator := '.';
+      sql_insert := sql_insert + JvCsvDataSet1RVenda.AsString + ', ';
+      DecimalSeparator := ',';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1Marca.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1Grupo.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1SubGrupo.AsString) + ', ';
+      sql_insert := sql_insert + JvCsvDataSet1CODALMOXARIFADO.AsString + ', ';
+      DecimalSeparator := '.';
+      sql_insert := sql_insert + JvCsvDataSet1PRECO_COMPRA.AsString + ', ';
+      DecimalSeparator := ',';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1TIPO.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1LOTES.AsString) + ', ';
+      DecimalSeparator := '.';
+      sql_insert := sql_insert + JvCsvDataSet1PRECOMEDIO.AsString + ', ';
+      sql_insert := sql_insert + JvCsvDataSet1PESO_QTDE.AsString + ', ';
+      DecimalSeparator := ',';
+      sql_insert := sql_insert + JvCsvDataSet1COD_COMISSAO.AsString + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1RATEIO.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1CONTA_DESPESA.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1NCM.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1ORIGEM.AsString) + ', ';
+      DecimalSeparator := '.';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1ESTOQUEMAXIMO.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1ESTOQUEREPOSICAO.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1ESTOQUEMINIMO.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1MARGEM_LUCRO.AsString) + ', ';
+      DecimalSeparator := ',';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1DATACADASTRO.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1PRO_COD.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1DATAGRAV.AsString) + ', ';
+      sql_insert := sql_insert + QuotedStr(JvCsvDataSet1TIPOPRECOVENDA.AsString) + ', ';
+      DecimalSeparator := '.';
+      sql_insert := sql_insert + JvCsvDataSet1VALORMINIMO.AsString + ')';
+      DecimalSeparator := ',';
     end
     else
     begin
