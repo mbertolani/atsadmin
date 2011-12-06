@@ -1,8 +1,8 @@
 object F_TerminalFinaliza: TF_TerminalFinaliza
-  Left = 243
-  Top = 131
+  Left = 258
+  Top = 155
   Width = 751
-  Height = 519
+  Height = 520
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 432
+    Top = 433
     Width = 735
     Height = 49
     Align = alBottom
@@ -37,7 +37,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     Left = 0
     Top = 49
     Width = 558
-    Height = 383
+    Height = 384
     Align = alClient
     PopupMenu = PopupMenu1
     TabOrder = 1
@@ -991,7 +991,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     Left = 558
     Top = 49
     Width = 177
-    Height = 383
+    Height = 384
     Align = alRight
     TabOrder = 2
     object JvGroupHeader4: TJvGroupHeader
@@ -1200,12 +1200,11 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       TabOrder = 4
     end
     object BitBtn1: TBitBtn
-      Left = 13
-      Top = 296
-      Width = 24
-      Height = 25
+      Left = 11
+      Top = 298
+      Width = 26
+      Height = 23
       Caption = '...'
-      Enabled = False
       TabOrder = 5
       OnClick = BitBtn1Click
     end
