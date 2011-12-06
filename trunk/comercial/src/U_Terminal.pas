@@ -397,6 +397,7 @@ type
     s_mesasCOD_CLI: TStringField;
     JvBitBtn2: TJvBitBtn;
     JvBitBtn3: TJvBitBtn;
+    JvBitBtn4: TJvBitBtn;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -476,6 +477,7 @@ type
     procedure JvBitBtn1Click(Sender: TObject);
     procedure JvBitBtn2Click(Sender: TObject);
     procedure JvBitBtn3Click(Sender: TObject);
+    procedure JvBitBtn4Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     clienteConsumidor,nomecliente, tipo_busca : string;
@@ -537,7 +539,7 @@ implementation
 
 uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
   U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod, U_AUTORIZACAO,
-  u_mesas, U_MudaMesa;
+  u_mesas, U_MudaMesa, U_Entrada;
 
 {$R *.dfm}    // Têste téste opção
 
@@ -1094,7 +1096,10 @@ begin
          if (TabComanda.TabVisible = False) then
             TabComanda.TabVisible := True;
          PageControl1.ActivePage := TabComanda;
-      end;
+         JvLabel8.Caption := 'Consulta-' + DM_MOV.c_comandaNOMECLIENTE.AsString;
+      end
+      else
+         JvLabel8.Caption := 'Consulta-' + DM_MOV.c_comandaNOMECLIENTE.AsString;
    end;
 
    if (vTIPO_PEDIDO = 'D') then // DELIVERY
@@ -1464,9 +1469,9 @@ begin
        end;
      end;
      pinta_botao;
+     JvLabel8.Caption := '...';
  end;
- s_venda.Close;
- 
+ s_venda.Close; 
 end;
 
 procedure TF_Terminal.BuscaLote;
@@ -2790,6 +2795,51 @@ begin
   pinta_botao;
   pinta_botao_1;
   
+end;
+
+procedure TF_Terminal.JvBitBtn4Click(Sender: TObject);
+begin
+ DM_MOV.ID_DO_MOVIMENTO := 0;
+ if (PageControl1.ActivePage = TabSheet1) then
+ begin
+    if (not DM_MOV.c_movimento.Active) then
+      exit;
+    DM_MOV.PAGECONTROL := 'PDV';
+    DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+ end;
+
+ if (PageControl1.ActivePage = TabComanda) then
+ begin
+    if (not DM_MOV.c_comanda.Active) then
+      exit;
+    DM_MOV.PAGECONTROL := 'COMANDA';
+    DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+    if (DM_MOV.c_movimento.Active) then
+      DM_MOV.c_movimento.Close;
+    DM_MOV.c_movimento.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+    DM_MOV.c_movimento.Open;
+ end;
+
+ if (PageControl1.ActivePage = TabDelivery) then
+    DM_MOV.PAGECONTROL := 'DELIVERY';
+
+  F_Entrada := TF_Entrada.Create(Application);
+  try
+    if (F_Entrada.c_forma.Active) then
+      F_Entrada.c_forma.Close;
+    F_Entrada.c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+    F_Entrada.c_forma.Open;
+
+    if (F_Entrada.c_forma.IsEmpty) then
+      F_Entrada.c_forma.Append
+    else
+      F_Entrada.c_forma.Edit;
+    F_Entrada.JvPedido.Value := JvTotal.Value;
+    F_Entrada.ShowModal;
+  finally
+    F_Entrada.Free;
+  end;
+
 end;
 
 end.

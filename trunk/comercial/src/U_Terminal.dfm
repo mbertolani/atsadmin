@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 222
-  Top = 93
+  Left = 236
+  Top = 110
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -1349,13 +1349,29 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
+    object JvBitBtn4: TJvBitBtn
+      Left = 606
+      Top = 2
+      Width = 42
+      Height = 42
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 9
+      OnClick = JvBitBtn4Click
+      HotTrackFont.Charset = ANSI_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -19
+      HotTrackFont.Name = 'Cooper Black'
+      HotTrackFont.Style = []
+    end
   end
   object PageControl1: TPageControl
     Left = 0
     Top = 45
     Width = 372
     Height = 490
-    ActivePage = TabSheet1
+    ActivePage = TabComanda
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
