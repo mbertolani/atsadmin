@@ -1,8 +1,8 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 664
-  Top = 321
-  Height = 332
+  Left = 702
+  Top = 377
+  Height = 396
   Width = 449
   object s_buscaMov: TSQLDataSet
     CommandText = 
@@ -2082,5 +2082,133 @@ object DM_MOV: TDM_MOV
     DataSet = c_venda
     Left = 248
     Top = 216
+  end
+  object s_forma: TSQLDataSet
+    CommandText = 
+      'select e.COD_VENDA, e.ID_ENTRADA, e.CAIXA, e.N_DOC,           e.' +
+      'FORMA_PGTO, e.VALOR_PAGO,'#13#10'          CASE e.FORMA_PGTO '#13#10'       ' +
+      '                          WHEN '#39'0'#39' then '#39'DINHEIRO'#39' '#13#10'           ' +
+      '                      WHEN '#39'1'#39' then '#39'CHEQUE'#39' '#13#10'                 ' +
+      '                WHEN '#39'2'#39' then '#39'CHEQUE PRE'#39' '#13#10'                   ' +
+      '              WHEN '#39'5'#39' then '#39'CART'#195'O DE CREDITO'#39' '#13#10'              ' +
+      '                   WHEN '#39'6'#39' then '#39'CART'#195'O DE DEBITO'#39' '#13#10'          ' +
+      '                       WHEN '#39'G'#39' then '#39'VALE'#39'                     ' +
+      '             '#13#10'                                 WHEN '#39'H'#39' then '#39'O' +
+      'UTROS'#39#13#10'                                end  as FORMA,'#13#10'        ' +
+      '  p.nome '#13#10'  from FORMA_ENTRADA e'#13#10' left outer join plano p on p' +
+      '.codigo = e.caixa '#13#10'where e.COD_VENDA = :id'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 48
+    Top = 281
+    object s_formaCOD_VENDA: TIntegerField
+      FieldName = 'COD_VENDA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object s_formaID_ENTRADA: TIntegerField
+      FieldName = 'ID_ENTRADA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object s_formaCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_formaN_DOC: TStringField
+      FieldName = 'N_DOC'
+      Size = 60
+    end
+    object s_formaFORMA_PGTO: TStringField
+      FieldName = 'FORMA_PGTO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object s_formaVALOR_PAGO: TFloatField
+      FieldName = 'VALOR_PAGO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_formaFORMA: TStringField
+      FieldName = 'FORMA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 17
+    end
+    object s_formaNOME: TStringField
+      FieldName = 'NOME'
+      ProviderFlags = []
+      Size = 200
+    end
+  end
+  object p_forma: TDataSetProvider
+    DataSet = s_forma
+    UpdateMode = upWhereKeyOnly
+    Left = 88
+    Top = 281
+  end
+  object c_forma: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    ProviderName = 'p_forma'
+    Left = 128
+    Top = 280
+    object c_formaCOD_VENDA: TIntegerField
+      FieldName = 'COD_VENDA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object c_formaID_ENTRADA: TIntegerField
+      FieldName = 'ID_ENTRADA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object c_formaCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_formaN_DOC: TStringField
+      FieldName = 'N_DOC'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
+    end
+    object c_formaFORMA_PGTO: TStringField
+      FieldName = 'FORMA_PGTO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object c_formaVALOR_PAGO: TFloatField
+      FieldName = 'VALOR_PAGO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.00'
+    end
+    object c_formaFORMA: TStringField
+      FieldName = 'FORMA'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 17
+    end
+    object c_formaNOME: TStringField
+      FieldName = 'NOME'
+      ProviderFlags = []
+      Size = 200
+    end
+    object c_formatotal: TAggregateField
+      FieldName = 'total'
+      Active = True
+      DisplayFormat = ',#0.00'
+      Expression = 'SUM(VALOR_PAGO)'
+    end
   end
 end
