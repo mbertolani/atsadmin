@@ -23,8 +23,8 @@ object fProcura_produtos: TfProcura_produtos
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 232
-    Width = 802
-    Height = 318
+    Width = 794
+    Height = 307
     Align = alClient
     BorderStyle = bsNone
     Color = clWhite
@@ -63,13 +63,6 @@ object fProcura_produtos: TfProcura_produtos
     RowsHeight = 17
     TitleRowHeight = 17
     Columns = <
-      item
-        Color = clAqua
-        Expanded = False
-        FieldName = 'CODPRODUTO'
-        Title.Caption = 'Sequencial'
-        Visible = False
-      end
       item
         Color = clAqua
         Expanded = False
@@ -146,11 +139,6 @@ object fProcura_produtos: TfProcura_produtos
       end
       item
         Expanded = False
-        FieldName = 'VALOR_PRAZO'
-        Visible = False
-      end
-      item
-        Expanded = False
         FieldName = 'TIPO'
         Visible = False
       end
@@ -182,11 +170,6 @@ object fProcura_produtos: TfProcura_produtos
       item
         Expanded = False
         FieldName = 'CONTA_DESPESA'
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'IPI'
         Visible = False
       end
       item
@@ -248,7 +231,7 @@ object fProcura_produtos: TfProcura_produtos
   object Panel2: TPanel
     Left = 0
     Top = 146
-    Width = 802
+    Width = 794
     Height = 86
     Align = alTop
     BevelOuter = bvLowered
@@ -390,7 +373,7 @@ object fProcura_produtos: TfProcura_produtos
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 802
+    Width = 794
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1303,7 +1286,7 @@ object fProcura_produtos: TfProcura_produtos
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 802
+    Width = 794
     Height = 89
     Align = alTop
     BevelInner = bvLowered
