@@ -255,6 +255,8 @@ begin
   forma.Add('13-TRANSFERÊNCIA');
   forma.Add('14-CRÉDITO EM CONTA');
   forma.Add('15-CHEQUE DE TERCEIROS');
+  forma.Add('16-VALE');
+  forma.Add('17-OUTROS');
   result := forma;
 end;
 
@@ -330,6 +332,13 @@ begin
 
   if (forma = '15-CHEQUE DE TERCEIROS') then
      result := 'F';
+
+  if (forma = '16-VALE') then
+     result := 'G';
+
+  if (forma = '17-OUTROS') then
+     result := 'H';
+
 end;
 
 function TUtils.retornaForma(forma: String): Integer;
@@ -378,6 +387,13 @@ begin
 
   if (forma = 'F') then
      result := 14;
+
+  if (forma = 'G') then
+     result := 15;
+
+  if (forma = 'H') then
+     result := 16;
+     
 end;
 
 procedure TUtils.CriaForm(FormClasse: TComponentClass; NomeForm: TForm);
