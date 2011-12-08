@@ -933,27 +933,27 @@ begin
               sProdutos.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
               try
                 sProdutos.Open;
-             finally
-               if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull) or (sProdutosUNIDADEMEDIDA.AsString = ' ')) then
-               begin
-                 MessageDlg('Produto ' + cdsItensNFDESCPRODUTO.AsString + ' sem Unidade de Medida', mtError, [mbOK], 0);
-                 valida := 'N';
-               end;
-               if ((sProdutosNCM.AsString = '00000000') or (sProdutosNCM.IsNull) ) then
-               begin
-                 MessageDlg('Produto ' + cdsItensNFDESCPRODUTO.AsString + ' com NCM Nulo ou Inválido', mtError, [mbOK], 0);
-                 valida := 'N';
-               end;
-               if ((sProdutosORIGEM.IsNull) ) then
-               begin
-                 MessageDlg('Produto ' + cdsItensNFDESCPRODUTO.AsString + ' com Origem Nula', mtError, [mbOK], 0);
-                 valida := 'N';
-               end;
-               if (((cdsItensNFCSOSN.IsNull) or (cdsItensNFCSOSN.AsString = '')) and ((cdsItensNFCST.IsNull) or (cdsItensNFCST.AsString = ''))) then
-               begin
-                 MessageDlg('Produto ' + cdsItensNFDESCPRODUTO.AsString + ' sem CST ou CSOSN', mtError, [mbOK], 0);
-                 valida := 'N';
-               end;
+              finally
+                if ((sProdutosUNIDADEMEDIDA.AsString = '') or (sProdutosUNIDADEMEDIDA.IsNull) or (sProdutosUNIDADEMEDIDA.AsString = ' ')) then
+                begin
+                  MessageDlg('Produto ' + cdsItensNFDESCPRODUTO.AsString + ' sem Unidade de Medida', mtError, [mbOK], 0);
+                  valida := 'N';
+                end;
+                if ((sProdutosNCM.AsString = '00000000') or (sProdutosNCM.IsNull) ) then
+                begin
+                  MessageDlg('Produto ' + cdsItensNFDESCPRODUTO.AsString + ' com NCM Nulo ou Inválido', mtError, [mbOK], 0);
+                  valida := 'N';
+                end;
+                if ((sProdutosORIGEM.IsNull) ) then
+                begin
+                  MessageDlg('Produto ' + cdsItensNFDESCPRODUTO.AsString + ' com Origem Nula', mtError, [mbOK], 0);
+                  valida := 'N';
+                end;
+                if (((cdsItensNFCSOSN.IsNull) or (cdsItensNFCSOSN.AsString = '')) and ((cdsItensNFCST.IsNull) or (cdsItensNFCST.AsString = ''))) then
+                begin
+                  MessageDlg('Produto ' + cdsItensNFDESCPRODUTO.AsString + ' sem CST ou CSOSN', mtError, [mbOK], 0);
+                  valida := 'N';
+                end;
               end;
               // DADOS DOS PRODUTOS DA NOTA
               getItens(i);
@@ -1014,6 +1014,7 @@ begin
    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
    ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
    ACBrNFeDANFERave1.CasasDecimais._vUnCom := 3;
+
    if ( (tp_amb = 2) or (tp_amb = 5)) then
    begin
      ACBrNFe1.NotasFiscais.Assinar;
@@ -1047,32 +1048,35 @@ begin
    AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
    if ( (tp_amb <> 2) or (tp_amb <> 5)) then
    begin
-   ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
-   ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
+     ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
+     ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
 
-   Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
-   Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
+     Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
+     Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
 
-  //PEGA A RESPOSTA
+    //PEGA A RESPOSTA
+     TD.TransactionID := 1;
+     TD.IsolationLevel := xilREADCOMMITTED;
+     DecimalSeparator := '.';
+     str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(Protocolo);
+     str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
+     str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
+     dm.sqlsisAdimin.ExecuteDirect(str);
+     dm.sqlsisAdimin.StartTransaction(TD);
+     dm.sqlsisAdimin.Commit(TD);
+     DecimalSeparator := ',';
+   end;
+
    TD.TransactionID := 1;
    TD.IsolationLevel := xilREADCOMMITTED;
    DecimalSeparator := '.';
-   str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(Protocolo);
-   str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
-   str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
-   dm.sqlsisAdimin.ExecuteDirect(str);
-   dm.sqlsisAdimin.StartTransaction(TD);
-   dm.sqlsisAdimin.Commit(TD);
-   DecimalSeparator := ',';   
-
-   TD.TransactionID := 1;
-   TD.IsolationLevel := xilREADCOMMITTED;
-   DecimalSeparator := '.';
-   dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML) + ' WHERE NOTASERIE = ' + quotedStr(protenv));
+   dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
+   + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
+   + ' WHERE NOTASERIE = ' + quotedStr(protenv));
    dm.sqlsisAdimin.StartTransaction(TD);
    dm.sqlsisAdimin.Commit(TD);
    DecimalSeparator := ',';
-   end;
+
    btnListar.Click;
    ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
 end;
@@ -2076,7 +2080,8 @@ begin
           CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
           DMNF.listaTransp.Open;
           DMNF.listaTransp.Locate('FANTASIA',cdsNFNOMETRANSP.AsString,[loCaseInsensitive]);
-          xNome := DMNF.listaTranspNOMETRANSP.AsString;
+          if (cdsNFNOMETRANSP.AsString <> '') then
+            xNome := DMNF.listaTranspNOMETRANSP.AsString;
           DMNF.listaTransp.Close;
           IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
           xEnder := cdsNFEND_TRANSP.AsString;
