@@ -1114,9 +1114,6 @@ begin
       executaDDL('MOVIMENTODETALHE', 'VALOR_PIS',  'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'VALOR_COFINS',  'DOUBLE PRECISION');
       executaScript('invent_estoque.sql');
-      //executaScript('sp_lote_estoquemes.sql');
-      //executaScript('trg_altera_codpro');
-      mudaVersao('1.0.0.95');
       executaScript('sp_lote_estoquemes.sql');
       executaScript('trg_altera_codpro.sql');
       executaScript('extrato_pag.sql');
@@ -1157,6 +1154,8 @@ begin
     begin
       executaDDL('TRANSPORTADORA', 'FANTASIA', 'varchar(50)');
       executaDDL('FUNCIONARIO', 'EMAIL', 'varchar(80)');
+      executaDDL('TRANSPORTADORA', 'EMAIL', 'varchar(100)');
+      executaDDL('OS', 'VEICULO', 'VARCHAR(200)');      
       executaSql('ALTER TABLE FUNCIONARIO ALTER BAIRRO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER COMPLEMENTO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER RUA TYPE Varchar(60);');
@@ -1174,8 +1173,7 @@ begin
       executaScript('gera_nf_compra.sql');
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
-      executaDDL('OS', 'VEICULO', 'VARCHAR(200)');
-      //mudaVersao('1.0.0.96');
+      mudaVersao('1.0.0.97');
     end;// Fim Ataulização Versao 1.0.0.97
 
 
