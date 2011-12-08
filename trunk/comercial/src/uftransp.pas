@@ -48,6 +48,8 @@ type
     Label16: TLabel;
     DBEdit18: TDBEdit;
     Label17: TLabel;
+    DBEdit19: TDBEdit;
+    Label18: TLabel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);

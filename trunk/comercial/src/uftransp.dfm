@@ -1,118 +1,127 @@
 inherited ftransp: Tftransp
-  Width = 761
-  Height = 535
+  Left = 318
+  Top = 171
+  Width = 685
+  Height = 550
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel [0]
-    Left = 10
-    Top = 58
+    Left = 12
+    Top = 57
     Width = 63
     Height = 13
     Caption = 'Raz'#227'o Social'
   end
   object Label4: TLabel [1]
-    Left = 197
-    Top = 153
+    Left = 199
+    Top = 141
     Width = 82
     Height = 13
     Caption = 'Placa do Ve'#237'culo'
   end
   object Label5: TLabel [2]
-    Left = 311
-    Top = 153
+    Left = 313
+    Top = 141
     Width = 14
     Height = 13
     Caption = 'UF'
   end
   object Label6: TLabel [3]
-    Left = 355
-    Top = 153
+    Left = 357
+    Top = 141
     Width = 76
     Height = 13
     Caption = 'C.N.P.J./C.P.F. '
   end
   object Label7: TLabel [4]
-    Left = 541
-    Top = 153
+    Left = 511
+    Top = 141
     Width = 87
     Height = 13
     Caption = 'Inscri'#231#227'o Estadual'
   end
   object Label8: TLabel [5]
-    Left = 10
-    Top = 196
+    Left = 12
+    Top = 182
     Width = 46
     Height = 13
     Caption = 'Endere'#231'o'
   end
   object Label9: TLabel [6]
-    Left = 12
-    Top = 238
+    Left = 14
+    Top = 221
     Width = 33
     Height = 13
     Caption = 'Cidade'
   end
   object Label10: TLabel [7]
-    Left = 245
-    Top = 238
+    Left = 259
+    Top = 221
     Width = 14
     Height = 13
     Caption = 'UF'
   end
   object Label11: TLabel [8]
-    Left = 13
-    Top = 280
+    Left = 15
+    Top = 300
     Width = 82
     Height = 13
     Caption = 'Dados Adicionais'
   end
   object Label12: TLabel [9]
-    Left = 424
-    Top = 196
+    Left = 455
+    Top = 182
     Width = 27
     Height = 13
     Caption = 'Bairro'
   end
   object Label13: TLabel [10]
-    Left = 641
-    Top = 197
+    Left = 308
+    Top = 221
     Width = 21
     Height = 13
     Caption = 'CEP'
   end
   object Label14: TLabel [11]
-    Left = 297
-    Top = 237
+    Left = 426
+    Top = 260
     Width = 37
     Height = 13
     Caption = 'Contato'
   end
   object Label15: TLabel [12]
-    Left = 487
-    Top = 238
+    Left = 407
+    Top = 221
     Width = 24
     Height = 13
     Caption = 'Fone'
   end
   object Label16: TLabel [13]
-    Left = 607
-    Top = 237
+    Left = 537
+    Top = 220
     Width = 24
     Height = 13
     Caption = 'Fone'
   end
   object Label17: TLabel [14]
-    Left = 10
-    Top = 102
+    Left = 12
+    Top = 95
     Width = 71
     Height = 13
     Caption = 'Nome Fantasia'
   end
+  object Label18: TLabel [15]
+    Left = 15
+    Top = 261
+    Width = 25
+    Height = 13
+    Caption = 'Email'
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 454
-    Width = 753
+    Top = 469
+    Width = 677
     inherited btnProcurar: TBitBtn
       OnClick = btnProcurarClick
     end
@@ -128,7 +137,7 @@ inherited ftransp: Tftransp
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 753
+    Width = 677
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -151,7 +160,7 @@ inherited ftransp: Tftransp
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 751
+      Width = 675
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -168,10 +177,10 @@ inherited ftransp: Tftransp
       HotTrackFont.Style = []
     end
   end
-  object DBEdit1: TDBEdit [17]
-    Left = 10
-    Top = 74
-    Width = 716
+  object DBEdit1: TDBEdit [18]
+    Left = 12
+    Top = 71
+    Width = 649
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -186,9 +195,9 @@ inherited ftransp: Tftransp
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup1: TDBRadioGroup [18]
-    Left = 10
-    Top = 148
+  object DBRadioGroup1: TDBRadioGroup [19]
+    Left = 12
+    Top = 136
     Width = 185
     Height = 46
     Caption = 'Frete por conta:'
@@ -203,10 +212,10 @@ inherited ftransp: Tftransp
       '1'
       '2')
   end
-  object DBEdit2: TDBEdit [19]
-    Left = 197
-    Top = 169
-    Width = 114
+  object DBEdit2: TDBEdit [20]
+    Left = 199
+    Top = 157
+    Width = 109
     Height = 24
     Hint = 'EX: AAA9999'
     BevelKind = bkFlat
@@ -224,10 +233,10 @@ inherited ftransp: Tftransp
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [20]
-    Left = 355
-    Top = 169
-    Width = 185
+  object DBEdit4: TDBEdit [21]
+    Left = 357
+    Top = 157
+    Width = 150
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -242,10 +251,10 @@ inherited ftransp: Tftransp
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [21]
-    Left = 541
-    Top = 169
-    Width = 185
+  object DBEdit5: TDBEdit [22]
+    Left = 511
+    Top = 157
+    Width = 150
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -260,10 +269,10 @@ inherited ftransp: Tftransp
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [22]
-    Left = 10
-    Top = 212
-    Width = 407
+  object DBEdit6: TDBEdit [23]
+    Left = 12
+    Top = 196
+    Width = 435
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -278,10 +287,10 @@ inherited ftransp: Tftransp
     TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [23]
-    Left = 12
-    Top = 252
-    Width = 224
+  object DBEdit7: TDBEdit [24]
+    Left = 14
+    Top = 235
+    Width = 240
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -293,12 +302,12 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBComboBox1: TDBComboBox [24]
-    Left = 244
-    Top = 252
+  object DBComboBox1: TDBComboBox [25]
+    Left = 258
+    Top = 235
     Width = 43
     Height = 24
     BevelKind = bkFlat
@@ -340,12 +349,12 @@ inherited ftransp: Tftransp
       'SE'
       'TO')
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 11
     OnKeyPress = FormKeyPress
   end
-  object DBComboBox2: TDBComboBox [25]
+  object DBComboBox2: TDBComboBox [26]
     Left = 311
-    Top = 169
+    Top = 157
     Width = 43
     Height = 24
     BevelKind = bkFlat
@@ -390,10 +399,10 @@ inherited ftransp: Tftransp
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [26]
-    Left = 12
-    Top = 295
-    Width = 716
+  object DBEdit3: TDBEdit [27]
+    Left = 14
+    Top = 315
+    Width = 649
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -405,13 +414,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 16
+    TabOrder = 17
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [27]
-    Left = 12
-    Top = 320
-    Width = 716
+  object DBEdit8: TDBEdit [28]
+    Left = 14
+    Top = 340
+    Width = 649
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -423,13 +432,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 17
+    TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [28]
-    Left = 12
-    Top = 345
-    Width = 716
+  object DBEdit9: TDBEdit [29]
+    Left = 14
+    Top = 365
+    Width = 649
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -441,13 +450,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 18
+    TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [29]
-    Left = 12
-    Top = 370
-    Width = 716
+  object DBEdit10: TDBEdit [30]
+    Left = 14
+    Top = 390
+    Width = 649
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -459,13 +468,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 19
+    TabOrder = 20
     OnKeyPress = FormKeyPress
   end
-  object DBEdit11: TDBEdit [30]
-    Left = 12
-    Top = 395
-    Width = 716
+  object DBEdit11: TDBEdit [31]
+    Left = 14
+    Top = 415
+    Width = 649
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -477,13 +486,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 20
+    TabOrder = 21
     OnKeyPress = FormKeyPress
   end
-  object DBEdit12: TDBEdit [31]
-    Left = 12
-    Top = 420
-    Width = 716
+  object DBEdit12: TDBEdit [32]
+    Left = 14
+    Top = 440
+    Width = 649
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -495,13 +504,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 21
+    TabOrder = 22
     OnKeyPress = FormKeyPress
   end
-  object DBEdit13: TDBEdit [32]
-    Left = 421
-    Top = 212
-    Width = 212
+  object DBEdit13: TDBEdit [33]
+    Left = 453
+    Top = 196
+    Width = 208
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -516,10 +525,10 @@ inherited ftransp: Tftransp
     TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [33]
-    Left = 295
-    Top = 252
-    Width = 185
+  object DBEdit14: TDBEdit [34]
+    Left = 423
+    Top = 275
+    Width = 237
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -531,13 +540,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object DBEdit15: TDBEdit [34]
-    Left = 484
-    Top = 252
-    Width = 117
+  object DBEdit15: TDBEdit [35]
+    Left = 404
+    Top = 235
+    Width = 125
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -549,13 +558,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 14
+    TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [35]
-    Left = 605
-    Top = 251
-    Width = 122
+  object DBEdit16: TDBEdit [36]
+    Left = 535
+    Top = 235
+    Width = 125
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -567,13 +576,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 15
+    TabOrder = 14
     OnKeyPress = FormKeyPress
   end
-  object DBEdit17: TDBEdit [36]
-    Left = 642
-    Top = 212
-    Width = 84
+  object DBEdit17: TDBEdit [37]
+    Left = 306
+    Top = 235
+    Width = 94
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -585,13 +594,13 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object DBEdit18: TDBEdit [37]
-    Left = 10
-    Top = 118
-    Width = 716
+  object DBEdit18: TDBEdit [38]
+    Left = 12
+    Top = 109
+    Width = 649
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -603,7 +612,25 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 22
+    TabOrder = 23
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit19: TDBEdit [39]
+    Left = 15
+    Top = 275
+    Width = 400
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'EMAIL'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
   inherited DtSrc: TDataSource
@@ -613,7 +640,7 @@ inherited ftransp: Tftransp
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 514
-    Top = 273
+    Left = 34
+    Top = 10
   end
 end
