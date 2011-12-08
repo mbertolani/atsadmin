@@ -82,6 +82,10 @@ type
     sbtnCC: TSpeedButton;
     Memo1: TMemo;
     Label4: TLabel;
+    sTransportadora: TSQLDataSet;
+    sTransportadoraCODTRANSP: TIntegerField;
+    sTransportadoraNOMETRANSP: TStringField;
+    sTransportadoraEMAIL: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure BtnSelecionaClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -127,9 +131,10 @@ end;
 
 procedure TfNFeMail.BtnSelecionaClick(Sender: TObject);
 var
- numnf, IDNFE, RAZAO, CNPJ, CPF, caminho, Protocolo : String;
+ numnf, IDNFE, RAZAO, CNPJ, CPF, TRANSP, caminho, Protocolo : String;
  vXMLDoc: TXMLDocument;
 begin
+    Memo1.Clear;
     if (not cds_ccusto.Active) then
          cds_ccusto.Open;
        cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
@@ -155,18 +160,20 @@ begin
         vXMLDoc.LoadFromFile(caminho);
         with vXMLDoc.DocumentElement  do
         begin
-          IDNFE := ChildNodes['NFe'].ChildNodes['infNFe'].AttributeNodes['Id'].Text;
-          numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-          RAZAO := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
-          CNPJ := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
-          CPF := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CPF'].Text;
+          IDNFE  := ChildNodes['NFe'].ChildNodes['infNFe'].AttributeNodes['Id'].Text;
+          numnf  := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+          RAZAO  := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
+          CNPJ   := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
+          CPF    := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CPF'].Text;
+          TRANSP := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['transp'].ChildNodes['transporta'].ChildNodes['xNome'].Text;
           if ( (numnf = '') and (RAZAO = '') and (CNPJ = '') and (CPF = '') ) then
           begin
-            IDNFE := ChildNodes['infNFe'].AttributeNodes['Id'].Text;
-            numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-            RAZAO := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
-            CNPJ := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
-            CPF := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CPF'].Text;
+            IDNFE  := ChildNodes['infNFe'].AttributeNodes['Id'].Text;
+            numnf  := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+            RAZAO  := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['xNome'].Text;
+            CNPJ   := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CNPJ'].Text;
+            CPF    := ChildNodes['infNFe'].ChildNodes['dest'].ChildNodes['CPF'].Text;
+            TRANSP := ChildNodes['infNFe'].ChildNodes['transp'].ChildNodes['transporta'].ChildNodes['xNome'].Text;
           end;
 
         end;
@@ -191,8 +198,14 @@ begin
         else
           sEmail.Params[0].Text := CNPJ;
           sEmail.Open;
+        if (sTransportadora.Active) then
+          sTransportadora.Close;
+        sTransportadora.Open;          
+
     end;
     CC.Add(sEmpresaE_MAIL.AsString); //especifique um email válido
+    if (sTransportadoraEMAIL.AsString <> '') then
+      CC.Add(sTransportadoraEMAIL.AsString);
     memo1.Lines.Add(sEmpresaE_MAIL.AsString);
     Edit1.Text := IntToStr(sEmailCODCLIENTE.AsInteger);
     Edit2.Text := sEmailRAZAOSOCIAL.AsString;
@@ -228,6 +241,7 @@ begin
                                                , True  //Aguarda Envio do Email(não usa thread)
                                                , sEmpresaRAZAO.AsString ); // Nome do Rementente
 
+    CC.Clear;                                               
     CC.Free;
     Texto.Free;
     fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
