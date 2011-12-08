@@ -1,8 +1,8 @@
 object fNFeMail: TfNFeMail
   Left = 194
   Top = 103
-  Width = 399
-  Height = 319
+  Width = 397
+  Height = 312
   Caption = 'Envio de Nf-e para email Cleinte/Fornecedor'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,8 +17,8 @@ object fNFeMail: TfNFeMail
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 391
-    Height = 292
+    Width = 389
+    Height = 285
     Align = alClient
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -546,5 +546,31 @@ object fNFeMail: TfNFeMail
     Active = True
     Left = 8
     Top = 64
+  end
+  object sTransportadora: TSQLDataSet
+    CommandText = 
+      'select t.CODTRANSP, t.NOMETRANSP, t.EMAIL'#13#10'from TRANSPORTADORA t' +
+      #13#10'where t.NOMETRANSP = :raz'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'raz'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 110
+    object sTransportadoraCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+      Required = True
+    end
+    object sTransportadoraNOMETRANSP: TStringField
+      FieldName = 'NOMETRANSP'
+      Size = 50
+    end
+    object sTransportadoraEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 100
+    end
   end
 end
