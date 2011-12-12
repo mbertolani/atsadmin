@@ -133,7 +133,7 @@ inherited fDIAdicao: TfDIAdicao
     Top = 80
     Width = 76
     Height = 21
-    DataField = 'ADIC_CODDI'
+    DataField = 'DI_NUMDI'
     DataSource = DtSrc
     ReadOnly = True
     TabOrder = 6
@@ -144,6 +144,7 @@ inherited fDIAdicao: TfDIAdicao
     Width = 401
     Height = 129
     DataSource = dtsrcMov_Det
+    ReadOnly = True
     TabOrder = 7
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -225,11 +226,15 @@ inherited fDIAdicao: TfDIAdicao
     end
     object cdsAdicADIC_VDESC: TIntegerField
       FieldName = 'ADIC_VDESC'
-      DisplayFormat = ',##0.00'
     end
     object cdsAdicDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 300
+    end
+    object cdsAdicDI_NUMDI: TStringField
+      FieldName = 'DI_NUMDI'
+      Required = True
+      Size = 10
     end
   end
   object dspAdic: TDataSetProvider
@@ -238,9 +243,11 @@ inherited fDIAdicao: TfDIAdicao
   end
   object sdsAdic: TSQLDataSet
     CommandText = 
-      'SELECT ADIC_CODDET, ADIC_CODDI, ADIC_NADICAO, ADIC_NSEQUEN, ADIC' +
-      '_CODFAB, ADIC_VDESC, DESCPRODUTO'#13#10'FROM DIADICAO, MOVIMENTODETALH' +
-      'E'#13#10'where CODDETALHE =  ADIC_CODDET'
+      'SELECT di.ADIC_CODDET, di.ADIC_CODDI, di.ADIC_NADICAO, di.ADIC_N' +
+      'SEQUEN, di.ADIC_CODFAB, di.ADIC_VDESC, md.DESCPRODUTO, d.DI_NUMD' +
+      'I'#13#10'FROM DIADICAO di , MOVIMENTODETALHE md, DECLARACAOIMPORTACAO ' +
+      'd'#13#10'where CODDETALHE =  ADIC_CODDET and  di.ADIC_CODDI = d.DI_COD' +
+      'DI'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -268,6 +275,11 @@ inherited fDIAdicao: TfDIAdicao
     object sdsAdicDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 300
+    end
+    object sdsAdicDI_NUMDI: TStringField
+      FieldName = 'DI_NUMDI'
+      Required = True
+      Size = 10
     end
   end
   object cdsMov_Det: TClientDataSet
