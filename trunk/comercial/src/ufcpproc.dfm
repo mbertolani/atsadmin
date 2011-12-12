@@ -19,6 +19,133 @@ object fCpProc: TfCpProc
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object DbGrid1: TJvDBUltimGrid
+    Left = 0
+    Top = 192
+    Width = 792
+    Height = 299
+    Align = alClient
+    DataSource = ds_Cr
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnCellClick = DBGrid1CellClick
+    OnColEnter = DBGrid1ColEnter
+    OnColExit = DBGrid1ColExit
+    OnDrawColumnCell = DBGrid1DrawColumnCell
+    OnKeyPress = DBGrid1KeyPress
+    OnTitleClick = DBGrid1TitleClick
+    AlternateRowColor = clInactiveBorder
+    AutoSizeColumns = True
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'DUP_REC_NF'
+        Title.Caption = 'Sel.'
+        Width = 30
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TITULO'
+        Title.Caption = 'T'#237'tulo'
+        Width = 45
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VIA'
+        Title.Caption = 'Via'
+        Width = 25
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'EMISSAO'
+        Title.Caption = 'Emiss'#227'o'
+        Width = 46
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAVENCIMENTO'
+        Title.Caption = 'Vencimento'
+        Width = 58
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAPAGAMENTO'
+        Title.Caption = 'Pagamento'
+        Width = 59
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODFORNECEDOR'
+        Title.Caption = 'C'#243'd.'
+        Width = 27
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOMEFORNECEDOR'
+        Title.Caption = 'Fornecedor'
+        Width = 86
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR_RESTO'
+        Title.Caption = 'Valor'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALORRECEBIDO'
+        Title.Caption = 'Pago'
+        Width = 65
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALORREC'
+        Title.Caption = 'Pendente'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'N_DOCUMENTO'
+        Title.Caption = 'Doc.'
+        Width = 34
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'HISTORICO'
+        Title.Caption = 'Historico'
+        Width = 108
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'STATUS'
+        Title.Caption = 'Situa'#231#227'o'
+        Width = 49
+        Visible = True
+      end>
+  end
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
@@ -1004,145 +1131,13 @@ object fCpProc: TfCpProc
       DecimalPlacesAlwaysShown = False
     end
   end
-  object DBGrid1: TDBGrid
-    Left = 0
-    Top = 192
-    Width = 792
-    Height = 299
-    Align = alClient
-    DataSource = ds_Cr
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
-    ParentFont = False
-    PopupMenu = PopupMenu1
-    TabOrder = 2
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    OnCellClick = DBGrid1CellClick
-    OnColEnter = DBGrid1ColEnter
-    OnColExit = DBGrid1ColExit
-    OnDrawColumnCell = DBGrid1DrawColumnCell
-    OnKeyPress = DBGrid1KeyPress
-    OnTitleClick = DBGrid1TitleClick
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'DUP_REC_NF'
-        Title.Caption = 'Sel.'
-        Width = 30
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'TITULO'
-        Title.Caption = 'T'#237'tulo'
-        Width = 100
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'VIA'
-        Title.Caption = 'Parc.'
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'EMISSAO'
-        Title.Caption = 'Data Emiss'#227'o'
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'DATAVENCIMENTO'
-        Title.Caption = 'Data Vencto.'
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'DATAPAGAMENTO'
-        Title.Caption = 'Data Pagto.'
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'CODFORNECEDOR'
-        Title.Caption = 'C'#243'd.'
-        Width = 30
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'NOMEFORNECEDOR'
-        Title.Caption = 'Fornecedor'
-        Width = 140
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'VALOR_RESTO'
-        Title.Caption = 'Valor Pagar'
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'VALORREC'
-        Title.Caption = 'Pendente'
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'VALORRECEBIDO'
-        Title.Caption = 'Pago'
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'STATUS'
-        Title.Caption = 'Situa'#231#227'o'
-        Width = 80
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'N_DOCUMENTO'
-        Title.Caption = 'N.doc'
-        Visible = True
-      end
-      item
-        Color = 13562879
-        Expanded = False
-        FieldName = 'CODPAGAMENTO'
-        Title.Caption = 'C'#243'd.'
-        Width = 30
-        Visible = True
-      end>
-  end
   object Panel3: TPanel
     Left = 0
     Top = 60
     Width = 792
     Height = 132
     Align = alTop
-    TabOrder = 3
+    TabOrder = 2
     object Label3: TLabel
       Left = 3
       Top = 6
@@ -2686,6 +2681,10 @@ object fCpProc: TfCpProc
     object SQLDataSet1DATAPAGAMENTO: TDateField
       FieldName = 'DATAPAGAMENTO'
     end
+    object SQLDataSet1HISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Size = 150
+    end
   end
   object DataSetProvider1: TDataSetProvider
     DataSet = SQLDataSet1
@@ -2792,6 +2791,10 @@ object fCpProc: TfCpProc
     object scdsCr_procDP: TSmallintField
       FieldName = 'DP'
       ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procHISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Size = 150
     end
     object scdsCr_procTotTitulo: TAggregateField
       Alignment = taRightJustify

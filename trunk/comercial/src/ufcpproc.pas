@@ -8,7 +8,8 @@ uses
   DBClient, Grids, DBGrids, DBCtrls, ExtCtrls, MMJPanel, Mask, StdCtrls,
   Buttons, rpcompobase, rpvclreport, JvAppStorage, JvAppXMLStorage,
   JvComponentBase, JvFormPlacement, JvExStdCtrls, JvCombobox, JvExMask,
-  JvToolEdit, JvBaseEdits, ImgList, JvExExtCtrls, JvRadioGroup;
+  JvToolEdit, JvBaseEdits, ImgList, JvExExtCtrls, JvRadioGroup,
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid;
 
 type
   TfCpProc = class(TForm)
@@ -29,7 +30,6 @@ type
     Label17: TLabel;
     BitBtn10: TBitBtn;
     BitBtn15: TBitBtn;
-    DBGrid1: TDBGrid;
     s_1: TSQLDataSet;
     s_1CODRECEBIMENTO: TIntegerField;
     s_1TITULO: TStringField;
@@ -221,6 +221,9 @@ type
     cdsTipoFornCODIGOS: TStringField;
     cdsTipoFornOUTROS: TStringField;
     rbTipoConta: TJvRadioGroup;
+    SQLDataSet1HISTORICO: TStringField;
+    scdsCr_procHISTORICO: TStringField;
+    DbGrid1: TJvDBUltimGrid;
     procedure BitBtn11Click(Sender: TObject);
     procedure BitBtn9Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
