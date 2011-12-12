@@ -170,16 +170,20 @@ end;
 procedure TfDadosImportacao.BitBtn3Click(Sender: TObject);
 begin
   if(not cdsDIDI_CODDI.IsNull) then
-  fDIAdicao := TfDIAdicao.Create(Application);
-  try
-    fDIAdicao.ShowModal;
-  finally
-    fDIAdicao.Free;
-    if(cdsAdic.Active) then
-     cdsAdic.Close;
-    cdsAdic.Params[0].AsInteger := cdsDIDI_CODDI.AsInteger;
-    cdsAdic.Open;
-  end;
+  Begin
+    fDIAdicao := TfDIAdicao.Create(Application);
+    try
+      fDIAdicao.ShowModal;
+    finally
+      fDIAdicao.Free;
+      if(cdsAdic.Active) then
+       cdsAdic.Close;
+      cdsAdic.Params[0].AsInteger := cdsDIDI_CODDI.AsInteger;
+      cdsAdic.Open;
+    end;
+  end
+  else
+    MessageDlg('Não há DI selecionada', mtWarning, [mbOK], 0);
 end;
 
 end.

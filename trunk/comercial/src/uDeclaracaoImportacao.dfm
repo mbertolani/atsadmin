@@ -210,6 +210,7 @@ inherited fDeclaracaoImportacao: TfDeclaracaoImportacao
     Width = 376
     Height = 185
     DataSource = DtSrc
+    ReadOnly = True
     TabOrder = 10
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText

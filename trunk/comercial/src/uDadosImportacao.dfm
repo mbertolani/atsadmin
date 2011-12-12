@@ -45,6 +45,7 @@ object fDadosImportacao: TfDadosImportacao
     Width = 745
     Height = 145
     DataSource = dtsrcDI
+    ReadOnly = True
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -98,6 +99,7 @@ object fDadosImportacao: TfDadosImportacao
     Width = 745
     Height = 145
     DataSource = dtsrcAdic
+    ReadOnly = True
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
