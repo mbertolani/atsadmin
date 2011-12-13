@@ -134,7 +134,7 @@ inherited fDIAdicao: TfDIAdicao
     Width = 76
     Height = 21
     DataField = 'DI_NUMDI'
-    DataSource = DtSrc
+    DataSource = fDadosImportacao.dtsrcDI
     ReadOnly = True
     TabOrder = 6
   end
@@ -231,11 +231,6 @@ inherited fDIAdicao: TfDIAdicao
       FieldName = 'DESCPRODUTO'
       Size = 300
     end
-    object cdsAdicDI_NUMDI: TStringField
-      FieldName = 'DI_NUMDI'
-      Required = True
-      Size = 10
-    end
   end
   object dspAdic: TDataSetProvider
     DataSet = sdsAdic
@@ -244,10 +239,8 @@ inherited fDIAdicao: TfDIAdicao
   object sdsAdic: TSQLDataSet
     CommandText = 
       'SELECT di.ADIC_CODDET, di.ADIC_CODDI, di.ADIC_NADICAO, di.ADIC_N' +
-      'SEQUEN, di.ADIC_CODFAB, di.ADIC_VDESC, md.DESCPRODUTO, d.DI_NUMD' +
-      'I'#13#10'FROM DIADICAO di , MOVIMENTODETALHE md, DECLARACAOIMPORTACAO ' +
-      'd'#13#10'where CODDETALHE =  ADIC_CODDET and  di.ADIC_CODDI = d.DI_COD' +
-      'DI'
+      'SEQUEN, di.ADIC_CODFAB, di.ADIC_VDESC, md.DESCPRODUTO'#13#10'FROM DIAD' +
+      'ICAO di , MOVIMENTODETALHE md'#13#10'where CODDETALHE =  ADIC_CODDET'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -275,11 +268,6 @@ inherited fDIAdicao: TfDIAdicao
     object sdsAdicDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 300
-    end
-    object sdsAdicDI_NUMDI: TStringField
-      FieldName = 'DI_NUMDI'
-      Required = True
-      Size = 10
     end
   end
   object cdsMov_Det: TClientDataSet

@@ -49,7 +49,6 @@ type
     sdsAdicADIC_CODFAB: TStringField;
     sdsAdicADIC_VDESC: TIntegerField;
     sdsAdicDESCPRODUTO: TStringField;
-    sdsAdicDI_NUMDI: TStringField;
     cdsAdicADIC_CODDET: TIntegerField;
     cdsAdicADIC_CODDI: TIntegerField;
     cdsAdicADIC_NADICAO: TIntegerField;
@@ -57,7 +56,6 @@ type
     cdsAdicADIC_CODFAB: TStringField;
     cdsAdicADIC_VDESC: TIntegerField;
     cdsAdicDESCPRODUTO: TStringField;
-    cdsAdicDI_NUMDI: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
     procedure FormCreate(Sender: TObject);
@@ -84,7 +82,6 @@ begin
   inherited;
   cdsAdicADIC_CODDI.AsInteger := fDadosImportacao.cdsDIDI_CODDI.AsInteger;
   cdsAdicADIC_CODDET.AsInteger := cdsMov_DetCODDETALHE.AsInteger;
-  cdsAdicDI_NUMDI.AsString := fDadosImportacao.cdsDIDI_NUMDI.AsString;
 end;
 
 procedure TfDIAdicao.DBGrid1CellClick(Column: TColumn);
