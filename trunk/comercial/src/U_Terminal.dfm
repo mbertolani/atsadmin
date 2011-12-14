@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 236
-  Top = 110
+  Left = 249
+  Top = 129
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -172,11 +172,34 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
+      object LabelComissao: TJvLabel
+        Left = 17
+        Top = 18
+        Width = 19
+        Height = 23
+        Caption = '%'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Cooper Black'
+        Font.Style = []
+        ParentFont = False
+        ShadowColor = clWindow
+        ShadowSize = 2
+        Transparent = True
+        Visible = False
+        HintColor = clBlack
+        HotTrackFont.Charset = ANSI_CHARSET
+        HotTrackFont.Color = clWindowText
+        HotTrackFont.Height = -19
+        HotTrackFont.Name = 'Cooper Black'
+        HotTrackFont.Style = []
+      end
       object JvTotal: TJvValidateEdit
-        Left = 245
+        Left = 246
         Top = 5
         Width = 152
-        Height = 49
+        Height = 46
         Flat = False
         ParentFlat = False
         BevelKind = bkFlat
@@ -193,6 +216,30 @@ object F_Terminal: TF_Terminal
         ParentFont = False
         ReadOnly = True
         TabOrder = 0
+      end
+      object JvComissao: TJvValidateEdit
+        Left = 45
+        Top = 5
+        Width = 55
+        Height = 45
+        Flat = False
+        ParentFlat = False
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfBinary
+        DecimalPlaces = 2
+        EditText = '10'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -37
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 1
+        Visible = False
       end
     end
     object MMJPanel8: TMMJPanel
@@ -216,7 +263,7 @@ object F_Terminal: TF_Terminal
       Background.EndColor = clSkyBlue
       Background.FillType = GradUpDown
       object JvLabel1: TJvLabel
-        Left = 8
+        Left = 55
         Top = 10
         Width = 81
         Height = 23
@@ -238,7 +285,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object EdtCodBarra1: TEdit
-        Left = 142
+        Left = 139
         Top = 3
         Width = 261
         Height = 33
@@ -1071,7 +1118,7 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn1: TJvBitBtn
-      Left = 737
+      Left = 733
       Top = 2
       Width = 42
       Height = 42
@@ -1218,7 +1265,7 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn2: TJvBitBtn
-      Left = 693
+      Left = 689
       Top = 2
       Width = 42
       Height = 42
@@ -1235,7 +1282,7 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn3: TJvBitBtn
-      Left = 649
+      Left = 645
       Top = 2
       Width = 42
       Height = 42
@@ -1350,7 +1397,7 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn4: TJvBitBtn
-      Left = 606
+      Left = 602
       Top = 2
       Width = 42
       Height = 42
@@ -1371,7 +1418,7 @@ object F_Terminal: TF_Terminal
     Top = 45
     Width = 372
     Height = 490
-    ActivePage = TabComanda
+    ActivePage = TabSheet1
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -3524,9 +3571,9 @@ object F_Terminal: TF_Terminal
         end
       end
       object JvDBGrid2: TJvDBGrid
-        Left = 9
-        Top = 320
-        Width = 347
+        Left = 7
+        Top = 334
+        Width = 349
         Height = 79
         BorderStyle = bsNone
         Ctl3D = False
@@ -3571,7 +3618,7 @@ object F_Terminal: TF_Terminal
             Title.Font.Height = -9
             Title.Font.Name = 'Times New Roman'
             Title.Font.Style = []
-            Width = 330
+            Width = 332
             Visible = True
           end>
       end

@@ -464,7 +464,7 @@ begin
               case StrToInt(s_bancoN_BANCO.AsString) of
                 001: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);//  001 - Banco do Brasil
                 104: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 104 - Caixa Economica
-                237: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 237 - Banco Bradesco
+                237: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 237 - Banco Bradesco
                 275: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 275 - Banco Real
                 341: Titulo.NossoNumero := IntToStrZero(varNossoNumero,8);// 341 - Banco Itau
                 399: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 399 - Banco HSBC
