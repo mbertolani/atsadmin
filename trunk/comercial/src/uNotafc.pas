@@ -243,6 +243,8 @@ type
     lblNaturezaOperacao: TLabel;
     JvGroupBox17: TJvGroupBox;
     DBEdit9: TDBEdit;
+    JvGroupBox56: TJvGroupBox;
+    DBEdit48: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
