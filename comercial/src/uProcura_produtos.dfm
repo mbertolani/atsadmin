@@ -1822,6 +1822,7 @@ object fProcura_produtos: TfProcura_produtos
     object cds_procVALOR_PRAZO: TFloatField
       FieldName = 'VALOR_PRAZO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_procTIPO: TStringField
       FieldName = 'TIPO'
@@ -1840,6 +1841,7 @@ object fProcura_produtos: TfProcura_produtos
     object cds_procPRECO_VENDA: TFloatField
       FieldName = 'PRECO_VENDA'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_procLOTES: TStringField
       FieldName = 'LOTES'
@@ -1850,6 +1852,7 @@ object fProcura_produtos: TfProcura_produtos
     object cds_procPRECOMEDIO: TFloatField
       FieldName = 'PRECOMEDIO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_procPESO_QTDE: TFloatField
       FieldName = 'PESO_QTDE'
