@@ -328,12 +328,12 @@ object DMNF: TDMNF
       'S, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS'#13#10', movd.VLR_BA' +
       'SE, movd.VLR_BASEICMS, movd.VALOR_DESCONTO, movd.FRETE, movd.ICM' +
       'S_SUBST, movd.ICMS_SUBSTD, movd.VALOR_SEGURO, movd.VALOR_OUTROS,' +
-      ' prod.NCM, movd.STATUS '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join' +
-      ' PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer j' +
-      'oin ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARI' +
-      'FADO '#13#10'left outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD' +
-      '_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMEN' +
-      'TO=:pCODMOV order by movd.coddetalhe'
+      ' prod.NCM, movd.STATUS, movd.II, movd.BCII '#13#10'from MOVIMENTODETAL' +
+      'HE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPR' +
+      'ODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFAD' +
+      'O = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD' +
+      '_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALH' +
+      'E or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -541,6 +541,14 @@ object DMNF: TDMNF
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object sds_Mov_DetII: TFloatField
+      FieldName = 'II'
+      ReadOnly = True
+    end
+    object sds_Mov_DetBCII: TFloatField
+      FieldName = 'BCII'
+      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -774,6 +782,14 @@ object DMNF: TDMNF
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object cds_Mov_detII: TFloatField
+      FieldName = 'II'
+      ReadOnly = True
+    end
+    object cds_Mov_detBCII: TFloatField
+      FieldName = 'BCII'
+      ReadOnly = True
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -6327,6 +6343,9 @@ object DMNF: TDMNF
     object cds_nf1II: TFloatField
       FieldName = 'II'
     end
+    object cds_nf1BCII: TFloatField
+      FieldName = 'BCII'
+    end
   end
   object dsp_nf1: TDataSetProvider
     DataSet = sds_nf1
@@ -6674,6 +6693,9 @@ object DMNF: TDMNF
     end
     object sds_nf1II: TFloatField
       FieldName = 'II'
+    end
+    object sds_nf1BCII: TFloatField
+      FieldName = 'BCII'
     end
   end
   object sds_compra: TSQLDataSet

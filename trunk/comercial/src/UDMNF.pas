@@ -1365,6 +1365,12 @@ type
     cds_nf1II: TFloatField;
     sdslistaTranspFANTASIA: TStringField;
     listaTranspFANTASIA: TStringField;
+    sds_Mov_DetII: TFloatField;
+    sds_Mov_DetBCII: TFloatField;
+    cds_Mov_detII: TFloatField;
+    cds_Mov_detBCII: TFloatField;
+    sds_nf1BCII: TFloatField;
+    cds_nf1BCII: TFloatField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
@@ -1630,6 +1636,7 @@ begin
    cds_nfOUTRAS_DESP.AsFloat := 0;
    cds_nfBASE_ICMS.AsFloat := 0;
    cds_nfBASE_ICMS_SUBST.AsFloat := 0;
+   cds_nfVALOR_DESCONTO.AsFloat := 0;
    cds_nfVALOR_TOTAL_NOTA.AsFloat := 0;
    cds_nfNATUREZA.AsInteger := cds_MovimentoCODNATUREZA.AsInteger;
    cds_nfDESCNATUREZA.AsString := cds_MovimentoDESCNATUREZA.AsString;
@@ -1936,8 +1943,8 @@ begin
     for I := 0 to Screen.FormCount -1 do
     if Screen.Forms[i] = aberto then
     begin
-    FormExiste := true;
-    Break;
+      FormExiste := true;
+      Break;
     end
 end;
 
@@ -1970,6 +1977,7 @@ begin
    cds_nf1BASE_ICMS.AsFloat := 0;
    cds_nf1BASE_ICMS_SUBST.AsFloat := 0;
    cds_nf1VALOR_TOTAL_NOTA.AsFloat := 0;
+   cds_nf1VALOR_DESCONTO.AsFloat := 0;   
    cds_nf1NATUREZA.AsInteger := cds_MovimentoCODNATUREZA.AsInteger;
    cds_nf1DESCNATUREZA.AsString := cds_MovimentoDESCNATUREZA.AsString;
    //cds_nf1CODVENDA.AsInteger := cds_vendaCODVENDA.AsInteger;
