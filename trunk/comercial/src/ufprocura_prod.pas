@@ -1271,7 +1271,11 @@ begin
     fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
     fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
+    if(fVendas.imex = 99) then
+      fVendas.cds_Mov_detPRECO.AsFloat := (cds_procPRECO_COMPRA.AsFloat * 1.2)
+    else
     fVendas.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
+
     fVendas.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
     fVendas.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
     if (dm.moduloUsado = 'CITRUS') then
