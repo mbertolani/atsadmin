@@ -1500,7 +1500,7 @@ begin
      Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
       IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
      Texto2 := '------------------------------------------------------' ;
-     Texto3 := 'Produto xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ;
+     Texto3 := 'Produto                                               ' ;
      Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
      Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
      cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
@@ -1530,9 +1530,9 @@ begin
        s_parametro.Params[0].Clear;
        s_parametro.Params[0].AsString := 'PORTAIMP';
        s_parametro.Open;
-      // PORTA := s_parametroDADOS.AsString;
+       porta := s_parametroDADOS.AsString;
        s_parametro.Close;
-       AssignFile(IMPRESSORA,'COM5:');
+       AssignFile(IMPRESSORA,porta);
      end;
      Rewrite(IMPRESSORA);
      Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
@@ -1846,6 +1846,26 @@ begin
 
      }
 
+     // Verifico se tem % Garçom
+     s_parametro.Close;
+     if (s_parametro.Active) then
+     s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+     s_parametro.Open;
+     if (not s_parametro.IsEmpty) then
+     begin
+       if (F_Terminal.JvComissao.Value > 0) then
+       begin
+         Texto5 := DateTimeToStr(Now) + '               % : R$ ';
+         buffer  := texto5;
+         porc    := (F_Terminal.JvComissao.Value / 100) * total;
+         buffer  := buffer + Format('%10.2n',[porc]);
+         buffer  := buffer + Chr(13) + Chr(10);
+         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+       end;
+     end;
+     s_parametro.Close;
+
       buffer  := '' + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       buffer  := '' + Chr(13) + Chr(10);
@@ -1854,6 +1874,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       buffer  := '' + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+
      // Corto o Papel
      comando := AcionaGuilhotina(1);  // modo total (full cut)
      if comando <> 1 then

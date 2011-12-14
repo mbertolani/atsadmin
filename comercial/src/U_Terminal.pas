@@ -398,6 +398,8 @@ type
     JvBitBtn2: TJvBitBtn;
     JvBitBtn3: TJvBitBtn;
     JvBitBtn4: TJvBitBtn;
+    JvComissao: TJvValidateEdit;
+    LabelComissao: TJvLabel;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -1184,6 +1186,23 @@ begin
   if (PageControl1.ActivePage = TabSheet1) then
     MMJPanel8.Visible :=False;
 
+
+  {------Pesquisando na tab Parametro se PAGA_COMISSAO ---}
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    LabelComissao.Visible := True;
+    JvComissao.Visible :=True;
+  end
+  else
+  begin
+    LabelComissao.Visible := False;
+    JvComissao.Visible := False;
+  end;
+
 end;
 
 procedure TF_Terminal.JvDBGrid2DblClick(Sender: TObject);
@@ -1210,11 +1229,20 @@ begin
   begin
     MMJPanel8.Visible :=False;
     EdtCodBarra.SetFocus;
+    JvBitBtn2.Visible := False;
+    JvBitBtn3.Visible := False;
+    JvBitBtn4.Visible := False;
   end;
   if (PageControl1.ActivePage = TabComanda) then
   begin
     MMJPanel8.Visible := True;
     EdtComanda.SetFocus;
+    if (JvBitBtn2.Visible = False) then
+      JvBitBtn2.Visible := True;
+    if (JvBitBtn3.Visible = False) then
+      JvBitBtn3.Visible := True;
+    if (JvBitBtn3.Visible = False) then
+      JvBitBtn4.Visible := True;
   end;
 
   if (PageControl1.ActivePage = TabDelivery) then
@@ -1342,6 +1370,8 @@ begin
      var_F := 'terminalloja';
      fProcura_prod.Edit2.ReadOnly := True;
      fProcura_prod.Edit2.TabStop := False;
+     // Define busca pelos produtos de venda
+     fProcura_prod.cbTipo.ItemIndex := 2;
      fProcura_prod.BitBtn1.Click;
      fProcura_prod.ShowModal;
 
@@ -1707,7 +1737,11 @@ begin
      else
      begin
        s_parametro.Close;
-       AssignFile(IMPRESSORA,'LPT1:');
+            if (s_parametro.Active) then
+       s_parametro.Close;
+       s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+       s_parametro.Open;
+       AssignFile(IMPRESSORA,s_parametroDADOS.AsString);
      end;
 
      Rewrite(IMPRESSORA);
@@ -1827,7 +1861,7 @@ begin
         iRetorno := ConfiguraModeloImpressora( 7 );
         if (iRetorno = -2) then
           ShowMessage('Erro Configurando Impressora');
-        iRetorno := IniciaPorta( pchar( porta ) );
+        iRetorno := IniciaPorta( pchar(porta) );
         if (iRetorno <= 0) then
           ShowMessage('Erro Abrindo Porta');
      end;
@@ -1975,6 +2009,26 @@ begin
 
      }
 
+     // Verifico se tem % Garçom
+     s_parametro.Close;
+     if (s_parametro.Active) then
+     s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+     s_parametro.Open;
+     if (not s_parametro.IsEmpty) then
+     begin
+       if (JvComissao.Value > 0) then
+       begin
+         Texto5 := DateTimeToStr(Now) + '               % : R$ ';
+         buffer  := texto5;
+         porc    := (JvComissao.Value / 100) * total;
+         buffer  := buffer + Format('%10.2n',[porc]);
+         buffer  := buffer + Chr(13) + Chr(10);
+         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+       end;
+     end;
+     s_parametro.Close;
+
       buffer  := '' + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       buffer  := '' + Chr(13) + Chr(10);
@@ -1983,6 +2037,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       buffer  := '' + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+
      // Corto o Papel
      comando := AcionaGuilhotina(1);  // modo total (full cut)
      if comando <> 1 then
@@ -2060,10 +2115,14 @@ begin
        AlteraPedido;
     end;
     if (not DM_MOV.c_movdet.IsEmpty) then
-      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value
-
+    begin
+      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    end
     else
+    begin
       DM_MOV.c_movdet.Close;
+      JvTotal.AsFloat := 0;
+    end;
     DM_MOV.s_buscaMov.Close;
     DM_MOV.s_BuscaComanda.Close;
 
@@ -2186,7 +2245,7 @@ end;
 
 procedure TF_Terminal.JvTransparentButton24Click(Sender: TObject);
 begin
-  Mesa_Clic(JvTransparentButton25.ComponentIndex);
+  Mesa_Clic(JvTransparentButton24.ComponentIndex);
 end;
 
 procedure TF_Terminal.JvTransparentButton25Click(Sender: TObject);
