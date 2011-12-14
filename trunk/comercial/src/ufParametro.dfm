@@ -2637,8 +2637,8 @@ inherited fParametro: TfParametro
       object RadioGroup3: TRadioGroup
         Left = 8
         Top = 16
-        Width = 289
-        Height = 65
+        Width = 290
+        Height = 40
         Caption = 'Tipo de Impress'#227'o'
         Columns = 2
         Items.Strings = (
@@ -2649,9 +2649,9 @@ inherited fParametro: TfParametro
       end
       object RadioGroup4: TRadioGroup
         Left = 9
-        Top = 88
-        Width = 289
-        Height = 65
+        Top = 63
+        Width = 288
+        Height = 39
         Caption = 'Busca Padr'#227'o'
         Columns = 2
         Items.Strings = (
@@ -2662,9 +2662,9 @@ inherited fParametro: TfParametro
       end
       object RadioGroup5: TRadioGroup
         Left = 9
-        Top = 165
+        Top = 110
         Width = 289
-        Height = 65
+        Height = 40
         Caption = 'Usa Controle de Lote'
         Columns = 2
         Items.Strings = (
@@ -2853,6 +2853,7 @@ inherited fParametro: TfParametro
           Alignment = taLeftJustify
           Caption = 'Imprimir ao Gravar Pedido  ?'
           TabOrder = 1
+          OnClick = CheckBox8Click
         end
         object CheckBox9: TCheckBox
           Left = 7
@@ -2862,6 +2863,7 @@ inherited fParametro: TfParametro
           Alignment = taLeftJustify
           Caption = 'Abrir gaveta ao Gravar Pedido ?'
           TabOrder = 2
+          OnClick = CheckBox9Click
         end
       end
       object EdtSerie: TEdit
@@ -2886,6 +2888,19 @@ inherited fParametro: TfParametro
           'N'#227'o')
         TabOrder = 14
         OnClick = RadioGroup6Click
+      end
+      object RadioGroup7: TRadioGroup
+        Left = 9
+        Top = 158
+        Width = 289
+        Height = 40
+        Caption = 'Paga Comiss'#227'o'
+        Columns = 2
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+        TabOrder = 15
+        OnClick = RadioGroup7Click
       end
     end
   end

@@ -249,6 +249,7 @@ type
     EdtSerie: TEdit;
     Label56: TLabel;
     RadioGroup6: TRadioGroup;
+    RadioGroup7: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -300,6 +301,9 @@ type
     procedure CheckBox7Click(Sender: TObject);
     procedure EdtSerieChange(Sender: TObject);
     procedure RadioGroup6Click(Sender: TObject);
+    procedure CheckBox8Click(Sender: TObject);
+    procedure CheckBox9Click(Sender: TObject);
+    procedure RadioGroup7Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2164,7 +2168,34 @@ begin
         RadioGroup6.ItemIndex := 0
      else
         RadioGroup6.ItemIndex := 1;
-                
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'IMP_AOGRAVAR';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        CheckBox8.Checked := True
+     else
+        CheckBox8.Checked := False;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'ABRIR_GAVETA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        CheckBox9.Checked := True
+     else
+        CheckBox9.Checked := False;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        RadioGroup7.ItemIndex := 0
+     else
+        RadioGroup7.ItemIndex := 1;
+        
      s_parametro.Close;
      MMJPanel1.Visible := False;
   end
@@ -2172,7 +2203,9 @@ begin
   begin
      if (MMJPanel1.Visible = False) then
         MMJPanel1.Visible := True;
-  end;      
+  end;
+
+
 end;
 
 procedure TfParametro.RadioGroup5Click(Sender: TObject);
@@ -2976,6 +3009,161 @@ begin
      begin
         strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
         strSql := strSql + QuotedStr('ESTOQUENEGATIVO');
+
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+
+end;
+
+procedure TfParametro.CheckBox8Click(Sender: TObject);
+begin
+  if (CheckBox8.Checked = True) then  // Usa Aprovação no exluir Pedido
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'IMP_AOGRAVAR';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Imprimir ao gravar pedido') + ', ';
+        strSql := strSql + QuotedStr('IMP_AOGRAVAR');
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'IMP_AOGRAVAR';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+       strSql := strSql + QuotedStr('IMP_AOGRAVAR');
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+          dm.sqlsisAdimin.Commit(TD);
+       except
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+              [mbOk], 0);
+       end;
+     end;
+     if (s_parametro.Active) then
+        s_parametro.Close;
+  end;
+end;
+
+procedure TfParametro.CheckBox9Click(Sender: TObject);
+begin
+  if (CheckBox9.Checked = True) then  // Usa Aprovação no exluir Pedido
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'ABRIR_GAVETA';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Abrir a gaveta ao gravar pedido') + ', ';
+        strSql := strSql + QuotedStr('ABRIR_GAVETA');
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'ABRIR_GAVETA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+       strSql := strSql + QuotedStr('ABRIR_GAVETA');
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+          dm.sqlsisAdimin.Commit(TD);
+       except
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+              [mbOk], 0);
+       end;
+     end;
+     if (s_parametro.Active) then
+        s_parametro.Close;
+  end;
+end;
+
+procedure TfParametro.RadioGroup7Click(Sender: TObject);
+begin
+  strSql := '';
+  if (RadioGroup7.ItemIndex = 0) then  // Utiliza Lote no PDV
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Paga comissão atendente') + ', ';
+        strSql := strSql + QuotedStr('PAGA_COMISSAO') + ', ';
+        strSql := strSql + '3';
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+        strSql := strSql + QuotedStr('PAGA_COMISSAO');
 
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
