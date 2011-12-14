@@ -1155,6 +1155,8 @@ begin
       executaDDL('TRANSPORTADORA', 'FANTASIA', 'varchar(50)');
       executaDDL('FUNCIONARIO', 'EMAIL', 'varchar(80)');
       executaDDL('TRANSPORTADORA', 'EMAIL', 'varchar(100)');
+      executaDDL('NOTAFISCAL', 'BCII', 'DOUBLE PRECISION');
+      executaDDL('MOVIMENTODETALHE', 'BCII', 'DOUBLE PRECISION');
       executaDDL('OS', 'VEICULO', 'VARCHAR(200)');      
       executaSql('ALTER TABLE FUNCIONARIO ALTER BAIRRO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER COMPLEMENTO TYPE Varchar(60);');
