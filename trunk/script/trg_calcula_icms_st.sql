@@ -25,8 +25,11 @@ AS
  DECLARE VARIABLE VFRETE DOUBLE PRECISION;
  DECLARE VARIABLE PIS DOUBLE PRECISION = 0;
  DECLARE VARIABLE COFINS DOUBLE PRECISION = 0;
+ DECLARE VARIABLE CRT integer; 
 
 BEGIN
+    select CRT from EMPRESA, MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
+    into :CRT;
 
     new.ICMS_SUBSTD = 0;
     new.ICMS_SUBST = 0;
@@ -128,28 +131,33 @@ BEGIN
     
         if (CICMS_SUBST > 0) then
         begin
-            if (CICMS_SUBST > 0) then
-                CICMS_SUBST = 1 + (CICMS_SUBST / 100);
-            
-            if (CICMS_SUBST_IC > 0) then 
-                CICMS_SUBST_IC = CICMS_SUBST_IC / 100;
+          if (CICMS_SUBST > 0) then
+            CICMS_SUBST = 1 + (CICMS_SUBST / 100);
 
-            if (CICMS_SUBST_IND > 0) then 
-                CICMS_SUBST_IND = CICMS_SUBST_IND / 100;
+          if (CICMS_SUBST_IC > 0) then 
+            CICMS_SUBST_IC = CICMS_SUBST_IC / 100;
+
+          if (CICMS_SUBST_IND > 0) then 
+            CICMS_SUBST_IND = CICMS_SUBST_IND / 100;
         
-        --CORREÇÃO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
+          --CORREÇÃO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
+          if ( CRT <> 0) then
+          begin
             if (CICMS_SUBST_IC <> CICMS_SUBST_IND)  then
             begin
-                cormva = ((1-CICMS_SUBST_IND)/ (1-CICMS_SUBST_IC));
-                CICMS_SUBST = CICMS_SUBST * cormva;
+              cormva = ((1-CICMS_SUBST_IND)/ (1-CICMS_SUBST_IC));
+              CICMS_SUBST = CICMS_SUBST * cormva;
             end        
+          end
+          else 
+            CICMS_SUBST = CICMS_SUBST ;
 
-            new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4); 
-            VALOR_SUBDesc = (new.VLR_BASE*new.QUANTIDADE) * CICMS_SUBST_IND; 
-            new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
+          new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4); 
+          VALOR_SUBDesc = (new.VLR_BASE*new.QUANTIDADE) * CICMS_SUBST_IND; 
+          new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
         end
-       new.VALOR_COFINS = ((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100;
-       new.VALOR_PIS =  ((new.VLR_BASE * new.QUANTIDADE) * PIS) /100;
+        new.VALOR_COFINS = ((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100;
+        new.VALOR_PIS =  ((new.VLR_BASE * new.QUANTIDADE) * PIS) /100;
     end
     
     if( new.FRETE > 0) then
