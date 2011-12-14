@@ -95,7 +95,7 @@ BEGIN
 	   valor_outros = :OUTRAS_TOTAL, BCII = :BCII_TOTAL, II = :II_TOTAL where CODDETALHE = :coddet;
     end
 	else
-     if((old.VALOR_FRETE <> new.VALOR_FRETE) or (old.VALOR_DESCONTO <> new.VALOR_DESCONTO) or (old.VALOR_SEGURO <> new.VALOR_SEGURO) or (old.OUTRAS_DESP <> new.OUTRAS_DESP)) then
+     if((old.VALOR_FRETE <> new.VALOR_FRETE) or (old.VALOR_DESCONTO <> new.VALOR_DESCONTO) or (old.VALOR_SEGURO <> new.VALOR_SEGURO) or (old.OUTRAS_DESP <> new.OUTRAS_DESP) or (old.BCII <> new.BCII) or (old.II <> new.II)) then
      begin
         update MOVIMENTODETALHE set FRETE = UDF_ROUNDDEC((:Frete_UNIT * :valtot), 2), valor_desconto = UDF_ROUNDDEC((:DESCONTO_UNIT * :valtot), 2), 
         valor_outros = UDF_ROUNDDEC((:OUTRAS_UNIT * :valtot), 2), valor_SEGURO = UDF_ROUNDDEC((:SEGURO_UNIT * :valtot), 2), 
