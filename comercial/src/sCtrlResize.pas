@@ -7,7 +7,7 @@ uses StdCtrls, Controls, Forms, JvLabel,
       Grids, DBGrids, JvExDBGrids, JvDBGrid, Buttons, MMJPanel, FMTBcd, DB,
       DBClient, Provider, SqlExpr, ComCtrls, uUtils, JvExMask, JvToolEdit,
       JvBaseEdits, JvDBControls, Menus, DBXpress, jpeg, JvExExtCtrls, JvImage,
-      JvSpin, JvDBSpinEdit, JvTransparentButton;
+      JvSpin, JvDBSpinEdit, JvTransparentButton, JvBitBtn, JvValidateEdit;
 
 procedure CtrlResize(var Sender: TForm); export;
 
@@ -56,6 +56,23 @@ begin
         TGroupBox(Components[i]).Top := Round(TWinControl(Components[i]).Top * (Screen.Height / iHeight));
       end;
       }
+      {
+      if Components[i] is TJvValidateEdit then
+      begin
+        TJvValidateEdit(Components[i]).Width := Round(TJvValidateEdit(Components[i]).Width * (Screen.Width / iWidth));
+        TJvValidateEdit(Components[i]).Height := Round(TJvValidateEdit(Components[i]).Height * (Screen.Height / iHeight));
+        TJvValidateEdit(Components[i]).Left := Round(TJvValidateEdit(Components[i]).Left * (Screen.Width / iWidth));
+        TJvValidateEdit(Components[i]).Top := Round(TJvValidateEdit(Components[i]).Top * (Screen.Height / iHeight));
+      end;
+
+      if Components[i] is TJvBitBtn then
+      begin
+        TJvBitBtn(Components[i]).Width := Round(TJvBitBtn(Components[i]).Width * (Screen.Width / iWidth));
+        TJvBitBtn(Components[i]).Height := Round(TJvBitBtn(Components[i]).Height * (Screen.Height / iHeight));
+        TJvBitBtn(Components[i]).Left := Round(TJvBitBtn(Components[i]).Left * (Screen.Width / iWidth));
+        TJvBitBtn(Components[i]).Top := Round(TJvBitBtn(Components[i]).Top * (Screen.Height / iHeight));
+      end;
+       }
       if Components[i] is TJvTransparentButton then
       begin
         TJvTransparentButton(Components[i]).Width := Round(TJvTransparentButton(Components[i]).Width * (Screen.Width / iWidth));
