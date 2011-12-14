@@ -1,7 +1,7 @@
 unit uVendas;
      
 interface
-                                                                                                
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, DB, DBClient, Provider, SqlExpr, Menus, XPMenu,
@@ -623,7 +623,7 @@ type
     procedure insereMatPrima;
   public
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda : string; //, tipoVenda
-    estoque, qtde, mVendaPermi , desconto: Double;         // mVendaPermi = Margem de venda minima permitida
+    estoque, qtde, mVendaPermi , desconto , prazo , imex : Double;         // mVendaPermi = Margem de venda minima permitida
     procedure buscaServico();
     procedure baixamatprimas(tipomat: string; codmovt: integer);
     procedure existevenda;
@@ -1025,6 +1025,7 @@ begin
     dm.scds_cliente_proc.Params[1].Clear;
     dm.scds_cliente_proc.Params[2].Clear;
     dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(dbeCliente.Text);
+    
     dm.scds_cliente_proc.Open;
     if dm.scds_cliente_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
@@ -1182,7 +1183,11 @@ begin
          dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
       else
       }
+     if(imex = 99) then
+         cds_Mov_detPRECO.AsFloat := (dm.scds_produto_procVALORUNITARIOATUAL.AsFloat * 1.2)
+     else
          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+
       valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat ;
       cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
       cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
@@ -1990,6 +1995,7 @@ begin
         //dbeCliente.SetFocus;
       end;
     prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
+    imex  := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
     cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
     cds_MovimentoCODVENDEDOR.AsInteger := dmnf.scds_cli_procCODUSUARIO.AsInteger;
@@ -3441,31 +3447,35 @@ end;
 procedure TfVendas.Margem_Confere;
 var pCusto, margem: Double;
 begin
-    if (sqlCusto.Active) then
-      sqlCusto.Close;
-    sqlCusto.SQL.Clear;
-    sqlCusto.SQL.Add('SELECT FIRST 1 COALESCE(P.PRECOMEDIO, 0) PRECOMEDIO, COALESCE(M.VLR_BASE, 0) VLR_BASE ' +
-      ' FROM PRODUTOS P ' +
-      ' left outer join MOVIMENTODETALHE M on m.CODPRODUTO = p.CODPRODUTO ' +
-      ' WHERE m.CODPRODUTO   = ' + InttoStr(cds_Mov_detCODPRODUTO.AsInteger) +
-      '   AND m.baixa      = 0 ' +
-      ' order by m.CODDETALHE desc');
-    sqlCusto.Open;
-    if (sqlCusto.FieldByName('VLR_BASE').AsFloat > 0) then
-      pCusto := sqlCusto.FieldByName('VLR_BASE').AsFloat;
-    if (pCusto = 0) then
-      pCusto := sqlCusto.FieldByName('PRECOMEDIO').AsFloat;
-    if (pCusto > 0) then
-    begin
-      margem := cds_Mov_detPRECO.AsFloat / pCusto;
-      margem := 100*(margem - 1);
-      if (margem < mVendaPermi) then
+    if(imex = 99) then
+      exit
+    else
+      if (sqlCusto.Active) then
+        sqlCusto.Close;
+      sqlCusto.SQL.Clear;
+      sqlCusto.SQL.Add('SELECT FIRST 1 COALESCE(P.PRECOMEDIO, 0) PRECOMEDIO, COALESCE(M.VLR_BASE, 0) VLR_BASE ' +
+        ' FROM PRODUTOS P ' +
+        ' left outer join MOVIMENTODETALHE M on m.CODPRODUTO = p.CODPRODUTO ' +
+        ' WHERE m.CODPRODUTO   = ' + InttoStr(cds_Mov_detCODPRODUTO.AsInteger) +
+        '   AND m.baixa      = 0 ' +
+        ' order by m.CODDETALHE desc');
+      sqlCusto.Open;
+      if (sqlCusto.FieldByName('VLR_BASE').AsFloat > 0) then
+        pCusto := sqlCusto.FieldByName('VLR_BASE').AsFloat;
+      if (pCusto = 0) then
+        pCusto := sqlCusto.FieldByName('PRECOMEDIO').AsFloat;
+      if (pCusto > 0) then
       begin
-        MessageDlg('Margem de Venda abaixo do permitido. ' + #13+#10 + ' Item: ' + cds_Mov_detCODPRO.AsString +
-        ' - MV: ' + FormatFloat('##0.00',margem) + '% - PC: ' + FormatFloat('#,##0.00', pCusto), mtWarning, [mbOK], 0);
-        valida := 'N';
-      end;
+        margem := cds_Mov_detPRECO.AsFloat / pCusto;
+        margem := 100*(margem - 1);
+        if (margem < mVendaPermi) then
+        begin
+          MessageDlg('Margem de Venda abaixo do permitido. ' + #13+#10 + ' Item: ' + cds_Mov_detCODPRO.AsString +
+          ' - MV: ' + FormatFloat('##0.00',margem) + '% - PC: ' + FormatFloat('#,##0.00', pCusto), mtWarning, [mbOK], 0);
+          valida := 'N';
+        end;
     end;
+
 end;
 
 procedure TfVendas.GroupBox1Click(Sender: TObject);
