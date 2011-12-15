@@ -19,14 +19,14 @@ object fDetalheNF: TfDetalheNF
   TextHeight = 13
   object Label1: TLabel
     Left = 177
-    Top = 97
+    Top = 89
     Width = 37
     Height = 13
     Caption = 'ICMS %'
   end
   object Label2: TLabel
     Left = 17
-    Top = 57
+    Top = 49
     Width = 55
     Height = 13
     Caption = 'Quantidade'
@@ -47,7 +47,7 @@ object fDetalheNF: TfDetalheNF
   end
   object Label5: TLabel
     Left = 577
-    Top = 97
+    Top = 89
     Width = 24
     Height = 13
     Caption = 'Total'
@@ -61,98 +61,98 @@ object fDetalheNF: TfDetalheNF
   end
   object Label7: TLabel
     Left = 97
-    Top = 57
+    Top = 49
     Width = 67
     Height = 13
     Caption = 'Pre'#231'o Unit'#225'rio'
   end
   object Label8: TLabel
     Left = 257
-    Top = 57
+    Top = 49
     Width = 21
     Height = 13
     Caption = 'CST'
   end
   object Label9: TLabel
     Left = 337
-    Top = 97
+    Top = 89
     Width = 26
     Height = 13
     Caption = 'ICMS'
   end
   object Label10: TLabel
     Left = 257
-    Top = 97
+    Top = 89
     Width = 49
     Height = 13
     Caption = 'B.C. ICMS'
   end
   object Label11: TLabel
     Left = 177
-    Top = 57
+    Top = 49
     Width = 28
     Height = 13
     Caption = 'CFOP'
   end
   object Label12: TLabel
     Left = 337
-    Top = 57
+    Top = 49
     Width = 37
     Height = 13
     Caption = 'CSOSN'
   end
   object Label13: TLabel
     Left = 657
-    Top = 57
+    Top = 49
     Width = 41
     Height = 13
     Caption = 'Frete R$'
   end
   object Label14: TLabel
     Left = 417
-    Top = 57
+    Top = 49
     Width = 63
     Height = 13
     Caption = 'Desconto R$'
   end
   object Label15: TLabel
     Left = 497
-    Top = 97
+    Top = 89
     Width = 14
     Height = 13
     Caption = 'ST'
   end
   object Label16: TLabel
     Left = 417
-    Top = 97
+    Top = 89
     Width = 37
     Height = 13
     Caption = 'B.C. ST'
   end
   object Label17: TLabel
     Left = 577
-    Top = 57
+    Top = 49
     Width = 48
     Height = 13
     Caption = 'Outros R$'
   end
   object Label18: TLabel
     Left = 497
-    Top = 57
+    Top = 49
     Width = 51
     Height = 13
     Caption = 'Seguro R$'
   end
   object Label19: TLabel
     Left = 97
-    Top = 97
+    Top = 89
     Width = 30
     Height = 13
     Caption = 'IPI R$'
   end
   object Label20: TLabel
     Left = 17
-    Top = 97
+    Top = 89
     Width = 24
     Height = 13
     Caption = 'IPI %'
@@ -164,9 +164,23 @@ object fDetalheNF: TfDetalheNF
     Height = 13
     Caption = 'NCM'
   end
+  object label22: TLabel
+    Left = 17
+    Top = 130
+    Width = 23
+    Height = 13
+    Caption = 'BC II'
+  end
+  object Label23: TLabel
+    Left = 97
+    Top = 130
+    Width = 6
+    Height = 13
+    Caption = 'II'
+  end
   object DBEdit1: TDBEdit
     Left = 173
-    Top = 113
+    Top = 105
     Width = 73
     Height = 21
     DataField = 'ICMS'
@@ -176,7 +190,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit2: TDBEdit
     Left = 13
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'QUANTIDADE'
@@ -207,7 +221,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit5: TDBEdit
     Left = 573
-    Top = 113
+    Top = 105
     Width = 73
     Height = 21
     DataField = 'VALTOTAL'
@@ -227,7 +241,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit7: TDBEdit
     Left = 253
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'CST'
@@ -237,7 +251,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit8: TDBEdit
     Left = 93
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'VLR_BASE'
@@ -248,7 +262,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit9: TDBEdit
     Left = 253
-    Top = 113
+    Top = 105
     Width = 73
     Height = 21
     DataField = 'VLR_BASEICMS'
@@ -258,7 +272,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit10: TDBEdit
     Left = 333
-    Top = 113
+    Top = 105
     Width = 73
     Height = 21
     DataField = 'VALOR_ICMS'
@@ -268,7 +282,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit11: TDBEdit
     Left = 173
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'CFOP'
@@ -278,7 +292,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit12: TDBEdit
     Left = 333
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'CSOSN'
@@ -288,7 +302,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit13: TDBEdit
     Left = 413
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'VALOR_DESCONTO'
@@ -298,7 +312,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit14: TDBEdit
     Left = 653
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'FRETE'
@@ -308,7 +322,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit15: TDBEdit
     Left = 493
-    Top = 113
+    Top = 105
     Width = 73
     Height = 21
     DataField = 'ICMS_SUBST'
@@ -318,7 +332,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit16: TDBEdit
     Left = 413
-    Top = 113
+    Top = 105
     Width = 73
     Height = 21
     DataField = 'ICMS_SUBSTD'
@@ -328,7 +342,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit17: TDBEdit
     Left = 493
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'VALOR_SEGURO'
@@ -338,7 +352,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit18: TDBEdit
     Left = 573
-    Top = 73
+    Top = 65
     Width = 73
     Height = 21
     DataField = 'VALOR_OUTROS'
@@ -348,7 +362,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit19: TDBEdit
     Left = 13
-    Top = 113
+    Top = 105
     Width = 73
     Height = 21
     DataField = 'PIPI'
@@ -358,7 +372,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit20: TDBEdit
     Left = 93
-    Top = 113
+    Top = 105
     Width = 73
     Height = 21
     DataField = 'VIPI'
@@ -367,21 +381,21 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object Calcman: TCheckBox
-    Left = 279
-    Top = 156
+    Left = 437
+    Top = 148
     Width = 97
     Height = 17
     Caption = 'Calculo Manual'
-    TabOrder = 25
+    TabOrder = 27
     Visible = False
   end
   object btnSair: TBitBtn
-    Left = 656
+    Left = 658
     Top = 103
-    Width = 70
-    Height = 55
+    Width = 68
+    Height = 59
     Caption = 'F9-Sair'
-    TabOrder = 24
+    TabOrder = 26
     OnClick = btnSairClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -485,21 +499,21 @@ object fDetalheNF: TfDetalheNF
     Layout = blGlyphTop
   end
   object DBNavigator1: TDBNavigator
-    Left = 16
-    Top = 144
+    Left = 174
+    Top = 136
     Width = 216
     Height = 38
     DataSource = DMNF.DtSrc1
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete]
-    TabOrder = 22
+    TabOrder = 25
     OnClick = DBNavigator1Click
   end
   object btnGravar: TBitBtn
-    Left = 232
-    Top = 144
+    Left = 390
+    Top = 136
     Width = 38
     Height = 38
-    TabOrder = 23
+    TabOrder = 24
     Visible = False
     OnClick = btnGravarClick
     Glyph.Data = {
@@ -684,6 +698,26 @@ object fDetalheNF: TfDetalheNF
     DataField = 'NCM'
     DataSource = DMNF.DtSrc1
     TabOrder = 4
+    OnChange = abproc
+  end
+  object DBEdit21: TDBEdit
+    Left = 13
+    Top = 145
+    Width = 73
+    Height = 21
+    DataField = 'BCII'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 22
+    OnChange = abproc
+  end
+  object DBEdit22: TDBEdit
+    Left = 93
+    Top = 145
+    Width = 73
+    Height = 21
+    DataField = 'II'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 23
     OnChange = abproc
   end
 end

@@ -56,6 +56,10 @@ type
     btnProdutoProcura: TBitBtn;
     Label21: TLabel;
     DBEdit4: TDBEdit;
+    label22: TLabel;
+    DBEdit21: TDBEdit;
+    Label23: TLabel;
+    DBEdit22: TDBEdit;
     procedure btnSairClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);
