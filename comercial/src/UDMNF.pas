@@ -1977,7 +1977,9 @@ begin
    cds_nf1BASE_ICMS.AsFloat := 0;
    cds_nf1BASE_ICMS_SUBST.AsFloat := 0;
    cds_nf1VALOR_TOTAL_NOTA.AsFloat := 0;
-   cds_nf1VALOR_DESCONTO.AsFloat := 0;   
+   cds_nf1VALOR_DESCONTO.AsFloat := 0;
+   cds_nf1II.AsFloat := 0;
+   cds_nf1BCII.AsFloat := 0;
    cds_nf1NATUREZA.AsInteger := cds_MovimentoCODNATUREZA.AsInteger;
    cds_nf1DESCNATUREZA.AsString := cds_MovimentoDESCNATUREZA.AsString;
    //cds_nf1CODVENDA.AsInteger := cds_vendaCODVENDA.AsInteger;

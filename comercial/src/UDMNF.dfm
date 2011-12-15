@@ -544,11 +544,9 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetII: TFloatField
       FieldName = 'II'
-      ReadOnly = True
     end
     object sds_Mov_DetBCII: TFloatField
       FieldName = 'BCII'
-      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -643,6 +641,7 @@ object DMNF: TDMNF
     object cds_Mov_detVALORUNITARIOATUAL: TFloatField
       FieldName = 'VALORUNITARIOATUAL'
       ProviderFlags = []
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detCOD_COMISSAO: TIntegerField
       FieldName = 'COD_COMISSAO'
@@ -665,7 +664,7 @@ object DMNF: TDMNF
     object cds_Mov_detVALTOTAL: TFloatField
       FieldName = 'VALTOTAL'
       ProviderFlags = []
-      DisplayFormat = ',#.00'
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detPRECOCUSTO: TFloatField
       FieldName = 'PRECOCUSTO'
@@ -721,7 +720,7 @@ object DMNF: TDMNF
     object cds_Mov_detVLR_BASE: TFloatField
       FieldName = 'VLR_BASE'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',#.00'
+      DisplayFormat = ',##0.00'
       EditFormat = ',#.00'
     end
     object cds_Mov_detCLASSIFIC_FISCAL: TStringField
@@ -731,9 +730,11 @@ object DMNF: TDMNF
     end
     object cds_Mov_detVLR_BASEICMS: TFloatField
       FieldName = 'VLR_BASEICMS'
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detVALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detCFOP: TStringField
       FieldName = 'CFOP'
@@ -747,30 +748,37 @@ object DMNF: TDMNF
     object cds_Mov_detVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detFRETE: TFloatField
       FieldName = 'FRETE'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detICMS_SUBST: TFloatField
       FieldName = 'ICMS_SUBST'
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detICMS_SUBSTD: TFloatField
       FieldName = 'ICMS_SUBSTD'
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detVALOR_SEGURO: TFloatField
       FieldName = 'VALOR_SEGURO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detVALOR_OUTROS: TFloatField
       FieldName = 'VALOR_OUTROS'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detPIPI: TFloatField
       FieldName = 'PIPI'
     end
     object cds_Mov_detVIPI: TFloatField
       FieldName = 'VIPI'
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detNCM: TStringField
       FieldName = 'NCM'
@@ -785,11 +793,11 @@ object DMNF: TDMNF
     end
     object cds_Mov_detII: TFloatField
       FieldName = 'II'
-      ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detBCII: TFloatField
       FieldName = 'BCII'
-      ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -6342,9 +6350,11 @@ object DMNF: TDMNF
     end
     object cds_nf1II: TFloatField
       FieldName = 'II'
+      DisplayFormat = ',##0.00'
     end
     object cds_nf1BCII: TFloatField
       FieldName = 'BCII'
+      DisplayFormat = ',##0.00'
     end
   end
   object dsp_nf1: TDataSetProvider
