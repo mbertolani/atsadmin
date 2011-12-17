@@ -1,0 +1,568 @@
+unit uReceberCls;
+
+interface
+
+uses SysUtils, Dialogs, dbXpress, dateUtils;
+
+type
+
+  TReceberCls = class(TObject)
+  private
+    function getCaixa: Integer;
+    function getCodCliente: Integer;
+    function getCodOrigem: Integer;
+    function getCodRec: Integer;
+    function getCodUsuario: Integer;
+    function getCodVenda: Integer;
+    function getCodVendedor: Integer;
+    function getDesconto: Double;
+    function getDtBaixa: TDateTime;
+    function getDtConsolida: TDateTime;
+    function getDtEmissao: TDateTime;
+    function getDtRec: TDateTime;
+    function getDtVcto: TDateTime;
+    function getFormaRec: String;
+    function getJuros: Double;
+    function getMulta: Double;
+    function getNDoc: String;
+    function getNParcela: Integer;
+    function getObs: String;
+    function getOutrosCred: Double;
+    function getOutrosDeb: Double;
+    function getPrazo: String;
+    function getSerie: String;
+    function getStatus: String;
+    function getValor: Double;
+    function getValorRec: Double;
+    function getVia: SmallInt;
+    procedure setCaixa(const Value: Integer);
+    procedure setCodCliente(const Value: Integer);
+    procedure setCodOrigem(const Value: Integer);
+    procedure setCodRec(const Value: Integer);
+    procedure setCodUsuario(const Value: Integer);
+    procedure setCodVenda(const Value: Integer);
+    procedure setCodVendedor(const Value: Integer);
+    procedure setDesconto(const Value: Double);
+    procedure setDtBaixa(const Value: TDateTime);
+    procedure setDtConsolida(const Value: TDateTime);
+    procedure setDtEmissao(const Value: TDateTime);
+    procedure setDtRec(const Value: TDateTime);
+    procedure setDtVcto(const Value: TDateTime);
+    procedure setFormaRec(const Value: String);
+    procedure setJuros(const Value: Double);
+    procedure setMulta(const Value: Double);
+    procedure setNDoc(const Value: String);
+    procedure setNParcela(const Value: Integer);
+    procedure setObs(const Value: String);
+    procedure setOutrosCred(const Value: Double);
+    procedure setOutrosDeb(const Value: Double);
+    procedure setPrazo(const Value: String);
+    procedure setSerie(const Value: String);
+    procedure setStatus(const Value: String);
+    procedure setValor(const Value: Double);
+    procedure setValorRec(const Value: Double);
+    procedure setVia(const Value: SmallInt);
+    function executaSql(strSql: String): Boolean;
+    function getCodCCusto: Integer;
+    procedure setCodCCusto(const Value: Integer);
+  protected
+    //Atributos
+    _codVenda     : Integer;
+    _codRec       : Integer;
+    _codOrigem    : Integer;
+
+    _codCliente   : Integer;
+    _codVendedor  : Integer;
+    _codUsuario   : Integer;
+
+    _codCCusto    : Integer;
+    _caixa        : Integer;
+    _nParcela     : Integer;
+    _via          : SmallInt;
+
+    _dtEmissao    : TDateTime;
+    _dtVcto       : TDateTime;
+    _dtRec        : TDateTime;
+    _dtBaixa      : TDateTime;
+    _dtConsolida  : TDateTime;
+
+    _valor        : Double;  // Valor Total
+    _valorRec     : Double;  // Valor Recebido
+    _desconto     : Double;
+    _juros        : Double;
+    _multa        : Double;
+    _outrosDeb    : Double;
+    _outrosCred   : Double;
+
+    _status       : String;
+    _titulo       : String;
+    _serie        : String;
+
+    _prazo        : String;
+    _formaRec     : String;
+    _nDoc         : String;
+    _obs          : String;
+
+  public
+    property CodVenda    : Integer read getCodVenda write setCodVenda;
+    property CodRec      : Integer read getCodRec write setCodRec;
+    property CodOrigem   : Integer read getCodOrigem write setCodOrigem;
+
+    property CodCliente  : Integer read getCodCliente write setCodCliente;
+    property CodUsuario  : Integer read getCodUsuario write setCodUsuario;
+    property CodVendedor : Integer read getCodVendedor write setCodVendedor;
+
+    property CodCCusto   : Integer read getCodCCusto write setCodCCusto;
+    property Caixa       : Integer read getCaixa write setCaixa;
+    property NParcela    : Integer read getNParcela write setNParcela;
+    property Via         : SmallInt read getVia write setVia;
+
+    property DtEmissao   : TDateTime read getDtEmissao write setDtEmissao;
+    property DtVcto      : TDateTime read getDtVcto  write setDtVcto;
+    property DtRec       : TDateTime read getDtRec   write setDtRec;
+    property DtBaixa     : TDateTime read getDtBaixa write setDtBaixa;
+    property DtConsolida : TDateTime read getDtConsolida   write setDtConsolida;
+
+    property Valor       : Double read getValor write setValor;
+    property ValorRec    : Double read getValorRec write setValorRec;
+    property Desconto    : Double read getDesconto write setDesconto;
+    property Juros       : Double read getJuros write setJuros;
+    property Multa       : Double read getMulta write setMulta;
+    property OutrosDeb   : Double read getOutrosDeb write setOutrosDeb;
+    property OutrosCred  : Double read getOutrosCred write setOutrosCred;
+
+    property Status      : String read getStatus write setStatus;
+    property Titulo      : String read getSerie  write setSerie;
+    property Prazo       : String read getPrazo  write setPrazo;
+    property FormaRec    : String read getFormaRec  write setFormaRec;
+    property NDoc        : String read getNDoc  write setNDoc;
+    property Obs         : String read getObs  write setObs;
+
+    //Metodos
+    function geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
+    function baixaTitulo(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
+    function excluiTitulo(codVendaE: Integer): Boolean;
+    function alteraTitulo(codVendaA: Integer): Boolean;
+    constructor Create;
+    Destructor Destroy; Override;
+  end;
+
+  const
+    TABLENAME = 'RECEBIMENTO';
+
+implementation
+
+uses SqlExpr, DB, UDm, DBClient;
+
+{ TReceberCls }
+
+function TReceberCls.alteraTitulo(codVendaA: Integer): Boolean;
+begin
+
+end;
+
+function TReceberCls.baixaTitulo(Controle, Campo, Tipo: String;
+  codNat: Integer): Integer;
+begin
+
+end;
+
+constructor TReceberCls.Create;
+begin
+
+end;
+
+destructor TReceberCls.Destroy;
+begin
+  inherited;
+end;
+
+function TReceberCls.excluiTitulo(codVendaE: Integer): Boolean;
+begin
+
+end;
+
+function TReceberCls.executaSql(strSql: String): Boolean;
+var ErrorCode: Integer;
+begin
+  ErrorCode := dm.sqlsisAdimin.ExecuteDirect(strSql);
+  if ErrorCode = 0 then
+  begin
+    Result := True;
+  end;
+
+  if ErrorCode <> 0 then
+  begin
+    Result := False;
+    raise Exception.Create( 'Error: code = ' + IntToStr( ErrorCode ) )
+  end;
+
+end;
+
+function TReceberCls.geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
+var strG, strR: String;
+  sqlBuscaR : TSqlQuery;
+begin
+  strG := ' INSERT INTO RECEBIMENTO ' +
+          ' (CODRECEBIMENTO, TITULO,          EMISSAO,         CODCLIENTE,      ' +
+          ' DATAVENCIMENTO,  STATUS,          VIA,             FORMARECEBIMENTO,' +
+          ' CODVENDA ,       CODALMOXARIFADO, CODVENDEDOR,     CODUSUARIO,      ' +
+          ' DATASISTEMA,     VALOR_PRIM_VIA,  VALOR_RESTO,     VALORTITULO,     ' +
+          ' VALORRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
+          ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
+          ' OUTRO_CREDITO,   CAIXA,           DATARECEBIMENTO, DATACONSOLIDA,   ' +
+          ' SITUACAO, CODORIGEM)';
+
+  // Se codVendaR > 0, então é uma Venda então busca os dados da Venda;
+  if (CodVendaR > 0) then
+  begin
+    Try
+      sqlBuscaR :=  TSqlQuery.Create(nil);
+      sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
+      strR := 'SELECT CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA, ' +
+        ' DATAVENCIMENTO, NUMEROBORDERO, BANCO, CODVENDEDOR, STATUS, CODUSUARIO,' +
+        ' DATASISTEMA, VALOR, NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA,' +
+        ' OPERACAO, FORMARECEBIMENTO, N_DOCUMENTO, CAIXA, MULTA_JUROS, APAGAR,  ' +
+        ' VALOR_PAGAR, ENTRADA, N_BOLETO, STATUS1, CONTROLE, OBS, VALOR_ICMS,   ' +
+        ' VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, PRAZO, CODORIGEM, TROCO' +
+        '  FROM VENDA ' +
+        ' WHERE CODVENDA = ' + InttoStr(CodVendaR);
+      sqlBuscaR.SQL.Add(strR);
+      sqlBuscaR.Open;
+      if (not sqlBuscaR.isEmpty) then
+      begin
+      end;
+    Finally
+      sqlBuscaR.Free;
+    end;
+  end;
+  {
+  // Inserir Venda
+  _codVenda := CodVendaR;
+  if (Self.CodVenda = 0) then
+  begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENVENDA, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    _codVenda := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+  end;
+  DecimalSeparator := '.';
+  str := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA, DATAVENCIMENTO, ';
+  str := str + 'BANCO, CODVENDEDOR, STATUS, CODUSUARIO, DATASISTEMA, VALOR, ';
+  str := str + 'NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA, FORMARECEBIMENTO, ';
+  str := str + 'N_DOCUMENTO, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, ';
+  str := str + 'OBS, VALOR_ICMS, VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, ';
+  str := str + 'VALOR_IPI, PRAZO, PORCENTAGENDESC) VALUES (';
+  str := str + IntToStr(Self.CodVenda)    + ', ' + IntToStr(Self.CodMov)       + ', ';
+  str := str + IntToStr(Self.CodCliente)  + ', ';
+  str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVenda))          + ', ';
+  str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVcto))           + ', ';
+  str := str + '0, ';  // Banco
+  str := str + IntToStr(Self.CodVendedor) + ' ,' + IntToStr(Self.Status)       + ', ';
+  str := str + IntToStr(Self.CodUsuario)  + ' ,';
+  str := str + QuotedStr(FormatDateTime('mm/dd/yyyy', Today))                  + ', ';
+  str := str + FloatToStr(Self.Valor)     + ', ';
+  str := str + IntToStr(Self.NotaFiscal)  + ', ' + QuotedStr(Self.Serie)       + ', ';
+  str := str + FloatToStr(Self.Desconto)  + ', ';
+  str := str + IntToStr(Self.CodCCusto)   + ', ' + IntToStr(Self.NParcela)     + ', ';
+  str := str + QuotedStr(Self.FormaRec)   + ', ' + QuotedStr(Self.NDoc)        + ', ';
+  str := str + IntToStr(Self.Caixa)       + ', ' + FloatToStr(Self.MultaJuros) + ', ';
+  str := str + FloatToStr(Self.Apagar)    + ', ' + FloatToStr(Self.ValorPagar) + ', ';
+  str := str + FloatToStr(Self.Entrada)   + ', ';
+  str := str + QuotedStr(Self.Obs)        + ', ' + FloatToStr(Self.Icms)       + ', ';
+  str := str + FloatToStr(Self.Frete)     + ', ' + FloatToStr(Self.Seguro)     + ', ';
+  str := str + FloatToStr(Self.OutrosVlr) + ', ' + FloatToStr(Self.Ipi)        + ', ';
+  str := str + QuotedStr(Self.Prazo)      + ', ' + FloatToStr(Self.PercentDesc)+ ')';
+
+  DecimalSeparator := '.';
+
+  if (executaSql(str)) then
+    Result := Self.CodVenda
+  else
+    Result := 0;
+   }
+end;
+
+function TReceberCls.getCaixa: Integer;
+begin
+  Result := _caixa;
+end;
+
+function TReceberCls.getCodCCusto: Integer;
+begin
+  Result := _codCCusto;
+end;
+
+function TReceberCls.getCodCliente: Integer;
+begin
+  Result := _codCliente;
+end;
+
+function TReceberCls.getCodOrigem: Integer;
+begin
+  Result := _codOrigem;
+end;
+
+function TReceberCls.getCodRec: Integer;
+begin
+  Result := _codRec;
+end;
+
+function TReceberCls.getCodUsuario: Integer;
+begin
+  Result := _codUsuario;
+end;
+
+function TReceberCls.getCodVenda: Integer;
+begin
+  Result := _codVenda;
+end;
+
+function TReceberCls.getCodVendedor: Integer;
+begin
+  Result := _codVendedor;
+end;
+
+function TReceberCls.getDesconto: Double;
+begin
+  Result := _desconto;
+end;
+
+function TReceberCls.getDtBaixa: TDateTime;
+begin
+  Result := _dtBaixa;
+end;
+
+function TReceberCls.getDtConsolida: TDateTime;
+begin
+  Result := _dtConsolida;
+end;
+
+function TReceberCls.getDtEmissao: TDateTime;
+begin
+  Result := _dtEmissao;
+end;
+
+function TReceberCls.getDtRec: TDateTime;
+begin
+  Result := _dtRec;
+end;
+
+function TReceberCls.getDtVcto: TDateTime;
+begin
+  Result := _dtVcto;
+end;
+
+function TReceberCls.getFormaRec: String;
+begin
+  Result := _formaRec;
+end;
+
+function TReceberCls.getJuros: Double;
+begin
+  Result := _juros;
+end;
+
+function TReceberCls.getMulta: Double;
+begin
+  Result := _multa;
+end;
+
+function TReceberCls.getNDoc: String;
+begin
+  Result := _nDoc;
+end;
+
+function TReceberCls.getNParcela: Integer;
+begin
+  Result := _nParcela;
+end;
+
+function TReceberCls.getObs: String;
+begin
+  Result := _obs;
+end;
+
+function TReceberCls.getOutrosCred: Double;
+begin
+  Result := _outrosCred;
+end;
+
+function TReceberCls.getOutrosDeb: Double;
+begin
+  Result := _outrosDeb;
+end;
+
+function TReceberCls.getPrazo: String;
+begin
+  Result := _prazo;
+end;
+
+function TReceberCls.getSerie: String;
+begin
+  Result := _serie;
+end;
+
+function TReceberCls.getStatus: String;
+begin
+  Result := _status;
+end;
+
+function TReceberCls.getValor: Double;
+begin
+  Result := _valor;
+end;
+
+function TReceberCls.getValorRec: Double;
+begin
+  Result := _valorRec;
+end;
+
+function TReceberCls.getVia: SmallInt;
+begin
+  Result := _via;
+end;
+
+procedure TReceberCls.setCaixa(const Value: Integer);
+begin
+  _caixa := Value;
+end;
+
+procedure TReceberCls.setCodCCusto(const Value: Integer);
+begin
+  _codCCusto := Value;
+end;
+
+procedure TReceberCls.setCodCliente(const Value: Integer);
+begin
+  _codCliente := Value;
+end;
+
+procedure TReceberCls.setCodOrigem(const Value: Integer);
+begin
+  _codOrigem := Value;
+end;
+
+procedure TReceberCls.setCodRec(const Value: Integer);
+begin
+  _codRec := Value;
+end;
+
+procedure TReceberCls.setCodUsuario(const Value: Integer);
+begin
+  _codUsuario := Value;
+end;
+
+procedure TReceberCls.setCodVenda(const Value: Integer);
+begin
+  _codVenda := Value;
+end;
+
+procedure TReceberCls.setCodVendedor(const Value: Integer);
+begin
+  _codVendedor := Value;
+end;
+
+procedure TReceberCls.setDesconto(const Value: Double);
+begin
+  _desconto := Value;
+end;
+
+procedure TReceberCls.setDtBaixa(const Value: TDateTime);
+begin
+  _dtBaixa := Value;
+end;
+
+procedure TReceberCls.setDtConsolida(const Value: TDateTime);
+begin
+  _dtConsolida := Value;
+end;
+
+procedure TReceberCls.setDtEmissao(const Value: TDateTime);
+begin
+  _dtEmissao := Value;
+end;
+
+procedure TReceberCls.setDtRec(const Value: TDateTime);
+begin
+  _dtRec := Value;
+end;
+
+procedure TReceberCls.setDtVcto(const Value: TDateTime);
+begin
+  _dtVcto := Value;
+end;
+
+procedure TReceberCls.setFormaRec(const Value: String);
+begin
+  _formaRec := Value;
+end;
+
+procedure TReceberCls.setJuros(const Value: Double);
+begin
+  _juros := Value;
+end;
+
+procedure TReceberCls.setMulta(const Value: Double);
+begin
+  _multa := Value;
+end;
+
+procedure TReceberCls.setNDoc(const Value: String);
+begin
+  _nDoc := Value;
+end;
+
+procedure TReceberCls.setNParcela(const Value: Integer);
+begin
+  _nParcela := Value;
+end;
+
+procedure TReceberCls.setObs(const Value: String);
+begin
+  _obs := Value;
+end;
+
+procedure TReceberCls.setOutrosCred(const Value: Double);
+begin
+  _outrosCred := Value;
+end;
+
+procedure TReceberCls.setOutrosDeb(const Value: Double);
+begin
+  _outrosDeb := Value;
+end;
+
+procedure TReceberCls.setPrazo(const Value: String);
+begin
+  _prazo := Value;
+end;
+
+procedure TReceberCls.setSerie(const Value: String);
+begin
+  _serie := Value;
+end;
+
+procedure TReceberCls.setStatus(const Value: String);
+begin
+  _status := Value;
+end;
+
+procedure TReceberCls.setValor(const Value: Double);
+begin
+  _valor := Value;
+end;
+
+procedure TReceberCls.setValorRec(const Value: Double);
+begin
+  _valorRec := Value;
+end;
+
+procedure TReceberCls.setVia(const Value: SmallInt);
+begin
+  _via := Value;
+end;
+
+end.
