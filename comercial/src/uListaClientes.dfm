@@ -21,430 +21,43 @@ object fListaClientes: TfListaClientes
   object Panel1: TPanel
     Left = 0
     Top = 60
-    Width = 783
-    Height = 127
+    Width = 791
+    Height = 29
     Align = alTop
     BevelInner = bvLowered
     TabOrder = 0
-    object GroupBox5: TGroupBox
-      Left = 662
-      Top = 3
-      Width = 126
-      Height = 51
-      PopupMenu = PopupMenu1
-      TabOrder = 4
-      object Label5: TLabel
-        Left = 11
-        Top = 6
-        Width = 43
-        Height = 16
-        Caption = 'Estado'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label7: TLabel
-        Left = 66
-        Top = 6
-        Width = 30
-        Height = 16
-        Caption = 'DDD'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-      end
-      object edtUF: TEdit
-        Left = 8
-        Top = 21
-        Width = 53
-        Height = 24
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        CharCase = ecUpperCase
-        Color = clCream
-        PopupMenu = PopupMenu1
-        TabOrder = 0
-        OnKeyPress = edNomeKeyPress
-      end
-      object edtDDD: TEdit
-        Left = 63
-        Top = 22
-        Width = 53
-        Height = 24
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        PopupMenu = PopupMenu1
-        TabOrder = 1
-        OnKeyPress = edNomeKeyPress
-      end
-    end
-    object GroupBox2: TGroupBox
-      Left = 170
-      Top = 3
-      Width = 490
-      Height = 54
-      Caption = 'VENDEDOR'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 1
-      object Label1: TLabel
-        Left = 11
-        Top = 12
-        Width = 33
-        Height = 13
-        Caption = 'C'#243'digo'
-      end
-      object Label2: TLabel
-        Left = 69
-        Top = 12
-        Width = 28
-        Height = 13
-        Caption = 'Nome'
-      end
-      object codVen: TEdit
-        Left = 8
-        Top = 25
-        Width = 58
-        Height = 24
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        PopupMenu = PopupMenu1
-        TabOrder = 0
-        OnKeyPress = edNomeKeyPress
-      end
-      object nomeVen: TEdit
-        Left = 67
-        Top = 26
-        Width = 377
-        Height = 24
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        PopupMenu = PopupMenu1
-        TabOrder = 1
-        OnKeyPress = edNomeKeyPress
-      end
-      object BitBtn5: TBitBtn
-        Left = 447
-        Top = 24
-        Width = 37
-        Height = 25
-        Caption = '...'
-        TabOrder = 2
-        OnClick = BitBtn5Click
-      end
-    end
-    object GroupBox1: TGroupBox
-      Left = 2
-      Top = 3
-      Width = 165
-      Height = 32
-      Caption = 'SITUA'#199#195'O'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
+    object EvDBFind1: TEvDBFind
+      Left = 82
+      Top = 4
+      Width = 260
+      Height = 21
+      DataField = 'NOMECLIENTE'
+      DataSource = DataSource1
       TabOrder = 0
-      object CBox1: TRadioButton
-        Left = 14
-        Top = 11
-        Width = 57
-        Height = 17
-        Caption = 'Ativo'
-        Checked = True
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 0
-        TabStop = True
-        OnClick = BitBtn2Click
-      end
-      object CBox2: TRadioButton
-        Left = 94
-        Top = 11
-        Width = 57
-        Height = 17
-        Caption = 'Inativo'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 1
-        OnClick = BitBtn2Click
-      end
     end
-    object GroupBox4: TGroupBox
-      Left = 458
-      Top = 84
-      Width = 331
-      Height = 39
-      Caption = 'CIDADE'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 3
-      object edCidade: TEdit
-        Left = 3
-        Top = 13
-        Width = 284
-        Height = 22
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        PopupMenu = PopupMenu1
-        TabOrder = 0
-        OnKeyPress = edNomeKeyPress
-      end
-      object BitBtn1: TBitBtn
-        Left = 289
-        Top = 11
-        Width = 35
-        Height = 24
-        Caption = '...'
-        TabOrder = 1
-        OnClick = BitBtn1Click
-      end
+    object EvDBFind2: TEvDBFind
+      Left = 5
+      Top = 4
+      Width = 75
+      Height = 21
+      DataField = 'CODCLIENTE'
+      DataSource = DataSource1
+      TabOrder = 1
     end
-    object GroupBox3: TGroupBox
-      Left = 2
-      Top = 68
-      Width = 455
-      Height = 55
-      Caption = 'CLIENTE'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
+    object EvDBFind3: TEvDBFind
+      Left = 343
+      Top = 4
+      Width = 442
+      Height = 21
+      DataField = 'RAZAOSOCIAL'
+      DataSource = DataSource1
       TabOrder = 2
-      object Label3: TLabel
-        Left = 7
-        Top = 12
-        Width = 33
-        Height = 13
-        Caption = 'C'#243'digo'
-      end
-      object Label4: TLabel
-        Left = 62
-        Top = 11
-        Width = 164
-        Height = 13
-        Caption = 'Nome (n'#227'o use ACENTOS ou "'#199'")'
-      end
-      object Label11: TLabel
-        Left = 262
-        Top = 11
-        Width = 167
-        Height = 13
-        Caption = 'Raz'#227'o (n'#227'o use ACENTOS ou "'#199'")'
-      end
-      object edCodigo: TEdit
-        Left = 4
-        Top = 26
-        Width = 57
-        Height = 24
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        PopupMenu = PopupMenu1
-        TabOrder = 0
-        OnKeyPress = edNomeKeyPress
-      end
-      object edNome: TEdit
-        Left = 60
-        Top = 26
-        Width = 193
-        Height = 24
-        Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        ParentShowHint = False
-        PopupMenu = PopupMenu1
-        ShowHint = True
-        TabOrder = 1
-        OnKeyPress = edNomeKeyPress
-      end
-      object edRazao: TEdit
-        Left = 256
-        Top = 25
-        Width = 193
-        Height = 24
-        Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        ParentShowHint = False
-        PopupMenu = PopupMenu1
-        ShowHint = True
-        TabOrder = 2
-        OnKeyPress = edNomeKeyPress
-      end
-    end
-    object GroupBox6: TGroupBox
-      Left = 2
-      Top = 34
-      Width = 165
-      Height = 34
-      Caption = 'Tem Email'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 5
-      object CBox3: TRadioButton
-        Left = 6
-        Top = 13
-        Width = 46
-        Height = 17
-        Caption = 'Sim'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 0
-        OnClick = BitBtn2Click
-      end
-      object CBox4: TRadioButton
-        Left = 52
-        Top = 13
-        Width = 55
-        Height = 17
-        Caption = 'N'#227'o'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 1
-        OnClick = BitBtn2Click
-      end
-      object cbtemail: TRadioButton
-        Left = 101
-        Top = 13
-        Width = 59
-        Height = 17
-        Caption = 'Todos'
-        Checked = True
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 2
-        TabStop = True
-        OnClick = BitBtn2Click
-      end
-    end
-    object GroupBox7: TGroupBox
-      Left = 533
-      Top = 53
-      Width = 244
-      Height = 35
-      Caption = 'Tipo'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 6
-      object cbfisica: TRadioButton
-        Left = 6
-        Top = 13
-        Width = 59
-        Height = 17
-        Caption = 'Fisica'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 0
-        OnClick = BitBtn2Click
-      end
-      object cbjuridica: TRadioButton
-        Left = 76
-        Top = 11
-        Width = 77
-        Height = 22
-        Caption = 'Juridica'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 1
-        OnClick = BitBtn2Click
-      end
-      object cbttipo: TRadioButton
-        Left = 165
-        Top = 12
-        Width = 59
-        Height = 17
-        Caption = 'Todos'
-        Checked = True
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 2
-        TabStop = True
-        OnClick = BitBtn2Click
-      end
     end
   end
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 783
+    Width = 791
     Height = 60
     Align = alTop
     BevelInner = bvRaised
@@ -457,149 +70,14 @@ object fListaClientes: TfListaClientes
     Background.StartColor = clTeal
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
-    object Label8: TLabel
-      Left = 8
-      Top = 33
-      Width = 122
-      Height = 13
-      Caption = 'Ctrl+N - Busca pelo Nome'
-      Transparent = True
-    end
-    object Label9: TLabel
-      Left = 8
-      Top = 16
-      Width = 126
-      Height = 13
-      Caption = 'Ctrl+C - Busca pelo C'#243'digo'
-      Transparent = True
-    end
-    object Label10: TLabel
-      Left = 152
-      Top = 8
-      Width = 83
-      Height = 13
-      Caption = 'Data do Cadastro'
-      Transparent = True
-    end
-    object BitBtn2: TBitBtn
-      Left = 324
-      Top = 3
-      Width = 77
-      Height = 55
-      Caption = 'F8-Procurar'
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-      TabStop = False
-      OnClick = BitBtn2Click
-      Glyph.Data = {
-        360C0000424D360C000000000000360000002800000020000000200000000100
-        180000000000000C000000000000000000000000000000000000C0C0C08D958B
-        828478909488C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07892A3576A77
-        979EA19699978B958FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C05595D66C9BD1
-        5162839396A48C92918B928BC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C06BAFFC84C0FF
-        6E97CE4E6A8D94A4B18890908F9493C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A9D2FF7EB4F0
-        6CBAFF4B93D340618896A2B4868D9095958FC0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        6DC0FE66BDFF6197CE405F8690A0B18E9392959283C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        9CCDED7FC4F570BAFA5D9AD844628B8C98AA919B95727B677175628585777A74
-        6D827D7A737877737B7A727A79777A71817D64897E5E927D61937C62917B628D
-        7862927E65927D629A8266927D5D91835F888062807D6FA8A8A2C0C0C0C0C0C0
-        C0C0C0C0C0C07DC2FB73B5F66F97D24E658B8C9DA05B6656434532767162847B
-        71716B664D4F4F4C54545A626157584E574F325A472162451E67492063482362
-        4823624B255D441C6A4D216046185F491F554625524E3C97958DC0C0C0C0C0C0
-        C0C0C0C0C0C06A8DAF8FBBF083B4FA7299D063768381847B877F788F857B9895
-        8697978B959294ABABB18F92967877738B7C6C887052866A3B826630826A3484
-        6F3B7F6D387E6A33866E34876F3B81694595836C2D23198A8582C0C0C0C0C0C0
-        C0C0C0C0C0C08993A4A7BDE182AAE595BDEE8995A19A948D9E8D84D9CBBFE2E0
-        CEFAFDEEF8F3F4F7F3F9E7EBECDFDDDCA0948A937E69E6CFA9FFFFDCFFFFD4FF
-        FFD3FFFFD9FFFFD5FFFFD8FFFFD8FFFADFF2E2D2463B338B8580C0C0C0C0C0C0
-        C0C0C0C0C0C0918E90E8E6F2CEE1FCC8DAF1ACAAAAA39484EBD4BEFEECD5FDFA
-        E5FFFFF4FBF8F3FFFEFDF4FBF4F8FDF4F1EDE8B3AAA1857A6CCFC3B1FAF3E0F6
-        F0DDF6F5E0E9E8D3F2F1DCF2EEDBFFFFF5E5DFD4433D32928C81C0C0C0C0C0C0
-        C0C0C0C0C0C0AD9D91FFF0E9F2F5FDF8FCFFA69689CCB399FCE1BFF7E3C0F3ED
-        D0FAFBE7FAFBF1DADED9DEE2DCEEF2ECE4E5E1FEFBF7A09B9A7772718B888481
-        827E808780828984FAFFFCFBFFFCF8F8F2E1DED6443C35887F76C0C0C0C0C0C0
-        C0C0C0C0C0C0B79E84FFECD7FEF9FAE2DEDDDFC5A7FFE9BDFFEFC2FFE9BCFFFB
-        D3FFFFE1FBFFF5EFF6F3F6F7FBFCFBFFFFFFFCF4F1ECE1DCDD716C6EBCBCBCF8
-        FDFCF7FFFEF1FCFAEEF8F8F5FBFAFFFFFBE2DED945373B918188C0C0C0C0C0C0
-        C0C0C0C0C0C0BB997BFFF2D6FFFDF7BFB5AEFEE0C3F2CBA4DABA91CEB589FFF3
-        C3FFFFDFF5FAEBF5FDFDC4C7CFC6C9CEC2C2BCFAF7F2FEF9FB86808B6C6A7E00
-        0015000016000010F3FDFFF2FAFAF5F9F3DEDED83F383D8E828EC0C0C0C0C0C0
-        C0C0C0C0C0C0C9A58DFFE8CFF3DDD2DAC8C1D2B7A9E6C5B5DDBCA9EDD1B3FFF7
-        C1FFFFD8F6F6EACAD0D5C5D4D7C2D0CEC2CAC0FEFCF4FEF7FCA49AB16A629712
-        0E4F0D0F50202556E5EDFFF3FCFFF9FFF9DEE6DC363A3B7B7F84C0C0C0C0C0C0
-        C0C0C0C0C0C0BD9882FFEED7F4D7CED2BFB8FFFAF2D4BEB2F4D2C5DFC1A6FFF4
-        BCFEF9C2FFFFEEF8F9EFC9D8CAE4F7E4D1DAC0FFFFECFDF5F5B0A7C26E67A434
-        3181E4E6FF060C4FEEF6FFF5FEFFF6FFF5D3DACD363A35878A88C0C0C0C0C0C0
-        C0C0C0C0C0C0BF9D86FFE8D2FDE0DCD3C2BFFFFCEAEAE0C8E0C1AAE0C09DFFEC
-        B5FFF7BCFFF4C4FFFFDCFFFFDAD7E3B3D8E3ABEDF2C5FFFEF39F99AC7678A832
-        387B293282081258E7F1FFF1FBFFF6FFF2E1E2CE433A2D99887FC0C0C0C0C0C0
-        C0C0C0C0C0C0BE9B87FFF7E5FFECEBCABCBDF1F4E4FEFEE6F1DAC4FFE4C7F3DC
-        AFFEECB7FFFBC6FFEEBBFFF8C3F5F4BCF9FFBDF5F9C5E5E1CF837E87C7C9E7E7
-        EDFFE3ECFFE6EFFFEBF5FFF0FAFFFAFFF2DFDDC54B3A259C836FC0C0C0C0C0C0
-        C0C0C0C0C0C0C39A8BFFF1E2FFF5F1E6DCDCB1B8B1D7DDD2F1E3DDF6E0D4F8E4
-        CBF5E2C1F6DFBFE8D0ACE6CCA4E3CFA0F4EFB8F7F5C5D0C9B59A939087828B7E
-        7E907C7C9A6F7390EFF5FFEFF5FAFCFFF6E7E6CC412F10AC926EC0C0C0C0C0C0
-        C0C0C0C0C0C0C19B89FFE5D6FFF8F5FEFCFF99A2ABE5ECF5FFFAFCFFFEFAFFF8
-        EAE6D8C1F6E7C6F5E1B8FFE6BDFFE4B8FFF3C8EBE2C0918D7BC7C1BAFFFBF7FF
-        FEFCFFF8FCFFF9FFFAFCFFF5FCFFF9FDF1E8E3CA463310AB926AC0C0C0C0C0C0
-        C0C0C0C0C0C0BA9B84FFF0D8FFFCFDEEF5FFD9E2FF747C9A9DA3A8C7C8BFFFF9
-        F0FFFFEDE7EAB2EFEDA7DFCC8FF4D8A9B49C80B2A597AFB0AEF8F6F5FFFBF424
-        01002200001F0903EEF1F5F6FFFFFFFFF3EEE2CA49371A9D8868C0C0C0C0C0C0
-        C0C0C0C0C0C0BD9E85FFF4DAFCFDFBE3F0FF0D15510B1454808AB2949BAEEBEE
-        F2FCFEEBEEF7C5EAEFAAEFE79ACDBF7D90805BCBC4B5EDF8F6FFFEFF33080547
-        08004E1000370B00FFFFFEECF4F3FFFCEFEADDC746381C9D8F72C0C0C0C0C0C0
-        C0C0C0C0C0C0C89E87FFECD6FDFBF3EBF7FFDBE2FF2A2E9EC1CAFF0C1965818D
-        A589938DA2A69AB4B88EB0B95ED3DE787A823CFDFFDFF0FFF7FAF4F9FFECFBA7
-        444EFFA79F4D0500FFF4F3FDFFFFFFFAF1EAE0CE3B351892906EC0C0C0C0C0C0
-        C0C0C0C0C0C0CE9D83FFEFD4FFFDEFF8F8FFEDE5FF3C328F342D8E141159F4F3
-        FFFFFCF7FFFAF6FFFFE58385337D8423777933FFFFD9FAFFECFFFEFBFFEDF7A7
-        474DA9483A5C0E00FFF8F3FFF7F2FFFAEBECDEC8403B228B8A6EC0C0C0C0C0C0
-        C0C0C0C0C0C0D2A07CFFF0CDFFFDE9FFF8F1FFE6EAFFE3EFFFE2F3FFE3EFFFE9
-        E0FFECD9FFECD9FFF0D2FFF7C5FFFAC4FFF4CEFFEED2FFEDD6FFEEDAFFEBD9FF
-        E8D2FFEECEFFEFD1FFF5E2FFFAE5FFFFE4FFE2C3564635968E81C0C0C0C0C0C0
-        C0C0C0C0C0C0C38B5AE7A46BD39870D6A17CDB9F75DB9F75DB9D77DB9D77E09F
-        73E29F72E29E73DE9F73D5A172D39F70D99E71DE9E75DFA178DBA177D19970C8
-        9166C38857E7A777CB825CCB865FD8A071AC845A4B331D948277C0C0C0C0C0C0
-        C0C0C0C0C0C0A468229D4E00873A008C3E008E3C008E3C008E3C008E3D00903F
-        00913F00933B00913B008A3F008740008C4200914200923E00913A0091360093
-        3801973D009D42009C42028C390094531695632E5B3816B69A82C0C0C0C0C0C0
-        C0C0C0C0C0C0AE772EB46B0FCB7F2DCC7E31CE7C2ECE7D2CCC7E2BCA8028C883
-        22C88322CA7F29C87E2CC7812DC88227CD851FD08420CF7C27CF782ED97C3DE3
-        8647EE9249CF792DFFAE63D38B43C88D48B88A54664623F9E0C6C0C0C0C0C0C0
-        C0C0C0C0C0C0C6A167BC8940C18B4CAE773AB27D3AB27E37B48034B18230A886
-        2DA1862FA18433A28334AA8436AD7F31B57E2DBA8132B67F3CB57C3EB77A3ABA
-        7D3BB47934B9833CB0853CA781399C7939AE9361E0CFB5C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
-      Layout = blGlyphTop
-    end
     object BitBtn8: TBitBtn
-      Left = 402
+      Left = 480
       Top = 3
       Width = 77
       Height = 55
       Caption = 'F2-Cadastro'
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 0
       TabStop = False
       OnClick = BitBtn8Click
       Glyph.Data = {
@@ -671,77 +149,6 @@ object fListaClientes: TfListaClientes
         0000000000000000000007070707070707070707070707070707}
       Layout = blGlyphTop
     end
-    object BitBtn3: TBitBtn
-      Left = 480
-      Top = 3
-      Width = 77
-      Height = 55
-      Caption = 'F7-Limpar'
-      PopupMenu = PopupMenu1
-      TabOrder = 2
-      TabStop = False
-      OnClick = BitBtn3Click
-      Glyph.Data = {
-        1E070000424D1E070000000000003600000028000000160000001A0000000100
-        180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
-        C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-        C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
-        C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
-        C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
-        7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
-        7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
-        7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
-        7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
-        7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
-        00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
-        007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
-        00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
-        00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
-        7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-        C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
-        007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
-        00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
-        7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
-        007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
-        00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
-        7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
-        7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
-        0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-        C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
-        7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
-        C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
-        007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-        0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
-        0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
-        7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
-        7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
-        7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
-        00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
-        0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
-        0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
-        7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
-        7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
-        00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
-        00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        0000}
-      Layout = blGlyphTop
-    end
     object BitBtn4: TBitBtn
       Left = 558
       Top = 3
@@ -749,7 +156,7 @@ object fListaClientes: TfListaClientes
       Height = 55
       Caption = 'Ctrl+I-Imprimir'
       PopupMenu = PopupMenu1
-      TabOrder = 3
+      TabOrder = 1
       TabStop = False
       OnClick = BitBtn4Click
       Glyph.Data = {
@@ -860,7 +267,7 @@ object fListaClientes: TfListaClientes
       Height = 55
       Caption = 'Etiquetas'
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 2
       TabStop = False
       OnClick = SpeedButton4Click
       Glyph.Data = {
@@ -971,7 +378,7 @@ object fListaClientes: TfListaClientes
       Height = 55
       Caption = 'F9-Fechar'
       PopupMenu = PopupMenu1
-      TabOrder = 5
+      TabOrder = 3
       TabStop = False
       OnClick = BitBtn13Click
       Glyph.Data = {
@@ -1089,7 +496,7 @@ object fListaClientes: TfListaClientes
       ParentColor = False
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 6
+      TabOrder = 4
       OnClick = RadioButton2Click
     end
     object RadioButton1: TRadioButton
@@ -1106,45 +513,8 @@ object fListaClientes: TfListaClientes
       ParentColor = False
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 7
+      TabOrder = 5
       OnClick = RadioButton1Click
-    end
-    object JvDatePickerEdit2: TJvDatePickerEdit
-      Left = 150
-      Top = 27
-      Width = 82
-      Height = 22
-      AllowNoDate = True
-      Checked = True
-      Enabled = False
-      TabOrder = 8
-    end
-    object JvDatePickerEdit3: TJvDatePickerEdit
-      Left = 238
-      Top = 27
-      Width = 83
-      Height = 21
-      AllowNoDate = True
-      Checked = True
-      Enabled = False
-      TabOrder = 9
-    end
-    object RadioButton5: TRadioButton
-      Left = 243
-      Top = 5
-      Width = 16
-      Height = 17
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 10
-      OnClick = RadioButton5Click
     end
     object RadioButton3: TRadioButton
       Left = 693
@@ -1159,7 +529,7 @@ object fListaClientes: TfListaClientes
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      TabOrder = 11
+      TabOrder = 6
       Visible = False
       OnClick = RadioButton3Click
     end
@@ -1176,16 +546,26 @@ object fListaClientes: TfListaClientes
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      TabOrder = 12
+      TabOrder = 7
       Visible = False
       OnClick = RadioButton4Click
+    end
+    object BitBtn2: TButton
+      Left = 296
+      Top = 24
+      Width = 75
+      Height = 25
+      Caption = 'BitBtn2'
+      TabOrder = 8
+      Visible = False
+      OnClick = BitBtn2Click
     end
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
-    Top = 187
-    Width = 783
-    Height = 348
+    Top = 89
+    Width = 791
+    Height = 457
     Align = alClient
     BorderStyle = bsNone
     Color = clWhite
@@ -1321,7 +701,6 @@ object fListaClientes: TfListaClientes
     object Cancela1: TMenuItem
       Caption = 'Cancela'
       ShortCut = 114
-      OnClick = BitBtn3Click
     end
     object procurar1: TMenuItem
       Caption = 'procurar'
