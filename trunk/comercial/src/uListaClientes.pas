@@ -8,7 +8,8 @@ uses
   DBClient, DB, DBLocal, DBLocalS, Menus, StdCtrls, Buttons,
   ExtCtrls, rpvclreport, XPMenu, MMJPanel, Mask, JvExMask, JvToolEdit,
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, JvExDBGrids, JvDBGrid,
-  JvBaseDlg, JvProgressDialog ,JvComponent, JvDBGridExport, JvCsvData;
+  JvBaseDlg, JvProgressDialog ,JvComponent, JvDBGridExport, JvCsvData,
+  EDBFind;
 
 type
   TfListaClientes = class(TForm)
@@ -116,34 +117,8 @@ type
     ListaClienteFONE: TStringField;
     cdsFONE: TStringField;
     Panel1: TPanel;
-    GroupBox1: TGroupBox;
-    CBox1: TRadioButton;
-    CBox2: TRadioButton;
-    GroupBox2: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
-    codVen: TEdit;
-    nomeVen: TEdit;
-    BitBtn5: TBitBtn;
-    GroupBox3: TGroupBox;
-    Label3: TLabel;
-    Label4: TLabel;
-    edCodigo: TEdit;
-    edNome: TEdit;
-    GroupBox4: TGroupBox;
-    edCidade: TEdit;
-    BitBtn1: TBitBtn;
-    GroupBox5: TGroupBox;
-    Label5: TLabel;
-    Label7: TLabel;
-    edtUF: TEdit;
-    edtDDD: TEdit;
     MMJPanel2: TMMJPanel;
-    Label8: TLabel;
-    Label9: TLabel;
-    BitBtn2: TBitBtn;
     BitBtn8: TBitBtn;
-    BitBtn3: TBitBtn;
     BitBtn4: TBitBtn;
     SpeedButton4: TBitBtn;
     BitBtn13: TBitBtn;
@@ -151,32 +126,21 @@ type
     RadioButton1: TRadioButton;
     ListaClienteTEL: TStringField;
     cdsTEL: TStringField;
-    JvDatePickerEdit2: TJvDatePickerEdit;
-    JvDatePickerEdit3: TJvDatePickerEdit;
-    Label10: TLabel;
-    RadioButton5: TRadioButton;
     RadioButton3: TRadioButton;
     RadioButton4: TRadioButton;
-    edRazao: TEdit;
-    Label11: TLabel;
     ListaClienteE_MAIL: TStringField;
     cdsE_MAIL: TStringField;
     JvDBGrid1: TJvDBGrid;
     Exportar1: TMenuItem;
     SaveDialog1: TSaveDialog;
     JvProgressDialog1: TJvProgressDialog;
-    GroupBox6: TGroupBox;
-    CBox3: TRadioButton;
-    CBox4: TRadioButton;
-    cbtemail: TRadioButton;
-    GroupBox7: TGroupBox;
-    cbfisica: TRadioButton;
-    cbjuridica: TRadioButton;
-    cbttipo: TRadioButton;
+    EvDBFind1: TEvDBFind;
+    EvDBFind2: TEvDBFind;
+    EvDBFind3: TEvDBFind;
+    BitBtn2: TButton;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
@@ -226,7 +190,7 @@ var
 implementation
 
 uses ShellAPI,ShlObj, CommDlg, UDm, uProcurar, uClienteCadastro, ufDlgLogin, sCtrlResize,
-  uEtiquetas_cli;
+  uEtiquetas_cli, uClienteFiltro;
 
 {$R *.dfm}
 
@@ -248,21 +212,6 @@ begin
     //Pinta o texto padrão
     JvDBGrid1.DefaultDrawDataCell(Rect,Column.Field,State);
    end;
-end;
-
-procedure TfListaClientes.BitBtn3Click(Sender: TObject);
-begin
-  ListaCliente.Close;
-  edCodigo.Text := '';
-  edNome.Text := '';
-  edCidade.Text := '';
-  codVen.Text := '';
-  nomeVen.Text := '';
-  cbtemail.Checked := true;
-  cbttipo.Checked := true;
-  CBox1.Checked := true;
-  RadioButton5.Checked := False;
-  BitBtn2.Click;
 end;
 
 procedure TfListaClientes.BitBtn2Click(Sender: TObject);
@@ -290,50 +239,50 @@ begin
 
  varCondicao := 'where ende.TIPOEND = 0 ';
 
- if codVen.Text <> '' then
+ if (fClienteFiltro.codVen.Text <> '') then
    if varCondicao <> '' then
-      varCondicao := varCondicao + ' and cli.CODUSUARIO = ' + codVen.Text
+      varCondicao := varCondicao + ' and cli.CODUSUARIO = ' + fClienteFiltro.codVen.Text
    else
-   varCondicao := 'where cli.CODUSUARIO = ' + codVen.Text;
+   varCondicao := 'where cli.CODUSUARIO = ' + fClienteFiltro.codVen.Text;
 //********************************************************************************************
- if NomeVen.Text <> '' then
+ if (fClienteFiltro.NomeVen.Text <> '') then
    if varCondicao <> '' then
-     varCondicao := varCondicao + ' and UDF_COLLATEBR(usu.NOMEUSUARIO) containing ' + '''' + nomeVen.Text +  ''''
+     varCondicao := varCondicao + ' and UDF_COLLATEBR(usu.NOMEUSUARIO) containing ' + '''' + fClienteFiltro.nomeVen.Text +  ''''
    else
-     varCondicao := 'where UDF_COLLATEBR(usu.NOMEUSUARIO) containing ' + '''' + nomeVen.Text + '''';
+     varCondicao := 'where UDF_COLLATEBR(usu.NOMEUSUARIO) containing ' + '''' + fClienteFiltro.nomeVen.Text + '''';
 //********************************************************************************************
- if CBox3.Checked = true then
+ if (fClienteFiltro.CBox3.Checked = true) then
    if varCondicao <> '' then
       varCondicao := varCondicao + ' and ende.e_mail is not null '
    else
    varCondicao := 'where ende.e_mail is not null ';
 //********************************************************************************************
- if CBox4.Checked = true then
+ if (fClienteFiltro.CBox4.Checked = true) then
    if varCondicao <> '' then
       varCondicao := varCondicao + ' and ((ende.e_mail = ' + QuotedStr('') + ')or(ende.e_mail is null)) '
    else
    varCondicao := 'where ((ende.e_mail = ' + QuotedStr('') + ' or(ende.e_mail is null)) ';
 //********************************************************************************************
- if CBox1.Checked = true then
+ if (fClienteFiltro.CBox1.Checked = true) then
    if varCondicao <> '' then
       varCondicao := varCondicao + ' and cli.STATUS = 1 '
    else
    varCondicao := 'where cli.STATUS = 1 ';
 //********************************************************************************************
- if CBox2.Checked = true then
+ if (fClienteFiltro.CBox2.Checked = true) then
    if varCondicao <> '' then
       varCondicao := varCondicao + ' and cli.STATUS = 2 '
    else
    varCondicao := 'where cli.STATUS = 2 ';
   //********************************************************************************************
 
- if cbfisica.Checked = true then
+ if (fClienteFiltro.cbfisica.Checked = true) then
    if varCondicao <> '' then
       varCondicao := varCondicao + ' and cli.TIPOFIRMA = 0 '
    else
    varCondicao := 'where cli.TIPOFIRMA = 0 ';
 //********************************************************************************************
- if cbjuridica.Checked = true then
+ if (fClienteFiltro.cbjuridica.Checked = true) then
    if varCondicao <> '' then
       varCondicao := varCondicao + ' and cli.TIPOFIRMA = 1 '
    else
@@ -341,51 +290,51 @@ begin
   //********************************************************************************************
 
 
-  if (RadioButton5.Checked = true) then
+  if (fClienteFiltro.RadioButton5.Checked = true) then
   begin
     if varCondicao <> '' then
       varCondicao := varCondicao + ' and cli.DATACADASTRO between '
     else
       varCondicao := ' where cli.DATACADASTRO between  ';
-    varCondicao := varCondicao + QuotedStr(FormatDateTime('mm/dd/yyyy', JvDatePickerEdit2.Date));
-    varCondicao := varCondicao +  ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', JvDatePickerEdit3.Date));
+    varCondicao := varCondicao + QuotedStr(FormatDateTime('mm/dd/yyyy', fClienteFiltro.JvDatePickerEdit2.Date));
+    varCondicao := varCondicao +  ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', fClienteFiltro.JvDatePickerEdit3.Date));
   end;
 //********************************************************************************************
- if edCodigo.Text <> '' then
+ if (fClienteFiltro.edCodigo.Text <> '') then
    if varCondicao <> '' then
-      varCondicao := varCondicao + ' and cli.CODCLIENTE = ' + edCodigo.Text
+      varCondicao := varCondicao + ' and cli.CODCLIENTE = ' + fClienteFiltro.edCodigo.Text
    else
-   varCondicao := 'where cli.CODCLIENTE = ' + edCodigo.Text;
+   varCondicao := 'where cli.CODCLIENTE = ' + fClienteFiltro.edCodigo.Text;
 //********************************************************************************************
- if edNome.Text <> '' then
+ if (fClienteFiltro.edNome.Text <> '') then
    if varCondicao <> '' then
-     varCondicao := varCondicao + ' and UDF_COLLATEBR(cli.NOMECLIENTE) containing ' + '''' + edNome.Text +  ''''
+     varCondicao := varCondicao + ' and UDF_COLLATEBR(cli.NOMECLIENTE) containing ' + '''' + fClienteFiltro.edNome.Text +  ''''
    else
-     varCondicao := 'where UDF_COLLATEBR(cli.NOMECLIENTE) containing ' + '''' + edNome.Text + '''';
+     varCondicao := 'where UDF_COLLATEBR(cli.NOMECLIENTE) containing ' + '''' + fClienteFiltro.edNome.Text + '''';
 //********************************************************************************************
- if edRazao.Text <> '' then
+ if (fClienteFiltro.edRazao.Text <> '') then
    if varCondicao <> '' then
-     varCondicao := varCondicao + ' and UDF_COLLATEBR(cli.RAZAOSOCIAL) containing ' + '''' + edRazao.Text +  ''''
+     varCondicao := varCondicao + ' and UDF_COLLATEBR(cli.RAZAOSOCIAL) containing ' + '''' + fClienteFiltro.edRazao.Text +  ''''
    else
-     varCondicao := 'where UDF_COLLATEBR(cli.RAZAOSOCIAL) containing ' + '''' + edRazao.Text + '''';
+     varCondicao := 'where UDF_COLLATEBR(cli.RAZAOSOCIAL) containing ' + '''' + fClienteFiltro.edRazao.Text + '''';
 //********************************************************************************************
- if edCidade.Text <> '' then
+ if (fClienteFiltro.edCidade.Text <> '') then
    if varCondicao <> '' then
-     varCondicao := varCondicao + ' and UDF_COLLATEBR(ende.CIDADE) containing UDF_COLLATEBR(' + '''' + edCidade.Text + '' + ''')'
+     varCondicao := varCondicao + ' and UDF_COLLATEBR(ende.CIDADE) containing UDF_COLLATEBR(' + '''' + fClienteFiltro.edCidade.Text + '' + ''')'
    else
-     varCondicao := 'where UDF_COLLATEBR(ende.CIDADE) containing UDF_COLLATEBR(' + '''' + edCidade.Text +  ''')';
+     varCondicao := 'where UDF_COLLATEBR(ende.CIDADE) containing UDF_COLLATEBR(' + '''' + fClienteFiltro.edCidade.Text +  ''')';
 //********************************************************************************************
- if edtUF.Text <> '' then
+ if (fClienteFiltro.edtUF.Text <> '') then
    if varCondicao <> '' then
-     varCondicao := varCondicao + ' and ende.UF = ' + '''' + edtUF.Text +  ''''
+     varCondicao := varCondicao + ' and ende.UF = ' + '''' + (fClienteFiltro.edtUF.Text) +  ''''
    else
-     varCondicao := 'where ende.UF = ' + '''' + edtUF.Text +  '''';
+     varCondicao := 'where ende.UF = ' + '''' + (fClienteFiltro.edtUF.Text) +  '''';
 //********************************************************************************************
- if edtDDD.Text <> '' then
+ if (fClienteFiltro.edtDDD.Text <> '') then
    if varCondicao <> '' then
-     varCondicao := varCondicao + ' and ende.DDD = ' + '''' + edtDDD.Text +  ''''
+     varCondicao := varCondicao + ' and ende.DDD = ' + '''' + fClienteFiltro.edtDDD.Text +  ''''
    else
-     varCondicao := 'where ende.DDD = ' + '''' + edtDDD.Text + '''';
+     varCondicao := 'where ende.DDD = ' + '''' + fClienteFiltro.edtDDD.Text + '''';
 //********************************************************************************************
  varCondicao := varSql + varCondicao;
 
@@ -407,10 +356,10 @@ begin
   if (RadioButton1.Checked = true) then
   begin
     VCLReport1.FileName := str_relatorio + 'rel_cliente.rep';
-    if (RadioButton5.Checked = true) then
+    if (fClienteFiltro.RadioButton5.Checked = true) then
     begin
-      VCLReport1.Report.Params.ParamByName('DATA1').Value := JvDatePickerEdit2.Date;
-      VCLReport1.Report.Params.ParamByName('DATA2').Value := JvDatePickerEdit3.Date;
+      VCLReport1.Report.Params.ParamByName('DATA1').Value := fClienteFiltro.JvDatePickerEdit2.Date;
+      VCLReport1.Report.Params.ParamByName('DATA2').Value := fClienteFiltro.JvDatePickerEdit3.Date;
     end;
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLReport1.Title := VCLReport1.FileName;
@@ -441,8 +390,8 @@ begin
    fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
    if fProcurar.ShowModal=mrOk then
     begin
-     codVen.Text := IntToStr(dm.scds_usuario_ProcCODusuario.AsInteger);
-     nomeVen.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
+     fClienteFiltro.codVen.Text := IntToStr(dm.scds_usuario_ProcCODusuario.AsInteger);
+     fClienteFiltro.nomeVen.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
     end;
   finally
     dm.scds_usuario_proc.Close;
@@ -506,28 +455,28 @@ begin
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   // Número de Etiquetas por Cliente
   VCLReport1.Report.Params.ParamByName('N_ETIQUETA').Value := 1;
-  IF (edCodigo.Text <> '') then
-    VCLReport1.Report.Params.ParamByName('CODCLI').Value := StrToInt(edCodigo.Text)
+  IF (fClienteFiltro.edCodigo.Text <> '') then
+    VCLReport1.Report.Params.ParamByName('CODCLI').Value := StrToInt(fClienteFiltro.edCodigo.Text)
   else
     VCLReport1.Report.Params.ParamByName('CODCLI').Value := 0;
 
-  IF (CodVen.Text <> '') then
-    VCLReport1.Report.Params.ParamByName('CODVEND').Value := StrToInt(CodVen.Text)
+  IF (fClienteFiltro.CodVen.Text <> '') then
+    VCLReport1.Report.Params.ParamByName('CODVEND').Value := StrToInt(fClienteFiltro.CodVen.Text)
   else
     VCLReport1.Report.Params.ParamByName('CODVEND').Value := 0;
 
-  IF (EdtUF.Text <> '') then
-    VCLReport1.Report.Params.ParamByName('UFCLI').Value := edtuf.Text
+  IF (fClienteFiltro.EdtUF.Text <> '') then
+    VCLReport1.Report.Params.ParamByName('UFCLI').Value := fClienteFiltro.edtuf.Text
   else
     VCLReport1.Report.Params.ParamByName('UFCLI').Value := 'TODOS';
 
-  IF (EdCidade.text <> '') then
-    VCLReport1.Report.Params.ParamByName('CID').Value := edCidade.Text
+  IF (fClienteFiltro.EdCidade.text <> '') then
+    VCLReport1.Report.Params.ParamByName('CID').Value := fClienteFiltro.edCidade.Text
   else
     VCLReport1.Report.Params.ParamByName('CID').Value := 'TODAS AS CIDADES CADASTRADAS NO SISTEMA';
 
-  IF (EdtDDD.Text <> '') then
-    VCLReport1.Report.Params.ParamByName('DDDCLI').Value := edtddd.Text
+  IF (fClienteFiltro.EdtDDD.Text <> '') then
+    VCLReport1.Report.Params.ParamByName('DDDCLI').Value := fClienteFiltro.edtddd.Text
   else
     VCLReport1.Report.Params.ParamByName('DDDCLI').Value := 'TODOS';
 
@@ -682,7 +631,7 @@ begin
    fProcurar.BtnProcurar.Click;
    fProcurar.EvDBFind1.DataField := 'CIDADE';
    if fProcurar.ShowModal=mrOk then
-     edCidade.Text := dm.Proc_end_cliCIDADE.AsString;
+     fClienteFiltro.edCidade.Text := dm.Proc_end_cliCIDADE.AsString;
    finally
     dm.Proc_end_cli.Close;
     fProcurar.Free;
@@ -692,22 +641,22 @@ end;
 
 procedure TfListaClientes.BuscapeloNome1Click(Sender: TObject);
 begin
-  BitBtn3.Click;
-  edNome.SetFocus;
+  //BitBtn3.Click;
+  fClienteFiltro.edNome.SetFocus;
 end;
 
 procedure TfListaClientes.BuscapeloCdigo1Click(Sender: TObject);
 begin
-  BitBtn3.Click;
-  edCodigo.SetFocus;
+  //BitBtn3.Click;
+  fClienteFiltro.edCodigo.SetFocus;
 end;
 
 procedure TfListaClientes.RadioButton5Click(Sender: TObject);
 begin
   //if (RadioButton5.Checked = true) then
   //begin
-  JvDatePickerEdit2.Enabled := RadioButton5.Checked;
-  JvDatePickerEdit3.Enabled := RadioButton5.Checked;
+  fClienteFiltro.JvDatePickerEdit2.Enabled := fClienteFiltro.RadioButton5.Checked;
+  fClienteFiltro.JvDatePickerEdit3.Enabled := fClienteFiltro.RadioButton5.Checked;
   //end
   //else begin
   //  RadioButton2.Checked := false;

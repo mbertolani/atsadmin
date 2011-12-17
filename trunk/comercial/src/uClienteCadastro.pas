@@ -1437,7 +1437,7 @@ begin
   begin
     codcli := cds_cliCODCLIENTE.AsInteger;
     nomecli := cds_cliNOMECLIENTE.AsString;
-    fListaClientes.edCodigo.Text := IntToStr(codcli);
+    //fListaClientes.edCodigo.Text := IntToStr(codcli);
     fListaClientes.BitBtn2.Click;
   end;
   if (varform = 'TERMINALDEVENDAS') then
@@ -1450,7 +1450,7 @@ begin
   end;
   if (varform = 'consulta') then
   begin
-    fListaClientes.edNome.SetFocus;
+    //fListaClientes.edNome.SetFocus;
   end;
   if ((varform <> 'consultaescola') and (varform <> 'consultapedagogico')) then
   if ((dm.moduloUsado <> 'ESCOLA') and (dm.moduloUsado <> 'SAUDE')) then
@@ -1458,26 +1458,26 @@ begin
   begin
     codcli := cds_cliCODCLIENTE.AsInteger;
     nomecli := cds_cliNOMECLIENTE.AsString;
-    fListaClientes.edCodigo.Text := IntToStr(codcli);
+    //fListaClientes.edCodigo.Text := IntToStr(codcli);
     fListaClientes.BitBtn2.Click;
   end;
   if ((varform <> 'consultaescola') and (varform <> 'consultapedagogico')) then
   if ((dm.moduloUsado <> 'ESCOLA') and (dm.moduloUsado <> 'SAUDE')) then
   if (dm.var_teste = 'consulta') then
   begin
-    fListaClientes.edNome.SetFocus;
+    //fListaClientes.edNome.SetFocus;
   end;
   if (var_testeSa = 'venda') then
   begin
     codcli := cds_cliCODCLIENTE.AsInteger;
     nomecli := cds_cliNOMECLIENTE.AsString;
-    fListaClientes.edCodigo.Text := IntToStr(codcli);
+    //fListaClientes.edCodigo.Text := IntToStr(codcli);
     fListaClientes.BitBtn2.Click;
   end;
 
   if (var_testeSa = 'consulta') then
   begin
-    fListaClientes.edNome.SetFocus;
+    //fListaClientes.edNome.SetFocus;
   end;
   if (cdsRegiao.Active) then
       cdsRegiao.Close;
