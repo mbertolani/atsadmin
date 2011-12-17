@@ -62,7 +62,7 @@ if (RadioButton4.Checked = True) then
     VCLReport_etiqueta.Filename := str_relatorio + 'clienteEtiquetaUnica.rep';
     VCLReport_etiqueta.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLReport_etiqueta.Report.Params.ParamByName('N_ETIQUETA').Value := 1;
-    IF (fListaClientes.edCodigo.Text <> '') then
+{    IF (fListaClientes.edCodigo.Text <> '') then
       VCLReport_etiqueta.Report.Params.ParamByName('CODCLI').Value := StrToInt(fListaClientes.edCodigo.Text)
     else
       VCLReport_etiqueta.Report.Params.ParamByName('CODCLI').Value := 0;
@@ -82,6 +82,7 @@ if (RadioButton4.Checked = True) then
       VCLReport_etiqueta.Report.Params.ParamByName('DDDCLI').Value := fListaClientes.edtDDD.Text
     else
       VCLReport_etiqueta.Report.Params.ParamByName('DDDCLI').Value := 'TODOS';
+ }
     VCLReport_etiqueta.Title := VCLReport_etiqueta.Filename;
     VCLReport_etiqueta.Execute;
  end;
@@ -93,7 +94,7 @@ if (RadioButton4.Checked = True) then
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     // Número de Etiquetas por Cliente
     VCLReport1.Report.Params.ParamByName('N_ETIQUETA').Value := 1;
-    IF (fListaClientes.edCodigo.Text <> '') then
+{    IF (fListaClientes.edCodigo.Text <> '') then
       VCLReport1.Report.Params.ParamByName('CODCLI').Value := StrToInt(fListaClientes.edCodigo.Text)
     else
       VCLReport1.Report.Params.ParamByName('CODCLI').Value := 0;
@@ -113,7 +114,7 @@ if (RadioButton4.Checked = True) then
       VCLReport1.Report.Params.ParamByName('DDDCLI').Value := fListaClientes.edtDDD.Text
     else
       VCLReport1.Report.Params.ParamByName('DDDCLI').Value := 'TODOS';
-    VCLReport1.title := VCLReport1.FileName;      
+ }   VCLReport1.title := VCLReport1.FileName;
     VCLReport1.Execute;
  end;
 end;
