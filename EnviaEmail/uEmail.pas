@@ -81,6 +81,7 @@ type
     ds1ENVIADO: TStringField;
     rg1: TRadioGroup;
     BitBtn5: TBitBtn;
+    sqlGrupo: TSQLQuery;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -227,6 +228,17 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  if (sqlGrupo.Active) then
+    sqlGrupo.Close;
+  sqlGrupo.Open;
+
+  cbbSerie.Items.Clear;
+  While not sqlGrupo.Eof do
+  begin
+    cbbSerie.Items.Add(sqlGrupo.Fields[0].asString);s
+    sqlGrupo.Next;
+  end;
+
   if (not cdsEnvia.Active) then
     cdsEnvia.Open;
 
@@ -316,12 +328,12 @@ var str,str1 : string;
 begin
   str := '';
   str1 := '';
-  if(cbBSerie.Text = '') then
+  {if(cbBSerie.Text = '') then
   begin
     MessageDlg('Escolha um Grupo', mtWarning, [mbOK], 0);
     cbBSerie.SetFocus;
     Exit;
-  end;
+  end;}
   Case rgSituacao.ItemIndex of
      0: str := 'S'; // Enviado Sim
      1: str := 'N'; // Enviado Não
@@ -389,7 +401,6 @@ begin
     cbBSerie.SetFocus;
     Exit;
   end;
-
 
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;

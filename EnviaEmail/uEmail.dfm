@@ -223,6 +223,7 @@ object Form1: TForm1
       item
         Expanded = False
         FieldName = 'GRUPO'
+        Title.Caption = 'CLASSIFICA'#199#195'O'
         Visible = True
       end>
   end
@@ -471,8 +472,8 @@ object Form1: TForm1
   end
   object cbbSerie: TComboBox
     Left = 707
-    Top = 209
-    Width = 148
+    Top = 207
+    Width = 270
     Height = 21
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -501,8 +502,8 @@ object Form1: TForm1
       'Teste')
   end
   object rgSituacao: TRadioGroup
-    Left = 860
-    Top = 199
+    Left = 868
+    Top = 231
     Width = 112
     Height = 33
     Caption = 'Enviado'
@@ -534,7 +535,7 @@ object Form1: TForm1
     Font.Style = []
     ItemIndex = 1
     Items.Strings = (
-      'Grupo'
+      'Class.'
       'Todos')
     ParentFont = False
     TabOrder = 9
@@ -718,5 +719,15 @@ object Form1: TForm1
     DataSet = sqldtst1
     Left = 488
     Top = 304
+  end
+  object sqlGrupo: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT DISTINCT GRUPO FROM EMAIL_ENVIAR'
+      '  ORDER BY GRUPO')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 8
+    Top = 184
   end
 end
