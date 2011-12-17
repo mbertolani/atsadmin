@@ -255,7 +255,10 @@ uses
   uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra},
   ACBrBancoBrasil in 'ACBrBancoBrasil.pas',
   ucrdescontado in 'ucrdescontado.pas' {fcrdescontado},
-  uImport in 'uImport.pas' {fImport};
+  uClienteFiltro in 'uClienteFiltro.pas' {fClienteFiltro},
+  uReceberCls in 'uReceberCls.pas';
+
+//uImport in 'uImport.pas' {fImport};
 
 
 //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
@@ -336,6 +339,8 @@ begin
   Application.CreateForm(TfCompraSolicProc, fCompraSolicProc);
   Application.CreateForm(TfProdutoProc, fProdutoProc);
   Application.CreateForm(TfProcura_prod, fProcura_prod);
+  Application.CreateForm(TfClienteFiltro, fClienteFiltro);
+
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     Application.CreateForm(TfOs, fOs);
