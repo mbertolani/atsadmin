@@ -161,9 +161,30 @@ begin
 
 end;
 
-function TReceberCls.baixaTitulo(Controle, Campo, Tipo: String;
-  codNat: Integer): Integer;
+function TReceberCls.baixaTitulo(Status, Forma: String; VRec, VJuros, VMulta, VOCred,
+VODeb, VDesc, VPerda: Double; Usuario, codCli, rCaixa: Integer; rdtBaixa, rdtRec,
+rdtConsolida: TDateTime; rnDoc: String): Boolean;
+  strRec : String;
+  codRecB: Integer;
 begin
+  strRec := 'UPDATE RECEBIMENTO SET ' +
+            '  STATUS           = ' + QuotedStr(Status) +
+            ', VALORRECEBIDO    = ' + FloatToStr(VRec - :VDesc - :VPerda) +
+            ', VALOR_RESTO      = ' + FloatToStr(VRec) +
+            ', FORMARECEBIMENTO = ' + QuotedStr(Forma) +
+            ', DATABAIXA        = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtBaixa)) +
+            ', DATARECEBIMENTO  = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtRec)) +
+            ', DATACONSOLIDA    = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtConsolida)) +
+            ', N_DOCUMENTO      = ' + QuotedStr(rnDoc) +
+            ', CAIXA            = ' + IntToStr(rCaixa);
+            ', FUNRURAL         = ' + FloatToStr(vMulta);
+            ', JUROS            = ' + FloatToStr(vJuros);
+            ', DESCONTO         = ' + FloatToStr(vDesc);
+            ', PERDA            = ' + FloatToStr(vPerda);
+            ', outro_credito    = ' + FloatToStr(vOCred);
+            ', outro_debito     = ' + FloatToStr(vODeb);
+            ' WHERE CODRECEBIMENTO = ' + codRecB;
+
 
 end;
 
@@ -201,17 +222,11 @@ end;
 
 function TReceberCls.geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
 var strG, strR: String;
-  sqlBuscaR : TSqlQuery;
+    sqlBuscaR : TSqlQuery;
+            i : integer;
+          rec : Boolean;
+      VlrParc : Double;
 begin
-  strG := ' INSERT INTO RECEBIMENTO ' +
-          ' (CODRECEBIMENTO, TITULO,          EMISSAO,         CODCLIENTE,      ' +
-          ' DATAVENCIMENTO,  STATUS,          VIA,             FORMARECEBIMENTO,' +
-          ' CODVENDA ,       CODALMOXARIFADO, CODVENDEDOR,     CODUSUARIO,      ' +
-          ' DATASISTEMA,     VALOR_PRIM_VIA,  VALOR_RESTO,     VALORTITULO,     ' +
-          ' VALORRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
-          ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
-          ' OUTRO_CREDITO,   CAIXA,           DATARECEBIMENTO, DATACONSOLIDA,   ' +
-          ' SITUACAO, CODORIGEM)';
 
   // Se codVendaR > 0, então é uma Venda então busca os dados da Venda;
   if (CodVendaR > 0) then
@@ -231,58 +246,111 @@ begin
       sqlBuscaR.Open;
       if (not sqlBuscaR.isEmpty) then
       begin
+        Self.CodVenda      := sqlBuscaR.FieldByName('CODVENDA').AsInteger;
+        Self.CodCliente    := sqlBuscaR.FieldByName('CODCLIENTE').AsInteger;
+        Self.CodVendedor   := sqlBuscaR.FieldByName('CODVENDEDOR').AsInteger;
+        Self.CodUsuario    := sqlBuscaR.FieldByName('CODUSUARIO').AsInteger;
+        Self.NParcela      := sqlBuscaR.FieldByName('N_PARCELA').AsInteger;
+        Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat;
+        Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
+        Self.DtEmissao     := sqlBuscaR.FieldByName('DATAVENDA').AsDateTime;
+        Self.DtVcto        := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
+        Self.Prazo         := sqlBuscaR.FieldByName('PRAZO').AsString;
+        Self.CodOrigem     := sqlBuscaR.FieldByName('CODORIGEM').AsInteger;
+        Self.CodCCusto     := sqlBuscaR.FieldByName('CODCCUSTO').AsInteger;
+        Self.Titulo        := Trim(IntToStr(sqlBuscaR.FieldByName('NOTAFISCAL').AsInteger) +
+          '-' + sqlBuscaR.FieldByName('SERIE').AsString);
       end;
     Finally
       sqlBuscaR.Free;
     end;
   end;
-  {
-  // Inserir Venda
-  _codVenda := CodVendaR;
-  if (Self.CodVenda = 0) then
+
+  if ((Self.NParcela = 1) and (Self.Valor < Self.ValorRec)) then
   begin
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENVENDA, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    _codVenda := dm.c_6_genid.Fields[0].AsInteger;
-    dm.c_6_genid.Close;
+    MessageDlg('Parcela não pode ser 1, se o valor de Entrada e menor que o Valor Total.', mtWarning, [mbOK], 0);
+    exit;
   end;
-  DecimalSeparator := '.';
-  str := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA, DATAVENCIMENTO, ';
-  str := str + 'BANCO, CODVENDEDOR, STATUS, CODUSUARIO, DATASISTEMA, VALOR, ';
-  str := str + 'NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA, FORMARECEBIMENTO, ';
-  str := str + 'N_DOCUMENTO, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, ';
-  str := str + 'OBS, VALOR_ICMS, VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, ';
-  str := str + 'VALOR_IPI, PRAZO, PORCENTAGENDESC) VALUES (';
-  str := str + IntToStr(Self.CodVenda)    + ', ' + IntToStr(Self.CodMov)       + ', ';
-  str := str + IntToStr(Self.CodCliente)  + ', ';
-  str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVenda))          + ', ';
-  str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVcto))           + ', ';
-  str := str + '0, ';  // Banco
-  str := str + IntToStr(Self.CodVendedor) + ' ,' + IntToStr(Self.Status)       + ', ';
-  str := str + IntToStr(Self.CodUsuario)  + ' ,';
-  str := str + QuotedStr(FormatDateTime('mm/dd/yyyy', Today))                  + ', ';
-  str := str + FloatToStr(Self.Valor)     + ', ';
-  str := str + IntToStr(Self.NotaFiscal)  + ', ' + QuotedStr(Self.Serie)       + ', ';
-  str := str + FloatToStr(Self.Desconto)  + ', ';
-  str := str + IntToStr(Self.CodCCusto)   + ', ' + IntToStr(Self.NParcela)     + ', ';
-  str := str + QuotedStr(Self.FormaRec)   + ', ' + QuotedStr(Self.NDoc)        + ', ';
-  str := str + IntToStr(Self.Caixa)       + ', ' + FloatToStr(Self.MultaJuros) + ', ';
-  str := str + FloatToStr(Self.Apagar)    + ', ' + FloatToStr(Self.ValorPagar) + ', ';
-  str := str + FloatToStr(Self.Entrada)   + ', ';
-  str := str + QuotedStr(Self.Obs)        + ', ' + FloatToStr(Self.Icms)       + ', ';
-  str := str + FloatToStr(Self.Frete)     + ', ' + FloatToStr(Self.Seguro)     + ', ';
-  str := str + FloatToStr(Self.OutrosVlr) + ', ' + FloatToStr(Self.Ipi)        + ', ';
-  str := str + QuotedStr(Self.Prazo)      + ', ' + FloatToStr(Self.PercentDesc)+ ')';
 
-  DecimalSeparator := '.';
-
-  if (executaSql(str)) then
-    Result := Self.CodVenda
+  Self.Status   := '5-';
+  Self.FormaRec := '0';
+  if (Self.ValorRec > 0) then
+    VlrParc := (Self.Valor - Self.ValorRec) / (Self.NParcela-1)
   else
-    Result := 0;
-   }
+    VlrParc := Self.Valor / Self.NParcela;
+  DecimalSeparator := '.';
+
+  for i := 1 to Self.NParcela do
+  begin
+    if (CodRecR = 0) then
+    begin
+      if dm.c_6_genid.Active then
+        dm.c_6_genid.Close;
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(COD_AREC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.Open;
+      Self.CodRec := dm.c_6_genid.Fields[0].AsInteger;
+      dm.c_6_genid.Close;
+    end;
+    strG := ' INSERT INTO RECEBIMENTO ' +
+          ' (CODRECEBIMENTO, TITULO,          EMISSAO,         CODCLIENTE,      ' +
+          ' DATAVENCIMENTO,  STATUS,          VIA,             FORMARECEBIMENTO,' +
+          ' CODVENDA ,       CODALMOXARIFADO, CODVENDEDOR,     CODUSUARIO,      ' +
+          ' DATASISTEMA,     VALOR_PRIM_VIA,  VALOR_RESTO,     VALORTITULO,     ' +
+          ' VALORRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
+          ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
+          ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM        ' +
+          ') VALUES(';
+
+
+    strG := strG + InttoStr(Self.CodRec) + ', ';
+    strG := strG + QuotedStr(Self.Titulo) + ', ';
+    strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.DtEmissao)) + ', ';
+    strG := strG + IntToStr(Self.CodCliente) + ', ';
+    strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.DtVcto)) + ', ';
+    strG := strG + QuotedStr(Self.Status) + ', ';
+    strG := strG + IntToStr(i) + ', ';
+    strG := strG + QuotedStr(Self.FormaRec) + ', ';
+    strG := strG + InttoStr(Self.CodVenda) + ', ';
+    strG := strG + InttoStr(Self.CodCCusto) + ', ';
+    strG := strG + InttoStr(Self.CodVendedor) + ', ';
+    strG := strG + InttoStr(Self.CodUsuario) + ', ';
+    strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy hh:MM', Now)) + ', ';  // DataSistema
+    if (i = 1) then
+      strG := strG + FloattoStr(Self.Valor) + ', ' // Valor_prim_via
+    else
+      strG := strG + '0, '; // Valor_prim_via
+
+    if (i = 1) then
+    begin
+      if (Self.ValorRec > 0) then
+      begin
+        strG := strG + FloattoStr(Self.ValorRec) + ', '; // Valor_Resto
+      end
+      else begin
+        strG := strG + FloattoStr(VlrParc) + ', '; // Valor_Resto
+      end;
+    end
+    else
+      strG := strG + FloattoStr(VlrParc) + ', '; // Valor_Resto
+    strG := strG + FloattoStr(Self.Valor) + ', ';  // Valortitulo
+    strG := strG + '0, ';  // ValorRecebido
+    strG := strG + IntToStr(Self.NParcela) + ', ';
+    strG := strG + '0, ';  // Desconto
+    strG := strG + '0, ';  // Juros
+    strG := strG + '0, ';  // FUNRURAL
+    strG := strG + '0, ';  // Perda
+    strG := strG + '0, ';  // Troca
+    strG := strG + QuotedStr('') + ', '; // N.Doc.
+    strG := strG + '0, ';  // Outro_Credito
+    strG := strG + IntToStr(1) + ', '; // Caixa
+    strG := strG + IntToStr(1) + ', '; // Situacao
+    strG := strG + IntToStr(1) + ')'; // CodOrigem
+    Rec  := executaSql(strG);
+  end;
+  DecimalSeparator := ',';
+  Result := 0;
+  if (Rec) then
+    Result := Self.CodRec;
 end;
 
 function TReceberCls.getCaixa: Integer;
