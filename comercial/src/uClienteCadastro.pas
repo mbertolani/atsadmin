@@ -1438,7 +1438,7 @@ begin
     codcli := cds_cliCODCLIENTE.AsInteger;
     nomecli := cds_cliNOMECLIENTE.AsString;
     //fListaClientes.edCodigo.Text := IntToStr(codcli);
-    fListaClientes.BitBtn2.Click;
+    //fListaClientes.BitBtn2.Click;
   end;
   if (varform = 'TERMINALDEVENDAS') then
   begin
@@ -1459,7 +1459,7 @@ begin
     codcli := cds_cliCODCLIENTE.AsInteger;
     nomecli := cds_cliNOMECLIENTE.AsString;
     //fListaClientes.edCodigo.Text := IntToStr(codcli);
-    fListaClientes.BitBtn2.Click;
+    //fListaClientes.BitBtn2.Click;
   end;
   if ((varform <> 'consultaescola') and (varform <> 'consultapedagogico')) then
   if ((dm.moduloUsado <> 'ESCOLA') and (dm.moduloUsado <> 'SAUDE')) then
@@ -1472,7 +1472,7 @@ begin
     codcli := cds_cliCODCLIENTE.AsInteger;
     nomecli := cds_cliNOMECLIENTE.AsString;
     //fListaClientes.edCodigo.Text := IntToStr(codcli);
-    fListaClientes.BitBtn2.Click;
+    //fListaClientes.BitBtn2.Click;
   end;
 
   if (var_testeSa = 'consulta') then
