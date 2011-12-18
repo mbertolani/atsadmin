@@ -137,11 +137,11 @@ type
     EvDBFind1: TEvDBFind;
     EvDBFind2: TEvDBFind;
     EvDBFind3: TEvDBFind;
-    BitBtn2: TButton;
+    btnFiltroForm: TBitBtn;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    procedure BitBtn2Click(Sender: TObject);
+    procedure btnFiltroClick(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
@@ -167,6 +167,7 @@ type
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure JvDBGrid1TitleClick(Column: TColumn);
+    procedure btnFiltroFormClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -214,7 +215,7 @@ begin
    end;
 end;
 
-procedure TfListaClientes.BitBtn2Click(Sender: TObject);
+procedure TfListaClientes.btnFiltroClick(Sender: TObject);
 Var
  varSql: String;
 begin
@@ -290,7 +291,7 @@ begin
   //********************************************************************************************
 
 
-  if (fClienteFiltro.RadioButton5.Checked = true) then
+  if (fClienteFiltro.JvDatePickerEdit2.Checked = true) then
   begin
     if varCondicao <> '' then
       varCondicao := varCondicao + ' and cli.DATACADASTRO between '
@@ -352,7 +353,7 @@ procedure TfListaClientes.BitBtn4Click(Sender: TObject);
 begin
   if not dm.cds_empresa.Active then
     dm.cds_empresa.Open;
-  VCLReport1.FileName := str_relatorio + 'rel_cliente.rep';  
+  VCLReport1.FileName := str_relatorio + 'rel_cliente.rep';
   if (RadioButton1.Checked = true) then
   begin
     VCLReport1.FileName := str_relatorio + 'rel_cliente.rep';
@@ -767,6 +768,12 @@ end;
 procedure TfListaClientes.JvDBGrid1TitleClick(Column: TColumn);
 begin
     cds.IndexFieldNames := Column.FieldName;
+end;
+
+procedure TfListaClientes.btnFiltroFormClick(Sender: TObject);
+begin
+  fClienteFiltro.ShowModal;
+  btnFiltroClick();
 end;
 
 end.
