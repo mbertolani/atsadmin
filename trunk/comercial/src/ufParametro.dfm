@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
-  Left = 235
-  Top = 97
+  Left = 237
+  Top = 98
   Width = 814
   Height = 575
   OldCreateOrder = True
@@ -2623,16 +2623,30 @@ inherited fParametro: TfParametro
       object Label51: TLabel
         Left = 369
         Top = 86
-        Width = 91
+        Width = 85
         Height = 13
-        Caption = 'Porta de Impress'#227'o'
+        Caption = 'Porta Imp. Setor 1'
       end
       object Label56: TLabel
-        Left = 481
+        Left = 691
         Top = 86
         Width = 61
         Height = 13
         Caption = 'S'#233'rie Padr'#227'o'
+      end
+      object Label58: TLabel
+        Left = 477
+        Top = 86
+        Width = 85
+        Height = 13
+        Caption = 'Porta Imp. Setor 2'
+      end
+      object Label59: TLabel
+        Left = 584
+        Top = 86
+        Width = 85
+        Height = 13
+        Caption = 'Porta Imp. Setor 3'
       end
       object RadioGroup3: TRadioGroup
         Left = 8
@@ -2835,6 +2849,13 @@ inherited fParametro: TfParametro
         Height = 97
         Caption = 'Impressora Bematech n'#227'o Fiscal'
         TabOrder = 12
+        object Label57: TLabel
+          Left = 214
+          Top = 51
+          Width = 104
+          Height = 13
+          Caption = 'Modelo da Impressora'
+        end
         object CheckBox7: TCheckBox
           Left = 8
           Top = 71
@@ -2846,8 +2867,8 @@ inherited fParametro: TfParametro
           OnClick = CheckBox7Click
         end
         object CheckBox8: TCheckBox
-          Left = 8
-          Top = 26
+          Left = 7
+          Top = 24
           Width = 180
           Height = 17
           Alignment = taLeftJustify
@@ -2865,11 +2886,21 @@ inherited fParametro: TfParametro
           TabOrder = 2
           OnClick = CheckBox9Click
         end
+        object cbModelo: TEdit
+          Left = 215
+          Top = 68
+          Width = 163
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 3
+          OnChange = cbModeloChange
+        end
       end
       object EdtSerie: TEdit
-        Left = 480
+        Left = 690
         Top = 104
-        Width = 105
+        Width = 71
         Height = 21
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -2901,6 +2932,26 @@ inherited fParametro: TfParametro
           'N'#227'o')
         TabOrder = 15
         OnClick = RadioGroup7Click
+      end
+      object edtSetor2: TEdit
+        Left = 476
+        Top = 104
+        Width = 105
+        Height = 21
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        TabOrder = 16
+        OnChange = edtSetor2Change
+      end
+      object edtSetor3: TEdit
+        Left = 583
+        Top = 104
+        Width = 105
+        Height = 21
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        TabOrder = 17
+        OnChange = edtSetor3Change
       end
     end
   end
