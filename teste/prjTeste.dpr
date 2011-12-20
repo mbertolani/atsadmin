@@ -19,7 +19,9 @@ uses
   uVendaCls in '..\comercial\src\uVendaCls.pas',
   uOsClasse in '..\comercial\src\uOsClasse.pas',
   uOsDetalheClasse in '..\comercial\src\uOsDetalheClasse.pas',
-  uOsTeste in 'uOsTeste.pas';
+  uOsTeste in 'uOsTeste.pas',
+  uReceberCls in '..\comercial\src\uReceberCls.pas',
+  uReceberTeste in 'uReceberTeste.pas';
 
 {$R *.res}
 
