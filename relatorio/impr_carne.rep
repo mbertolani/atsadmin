@@ -2,7 +2,6 @@ object TRpReport
   GridWidth = 50
   GridHeight = 50
   PageOrientation = rpOrientationPortrait
-  Pagesize = rpPageSizeUser
   PagesizeQt = 23
   PageHeight = 1750
   PageWidth = 1231
@@ -73,7 +72,7 @@ object TRpReport
     end
     item
       Alias = 'IMPCAB'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
         'SELECT EMPRESA || '#39' - '#39' ||RAZAO as EMP, BAIRRO,ENDERECO, CIDADE ' +
         '|| '#39' - '#39' || UF || '#39' - '#39' || CEP as local, '#13#10#39'FONE: (19)'#39' || FONE ' +
@@ -82,7 +81,7 @@ object TRpReport
     end
     item
       Alias = 'CARNE'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
         'SELECT TITULO , '#13#10'             DATAVENCIMENTO, '#13#10'             VA' +
         'LOR_RESTO, '#13#10'             VALORRECEBIDO, '#13#10'             STATUS, ' +
@@ -117,7 +116,7 @@ object TRpReport
     item
       Name = 'PVENDA'
       AllowNulls = False
-      Value = '56'
+      Value = '76'
       Datasets.Strings = (
         'IMPR')
       Description = 'C'#243'digo da Venda'
@@ -259,7 +258,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'IMPR.VALORTOTAL'
+    Expression = 'IIF(CARNE.STATUS = '#39'7-'#39', CARNE.VALORRECEBIDO, CARNE.VALOR_RESTO)'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -319,7 +318,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'IMPR.VALORTOTAL'
+    Expression = 'IIF(CARNE.STATUS = '#39'7-'#39', CARNE.VALORRECEBIDO, CARNE.VALOR_RESTO)'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
