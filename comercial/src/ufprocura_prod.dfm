@@ -252,7 +252,6 @@ object fProcura_prod: TfProcura_prod
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ItemHeight = 16
-      ItemIndex = 0
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 9
