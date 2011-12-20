@@ -1,8 +1,8 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 740
-  Top = 442
-  Height = 396
+  Left = 593
+  Top = 227
+  Height = 455
   Width = 449
   object s_buscaMov: TSQLDataSet
     CommandText = 
@@ -1240,7 +1240,7 @@ object DM_MOV: TDM_MOV
       'LIENTE = :id_cli) or (:id_cli = 9999999))'#13#10'   and ((m.CODNATUREZ' +
       'A = :id_nat) or (:id_nat = 9999999))  '#13#10'   and ((m.STATUS = :st)' +
       ' or (:st = 999999))'#13#10'   and ((m.CODMOVIMENTO = :idmov) or (:idmo' +
-      'v = 9999999))  '
+      'v = 9999999))  '#13#10'   and (m.TIPO_PEDIDO = '#39'C'#39')  '
     MaxBlobSize = -1
     Params = <
       item
@@ -1714,7 +1714,7 @@ object DM_MOV: TDM_MOV
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 40
-    Top = 216
+    Top = 280
     object s_vendaCODVENDA: TIntegerField
       FieldName = 'CODVENDA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1892,7 +1892,7 @@ object DM_MOV: TDM_MOV
     DataSet = s_venda
     UpdateMode = upWhereKeyOnly
     Left = 112
-    Top = 216
+    Top = 280
   end
   object c_venda: TClientDataSet
     Aggregates = <>
@@ -1904,7 +1904,7 @@ object DM_MOV: TDM_MOV
       end>
     ProviderName = 'p_venda'
     Left = 176
-    Top = 216
+    Top = 280
     object c_vendaCODVENDA: TIntegerField
       FieldName = 'CODVENDA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2081,7 +2081,7 @@ object DM_MOV: TDM_MOV
   object d_venda: TDataSource
     DataSet = c_venda
     Left = 248
-    Top = 216
+    Top = 280
   end
   object s_forma: TSQLDataSet
     CommandText = 
@@ -2105,8 +2105,8 @@ object DM_MOV: TDM_MOV
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 48
-    Top = 281
+    Left = 240
+    Top = 321
     object s_formaCOD_VENDA: TIntegerField
       FieldName = 'COD_VENDA'
       ProviderFlags = [pfInUpdate]
@@ -2149,8 +2149,8 @@ object DM_MOV: TDM_MOV
   object p_forma: TDataSetProvider
     DataSet = s_forma
     UpdateMode = upWhereKeyOnly
-    Left = 88
-    Top = 281
+    Left = 280
+    Top = 321
   end
   object c_forma: TClientDataSet
     Aggregates = <>
@@ -2162,8 +2162,8 @@ object DM_MOV: TDM_MOV
         ParamType = ptInput
       end>
     ProviderName = 'p_forma'
-    Left = 128
-    Top = 280
+    Left = 320
+    Top = 320
     object c_formaCOD_VENDA: TIntegerField
       FieldName = 'COD_VENDA'
       ProviderFlags = [pfInUpdate]
@@ -2210,5 +2210,470 @@ object DM_MOV: TDM_MOV
       DisplayFormat = ',#0.00'
       Expression = 'SUM(VALOR_PAGO)'
     end
+  end
+  object s_delivery: TSQLDataSet
+    CommandText = 
+      'select m.*'#13#10'          ,c.NOMECLIENTE  '#13#10'from MOVIMENTO m '#13#10'inner' +
+      ' join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE '#13#10'where ((m.CODC' +
+      'LIENTE = :id_cli) or (:id_cli = 9999999))'#13#10'   and ((m.CODNATUREZ' +
+      'A = :id_nat) or (:id_nat = 9999999))  '#13#10'   and ((m.STATUS = :st)' +
+      ' or (:st = 999999))'#13#10'   and ((m.CODMOVIMENTO = :idmov) or (:idmo' +
+      'v = 9999999))  '#13#10'   and (m.TIPO_PEDIDO = '#39'D'#39')  '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id_cli'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'id_cli'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'id_nat'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'id_nat'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'st'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'st'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'idmov'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'idmov'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 40
+    Top = 208
+    object s_deliveryCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object s_deliveryDATAMOVIMENTO: TDateField
+      FieldName = 'DATAMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object s_deliveryCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object s_deliveryCODNATUREZA: TSmallintField
+      FieldName = 'CODNATUREZA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object s_deliverySTATUS: TSmallintField
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object s_deliveryCODUSUARIO: TSmallintField
+      FieldName = 'CODUSUARIO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object s_deliveryCODVENDEDOR: TSmallintField
+      FieldName = 'CODVENDEDOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryDATA_SISTEMA: TSQLTimeStampField
+      FieldName = 'DATA_SISTEMA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCOD_VEICULO: TIntegerField
+      FieldName = 'COD_VEICULO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCONTROLE: TStringField
+      FieldName = 'CONTROLE'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object s_deliveryOBS: TStringField
+      FieldName = 'OBS'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object s_deliveryTOTALMOVIMENTO: TFloatField
+      FieldName = 'TOTALMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCODMOVRATEIO: TIntegerField
+      FieldName = 'CODMOVRATEIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryVALORRATEIO: TFloatField
+      FieldName = 'VALORRATEIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryRATEIO: TFloatField
+      FieldName = 'RATEIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCONFERIDO: TStringField
+      FieldName = 'CONFERIDO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object s_deliveryNFCOBRANCA: TIntegerField
+      FieldName = 'NFCOBRANCA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryORDEMATEND: TIntegerField
+      FieldName = 'ORDEMATEND'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryNFREVENDA: TIntegerField
+      FieldName = 'NFREVENDA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryKM: TStringField
+      FieldName = 'KM'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object s_deliveryNFE: TStringField
+      FieldName = 'NFE'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object s_deliveryPRAZO_ENT: TIntegerField
+      FieldName = 'PRAZO_ENT'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryVAL_PROP: TDateField
+      FieldName = 'VAL_PROP'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryFORMA_PAG: TStringField
+      FieldName = 'FORMA_PAG'
+      ProviderFlags = [pfInUpdate]
+      Size = 40
+    end
+    object s_deliveryVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryDATA_ENTREGA: TDateField
+      FieldName = 'DATA_ENTREGA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryPRAZO_PAGAMENTO: TStringField
+      FieldName = 'PRAZO_PAGAMENTO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object s_deliveryUSER_APROVA: TStringField
+      FieldName = 'USER_APROVA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryTPFRETE: TStringField
+      FieldName = 'TPFRETE'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object s_deliveryCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryQTD: TIntegerField
+      FieldName = 'QTD'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryCODCOTACAO: TIntegerField
+      FieldName = 'CODCOTACAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_deliveryUSUARIOLOGADO: TStringField
+      FieldName = 'USUARIOLOGADO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object s_deliveryTIPO_PEDIDO: TStringField
+      FieldName = 'TIPO_PEDIDO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object s_deliveryNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ProviderFlags = []
+      Required = True
+      Size = 50
+    end
+  end
+  object p_delivery: TDataSetProvider
+    DataSet = s_delivery
+    Options = [poAllowCommandText]
+    UpdateMode = upWhereKeyOnly
+    Left = 108
+    Top = 208
+  end
+  object c_Delivery: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id_cli'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'id_cli'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'id_nat'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'id_nat'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'st'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'st'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'idmov'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'idmov'
+        ParamType = ptInput
+      end>
+    ProviderName = 'p_delivery'
+    Left = 177
+    Top = 208
+    object c_DeliveryCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object c_DeliveryDATAMOVIMENTO: TDateField
+      FieldName = 'DATAMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object c_DeliveryCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object c_DeliveryCODNATUREZA: TSmallintField
+      FieldName = 'CODNATUREZA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object c_DeliverySTATUS: TSmallintField
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object c_DeliveryCODUSUARIO: TSmallintField
+      FieldName = 'CODUSUARIO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object c_DeliveryCODVENDEDOR: TSmallintField
+      FieldName = 'CODVENDEDOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryDATA_SISTEMA: TSQLTimeStampField
+      FieldName = 'DATA_SISTEMA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCOD_VEICULO: TIntegerField
+      FieldName = 'COD_VEICULO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCONTROLE: TStringField
+      FieldName = 'CONTROLE'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object c_DeliveryOBS: TStringField
+      FieldName = 'OBS'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object c_DeliveryTOTALMOVIMENTO: TFloatField
+      FieldName = 'TOTALMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCODMOVRATEIO: TIntegerField
+      FieldName = 'CODMOVRATEIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryVALORRATEIO: TFloatField
+      FieldName = 'VALORRATEIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryRATEIO: TFloatField
+      FieldName = 'RATEIO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCONFERIDO: TStringField
+      FieldName = 'CONFERIDO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object c_DeliveryNFCOBRANCA: TIntegerField
+      FieldName = 'NFCOBRANCA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryORDEMATEND: TIntegerField
+      FieldName = 'ORDEMATEND'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryNFREVENDA: TIntegerField
+      FieldName = 'NFREVENDA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryKM: TStringField
+      FieldName = 'KM'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object c_DeliveryNFE: TStringField
+      FieldName = 'NFE'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object c_DeliveryPRAZO_ENT: TIntegerField
+      FieldName = 'PRAZO_ENT'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryVAL_PROP: TDateField
+      FieldName = 'VAL_PROP'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryFORMA_PAG: TStringField
+      FieldName = 'FORMA_PAG'
+      ProviderFlags = [pfInUpdate]
+      Size = 40
+    end
+    object c_DeliveryVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryDATA_ENTREGA: TDateField
+      FieldName = 'DATA_ENTREGA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryPRAZO_PAGAMENTO: TStringField
+      FieldName = 'PRAZO_PAGAMENTO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object c_DeliveryUSER_APROVA: TStringField
+      FieldName = 'USER_APROVA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryTPFRETE: TStringField
+      FieldName = 'TPFRETE'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object c_DeliveryCODPEDIDO: TIntegerField
+      FieldName = 'CODPEDIDO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryQTD: TIntegerField
+      FieldName = 'QTD'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryCODCOTACAO: TIntegerField
+      FieldName = 'CODCOTACAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_DeliveryUSUARIOLOGADO: TStringField
+      FieldName = 'USUARIOLOGADO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object c_DeliveryTIPO_PEDIDO: TStringField
+      FieldName = 'TIPO_PEDIDO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object c_DeliveryNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ProviderFlags = []
+      Required = True
+      Size = 50
+    end
+  end
+  object d_delivery: TDataSource
+    DataSet = c_Delivery
+    Left = 245
+    Top = 208
   end
 end
