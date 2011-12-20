@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 249
-  Top = 129
+  Left = 262
+  Top = 117
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -36,7 +36,7 @@ object F_Terminal: TF_Terminal
       Left = 1
       Top = 40
       Width = 406
-      Height = 387
+      Height = 338
       Align = alClient
       BorderStyle = bsNone
       Color = clInfoBk
@@ -140,108 +140,6 @@ object F_Terminal: TF_Terminal
           Visible = True
         end>
     end
-    object Panel1: TPanel
-      Left = 1
-      Top = 427
-      Width = 406
-      Height = 62
-      Align = alBottom
-      BevelInner = bvRaised
-      BevelOuter = bvLowered
-      Color = clMoneyGreen
-      TabOrder = 1
-      object JvLabel3: TJvLabel
-        Left = 137
-        Top = 18
-        Width = 100
-        Height = 23
-        Caption = 'Total ------>'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -19
-        Font.Name = 'Cooper Black'
-        Font.Style = []
-        ParentFont = False
-        ShadowColor = clWindow
-        ShadowSize = 2
-        Transparent = True
-        HintColor = clBlack
-        HotTrackFont.Charset = ANSI_CHARSET
-        HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -19
-        HotTrackFont.Name = 'Cooper Black'
-        HotTrackFont.Style = []
-      end
-      object LabelComissao: TJvLabel
-        Left = 17
-        Top = 18
-        Width = 19
-        Height = 23
-        Caption = '%'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -19
-        Font.Name = 'Cooper Black'
-        Font.Style = []
-        ParentFont = False
-        ShadowColor = clWindow
-        ShadowSize = 2
-        Transparent = True
-        Visible = False
-        HintColor = clBlack
-        HotTrackFont.Charset = ANSI_CHARSET
-        HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -19
-        HotTrackFont.Name = 'Cooper Black'
-        HotTrackFont.Style = []
-      end
-      object JvTotal: TJvValidateEdit
-        Left = 246
-        Top = 5
-        Width = 152
-        Height = 46
-        Flat = False
-        ParentFlat = False
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
-        DisplayFormat = dfFloat
-        DecimalPlaces = 2
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clRed
-        Font.Height = -37
-        Font.Name = 'Times New Roman'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 0
-      end
-      object JvComissao: TJvValidateEdit
-        Left = 45
-        Top = 5
-        Width = 55
-        Height = 45
-        Flat = False
-        ParentFlat = False
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
-        DisplayFormat = dfBinary
-        DecimalPlaces = 2
-        EditText = '10'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clRed
-        Font.Height = -37
-        Font.Name = 'Times New Roman'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 1
-        Visible = False
-      end
-    end
     object MMJPanel8: TMMJPanel
       Left = 1
       Top = 1
@@ -254,7 +152,7 @@ object F_Terminal: TF_Terminal
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 1
       Visible = False
       Silhuette.Shape.ShapeText = 'Shape text'
       Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
@@ -263,7 +161,7 @@ object F_Terminal: TF_Terminal
       Background.EndColor = clSkyBlue
       Background.FillType = GradUpDown
       object JvLabel1: TJvLabel
-        Left = 55
+        Left = 5
         Top = 10
         Width = 81
         Height = 23
@@ -284,10 +182,33 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
+      object JvLabel14: TJvLabel
+        Left = 293
+        Top = 8
+        Width = 61
+        Height = 23
+        Caption = 'Qtde :'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Cooper Black'
+        Font.Style = []
+        ParentFont = False
+        ShadowColor = clWindow
+        ShadowSize = 2
+        Transparent = True
+        Visible = False
+        HintColor = clBlack
+        HotTrackFont.Charset = ANSI_CHARSET
+        HotTrackFont.Color = clWindowText
+        HotTrackFont.Height = -19
+        HotTrackFont.Name = 'Cooper Black'
+        HotTrackFont.Style = []
+      end
       object EdtCodBarra1: TEdit
-        Left = 139
+        Left = 84
         Top = 3
-        Width = 261
+        Width = 204
         Height = 33
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -302,6 +223,225 @@ object F_Terminal: TF_Terminal
         OnEnter = EdtCodBarra1Enter
         OnExit = EdtCodBarra1Exit
         OnKeyPress = EdtCodBarra1KeyPress
+      end
+      object Edit1: TEdit
+        Left = 351
+        Top = 2
+        Width = 53
+        Height = 33
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 1
+        Visible = False
+        OnEnter = EdtCodBarra1Enter
+        OnExit = EdtCodBarra1Exit
+        OnKeyPress = EdtCodBarra1KeyPress
+      end
+    end
+    object MMJPanel9: TMMJPanel
+      Left = 1
+      Top = 378
+      Width = 406
+      Height = 111
+      Align = alBottom
+      BevelOuter = bvLowered
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      Silhuette.Shape.ShapeText = 'Shape text'
+      Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
+      Silhuette.PictureShape.DisplayPicture = True
+      Background.StartColor = clSilver
+      Background.EndColor = clSkyBlue
+      Background.FillType = GradUpDown
+      object LabelComissao: TJvLabel
+        Left = 17
+        Top = 15
+        Width = 19
+        Height = 23
+        Caption = '%'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Cooper Black'
+        Font.Style = []
+        ParentFont = False
+        ShadowColor = clWindow
+        ShadowSize = 2
+        Transparent = True
+        Visible = False
+        HintColor = clBlack
+        HotTrackFont.Charset = ANSI_CHARSET
+        HotTrackFont.Color = clWindowText
+        HotTrackFont.Height = -19
+        HotTrackFont.Name = 'Cooper Black'
+        HotTrackFont.Style = []
+      end
+      object JvLabel3: TJvLabel
+        Left = 114
+        Top = 10
+        Width = 66
+        Height = 23
+        Caption = 'Total :'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Cooper Black'
+        Font.Style = []
+        ParentFont = False
+        ShadowColor = clWindow
+        ShadowSize = 2
+        Transparent = True
+        HintColor = clBlack
+        HotTrackFont.Charset = ANSI_CHARSET
+        HotTrackFont.Color = clWindowText
+        HotTrackFont.Height = -19
+        HotTrackFont.Name = 'Cooper Black'
+        HotTrackFont.Style = []
+      end
+      object JvLabel12: TJvLabel
+        Left = 114
+        Top = 45
+        Width = 66
+        Height = 23
+        Caption = 'Pago  :'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Cooper Black'
+        Font.Style = []
+        ParentFont = False
+        ShadowColor = clWindow
+        ShadowSize = 2
+        Transparent = True
+        HintColor = clBlack
+        HotTrackFont.Charset = ANSI_CHARSET
+        HotTrackFont.Color = clWindowText
+        HotTrackFont.Height = -19
+        HotTrackFont.Name = 'Cooper Black'
+        HotTrackFont.Style = []
+      end
+      object JvLabel13: TJvLabel
+        Left = 113
+        Top = 81
+        Width = 87
+        Height = 23
+        Caption = #224' Pagar :'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Cooper Black'
+        Font.Style = []
+        ParentFont = False
+        ShadowColor = clWindow
+        ShadowSize = 2
+        Transparent = True
+        HintColor = clBlack
+        HotTrackFont.Charset = ANSI_CHARSET
+        HotTrackFont.Color = clWindowText
+        HotTrackFont.Height = -19
+        HotTrackFont.Name = 'Cooper Black'
+        HotTrackFont.Style = []
+      end
+      object JvComissao: TJvValidateEdit
+        Left = 45
+        Top = 2
+        Width = 58
+        Height = 45
+        Flat = False
+        ParentFlat = False
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfBinary
+        EditText = '10'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -37
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        Visible = False
+        OnChange = JvComissaoChange
+      end
+      object JvTotal: TJvValidateEdit
+        Left = 215
+        Top = 1
+        Width = 152
+        Height = 36
+        Flat = False
+        ParentFlat = False
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfFloat
+        DecimalPlaces = 2
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -27
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object JvParcial: TJvValidateEdit
+        Left = 215
+        Top = 37
+        Width = 152
+        Height = 36
+        Flat = False
+        ParentFlat = False
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfFloat
+        DecimalPlaces = 2
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlue
+        Font.Height = -27
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 2
+      end
+      object JvSubtotal: TJvValidateEdit
+        Left = 215
+        Top = 73
+        Width = 152
+        Height = 36
+        Flat = False
+        ParentFlat = False
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfFloat
+        DecimalPlaces = 2
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -27
+        Font.Name = 'Times New Roman'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 3
       end
     end
   end
@@ -324,6 +464,7 @@ object F_Terminal: TF_Terminal
       Top = 1
       Width = 42
       Height = 42
+      Hint = 'F8-Procurar'
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
@@ -465,6 +606,7 @@ object F_Terminal: TF_Terminal
       Top = 1
       Width = 42
       Height = 42
+      Hint = 'F4-Alterar'
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
@@ -1002,8 +1144,8 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvSair: TJvBitBtn
-      Left = 219
-      Top = 1
+      Left = 736
+      Top = 2
       Width = 42
       Height = 42
       Hint = 'F9 - Sair'
@@ -1118,10 +1260,11 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn1: TJvBitBtn
-      Left = 733
+      Left = 692
       Top = 2
       Width = 42
       Height = 42
+      Hint = 'Abrir Gaveta'
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
@@ -1265,16 +1408,166 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn2: TJvBitBtn
-      Left = 689
-      Top = 2
+      Left = 306
+      Top = 1
       Width = 42
       Height = 42
-      Caption = '...'
+      Hint = 'Cadastro de Mesa'
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
       TabOrder = 7
       OnClick = JvBitBtn2Click
+      Glyph.Data = {
+        7E120000424D7E12000000000000360000002800000027000000270000000100
+        18000000000048120000C40E0000C40E00000000000000000000C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C300
+        0000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C4C3C3CAC9C7CECCC9D2D0CDD3D2CED1D0
+        CDCDCCC9C8C7C6C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3CBC9C7D1D3D68F97A46475943847662E37574149676B758DA0A4ADDB
+        D9D4C8C8C7C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3D3D1CE96A2AF00
+        0C2706204D1A33612C41701428561D2C5A0D1C4408183B0C1B3AA2A1AFCFCFCB
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3CECDCA7E87920000190E264909295D223E77
+        17306A071C56071A4F102355091C481D2C5412142B9A98A9CCCBC8C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C300
+        0000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C5C5C4BFC2CB10153A1C22570A144F2E4677485C9238497C15264F172B
+        450A1E331A2A491E2B5629386D000735C3C4C9C5C5C4C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3CBCBC9797D
+        90131A420E1750091556364F853D50872B3967091434121F2E101F2E0A1A3519
+        2A5418275C111E47777A87CCCBC9C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3CDCCC968728C13204805154E0E
+        2265223E7E23357029325D191C3114181C111D2107192F152B51152552152146
+        686A76CDCDCBC3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C9C9C79197A116274F061B51142E6F203C80142562
+        272A531B19271F1E1A0E1915122636142C501D2D530D1836A3A6B0C8C7C6C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C300
+        0000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C4C4C3C7C8CB35486B0E2453152E670F2B6C14245E23284E1F1E2B1D22
+        1C0A160F2034441C34541B2A463F475AD6D5D1C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C6C5
+        C4CCCED0203960051D4A193066172A5C212B5519223909161A0D1E202234430C
+        1F3E4B5868DEDCD8C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C4C3C2C9C8C6E5E0D884
+        8B9621365E1F325E1A2B58071B3D0B2434081B24011123BEC3CBDCD9D4C9C8C7
+        C6C5C4C3C3C2C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C2CAC9C7CFCDC9D6D3CCCACED0A9AEB38A91987E92A81429491A2F58
+        1B3566122B58102C4B213B5015253A78829D848C90949A9EB3B4B9D8D6D5D3D1
+        CACDCCC9C7C6C5C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C300
+        0000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C9C8C5D1CEC9D5D7D9868D99
+        57679022376C16336F0C3470063973083F780847970D4C9E1852A62158AB2D60
+        B4315FB3406BC0426BBD416F972C56811B3770142865303C75686E8DA6ADB5D7
+        D4CECAC9C6C3C3C2C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3
+        C3C3C3C3C3C3C7C6C4D9D5CD98A1AF496387041C4318315C344D811833751633
+        811638902042A2264BAE1E4CA52451A92E58B1345CB5365AB43C5DB84B6CC71F
+        3D982243933654A73751A5263C90273A84263B76263D672E46678E96ABD0D1D2
+        CECBC6C4C3C2C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3D2CFC8AEB6
+        C62D46771A3672163476233D8D04216A1735761A3B7222447B304D8B2D488C1D
+        367E26486A1E3F601333540E2849234466193A5B18395A2D4E722E4C852E4F8A
+        2A4A881B3A7F3958A22847991B3A92223F9A3852911F3B706E849FCED2D3C7C5
+        C3C3C3C3C3C3C3000000C3C3C3C3C3C3D9D6CD6F7DA3082266223E8A0C2D7C1C
+        3C8F27409E29448E2A4D73022C2D00240E00260211350F264B233D661F426B22
+        49732A4D7C324272283D6D233C6F241C4D0414430F002800002001062D251945
+        60375C9D3C5BBD2845B82950A824499A20468A264F7EC0C4C5C8C6C5C3C3C300
+        0000C3C3C3D6D3CB58668C0D276F112F830B2C7C2D53931E44761E43520B3429
+        295927588F357AB33A96CB46A3D34C9CC7439BCD3995CA348EC42E88C02A87C4
+        2D86C52E82C32C83C72F80BB2D91CF4683C246619D3A235A1C072F1900253429
+        50781A4A8D2451A11B479B234C911F4871C1C4C5C5C4C4000000CAC9C58390AC
+        2A448424439428519729537B1E484A315C3C659C328CC94992D33F82C31E93D3
+        2591C9208FC02090BD2393C8288FC6258BC52488C32287C42285C42181C32081
+        C21F8FC92681BF1C7AB8197DBC2285C5387AB83F639E34255E0500342F336489
+        29539C274D9C2D528A496988D2CEC9000000D2CEC64864923C5E9E3C69AC4678
+        A0316351608F3B8EC03F89C7238BCC2187CB1C92D52290D12285C51D85C32291
+        CB3387C52889C6298AC72989C72986C62886C62886C52782C52780C22084C625
+        83C3257EBD1E7EBA1D88C32780BB1E8FCA3158963A1D53334169903C63A84B70
+        AA3A5D81C0C2C5000000B8C4D34365925A85BE598CBF4D868C5F9A558DC4329A
+        CE118AC12B89C12D92CC358ACA2D88CB2A82CA2780CA2580CB2582C72184C925
+        87CC2789CE2987CC2687CB2685C92586CA257DCE207CC9227EC42580BE2B89C0
+        317FB22589B7298CBB2B8ACA3361994647727A5F85BD4E75AB43688888929C00
+        0000B4C1D0546EA13E5C89689295659D5987C4448AC22495C5238ECB278BCA26
+        89C92788C82986C92984C92983C92A83CB288CC9268DCA2689CA258ACA2588CB
+        2687C92485CA2585C82380C72080C6207FC42180C3247BBE1F7DC1217CBF1E7C
+        BE1C79B61485B94C6891726B8EA45170995C779898A1A8000000C5CBC9445A81
+        5567A2698B9470AB5681CA2A8AC91E91C4288DCC238CCB218BCD2189CE1F88CF
+        1E87D01D86D21A86D11A8CCA268DC9268AC9268BC92688CB2688C92585CA2585
+        C92581C42681C32781C3287FC2267EC0257DC1237DC0227CC01F81C71575B233
+        6B9A66759B9F6D8AA95B708FCBCDCE000000C9C6C29EB3CA6A70B1829AAE7EB7
+        607BCA2287D01C8BC82A8EC62C8EC9288DCA288DCB248ACD2189CF1E88D01B89
+        D01D8CCB248DCB258ACB248BCB2488CB2588C92385CB2385C92382C52B82C32A
+        82C42881C32780C2257FC2257EC1237DC12180CC1B6BAD2B77AA6C7DA29A6681
+        94A5B2C2C8C5C3000000C2C2C1CECDD09398C57B8A9D8CB68178B73B85CB3085
+        C92C8BC4328DC3328DC42E8DC52D8DC62C8CC52D8AC52D8AC62E8DCA258DCB24
+        8ACB248BCB2489CB2588C92385CB2384CA2383C82483C92381C82081C81E81C7
+        1F80C61F80C5237FC42373B92F68A23F8AB589759390A1AFB9CBC8C5C3C3C300
+        0000C3C3C3C2C1C0D2D3D3A5B2BA7A8E8B93B68C7EB55082C6378AC82B8ECB2E
+        8DCE2A8DCC298FCD2D8FCC3192C83592C9388DCA288ECA278BCB278CCB2787C9
+        2488C92585C92586CA2583CC1B83CE1984CE1B85CE1C7FC61B83C7257ABB2276
+        B6247AAC627DA67B77918AA5B4BCCBC7C6C3C3C3C3C3C3000000C3C3C3C3C3C3
+        C2C2C1C7C5C3C6C9DF7983978CB08483B95387C63385C82C86CB268ACF2385CB
+        1E86CB1F87C92288C7248EC92A8EC92B8BC92B8CC92B87C72888C72985C82986
+        C82885CB2283CA2181C7227FC22485C3347BB2368EC05376A54666896E88A3A0
+        C7C6CBC7C5C4C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C2
+        C0D2D2D8BAC9C583A47C6892537BAA5C86BB5686BF4489C83A8BCC328BCE2E8C
+        CD2E8CC82C8EC72D8BC92D8CC92D87C62B88C72B85C72B85C52C8DC93F88C33E
+        84BC3E80B3457DA950698D4E3E5A366E8770BDCAC4CBC6C9C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C2C2C1C4C2C4CA
+        C5CAC8D1DDADBCC287A38E6D935C7AA8537CB04580B53F80B73B8AC1328AC130
+        87BF2F87BF2E81BC2B81BB2A7DBB297EBC2D74A23D82AD5195BF69A4C9838FA3
+        829DA5A0D2D3D8CCC8CCC5C3C4C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C300
+        0000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C2C1C6C4C4
+        C9C6C9CAC5CED8DCD4C9CEC4B4B9AFB3BAAB9EB58FA7BD98B1C9A3B7CFA9C1D9
+        B3C8DFB9D3EBC4CADABED0D2CED7DBD6C7C1CDC7C2CBC8C6CAC7C6C7C3C2C2C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C1C1
+        C2C3C2C4C5C3C6C5C4C7C7C4C9C6C3C8C5C2C7C4C1C7C3C0C6C3C0C5C2BFC4C2
+        C0C4C2C1C3C1C1C2C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C300
+        0000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3000000C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3
+        C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C300
+        0000}
       HotTrackFont.Charset = ANSI_CHARSET
       HotTrackFont.Color = clWindowText
       HotTrackFont.Height = -19
@@ -1282,10 +1575,11 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn3: TJvBitBtn
-      Left = 645
-      Top = 2
+      Left = 262
+      Top = 1
       Width = 42
       Height = 42
+      Hint = 'Troca de Mesa'
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
@@ -1397,15 +1691,115 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn4: TJvBitBtn
-      Left = 602
-      Top = 2
+      Left = 219
+      Top = 1
       Width = 42
       Height = 42
+      Hint = 'Receber  Parcial'
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
       TabOrder = 9
       OnClick = JvBitBtn4Click
+      Glyph.Data = {
+        360C0000424D360C000000000000360000002800000020000000200000000100
+        180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0E0E0
+        E0B0B0B08A8D8CA4A4A4C0C0C0C0C0C0C0C0C0C0C0C0A2CCA6157E1F18852325
+        A33122A4301C8C270D79186FB176C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0DCDCDC9798986F847879A1
+        8180A88C7CA4877BA3866C85758D8D8DE0E0E0CAD6CB2793323EC64B2CC23A1D
+        C02D24C03332C34147C8533FAC4A77B57DC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0E1E1E19396956D8C7483AC907AA381789F807EA7
+        877EA8867DA6847CA684769C7D7BA384518C5B1A88264DC6593BC24819962461
+        9B6723BF3230C13F41C34E54C6603C9F4658A560C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0D0D1D065816D779C816D9174759A7F7CA48377A17B7BA2857AA28278A0
+        817CA4867CA486799F82779E8057945F3B9D466EC97754CD60537655E2E0E1FE
+        FDFE27B7353AC24847C45356C6606EC97769BD723D9546C0C0C0C0C0C0C0C0C0
+        C0C0C0C3C9C667896F74987E6C9171709678789E8079A0817DA6877EA9867BA4
+        817AA2827AA283789F7F83A98A06781185CF8C71CF7D79867AE6E6E6FFFFFFFF
+        FFFF9BA09B43C64F4FC55A5AC6656DC9767ECC8620882AC0C0C0C0C0C0C0C0C0
+        C0C0C0DCDDDC6D8F776A8D726E9276779E8178A07D779F7E7EA78880AC8979A4
+        7D7AA2827CA487759E7B7BA8842B903578C17F848D83F5F5F5FFFFFFBCD2BEA7
+        D1ABFBFBFB7B937D58CB635EC7686CC97678CA805BB36582BC88C0C0C0C0C0C0
+        C0C0C0D6D8D772957C6B8F71688D6D789D847BA58077A17C7AA18381A98C7AA4
+        80759E7B779D7F749B795697604DA7567ACC8375C07DFFFFFFFFFEFF57C06151
+        BF5CFFFFFFF3F3F369876A65CE716CC97574CA7D7ACB82399242C0C0C0C0C0C0
+        C0C0C0C7CCCA628465688B6E71967A759C7B759C7C79A08479A181779D7E79A0
+        84789F80779F7F779D80448C4D4EAC586DC97668C87160C96B66C4706ECA7774
+        CA7DD2DCD3FFFFFFFFFFFFCDC9CC58AD616BC97671CB7A21812AC0C0C0C0C0C0
+        C0C0C0B7BDBA698C70688A6E709478709578759B7D769C7F7DA58781AC8A84B3
+        8A85B48B85B38B85B38A5B9D643FA34967C87162C76D6AC97476CA7E81CB878A
+        CD9086CA8DFCF8FBFFFFFFFFFFFFC4C1C36ACC7472CB7A237B2CC0C0C0C0C0C0
+        C0C0C0CED1CF67896E688A6F70947A73997C7FA98682AF8786B48B88B78E8CBC
+        918DBE928DBE938DBE9288B98E20892B62C86D62C86C74CA7D85CC8C95CE9B9F
+        CFA5A4D0A89EC7A2FFFDFFFFFFFFA8CEAC69C87353B15D68906DC0C0C0C0C0C0
+        C0C0C0D3D6D56F927972977A739A7775A07A80AC8584B28A89B88E8CBD928FC2
+        9591C39792C49892C49897C69B0A791569C97264C86E7FCB8695CE9BA7D0ACB4
+        D2B7B6D2B9AED2B1A6C5A9FFFFFFA3C9A66ECC781A8925BDC0BEC0C0C0C0C0C0
+        C0C0C0C0C0C0DEE2E099B7A1BACCBC749D79A5C3A89DC0A187B68C8BBB9190C2
+        9693C59994C89A95C89B94C99A97CA9E02750E74CE7E89CD90A4CFA8BBD3BECC
+        D5CDC8D5CABBD3BEABD1AE95CF9BC3CCC41B88255FA08994A199C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C08D9B96A6C0ADC9D9CAC0D5C2A4C6A8AACBAD8CBC
+        918FC09491C39895C79AC1DDBFC6DFC5A6CDA705760F7FCE88A7D0ABBCD3BFCD
+        D5CEC9D5CABAD3BCABD1AE8DCD9428963344A96D7FBABB97A59DC0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C085928A7DA6897AA28379A184B6CBB9D5E3D7B8D0BB84B2
+        8989B88E95C299C0DBC1B6D4BAB6D4BFB3D3CBA9E8DD18852365C66E84D08B9E
+        D0A3A2D0A688CF8F70CC78379F4155B5889AF1F67FBABA9BA69FC0C0C0C0C0C0
+        C0C0C0C0C0C0A4ABA87CA3867CA38779A27E78A0807DA7837FA68C78A17F7CA7
+        8180AC85B0CFAFB4D3BABFF9FCBFF7F9BEF6F8BEF7F99FC9A52B8B340576111E
+        8A292691300678121E842673AB7A98EFF497EEF17DB7B697A19CC0C0C0C0C0C0
+        C0C0C0C0C0C084AD907DA4877EA6897DA4887DA4887AA47D7FA68B7AA2817BA2
+        867CA387769F7B7AA57FBCD8BAC2DBBEC1DBBFC1DCBDA5CBA68CBE918FBF908C
+        B9968AC7C891E8EE98F2F598F1F495E5EC9ACFD16C92779BA7A1C0C0C0C0C0C0
+        C0C0C0C0C0C07CA5847BA57E78A17F79A47D79A37E7AA37F7EA58A79A08380A9
+        8B83B18889B98F85AE9276A07A79A57F7DAA8180AD8281AF9888CBD096ECF399
+        F2F599F2F597EEF486C6CB78A387769E7788AA93E7E9E8C0C0C0C0C0C0C0C0C0
+        C0C0C0A6ADA97DA5877DA68580A78C7FA78A7CA5857DA4877CA2877CA38784B2
+        898ABA8F8FC09593C598B7D4BA77A18E84C5C596EBF298F0F397EFF298F2F58F
+        DBDF78A28C7DA67D80A6869BACA1C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C07C9B847EA6857EA6887CA6817EA8847AA4807AA2817EA5897FAA848AB9
+        908FC19593C69992C798B6D6BAB9E3E6B4E8EC91C5C98AD0D679A69474997980
+        A889C6CBC8C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        E8E8E87DA5857BA4817BA3837FA78B7FA8897CA4857AA3837EAA8287B58C90C2
+        9693C79995C89BB4D7B4B5D9D6BFF8FAB3D5D0B6D4B47EAFA39AF4F78EC5CBC0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        889C90779F807AA3837DA6857DA6837DA6857DA5867FA78A83B0888ABA8F91C4
+        9794C79A93C799C3DDC1B8E5EFB4D2C0C0DBBD7EAC8393E0E5C5CBCCC0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        779D7F7AA08378A08079A17E7AA47E7AA37F7CA3847DA88186B48B8CBC9191C3
+        9792C49891C396AED2AEC0DCC0B6D3B57BA88182AD89C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0ECECEC
+        7DA489769C7D7AA08578A08179A2827DA5887DA4877FAA8487B58C8CBC918FC0
+        958CBE928BBB9186B68C7CAA8280AC8598ADA1C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0829588
+        6A8E706F9477739979739B79759D7B779E807BA48380AC8586B48B83B489CBDF
+        CDAFCDB380AC857FAC85E4E5E5C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07DA489
+        769A827094786C90716F95746F9574789F8277A17C7EA9837BAA81FAFCFBE0EB
+        E075A3798BAD96C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0CAD0CD
+        7E9F896A8D7172967C6F9477799E8573987B719C77B5CDB8DEE9E0CADBCC8EB3
+        98DCDDDDC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C09AAFA46B8F7173977D6D9173779C82769C797EA482FAFCF97DA389C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0F1F1F19CAFA473987F6D9274B7CBBCC1C7C4C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0E6E8E792A99C7A9B83C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       HotTrackFont.Charset = ANSI_CHARSET
       HotTrackFont.Color = clWindowText
       HotTrackFont.Height = -19
@@ -1418,7 +1812,7 @@ object F_Terminal: TF_Terminal
     Top = 45
     Width = 372
     Height = 490
-    ActivePage = TabSheet1
+    ActivePage = TabDelivery
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -2236,7 +2630,7 @@ object F_Terminal: TF_Terminal
           Background.EndColor = clSkyBlue
           Background.FillType = GradUpDown
           object JvLabel7: TJvLabel
-            Left = 8
+            Left = 5
             Top = 10
             Width = 81
             Height = 23
@@ -2257,10 +2651,33 @@ object F_Terminal: TF_Terminal
             HotTrackFont.Name = 'Cooper Black'
             HotTrackFont.Style = []
           end
+          object JvLabel15: TJvLabel
+            Left = 249
+            Top = 8
+            Width = 61
+            Height = 23
+            Caption = 'Qtde :'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -19
+            Font.Name = 'Cooper Black'
+            Font.Style = []
+            ParentFont = False
+            ShadowColor = clWindow
+            ShadowSize = 2
+            Transparent = True
+            Visible = False
+            HintColor = clBlack
+            HotTrackFont.Charset = ANSI_CHARSET
+            HotTrackFont.Color = clWindowText
+            HotTrackFont.Height = -19
+            HotTrackFont.Name = 'Cooper Black'
+            HotTrackFont.Style = []
+          end
           object EdtCodBarra: TEdit
-            Left = 104
+            Left = 83
             Top = 3
-            Width = 256
+            Width = 164
             Height = 33
             BevelKind = bkFlat
             BorderStyle = bsNone
@@ -2275,7 +2692,7 @@ object F_Terminal: TF_Terminal
             OnKeyPress = EdtCodBarraKeyPress
           end
           object btnProduto: TBitBtn
-            Left = 281
+            Left = 89
             Top = 7
             Width = 75
             Height = 25
@@ -2284,6 +2701,26 @@ object F_Terminal: TF_Terminal
             TabOrder = 1
             Visible = False
             OnClick = btnProdutoClick
+          end
+          object Edit2: TEdit
+            Left = 308
+            Top = 2
+            Width = 53
+            Height = 33
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -19
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 2
+            Visible = False
+            OnEnter = EdtCodBarra1Enter
+            OnExit = EdtCodBarra1Exit
+            OnKeyPress = EdtCodBarra1KeyPress
           end
         end
         object MMJPanel7: TMMJPanel
@@ -3726,6 +4163,7 @@ object F_Terminal: TF_Terminal
         Height = 378
         Align = alClient
         Ctl3D = False
+        DataSource = DM_MOV.d_delivery
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -3742,12 +4180,16 @@ object F_Terminal: TF_Terminal
         TitleFont.Height = -15
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
+        OnDblClick = DBGrid2DblClick
+        OnKeyDown = DBGrid2KeyDown
+        OnKeyPress = DBGrid2KeyPress
+        OnKeyUp = DBGrid2KeyUp
         Columns = <
           item
             Expanded = False
             FieldName = 'NOMECLIENTE'
             Title.Caption = 'Delivery'
-            Width = 140
+            Width = 250
             Visible = True
           end
           item
@@ -3792,7 +4234,7 @@ object F_Terminal: TF_Terminal
           HotTrackFont.Style = []
         end
         object JvLabel4: TJvLabel
-          Left = 96
+          Left = 86
           Top = 6
           Width = 43
           Height = 17
@@ -3833,10 +4275,10 @@ object F_Terminal: TF_Terminal
           HotTrackFont.Name = 'Cooper Black'
           HotTrackFont.Style = []
         end
-        object Edit6: TEdit
+        object edtFone: TEdit
           Left = 7
           Top = 22
-          Width = 88
+          Width = 77
           Height = 20
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -3848,14 +4290,16 @@ object F_Terminal: TF_Terminal
           ParentFont = False
           PopupMenu = PopupMenu1
           TabOrder = 0
+          OnKeyPress = edtFoneKeyPress
         end
-        object Edit7: TEdit
-          Left = 96
+        object edtNome: TEdit
+          Left = 123
           Top = 22
-          Width = 264
+          Width = 204
           Height = 20
           BevelKind = bkFlat
           BorderStyle = bsNone
+          Color = clInfoBk
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -9
@@ -3863,15 +4307,17 @@ object F_Terminal: TF_Terminal
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
+          ReadOnly = True
           TabOrder = 1
         end
-        object Edit8: TEdit
+        object edtEnd: TEdit
           Left = 7
           Top = 58
-          Width = 353
+          Width = 354
           Height = 20
           BevelKind = bkFlat
           BorderStyle = bsNone
+          Color = clInfoBk
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -9
@@ -3879,7 +4325,35 @@ object F_Terminal: TF_Terminal
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
+          ReadOnly = True
           TabOrder = 2
+        end
+        object edtCodCli: TEdit
+          Left = 85
+          Top = 22
+          Width = 37
+          Height = 20
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          Color = clInfoBk
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -9
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          ReadOnly = True
+          TabOrder = 3
+        end
+        object BitBtn1: TBitBtn
+          Left = 331
+          Top = 18
+          Width = 31
+          Height = 25
+          Caption = '...'
+          TabOrder = 4
+          OnClick = BitBtn1Click
         end
       end
     end
@@ -5038,6 +5512,187 @@ object F_Terminal: TF_Terminal
     object s_mesasCOD_CLI: TStringField
       FieldName = 'COD_CLI'
       Size = 10
+    end
+  end
+  object sbuscaCli: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 580
+    Top = 397
+  end
+  object s_forma: TSQLDataSet
+    CommandText = 
+      'select e.COD_VENDA, e.ID_ENTRADA, e.CAIXA, e.N_DOC,           e.' +
+      'FORMA_PGTO, e.VALOR_PAGO,'#13#10'          CASE e.FORMA_PGTO '#13#10'       ' +
+      '                          WHEN '#39'0'#39' then '#39'DINHEIRO'#39' '#13#10'           ' +
+      '                      WHEN '#39'1'#39' then '#39'CHEQUE'#39' '#13#10'                 ' +
+      '                WHEN '#39'2'#39' then '#39'CHEQUE PRE'#39' '#13#10'                   ' +
+      '              WHEN '#39'5'#39' then '#39'CART'#195'O DE CREDITO'#39' '#13#10'              ' +
+      '                   WHEN '#39'6'#39' then '#39'CART'#195'O DE DEBITO'#39' '#13#10'          ' +
+      '                       WHEN '#39'G'#39' then '#39'VALE'#39'                     ' +
+      '             '#13#10'                                 WHEN '#39'H'#39' then '#39'O' +
+      'UTROS'#39#13#10'                                end  as FORMA,'#13#10'        ' +
+      '  p.nome '#13#10'  from FORMA_ENTRADA e'#13#10' left outer join plano p on p' +
+      '.codigo = e.caixa '#13#10'where e.COD_VENDA = :id'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 384
+    Top = 209
+    object s_formaCOD_VENDA: TIntegerField
+      FieldName = 'COD_VENDA'
+      Required = True
+    end
+    object s_formaID_ENTRADA: TIntegerField
+      FieldName = 'ID_ENTRADA'
+      Required = True
+    end
+    object s_formaCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+    end
+    object s_formaN_DOC: TStringField
+      FieldName = 'N_DOC'
+      Size = 60
+    end
+    object s_formaFORMA_PGTO: TStringField
+      FieldName = 'FORMA_PGTO'
+      FixedChar = True
+      Size = 1
+    end
+    object s_formaVALOR_PAGO: TFloatField
+      FieldName = 'VALOR_PAGO'
+    end
+    object s_formaFORMA: TStringField
+      FieldName = 'FORMA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 17
+    end
+    object s_formaNOME: TStringField
+      FieldName = 'NOME'
+      ReadOnly = True
+      Size = 200
+    end
+  end
+  object p_forma: TDataSetProvider
+    DataSet = s_forma
+    UpdateMode = upWhereKeyOnly
+    Left = 417
+    Top = 209
+  end
+  object c_forma: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    ProviderName = 'p_forma'
+    Left = 450
+    Top = 209
+    object c_formaCOD_VENDA: TIntegerField
+      FieldName = 'COD_VENDA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object c_formaID_ENTRADA: TIntegerField
+      FieldName = 'ID_ENTRADA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object c_formaCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_formaN_DOC: TStringField
+      FieldName = 'N_DOC'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
+    end
+    object c_formaFORMA_PGTO: TStringField
+      FieldName = 'FORMA_PGTO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object c_formaVALOR_PAGO: TFloatField
+      FieldName = 'VALOR_PAGO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.00'
+    end
+    object c_formaFORMA: TStringField
+      FieldName = 'FORMA'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 17
+    end
+    object c_formaNOME: TStringField
+      FieldName = 'NOME'
+      ProviderFlags = []
+      Size = 200
+    end
+    object c_formatotal: TAggregateField
+      FieldName = 'total'
+      Active = True
+      DisplayFormat = ',#0.00'
+      Expression = 'SUM(VALOR_PAGO)'
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = c_forma
+    Left = 486
+    Top = 209
+  end
+  object scds_cli_proc: TSQLClientDataSet
+    CommandText = 
+      'SELECT a.CODCLIENTE, '#13#10'               a.NOMECLIENTE, '#13#10'         ' +
+      '      a.BLOQUEIO,'#13#10'               e.LOGRADOURO, '#13#10'              ' +
+      ' e.TELEFONE '#13#10'   FROM CLIENTES a'#13#10'   left outer join ENDERECOCLI' +
+      'ENTE e on e.CODCLIENTE = a.CODCLIENTE '#13#10'where  a.NOMECLIENTE lik' +
+      'e :pCLIENTE '#13#10'  and a.SEGMENTO <> 2'#13#10'order by a.NOMECLIENTE '#13#10
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pCLIENTE'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 629
+    Top = 186
+    object scds_cli_procCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object scds_cli_procTELEFONE: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'TELEFONE'
+      Size = 11
+    end
+    object scds_cli_procNOMECLIENTE: TStringField
+      DisplayLabel = 'Nome  do Cliente'
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
+    object scds_cli_procLOGRADOURO: TStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object scds_cli_procBLOQUEIO: TStringField
+      FieldName = 'BLOQUEIO'
+      FixedChar = True
+      Size = 1
     end
   end
 end
