@@ -88,6 +88,14 @@ object fListaEstoque: TfListaEstoque
       Height = 13
       Caption = 'Grupo'
     end
+    object Panel1: TPanel
+      Left = 48
+      Top = 3
+      Width = 593
+      Height = 44
+      BevelInner = bvLowered
+      TabOrder = 25
+    end
     object ComboBox1: TComboBox
       Left = 50
       Top = 61
@@ -412,8 +420,8 @@ object fListaEstoque: TfListaEstoque
       OnKeyPress = FormKeyPress
     end
     object fConsultar: TBitBtn
-      Left = 52
-      Top = 5
+      Left = 56
+      Top = 7
       Width = 75
       Height = 37
       Caption = 'F8-Consultar'
@@ -821,8 +829,8 @@ object fListaEstoque: TfListaEstoque
       OnKeyPress = FormKeyPress
     end
     object BitBtn9: TBitBtn
-      Left = 142
-      Top = 5
+      Left = 150
+      Top = 7
       Width = 75
       Height = 37
       Caption = 'Min / Max'
@@ -830,8 +838,8 @@ object fListaEstoque: TfListaEstoque
       OnClick = BitBtn9Click
     end
     object BitBtn10: TBitBtn
-      Left = 230
-      Top = 6
+      Left = 245
+      Top = 7
       Width = 99
       Height = 37
       Caption = 'Valor Estoque'
@@ -953,13 +961,23 @@ object fListaEstoque: TfListaEstoque
         BFBFBFBFBFBFBFBFBF00}
     end
     object BitBtn2: TBitBtn
-      Left = 336
-      Top = 6
+      Left = 367
+      Top = 7
       Width = 97
       Height = 37
       Caption = 'Sugest'#227'o Compra'
       TabOrder = 23
       OnClick = BitBtn2Click
+    end
+    object rgEmUso: TCheckBox
+      Left = 552
+      Top = 20
+      Width = 57
+      Height = 17
+      Caption = 'Em uso'
+      Checked = True
+      State = cbChecked
+      TabOrder = 24
     end
   end
   object dbgrd1: TDBGrid
