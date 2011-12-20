@@ -95,6 +95,8 @@ type
     cds1ESTOQUEMINIMO: TFloatField;
     cds1ESTOQUEREPOSICAO: TFloatField;
     strngfldcds1LOTE: TStringField;
+    rgEmUso: TCheckBox;
+    Panel1: TPanel;
     procedure BitBtn1Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -334,6 +336,21 @@ begin
       sqlTexto := sqlTexto +  QuotedStr(cbPRODUTO.Text) ;
     end;
 
+       //em uso
+    if (rgEmUso.Checked = True) then
+    begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA is null '
+      else
+        sqlTexto := 'where USA is null ';
+    end
+    else begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA = ' + QuotedStr('N')
+      else
+        sqlTexto := 'where USA = ' + QuotedStr('N') ;
+    end;    
+
     IF (cds1.Active) then
       cds1.Close;
     cds1.CommandText := sqlStr + sqlTexto;
@@ -559,7 +576,20 @@ begin
         sqlTexto := sqlTexto +  ' AND subgrupo = ';
         sqlTexto := sqlTexto +  QuotedStr(cbPRODUTO.Text) ;
     end;
-
+       //em uso
+    if (rgEmUso.Checked = True) then
+    begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA is null '
+      else
+        sqlTexto := 'where USA is null ';
+    end
+    else begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA = ' + QuotedStr('N')
+      else
+        sqlTexto := 'where USA = ' + QuotedStr('N') ;
+    end;
      repRel.Report.DataInfo.Items[0].SQL:=  sqlStr + sqlTexto ;
      repRel.Execute;
 
@@ -671,6 +701,34 @@ begin
       else
         sqlTexto := sqlTexto +  ' AND subgrupo = ';
         sqlTexto := sqlTexto +  QuotedStr(cbPRODUTO.Text) ;
+    end;
+       //em uso
+    if (rgEmUso.Checked = True) then
+    begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA is null '
+      else
+        sqlTexto := 'where USA is null ';
+    end
+    else begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA = ' + QuotedStr('N')
+      else
+        sqlTexto := 'where USA = ' + QuotedStr('N') ;
+    end;
+       //em uso
+    if (rgEmUso.Checked = True) then
+    begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA is null '
+      else
+        sqlTexto := 'where USA is null ';
+    end
+    else begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA = ' + QuotedStr('N')
+      else
+        sqlTexto := 'where USA = ' + QuotedStr('N') ;
     end;
 
      repRel.Report.DataInfo.Items[0].SQL:=  sqlStr + sqlTexto ;
@@ -790,6 +848,22 @@ begin
         sqlTexto := sqlTexto +  ' AND subgrupo = ';
         sqlTexto := sqlTexto +  QuotedStr(cbPRODUTO.Text) ;
     end;
+
+       //em uso
+    if (rgEmUso.Checked = True) then
+    begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA is null '
+      else
+        sqlTexto := 'where USA is null ';
+    end
+    else begin
+      if sqlTexto <> '' then
+        sqlTexto := sqlTexto + ' and USA = ' + QuotedStr('N')
+      else
+        sqlTexto := 'where USA = ' + QuotedStr('N') ;
+    end;
+
 
      repRel.Report.DataInfo.Items[0].SQL:=  sqlStr + sqlTexto ;
      repRel.Execute;
