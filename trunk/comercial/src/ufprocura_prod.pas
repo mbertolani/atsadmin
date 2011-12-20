@@ -533,7 +533,6 @@ begin
   //end;
 
   varCondicao := varCondicao + ') ';
-
   if (cbTipo.Text <> '') then
   begin
     varCondicaoA := ' where ((TIPO ';
@@ -1337,6 +1336,9 @@ begin
    if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
      if (DM_MOV.c_comanda.State in [dsInactive]) then
        incluimovimento;     // Tabela Movimento
+   if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
+     if (DM_MOV.c_Delivery.State in [dsInactive]) then
+       incluimovimento;     // Tabela Movimento
 
    if dm.c_6_genid.Active then
      dm.c_6_genid.Close;
@@ -1880,6 +1882,7 @@ begin
     DM_MOV.c_movimentoCODCLIENTE.AsInteger := codcliente;
     DM_MOV.c_movimentoNOMECLIENTE.AsString := nomecliente;
     DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger := 1;
+    DM_MOV.c_DeliveryTIPO_PEDIDO.AsString := 'P';    
     DM_MOV.c_movimento.ApplyUpdates(0);
   end;
   if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
@@ -1902,7 +1905,32 @@ begin
     DM_MOV.c_comandaCODCLIENTE.AsInteger := codcliente;
     DM_MOV.c_comandaNOMECLIENTE.AsString := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
     DM_MOV.c_comandaCODALMOXARIFADO.AsInteger := 1;
+    DM_MOV.c_DeliveryTIPO_PEDIDO.AsString := 'C';
     DM_MOV.c_comanda.ApplyUpdates(0);
+  end;
+
+  if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
+  begin
+    DM_MOV.c_Delivery.Open;
+    DM_MOV.c_Delivery.Append;
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    DM_MOV.c_DeliveryCODMOVIMENTO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+    DM_MOV.c_DeliveryCODPEDIDO.asInteger := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+    DM_MOV.c_DeliveryCODNATUREZA.AsInteger := 3;
+    DM_MOV.c_DeliveryDATAMOVIMENTO.Value := Date;
+    DM_MOV.c_DeliveryDATA_SISTEMA.AsDateTime := Now;
+    DM_MOV.c_DeliverySTATUS.Value := 20; //Venda em Aberto
+    DM_MOV.c_DeliveryCODUSUARIO.AsInteger := usulog;
+    DM_MOV.c_DeliveryCODVENDEDOR.Value:=1;
+    DM_MOV.c_DeliveryCODCLIENTE.AsInteger := codcliente;
+    DM_MOV.c_DeliveryNOMECLIENTE.AsString := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
+    DM_MOV.c_DeliveryCODALMOXARIFADO.AsInteger := 1;
+    DM_MOV.c_DeliveryTIPO_PEDIDO.AsString := 'D';
+    DM_MOV.c_Delivery.ApplyUpdates(0);
   end;
 end;
 
