@@ -140,7 +140,9 @@ type
 
     //Metodos
     function geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
-    function baixaTitulo(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
+    function baixaTitulo(Status, Forma: String; VRec, VJuros, VMulta, VOCred,
+VODeb, VDesc, VPerda: Double; Usuario, codCli, rCaixa: Integer; rdtBaixa, rdtRec,
+rdtConsolida: TDateTime; rnDoc: String): Boolean;
     function excluiTitulo(codVendaE: Integer): Boolean;
     function alteraTitulo(codVendaA: Integer): Boolean;
     constructor Create;
@@ -164,26 +166,26 @@ end;
 function TReceberCls.baixaTitulo(Status, Forma: String; VRec, VJuros, VMulta, VOCred,
 VODeb, VDesc, VPerda: Double; Usuario, codCli, rCaixa: Integer; rdtBaixa, rdtRec,
 rdtConsolida: TDateTime; rnDoc: String): Boolean;
-  strRec : String;
+var  strRec : String;
   codRecB: Integer;
 begin
   strRec := 'UPDATE RECEBIMENTO SET ' +
             '  STATUS           = ' + QuotedStr(Status) +
-            ', VALORRECEBIDO    = ' + FloatToStr(VRec - :VDesc - :VPerda) +
+            ', VALORRECEBIDO    = ' + FloatToStr(VRec - VDesc - VPerda) +
             ', VALOR_RESTO      = ' + FloatToStr(VRec) +
             ', FORMARECEBIMENTO = ' + QuotedStr(Forma) +
             ', DATABAIXA        = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtBaixa)) +
             ', DATARECEBIMENTO  = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtRec)) +
             ', DATACONSOLIDA    = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtConsolida)) +
             ', N_DOCUMENTO      = ' + QuotedStr(rnDoc) +
-            ', CAIXA            = ' + IntToStr(rCaixa);
-            ', FUNRURAL         = ' + FloatToStr(vMulta);
-            ', JUROS            = ' + FloatToStr(vJuros);
-            ', DESCONTO         = ' + FloatToStr(vDesc);
-            ', PERDA            = ' + FloatToStr(vPerda);
-            ', outro_credito    = ' + FloatToStr(vOCred);
-            ', outro_debito     = ' + FloatToStr(vODeb);
-            ' WHERE CODRECEBIMENTO = ' + codRecB;
+            ', CAIXA            = ' + IntToStr(rCaixa) +
+            ', FUNRURAL         = ' + FloatToStr(vMulta) +
+            ', JUROS            = ' + FloatToStr(vJuros) +
+            ', DESCONTO         = ' + FloatToStr(vDesc)  +
+            ', PERDA            = ' + FloatToStr(vPerda) +
+            ', outro_credito    = ' + FloatToStr(vOCred) +
+            ', outro_debito     = ' + FloatToStr(vODeb)  +
+            ' WHERE CODRECEBIMENTO = ' + IntToStr(codRecB);
 
 
 end;

@@ -711,8 +711,7 @@ object fClienteFiltro: TfClienteFiltro
       Width = 95
       Height = 22
       AllowNoDate = True
-      Checked = True
-      Enabled = False
+      Checked = False
       TabOrder = 0
     end
     object JvDatePickerEdit3: TJvDatePickerEdit
@@ -721,8 +720,7 @@ object fClienteFiltro: TfClienteFiltro
       Width = 95
       Height = 21
       AllowNoDate = True
-      Checked = True
-      Enabled = False
+      Checked = False
       TabOrder = 1
     end
   end

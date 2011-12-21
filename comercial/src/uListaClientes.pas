@@ -138,6 +138,7 @@ type
     EvDBFind2: TEvDBFind;
     EvDBFind3: TEvDBFind;
     btnFiltroForm: TBitBtn;
+    btnFiltro: TButton;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -357,7 +358,7 @@ begin
   if (RadioButton1.Checked = true) then
   begin
     VCLReport1.FileName := str_relatorio + 'rel_cliente.rep';
-    if (fClienteFiltro.RadioButton5.Checked = true) then
+    if (fClienteFiltro.JvDatePickerEdit2.Checked = true) then
     begin
       VCLReport1.Report.Params.ParamByName('DATA1').Value := fClienteFiltro.JvDatePickerEdit2.Date;
       VCLReport1.Report.Params.ParamByName('DATA2').Value := fClienteFiltro.JvDatePickerEdit3.Date;
@@ -561,7 +562,7 @@ end;
 procedure TfListaClientes.FormShow(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fListaClientes));
-  bitbtn2.Click;
+  btnFiltro.Click;
 end;
 
 procedure TfListaClientes.DBGrid1DblClick(Sender: TObject);
@@ -601,7 +602,7 @@ begin
  begin
    //key:= #0;
    //SelectNext((Sender as TwinControl),True,True);
-   bitbtn2.Click;
+   //bitbtn2.Click;
  end;
 
 end;
@@ -637,7 +638,7 @@ begin
     dm.Proc_end_cli.Close;
     fProcurar.Free;
    end;
-   BitBtn2.Click;
+   //BitBtn2.Click;
 end;
 
 procedure TfListaClientes.BuscapeloNome1Click(Sender: TObject);
@@ -656,8 +657,8 @@ procedure TfListaClientes.RadioButton5Click(Sender: TObject);
 begin
   //if (RadioButton5.Checked = true) then
   //begin
-  fClienteFiltro.JvDatePickerEdit2.Enabled := fClienteFiltro.RadioButton5.Checked;
-  fClienteFiltro.JvDatePickerEdit3.Enabled := fClienteFiltro.RadioButton5.Checked;
+  //fClienteFiltro.JvDatePickerEdit2.Enabled := fClienteFiltro.RadioButton5.Checked;
+  //fClienteFiltro.JvDatePickerEdit3.Enabled := fClienteFiltro.RadioButton5.Checked;
   //end
   //else begin
   //  RadioButton2.Checked := false;
@@ -773,7 +774,7 @@ end;
 procedure TfListaClientes.btnFiltroFormClick(Sender: TObject);
 begin
   fClienteFiltro.ShowModal;
-  btnFiltroClick();
+  btnFiltro.Click;
 end;
 
 end.
