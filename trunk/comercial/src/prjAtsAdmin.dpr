@@ -255,10 +255,13 @@ uses
   uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra},
   ACBrBancoBrasil in 'ACBrBancoBrasil.pas',
   ucrdescontado in 'ucrdescontado.pas' {fcrdescontado},
+  uImport in 'uImport.pas' {fImport},
+  uCarne in 'uCarne.pas' {fCarne},
   uClienteFiltro in 'uClienteFiltro.pas' {fClienteFiltro},
   uReceberCls in 'uReceberCls.pas';
 
 //uImport in 'uImport.pas' {fImport};
+
 
 
 //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
