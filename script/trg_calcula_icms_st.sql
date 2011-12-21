@@ -25,7 +25,8 @@ AS
  DECLARE VARIABLE VFRETE DOUBLE PRECISION;
  DECLARE VARIABLE PIS DOUBLE PRECISION = 0;
  DECLARE VARIABLE COFINS DOUBLE PRECISION = 0;
- DECLARE VARIABLE CRT integer; 
+ DECLARE VARIABLE CRT integer;
+ Declare variable IE varchar (24);
 
 BEGIN
     select CRT from EMPRESA, MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
@@ -34,20 +35,23 @@ BEGIN
     new.ICMS_SUBSTD = 0;
     new.ICMS_SUBST = 0;
 
-	select first 1 ec.UF, c.TIPOFIRMA, m.CODCLIENTE from movimento m
+	select first 1 ec.UF, c.TIPOFIRMA, m.CODCLIENTE, c.INSCESTADUAL from movimento m
 	inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = m.CODCLIENTE
 	inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE
 	where ec.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
-	into :UF, :PESSOA, :CODCLI;
+	into :UF, :PESSOA, :CODCLI, :IE;
 	
 	if (:CODCLI is null) then
 	begin
-    select first 1 ef.UF, f.TIPOFIRMA from movimento m
+    select first 1 ef.UF, f.TIPOFIRMA, f.INSCESTADUAL from movimento m
 	inner join ENDERECOFORNECEDOR ef on ef.CODFORNECEDOR = m.CODFORNECEDOR
 	inner join FORNECEDOR f on f.CODFORNECEDOR = m.CODFORNECEDOR
 	where ef.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
-	into :UF, :PESSOA;
+	into :UF, :PESSOA, IE;
 	end
+	
+	if( IE = 'ISENTO' or IE = 'ISENTA') then
+        PESSOA = 0;
 	
 	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
 	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN
