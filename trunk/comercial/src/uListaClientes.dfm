@@ -660,6 +660,16 @@ object fListaClientes: TfListaClientes
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
     end
+    object btnFiltro: TButton
+      Left = 224
+      Top = 24
+      Width = 75
+      Height = 25
+      Caption = 'btnFiltro'
+      TabOrder = 9
+      Visible = False
+      OnClick = btnFiltroClick
+    end
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
