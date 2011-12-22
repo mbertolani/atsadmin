@@ -1172,6 +1172,14 @@ begin
       executaScript('gera_nf_devolucaovenda.sql');
       CriaException('ALTERA_NFE ', 'Não pode ser Excluida ou Alterada, Nota Eletrônica Gerada');
       executaScript('proibe_alt_del_nf');
+      if (NaoExisteTabela('ESTADO')) then
+      begin
+        executaSql('create table ESTADO ( CODIGO Integer NOT NULL, ' +
+          'SIGLA Char(2), NOME Varchar(60), ' +
+          'PRIMARY KEY(CODIGO, SIGLA) )');
+        //executaScript('pais.sql');
+        MessageDlg('Execute o Script "estado.sql".', mtWarning, [mbOK], 0);
+      end;
       mudaVersao('1.0.0.97');
     end;// Fim Ataulização Versao 1.0.0.97
 
