@@ -193,9 +193,9 @@ begin
       end  
           
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
-       , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base) 
+       , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base, II, BCII) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, ((:qtde * :preco)*(:desconto/100)),(:preco-((:preco)*(:desconto/100))));  
+       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, ((:qtde * :preco)*(:desconto/100)),(:preco-((:preco)*(:desconto/100))), 0, 0);  
       total = total + (qtde * (:preco*(1-(:desconto/100))));--((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto)
       totalIcms = totalIcms + :valoricms;
     end 
@@ -261,14 +261,14 @@ begin
     , VALOR_FRETE, VALOR_PRODUTO, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, BASE_ICMS, NOTAFISCAL
     , NOMETRANSP, PLACATRANSP, CNPJ_CPF, END_TRANSP , CIDADE_TRANSP, UF_VEICULO_TRANSP
     , UF_TRANSP, FRETE, INSCRICAOESTADUAL, CORPONF1, CORPONF2, CORPONF3, CORPONF4, CORPONF5
-    , CORPONF6, PESOBRUTO, PESOLIQUIDO, SERIE, UF, VALOR_DESCONTO)
+    , CORPONF6, PESOBRUTO, PESOLIQUIDO, SERIE, UF, VALOR_DESCONTO, II, BCII)
     VALUES (:numero, :codNF, 15, :codVen, :Cliente, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero
     , :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
     , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :TFRETE, :INSCRICAOESTADUAL
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
-    , :serie, :UF, 0);
+    , :serie, :UF, 0, 0, 0);
  
    -- Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
    -- da nf qdo esta e parcelada (dnz)
