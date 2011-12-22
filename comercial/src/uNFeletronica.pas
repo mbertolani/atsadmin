@@ -97,8 +97,6 @@ type
     sEmpresaSENHA: TStringField;
     gbCobranca1: TgbCobranca;
     sCFOP: TSQLDataSet;
-    sCFOPCFCOD: TStringField;
-    sCFOPCFNOME: TStringField;
     sCliente: TSQLDataSet;
     sClienteCODCLIENTE: TIntegerField;
     sClienteNOMECLIENTE: TStringField;
@@ -267,13 +265,6 @@ type
     sProdutosGERADESCONTO: TStringField;
     sProdutosIMPRIMIR: TStringField;
     sProdutosORIGEM: TIntegerField;
-    sCFOPUF: TStringField;
-    sCFOPICMS: TFloatField;
-    sCFOPREDUCAO: TFloatField;
-    sCFOPIPI: TFloatField;
-    sCFOPICMS_SUBSTRIB: TFloatField;
-    sCFOPICMS_SUBSTRIB_IC: TFloatField;
-    sCFOPICMS_SUBSTRIB_IND: TFloatField;
     cdsNFREDUZICMS: TFloatField;
     sClienteCD_IBGE: TStringField;
     sEmpresaCCUSTO: TIntegerField;
@@ -382,15 +373,10 @@ type
     sFornecDDD: TSmallintField;
     sFornecCD_IBGE: TStringField;
     sProdutosGENERO: TIntegerField;
-    sCFOPNAOENVFATURA: TStringField;
     sdsNFVALOR_PIS: TFloatField;
     sdsNFVALOR_COFINS: TFloatField;
     cdsNFVALOR_PIS: TFloatField;
     cdsNFVALOR_COFINS: TFloatField;
-    sCFOPCSTPIS: TStringField;
-    sCFOPCSTCOFINS: TStringField;
-    sCFOPCOFINS: TFloatField;
-    sCFOPPIS: TFloatField;
     sdsNFCORPONF5: TStringField;
     sdsNFCORPONF6: TStringField;
     cdsNFCORPONF5: TStringField;
@@ -568,6 +554,32 @@ type
     btnValidaXML: TBitBtn;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
+    sCFOPCFCOD: TStringField;
+    sCFOPCFNOME: TStringField;
+    sCFOPUF: TStringField;
+    sCFOPICMS: TFloatField;
+    sCFOPREDUCAO: TFloatField;
+    sCFOPIPI: TFloatField;
+    sCFOPICMS_SUBSTRIB: TFloatField;
+    sCFOPICMS_SUBSTRIB_IC: TFloatField;
+    sCFOPICMS_SUBSTRIB_IND: TFloatField;
+    sCFOPNAOENVFATURA: TStringField;
+    sCFOPCSTPIS: TStringField;
+    sCFOPCSTCOFINS: TStringField;
+    sCFOPCOFINS: TFloatField;
+    sCFOPPIS: TFloatField;
+    sdsItensNFII: TFloatField;
+    sdsItensNFBCII: TFloatField;
+    cdsItensNFII: TFloatField;
+    cdsItensNFBCII: TFloatField;
+    sdsNFII: TFloatField;
+    sdsNFBCII: TFloatField;
+    cdsNFII: TFloatField;
+    cdsNFBCII: TFloatField;
+    sEstado: TSQLDataSet;
+    sEstadoCODIGO: TIntegerField;
+    sEstadoSIGLA: TStringField;
+    sEstadoNOME: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -667,7 +679,7 @@ begin
       'UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, ' +
       'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
       'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  nf.INSCRICAOESTADUAL,' +
-      'udf_left(nf.END_TRANSP,60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60) as CIDADE_TRANSP,   nf.UF_TRANSP,'+
+      'udf_left(nf.END_TRANSP,60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60) as CIDADE_TRANSP, nf.UF_TRANSP, UDF_ROUNDDEC(nf.II, 2) as II, UDF_ROUNDDEC(nf.BCII, 2) as BCII, '+
       'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
       'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
@@ -681,7 +693,7 @@ begin
     cdsNF.Params[4].AsSmallInt := 15;
     str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.IDCOMPLEMENTAR,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, nf.XMLNFE, nf.CODCLIENTE, nf.NUMNF, ' +
     'nf.CODVENDA, nf.fatura, nf.natureza, UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-    'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, ' +
+    'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.II, 2) as II, UDF_ROUNDDEC(nf.BCII, 2) as BCII, ' +
     'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
     'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  '+
     'nf.INSCRICAOESTADUAL, udf_left(nf.END_TRANSP, 60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60)as CIDADE_TRANSP, ' +
@@ -798,7 +810,12 @@ begin
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
             //infNFe.ID := 0                                  // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
-            Ide.cUF       := 35;                              // Codigo do UF do Emitente do documento fiscal
+
+            if (sEstado.Active) then
+              sEstado.Close;
+            sEstado.Params[0].AsString := sEmpresaUF.asString;
+            sEstado.Open;
+            Ide.cUF       := sEstadoCODIGO.AsInteger;                   // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := sCFOPCFNOME.AsString;
 
@@ -899,8 +916,8 @@ begin
                 'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
                 'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
                 'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
-                'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS from compra cp ' +
-                'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
+                'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
+                ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
                 'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
@@ -913,7 +930,7 @@ begin
                 'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
                 'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
                 'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
-                'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS ' +
+                'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
                 'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
                 'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
                 'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -988,7 +1005,7 @@ begin
                 MessageDlg('Valor do Seguro nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
             Total.ICMSTot.vDesc := cdsNFVALOR_DESCONTO.AsVariant;
-            //Total.ICMSTot.vII := 0;
+            Total.ICMSTot.vII := cdsNFII.AsVariant;
             if (cdsNFVALOR_IPI.IsNull) then
                 MessageDlg('Valor do IPI nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
@@ -1174,8 +1191,6 @@ begin
 end;
 
 procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
-var
-  protocol : String;
 begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
@@ -1194,7 +1209,7 @@ begin
       ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
       ACBrNFe1.WebServices.ConsultaDPEC.Executar;
       ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
-      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.retDPEC.dhRegDPEC);
+      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.dhRegDPEC);
     end
     else
     begin
@@ -1488,7 +1503,11 @@ begin
    with ACBrNFe1.NotasFiscais.Add.NFe do
    begin
     //infNFe.ID := 0                                  // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
-    Ide.cUF       := 35;                              // Codigo do UF do Emitente do documento fiscal
+    if (sEstado.Active) then
+      sEstado.Close;
+    sEstado.Params[0].AsString := sEmpresaUF.asString;
+    sEstado.Open;
+    Ide.cUF       := sEstadoCODIGO.AsInteger;                               // Codigo do UF do Emitente do documento fiscal
     Ide.cNF       := cdsNFNUMNF.AsInteger;
     Ide.natOp     := sCFOPCFNOME.AsString;
          //Verifica tipo de Pagamento
@@ -1578,11 +1597,11 @@ begin
     begin
     itensnf := 'select md.CODPRODUTO, md.coddetalhe, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-        'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
-        'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.CSOSN, md.pIPI, md.vIPI, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-        'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, ' +
-        'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS from compra cp ' +
-        'inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
+        'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
+        'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
+        'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
+        'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
+        ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
         'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
         'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
@@ -1592,9 +1611,10 @@ begin
     itensnf :=  'select md.CODPRODUTO, md.coddetalhe, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
         'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
         'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.pIPI, ' +
-        'md.vIPI, md.VLR_BASEICMS, md.CSOSN, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-        'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
-        'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS ' +
+        'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+        'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+        'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
+        'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
         'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
         'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
         'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -1802,7 +1822,6 @@ end;
 procedure TfNFeletronica.getItens(contador: integer);
 var
   BC, BCST, desc : Variant;
-  valpis, valcofins : Variant;
 begin
    BC := 0;
    BCST := 4;
@@ -2050,6 +2069,14 @@ begin
           vBC   := cdsItensNFVALTOTAL.AsVariant;
           pCOFINS  := sCFOPCOFINS.AsVariant;
           vCOFINS  := cdsItensNFVALOR_COFINS.AsVariant;
+        end;
+        if (cdsItensNFII.asFloat > 0) then
+        begin
+          with II do
+          begin
+            vBc := cdsItensNFBCII.AsVariant;
+            vII := cdsItensNFII.AsVariant;
+          end;
         end;
       end;
     end;
