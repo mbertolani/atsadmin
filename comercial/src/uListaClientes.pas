@@ -346,7 +346,7 @@ begin
   cds.CommandText := varCondicao + ' order by cli.NOMECLIENTE '; //ende.CIDADE,;
   cds.Open;
 
-  JvDBGrid1.SetFocus;
+  //JvDBGrid1.SetFocus;
   
 end;
 
@@ -563,6 +563,7 @@ procedure TfListaClientes.FormShow(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fListaClientes));
   btnFiltro.Click;
+  EvDBFind1.SetFocus;
 end;
 
 procedure TfListaClientes.DBGrid1DblClick(Sender: TObject);
@@ -775,6 +776,7 @@ procedure TfListaClientes.btnFiltroFormClick(Sender: TObject);
 begin
   fClienteFiltro.ShowModal;
   btnFiltro.Click;
+  EvDBFind1.SetFocus;
 end;
 
 end.

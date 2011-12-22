@@ -63,7 +63,7 @@ object fListaClientes: TfListaClientes
     BevelInner = bvRaised
     BevelOuter = bvLowered
     PopupMenu = PopupMenu1
-    TabOrder = 1
+    TabOrder = 2
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -687,7 +687,7 @@ object fListaClientes: TfListaClientes
     Font.Style = []
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
