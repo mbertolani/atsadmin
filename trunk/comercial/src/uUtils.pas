@@ -229,6 +229,7 @@ begin
   resultado.Add('11-Todos');
   resultado.Add('3-Em Protesto');
   resultado.Add('14-Cancelado');
+  resultado.Add('Descontado');  
   result := resultado;
 end;
 

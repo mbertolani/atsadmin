@@ -636,8 +636,8 @@ begin
         else
           SqlCr := SqlCr + ' AND ((rec.STATUS = ';
         SqlCr := SqlCr + '''' + '5-' + ''')';
-        SqlCr := SqlCr + ' AND (rec.DATAVENCIMENTO >= CURRENT_DATE)';
-        SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';
+        SqlCr := SqlCr + ' AND (rec.DATAVENCIMENTO >= CURRENT_DATE)'  + ')';
+        //SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';   // Retirei(carlos) isto , não tem sentido ver descontados aqui.
       end;
       1:  // Vencido
       begin
@@ -646,8 +646,8 @@ begin
         else
           SqlCr := SqlCr + ' AND ((rec.STATUS = ';
         SqlCr := SqlCr + '''' + '5-' + ''')';
-        SqlCr := SqlCr + ' AND (rec.DATAVENCIMENTO < CURRENT_DATE)';
-        SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';
+        SqlCr := SqlCr + ' AND (rec.DATAVENCIMENTO < CURRENT_DATE)'  + ')';
+        //SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';
       end;
       2:  // A Receber (A Vencer + Vencido)
       begin
@@ -655,8 +655,8 @@ begin
           SqlCr := SqlCr + ' WHERE ((rec.STATUS = '
         else
           SqlCr := SqlCr + ' AND ((rec.STATUS = ';
-        SqlCr := SqlCr + '''' + '5-' + ''')';
-        SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';
+        SqlCr := SqlCr + '''' + '5-' + ''')'  + ')';
+        //SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';   // Retirei(carlos) isto , não tem sentido ver descontados aqui.
       end;
       3:  // Recebido
       begin
@@ -712,7 +712,13 @@ begin
           SqlCr := SqlCr + ' AND (rec.STATUS = ';
         SqlCr := SqlCr + '''' + '14' + ''')';
       end;
-
+      10:  // Descontados
+      begin
+        if SqlCr='' then
+          SqlCr := SqlCr + ' WHERE (rec.DESCONTADO = ' + QuotedStr('S') + ')'
+        else
+          SqlCr := SqlCr + ' AND (rec.DESCONTADO = ' + QuotedStr('S') + ')';
+      end;
 
     end;
 
