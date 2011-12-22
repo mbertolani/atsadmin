@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, StdCtrls, DBCtrls, ExtCtrls, Mask, DB, DBClient,
   Provider, SqlExpr, Menus, XPMenu, Buttons, MMJPanel,jpeg, JvExExtCtrls,
-  JvImage, ExtDlgs, JvExControls, JvLabel, DBLocal, DBLocalS, DBXpress;
+  JvImage, ExtDlgs, JvExControls, JvLabel, DBLocal, DBLocalS, DBXpress,
+  JvExStdCtrls, JvCombobox;
 
 type
   TfEmpresa = class(TfPai)
@@ -30,7 +31,6 @@ type
     DBEdit10: TDBEdit;
     Label12: TLabel;
     Label13: TLabel;
-    DBComboBox1: TDBComboBox;
     DBEdit11: TDBEdit;
     Label14: TLabel;
     DBEdit12: TDBEdit;
@@ -79,6 +79,16 @@ type
     DBEdit24: TDBEdit;
     Label28: TLabel;
     DBRadioGroup2: TDBRadioGroup;
+    cbEstado: TJvComboBox;
+    sdsEstado: TSQLDataSet;
+    dspEstado: TDataSetProvider;
+    cdsEstado: TClientDataSet;
+    sdsEstadoCODIGO: TIntegerField;
+    sdsEstadoSIGLA: TStringField;
+    sdsEstadoNOME: TStringField;
+    cdsEstadoCODIGO: TIntegerField;
+    cdsEstadoSIGLA: TStringField;
+    cdsEstadoNOME: TStringField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -89,6 +99,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
+    procedure cbEstadoChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -160,7 +171,10 @@ begin
   else begin
     Image1.Picture := nil ;
   end;
-
+  if (not cdsEstado.Active) then
+    cdsEstado.Open;
+  if (cdsEstado.Locate('SIGLA', DM.cds_empresaUF.asString, [loCaseInsensitive])) then
+     cbEstado.ItemIndex := cdsEstado.RecNo-1;
 end;
 
 procedure TfEmpresa.DtSrcStateChange(Sender: TObject);
@@ -188,6 +202,7 @@ begin
       DM.cds_empresa.Edit;
      DM.cds_empresaLOGOTIPO.Clear;
      DM.cds_empresa.ApplyUpdates(0);
+     Image1.Picture := nil;
 end;
 
 procedure TfEmpresa.BitBtn1Click(Sender: TObject);
@@ -216,7 +231,15 @@ end;
 procedure TfEmpresa.FormCreate(Sender: TObject);
 begin
  // inherited;
-
+  if cdsEstado.Active then
+    cdsEstado.Close;
+  cdsEstado.Open;
+  cdsEstado.First;
+  while not cdsEstado.Eof do
+  begin
+    cbEstado.Items.Add(cdsEstadoSIGLA.AsString);
+    cdsEstado.Next;
+  end;
 end;
 
 procedure TfEmpresa.btnGravarClick(Sender: TObject);
@@ -255,7 +278,10 @@ begin
      if(DtSrc.State in [dsbrowse,dsinactive]) then
        DM.cds_empresa.Edit;
      DBEdit10.Text := procIBGENM_MUNICIPIO.AsString;
-     DBComboBox1.Text := procIBGECD_UF.AsString;
+     if (not cdsEstado.Active) then
+       cdsEstado.Open;
+     if (cdsEstado.Locate('SIGLA', procIBGECD_UF.AsString, [loCaseInsensitive])) then
+       cbEstado.ItemIndex := cdsEstado.RecNo-1;
      DBEdit20.Text := procIBGECD_IBGE.AsString;
    end;
    finally
@@ -269,6 +295,14 @@ begin
   inherited;
   if (DtSrc.State in [dsBrowse]) then
     DM.cds_empresa.Edit;
+end;
+
+procedure TfEmpresa.cbEstadoChange(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
+  dm.cds_empresaUF.AsString := cbEstado.Text;
 end;
 
 end.
