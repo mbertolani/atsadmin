@@ -42,6 +42,7 @@ type
     procedure CriaException(Exception_nome, exception_msg: String);
     procedure CriaCampoDescricao(TABELA, CAMPO, DESCRICAO : String);
     procedure DeletaTrigger(Trigger: String);
+    procedure DeletaProc(Proc: String);    
 
     { Private declarations }
   public
@@ -178,8 +179,7 @@ begin
 
     if (versaoSistema = '1.0.0.19') then
     begin
-      executaSql('CREATE EXCEPTION nao_pode_excluir ' +
-      QuotedStr('Registro não pode ser excluido,  existe venda/compra.'));
+      CriaException('NAO_PODE_EXCLUIR', 'Registro não pode ser excluido,  existe venda/compra.');
       executaScript('apaga_rec.sql');
       executaScript('proibe_exclusao_pag.sql');
       executaScript('proibe_exclusao_rec.sql');
@@ -189,8 +189,7 @@ begin
     if (versaoSistema = '1.0.0.20') then
     begin
 
-      executaSql('CREATE EXCEPTION estoqueFechado ' +
-        QuotedStr('Estoque fechado nesta data.'));
+      CriaException('ESTOQUEFECHADO', 'Estoque fechado nesta data.');
       executaSql('CREATE TABLE ESTOQUE_CONTROLE( ' +
         ' IDESTOQUECONTROLE Integer NOT NULL, ' +
         ' CODUSUARIO Integer NOT NULL, DATAFECHAMENTO Date NOT NULL, '+
@@ -332,11 +331,8 @@ begin
 
     if (versaoSistema = '1.0.0.30') then
     begin
-     executaSql('CREATE EXCEPTION TIPOENDERECOREPETIDO ' +
-        QuotedStr('Já existe endereço cadastrado com este tipo'));
-      executaSql('CREATE EXCEPTION CNPJ_REPETIDO ' +
-        QuotedStr('Já existe Cliente com este CNPJ/CPF.'));
-
+     CriaException('TIPOENDERECOREPETIDO', 'Já existe endereço cadastrado com este tipo');
+     CriaException('CNPJ_REPETIDO', 'Já existe Cliente com este CNPJ/CPF.');
       executaScript('tipoend_repetido.sql');
       executaScript('cnpj_repetido.sql');
       mudaVersao('1.0.0.31');
@@ -1095,7 +1091,6 @@ begin
 
     if (versaoSistema = '1.0.0.94') then
     begin
-     // executaSql('CREATE OR ALTER EXCEPTION ALTERA_CODPRO ' + QuotedStr('Produto em uso na Solicitação, não é possível fazer alteração'));
       executaSql('ALTER TABLE OS DROP CODVEICULO');
       CriaException('ALTERA_CODPRO ', 'Produto em uso na Solicitação, não é possível fazer alteração');
       executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
@@ -1163,10 +1158,10 @@ begin
       executaSql('ALTER TABLE FUNCIONARIO ALTER RUA TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER CIDADE TYPE Varchar(60);');
       executaSql('update TRANSPORTADORA set FANTASIA = NOMETRANSP');
-      executaSql('DROP PROCEDURE GERA_NF_DEVOLUCAOCOMPRA');
-      executaSql('DROP PROCEDURE GERA_NF_DEVOLUCAOVENDA');
-      executaSql('DROP PROCEDURE GERA_NF_VENDA');
-      executaSql('DROP PROCEDURE GERA_NF_COMPRA');
+      DeletaProc('GERA_NF_DEVOLUCAOCOMPRA');
+      DeletaProc('GERA_NF_DEVOLUCAOVENDA');
+      DeletaProc('GERA_NF_VENDA');
+      DeletaProc('GERA_NF_COMPRA');
       executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF1 TYPE Varchar(200)');
       executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF2 TYPE Varchar(200)');
       executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF3 TYPE Varchar(200)');
@@ -1175,6 +1170,8 @@ begin
       executaScript('gera_nf_compra.sql');
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
+      CriaException('ALTERA_NFE ', 'Não pode ser Excluida ou Alterada, Nota Eletrônica Gerada');
+      executaScript('proibe_alt_del_nf');
       mudaVersao('1.0.0.97');
     end;// Fim Ataulização Versao 1.0.0.97
 
@@ -1455,6 +1452,32 @@ begin
   begin
     try
       sql := 'DROP TRIGGER ' + Trigger;
+      dm.sqlsisAdimin.ExecuteDirect(sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro 003. (' + sql + ')', mtWarning, [mbOK], 0);
+      abort;
+    end;
+  end;
+end;
+
+procedure TfAtualizaSistema.DeletaProc(Proc: String);
+var sql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  if (cds.Active) then
+    cds.Close;
+  cds.CommandText := 'select RDB$PROCEDURE_NAME ' +
+     '  FROM RDB$PROCEDURES ' +
+     ' WHERE RDB$PROCEDURE_NAME = ' + QuotedStr(Proc);
+  cds.Open;
+  if (not cds.IsEmpty) then
+  begin
+    try
+      sql := 'DROP PROCEDURE ' + Proc;
       dm.sqlsisAdimin.ExecuteDirect(sql);
       dm.sqlsisAdimin.Commit(TD);
     except
