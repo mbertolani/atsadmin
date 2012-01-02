@@ -1,19 +1,20 @@
 inherited fCliente1: TfCliente1
-  Left = 232
-  Width = 737
-  Height = 597
+  Left = 330
+  Top = 146
+  Width = 746
+  Height = 606
   Caption = 'Cadastro Cliente'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 729
+    Width = 730
     Height = 33
     TabOrder = 5
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 519
-    Width = 729
+    Top = 517
+    Width = 730
     Font.Height = -13
     ParentFont = False
     TabOrder = 6
