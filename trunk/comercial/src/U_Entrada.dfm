@@ -1,6 +1,6 @@
 object F_Entrada: TF_Entrada
-  Left = 325
-  Top = 154
+  Left = 329
+  Top = 157
   Width = 632
   Height = 527
   BorderIcons = [biSystemMenu]
