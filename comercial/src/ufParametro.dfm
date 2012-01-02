@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
-  Left = 237
-  Top = 98
+  Left = 240
+  Top = 101
   Width = 814
   Height = 575
   OldCreateOrder = True
@@ -2615,7 +2615,7 @@ inherited fParametro: TfParametro
       ImageIndex = 10
       object Label50: TLabel
         Left = 369
-        Top = 38
+        Top = 2
         Width = 146
         Height = 13
         Caption = 'Mensagem impressa no cupom'
@@ -2699,7 +2699,7 @@ inherited fParametro: TfParametro
       end
       object edtMensagem: TEdit
         Left = 368
-        Top = 56
+        Top = 20
         Width = 393
         Height = 21
         BevelKind = bkFlat
@@ -2952,6 +2952,26 @@ inherited fParametro: TfParametro
         BorderStyle = bsNone
         TabOrder = 17
         OnChange = edtSetor3Change
+      end
+      object edtMensagem1: TEdit
+        Left = 368
+        Top = 41
+        Width = 393
+        Height = 21
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        TabOrder = 18
+        OnChange = edtMensagem1Change
+      end
+      object edtMensagem2: TEdit
+        Left = 368
+        Top = 62
+        Width = 393
+        Height = 21
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        TabOrder = 19
+        OnChange = edtMensagem2Change
       end
     end
   end

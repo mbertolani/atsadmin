@@ -256,6 +256,8 @@ type
     Label58: TLabel;
     Label59: TLabel;
     edtSetor3: TEdit;
+    edtMensagem1: TEdit;
+    edtMensagem2: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -313,6 +315,8 @@ type
     procedure cbModeloChange(Sender: TObject);
     procedure edtSetor2Change(Sender: TObject);
     procedure edtSetor3Change(Sender: TObject);
+    procedure edtMensagem1Change(Sender: TObject);
+    procedure edtMensagem2Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2147,6 +2151,20 @@ begin
 
      if (s_parametro.Active) then
        s_parametro.Close;
+     s_parametro.Params[0].AsString := 'MENSAGEM_1';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       edtMensagem1.Text := s_parametroDADOS.AsString;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'MENSAGEM_2';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       edtMensagem2.Text := s_parametroDADOS.AsString;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
      s_parametro.Params[0].AsString := 'IMPARQUIVO';
      s_parametro.Open;
      if (not s_parametro.Eof) then
@@ -3340,6 +3358,100 @@ begin
         strSql := strSql + QuotedStr('Porta para impressão') + ', ';
         strSql := strSql + QuotedStr('PORTA SETOR3') + ', ';
         strSql := strSql + QuotedStr(edtSetor3.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtMensagem1Change(Sender: TObject);
+begin
+  if (edtMensagem1.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'MENSAGEM_1';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtMensagem1.Text <> s_parametroDADOS.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET DADOS = ';
+          strSql := strSql + QuotedStr(edtMensagem1.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('MENSAGEM_1');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Mensagem para Impressão') + ', ';
+        strSql := strSql + QuotedStr('MENSAGEM_1') + ', ';
+        strSql := strSql + QuotedStr(edtMensagem1.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtMensagem2Change(Sender: TObject);
+begin
+  if (edtMensagem2.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'MENSAGEM_2';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtMensagem2.Text <> s_parametroDADOS.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET DADOS = ';
+          strSql := strSql + QuotedStr(edtMensagem2.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('MENSAGEM_2');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Mensagem para Impressão') + ', ';
+        strSql := strSql + QuotedStr('MENSAGEM_2') + ', ';
+        strSql := strSql + QuotedStr(edtMensagem2.Text);
         strSql := strSql + ')';
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
