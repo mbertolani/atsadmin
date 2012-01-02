@@ -485,6 +485,9 @@ type
     Label39: TLabel;
     sds_vendaCODPEDIDO: TIntegerField;
     cdsCODPEDIDO: TIntegerField;
+    pm2: TPopupMenu;
+    ImprimirPedido1: TMenuItem;
+    ImprimirOrdemdeServio1: TMenuItem;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -540,6 +543,8 @@ type
     procedure JvCalcEdit3Change(Sender: TObject);
     procedure JvCalcEdit2Change(Sender: TObject);
     procedure cdsAfterPost(DataSet: TDataSet);
+    procedure ImprimirPedido1Click(Sender: TObject);
+    procedure ImprimirOrdemdeServio1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima: String;
@@ -582,7 +587,7 @@ implementation
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
   uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque,
-  uMovimento, U_Boletos;
+  uMovimento, U_Boletos, uCarne;
 
 {$R *.dfm}
 
@@ -1434,56 +1439,11 @@ end;
 
 procedure TfVendaFinalizar.btnImprimirClick(Sender: TObject);
 var
-  acompo : TRpLabel;
-  valorextenco : Double;
+   XY: TPoint;
 begin
-  inherited;
-  {------Pesquisando na tab Parametro qual rel. venda ele usa ---}
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'REL. VENDAS';
-  dm.cds_parametro.Open;
-  if dm.cds_parametro.IsEmpty then
-  begin
-    dm.cds_parametro.Append;
-    dm.cds_parametroDESCRICAO.AsString := 'Tipo de Impressão (PADRÃO ou CUPOM)';
-    dm.cds_parametroPARAMETRO.AsString := 'REL. VENDAS';
-    dm.cds_parametroDADOS.AsString := 'PADRÃO';
-    dm.cds_parametro.ApplyUpdates(0);
-
-  end;
-  if dm.cds_parametroDADOS.AsString = 'PADRÃO' then
-  begin
-    VCLReport2.FileName := str_relatorio + 'impr_texto.rep';
-    if (dm.moduloUsado = 'AGROPECUARIA') then
-    begin
-      valorextenco := cdsVALOR.AsFloat; //StrToFloat(DBEdit1.Text);
-      acompo:=TRpLabel(VCLReport2.Report.FindComponent('TRpLabel28'));
-      if Assigned(acompo) then
-        acompo.Text:= EvExtenso1.GetExtenso(valorextenco);
-    end;
-    VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-    VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
-    VCLReport2.Execute;
-  end;
-
-  if dm.cds_parametroDADOS.AsString = 'CUPOM' then
-  //   if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
-  begin
-    portaimpr := dm.cds_parametroD2.AsString;
-    tipoimpressao := dm.cds_parametroD1.AsString ;
-    imprimecupom;
-  end;
-  if dm.cds_parametroDADOS.AsString = 'PERSONALIZADO' then
-  begin
-    VCLReport2.FileName := str_relatorio + 'recibo_venda.rep';
-    VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-    VCLReport2.Report.Params.ParamByName('CODVENDA').Value := cdsCODVENDA.AsInteger;
-    VCLReport2.Report.Params.ParamByName('CODID').Value := cdsCODCLIENTE.AsInteger;
-    VCLReport2.Report.Params.ParamByName('N_COPIAS').Value := 2;
-    VCLReport2.Execute;
-  end;
-
+     XY := Point(50, -10);
+     XY := btnImprimir.ClientToScreen(XY);
+     pm2.Popup(XY.X, XY.Y + btnImprimir.Height - 2);
 end;
 
 procedure TfVendaFinalizar.BitBtn3Click(Sender: TObject);
@@ -3167,6 +3127,84 @@ procedure TfVendaFinalizar.cdsAfterPost(DataSet: TDataSet);
 var  FEstoque: TEstoque;
 begin
   inherited;
+end;
+
+procedure TfVendaFinalizar.ImprimirPedido1Click(Sender: TObject);
+var
+  acompo : TRpLabel;
+  valorextenco : Double;
+begin
+  inherited;
+  {------Pesquisando na tab Parametro qual rel. venda ele usa ---}
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'REL. VENDAS';
+  dm.cds_parametro.Open;
+  if dm.cds_parametro.IsEmpty then
+  begin
+    dm.cds_parametro.Append;
+    dm.cds_parametroDESCRICAO.AsString := 'Tipo de Impressão (PADRÃO ou CUPOM)';
+    dm.cds_parametroPARAMETRO.AsString := 'REL. VENDAS';
+    dm.cds_parametroDADOS.AsString := 'PADRÃO';
+    dm.cds_parametro.ApplyUpdates(0);
+
+  end;
+  if dm.cds_parametroDADOS.AsString = 'PADRÃO' then
+  begin
+    VCLReport2.FileName := str_relatorio + 'impr_texto.rep';
+    if (dm.moduloUsado = 'AGROPECUARIA') then
+    begin
+      valorextenco := cdsVALOR.AsFloat; //StrToFloat(DBEdit1.Text);
+      acompo:=TRpLabel(VCLReport2.Report.FindComponent('TRpLabel28'));
+      if Assigned(acompo) then
+        acompo.Text:= EvExtenso1.GetExtenso(valorextenco);
+    end;
+    VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
+    VCLReport2.Execute;
+  end;
+
+  if dm.cds_parametroDADOS.AsString = 'CUPOM' then
+  //   if (MessageDlg('Imprimir Recibo ', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+  begin
+    portaimpr := dm.cds_parametroD2.AsString;
+    tipoimpressao := dm.cds_parametroD1.AsString ;
+    imprimecupom;
+  end;
+  if dm.cds_parametroDADOS.AsString = 'PERSONALIZADO' then
+  begin
+    VCLReport2.FileName := str_relatorio + 'recibo_venda.rep';
+    VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport2.Report.Params.ParamByName('CODVENDA').Value := cdsCODVENDA.AsInteger;
+    VCLReport2.Report.Params.ParamByName('CODID').Value := cdsCODCLIENTE.AsInteger;
+    VCLReport2.Report.Params.ParamByName('N_COPIAS').Value := 2;
+    VCLReport2.Execute;
+  end;
+end;
+
+procedure TfVendaFinalizar.ImprimirOrdemdeServio1Click(Sender: TObject);
+begin
+  fCarne := TfCarne.Create(Application);
+  try
+    if (fCarne.scdsCr_proc.Active) then
+        fCarne.scdsCr_proc.Close;
+    fCarne.scdsCr_proc.Params[0].AsInteger := cdsCODVENDA.AsInteger;
+    fCarne.scdsCr_proc.Open;
+
+    if (fCarne.buscaCli.Active) then
+        fCarne.buscaCli.Close;
+    fCarne.buscaCli.Params[0].AsInteger := cdsCODCLIENTE.AsInteger;
+    fCarne.buscaCli.Open;
+
+
+    //fCarne.txtParcela.Caption := scdsCr_procVIA.AsString;
+    //fCarne.txtNomeSacado.Caption := DM_MOV.c_vendaNOMECLIENTE.AsString;
+    //fCarne.BoletoCarne.BeforePrint;
+    fCarne.BoletoCarne.Preview();
+    //fCarne.ShowModal;
+  finally
+    fCarne.Free;
+  end;
 end;
 
 end.
