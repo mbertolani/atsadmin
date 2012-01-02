@@ -237,6 +237,8 @@ type
     jvTotal: TJvValidateEdit;
     JvLabel3: TJvLabel;
     JvBitBtn2: TJvBitBtn;
+    SQLDataSet1CODVENDA: TIntegerField;
+    scdsCr_procCODVENDA: TIntegerField;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -347,7 +349,7 @@ var
 implementation
 
 uses UDM_MOV, uProcurar, uProcurar_nf, UDMNF, UDm, ufprocura_prod,
-  ufCrAltera, uNotaf, U_Boletos, U_Entrada;
+  ufCrAltera, uNotaf, U_Boletos, U_Entrada, uCarne, uReceberCls;
 
 {$R *.dfm}
 
@@ -503,7 +505,7 @@ begin
     DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
 
   if (DM_MOV.PAGECONTROL = 'DELIVERY') then
-    DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+    DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.ID_DO_MOVIMENTO;
 
   DM_MOV.c_venda.Open;
   if (DM_MOV.c_venda.IsEmpty) then
@@ -752,6 +754,9 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.JvGravarClick(Sender: TObject);
+var
+  FRec : TReceberCls;
+  codRec : Integer;
 begin
     if (DBEdit5.Text = '1') then
      if (cbPrazo.Text = '01-A Vista') then
@@ -801,7 +806,14 @@ begin
     scdsCr_proc.Params[0].Clear;
 
     INSEREVEDA;
-
+    // Executo Classe Insere Recebimento ---------------------------------------
+    try
+       FRec := TReceberCls.Create;
+       codRec := FRec.geraTitulo(0, COD_VENDA);
+    finally
+       Frec.Free;
+    end;
+    //--------------------------------------------------------------------------
     if (DM_MOV.c_venda.Active) then
         DM_MOV.c_venda.Close;
     DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
@@ -827,7 +839,7 @@ begin
            MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
                [mbOk], 0);
         end;
-     //   baixa_titulos;
+        baixa_titulos;
     end;
     DM_MOV.c_forma.Close;
     //-------------------------------------------------------------------------
@@ -1080,18 +1092,6 @@ begin
     DecimalSeparator := ',';
     ThousandSeparator := '.';
 
-  {  Try
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
-      dm.sqlsisAdimin.Commit(TD);
-    except
-      on E : Exception do
-      begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes
-      end;
-    end;
-    }
 end;
 
 procedure TF_TerminalFinaliza.FormClose(Sender: TObject;
@@ -1978,10 +1978,21 @@ end;
 
 procedure TF_TerminalFinaliza.JvBitBtn2Click(Sender: TObject);
 begin
-  VCLReport2.FileName := str_relatorio + 'impr_carne.rep';
-  VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport2.Report.Params.ParamByName('PVENDA').Value := DM_MOV.c_vendaCODVENDA.AsInteger;
-  VCLReport2.Execute;
+  fCarne := TfCarne.Create(Application);
+  try
+    if (fCarne.scdsCr_proc.Active) then
+        fCarne.scdsCr_proc.Close;
+    fCarne.scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+    fCarne.scdsCr_proc.Open;
+
+    if (fCarne.buscaCli.Active) then
+        fCarne.buscaCli.Close;
+    fCarne.buscaCli.Params[0].AsInteger := DM_MOV.c_vendaCODCLIENTE.AsInteger;
+    fCarne.buscaCli.Open;
+    fCarne.BoletoCarne.Preview();
+  finally
+    fCarne.Free;
+  end;
 end;
 
 procedure TF_TerminalFinaliza.baixa_titulos;

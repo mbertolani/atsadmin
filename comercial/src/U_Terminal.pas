@@ -434,10 +434,11 @@ type
     scds_cli_procLOGRADOURO: TStringField;
     scds_cli_procTELEFONE: TStringField;
     scds_cli_procBLOQUEIO: TStringField;
-    Edit1: TEdit;
     JvLabel14: TJvLabel;
     JvLabel15: TJvLabel;
-    Edit2: TEdit;
+    edtQtde: TJvCalcEdit;
+    edtQtde1: TJvCalcEdit;
+    JvBitBtn5: TJvBitBtn;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -527,6 +528,9 @@ type
     procedure DBGrid2KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn1Click(Sender: TObject);
     procedure JvComissaoChange(Sender: TObject);
+    procedure edtQtde1KeyPress(Sender: TObject; var Key: Char);
+    procedure edtQtdeKeyPress(Sender: TObject; var Key: Char);
+    procedure JvBitBtn5Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     clienteConsumidor,nomecliente, tipo_busca : string;
@@ -559,6 +563,8 @@ type
     procedure imprimeCupom;
     procedure imprimeRecibo;
     procedure imprimeDLLBema;
+    procedure imp_Setor1_DLL;
+    procedure imp_Setor2_DLL;    
     procedure clic_botao;
     procedure pinta_botao;
     procedure pinta_botao_1;
@@ -733,6 +739,7 @@ begin
 
    DM_MOV.c_movdet.Params[0].AsInteger := CODIGO_DO_MOVIMENTO;
    DM_MOV.c_movdet.Open;
+   DM_MOV.c_movdet.Locate('CODDETALHE',ID_MOVDET,[loCaseInsensitive]);
 
     if (c_forma.Active) then
       c_forma.Close;
@@ -1014,6 +1021,8 @@ begin
           else
              DM_MOV.c_movimento.Edit;
           IncluiItemPedido;   // Tabela MovimentoDetalhe
+          edtQtde.Value := 1;
+          edtQtde.SetFocus;
         end;
       end
       else
@@ -1192,12 +1201,20 @@ begin
         DM_MOV.c_comanda.Open;
         teste_codigo := IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger);
       end;
+
+      { if (vTIPO_PEDIDO <> 'C') then // Venda Consumidor
+       begin
+         DM_MOV.ID_DO_MOVIMENTO := fFiltroMovimento.cod_mov;
+       end;
+       }
       DM_MOV.c_movdet.Close;
       DM_MOV.c_movdet.Params[0].Clear;
       DM_MOV.c_movdet.Params[0].AsInteger := fFiltroMovimento.cod_mov;
       DM_MOV.c_movdet.Open;
       if (not DM_MOV.c_movdet.IsEmpty) then
         JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+
+
     end
     else
     begin
@@ -1449,9 +1466,15 @@ begin
       end;
 
       if (RETORNO = 'FALSO') then
-         btnProduto.Click
+      begin
+         btnProduto.Click;
+      end
       else
+      begin
          IncluiItemPedido;
+         edtQtde1.Value := 1;
+         edtQtde1.SetFocus;
+      end;
 
       JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
 
@@ -1799,14 +1822,16 @@ begin
          DM_MOV.c_movimento.Params[0].Clear;
        end;
      end;
-     pinta_botao;
-     JvLabel8.Caption := '...';
    JvTotal.Value := 0;
    if (PageControl1.ActivePage = TabSheet1) then
      EdtCodBarra.SetFocus;
    if (PageControl1.ActivePage = TabDelivery) then
      edtFone.SetFocus;
-
+   if (PageControl1.ActivePage = TabComanda) then
+   begin
+     pinta_botao;
+     JvLabel8.Caption := '...';
+   end;
  end;
  s_venda.Close;
 
@@ -2901,9 +2926,9 @@ begin
     if (iRetorno <= 0) then
       ShowMessage('Erro Abrindo Porta');
 
-     // Comando para Acionar a Gaveta de Dinheiro
-     scomando := #27 + #118 + #140;
-     iRetorno := ComandoTX( scomando, Length( scomando ));
+    // Comando para Acionar a Gaveta de Dinheiro
+    scomando := #27 + #118 + #140;
+    iRetorno := ComandoTX( scomando, Length( scomando ));
 
     iRetorno := 0;
     iRetorno := FechaPorta();
@@ -3405,9 +3430,222 @@ begin
       poc := (JvComissao.Value /100) * JvTotal.Value
     else
       poc := 0;
-    JvParcial.Value := c_formatotal.Value;
-    JvParcial.Value := c_formatotal.Value;
+    if (c_forma.IsEmpty) then
+      JvParcial.Value := 0
+    else
+      JvParcial.Value := c_formatotal.Value;
     JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
+end;
+
+procedure TF_Terminal.edtQtde1KeyPress(Sender: TObject; var Key: Char);
+begin
+   if (key = #13) then
+   begin
+      if (edtQtde1.AsInteger > 1) then
+      begin
+         if (DM_MOV.c_movdet.Active) then
+         begin
+            DM_MOV.c_movdet.Edit;
+            DM_MOV.c_movdetQUANTIDADE.AsFloat := edtQtde1.Value ;
+            DM_MOV.c_movdetvalortotal.AsFloat := DM_MOV.c_movdetQUANTIDADE.AsFloat * DM_MOV.c_movdetPRECO.AsFloat;
+            DM_MOV.c_movdet.ApplyUpdates(0);
+         end;
+      end;
+      EdtCodBarra1.SetFocus;
+   end;
+end;
+
+procedure TF_Terminal.edtQtdeKeyPress(Sender: TObject; var Key: Char);
+begin
+   if (key = #13) then
+   begin
+      if (edtQtde.AsInteger > 1) then
+      begin
+         if (DM_MOV.c_movdet.Active) then
+         begin
+            DM_MOV.c_movdet.Edit;
+            DM_MOV.c_movdetQUANTIDADE.AsFloat := edtQtde.Value ;
+            DM_MOV.c_movdetvalortotal.AsFloat := DM_MOV.c_movdetQUANTIDADE.AsFloat * DM_MOV.c_movdetPRECO.AsFloat;
+            DM_MOV.c_movdet.ApplyUpdates(0);
+         end;
+      end;
+      EdtCodBarra.SetFocus;
+   end;
+end;
+
+procedure TF_Terminal.JvBitBtn5Click(Sender: TObject);
+begin
+  usaDll := 'FALSE';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    usaDll := 'TRUE';
+
+  dm.cds_parametro.Close;
+
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
+  begin
+    ShowMessage('Parametro Tipo Impress„o n„o configurado');
+    exit;
+  end;
+  if (tipoImpressao = 'CUPOM') then
+  begin
+     if (usaDll = 'TRUE') then
+       imp_Setor1_DLL
+     else
+       imprimeCupom;
+  end;
+  if (tipoImpressao = 'RECIBO') then
+    imprimeRecibo;
+end;
+
+procedure TF_Terminal.imp_Setor1_DLL;
+var Fonte : string;
+var TXT, DESC, QUTDE, UNDE : string;
+begin
+      // acentos a serem impressos
+      TXT := TXT + '‚‰‡·„√¬ƒ¡¿ ÍÎËÈ À…» ÔÌÏÓŒÕÃœ ˆÛÚÙı÷”“‘’ ¸˙˘˚‹Ÿ⁄€' + chr(13) + chr(10) + chr(10);
+
+      if (not dm.cds_empresa.Active) then
+        dm.cds_empresa.Open;
+      if (PageControl1.ActivePage = TabSheet1) then
+        cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+      if (PageControl1.ActivePage = TabComanda) then
+        cliente := 'Cliente : ' + DM_MOV.c_comandaNOMECLIENTE.Value;
+      if (PageControl1.ActivePage = TabDelivery) then
+        cliente := 'Cliente : ' + DM_MOV.c_DeliveryNOMECLIENTE.Value;
+
+      Texto  := '-----------------------------------------------------' ;
+      Texto4 := 'Produto                                Unde      Qtde' ;
+      Texto5 := DateTimeToStr(Now);
+      if (s_parametro.Active) then
+        s_parametro.Close;
+      s_parametro.Params[0].Clear;
+      s_parametro.Params[0].AsString := 'PORTA SETOR2';
+      s_parametro.Open;
+      porta := s_parametroDADOS.AsString;
+      s_parametro.Close;
+
+      if (s_parametro.Active) then
+        s_parametro.Close;
+      s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
+      s_parametro.Open;
+      if (s_parametroDADOS.IsNull) then
+        ModeloImpressora := 0
+      else
+        ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
+
+      s_parametro.Close;
+
+      //Configura o Modelo da Impressora
+      iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
+
+      if (iRetorno = -2) then
+        ShowMessage('Erro Configurando Impressora');
+      iRetorno := IniciaPorta( pchar(porta) );
+      if (iRetorno <= 0) then
+        ShowMessage('Erro Abrindo Porta');
+
+      buffer  := dm.cds_empresaRAZAO.AsString + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := cliente + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto4 + Chr(13) + Chr(10); // 'Produto UN Qtde'
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+     DM_MOV.c_movdet.First;
+     while not DM_MOV.c_movdet.Eof do
+     begin
+        // italico + expandido
+        // FormataTX( "Texto a ser impresso", TipoLetra, It·lico, Sublinhado, Expandido, Enfatizado)
+        DESC   := Copy(DM_MOV.c_movdetDESCPRODUTO.AsString, 0, 30);
+        DESC   := Format('%-40s', [DESC]);
+        UNDE   := DM_MOV.c_movdetUN.AsString;
+        UNDE   := Format(' %2s', [UNDE]);
+        QUTDE  := FloatToStr(DM_MOV.c_movdetQUANTIDADE.AsFloat);
+        QUTDE  := Format('%10.2n', [StrToFloat(QUTDE)]);
+        Texto3 := DESC + UNDE + QUTDE;
+        //Fonte := 'Expandido' + chr(10);
+        //if FormataTX(Fonte + Texto3, 3, 0, 0, 1, 0) = 0 then
+        //  MessageDlg('Problemas na impress„o do texto formatado.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        buffer  := Texto3 + Chr(13) + Chr(10);
+        comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+        if comando = 0 then
+        begin
+          MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          exit;
+        end;
+        DM_MOV.c_movdet.next;
+     end;
+
+     buffer  := texto + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+     if comando = 0 then
+     begin
+       MessageDlg('Problemas na impress„o do texto.' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       exit;
+     end;
+     buffer  := texto5;
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+     buffer  := '' + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+     buffer  := '' + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+     buffer  := '' + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+     buffer  := '' + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+     // Corto o Papel
+     comando := AcionaGuilhotina(1);  // modo total (full cut)
+     if comando <> 1 then
+       MessageDlg('Problemas no corte do papel..' + #10 + 'PossÌveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+end;
+
+procedure TF_Terminal.imp_Setor2_DLL;
+begin
+
 end;
 
 end.

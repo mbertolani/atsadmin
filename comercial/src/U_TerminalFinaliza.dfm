@@ -1,6 +1,6 @@
 object F_TerminalFinaliza: TF_TerminalFinaliza
-  Left = 305
-  Top = 244
+  Left = 303
+  Top = 183
   Width = 751
   Height = 520
   BorderIcons = [biSystemMenu]
@@ -2368,6 +2368,10 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       FieldName = 'DATARECEBIMENTO'
       ReadOnly = True
     end
+    object scdsCr_procCODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+      ProviderFlags = [pfInUpdate]
+    end
     object scdsCr_procTRecebido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TRecebido'
@@ -2397,20 +2401,20 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   end
   object SQLDataSet1: TSQLDataSet
     CommandText = 
-      'select rec.CODCLIENTE, rec.CODRECEBIMENTO, rec.TITULO, rec.VIA, ' +
-      'rec.DATAVENCIMENTO, rec.VALORTITULO, rec.DP, '#13#10'          CASE re' +
-      'c.STATUS WHEN '#39'5-'#39' then '#39'Pendente'#39' when '#39'7-'#39' then '#39'Recebido'#39' whe' +
-      'n '#39'8-'#39' then '#39'Credito Duvidoso'#39' when '#39'9-'#39' then '#39'Em Cobran'#231'a'#39' when' +
-      ' '#39'14'#39' then '#39'Cancelado'#39' end  as STATUS, '#13#10'          rec.VALORRECE' +
-      'BIDO, rec.VALOR_RESTO, rec.VALOR_PRIM_VIA, rec.N_DOCUMENTO, rec.' +
-      'CAIXA, rec.FORMARECEBIMENTO, rec.DATARECEBIMENTO,'#13#10'          cli' +
-      '.NOMECLIENTE, (CASE WHEN (REC.VALORRECEBIDO > 0) THEN (REC.VALOR' +
-      'TITULO - rec.VALOR_RESTO)'#13#10'          WHEN (REC.VALORRECEBIDO = 0' +
-      ') THEN rec.VALOR_RESTO END)'#13#10'          as VALORREC, rec.EMISSAO,' +
-      ' (udf_digits(rec.TITULO) || '#39'/'#39' || rec.VIA) as TIT, rec.STATUS a' +
-      's SITUACAO '#13#10'from RECEBIMENTO rec '#13#10'           inner join CLIENT' +
-      'ES cli on cli.CODCLIENTE=rec.CODCLIENTE '#13#10'where CODVENDA = :pcod' +
-      ' order by rec.CODRECEBIMENTO'
+      'select rec.CODVENDA, rec.CODCLIENTE, rec.CODRECEBIMENTO, rec.TIT' +
+      'ULO, rec.VIA, rec.DATAVENCIMENTO, rec.VALORTITULO, rec.DP, '#13#10'   ' +
+      '       CASE rec.STATUS WHEN '#39'5-'#39' then '#39'Pendente'#39' when '#39'7-'#39' then ' +
+      #39'Recebido'#39' when '#39'8-'#39' then '#39'Credito Duvidoso'#39' when '#39'9-'#39' then '#39'Em ' +
+      'Cobran'#231'a'#39' when '#39'14'#39' then '#39'Cancelado'#39' end  as STATUS, '#13#10'         ' +
+      ' rec.VALORRECEBIDO, rec.VALOR_RESTO, rec.VALOR_PRIM_VIA, rec.N_D' +
+      'OCUMENTO, rec.CAIXA, rec.FORMARECEBIMENTO, rec.DATARECEBIMENTO,'#13 +
+      #10'          cli.NOMECLIENTE, (CASE WHEN (REC.VALORRECEBIDO > 0) T' +
+      'HEN (REC.VALORTITULO - rec.VALOR_RESTO)'#13#10'          WHEN (REC.VAL' +
+      'ORRECEBIDO = 0) THEN rec.VALOR_RESTO END)'#13#10'          as VALORREC' +
+      ', rec.EMISSAO, (udf_digits(rec.TITULO) || '#39'/'#39' || rec.VIA) as TIT' +
+      ', rec.STATUS as SITUACAO '#13#10'from RECEBIMENTO rec '#13#10'           inn' +
+      'er join CLIENTES cli on cli.CODCLIENTE=rec.CODCLIENTE '#13#10'where re' +
+      'c.CODVENDA = :pcod order by rec.CODRECEBIMENTO'
     MaxBlobSize = -1
     Params = <
       item
@@ -2522,6 +2526,10 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object SQLDataSet1DATARECEBIMENTO: TDateField
       FieldName = 'DATARECEBIMENTO'
       ReadOnly = True
+    end
+    object SQLDataSet1CODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+      ProviderFlags = [pfInUpdate]
     end
   end
   object scds_serie_proc: TSQLClientDataSet
