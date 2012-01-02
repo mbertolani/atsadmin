@@ -136,6 +136,17 @@ begin
       end;
     end;
   end;
+
+  //Procura acessado para procurar Cliente
+  if( dmnf.FormExiste(F_Terminal) = True ) then
+  begin
+    fCliente1 :=TfCliente1.Create(Application);
+    try
+      fCliente1.ShowModal;
+    finally
+      fCliente1.free;
+    end;
+  end;
   BtnCancel.Click;
 end;
 
