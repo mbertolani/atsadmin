@@ -1,8 +1,8 @@
 inherited fVendaFinalizar: TfVendaFinalizar
-  Left = 107
-  Top = 82
-  Width = 789
-  Height = 565
+  Left = 110
+  Top = 84
+  Width = 801
+  Height = 571
   Caption = 'Gera Contas a Receber - Finaliza Vendas'
   Font.Height = -13
   OldCreateOrder = True
@@ -412,7 +412,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 781
+    Width = 785
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -531,7 +531,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Layout = blGlyphTop
     end
     inherited btnGravar: TBitBtn [2]
-      Left = 3
+      Left = 2
       Top = 3
       Width = 77
       Height = 55
@@ -2078,8 +2078,8 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object MMJPanel3: TMMJPanel [6]
     Left = 0
-    Top = 501
-    Width = 781
+    Top = 496
+    Width = 785
     Height = 37
     Align = alBottom
     BevelInner = bvLowered
@@ -4783,6 +4783,18 @@ inherited fVendaFinalizar: TfVendaFinalizar
     object sForn_NCCONTA_FORNECEDOR: TStringField
       FieldName = 'CONTA_FORNECEDOR'
       Size = 15
+    end
+  end
+  object pm2: TPopupMenu
+    Left = 463
+    Top = 341
+    object ImprimirPedido1: TMenuItem
+      Caption = 'Imprimir Pedido'
+      OnClick = ImprimirPedido1Click
+    end
+    object ImprimirOrdemdeServio1: TMenuItem
+      Caption = 'Imprimir Carne'
+      OnClick = ImprimirOrdemdeServio1Click
     end
   end
 end
