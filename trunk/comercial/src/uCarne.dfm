@@ -1,8 +1,8 @@
 object fCarne: TfCarne
-  Left = 102
-  Top = 135
+  Left = 111
+  Top = 30
   Width = 952
-  Height = 584
+  Height = 882
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,9 +14,9 @@ object fCarne: TfCarne
   TextHeight = 13
   object BoletoCarne: TRLReport
     Left = 24
-    Top = 11
+    Top = 2
     Width = 794
-    Height = 1123
+    Height = 1172
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -27,51 +27,54 @@ object fCarne: TfCarne
     Margins.TopMargin = 5.000000000000000000
     Margins.RightMargin = 5.000000000000000000
     Margins.BottomMargin = 5.000000000000000000
+    PageSetup.PaperSize = fpCustom
+    PageSetup.PaperWidth = 210.000000000000000000
+    PageSetup.PaperHeight = 310.000000000000000000
     PreviewOptions.ShowModal = True
     object RLBand3: TRLBand
       Left = 30
       Top = 19
       Width = 745
-      Height = 360
+      Height = 367
       BeforePrint = RLBand3BeforePrint
       object RLDraw30: TRLDraw
         Left = 150
-        Top = 274
+        Top = 286
         Width = 599
         Height = 17
         DrawKind = dkLine
       end
       object RLDraw31: TRLDraw
         Left = 2
-        Top = 228
+        Top = 240
         Width = 754
         Height = 1
         DrawKind = dkLine
       end
       object RLDraw32: TRLDraw
         Left = 567
-        Top = 199
+        Top = 211
         Width = 220
         Height = 1
         DrawKind = dkLine
       end
       object RLDraw51: TRLDraw
         Left = 567
-        Top = 172
+        Top = 184
         Width = 220
         Height = 1
         DrawKind = dkLine
       end
       object RLDraw52: TRLDraw
         Left = -3
-        Top = 145
+        Top = 157
         Width = 759
         Height = 1
         DrawKind = dkLine
       end
       object RLDraw53: TRLDraw
         Left = 296
-        Top = 120
+        Top = 132
         Width = 1
         Height = 26
         Angle = 90.000000000000000000
@@ -79,14 +82,14 @@ object fCarne: TfCarne
       end
       object RLDraw54: TRLDraw
         Left = -1
-        Top = 120
+        Top = 132
         Width = 757
         Height = 1
         DrawKind = dkLine
       end
       object RLDraw55: TRLDraw
         Left = 476
-        Top = 94
+        Top = 106
         Width = 1
         Height = 52
         Angle = 90.000000000000000000
@@ -94,7 +97,7 @@ object fCarne: TfCarne
       end
       object RLDraw56: TRLDraw
         Left = 415
-        Top = 94
+        Top = 106
         Width = 1
         Height = 27
         Angle = 90.000000000000000000
@@ -102,7 +105,7 @@ object fCarne: TfCarne
       end
       object RLDraw57: TRLDraw
         Left = 344
-        Top = 94
+        Top = 106
         Width = 1
         Height = 52
         Angle = 90.000000000000000000
@@ -110,7 +113,7 @@ object fCarne: TfCarne
       end
       object RLDraw58: TRLDraw
         Left = 245
-        Top = 94
+        Top = 106
         Width = 1
         Height = 52
         Angle = 90.000000000000000000
@@ -118,36 +121,28 @@ object fCarne: TfCarne
       end
       object RLDraw59: TRLDraw
         Left = -1
-        Top = 94
+        Top = 106
         Width = 757
         Height = 1
         DrawKind = dkLine
       end
       object RLDraw60: TRLDraw
         Left = 0
-        Top = 34
+        Top = 46
         Width = 756
         Height = 16
         DrawKind = dkLine
       end
       object RLDraw61: TRLDraw
         Left = -1
-        Top = 70
+        Top = 82
         Width = 757
         Height = 1
         DrawKind = dkLine
       end
-      object RLDraw62: TRLDraw
-        Left = 0
-        Top = 349
-        Width = 756
-        Height = 16
-        DrawKind = dkLine
-        Pen.Style = psDot
-      end
       object imgBancoCarne: TRLImage
         Left = 152
-        Top = 2
+        Top = 14
         Width = 101
         Height = 37
         Center = True
@@ -155,7 +150,7 @@ object fCarne: TfCarne
       end
       object RLDraw63: TRLDraw
         Left = 253
-        Top = 1
+        Top = 13
         Width = 1
         Height = 41
         Angle = 90.000000000000000000
@@ -163,7 +158,7 @@ object fCarne: TfCarne
       end
       object RLLabel1: TRLLabel
         Left = 154
-        Top = 43
+        Top = 55
         Width = 70
         Height = 10
         Caption = 'Local de Pagamento'
@@ -176,7 +171,7 @@ object fCarne: TfCarne
       end
       object RLLabel94: TRLLabel
         Left = 572
-        Top = 43
+        Top = 55
         Width = 41
         Height = 10
         Caption = 'Vencimento'
@@ -189,7 +184,7 @@ object fCarne: TfCarne
       end
       object RLDraw65: TRLDraw
         Left = 567
-        Top = 41
+        Top = 53
         Width = 1
         Height = 188
         Angle = 90.000000000000000000
@@ -197,7 +192,7 @@ object fCarne: TfCarne
       end
       object RLLabel95: TRLLabel
         Left = 154
-        Top = 71
+        Top = 83
         Width = 30
         Height = 10
         Caption = 'Cedente'
@@ -210,7 +205,7 @@ object fCarne: TfCarne
       end
       object RLLabel97: TRLLabel
         Left = 572
-        Top = 71
+        Top = 83
         Width = 91
         Height = 10
         Caption = 'Ag'#234'ncia / C'#243'digo Cedente'
@@ -223,7 +218,7 @@ object fCarne: TfCarne
       end
       object RLLabel99: TRLLabel
         Left = 152
-        Top = 96
+        Top = 108
         Width = 68
         Height = 10
         Caption = 'Data do Documento'
@@ -236,7 +231,7 @@ object fCarne: TfCarne
       end
       object RLLabel101: TRLLabel
         Left = 247
-        Top = 96
+        Top = 108
         Width = 79
         Height = 10
         Caption = 'N'#250'mero do Documento'
@@ -249,7 +244,7 @@ object fCarne: TfCarne
       end
       object RLLabel103: TRLLabel
         Left = 347
-        Top = 96
+        Top = 108
         Width = 47
         Height = 10
         Caption = 'Esp'#233'cie Doc.'
@@ -262,7 +257,7 @@ object fCarne: TfCarne
       end
       object RLLabel105: TRLLabel
         Left = 418
-        Top = 96
+        Top = 108
         Width = 23
         Height = 10
         Caption = 'Aceite'
@@ -275,7 +270,7 @@ object fCarne: TfCarne
       end
       object RLLabel107: TRLLabel
         Left = 479
-        Top = 96
+        Top = 108
         Width = 82
         Height = 10
         Caption = 'Data do Processamento'
@@ -288,7 +283,7 @@ object fCarne: TfCarne
       end
       object RLLabel109: TRLLabel
         Left = 572
-        Top = 96
+        Top = 108
         Width = 53
         Height = 10
         Caption = 'Nosso N'#250'mero'
@@ -301,7 +296,7 @@ object fCarne: TfCarne
       end
       object RLLabel111: TRLLabel
         Left = 152
-        Top = 121
+        Top = 133
         Width = 49
         Height = 10
         Caption = 'Uso do Banco'
@@ -314,7 +309,7 @@ object fCarne: TfCarne
       end
       object RLLabel113: TRLLabel
         Left = 247
-        Top = 121
+        Top = 133
         Width = 30
         Height = 10
         Caption = 'Carteira'
@@ -327,7 +322,7 @@ object fCarne: TfCarne
       end
       object RLLabel115: TRLLabel
         Left = 298
-        Top = 121
+        Top = 133
         Width = 29
         Height = 10
         Caption = 'Esp'#233'cie'
@@ -340,7 +335,7 @@ object fCarne: TfCarne
       end
       object RLLabel5: TRLLabel
         Left = 298
-        Top = 131
+        Top = 143
         Width = 44
         Height = 13
         Alignment = taCenter
@@ -355,7 +350,7 @@ object fCarne: TfCarne
       end
       object RLLabel117: TRLLabel
         Left = 348
-        Top = 121
+        Top = 133
         Width = 40
         Height = 10
         Caption = 'Quantidade'
@@ -368,7 +363,7 @@ object fCarne: TfCarne
       end
       object RLLabel119: TRLLabel
         Left = 479
-        Top = 121
+        Top = 133
         Width = 20
         Height = 10
         Caption = 'Valor'
@@ -381,7 +376,7 @@ object fCarne: TfCarne
       end
       object RLLabel121: TRLLabel
         Left = 572
-        Top = 121
+        Top = 133
         Width = 87
         Height = 10
         Caption = '( = ) Valor do Documento'
@@ -394,7 +389,7 @@ object fCarne: TfCarne
       end
       object RLLabel123: TRLLabel
         Left = 152
-        Top = 146
+        Top = 158
         Width = 325
         Height = 10
         Caption = 
@@ -409,7 +404,7 @@ object fCarne: TfCarne
       end
       object RLLabel124: TRLLabel
         Left = 572
-        Top = 146
+        Top = 158
         Width = 92
         Height = 10
         Caption = '( - ) Desconto / Abatimento'
@@ -422,7 +417,7 @@ object fCarne: TfCarne
       end
       object RLLabel126: TRLLabel
         Left = 572
-        Top = 173
+        Top = 185
         Width = 62
         Height = 10
         Caption = '( + ) Mora / Multa'
@@ -435,7 +430,7 @@ object fCarne: TfCarne
       end
       object RLLabel128: TRLLabel
         Left = 572
-        Top = 200
+        Top = 212
         Width = 68
         Height = 10
         Caption = '( = ) Valor Cobrado'
@@ -448,7 +443,7 @@ object fCarne: TfCarne
       end
       object RLLabel130: TRLLabel
         Left = 152
-        Top = 229
+        Top = 241
         Width = 27
         Height = 10
         Caption = 'Sacado'
@@ -461,7 +456,7 @@ object fCarne: TfCarne
       end
       object RLLabel132: TRLLabel
         Left = 571
-        Top = 229
+        Top = 241
         Width = 82
         Height = 10
         Caption = 'CPF / CNPJ do Sacado'
@@ -474,7 +469,7 @@ object fCarne: TfCarne
       end
       object RLLabel135: TRLLabel
         Left = 571
-        Top = 255
+        Top = 267
         Width = 57
         Height = 10
         Caption = 'C'#243'digo de Baixa'
@@ -487,7 +482,7 @@ object fCarne: TfCarne
       end
       object RLLabel138: TRLLabel
         Left = 643
-        Top = 284
+        Top = 296
         Width = 80
         Height = 10
         Caption = 'Autentica'#231#227'o Mec'#226'nica'
@@ -500,7 +495,7 @@ object fCarne: TfCarne
       end
       object RLLabel10: TRLLabel
         Left = 474
-        Top = 132
+        Top = 144
         Width = 5
         Height = 10
         Caption = 'x'
@@ -512,22 +507,9 @@ object fCarne: TfCarne
         ParentFont = False
         Transparent = False
       end
-      object RLLabel13: TRLLabel
-        Left = 0
-        Top = 345
-        Width = 26
-        Height = 14
-        Caption = '"'
-        Font.Charset = SYMBOL_CHARSET
-        Font.Color = clBlack
-        Font.Height = -12
-        Font.Name = 'Wingdings'
-        Font.Style = []
-        ParentFont = False
-      end
       object RLDBText18: TRLDBText
         Left = 570
-        Top = 268
+        Top = 280
         Width = 204
         Height = 13
         AutoSize = False
@@ -541,7 +523,7 @@ object fCarne: TfCarne
       end
       object RLLabel16: TRLLabel
         Left = 644
-        Top = 310
+        Top = 322
         Width = 81
         Height = 10
         Caption = 'Ficha de Compensa'#231#227'o'
@@ -554,7 +536,7 @@ object fCarne: TfCarne
       end
       object RLLabel19: TRLLabel
         Left = 0
-        Top = 43
+        Top = 55
         Width = 28
         Height = 10
         Caption = 'Parcela'
@@ -567,7 +549,7 @@ object fCarne: TfCarne
       end
       object RLLabel36: TRLLabel
         Left = 66
-        Top = 43
+        Top = 55
         Width = 41
         Height = 10
         Caption = 'Vencimento'
@@ -580,7 +562,7 @@ object fCarne: TfCarne
       end
       object RLDraw66: TRLDraw
         Left = 55
-        Top = 41
+        Top = 53
         Width = 1
         Height = 30
         Angle = 90.000000000000000000
@@ -588,7 +570,7 @@ object fCarne: TfCarne
       end
       object RLLabel38: TRLLabel
         Left = 0
-        Top = 71
+        Top = 83
         Width = 91
         Height = 10
         Caption = 'Ag'#234'ncia / C'#243'digo Cedente'
@@ -601,7 +583,7 @@ object fCarne: TfCarne
       end
       object RLLabel39: TRLLabel
         Left = 0
-        Top = 95
+        Top = 107
         Width = 29
         Height = 10
         Caption = 'Esp'#233'cie'
@@ -614,7 +596,7 @@ object fCarne: TfCarne
       end
       object RLLabel40: TRLLabel
         Left = 0
-        Top = 105
+        Top = 117
         Width = 42
         Height = 13
         Alignment = taCenter
@@ -629,7 +611,7 @@ object fCarne: TfCarne
       end
       object RLLabel41: TRLLabel
         Left = 58
-        Top = 95
+        Top = 107
         Width = 40
         Height = 10
         Caption = 'Quantidade'
@@ -642,7 +624,7 @@ object fCarne: TfCarne
       end
       object RLDraw67: TRLDraw
         Left = 55
-        Top = 94
+        Top = 106
         Width = 1
         Height = 27
         Angle = 90.000000000000000000
@@ -650,7 +632,7 @@ object fCarne: TfCarne
       end
       object RLLabel42: TRLLabel
         Left = 0
-        Top = 121
+        Top = 133
         Width = 87
         Height = 10
         Caption = '( = ) Valor do Documento'
@@ -663,7 +645,7 @@ object fCarne: TfCarne
       end
       object RLLabel43: TRLLabel
         Left = 0
-        Top = 146
+        Top = 158
         Width = 92
         Height = 10
         Caption = '( - ) Desconto / Abatimento'
@@ -676,7 +658,7 @@ object fCarne: TfCarne
       end
       object RLLabel44: TRLLabel
         Left = 0
-        Top = 173
+        Top = 185
         Width = 62
         Height = 10
         Caption = '( + ) Mora / Multa'
@@ -689,7 +671,7 @@ object fCarne: TfCarne
       end
       object RLLabel45: TRLLabel
         Left = 0
-        Top = 200
+        Top = 212
         Width = 68
         Height = 10
         Caption = '( = ) Valor Cobrado'
@@ -702,21 +684,21 @@ object fCarne: TfCarne
       end
       object RLDraw68: TRLDraw
         Left = 0
-        Top = 172
+        Top = 184
         Width = 141
         Height = 1
         DrawKind = dkLine
       end
       object RLDraw69: TRLDraw
         Left = 0
-        Top = 199
+        Top = 211
         Width = 141
         Height = 1
         DrawKind = dkLine
       end
       object RLLabel46: TRLLabel
         Left = 0
-        Top = 229
+        Top = 241
         Width = 53
         Height = 10
         Caption = 'Nosso N'#250'mero'
@@ -729,14 +711,14 @@ object fCarne: TfCarne
       end
       object RLDraw70: TRLDraw
         Left = 0
-        Top = 254
+        Top = 266
         Width = 141
         Height = 1
         DrawKind = dkLine
       end
       object RLLabel47: TRLLabel
         Left = 0
-        Top = 256
+        Top = 268
         Width = 27
         Height = 10
         Caption = 'Sacado'
@@ -749,7 +731,7 @@ object fCarne: TfCarne
       end
       object RLLabel48: TRLLabel
         Left = 0
-        Top = 318
+        Top = 330
         Width = 63
         Height = 10
         Caption = 'Recibo do Sacado'
@@ -762,7 +744,7 @@ object fCarne: TfCarne
       end
       object RLLabel49: TRLLabel
         Left = 0
-        Top = 329
+        Top = 341
         Width = 68
         Height = 10
         Caption = 'Autenticar no Verso'
@@ -775,7 +757,7 @@ object fCarne: TfCarne
       end
       object RLDraw71: TRLDraw
         Left = 140
-        Top = 0
+        Top = 12
         Width = 11
         Height = 353
         Angle = 90.000000000000000000
@@ -785,7 +767,7 @@ object fCarne: TfCarne
       end
       object ImgLoja: TRLImage
         Left = 0
-        Top = 0
+        Top = 12
         Width = 143
         Height = 41
         Center = True
@@ -793,7 +775,7 @@ object fCarne: TfCarne
       end
       object txtTotPar: TRLLabel
         Left = 29
-        Top = 55
+        Top = 67
         Width = 13
         Height = 14
         Caption = '/X'
@@ -806,7 +788,7 @@ object fCarne: TfCarne
       end
       object mIntrucoes: TRLMemo
         Left = 152
-        Top = 158
+        Top = 170
         Width = 410
         Height = 64
         AutoSize = False
@@ -819,7 +801,7 @@ object fCarne: TfCarne
       end
       object txtVencCanhoto: TRLLabel
         Left = 56
-        Top = 55
+        Top = 67
         Width = 82
         Height = 13
         Alignment = taCenter
@@ -833,7 +815,7 @@ object fCarne: TfCarne
       end
       object txtCodCedenteCarne: TRLLabel
         Left = 5
-        Top = 79
+        Top = 91
         Width = 129
         Height = 13
         Alignment = taRightJustify
@@ -847,7 +829,7 @@ object fCarne: TfCarne
       end
       object txtValorCarne: TRLLabel
         Left = 0
-        Top = 131
+        Top = 143
         Width = 137
         Height = 13
         Alignment = taRightJustify
@@ -861,7 +843,7 @@ object fCarne: TfCarne
       end
       object txtNossoNumeroCarne: TRLLabel
         Left = 0
-        Top = 239
+        Top = 251
         Width = 137
         Height = 13
         Alignment = taRightJustify
@@ -875,7 +857,7 @@ object fCarne: TfCarne
       end
       object txtCPF: TRLLabel
         Left = 0
-        Top = 303
+        Top = 315
         Width = 142
         Height = 13
         AutoSize = False
@@ -888,7 +870,7 @@ object fCarne: TfCarne
       end
       object txtLocal: TRLLabel
         Left = 154
-        Top = 53
+        Top = 65
         Width = 412
         Height = 14
         AutoSize = False
@@ -901,7 +883,7 @@ object fCarne: TfCarne
       end
       object txtNomeCedente: TRLLabel
         Left = 154
-        Top = 80
+        Top = 92
         Width = 412
         Height = 13
         AutoSize = False
@@ -914,7 +896,7 @@ object fCarne: TfCarne
       end
       object txtDataDocto: TRLLabel
         Left = 152
-        Top = 106
+        Top = 118
         Width = 84
         Height = 13
         Alignment = taCenter
@@ -928,7 +910,7 @@ object fCarne: TfCarne
       end
       object txtNumeroDocto: TRLLabel
         Left = 247
-        Top = 106
+        Top = 118
         Width = 94
         Height = 13
         Alignment = taCenter
@@ -942,7 +924,7 @@ object fCarne: TfCarne
       end
       object txtEspecieDoc: TRLLabel
         Left = 347
-        Top = 106
+        Top = 118
         Width = 68
         Height = 13
         Alignment = taCenter
@@ -956,7 +938,7 @@ object fCarne: TfCarne
       end
       object txtAceite: TRLLabel
         Left = 418
-        Top = 106
+        Top = 118
         Width = 56
         Height = 13
         Alignment = taCenter
@@ -970,7 +952,7 @@ object fCarne: TfCarne
       end
       object txtDataProces: TRLLabel
         Left = 479
-        Top = 106
+        Top = 118
         Width = 86
         Height = 13
         Alignment = taCenter
@@ -984,7 +966,7 @@ object fCarne: TfCarne
       end
       object txtCarteira: TRLLabel
         Left = 247
-        Top = 131
+        Top = 143
         Width = 50
         Height = 13
         Alignment = taCenter
@@ -998,7 +980,7 @@ object fCarne: TfCarne
       end
       object txtNomeSacado: TRLLabel
         Left = 180
-        Top = 229
+        Top = 241
         Width = 386
         Height = 13
         AutoSize = False
@@ -1011,7 +993,7 @@ object fCarne: TfCarne
       end
       object txtEndSacado: TRLLabel
         Left = 180
-        Top = 242
+        Top = 254
         Width = 386
         Height = 13
         AutoSize = False
@@ -1024,7 +1006,7 @@ object fCarne: TfCarne
       end
       object txtCidadeSacado: TRLLabel
         Left = 180
-        Top = 255
+        Top = 267
         Width = 386
         Height = 13
         AutoSize = False
@@ -1037,7 +1019,7 @@ object fCarne: TfCarne
       end
       object txtVencCarne2: TRLLabel
         Left = 572
-        Top = 55
+        Top = 67
         Width = 172
         Height = 13
         Alignment = taRightJustify
@@ -1051,7 +1033,7 @@ object fCarne: TfCarne
       end
       object txtNossoNumCan: TRLLabel
         Left = 572
-        Top = 106
+        Top = 118
         Width = 172
         Height = 13
         Alignment = taRightJustify
@@ -1065,7 +1047,7 @@ object fCarne: TfCarne
       end
       object txtValorCar: TRLLabel
         Left = 572
-        Top = 131
+        Top = 143
         Width = 172
         Height = 13
         Alignment = taRightJustify
@@ -1079,7 +1061,7 @@ object fCarne: TfCarne
       end
       object txtNomeSacadoCarne: TRLLabel
         Left = 0
-        Top = 269
+        Top = 281
         Width = 144
         Height = 16
         AutoSize = False
@@ -1092,7 +1074,7 @@ object fCarne: TfCarne
       end
       object txtCodCedenteCarne2: TRLLabel
         Left = 572
-        Top = 80
+        Top = 92
         Width = 172
         Height = 13
         Alignment = taRightJustify
@@ -1106,7 +1088,7 @@ object fCarne: TfCarne
       end
       object txtCPFCarne2: TRLLabel
         Left = 570
-        Top = 239
+        Top = 251
         Width = 204
         Height = 13
         AutoSize = False
@@ -1119,7 +1101,7 @@ object fCarne: TfCarne
       end
       object txtParcela: TRLLabel
         Left = -26
-        Top = 55
+        Top = 67
         Width = 51
         Height = 14
         Alignment = taRightJustify
@@ -1132,7 +1114,7 @@ object fCarne: TfCarne
       end
       object txtRazaoSocial: TRLLabel
         Left = 258
-        Top = 3
+        Top = 15
         Width = 412
         Height = 13
         AutoSize = False
@@ -1145,7 +1127,7 @@ object fCarne: TfCarne
       end
       object txtLogradouro: TRLLabel
         Left = 258
-        Top = 16
+        Top = 28
         Width = 412
         Height = 13
         AutoSize = False
@@ -1158,7 +1140,7 @@ object fCarne: TfCarne
       end
       object txtCidade: TRLLabel
         Left = 258
-        Top = 28
+        Top = 40
         Width = 412
         Height = 13
         AutoSize = False
@@ -1171,7 +1153,7 @@ object fCarne: TfCarne
       end
       object txtCnpj: TRLLabel
         Left = 154
-        Top = 316
+        Top = 328
         Width = 412
         Height = 13
         AutoSize = False
@@ -1184,7 +1166,7 @@ object fCarne: TfCarne
       end
       object txtEmail: TRLLabel
         Left = 154
-        Top = 334
+        Top = 346
         Width = 412
         Height = 13
         AutoSize = False
@@ -1205,18 +1187,18 @@ object fCarne: TfCarne
     FontEncoding = feNoEncoding
     DisplayName = 'ACBrBoleto - http://acbr.sf.net'
     Left = 128
-    Top = 8
+    Top = 324
   end
   object RLHTMLFilter1: TRLHTMLFilter
     DocumentStyle = dsCSS2
     DisplayName = 'ACBrBoleto - http://acbr.sf.net'
     Left = 158
-    Top = 8
+    Top = 324
   end
   object ds_Cr: TDataSource
     DataSet = scdsCr_proc
     Left = 832
-    Top = 143
+    Top = 459
   end
   object scdsCr_proc: TClientDataSet
     Aggregates = <>
@@ -1229,7 +1211,7 @@ object fCarne: TfCarne
       end>
     ProviderName = 'DataSetProvider1'
     Left = 800
-    Top = 144
+    Top = 460
     object scdsCr_procTITULO: TStringField
       FieldName = 'TITULO'
       ProviderFlags = [pfInUpdate]
@@ -1255,13 +1237,6 @@ object fCarne: TfCarne
       Required = True
       FixedChar = True
       Size = 16
-    end
-    object scdsCr_procVIA: TStringField
-      FieldName = 'VIA'
-      ProviderFlags = [pfInUpdate]
-      Required = True
-      FixedChar = True
-      Size = 1
     end
     object scdsCr_procN_DOCUMENTO: TStringField
       FieldName = 'N_DOCUMENTO'
@@ -1341,6 +1316,12 @@ object fCarne: TfCarne
       FieldName = 'CODVENDA'
       ProviderFlags = [pfInUpdate]
     end
+    object scdsCr_procVIA: TStringField
+      FieldName = 'VIA'
+      Required = True
+      FixedChar = True
+      Size = 4
+    end
     object scdsCr_procTRecebido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TRecebido'
@@ -1367,7 +1348,7 @@ object fCarne: TfCarne
     Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
     Left = 768
-    Top = 144
+    Top = 460
   end
   object SQLDataSet1: TSQLDataSet
     CommandText = 
@@ -1394,7 +1375,7 @@ object fCarne: TfCarne
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 736
-    Top = 144
+    Top = 460
     object SQLDataSet1TITULO: TStringField
       FieldName = 'TITULO'
       ProviderFlags = [pfInUpdate]
@@ -1416,13 +1397,6 @@ object fCarne: TfCarne
       Required = True
       FixedChar = True
       Size = 16
-    end
-    object SQLDataSet1VIA: TStringField
-      FieldName = 'VIA'
-      ProviderFlags = [pfInUpdate]
-      Required = True
-      FixedChar = True
-      Size = 1
     end
     object SQLDataSet1N_DOCUMENTO: TStringField
       FieldName = 'N_DOCUMENTO'
@@ -1501,6 +1475,12 @@ object fCarne: TfCarne
       FieldName = 'CODVENDA'
       ProviderFlags = [pfInUpdate]
     end
+    object SQLDataSet1VIA: TStringField
+      FieldName = 'VIA'
+      Required = True
+      FixedChar = True
+      Size = 4
+    end
   end
   object total_parc: TSQLDataSet
     CommandText = 'select count(VIA) from RECEBIMENTO '#13#10'where CODVENDA = :idv'
@@ -1513,7 +1493,7 @@ object fCarne: TfCarne
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 832
-    Top = 192
+    Top = 508
     object total_parcCOUNT: TIntegerField
       FieldName = 'COUNT'
       ReadOnly = True
@@ -1534,7 +1514,7 @@ object fCarne: TfCarne
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 832
-    Top = 232
+    Top = 548
     object buscaCliCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -1636,18 +1616,6 @@ object fCarne: TfCarne
       FieldName = 'OBS'
       Size = 200
     end
-    object buscaCliTEM_IE: TStringField
-      FieldName = 'TEM_IE'
-      FixedChar = True
-      Size = 1
-    end
-    object buscaCliDATARESC: TDateField
-      FieldName = 'DATARESC'
-    end
-    object buscaCliNOMEMAE: TStringField
-      FieldName = 'NOMEMAE'
-      Size = 80
-    end
     object buscaCliSEXO: TStringField
       FieldName = 'SEXO'
       FixedChar = True
@@ -1690,56 +1658,19 @@ object fCarne: TfCarne
       FixedChar = True
       Size = 1
     end
-    object buscaCliEMVIAGEM: TStringField
-      FieldName = 'EMVIAGEM'
-      FixedChar = True
-      Size = 1
-    end
     object buscaCliDTAALTERA: TDateField
       FieldName = 'DTAALTERA'
-    end
-    object buscaCliSERIELETRA: TStringField
-      FieldName = 'SERIELETRA'
-      Size = 4
     end
     object buscaCliSERIE: TStringField
       FieldName = 'SERIE'
       Size = 4
     end
-    object buscaCliRA: TStringField
-      FieldName = 'RA'
-      Size = 10
-    end
     object buscaCliCURSO: TStringField
       FieldName = 'CURSO'
       Size = 50
     end
-    object buscaCliIP: TStringField
-      FieldName = 'IP'
-      Size = 60
-    end
-    object buscaCliN_CONTRATO: TStringField
-      FieldName = 'N_CONTRATO'
-      Size = 60
-    end
-    object buscaCliMAC: TStringField
-      FieldName = 'MAC'
-      Size = 60
-    end
     object buscaCliMARCA: TStringField
       FieldName = 'MARCA'
-      Size = 60
-    end
-    object buscaCliBANDA_UPLOAD: TStringField
-      FieldName = 'BANDA_UPLOAD'
-      Size = 60
-    end
-    object buscaCliBANDA_DOWLOAD: TStringField
-      FieldName = 'BANDA_DOWLOAD'
-      Size = 60
-    end
-    object buscaCliTORRE_CONECCAO: TStringField
-      FieldName = 'TORRE_CONECCAO'
       Size = 60
     end
     object buscaCliCOD_FAIXA: TIntegerField
@@ -1747,12 +1678,6 @@ object fCarne: TfCarne
     end
     object buscaCliDESCONTO: TFloatField
       FieldName = 'DESCONTO'
-    end
-    object buscaCliMENSALIDADE: TFloatField
-      FieldName = 'MENSALIDADE'
-    end
-    object buscaCliANUIDADE: TFloatField
-      FieldName = 'ANUIDADE'
     end
     object buscaCliPARCELA: TIntegerField
       FieldName = 'PARCELA'
@@ -1763,126 +1688,8 @@ object fCarne: TfCarne
     object buscaCliNUMERO: TIntegerField
       FieldName = 'NUMERO'
     end
-    object buscaCliDATANASCIMENTO: TSQLTimeStampField
-      FieldName = 'DATANASCIMENTO'
-    end
-    object buscaCliANOLETIVO: TStringField
-      FieldName = 'ANOLETIVO'
-      Size = 4
-    end
-    object buscaCliSITUACAOESCOLAR: TStringField
-      FieldName = 'SITUACAOESCOLAR'
-      Size = 2
-    end
-    object buscaCliRGMAE: TStringField
-      FieldName = 'RGMAE'
-      Size = 15
-    end
-    object buscaCliCPFMAE: TStringField
-      FieldName = 'CPFMAE'
-      Size = 14
-    end
-    object buscaCliPAI: TStringField
-      FieldName = 'PAI'
-      Size = 30
-    end
-    object buscaCliRGPAI: TStringField
-      FieldName = 'RGPAI'
-      Size = 15
-    end
-    object buscaCliCPFPAI: TStringField
-      FieldName = 'CPFPAI'
-      Size = 14
-    end
-    object buscaCliLANCADOCLASSE: TIntegerField
-      FieldName = 'LANCADOCLASSE'
-    end
     object buscaCliTRANSPORTE: TStringField
       FieldName = 'TRANSPORTE'
-      Size = 50
-    end
-    object buscaCliCIDADENASC: TStringField
-      FieldName = 'CIDADENASC'
-      Size = 30
-    end
-    object buscaCliUFNASC: TStringField
-      FieldName = 'UFNASC'
-      Size = 2
-    end
-    object buscaCliNACIONALIDADE: TStringField
-      FieldName = 'NACIONALIDADE'
-      Size = 15
-    end
-    object buscaCliCERTIDAONASCNUM: TStringField
-      FieldName = 'CERTIDAONASCNUM'
-      Size = 10
-    end
-    object buscaCliLIVRONASC: TStringField
-      FieldName = 'LIVRONASC'
-      Size = 10
-    end
-    object buscaCliFLLIVRONASC: TStringField
-      FieldName = 'FLLIVRONASC'
-      Size = 5
-    end
-    object buscaCliLOCALTRABPAI: TStringField
-      FieldName = 'LOCALTRABPAI'
-      Size = 30
-    end
-    object buscaCliLOCALTRABMAE: TStringField
-      FieldName = 'LOCALTRABMAE'
-      Size = 30
-    end
-    object buscaCliTELTRABPAI: TStringField
-      FieldName = 'TELTRABPAI'
-      Size = 15
-    end
-    object buscaCliTELTRABMAE: TStringField
-      FieldName = 'TELTRABMAE'
-      Size = 15
-    end
-    object buscaCliINFONECESSARIAS: TStringField
-      FieldName = 'INFONECESSARIAS'
-      Size = 30
-    end
-    object buscaCliCARTEIRAVACINACAO: TStringField
-      FieldName = 'CARTEIRAVACINACAO'
-      Size = 10
-    end
-    object buscaCliRAPRODESP: TStringField
-      FieldName = 'RAPRODESP'
-      Size = 10
-    end
-    object buscaCliLOCALTRABALUNO: TStringField
-      FieldName = 'LOCALTRABALUNO'
-      Size = 30
-    end
-    object buscaCliTELTRABALUNO: TStringField
-      FieldName = 'TELTRABALUNO'
-      Size = 15
-    end
-    object buscaCliRAPROD: TStringField
-      FieldName = 'RAPROD'
-      Size = 15
-    end
-    object buscaCliCERT_NAS_COMARCA: TStringField
-      FieldName = 'CERT_NAS_COMARCA'
-      Size = 50
-    end
-    object buscaCliCERT_NAS_UF: TStringField
-      FieldName = 'CERT_NAS_UF'
-      Size = 2
-    end
-    object buscaCliCERT_NAS_MUNICIPIO: TStringField
-      FieldName = 'CERT_NAS_MUNICIPIO'
-      Size = 50
-    end
-    object buscaCliCERT_NAS_DISTRITO: TStringField
-      FieldName = 'CERT_NAS_DISTRITO'
-      Size = 50
-    end
-    object buscaCliCERT_NAS_SUBDISTRITO: TStringField
-      FieldName = 'CERT_NAS_SUBDISTRITO'
       Size = 50
     end
     object buscaCliDIVERSO1: TStringField
@@ -1893,52 +1700,6 @@ object fCarne: TfCarne
       FieldName = 'DIVERSO2'
       Size = 50
     end
-    object buscaCliDATAEMISSAORG: TDateField
-      FieldName = 'DATAEMISSAORG'
-    end
-    object buscaCliESTADORG: TStringField
-      FieldName = 'ESTADORG'
-      FixedChar = True
-      Size = 2
-    end
-    object buscaCliCOMUNICAALUNO: TStringField
-      FieldName = 'COMUNICAALUNO'
-      Size = 50
-    end
-    object buscaCliFONEMAE: TStringField
-      FieldName = 'FONEMAE'
-      Size = 15
-    end
-    object buscaCliCELULARMAE: TStringField
-      FieldName = 'CELULARMAE'
-      Size = 15
-    end
-    object buscaCliCOMUNICAMAE: TStringField
-      FieldName = 'COMUNICAMAE'
-      Size = 50
-    end
-    object buscaCliFONEPAI: TStringField
-      FieldName = 'FONEPAI'
-      Size = 15
-    end
-    object buscaCliCELULARPAI: TStringField
-      FieldName = 'CELULARPAI'
-      Size = 15
-    end
-    object buscaCliCOMUNICAPAI: TStringField
-      FieldName = 'COMUNICAPAI'
-      Size = 50
-    end
-    object buscaCliVALOR_MATRICULA: TFloatField
-      FieldName = 'VALOR_MATRICULA'
-    end
-    object buscaCliDATATRANSF: TDateField
-      FieldName = 'DATATRANSF'
-    end
-    object buscaCliCOR_RACA: TStringField
-      FieldName = 'COR_RACA'
-      Size = 25
-    end
     object buscaCliPERIODO: TStringField
       FieldName = 'PERIODO'
       Size = 15
@@ -1946,23 +1707,6 @@ object fCarne: TfCarne
     object buscaCliFOTO: TStringField
       FieldName = 'FOTO'
       Size = 300
-    end
-    object buscaCliDATA_MATRICULA: TSQLTimeStampField
-      FieldName = 'DATA_MATRICULA'
-    end
-    object buscaCliCODRESPONSAVEL: TIntegerField
-      FieldName = 'CODRESPONSAVEL'
-    end
-    object buscaCliID_COB: TIntegerField
-      FieldName = 'ID_COB'
-    end
-    object buscaCliCOD_TRANPORTADORA: TIntegerField
-      FieldName = 'COD_TRANPORTADORA'
-    end
-    object buscaCliBLOQUEADO: TStringField
-      FieldName = 'BLOQUEADO'
-      FixedChar = True
-      Size = 1
     end
     object buscaCliCFOP: TStringField
       FieldName = 'CFOP'
@@ -2067,7 +1811,7 @@ object fCarne: TfCarne
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 836
-    Top = 280
+    Top = 597
     object s_parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
