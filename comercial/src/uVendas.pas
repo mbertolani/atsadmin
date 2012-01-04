@@ -1,5 +1,5 @@
 unit uVendas;
-     
+
 interface
 
 uses
@@ -9,7 +9,7 @@ uses
   Mask, DBLocal, DBLocalS, rpcompobase, rpvclreport, DBXpress, UCHist_Base,
   UCHistDataset, JvExDBGrids, JvDBGrid, JvExStdCtrls, JvRadioButton,
   JvCombobox, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls, comobj;
+  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls, comobj , uVendaCls;
 
 type
   TfVendas = class(TfPai)
@@ -2554,6 +2554,7 @@ var tot, toti, estoque: double;
   cliente, vendedor, teveLancamento: string;
   TD: TTransactionDesc;
   FEstoque : TEstoque;
+  FVen : TVendaCls;
 begin
   teveLancamento := 'NAO';
   // Baixa as materias primas
@@ -2730,8 +2731,9 @@ begin
     end;
     if (cdsLotes.Active) then
       cdslotes.Close;
+    cod_Mov := cds_MovimentoCODMOVIMENTO.AsInteger;
     if (cds_Movimento.State in [dsInsert, dsEdit]) then
-    btnGravar.Click;
+      btnGravar.Click;
     //codigo_moviemento := cds_MovimentoCODMOVIMENTO.AsInteger;
     cdsLotesMem.Close;
   end;
@@ -2744,7 +2746,26 @@ begin
       dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET BAIXA = ' +
         QuotedStr('1') + ' WHERE CODMOVIMENTO = ' +
         IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger));
+
+      // Gerando a Venda
+      Try
+        fven := TVendaCls.Create;
+        fven.CodMov               := cod_Mov;
+        fven.DataVenda            := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        fven.DataVcto             := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        fven.Serie                := 'O';
+        fven.NotaFiscal           := cod_Mov;
+        fven.CodCliente           := cds_MovimentoCODCLIENTE.AsInteger;
+        fven.CodVendedor          := cds_MovimentoCODVENDEDOR.AsInteger;
+        fven.CodCCusto            := cds_MovimentoCODALMOXARIFADO.AsInteger;
+        fven.ValorPagar           := 0;
+        fven.NParcela             := 1;
+        fven.inserirVenda(0);
+      Finally
+        fVen.Free;
+      end;
       dmnf.baixaEstoque(cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
+
       dm.sqlsisAdimin.Commit(TD);
     except
       on E : Exception do
@@ -2754,6 +2775,7 @@ begin
       end;
     end;
   end;
+
   fVendas.SetFocus;
   MessageDlg('Venda Finalizada com sucesso.', mtInformation, [mbOK], 0);
 end;
