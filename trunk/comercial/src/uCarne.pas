@@ -250,6 +250,8 @@ type
     txtEmail: TRLLabel;
     SQLDataSet1VIA: TStringField;
     scdsCr_procVIA: TStringField;
+    buscaCliNUMER: TStringField;
+    txtNomeCont: TRLLabel;
     procedure RLBand3BeforePrint(Sender: TObject; var PrintIt: Boolean);
   private
     { Private declarations }
@@ -311,7 +313,8 @@ begin
         txtNossoNumeroCarne.Caption     := scdsCr_procTITULO.AsString;
         txtNossoNumCan.Caption          := scdsCr_procTITULO.AsString;
         txtNomeSacado.Caption           := scdsCr_procNOMECLIENTE.AsString;
-        txtNomeSacadoCarne.Caption      := txtNomeSacado.Caption;
+        txtNomeSacadoCarne.Caption      := copy(txtNomeSacado.Caption, 1, 20);
+        txtNomeCont.Caption             := copy(txtNomeSacado.Caption, 21, length(txtNomeSacado.Caption));
 
         txtLocal.Caption                := 'PAGAR SOMENTE NA EMPRESA';
         if (not dm.cds_empresa.Active) then
@@ -351,7 +354,7 @@ begin
          ImgLoja.Picture.LoadFromFile('logo.jpg');
        end;
         txtEndSacado.Caption            := buscaCliLOGRADOURO.AsString + ', ' +
-                                           IntToStr(buscaCliNUMERO.AsInteger) + buscaCliCOMPLEMENTO.AsString;
+                                           IntToStr(buscaCliNUMER.AsInteger) + buscaCliCOMPLEMENTO.AsString;
         txtCidadeSacado.Caption         := buscaCliCEP.AsString + ' ' + buscaCliCIDADE.AsString +
                                            ' ' + buscaCliUF.AsString;
         txtCPF.Caption                  := buscaCliCNPJ.AsString;
