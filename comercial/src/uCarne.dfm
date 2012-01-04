@@ -1177,6 +1177,19 @@ object fCarne: TfCarne
         Font.Style = []
         ParentFont = False
       end
+      object txtNomeCont: TRLLabel
+        Left = -1
+        Top = 298
+        Width = 144
+        Height = 16
+        AutoSize = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+      end
     end
   end
   object RLPDFFilter1: TRLPDFFilter
@@ -1502,9 +1515,9 @@ object fCarne: TfCarne
   end
   object buscaCli: TSQLDataSet
     CommandText = 
-      'SELECT a.*,'#13#10'               e.*'#13#10'   FROM CLIENTES a'#13#10'   left out' +
-      'er join ENDERECOCLIENTE e on e.CODCLIENTE = a.CODCLIENTE '#13#10'where' +
-      ' a.CODCLIENTE = :idcli'
+      'SELECT a.*,'#13#10'               e.*,  e.numero numer'#13#10'   FROM CLIENT' +
+      'ES a'#13#10'   left outer join ENDERECOCLIENTE e on e.CODCLIENTE = a.C' +
+      'ODCLIENTE '#13#10'where a.CODCLIENTE = :idcli'
     MaxBlobSize = -1
     Params = <
       item
@@ -1798,6 +1811,10 @@ object fCarne: TfCarne
     object buscaCliPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+    object buscaCliNUMER: TStringField
+      FieldName = 'NUMER'
+      Size = 5
     end
   end
   object s_parametro: TSQLDataSet
