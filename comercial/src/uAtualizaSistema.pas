@@ -1171,17 +1171,29 @@ begin
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
       CriaException('ALTERA_NFE ', 'Não pode ser Excluida ou Alterada, Nota Eletrônica Gerada');
-      executaScript('proibe_alt_del_nf');
+      executaScript('proibe_alt_del_nf.sql');
       if (NaoExisteTabela('ESTADO')) then
       begin
         executaSql('create table ESTADO ( CODIGO Integer NOT NULL, ' +
-          'SIGLA Char(2), NOME Varchar(60), ' +
-          'PRIMARY KEY(CODIGO, SIGLA) )');
-        //executaScript('pais.sql');
+          'SIGLA Char(2), NOME Varchar(60))');
         MessageDlg('Execute o Script "estado.sql".', mtWarning, [mbOK], 0);
       end;
       mudaVersao('1.0.0.97');
     end;// Fim Ataulização Versao 1.0.0.97
+
+    if (versaoSistema = '1.0.0.97') then
+    begin
+      executaDDL('NOTAFISCAL', 'NOMEXML', 'VARCHAR(60)');    
+      if (NaoExisteTabela('CCE')) then
+      begin
+        executaSql('create table CCE ( CHAVE varchar(44), ' +
+          'ORGAO integer, CNPJ varchar(16), ' +
+          'DHENVIO date, SEQUENCIA integer, ' +
+          'CORRECAO varchar(1000))');
+      end;
+      executaDDL('MOVIMENTODETALHE', 'IMPRESSO', 'CHAR(3)');
+      //mudaVersao('1.0.0.98');
+    end;// Fim Ataulização Versao 1.0.0.98
 
 
     try
