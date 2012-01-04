@@ -535,16 +535,15 @@ begin
   varCondicao := varCondicao + ') ';
   if (cbTipo.Text <> '') then
   begin
-    varCondicaoA := ' where ((TIPO ';
     case cbTipo.ItemIndex of
-      0: varCondicaoA := varCondicaoA + ' = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
-      1: varCondicaoA := varCondicaoA + ' = ' + QuotedStr('COMPRA') + ') OR (TIPO = ' +
+      0: varCondicaoA := ' where ((TIPO = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
+      1: varCondicaoA := ' where ((TIPO = ' + QuotedStr('COMPRA') + ') OR (TIPO = ' +
          QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
-      2: varCondicaoA := varCondicaoA + ' = ' + QuotedStr('VENDA') + ') OR (TIPO = ' +
+      2: varCondicaoA := ' where ((TIPO = ' + QuotedStr('VENDA') + ') OR (TIPO = ' +
          QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
-      3: varCondicaoA := varCondicaoA + ' = ' + QuotedStr('SERV') + ')) ';
-      4: varCondicaoA := varCondicaoA + ' <> ' + QuotedStr('COMPRA') + ') OR (TIPO IS NULL)) ';
-      5: varCondicaoA := varCondicaoA + ' <> ' + QuotedStr('VENDA') + ') OR (TIPO IS NULL)) ';
+      3: varCondicaoA := ' where ((TIPO = ' + QuotedStr('SERV') + ')) ';
+      4: varCondicaoA := ' where ((TIPO <> ' + QuotedStr('COMPRA') + ') OR (TIPO IS NULL)) ';
+      5: varCondicaoA := ' where ((TIPO <> ' + QuotedStr('VENDA') + ') OR (TIPO IS NULL)) ';
     end;
   end;
 
