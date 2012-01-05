@@ -2,7 +2,7 @@ unit uReceberCls;
 
 interface
 
-uses SysUtils, Dialogs, dbXpress, dateUtils;
+uses SysUtils, Dialogs, dbXpress, dateUtils, StdCtrls, Classes;
 
 type
 
@@ -65,6 +65,9 @@ type
     function executaSql(strSql: String): Boolean;
     function getCodCCusto: Integer;
     procedure setCodCCusto(const Value: Integer);
+    function getdataVenc: TStringList;
+    procedure setdataVenc(const Value: TStringList);
+
   protected
     //Atributos
     _codVenda     : Integer;
@@ -102,6 +105,8 @@ type
     _formaRec     : String;
     _nDoc         : String;
     _obs          : String;
+    
+    _datasVenc    : TStringList;
 
   public
     property CodVenda    : Integer read getCodVenda write setCodVenda;
@@ -137,6 +142,7 @@ type
     property FormaRec    : String read getFormaRec  write setFormaRec;
     property NDoc        : String read getNDoc  write setNDoc;
     property Obs         : String read getObs  write setObs;
+    property dataVenc    : TStringList read getdataVenc  write setdataVenc;
 
     //Metodos
     function geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
@@ -154,7 +160,7 @@ rdtConsolida: TDateTime; rnDoc: String): Boolean;
 
 implementation
 
-uses SqlExpr, DB, UDm, DBClient;
+uses SqlExpr, DB, UDm, DBClient, Math;
 
 { TReceberCls }
 
@@ -186,17 +192,18 @@ begin
             ', outro_credito    = ' + FloatToStr(vOCred) +
             ', outro_debito     = ' + FloatToStr(vODeb)  +
             ' WHERE CODRECEBIMENTO = ' + IntToStr(codRecB);
-
+  executaSql(strRec);
 
 end;
 
 constructor TReceberCls.Create;
 begin
-
+  _datasVenc := TStringList.Create;
 end;
 
 destructor TReceberCls.Destroy;
 begin
+  _datasVenc.Destroy;
   inherited;
 end;
 
@@ -223,11 +230,11 @@ begin
 end;
 
 function TReceberCls.geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
-var strG, strR: String;
-    sqlBuscaR : TSqlQuery;
+var strG, strR, strP: String;
+    sqlBuscaR, sqlPrazo : TSqlQuery;
             i : integer;
           rec : Boolean;
-      VlrParc : Double;
+      VlrParc, UltParc : Double;
 begin
 
   // Se codVendaR > 0, então é uma Venda então busca os dados da Venda;
@@ -266,6 +273,28 @@ begin
     Finally
       sqlBuscaR.Free;
     end;
+    Try
+      sqlPrazo :=  TSqlQuery.Create(nil);
+      sqlPrazo.SQLConnection := dm.sqlsisAdimin;
+      strP := 'SELECT D1, D2, D3, D4, D5, D6, D7, D8' +
+        '  FROM PARAMETRO ' +
+        ' WHERE PARAMETRO = ' + quotedstr(Self.Prazo);
+      sqlPrazo.SQL.Add(strP);
+      sqlPrazo.Open;
+      if (not sqlPrazo.isEmpty) then
+      begin
+        Self.dataVenc.Add(sqlPrazo.FieldByName('D1').AsString);
+        Self.dataVenc.Add(sqlPrazo.FieldByName('D2').AsString);
+        Self.dataVenc.Add(sqlPrazo.FieldByName('D3').AsString);
+        Self.dataVenc.Add(sqlPrazo.FieldByName('D4').AsString);
+        Self.dataVenc.Add(sqlPrazo.FieldByName('D5').AsString);
+        Self.dataVenc.Add(sqlPrazo.FieldByName('D6').AsString);
+        Self.dataVenc.Add(sqlPrazo.FieldByName('D7').AsString);
+        Self.dataVenc.Add(sqlPrazo.FieldByName('D8').AsString);
+      end;
+    Finally
+      sqlPrazo.Free;
+    end;
   end;
 
   if ((Self.NParcela = 1) and (Self.Valor < Self.ValorRec)) then
@@ -276,11 +305,13 @@ begin
 
   Self.Status   := '5-';
   Self.FormaRec := '0';
-  if (Self.ValorRec > 0) then
+  if ((Self.ValorRec > 0) and (Self.ValorRec < Self.Valor)) then
     VlrParc := (Self.Valor - Self.ValorRec) / (Self.NParcela-1)
   else
     VlrParc := Self.Valor / Self.NParcela;
   DecimalSeparator := '.';
+
+  UltParc := Self.Valor;
 
   for i := 1 to Self.NParcela do
   begin
@@ -308,7 +339,7 @@ begin
     strG := strG + QuotedStr(Self.Titulo) + ', ';
     strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.DtEmissao)) + ', ';
     strG := strG + IntToStr(Self.CodCliente) + ', ';
-    strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.DtVcto)) + ', ';
+    strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', (IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]))))) + ', ';
     strG := strG + QuotedStr(Self.Status) + ', ';
     strG := strG + IntToStr(i) + ', ';
     strG := strG + QuotedStr(Self.FormaRec) + ', ';
@@ -322,18 +353,21 @@ begin
     else
       strG := strG + '0, '; // Valor_prim_via
 
+    //COLOCA O CAMPO COM 2 CASAS DECIMAIS
+    VlrParc := Trunc(VlrParc * 100) / 100;
+
     if (i = 1) then
     begin
       if (Self.ValorRec > 0) then
-      begin
-        strG := strG + FloattoStr(Self.ValorRec) + ', '; // Valor_Resto
-      end
-      else begin
-        strG := strG + FloattoStr(VlrParc) + ', '; // Valor_Resto
-      end;
+          strG := strG + FloattoStr(Self.ValorRec) + ', ' // Valor_Resto
+      else
+          strG := strG + FloattoStr(VlrParc) + ', '; // Valor_Resto
     end
     else
-      strG := strG + FloattoStr(VlrParc) + ', '; // Valor_Resto
+      if ( i = Self.NParcela) then
+        strG := strG + FloattoStr(UltParc) + ', ' // Valor_Resto
+      else
+        strG := strG + FloattoStr(VlrParc) + ', '; // Valor_Resto
     strG := strG + FloattoStr(Self.Valor) + ', ';  // Valortitulo
     strG := strG + '0, ';  // ValorRecebido
     strG := strG + IntToStr(Self.NParcela) + ', ';
@@ -348,6 +382,7 @@ begin
     strG := strG + IntToStr(1) + ', '; // Situacao
     strG := strG + IntToStr(1) + ')'; // CodOrigem
     Rec  := executaSql(strG);
+    UltParc := UltParc - VlrParc;
   end;
   DecimalSeparator := ',';
   Result := 0;
@@ -393,6 +428,11 @@ end;
 function TReceberCls.getCodVendedor: Integer;
 begin
   Result := _codVendedor;
+end;
+
+function TReceberCls.getdataVenc: TStringList;
+begin
+  Result := _datasVenc;
 end;
 
 function TReceberCls.getDesconto: Double;
@@ -533,6 +573,11 @@ end;
 procedure TReceberCls.setCodVendedor(const Value: Integer);
 begin
   _codVendedor := Value;
+end;
+
+procedure TReceberCls.setdataVenc(const Value: TStringList);
+begin
+  _datasVenc := Value;
 end;
 
 procedure TReceberCls.setDesconto(const Value: Double);
