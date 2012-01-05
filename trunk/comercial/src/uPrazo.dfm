@@ -91,6 +91,7 @@ inherited fPrazo: TfPrazo
         Expanded = False
         FieldName = 'VALOR'
         Title.Caption = 'Num. Parcelas'
+        Width = 64
         Visible = True
       end>
   end
