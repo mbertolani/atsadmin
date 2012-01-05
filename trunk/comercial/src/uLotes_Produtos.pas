@@ -49,7 +49,7 @@ begin
     dm.cds_produto.Open;
     if (not dm.cds_produtoTAM_LOTE.IsNull) then
     begin
-      if (Length(fCompra.cds_Mov_detLOTE.AsString) <> DM.cds_produtoTAM_LOTE.AsInteger) then
+      if (Length(DBEdit1.Text) <> DM.cds_produtoTAM_LOTE.AsInteger) then
       begin
         MessageDlg('Tamanho do lote incorreto.', mtWarning, [mbOK], 0);
         Exit;
