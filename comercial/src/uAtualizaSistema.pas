@@ -1132,8 +1132,6 @@ begin
       executaDDL('VENDA', 'TROCO', 'DOUBLE PRECISION');
       executaDDL('NOTAFISCAL', 'II', 'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'II', 'DOUBLE PRECISION');
-      executaScript('trg_calcula_icms_st.sql');
-      executaScript('calcula_icms.sql');
       executaScript('listaProdutocli.sql');
       executaScript('listaProduto.sql');
       executaScript('lista_estoque.sql');
@@ -1152,7 +1150,9 @@ begin
       executaDDL('TRANSPORTADORA', 'EMAIL', 'varchar(100)');
       executaDDL('NOTAFISCAL', 'BCII', 'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'BCII', 'DOUBLE PRECISION');
-      executaDDL('OS', 'VEICULO', 'VARCHAR(200)');      
+      executaDDL('OS', 'VEICULO', 'VARCHAR(200)');
+      executaScript('trg_calcula_icms_st.sql');
+      executaScript('calcula_icms.sql');      
       executaSql('ALTER TABLE FUNCIONARIO ALTER BAIRRO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER COMPLEMENTO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER RUA TYPE Varchar(60);');
