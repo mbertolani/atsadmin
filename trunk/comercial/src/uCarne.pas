@@ -354,7 +354,7 @@ begin
          ImgLoja.Picture.LoadFromFile('logo.jpg');
        end;
         txtEndSacado.Caption            := buscaCliLOGRADOURO.AsString + ', ' +
-                                           IntToStr(buscaCliNUMER.AsInteger) + buscaCliCOMPLEMENTO.AsString;
+                                           buscaCliNUMER.AsString + buscaCliCOMPLEMENTO.AsString;
         txtCidadeSacado.Caption         := buscaCliCEP.AsString + ' ' + buscaCliCIDADE.AsString +
                                            ' ' + buscaCliUF.AsString;
         txtCPF.Caption                  := buscaCliCNPJ.AsString;
