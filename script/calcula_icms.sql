@@ -48,6 +48,7 @@ DECLARE VARIABLE ICMS_DESTACADO_DESC2 VARCHAR(100);
 DECLARE VARIABLE VlrStr varchar(32);
 DECLARE VARIABLE PIS DOUBLE PRECISION;
 DECLARE VARIABLE COFINS DOUBLE PRECISION;
+declare variable codmovorigem integer;
 begin
     ICMS_DESTACADO_DESC = '';
     ICMS_DESTACADO_DESC2 = '';
@@ -128,6 +129,13 @@ begin
       if (d9 <> 999) then 
         EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);  
     end
+    
+    select CONTROLE from MOVIMENTO where CODMOVIMENTO = :cod
+    into :codmovorigem;
+    
+    update VENDA set VALOR_IPI = :TOTIPI where CODMOVIMENTO = :codmovorigem;
+    
+    
     if ((:nat = 15) or (:nat = 12)) then
       update recebimento set valst = :TOTST where titulo = :notafiscalVenda || '-' || :serie and via = 1;
        
