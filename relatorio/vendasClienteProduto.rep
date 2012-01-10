@@ -24,18 +24,18 @@ object TRpReport
       Alias = 'VENDAS'
       DatabaseAlias = 'SGE'
       SQL = 
-        'select prod.CODPRO, prod.PRODUTO,  SUM(IT.QUANTIDADE), '#13#10'SUM((ca' +
-        'se when it.qtde_alt is null then 1 '#13#10'when it.qtde_alt = 0 then 1' +
-        ' else (1-(it.qtde_alt/100))  end) * IT.VALTOTAL)'#13#10', cli.RAZAOSOC' +
-        'IAL, v.notafiscal, rec.codcliente'#13#10'from movimento rec'#13#10'inner joi' +
+        'select  v.notafiscal,prod.CODPRO, prod.PRODUTO,  SUM(IT.QUANTIDA' +
+        'DE), '#13#10'SUM((case when it.qtde_alt is null then 1 '#13#10'when it.qtde_' +
+        'alt = 0 then 1 else (1-(it.qtde_alt/100))  end) * IT.VALTOTAL)'#13#10 +
+        ', cli.RAZAOSOCIAL, rec.codcliente'#13#10'from movimento rec'#13#10'inner joi' +
         'n venda v on v.codmovimento = rec.codmovimento'#13#10'inner join CLIEN' +
         'TES cli on cli.codCliente = rec.codcliente '#13#10'inner join MOVIMENT' +
         'ODETALHE it on it.CODMOVIMENTO = rec.CODMOVIMENTO '#13#10'inner join P' +
         'RODUTOS prod on prod.CODPRODUTO = it.CODPRODUTO'#13#10'where rec.codna' +
         'tureza = 3 and  v.DATAVENDA between :DATA1 and :DATA2   and rec.' +
-        'codcliente > 0 '#13#10'and ((rec.CODCLIENTE = :PRO1) or (:PRO1 = 99999' +
-        '99))  '#13#10'GROUP by   rec.codcliente, cli.RAZAOSOCIAL, v.notafiscal' +
-        ', prod.CODPRO, prod.PRODUTO'#13#10'order by 2 desc'
+        'codcliente > 0 '#13#10'and ((rec.CODCLIENTE = :PRODUTO) or (:PRODUTO =' +
+        ' 9999999))  '#13#10'GROUP by    v.notafiscal,rec.codcliente, cli.RAZAO' +
+        'SOCIAL, prod.CODPRO, prod.PRODUTO'#13#10'order by  6'
     end>
   DatabaseInfo = <
     item
@@ -63,7 +63,7 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 39814d
+      Value = 40878d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -75,7 +75,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 39841d
+      Value = 40905d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -90,9 +90,31 @@ object TRpReport
       AllowNulls = False
       Value = 9999999
       ParamType = rpParamInteger
+      Description = 'C'#243'digo do Cliente'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'PRODUTO'
+      AllowNulls = False
+      Value = 9999999
+      ParamType = rpParamInteger
       Datasets.Strings = (
         'VENDAS')
-      Description = 'C'#243'digo do Cliente'
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'MYROWCOUNT'
+      AllowNulls = False
+      Value = 0
+      ParamType = rpParamInteger
+      Description = ''
       Hint = ''
       Search = ''
       ErrorMessage = ''
@@ -164,8 +186,8 @@ object TRpReport
     ExternalSearchField = 'REPORT_NAME'
     StreamFormat = rpStreamText
     PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
+    DoBeforePrint = 'M.MYROWCOUNT := (M.MYROWCOUNT+1);'
+    DoAfterPrint = 'M.MYROWCOUNT := 0;'
     ChangeExpression = ''
     BeginPageExpression = ''
     ChangeExpression = ''
@@ -224,7 +246,7 @@ object TRpReport
   end
   object TRpSection2: TRpSection
     Width = 10772
-    Height = 255
+    Height = 405
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -239,7 +261,6 @@ object TRpReport
     ExternalField = 'REPORT'
     ExternalSearchField = 'REPORT_NAME'
     StreamFormat = rpStreamText
-    Global = True
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
@@ -425,8 +446,8 @@ object TRpReport
   object TRpExpression29: TRpExpression
     Width = 465
     Height = 225
-    PosX = 10125
-    PosY = 0
+    PosX = 10035
+    PosY = 60
     Type1Font = poHelvetica
     AutoExpand = False
     AutoContract = False
@@ -608,6 +629,7 @@ object TRpReport
     PosX = 7590
     PosY = 334
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 4
     PrintCondition = ''
     DoBeforePrint = ''
@@ -622,6 +644,7 @@ object TRpReport
     PosX = 5
     PosY = 334
     Type1Font = poHelvetica
+    FontSize = 8
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
@@ -635,6 +658,7 @@ object TRpReport
     PosX = 8970
     PosY = 334
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 4
     PrintCondition = ''
     DoBeforePrint = ''
@@ -649,6 +673,7 @@ object TRpReport
     PosX = 920
     PosY = 334
     Type1Font = poHelvetica
+    FontSize = 8
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
@@ -674,6 +699,7 @@ object TRpReport
     PosX = 6435
     PosY = 334
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 4
     PrintCondition = ''
     DoBeforePrint = ''
@@ -688,6 +714,7 @@ object TRpReport
     PosX = 930
     PosY = 0
     Type1Font = poHelvetica
+    FontSize = 8
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -785,6 +812,7 @@ object TRpReport
     PosX = 60
     PosY = 0
     Type1Font = poHelvetica
+    FontSize = 8
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
@@ -839,7 +867,7 @@ object TRpReport
   object TRpLabel6: TRpLabel
     Width = 1095
     Height = 285
-    PosX = 120
+    PosX = 62
     PosY = 2
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -855,6 +883,7 @@ object TRpReport
     PosX = 6675
     PosY = 120
     Type1Font = poHelvetica
+    FontSize = 8
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -877,6 +906,7 @@ object TRpReport
     PosX = 8736
     PosY = 114
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
     DisplayFormat = '#,##0.00'
     Aggregate = rpAgGroup
@@ -915,6 +945,7 @@ object TRpReport
     PosX = 5100
     PosY = 120
     Type1Font = poHelvetica
+    FontSize = 8
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -937,6 +968,7 @@ object TRpReport
     PosX = 8736
     PosY = 114
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
     DisplayFormat = '#,##0.00'
     Aggregate = rpAgGroup
@@ -985,7 +1017,7 @@ object TRpReport
     Width = 10772
     Height = 0
     SubReport = TRpSubReport0
-    GroupName = 'TOTALGERAL'
+    GroupName = 'TOTALPAGINA'
     ChangeBool = False
     PageRepeat = False
     SkipPage = False
@@ -999,9 +1031,9 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-    ChangeExpression = ''
+    ChangeExpression = 'EMPRESA.EMPRESA'
     BeginPageExpression = ''
-    ChangeExpression = ''
+    ChangeExpression = 'EMPRESA.EMPRESA'
     SkipExpreV = ''
     SkipExpreH = ''
     SkipToPageExpre = ''
@@ -1010,15 +1042,24 @@ object TRpReport
   end
   object TRpSection8: TRpSection
     Width = 10772
-    Height = 390
+    Height = 480
     SubReport = TRpSubReport0
-    GroupName = 'TOTALGERAL'
+    GroupName = 'TOTALPAGINA'
     ChangeBool = False
     PageRepeat = False
     SkipPage = False
-    AlignBottom = False
+    AlignBottom = True
     SectionType = rpsecgfooter
-    Components = <>
+    Components = <
+      item
+        Component = TRpExpression6
+      end
+      item
+        Component = TRpLabel7
+      end
+      item
+        Component = TRpShape5
+      end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
     ExternalSearchField = 'REPORT_NAME'
@@ -1026,13 +1067,70 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-    ChangeExpression = ''
+    ChangeExpression = 'EMPRESA.EMPRESA'
     BeginPageExpression = ''
-    ChangeExpression = ''
+    ChangeExpression = 'EMPRESA.EMPRESA'
     SkipExpreV = ''
     SkipExpreH = ''
     SkipToPageExpre = ''
     BackExpression = ''
     Stream = {0000000000000000}
+  end
+  object TRpExpression6: TRpExpression
+    Width = 1035
+    Height = 225
+    PosX = 8698
+    PosY = 120
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    MultiPage = True
+    DisplayFormat = '#,##0.00'
+    Aggregate = rpAgGeneral
+    GroupName = ' '
+    AutoExpand = False
+    AutoContract = False
+    PrintOnlyOne = True
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(EOF('#39'IMPR'#39')=TRUE,FORMATNUM('#39',##0.00'#39',VENDAS.SUM_1),'#39'********' +
+      '*****'#39')'
+    DisplayFormat = '#,##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel7: TRpLabel
+    Width = 1635
+    Height = 285
+    PosX = 5100
+    PosY = 120
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total Geral'
+  end
+  object TRpShape5: TRpShape
+    Width = 5625
+    Height = 165
+    PosX = 4995
+    PosY = 58
+    BrushStyle = 1
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
   end
 end
