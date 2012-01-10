@@ -545,6 +545,7 @@ type
     procedure cdsAfterPost(DataSet: TDataSet);
     procedure ImprimirPedido1Click(Sender: TObject);
     procedure ImprimirOrdemdeServio1Click(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima: String;
@@ -587,7 +588,7 @@ implementation
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
   uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque,
-  uMovimento, U_Boletos, uCarne;
+  uMovimento, U_Boletos, uCarne, uReceberCls;
 
 {$R *.dfm}
 
@@ -811,7 +812,8 @@ begin
       if (scdsCr_proc.State in [dsBrowse, dsInactive]) then
         scdsCr_proc.Edit;
       scdsCr_procSTATUS.AsString := '5-';
-      scdsCr_procVALOR_RESTO.AsFloat := scdsCr_procVALORRECEBIDO.asFloat;
+      if( scdsCr_procSTATUS.AsString = '7-') then
+        scdsCr_procVALOR_RESTO.AsFloat := scdsCr_procVALORRECEBIDO.asFloat;
       scdsCr_procVALORRECEBIDO.AsFloat := 0;
       scdsCr_procCAIXA.Clear;
       scdsCr_proc.ApplyUpdates(0);
@@ -833,6 +835,7 @@ procedure TfVendaFinalizar.btnGravarClick(Sender: TObject);
 var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
+     FRec : TReceberCls;     
 begin
   if (cbPrazo.Visible = True) then
   begin
@@ -1075,6 +1078,14 @@ begin
     Try
       dm.sqlsisAdimin.StartTransaction(TD);
       cds.ApplyUpdates(0);
+      // Executo Classe Insere Recebimento ---------------------------------------
+      {try
+         FRec := TReceberCls.Create;
+         codRec := FRec.geraTitulo(0, cdsCODVENDA.AsInteger);
+      finally
+         Frec.Free;
+      end;}
+      //--------------------------------------------------------------------------
       dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TD);
     except
@@ -2934,12 +2945,21 @@ begin
       dm.cds_empresa.open;
     fNotaf.cbFinanceiro.Checked := False;
     fNotaf.cbEstoque.Checked := False;
+    fNotaf.btnProcurar.Enabled := False;
     fNotaf.ShowModal;
     if (dmnf.cds_nfSTATUS.AsString = 'S') then
       fNotaf.RadioGroup1.ItemIndex := 0
     else
       fNotaf.RadioGroup1.ItemIndex := 1;
     finally
+      DMNF.cds_nf.Close;
+      dmnf.cds_nf.Open;
+      if ( cdsVALOR_IPI.AsFloat <> DMNF.cds_nfVALOR_IPI.AsFloat) then
+      begin
+        cds.Edit;
+        cdsVALOR_IPI.AsFloat := DMNF.cds_nfVALOR_IPI.AsFloat;
+        btnGravar.Click;
+      end;
       fNotaf.Free;
     end;
 end;
@@ -3204,6 +3224,17 @@ begin
     //fCarne.ShowModal;
   finally
     fCarne.Free;
+  end;
+end;
+
+procedure TfVendaFinalizar.btnSairClick(Sender: TObject);
+begin
+  inherited;
+  if (dmnf.cds_nf.Active) then
+  begin
+    dmnf.cds_nf.Params[0].Clear;
+    dmnf.cds_nf.Params[1].Clear;
+    dmnf.cds_nf.Close;
   end;
 end;
 
