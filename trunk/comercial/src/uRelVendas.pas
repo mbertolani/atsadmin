@@ -378,10 +378,10 @@ begin
         ShowMessage ('Não existe este Cliente no Cadastro.');
         exit;
       end;
-      Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
+      Rep.Report.Params.ParamByName('PRODUTO').Value := cds.Fields[0].AsInteger;
     end
     else
-      Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
+      Rep.Report.Params.ParamByName('PRODUTO').Value := 9999999;
     {*** Produto **** }
     {if (Edit3.Text <> '') then
       Rep.Report.Params.ParamByName('PRODUTO').Value := Edit3.Text
@@ -419,10 +419,10 @@ begin
         ShowMessage ('Não existe este Cliente no Cadastro.');
         exit;
       end;
-      //Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
-    end;
-    //else
-    //  Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
+      Rep.Report.Params.ParamByName('PRODUTO').Value := cds.Fields[0].AsInteger;
+    end
+    else
+      Rep.Report.Params.ParamByName('PRODUTO').Value := 9999999;
   except
     on EConvertError do
     begin
