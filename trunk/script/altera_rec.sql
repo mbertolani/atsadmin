@@ -135,7 +135,7 @@ begin
         update RECEBIMENTO set 
              VALORTITULO = (NEW.VALOR - NEW.DESCONTO)/NEW.N_PARCELA,
              VALOR_RESTO = (NEW.VALOR - NEW.DESCONTO)/NEW.N_PARCELA,
-             VALOR_RESTO_SST = (NEW.VALOR - NEW.DESCONTO),
+             VALOR_RESTO_SST = (NEW.VALOR - NEW.DESCONTO)/NEW.N_PARCELA,
              VALOR_PRIM_VIA = 0 
         where CODVENDA = NEW.CODVENDA AND STATUS = '5-' AND VIA = :i;
         i = i + 1;
