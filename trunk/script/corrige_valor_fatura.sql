@@ -11,7 +11,7 @@ BEGIN
     end
     if(new.VALST is null) then
         new.VALST = 0;
-    if ((new.VALST <> old.VALST) and (new.STATUS = '5-') ) then
+    if ( ((new.VALST <> old.VALST) or (old.VALOR_RESTO_SST <> new.VALOR_RESTO_SST))and (new.STATUS = '5-') ) then
         new.VALOR_RESTO = (new.VALST + new.VALOR_RESTO_SST);
     if ((new.VALST = 0) and (new.STATUS = '5-') ) then
         new.VALOR_RESTO = new.VALOR_RESTO_SST;
