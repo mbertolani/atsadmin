@@ -730,16 +730,34 @@ begin
      sMaiorData.Params[3].AsString := 'todasasseriesdenotaf';
    sMaiorData.Open;
 
-   btnGeraNFe.Enabled := True;
-   btnContingencia.Enabled := True;
-   btnSPED.Enabled := True;
-   btnDpec.Enabled := True;
-   btnFSDA.Enabled := True;
-   BtnPreVis.Enabled := True;
-   btnPreVisCont.Enabled := True;
-   btnPreVisSped.Enabled := True;
-   btnPreVisDPEC.Enabled := True;
-   btnPreVisFSDA.Enabled := True;
+
+   if (not cdsNF.Eof) then
+   begin
+     btnGeraNFe.Enabled :=      True;
+     btnContingencia.Enabled := True;
+     btnSPED.Enabled :=         True;
+     btnDpec.Enabled :=         True;
+     btnFSDA.Enabled :=         True;
+     BtnPreVis.Enabled :=       True;
+     btnPreVisCont.Enabled :=   True;
+     btnPreVisSped.Enabled :=   True;
+     btnPreVisDPEC.Enabled :=   True;
+     btnPreVisFSDA.Enabled :=   True;
+   end
+   else
+   begin
+     btnGeraNFe.Enabled :=      False;
+     btnContingencia.Enabled := False;
+     btnSPED.Enabled :=         False;
+     btnDpec.Enabled :=         False;
+     btnFSDA.Enabled :=         False;
+     BtnPreVis.Enabled :=       False;
+     btnPreVisCont.Enabled :=   False;
+     btnPreVisSped.Enabled :=   False;
+     btnPreVisDPEC.Enabled :=   False;
+     btnPreVisFSDA.Enabled :=   False;
+   end;
+
 end;
 
 procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
@@ -1829,6 +1847,16 @@ begin
   begin
     with Det.Add do
     begin
+      if (sCFOP.Active) then
+        sCFOP.Close;
+      sCFOP.Params[0].AsString := cdsItensNFCFOP.AsString;
+      sCFOP.Params[2].AsString := cdsItensNFCFOP.AsString;
+      if (tpNF.ItemIndex = 1) then
+        sCFOP.Params[1].AsString := sClienteUF.AsString
+      else
+        sCFOP.Params[1].AsString := sFornecUF.AsString;
+      sCFOP.Open;
+
       Prod.nItem    := contador;
       Prod.cProd    := cdsItensNFCODPRO.AsString;
       Prod.xProd    := LeftStr(cdsItensNFDESCPRODUTO.AsString, 99);
@@ -1944,27 +1972,27 @@ begin
           //70 COM REDUÇÃO DA BASE DE CALCULO E COBRANÇA DO ICMS POR SUBS.TRIB. ICMS POR SUBS.TRIB.
           //90 OUTROS
 
-          if ((cdsItensNFCST.AsString = '000') or (cdsItensNFCST.AsString = '00')) then
+          if ((cdsItensNFCST.AsString = '000') or (cdsItensNFCST.AsString = '100') or (cdsItensNFCST.AsString = '200') or (cdsItensNFCST.AsString = '00')) then
             CST := cst00
-          else if ((cdsItensNFCST.AsString = '010') or (cdsItensNFCST.AsString = '10')) then
+          else if ((cdsItensNFCST.AsString = '010') or (cdsItensNFCST.AsString = '110') or (cdsItensNFCST.AsString = '210') or (cdsItensNFCST.AsString = '10')) then
             CST := cst10
-          else if ((cdsItensNFCST.AsString = '020') or (cdsItensNFCST.AsString = '20'))then
+          else if ((cdsItensNFCST.AsString = '020') or (cdsItensNFCST.AsString = '120') or (cdsItensNFCST.AsString = '220') or (cdsItensNFCST.AsString = '20')) then
             CST := cst20
-          else if ((cdsItensNFCST.AsString = '030') or (cdsItensNFCST.AsString = '30')) then
+          else if ((cdsItensNFCST.AsString = '030') or (cdsItensNFCST.AsString = '130') or (cdsItensNFCST.AsString = '230') or (cdsItensNFCST.AsString = '30')) then
             CST := cst30
-          else if ((cdsItensNFCST.AsString = '040') or (cdsItensNFCST.AsString = '40')) then
+          else if ((cdsItensNFCST.AsString = '040') or (cdsItensNFCST.AsString = '140') or (cdsItensNFCST.AsString = '240') or (cdsItensNFCST.AsString = '40')) then
             CST :=  cst40
-          else if ((cdsItensNFCST.AsString = '041') or (cdsItensNFCST.AsString = '41')) then
+          else if ((cdsItensNFCST.AsString = '041') or (cdsItensNFCST.AsString = '141') or (cdsItensNFCST.AsString = '241') or (cdsItensNFCST.AsString = '41')) then
             CST :=  cst41
-          else if ((cdsItensNFCST.AsString = '050') or (cdsItensNFCST.AsString = '50')) then
+          else if ((cdsItensNFCST.AsString = '050') or (cdsItensNFCST.AsString = '150') or (cdsItensNFCST.AsString = '250') or (cdsItensNFCST.AsString = '50')) then
             CST :=  cst50
-          else if ((cdsItensNFCST.AsString = '051') or (cdsItensNFCST.AsString = '51')) then
+          else if ((cdsItensNFCST.AsString = '051') or (cdsItensNFCST.AsString = '151') or (cdsItensNFCST.AsString = '251') or (cdsItensNFCST.AsString = '51')) then
             CST := cst51
-          else if ((cdsItensNFCST.AsString = '060') or (cdsItensNFCST.AsString = '60')) then
+          else if ((cdsItensNFCST.AsString = '060') or (cdsItensNFCST.AsString = '160') or (cdsItensNFCST.AsString = '260') or (cdsItensNFCST.AsString = '60')) then
             CST := cst60
-          else if ((cdsItensNFCST.AsString = '070') or (cdsItensNFCST.AsString = '70')) then
+          else if ((cdsItensNFCST.AsString = '070') or (cdsItensNFCST.AsString = '170') or (cdsItensNFCST.AsString = '270') or (cdsItensNFCST.AsString = '70')) then
             CST := cst70
-          else if ((cdsItensNFCST.AsString = '090') or (cdsItensNFCST.AsString = '90')) then
+          else if ((cdsItensNFCST.AsString = '090') or (cdsItensNFCST.AsString = '190') or (cdsItensNFCST.AsString = '290') or (cdsItensNFCST.AsString = '90')) then
             CST := cst90
           else
             CST := cst00;
