@@ -68,7 +68,7 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 39814d
+      Value = 40878d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -80,7 +80,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 39844d
+      Value = 40908d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
