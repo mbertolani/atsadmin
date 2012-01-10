@@ -405,7 +405,6 @@ type
     procedure gravamovimento;
     procedure gravavenda;
     procedure alteraVlrVenda;
-    procedure validaNF;
   public
       vrr : double;
       codMovFin, codVendaFin, codCliFin : integer;
@@ -947,6 +946,12 @@ end;
 
 procedure TfNotaf.cbCLienteChange(Sender: TObject);
 begin
+ if (dmnf.cds_nf.State in [dsBrowse]) then
+  dmnf.cds_nf.edit;
+ if (dmnf.cds_Movimento.State in [dsBrowse]) then
+  dmnf.cds_Movimento.edit;
+ if (dmnf.cds_venda.State in [dsBrowse]) then
+  dmnf.cds_venda.edit;
  if (dmnf.cds_nf.State in [dsinsert, dsEdit]) then
   if (cbCLiente.Text <> '') then
   begin
@@ -1213,10 +1218,14 @@ begin
     DMNF.cds_venda.Cancel;
     DMNF.cds_Mov_det.Cancel;
     DMNF.cds_Movimento.Cancel;
-    {DMNF.cds_nf.Close;
-    DMNF.cds_venda.Close;
-    DMNF.cds_Mov_det.Close;
-    DMNF.cds_Movimento.Close; }
+    DM.cds_empresa.cancel;
+    if(DMNF.cds_nfNUMNF.AsInteger = 0) then
+    begin
+      DMNF.cds_nf.Close;
+      DMNF.cds_venda.Close;
+      DMNF.cds_Mov_det.Close;
+      DMNF.cds_Movimento.Close;
+    end;
 end;
 
 procedure TfNotaf.BitBtn5Click(Sender: TObject);
@@ -1525,6 +1534,17 @@ end;
 procedure TfNotaf.btnProcurarClick(Sender: TObject);
 var varsql:string;
 begin
+    if (not dmnf.listaCliente.Active) then
+      dmnf.listaCliente.Open;
+    dmnf.listaCliente.First;
+    cbCLiente.Clear;
+    while not dmnf.listaCliente.Eof do
+    begin
+       cbCLiente.Items.Add(dmnf.listaClienteRAZAOSOCIAL.AsString);
+       cbCLiente1.Items.Add(dmnf.listaClienteRAZAOSOCIAL.AsString);
+       dmnf.listaCliente.Next;
+    end;
+    
     if (not dmnf.cds_ccusto.Active) then
         dmnf.cds_ccusto.Open;
     dmnf.cds_ccusto.First;
@@ -1586,7 +1606,6 @@ begin
        RadioGroup1.ItemIndex := 0
     else
        RadioGroup1.ItemIndex := 1;
-
 
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
@@ -2227,12 +2246,6 @@ procedure TfNotaf.calcmanClick(Sender: TObject);
 begin
  if DMNF.DtSrc_NF.State in [dsBrowse] then
       DMNF.DtSrc_NF.DataSet.Edit;
-end;
-
-procedure TfNotaf.validaNF;
-begin
-  // Faz a validaçaõ da NF.
-
 end;
 
 procedure TfNotaf.ChkCompClick(Sender: TObject);
