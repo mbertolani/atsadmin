@@ -439,6 +439,13 @@ type
     edtQtde: TJvCalcEdit;
     edtQtde1: TJvCalcEdit;
     JvBitBtn5: TJvBitBtn;
+    pmImp: TPopupMenu;
+    ImprimirSetor21: TMenuItem;
+    ReimprimirSetor21: TMenuItem;
+    ImprimirSetor2Local1: TMenuItem;
+    ReimprimirSetor2Local1: TMenuItem;
+    JvBitBtn6: TJvBitBtn;
+    s_Bloque: TSQLDataSet;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -527,10 +534,15 @@ type
       Shift: TShiftState);
     procedure DBGrid2KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn1Click(Sender: TObject);
-    procedure JvComissaoChange(Sender: TObject);
     procedure edtQtde1KeyPress(Sender: TObject; var Key: Char);
     procedure edtQtdeKeyPress(Sender: TObject; var Key: Char);
     procedure JvBitBtn5Click(Sender: TObject);
+    procedure ImprimirSetor21Click(Sender: TObject);
+    procedure ReimprimirSetor21Click(Sender: TObject);
+    procedure ImprimirSetor2Local1Click(Sender: TObject);
+    procedure ReimprimirSetor2Local1Click(Sender: TObject);
+    procedure JvComissaoKeyPress(Sender: TObject; var Key: Char);
+    procedure JvBitBtn6Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     clienteConsumidor,nomecliente, tipo_busca : string;
@@ -564,12 +576,17 @@ type
     procedure imprimeRecibo;
     procedure imprimeDLLBema;
     procedure imp_Setor1_DLL;
+    procedure imp_Setor1_LPT;    
     procedure imp_Setor2_DLL;    
     procedure clic_botao;
     procedure pinta_botao;
     procedure pinta_botao_1;
     procedure CtrlResize;
     procedure Mesa_Clic(botao:Integer);
+    procedure update_MOVDETALHE;
+    procedure bloqueia_mesa;
+    procedure Libera_mesa;
+    procedure permissao;
     { Private declarations }
   public
     { Public declarations }
@@ -609,7 +626,7 @@ implementation
 
 uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
   U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod, U_AUTORIZACAO,
-  u_mesas, U_MudaMesa, U_Entrada, uProcurar_nf;
+  u_mesas, U_MudaMesa, U_Entrada, uProcurar_nf, uAbrirCaixa;
 
 {$R *.dfm}    // Têste téste opção
 
@@ -1442,6 +1459,35 @@ var poc : Double;
 begin
    if (key = #13) then
    begin
+     if (PageControl1.ActivePage = TabComanda) then
+     begin
+        if (DM_MOV.c_comanda.Active) then
+           sql := 'SELECT OBS FROM MOVIMENTO WHERE CODMOVIMENTO = ' +
+                   IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger);
+        if (s_Bloque.Active) then
+           s_Bloque.Close;
+        s_Bloque.CommandText := sql;
+        s_Bloque.Open;
+        if (s_Bloque.Fields[0].AsString = 'BLOQUEADA - PARCIAL IMPRESSA') then
+        begin
+          if (MessageDlg('Mesa/Comanda Bloqueada '+#13+#10+'      DESBLOQUEAR ?', mtInformation, [mbYes, mbNo], 0) in [mrYes, mrNo, mrNone]) then
+          begin
+            permissao;
+
+            if (DM.RESULTADO_APROVA = True) then
+            begin
+              Libera_mesa;
+              s_Bloque.Close;
+            end
+            else
+            begin
+              s_Bloque.Close;
+              Exit;
+            end;
+          end;
+        end;
+        s_Bloque.Close;
+     end;
       SaldoNegativo := 'FALSE';
       if Dm.cds_parametro.Active then
          dm.cds_parametro.Close;
@@ -1498,6 +1544,19 @@ begin
       begin
         JvParcial.Value := 0;
         JvSubtotal.Value := JvTotal.Value + poc;
+      end;
+
+      if (JvComissao.Visible = True) then
+      begin
+        if (JvComissao.Value > 0) then
+          poc := (JvComissao.Value /100) * JvTotal.Value
+        else
+          poc := 0;
+        if (c_forma.IsEmpty) then
+          JvParcial.Value := 0
+        else
+          JvParcial.Value := c_formatotal.Value;
+        JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
       end;
 
       c_forma.Close;
@@ -1563,6 +1622,7 @@ begin
 end;
 
 procedure TF_Terminal.btnProdutoClick(Sender: TObject);
+var poc : Double;
 begin
    if (PageControl1.ActivePage = TabSheet1) then
    begin
@@ -1613,6 +1673,19 @@ begin
   begin
     JvParcial.Value := c_formatotal.Value;
     JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+  end;
+
+  if (JvComissao.Visible = True) then
+  begin
+    if (JvComissao.Value > 0) then
+      poc := (JvComissao.Value /100) * JvTotal.Value
+    else
+      poc := 0;
+    if (c_forma.IsEmpty) then
+      JvParcial.Value := 0
+    else
+      JvParcial.Value := c_formatotal.Value;
+    JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
   end;
 
   c_forma.Close;
@@ -1935,7 +2008,7 @@ end;
 
 procedure TF_Terminal.JvImprimirClick(Sender: TObject);
 begin
-  usaDll := 'FALSE';
+{  usaDll := 'FALSE';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
@@ -1976,7 +2049,17 @@ begin
 
   if (tipoImpressao = 'RECIBO') then
     imprimeRecibo;
-
+    }
+  if (PageControl1.ActivePage = TabComanda) then
+  begin
+    if (s_parametro.Active) then
+     s_parametro.Close;
+    s_parametro.Params[0].AsString := 'BLOQUEARMESA';
+    s_parametro.Open;
+    if (not s_parametro.Eof) then
+      bloqueia_mesa;
+    s_parametro.Close;
+  end;
 end;
 
 procedure TF_Terminal.JvExcluirClick(Sender: TObject);
@@ -3423,20 +3506,6 @@ begin
 
 end;
 
-procedure TF_Terminal.JvComissaoChange(Sender: TObject);
-var poc : Double;
-begin
-    if (JvComissao.Value > 0) then
-      poc := (JvComissao.Value /100) * JvTotal.Value
-    else
-      poc := 0;
-    if (c_forma.IsEmpty) then
-      JvParcial.Value := 0
-    else
-      JvParcial.Value := c_formatotal.Value;
-    JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
-end;
-
 procedure TF_Terminal.edtQtde1KeyPress(Sender: TObject; var Key: Char);
 begin
    if (key = #13) then
@@ -3474,46 +3543,12 @@ begin
 end;
 
 procedure TF_Terminal.JvBitBtn5Click(Sender: TObject);
+var
+   XY: TPoint;
 begin
-  usaDll := 'FALSE';
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
-  dm.cds_parametro.Open;
-  if (not dm.cds_parametro.IsEmpty) then
-    usaDll := 'TRUE';
-
-  dm.cds_parametro.Close;
-
-  tipoImpressao := '';
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
-  dm.cds_parametro.Open;
-  if (not dm.cds_parametro.Eof) then
-     tipoImpressao := 'CUPOM';
-
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
-  dm.cds_parametro.Open;
-  if (not dm.cds_parametro.Eof) then
-     tipoImpressao := 'RECIBO';
-
-  if (tipoImpressao = '') then
-  begin
-    ShowMessage('Parametro Tipo Impressão não configurado');
-    exit;
-  end;
-  if (tipoImpressao = 'CUPOM') then
-  begin
-     if (usaDll = 'TRUE') then
-       imp_Setor1_DLL
-     else
-       imprimeCupom;
-  end;
-  if (tipoImpressao = 'RECIBO') then
-    imprimeRecibo;
+     XY := Point(50, -10);
+     XY := JvBitBtn5.ClientToScreen(XY);
+     pmImp.Popup(XY.X, XY.Y + JvBitBtn5.Height - 2);
 end;
 
 procedure TF_Terminal.imp_Setor1_DLL;
@@ -3521,7 +3556,7 @@ var Fonte : string;
 var TXT, DESC, QUTDE, UNDE : string;
 begin
       // acentos a serem impressos
-      TXT := TXT + 'âäàáãÃÂÄÁÀ êëèéÊËÉÈ ïíìîÎÍÌÏ öóòôõÖÓÒÔÕ üúùûÜÙÚÛ' + chr(13) + chr(10) + chr(10);
+      //TXT := TXT + 'âäàáãÃÂÄÁÀ êëèéÊËÉÈ ïíìîÎÍÌÏ öóòôõÖÓÒÔÕ üúùûÜÙÚÛ' + chr(13) + chr(10) + chr(10);
 
       if (not dm.cds_empresa.Active) then
         dm.cds_empresa.Open;
@@ -3595,21 +3630,18 @@ begin
         exit;
       end;
 
-     DM_MOV.c_movdet.First;
-     while not DM_MOV.c_movdet.Eof do
+     DM_MOV.IMP_MOVDET.First;
+     while not DM_MOV.IMP_MOVDET.Eof do
      begin
         // italico + expandido
         // FormataTX( "Texto a ser impresso", TipoLetra, Itálico, Sublinhado, Expandido, Enfatizado)
-        DESC   := Copy(DM_MOV.c_movdetDESCPRODUTO.AsString, 0, 30);
+        DESC   := Copy(DM_MOV.IMP_MOVDETDESCPRODUTO.AsString, 0, 30);
         DESC   := Format('%-40s', [DESC]);
-        UNDE   := DM_MOV.c_movdetUN.AsString;
+        UNDE   := DM_MOV.IMP_MOVDETUN.AsString;
         UNDE   := Format(' %2s', [UNDE]);
-        QUTDE  := FloatToStr(DM_MOV.c_movdetQUANTIDADE.AsFloat);
+        QUTDE  := FloatToStr(DM_MOV.IMP_MOVDETQUANTIDADE.AsFloat);
         QUTDE  := Format('%10.2n', [StrToFloat(QUTDE)]);
         Texto3 := DESC + UNDE + QUTDE;
-        //Fonte := 'Expandido' + chr(10);
-        //if FormataTX(Fonte + Texto3, 3, 0, 0, 1, 0) = 0 then
-        //  MessageDlg('Problemas na impressão do texto formatado.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         buffer  := Texto3 + Chr(13) + Chr(10);
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
@@ -3617,9 +3649,10 @@ begin
           MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
-        DM_MOV.c_movdet.next;
+        update_MOVDETALHE;
+        DM_MOV.IMP_MOVDET.Next;
      end;
-
+     DM_MOV.IMP_MOVDET.Close;
      buffer  := texto + Chr(13) + Chr(10);
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
      if comando = 0 then
@@ -3646,6 +3679,409 @@ end;
 procedure TF_Terminal.imp_Setor2_DLL;
 begin
 
+end;
+
+procedure TF_Terminal.update_MOVDETALHE;
+begin
+  //atualiza campo impresso do moviemto detalhe;
+   sql := 'UPDATE MOVIMENTODETALHE SET IMPRESSO = ' + QuotedStr('SIM') +
+             ' WHERE CODDETALHE = ' + IntToStr(DM_MOV.IMP_MOVDETCODDETALHE.AsInteger);
+
+    DM_MOV.s_buscaMov.Close;
+    Try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(sql);
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       MessageDlg('Erro ao efetuar troca de Mesa .', mtError,
+           [mbOk], 0);
+    end;
+
+end;
+
+procedure TF_Terminal.ImprimirSetor21Click(Sender: TObject);
+begin
+  if (DM_MOV.IMP_MOVDET.Active) then
+     DM_MOV.IMP_MOVDET.Close;
+  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA ' +
+                    ' from MOVIMENTODETALHE md ' +
+                    ' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+                    ' where md.CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger) +
+                    ' and pr.IMPRESSORA_2 = ' + QuotedStr('SIM') +
+                    ' and md.IMPRESSO is null';
+  DM_MOV.IMP_MOVDET.Open;
+
+  usaDll := 'FALSE';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    usaDll := 'TRUE';
+
+  dm.cds_parametro.Close;
+
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
+  begin
+    ShowMessage('Parametro Tipo Impressão não configurado');
+    exit;
+  end;
+  if (tipoImpressao = 'CUPOM') then
+  begin
+     //if (usaDll = 'TRUE') then
+     //  imp_Setor1_DLL
+     //else
+     imp_Setor1_LPT;
+  end;
+  if (tipoImpressao = 'RECIBO') then
+    imprimeRecibo;
+end;
+
+procedure TF_Terminal.ReimprimirSetor21Click(Sender: TObject);
+begin
+  if (DM_MOV.IMP_MOVDET.Active) then
+     DM_MOV.IMP_MOVDET.Close;
+  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA ' +
+                    ' from MOVIMENTODETALHE md ' +
+                    ' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+                    ' where md.CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger) +
+                    ' and pr.IMPRESSORA_2 = ' + QuotedStr('SIM');
+                    //' and md.IMPRESSO is null';
+  DM_MOV.IMP_MOVDET.Open;
+  usaDll := 'FALSE';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    usaDll := 'TRUE';
+
+  dm.cds_parametro.Close;
+
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
+  begin
+    ShowMessage('Parametro Tipo Impressão não configurado');
+    exit;
+  end;
+  if (tipoImpressao = 'CUPOM') then
+  begin
+    // if (usaDll = 'TRUE') then
+    //   imp_Setor1_DLL
+    // else
+       imprimeCupom;
+  end;
+  if (tipoImpressao = 'RECIBO') then
+    imprimeRecibo;
+end;
+
+procedure TF_Terminal.imp_Setor1_LPT;
+var TXT, DESC, QUTDE, UNDE : string;
+begin
+     if (not dm.cds_empresa.Active) then
+      dm.cds_empresa.Open;
+     Texto  := '------------------------------------------------------' ;
+     Texto4 := 'Produto                                   UN      Qtde' ;
+     Texto5 := DateTimeToStr(Now);
+
+     if (PageControl1.ActivePage = TabSheet1) then
+        cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+     if (PageControl1.ActivePage = TabComanda) then
+        cliente := 'Cliente : ' + DM_MOV.c_comandaNOMECLIENTE.Value;
+     if (PageControl1.ActivePage = TabDelivery) then
+        cliente := 'Cliente : ' + DM_MOV.c_DeliveryNOMECLIENTE.Value;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'IMPARQUIVO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       SaveDialog1.Execute;
+       AssignFile(IMPRESSORA, SaveDialog1.FileName);
+       s_parametro.Close;
+     end
+     else
+     begin
+       s_parametro.Close;
+            if (s_parametro.Active) then
+       s_parametro.Close;
+       s_parametro.Params[0].AsString := 'PORTA SETOR2';
+       s_parametro.Open;
+       AssignFile(IMPRESSORA,s_parametroDADOS.AsString);
+     end;
+
+     Rewrite(IMPRESSORA);
+     Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
+     Writeln(Impressora, cliente);
+     Writeln(Impressora, c17cpi, texto);
+     Writeln(Impressora, c17cpi, texto4);
+  {-----------------------------------------------------------}
+  {-------------------Imprimi itens do boleto-----------------}
+   try
+     DM_MOV.IMP_MOVDET.First;
+     while not DM_MOV.IMP_MOVDET.Eof do
+     begin
+        // imprime
+       DESC   := Copy(DM_MOV.IMP_MOVDETDESCPRODUTO.AsString, 0, 30);
+       DESC   := Format('%-40s', [DESC]);
+       UNDE   := DM_MOV.IMP_MOVDETUN.AsString;
+       UNDE   := Format(' %2s', [UNDE]);
+       QUTDE  := FloatToStr(DM_MOV.IMP_MOVDETQUANTIDADE.AsFloat);
+       QUTDE  := Format('%10.2n', [StrToFloat(QUTDE)]);
+       Texto3 := DESC + UNDE + QUTDE;
+       Write(Impressora, c10cpi, Texto3);
+       // Write(Impressora, c10cpi, Format('%-40s  ',[DM_MOV.IMP_MOVDETDESCPRODUTO.Value]));
+       // Write(Impressora, c10cpi + Format('%-2s',[DM_MOV.IMP_MOVDETUN.Value]));
+       // Write(Impressora, c10cpi + Format('%10.2n',[DM_MOV.IMP_MOVDETQUANTIDADE.AsFloat]));
+       with Printer.Canvas do
+       begin
+          Font.Name := 'Courier New';
+          Font.Size := 4;
+       end;
+       DM_MOV.IMP_MOVDET.next;
+     end;
+     DM_MOV.IMP_MOVDET.Close;
+     Writeln(Impressora, c17cpi, texto);
+     Write(Impressora, c17cpi, texto5);
+
+     Writeln(IMPRESSORA);
+     Write(Impressora, c10cpi, DM.Mensagem);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+    { Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     Writeln(IMPRESSORA);
+     }
+  finally
+    CloseFile(IMPRESSORA);
+  end;
+
+end;
+
+procedure TF_Terminal.ImprimirSetor2Local1Click(Sender: TObject);
+begin
+  if (DM_MOV.IMP_MOVDET.Active) then
+     DM_MOV.IMP_MOVDET.Close;
+  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA ' +
+                    ' from MOVIMENTODETALHE md ' +
+                    ' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+                    ' where md.CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger) +
+                    ' and pr.IMPRESSORA_2 = ' + QuotedStr('SIM');
+                    //' and md.IMPRESSO is null';
+  DM_MOV.IMP_MOVDET.Open;
+  usaDll := 'FALSE';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    usaDll := 'TRUE';
+
+  dm.cds_parametro.Close;
+
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
+  begin
+    ShowMessage('Parametro Tipo Impressão não configurado');
+    exit;
+  end;
+  if (tipoImpressao = 'CUPOM') then
+  begin
+    // if (usaDll = 'TRUE') then
+       imp_Setor1_DLL
+    // else
+    //   imprimeCupom;
+  end;
+  if (tipoImpressao = 'RECIBO') then
+    imprimeRecibo;
+end;
+
+procedure TF_Terminal.ReimprimirSetor2Local1Click(Sender: TObject);
+begin
+  if (DM_MOV.IMP_MOVDET.Active) then
+     DM_MOV.IMP_MOVDET.Close;
+  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA ' +
+                    ' from MOVIMENTODETALHE md ' +
+                    ' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+                    ' where md.CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger) +
+                    ' and pr.IMPRESSORA_2 = ' + QuotedStr('SIM');
+                    //' and md.IMPRESSO is null';
+  DM_MOV.IMP_MOVDET.Open;
+  usaDll := 'FALSE';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    usaDll := 'TRUE';
+
+  dm.cds_parametro.Close;
+
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
+  begin
+    ShowMessage('Parametro Tipo Impressão não configurado');
+    exit;
+  end;
+  if (tipoImpressao = 'CUPOM') then
+  begin
+    // if (usaDll = 'TRUE') then
+       imp_Setor1_DLL
+    // else
+    //   imprimeCupom;
+  end;
+  if (tipoImpressao = 'RECIBO') then
+    imprimeRecibo;
+end;
+
+procedure TF_Terminal.JvComissaoKeyPress(Sender: TObject; var Key: Char);
+var poc : Double;
+begin
+   if (key = #13) then
+   begin
+      if (JvComissao.Value > 0) then
+        poc := (JvComissao.Value /100) * JvTotal.Value
+      else
+        poc := 0;
+      JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
+   end;
+end;
+
+procedure TF_Terminal.bloqueia_mesa;
+begin
+    sql := 'UPDATE MOVIMENTO SET OBS = ' + QuotedStr('BLOQUEADA - PARCIAL IMPRESSA') +
+             ' WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger);
+
+    DM_MOV.s_buscaMov.Close;
+    Try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(sql);
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       MessageDlg('Erro ao efetuar troca de Mesa .', mtError,
+           [mbOk], 0);
+    end
+end;
+
+procedure TF_Terminal.Libera_mesa;
+begin
+    sql := 'UPDATE MOVIMENTO SET OBS = ' + QuotedStr('') +
+             ' WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger);
+
+    DM_MOV.s_buscaMov.Close;
+    Try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(sql);
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       MessageDlg('Erro ao efetuar troca de Mesa .', mtError,
+           [mbOk], 0);
+    end
+end;
+
+procedure TF_Terminal.JvBitBtn6Click(Sender: TObject);
+begin
+  fAbrirCaixa := TfAbrirCaixa.create(Application);
+  try
+    fAbrirCaixa.ShowModal;
+  finally
+    fAbrirCaixa.Free;
+  end;
+end;
+
+procedure TF_Terminal.permissao;
+begin
+  if (s_parametro.Active) then
+     s_parametro.Close;
+  s_parametro.Params[0].AsString := 'APROVACAO';
+  s_parametro.Open;
+  if (not s_parametro.Eof) then
+  begin
+      F_AUTORIZACAO := TF_AUTORIZACAO.Create(Application);
+      if (EXISTEPERFIL = 'FALSE') then
+      begin
+        F_AUTORIZACAO.Free;
+        Exit;
+      end;
+      try
+        F_AUTORIZACAO.ShowModal;
+      finally
+        F_AUTORIZACAO.Free;
+      end;
+  end
+  else
+  begin
+    ShowMessage('Parametro de APROVAÇÃO não configurado !');
+  end;
+  s_parametro.Close;
 end;
 
 end.
