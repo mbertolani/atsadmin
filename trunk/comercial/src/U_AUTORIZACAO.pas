@@ -188,7 +188,7 @@ begin
     else
     begin
        DM.RESULTADO_APROVA := False;
-       Application.MessageBox('Usuário ou Senha incorreta', 'Erro', MB_ICONERROR);
+       Application.MessageBox('Usuário sem autorização', 'Erro', MB_ICONERROR);
        edtLogin.Text := '';
        edtSenha.Text := '';
        edtLogin.SetFocus;
@@ -199,7 +199,7 @@ begin
   end
   else
   begin
-    Application.MessageBox('Usuário ou Senha incorreta', 'Erro', MB_ICONERROR);
+    Application.MessageBox('Usuário sem autorização ', 'Erro', MB_ICONERROR);
     edtLogin.Text := '';
     edtSenha.Text := '';
     edtLogin.SetFocus;
