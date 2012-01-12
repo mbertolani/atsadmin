@@ -1,7 +1,7 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 593
-  Top = 227
+  Left = 567
+  Top = 200
   Height = 455
   Width = 449
   object s_buscaMov: TSQLDataSet
@@ -712,6 +712,12 @@ object DM_MOV: TDM_MOV
       FieldName = 'COD_BARRA'
       ProviderFlags = []
     end
+    object c_movdetIMPRESSO: TStringField
+      FieldName = 'IMPRESSO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 3
+    end
     object c_movdettotalpedido: TAggregateField
       FieldName = 'totalpedido'
       Active = True
@@ -976,6 +982,12 @@ object DM_MOV: TDM_MOV
     object s_movdetCOD_BARRA: TStringField
       FieldName = 'COD_BARRA'
       ProviderFlags = []
+    end
+    object s_movdetIMPRESSO: TStringField
+      FieldName = 'IMPRESSO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 3
     end
   end
   object s_buscaProd: TSQLDataSet
@@ -1683,7 +1695,7 @@ object DM_MOV: TDM_MOV
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 200
+    Left = 240
     Top = 8
     object s_BuscaComandaCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
@@ -2675,5 +2687,229 @@ object DM_MOV: TDM_MOV
     DataSet = c_Delivery
     Left = 245
     Top = 208
+  end
+  object IMP_MOVDET: TSQLDataSet
+    CommandText = 
+      'select md.*,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA '#13#10' ' +
+      'from MOVIMENTODETALHE md '#13#10' left outer join PRODUTOS pr on pr.CO' +
+      'DPRODUTO = md.CODPRODUTO '#13#10'where md.CODMOVIMENTO = :id_mov '#13#10'   ' +
+      'and pr.IMPRESSORA_2 = '#39'SIM'#39#13#10'   and md.IMPRESSO is null'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id_mov'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 32
+    Top = 344
+    object IMP_MOVDETCODDETALHE: TIntegerField
+      FieldName = 'CODDETALHE'
+      Required = True
+    end
+    object IMP_MOVDETCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      Required = True
+    end
+    object IMP_MOVDETCODALMOXARIFADO: TSmallintField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object IMP_MOVDETCONTROLE: TSmallintField
+      FieldName = 'CONTROLE'
+    end
+    object IMP_MOVDETCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object IMP_MOVDETQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+    end
+    object IMP_MOVDETPRECO: TFloatField
+      FieldName = 'PRECO'
+    end
+    object IMP_MOVDETICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object IMP_MOVDETUN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object IMP_MOVDETQTDE_ALT: TFloatField
+      FieldName = 'QTDE_ALT'
+    end
+    object IMP_MOVDETBAIXA: TStringField
+      FieldName = 'BAIXA'
+      FixedChar = True
+      Size = 1
+    end
+    object IMP_MOVDETVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+    end
+    object IMP_MOVDETCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+    end
+    object IMP_MOVDETLOTE: TStringField
+      FieldName = 'LOTE'
+      Size = 60
+    end
+    object IMP_MOVDETDTAFAB: TDateField
+      FieldName = 'DTAFAB'
+    end
+    object IMP_MOVDETDTAVCTO: TDateField
+      FieldName = 'DTAVCTO'
+    end
+    object IMP_MOVDETPRECOCUSTO: TFloatField
+      FieldName = 'PRECOCUSTO'
+    end
+    object IMP_MOVDETVLRESTOQUE: TFloatField
+      FieldName = 'VLRESTOQUE'
+    end
+    object IMP_MOVDETQTDEESTOQUE: TFloatField
+      FieldName = 'QTDEESTOQUE'
+    end
+    object IMP_MOVDETNOTAFISCAL: TStringField
+      FieldName = 'NOTAFISCAL'
+      Size = 15
+    end
+    object IMP_MOVDETDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      Size = 300
+    end
+    object IMP_MOVDETPRECOULTIMACOMPRA: TFloatField
+      FieldName = 'PRECOULTIMACOMPRA'
+    end
+    object IMP_MOVDETCST: TStringField
+      FieldName = 'CST'
+      Size = 5
+    end
+    object IMP_MOVDETVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object IMP_MOVDETVLR_BASE: TFloatField
+      FieldName = 'VLR_BASE'
+    end
+    object IMP_MOVDETPERIODOINI: TSQLTimeStampField
+      FieldName = 'PERIODOINI'
+    end
+    object IMP_MOVDETPERIODOFIM: TSQLTimeStampField
+      FieldName = 'PERIODOFIM'
+    end
+    object IMP_MOVDETCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+    end
+    object IMP_MOVDETCODIGO1: TIntegerField
+      FieldName = 'CODIGO1'
+    end
+    object IMP_MOVDETCODAUTORIZACAO: TIntegerField
+      FieldName = 'CODAUTORIZACAO'
+    end
+    object IMP_MOVDETSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object IMP_MOVDETPAGOUCOMISSAO: TStringField
+      FieldName = 'PAGOUCOMISSAO'
+      FixedChar = True
+      Size = 1
+    end
+    object IMP_MOVDETCODMOVRATEIO: TIntegerField
+      FieldName = 'CODMOVRATEIO'
+    end
+    object IMP_MOVDETVALORRATEIO: TFloatField
+      FieldName = 'VALORRATEIO'
+    end
+    object IMP_MOVDETPAGO: TStringField
+      FieldName = 'PAGO'
+      FixedChar = True
+      Size = 3
+    end
+    object IMP_MOVDETRATEIO: TFloatField
+      FieldName = 'RATEIO'
+    end
+    object IMP_MOVDETPORCENTAGENDESC: TFloatField
+      FieldName = 'PORCENTAGENDESC'
+    end
+    object IMP_MOVDETICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object IMP_MOVDETICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
+    end
+    object IMP_MOVDETVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
+    end
+    object IMP_MOVDETPIPI: TFloatField
+      FieldName = 'PIPI'
+    end
+    object IMP_MOVDETVIPI: TFloatField
+      FieldName = 'VIPI'
+    end
+    object IMP_MOVDETCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object IMP_MOVDETFRETE: TFloatField
+      FieldName = 'FRETE'
+    end
+    object IMP_MOVDETBCFRETE: TFloatField
+      FieldName = 'BCFRETE'
+    end
+    object IMP_MOVDETBCSTFRETE: TFloatField
+      FieldName = 'BCSTFRETE'
+    end
+    object IMP_MOVDETICMSFRETE: TFloatField
+      FieldName = 'ICMSFRETE'
+    end
+    object IMP_MOVDETCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object IMP_MOVDETVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+    end
+    object IMP_MOVDETSTFRETE: TFloatField
+      FieldName = 'STFRETE'
+    end
+    object IMP_MOVDETRECEBIDO: TFloatField
+      FieldName = 'RECEBIDO'
+    end
+    object IMP_MOVDETVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object IMP_MOVDETVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+    end
+    object IMP_MOVDETOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
+    end
+    object IMP_MOVDETCOD_FUNCIONARIO: TIntegerField
+      FieldName = 'COD_FUNCIONARIO'
+    end
+    object IMP_MOVDETCODSOLICITACAO: TIntegerField
+      FieldName = 'CODSOLICITACAO'
+    end
+    object IMP_MOVDETVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object IMP_MOVDETVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object IMP_MOVDETBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object IMP_MOVDETII: TFloatField
+      FieldName = 'II'
+    end
+    object IMP_MOVDETCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object IMP_MOVDETCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
   end
 end
