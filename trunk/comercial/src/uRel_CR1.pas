@@ -78,6 +78,23 @@ type
     ProgressBar1: TProgressBar;
     BitBtn5: TBitBtn;
     BitBtn6: TBitBtn;
+    s_parametro: TSQLDataSet;
+    s_parametroDESCRICAO: TStringField;
+    s_parametroPARAMETRO: TStringField;
+    s_parametroCONFIGURADO: TStringField;
+    s_parametroDADOS: TStringField;
+    s_parametroD1: TStringField;
+    s_parametroD2: TStringField;
+    s_parametroD3: TStringField;
+    s_parametroD4: TStringField;
+    s_parametroD5: TStringField;
+    s_parametroD6: TStringField;
+    s_parametroD7: TStringField;
+    s_parametroD8: TStringField;
+    s_parametroD9: TStringField;
+    s_parametroINSTRUCOES: TStringField;
+    s_parametroVALOR: TFloatField;
+    BitBtn7: TBitBtn;
     procedure SpeedButton1Click(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -88,8 +105,21 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
   private
+    iRetorno, comando : integer;
+    buffer, scomando : String;
+    tipoImpressao : string;
+    usaDll : string;
+    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+    total, porc, totgeral , desconto : double;
+    porta : string;
+    cliente : string;
+    ModeloImpressora : integer;        
     procedure Marcatitulos;
+    procedure imprimeCupom;
+    procedure imprimeRecibo;
+    procedure imprimeDLLBema;
     { Private declarations }
   public
     { Public declarations }
@@ -97,10 +127,30 @@ type
 
 var
   fRel_CR1: TfRel_CR1;
+  function ConfiguraModeloImpressora(ModeloImpressora:integer):integer; stdcall; far; external 'Mp2032.dll';
+  function IniciaPorta(Porta:string):integer; stdcall; far; external 'Mp2032.dll';
+  function FechaPorta: integer	;  stdcall; far; external 'Mp2032.dll';
+  function BematechTX(BufTrans:string):integer; stdcall; far; external 'Mp2032.dll';
+  function FormataTX(BufTras:string; TpoLtra:integer; Italic:integer; Sublin:integer; expand:integer; enfat:integer):integer; stdcall; far; external 'Mp2032.dll';
+  function ComandoTX (BufTrans:string;TamBufTrans:integer):integer; stdcall; far; external 'Mp2032.dll';
+  function Status_Porta:integer; stdcall; far; external 'Mp2032.dll';
+  function AutenticaDoc(BufTras:string;Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function Le_Status:integer; stdcall; far; external 'Mp2032.dll';
+  function Le_Status_Gaveta:integer; stdcall; far; external 'Mp2032.dll';
+  function DocumentInserted:integer; stdcall; far; external 'Mp2032.dll';
+  function ConfiguraTamanhoExtrato(NumeroLinhas:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function HabilitaExtratoLongo(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function HabilitaEsperaImpressao(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function EsperaImpressao:integer; stdcall; far; external 'Mp2032.dll';
+  function AcionaGuilhotina(Modo:integer):integer; stdcall; far; external 'Mp2032.dll';
+  function HabilitaPresenterRetratil(Flag:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function ProgramaPresenterRetratil(Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
+  function CaracterGrafico(Buffer: string; TamBuffer: integer):integer; stdcall; far; external 'Mp2032.dll';
+  function VerificaPapelPresenter():integer; stdcall; far; external 'Mp2032.dll';
 
 implementation
 
-uses UDm, ufcr, gbCobranca, uImpr_Boleto, U_Boletos;
+uses UDm, ufcr, gbCobranca, uImpr_Boleto, U_Boletos, UDM_MOV, uCarne;
 
 {$R *.dfm}
 
@@ -143,19 +193,58 @@ end;
 
 procedure TfRel_CR1.btnImprimirClick(Sender: TObject);
 begin
-  sqlGrupoCR := '';
-  if not fcrproc.scdsCr_proc.Active then
+  usaDll := 'FALSE';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    usaDll := 'TRUE';
+  tipoImpressao := '';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
   begin
-   MessageDlg('Pôr favor efetue a pesquisa antes, para depois imprimir..', mtWarning, [mbOK], 0);
-   exit;
+    ShowMessage('Parametro Tipo Impressão não configurado');
+    exit;
   end;
-  sqlGrupoCR := ' order by rec.NOMECLIENTE, rec.CODCLIENTE, '
-            + ' rec.DATAVENCIMENTO, rec.EMISSAO, rec.CODRECEBIMENTO, rec.TITULO';
-  sqlGrupoCR := impCR + SqlCr + sqlGrupoCR;
-  fcrproc.repContasReceber.FileName := str_relatorio + 'RelContasReceber.rep';
-  fcrproc.repContasReceber.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  fcrproc.repContasReceber.Report.DataInfo.Items[0].SQL:= sqlGrupoCR;
-  fcrproc.repContasReceber.Execute;
+
+  if (tipoImpressao = 'CUPOM') then
+  begin
+     if (usaDll = 'TRUE') then
+       imprimeDLLBema
+     else
+       imprimeCupom;
+  end;
+  dm.cds_parametro.Close;
+
+  if (tipoImpressao <> 'CUPOM') then
+  begin
+    sqlGrupoCR := '';
+    if not fcrproc.scdsCr_proc.Active then
+    begin
+     MessageDlg('Pôr favor efetue a pesquisa antes, para depois imprimir..', mtWarning, [mbOK], 0);
+     exit;
+    end;
+    sqlGrupoCR := ' order by rec.NOMECLIENTE, rec.CODCLIENTE, '
+              + ' rec.DATAVENCIMENTO, rec.EMISSAO, rec.CODRECEBIMENTO, rec.TITULO';
+    sqlGrupoCR := impCR + SqlCr + sqlGrupoCR;
+    fcrproc.repContasReceber.FileName := str_relatorio + 'RelContasReceber.rep';
+    fcrproc.repContasReceber.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    fcrproc.repContasReceber.Report.DataInfo.Items[0].SQL:= sqlGrupoCR;
+    fcrproc.repContasReceber.Execute;
+  end;
 end;
 
 procedure TfRel_CR1.BitBtn2Click(Sender: TObject);
@@ -453,6 +542,202 @@ begin
     VCLReport1.Report.Params.ParamByName('DATA2').Value := StrToDate(fcrproc.meDta4.Text);
     VCLReport1.Report.Params.ParamByName('CODCLI').Value := StrToInt(fcrproc.edCodCliente.Text);
     VCLReport1.Execute;
+end;
+
+procedure TfRel_CR1.imprimeCupom;
+begin
+
+end;
+
+procedure TfRel_CR1.imprimeDLLBema;
+begin
+     if (not dm.cds_empresa.Active) then
+      dm.cds_empresa.Open;
+     {----- aqui monto o endereço-----}
+     logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+     cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+     ' - ' + dm.cds_empresaCEP.Value;
+     fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+     ' / ' + dm.cds_empresaFONE_2.Value;
+     Texto  := '-----------------------------------------------------' ;
+     Texto1 := '                  RELATORIO DE CAIXA                 ';
+     Texto2 := '-----------------------------------------------------' ;
+     Texto4 := 'Titulo    EMISSAO   CLIENTE                  V.Total ' ;
+
+        if (s_parametro.Active) then
+          s_parametro.Close;
+        s_parametro.Params[0].Clear;
+        s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+        s_parametro.Open;
+        porta := s_parametroDADOS.AsString;
+        s_parametro.Close;
+
+        if (s_parametro.Active) then
+          s_parametro.Close;
+        s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
+        s_parametro.Open;
+        if (s_parametroDADOS.IsNull) then
+          ModeloImpressora := 0
+        else
+          ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
+        s_parametro.Close;
+
+        //Configura o Modelo da Impressora
+        iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
+
+        if (iRetorno = -2) then
+          ShowMessage('Erro Configurando Impressora');
+        iRetorno := IniciaPorta( pchar(porta) );
+        if (iRetorno <= 0) then
+          ShowMessage('Erro Abrindo Porta');
+
+
+      buffer  := dm.cds_empresaRAZAO.AsString + Chr(13) + Chr(10);
+
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := logradouro + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := cep + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := fone + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := 'CNPJ :' + dm.cds_empresaCNPJ_CPF.AsString + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto1 + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto2 + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto3 + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+      buffer  := texto4 + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+
+     fcrproc.scdsCr_proc.First;
+     while not fcrproc.scdsCr_proc.Eof do
+     begin
+        buffer  := '';
+        buffer  := Format('%-10s ', [fcrproc.scdsCr_procTITULO.AsString]);
+        buffer  := buffer + Format('%-10s ',[DateTimeToStr(fcrproc.scdsCr_procEMISSAO.AsDateTime)]);
+        buffer  := buffer + Format('%-20s  ',[fcrproc.scdsCr_procNOMECLIENTE.AsString]);
+        buffer  := buffer + Format('%8.2n',[fcrproc.scdsCr_procVALOR_RESTO.AsFloat]);
+
+        comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+        if comando = 0 then
+        begin
+          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          exit;
+        end;
+        fcrproc.scdsCr_proc.next;
+     end;
+
+      buffer  := '' + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      buffer  := '' + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      buffer  := '' + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      buffer  := '' + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+
+     // Corto o Papel
+     comando := AcionaGuilhotina(1);  // modo total (full cut)
+     if comando <> 1 then
+       MessageDlg('Problemas no corte do papel..' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+
+end;
+
+procedure TfRel_CR1.imprimeRecibo;
+begin
+
+end;
+
+procedure TfRel_CR1.BitBtn7Click(Sender: TObject);
+//var SQL_TXT : string;
+begin
+{  fCarne := TfCarne.Create(Application);
+  try
+    SQL_TXT := ''
+    if (fCarne.scdsCr_proc.Active) then
+        fCarne.scdsCr_proc.Close;
+    fCarne.scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+    fCarne.scdsCr_proc.Open;
+
+    if (fCarne.buscaCli.Active) then
+        fCarne.buscaCli.Close;
+    fCarne.buscaCli.Params[0].AsInteger := DM_MOV.c_vendaCODCLIENTE.AsInteger;
+    fCarne.buscaCli.Open;
+
+
+    //fCarne.txtParcela.Caption := scdsCr_procVIA.AsString;
+    //fCarne.txtNomeSacado.Caption := DM_MOV.c_vendaNOMECLIENTE.AsString;
+    //fCarne.BoletoCarne.BeforePrint;
+    fCarne.BoletoCarne.Preview();
+    //fCarne.ShowModal;
+  finally
+    fCarne.Free;
+  end;
+  }
 end;
 
 end.
