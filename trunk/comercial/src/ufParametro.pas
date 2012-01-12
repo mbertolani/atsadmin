@@ -258,6 +258,7 @@ type
     edtSetor3: TEdit;
     edtMensagem1: TEdit;
     edtMensagem2: TEdit;
+    chk1: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -317,6 +318,7 @@ type
     procedure edtSetor3Change(Sender: TObject);
     procedure edtMensagem1Change(Sender: TObject);
     procedure edtMensagem2Change(Sender: TObject);
+    procedure chk1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2144,6 +2146,15 @@ begin
 
      if (s_parametro.Active) then
        s_parametro.Close;
+     s_parametro.Params[0].AsString := 'BLOQUEARMESA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        chk1.Checked := True
+     else
+        chk1.Checked := False;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
      s_parametro.Params[0].AsString := 'MENSAGEM';
      s_parametro.Open;
      if (not s_parametro.Eof) then
@@ -3286,7 +3297,7 @@ begin
      s_parametro.Open;
      if (not s_parametro.Eof) then
      begin
-       if (EdtPorta.Text <> s_parametroDADOS.AsString) then
+       if (edtSetor2.Text <> s_parametroDADOS.AsString) then
        begin
           strSql := 'UPDATE PARAMETRO SET DADOS = ';
           strSql := strSql + QuotedStr(edtSetor2.Text);
@@ -3335,7 +3346,7 @@ begin
      s_parametro.Open;
      if (not s_parametro.Eof) then
      begin
-       if (EdtPorta.Text <> s_parametroDADOS.AsString) then
+       if (edtSetor2.Text <> s_parametroDADOS.AsString) then
        begin
           strSql := 'UPDATE PARAMETRO SET DADOS = ';
           strSql := strSql + QuotedStr(edtSetor3.Text);
@@ -3463,6 +3474,57 @@ begin
                [mbOk], 0);
         end;
      end;
+  end;
+end;
+
+procedure TfParametro.chk1Click(Sender: TObject);
+begin
+  if (chk1.Checked = True) then  // Usa Aprovação no exluir Pedido
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'BLOQUEARMESA';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Bloqueia Mesa ao imprimir parcial') + ', ';
+        strSql := strSql + QuotedStr('BLOQUEARMESA');
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'BLOQUEARMESA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+       strSql := strSql + QuotedStr('BLOQUEARMESA');
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+          dm.sqlsisAdimin.Commit(TD);
+       except
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+              [mbOk], 0);
+       end;
+     end;
+     if (s_parametro.Active) then
+        s_parametro.Close;
   end;
 end;
 
