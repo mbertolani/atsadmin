@@ -2689,7 +2689,7 @@ inherited fParametro: TfParametro
       end
       object CheckBox1: TCheckBox
         Left = 11
-        Top = 246
+        Top = 209
         Width = 211
         Height = 17
         Alignment = taLeftJustify
@@ -2709,7 +2709,7 @@ inherited fParametro: TfParametro
       end
       object CheckBox2: TCheckBox
         Left = 11
-        Top = 309
+        Top = 272
         Width = 211
         Height = 17
         Alignment = taLeftJustify
@@ -2719,7 +2719,7 @@ inherited fParametro: TfParametro
       end
       object CheckBox3: TCheckBox
         Left = 11
-        Top = 338
+        Top = 301
         Width = 211
         Height = 17
         Alignment = taLeftJustify
@@ -2729,7 +2729,7 @@ inherited fParametro: TfParametro
       end
       object CheckBox4: TCheckBox
         Left = 11
-        Top = 278
+        Top = 241
         Width = 211
         Height = 17
         Alignment = taLeftJustify
@@ -2749,7 +2749,7 @@ inherited fParametro: TfParametro
       end
       object CheckBox5: TCheckBox
         Left = 11
-        Top = 373
+        Top = 336
         Width = 211
         Height = 17
         Alignment = taLeftJustify
@@ -2758,7 +2758,7 @@ inherited fParametro: TfParametro
       end
       object CheckBox6: TCheckBox
         Left = 11
-        Top = 408
+        Top = 371
         Width = 211
         Height = 17
         Alignment = taLeftJustify
@@ -2972,6 +2972,16 @@ inherited fParametro: TfParametro
         BorderStyle = bsNone
         TabOrder = 19
         OnChange = edtMensagem2Change
+      end
+      object chk1: TCheckBox
+        Left = 11
+        Top = 403
+        Width = 211
+        Height = 17
+        Alignment = taLeftJustify
+        Caption = 'Bloquear Mesa/Comanda ao imp.parcial'
+        TabOrder = 20
+        OnClick = chk1Click
       end
     end
   end
