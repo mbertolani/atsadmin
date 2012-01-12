@@ -255,10 +255,11 @@ object fPainelControle: TfPainelControle
   end
   object sdsVenda: TSQLDataSet
     CommandText = 
-      'SELECT UDF_MONTH(DATAVENDA) , UDF_SMONTHNAME(DATAVENDA) MES, SUM' +
-      '(VALOR) VENDA'#13#10'   FROM VENDA '#13#10'WHERE DATAVENDA BETWEEN :dataIni ' +
-      'AND :dataFim '#13#10'GROUP BY  UDF_MONTH(DATAVENDA), UDF_SMONTHNAME(DA' +
-      'TAVENDA)'
+      'SELECT UDF_MONTH(v.DATAVENDA) , UDF_SMONTHNAME(v.DATAVENDA) MES,' +
+      ' SUM(v.VALOR) VENDA'#13#10'   FROM VENDA v , MOVIMENTO m'#13#10'WHERE v.CODM' +
+      'OVIMENTO = m.CODMOVIMENTO'#13#10'      AND m.CODNATUREZA = 3'#13#10'      AN' +
+      'D v.DATAVENDA BETWEEN :dataIni AND :dataFim '#13#10'GROUP BY  UDF_MONT' +
+      'H(v.DATAVENDA), UDF_SMONTHNAME(v.DATAVENDA)'
     MaxBlobSize = -1
     Params = <
       item
@@ -400,23 +401,22 @@ object fPainelControle: TfPainelControle
   object sdsVendaCliente: TSQLDataSet
     CommandText = 
       'SELECT First 10 v.CODCLIENTE || '#39'-'#39' || UDF_LEFT(cli.RAZAOSOCIAL,' +
-      '10) CLIENTE, SUM(v.VALOR) VENDA'#13#10'   FROM VENDA v, CLIENTES cli'#13#10 +
-      'WHERE v.CODCLIENTE = cli.CODCLIENTE'#13#10'      AND DATAVENDA BETWEEN' +
-      ' :dataIni AND :dataFim '#13#10'GROUP BY v.CODCLIENTE, cli.RAZAOSOCIAL'#13 +
-      #10'ORDER BY 2 DESC '
+      '10) CLIENTE, SUM(v.VALOR) VENDA'#13#10'   FROM VENDA v, CLIENTES cli, ' +
+      'MOVIMENTO m'#13#10'WHERE v.CODMOVIMENTO = m.CODMOVIMENTO'#13#10'      AND m.' +
+      'CODNATUREZA = 3'#13#10'      AND v.CODCLIENTE = cli.CODCLIENTE'#13#10'      ' +
+      'AND v.DATAVENDA BETWEEN :dataIni AND :dataFim '#13#10'GROUP BY v.CODCL' +
+      'IENTE, cli.RAZAOSOCIAL'#13#10'ORDER BY 2 DESC '
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftDate
         Name = 'dataIni'
         ParamType = ptInput
-        Value = '01/01/2011'
       end
       item
         DataType = ftDate
         Name = 'dataFim'
         ParamType = ptInput
-        Value = '31/12/2011'
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 296
