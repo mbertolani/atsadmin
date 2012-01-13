@@ -24,7 +24,7 @@ BEGIN
   /* Lista as contas a receber e recebidas gerais */
 
 
-  FOR SELECT rec.EMISSAO ,rec.DATAVENCIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(5)) || '-' ||  cli.NOMECLIENTE,
+  FOR SELECT rec.EMISSAO ,rec.DATAVENCIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(10)) || '-' ||  cli.NOMECLIENTE,
     rec.HISTORICO, rec.valor_prim_via, rec.VALORRECEBIDO, rec.CONTACREDITO,rec.CAIXA, rec.TITULO
     FROM RECEBIMENTO rec, CLIENTES cli where cli.CODCLIENTE = rec.CODCLIENTE
     and rec.EMISSAO BETWEEN :DTAINI AND :DTAFIM 
