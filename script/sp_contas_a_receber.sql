@@ -22,7 +22,7 @@ BEGIN
 
   /* Lista as contas a receber */
 
-  FOR SELECT rec.EMISSAO ,rec.DATAVENCIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(5)) || '-' ||  cli.NOMECLIENTE,
+  FOR SELECT rec.EMISSAO ,rec.DATAVENCIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(10)) || '-' ||  cli.NOMECLIENTE,
     rec.HISTORICO, rec.VALOR_RESTO, rec.VALORRECEBIDO, rec.CONTACREDITO,rec.CAIXA, rec.STATUS, rec.TITULO
     FROM RECEBIMENTO rec, CLIENTES cli where cli.CODCLIENTE = rec.CODCLIENTE
     and ((rec.status = '5-') or (rec.status = '1-')) 
@@ -39,7 +39,7 @@ BEGIN
     INTO :CAIXA;
     
     IF (STATUS = '1-') THEN
-      STATUS = 'Cheque-PrÃ©';
+      STATUS = 'Cheque-Pré';
 
     IF (STATUS = '5-') THEN
       STATUS = 'Pendente';
