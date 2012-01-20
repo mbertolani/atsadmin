@@ -445,7 +445,7 @@ var
 implementation
 
 uses UDm, ufprocura_prod, uProdutoLote, uEnt_Sai_Lote, uFiltroEstoque,
-  uLotes, uFiltroMovMaterias, sCtrlResize, uEstoque;
+  uLotes, uFiltroMovMaterias, sCtrlResize, uEstoque, UDMNF;
 
 {$R *.dfm}
 
@@ -584,10 +584,6 @@ begin
     if (MaskEdit1.text = '') then
       MaskEdit1.Date := cds_MovimentoDATAMOVIMENTO.AsDateTime;
     dt_mov := MaskEdit1.Date;
-    //if (cds_MovimentoOBS.IsNull) then
-    //  cds_MovimentoOBS.AsString := 'BAIXADO' // Uso pra baixar Materia Prima só uma vez
-    //else
-    //  cds_MovimentoOBS.AsString := 'BAIXADO2';  // Já foi gravado
   end;
   { ---------------------------------------------------------------------}
   if (cds_MovimentoDATAMOVIMENTO.AsDateTime < StrToDate('01/01/1990') ) then
@@ -929,7 +925,6 @@ begin
         dm.sqlsisAdimin.ExecuteDirect(sql_sp);
       end;
 
-
       if (sds_s.Active) then
         sds_s.Close;
       sds_s.CommandText := 'SELECT CODMOVIMENTO, CODDETALHE from INFORMATIVO';
@@ -946,17 +941,13 @@ begin
     end;
   end;
 
-  {------Pesquisando na tab Parametro qual form de Procura Produtos ---}
+  //************VERIFICA E EXECUTA BAIXA DE MATÉRIA PRIMA************
   if Dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'BAIXAENTESTOQUE';
   dm.cds_parametro.Open;
   if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
-  begin
-    //BitBtn1.Click;
-    if (cds_MovimentoOBS.AsString = 'BAIXADO') then
       baixamatprimas('BAIXAENTESTOQUE', cds_MovimentoCODMOVIMENTO.AsInteger);
-  end;
 
 end;
 
@@ -1523,7 +1514,7 @@ procedure TfEntra_Sai_estoque.baixamatprimas(tipomat: string;
   codmovt: integer);
   var coddetalhe : integer;
     TD: TTransactionDesc;
-    sql_sp : string;
+    sql_sp, tipo : string;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -1570,6 +1561,29 @@ begin
     serie := dm.cds_parametroD2.AsString;
     dm.cds_parametro.Close;
 
+    //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
+    if dm.cdsBusca.Active then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CODORIGEM = '
+    + IntToStr(codmovt) + ' AND CODCLIENTE = ' + IntToStr(cod_cli);
+    dm.cdsBusca.Open;
+
+    if not dm.cdsBusca.IsEmpty then
+    begin
+      if  (dm.cdsBusca.FieldByName('CODNATUREZA').AsInteger = 1) then
+        tipo := 'ENTRADA'
+      else if  (dm.cdsBusca.FieldByName('CODNATUREZA').AsInteger = 2) then
+        tipo := 'SAIDA'
+      else if  (dm.cdsBusca.FieldByName('CODNATUREZA').AsInteger = 3) then
+        tipo := 'VENDA'
+      else if  (dm.cdsBusca.FieldByName('CODNATUREZA').AsInteger = 4) then
+        tipo := 'COMPRA';
+      dmnf.cancelaEstoque(codmovt, dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime, tipo);
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
+      + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(codmovt)
+      + ' AND CODCLIENTE = ' + IntToStr(cod_cli));
+    end;
     //***************************************************************************
 
     if (not cds_movMat.Active) then
@@ -1673,8 +1687,9 @@ begin
     else
       sql_sp := sql_sp + edit2.Text + ', null)';
     dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(sql_sp);
     Try
+       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
+       DMNF.baixaEstoque(cds_movMatCODMOVIMENTO.AsInteger, cds_movMatDATAMOVIMENTO.AsDateTime, 'SAIDA');
        dm.sqlsisAdimin.Commit(TD);
     except
        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
