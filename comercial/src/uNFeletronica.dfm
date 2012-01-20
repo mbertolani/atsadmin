@@ -857,11 +857,11 @@ object fNFeletronica: TfNFeletronica
       end
     end
     object TabSheet4: TTabSheet
-      Caption = 'Depc'
+      Caption = 'Dpec'
       ImageIndex = 3
       object GroupBox8: TGroupBox
         Left = 3
-        Top = 3
+        Top = 1
         Width = 354
         Height = 107
         Caption = 'DPEC'
