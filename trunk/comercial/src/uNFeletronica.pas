@@ -1054,6 +1054,16 @@ begin
    begin
      ACBrNFe1.NotasFiscais.Assinar;
      ACBrNFe1.NotasFiscais.Valida;
+     TD.TransactionID := 1;
+     TD.IsolationLevel := xilREADCOMMITTED;
+     DecimalSeparator := '.';
+     //SALVA NFe e NOMEXML no BD
+     dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
+     + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
+     + ' WHERE NOTASERIE = ' + quotedStr(protenv));
+     dm.sqlsisAdimin.StartTransaction(TD);
+     dm.sqlsisAdimin.Commit(TD);
+     DecimalSeparator := ',';
      ACBrNFe1.NotasFiscais.Imprimir;
    end
    else if (tp_amb = 4) then
@@ -1071,6 +1081,11 @@ begin
      TD.TransactionID := 1;
      TD.IsolationLevel := xilREADCOMMITTED;
      DecimalSeparator := '.';
+     //SALVA NFe e NOMEXML no BD
+     dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
+     + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
+     + ' WHERE NOTASERIE = ' + quotedStr(protenv));
+     //SALVA PROTOCOLO DPEC
      str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
      str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
      dm.sqlsisAdimin.ExecuteDirect(str);
@@ -1093,6 +1108,11 @@ begin
      TD.TransactionID := 1;
      TD.IsolationLevel := xilREADCOMMITTED;
      DecimalSeparator := '.';
+     //SALVA NFe e NOMEXML no BD
+     dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
+     + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
+     + ' WHERE NOTASERIE = ' + quotedStr(protenv));
+     //SALVA OS PROTOCOLOS
      str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(Protocolo);
      str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
      str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
@@ -1101,16 +1121,6 @@ begin
      dm.sqlsisAdimin.Commit(TD);
      DecimalSeparator := ',';
    end;
-
-   TD.TransactionID := 1;
-   TD.IsolationLevel := xilREADCOMMITTED;
-   DecimalSeparator := '.';
-   dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
-   + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
-   + ' WHERE NOTASERIE = ' + quotedStr(protenv));
-   dm.sqlsisAdimin.StartTransaction(TD);
-   dm.sqlsisAdimin.Commit(TD);
-   DecimalSeparator := ',';
 
    btnListar.Click;
    ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
