@@ -21,11 +21,12 @@ object TRpReport
         'c.VALORTITULO - rec.VALOR_RESTO) as VALORREC, rec.NOMECLIENTE, '#13 +
         #10'rec.CODCLIENTE, rec.SALDO, rec.HISTORICO'#13#10'FROM RELCONTASRECEBER' +
         ' rec'#13#10'where rec.emissao between :data1 and :data2 and ((rec.codc' +
-        'liente = :pCli) or (:pCli = 0)) '#13#10'group by '#13#10'rec.TITULO, rec.NOM' +
-        'ECLIENTE, '#13#10'rec.CODCLIENTE,'#13#10'rec.DATAVENCIMENTO, '#13#10'rec.EMISSAO, ' +
-        'rec.CODRECEBIMENTO,   rec.VALOR_RESTO, '#13#10'rec.VALORTITULO, rec.ST' +
-        'ATUS, rec.DATARECEBIMENTO, rec.VALORRECEBIDO , rec.VIA, rec.N_DO' +
-        'CUMENTO , rec.SALDO, rec.HISTORICO'#13#10'order by rec.TITULO'
+        'liente = :pCli) or (:pCli = 0))  and rec.STATUS <> '#39'14'#39#13#10'group b' +
+        'y '#13#10'rec.TITULO, rec.NOMECLIENTE, '#13#10'rec.CODCLIENTE,'#13#10'rec.DATAVENC' +
+        'IMENTO, '#13#10'rec.EMISSAO, rec.CODRECEBIMENTO,   rec.VALOR_RESTO, '#13#10 +
+        'rec.VALORTITULO, rec.STATUS, rec.DATARECEBIMENTO, rec.VALORRECEB' +
+        'IDO , rec.VIA, rec.N_DOCUMENTO , rec.SALDO, rec.HISTORICO'#13#10'order' +
+        ' by rec.TITULO'
     end
     item
       Alias = 'EMPRESA'
@@ -65,7 +66,7 @@ object TRpReport
     item
       Name = 'DATA1'
       AllowNulls = False
-      Value = 39821d
+      Value = 40551d
       ParamType = rpParamDate
       Datasets.Strings = (
         'CONTASAREC')
@@ -78,7 +79,7 @@ object TRpReport
     item
       Name = 'DATA2'
       AllowNulls = False
-      Value = 39822d
+      Value = 41283d
       ParamType = rpParamDate
       Datasets.Strings = (
         'CONTASAREC')
