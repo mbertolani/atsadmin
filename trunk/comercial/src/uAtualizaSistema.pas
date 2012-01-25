@@ -1013,8 +1013,7 @@ begin
           ' PRECO VALOR DEFAULT 0, ' +
           ' DESCONTO VALOR DEFAULT 0, ' +
           ' VALORTOTAL COMPUTED BY ((PRECO-DESCONTO)*QTDE) , ' +
-          ' ID_OSDET_SERV INTEGER, ' +
-          ' CONSTRAINT INTEG_404 PRIMARY KEY (ID_OS_DET)) ');
+          ' ID_OSDET_SERV INTEGER) ');
       end;
       mudaVersao('1.0.0.91');
     end; // Fim Ataulização Versao 1.0.0.91
@@ -1145,6 +1144,7 @@ begin
 
     if (versaoSistema = '1.0.0.96') then
     begin
+      CriaGenerator('GEN_OSDET');    
       executaDDL('TRANSPORTADORA', 'FANTASIA', 'varchar(50)');
       executaDDL('FUNCIONARIO', 'EMAIL', 'varchar(80)');
       executaDDL('TRANSPORTADORA', 'EMAIL', 'varchar(100)');
@@ -1190,6 +1190,12 @@ begin
           'ORGAO integer, CNPJ varchar(16), ' +
           'DHENVIO date, SEQUENCIA integer, ' +
           'CORRECAO varchar(1000))');
+      end;
+      if (NaoExisteTabela('FORMA_ENTRADA')) then
+      begin
+        executaSql('CREATE TABLE FORMA_ENTRADA ( COD_VENDA Integer NOT NULL, ' +
+        'ID_ENTRADA Integer NOT NULL, FORMA_PGTO Char(1), ' +
+        'CAIXA Smallint,  N_DOC Varchar(60),  VALOR_PAGO Double precision)');
       end;
       executaDDL('MOVIMENTODETALHE', 'IMPRESSO', 'CHAR(3)');
       //mudaVersao('1.0.0.98');
