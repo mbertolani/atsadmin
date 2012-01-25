@@ -1,9 +1,9 @@
-unit RLBoleto;                                
+unit RLBoleto;
 
 interface
 
 uses
-   Windows, classes, SysUtils, Graphics, {NMSMTP,} extctrls, RLReport,
+   Windows, classes, SysUtils, Graphics, {NMSMTP,} extctrls, RLReport,RLPDFFilter,
    BoletoLayout, Controls, Forms
   {$IFDEF VER150}
      , Variants, MaskUtils, contnrs
@@ -323,6 +323,7 @@ type
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   Assign(ATitulo: TRLBTitulo); reintroduce;
+      procedure   GerarPDF(NomeArquivo, NomeAutor :String);
 {      procedure   EnviarPorEMail(Host, LoginUsuario : string; Porta :integer; Assunto : string; Mensagem : TStringList);}
 
       procedure   Visualizar;
@@ -924,6 +925,8 @@ begin
    DigitoCodigoCedente := ACedente.DigitoCodigoCedente;
 end;
 
+
+
 {TRLBTitulo}
 constructor TRLBTitulo.Create(AOwner: TComponent);
 begin
@@ -1444,6 +1447,34 @@ begin
 end;
 
 {$IFNDEF VER120}
+
+procedure TRLBTitulo.GerarPDF(NomeArquivo, NomeAutor: String);
+var 
+  ABoleto: TLayoutBoleto;
+  FilterPDF: TRLPDFFilter;
+begin 
+  if (Trim(NomeArquivo)=EmptyStr) then
+    raise Exception.Create('Nome do arquivo inválido.');
+
+  ABoleto   := TLayoutBoleto.Create(nil);
+  FilterPDF := TRLPDFFilter.Create(nil);
+
+  try 
+    PrepararBoleto(ABoleto); 
+    ABoleto.LayoutBoleto.ExpressionParser := nil; 
+    ABoleto.LayoutBoleto.DefaultFilter    := nil;
+    ABoleto.LayoutBoleto.Prepare; 
+    FilterPDF.FileName            := NomeArquivo;
+    FilterPDF.DocumentInfo.Author := NomeAutor;
+    FilterPDF.FilterPages(ABoleto.LayoutBoleto.Pages);
+    ABoleto.Free;
+    FilterPDF.Free;
+  except 
+    ABoleto.Free; 
+    FilterPDF.Free;
+    raise;
+  end; 
+end;
 
 {TRLTituloList}
 
