@@ -1198,6 +1198,7 @@ begin
         'CAIXA Smallint,  N_DOC Varchar(60),  VALOR_PAGO Double precision)');
       end;
       executaDDL('MOVIMENTODETALHE', 'IMPRESSO', 'CHAR(3)');
+      executaDDL('RECEBIMENTO', 'USERID', 'INTEGER');
       //mudaVersao('1.0.0.98');
     end;// Fim Ataulização Versao 1.0.0.98
 
