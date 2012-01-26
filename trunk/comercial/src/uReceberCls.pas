@@ -148,9 +148,10 @@ type
     function geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
     function baixaTitulo(VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
 DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
-CLIENTE : Integer; STATUS : string): Boolean;
+CLIENTE : Integer; STATUS : string;  USERID : Integer): Boolean;
     function excluiTitulo(codVendaE: Integer): Boolean;
     function alteraTitulo(codVendaA: Integer): Boolean;
+    function cancelabaixa(CLIENTE: Integer; USERID :Integer): Boolean;
     constructor Create;
     Destructor Destroy; Override;
   end;
@@ -171,7 +172,7 @@ end;
 
 function TReceberCls.baixaTitulo( VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
 DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
-CLIENTE : Integer; STATUS : string): Boolean;
+CLIENTE : Integer; STATUS : string; USERID : Integer): Boolean;
 var  strRec : String;
   codRecB: Integer;
   VLR, VLRESTO, VLRATUAL, VLPAGO, VLJU, VLFUN, VLDESC, VLPER, VLJUT, VLFUNT, VLDESCT, VLPERT : DOUBLE;
@@ -189,7 +190,7 @@ begin
     sqlBuscaR :=  TSqlQuery.Create(nil);
     sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
     strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + 'AND DP = 0 ' +
-    ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') + ') order by CODRECEBIMENTO';
+    ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') + ') and USERID = ' + IntToStr(USERID) + ' order by CODRECEBIMENTO';
     sqlBuscaR.SQL.Add(strRec);
     sqlBuscaR.Open;
     sqlBuscaR.First;
@@ -259,6 +260,7 @@ begin
         strRec :=  'UPDATE RECEBIMENTO SET ' +
             'STATUS = ' + QuotedStr(STATUS) +
             ', VALORRECEBIDO = ' + FloatToStr(VLR - VLDESC - VLPER) +
+            ', VALOR_RESTO_SST = ' + FloatToStr(VLR - VLDESC - VLPER) +
             ', VALOR_RESTO = ' + FloatToStr(VLR) +
             ', FORMARECEBIMENTO = ' + QuotedStr(FORMAREC) +
             ', DATABAIXA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATA)) +
@@ -296,10 +298,52 @@ begin
             ',outro_credito = ' + FloatToStr(vldesct) +
             ',outro_debito = ' + FloatToStr(vlpert)  +
             ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
-        executaSql(strRec);          
+        executaSql(strRec);
       end;
      sqlBuscaR.Next;
     end;
+  finally
+    sqlBuscaR.Free;
+  end;
+  DecimalSeparator := ',';
+  Result := True;
+end;
+
+function TReceberCls.cancelabaixa(CLIENTE, USERID: Integer): Boolean;
+var  codrec : Integer;
+  sqlBuscaR : TSqlQuery;
+  strRec : String;
+begin
+  try
+    sqlBuscaR :=  TSqlQuery.Create(nil);
+    sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
+    strRec := 'SELECT CODRECEBIMENTO, VALORRECEBIDO, DESCONTO, PERDA, FUNRURAL, JUROS  FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + 'AND DP = 0 ' +
+    ' AND STATUS IN (' + QuotedStr('1-') + ', ' + QuotedStr('2-') + ', ' + QuotedStr('7-') + ', ' + QuotedStr('9-') + ', ' + QuotedStr('13') + ') and USERID = ' + IntToStr(USERID) + ' order by CODRECEBIMENTO';
+    sqlBuscaR.SQL.Add(strRec);
+    sqlBuscaR.Open;
+    sqlBuscaR.First;
+    DecimalSeparator := '.';
+    while not sqlBuscaR.Eof do
+    begin
+      codrec := sqlBuscaR.FieldByName('CODRECEBIMENTO').AsInteger;
+      strRec :=  'UPDATE RECEBIMENTO SET ' +
+          'STATUS = ' + QuotedStr('5-') +
+          ', VALOR_RESTO = ' + FloatToStr(sqlBuscaR.FieldByName('VALORRECEBIDO').AsFloat + sqlBuscaR.FieldByName('DESCONTO').AsFloat + sqlBuscaR.FieldByName('PERDA').AsFloat) +
+          ', VALORRECEBIDO = 0 ' +
+          ', FORMARECEBIMENTO = ' + QuotedStr('0') +
+          ', DATABAIXA = null' +
+          ', DATARECEBIMENTO = null' +
+          ', DATACONSOLIDA = null' +
+          ', N_DOCUMENTO = null' +
+          ', CAIXA = null ' +
+          ', FUNRURAL = 0' + FloatToStr(sqlBuscaR.FieldByName('FUNRURAL').AsFloat) +
+          ', JUROS = 0' + FloatToStr(sqlBuscaR.FieldByName('JUROS').AsFloat) +
+          ', DESCONTO = 0' +
+          ', PERDA = 0' +
+          ' WHERE CODRECEBIMENTO = ' + IntToStr(codrec);
+      executaSql(strRec);
+      sqlBuscaR.Next;
+    END;
   finally
     sqlBuscaR.Free;
   end;
