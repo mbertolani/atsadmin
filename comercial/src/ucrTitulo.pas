@@ -161,7 +161,7 @@ var
 implementation
 
 uses UDm, uCheques_bol, uUtils, ufcrSaude, ufcr, uFinanceiro,
-  uAtsAdmin,  UCBase,  sCtrlResize;
+  uAtsAdmin,  UCBase,  sCtrlResize, uReceberCls;
 
 {$R *.dfm}
 
@@ -297,10 +297,11 @@ end;
 
 procedure TfcrTitulo.BitBtn2Click(Sender: TObject);
  var
-   Forma, i, num: Integer;
+   i, num: Integer;
    str_sql: String;
   TD: TTransactionDesc;
   statusCrTitulo : TUtils;
+  REC : TReceberCls;
 begin
   statusCrTitulo := TUtils.Create;
   TD.TransactionID := 1;
@@ -339,6 +340,7 @@ begin
         str_sql := str_sql + ' ,HISTORICO =  ';
         str_sql := str_sql + QuotedStr(Memo1.Text);
       end;
+      str_sql := str_sql + ', USERID = ' + IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
       str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
       num := nrec[i - 1];
       str_sql := str_sql + IntToStr(num);
@@ -367,36 +369,27 @@ begin
     btnImprimi.Enabled := True;
     BitBtn2.Enabled := False;
 
-    //Faco a baixa pela SP
-    DecimalSeparator := '.';
-    str_sql := 'EXECUTE PROCEDURE BAIXATITULOSREC(';
-    str_sql := str_sql + FloatToStr(dm.cds_crVALORRECEBIDO.AsFloat);
-    str_sql := str_sql + ',' + FloatToStr(dm.cds_crFUNRURAL.AsFloat);
-    str_sql := str_sql + ',' + FloatToStr(dm.cds_crJUROS.AsFloat);
-    str_sql := str_sql + ',' + FloatToStr(dm.cds_crDESCONTO.AsFloat);
-    str_sql := str_sql + ',' + FloatToStr(dm.cds_crPERDA.AsFloat);
-    str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', dm.cds_crDATABAIXA.AsDateTime) + '''';
-    str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', dm.cds_crDATARECEBIMENTO.AsDateTime) + '''';
-    if (not dm.cds_crDATACONSOLIDA.IsNull) then
-      str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', dm.cds_crDATACONSOLIDA.AsDateTime) + ''''
-    else
-      str_sql := str_sql + ', null';
-    str_sql := str_sql + ',''' + dm.cds_crFORMARECEBIMENTO.AsString + '''';
-    str_sql := str_sql + ',''' + dm.cds_crN_DOCUMENTO.AsString + '''';
-    str_sql := str_sql + ',' + FloatToStr(dm.cds_crCAIXA.AsFloat);
-    str_sql := str_sql + ',' + IntToStr(dm.cds_crCODCLIENTE.AsInteger);
-    str_sql := str_sql + ',''' + dm.cds_crSTATUS.AsString + '''';
-    str_sql := str_sql + ')';
-    DecimalSeparator := ',';
+    //Faco a baixa pela CLASSE
     dm.sqlsisAdimin.StartTransaction(TD);
     try
-      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+     // dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      try
+        REC := TReceberCls.Create;
+        REC.baixaTitulo(dm.cds_crVALORRECEBIDO.AsFloat, dm.cds_crFUNRURAL.AsFloat, dm.cds_crJUROS.AsFloat,
+        dm.cds_crDESCONTO.AsFloat, dm.cds_crPERDA.AsFloat, dm.cds_crDATABAIXA.AsDateTime,
+        dm.cds_crDATARECEBIMENTO.AsDateTime, dm.cds_crDATACONSOLIDA.AsDateTime,
+        dm.cds_crFORMARECEBIMENTO.AsString, dm.cds_crN_DOCUMENTO.AsString, dm.cds_crCAIXA.AsInteger,
+        dm.cds_crCODCLIENTE.AsInteger, dm.cds_crSTATUS.AsString, fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+      finally
+        REC.Free;
+      end;
       dm.sqlsisAdimin.Commit(TD);
     except
       dm.sqlsisAdimin.Rollback(TD);
       MessageDlg('Baixa não efetuada.' + #10#13 +
       '(Este Caixa pode estar fechado para esta data)', mtWarning, [mbOK], 0);
       exit;
+
     end;
 
     //inherited;
@@ -516,36 +509,53 @@ begin
 end;
 
 procedure TfcrTitulo.btnCancela_BaixaClick(Sender: TObject);
-var
-str_sql: String;
-codigo, i, num : integer;
+var  str_sql: String;
+  codigo, i, num : integer;
+  REC :TReceberCls;
+  TD: TTransactionDesc;
 begin
   codigo := dm.cds_crCODRECEBIMENTO.AsInteger;
   if  MessageDlg('Confirma a exclusão da baixa do Título : ''' + dm.cds_crTITULO.AsSTring + '''',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
   Try
     // Mudo o parametro DP para 0(zero) para saber quem cancelar
-    for i:=1 to length(nrec) do
-    begin
-      str_sql := 'UPDATE RECEBIMENTO SET DP = 0';
-      str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
-      num := nrec[i - 1];
-      str_sql := str_sql + IntToStr(num);
-      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    try
+      dm.sqlsisAdimin.StartTransaction(TD);
+      for i:=1 to length(nrec) do
+      begin
+        str_sql := 'UPDATE RECEBIMENTO SET DP = 0';
+        str_sql := str_sql + ', USERID = ' + IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+        str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
+        num := nrec[i - 1];
+        str_sql := str_sql + IntToStr(num);
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        dm.sqlsisAdimin.Commit(TD);
+      end;
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Baixa não efetuada.' + #10#13 +
+      '(Este Caixa pode estar fechado para esta data)', mtWarning, [mbOK], 0);
+      exit;
     end;
 
-    str_sql := 'EXECUTE PROCEDURE CANCELABAIXAREC(';
-    str_sql := str_sql + IntToStr(dm.cds_crCODCLIENTE.AsInteger) + ')';
-   {
-    dm.sqlsisAdimin.ExecuteDirect(str_sql);
-   }
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      try
+        REC := TReceberCls.Create;
+        REC.cancelabaixa(dm.cds_crCODCLIENTE.AsInteger, fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+      finally
+        REC.Free;
+      end;
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Baixa não efetuada.' + #10#13 +
+      '(Este Caixa pode estar fechado para esta data)', mtWarning, [mbOK], 0);
+      exit;
 
-   if(sqlCancelaBaixa.Active) then
-     sqlCancelaBaixa.Close;
-     sqlCancelaBaixa.ParamByName('CLIENTE').AsInteger := dm.cds_crCODCLIENTE.AsInteger;
- //  sqlCAncelaBaixa.CommandText := str_sql;
-   sqlCancelaBaixa.Prepared := True;
-   sqlCancelaBaixa.ExecProc;
+    end;
+
+
     MessageDlg('Baixa cancelada com sucesso.', mtInformation, [mbOK], 0);
 
     dm.cds_cr.Edit;
@@ -567,6 +577,7 @@ end;
 procedure TfcrTitulo.CalculaJuros;
 var juros , carencia : double;
 begin
+  carencia := 0;
   if (dbEdit2.Date > dm.cds_crDATAVENCIMENTO.AsDateTime) then
   begin
     if (cds_param.Active) then
