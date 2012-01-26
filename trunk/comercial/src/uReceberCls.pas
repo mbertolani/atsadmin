@@ -146,9 +146,9 @@ type
 
     //Metodos
     function geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
-    function baixaTitulo(Status, Forma: String; VRec, VJuros, VMulta, VOCred,
-VODeb, VDesc, VPerda: Double; Usuario, codCli, rCaixa: Integer; rdtBaixa, rdtRec,
-rdtConsolida: TDateTime; rnDoc: String): Boolean;
+    function baixaTitulo(VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
+DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
+CLIENTE : Integer; STATUS : string): Boolean;
     function excluiTitulo(codVendaE: Integer): Boolean;
     function alteraTitulo(codVendaA: Integer): Boolean;
     constructor Create;
@@ -169,31 +169,142 @@ begin
 
 end;
 
-function TReceberCls.baixaTitulo(Status, Forma: String; VRec, VJuros, VMulta, VOCred,
-VODeb, VDesc, VPerda: Double; Usuario, codCli, rCaixa: Integer; rdtBaixa, rdtRec,
-rdtConsolida: TDateTime; rnDoc: String): Boolean;
+function TReceberCls.baixaTitulo( VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
+DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
+CLIENTE : Integer; STATUS : string): Boolean;
 var  strRec : String;
   codRecB: Integer;
+  VLR, VLRESTO, VLRATUAL, VLPAGO, VLJU, VLFUN, VLDESC, VLPER, VLJUT, VLFUNT, VLDESCT, VLPERT : DOUBLE;
+  CODREC : INTEGER;
+  sqlBuscaR : TSqlQuery;
 begin
-  strRec := 'UPDATE RECEBIMENTO SET ' +
-            '  STATUS           = ' + QuotedStr(Status) +
-            ', VALORRECEBIDO    = ' + FloatToStr(VRec - VDesc - VPerda) +
-            ', VALOR_RESTO      = ' + FloatToStr(VRec) +
-            ', FORMARECEBIMENTO = ' + QuotedStr(Forma) +
-            ', DATABAIXA        = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtBaixa)) +
-            ', DATARECEBIMENTO  = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtRec)) +
-            ', DATACONSOLIDA    = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', rdtConsolida)) +
-            ', N_DOCUMENTO      = ' + QuotedStr(rnDoc) +
-            ', CAIXA            = ' + IntToStr(rCaixa) +
-            ', FUNRURAL         = ' + FloatToStr(vMulta) +
-            ', JUROS            = ' + FloatToStr(vJuros) +
-            ', DESCONTO         = ' + FloatToStr(vDesc)  +
-            ', PERDA            = ' + FloatToStr(vPerda) +
-            ', outro_credito    = ' + FloatToStr(vOCred) +
-            ', outro_debito     = ' + FloatToStr(vODeb)  +
-            ' WHERE CODRECEBIMENTO = ' + IntToStr(codRecB);
-  executaSql(strRec);
+  VLRATUAL := (VALOR - FUNRURAL - JUROS + PERDA + DESCONTO);
+  VLPAGO := (VALOR - JUROS - FUNRURAL);
+  VLJUT := JUROS;
+  VLFUNT := FUNRURAL;
+  VLDESCT := DESCONTO;
+  VLPERT := PERDA;
 
+  try
+    sqlBuscaR :=  TSqlQuery.Create(nil);
+    sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
+    strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + 'AND DP = 0 ' +
+    ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') + ') order by CODRECEBIMENTO';
+    sqlBuscaR.SQL.Add(strRec);
+    sqlBuscaR.Open;
+    sqlBuscaR.First;
+    while not sqlBuscaR.Eof do
+    begin
+      CODREC := sqlBuscaR.FieldByName('CODRECEBIMENTO').AsInteger;
+      VLRESTO := sqlBuscaR.FieldByName('VALOR_RESTO').AsFloat;
+
+      VLJU := VLJUT - VLJU;
+      if (VLJU < 0) then
+        VLJU := 0;
+      VLJUT := VLJUT - VLJU;
+      VLFUN := VLFUNT - VLFUN;
+      if (VLFUN < 0) then
+        VLFUN := 0;
+      VLFUNT := VLFUNT - VLFUN;
+      if (VLDESC > VLDESCT) then
+         VLDESC := 0;
+      VLDESC := VLDESCT - VLDESC;
+      if (VLDESC < 0) then
+        VLDESC := 0;
+      VLDESCT := VLDESCT - VLDESC;
+      if (VLPER > VLPERT) then
+        VLPER := 0;
+      VLPER := VLPERT - VLPER;
+      if (VLPER < 0) then
+        VLPER := 0;
+      VLPERT := VLPERT - VLPER;
+      // Valor total a baixar - valor pago = valor atual
+      if (VLRATUAL > VLRESTO) then
+      begin
+        VLRATUAL := VLRATUAL - VLRESTO;
+        VLPAGO := VLPAGO - VLRESTO;
+        VLR := VLRESTO;
+      end
+      else begin
+        VLR := VLRATUAL;
+        VLRATUAL := 0;
+      end;
+      if ((VLR - VLDESC - VLPER) < 0) then
+      begin
+        if (VLR = VLDESC) then
+        begin
+          vlpert := vlper;
+          vlper := 0;
+        end;
+        if (VLR = VLPER) then
+        begin
+          vldesct := vldesc;
+          vldesc := 0;
+        end;
+        if (VLR < VLDESC) then
+        begin
+          vldesct := vldesc - VLR;
+          vldesc := vlr;
+        end;
+        if (VLR < VLPER) then
+        begin
+          vlpert := vlper - VLR;
+          vlper := vlr;
+        end;
+
+      end;
+      DecimalSeparator := '.';
+      if (VLR > 0) then
+      begin
+        strRec :=  'UPDATE RECEBIMENTO SET ' +
+            'STATUS = ' + QuotedStr(STATUS) +
+            ', VALORRECEBIDO = ' + FloatToStr(VLR - VLDESC - VLPER) +
+            ', VALOR_RESTO = ' + FloatToStr(VLR) +
+            ', FORMARECEBIMENTO = ' + QuotedStr(FORMAREC) +
+            ', DATABAIXA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATA)) +
+            ', DATARECEBIMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', DATAREC)) +
+            ', DATACONSOLIDA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATACONSOLIDA)) +
+            ', N_DOCUMENTO = ' + QuotedStr(NDOC) +
+            ', CAIXA = ' + IntToStr(CAIXA) +
+            ', FUNRURAL = ' + FloatToStr(VLFUN) +
+            ', JUROS = ' + FloatToStr(VLJU) +
+            ', DESCONTO = ' + FloatToStr(VLDESC) +
+            ', PERDA = ' + FloatToStr(VLPER) +
+            ',outro_credito = ' + FloatToStr(vldesct) +
+            ',outro_debito = ' + FloatToStr(vlpert)  +
+            ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
+        executaSql(strRec);
+      end;
+
+     // Se Valor e negativo entao baixa o titulo
+      if (VALOR < 0) then
+      begin
+        strRec :=  'UPDATE RECEBIMENTO SET ' +
+            'STATUS = ' + QuotedStr(STATUS) +
+            ', VALORRECEBIDO = 0 ' +
+            ', VALOR_RESTO = 0 ' +
+            ', FORMARECEBIMENTO = ' + QuotedStr(FORMAREC) +
+            ', DATABAIXA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATA)) +
+            ', DATARECEBIMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', DATAREC)) +
+            ', DATACONSOLIDA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATACONSOLIDA)) +
+            ', N_DOCUMENTO = ' + QuotedStr(NDOC) +
+            ', CAIXA = ' + IntToStr(CAIXA) +
+            ', FUNRURAL = ' + FloatToStr(VLFUN) +
+            ', JUROS = ' + FloatToStr(VLJU) +
+            ', DESCONTO = ' + FloatToStr(VLDESC) +
+            ', PERDA = ' + FloatToStr(VLPER) +
+            ',outro_credito = ' + FloatToStr(vldesct) +
+            ',outro_debito = ' + FloatToStr(vlpert)  +
+            ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
+        executaSql(strRec);          
+      end;
+     sqlBuscaR.Next;
+    end;
+  finally
+    sqlBuscaR.Free;
+  end;
+  DecimalSeparator := ',';
+  Result := True;
 end;
 
 constructor TReceberCls.Create;
@@ -209,7 +320,7 @@ end;
 
 function TReceberCls.excluiTitulo(codVendaE: Integer): Boolean;
 begin
-
+  Result := True;
 end;
 
 function TReceberCls.executaSql(strSql: String): Boolean;
@@ -327,7 +438,7 @@ begin
     strG := ' INSERT INTO RECEBIMENTO ' +
           ' (CODRECEBIMENTO, TITULO,          EMISSAO,         CODCLIENTE,      ' +
           ' DATAVENCIMENTO,  STATUS,          VIA,             FORMARECEBIMENTO,' +
-          ' CODVENDA ,       CODALMOXARIFADO, CODVENDEDOR,     CODUSUARIO,      ' +
+          ' CODVENDA ,       CODALMOXARifADO, CODVENDEDOR,     CODUSUARIO,      ' +
           ' DATASISTEMA,     VALOR_PRIM_VIA,  VALOR_RESTO,     VALORTITULO,     ' +
           ' VALORRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
           ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
