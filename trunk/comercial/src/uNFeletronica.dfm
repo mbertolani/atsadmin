@@ -2095,10 +2095,10 @@ object fNFeletronica: TfNFeletronica
       'esta.ICMS_SUBSTRIB_IC, 0) as ICMS_SUBSTRIB_IC'#13#10'        , COALESC' +
       'E(esta.ICMS_SUBSTRIB_IND, 0) as ICMS_SUBSTRIB_IND'#13#10'        , est' +
       'a.NAOENVFATURA'#13#10'        , esta.CSTPIS'#13#10'        , esta.CSTCOFINS'#13 +
-      #10'        , COALESCE(esta.COFINS, 0) as COFINS'#13#10'        , COALESC' +
-      'E(esta.PIS, 0) as PIS'#13#10'from CFOP cf'#13#10'inner join ESTADO_ICMS esta' +
-      ' on esta.CFOP = cf.CFCOD'#13#10'where CFCOD = :id and esta.UF = :ESTAD' +
-      'O and esta.CFOP = :codcfop'
+      #10'        , esta.CSTIPI'#13#10'        , COALESCE(esta.COFINS, 0) as CO' +
+      'FINS'#13#10'        , COALESCE(esta.PIS, 0) as PIS'#13#10'from CFOP cf'#13#10'inne' +
+      'r join ESTADO_ICMS esta on esta.CFOP = cf.CFCOD'#13#10'where CFCOD = :' +
+      'id and esta.UF = :ESTADO and esta.CFOP = :codcfop'
     MaxBlobSize = -1
     Params = <
       item
@@ -2177,6 +2177,11 @@ object fNFeletronica: TfNFeletronica
     object sCFOPPIS: TFloatField
       FieldName = 'PIS'
       ReadOnly = True
+    end
+    object sCFOPCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
     end
   end
   object sCliente: TSQLDataSet
