@@ -580,6 +580,7 @@ type
     sEstadoCODIGO: TIntegerField;
     sEstadoSIGLA: TStringField;
     sEstadoNOME: TStringField;
+    sCFOPCSTIPI: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1923,6 +1924,36 @@ begin
       begin
         with IPI do
         begin
+          if (sCFOPCSTIPI.AsString = '00') then
+            CST := ipi00
+          else if (sCFOPCSTIPI.AsString = '01') then
+            CST := ipi01
+          else if (sCFOPCSTIPI.AsString = '02') then
+            CST := ipi02
+          else if (sCFOPCSTIPI.AsString = '03') then
+            CST := ipi03
+          else if (sCFOPCSTIPI.AsString = '04') then
+            CST :=  ipi04
+          else if (sCFOPCSTIPI.AsString = '05') then
+            CST :=  ipi05
+          else if (sCFOPCSTIPI.AsString = '49') then
+            CST :=  ipi49
+          else if (sCFOPCSTIPI.AsString = '50') then
+            CST := ipi50
+          else if (sCFOPCSTIPI.AsString = '51') then
+            CST := ipi51
+          else if (sCFOPCSTIPI.AsString = '52') then
+            CST := ipi52
+          else if (sCFOPCSTIPI.AsString = '53') then
+            CST := ipi53
+          else if (sCFOPCSTIPI.AsString = '54') then
+            CST := ipi54
+          else if (sCFOPCSTIPI.AsString = '55') then
+            CST := ipi55
+          else if (sCFOPCSTIPI.AsString = '99') then
+            CST := ipi99
+          else
+            CST := ipi00;
           pIPI := cdsItensNFpIPI.AsCurrency;
           vIPI := cdsItensNFvIPI.AsCurrency;
         end;
