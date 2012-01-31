@@ -4,65 +4,100 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
   Width = 806
   Height = 473
   Caption = 'Materiais'
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel [0]
-    Left = 24
+    Left = 11
     Top = 52
     Width = 33
     Height = 13
     Caption = 'C'#243'digo'
   end
   object Label4: TLabel [1]
-    Left = 136
+    Left = 123
     Top = 52
     Width = 37
     Height = 13
     Caption = 'Produto'
   end
   object Label5: TLabel [2]
-    Left = 499
+    Left = 486
     Top = 52
     Width = 55
     Height = 13
     Caption = 'Quantidade'
   end
   object Label6: TLabel [3]
-    Left = 561
+    Left = 548
     Top = 52
     Width = 43
     Height = 13
     Caption = 'Tipo Uso'
   end
   object Label7: TLabel [4]
-    Left = 652
+    Left = 639
     Top = 50
     Width = 62
     Height = 13
     Caption = 'Pre'#231'o Usado'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 385
+    Top = 392
     Width = 798
     inherited btnGravar: TBitBtn
-      Left = 300
+      Left = 451
     end
     inherited btnIncluir: TBitBtn
-      Left = 301
+      Left = 450
     end
     inherited btnCancelar: TBitBtn
-      Left = 412
+      Left = 560
     end
     inherited btnExcluir: TBitBtn
-      Left = 413
+      Left = 559
     end
     inherited btnProcurar: TBitBtn
-      Left = 187
+      Left = 341
       Visible = False
     end
     inherited btnSair: TBitBtn
-      Left = 526
+      Left = 668
+    end
+    object btnImprimir: TBitBtn
+      Left = 341
+      Top = 7
+      Width = 103
+      Height = 40
+      BiDiMode = bdLeftToRight
+      Caption = '&Imprimir'
+      ParentBiDiMode = False
+      PopupMenu = PopupMenu1
+      TabOrder = 6
+      OnClick = btnImprimirClick
+      Glyph.Data = {
+        76020000424D7602000000000000760000002800000020000000200000000100
+        0400000000000002000000000000000000001000000000000000000000000000
+        8000008000000080800080000000800080008080000080808000C0C0C0000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+        8888888888888888888888888888888888888888888888888888800000000000
+        0000000000000000008880777777777777777777777777777088070000000000
+        000000000000000000080F7777777777777777777777777777080F7777777777
+        777777777777777777080F77F7F7F7F7F7F7F7F7F7F7F77777080F77FFFFFFFF
+        FFFFFFFFFFFFF77777080F7777777777777777777777F77777080F7700000000
+        000000000000F72277080F777777777777777777777777AA77080F7777777777
+        777777777777777777080F7F7F7F7F7F7F7F7F7F7F7F7F7F7F080FFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFF080F77777777777777777777777777770880F700000000
+        0000000000000777708880F87088888888888888880077777088880F808F8F8F
+        8F8F8F8F8F0777770888880880FFFFFFFFFFFFFFFF0777770888888000FFFFFF
+        FFFFFFFFFF0000008888888880FFFFFFFFFFFFFFFF0888888888888880FFFFFF
+        FFFFFFFFFF0888888888888880FFFFFFFFFFFF88880888888888888880FFFFFF
+        FFFFF700070888888888888880FFFFFFFFFFF7FFF08888888888888880FFFFFF
+        FFFFF7FF088888888888888880FFFFFFFFFFF7F0888888888888888880FFFFFF
+        FFFFF70888888888888888888000000000000088888888888888888888888888
+        8888888888888888888888888888888888888888888888888888}
+      Margin = 0
     end
   end
   inherited MMJPanel2: TMMJPanel
@@ -91,10 +126,10 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
     end
   end
   object DBGrid1: TDBGrid [7]
-    Left = 22
+    Left = 8
     Top = 88
-    Width = 744
-    Height = 289
+    Width = 777
+    Height = 297
     TabStop = False
     DataSource = DtSrc
     TabOrder = 2
@@ -140,7 +175,7 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
       end>
   end
   object DBEdit1: TDBEdit [8]
-    Left = 23
+    Left = 10
     Top = 66
     Width = 70
     Height = 21
@@ -153,7 +188,7 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
     OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit [9]
-    Left = 134
+    Left = 121
     Top = 66
     Width = 363
     Height = 21
@@ -165,7 +200,7 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
     OnKeyPress = FormKeyPress
   end
   object DBEdit3: TDBEdit [10]
-    Left = 496
+    Left = 483
     Top = 66
     Width = 65
     Height = 21
@@ -177,7 +212,7 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
     OnKeyPress = FormKeyPress
   end
   object BitBtn1: TBitBtn [11]
-    Left = 94
+    Left = 81
     Top = 64
     Width = 37
     Height = 25
@@ -251,7 +286,7 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
       BFBFBFBF0000}
   end
   object DBComboBox1: TDBComboBox [12]
-    Left = 562
+    Left = 549
     Top = 65
     Width = 89
     Height = 21
@@ -276,7 +311,7 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
     OnKeyPress = FormKeyPress
   end
   object DBComboBox2: TDBComboBox [13]
-    Left = 651
+    Left = 638
     Top = 65
     Width = 115
     Height = 21
@@ -475,5 +510,11 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
       FieldName = 'CODPRO'
       Size = 15
     end
+  end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 388
+    Top = 472
   end
 end
