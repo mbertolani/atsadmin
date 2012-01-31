@@ -349,10 +349,13 @@ begin
         dm.sqlsisAdimin.ExecuteDirect(str_sql);
         dm.sqlsisAdimin.Commit(TD);
       except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para efetuar a baixa.', mtError, [mbOK], 0);
-        exit;
-      end;
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          exit;
+        end;
+      end;  
     end;
     if (dm.cds_cr.State in [dsBrowse, dsInactive]) then
       dm.cds_cr.Edit;
@@ -385,13 +388,13 @@ begin
       end;
       dm.sqlsisAdimin.Commit(TD);
     except
-      dm.sqlsisAdimin.Rollback(TD);
-      MessageDlg('Baixa não efetuada.' + #10#13 +
-      '(Este Caixa pode estar fechado para esta data)', mtWarning, [mbOK], 0);
-      exit;
-
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
     end;
-
     //inherited;
     str_sql := 'UPDATE PARAMETRO SET D1 = ';
     str_sql := str_sql + '''' + DateToStr(dm.cds_crDATABAIXA.AsDateTime) + ''', D2 = ';
@@ -404,9 +407,12 @@ begin
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
       dm.sqlsisAdimin.Commit(TD);
     except
-      dm.sqlsisAdimin.Rollback(TD);
-      MessageDlg('Erro para efetuar a baixa.', mtError, [mbOK], 0);
-      exit;
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
     end;
     btnSair.SetFocus;
   except
