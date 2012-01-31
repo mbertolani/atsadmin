@@ -2,7 +2,7 @@ inherited fInventario: TfInventario
   Left = 203
   Top = 65
   Width = 922
-  Height = 621
+  Height = 663
   Caption = 'Inventario'
   OldCreateOrder = True
   PixelsPerInch = 96
@@ -12,34 +12,34 @@ inherited fInventario: TfInventario
     Height = 17
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 528
+    Top = 570
     Width = 914
     Height = 66
     inherited btnGravar: TBitBtn
-      Left = 298
+      Left = 312
       Top = 22
       Caption = 'Gravar'
       Enabled = False
     end
     inherited btnIncluir: TBitBtn
-      Left = 539
+      Left = 546
       Top = 22
       Caption = 'Executar'
     end
     inherited btnCancelar: TBitBtn
-      Left = 418
+      Left = 429
       Top = 22
       Caption = 'Cancelar'
       Visible = False
     end
     inherited btnExcluir: TBitBtn
-      Left = 418
+      Left = 429
       Top = 22
       Caption = 'Excluir Lista'
       Enabled = True
     end
     inherited btnProcurar: TBitBtn
-      Left = 60
+      Left = 83
       Top = 22
       Visible = False
     end
@@ -48,10 +48,10 @@ inherited fInventario: TfInventario
       Top = 22
     end
     object btnImprimir: TBitBtn
-      Left = 187
-      Top = 23
-      Width = 87
-      Height = 41
+      Left = 197
+      Top = 22
+      Width = 107
+      Height = 42
       BiDiMode = bdLeftToRight
       Caption = '&Imprimir'
       ParentBiDiMode = False
@@ -91,7 +91,7 @@ inherited fInventario: TfInventario
   end
   object Panel1: TPanel [2]
     Left = 0
-    Top = 271
+    Top = 311
     Width = 913
     Height = 259
     Align = alCustom
@@ -486,13 +486,13 @@ inherited fInventario: TfInventario
     Left = 0
     Top = 17
     Width = 914
-    Height = 255
+    Height = 293
     Align = alTop
     Caption = 'Produtos / Materiais'
     TabOrder = 3
     object Label1: TLabel
       Left = 2
-      Top = 178
+      Top = 230
       Width = 160
       Height = 13
       Caption = 'Lista Produtos com opcao de filtro'
@@ -508,25 +508,39 @@ inherited fInventario: TfInventario
       ParentBiDiMode = False
     end
     object Label6: TLabel
-      Left = 11
-      Top = 89
+      Left = 8
+      Top = 117
       Width = 29
       Height = 13
       Caption = 'Grupo'
     end
     object Label7: TLabel
-      Left = 10
-      Top = 49
+      Left = 8
+      Top = 81
       Width = 51
       Height = 13
       Caption = 'Sub-Grupo'
     end
     object Label2: TLabel
-      Left = 10
-      Top = 126
+      Left = 8
+      Top = 190
       Width = 68
       Height = 13
       Caption = 'Local Estoque'
+    end
+    object Label9: TLabel
+      Left = 8
+      Top = 45
+      Width = 48
+      Height = 13
+      Caption = 'Descri'#231#227'o'
+    end
+    object Label10: TLabel
+      Left = 8
+      Top = 154
+      Width = 57
+      Height = 13
+      Caption = 'Localiza'#231#227'o'
     end
     object edProd: TEdit
       Left = 8
@@ -536,18 +550,18 @@ inherited fInventario: TfInventario
       TabOrder = 0
     end
     object edGrupo: TEdit
-      Left = 9
-      Top = 103
+      Left = 8
+      Top = 131
+      Width = 145
+      Height = 21
+      TabOrder = 3
+    end
+    object edSubGrupo: TEdit
+      Left = 8
+      Top = 95
       Width = 145
       Height = 21
       TabOrder = 2
-    end
-    object edSubGrupo: TEdit
-      Left = 9
-      Top = 63
-      Width = 145
-      Height = 21
-      TabOrder = 1
     end
     object btnProc: TBitBtn
       Left = 108
@@ -564,7 +578,7 @@ inherited fInventario: TfInventario
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
-      TabOrder = 4
+      TabOrder = 6
       OnClick = btnProcClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -669,12 +683,12 @@ inherited fInventario: TfInventario
     object JvDBGrid1: TJvDBGrid
       Left = 162
       Top = 11
-      Width = 735
-      Height = 239
+      Width = 749
+      Height = 278
       Align = alCustom
       DataSource = dsProd
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-      TabOrder = 5
+      TabOrder = 7
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -701,7 +715,7 @@ inherited fInventario: TfInventario
           Expanded = False
           FieldName = 'PRODUTO'
           Title.Caption = 'Produto'
-          Width = 381
+          Width = 395
           Visible = True
         end
         item
@@ -728,7 +742,7 @@ inherited fInventario: TfInventario
     end
     object btnIncluiTodos: TButton
       Left = 33
-      Top = 203
+      Top = 255
       Width = 25
       Height = 33
       Hint = 'Incluir todos os Itens no Invent'#225'rio'
@@ -741,12 +755,12 @@ inherited fInventario: TfInventario
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 6
+      TabOrder = 8
       OnClick = btnIncluiTodosClick
     end
     object btnInclui: TButton
       Left = 97
-      Top = 203
+      Top = 255
       Width = 25
       Height = 33
       Hint = 'Incluir Item Selecionado.'
@@ -759,12 +773,12 @@ inherited fInventario: TfInventario
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 7
+      TabOrder = 9
       OnClick = btnIncluiClick
     end
     object btnRemoveTodos: TButton
       Left = 65
-      Top = 203
+      Top = 255
       Width = 25
       Height = 33
       Hint = 'Remove todos os itens da lista abaixo.'
@@ -777,12 +791,12 @@ inherited fInventario: TfInventario
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 8
+      TabOrder = 10
       OnClick = btnRemoveTodosClick
     end
     object btnRemove: TButton
       Left = 129
-      Top = 203
+      Top = 255
       Width = 25
       Height = 33
       Hint = 'Remove Item selecionado da Lista.'
@@ -795,12 +809,12 @@ inherited fInventario: TfInventario
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 9
+      TabOrder = 11
       OnClick = btnRemoveClick
     end
     object cbCCusto: TComboBox
       Left = 8
-      Top = 140
+      Top = 204
       Width = 147
       Height = 24
       Font.Charset = DEFAULT_CHARSET
@@ -811,9 +825,23 @@ inherited fInventario: TfInventario
       ItemHeight = 16
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 3
+      TabOrder = 5
       OnChange = cbCCustoChange
       OnKeyPress = FormKeyPress
+    end
+    object edDesc: TEdit
+      Left = 8
+      Top = 59
+      Width = 145
+      Height = 21
+      TabOrder = 1
+    end
+    object edLocalizacao: TEdit
+      Left = 8
+      Top = 169
+      Width = 145
+      Height = 21
+      TabOrder = 4
     end
   end
   object sdsProd: TSQLDataSet
