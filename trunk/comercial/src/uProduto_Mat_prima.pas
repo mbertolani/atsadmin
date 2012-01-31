@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
-  FMTBcd, Grids, DBGrids, DBClient, Provider, SqlExpr, Mask, DBCtrls;
+  FMTBcd, Grids, DBGrids, DBClient, Provider, SqlExpr, Mask, DBCtrls,
+  rpcompobase, rpvclreport;
 
 type
   TfProduto_Mat_prima = class(TfPai)
@@ -46,6 +47,8 @@ type
     scds_produto_procCODPRODUTO: TIntegerField;
     scds_produto_procPRODUTO: TStringField;
     scds_produto_procCODPRO: TStringField;
+    btnImprimir: TBitBtn;
+    VCLReport1: TVCLReport;
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -54,6 +57,7 @@ type
     procedure btnIncluirClick(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnImprimirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -230,6 +234,16 @@ begin
    if (DBEdit1.Text = '') then
      Bitbtn1.Click;
  end;
+end;
+
+procedure TfProduto_Mat_prima.btnImprimirClick(Sender: TObject);
+begin
+  inherited;
+  VCLReport1.Filename := str_relatorio + 'materiaprima_custo.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('CODPROD').Value := cdsMtCODPRODUTO.AsInteger;
+  VCLReport1.Execute;
 end;
 
 end.
