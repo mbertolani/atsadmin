@@ -102,6 +102,10 @@ type
     sqlEstoqueMESANO: TDateField;
     sqlEstoqueSALDOESTOQUE: TFloatField;
     cdsInventQTDE_INVENTARIO: TFloatField;
+    Label9: TLabel;
+    edDesc: TEdit;
+    Label10: TLabel;
+    edLocalizacao: TEdit;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -150,6 +154,22 @@ begin
   begin
     sqla := ' WHERE CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
   end;
+  if (edDesc.Text <> '') then
+  begin
+    if (sqla <> '') then
+      sqla := sqla + ' AND PRODUTO LIKE ' + QuotedStr('%' + edDesc.Text + '%')
+    else
+      sqla := ' WHERE PRODUTO LIKE ' + QuotedStr('%' + edDesc.Text + '%')
+  end;
+
+  if (edLocalizacao.Text <> '') then
+  begin
+    if (sqla <> '') then
+      sqla := sqla + ' AND LOCALIZACAO LIKE ' + QuotedStr('%' + edLocalizacao.Text + '%')
+    else
+      sqla := ' WHERE LOCALIZACAO  LIKE ' + QuotedStr('%' + edLocalizacao.Text + '%');
+  end;
+
   if (edGrupo.Text <> '') then
   begin
     if (sqla <> '') then
