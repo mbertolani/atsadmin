@@ -437,10 +437,11 @@ begin
          // Código do Usuario que fez o Lancamento
          str_sql := str_sql + ', 1)';
          dm.sqlsisAdimin.ExecuteDirect(str_sql);
-
+         memo1.Lines.Add('Gerado com sucesso : ' + cds_cli_1NOMECLIENTE.AsString + ';');
        Except
          on E : Exception do
          begin
+           memo1.Lines.Add('* Erro no Cliente : ' + cds_cli_1NOMECLIENTE.AsString + ';');
            ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
            //dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
          end;
@@ -448,10 +449,11 @@ begin
      end
      else
      begin
-       if (MessageDlg('Já existe uma Título com esse Vencimento para' + #10#13 +
+       {if (MessageDlg('Já existe uma Título com esse Vencimento para' + #10#13 +
          ' o Cliente : ' + cds_cli_1NOMECLIENTE.AsString + ',' + #10#13 +
          ' Continua fazendo Lançamentos ? ', mtConfirmation, [mbYes, mbNo], 0) = mrNo) then
-         exit;
+         exit;}
+        memo1.Lines.Add('# Cliente já gerado : ' + cds_cli_1NOMECLIENTE.AsString + ';');
      end;
      cds_cli_1.Next;
      FlatGauge1.Progress := FlatGauge1.Progress + 1;
