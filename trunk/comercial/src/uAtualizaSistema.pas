@@ -1203,6 +1203,24 @@ begin
       mudaVersao('1.0.0.98');
     end;// Fim Ataulização Versao 1.0.0.98
 
+    if (versaoSistema = '1.0.0.98') then
+    begin
+      try
+        executaSql('UPDATE OS_DET set CODPRODUTO = 390 WHERE CODPRODUTO = 0');
+        executaSql('alter table OS_DET ' +
+          'add constraint FK_OS_DET_PROD ' +
+          'foreign key (CODPRODUTO) ' +
+          'references PRODUTOS (CODPRODUTO) ' +
+          'on update NO ACTION ' +
+          'on delete NO ACTION');
+      except
+      end;    
+      mudaVersao('1.0.0.99');
+    end;// Fim Ataulização Versao 1.0.0.98
+
+
+
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
