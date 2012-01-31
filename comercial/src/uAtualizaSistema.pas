@@ -1131,8 +1131,6 @@ begin
       executaDDL('VENDA', 'TROCO', 'DOUBLE PRECISION');
       executaDDL('NOTAFISCAL', 'II', 'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'II', 'DOUBLE PRECISION');
-      executaScript('listaProdutocli.sql');
-      executaScript('listaProduto.sql');
       executaScript('lista_estoque.sql');
       executaScript('gera_parcelas_pag.sql');
       executaScript('pedido_x_venda.sql');
@@ -1144,7 +1142,7 @@ begin
 
     if (versaoSistema = '1.0.0.96') then
     begin
-      CriaGenerator('GEN_OSDET');    
+      CriaGenerator('GEN_OSDET');
       executaDDL('TRANSPORTADORA', 'FANTASIA', 'varchar(50)');
       executaDDL('FUNCIONARIO', 'EMAIL', 'varchar(80)');
       executaDDL('TRANSPORTADORA', 'EMAIL', 'varchar(100)');
@@ -1152,7 +1150,7 @@ begin
       executaDDL('MOVIMENTODETALHE', 'BCII', 'DOUBLE PRECISION');
       executaDDL('OS', 'VEICULO', 'VARCHAR(200)');
       executaScript('trg_calcula_icms_st.sql');
-      executaScript('calcula_icms.sql');      
+      executaScript('calcula_icms.sql');
       executaSql('ALTER TABLE FUNCIONARIO ALTER BAIRRO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER COMPLEMENTO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER RUA TYPE Varchar(60);');
@@ -1162,10 +1160,10 @@ begin
       DeletaProc('GERA_NF_DEVOLUCAOVENDA');
       DeletaProc('GERA_NF_VENDA');
       DeletaProc('GERA_NF_COMPRA');
-      executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF1 TYPE Varchar(200)');
-      executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF2 TYPE Varchar(200)');
-      executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF3 TYPE Varchar(200)');
-      executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF4 TYPE Varchar(200)');
+     // executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF1 TYPE Varchar(200)');
+     // executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF2 TYPE Varchar(200)');
+     // executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF3 TYPE Varchar(200)');
+     // executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF4 TYPE Varchar(200)');
       executaScript('gera_nf_venda.sql');
       executaScript('gera_nf_compra.sql');
       executaScript('gera_nf_devolucaocompra.sql');
@@ -1183,7 +1181,7 @@ begin
 
     if (versaoSistema = '1.0.0.97') then
     begin
-      executaDDL('NOTAFISCAL', 'NOMEXML', 'VARCHAR(60)');    
+      executaDDL('NOTAFISCAL', 'NOMEXML', 'VARCHAR(60)');
       if (NaoExisteTabela('CCE')) then
       begin
         executaSql('create table CCE ( CHAVE varchar(44), ' +
@@ -1199,7 +1197,10 @@ begin
       end;
       executaDDL('MOVIMENTODETALHE', 'IMPRESSO', 'CHAR(3)');
       executaDDL('RECEBIMENTO', 'USERID', 'INTEGER');
-      //mudaVersao('1.0.0.98');
+      executaDDL('PRODUTOS', 'ESTOQUEMAXIMO', 'DOUBLE PRECISION');
+      executaScript('listaProdutocli.sql');
+      executaScript('listaProduto.sql');
+      mudaVersao('1.0.0.98');
     end;// Fim Ataulização Versao 1.0.0.98
 
 
