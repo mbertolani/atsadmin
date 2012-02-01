@@ -715,7 +715,7 @@ begin
   if (cdsInvent.State in [dsInsert, dsEdit]) then
   begin
     if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
-      cdsInventCODCCUSTO.AsInteger := cds_ccustoCODIGO.AsInteger
+      cdsInventCODCCUSTO.AsInteger := cds_ccustoCODIGO.AsInteger;
     cdsInvent.ApplyUpdates(0);
   end;
   cdsInvent.First;
