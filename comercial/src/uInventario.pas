@@ -690,9 +690,12 @@ begin
       DecimalSeparator := ',';
       dm.sqlsisAdimin.Commit(TD);
     except
-      dm.sqlsisAdimin.Rollback(TD);
-      MessageDlg('Erro ao Gravar o Inventário', mtError, [mbOK], 0);
-      Exit;
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
     end;
     if (not cdsInvent.Eof) then
       cdsInvent.Next;
@@ -702,9 +705,17 @@ end;
 procedure TfInventario.btnGravarClick(Sender: TObject);
 var Sql1: String;
 begin
+  if (cbCCusto1.Text = '') then
+  begin
+    MessageDlg('Informe o Local do Estoque.', mtWarning, [mbOK], 0);
+    cbCCusto1.SetFocus;
+    exit;
+  end;
+  
   if (cdsInvent.State in [dsInsert, dsEdit]) then
   begin
-    cdsInventCODCCUSTO.AsInteger := 
+    if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
+      cdsInventCODCCUSTO.AsInteger := cds_ccustoCODIGO.AsInteger
     cdsInvent.ApplyUpdates(0);
   end;
   cdsInvent.First;
