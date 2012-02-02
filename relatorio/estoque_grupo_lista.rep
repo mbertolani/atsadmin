@@ -13,7 +13,7 @@ object TRpReport
     item
       Alias = 'SPESTOQUE'
       DatabaseAlias = 'SGE'
-      SQL = 'SELECT * FROM LISTA_ESTOQUE('#39'10/19/11'#39')'
+      SQL = 'SELECT * FROM LISTA_ESTOQUE('#39'01/31/12'#39')'
     end
     item
       Alias = 'EMPRESA'
@@ -468,7 +468,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.CODPRODUTO'
+    Expression = 'SPESTOQUE.CODPRO'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -505,6 +505,7 @@ object TRpReport
     PosY = 0
     Type1Font = poHelvetica
     Alignment = 2
+    DisplayFormat = ',##0.0'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -515,8 +516,8 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.ESTOQUEATUAL'
-    DisplayFormat = ''
+    Expression = 'iif(SPESTOQUE.ESTOQUEATUAL>0,SPESTOQUE.ESTOQUEATUAL,0)'
+    DisplayFormat = ',##0.0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -563,7 +564,9 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.ESTOQUEATUAL * SPESTOQUE.PRECO_COMPRAMEDIO'
+    Expression = 
+      'iif(SPESTOQUE.ESTOQUEATUAL>0,SPESTOQUE.ESTOQUEATUAL * SPESTOQUE.' +
+      'PRECO_COMPRAMEDIO,0)'
     DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
