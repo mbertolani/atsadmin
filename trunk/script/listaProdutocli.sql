@@ -93,8 +93,8 @@ begin
     if (codAlmoxarifado is null) then 
       codAlmoxarifado = 0;
       
-    if (codAlmoxarifado > 0) then 
-      cCustoV = codAlmoxarifado;
+    --if (codAlmoxarifado > 0) then 
+    cCustoV = codAlmoxarifado;
           
     Preco_venda = precoVenda;
     if (preco_venda is null) then
