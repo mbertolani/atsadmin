@@ -356,6 +356,7 @@ type
     GroupBox2: TGroupBox;
     DBEdit9: TDBEdit;
     DBEdit43: TDBEdit;
+    DBEdit48: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -626,8 +627,8 @@ begin
   cbCLiente.Clear;
   while not dmnf.listaCliente.Eof do
   begin
-     cbCLiente.Items.Add(dmnf.listaClienteRAZAOSOCIAL.AsString);
-     cbCLiente1.Items.Add(dmnf.listaClienteRAZAOSOCIAL.AsString);
+     cbCLiente.Items.Add(dmnf.listaClienteNOMECLIENTE.AsString);
+     cbCLiente1.Items.Add(dmnf.listaClienteNOMECLIENTE.AsString);
      dmnf.listaCliente.Next;
   end;
   dmnf.listaCliente.Close;
@@ -956,7 +957,7 @@ begin
   if (cbCLiente.Text <> '') then
   begin
     DMNF.listaCliente.Open;
-    DMNF.listaCliente.Locate('RAZAOSOCIAL',cbCLiente.Text,[loCaseInsensitive]);
+    DMNF.listaCliente.Locate('NOMECLIENTE',cbCLiente.Text,[loCaseInsensitive]);
     DMNF.cds_nfCODCLIENTE.AsInteger := DMNF.listaClienteCODCLIENTE.AsInteger;
     dmnf.cds_MovimentoCODCLIENTE.AsInteger := DMNF.listaClienteCODCLIENTE.AsInteger;
     dmnf.cds_vendaCODCLIENTE.AsInteger := DMNF.listaClienteCODCLIENTE.AsInteger;;
