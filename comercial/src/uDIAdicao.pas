@@ -12,21 +12,10 @@ type
     cdsAdic: TClientDataSet;
     dspAdic: TDataSetProvider;
     sdsAdic: TSQLDataSet;
-    DBEdit1: TDBEdit;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    DBEdit2: TDBEdit;
-    DBEdit3: TDBEdit;
-    DBEdit4: TDBEdit;
-    DBEdit5: TDBEdit;
-    Label7: TLabel;
     cdsMov_Det: TClientDataSet;
     dspMov_Det: TDataSetProvider;
     dtsrcMov_Det: TDataSource;
     sdsMov_Det: TSQLDataSet;
-    DBGrid1: TDBGrid;
     sdsMov_DetNOTAFISCAL: TIntegerField;
     sdsMov_DetCODPRO: TStringField;
     sdsMov_DetDESCPRODUTO: TStringField;
@@ -39,7 +28,6 @@ type
     cdsMov_DetVALTOTAL: TFloatField;
     cdsMov_DetCODFORNECEDOR: TIntegerField;
     cdsMov_DetRAZAOSOCIAL: TStringField;
-    Label8: TLabel;
     sdsMov_DetCODDETALHE: TIntegerField;
     cdsMov_DetCODDETALHE: TIntegerField;
     sdsAdicADIC_CODDET: TIntegerField;
@@ -56,6 +44,19 @@ type
     cdsAdicADIC_CODFAB: TStringField;
     cdsAdicADIC_VDESC: TIntegerField;
     cdsAdicDESCPRODUTO: TStringField;
+    Panel1: TPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    GroupBox1: TGroupBox;
+    DBGrid1: TDBGrid;
     procedure btnIncluirClick(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
     procedure FormCreate(Sender: TObject);
@@ -80,33 +81,72 @@ uses UDm, uDadosImportacao;
 procedure TfDIAdicao.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  cdsAdicADIC_CODDI.AsInteger := fDadosImportacao.cdsDIDI_CODDI.AsInteger;
+  cdsAdicADIC_CODDI.AsInteger  := fDadosImportacao.cdsDIDI_CODDI.AsInteger;
   cdsAdicADIC_CODDET.AsInteger := cdsMov_DetCODDETALHE.AsInteger;
+  dbEdit1.SetFocus;
 end;
 
 procedure TfDIAdicao.DBGrid1CellClick(Column: TColumn);
+var numl: integer;
 begin
   inherited;
-  if(cdsAdic.Active) then
-    cdsAdicADIC_CODDET.AsInteger := cdsMov_DetCODDETALHE.AsInteger;
+  numl := cdsMov_Det.RecNo;
+  if (cdsAdic.Active) then
+    cdsAdic.Close;
+  cdsAdic.Params[0].AsInteger := cdsMov_DetCODDETALHE.AsInteger;
+  cdsAdic.Open;
+  cdsMov_Det.RecNo := numl;
+  //if (cdsAdic.State in [dsBrowse, dsInactive]) then
+  //  cdsAdic.Edit;
+  //cdsAdicADIC_CODDET.AsInteger :=
 end;
 
 procedure TfDIAdicao.FormCreate(Sender: TObject);
 begin
   //inherited;
-
 end;
 
 procedure TfDIAdicao.FormShow(Sender: TObject);
 begin
-//  inherited;
-  cdsMov_Det.Open;
+  //  inherited;
+  //cdsMov_Det.Open;
 end;
 
 procedure TfDIAdicao.btnGravarClick(Sender: TObject);
+var strS: String;
+    TD : TTransactionDesc;
+    linha:integer;
 begin
   inherited;
+  linha := cdsMov_Det.RecNo;
+  if (not cdsMov_Det.IsEmpty) then
+  begin
+    try
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      strS := 'UPDATE DIADICAO SET ' +
+      '  ADIC_NADICAO = ' + IntToStr(cdsAdicADIC_NADICAO.AsInteger) +
+      ', ADIC_NSEQUEN = ' + IntToStr(cdsAdicADIC_NSEQUEN.AsInteger) +
+      ', ADIC_CODFAB  = ' + QuotedStr(cdsAdicADIC_CODFAB.AsString) +
+      ', ADIC_VDESC   = ' + IntToStr(cdsAdicADIC_VDESC.AsInteger) +
+      ' WHERE ADIC_CODDET = ' + IntToStr(cdsMov_DetCODDETALHE.AsInteger) +
+      '   AND ADIC_CODDI  = ' + IntToStr(cdsAdicADIC_CODDI.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(strS);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  end;
+  if (cdsMov_Det.Active) then
+    cdsMov_det.Close;
+  cdsMov_Det.Params[0].AsInteger := cdsAdicADIC_CODDI.AsInteger;
   cdsMov_Det.Open;
+  cdsMov_Det.RecNo := linha; 
 end;
 
 procedure TfDIAdicao.btnExcluirClick(Sender: TObject);
