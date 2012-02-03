@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, Grids, DBGrids, StdCtrls, Mask, DBCtrls, SqlExpr,
-  DB, DBClient, Provider, Menus, XPMenu, Buttons, ExtCtrls, MMJPanel, DBXpress;
+  DB, DBClient, Provider, Menus, XPMenu, Buttons, ExtCtrls, MMJPanel, DBXpress,
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid;
 
 type
   TfDeclaracaoImportacao = class(TfPai)
@@ -28,6 +29,7 @@ type
     sdsDIDI_DATADESEMB: TDateField;
     sdsDIDI_CODEXPORTADOR: TStringField;
     sdsDINOMEFORNECEDOR: TStringField;
+    Panel1: TPanel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
@@ -42,7 +44,7 @@ type
     DBEdit6: TDBEdit;
     Button1: TButton;
     DBEdit7: TDBEdit;
-    DBGrid1: TDBGrid;
+    JvDBUltimGrid1: TJvDBUltimGrid;
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);

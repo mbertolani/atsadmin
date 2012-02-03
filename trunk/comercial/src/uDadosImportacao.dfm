@@ -1,8 +1,8 @@
 object fDadosImportacao: TfDadosImportacao
   Left = 190
   Top = 106
-  Width = 820
-  Height = 489
+  Width = 1024
+  Height = 600
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -42,7 +42,7 @@ object fDadosImportacao: TfDadosImportacao
   object DBGrid1: TDBGrid
     Left = 7
     Top = 74
-    Width = 745
+    Width = 954
     Height = 145
     DataSource = dtsrcDI
     ReadOnly = True
@@ -94,10 +94,10 @@ object fDadosImportacao: TfDadosImportacao
       end>
   end
   object DBGrid2: TDBGrid
-    Left = 8
-    Top = 243
-    Width = 745
-    Height = 145
+    Left = 7
+    Top = 247
+    Width = 954
+    Height = 266
     DataSource = dtsrcAdic
     ReadOnly = True
     TabOrder = 1
@@ -106,6 +106,7 @@ object fDadosImportacao: TfDadosImportacao
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = DBGrid2DblClick
     Columns = <
       item
         Expanded = False
@@ -153,8 +154,8 @@ object fDadosImportacao: TfDadosImportacao
       end>
   end
   object BitBtn1: TBitBtn
-    Left = 758
-    Top = 92
+    Left = 966
+    Top = 84
     Width = 45
     Height = 45
     TabOrder = 2
@@ -174,8 +175,8 @@ object fDadosImportacao: TfDadosImportacao
       77704788888888888888888888888888888888888888}
   end
   object BitBtn2: TBitBtn
-    Left = 758
-    Top = 154
+    Left = 966
+    Top = 138
     Width = 45
     Height = 45
     TabOrder = 3
@@ -203,7 +204,7 @@ object fDadosImportacao: TfDadosImportacao
       8888888888888888888888888888888888888888888888888888}
   end
   object BitBtn3: TBitBtn
-    Left = 759
+    Left = 967
     Top = 261
     Width = 45
     Height = 45
@@ -224,8 +225,8 @@ object fDadosImportacao: TfDadosImportacao
       77704788888888888888888888888888888888888888}
   end
   object BitBtn4: TBitBtn
-    Left = 759
-    Top = 323
+    Left = 967
+    Top = 315
     Width = 45
     Height = 45
     TabOrder = 5
@@ -254,8 +255,8 @@ object fDadosImportacao: TfDadosImportacao
   end
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 408
-    Width = 812
+    Top = 519
+    Width = 1016
     Height = 54
     Align = alBottom
     BevelInner = bvLowered
@@ -267,7 +268,7 @@ object fDadosImportacao: TfDadosImportacao
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
     object btnSair: TBitBtn
-      Left = 557
+      Left = 861
       Top = 6
       Width = 103
       Height = 40
@@ -384,7 +385,7 @@ object fDadosImportacao: TfDadosImportacao
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 812
+    Width = 1016
     Height = 54
     Align = alTop
     BevelInner = bvLowered

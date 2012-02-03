@@ -68,6 +68,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
     procedure BitBtn3Click(Sender: TObject);
+    procedure DBGrid2DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -184,6 +185,32 @@ begin
   end
   else
     MessageDlg('Não há DI selecionada', mtWarning, [mbOK], 0);
+end;
+
+procedure TfDadosImportacao.DBGrid2DblClick(Sender: TObject);
+begin
+  fDIAdicao := TfDIAdicao.Create(Application);
+  try
+    fDIAdicao.cdsMov_Det.Params[0].AsInteger := cdsDIDI_CODDI.AsInteger;
+    fDIAdicao.cdsMov_Det.Open;
+    if (fDIAdicao.cdsMov_Det.IsEmpty) then
+    begin
+      fDIAdicao.Label2.Font.Color := clRed;
+      fDIAdicao.Label2.Caption := 'ALTERAÇÃO NÃO PERMITIDA , NF JÁ ENVIADA.'
+    end;
+    if (fDIAdicao.cdsAdic.Active) then
+      fDIAdicao.cdsAdic.Close;
+    fDIAdicao.cdsAdic.Params[0].AsInteger := fDIAdicao.cdsMov_DetCODDETALHE.AsInteger;
+    fDIAdicao.cdsAdic.Open;
+
+    fDIAdicao.ShowModal;
+    fDIAdicao.Label2.Font.Color := clWhite;
+  finally
+    fDIAdicao.Free;
+    if(cdsAdic.Active) then
+     cdsAdic.Close;
+    cdsAdic.Open;
+  end;
 end;
 
 end.
