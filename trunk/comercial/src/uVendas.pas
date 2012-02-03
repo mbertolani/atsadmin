@@ -623,7 +623,7 @@ type
     procedure insereMatPrima;
   public
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda : string; //, tipoVenda
-    estoque, qtde, mVendaPermi , desconto , prazo , imex : Double;         // mVendaPermi = Margem de venda minima permitida
+    estoque, qtde, mVendaPermi , desconto , prazoCliente , imex : Double;         // mVendaPermi = Margem de venda minima permitida
     procedure buscaServico();
     procedure baixamatprimas(tipomat: string; codmovt: integer);
     procedure existevenda;
@@ -1047,7 +1047,7 @@ begin
     cds_MovimentoCODVENDEDOR.AsInteger := dm.scds_cliente_procCODUSUARIO.AsInteger;
     cds_MovimentoNOMEUSUARIO.AsString := dm.scds_cliente_procNOMEUSUARIO.AsString;
     cds_MovimentoOBS.AsString := dm.scds_cliente_procOBS.AsString;
-    prazo := dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
+    prazoCliente := dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
     desconto := dm.scds_cliente_procDESCONTO.AsFloat;
     if ( cds_Mov_det.State in [dsBrowse]) then
       cds_Mov_det.Edit;
@@ -1938,7 +1938,7 @@ begin
           cds_MovimentoCODCLIENTE.AsInteger := sdsVeiculoCli.Fields[0].asInteger;
           cds_MovimentoNOMECLIENTE.AsString := sdsVeiculoCli.Fields[1].AsString;
           cds_MovimentoOBS.AsString := sdsVeiculoCli.Fields[2].AsString;
-          prazo := sdsVeiculoCli.Fields[3].AsFloat;
+          prazoCliente := sdsVeiculoCli.Fields[3].AsFloat;
           DBComboBox1.SetFocus;
         end
         else
@@ -1994,7 +1994,7 @@ begin
         exit;
         //dbeCliente.SetFocus;
       end;
-    prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
+    prazoCliente := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     imex  := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
     cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
@@ -2058,14 +2058,14 @@ begin
     exit;
   end;
 
-  if (prazo = 0) then
+  if (prazoCliente = 0) then
   begin
     if (sPrazo.Active) then
         sPrazo.Close;
     sPrazo.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
     sPrazo.Open;
     if ( not sPrazo.IsEmpty) then
-      prazo := sPrazoPRAZORECEBIMENTO.AsFloat;
+      prazoCliente := sPrazoPRAZORECEBIMENTO.AsFloat;
     sPrazo.Close;
   end;
 
@@ -2828,7 +2828,7 @@ begin
       cds_MovimentoCODCLIENTE.AsInteger := sdsVeiculoCli.Fields[0].asInteger;
       cds_MovimentoNOMECLIENTE.AsString := sdsVeiculoCli.Fields[1].AsString;
       cds_MovimentoOBS.AsString := sdsVeiculoCli.Fields[2].AsString;
-      prazo := sdsVeiculoCli.Fields[3].AsFloat;
+      prazoCliente := sdsVeiculoCli.Fields[3].AsFloat;
       DBComboBox1.SetFocus;
     end;
   end;
@@ -3312,7 +3312,7 @@ begin
       cds_MovimentoCODCLIENTE.AsInteger := sdsVeiculoCli.Fields[0].asInteger;
       cds_MovimentoNOMECLIENTE.AsString := sdsVeiculoCli.Fields[1].AsString;
       cds_MovimentoOBS.AsString := sdsVeiculoCli.Fields[2].AsString;
-      prazo := sdsVeiculoCli.Fields[3].AsFloat;
+      prazoCliente := sdsVeiculoCli.Fields[3].AsFloat;
       DBComboBox1.SetFocus;
     end;
   end;
