@@ -137,6 +137,7 @@ type
     function inserirVenda(CodVendaI: Integer): Integer;
     function verVenda(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
     function excluirVenda(codVendaE: Integer): Boolean;
+    function cancelarVenda(codVendaC: Integer; codMovC: Integer; dataV: TDateTime): Boolean;
     function alterarVenda(codVendaA: Integer): Boolean;
     constructor Create;
     Destructor Destroy; Override;
@@ -147,7 +148,7 @@ type
 
 implementation
 
-uses SqlExpr, DB, UDm, DBClient;
+uses SqlExpr, DB, UDm, DBClient, uDmnf;
 
 { TVendaCls }
 
@@ -155,6 +156,27 @@ function TVendaCls.alterarVenda(codVendaA: Integer): Boolean;
 begin
   // Alterar Venda
   Result := False;
+end;
+
+function TVendaCls.cancelarVenda(codVendaC: Integer; codMovC: Integer; dataV: TDateTime): Boolean;
+begin
+  // COLOCAR AQUI ROTINA PRA VER SE O TITULO PODE SE CANCELADO
+
+  // Cancelar Venda
+  if (executaSql('UPDATE MOVIMENTO SET CODNATUREZA = 14, STATUS = 2 ' +
+    'WHERE CODMOVIMENTO = ' + IntToStr(codMovC))) then
+  begin
+    Try
+      executaSql('UPDATE RECEBIMENTO SET STATUS = ' + QuotedStr('14') + 
+        ' WHERE CODVENDA = ' + IntToStr(codVendaC));
+      dmnf.cancelaEstoque(codMovC, dataV, 'VENDA');
+      Result := True
+    Except
+      Result := False;
+    end;
+  end
+  else
+    Result := False;
 end;
 
 constructor TVendaCls.Create;
