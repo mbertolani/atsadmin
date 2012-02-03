@@ -10,7 +10,7 @@ uses
   VDOBasePrinter, VDODmPrinter, Printers, Modulo, JvBaseEdits, JvExMask,
   JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
   JvExStdCtrls, JvCombobox, JvDBSearchComboBox, fClassCitrus, uUtils,
-  UCHist_Base, UCHistDataset, DBXpress;
+  UCHist_Base, UCHistDataset, DBXpress, uVendaCls;
 
     //, ComCtrls, ImgList, Mask, Modulo
 
@@ -570,7 +570,7 @@ function FormataTX(BufTras:string; TpoLtra:integer; Italic:integer; Sublin:integ
 
 var
   fVendaFinalizar: TfVendaFinalizar;
-  prazo, valor: double;
+  valor: double;
   terminal, data_movimento, varcancela : string;
   codigo_cliente, codigo_moviemento : integer;
   diasAumenta : integer;
@@ -650,7 +650,7 @@ begin
     cdsAPAGAR.AsFloat := 0;
     cdsN_PARCELA.AsInteger := StrToInt(FloatToStr(nparc));
     cdsBANCO.AsInteger := 0;
-    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime  + prazo;
+    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime  + fVendas.prazoCliente;
     cdsSTATUS.AsInteger:=0;
     cbPrazo.Text := fVendas.cds_MovimentoFORMA_PAG.AsString;
     if (not dm.cdsPrazo.Active) then
@@ -695,7 +695,7 @@ begin
     cdsAPAGAR.AsFloat := 0;
     cdsN_PARCELA.AsInteger := 1;
     cdsBANCO.AsInteger := 0;
-    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + prazo;
+    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + fVendas.prazoCliente;
     cdsSTATUS.AsInteger:=0;
     sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
@@ -2514,19 +2514,66 @@ begin
 end;
 
 procedure TfVendaFinalizar.BitBtn2Click(Sender: TObject);
+var FVen: TVendaCls;
 begin
   if MessageDlg('Atenção, confirmando essa operação o sistema vai alterar o status para'+#13+#10+' "CANCELADO", não será excluido do sistema.',mtConfirmation,
                   [mbYes,mbNo],0) = mrYes then
   begin
-     if (fVendas.cds_Movimento.State in [dsBrowse]) then
+    Try
+      FVen := TVendaCls.Create;
+     try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       FVen.cancelarVenda(cdsCODVENDA.AsInteger, cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime);
+       dm.sqlsisAdimin.Commit(TD);
+       MessageDlg('Venda cancelada com sucesso.', mtInformation, [mbOK], 0);
+     except
+       on E : Exception do
+       begin
+         ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+         dm.sqlsisAdimin.Rollback(TD);
+       end;
+     end;
+    Finally
+      FVen.Free;
+    end;
+  end;  
+    { if (fVendas.cds_Movimento.State in [dsBrowse]) then
        fVendas.cds_Movimento.Edit;
      fVendas.cds_MovimentoCODNATUREZA.AsInteger := 14;
      fVendas.cds_Movimento.ApplyUpdates(0);
      if (cds.State in [dsBrowse]) then
         cds.Edit;
      cdsSTATUS.AsInteger := 14;
-     cds.ApplyUpdates(0);
-  end;
+
+     try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+       if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
+       begin
+         if (dm.sqlBusca.Active) then
+           dm.sqlBusca.Close;
+         dm.sqlBusca.SQL.Clear;
+         dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
+           ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
+           '   AND CODNATUREZA = 2'+
+           '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
+         dm.sqlBusca.Open;
+         if (not dm.sqlBusca.IsEmpty) then
+         begin
+           dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
+           dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+         end;
+       end;
+      cds.ApplyUpdates(0);
+       dm.sqlsisAdimin.Commit(TD);
+     except
+       on E : Exception do
+       begin
+         ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+         dm.sqlsisAdimin.Rollback(TD);
+       end;
+     end;  }
+
 end;
 
 procedure TfVendaFinalizar.cbNomeColhedorChange(Sender: TObject);
