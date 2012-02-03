@@ -472,7 +472,7 @@ begin
   //------------------------------------------------------------------------------
   //Natureza da operação
   //------------------------------------------------------------------------------
-  if Edit3.Text<>'' then
+  if ((Edit3.Text <> '') and (RadioGroup1.ItemIndex <> 3)) then
   begin
     if sqlTexto='' then
       sqlTexto := sqlTexto + ' where mov.CODNATUREZA = '
@@ -480,6 +480,15 @@ begin
       sqlTexto := sqlTexto + ' and mov.CODNATUREZA = ';
       sqlTexto := sqlTexto + '' + Edit3.Text + '';
   end;
+  if (RadioGroup1.ItemIndex = 3) then
+  begin
+    if sqlTexto='' then
+      sqlTexto := sqlTexto + ' where mov.CODNATUREZA = '
+    else
+      sqlTexto := sqlTexto + ' and mov.CODNATUREZA = ';
+      sqlTexto := sqlTexto + '14';
+  end;
+
   //==============================================================================
   //------------------------------------------------------------------------------
   //Centro de Custo
