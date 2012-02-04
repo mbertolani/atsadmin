@@ -2066,6 +2066,12 @@ begin
        fNotaFc.btnGravar.Enabled := True;
        fNotaFc.btnCancelar.Visible := True;
        fNotaFc.btnCancelar.Enabled := True;
+       if (DMNF.DtSrc_NF1.State in [dsEdit]) then
+       begin
+         cds_Movimento.Edit;
+         cds_Mov_det.Edit;
+         cds_compra.Edit;
+       end;
     end;
     if (DMNF.DtSrc_NF1.State in [dsBrowse, dsInactive]) then
     begin
