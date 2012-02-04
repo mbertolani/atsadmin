@@ -1214,10 +1214,16 @@ begin
           'on update NO ACTION ' +
           'on delete NO ACTION');
       except
-      end;    
+      end;
       mudaVersao('1.0.0.99');
     end;// Fim Ataulização Versao 1.0.0.98
 
+    if (versaoSistema = '1.0.0.99') then
+    begin
+      executaDDL('DECLARACAOIMPORTACAO', 'NOTASERIE', 'VARCHAR(10)');
+      executaDDL('DECLARACAOIMPORTACAO', 'CODMOVIMENTO', 'INTEGER');
+      //mudaVersao('1.0.1.00');
+    end;
 
 
 
