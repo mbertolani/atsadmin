@@ -154,10 +154,10 @@ object fNotaf: TfNotaf
         object cbCLiente: TDBComboBox
           Left = 7
           Top = 14
-          Width = 404
+          Width = 218
           Height = 21
           BevelKind = bkFlat
-          DataField = 'RAZAOSOCIAL'
+          DataField = 'NOMECLIENTE'
           DataSource = DMNF.DtSrc_NF
           ItemHeight = 13
           TabOrder = 0
@@ -165,13 +165,27 @@ object fNotaf: TfNotaf
           OnKeyPress = FormKeyPress
         end
         object BitBtn1: TBitBtn
-          Left = 416
+          Left = 224
           Top = 11
           Width = 31
           Height = 25
           Caption = '...'
           TabOrder = 1
           OnClick = BitBtn1Click
+        end
+        object DBEdit48: TDBEdit
+          Left = 258
+          Top = 14
+          Width = 190
+          Height = 21
+          TabStop = False
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'RAZAOSOCIAL'
+          DataSource = DMNF.DtSrc_NF
+          ReadOnly = True
+          TabOrder = 2
+          OnKeyPress = FormKeyPress
         end
       end
       object JvGroupBox6: TJvGroupBox
@@ -1842,7 +1856,7 @@ object fNotaf: TfNotaf
       Layout = blGlyphTop
     end
     object btnExcluir: TBitBtn
-      Left = 69
+      Left = 70
       Top = 2
       Width = 68
       Height = 55
@@ -2601,7 +2615,7 @@ object fNotaf: TfNotaf
       Layout = blGlyphTop
     end
     object btnNotaFiscal: TBitBtn
-      Left = 137
+      Left = 138
       Top = 2
       Width = 67
       Height = 55
