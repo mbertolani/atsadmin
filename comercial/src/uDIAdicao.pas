@@ -66,6 +66,7 @@ type
   private
     { Private declarations }
   public
+    codMovimentoDia: integer;
     { Public declarations }
   end;
 
@@ -83,6 +84,7 @@ begin
   inherited;
   cdsAdicADIC_CODDI.AsInteger  := fDadosImportacao.cdsDIDI_CODDI.AsInteger;
   cdsAdicADIC_CODDET.AsInteger := cdsMov_DetCODDETALHE.AsInteger;
+  cdsMov_Det.Open;
   dbEdit1.SetFocus;
 end;
 
@@ -144,7 +146,7 @@ begin
   end;
   if (cdsMov_Det.Active) then
     cdsMov_det.Close;
-  cdsMov_Det.Params[0].AsInteger := cdsAdicADIC_CODDI.AsInteger;
+  cdsMov_Det.Params[0].AsInteger := codMovimentoDia;
   cdsMov_Det.Open;
   cdsMov_Det.RecNo := linha; 
 end;
