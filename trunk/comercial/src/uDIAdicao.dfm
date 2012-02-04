@@ -1,6 +1,6 @@
 inherited fDIAdicao: TfDIAdicao
   Left = 229
-  Top = 224
+  Top = 225
   Width = 890
   Height = 465
   OldCreateOrder = True
@@ -343,17 +343,16 @@ inherited fDIAdicao: TfDIAdicao
     CommandText = 
       'SELECT md.CODDETALHE, nf.NOTAFISCAL, p.CODPRO, md.DESCPRODUTO, m' +
       'd.VALTOTAL, f.CODFORNECEDOR, f.RAZAOSOCIAL'#13#10'From MOVIMENTODETALH' +
-      'E md, PRODUTOS p, COMPRA c, NOTAFISCAL nf, FORNECEDOR f, DIADICA' +
-      'O di'#13#10'where p.CODPRODUTO = md.CODPRODUTO '#13#10'and f.CODFORNECEDOR =' +
-      ' c.CODFORNECEDOR'#13#10'and c.CODMOVIMENTO = md.CODMOVIMENTO '#13#10'and nf.' +
-      'CODVENDA = c.CODCOMPRA'#13#10'and di.ADIC_CODDET = md.CODDETALHE'#13#10'and ' +
-      'UDF_LEFT(md.CFOP, 1) = '#39'3'#39#13#10'and nf.PROTOCOLOENV is null'#13#10'and nf.' +
-      'natureza = 20'#13#10'and di.ADIC_CODDI = :codDi'
+      'E md, PRODUTOS p, COMPRA c, NOTAFISCAL nf, FORNECEDOR f,'#13#10'where ' +
+      'p.CODPRODUTO = md.CODPRODUTO '#13#10'and f.CODFORNECEDOR = c.CODFORNEC' +
+      'EDOR'#13#10'and c.CODMOVIMENTO = md.CODMOVIMENTO '#13#10'and nf.CODVENDA = c' +
+      '.CODCOMPRA'#13#10'and UDF_LEFT(md.CFOP, 1) = '#39'3'#39#13#10'and nf.PROTOCOLOENV ' +
+      'is null'#13#10'and nf.natureza = 20'#13#10'and md.CODMOVIMENTO = :codMov'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
-        Name = 'codDi'
+        DataType = ftUnknown
+        Name = 'codMov'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
