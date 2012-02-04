@@ -60,6 +60,10 @@ type
     MMJPanel2: TMMJPanel;
     Label3: TLabel;
     Label4: TLabel;
+    sdsDINOTASERIE: TStringField;
+    sdsDICODMOVIMENTO: TIntegerField;
+    cdsDINOTASERIE: TStringField;
+    cdsDICODMOVIMENTO: TIntegerField;
     procedure BitBtn1Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -72,6 +76,9 @@ type
   private
     { Private declarations }
   public
+    notaSerieDi : String;
+    codMovimentoDi : Integer;
+    codExportadorDi : Integer;
     { Public declarations }
   end;
 
@@ -88,6 +95,9 @@ procedure TfDadosImportacao.BitBtn1Click(Sender: TObject);
 begin
   fDeclaracaoImportacao := TfDeclaracaoImportacao.Create(Application);
   try
+    fDeclaracaoImportacao.notaSerieDec    := notaSerieDi;
+    fDeclaracaoImportacao.codMovimentoDec := codMovimentoDi;
+    fDeclaracaoImportacao.codExportadorDec:= codExportadorDi;
     fDeclaracaoImportacao.ShowModal;
   finally
     fDeclaracaoImportacao.Free;
@@ -157,7 +167,14 @@ end;
 
 procedure TfDadosImportacao.FormShow(Sender: TObject);
 begin
-  cdsDI.Open;
+  if ((cdsDI.Active) and (cdsDI.IsEmpty)) then
+  begin
+    BitBtn1.Click;
+  end
+  else begin
+    if (not cdsDi.Active) then
+      cdsDI.Open;
+  end;
 end;
 
 procedure TfDadosImportacao.DBGrid1CellClick(Column: TColumn);
@@ -174,6 +191,7 @@ begin
   Begin
     fDIAdicao := TfDIAdicao.Create(Application);
     try
+      fDIAdicao.codMovimentoDia := codMovimentoDi;
       fDIAdicao.ShowModal;
     finally
       fDIAdicao.Free;
@@ -191,7 +209,7 @@ procedure TfDadosImportacao.DBGrid2DblClick(Sender: TObject);
 begin
   fDIAdicao := TfDIAdicao.Create(Application);
   try
-    fDIAdicao.cdsMov_Det.Params[0].AsInteger := cdsDIDI_CODDI.AsInteger;
+    fDIAdicao.cdsMov_Det.Params[0].AsInteger := codMovimentoDi;
     fDIAdicao.cdsMov_Det.Open;
     if (fDIAdicao.cdsMov_Det.IsEmpty) then
     begin
