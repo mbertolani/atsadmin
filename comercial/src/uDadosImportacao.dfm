@@ -1,6 +1,6 @@
 object fDadosImportacao: TfDadosImportacao
   Left = 190
-  Top = 106
+  Top = 107
   Width = 1024
   Height = 600
   Color = clBtnFace
@@ -458,9 +458,17 @@ object fDadosImportacao: TfDadosImportacao
       FieldName = 'DI_CODEXPORTADOR'
       Size = 60
     end
+    object cdsDINOTASERIE: TStringField
+      FieldName = 'NOTASERIE'
+      Size = 10
+    end
+    object cdsDICODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+    end
   end
   object dspDI: TDataSetProvider
     DataSet = sdsDI
+    Options = [poAllowCommandText]
     Left = 737
     Top = 43
   end
@@ -569,7 +577,8 @@ object fDadosImportacao: TfDadosImportacao
   object sdsDI: TSQLDataSet
     CommandText = 
       'SELECT DI_CODDI, DI_NUMDI, DI_DATA, DI_LOCALDESEMB, DI_UFDESEMB,' +
-      ' DI_DATADESEMB, DI_CODEXPORTADOR'#13#10'FROM DECLARACAOIMPORTACAO'
+      ' DI_DATADESEMB, DI_CODEXPORTADOR,'#13#10'NOTASERIE, CODMOVIMENTO '#13#10'FRO' +
+      'M DECLARACAOIMPORTACAO '#13#10'ORDER BY DI_CODDI DESC'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -601,6 +610,13 @@ object fDadosImportacao: TfDadosImportacao
     object sdsDIDI_CODEXPORTADOR: TStringField
       FieldName = 'DI_CODEXPORTADOR'
       Size = 60
+    end
+    object sdsDINOTASERIE: TStringField
+      FieldName = 'NOTASERIE'
+      Size = 10
+    end
+    object sdsDICODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
     end
   end
 end
