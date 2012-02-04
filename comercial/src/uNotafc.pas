@@ -245,6 +245,7 @@ type
     DBEdit9: TDBEdit;
     JvGroupBox56: TJvGroupBox;
     DBEdit48: TDBEdit;
+    btnDI: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -278,6 +279,7 @@ type
     procedure cbCFOPExit(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure calcmanClick(Sender: TObject);
+    procedure btnDIClick(Sender: TObject);
   private
     codNat     : Integer;
     movEstoque : String;
@@ -323,7 +325,7 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math, uFiltroMov_compra, uFiltroMov_NFcompra,
-  uNFeletronica, uDetalheNF;
+  uNFeletronica, uDetalheNF, uDadosImportacao;
 
 {$R *.dfm}
 
@@ -393,6 +395,7 @@ end;
 procedure TfNotaFc.btnIncluirClick(Sender: TObject);
 var varsql: string;
 begin
+  codVendaFin := 0;
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'Nota Fiscal Compra';
@@ -520,14 +523,14 @@ begin
    if (fProcurar.ShowModal=mrOk) then
     begin
      dmnf.cds_compra.Edit;
-     dmnf.cds_compraSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
-     //dmnf.cds_compraNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger;
+     dmnf.cds_nf1.Edit;
+     dmnf.cds_compraSERIE.AsString       := dmnf.scds_serie_procSERIE.AsString;
      dmnf.cds_compraNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
-     dmnf.cds_nf1NOTASERIE.AsInteger := dmnf.cds_compraNOTAFISCAL.AsInteger;
-     dmnf.cds_nf1NotaFISCAL.AsInteger := dmnf.cds_compraNOTAFISCAL.AsInteger;     
+     dmnf.cds_nf1NOTASERIE.AsInteger     := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
+     dmnf.cds_nf1NotaFISCAL.AsInteger    := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
+     dmnf.cds_nf1SERIE.AsString          := dmnf.scds_serie_procSERIE.AsString;
     end;
    finally
-//    dmnf.scds_serie_proc.Close;
     fProcurar.Free;
    end;
    if (JvPageControl1.ActivePage = TabNF) then
@@ -813,6 +816,8 @@ begin
       listaFornecedor.Close;
     listaFornecedor.Params[0].AsString := cbCLiente.Text;
     listaFornecedor.Open;
+    if (dmnf.cds_Movimento.State in [dsBrowse]) then
+      dmnf.cds_Movimento.Edit;
     dmnf.cds_nf1CODCLIENTE.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
     dmnf.cds_MovimentoCODFORNECEDOR.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;
     //dmnf.cds_compraCODFornecedor.AsInteger := listaFornecedorCODFORNECEDOR.AsInteger;;
@@ -1113,6 +1118,11 @@ procedure TfNotaFc.btnGravarClick(Sender: TObject);
 var cm : string;
 var TD: TTransactionDesc;
 begin
+  if (dmnf.cds_nf1NOTASERIE.AsString = '0') then
+  begin
+    MessageDlg('Informe o número da Nota.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   if (calcman.Checked = True) then
   begin
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
@@ -1242,7 +1252,7 @@ procedure TfNotaFc.gravavenda;
 //var  strSql, strTit,tipoMov: String;
 //     diferenca : double;
 begin
-  if (DBEdit33.Text = '') then
+  if (DBEdit33.Text = '0') then
   begin
     MessageDlg('Informe o n. da Nota Fiscal', mtError, [mbOK], 0);
     DBEdit33.SetFocus;
@@ -1388,28 +1398,29 @@ begin
      dmnf.cds_Movimento.Params[0].AsInteger := fFiltroMov_NFcompra.cod_mov;
      dmnf.cds_Movimento.Open;
 
-
      dmnf.cds_Mov_det.Close;
      dmnf.cds_Mov_det.Params[0].Clear;
      dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
      dmnf.cds_Mov_det.Open;
 
       //mostra venda
-     if (dmnf.cdsCompra.Active) then
-       dmnf.cdsCompra.Close;
-     dmnf.cdsCompra.Params[0].Clear;
-     dmnf.cdsCompra.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.asInteger;
-     dmnf.cdsCompra.Open;
+     if (dmnf.cds_Compra.Active) then
+       dmnf.cds_Compra.Close;
+     dmnf.cds_Compra.Params[0].Clear;
+     dmnf.cds_Compra.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.asInteger;
+     dmnf.cds_Compra.Open;
 
      //Mostra NF
      if (dmnf.cds_nf1.Active) then
        dmnf.cds_nf1.Close;
      dmnf.cds_nf1.Params[0].Clear;
-     dmnf.cds_nf1.Params[1].AsInteger := dmnf.cdsCompraCODCOMPRA.asInteger;
+     dmnf.cds_nf1.Params[1].AsInteger := dmnf.cds_CompraCODCOMPRA.asInteger;
      dmnf.cds_nf1.Open;
 
      if (not  dm.cds_empresa.Active) then
        dm.cds_empresa.open;
+
+     codVendaFin := dmnf.cds_compraCODCOMPRA.AsInteger;       
 	finally
 		fFiltroMov_NFcompra.Free;
 	end;
@@ -2001,6 +2012,30 @@ begin
     if (dm.sqlNaturezaGERATITULO.AsInteger = 0) then
       geraTitulo := 'S';
     lblNaturezaOperacao.Caption := dm.sqlNaturezaDESCNATUREZA.AsString;
+  end;
+end;
+
+procedure TfNotaFc.btnDIClick(Sender: TObject);
+begin
+  if dmnf.cds_Movimento.State in [dsInsert, dsEdit] then
+  begin
+    MessageDlg('Grave as modificações primeiro.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+  fDadosImportacao := TfDadosImportacao.Create(Application);
+  try
+    fDadosImportacao.notaSerieDi       := dmnf.cds_nf1NOTASERIE.AsString;
+    fDadosImportacao.codMovimentoDi    := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
+    fDadosImportacao.codExportadorDi   := dmnf.cds_nf1CODCLIENTE.AsInteger;
+    fDadosImportacao.cdsDI.CommandText := 'SELECT DI_CODDI, DI_NUMDI, DI_DATA, ' +
+    ' DI_LOCALDESEMB, DI_UFDESEMB, DI_DATADESEMB, DI_CODEXPORTADOR, ' +
+    ' NOTASERIE, CODMOVIMENTO ' +
+    '  FROM DECLARACAOIMPORTACAO ' +
+    ' WHERE NOTASERIE = ' + QuotedStr(dmnf.cds_nf1NOTASERIE.AsString);
+    fDadosImportacao.cdsDI.Open;
+    fDadosImportacao.ShowModal;
+  finally
+    fDadosImportacao.Free;
   end;
 end;
 
