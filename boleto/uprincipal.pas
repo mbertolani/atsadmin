@@ -243,11 +243,7 @@ begin
 
     //Dados do Cedente
 
-    if (comboConta.Text = '15350') then
-      RLBTitulo1.LocalPagamento := '"DÉBITO AUTOMÁTICO - SR CAIXA NÃO RECEBER" '
-    else
     RLBTitulo1.LocalPagamento := 'PAGÁVEL PREFERENCIALMENTE NAS COOPERATIVAS DE CRÉDITO DO SICREDI';
-
     RLBTitulo1.Cedente.ContaBancaria.Banco.Codigo := '748';
     RLBTitulo1.Cedente.ContaBancaria.CodigoAgencia := IntToStr(cdsBoletoAGENCIA.AsInteger);
     RLBTitulo1.Cedente.ContaBancaria.DigitoAgencia := IntToStr(cdsBoletoDIGITOAGENCIA.AsInteger);
@@ -282,9 +278,6 @@ begin
     RLBTitulo1.NumeroDocumento := cdsBoletoNUMTITULO.AsString;
 
     //instrução
-    if (comboConta.Text = '15350') then
-      RLBTitulo1.Instrucoes.Text := '"DÉBITO AUTOMÁTICO - SR CAIXA NÃO RECEBER" '
-    else
 
     RLBTitulo1.Instrucoes.Text := cdsBoletoINST1.AsString;
 
@@ -366,9 +359,8 @@ begin
 
     //Dados do Cedente
 
-    RLBTitulo1.LocalPagamento := '"DÉBITO AUTOMÁTICO - SR CAIXA NÃO RECEBER" ';
-    //RLBTitulo1.LocalPagamento := 'PAGÁVEL PREFERENCIALMENTE NAS COOPERATIVAS DE CRÉDITO DO SICREDI';
 
+    RLBTitulo1.LocalPagamento := 'PAGÁVEL PREFERENCIALMENTE NAS COOPERATIVAS DE CRÉDITO DO SICREDI';
     RLBTitulo1.Cedente.ContaBancaria.Banco.Codigo := '748';
     RLBTitulo1.Cedente.ContaBancaria.CodigoAgencia := IntToStr(cdsBoletoAGENCIA.AsInteger);
     RLBTitulo1.Cedente.ContaBancaria.DigitoAgencia := IntToStr(cdsBoletoDIGITOAGENCIA.AsInteger);
@@ -577,7 +569,7 @@ begin
            Registro := Registro + Formatar('',59);// 070 - 128	Reservado (uso Banco x EMPRESA )
            Registro := Registro + 'X' ;// 068- 069
            Registro := Registro + '2' ;//  130-130
-           Registro := Registro + Formatar(RemoveChar(cdsBoletoCNPJ.AsString),15,false,'0') ;//
+           Registro := Registro + Formatar(RemoveChar(cdsBoletoCPF_D.AsString),15,false,'0') ;//
            Registro := Registro + Formatar('',04);//
            Registro := Registro + '0' ;//  150 - 150
            {
