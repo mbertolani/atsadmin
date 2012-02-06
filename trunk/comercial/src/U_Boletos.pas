@@ -328,6 +328,7 @@ type
     DataSource1: TDataSource;
     s_bancoN_BANCO: TStringField;
     s_bancoDIGITOBANCO: TIntegerField;
+    s_bancoVARIACAO: TStringField;
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -420,7 +421,6 @@ begin
    ACBrBoleto1.Cedente.Conta := s_bancoNUMERO_CONTA.AsString;
    ACBrBoleto1.Cedente.ContaDigito := s_bancoDIGITO_CONTA.AsString;
    ACBrBoleto1.Cedente.Nome := s_empresaRAZAO.AsString;
-
    if (cbb4.Text = 'Cliente Emite') then
      ACBrBoleto1.Cedente.ResponEmissao := tbCliEmite
    else
@@ -487,7 +487,11 @@ begin
                 end;
 
               if (s_bancoN_BANCO.AsString = '001') then
+              begin
                 Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';
+                ACBrBoleto1.Cedente.Modalidade := '19';
+              end;
+
 
               if ((s_bancoN_BANCO.AsString = '748')) then
               begin
@@ -497,7 +501,10 @@ begin
                  Titulo.NossoNumero := numero_ano + '2' + IntToStrZero(varNossoNumero,5);
                     //Titulo.Carteira := '1';
               end;
-              Titulo.Carteira  := s_bancoCARTEIRA.AsString;;
+
+
+              Titulo.Carteira  := s_bancoCARTEIRA.AsString;
+              //Titulo.Carteira  := s_bancoCARTEIRA.AsString;
               Titulo.ValorDocumento    := ds_crVALOR_RESTO.AsFloat; //ValorDocumento;
               Titulo.Sacado.NomeSacado := s_clienteNOMECLIENTE.AsString; // NomeSacado;
               if (s_clienteTIPOFIRMA.AsInteger = 0) then
@@ -798,9 +805,9 @@ end;
 
 procedure TF_Boletos.btn3Click(Sender: TObject);
 begin
-   if (not s_empresa.Active) then
+  if (not s_empresa.Active) then
      s_empresa.Open;
-   if (not s_banco.Active) then
+  if (not s_banco.Active) then
      s_banco.Open;
   if (cbb2.Text = 'Carnê') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lCarne;
@@ -815,6 +822,10 @@ begin
      ACBrBoleto1.NomeArqRemessa := Edit1.Text;
      BANCO_SELECIONADO;
      CRIA_BOLETO_MEMORIA;
+     if (cbb3.Text = 'c400') then
+       ACBrBoleto1.LayoutRemessa := c400;
+     if (cbb3.Text = 'c240') then
+       ACBrBoleto1.LayoutRemessa := c240;
      ACBrBoleto1.GerarRemessa( 1 );
      ShowMessage('Remessa gerada com Sucesso.');
   except

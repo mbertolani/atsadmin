@@ -1532,12 +1532,10 @@ begin
       begin
         JvParcial.Value := c_formatotal.Value;
         JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
-
-        if (JvComissao.Value > 0) then
-          poc := (JvComissao.Value /100) * JvTotal.Value
-        else
-          poc := 0;
-
+        poc := 0;
+        if (JvComissao.Visible = True) then
+          if (JvComissao.Value > 0) then
+            poc := (JvComissao.Value /100) * JvTotal.Value;
         JvSubtotal.Value := JvSubtotal.Value + poc;
       end
       else
@@ -1677,6 +1675,7 @@ begin
 
   if (JvComissao.Visible = True) then
   begin
+
     if (JvComissao.Value > 0) then
       poc := (JvComissao.Value /100) * JvTotal.Value
     else
@@ -2008,7 +2007,7 @@ end;
 
 procedure TF_Terminal.JvImprimirClick(Sender: TObject);
 begin
-{  usaDll := 'FALSE';
+  usaDll := 'FALSE';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
@@ -2049,7 +2048,7 @@ begin
 
   if (tipoImpressao = 'RECIBO') then
     imprimeRecibo;
-    }
+    
   if (PageControl1.ActivePage = TabComanda) then
   begin
     if (s_parametro.Active) then
@@ -2611,11 +2610,13 @@ begin
     end;
     if (not DM_MOV.c_movdet.IsEmpty) then
     begin
+      poc := 0;
       JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
       if (c_forma.Active) then
         c_forma.Close;
       c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
       c_forma.Open;
+
       if (not c_formatotal.IsNull) then
       begin
         JvParcial.Value := c_formatotal.Value;
@@ -2626,10 +2627,10 @@ begin
         JvParcial.Value := 0;
         JvSubtotal.Value := JvTotal.Value + poc;
       end;
-      if (JvComissao.Value > 0) then
-        poc := (JvComissao.Value /100) * JvTotal.Value
-      else
-        poc := 0;
+
+      if (JvComissao.Visible = True) then
+        if (JvComissao.Value > 0) then
+          poc := (JvComissao.Value /100) * JvTotal.Value;
       JvSubtotal.Value := JvSubtotal.Value + poc;
       c_forma.Close;
     end
@@ -3210,10 +3211,10 @@ begin
   c_forma.Open;
   if (not c_formatotal.IsNull) then
   begin
-    if (JvComissao.Value > 0) then
-      poc := (JvComissao.Value /100) * JvTotal.Value
-    else
-      poc := 0;
+    poc := 0;
+    if (JvComissao.Visible = True) then
+      if (JvComissao.Value > 0) then
+        poc := (JvComissao.Value /100) * JvTotal.Value;
     JvParcial.Value := c_formatotal.Value;
     JvParcial.Value := c_formatotal.Value;
     JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
@@ -4017,8 +4018,8 @@ procedure TF_Terminal.bloqueia_mesa;
 begin
     sql := 'UPDATE MOVIMENTO SET OBS = ' + QuotedStr('BLOQUEADA - PARCIAL IMPRESSA') +
              ' WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger);
-
-    DM_MOV.s_buscaMov.Close;
+    if (DM_MOV.s_buscaMov.Active) then
+      DM_MOV.s_buscaMov.Close;
     Try
        dm.sqlsisAdimin.StartTransaction(TD);
        dm.sqlsisAdimin.ExecuteDirect(sql);
@@ -4034,8 +4035,8 @@ procedure TF_Terminal.Libera_mesa;
 begin
     sql := 'UPDATE MOVIMENTO SET OBS = ' + QuotedStr('') +
              ' WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger);
-
-    DM_MOV.s_buscaMov.Close;
+    if (DM_MOV.s_buscaMov.Active) then
+      DM_MOV.s_buscaMov.Close;
     Try
        dm.sqlsisAdimin.StartTransaction(TD);
        dm.sqlsisAdimin.ExecuteDirect(sql);

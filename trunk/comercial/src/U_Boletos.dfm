@@ -1,6 +1,6 @@
 object F_Boletos: TF_Boletos
-  Left = 408
-  Top = 189
+  Left = 430
+  Top = 221
   Width = 537
   Height = 362
   BorderIcons = [biSystemMenu]
@@ -135,9 +135,7 @@ object F_Boletos: TF_Boletos
       BevelKind = bkFlat
       Style = csDropDownList
       ItemHeight = 13
-      ItemIndex = 0
       TabOrder = 2
-      Text = 'c400'
       Items.Strings = (
         'c400'
         'c240')
@@ -303,9 +301,10 @@ object F_Boletos: TF_Boletos
     end
   end
   object ACBrBoleto1: TACBrBoleto
-    Cedente.ResponEmissao = tbBancoEmite
     Cedente.TipoInscricao = pOutras
-    Banco.Numero = 748
+    Banco.TamanhoMaximoNossoNum = 10
+    Banco.TipoCobranca = cobNenhum
+    NumeroArquivo = 0
     ComprovanteEntrega = True
     ACBrBoletoFC = ACBrBoletoFCFortes1
     Left = 408
@@ -323,7 +322,7 @@ object F_Boletos: TF_Boletos
       '.NUMERO_CONTA, a.DIGITO_CONTA, a.CODIGO_PLANO, a.INSTRUCAO1, a.I' +
       'NSTRUCAO2, a.INSTRUCAO3, a.INSTRUCAO4, a.CEDENTE, a.NCONVENIO, '#13 +
       #10'a.ESPECIEDOC, a.ACEITE, a.CONVENIO, a.LOCALPGTO, a.N_BANCO, '#13#10'a' +
-      '.DIGITOBANCO  '#13#10'FROM BANCO a'#13#10'where CODBANCO = :bc'
+      '.DIGITOBANCO, a.VARIACAO   '#13#10'FROM BANCO a'#13#10'where CODBANCO = :bc'
     MaxBlobSize = -1
     Params = <
       item
@@ -427,6 +426,10 @@ object F_Boletos: TF_Boletos
     end
     object s_bancoDIGITOBANCO: TIntegerField
       FieldName = 'DIGITOBANCO'
+    end
+    object s_bancoVARIACAO: TStringField
+      FieldName = 'VARIACAO'
+      Size = 3
     end
   end
   object s_cr: TSQLDataSet
