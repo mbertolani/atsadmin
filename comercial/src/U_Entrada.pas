@@ -7,7 +7,7 @@ uses
   Dialogs, JvExControls, JvLabel, StdCtrls, JvExStdCtrls, JvEdit,
   JvValidateEdit, ExtCtrls, MMJPanel, FMTBcd, DBClient, Provider, DB,
   SqlExpr, Buttons, JvExButtons, JvBitBtn, Grids, DBGrids, JvExDBGrids,
-  JvDBGrid, Mask, DBCtrls;
+  JvDBGrid, Mask, DBCtrls, U_Terminal, DBLocal, DBLocalS;
 
 type
   TF_Entrada = class(TForm)
@@ -64,11 +64,13 @@ type
     JvPedido: TJvValidateEdit;
     JvLabel3: TJvLabel;
     JvLabel8: TJvLabel;
+    JvFinalizar: TJvBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure JvExcluirClick(Sender: TObject);
     procedure JvSairClick(Sender: TObject);
+    procedure JvFinalizarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -329,6 +331,16 @@ begin
   if (c_forma.Active) then
     c_forma.Close;
   close;
+end;
+
+procedure TF_Entrada.JvFinalizarClick(Sender: TObject);
+begin
+  // INSERIR VENDA
+
+  // INSERIR RECEBIMENTO
+
+  // IMPRIMIR RECIBO
+
 end;
 
 end.
