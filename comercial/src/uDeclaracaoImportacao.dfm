@@ -1,6 +1,6 @@
 inherited fDeclaracaoImportacao: TfDeclaracaoImportacao
   Left = 60
-  Top = 136
+  Top = 137
   Width = 800
   Height = 467
   OldCreateOrder = True
@@ -191,6 +191,7 @@ inherited fDeclaracaoImportacao: TfDeclaracaoImportacao
       DataField = 'DI_CODEXPORTADOR'
       DataSource = DtSrc
       TabOrder = 5
+      OnExit = DBEdit6Exit
     end
     object Button1: TButton
       Left = 572
@@ -340,13 +341,20 @@ inherited fDeclaracaoImportacao: TfDeclaracaoImportacao
       Required = True
       Size = 50
     end
+    object cdsDINOTASERIE: TStringField
+      FieldName = 'NOTASERIE'
+      Size = 10
+    end
+    object cdsDICODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+    end
   end
   object sdsDI: TSQLDataSet
     CommandText = 
       'select DI_CODDI, '#13#10'DI_NUMDI, '#13#10'DI_DATA, '#13#10'DI_LOCALDESEMB, '#13#10'DI_U' +
-      'FDESEMB, '#13#10'DI_DATADESEMB,'#13#10'DI_CODEXPORTADOR, '#13#10'NOMEFORNECEDOR fr' +
-      'om DECLARACAOIMPORTACAO, FORNECEDOR'#13#10'Where CODFORNECEDOR = DI_CO' +
-      'DEXPORTADOR'#13#10'and DI_CODDI = :coddi'
+      'FDESEMB, '#13#10'DI_DATADESEMB,'#13#10'DI_CODEXPORTADOR,  NOTASERIE, CODMOVI' +
+      'MENTO, '#13#10'NOMEFORNECEDOR from DECLARACAOIMPORTACAO, FORNECEDOR'#13#10'W' +
+      'here CODFORNECEDOR = DI_CODEXPORTADOR'#13#10'and DI_CODDI = :coddi'
     MaxBlobSize = -1
     Params = <
       item
@@ -386,6 +394,13 @@ inherited fDeclaracaoImportacao: TfDeclaracaoImportacao
       FieldName = 'NOMEFORNECEDOR'
       Required = True
       Size = 50
+    end
+    object sdsDINOTASERIE: TStringField
+      FieldName = 'NOTASERIE'
+      Size = 10
+    end
+    object sdsDICODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
     end
   end
 end
