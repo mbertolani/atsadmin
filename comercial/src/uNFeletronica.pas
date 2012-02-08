@@ -620,6 +620,7 @@ type
     procedure getItens(contador : integer);
     procedure getTransportadora();
     procedure getPagamento();
+    procedure pegaItens(tpNf: integer);
   public
     { Public declarations }
   end;
@@ -927,40 +928,8 @@ begin
               exit;
             getCLi_Fornec();
 
-            //Carrega os itens da NF
-            if (tpNF.ItemIndex = 0) then
-            begin
-            itensnf := 'select md.CODPRODUTO, md.coddetalhe, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
-                'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-                'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
-                'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-                'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
-                'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
-                ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
-                'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
-                'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
-            end
-            else
-            begin
-            itensnf :=  'select md.CODPRODUTO, md.coddetalhe, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
-                'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-                'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.pIPI, ' +
-                'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-                'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
-                'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
-                'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
-                'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
-                'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
-                'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-                'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;
-            end;
+            pegaItens(tpNF.ItemIndex);
 
-            if (cdsItensNF.Active) then
-              cdsItensNF.Close;
-
-            cdsItensNF.CommandText := itensnf;
-            cdsItensNF.Open;
             i := 1;
             while not cdsItensNF.Eof do // Escrevo os itens
             begin
@@ -1049,7 +1018,7 @@ begin
    //Gera Envio da Nota
    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
    ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
-   ACBrNFeDANFERave1.CasasDecimais._vUnCom := 3;
+   ACBrNFeDANFERave1.CasasDecimais._vUnCom := 2;
 
    if ( (tp_amb = 2) or (tp_amb = 5)) then
    begin
@@ -1245,7 +1214,7 @@ begin
       ACBrNFe1.Consultar;
     end;
     ACBrNFe1.NotasFiscais.Imprimir;
-   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;    
+   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
 
   end;
 end;
@@ -1620,41 +1589,9 @@ begin
         exit;
     getCLi_Fornec();
 
-
     //Carrega os itens da NF
-    if (tpNF.ItemIndex = 0) then
-    begin
-    itensnf := 'select md.CODPRODUTO, md.coddetalhe, md.pIPI, md.vIPI, md.QUANTIDADE, md.CFOP, md.PRECO, md.DESCPRODUTO,'+
-        'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-        'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
-        'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, ' +
-        'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
-        'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
-        ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
-        'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
-        'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-        'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
-    end
-    else
-    begin
-    itensnf :=  'select md.CODPRODUTO, md.coddetalhe, md.QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
-        'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-        'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.pIPI, ' +
-        'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-        'UDF_ROUNDDEC(md.VLR_BASE, 2) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
-        'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
-        'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
-        'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
-        'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
-        'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
-        'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;
-    end;
-
-    if (cdsItensNF.Active) then
-      cdsItensNF.Close;
-
-    cdsItensNF.CommandText := itensnf;
-    cdsItensNF.Open;
+    pegaItens(tpNF.ItemIndex);
+    
     i := 1;
     while not cdsItensNF.Eof do // Escrevo os itens
     begin
@@ -1716,7 +1653,7 @@ begin
  ACBrNFeDANFERave1.RavFile := str_relatorio + 'NFe_Teste.rav';
  ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
  ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
- ACBrNFeDANFERave1.CasasDecimais._vUnCom := 3;
+ ACBrNFeDANFERave1.CasasDecimais._vUnCom := 2;
  ACBrNFe1.NotasFiscais.Imprimir;
  ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
@@ -2363,6 +2300,47 @@ begin
   ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
   ACBrNFe1.Enviar(0);
   end;
+end;
+
+procedure TfNFeletronica.pegaItens(tpNf: integer);
+var strItens: String;
+begin
+  //Carrega os itens da NF
+  if (tpNF = 0) then
+  begin
+  strItens := 'select md.CODPRODUTO, md.coddetalhe, md.pIPI, md.vIPI, UDF_ROUNDDEC(md.QUANTIDADE, 4) QUANTIDADE ' +
+      ' , md.CFOP, md.PRECO, md.DESCPRODUTO,'+
+      'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
+      'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
+      'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, ' +
+      'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
+      'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
+      ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
+      'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
+      'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+      'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
+  end
+  else
+  begin
+  strItens :=  'select md.CODPRODUTO, md.coddetalhe, UDF_ROUNDDEC(md.QUANTIDADE, 4) QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
+      'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
+      'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.pIPI, ' +
+      'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+      'UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+      'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
+      'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
+      'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
+      'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
+      'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
+      'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;
+  end;
+
+  if (cdsItensNF.Active) then
+    cdsItensNF.Close;
+
+  cdsItensNF.CommandText := strItens;
+  cdsItensNF.Open;
+
 end;
 
 end.
