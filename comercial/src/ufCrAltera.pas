@@ -398,8 +398,12 @@ begin
     end
     else
     begin
-       cds.ApplyUpdates(0);
-       exit;
+      if (ComboBox1.ItemIndex > -1) then
+        cdsFORMARECEBIMENTO.AsString := (statusCrTitulo.pegaForma(ComboBox1.Text));
+      if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
+        cdsCAIXA.Value := dm.cds_7_contas.Fields[0].asInteger;
+      cds.ApplyUpdates(0);
+      exit;
     end;
     if (cds.Active) then
       cds.Close;
