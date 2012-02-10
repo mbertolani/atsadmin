@@ -1,41 +1,42 @@
-CREATE OR ALTER PROCEDURE LISTA_ESTOQUE (
-    mes date)
-returns (
-    codproduto integer,
-    cod_barra varchar(20),
-    codpro varchar(15),
-    produto varchar(300),
-    preco_venda double precision,
-    preco_compraultimo double precision,
-    qtde_pct double precision,
-    unidademedida char(2),
-    grupo varchar(30),
-    subgrupo varchar(30),
-    marca varchar(30),
-    estoqueatual double precision,
-    pedido double precision,
-    codalmoxarifado integer,
-    icms double precision,
-    ipi double precision,
-    tipo varchar(10),
-    localizacao varchar(50),
-    lotes char(1),
-    peso_qtde double precision,
-    preco_compramedio double precision,
-    margem double precision,
-    codigo varchar(15),
-    uso varchar(150),
-    usa char(3),
-    cod_comissao integer,
-    rateio char(1),
-    conta_despesa varchar(15),
-    aplicacao_produto varchar(30),
-    mesano date,
-    estoquemaximo double precision,
-    estoqueminimo double precision,
-    estoquereposicao double precision,
-    lote varchar(60))
-as
+SET TERM ^ ;
+create or ALTER PROCEDURE LISTA_ESTOQUE (
+    MES date )
+RETURNS (
+    CODPRODUTO integer,
+    COD_BARRA varchar(20),
+    CODPRO varchar(15),
+    PRODUTO varchar(300),
+    PRECO_VENDA double precision,
+    PRECO_COMPRAULTIMO double precision,
+    QTDE_PCT double precision,
+    UNIDADEMEDIDA char(2),
+    GRUPO varchar(30),
+    SUBGRUPO varchar(30),
+    MARCA varchar(30),
+    ESTOQUEATUAL double precision,
+    PEDIDO double precision,
+    CODALMOXARIFADO integer,
+    ICMS double precision,
+    IPI double precision,
+    TIPO varchar(10),
+    LOCALIZACAO varchar(50),
+    LOTES char(1),
+    PESO_QTDE double precision,
+    PRECO_COMPRAMEDIO double precision,
+    MARGEM double precision,
+    CODIGO varchar(15),
+    USO varchar(150),
+    USA char(3),
+    COD_COMISSAO integer,
+    RATEIO char(1),
+    CONTA_DESPESA varchar(15),
+    APLICACAO_PRODUTO varchar(30),
+    MESANO date,
+    ESTOQUEMAXIMO double precision,
+    ESTOQUEMINIMO double precision,
+    ESTOQUEREPOSICAO double precision,
+    LOTE varchar(60) )
+AS
 declare variable precovenda double precision;
 declare variable precoc double precision;
 declare variable customateriaprima double precision;
@@ -66,7 +67,7 @@ begin
     INTO :usaListaTerceiros;
     if (usaListaTerceiros is null) then
       usaListaTerceiros = 'N';
-  For Select distinct q.CODPRODUTO, q.MESANO from ESTOQUEMES q where q.MESANO <= :MES order by q.CODPRODUTO, q.MESANO desc 
+  For Select distinct q.CODPRODUTO, q.MESANO from ESTOQUEMES q where q.MESANO between (:MES-40) and :MES order by q.CODPRODUTO, q.MESANO desc 
     into :codProduto, :mesAno
   do begin
     if (prodImpresso <> codProduto) then 
@@ -183,6 +184,13 @@ begin
                   if (precoVenda > 0) then
                     Preco_venda = precoVenda;
                 end
+                
+                
+                
+              if (preco_compraMedio is null) then
+                preco_compraMedio = precoc;
+                
+                
               if (preco_compraMedio = 0) then
                 preco_compraMedio = custoMateriaPrima;
         
@@ -204,7 +212,7 @@ begin
           into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo , :mesano ,:lote
           do begin
             if (preco_compraMedio is null) then
-              preco_compraMedio = 0;
+              preco_compraMedio = precoc;
         
             if (preco_compraUltimo is null) then
               preco_compraUltimo = 0;
@@ -271,6 +279,11 @@ begin
               preco_compraUltimo = precoc;
             if (preco_compraMedio = 0) then
               preco_compraMedio = precoc;
+              
+            if (preco_compraMedio is null) then
+              preco_compraMedio = precoc;
+              
+              
             suspend;
             preco_compraMedio = 0;
             preco_compraUltimo = 0;
@@ -284,4 +297,10 @@ begin
   /*else begin
     --if ( 
   end */   
-end
+end^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE LISTA_ESTOQUE TO  SYSDBA;
+
