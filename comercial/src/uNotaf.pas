@@ -1258,6 +1258,7 @@ begin
      DMNF.cds_nfCIDADE_TRANSP.AsString := DMNF.listaTranspCIDADE_TRANSP.AsString;
      DMNF.cds_nfUF_TRANSP.AsString := DMNF.listaTranspUF_TRANSP.AsString;
      DMNF.cds_nfINSCRICAOESTADUAL.AsString := DMNF.listaTranspINSCRICAOESTADUAL.AsString;
+     DMNF.cds_nfCODTRANSP.AsInteger  := dmnf.listaTranspCODTRANSP.AsInteger;
      {DMNF.cds_nfCORPONF1.AsString := DMNF.listaTranspCORPONF1.AsString;
      DMNF.cds_nfCORPONF2.AsString := DMNF.listaTranspCORPONF2.AsString;
      DMNF.cds_nfCORPONF3.AsString := DMNF.listaTranspCORPONF3.AsString;
@@ -1684,6 +1685,23 @@ begin
   begin
     if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
       dmnf.cds_nfIDCOMPLEMENTAR.AsString := '';
+  end;
+
+  if (dmnf.cds_nfCODTRANSP.IsNull) then
+  begin
+    if (cbTransportadora.Text <> '') then
+    begin
+      DMNF.listaTransp.Open;
+      DMNF.listaTransp.Locate('FANTASIA',cbTransportadora.Text,[loCaseInsensitive]);
+      DMNF.cds_nfPLACATRANSP.AsString := DMNF.listaTranspPLACATRANSP.AsString;
+      DMNF.cds_nfUF_VEICULO_TRANSP.AsString := DMNF.listaTranspUF_VEICULO_TRANSP.AsString;
+      DMNF.cds_nfCNPJ_CPF.AsString := DMNF.listaTranspCNPJ_CPF.AsString;
+      DMNF.cds_nfEND_TRANSP.AsString := DMNF.listaTranspEND_TRANSP.AsString;
+      DMNF.cds_nfCIDADE_TRANSP.AsString := DMNF.listaTranspCIDADE_TRANSP.AsString;
+      DMNF.cds_nfUF_TRANSP.AsString := DMNF.listaTranspUF_TRANSP.AsString;
+      DMNF.cds_nfINSCRICAOESTADUAL.AsString := DMNF.listaTranspINSCRICAOESTADUAL.AsString;
+      DMNF.cds_nfCODTRANSP.AsInteger  := dmnf.listaTranspCODTRANSP.AsInteger;
+    end;
   end;
 
   dmnf.cds_nf.ApplyUpdates(0);
