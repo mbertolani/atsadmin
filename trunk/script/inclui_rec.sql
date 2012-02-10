@@ -367,6 +367,7 @@ begin
            CAIXA = null;
            DTAREC = null;
          end
+         caixa = new.caixa;
          if (NEW.STATUS = 1) then
          begin
            status_venda = '7-';
