@@ -581,6 +581,10 @@ type
     sEstadoSIGLA: TStringField;
     sEstadoNOME: TStringField;
     sCFOPCSTIPI: TStringField;
+    sdsNFTRANSP2: TStringField;
+    cdsNFTRANSP2: TStringField;
+    sdsNFCODTRANSP: TIntegerField;
+    cdsNFCODTRANSP: TIntegerField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -682,9 +686,9 @@ begin
       'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
       'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  nf.INSCRICAOESTADUAL,' +
       'udf_left(nf.END_TRANSP,60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60) as CIDADE_TRANSP, nf.UF_TRANSP, UDF_ROUNDDEC(nf.II, 2) as II, UDF_ROUNDDEC(nf.BCII, 2) as BCII, '+
-      'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
+      'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.CODTRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
       'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
-      'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
+      'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS, nf.NOMETRANSP TRANSP2 from NOTAFISCAL nf inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE '+
       'inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR left outer join COMPRA c on c.CODCOMPRA = nf.CODVENDA '+
       'where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
       'and (endeforn.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 21)) and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.NOTASERIE DESC';
@@ -693,14 +697,14 @@ begin
    else
    begin
     cdsNF.Params[4].AsSmallInt := 15;
-    str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.IDCOMPLEMENTAR,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, nf.XMLNFE, nf.CODCLIENTE, nf.NUMNF, ' +
+    str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.CODTRANSP, nf.IDCOMPLEMENTAR,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, nf.XMLNFE, nf.CODCLIENTE, nf.NUMNF, ' +
     'nf.CODVENDA, nf.fatura, nf.natureza, UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, ' +
     'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.II, 2) as II, UDF_ROUNDDEC(nf.BCII, 2) as BCII, ' +
     'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
     'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  '+
     'nf.INSCRICAOESTADUAL, udf_left(nf.END_TRANSP, 60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60)as CIDADE_TRANSP, ' +
     'nf.UF_TRANSP, nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
-    'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, nf.NUMRECIBO, nf.PROTOCOLOCANC, co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
+    'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, nf.NOMETRANSP TRANSP2, nf.NUMRECIBO, nf.PROTOCOLOCANC, co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     'from NOTAFISCAL nf inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE   inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
     'left outer join VENDA co on co.CODVENDA = nf.CODVENDA  where (nf.DTAEMISSAO between :dta1 and :dta2) and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
     'and (ec.TIPOEND = 0) and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12) or (NF.NATUREZA = 16))  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') +')) order by nf.NOTASERIE DESC';
@@ -2111,11 +2115,22 @@ begin
         begin
           modFrete := tfrete;
           CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
-          DMNF.listaTransp.Open;
-          DMNF.listaTransp.Locate('FANTASIA',cdsNFNOMETRANSP.AsString,[loCaseInsensitive]);
+          xNome   := trim(cdsNFNOMETRANSP.AsString);
           if (cdsNFNOMETRANSP.AsString <> '') then
-            xNome := DMNF.listaTranspNOMETRANSP.AsString;
-          DMNF.listaTransp.Close;
+          begin
+            if (dm.cdsTransp.Active) then
+              dm.cdsTransp.Close;
+            dm.cdsTransp.Params[0].AsInteger := cdsNFCODTRANSP.AsInteger;
+            dm.cdsTransp.Open;
+            if (not DM.cdsTransp.IsEmpty) then
+              xNome := dm.cdsTranspNOMETRANSP.AsString
+            else begin
+              DMNF.listaTransp.Open;
+              DMNF.listaTransp.Locate('FANTASIA',cdsNFTRANSP2.AsString,[loCaseInsensitive]);
+              xNome := DMNF.listaTranspNOMETRANSP.AsString;
+              DMNF.listaTransp.Close;              
+            end;
+          end;
           IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
           xEnder := cdsNFEND_TRANSP.AsString;
           xMun := cdsNFCIDADE_TRANSP.AsString;
