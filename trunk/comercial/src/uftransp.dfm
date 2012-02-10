@@ -1,6 +1,6 @@
 inherited ftransp: Tftransp
   Left = 318
-  Top = 171
+  Top = 173
   Width = 685
   Height = 550
   OldCreateOrder = True
@@ -207,7 +207,7 @@ inherited ftransp: Tftransp
     Items.Strings = (
       'Emitente'
       'Destinat'#225'rio')
-    TabOrder = 3
+    TabOrder = 4
     Values.Strings = (
       '1'
       '2')
@@ -230,7 +230,7 @@ inherited ftransp: Tftransp
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 4
+    TabOrder = 5
     OnKeyPress = FormKeyPress
   end
   object DBEdit4: TDBEdit [21]
@@ -248,7 +248,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 6
+    TabOrder = 7
     OnKeyPress = FormKeyPress
   end
   object DBEdit5: TDBEdit [22]
@@ -266,7 +266,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 7
+    TabOrder = 8
     OnKeyPress = FormKeyPress
   end
   object DBEdit6: TDBEdit [23]
@@ -284,7 +284,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 8
+    TabOrder = 9
     OnKeyPress = FormKeyPress
   end
   object DBEdit7: TDBEdit [24]
@@ -302,7 +302,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 11
     OnKeyPress = FormKeyPress
   end
   object DBComboBox1: TDBComboBox [25]
@@ -349,7 +349,7 @@ inherited ftransp: Tftransp
       'SE'
       'TO')
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 12
     OnKeyPress = FormKeyPress
   end
   object DBComboBox2: TDBComboBox [26]
@@ -396,7 +396,7 @@ inherited ftransp: Tftransp
       'SE'
       'TO')
     ParentFont = False
-    TabOrder = 5
+    TabOrder = 6
     OnKeyPress = FormKeyPress
   end
   object DBEdit3: TDBEdit [27]
@@ -414,7 +414,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 17
+    TabOrder = 18
     OnKeyPress = FormKeyPress
   end
   object DBEdit8: TDBEdit [28]
@@ -432,7 +432,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 18
+    TabOrder = 19
     OnKeyPress = FormKeyPress
   end
   object DBEdit9: TDBEdit [29]
@@ -450,7 +450,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 19
+    TabOrder = 20
     OnKeyPress = FormKeyPress
   end
   object DBEdit10: TDBEdit [30]
@@ -468,7 +468,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 20
+    TabOrder = 21
     OnKeyPress = FormKeyPress
   end
   object DBEdit11: TDBEdit [31]
@@ -486,7 +486,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 21
+    TabOrder = 22
     OnKeyPress = FormKeyPress
   end
   object DBEdit12: TDBEdit [32]
@@ -504,7 +504,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 22
+    TabOrder = 23
     OnKeyPress = FormKeyPress
   end
   object DBEdit13: TDBEdit [33]
@@ -522,7 +522,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 9
+    TabOrder = 10
     OnKeyPress = FormKeyPress
   end
   object DBEdit14: TDBEdit [34]
@@ -540,7 +540,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 16
+    TabOrder = 17
     OnKeyPress = FormKeyPress
   end
   object DBEdit15: TDBEdit [35]
@@ -558,7 +558,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 14
     OnKeyPress = FormKeyPress
   end
   object DBEdit16: TDBEdit [36]
@@ -576,7 +576,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 14
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
   object DBEdit17: TDBEdit [37]
@@ -594,7 +594,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 13
     OnKeyPress = FormKeyPress
   end
   object DBEdit18: TDBEdit [38]
@@ -612,7 +612,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 23
+    TabOrder = 3
     OnKeyPress = FormKeyPress
   end
   object DBEdit19: TDBEdit [39]
@@ -630,7 +630,7 @@ inherited ftransp: Tftransp
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 15
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
   inherited DtSrc: TDataSource
