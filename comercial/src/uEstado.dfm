@@ -13,7 +13,7 @@ inherited fEstado: TfEstado
   object Label18: TLabel [0]
     Left = 178
     Top = 57
-    Width = 25
+    Width = 29
     Height = 16
     Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
     Anchors = [akTop]
@@ -86,7 +86,7 @@ inherited fEstado: TfEstado
     object Label3: TLabel
       Left = 16
       Top = 45
-      Width = 36
+      Width = 39
       Height = 16
       Anchors = [akTop]
       Caption = 'CFOP'
@@ -101,7 +101,7 @@ inherited fEstado: TfEstado
     object Label4: TLabel
       Left = 104
       Top = 44
-      Width = 17
+      Width = 20
       Height = 16
       Hint = 'Estado'
       Anchors = [akTop]
@@ -119,7 +119,7 @@ inherited fEstado: TfEstado
     object Label8: TLabel
       Left = 272
       Top = 44
-      Width = 62
+      Width = 76
       Height = 16
       Anchors = [akTop]
       Caption = 'Aliq. ICMS'
@@ -134,7 +134,7 @@ inherited fEstado: TfEstado
     object Label6: TLabel
       Left = 356
       Top = 44
-      Width = 74
+      Width = 83
       Height = 16
       Anchors = [akTop]
       Caption = 'Red.B. C'#225'lc.'
@@ -149,7 +149,7 @@ inherited fEstado: TfEstado
     object Label10: TLabel
       Left = 442
       Top = 44
-      Width = 29
+      Width = 35
       Height = 16
       Hint = 'Margem De Valor Agregado(ST)'
       Anchors = [akTop]
@@ -167,7 +167,7 @@ inherited fEstado: TfEstado
     object Label11: TLabel
       Left = 527
       Top = 44
-      Width = 78
+      Width = 93
       Height = 16
       Anchors = [akTop]
       Caption = 'ICMS Origem'
@@ -182,7 +182,7 @@ inherited fEstado: TfEstado
     object Label12: TLabel
       Left = 612
       Top = 44
-      Width = 67
+      Width = 76
       Height = 16
       Anchors = [akTop]
       Caption = 'ICMS Dest.'
@@ -197,7 +197,7 @@ inherited fEstado: TfEstado
     object Label13: TLabel
       Left = 135
       Top = 44
-      Width = 25
+      Width = 29
       Height = 16
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
@@ -215,7 +215,7 @@ inherited fEstado: TfEstado
     object Label7: TLabel
       Left = 102
       Top = 91
-      Width = 15
+      Width = 21
       Height = 16
       Hint = 'Imposto sobre produtos industrializados'
       Anchors = [akTop]
@@ -233,7 +233,7 @@ inherited fEstado: TfEstado
     object Label5: TLabel
       Left = 528
       Top = 91
-      Width = 72
+      Width = 80
       Height = 16
       Anchors = [akTop]
       Caption = 'Tipo Pessoa'
@@ -248,7 +248,7 @@ inherited fEstado: TfEstado
     object Label9: TLabel
       Left = 271
       Top = 93
-      Width = 21
+      Width = 24
       Height = 16
       Hint = 'Programa de Integra'#231#227'o Social'
       Anchors = [akTop]
@@ -266,7 +266,7 @@ inherited fEstado: TfEstado
     object Label14: TLabel
       Left = 442
       Top = 91
-      Width = 48
+      Width = 56
       Height = 16
       Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
       Anchors = [akTop]
@@ -284,7 +284,7 @@ inherited fEstado: TfEstado
     object Label15: TLabel
       Left = 17
       Top = 93
-      Width = 44
+      Width = 54
       Height = 16
       Anchors = [akTop]
       Caption = 'CST IPI'
@@ -299,7 +299,7 @@ inherited fEstado: TfEstado
     object Label16: TLabel
       Left = 186
       Top = 91
-      Width = 50
+      Width = 57
       Height = 16
       Anchors = [akTop]
       Caption = 'CST PIS'
@@ -314,7 +314,7 @@ inherited fEstado: TfEstado
     object Label17: TLabel
       Left = 354
       Top = 91
-      Width = 77
+      Width = 89
       Height = 16
       Anchors = [akTop]
       Caption = 'CST COFINS'
@@ -329,7 +329,7 @@ inherited fEstado: TfEstado
     object Label19: TLabel
       Left = 187
       Top = 44
-      Width = 46
+      Width = 50
       Height = 16
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
@@ -1084,19 +1084,19 @@ inherited fEstado: TfEstado
     end
     object sdsDADOSADC1: TStringField
       FieldName = 'DADOSADC1'
-      Size = 75
+      Size = 200
     end
     object sdsDADOSADC2: TStringField
       FieldName = 'DADOSADC2'
-      Size = 75
+      Size = 200
     end
     object sdsDADOSADC3: TStringField
       FieldName = 'DADOSADC3'
-      Size = 75
+      Size = 200
     end
     object sdsDADOSADC4: TStringField
       FieldName = 'DADOSADC4'
-      Size = 75
+      Size = 200
     end
     object sdsNAOENVFATURA: TStringField
       FieldName = 'NAOENVFATURA'
@@ -1105,11 +1105,11 @@ inherited fEstado: TfEstado
     end
     object sdsDADOSADC5: TStringField
       FieldName = 'DADOSADC5'
-      Size = 75
+      Size = 200
     end
     object sdsDADOSADC6: TStringField
       FieldName = 'DADOSADC6'
-      Size = 75
+      Size = 200
     end
     object sdsCSOSN: TStringField
       FieldName = 'CSOSN'
@@ -1198,19 +1198,19 @@ inherited fEstado: TfEstado
     end
     object cds_estadoDADOSADC1: TStringField
       FieldName = 'DADOSADC1'
-      Size = 75
+      Size = 200
     end
     object cds_estadoDADOSADC2: TStringField
       FieldName = 'DADOSADC2'
-      Size = 75
+      Size = 200
     end
     object cds_estadoDADOSADC3: TStringField
       FieldName = 'DADOSADC3'
-      Size = 75
+      Size = 200
     end
     object cds_estadoDADOSADC4: TStringField
       FieldName = 'DADOSADC4'
-      Size = 75
+      Size = 200
     end
     object cds_estadoNAOENVFATURA: TStringField
       FieldName = 'NAOENVFATURA'
@@ -1219,11 +1219,11 @@ inherited fEstado: TfEstado
     end
     object cds_estadoDADOSADC5: TStringField
       FieldName = 'DADOSADC5'
-      Size = 75
+      Size = 200
     end
     object cds_estadoDADOSADC6: TStringField
       FieldName = 'DADOSADC6'
-      Size = 75
+      Size = 200
     end
     object cds_estadoCSOSN: TStringField
       FieldName = 'CSOSN'
