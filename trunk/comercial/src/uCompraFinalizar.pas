@@ -1729,6 +1729,14 @@ begin
           (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
           dmnf.cancelaEstoque(codmov, dataCompra, 'COMPRA');
           dm.sqlsisAdimin.Commit(TD);
+          if (dmnf.cancelouEstoque(codmov) = False) then
+          begin
+            dmnf.cancelaEstoque(codmov, dataCompra, 'COMPRA');
+            if (dmnf.cancelouEstoque(codMov) = False) then
+            begin
+              MessageDlg('O Sistema não conseguiu cancelar a baixa no Estoque;', mtWarning, [mbOK], 0);
+            end;
+          end;
           ShowMessage('Compra Excluida com Sucesso');
         except
           on E : Exception do
