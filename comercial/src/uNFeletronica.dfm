@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
   Left = 261
-  Top = 24
+  Top = 30
   Width = 865
   Height = 570
   AutoSize = True
@@ -1022,15 +1022,15 @@ object fNFeletronica: TfNFeletronica
       'f.NOTASERIE,           nf.SELECIONOU,           nf.REDUZICMS, nf' +
       '.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC, v.ENTRADA, v.VAL' +
       'OR_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_PIS, 2) as VALOR_PIS, '#13#10'UDF_ROUND' +
-      'DEC(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO'#13#10'from NO' +
-      'TAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCL' +
-      'IENTE'#13#10'inner join enderecocliente endecli on endecli.CODCLIENTE ' +
-      '= cl.CODCLIENTE'#13#10'left outer join VENDA v on v.CODVENDA = nf.CODV' +
-      'ENDA'#13#10'where (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'          a' +
-      'nd ((nf.SERIE = :pvendacusto) or (:pvendacusto = '#39'todasasseriesd' +
-      'enotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0) and NF.NATUREZA =' +
-      ' :natnf  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'or' +
-      'der by nf.DTAEMISSAO DESC'
+      'DEC(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO, nf.NOME' +
+      'TRANSP TRANSP2'#13#10', nf.CODTRANSP'#13#10'from NOTAFISCAL nf '#13#10'inner join ' +
+      'CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderec' +
+      'ocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left out' +
+      'er join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSA' +
+      'O between :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacu' +
+      'sto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and ' +
+      '(endecli.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOCO' +
+      'LOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -1276,6 +1276,15 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsNFBCII: TFloatField
       FieldName = 'BCII'
+      ReadOnly = True
+    end
+    object sdsNFTRANSP2: TStringField
+      FieldName = 'TRANSP2'
+      ReadOnly = True
+      Size = 50
+    end
+    object sdsNFCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
       ReadOnly = True
     end
   end
@@ -1563,6 +1572,15 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsNFBCII: TFloatField
       FieldName = 'BCII'
+      ReadOnly = True
+    end
+    object cdsNFTRANSP2: TStringField
+      FieldName = 'TRANSP2'
+      ReadOnly = True
+      Size = 50
+    end
+    object cdsNFCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
       ReadOnly = True
     end
   end
@@ -3397,7 +3415,6 @@ object fNFeletronica: TfNFeletronica
     RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
     EspessuraBorda = 1
     TamanhoFonte_RazaoSocial = 12
-    TamanhoFonte_ANTT = 10
     Left = 457
     Top = 317
   end
