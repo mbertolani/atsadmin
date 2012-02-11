@@ -1022,7 +1022,7 @@ begin
    //Gera Envio da Nota
    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
    ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
-   ACBrNFeDANFERave1.CasasDecimais._vUnCom := 2;
+   ACBrNFeDANFERave1.CasasDecimais._vUnCom := dm.danfeDec;
 
    if ( (tp_amb = 2) or (tp_amb = 5)) then
    begin
@@ -1657,7 +1657,7 @@ begin
  ACBrNFeDANFERave1.RavFile := str_relatorio + 'NFe_Teste.rav';
  ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
  ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
- ACBrNFeDANFERave1.CasasDecimais._vUnCom := 2;
+ ACBrNFeDANFERave1.CasasDecimais._vUnCom := dm.danfeDec;
  ACBrNFe1.NotasFiscais.Imprimir;
  ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
