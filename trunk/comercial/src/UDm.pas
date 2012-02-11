@@ -1793,7 +1793,9 @@ type
     cds_produtoTAM_LOTE: TIntegerField;
     s_permissao: TSQLDataSet;
     sdsTranspFANTASIA: TStringField;
+    sdsTranspEMAIL: TStringField;
     cdsTranspFANTASIA: TStringField;
+    cdsTranspEMAIL: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -1845,6 +1847,9 @@ type
     procedure cdsBuscaReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
+    procedure cdsTranspReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
   private
     { Private declarations }
     procedure verifiSeExisteCampo(nTabela, nCampo, nCampoTipo: string);
@@ -1854,7 +1859,7 @@ type
     conectado, RESULTADO_APROVA :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
-    idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov, CCustoPadrao: integer;
+    idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov, CCustoPadrao, danfeDec: integer;
     varDataCaixa : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao, cidadePadrao, cepPadrao, ibgePadrao: string;
     LOTEQTDE, totalpago : double;
@@ -1885,6 +1890,7 @@ implementation
 procedure TDM.DataModuleCreate(Sender: TObject);
 var index: integer;
 begin
+  danfeDec := 2;
   MICRO := NomeComputador;
   // LOGADO := '';
   conectado := True;
@@ -1944,7 +1950,8 @@ begin
   end;
   corEnd   := clSilver;          // Colocar estas Cores no Parametro EMPRESA tipo D5 e D6
   corStart := clActiveCaption;
-
+  if (cds_parametroD5.AsString <> '') then
+    danfeDec := StrToInt(cds_parametroD5.AsString);
   VISTO_FTP := cds_parametroD9.asString;
   moduloUsado := dm.cds_parametroD1.AsString;
   if cds_parametro.Active then
@@ -2592,6 +2599,13 @@ begin
 end;
 
 procedure TDM.cdsBuscaReconcileError(DataSet: TCustomClientDataSet;
+  E: EReconcileError; UpdateKind: TUpdateKind;
+  var Action: TReconcileAction);
+begin
+  MessageDlg(E.Message , mtWarning, [mbOk], 0);
+end;
+
+procedure TDM.cdsTranspReconcileError(DataSet: TCustomClientDataSet;
   E: EReconcileError; UpdateKind: TUpdateKind;
   var Action: TReconcileAction);
 begin
