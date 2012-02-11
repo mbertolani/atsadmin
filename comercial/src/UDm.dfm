@@ -1,10 +1,9 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 1
-  Top = 1
+  Top = 42
   Height = 726
-  Width = 1292
+  Width = 1280
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisadmin'
     DriverName = 'UIB FireBird15'
@@ -16,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_bouquet'
+      'Database=quad:sge_solcampo'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -25,8 +24,7 @@ object DM: TDM
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
       'User_Name=SYSDBA'
-      'WaitOnLocks=True'
-      'str_relatorio=C:\home\sisAdmin\relatorio\')
+      'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -4305,6 +4303,10 @@ object DM: TDM
       FieldName = 'FANTASIA'
       Size = 50
     end
+    object sdsTranspEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 100
+    end
   end
   object dspTransp: TDataSetProvider
     DataSet = sdsTransp
@@ -4321,6 +4323,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'dspTransp'
+    OnReconcileError = cdsTranspReconcileError
     Left = 159
     Top = 443
     object cdsTranspCODTRANSP: TIntegerField
@@ -4332,6 +4335,7 @@ object DM: TDM
     end
     object cdsTranspPLACATRANSP: TStringField
       FieldName = 'PLACATRANSP'
+      EditMask = 'LLL\-0000;1;_'
       Size = 16
     end
     object cdsTranspCNPJ_CPF: TStringField
@@ -4405,6 +4409,7 @@ object DM: TDM
     end
     object cdsTranspCEP: TStringField
       FieldName = 'CEP'
+      EditMask = '00000\-999;1;_'
       Size = 15
     end
     object cdsTranspBAIRRO: TStringField
@@ -4414,6 +4419,10 @@ object DM: TDM
     object cdsTranspFANTASIA: TStringField
       FieldName = 'FANTASIA'
       Size = 50
+    end
+    object cdsTranspEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 100
     end
   end
   object s3_contabil: TSQLDataSet
