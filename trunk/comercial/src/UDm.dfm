@@ -2,10 +2,10 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Top = 42
-  Height = 726
+  Height = 419
   Width = 1280
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisadmin'
+    ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -15,16 +15,17 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_solcampo'
+      'Database=c:\Home\sisadmin\BD\sge_estrela.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
       'RoleName=RoleName'
-      'ServerCharSet=WIN1252'
+      'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
+      'User_Name=sysdba'
       'WaitOnLocks=True')
+      'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
