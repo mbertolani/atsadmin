@@ -261,6 +261,7 @@ type
     procedure ChkDBGridKeyPress(DBGrid: TDBGrid; var Key: Char);
     { Private declarations }
   public
+    usuarioCPProc: String;
     { Public declarations }
   end;
 
@@ -426,6 +427,11 @@ begin
      2 : sqlTexto1 := sqlTexto1 + ' left outer join PLANO plano on plano.CODIGO = rec.CAIXA ';
    end; }
    scdsCr_proc.CommandText := sqlTexto1;
+
+   if (usuarioCPProc <> 'GERAL') then
+   begin
+     sqlTexto := ' Where rec.CODUSUARIO = ' + InttoStr(Dm.varUSERID);
+   end;
 
    if (cbConta.Text <> '') then
    begin
