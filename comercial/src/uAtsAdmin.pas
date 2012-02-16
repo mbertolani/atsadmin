@@ -248,6 +248,8 @@ type
     JvOutlookBar1: TJvOutlookBar;
     Label1: TLabel;
     GrficodeVendas1: TMenuItem;
+    acPagarUsuario: TAction;
+    LanarDespesaUsurio1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -370,6 +372,7 @@ type
     procedure Fechamento1Click(Sender: TObject);
     procedure MesasComandas1Click(Sender: TObject);
     procedure GrficodeVendas1Click(Sender: TObject);
+    procedure acPagarUsuarioExecute(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -1384,9 +1387,10 @@ begin
       fRateioPag.Free;
   end;
   dm.cds_parametro.Close; }
-  fcrTituloPagto.ShowModal;
+  fcrTituloPagto.consultaUser := 'GERAL';  
   DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
   Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
+  fcrTituloPagto.ShowModal;
 end;
 
 procedure TfAtsAdmin.acReceitasExecute(Sender: TObject);
@@ -2103,6 +2107,14 @@ begin
   finally
     fPainelControle.Free;
   end;
+end;
+
+procedure TfAtsAdmin.acPagarUsuarioExecute(Sender: TObject);
+begin
+  fcrTituloPagto.consultaUser := 'USUARIO';
+  DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
+  Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
+  fcrTituloPagto.ShowModal;
 end;
 
 end.
