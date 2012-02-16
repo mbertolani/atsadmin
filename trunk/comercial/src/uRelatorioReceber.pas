@@ -83,7 +83,7 @@ begin
       VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
     end
     else
-      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := '0';
+      VCLContas_pendente.Report.Params.ParamByName('CCUSTO').Value := 0;
 
     VCLContas_pendente.Execute;
   end;

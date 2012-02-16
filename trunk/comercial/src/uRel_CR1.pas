@@ -193,6 +193,7 @@ end;
 
 procedure TfRel_CR1.btnImprimirClick(Sender: TObject);
 begin
+  tipoImpressao := 'RECIBO';
   usaDll := 'FALSE';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
