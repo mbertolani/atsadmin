@@ -143,8 +143,8 @@ inherited fcrTituloPagto: TfcrTituloPagto
     Caption = 'Data Consolidado'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 479
-    Width = 789
+    Top = 490
+    Width = 797
     TabOrder = 21
     inherited btnGravar: TBitBtn
       Left = 176
@@ -191,7 +191,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 789
+    Width = 797
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -32
@@ -201,14 +201,16 @@ inherited fcrTituloPagto: TfcrTituloPagto
     inherited Label1: TLabel
       Left = 234
       Top = -81
-      Width = 323
+      Width = 309
+      Height = 44
       Caption = 'Lan'#231'ar Despesas'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 236
       Top = -80
-      Width = 323
+      Width = 309
+      Height = 44
       Caption = 'Lan'#231'ar Despesas'
       Font.Name = 'Cooper Black'
     end
@@ -226,7 +228,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 787
+      Width = 795
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -1276,13 +1278,20 @@ inherited fcrTituloPagto: TfcrTituloPagto
   end
   object s_4: TSQLDataSet
     CommandText = 
-      'select pag.*  '#13#10'from PAGAMENTO pag  '#13#10'where pag.TITULO = :ptitul' +
-      'o'#13#10'   and pag.CODFORNECEDOR = :fornec'
+      'select pag.*, forn.NOMEFORNECEDOR, almox.ALMOXARIFADO, usu.NOMEU' +
+      'SUARIO, vend.NOMEUSUARIO as COMPRADOR, CAST(pag.VIA AS INTEGER) ' +
+      'as VIAS '#13#10'from PAGAMENTO pag  '#13#10'left outer join  FORNECEDOR forn' +
+      ' on forn.CODFORNECEDOR = pag.CODFORNECEDOR  '#13#10'left outer join AL' +
+      'MOXARIFADO almox on almox.CODALMOXARIFADO = pag.CODALMOXARIFADO ' +
+      #13#10'left outer join USUARIO usu on usu.CODUSUARIO=pag.CODUSUARIO  ' +
+      #13#10'left outer  join USUARIO vend on vend.CODUSUARIO=pag.CODCOMPRA' +
+      'DOR'#13#10'where pag.TITULO = :pTitulo '#13#10'   and  pag.CODFORNECEDOR = :' +
+      'fornec'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftString
-        Name = 'ptitulo'
+        Name = 'pTitulo'
         ParamType = ptInput
       end
       item
@@ -1402,151 +1411,59 @@ inherited fcrTituloPagto: TfcrTituloPagto
       FixedChar = True
       Size = 4
     end
+    object s_4CODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
+    object s_4DUP_REC_NF: TStringField
+      FieldName = 'DUP_REC_NF'
+      Size = 15
+    end
+    object s_4DP: TSmallintField
+      FieldName = 'DP'
+    end
+    object s_4DATACONSOLIDA: TDateField
+      FieldName = 'DATACONSOLIDA'
+    end
+    object s_4SITUACAOCHEQUE: TStringField
+      FieldName = 'SITUACAOCHEQUE'
+      Size = 10
+    end
+    object s_4SELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
+      FixedChar = True
+      Size = 1
+    end
+    object s_4USERID: TStringField
+      FieldName = 'USERID'
+      FixedChar = True
+      Size = 3
+    end
+    object s_4NOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Size = 50
+    end
+    object s_4ALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      Size = 30
+    end
+    object s_4NOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Size = 30
+    end
+    object s_4COMPRADOR: TStringField
+      FieldName = 'COMPRADOR'
+      Size = 30
+    end
+    object s_4VIAS: TIntegerField
+      FieldName = 'VIAS'
+      ReadOnly = True
+    end
   end
   object d_4: TDataSetProvider
     DataSet = s_4
     UpdateMode = upWhereKeyOnly
     Left = 88
     Top = 376
-  end
-  object cds_4_pagar: TClientDataSet
-    Aggregates = <>
-    Params = <
-      item
-        DataType = ftString
-        Name = 'ptitulo'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'fornec'
-        ParamType = ptInput
-      end>
-    ProviderName = 'd_4'
-    Left = 120
-    Top = 376
-    object cds_4_pagarCODPAGAMENTO: TIntegerField
-      FieldName = 'CODPAGAMENTO'
-      Required = True
-    end
-    object cds_4_pagarTITULO: TStringField
-      FieldName = 'TITULO'
-      Required = True
-      Size = 18
-    end
-    object cds_4_pagarEMISSAO: TDateField
-      FieldName = 'EMISSAO'
-    end
-    object cds_4_pagarCODFORNECEDOR: TIntegerField
-      FieldName = 'CODFORNECEDOR'
-      Required = True
-    end
-    object cds_4_pagarDATAVENCIMENTO: TDateField
-      FieldName = 'DATAVENCIMENTO'
-    end
-    object cds_4_pagarDATAPAGAMENTO: TDateField
-      FieldName = 'DATAPAGAMENTO'
-    end
-    object cds_4_pagarCAIXA: TSmallintField
-      FieldName = 'CAIXA'
-    end
-    object cds_4_pagarCONTADEBITO: TIntegerField
-      FieldName = 'CONTADEBITO'
-    end
-    object cds_4_pagarCONTACREDITO: TIntegerField
-      FieldName = 'CONTACREDITO'
-    end
-    object cds_4_pagarSTATUS: TStringField
-      FieldName = 'STATUS'
-      Required = True
-      OnGetText = cds_4_pagarSTATUSGetText
-      FixedChar = True
-      Size = 2
-    end
-    object cds_4_pagarFORMAPAGAMENTO: TStringField
-      FieldName = 'FORMAPAGAMENTO'
-      Required = True
-      OnGetText = cds_4_pagarFORMAPAGAMENTOGetText
-      FixedChar = True
-      Size = 1
-    end
-    object cds_4_pagarDATABAIXA: TDateField
-      FieldName = 'DATABAIXA'
-    end
-    object cds_4_pagarHISTORICO: TStringField
-      FieldName = 'HISTORICO'
-      Size = 150
-    end
-    object cds_4_pagarCODCOMPRA: TIntegerField
-      FieldName = 'CODCOMPRA'
-    end
-    object cds_4_pagarCODALMOXARIFADO: TSmallintField
-      FieldName = 'CODALMOXARIFADO'
-    end
-    object cds_4_pagarCODCOMPRADOR: TSmallintField
-      FieldName = 'CODCOMPRADOR'
-    end
-    object cds_4_pagarCODUSUARIO: TSmallintField
-      FieldName = 'CODUSUARIO'
-    end
-    object cds_4_pagarN_DOCUMENTO: TStringField
-      FieldName = 'N_DOCUMENTO'
-    end
-    object cds_4_pagarDATASISTEMA: TSQLTimeStampField
-      FieldName = 'DATASISTEMA'
-    end
-    object cds_4_pagarVALORRECEBIDO: TFloatField
-      FieldName = 'VALORRECEBIDO'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarJUROS: TFloatField
-      FieldName = 'JUROS'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarDESCONTO: TFloatField
-      FieldName = 'DESCONTO'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarPERDA: TFloatField
-      FieldName = 'PERDA'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarTROCA: TFloatField
-      FieldName = 'TROCA'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarFUNRURAL: TFloatField
-      FieldName = 'FUNRURAL'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarVALOR_PRIM_VIA: TFloatField
-      FieldName = 'VALOR_PRIM_VIA'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarVALOR_RESTO: TFloatField
-      FieldName = 'VALOR_RESTO'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarVALORTITULO: TFloatField
-      FieldName = 'VALORTITULO'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarOUTRO_CREDITO: TFloatField
-      FieldName = 'OUTRO_CREDITO'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarOUTRO_DEBITO: TFloatField
-      FieldName = 'OUTRO_DEBITO'
-      DisplayFormat = ',#0.00'
-    end
-    object cds_4_pagarPARCELAS: TIntegerField
-      FieldName = 'PARCELAS'
-    end
-    object cds_4_pagarVIA: TStringField
-      FieldName = 'VIA'
-      FixedChar = True
-      Size = 4
-    end
   end
   object DataSource2: TDataSource
     DataSet = cds_4_pagar
@@ -1622,5 +1539,200 @@ inherited fcrTituloPagto: TfcrTituloPagto
     ControlHistorico = HistoricoReceber
     Left = 640
     Top = 498
+  end
+  object cds_4_pagar: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pTitulo'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'fornec'
+        ParamType = ptInput
+      end>
+    ProviderName = 'd_4'
+    Left = 120
+    Top = 376
+    object cds_4_pagarCODPAGAMENTO: TIntegerField
+      FieldName = 'CODPAGAMENTO'
+      Required = True
+    end
+    object cds_4_pagarTITULO: TStringField
+      FieldName = 'TITULO'
+      Required = True
+      Size = 18
+    end
+    object cds_4_pagarEMISSAO: TDateField
+      FieldName = 'EMISSAO'
+    end
+    object cds_4_pagarCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object cds_4_pagarDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+    end
+    object cds_4_pagarDATAPAGAMENTO: TDateField
+      FieldName = 'DATAPAGAMENTO'
+    end
+    object cds_4_pagarCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+    end
+    object cds_4_pagarCONTADEBITO: TIntegerField
+      FieldName = 'CONTADEBITO'
+    end
+    object cds_4_pagarCONTACREDITO: TIntegerField
+      FieldName = 'CONTACREDITO'
+    end
+    object cds_4_pagarSTATUS: TStringField
+      FieldName = 'STATUS'
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object cds_4_pagarFORMAPAGAMENTO: TStringField
+      FieldName = 'FORMAPAGAMENTO'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object cds_4_pagarDATABAIXA: TDateField
+      FieldName = 'DATABAIXA'
+    end
+    object cds_4_pagarHISTORICO: TStringField
+      FieldName = 'HISTORICO'
+      Size = 150
+    end
+    object cds_4_pagarCODCOMPRA: TIntegerField
+      FieldName = 'CODCOMPRA'
+    end
+    object cds_4_pagarCODALMOXARIFADO: TSmallintField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object cds_4_pagarCODCOMPRADOR: TSmallintField
+      FieldName = 'CODCOMPRADOR'
+    end
+    object cds_4_pagarCODUSUARIO: TSmallintField
+      FieldName = 'CODUSUARIO'
+    end
+    object cds_4_pagarN_DOCUMENTO: TStringField
+      FieldName = 'N_DOCUMENTO'
+    end
+    object cds_4_pagarDATASISTEMA: TSQLTimeStampField
+      FieldName = 'DATASISTEMA'
+    end
+    object cds_4_pagarVALORRECEBIDO: TFloatField
+      FieldName = 'VALORRECEBIDO'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarJUROS: TFloatField
+      FieldName = 'JUROS'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarPERDA: TFloatField
+      FieldName = 'PERDA'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarTROCA: TFloatField
+      FieldName = 'TROCA'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarFUNRURAL: TFloatField
+      FieldName = 'FUNRURAL'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarVALOR_PRIM_VIA: TFloatField
+      FieldName = 'VALOR_PRIM_VIA'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarVALOR_RESTO: TFloatField
+      FieldName = 'VALOR_RESTO'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarVALORTITULO: TFloatField
+      FieldName = 'VALORTITULO'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarOUTRO_CREDITO: TFloatField
+      FieldName = 'OUTRO_CREDITO'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarOUTRO_DEBITO: TFloatField
+      FieldName = 'OUTRO_DEBITO'
+      DisplayFormat = ',#0.00'
+      EditFormat = ',#0.00'
+    end
+    object cds_4_pagarPARCELAS: TIntegerField
+      FieldName = 'PARCELAS'
+    end
+    object cds_4_pagarVIA: TStringField
+      FieldName = 'VIA'
+      FixedChar = True
+      Size = 4
+    end
+    object cds_4_pagarCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
+    object cds_4_pagarDUP_REC_NF: TStringField
+      FieldName = 'DUP_REC_NF'
+      Size = 15
+    end
+    object cds_4_pagarDP: TSmallintField
+      FieldName = 'DP'
+    end
+    object cds_4_pagarDATACONSOLIDA: TDateField
+      FieldName = 'DATACONSOLIDA'
+    end
+    object cds_4_pagarSITUACAOCHEQUE: TStringField
+      FieldName = 'SITUACAOCHEQUE'
+      Size = 10
+    end
+    object cds_4_pagarSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_4_pagarUSERID: TStringField
+      FieldName = 'USERID'
+      FixedChar = True
+      Size = 3
+    end
+    object cds_4_pagarNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Size = 50
+    end
+    object cds_4_pagarALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      Size = 30
+    end
+    object cds_4_pagarNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Size = 30
+    end
+    object cds_4_pagarCOMPRADOR: TStringField
+      FieldName = 'COMPRADOR'
+      Size = 30
+    end
+    object cds_4_pagarVIAS: TIntegerField
+      FieldName = 'VIAS'
+      ReadOnly = True
+    end
   end
 end
