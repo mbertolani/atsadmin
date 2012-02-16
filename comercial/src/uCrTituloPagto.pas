@@ -65,7 +65,6 @@ type
     DBEdit4: TEdit;
     s_4: TSQLDataSet;
     d_4: TDataSetProvider;
-    cds_4_pagar: TClientDataSet;
     DataSource2: TDataSource;
     s_4CODPAGAMENTO: TIntegerField;
     s_4TITULO: TStringField;
@@ -99,6 +98,46 @@ type
     s_4OUTRO_DEBITO: TFloatField;
     s_4PARCELAS: TIntegerField;
     s_4VIA: TStringField;
+    sds_for: TSQLDataSet;
+    sds_forCODFORNECEDOR: TIntegerField;
+    sds_forNOMEFORNECEDOR: TStringField;
+    sdsCODIGO: TIntegerField;
+    sdsCODREDUZIDO: TStringField;
+    sdsNOME: TStringField;
+    sdsCONTA: TStringField;
+    Label18: TLabel;
+    Label19: TLabel;
+    DBEdit5: TDBEdit;
+    BuscaCodDespesas1: TMenuItem;
+    BuscaFornecedor1: TMenuItem;
+    ComboBox1: TComboBox;
+    DBEdit6: TDBEdit;
+    Label20: TLabel;
+    DBEdit7: TDBEdit;
+    Label21: TLabel;
+    BitBtn4: TBitBtn;
+    BitBtn2: TBitBtn;
+    HistoricoReceber: TUCControlHistorico;
+    Hist_DataSetDespesa: TUCHist_DataSet;
+    BitBtn3: TBitBtn;
+    RxLabel1: TRxLabel;
+    DBEdit11: TDBEdit;
+    DBEdit12: TDBEdit;
+    JvLabel1: TJvLabel;
+    BitBtn5: TBitBtn;
+    s_4CODORIGEM: TIntegerField;
+    s_4DUP_REC_NF: TStringField;
+    s_4DP: TSmallintField;
+    s_4DATACONSOLIDA: TDateField;
+    s_4SITUACAOCHEQUE: TStringField;
+    s_4SELECIONOU: TStringField;
+    s_4USERID: TStringField;
+    s_4NOMEFORNECEDOR: TStringField;
+    s_4ALMOXARIFADO: TStringField;
+    s_4NOMEUSUARIO: TStringField;
+    s_4COMPRADOR: TStringField;
+    s_4VIAS: TIntegerField;
+    cds_4_pagar: TClientDataSet;
     cds_4_pagarCODPAGAMENTO: TIntegerField;
     cds_4_pagarTITULO: TStringField;
     cds_4_pagarEMISSAO: TDateField;
@@ -131,33 +170,18 @@ type
     cds_4_pagarOUTRO_DEBITO: TFloatField;
     cds_4_pagarPARCELAS: TIntegerField;
     cds_4_pagarVIA: TStringField;
-    sds_for: TSQLDataSet;
-    sds_forCODFORNECEDOR: TIntegerField;
-    sds_forNOMEFORNECEDOR: TStringField;
-    sdsCODIGO: TIntegerField;
-    sdsCODREDUZIDO: TStringField;
-    sdsNOME: TStringField;
-    sdsCONTA: TStringField;
-    Label18: TLabel;
-    Label19: TLabel;
-    DBEdit5: TDBEdit;
-    BuscaCodDespesas1: TMenuItem;
-    BuscaFornecedor1: TMenuItem;
-    ComboBox1: TComboBox;
-    DBEdit6: TDBEdit;
-    Label20: TLabel;
-    DBEdit7: TDBEdit;
-    Label21: TLabel;
-    BitBtn4: TBitBtn;
-    BitBtn2: TBitBtn;
-    HistoricoReceber: TUCControlHistorico;
-    Hist_DataSetDespesa: TUCHist_DataSet;
-    BitBtn3: TBitBtn;
-    RxLabel1: TRxLabel;
-    DBEdit11: TDBEdit;
-    DBEdit12: TDBEdit;
-    JvLabel1: TJvLabel;
-    BitBtn5: TBitBtn;
+    cds_4_pagarCODORIGEM: TIntegerField;
+    cds_4_pagarDUP_REC_NF: TStringField;
+    cds_4_pagarDP: TSmallintField;
+    cds_4_pagarDATACONSOLIDA: TDateField;
+    cds_4_pagarSITUACAOCHEQUE: TStringField;
+    cds_4_pagarSELECIONOU: TStringField;
+    cds_4_pagarUSERID: TStringField;
+    cds_4_pagarNOMEFORNECEDOR: TStringField;
+    cds_4_pagarALMOXARIFADO: TStringField;
+    cds_4_pagarNOMEUSUARIO: TStringField;
+    cds_4_pagarCOMPRADOR: TStringField;
+    cds_4_pagarVIAS: TIntegerField;
     procedure dxButton1Click(Sender: TObject);
     procedure dxButton2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -191,6 +215,7 @@ type
   public
     { Public declarations }
     DespesaMes : String;
+    consultaUser: String;
   end;
 
 var
@@ -299,12 +324,13 @@ begin
   DBEdit4.Clear;
   dbeCliente.Clear;
   inherited;
-  dm.cds_4_pagarVIA.AsString := '1';
-  dm.cds_4_pagarFORMAPAGAMENTO.AsString := '1-DINHEIRO';
-  dm.cds_4_pagarSTATUS.AsString := '5-';
-  dm.cds_4_pagarEMISSAO.AsDateTime := Now;
+  dm.cds_4_pagarVIA.AsString              := '1';
+  dm.cds_4_pagarFORMAPAGAMENTO.AsString   := '1-DINHEIRO';
+  dm.cds_4_pagarSTATUS.AsString           := '5-';
+  dm.cds_4_pagarEMISSAO.AsDateTime        := Now;
   dm.cds_4_pagarDATAVENCIMENTO.AsDateTime := Now;
-  dm.cds_4_pagarPARCELAS.AsInteger := 1;
+  dm.cds_4_pagarPARCELAS.AsInteger        := 1;
+  dm.cds_4_pagarCODUSUARIO.AsInteger      := Dm.varUSERID;
   DBEdit1.SetFocus;
   IF (cds_4_pagar.Active) THEN
     cds_4_pagar.Close;
@@ -550,8 +576,9 @@ procedure TfcrTituloPagto.btnProcurarClick(Sender: TObject);
 var utilCrTitPag: TUtils;
 begin
   inherited;
- fCpProc:=TfCpProc.Create(Application);
+ fCpProc := TfCpProc.Create(Application);
  try
+   fCpProc.usuarioCPProc := consultaUser;
    DespesaMes := 'S';
    fCpProc.btnIncluir.Enabled := False;
    //fcpproc.btnSair.Caption := 'Ver';
@@ -1001,6 +1028,10 @@ begin
    edtconta.Text := '';
    dbeCliente.Text := '';
    DBEdit4.Text := '';
+   if (cds_4_pagar.Active) then
+     cds_4_pagar.Close;
+   cds_4_pagar.Params[0].Clear;
+   cds_4_pagar.Params[1].Clear; 
   // inherited;
    //Lista Cestro de Custos
   if dm.cds_parametro.Active then
