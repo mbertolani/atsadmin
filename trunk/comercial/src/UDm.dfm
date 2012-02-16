@@ -2,7 +2,7 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Top = 42
-  Height = 419
+  Height = 657
   Width = 1280
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
@@ -25,7 +25,6 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
       'WaitOnLocks=True')
-      'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -3768,6 +3767,7 @@ object DM: TDM
     object cds_4_pagarNOMEUSUARIO: TStringField
       FieldName = 'NOMEUSUARIO'
       ProviderFlags = []
+      ReadOnly = True
       Size = 30
     end
     object cds_4_pagarCOMPRADOR: TStringField
