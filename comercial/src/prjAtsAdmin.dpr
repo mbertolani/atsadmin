@@ -256,9 +256,10 @@ uses
   ACBrBancoBrasil in 'ACBrBancoBrasil.pas',
   ucrdescontado in 'ucrdescontado.pas' {fcrdescontado},
   uImport in 'uImport.pas' {fImport},
-  uCarne in 'uCarne.pas' {fCarne},
   uClienteFiltro in 'uClienteFiltro.pas' {fClienteFiltro},
-  uReceberCls in 'uReceberCls.pas';
+  uReceberCls in 'uReceberCls.pas',
+  uPainelControle in 'uPainelControle.pas' {fPainelControle},
+  uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins};
 
 //uImport in 'uImport.pas' {fImport};
 
