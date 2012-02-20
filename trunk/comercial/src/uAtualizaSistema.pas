@@ -1225,7 +1225,24 @@ begin
       //mudaVersao('1.0.1.00');
     end;
 
+    if (versaoSistema = '1.0.1.00') then
+    begin
+      executaDDL('EMPRESA', 'CONTADOR',        'VARCHAR(100)');
+      executaDDL('EMPRESA', 'CONTADOR_CRC',    'CHAR(20)');
+      executaDDL('EMPRESA', 'CONTADOR_CNPJ',   'CHAR(14)');
+      executaDDL('EMPRESA', 'CONTADOR_CPF',    'CHAR(11)');
+      executaDDL('EMPRESA', 'CONTADOR_CEP',    'CHAR(10)');
+      executaDDL('EMPRESA', 'CONTADOR_END',    'VARCHAR(150)');
+      executaDDL('EMPRESA', 'CONTADOR_NUMEND', 'CHAR(7)');
+      executaDDL('EMPRESA', 'CONTADOR_COMPL',  'VARCHAR(80)');
+      executaDDL('EMPRESA', 'CONTADOR_BAIRRO', 'VARCHAR(100)');
+      executaDDL('EMPRESA', 'CONTADOR_FONE',   'VARCHAR(14)');
+      executaDDL('EMPRESA', 'CONTADOR_FAX',    'VARCHAR(14)');
+      executaDDL('EMPRESA', 'CONTADOR_EMAIL',  'VARCHAR(100)');
+      executaDDL('EMPRESA', 'CONTADOR_COD_MUN', 'CHAR(10)');
 
+      //mudaVersao('1.0.1.00');
+    end;
 
 
     try
