@@ -1240,7 +1240,7 @@ begin
       executaDDL('EMPRESA', 'CONTADOR_FAX',    'VARCHAR(14)');
       executaDDL('EMPRESA', 'CONTADOR_EMAIL',  'VARCHAR(100)');
       executaDDL('EMPRESA', 'CONTADOR_COD_MUN', 'CHAR(10)');
-
+      executaDDL('EMPRESA', 'SPED_INDIC_NAT_PES_JUR', 'CHAR(2)'); // Indicador da natureza da pessoa juridica
       //mudaVersao('1.0.1.00');
     end;
 
