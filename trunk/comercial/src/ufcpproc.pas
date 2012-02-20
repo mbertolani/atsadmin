@@ -449,6 +449,9 @@ begin
        dm.cds_parametro.Close;
      end;
      dm.c_1_planoc.Locate('NOME', cbConta.text, [loCaseInsensitive]);
+     if (sqlTexto <> '') then
+       sqlTexto := ' and rec.CONTACREDITO = ' + IntToStr(Dm.c_1_planocCODIGO.AsInteger)
+     else
        sqlTexto := ' Where rec.CONTACREDITO = ' + IntToStr(Dm.c_1_planocCODIGO.AsInteger);
    end;
 
