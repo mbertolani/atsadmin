@@ -8,7 +8,8 @@ uses
   JvExDBGrids, JvDBGrid, ExtCtrls, ComCtrls, StdCtrls, Mask, JvExMask,
   JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, Buttons,
   JvExStdCtrls, JvCombobox, uUtils, Menus, uOsClasse, uMovimento,
-  JvExButtons, JvBitBtn, DBXpress, DateUtils, ImgList;
+  JvExButtons, JvBitBtn, DBXpress, DateUtils, ImgList, rpcompobase,
+  rpvclreport;
 
 type
   TfOsFiltro = class(TForm)
@@ -149,6 +150,10 @@ type
     cdsOsVEICULO: TStringField;
     sqlTotal: TSQLQuery;
     ImageList1: TImageList;
+    rep: TVCLReport;
+    GroupBox5: TGroupBox;
+    edVeiculo: TJvMaskEdit;
+    BitBtn1: TBitBtn;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -181,6 +186,8 @@ type
     procedure EExcluido1Click(Sender: TObject);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure btnImprimirClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     Ascending : boolean;
     util: TUtils;
@@ -391,6 +398,9 @@ begin
     begin
       strAbrirOs := strAbrirOs + ' AND OS.CODOS = ' + edOS.Text;
     end;
+
+    if (edVeiculo.Text <> '   -    ') then
+      strAbrirOs := strAbrirOs + ' AND OS.CODVEICULO = ' + QuotedStr(edVeiculo.Text);
 
     cdsOs.CommandText :=  'SELECT OS.*, C.NOMECLIENTE FROM OS, CLIENTES C ' + strAbrirOs;
     cdsOs.Open;
@@ -894,6 +904,21 @@ procedure TfOsFiltro.DBGrid1KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   movenoGrid;
+end;
+
+procedure TfOsFiltro.btnImprimirClick(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'comissao_os.rep';
+  Rep.Title    := Rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(MaskEdit1.Text);
+  Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(MaskEdit2.Text);
+  rep.execute;
+end;
+
+procedure TfOsFiltro.BitBtn1Click(Sender: TObject);
+begin
+  edVeiculo.Clear;
 end;
 
 end.
