@@ -2,9 +2,9 @@ object fDetalheNF: TfDetalheNF
   Left = 342
   Top = 247
   BorderStyle = bsNone
-  Caption = 'fDetalheNF'
-  ClientHeight = 185
-  ClientWidth = 741
+  Caption = 'Detalhe Produtos'
+  ClientHeight = 240
+  ClientWidth = 659
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,189 +19,196 @@ object fDetalheNF: TfDetalheNF
   TextHeight = 13
   object Label1: TLabel
     Left = 177
-    Top = 89
+    Top = 124
     Width = 37
     Height = 13
     Caption = 'ICMS %'
   end
   object Label2: TLabel
     Left = 17
-    Top = 49
+    Top = 84
     Width = 55
     Height = 13
     Caption = 'Quantidade'
   end
   object Label3: TLabel
     Left = 17
-    Top = 9
+    Top = 4
     Width = 61
     Height = 13
     Caption = 'Codigo Prod.'
   end
   object Label4: TLabel
-    Left = 497
-    Top = 9
+    Left = 553
+    Top = 4
     Width = 16
     Height = 13
     Caption = 'UN'
   end
   object Label5: TLabel
     Left = 577
-    Top = 89
+    Top = 124
     Width = 24
     Height = 13
     Caption = 'Total'
   end
   object Label6: TLabel
     Left = 97
-    Top = 9
+    Top = 4
     Width = 48
     Height = 13
     Caption = 'Descri'#231#227'o'
   end
   object Label7: TLabel
     Left = 97
-    Top = 49
+    Top = 84
     Width = 67
     Height = 13
     Caption = 'Pre'#231'o Unit'#225'rio'
   end
   object Label8: TLabel
     Left = 257
-    Top = 49
+    Top = 84
     Width = 21
     Height = 13
     Caption = 'CST'
   end
   object Label9: TLabel
     Left = 337
-    Top = 89
+    Top = 124
     Width = 26
     Height = 13
     Caption = 'ICMS'
   end
   object Label10: TLabel
     Left = 257
-    Top = 89
+    Top = 124
     Width = 49
     Height = 13
     Caption = 'B.C. ICMS'
   end
   object Label11: TLabel
-    Left = 177
-    Top = 49
+    Left = 578
+    Top = 43
     Width = 28
     Height = 13
     Caption = 'CFOP'
   end
   object Label12: TLabel
     Left = 337
-    Top = 49
+    Top = 84
     Width = 37
     Height = 13
     Caption = 'CSOSN'
   end
   object Label13: TLabel
-    Left = 657
-    Top = 49
+    Left = 177
+    Top = 85
     Width = 41
     Height = 13
     Caption = 'Frete R$'
   end
   object Label14: TLabel
     Left = 417
-    Top = 49
+    Top = 84
     Width = 63
     Height = 13
     Caption = 'Desconto R$'
   end
   object Label15: TLabel
     Left = 497
-    Top = 89
+    Top = 124
     Width = 14
     Height = 13
     Caption = 'ST'
   end
   object Label16: TLabel
     Left = 417
-    Top = 89
+    Top = 124
     Width = 37
     Height = 13
     Caption = 'B.C. ST'
   end
   object Label17: TLabel
     Left = 577
-    Top = 49
+    Top = 84
     Width = 48
     Height = 13
     Caption = 'Outros R$'
   end
   object Label18: TLabel
     Left = 497
-    Top = 49
+    Top = 84
     Width = 51
     Height = 13
     Caption = 'Seguro R$'
   end
   object Label19: TLabel
     Left = 97
-    Top = 89
+    Top = 124
     Width = 30
     Height = 13
     Caption = 'IPI R$'
   end
   object Label20: TLabel
     Left = 17
-    Top = 89
+    Top = 124
     Width = 24
     Height = 13
     Caption = 'IPI %'
   end
   object Label21: TLabel
-    Left = 625
-    Top = 9
-    Width = 24
+    Left = 475
+    Top = 44
+    Width = 27
     Height = 13
     Caption = 'NCM'
   end
   object label22: TLabel
     Left = 17
-    Top = 130
+    Top = 165
     Width = 23
     Height = 13
     Caption = 'BC II'
   end
   object Label23: TLabel
     Left = 97
-    Top = 130
+    Top = 165
     Width = 6
     Height = 13
     Caption = 'II'
   end
+  object Label24: TLabel
+    Left = 21
+    Top = 44
+    Width = 98
+    Height = 13
+    Caption = 'Observa'#231#227'o Produto'
+  end
   object DBEdit1: TDBEdit
     Left = 173
-    Top = 105
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'ICMS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 16
+    TabOrder = 17
     OnChange = abproc
   end
   object DBEdit2: TDBEdit
     Left = 13
-    Top = 65
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'QUANTIDADE'
     DataSource = DMNF.DtSrc1
-    TabOrder = 5
+    TabOrder = 7
     OnChange = abproc
   end
   object DBEdit3: TDBEdit
-    Left = 493
-    Top = 25
-    Width = 73
+    Left = 549
+    Top = 20
+    Width = 55
     Height = 21
     DataField = 'UN'
     DataSource = DMNF.DtSrc1
@@ -210,7 +217,7 @@ object fDetalheNF: TfDetalheNF
   end
   object dbeCodpro: TDBEdit
     Left = 13
-    Top = 25
+    Top = 20
     Width = 73
     Height = 21
     DataField = 'CODPRO'
@@ -221,18 +228,18 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit5: TDBEdit
     Left = 573
-    Top = 105
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'VALTOTAL'
     DataSource = DMNF.DtSrc1
-    TabOrder = 21
+    TabOrder = 22
     OnChange = abproc
   end
   object DBEdit6: TDBEdit
     Left = 93
-    Top = 25
-    Width = 393
+    Top = 20
+    Width = 450
     Height = 21
     DataField = 'DESCPRODUTO'
     DataSource = DMNF.DtSrc1
@@ -241,157 +248,157 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit7: TDBEdit
     Left = 253
-    Top = 65
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'CST'
     DataSource = DMNF.DtSrc1
-    TabOrder = 8
+    TabOrder = 10
     OnChange = abproc
   end
   object DBEdit8: TDBEdit
     Left = 93
-    Top = 65
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'VLR_BASE'
     DataSource = DMNF.DtSrc1
-    TabOrder = 6
+    TabOrder = 8
     OnChange = abproc
     OnExit = DBEdit8Exit
   end
   object DBEdit9: TDBEdit
     Left = 253
-    Top = 105
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'VLR_BASEICMS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 17
+    TabOrder = 18
     OnChange = abproc
   end
   object DBEdit10: TDBEdit
     Left = 333
-    Top = 105
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'VALOR_ICMS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 18
+    TabOrder = 19
     OnChange = abproc
   end
   object DBEdit11: TDBEdit
-    Left = 173
-    Top = 65
+    Left = 574
+    Top = 59
     Width = 73
     Height = 21
     DataField = 'CFOP'
     DataSource = DMNF.DtSrc1
-    TabOrder = 7
+    TabOrder = 6
     OnChange = abproc
   end
   object DBEdit12: TDBEdit
     Left = 333
-    Top = 65
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'CSOSN'
     DataSource = DMNF.DtSrc1
-    TabOrder = 9
+    TabOrder = 11
     OnChange = abproc
   end
   object DBEdit13: TDBEdit
     Left = 413
-    Top = 65
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'VALOR_DESCONTO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 10
+    TabOrder = 12
     OnChange = abproc
   end
   object DBEdit14: TDBEdit
-    Left = 653
-    Top = 65
+    Left = 173
+    Top = 101
     Width = 73
     Height = 21
     DataField = 'FRETE'
     DataSource = DMNF.DtSrc1
-    TabOrder = 13
+    TabOrder = 9
     OnChange = abproc
   end
   object DBEdit15: TDBEdit
     Left = 493
-    Top = 105
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'ICMS_SUBST'
     DataSource = DMNF.DtSrc1
-    TabOrder = 20
+    TabOrder = 21
     OnChange = abproc
   end
   object DBEdit16: TDBEdit
     Left = 413
-    Top = 105
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'ICMS_SUBSTD'
     DataSource = DMNF.DtSrc1
-    TabOrder = 19
+    TabOrder = 20
     OnChange = abproc
   end
   object DBEdit17: TDBEdit
     Left = 493
-    Top = 65
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'VALOR_SEGURO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 11
+    TabOrder = 13
     OnChange = abproc
   end
   object DBEdit18: TDBEdit
     Left = 573
-    Top = 65
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'VALOR_OUTROS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 12
+    TabOrder = 14
     OnChange = abproc
   end
   object DBEdit19: TDBEdit
     Left = 13
-    Top = 105
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'PIPI'
     DataSource = DMNF.DtSrc1
-    TabOrder = 14
+    TabOrder = 15
     OnChange = abproc
   end
   object DBEdit20: TDBEdit
     Left = 93
-    Top = 105
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'VIPI'
     DataSource = DMNF.DtSrc1
-    TabOrder = 15
+    TabOrder = 16
     OnChange = abproc
   end
   object Calcman: TCheckBox
     Left = 437
-    Top = 148
+    Top = 183
     Width = 97
     Height = 17
     Caption = 'Calculo Manual'
-    TabOrder = 27
+    TabOrder = 28
     Visible = False
   end
   object btnSair: TBitBtn
-    Left = 658
-    Top = 103
+    Left = 578
+    Top = 170
     Width = 68
     Height = 59
     Caption = 'F9-Sair'
@@ -500,20 +507,20 @@ object fDetalheNF: TfDetalheNF
   end
   object DBNavigator1: TDBNavigator
     Left = 174
-    Top = 136
+    Top = 171
     Width = 216
     Height = 38
     DataSource = DMNF.DtSrc1
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete]
-    TabOrder = 25
+    TabOrder = 27
     OnClick = DBNavigator1Click
   end
   object btnGravar: TBitBtn
     Left = 390
-    Top = 136
+    Top = 171
     Width = 38
     Height = 38
-    TabOrder = 24
+    TabOrder = 25
     Visible = False
     OnClick = btnGravarClick
     Glyph.Data = {
@@ -617,8 +624,8 @@ object fDetalheNF: TfDetalheNF
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
   object btnProdutoProcura: TBitBtn
-    Left = 574
-    Top = 18
+    Left = 613
+    Top = 13
     Width = 35
     Height = 26
     Enabled = False
@@ -691,33 +698,43 @@ object fDetalheNF: TfDetalheNF
       BFBFBFBF0000}
   end
   object DBEdit4: TDBEdit
-    Left = 621
-    Top = 24
-    Width = 103
+    Left = 471
+    Top = 59
+    Width = 95
     Height = 21
     DataField = 'NCM'
     DataSource = DMNF.DtSrc1
-    TabOrder = 4
+    TabOrder = 5
     OnChange = abproc
   end
   object DBEdit21: TDBEdit
     Left = 13
-    Top = 145
+    Top = 180
     Width = 73
     Height = 21
     DataField = 'BCII'
     DataSource = DMNF.DtSrc1
-    TabOrder = 22
+    TabOrder = 23
     OnChange = abproc
   end
   object DBEdit22: TDBEdit
     Left = 93
-    Top = 145
+    Top = 180
     Width = 73
     Height = 21
     DataField = 'II'
     DataSource = DMNF.DtSrc1
-    TabOrder = 23
+    TabOrder = 24
+    OnChange = abproc
+  end
+  object DBEdit23: TDBEdit
+    Left = 13
+    Top = 59
+    Width = 450
+    Height = 21
+    DataField = 'OBS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 4
     OnChange = abproc
   end
 end
