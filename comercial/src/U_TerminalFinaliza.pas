@@ -807,12 +807,12 @@ begin
 
     INSEREVEDA;
     // Executo Classe Insere Recebimento ---------------------------------------
-    try
+    {try
        FRec := TReceberCls.Create;
        codRec := FRec.geraTitulo(0, COD_VENDA);
     finally
        Frec.Free;
-    end;
+    end;}
     //--------------------------------------------------------------------------
     if (DM_MOV.c_venda.Active) then
         DM_MOV.c_venda.Close;
@@ -1305,24 +1305,25 @@ begin
 
   fNotaf := TfNotaf.Create(Application);
   try
-  fNotaF.codMovFin := sqlBuscaNota.Fields[0].AsInteger;
-  fNotaF.codCliFin := sqlBuscaNota.Fields[1].AsInteger;
+    fNotaF.codMovFin := sqlBuscaNota.Fields[0].AsInteger;
+    fNotaF.codCliFin := sqlBuscaNota.Fields[1].AsInteger;
 
-  if (not  dm.cds_empresa.Active) then
-  dm.cds_empresa.open;
-    fNotaf.cbFinanceiro.Checked := False;
-    fNotaf.cbEstoque.Checked := False;
-    fNotaf.ShowModal;
-    if (dmnf.cds_nfSTATUS.AsString = 'S') then
-	fNotaf.RadioGroup1.ItemIndex := 0
-    else
-      fNotaf.RadioGroup1.ItemIndex := 1;
-    finally
-	fNotaf.Free;
+    if (not  dm.cds_empresa.Active) then
+    dm.cds_empresa.open;
+      fNotaf.cbFinanceiro.Checked := False;
+      fNotaf.cbEstoque.Checked := False;
+      fNotaf.ShowModal;
+      if (dmnf.cds_nfSTATUS.AsString = 'S') then
+    fNotaf.RadioGroup1.ItemIndex := 0
+      else
+        fNotaf.RadioGroup1.ItemIndex := 1;
+  finally
+  	fNotaf.Free;
   end;
 end;
 
 procedure TF_TerminalFinaliza.JvExcluirClick(Sender: TObject);
+var alterastat :string;
 begin
   dataVenda := DM_MOV.c_vendaDATAVENDA.AsDateTime;
   if scdscr_proc.Active then
@@ -1345,9 +1346,9 @@ begin
          begin
            try
              dm.sqlsisAdimin.StartTransaction(TD);
-             DM_MOV.d_venda.DataSet.Delete;
-             (DM_MOV.d_venda.DataSet as TClientDataSet).ApplyUpdates(0);
+             dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));
              dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
+             DM_MOV.c_venda.Delete;             
              dm.sqlsisAdimin.Commit(TD);
              ShowMessage('Venda Excluida com Sucesso');
            except
@@ -1437,6 +1438,13 @@ begin
 
       end;
 
+    end;
+    if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
+    begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      alterastat := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(alterastat);
+      dm.sqlsisAdimin.Commit(TD);
     end;
 end;
 
