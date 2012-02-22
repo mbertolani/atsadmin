@@ -1,6 +1,6 @@
 object fOs: TfOs
-  Left = 5
-  Top = 1
+  Left = 201
+  Top = 175
   Width = 822
   Height = 570
   Caption = 'Ordem Servi'#231'o'
@@ -2609,5 +2609,23 @@ object fOs: TfOs
     DataSet = cdsServico
     Left = 417
     Top = 207
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 184
+    Top = 353
+    object F4Gravar: TMenuItem
+      Caption = 'F4 - Gravar'
+      ShortCut = 115
+      OnClick = btnGravarClick
+    end
+    object F9Sair1: TMenuItem
+      Caption = 'F9 - Sair'
+      ShortCut = 120
+      OnClick = btnSairClick
+    end
+    object F3Cancelar1: TMenuItem
+      Caption = 'F3-Cancelar'
+      OnClick = btnCancelarClick
+    end
   end
 end
