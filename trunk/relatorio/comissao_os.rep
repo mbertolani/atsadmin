@@ -1114,7 +1114,7 @@ object TRpReport
     Width = 810
     Height = 240
     PosX = 3098
-    PosY = 343
+    PosY = 348
     Type1Font = poHelvetica
     FontSize = 8
     AutoExpand = False
@@ -1151,7 +1151,7 @@ object TRpReport
     Width = 345
     Height = 225
     PosX = 3740
-    PosY = 345
+    PosY = 348
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -1166,7 +1166,7 @@ object TRpReport
     Width = 690
     Height = 240
     PosX = 4205
-    PosY = 350
+    PosY = 348
     Type1Font = poHelvetica
     FontSize = 8
     AutoExpand = False
@@ -1244,7 +1244,7 @@ object TRpReport
     Width = 810
     Height = 240
     PosX = 3098
-    PosY = 457
+    PosY = 462
     Type1Font = poHelvetica
     FontSize = 8
     AutoExpand = False
@@ -1281,7 +1281,7 @@ object TRpReport
     Width = 345
     Height = 225
     PosX = 3740
-    PosY = 459
+    PosY = 462
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -1296,7 +1296,7 @@ object TRpReport
     Width = 690
     Height = 240
     PosX = 4205
-    PosY = 464
+    PosY = 462
     Type1Font = poHelvetica
     FontSize = 8
     AutoExpand = False
