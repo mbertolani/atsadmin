@@ -767,6 +767,13 @@ begin
 
   if (dm.VISTO_FTP = '') then
     dm.VISTO_FTP := '01/01/2001';
+  if (dm.BAIXADO_BOLETO <> '') then
+  begin
+    btnBoleto.Top := screen.DesktopHeight - 200;
+    btnBoleto.Left := Screen.DesktopWidth - 350;
+    btnBoleto.Visible := True;
+    btnBoleto.Caption := 'Boleto Mensal.';
+  end;
   if (StrToDateTime(dm.VISTO_FTP) <> today) then
   begin
     empresa := RemoveChar(dm.empresa);
@@ -798,9 +805,9 @@ begin
       btnBoleto.Caption := 'Boleto Mensal.';
     end;
 
-
-
-    dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET D9 = ' + QuotedStr(FormatDateTime('dd/mm/yyyy', today))  +
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET D9 = ' +
+    QuotedStr(FormatDateTime('dd/mm/yyyy', today))  +
+    ' , D8 = ' + QuotedStr('BOLETO') + 
     ' WHERE PARAMETRO = ' + QuotedStr('EMPRESA'));
   end;
     Dm.varLogado := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
@@ -1971,6 +1978,9 @@ begin
     Screen.Cursor := crHourGlass;    { Show hourglass cursor }
     if DownloadFile(caminho, arquivo) then
     begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET ' +
+    ' D8 = ' + QuotedStr('') +
+    ' WHERE PARAMETRO = ' + QuotedStr('EMPRESA'));
       ShowMessage('Baixado com sucesso!');
       // Show downloaded image in your browser
       ShellExecute(Application.Handle, PChar('open'), PChar(arquivo), PChar(''), nil, SW_NORMAL);

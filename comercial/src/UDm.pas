@@ -1863,7 +1863,7 @@ type
     varDataCaixa : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao, cidadePadrao, cepPadrao, ibgePadrao: string;
     LOTEQTDE, totalpago : double;
-    CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP : String;
+    CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP, BAIXADO_BOLETO : String;
     tipoCompra, tipoVenda : String;
     userAprovaCompra, varLogado, usaCentroCusto : String;
     corEnd, corStart: TColor;
@@ -1953,6 +1953,7 @@ begin
   if (cds_parametroD5.AsString <> '') then
     danfeDec := StrToInt(cds_parametroD5.AsString);
   VISTO_FTP := cds_parametroD9.asString;
+  BAIXADO_BOLETO := cds_parametroD8.asString;
   moduloUsado := dm.cds_parametroD1.AsString;
   if cds_parametro.Active then
     cds_parametro.Close;
