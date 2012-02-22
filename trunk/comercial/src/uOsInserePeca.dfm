@@ -241,7 +241,7 @@ inherited fOsInserePeca: TfOsInserePeca
       AutoSize = False
       MaxLines = 0
       HideCaret = False
-      TabOrder = 2
+      TabOrder = 7
     end
     object edQtdeServ: TJvCalcEdit
       Left = 198
@@ -249,7 +249,7 @@ inherited fOsInserePeca: TfOsInserePeca
       Width = 80
       Height = 21
       ShowButton = False
-      TabOrder = 3
+      TabOrder = 2
       DecimalPlacesAlwaysShown = False
       OnKeyPress = FormKeyPress
     end
@@ -260,7 +260,7 @@ inherited fOsInserePeca: TfOsInserePeca
       Height = 21
       DisplayFormat = ',##0.00'
       ShowButton = False
-      TabOrder = 4
+      TabOrder = 3
       DecimalPlacesAlwaysShown = False
       OnKeyPress = FormKeyPress
     end
@@ -270,7 +270,7 @@ inherited fOsInserePeca: TfOsInserePeca
       Width = 80
       Height = 21
       ShowButton = False
-      TabOrder = 5
+      TabOrder = 4
       DecimalPlacesAlwaysShown = False
       OnExit = edDescServExit
       OnKeyPress = FormKeyPress
@@ -282,7 +282,7 @@ inherited fOsInserePeca: TfOsInserePeca
       Height = 21
       DisplayFormat = ',##0.00'
       ShowButton = False
-      TabOrder = 7
+      TabOrder = 6
       DecimalPlacesAlwaysShown = False
       OnExit = edDescVlrServExit
       OnKeyPress = FormKeyPress
@@ -297,7 +297,7 @@ inherited fOsInserePeca: TfOsInserePeca
       DisplayFormat = ',##0.00'
       ReadOnly = True
       ShowButton = False
-      TabOrder = 6
+      TabOrder = 5
       DecimalPlacesAlwaysShown = False
     end
     object edProduto: TEdit

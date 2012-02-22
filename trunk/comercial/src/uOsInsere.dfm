@@ -250,7 +250,7 @@ inherited fOsInsere: TfOsInsere
       AutoSize = False
       MaxLines = 0
       HideCaret = False
-      TabOrder = 3
+      TabOrder = 8
     end
     object edQtdeServ: TJvCalcEdit
       Left = 198
@@ -258,7 +258,7 @@ inherited fOsInsere: TfOsInsere
       Width = 80
       Height = 21
       ShowButton = False
-      TabOrder = 4
+      TabOrder = 3
       DecimalPlacesAlwaysShown = False
       OnKeyPress = FormKeyPress
     end
@@ -269,7 +269,7 @@ inherited fOsInsere: TfOsInsere
       Height = 21
       DisplayFormat = ',##0.00'
       ShowButton = False
-      TabOrder = 5
+      TabOrder = 4
       DecimalPlacesAlwaysShown = False
       OnKeyPress = FormKeyPress
     end
@@ -279,7 +279,7 @@ inherited fOsInsere: TfOsInsere
       Width = 80
       Height = 21
       ShowButton = False
-      TabOrder = 6
+      TabOrder = 5
       DecimalPlacesAlwaysShown = False
       OnExit = edDescServExit
       OnKeyPress = FormKeyPress
@@ -291,7 +291,7 @@ inherited fOsInsere: TfOsInsere
       Height = 21
       DisplayFormat = ',##0.00'
       ShowButton = False
-      TabOrder = 8
+      TabOrder = 7
       DecimalPlacesAlwaysShown = False
       OnExit = edDescVlrServExit
       OnKeyPress = FormKeyPress
@@ -306,7 +306,7 @@ inherited fOsInsere: TfOsInsere
       DisplayFormat = ',##0.00'
       ReadOnly = True
       ShowButton = False
-      TabOrder = 7
+      TabOrder = 6
       DecimalPlacesAlwaysShown = False
     end
     object edColaborador: TEdit
@@ -495,7 +495,6 @@ inherited fOsInsere: TfOsInsere
     OnKeyPress = FormKeyPress
   end
   inherited DtSrc: TDataSource
-    DataSet = fOs.cdsServico
     Left = 320
   end
   inherited XPMenu1: TXPMenu

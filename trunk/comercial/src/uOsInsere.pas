@@ -104,12 +104,14 @@ begin
       codProduto                         := fProcurar.codProdProc;
       fOs.cdsServicoQTDE.AsFloat         := 1;
       fOs.cdsServicoPRECO.AsFloat        := fProcurar.precoVenda;
+      edQtdeServ.Text   := '1';      
     end;
   finally
     if (dm.scds_prod.Active) then
       dm.scds_prod.Close;
     fProcurar.Free;
   end;
+  edQtdeServ.SetFocus;
 end;
 
 procedure TfOsInsere.edCodUsuarioExit(Sender: TObject);
@@ -137,7 +139,6 @@ end;
 
 procedure TfOsInsere.edProdutoExit(Sender: TObject);
 begin
-
   if (edProduto.Text = '') then exit;
 
   if dm.scds_produto_proc.Active then
@@ -156,11 +157,13 @@ begin
   edProdDescr.Text  := dm.scds_produto_procPRODUTO.AsString;
   edPrecoServ.Value := dm.scds_produto_procVALOR_PRAZO.AsFloat;
   codProduto        := dm.scds_produto_procCODPRODUTO.AsInteger;
+  edQtdeServ.Text   := '1';
   if (fOs.dsServico.State = dsBrowse) then
     fOs.cdsServico.Edit;
   fOs.cdsServicoCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
   fOs.cdsServicoQTDE.AsFloat         := 1;
   fOs.cdsServicoPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+  edQtdeServ.SetFocus;
 end;
 
 procedure TfOsInsere.FormShow(Sender: TObject);
@@ -209,7 +212,7 @@ procedure TfOsInsere.edDescServExit(Sender: TObject);
 begin
   if (edDescServ.Value > 0) then
   begin
-    edDescVlrServ.Value := edPrecoServ.Value * (edDescServ.Value / 100);
+    edDescVlrServ.Value := (edPrecoServ.Value * edQtdeServ.Value) * (edDescServ.Value / 100);
     edTotalServ.Value   := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
   end;
 end;
@@ -221,7 +224,7 @@ begin
     edDescServ.Value  := (edDescVlrServ.Value / edPrecoServ.Value) * 100;
     edTotalServ.Value := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
   end;
-
+  btnGravar.SetFocus;
 end;
 
 procedure TfOsInsere.btnGravarClick(Sender: TObject);
