@@ -8,7 +8,7 @@ uses
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uOsClasse, Buttons,
   ExtCtrls, MMJPanel, DB, FMTBcd, DBClient, Provider, SqlExpr, Grids,
   DBGrids, JvExDBGrids, JvDBGrid, JvBaseEdits, JvMemo, DateUtils,
-  JvComponentBase, JvFormAutoSize, dbXpress, JvEdit, JvDBUltimGrid;
+  JvComponentBase, JvFormAutoSize, dbXpress, JvEdit, JvDBUltimGrid, Menus;
 
 type
   TfOs = class(TForm)
@@ -159,6 +159,10 @@ type
     Label5: TLabel;
     edVeiculoDesc: TEdit;
     cdsOSVEICULO: TStringField;
+    PopupMenu1: TPopupMenu;
+    F4Gravar: TMenuItem;
+    F9Sair1: TMenuItem;
+    F3Cancelar1: TMenuItem;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
