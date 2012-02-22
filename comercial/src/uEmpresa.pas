@@ -95,9 +95,9 @@ type
     DBRadioGroup2: TDBRadioGroup;
     cbEstado: TJvComboBox;
     Label29: TLabel;
-    cbTipoAtividade: TComboBox;
+    cbTACBrIndicadorAtividade: TComboBox;
     Label30: TLabel;
-    cbNaturesPesJuridica: TComboBox;
+    cbTACBrIndicadorNaturezaPJ: TComboBox;
     ComboBox2: TComboBox;
     Label31: TLabel;
     ComboBox3: TComboBox;
@@ -115,6 +115,12 @@ type
     ComboBox7: TComboBox;
     ComboBox8: TComboBox;
     ComboBox9: TComboBox;
+    Label40: TLabel;
+    Label41: TLabel;
+    ComboBox10: TComboBox;
+    cbTACBrCodAj: TComboBox;
+    Label42: TLabel;
+    ComboBox11: TComboBox;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -126,7 +132,13 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure cbEstadoChange(Sender: TObject);
+    procedure cbTACBrCodAjChange(Sender: TObject);
+    procedure cbTACBrIndicadorNaturezaPJChange(Sender: TObject);
+    procedure cbTACBrIndicadorAtividadeChange(Sender: TObject);
   private
+    TACBrCodAj, TACBrIndAJ, TACBrBaseCalculoCredito, TACBrIndEscrituracao,
+    TACBrIndCTA, TACBrIndCodIncidencia, TACBrCodIndCritEscrit, TACBrCodIndTipoCon,
+    TACBrIndAproCred, TACBrCodIndIncTributaria, TACBrIndicadorAtividade, TACBrIndicadorNaturezaPJ  : String;
     { Private declarations }
   public
     TD: TTransactionDesc;
@@ -329,6 +341,39 @@ begin
   if (dm.cds_empresa.State in [dsBrowse]) then
     dm.cds_empresa.Edit;
   dm.cds_empresaUF.AsString := cbEstado.Text;
+end;
+
+procedure TfEmpresa.cbTACBrCodAjChange(Sender: TObject);
+begin
+  Case cbTACBrCodAj.ItemIndex of
+    0: TACBrCodAj := 'codAjAcaoJudicial';      // '01' // Ajuste Oriundo de Ação Judicial
+    1: TACBrCodAj := 'codAjProAdministrativo'; // '02' // Ajuste Oriundo de Processo Administrativo
+    2: TACBrCodAj := 'codAjLegTributaria';     // '03' // Ajuste Oriundo da Legislação Tributária
+    3: TACBrCodAj := 'codAjEspRTI';            // '04' // Ajuste Oriundo Especificamente do RTT
+    4: TACBrCodAj := 'codAjOutrasSituacaoes';  // '05' // Ajuste Oriundo de Outras Situações
+    5: TACBrCodAj := 'codAjEstorno';           // '06' // Estorno
+  end;  
+end;
+
+procedure TfEmpresa.cbTACBrIndicadorNaturezaPJChange(Sender: TObject);
+begin
+  Case (cbTACBrIndicadorNaturezaPJ.ItemIndex) of
+    0 : TACBrIndicadorNaturezaPJ := 'indNatPJSocEmpresariaGeral';   // 0 - Sociedade empresária geral
+    1 : TACBrIndicadorNaturezaPJ := 'indNatPJSocCooperativa';       // 1 - Sociedade Cooperativa
+    2 : TACBrIndicadorNaturezaPJ := 'indNatPJEntExclusivaFolhaSal'; // 2 - Entidade sujeita ao PIS/Pasep exclusivamente com base  na folha de salários
+  end;  
+end;
+
+procedure TfEmpresa.cbTACBrIndicadorAtividadeChange(Sender: TObject);
+begin
+  Case cbTACBrIndicadorAtividade.ItemIndex of
+    0 : TACBrIndicadorAtividade := 'indAtivIndustrial';       // 0 - Industrial ou equiparado a industrial
+    1 : TACBrIndicadorAtividade := 'indAtivPrestadorServico'; // 1 - Prestador de serviços
+    2 : TACBrIndicadorAtividade := 'indAtivComercio';         // 2 - Atividade de comércios
+    3 : TACBrIndicadorAtividade := 'indAtivoFincanceira';     // 3 - Atividade Financeira
+    4 : TACBrIndicadorAtividade := 'indAtivoImobiliaria';     // 4 - Atividade Imobiliária
+    5 : TACBrIndicadorAtividade := 'indAtivoOutros';          // 9 - Outros
+  end;
 end;
 
 end.

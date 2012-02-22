@@ -1,7 +1,7 @@
 inherited fEmpresa: TfEmpresa
   Left = 348
   Top = 70
-  Width = 721
+  Width = 796
   Height = 637
   Caption = 'Cadastro de Empresa'
   Font.Charset = ANSI_CHARSET
@@ -13,7 +13,7 @@ inherited fEmpresa: TfEmpresa
   TextHeight = 33
   inherited MMJPanel1: TMMJPanel
     Top = 556
-    Width = 713
+    Width = 788
     inherited btnCancelar: TBitBtn [0]
       Font.Charset = ANSI_CHARSET
       Font.Height = -12
@@ -63,7 +63,7 @@ inherited fEmpresa: TfEmpresa
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 713
+    Width = 788
     inherited Label1: TLabel
       Left = 151
       Top = -78
@@ -106,7 +106,7 @@ inherited fEmpresa: TfEmpresa
   object JvPageControl1: TJvPageControl [2]
     Left = 0
     Top = 54
-    Width = 713
+    Width = 788
     Height = 502
     ActivePage = TabSheet2
     Align = alClient
@@ -128,7 +128,7 @@ inherited fEmpresa: TfEmpresa
       object JvCaptionPanel1: TJvCaptionPanel
         Left = 0
         Top = 0
-        Width = 705
+        Width = 780
         Height = 473
         Align = alClient
         Buttons = []
@@ -1085,7 +1085,7 @@ inherited fEmpresa: TfEmpresa
           Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
-          ItemHeight = 15
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 22
           OnChange = ComboBox1Change
@@ -1356,7 +1356,28 @@ inherited fEmpresa: TfEmpresa
           'Indicador da apura'#231#227'o das contribui'#231#245'es e cr'#233'ditos, na escritura' +
           #231#227'o das opera'#231#245'es por NF-e e ECF (C010)'
       end
-      object cbTipoAtividade: TComboBox
+      object Label40: TLabel
+        Left = 24
+        Top = 408
+        Width = 126
+        Height = 14
+        Caption = 'Indicador do tipo de ajuste'
+      end
+      object Label41: TLabel
+        Left = 328
+        Top = 408
+        Width = 173
+        Height = 14
+        Caption = 'Ajustes de Contribui'#231#227'o ou Cr'#233'ditos'
+      end
+      object Label42: TLabel
+        Left = 570
+        Top = 16
+        Width = 190
+        Height = 14
+        Caption = 'Indicador de per'#237'odo de apura'#231#227'o do IPI'
+      end
+      object cbTACBrIndicadorAtividade: TComboBox
         Left = 24
         Top = 80
         Width = 540
@@ -1365,6 +1386,7 @@ inherited fEmpresa: TfEmpresa
         ItemIndex = 0
         TabOrder = 0
         Text = '0 - Industrial ou equiparado a industrial'
+        OnChange = cbTACBrIndicadorAtividadeChange
         Items.Strings = (
           '0 - Industrial ou equiparado a industrial'
           '1 - Prestador de servi'#231'os'
@@ -1373,7 +1395,7 @@ inherited fEmpresa: TfEmpresa
           '4 - Atividade Imobili'#225'ria'
           '9 - Outros')
       end
-      object cbNaturesPesJuridica: TComboBox
+      object cbTACBrIndicadorNaturezaPJ: TComboBox
         Left = 23
         Top = 32
         Width = 540
@@ -1382,6 +1404,7 @@ inherited fEmpresa: TfEmpresa
         ItemIndex = 0
         TabOrder = 1
         Text = '0 - Sociedade empres'#225'rial geral'
+        OnChange = cbTACBrIndicadorNaturezaPJChange
         Items.Strings = (
           '0 - Sociedade empres'#225'rial geral'
           '1 - Sociedade Cooperativa'
@@ -1518,71 +1541,86 @@ inherited fEmpresa: TfEmpresa
         Width = 590
         Height = 22
         ItemHeight = 14
-        ItemIndex = 0
         TabOrder = 9
         Text = '00 - Vazio.'
         Items.Strings = (
           '00 - Vazio.'
           '01 - Aquisi'#231#227'o de bens para revenda'
           '02 - Aquisi'#231#227'o de bens utilizados como insumo'
+          '03 - Aquisi'#231#227'o de servi'#231'os utilizados como insumo'
+          '04 - Energia el'#233'trica e t'#233'rmica, inclusive sob a forma de vapor'
+          '05 - Alugu'#233'is de pr'#233'dios'
+          '06 - Alugu'#233'is de m'#225'quinas e equipamentos'
+          '07 - Armazenagem de mercadoria e frete na opera'#231#227'o de venda'
+          '08 - Contrapresta'#231#245'es de arrendamento mercantil'
           
-            '                              bccAqServUtiComoInsumo,           ' +
-            '// '#39'03'#39' // Aquisi'#231#227'o de servi'#231'os utilizados como insumo'
+            '09 - M'#225'quinas, equipamentos e outros bens incorporados ao ativo ' +
+            'imobilizado (cr'#233'dito sobre encargos de deprecia'#231#227'o).'
           
-            '                              bccEnergiaEletricaTermica,        ' +
-            '// '#39'04'#39' // Energia el'#233'trica e t'#233'rmica, inclusive sob a forma de ' +
-            'vapor'
+            '10 - M'#225'quinas, equipamentos e outros bens incorporados ao ativo ' +
+            'imobilizado (cr'#233'dito com base no valor de aquisi'#231#227'o).'
           
-            '                              bccAluguelPredios,                ' +
-            '// '#39'05'#39' // Alugu'#233'is de pr'#233'dios'
+            '11 - Amortiza'#231#227'o e Deprecia'#231#227'o de edifica'#231#245'es e benfeitorias em ' +
+            'im'#243'veis'
+          '12 - Devolu'#231#227'o de Vendas Sujeitas '#224' Incid'#234'ncia N'#227'o-Cumulativa'
+          '13 - Outras Opera'#231#245'es com Direito a Cr'#233'dito'
+          '14 - Atividade de Transporte de Cargas - Subcontrata'#231#227'o'
           
-            '                              bccAluguelMaqEquipamentos,        ' +
-            '// '#39'06'#39' // Alugu'#233'is de m'#225'quinas e equipamentos'
+            '15 - Atividade Imobili'#225'ria - Custo Incorrido de Unidade Imobili'#225 +
+            'ria'
           
-            '                              bccArmazenagemMercadoria,         ' +
-            '// '#39'07'#39' // Armazenagem de mercadoria e frete na opera'#231#227'o de vend' +
-            'a'
+            '16 - Atividade Imobili'#225'ria - Custo Or'#231'ado de unidade n'#227'o conclu'#237 +
+            'da'
           
-            '                              bccConArrendamentoMercantil,      ' +
-            '// '#39'08'#39' // Contrapresta'#231#245'es de arrendamento mercantil'
-          
-            '                              bccMaqCredDepreciacao,            ' +
-            '// '#39'09'#39' // M'#225'quinas, equipamentos e outros bens incorporados ao ' +
-            'ativo imobilizado (cr'#233'dito sobre encargos de deprecia'#231#227'o).'
-          
-            '                              bccMaqCredAquisicao,              ' +
-            '// '#39'10'#39' // M'#225'quinas, equipamentos e outros bens incorporados ao ' +
-            'ativo imobilizado (cr'#233'dito com base no valor de aquisi'#231#227'o).'
-          
-            '                              bccAmortizacaoDepreciacaoImoveis, ' +
-            '// '#39'11'#39' // Amortiza'#231#227'o e Deprecia'#231#227'o de edifica'#231#245'es e benfeitori' +
-            'as em im'#243'veis'
-          
-            '                              bccDevolucaoSujeita,              ' +
-            '// '#39'12'#39' // Devolu'#231#227'o de Vendas Sujeitas '#224' Incid'#234'ncia N'#227'o-Cumulat' +
-            'iva'
-          
-            '                              bccOutrasOpeComDirCredito,        ' +
-            '// '#39'13'#39' // Outras Opera'#231#245'es com Direito a Cr'#233'dito'
-          
-            '                              bccAtTransporteSubcontratacao,    ' +
-            '// '#39'14'#39' // Atividade de Transporte de Cargas '#8211' Subcontrata'#231#227'o'
-          
-            '                              bccAtImobCustoIncorrido,          ' +
-            '// '#39'15'#39' // Atividade Imobili'#225'ria '#8211' Custo Incorrido de Unidade Im' +
-            'obili'#225'ria'
-          
-            '                              bccAtImobCustoOrcado,             ' +
-            '// '#39'16'#39' // Atividade Imobili'#225'ria '#8211' Custo Or'#231'ado de unidade n'#227'o c' +
-            'onclu'#237'da'
-          
-            '                              bccAtPresServ,                    ' +
-            '// '#39'17'#39' // Atividade de Presta'#231#227'o de Servi'#231'os de Limpeza, Conser' +
-            'va'#231#227'o e Manuten'#231#227'o '#8211' vale-transporte, vale-refei'#231#227'o ou vale-alim' +
-            'enta'#231#227'o, fardamento ou uniforme.'
-          
-            '                              bccEstoqueAberturaBens            ' +
-            '// '#39'18'#39' // Estoque de abertura de bens')
+            '17 - Atividade de Presta'#231#227'o de Servi'#231'os de Limpeza, Conserva'#231#227'o ' +
+            'e Manuten'#231#227'o '#8211' vale-transporte, vale-refei'#231#227'o ou vale-alimenta'#231#227 +
+            'o, fardamento ou uniforme.'
+          '18 - Estoque de abertura de bens')
+      end
+      object ComboBox10: TComboBox
+        Left = 24
+        Top = 424
+        Width = 145
+        Height = 22
+        ItemHeight = 14
+        ItemIndex = 0
+        TabOrder = 10
+        Text = '0 - Ajuste de redu'#231#227'o;'
+        Items.Strings = (
+          '0 - Ajuste de redu'#231#227'o;'
+          '1 - Ajuste de acr'#233'scimo.')
+      end
+      object cbTACBrCodAj: TComboBox
+        Left = 325
+        Top = 424
+        Width = 290
+        Height = 22
+        ItemHeight = 14
+        ItemIndex = 0
+        TabOrder = 11
+        Text = '01 - Ajuste Oriundo de A'#231#227'o Judicial'
+        OnChange = cbTACBrCodAjChange
+        Items.Strings = (
+          '01 - Ajuste Oriundo de A'#231#227'o Judicial'
+          '02 - Ajuste Oriundo de Processo Administrativo'
+          '03 - Ajuste Oriundo da Legisla'#231#227'o Tribut'#225'ria'
+          '04 - Ajuste Oriundo Especificamente do RTT'
+          '05 - Ajuste Oriundo de Outras Situa'#231#245'es'
+          '06 - Estorno')
+      end
+      object ComboBox11: TComboBox
+        Left = 568
+        Top = 32
+        Width = 208
+        Height = 22
+        ItemHeight = 14
+        ItemIndex = 0
+        TabOrder = 12
+        Text = '0 - Mensal'
+        Items.Strings = (
+          '0 - Mensal'
+          '1 - Decendial'
+          '2 - Vazio')
       end
     end
   end
