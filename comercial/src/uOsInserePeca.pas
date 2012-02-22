@@ -135,11 +135,10 @@ var str: string;
 begin
   //TD.TransactionID := 1;
   //TD.IsolationLevel := xilREADCOMMITTED;
-  str := '';
+  str := edProdDescr.Text;
   for I := 0 to edServico.Lines.Count -1 do
     str := str + edServico.Lines[I] + #13#10;
-  if (str = '') then
-    str := edProdDescr.Text;
+
 
   fOs.cdsPecasDESCRICAO_SERV.AsString := str;
   fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
@@ -201,14 +200,14 @@ begin
     edDescServ.Value  := (edDescVlrServ.Value / edPrecoServ.Value) * 100;
     edTotalServ.Value := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
   end;
-
+  btnGravar.SetFocus;
 end;
 
 procedure TfOsInserePeca.edDescServExit(Sender: TObject);
 begin
   if (edDescServ.Value > 0) then
   begin
-    edDescVlrServ.Value := edPrecoServ.Value * (edDescServ.Value / 100);
+    edDescVlrServ.Value := (edPrecoServ.Value * edQtdeServ.Value)* (edDescServ.Value / 100);
     edTotalServ.Value   := (edPrecoServ.Value * edQtdeServ.Value) - edDescVlrServ.Value;
   end;
 end;
@@ -273,6 +272,7 @@ begin
   edProdDescr.Text  := fProcura_prodOficina.cds_procPRODUTO.AsString;
   edPrecoServ.Value := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
   codProdutoPeca    := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+  edQtdeServ.Text   := '1';
   if (fOs.cdsPecas.State = dsBrowse) then
     fOs.cdsPecas.Edit;
   fOs.cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
@@ -301,11 +301,13 @@ begin
   edProdDescr.Text  := dm.scds_produto_procPRODUTO.AsString;
   edPrecoServ.Value := dm.scds_produto_procVALOR_PRAZO.AsFloat;
   codProdutoPeca    := dm.scds_produto_procCODPRODUTO.AsInteger;
+  edQtdeServ.Text   := '1';  
   if (fOs.cdsPecas.State = dsBrowse) then
     fOs.cdsPecas.Edit;
   fOs.cdsPecasCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
   fOs.cdsPecasQTDE.AsFloat         := 1;
   fOs.cdsPecasPRECO.AsFloat        := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+  edQtdeServ.SetFocus;  
 end;
 
 procedure TfOsInserePeca.btnSairClick(Sender: TObject);

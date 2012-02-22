@@ -266,8 +266,8 @@ begin
     sqlInsere := sqlInsere + FloatToStr(Self.Qtde) + ', ';
     sqlInsere := sqlInsere + FloatToStr(Self.Preco) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.Tipo) + ', ';
-    DecimalSeparator := ',';
     sqlInsere := sqlInsere + FloatToStr(Self.Desconto) + ', ';
+    DecimalSeparator := ',';    
     sqlInsere := sqlInsere + IntToStr(Self.CodOsServ) + ')';
     executaSql(sqlInsere);
     Result := Self.CodDet;
