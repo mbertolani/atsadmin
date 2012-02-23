@@ -563,6 +563,7 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.btnIncluirClick(Sender: TObject);
+var desconto : Double;
 begin
   DM_MOV.c_venda.Append;
 
@@ -619,9 +620,16 @@ begin
   end;
 
   //DM_MOV.c_vendaNOMECLIENTE.AsInteger := DM_MOV.c_movimentonCODCLIENTE.AsInteger;
+  desconto := 0;
+  DM_MOV.c_movdet.First;
+  while ( not DM_MOV.c_movdet.Eof) do
+  begin
+    desconto := desconto + dm_mov.c_movdetQTDE_ALT.AsFloat;
+    DM_MOV.c_movdet.Next;
+  end;
 
-  jvApagar.Value :=  DM_MOV.c_movdettotalpedido.Value;
-  jvTotal.Value := DM_MOV.c_movdettotalpedido.Value;
+  jvApagar.Value :=  DM_MOV.c_movdettotalpedido.Value - desconto;
+  jvTotal.Value := DM_MOV.c_movdettotalpedido.Value - desconto;
   jvDesconto.Value := 0;
   jvAcrescimo.Value := 0;
   jvPago.Value := 0;
