@@ -147,8 +147,8 @@ type
     //Metodos
     function geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
     function baixaTitulo(VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
-DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
-CLIENTE : Integer; STATUS : string;  USERID : Integer): Boolean;
+                         DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
+                         CLIENTE : Integer; STATUS : string;  USERID : Integer): Integer;
     function excluiTitulo(codVendaE: Integer): Boolean;
     function alteraTitulo(codVendaA: Integer): Boolean;
     function cancelabaixa(CLIENTE: Integer; USERID :Integer): Boolean;
@@ -172,14 +172,15 @@ end;
 
 function TReceberCls.baixaTitulo( VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
 DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
-CLIENTE : Integer; STATUS : string; USERID : Integer): Boolean;
+CLIENTE : Integer; STATUS : string; USERID : Integer): Integer;
 var  strRec : String;
   codRecB: Integer;
-  VLR, VLRESTO, VLRATUAL, VLPAGO, VLJU, VLFUN, VLDESC, VLPER, VLJUT, VLFUNT, VLDESCT, VLPERT : DOUBLE;
+  VLR_RESTO, VLR, VLRESTO, VLRATUAL, VLPAGO, VLJU, VLFUN, VLDESC, VLPER, VLJUT, VLFUNT, VLDESCT, VLPERT : DOUBLE;
   CODREC : INTEGER;
   sqlBuscaR : TSqlQuery;
 begin
   VLRATUAL := (VALOR - FUNRURAL - JUROS + PERDA + DESCONTO);
+  VLR_RESTO := 0;
   VLPAGO := (VALOR - JUROS - FUNRURAL);
   VLJUT := JUROS;
   VLFUNT := FUNRURAL;
@@ -189,8 +190,9 @@ begin
   try
     sqlBuscaR :=  TSqlQuery.Create(nil);
     sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
-    strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + 'AND DP = 0 ' +
+    strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + ' AND DP = 0 ' +
     ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') + ') and USERID = ' + IntToStr(USERID) + ' order by CODRECEBIMENTO';
+    //strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODRECEBIMENTO = ' + IntToStr(CODRECEBE);
     sqlBuscaR.SQL.Add(strRec);
     sqlBuscaR.Open;
     sqlBuscaR.First;
@@ -198,7 +200,8 @@ begin
     begin
       CODREC := sqlBuscaR.FieldByName('CODRECEBIMENTO').AsInteger;
       VLRESTO := sqlBuscaR.FieldByName('VALOR_RESTO').AsFloat;
-
+      if (VLR_RESTO = 0) then
+        VLR_RESTO := VLRESTO;
       VLJU := VLJUT - VLJU;
       if (VLJU < 0) then
         VLJU := 0;
@@ -302,11 +305,18 @@ begin
       end;
      sqlBuscaR.Next;
     end;
+    VLR_RESTO := VLR_RESTO - (VLR - VLDESC - VLPER);
+    Result := 0;
+    // Se sobrou algum valor então gera novo titulo
+    if (VLR_RESTO > 0.001) then
+    begin
+        Self.Valor := VLR_RESTO;
+        Result := geraTitulo(CodRec, 0);
+    end;
   finally
     sqlBuscaR.Free;
   end;
   DecimalSeparator := ',';
-  Result := True;
 end;
 
 function TReceberCls.cancelabaixa(CLIENTE, USERID: Integer): Boolean;
@@ -390,8 +400,8 @@ var strG, strR, strP: String;
             i : integer;
           rec : Boolean;
       VlrParc, UltParc : Double;
+      vDataVenc : TDateTime;
 begin
-
   // Se codVendaR > 0, então é uma Venda então busca os dados da Venda;
   if (CodVendaR > 0) then
   begin
@@ -450,6 +460,43 @@ begin
     Finally
       sqlPrazo.Free;
     end;
+  end
+  else
+  begin
+    Try
+      sqlBuscaR :=  TSqlQuery.Create(nil);
+      sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
+      strR := 'SELECT CODRECEBIMENTO, CODVENDA, CODCLIENTE, EMISSAO, ' +
+        ' DATAVENCIMENTO, CODVENDEDOR, CODUSUARIO,' +
+        ' VALOR_RESTO, TITULO, VIA, PARCELAS,' +
+        ' FORMARECEBIMENTO, CODALMOXARIFADO ' +
+        '  FROM RECEBIMENTO ' +
+        ' WHERE CODRECEBIMENTO = ' + InttoStr(CodRecR);
+      sqlBuscaR.SQL.Add(strR);
+      sqlBuscaR.Open;
+      if (not sqlBuscaR.isEmpty) then
+      begin
+        Self.CodVenda      := sqlBuscaR.FieldByName('CODVENDA').AsInteger;
+        Self.CodCliente    := sqlBuscaR.FieldByName('CODCLIENTE').AsInteger;
+        Self.CodVendedor   := sqlBuscaR.FieldByName('CODVENDEDOR').AsInteger;
+        Self.CodUsuario    := sqlBuscaR.FieldByName('CODUSUARIO').AsInteger;
+        Self.NParcela      := sqlBuscaR.FieldByName('PARCELAS').AsInteger;
+        //Self.Valor         := sqlBuscaR.FieldByName('VALOR_RESTO').AsFloat;
+        Self.ValorRec      := 0;//sqlBuscaR.FieldByName('ENTRADA').AsFloat;
+        Self.DtEmissao     := sqlBuscaR.FieldByName('EMISSAO').AsDateTime;
+        Self.DtVcto        := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
+        //Self.Prazo         := sqlBuscaR.FieldByName('PRAZO').AsString;
+        Self.CodOrigem     := sqlBuscaR.FieldByName('CODRECEBIMENTO').AsInteger;
+        Self.CodCCusto     := sqlBuscaR.FieldByName('CODALMOXARIFADO').AsInteger;
+        Self.Titulo        := sqlBuscaR.FieldByName('TITULO').AsString;
+        vDataVenc          := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
+        VlrParc            := Self.Valor;
+        CodRecR := 1;
+      end;
+    Finally
+      sqlBuscaR.Free;
+    end;
+
   end;
 
   if ((Self.NParcela = 1) and (Self.Valor < Self.ValorRec)) then
@@ -460,17 +507,27 @@ begin
 
   Self.Status   := '5-';
   Self.FormaRec := '0';
-  if ((Self.ValorRec > 0) and (Self.ValorRec < Self.Valor)) then
-    VlrParc := (Self.Valor - Self.ValorRec) / (Self.NParcela-1)
+  if (CodRecR <> 1) then
+  begin
+    if ((Self.ValorRec > 0) and (Self.ValorRec < Self.Valor)) then
+      VlrParc := (Self.Valor - Self.ValorRec) / (Self.NParcela-1)
+    else
+      VlrParc := Self.Valor / Self.NParcela;
+  end
   else
-    VlrParc := Self.Valor / Self.NParcela;
+  begin
+    Self.NParcela := 1;
+  end;
   DecimalSeparator := '.';
 
-  UltParc := Self.Valor;
+ // UltParc := Self.Valor;
+   UltParc := VlrParc;
 
+
+     
   for i := 1 to Self.NParcela do
   begin
-    if (CodRecR = 0) then
+    if ((CodRecR = 0) or (CodRecR = 1)) then   //CodRecR = 1  novo titulo de baixa Parcial...
     begin
       if dm.c_6_genid.Active then
         dm.c_6_genid.Close;
@@ -479,6 +536,9 @@ begin
       Self.CodRec := dm.c_6_genid.Fields[0].AsInteger;
       dm.c_6_genid.Close;
     end;
+    if (CodRecR = 0) then
+      vDataVenc := IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]));
+
     strG := ' INSERT INTO RECEBIMENTO ' +
           ' (CODRECEBIMENTO, TITULO,          EMISSAO,         CODCLIENTE,      ' +
           ' DATAVENCIMENTO,  STATUS,          VIA,             FORMARECEBIMENTO,' +
@@ -494,7 +554,9 @@ begin
     strG := strG + QuotedStr(Self.Titulo) + ', ';
     strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', Self.DtEmissao)) + ', ';
     strG := strG + IntToStr(Self.CodCliente) + ', ';
-    strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', (IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]))))) + ', ';
+    //strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', (IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]))))) + ', ';
+    strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', vDataVenc)) + ', ';
+
     strG := strG + QuotedStr(Self.Status) + ', ';
     strG := strG + IntToStr(i) + ', ';
     strG := strG + QuotedStr(Self.FormaRec) + ', ';
@@ -503,7 +565,8 @@ begin
     strG := strG + InttoStr(Self.CodVendedor) + ', ';
     strG := strG + InttoStr(Self.CodUsuario) + ', ';
     strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy hh:MM', Now)) + ', ';  // DataSistema
-    if (i = 1) then
+
+    if ((i = 1) and (CodRecR = 0)) then
       strG := strG + FloattoStr(Self.Valor) + ', ' // Valor_prim_via
     else
       strG := strG + '0, '; // Valor_prim_via
@@ -523,6 +586,7 @@ begin
         strG := strG + FloattoStr(UltParc) + ', ' // Valor_Resto
       else
         strG := strG + FloattoStr(VlrParc) + ', '; // Valor_Resto
+
     strG := strG + FloattoStr(Self.Valor) + ', ';  // Valortitulo
     strG := strG + '0, ';  // ValorRecebido
     strG := strG + IntToStr(Self.NParcela) + ', ';
@@ -537,7 +601,7 @@ begin
     strG := strG + IntToStr(1) + ', '; // Situacao
     strG := strG + IntToStr(1) + ')'; // CodOrigem
     Rec  := executaSql(strG);
-    UltParc := UltParc - VlrParc;
+    //UltParc := UltParc - VlrParc;
   end;
   DecimalSeparator := ',';
   Result := 0;
