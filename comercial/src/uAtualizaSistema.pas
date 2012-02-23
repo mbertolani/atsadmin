@@ -1207,12 +1207,12 @@ begin
     begin
       try
         executaSql('UPDATE OS_DET set CODPRODUTO = 390 WHERE CODPRODUTO = 0');
-        executaSql('alter table OS_DET ' +
+        executaSql(UpperCase('alter table OS_DET ' +
           'add constraint FK_OS_DET_PROD ' +
           'foreign key (CODPRODUTO) ' +
           'references PRODUTOS (CODPRODUTO) ' +
           'on update NO ACTION ' +
-          'on delete NO ACTION');
+          'on delete NO ACTION'));
       except
       end;
       mudaVersao('1.0.0.99');
@@ -1240,30 +1240,30 @@ begin
       executaDDL('EMPRESA', 'CONTADOR_FAX',    'VARCHAR(14)');
       executaDDL('EMPRESA', 'CONTADOR_EMAIL',  'VARCHAR(100)');
       executaDDL('EMPRESA', 'CONTADOR_COD_MUN', 'CHAR(10)');
-      executaDDL('EMPRESA', 'IndicadorNaturezaPJ', 'VARCHAR(50)'); // Indicador da natureza da pessoa juridica
-      executaDDL('EMPRESA', 'IndicadorAtividade',  'VARCHAR(50)');
-      executaDDL('EMPRESA', 'CodIndIncTributaria', 'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndAproCred',         'VARCHAR(50)');
-      executaDDL('EMPRESA', 'CodIndTipoCon',       'VARCHAR(50)');
-      executaDDL('EMPRESA', 'CodIndCritEscrit',    'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndCodIncidencia',    'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndCTA',              'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndEscrituracao',     'VARCHAR(50)');
-      executaDDL('EMPRESA', 'BaseCalculoCredito',  'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndAJ',               'VARCHAR(50)');
-      executaDDL('EMPRESA', 'CodAj',               'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndNatRec',           'VARCHAR(50)');
-      executaDDL('EMPRESA', 'NatCredDesc',         'VARCHAR(50)');
-      executaDDL('EMPRESA', 'CodCred',             'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndTipCoop',          'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndCredOri',          'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndRec',              'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndDescCred',         'VARCHAR(50)');
-      executaDDL('EMPRESA', 'CodCont',             'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndNatRetFonte',      'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndOrigemDiversas',   'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndNatDeducao',       'VARCHAR(50)');
-      executaDDL('EMPRESA', 'IndTpOperacaoReceita','VARCHAR(50)');
+      executaDDL('EMPRESA', 'INDICADORNATUREZAPJ', 'VARCHAR(50)'); // Indicador da natureza da pessoa juridica
+      executaDDL('EMPRESA', UpperCase('IndicadorAtividade'),  'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('CodIndIncTributaria'), 'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndAproCred'),         'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('CodIndTipoCon'),       'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('CodIndCritEscrit'),    'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndCodIncidencia'),    'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndCTA'),              'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndEscrituracao'),     'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('BaseCalculoCredito'),  'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndAJ'),               'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('CodAj'),               'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndNatRec'),           'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('NatCredDesc'),         'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('CodCred'),             'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndTipCoop'),          'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndCredOri'),          'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndRec'),              'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndDescCred'),         'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('CodCont'),             'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndNatRetFonte'),      'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndOrigemDiversas'),   'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndNatDeducao'),       'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IndTpOperacaoReceita'),'VARCHAR(50)');
       //executaDDL('EMPRESA', '', 'VARCHAR(50)');
 
       if (NaoExisteTabela('SPEDPISCOFINS')) then
@@ -1272,37 +1272,37 @@ begin
         'PRIMARY KEY, DATAINI DATE , DATAFIM DATE, DATAGERADO DATE, DATAENVIADO DATE, ' +
         'EMPRESA VARCHAR(100), EMPRESA_CNPJ CHAR(14), EMPRESA_CODIGO INTEGER)');
       end;
-      executaDDL('SPEDPISCOFINS', 'CodFinalidade',        'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINS', 'IndicadorMovimento',   'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINS', 'Perfil',               'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINS', 'Atividade',            'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINS', 'VersaoLeiaute',        'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINS', 'CodFinalidade',        'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINS', 'TipoEscrituracao',    'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndicadorNaturezaPJ', 'VARCHAR(50)'); // Indicador da natureza da pessoa juridica
-      executaDDL('SPEDPISCOFINS', 'IndicadorAtividade',  'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'CodIndIncTributaria', 'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndAproCred',         'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'CodIndTipoCon',       'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'CodIndCritEscrit',    'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndCodIncidencia',    'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndCTA',              'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndEscrituracao',     'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'BaseCalculoCredito',  'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndAJ',               'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'CodAj',               'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndNatRec',           'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'NatCredDesc',         'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'CodCred',             'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndTipCoop',          'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndCredOri',          'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndRec',              'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndDescCred',         'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'CodCont',             'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndNatRetFonte',      'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndOrigemDiversas',   'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndNatDeducao',       'VARCHAR(50)');
-      executaDDL('SPEDPISCOFINS', 'IndTpOperacaoReceita','VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('CodFinalidade'),        'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndicadorMovimento'),   'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINS', UpperCase('Perfil'),               'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINS', UpperCase('Atividade'),            'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINS', UpperCase('VersaoLeiaute'),        'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINS', UpperCase('CodFinalidade'),        'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINS', UpperCase('TipoEscrituracao'),    'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndicadorNaturezaPJ'), 'VARCHAR(50)'); // Indicador da natureza da pessoa juridica
+      executaDDL('SPEDPISCOFINS', UpperCase('IndicadorAtividade'),  'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('CodIndIncTributaria'), 'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndAproCred'),         'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('CodIndTipoCon'),       'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('CodIndCritEscrit'),    'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndCodIncidencia'),    'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndCTA'),              'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndEscrituracao'),     'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('BaseCalculoCredito'),  'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndAJ'),               'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('CodAj'),               'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndNatRec'),           'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('NatCredDesc'),         'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('CodCred'),             'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndTipCoop'),          'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndCredOri'),          'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndRec'),              'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndDescCred'),         'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('CodCont'),             'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndNatRetFonte'),      'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndOrigemDiversas'),   'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndNatDeducao'),       'VARCHAR(50)');
+      executaDDL('SPEDPISCOFINS', UpperCase('IndTpOperacaoReceita'),'VARCHAR(50)');
       executaDDL('SPEDPISCOFINS', 'CONTADOR',            'VARCHAR(100)');
       executaDDL('SPEDPISCOFINS', 'CONTADOR_CPF',        'CHAR(11)');
       executaDDL('SPEDPISCOFINS', 'CONTADOR_CNPJ',       'CHAR(14)');
@@ -1323,27 +1323,27 @@ begin
         'DATAINI DATE , DATAFIM DATE, DATAGERADO DATE, DATAENVIADO DATE, ' +
         'EMPRESA VARCHAR(100), EMPRESA_CNPJ CHAR(14), EMPRESA_CODIGO INTEGER)');
 
-        executaSql('alter table SPEDPISCOFINSDET add constraint FK_SPED '  +
+        executaSql(UpperCase('alter table SPEDPISCOFINSDET add constraint FK_SPED '  +
                    'foreign key (CODSPED) references SPEDPISCOFINS (CODSPED) ' +
-                   'on update NO ACTION on delete NO ACTION');
+                   'on update NO ACTION on delete NO ACTION'));
       end;
 
-      executaDDL('SPEDPISCOFINSDET', 'TipoItem',       'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'TipoOperacao',   'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'Emitente',       'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'TipoPagamento',  'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'TipoFrete',      'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'TipoFreteRedespacho', 'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'OrigemProcesso', 'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'DoctoArrecada',  'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'TipoTransporte', 'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'DoctoImporta',   'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'TipoTitulo',     'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'MovimentacaoFisica', 'VARCHAR(10)');
-      executaDDL('SPEDPISCOFINSDET', 'ApuracaoIPI',    'VARCHAR(10)');
-      executaDDL('SPEDPISCOFINSDET', 'NaturezaFrete',  'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'NaturezaFrtContratado', 'VARCHAR(30)');
-      executaDDL('SPEDPISCOFINSDET', 'MovimentoST',    'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('TipoItem'),       'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('TipoOperacao'),   'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('Emitente'),       'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('TipoPagamento'),  'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('TipoFrete'),      'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('TipoFreteRedespacho'), 'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('OrigemProcesso'), 'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('DoctoArrecada'),  'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('TipoTransporte'), 'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('DoctoImporta'),   'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('TipoTitulo'),     'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('MovimentacaoFisica'), 'VARCHAR(10)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('ApuracaoIPI'),    'VARCHAR(10)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('NaturezaFrete'),  'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('NaturezaFrtContratado'), 'VARCHAR(30)');
+      executaDDL('SPEDPISCOFINSDET', UpperCase('MovimentoST'),    'VARCHAR(30)');
       {executaDDL('SPEDPISCOFINSDET', '',               'VARCHAR(50)');
       executaDDL('SPEDPISCOFINSDET', '',               'VARCHAR(50)');
       executaDDL('SPEDPISCOFINSDET', '',               'VARCHAR(50)');
@@ -1454,9 +1454,12 @@ begin
       dm.sqlsisAdimin.ExecuteDirect(sql);
       dm.sqlsisAdimin.Commit(TD);
     except
-      dm.sqlsisAdimin.Rollback(TD);
-      MessageDlg('Erro 003. (' + sql + ')', mtWarning, [mbOK], 0);
-      abort;
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        abort;
+      end;
     end;
   end;
 end;

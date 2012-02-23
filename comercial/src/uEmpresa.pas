@@ -98,29 +98,29 @@ type
     cbTACBrIndicadorAtividade: TComboBox;
     Label30: TLabel;
     cbTACBrIndicadorNaturezaPJ: TComboBox;
-    ComboBox2: TComboBox;
+    cbTACBrCodIndIncTributaria: TComboBox;
     Label31: TLabel;
-    ComboBox3: TComboBox;
+    cbTACBrIndAproCred: TComboBox;
     Label32: TLabel;
     Label33: TLabel;
     Label34: TLabel;
-    ComboBox4: TComboBox;
+    cbTACBrCodIndTipoCon: TComboBox;
     Label35: TLabel;
     Label36: TLabel;
     Label37: TLabel;
     Label38: TLabel;
     Label39: TLabel;
-    ComboBox5: TComboBox;
-    ComboBox6: TComboBox;
-    ComboBox7: TComboBox;
-    ComboBox8: TComboBox;
-    ComboBox9: TComboBox;
+    cbTACBrCodIndCritEscrit: TComboBox;
+    cbTACBrIndCodIncidencia: TComboBox;
+    cbTACBrIndCTA: TComboBox;
+    cbTACBrIndEscrituracao: TComboBox;
+    cbTACBrBaseCalculoCredito: TComboBox;
     Label40: TLabel;
     Label41: TLabel;
-    ComboBox10: TComboBox;
+    cbTACBrIndAJ: TComboBox;
     cbTACBrCodAj: TComboBox;
     Label42: TLabel;
-    ComboBox11: TComboBox;
+    cbTACBrApuracaoIPI: TComboBox;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -135,6 +135,7 @@ type
     procedure cbTACBrCodAjChange(Sender: TObject);
     procedure cbTACBrIndicadorNaturezaPJChange(Sender: TObject);
     procedure cbTACBrIndicadorAtividadeChange(Sender: TObject);
+    procedure cbTACBrCodIndIncTributariaChange(Sender: TObject);
   private
     TACBrCodAj, TACBrIndAJ, TACBrBaseCalculoCredito, TACBrIndEscrituracao,
     TACBrIndCTA, TACBrIndCodIncidencia, TACBrCodIndCritEscrit, TACBrCodIndTipoCon,
@@ -345,35 +346,48 @@ end;
 
 procedure TfEmpresa.cbTACBrCodAjChange(Sender: TObject);
 begin
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
   Case cbTACBrCodAj.ItemIndex of
-    0: TACBrCodAj := 'codAjAcaoJudicial';      // '01' // Ajuste Oriundo de Ação Judicial
-    1: TACBrCodAj := 'codAjProAdministrativo'; // '02' // Ajuste Oriundo de Processo Administrativo
-    2: TACBrCodAj := 'codAjLegTributaria';     // '03' // Ajuste Oriundo da Legislação Tributária
-    3: TACBrCodAj := 'codAjEspRTI';            // '04' // Ajuste Oriundo Especificamente do RTT
-    4: TACBrCodAj := 'codAjOutrasSituacaoes';  // '05' // Ajuste Oriundo de Outras Situações
-    5: TACBrCodAj := 'codAjEstorno';           // '06' // Estorno
+    0: dm.cds_empresaCodAj.AsString := 'codAjAcaoJudicial';      // '01' // Ajuste Oriundo de Ação Judicial
+    1: dm.cds_empresaCodAj.AsString := 'codAjProAdministrativo'; // '02' // Ajuste Oriundo de Processo Administrativo
+    2: dm.cds_empresaCodAj.AsString := 'codAjLegTributaria';     // '03' // Ajuste Oriundo da Legislação Tributária
+    3: dm.cds_empresaCodAj.AsString := 'codAjEspRTI';            // '04' // Ajuste Oriundo Especificamente do RTT
+    4: dm.cds_empresaCodAj.AsString := 'codAjOutrasSituacaoes';  // '05' // Ajuste Oriundo de Outras Situações
+    5: dm.cds_empresaCodAj.AsString := 'codAjEstorno';           // '06' // Estorno
   end;  
 end;
 
 procedure TfEmpresa.cbTACBrIndicadorNaturezaPJChange(Sender: TObject);
 begin
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
   Case (cbTACBrIndicadorNaturezaPJ.ItemIndex) of
-    0 : TACBrIndicadorNaturezaPJ := 'indNatPJSocEmpresariaGeral';   // 0 - Sociedade empresária geral
-    1 : TACBrIndicadorNaturezaPJ := 'indNatPJSocCooperativa';       // 1 - Sociedade Cooperativa
-    2 : TACBrIndicadorNaturezaPJ := 'indNatPJEntExclusivaFolhaSal'; // 2 - Entidade sujeita ao PIS/Pasep exclusivamente com base  na folha de salários
-  end;  
+    0 : dm.cds_empresaINDICADORNATUREZAPJ.AsString := 'indNatPJSocEmpresariaGeral';   // 0 - Sociedade empresária geral
+    1 : dm.cds_empresaINDICADORNATUREZAPJ.AsString := 'indNatPJSocCooperativa';       // 1 - Sociedade Cooperativa
+    2 : dm.cds_empresaINDICADORNATUREZAPJ.AsString := 'indNatPJEntExclusivaFolhaSal'; // 2 - Entidade sujeita ao PIS/Pasep exclusivamente com base  na folha de salários
+  end;
 end;
 
 procedure TfEmpresa.cbTACBrIndicadorAtividadeChange(Sender: TObject);
 begin
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
   Case cbTACBrIndicadorAtividade.ItemIndex of
-    0 : TACBrIndicadorAtividade := 'indAtivIndustrial';       // 0 - Industrial ou equiparado a industrial
-    1 : TACBrIndicadorAtividade := 'indAtivPrestadorServico'; // 1 - Prestador de serviços
-    2 : TACBrIndicadorAtividade := 'indAtivComercio';         // 2 - Atividade de comércios
-    3 : TACBrIndicadorAtividade := 'indAtivoFincanceira';     // 3 - Atividade Financeira
-    4 : TACBrIndicadorAtividade := 'indAtivoImobiliaria';     // 4 - Atividade Imobiliária
-    5 : TACBrIndicadorAtividade := 'indAtivoOutros';          // 9 - Outros
+    0 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivIndustrial';       // 0 - Industrial ou equiparado a industrial
+    1 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivPrestadorServico'; // 1 - Prestador de serviços
+    2 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivComercio';         // 2 - Atividade de comércios
+    3 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivoFincanceira';     // 3 - Atividade Financeira
+    4 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivoImobiliaria';     // 4 - Atividade Imobiliária
+    5 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivoOutros';          // 9 - Outros
   end;
+end;
+
+procedure TfEmpresa.cbTACBrCodIndIncTributariaChange(Sender: TObject);
+begin
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
+
 end;
 
 end.
