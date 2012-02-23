@@ -258,6 +258,8 @@ uses
   uImport in 'uImport.pas' {fImport},
   uClienteFiltro in 'uClienteFiltro.pas' {fClienteFiltro},
   uReceberCls in 'uReceberCls.pas',
+  uAts_R in 'uAts_R.pas' {fAts_R},
+  uAbrirCaixa in 'uAbrirCaixa.pas' {fAbrirCaixa},
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
   uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins};
 
@@ -277,9 +279,10 @@ begin
   if (dm.conectado = False) then
     Application.Terminate;
   if (dm.moduloUsado = 'AUTOMOTIVA') then
-  begin
     Application.CreateForm(TfAtsOs, fAtsOs);
-  end;
+
+  if (dm.moduloUsado = 'RESTAURANTES') then
+    Application.CreateForm(TfAts_R, fAts_R);
 
   Application.CreateForm(TfAtsAdmin, fAtsAdmin);
 
