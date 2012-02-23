@@ -905,7 +905,8 @@ begin
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLReport1.execute;
   end;
-
+  usulog :=  UserControlComercial.CurrentUser.UserID;
+  nome_user := UserControlComercial.CurrentUser.UserName;
 end;
 
 procedure TfAtsAdmin.ListadeCompras1Click(Sender: TObject);
@@ -1009,16 +1010,6 @@ var
 begin
   usulog :=  UserControlComercial.CurrentUser.UserID;
   nome_user := UserControlComercial.CurrentUser.UserName;
-{  if (F_Terminal = nil) then
-  begin
-    F_Terminal := TF_Terminal.Create(Self);
-    sCtrlResize.CtrlResize(TForm(F_Terminal));
-    F_Terminal.Show;
-  end
-  else
-  begin
-    F_Terminal.Show;
-  end;}
   F_Terminal := TF_Terminal.Create(Application);
   try
    sCtrlResize.CtrlResize(TForm(F_Terminal));
