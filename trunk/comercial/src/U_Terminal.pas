@@ -446,6 +446,7 @@ type
     ReimprimirSetor2Local1: TMenuItem;
     JvBitBtn6: TJvBitBtn;
     s_Bloque: TSQLDataSet;
+    Parcial1: TMenuItem;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -589,6 +590,7 @@ type
     procedure permissao;
     { Private declarations }
   public
+    var_FINALIZOU : string;
     { Public declarations }
   end;
 
@@ -1406,8 +1408,8 @@ begin
       JvBitBtn2.Visible := False;
      if (JvBitBtn3.Visible = True) then
       JvBitBtn3.Visible := False;
-    if (JvBitBtn4.Visible = True) then
-      JvBitBtn4.Visible := False;
+    //if (JvBitBtn4.Visible = True) then
+    //  JvBitBtn4.Visible := False;
   end;
   if (PageControl1.ActivePage = TabComanda) then
   begin
@@ -1996,7 +1998,7 @@ begin
      EdtCodBarra.SetFocus;
      JvBitBtn2.Visible := False;
      JvBitBtn3.Visible := False;
-     JvBitBtn4.Visible := False;
+    // JvBitBtn4.Visible := False;
   end;
 end;
 
@@ -3194,7 +3196,7 @@ begin
       F_Entrada.c_forma.Close;
     F_Entrada.c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     F_Entrada.c_forma.Open;
-
+    var_FINALIZOU := '';
     if (F_Entrada.c_forma.IsEmpty) then
       F_Entrada.c_forma.Append
     else
@@ -3222,57 +3224,106 @@ begin
 
   c_forma.Close;
 
+  if (var_FINALIZOU = 'SIM') then
+  begin
+      if (PageControl1.ActivePage = TabComanda) then
+      begin
+         if (DM_MOV.c_comanda.Active) then
+             DM_MOV.c_comanda.Close;
+         pinta_botao;
+         JvLabel8.Caption := '...';
+         JvTotal.Value := 0;
+      end;
+
+      if (PageControl1.ActivePage = TabSheet1) then
+      begin
+         EdtCodBarra.SetFocus;
+         if (DM_MOV.c_movimento.Active) then
+             DM_MOV.c_movimento.Close;
+         JvTotal.Value := 0;
+      end;
+
+      if (PageControl1.ActivePage = TabDelivery) then
+      begin
+        edtFone.SetFocus;
+         if (DM_MOV.c_Delivery.Active) then
+          DM_MOV.c_Delivery.Close;
+        DM_MOV.c_Delivery.CommandText := '';
+        sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
+        sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+        sql := sql + 'WHERE m.CODNATUREZA = ';
+        sql := sql + IntToStr(3);
+        sql := sql + 'and m.STATUS = ';
+        sql := sql + IntToStr(20);
+        sql := sql + 'and m.TIPO_PEDIDO = ';
+        sql := sql + QuotedStr('D');
+        DM_MOV.c_Delivery.CommandText := sql;
+        DM_MOV.c_Delivery.Open;
+      end;
+      if (DM_MOV.c_movdet.Active) then
+         DM_MOV.c_movdet.Close;
+      JvSubtotal.Value := 0;
+      JvTotal.Value := 0;
+      JvParcial.Value := 0;
+      DM_MOV.ID_DO_MOVIMENTO := 0;
+  end;
 end;
 
 procedure TF_Terminal.edtFoneKeyPress(Sender: TObject; var Key: Char);
 begin
    if (key = #13) then
    begin
-     sql := 'SELECT a.CODCLIENTE, a.NOMECLIENTE, ' +
-            'e.LOGRADOURO, e.TELEFONE ' +
-            'FROM CLIENTES a, ENDERECOCLIENTE e ' +
-            'where e.CODCLIENTE = a.CODCLIENTE ' +
-            ' and e.TIPOEND = 0 ' +
-            ' and e.TELEFONE = ' + QuotedStr(edtFone.Text);
-     if (sbuscaCli.Active) then
-         sbuscaCli.Close;
-     sbuscaCli.CommandText := sql;
-     sbuscaCli.Open;
-     if (not sbuscaCli.IsEmpty) then
+     if (edtFone.Text <> '') then
      begin
-       edtCodCli.Text := IntToStr(sbuscaCli.Fields[0].AsInteger);
-       edtNome.Text := sbuscaCli.Fields[1].AsString;
-       edtEnd.Text := sbuscaCli.Fields[2].AsString;
-       if (MessageDlg('Incluir Pedido ?', mtInformation, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
+       sql := 'SELECT a.CODCLIENTE, a.NOMECLIENTE, ' +
+              'e.LOGRADOURO, e.TELEFONE ' +
+              'FROM CLIENTES a, ENDERECOCLIENTE e ' +
+              'where e.CODCLIENTE = a.CODCLIENTE ' +
+              ' and e.TIPOEND = 0 ' +
+              ' and e.TELEFONE = ' + QuotedStr(edtFone.Text);
+       if (sbuscaCli.Active) then
+           sbuscaCli.Close;
+       sbuscaCli.CommandText := sql;
+       sbuscaCli.Open;
+       if (not sbuscaCli.IsEmpty) then
        begin
-         codcliente := sbuscaCli.Fields[0].AsInteger;
-         IncluiPedido;
+         edtCodCli.Text := IntToStr(sbuscaCli.Fields[0].AsInteger);
+         edtNome.Text := sbuscaCli.Fields[1].AsString;
+         edtEnd.Text := sbuscaCli.Fields[2].AsString;
+         if (MessageDlg('Incluir Pedido ?', mtInformation, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
+         begin
+           codcliente := sbuscaCli.Fields[0].AsInteger;
+           IncluiPedido;
 
-          if (DM_MOV.c_Delivery.Active) then
-            DM_MOV.c_Delivery.Close;
-          DM_MOV.c_Delivery.CommandText := '';
-          sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-          sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-          sql := sql + 'WHERE m.CODNATUREZA = ';
-          sql := sql + IntToStr(3);
-          sql := sql + 'and m.STATUS = ';
-          sql := sql + IntToStr(20);
-          sql := sql + 'and m.TIPO_PEDIDO = ';
-          sql := sql + QuotedStr('D');
-          DM_MOV.c_Delivery.CommandText := sql;
-          DM_MOV.c_Delivery.Open;
-          DM_MOV.c_Delivery.Locate('CODCLIENTE',edtCodCli.Text,[loCaseInsensitive]);
-          EdtCodBarra1.SetFocus;
-          
+            if (DM_MOV.c_Delivery.Active) then
+              DM_MOV.c_Delivery.Close;
+            DM_MOV.c_Delivery.CommandText := '';
+            sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
+            sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+            sql := sql + 'WHERE m.CODNATUREZA = ';
+            sql := sql + IntToStr(3);
+            sql := sql + 'and m.STATUS = ';
+            sql := sql + IntToStr(20);
+            sql := sql + 'and m.TIPO_PEDIDO = ';
+            sql := sql + QuotedStr('D');
+            DM_MOV.c_Delivery.CommandText := sql;
+            DM_MOV.c_Delivery.Open;
+            DM_MOV.c_Delivery.Locate('CODCLIENTE',edtCodCli.Text,[loCaseInsensitive]);
+            EdtCodBarra1.SetFocus;
+         end;
+       end
+       else
+       begin
+         edtCodCli.Clear;
+         edtNome.Clear;
+         edtEnd.Clear;
        end;
+       sbuscaCli.Close;
      end
      else
      begin
-       edtCodCli.Clear;
-       edtNome.Clear;
-       edtEnd.Clear;
+       BitBtn1.Click;
      end;
-     sbuscaCli.Close;
    end;
 end;
 
