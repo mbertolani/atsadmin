@@ -303,6 +303,9 @@ begin
     VCLReport1.execute;
   end;
 
+  usulog :=  fAts_R.UserControlAuto.CurrentUser.UserID;
+  nome_user := fAts_R.UserControlAuto.CurrentUser.UserName;
+
 end;
 
 procedure TfAts_R.JvOutlookBar1Pages0Buttons1Click(Sender: TObject);
@@ -362,8 +365,8 @@ procedure TfAts_R.JvOutlookBar1Pages1Buttons2Click(Sender: TObject);
 begin
 //   DM.tipoVenda := 'VENDA';
   // fVendas.ShowModal;
-  usulog :=  fAtsAdmin.UserControlComercial.CurrentUser.UserID;
-  nome_user := fAtsAdmin.UserControlComercial.CurrentUser.UserName;
+  usulog :=  fAts_R.UserControlAuto.CurrentUser.UserID;
+  nome_user := fAts_R.UserControlAuto.CurrentUser.UserName;
 
   F_Terminal := TF_Terminal.Create(Application);
   try
