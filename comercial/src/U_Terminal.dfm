@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 226
-  Top = 102
+  Left = 241
+  Top = 123
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -1692,7 +1692,7 @@ object F_Terminal: TF_Terminal
       Top = 1
       Width = 42
       Height = 42
-      Hint = 'Receber  Parcial'
+      Hint = 'F10-Receber  Parcial'
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
@@ -2074,7 +2074,7 @@ object F_Terminal: TF_Terminal
     Top = 45
     Width = 372
     Height = 490
-    ActivePage = TabComanda
+    ActivePage = TabDelivery
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -4653,6 +4653,11 @@ object F_Terminal: TF_Terminal
       Caption = 'F9-Sair'
       ShortCut = 120
       OnClick = JvSairClick
+    end
+    object Parcial1: TMenuItem
+      Caption = 'Parcial'
+      ShortCut = 121
+      OnClick = JvBitBtn4Click
     end
   end
   object b_cliente: TSQLDataSet
