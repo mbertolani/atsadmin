@@ -1,6 +1,6 @@
 object F_Entrada: TF_Entrada
-  Left = 313
-  Top = 135
+  Left = 306
+  Top = 149
   Width = 632
   Height = 527
   BorderIcons = [biSystemMenu]
@@ -12,8 +12,10 @@ object F_Entrada: TF_Entrada
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  PopupMenu = pm1
   Position = poDesktopCenter
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object MMJPanel2: TMMJPanel
@@ -22,6 +24,7 @@ object F_Entrada: TF_Entrada
     Width = 616
     Height = 441
     Align = alClient
+    PopupMenu = pm1
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
@@ -184,9 +187,9 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Style = []
     end
     object JvVale: TJvValidateEdit
-      Left = 221
+      Left = 202
       Top = 222
-      Width = 158
+      Width = 143
       Height = 40
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -200,12 +203,14 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 10
+      OnKeyPress = FormKeyPress
     end
     object JvCartaoDBT: TJvValidateEdit
-      Left = 221
+      Left = 202
       Top = 179
-      Width = 158
+      Width = 143
       Height = 40
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -219,12 +224,14 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 9
+      PopupMenu = pm1
+      TabOrder = 8
+      OnKeyPress = FormKeyPress
     end
     object JvCartaoCDT: TJvValidateEdit
-      Left = 221
+      Left = 202
       Top = 136
-      Width = 158
+      Width = 143
       Height = 40
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -238,12 +245,14 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 6
+      OnKeyPress = FormKeyPress
     end
     object JvChequePre: TJvValidateEdit
-      Left = 221
+      Left = 202
       Top = 93
-      Width = 158
+      Width = 143
       Height = 40
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -257,12 +266,14 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 4
+      OnKeyPress = FormKeyPress
     end
     object JvCheque: TJvValidateEdit
-      Left = 221
+      Left = 202
       Top = 50
-      Width = 158
+      Width = 143
       Height = 40
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -276,12 +287,14 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 2
+      OnKeyPress = FormKeyPress
     end
     object jvDinheiro: TJvValidateEdit
-      Left = 221
+      Left = 202
       Top = 7
-      Width = 158
+      Width = 143
       Height = 40
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -295,12 +308,14 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 0
+      OnKeyPress = FormKeyPress
     end
     object JvOutros: TJvValidateEdit
-      Left = 221
+      Left = 202
       Top = 265
-      Width = 158
+      Width = 143
       Height = 40
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -314,98 +329,112 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 12
+      OnKeyPress = FormKeyPress
     end
     object cbCartaoCDT1: TComboBox
-      Left = 382
-      Top = 136
-      Width = 220
-      Height = 30
+      Left = 346
+      Top = 148
+      Width = 268
+      Height = 27
       BevelKind = bkFlat
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -19
+      Font.Height = -16
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
-      ItemHeight = 22
+      ItemHeight = 19
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 7
+      OnKeyPress = FormKeyPress
     end
     object cbCartaoDBT1: TComboBox
-      Left = 382
-      Top = 179
-      Width = 220
-      Height = 30
+      Left = 346
+      Top = 191
+      Width = 268
+      Height = 27
       BevelKind = bkFlat
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -19
+      Font.Height = -16
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
-      ItemHeight = 22
+      ItemHeight = 19
       ParentFont = False
-      TabOrder = 8
+      PopupMenu = pm1
+      TabOrder = 9
+      OnKeyPress = FormKeyPress
     end
     object cbOutros: TComboBox
-      Left = 382
-      Top = 265
-      Width = 220
-      Height = 30
+      Left = 346
+      Top = 277
+      Width = 268
+      Height = 27
       BevelKind = bkFlat
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -19
+      Font.Height = -16
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
-      ItemHeight = 22
+      ItemHeight = 19
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 13
+      OnKeyPress = FormKeyPress
     end
     object ObsCheque: TEdit
-      Left = 382
-      Top = 50
-      Width = 220
+      Left = 346
+      Top = 62
+      Width = 268
       Height = 30
       BevelKind = bkFlat
       BorderStyle = bsNone
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -19
+      Font.Height = -16
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 3
+      OnKeyPress = FormKeyPress
     end
     object ObsChequePre: TEdit
-      Left = 382
-      Top = 93
-      Width = 220
+      Left = 346
+      Top = 105
+      Width = 268
       Height = 30
       BevelKind = bkFlat
       BorderStyle = bsNone
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -19
+      Font.Height = -16
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 5
+      OnKeyPress = FormKeyPress
     end
     object cbDinheiro: TComboBox
-      Left = 382
-      Top = 7
-      Width = 220
-      Height = 30
+      Left = 346
+      Top = 19
+      Width = 268
+      Height = 27
       BevelKind = bkFlat
       Enabled = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -19
+      Font.Height = -16
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
-      ItemHeight = 22
+      ItemHeight = 19
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 1
+      OnKeyPress = FormKeyPress
     end
     object JvDBGrid1: TJvDBGrid
       Left = 1
@@ -415,6 +444,7 @@ object F_Entrada: TF_Entrada
       Align = alBottom
       BorderStyle = bsNone
       DataSource = DataSource1
+      PopupMenu = pm1
       TabOrder = 14
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -461,19 +491,21 @@ object F_Entrada: TF_Entrada
         end>
     end
     object cbVale: TComboBox
-      Left = 382
-      Top = 223
-      Width = 220
-      Height = 30
+      Left = 346
+      Top = 235
+      Width = 268
+      Height = 27
       BevelKind = bkFlat
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -19
+      Font.Height = -16
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
-      ItemHeight = 22
+      ItemHeight = 19
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 11
+      OnKeyPress = FormKeyPress
     end
   end
   object MMJPanel1: TMMJPanel
@@ -482,6 +514,7 @@ object F_Entrada: TF_Entrada
     Width = 616
     Height = 48
     Align = alTop
+    PopupMenu = pm1
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
@@ -534,12 +567,13 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Style = []
     end
     object JvGravar: TJvBitBtn
-      Left = 51
+      Left = 4
       Top = 2
       Width = 48
       Height = 45
       Hint = 'Gravar'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 0
       OnClick = JvGravarClick
@@ -649,12 +683,13 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Style = []
     end
     object JvExcluir: TJvBitBtn
-      Left = 99
+      Left = 52
       Top = 2
       Width = 48
       Height = 45
       Hint = 'Excluir'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 1
       OnClick = JvExcluirClick
@@ -790,12 +825,13 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Style = []
     end
     object JvSair: TJvBitBtn
-      Left = 196
+      Left = 149
       Top = 2
       Width = 48
       Height = 45
       Hint = 'F9 - Sair'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 2
       OnClick = JvSairClick
@@ -905,10 +941,11 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Style = []
     end
     object btnIncluir: TJvBitBtn
-      Left = 2
+      Left = 258
       Top = 2
       Width = 48
       Height = 45
+      PopupMenu = pm1
       TabOrder = 3
       Visible = False
       OnClick = btnIncluirClick
@@ -1058,6 +1095,7 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 4
     end
     object JvPedido: TJvValidateEdit
@@ -1077,15 +1115,17 @@ object F_Entrada: TF_Entrada
       Font.Name = 'Times New Roman'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 5
     end
     object JvFinalizar: TJvBitBtn
-      Left = 147
+      Left = 100
       Top = 2
       Width = 48
       Height = 45
       Hint = 'F6-Finalizar Pedido'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 6
       OnClick = JvFinalizarClick
@@ -1225,11 +1265,11 @@ object F_Entrada: TF_Entrada
     CommandText = 
       'select e.COD_VENDA, e.ID_ENTRADA, e.CAIXA, e.N_DOC,           e.' +
       'FORMA_PGTO, e.VALOR_PAGO,'#13#10'          CASE e.FORMA_PGTO '#13#10'       ' +
-      '                          WHEN '#39'0'#39' then '#39'DINHEIRO'#39' '#13#10'           ' +
-      '                      WHEN '#39'1'#39' then '#39'CHEQUE'#39' '#13#10'                 ' +
-      '                WHEN '#39'2'#39' then '#39'CHEQUE PRE'#39' '#13#10'                   ' +
-      '              WHEN '#39'5'#39' then '#39'CART'#195'O DE CREDITO'#39' '#13#10'              ' +
-      '                   WHEN '#39'6'#39' then '#39'CART'#195'O DE DEBITO'#39' '#13#10'          ' +
+      '                          WHEN '#39'1'#39' then '#39'DINHEIRO'#39' '#13#10'           ' +
+      '                      WHEN '#39'2'#39' then '#39'CHEQUE'#39' '#13#10'                 ' +
+      '                WHEN '#39'3'#39' then '#39'CHEQUE PRE'#39' '#13#10'                   ' +
+      '              WHEN '#39'6'#39' then '#39'CART'#195'O DE CREDITO'#39' '#13#10'              ' +
+      '                   WHEN '#39'7'#39' then '#39'CART'#195'O DE DEBITO'#39' '#13#10'          ' +
       '                       WHEN '#39'G'#39' then '#39'VALE'#39'                     ' +
       '             '#13#10'                                 WHEN '#39'H'#39' then '#39'O' +
       'UTROS'#39#13#10'                                end  as FORMA,'#13#10'        ' +
@@ -1238,7 +1278,7 @@ object F_Entrada: TF_Entrada
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptInput
       end>
@@ -1353,5 +1393,430 @@ object F_Entrada: TF_Entrada
     DataSet = c_forma
     Left = 456
     Top = 394
+  end
+  object scds_serie_proc: TSQLClientDataSet
+    CommandText = 
+      'select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL from SERIES wh' +
+      'ere SERIE like :pSERIE'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pSERIE'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 249
+    Top = 433
+    object scds_serie_procCODSERIE: TStringField
+      FieldName = 'CODSERIE'
+      FixedChar = True
+      Size = 3
+    end
+    object scds_serie_procSERIE: TStringField
+      FieldName = 'SERIE'
+      Required = True
+    end
+    object scds_serie_procULTIMO_NUMERO: TIntegerField
+      FieldName = 'ULTIMO_NUMERO'
+      Required = True
+    end
+    object scds_serie_procNOTAFISCAL: TSmallintField
+      FieldName = 'NOTAFISCAL'
+    end
+  end
+  object pm1: TPopupMenu
+    Left = 168
+    Top = 104
+    object F4Gravar1: TMenuItem
+      Caption = 'Gravar'
+      ShortCut = 115
+      OnClick = JvGravarClick
+    end
+    object Excluir1: TMenuItem
+      Caption = 'Excluir'
+      ShortCut = 114
+      OnClick = JvExcluirClick
+    end
+    object Finalizar1: TMenuItem
+      Caption = 'Finalizar'
+      ShortCut = 117
+      OnClick = JvFinalizarClick
+    end
+    object Sair1: TMenuItem
+      Caption = 'Sair'
+      ShortCut = 120
+      OnClick = JvSairClick
+    end
+  end
+  object VCLReport2: TVCLReport
+    Filename = 'C:\home\sisAdmin\relatorio\impr_texto.rep'
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 288
+    Top = 112
+  end
+  object s_parametro: TSQLDataSet
+    CommandText = 'select * from PARAMETRO '#13#10'where PARAMETRO = :pr'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pr'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 244
+    Top = 82
+    object s_parametroDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object s_parametroPARAMETRO: TStringField
+      FieldName = 'PARAMETRO'
+      Required = True
+      Size = 40
+    end
+    object s_parametroCONFIGURADO: TStringField
+      FieldName = 'CONFIGURADO'
+      FixedChar = True
+      Size = 1
+    end
+    object s_parametroDADOS: TStringField
+      FieldName = 'DADOS'
+      Size = 40
+    end
+    object s_parametroD1: TStringField
+      FieldName = 'D1'
+      Size = 30
+    end
+    object s_parametroD2: TStringField
+      FieldName = 'D2'
+      Size = 30
+    end
+    object s_parametroD3: TStringField
+      FieldName = 'D3'
+      Size = 30
+    end
+    object s_parametroD4: TStringField
+      FieldName = 'D4'
+      Size = 30
+    end
+    object s_parametroD5: TStringField
+      FieldName = 'D5'
+      Size = 30
+    end
+    object s_parametroD6: TStringField
+      FieldName = 'D6'
+      Size = 30
+    end
+    object s_parametroD7: TStringField
+      FieldName = 'D7'
+      Size = 30
+    end
+    object s_parametroD8: TStringField
+      FieldName = 'D8'
+      Size = 30
+    end
+    object s_parametroD9: TStringField
+      FieldName = 'D9'
+      Size = 30
+    end
+    object s_parametroINSTRUCOES: TStringField
+      FieldName = 'INSTRUCOES'
+      Size = 200
+    end
+    object s_parametroVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+  end
+  object dlgSave1: TSaveDialog
+    Left = 240
+    Top = 153
+  end
+  object scdsCr_proc: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pcod'
+        ParamType = ptInput
+      end>
+    ProviderName = 'DataSetProvider1'
+    Left = 408
+    Top = 432
+    object scdsCr_procTITULO: TStringField
+      FieldName = 'TITULO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      Size = 18
+    end
+    object scdsCr_procEMISSAO: TDateField
+      FieldName = 'EMISSAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procSTATUS: TStringField
+      DisplayWidth = 20
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 16
+    end
+    object scdsCr_procVIA: TStringField
+      FieldName = 'VIA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object scdsCr_procN_DOCUMENTO: TStringField
+      FieldName = 'N_DOCUMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procVALORRECEBIDO: TFloatField
+      FieldName = 'VALORRECEBIDO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object scdsCr_procVALOR_RESTO: TFloatField
+      FieldName = 'VALOR_RESTO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object scdsCr_procVALORTITULO: TFloatField
+      FieldName = 'VALORTITULO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object scdsCr_procNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ProviderFlags = []
+      Required = True
+      Size = 50
+    end
+    object scdsCr_procVALORREC: TFloatField
+      FieldName = 'VALORREC'
+      ProviderFlags = []
+      DisplayFormat = ',#0.00'
+    end
+    object scdsCr_procCODRECEBIMENTO: TIntegerField
+      FieldName = 'CODRECEBIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object scdsCr_procDP: TIntegerField
+      FieldName = 'DP'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procVALOR_PRIM_VIA: TFloatField
+      FieldName = 'VALOR_PRIM_VIA'
+      ProviderFlags = [pfInUpdate]
+      ReadOnly = True
+    end
+    object scdsCr_procCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object scdsCr_procTIT: TStringField
+      FieldName = 'TIT'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object scdsCr_procSITUACAO: TStringField
+      FieldName = 'SITUACAO'
+      ReadOnly = True
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object scdsCr_procFORMARECEBIMENTO: TStringField
+      FieldName = 'FORMARECEBIMENTO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object scdsCr_procDATARECEBIMENTO: TDateField
+      FieldName = 'DATARECEBIMENTO'
+      ReadOnly = True
+    end
+    object scdsCr_procCODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procTRecebido: TAggregateField
+      Alignment = taRightJustify
+      FieldName = 'TRecebido'
+      Active = True
+      DisplayFormat = ',##0.00'
+      Expression = 'SUM(VALORRECEBIDO)'
+    end
+    object scdsCr_procTotal_resto: TAggregateField
+      Alignment = taRightJustify
+      FieldName = 'Total_resto'
+      Active = True
+      DisplayFormat = ',##0.00'
+      Expression = 'sum(VALOR_PRIM_VIA-VALORRECEBIDO)'
+    end
+    object scdsCr_procTotalTitulo: TAggregateField
+      FieldName = 'TotalTitulo'
+      Active = True
+      DisplayFormat = ',##0.00'
+      Expression = 'sum(VALOR_PRIM_VIA)'
+    end
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = SQLDataSet1
+    UpdateMode = upWhereKeyOnly
+    Left = 376
+    Top = 432
+  end
+  object SQLDataSet1: TSQLDataSet
+    CommandText = 
+      'select rec.CODVENDA, rec.CODCLIENTE, rec.CODRECEBIMENTO, rec.TIT' +
+      'ULO, rec.VIA, rec.DATAVENCIMENTO, rec.VALORTITULO, rec.DP, '#13#10'   ' +
+      '       CASE rec.STATUS WHEN '#39'5-'#39' then '#39'Pendente'#39' when '#39'7-'#39' then ' +
+      #39'Recebido'#39' when '#39'8-'#39' then '#39'Credito Duvidoso'#39' when '#39'9-'#39' then '#39'Em ' +
+      'Cobran'#231'a'#39' when '#39'14'#39' then '#39'Cancelado'#39' end  as STATUS, '#13#10'         ' +
+      ' rec.VALORRECEBIDO, rec.VALOR_RESTO, rec.VALOR_PRIM_VIA, rec.N_D' +
+      'OCUMENTO, rec.CAIXA, rec.FORMARECEBIMENTO, rec.DATARECEBIMENTO,'#13 +
+      #10'          cli.NOMECLIENTE, (CASE WHEN (REC.VALORRECEBIDO > 0) T' +
+      'HEN (REC.VALORTITULO - rec.VALOR_RESTO)'#13#10'          WHEN (REC.VAL' +
+      'ORRECEBIDO = 0) THEN rec.VALOR_RESTO END)'#13#10'          as VALORREC' +
+      ', rec.EMISSAO, (udf_digits(rec.TITULO) || '#39'/'#39' || rec.VIA) as TIT' +
+      ', rec.STATUS as SITUACAO '#13#10'from RECEBIMENTO rec '#13#10'           inn' +
+      'er join CLIENTES cli on cli.CODCLIENTE=rec.CODCLIENTE '#13#10'where re' +
+      'c.CODVENDA = :pcod order by rec.CODRECEBIMENTO'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pcod'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 344
+    Top = 432
+    object SQLDataSet1TITULO: TStringField
+      FieldName = 'TITULO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      Size = 18
+    end
+    object SQLDataSet1DATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1CAIXA: TSmallintField
+      FieldName = 'CAIXA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1STATUS: TStringField
+      DisplayWidth = 20
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 16
+    end
+    object SQLDataSet1VIA: TStringField
+      FieldName = 'VIA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object SQLDataSet1N_DOCUMENTO: TStringField
+      FieldName = 'N_DOCUMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1VALORRECEBIDO: TFloatField
+      FieldName = 'VALORRECEBIDO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1VALOR_RESTO: TFloatField
+      FieldName = 'VALOR_RESTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1VALORTITULO: TFloatField
+      FieldName = 'VALORTITULO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1VALORREC: TFloatField
+      FieldName = 'VALORREC'
+      ProviderFlags = []
+    end
+    object SQLDataSet1CODRECEBIMENTO: TIntegerField
+      FieldName = 'CODRECEBIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object SQLDataSet1NOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ProviderFlags = []
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object SQLDataSet1DP: TIntegerField
+      FieldName = 'DP'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1EMISSAO: TDateField
+      FieldName = 'EMISSAO'
+      ProviderFlags = [pfInUpdate]
+      ReadOnly = True
+    end
+    object SQLDataSet1VALOR_PRIM_VIA: TFloatField
+      FieldName = 'VALOR_PRIM_VIA'
+      ProviderFlags = [pfInUpdate]
+      ReadOnly = True
+    end
+    object SQLDataSet1CODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object SQLDataSet1TIT: TStringField
+      FieldName = 'TIT'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object SQLDataSet1SITUACAO: TStringField
+      FieldName = 'SITUACAO'
+      ReadOnly = True
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object SQLDataSet1FORMARECEBIMENTO: TStringField
+      FieldName = 'FORMARECEBIMENTO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object SQLDataSet1DATARECEBIMENTO: TDateField
+      FieldName = 'DATARECEBIMENTO'
+      ReadOnly = True
+    end
+    object SQLDataSet1CODVENDA: TIntegerField
+      FieldName = 'CODVENDA'
+      ProviderFlags = [pfInUpdate]
+    end
   end
 end
