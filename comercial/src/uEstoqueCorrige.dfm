@@ -62,6 +62,19 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Width = 3
     Height = 13
   end
+  object Label8: TLabel
+    Left = 16
+    Top = 280
+    Width = 361
+    Height = 24
+    Caption = 'Se houve ajuste de Estoque n'#227'o usar aqui.'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -20
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Edit1: TEdit
     Left = 16
     Top = 56
