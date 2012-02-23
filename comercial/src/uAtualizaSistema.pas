@@ -1164,8 +1164,6 @@ begin
      // executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF2 TYPE Varchar(200)');
      // executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF3 TYPE Varchar(200)');
      // executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF4 TYPE Varchar(200)');
-      executaScript('gera_nf_venda.sql');
-      executaScript('gera_nf_compra.sql');
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
       CriaException('ALTERA_NFE ', 'Não pode ser Excluida ou Alterada, Nota Eletrônica Gerada');
@@ -1200,6 +1198,8 @@ begin
       executaDDL('PRODUTOS', 'ESTOQUEMAXIMO', 'DOUBLE PRECISION');
       executaScript('listaProdutocli.sql');
       executaScript('listaProduto.sql');
+      executaScript('gera_nf_venda.sql');
+      executaScript('gera_nf_compra.sql');      
       mudaVersao('1.0.0.98');
     end;// Fim Ataulização Versao 1.0.0.98
 
