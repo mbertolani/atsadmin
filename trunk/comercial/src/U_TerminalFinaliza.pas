@@ -275,10 +275,19 @@ type
     tipoImpressao, usaDll : string;
     total, porc, totgeral , desconto : double;
 
+    codRecCR, caixaCR : Integer;
+    formaRec : string;
+    baixou : Integer;
+    Data_Baixa : TDateTime;
+    Data_Receb : TDateTime;
+    Data_Conso : TDateTime;
+    N_documento : string;
+    CodigoCliCR : Integer;
+
     porta : string;
     cliente : string;
     strSql, strTit, tipoMov: String;
-    diferenca : double;
+    diferenca, Valor_CR : double;
     strSqlMov, usuario_venda: string;
     Caixa, ModeloImpressora : integer;
     vApagar, Valor : Double;
@@ -763,8 +772,7 @@ end;
 
 procedure TF_TerminalFinaliza.JvGravarClick(Sender: TObject);
 var
-  FRec : TReceberCls;
-  codRec : Integer;
+    FRec : TReceberCls;
 begin
     if (DBEdit5.Text = '1') then
      if (cbPrazo.Text = '01-A Vista') then
@@ -814,14 +822,16 @@ begin
     scdsCr_proc.Params[0].Clear;
 
     INSEREVEDA;
+
     // Executo Classe Insere Recebimento ---------------------------------------
     {try
        FRec := TReceberCls.Create;
-       codRec := FRec.geraTitulo(0, COD_VENDA);
+       codRecCR := FRec.geraTitulo(0, COD_VENDA);
     finally
        Frec.Free;
     end;}
     //--------------------------------------------------------------------------
+
     if (DM_MOV.c_venda.Active) then
         DM_MOV.c_venda.Close;
     DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
@@ -836,17 +846,78 @@ begin
    //  se tiver pagamento parcial ----------------------------------------------
     if (not DM_MOV.c_forma.IsEmpty) then
     begin
+       baixou := 0;
        scdsCr_proc.First;
-       strSql := 'UPDATE RECEBIMENTO SET DP = 0 where CODRECEBIMENTO = ' + IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
-        Try
+       codRecCR := scdsCr_procCODRECEBIMENTO.AsInteger;
+       while not DM_MOV.c_forma.Eof do
+       begin
+           if (baixou > 0) then
+               codRecCR := baixou;
+           // Marco o Título
+           Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
+                    IntToStr(codRecCR);
            dm.sqlsisAdimin.StartTransaction(TD);
-           dm.sqlsisAdimin.ExecuteDirect(strSql);
-           dm.sqlsisAdimin.Commit(TD);
-        except
-           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-           MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
+           dm.sqlsisAdimin.ExecuteDirect(Texto);
+           Try
+            dm.sqlsisAdimin.Commit(TD);
+           except
+            dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+            MessageDlg('Erro no sistema, Marcar Titulo Falhou.', mtError,
                [mbOk], 0);
-        end;
+           end;
+           try
+             FRec := TReceberCls.Create;
+             baixou := FRec.baixaTitulo(DM_MOV.c_formaVALOR_PAGO.Value, //Valor
+                                        0, //Funrural
+                                        0, // Juros
+                                        0, // Desconto
+                                        0, // Perda
+                                        Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
+                                        Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
+                                        Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
+                                        DM_MOV.c_formaFORMA_PGTO.AsString,  // FormaRecebimento
+                                        DM_MOV.c_formaN_DOC.AsString, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // Nº Documento
+                                        DM_MOV.c_formaCAIXA.AsInteger, // Caixa
+                                        DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
+                                        '7-',
+                                        usulog); // Usuario Logado
+            Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
+                      IntToStr(codRecCR);;
+            dm.sqlsisAdimin.StartTransaction(TD);
+            dm.sqlsisAdimin.ExecuteDirect(Texto);
+            Try
+              dm.sqlsisAdimin.Commit(TD);
+            except
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+              MessageDlg('Erro no sistema, Desmarcar Titulo Falhou.', mtError,
+                 [mbOk], 0);
+            end;
+          codRecCR := 0;
+          finally
+           Frec.Free;
+          end;
+          DM_MOV.c_forma.Next;
+       end;
+    end
+    else
+    begin
+      // Executo Classe Baixa Titulos --------------------------------------------
+      scdsCr_proc.First;
+      utilcrtitulo := Tutils.Create;
+      formaRec := utilcrtitulo.pegaForma(ComboBox1.Text);
+      utilcrtitulo.Free;
+
+      if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
+       caixaCR := dm.cds_7_contas.Fields[0].asInteger;
+
+      Valor_CR := jvPago.Value;
+
+      Data_Baixa := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+      Data_Receb := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+      Data_Conso := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+      N_documento := DM_MOV.c_vendaN_DOCUMENTO.AsString;
+      CodigoCliCR := DM_MOV.c_vendaCODCLIENTE.AsInteger;
+      if (DM_MOV.c_vendaENTRADA.Value > 0) then
         baixa_titulos;
     end;
     DM_MOV.c_forma.Close;
@@ -1031,11 +1102,7 @@ begin
     strSql := strSql + ',' + IntToStr(DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger);//CODCUSTO
     strSql := strSql + ', ' + DBEdit5.Text + ',';
     utilcrtitulo := Tutils.Create;
-    //if (DM_MOV.c_forma.IsEmpty) then
-      strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox1.Text));
-    //else
-    //  strSql := strSql + QuotedStr('0');
-
+    strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox1.Text));
     utilcrtitulo.Free;
     DecimalSeparator := ',';
     vJvValor1 := jvPago.AsFloat;
@@ -1087,7 +1154,7 @@ begin
     DM_MOV.c_venda.Close;
     DM_MOV.c_venda.Params[0].Clear;
     dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(strSqlMov);    
+    dm.sqlsisAdimin.ExecuteDirect(strSqlMov);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
        dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
@@ -2012,45 +2079,53 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.baixa_titulos;
-var totalPago : double;
+var
+    FRec : TReceberCls;
 begin
- totalPago := jvPago.Value;
- while totalPago > 0 do
- begin
-    while not DM_MOV.c_forma.Eof do
-    begin
-      totalPago := totalPago - DM_MOV.c_formaVALOR_PAGO.AsFloat;
-      //Faco a baixa pela SP
-      DecimalSeparator := '.';
-      str_sql := 'EXECUTE PROCEDURE BAIXATITULOSREC(';
-      str_sql := str_sql + FloatToStr(DM_MOV.c_formaVALOR_PAGO.AsFloat);
-      str_sql := str_sql + ',' + FloatToStr(0);
-      str_sql := str_sql + ',' + FloatToStr(0);
-      str_sql := str_sql + ',' + FloatToStr(0);
-      str_sql := str_sql + ',' + FloatToStr(0);
-      str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', Now) + ''''; //dataBaixa
-      str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', Now) + ''''; //dataRecebimento
-      str_sql := str_sql + ',''' + formatdatetime('mm/dd/yy', Now) + ''''; //dataconsolida
-      str_sql := str_sql + ',''' + DM_MOV.c_formaFORMA_PGTO.AsString + ''''; //Forma Recebimento
-      str_sql := str_sql + ',''' + DM_MOV.c_formaN_DOC.AsString + '''';
-      str_sql := str_sql + ',' + FloatToStr(DM_MOV.c_formaCAIXA.AsInteger);
-      str_sql := str_sql + ',' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
-      str_sql := str_sql + ',''' + '7-' + '''';
-      str_sql := str_sql + ')';
-      DecimalSeparator := ',';
-      dm.sqlsisAdimin.StartTransaction(TD);
-      try
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Baixa não efetuada.' + #10#13 +
-        '(Este Caixa pode estar fechado para esta data)', mtWarning, [mbOK], 0);
-        exit;
-      end;
-      DM_MOV.c_forma.Next;
+  try
+     // Marco o Título
+     Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
+              IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
+     dm.sqlsisAdimin.StartTransaction(TD);
+     dm.sqlsisAdimin.ExecuteDirect(Texto);
+     Try
+      dm.sqlsisAdimin.Commit(TD);
+     except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, Marcar Titulo Falhou.', mtError,
+         [mbOk], 0);
+     end;
+
+     FRec := TReceberCls.Create;
+     baixou := FRec.baixaTitulo(Valor_CR, //Valor
+                                0, //Funrural
+                                0, // Juros
+                                0, // Desconto
+                                0, // Perda
+                                Data_Baixa, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
+                                Data_Receb, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
+                                Data_Conso, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
+                                formaRec,  // FormaRecebimento
+                                N_documento, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // Nº Documento
+                                caixaCR, // Caixa
+                                CodigoCliCR, //DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
+                                '7-',
+                                usulog); // Usuario Logado
+    Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
+              IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(Texto);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, Desmarcar Titulo Falhou.', mtError,
+         [mbOk], 0);
     end;
-  end;  
+  finally
+     Frec.Free;
+  end;
+
 end;
 
 end.
