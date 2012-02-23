@@ -1705,14 +1705,13 @@ begin
      if (not s_parametro.Eof) then
      begin
         F_AUTORIZACAO := TF_AUTORIZACAO.Create(Application);
-        if (EXISTEPERFIL = 'FALSE') then
-        begin
-          F_AUTORIZACAO.Free;
-          Exit;
-        end;
-
         try
-          F_AUTORIZACAO.ShowModal;
+          if (EXISTEPERFIL = 'FALSE') then
+          begin
+            Exit;
+          end
+          else
+            F_AUTORIZACAO.ShowModal;
         finally
           F_AUTORIZACAO.Free;
         end;
