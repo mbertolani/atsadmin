@@ -1945,9 +1945,11 @@ type
     conectado, RESULTADO_APROVA :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
-    idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO, varCodMov, CCustoPadrao, danfeDec: integer;
+    idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO,
+    varCodMov, CCustoPadrao, danfeDec, vendaDec: integer;
     varDataCaixa : TDateTime;
-    STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao, cidadePadrao, cepPadrao, ibgePadrao: string;
+    STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao,
+    cidadePadrao, cepPadrao, ibgePadrao: string;
     LOTEQTDE, totalpago : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP, BAIXADO_BOLETO : String;
     tipoCompra, tipoVenda : String;
@@ -2034,10 +2036,13 @@ begin
     dm.sqlsisAdimin.ExecuteDirect('INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO)' +
     ' VALUES (' + QuotedStr('Modulo usado') + ', ' + QuotedStr('EMPRESA') + ', ' + QuotedStr('S') +')');
   end;
-  corEnd   := clSilver;          // Colocar estas Cores no Parametro EMPRESA tipo D5 e D6
+  corEnd   := clSilver;          // Colocar estas Cores no Parametro EMPRESA tipo D6 e D7
   corStart := clActiveCaption;
   if (cds_parametroD5.AsString <> '') then
     danfeDec := StrToInt(cds_parametroD5.AsString);
+  vendaDec := 2;  
+  if (cds_parametroD4.AsString <> '') then
+    vendaDec := StrToInt(cds_parametroD4.AsString);
   VISTO_FTP := cds_parametroD9.asString;
   BAIXADO_BOLETO := cds_parametroD8.asString;
   moduloUsado := dm.cds_parametroD1.AsString;
