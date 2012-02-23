@@ -585,6 +585,8 @@ type
     cdsNFTRANSP2: TStringField;
     sdsNFCODTRANSP: TIntegerField;
     cdsNFCODTRANSP: TIntegerField;
+    sdsItensNFOBS: TStringField;
+    cdsItensNFOBS: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1821,7 +1823,7 @@ begin
       Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
       desc := StrLen(PChar(MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)));
       if ( desc > 0) then
-        infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)
+        infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)  + cdsItensNFOBS.AsString
       else
         infAdProd     := '';
       Prod.NCM      := sProdutosNCM.AsString;
