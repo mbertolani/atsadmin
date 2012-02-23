@@ -1085,7 +1085,7 @@ inherited fEmpresa: TfEmpresa
           Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 15
           ParentFont = False
           TabOrder = 22
           OnChange = ComboBox1Change
@@ -1277,22 +1277,22 @@ inherited fEmpresa: TfEmpresa
         Caption = 'Indicador da natureza da pessoa juridica'
       end
       object Label30: TLabel
-        Left = 24
-        Top = 64
+        Left = 25
+        Top = 56
         Width = 208
         Height = 14
         Caption = 'Indicador de tipo de atividade prepoderante'
       end
       object Label31: TLabel
-        Left = 24
-        Top = 104
+        Left = 26
+        Top = 94
         Width = 280
         Height = 14
         Caption = 'Codigo indicador da incidencia tribut'#225'ria no per'#237'odo (0110)'
       end
       object Label32: TLabel
-        Left = 25
-        Top = 157
+        Left = 26
+        Top = 132
         Width = 325
         Height = 14
         Caption = 
@@ -1300,8 +1300,8 @@ inherited fEmpresa: TfEmpresa
           ', '
       end
       object Label33: TLabel
-        Left = 25
-        Top = 169
+        Left = 27
+        Top = 145
         Width = 387
         Height = 14
         Caption = 
@@ -1309,8 +1309,8 @@ inherited fEmpresa: TfEmpresa
           ' ou 3)(0110)'
       end
       object Label34: TLabel
-        Left = 24
-        Top = 208
+        Left = 26
+        Top = 182
         Width = 327
         Height = 14
         Caption = 
@@ -1318,8 +1318,8 @@ inherited fEmpresa: TfEmpresa
           ')'
       end
       object Label35: TLabel
-        Left = 24
-        Top = 248
+        Left = 25
+        Top = 221
         Width = 310
         Height = 14
         Caption = 'C'#243'digo indicador do crit'#233'rio de escritura'#231#227'o e apura'#231#227'o adotado'
@@ -1379,7 +1379,7 @@ inherited fEmpresa: TfEmpresa
       end
       object cbTACBrIndicadorAtividade: TComboBox
         Left = 24
-        Top = 80
+        Top = 70
         Width = 540
         Height = 22
         ItemHeight = 14
@@ -1412,9 +1412,9 @@ inherited fEmpresa: TfEmpresa
             '2 - Entidade sujeita ao PIS/Pasep exclusivamente com base  na fo' +
             'lha de sal'#225'rios')
       end
-      object ComboBox2: TComboBox
+      object cbTACBrCodIndIncTributaria: TComboBox
         Left = 24
-        Top = 128
+        Top = 109
         Width = 540
         Height = 22
         ItemHeight = 14
@@ -1423,6 +1423,7 @@ inherited fEmpresa: TfEmpresa
         Text = 
           '0 - Escritura'#231#227'o de opera'#231#245'es com incidencia exclusivamente no r' +
           'egime n'#227'o cumulativo'
+        OnChange = cbTACBrCodIndIncTributariaChange
         Items.Strings = (
           
             '0 - Escritura'#231#227'o de opera'#231#245'es com incidencia exclusivamente no r' +
@@ -1434,9 +1435,9 @@ inherited fEmpresa: TfEmpresa
             '2 - Escritura'#231#227'o de opera'#231#245'es com incidencia nos regimes cumulat' +
             'ivo e n'#227'o cumulativo')
       end
-      object ComboBox3: TComboBox
+      object cbTACBrIndAproCred: TComboBox
         Left = 24
-        Top = 184
+        Top = 158
         Width = 540
         Height = 22
         ItemHeight = 14
@@ -1447,9 +1448,9 @@ inherited fEmpresa: TfEmpresa
           '0 - M'#233'todo de apropria'#231#227'o direta'
           '1 - M'#233'todo de rateio proporcional(Receita Bruta);')
       end
-      object ComboBox4: TComboBox
+      object cbTACBrCodIndTipoCon: TComboBox
         Left = 24
-        Top = 222
+        Top = 197
         Width = 540
         Height = 22
         ItemHeight = 14
@@ -1462,9 +1463,9 @@ inherited fEmpresa: TfEmpresa
             '1 - Apura'#231#227'o da Contribui'#231#227'o a Al'#237'quotas Espec'#237'ficas (Diferencia' +
             'das e/ou por Unidade de Medida de Produto)')
       end
-      object ComboBox5: TComboBox
+      object cbTACBrCodIndCritEscrit: TComboBox
         Left = 24
-        Top = 264
+        Top = 235
         Width = 540
         Height = 22
         ItemHeight = 14
@@ -1480,7 +1481,7 @@ inherited fEmpresa: TfEmpresa
             '9 - Regime de Compet'#234'ncia - Escritura'#231#227'o detalhada, com base nos' +
             ' registros dos Blocos A, C, D e F.')
       end
-      object ComboBox6: TComboBox
+      object cbTACBrIndCodIncidencia: TComboBox
         Left = 24
         Top = 305
         Width = 290
@@ -1503,7 +1504,7 @@ inherited fEmpresa: TfEmpresa
           '11 - Tabela XI'
           '12 - Tabela XII')
       end
-      object ComboBox7: TComboBox
+      object cbTACBrIndCTA: TComboBox
         Left = 322
         Top = 305
         Width = 290
@@ -1516,7 +1517,7 @@ inherited fEmpresa: TfEmpresa
           'S Sint'#233'tica'
           'A Analitica')
       end
-      object ComboBox8: TComboBox
+      object cbTACBrIndEscrituracao: TComboBox
         Left = 24
         Top = 344
         Width = 590
@@ -1535,7 +1536,7 @@ inherited fEmpresa: TfEmpresa
             '2 - Apura'#231#227'o com base no registro individualizado de NF-e (C100 ' +
             'e C170) e de ECF (C400);')
       end
-      object ComboBox9: TComboBox
+      object cbTACBrBaseCalculoCredito: TComboBox
         Left = 24
         Top = 384
         Width = 590
@@ -1577,7 +1578,7 @@ inherited fEmpresa: TfEmpresa
             'o, fardamento ou uniforme.'
           '18 - Estoque de abertura de bens')
       end
-      object ComboBox10: TComboBox
+      object cbTACBrIndAJ: TComboBox
         Left = 24
         Top = 424
         Width = 145
@@ -1608,7 +1609,7 @@ inherited fEmpresa: TfEmpresa
           '05 - Ajuste Oriundo de Outras Situa'#231#245'es'
           '06 - Estorno')
       end
-      object ComboBox11: TComboBox
+      object cbTACBrApuracaoIPI: TComboBox
         Left = 568
         Top = 32
         Width = 208

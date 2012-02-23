@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=c:\Home\sisadmin\BD\sge_estrela.fdb'
+      'Database=c:\Home\sisadmin\BD\sge_solcampo.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -24,7 +24,8 @@ object DM: TDM
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
-      'WaitOnLocks=True')
+      'WaitOnLocks=True'
+      'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -5418,6 +5419,180 @@ object DM: TDM
     object sds_EmpresaCRT: TIntegerField
       FieldName = 'CRT'
     end
+    object sds_EmpresaDIVERSOS2: TStringField
+      FieldName = 'DIVERSOS2'
+      Size = 50
+    end
+    object sds_EmpresaDIVERSOS3: TStringField
+      FieldName = 'DIVERSOS3'
+      Size = 50
+    end
+    object sds_EmpresaANOLETIVO: TIntegerField
+      FieldName = 'ANOLETIVO'
+    end
+    object sds_EmpresaMEDIA_ESCOLA: TFloatField
+      FieldName = 'MEDIA_ESCOLA'
+    end
+    object sds_EmpresaTREGIME: TIntegerField
+      FieldName = 'TREGIME'
+    end
+    object sds_EmpresaIM: TStringField
+      FieldName = 'IM'
+      Size = 15
+    end
+    object sds_EmpresaCONTADOR: TStringField
+      FieldName = 'CONTADOR'
+      Size = 100
+    end
+    object sds_EmpresaCONTADOR_CRC: TStringField
+      FieldName = 'CONTADOR_CRC'
+      FixedChar = True
+    end
+    object sds_EmpresaCONTADOR_CNPJ: TStringField
+      FieldName = 'CONTADOR_CNPJ'
+      FixedChar = True
+      Size = 14
+    end
+    object sds_EmpresaCONTADOR_CPF: TStringField
+      FieldName = 'CONTADOR_CPF'
+      FixedChar = True
+      Size = 11
+    end
+    object sds_EmpresaCONTADOR_CEP: TStringField
+      FieldName = 'CONTADOR_CEP'
+      FixedChar = True
+      Size = 10
+    end
+    object sds_EmpresaCONTADOR_END: TStringField
+      FieldName = 'CONTADOR_END'
+      Size = 150
+    end
+    object sds_EmpresaCONTADOR_NUMEND: TStringField
+      FieldName = 'CONTADOR_NUMEND'
+      FixedChar = True
+      Size = 7
+    end
+    object sds_EmpresaCONTADOR_COMPL: TStringField
+      FieldName = 'CONTADOR_COMPL'
+      Size = 80
+    end
+    object sds_EmpresaCONTADOR_BAIRRO: TStringField
+      FieldName = 'CONTADOR_BAIRRO'
+      Size = 100
+    end
+    object sds_EmpresaCONTADOR_FONE: TStringField
+      FieldName = 'CONTADOR_FONE'
+      Size = 14
+    end
+    object sds_EmpresaCONTADOR_FAX: TStringField
+      FieldName = 'CONTADOR_FAX'
+      Size = 14
+    end
+    object sds_EmpresaCONTADOR_EMAIL: TStringField
+      FieldName = 'CONTADOR_EMAIL'
+      Size = 100
+    end
+    object sds_EmpresaCONTADOR_COD_MUN: TStringField
+      FieldName = 'CONTADOR_COD_MUN'
+      FixedChar = True
+      Size = 10
+    end
+    object sds_EmpresaINDICADORNATUREZAPJ: TStringField
+      FieldName = 'INDICADORNATUREZAPJ'
+      Size = 50
+    end
+    object sds_EmpresaINDICADORATIVIDADE: TStringField
+      FieldName = 'INDICADORATIVIDADE'
+      Size = 50
+    end
+    object sds_EmpresaCODINDINCTRIBUTARIA: TStringField
+      FieldName = 'CODINDINCTRIBUTARIA'
+      Size = 50
+    end
+    object sds_EmpresaINDAPROCRED: TStringField
+      FieldName = 'INDAPROCRED'
+      Size = 50
+    end
+    object sds_EmpresaCODINDTIPOCON: TStringField
+      FieldName = 'CODINDTIPOCON'
+      Size = 50
+    end
+    object sds_EmpresaCODINDCRITESCRIT: TStringField
+      FieldName = 'CODINDCRITESCRIT'
+      Size = 50
+    end
+    object sds_EmpresaINDCODINCIDENCIA: TStringField
+      FieldName = 'INDCODINCIDENCIA'
+      Size = 50
+    end
+    object sds_EmpresaINDCTA: TStringField
+      FieldName = 'INDCTA'
+      Size = 50
+    end
+    object sds_EmpresaINDESCRITURACAO: TStringField
+      FieldName = 'INDESCRITURACAO'
+      Size = 50
+    end
+    object sds_EmpresaBASECALCULOCREDITO: TStringField
+      FieldName = 'BASECALCULOCREDITO'
+      Size = 50
+    end
+    object sds_EmpresaINDAJ: TStringField
+      FieldName = 'INDAJ'
+      Size = 50
+    end
+    object sds_EmpresaCODAJ: TStringField
+      FieldName = 'CODAJ'
+      Size = 50
+    end
+    object sds_EmpresaINDNATREC: TStringField
+      FieldName = 'INDNATREC'
+      Size = 50
+    end
+    object sds_EmpresaNATCREDDESC: TStringField
+      FieldName = 'NATCREDDESC'
+      Size = 50
+    end
+    object sds_EmpresaCODCRED: TStringField
+      FieldName = 'CODCRED'
+      Size = 50
+    end
+    object sds_EmpresaINDTIPCOOP: TStringField
+      FieldName = 'INDTIPCOOP'
+      Size = 50
+    end
+    object sds_EmpresaINDCREDORI: TStringField
+      FieldName = 'INDCREDORI'
+      Size = 50
+    end
+    object sds_EmpresaINDREC: TStringField
+      FieldName = 'INDREC'
+      Size = 50
+    end
+    object sds_EmpresaINDDESCCRED: TStringField
+      FieldName = 'INDDESCCRED'
+      Size = 50
+    end
+    object sds_EmpresaCODCONT: TStringField
+      FieldName = 'CODCONT'
+      Size = 50
+    end
+    object sds_EmpresaINDNATRETFONTE: TStringField
+      FieldName = 'INDNATRETFONTE'
+      Size = 50
+    end
+    object sds_EmpresaINDORIGEMDIVERSAS: TStringField
+      FieldName = 'INDORIGEMDIVERSAS'
+      Size = 50
+    end
+    object sds_EmpresaINDNATDEDUCAO: TStringField
+      FieldName = 'INDNATDEDUCAO'
+      Size = 50
+    end
+    object sds_EmpresaINDTPOPERACAORECEITA: TStringField
+      FieldName = 'INDTPOPERACAORECEITA'
+      Size = 50
+    end
   end
   object dsp_empresa: TDataSetProvider
     DataSet = sds_Empresa
@@ -5577,6 +5752,180 @@ object DM: TDM
     end
     object cds_empresaCRT: TIntegerField
       FieldName = 'CRT'
+    end
+    object cds_empresaDIVERSOS2: TStringField
+      FieldName = 'DIVERSOS2'
+      Size = 50
+    end
+    object cds_empresaDIVERSOS3: TStringField
+      FieldName = 'DIVERSOS3'
+      Size = 50
+    end
+    object cds_empresaANOLETIVO: TIntegerField
+      FieldName = 'ANOLETIVO'
+    end
+    object cds_empresaMEDIA_ESCOLA: TFloatField
+      FieldName = 'MEDIA_ESCOLA'
+    end
+    object cds_empresaTREGIME: TIntegerField
+      FieldName = 'TREGIME'
+    end
+    object cds_empresaIM: TStringField
+      FieldName = 'IM'
+      Size = 15
+    end
+    object cds_empresaCONTADOR: TStringField
+      FieldName = 'CONTADOR'
+      Size = 100
+    end
+    object cds_empresaCONTADOR_CRC: TStringField
+      FieldName = 'CONTADOR_CRC'
+      FixedChar = True
+    end
+    object cds_empresaCONTADOR_CNPJ: TStringField
+      FieldName = 'CONTADOR_CNPJ'
+      FixedChar = True
+      Size = 14
+    end
+    object cds_empresaCONTADOR_CPF: TStringField
+      FieldName = 'CONTADOR_CPF'
+      FixedChar = True
+      Size = 11
+    end
+    object cds_empresaCONTADOR_CEP: TStringField
+      FieldName = 'CONTADOR_CEP'
+      FixedChar = True
+      Size = 10
+    end
+    object cds_empresaCONTADOR_END: TStringField
+      FieldName = 'CONTADOR_END'
+      Size = 150
+    end
+    object cds_empresaCONTADOR_NUMEND: TStringField
+      FieldName = 'CONTADOR_NUMEND'
+      FixedChar = True
+      Size = 7
+    end
+    object cds_empresaCONTADOR_COMPL: TStringField
+      FieldName = 'CONTADOR_COMPL'
+      Size = 80
+    end
+    object cds_empresaCONTADOR_BAIRRO: TStringField
+      FieldName = 'CONTADOR_BAIRRO'
+      Size = 100
+    end
+    object cds_empresaCONTADOR_FONE: TStringField
+      FieldName = 'CONTADOR_FONE'
+      Size = 14
+    end
+    object cds_empresaCONTADOR_FAX: TStringField
+      FieldName = 'CONTADOR_FAX'
+      Size = 14
+    end
+    object cds_empresaCONTADOR_EMAIL: TStringField
+      FieldName = 'CONTADOR_EMAIL'
+      Size = 100
+    end
+    object cds_empresaCONTADOR_COD_MUN: TStringField
+      FieldName = 'CONTADOR_COD_MUN'
+      FixedChar = True
+      Size = 10
+    end
+    object cds_empresaINDICADORNATUREZAPJ: TStringField
+      FieldName = 'INDICADORNATUREZAPJ'
+      Size = 50
+    end
+    object cds_empresaINDICADORATIVIDADE: TStringField
+      FieldName = 'INDICADORATIVIDADE'
+      Size = 50
+    end
+    object cds_empresaCODINDINCTRIBUTARIA: TStringField
+      FieldName = 'CODINDINCTRIBUTARIA'
+      Size = 50
+    end
+    object cds_empresaINDAPROCRED: TStringField
+      FieldName = 'INDAPROCRED'
+      Size = 50
+    end
+    object cds_empresaCODINDTIPOCON: TStringField
+      FieldName = 'CODINDTIPOCON'
+      Size = 50
+    end
+    object cds_empresaCODINDCRITESCRIT: TStringField
+      FieldName = 'CODINDCRITESCRIT'
+      Size = 50
+    end
+    object cds_empresaINDCODINCIDENCIA: TStringField
+      FieldName = 'INDCODINCIDENCIA'
+      Size = 50
+    end
+    object cds_empresaINDCTA: TStringField
+      FieldName = 'INDCTA'
+      Size = 50
+    end
+    object cds_empresaINDESCRITURACAO: TStringField
+      FieldName = 'INDESCRITURACAO'
+      Size = 50
+    end
+    object cds_empresaBASECALCULOCREDITO: TStringField
+      FieldName = 'BASECALCULOCREDITO'
+      Size = 50
+    end
+    object cds_empresaINDAJ: TStringField
+      FieldName = 'INDAJ'
+      Size = 50
+    end
+    object cds_empresaCODAJ: TStringField
+      FieldName = 'CODAJ'
+      Size = 50
+    end
+    object cds_empresaINDNATREC: TStringField
+      FieldName = 'INDNATREC'
+      Size = 50
+    end
+    object cds_empresaNATCREDDESC: TStringField
+      FieldName = 'NATCREDDESC'
+      Size = 50
+    end
+    object cds_empresaCODCRED: TStringField
+      FieldName = 'CODCRED'
+      Size = 50
+    end
+    object cds_empresaINDTIPCOOP: TStringField
+      FieldName = 'INDTIPCOOP'
+      Size = 50
+    end
+    object cds_empresaINDCREDORI: TStringField
+      FieldName = 'INDCREDORI'
+      Size = 50
+    end
+    object cds_empresaINDREC: TStringField
+      FieldName = 'INDREC'
+      Size = 50
+    end
+    object cds_empresaINDDESCCRED: TStringField
+      FieldName = 'INDDESCCRED'
+      Size = 50
+    end
+    object cds_empresaCODCONT: TStringField
+      FieldName = 'CODCONT'
+      Size = 50
+    end
+    object cds_empresaINDNATRETFONTE: TStringField
+      FieldName = 'INDNATRETFONTE'
+      Size = 50
+    end
+    object cds_empresaINDORIGEMDIVERSAS: TStringField
+      FieldName = 'INDORIGEMDIVERSAS'
+      Size = 50
+    end
+    object cds_empresaINDNATDEDUCAO: TStringField
+      FieldName = 'INDNATDEDUCAO'
+      Size = 50
+    end
+    object cds_empresaINDTPOPERACAORECEITA: TStringField
+      FieldName = 'INDTPOPERACAORECEITA'
+      Size = 50
     end
   end
   object sds_usuario: TSQLDataSet
