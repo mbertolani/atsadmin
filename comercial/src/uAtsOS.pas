@@ -59,6 +59,7 @@ type
     procedure JvOutlookBar1Pages4Buttons2Click(Sender: TObject);
     procedure JvOutlookBar1Pages4Buttons3Click(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons7Click(Sender: TObject);
+    procedure JvOutlookBar1Pages1Buttons3Click(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -84,7 +85,7 @@ uses
   ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
-  uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS;
+  uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica;
 
 {$R *.dfm}
 
@@ -677,6 +678,11 @@ begin
    dm.cdsPrazo.Close;
    fPrazo.Free;
  end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages1Buttons3Click(Sender: TObject);
+begin
+  fNFeletronica.ShowModal;
 end;
 
 end.
