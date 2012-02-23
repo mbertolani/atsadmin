@@ -261,7 +261,9 @@ uses
   uAts_R in 'uAts_R.pas' {fAts_R},
   uAbrirCaixa in 'uAbrirCaixa.pas' {fAbrirCaixa},
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
-  uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins};
+  uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins},
+  uEstoqueAjuste in 'uEstoqueAjuste.pas' {fEstoqueAjuste},
+  uListaEstoque in 'uListaEstoque.pas' {fListaEstoque};
 
 //uImport in 'uImport.pas' {fImport};
 
