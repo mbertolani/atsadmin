@@ -9,7 +9,7 @@ uses
   DBClient, Provider, SqlExpr, ComCtrls, uUtils, JvExMask, JvToolEdit,
   JvBaseEdits, JvDBControls, Menus, DBXpress, jpeg, JvExExtCtrls, JvImage,
   JvSpin, JvDBSpinEdit, ACBrBoleto, ACBrBoletoFCFortesFr, ACBrBase, RXCtrls,
-  DBLocal, DBLocalS;
+  DBLocal, DBLocalS, umovimento, uVendaCls;
 
 type
   TF_AUTOPECAS = class(TForm)
@@ -459,6 +459,46 @@ type
     pm3: TPopupMenu;
     AprovarOramento1: TMenuItem;
     AbrirOS1: TMenuItem;
+    btn6: TBitBtn;
+    b_cliente: TSQLDataSet;
+    b_clienteCODCLIENTE: TIntegerField;
+    b_clienteNOMECLIENTE: TStringField;
+    scds_produto_proc: TClientDataSet;
+    scds_produto_procCODPRODUTO: TIntegerField;
+    scds_produto_procCOD_BARRA: TStringField;
+    scds_produto_procPRODUTO: TStringField;
+    scds_produto_procUNIDADEMEDIDA: TStringField;
+    scds_produto_procQTDE_PCT: TFloatField;
+    scds_produto_procICMS: TFloatField;
+    scds_produto_procCODALMOXARIFADO: TIntegerField;
+    scds_produto_procCONTA_DESPESA: TStringField;
+    scds_produto_procALMOXARIFADO: TStringField;
+    scds_produto_procVALORUNITARIOATUAL: TFloatField;
+    scds_produto_procVALOR_PRAZO: TFloatField;
+    scds_produto_procCOD_COMISSAO: TIntegerField;
+    scds_produto_procRATEIO: TStringField;
+    scds_produto_procTIPO: TStringField;
+    scds_produto_procLOCALIZACAO: TStringField;
+    scds_produto_procESTOQUEATUAL: TFloatField;
+    dsp: TDataSetProvider;
+    sds: TSQLDataSet;
+    sProcuraProd: TSQLDataSet;
+    sProcuraProdCODPRODUTO: TIntegerField;
+    sProcuraProdCODPRO: TStringField;
+    sProcuraProdPRODUTO: TStringField;
+    sProcuraProdUNIDADEMEDIDA: TStringField;
+    sProcuraProdQTDE_PCT: TFloatField;
+    sProcuraProdICMS: TFloatField;
+    sProcuraProdCODALMOXARIFADO: TIntegerField;
+    sProcuraProdALMOXARIFADO: TStringField;
+    sProcuraProdVALORUNITARIOATUAL: TFloatField;
+    sProcuraProdVALOR_PRAZO: TFloatField;
+    sProcuraProdTIPO: TStringField;
+    sProcuraProdESTOQUEATUAL: TFloatField;
+    sProcuraProdLOCALIZACAO: TStringField;
+    sProcuraProdLOTES: TStringField;
+    sProcuraProdPESO_QTDE: TFloatField;
+    sProcuraProdCOD_COMISSAO: TIntegerField;
     procedure edt_produtoKeyPress(Sender: TObject; var Key: Char);
     procedure btn_incluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -500,19 +540,26 @@ type
     procedure lbl3Click(Sender: TObject);
     procedure AbrirOS1Click(Sender: TObject);
     procedure AprovarOramento1Click(Sender: TObject);
+    procedure btn6Click(Sender: TObject);
   private
     { Private declarations }
     centro_receita, cod_nat, cod_vendedor_padrao, COD_VENDA: integer;
-    natureza, contas_pendentes, nome_vendedor_padrao, orcamento: string;
-    numTitulo, caixa, codproduto, codcliente, codnatureza, codalmoxarif: integer;
+    nome_cliente, natureza, contas_pendentes, nome_vendedor_padrao, orcamento: string;
+    clienteConsumidor, numTitulo, caixa, codproduto, codcliente, codnatureza, codalmoxarif: integer;
     strSql, serie, usaprecolista, usacadveiculo, tiporel: string;
     vrr, precovenda : double;
     result : Boolean;
+    codMovSaida : Integer;    
     procedure buscaSimilar;
   public
     { Public declarations }
+    function buscaProdLista(codBarra, ProdLista:String): Integer;
+    function geraCodBarra(vlrBarra: String; i :integer): String;
+    procedure buscaProduto;
     procedure BUSCA_PRODUTO;
     procedure BUSCA_PRAMETROS;
+    procedure inseriMovimento;
+    procedure inseriMovDetalhe;
     procedure imprimePedido;
     procedure imprimeCupom;
     procedure consulta_titulos;
@@ -544,12 +591,12 @@ var
   TD: TTransactionDesc;
   cliente, modelo, placa, varcancela, strTit, tipoMov, tipoimpressao: String;
   diferenca : double;
-
+  TDA: TTransactionDesc;
 implementation
 
 uses UDm, sCtrlResize, uListaClientes, U_Boletos, ufprocura_prod,
   uFiltroMovimento, uClienteVeiculo, uProcurar, U_OSBUSCA,
-  uClienteCadastro, U_FiltroOS, uProcura_prodOficina;
+  uClienteCadastro, U_FiltroOS, uProcura_prodOficina, u_SIMILARES;
 
 {$R *.dfm}
 
@@ -557,20 +604,23 @@ procedure TF_AUTOPECAS.edt_produtoKeyPress(Sender: TObject; var Key: Char);
 begin
  if (key = #13) then
  begin
-   if (sTitulo.Active) then
-     sTitulo.Close;
-   sTitulo.Params[0].AsInteger := ds_vendaCODVENDA.AsInteger;
-   sTitulo.Open;
-   if (not sTitulo.IsEmpty) then
-   begin
-      MessageDlg('Existem Títulos já Recebidos, Alteração não Permitida', mtWarning, [mbOK], 0);
-      exit;
-   end;
-   BUSCA_PRODUTO;
+  if (edt_produto.text = '') then
+    exit;
+    codproduto := 0;
+    buscaProduto;
+    //buscaSimilar;
+    if (scds_produto_proc.Active) then
+      scds_produto_proc.Close;
+    if (s_buscaPro.Active) then
+      s_buscaPro.Close;
+    if (sProcuraProd.Active) then
+      sProcuraProd.Close;
  end;
 end;
 
 procedure TF_AUTOPECAS.btn_incluirClick(Sender: TObject);
+var
+  FMov: TMovimento;
 begin
   if (ds_cr.Active) then
      ds_cr.Close;
@@ -578,12 +628,14 @@ begin
      ds_venda.Close;
   if (ds_similar.Active) then
      ds_similar.Close;
+
   if (ds_movdet.Active) then
   begin
      ds_movdet.Params[0].Clear;
      ds_movdet.Params[1].Clear;
      ds_movdet.Close;
   end;
+
   if (ds_movimento.Active) then
   begin
      ds_movimento.Params[0].Clear;
@@ -593,9 +645,18 @@ begin
     pgc1.ActivePage := ts1;
 
   BUSCA_PRAMETROS;
+  // Inserir Movimento
+  inseriMovimento;
+  // Abre Movimento
+  if (ds_movimento.Active) then
+    ds_movimento.Close;
+  ds_movimento.Params[0].AsInteger := codMovSaida;
+  ds_movimento.Open;
+  if (not ds_movimento.IsEmpty) then
+    ds_movimento.Edit;
 
   // Abro a tabela movimento
-  if (ds_movimento.Active) then
+ { if (ds_movimento.Active) then
     ds_movimento.Close;
   ds_movimento.Open;
   ds_movimento.Append;
@@ -615,14 +676,14 @@ begin
 
   ds_venda.Open;
   ds_venda.Append;
-
-  edt_produto.SetFocus;
+  }
+//  edt_produto.SetFocus;
 
 end;
 
 procedure TF_AUTOPECAS.FormShow(Sender: TObject);
 begin
-  sCtrlResize.CtrlResize(TForm(F_AUTOPECAS));
+//  sCtrlResize.CtrlResize(TForm(F_AUTOPECAS));
 
   if (rg1.ItemIndex = 1) then
   begin
@@ -630,7 +691,7 @@ begin
      //ts3.TabVisible := False;
      ts4.TabVisible := False;
   end;
-  
+
 end;
 
 procedure TF_AUTOPECAS.FormCreate(Sender: TObject);
@@ -857,37 +918,11 @@ end;
 
 procedure TF_AUTOPECAS.btn_gravarClick(Sender: TObject);
 begin
-
     // Verificar se é Orçamento, Orçamento não gera Venda só salvo o Movimento e
     // Movimento detalhe
     if (rg1.ItemIndex = 1) then // é Orçamento
        ds_movimentoCODNATUREZA.AsInteger := 16;
 
-    if (rg1.ItemIndex = 0) then // é Pedido
-    if (pgc1.ActivePage = ts1) then
-    begin
-        pgc1.ActivePage := ts2;
-        ds_vendaVALOR.Value := ds_movdettotal.Value;
-        //ds_vendaVALOR.Value := ds_movdettotal.Value;
-        ds_vendaVALOR_PAGAR.Value := ds_movdettotal.Value;
-        ds_vendaMULTA_JUROS.Value := 0;
-        ds_vendaDESCONTO.Value := 0;
-        ds_vendaN_PARCELA.AsInteger := 1;
-        ds_vendaENTRADA.Value := 0;
-        ds_vendaDATAVENDA.AsDateTime := ds_movimentoDATAMOVIMENTO.AsDateTime;
-        ds_vendaDATASISTEMA.AsDateTime := Now;
-        Exit;
-    end;
-   {
-    if cbb3.Text <> '1-A VISTA' then
-    begin
-        if dbedtNOMECLIENTE.Text = 'CONSUMIDOR' then
-       begin
-         MessageDlg('Para efetuar uma venda à prazo, é preciso antes informar o  '+#13+#10+'cliente.', mtWarning, [mbOK], 0);
-         exit;
-       end;
-    end;
-   }
    //  Salvar Movimento
    if (ds_movimento.State in [dsInactive]) then
       Exit;
@@ -904,37 +939,28 @@ begin
    dm.c_6_genid.Close;
 
    ds_movimento.ApplyUpdates(0);
-   ds_movdet.ApplyUpdates(0);
-
-   ds_movdet.First;
-   while (not ds_movdet.Eof) do
-   begin
-      strSql := 'INSERT into MOVIMENTODETALHE (CODDETALHE, CODMOVIMENTO, CODPRODUTO, ' +
-      'DESCPRODUTO, COD_COMISSAO, QUANTIDADE, QTDE_ALT, CODALMOXARIFADO, ICMS, PRECO, ' +
-      'UN) VALUES (';
-      strSql := strSql + IntToStr(ds_movdetCODDETALHE.AsInteger) + ', ';
-      strSql := strSql + IntToStr(ds_movimentoCODMOVIMENTO.AsInteger) + ', ';
-      strSql := strSql + IntToStr(ds_movdetCODPRODUTO.AsInteger) + ', ';
-      strSql := strSql + QuotedStr(ds_movdetDESCPRODUTO.AsString) + ', ';
-      strSql := strSql + IntToStr(ds_movdetCOD_COMISSAO.AsInteger) + ', ';
-      DecimalSeparator := '.';
-      strSql := strSql + FloatToStr(ds_movdetQUANTIDADE.AsFloat) + ', ';
-      strSql := strSql + FloatToStr(ds_movdetQTDE_ALT.AsFloat) + ', ';
-      strSql := strSql + IntToStr(ds_movdetCODALMOXARIFADO.AsInteger) + ', ';
-      strSql := strSql + FloatToStr(ds_movdetICMS.AsFloat) + ', ';
-      strSql := strSql + FloatToStr(ds_movdetPRECO.AsFloat) + ', ';
-      DecimalSeparator := ',';
-      strSql := strSql + QuotedStr(ds_movdetUN.AsString) + ')';
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect(strSql);
-      dm.sqlsisAdimin.Commit(TD);
-      ds_movdet.Next;
-   end;
-   ds_movdet.Cancel;
-   ds_movdet.Close;
-   ds_movdet.Params[0].Clear;
-   ds_movdet.Params[1].AsInteger := ds_movimentoCODMOVIMENTO.AsInteger;
-   ds_movdet.Open;
+   if (ds_movdet.State in [dsEdit]) then
+     ds_movdet.ApplyUpdates(0);
+  // é pedido salvo movimento e abro a tela para encerrar o pedido
+  if (rg1.ItemIndex = 0) then // é Pedido
+  if (pgc1.ActivePage = ts1) then
+  begin
+      if (not ds_venda.Active) then
+        ds_venda.Open;
+      if (d_venda.State in [dsInactive, dsBrowse]) then
+        ds_venda.Append;
+      pgc1.ActivePage := ts2;
+      ds_vendaVALOR.Value := ds_movdettotal.Value;
+      //ds_vendaVALOR.Value := ds_movdettotal.Value;
+      ds_vendaVALOR_PAGAR.Value := ds_movdettotal.Value;
+      ds_vendaMULTA_JUROS.Value := 0;
+      ds_vendaDESCONTO.Value := 0;
+      ds_vendaN_PARCELA.AsInteger := 1;
+      ds_vendaENTRADA.Value := 0;
+      ds_vendaDATAVENDA.AsDateTime := ds_movimentoDATAMOVIMENTO.AsDateTime;
+      ds_vendaDATASISTEMA.AsDateTime := Now;
+      Exit;
+  end;
 
   if (rg1.ItemIndex = 0) then // é Pedido
   begin
@@ -1034,61 +1060,35 @@ begin
       scds_serie_proc.Close;
     end;
   end;
-  if (ds_cr.Active) then
-    ds_cr.Close;
-  ds_cr.Params[0].AsInteger := ds_vendaCODVENDA.AsInteger;
-  ds_cr.Open;
-  //baixando o movimento na tabela estoque
- { if not scds_serie_proc.Active then
-  begin
-     scds_serie_proc.Params[0].AsString:=dbeSerie.Text;
-     scds_serie_proc.Open;
-  end;
-  if (cdsNOTAFISCAL.AsInteger > scds_serie_procULTIMO_NUMERO.AsInteger) then
-  begin
-    scds_serie_proc.Edit;
-    scds_serie_procULTIMO_NUMERO.AsInteger := cdsNOTAFISCAL.AsInteger;
-    scds_serie_proc.ApplyUpdates(0);
-  end;
-  scds_serie_proc.Close;
-
-  scdsCr_proc.Close;
-  scdsCr_proc.Params[0].AsInteger := cdsCODVENDA.AsInteger;
-  scdsCr_proc.Open;
-
-  codrec := scdsCr_procCODRECEBIMENTO.AsInteger;
-  Cod_orig := cdsCODVENDA.AsInteger;
-  tipo_origem := 'VENDA';
-  cod_cli_forn := cdsCODCLIENTE.AsInteger;
-  c_f := 'C'; // C=Cliente
-  if DtSrc.State in [dsInsert, dsEdit] then
-     btnGravar.Click;
-  }
- { if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
-  dm.cds_parametro.Open;
-  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
-  begin
-    //BitBtn1.Click;
-    baixaestoque('BAIXAAUTOMATICA');
-  end;
-  }
-  strSql := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(ds_vendaCODVENDA.AsInteger);
-  dm.sqlsisAdimin.StartTransaction(TD);
-  dm.sqlsisAdimin.ExecuteDirect(strSql);
-  Try
-     dm.sqlsisAdimin.Commit(TD);
-  except
-     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-     MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
-         [mbOk], 0);
-  end;
 
 end;
 
 procedure TF_AUTOPECAS.BUSCA_PRAMETROS;
 begin
+    clienteConsumidor := 1;
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CONSUMIDOR';
+    dm.cds_parametro.Open;
+    if not dm.cds_parametro.IsEmpty then
+      clienteConsumidor := StrToInt(dm.cds_parametroDADOS.AsString);
+    dm.cds_parametro.Close;
+
+    if (b_cliente.Active) then
+      b_cliente.Close;
+    b_cliente.Params[0].AsInteger := clienteConsumidor;
+    b_cliente.Open;
+    if (b_cliente.IsEmpty) then
+    begin
+        ShowMessage('Cliente configurado nos parametros não consta no cadastro de clientes.');
+        exit;
+    end
+    else
+    begin
+       codcliente := b_clienteCODCLIENTE.AsInteger;
+       nome_cliente := b_clienteNOMECLIENTE.AsString;
+    end;
+
     // Busca na tabeça PARAMETRO a conta CAIXA para trabalhar no Terminal VENDA
     if Dm.cds_parametro.Active then
       dm.cds_parametro.Close;
@@ -1240,71 +1240,33 @@ begin
      btn_incluir.Click;
   if (edt_produto.text = '') then
     exit;
-    if (s_buscaPro.Active) then //Busco pelo Codigo de barra
-        s_buscaPro.Close;
-    s_buscaPro.Params[0].Clear;
-    s_buscaPro.Params[1].Clear;
-    s_buscaPro.Params[0].AsString := edt_produto.Text;
-    s_buscaPro.Open;
-    if (s_buscaPro.IsEmpty) then
-    begin
-     // if (MessageDlg('Produto não localizado pelo codigo de Barras,'+#13+#10+'   efetuar a busca pelo código do Produto ?', mtWarning, [mbYes, mbNo], 0) in [mrYes, mrNo, mrNone]) then
-     // begin
-        if (s_buscaPro.Active) then   //Busco pelo Codigo do Produto
-            s_buscaPro.Close;
-        s_buscaPro.Params[0].Clear;
-        s_buscaPro.Params[1].Clear;
-        s_buscaPro.Params[1].AsString := edt_produto.Text;
-        s_buscaPro.Open;
-        if (s_buscaPro.IsEmpty) then
-        begin
-          ShowMessage('Produto não localizado');
-          edt_produto.SetFocus;
-          Exit;
-        end;
-      //end;
-    end;
- {   if (ds_movimento.State in [dsInsert]) then
-    begin
-      ds_movimento.ApplyUpdates(0);
-      ds_movimento.Edit;
-    end;
-  }
-
-
-  buscaSimilar;
+  if (s_buscaPro.Active) then //Busco pelo Codigo de barra
+      s_buscaPro.Close;
+  s_buscaPro.Params[0].Clear;
+  s_buscaPro.Params[1].Clear;
+  s_buscaPro.Params[0].AsString := edt_produto.Text;
+  s_buscaPro.Open;
+  if (s_buscaPro.IsEmpty) then
+  begin
+      // if (MessageDlg('Produto não localizado pelo codigo de Barras,'+#13+#10+'   efetuar a busca pelo código do Produto ?', mtWarning, [mbYes, mbNo], 0) in [mrYes, mrNo, mrNone]) then
+      // begin
+      if (s_buscaPro.Active) then   //Busco pelo Codigo do Produto
+          s_buscaPro.Close;
+      s_buscaPro.Params[0].Clear;
+      s_buscaPro.Params[1].Clear;
+      s_buscaPro.Params[1].AsString := edt_produto.Text;
+      s_buscaPro.Open;
+      if (s_buscaPro.IsEmpty) then
+      begin
+        ShowMessage('Produto não localizado');
+        edt_produto.SetFocus;
+        Exit;
+      end;
+    //end;
+  end;
   // Alimento a tabela Mivimento detalhe
-
-
-   if (not ds_movdet.Active) then
-       ds_movdet.Open;
-    ds_movdet.Append;
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    ds_movdetCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-    ds_movdetCODMOVIMENTO.AsInteger := ds_movimentoCODMOVIMENTO.AsInteger;
-    ds_movdetCOD_BARRA.AsString := edt_produto.Text;
-    ds_movdetCODPRODUTO.AsInteger := s_buscaProCODPRODUTO.AsInteger;
-    ds_movdetCODPRO.AsString := s_buscaProCODPRO.AsString;
-    ds_movdetPRODUTO.Value := s_buscaProPRODUTO.Value;
-    ds_movdetDESCPRODUTO.Value := s_buscaProPRODUTO.Value;
-    ds_movdetCOD_COMISSAO.AsInteger := s_buscaProCOD_COMISSAO.AsInteger;
-    ds_movdetQTDE_PCT.AsFloat := s_buscaProQTDE_PCT.AsFloat;
-    ds_movdetUN.AsString := s_buscaProUNIDADEMEDIDA.AsString;
-//      ds_movdetLOCALIZACAO.AsString := s_buscaProLOCALIZACAO.AsString;
-//      ds_movdetESTOQUEATUAL.AsFloat := s_buscaProESTOQUEATUAL.AsFloat;
-    ds_movdetQUANTIDADE.AsFloat := 1;
-    ds_movdetQTDE_ALT.AsFloat := 1;
-    ds_movdetCODALMOXARIFADO.AsInteger := 1; //s_buscaProCODALMOXARIFADO.AsInteger;
-//      ds_movdetALMOXARIFADO.AsString := s_buscaProALMOXARIFADO.AsString;
-    ds_movdetICMS.AsFloat := s_buscaProICMS.AsFloat;
-    ds_movdetPRECO.AsFloat := s_buscaProVALOR_PRAZO.AsFloat;
-    ds_movdetVALTOTAL.Value := ds_movdetQUANTIDADE.AsFloat * ds_movdetPRECO.AsFloat;
-    ds_movdet.Post;
-
-    edt_produto.Text := '';
+  inseriMovDetalhe;
+  edt_produto.Text := '';
 
 end;
 
@@ -1338,6 +1300,11 @@ begin
      //ts3.TabVisible := True;
      ts4.TabVisible := False;
   end;
+
+  if (ds_movimento.Active) then
+   if (d_movimento.State in [dsBrowse]) then
+      ds_movimento.Edit;
+      
 end;
 
 procedure TF_AUTOPECAS.btn_sairClick(Sender: TObject);
@@ -1382,7 +1349,6 @@ begin
   begin
     AssignFile(IMPRESSORA,'LPT1:');
   end;
-
   //AssignFile(IMPRESSORA,'LPT1:');
   Rewrite(IMPRESSORA);
   Writeln(Impressora, c10cpi + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
@@ -1924,6 +1890,7 @@ end;
 procedure TF_AUTOPECAS.AprovarOramento1Click(Sender: TObject);
 var codosvar :integer;
 begin
+ {
   if dm.c_6_genid.Active then
      dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_OS, 1) AS INTEGER) AS CODOS FROM RDB$DATABASE';
@@ -1947,14 +1914,336 @@ begin
   dm.sqlsisAdimin.StartTransaction(TD);
   dm.sqlsisAdimin.ExecuteDirect(strSql);
   dm.sqlsisAdimin.Commit(TD);
+  }
 end;
 
 procedure TF_AUTOPECAS.buscaSimilar;
 begin
-  {if (ds_similar.Active) then
+  if (ds_similar.Active) then
      ds_similar.Close;
   ds_similar.Params[0].AsInteger := ds_movdetCODPRODUTO.AsInteger;
-  ds_similar.Open;}
+  ds_similar.Open;
+end;
+
+procedure TF_AUTOPECAS.btn6Click(Sender: TObject);
+begin
+  F_SIMILARES := TF_SIMILARES.Create(Application);
+  try
+    F_SIMILARES.ShowModal;
+  finally
+    F_SIMILARES.Free;
+  end;
+end;
+
+procedure TF_AUTOPECAS.inseriMovDetalhe;
+var
+ //  FMov: TMovimento;
+ ID_MOVDET :Integer;
+ sql : string;
+begin
+   dm.sqlsisAdimin.StartTransaction(TD);
+
+   if dm.c_6_genid.Active then
+     dm.c_6_genid.Close;
+   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+   dm.c_6_genid.Open;
+   ID_MOVDET := dm.c_6_genid.Fields[0].AsInteger;
+
+   dm.c_6_genid.Close;
+
+  sql := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODPRODUTO, STATUS, CODALMOXARIFADO, CODMOVIMENTO, QUANTIDADE, UN, '+
+         'PRECO, DESCPRODUTO, LOTE) VALUES ( ' +
+         IntToStr(ID_MOVDET) + ', ' + IntToStr(scds_produto_procCODPRODUTO.AsInteger) + ', ' +
+         'null' + ', ' + IntToStr(0) + ', ';
+  sql := sql +  IntToStr(codMovSaida) + ', ' + IntToStr(1) + ', ';
+  sql := sql +  QuotedStr(scds_produto_procUNIDADEMEDIDA.AsString) + ', ';
+  DecimalSeparator := '.';
+  sql := sql +  FloatToStr(scds_produto_procVALOR_PRAZO.AsFloat)  + ', ';
+  sql := sql +  QuotedStr(scds_produto_procPRODUTO.AsString) + ', ';
+
+  // if (tipo_busca = '3') then  // só preencho o campo Lote se o parametro usa lote for 3
+  //   sql := sql + QuotedStr(codlote) + ')'
+  // else
+  sql := sql + 'null' + ')' ;
+
+  dm.sqlsisAdimin.ExecuteDirect(sql);
+  DecimalSeparator := ',';
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, o Iten não foi gravada.', mtError,
+         [mbOk], 0);
+  end;
+
+   if (ds_movdet.Active) then
+       ds_movdet.Close;
+   ds_movdet.Params[0].Clear;
+   ds_movdet.Params[1].AsInteger := codMovSaida;
+   ds_movdet.Open;
+
+ { try
+      dm.sqlsisAdimin.StartTransaction(TDA);
+      FMov := TMovimento.Create;
+      FMov.MovDetalhe.CodMov        := codMovSaida;
+      FMov.MovDetalhe.CodProduto    := s_buscaProCODPRODUTO.AsInteger;
+      FMov.MovDetalhe.Qtde          := 1;
+      FMov.MovDetalhe.Lote          := '';
+      //FMov.MovDetalhe.Baixa         := '1';
+      FMov.MovDetalhe.Lote          := '';
+      FMov.MovDetalhe.
+
+      FMov.MovDetalhe.inserirMovDet;
+      dm.sqlsisAdimin.Commit(TDA);
+  finally
+      FMov.Free;
+  end;
+  }
+  { if (not ds_movdet.Active) then
+       ds_movdet.Open;
+    ds_movdet.Append;
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    ds_movdetCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+    ds_movdetCODMOVIMENTO.AsInteger := ds_movimentoCODMOVIMENTO.AsInteger;
+    ds_movdetCOD_BARRA.AsString := edt_produto.Text;
+    ds_movdetCODPRODUTO.AsInteger := s_buscaProCODPRODUTO.AsInteger;
+    ds_movdetCODPRO.AsString := s_buscaProCODPRO.AsString;
+    ds_movdetPRODUTO.Value := s_buscaProPRODUTO.Value;
+    ds_movdetDESCPRODUTO.Value := s_buscaProPRODUTO.Value;
+    ds_movdetCOD_COMISSAO.AsInteger := s_buscaProCOD_COMISSAO.AsInteger;
+    ds_movdetQTDE_PCT.AsFloat := s_buscaProQTDE_PCT.AsFloat;
+    ds_movdetUN.AsString := s_buscaProUNIDADEMEDIDA.AsString;
+//      ds_movdetLOCALIZACAO.AsString := s_buscaProLOCALIZACAO.AsString;
+//      ds_movdetESTOQUEATUAL.AsFloat := s_buscaProESTOQUEATUAL.AsFloat;
+    ds_movdetQUANTIDADE.AsFloat := 1;
+    ds_movdetQTDE_ALT.AsFloat := 1;
+    ds_movdetCODALMOXARIFADO.AsInteger := 1; //s_buscaProCODALMOXARIFADO.AsInteger;
+//      ds_movdetALMOXARIFADO.AsString := s_buscaProALMOXARIFADO.AsString;
+    ds_movdetICMS.AsFloat := s_buscaProICMS.AsFloat;
+    ds_movdetPRECO.AsFloat := s_buscaProVALOR_PRAZO.AsFloat;
+    ds_movdetVALTOTAL.Value := ds_movdetQUANTIDADE.AsFloat * ds_movdetPRECO.AsFloat;
+    ds_movdet.Post;
+   }
+end;
+
+procedure TF_AUTOPECAS.inseriMovimento;
+var
+  FMov: TMovimento;
+begin
+  // INSERIR MOVIMENTO
+  try
+      dm.sqlsisAdimin.StartTransaction(TDA);
+      FMov := TMovimento.Create;
+      FMov.CodMov      := 0;
+      FMov.CodCCusto   := caixa;
+      FMov.CodCliente  := clienteConsumidor;
+      if (rg1.ItemIndex = 1) then
+        FMov.CodNatureza := 16  // Orçamento
+      else
+        FMov.CodNatureza := 3; // Venda
+      FMov.Status      := 0;
+      FMov.CodUsuario  := 1;
+      FMov.CodVendedor := 1;
+      FMov.DataMov     := Now;
+      //FMov.Obs         := cdsInventCODIVENTARIO.AsString;
+      codMovSaida := FMov.inserirMovimento(0);
+      dm.sqlsisAdimin.Commit(TDA);
+  finally
+      FMov.Free;
+  end;
+end;
+
+function TF_AUTOPECAS.buscaProdLista(codBarra, ProdLista: String): Integer;
+var varsql:string;
+begin
+  if (ProdLista = 'Prod') then
+  begin
+    varsql := 'select  prod.CODPRODUTO ' +
+         ', prod.COD_BARRA '+
+         ', prod.PRODUTO    '+
+         ', prod.UNIDADEMEDIDA ' +
+         ', prod.QTDE_PCT ' +
+         ', prod.ICMS ' +
+         ', prod.CODALMOXARIFADO ' +
+         ', prod.CONTA_DESPESA ' +
+         ', ccus.ALMOXARIFADO ' +
+         ', prod.VALORUNITARIOATUAL ' +
+         ', prod.VALOR_PRAZO ' +
+         ', prod.COD_COMISSAO ' +
+         ', prod.RATEIO ' +
+         ', prod.TIPO ' +
+         ', prod.LOCALIZACAO ' +
+         ', prod.ESTOQUEATUAL ' +
+         ' from PRODUTOS prod ' +
+         ' left outer join ALMOXARIFADO ccus ' +
+         ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
+         ' where ';
+        if scds_produto_proc.Active then
+          scds_produto_proc.Close;
+        scds_produto_proc.CommandText := varsql + ' COD_BARRA = ' + '''' + geraCodBarra(codBarra,0) + '''';
+        scds_produto_proc.Open;
+        if scds_produto_proc.IsEmpty then
+        begin
+          scds_produto_proc.Close;
+          scds_produto_proc.CommandText := varsql + ' COD_BARRA = ' + '''' + codBarra + '''';
+          scds_produto_proc.Open;
+        end;
+
+        if scds_produto_proc.IsEmpty then
+        begin
+          scds_produto_proc.Close;
+          scds_produto_proc.CommandText := varsql + ' COD_BARRA = ' + '''' + geraCodBarra(codBarra,1) + '''';
+          scds_produto_proc.Open;
+        end;
+
+        if scds_produto_proc.IsEmpty then
+        begin
+          scds_produto_proc.Close;
+         // BuscaPeloCdigo1.Click;
+          if sProcuraProd.Active then
+            sProcuraProd.Close;
+          sProcuraProd.Params[0].Clear;
+          sProcuraProd.Params[1].Clear;
+          sProcuraProd.Params[2].AsString:=edt_produto.Text;
+          sProcuraProd.Open;
+          if sProcuraProd.IsEmpty then
+            exit
+          else
+            inseriMovDetalhe;
+        end;
+      {  if (not scds_produto_proc.IsEmpty) then
+        begin
+          codproduto := scds_produto_procCODPRODUTO.AsInteger;
+          if scds_produto_procQTDE_PCT.AsFloat >= 1 then
+            precovenda := scds_produto_procVALOR_PRAZO.AsFloat / scds_produto_procQTDE_PCT.AsFloat
+          else
+            precovenda := scds_produto_procVALOR_PRAZO.AsFloat;
+        end;
+       }
+  end;
+  if (scds_produto_proc.IsEmpty) then
+  begin
+    result := 1;
+    exit;
+  end
+  else
+    result := 0;
+end;
+
+procedure TF_AUTOPECAS.buscaProduto;
+var
+ s:string;
+begin
+  if (edt_produto.Text = '') then
+    exit;
+  if (ds_Movimento.State in [dsInactive, dsBrowse]) then
+    btn_incluir.Click;
+//  else
+//    ds_Mov_det.Append;
+  s:='';
+  if (buscaProdLista(edt_produto.Text, 'Prod') = 1) then
+  begin
+    //cds_mov_det.Cancel;
+    edt_produto.SetFocus;
+    exit;
+  end;
+  if (scds_produto_proc.IsEmpty) then
+  begin
+    // cds_mov_det.Cancel;
+    edt_produto.SetFocus;
+    exit;
+  end;
+  inseriMovDetalhe;
+
+ { cds_Mov_detCOD_BARRA.AsString := edt_produto.Text;
+  cds_Mov_detCODPRODUTO.AsInteger:=scds_produto_procCODPRODUTO.AsInteger;
+  cds_Mov_detPRODUTO.Value:=scds_produto_procPRODUTO.Value;
+  cds_Mov_detCOD_COMISSAO.AsInteger:=scds_produto_procCOD_COMISSAO.AsInteger;
+  cds_Mov_detQTDE_PCT.AsFloat:=scds_produto_procQTDE_PCT.AsFloat;
+  cds_Mov_detUN.AsString:=scds_produto_procUNIDADEMEDIDA.AsString;
+  cds_Mov_detLOCALIZACAO.AsString:=scds_produto_procLOCALIZACAO.AsString;
+  cds_Mov_detESTOQUEATUAL.AsFloat:=scds_produto_procESTOQUEATUAL.AsFloat;
+  cds_Mov_detQUANTIDADE.AsFloat := 1;
+  cds_Mov_detQTDE_ALT.AsFloat := 1;
+  cds_Mov_detVALTOTAL.AsFloat := precovenda * cds_Mov_detQUANTIDADE.AsFloat;
+  cds_Mov_detCODALMOXARIFADO.AsInteger:=scds_produto_procCODALMOXARIFADO.AsInteger;
+  cds_Mov_detALMOXARIFADO.AsString := scds_produto_procALMOXARIFADO.AsString;
+  cds_Mov_detICMS.AsFloat := scds_produto_procICMS.AsFloat;
+  cds_Mov_detPRECO.AsFloat := precovenda;
+  scds_produto_proc.Close;
+  cds_Mov_det.Post;
+  if sds_uso.Active then
+    sds_uso.Close;
+  sds_uso.Params[0].AsInteger:=cds_Mov_detCODPRODUTO.AsInteger;
+  sds_uso.Open;
+  }
+end;
+
+function TF_AUTOPECAS.geraCodBarra(vlrBarra: String; i: integer): String;
+var s: string;
+   j: integer;
+begin
+  j := 0;
+  //Verifico quantos digitos tem no código de barra
+  IF (length(edt_produto.Text) >= 13) then
+  begin
+    for i := 1 to 13 do
+    begin
+      s:= s+ copy(edt_produto.text,I,1);
+      j := i;
+    end;
+    result := s;
+  end;
+  if (j = 0) then
+  IF (length(edt_produto.Text) < 10) then
+  begin
+    s:='';
+    for i:=1 to 7 do
+    begin
+      s:= s+ copy(edt_produto.text,I,1);
+      j := i;
+    end;
+    result := s + '00001';
+  end;
+  if (j = 1) then
+  IF (length(edt_produto.Text) < 10) then
+  begin
+    s:='';
+    for i:=1 to 13 do
+    begin
+      if (i > 7) then
+        s:= s+ copy(edt_produto.text,I,1);
+    end;
+    result := '0000000' + s;
+  end;
+
+  IF (length(edt_produto.Text) = 10) then
+  begin
+    result := edt_produto.text
+  end;
+
+  IF (length(edt_produto.Text) = 11) then
+  begin
+    result := edt_produto.text
+  end;
+  IF (length(edt_produto.Text) = 12) then
+  begin
+    result := edt_produto.text
+  end;
+
+  IF (length(edt_produto.Text) >= 20) then
+  begin
+    s:='';
+    for i := 1 to 7 do    //Pego apenas os 7 primeiros caracteres
+    begin
+      s:= s+ copy(edt_produto.text,I,1);
+    end;
+    result := s + '00001';
+  end;
+
 end;
 
 end.

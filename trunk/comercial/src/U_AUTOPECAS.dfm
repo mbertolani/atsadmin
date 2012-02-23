@@ -1,6 +1,6 @@
 object F_AUTOPECAS: TF_AUTOPECAS
-  Left = 298
-  Top = 26
+  Left = 212
+  Top = 41
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'TERMINAL'
@@ -38,8 +38,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object lbl1: TLabel
       Left = 66
       Top = 42
-      Width = 358
-      Height = 28
+      Width = 323
+      Height = 25
       Caption = 'Entre com o C'#243'digo de Barras -->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -52,8 +52,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object RxLabel2: TRxLabel
       Left = 9
       Top = 11
-      Width = 292
-      Height = 23
+      Width = 255
+      Height = 21
       Caption = 'Entre com o C'#243'digo de Barras -->'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -241,6 +241,16 @@ object F_AUTOPECAS: TF_AUTOPECAS
       Height = 17
       Caption = 'Imprimir para Arquivo'
       TabOrder = 8
+    end
+    object btn6: TBitBtn
+      Left = 74
+      Top = 5
+      Width = 83
+      Height = 31
+      Caption = 'Cad. Similares'
+      PopupMenu = pm1
+      TabOrder = 9
+      OnClick = btn6Click
     end
   end
   object pgc1: TPageControl
@@ -470,7 +480,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             TabOrder = 1
           end
           object rg1: TRadioGroup
-            Left = 170
+            Left = 174
             Top = 10
             Width = 194
             Height = 33
@@ -490,7 +500,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           Top = 50
           Width = 406
           Height = 229
-          ActivePage = TabSheet2
+          ActivePage = TabSheet1
           Align = alClient
           TabOrder = 3
           object TabSheet1: TTabSheet
@@ -505,8 +515,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
               object JvImage1: TJvImage
                 Left = 1
                 Top = 1
-                Width = 765
-                Height = 370
+                Width = 396
+                Height = 199
                 Align = alClient
                 AutoSize = True
                 Center = True
@@ -1275,7 +1285,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             object DBMemo1: TDBMemo
               Left = 0
               Top = 0
-              Width = 398
+              Width = 397
               Height = 201
               Align = alClient
               DataField = 'OBS'
@@ -1988,8 +1998,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
       object RxLabel1: TRxLabel
         Left = 44
         Top = 16
-        Width = 207
-        Height = 28
+        Width = 190
+        Height = 25
         Caption = 'Total do Pedido -->'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -3864,6 +3874,220 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object AbrirOS1: TMenuItem
       Caption = 'Abrir O.S.'
       OnClick = AbrirOS1Click
+    end
+  end
+  object b_cliente: TSQLDataSet
+    CommandText = 
+      'select  CODCLIENTE, NOMECLIENTE  from CLIENTES '#13#10'where CODCLIENT' +
+      'E = :id'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 634
+    Top = 453
+    object b_clienteCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object b_clienteNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
+  end
+  object scds_produto_proc: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODP'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp'
+    Left = 688
+    Top = 183
+    object scds_produto_procCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object scds_produto_procCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
+    object scds_produto_procPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object scds_produto_procUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object scds_produto_procQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+    end
+    object scds_produto_procICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object scds_produto_procCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object scds_produto_procCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object scds_produto_procALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      Size = 30
+    end
+    object scds_produto_procVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+    end
+    object scds_produto_procVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+    end
+    object scds_produto_procCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+    end
+    object scds_produto_procRATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object scds_produto_procTIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 10
+    end
+    object scds_produto_procLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 5
+    end
+    object scds_produto_procESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+    end
+  end
+  object dsp: TDataSetProvider
+    DataSet = sds
+    Options = [poAllowCommandText]
+    Left = 656
+    Top = 183
+  end
+  object sds: TSQLDataSet
+    CommandText = 
+      'select  prod.CODPRODUTO'#13#10'         , prod.COD_BARRA '#13#10'         , ' +
+      'prod.PRODUTO'#13#10'         , prod.UNIDADEMEDIDA'#13#10'         , prod.QTD' +
+      'E_PCT'#13#10'         , prod.ICMS'#13#10'         , prod.CODALMOXARIFADO'#13#10'  ' +
+      '       , prod.CONTA_DESPESA'#13#10'         , ccus.ALMOXARIFADO'#13#10'     ' +
+      '    , prod.VALORUNITARIOATUAL'#13#10'         , prod.VALOR_PRAZO'#13#10'    ' +
+      '     , prod.COD_COMISSAO'#13#10'         , prod.RATEIO'#13#10'         , pro' +
+      'd.TIPO  '#13#10'         , prod.LOCALIZACAO '#13#10'         , prod.ESTOQUEA' +
+      'TUAL   '#13#10'from PRODUTOS prod '#13#10'left outer join ALMOXARIFADO ccus ' +
+      #13#10'on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'where CODPROD' +
+      'UTO = :CODP'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODP'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 624
+    Top = 183
+  end
+  object sProcuraProd: TSQLDataSet
+    CommandText = 
+      'select prod.CODPRODUTO'#13#10', prod.CODPRO'#13#10', prod.PRODUTO'#13#10', prod.UN' +
+      'IDADEMEDIDA'#13#10', prod.QTDE_PCT'#13#10', prod.ICMS'#13#10', prod.CODALMOXARIFAD' +
+      'O'#13#10', ccus.ALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.VALOR_' +
+      'PRAZO'#13#10', prod.TIPO  '#13#10', prod.ESTOQUEATUAL '#13#10', prod.LOCALIZACAO'#13#10 +
+      ', prod.LOTES  '#13#10', prod.PESO_QTDE'#13#10', prod.COD_COMISSAO '#13#10'from PRO' +
+      'DUTOS prod '#13#10'left outer join ALMOXARIFADO ccus '#13#10'on ccus.CODALMO' +
+      'XARIFADO = prod.CODALMOXARIFADO '#13#10'where (PRODUTO like :pPROD) '#13#10 +
+      '      or (CODPRODUTO = :id) '#13#10'      or (CODPRO = :cod)'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pPROD'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'cod'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 704
+    Top = 456
+    object sProcuraProdCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object sProcuraProdCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object sProcuraProdPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object sProcuraProdUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object sProcuraProdQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+    end
+    object sProcuraProdICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object sProcuraProdCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object sProcuraProdALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      Size = 30
+    end
+    object sProcuraProdVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+    end
+    object sProcuraProdVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+    end
+    object sProcuraProdTIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 10
+    end
+    object sProcuraProdESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+    end
+    object sProcuraProdLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
+    end
+    object sProcuraProdLOTES: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
+    end
+    object sProcuraProdPESO_QTDE: TFloatField
+      FieldName = 'PESO_QTDE'
+    end
+    object sProcuraProdCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
     end
   end
 end
