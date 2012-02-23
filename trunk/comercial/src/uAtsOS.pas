@@ -84,7 +84,7 @@ uses
   ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
-  uRel, uRelatorioCaixa, uPrazo;
+  uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS;
 
 {$R *.dfm}
 
@@ -303,7 +303,8 @@ begin
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLReport1.execute;
   end;
-
+  usulog :=  fAtsOS.UserControlAuto.CurrentUser.UserID;
+  nome_user := fAtsOS.UserControlAuto.CurrentUser.UserName;
 end;
 
 procedure TfAtsOS.JvOutlookBar1Pages0Buttons1Click(Sender: TObject);
@@ -345,12 +346,10 @@ end;
 
 procedure TfAtsOS.JvOutlookBar1Pages1Buttons0Click(Sender: TObject);
 begin
-  if (fOsFiltro = nil) then
-    fOsFiltro := TfOsFiltro.Create(Self);
-
- // sCtrlResize.CtrlResize(TForm(fClienteCadastro));
-
-  fOsFiltro.Show;
+    if (fOsFiltro = nil) then
+      fOsFiltro := TfOsFiltro.Create(Self);
+   // sCtrlResize.CtrlResize(TForm(fClienteCadastro));
+    fOsFiltro.Show;
 end;
 
 procedure TfAtsOS.JvOutlookBar1Pages1Buttons1Click(Sender: TObject);
@@ -363,17 +362,33 @@ procedure TfAtsOS.JvOutlookBar1Pages1Buttons2Click(Sender: TObject);
 begin
 //   DM.tipoVenda := 'VENDA';
   // fVendas.ShowModal;
-  usulog :=  fAtsAdmin.UserControlComercial.CurrentUser.UserID;
-  nome_user := fAtsAdmin.UserControlComercial.CurrentUser.UserName;
-
-  F_Terminal := TF_Terminal.Create(Application);
-  try
-   sCtrlResize.CtrlResize(TForm(F_Terminal));
-    F_Terminal.ShowModal;
-  finally
-    F_Terminal.Free;
+  usulog :=  fAtsOS.UserControlAuto.CurrentUser.UserID;
+  nome_user := fAtsOS.UserControlAuto.CurrentUser.UserName;
+  if DM.cds_parametro.Active then
+    DM.cds_parametro.Close;
+  DM.cds_parametro.Params[0].AsString := 'EMPRESA';
+  DM.cds_parametro.Open;
+  if (DM.cds_parametroDADOS.AsString = 'COMETA') then
+  begin
+    F_AUTOPECAS := TF_AUTOPECAS.Create(Application);
+    try
+      sCtrlResize.CtrlResize(TForm(F_AUTOPECAS));
+      F_AUTOPECAS.ShowModal;
+    finally
+      F_AUTOPECAS.Free;
+    end;
+  end
+  else
+  begin
+    F_Terminal := TF_Terminal.Create(Application);
+    try
+      sCtrlResize.CtrlResize(TForm(F_Terminal));
+      F_Terminal.ShowModal;
+    finally
+      F_Terminal.Free;
+    end;
   end;
-
+  DM.cds_parametro.Close;  
 end;
 
 procedure TfAtsOS.JvOutlookBar1Pages2Buttons2Click(Sender: TObject);
