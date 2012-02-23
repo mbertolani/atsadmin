@@ -2698,6 +2698,13 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Expedi'#231#227'o'
         OnClick = Expedio1Click
       end
+      object AjusteEsto1: TMenuItem
+        Caption = 'Agenda'
+      end
+      object AjusteEstoque1: TMenuItem
+        Caption = 'Ajuste Estoque'
+        OnClick = AjusteEstoque1Click
+      end
     end
     object Relatrios1: TMenuItem
       Caption = '&Relat'#243'rios     '
