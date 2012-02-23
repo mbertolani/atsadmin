@@ -891,6 +891,20 @@ begin
   end;
   dmnf.listaTransp.Close;
 
+  Case dm.vendaDec of
+    2 : cds_Mov_detPRECO.EditFormat :=  ',##0.00';
+    3 : cds_Mov_detPRECO.EditFormat :=  ',##0.000';
+    4 : cds_Mov_detPRECO.EditFormat :=  ',##0.0000';
+    5 : cds_Mov_detPRECO.EditFormat :=  ',##0.00000';
+    6 : cds_Mov_detPRECO.EditFormat :=  ',##0.000000';
+  end;
+  Case dm.vendaDec of
+    2 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.00';
+    3 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.000';
+    4 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.0000';
+    5 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.00000';
+    6 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.000000';
+  end;
 end;
 
 procedure TfVendas.btnIncluirClick(Sender: TObject);
