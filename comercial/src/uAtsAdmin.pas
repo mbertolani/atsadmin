@@ -250,6 +250,8 @@ type
     GrficodeVendas1: TMenuItem;
     acPagarUsuario: TAction;
     LanarDespesaUsurio1: TMenuItem;
+    AjusteEsto1: TMenuItem;
+    AjusteEstoque1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -373,6 +375,7 @@ type
     procedure MesasComandas1Click(Sender: TObject);
     procedure GrficodeVendas1Click(Sender: TObject);
     procedure acPagarUsuarioExecute(Sender: TObject);
+    procedure AjusteEstoque1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -421,7 +424,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
-  uListaEstoque, uOsFiltro, uPainelControle, u_mesas;
+  uListaEstoque, uOsFiltro, uPainelControle, u_mesas, uEstoqueAjuste;
 
 {$R *.dfm}
 
@@ -2116,6 +2119,16 @@ begin
   DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
   Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
   fcrTituloPagto.ShowModal;
+end;
+
+procedure TfAtsAdmin.AjusteEstoque1Click(Sender: TObject);
+begin
+ fEstoqueAjuste := TfEstoqueAjuste.Create(Application);
+ try
+   fEstoqueAjuste.ShowModal;
+ finally
+   fEstoqueAjuste.Free;
+ end;
 end;
 
 end.
