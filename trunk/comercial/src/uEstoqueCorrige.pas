@@ -36,6 +36,7 @@ type
     prog2: TJvProgressBar;
     Label6: TLabel;
     BitBtn1: TBitBtn;
+    Label8: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
