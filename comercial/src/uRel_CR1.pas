@@ -238,8 +238,9 @@ begin
      MessageDlg('Pôr favor efetue a pesquisa antes, para depois imprimir..', mtWarning, [mbOK], 0);
      exit;
     end;
-    sqlGrupoCR := ' order by rec.NOMECLIENTE, rec.CODCLIENTE, '
-              + ' rec.DATAVENCIMENTO, rec.EMISSAO, rec.CODRECEBIMENTO, rec.TITULO';
+    sqlGrupoCR := ' order by  '  +
+               ' rec.DATAVENCIMENTO, rec.NOMECLIENTE, rec.CODCLIENTE, ' +
+               ' rec.EMISSAO, rec.CODRECEBIMENTO, rec.TITULO';
     sqlGrupoCR := impCR + SqlCr + sqlGrupoCR;
     fcrproc.repContasReceber.FileName := str_relatorio + 'RelContasReceber.rep';
     fcrproc.repContasReceber.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
