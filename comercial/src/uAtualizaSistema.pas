@@ -1199,7 +1199,7 @@ begin
       executaScript('listaProdutocli.sql');
       executaScript('listaProduto.sql');
       executaScript('gera_nf_venda.sql');
-      executaScript('gera_nf_compra.sql');      
+      executaScript('gera_nf_compra.sql');
       mudaVersao('1.0.0.98');
     end;// Fim Ataulização Versao 1.0.0.98
 
@@ -1220,12 +1220,27 @@ begin
 
     if (versaoSistema = '1.0.0.99') then
     begin
+      if (NaoExisteTabela('DECLARACAOIMPORTACAO')) then
+      begin
+        executaSql('CREATE TABLE DECLARACAOIMPORTACAO' +
+        '( ' +
+        ' DI_CODDI integer NOT NULL, ' +
+        ' DI_NUMDI varchar(10) NOT NULL, ' +
+        ' DI_DATA date, ' +
+        ' DI_LOCALDESEMB varchar(60), ' +
+        ' DI_UFDESEMB varchar(2), ' +
+        ' DI_DATADESEMB date, ' +
+        ' DI_CODEXPORTADOR varchar(60), ' +
+        ' NOTASERIE varchar(10), ' +
+        ' CODMOVIMENTO integer, ' +
+        ' PRIMARY KEY (DI_CODDI))');
+      end;
       executaDDL('DECLARACAOIMPORTACAO', 'NOTASERIE', 'VARCHAR(10)');
       executaDDL('DECLARACAOIMPORTACAO', 'CODMOVIMENTO', 'INTEGER');
-      mudaVersao('1.0.1.00');
+      mudaVersao('1.0.0.100');
     end;
 
-    if (versaoSistema = '1.0.1.00') then
+    if (versaoSistema = '1.0.0.100') then
     begin
       executaDDL('EMPRESA', 'CONTADOR',        'VARCHAR(100)');
       executaDDL('EMPRESA', 'CONTADOR_CRC',    'CHAR(20)');
@@ -1264,6 +1279,9 @@ begin
       executaDDL('EMPRESA', UpperCase('IndOrigemDiversas'),   'VARCHAR(50)');
       executaDDL('EMPRESA', UpperCase('IndNatDeducao'),       'VARCHAR(50)');
       executaDDL('EMPRESA', UpperCase('IndTpOperacaoReceita'),'VARCHAR(50)');
+      executaDDL('EMPRESA', UpperCase('IM'),                  'VARCHAR(15)');
+      executaDDL('EMPRESA', UpperCase('TREGIME'),             'INTEGER');
+
       //executaDDL('EMPRESA', '', 'VARCHAR(50)');
 
       if (NaoExisteTabela('SPEDPISCOFINS')) then
@@ -1356,8 +1374,7 @@ begin
       executaDDL('SPEDPISCOFINSDET', '',               'VARCHAR(50)');
       executaDDL('SPEDPISCOFINSDET', '',               'VARCHAR(50)'); }
 
-      //mudaVersao('1.0.1.00');
-
+      mudaVersao('1.0.0.101');
     end;
 
 
