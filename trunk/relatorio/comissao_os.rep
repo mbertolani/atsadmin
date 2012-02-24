@@ -53,17 +53,17 @@ object TRpReport
       Alias = 'FUNCIONARIO'
       DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select  rec.CODVENDEDOR, func.NOME_FUNCIONARIO,sum(mv.VALTOTAL) ' +
-        'as VALTOTAL,'#13#10'        sum(mv.VALTOTAL * ((case p.VALORCOMISSAO w' +
-        'hen null then p.VALORCOMISSAO else func.VALOR_COMISSAO end)/100)' +
-        ') as V_COM'#13#10'from VENDA rec'#13#10'inner join movimento m on m.codmovim' +
-        'ento = rec.codmovimento '#13#10'inner join movimentodetalhe mv on mv.c' +
-        'odmovimento = m.codmovimento'#13#10'inner join PRODUTOS p on p.codprod' +
-        'uto = mv.codproduto '#13#10'left outer join FUNCIONARIO func on rec.CO' +
-        'DVENDEDOR = func.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 and  ' +
-        'rec.DATAVENDA between :DATA1 and :DATA2 and p.TIPO = '#39'SERV'#39#13#10'gro' +
-        'up by rec.CODVENDEDOR, func.NOME_FUNCIONARIO'#13#10' order by  func.no' +
-        'me_funcionario'
+        'select  osd.CODUSUARIO, func.NOME_FUNCIONARIO,sum(mv.VALTOTAL) a' +
+        's VALTOTAL,'#13#10'        sum(mv.VALTOTAL * ((case  when p.VALORCOMIS' +
+        'SAO > 0 then p.VALORCOMISSAO else func.VALOR_COMISSAO end)/100))' +
+        ' as V_COM'#13#10'from VENDA rec'#13#10'inner join movimento m on m.codmovime' +
+        'nto = rec.codmovimento '#13#10'inner join movimentodetalhe mv on mv.co' +
+        'dmovimento = m.codmovimento'#13#10'inner join os_det osd on osd.id_os_' +
+        'det = mv.codigo'#13#10'inner join PRODUTOS p on p.codproduto = mv.codp' +
+        'roduto '#13#10'left outer join FUNCIONARIO func on osd.CODUSUARIO = fu' +
+        'nc.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 and  rec.DATAVENDA ' +
+        'between :DATA1 and :DATA2 and p.TIPO = '#39'SERV'#39#13#10'group by osd.CODU' +
+        'SUARIO, func.NOME_FUNCIONARIO'#13#10' order by  func.nome_funcionario'
     end
     item
       Alias = 'PRODUTOS'
@@ -553,7 +553,7 @@ object TRpReport
   object TRpExpression4: TRpExpression
     Width = 930
     Height = 225
-    PosX = 8401
+    PosX = 8343
     PosY = 58
     Type1Font = poHelvetica
     FontSize = 8
@@ -1376,7 +1376,7 @@ object TRpReport
     PosX = 4287
     PosY = 3
     Type1Font = poHelvetica
-    FontSize = 9
+    FontSize = 8
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGroup
@@ -1402,7 +1402,7 @@ object TRpReport
     PosX = 5515
     PosY = 3
     Type1Font = poHelvetica
-    FontSize = 9
+    FontSize = 8
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGroup
@@ -1441,7 +1441,7 @@ object TRpReport
     PosX = 5515
     PosY = 3
     Type1Font = poHelvetica
-    FontSize = 9
+    FontSize = 8
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGroup
