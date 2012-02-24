@@ -20,8 +20,8 @@ object fAtsOS: TfAtsOS
   object Image1: TImage
     Left = 165
     Top = 35
-    Width = 605
-    Height = 324
+    Width = 613
+    Height = 335
     Align = alClient
     Center = True
     Picture.Data = {
@@ -27781,8 +27781,8 @@ object fAtsOS: TfAtsOS
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 359
-    Width = 770
+    Top = 370
+    Width = 778
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -27806,7 +27806,7 @@ object fAtsOS: TfAtsOS
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 770
+    Width = 778
     Height = 35
     Align = alTop
     TabOrder = 1
@@ -27819,7 +27819,7 @@ object fAtsOS: TfAtsOS
     object RxLabel1: TRxLabel
       Left = 1
       Top = 1
-      Width = 768
+      Width = 776
       Height = 33
       Align = alClient
       Alignment = taCenter
@@ -27839,7 +27839,7 @@ object fAtsOS: TfAtsOS
     Left = 0
     Top = 35
     Width = 165
-    Height = 324
+    Height = 335
     Align = alLeft
     Pages = <
       item
@@ -27938,6 +27938,14 @@ object fAtsOS: TfAtsOS
             Tag = 10
             AutoToggle = False
             OnClick = JvOutlookBar1Pages1Buttons2Click
+          end
+          item
+            Action = acNfe
+            Caption = '&NFe'
+            ImageIndex = 17
+            Tag = 0
+            AutoToggle = False
+            OnClick = acNfeExecute
           end>
         ButtonSize = olbsLarge
         Caption = 'Co&mercial'
@@ -28088,6 +28096,14 @@ object fAtsOS: TfAtsOS
             Tag = 0
             AutoToggle = False
             OnClick = JvOutlookBar1Pages4Buttons3Click
+          end
+          item
+            Action = acRelServ
+            Caption = 'Relat'#243'rio Servi'#231'os'
+            ImageIndex = 12
+            Tag = 0
+            AutoToggle = False
+            OnClick = acRelServExecute
           end>
         ButtonSize = olbsLarge
         Caption = '&Relat'#243'rios'
@@ -53742,6 +53758,16 @@ object fAtsOS: TfAtsOS
     object Logoof: TAction
       Category = 'acessos'
       Caption = 'Logoof'
+    end
+    object acRelServ: TAction
+      Category = 'Relatorios'
+      Caption = 'Relat'#243'rio Servi'#231'os'
+      OnExecute = acRelServExecute
+    end
+    object acNfe: TAction
+      Category = 'Comercial'
+      Caption = 'NFe'
+      OnExecute = acNfeExecute
     end
   end
   object UserControlAuto: TUserControl
