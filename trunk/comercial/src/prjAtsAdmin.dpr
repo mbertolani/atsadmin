@@ -263,7 +263,9 @@ uses
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
   uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins},
   uEstoqueAjuste in 'uEstoqueAjuste.pas' {fEstoqueAjuste},
-  uListaEstoque in 'uListaEstoque.pas' {fListaEstoque};
+  uListaEstoque in 'uListaEstoque.pas' {fListaEstoque},
+  uBancoExtrato in 'uBancoExtrato.pas' {fBancoExtrato},
+  uBancoOFX in 'uBancoOFX.pas';
 
 //uImport in 'uImport.pas' {fImport};
 
