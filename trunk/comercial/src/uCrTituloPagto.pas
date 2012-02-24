@@ -448,8 +448,11 @@ begin
         dm.sqlsisAdimin.Commit(TD);
 
       except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para gravar o lançamento.', mtError, [mbOK], 0);
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
       end;
     end
     else
@@ -506,8 +509,12 @@ begin
            ' and p.TITULO = ' + QuotedStr(dm.cds_4_pagarTITULO.AsString));
         dm.sqlsisAdimin.Commit(TD);
       except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para gravar o lançamento.', mtError, [mbOK], 0);
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          exit;
+        end;
       end;
     end;
     end;
