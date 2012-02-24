@@ -265,7 +265,8 @@ uses
   uEstoqueAjuste in 'uEstoqueAjuste.pas' {fEstoqueAjuste},
   uListaEstoque in 'uListaEstoque.pas' {fListaEstoque},
   uBancoExtrato in 'uBancoExtrato.pas' {fBancoExtrato},
-  uBancoOFX in 'uBancoOFX.pas';
+  uBancoOFX in 'uBancoOFX.pas',
+  uRelOS in 'uRelOS.pas' {fRelOs};
 
 //uImport in 'uImport.pas' {fImport};
 
