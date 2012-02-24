@@ -1365,6 +1365,7 @@ procedure TfAtsAdmin.acAPagarExecute(Sender: TObject);
 begin
  fCpProc:=TfCpProc.Create(Application);
  try
+   fCpProc.usuarioCPProc := 'GERAL';
    fCpProc.ShowModal;
  finally
    fCpProc.Free;
