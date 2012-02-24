@@ -154,6 +154,7 @@ type
     GroupBox5: TGroupBox;
     edVeiculo: TJvMaskEdit;
     BitBtn1: TBitBtn;
+    btnImprimir: TJvBitBtn;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -571,7 +572,7 @@ begin
 
       fMov.CodMov      := 0;
       fMov.CodNatureza := 3;  // Venda
-      fMov.DataMov     := Today;
+      fMov.DataMov     := cdsOsDATA_FIM.AsDateTime;
       fMov.CodCliente  := cdsOsCODCLIENTE.AsInteger;
       fMov.Status      := 0;
       fMov.CodUsuario  := cdsOsCODUSUARIO.AsInteger;
@@ -908,12 +909,12 @@ end;
 
 procedure TfOsFiltro.btnImprimirClick(Sender: TObject);
 begin
-  Rep.Filename := str_relatorio + 'comissao_os.rep';
+ { Rep.Filename := str_relatorio + 'comissao_os.rep';
   Rep.Title    := Rep.Filename;
   Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(MaskEdit1.Text);
   Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(MaskEdit2.Text);
-  rep.execute;
+  rep.execute;  }
 end;
 
 procedure TfOsFiltro.BitBtn1Click(Sender: TObject);
