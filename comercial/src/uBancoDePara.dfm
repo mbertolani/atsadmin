@@ -1,6 +1,5 @@
-inherited fBancoExtrato: TfBancoExtrato
-  Caption = 'Concilia'#231#227'o Banc'#225'ria'
-  OldCreateOrder = True
+inherited fBancoDePara: TfBancoDePara
+  Caption = 'fBancoDePara'
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -32,17 +31,7 @@ inherited fBancoExtrato: TfBancoExtrato
       ParentCtl3D = False
       ParentFont = False
       TabOrder = 0
-      OnClick = cbContaClick
       OnKeyPress = FormKeyPress
-    end
-  end
-  inherited MMJPanel2: TMMJPanel
-    inherited btnExcluir: TBitBtn
-      Caption = 'Contas'
-      Enabled = True
-    end
-    inherited btnProcurar: TBitBtn
-      OnClick = btnProcurarClick
     end
   end
   object JvDBUltimGrid1: TJvDBUltimGrid [2]
@@ -68,57 +57,34 @@ inherited fBancoExtrato: TfBancoExtrato
     Columns = <
       item
         Expanded = False
-        FieldName = 'EXTRATOCOD'
-        Title.Caption = 'Lan'#231'amento'
-        Width = 116
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'EXTRATODATA'
-        Title.Caption = 'Data'
-        Width = 73
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'CAIXA'
-        Title.Caption = 'Caixa'
-        Width = 40
+        Width = 71
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CONTA'
+        Width = 111
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATODOC'
-        Title.Caption = 'Documento'
-        Width = 372
+        Width = 387
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATOTIPO'
-        Title.Caption = 'Tipo'
-        Width = 75
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'EXTRATOVALOR'
-        Title.Caption = 'Valor'
-        Width = 74
+        Width = 183
         Visible = True
       end>
   end
   inherited DtSrc: TDataSource
-    DataSet = cdsExtrato
+    DataSet = cdsBancoDePara
   end
-  object ds_conta: TDataSource
-    DataSet = DM.cds_7_contas
-    Left = 416
-    Top = 8
-  end
-  object sdsExtrato: TSQLDataSet
-    CommandText = 'SELECT * FROM BANCOEXTRATO WHERE CAIXA = :CAIXA'
+  object sdsBancoDePara: TSQLDataSet
+    CommandText = 'SELECT * FROM BANCODEPARA WHERE CAIXA = :CAIXA'
     MaxBlobSize = -1
     Params = <
       item
@@ -127,15 +93,15 @@ inherited fBancoExtrato: TfBancoExtrato
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 400
-    Top = 48
+    Left = 176
+    Top = 24
   end
-  object dspExtrato: TDataSetProvider
-    DataSet = sdsExtrato
-    Left = 432
-    Top = 48
+  object dspDePara: TDataSetProvider
+    DataSet = sdsBancoDePara
+    Left = 208
+    Top = 24
   end
-  object cdsExtrato: TClientDataSet
+  object cdsBancoDePara: TClientDataSet
     Aggregates = <>
     Params = <
       item
@@ -143,37 +109,30 @@ inherited fBancoExtrato: TfBancoExtrato
         Name = 'CAIXA'
         ParamType = ptInput
       end>
-    ProviderName = 'dspExtrato'
-    Left = 472
-    Top = 48
-    object cdsExtratoEXTRATODATA: TDateField
-      FieldName = 'EXTRATODATA'
-      Required = True
-    end
-    object cdsExtratoCAIXA: TIntegerField
+    ProviderName = 'dspDePara'
+    Left = 240
+    Top = 24
+    object cdsBancoDeParaCAIXA: TIntegerField
       FieldName = 'CAIXA'
       Required = True
     end
-    object cdsExtratoEXTRATODOC: TStringField
-      FieldName = 'EXTRATODOC'
-      Size = 100
-    end
-    object cdsExtratoEXTRATOTIPO: TStringField
-      FieldName = 'EXTRATOTIPO'
-    end
-    object cdsExtratoEXTRATOVALOR: TFloatField
-      FieldName = 'EXTRATOVALOR'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
-    end
-    object cdsExtratoEXTRATOCOD: TStringField
-      FieldName = 'EXTRATOCOD'
+    object cdsBancoDeParaCONTA: TIntegerField
+      FieldName = 'CONTA'
       Required = True
     end
-    object cdsExtratoSEL: TStringField
-      FieldName = 'SEL'
-      FixedChar = True
-      Size = 1
+    object cdsBancoDeParaEXTRATODOC: TStringField
+      FieldName = 'EXTRATODOC'
+      Required = True
+      Size = 100
     end
+    object cdsBancoDeParaEXTRATOTIPO: TStringField
+      FieldName = 'EXTRATOTIPO'
+      Required = True
+    end
+  end
+  object ds_conta: TDataSource
+    DataSet = DM.cds_7_contas
+    Left = 416
+    Top = 8
   end
 end
