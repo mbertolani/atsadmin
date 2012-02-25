@@ -1377,6 +1377,20 @@ begin
       mudaVersao('1.0.0.101');
     end;
 
+    if (versaoSistema = '1.0.0.101') then
+    begin
+      if (NaoExisteTabela('BANCOEXTRATO')) then
+      begin
+        executaSql('CREATE TABLE BANCOEXTRATO ( EXTRATOCOD Integer NOT NULL, ' +
+        ' EXTRATODATA DATE INTEGER NOT NULL , ' +
+        ' CAIXA INTEGER NOT NULL, ' +
+        ' EXTRATODOC VARCHAR(100), ' +
+        ' EXTRATOTIPO VARCHAR(20), ' +
+        ' EXTRATOVALOR  DOUBLE PRECISION, ' +
+        ' PRIMARY KEY(EXTRATOCOD, EXTRATODATA, CAIXA))');
+      end;
+      mudaVersao('1.0.0.101');
+    end;
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
