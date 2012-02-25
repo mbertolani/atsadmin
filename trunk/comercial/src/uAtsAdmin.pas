@@ -252,6 +252,7 @@ type
     LanarDespesaUsurio1: TMenuItem;
     AjusteEsto1: TMenuItem;
     AjusteEstoque1: TMenuItem;
+    ConciliaoBancaria1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -376,6 +377,7 @@ type
     procedure GrficodeVendas1Click(Sender: TObject);
     procedure acPagarUsuarioExecute(Sender: TObject);
     procedure AjusteEstoque1Click(Sender: TObject);
+    procedure ConciliaoBancaria1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -424,7 +426,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
-  uListaEstoque, uOsFiltro, uPainelControle, u_mesas, uEstoqueAjuste;
+  uListaEstoque, uOsFiltro, uPainelControle, u_mesas, uEstoqueAjuste,
+  uBancoExtrato, uBancoDePara;
 
 {$R *.dfm}
 
@@ -2129,6 +2132,18 @@ begin
    fEstoqueAjuste.ShowModal;
  finally
    fEstoqueAjuste.Free;
+ end;
+end;
+
+procedure TfAtsAdmin.ConciliaoBancaria1Click(Sender: TObject);
+begin
+ fBancoExtrato := TfBancoExtrato.Create(Application);
+ fBancoDePara := TfBancoDePara.Create(Application);
+ try
+   fBancoExtrato.ShowModal;
+ finally
+   fBancoExtrato.Free;
+   fBancoDePara.Free;
  end;
 end;
 

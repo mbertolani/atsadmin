@@ -2578,6 +2578,10 @@ object fAtsAdmin: TfAtsAdmin
       object LanarDespesaUsurio1: TMenuItem
         Action = acPagarUsuario
       end
+      object ConciliaoBancaria1: TMenuItem
+        Caption = 'Concilia'#231#227'o Bancaria'
+        OnClick = ConciliaoBancaria1Click
+      end
     end
     object NotaFiscal1: TMenuItem
       Caption = 'Nota Fiscal      '
