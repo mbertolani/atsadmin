@@ -1381,13 +1381,23 @@ begin
     begin
       if (NaoExisteTabela('BANCOEXTRATO')) then
       begin
-        executaSql('CREATE TABLE BANCOEXTRATO ( EXTRATOCOD Integer NOT NULL, ' +
+        executaSql('CREATE TABLE BANCOEXTRATO ( EXTRATOCOD VARCHAR(20) NOT NULL, ' +
         ' EXTRATODATA DATE INTEGER NOT NULL , ' +
         ' CAIXA INTEGER NOT NULL, ' +
         ' EXTRATODOC VARCHAR(100), ' +
         ' EXTRATOTIPO VARCHAR(20), ' +
         ' EXTRATOVALOR  DOUBLE PRECISION, ' +
+        ' SEL CHAR(1), ' +
         ' PRIMARY KEY(EXTRATOCOD, EXTRATODATA, CAIXA))');
+      end;
+      if (NaoExisteTabela('BANCOEXTRATO')) then
+      begin
+        executaSql('CREATE TABLE BANCODEPARA(' +
+        ' CAIXA INTEGER NOT NULL, ' +
+        ' CONTA INTEGER NOT NULL, ' +
+        ' EXTRATODOC VARCHAR(100) NOT NULL, ' +
+        ' EXTRATOTIPO VARCHAR(20) NOT NULL, ' +
+        ' PRIMARY KEY (CAIXA, CONTA, EXTRATODOC, EXTRATOTIPO))');
       end;
       mudaVersao('1.0.0.101');
     end;
