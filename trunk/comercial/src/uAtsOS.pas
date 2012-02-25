@@ -8,7 +8,6 @@ uses
   JvMenus, ImgList, Menus,  JvGIF, WinInet, JvLinkLabel, jpeg, ExtCtrls,
   JvExExtCtrls, JvImage, ComCtrls, MMJPanel, UCHist_Base, UCBase,
   rpcompobase, rpvclreport, DBXPress, ActnList, RXCtrls;
-
 type
   TfAtsOS = class(TForm)
     JvNavPaneStyleManager1: TJvNavPaneStyleManager;
@@ -25,6 +24,8 @@ type
     usuarios: TAction;
     Logoof: TAction;
     UserControlAuto: TUserControl;
+    acRelServ: TAction;
+    acNfe: TAction;
     procedure FormCreate(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -60,6 +61,8 @@ type
     procedure JvOutlookBar1Pages4Buttons3Click(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons7Click(Sender: TObject);
     procedure JvOutlookBar1Pages1Buttons3Click(Sender: TObject);
+    procedure acRelServExecute(Sender: TObject);
+    procedure acNfeExecute(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -85,7 +88,8 @@ uses
   ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
-  uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica;
+  uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica,
+  uRelOS;
 
 {$R *.dfm}
 
@@ -681,6 +685,22 @@ begin
 end;
 
 procedure TfAtsOS.JvOutlookBar1Pages1Buttons3Click(Sender: TObject);
+begin
+  fNFeletronica.ShowModal;
+end;
+
+procedure TfAtsOS.acRelServExecute(Sender: TObject);
+begin
+  // Relatorio Servicos e Comissoes
+ fRelOs := TfRelOs.Create(Application);
+ try
+   fRelOs.ShowModal;
+ finally
+   fRelOs.Free;
+ end;
+end;
+
+procedure TfAtsOS.acNfeExecute(Sender: TObject);
 begin
   fNFeletronica.ShowModal;
 end;
