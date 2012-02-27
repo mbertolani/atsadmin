@@ -394,6 +394,7 @@ inherited fOsInserePeca: TfOsInserePeca
     end
   end
   inherited DtSrc: TDataSource
+    DataSet = fOs.cdsPecas
     Left = 192
   end
   inherited XPMenu1: TXPMenu
