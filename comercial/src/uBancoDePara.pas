@@ -21,11 +21,20 @@ type
     cdsBancoDeParaCONTA: TIntegerField;
     cdsBancoDeParaEXTRATODOC: TStringField;
     cdsBancoDeParaEXTRATOTIPO: TStringField;
+    Label7: TLabel;
+    edtcodred: TEdit;
+    Label8: TLabel;
+    edtconta: TEdit;
+    BitBtn12: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure BitBtn12Click(Sender: TObject);
+    procedure edtcodredExit(Sender: TObject);
+    procedure cdsBancoDeParaNewRecord(DataSet: TDataSet);
   private
     { Private declarations }
   public
+    caixa: Integer;
     { Public declarations }
   end;
 
@@ -34,7 +43,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, uFiltro_forn_plano;
 
 {$R *.dfm}
 
@@ -52,12 +61,71 @@ begin
     dm.cds_7_contas.Open;
   end;
   dm.cds_parametro.Close;
+  //DM.cds_7_contas.Locate('CODIGO', caixa, [loCaseInsensitive]);
+  if (cdsBancoDePara.Active) then
+    cdsBancoDePara.Close;
+  cdsBancoDePara.Params.ParamByName('CAIXA').AsInteger := dm.cds_7_contasCODIGO.AsInteger;
+  cdsBancoDePara.Open;
+  
 end;
 
 procedure TfBancoDePara.FormCreate(Sender: TObject);
 begin
   //inherited;
 
+end;
+
+procedure TfBancoDePara.BitBtn12Click(Sender: TObject);
+begin
+  if DtSrc.DataSet.State in [dsInsert, dsEdit] then
+  begin
+    tipo_for := 'CONTASDESPESAS';
+    fFiltro_forn_plano.BitBtn6.Click;
+    //fFiltro_forn_plano.BitBtn1.Click;
+    fFiltro_forn_plano.ShowModal;
+    edtcodred.Text := varconta_cod;
+    edtconta.Text := varconta_nome;
+    //usa_rateio := com_rateio;
+    cdsBancoDeParaCONTA.AsInteger := codigo_conta;
+    //conta_rateio := varconta;
+    //dbeCliente.SetFocus;
+  end;
+  //varconta_cod := '';
+  //varconta_nome := '';
+
+end;
+
+procedure TfBancoDePara.edtcodredExit(Sender: TObject);
+var strc: String;
+begin
+  if (DM.c_1_planoc.Active) then
+    DM.c_1_planoc.Close;
+  strc := 'Select * from PLANO ';
+  strc := strc + 'WHERE ';
+  strc := strc + 'CODREDUZIDO = ';
+  strc := strc + '''' + edtcodred.Text + '''';
+  DM.c_1_planoc.CommandText := strc;
+  DM.c_1_planoc.Open;
+  if DM.c_1_planoc.IsEmpty then begin
+    MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+    [mbOk], 0);
+    BitBtn12.Click;
+    exit;
+  end
+  else begin
+    //conta_rateio := DM.c_1_planocCONTA.AsString;
+    edtconta.Text := dm.c_1_planocNOME.AsString;
+    codigo_conta := dm.c_1_planocCODIGO.AsInteger;
+    cdsBancoDeParaCONTA.AsInteger := dm.c_1_planocCODIGO.AsInteger;
+    //usa_rateio := dm.c_1_planocRATEIO.AsString;
+  end;
+  dm.c_1_planoc.Close;
+end;
+
+procedure TfBancoDePara.cdsBancoDeParaNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  cdsBancoDeParaCAIXA.AsInteger := caixa;
 end;
 
 end.
