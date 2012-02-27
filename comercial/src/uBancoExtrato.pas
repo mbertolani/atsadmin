@@ -12,7 +12,6 @@ uses
 type
   TfBancoExtrato = class(TfPai_new)
     Label4: TLabel;
-    cbConta: TDBLookupComboBox;
     ds_conta: TDataSource;
     JvDBUltimGrid1: TJvDBUltimGrid;
     sdsExtrato: TSQLDataSet;
@@ -51,6 +50,8 @@ type
     cdsLancN_DOC: TStringField;
     cdsLancORDENA: TIntegerField;
     cdsLancCOMPENSADO: TStringField;
+    cbConta: TComboBox;
+    cdsExtratoCONTA: TIntegerField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -64,9 +65,10 @@ type
       const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);
     procedure cbMesChange(Sender: TObject);
-    procedure cdsExtratoAfterOpen(DataSet: TDataSet);
     procedure FormDestroy(Sender: TObject);
+    procedure cbContaChange(Sender: TObject);
   private
+    contaCaixa: Integer;
     util: TUtils;
     procedure ChkDBGridDrawColumnCell(DBGrid: TDBGrid;
       const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -76,6 +78,7 @@ type
     procedure ChkDBGridCellClick(Column: TColumn);
     procedure ChkDBGridKeyPress(DBGrid: TDBGrid; var Key: Char);
     procedure abrirExtrato;
+    procedure abrirCaixa;
     { Private declarations }
   public
     { Public declarations }
@@ -109,7 +112,7 @@ begin
         cdsExtrato.Append;
       cdsExtratoEXTRATOCOD.AsString    := BancoOFX1.Get(i).ID;
       cdsExtratoEXTRATODATA.AsDateTime := BancoOFX1.Get(i).MovDate;
-      cdsExtratoCAIXA.AsInteger        := dm.cds_7_contasCODIGO.AsInteger;
+      cdsExtratoCAIXA.AsInteger        := contaCaixa;
       cdsExtratoEXTRATODOC.AsString    := BancoOFX1.Get(i).Desc; // + ' - ' + BancoOFX1.Get(i).Document;
       cdsExtratoEXTRATOTIPO.AsString   := BancoOFX1.Get(i).MovType;
       cdsExtratoEXTRATOVALOR.AsFloat   := BancoOFX1.Get(i).Value;
@@ -123,6 +126,7 @@ begin
                          BancoOFX1.Get(i).Document + ' '  );}
     end;
   end;
+  abrirCaixa;
 end;
 
 procedure TfBancoExtrato.FormCreate(Sender: TObject);
@@ -143,6 +147,14 @@ begin
     dm.cds_7_contas.Params[0].AsString := dm.cds_parametroDADOS.AsString;
     dm.cds_7_contas.Open;
   end;
+  cbConta.Items.Clear;
+  dm.cds_7_contas.First;
+  while (not dm.cds_7_contas.Eof) do
+  begin
+    cbConta.Items.Add(dm.cds_7_contasNOME.AsString);
+    dm.cds_7_contas.Next;
+  end;
+
   dm.cds_parametro.Close;
   abrirExtrato;
 end;
@@ -314,22 +326,12 @@ begin
   MaskEdit2.Text := util.PeriodoFim;
 end;
 
-procedure TfBancoExtrato.cdsExtratoAfterOpen(DataSet: TDataSet);
-begin
-  inherited;
-  if (cdsLanc.Active) then
-    cdsLanc.Close;
-  cdsLanc.Params.ParamByName('CAIXA').AsInteger := dm.cds_7_contasCODIGO.AsInteger;
-  cdsLanc.Params.ParamByName('DTA1').AsDate     := MaskEdit1.Date;
-  cdsLanc.Params.ParamByName('DTA2').AsDate     := MaskEdit2.Date;
-end;
-
 procedure TfBancoExtrato.abrirExtrato;
 begin
   if (cdsExtrato.Active) then
     cdsExtrato.Close;
   cdsExtrato.Params.ParamByName('CAIXA').Clear;
-  cdsExtrato.Params.ParamByName('CAIXA').AsInteger := dm.cds_7_contasCODIGO.AsInteger;
+  cdsExtrato.Params.ParamByName('CAIXA').AsInteger := contaCaixa;
   cdsExtrato.Params.ParamByName('DTA1').AsDate     := MaskEdit1.Date;
   cdsExtrato.Params.ParamByName('DTA2').AsDate     := MaskEdit2.Date;
   cdsExtrato.Open;
@@ -339,6 +341,23 @@ procedure TfBancoExtrato.FormDestroy(Sender: TObject);
 begin
   inherited;
   util.Destroy;
+end;
+
+procedure TfBancoExtrato.cbContaChange(Sender: TObject);
+begin
+  inherited;
+  dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive]);
+  contaCaixa := dm.cds_7_contasCODIGO.AsInteger;
+end;
+
+procedure TfBancoExtrato.abrirCaixa;
+begin
+  if (cdsLanc.Active) then
+    cdsLanc.Close;
+  cdsLanc.Params.ParamByName('CAIXA').AsInteger := contaCaixa;
+  cdsLanc.Params.ParamByName('DTA1').AsDate     := MaskEdit1.Date;
+  cdsLanc.Params.ParamByName('DTA2').AsDate     := MaskEdit2.Date;
+  cdsLanc.Open;
 end;
 
 end.

@@ -16,35 +16,13 @@ inherited fBancoExtrato: TfBancoExtrato
       Caption = 'Caixa/Conta :'
       Transparent = True
     end
-    object cbConta: TDBLookupComboBox
-      Left = 104
-      Top = 11
-      Width = 253
-      Height = 24
-      Ctl3D = True
-      DataField = 'CAIXA'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      KeyField = 'CODIGO'
-      ListField = 'NOME'
-      ListSource = ds_conta
-      ParentCtl3D = False
-      ParentFont = False
-      TabOrder = 0
-      OnClick = cbContaClick
-      OnKeyPress = FormKeyPress
-    end
     object GroupBox1: TGroupBox
       Left = 614
       Top = 4
       Width = 419
       Height = 43
       Caption = 'Per'#237'odo'
-      TabOrder = 1
+      TabOrder = 0
       object Label3: TLabel
         Left = 8
         Top = 16
@@ -100,6 +78,16 @@ inherited fBancoExtrato: TfBancoExtrato
         TabOrder = 2
       end
     end
+    object cbConta: TComboBox
+      Left = 96
+      Top = 10
+      Width = 465
+      Height = 21
+      ItemHeight = 13
+      TabOrder = 1
+      Text = 'cbConta'
+      OnChange = cbContaChange
+    end
   end
   inherited MMJPanel2: TMMJPanel
     Width = 1037
@@ -145,56 +133,63 @@ inherited fBancoExtrato: TfBancoExtrato
         Expanded = False
         FieldName = 'SEL'
         Title.Caption = 'Sel.'
-        Width = 12
+        Width = 11
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CONCILIADO'
         Title.Caption = 'Conciliado'
-        Width = 39
+        Width = 34
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATOCOD'
         Title.Caption = 'Lan'#231'amento'
-        Width = 67
+        Width = 59
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATODATA'
         Title.Caption = 'Data'
-        Width = 42
+        Width = 37
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CAIXA'
         Title.Caption = 'Caixa'
-        Width = 23
+        Width = 20
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CONTA'
+        Title.Caption = 'Conta'
+        Width = 56
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATODOC'
         Title.Caption = 'Documento'
-        Width = 213
+        Width = 188
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATOTIPO'
         Title.Caption = 'Tipo'
-        Width = 43
+        Width = 38
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATOVALOR'
         Title.Caption = 'Valor'
-        Width = 42
+        Width = 37
         Visible = True
       end>
   end
@@ -304,8 +299,11 @@ inherited fBancoExtrato: TfBancoExtrato
   end
   object sdsExtrato: TSQLDataSet
     CommandText = 
-      'SELECT * '#13#10'   FROM BANCOEXTRATO '#13#10'WHERE CAIXA = :CAIXA'#13#10'      AN' +
-      'D EXTRATODATA BETWEEN :DTA1 AND :DTA2'
+      'SELECT BE.* , BD.CONTA'#13#10'   FROM BANCOEXTRATO BE'#13#10'     LEFT OUTER' +
+      ' JOIN BANCODEPARA BD '#13#10'       ON  BE.CAIXA = BD.CAIXA'#13#10'      AND' +
+      ' BE.EXTRATODOC = BD.EXTRATODOC'#13#10'      AND BE.EXTRATOTIPO = BD.EX' +
+      'TRATOTIPO'#13#10'WHERE  BE.CAIXA = :CAIXA'#13#10'      AND BE.EXTRATODATA BE' +
+      'TWEEN :DTA1 AND :DTA2'
     MaxBlobSize = -1
     Params = <
       item
@@ -351,8 +349,7 @@ inherited fBancoExtrato: TfBancoExtrato
         ParamType = ptInput
       end>
     ProviderName = 'dspExtrato'
-    AfterOpen = cdsExtratoAfterOpen
-    Left = 472
+    Left = 464
     Top = 48
     object cdsExtratoEXTRATODATA: TDateField
       FieldName = 'EXTRATODATA'
@@ -387,6 +384,9 @@ inherited fBancoExtrato: TfBancoExtrato
       FieldName = 'CONCILIADO'
       FixedChar = True
       Size = 1
+    end
+    object cdsExtratoCONTA: TIntegerField
+      FieldName = 'CONTA'
     end
   end
   object ImageList1: TImageList
