@@ -1115,7 +1115,7 @@ object fOsFiltro: TfOsFiltro
     Left = 0
     Top = 89
     Width = 758
-    Height = 292
+    Height = 156
     Align = alClient
     DataSource = dsOs
     Font.Charset = ANSI_CHARSET
@@ -1237,10 +1237,10 @@ object fOsFiltro: TfOsFiltro
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
-    Top = 264
+    Top = 245
     Width = 758
     Height = 136
-    Align = alCustom
+    Align = alBottom
     DataSource = dsServico
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
