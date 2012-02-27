@@ -267,7 +267,8 @@ uses
   uBancoExtrato in 'uBancoExtrato.pas' {fBancoExtrato},
   uBancoOFX in 'uBancoOFX.pas',
   uRelOS in 'uRelOS.pas' {fRelOs},
-  uBancoDePara in 'uBancoDePara.pas' {fBancoDePara};
+  uBancoDePara in 'uBancoDePara.pas' {fBancoDePara},
+  uPagarCls in 'uPagarCls.pas';
 
 //uImport in 'uImport.pas' {fImport};
 
