@@ -1388,6 +1388,7 @@ begin
         ' EXTRATOTIPO VARCHAR(20), ' +
         ' EXTRATOVALOR  DOUBLE PRECISION, ' +
         ' SEL CHAR(1), ' +
+        ' CONCILIADO CHAR(1), ' +
         ' PRIMARY KEY(EXTRATOCOD, EXTRATODATA, CAIXA))');
       end;
       if (NaoExisteTabela('BANCOEXTRATO')) then
