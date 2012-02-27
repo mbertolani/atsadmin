@@ -1,9 +1,11 @@
 inherited fBancoDePara: TfBancoDePara
-  Caption = 'fBancoDePara'
+  Caption = 'Contas para Concilia'#231#227'o'
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
+    Height = 105
     object Label4: TLabel
       Left = 24
       Top = 14
@@ -11,6 +13,20 @@ inherited fBancoDePara: TfBancoDePara
       Height = 13
       Caption = 'Caixa/Conta :'
       Transparent = True
+    end
+    object Label7: TLabel
+      Left = 6
+      Top = 46
+      Width = 136
+      Height = 13
+      Caption = 'C'#243'd. Reduzido C. Despesas:'
+    end
+    object Label8: TLabel
+      Left = 226
+      Top = 46
+      Width = 78
+      Height = 13
+      Caption = 'Conta Despesas'
     end
     object cbConta: TDBLookupComboBox
       Left = 104
@@ -33,12 +49,46 @@ inherited fBancoDePara: TfBancoDePara
       TabOrder = 0
       OnKeyPress = FormKeyPress
     end
+    object edtcodred: TEdit
+      Left = 6
+      Top = 59
+      Width = 171
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      TabOrder = 1
+      OnExit = edtcodredExit
+      OnKeyPress = FormKeyPress
+    end
+    object edtconta: TEdit
+      Left = 224
+      Top = 59
+      Width = 441
+      Height = 24
+      TabStop = False
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Color = clInfoBk
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object BitBtn12: TBitBtn
+      Left = 179
+      Top = 52
+      Width = 39
+      Height = 31
+      Caption = 'F5'
+      PopupMenu = PopupMenu1
+      TabOrder = 3
+      TabStop = False
+      OnClick = BitBtn12Click
+    end
   end
   object JvDBUltimGrid1: TJvDBUltimGrid [2]
     Left = 0
-    Top = 51
+    Top = 105
     Width = 772
-    Height = 423
+    Height = 369
     Align = alClient
     DataSource = DtSrc
     TabOrder = 2
@@ -93,13 +143,13 @@ inherited fBancoDePara: TfBancoDePara
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 176
-    Top = 24
+    Left = 168
+    Top = 8
   end
   object dspDePara: TDataSetProvider
     DataSet = sdsBancoDePara
-    Left = 208
-    Top = 24
+    Left = 200
+    Top = 8
   end
   object cdsBancoDePara: TClientDataSet
     Aggregates = <>
@@ -110,8 +160,9 @@ inherited fBancoDePara: TfBancoDePara
         ParamType = ptInput
       end>
     ProviderName = 'dspDePara'
-    Left = 240
-    Top = 24
+    OnNewRecord = cdsBancoDeParaNewRecord
+    Left = 232
+    Top = 8
     object cdsBancoDeParaCAIXA: TIntegerField
       FieldName = 'CAIXA'
       Required = True
