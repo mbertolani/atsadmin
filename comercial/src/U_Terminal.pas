@@ -447,6 +447,7 @@ type
     JvBitBtn6: TJvBitBtn;
     s_Bloque: TSQLDataSet;
     Parcial1: TMenuItem;
+    RelatriosFechamentos1: TMenuItem;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -544,6 +545,7 @@ type
     procedure ReimprimirSetor2Local1Click(Sender: TObject);
     procedure JvComissaoKeyPress(Sender: TObject; var Key: Char);
     procedure JvBitBtn6Click(Sender: TObject);
+    procedure RelatriosFechamentos1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     clienteConsumidor,nomecliente, tipo_busca : string;
@@ -628,7 +630,7 @@ implementation
 
 uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
   U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod, U_AUTORIZACAO,
-  u_mesas, U_MudaMesa, U_Entrada, uProcurar_nf, uAbrirCaixa;
+  u_mesas, U_MudaMesa, U_Entrada, uProcurar_nf, uAbrirCaixa, U_RelTerminal;
 
 {$R *.dfm}    // Têste téste opção
 
@@ -1083,7 +1085,7 @@ begin
       c_forma.Close;
     end;
 
-    EdtCodBarra.Text := '';      
+    EdtCodBarra.Text := '';
    end;
 end;
 
@@ -1126,9 +1128,6 @@ begin
 
   if (DM_MOV.c_Delivery.Active) then
      DM_MOV.c_Delivery.Close;
-
-  close;
-  
 end;
 
 procedure TF_Terminal.JvProcurarClick(Sender: TObject);
@@ -1184,14 +1183,12 @@ begin
       fFiltroMovimento.ComboBox1.Items.Add(dmnf.cds_ccustoNOME.AsString);
       dmnf.cds_ccusto.Next;
     end;
+    dmnf.cds_ccusto.Close;
     {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
     if dm.cds_parametro.Active then
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'NATUREZAVENDA';
     dm.cds_parametro.Open;
-
-    //fFiltroMovimento := TfFiltroMovimento.Create(Self);
-    //sCtrlResize.CtrlResize(TForm(fFiltroMovimento));
     fFiltroMovimento.Edit3.Text := dm.cds_parametroDADOS.AsString;
     fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
     fFiltroMovimento.BitBtn8.Enabled := False;
@@ -1232,8 +1229,6 @@ begin
       DM_MOV.c_movdet.Open;
       if (not DM_MOV.c_movdet.IsEmpty) then
         JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
-
-
     end
     else
     begin
@@ -1264,7 +1259,6 @@ begin
       else
          JvLabel8.Caption := 'Consulta-' + DM_MOV.c_comandaNOMECLIENTE.AsString;
    end;
-
    if (vTIPO_PEDIDO = 'D') then // DELIVERY
    begin
       if (PageControl1.ActivePage <> TabDelivery) then
@@ -1272,9 +1266,26 @@ begin
          if (TabDelivery.TabVisible = False) then
             TabDelivery.TabVisible := True;
          PageControl1.ActivePage := TabDelivery;
+
+          sql := 'select c.CODCLIENTE, m.CODMOVIMENTO,c.NOMECLIENTE, e.LOGRADOURO, e.TELEFONE from MOVIMENTO m ';
+          sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+          sql := sql + 'left outer join ENDERECOCLIENTE e on e.CODCLIENTE = c.CODCLIENTE ';
+          sql := sql + 'WHERE m.CODMOVIMENTO = ' + IntToStr(DM_MOV.ID_DO_MOVIMENTO);
+          sql := sql + ' and e.TIPOEND = 0 ';
+          if (SQLDataSet1.Active) then
+              SQLDataSet1.Close;
+          SQLDataSet1.CommandText := sql;
+          SQLDataSet1.Open;
+          if (not SQLDataSet1.IsEmpty) then
+          begin
+             edtCodCli.Text := IntToStr(SQLDataSet1.Fields[0].AsInteger);
+             edtNome.Text := SQLDataSet1.Fields[2].AsString;
+             edtFone.Text := SQLDataSet1.Fields[4].AsString;
+             edtEnd.Text := SQLDataSet1.Fields[3].AsString;
+          end;
+          SQLDataSet1.Close;
       end;
    end;
-
 end;
 
 procedure TF_Terminal.FormCreate(Sender: TObject);
@@ -1374,7 +1385,14 @@ begin
     LabelComissao.Visible := False;
     JvComissao.Visible := False;
   end;
-
+  if (s_parametro.Active) then
+   s_parametro.Close;
+  s_parametro.Params[0].AsString := 'IMPRESSAORESUMIDA';
+  s_parametro.Open;
+  if (not s_parametro.IsEmpty) then
+    DM.impressaoResumida := 'SIM'
+  else
+    DM.impressaoResumida := 'NAO';
 end;
 
 procedure TF_Terminal.JvDBGrid2DblClick(Sender: TObject);
@@ -1398,7 +1416,7 @@ begin
       DM_MOV.c_movdet.Close;
   JvTotal.AsFloat := 0;
   JvParcial.Value := 0;
-  JvSubtotal.Value := 0;  
+  JvSubtotal.Value := 0;
   if (PageControl1.ActivePage = TabSheet1) then
   begin
      if (MMJPanel8.Visible = True) then
@@ -1448,6 +1466,14 @@ begin
       JvBitBtn3.Visible := False;
     if (JvBitBtn4.Visible = False) then
       JvBitBtn4.Visible := True;
+    if (EdtCodBarra1.Visible = False) then
+        EdtCodBarra1.Visible := True;
+    if (edtQtde1.Visible = False) then
+        edtQtde1.Visible := True;
+    if (JvLabel1.Visible = False) then
+        JvLabel1.Visible := True;
+    if (JvLabel14.Visible = False) then
+        JvLabel14.Visible := True;
     edtFone.Clear;
     edtNome.Clear;
     edtCodCli.Clear;
@@ -1677,7 +1703,6 @@ begin
 
   if (JvComissao.Visible = True) then
   begin
-
     if (JvComissao.Value > 0) then
       poc := (JvComissao.Value /100) * JvTotal.Value
     else
@@ -1688,9 +1713,8 @@ begin
       JvParcial.Value := c_formatotal.Value;
     JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
   end;
-
-  c_forma.Close;
-
+  if (c_forma.Active) then
+    c_forma.Close;
 end;
 
 procedure TF_Terminal.F5ExcluirItemdoPedido1Click(Sender: TObject);
@@ -1834,8 +1858,8 @@ begin
     ShowMessage('Selecione um Pedido');
     Exit;
  end;
-
- DM_MOV.ID_DO_MOVIMENTO := 0;
+ if (PageControl1.ActivePage <> TabDelivery) then
+   DM_MOV.ID_DO_MOVIMENTO := 0;
  if (PageControl1.ActivePage = TabSheet1) then
  begin
     if (not DM_MOV.c_movimento.Active) then
@@ -1862,7 +1886,7 @@ begin
     if (not DM_MOV.c_Delivery.Active) then
       exit;
     DM_MOV.PAGECONTROL := 'DELIVERY';
-    DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+   // DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
     if (DM_MOV.c_movimento.Active) then
       DM_MOV.c_movimento.Close;
     DM_MOV.c_movimento.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
@@ -1884,6 +1908,7 @@ begin
  if (not s_venda.IsEmpty) then
  begin
    if (PageControl1.ActivePage = TabComanda) then
+   begin
      if (DM_MOV.c_movimentoSTATUS.Value = 0) then
      begin
        if (DM_MOV.c_movimento.Active) then
@@ -1895,7 +1920,7 @@ begin
          DM_MOV.c_movimento.Params[0].Clear;
        end;
      end;
-   JvTotal.Value := 0;
+   end;
    if (PageControl1.ActivePage = TabSheet1) then
      EdtCodBarra.SetFocus;
    if (PageControl1.ActivePage = TabDelivery) then
@@ -1905,12 +1930,23 @@ begin
      pinta_botao;
      JvLabel8.Caption := '...';
    end;
+   if (DM_MOV.c_movdet.Active) then
+       DM_MOV.c_movdet.Close;
+   JvTotal.AsFloat := 0;
+   JvParcial.AsFloat := 0;
+   JvSubtotal.AsFloat := 0;
  end;
- s_venda.Close;
+ if (s_venda.Active) then
+   s_venda.Close;
 
  if (PageControl1.ActivePage = TabDelivery) then
  begin
-     if (DM_MOV.c_Delivery.Active) then
+   // DM_MOV.ID_DO_MOVIMENTO := 0;
+   // edtFone.Text := '';
+   // edtCodCli.Text := '';
+   // edtNome.Text := '';
+   // edtEnd.Text := '';
+    if (DM_MOV.c_Delivery.Active) then
       DM_MOV.c_Delivery.Close;
     DM_MOV.c_Delivery.CommandText := '';
     sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
@@ -1990,6 +2026,22 @@ end;
 
 procedure TF_Terminal.FormShow(Sender: TObject);
 begin
+  if (s_parametro.Active) then
+   s_parametro.Close;
+  s_parametro.Params[0].AsString := 'USACONTROLECAIXA';
+  s_parametro.Open;
+  if (not s_parametro.Eof) then
+  begin
+    if (JvBitBtn6.Visible = False) then
+      JvBitBtn6.Visible := True;
+  end
+  else
+  begin
+    if (JvBitBtn6.Visible = True) then
+      JvBitBtn6.Visible := False;
+  end;
+  s_parametro.Close;
+  
   if (PageControl1.ActivePage = TabSheet1) then
   begin
      if (MMJPanel8.Visible = True) then
@@ -2060,9 +2112,11 @@ begin
       bloqueia_mesa;
     s_parametro.Close;
   end;
+
 end;
 
 procedure TF_Terminal.JvExcluirClick(Sender: TObject);
+var sql_texto : string;
 begin
     if (PageControl1.ActivePage = TabSheet1) then
     begin
@@ -2131,20 +2185,61 @@ begin
       begin
           try
             existevenda;
+            if (DM_MOV.c_venda.Active) then
+              DM_MOV.c_venda.Close;
             if (vendaexiste = 'SIM') then
             begin
-              DM_MOV.c_venda.Delete;
-              DM_MOV.c_venda.ApplyUpdates(0);
-              DM_MOV.c_venda.Close;
+              ShowMessage('Delete o fechamento antes de deletar o pedido');
+              Exit;
+             // DM_MOV.c_venda.Delete;
+             // DM_MOV.c_venda.ApplyUpdates(0);
+             // DM_MOV.c_venda.Close;
             end;
-              DM_MOV.d_delivery.DataSet.Delete;
-              (DM_MOV.d_delivery.DataSet as TClientDataSet).ApplyUpdates(0);
-              if DM_MOV.d_delivery.DataSet.Active then
-                DM_MOV.d_delivery.DataSet.Close;
-              DM_MOV.d_delivery.DataSet.Close;
+
+            if (DM_MOV.ID_DO_MOVIMENTO > 0) then
+            begin
+              TD.TransactionID := 1;
+              TD.IsolationLevel := xilREADCOMMITTED;
+              dm.sqlsisAdimin.StartTransaction(TD);
+
+              sql_texto := 'DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = ';
+              sql_texto :=   sql_texto + IntToStr(DM_MOV.ID_DO_MOVIMENTO);
+
+              dm.sqlsisAdimin.ExecuteDirect(sql_texto);
+              Try
+                 dm.sqlsisAdimin.Commit(TD);
+              except
+                 dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+                 MessageDlg('Erro no sistema, a venda não foi gravada.', mtError,
+                     [mbOk], 0);
+                 Exit;
+              end;
               ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+
+              if (DM_MOV.c_Delivery.Active) then
+                DM_MOV.c_Delivery.Close;
+              DM_MOV.c_Delivery.CommandText := '';
+              sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
+              sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+              sql := sql + 'WHERE m.CODNATUREZA = ';
+              sql := sql + IntToStr(3);
+              sql := sql + 'and m.STATUS = ';
+              sql := sql + IntToStr(20);
+              sql := sql + 'and m.TIPO_PEDIDO = ';
+              sql := sql + QuotedStr('D');
+              DM_MOV.c_Delivery.CommandText := sql;
+              DM_MOV.c_Delivery.Open;
+              edtCodCli.Text := '';
+              edtNome.Text := '';
+              edtEnd.Text := '';
+              edtFone.Text := '';
+              if (DM_MOV.c_movdet.Active) then
+                  DM_MOV.c_movdet.Close;
               JvParcial.Value := 0;
               JvSubtotal.Value := 0;
+              JvTotal.Value := 0;
+            end;
+
            Except
             MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
             exit;
@@ -2449,7 +2544,10 @@ begin
      while not DM_MOV.c_movdet.Eof do
      begin
          // imprime
-        buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10);
+        if (DM.impressaoResumida = 'NAO') then
+          buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10)
+        else
+          buffer  := DM_MOV.c_movdetPRODUTO.Value + Chr(13) + Chr(10);
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
@@ -3244,6 +3342,10 @@ begin
 
       if (PageControl1.ActivePage = TabDelivery) then
       begin
+        edtFone.Text := '';
+        edtCodCli.Text := '';
+        edtNome.Text := '';
+        edtEnd.Text := '';
         edtFone.SetFocus;
          if (DM_MOV.c_Delivery.Active) then
           DM_MOV.c_Delivery.Close;
@@ -3293,7 +3395,6 @@ begin
          begin
            codcliente := sbuscaCli.Fields[0].AsInteger;
            IncluiPedido;
-
             if (DM_MOV.c_Delivery.Active) then
               DM_MOV.c_Delivery.Close;
             DM_MOV.c_Delivery.CommandText := '';
@@ -3371,8 +3472,6 @@ begin
     else
       JvTotal.AsFloat := 0;
     EdtCodBarra1.SetFocus;
-
-
 end;
 
 procedure TF_Terminal.DBGrid2KeyDown(Sender: TObject; var Key: Word;
@@ -3755,15 +3854,15 @@ procedure TF_Terminal.ImprimirSetor21Click(Sender: TObject);
 begin
   if (DM_MOV.IMP_MOVDET.Active) then
      DM_MOV.IMP_MOVDET.Close;
-  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA ' +
+  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA, pr.PRODUTO ' +
                     ' from MOVIMENTODETALHE md ' +
                     ' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
                     ' where md.CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger) +
                     ' and pr.IMPRESSORA_2 = ' + QuotedStr('SIM') +
                     ' and md.IMPRESSO is null';
   DM_MOV.IMP_MOVDET.Open;
-
-  usaDll := 'FALSE';
+  imp_Setor1_LPT;
+{  usaDll := 'FALSE';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
@@ -3802,13 +3901,14 @@ begin
   end;
   if (tipoImpressao = 'RECIBO') then
     imprimeRecibo;
+    }
 end;
 
 procedure TF_Terminal.ReimprimirSetor21Click(Sender: TObject);
 begin
   if (DM_MOV.IMP_MOVDET.Active) then
      DM_MOV.IMP_MOVDET.Close;
-  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA ' +
+  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA, pr.PRODUTO ' +
                     ' from MOVIMENTODETALHE md ' +
                     ' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
                     ' where md.CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger) +
@@ -3911,7 +4011,7 @@ begin
        QUTDE  := FloatToStr(DM_MOV.IMP_MOVDETQUANTIDADE.AsFloat);
        QUTDE  := Format('%10.2n', [StrToFloat(QUTDE)]);
        Texto3 := DESC + UNDE + QUTDE;
-       Write(Impressora, c10cpi, Texto3);
+       Writeln(Impressora, c10cpi, Texto3);
        // Write(Impressora, c10cpi, Format('%-40s  ',[DM_MOV.IMP_MOVDETDESCPRODUTO.Value]));
        // Write(Impressora, c10cpi + Format('%-2s',[DM_MOV.IMP_MOVDETUN.Value]));
        // Write(Impressora, c10cpi + Format('%10.2n',[DM_MOV.IMP_MOVDETQUANTIDADE.AsFloat]));
@@ -3951,7 +4051,7 @@ procedure TF_Terminal.ImprimirSetor2Local1Click(Sender: TObject);
 begin
   if (DM_MOV.IMP_MOVDET.Active) then
      DM_MOV.IMP_MOVDET.Close;
-  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA ' +
+  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA, pr.PRODUTO ' +
                     ' from MOVIMENTODETALHE md ' +
                     ' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
                     ' where md.CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger) +
@@ -4003,7 +4103,7 @@ procedure TF_Terminal.ReimprimirSetor2Local1Click(Sender: TObject);
 begin
   if (DM_MOV.IMP_MOVDET.Active) then
      DM_MOV.IMP_MOVDET.Close;
-  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA ' +
+  DM_MOV.IMP_MOVDET.CommandText := 'select md.*, pr.CODPRO, pr.COD_BARRA, pr.PRODUTO ' +
                     ' from MOVIMENTODETALHE md ' +
                     ' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
                     ' where md.CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger) +
@@ -4133,6 +4233,17 @@ begin
     ShowMessage('Parametro de APROVAÇÃO não configurado !');
   end;
   s_parametro.Close;
+end;
+
+procedure TF_Terminal.RelatriosFechamentos1Click(Sender: TObject);
+begin
+  F_RelTerminal := TF_RelTerminal.Create(Application);
+  try
+    F_RelTerminal.ShowModal;
+  finally
+    F_RelTerminal.Free;
+  end;  
+
 end;
 
 end.
