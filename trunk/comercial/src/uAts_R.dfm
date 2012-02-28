@@ -28096,7 +28096,7 @@ object fAts_R: TfAts_R
         Buttons = <
           item
             Action = usuarios
-            Caption = 'Usuarios'
+            Caption = 'Usu'#225'rios'
             ImageIndex = 23
             Tag = 0
             AutoToggle = False
@@ -56500,11 +56500,21 @@ object fAts_R: TfAts_R
     Top = 145
     object usuarios: TAction
       Category = 'acessos'
-      Caption = 'Usuarios'
+      Caption = 'Usu'#225'rios'
     end
     object Logoof: TAction
       Category = 'acessos'
       Caption = 'Logoof'
+    end
+    object actvenda: TAction
+      Category = 'Comercial'
+      Caption = 'Vendas'
+      OnExecute = JvOutlookBar1Pages1Buttons2Click
+    end
+    object actCompra: TAction
+      Category = 'Comercial'
+      Caption = 'Compras'
+      OnExecute = JvOutlookBar1Pages1Buttons1Click
     end
   end
   object UserControlAuto: TUserControl
