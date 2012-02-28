@@ -824,12 +824,12 @@ begin
     INSEREVEDA;
 
     // Executo Classe Insere Recebimento ---------------------------------------
-    {try
+    try
        FRec := TReceberCls.Create;
        codRecCR := FRec.geraTitulo(0, COD_VENDA);
     finally
        Frec.Free;
-    end;}
+    end;
     //--------------------------------------------------------------------------
 
     if (DM_MOV.c_venda.Active) then
@@ -1513,6 +1513,10 @@ begin
 
       end;
 
+    end
+    else
+    begin
+      ShowMessage('O titulo já foi recebido, antes de excluir a venda cancele o recebimento');
     end;
     if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
     begin
