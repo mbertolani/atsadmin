@@ -591,6 +591,10 @@ type
     IMP_MOVDETCOD_BARRA: TStringField;
     s_movdetIMPRESSO: TStringField;
     c_movdetIMPRESSO: TStringField;
+    s_movdetPRODUTO: TStringField;
+    c_movdetPRODUTO: TStringField;
+    IMP_MOVDETIMPRESSO: TStringField;
+    IMP_MOVDETPRODUTO: TStringField;
     procedure c_movdetCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
