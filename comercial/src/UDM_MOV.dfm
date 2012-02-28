@@ -1,7 +1,7 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 568
-  Top = 201
+  Left = 668
+  Top = 320
   Height = 455
   Width = 449
   object s_buscaMov: TSQLDataSet
@@ -718,6 +718,11 @@ object DM_MOV: TDM_MOV
       FixedChar = True
       Size = 3
     end
+    object c_movdetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ProviderFlags = []
+      Size = 300
+    end
     object c_movdettotalpedido: TAggregateField
       FieldName = 'totalpedido'
       Active = True
@@ -738,9 +743,10 @@ object DM_MOV: TDM_MOV
   end
   object s_movdet: TSQLDataSet
     CommandText = 
-      'select md.*,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA '#13#10' ' +
-      'from MOVIMENTODETALHE md '#13#10' left outer join PRODUTOS pr on pr.CO' +
-      'DPRODUTO = md.CODPRODUTO '#13#10'where md.CODMOVIMENTO = :id_mov'
+      'select md.*,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA,'#13#10' ' +
+      '          pr.PRODUTO  '#13#10' from MOVIMENTODETALHE md '#13#10' left outer ' +
+      'join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO '#13#10'where md.COD' +
+      'MOVIMENTO = :id_mov'
     MaxBlobSize = -1
     Params = <
       item
@@ -988,6 +994,11 @@ object DM_MOV: TDM_MOV
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 3
+    end
+    object s_movdetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ProviderFlags = []
+      Size = 300
     end
   end
   object s_buscaProd: TSQLDataSet
@@ -2690,10 +2701,11 @@ object DM_MOV: TDM_MOV
   end
   object IMP_MOVDET: TSQLDataSet
     CommandText = 
-      'select md.*,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA '#13#10' ' +
-      'from MOVIMENTODETALHE md '#13#10' left outer join PRODUTOS pr on pr.CO' +
-      'DPRODUTO = md.CODPRODUTO '#13#10'where md.CODMOVIMENTO = :id_mov '#13#10'   ' +
-      'and pr.IMPRESSORA_2 = '#39'SIM'#39#13#10'   and md.IMPRESSO is null'
+      'select md.*,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA,'#13#10' ' +
+      '          pr.PRODUTO  '#13#10' from MOVIMENTODETALHE md '#13#10' left outer ' +
+      'join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO '#13#10'where md.COD' +
+      'MOVIMENTO = :id_mov '#13#10'   and pr.IMPRESSORA_2 = '#39'SIM'#39#13#10'   and md.' +
+      'IMPRESSO is null'
     MaxBlobSize = -1
     Params = <
       item
@@ -2910,6 +2922,15 @@ object DM_MOV: TDM_MOV
     end
     object IMP_MOVDETCOD_BARRA: TStringField
       FieldName = 'COD_BARRA'
+    end
+    object IMP_MOVDETIMPRESSO: TStringField
+      FieldName = 'IMPRESSO'
+      FixedChar = True
+      Size = 3
+    end
+    object IMP_MOVDETPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Size = 300
     end
   end
 end
