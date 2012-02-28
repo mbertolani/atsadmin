@@ -25,6 +25,8 @@ type
     usuarios: TAction;
     Logoof: TAction;
     UserControlAuto: TUserControl;
+    actvenda: TAction;
+    actCompra: TAction;
     procedure FormCreate(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
