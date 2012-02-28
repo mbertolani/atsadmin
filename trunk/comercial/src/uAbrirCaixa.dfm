@@ -1,6 +1,6 @@
 object fAbrirCaixa: TfAbrirCaixa
-  Left = 472
-  Top = 196
+  Left = 463
+  Top = 264
   Width = 428
   Height = 324
   Color = clBtnFace
@@ -107,7 +107,7 @@ object fAbrirCaixa: TfAbrirCaixa
       Left = 160
       Top = 15
       Width = 214
-      Height = 40
+      Height = 39
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -27

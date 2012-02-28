@@ -177,7 +177,8 @@ begin
   //------Pego do Parametro o cadigo para listar os Caixas ---
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'LISTARCAIXA';
+  dm.cds_parametro.Params[0].AsString := 'CAIXA_BANCO';
+  //dm.cds_parametro.Params[0].AsString := 'LISTARCAIXA';CAIXA_BANCO
   dm.cds_parametro.Open;
   if (not dm.cds_parametro.IsEmpty) then
   begin
@@ -211,6 +212,7 @@ begin
      cbbCaixa.Enabled := False;
      btnAbrir.Enabled := False;
      eddata2.Date := sCaixa1DATAABERTURA.AsDateTime;
+     jvValor.Value := sCaixa1VALORABRE.Value;
   end
   else
   begin
