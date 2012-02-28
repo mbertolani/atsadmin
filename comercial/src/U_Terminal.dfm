@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 241
-  Top = 123
+  Left = 285
+  Top = 79
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -1929,7 +1929,6 @@ object F_Terminal: TF_Terminal
       PopupMenu = PopupMenu1
       ShowHint = True
       TabOrder = 11
-      Visible = False
       OnClick = JvBitBtn6Click
       Glyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100
@@ -2074,7 +2073,7 @@ object F_Terminal: TF_Terminal
     Top = 45
     Width = 372
     Height = 490
-    ActivePage = TabDelivery
+    ActivePage = TabSheet1
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -5971,12 +5970,16 @@ object F_Terminal: TF_Terminal
       OnClick = ReimprimirSetor21Click
     end
     object ImprimirSetor2Local1: TMenuItem
-      Caption = 'Imprimir Setor 2 Local'
+      Caption = 'Imprimir Local'
       OnClick = ImprimirSetor2Local1Click
     end
     object ReimprimirSetor2Local1: TMenuItem
-      Caption = 'Reimprimir Setor 2 Local'
+      Caption = 'Reimprimir Local'
       OnClick = ReimprimirSetor2Local1Click
+    end
+    object RelatriosFechamentos1: TMenuItem
+      Caption = 'Relat'#243'rios (Fechamentos)'
+      OnClick = RelatriosFechamentos1Click
     end
   end
   object s_Bloque: TSQLDataSet
