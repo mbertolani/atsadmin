@@ -607,27 +607,35 @@ begin
       cdsServico.EnableControls;
 
       // Grava Peca
-      cdsPeca.DisableControls;
-      numGrid := cdsPeca.RecNo;
-      cdsPeca.First;
-      While not cdsPeca.Eof do
+      cdsServico.First;
+      While not cdsServico.Eof do
       begin
-        fMov.MovDetalhe.CodMov     := codMov;
-        fMov.MovDetalhe.Codigo     := cdsPecaID_OS_DET.AsInteger;  // Indentificar a Peça na OS_DET
-        fMov.MovDetalhe.CodProduto := cdsPeca.FieldByName('CODPRODUTO').AsInteger;
-        fMov.MovDetalhe.Qtde       := cdsPeca.FieldByName('QTDE').AsFloat;
-        fMov.MovDetalhe.Preco      := cdsPeca.FieldByName('PRECO').AsFloat;
-        fMov.MovDetalhe.Descricao  := cdsPecaDESCRICAO_SERV.AsString;
-        fMov.MovDetalhe.Desconto   := cdsPeca.FieldByName('DESCONTO').AsFloat;
-        fMov.MovDetalhe.Un         := 'UN';
-        fMov.MovDetalhe.Lote       := '0';
-        fMov.MovDetalhe.inserirMovDet;
+        cdsPeca.DisableControls;
+        numGrid := cdsPeca.RecNo;
+        if (cdsPeca.Active) then
+          cdsPeca.Close;
+        cdsPeca.Params.ParamByName('CODOSSERV').AsInteger := cdsServicoID_OS_DET.AsInteger;
+        cdsPeca.Open;
+        cdsPeca.First;
+        While not cdsPeca.Eof do
+        begin
+          fMov.MovDetalhe.CodMov     := codMov;
+          fMov.MovDetalhe.Codigo     := cdsPecaID_OS_DET.AsInteger;  // Indentificar a Peça na OS_DET
+          fMov.MovDetalhe.CodProduto := cdsPeca.FieldByName('CODPRODUTO').AsInteger;
+          fMov.MovDetalhe.Qtde       := cdsPeca.FieldByName('QTDE').AsFloat;
+          fMov.MovDetalhe.Preco      := cdsPeca.FieldByName('PRECO').AsFloat;
+          fMov.MovDetalhe.Descricao  := cdsPecaDESCRICAO_SERV.AsString;
+          fMov.MovDetalhe.Desconto   := cdsPeca.FieldByName('DESCONTO').AsFloat;
+          fMov.MovDetalhe.Un         := 'UN';
+          fMov.MovDetalhe.Lote       := '0';
+          fMov.MovDetalhe.inserirMovDet;
 
-        cdsPeca.Next;
+          cdsPeca.Next;
+        end;
+        cdsPeca.RecNo := numGrid;
+        cdsPeca.EnableControls;
+        cdsServico.Next;
       end;
-      cdsPeca.RecNo := numGrid;
-      cdsPeca.EnableControls;
-
       dm.sqlsisAdimin.Commit(TD);
       numGrid     := cdsOs.recNo;
       btnProcurar.Click;
