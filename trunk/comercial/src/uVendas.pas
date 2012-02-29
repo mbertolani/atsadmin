@@ -536,6 +536,10 @@ type
     cds_Mov_detVALOR_DESCONTO: TFloatField;
     dbedtVALOR_DESCONTO: TDBEdit;
     lbl1: TLabel;
+    DBEdit19: TDBEdit;
+    Label28: TLabel;
+    sds_Mov_DetOBS: TStringField;
+    cds_Mov_detOBS: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -1015,6 +1019,17 @@ begin
           dm.cdsPrazo.next;
         end;
       end;
+  end;
+
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ALTDESCPRECO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    DBEdit10.ReadOnly := True;
+    DBEdit17.ReadOnly := True;
+    DBEdit19.ReadOnly := True;
   end;
 
   RadioOrcamento.Checked  := True;
@@ -3555,7 +3570,7 @@ begin
   inherited;
   //
   if((cds_Mov_detValorTotal.AsFloat > 0 )  and (cds_Mov_detVALOR_DESCONTO.AsFloat > 0)) then
-  cds_Mov_detQTDE_ALT.AsFloat := (cds_Mov_detVALOR_DESCONTO.AsFloat/cds_Mov_detValorTotal.AsFloat)*100;
+  cds_Mov_detQTDE_ALT.AsFloat := ( (cds_Mov_detVALOR_DESCONTO.AsFloat * cds_Mov_detQUANTIDADE.AsFloat) / (cds_Mov_detPRECO.AsFloat * cds_Mov_detQUANTIDADE.AsFloat)) *100;
 end;
 
 end.
