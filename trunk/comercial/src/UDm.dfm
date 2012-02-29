@@ -5,7 +5,7 @@ object DM: TDM
   Height = 657
   Width = 1280
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisAdmin'
+    ConnectionName = 'sge'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=c:\Home\sisadmin\BD\sge_solcampo.fdb'
+      'Database=quad:sge_jorvic'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -25,7 +25,7 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
       'WaitOnLocks=True'
-      'str_relatorio=C:\home\sisadmin\relatorio\')
+      'str_relatorio=C:\home\sisAdmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -1467,7 +1467,7 @@ object DM: TDM
     object cds_produtoPESO_QTDE: TFloatField
       FieldName = 'PESO_QTDE'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',##0.0'
+      DisplayFormat = ',##0.000'
       EditFormat = ',##0.0'
     end
     object cds_produtoCONTA_RECEITA: TStringField
@@ -1575,6 +1575,10 @@ object DM: TDM
     end
     object cds_produtoTAM_LOTE: TIntegerField
       FieldName = 'TAM_LOTE'
+    end
+    object cds_produtoOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
     end
   end
   object dsp_produto: TDataSetProvider
@@ -1843,6 +1847,10 @@ object DM: TDM
     end
     object sds_produtoTAM_LOTE: TIntegerField
       FieldName = 'TAM_LOTE'
+    end
+    object sds_produtoOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
     end
   end
   object sds_cm: TSQLDataSet
@@ -9363,6 +9371,10 @@ object DM: TDM
     end
     object proc_transpNOMETRANSP: TStringField
       FieldName = 'NOMETRANSP'
+      Size = 50
+    end
+    object proc_transpFANTASIA: TStringField
+      FieldName = 'FANTASIA'
       Size = 50
     end
     object proc_transpPLACATRANSP: TStringField

@@ -1882,6 +1882,9 @@ type
     cds_empresaINDORIGEMDIVERSAS: TStringField;
     cds_empresaINDNATDEDUCAO: TStringField;
     cds_empresaINDTPOPERACAORECEITA: TStringField;
+    proc_transpFANTASIA: TStringField;
+    sds_produtoOBS: TStringField;
+    cds_produtoOBS: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
