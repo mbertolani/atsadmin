@@ -328,12 +328,13 @@ object DMNF: TDMNF
       'S, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS'#13#10', movd.VLR_BA' +
       'SE, movd.VLR_BASEICMS, movd.VALOR_DESCONTO, movd.FRETE, movd.ICM' +
       'S_SUBST, movd.ICMS_SUBSTD, movd.VALOR_SEGURO, movd.VALOR_OUTROS,' +
-      ' prod.NCM, movd.STATUS, movd.II, movd.BCII '#13#10'from MOVIMENTODETAL' +
-      'HE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPR' +
-      'ODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFAD' +
-      'O = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD' +
-      '_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALH' +
-      'E or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
+      ' prod.NCM, movd.STATUS, movd.II, movd.BCII, movd.OBS'#13#10'from MOVIM' +
+      'ENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=m' +
+      'ovd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODAL' +
+      'MOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm ' +
+      'on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:' +
+      'CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalh' +
+      'e'
     MaxBlobSize = -1
     Params = <
       item
@@ -547,6 +548,10 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetBCII: TFloatField
       FieldName = 'BCII'
+    end
+    object sds_Mov_DetOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -798,6 +803,10 @@ object DMNF: TDMNF
     object cds_Mov_detBCII: TFloatField
       FieldName = 'BCII'
       DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -2398,12 +2407,12 @@ object DMNF: TDMNF
     object cds_nfCORPONF5: TStringField
       FieldName = 'CORPONF5'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object cds_nfCORPONF6: TStringField
       FieldName = 'CORPONF6'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object cds_nfCFOP: TStringField
       FieldName = 'CFOP'
@@ -6156,32 +6165,32 @@ object DMNF: TDMNF
     object cds_nf1CORPONF1: TStringField
       FieldName = 'CORPONF1'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object cds_nf1CORPONF2: TStringField
       FieldName = 'CORPONF2'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object cds_nf1CORPONF3: TStringField
       FieldName = 'CORPONF3'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object cds_nf1CORPONF4: TStringField
       FieldName = 'CORPONF4'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object cds_nf1CORPONF5: TStringField
       FieldName = 'CORPONF5'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object cds_nf1CORPONF6: TStringField
       FieldName = 'CORPONF6'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object cds_nf1CFOP: TStringField
       FieldName = 'CFOP'

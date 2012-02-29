@@ -1371,6 +1371,8 @@ type
     cds_Mov_detBCII: TFloatField;
     sds_nf1BCII: TFloatField;
     cds_nf1BCII: TFloatField;
+    sds_Mov_DetOBS: TStringField;
+    cds_Mov_detOBS: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
