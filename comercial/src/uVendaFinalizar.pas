@@ -666,7 +666,7 @@ begin
       if (sqs_tit.Active) then
       sqs_tit.Close;
 
-      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
+      sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO)  FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
     end
@@ -709,6 +709,15 @@ begin
   cdsVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
   vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
   sqs_tit.Close;
+  if terminal <> '0' then
+  begin
+    sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
+                             ' WHERE CODMOVIMENTO = ' +
+                             IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
+    sqs_tit.Open;
+    cdsDESCONTO.AsFloat := cdsVALOR.AsCurrency - FloatToCurr(sqs_tit.Fields[0].AsFloat);
+    sqs_tit.Close;
+  end;
 end;
 
 procedure TfVendaFinalizar.cdsReconcileError(DataSet: TCustomClientDataSet;
@@ -730,6 +739,7 @@ begin
   cdsAPAGAR.AsFloat := cdsVALOR.AsFloat -
     cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat -
     cdsDESCONTO.AsFloat;
+  cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat - cdsDESCONTO.AsFloat;
 end;
 
 procedure TfVendaFinalizar.DBEdit11Exit(Sender: TObject);
