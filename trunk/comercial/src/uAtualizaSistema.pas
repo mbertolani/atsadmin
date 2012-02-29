@@ -1400,6 +1400,8 @@ begin
         ' EXTRATOTIPO VARCHAR(20) NOT NULL, ' +
         ' PRIMARY KEY (CAIXA, CONTA, EXTRATODOC, EXTRATOTIPO))');
       end;
+      executaDDL('BANCO', 'VARIACAO', 'Varchar(3)');
+
       mudaVersao('1.0.0.101');
     end;
 
