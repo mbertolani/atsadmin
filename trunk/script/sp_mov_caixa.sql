@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER PROCEDURE SP_MOV_CAIXA (
     DTAINI Date,
     DTAFIM Date,
@@ -231,9 +232,9 @@ BEGIN
       forma = '1';  
     
     IF ((DESCRICAO IS NULL) or (DESCRICAO = '')) THEN
-      DESCRICAO = FORN;
+      DESCRICAO = FORN  || '-' || CONTACONTABIL;
     else
-      DESCRICAO = FORN || ' - ' || DESCRICAO;
+      DESCRICAO = FORN || ' - ' || DESCRICAO  || '-' || CONTACONTABIL;
       
     ORDEM = 2;
     if (forma = '1') then 
