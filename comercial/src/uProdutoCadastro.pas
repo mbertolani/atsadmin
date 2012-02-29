@@ -107,6 +107,8 @@ type
     Chk_lote: TCheckBox;
     DBEdit24: TDBEdit;
     Label24: TLabel;
+    Label25: TLabel;
+    DBEdit25: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
