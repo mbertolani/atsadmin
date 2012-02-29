@@ -1616,6 +1616,13 @@ inherited fVendas: TfVendas
         Height = 16
         Caption = 'Desc.$'
       end
+      object Label28: TLabel
+        Left = 5
+        Top = 74
+        Width = 31
+        Height = 16
+        Caption = 'OBS.'
+      end
       object DBEdit7: TDBEdit
         Left = 113
         Top = 17
@@ -2003,9 +2010,9 @@ inherited fVendas: TfVendas
       end
       object JvDBGrid1: TJvDBGrid
         Left = 0
-        Top = 70
+        Top = 102
         Width = 625
-        Height = 256
+        Height = 223
         DataSource = DtSrc1
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -2128,6 +2135,25 @@ inherited fVendas: TfVendas
         PopupMenu = PopupMenu1
         TabOrder = 8
         OnExit = dbedtVALOR_DESCONTOExit
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit19: TDBEdit
+        Left = 37
+        Top = 72
+        Width = 588
+        Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'OBS'
+        DataSource = DtSrc1
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 16
         OnKeyPress = FormKeyPress
       end
     end
@@ -2448,12 +2474,12 @@ inherited fVendas: TfVendas
       'O'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTD' +
       'E_PCT'#13#10', prod.PESO_QTDE'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPE' +
       'SA  '#13#10', prod.LOCALIZACAO  '#13#10', cm.CODIGO'#13#10', prod.LOTES'#13#10', movd.ST' +
-      'ATUS'#13#10',movd.VALOR_DESCONTO  '#13#10'from MOVIMENTODETALHE movd '#13#10'inner' +
-      ' join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left ou' +
-      'ter join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALM' +
-      'OXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_COMISSAO = mov' +
-      'd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMO' +
-      'VIMENTO=:pCODMOV order by movd.coddetalhe'
+      'ATUS'#13#10',movd.VALOR_DESCONTO  '#13#10',movd.OBS'#13#10'from MOVIMENTODETALHE m' +
+      'ovd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUT' +
+      'O '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = ' +
+      'prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_COM' +
+      'ISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or' +
+      ' movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -2596,6 +2622,11 @@ inherited fVendas: TfVendas
     end
     object sds_Mov_DetVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
+    end
+    object sds_Mov_DetOBS: TStringField
+      FieldName = 'OBS'
+      ReadOnly = True
+      Size = 300
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -2767,6 +2798,10 @@ inherited fVendas: TfVendas
     end
     object cds_Mov_detVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
+    end
+    object cds_Mov_detOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
