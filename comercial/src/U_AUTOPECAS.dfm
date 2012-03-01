@@ -1,7 +1,6 @@
 object F_AUTOPECAS: TF_AUTOPECAS
-  Left = 212
-  Top = 41
-  BorderIcons = [biSystemMenu]
+  Left = 236
+  Top = 48
   BorderStyle = bsSingle
   Caption = 'TERMINAL'
   ClientHeight = 649
@@ -25,7 +24,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
     Left = 0
     Top = 0
     Width = 840
-    Height = 45
+    Height = 41
     Align = alTop
     PopupMenu = pm1
     TabOrder = 0
@@ -50,7 +49,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       Transparent = True
     end
     object RxLabel2: TRxLabel
-      Left = 9
+      Left = 2
       Top = 11
       Width = 255
       Height = 21
@@ -64,7 +63,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       Transparent = True
     end
     object edt_produto: TEdit
-      Left = 275
+      Left = 268
       Top = 6
       Width = 255
       Height = 32
@@ -81,7 +80,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       OnKeyPress = edt_produtoKeyPress
     end
     object btn1: TBitBtn
-      Left = 531
+      Left = 524
       Top = 6
       Width = 101
       Height = 32
@@ -97,7 +96,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       OnClick = btn1Click
     end
     object db_qtde: TJvDBCalcEdit
-      Left = 633
+      Left = 626
       Top = 6
       Width = 61
       Height = 32
@@ -118,7 +117,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
       DataSource = d_movdet
     end
     object db_valor: TJvDBCalcEdit
-      Left = 695
+      Left = 688
       Top = 6
       Width = 91
       Height = 32
@@ -255,9 +254,9 @@ object F_AUTOPECAS: TF_AUTOPECAS
   end
   object pgc1: TPageControl
     Left = 0
-    Top = 45
+    Top = 41
     Width = 418
-    Height = 564
+    Height = 568
     ActivePage = ts1
     Align = alClient
     PopupMenu = pm1
@@ -268,7 +267,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         Left = 0
         Top = 0
         Width = 410
-        Height = 536
+        Height = 540
         Align = alClient
         BevelInner = bvLowered
         TabOrder = 0
@@ -280,93 +279,104 @@ object F_AUTOPECAS: TF_AUTOPECAS
         Background.FillType = GradUpDown
         object JvGroupBox2: TJvGroupBox
           Left = 2
-          Top = 279
+          Top = 371
           Width = 406
-          Height = 54
+          Height = 57
           Align = alBottom
-          Caption = 'Dados do Ve'#237'culo'
+          Caption = 'Dados do Produto'
           PopupMenu = pm1
           TabOrder = 0
-          object lbl4: TLabel
-            Left = 4
-            Top = 14
-            Width = 27
-            Height = 13
-            Caption = 'Placa'
-          end
-          object lbl10: TLabel
-            Left = 89
-            Top = 14
-            Width = 31
-            Height = 13
-            Caption = 'Chassi'
-          end
-          object lbl36: TLabel
-            Left = 247
-            Top = 14
-            Width = 16
-            Height = 13
-            Caption = 'KM'
-          end
-          object dbedtCHASSIS: TDBEdit
-            Left = 90
-            Top = 28
-            Width = 154
-            Height = 22
-            BevelKind = bkFlat
+          object JvDBGrid3: TJvDBGrid
+            Left = 2
+            Top = 15
+            Width = 402
+            Height = 40
+            Align = alClient
             BorderStyle = bsNone
-            DataField = 'CHASSIS'
-            DataSource = d_movimento
+            DataSource = d_movdet
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
             PopupMenu = pm1
             TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            TitleFont.Style = []
+            BevelKind = bkFlat
+            AutoSizeColumns = True
+            SelectColumnsDialogStrings.Caption = 'Select columns'
+            SelectColumnsDialogStrings.OK = '&OK'
+            SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+            EditControls = <>
+            RowsHeight = 17
+            TitleRowHeight = 17
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'CODPRO'
+                Title.Caption = 'C'#243'digo'
+                Width = 41
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'PRODUTO'
+                Title.Caption = 'Desc. Produto'
+                Width = 89
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'MARCA'
+                Width = 59
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALORUNITARIOATUAL'
+                Title.Caption = 'R$ Custo'
+                Width = 50
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'MARGEM'
+                Title.Caption = '  %'
+                Width = 36
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'PRECO'
+                Title.Caption = 'R$ Venda'
+                Width = 47
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'LOCALIZACAO'
+                Title.Caption = 'Local'
+                Width = 57
+                Visible = True
+              end>
           end
-          object btn3: TBitBtn
-            Left = 61
-            Top = 27
-            Width = 27
-            Height = 23
-            Caption = '...'
+          object btnProduto: TBitBtn
+            Left = 104
+            Top = -2
+            Width = 75
+            Height = 25
+            Caption = 'btnProduto'
             PopupMenu = pm1
             TabOrder = 1
-            OnClick = btn3Click
-          end
-          object dbedtKM: TDBEdit
-            Left = 246
-            Top = 28
-            Width = 129
-            Height = 22
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            DataField = 'KM'
-            DataSource = d_movimento
-            PopupMenu = pm1
-            TabOrder = 2
-          end
-          object medt1: TMaskEdit
-            Left = 5
-            Top = 28
-            Width = 55
-            Height = 21
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            EditMask = '>LLL-9999;1;_'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            MaxLength = 8
-            ParentFont = False
-            TabOrder = 3
-            Text = '   -    '
-            OnKeyPress = medt1KeyPress
+            Visible = False
+            OnClick = btnProdutoClick
           end
         end
         object JvGroupBox4: TJvGroupBox
           Left = 2
-          Top = 333
+          Top = 428
           Width = 406
-          Height = 201
+          Height = 110
           Align = alBottom
           Caption = 'SIMILARES'
           PopupMenu = pm1
@@ -375,10 +385,11 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Left = 2
             Top = 15
             Width = 402
-            Height = 184
+            Height = 93
             Align = alClient
             BorderStyle = bsNone
             DataSource = d_similar
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
             PopupMenu = pm1
             TabOrder = 0
             TitleFont.Charset = DEFAULT_CHARSET
@@ -399,34 +410,51 @@ object F_AUTOPECAS: TF_AUTOPECAS
                 Expanded = False
                 FieldName = 'CODPROSIMILAR'
                 Title.Caption = 'C'#243'digo'
-                Width = 48
+                Width = 40
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'PRODUTO'
                 Title.Caption = 'Descri'#231#227'o'
-                Width = 193
+                Width = 91
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'MARCA'
                 Title.Caption = 'Marca'
-                Width = 76
+                Width = 55
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'VALORUNITARIOATUAL'
-                Title.Caption = 'R$Compra'
-                Visible = False
+                Title.Caption = 'R$ Custo'
+                Width = 51
+                Visible = True
+              end
+              item
+                Alignment = taCenter
+                Expanded = False
+                FieldName = 'MARGEM'
+                Title.Alignment = taCenter
+                Title.Caption = '%'
+                Width = 43
+                Visible = True
               end
               item
                 Expanded = False
-                FieldName = 'PRECOMEDIO'
+                FieldName = 'VALOR_PRAZO'
                 Title.Caption = 'R$Venda'
-                Width = 65
+                Width = 51
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'LOCALIZACAO'
+                Title.Caption = 'Local'
+                Width = 48
                 Visible = True
               end>
           end
@@ -499,9 +527,10 @@ object F_AUTOPECAS: TF_AUTOPECAS
           Left = 2
           Top = 50
           Width = 406
-          Height = 229
+          Height = 267
           ActivePage = TabSheet1
           Align = alClient
+          PopupMenu = pm1
           TabOrder = 3
           object TabSheet1: TTabSheet
             Caption = '&Imagem'
@@ -509,14 +538,14 @@ object F_AUTOPECAS: TF_AUTOPECAS
               Left = 0
               Top = 0
               Width = 398
-              Height = 201
+              Height = 239
               Align = alClient
               TabOrder = 0
               object JvImage1: TJvImage
                 Left = 1
                 Top = 1
                 Width = 396
-                Height = 199
+                Height = 237
                 Align = alClient
                 AutoSize = True
                 Center = True
@@ -1274,6 +1303,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
                   5140051451400514514005145140051451400514514005145140051451400514
                   5140051451400514514005145140051451400514514005145140051451400514
                   5140051451401FFFD9}
+                PopupMenu = pm1
                 Proportional = True
                 Transparent = True
               end
@@ -1285,13 +1315,97 @@ object F_AUTOPECAS: TF_AUTOPECAS
             object DBMemo1: TDBMemo
               Left = 0
               Top = 0
-              Width = 397
-              Height = 201
+              Width = 398
+              Height = 235
               Align = alClient
               DataField = 'OBS'
               DataSource = d_movimento
               TabOrder = 0
             end
+          end
+        end
+        object JvGroupBox3: TJvGroupBox
+          Left = 2
+          Top = 317
+          Width = 406
+          Height = 54
+          Align = alBottom
+          Caption = 'Dados do Ve'#237'culo'
+          PopupMenu = pm1
+          TabOrder = 4
+          object lbl2: TLabel
+            Left = 4
+            Top = 14
+            Width = 27
+            Height = 13
+            Caption = 'Placa'
+          end
+          object lbl5: TLabel
+            Left = 89
+            Top = 14
+            Width = 31
+            Height = 13
+            Caption = 'Chassi'
+          end
+          object lbl6: TLabel
+            Left = 247
+            Top = 14
+            Width = 16
+            Height = 13
+            Caption = 'KM'
+          end
+          object dbedtCHASSIS1: TDBEdit
+            Left = 90
+            Top = 28
+            Width = 154
+            Height = 22
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            DataField = 'CHASSIS'
+            DataSource = d_movimento
+            PopupMenu = pm1
+            TabOrder = 0
+          end
+          object btn7: TBitBtn
+            Left = 61
+            Top = 27
+            Width = 27
+            Height = 23
+            Caption = '...'
+            PopupMenu = pm1
+            TabOrder = 1
+            OnClick = btn7Click
+          end
+          object dbedtKM1: TDBEdit
+            Left = 246
+            Top = 28
+            Width = 129
+            Height = 22
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            DataField = 'KM'
+            DataSource = d_movimento
+            PopupMenu = pm1
+            TabOrder = 2
+          end
+          object medt2: TMaskEdit
+            Left = 5
+            Top = 28
+            Width = 55
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            EditMask = '>LLL-9999;1;_'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            MaxLength = 8
+            ParentFont = False
+            TabOrder = 3
+            Text = '   -    '
+            OnKeyPress = medt1KeyPress
           end
         end
       end
@@ -1303,7 +1417,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
         Left = 0
         Top = 0
         Width = 410
-        Height = 536
+        Height = 540
         Align = alClient
         BevelInner = bvLowered
         TabOrder = 0
@@ -1317,7 +1431,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
           Left = 2
           Top = 324
           Width = 406
-          Height = 210
+          Height = 214
           Align = alClient
           Caption = 'T'#205'TULOS'
           PopupMenu = pm1
@@ -1326,7 +1440,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Left = 2
             Top = 15
             Width = 402
-            Height = 193
+            Height = 197
             Align = alClient
             BorderStyle = bsNone
             DataSource = d_cr
@@ -1899,9 +2013,9 @@ object F_AUTOPECAS: TF_AUTOPECAS
   end
   object MMJPanel2: TMMJPanel
     Left = 418
-    Top = 45
+    Top = 41
     Width = 422
-    Height = 564
+    Height = 568
     Align = alRight
     TabOrder = 3
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -1914,10 +2028,11 @@ object F_AUTOPECAS: TF_AUTOPECAS
       Left = 1
       Top = 40
       Width = 420
-      Height = 464
+      Height = 468
       Align = alClient
       BorderStyle = bsNone
       DataSource = d_movdet
+      Options = [dgAlwaysShowEditor, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       PopupMenu = pm1
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
@@ -1982,7 +2097,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
     end
     object MMJPanel3: TMMJPanel
       Left = 1
-      Top = 504
+      Top = 508
       Width = 420
       Height = 59
       Align = alBottom
@@ -2134,9 +2249,10 @@ object F_AUTOPECAS: TF_AUTOPECAS
   object s_similar: TSQLDataSet
     CommandText = 
       'select s.*, '#13#10'           p.PRODUTO, '#13#10'           p.MARCA,'#13#10'     ' +
-      '      p.VALORUNITARIOATUAL,'#13#10'           p.PRECOMEDIO '#13#10'from SIMI' +
-      'LARES s '#13#10'inner join PRODUTOS p on'#13#10'p.CODPRODUTO = s.ID_SIMILAR ' +
-      #13#10'where s.ID_PRODUTO = :id'
+      '      p.VALORUNITARIOATUAL,'#13#10'           p.PRECOMEDIO,'#13#10'         ' +
+      '  p.VALOR_PRAZO,'#13#10'           p.LOCALIZACAO,'#13#10'           p.MARGEM' +
+      '    '#13#10'from SIMILARES s '#13#10'inner join PRODUTOS p on'#13#10'p.CODPRODUTO ' +
+      '= s.ID_SIMILAR '#13#10'where s.ID_PRODUTO = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -2178,6 +2294,18 @@ object F_AUTOPECAS: TF_AUTOPECAS
       Precision = 9
       Size = 2
     end
+    object s_similarVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+    end
+    object s_similarLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      ProviderFlags = []
+      Size = 50
+    end
+    object s_similarMARGEM: TFloatField
+      FieldName = 'MARGEM'
+      ProviderFlags = []
+    end
   end
   object s_movimento: TSQLDataSet
     CommandText = 
@@ -2196,7 +2324,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'pCODMOV'
         ParamType = ptInput
       end>
@@ -2430,11 +2558,26 @@ object F_AUTOPECAS: TF_AUTOPECAS
     end
     object ds_similarVALORUNITARIOATUAL: TFloatField
       FieldName = 'VALORUNITARIOATUAL'
+      DisplayFormat = ',#0.00'
     end
     object ds_similarPRECOMEDIO: TBCDField
       FieldName = 'PRECOMEDIO'
       Precision = 9
       Size = 2
+    end
+    object ds_similarVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+      DisplayFormat = ',#0.00'
+    end
+    object ds_similarLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      ProviderFlags = []
+      Size = 50
+    end
+    object ds_similarMARGEM: TFloatField
+      FieldName = 'MARGEM'
+      ProviderFlags = []
+      DisplayFormat = ',##0.0'
     end
   end
   object ds_movimento: TClientDataSet
@@ -2768,6 +2911,22 @@ object F_AUTOPECAS: TF_AUTOPECAS
       ProviderFlags = [pfInUpdate]
       Size = 300
     end
+    object ds_movdetPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      ProviderFlags = [pfInUpdate]
+      Precision = 9
+      Size = 2
+    end
+    object ds_movdetMARGEM: TFloatField
+      FieldName = 'MARGEM'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.0'
+    end
+    object ds_movdetMARCA: TStringField
+      FieldName = 'MARCA'
+      ProviderFlags = []
+      Size = 30
+    end
     object ds_movdettotal: TAggregateField
       Alignment = taRightJustify
       FieldName = 'total'
@@ -2795,11 +2954,12 @@ object F_AUTOPECAS: TF_AUTOPECAS
       'd.CODALMOXARIFADO'#13#10'        , prod.VALORUNITARIOATUAL'#13#10'        , ' +
       'prod.QTDE_PCT'#13#10'        , ccus.ALMOXARIFADO'#13#10'        , prod.CONTA' +
       '_DESPESA  '#13#10'        , prod.COD_BARRA '#13#10'        , prod.LOCALIZACA' +
-      'O '#13#10'        , prod.ESTOQUEATUAL '#13#10'from MOVIMENTODETALHE movd '#13#10'i' +
-      'nner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'lef' +
-      't outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CO' +
-      'DALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOV' +
-      'IMENTO=:pCODMOV '#13#10
+      'O '#13#10'        , prod.ESTOQUEATUAL'#13#10'        , prod.PRECOMEDIO'#13#10'    ' +
+      '    , prod.MARGEM'#13#10'        , prod.MARCA '#13#10'from MOVIMENTODETALHE ' +
+      'movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODU' +
+      'TO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO =' +
+      ' prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDETALHE or mov' +
+      'd.CODMOVIMENTO=:pCODMOV '#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -2917,6 +3077,21 @@ object F_AUTOPECAS: TF_AUTOPECAS
       FieldName = 'DESCPRODUTO'
       ProviderFlags = [pfInUpdate]
       Size = 300
+    end
+    object s_movdetPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      ProviderFlags = [pfInUpdate]
+      Precision = 9
+      Size = 2
+    end
+    object s_movdetMARGEM: TFloatField
+      FieldName = 'MARGEM'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetMARCA: TStringField
+      FieldName = 'MARCA'
+      ProviderFlags = []
+      Size = 30
     end
   end
   object s_venda: TSQLDataSet
@@ -3368,6 +3543,11 @@ object F_AUTOPECAS: TF_AUTOPECAS
       Caption = 'Encerrar Opera'#231#227'o Sair'
       ShortCut = 120
       OnClick = btn_sairClick
+    end
+    object CadastrodeProduto1: TMenuItem
+      Caption = 'Cadastro de Produto'
+      ShortCut = 16461
+      OnClick = btnProdutoClick
     end
   end
   object sds_s: TSQLDataSet
