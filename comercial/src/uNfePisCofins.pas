@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ACBrSpedPisCofins, StdCtrls, ExtCtrls, ComCtrls, JvExComCtrls,
   JvProgressBar, Mask, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, ACBrEPCBlocos, ACBrTXTClass, ACBrUtil;
+  JvDatePickerEdit, ACBrEPCBlocos, ACBrTXTClass, ACBrUtil, FMTBcd,
+  DBClient, Provider, DB, SqlExpr;
 
 type
   TfNfePisCofins = class(TForm)
@@ -38,6 +39,83 @@ type
     btnError: TButton;
     cbTipo: TComboBox;
     Label11: TLabel;
+    sdsEmpresa: TSQLDataSet;
+    dspEmpresa: TDataSetProvider;
+    cdsEmpresa: TClientDataSet;
+    cdsEmpresaEMPRESA: TStringField;
+    cdsEmpresaRAZAO: TStringField;
+    cdsEmpresaCNPJ_CPF: TStringField;
+    cdsEmpresaENDERECO: TStringField;
+    cdsEmpresaLOGRADOURO: TStringField;
+    cdsEmpresaBAIRRO: TStringField;
+    cdsEmpresaCIDADE: TStringField;
+    cdsEmpresaUF: TStringField;
+    cdsEmpresaCEP: TStringField;
+    cdsEmpresaDDD: TStringField;
+    cdsEmpresaFONE: TStringField;
+    cdsEmpresaFONE_1: TStringField;
+    cdsEmpresaFONE_2: TStringField;
+    cdsEmpresaFAX: TStringField;
+    cdsEmpresaE_MAIL: TStringField;
+    cdsEmpresaWEB: TStringField;
+    cdsEmpresaLOGOTIPO: TGraphicField;
+    cdsEmpresaCODIGO: TIntegerField;
+    cdsEmpresaTIPO: TStringField;
+    cdsEmpresaIE_RG: TStringField;
+    cdsEmpresaSLOGAN: TStringField;
+    cdsEmpresaOUTRAS_INFO: TStringField;
+    cdsEmpresaCODIGO_CONTA: TIntegerField;
+    cdsEmpresaDIVERSOS1: TStringField;
+    cdsEmpresaDIVERSOS2: TStringField;
+    cdsEmpresaDIVERSOS3: TStringField;
+    cdsEmpresaANOLETIVO: TIntegerField;
+    cdsEmpresaMEDIA_ESCOLA: TFloatField;
+    cdsEmpresaPORTA: TIntegerField;
+    cdsEmpresaSMTP: TStringField;
+    cdsEmpresaSENHA: TStringField;
+    cdsEmpresaCCUSTO: TIntegerField;
+    cdsEmpresaNUMERO: TStringField;
+    cdsEmpresaCD_IBGE: TStringField;
+    cdsEmpresaCRT: TIntegerField;
+    cdsEmpresaTREGIME: TIntegerField;
+    cdsEmpresaIM: TStringField;
+    cdsEmpresaCONTADOR: TStringField;
+    cdsEmpresaCONTADOR_CRC: TStringField;
+    cdsEmpresaCONTADOR_CNPJ: TStringField;
+    cdsEmpresaCONTADOR_CPF: TStringField;
+    cdsEmpresaCONTADOR_CEP: TStringField;
+    cdsEmpresaCONTADOR_END: TStringField;
+    cdsEmpresaCONTADOR_NUMEND: TStringField;
+    cdsEmpresaCONTADOR_COMPL: TStringField;
+    cdsEmpresaCONTADOR_BAIRRO: TStringField;
+    cdsEmpresaCONTADOR_FONE: TStringField;
+    cdsEmpresaCONTADOR_FAX: TStringField;
+    cdsEmpresaCONTADOR_EMAIL: TStringField;
+    cdsEmpresaCONTADOR_COD_MUN: TStringField;
+    cdsEmpresaCODINDINCTRIBUTARIA: TStringField;
+    cdsEmpresaINDAPROCRED: TStringField;
+    cdsEmpresaCODINDTIPOCON: TStringField;
+    cdsEmpresaCODINDCRITESCRIT: TStringField;
+    cdsEmpresaINDCODINCIDENCIA: TStringField;
+    cdsEmpresaINDCTA: TStringField;
+    cdsEmpresaINDESCRITURACAO: TStringField;
+    cdsEmpresaBASECALCULOCREDITO: TStringField;
+    cdsEmpresaINDAJ: TStringField;
+    cdsEmpresaCODAJ: TStringField;
+    cdsEmpresaINDNATREC: TStringField;
+    cdsEmpresaNATCREDDESC: TStringField;
+    cdsEmpresaCODCRED: TStringField;
+    cdsEmpresaINDTIPCOOP: TStringField;
+    cdsEmpresaINDCREDORI: TStringField;
+    cdsEmpresaINDREC: TStringField;
+    cdsEmpresaINDDESCCRED: TStringField;
+    cdsEmpresaCODCONT: TStringField;
+    cdsEmpresaINDNATRETFONTE: TStringField;
+    cdsEmpresaINDORIGEMDIVERSAS: TStringField;
+    cdsEmpresaINDNATDEDUCAO: TStringField;
+    cdsEmpresaINDTPOPERACAORECEITA: TStringField;
+    cdsEmpresaINDICADORNATUREZAPJ: TSmallintField;
+    cdsEmpresaINDICADORATIVIDADE: TSmallintField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -66,7 +144,7 @@ var
 
 implementation
 
-uses uUtils;
+uses uUtils, UDm;
 
 {$R *.dfm}
 
@@ -222,7 +300,7 @@ begin
 //         DT_FIN := StrToDate('30/04/2011');
          LinhasBuffer := StrToIntDef( edBufLinhas.Text, 0 );
 
-//         IniciaGeracao;
+//        IniciaGeracao;
       end;
 
       LoadToMemo;
@@ -237,13 +315,13 @@ begin
         TIPO_ESCRIT      := tpEscrOriginal;
         IND_SIT_ESP      := indSitAbertura;
         NUM_REC_ANTERIOR := '';
-        NOME             := 'NOME DA EMPRESA';
-        CNPJ             := '11111111111180';
-        UF               := 'ES';
-        COD_MUN          := 3200607;
+        NOME             := cdsEmpresaRAZAO.AsString;
+        CNPJ             := cdsEmpresaCNPJ_CPF.AsString;
+        UF               := cdsEmpresaUF.AsString;
+        COD_MUN          := StrToInt(cdsEmpresaCD_IBGE.AsString);
         SUFRAMA          := '';
-        IND_NAT_PJ       := indNatPJSocEmpresariaGeral;
-        IND_ATIV         := indAtivIndustrial;
+        IND_NAT_PJ       := TACBrIndicadorNaturezaPJ(cdsEmpresaINDICADORNATUREZAPJ.AsInteger); // indNatPJSocEmpresariaGeral;
+        IND_ATIV         := TACBrIndicadorAtividade(cdsEmpresaINDICADORATIVIDADE.asInteger); // indAtivIndustrial;
 
         with Registro0001New do
         begin
