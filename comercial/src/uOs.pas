@@ -163,6 +163,7 @@ type
     F4Gravar: TMenuItem;
     F9Sair1: TMenuItem;
     F3Cancelar1: TMenuItem;
+    sqlUsuario: TSQLQuery;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -269,6 +270,19 @@ begin
 
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
+
+    if (sqlUsuario.Active) then
+      sqlUsuario.Close;
+    sqlUsuario.ParamByName('PUSU').asInteger := usulog;
+    sqlUsuario.Open;
+    if (sqlUsuario.IsEmpty) then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('INSERT INTO USUARIO VALUES(' +
+        IntToStr(usulog) +
+        ', ' + QuotedStr('USUARIO OS') +
+        ', 0, ' + QuotedStr('AMBOS') + ')');
+    end;
+
     FOsCls.codCliente := StrToInt(edCodCliente.Text);
     if (modoOs = 'Insert') then
     begin
