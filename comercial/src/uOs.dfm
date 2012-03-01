@@ -1,6 +1,6 @@
 object fOs: TfOs
   Left = 201
-  Top = 175
+  Top = 128
   Width = 822
   Height = 570
   Caption = 'Ordem Servi'#231'o'
@@ -2627,5 +2627,19 @@ object fOs: TfOs
       Caption = 'F3-Cancelar'
       OnClick = btnCancelarClick
     end
+  end
+  object sqlUsuario: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PUSU'
+        ParamType = ptUnknown
+      end>
+    SQL.Strings = (
+      'SELECT * FROM USUARIO WHERE CODUSUARIO = :PUSU')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 377
+    Top = 81
   end
 end
