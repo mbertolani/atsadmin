@@ -143,6 +143,32 @@ type
     SQLDataSet1FORMARECEBIMENTO: TStringField;
     SQLDataSet1DATARECEBIMENTO: TDateField;
     SQLDataSet1CODVENDA: TIntegerField;
+    sCaixa1: TClientDataSet;
+    sCaixa1IDCAIXACONTROLE: TIntegerField;
+    sCaixa1CODCAIXA: TIntegerField;
+    sCaixa1CODUSUARIO: TIntegerField;
+    sCaixa1DATAFECHAMENTO: TDateField;
+    sCaixa1SITUACAO: TStringField;
+    sCaixa1MAQUINA: TStringField;
+    sCaixa1DATAABERTURA: TDateField;
+    sCaixa1VALORABRE: TFloatField;
+    sCaixa1VALORFECHA: TFloatField;
+    sCaixa1NOMECAIXA: TStringField;
+    dspCaixa1: TDataSetProvider;
+    sdsCaixa1: TSQLDataSet;
+    sdsCaixa1IDCAIXACONTROLE: TIntegerField;
+    sdsCaixa1CODCAIXA: TIntegerField;
+    sdsCaixa1CODUSUARIO: TIntegerField;
+    sdsCaixa1DATAFECHAMENTO: TDateField;
+    sdsCaixa1SITUACAO: TStringField;
+    sdsCaixa1MAQUINA: TStringField;
+    sdsCaixa1DATAABERTURA: TDateField;
+    sdsCaixa1VALORABRE: TFloatField;
+    sdsCaixa1VALORFECHA: TFloatField;
+    sdsCaixa1NOMECAIXA: TStringField;
+    s_contas: TSQLDataSet;
+    s_contasCODIGO: TIntegerField;
+    s_contasNOME: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -257,7 +283,7 @@ begin
   dm.cds_parametro.Close;
 
   // Listo as Contas Caixa
-  if dm.cds_parametro.Active then
+ { if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CAIXA_BANCO';
   dm.cds_parametro.Open;
@@ -265,17 +291,63 @@ begin
     dm.cds_7_contas.Close;
   dm.cds_7_contas.Params[0].AsString := dm.cds_parametroDADOS.AsString;
   dm.cds_7_contas.Open;
-
-  while not dm.cds_7_contas.Eof do
+  }
+  // Opções para caixa interno
+  if (s_contas.Active) then
+    s_contas.Close;
+  s_contas.Params[0].AsString := 'INTERNO';
+  s_contas.Open;
+  while not s_contas.Eof do
   begin
-    cbDinheiro.Items.Add(dm.cds_7_contas.Fields[2].asString);
-    cbCartaoCDT1.Items.Add(dm.cds_7_contas.Fields[2].asString);
-    cbCartaoDBT1.Items.Add(dm.cds_7_contas.Fields[2].asString);
-    cbVale.Items.Add(dm.cds_7_contas.Fields[2].asString);
-    cbOutros.Items.Add(dm.cds_7_contas.Fields[2].asString);
-    dm.cds_7_contas.Next;
+    cbDinheiro.Items.Add(s_contasNOME.asString);
+    cbDinheiro.Text := s_contasNOME.asString;
+    s_contas.Next;
   end;
-  cbDinheiro.ItemIndex := 1;
+  // Opções para Cartão de credito
+  if (s_contas.Active) then
+    s_contas.Close;
+  s_contas.Params[0].AsString := 'CREDITO';
+  s_contas.Open;
+  while not s_contas.Eof do
+  begin
+    cbCartaoCDT1.Items.Add(s_contasNOME.asString);
+    s_contas.Next;
+  end;
+
+  // Opções para Cartão de Debito
+  if (s_contas.Active) then
+    s_contas.Close;
+  s_contas.Params[0].AsString := 'DEBITO';
+  s_contas.Open;
+  while not s_contas.Eof do
+  begin
+    cbCartaoDBT1.Items.Add(s_contasNOME.asString);
+    s_contas.Next;
+  end;
+
+  // Opções para Vale
+  if (s_contas.Active) then
+    s_contas.Close;
+  s_contas.Params[0].AsString := 'VALE';
+  s_contas.Open;
+  while not s_contas.Eof do
+  begin
+    cbVale.Items.Add(s_contasNOME.asString);
+    s_contas.Next;
+  end;
+
+  // Opções para Outros
+  if (s_contas.Active) then
+    s_contas.Close;
+  s_contas.Params[0].AsString := 'OUTROS';
+  s_contas.Open;
+  while not s_contas.Eof do
+  begin
+    cbOutros.Items.Add(s_contasNOME.asString);
+    s_contas.Next;
+  end;
+  s_contas.Close;
+
 end;
 
 procedure TF_Entrada.JvGravarClick(Sender: TObject);
@@ -553,20 +625,20 @@ begin
       if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
       begin
          codigo_cliente            := DM_MOV.c_movimentoCODCLIENTE.AsInteger;
-         codigo_almox              := DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger;
+         codigo_almox              := DM_MOV.ID_CCUSTO;
       end;
       if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
       begin
          codigo_cliente            := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
-         codigo_almox              := DM_MOV.c_comandaCODALMOXARIFADO.AsInteger;
+         codigo_almox              := DM_MOV.ID_CCUSTO;//DM_MOV.c_comandaCODALMOXARIFADO.AsInteger;
       end;
       if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
       begin
-         codigo_cliente            := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
-         codigo_almox              := DM_MOV.c_DeliveryCODALMOXARIFADO.AsInteger;
+         codigo_cliente            := DM_MOV.c_DeliveryCODCLIENTE.AsInteger;
+         codigo_almox              := DM_MOV.ID_CCUSTO; //DM_MOV.c_DeliveryCODALMOXARIFADO.AsInteger;
       end;
       fven.CodCliente           := codigo_cliente;
-      fven.CodCCusto            := codigo_cliente;
+      fven.CodCCusto            := codigo_almox;
       fven.CodVendedor          := 1;
       fven.ValorPagar           := c_formatotal.Value;
       FVen.Entrada              := c_formatotal.Value;

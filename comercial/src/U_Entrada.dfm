@@ -1,6 +1,6 @@
 object F_Entrada: TF_Entrada
-  Left = 306
-  Top = 149
+  Left = 381
+  Top = 109
   Width = 632
   Height = 527
   BorderIcons = [biSystemMenu]
@@ -1817,6 +1817,146 @@ object F_Entrada: TF_Entrada
     object SQLDataSet1CODVENDA: TIntegerField
       FieldName = 'CODVENDA'
       ProviderFlags = [pfInUpdate]
+    end
+  end
+  object sCaixa1: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pMaq'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'pStatus'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCaixa1'
+    Left = 124
+    Top = 416
+    object sCaixa1IDCAIXACONTROLE: TIntegerField
+      FieldName = 'IDCAIXACONTROLE'
+      Required = True
+    end
+    object sCaixa1CODCAIXA: TIntegerField
+      FieldName = 'CODCAIXA'
+    end
+    object sCaixa1CODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object sCaixa1DATAFECHAMENTO: TDateField
+      FieldName = 'DATAFECHAMENTO'
+      Required = True
+    end
+    object sCaixa1SITUACAO: TStringField
+      FieldName = 'SITUACAO'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object sCaixa1MAQUINA: TStringField
+      FieldName = 'MAQUINA'
+      Size = 60
+    end
+    object sCaixa1DATAABERTURA: TDateField
+      FieldName = 'DATAABERTURA'
+    end
+    object sCaixa1VALORABRE: TFloatField
+      FieldName = 'VALORABRE'
+    end
+    object sCaixa1VALORFECHA: TFloatField
+      FieldName = 'VALORFECHA'
+    end
+    object sCaixa1NOMECAIXA: TStringField
+      FieldName = 'NOMECAIXA'
+      Size = 60
+    end
+  end
+  object dspCaixa1: TDataSetProvider
+    DataSet = sdsCaixa1
+    Left = 94
+    Top = 416
+  end
+  object sdsCaixa1: TSQLDataSet
+    CommandText = 
+      'select * from CAIXA_CONTROLE '#13#10'where MAQUINA = :pMaq'#13#10'and SITUAC' +
+      'AO = :pStatus'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pMaq'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'pStatus'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 64
+    Top = 416
+    object sdsCaixa1IDCAIXACONTROLE: TIntegerField
+      FieldName = 'IDCAIXACONTROLE'
+      Required = True
+    end
+    object sdsCaixa1CODCAIXA: TIntegerField
+      FieldName = 'CODCAIXA'
+    end
+    object sdsCaixa1CODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object sdsCaixa1DATAFECHAMENTO: TDateField
+      FieldName = 'DATAFECHAMENTO'
+      Required = True
+    end
+    object sdsCaixa1SITUACAO: TStringField
+      FieldName = 'SITUACAO'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCaixa1MAQUINA: TStringField
+      FieldName = 'MAQUINA'
+      Size = 60
+    end
+    object sdsCaixa1DATAABERTURA: TDateField
+      FieldName = 'DATAABERTURA'
+    end
+    object sdsCaixa1VALORABRE: TFloatField
+      FieldName = 'VALORABRE'
+    end
+    object sdsCaixa1VALORFECHA: TFloatField
+      FieldName = 'VALORFECHA'
+    end
+    object sdsCaixa1NOMECAIXA: TStringField
+      FieldName = 'NOMECAIXA'
+      Size = 60
+    end
+  end
+  object s_contas: TSQLDataSet
+    CommandText = 'SELECT CODIGO, NOME'#13#10'   FROM PLANO'#13#10'WHERE TIPOLANC = :TP'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'TP'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 528
+    Top = 440
+    object s_contasCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object s_contasNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
     end
   end
 end
