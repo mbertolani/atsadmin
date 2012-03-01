@@ -1212,9 +1212,11 @@ begin
          dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
       else
       }
+     { 
      if(imex = 99) then
          cds_Mov_detPRECO.AsFloat := (dm.scds_produto_procVALORUNITARIOATUAL.AsFloat * 1.2)
      else
+     }
          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
 
       valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat ;
@@ -2024,7 +2026,7 @@ begin
         //dbeCliente.SetFocus;
       end;
     prazoCliente := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
-    imex  := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
+    //imex  := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
     cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
     cds_MovimentoCODVENDEDOR.AsInteger := dmnf.scds_cli_procCODUSUARIO.AsInteger;
@@ -2626,7 +2628,7 @@ begin
           {================================================================= }
           if (cdsUSALOTE.AsString = 'S') then
           begin
-            if (cdslotes.Active) then
+            if (cdslotes.Active) then           /// foi alterado o cdslotes para cliente Guiomar 
               cdslotes.Close;
             cdslotes.Params[0].Clear;
             cdslotes.Params[1].AsString := 'TODOSLOTESCADASTRADOS';
@@ -2766,7 +2768,7 @@ begin
     //codigo_moviemento := cds_MovimentoCODMOVIMENTO.AsInteger;
     cdsLotesMem.Close;
   end;
-  if (teveLancamento = 'SIM') then
+  if ((teveLancamento = 'SIM') and (tipomat = 'BAIXAAUTOMATICA')) then
   begin
     try
       TD.TransactionID := 1;
@@ -2806,7 +2808,7 @@ begin
   end;
 
   fVendas.SetFocus;
-  MessageDlg('Venda Finalizada com sucesso.', mtInformation, [mbOK], 0);
+  MessageDlg('Itens Materia Prima Inseridos com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 procedure TfVendas.DBEdit12Exit(Sender: TObject);
@@ -3498,9 +3500,11 @@ end;
 procedure TfVendas.Margem_Confere;
 var pCusto, margem: Double;
 begin
+    {
     if(imex = 99) then
       exit
     else
+    }
       if (sqlCusto.Active) then
         sqlCusto.Close;
       sqlCusto.SQL.Clear;
@@ -3525,7 +3529,7 @@ begin
           ' - MV: ' + FormatFloat('##0.00',margem) + '% - PC: ' + FormatFloat('#,##0.00', pCusto), mtWarning, [mbOK], 0);
           valida := 'N';
         end;
-    end;
+      end;
 
 end;
 
