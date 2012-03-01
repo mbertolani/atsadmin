@@ -147,6 +147,8 @@ type
     lbCaixa: TJvLabel;
     JvLabel1: TJvLabel;
     JvLabel2: TJvLabel;
+    S_CAIXA: TSQLDataSet;
+    S_CAIXACODIGO: TIntegerField;
     procedure FormShow(Sender: TObject);
     procedure btnAbrirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -166,7 +168,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, Math, UDM_MOV;
 
 {$R *.dfm}
 
@@ -177,8 +179,7 @@ begin
   //------Pego do Parametro o cadigo para listar os Caixas ---
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CAIXA_BANCO';
-  //dm.cds_parametro.Params[0].AsString := 'LISTARCAIXA';CAIXA_BANCO
+  dm.cds_parametro.Params[0].AsString := 'LISTARCAIXA';
   dm.cds_parametro.Open;
   if (not dm.cds_parametro.IsEmpty) then
   begin
@@ -198,6 +199,7 @@ begin
   else
   begin
     MessageDlg('é preciso cadastrar Parametro LISTARCAIXA, com a conta pai para CAIXAS.', mtConfirmation, [mbok], 0);
+    dm.cds_parametro.Close;
     exit;
   end;
   //Verifica se caixa está aberto na MAQUINA
@@ -239,6 +241,7 @@ begin
   if (not cx.IsEmpty) then
   begin
     MessageDlg('Caixa já foi Fechado nessa data. Utilize outro Caixa', mtWarning, [mbOK], 0);
+    cx.Close;
     exit;
   end;
   cx.Close;
@@ -257,6 +260,7 @@ begin
   if (not sCaixa1.IsEmpty) then
   begin
     MessageDlg('Caixa já foi aberto nesse Computador', mtWarning, [mbOK], 0);
+    sCaixa1.Close;
     exit;
   end;
   sCaixa1.Close;
@@ -268,9 +272,12 @@ begin
   if (not cNomecx.IsEmpty) then
   begin
     MessageDlg('Caixa já foi aberto em outro Computador', mtWarning, [mbOK], 0);
+    cNomecx.Close;
     exit;
   end;
   cNomecx.Close;
+
+
   // Insere na tabela caixa controle
   if (cbbCaixa.Text = '') then
   begin
@@ -287,6 +294,14 @@ begin
   cCaixaControleMAQUINA.AsString := MICRO;
   cCaixaControleDATAABERTURA.AsDateTime := eddata2.Date;
   cCaixaControleVALORABRE.Value := jvValor.Value;
+
+  If (S_CAIXA.Active) Then
+      S_CAIXA.Close;
+  S_CAIXA.Params[0].AsString := cbbCaixa.Text;
+  S_CAIXA.Open;
+  cCaixaControleCODCAIXA.AsInteger := S_CAIXACODIGO.AsInteger;
+  DM_MOV.ID_CCUSTO := S_CAIXACODIGO.AsInteger;
+  S_CAIXA.Close;
   cCaixaControle.ApplyUpdates(0);
   cCaixaControle.Close;
 
@@ -301,7 +316,8 @@ begin
   DATAFECHAMENTO := eddata2.Date;
   AbrirCaixa;
   btnAbrir.Enabled := False;
-
+  if (sCaixa1.Active) then
+    sCaixa1.Close;
 end;
 
 procedure TfAbrirCaixa.AbrirCaixa;
