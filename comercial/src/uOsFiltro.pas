@@ -14,7 +14,6 @@ uses
 type
   TfOsFiltro = class(TForm)
     Panel1: TPanel;
-    DBGrid1: TJvDBGrid;
     dspOs: TDataSetProvider;
     cdsOs: TClientDataSet;
     dsOs: TDataSource;
@@ -110,32 +109,12 @@ type
     IntegerField5: TIntegerField;
     dspPeca: TDataSetProvider;
     StatusBar1: TStatusBar;
-    GroupBox4: TGroupBox;
-    edCodCliente: TEdit;
-    edNomeCliente: TEdit;
-    btnClienteProcura: TBitBtn;
-    GroupBox1: TGroupBox;
-    edOS: TEdit;
-    GroupBox2: TGroupBox;
-    Label3: TLabel;
-    Label7: TLabel;
-    cbMes: TComboBox;
-    MaskEdit1: TJvDatePickerEdit;
-    MaskEdit2: TJvDatePickerEdit;
-    GroupBox3: TGroupBox;
-    cbStatus: TJvComboBox;
-    btnProcurar: TBitBtn;
-    btnSair: TBitBtn;
-    btnStatusOs: TBitBtn;
     PopupMenu1: TPopupMenu;
     AAndamento1: TMenuItem;
     CCancelado1: TMenuItem;
     GAguardandoPea1: TMenuItem;
     FFinalizado1: TMenuItem;
     NNoAprovado1: TMenuItem;
-    btnStatusServico: TBitBtn;
-    btnIncluir: TBitBtn;
-    JvFinalizar: TJvBitBtn;
     sdsPecaCODPRO: TStringField;
     cdsPecaCODUSUARIO: TIntegerField;
     cdsPecaCODPRO: TStringField;
@@ -151,10 +130,33 @@ type
     sqlTotal: TSQLQuery;
     ImageList1: TImageList;
     rep: TVCLReport;
+    sqlUsuario: TSQLQuery;
+    DBGrid1: TJvDBGrid;
+    Panel2: TPanel;
+    GroupBox3: TGroupBox;
+    cbStatus: TJvComboBox;
+    GroupBox4: TGroupBox;
+    edCodCliente: TEdit;
+    edNomeCliente: TEdit;
+    btnClienteProcura: TBitBtn;
     GroupBox5: TGroupBox;
     edVeiculo: TJvMaskEdit;
     BitBtn1: TBitBtn;
+    GroupBox2: TGroupBox;
+    Label3: TLabel;
+    Label7: TLabel;
+    cbMes: TComboBox;
+    MaskEdit1: TJvDatePickerEdit;
+    MaskEdit2: TJvDatePickerEdit;
+    GroupBox1: TGroupBox;
+    edOS: TEdit;
     btnImprimir: TJvBitBtn;
+    JvFinalizar: TJvBitBtn;
+    btnProcurar: TBitBtn;
+    btnSair: TBitBtn;
+    btnIncluir: TBitBtn;
+    btnStatusServico: TBitBtn;
+    btnStatusOs: TBitBtn;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -557,6 +559,20 @@ begin
     MessageDlg('OS já finalizada.', mtWarning, [mbOk], 0);
     Exit;
   end;
+
+  if (sqlUsuario.Active) then
+    sqlUsuario.Close;
+  sqlUsuario.ParamByName('PUSU').asInteger := cdsOsCODUSUARIO.AsInteger;
+  sqlUsuario.Open;
+  if (sqlUsuario.IsEmpty) then
+  begin
+    dm.sqlsisAdimin.ExecuteDirect('INSERT INTO USUARIO VALUES(' +
+      IntToStr(cdsOsCODUSUARIO.AsInteger) +
+      ', ' + QuotedStr('USUARIO OS') +
+      ', 0, ' + QuotedStr('AMBOS') + ')');
+  end;
+
+
   // Gera o Movimento e Movimento Detalhe
   Try
     fmov := TMovimento.Create;
