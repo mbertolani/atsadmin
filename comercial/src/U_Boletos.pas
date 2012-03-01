@@ -414,6 +414,20 @@ var
 begin
    DecodeDate(now, ano, mes, dia);
    numero_ano := copy(IntToStr(ano),3,2);
+
+    // DADOS DO BANCO
+    with ACBrBoleto1.Banco do
+    begin
+       case StrToInt(s_bancoN_BANCO.AsString) of
+          237: TipoCobranca := cobBradesco;
+          001: TipoCobranca := cobBancoDoBrasil;
+          341: TipoCobranca := cobItau;
+          748: TipoCobranca := cobSicred;
+       else
+          TipoCobranca := cobNenhum;
+       end;
+    end;
+
    ACBrBoleto1.Cedente.Convenio := s_bancoCONVENIO.AsString;
    ACBrBoleto1.Cedente.Agencia := s_bancoCODIGO_AGENCIA.AsString;
    ACBrBoleto1.Cedente.AgenciaDigito := s_bancoDIGITO_AGENCIA.AsString;
@@ -434,6 +448,7 @@ begin
       While not ds_cr.Eof do
       begin
            Titulo:= ACBrBoleto1.CriarTituloNaLista;
+           Titulo.NossoNumero := '';
            with Titulo do
            begin
               if (s_cliente.Active) then
@@ -458,9 +473,11 @@ begin
 
               Titulo.DataProcessamento := Now;
               varNossoNumero := StrToInt(RemoveChar(vartitulo));
-              //vartitulo := vartitulo + '-' + RemoveChar(ds_crVIA.AsString);
-              Titulo.NumeroDocumento   := padR(vartitulo,8,'0');
 
+              Titulo.NumeroDocumento   := padR(vartitulo,8,'0');
+             // if (s_bancoN_BANCO.AsString = 341) then
+             // begin
+             // end;
               case StrToInt(s_bancoN_BANCO.AsString) of
                 001: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);//  001 - Banco do Brasil
                 104: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 104 - Caixa Economica
@@ -473,26 +490,6 @@ begin
                 353: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 353 - SANTANDER
               end;
 
-                // DADOS DO BANCO
-                with ACBrBoleto1.Banco do
-                begin
-                   case StrToInt(s_bancoN_BANCO.AsString) of
-                      237: TipoCobranca := cobBradesco;
-                      001: TipoCobranca := cobBancoDoBrasil;
-                      341: TipoCobranca := cobItau;
-                      748: TipoCobranca := cobSicred;
-                   else
-                      TipoCobranca := cobNenhum;
-                   end;
-                end;
-
-              if (s_bancoN_BANCO.AsString = '001') then
-              begin
-                Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';
-                ACBrBoleto1.Cedente.Modalidade := '19';
-              end;
-
-
               if ((s_bancoN_BANCO.AsString = '748')) then
               begin
                  ACBrBoleto1.Cedente.AgenciaDigito := padR(s_bancoDIGITO_AGENCIA.AsString, 2, '0');
@@ -501,7 +498,6 @@ begin
                  Titulo.NossoNumero := numero_ano + '2' + IntToStrZero(varNossoNumero,5);
                     //Titulo.Carteira := '1';
               end;
-
 
               Titulo.Carteira  := s_bancoCARTEIRA.AsString;
               //Titulo.Carteira  := s_bancoCARTEIRA.AsString;
@@ -524,6 +520,19 @@ begin
               Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO2.AsString;
               Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO3.AsString;
               Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO4.AsString;
+
+              Titulo.LocalPagamento := s_bancoLOCALPGTO.AsString;
+
+              if (s_bancoN_BANCO.AsString = '001') then
+              begin
+                Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';
+                ACBrBoleto1.Cedente.Modalidade := '19';
+              end;
+
+              if (s_bancoN_BANCO.AsString = '341') then
+              begin
+                Titulo.LocalPagamento :=  'Até o vencimento, preferencialmente no Itaú e Após o vencimento, somente no Itaú';
+              end;
               //ACBrBoleto1.AdicionarMensagensPadroes(Titulo,Mensagem);
            end;
            ds_cr.Next;
