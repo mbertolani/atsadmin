@@ -1815,8 +1815,6 @@ type
     sds_EmpresaCONTADOR_FAX: TStringField;
     sds_EmpresaCONTADOR_EMAIL: TStringField;
     sds_EmpresaCONTADOR_COD_MUN: TStringField;
-    sds_EmpresaINDICADORNATUREZAPJ: TStringField;
-    sds_EmpresaINDICADORATIVIDADE: TStringField;
     sds_EmpresaCODINDINCTRIBUTARIA: TStringField;
     sds_EmpresaINDAPROCRED: TStringField;
     sds_EmpresaCODINDTIPOCON: TStringField;
@@ -1858,8 +1856,6 @@ type
     cds_empresaCONTADOR_FAX: TStringField;
     cds_empresaCONTADOR_EMAIL: TStringField;
     cds_empresaCONTADOR_COD_MUN: TStringField;
-    cds_empresaINDICADORNATUREZAPJ: TStringField;
-    cds_empresaINDICADORATIVIDADE: TStringField;
     cds_empresaCODINDINCTRIBUTARIA: TStringField;
     cds_empresaINDAPROCRED: TStringField;
     cds_empresaCODINDTIPOCON: TStringField;
@@ -1885,6 +1881,10 @@ type
     proc_transpFANTASIA: TStringField;
     sds_produtoOBS: TStringField;
     cds_produtoOBS: TStringField;
+    sds_EmpresaINDICADORNATUREZAPJ: TSmallintField;
+    sds_EmpresaINDICADORATIVIDADE: TSmallintField;
+    cds_empresaINDICADORNATUREZAPJ: TSmallintField;
+    cds_empresaINDICADORATIVIDADE: TSmallintField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -1954,7 +1954,7 @@ type
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao,
     cidadePadrao, cepPadrao, ibgePadrao: string;
     LOTEQTDE, totalpago : double;
-    CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP, BAIXADO_BOLETO : String;
+    CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP, BAIXADO_BOLETO, impressaoResumida : String;
     tipoCompra, tipoVenda : String;
     userAprovaCompra, varLogado, usaCentroCusto : String;
     corEnd, corStart: TColor;

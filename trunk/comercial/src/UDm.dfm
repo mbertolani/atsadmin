@@ -1,7 +1,7 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Top = 42
+  Top = 38
   Height = 657
   Width = 1280
   object sqlsisAdimin: TSQLConnection
@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_jorvic'
+      'Database=c:\Home\sisadmin\BD\sge_solcampo.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -25,7 +25,7 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
       'WaitOnLocks=True'
-      'str_relatorio=C:\home\sisAdmin\relatorio\')
+      'str_relatorio=C:\home\atsadmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 80
     Top = 8
@@ -1192,7 +1192,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     ProviderName = 'd_7'
-    Left = 246
+    Left = 238
     Top = 288
     object cds_7_contasCODIGO: TIntegerField
       FieldName = 'CODIGO'
@@ -5505,14 +5505,6 @@ object DM: TDM
       FixedChar = True
       Size = 10
     end
-    object sds_EmpresaINDICADORNATUREZAPJ: TStringField
-      FieldName = 'INDICADORNATUREZAPJ'
-      Size = 50
-    end
-    object sds_EmpresaINDICADORATIVIDADE: TStringField
-      FieldName = 'INDICADORATIVIDADE'
-      Size = 50
-    end
     object sds_EmpresaCODINDINCTRIBUTARIA: TStringField
       FieldName = 'CODINDINCTRIBUTARIA'
       Size = 50
@@ -5600,6 +5592,12 @@ object DM: TDM
     object sds_EmpresaINDTPOPERACAORECEITA: TStringField
       FieldName = 'INDTPOPERACAORECEITA'
       Size = 50
+    end
+    object sds_EmpresaINDICADORNATUREZAPJ: TSmallintField
+      FieldName = 'INDICADORNATUREZAPJ'
+    end
+    object sds_EmpresaINDICADORATIVIDADE: TSmallintField
+      FieldName = 'INDICADORATIVIDADE'
     end
   end
   object dsp_empresa: TDataSetProvider
@@ -5839,14 +5837,6 @@ object DM: TDM
       FixedChar = True
       Size = 10
     end
-    object cds_empresaINDICADORNATUREZAPJ: TStringField
-      FieldName = 'INDICADORNATUREZAPJ'
-      Size = 50
-    end
-    object cds_empresaINDICADORATIVIDADE: TStringField
-      FieldName = 'INDICADORATIVIDADE'
-      Size = 50
-    end
     object cds_empresaCODINDINCTRIBUTARIA: TStringField
       FieldName = 'CODINDINCTRIBUTARIA'
       Size = 50
@@ -5934,6 +5924,12 @@ object DM: TDM
     object cds_empresaINDTPOPERACAORECEITA: TStringField
       FieldName = 'INDTPOPERACAORECEITA'
       Size = 50
+    end
+    object cds_empresaINDICADORNATUREZAPJ: TSmallintField
+      FieldName = 'INDICADORNATUREZAPJ'
+    end
+    object cds_empresaINDICADORATIVIDADE: TSmallintField
+      FieldName = 'INDICADORATIVIDADE'
     end
   end
   object sds_usuario: TSQLDataSet
