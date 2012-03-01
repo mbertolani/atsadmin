@@ -354,12 +354,6 @@ type
     ts1: TTabSheet;
     MMJPanel4: TMMJPanel;
     JvGroupBox2: TJvGroupBox;
-    lbl4: TLabel;
-    lbl10: TLabel;
-    lbl36: TLabel;
-    dbedtCHASSIS: TDBEdit;
-    btn3: TBitBtn;
-    dbedtKM: TDBEdit;
     JvGroupBox4: TJvGroupBox;
     JvDBGrid2: TJvDBGrid;
     JvGroupBox5: TJvGroupBox;
@@ -419,7 +413,6 @@ type
     EncerrarOperaoSair1: TMenuItem;
     GravarPedidoOrament1: TMenuItem;
     sTitulo: TSQLDataSet;
-    medt1: TMaskEdit;
     sds_VeiculocliCHASSIS: TStringField;
     ds_VeiculocliCHASSIS: TStringField;
     chk1: TCheckBox;
@@ -499,6 +492,29 @@ type
     sProcuraProdLOTES: TStringField;
     sProcuraProdPESO_QTDE: TFloatField;
     sProcuraProdCOD_COMISSAO: TIntegerField;
+    JvGroupBox3: TJvGroupBox;
+    lbl2: TLabel;
+    lbl5: TLabel;
+    lbl6: TLabel;
+    dbedtCHASSIS1: TDBEdit;
+    btn7: TBitBtn;
+    dbedtKM1: TDBEdit;
+    medt2: TMaskEdit;
+    JvDBGrid3: TJvDBGrid;
+    s_movdetPRECOMEDIO: TBCDField;
+    s_movdetMARGEM: TFloatField;
+    ds_movdetPRECOMEDIO: TBCDField;
+    ds_movdetMARGEM: TFloatField;
+    CadastrodeProduto1: TMenuItem;
+    btnProduto: TBitBtn;
+    s_similarVALOR_PRAZO: TFloatField;
+    ds_similarVALOR_PRAZO: TFloatField;
+    s_similarLOCALIZACAO: TStringField;
+    ds_similarLOCALIZACAO: TStringField;
+    s_similarMARGEM: TFloatField;
+    ds_similarMARGEM: TFloatField;
+    s_movdetMARCA: TStringField;
+    ds_movdetMARCA: TStringField;
     procedure edt_produtoKeyPress(Sender: TObject; var Key: Char);
     procedure btn_incluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -532,7 +548,7 @@ type
     procedure btn_excluirClick(Sender: TObject);
     procedure Boleto1Click(Sender: TObject);
     procedure d_vendaDataChange(Sender: TObject; Field: TField);
-    procedure btn3Click(Sender: TObject);
+    procedure btnProdutoClick(Sender: TObject);
     procedure medt1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeSerieExit(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
@@ -541,6 +557,7 @@ type
     procedure AbrirOS1Click(Sender: TObject);
     procedure AprovarOramento1Click(Sender: TObject);
     procedure btn6Click(Sender: TObject);
+    procedure btn7Click(Sender: TObject);
   private
     { Private declarations }
     centro_receita, cod_nat, cod_vendedor_padrao, COD_VENDA: integer;
@@ -596,7 +613,8 @@ implementation
 
 uses UDm, sCtrlResize, uListaClientes, U_Boletos, ufprocura_prod,
   uFiltroMovimento, uClienteVeiculo, uProcurar, U_OSBUSCA,
-  uClienteCadastro, U_FiltroOS, uProcura_prodOficina, u_SIMILARES;
+  uClienteCadastro, U_FiltroOS, uProcura_prodOficina, u_SIMILARES,
+  uProdutoCadastro;
 
 {$R *.dfm}
 
@@ -608,13 +626,15 @@ begin
     exit;
     codproduto := 0;
     buscaProduto;
-    //buscaSimilar;
+    buscaSimilar;
     if (scds_produto_proc.Active) then
       scds_produto_proc.Close;
     if (s_buscaPro.Active) then
       s_buscaPro.Close;
     if (sProcuraProd.Active) then
       sProcuraProd.Close;
+    ds_movdet.Last;  
+    edt_produto.text := ''; 
  end;
 end;
 
@@ -1560,7 +1580,7 @@ begin
       ds_movimento.Close;
     ds_movimento.Params[0].AsInteger:= fFiltroMovimento.cod_mov;
     ds_movimento.Open;
-    medt1.Text := ds_movimentoPLACA.AsString;
+    medt2.Text := ds_movimentoPLACA.AsString;
     if ds_movdet.Active then
       ds_movdet.Close;
     ds_movdet.Params[0].Clear;
@@ -1725,50 +1745,22 @@ begin
 
 end;
 
-procedure TF_AUTOPECAS.btn3Click(Sender: TObject);
+procedure TF_AUTOPECAS.btnProdutoClick(Sender: TObject);
+var codpro : String;
 begin
-   fClienteVeiculo := TfClienteVeiculo.Create(Application);
-   try
-     //fClienteVeiculo.chassi := chassi;
-     fClienteVeiculo.varPlaca := medt1.Text;
-     // o cadastro do veículo não deve ter o cliente na OS terá;
-     cod_cli := 1;//cds_MovimentoCODCLIENTE.AsInteger;
-     fClienteVeiculo.ShowModal;
-     medt1.Text := fClienteVeiculo.varPlaca;
-    { if (ds_Veiculocli.Active) then
-       ds_Veiculocli.Close;
-     ds_Veiculocli.Params[1].Clear;
-     ds_Veiculocli.Params[0].AsString := fClienteVeiculo.varPlaca;
-     ds_Veiculocli.Open;
-     }
-     if (ds_movimento.State in [dsInsert, dsEdit]) then
-     begin
-       ds_MovimentoCOD_VEICULO.AsInteger := ds_VeiculocliCOD_VEICULO.AsInteger;
-       ds_movimentoMARCA_MODELO.AsString := ds_VeiculocliMARCA_MODELO.AsString;
-       ds_movimentoCHASSIS.AsString := ds_VeiculocliCHASSIS.AsString;
-       { if (sdsVeiculoCli.Active) then
-          sdsVeiculoCli.Close;
-        sdsVeiculoCli.Params[0].AsInteger := cds_VeiculocliCOD_VEICULO.asinteger;
-        sdsVeiculoCli.Open;
-        if (not sdsVeiculoCli.IsEmpty) then
-        begin
-          dbeCliente.Text := IntToStr(sdsVeiculoCli.Fields[0].asInteger);
-          DBEdit3.Text := sdsVeiculoCli.Fields[1].AsString;
-          cds_MovimentoCODCLIENTE.AsInteger := sdsVeiculoCli.Fields[0].asInteger;
-          cds_MovimentoNOMECLIENTE.AsString := sdsVeiculoCli.Fields[1].AsString;
-          cds_MovimentoOBS.AsString := sdsVeiculoCli.Fields[2].AsString;
-          prazo := sdsVeiculoCli.Fields[3].AsFloat;
-          DBComboBox1.SetFocus;
-        end
-        else
-          dbeCliente.SetFocus;
-        }
-     end;
-   finally
-     fClienteVeiculo.varplaca := '';
-     fClienteVeiculo.Free;
-   end;
-
+  fProdutoCadastro:=TfProdutoCadastro.Create(Application);
+  try
+    fProdutoCadastro.btnProcurar.Visible := False;
+    if (dm.cds_produto.Active) then
+      dm.cds_produto.close;
+    dm.cds_produto.Params[0].AsInteger := ds_movdetCODPRODUTO.AsInteger;
+    dm.cds_produto.Open;
+    dm.cds_produto.Edit;
+    fProdutoCadastro.ShowModal;
+  finally
+    fProdutoCadastro.btnProcurar.Visible := True;
+    fProdutoCadastro.Free;
+  end;
 end;
 
 procedure TF_AUTOPECAS.medt1KeyPress(Sender: TObject; var Key: Char);
@@ -1781,7 +1773,7 @@ begin
      ds_Veiculocli.Params[0].Clear;
      ds_Veiculocli.Params[3].Clear;
      ds_Veiculocli.Params[1].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
-     ds_Veiculocli.Params[2].AsString := medt1.Text;
+     ds_Veiculocli.Params[2].AsString := medt2.Text;
      ds_Veiculocli.Open;
      if (ds_movimento.State in [dsInsert, dsEdit]) then
      begin
@@ -2243,6 +2235,52 @@ begin
     end;
     result := s + '00001';
   end;
+
+end;
+
+procedure TF_AUTOPECAS.btn7Click(Sender: TObject);
+begin
+   fClienteVeiculo := TfClienteVeiculo.Create(Application);
+   try
+     //fClienteVeiculo.chassi := chassi;
+     fClienteVeiculo.varPlaca := medt2.Text;
+     // o cadastro do veículo não deve ter o cliente na OS terá;
+     cod_cli := 1;//cds_MovimentoCODCLIENTE.AsInteger;
+     fClienteVeiculo.ShowModal;
+     medt2.Text := fClienteVeiculo.varPlaca;
+    { if (ds_Veiculocli.Active) then
+       ds_Veiculocli.Close;
+     ds_Veiculocli.Params[1].Clear;
+     ds_Veiculocli.Params[0].AsString := fClienteVeiculo.varPlaca;
+     ds_Veiculocli.Open;
+     }
+     if (ds_movimento.State in [dsInsert, dsEdit]) then
+     begin
+       ds_MovimentoCOD_VEICULO.AsInteger := ds_VeiculocliCOD_VEICULO.AsInteger;
+       ds_movimentoMARCA_MODELO.AsString := ds_VeiculocliMARCA_MODELO.AsString;
+       ds_movimentoCHASSIS.AsString := ds_VeiculocliCHASSIS.AsString;
+       { if (sdsVeiculoCli.Active) then
+          sdsVeiculoCli.Close;
+        sdsVeiculoCli.Params[0].AsInteger := cds_VeiculocliCOD_VEICULO.asinteger;
+        sdsVeiculoCli.Open;
+        if (not sdsVeiculoCli.IsEmpty) then
+        begin
+          dbeCliente.Text := IntToStr(sdsVeiculoCli.Fields[0].asInteger);
+          DBEdit3.Text := sdsVeiculoCli.Fields[1].AsString;
+          cds_MovimentoCODCLIENTE.AsInteger := sdsVeiculoCli.Fields[0].asInteger;
+          cds_MovimentoNOMECLIENTE.AsString := sdsVeiculoCli.Fields[1].AsString;
+          cds_MovimentoOBS.AsString := sdsVeiculoCli.Fields[2].AsString;
+          prazo := sdsVeiculoCli.Fields[3].AsFloat;
+          DBComboBox1.SetFocus;
+        end
+        else
+          dbeCliente.SetFocus;
+        }
+     end;
+   finally
+     fClienteVeiculo.varplaca := '';
+     fClienteVeiculo.Free;
+   end;
 
 end;
 
