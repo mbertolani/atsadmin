@@ -448,6 +448,31 @@ type
     s_Bloque: TSQLDataSet;
     Parcial1: TMenuItem;
     RelatriosFechamentos1: TMenuItem;
+    S_CAIXA: TSQLDataSet;
+    S_CAIXACODIGO: TIntegerField;
+    sCaixa1: TClientDataSet;
+    sCaixa1IDCAIXACONTROLE: TIntegerField;
+    sCaixa1CODCAIXA: TIntegerField;
+    sCaixa1CODUSUARIO: TIntegerField;
+    sCaixa1DATAFECHAMENTO: TDateField;
+    sCaixa1SITUACAO: TStringField;
+    sCaixa1MAQUINA: TStringField;
+    sCaixa1DATAABERTURA: TDateField;
+    sCaixa1VALORABRE: TFloatField;
+    sCaixa1VALORFECHA: TFloatField;
+    sCaixa1NOMECAIXA: TStringField;
+    dspCaixa1: TDataSetProvider;
+    sdsCaixa1: TSQLDataSet;
+    sdsCaixa1IDCAIXACONTROLE: TIntegerField;
+    sdsCaixa1CODCAIXA: TIntegerField;
+    sdsCaixa1CODUSUARIO: TIntegerField;
+    sdsCaixa1DATAFECHAMENTO: TDateField;
+    sdsCaixa1SITUACAO: TStringField;
+    sdsCaixa1MAQUINA: TStringField;
+    sdsCaixa1DATAABERTURA: TDateField;
+    sdsCaixa1VALORABRE: TFloatField;
+    sdsCaixa1VALORFECHA: TFloatField;
+    sdsCaixa1NOMECAIXA: TStringField;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -798,8 +823,14 @@ begin
     ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', now)) +
     ', ' + QuotedStr(formatdatetime('mm/dd/yyyy HH:MM', now)) +
     ', ' + IntToStr(20) +
-    ', ' + IntToStr(1) + ', ' + IntToStr(1) + ', ' + DM.cds_parametroD1.AsString +
-    ', ' + QuotedStr(nome_user) + ', ' + IntToStr(codcliente) + ', ';
+    ', ' + IntToStr(1) +
+    ', ' + IntToStr(1) + ', ';
+  if (DM_MOV.ID_CCUSTO > 0) then
+    sql := sql + IntToStr(DM_MOV.ID_CCUSTO)
+  else
+    sql := sql + DM.cds_parametroD1.AsString;
+
+  sql := sql +  ', ' + QuotedStr(nome_user) + ', ' + IntToStr(codcliente) + ', ';
   if (PageControl1.ActivePage = TabSheet1) then
     sql := sql + QuotedStr('P') + ')'; // Pedido Consumidor
   if (PageControl1.ActivePage = TabComanda) then
@@ -1393,6 +1424,18 @@ begin
     DM.impressaoResumida := 'SIM'
   else
     DM.impressaoResumida := 'NAO';
+
+  if (sCaixa1.Active) then
+    sCaixa1.Close;
+  sCaixa1.Params[0].AsString := MICRO;
+  sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
+  sCaixa1.Open;
+  if (not sCaixa1.IsEmpty) then
+    DM_MOV.ID_CCUSTO := sCaixa1CODCAIXA.AsInteger
+  else
+    DM_MOV.ID_CCUSTO := 0;
+
+  sCaixa1.Close;
 end;
 
 procedure TF_Terminal.JvDBGrid2DblClick(Sender: TObject);
@@ -2034,9 +2077,11 @@ begin
   begin
     if (JvBitBtn6.Visible = False) then
       JvBitBtn6.Visible := True;
+     DM_MOV.V_USACONTR_CAIXA := 'SIM';
   end
   else
   begin
+    DM_MOV.V_USACONTR_CAIXA := 'NAO';
     if (JvBitBtn6.Visible = True) then
       JvBitBtn6.Visible := False;
   end;
