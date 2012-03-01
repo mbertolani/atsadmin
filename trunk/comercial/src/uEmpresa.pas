@@ -214,6 +214,12 @@ begin
     cdsEstado.Open;
   if (cdsEstado.Locate('SIGLA', DM.cds_empresaUF.asString, [loCaseInsensitive])) then
      cbEstado.ItemIndex := cdsEstado.RecNo-1;
+
+  cbTACBrIndicadorAtividade.ItemIndex   := dm.cds_empresaINDICADORATIVIDADE.AsInteger;
+  cbTACBrIndicadorNaturezaPJ.ItemIndex  := dm.cds_empresaINDICADORNATUREZAPJ.AsInteger;
+  cbTACBrCodIndIncTributaria.Text  := dm.cds_empresaCODINDINCTRIBUTARIA.AsString;
+  cbTACBrIndAproCred.Text          := dm.cds_empresaINDAPROCRED.AsString;
+  cbTACBrCodIndTipoCon.Text        := dm.cds_empresaCODINDTIPOCON.AsString; 
 end;
 
 procedure TfEmpresa.DtSrcStateChange(Sender: TObject);
@@ -362,25 +368,15 @@ procedure TfEmpresa.cbTACBrIndicadorNaturezaPJChange(Sender: TObject);
 begin
   if (dm.cds_empresa.State in [dsBrowse]) then
     dm.cds_empresa.Edit;
-  Case (cbTACBrIndicadorNaturezaPJ.ItemIndex) of
-    0 : dm.cds_empresaINDICADORNATUREZAPJ.AsString := 'indNatPJSocEmpresariaGeral';   // 0 - Sociedade empresária geral
-    1 : dm.cds_empresaINDICADORNATUREZAPJ.AsString := 'indNatPJSocCooperativa';       // 1 - Sociedade Cooperativa
-    2 : dm.cds_empresaINDICADORNATUREZAPJ.AsString := 'indNatPJEntExclusivaFolhaSal'; // 2 - Entidade sujeita ao PIS/Pasep exclusivamente com base  na folha de salários
-  end;
+
+  dm.cds_empresaINDICADORNATUREZAPJ.AsInteger := cbTACBrIndicadorNaturezaPJ.ItemIndex;
 end;
 
 procedure TfEmpresa.cbTACBrIndicadorAtividadeChange(Sender: TObject);
 begin
   if (dm.cds_empresa.State in [dsBrowse]) then
     dm.cds_empresa.Edit;
-  Case cbTACBrIndicadorAtividade.ItemIndex of
-    0 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivIndustrial';       // 0 - Industrial ou equiparado a industrial
-    1 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivPrestadorServico'; // 1 - Prestador de serviços
-    2 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivComercio';         // 2 - Atividade de comércios
-    3 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivoFincanceira';     // 3 - Atividade Financeira
-    4 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivoImobiliaria';     // 4 - Atividade Imobiliária
-    5 : dm.cds_empresaIndicadorAtividade.AsString := 'indAtivoOutros';          // 9 - Outros
-  end;
+  dm.cds_empresaIndicadorAtividade.AsInteger := cbTACBrIndicadorAtividade.ItemIndex;
 end;
 
 procedure TfEmpresa.cbTACBrCodIndIncTributariaChange(Sender: TObject);
