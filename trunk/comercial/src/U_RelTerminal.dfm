@@ -144,7 +144,7 @@ object F_RelTerminal: TF_RelTerminal
       ParentFont = False
       TabOrder = 1
     end
-    object JvDateEdit1: TJvDateEdit
+    object edData1: TJvDateEdit
       Left = 388
       Top = 74
       Width = 91
@@ -175,7 +175,7 @@ object F_RelTerminal: TF_RelTerminal
     Background.FillType = GradUpDown
     object btnVendas: TBitBtn
       Left = 52
-      Top = 114
+      Top = 23
       Width = 186
       Height = 80
       Caption = 'Rel. Vendas '
@@ -678,8 +678,8 @@ object F_RelTerminal: TF_RelTerminal
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object chk1: TCheckBox
-      Left = 384
-      Top = 344
+      Left = 53
+      Top = 205
       Width = 97
       Height = 17
       Caption = 'Gerar Arquivo'
@@ -698,6 +698,7 @@ object F_RelTerminal: TF_RelTerminal
       Font.Style = [fsBold]
       ParentFont = False
       TabOrder = 2
+      OnClick = btn1Click
       Glyph.Data = {
         F63C0000424DF63C000000000000360000002800000048000000480000000100
         180000000000C03C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -1190,7 +1191,7 @@ object F_RelTerminal: TF_RelTerminal
     end
     object btn2: TBitBtn
       Left = 52
-      Top = 23
+      Top = 119
       Width = 186
       Height = 80
       Caption = 'Mov. Caixa     '
@@ -1808,12 +1809,17 @@ object F_RelTerminal: TF_RelTerminal
     end
   end
   object sVenda: TSQLDataSet
-    CommandText = 'SELECT * FROM IMPRIMEVENDADATA(:pData)'
+    CommandText = 'SELECT * FROM IMPRIMEVENDADATA(:pData, :pData1)'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftDate
         Name = 'pData'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'pData1'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -1903,5 +1909,170 @@ object F_RelTerminal: TF_RelTerminal
   object dlgSave1: TSaveDialog
     Left = 456
     Top = 134
+  end
+  object sPlano: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pConta'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspPlano'
+    Left = 236
+    Top = 129
+    object sPlanoCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object sPlanoCONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+    object sPlanoCONTAPAI: TStringField
+      FieldName = 'CONTAPAI'
+      Size = 10
+    end
+    object sPlanoNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+    object sPlanoCONSOLIDA: TStringField
+      FieldName = 'CONSOLIDA'
+      FixedChar = True
+      Size = 1
+    end
+    object sPlanoDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 50
+    end
+    object sPlanoRATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object sPlanoCODREDUZIDO: TStringField
+      FieldName = 'CODREDUZIDO'
+      Size = 15
+    end
+    object sPlanoREDUZRECEITA: TStringField
+      FieldName = 'REDUZRECEITA'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dspPlano: TDataSetProvider
+    DataSet = sdsPlano
+    Left = 206
+    Top = 129
+  end
+  object sdsPlano: TSQLDataSet
+    CommandText = 'select  * from PLANO '#13#10'where CONTAPAI = :pConta'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pConta'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 176
+    Top = 129
+    object sdsPlanoCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object sdsPlanoCONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+    object sdsPlanoCONTAPAI: TStringField
+      FieldName = 'CONTAPAI'
+      Size = 10
+    end
+    object sdsPlanoNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+    object sdsPlanoCONSOLIDA: TStringField
+      FieldName = 'CONSOLIDA'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsPlanoDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 50
+    end
+    object sdsPlanoRATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsPlanoCODREDUZIDO: TStringField
+      FieldName = 'CODREDUZIDO'
+      Size = 15
+    end
+    object sdsPlanoREDUZRECEITA: TStringField
+      FieldName = 'REDUZRECEITA'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object s_ccaixa: TSQLDataSet
+    CommandText = 'SELECT * FROM IMPRIMECR(:pData, :pData1, :CCUSTO)'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'pData'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'pData1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'CCUSTO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 456
+    Top = 238
+    object s_ccaixaR_DATA: TDateField
+      FieldName = 'R_DATA'
+    end
+    object s_ccaixaR_CAIXA: TIntegerField
+      FieldName = 'R_CAIXA'
+    end
+    object s_ccaixaR_DESCAIXA: TStringField
+      FieldName = 'R_DESCAIXA'
+      Size = 100
+    end
+    object s_ccaixaR_VALOR: TFloatField
+      FieldName = 'R_VALOR'
+    end
+  end
+  object S_CAIXA: TSQLDataSet
+    CommandText = 'SELECT a.CODIGO'#13#10'FROM PLANO a '#13#10'WHERE A.NOME = :NOME'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 456
+    Top = 272
+    object S_CAIXACODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
   end
 end
