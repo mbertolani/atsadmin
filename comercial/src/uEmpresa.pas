@@ -136,6 +136,14 @@ type
     procedure cbTACBrIndicadorNaturezaPJChange(Sender: TObject);
     procedure cbTACBrIndicadorAtividadeChange(Sender: TObject);
     procedure cbTACBrCodIndIncTributariaChange(Sender: TObject);
+    procedure cbTACBrIndAproCredChange(Sender: TObject);
+    procedure cbTACBrCodIndTipoConChange(Sender: TObject);
+    procedure cbTACBrCodIndCritEscritChange(Sender: TObject);
+    procedure cbTACBrIndCodIncidenciaChange(Sender: TObject);
+    procedure cbTACBrIndCTAChange(Sender: TObject);
+    procedure cbTACBrIndEscrituracaoChange(Sender: TObject);
+    procedure cbTACBrBaseCalculoCreditoChange(Sender: TObject);
+    procedure cbTACBrIndAJChange(Sender: TObject);
   private
     TACBrCodAj, TACBrIndAJ, TACBrBaseCalculoCredito, TACBrIndEscrituracao,
     TACBrIndCTA, TACBrIndCodIncidencia, TACBrCodIndCritEscrit, TACBrCodIndTipoCon,
@@ -217,6 +225,7 @@ begin
 
   cbTACBrIndicadorAtividade.ItemIndex   := dm.cds_empresaINDICADORATIVIDADE.AsInteger;
   cbTACBrIndicadorNaturezaPJ.ItemIndex  := dm.cds_empresaINDICADORNATUREZAPJ.AsInteger;
+
   cbTACBrCodIndIncTributaria.Text  := dm.cds_empresaCODINDINCTRIBUTARIA.AsString;
   cbTACBrIndAproCred.Text          := dm.cds_empresaINDAPROCRED.AsString;
   cbTACBrCodIndTipoCon.Text        := dm.cds_empresaCODINDTIPOCON.AsString; 
@@ -383,7 +392,71 @@ procedure TfEmpresa.cbTACBrCodIndIncTributariaChange(Sender: TObject);
 begin
   if (dm.cds_empresa.State in [dsBrowse]) then
     dm.cds_empresa.Edit;
+  dm.cds_empresaCODINDINCTRIBUTARIA.AsInteger := cbTACBrCodIndIncTributaria.ItemIndex;
+end;
 
+procedure TfEmpresa.cbTACBrIndAproCredChange(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+  dm.cds_empresa.Edit;
+  dm.cds_empresaINDAPROCRED.AsInteger :=  cbTACBrIndAproCred.ItemIndex;
+end;
+
+procedure TfEmpresa.cbTACBrCodIndTipoConChange(Sender: TObject);
+begin
+  inherited;
+   if (dm.cds_empresa.State in [dsBrowse]) then
+   dm.cds_empresa.Edit;
+   dm.cds_empresaCODINDTIPOCON.AsInteger := cbTACBrCodIndTipoCon.ItemIndex;
+end;
+
+procedure TfEmpresa.cbTACBrCodIndCritEscritChange(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+  dm.cds_empresa.Edit;
+  dm.cds_empresaCODINDCRITESCRIT.AsInteger := cbTACBrCodIndCritEscrit.ItemIndex;
+end;
+
+procedure TfEmpresa.cbTACBrIndCodIncidenciaChange(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+  dm.cds_empresa.Edit;
+  dm.cds_empresaINDCODINCIDENCIA.AsInteger := cbTACBrIndCodIncidencia.ItemIndex;
+end;
+
+procedure TfEmpresa.cbTACBrIndCTAChange(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+  dm.cds_empresa.Edit;
+  dm.cds_empresaINDCTA.AsInteger := cbTACBrIndCTA.ItemIndex;
+end;
+
+procedure TfEmpresa.cbTACBrIndEscrituracaoChange(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+  dm.cds_empresa.Edit;
+  dm.cds_empresaINDESCRITURACAO.AsInteger := cbTACBrIndEscrituracao.ItemIndex;
+end;
+
+procedure TfEmpresa.cbTACBrBaseCalculoCreditoChange(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+  dm.cds_empresa.Edit;
+  dm.cds_empresaBASECALCULOCREDITO.AsInteger :=  cbTACBrBaseCalculoCredito.ItemIndex;
+end;
+
+procedure TfEmpresa.cbTACBrIndAJChange(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+  dm.cds_empresa.Edit;
+  dm.cds_empresaINDAJ.AsInteger := cbTACBrIndAJ.ItemIndex;
 end;
 
 end.
