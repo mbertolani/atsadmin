@@ -308,4 +308,321 @@ object fNfePisCofins: TfNfePisCofins
     Left = 552
     Top = 80
   end
+  object sdsEmpresa: TSQLDataSet
+    CommandText = 'SELECT * FROM EMPRESA'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 544
+    Top = 120
+  end
+  object dspEmpresa: TDataSetProvider
+    DataSet = sdsEmpresa
+    Left = 576
+    Top = 120
+  end
+  object cdsEmpresa: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspEmpresa'
+    Left = 608
+    Top = 120
+    object cdsEmpresaEMPRESA: TStringField
+      FieldName = 'EMPRESA'
+      Required = True
+      Size = 80
+    end
+    object cdsEmpresaRAZAO: TStringField
+      FieldName = 'RAZAO'
+      Required = True
+      Size = 80
+    end
+    object cdsEmpresaCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
+      Required = True
+    end
+    object cdsEmpresaENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 80
+    end
+    object cdsEmpresaLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 80
+    end
+    object cdsEmpresaBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 40
+    end
+    object cdsEmpresaCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 50
+    end
+    object cdsEmpresaUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsEmpresaCEP: TStringField
+      FieldName = 'CEP'
+      FixedChar = True
+      Size = 9
+    end
+    object cdsEmpresaDDD: TStringField
+      FieldName = 'DDD'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsEmpresaFONE: TStringField
+      FieldName = 'FONE'
+      Size = 12
+    end
+    object cdsEmpresaFONE_1: TStringField
+      FieldName = 'FONE_1'
+      Size = 12
+    end
+    object cdsEmpresaFONE_2: TStringField
+      FieldName = 'FONE_2'
+      Size = 12
+    end
+    object cdsEmpresaFAX: TStringField
+      FieldName = 'FAX'
+      Size = 12
+    end
+    object cdsEmpresaE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 50
+    end
+    object cdsEmpresaWEB: TStringField
+      FieldName = 'WEB'
+      Size = 50
+    end
+    object cdsEmpresaLOGOTIPO: TGraphicField
+      FieldName = 'LOGOTIPO'
+      BlobType = ftGraphic
+    end
+    object cdsEmpresaCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+    end
+    object cdsEmpresaTIPO: TStringField
+      FieldName = 'TIPO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsEmpresaIE_RG: TStringField
+      FieldName = 'IE_RG'
+      Size = 15
+    end
+    object cdsEmpresaSLOGAN: TStringField
+      FieldName = 'SLOGAN'
+      Size = 60
+    end
+    object cdsEmpresaOUTRAS_INFO: TStringField
+      FieldName = 'OUTRAS_INFO'
+      Size = 60
+    end
+    object cdsEmpresaCODIGO_CONTA: TIntegerField
+      FieldName = 'CODIGO_CONTA'
+    end
+    object cdsEmpresaDIVERSOS1: TStringField
+      FieldName = 'DIVERSOS1'
+      Size = 50
+    end
+    object cdsEmpresaDIVERSOS2: TStringField
+      FieldName = 'DIVERSOS2'
+      Size = 50
+    end
+    object cdsEmpresaDIVERSOS3: TStringField
+      FieldName = 'DIVERSOS3'
+      Size = 50
+    end
+    object cdsEmpresaANOLETIVO: TIntegerField
+      FieldName = 'ANOLETIVO'
+    end
+    object cdsEmpresaMEDIA_ESCOLA: TFloatField
+      FieldName = 'MEDIA_ESCOLA'
+    end
+    object cdsEmpresaPORTA: TIntegerField
+      FieldName = 'PORTA'
+    end
+    object cdsEmpresaSMTP: TStringField
+      FieldName = 'SMTP'
+      Size = 30
+    end
+    object cdsEmpresaSENHA: TStringField
+      FieldName = 'SENHA'
+      Size = 10
+    end
+    object cdsEmpresaCCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
+    end
+    object cdsEmpresaNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object cdsEmpresaCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object cdsEmpresaCRT: TIntegerField
+      FieldName = 'CRT'
+    end
+    object cdsEmpresaTREGIME: TIntegerField
+      FieldName = 'TREGIME'
+    end
+    object cdsEmpresaIM: TStringField
+      FieldName = 'IM'
+      Size = 15
+    end
+    object cdsEmpresaCONTADOR: TStringField
+      FieldName = 'CONTADOR'
+      Size = 100
+    end
+    object cdsEmpresaCONTADOR_CRC: TStringField
+      FieldName = 'CONTADOR_CRC'
+      FixedChar = True
+    end
+    object cdsEmpresaCONTADOR_CNPJ: TStringField
+      FieldName = 'CONTADOR_CNPJ'
+      FixedChar = True
+      Size = 14
+    end
+    object cdsEmpresaCONTADOR_CPF: TStringField
+      FieldName = 'CONTADOR_CPF'
+      FixedChar = True
+      Size = 11
+    end
+    object cdsEmpresaCONTADOR_CEP: TStringField
+      FieldName = 'CONTADOR_CEP'
+      FixedChar = True
+      Size = 10
+    end
+    object cdsEmpresaCONTADOR_END: TStringField
+      FieldName = 'CONTADOR_END'
+      Size = 150
+    end
+    object cdsEmpresaCONTADOR_NUMEND: TStringField
+      FieldName = 'CONTADOR_NUMEND'
+      FixedChar = True
+      Size = 7
+    end
+    object cdsEmpresaCONTADOR_COMPL: TStringField
+      FieldName = 'CONTADOR_COMPL'
+      Size = 80
+    end
+    object cdsEmpresaCONTADOR_BAIRRO: TStringField
+      FieldName = 'CONTADOR_BAIRRO'
+      Size = 100
+    end
+    object cdsEmpresaCONTADOR_FONE: TStringField
+      FieldName = 'CONTADOR_FONE'
+      Size = 14
+    end
+    object cdsEmpresaCONTADOR_FAX: TStringField
+      FieldName = 'CONTADOR_FAX'
+      Size = 14
+    end
+    object cdsEmpresaCONTADOR_EMAIL: TStringField
+      FieldName = 'CONTADOR_EMAIL'
+      Size = 100
+    end
+    object cdsEmpresaCONTADOR_COD_MUN: TStringField
+      FieldName = 'CONTADOR_COD_MUN'
+      FixedChar = True
+      Size = 10
+    end
+    object cdsEmpresaCODINDINCTRIBUTARIA: TStringField
+      FieldName = 'CODINDINCTRIBUTARIA'
+      Size = 50
+    end
+    object cdsEmpresaINDAPROCRED: TStringField
+      FieldName = 'INDAPROCRED'
+      Size = 50
+    end
+    object cdsEmpresaCODINDTIPOCON: TStringField
+      FieldName = 'CODINDTIPOCON'
+      Size = 50
+    end
+    object cdsEmpresaCODINDCRITESCRIT: TStringField
+      FieldName = 'CODINDCRITESCRIT'
+      Size = 50
+    end
+    object cdsEmpresaINDCODINCIDENCIA: TStringField
+      FieldName = 'INDCODINCIDENCIA'
+      Size = 50
+    end
+    object cdsEmpresaINDCTA: TStringField
+      FieldName = 'INDCTA'
+      Size = 50
+    end
+    object cdsEmpresaINDESCRITURACAO: TStringField
+      FieldName = 'INDESCRITURACAO'
+      Size = 50
+    end
+    object cdsEmpresaBASECALCULOCREDITO: TStringField
+      FieldName = 'BASECALCULOCREDITO'
+      Size = 50
+    end
+    object cdsEmpresaINDAJ: TStringField
+      FieldName = 'INDAJ'
+      Size = 50
+    end
+    object cdsEmpresaCODAJ: TStringField
+      FieldName = 'CODAJ'
+      Size = 50
+    end
+    object cdsEmpresaINDNATREC: TStringField
+      FieldName = 'INDNATREC'
+      Size = 50
+    end
+    object cdsEmpresaNATCREDDESC: TStringField
+      FieldName = 'NATCREDDESC'
+      Size = 50
+    end
+    object cdsEmpresaCODCRED: TStringField
+      FieldName = 'CODCRED'
+      Size = 50
+    end
+    object cdsEmpresaINDTIPCOOP: TStringField
+      FieldName = 'INDTIPCOOP'
+      Size = 50
+    end
+    object cdsEmpresaINDCREDORI: TStringField
+      FieldName = 'INDCREDORI'
+      Size = 50
+    end
+    object cdsEmpresaINDREC: TStringField
+      FieldName = 'INDREC'
+      Size = 50
+    end
+    object cdsEmpresaINDDESCCRED: TStringField
+      FieldName = 'INDDESCCRED'
+      Size = 50
+    end
+    object cdsEmpresaCODCONT: TStringField
+      FieldName = 'CODCONT'
+      Size = 50
+    end
+    object cdsEmpresaINDNATRETFONTE: TStringField
+      FieldName = 'INDNATRETFONTE'
+      Size = 50
+    end
+    object cdsEmpresaINDORIGEMDIVERSAS: TStringField
+      FieldName = 'INDORIGEMDIVERSAS'
+      Size = 50
+    end
+    object cdsEmpresaINDNATDEDUCAO: TStringField
+      FieldName = 'INDNATDEDUCAO'
+      Size = 50
+    end
+    object cdsEmpresaINDTPOPERACAORECEITA: TStringField
+      FieldName = 'INDTPOPERACAORECEITA'
+      Size = 50
+    end
+    object cdsEmpresaINDICADORNATUREZAPJ: TSmallintField
+      FieldName = 'INDICADORNATUREZAPJ'
+    end
+    object cdsEmpresaINDICADORATIVIDADE: TSmallintField
+      FieldName = 'INDICADORATIVIDADE'
+    end
+  end
 end
