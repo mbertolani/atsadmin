@@ -268,20 +268,33 @@ begin
     exit;
   end;
 
-  Try
-    dm.sqlsisAdimin.StartTransaction(TD);
+  if (sqlUsuario.Active) then
+    sqlUsuario.Close;
+  sqlUsuario.ParamByName('PUSU').asInteger := usulog;
+  sqlUsuario.Open;
+  if (sqlUsuario.IsEmpty) then
+  begin
+    Try
+      dm.sqlsisAdimin.StartTransaction(TD);
 
-    if (sqlUsuario.Active) then
-      sqlUsuario.Close;
-    sqlUsuario.ParamByName('PUSU').asInteger := usulog;
-    sqlUsuario.Open;
-    if (sqlUsuario.IsEmpty) then
-    begin
       dm.sqlsisAdimin.ExecuteDirect('INSERT INTO USUARIO VALUES(' +
         IntToStr(usulog) +
         ', ' + QuotedStr('USUARIO OS') +
         ', 0, ' + QuotedStr('AMBOS') + ')');
+      dm.sqlsisAdimin.Commit(TD);
+    Except
+      on E : Exception do
+      begin
+        //ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+      end;
     end;
+
+  end;
+
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+
 
     FOsCls.codCliente := StrToInt(edCodCliente.Text);
     if (modoOs = 'Insert') then
