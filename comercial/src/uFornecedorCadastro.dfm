@@ -1,195 +1,203 @@
 inherited fFornecedorCadastro: TfFornecedorCadastro
   Top = 49
-  Width = 697
-  Height = 573
+  Width = 716
+  Height = 588
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel [0]
-    Left = 7
+    Left = 20
     Top = 42
     Width = 39
     Height = 13
     Caption = 'C'#243'digo :'
   end
   object Label4: TLabel [1]
-    Left = 71
+    Left = 84
     Top = 42
     Width = 34
     Height = 13
     Caption = 'Nome :'
   end
   object Label5: TLabel [2]
-    Left = 379
+    Left = 392
     Top = 42
     Width = 37
     Height = 13
     Caption = 'Raz'#227'o :'
   end
   object Label6: TLabel [3]
-    Left = 149
+    Left = 162
     Top = 89
     Width = 58
     Height = 13
     Caption = 'CNPJ / CPF'
   end
   object Label7: TLabel [4]
-    Left = 385
+    Left = 398
     Top = 89
     Width = 37
     Height = 13
     Caption = 'IE / RG'
   end
   object Label8: TLabel [5]
-    Left = 580
+    Left = 593
     Top = 89
     Width = 51
     Height = 13
     Caption = 'Data. Cad.'
   end
   object Label9: TLabel [6]
-    Left = 9
+    Left = 22
     Top = 145
     Width = 37
     Height = 13
     Caption = 'Contato'
   end
   object Label10: TLabel [7]
-    Left = 266
+    Left = 279
     Top = 145
     Width = 47
     Height = 13
     Caption = 'Lim. Cr'#233'd.'
   end
   object Label11: TLabel [8]
-    Left = 328
+    Left = 341
     Top = 145
     Width = 49
     Height = 13
     Caption = 'Prazo Ent.'
   end
   object Label13: TLabel [9]
-    Left = 9
+    Left = 22
     Top = 193
     Width = 46
     Height = 13
     Caption = 'Endere'#231'o'
   end
   object Label14: TLabel [10]
-    Left = 9
+    Left = 22
     Top = 239
     Width = 27
     Height = 13
     Caption = 'Bairro'
   end
   object Label15: TLabel [11]
-    Left = 308
+    Left = 321
     Top = 239
     Width = 64
     Height = 13
     Caption = 'Complemento'
   end
   object Label16: TLabel [12]
-    Left = 9
+    Left = 22
     Top = 281
     Width = 33
     Height = 13
     Caption = 'Cidade'
   end
   object Label17: TLabel [13]
-    Left = 245
+    Left = 258
     Top = 281
     Width = 19
     Height = 13
     Caption = 'Cep'
   end
   object Label18: TLabel [14]
-    Left = 338
+    Left = 351
     Top = 281
     Width = 14
     Height = 13
     Caption = 'UF'
   end
   object Label19: TLabel [15]
-    Left = 9
+    Left = 22
     Top = 391
     Width = 28
     Height = 13
     Caption = 'E-mail'
   end
   object Label20: TLabel [16]
-    Left = 236
+    Left = 249
     Top = 391
     Width = 82
     Height = 13
     Caption = 'Dados Adicionais'
   end
   object Label27: TLabel [17]
-    Left = 8
-    Top = 435
+    Left = 25
+    Top = 440
     Width = 82
     Height = 13
     Caption = 'Centro Resultado'
     Visible = False
   end
   object Label12: TLabel [18]
-    Left = 395
+    Left = 408
     Top = 144
     Width = 21
     Height = 13
     Caption = 'Tipo'
   end
   object Label28: TLabel [19]
-    Left = 451
+    Left = 464
     Top = 193
     Width = 37
     Height = 13
     Caption = 'N'#250'mero'
   end
   object Label29: TLabel [20]
-    Left = 432
+    Left = 445
     Top = 281
     Width = 61
     Height = 13
     Caption = 'C'#243'digo IBGE'
   end
   object Label79: TLabel [21]
-    Left = 534
+    Left = 547
     Top = 282
     Width = 20
     Height = 13
     Caption = 'Pais'
     FocusControl = DBEdit16
   end
+  object Label30: TLabel [22]
+    Left = 251
+    Top = 440
+    Width = 68
+    Height = 13
+    Caption = 'Conta contabil'
+    Visible = False
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 492
-    Width = 689
+    Top = 507
+    Width = 708
     inherited btnGravar: TBitBtn
-      Left = 285
+      Left = 366
     end
     inherited btnIncluir: TBitBtn
-      Left = 285
+      Left = 366
     end
     inherited btnCancelar: TBitBtn
-      Left = 404
+      Left = 473
     end
     inherited btnExcluir: TBitBtn
-      Left = 404
+      Left = 473
     end
     inherited btnProcurar: TBitBtn
-      Left = 164
+      Left = 260
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
-      Left = 517
+      Left = 579
     end
     object BitBtn3: TBitBtn
-      Left = 31
+      Left = 155
       Top = 7
-      Width = 118
+      Width = 103
       Height = 39
-      Caption = '&Representante'
+      Caption = '&Represent.'
       Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 6
@@ -294,9 +302,112 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
         C0C0C0C0C0C0C0C0C0C0C0C0C000366500346300326300306100356A00366C00
         295C002659002357001C49C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object BitBtn2: TBitBtn
+      Left = 49
+      Top = 7
+      Width = 103
+      Height = 40
+      Caption = 'Lista Prod.'
+      PopupMenu = PopupMenu1
+      TabOrder = 7
+      OnClick = BitBtn2Click
+      Glyph.Data = {
+        6E0B0000424D6E0B00000000000036040000280000002A0000002A0000000100
+        08000000000038070000000000000000000000010000000000004372B8002743
+        89000B236B00071C65005C8DCB007B9BC4002C62B300597BAE004C82C6000014
+        5C0029468C00497EC50034599D002E4C920033559A002A4989007495C300889B
+        C400526DA100325195006593CD004C6AA900558ACC0027478300426AAD00547A
+        AB00B5CCE90098B7DE0085A4C9001C4491008BA9CB002E59A100366AB600436F
+        B4004D7ABD003A70BC00224D9B000000000015327C001D3A780011286F003A69
+        B200547DBC00213C83007895BD00386EBA006280B1001D428E00376DBA002139
+        7D004A70AE00668DC3003666B0005381C1004A74B3005B91CF005783C3004C75
+        A7007FA2CA004665A10026519C004966A3007DA5D7006882AD003D639D002C44
+        82003066B600214996003369B800355CA1005086C8005472A9004877BB003957
+        99004278C0004D6DA7003B63A600193275002656A6005982BC003C5DA0002C57
+        A1005878B100536C9D00BED3EC005170AD0086A9D7003C73BE0016368100193A
+        84001D3579003E5C9E0026407C00799DCB003261AD005D7CB600467CC2003A55
+        94002D5097004165A6000C267000223F84004176BF003D6DB500305CA6003E74
+        BF00496EA2005976AE002D559D005674B0004B6EA60011276B005E92D000152D
+        7200112D7600264A92002C5AA9001E3A81001E3E8600325BA600325A9F002D5E
+        AD00254B950032558E00314F94002A539F001F4693001C357C003561A9003760
+        A600447AC2002D5CA900285EB1004669A30042689F003C5A9D00415F9B003F66
+        9E0010297100263F82001A367D004269A000335396002348920027498E00304F
+        9100193780004765A500265BAF005273AB00193C87001C398500213B80004562
+        9F00102B7500182E74003E6DB2003C6AB1003564AF003866AE004160A000415F
+        A0002B559F0019337A00606C9900102265009FA6C100EFF0F500505D8E00BFC4
+        D600AFB5CC0020317000CFD3E000466FA3008F97B700404E8400303F7A00DFE1
+        EA007F89AD004E7BA900152F7600707BA3003B5F9C002B549B004F7DC000213F
+        8A004563A300375292003C6BB4002540850029529A00496297007799C00092A4
+        C7006385B60039599E0016307600375C94006095D200A0B5D5006684B5004E78
+        B7006886B5004070B7005F7FB800C3CCE100244D97005A7AA800356CB900112B
+        7800153886004774AF005988C600304A8C005076A9005371A5005A75A5003154
+        9600365597006F8DB9003B619600345EA3005E7AB3005F7FB2005B79B4005573
+        AE006385B300142C7000305FAA00132C7300425A8F0090AECD00274C91001A3A
+        82009AA9CB002357AB005D80B1005481BF005A83AF002F5299005876B2002F53
+        9C00527AB700627BAD004968A6004E6CA5003160AB001B2F6D003562AC00B0BC
+        D700B5C8E2003F6598003B599A006A90BA002C4A9000FFFFFF00A9A9A9A9A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A9A9A409ABB2B1A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A7A803D8A30309AFA6
+        A7A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9
+        A9A9A9AE6F2CE749FEBD2809A5A4ACA9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        0000A9A9A9A9A9A9A9A9A9A9A9A9ACA5F7BF532CF5FEFEFE7F0209ABAEB1A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9ACA5285A5A41CF
+        85C2DF4713FE01B40309A8A6A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9
+        A9A9A9A9AAA5E3315A6F5A2EB6FEFE4952070749FE2B2809A5A4ACA9A9A9A9A9
+        A9A9A9A90000A9A9A9A9A9A9A9A9A9A60971987502D23112862B01FEFEFE134B
+        0795880A7F0209B0A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A6094DBD7F03
+        A1772FBD2E658A72E57F01FEFEFEA095953B0128ABA9A9A9A9A9A9A90000A9A9
+        A9A9A9A9A9A609980176022ADE21248BD7B68C964E43D29A287F01FEFE134B88
+        09A9A9A9A9A9A9A90000A9A9A9A9A9A9A4092B0AA36421336B9EEB01128DFE7E
+        1D7483839696589A287F019709A9A9A9A9A9A9A90000A9A9A9A9A9A40965FE92
+        267938384394947A01077CA23C585E5E5E2F7E83747E020103A6A9A9A9A9A9A9
+        0000A9A9A9A9A4030A0D2626CC2D06244E8484240AF589629E5192343434A259
+        79742F7FD1A8A9A9A9A9A9A90000A9A9AAA8030D7C8A2F24B842422F0606067E
+        FE9939FE9FBC80E99F29296859838302B909A7A9A9A9A9A90000A9A6095CDA0E
+        B44344244444442F4242061D7DFEEC8E45CB009C8C9D6729F89651260103AEA9
+        A9A9A9A90000A90953C813023C30303C3030423C44444E4E790D6B892BDD4848
+        219281CBBC29922FB426B0A9A9A9A9A90000A9ABBF4964832D23207D23233C20
+        30D0434442EFFCD6FE6245B822006581CB29348F030A09ACA9A9A9A90000A9A4
+        41A002235757A22D69578F57232D7AD044777C198E4C180C35B822658167299E
+        592B64B5A9A9A9A90000A9AA09139B68664ABE4A4A4A7A695757CE2DD042134B
+        8913D4360135B822767A2934512897A5A9A9A9A90000A9A9ABBDD5764A82B760
+        60671F4A66F8F6232D3C0C4919FEC90436D93522489073345E720103AAA9A9A9
+        0000A9A9A47193646066DD0B0B6C666082BE6957233CF88E6E8E631404ED0148
+        4800738F5E2F7F9AA8A9A9A90000A9A9AA09F49B00DD600808620B0B60B74A69
+        573C20DAF4407C1404D422750000678F2F838AB909A7A9A90000A9A9A7098E0F
+        7878464646E808080B6C824A29E42D633BD6FEFEFEFEFE0A0AFEFEFE01FEBDFE
+        03A4A9A90000A9A9A909123D8C451616004C46469C9D604A5157232AEA6E3BFE
+        FEFEFEFEFEFEFEFEFEFEFEFE7509A9A90000A9A9A9AFE65F6FDD16040E161646
+        780804561F69237ACD1105FEFEFEFEFEFEFEFEFEFEFE0A2B2B02A8A90000A9A9
+        A9AE6FE18B2137370C04161678141A3E1F68A301F9111E612B2B2B2B752B2B65
+        0F0F0FB6401709A90000A9A9A9A7A591999070700C37701BC71414CB72988787
+        4711E73940ADADAD39B3B3B3EEAD8D7B2709A4A90000A9A9A9A9A45A5F4DC62A
+        363E1AFAC746735A5BBAA1870E10071989D3FDE2B6185D2C49010209A8A9A9A9
+        0000A9A9A9A9A6035F5A38631B5454C118714915F4BAC381331C47F14F1C4745
+        33053B0A2809AFACA9A9A9A90000A9A9A9A9A7093B614C05541A5DC4D5555515
+        5B784F1E4762361C2EEFF21C470AB409ABA9A9A9A9A9A9A90000A9A9A9A9A9B0
+        015575F3569131556D55930C4F1C2E8E183A2E8E183A2E137F03A5A6A9A9A9A9
+        A9A9A9A90000A9A9A9A9A9B58AE09B905A3D526D15C3363A2E134C10DB490705
+        C06AC502A5B2A7A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A90932BBBB52F05550
+        323ACA133D0505198986FB174D6F09B0B1A9A9A9A9A9A9A9A9A9A9A90000A9A9
+        A9A9A9A9091C6D6D55A02E10C08540AD6AC517E3030909AFA4AEA9A9A9A9A9A9
+        A9A9A9A9A9A9A9A90000A9A9A9A9A9A9093F10EC89AD39DC7B5CE30909A5AFB5
+        A6ACA9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A85CCF17
+        276F0909ABA8B2AAB1A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        0000A9A9A9A9A9A9AA0909B0A4AEA9A7A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
+        A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000}
+    end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 689
+    Width = 708
     Height = 41
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -320,11 +431,11 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       Transparent = True
     end
     object DBRadioGroup3: TDBRadioGroup
-      Left = 526
-      Top = -10
+      Left = 549
+      Top = 4
       Width = 157
-      Height = 51
-      Color = clTeal
+      Height = 34
+      Color = cl3DLight
       Columns = 2
       Ctl3D = True
       DataField = 'STATUS'
@@ -346,8 +457,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
         '2')
     end
   end
-  object DBEdit1: TDBEdit [24]
-    Left = 7
+  object DBEdit1: TDBEdit [25]
+    Left = 20
     Top = 58
     Width = 61
     Height = 24
@@ -367,8 +478,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [25]
-    Left = 70
+  object DBEdit2: TDBEdit [26]
+    Left = 83
     Top = 58
     Width = 308
     Height = 24
@@ -387,8 +498,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [26]
-    Left = 379
+  object DBEdit3: TDBEdit [27]
+    Left = 392
     Top = 58
     Width = 294
     Height = 24
@@ -406,8 +517,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup1: TDBRadioGroup [27]
-    Left = 7
+  object DBRadioGroup1: TDBRadioGroup [28]
+    Left = 20
     Top = 83
     Width = 141
     Height = 46
@@ -425,8 +536,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       '1')
     OnClick = DBRadioGroup1Click
   end
-  object dbeCNPJ: TDBEdit [28]
-    Left = 149
+  object dbeCNPJ: TDBEdit [29]
+    Left = 162
     Top = 105
     Width = 200
     Height = 24
@@ -445,8 +556,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [29]
-    Left = 384
+  object DBEdit4: TDBEdit [30]
+    Left = 397
     Top = 105
     Width = 195
     Height = 24
@@ -465,8 +576,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [30]
-    Left = 580
+  object DBEdit5: TDBEdit [31]
+    Left = 593
     Top = 105
     Width = 92
     Height = 24
@@ -485,8 +596,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [31]
-    Left = 9
+  object DBEdit6: TDBEdit [32]
+    Left = 22
     Top = 161
     Width = 256
     Height = 24
@@ -505,8 +616,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [32]
-    Left = 266
+  object DBEdit7: TDBEdit [33]
+    Left = 279
     Top = 161
     Width = 61
     Height = 24
@@ -525,8 +636,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [33]
-    Left = 328
+  object DBEdit8: TDBEdit [34]
+    Left = 341
     Top = 161
     Width = 63
     Height = 24
@@ -545,8 +656,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 11
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [34]
-    Left = 9
+  object DBEdit10: TDBEdit [35]
+    Left = 22
     Top = 209
     Width = 437
     Height = 24
@@ -564,8 +675,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object DBEdit11: TDBEdit [35]
-    Left = 9
+  object DBEdit11: TDBEdit [36]
+    Left = 22
     Top = 255
     Width = 298
     Height = 24
@@ -583,8 +694,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object DBEdit12: TDBEdit [36]
-    Left = 308
+  object DBEdit12: TDBEdit [37]
+    Left = 321
     Top = 255
     Width = 249
     Height = 24
@@ -602,8 +713,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup2: TDBRadioGroup [37]
-    Left = 560
+  object DBRadioGroup2: TDBRadioGroup [38]
+    Left = 573
     Top = 195
     Width = 113
     Height = 84
@@ -621,8 +732,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       '1'
       '2')
   end
-  object DBEdit13: TDBEdit [38]
-    Left = 9
+  object DBEdit13: TDBEdit [39]
+    Left = 22
     Top = 297
     Width = 232
     Height = 24
@@ -640,8 +751,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [39]
-    Left = 245
+  object DBEdit14: TDBEdit [40]
+    Left = 258
     Top = 297
     Width = 89
     Height = 24
@@ -660,8 +771,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object GroupBox1: TGroupBox [40]
-    Left = 8
+  object GroupBox1: TGroupBox [41]
+    Left = 21
     Top = 326
     Width = 665
     Height = 62
@@ -830,8 +941,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       OnKeyPress = FormKeyPress
     end
   end
-  object DBEdit21: TDBEdit [41]
-    Left = 9
+  object DBEdit21: TDBEdit [42]
+    Left = 22
     Top = 407
     Width = 224
     Height = 24
@@ -849,8 +960,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 23
     OnKeyPress = FormKeyPress
   end
-  object DBEdit22: TDBEdit [42]
-    Left = 236
+  object DBEdit22: TDBEdit [43]
+    Left = 249
     Top = 407
     Width = 437
     Height = 24
@@ -868,9 +979,9 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 24
     OnKeyPress = FormKeyPress
   end
-  object DBNavigator1: TDBNavigator [43]
-    Left = 282
-    Top = 447
+  object DBNavigator1: TDBNavigator [44]
+    Left = 391
+    Top = 471
     Width = 220
     Height = 25
     DataSource = dtsrce
@@ -885,8 +996,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     PopupMenu = PopupMenu1
     TabOrder = 25
   end
-  object DBComboBox1: TDBComboBox [44]
-    Left = 338
+  object DBComboBox1: TDBComboBox [45]
+    Left = 351
     Top = 297
     Width = 43
     Height = 24
@@ -932,9 +1043,9 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 20
     OnKeyPress = FormKeyPress
   end
-  object ComboBox1: TComboBox [45]
-    Left = 8
-    Top = 450
+  object ComboBox1: TComboBox [46]
+    Left = 125
+    Top = 438
     Width = 121
     Height = 21
     ItemHeight = 13
@@ -942,127 +1053,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Text = 'ComboBox1'
     Visible = False
   end
-  object BitBtn2: TBitBtn [46]
-    Left = 555
-    Top = 433
-    Width = 118
-    Height = 47
-    Caption = 'Lista Prod.'
-    PopupMenu = PopupMenu1
-    TabOrder = 27
-    OnClick = BitBtn2Click
-    Glyph.Data = {
-      6E0B0000424D6E0B00000000000036040000280000002A0000002A0000000100
-      08000000000038070000000000000000000000010000000000004372B8002743
-      89000B236B00071C65005C8DCB007B9BC4002C62B300597BAE004C82C6000014
-      5C0029468C00497EC50034599D002E4C920033559A002A4989007495C300889B
-      C400526DA100325195006593CD004C6AA900558ACC0027478300426AAD00547A
-      AB00B5CCE90098B7DE0085A4C9001C4491008BA9CB002E59A100366AB600436F
-      B4004D7ABD003A70BC00224D9B000000000015327C001D3A780011286F003A69
-      B200547DBC00213C83007895BD00386EBA006280B1001D428E00376DBA002139
-      7D004A70AE00668DC3003666B0005381C1004A74B3005B91CF005783C3004C75
-      A7007FA2CA004665A10026519C004966A3007DA5D7006882AD003D639D002C44
-      82003066B600214996003369B800355CA1005086C8005472A9004877BB003957
-      99004278C0004D6DA7003B63A600193275002656A6005982BC003C5DA0002C57
-      A1005878B100536C9D00BED3EC005170AD0086A9D7003C73BE0016368100193A
-      84001D3579003E5C9E0026407C00799DCB003261AD005D7CB600467CC2003A55
-      94002D5097004165A6000C267000223F84004176BF003D6DB500305CA6003E74
-      BF00496EA2005976AE002D559D005674B0004B6EA60011276B005E92D000152D
-      7200112D7600264A92002C5AA9001E3A81001E3E8600325BA600325A9F002D5E
-      AD00254B950032558E00314F94002A539F001F4693001C357C003561A9003760
-      A600447AC2002D5CA900285EB1004669A30042689F003C5A9D00415F9B003F66
-      9E0010297100263F82001A367D004269A000335396002348920027498E00304F
-      9100193780004765A500265BAF005273AB00193C87001C398500213B80004562
-      9F00102B7500182E74003E6DB2003C6AB1003564AF003866AE004160A000415F
-      A0002B559F0019337A00606C9900102265009FA6C100EFF0F500505D8E00BFC4
-      D600AFB5CC0020317000CFD3E000466FA3008F97B700404E8400303F7A00DFE1
-      EA007F89AD004E7BA900152F7600707BA3003B5F9C002B549B004F7DC000213F
-      8A004563A300375292003C6BB4002540850029529A00496297007799C00092A4
-      C7006385B60039599E0016307600375C94006095D200A0B5D5006684B5004E78
-      B7006886B5004070B7005F7FB800C3CCE100244D97005A7AA800356CB900112B
-      7800153886004774AF005988C600304A8C005076A9005371A5005A75A5003154
-      9600365597006F8DB9003B619600345EA3005E7AB3005F7FB2005B79B4005573
-      AE006385B300142C7000305FAA00132C7300425A8F0090AECD00274C91001A3A
-      82009AA9CB002357AB005D80B1005481BF005A83AF002F5299005876B2002F53
-      9C00527AB700627BAD004968A6004E6CA5003160AB001B2F6D003562AC00B0BC
-      D700B5C8E2003F6598003B599A006A90BA002C4A9000FFFFFF00A9A9A9A9A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A9A9A409ABB2B1A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A7A803D8A30309AFA6
-      A7A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9
-      A9A9A9AE6F2CE749FEBD2809A5A4ACA9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      0000A9A9A9A9A9A9A9A9A9A9A9A9ACA5F7BF532CF5FEFEFE7F0209ABAEB1A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9ACA5285A5A41CF
-      85C2DF4713FE01B40309A8A6A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9
-      A9A9A9A9AAA5E3315A6F5A2EB6FEFE4952070749FE2B2809A5A4ACA9A9A9A9A9
-      A9A9A9A90000A9A9A9A9A9A9A9A9A9A60971987502D23112862B01FEFEFE134B
-      0795880A7F0209B0A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A6094DBD7F03
-      A1772FBD2E658A72E57F01FEFEFEA095953B0128ABA9A9A9A9A9A9A90000A9A9
-      A9A9A9A9A9A609980176022ADE21248BD7B68C964E43D29A287F01FEFE134B88
-      09A9A9A9A9A9A9A90000A9A9A9A9A9A9A4092B0AA36421336B9EEB01128DFE7E
-      1D7483839696589A287F019709A9A9A9A9A9A9A90000A9A9A9A9A9A40965FE92
-      267938384394947A01077CA23C585E5E5E2F7E83747E020103A6A9A9A9A9A9A9
-      0000A9A9A9A9A4030A0D2626CC2D06244E8484240AF589629E5192343434A259
-      79742F7FD1A8A9A9A9A9A9A90000A9A9AAA8030D7C8A2F24B842422F0606067E
-      FE9939FE9FBC80E99F29296859838302B909A7A9A9A9A9A90000A9A6095CDA0E
-      B44344244444442F4242061D7DFEEC8E45CB009C8C9D6729F89651260103AEA9
-      A9A9A9A90000A90953C813023C30303C3030423C44444E4E790D6B892BDD4848
-      219281CBBC29922FB426B0A9A9A9A9A90000A9ABBF4964832D23207D23233C20
-      30D0434442EFFCD6FE6245B822006581CB29348F030A09ACA9A9A9A90000A9A4
-      41A002235757A22D69578F57232D7AD044777C198E4C180C35B822658167299E
-      592B64B5A9A9A9A90000A9AA09139B68664ABE4A4A4A7A695757CE2DD042134B
-      8913D4360135B822767A2934512897A5A9A9A9A90000A9A9ABBDD5764A82B760
-      60671F4A66F8F6232D3C0C4919FEC90436D93522489073345E720103AAA9A9A9
-      0000A9A9A47193646066DD0B0B6C666082BE6957233CF88E6E8E631404ED0148
-      4800738F5E2F7F9AA8A9A9A90000A9A9AA09F49B00DD600808620B0B60B74A69
-      573C20DAF4407C1404D422750000678F2F838AB909A7A9A90000A9A9A7098E0F
-      7878464646E808080B6C824A29E42D633BD6FEFEFEFEFE0A0AFEFEFE01FEBDFE
-      03A4A9A90000A9A9A909123D8C451616004C46469C9D604A5157232AEA6E3BFE
-      FEFEFEFEFEFEFEFEFEFEFEFE7509A9A90000A9A9A9AFE65F6FDD16040E161646
-      780804561F69237ACD1105FEFEFEFEFEFEFEFEFEFEFE0A2B2B02A8A90000A9A9
-      A9AE6FE18B2137370C04161678141A3E1F68A301F9111E612B2B2B2B752B2B65
-      0F0F0FB6401709A90000A9A9A9A7A591999070700C37701BC71414CB72988787
-      4711E73940ADADAD39B3B3B3EEAD8D7B2709A4A90000A9A9A9A9A45A5F4DC62A
-      363E1AFAC746735A5BBAA1870E10071989D3FDE2B6185D2C49010209A8A9A9A9
-      0000A9A9A9A9A6035F5A38631B5454C118714915F4BAC381331C47F14F1C4745
-      33053B0A2809AFACA9A9A9A90000A9A9A9A9A7093B614C05541A5DC4D5555515
-      5B784F1E4762361C2EEFF21C470AB409ABA9A9A9A9A9A9A90000A9A9A9A9A9B0
-      015575F3569131556D55930C4F1C2E8E183A2E8E183A2E137F03A5A6A9A9A9A9
-      A9A9A9A90000A9A9A9A9A9B58AE09B905A3D526D15C3363A2E134C10DB490705
-      C06AC502A5B2A7A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A90932BBBB52F05550
-      323ACA133D0505198986FB174D6F09B0B1A9A9A9A9A9A9A9A9A9A9A90000A9A9
-      A9A9A9A9091C6D6D55A02E10C08540AD6AC517E3030909AFA4AEA9A9A9A9A9A9
-      A9A9A9A9A9A9A9A90000A9A9A9A9A9A9093F10EC89AD39DC7B5CE30909A5AFB5
-      A6ACA9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A85CCF17
-      276F0909ABA8B2AAB1A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      0000A9A9A9A9A9A9AA0909B0A4AEA9A7A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000A9A9A9A9A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      A9A9A9A90000A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9
-      A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A90000}
-  end
-  object CheckBox1: TCheckBox [47]
-    Left = 144
-    Top = 438
-    Width = 97
-    Height = 17
-    Caption = 'Compras'
-    TabOrder = 28
-  end
-  object CheckBox2: TCheckBox [48]
-    Left = 144
-    Top = 456
-    Width = 97
-    Height = 17
-    Caption = 'Despesas'
-    TabOrder = 29
-  end
-  object DBLookupComboBox1: TDBLookupComboBox [49]
-    Left = 392
+  object DBLookupComboBox1: TDBLookupComboBox [47]
+    Left = 405
     Top = 161
     Width = 203
     Height = 24
@@ -1083,12 +1075,12 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object SpeedButton6: TBitBtn [50]
-    Left = 632
+  object SpeedButton6: TBitBtn [48]
+    Left = 645
     Top = 150
     Width = 40
     Height = 36
-    TabOrder = 30
+    TabOrder = 27
     OnClick = SpeedButton6Click
     Glyph.Data = {
       36080000424D3608000000000000360400002800000020000000200000000100
@@ -1158,12 +1150,12 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       0F0F0F0F10160707070707070707070707070707070707070707071010101010
       1010101010070707070707070707070707070707070707070707}
   end
-  object SpeedButton2: TBitBtn [51]
-    Left = 350
+  object SpeedButton2: TBitBtn [49]
+    Left = 363
     Top = 102
     Width = 33
     Height = 27
-    TabOrder = 31
+    TabOrder = 28
     Glyph.Data = {
       F6060000424DF606000000000000360000002800000018000000180000000100
       180000000000C006000000000000000000000000000000000000C0C0C0C0C0C0
@@ -1222,12 +1214,12 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object SpeedButton1: TBitBtn [52]
-    Left = 595
+  object SpeedButton1: TBitBtn [50]
+    Left = 608
     Top = 150
     Width = 37
     Height = 36
-    TabOrder = 32
+    TabOrder = 29
     Glyph.Data = {
       F6060000424DF606000000000000360000002800000018000000180000000100
       180000000000C006000000000000000000000000000000000000C0C0C0C0C0C0
@@ -1286,8 +1278,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object DBEdit9: TDBEdit [53]
-    Left = 451
+  object DBEdit9: TDBEdit [51]
+    Left = 464
     Top = 209
     Width = 103
     Height = 24
@@ -1306,8 +1298,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 14
     OnKeyPress = FormKeyPress
   end
-  object BitBtn22: TBitBtn [54]
-    Left = 387
+  object BitBtn22: TBitBtn [52]
+    Left = 400
     Top = 290
     Width = 39
     Height = 31
@@ -1315,8 +1307,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 17
     OnClick = BitBtn22Click
   end
-  object DBEdit23: TDBEdit [55]
-    Left = 432
+  object DBEdit23: TDBEdit [53]
+    Left = 445
     Top = 295
     Width = 93
     Height = 24
@@ -1331,19 +1323,11 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 33
+    TabOrder = 30
     OnKeyPress = FormKeyPress
   end
-  object chkAssistencia: TCheckBox [56]
-    Left = 144
-    Top = 475
-    Width = 97
-    Height = 17
-    Caption = 'Ass. T'#233'cnica'
-    TabOrder = 34
-  end
-  object cbPais: TJvComboBox [57]
-    Left = 532
+  object cbPais: TJvComboBox [54]
+    Left = 545
     Top = 296
     Width = 141
     Height = 22
@@ -1355,8 +1339,80 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 35
+    TabOrder = 31
     OnChange = cbPaisChange
+  end
+  object DBEdit24: TDBEdit [55]
+    Left = 325
+    Top = 436
+    Width = 113
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'CONTA_FORNECEDOR'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 32
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit25: TDBEdit [56]
+    Left = 445
+    Top = 436
+    Width = 241
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'CONTACONTABIL'
+    DataSource = DtSrc
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    ReadOnly = True
+    TabOrder = 33
+    OnKeyPress = FormKeyPress
+  end
+  object GroupBox2: TGroupBox [57]
+    Left = 21
+    Top = 464
+    Width = 282
+    Height = 42
+    Caption = 'Tipo'
+    TabOrder = 34
+    object CheckBox1: TCheckBox
+      Left = 7
+      Top = 19
+      Width = 97
+      Height = 17
+      Caption = 'Compras'
+      TabOrder = 0
+    end
+    object CheckBox2: TCheckBox
+      Left = 182
+      Top = 18
+      Width = 97
+      Height = 17
+      Caption = 'Despesas'
+      TabOrder = 1
+    end
+    object chkAssistencia: TCheckBox
+      Left = 85
+      Top = 19
+      Width = 97
+      Height = 17
+      Caption = 'Ass. T'#233'cnica'
+      TabOrder = 2
+    end
   end
   inherited PopupMenu1: TPopupMenu
     inherited Procurar1: TMenuItem
@@ -1373,7 +1429,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Top = 10
   end
   object sds_fornecedor: TSQLDataSet
-    CommandText = 'select * from  FORNECEDOR where CODFORNECEDOR = :pFORN'
+    CommandText = 
+      'select f.*, plano.NOME CONTACONTABIL from  FORNECEDOR f '#13#10'left o' +
+      'uter join PLANO on plano.CONTA = f.CONTA_FORNECEDOR'#13#10'where f.COD' +
+      'FORNECEDOR = :pFORN'
     MaxBlobSize = -1
     Params = <
       item
@@ -1460,6 +1519,17 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       FieldName = 'CONTA_FORNECEDOR'
       ProviderFlags = [pfInUpdate]
       Size = 15
+    end
+    object sds_fornecedorCODFOR: TStringField
+      FieldName = 'CODFOR'
+      Size = 10
+    end
+    object sds_fornecedorCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object sds_fornecedorCONTACONTABIL: TStringField
+      FieldName = 'CONTACONTABIL'
+      Size = 200
     end
   end
   object dsp_fornecedor: TDataSetProvider
@@ -1554,6 +1624,18 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     object cds_fornecedorCONTA_FORNECEDOR: TStringField
       FieldName = 'CONTA_FORNECEDOR'
       Size = 15
+    end
+    object cds_fornecedorCODFOR: TStringField
+      FieldName = 'CODFOR'
+      Size = 10
+    end
+    object cds_fornecedorCODTRANSP: TIntegerField
+      FieldName = 'CODTRANSP'
+    end
+    object cds_fornecedorCONTACONTABIL: TStringField
+      FieldName = 'CONTACONTABIL'
+      ReadOnly = True
+      Size = 200
     end
   end
   object VCLReport1: TVCLReport
@@ -1797,7 +1879,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 132
+    Left = 145
     Top = 231
     object SQLDataSet1CODDADOS: TIntegerField
       FieldName = 'CODDADOS'
@@ -1828,14 +1910,14 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
   object DataSetProvider1: TDataSetProvider
     DataSet = SQLDataSet1
     UpdateMode = upWhereKeyOnly
-    Left = 162
+    Left = 175
     Top = 231
   end
   object cdsRegiao: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'DataSetProvider1'
-    Left = 193
+    Left = 206
     Top = 231
     object cdsRegiaoCODDADOS: TIntegerField
       FieldName = 'CODDADOS'
@@ -1865,7 +1947,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
   end
   object DtSrcReg: TDataSource
     DataSet = cdsRegiao
-    Left = 223
+    Left = 236
     Top = 230
   end
   object procIBGE: TSQLClientDataSet
@@ -1882,7 +1964,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 432
+    Left = 445
     Top = 240
     object procIBGENM_LOCALIDADE2: TStringField
       DisplayLabel = 'Cidade/Vila'
@@ -1912,7 +1994,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Aggregates = <>
     Params = <>
     ProviderName = 'dspPais'
-    Left = 648
+    Left = 661
     Top = 286
     object sqlPaisCODPAIS: TStringField
       FieldName = 'CODPAIS'
@@ -1928,7 +2010,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
   end
   object dspPais: TDataSetProvider
     DataSet = sdsPais
-    Left = 612
+    Left = 625
     Top = 286
   end
   object sdsPais: TSQLDataSet
@@ -1936,7 +2018,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 572
+    Left = 585
     Top = 286
     object sdsPaisCODPAIS: TStringField
       FieldName = 'CODPAIS'
