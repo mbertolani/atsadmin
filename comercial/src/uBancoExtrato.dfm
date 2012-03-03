@@ -8,19 +8,28 @@ inherited fBancoExtrato: TfBancoExtrato
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
     Width = 1037
+    Height = 70
     object Label4: TLabel
-      Left = 24
-      Top = 14
+      Left = 52
+      Top = 12
       Width = 65
       Height = 13
       Caption = 'Caixa/Conta :'
+      Transparent = True
+    end
+    object Label1: TLabel
+      Left = 15
+      Top = 43
+      Width = 103
+      Height = 13
+      Caption = 'Centro de Resultado :'
       Transparent = True
     end
     object GroupBox1: TGroupBox
       Left = 614
       Top = 4
       Width = 419
-      Height = 43
+      Height = 65
       Caption = 'Per'#237'odo'
       TabOrder = 0
       object Label3: TLabel
@@ -79,14 +88,35 @@ inherited fBancoExtrato: TfBancoExtrato
       end
     end
     object cbConta: TComboBox
-      Left = 96
+      Left = 120
       Top = 10
-      Width = 465
-      Height = 21
-      ItemHeight = 13
+      Width = 481
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
       TabOrder = 1
-      Text = 'cbConta'
       OnChange = cbContaChange
+    end
+    object ComboBox1: TComboBox
+      Left = 121
+      Top = 38
+      Width = 480
+      Height = 24
+      BevelKind = bkFlat
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      TabOrder = 2
+      OnKeyPress = FormKeyPress
     end
   end
   inherited MMJPanel2: TMMJPanel
@@ -101,9 +131,9 @@ inherited fBancoExtrato: TfBancoExtrato
   end
   object JvDBUltimGrid1: TJvDBUltimGrid [2]
     Left = 0
-    Top = 51
+    Top = 71
     Width = 505
-    Height = 423
+    Height = 400
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -195,9 +225,9 @@ inherited fBancoExtrato: TfBancoExtrato
   end
   object grid2: TJvDBUltimGrid [3]
     Left = 507
-    Top = 51
+    Top = 72
     Width = 529
-    Height = 423
+    Height = 402
     DataSource = dsLanc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -291,6 +321,7 @@ inherited fBancoExtrato: TfBancoExtrato
   end
   inherited DtSrc: TDataSource
     DataSet = cdsExtrato
+    Left = 549
   end
   object ds_conta: TDataSource
     DataSet = DM.cds_7_contas
@@ -310,20 +341,58 @@ inherited fBancoExtrato: TfBancoExtrato
         DataType = ftInteger
         Name = 'CAIXA'
         ParamType = ptInput
+        Value = '7'
       end
       item
         DataType = ftDate
         Name = 'DTA1'
         ParamType = ptInput
+        Value = '01/01/2012'
       end
       item
         DataType = ftDate
         Name = 'DTA2'
         ParamType = ptInput
+        Value = '03/03/2012'
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 400
     Top = 48
+    object sdsExtratoEXTRATOCOD: TStringField
+      FieldName = 'EXTRATOCOD'
+      Required = True
+    end
+    object sdsExtratoEXTRATODATA: TDateField
+      FieldName = 'EXTRATODATA'
+      Required = True
+    end
+    object sdsExtratoCAIXA: TIntegerField
+      FieldName = 'CAIXA'
+      Required = True
+    end
+    object sdsExtratoEXTRATODOC: TStringField
+      FieldName = 'EXTRATODOC'
+      Size = 100
+    end
+    object sdsExtratoEXTRATOTIPO: TStringField
+      FieldName = 'EXTRATOTIPO'
+    end
+    object sdsExtratoEXTRATOVALOR: TFloatField
+      FieldName = 'EXTRATOVALOR'
+    end
+    object sdsExtratoSEL: TStringField
+      FieldName = 'SEL'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsExtratoCONCILIADO: TStringField
+      FieldName = 'CONCILIADO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsExtratoCONTA: TIntegerField
+      FieldName = 'CONTA'
+    end
   end
   object dspExtrato: TDataSetProvider
     DataSet = sdsExtrato
@@ -337,16 +406,19 @@ inherited fBancoExtrato: TfBancoExtrato
         DataType = ftInteger
         Name = 'CAIXA'
         ParamType = ptInput
+        Value = '7'
       end
       item
         DataType = ftDate
         Name = 'DTA1'
         ParamType = ptInput
+        Value = '01/01/2012'
       end
       item
         DataType = ftDate
         Name = 'DTA2'
         ParamType = ptInput
+        Value = '03/03/2012'
       end>
     ProviderName = 'dspExtrato'
     Left = 464
@@ -629,5 +701,21 @@ inherited fBancoExtrato: TfBancoExtrato
     DataSet = cdsLanc
     Left = 728
     Top = 104
+  end
+  object sqlFornecedor: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'CONTA'
+        ParamType = ptUnknown
+      end>
+    SQL.Strings = (
+      'SELECT CODFORNECEDOR '
+      '   FROM FORNECEDOR '
+      'WHERE CONTA_FORNECEDOR = :CONTA')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 392
+    Top = 160
   end
 end
