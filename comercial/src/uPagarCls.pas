@@ -67,12 +67,15 @@ type
     procedure setCodCCusto(const Value: Integer);
     function getdataVenc: TStringList;
     procedure setdataVenc(const Value: TStringList);
+    function getContaCredito: Integer;
+    procedure setContaCredito(const Value: Integer);
 
   protected
     //Atributos
     _codCompra     : Integer;
     _CodPag       : Integer;
     _codOrigem    : Integer;
+    _contaCredito : Integer;
 
     _CodFornecedor   : Integer;
     _CodComprador  : Integer;
@@ -110,12 +113,13 @@ type
 
   public
     property codCompra    : Integer read getcodCompra write setcodCompra;
-    property CodPag      : Integer read getCodPag write setCodPag;
-    property CodOrigem   : Integer read getCodOrigem write setCodOrigem;
+    property CodPag       : Integer read getCodPag write setCodPag;
+    property CodOrigem    : Integer read getCodOrigem write setCodOrigem;
+    property ContaCredito : Integer read getContaCredito write setContaCredito;
 
     property CodFornecedor  : Integer read getCodFornecedor write setCodFornecedor;
-    property CodUsuario  : Integer read getCodUsuario write setCodUsuario;
-    property CodComprador : Integer read getCodComprador write setCodComprador;
+    property CodUsuario     : Integer read getCodUsuario write setCodUsuario;
+    property CodComprador   : Integer read getCodComprador write setCodComprador;
 
     property CodCCusto   : Integer read getCodCCusto write setCodCCusto;
     property Caixa       : Integer read getCaixa write setCaixa;
@@ -533,24 +537,27 @@ begin
     begin
       if dm.c_6_genid.Active then
         dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(COD_AREC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_COD_PAGAMENTO, 1) AS' +
+       ' INTEGER) AS CODIGO FROM RDB$DATABASE';
       dm.c_6_genid.Open;
       Self.CodPag := dm.c_6_genid.Fields[0].AsInteger;
       dm.c_6_genid.Close;
     end;
-    if (CodPagR = 0) then
-      vDataVenc := IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]));
+    if ((CodPagR = 0) and (i > 1)) then
+      vDataVenc := IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]))
+    else
+      vDataVenc := Self.DtVcto;  
 
     strG := ' INSERT INTO PAGAMENTO ' +
           ' (CODPAGAMENTO,   TITULO,          EMISSAO,         CODFORNECEDOR,      ' +
           ' DATAVENCIMENTO,  STATUS,          VIA,             FORMAPAGAMENTO,' +
           ' CODCOMPRA ,      CODALMOXARifADO, CodComprador,     CODUSUARIO,      ' +
           ' DATASISTEMA,     VALOR_PRIM_VIA,  VALOR_RESTO,     VALORTITULO,     ' +
-          ' valorPagEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
+          ' valorRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
           ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
-          ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM        ' +
+          ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM,        ' +
+          ' CONTACREDITO  ' +
           ') VALUES(';
-
 
     strG := strG + InttoStr(Self.CodPag) + ', ';
     strG := strG + QuotedStr(Self.Titulo) + ', ';
@@ -601,7 +608,8 @@ begin
     strG := strG + '0, ';  // Outro_Credito
     strG := strG + IntToStr(1) + ', '; // Caixa
     strG := strG + IntToStr(1) + ', '; // Situacao
-    strG := strG + IntToStr(1) + ')'; // CodOrigem
+    strG := strG + IntToStr(1) + ', '; // CodOrigem
+    strG := strG + IntToStr(Self.ContaCredito) + ')'; // Conta Credito    
     Rec  := executaSql(strG);
     //UltParc := UltParc - VlrParc;
   end;
@@ -900,6 +908,16 @@ end;
 procedure TPagarCls.setVia(const Value: SmallInt);
 begin
   _via := Value;
+end;
+
+function TPagarCls.getContaCredito: Integer;
+begin
+  Result := _contaCredito;
+end;
+
+procedure TPagarCls.setContaCredito(const Value: Integer);
+begin
+  _contaCredito := Value;
 end;
 
 end.
