@@ -7,7 +7,7 @@ uses
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, DBCtrls, FMTBcd, DBClient, Provider, SqlExpr, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, ImgList, Mask, JvExMask,
-  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uUtils;
+  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, uUtils, uPagarCls;
 
 type
   TfBancoExtrato = class(TfPai_new)
@@ -52,6 +52,18 @@ type
     cdsLancCOMPENSADO: TStringField;
     cbConta: TComboBox;
     cdsExtratoCONTA: TIntegerField;
+    sdsExtratoEXTRATOCOD: TStringField;
+    sdsExtratoEXTRATODATA: TDateField;
+    sdsExtratoCAIXA: TIntegerField;
+    sdsExtratoEXTRATODOC: TStringField;
+    sdsExtratoEXTRATOTIPO: TStringField;
+    sdsExtratoEXTRATOVALOR: TFloatField;
+    sdsExtratoSEL: TStringField;
+    sdsExtratoCONCILIADO: TStringField;
+    sdsExtratoCONTA: TIntegerField;
+    sqlFornecedor: TSQLQuery;
+    Label1: TLabel;
+    ComboBox1: TComboBox;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -68,7 +80,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure cbContaChange(Sender: TObject);
   private
-    contaCaixa: Integer;
+    contaCaixa : Integer;
+    contaLanc  : String;
     util: TUtils;
     procedure ChkDBGridDrawColumnCell(DBGrid: TDBGrid;
       const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -79,6 +92,7 @@ type
     procedure ChkDBGridKeyPress(DBGrid: TDBGrid; var Key: Char);
     procedure abrirExtrato;
     procedure abrirCaixa;
+    procedure LancamentoNaoLancadoComConta;
     { Private declarations }
   public
     { Public declarations }
@@ -136,6 +150,7 @@ begin
 end;
 
 procedure TfBancoExtrato.FormShow(Sender: TObject);
+var conta_local : String;
 begin
    // Listo as Contas Caixa
   if dm.cds_parametro.Active then
@@ -155,6 +170,25 @@ begin
     dm.cds_7_contas.Next;
   end;
 
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
+  dm.cds_parametro.Open;
+  conta_local := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+  if dm.cds_ccusto.Active then
+    dm.cds_ccusto.Close;
+  dm.cds_ccusto.Params[0].AsString := conta_local;
+  dm.cds_ccusto.Open;
+  ComboBox1.Items.Add('TODOS');
+  While not dm.cds_ccusto.Eof do
+  begin
+    ComboBox1.Items.Add(dm.cds_ccustoNOME.AsString);
+    dm.cds_ccusto.Next;
+  end;
+  dm.cds_parametro.Close;
+
+
   dm.cds_parametro.Close;
   abrirExtrato;
 end;
@@ -169,6 +203,7 @@ procedure TfBancoExtrato.btnIncluirClick(Sender: TObject);
 begin
   //inherited;
   abrirExtrato;
+  LancamentoNaoLancadoComConta;
 end;
 
 procedure TfBancoExtrato.btnExcluirClick(Sender: TObject);
@@ -348,6 +383,7 @@ begin
   inherited;
   dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive]);
   contaCaixa := dm.cds_7_contasCODIGO.AsInteger;
+  contaLanc  := dm.cds_7_contasCONTA.AsString;
 end;
 
 procedure TfBancoExtrato.abrirCaixa;
@@ -358,6 +394,86 @@ begin
   cdsLanc.Params.ParamByName('DTA1').AsDate     := MaskEdit1.Date;
   cdsLanc.Params.ParamByName('DTA2').AsDate     := MaskEdit2.Date;
   cdsLanc.Open;
+end;
+
+procedure TfBancoExtrato.LancamentoNaoLancadoComConta;
+var despesa: TPagarCls;
+   codFornec, cCusto : Integer;
+   multiplicador : Double;
+begin
+  if (cbConta.ItemIndex = -1) then
+  begin
+    MessageDlg('Escolha o caixa a ser lançado.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+
+  if (sqlFornecedor.Active) then
+    sqlFornecedor.Close;
+  sqlFornecedor.ParamByName('CONTA').AsString := contaLanc;
+  sqlFornecedor.Open;
+  if (sqlFornecedor.IsEmpty) then
+  begin
+    MessageDlg('Não existe nenhum fornecedor cadastrado com esta conta de Caixa.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+  codFornec := sqlFornecedor.Fields[0].AsInteger;
+
+  //------------------------------------------------------------------------------
+  //Centro de Custo
+  //------------------------------------------------------------------------------
+  if (ComboBox1.Text = '') then
+  begin
+    MessageDlg('Informe o Centro de Custo.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+  dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
+  cCusto := dm.cds_ccustoCODIGO.AsInteger;
+  Try
+    despesa := TPagarCls.Create;
+
+    cdsExtrato.DisableControls;
+    cdsExtrato.First;
+
+    multiplicador := 1;
+
+    While not cdsExtrato.Eof do
+    begin
+      if (cdsExtratoCONTA.AsInteger > 0) then
+      begin
+        despesa.CodFornecedor := codFornec;
+        despesa.CodCCusto     := cCusto;
+        despesa.CodUsuario    := dm.varUSERID;
+        despesa.Caixa         := contaCaixa;
+        despesa.NParcela      := 1;
+        despesa.Via           := 1;
+        despesa.DtEmissao     := cdsExtratoEXTRATODATA.AsDateTime;
+        despesa.DtVcto        := cdsExtratoEXTRATODATA.AsDateTime;
+        despesa.dtPag         := cdsExtratoEXTRATODATA.AsDateTime;
+        despesa.DtBaixa       := cdsExtratoEXTRATODATA.AsDateTime;
+        despesa.DtConsolida   := cdsExtratoEXTRATODATA.AsDateTime;
+
+        if (cdsExtratoEXTRATOVALOR.AsFloat < 0) then
+          multiplicador := -1;
+
+        despesa.Valor         := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
+        despesa.valorPag      := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
+        despesa.Status        := '5-';
+        despesa.Titulo        := cdsExtratoEXTRATOCOD.AsString;
+        despesa.ContaCredito  := cdsExtratoCONTA.AsInteger;
+
+        despesa.geraTitulo(0, 0);
+        despesa.baixaTitulo(despesa.Valor, 0, 0, 0, 0, cdsExtratoEXTRATODATA.AsDateTime,
+        cdsExtratoEXTRATODATA.AsDateTime, cdsExtratoEXTRATODATA.AsDateTime,
+        '1', cdsExtratoEXTRATOCOD.AsString, contaCaixa, codFornec,
+        '5-', fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+
+      end;
+      cdsExtrato.Next;
+    end;
+  Finally
+    cdsExtrato.EnableControls;
+    despesa.Free;
+  end;
 end;
 
 end.
