@@ -5,7 +5,7 @@ interface
 uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
-  Variants, DBClient, EAppProt, Graphics, ucBase;
+  Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -1793,8 +1793,9 @@ type
     cds_produtoTAM_LOTE: TIntegerField;
     s_permissao: TSQLDataSet;
     sdsTranspFANTASIA: TStringField;
-    sdsTranspEMAIL: TStringField;
     cdsTranspFANTASIA: TStringField;
+    s_1TIPOLANC: TStringField;
+    c_1_planocTIPOLANC: TStringField;
     cdsTranspEMAIL: TStringField;
     sds_EmpresaDIVERSOS2: TStringField;
     sds_EmpresaDIVERSOS3: TStringField;
@@ -1885,6 +1886,10 @@ type
     sds_EmpresaINDICADORATIVIDADE: TSmallintField;
     cds_empresaINDICADORNATUREZAPJ: TSmallintField;
     cds_empresaINDICADORATIVIDADE: TSmallintField;
+    sdsBancoVARIACAO: TStringField;
+    sdsBancoCODIGOBOLETO: TStringField;
+    cdsBancoVARIACAO: TStringField;
+    cdsBancoCODIGOBOLETO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
