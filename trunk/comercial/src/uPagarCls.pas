@@ -953,7 +953,7 @@ var execMarcaTitulo: String;
 begin
   execMarcaTitulo :=  'UPDATE PAGAMENTO SET ' +
       ' DP     = 0,' +
-      ' USERID = ' + IntToStr(userMarcou)
+      ' USERID = ' + IntToStr(userMarcou) +
       ' WHERE CodPagamento = ' + IntToStr(CodPagamento);
   executaSql(execMarcaTitulo);
 end;
