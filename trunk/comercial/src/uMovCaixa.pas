@@ -22,11 +22,9 @@ type
     eddata3: TJvDateEdit;
     eddata2: TJvDateEdit;
     Panel1: TPanel;
-    Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     edValor: TJvCalcEdit;
-    edData: TJvDateEdit;
     edhist: TEdit;
     ComboBox1: TComboBox;
     Label6: TLabel;
@@ -126,10 +124,6 @@ type
     sdsPlano2CONTA: TStringField;
     OpenDialog1: TOpenDialog;
     BitBtn1: TBitBtn;
-    sCaixaCODORIGEM: TIntegerField;
-    cCaixaCODORIGEM: TIntegerField;
-    sCaixaCODRECEBIMENTO: TIntegerField;
-    cCaixaCODRECEBIMENTO: TIntegerField;
     sdsPegaCodigo: TSQLDataSet;
     sdsPegaCodigoCODVENDA: TIntegerField;
     sdsPegaCodigoCODMOVIMENTO: TIntegerField;
@@ -227,6 +221,16 @@ type
     sdsCaixaVALORABRE: TFloatField;
     sdsCaixaVALORFECHA: TFloatField;
     sdsCaixaNOMECAIXA: TStringField;
+    S_CAIXA: TSQLDataSet;
+    S_CAIXACODIGO: TIntegerField;
+    cbbDebito: TComboBox;
+    lbl1: TLabel;
+    cbbCredito: TComboBox;
+    lbl2: TLabel;
+    S_DEB_CRED: TSQLDataSet;
+    IntegerField1: TIntegerField;
+    S_DEB_CREDNOME: TStringField;
+    S_CAIXACONTA: TStringField;
     procedure FormShow(Sender: TObject);
     procedure btnAbrirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -255,13 +259,13 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, UDM_MOV;
 
 {$R *.dfm}
 
 procedure TfMovCaixa.FormShow(Sender: TObject);
 var
-  codigoCaixa, caixabanco : string;
+  codigoCaixa, caixabanco, ccusto : string;
 begin
   //------Pego do Parametro o cadigo para listar os Caixas ---
   if Dm.cds_parametro.Active then
@@ -288,21 +292,18 @@ begin
     MessageDlg('é preciso cadastrar Parametro LISTARCAIXA, com a conta pai para CAIXAS.', mtConfirmation, [mbok], 0);
     exit;
   end;
-
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CAIXA_BANCO';
-  dm.cds_parametro.Open;
-  if (not dm.cds_parametro.IsEmpty) then
-    caixabanco := dm.cds_parametroDADOS.AsString;
   dm.cds_parametro.Close;
-  if (sPlano2.Active) then
-    sPlano2.Close;
-  sPlano2.Params[0].AsString  := codigoCaixa;
-  sPlano2.Params[1].AsString  := caixabanco;
-  sPlano2.Open;
-  sPlano2.First;
-  sPlano2.Close;
+
+  if (not S_DEB_CRED.Active) then
+     S_DEB_CRED.Open;
+  S_DEB_CRED.First;
+  while not S_DEB_CRED.Eof do
+  begin
+     cbbDebito.Items.Add(S_DEB_CREDNOME.AsString);
+     cbbCredito.Items.Add(S_DEB_CREDNOME.AsString);
+     S_DEB_CRED.Next;
+  end;
+  S_DEB_CRED.Close;
   //Verifica se caixa está aberto na MAQUINA
   if (sCaixa1.Active) then
     sCaixa1.Close;
@@ -314,14 +315,14 @@ begin
      ComboBox1.Text := sCaixa1NOMECAIXA.AsString;
      ComboBox1.Enabled := False;
      btnAbrir.Enabled := False;
-     edData.Date := Now;
+     //edData.Date := Now;
      eddata2.Date := sCaixa1DATAABERTURA.AsDateTime;
      eddata3.Date := Now;
      Consulta.Click;
   end
   else
   begin
-    edData.Date := Now;
+    //edData.Date := Now;
     btnAbrir.Enabled := True;
     btnFechar.Enabled := False;
     btnSaida.Enabled := False;
@@ -331,14 +332,14 @@ begin
     eddata2.Date := Now;
   if (eddata3.Text = '  /  /    ') then
     eddata3.Date := Now;
-
   sCaixa1.Close;
+
 end;
 
 procedure TfMovCaixa.btnAbrirClick(Sender: TObject);
 begin
   // Insere na tabela caixa controle
-  if (not cCaixaControle.Active) then
+{  if (not cCaixaControle.Active) then
     cCaixaControle.Open;
   cCaixaControle.Append;
   cCaixaControleCODUSUARIO.AsInteger := usulog;
@@ -364,7 +365,7 @@ begin
   btnAbrir.Enabled := False;
   btnSaida.Enabled := True;
   btnEntrada.Enabled := True;
-  btnFechar.Enabled := True;
+  btnFechar.Enabled := True;       }
 end;
 
 procedure TfMovCaixa.AbrirCaixa;
@@ -372,7 +373,7 @@ procedure TfMovCaixa.AbrirCaixa;
    var_sqla : string;
    cod_id, var_usuario, primeiro_lanc : integer;
 begin
-     var_usuario := usulog;
+{     var_usuario := usulog;
     //  Conta Débito
     //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
@@ -408,7 +409,7 @@ begin
     var_sqla := var_sqla + ',' + '0'; //QTDEORCADO
     var_sqla := var_sqla + ')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
-    { *** Inserindo o Histórico *** }
+
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
     var_sqla := var_sqla + intToStr(cod_id);
@@ -451,7 +452,7 @@ begin
     var_sqla := var_sqla + ')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
 
-    { *** Inserindo o Histórico *** }
+
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
     var_sqla := var_sqla + intToStr(cod_id);
@@ -459,7 +460,7 @@ begin
     var_sqla := var_sqla + ''')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
 
- {   if (not sPlano1.Active) then
+    if (not sPlano1.Active) then
       sPlano1.Open;
     sPlano1.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
   if (cCaixa.Active) then
@@ -470,8 +471,9 @@ begin
   cCaixa.Params[2].AsInteger := sPlano1CODIGO.asInteger;
   sPlano1.Close;
   cCaixa.Open;
-  }
+
   Consulta.Click;
+  }
 end;
 
 procedure TfMovCaixa.entradaCaixa;
@@ -506,11 +508,19 @@ begin
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     // CONTA CAIXA
-    if (not sPlano1.Active) then
+   { if (not sPlano1.Active) then
       sPlano1.Open;
     sPlano1.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
     var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString); //CONTA CAIXA
     sPlano1.Close;
+    }
+    if (S_CAIXA.Active) then
+        S_CAIXA.Close;
+    S_CAIXA.Params[0].AsString := cbbDebito.Text;
+    S_CAIXA.Open;
+    var_sqla := var_sqla + ',' + QuotedStr(S_CAIXACONTA.AsString);
+    S_CAIXA.Close;
+
     var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(edValor.Value)); //Valor Debito
@@ -550,11 +560,20 @@ begin
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
-    if (not sPlano1.Active) then
+
+{    if (not sPlano1.Active) then
       sPlano1.Open;
     sPlano1.Locate('NOME','ENTRADA', [loCaseInsensitive]);
     var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString); //CONTA ABERTURA DE CAIXA
     sPlano1.Close;
+ }
+    if (S_CAIXA.Active) then
+        S_CAIXA.Close;
+    S_CAIXA.Params[0].AsString := cbbCredito.Text;
+    S_CAIXA.Open;
+    var_sqla := var_sqla + ',' + QuotedStr(S_CAIXACONTA.AsString);
+    S_CAIXA.Close;
+
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(edValor.Value)); //Valor Debito
     DecimalSeparator := ',';
@@ -615,11 +634,19 @@ begin
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     //Conta FHECHA CAIXA
-    if (not sPlano1.Active) then
+   { if (not sPlano1.Active) then
       sPlano1.Open;
     sPlano1.Locate('NOME','FECHACAIXA', [loCaseInsensitive]);
     var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString); //CONTA FECUAMENTO DE CAIXA
     sPlano1.Close;
+    }
+    if (S_CAIXA.Active) then
+        S_CAIXA.Close;
+    S_CAIXA.Params[0].AsString := ComboBox1.Text;
+    S_CAIXA.Open;
+    var_sqla := var_sqla + ',' + QuotedStr(S_CAIXACONTA.AsString);
+    S_CAIXA.Close;
+
     var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(edValor.Value)); //Valor Debito
@@ -657,11 +684,19 @@ begin
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     // CONTA CAIXA
-    if (not sPlano1.Active) then
+   { if (not sPlano1.Active) then
       sPlano1.Open;
     sPlano1.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
     var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString); //CONTA CAIXA
     sPlano1.Close;
+    }
+    if (S_CAIXA.Active) then
+        S_CAIXA.Close;
+    S_CAIXA.Params[0].AsString := ComboBox1.Text;
+    S_CAIXA.Open;
+    var_sqla := var_sqla + ',' + QuotedStr(S_CAIXACONTA.AsString);
+    S_CAIXA.Close;
+
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(edValor.Value)); //Valor Debito
     DecimalSeparator := ',';
@@ -694,15 +729,23 @@ begin
 procedure TfMovCaixa.saidaCaixa;
  Var
    var_sqla : string;
-   cod_id, var_usuario, primeiro_lanc : integer;
+   cod_id, var_usuario, primeiro_lanc, v_ccusto, v_codCaixa : integer;
 begin
     if (sCaixa1.Active) then
       sCaixa1.Close;
     sCaixa1.Params[0].AsString := MICRO;
     sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
     sCaixa1.Open;
-
     var_usuario := usulog;
+
+    If (S_CAIXA.Active) Then
+        S_CAIXA.Close;
+    S_CAIXA.Params[0].AsString := ComboBox1.Text;
+    S_CAIXA.Open;
+    v_codCaixa := S_CAIXACODIGO.AsInteger;
+    v_ccusto := S_CAIXACODIGO.AsInteger;
+    S_CAIXA.Close;
+
     //  Conta Débito
     //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
@@ -717,17 +760,26 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(v_codCaixa); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy',sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
-    var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
-    //Conta FHECHA CAIXA
-    if (not sPlano1.Active) then
+    var_sqla := var_sqla + ',' + IntToStr(v_ccusto); //CODCUSTO
+
+    // Conta Contabil de Lançamento de Débito
+  {  if (not sPlano1.Active) then
       sPlano1.Open;
     sPlano1.Locate('NOME','SANGRIA', [loCaseInsensitive]);
-    var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString); //CONTA ABERTURA DE CAIXA
+    var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString);
     sPlano1.Close;
+    }
+    if (S_CAIXA.Active) then
+        S_CAIXA.Close;
+    S_CAIXA.Params[0].AsString := cbbDebito.Text;
+    S_CAIXA.Open;
+    var_sqla := var_sqla + ',' + QuotedStr(S_CAIXACONTA.AsString);
+    S_CAIXA.Close;
+
     var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(edValor.Value)); //Valor Debito
@@ -768,11 +820,19 @@ begin
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
     // CONTA CAIXA
-    if (not sPlano1.Active) then
+  {  if (not sPlano1.Active) then
       sPlano1.Open;
     sPlano1.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
     var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString); //CONTA CAIXA
     sPlano1.Close;
+   }
+    if (S_CAIXA.Active) then
+        S_CAIXA.Close;
+    S_CAIXA.Params[0].AsString := cbbCredito.Text;
+    S_CAIXA.Open;
+    var_sqla := var_sqla + ',' + QuotedStr(S_CAIXACONTA.AsString);
+    S_CAIXA.Close;
+
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(edValor.Value)); //Valor Debito
     DecimalSeparator := ',';
@@ -934,8 +994,8 @@ begin
   // Pede o número do primeiro lancamento
   cCaixa.Params[0].AsDate := StrToDate(eddata2.Text);
   cCaixa.Params[1].AsDate := StrToDate(eddata3.Text);
-  cCaixa.Params[2].AsInteger := sPlano1CODIGO.AsInteger;
-  cCaixa.Params[3].AsInteger := sdsCaixaIDCAIXACONTROLE.AsInteger;
+  cCaixa.Params[2].AsInteger := 0;//sPlano1CODIGO.AsInteger;
+  cCaixa.Params[3].AsInteger := dm_mov.ID_CCUSTO; //sdsCaixaIDCAIXACONTROLE.AsInteger;
   cCaixa.Open;
   sPlano1.Close;
   sdsCaixa.Close;
