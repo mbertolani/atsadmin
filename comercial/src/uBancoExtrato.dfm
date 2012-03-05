@@ -718,4 +718,11 @@ inherited fBancoExtrato: TfBancoExtrato
     Left = 392
     Top = 160
   end
+  object sdsTipoConta: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 336
+    Top = 168
+  end
 end

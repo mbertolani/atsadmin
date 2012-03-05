@@ -64,6 +64,7 @@ type
     sqlFornecedor: TSQLQuery;
     Label1: TLabel;
     ComboBox1: TComboBox;
+    sdsTipoConta: TSQLQuery;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -83,6 +84,7 @@ type
     contaCaixa : Integer;
     contaLanc  : String;
     util: TUtils;
+    function tipoConta(conta: Integer): String;
     procedure ChkDBGridDrawColumnCell(DBGrid: TDBGrid;
       const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);
@@ -95,6 +97,7 @@ type
     procedure LancamentoNaoLancadoComConta;
     { Private declarations }
   public
+    beUsuarioLogado: Integer;
     { Public declarations }
   end;
 
@@ -103,7 +106,7 @@ var
 
 implementation
 
-uses uBancoOFX, UDm, uBancoDePara;
+uses uBancoOFX, UDm, uBancoDePara, uAtsAdmin;
 
 {$R *.dfm}
 
@@ -398,7 +401,7 @@ end;
 
 procedure TfBancoExtrato.LancamentoNaoLancadoComConta;
 var despesa: TPagarCls;
-   codFornec, cCusto : Integer;
+   codFornec, cCusto, codPag : Integer;
    multiplicador : Double;
 begin
   if (cbConta.ItemIndex = -1) then
@@ -428,52 +431,68 @@ begin
   end;
   dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
   cCusto := dm.cds_ccustoCODIGO.AsInteger;
-  Try
-    despesa := TPagarCls.Create;
 
-    cdsExtrato.DisableControls;
-    cdsExtrato.First;
+  if (tipoConta = 'DESPESA') then
+  begin
+    Try
+      despesa := TPagarCls.Create;
 
-    multiplicador := 1;
+      cdsExtrato.DisableControls;
+      cdsExtrato.First;
 
-    While not cdsExtrato.Eof do
-    begin
-      if (cdsExtratoCONTA.AsInteger > 0) then
+      multiplicador := 1;
+
+      While not cdsExtrato.Eof do
       begin
-        despesa.CodFornecedor := codFornec;
-        despesa.CodCCusto     := cCusto;
-        despesa.CodUsuario    := dm.varUSERID;
-        despesa.Caixa         := contaCaixa;
-        despesa.NParcela      := 1;
-        despesa.Via           := 1;
-        despesa.DtEmissao     := cdsExtratoEXTRATODATA.AsDateTime;
-        despesa.DtVcto        := cdsExtratoEXTRATODATA.AsDateTime;
-        despesa.dtPag         := cdsExtratoEXTRATODATA.AsDateTime;
-        despesa.DtBaixa       := cdsExtratoEXTRATODATA.AsDateTime;
-        despesa.DtConsolida   := cdsExtratoEXTRATODATA.AsDateTime;
+        if (cdsExtratoCONTA.AsInteger > 0) then
+        begin
+          despesa.CodFornecedor := codFornec;
+          despesa.CodCCusto     := cCusto;
+          despesa.CodUsuario    := dm.varUSERID;
+          despesa.Caixa         := contaCaixa;
+          despesa.NParcela      := 1;
+          despesa.Via           := 1;
+          despesa.DtEmissao     := cdsExtratoEXTRATODATA.AsDateTime;
+          despesa.DtVcto        := cdsExtratoEXTRATODATA.AsDateTime;
+          despesa.dtPag         := cdsExtratoEXTRATODATA.AsDateTime;
+          despesa.DtBaixa       := cdsExtratoEXTRATODATA.AsDateTime;
+          despesa.DtConsolida   := cdsExtratoEXTRATODATA.AsDateTime;
 
-        if (cdsExtratoEXTRATOVALOR.AsFloat < 0) then
-          multiplicador := -1;
+          if (cdsExtratoEXTRATOVALOR.AsFloat < 0) then
+            multiplicador := -1;
 
-        despesa.Valor         := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
-        despesa.valorPag      := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
-        despesa.Status        := '5-';
-        despesa.Titulo        := cdsExtratoEXTRATOCOD.AsString;
-        despesa.ContaCredito  := cdsExtratoCONTA.AsInteger;
+          despesa.Valor         := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
+          despesa.valorPag      := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
+          despesa.Status        := '5-';
+          despesa.Titulo        := cdsExtratoEXTRATOCOD.AsString;
+          despesa.ContaCredito  := cdsExtratoCONTA.AsInteger;
+          despesa.CodConciliaco := cdsExtratoEXTRATOCOD.AsString;
 
-        despesa.geraTitulo(0, 0);
-        despesa.baixaTitulo(despesa.Valor, 0, 0, 0, 0, cdsExtratoEXTRATODATA.AsDateTime,
-        cdsExtratoEXTRATODATA.AsDateTime, cdsExtratoEXTRATODATA.AsDateTime,
-        '1', cdsExtratoEXTRATOCOD.AsString, contaCaixa, codFornec,
-        '5-', fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+          codPag := despesa.geraTitulo(0, 0);
+          despesa.marcarTitulo(codPag, beUsuarioLogado);
+          despesa.baixaTitulo(despesa.Valor, 0, 0, 0, 0, cdsExtratoEXTRATODATA.AsDateTime,
+          cdsExtratoEXTRATODATA.AsDateTime, cdsExtratoEXTRATODATA.AsDateTime,
+          '1', cdsExtratoEXTRATOCOD.AsString, contaCaixa, codFornec,
+          '5-', beUsuarioLogado);
 
+        end;
+        cdsExtrato.Next;
       end;
-      cdsExtrato.Next;
+    Finally
+      cdsExtrato.EnableControls;
+      despesa.Free;
     end;
-  Finally
-    cdsExtrato.EnableControls;
-    despesa.Free;
   end;
+  if (tipoConta = 'CAIXA') then
+  begin
+    // Rotina para fazer um lancamento Contabil
+  end;
+end;
+
+function TfBancoExtrato.tipoConta(conta: Integer): String;
+begin
+  if (sdsTipoConta.Active) then
+    sdsTipoConta.Close;
 end;
 
 end.
