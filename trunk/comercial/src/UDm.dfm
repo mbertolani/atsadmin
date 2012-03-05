@@ -5,7 +5,7 @@ object DM: TDM
   Height = 657
   Width = 1280
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sge'
+    ConnectionName = 'sisadmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=c:\Home\sisadmin\BD\sge_solcampo.fdb'
+      'Database=localhost:F:\home\bd\sge_madurodam.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -23,11 +23,10 @@ object DM: TDM
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=sysdba'
-      'WaitOnLocks=True'
-      'str_relatorio=C:\home\atsadmin\relatorio\')
+      'User_Name=SYSDBA'
+      'WaitOnLocks=True')
     VendorLib = 'fbclient.dll'
-    Left = 80
+    Left = 88
     Top = 8
   end
   object sds_parametro: TSQLDataSet
@@ -2124,6 +2123,11 @@ object DM: TDM
       ProviderFlags = [pfInUpdate]
       Size = 15
     end
+    object s_1TIPOLANC: TStringField
+      FieldName = 'TIPOLANC'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
   end
   object d_1: TDataSetProvider
     DataSet = s_1
@@ -2181,6 +2185,11 @@ object DM: TDM
       FieldName = 'CODREDUZIDO'
       ProviderFlags = [pfInUpdate]
       Size = 15
+    end
+    object c_1_planocTIPOLANC: TStringField
+      FieldName = 'TIPOLANC'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
     end
   end
   object SQLDataSet1: TSQLDataSet
@@ -3263,6 +3272,15 @@ object DM: TDM
       FieldName = 'DIGITOBANCO'
       ProviderFlags = [pfInUpdate]
     end
+    object sdsBancoVARIACAO: TStringField
+      FieldName = 'VARIACAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 3
+    end
+    object sdsBancoCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
+      ProviderFlags = [pfInUpdate]
+    end
   end
   object dspBanco: TDataSetProvider
     DataSet = sdsBanco
@@ -3377,6 +3395,15 @@ object DM: TDM
     end
     object cdsBancoDIGITOBANCO: TIntegerField
       FieldName = 'DIGITOBANCO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsBancoVARIACAO: TStringField
+      FieldName = 'VARIACAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 3
+    end
+    object cdsBancoCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
       ProviderFlags = [pfInUpdate]
     end
   end
@@ -9086,8 +9113,8 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 1136
-    Top = 344
+    Left = 1128
+    Top = 392
     object IntegerField2: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -9212,15 +9239,15 @@ object DM: TDM
   object dbuscacli: TDataSetProvider
     DataSet = sbuscacli
     Options = [poAllowCommandText]
-    Left = 1168
-    Top = 344
+    Left = 1160
+    Top = 392
   end
   object cbuscacli: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dbuscacli'
-    Left = 1200
-    Top = 344
+    Left = 1192
+    Top = 392
     object IntegerField4: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
