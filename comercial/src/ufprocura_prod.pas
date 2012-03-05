@@ -322,7 +322,18 @@ begin
    if cds_proc2.Active then
      cds_proc2.Close;
  end;
- BitBtn2.Click;
+ //BitBtn2.Click; Comentei
+  edUso.Clear;
+  edCodigo.Clear;
+  edProduto.Clear;
+  edOutros.Clear;
+  cbMarca.Text := '';
+  cbFamilia.Text := '';
+  cbCategoria.Text := '';
+  cbCategoria.Items.Clear;
+  if dm.cds_categoria.Active then
+    dm.cds_categoria.Close;
+
  if Panel3.Visible = True then
    Panel3.Visible := False;
  if ((varonde <> 'compra') and (varonde <> 'itens') and (varonde <> 'venda')
@@ -331,7 +342,7 @@ begin
    //cds_proc.Close;
  end;
  varonde := '';
- Close;
+// Close;
 end;
 
 procedure TfProcura_prod.FormCreate(Sender: TObject);
