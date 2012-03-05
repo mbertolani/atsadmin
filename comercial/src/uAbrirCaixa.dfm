@@ -1118,4 +1118,21 @@ object fAbrirCaixa: TfAbrirCaixa
       OnClick = btnSairClick
     end
   end
+  object S_CAIXA: TSQLDataSet
+    CommandText = 'SELECT a.CODIGO'#13#10'FROM PLANO a '#13#10'WHERE A.NOME = :NOME'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 352
+    Top = 16
+    object S_CAIXACODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+  end
 end
