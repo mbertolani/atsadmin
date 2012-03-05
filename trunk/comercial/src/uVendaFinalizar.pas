@@ -1597,37 +1597,39 @@ begin
     F_Boletos := TF_Boletos.Create(Application);
     try
 
-   strSql := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
-   dm.sqlsisAdimin.StartTransaction(TD);
-   dm.sqlsisAdimin.ExecuteDirect(strSql);
-    Try
-       dm.sqlsisAdimin.Commit(TD);
-    except
-       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
-           [mbOk], 0);
-    end;
+      strSql := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Try
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
+            [mbOk], 0);
+      end;
 
       if (F_Boletos.ds_cr.Active) then
         F_Boletos.ds_cr.Close;
       F_Boletos.ds_cr.CommandText := 'select * from RECEBIMENTO where DP = 1 ';
       F_Boletos.ds_cr.Open;
       F_Boletos.ShowModal;
-     //fImpr_Boleto.ShowModal;
-    finally
-   strSql := 'UPDATE RECEBIMENTO SET DP = null where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
-   dm.sqlsisAdimin.StartTransaction(TD);
-   dm.sqlsisAdimin.ExecuteDirect(strSql);
+
+    Finally
+        F_Boletos.Free;
+    end;
+
+    strSql := 'UPDATE RECEBIMENTO SET DP = null where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
+    dm.sqlsisAdimin.StartTransaction(TD);
     Try
-       dm.sqlsisAdimin.Commit(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
     except
-       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
-           [mbOk], 0);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
+         [mbOk], 0);
     end;
-     //     fImpr_Boleto.Free;
-     F_Boletos.Free;
-    end;
+
+
   end
   else begin
 
