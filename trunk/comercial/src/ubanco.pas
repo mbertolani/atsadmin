@@ -48,6 +48,8 @@ type
     Label12: TLabel;
     DBEdit14: TDBEdit;
     Label13: TLabel;
+    dbedtCODIGOBOLETO: TDBEdit;
+    lbl6: TLabel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
