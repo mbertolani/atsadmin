@@ -76,6 +76,8 @@ type
     ds_similarPRECOMEDIO: TBCDField;
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
+    cbb2: TComboBox;
+    lbl2: TLabel;
     procedure btn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edt1KeyPress(Sender: TObject; var Key: Char);
@@ -142,6 +144,7 @@ begin
     while not busca.Eof do
     begin
       cbb1.Items.Add(buscaMARCA.AsString);
+      cbb2.Items.Add(buscaMARCA.AsString);      
       busca.Next;
     end;
     busca.Close;
@@ -171,7 +174,7 @@ begin
     if (ds_buscaprod.Active) then
        ds_buscaprod.Close;
     ds_buscaprod.Params[0].AsString := edt3.Text;
-    ds_buscaprod.Params[1].AsString := cbb1.Text;
+    ds_buscaprod.Params[1].AsString := cbb2.Text;
     ds_buscaprod.Open;
     if (ds_buscaprod.IsEmpty) then
     begin
@@ -206,12 +209,29 @@ begin
 end;
 
 procedure TF_SIMILARES.btn8Click(Sender: TObject);
+var
+  sql_texto : String;
 begin
   if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                 [mbYes,mbNo],0) = mrYes then
   begin
-     d_similar.DataSet.Delete;
-     (d_similar.DataSet as TClientDataSet).ApplyUpdates(0);
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
+
+      sql_texto := 'DELETE FROM SIMILARES WHERE CODPROSIMILAR = ';
+      sql_texto :=   sql_texto + IntToStr(ds_similarCODPROSIMILAR.AsInteger);
+
+      dm.sqlsisAdimin.ExecuteDirect(sql_texto);
+      Try
+
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, a venda não foi gravada.', mtError,
+             [mbOk], 0);
+      end;
+      btn1.Click;
   end
   else
     exit;
@@ -225,7 +245,7 @@ begin
   fProcura_prod.Panel2.Visible := False;
   fProcura_prod.Panel1.Visible := True;
   fProcura_prod.ShowModal;
-  //cbb1.Text :=  fProcura_prod.cds_procMARCA.AsString;
+  cbb2.Text :=  fProcura_prod.cds_procMARCA.AsString;
   edt3.Text := fProcura_prod.cds_procCODPRO.AsString;
   btn4.Click;
   edt3.SetFocus;
