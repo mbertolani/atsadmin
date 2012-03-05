@@ -46,7 +46,7 @@ object F_SIMILARES: TF_SIMILARES
       Left = 425
       Top = 18
       Width = 20
-      Height = 26
+      Height = 24
       Caption = '...'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -190,15 +190,23 @@ object F_SIMILARES: TF_SIMILARES
     Background.EndColor = clSkyBlue
     Background.FillType = GradUpDown
     object lbl6: TLabel
-      Left = 3
+      Left = 139
       Top = 8
       Width = 66
       Height = 13
       Caption = 'C'#243'digo Similar'
       Transparent = True
     end
-    object edt3: TEdit
+    object lbl2: TLabel
       Left = 3
+      Top = 8
+      Width = 85
+      Height = 13
+      Caption = 'Marca do Produto'
+      Transparent = True
+    end
+    object edt3: TEdit
+      Left = 139
       Top = 24
       Width = 133
       Height = 21
@@ -213,7 +221,7 @@ object F_SIMILARES: TF_SIMILARES
       TabOrder = 0
     end
     object btn4: TBitBtn
-      Left = 140
+      Left = 275
       Top = 18
       Width = 75
       Height = 27
@@ -222,16 +230,16 @@ object F_SIMILARES: TF_SIMILARES
       OnClick = btn4Click
     end
     object btn5: TBitBtn
-      Left = 291
-      Top = 18
+      Left = 426
+      Top = 19
       Width = 75
-      Height = 27
+      Height = 26
       Caption = 'ADICIONAR'
       TabOrder = 2
       OnClick = btn5Click
     end
     object btn8: TBitBtn
-      Left = 368
+      Left = 503
       Top = 18
       Width = 75
       Height = 27
@@ -240,13 +248,22 @@ object F_SIMILARES: TF_SIMILARES
       OnClick = btn8Click
     end
     object BitBtn1: TBitBtn
-      Left = 216
+      Left = 351
       Top = 18
       Width = 75
       Height = 27
       Caption = 'BUSCA '
       TabOrder = 4
       OnClick = BitBtn1Click
+    end
+    object cbb2: TComboBox
+      Left = 3
+      Top = 24
+      Width = 134
+      Height = 21
+      BevelKind = bkFlat
+      ItemHeight = 13
+      TabOrder = 5
     end
   end
   object grp1: TGroupBox
@@ -534,8 +551,8 @@ object F_SIMILARES: TF_SIMILARES
     CommandText = 
       'select CODPRODUTO,'#13#10'           CODPRO, '#13#10'           PRODUTO, '#13#10' ' +
       '          VALORUNITARIOATUAL, '#13#10'           PRECOMEDIO,'#13#10'        ' +
-      '   MARCA   '#13#10'from PRODUTOS '#13#10'where CODPRO = :idPro '#13#10'and MARCA <' +
-      '> :mc'
+      '   MARCA   '#13#10'from PRODUTOS '#13#10'where CODPRO = :idPro '#13#10'and MARCA =' +
+      ' :mc'
     MaxBlobSize = -1
     Params = <
       item
