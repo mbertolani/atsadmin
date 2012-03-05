@@ -2138,6 +2138,7 @@ begin
  fBancoExtrato := TfBancoExtrato.Create(Application);
  fBancoDePara := TfBancoDePara.Create(Application);
  try
+   fBancoExtrato.beUsuarioLogado := UserControlComercial.CurrentUser.UserID;
    fBancoExtrato.ShowModal;
  finally
    fBancoExtrato.Free;
