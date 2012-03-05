@@ -62,7 +62,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 798
+    Width = 790
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1429,8 +1429,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [15]
     Left = 0
-    Top = 539
-    Width = 798
+    Top = 528
+    Width = 790
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -3877,10 +3877,10 @@ inherited fVendas: TfVendas
       'E, lote.PRECOCUSTO PRECO, lote.LOTE NOTAFISCAL, 1 SERIEINI, 2 SE' +
       'RIEFIM , prod.PRODUTO, prod.CODPRO FROM ESTOQUEMES lote '#13#10'inner ' +
       'join PRODUTOS prod on prod.codproduto = lote.CODPRODUTO '#13#10'WHERE ' +
-      'prod.CODPRODUTO = lote.CODPRODUTO '#13#10'AND (((lote.LOTE = :PLOTE) O' +
-      'R (:PLOTE = '#39'TODOSLOTESCADASTRADOS'#39')) and (lote.CODPRODUTO = :PP' +
-      'ROD) AND (lote.SALDOESTOQUE > 0.00099999999999999999)) order by ' +
-      'lote.MESANO'
+      'prod.CODPRODUTO = lote.CODPRODUTO '#13#10'AND ((((lote.LOTE = :PLOTE) ' +
+      ')OR (:PLOTE = '#39'TODOSLOTESCADASTRADOS'#39') AND (LOTE.LOTE <> '#39'0'#39' )) ' +
+      'and (lote.CODPRODUTO = :PPROD) AND (lote.SALDOESTOQUE > 0.000999' +
+      '99999999999999)) order by lote.MESANO'
     MaxBlobSize = -1
     Params = <
       item
