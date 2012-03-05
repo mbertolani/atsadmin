@@ -1255,8 +1255,6 @@ begin
       executaDDL('EMPRESA', 'CONTADOR_FAX',    'VARCHAR(14)');
       executaDDL('EMPRESA', 'CONTADOR_EMAIL',  'VARCHAR(100)');
       executaDDL('EMPRESA', 'CONTADOR_COD_MUN', 'CHAR(10)');
-      executaDDL('EMPRESA', 'INDICADORNATUREZAPJ', 'VARCHAR(50)'); // Indicador da natureza da pessoa juridica
-
 
       executaDDL('EMPRESA', UpperCase('IndicadorAtividade'),  'SMALLINT');
       executaDDL('EMPRESA', UpperCase('CodIndIncTributaria'), 'SMALLINT');
@@ -1405,6 +1403,9 @@ begin
         ' PRIMARY KEY (CAIXA, CONTA, EXTRATODOC, EXTRATOTIPO))');
       end;
       executaDDL('BANCO', 'VARIACAO', 'Varchar(3)');
+      executaDDL('PAGAMENTO',     'CODCONCILIACAO', 'Varchar(50)');
+      executaDDL('RECEBIMENTO',   'CODCONCILIACAO', 'Varchar(50)');
+      executaDDL('MOVIMENTOCONT', 'CODCONCILIACAO', 'Varchar(50)');
 
       mudaVersao('1.0.0.101');
     end;
