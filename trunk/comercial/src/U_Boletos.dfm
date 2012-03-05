@@ -322,11 +322,12 @@ object F_Boletos: TF_Boletos
       '.NUMERO_CONTA, a.DIGITO_CONTA, a.CODIGO_PLANO, a.INSTRUCAO1, a.I' +
       'NSTRUCAO2, a.INSTRUCAO3, a.INSTRUCAO4, a.CEDENTE, a.NCONVENIO, '#13 +
       #10'a.ESPECIEDOC, a.ACEITE, a.CONVENIO, a.LOCALPGTO, a.N_BANCO, '#13#10'a' +
-      '.DIGITOBANCO, a.VARIACAO   '#13#10'FROM BANCO a'#13#10'where CODBANCO = :bc'
+      '.DIGITOBANCO, a.VARIACAO, a.'#10'CODIGOBOLETO    '#13#10'FROM BANCO a'#13#10'whe' +
+      're CODBANCO = :bc'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftString
         Name = 'bc'
         ParamType = ptInput
       end>
@@ -430,6 +431,9 @@ object F_Boletos: TF_Boletos
     object s_bancoVARIACAO: TStringField
       FieldName = 'VARIACAO'
       Size = 3
+    end
+    object s_bancoCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
     end
   end
   object s_cr: TSQLDataSet
