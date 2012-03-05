@@ -432,7 +432,7 @@ begin
   dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
   cCusto := dm.cds_ccustoCODIGO.AsInteger;
 
-  if (tipoConta = 'DESPESA') then
+  if (tipoConta(cdsExtratoCONTA.AsInteger) = 'DESPESA') then
   begin
     Try
       despesa := TPagarCls.Create;
@@ -483,7 +483,7 @@ begin
       despesa.Free;
     end;
   end;
-  if (tipoConta = 'CAIXA') then
+  if (tipoConta(cdsExtratoCONTA.AsInteger) = 'CAIXA') then
   begin
     // Rotina para fazer um lancamento Contabil
   end;
