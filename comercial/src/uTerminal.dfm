@@ -1,6 +1,6 @@
 inherited fTerminal: TfTerminal
-  Left = 3
-  Top = 0
+  Left = 95
+  Top = 79
   Width = 800
   Height = 581
   BorderIcons = [biSystemMenu, biMinimize, biMaximize]
@@ -77,8 +77,8 @@ inherited fTerminal: TfTerminal
     Height = 16
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 486
-    Width = 792
+    Top = 482
+    Width = 784
     Height = 61
     object Label17: TLabel [0]
       Left = 657
@@ -350,11 +350,11 @@ inherited fTerminal: TfTerminal
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 792
+    Width = 784
     inherited Label1: TLabel
       Left = 6
       Top = -38
-      Width = 96
+      Width = 94
       Height = 22
       Caption = 'Vencimento'
       Font.Color = clBlack
