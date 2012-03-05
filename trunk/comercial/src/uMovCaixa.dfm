@@ -1,6 +1,6 @@
 object fMovCaixa: TfMovCaixa
-  Left = 207
-  Top = 39
+  Left = 285
+  Top = 173
   Width = 750
   Height = 541
   BorderIcons = [biSystemMenu]
@@ -75,6 +75,7 @@ object fMovCaixa: TfMovCaixa
       Caption = 'F2-Abrir'
       PopupMenu = PopupMenu1
       TabOrder = 1
+      Visible = False
       OnClick = btnAbrirClick
       Glyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100
@@ -877,27 +878,20 @@ object fMovCaixa: TfMovCaixa
     Left = 0
     Top = 61
     Width = 734
-    Height = 50
+    Height = 82
     Align = alTop
     PopupMenu = PopupMenu1
     TabOrder = 1
-    object Label1: TLabel
-      Left = 218
-      Top = 4
-      Width = 23
-      Height = 13
-      Caption = 'Data'
-    end
     object Label2: TLabel
-      Left = 315
+      Left = 639
       Top = 4
       Width = 41
       Height = 13
       Caption = 'R$ Valor'
     end
     object Label3: TLabel
-      Left = 408
-      Top = 4
+      Left = 5
+      Top = 52
       Width = 41
       Height = 13
       Caption = 'Hist'#243'rico'
@@ -909,8 +903,22 @@ object fMovCaixa: TfMovCaixa
       Height = 13
       Caption = 'Caixas'
     end
+    object lbl1: TLabel
+      Left = 162
+      Top = 5
+      Width = 62
+      Height = 13
+      Caption = 'Conta D'#233'bito'
+    end
+    object lbl2: TLabel
+      Left = 401
+      Top = 5
+      Width = 64
+      Height = 13
+      Caption = 'Conta Cr'#233'dito'
+    end
     object edValor: TJvCalcEdit
-      Left = 314
+      Left = 638
       Top = 18
       Width = 91
       Height = 27
@@ -925,30 +933,13 @@ object fMovCaixa: TfMovCaixa
       ParentFont = False
       PopupMenu = PopupMenu1
       ShowButton = False
-      TabOrder = 1
+      TabOrder = 0
       DecimalPlacesAlwaysShown = False
     end
-    object edData: TJvDateEdit
-      Left = 218
-      Top = 18
-      Width = 94
-      Height = 27
-      BorderStyle = bsNone
-      BevelKind = bkFlat
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Times New Roman'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      ShowButton = False
-      TabOrder = 0
-    end
     object edhist: TEdit
-      Left = 406
-      Top = 18
-      Width = 319
+      Left = 53
+      Top = 50
+      Width = 675
       Height = 27
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -959,12 +950,28 @@ object fMovCaixa: TfMovCaixa
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 2
+      TabOrder = 1
     end
     object ComboBox1: TComboBox
       Left = 2
       Top = 19
-      Width = 215
+      Width = 155
+      Height = 24
+      BevelKind = bkFlat
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 2
+    end
+    object cbbDebito: TComboBox
+      Left = 160
+      Top = 19
+      Width = 237
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -977,12 +984,28 @@ object fMovCaixa: TfMovCaixa
       PopupMenu = PopupMenu1
       TabOrder = 3
     end
+    object cbbCredito: TComboBox
+      Left = 399
+      Top = 19
+      Width = 237
+      Height = 24
+      BevelKind = bkFlat
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 4
+    end
   end
   object fmo: TJvDBGrid
     Left = 0
-    Top = 111
+    Top = 143
     Width = 734
-    Height = 392
+    Height = 360
     Align = alClient
     DataSource = dsrcaixa
     Font.Charset = DEFAULT_CHARSET
@@ -1093,8 +1116,8 @@ object fMovCaixa: TfMovCaixa
   end
   object sCaixa: TSQLDataSet
     CommandText = 
-      'select * from SP_mov_caixa_ordem(:DTAINI, :DTAFIM, :COD_CAIXA, :' +
-      'COD_ORIGEM)'
+      'select * from SP_mov_caixa_ordemc(:DTAINI, :DTAFIM, :COD_CAIXA, ' +
+      ':CCUSTO)'
     MaxBlobSize = -1
     Params = <
       item
@@ -1108,13 +1131,13 @@ object fMovCaixa: TfMovCaixa
         ParamType = ptInput
       end
       item
-        DataType = ftFixedChar
+        DataType = ftSmallint
         Name = 'COD_CAIXA'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
-        Name = 'COD_ORIGEM'
+        DataType = ftSmallint
+        Name = 'CCUSTO'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -1155,13 +1178,6 @@ object fMovCaixa: TfMovCaixa
       FieldName = 'FORMA'
       Size = 15
     end
-    object sCaixaCODORIGEM: TIntegerField
-      FieldName = 'CODORIGEM'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sCaixaCODRECEBIMENTO: TIntegerField
-      FieldName = 'CODRECEBIMENTO'
-    end
   end
   object dCaixa: TDataSetProvider
     DataSet = sCaixa
@@ -1182,13 +1198,13 @@ object fMovCaixa: TfMovCaixa
         ParamType = ptInput
       end
       item
-        DataType = ftFixedChar
+        DataType = ftSmallint
         Name = 'COD_CAIXA'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
-        Name = 'COD_ORIGEM'
+        DataType = ftSmallint
+        Name = 'CCUSTO'
         ParamType = ptInput
       end>
     ProviderName = 'dCaixa'
@@ -1231,13 +1247,6 @@ object fMovCaixa: TfMovCaixa
     object cCaixaFORMA: TStringField
       FieldName = 'FORMA'
       Size = 15
-    end
-    object cCaixaCODORIGEM: TIntegerField
-      FieldName = 'CODORIGEM'
-      ProviderFlags = [pfInUpdate]
-    end
-    object cCaixaCODRECEBIMENTO: TIntegerField
-      FieldName = 'CODRECEBIMENTO'
     end
   end
   object dsrcaixa: TDataSource
@@ -2112,6 +2121,45 @@ object fMovCaixa: TfMovCaixa
     object sdsCaixaNOMECAIXA: TStringField
       FieldName = 'NOMECAIXA'
       Size = 60
+    end
+  end
+  object S_CAIXA: TSQLDataSet
+    CommandText = 'SELECT a.CODIGO, a.CONTA '#13#10'FROM PLANO a '#13#10'WHERE A.NOME = :NOME'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 376
+    Top = 320
+    object S_CAIXACODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object S_CAIXACONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+  end
+  object S_DEB_CRED: TSQLDataSet
+    CommandText = 'SELECT a.CODIGO, a.NOME '#13#10'FROM PLANO a '#13#10'WHERE a.CONSOLIDA = '#39'S'#39
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 376
+    Top = 376
+    object IntegerField1: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object S_DEB_CREDNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
     end
   end
 end
