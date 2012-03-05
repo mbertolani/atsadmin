@@ -268,7 +268,8 @@ uses
   uBancoOFX in 'uBancoOFX.pas',
   uRelOS in 'uRelOS.pas' {fRelOs},
   uBancoDePara in 'uBancoDePara.pas' {fBancoDePara},
-  uPagarCls in 'uPagarCls.pas';
+  uPagarCls in 'uPagarCls.pas',
+  uDescontoTitulos in 'uDescontoTitulos.pas' {fDescontoTitulos};
 
 //uImport in 'uImport.pas' {fImport};
 
