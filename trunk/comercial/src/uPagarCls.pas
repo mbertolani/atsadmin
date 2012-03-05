@@ -69,6 +69,8 @@ type
     procedure setdataVenc(const Value: TStringList);
     function getContaCredito: Integer;
     procedure setContaCredito(const Value: Integer);
+    function getCodConciliacao: String;
+    procedure setCodConciliacao(const Value: String);
 
   protected
     //Atributos
@@ -103,6 +105,7 @@ type
     _status       : String;
     _titulo       : String;
     _serie        : String;
+    _codConciliacao: String;
 
     _prazo        : String;
     _formaPag     : String;
@@ -142,6 +145,7 @@ type
 
     property Status      : String read getStatus write setStatus;
     property Titulo      : String read getSerie  write setSerie;
+    property CodConciliaco : String read getCodConciliacao  write setCodConciliacao;
     property Prazo       : String read getPrazo  write setPrazo;
     property FormaPag    : String read getFormaPag  write setFormaPag;
     property NDoc        : String read getNDoc  write setNDoc;
@@ -156,6 +160,7 @@ type
     function excluiTitulo(codCompraE: Integer): Boolean;
     function alteraTitulo(codCompraA: Integer): Boolean;
     function cancelabaixa(CLIENTE: Integer; USERID :Integer): Boolean;
+    procedure marcarTitulo(codPagamento: Integer; userMarcou: Integer);
     constructor Create;
     Destructor Destroy; Override;
   end;
@@ -194,15 +199,18 @@ begin
   try
     sqlBuscaR :=  TSqlQuery.Create(nil);
     sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
-    strRec := 'SELECT CodPagEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CodFornecedor = ' + IntToStr(CLIENTE) + ' AND DP = 0 ' +
-    ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') + ') and USERID = ' + IntToStr(USERID) + ' order by CodPagEBIMENTO';
-    //strRec := 'SELECT CodPagEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CodPagEBIMENTO = ' + IntToStr(CodPagEBE);
+    strRec := 'SELECT CodPagamento, VALOR_RESTO FROM PAGAMENTO WHERE ' +
+      ' CodFornecedor = ' + IntToStr(CLIENTE) + ' AND DP = 0 ' +
+      ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') +
+      ') and USERID = ' + IntToStr(USERID) + ' order by CodPagamento';
+    //strRec := 'SELECT CodPagEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE ' +
+    // 'CodPagEBIMENTO = ' + IntToStr(CodPagEBE);
     sqlBuscaR.SQL.Add(strRec);
     sqlBuscaR.Open;
     sqlBuscaR.First;
     while not sqlBuscaR.Eof do
     begin
-      CodPag := sqlBuscaR.FieldByName('CodPagEBIMENTO').AsInteger;
+      CodPag := sqlBuscaR.FieldByName('CodPagamento').AsInteger;
       VLRESTO := sqlBuscaR.FieldByName('VALOR_RESTO').AsFloat;
       if (VLR_RESTO = 0) then
         VLR_RESTO := VLRESTO;
@@ -264,12 +272,12 @@ begin
       DecimalSeparator := '.';
       if (VLR > 0) then
       begin
-        strRec :=  'UPDATE RECEBIMENTO SET ' +
+        strRec :=  'UPDATE PAGAMENTO SET ' +
             'STATUS = ' + QuotedStr(STATUS) +
-            ', valorPagEBIDO = ' + FloatToStr(VLR - VLDESC - VLPER) +
+            ', valorRecebido = ' + FloatToStr(VLR - VLDESC - VLPER) +
             ', VALOR_RESTO_SST = ' + FloatToStr(VLR - VLDESC - VLPER) +
             ', VALOR_RESTO = ' + FloatToStr(VLR) +
-            ', FormaPagEBIMENTO = ' + QuotedStr(FormaPag) +
+            ', FormaPagamento = ' + QuotedStr(FormaPag) +
             ', DATABAIXA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATA)) +
             ', DATARECEBIMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', DATAREC)) +
             ', DATACONSOLIDA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATACONSOLIDA)) +
@@ -281,18 +289,18 @@ begin
             ', PERDA = ' + FloatToStr(VLPER) +
             ',outro_credito = ' + FloatToStr(vldesct) +
             ',outro_debito = ' + FloatToStr(vlpert)  +
-            ' WHERE CodPagEBIMENTO = ' + IntToStr(CodPag);
+            ' WHERE CodPagamento = ' + IntToStr(CodPag);
         executaSql(strRec);
       end;
 
      // Se Valor e negativo entao baixa o titulo
       if (VALOR < 0) then
       begin
-        strRec :=  'UPDATE RECEBIMENTO SET ' +
+        strRec :=  'UPDATE PAGAMENTO SET ' +
             'STATUS = ' + QuotedStr(STATUS) +
-            ', valorPagEBIDO = 0 ' +
+            ', valorRecebido = 0 ' +
             ', VALOR_RESTO = 0 ' +
-            ', FormaPagEBIMENTO = ' + QuotedStr(FormaPag) +
+            ', FormaPagamento = ' + QuotedStr(FormaPag) +
             ', DATABAIXA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATA)) +
             ', DATARECEBIMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', DATAREC)) +
             ', DATACONSOLIDA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATACONSOLIDA)) +
@@ -304,7 +312,7 @@ begin
             ', PERDA = ' + FloatToStr(VLPER) +
             ',outro_credito = ' + FloatToStr(vldesct) +
             ',outro_debito = ' + FloatToStr(vlpert)  +
-            ' WHERE CodPagEBIMENTO = ' + IntToStr(CodPag);
+            ' WHERE CodPagamento = ' + IntToStr(CodPag);
         executaSql(strRec);
       end;
      sqlBuscaR.Next;
@@ -331,20 +339,28 @@ begin
   try
     sqlBuscaR :=  TSqlQuery.Create(nil);
     sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
-    strRec := 'SELECT CodPagEBIMENTO, valorPagEBIDO, DESCONTO, PERDA, FUNRURAL, JUROS  FROM RECEBIMENTO WHERE CodFornecedor = ' + IntToStr(CLIENTE) + 'AND DP = 0 ' +
-    ' AND STATUS IN (' + QuotedStr('1-') + ', ' + QuotedStr('2-') + ', ' + QuotedStr('7-') + ', ' + QuotedStr('9-') + ', ' + QuotedStr('13') + ') and USERID = ' + IntToStr(USERID) + ' order by CodPagEBIMENTO';
+    strRec := 'SELECT CodPagamento, valorRecebido, DESCONTO, PERDA, FUNRURAL,' +
+      ' JUROS ' +
+      '  FROM Pagamento ' +
+      ' WHERE CodFornecedor = ' + IntToStr(CLIENTE) +
+      '   AND DP = 0 ' +
+      '   AND STATUS IN (' + QuotedStr('1-') + ', ' + QuotedStr('2-') +
+      ', ' + QuotedStr('7-') + ', ' + QuotedStr('9-') + ', ' + QuotedStr('13') +
+      ')  AND USERID = ' + IntToStr(USERID) +
+      ' order by CodPagamento';
     sqlBuscaR.SQL.Add(strRec);
     sqlBuscaR.Open;
     sqlBuscaR.First;
     DecimalSeparator := '.';
     while not sqlBuscaR.Eof do
     begin
-      CodPag := sqlBuscaR.FieldByName('CodPagEBIMENTO').AsInteger;
-      strRec :=  'UPDATE RECEBIMENTO SET ' +
+      CodPag := sqlBuscaR.FieldByName('CodPagamento').AsInteger;
+      strRec :=  'UPDATE PAGAMENTO SET ' +
           'STATUS = ' + QuotedStr('5-') +
-          ', VALOR_RESTO = ' + FloatToStr(sqlBuscaR.FieldByName('valorPagEBIDO').AsFloat + sqlBuscaR.FieldByName('DESCONTO').AsFloat + sqlBuscaR.FieldByName('PERDA').AsFloat) +
-          ', valorPagEBIDO = 0 ' +
-          ', FormaPagEBIMENTO = ' + QuotedStr('0') +
+          ', VALOR_RESTO = ' + FloatToStr(sqlBuscaR.FieldByName('valorRecebido').AsFloat +
+          sqlBuscaR.FieldByName('DESCONTO').AsFloat + sqlBuscaR.FieldByName('PERDA').AsFloat) +
+          ', valorPagEBIDO  = 0 ' +
+          ', FormaPagamento = ' + QuotedStr('0') +
           ', DATABAIXA = null' +
           ', DATARECEBIMENTO = null' +
           ', DATACONSOLIDA = null' +
@@ -354,7 +370,7 @@ begin
           ', JUROS = 0' + FloatToStr(sqlBuscaR.FieldByName('JUROS').AsFloat) +
           ', DESCONTO = 0' +
           ', PERDA = 0' +
-          ' WHERE CodPagEBIMENTO = ' + IntToStr(CodPag);
+          ' WHERE CodPagamento = ' + IntToStr(CodPag);
       executaSql(strRec);
       sqlBuscaR.Next;
     END;
@@ -551,12 +567,12 @@ begin
     strG := ' INSERT INTO PAGAMENTO ' +
           ' (CODPAGAMENTO,   TITULO,          EMISSAO,         CODFORNECEDOR,      ' +
           ' DATAVENCIMENTO,  STATUS,          VIA,             FORMAPAGAMENTO,' +
-          ' CODCOMPRA ,      CODALMOXARifADO, CodComprador,     CODUSUARIO,      ' +
+          ' CODCOMPRA ,      CODALMOXARIFADO, CodComprador,    CODUSUARIO,      ' +
           ' DATASISTEMA,     VALOR_PRIM_VIA,  VALOR_RESTO,     VALORTITULO,     ' +
           ' valorRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
           ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
           ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM,        ' +
-          ' CONTACREDITO  ' +
+          ' CONTACREDITO,    CODCONCILIACAO  ' +
           ') VALUES(';
 
     strG := strG + InttoStr(Self.CodPag) + ', ';
@@ -609,7 +625,9 @@ begin
     strG := strG + IntToStr(1) + ', '; // Caixa
     strG := strG + IntToStr(1) + ', '; // Situacao
     strG := strG + IntToStr(1) + ', '; // CodOrigem
-    strG := strG + IntToStr(Self.ContaCredito) + ')'; // Conta Credito    
+    strG := strG + IntToStr(Self.ContaCredito) + ', '; // Conta Credito
+    strG := strG + QuotedStr(Self.CodConciliaco) + ')'; // N.Doc.
+
     Rec  := executaSql(strG);
     //UltParc := UltParc - VlrParc;
   end;
@@ -918,6 +936,26 @@ end;
 procedure TPagarCls.setContaCredito(const Value: Integer);
 begin
   _contaCredito := Value;
+end;
+
+function TPagarCls.getCodConciliacao: String;
+begin
+  Result := _codConciliacao;
+end;
+
+procedure TPagarCls.setCodConciliacao(const Value: String);
+begin
+  _codConciliacao := Value;
+end;
+
+procedure TPagarCls.marcarTitulo(codPagamento:Integer; userMarcou:integer);
+var execMarcaTitulo: String;
+begin
+  execMarcaTitulo :=  'UPDATE PAGAMENTO SET ' +
+      ' DP     = 0,' +
+      ' USERID = ' + IntToStr(userMarcou)
+      ' WHERE CodPagamento = ' + IntToStr(CodPagamento);
+  executaSql(execMarcaTitulo);
 end;
 
 end.
