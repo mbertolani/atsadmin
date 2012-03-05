@@ -1,8 +1,8 @@
 inherited fPlanoContas: TfPlanoContas
   Left = 8
   Top = 19
-  Width = 799
-  Height = 551
+  Width = 808
+  Height = 559
   OldCreateOrder = True
   WindowState = wsMaximized
   OnShow = FormShow
@@ -102,9 +102,9 @@ inherited fPlanoContas: TfPlanoContas
   object Label10: TLabel [7]
     Left = 191
     Top = 137
-    Width = 89
+    Width = 60
     Height = 16
-    Caption = 'Cod. Reduzido'
+    Caption = 'Cod. Red.'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -113,7 +113,7 @@ inherited fPlanoContas: TfPlanoContas
     ParentFont = False
   end
   object Label11: TLabel [8]
-    Left = 290
+    Left = 258
     Top = 137
     Width = 94
     Height = 16
@@ -126,7 +126,7 @@ inherited fPlanoContas: TfPlanoContas
     ParentFont = False
   end
   object Label12: TLabel [9]
-    Left = 487
+    Left = 418
     Top = 137
     Width = 97
     Height = 16
@@ -139,8 +139,8 @@ inherited fPlanoContas: TfPlanoContas
     ParentFont = False
   end
   object Label13: TLabel [10]
-    Left = 680
-    Top = 137
+    Left = 611
+    Top = 138
     Width = 61
     Height = 16
     Caption = 'Consolida'
@@ -152,8 +152,8 @@ inherited fPlanoContas: TfPlanoContas
     ParentFont = False
   end
   object Label14: TLabel [11]
-    Left = 745
-    Top = 137
+    Left = 676
+    Top = 138
     Width = 40
     Height = 16
     Caption = 'Rateio'
@@ -164,9 +164,22 @@ inherited fPlanoContas: TfPlanoContas
     Font.Style = []
     ParentFont = False
   end
+  object lbl1: TLabel [12]
+    Left = 719
+    Top = 138
+    Width = 28
+    Height = 16
+    Caption = 'Tipo'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 463
-    Width = 791
+    Top = 467
+    Width = 792
     inherited btnGravar: TBitBtn
       Left = 232
     end
@@ -297,7 +310,7 @@ inherited fPlanoContas: TfPlanoContas
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 791
+    Width = 792
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -35
@@ -320,9 +333,9 @@ inherited fPlanoContas: TfPlanoContas
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 789
+      Width = 790
       Height = 52
-      Align = alBottom
+      Align = alClient
       Alignment = taCenter
       AutoSize = False
       Caption = 'Plano de Contas'
@@ -337,7 +350,7 @@ inherited fPlanoContas: TfPlanoContas
       HotTrackFont.Style = []
     end
   end
-  object Edit1: TEdit [14]
+  object Edit1: TEdit [15]
     Left = 46
     Top = 64
     Width = 145
@@ -353,7 +366,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object Edit2: TEdit [15]
+  object Edit2: TEdit [16]
     Left = 322
     Top = 64
     Width = 145
@@ -369,7 +382,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object ComboBox1: TComboBox [16]
+  object ComboBox1: TComboBox [17]
     Left = 594
     Top = 64
     Width = 145
@@ -386,7 +399,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object BitBtn1: TBitBtn [17]
+  object BitBtn1: TBitBtn [18]
     Left = 193
     Top = 64
     Width = 45
@@ -395,7 +408,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 5
     OnClick = BitBtn1Click
   end
-  object BitBtn2: TBitBtn [18]
+  object BitBtn2: TBitBtn [19]
     Left = 469
     Top = 64
     Width = 45
@@ -404,7 +417,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 6
     OnClick = BitBtn2Click
   end
-  object BitBtn3: TBitBtn [19]
+  object BitBtn3: TBitBtn [20]
     Left = 741
     Top = 64
     Width = 45
@@ -413,7 +426,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 7
     OnClick = BitBtn3Click
   end
-  object ComboBox2: TComboBox [20]
+  object ComboBox2: TComboBox [21]
     Left = 7
     Top = 109
     Width = 306
@@ -431,7 +444,7 @@ inherited fPlanoContas: TfPlanoContas
     OnClick = ComboBox2Click
     OnKeyPress = FormKeyPress
   end
-  object BitBtn4: TBitBtn [21]
+  object BitBtn4: TBitBtn [22]
     Left = 315
     Top = 109
     Width = 45
@@ -440,7 +453,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 9
     OnClick = BitBtn4Click
   end
-  object BitBtn5: TBitBtn [22]
+  object BitBtn5: TBitBtn [23]
     Left = 359
     Top = 109
     Width = 45
@@ -449,7 +462,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 10
     OnClick = BitBtn5Click
   end
-  object ComboBox3: TComboBox [23]
+  object ComboBox3: TComboBox [24]
     Left = 410
     Top = 109
     Width = 287
@@ -466,7 +479,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 11
     OnKeyPress = FormKeyPress
   end
-  object BitBtn6: TBitBtn [24]
+  object BitBtn6: TBitBtn [25]
     Left = 699
     Top = 109
     Width = 45
@@ -475,7 +488,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 12
     OnClick = BitBtn6Click
   end
-  object BitBtn7: TBitBtn [25]
+  object BitBtn7: TBitBtn [26]
     Left = 743
     Top = 109
     Width = 45
@@ -484,7 +497,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 13
     OnClick = BitBtn7Click
   end
-  object DBEdit1: TDBEdit [26]
+  object DBEdit1: TDBEdit [27]
     Left = 7
     Top = 153
     Width = 90
@@ -502,7 +515,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 14
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [27]
+  object DBEdit2: TDBEdit [28]
     Left = 98
     Top = 153
     Width = 92
@@ -520,10 +533,10 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [28]
+  object DBEdit3: TDBEdit [29]
     Left = 191
     Top = 153
-    Width = 98
+    Width = 66
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -538,10 +551,10 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [29]
-    Left = 290
+  object DBEdit4: TDBEdit [30]
+    Left = 258
     Top = 153
-    Width = 196
+    Width = 159
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -556,8 +569,8 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 17
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [30]
-    Left = 487
+  object DBEdit5: TDBEdit [31]
+    Left = 418
     Top = 153
     Width = 192
     Height = 24
@@ -574,7 +587,7 @@ inherited fPlanoContas: TfPlanoContas
     TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object DBGrid1: TDBGrid [31]
+  object DBGrid1: TDBGrid [32]
     Left = 7
     Top = 180
     Width = 778
@@ -641,9 +654,9 @@ inherited fPlanoContas: TfPlanoContas
         Visible = True
       end>
   end
-  object DBComboBox1: TDBComboBox [32]
-    Left = 680
-    Top = 152
+  object DBComboBox1: TDBComboBox [33]
+    Left = 611
+    Top = 153
     Width = 62
     Height = 24
     BevelKind = bkFlat
@@ -661,9 +674,9 @@ inherited fPlanoContas: TfPlanoContas
     ParentFont = False
     TabOrder = 19
   end
-  object DBComboBox2: TDBComboBox [33]
-    Left = 744
-    Top = 152
+  object DBComboBox2: TDBComboBox [34]
+    Left = 675
+    Top = 153
     Width = 42
     Height = 24
     BevelKind = bkFlat
@@ -680,6 +693,29 @@ inherited fPlanoContas: TfPlanoContas
       'N')
     ParentFont = False
     TabOrder = 20
+  end
+  object dbcbbRATEIO: TDBComboBox [35]
+    Left = 718
+    Top = 153
+    Width = 67
+    Height = 24
+    BevelKind = bkFlat
+    DataField = 'TIPOLANC'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemHeight = 16
+    Items.Strings = (
+      'INTERNO'
+      'DEBITO'
+      'CREDITO'
+      'VALE'
+      'OUTROS')
+    ParentFont = False
+    TabOrder = 22
   end
   inherited DtSrc: TDataSource
     DataSet = DM.c_1_planoc
