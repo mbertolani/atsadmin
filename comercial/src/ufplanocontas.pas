@@ -56,6 +56,8 @@ type
     btnImprimir: TBitBtn;
     rep: TVCLReport;
     JvLabel1: TJvLabel;
+    dbcbbRATEIO: TDBComboBox;
+    lbl1: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
