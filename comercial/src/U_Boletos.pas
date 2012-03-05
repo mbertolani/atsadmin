@@ -329,6 +329,7 @@ type
     s_bancoN_BANCO: TStringField;
     s_bancoDIGITOBANCO: TIntegerField;
     s_bancoVARIACAO: TStringField;
+    s_bancoCODIGOBOLETO: TStringField;
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -410,7 +411,7 @@ end;
 
 procedure TF_Boletos.CRIA_BOLETO_MEMORIA;
 var
-  numero_ano, vartitulo : string;
+  numero_ano, vartitulo, v_sql : string;
 begin
    DecodeDate(now, ano, mes, dia);
    numero_ano := copy(IntToStr(ano),3,2);
@@ -461,10 +462,6 @@ begin
               Titulo.Vencimento :=  ds_crDATAVENCIMENTO.AsDateTime;
               Titulo.DataDocumento     := ds_crEMISSAO.AsDateTime; //EncodeDate(2010,04,10);
 
-              varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
-              vartitulo := IntToStr(varNossoNumero) + '-' + RemoveChar(ds_crVIA.AsString);
-              //Titulo.NumeroDocumento   := padR(vartitulo,6,'0');
-
               Titulo.EspecieDoc        := s_bancoESPECIEDOC.AsString; //EspecieDoc;
               if (s_bancoACEITE.AsString = 'S') then
                 Titulo.Aceite            := atSim
@@ -472,12 +469,16 @@ begin
                 Titulo.Aceite            := atNao;
 
               Titulo.DataProcessamento := Now;
-              varNossoNumero := StrToInt(RemoveChar(vartitulo));
+
+              //varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
+              varNossoNumero := StrToInt(s_bancoCODIGOBOLETO.AsString) + 1;
+              // Atualizo o codigo do Boleto
+
+              vartitulo := RemoveChar(ds_crTITULO.AsString) + '-' + RemoveChar(ds_crVIA.AsString);
+              //Titulo.NumeroDocumento   := padR(vartitulo,6,'0');
+              //varNossoNumero := StrToInt(RemoveChar(vartitulo));
 
               Titulo.NumeroDocumento   := padR(vartitulo,8,'0');
-             // if (s_bancoN_BANCO.AsString = 341) then
-             // begin
-             // end;
               case StrToInt(s_bancoN_BANCO.AsString) of
                 001: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);//  001 - Banco do Brasil
                 104: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 104 - Caixa Economica
@@ -534,6 +535,32 @@ begin
                 Titulo.LocalPagamento :=  'Até o vencimento, preferencialmente no Itaú e Após o vencimento, somente no Itaú';
               end;
               //ACBrBoleto1.AdicionarMensagensPadroes(Titulo,Mensagem);
+           end;
+           // Atualizo o Codigo do Boleto
+           v_sql := 'UPDATE BANCO SET CODIGOBOLETO = ' + QuotedStr(IntToStr(varNossoNumero)) +
+           ' where CODBANCO = ' + IntToStr(s_bancoCODBANCO.AsInteger);
+           dm.sqlsisAdimin.StartTransaction(TD);
+           dm.sqlsisAdimin.ExecuteDirect(v_sql);
+           Try
+              dm.sqlsisAdimin.Commit(TD);
+           except
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+              MessageDlg('Erro no sistema, o Codigo do Boleto não foi atualizado'+#13+#10+'        abra o cadastro do banco e digite o numero '+#13+#10+'                        do ultimo boleto.', mtError,
+                  [mbOk], 0);
+           end;
+
+           // Atualizo o Codigo do Boleto no RECEBIMENTO
+           v_sql := 'UPDATE RECEBIMENTO SET CODIGOBOLETO = ' + QuotedStr(IntToStr(varNossoNumero)) +
+           ', CODIGOBANCO = ' + IntToStr(s_bancoCODBANCO.AsInteger) +
+           ' where CODRECEBIMENTO = ' + IntToStr(ds_crCODRECEBIMENTO.AsInteger);
+           dm.sqlsisAdimin.StartTransaction(TD);
+           dm.sqlsisAdimin.ExecuteDirect(v_sql);
+           Try
+              dm.sqlsisAdimin.Commit(TD);
+           except
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+              MessageDlg('Erro no sistema, o Codigo do Boleto não foi atualizado'+#13+#10+'        abra o cadastro do banco e digite o numero '+#13+#10+'                        do ultimo boleto.', mtError,
+                  [mbOk], 0);
            end;
            ds_cr.Next;
       end;
