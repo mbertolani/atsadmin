@@ -165,7 +165,7 @@ var
 implementation
 
 uses uComercial, UDm, uProcurar, uListaClientes, uVendas, uPdm, ufDlgLogin,
-   sCtrlResize, UDMNF, uTerminal_Delivery, uProcurar_nf;
+   sCtrlResize, UDMNF, uTerminal_Delivery, uProcurar_nf, UDM_MOV;
 
 {$R *.dfm}
 
@@ -343,6 +343,7 @@ begin
            fVendas.RadioPedido.Checked := True;
     end;
     cod_mov := cds_cnsCODMOVIMENTO.AsInteger;
+    DM_MOV.ID_DO_MOVIMENTO := cds_cnsCODMOVIMENTO.AsInteger;
     DM.totalpago := cds_cnsAPAGAR.Value;
     fFiltroMovimento.Close;
 end;
