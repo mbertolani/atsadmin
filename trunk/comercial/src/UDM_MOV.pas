@@ -599,8 +599,9 @@ type
   private
     { Private declarations }
   public
+    V_USACONTR_CAIXA : string;
     PAGECONTROL : String;
-    ID_DO_MOVIMENTO : integer;
+    ID_DO_MOVIMENTO, ID_CCUSTO : integer;
     { Public declarations }
   end;
 
