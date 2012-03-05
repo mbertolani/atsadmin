@@ -248,8 +248,6 @@ type
     JvOutlookBar1: TJvOutlookBar;
     Label1: TLabel;
     GrficodeVendas1: TMenuItem;
-    acPagarUsuario: TAction;
-    LanarDespesaUsurio1: TMenuItem;
     AjusteEsto1: TMenuItem;
     AjusteEstoque1: TMenuItem;
     ConciliaoBancaria1: TMenuItem;
@@ -1392,7 +1390,7 @@ begin
       fRateioPag.Free;
   end;
   dm.cds_parametro.Close; }
-  fcrTituloPagto.consultaUser := 'GERAL';  
+//  fcrTituloPagto.consultaUser := 'GERAL';
   DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
   Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
   fcrTituloPagto.ShowModal;
@@ -2119,7 +2117,7 @@ end;
 
 procedure TfAtsAdmin.acPagarUsuarioExecute(Sender: TObject);
 begin
-  fcrTituloPagto.consultaUser := 'USUARIO';
+//  fcrTituloPagto.consultaUser := 'USUARIO';
   DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
   Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
   fcrTituloPagto.ShowModal;
