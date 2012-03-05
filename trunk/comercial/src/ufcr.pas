@@ -287,7 +287,7 @@ implementation
 
 uses uComercial, UDm, uListaClientes, uProcurar, ucrTitulo, uDuplicata,
   uRemessaTitulo, uMostraDetalhe, uRel_CR, uRel_CR1, uGeraCob, ufDlgLogin, uUtils,
-  sCtrlResize, uNotaFiscalCr, UDMNF, uNotaf;
+  sCtrlResize, uNotaFiscalCr, UDMNF, uNotaf, uDescontoTitulos;
 
 {$R *.dfm}
 
@@ -1579,16 +1579,48 @@ begin
 end;
 
 procedure Tfcrproc.btnGeraMensalidadeClick(Sender: TObject);
+  var vlr, vlrrec: double;
+  i, j, clienteSelecionado : integer;
+  selecionou : string;
 begin
-  fGeraCob := TfGeraCob.Create(Application);
-  try
-    fGeraCob.ComboBox1.Visible := true;
-    fGeraCob.Label2.Visible := true;
-    fGeraCob.ShowModal;
-  finally
-    fGeraCob.Free;
+  scdsCr_proc.DisableControls;
+  scdsCr_proc.First;
+  While not scdsCr_proc.Eof do
+  begin
+    if (scdsCr_procDUP_REC_NF.AsString = 'S') then
+    begin
+     if (clienteSelecionado = 0) then
+       clienteSelecionado := scdsCr_procCODCLIENTE.AsInteger;
+     if (clienteSelecionado <> scdsCr_procCODCLIENTE.AsInteger) then
+     begin
+       MessageDlg('Clientes diferentes selecionados.' + #10#13 +
+         ' Operação disponível somente para o mesmo Cliente!', mtWarning, [mbOK], 0);
+       scdsCr_proc.EnableControls;
+       exit;
+     end;
+     setlength(nrec, i);
+     nrec[i - 1] := scdsCr_procCODRECEBIMENTO.AsInteger;
+     if (fcrtitulo.cds.active) then
+       fcrtitulo.cds.close;
+     fcrtitulo.cds.Params[0].AsInteger := scdsCr_procCODRECEBIMENTO.AsInteger;
+     fcrtitulo.cds.Open;
+      vlr := vlr + fcrtitulo.cdsSUM.AsFloat;
+      if (fcrtitulo.cdsSUM_5.AsFloat > 0) then
+        vlrrec := vlrrec +  fcrtitulo.cdsSUM_5.AsFloat;
+      i := i + 1;
+    end;
+    scdsCr_proc.Next;
   end;
-  btnProcurar.Click;
+  scdsCr_proc.EnableControls;
+
+  fDescontoTitulos := TfDescontoTitulos.Create(Application);
+  try
+    fDescontoTitulos.usuariosis := dm.varUSERID;
+    //fDescontoTitulos.
+    fDescontoTitulos.ShowModal;
+  finally
+    fDescontoTitulos.Free;
+  end;
 end;
 
 procedure Tfcrproc.edClienteKeyDown(Sender: TObject; var Key: Word;
