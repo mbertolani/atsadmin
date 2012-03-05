@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
-  Left = 240
-  Top = 101
+  Left = 269
+  Top = 139
   Width = 814
   Height = 575
   OldCreateOrder = True
@@ -2692,7 +2692,6 @@ inherited fParametro: TfParametro
         Top = 209
         Width = 211
         Height = 17
-        Alignment = taLeftJustify
         Caption = 'Imprimr para Arquivo ?'
         TabOrder = 3
         OnClick = CheckBox1Click
@@ -2709,30 +2708,27 @@ inherited fParametro: TfParametro
       end
       object CheckBox2: TCheckBox
         Left = 11
-        Top = 272
+        Top = 246
         Width = 211
         Height = 17
-        Alignment = taLeftJustify
         Caption = 'Usa Controle de Comandas ?'
         TabOrder = 5
         OnClick = CheckBox2Click
       end
       object CheckBox3: TCheckBox
         Left = 11
-        Top = 301
+        Top = 265
         Width = 211
         Height = 17
-        Alignment = taLeftJustify
         Caption = 'Usa Controle de Delivery ?'
         TabOrder = 6
         OnClick = CheckBox3Click
       end
       object CheckBox4: TCheckBox
         Left = 11
-        Top = 241
+        Top = 228
         Width = 211
         Height = 17
-        Alignment = taLeftJustify
         Caption = 'Usa Venda ao Consumidor ?'
         TabOrder = 7
         OnClick = CheckBox4Click
@@ -2749,61 +2745,59 @@ inherited fParametro: TfParametro
       end
       object CheckBox5: TCheckBox
         Left = 11
-        Top = 336
+        Top = 283
         Width = 211
         Height = 17
-        Alignment = taLeftJustify
         Caption = 'N'#227'o permitir altara'#231#245'es de pre'#231'o'
         TabOrder = 9
       end
       object CheckBox6: TCheckBox
         Left = 11
-        Top = 371
+        Top = 301
         Width = 211
         Height = 17
-        Alignment = taLeftJustify
         Caption = 'Para Excluir ou cancelar Pedir Senha'
         TabOrder = 10
         OnClick = CheckBox6Click
       end
       object GroupBox31: TGroupBox
         Left = 368
-        Top = 143
+        Top = 130
         Width = 394
-        Height = 134
+        Height = 106
         Caption = 'Perfil Para Aprova'#231#227'o '
         TabOrder = 11
         object Label52: TLabel
           Left = 10
-          Top = 30
+          Top = 12
           Width = 38
           Height = 13
           Caption = 'Perfil 01'
         end
         object Label53: TLabel
           Left = 206
-          Top = 30
+          Top = 12
           Width = 38
           Height = 13
           Caption = 'Perfil 02'
         end
         object Label54: TLabel
           Left = 206
-          Top = 78
+          Top = 60
           Width = 38
           Height = 13
           Caption = 'Perfil 04'
         end
         object Label55: TLabel
           Left = 10
-          Top = 78
+          Top = 60
           Width = 38
           Height = 13
           Caption = 'Perfil 03'
         end
         object edtPerfil01: TEdit
           Left = 11
-          Top = 46
+          Top = 28
           Width = 163
           Height = 21
           BevelKind = bkFlat
@@ -2813,7 +2807,7 @@ inherited fParametro: TfParametro
         end
         object edtPerfil02: TEdit
           Left = 207
-          Top = 46
+          Top = 28
           Width = 163
           Height = 21
           BevelKind = bkFlat
@@ -2823,7 +2817,7 @@ inherited fParametro: TfParametro
         end
         object edtPerfil04: TEdit
           Left = 207
-          Top = 94
+          Top = 76
           Width = 163
           Height = 21
           BevelKind = bkFlat
@@ -2833,7 +2827,7 @@ inherited fParametro: TfParametro
         end
         object edtPerfil03: TEdit
           Left = 11
-          Top = 94
+          Top = 76
           Width = 163
           Height = 21
           BevelKind = bkFlat
@@ -2844,7 +2838,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox32: TGroupBox
         Left = 368
-        Top = 280
+        Top = 238
         Width = 401
         Height = 97
         Caption = 'Impressora Bematech n'#227'o Fiscal'
@@ -2909,14 +2903,14 @@ inherited fParametro: TfParametro
       end
       object RadioGroup6: TRadioGroup
         Left = 369
-        Top = 382
+        Top = 337
         Width = 400
-        Height = 50
-        Caption = 'N'#227'o permitir Estoque Negativo'
+        Height = 37
+        Caption = 'Permite estoque negativo'
         Columns = 2
         Items.Strings = (
-          'Sim'
-          'N'#227'o')
+          'N'#227'o'
+          'Sim')
         TabOrder = 14
         OnClick = RadioGroup6Click
       end
@@ -2975,13 +2969,30 @@ inherited fParametro: TfParametro
       end
       object chk1: TCheckBox
         Left = 11
-        Top = 403
+        Top = 319
         Width = 211
         Height = 17
-        Alignment = taLeftJustify
         Caption = 'Bloquear Mesa/Comanda ao imp.parcial'
         TabOrder = 20
         OnClick = chk1Click
+      end
+      object chk2: TCheckBox
+        Left = 11
+        Top = 337
+        Width = 294
+        Height = 17
+        Caption = 'Imprimir descri'#231#227'o resumida no fechamento do Pedido ?'
+        TabOrder = 21
+        OnClick = chk2Click
+      end
+      object chk3: TCheckBox
+        Left = 11
+        Top = 355
+        Width = 294
+        Height = 17
+        Caption = 'Usa Controle de caixa ?'
+        TabOrder = 22
+        OnClick = chk3Click
       end
     end
   end
