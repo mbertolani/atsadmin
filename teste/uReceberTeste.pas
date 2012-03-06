@@ -67,35 +67,26 @@ end;
 procedure TRecTeste.TestRecExclusao;
 begin
   // Testa exclusão
-  {FVenda.excluirVenda(CCodCli);
+  FRec.excluiTitulo(2940);
+
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
   dm.sqlBusca.SQL.Add('SELECT CODVenda ' +
-    ' FROM VendaS ' +
-    'WHERE CODVenda  = ' + IntToStr(CCodCli));
+    ' FROM RECEBIMENTO ' +
+    'WHERE CODVENDA  = ' + IntToStr(2940));
 
   dm.sqlBusca.Open;
   if (dm.sqlBusca.IsEmpty) then
-    check(1 = 1 , 'Venda Excluído.')
+    check(1 = 1 , 'TITULO Excluído.')
   else
-    check(1 = 2 , 'Venda não Excluído.')
-   }
+    check(1 = 2 , 'Titulo não Excluído.')
+   
 end;
 
 procedure TRecTeste.TestRecInclusao;
 var codRec, codVenda: Integer;
 begin
-  //FRec.CodRec         := 0;
-  CodVenda       := 2520;  // ESTE Códito é necessário para Gerar um título para a Venda
-  {FVenda.CodCliente   := 0;
-  FVenda.CodUsuario   := 1;
-  FVenda.CodVendedor  := 1;
-  FVenda.DataVenda    := Today;
-  FVenda.DataVcto     := Today;
-  FVenda.CodCCusto    := 0;
-  FVenda.NotaFiscal   := 99999992;
-  FVenda.Serie        := 'I';
-  FVenda.CodMov       := 476; }
+  CodVenda       := 2940;  // ESTE Códito é necessário para Gerar um título para a Venda
 
   codRec := FRec.geraTitulo(0, codVenda);
 
