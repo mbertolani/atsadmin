@@ -35,6 +35,7 @@ as
   declare variable cst char(5);
   declare variable cstProd char(5);
   declare variable descP varchar(300);
+  declare variable obsP varchar(300);
   declare variable cfop varchar(30);
   declare variable cfop_outros varchar(30);
   declare variable np SMALLINT;
@@ -128,11 +129,11 @@ begin
     pesoTotal = 0;
     -- localiza o mov. detalhe
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
-      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST    
+      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST, md.OBS
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
-    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd
+    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd, :obsp
     do begin 
 
      if (pesoUn is null) then 
@@ -193,9 +194,9 @@ begin
       end  
           
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
-       , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base, II, BCII) 
+       , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base, II, BCII, OBS) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, ((:qtde * :preco)*(:desconto/100)),(:preco-((:preco)*(:desconto/100))), 0, 0);  
+       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, ((:qtde * :preco)*(:desconto/100)),(:preco-((:preco)*(:desconto/100))), 0, 0, :obsp);  
       total = total + (qtde * (:preco*(1-(:desconto/100))));--((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto)
       totalIcms = totalIcms + :valoricms;
     end 
