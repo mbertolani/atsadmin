@@ -1585,6 +1585,7 @@ procedure Tfcrproc.btnGeraMensalidadeClick(Sender: TObject);
 begin
   scdsCr_proc.DisableControls;
   scdsCr_proc.First;
+  clienteSelecionado := 0;
   While not scdsCr_proc.Eof do
   begin
     if (scdsCr_procDUP_REC_NF.AsString = 'S') then
