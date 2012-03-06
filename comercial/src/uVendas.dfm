@@ -2625,7 +2625,6 @@ inherited fVendas: TfVendas
     end
     object sds_Mov_DetOBS: TStringField
       FieldName = 'OBS'
-      ReadOnly = True
       Size = 300
     end
   end
