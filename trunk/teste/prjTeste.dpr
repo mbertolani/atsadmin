@@ -21,7 +21,9 @@ uses
   uOsDetalheClasse in '..\comercial\src\uOsDetalheClasse.pas',
   uOsTeste in 'uOsTeste.pas',
   uReceberCls in '..\comercial\src\uReceberCls.pas',
-  uReceberTeste in 'uReceberTeste.pas';
+  uReceberTeste in 'uReceberTeste.pas',
+  uPagarCls in '..\comercial\src\uPagarCls.pas',
+  uPagarTeste in 'uPagarTeste.pas';
 
 {$R *.res}
 
