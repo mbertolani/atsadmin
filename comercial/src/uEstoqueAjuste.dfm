@@ -1,5 +1,6 @@
 inherited fEstoqueAjuste: TfEstoqueAjuste
   Caption = 'Ajuste de Estoque'
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
@@ -277,7 +278,8 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
         Width = 100
         Height = 21
         AllowNoDate = True
-        Checked = True
+        Checked = False
+        ReadOnly = True
         TabOrder = 0
         OnKeyPress = FormKeyPress
       end
@@ -320,7 +322,6 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
       item
         Expanded = False
         FieldName = 'COD_BARRA'
-        Width = 64
         Visible = True
       end
       item
@@ -332,13 +333,11 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
       item
         Expanded = False
         FieldName = 'PRECO_VENDA'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO_COMPRAULTIMO'
-        Width = 64
         Visible = True
       end
       item
@@ -349,43 +348,36 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
       item
         Expanded = False
         FieldName = 'UNIDADEMEDIDA'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'GRUPO'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SUBGRUPO'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MARCA'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ESTOQUEATUAL'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO_COMPRAMEDIO'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'APLICACAO_PRODUTO'
-        Width = 64
         Visible = True
       end
       item
@@ -396,25 +388,21 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
       item
         Expanded = False
         FieldName = 'ESTOQUEMAXIMO'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ESTOQUEMINIMO'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ESTOQUEREPOSICAO'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'LOTE'
-        Width = 64
         Visible = True
       end>
   end
@@ -578,16 +566,11 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
         DataType = ftInteger
         Name = 'codp'
         ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'mesano'
-        ParamType = ptInput
       end>
     SQL.Strings = (
-      'select * from estoquemes '
+      'select first 1 * from estoquemes '
       'where codproduto = :codp'
-      '   and mesano = :mesano')
+      'order by MESANO desc')
     SQLConnection = DM.sqlsisAdimin
     Left = 416
     Top = 192

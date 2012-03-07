@@ -147,7 +147,7 @@ begin
       FMov.Status      := 0;
       FMov.CodUsuario  := 1;
       FMov.CodVendedor := 1;
-      FMov.DataMov     := medta1.Date;
+      FMov.DataMov     := mesano;
       FMov.Obs         := 'AJUSTE VALOR DE ' + lblPrecoCusto.Caption + ' PARA ' +
         FloaTToStr(edValor.Value);
       codMovEntrada := FMov.inserirMovimento(0);
@@ -158,8 +158,8 @@ begin
       FMov.MovDetalhe.Baixa         := '0';
       FMov.MovDetalhe.inserirMovDet;
       fCom.CodMov               := codMovEntrada;
-      fCom.DataCompra           := medta1.Date;
-      fCom.DataVcto             := medta1.Date;
+      fCom.DataCompra           := mesano;
+      fCom.DataVcto             := mesano;
       fCom.Serie                := 'I';
       fCom.NotaFiscal           := codMovEntrada;
       fCom.CodFornecedor        := 1;
@@ -212,8 +212,8 @@ procedure TfEstoqueAjuste.edit3Exit(Sender: TObject);
 var ano, mes, dia: Word;
 
 begin
-  DecodeDate(Today, ano, mes, dia);
-  mesano := StartOfAMonth(ano, mes);
+//  DecodeDate(Today, ano, mes, dia);
+//  mesano := StartOfAMonth(ano, mes);
   if (Edit3.Text = '') then exit;
   if dm.scds_produto_proc.Active then
     dm.scds_produto_proc.Close;
@@ -226,11 +226,12 @@ begin
   if (sqlEstoque.Active) then
     sqlEstoque.Close;
   sqlEstoque.ParamByName('codp').AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-  sqlEstoque.ParamByName('mesano').AsDate  := mesano;
   sqlEstoque.Open;
 
   lblEstoque.Caption    := 'Estoque : ' + FloatToStr(sqlEstoqueSALDOESTOQUE.AsFloat);
   lblPrecoCusto.Caption := 'Preço custo : ' + FloatToStr(sqlEstoquePRECOCUSTO.AsFloat);
+  mesano := sqlEstoqueMESANO.AsDateTime;
+  meDta1.Text := DateToStr(sqlEstoqueMESANO.AsDateTime);
   sqlEstoque.Close;
   dm.scds_produto_proc.Close;  
 end;
