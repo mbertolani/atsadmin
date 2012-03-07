@@ -248,9 +248,11 @@ type
     JvOutlookBar1: TJvOutlookBar;
     Label1: TLabel;
     GrficodeVendas1: TMenuItem;
-    AjusteEsto1: TMenuItem;
+    PaineldeControleCompra1: TMenuItem;
+    CartadeCorreoEletrnica1: TMenuItem;
     AjusteEstoque1: TMenuItem;
     ConciliaoBancaria1: TMenuItem;
+    RelLucroPresumido1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -374,8 +376,11 @@ type
     procedure MesasComandas1Click(Sender: TObject);
     procedure GrficodeVendas1Click(Sender: TObject);
     procedure acPagarUsuarioExecute(Sender: TObject);
+    procedure PaineldeControleCompra1Click(Sender: TObject);
+    procedure CartadeCorreoEletrnica1Click(Sender: TObject);
     procedure AjusteEstoque1Click(Sender: TObject);
     procedure ConciliaoBancaria1Click(Sender: TObject);
+    procedure RelLucroPresumido1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -424,8 +429,9 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
-  uListaEstoque, uOsFiltro, uPainelControle, u_mesas, uEstoqueAjuste,
-  uBancoExtrato, uBancoDePara;
+  uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
+  uEstoqueAjuste, uCCe, uRelVenda2, uBancoExtrato, uBancoDePara,
+  uRel_LucroPresumido;
 
 {$R *.dfm}
 
@@ -775,7 +781,7 @@ begin
   begin
     btnBoleto.Top := screen.DesktopHeight - 200;
     btnBoleto.Left := Screen.DesktopWidth - 350;
-    btnBoleto.Visible := True;
+//    btnBoleto.Visible := True;
     btnBoleto.Caption := 'Boleto Mensal.';
   end;
   if (StrToDateTime(dm.VISTO_FTP) <> today) then
@@ -790,7 +796,7 @@ begin
     begin
       btnBoleto.Top := screen.DesktopHeight - 200;
       btnBoleto.Left := Screen.DesktopWidth - 350;
-      btnBoleto.Visible := True;
+//      btnBoleto.Visible := True;
       btnBoleto.Caption := 'Boleto Mensal.';
     end;
 
@@ -805,7 +811,7 @@ begin
       tempo := DayOf(StrToDateTime(dm.VISTO_FTP));
       Label1.Caption := 'A Licença do Aplicativo expirará em ' ;
       btnBoleto.Left := Screen.DesktopWidth - 350;
-      btnBoleto.Visible := True;
+//      btnBoleto.Visible := True;
       btnBoleto.Caption := 'Boleto Mensal.';
     end;
 
@@ -1971,7 +1977,7 @@ begin
   end;
   try
     Save_Cursor := Screen.Cursor;
-    Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+    Screen.Cursor := crHourGlass;    // Show hourglass cursor
     if DownloadFile(caminho, arquivo) then
     begin
       dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET ' +
@@ -1984,7 +1990,7 @@ begin
     else
       ShowMessage('Erro para baixar arquivo ' + empresa + '.pdf')
   finally
-    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    Screen.Cursor := Save_Cursor;  //Always restore to normal
   end;
 end;
 
@@ -2123,6 +2129,26 @@ begin
   fcrTituloPagto.ShowModal;
 end;
 
+procedure TfAtsAdmin.PaineldeControleCompra1Click(Sender: TObject);
+begin
+  fPainelControleCompra := TfPainelControleCompra.Create(Application);
+  try
+    fPainelControleCompra.ShowModal;
+  finally
+    fPainelControleCompra.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CartadeCorreoEletrnica1Click(Sender: TObject);
+begin
+   fCCe := TfCCe.Create(Application);
+  try
+    fCCe.ShowModal;
+  finally
+    fCCe.Free;
+  end;
+end;
+
 procedure TfAtsAdmin.AjusteEstoque1Click(Sender: TObject);
 begin
  fEstoqueAjuste := TfEstoqueAjuste.Create(Application);
@@ -2131,7 +2157,7 @@ begin
  finally
    fEstoqueAjuste.Free;
  end;
-end;
+ end;
 
 procedure TfAtsAdmin.ConciliaoBancaria1Click(Sender: TObject);
 begin
@@ -2144,6 +2170,16 @@ begin
    fBancoExtrato.Free;
    fBancoDePara.Free;
  end;
+end;
+
+procedure TfAtsAdmin.RelLucroPresumido1Click(Sender: TObject);
+begin
+  fRel_LucroPresumido := TfRel_LucroPresumido.Create(Application);
+  try
+    fRel_LucroPresumido.ShowModal;
+  finally
+    fRel_LucroPresumido.Free;
+  end;
 end;
 
 end.

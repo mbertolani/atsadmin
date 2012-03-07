@@ -2609,6 +2609,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Dados de Importa'#231#227'o'
         OnClick = DeclaraodeImportao1Click
       end
+      object CartadeCorreoEletrnica1: TMenuItem
+        Caption = 'Carta de Corre'#231#227'o Eletr'#244'nica'
+        OnClick = CartadeCorreoEletrnica1Click
+      end
     end
     object N2: TMenuItem
       Caption = 'Usuarios     '
@@ -2776,6 +2780,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Gr'#225'fico de Vendas'
         OnClick = GrficodeVendas1Click
       end
+      object PaineldeControleCompra1: TMenuItem
+        Caption = 'Painel de Controle Compra'
+        OnClick = PaineldeControleCompra1Click
+      end
     end
     object RelastriosFinanceiros1: TMenuItem
       Caption = 'Rel. Financeiros      '
@@ -2805,6 +2813,10 @@ object fAtsAdmin: TfAtsAdmin
       object FluxoCaixa1: TMenuItem
         Caption = 'Fluxo Caixa'
         OnClick = FluxoCaixa1Click
+      end
+      object RelLucroPresumido1: TMenuItem
+        Caption = 'Rel. Lucro Presumido'
+        OnClick = RelLucroPresumido1Click
       end
     end
     object Ajuda1: TMenuItem
