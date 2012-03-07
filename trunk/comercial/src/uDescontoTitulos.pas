@@ -11,8 +11,6 @@ uses
 
 type
   TfDescontoTitulos = class(TfPai_new)
-    DBLookupComboBox1: TDBLookupComboBox;
-    Label1: TLabel;
     ds_conta: TDataSource;
     edPreco: TJvCalcEdit;
     Label2: TLabel;
@@ -20,7 +18,7 @@ type
     Label3: TLabel;
     edIOF: TJvCalcEdit;
     Label4: TLabel;
-    JvCalcEdit3: TJvCalcEdit;
+    edLiquido: TJvCalcEdit;
     Label5: TLabel;
     Label6: TLabel;
     Dta: TJvDatePickerEdit;
@@ -33,27 +31,43 @@ type
     cdsRecTITULO: TStringField;
     cdsRecVIA: TStringField;
     cdsRecCODALMOXARIFADO: TSmallintField;
+    lblBaixaTit: TLabel;
+    lblTransfereConta: TLabel;
+    lblDespJuros: TLabel;
+    lblDespIOF: TLabel;
+    cdsRecVALOR_RESTO: TFloatField;
+    cdsRecCODCLIENTE: TIntegerField;
+    sdsConta: TSQLDataSet;
+    sdsContaCODIGO: TIntegerField;
+    sdsContaNOME: TStringField;
+    sdsContaRATEIO: TStringField;
+    sdsContaCODREDUZIDO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cbContaChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure edJuroEnter(Sender: TObject);
+    procedure edIOFEnter(Sender: TObject);
+    procedure edPrecoEnter(Sender: TObject);
   private
     contaTitDesc : String;
     contaBanco   : String;
     tituloDescont : String;
+    hist          : String;
     contaBancoCod : Integer;
     contaTitCod   : Integer;
     contaDespIOF  : Integer;
-    contaDespJuro : Integer; 
-    codCliente    : Integer;
+    contaDespJuro : Integer;
     codFornec     : Integer;
-    procedure baixaTituloDescontado;
-    procedure transfereTituloDescParaContaBanco;
+    procedure baixaTituloDescontado(vlrPago: Double);
+    procedure transfereTituloDescParaContaBanco(valor: Double);
     procedure lancaDespesaJuros;
     procedure lancaDespesaIOF;
     { Private declarations }
   public
     usuarioSis: Integer;
     cCusto    : Integer;
+    codCliente    : Integer;
     { Public declarations }
   end;
 
@@ -66,13 +80,13 @@ uses UDm, uReceberCls, uPagarCls, ufcr;
 
 {$R *.dfm}
 
-procedure TfDescontoTitulos.baixaTituloDescontado;
+procedure TfDescontoTitulos.baixaTituloDescontado(vlrPago: Double);
 var rec : TReceberCls;
 begin
   Try
     rec := TReceberCls.Create;
-    rec.baixaTitulo(0, 0, 0, 0, 0, dta.Date, dta.date, dta.Date, '4',
-    '', contaTitCod , codCliente, '5-', usuarioSis);
+    rec.baixaTitulo(vlrPago, 0, 0, 0, 0, dta.Date, dta.date, dta.Date, '4',
+    '', contaTitCod , codCliente, '7-', usuarioSis);
   Finally
     rec.Free;
   end;
@@ -84,6 +98,7 @@ procedure TfDescontoTitulos.btnIncluirClick(Sender: TObject);
   str_sql : String;
   TD      : TTransactionDesc;
 begin
+  edLiquido.Value := edPreco.Value - edJuro.Value - edIOF.Value;
   if (cbConta.ItemIndex = -1) then
   begin
     MessageDlg('Escolha o caixa a ser lançado.', mtWarning, [mbOK], 0);
@@ -127,17 +142,38 @@ begin
     cdsRec.Close;
   cdsRec.Params[0].AsInteger := usuarioSis;
   cdsRec.Open;
-
-  While not cdsRec.Eof do
+  hist := '';
+  if (not cdsRec.IsEmpty) then
   begin
-    tituloDescont := cdsRecTITULO.AsString + '-' + cdsRecVIA.AsString;
-    cCusto        := cdsRecCODALMOXARIFADO.AsInteger;
-    baixaTituloDescontado;
-    transfereTituloDescParaContaBanco;
+    While not cdsRec.Eof do
+    begin
+      tituloDescont := cdsRecTITULO.AsString; // + '-' + cdsRecVIA.AsString;
+      hist          := hist + ' / ' + tituloDescont;
+      cCusto        := cdsRecCODALMOXARIFADO.AsInteger;
+      codCliente    := cdsRecCODCLIENTE.AsInteger;
+      baixaTituloDescontado(cdsRecVALOR_RESTO.AsFloat);
+      transfereTituloDescParaContaBanco(cdsRecVALOR_RESTO.AsFloat);
+      cdsRec.Next;
+    end;
     lancaDespesaJuros;
     lancaDespesaIOF;
-    cdsRec.Next;
-  end;  
+    MessageDlg('Título Descontado com sucesso.', mtInformation, [mbOK], 0);
+    str_sql := 'UPDATE RECEBIMENTO SET DP = NULL ';
+    str_sql := str_sql + ', USERID = NULL ';
+    str_sql := str_sql + ' WHERE USERID = ' + IntToStr(usuarioSis);
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
+    end;
+  end;
 end;
 
 procedure TfDescontoTitulos.lancaDespesaIOF;
@@ -157,6 +193,7 @@ begin
     despesa.dtPag         := dta.Date;
     despesa.DtBaixa       := dta.Date;
     despesa.DtConsolida   := dta.Date;
+    despesa.Obs           := hist;
 
     despesa.Valor         := edIOF.Value;
     despesa.valorPag      := 0;
@@ -169,7 +206,10 @@ begin
     despesa.marcarTitulo(codPag, usuarioSis);
     despesa.baixaTitulo(edIOF.Value, 0, 0, 0, 0, dta.Date,
     dta.Date, dta.Date, '1', tituloDescont, contaBancoCod, codFornec,
-    '5-', usuarioSis);
+    '7-', usuarioSis);
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE PAGAMENTO SET DP = NULL ' +
+    ', USERID = NULL ' +
+    ' WHERE USERID = ' + IntToStr(usuarioSis));
   Finally
     despesa.Free;
   end;
@@ -192,6 +232,7 @@ begin
     despesa.dtPag         := dta.Date;
     despesa.DtBaixa       := dta.Date;
     despesa.DtConsolida   := dta.Date;
+    despesa.Obs           := hist;
 
     despesa.Valor         := edJuro.Value;
     despesa.valorPag      := 0;
@@ -204,13 +245,16 @@ begin
     despesa.marcarTitulo(codPag, usuarioSis);
     despesa.baixaTitulo(edJuro.Value, 0, 0, 0, 0, dta.Date,
     dta.Date, dta.Date, '1', tituloDescont, contaBancoCod, codFornec,
-    '5-', usuarioSis);
+    '7-', usuarioSis);
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE PAGAMENTO SET DP = NULL ' +
+    ', USERID = NULL ' +
+    ' WHERE USERID = ' + IntToStr(usuarioSis));
   Finally
     despesa.Free;
   end;
 end;
 
-procedure TfDescontoTitulos.transfereTituloDescParaContaBanco;
+procedure TfDescontoTitulos.transfereTituloDescParaContaBanco(valor: Double);
 var cod_id, codOrigem: Integer;
   sql: String;
 begin
@@ -236,7 +280,7 @@ begin
   sql := sql + ', ' + QuotedStr(contaBanco);
   sql := sql + ', 0';
   DecimalSeparator := '.';
-  sql := sql + ',' + FloatToStr(edPreco.Value);
+  sql := sql + ',' + FloatToStr(valor);
   DecimalSeparator := '.';
   sql := sql + ', 0';
   sql := sql + ', 0';
@@ -252,6 +296,7 @@ begin
   sql := sql + ', ' + QuotedStr('Desc. Título: ' + tituloDescont);
   sql := sql + ')';
   dm.sqlsisAdimin.ExecuteDirect(sql);
+
 
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
@@ -273,9 +318,8 @@ begin
   sql := sql + ', 0';
   sql := sql + ', 0';
   sql := sql + ', ' + QuotedStr(contaTitDesc);
-  sql := sql + ', ';
   DecimalSeparator := '.';
-  sql := sql + ',' + FloatToStr(edPreco.Value);
+  sql := sql + ',' + FloatToStr(valor);
   DecimalSeparator := '.';
   sql := sql + ', 0';
   sql := sql + ', 0';
@@ -292,7 +336,7 @@ begin
   sql := sql + ', ' + QuotedStr('Desc. Título: ' + tituloDescont);
   sql := sql + ')';
   dm.sqlsisAdimin.ExecuteDirect(sql);
-
+  
 end;
 
 procedure TfDescontoTitulos.FormShow(Sender: TObject);
@@ -328,6 +372,13 @@ begin
     cbConta.Items.Add(dm.cds_7_contasNOME.AsString);
     dm.cds_7_contas.Next;
   end;
+
+  if (sdsConta.Active) then
+    sdsConta.Close;
+  sdsConta.ParamByName('pConta').AsString := contaTitDesc;
+  sdsConta.Open;
+  contaTitCod := sdsContaCODIGO.AsInteger;
+
 end;
 
 procedure TfDescontoTitulos.cbContaChange(Sender: TObject);
@@ -336,8 +387,30 @@ begin
   dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive]);
   contaBancoCod := dm.cds_7_contasCODIGO.AsInteger;
   contaBanco    := dm.cds_7_contasCONTA.AsString;
-  dm.cds_7_contas.Locate('CONTA', contaTitDesc, [loCaseInsensitive]);
-  contaTitCod := dm.cds_7_contasCODIGO.AsInteger;
+end;
+
+procedure TfDescontoTitulos.FormCreate(Sender: TObject);
+begin
+  //inherited;
+
+end;
+
+procedure TfDescontoTitulos.edJuroEnter(Sender: TObject);
+begin
+  inherited;
+  edLiquido.Value := edPreco.Value - edJuro.Value - edIOF.Value;
+end;
+
+procedure TfDescontoTitulos.edIOFEnter(Sender: TObject);
+begin
+  inherited;
+  edLiquido.Value := edPreco.Value - edJuro.Value - edIOF.Value;
+end;
+
+procedure TfDescontoTitulos.edPrecoEnter(Sender: TObject);
+begin
+  inherited;
+  edLiquido.Value := edPreco.Value - edJuro.Value - edIOF.Value;
 end;
 
 end.

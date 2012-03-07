@@ -5,25 +5,12 @@ inherited fDescontoTitulos: TfDescontoTitulos
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel [0]
-    Left = 10
-    Top = 105
-    Width = 93
-    Height = 16
-    Caption = 'Caixa/Conta :'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = [fsBold]
-    ParentFont = False
-  end
-  object Label2: TLabel [1]
+  object Label2: TLabel [0]
     Left = 10
     Top = 146
-    Width = 115
+    Width = 133
     Height = 16
-    Caption = 'Total Desconto :'
+    Caption = 'Total Descontado :'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -31,7 +18,7 @@ inherited fDescontoTitulos: TfDescontoTitulos
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label3: TLabel [2]
+  object Label3: TLabel [1]
     Left = 10
     Top = 188
     Width = 87
@@ -44,7 +31,7 @@ inherited fDescontoTitulos: TfDescontoTitulos
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label4: TLabel [3]
+  object Label4: TLabel [2]
     Left = 10
     Top = 230
     Width = 73
@@ -57,7 +44,7 @@ inherited fDescontoTitulos: TfDescontoTitulos
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label5: TLabel [4]
+  object Label5: TLabel [3]
     Left = 10
     Top = 272
     Width = 100
@@ -70,7 +57,7 @@ inherited fDescontoTitulos: TfDescontoTitulos
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label6: TLabel [5]
+  object Label6: TLabel [4]
     Left = 10
     Top = 63
     Width = 112
@@ -83,9 +70,37 @@ inherited fDescontoTitulos: TfDescontoTitulos
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object lblBaixaTit: TLabel [5]
+    Left = 288
+    Top = 150
+    Width = 3
+    Height = 13
+    Caption = '.'
+  end
+  object lblTransfereConta: TLabel [6]
+    Left = 304
+    Top = 190
+    Width = 3
+    Height = 13
+    Caption = '.'
+  end
+  object lblDespJuros: TLabel [7]
+    Left = 304
+    Top = 220
+    Width = 3
+    Height = 13
+    Caption = '.'
+  end
+  object lblDespIOF: TLabel [8]
+    Left = 304
+    Top = 240
+    Width = 3
+    Height = 13
+    Caption = '.'
+  end
   inherited MMJPanel1: TMMJPanel
     Width = 639
-    TabOrder = 6
+    TabOrder = 5
     object Label7: TLabel
       Left = 60
       Top = 12
@@ -112,7 +127,7 @@ inherited fDescontoTitulos: TfDescontoTitulos
   end
   inherited MMJPanel2: TMMJPanel
     Width = 639
-    TabOrder = 7
+    TabOrder = 6
     inherited btnGravar: TBitBtn
       Left = 199
     end
@@ -134,66 +149,55 @@ inherited fDescontoTitulos: TfDescontoTitulos
       Left = 445
     end
   end
-  object DBLookupComboBox1: TDBLookupComboBox [8]
-    Left = 10
-    Top = 122
-    Width = 140
-    Height = 21
-    Ctl3D = True
-    DataField = 'CAIXA'
-    DataSource = DtSrc
-    KeyField = 'CODIGO'
-    ListField = 'NOME'
-    ListSource = ds_conta
-    ParentCtl3D = False
-    TabOrder = 1
-    OnKeyPress = FormKeyPress
-  end
-  object edPreco: TJvCalcEdit [9]
+  object edPreco: TJvCalcEdit [11]
     Left = 10
     Top = 162
     Width = 140
     Height = 21
     DecimalPlaces = 4
     DisplayFormat = '0.0000'
-    TabOrder = 2
+    TabOrder = 1
     DecimalPlacesAlwaysShown = True
+    OnEnter = edPrecoEnter
     OnKeyPress = FormKeyPress
   end
-  object edJuro: TJvCalcEdit [10]
+  object edJuro: TJvCalcEdit [12]
     Left = 10
     Top = 204
     Width = 140
     Height = 21
     DecimalPlaces = 4
     DisplayFormat = '0.0000'
-    TabOrder = 3
+    TabOrder = 2
     DecimalPlacesAlwaysShown = True
+    OnEnter = edJuroEnter
     OnKeyPress = FormKeyPress
   end
-  object edIOF: TJvCalcEdit [11]
+  object edIOF: TJvCalcEdit [13]
     Left = 10
     Top = 246
     Width = 140
     Height = 21
     DecimalPlaces = 4
     DisplayFormat = '0.0000'
-    TabOrder = 4
+    TabOrder = 3
     DecimalPlacesAlwaysShown = True
+    OnEnter = edIOFEnter
     OnKeyPress = FormKeyPress
   end
-  object JvCalcEdit3: TJvCalcEdit [12]
+  object edLiquido: TJvCalcEdit [14]
     Left = 10
     Top = 288
     Width = 140
     Height = 21
     DecimalPlaces = 4
     DisplayFormat = '0.0000'
-    TabOrder = 5
+    Enabled = False
+    TabOrder = 4
     DecimalPlacesAlwaysShown = True
     OnKeyPress = FormKeyPress
   end
-  object Dta: TJvDatePickerEdit [13]
+  object Dta: TJvDatePickerEdit [15]
     Left = 10
     Top = 83
     Width = 103
@@ -241,9 +245,11 @@ inherited fDescontoTitulos: TfDescontoTitulos
         ParamType = ptUnknown
       end>
     SQL.Strings = (
-      'SELECT TITULO , VIA, CODALMOXARIFADO FROM RECEBIMENTO '
+      'SELECT TITULO , VIA, CODALMOXARIFADO, VALOR_RESTO '
+      ', CODCLIENTE '
+      '   FROM RECEBIMENTO '
       'WHERE DP = 0'
-      '      AND CODUSUARIO = :user')
+      '      AND USERID = :user')
     SQLConnection = DM.sqlsisAdimin
     Left = 280
     Top = 88
@@ -277,6 +283,46 @@ inherited fDescontoTitulos: TfDescontoTitulos
     end
     object cdsRecCODALMOXARIFADO: TSmallintField
       FieldName = 'CODALMOXARIFADO'
+    end
+    object cdsRecVALOR_RESTO: TFloatField
+      FieldName = 'VALOR_RESTO'
+    end
+    object cdsRecCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+  end
+  object sdsConta: TSQLDataSet
+    CommandText = 
+      'select CODIGO, NOME, RATEIO, CODREDUZIDO from PLANO where CONTA ' +
+      '= :pCONTA'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pCONTA'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 253
+    Top = 184
+    object sdsContaCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object sdsContaNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+    object sdsContaRATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsContaCODREDUZIDO: TStringField
+      FieldName = 'CODREDUZIDO'
+      Size = 15
     end
   end
 end
