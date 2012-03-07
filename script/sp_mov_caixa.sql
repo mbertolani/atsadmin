@@ -91,7 +91,7 @@ BEGIN
   /*     Total de Debitos (Entrou) por RECEBIMENTOS     */
   /*                                                    */
   /*                                                    */
-  FOR SELECT rec.DATARECEBIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(5)) || '-' ||  cli.NOMECLIENTE, 
+  FOR SELECT rec.DATARECEBIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(10)) || '-' ||  cli.NOMECLIENTE, 
     rec.HISTORICO, (rec.VALORRECEBIDO), rec.CONTACREDITO, rec.FORMARECEBIMENTO, rec.N_DOCUMENTO  
     FROM RECEBIMENTO rec, CLIENTES cli where cli.CODCLIENTE = rec.CODCLIENTE 
     and rec.DATARECEBIMENTO BETWEEN :DTAINI AND :DTAFIM
@@ -207,7 +207,7 @@ BEGIN
   if (valor is null) then 
     valor = 0;
   descricao = null;
-  FOR SELECT pag.DATAPAGAMENTO, CAST(pag.CODFORNECEDOR AS VARCHAR(5)) || '-' ||  forn.NOMEFORNECEDOR, 
+  FOR SELECT pag.DATAPAGAMENTO, CAST(pag.CODFORNECEDOR AS VARCHAR(10)) || '-' ||  forn.NOMEFORNECEDOR, 
     pag.HISTORICO, (pag.VALORRECEBIDO), pag.CONTACREDITO, pag.FORMAPAGAMENTO, 
     pag.N_DOCUMENTO, pag.SITUACAOCHEQUE  
     FROM PAGAMENTO pag, FORNECEDOR forn where forn.CODFORNECEDOR = pag.CODFORNECEDOR 
