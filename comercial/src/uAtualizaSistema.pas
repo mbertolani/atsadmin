@@ -1397,9 +1397,11 @@ begin
         'DATAINI DATE , DATAFIM DATE, DATAGERADO DATE, DATAENVIADO DATE, ' +
         'EMPRESA VARCHAR(100), EMPRESA_CNPJ CHAR(14), EMPRESA_CODIGO INTEGER)');
 
-        executaSql(UpperCase('alter table SPEDPISCOFINSDET add constraint FK_SPED '  +
-                   'foreign key (CODSPED) references SPEDPISCOFINS (CODSPED) ' +
-                   'on update NO ACTION on delete NO ACTION'));
+        executaSql(UpperCase('alter table SPEDPISCOFINSDET  ' +
+           ' add constraint FK_SPEDPISCOFINSDET_1 ' +
+           ' foreign key (CODSPED) ' +
+           ' references SPEDPISCOFINS (CODSPED)  ' +
+           ' on delete NO ACTION '));
       end;
 
       executaDDL('SPEDPISCOFINSDET', UpperCase('TipoItem'),       'VARCHAR(30)');
