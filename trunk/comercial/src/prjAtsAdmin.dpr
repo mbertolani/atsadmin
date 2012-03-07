@@ -260,16 +260,21 @@ uses
   uReceberCls in 'uReceberCls.pas',
   uAts_R in 'uAts_R.pas' {fAts_R},
   uAbrirCaixa in 'uAbrirCaixa.pas' {fAbrirCaixa},
+  uCCe in 'uCCe.pas' {fCCe},
+  uCartaCorrecao in 'uCartaCorrecao.pas',
+  uCarne in 'uCarne.pas' {fCarne},
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
-  uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins},
   uEstoqueAjuste in 'uEstoqueAjuste.pas' {fEstoqueAjuste},
   uListaEstoque in 'uListaEstoque.pas' {fListaEstoque},
+  uRelVenda2 in 'uRelVenda2.pas' {fRelVenda2},
+  uRelVendaImprime in 'uRelVendaImprime.pas' {fRelVendaImprime},
   uBancoExtrato in 'uBancoExtrato.pas' {fBancoExtrato},
   uBancoOFX in 'uBancoOFX.pas',
   uRelOS in 'uRelOS.pas' {fRelOs},
   uBancoDePara in 'uBancoDePara.pas' {fBancoDePara},
   uPagarCls in 'uPagarCls.pas',
-  uDescontoTitulos in 'uDescontoTitulos.pas' {fDescontoTitulos};
+  uDescontoTitulos in 'uDescontoTitulos.pas' {fDescontoTitulos},
+  uRel_LucroPresumido in 'uRel_LucroPresumido.pas' {fRel_LucroPresumido};
 
 //uImport in 'uImport.pas' {fImport};
 

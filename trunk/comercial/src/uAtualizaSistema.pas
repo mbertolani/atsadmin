@@ -1457,10 +1457,16 @@ begin
         ' PRIMARY KEY (CAIXA, CONTA, EXTRATODOC, EXTRATOTIPO))');
       end;
       executaDDL('BANCO', 'VARIACAO', 'Varchar(3)');
+      executaDDL('BANCO', 'CODIGOBOLETO', 'varchar(20)');
+      executaDDL('FORNECEDOR', 'CODFOR', 'varchar(10)');
       executaDDL('PAGAMENTO',     'CODCONCILIACAO', 'Varchar(50)');
+      executaDDL('PLANO', 'TIPOLANC', 'varchar(10)');
+      executaDDL('RECEBIMENTO', 'CODIGOBOLETO', 'varchar(20)');
+      executaDDL('RECEBIMENTO', 'CODIGOBANCO', 'integer');
       executaDDL('RECEBIMENTO',   'CODCONCILIACAO', 'Varchar(50)');
       executaDDL('MOVIMENTOCONT', 'CODCONCILIACAO', 'Varchar(50)');
-
+      executaScript('SP_MOV_CAIXAC.sql');
+      executaScript('SP_MOV_CAIXA_ORDEMC.sql');
       mudaVersao('1.0.0.101');
     end;
 
