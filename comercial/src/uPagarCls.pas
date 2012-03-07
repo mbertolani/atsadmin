@@ -275,11 +275,10 @@ begin
         strRec :=  'UPDATE PAGAMENTO SET ' +
             'STATUS = ' + QuotedStr(STATUS) +
             ', valorRecebido = ' + FloatToStr(VLR - VLDESC - VLPER) +
-            ', VALOR_RESTO_SST = ' + FloatToStr(VLR - VLDESC - VLPER) +
             ', VALOR_RESTO = ' + FloatToStr(VLR) +
             ', FormaPagamento = ' + QuotedStr(FormaPag) +
             ', DATABAIXA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATA)) +
-            ', DATARECEBIMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', DATAREC)) +
+            ', DATAPAGAMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', DATAREC)) +
             ', DATACONSOLIDA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATACONSOLIDA)) +
             ', N_DOCUMENTO = ' + QuotedStr(NDOC) +
             ', CAIXA = ' + IntToStr(CAIXA) +
@@ -302,7 +301,7 @@ begin
             ', VALOR_RESTO = 0 ' +
             ', FormaPagamento = ' + QuotedStr(FormaPag) +
             ', DATABAIXA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATA)) +
-            ', DATARECEBIMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', DATAREC)) +
+            ', DATAPAGAMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', DATAREC)) +
             ', DATACONSOLIDA = ' + QuotedStr(formatdatetime('mm/dd/yy', DATACONSOLIDA)) +
             ', N_DOCUMENTO = ' + QuotedStr(NDOC) +
             ', CAIXA = ' + IntToStr(CAIXA) +
@@ -362,7 +361,7 @@ begin
           ', valorPagEBIDO  = 0 ' +
           ', FormaPagamento = ' + QuotedStr('0') +
           ', DATABAIXA = null' +
-          ', DATARECEBIMENTO = null' +
+          ', DATAPAGAMENTO = null' +
           ', DATACONSOLIDA = null' +
           ', N_DOCUMENTO = null' +
           ', CAIXA = null ' +
@@ -428,13 +427,13 @@ begin
     Try
       sqlBuscaR :=  TSqlQuery.Create(nil);
       sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
-      strR := 'SELECT CODCOMPRA, CODMOVIMENTO, CODFORNECEDOR, DATAVENDA, ' +
-        ' DATAVENCIMENTO, NUMEROBORDERO, BANCO, CODCOMPRADOR, STATUS, CODUSUARIO,' +
-        ' DATASISTEMA, VALOR, NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA,' +
-        ' OPERACAO, FORMAPAGAMENTO, N_DOCUMENTO, CAIXA, MULTA_JUROS, APAGAR,  ' +
-        ' VALOR_PAGAR, ENTRADA, N_BOLETO, STATUS1, CONTROLE, OBS, VALOR_ICMS,   ' +
-        ' VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, PRAZO, CODORIGEM, TROCO' +
-        '  FROM COMPRA ' +
+      strR := 'SELECT CODCOMPRA, CODMOVIMENTO, CODFORNECEDOR, DATACOMPRA, ' + 
+        ' DATAVENCIMENTO, NUMEROBORDERO, BANCO, CODCOMPRADOR, STATUS, CODUSUARIO, ' +
+        ' DATASISTEMA, VALOR, NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA, ' +
+        ' FORMAPAGAMENTO, N_DOCUMENTO, CAIXA, MULTA_JUROS, APAGAR, ' +
+        ' VALOR_PAGAR, ENTRADA, N_BOLETO,  VALOR_ICMS, ' +
+        ' VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, PRAZO, CODORIGEM ' +
+        ' FROM COMPRA ' +
         ' WHERE CODCOMPRA = ' + InttoStr(CodCompraR);
       sqlBuscaR.SQL.Add(strR);
       sqlBuscaR.Open;
@@ -447,7 +446,7 @@ begin
         Self.NParcela      := sqlBuscaR.FieldByName('N_PARCELA').AsInteger;
         Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat;
         Self.ValorPag      := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
-        Self.DtEmissao     := sqlBuscaR.FieldByName('DATAVENDA').AsDateTime;
+        Self.DtEmissao     := sqlBuscaR.FieldByName('DATACOMPRA').AsDateTime;
         Self.DtVcto        := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
         Self.Prazo         := sqlBuscaR.FieldByName('PRAZO').AsString;
         Self.CodOrigem     := sqlBuscaR.FieldByName('CODORIGEM').AsInteger;
@@ -572,7 +571,7 @@ begin
           ' valorRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
           ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
           ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM,        ' +
-          ' CONTACREDITO,    CODCONCILIACAO  ' +
+          ' CONTACREDITO,    CODCONCILIACAO,  HISTORICO  ' +
           ') VALUES(';
 
     strG := strG + InttoStr(Self.CodPag) + ', ';
@@ -626,7 +625,8 @@ begin
     strG := strG + IntToStr(1) + ', '; // Situacao
     strG := strG + IntToStr(1) + ', '; // CodOrigem
     strG := strG + IntToStr(Self.ContaCredito) + ', '; // Conta Credito
-    strG := strG + QuotedStr(Self.CodConciliaco) + ')'; // N.Doc.
+    strG := strG + QuotedStr(Self.CodConciliaco) + ', '; // N.Doc.
+    strG := strG + QuotedStr(Self.Obs) + ')';
 
     Rec  := executaSql(strG);
     //UltParc := UltParc - VlrParc;
