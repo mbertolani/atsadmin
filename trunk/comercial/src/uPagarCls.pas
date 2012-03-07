@@ -393,7 +393,11 @@ end;
 
 function TPagarCls.excluiTitulo(codCompraE: Integer): Boolean;
 begin
-  Result := True;
+  // Excluir Título
+  if (executaSql('DELETE FROM PAGAMENTO WHERE CODPAGAMENTO = ' + IntToStr(codCompraE))) then
+    Result := True
+  else
+    Result := False;
 end;
 
 function TPagarCls.executaSql(strSql: String): Boolean;
