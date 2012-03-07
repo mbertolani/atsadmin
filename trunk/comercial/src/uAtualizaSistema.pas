@@ -36,13 +36,14 @@ type
     procedure ExecutaScript(script : string);
     procedure ExecutaSql(sql : string);
     procedure ExecutaDDL(Tabela, Campo, Tipo : string);
+    procedure ExecutaDDLDrop(Tabela, Campo : string);
     procedure MudaVersao(versaoNova: string);
     function NaoExisteTabela(Tabela : String): Boolean;
     procedure CriaGenerator(Generator: String);
     procedure CriaException(Exception_nome, exception_msg: String);
     procedure CriaCampoDescricao(TABELA, CAMPO, DESCRICAO : String);
     procedure DeletaTrigger(Trigger: String);
-    procedure DeletaProc(Proc: String);    
+    procedure DeletaProc(Proc: String);
 
     { Private declarations }
   public
@@ -1256,35 +1257,88 @@ begin
       executaDDL('EMPRESA', 'CONTADOR_EMAIL',  'VARCHAR(100)');
       executaDDL('EMPRESA', 'CONTADOR_COD_MUN', 'CHAR(10)');
 
-      executaDDL('EMPRESA', UpperCase('IndicadorAtividade'),  'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('CodIndIncTributaria'), 'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndAproCred'),         'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('CodIndTipoCon'),       'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('CodIndCritEscrit'),    'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndCodIncidencia'),    'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndCTA'),              'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndEscrituracao'),     'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('BaseCalculoCredito'),  'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndAJ'),               'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('CodAj'),               'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndNatRec'),           'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('NatCredDesc'),         'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('CodCred'),             'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndTipCoop'),          'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndCredOri'),          'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndRec'),              'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndDescCred'),         'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('CodCont'),             'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndNatRetFonte'),      'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndOrigemDiversas'),   'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndNatDeducao'),       'SMALLINT');
-      executaDDL('EMPRESA', UpperCase('IndTpOperacaoReceita'),'SMALLINT');
+      executaDDLDrop('EMPRESA', UpperCase('IndicadorNaturezaPJ'));
+      executaDDL('EMPRESA', UpperCase('IndicadorNaturezaPJ'),  'SMALLINT');
 
+      executaDDLDrop('EMPRESA', UpperCase('IndicadorAtividade'));
+      executaDDL('EMPRESA', UpperCase('IndicadorAtividade'),  'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('CodIndIncTributaria'));
+      executaDDL('EMPRESA', UpperCase('CodIndIncTributaria'), 'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndAproCred'));
+      executaDDL('EMPRESA', UpperCase('IndAproCred'),         'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('CodIndTipoCon'));
+      executaDDL('EMPRESA', UpperCase('CodIndTipoCon'),       'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('CodIndCritEscrit'));
+      executaDDL('EMPRESA', UpperCase('CodIndCritEscrit'),    'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndCodIncidencia'));
+      executaDDL('EMPRESA', UpperCase('IndCodIncidencia'),    'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndCTA'));
+      executaDDL('EMPRESA', UpperCase('IndCTA'),              'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndEscrituracao'));
+      executaDDL('EMPRESA', UpperCase('IndEscrituracao'),     'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('BaseCalculoCredito'));
+      executaDDL('EMPRESA', UpperCase('BaseCalculoCredito'),  'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndAJ'));
+      executaDDL('EMPRESA', UpperCase('IndAJ'),               'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('CodAj'));
+      executaDDL('EMPRESA', UpperCase('CodAj'),               'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndNatRec'));
+      executaDDL('EMPRESA', UpperCase('IndNatRec'),           'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('NatCredDesc'));
+      executaDDL('EMPRESA', UpperCase('NatCredDesc'),         'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('CodCred'));
+      executaDDL('EMPRESA', UpperCase('CodCred'),             'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndTipCoop'));
+      executaDDL('EMPRESA', UpperCase('IndTipCoop'),          'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndCredOri'));
+      executaDDL('EMPRESA', UpperCase('IndCredOri'),          'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndRec'));
+      executaDDL('EMPRESA', UpperCase('IndRec'),              'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndDescCred'));
+      executaDDL('EMPRESA', UpperCase('IndDescCred'),         'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('CodCont'));
+      executaDDL('EMPRESA', UpperCase('CodCont'),             'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndNatRetFonte'));
+      executaDDL('EMPRESA', UpperCase('IndNatRetFonte'),      'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndOrigemDiversas'));
+      executaDDL('EMPRESA', UpperCase('IndOrigemDiversas'),   'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndNatDeducao'));
+      executaDDL('EMPRESA', UpperCase('IndNatDeducao'),       'SMALLINT');
+
+      executaDDLDrop('EMPRESA', UpperCase('IndTpOperacaoReceita'));
+      executaDDL('EMPRESA', UpperCase('IndTpOperacaoReceita'),'SMALLINT');
 
       executaDDL('EMPRESA', UpperCase('IM'),                  'VARCHAR(15)');
       executaDDL('EMPRESA', UpperCase('TREGIME'),             'INTEGER');
 
       //executaDDL('EMPRESA', '', 'VARCHAR(50)');
+
+      if (NaoExisteTabela('SPEDPISCOFINS') = False) then
+      begin
+        executaSql('DROP TABLE SPEDPISCOFINSDET');
+        executaSql('DROP TABLE SPEDPISCOFINS');
+      end;
 
       if (NaoExisteTabela('SPEDPISCOFINS')) then
       begin
@@ -1762,6 +1816,36 @@ begin
       IdFTP1.Disconnect;
     end;
   end;    }
+end;
+
+procedure TfAtualizaSistema.ExecutaDDLDrop(Tabela, Campo: string);
+var sql: string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  if (cds.Active) then
+    cds.Close;
+  cds.CommandText := 'select RDB$FIELD_NAME AS CAMPO from rdb$relation_fields' +
+    ' WHERE RDB$RELATION_NAME = ' + QuotedStr(Tabela) +
+    ' and RDB$FIELD_NAME = ' + QuotedStr(Campo);
+  cds.Open;
+  if (not cds.IsEmpty) then
+  begin
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      sql := 'ALTER TABLE ' + Tabela + ' DROP ' + Campo;
+      dm.sqlsisAdimin.ExecuteDirect(sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        abort;
+      end;
+    end;
+  end;
+
 end;
 
 end.
