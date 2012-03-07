@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:F:\home\bd\sge_madurodam.fdb'
+      'Database=localhost:c:\home\sisadmin\bd\sge_solcampo.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -23,10 +23,11 @@ object DM: TDM
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
-      'WaitOnLocks=True')
+      'User_Name=sysdba'
+      'WaitOnLocks=True'
+      'str_relatorio=C:\home\atsadmin\relatorio\')
     VendorLib = 'fbclient.dll'
-    Left = 88
+    Left = 104
     Top = 8
   end
   object sds_parametro: TSQLDataSet
@@ -5532,99 +5533,77 @@ object DM: TDM
       FixedChar = True
       Size = 10
     end
-    object sds_EmpresaCODINDINCTRIBUTARIA: TStringField
-      FieldName = 'CODINDINCTRIBUTARIA'
-      Size = 50
-    end
-    object sds_EmpresaINDAPROCRED: TStringField
-      FieldName = 'INDAPROCRED'
-      Size = 50
-    end
-    object sds_EmpresaCODINDTIPOCON: TStringField
-      FieldName = 'CODINDTIPOCON'
-      Size = 50
-    end
-    object sds_EmpresaCODINDCRITESCRIT: TStringField
-      FieldName = 'CODINDCRITESCRIT'
-      Size = 50
-    end
-    object sds_EmpresaINDCODINCIDENCIA: TStringField
-      FieldName = 'INDCODINCIDENCIA'
-      Size = 50
-    end
-    object sds_EmpresaINDCTA: TStringField
-      FieldName = 'INDCTA'
-      Size = 50
-    end
-    object sds_EmpresaINDESCRITURACAO: TStringField
-      FieldName = 'INDESCRITURACAO'
-      Size = 50
-    end
-    object sds_EmpresaBASECALCULOCREDITO: TStringField
-      FieldName = 'BASECALCULOCREDITO'
-      Size = 50
-    end
-    object sds_EmpresaINDAJ: TStringField
-      FieldName = 'INDAJ'
-      Size = 50
-    end
-    object sds_EmpresaCODAJ: TStringField
-      FieldName = 'CODAJ'
-      Size = 50
-    end
-    object sds_EmpresaINDNATREC: TStringField
-      FieldName = 'INDNATREC'
-      Size = 50
-    end
-    object sds_EmpresaNATCREDDESC: TStringField
-      FieldName = 'NATCREDDESC'
-      Size = 50
-    end
-    object sds_EmpresaCODCRED: TStringField
-      FieldName = 'CODCRED'
-      Size = 50
-    end
-    object sds_EmpresaINDTIPCOOP: TStringField
-      FieldName = 'INDTIPCOOP'
-      Size = 50
-    end
-    object sds_EmpresaINDCREDORI: TStringField
-      FieldName = 'INDCREDORI'
-      Size = 50
-    end
-    object sds_EmpresaINDREC: TStringField
-      FieldName = 'INDREC'
-      Size = 50
-    end
-    object sds_EmpresaINDDESCCRED: TStringField
-      FieldName = 'INDDESCCRED'
-      Size = 50
-    end
-    object sds_EmpresaCODCONT: TStringField
-      FieldName = 'CODCONT'
-      Size = 50
-    end
-    object sds_EmpresaINDNATRETFONTE: TStringField
-      FieldName = 'INDNATRETFONTE'
-      Size = 50
-    end
-    object sds_EmpresaINDORIGEMDIVERSAS: TStringField
-      FieldName = 'INDORIGEMDIVERSAS'
-      Size = 50
-    end
-    object sds_EmpresaINDNATDEDUCAO: TStringField
-      FieldName = 'INDNATDEDUCAO'
-      Size = 50
-    end
-    object sds_EmpresaINDTPOPERACAORECEITA: TStringField
-      FieldName = 'INDTPOPERACAORECEITA'
-      Size = 50
-    end
     object sds_EmpresaINDICADORNATUREZAPJ: TSmallintField
       FieldName = 'INDICADORNATUREZAPJ'
     end
     object sds_EmpresaINDICADORATIVIDADE: TSmallintField
       FieldName = 'INDICADORATIVIDADE'
+    end
+    object sds_EmpresaCODINDINCTRIBUTARIA: TSmallintField
+      FieldName = 'CODINDINCTRIBUTARIA'
+    end
+    object sds_EmpresaINDAPROCRED: TSmallintField
+      FieldName = 'INDAPROCRED'
+    end
+    object sds_EmpresaCODINDTIPOCON: TSmallintField
+      FieldName = 'CODINDTIPOCON'
+    end
+    object sds_EmpresaCODINDCRITESCRIT: TSmallintField
+      FieldName = 'CODINDCRITESCRIT'
+    end
+    object sds_EmpresaINDCODINCIDENCIA: TSmallintField
+      FieldName = 'INDCODINCIDENCIA'
+    end
+    object sds_EmpresaINDCTA: TSmallintField
+      FieldName = 'INDCTA'
+    end
+    object sds_EmpresaINDESCRITURACAO: TSmallintField
+      FieldName = 'INDESCRITURACAO'
+    end
+    object sds_EmpresaBASECALCULOCREDITO: TSmallintField
+      FieldName = 'BASECALCULOCREDITO'
+    end
+    object sds_EmpresaINDAJ: TSmallintField
+      FieldName = 'INDAJ'
+    end
+    object sds_EmpresaCODAJ: TSmallintField
+      FieldName = 'CODAJ'
+    end
+    object sds_EmpresaINDNATREC: TSmallintField
+      FieldName = 'INDNATREC'
+    end
+    object sds_EmpresaNATCREDDESC: TSmallintField
+      FieldName = 'NATCREDDESC'
+    end
+    object sds_EmpresaCODCRED: TSmallintField
+      FieldName = 'CODCRED'
+    end
+    object sds_EmpresaINDTIPCOOP: TSmallintField
+      FieldName = 'INDTIPCOOP'
+    end
+    object sds_EmpresaINDCREDORI: TSmallintField
+      FieldName = 'INDCREDORI'
+    end
+    object sds_EmpresaINDREC: TSmallintField
+      FieldName = 'INDREC'
+    end
+    object sds_EmpresaINDDESCCRED: TSmallintField
+      FieldName = 'INDDESCCRED'
+    end
+    object sds_EmpresaCODCONT: TSmallintField
+      FieldName = 'CODCONT'
+    end
+    object sds_EmpresaINDNATRETFONTE: TSmallintField
+      FieldName = 'INDNATRETFONTE'
+    end
+    object sds_EmpresaINDORIGEMDIVERSAS: TSmallintField
+      FieldName = 'INDORIGEMDIVERSAS'
+    end
+    object sds_EmpresaINDNATDEDUCAO: TSmallintField
+      FieldName = 'INDNATDEDUCAO'
+    end
+    object sds_EmpresaINDTPOPERACAORECEITA: TSmallintField
+      FieldName = 'INDTPOPERACAORECEITA'
     end
   end
   object dsp_empresa: TDataSetProvider
@@ -5864,99 +5843,77 @@ object DM: TDM
       FixedChar = True
       Size = 10
     end
-    object cds_empresaCODINDINCTRIBUTARIA: TStringField
-      FieldName = 'CODINDINCTRIBUTARIA'
-      Size = 50
-    end
-    object cds_empresaINDAPROCRED: TStringField
-      FieldName = 'INDAPROCRED'
-      Size = 50
-    end
-    object cds_empresaCODINDTIPOCON: TStringField
-      FieldName = 'CODINDTIPOCON'
-      Size = 50
-    end
-    object cds_empresaCODINDCRITESCRIT: TStringField
-      FieldName = 'CODINDCRITESCRIT'
-      Size = 50
-    end
-    object cds_empresaINDCODINCIDENCIA: TStringField
-      FieldName = 'INDCODINCIDENCIA'
-      Size = 50
-    end
-    object cds_empresaINDCTA: TStringField
-      FieldName = 'INDCTA'
-      Size = 50
-    end
-    object cds_empresaINDESCRITURACAO: TStringField
-      FieldName = 'INDESCRITURACAO'
-      Size = 50
-    end
-    object cds_empresaBASECALCULOCREDITO: TStringField
-      FieldName = 'BASECALCULOCREDITO'
-      Size = 50
-    end
-    object cds_empresaINDAJ: TStringField
-      FieldName = 'INDAJ'
-      Size = 50
-    end
-    object cds_empresaCODAJ: TStringField
-      FieldName = 'CODAJ'
-      Size = 50
-    end
-    object cds_empresaINDNATREC: TStringField
-      FieldName = 'INDNATREC'
-      Size = 50
-    end
-    object cds_empresaNATCREDDESC: TStringField
-      FieldName = 'NATCREDDESC'
-      Size = 50
-    end
-    object cds_empresaCODCRED: TStringField
-      FieldName = 'CODCRED'
-      Size = 50
-    end
-    object cds_empresaINDTIPCOOP: TStringField
-      FieldName = 'INDTIPCOOP'
-      Size = 50
-    end
-    object cds_empresaINDCREDORI: TStringField
-      FieldName = 'INDCREDORI'
-      Size = 50
-    end
-    object cds_empresaINDREC: TStringField
-      FieldName = 'INDREC'
-      Size = 50
-    end
-    object cds_empresaINDDESCCRED: TStringField
-      FieldName = 'INDDESCCRED'
-      Size = 50
-    end
-    object cds_empresaCODCONT: TStringField
-      FieldName = 'CODCONT'
-      Size = 50
-    end
-    object cds_empresaINDNATRETFONTE: TStringField
-      FieldName = 'INDNATRETFONTE'
-      Size = 50
-    end
-    object cds_empresaINDORIGEMDIVERSAS: TStringField
-      FieldName = 'INDORIGEMDIVERSAS'
-      Size = 50
-    end
-    object cds_empresaINDNATDEDUCAO: TStringField
-      FieldName = 'INDNATDEDUCAO'
-      Size = 50
-    end
-    object cds_empresaINDTPOPERACAORECEITA: TStringField
-      FieldName = 'INDTPOPERACAORECEITA'
-      Size = 50
-    end
     object cds_empresaINDICADORNATUREZAPJ: TSmallintField
       FieldName = 'INDICADORNATUREZAPJ'
     end
     object cds_empresaINDICADORATIVIDADE: TSmallintField
       FieldName = 'INDICADORATIVIDADE'
+    end
+    object cds_empresaCODINDINCTRIBUTARIA: TSmallintField
+      FieldName = 'CODINDINCTRIBUTARIA'
+    end
+    object cds_empresaINDAPROCRED: TSmallintField
+      FieldName = 'INDAPROCRED'
+    end
+    object cds_empresaCODINDTIPOCON: TSmallintField
+      FieldName = 'CODINDTIPOCON'
+    end
+    object cds_empresaCODINDCRITESCRIT: TSmallintField
+      FieldName = 'CODINDCRITESCRIT'
+    end
+    object cds_empresaINDCODINCIDENCIA: TSmallintField
+      FieldName = 'INDCODINCIDENCIA'
+    end
+    object cds_empresaINDCTA: TSmallintField
+      FieldName = 'INDCTA'
+    end
+    object cds_empresaINDESCRITURACAO: TSmallintField
+      FieldName = 'INDESCRITURACAO'
+    end
+    object cds_empresaBASECALCULOCREDITO: TSmallintField
+      FieldName = 'BASECALCULOCREDITO'
+    end
+    object cds_empresaINDAJ: TSmallintField
+      FieldName = 'INDAJ'
+    end
+    object cds_empresaCODAJ: TSmallintField
+      FieldName = 'CODAJ'
+    end
+    object cds_empresaINDNATREC: TSmallintField
+      FieldName = 'INDNATREC'
+    end
+    object cds_empresaNATCREDDESC: TSmallintField
+      FieldName = 'NATCREDDESC'
+    end
+    object cds_empresaCODCRED: TSmallintField
+      FieldName = 'CODCRED'
+    end
+    object cds_empresaINDTIPCOOP: TSmallintField
+      FieldName = 'INDTIPCOOP'
+    end
+    object cds_empresaINDCREDORI: TSmallintField
+      FieldName = 'INDCREDORI'
+    end
+    object cds_empresaINDREC: TSmallintField
+      FieldName = 'INDREC'
+    end
+    object cds_empresaINDDESCCRED: TSmallintField
+      FieldName = 'INDDESCCRED'
+    end
+    object cds_empresaCODCONT: TSmallintField
+      FieldName = 'CODCONT'
+    end
+    object cds_empresaINDNATRETFONTE: TSmallintField
+      FieldName = 'INDNATRETFONTE'
+    end
+    object cds_empresaINDORIGEMDIVERSAS: TSmallintField
+      FieldName = 'INDORIGEMDIVERSAS'
+    end
+    object cds_empresaINDNATDEDUCAO: TSmallintField
+      FieldName = 'INDNATDEDUCAO'
+    end
+    object cds_empresaINDTPOPERACAORECEITA: TSmallintField
+      FieldName = 'INDTPOPERACAORECEITA'
     end
   end
   object sds_usuario: TSQLDataSet
