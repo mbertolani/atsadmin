@@ -1580,35 +1580,24 @@ end;
 
 procedure Tfcrproc.btnGeraMensalidadeClick(Sender: TObject);
   var vlr, vlrrec: double;
-  i, j, clienteSelecionado : integer;
+  i: integer;
   selecionou : string;
 begin
+  i := 1;
   scdsCr_proc.DisableControls;
   scdsCr_proc.First;
-  clienteSelecionado := 0;
   While not scdsCr_proc.Eof do
   begin
     if (scdsCr_procDUP_REC_NF.AsString = 'S') then
     begin
-     if (clienteSelecionado = 0) then
-       clienteSelecionado := scdsCr_procCODCLIENTE.AsInteger;
-     if (clienteSelecionado <> scdsCr_procCODCLIENTE.AsInteger) then
-     begin
-       MessageDlg('Clientes diferentes selecionados.' + #10#13 +
-         ' Operação disponível somente para o mesmo Cliente!', mtWarning, [mbOK], 0);
-       scdsCr_proc.EnableControls;
-       exit;
-     end;
      setlength(nrec, i);
      nrec[i - 1] := scdsCr_procCODRECEBIMENTO.AsInteger;
      if (fcrtitulo.cds.active) then
        fcrtitulo.cds.close;
      fcrtitulo.cds.Params[0].AsInteger := scdsCr_procCODRECEBIMENTO.AsInteger;
      fcrtitulo.cds.Open;
-      vlr := vlr + fcrtitulo.cdsSUM.AsFloat;
-      if (fcrtitulo.cdsSUM_5.AsFloat > 0) then
-        vlrrec := vlrrec +  fcrtitulo.cdsSUM_5.AsFloat;
-      i := i + 1;
+     vlr := vlr + fcrtitulo.cdsSUM.AsFloat;
+     i := i + 1;
     end;
     scdsCr_proc.Next;
   end;
@@ -1616,8 +1605,9 @@ begin
 
   fDescontoTitulos := TfDescontoTitulos.Create(Application);
   try
-    fDescontoTitulos.usuariosis := dm.varUSERID;
-    //fDescontoTitulos.
+    fDescontoTitulos.usuariosis      := usulog;
+    fDescontoTitulos.edPreco.Value   := vlr;
+    fDescontoTitulos.edLiquido.Value := vlr;
     fDescontoTitulos.ShowModal;
   finally
     fDescontoTitulos.Free;
