@@ -1440,7 +1440,7 @@ begin
       if (NaoExisteTabela('BANCOEXTRATO')) then
       begin
         executaSql('CREATE TABLE BANCOEXTRATO ( EXTRATOCOD VARCHAR(20) NOT NULL, ' +
-        ' EXTRATODATA DATE INTEGER NOT NULL , ' +
+        ' EXTRATODATA DATE NOT NULL , ' +
         ' CAIXA INTEGER NOT NULL, ' +
         ' EXTRATODOC VARCHAR(100), ' +
         ' EXTRATOTIPO VARCHAR(20), ' +
