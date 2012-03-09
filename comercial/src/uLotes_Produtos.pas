@@ -14,9 +14,11 @@ type
     Label1: TLabel;
     DBText1: TDBText;
     LotSeq: TCheckBox;
+    BitBtn1: TBitBtn;
     procedure btnSairClick(Sender: TObject);
     procedure DBEdit1KeyPress(Sender: TObject; var Key: Char);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -142,6 +144,11 @@ begin
     LotSeq.Visible := True
   else
     LotSeq.Visible := False;  
+end;
+
+procedure TfLotes_Produtos.BitBtn1Click(Sender: TObject);
+begin
+  Close;
 end;
 
 end.
