@@ -92,30 +92,30 @@ type
     cdsEmpresaCONTADOR_FAX: TStringField;
     cdsEmpresaCONTADOR_EMAIL: TStringField;
     cdsEmpresaCONTADOR_COD_MUN: TStringField;
-    cdsEmpresaCODINDINCTRIBUTARIA: TStringField;
-    cdsEmpresaINDAPROCRED: TStringField;
-    cdsEmpresaCODINDTIPOCON: TStringField;
-    cdsEmpresaCODINDCRITESCRIT: TStringField;
-    cdsEmpresaINDCODINCIDENCIA: TStringField;
-    cdsEmpresaINDCTA: TStringField;
-    cdsEmpresaINDESCRITURACAO: TStringField;
-    cdsEmpresaBASECALCULOCREDITO: TStringField;
-    cdsEmpresaINDAJ: TStringField;
-    cdsEmpresaCODAJ: TStringField;
-    cdsEmpresaINDNATREC: TStringField;
-    cdsEmpresaNATCREDDESC: TStringField;
-    cdsEmpresaCODCRED: TStringField;
-    cdsEmpresaINDTIPCOOP: TStringField;
-    cdsEmpresaINDCREDORI: TStringField;
-    cdsEmpresaINDREC: TStringField;
-    cdsEmpresaINDDESCCRED: TStringField;
-    cdsEmpresaCODCONT: TStringField;
-    cdsEmpresaINDNATRETFONTE: TStringField;
-    cdsEmpresaINDORIGEMDIVERSAS: TStringField;
-    cdsEmpresaINDNATDEDUCAO: TStringField;
-    cdsEmpresaINDTPOPERACAORECEITA: TStringField;
     cdsEmpresaINDICADORNATUREZAPJ: TSmallintField;
     cdsEmpresaINDICADORATIVIDADE: TSmallintField;
+    cdsEmpresaCODINDINCTRIBUTARIA: TSmallintField;
+    cdsEmpresaINDAPROCRED: TSmallintField;
+    cdsEmpresaCODINDTIPOCON: TSmallintField;
+    cdsEmpresaCODINDCRITESCRIT: TSmallintField;
+    cdsEmpresaINDCODINCIDENCIA: TSmallintField;
+    cdsEmpresaINDCTA: TSmallintField;
+    cdsEmpresaINDESCRITURACAO: TSmallintField;
+    cdsEmpresaBASECALCULOCREDITO: TSmallintField;
+    cdsEmpresaINDAJ: TSmallintField;
+    cdsEmpresaCODAJ: TSmallintField;
+    cdsEmpresaINDNATREC: TSmallintField;
+    cdsEmpresaNATCREDDESC: TSmallintField;
+    cdsEmpresaCODCRED: TSmallintField;
+    cdsEmpresaINDTIPCOOP: TSmallintField;
+    cdsEmpresaINDCREDORI: TSmallintField;
+    cdsEmpresaINDREC: TSmallintField;
+    cdsEmpresaINDDESCCRED: TSmallintField;
+    cdsEmpresaCODCONT: TSmallintField;
+    cdsEmpresaINDNATRETFONTE: TSmallintField;
+    cdsEmpresaINDORIGEMDIVERSAS: TSmallintField;
+    cdsEmpresaINDNATDEDUCAO: TSmallintField;
+    cdsEmpresaINDTPOPERACAORECEITA: TSmallintField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -322,7 +322,7 @@ begin
         SUFRAMA          := '';
         IND_NAT_PJ       := TACBrIndicadorNaturezaPJ(cdsEmpresaINDICADORNATUREZAPJ.AsInteger); // indNatPJSocEmpresariaGeral;
         IND_ATIV         := TACBrIndicadorAtividade(cdsEmpresaINDICADORATIVIDADE.asInteger); // indAtivIndustrial;
-        COD_IND_INC_TRIB := TACBrCodIndIncTributaria(cdsEmpresaCODINDINCTRIBUTARIA.AsInteger);
+        {COD_IND_INC_TRIB := TACBrCodIndIncTributaria(cdsEmpresaCODINDINCTRIBUTARIA.AsInteger);
         IND_APRO_CRED    := TACBrIndAproCred(cdsEmpresaINDAPROCRED.AsInteger);
         COD_IND_TIPO_CON := TACBrCodIndTipoCon(cdsEmpresaCODINDTIPOCON.AsInteger);
         COD_IND_CRIT_ESC := TACBrCodIndCritEscrit(cdsEmpresaCODINDCRITESCRIT.AsInteger);
@@ -331,7 +331,7 @@ begin
         IND_ESCRIT       := TACBrIndEscrituracao(cdsEmpresaINDESCRITURACAO.AsInteger);
         BASE_CALC_CRED   := TACBrBaseCalculoCredito(cdsEmpresaBASECALCULOCREDITO.AsInteger);
         IND_AJ           := TACBrIndAJ(cdsEmpresaINDAJ.AsInteger);
-
+              }
         with Registro0001New do
         begin
            IND_MOV := imComDados;
@@ -339,27 +339,27 @@ begin
            // FILHO - Dados do contador.
            with Registro0100New do
            begin
-              NOME       := 'NOME DO CONTADOR';
-              CPF        := '12345678909'; // Deve ser uma informação valida
-              CRC        := '123456';
-              CNPJ       := '22222222222259';
-              CEP        := '';
-              ENDERECO   := '';
-              NUM        := '';
-              COMPL      := '';
-              BAIRRO     := '';
-              FONE       := '';
-              FAX        := '';
-              EMAIL      := '';
-              COD_MUN    := 3200607;
+              NOME       := cdsEmpresaCONTADOR.AsString;
+              CPF        := cdsEmpresaCONTADOR_CPF.AsString;
+              CRC        := cdsEmpresaCONTADOR_CRC.AsString;
+              CNPJ       := cdsEmpresaCONTADOR_CNPJ.AsString;
+              CEP        := cdsEmpresaCONTADOR_CEP.AsString;
+              ENDERECO   := cdsEmpresaCONTADOR_END.AsString;
+              NUM        := cdsEmpresaCONTADOR_NUMEND.AsString;
+              COMPL      := cdsEmpresaCONTADOR_COMPL.AsString;
+              BAIRRO     := cdsEmpresaCONTADOR_BAIRRO.AsString;
+              FONE       := cdsEmpresaCONTADOR_FONE.AsString;
+              FAX        := cdsEmpresaCONTADOR_FAX.AsString;
+              EMAIL      := cdsEmpresaCONTADOR_EMAIL.AsString;
+              COD_MUN    := StrToInt(cdsEmpresaCONTADOR_COD_MUN.AsString);
            end;
 
            // FILHO - Regime de Apuração
            with Registro0110New do
            begin
-              COD_INC_TRIB  := codEscrOpIncNaoCumulativo;
-              IND_APRO_CRED := indMetodoApropriacaoDireta;
-              COD_TIPO_CONT := codIndTipoConExclAliqBasica;
+              COD_INC_TRIB  := TACBrCodIndIncTributaria(cdsEmpresaCODINDINCTRIBUTARIA.AsInteger);
+              IND_APRO_CRED := TACBrIndAproCred(cdsEmpresaINDAPROCRED.AsInteger);
+              COD_TIPO_CONT := TACBrCodIndTipoCon(cdsEmpresaCODINDTIPOCON.AsInteger);
               //Campo IND_REG_CUM apenas para Lucro Presumido e (COD_INC_TRIB = 2)
               //IND_REG_CUM := 1;
            end;
@@ -372,12 +372,12 @@ begin
               with Registro0140New do
               begin
                  COD_EST := IntToStr(int0140);
-                 NOME    := 'NOME DO ESTABELECIMENTO '+IntToStr(int0140);
-                 CNPJ    := '33333333333328';
-                 UF      := 'ES';
-                 IE      := '';
-                 COD_MUN := 3200607;
-                 IM      := '';
+                 NOME    := cdsEmpresaRAZAO.AsString + IntToStr(int0140);
+                 CNPJ    := cdsEmpresaCNPJ_CPF.AsString;
+                 UF      := cdsEmpresaUF.AsString;
+                 IE      := cdsEmpresaIE_RG.AsString;
+                 COD_MUN := StrToInt(cdsEmpresaCD_IBGE.AsString);
+                 IM      := cdsEmpresaIM.AsString;
                  SUFRAMA := '';
 
                  // 10 Clientes por estabelecimento
