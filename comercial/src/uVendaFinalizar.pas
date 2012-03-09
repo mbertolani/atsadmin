@@ -557,6 +557,7 @@ type
     procedure agendarexcluir;
     procedure imprimecupom;
     function RemoveAcento(Str: string): string;
+    procedure estoqueEstorna;
   public
     vrr, nparc : double;
     grava: TCompras;
@@ -1209,7 +1210,18 @@ begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
       begin
-        dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+        Try
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+          dm.sqlsisAdimin.Commit(TD);
+        except
+           on E : Exception do
+           begin
+             ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           end;
+         end;
+
         if (dm.moduloUsado = 'CITRUS') then
         begin
           grava := TCompras.Create;
@@ -1226,7 +1238,8 @@ begin
              dm.sqlsisAdimin.StartTransaction(TD);
              DtSrc.DataSet.Delete;
              (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
-             dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+             if (cdsCODMOVIMENTO.AsInteger > 0) then
+               dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
              if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
              begin
                if (dm.sqlBusca.Active) then
@@ -1241,8 +1254,13 @@ begin
                begin
                  dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
                  dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
-               end;  
+                 dm.sqlsisAdimin.ExecuteDirect('Delete From VENDA WHERE CODMOVIMENTO = ' +
+                   IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
+                 dm.sqlsisAdimin.ExecuteDirect('Delete From MOVIMENTO WHERE CODMOVIMENTO = ' +
+                   IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
+               end;
              end;
+             dm.sqlBusca.Close;
              dm.sqlsisAdimin.Commit(TD);
              ShowMessage('Venda Excluida com Sucesso');
            except
@@ -1315,9 +1333,8 @@ begin
     codigo_cliente :=  fVendas.cds_MovimentoCODCLIENTE.AsInteger;
     data_movimento :=  DateToStr(fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime);
 
-    Try
+    {Try
       FEstoque := TEstoque.Create;
-      // Gravando o Estoque
       with fVendas do begin
       cds_Mov_det.First;
       While not cds_Mov_det.Eof do
@@ -1339,15 +1356,15 @@ begin
       end;
     Finally
       FEstoque.Free;
-    end;
+    end;}
 
-    Try
+   { Try
       FMov := TMovimento.Create;
       //FMov.MovDetalhe.verMovimentoDet();
       //FMov.excluirMovimento();
     Finally
       FMov.Free;
-    end;
+    end;   }
 
   end;
 
@@ -2536,7 +2553,29 @@ begin
      try
        dm.sqlsisAdimin.StartTransaction(TD);
        FVen.cancelarVenda(cdsCODVENDA.AsInteger, cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime);
+
+       if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
+       begin
+         dm.sqlBusca.SQL.Clear;
+         dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
+           ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
+           '   AND CODNATUREZA = 2'+
+           '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
+         dm.sqlBusca.Open;
+         if (not dm.sqlBusca.IsEmpty) then
+         begin
+           dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
+           dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+           dm.sqlsisAdimin.ExecuteDirect('Delete From VENDA WHERE CODMOVIMENTO = ' +
+             IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
+           dm.sqlsisAdimin.ExecuteDirect('Delete From MOVIMENTO WHERE CODMOVIMENTO = ' +
+             IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
+         end;
+       end;
+       dm.sqlBusca.Close;
+
        dm.sqlsisAdimin.Commit(TD);
+
        MessageDlg('Venda cancelada com sucesso.', mtInformation, [mbOK], 0);
      except
        on E : Exception do
@@ -3295,6 +3334,11 @@ begin
     dmnf.cds_nf.Params[1].Clear;
     dmnf.cds_nf.Close;
   end;
+end;
+
+procedure TfVendaFinalizar.estoqueEstorna;
+begin
+
 end;
 
 end.
