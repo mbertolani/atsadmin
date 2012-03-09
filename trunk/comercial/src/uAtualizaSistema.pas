@@ -1469,6 +1469,21 @@ begin
       executaDDL('MOVIMENTOCONT', 'CODCONCILIACAO', 'Varchar(50)');
       executaScript('SP_MOV_CAIXAC.sql');
       executaScript('SP_MOV_CAIXA_ORDEMC.sql');
+
+      if (cds.Active) then
+        cds.Close;
+      cds.CommandText := 'select CODNATUREZA from NATUREZAOPERACAO' +
+        ' WHERE CODNATUREZA = 14';
+      cds.Open;
+      if (cds.IsEmpty) then
+      begin
+        executaSql('Insert into NATUREZAOPERACAO(CODNATUREZA, DESCNATUREZA, ' +
+          ' GERATITULO, TIPOTITULO, TIPOMOVIMENTO) ' +
+          ' Values (14, ' + QuotedStr('Movimento Cancelado') + ' ,0,0,14)');
+      end;
+
+
+
       mudaVersao('1.0.0.101');
     end;
 
