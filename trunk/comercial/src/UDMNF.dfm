@@ -6521,32 +6521,32 @@ object DMNF: TDMNF
     object sds_nf1CORPONF1: TStringField
       FieldName = 'CORPONF1'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object sds_nf1CORPONF2: TStringField
       FieldName = 'CORPONF2'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object sds_nf1CORPONF3: TStringField
       FieldName = 'CORPONF3'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object sds_nf1CORPONF4: TStringField
       FieldName = 'CORPONF4'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object sds_nf1CORPONF5: TStringField
       FieldName = 'CORPONF5'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object sds_nf1CORPONF6: TStringField
       FieldName = 'CORPONF6'
       ProviderFlags = [pfInUpdate]
-      Size = 75
+      Size = 200
     end
     object sds_nf1CFOP: TStringField
       FieldName = 'CFOP'
