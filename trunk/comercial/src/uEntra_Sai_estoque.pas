@@ -1001,9 +1001,9 @@ begin
           cds_Mov_det.Next;
         end;
         DM.sqlsisAdimin.ExecuteDirect(deleta);
-        DM.sqlsisAdimin.ExecuteDirect(delmov);
         DM.sqlsisAdimin.ExecuteDirect(delvenprim);
         DM.sqlsisAdimin.ExecuteDirect(delmovprim);
+        DM.sqlsisAdimin.ExecuteDirect(delmov);        
         dm.sqlsisAdimin.Commit(TD);
         MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
       Except
