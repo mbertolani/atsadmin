@@ -26,20 +26,24 @@ type
     procedure TestSaidaComSaldoNoMes;
     procedure TestSaidaComSaldoNoMes2;
     procedure TestNovaEntradaDepoisSaida;
+
+    procedure TesteInsereSaida5Itens;
+    
     procedure TestaCancelamentoEntrada;
     procedure TestaCancelamentoSaida;
 
     procedure TestSaidaSemTerSaldo;
     procedure TestSaidaSemSaldoNoMes;
+
 end;
 
   const
-    CCodProduto  = 50;
-    CCentroCusto =  0;
+    CCodProduto  = 2;
+    CCentroCusto =  51;
     CLote        = '0';
-    CMesAno      = '01/06/2011';
-    CMesAnoAnterior = '25/05/2011';
-    CMesAnoPosterior = '01/07/2011';
+    CMesAno      = '03/03/2012';
+    CMesAnoAnterior = '01/02/2012';
+    CMesAnoPosterior = '01/04/2012';
 implementation
 
 uses SysUtils, UDm;
@@ -395,37 +399,61 @@ end;
 
 procedure TEstoqueTeste.TestaCancelamentoSaida;
 begin
-  // Entrada de Materiais
-  FEstoque.QtdeVenda  := 100;
-  FEstoque.CodProduto := CCodProduto;
-  FEstoque.Lote       := CLote;
-  FEstoque.CentroCusto := CCentroCusto;
-  FEstoque.MesAno      := StrToDate(CMesAnoPosterior);
-  FEstoque.PrecoVenda  := 5;
-  FEstoque.inserirMes;
-
   // Cancelando ou Excluindo a Entrada Acima
   FEstoque.QtdeVenda := (-1) * 100;
   FEstoque.CodProduto := CCodProduto;
   FEstoque.Lote       := CLote;
   FEstoque.CentroCusto := CCentroCusto;
-  FEstoque.MesAno      := StrToDate(CMesAnoPosterior);
+  FEstoque.MesAno      := StrToDate(CMesAno);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.Status      := '0';
+  FEstoque.inserirMes;
+
+  // Cancelando ou Excluindo a Entrada Acima
+  FEstoque.QtdeVenda := (-1) * 100;
+  FEstoque.CodProduto := 3;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAno);
   FEstoque.PrecoVenda  := 5;
   FEstoque.inserirMes;
 
+  // Cancelando ou Excluindo a Entrada Acima
+  FEstoque.QtdeVenda := (-1) * 100;
+  FEstoque.CodProduto := 4;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAno);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.inserirMes;
+
+  // Cancelando ou Excluindo a Entrada Acima
+  FEstoque.QtdeVenda := (-1) * 100;
+  FEstoque.CodProduto := 5;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAno);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.inserirMes;
 
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
-  dm.sqlBusca.SQL.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
+  {dm.sqlBusca.SQL.Add('SELECT QTDEENTRADA, QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA,' +
         'QTDEPERDA, PRECOCUSTO, PRECOVENDA, PRECOCOMPRA ' +
         ' FROM ESTOQUEMES ' +
-        'WHERE CODPRODUTO  = ' + IntToStr(FEstoque.CodProduto) +
+        'WHERE CODPRODUTO  IN (' + IntToStr(FEstoque.CodProduto) + '3,4,5)' +
+        '  AND LOTE        = ' + QuotedStr(FEstoque.Lote) +
+        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', FEstoque.MesAno)) +
+        '  AND CENTROCUSTO = ' + IntToStr(FEstoque.CentroCusto));  }
+  dm.sqlBusca.SQL.Add('SELECT SUM(QTDESAIDA) AS QTDESAIDA ' +
+        ' FROM ESTOQUEMES ' +
+        'WHERE CODPRODUTO  IN (' + IntToStr(FEstoque.CodProduto) + '3,4,5)' +
         '  AND LOTE        = ' + QuotedStr(FEstoque.Lote) +
         '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', FEstoque.MesAno)) +
         '  AND CENTROCUSTO = ' + IntToStr(FEstoque.CentroCusto));
   dm.sqlBusca.Open;
   //DecimalSeparator := '.';
-  pCusto := Trunc(dm.sqlBusca.FieldByName('PRECOCUSTO').AsFloat * 10000) / 10000;  // 4 Casas Decimais
+  {pCusto := Trunc(dm.sqlBusca.FieldByName('PRECOCUSTO').AsFloat * 10000) / 10000;  // 4 Casas Decimais
   pTeste := StrToFloat('4,6505');
   //DecimalSeparator := ',';
   check(pCusto = pTeste , 'Preco Custo Errado.');
@@ -433,7 +461,48 @@ begin
   pTeste := StrToFloat('4,125');
   pCusto := dm.sqlBusca.FieldByName('PRECOVENDA').AsFloat;
   pCusto := trunc((pCusto-pTeste)*1000);
-  CheckEquals(pCusto, 0, 'Preço Venda Errado.');
+  CheckEquals(pCusto, 0, 'Preço Venda Errado.');  }
+  check(dm.sqlBusca.FieldByName('QTDESAIDA').AsInteger = 0 , 'Baixa não cancelada Totalmente..');
+end;
+
+procedure TEstoqueTeste.TesteInsereSaida5Itens;
+begin
+  // Saida de Materiais
+  FEstoque.QtdeVenda  := 100;
+  FEstoque.CodProduto := CCodProduto;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAno);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.Status      := '0';
+  FEstoque.inserirMes;
+
+  FEstoque.QtdeVenda  := 100;
+  FEstoque.CodProduto := 3;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAno);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.Status      := '0';
+  FEstoque.inserirMes;
+
+  FEstoque.QtdeVenda  := 100;
+  FEstoque.CodProduto := 4;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAno);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.Status      := '0';
+  FEstoque.inserirMes;
+
+  FEstoque.QtdeVenda  := 100;
+  FEstoque.CodProduto := 5;
+  FEstoque.Lote       := CLote;
+  FEstoque.CentroCusto := CCentroCusto;
+  FEstoque.MesAno      := StrToDate(CMesAno);
+  FEstoque.PrecoVenda  := 5;
+  FEstoque.inserirMes;
+
 end;
 
 initialization
