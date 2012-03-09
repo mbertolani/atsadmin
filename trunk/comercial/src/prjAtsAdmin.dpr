@@ -266,8 +266,6 @@ uses
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
   uEstoqueAjuste in 'uEstoqueAjuste.pas' {fEstoqueAjuste},
   uListaEstoque in 'uListaEstoque.pas' {fListaEstoque},
-  uRelVenda2 in 'uRelVenda2.pas' {fRelVenda2},
-  uRelVendaImprime in 'uRelVendaImprime.pas' {fRelVendaImprime},
   uBancoExtrato in 'uBancoExtrato.pas' {fBancoExtrato},
   uBancoOFX in 'uBancoOFX.pas',
   uRelOS in 'uRelOS.pas' {fRelOs},
