@@ -637,8 +637,11 @@ begin
     DM_MOV.c_movdet.Next;
   end;
 
-  jvApagar.Value :=  DM_MOV.c_movdettotalpedido.Value - desconto;
-  jvTotal.Value := DM_MOV.c_movdettotalpedido.Value - desconto;
+  if (not DM_MOV.c_movdet.IsEmpty) then
+  begin
+    jvApagar.Value :=  DM_MOV.c_movdettotalpedido.Value - desconto;
+    jvTotal.Value := DM_MOV.c_movdettotalpedido.Value - desconto;
+  end;
   jvDesconto.Value := 0;
   jvAcrescimo.Value := 0;
   jvPago.Value := 0;
@@ -1522,6 +1525,7 @@ begin
     begin
       dm.sqlsisAdimin.StartTransaction(TD);
       alterastat := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
       dm.sqlsisAdimin.ExecuteDirect(alterastat);
       dm.sqlsisAdimin.Commit(TD);
     end;
