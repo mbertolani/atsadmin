@@ -473,5 +473,134 @@ object fNfePisCofins: TfNfePisCofins
       FieldName = 'IM'
       Size = 15
     end
+    object cdsEmpresaCONTADOR: TStringField
+      FieldName = 'CONTADOR'
+      Size = 100
+    end
+    object cdsEmpresaCONTADOR_CRC: TStringField
+      FieldName = 'CONTADOR_CRC'
+      FixedChar = True
+    end
+    object cdsEmpresaCONTADOR_CNPJ: TStringField
+      FieldName = 'CONTADOR_CNPJ'
+      FixedChar = True
+      Size = 14
+    end
+    object cdsEmpresaCONTADOR_CPF: TStringField
+      FieldName = 'CONTADOR_CPF'
+      FixedChar = True
+      Size = 11
+    end
+    object cdsEmpresaCONTADOR_CEP: TStringField
+      FieldName = 'CONTADOR_CEP'
+      FixedChar = True
+      Size = 10
+    end
+    object cdsEmpresaCONTADOR_END: TStringField
+      FieldName = 'CONTADOR_END'
+      Size = 150
+    end
+    object cdsEmpresaCONTADOR_NUMEND: TStringField
+      FieldName = 'CONTADOR_NUMEND'
+      FixedChar = True
+      Size = 7
+    end
+    object cdsEmpresaCONTADOR_COMPL: TStringField
+      FieldName = 'CONTADOR_COMPL'
+      Size = 80
+    end
+    object cdsEmpresaCONTADOR_BAIRRO: TStringField
+      FieldName = 'CONTADOR_BAIRRO'
+      Size = 100
+    end
+    object cdsEmpresaCONTADOR_FONE: TStringField
+      FieldName = 'CONTADOR_FONE'
+      Size = 14
+    end
+    object cdsEmpresaCONTADOR_FAX: TStringField
+      FieldName = 'CONTADOR_FAX'
+      Size = 14
+    end
+    object cdsEmpresaCONTADOR_EMAIL: TStringField
+      FieldName = 'CONTADOR_EMAIL'
+      Size = 100
+    end
+    object cdsEmpresaCONTADOR_COD_MUN: TStringField
+      FieldName = 'CONTADOR_COD_MUN'
+      FixedChar = True
+      Size = 10
+    end
+    object cdsEmpresaINDICADORNATUREZAPJ: TSmallintField
+      FieldName = 'INDICADORNATUREZAPJ'
+    end
+    object cdsEmpresaINDICADORATIVIDADE: TSmallintField
+      FieldName = 'INDICADORATIVIDADE'
+    end
+    object cdsEmpresaCODINDINCTRIBUTARIA: TSmallintField
+      FieldName = 'CODINDINCTRIBUTARIA'
+    end
+    object cdsEmpresaINDAPROCRED: TSmallintField
+      FieldName = 'INDAPROCRED'
+    end
+    object cdsEmpresaCODINDTIPOCON: TSmallintField
+      FieldName = 'CODINDTIPOCON'
+    end
+    object cdsEmpresaCODINDCRITESCRIT: TSmallintField
+      FieldName = 'CODINDCRITESCRIT'
+    end
+    object cdsEmpresaINDCODINCIDENCIA: TSmallintField
+      FieldName = 'INDCODINCIDENCIA'
+    end
+    object cdsEmpresaINDCTA: TSmallintField
+      FieldName = 'INDCTA'
+    end
+    object cdsEmpresaINDESCRITURACAO: TSmallintField
+      FieldName = 'INDESCRITURACAO'
+    end
+    object cdsEmpresaBASECALCULOCREDITO: TSmallintField
+      FieldName = 'BASECALCULOCREDITO'
+    end
+    object cdsEmpresaINDAJ: TSmallintField
+      FieldName = 'INDAJ'
+    end
+    object cdsEmpresaCODAJ: TSmallintField
+      FieldName = 'CODAJ'
+    end
+    object cdsEmpresaINDNATREC: TSmallintField
+      FieldName = 'INDNATREC'
+    end
+    object cdsEmpresaNATCREDDESC: TSmallintField
+      FieldName = 'NATCREDDESC'
+    end
+    object cdsEmpresaCODCRED: TSmallintField
+      FieldName = 'CODCRED'
+    end
+    object cdsEmpresaINDTIPCOOP: TSmallintField
+      FieldName = 'INDTIPCOOP'
+    end
+    object cdsEmpresaINDCREDORI: TSmallintField
+      FieldName = 'INDCREDORI'
+    end
+    object cdsEmpresaINDREC: TSmallintField
+      FieldName = 'INDREC'
+    end
+    object cdsEmpresaINDDESCCRED: TSmallintField
+      FieldName = 'INDDESCCRED'
+    end
+    object cdsEmpresaCODCONT: TSmallintField
+      FieldName = 'CODCONT'
+    end
+    object cdsEmpresaINDNATRETFONTE: TSmallintField
+      FieldName = 'INDNATRETFONTE'
+    end
+    object cdsEmpresaINDORIGEMDIVERSAS: TSmallintField
+      FieldName = 'INDORIGEMDIVERSAS'
+    end
+    object cdsEmpresaINDNATDEDUCAO: TSmallintField
+      FieldName = 'INDNATDEDUCAO'
+    end
+    object cdsEmpresaINDTPOPERACAORECEITA: TSmallintField
+      FieldName = 'INDTPOPERACAORECEITA'
+    end
   end
 end
