@@ -64,22 +64,23 @@ begin
    }
 end;
 
-procedure TCompraTeste.TestCompraExclusao;
+procedure TCompraTeste.TestCompraExclusao;                      
 begin
   // Testa exclusão
-  {FCompra.excluirCompra(CCodCli);
+  FCompra.excluirCompra(1002501);
+
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
-  dm.sqlBusca.SQL.Add('SELECT CODCompra ' +
-    ' FROM CompraS ' +
-    'WHERE CODCompra  = ' + IntToStr(CCodCli));
+  dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO ' +
+    ' FROM Compra ' +
+    'WHERE CODMOVIMENTO  = ' + IntToStr(1002501));
 
   dm.sqlBusca.Open;
   if (dm.sqlBusca.IsEmpty) then
     check(1 = 1 , 'Compra Excluído.')
   else
     check(1 = 2 , 'Compra não Excluído.')
-   }
+
 end;
 
 procedure TCompraTeste.TestCompraInclusao;
