@@ -67,34 +67,35 @@ end;
 procedure TVendaTeste.TestVendaExclusao;
 begin
   // Testa exclusão
-  {FVenda.excluirVenda(CCodCli);
+  FVenda.excluirVenda(1);
+  
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
   dm.sqlBusca.SQL.Add('SELECT CODVenda ' +
-    ' FROM VendaS ' +
-    'WHERE CODVenda  = ' + IntToStr(CCodCli));
+    ' FROM Venda ' +
+    'WHERE CODVenda  = ' + IntToStr(1));
 
   dm.sqlBusca.Open;
   if (dm.sqlBusca.IsEmpty) then
     check(1 = 1 , 'Venda Excluído.')
   else
     check(1 = 2 , 'Venda não Excluído.')
-   }
+
 end;
 
 procedure TVendaTeste.TestVendaInclusao;
 var codVenda: Integer;
 begin
-  FVenda.CodVenda     := 0;
-  FVenda.CodCliente   := 0;
+  FVenda.CodVenda     := 2;
+  FVenda.CodCliente   := 1000002;
   FVenda.CodUsuario   := 1;
   FVenda.CodVendedor  := 1;
-  FVenda.DataVenda    := Today;
-  FVenda.DataVcto     := Today;
-  FVenda.CodCCusto    := 0;
-  FVenda.NotaFiscal   := 99999992;
-  FVenda.Serie        := 'I';
-  FVenda.CodMov       := 476;
+  FVenda.DataVenda    := 6/2/2008;
+  FVenda.DataVcto     := 6/2/2008;
+  FVenda.CodCCusto    := 51;
+  FVenda.NotaFiscal   := 10;
+  FVenda.Serie        := 'V';
+  FVenda.CodMov       := 1000001;
 
   codVenda := FVenda.inserirVenda(0);
 
@@ -102,8 +103,8 @@ begin
   dm.sqlBusca.SQL.Clear;
   dm.sqlBusca.SQL.Add('SELECT CODVenda' +
         '  FROM Venda C ' +
-        ' WHERE C.SERIE = ' + QuotedStr('I') +
-        '   AND C.NOTAFISCAL = 99999992');
+        ' WHERE C.SERIE = ' + QuotedStr('V') +
+        '   AND C.NOTAFISCAL = 10');
   dm.sqlBusca.Open;
   check(dm.sqlBusca.FieldByName('CodVenda').AsInteger = codVenda , 'Venda Não Gravada.');
 end;
