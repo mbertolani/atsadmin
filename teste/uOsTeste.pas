@@ -67,19 +67,19 @@ end;
 procedure TOsTeste.TestOsExclusao;
 begin
   // Testa exclusão
-  {FCompra.excluirCompra(CCodCli);
+  FOsCls.excluirOs(50);
+
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
-  dm.sqlBusca.SQL.Add('SELECT CODCompra ' +
-    ' FROM CompraS ' +
-    'WHERE CODCompra  = ' + IntToStr(CCodCli));
+  dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO ' +
+    ' FROM OS ' +
+    'WHERE CODMOVIMENTO  = ' + IntToStr(50));;
 
   dm.sqlBusca.Open;
   if (dm.sqlBusca.IsEmpty) then
-    check(1 = 1 , 'Compra Excluído.')
+    check(1 = 1 , 'TITULO Excluído.')
   else
-    check(1 = 2 , 'Compra não Excluído.')
-   }
+    check(1 = 2 , 'Titulo não Excluído.')
 end;
 
 procedure TOsTeste.TestOsInclusao;
