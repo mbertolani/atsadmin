@@ -7,6 +7,9 @@ type
   TCompraTeste = class(TTestCase)
   private
     FCompra: TCompraCls;
+    function EstoqueSaldo(CodProduto: Integer; CodAlmox: Integer; CodLote: String; mesAno: TDateTime):Double;
+    function EstoqueQtdeCompra(CodProduto: Integer; CodAlmox: Integer; CodLote: String; mesAno: TDateTime):Double;
+
   protected
     procedure SetUp; override;
     procedure TearDown; override;
@@ -23,10 +26,40 @@ end;
 
 implementation
 
-uses SysUtils, UDm, DateUtils;
+uses SysUtils, UDm, DateUtils, uEstoque, uMovimento;
 
 
 { TClienteTeste }
+
+
+function TCompraTeste.EstoqueQtdeCompra(CodProduto: Integer; CodAlmox: Integer; CodLote: String; mesAno: TDateTime): Double;
+begin
+  dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add('SELECT QTDECOMPRA ' +
+        ' FROM ESTOQUEMES ' +
+        'WHERE CODPRODUTO  = ' + IntToStr(CodProduto) +
+        '  AND LOTE        = ' + QuotedStr(CodLote)   +
+        '  AND CENTROCUSTO = ' + IntToStr(codAlmox)   +
+        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', MesAno)));
+  dm.sqlBusca.Open;
+  Result := dm.sqlBusca.Fields[0].AsFloat;
+end;
+
+function TCompraTeste.EstoqueSaldo(CodProduto: Integer; CodAlmox: Integer; CodLote: String; mesAno: TDateTime): Double;
+begin
+  dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add('SELECT SALDOESTOQUE ' +
+        ' FROM ESTOQUEMES ' +
+        'WHERE CODPRODUTO  = ' + IntToStr(CodProduto) +
+        '  AND LOTE        = ' + QuotedStr(CodLote)   +
+        '  AND CENTROCUSTO = ' + IntToStr(codAlmox)   +
+        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', MesAno)));
+  dm.sqlBusca.Open;
+  Result := dm.sqlBusca.Fields[0].AsFloat;
+end;
+
 
 procedure TCompraTeste.SetUp;
 begin
@@ -64,49 +97,190 @@ begin
    }
 end;
 
-procedure TCompraTeste.TestCompraExclusao;                      
+procedure TCompraTeste.TestCompraExclusao;
+var FMov: TMovimento;
+    FEst: TEstoque;
+  codMovEntrada : Integer;
+  QtdeCompra1, Saldo1 :Double;
+  QtdeCompra2, Saldo2 :Double;
+  QtdeCompra3, Saldo3 :Double;
+  QCompra, QSaldo :Double;
+  DataTeste: TDateTime;
 begin
-  // Testa exclusão
-  FCompra.excluirCompra(1002501);
 
-  dm.sqlBusca.Close;
-  dm.sqlBusca.SQL.Clear;
-  dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO ' +
-    ' FROM Compra ' +
-    'WHERE CODMOVIMENTO  = ' + IntToStr(1002501));
+  Try
+    FMov := TMovimento.Create;
+    FEst := TEstoque.Create;
 
-  dm.sqlBusca.Open;
-  if (dm.sqlBusca.IsEmpty) then
-    check(1 = 1 , 'Compra Excluído.')
-  else
-    check(1 = 2 , 'Compra não Excluído.')
+    FEst.MesAno := Today;
+    DataTeste := FEst.MesAno;
+
+    QtdeCompra1 := EstoqueQtdeCompra(6, 51, '0', DataTeste);
+    Saldo1      := EstoqueSaldo(6, 51, '0', DataTeste);
+    QtdeCompra2 := EstoqueQtdeCompra(10, 51, '0', DataTeste);
+    Saldo2      := EstoqueSaldo(10, 51, '0', DataTeste);
+    QtdeCompra3 := EstoqueQtdeCompra(20, 51, '0', DataTeste);
+    Saldo3      := EstoqueSaldo(20, 51, '0', DataTeste);
+
+
+    FMov.CodMov      := 0;
+    FMov.CodCCusto   := 51;
+    FMov.CodCliente  := 0;
+    FMov.CodFornec   := 0;
+    FMov.CodNatureza := 4;
+    FMov.Status      := 0;
+    FMov.CodUsuario  := 1;
+    FMov.CodVendedor := 1;
+    FMov.DataMov     := Today;
+    codMovEntrada    := FMov.inserirMovimento(0);
+
+    FMov.MovDetalhe.CodMov        := codMovEntrada;
+    FMov.MovDetalhe.CodProduto    := 6;
+    FMov.MovDetalhe.Qtde          := 60;
+    FMov.MovDetalhe.Lote          := '0';
+    FMov.MovDetalhe.Baixa         := '0';
+    FMov.MovDetalhe.inserirMovDet;
+
+    FMov.MovDetalhe.CodMov        := codMovEntrada;
+    FMov.MovDetalhe.CodProduto    := 10;
+    FMov.MovDetalhe.Qtde          := 100;
+    FMov.MovDetalhe.Lote          := '0';
+    FMov.MovDetalhe.Baixa         := '0';
+    FMov.MovDetalhe.inserirMovDet;
+
+    FMov.MovDetalhe.CodMov        := codMovEntrada;
+    FMov.MovDetalhe.CodProduto    := 20;
+    FMov.MovDetalhe.Qtde          := 200;
+    FMov.MovDetalhe.Lote          := '0';
+    FMov.MovDetalhe.Baixa         := '0';
+    FMov.MovDetalhe.inserirMovDet;
+
+    fCompra.CodMov               := codMovEntrada;
+    fCompra.DataCompra           := Today;
+    fCompra.DataVcto             := Today;
+    fCompra.Serie                := 'I';
+    fCompra.NotaFiscal           := codMovEntrada;
+    fCompra.CodFornecedor        := 1;
+    fCompra.CodComprador         := 1;
+    fCompra.CodCCusto            := 51;
+    fCompra.ValorPagar           := 0;
+    fCompra.NParcela             := 1;
+    fCompra.inserirCompra(0);
+
+    FEst.baixaEstoque(codMovEntrada, Today, 'COMPRA');
+
+  Finally
+    FMov.Free;
+    FEst.Free;
+  end;
+
+
+  // Fazendo a EXCLUSAO
+  Try
+    FEst := TEstoque.Create;
+    FEst.estornaEstoque('COMPRA', codMovEntrada, Today);
+  Finally
+    FEst.Free;
+  end;
+
+  QCompra := EstoqueQtdeCompra(6, 51, '0', DataTeste);
+  QSaldo  := EstoqueSaldo(6, 51, '0', DataTeste);
+  Check((QtdeCompra1) = QCompra, 'Qtde Compra Item 1 errado');
+  Check((Saldo1)      = QSaldo, 'Saldo Item 1 errado');
+
+  QCompra := EstoqueQtdeCompra(10, 51, '0', DataTeste);
+  QSaldo  := EstoqueSaldo(10, 51, '0', DataTeste);
+  Check((QtdeCompra2) = QCompra, 'Qtde Compra Item 2 errado');
+  Check((Saldo2)      = QSaldo, 'Saldo Item 2 errado');
+
+  QCompra := EstoqueQtdeCompra(20, 51, '0', DataTeste);
+  QSaldo  := EstoqueSaldo(20, 51, '0', DataTeste);
+  Check((QtdeCompra3) = QCompra, 'Qtde Compra Item 3 errado');
+  Check((Saldo3)      = QSaldo, 'Saldo Item 3 errado');
 
 end;
 
 procedure TCompraTeste.TestCompraInclusao;
-var codCompra: Integer;
+var FMov: TMovimento;
+    FEst: TEstoque;
+  codMovEntrada : Integer;
+  QtdeCompra1, Saldo1 :Double;
+  QtdeCompra2, Saldo2 :Double;
+  QtdeCompra3, Saldo3 :Double;
+  QCompra, QSaldo :Double;
+  DataTeste: TDateTime;
 begin
-  FCompra.CodCompra     := 0;
-  FCompra.CodFornecedor := 0;
-  FCompra.CodUsuario    := 1;
-  FCompra.CodComprador  := 1;
-  FCompra.DataCompra    := Today;
-  FCompra.DataVcto      := Today;
-  FCompra.CodCCusto     := 0;
-  Fcompra.NotaFiscal    := 99999991;
-  Fcompra.Serie         := 'O';
-  FCompra.CodMov        := 476;
 
-  codCompra := FCompra.inserirCompra(0);
+  Try
+    FMov := TMovimento.Create;
+    FEst := TEstoque.Create;
 
-  dm.sqlBusca.Close;
-  dm.sqlBusca.SQL.Clear;
-  dm.sqlBusca.SQL.Add('SELECT CODCOMPRA' +
-        '  FROM Compra C ' +
-        ' WHERE C.SERIE = ' + QuotedStr('O') +
-        '   AND C.NOTAFISCAL = 99999991');
-  dm.sqlBusca.Open;
-  check(dm.sqlBusca.FieldByName('CODCOMPRA').AsInteger = codCompra , 'Compra Não Gravada.');
+    FEst.MesAno := Today;
+    DataTeste := FEst.MesAno;
+
+    QtdeCompra1 := EstoqueQtdeCompra(6, 51, '0', DataTeste);
+    Saldo1      := EstoqueSaldo(6, 51, '0', DataTeste);
+    QtdeCompra2 := EstoqueQtdeCompra(10, 51, '0', DataTeste);
+    Saldo2      := EstoqueSaldo(10, 51, '0', DataTeste);
+    QtdeCompra3 := EstoqueQtdeCompra(20, 51, '0', DataTeste);
+    Saldo3      := EstoqueSaldo(20, 51, '0', DataTeste);
+
+
+    FMov.CodMov      := 0;
+    FMov.CodCCusto   := 51;
+    FMov.CodCliente  := 0;
+    FMov.CodFornec   := 0;
+    FMov.CodNatureza := 4;
+    FMov.Status      := 0;
+    FMov.CodUsuario  := 1;
+    FMov.CodVendedor := 1;
+    FMov.DataMov     := Today;
+    codMovEntrada    := FMov.inserirMovimento(0);
+
+    FMov.MovDetalhe.CodMov        := codMovEntrada;
+    FMov.MovDetalhe.CodProduto    := 6;
+    FMov.MovDetalhe.Qtde          := 60;
+    FMov.MovDetalhe.Lote          := '0';
+    FMov.MovDetalhe.Baixa         := '0';
+    FMov.MovDetalhe.inserirMovDet;
+
+    FMov.MovDetalhe.CodMov        := codMovEntrada;
+    FMov.MovDetalhe.CodProduto    := 10;
+    FMov.MovDetalhe.Qtde          := 100;
+    FMov.MovDetalhe.Lote          := '0';
+    FMov.MovDetalhe.Baixa         := '0';
+    FMov.MovDetalhe.inserirMovDet;
+
+    FMov.MovDetalhe.CodMov        := codMovEntrada;
+    FMov.MovDetalhe.CodProduto    := 20;
+    FMov.MovDetalhe.Qtde          := 200;
+    FMov.MovDetalhe.Lote          := '0';
+    FMov.MovDetalhe.Baixa         := '0';
+    FMov.MovDetalhe.inserirMovDet;
+
+    fCompra.CodMov               := codMovEntrada;
+    fCompra.DataCompra           := Today;
+    fCompra.DataVcto             := Today;
+    fCompra.Serie                := 'I';
+    fCompra.NotaFiscal           := codMovEntrada;
+    fCompra.CodFornecedor        := 1;
+    fCompra.CodComprador         := 1;
+    fCompra.CodCCusto            := 51;
+    fCompra.ValorPagar           := 0;
+    fCompra.NParcela             := 1;
+    fCompra.inserirCompra(0);
+
+    FEst.baixaEstoque(codMovEntrada, Today, 'COMPRA');
+
+  Finally
+    FMov.Free;
+    FEst.Free;
+  end;
+
+  QCompra := EstoqueQtdeCompra(6, 51, '0', DataTeste);
+  QSaldo  := EstoqueSaldo(6, 51, '0', DataTeste);
+  Check((QtdeCompra1+60) = QCompra, 'Qtde Compra Item 1 errado');
+  Check((Saldo1+60)      = QSaldo, 'Saldo Item 1 errado');
 end;
 
 
