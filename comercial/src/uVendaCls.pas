@@ -148,7 +148,7 @@ type
 
 implementation
 
-uses SqlExpr, DB, UDm, DBClient, uDmnf;
+uses SqlExpr, DB, UDm, DBClient, uEstoque;
 
 { TVendaCls }
 
@@ -159,7 +159,10 @@ begin
 end;
 
 function TVendaCls.cancelarVenda(codVendaC: Integer; codMovC: Integer; dataV: TDateTime): Boolean;
+Var fEst: TEstoque;
 begin
+  Try
+    fEst := TEstoque.Create;
   // COLOCAR AQUI ROTINA PRA VER SE O TITULO PODE SE CANCELADO
 
   // Cancelar Venda
@@ -167,9 +170,11 @@ begin
     'WHERE CODMOVIMENTO = ' + IntToStr(codMovC))) then
   begin
     Try
-      executaSql('UPDATE RECEBIMENTO SET STATUS = ' + QuotedStr('14') + 
+      executaSql('UPDATE RECEBIMENTO SET STATUS = ' + QuotedStr('14') +
         ' WHERE CODVENDA = ' + IntToStr(codVendaC));
-      dmnf.cancelaEstoque(codMovC, dataV, 'VENDA');
+      //dmnf.cancelaEstoque(codMovC, dataV, 'VENDA');
+
+      FEst.EstornaEstoque('VENDA', codMovC, dataV);
       Result := True
     Except
       Result := False;
@@ -177,6 +182,10 @@ begin
   end
   else
     Result := False;
+
+  Finally
+    FEst.Free;
+  end;
 end;
 
 constructor TVendaCls.Create;
