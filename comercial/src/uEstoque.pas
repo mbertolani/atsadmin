@@ -1,7 +1,7 @@
 unit uEstoque;
 
 interface
-uses SysUtils, Dialogs;
+uses SysUtils, Dialogs, DBClient, Provider, SqlExpr;
 
 type
   TEstoque = class(TObject)
@@ -126,7 +126,11 @@ type
     function inserirMes(): Boolean;
     function verEstoque(MesAno: TDateTime): Boolean;
     function excluirMes(): Boolean;
-    function EstornaEstoque(): Boolean;
+
+    function baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String):Boolean;
+
+    function estornaEstoque(TIPO: String; codMovto: Integer; dtaMovto : TDateTime): Boolean;
+
     constructor Create;
     Destructor Destroy; Override;
   end;
@@ -136,9 +140,78 @@ type
 
 implementation
 
-uses SqlExpr, DB, UDm;
+uses UDm;
 
 { TEstoque }
+
+function TEstoque.baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String): Boolean;
+var
+    cdseb: TClientDataSet;
+    dspeb: TDataSetProvider;
+    sdseb: TSQLDataSet;
+begin
+  Try
+    cdseb := TClientDataSet.Create(dm);
+    dspeb := TDataSetProvider.Create(dm);
+    sdseb := TSQLDataSet.Create(dm);
+
+    sdseb.SQLConnection := dm.sqlsisAdimin;
+    sdseb.CommandText   := 'SELECT MD.*, M.CODALMOXARIFADO CENTROCUSTO ' +
+    '  FROM MOVIMENTO M, MOVIMENTODETALHE MD ' +
+    ' WHERE MD.CODMOVIMENTO = M.CODMOVIMENTO ' +
+    '   AND M.CODMOVIMENTO  = ' + IntToStr(codMovto);
+
+    //sdseb.Open;
+
+    dspeb.DataSet := sdseb;
+    dspeb.Name := 'dsp1';
+
+    cdseb.ProviderName := dspeb.Name;// 'dspeb';
+    cdseb.Open;
+
+    While not cdseb.Eof do
+    begin
+      if (cdseb.FieldByName('STATUS').IsNull) then
+      begin
+        if (tipo = 'VENDA') then
+        begin
+          Self.QtdeVenda   := cdseb.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoVenda  := cdseb.FieldByName('PRECO').AsFloat;
+        end;
+        if (tipo = 'COMPRA') then
+        begin
+          Self.QtdeCompra   := cdseb.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoCompra  := cdseb.FieldByName('PRECO').AsFloat;
+        end;
+        if (tipo = 'ENTRADA') then
+        begin
+          Self.QtdeEntrada   := cdseb.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoCompra   := cdseb.FieldByName('PRECO').AsFloat;
+        end;
+        if (tipo = 'SAIDA') then
+        begin
+          Self.QtdeSaida   := cdseb.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoVenda  := cdseb.FieldByName('PRECO').AsFloat;
+        end;
+
+        Self.CodProduto  := cdseb.FieldByName('CODPRODUTO').AsInteger;
+        Self.Lote        := cdseb.FieldByName('LOTE').AsString;
+        Self.CentroCusto := cdseb.FieldByName('CENTROCUSTO').AsInteger;
+        Self.MesAno      := DtaMovto;
+
+        Self.CodDetalhe  := cdseb.FieldByName('CODDETALHE').AsInteger;
+        Self.Status      := '9';
+        Self.inserirMes;
+      end;
+      cdseb.Next;
+    end;
+    Result := True;
+  Finally
+    cdseb.Free;
+    dspeb.Free;
+    sdseb.Free;
+  end;
+end;
 
 procedure TEstoque.corrigeCustoEstoquePosterior;
 var sqlBuscaPosterior, sqlBuscaE : TSqlQuery;
@@ -242,56 +315,71 @@ begin
   inherited;
 end;
 
-function TEstoque.EstornaEstoque: Boolean;
+function TEstoque.estornaEstoque(TIPO: String; codMovto: Integer; dtaMovto : TDateTime): Boolean;
+var cdse: TClientDataSet;
+    dspe: TDataSetProvider;
+    sdse: TSQLDataSet;
 begin
-    if (cds_Movimento.Active) then
-      cds_Movimento.Close;
-    cds_Movimento.Params.ParamByName('pCodMov').AsInteger := codMovto;
-    cds_Movimento.Open;
+  Try
+    cdse := TClientDataSet.Create(dm);
+    dspe := TDataSetProvider.Create(dm);
+    sdse := TSQLDataSet.Create(dm);
 
-    if (cds_Mov_det.Active) then
-      cds_Mov_det.Close;
-    cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovto;
-    cds_Mov_det.Open;
-    While not cds_Mov_det.Eof do
+    sdse.SQLConnection := dm.sqlsisAdimin;
+    sdse.CommandText   := 'SELECT MD.*, M.CODALMOXARIFADO CENTROCUSTO, M.DATAMOVIMENTO ' +
+    '  FROM MOVIMENTO M, MOVIMENTODETALHE MD ' +
+    ' WHERE MD.CODMOVIMENTO = M.CODMOVIMENTO ' +
+    '   AND M.CODMOVIMENTO = ' + IntToStr(codMovto);
+
+    dspe.DataSet := sdse;
+    dspe.Name    := 'dspe';
+
+    cdse.ProviderName := dspe.Name;
+    cdse.Open;
+
+    While not cdse.Eof do
     begin
-      if (cds_Mov_detSTATUS.AsString = '9') then
+      if (cdse.FieldByName('STATUS').AsString = '9') then
       begin
         if (tipo = 'VENDA') then
         begin
-          FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
+          Self.QtdeVenda   := (-1) * cdse.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoVenda  := cdse.FieldByName('PRECO').AsFloat;
         end;
         if (tipo = 'COMPRA') then
         begin
-          FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
+          Self.QtdeCompra  := (-1) * cdse.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoCompra := cdse.FieldByName('PRECO').AsFloat;
         end;
         if (tipo = 'ENTRADA') then
         begin
-          FEstoque.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+          Self.QtdeEntrada := (-1) * cdse.FieldByName('QUANTIDADE').AsFloat;
         end;
         if (tipo = 'SAIDA') then
         begin
-          FEstoque.QtdeSaida   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
+          Self.QtdeSaida   := (-1) * cdse.FieldByName('QUANTIDADE').AsFloat;
         end;
 
-        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-        FEstoque.MesAno      := dtaMovto;
-        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-        FEstoque.Status      := '0';
-        FEstoque.inserirMes;
+        Self.CodProduto  := cdse.FieldByName('CODPRODUTO').AsInteger;
+        Self.Lote        := cdse.FieldByName('LOTE').AsString;
+        Self.CentroCusto := cdse.FieldByName('CENTROCUSTO').AsInteger;
+        Self.MesAno      := dtaMovto;
+        Self.CodDetalhe  := cdse.FieldByName('CODDETALHE').AsInteger;
+        Self.Status      := '0';
+        Self.inserirMes;
       end;
-      cds_Mov_det.Next;
+      cdse.Next;
     end;
-
+  Finally
+    cdse.Free;
+    dspe.Free;
+    sdse.Free;
+  end;
 end;
 
 function TEstoque.excluirMes: Boolean;
 begin
-  // Movimento Excluído
+  // Movimento Excluï¿½do
 
 end;
 
@@ -372,7 +460,7 @@ begin
           '  AND PRECOCOMPRA  > 0 ' +
           ' ORDER BY MESANO DESC');
         sqlBuscaCu.Open;
-        if (not sqlBuscaCu.IsEmpty) then      // Não achou nada no sistema
+        if (not sqlBuscaCu.IsEmpty) then      // Nï¿½o achou nada no sistema
         begin
           Result := sqlBuscaCu.FieldByName('PRECOCOMPRA').AsFloat;
         end;
@@ -398,7 +486,7 @@ begin
           '  AND PRECOCOMPRA  > 0 ' +
           ' ORDER BY MESANO DESC');
         sqlBuscaCu.Open;
-        if (not sqlBuscaCu.IsEmpty) then      // Não achou nada no sistema
+        if (not sqlBuscaCu.IsEmpty) then      // Nï¿½o achou nada no sistema
         begin
           Result := sqlBuscaCu.FieldByName('PRECOCOMPRA').AsFloat;
         end;
@@ -440,7 +528,7 @@ begin
           '  AND PRECOCUSTO  > 0 ' +
           ' ORDER BY MESANO DESC');
         sqlBuscaPc.Open;
-        if (not sqlBuscaPc.IsEmpty) then      // Não achou nada no sistema
+        if (not sqlBuscaPc.IsEmpty) then      // Nï¿½o achou nada no sistema
         begin
           Result := sqlBuscaPc.FieldByName('PRECOCUSTO').AsFloat;
         end;
@@ -521,10 +609,10 @@ end;
 
 function TEstoque.inserirMes: Boolean;
 begin
-  // Valida se o Tipo de Movimento é Válido
+  // Valida se o Tipo de Movimento ï¿½ Vï¿½lido
   if (validoMovimento = False) then
   begin
-    exit;      // SE O CAMPO BAIXAMOVIMENTO na TABELA NATUREZAOPERACAO estiver <> de 0 ou 1 então não executa a rotina
+    exit;      // SE O CAMPO BAIXAMOVIMENTO na TABELA NATUREZAOPERACAO estiver <> de 0 ou 1 entï¿½o nï¿½o executa a rotina
   end;
   Try
     Result := false;
@@ -686,7 +774,7 @@ begin
       PCompraUltima := 0;
       PVenda        := 0;
       QSaldoAnterior:= 0;
-      // Não Encontrou mes atual , busca Qtdes e Precos do Mês Anterior
+      // Nï¿½o Encontrou mes atual , busca Qtdes e Precos do Mï¿½s Anterior
       sqlBuscai.Close;
       sqlBuscai.sql.Clear;
       sqlBuscai.sql.Add('SELECT FIRST 1 PRECOCUSTO, SALDOESTOQUE, MESANO' +
@@ -697,7 +785,7 @@ begin
         '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto)+
         ' ORDER BY MESANO DESC');
       sqlBuscai.Open;
-      if (sqlBuscai.IsEmpty) then      // Não achou nada no sistema
+      if (sqlBuscai.IsEmpty) then      // Nï¿½o achou nada no sistema
       begin
         PCustoAnterior     := 0;
         QSaldoAnterior     := 0;
@@ -873,7 +961,7 @@ begin
       '  AND MD.CODDETALHE  = ' + IntToStr(Self.CodDetalhe);
     sqlBuscaEstoque.sql.Add(strd);
     sqlBuscaEstoque.Open;
-    if (not sqlBuscaEstoque.IsEmpty) then      // Não achou nada no sistema
+    if (not sqlBuscaEstoque.IsEmpty) then      // Nï¿½o achou nada no sistema
     begin
       if (((sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 0)   or
           (sqlBuscaEstoque.FieldByName('BAIXAMOVIMENTO').AsInteger = 1)) and
