@@ -37,11 +37,11 @@ begin
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
   dm.sqlBusca.SQL.Add('SELECT QTDECOMPRA ' +
-        ' FROM ESTOQUEMES ' +
-        'WHERE CODPRODUTO  = ' + IntToStr(CodProduto) +
-        '  AND LOTE        = ' + QuotedStr(CodLote)   +
-        '  AND CENTROCUSTO = ' + IntToStr(codAlmox)   +
-        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', MesAno)));
+        '  FROM ESTOQUEMES ' +
+        ' WHERE CODPRODUTO  = ' + IntToStr(CodProduto) +
+        '   AND LOTE        = ' + QuotedStr(CodLote)   +
+        '   AND CENTROCUSTO = ' + IntToStr(codAlmox)   +
+        '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', MesAno)));
   dm.sqlBusca.Open;
   Result := dm.sqlBusca.Fields[0].AsFloat;
 end;
@@ -51,11 +51,21 @@ begin
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
   dm.sqlBusca.SQL.Add('SELECT SALDOESTOQUE ' +
-        ' FROM ESTOQUEMES ' +
-        'WHERE CODPRODUTO  = ' + IntToStr(CodProduto) +
-        '  AND LOTE        = ' + QuotedStr(CodLote)   +
-        '  AND CENTROCUSTO = ' + IntToStr(codAlmox)   +
-        '  AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', MesAno)));
+  dm.sqlBusca.Open;
+  Result := dm.sqlBusca.Fields[0].AsFloat;
+end;
+
+function TCompraTeste.EstoqueSaldo(CodProduto: Integer; CodAlmox: Integer; CodLote: String; mesAno: TDateTime): Double;
+begin
+  dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add('SELECT SALDOESTOQUE ' +
+        '  FROM ESTOQUEMES ' +
+        ' WHERE CODPRODUTO  = ' + IntToStr(CodProduto) +
+        '   AND LOTE        = ' + QuotedStr(CodLote)   +
+        '   AND CENTROCUSTO = ' + IntToStr(codAlmox)   +
+        '   AND MESANO      <= ' + QuotedStr(FormatDateTime('mm/dd/yyyy', MesAno)) +
+        ' ORDER BY MESANO DESC');
   dm.sqlBusca.Open;
   Result := dm.sqlBusca.Fields[0].AsFloat;
 end;
@@ -107,7 +117,7 @@ var FMov: TMovimento;
   QCompra, QSaldo :Double;
   DataTeste: TDateTime;
 begin
-
+  
   Try
     FMov := TMovimento.Create;
     FEst := TEstoque.Create;
