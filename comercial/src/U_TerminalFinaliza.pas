@@ -353,7 +353,7 @@ var
   function ProgramaPresenterRetratil(Tempo:Integer):integer; stdcall; far; external 'Mp2032.dll';
   function CaracterGrafico(Buffer: string; TamBuffer: integer):integer; stdcall; far; external 'Mp2032.dll';
   function VerificaPapelPresenter():integer; stdcall; far; external 'Mp2032.dll';
-
+  function AjustaLarguraPapel(PaperWidth :  integer) : Integer; stdcall; far; external 'Mp2032.dll';
 
 implementation
 
@@ -1088,6 +1088,10 @@ begin
     //vApagar := StrToFloat(DBEdit11.Text);
     DecimalSeparator := ',';
     vJvValor := jvTotal.AsFloat; //StrToFloat(jvTotal.Text);
+    if (jvDesconto.Value > 0) then
+    begin
+      vJvValor := jvTotal.AsFloat - jvDesconto.Value;
+    end;
     DecimalSeparator := '.';
     strSql := strSql + ',' + FloatToStr(vJvValor); //valor
 
@@ -1607,7 +1611,7 @@ begin
      Texto3 := 'Produto                                               ' ;
      Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
      Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
-     cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+     cliente := 'Cliente : ' + DM_MOV.c_vendaNOMECLIENTE.Value;
      if (s_parametro.Active) then
          s_parametro.close;
      s_parametro.Params[0].AsString := 'MENSAGEM';
@@ -1768,7 +1772,7 @@ begin
      Texto3 := 'Produto ' ;
      Texto4 := 'Cod.Barra        UN      Qtde     V.Un.     V.Total ' ;
      Texto5 := DateTimeToStr(Now) + '           Total.: R$ ';
-     cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+     cliente := 'Cliente : ' + DM_MOV.c_vendaNOMECLIENTE.Value;
      if (s_parametro.Active) then
          s_parametro.close;
      s_parametro.Params[0].AsString := 'MENSAGEM';
@@ -1945,6 +1949,9 @@ begin
      buffer  := buffer + Chr(13) + Chr(10);
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
+     buffer  := 'Assnatura:________________________________________';
+     buffer  := buffer + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
 
   {   // imprimir vencimentos
