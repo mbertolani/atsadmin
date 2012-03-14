@@ -1,11 +1,12 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Top = 38
-  Height = 657
-  Width = 1280
+  Left = 202
+  Top = 112
+  Height = 616
+  Width = 1024
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisadmin'
+    ConnectionName = 'madurodam'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -3282,6 +3283,59 @@ object DM: TDM
       FieldName = 'CODIGOBOLETO'
       ProviderFlags = [pfInUpdate]
     end
+    object sdsBancoLAYOUT_BL: TStringField
+      FieldName = 'LAYOUT_BL'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object sdsBancoLAYOUT_RM: TStringField
+      FieldName = 'LAYOUT_RM'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object sdsBancoRESP_EMISSAO: TStringField
+      FieldName = 'RESP_EMISSAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sdsBancoIMP_COMPROVANTE: TStringField
+      FieldName = 'IMP_COMPROVANTE'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 3
+    end
+    object sdsBancoPASTA_REMESSA: TStringField
+      FieldName = 'PASTA_REMESSA'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object sdsBancoPASTA_RETORNO: TStringField
+      FieldName = 'PASTA_RETORNO'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object sdsBancoNOME_ARQUIVO: TStringField
+      FieldName = 'NOME_ARQUIVO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object sdsBancoCC_BANCO: TIntegerField
+      FieldName = 'CC_BANCO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sdsBancoMORAJUROS: TStringField
+      FieldName = 'MORAJUROS'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object sdsBancoPERCMULTA: TFloatField
+      FieldName = 'PERCMULTA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sdsBancoPROTESTO: TStringField
+      FieldName = 'PROTESTO'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
+    end
   end
   object dspBanco: TDataSetProvider
     DataSet = sdsBanco
@@ -3406,6 +3460,59 @@ object DM: TDM
     object cdsBancoCODIGOBOLETO: TStringField
       FieldName = 'CODIGOBOLETO'
       ProviderFlags = [pfInUpdate]
+    end
+    object cdsBancoLAYOUT_BL: TStringField
+      FieldName = 'LAYOUT_BL'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object cdsBancoLAYOUT_RM: TStringField
+      FieldName = 'LAYOUT_RM'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object cdsBancoRESP_EMISSAO: TStringField
+      FieldName = 'RESP_EMISSAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsBancoIMP_COMPROVANTE: TStringField
+      FieldName = 'IMP_COMPROVANTE'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 3
+    end
+    object cdsBancoPASTA_REMESSA: TStringField
+      FieldName = 'PASTA_REMESSA'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object cdsBancoPASTA_RETORNO: TStringField
+      FieldName = 'PASTA_RETORNO'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object cdsBancoNOME_ARQUIVO: TStringField
+      FieldName = 'NOME_ARQUIVO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object cdsBancoCC_BANCO: TIntegerField
+      FieldName = 'CC_BANCO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsBancoMORAJUROS: TStringField
+      FieldName = 'MORAJUROS'
+      ProviderFlags = [pfInUpdate]
+      Size = 10
+    end
+    object cdsBancoPERCMULTA: TFloatField
+      FieldName = 'PERCMULTA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cdsBancoPROTESTO: TStringField
+      FieldName = 'PROTESTO'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
     end
   end
   object s_4: TSQLDataSet
