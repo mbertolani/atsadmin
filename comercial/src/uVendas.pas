@@ -278,24 +278,8 @@ type
     Oramento1: TMenuItem;
     Label19: TLabel;
     sdslote: TSQLDataSet;
-    sdsloteCODLOTE: TIntegerField;
-    sdsloteLOTE: TStringField;
-    sdsloteCODPRODUTO: TIntegerField;
-    sdsloteDATAFABRICACAO: TDateField;
-    sdsloteDATAVENCIMENTO: TDateField;
-    sdsloteESTOQUE: TFloatField;
-    sdslotePRODUTO: TStringField;
-    sdsloteCODPRO: TStringField;
     dsplotes: TDataSetProvider;
     cdslotes: TClientDataSet;
-    cdslotesCODLOTE: TIntegerField;
-    cdslotesLOTE: TStringField;
-    cdslotesCODPRODUTO: TIntegerField;
-    cdslotesDATAFABRICACAO: TDateField;
-    cdslotesDATAVENCIMENTO: TDateField;
-    cdslotesESTOQUE: TFloatField;
-    cdslotesPRODUTO: TStringField;
-    cdslotesCODPRO: TStringField;
     Label20: TLabel;
     DBComboBox1: TDBComboBox;
     sds_proc: TSQLDataSet;
@@ -378,8 +362,6 @@ type
     cdsCODPRODUTO: TIntegerField;
     sdsDetalheUSAPRECO: TStringField;
     cdsDetalheUSAPRECO: TStringField;
-    sdslotePRECO: TFloatField;
-    cdslotesPRECO: TFloatField;
     BitBtn4: TBitBtn;
     sdsLoteRepetido: TSQLDataSet;
     Label10: TLabel;
@@ -540,6 +522,18 @@ type
     Label28: TLabel;
     sds_Mov_DetOBS: TStringField;
     cds_Mov_detOBS: TStringField;
+    sdsloteLOTE: TStringField;
+    sdsloteCODPRODUTO: TIntegerField;
+    sdsloteESTOQUE: TFloatField;
+    sdslotePRODUTO: TStringField;
+    sdsloteCODPRO: TStringField;
+    cdslotesLOTE: TStringField;
+    cdslotesCODPRODUTO: TIntegerField;
+    cdslotesESTOQUE: TFloatField;
+    cdslotesPRODUTO: TStringField;
+    cdslotesCODPRO: TStringField;
+    sdslotePRECO: TFloatField;
+    cdslotesPRECO: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -2408,13 +2402,12 @@ var
   total :double;
 begin
   inherited;
-   if (cds_mov_det.State in [dsEdit, dsInsert]) then
+{   if (cds_mov_det.State in [dsEdit, dsInsert]) then
    if cds_Mov_detLOTE.AsString <> '' then
    begin
        if cdslotes.Active then
           cdslotes.Close;
-       cdslotes.Params[0].AsString := cds_Mov_detLOTE.AsString;
-       cdsLotes.Params[2].AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
+       cdsLotes.Params[0].AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
        cdslotes.Open;
        total := cdslotesESTOQUE.Value - cds_Mov_detQUANTIDADE.Value;
 
@@ -2429,9 +2422,9 @@ begin
 
       if (dm.moduloUsado = 'CITRUS') then
       begin
-        {DecimalSeparator := '.';
-        cds_Mov_detCOD_COMISSAO.AsInteger := StrToInt(FloatToStr(cdslotesPRECO.AsFloat));
-        DecimalSeparator := ',';}
+        //DecimalSeparator := '.';
+        //cds_Mov_detCOD_COMISSAO.AsInteger := StrToInt(FloatToStr(cdslotesPRECO.AsFloat));
+        DecimalSeparator := ',';
       end;
        cdslotes.Close;
    end;
@@ -2441,6 +2434,7 @@ begin
     if (cds_Mov_detQTDE_ALT.AsFloat = 0) then
       cds_Mov_detQTDE_ALT.AsFloat := cds_Mov_detQUANTIDADE.AsFloat * qtde;
   end;
+  }
 end;
 
 procedure TfVendas.ComboBox2Change(Sender: TObject);
@@ -2630,9 +2624,7 @@ begin
           begin
             if (cdslotes.Active) then           /// foi alterado o cdslotes para cliente Guiomar 
               cdslotes.Close;
-            cdslotes.Params[0].Clear;
-            cdslotes.Params[1].AsString := 'TODOSLOTESCADASTRADOS';
-            cdslotes.Params[2].AsInteger := cdsCODPRODUTO.AsInteger;
+            cdslotes.Params[0].AsInteger := cdsCODPRODUTO.AsInteger;
             cdslotes.Open;
             //if (cdslotesESTOQUE.AsFloat >= (cdsDetalheQUANTIDADE.AsFloat * cdsQTDEUSADA.AsFloat)) then
             //begin
