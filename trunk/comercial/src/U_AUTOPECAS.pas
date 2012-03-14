@@ -2094,17 +2094,19 @@ begin
         if scds_produto_proc.IsEmpty then
         begin
           scds_produto_proc.Close;
+          scds_produto_proc.CommandText := varsql + ' CODPRO = ' + QuotedStr(edt_produto.Text);
+          scds_produto_proc.Open;
          // BuscaPeloCdigo1.Click;
           if sProcuraProd.Active then
             sProcuraProd.Close;
           sProcuraProd.Params[0].Clear;
           sProcuraProd.Params[1].Clear;
-          sProcuraProd.Params[2].AsString:=edt_produto.Text;
+          sProcuraProd.Params[2].AsString := edt_produto.Text;
           sProcuraProd.Open;
           if sProcuraProd.IsEmpty then
-            exit
-          else
-            inseriMovDetalhe;
+            exit;
+         // else
+         //   inseriMovDetalhe;
         end;
       {  if (not scds_produto_proc.IsEmpty) then
         begin
@@ -2148,30 +2150,9 @@ begin
     edt_produto.SetFocus;
     exit;
   end;
+
   inseriMovDetalhe;
 
- { cds_Mov_detCOD_BARRA.AsString := edt_produto.Text;
-  cds_Mov_detCODPRODUTO.AsInteger:=scds_produto_procCODPRODUTO.AsInteger;
-  cds_Mov_detPRODUTO.Value:=scds_produto_procPRODUTO.Value;
-  cds_Mov_detCOD_COMISSAO.AsInteger:=scds_produto_procCOD_COMISSAO.AsInteger;
-  cds_Mov_detQTDE_PCT.AsFloat:=scds_produto_procQTDE_PCT.AsFloat;
-  cds_Mov_detUN.AsString:=scds_produto_procUNIDADEMEDIDA.AsString;
-  cds_Mov_detLOCALIZACAO.AsString:=scds_produto_procLOCALIZACAO.AsString;
-  cds_Mov_detESTOQUEATUAL.AsFloat:=scds_produto_procESTOQUEATUAL.AsFloat;
-  cds_Mov_detQUANTIDADE.AsFloat := 1;
-  cds_Mov_detQTDE_ALT.AsFloat := 1;
-  cds_Mov_detVALTOTAL.AsFloat := precovenda * cds_Mov_detQUANTIDADE.AsFloat;
-  cds_Mov_detCODALMOXARIFADO.AsInteger:=scds_produto_procCODALMOXARIFADO.AsInteger;
-  cds_Mov_detALMOXARIFADO.AsString := scds_produto_procALMOXARIFADO.AsString;
-  cds_Mov_detICMS.AsFloat := scds_produto_procICMS.AsFloat;
-  cds_Mov_detPRECO.AsFloat := precovenda;
-  scds_produto_proc.Close;
-  cds_Mov_det.Post;
-  if sds_uso.Active then
-    sds_uso.Close;
-  sds_uso.Params[0].AsInteger:=cds_Mov_detCODPRODUTO.AsInteger;
-  sds_uso.Open;
-  }
 end;
 
 function TF_AUTOPECAS.geraCodBarra(vlrBarra: String; i: integer): String;
