@@ -86,7 +86,7 @@ end;
 procedure TVendaTeste.TestVendaInclusao;
 var codVenda: Integer;
 begin
-  FVenda.CodVenda     := 2;
+  FVenda.CodVenda     := 2942;
   FVenda.CodCliente   := 1000002;
   FVenda.CodUsuario   := 1;
   FVenda.CodVendedor  := 1;
@@ -96,14 +96,15 @@ begin
   FVenda.NotaFiscal   := 10;
   FVenda.Serie        := 'V';
   FVenda.CodMov       := 1000001;
+  FVenda.NParcela     := 1;
 
-  codVenda := FVenda.inserirVenda(0);
+  codVenda := FVenda.inserirVenda(2942);
 
   dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
   dm.sqlBusca.SQL.Add('SELECT CODVenda' +
         '  FROM Venda C ' +
-        ' WHERE C.SERIE = ' + QuotedStr('V') +
+        ' WHERE C.SERIE = ' + QuotedStr('C') +
         '   AND C.NOTAFISCAL = 10');
   dm.sqlBusca.Open;
   check(dm.sqlBusca.FieldByName('CodVenda').AsInteger = codVenda , 'Venda Não Gravada.');
