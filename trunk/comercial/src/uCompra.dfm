@@ -1,7 +1,7 @@
 inherited fCompra: TfCompra
   Left = 259
   Top = 85
-  Width = 800
+  Width = 820
   Height = 615
   Caption = 'Compra'
   Font.Height = -13
@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 792
+    Width = 787
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -479,9 +479,9 @@ inherited fCompra: TfCompra
       Layout = blGlyphTop
     end
     inherited btnSair: TBitBtn
-      Left = 565
+      Left = 713
       Top = 2
-      Width = 83
+      Width = 74
       Height = 55
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -983,10 +983,40 @@ inherited fCompra: TfCompra
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
     end
+    object btnDuplicar: TBitBtn
+      Left = 564
+      Top = 2
+      Width = 74
+      Height = 55
+      Hint = 'Duplicar Compra Selecionada'
+      Caption = 'Duplicar'
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 14
+      OnClick = btnDuplicarClick
+      Layout = blGlyphTop
+    end
+    object btnDupVenda: TBitBtn
+      Left = 639
+      Top = 2
+      Width = 73
+      Height = 55
+      Hint = 
+        'Gera um pedido de Venda igual ao Pedido de Compra'#13#10'Alterar Forne' +
+        'cedor Apos Gerar.'
+      Caption = 'Dup. Venda'
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 15
+      OnClick = btnDupVendaClick
+      Layout = blGlyphTop
+    end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 561
-    Width = 792
+    Top = 556
+    Width = 787
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
@@ -2055,7 +2085,8 @@ inherited fCompra: TfCompra
     Left = 720
   end
   inherited PopupMenu1: TPopupMenu
-    Left = 688
+    Left = 720
+    Top = 32
     inherited Procurar1: TMenuItem
       OnClick = btnProcurarClick
     end
