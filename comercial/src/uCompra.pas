@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   FMTBcd, Mask, DBCtrls, DBClient, Provider, SqlExpr, Grids, DBGrids,
   rpcompobase, rpvclreport, UCHist_Base, UCHistDataset, JvExDBGrids,
-  JvDBGrid, JvExStdCtrls, JvCombobox;
+  JvDBGrid, JvExStdCtrls, JvCombobox ,umovimento , dbxpress;
 
 type
   TfCompra = class(TfPai)
@@ -395,6 +395,8 @@ type
     DBEdit14: TDBEdit;
     Label21: TLabel;
     BitBtn5: TBitBtn;
+    btnDuplicar: TBitBtn;
+    btnDupVenda: TBitBtn;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -444,6 +446,8 @@ type
     procedure GroupBox1Click(Sender: TObject);
     procedure DBEdit10Exit(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure btnDuplicarClick(Sender: TObject);
+    procedure btnDupVendaClick(Sender: TObject);
   private
     modo :string;
     { Private declarations }
@@ -1142,7 +1146,6 @@ begin
        cbTpTransp.Text := 'Destinatario'
      else
        cbTpTransp.Text := '';
-
     //finally
      // fFiltroMov_compra.Free;
     //end;
@@ -1991,5 +1994,125 @@ begin
     fLotes_Produtos.Free;
   end;
 end;
+
+procedure TfCompra.btnDuplicarClick(Sender: TObject);
+var   FMov : TMovimento;
+   codMov  : Integer;
+      TDA  : TTransactionDesc;
+begin
+  inherited;
+  if DtSrc.DataSet.State in [dsInactive] then
+  exit;
+
+  TDA.TransactionID  := 1;
+  TDA.IsolationLevel := xilREADCOMMITTED;
+
+  try
+    FMov := TMovimento.Create;
+
+    Try
+      dm.sqlsisAdimin.StartTransaction(TDA);
+
+      FMov.CodMov      := 0;
+      FMov.CodCCusto   := cds_MovimentoCODALMOXARIFADO.AsInteger;
+      FMov.CodCliente   := cds_MovimentoCODCLIENTE.AsInteger;
+      FMov.CodNatureza := cds_MovimentoCODNATUREZA.AsInteger;
+      FMov.Status      := cds_MovimentoSTATUS.AsInteger;
+      FMov.CodUsuario  := usulog;
+      FMov.CodVendedor := cds_MovimentoCODVENDEDOR.AsInteger;
+      FMov.DataMov     := cds_MovimentoDATAMOVIMENTO.AsDateTime ;
+      FMov.Obs         := cds_MovimentoOBS.AsString;
+      Fmov.CodFornec   := cds_MovimentoCODFORNECEDOR.AsInteger;
+      Fmov.CodPedido   := cds_MovimentoCODPEDIDO.AsInteger;
+      codMov           := FMov.inserirMovimento(0);
+
+      While not cds_Mov_det.Eof do
+      begin
+        FMov.MovDetalhe.CodMov        := codMov;
+        FMov.MovDetalhe.CodProduto    := cds_Mov_detCODPRODUTO.AsInteger;
+        Fmov.MovDetalhe.Descricao     := cds_Mov_detDESCPRODUTO.AsString;
+        FMov.MovDetalhe.Qtde          := cds_Mov_detQUANTIDADE.AsFloat;
+        FMov.MovDetalhe.Lote          := cds_Mov_detLOTE.AsString;
+        Fmov.MovDetalhe.Preco         := cds_Mov_detPRECO.AsFloat;
+        Fmov.MovDetalhe.Un            := cds_Mov_detUN.AsString;
+        Fmov.MovDetalhe.Desconto      := cds_Mov_detQTDE_ALT.AsFloat;
+        FMov.MovDetalhe.inserirMovDet;
+        cds_Mov_det.Next;
+      end;
+      dm.sqlsisAdimin.Commit(TDA);
+      MessageDlg('Copia da Compra gerado com sucesso.', mtInformation,[mbOk], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+      end;
+    end;
+
+  finally
+    FMov.Free;
+  end;
+end;
+
+procedure TfCompra.btnDupVendaClick(Sender: TObject);
+var   FMov : TMovimento;
+   codMov  : Integer;
+      TDA  : TTransactionDesc;
+begin
+  inherited;
+
+  if DtSrc.DataSet.State in [dsInactive] then
+  exit;
+
+  TDA.TransactionID  := 1;
+  TDA.IsolationLevel := xilREADCOMMITTED;
+
+  try
+    FMov := TMovimento.Create;
+
+    Try
+      dm.sqlsisAdimin.StartTransaction(TDA);
+
+      FMov.CodMov      := 0;
+      FMov.CodCCusto   := cds_MovimentoCODALMOXARIFADO.AsInteger;
+      FMov.CodCliente  := 0;
+      FMov.CodNatureza := 3;
+      FMov.Status      := cds_MovimentoSTATUS.AsInteger;
+      FMov.CodUsuario  := usulog;
+      FMov.CodVendedor := cds_MovimentoCODVENDEDOR.AsInteger;
+      FMov.DataMov     := cds_MovimentoDATAMOVIMENTO.AsDateTime ;
+      FMov.Obs         := cds_MovimentoOBS.AsString;
+      Fmov.CodFornec   := 0;
+      Fmov.CodPedido   := cds_MovimentoCODPEDIDO.AsInteger;
+      codMov           := FMov.inserirMovimento(0);
+
+      While not cds_Mov_det.Eof do
+      begin
+        FMov.MovDetalhe.CodMov        := codMov;
+        FMov.MovDetalhe.CodProduto    := cds_Mov_detCODPRODUTO.AsInteger;
+        Fmov.MovDetalhe.Descricao     := cds_Mov_detDESCPRODUTO.AsString;
+        FMov.MovDetalhe.Qtde          := cds_Mov_detQUANTIDADE.AsFloat;
+        FMov.MovDetalhe.Lote          := cds_Mov_detLOTE.AsString;
+        Fmov.MovDetalhe.Preco         := cds_Mov_detPRECO.AsFloat;
+        Fmov.MovDetalhe.Un            := cds_Mov_detUN.AsString;
+        Fmov.MovDetalhe.Desconto      := cds_Mov_detQTDE_ALT.AsFloat;
+        FMov.MovDetalhe.inserirMovDet;
+        cds_Mov_det.Next;
+      end;
+      dm.sqlsisAdimin.Commit(TDA);
+      MessageDlg('Gerado Venda desta Compra com sucesso.', mtInformation,[mbOk], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+      end;
+    end;
+
+  finally
+    FMov.Free;
+  end;
+end;
+
 
 end.
