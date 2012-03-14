@@ -609,7 +609,22 @@ end;
 
 function TEstoque.inserirMes: Boolean;
 begin
-  // Valida se o Tipo de Movimento � V�lido
+  QCompra       := 0;
+  QEntrada      := 0;
+  QCompra       := 0;
+  QDevCompra    := 0;
+  QDevVenda     := 0;
+  QSaida        := 0;
+  QVenda        := 0;
+  QPerda        := 0;
+  QSaldo        := 0;
+  QInventario   := 0;
+  PCusto        := 0;
+  PCompra       := 0;
+  PCompraUltima := 0;
+  PVenda        := 0;
+  QSaldoAnterior:= 0;
+  // Valida se o Tipo de Movimento e Valido
   if (validoMovimento = False) then
   begin
     exit;      // SE O CAMPO BAIXAMOVIMENTO na TABELA NATUREZAOPERACAO estiver <> de 0 ou 1 ent�o n�o executa a rotina
@@ -774,7 +789,7 @@ begin
       PCompraUltima := 0;
       PVenda        := 0;
       QSaldoAnterior:= 0;
-      // N�o Encontrou mes atual , busca Qtdes e Precos do M�s Anterior
+      // Nao Encontrou mes atual , busca Qtdes e Precos do Mes Anterior
       sqlBuscai.Close;
       sqlBuscai.sql.Clear;
       sqlBuscai.sql.Add('SELECT FIRST 1 PRECOCUSTO, SALDOESTOQUE, MESANO' +
@@ -785,7 +800,7 @@ begin
         '  AND CENTROCUSTO = ' + IntToStr(Self.CentroCusto)+
         ' ORDER BY MESANO DESC');
       sqlBuscai.Open;
-      if (sqlBuscai.IsEmpty) then      // N�o achou nada no sistema
+      if (sqlBuscai.IsEmpty) then      // Nao achou nada no sistema
       begin
         PCustoAnterior     := 0;
         QSaldoAnterior     := 0;
