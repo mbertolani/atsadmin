@@ -6,6 +6,7 @@ uses TestFramework, uCompraCls;
 type
   TCompraTeste = class(TTestCase)
   private
+    codMovEntrada : Integer;
     FCompra: TCompraCls;
     function EstoqueSaldo(CodProduto: Integer; CodAlmox: Integer; CodLote: String; mesAno: TDateTime):Double;
     function EstoqueQtdeCompra(CodProduto: Integer; CodAlmox: Integer; CodLote: String; mesAno: TDateTime):Double;
@@ -42,15 +43,6 @@ begin
         '   AND LOTE        = ' + QuotedStr(CodLote)   +
         '   AND CENTROCUSTO = ' + IntToStr(codAlmox)   +
         '   AND MESANO      = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', MesAno)));
-  dm.sqlBusca.Open;
-  Result := dm.sqlBusca.Fields[0].AsFloat;
-end;
-
-function TCompraTeste.EstoqueSaldo(CodProduto: Integer; CodAlmox: Integer; CodLote: String; mesAno: TDateTime): Double;
-begin
-  dm.sqlBusca.Close;
-  dm.sqlBusca.SQL.Clear;
-  dm.sqlBusca.SQL.Add('SELECT SALDOESTOQUE ' +
   dm.sqlBusca.Open;
   Result := dm.sqlBusca.Fields[0].AsFloat;
 end;
@@ -110,7 +102,6 @@ end;
 procedure TCompraTeste.TestCompraExclusao;
 var FMov: TMovimento;
     FEst: TEstoque;
-  codMovEntrada : Integer;
   QtdeCompra1, Saldo1 :Double;
   QtdeCompra2, Saldo2 :Double;
   QtdeCompra3, Saldo3 :Double;
@@ -146,21 +137,28 @@ begin
 
     FMov.MovDetalhe.CodMov        := codMovEntrada;
     FMov.MovDetalhe.CodProduto    := 6;
-    FMov.MovDetalhe.Qtde          := 60;
-    FMov.MovDetalhe.Lote          := '0';
-    FMov.MovDetalhe.Baixa         := '0';
-    FMov.MovDetalhe.inserirMovDet;
-
-    FMov.MovDetalhe.CodMov        := codMovEntrada;
-    FMov.MovDetalhe.CodProduto    := 10;
     FMov.MovDetalhe.Qtde          := 100;
     FMov.MovDetalhe.Lote          := '0';
     FMov.MovDetalhe.Baixa         := '0';
     FMov.MovDetalhe.inserirMovDet;
 
     FMov.MovDetalhe.CodMov        := codMovEntrada;
-    FMov.MovDetalhe.CodProduto    := 20;
+    FMov.MovDetalhe.CodProduto    := 10;
     FMov.MovDetalhe.Qtde          := 200;
+    FMov.MovDetalhe.Lote          := '0';
+    FMov.MovDetalhe.Baixa         := '0';
+    FMov.MovDetalhe.inserirMovDet;
+
+    FMov.MovDetalhe.CodMov        := codMovEntrada;
+    FMov.MovDetalhe.CodProduto    := 20;
+    FMov.MovDetalhe.Qtde          := 300;
+    FMov.MovDetalhe.Lote          := '0';
+    FMov.MovDetalhe.Baixa         := '0';
+    FMov.MovDetalhe.inserirMovDet;
+
+    FMov.MovDetalhe.CodMov        := codMovEntrada;
+    FMov.MovDetalhe.CodProduto    := 25;
+    FMov.MovDetalhe.Qtde          := 1;
     FMov.MovDetalhe.Lote          := '0';
     FMov.MovDetalhe.Baixa         := '0';
     FMov.MovDetalhe.inserirMovDet;
@@ -183,7 +181,7 @@ begin
     FMov.Free;
     FEst.Free;
   end;
-
+  
 
   // Fazendo a EXCLUSAO
   Try
@@ -213,7 +211,6 @@ end;
 procedure TCompraTeste.TestCompraInclusao;
 var FMov: TMovimento;
     FEst: TEstoque;
-  codMovEntrada : Integer;
   QtdeCompra1, Saldo1 :Double;
   QtdeCompra2, Saldo2 :Double;
   QtdeCompra3, Saldo3 :Double;
