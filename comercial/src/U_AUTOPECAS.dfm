@@ -1,6 +1,6 @@
 object F_AUTOPECAS: TF_AUTOPECAS
   Left = 236
-  Top = 48
+  Top = 42
   BorderStyle = bsSingle
   Caption = 'TERMINAL'
   ClientHeight = 649
@@ -2878,6 +2878,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object ds_movdetVALORUNITARIOATUAL: TFloatField
       FieldName = 'VALORUNITARIOATUAL'
       ProviderFlags = []
+      DisplayFormat = ',##0.0'
     end
     object ds_movdetQTDE_PCT: TFloatField
       FieldName = 'QTDE_PCT'
@@ -2914,6 +2915,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object ds_movdetPRECOMEDIO: TBCDField
       FieldName = 'PRECOMEDIO'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.0'
       Precision = 9
       Size = 2
     end
