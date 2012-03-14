@@ -2112,7 +2112,14 @@ end;
 procedure TDMNF.baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
 var FEstoque: TEstoque;
 begin
-  if (cds_Movimento.Active) then
+  Try
+    FEstoque := TEstoque.Create;
+    FEstoque.baixaEstoque(codMovto, DtaMovto, tipo);
+  Finally
+    FEstoque.Free;
+  end;
+  // Nao estou usando mais, passei para a classe Estoque
+  {if (cds_Movimento.Active) then
     cds_Movimento.Close;
   cds_Movimento.Params.ParamByName('pCodMov').AsInteger := codMovto;
   cds_Movimento.Open;
@@ -2161,7 +2168,7 @@ begin
     end;
   Finally
     FEstoque.Free;
-  end;
+  end;}
 end;
 
 function TDMNF.baixouEstoque(codMovtod: Integer): Boolean;
@@ -2208,48 +2215,7 @@ procedure TDMNF.cancelaEstoque(codMovto: Integer; DtaMovto: TDateTime;
 begin
   Try
     FEstoque := TEstoque.Create;
-    if (cds_Movimento.Active) then
-      cds_Movimento.Close;
-    cds_Movimento.Params.ParamByName('pCodMov').AsInteger := codMovto;
-    cds_Movimento.Open;
-
-    if (cds_Mov_det.Active) then
-      cds_Mov_det.Close;
-    cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovto;
-    cds_Mov_det.Open;
-    While not cds_Mov_det.Eof do
-    begin
-      if (cds_Mov_detSTATUS.AsString = '9') then
-      begin
-        if (tipo = 'VENDA') then
-        begin
-          FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-        end;
-        if (tipo = 'COMPRA') then
-        begin
-          FEstoque.QtdeCompra  := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-        end;
-        if (tipo = 'ENTRADA') then
-        begin
-          FEstoque.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-        end;
-        if (tipo = 'SAIDA') then
-        begin
-          FEstoque.QtdeSaida   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-        end;
-
-        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-        FEstoque.MesAno      := dtaMovto;
-        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-        FEstoque.Status      := '0';
-        FEstoque.inserirMes;
-      end;
-      cds_Mov_det.Next;
-    end;
+    FEstoque.EstornaEstoque(tipo, codMovto, DtaMovto);
   Finally
     FEstoque.Free;
   end;
