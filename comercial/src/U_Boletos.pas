@@ -15,19 +15,10 @@ type
     ACBrBoletoFCFortes1: TACBrBoletoFCFortes;
     MMJPanel3: TMMJPanel;
     lbl1: TLabel;
-    lbl2: TLabel;
     cbb1: TComboBox;
-    cbb2: TComboBox;
-    cbb3: TComboBox;
-    lbl3: TLabel;
-    cbb4: TComboBox;
-    lbl4: TLabel;
     MMJPanel1: TMMJPanel;
     lbl5: TLabel;
     MMJPanel2: TMMJPanel;
-    edt1: TEdit;
-    lbl6: TLabel;
-    btn1: TBitBtn;
     edt2: TEdit;
     lbl7: TLabel;
     btn2: TBitBtn;
@@ -205,20 +196,13 @@ type
     s_empresaNUMERO: TStringField;
     s_empresaCD_IBGE: TStringField;
     s_empresaCRT: TIntegerField;
-    edt3: TEdit;
-    lbl10: TLabel;
     SQLDataSet1: TSQLDataSet;
-    btn5: TBitBtn;
     s_bancoESPECIEDOC: TStringField;
     s_bancoACEITE: TStringField;
     s_bancoCONVENIO: TStringField;
     s_bancoLOCALPGTO: TStringField;
     p_cr: TDataSetProvider;
     ds_cr: TClientDataSet;
-    cbb5: TComboBox;
-    lbl8: TLabel;
-    Edit1: TEdit;
-    Label1: TLabel;
     s_crCODRECEBIMENTO: TIntegerField;
     s_crTITULO: TStringField;
     s_crEMISSAO: TDateField;
@@ -330,6 +314,17 @@ type
     s_bancoDIGITOBANCO: TIntegerField;
     s_bancoVARIACAO: TStringField;
     s_bancoCODIGOBOLETO: TStringField;
+    s_bancoLAYOUT_BL: TStringField;
+    s_bancoLAYOUT_RM: TStringField;
+    s_bancoRESP_EMISSAO: TStringField;
+    s_bancoIMP_COMPROVANTE: TStringField;
+    s_bancoPASTA_REMESSA: TStringField;
+    s_bancoPASTA_RETORNO: TStringField;
+    s_bancoNOME_ARQUIVO: TStringField;
+    s_bancoCC_BANCO: TIntegerField;
+    s_bancoMORAJUROS: TStringField;
+    s_bancoPERCMULTA: TFloatField;
+    s_bancoPROTESTO: TStringField;
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -362,7 +357,7 @@ var
    EspecieDoc      : String;
    Aceite          : String;
    DataProcessamento : TDate;
-   varNossoNumero     : Integer;
+   varNossoNumero     : Int64;
    Carteira        : String;
    ValorDocumento  : Double;
    NomeSacado      : String;
@@ -378,6 +373,7 @@ var
    Mensagem        : String;
    form_ativo      : string;
    dia, mes,ano    : word;
+   especie_DOC     : string;
 
 implementation
 
@@ -436,7 +432,7 @@ begin
    ACBrBoleto1.Cedente.Conta := s_bancoNUMERO_CONTA.AsString;
    ACBrBoleto1.Cedente.ContaDigito := s_bancoDIGITO_CONTA.AsString;
    ACBrBoleto1.Cedente.Nome := s_empresaRAZAO.AsString;
-   if (cbb4.Text = 'Cliente Emite') then
+   if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
      ACBrBoleto1.Cedente.ResponEmissao := tbCliEmite
    else
      ACBrBoleto1.Cedente.ResponEmissao := tbBancoEmite;
@@ -461,8 +457,32 @@ begin
               Titulo.LocalPagamento := s_bancoLOCALPGTO.AsString;
               Titulo.Vencimento :=  ds_crDATAVENCIMENTO.AsDateTime;
               Titulo.DataDocumento     := ds_crEMISSAO.AsDateTime; //EncodeDate(2010,04,10);
-
               Titulo.EspecieDoc        := s_bancoESPECIEDOC.AsString; //EspecieDoc;
+                if (especie_DOC = 'REMESSA') then
+                begin
+                  if (s_bancoN_BANCO.AsString = '001') then // Banco do Brasil
+                  begin
+                   if (s_bancoLAYOUT_RM.AsString = 'c240') then
+                    if (s_bancoESPECIEDOC.AsString = 'DM') then
+                       Titulo.EspecieDoc        := '02'; //EspecieDoc;
+
+                    Titulo.ValorMoraJuros := 3; // Isento Apenas para teste
+                    if (s_bancoMORAJUROS.AsString = '1-Diario') then
+                       Titulo.ValorMoraJuros := 1;
+                    if (s_bancoMORAJUROS.AsString = '2-Mensal') then
+                       Titulo.ValorMoraJuros := 2;
+                    if (s_bancoMORAJUROS.AsString = '3-Isento') then
+                       Titulo.ValorMoraJuros := 3; // Isento Apenas para teste
+
+                    Titulo.PercentualMulta := 0;
+                    if (s_bancoPERCMULTA.Value > 0) then
+                      Titulo.PercentualMulta := s_bancoPERCMULTA.Value;
+
+                    Titulo.Instrucao1 := s_bancoPROTESTO.AsString;
+
+                  end;
+                end;
+
               if (s_bancoACEITE.AsString = 'S') then
                 Titulo.Aceite            := atSim
               else
@@ -471,7 +491,7 @@ begin
               Titulo.DataProcessamento := Now;
 
               //varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
-              varNossoNumero := StrToInt(s_bancoCODIGOBOLETO.AsString) + 1;
+              varNossoNumero := StrToInt64(s_bancoCODIGOBOLETO.AsString) + 1;
               // Atualizo o codigo do Boleto
 
               vartitulo := RemoveChar(ds_crTITULO.AsString) + '-' + RemoveChar(ds_crVIA.AsString);
@@ -479,22 +499,40 @@ begin
               //varNossoNumero := StrToInt(RemoveChar(vartitulo));
 
               Titulo.NumeroDocumento   := padR(vartitulo,8,'0');
-              case StrToInt(s_bancoN_BANCO.AsString) of
-                001: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);//  001 - Banco do Brasil
-                104: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 104 - Caixa Economica
-                237: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 237 - Banco Bradesco
-                275: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 275 - Banco Real
-                341: Titulo.NossoNumero := IntToStrZero(varNossoNumero,8);// 341 - Banco Itau
-                399: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 399 - Banco HSBC
-                409: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 409 - Banco Unicanco
-                748: Titulo.NossoNumero := IntToStrZero(varNossoNumero,6);// 748 - Banco Sicredi
-                353: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 353 - SANTANDER
+              if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
+              begin
+                case StrToInt(s_bancoN_BANCO.AsString) of
+                  001: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);//  001 - Banco do Brasil
+                  104: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 104 - Caixa Economica
+                  237: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 237 - Banco Bradesco
+                  275: Titulo.NossoNumero := IntToStrZero(varNossoNumero,11);// 275 - Banco Real
+                  341: Titulo.NossoNumero := IntToStrZero(varNossoNumero,8);// 341 - Banco Itau
+                  399: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 399 - Banco HSBC
+                  409: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 409 - Banco Unicanco
+                  748: Titulo.NossoNumero := IntToStrZero(varNossoNumero,6);// 748 - Banco Sicredi
+                  353: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 353 - SANTANDER
+                end;
+              end;
+
+              if (s_bancoRESP_EMISSAO.AsString = 'Banco Emite') then      // Passo zero poque o banco numera
+              begin
+                case StrToInt(s_bancoN_BANCO.AsString) of
+                  001: Titulo.NossoNumero := IntToStrZero(0,10);//  001 - Banco do Brasil
+                  104: Titulo.NossoNumero := IntToStrZero(0,11);// 104 - Caixa Economica
+                  237: Titulo.NossoNumero := IntToStrZero(0,10);// 237 - Banco Bradesco
+                  275: Titulo.NossoNumero := IntToStrZero(0,11);// 275 - Banco Real
+                  341: Titulo.NossoNumero := IntToStrZero(0,8);// 341 - Banco Itau
+                  399: Titulo.NossoNumero := IntToStrZero(0,10);// 399 - Banco HSBC
+                  409: Titulo.NossoNumero := IntToStrZero(0,10);// 409 - Banco Unicanco
+                  748: Titulo.NossoNumero := IntToStrZero(0,6);// 748 - Banco Sicredi
+                  353: Titulo.NossoNumero := IntToStrZero(0,10);// 353 - SANTANDER
+                end;
               end;
 
               if ((s_bancoN_BANCO.AsString = '748')) then
               begin
                  ACBrBoleto1.Cedente.AgenciaDigito := padR(s_bancoDIGITO_AGENCIA.AsString, 2, '0');
-                 if (cbb4.Text = 'Cliente Emite') then
+                 if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
                     ACBrBoleto1.Cedente.Modalidade := '3';
                  Titulo.NossoNumero := numero_ano + '2' + IntToStrZero(varNossoNumero,5);
                     //Titulo.Carteira := '1';
@@ -569,27 +607,33 @@ end;
 
 procedure TF_Boletos.btn2Click(Sender: TObject);
 begin
+  especie_DOC := '';
+
    ACBrBoleto1.ListadeBoletos.Clear;
    ACBrBoleto1.ACBrBoletoFC.DirLogo := edt2.Text;
-   ACBrBoleto1.DirArqRemessa := edt1.Text;
-   ACBrBoleto1.DirArqRetorno := edt3.Text;
+//   Parametros usatos no botão remessa na impressao do boleto não é preciso
+//   ACBrBoleto1.DirArqRemessa := edt1.Text;
+//   ACBrBoleto1.DirArqRetorno := edt3.Text;
 
    if (not s_empresa.Active) then
      s_empresa.Open;
 
-  if (cbb2.Text = 'Carnê') then
+  // Busco os dados do Banco
+  BANCO_SELECIONADO;
+
+  if (s_bancoLAYOUT_BL.AsString = 'Carnê') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lCarne;
-  if (cbb2.Text = 'Boleto') then
+  if (s_bancoLAYOUT_BL.AsString = 'Boleto') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lPadrao;
-  if (cbb2.Text = 'Fatura') then
+  if (s_bancoLAYOUT_BL.AsString = 'Fatura') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lFatura;
 
-  if (cbb5.ItemIndex = 0) then
+  if (s_bancoIMP_COMPROVANTE.AsString = 'SIM') then
      ACBrBoleto1.ComprovanteEntrega := True
   else
      ACBrBoleto1.ComprovanteEntrega := False;
 
-  BANCO_SELECIONADO;
+
   CRIA_BOLETO_MEMORIA;
   ACBrBoleto1.Imprimir;
 
@@ -598,6 +642,7 @@ begin
    if (s_banco.Active) then
      s_banco.Close;
    s_banco.Params[0].Clear;
+
 end;
 
 procedure TF_Boletos.btn4Click(Sender: TObject);
@@ -819,8 +864,6 @@ var
  dia, mes, ano : Word;
 begin
   edt2.Text := ExtractFilePath(Application.ExeName) + 'LogoBanco';
-  DecodeDate(Now,ano,mes,dia);
-  Edit1.Text := 'Remessa_' + IntToStr(dia) + IntToStr(mes) + IntToStr(ano);
   if (not DM.cdsBanco.Active) then
       DM.cdsBanco.Open;
    while not DM.cdsBanco.Eof do
@@ -840,30 +883,43 @@ begin
 end;
 
 procedure TF_Boletos.btn3Click(Sender: TObject);
+var Dia_atual : string;
 begin
+  especie_DOC := 'REMESSA';
   if (not s_empresa.Active) then
      s_empresa.Open;
-  if (not s_banco.Active) then
-     s_banco.Open;
-  if (cbb2.Text = 'Carnê') then
+
+  BANCO_SELECIONADO;
+
+  if (s_bancoLAYOUT_BL.AsString = 'Carnê') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lCarne;
-  if (cbb2.Text = 'Boleto') then
+  if (s_bancoLAYOUT_BL.AsString = 'Boleto') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lPadrao;
-  if (cbb2.Text = 'Fatura') then
+  if (s_bancoLAYOUT_BL.AsString = 'Fatura') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lFatura;
 
   try
      ACBrBoleto1.ListadeBoletos.Clear;
-     ACBrBoleto1.DirArqRemessa := edt1.Text;
-     ACBrBoleto1.NomeArqRemessa := Edit1.Text;
-     BANCO_SELECIONADO;
-     CRIA_BOLETO_MEMORIA;
-     if (cbb3.Text = 'c400') then
+     DecodeDate(Now,ano,mes,dia);
+     Dia_atual := IntToStr(dia) + IntToStr(mes) + IntToStr(ano);
+     ACBrBoleto1.DirArqRemessa := s_bancoPASTA_REMESSA.AsString;
+     ACBrBoleto1.NomeArqRemessa := s_bancoNOME_ARQUIVO.AsString + Dia_atual;
+
+     if (s_bancoLAYOUT_RM.AsString = 'c400') then
        ACBrBoleto1.LayoutRemessa := c400;
-     if (cbb3.Text = 'c240') then
+     if (s_bancoLAYOUT_RM.AsString = 'c240') then
        ACBrBoleto1.LayoutRemessa := c240;
+
+     if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
+         ACBrBoleto1.Cedente.ResponEmissao := tbCliEmite;
+     if (s_bancoRESP_EMISSAO.AsString = 'Banco Emite') then //
+         ACBrBoleto1.Cedente.ResponEmissao := tbBancoEmite;
+
+     CRIA_BOLETO_MEMORIA;
+
      ACBrBoleto1.GerarRemessa( 1 );
      ShowMessage('Remessa gerada com Sucesso.');
+     
   except
      ShowMessage('Erro ao gerar Remessa');
   end;
@@ -872,7 +928,7 @@ begin
      s_empresa.Close;
    if (s_banco.Active) then
      s_banco.Close;
-
+   s_banco.Params[0].Clear;
 end;
 
 end.

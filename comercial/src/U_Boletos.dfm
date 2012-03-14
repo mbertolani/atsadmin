@@ -1,8 +1,8 @@
 object F_Boletos: TF_Boletos
-  Left = 430
-  Top = 221
-  Width = 537
-  Height = 362
+  Left = 397
+  Top = 250
+  Width = 417
+  Height = 302
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,8 +18,8 @@ object F_Boletos: TF_Boletos
   object MMJPanel3: TMMJPanel
     Left = 0
     Top = 59
-    Width = 521
-    Height = 206
+    Width = 401
+    Height = 146
     Align = alClient
     BevelInner = bvLowered
     TabOrder = 0
@@ -37,38 +37,6 @@ object F_Boletos: TF_Boletos
       Caption = 'Banco:'
       Transparent = True
     end
-    object lbl2: TLabel
-      Left = 151
-      Top = 6
-      Width = 35
-      Height = 13
-      Caption = 'Layout:'
-      Transparent = True
-    end
-    object lbl3: TLabel
-      Left = 227
-      Top = 6
-      Width = 82
-      Height = 13
-      Caption = 'Layout Remessa:'
-      Transparent = True
-    end
-    object lbl4: TLabel
-      Left = 311
-      Top = 6
-      Width = 130
-      Height = 13
-      Caption = 'Respons'#225'vel pela Emiss'#227'o:'
-      Transparent = True
-    end
-    object lbl6: TLabel
-      Left = 5
-      Top = 102
-      Width = 171
-      Height = 13
-      Caption = 'Pasta destino do Arquivo Remessa :'
-      Transparent = True
-    end
     object lbl7: TLabel
       Left = 8
       Top = 59
@@ -77,159 +45,30 @@ object F_Boletos: TF_Boletos
       Caption = 'Pasta contento Logo dos Bancos :'
       Transparent = True
     end
-    object lbl10: TLabel
-      Left = 5
-      Top = 146
-      Width = 165
-      Height = 13
-      Caption = 'Pasta destino do Arquivo Retorno :'
-      Transparent = True
-    end
-    object lbl8: TLabel
-      Left = 443
-      Top = 6
-      Width = 63
-      Height = 13
-      Caption = 'Comprovante'
-      Transparent = True
-    end
-    object Label1: TLabel
-      Left = 341
-      Top = 102
-      Width = 82
-      Height = 13
-      Caption = 'Nome do Arquivo'
-      Transparent = True
-    end
     object cbb1: TComboBox
       Left = 5
       Top = 22
-      Width = 145
+      Width = 380
       Height = 21
       BevelKind = bkFlat
       Style = csDropDownList
       ItemHeight = 13
       TabOrder = 0
     end
-    object cbb2: TComboBox
-      Left = 151
-      Top = 22
-      Width = 75
-      Height = 21
-      BevelKind = bkFlat
-      Style = csDropDownList
-      ItemHeight = 13
-      ItemIndex = 0
-      TabOrder = 1
-      Text = 'Boleto'
-      Items.Strings = (
-        'Boleto'
-        'Carn'#234
-        'Fatura')
-    end
-    object cbb3: TComboBox
-      Left = 227
-      Top = 22
-      Width = 83
-      Height = 21
-      BevelKind = bkFlat
-      Style = csDropDownList
-      ItemHeight = 13
-      TabOrder = 2
-      Items.Strings = (
-        'c400'
-        'c240')
-    end
-    object cbb4: TComboBox
-      Left = 311
-      Top = 22
-      Width = 131
-      Height = 21
-      BevelKind = bkFlat
-      Style = csDropDownList
-      ItemHeight = 13
-      ItemIndex = 1
-      TabOrder = 3
-      Text = 'Cliente Emite'
-      Items.Strings = (
-        'Banco Emite'
-        'Cliente Emite')
-    end
-    object edt1: TEdit
-      Left = 5
-      Top = 115
-      Width = 299
-      Height = 21
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      TabOrder = 4
-      Text = 'C:\Home\Remessa\'
-    end
-    object btn1: TBitBtn
-      Left = 307
-      Top = 111
-      Width = 31
-      Height = 25
-      Caption = '...'
-      TabOrder = 5
-    end
     object edt2: TEdit
       Left = 6
       Top = 72
-      Width = 506
+      Width = 379
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
-      TabOrder = 6
-    end
-    object edt3: TEdit
-      Left = 5
-      Top = 159
-      Width = 480
-      Height = 21
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      TabOrder = 7
-      Text = 'C:\Home\Retorno\'
-    end
-    object btn5: TBitBtn
-      Left = 486
-      Top = 155
-      Width = 29
-      Height = 25
-      Caption = '...'
-      TabOrder = 8
-    end
-    object cbb5: TComboBox
-      Left = 443
-      Top = 22
-      Width = 71
-      Height = 21
-      BevelKind = bkFlat
-      Style = csDropDownList
-      ItemHeight = 13
-      ItemIndex = 0
-      TabOrder = 9
-      Text = 'SIM'
-      Items.Strings = (
-        'SIM'
-        'N'#195'O')
-    end
-    object Edit1: TEdit
-      Left = 341
-      Top = 115
-      Width = 174
-      Height = 21
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      TabOrder = 10
-      Text = 'Remessa'
+      TabOrder = 1
     end
   end
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 521
+    Width = 401
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -243,7 +82,7 @@ object F_Boletos: TF_Boletos
     object lbl5: TLabel
       Left = 2
       Top = 2
-      Width = 517
+      Width = 397
       Height = 55
       Align = alClient
       Alignment = taCenter
@@ -260,8 +99,8 @@ object F_Boletos: TF_Boletos
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 265
-    Width = 521
+    Top = 205
+    Width = 401
     Height = 59
     Align = alBottom
     BevelInner = bvLowered
@@ -273,7 +112,7 @@ object F_Boletos: TF_Boletos
     Background.EndColor = clSkyBlue
     Background.FillType = GradUpDown
     object btn2: TBitBtn
-      Left = 96
+      Left = 48
       Top = 14
       Width = 103
       Height = 31
@@ -282,7 +121,7 @@ object F_Boletos: TF_Boletos
       OnClick = btn2Click
     end
     object btn3: TBitBtn
-      Left = 207
+      Left = 159
       Top = 14
       Width = 103
       Height = 31
@@ -291,7 +130,7 @@ object F_Boletos: TF_Boletos
       OnClick = btn3Click
     end
     object btn4: TBitBtn
-      Left = 318
+      Left = 270
       Top = 14
       Width = 103
       Height = 31
@@ -307,33 +146,26 @@ object F_Boletos: TF_Boletos
     NumeroArquivo = 0
     ComprovanteEntrega = True
     ACBrBoletoFC = ACBrBoletoFCFortes1
-    Left = 408
-    Top = 8
+    Left = 192
+    Top = 16
   end
   object ACBrBoletoFCFortes1: TACBrBoletoFCFortes
     ACBrBoleto = ACBrBoleto1
-    Left = 440
-    Top = 8
+    Left = 224
+    Top = 16
   end
   object s_banco: TSQLDataSet
-    CommandText = 
-      'SELECT a.CODBANCO, a.BANCO, a.NOMEBANCO, a.CARTEIRA, a.CODIGO_CE' +
-      'DENTE, a.CODIGO_EMPRESA, a.CODIGO_AGENCIA, a.DIGITO_AGENCIA, '#13#10'a' +
-      '.NUMERO_CONTA, a.DIGITO_CONTA, a.CODIGO_PLANO, a.INSTRUCAO1, a.I' +
-      'NSTRUCAO2, a.INSTRUCAO3, a.INSTRUCAO4, a.CEDENTE, a.NCONVENIO, '#13 +
-      #10'a.ESPECIEDOC, a.ACEITE, a.CONVENIO, a.LOCALPGTO, a.N_BANCO, '#13#10'a' +
-      '.DIGITOBANCO, a.VARIACAO, a.'#10'CODIGOBOLETO    '#13#10'FROM BANCO a'#13#10'whe' +
-      're CODBANCO = :bc'
+    CommandText = 'SELECT a.*    '#13#10'FROM BANCO a'#13#10'where CODBANCO = :bc'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftString
+        DataType = ftInteger
         Name = 'bc'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 272
-    Top = 121
+    Left = 88
+    Top = 161
     object s_bancoCODBANCO: TSmallintField
       FieldName = 'CODBANCO'
       Required = True
@@ -434,6 +266,49 @@ object F_Boletos: TF_Boletos
     end
     object s_bancoCODIGOBOLETO: TStringField
       FieldName = 'CODIGOBOLETO'
+    end
+    object s_bancoLAYOUT_BL: TStringField
+      FieldName = 'LAYOUT_BL'
+      Size = 10
+    end
+    object s_bancoLAYOUT_RM: TStringField
+      FieldName = 'LAYOUT_RM'
+      Size = 10
+    end
+    object s_bancoRESP_EMISSAO: TStringField
+      FieldName = 'RESP_EMISSAO'
+    end
+    object s_bancoIMP_COMPROVANTE: TStringField
+      FieldName = 'IMP_COMPROVANTE'
+      FixedChar = True
+      Size = 3
+    end
+    object s_bancoPASTA_REMESSA: TStringField
+      FieldName = 'PASTA_REMESSA'
+      Size = 100
+    end
+    object s_bancoPASTA_RETORNO: TStringField
+      FieldName = 'PASTA_RETORNO'
+      Size = 100
+    end
+    object s_bancoNOME_ARQUIVO: TStringField
+      FieldName = 'NOME_ARQUIVO'
+      Size = 30
+    end
+    object s_bancoCC_BANCO: TIntegerField
+      FieldName = 'CC_BANCO'
+    end
+    object s_bancoMORAJUROS: TStringField
+      FieldName = 'MORAJUROS'
+      Size = 10
+    end
+    object s_bancoPERCMULTA: TFloatField
+      FieldName = 'PERCMULTA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_bancoPROTESTO: TStringField
+      FieldName = 'PROTESTO'
+      Size = 2
     end
   end
   object s_cr: TSQLDataSet
@@ -656,8 +531,8 @@ object F_Boletos: TF_Boletos
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 336
-    Top = 131
+    Left = 120
+    Top = 163
     object s_clienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -1114,8 +989,8 @@ object F_Boletos: TF_Boletos
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 240
-    Top = 123
+    Left = 56
+    Top = 163
     object s_empresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -1258,8 +1133,8 @@ object F_Boletos: TF_Boletos
   end
   object SQLDataSet1: TSQLDataSet
     Params = <>
-    Left = 416
-    Top = 163
+    Left = 312
+    Top = 211
   end
   object p_cr: TDataSetProvider
     DataSet = s_cr
