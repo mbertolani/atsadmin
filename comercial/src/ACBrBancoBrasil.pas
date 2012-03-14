@@ -97,7 +97,7 @@ end;
 
 function TACBrBancoBrasil.FormataNossoNumero(const ACBrTitulo :TACBrTitulo): String;
 var
-  ANossoNumero, AConvenio : string;
+  ANossoNumero, AConvenio, testeConvenio : string;
   aCarteira: LongInt;
 begin
    with ACBrTitulo do
@@ -116,8 +116,14 @@ begin
          else if Length(AConvenio) = 7 then
             ANossoNumero := padR(AConvenio, 7, '0') + padR(ANossoNumero, 10, '0');
        end
-      else 
-         ANossoNumero :=   padR(AConvenio, 7, '0')+ padR(ANossoNumero, 11, '0');
+      else
+      begin
+        if (aCarteira <> 11) then
+           ANossoNumero  := padR(AConvenio, 7, '0')+ padR(ANossoNumero, 10, '0')
+        else
+           ANossoNumero  := padR('0', 7, '0')+ padR('0', 10, '0');
+      end;
+
    end;
    Result := ANossoNumero;
 end;
@@ -218,7 +224,8 @@ begin
                padL('', 9, ' ')                        + //9 a 17 Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao                          + //18 - Tipo de inscrição do cedente
                padR(CNPJCIC, 14, '0')                  + //19 a 32 -Número de inscrição do cedente
-               padR(CodigoCedente, 9, '0') + '0014'    + //33 a 45 - Código do convênio no banco [ Alterado conforme instruções da CSO Brasília ] 27-07-09
+               //padR(CodigoCedente, 9, '0') + '0014'    + //33 a 45 - Código do convênio no banco [ Alterado conforme instruções da CSO Brasília ] 27-07-09
+               padR(Convenio, 9, '0') + '0014'    + //33 a 45 - Código do convênio no banco [ Alterado conforme instruções da CSO Brasília ] 27-07-09
                ACBrBanco.ACBrBoleto.ListadeBoletos[0].Carteira + //46 a 47 - Carteira
                aModalidade+'  '                        + //48 a 52 - Variacao Carteira
                aAgencia                                + //53 a 57 - Código da agência do cedente
@@ -226,7 +233,8 @@ begin
                aConta                                  + //59 a 70 - Número da conta do cedente
                padL(ContaDigito, 1, '0')               + //71 - Dígito da conta do cedente
                ' '                                     + //72 - Dígito verificador da agência / conta
-               padR(Nome, 30, ' ')                     + //73 a 102 - Nome do cedente
+               //padR(Nome, 30, ' ')                     + //73 a 102 - Nome do cedente
+               padL(Nome, 30, ' ')                     + //73 a 102 - Nome do cedente
                padL('BANCO DO BRASIL', 30, ' ')        + //103 a 132 - Nome do banco
                padL('', 10, ' ')                       + //133 a 142 - Uso exclusivo FEBRABAN/CNAB
                '1'                                     + //143 - Código de Remessa (1) / Retorno (2)
@@ -256,7 +264,8 @@ begin
                ' '                                     + //17 - Uso exclusivo FEBRABAN/CNAB
                ATipoInscricao                          + //18 - Tipo de inscrição do cedente
                padR(CNPJCIC, 15, '0')                  + //19 a 32 -Número de inscrição do cedente
-               padR(CodigoCedente, 9, '0') + '0014'    + //33 a 45 - Código do convênio no banco [ Alterado conforme instruções da CSO Brasília ] 27-07-09
+               //padR(CodigoCedente, 9, '0') + '0014'    + //33 a 45 - Código do convênio no banco [ Alterado conforme instruções da CSO Brasília ] 27-07-09
+               padR(Convenio, 9, '0') + '0014'         + //33 a 45 - Código do convênio no banco [ Alterado conforme instruções da CSO Brasília ] 27-07-09
                ACBrBanco.ACBrBoleto.ListadeBoletos[0].Carteira + //46 a 47 - Carteira
                aModalidade+'  '                        + //48 a 52 - Variacao Carteira
                aAgencia                                + //53 a 57 - Código da agência do cedente
@@ -264,7 +273,8 @@ begin
                aConta                                  + //59 a 70 - Número da conta do cedente
                padL(ContaDigito, 1, '0')               + //71 - Dígito da conta do cedente
                ' '                                     + //72 - Dígito verificador da agência / conta
-               padR(Nome, 30, ' ')                     + //73 a 102 - Nome do cedente
+               //padR(Nome, 30, ' ')                     + //73 a 102 - Nome do cedente
+               padL(Nome, 30, ' ')                     + //73 a 102 - Nome do cedente
                padL('', 40, ' ')                       + //104 a 143 - Mensagem 1 para todos os boletos do lote
                padL('', 40, ' ')                       + //144 a 183 - Mensagem 2 para todos os boletos do lote
                padL(IntToStr(NumeroRemessa), 8, '0')   + //184 a 191 - Número do arquivo
@@ -360,7 +370,8 @@ begin
                aConta                                                     + //24 a 35 - Número da conta corrente
                padL(ACBrBoleto.Cedente.ContaDigito, 1, '0')               + //36 - Dígito verificador da conta
                ' '                                                        + //37 - Dígito verificador da agência / conta
-               padL(ANossoNumero, 20, ' ')                                + //38 a 57 - Nosso número - identificação do título no banco
+               //padL(ANossoNumero, 20, ' ')                                + //38 a 57 - Nosso número - identificação do título no banco
+               padL(ANossoNumero, 20, '0')                                + //38 a 57 - Nosso número - identificação do título no banco
                '1'                                                        + //58 - Cobrança Simples
                '1'                                                        + //59 - Forma de cadastramento do título no banco: com cadastramento
                '1'                                                        + //60 - Tipo de documento: Tradicional
@@ -369,7 +380,7 @@ begin
                FormatDateTime('ddmmyyyy', Vencimento)                     + //78 a 85 - Data de vencimento do título
                IntToStrZero( round( ValorDocumento * 100), 15)            + //86 a 100 - Valor nominal do título
                '000000'                                                   + //101 a 105 - Agência cobradora + Digito. Se ficar em branco, a caixa determina automaticamente pelo CEP do sacado
-               padL(EspecieDoc,2)                                                 + //107 a 108 - Espécie do documento
+               padL(EspecieDoc,2)                                         + //107 a 108 - Espécie do documento
                ATipoAceite                             + //109 - Identificação de título Aceito / Não aceito
                FormatDateTime('ddmmyyyy', DataDocumento)                  + //110 a 117 - Data da emissão do documento
                IfThen(ValorMoraJuros > 0, '1', '0')                       + //118 - Código de juros de mora: Valor por dia
