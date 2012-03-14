@@ -817,23 +817,7 @@ begin
       // Gravando o Estoque
       Try
         FEstoque := TEstoque.Create;
-        cds_Mov_det.First;
-        While not cds_Mov_det.Eof do
-        begin
-          if (cds_Mov_detSTATUS.IsNull) then
-          begin
-            FEstoque.QtdeEntrada := cds_Mov_detQUANTIDADE.AsFloat;
-            FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-            FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-            FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-            FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-            FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-            FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-            FEstoque.Status      := '9';
-            FEstoque.inserirMes;
-          end;
-          cds_Mov_det.Next;
-        end;
+        FEstoque.baixaEstoque(cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime, 'ENTRADA');
       Finally
         FEstoque.Free;
       end;
@@ -878,20 +862,7 @@ begin
       // Gravando o Estoque
       Try
         FEstoque := TEstoque.Create;
-        cds_Mov_det.First;
-        While not cds_Mov_det.Eof do
-        begin
-          FEstoque.QtdeSaida   := cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-          FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-          FEstoque.Status      := '9';
-          FEstoque.inserirMes;
-          cds_Mov_det.Next;
-        end;
+        FEstoque.baixaEstoque(cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime, 'SAIDA');
       Finally
         FEstoque.Free;
       end;
@@ -984,26 +955,11 @@ begin
 
       Try
         dm.sqlsisAdimin.StartTransaction(TD);
-
-        // Gravando o Estoque
-        cds_Mov_det.First;
-        While not cds_Mov_det.Eof do
-        begin
-          FEstoque.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-          FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-          FEstoque.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-          FEstoque.Status      := '0';
-          FEstoque.inserirMes;
-          cds_Mov_det.Next;
-        end;
+        FEstoque.EstornaEstoque('ENTRADA', cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime);
         DM.sqlsisAdimin.ExecuteDirect(deleta);
         DM.sqlsisAdimin.ExecuteDirect(delvenprim);
         DM.sqlsisAdimin.ExecuteDirect(delmovprim);
-        DM.sqlsisAdimin.ExecuteDirect(delmov);        
+        DM.sqlsisAdimin.ExecuteDirect(delmov);
         dm.sqlsisAdimin.Commit(TD);
         MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
       Except
@@ -1033,19 +989,7 @@ begin
         dm.sqlsisAdimin.StartTransaction(TD);
 
         // Gravando o Estoque
-        cds_Mov_det.First;
-        While not cds_Mov_det.Eof do
-        begin
-          FEstoque.QtdeSaida   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-          FEstoque.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-          FEstoque.inserirMes;
-          cds_Mov_det.Next;
-        end;
+        FEstoque.EstornaEstoque('SAIDA', cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime);
         DM.sqlsisAdimin.ExecuteDirect(deleta);
         DM.sqlsisAdimin.ExecuteDirect(delmov);
         DM.sqlsisAdimin.ExecuteDirect(delvenprim);
@@ -1067,10 +1011,6 @@ begin
 
 
   end;
-
-
-
-
 
   cds_Movimento.Close;
   cds_Mov_det.close;
@@ -1108,75 +1048,51 @@ end;
 procedure TfEntra_Sai_estoque.BitBtn8Click(Sender: TObject);
 // Var str_del: String;
 var FEst: TEstoque;
+ TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
   if (cds_Movimento.State in [dsInsert, dsEdit]) then
     (DtSrc1.DataSet as TClientDataSet).ApplyUpdates(0);
-
-{  str_del := 'DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ';
-  str_del := str_del + IntToStr(cds_Mov_detCODDETALHE.AsInteger);
-//  str_del := str_del + '
-  if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detPRODUTO.AsString + '''?',
-    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
-    dm.sqlsisAdimin.ExecuteDirect(str_del);
-  if cds_Mov_det.State in [dsInsert, dsEdit, dsBrowse] then
-  begin
-    cds_Mov_det.ApplyUpdates(0);
-    dm.sqlsisAdimin.ExecuteDirect(str_del);
-  end;
-    cds_Mov_det.Close;
-    cds_Mov_det.Params[0].Clear;
-    cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-    cds_Mov_det.Open; }
-
 
   if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detPRODUTO.AsString + '''?',
     mtConfirmation, [mbYes, mbNo],0) = mrYes then
   begin
     try
+      dm.sqlsisAdimin.StartTransaction(TD);    
       if (cds_Mov_detSTATUS.AsString = '9') then
       begin
         // Item ja Lancado no Estoque baixa-lo;
-        // Gravando o Estoque
         Try
           FEst := TEstoque.Create;
+
           if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
-          begin
-            FEst.QtdeEntrada := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-            FEst.PrecoCompra := cds_Mov_detPRECO.AsFloat;
-          end;
+            FEst.EstornaEstoque('ENTRADA', cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime);
 
           if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
-          begin
-            FEst.QtdeSaida := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-            FEst.PrecoVenda := cds_Mov_detPRECO.AsFloat;
-          end;
+            FEst.EstornaEstoque('SAIDA', cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime);
 
-          FEst.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-          FEst.Lote        := cds_Mov_detLOTE.AsString;
-          FEst.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-          FEst.MesAno      := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-          FEst.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-          FEst.inserirMes;
         Finally
           FEst.Free;
         end;
 
       end;
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ' + InttoStr(cds_Mov_detCODDETALHE.AsInteger));
-      //DtSrc1.DataSet.Delete;
+      dm.sqlsisAdimin.Commit(TD);
       cds_Mov_det.Close;
       cds_Mov_det.Open;
     Except
       on E : Exception do
       begin
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
       end;
     end;
   end;
 
   if cds_Movimento.State in [dsBrowse] then
      cds_Movimento.Edit;
-    // (DtSrc1.DataSet as TClientDataSet).ApplyUpdates(0);
 
 end;
 
