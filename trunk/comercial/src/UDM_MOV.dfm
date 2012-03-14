@@ -1,6 +1,6 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 668
+  Left = 708
   Top = 273
   Height = 455
   Width = 449

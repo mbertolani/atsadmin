@@ -599,7 +599,7 @@ type
   private
     { Private declarations }
   public
-    V_USACONTR_CAIXA : string;
+    V_PAGACOMISSAO, V_USACONTR_CAIXA : string;
     PAGECONTROL : String;
     ID_DO_MOVIMENTO, ID_CCUSTO : integer;
     { Public declarations }
