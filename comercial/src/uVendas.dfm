@@ -3871,72 +3871,38 @@ inherited fVendas: TfVendas
   end
   object sdslote: TSQLDataSet
     CommandText = 
-      'SELECT 1 CODLOTE, lote.LOTE, lote.CODPRODUTO, lote.MESANO DATAFA' +
-      'BRICACAO, lote.MESANO DATAVENCIMENTO, '#13#10'lote.SALDOESTOQUE ESTOQU' +
-      'E, lote.PRECOCUSTO PRECO, lote.LOTE NOTAFISCAL, 1 SERIEINI, 2 SE' +
-      'RIEFIM , prod.PRODUTO, prod.CODPRO FROM ESTOQUEMES lote '#13#10'inner ' +
-      'join PRODUTOS prod on prod.codproduto = lote.CODPRODUTO '#13#10'WHERE ' +
-      'prod.CODPRODUTO = lote.CODPRODUTO '#13#10'AND ((((lote.LOTE = :PLOTE) ' +
-      ')OR (:PLOTE = '#39'TODOSLOTESCADASTRADOS'#39') AND (LOTE.LOTE <> '#39'0'#39' )) ' +
-      'and (lote.CODPRODUTO = :PPROD) AND (lote.SALDOESTOQUE > 0.000999' +
-      '99999999999999)) order by lote.MESANO'
+      'select lote ,'#13#10'    codproduto ,'#13#10'    estoque ,'#13#10'    produto ,'#13#10' ' +
+      '   codpro ,'#13#10'    preco '#13#10'from LISTA_LOTE_PROD_VENDA (:pcodprod)'#13 +
+      #10#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftString
-        Name = 'PLOTE'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftString
-        Name = 'PLOTE'
-        ParamType = ptInput
-      end
-      item
         DataType = ftInteger
-        Name = 'PPROD'
+        Name = 'pcodprod'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 256
     Top = 280
-    object sdsloteCODLOTE: TIntegerField
-      FieldName = 'CODLOTE'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
     object sdsloteLOTE: TStringField
       FieldName = 'LOTE'
-      ProviderFlags = [pfInUpdate]
       Required = True
-      Size = 200
+      Size = 60
     end
     object sdsloteCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
-      ProviderFlags = [pfInUpdate]
       Required = True
-    end
-    object sdsloteDATAFABRICACAO: TDateField
-      FieldName = 'DATAFABRICACAO'
-      ProviderFlags = [pfInUpdate]
-    end
-    object sdsloteDATAVENCIMENTO: TDateField
-      FieldName = 'DATAVENCIMENTO'
-      ProviderFlags = [pfInUpdate]
     end
     object sdsloteESTOQUE: TFloatField
       FieldName = 'ESTOQUE'
-      ProviderFlags = [pfInUpdate]
     end
     object sdslotePRODUTO: TStringField
       FieldName = 'PRODUTO'
-      ProviderFlags = []
       Required = True
       Size = 300
     end
     object sdsloteCODPRO: TStringField
       FieldName = 'CODPRO'
-      ProviderFlags = []
       Size = 15
     end
     object sdslotePRECO: TFloatField
@@ -3953,64 +3919,32 @@ inherited fVendas: TfVendas
     Aggregates = <>
     Params = <
       item
-        DataType = ftString
-        Name = 'PLOTE'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftString
-        Name = 'PLOTE'
-        ParamType = ptInput
-      end
-      item
         DataType = ftInteger
-        Name = 'PPROD'
+        Name = 'pcodprod'
         ParamType = ptInput
       end>
     ProviderName = 'dsplotes'
     Left = 320
     Top = 280
-    object cdslotesCODLOTE: TIntegerField
-      FieldName = 'CODLOTE'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
     object cdslotesLOTE: TStringField
       FieldName = 'LOTE'
-      ProviderFlags = [pfInUpdate]
       Required = True
-      Size = 200
+      Size = 60
     end
     object cdslotesCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
-      ProviderFlags = [pfInUpdate]
       Required = True
-    end
-    object cdslotesDATAFABRICACAO: TDateField
-      FieldName = 'DATAFABRICACAO'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '!99/99/00;1;_'
-    end
-    object cdslotesDATAVENCIMENTO: TDateField
-      FieldName = 'DATAVENCIMENTO'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '!99/99/00;1;_'
     end
     object cdslotesESTOQUE: TFloatField
       FieldName = 'ESTOQUE'
-      ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',##0.000'
-      EditFormat = ',##0.000'
     end
     object cdslotesPRODUTO: TStringField
       FieldName = 'PRODUTO'
-      ProviderFlags = []
       Required = True
       Size = 300
     end
     object cdslotesCODPRO: TStringField
       FieldName = 'CODPRO'
-      ProviderFlags = []
       Size = 15
     end
     object cdslotesPRECO: TFloatField
