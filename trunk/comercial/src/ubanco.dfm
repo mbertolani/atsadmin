@@ -1,8 +1,8 @@
 inherited fbanco: Tfbanco
-  Left = 247
-  Top = 125
-  Width = 683
-  Height = 492
+  Left = 326
+  Top = 191
+  Width = 707
+  Height = 591
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
@@ -42,7 +42,7 @@ inherited fbanco: Tfbanco
     FocusControl = DBEdit3
   end
   object Label6: TLabel [3]
-    Left = 385
+    Left = 441
     Top = 102
     Width = 96
     Height = 13
@@ -58,7 +58,7 @@ inherited fbanco: Tfbanco
     FocusControl = dbedtCODBANCO
   end
   object Label8: TLabel [5]
-    Left = 106
+    Left = 162
     Top = 100
     Width = 92
     Height = 13
@@ -66,7 +66,7 @@ inherited fbanco: Tfbanco
     FocusControl = DBEdit6
   end
   object Label9: TLabel [6]
-    Left = 214
+    Left = 270
     Top = 100
     Width = 19
     Height = 13
@@ -74,7 +74,7 @@ inherited fbanco: Tfbanco
     FocusControl = DBEdit7
   end
   object Label10: TLabel [7]
-    Left = 243
+    Left = 299
     Top = 100
     Width = 88
     Height = 13
@@ -82,7 +82,7 @@ inherited fbanco: Tfbanco
     FocusControl = DBEdit8
   end
   object Label11: TLabel [8]
-    Left = 355
+    Left = 411
     Top = 100
     Width = 19
     Height = 13
@@ -90,40 +90,40 @@ inherited fbanco: Tfbanco
     FocusControl = DBEdit9
   end
   object lbl1: TLabel [9]
-    Left = 494
-    Top = 102
+    Left = 41
+    Top = 143
     Width = 38
     Height = 13
     Caption = 'Especie'
     FocusControl = dbedtCODIGO_CEDENTE
   end
   object lbl2: TLabel [10]
-    Left = 538
-    Top = 102
+    Left = 85
+    Top = 143
     Width = 30
     Height = 13
     Caption = 'Aceite'
     FocusControl = dbedtCODIGO_CEDENTE1
   end
   object lbl3: TLabel [11]
-    Left = 576
-    Top = 100
+    Left = 123
+    Top = 141
     Width = 45
     Height = 13
     Caption = 'Conv'#234'nio'
     FocusControl = dbedtCODIGO_AGENCIA
   end
   object lbl4: TLabel [12]
-    Left = 40
-    Top = 144
+    Left = 37
+    Top = 277
     Width = 83
     Height = 13
     Caption = 'Local Pagamento'
     FocusControl = DBEdit3
   end
   object lbl5: TLabel [13]
-    Left = 40
-    Top = 184
+    Left = 36
+    Top = 313
     Width = 49
     Height = 13
     Caption = 'Instru'#231#245'es'
@@ -146,16 +146,104 @@ inherited fbanco: Tfbanco
     FocusControl = DBEdit14
   end
   object lbl6: TLabel [16]
-    Left = 491
-    Top = 144
+    Left = 548
+    Top = 102
     Width = 115
     Height = 13
     Caption = 'Ultimo n'#250'mero do Boleto'
     FocusControl = dbedtCODIGOBOLETO
   end
+  object lbl8: TLabel [17]
+    Left = 185
+    Top = 143
+    Width = 68
+    Height = 13
+    Caption = 'Layout Boleto:'
+    Transparent = True
+  end
+  object lbl11: TLabel [18]
+    Left = 239
+    Top = 237
+    Width = 171
+    Height = 13
+    Caption = 'Pasta destino do Arquivo Remessa :'
+    Transparent = True
+  end
+  object lbl10: TLabel [19]
+    Left = 40
+    Top = 237
+    Width = 165
+    Height = 13
+    Caption = 'Pasta destino do Arquivo Retorno :'
+    Transparent = True
+  end
+  object lbl7: TLabel [20]
+    Left = 99
+    Top = 100
+    Width = 54
+    Height = 13
+    Caption = 'VARIA'#199#195'O'
+    FocusControl = dbedtCARTEIRA
+  end
+  object lbl14: TLabel [21]
+    Left = 281
+    Top = 143
+    Width = 82
+    Height = 13
+    Caption = 'Layout Remessa:'
+    Transparent = True
+  end
+  object lbl9: TLabel [22]
+    Left = 377
+    Top = 143
+    Width = 70
+    Height = 13
+    Caption = 'Resp. Emiss'#227'o'
+    Transparent = True
+  end
+  object lbl12: TLabel [23]
+    Left = 473
+    Top = 143
+    Width = 63
+    Height = 13
+    Caption = 'Comprovante'
+    Transparent = True
+  end
+  object lbl13: TLabel [24]
+    Left = 570
+    Top = 143
+    Width = 60
+    Height = 13
+    Caption = 'Mora / Juros'
+    Transparent = True
+  end
+  object lbl15: TLabel [25]
+    Left = 42
+    Top = 194
+    Width = 71
+    Height = 13
+    Caption = '% Mora / Juros'
+    Transparent = True
+  end
+  object lbl16: TLabel [26]
+    Left = 154
+    Top = 194
+    Width = 48
+    Height = 13
+    Caption = 'Protesta ?'
+    Transparent = True
+  end
+  object lbl17: TLabel [27]
+    Left = 439
+    Top = 237
+    Width = 120
+    Height = 13
+    Caption = 'Nome Arquivo Remessa :'
+    Transparent = True
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 400
-    Width = 667
+    Top = 499
+    Width = 691
     inherited btnGravar: TBitBtn
       Left = 180
     end
@@ -177,7 +265,7 @@ inherited fbanco: Tfbanco
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 667
+    Width = 691
     inherited Label1: TLabel
       Left = 151
       Top = -63
@@ -195,7 +283,7 @@ inherited fbanco: Tfbanco
     object RxLabel2: TRxLabel
       Left = 1
       Top = 1
-      Width = 665
+      Width = 689
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -213,7 +301,7 @@ inherited fbanco: Tfbanco
       Transparent = True
     end
   end
-  object DBEdit1: TDBEdit [19]
+  object DBEdit1: TDBEdit [30]
     Left = 219
     Top = 70
     Width = 180
@@ -231,10 +319,10 @@ inherited fbanco: Tfbanco
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [20]
+  object DBEdit2: TDBEdit [31]
     Left = 400
     Top = 70
-    Width = 229
+    Width = 236
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -249,9 +337,9 @@ inherited fbanco: Tfbanco
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object DBGrid1: TDBGrid [21]
+  object DBGrid1: TDBGrid [32]
     Left = 36
-    Top = 292
+    Top = 419
     Width = 616
     Height = 74
     TabStop = False
@@ -311,16 +399,16 @@ inherited fbanco: Tfbanco
         Visible = True
       end>
   end
-  object DBNavigator1: TDBNavigator [22]
-    Left = 220
-    Top = 372
+  object DBNavigator1: TDBNavigator [33]
+    Left = 212
+    Top = 467
     Width = 248
     Height = 28
     DataSource = DtSrc
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
     TabOrder = 12
   end
-  object DBEdit3: TDBEdit [23]
+  object DBEdit3: TDBEdit [34]
     Left = 39
     Top = 116
     Width = 57
@@ -332,8 +420,8 @@ inherited fbanco: Tfbanco
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [24]
-    Left = 385
+  object DBEdit4: TDBEdit [35]
+    Left = 441
     Top = 117
     Width = 103
     Height = 21
@@ -344,7 +432,7 @@ inherited fbanco: Tfbanco
     TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODBANCO: TDBEdit [25]
+  object dbedtCODBANCO: TDBEdit [36]
     Left = 40
     Top = 73
     Width = 56
@@ -357,8 +445,8 @@ inherited fbanco: Tfbanco
     TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [26]
-    Left = 104
+  object DBEdit6: TDBEdit [37]
+    Left = 160
     Top = 116
     Width = 106
     Height = 21
@@ -369,10 +457,10 @@ inherited fbanco: Tfbanco
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [27]
-    Left = 214
+  object DBEdit7: TDBEdit [38]
+    Left = 270
     Top = 116
-    Width = 17
+    Width = 23
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -381,8 +469,8 @@ inherited fbanco: Tfbanco
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [28]
-    Left = 243
+  object DBEdit8: TDBEdit [39]
+    Left = 299
     Top = 116
     Width = 106
     Height = 21
@@ -393,10 +481,10 @@ inherited fbanco: Tfbanco
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [29]
-    Left = 355
+  object DBEdit9: TDBEdit [40]
+    Left = 411
     Top = 116
-    Width = 17
+    Width = 26
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -405,10 +493,10 @@ inherited fbanco: Tfbanco
     TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [30]
-    Left = 40
-    Top = 200
-    Width = 611
+  object DBEdit10: TDBEdit [41]
+    Left = 36
+    Top = 329
+    Width = 616
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -416,10 +504,10 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 13
   end
-  object DBEdit11: TDBEdit [31]
-    Left = 40
-    Top = 222
-    Width = 611
+  object DBEdit11: TDBEdit [42]
+    Left = 36
+    Top = 351
+    Width = 616
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -427,10 +515,10 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 14
   end
-  object DBEdit12: TDBEdit [32]
-    Left = 40
-    Top = 244
-    Width = 611
+  object DBEdit12: TDBEdit [43]
+    Left = 36
+    Top = 373
+    Width = 616
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -438,10 +526,10 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 15
   end
-  object DBEdit13: TDBEdit [33]
-    Left = 40
-    Top = 266
-    Width = 611
+  object DBEdit13: TDBEdit [44]
+    Left = 36
+    Top = 395
+    Width = 616
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -449,9 +537,9 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 16
   end
-  object dbedtCODIGO_CEDENTE: TDBEdit [34]
-    Left = 494
-    Top = 117
+  object dbedtCODIGO_CEDENTE: TDBEdit [45]
+    Left = 41
+    Top = 158
     Width = 42
     Height = 21
     BevelKind = bkFlat
@@ -461,9 +549,9 @@ inherited fbanco: Tfbanco
     TabOrder = 17
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODIGO_CEDENTE1: TDBEdit [35]
-    Left = 538
-    Top = 117
+  object dbedtCODIGO_CEDENTE1: TDBEdit [46]
+    Left = 85
+    Top = 158
     Width = 33
     Height = 21
     BevelKind = bkFlat
@@ -473,9 +561,9 @@ inherited fbanco: Tfbanco
     TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODIGO_AGENCIA: TDBEdit [36]
-    Left = 575
-    Top = 116
+  object dbedtCODIGO_AGENCIA: TDBEdit [47]
+    Left = 122
+    Top = 157
     Width = 60
     Height = 21
     BevelKind = bkFlat
@@ -485,10 +573,10 @@ inherited fbanco: Tfbanco
     TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object dbedtINSTRUCAO1: TDBEdit [37]
-    Left = 40
-    Top = 159
-    Width = 449
+  object dbedtINSTRUCAO1: TDBEdit [48]
+    Left = 37
+    Top = 292
+    Width = 614
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -496,7 +584,7 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 20
   end
-  object DBEdit5: TDBEdit [38]
+  object DBEdit5: TDBEdit [49]
     Left = 97
     Top = 73
     Width = 72
@@ -508,7 +596,7 @@ inherited fbanco: Tfbanco
     TabOrder = 21
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [39]
+  object DBEdit14: TDBEdit [50]
     Left = 170
     Top = 73
     Width = 46
@@ -520,10 +608,10 @@ inherited fbanco: Tfbanco
     TabOrder = 22
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODIGOBOLETO: TDBEdit [40]
-    Left = 491
-    Top = 159
-    Width = 143
+  object dbedtCODIGOBOLETO: TDBEdit [51]
+    Left = 548
+    Top = 117
+    Width = 129
     Height = 21
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -531,6 +619,162 @@ inherited fbanco: Tfbanco
     DataSource = DtSrc
     TabOrder = 23
     OnKeyPress = FormKeyPress
+  end
+  object dbedtCARTEIRA: TDBEdit [52]
+    Left = 99
+    Top = 116
+    Width = 58
+    Height = 21
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'VARIACAO'
+    DataSource = DtSrc
+    TabOrder = 24
+    OnKeyPress = FormKeyPress
+  end
+  object dbcbbLAYOUT_BL: TDBComboBox [53]
+    Left = 184
+    Top = 157
+    Width = 95
+    Height = 21
+    BevelKind = bkFlat
+    DataField = 'LAYOUT_BL'
+    DataSource = DtSrc
+    ItemHeight = 13
+    Items.Strings = (
+      'Boleto'
+      'Carn'#234
+      'Fatura')
+    TabOrder = 25
+  end
+  object dbcbbLAYOUT_RM: TDBComboBox [54]
+    Left = 280
+    Top = 157
+    Width = 95
+    Height = 21
+    BevelKind = bkFlat
+    DataField = 'LAYOUT_RM'
+    DataSource = DtSrc
+    ItemHeight = 13
+    Items.Strings = (
+      'c400'
+      'c240')
+    TabOrder = 26
+  end
+  object dbcbbRESP_EMISSAO: TDBComboBox [55]
+    Left = 376
+    Top = 157
+    Width = 95
+    Height = 21
+    BevelKind = bkFlat
+    DataField = 'RESP_EMISSAO'
+    DataSource = DtSrc
+    ItemHeight = 13
+    Items.Strings = (
+      'Banco Emite'
+      'Cliente Emite')
+    TabOrder = 27
+  end
+  object dbcbbIMP_COMPROVANTE: TDBComboBox [56]
+    Left = 472
+    Top = 157
+    Width = 95
+    Height = 21
+    BevelKind = bkFlat
+    DataField = 'IMP_COMPROVANTE'
+    DataSource = DtSrc
+    ItemHeight = 13
+    Items.Strings = (
+      'SIM'
+      'N'#195'O')
+    TabOrder = 28
+  end
+  object dbcbbRESP_EMISSAO2: TDBComboBox [57]
+    Left = 569
+    Top = 157
+    Width = 95
+    Height = 21
+    BevelKind = bkFlat
+    DataField = 'MORAJUROS'
+    DataSource = DtSrc
+    ItemHeight = 13
+    Items.Strings = (
+      '1-Diario'
+      '2-Mensal'
+      '3-Isento')
+    TabOrder = 29
+  end
+  object JvDBSpinEdit1: TJvDBSpinEdit [58]
+    Left = 39
+    Top = 211
+    Width = 108
+    Height = 21
+    TabOrder = 30
+    DataField = 'PERCMULTA'
+    DataSource = DtSrc
+  end
+  object dbcbbPROTESTO: TDBComboBox [59]
+    Left = 153
+    Top = 211
+    Width = 520
+    Height = 21
+    BevelKind = bkFlat
+    DataField = 'PROTESTO'
+    DataSource = DtSrc
+    ItemHeight = 13
+    Items.Strings = (
+      '00 - Sem de instru'#231#245'es'
+      
+        '01 - Cobrar juros (Dispens'#225'vel se informado o valor a ser cobrad' +
+        'o por dia de atraso).'
+      '03 - Protestar no 3'#186' dia '#250'til ap'#243's vencido'
+      '04 - Protestar no 4'#186' dia '#250'til ap'#243's vencido'
+      '05 - Protestar no 5'#186' dia '#250'til ap'#243's vencido'
+      '10 - Protestar no 10'#186' dia corrido ap'#243's vencido'
+      '15 - Protestar no 15'#186' dia corrido ap'#243's vencido'
+      '20 - Protestar no 20'#186' dia corrido ap'#243's vencido'
+      '25 - Protestar no 25'#186' dia corrido ap'#243's vencido'
+      '30 - Protestar no 30'#186' dia corrido ap'#243's vencido'
+      '45 - Protestar no 45'#186' dia corrido ap'#243's vencido'
+      
+        '06 - Indica Protesto em dias corridos, com prazo de 6 a 29, 35 o' +
+        'u 40 dias Corridos.'
+      '07 - N'#227'o protestar'
+      '22 - Conceder desconto s'#243' at'#233' a data estipulada')
+    TabOrder = 31
+  end
+  object dbedtPASTA_RETORNO: TDBEdit [60]
+    Left = 39
+    Top = 251
+    Width = 186
+    Height = 21
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'PASTA_RETORNO'
+    DataSource = DtSrc
+    TabOrder = 32
+  end
+  object dbedtPASTA_RETORNO1: TDBEdit [61]
+    Left = 240
+    Top = 250
+    Width = 193
+    Height = 21
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'PASTA_REMESSA'
+    DataSource = DtSrc
+    TabOrder = 33
+  end
+  object dbedtPASTA_REMESSA: TDBEdit [62]
+    Left = 440
+    Top = 250
+    Width = 193
+    Height = 21
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'NOME_ARQUIVO'
+    DataSource = DtSrc
+    TabOrder = 34
   end
   inherited PopupMenu1: TPopupMenu
     Left = 632

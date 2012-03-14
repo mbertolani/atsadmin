@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   DBCtrls, Grids, DBGrids, Mask, FMTBcd, DBClient, Provider, SqlExpr,
-  RXCtrls;
+  RXCtrls, JvExMask, JvSpin, JvDBSpinEdit;
 
 type
   Tfbanco = class(TfPai)
@@ -50,6 +50,28 @@ type
     Label13: TLabel;
     dbedtCODIGOBOLETO: TDBEdit;
     lbl6: TLabel;
+    lbl8: TLabel;
+    lbl11: TLabel;
+    lbl10: TLabel;
+    dbedtCARTEIRA: TDBEdit;
+    lbl7: TLabel;
+    dbcbbLAYOUT_BL: TDBComboBox;
+    lbl14: TLabel;
+    dbcbbLAYOUT_RM: TDBComboBox;
+    dbcbbRESP_EMISSAO: TDBComboBox;
+    lbl9: TLabel;
+    dbcbbIMP_COMPROVANTE: TDBComboBox;
+    lbl12: TLabel;
+    dbcbbRESP_EMISSAO2: TDBComboBox;
+    lbl13: TLabel;
+    lbl15: TLabel;
+    JvDBSpinEdit1: TJvDBSpinEdit;
+    lbl16: TLabel;
+    dbcbbPROTESTO: TDBComboBox;
+    dbedtPASTA_RETORNO: TDBEdit;
+    dbedtPASTA_RETORNO1: TDBEdit;
+    dbedtPASTA_REMESSA: TDBEdit;
+    lbl17: TLabel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
