@@ -261,11 +261,11 @@ uses
   uAts_R in 'uAts_R.pas' {fAts_R},
   uAbrirCaixa in 'uAbrirCaixa.pas' {fAbrirCaixa},
   uCCe in 'uCCe.pas' {fCCe},
-  uCartaCorrecao in 'uCartaCorrecao.pas',
+  //uCartaCorrecao in 'uCartaCorrecao.pas',
   uCarne in 'uCarne.pas' {fCarne},
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
   U_RelTerminal in 'U_RelTerminal.pas' {F_RelTerminal},
-  U_AbreComanda in 'U_AbreComanda.pas' {f_AbreComanda};
+  U_AbreComanda in 'U_AbreComanda.pas' {f_AbreComanda},
   uEstoqueAjuste in 'uEstoqueAjuste.pas' {fEstoqueAjuste},
   uListaEstoque in 'uListaEstoque.pas' {fListaEstoque},
   uBancoExtrato in 'uBancoExtrato.pas' {fBancoExtrato},
@@ -274,19 +274,8 @@ uses
   uBancoDePara in 'uBancoDePara.pas' {fBancoDePara},
   uPagarCls in 'uPagarCls.pas',
   uDescontoTitulos in 'uDescontoTitulos.pas' {fDescontoTitulos},
-  uRel_LucroPresumido in 'uRel_LucroPresumido.pas' {fRel_LucroPresumido};
-
-//uImport in 'uImport.pas' {fImport};
-//uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins},
-  //uEstoqueAjuste in 'uEstoqueAjuste.pas' {fEstoqueAjuste},
-  //uListaEstoque in 'uListaEstoque.pas' {fListaEstoque},
-  //uBancoExtrato in 'uBancoExtrato.pas' {fBancoExtrato},
-  //uBancoOFX in 'uBancoOFX.pas',
-  //uRelOS in 'uRelOS.pas' {fRelOs},
-  //uBancoDePara in 'uBancoDePara.pas' {fBancoDePara},
-  //uPagarCls in 'uPagarCls.pas',
-  //uImport in 'uImport.pas' {fImport};
-  //uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos};
+  uRel_LucroPresumido in 'uRel_LucroPresumido.pas' {fRel_LucroPresumido},
+  uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins};
 
 {$R *.res}
 
