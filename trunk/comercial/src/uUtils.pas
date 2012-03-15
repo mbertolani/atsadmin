@@ -41,6 +41,7 @@ Type
     function buscaChave(generator: String) : String;
     procedure relatorio(rel: String);
     function verificapermissao : Boolean;
+    function RemoveChar(Const Texto:String):String;    
   end;
 
 
@@ -504,5 +505,21 @@ begin
     end;
 end;
 
+
+function TUtils.RemoveChar(const Texto: String): String;
+var
+  I: integer;
+  S: string;
+begin
+  S := '';
+  for I := 1 To Length(Texto) Do
+  begin
+    if (Texto[I] in ['0'..'9']) then
+    begin
+     S := S + Copy(Texto, I, 1);
+    end;
+  end;
+  result := S;
+end;
 
 end.
