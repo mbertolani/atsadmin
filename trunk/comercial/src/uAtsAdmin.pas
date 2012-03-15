@@ -430,7 +430,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
   uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
-  uEstoqueAjuste, uCCe, uRelVenda2, uBancoExtrato, uBancoDePara,
+  uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido;
 
 {$R *.dfm}

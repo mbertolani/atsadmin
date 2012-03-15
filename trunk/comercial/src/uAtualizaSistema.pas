@@ -1458,8 +1458,6 @@ begin
         ' EXTRATOTIPO VARCHAR(20) NOT NULL, ' +
         ' PRIMARY KEY (CAIXA, CONTA, EXTRATODOC, EXTRATOTIPO))');
       end;
-      executaDDL('BANCO', 'VARIACAO', 'Varchar(3)');
-      executaDDL('BANCO', 'CODIGOBOLETO', 'varchar(20)');
       executaDDL('FORNECEDOR', 'CODFOR', 'varchar(10)');
       executaDDL('PAGAMENTO',     'CODCONCILIACAO', 'Varchar(50)');
       executaDDL('PLANO', 'TIPOLANC', 'varchar(10)');
@@ -1467,6 +1465,9 @@ begin
       executaDDL('RECEBIMENTO', 'CODIGOBANCO', 'integer');
       executaDDL('RECEBIMENTO',   'CODCONCILIACAO', 'Varchar(50)');
       executaDDL('MOVIMENTOCONT', 'CODCONCILIACAO', 'Varchar(50)');
+      executaDDL('PRODUTOS', 'OBS', 'VARCHAR(300)');
+      executaDDL('PLANO', 'TIPOLANC',  'VARCHAR(10)');
+
       executaScript('SP_MOV_CAIXAC.sql');
       executaScript('SP_MOV_CAIXA_ORDEMC.sql');
 
@@ -1481,10 +1482,25 @@ begin
           ' GERATITULO, TIPOTITULO, TIPOMOVIMENTO) ' +
           ' Values (14, ' + QuotedStr('Movimento Cancelado') + ' ,0,0,14)');
       end;
+      executaDDL('BANCO', 'VARIACAO', 'VARCHAR(3)');
+      executaDDL('BANCO', 'NCONVENIO', 'INTEGER');
+      executaDDL('BANCO', 'CODIGOBOLETO', 'VARCHAR(20)');
+      executaDDL('BANCO', UpperCase('layout_bl'), UpperCase('varchar(10)'));
+      executaDDL('BANCO', UpperCase('layout_rm'), UpperCase('varchar(10)'));      executaDDL('BANCO', UpperCase('resp_emissao'), UpperCase('varchar(20)'));
+      executaDDL('BANCO', UpperCase('imp_comprovante'), UpperCase('varchar(3)'));
+      executaDDL('BANCO', UpperCase('pasta_remessa'), UpperCase('varchar(100)'));
+      executaDDL('BANCO', UpperCase('pasta_retorno'), UpperCase('varchar(100)'));
+      executaDDL('BANCO', UpperCase('nome_arquivo'), UpperCase('varchar(30)'));
+      executaDDL('BANCO', UpperCase('cc_banco'), UpperCase('integer'));
+      executaDDL('BANCO', UpperCase('MoraJuros'), UpperCase('varchar(10)'));
+      executaDDL('BANCO', UpperCase('PercMulta'), UpperCase('double precision'));
+      executaDDL('BANCO', UpperCase('PROTESTO'), UpperCase('char(2)'));
+      executaDDL('RECEBIMENTO', UpperCase('CODIGOBOLETO'), UpperCase('varchar(20)'));
+      executaDDL('BANCO', UpperCase('CODIGOBOLETO'), UpperCase('varchar(20)'));
+      executaDDL('RECEBIMENTO', UpperCase('CODIGOBANCO'), UpperCase('varchar(20)'));
+      executaDDL('BANCO', UpperCase('VARIACAO'), UpperCase('varchar(3)'));
 
-
-
-      mudaVersao('1.0.0.101');
+      mudaVersao('1.0.0.102');
     end;
 
     try
