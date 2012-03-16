@@ -866,6 +866,8 @@ begin
   edt2.Text := ExtractFilePath(Application.ExeName) + 'LogoBanco';
   if (not DM.cdsBanco.Active) then
       DM.cdsBanco.Open;
+  dm.cdsBanco.First;
+  cbb1.Items.Clear;
    while not DM.cdsBanco.Eof do
    begin
       cbb1.Items.Add(DM.cdsBancoN_BANCO.AsString + '-' + DM.cdsBancoBANCO.AsString + '  '  + DM.cdsBancoCARTEIRA.AsString);
