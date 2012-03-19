@@ -72,6 +72,8 @@ procedure TfEscolherNF.dxButton3Click(Sender: TObject);
 begin
    fNotaf := TfNotaf.Create(Application);
    try
+     fNotaf.codVendaFin := 0;
+     fNotaf.codMovFin := 0;     
      DM.tipoVenda := 'NF';
      TipoNF := 'Cliente';
      fNotaf.ShowModal;
