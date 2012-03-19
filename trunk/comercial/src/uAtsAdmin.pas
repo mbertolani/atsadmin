@@ -1396,7 +1396,7 @@ begin
       fRateioPag.Free;
   end;
   dm.cds_parametro.Close; }
-//  fcrTituloPagto.consultaUser := 'GERAL';
+  fcrTituloPagto.consultaUser := 'GERAL';
   DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
   Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
   fcrTituloPagto.ShowModal;
@@ -2123,7 +2123,7 @@ end;
 
 procedure TfAtsAdmin.acPagarUsuarioExecute(Sender: TObject);
 begin
-//  fcrTituloPagto.consultaUser := 'USUARIO';
+  fcrTituloPagto.consultaUser := 'USUARIO';
   DM.varAplicacaoID := fAtsAdmin.UserControlComercial.ApplicationID;
   Dm.varUSERID := fAtsAdmin.UserControlComercial.CurrentUser.UserID;
   fcrTituloPagto.ShowModal;
