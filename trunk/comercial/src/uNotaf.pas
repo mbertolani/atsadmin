@@ -747,7 +747,7 @@ begin
     DMNF.DtSrcVenda.DataSet.Open;
     DMNF.DtSrcVenda.DataSet.Append;
   end;
-  if DMNF.DtSrcVenda.DataSet.State in [dsBrowse] then
+  if DMNF.DtSrcVenda.DataSet.State in [dsBrowse, dsEdit] then
     DMNF.DtSrcVenda.DataSet.Append;
 
   DMNF.cds_vendaDATASISTEMA.AsDateTime := Now;
