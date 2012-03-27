@@ -653,7 +653,8 @@ begin
     cdsBANCO.AsInteger := 0;
     cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime  + fVendas.prazoCliente;
     cdsSTATUS.AsInteger:=0;
-    cbPrazo.Text := fVendas.cds_MovimentoFORMA_PAG.AsString;
+    if (fVendas.cds_MovimentoFORMA_PAG.AsString <> '') then
+      cbPrazo.Text := fVendas.cds_MovimentoFORMA_PAG.AsString;
     if (not dm.cdsPrazo.Active) then
       dm.cdsPrazo.Open;
     if (dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
@@ -667,7 +668,7 @@ begin
       if (sqs_tit.Active) then
       sqs_tit.Close;
 
-      sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO)  FROM MOVIMENTODETALHE' +
+      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
     end
