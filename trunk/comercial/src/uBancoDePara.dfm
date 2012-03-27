@@ -160,7 +160,6 @@ inherited fBancoDePara: TfBancoDePara
         ParamType = ptInput
       end>
     ProviderName = 'dspDePara'
-    OnNewRecord = cdsBancoDeParaNewRecord
     Left = 232
     Top = 8
     object cdsBancoDeParaCAIXA: TIntegerField
