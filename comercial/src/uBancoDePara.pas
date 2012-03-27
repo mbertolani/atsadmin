@@ -30,11 +30,12 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BitBtn12Click(Sender: TObject);
     procedure edtcodredExit(Sender: TObject);
-    procedure cdsBancoDeParaNewRecord(DataSet: TDataSet);
+    procedure btnIncluirClick(Sender: TObject);
   private
     { Private declarations }
   public
     caixa: Integer;
+    extratoDoc, extratoTipo: String;
     { Public declarations }
   end;
 
@@ -79,7 +80,7 @@ procedure TfBancoDePara.BitBtn12Click(Sender: TObject);
 begin
   if DtSrc.DataSet.State in [dsInsert, dsEdit] then
   begin
-    tipo_for := 'CONTASDESPESAS';
+    tipo_for := 'LANCACONTABIL';
     fFiltro_forn_plano.BitBtn6.Click;
     //fFiltro_forn_plano.BitBtn1.Click;
     fFiltro_forn_plano.ShowModal;
@@ -122,10 +123,12 @@ begin
   dm.c_1_planoc.Close;
 end;
 
-procedure TfBancoDePara.cdsBancoDeParaNewRecord(DataSet: TDataSet);
+procedure TfBancoDePara.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  cdsBancoDeParaCAIXA.AsInteger := caixa;
+  cdsBancoDeParaCAIXA.AsInteger      := caixa;
+  cdsBancoDeParaEXTRATODOC.AsString  := extratoDoc;
+  cdsBancoDeParaEXTRATOTIPO.AsString := extratoTipo; 
 end;
 
 end.

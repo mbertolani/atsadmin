@@ -720,9 +720,16 @@ inherited fBancoExtrato: TfBancoExtrato
   end
   object sdsTipoConta: TSQLQuery
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'PCOD'
+        ParamType = ptUnknown
+      end>
+    SQL.Strings = (
+      'SELECT * FROM PLANO WHERE CODIGO = :PCOD')
     SQLConnection = DM.sqlsisAdimin
     Left = 336
-    Top = 168
+    Top = 160
   end
 end
