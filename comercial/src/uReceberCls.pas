@@ -303,12 +303,12 @@ begin
             ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
         executaSql(strRec);
       end;
+      VLR_RESTO := VLR_RESTO - (VLR - VLDESC - VLPER);
      sqlBuscaR.Next;
     end;
-    VLR_RESTO := VLR_RESTO - (VLR - VLDESC - VLPER);
     Result := 0;
     // Se sobrou algum valor então gera novo titulo
-    if (VLR_RESTO > 0.001) then
+    if (VLR_RESTO > 0.01) then
     begin
         Self.Valor := VLR_RESTO;
         Result := geraTitulo(CodRec, 0);
@@ -473,7 +473,7 @@ begin
       strR := 'SELECT CODRECEBIMENTO, CODVENDA, CODCLIENTE, EMISSAO, ' +
         ' DATAVENCIMENTO, CODVENDEDOR, CODUSUARIO,' +
         ' VALOR_RESTO, TITULO, VIA, PARCELAS,' +
-        ' FORMARECEBIMENTO, CODALMOXARIFADO ' +
+        ' FORMARECEBIMENTO, CODALMOXARIFADO, UDF_RTRIM(VIA) as VIA ' +
         '  FROM RECEBIMENTO ' +
         ' WHERE CODRECEBIMENTO = ' + InttoStr(CodRecR);
       sqlBuscaR.SQL.Add(strR);
@@ -494,6 +494,7 @@ begin
         Self.CodCCusto     := sqlBuscaR.FieldByName('CODALMOXARIFADO').AsInteger;
         Self.Titulo        := sqlBuscaR.FieldByName('TITULO').AsString;
         vDataVenc          := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
+        Self.Via           := StrToInt(StringReplace(sqlBuscaR.FieldByName('VIA').AsString, ' ', '', [rfReplaceAll,rfIgnoreCase]))+1;
         VlrParc            := Self.Valor;
         CodRecR := 1;
       end;
@@ -562,7 +563,10 @@ begin
     strG := strG + QuotedStr(FormatDateTime('mm/dd/yyyy', vDataVenc)) + ', ';
 
     strG := strG + QuotedStr(Self.Status) + ', ';
-    strG := strG + IntToStr(i) + ', ';
+    if (CodRecR > 0) then
+      strG := strG + IntToStr(Self.Via) + ', '
+    else
+      strG := strG + IntToStr(i) + ', ';
     strG := strG + QuotedStr(Self.FormaRec) + ', ';
     strG := strG + InttoStr(Self.CodVenda) + ', ';
     strG := strG + InttoStr(Self.CodCCusto) + ', ';
