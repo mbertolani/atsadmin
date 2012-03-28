@@ -82,9 +82,10 @@ type
     procedure cbContaChange(Sender: TObject);
   private
     contaCaixa, cCusto : Integer;
-    contaLanc, caixaBanco  : String;
+    contaLanc, caixaBanco, contaDespesa, contaReceita  : String;
     util: TUtils;
     TD : TTransactionDesc;
+    function jaFoiLancado(tipo: String; id: String): Boolean;
     function tipoConta(conta: Integer): String;
     procedure ChkDBGridDrawColumnCell(DBGrid: TDBGrid;
       const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -175,6 +176,20 @@ begin
     cbConta.Items.Add(dm.cds_7_contasNOME.AsString);
     dm.cds_7_contas.Next;
   end;
+
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CONTASDESPESAS';
+  dm.cds_parametro.Open;
+  ContaDespesa := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CONTASRECEITAS';
+  dm.cds_parametro.Open;
+  ContaReceita := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
 
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -437,60 +452,66 @@ begin
   dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
   cCusto := dm.cds_ccustoCODIGO.AsInteger;
 
-  if (tipoConta(cdsExtratoCONTA.AsInteger) = 'DESPESA') then
-  begin
-    Try
-      despesa := TPagarCls.Create;
+  Try
+    despesa := TPagarCls.Create;
 
-      cdsExtrato.DisableControls;
-      cdsExtrato.First;
+    cdsExtrato.DisableControls;
+    cdsExtrato.First;
 
-      multiplicador := 1;
+    multiplicador := 1;
 
-      While not cdsExtrato.Eof do
+    While not cdsExtrato.Eof do
+    begin
+      if (cdsExtratoCONTA.AsInteger > 0) then  // Se tem conta na tabela DEPARA
       begin
-        if (cdsExtratoCONTA.AsInteger > 0) then
+        if (tipoConta(cdsExtratoCONTA.AsInteger) = 'DESPESA') then
         begin
-          despesa.CodFornecedor := codFornec;
-          despesa.CodCCusto     := cCusto;
-          despesa.CodUsuario    := dm.varUSERID;
-          despesa.Caixa         := contaCaixa;
-          despesa.NParcela      := 1;
-          despesa.Via           := 1;
-          despesa.DtEmissao     := cdsExtratoEXTRATODATA.AsDateTime;
-          despesa.DtVcto        := cdsExtratoEXTRATODATA.AsDateTime;
-          despesa.dtPag         := cdsExtratoEXTRATODATA.AsDateTime;
-          despesa.DtBaixa       := cdsExtratoEXTRATODATA.AsDateTime;
-          despesa.DtConsolida   := cdsExtratoEXTRATODATA.AsDateTime;
+          if (jaFoiLancado('DESPESA', cdsExtratoEXTRATOCOD.AsString) = False) then
+          begin
+            despesa.CodFornecedor := codFornec;
+            despesa.CodCCusto     := cCusto;
+            despesa.CodUsuario    := dm.varUSERID;
+            despesa.Caixa         := contaCaixa;
+            despesa.NParcela      := 1;
+            despesa.Via           := 1;
+            despesa.DtEmissao     := cdsExtratoEXTRATODATA.AsDateTime;
+            despesa.DtVcto        := cdsExtratoEXTRATODATA.AsDateTime;
+            despesa.dtPag         := cdsExtratoEXTRATODATA.AsDateTime;
+            despesa.DtBaixa       := cdsExtratoEXTRATODATA.AsDateTime;
+            despesa.DtConsolida   := cdsExtratoEXTRATODATA.AsDateTime;
 
-          if (cdsExtratoEXTRATOVALOR.AsFloat < 0) then
-            multiplicador := -1;
+            if (cdsExtratoEXTRATOVALOR.AsFloat < 0) then
+              multiplicador := -1;
 
-          despesa.Valor         := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
-          despesa.valorPag      := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
-          despesa.Status        := '5-';
-          despesa.Titulo        := cdsExtratoEXTRATOCOD.AsString;
-          despesa.ContaCredito  := cdsExtratoCONTA.AsInteger;
-          despesa.CodConciliaco := cdsExtratoEXTRATOCOD.AsString;
+            despesa.Valor         := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
+            despesa.valorPag      := cdsExtratoEXTRATOVALOR.AsFloat * multiplicador;
+            despesa.Status        := '5-';
+            despesa.Titulo        := cdsExtratoEXTRATOCOD.AsString;
+            despesa.ContaCredito  := cdsExtratoCONTA.AsInteger;
+            despesa.CodConciliaco := cdsExtratoEXTRATOCOD.AsString;
 
-          codPag := despesa.geraTitulo(0, 0);
-          despesa.marcarTitulo(codPag, beUsuarioLogado);
-          despesa.baixaTitulo(despesa.Valor, 0, 0, 0, 0, cdsExtratoEXTRATODATA.AsDateTime,
-          cdsExtratoEXTRATODATA.AsDateTime, cdsExtratoEXTRATODATA.AsDateTime,
-          '1', cdsExtratoEXTRATOCOD.AsString, contaCaixa, codFornec,
-          '5-', beUsuarioLogado);
-
+            codPag := despesa.geraTitulo(0, 0);
+            despesa.marcarTitulo(codPag, beUsuarioLogado);
+            despesa.baixaTitulo(despesa.Valor, 0, 0, 0, 0, cdsExtratoEXTRATODATA.AsDateTime,
+            cdsExtratoEXTRATODATA.AsDateTime, cdsExtratoEXTRATODATA.AsDateTime,
+            '1', cdsExtratoEXTRATOCOD.AsString, contaCaixa, codFornec,
+            '5-', beUsuarioLogado);
+          end;
+        end;
+        if (tipoConta(cdsExtratoCONTA.AsInteger) = 'CAIXA') then
+        begin
+          if (jaFoiLancado('CAIXA', cdsExtratoEXTRATOCOD.AsString) = False) then
+          begin
+            LancaContabil; // Rotina para fazer um lancamento Contabil
+          end;
         end;
-        cdsExtrato.Next;
       end;
-    Finally
-      cdsExtrato.EnableControls;
-      despesa.Free;
+      cdsExtrato.Next;
     end;
+  Finally
+    cdsExtrato.EnableControls;
+    despesa.Free;
   end;
-
-  LancaContabil; // Rotina para fazer um lancamento Contabil
-
 end;
 
 function TfBancoExtrato.tipoConta(conta: Integer): String;
@@ -501,7 +522,7 @@ begin
     sdsTipoConta.Close;
   sdsTipoConta.SQL.Clear;
 
-  sdsTipoConta.SQL.Add('SELECT PLNCTAMAIN(CONTA) FROM PLANO WHERE CODIGO = ' +
+  sdsTipoConta.SQL.Add('SELECT PLNCTAMAIN(CONTA), PLNCTAROOT(CONTA) FROM PLANO WHERE CODIGO = ' +
     IntToStr(conta));
 
   sdsTipoConta.Open;
@@ -512,165 +533,198 @@ begin
   if (v = caixaBanco) then
     Result := 'CAIXA';
 
+  v := trim(sdsTipoConta.Fields[1].AsString);
+  if (v = contaDespesa) then
+    Result := 'DESPESA';
+
+  if (v = contaReceita) then
+    Result := 'RECEITA';
+
 end;
 
 procedure TfBancoExtrato.LancaContabil;
 var var_sqlb, var_sqla, var_sqlbh, var_sqlah, contaTransf: String;
   cod_id : integer;
 begin
-  if (ComboBox1.Text = '') then
-  begin
-    MessageDlg('Informe o Centro de Custo.', mtWarning, [mbOK], 0);
-    Exit;
-  end;
+  dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
+  cCusto := dm.cds_ccustoCODIGO.AsInteger;
 
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  cod_id := dm.c_6_genidCODIGO.AsInteger;
+  dm.c_6_genid.Close;
+
+  DecimalSeparator := '.';
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  var_sqla := 'Select * from PLANO ';
+  var_sqla := var_sqla + 'WHERE CODIGO = ';
+  var_sqla := var_sqla + IntToStr(cdsExtratoCONTA.AsInteger);
+  DM.c_1_planoc.CommandText := var_sqla;
+  DM.c_1_planoc.Open;
+
+  contaTransf := dm.c_1_planocCONTA.AsString;
+
+  // Inserindo ENTRADA
+  var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
+         ', DATA, CODUSUARIO, CODCCUSTO, CODSERVICO, STATUS, CONTA ' +
+         ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
+         ', QTDEDEBITO, QTDEORCADO, CODCONCILIACAO) Values (';
+  var_sqla := var_sqla + intToStr(cod_id);
+  var_sqla := var_sqla + ',' + intToStr(cod_id);
+  var_sqla := var_sqla + ',' + QuotedStr('CONTABIL');
+  var_sqla := var_sqla + ',' + QuotedStr(formatdatetime('mm/dd/yyyy', cdsExtratoEXTRATODATA.AsDateTime));
+  var_sqla := var_sqla + ',' + IntToStr(beUsuarioLogado);
+  var_sqla := var_sqla + ',' + IntToStr(cCusto);
+  var_sqla := var_sqla + ',' + '0';
+  var_sqla := var_sqla + ', 0';
+  if (cdsExtratoEXTRATOVALOR.AsFloat > 0) then
+  begin
+    var_sqla := var_sqla + ',' + QuotedStr(contaLanc);
+  end
+  else
+    var_sqla := var_sqla + ',' + QuotedStr(contaTransf);
+
+  var_sqla := var_sqla + ',' + '0';
+  if (cdsExtratoEXTRATOVALOR.AsFloat > 0) then
+  begin
+    var_sqla := var_sqla + ',' + FloatToStr(cdsExtratoEXTRATOVALOR.AsFloat);
+  end
+  else
+    var_sqla := var_sqla + ',' + FloatToStr(cdsExtratoEXTRATOVALOR.AsFloat*(-1));
+
+  var_sqla := var_sqla + ',' + '0';
+  var_sqla := var_sqla + ',' + '0';
+  var_sqla := var_sqla + ',' + '0';
+  var_sqla := var_sqla + ',' + '0';
+  var_sqla := var_sqla + ',' + QuotedStr(cdsExtratoEXTRATOCOD.AsString);
+  var_sqla := var_sqla + ')';
+
+  var_sqlah := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
+              ') Values (';
+  var_sqlah := var_sqlah + intToStr(cod_id);
+  var_sqlah := var_sqlah + ',' + QuotedStr('Conciliação ' +
+    cdsExtratoEXTRATODOC.AsString + ' - ' + cdsExtratoEXTRATOCOD.AsString);
+  var_sqlah := var_sqlah + ')';
+
+
+  // Inserindo Saida
+
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  cod_id := dm.c_6_genidCODIGO.AsInteger;
+  dm.c_6_genid.Close;
+
+  var_sqlb := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
+         ', DATA, CODUSUARIO, CODCCUSTO, CODSERVICO, STATUS, CONTA ' +
+         ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
+         ', QTDEDEBITO, QTDEORCADO, CODCONCILIACAO) Values (';
+  var_sqlb := var_sqlb + intToStr(cod_id);
+  var_sqlb := var_sqlb + ',' + intToStr(cod_id);
+  var_sqlb := var_sqlb + ',' + QuotedStr('CONTABIL');
+  var_sqlb := var_sqlb + ',' + QuotedStr(formatdatetime('mm/dd/yyyy', cdsExtratoEXTRATODATA.AsDateTime));
+  var_sqlb := var_sqlb + ',' + IntToStr(beUsuarioLogado);
+  var_sqlb := var_sqlb + ',' + IntToStr(cCusto);
+  var_sqlb := var_sqlb + ',' + '0';
+  var_sqlb := var_sqlb + ', 0';
+  if (cdsExtratoEXTRATOVALOR.AsFloat > 0) then
+  begin
+    var_sqlb := var_sqlb + ',' + QuotedStr(contaTransf);
+  end
+  else
+    var_sqlb := var_sqlb + ',' + QuotedStr(contaLanc);
+
+  if (cdsExtratoEXTRATOVALOR.AsFloat > 0) then
+  begin
+    var_sqlb := var_sqlb + ',' + FloatToStr(cdsExtratoEXTRATOVALOR.AsFloat);
+  end
+  else
+    var_sqlb := var_sqlb + ',' + FloatToStr(cdsExtratoEXTRATOVALOR.AsFloat*(-1));
+
+  var_sqlb := var_sqlb + ',' + '0';
+  var_sqlb := var_sqlb + ',' + '0';
+
+  var_sqlb := var_sqlb + ',' + '0';
+  var_sqlb := var_sqlb + ',' + '0';
+  var_sqlb := var_sqlb + ',' + '0';
+  var_sqlb := var_sqlb + ',' + QuotedStr(cdsExtratoEXTRATOCOD.AsString);
+  var_sqlb := var_sqlb + ')';
+
+  var_sqlbh := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
+              ') Values (';
+  var_sqlbh := var_sqlbh + intToStr(cod_id);
+  var_sqlbh := var_sqlbh + ',' + QuotedStr('Conciliação ' +
+    cdsExtratoEXTRATODOC.AsString + ' - ' + cdsExtratoEXTRATOCOD.AsString);
+  var_sqlbh := var_sqlbh + ')';
+
+
+  DecimalSeparator := ',';
   try
-  cdsExtrato.DisableControls;
-  cdsExtrato.First;
-
-  While not cdsExtrato.Eof do
-  begin
-    if (cdsExtratoCONTA.AsInteger > 0) then
-    if (tipoConta(cdsExtratoCONTA.AsInteger) = 'CAIXA') then
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+    dm.sqlsisAdimin.ExecuteDirect(var_sqlb);
+    dm.sqlsisAdimin.ExecuteDirect(var_sqlah);
+    dm.sqlsisAdimin.ExecuteDirect(var_sqlbh);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
     begin
-      dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
-      cCusto := dm.cds_ccustoCODIGO.AsInteger;
-
-      if dm.c_6_genid.Active then
-        dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-      dm.c_6_genid.Open;
-      cod_id := dm.c_6_genidCODIGO.AsInteger;
-      dm.c_6_genid.Close;
-
-      DecimalSeparator := '.';
-      if DM.c_1_planoc.Active then
-        DM.c_1_planoc.Close;
-      var_sqla := 'Select * from PLANO ';
-      var_sqla := var_sqla + 'WHERE CODIGO = ';
-      var_sqla := var_sqla + IntToStr(cdsExtratoCONTA.AsInteger);
-      DM.c_1_planoc.CommandText := var_sqla;
-      DM.c_1_planoc.Open;
-
-      contaTransf := dm.c_1_planocCONTA.AsString;
-
-      // Inserindo ENTRADA
-      var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
-             ', DATA, CODUSUARIO, CODCCUSTO, CODSERVICO, STATUS, CONTA ' +
-             ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
-             ', QTDEDEBITO, QTDEORCADO, CODCONCILIACAO) Values (';
-      var_sqla := var_sqla + intToStr(cod_id);
-      var_sqla := var_sqla + ',' + intToStr(cod_id);
-      var_sqla := var_sqla + ',' + QuotedStr('CONTABIL');
-      var_sqla := var_sqla + ',' + QuotedStr(formatdatetime('mm/dd/yyyy', cdsExtratoEXTRATODATA.AsDateTime));
-      var_sqla := var_sqla + ',' + IntToStr(beUsuarioLogado);
-      var_sqla := var_sqla + ',' + IntToStr(cCusto);
-      var_sqla := var_sqla + ',' + '0';
-      var_sqla := var_sqla + ', 0';
-      if (cdsExtratoEXTRATOVALOR.AsFloat > 0) then
-      begin
-        var_sqla := var_sqla + ',' + QuotedStr(contaLanc);
-      end
-      else
-        var_sqla := var_sqla + ',' + QuotedStr(contaTransf);
-
-      var_sqla := var_sqla + ',' + '0';
-      if (cdsExtratoEXTRATOVALOR.AsFloat > 0) then
-      begin
-        var_sqla := var_sqla + ',' + FloatToStr(cdsExtratoEXTRATOVALOR.AsFloat);
-      end
-      else
-        var_sqla := var_sqla + ',' + FloatToStr(cdsExtratoEXTRATOVALOR.AsFloat*(-1));
-
-      var_sqla := var_sqla + ',' + '0';
-      var_sqla := var_sqla + ',' + '0';
-      var_sqla := var_sqla + ',' + '0';
-      var_sqla := var_sqla + ',' + '0';
-      var_sqla := var_sqla + ',' + QuotedStr(cdsExtratoEXTRATOCOD.AsString);
-      var_sqla := var_sqla + ')';
-
-      var_sqlah := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
-                  ') Values (';
-      var_sqlah := var_sqlah + intToStr(cod_id);
-      var_sqlah := var_sqlah + ',' + QuotedStr('Conciliação ' +
-        cdsExtratoEXTRATODOC.AsString + ' - ' + cdsExtratoEXTRATOCOD.AsString);
-      var_sqlah := var_sqlah + ')';
-
-
-      // Inserindo Saida
-
-      if dm.c_6_genid.Active then
-        dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-      dm.c_6_genid.Open;
-      cod_id := dm.c_6_genidCODIGO.AsInteger;
-      dm.c_6_genid.Close;
-
-      var_sqlb := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
-             ', DATA, CODUSUARIO, CODCCUSTO, CODSERVICO, STATUS, CONTA ' +
-             ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
-             ', QTDEDEBITO, QTDEORCADO, CODCONCILIACAO) Values (';
-      var_sqlb := var_sqlb + intToStr(cod_id);
-      var_sqlb := var_sqlb + ',' + intToStr(cod_id);
-      var_sqlb := var_sqlb + ',' + QuotedStr('CONTABIL');
-      var_sqlb := var_sqlb + ',' + QuotedStr(formatdatetime('mm/dd/yyyy', cdsExtratoEXTRATODATA.AsDateTime));
-      var_sqlb := var_sqlb + ',' + IntToStr(beUsuarioLogado);
-      var_sqlb := var_sqlb + ',' + IntToStr(cCusto);
-      var_sqlb := var_sqlb + ',' + '0';
-      var_sqlb := var_sqlb + ', 0';
-      if (cdsExtratoEXTRATOVALOR.AsFloat > 0) then
-      begin
-        var_sqlb := var_sqlb + ',' + QuotedStr(contaTransf);
-      end
-      else
-        var_sqlb := var_sqlb + ',' + QuotedStr(contaLanc);
-
-      if (cdsExtratoEXTRATOVALOR.AsFloat > 0) then
-      begin
-        var_sqlb := var_sqlb + ',' + FloatToStr(cdsExtratoEXTRATOVALOR.AsFloat);
-      end
-      else
-        var_sqlb := var_sqlb + ',' + FloatToStr(cdsExtratoEXTRATOVALOR.AsFloat*(-1));
-
-      var_sqlb := var_sqlb + ',' + '0';
-      var_sqlb := var_sqlb + ',' + '0';
-
-      var_sqlb := var_sqlb + ',' + '0';
-      var_sqlb := var_sqlb + ',' + '0';
-      var_sqlb := var_sqlb + ',' + '0';
-      var_sqlb := var_sqlb + ',' + QuotedStr(cdsExtratoEXTRATOCOD.AsString);
-      var_sqlb := var_sqlb + ')';
-
-      var_sqlbh := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
-                  ') Values (';
-      var_sqlbh := var_sqlbh + intToStr(cod_id);
-      var_sqlbh := var_sqlbh + ',' + QuotedStr('Conciliação ' +
-        cdsExtratoEXTRATODOC.AsString + ' - ' + cdsExtratoEXTRATOCOD.AsString);
-      var_sqlbh := var_sqlbh + ')';
-
-
-      DecimalSeparator := ',';
-      try
-        TD.TransactionID := 1;
-        TD.IsolationLevel := xilREADCOMMITTED;
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(var_sqla);
-        dm.sqlsisAdimin.ExecuteDirect(var_sqlb);
-        dm.sqlsisAdimin.ExecuteDirect(var_sqlah);
-        dm.sqlsisAdimin.ExecuteDirect(var_sqlbh);
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        on E : Exception do
-        begin
-          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-        end;
-      end;
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
     end;
-    cdsExtrato.Next;
   end;
-  Finally
-    cdsExtrato.EnableControls;
+end;
+
+
+function TfBancoExtrato.jaFoiLancado(tipo, id: String): Boolean;
+var  sqlB : TSqlQuery;
+  strT: String;
+begin
+  Result := True;
+  try
+    sqlB :=  TSqlQuery.Create(nil);
+    sqlB.SQLConnection := dm.sqlsisAdimin;
+    if (tipo = 'RECEITA') then
+    begin
+      strT := 'SELECT CODRECEBIMENTO   ' +
+              '  FROM RECEBIMENTO      ' +
+              ' WHERE CODCONCILIACAO = ' + QuotedStr(id) +
+              '   AND CAIXA          = ' + IntToStr(contaCaixa);
+      sqlB.SQL.Add(strT);
+      sqlB.Open;
+      if (sqlB.IsEmpty) then
+        Result := False;
+    end;
+    if (tipo = 'DESPESA') then
+    begin
+      strT := 'SELECT CODPAGAMENTO     ' +
+              '  FROM PAGAMENTO        ' +
+              ' WHERE CODCONCILIACAO = ' + QuotedStr(id) +
+              '   AND CAIXA          = ' + IntToStr(contaCaixa);
+      sqlB.SQL.Add(strT);
+      sqlB.Open;
+      if (sqlB.IsEmpty) then
+        Result := False;
+    end;
+    if (tipo = 'CAIXA') then
+    begin
+      strT := 'SELECT CODCONT          ' +
+              '  FROM MOVIMENTOCONT    ' +
+              ' WHERE CODCONCILIACAO = ' + QuotedStr(id) +
+              '   AND CONTA          = ' + QuotedStr(contaLanc);
+      sqlB.SQL.Add(strT);
+      sqlB.Open;
+      if (sqlB.IsEmpty) then
+        Result := False;
+    end;
+  finally
+    sqlB.Free;
   end;
 end;
 
