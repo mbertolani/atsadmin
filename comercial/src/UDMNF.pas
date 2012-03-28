@@ -3,8 +3,9 @@ unit UDMNF;
 interface
 
 uses
-  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, Dialogs,
-  DBLocal, DBLocalS, rpcompobase, rpvclreport, Forms;
+  SysUtils, Classes, FMTBcd, SqlExpr, Provider, DBLocal, DBLocalS,
+  rpcompobase, rpvclreport, DB, DBClient, Dialogs, Forms;
+
 type
   TDMNF = class(TDataModule)
     sCliente: TSQLDataSet;
@@ -38,6 +39,8 @@ type
     cds_MovimentoMARCA_MODELO: TStringField;
     cds_MovimentoCOD_VEICULO: TIntegerField;
     cds_MovimentoBAIXAMOVIMENTO: TSmallintField;
+    cds_MovimentoCONTROLE: TStringField;
+    cds_MovimentoCNPJ: TStringField;
     sds_Movimento: TSQLDataSet;
     sds_MovimentoCODMOVIMENTO: TIntegerField;
     sds_MovimentoDATAMOVIMENTO: TDateField;
@@ -60,6 +63,8 @@ type
     sds_MovimentoMARCA_MODELO: TStringField;
     sds_MovimentoCOD_VEICULO: TIntegerField;
     sds_MovimentoBAIXAMOVIMENTO: TSmallintField;
+    sds_MovimentoCONTROLE: TStringField;
+    sds_MovimentoCNPJ: TStringField;
     dsp_Movimento: TDataSetProvider;
     sds_Mov_Det: TSQLDataSet;
     sds_Mov_DetCODDETALHE: TIntegerField;
@@ -82,6 +87,34 @@ type
     sds_Mov_DetLOCALIZACAO: TStringField;
     sds_Mov_DetESTOQUEATUAL: TFloatField;
     sds_Mov_DetVALTOTAL: TFloatField;
+    sds_Mov_DetLOTE: TStringField;
+    sds_Mov_DetDESCPRODUTO: TStringField;
+    sds_Mov_DetDTAFAB: TDateField;
+    sds_Mov_DetDTAVCTO: TDateField;
+    sds_Mov_DetCODIGO: TStringField;
+    sds_Mov_DetLOTES: TStringField;
+    sds_Mov_DetPRECOCUSTO: TFloatField;
+    sds_Mov_DetCOD_BARRA: TStringField;
+    sds_Mov_DetCST: TStringField;
+    sds_Mov_DetVLR_BASE: TFloatField;
+    sds_Mov_DetCLASSIFIC_FISCAL: TStringField;
+    sds_Mov_DetVLR_BASEICMS: TFloatField;
+    sds_Mov_DetVALOR_ICMS: TFloatField;
+    sds_Mov_DetCFOP: TStringField;
+    sds_Mov_DetCSOSN: TStringField;
+    sds_Mov_DetVALOR_DESCONTO: TFloatField;
+    sds_Mov_DetFRETE: TFloatField;
+    sds_Mov_DetICMS_SUBST: TFloatField;
+    sds_Mov_DetICMS_SUBSTD: TFloatField;
+    sds_Mov_DetVALOR_SEGURO: TFloatField;
+    sds_Mov_DetVALOR_OUTROS: TFloatField;
+    sds_Mov_DetPIPI: TFloatField;
+    sds_Mov_DetVIPI: TFloatField;
+    sds_Mov_DetNCM: TStringField;
+    sds_Mov_DetSTATUS: TStringField;
+    sds_Mov_DetII: TFloatField;
+    sds_Mov_DetBCII: TFloatField;
+    sds_Mov_DetOBS: TStringField;
     dsp_Mov_det: TDataSetProvider;
     cds_Mov_det: TClientDataSet;
     cds_Mov_detCODDETALHE: TIntegerField;
@@ -102,9 +135,37 @@ type
     cds_Mov_detCONTA_DESPESA: TStringField;
     cds_Mov_detCODPRO: TStringField;
     cds_Mov_detQTDE_PCT: TFloatField;
-    cds_Mov_detLOCALIZACAO: TStringField;
     cds_Mov_detVALTOTAL: TFloatField;
     cds_Mov_detPRECOCUSTO: TFloatField;
+    cds_Mov_detLOTE: TStringField;
+    cds_Mov_detLOCALIZACAO: TStringField;
+    cds_Mov_detDESCPRODUTO: TStringField;
+    cds_Mov_detESTOQUEATUAL: TFloatField;
+    cds_Mov_detDTAFAB: TDateField;
+    cds_Mov_detDTAVCTO: TDateField;
+    cds_Mov_detCODIGO: TStringField;
+    cds_Mov_detLOTES: TStringField;
+    cds_Mov_detCOD_BARRA: TStringField;
+    cds_Mov_detCST: TStringField;
+    cds_Mov_detVLR_BASE: TFloatField;
+    cds_Mov_detCLASSIFIC_FISCAL: TStringField;
+    cds_Mov_detVLR_BASEICMS: TFloatField;
+    cds_Mov_detVALOR_ICMS: TFloatField;
+    cds_Mov_detCFOP: TStringField;
+    cds_Mov_detCSOSN: TStringField;
+    cds_Mov_detVALOR_DESCONTO: TFloatField;
+    cds_Mov_detFRETE: TFloatField;
+    cds_Mov_detICMS_SUBST: TFloatField;
+    cds_Mov_detICMS_SUBSTD: TFloatField;
+    cds_Mov_detVALOR_SEGURO: TFloatField;
+    cds_Mov_detVALOR_OUTROS: TFloatField;
+    cds_Mov_detPIPI: TFloatField;
+    cds_Mov_detVIPI: TFloatField;
+    cds_Mov_detNCM: TStringField;
+    cds_Mov_detSTATUS: TStringField;
+    cds_Mov_detII: TFloatField;
+    cds_Mov_detBCII: TFloatField;
+    cds_Mov_detOBS: TStringField;
     cds_Mov_detTotalPedido: TAggregateField;
     DtSrc1: TDataSource;
     DtSrcVenda: TDataSource;
@@ -182,67 +243,14 @@ type
     sds_vendaVALOR_SEGURO: TFloatField;
     sds_vendaOUTRAS_DESP: TFloatField;
     sds_vendaVALOR_IPI: TFloatField;
-    sds: TSQLDataSet;
-    dsp: TDataSetProvider;
-    scds_produto_proc: TClientDataSet;
-    scds_produto_procCODPRODUTO: TIntegerField;
-    scds_produto_procCOD_BARRA: TStringField;
-    scds_produto_procPRODUTO: TStringField;
-    scds_produto_procUNIDADEMEDIDA: TStringField;
-    scds_produto_procQTDE_PCT: TFloatField;
-    scds_produto_procICMS: TFloatField;
-    scds_produto_procCODALMOXARIFADO: TIntegerField;
-    scds_produto_procCONTA_DESPESA: TStringField;
-    scds_produto_procALMOXARIFADO: TStringField;
-    scds_produto_procVALORUNITARIOATUAL: TFloatField;
-    scds_produto_procVALOR_PRAZO: TFloatField;
-    scds_produto_procCOD_COMISSAO: TIntegerField;
-    scds_produto_procRATEIO: TStringField;
-    scds_produto_procTIPO: TStringField;
-    scds_produto_procLOCALIZACAO: TStringField;
-    scds_produto_procESTOQUEATUAL: TFloatField;
     sUsuario: TSQLDataSet;
-    pUsuario: TDataSetProvider;
-    cUsuario: TClientDataSet;
-    dUsuario: TDataSource;
     sUsuarioCODUSUARIO: TSmallintField;
     sUsuarioNOMEUSUARIO: TStringField;
+    pUsuario: TDataSetProvider;
+    cUsuario: TClientDataSet;
     cUsuarioCODUSUARIO: TSmallintField;
     cUsuarioNOMEUSUARIO: TStringField;
-    s_2: TSQLDataSet;
-    s_2CODIGO: TIntegerField;
-    s_2CONTA: TStringField;
-    s_2NOME: TStringField;
-    d_2: TDataSetProvider;
-    cds_ccusto: TClientDataSet;
-    cds_ccustoCODIGO: TIntegerField;
-    cds_ccustoCONTA: TStringField;
-    cds_ccustoNOME: TStringField;
-    cMatPrima: TClientDataSet;
-    cMatPrimaCODMAT: TIntegerField;
-    cMatPrimaCODPRODUTO: TIntegerField;
-    cMatPrimaCODPRODMP: TIntegerField;
-    cMatPrimaQTDEUSADA: TFloatField;
-    cMatPrimaTIPOUSO: TStringField;
-    cMatPrimaUSAPRECO: TStringField;
-    cMatPrimaESTOQUEATUAL: TFloatField;
-    cMatPrimaCODPRO: TStringField;
-    cMatPrimaUNIDADEMEDIDA: TStringField;
-    cMatPrimaPRODUTO: TStringField;
-    cMatPrimaPRECOMEDIO: TBCDField;
-    dMatPrima: TDataSetProvider;
-    sMatPrima: TSQLDataSet;
-    sMatPrimaCODMAT: TIntegerField;
-    sMatPrimaCODPRODUTO: TIntegerField;
-    sMatPrimaCODPRODMP: TIntegerField;
-    sMatPrimaQTDEUSADA: TFloatField;
-    sMatPrimaTIPOUSO: TStringField;
-    sMatPrimaUSAPRECO: TStringField;
-    sMatPrimaESTOQUEATUAL: TFloatField;
-    sMatPrimaCODPRO: TStringField;
-    sMatPrimaUNIDADEMEDIDA: TStringField;
-    sMatPrimaPRODUTO: TStringField;
-    sMatPrimaPRECOMEDIO: TBCDField;
+    dUsuario: TDataSource;
     DataSource1: TDataSource;
     cds_cm: TClientDataSet;
     cds_cmCOD_COMISSAO: TIntegerField;
@@ -281,71 +289,6 @@ type
     cds_VeiculocliANO_MOD: TStringField;
     cds_VeiculocliCOR: TStringField;
     DataSource2: TDataSource;
-    scds_serie_proc: TSQLClientDataSet;
-    scds_serie_procCODSERIE: TStringField;
-    scds_serie_procSERIE: TStringField;
-    scds_serie_procULTIMO_NUMERO: TIntegerField;
-    scds_serie_procNOTAFISCAL: TSmallintField;
-    sds_Mov_DetLOTE: TStringField;
-    cds_Mov_detLOTE: TStringField;
-    scds_cli_proc: TSQLClientDataSet;
-    scds_cli_procCODCLIENTE: TIntegerField;
-    scds_cli_procCODUSUARIO: TIntegerField;
-    scds_cli_procNOMECLIENTE: TStringField;
-    scds_cli_procRAZAOSOCIAL: TStringField;
-    scds_cli_procCODBANCO: TSmallintField;
-    scds_cli_procPRAZORECEBIMENTO: TSmallintField;
-    scds_cli_procOBS: TStringField;
-    scds_cli_procSEGMENTO: TSmallintField;
-    scds_cli_procSTATUS: TSmallintField;
-    scds_cli_procNOMEUSUARIO: TStringField;
-    scds_cli_procUF: TStringField;
-    sds_MovimentoCONTROLE: TStringField;
-    cds_MovimentoCONTROLE: TStringField;
-    ds_Cr: TDataSource;
-    scdsCr_proc: TClientDataSet;
-    scdsCr_procTITULO: TStringField;
-    scdsCr_procEMISSAO: TDateField;
-    scdsCr_procDATAVENCIMENTO: TDateField;
-    scdsCr_procCAIXA: TSmallintField;
-    scdsCr_procSTATUS: TStringField;
-    scdsCr_procVIA: TStringField;
-    scdsCr_procN_DOCUMENTO: TStringField;
-    scdsCr_procVALORRECEBIDO: TFloatField;
-    scdsCr_procVALOR_RESTO: TFloatField;
-    scdsCr_procVALORTITULO: TFloatField;
-    scdsCr_procNOMECLIENTE: TStringField;
-    scdsCr_procVALORREC: TFloatField;
-    scdsCr_procCODRECEBIMENTO: TIntegerField;
-    scdsCr_procDP: TIntegerField;
-    scdsCr_procVALOR_PRIM_VIA: TFloatField;
-    scdsCr_procCODCLIENTE: TIntegerField;
-    scdsCr_procTIT: TStringField;
-    scdsCr_procSITUACAO: TStringField;
-    scdsCr_procTRecebido: TAggregateField;
-    scdsCr_procTotal_resto: TAggregateField;
-    scdsCr_procTotalTitulo: TAggregateField;
-    DataSetProvider1: TDataSetProvider;
-    SQLDataSet1: TSQLDataSet;
-    SQLDataSet1TITULO: TStringField;
-    SQLDataSet1DATAVENCIMENTO: TDateField;
-    SQLDataSet1CAIXA: TSmallintField;
-    SQLDataSet1STATUS: TStringField;
-    SQLDataSet1VIA: TStringField;
-    SQLDataSet1N_DOCUMENTO: TStringField;
-    SQLDataSet1VALORRECEBIDO: TFloatField;
-    SQLDataSet1VALOR_RESTO: TFloatField;
-    SQLDataSet1VALORTITULO: TFloatField;
-    SQLDataSet1VALORREC: TFloatField;
-    SQLDataSet1CODRECEBIMENTO: TIntegerField;
-    SQLDataSet1NOMECLIENTE: TStringField;
-    SQLDataSet1DP: TIntegerField;
-    SQLDataSet1EMISSAO: TDateField;
-    SQLDataSet1VALOR_PRIM_VIA: TFloatField;
-    SQLDataSet1CODCLIENTE: TIntegerField;
-    SQLDataSet1TIT: TStringField;
-    SQLDataSet1SITUACAO: TStringField;
-    sqs_tit: TSQLDataSet;
     DtSrc_NF: TDataSource;
     cds_nf: TClientDataSet;
     cds_nfNOTASERIE: TStringField;
@@ -397,6 +340,33 @@ type
     cds_nfFATURA: TStringField;
     cds_nfICMS: TFloatField;
     cds_nfREDUZICMS: TFloatField;
+    cds_nfRAZAOSOCIAL: TStringField;
+    cds_nfCNPJCLI: TStringField;
+    cds_nfINSCCLI: TStringField;
+    cds_nfLOGRADOURO: TStringField;
+    cds_nfBAIRROCLI: TStringField;
+    cds_nfCOMPLEMENTO: TStringField;
+    cds_nfCIDADECLI: TStringField;
+    cds_nfUFCLI: TStringField;
+    cds_nfCEPCLI: TStringField;
+    cds_nfTELEFONE: TStringField;
+    cds_nfSTATUS: TStringField;
+    cds_nfIMPRESSA: TStringField;
+    cds_nfNOTAMAE: TIntegerField;
+    cds_nfPESOREMESSA: TBCDField;
+    cds_nfSERIE: TStringField;
+    cds_nfVALOR_DESCONTO: TFloatField;
+    cds_nfIDCOMPLEMENTAR: TStringField;
+    cds_nfVLRTOTALEXP: TFloatField;
+    cds_nfID_GUIA: TIntegerField;
+    cds_nfSELECIONOU: TStringField;
+    cds_nfPROTOCOLOENV: TStringField;
+    cds_nfNUMRECIBO: TStringField;
+    cds_nfPROTOCOLOCANC: TStringField;
+    cds_nfVALOR_PIS: TFloatField;
+    cds_nfVALOR_COFINS: TFloatField;
+    cds_nfCCUSTO: TIntegerField;
+    cds_nfXMLNFE: TGraphicField;
     dsp_nf: TDataSetProvider;
     sds_nf: TSQLDataSet;
     sds_nfNOTASERIE: TStringField;
@@ -431,7 +401,7 @@ type
     sds_nfCORPONF4: TStringField;
     sds_nfCORPONF5: TStringField;
     sds_nfCORPONF6: TStringField;
-    ////sds_nfCFOP: TStringField;
+    sds_nfCFOP: TStringField;
     sds_nfCODCLIENTE: TIntegerField;
     sds_nfNOMECLIENTE: TStringField;
     sds_nfPESOBRUTO: TBCDField;
@@ -448,13 +418,279 @@ type
     sds_nfUF_TRANSP: TStringField;
     sds_nfFRETE: TStringField;
     sds_nfINSCRICAOESTADUAL: TStringField;
-    scds: TSQLClientDataSet;
-    procCFOP: TSQLClientDataSet;
-    procCFOPCFCOD: TStringField;
-    procCFOPCFNOME: TStringField;
-    sds_Mov_DetDESCPRODUTO: TStringField;
-    cds_Mov_detDESCPRODUTO: TStringField;
-    repdm: TVCLReport;
+    sds_nfRAZAOSOCIAL: TStringField;
+    sds_nfCNPJCLI: TStringField;
+    sds_nfINSCCLI: TStringField;
+    sds_nfLOGRADOURO: TStringField;
+    sds_nfBAIRROCLI: TStringField;
+    sds_nfCOMPLEMENTO: TStringField;
+    sds_nfCIDADECLI: TStringField;
+    sds_nfUFCLI: TStringField;
+    sds_nfCEPCLI: TStringField;
+    sds_nfTELEFONE: TStringField;
+    sds_nfSTATUS: TStringField;
+    sds_nfIMPRESSA: TStringField;
+    sds_nfNOTAMAE: TIntegerField;
+    sds_nfPESOREMESSA: TBCDField;
+    sds_nfSERIE: TStringField;
+    sds_nfVALOR_DESCONTO: TFloatField;
+    sds_nfIDCOMPLEMENTAR: TStringField;
+    sds_nfVLRTOTALEXP: TFloatField;
+    sds_nfID_GUIA: TIntegerField;
+    sds_nfSELECIONOU: TStringField;
+    sds_nfPROTOCOLOENV: TStringField;
+    sds_nfNUMRECIBO: TStringField;
+    sds_nfPROTOCOLOCANC: TStringField;
+    sds_nfVALOR_PIS: TFloatField;
+    sds_nfVALOR_COFINS: TFloatField;
+    sds_nfCCUSTO: TIntegerField;
+    sds_nfXMLNFE: TGraphicField;
+    DtSrc_NF1: TDataSource;
+    cds_nf1: TClientDataSet;
+    cds_nf1NUMNF: TIntegerField;
+    cds_nf1NOTASERIE: TStringField;
+    cds_nf1NATUREZA: TSmallintField;
+    cds_nf1QUANTIDADE: TFloatField;
+    cds_nf1MARCA: TStringField;
+    cds_nf1PESOBRUTO: TBCDField;
+    cds_nf1PESOLIQUIDO: TBCDField;
+    cds_nf1ESPECIE: TStringField;
+    cds_nf1DTAEMISSAO: TDateField;
+    cds_nf1DTASAIDA: TDateField;
+    cds_nf1UF: TStringField;
+    cds_nf1CODVENDA: TIntegerField;
+    cds_nf1CODTRANSP: TIntegerField;
+    cds_nf1NUMERO: TStringField;
+    cds_nf1NOTAFISCAL: TIntegerField;
+    cds_nf1HORASAIDA: TTimeField;
+    cds_nf1DATA_SISTEMA: TSQLTimeStampField;
+    cds_nf1BASE_ICMS: TFloatField;
+    cds_nf1VALOR_ICMS: TFloatField;
+    cds_nf1BASE_ICMS_SUBST: TFloatField;
+    cds_nf1VALOR_ICMS_SUBST: TFloatField;
+    cds_nf1VALOR_PRODUTO: TFloatField;
+    cds_nf1VALOR_FRETE: TFloatField;
+    cds_nf1VALOR_SEGURO: TFloatField;
+    cds_nf1OUTRAS_DESP: TFloatField;
+    cds_nf1VALOR_IPI: TFloatField;
+    cds_nf1VALOR_TOTAL_NOTA: TFloatField;
+    cds_nf1CORPONF1: TStringField;
+    cds_nf1CORPONF2: TStringField;
+    cds_nf1CORPONF3: TStringField;
+    cds_nf1CORPONF4: TStringField;
+    cds_nf1CORPONF5: TStringField;
+    cds_nf1CORPONF6: TStringField;
+    cds_nf1CFOP: TStringField;
+    cds_nf1CODCLIENTE: TIntegerField;
+    cds_nf1FATURA: TStringField;
+    cds_nf1ICMS: TFloatField;
+    cds_nf1REDUZICMS: TFloatField;
+    cds_nf1NOMETRANSP: TStringField;
+    cds_nf1PLACATRANSP: TStringField;
+    cds_nf1CNPJ_CPF: TStringField;
+    cds_nf1END_TRANSP: TStringField;
+    cds_nf1CIDADE_TRANSP: TStringField;
+    cds_nf1UF_VEICULO_TRANSP: TStringField;
+    cds_nf1UF_TRANSP: TStringField;
+    cds_nf1FRETE: TStringField;
+    cds_nf1INSCRICAOESTADUAL: TStringField;
+    cds_nf1STATUS: TStringField;
+    cds_nf1VLRTOTALEXP: TFloatField;
+    cds_nf1IMPRESSA: TStringField;
+    cds_nf1SERIE: TStringField;
+    cds_nf1ID_GUIA: TIntegerField;
+    cds_nf1SELECIONOU: TStringField;
+    cds_nf1DESCNATUREZA: TStringField;
+    cds_nf1NOMECLIENTE: TStringField;
+    cds_nf1RAZAOSOCIAL: TStringField;
+    cds_nf1CNPJCLI: TStringField;
+    cds_nf1INSCCLI: TStringField;
+    cds_nf1LOGRADOURO: TStringField;
+    cds_nf1BAIRROCLI: TStringField;
+    cds_nf1COMPLEMENTO: TStringField;
+    cds_nf1CIDADECLI: TStringField;
+    cds_nf1UFCLI: TStringField;
+    cds_nf1CEPCLI: TStringField;
+    cds_nf1TELEFONE: TStringField;
+    cds_nf1VALOR_DESCONTO: TFloatField;
+    cds_nf1II: TFloatField;
+    cds_nf1BCII: TFloatField;
+    dsp_nf1: TDataSetProvider;
+    sds_nf1: TSQLDataSet;
+    sds_nf1NUMNF: TIntegerField;
+    sds_nf1NOTASERIE: TStringField;
+    sds_nf1NATUREZA: TSmallintField;
+    sds_nf1QUANTIDADE: TFloatField;
+    sds_nf1MARCA: TStringField;
+    sds_nf1PESOBRUTO: TBCDField;
+    sds_nf1PESOLIQUIDO: TBCDField;
+    sds_nf1ESPECIE: TStringField;
+    sds_nf1DTAEMISSAO: TDateField;
+    sds_nf1DTASAIDA: TDateField;
+    sds_nf1UF: TStringField;
+    sds_nf1CODVENDA: TIntegerField;
+    sds_nf1CODTRANSP: TIntegerField;
+    sds_nf1NUMERO: TStringField;
+    sds_nf1NOTAFISCAL: TIntegerField;
+    sds_nf1HORASAIDA: TTimeField;
+    sds_nf1DATA_SISTEMA: TSQLTimeStampField;
+    sds_nf1BASE_ICMS: TFloatField;
+    sds_nf1VALOR_ICMS: TFloatField;
+    sds_nf1BASE_ICMS_SUBST: TFloatField;
+    sds_nf1VALOR_ICMS_SUBST: TFloatField;
+    sds_nf1VALOR_PRODUTO: TFloatField;
+    sds_nf1VALOR_FRETE: TFloatField;
+    sds_nf1VALOR_SEGURO: TFloatField;
+    sds_nf1OUTRAS_DESP: TFloatField;
+    sds_nf1VALOR_IPI: TFloatField;
+    sds_nf1VALOR_TOTAL_NOTA: TFloatField;
+    sds_nf1CORPONF1: TStringField;
+    sds_nf1CORPONF2: TStringField;
+    sds_nf1CORPONF3: TStringField;
+    sds_nf1CORPONF4: TStringField;
+    sds_nf1CORPONF5: TStringField;
+    sds_nf1CORPONF6: TStringField;
+    sds_nf1CFOP: TStringField;
+    sds_nf1CODCLIENTE: TIntegerField;
+    sds_nf1FATURA: TStringField;
+    sds_nf1ICMS: TFloatField;
+    sds_nf1REDUZICMS: TFloatField;
+    sds_nf1NOMETRANSP: TStringField;
+    sds_nf1PLACATRANSP: TStringField;
+    sds_nf1CNPJ_CPF: TStringField;
+    sds_nf1END_TRANSP: TStringField;
+    sds_nf1CIDADE_TRANSP: TStringField;
+    sds_nf1UF_VEICULO_TRANSP: TStringField;
+    sds_nf1UF_TRANSP: TStringField;
+    sds_nf1FRETE: TStringField;
+    sds_nf1INSCRICAOESTADUAL: TStringField;
+    sds_nf1STATUS: TStringField;
+    sds_nf1VLRTOTALEXP: TFloatField;
+    sds_nf1IMPRESSA: TStringField;
+    sds_nf1SERIE: TStringField;
+    sds_nf1ID_GUIA: TIntegerField;
+    sds_nf1SELECIONOU: TStringField;
+    sds_nf1DESCNATUREZA: TStringField;
+    sds_nf1NOMECLIENTE: TStringField;
+    sds_nf1RAZAOSOCIAL: TStringField;
+    sds_nf1CNPJCLI: TStringField;
+    sds_nf1INSCCLI: TStringField;
+    sds_nf1LOGRADOURO: TStringField;
+    sds_nf1BAIRROCLI: TStringField;
+    sds_nf1COMPLEMENTO: TStringField;
+    sds_nf1CIDADECLI: TStringField;
+    sds_nf1UFCLI: TStringField;
+    sds_nf1CEPCLI: TStringField;
+    sds_nf1TELEFONE: TStringField;
+    sds_nf1VALOR_DESCONTO: TFloatField;
+    sds_nf1II: TFloatField;
+    sds_nf1BCII: TFloatField;
+    sds_compra: TSQLDataSet;
+    dsp_compra: TDataSetProvider;
+    cds_compra: TClientDataSet;
+    DtSrc_Compra: TDataSource;
+    sds: TSQLDataSet;
+    dsp: TDataSetProvider;
+    scds_produto_proc: TClientDataSet;
+    scds_produto_procCODPRODUTO: TIntegerField;
+    scds_produto_procCOD_BARRA: TStringField;
+    scds_produto_procPRODUTO: TStringField;
+    scds_produto_procUNIDADEMEDIDA: TStringField;
+    scds_produto_procQTDE_PCT: TFloatField;
+    scds_produto_procICMS: TFloatField;
+    scds_produto_procCODALMOXARIFADO: TIntegerField;
+    scds_produto_procCONTA_DESPESA: TStringField;
+    scds_produto_procALMOXARIFADO: TStringField;
+    scds_produto_procVALORUNITARIOATUAL: TFloatField;
+    scds_produto_procVALOR_PRAZO: TFloatField;
+    scds_produto_procCOD_COMISSAO: TIntegerField;
+    scds_produto_procRATEIO: TStringField;
+    scds_produto_procTIPO: TStringField;
+    scds_produto_procLOCALIZACAO: TStringField;
+    scds_produto_procESTOQUEATUAL: TFloatField;
+    s_2: TSQLDataSet;
+    s_2CODIGO: TIntegerField;
+    s_2CONTA: TStringField;
+    s_2NOME: TStringField;
+    d_2: TDataSetProvider;
+    cds_ccusto: TClientDataSet;
+    cds_ccustoCODIGO: TIntegerField;
+    cds_ccustoCONTA: TStringField;
+    cds_ccustoNOME: TStringField;
+    cMatPrima: TClientDataSet;
+    cMatPrimaCODMAT: TIntegerField;
+    cMatPrimaCODPRODUTO: TIntegerField;
+    cMatPrimaCODPRODMP: TIntegerField;
+    cMatPrimaQTDEUSADA: TFloatField;
+    cMatPrimaTIPOUSO: TStringField;
+    cMatPrimaUSAPRECO: TStringField;
+    cMatPrimaESTOQUEATUAL: TFloatField;
+    cMatPrimaCODPRO: TStringField;
+    cMatPrimaUNIDADEMEDIDA: TStringField;
+    cMatPrimaPRODUTO: TStringField;
+    cMatPrimaPRECOMEDIO: TBCDField;
+    dMatPrima: TDataSetProvider;
+    sMatPrima: TSQLDataSet;
+    sMatPrimaCODMAT: TIntegerField;
+    sMatPrimaCODPRODUTO: TIntegerField;
+    sMatPrimaCODPRODMP: TIntegerField;
+    sMatPrimaQTDEUSADA: TFloatField;
+    sMatPrimaTIPOUSO: TStringField;
+    sMatPrimaUSAPRECO: TStringField;
+    sMatPrimaESTOQUEATUAL: TFloatField;
+    sMatPrimaCODPRO: TStringField;
+    sMatPrimaUNIDADEMEDIDA: TStringField;
+    sMatPrimaPRODUTO: TStringField;
+    sMatPrimaPRECOMEDIO: TBCDField;
+    ds_Cr: TDataSource;
+    scdsCr_proc: TClientDataSet;
+    scdsCr_procTITULO: TStringField;
+    scdsCr_procEMISSAO: TDateField;
+    scdsCr_procDATAVENCIMENTO: TDateField;
+    scdsCr_procCAIXA: TSmallintField;
+    scdsCr_procSTATUS: TStringField;
+    scdsCr_procVIA: TStringField;
+    scdsCr_procN_DOCUMENTO: TStringField;
+    scdsCr_procVALORRECEBIDO: TFloatField;
+    scdsCr_procVALOR_RESTO: TFloatField;
+    scdsCr_procVALORTITULO: TFloatField;
+    scdsCr_procNOMECLIENTE: TStringField;
+    scdsCr_procVALORREC: TFloatField;
+    scdsCr_procCODRECEBIMENTO: TIntegerField;
+    scdsCr_procDP: TIntegerField;
+    scdsCr_procVALOR_PRIM_VIA: TFloatField;
+    scdsCr_procCODCLIENTE: TIntegerField;
+    scdsCr_procTIT: TStringField;
+    scdsCr_procSITUACAO: TStringField;
+    scdsCr_procDATACONSOLIDA: TDateField;
+    scdsCr_procPARCELAS: TIntegerField;
+    scdsCr_procDATARECEBIMENTO: TDateField;
+    scdsCr_procTRecebido: TAggregateField;
+    scdsCr_procTotal_resto: TAggregateField;
+    scdsCr_procTotalTitulo: TAggregateField;
+    DataSetProvider1: TDataSetProvider;
+    SQLDataSet1: TSQLDataSet;
+    SQLDataSet1TITULO: TStringField;
+    SQLDataSet1DATAVENCIMENTO: TDateField;
+    SQLDataSet1CAIXA: TSmallintField;
+    SQLDataSet1STATUS: TStringField;
+    SQLDataSet1VIA: TStringField;
+    SQLDataSet1N_DOCUMENTO: TStringField;
+    SQLDataSet1VALORRECEBIDO: TFloatField;
+    SQLDataSet1VALOR_RESTO: TFloatField;
+    SQLDataSet1VALORTITULO: TFloatField;
+    SQLDataSet1VALORREC: TFloatField;
+    SQLDataSet1CODRECEBIMENTO: TIntegerField;
+    SQLDataSet1NOMECLIENTE: TStringField;
+    SQLDataSet1DP: TIntegerField;
+    SQLDataSet1EMISSAO: TDateField;
+    SQLDataSet1VALOR_PRIM_VIA: TFloatField;
+    SQLDataSet1CODCLIENTE: TIntegerField;
+    SQLDataSet1TIT: TStringField;
+    SQLDataSet1SITUACAO: TStringField;
+    SQLDataSet1DATACONSOLIDA: TDateField;
+    SQLDataSet1PARCELAS: TIntegerField;
+    SQLDataSet1DATARECEBIMENTO: TDateField;
     DtSrc_cli: TDataSource;
     cds_cli: TClientDataSet;
     cds_cliCODCLIENTE: TIntegerField;
@@ -621,14 +857,6 @@ type
     sdsEnderecoCliDDD2: TStringField;
     sdsEnderecoCliDDD3: TStringField;
     sdsEnderecoCliDDD1: TStringField;
-    proc_end: TSQLDataSet;
-    proc_endCOUNT: TIntegerField;
-    scds_usuario_proc: TSQLClientDataSet;
-    scds_usuario_procCODUSUARIO: TSmallintField;
-    scds_usuario_procNOMEUSUARIO: TStringField;
-    scds_usuario_procSTATUS: TSmallintField;
-    scds_usuario_procPERFIL: TStringField;
-    sds_estado: TSQLDataSet;
     DtSrcReg: TDataSource;
     cdsRegiao: TClientDataSet;
     cdsRegiaoCODDADOS: TIntegerField;
@@ -643,27 +871,6 @@ type
     SQLDataSet1USO: TStringField;
     SQLDataSet1CODIGOS: TStringField;
     SQLDataSet1OUTROS: TStringField;
-    sds_calculo: TSQLDataSet;
-    sds_Mov_DetDTAFAB: TDateField;
-    sds_Mov_DetDTAVCTO: TDateField;
-    sds_Mov_DetCODIGO: TStringField;
-    sds_Mov_DetLOTES: TStringField;
-    sds_Mov_DetPRECOCUSTO: TFloatField;
-    sds_Mov_DetCOD_BARRA: TStringField;
-    cds_Mov_detESTOQUEATUAL: TFloatField;
-    cds_Mov_detDTAFAB: TDateField;
-    cds_Mov_detDTAVCTO: TDateField;
-    cds_Mov_detCODIGO: TStringField;
-    cds_Mov_detLOTES: TStringField;
-    cds_Mov_detCOD_BARRA: TStringField;
-    sds_MovimentoCNPJ: TStringField;
-    cds_MovimentoCNPJ: TStringField;
-    SQLDataSet1DATACONSOLIDA: TDateField;
-    scdsCr_procDATACONSOLIDA: TDateField;
-    SQLDataSet1PARCELAS: TIntegerField;
-    scdsCr_procPARCELAS: TIntegerField;
-    SQLDataSet1DATARECEBIMENTO: TDateField;
-    scdsCr_procDATARECEBIMENTO: TDateField;
     cds_fornecedor: TClientDataSet;
     cds_fornecedorCODFORNECEDOR: TIntegerField;
     cds_fornecedorNOMEFORNECEDOR: TStringField;
@@ -748,9 +955,31 @@ type
     listaClienteCODCLIENTE: TIntegerField;
     listaClienteNOMECLIENTE: TStringField;
     listaClienteRAZAOSOCIAL: TStringField;
+    listaClienteCNPJ: TStringField;
+    listaClienteINSCESTADUAL: TStringField;
+    listaClienteLOGRADOURO: TStringField;
+    listaClienteBAIRRO: TStringField;
+    listaClienteCOMPLEMENTO: TStringField;
+    listaClienteCIDADE: TStringField;
+    listaClienteUF: TStringField;
+    listaClienteCEP: TStringField;
+    listaClienteTELEFONE: TStringField;
+    listaClientePRAZORECEBIMENTO: TSmallintField;
+    listaClienteCOD_TRANPORTADORA: TIntegerField;
+    listaClienteTIPOFIRMA: TSmallintField;
     listaFornecedor: TSQLDataSet;
     listaFornecedorCODFORNECEDOR: TIntegerField;
     listaFornecedorRAZAOSOCIAL: TStringField;
+    listaFornecedorCNPJ: TStringField;
+    listaFornecedorINSCESTADUAL: TStringField;
+    listaFornecedorPRAZOPAGAMENTO: TSmallintField;
+    listaFornecedorLOGRADOURO: TStringField;
+    listaFornecedorBAIRRO: TStringField;
+    listaFornecedorCOMPLEMENTO: TStringField;
+    listaFornecedorCIDADE: TStringField;
+    listaFornecedorUF: TStringField;
+    listaFornecedorCEP: TStringField;
+    listaFornecedorTELEFONE: TStringField;
     listaCFOP: TSQLDataSet;
     listaCFOPCFCOD: TStringField;
     listaCFOPCFNOME: TStringField;
@@ -873,7 +1102,7 @@ type
     cdsCompraVALOR_FRETE: TFloatField;
     cdsCompraVALOR_SEGURO: TFloatField;
     cdsCompraOUTRAS_DESP: TFloatField;
-    ////cdsCompraVALOR_IPI: TFloatField;
+    cdsCompraVALOR_IPI: TFloatField;
     cdsCompraCFOP: TStringField;
     cdsCompraNOMEFORNECEDOR: TStringField;
     cdsCompraNOMEUSUARIO: TStringField;
@@ -911,6 +1140,7 @@ type
     SQLDataSet1OUTRO_DEBITO: TFloatField;
     SQLDataSet1NOMEFORNECEDOR: TStringField;
     SQLDataSet1VALORPAG: TFloatField;
+    sds_cpSTATUSPAG: TStringField;
     dsp_cp: TDataSetProvider;
     cds_cp: TClientDataSet;
     scdsCr_procCODPAGAMENTO: TIntegerField;
@@ -946,42 +1176,11 @@ type
     scdsCr_procOUTRO_DEBITO: TFloatField;
     scdsCr_procNOMEFORNECEDOR: TStringField;
     scdsCr_procVALORPAG: TFloatField;
+    cds_cpSTATUSPAG: TStringField;
     AggregateField1: TAggregateField;
     AggregateField2: TAggregateField;
     AggregateField3: TAggregateField;
     ds_cp: TDataSource;
-    sds_cpSTATUSPAG: TStringField;
-    cds_cpSTATUSPAG: TStringField;
-    sds_nfRAZAOSOCIAL: TStringField;
-    sds_nfCNPJCLI: TStringField;
-    sds_nfINSCCLI: TStringField;
-    sds_nfLOGRADOURO: TStringField;
-    sds_nfBAIRROCLI: TStringField;
-    sds_nfCOMPLEMENTO: TStringField;
-    sds_nfCIDADECLI: TStringField;
-    sds_nfUFCLI: TStringField;
-    sds_nfCEPCLI: TStringField;
-    cds_nfRAZAOSOCIAL: TStringField;
-    cds_nfCNPJCLI: TStringField;
-    cds_nfINSCCLI: TStringField;
-    cds_nfLOGRADOURO: TStringField;
-    cds_nfBAIRROCLI: TStringField;
-    cds_nfCOMPLEMENTO: TStringField;
-    cds_nfCIDADECLI: TStringField;
-    cds_nfUFCLI: TStringField;
-    cds_nfCEPCLI: TStringField;
-    sds_nfTELEFONE: TStringField;
-    cds_nfTELEFONE: TStringField;
-    listaClienteCNPJ: TStringField;
-    listaClienteINSCESTADUAL: TStringField;
-    listaClienteLOGRADOURO: TStringField;
-    listaClienteBAIRRO: TStringField;
-    listaClienteCOMPLEMENTO: TStringField;
-    listaClienteCIDADE: TStringField;
-    listaClienteUF: TStringField;
-    listaClienteCEP: TStringField;
-    listaClienteTELEFONE: TStringField;
-    listaClientePRAZORECEBIMENTO: TSmallintField;
     listaProduto: TSQLDataSet;
     listaProdutoCODPRODUTO: TIntegerField;
     listaProdutoCODPRO: TStringField;
@@ -1019,8 +1218,32 @@ type
     sdslistaTranspCORPONF4: TStringField;
     sdslistaTranspCORPONF5: TStringField;
     sdslistaTranspCORPONF6: TStringField;
-    sdsVeiculoCli: TSQLDataSet;
+    sdslistaTranspFONE: TStringField;
+    sdslistaTranspFANTASIA: TStringField;
     sdsLoteRepetido: TSQLDataSet;
+    scds1: TSQLDataSet;
+    dspListaTransp: TDataSetProvider;
+    listaTransp: TClientDataSet;
+    listaTranspCODTRANSP: TIntegerField;
+    listaTranspNOMETRANSP: TStringField;
+    listaTranspPLACATRANSP: TStringField;
+    listaTranspCNPJ_CPF: TStringField;
+    listaTranspEND_TRANSP: TStringField;
+    listaTranspCIDADE_TRANSP: TStringField;
+    listaTranspUF_VEICULO_TRANSP: TStringField;
+    listaTranspUF_TRANSP: TStringField;
+    listaTranspFRETE: TStringField;
+    listaTranspINSCRICAOESTADUAL: TStringField;
+    listaTranspCORPONF1: TStringField;
+    listaTranspCORPONF2: TStringField;
+    listaTranspCORPONF3: TStringField;
+    listaTranspCORPONF4: TStringField;
+    listaTranspCORPONF5: TStringField;
+    listaTranspCORPONF6: TStringField;
+    listaTranspFONE: TStringField;
+    listaTranspFANTASIA: TStringField;
+    repdm: TVCLReport;
+    sdsVeiculoCli: TSQLDataSet;
     cdslotes: TClientDataSet;
     cdslotesCODLOTE: TIntegerField;
     cdslotesLOTE: TStringField;
@@ -1042,198 +1265,43 @@ type
     sdslotePRODUTO: TStringField;
     sdsloteCODPRO: TStringField;
     sdslotePRECO: TFloatField;
-    sds_nfSTATUS: TStringField;
-    cds_nfSTATUS: TStringField;
-    listaClienteCOD_TRANPORTADORA: TIntegerField;
-    sds_Mov_DetCST: TStringField;
-    cds_Mov_detCST: TStringField;
-    scds1: TSQLDataSet;
-    sds_Mov_DetVLR_BASE: TFloatField;
-    cds_Mov_detVLR_BASE: TFloatField;
-    dspListaTransp: TDataSetProvider;
-    listaTransp: TClientDataSet;
-    listaTranspCODTRANSP: TIntegerField;
-    listaTranspNOMETRANSP: TStringField;
-    listaTranspPLACATRANSP: TStringField;
-    listaTranspCNPJ_CPF: TStringField;
-    listaTranspEND_TRANSP: TStringField;
-    listaTranspCIDADE_TRANSP: TStringField;
-    listaTranspUF_VEICULO_TRANSP: TStringField;
-    listaTranspUF_TRANSP: TStringField;
-    listaTranspFRETE: TStringField;
-    listaTranspINSCRICAOESTADUAL: TStringField;
-    listaTranspCORPONF1: TStringField;
-    listaTranspCORPONF2: TStringField;
-    listaTranspCORPONF3: TStringField;
-    listaTranspCORPONF4: TStringField;
-    listaTranspCORPONF5: TStringField;
-    listaTranspCORPONF6: TStringField;
-    sds_nfIMPRESSA: TStringField;
-    cds_nfIMPRESSA: TStringField;
+    SQLDataSet2: TSQLDataSet;
+    sqlNumeroSerie: TSQLDataSet;
+    scds_usuario_proc: TSQLClientDataSet;
+    scds_usuario_procCODUSUARIO: TSmallintField;
+    scds_usuario_procNOMEUSUARIO: TStringField;
+    scds_usuario_procSTATUS: TSmallintField;
+    scds_usuario_procPERFIL: TStringField;
+    sds_calculo: TSQLDataSet;
+    sds_estado: TSQLDataSet;
+    scds: TSQLClientDataSet;
+    procCFOP: TSQLClientDataSet;
+    procCFOPCFCOD: TStringField;
+    procCFOPCFNOME: TStringField;
+    proc_end: TSQLDataSet;
+    proc_endCOUNT: TIntegerField;
+    sqs_tit: TSQLDataSet;
+    scds_cli_proc: TSQLClientDataSet;
+    scds_cli_procCODCLIENTE: TIntegerField;
+    scds_cli_procCODUSUARIO: TIntegerField;
+    scds_cli_procNOMECLIENTE: TStringField;
+    scds_cli_procRAZAOSOCIAL: TStringField;
+    scds_cli_procCODBANCO: TSmallintField;
+    scds_cli_procPRAZORECEBIMENTO: TSmallintField;
+    scds_cli_procOBS: TStringField;
+    scds_cli_procSEGMENTO: TSmallintField;
+    scds_cli_procSTATUS: TSmallintField;
+    scds_cli_procNOMEUSUARIO: TStringField;
+    scds_cli_procUF: TStringField;
     scds_cli_procCNPJ: TStringField;
     scds_cli_procLOGRADOURO: TStringField;
     scds_cli_procBLOQUEIO: TStringField;
-    sqlNumeroSerie: TSQLDataSet;
-    listaFornecedorCNPJ: TStringField;
-    listaFornecedorINSCESTADUAL: TStringField;
-    listaFornecedorPRAZOPAGAMENTO: TSmallintField;
-    listaFornecedorLOGRADOURO: TStringField;
-    listaFornecedorBAIRRO: TStringField;
-    listaFornecedorCOMPLEMENTO: TStringField;
-    listaFornecedorCIDADE: TStringField;
-    listaFornecedorUF: TStringField;
-    listaFornecedorCEP: TStringField;
-    listaFornecedorTELEFONE: TStringField;
-    DtSrc_NF1: TDataSource;
-    cds_nf1: TClientDataSet;
-    dsp_nf1: TDataSetProvider;
-    sds_nf1: TSQLDataSet;
-    sds_nf1NOTASERIE: TStringField;
-    sds_nf1NUMNF: TIntegerField;
-    sds_nf1NATUREZA: TSmallintField;
-    sds_nf1QUANTIDADE: TFloatField;
-    sds_nf1MARCA: TStringField;
-    sds_nf1PESOBRUTO: TBCDField;
-    sds_nf1PESOLIQUIDO: TBCDField;
-    sds_nf1ESPECIE: TStringField;
-    sds_nf1DTAEMISSAO: TDateField;
-    sds_nf1DTASAIDA: TDateField;
-    sds_nf1UF: TStringField;
-    sds_nf1CODVENDA: TIntegerField;
-    sds_nf1CODTRANSP: TIntegerField;
-    sds_nf1NUMERO: TStringField;
-    sds_nf1NOTAFISCAL: TIntegerField;
-    sds_nf1HORASAIDA: TTimeField;
-    sds_nf1DATA_SISTEMA: TSQLTimeStampField;
-    sds_nf1BASE_ICMS: TFloatField;
-    sds_nf1VALOR_ICMS: TFloatField;
-    sds_nf1BASE_ICMS_SUBST: TFloatField;
-    sds_nf1VALOR_ICMS_SUBST: TFloatField;
-    sds_nf1VALOR_PRODUTO: TFloatField;
-    sds_nf1VALOR_FRETE: TFloatField;
-    sds_nf1VALOR_SEGURO: TFloatField;
-    sds_nf1OUTRAS_DESP: TFloatField;
-    sds_nf1VALOR_IPI: TFloatField;
-    sds_nf1VALOR_TOTAL_NOTA: TFloatField;
-    sds_nf1CORPONF1: TStringField;
-    sds_nf1CORPONF2: TStringField;
-    sds_nf1CORPONF3: TStringField;
-    sds_nf1CORPONF4: TStringField;
-    sds_nf1CORPONF5: TStringField;
-    sds_nf1CORPONF6: TStringField;
-    sds_nf1CFOP: TStringField;
-    sds_nf1CODCLIENTE: TIntegerField;
-    sds_nf1FATURA: TStringField;
-    sds_nf1ICMS: TFloatField;
-    sds_nf1REDUZICMS: TFloatField;
-    sds_nf1NOMETRANSP: TStringField;
-    sds_nf1PLACATRANSP: TStringField;
-    sds_nf1CNPJ_CPF: TStringField;
-    sds_nf1END_TRANSP: TStringField;
-    sds_nf1CIDADE_TRANSP: TStringField;
-    sds_nf1UF_VEICULO_TRANSP: TStringField;
-    sds_nf1UF_TRANSP: TStringField;
-    sds_nf1FRETE: TStringField;
-    sds_nf1INSCRICAOESTADUAL: TStringField;
-    sds_nf1STATUS: TStringField;
-    sds_nf1VLRTOTALEXP: TFloatField;
-    sds_nf1IMPRESSA: TStringField;
-    sds_nf1SERIE: TStringField;
-    sds_nf1ID_GUIA: TIntegerField;
-    sds_nf1SELECIONOU: TStringField;
-    sds_nf1DESCNATUREZA: TStringField;
-    sds_nf1NOMECLIENTE: TStringField;
-    sds_nf1RAZAOSOCIAL: TStringField;
-    sds_nf1CNPJCLI: TStringField;
-    sds_nf1INSCCLI: TStringField;
-    sds_nf1LOGRADOURO: TStringField;
-    sds_nf1BAIRROCLI: TStringField;
-    sds_nf1COMPLEMENTO: TStringField;
-    sds_nf1CIDADECLI: TStringField;
-    sds_nf1UFCLI: TStringField;
-    sds_nf1CEPCLI: TStringField;
-    sds_nf1TELEFONE: TStringField;
-    cds_nf1NOTASERIE: TStringField;
-    cds_nf1NUMNF: TIntegerField;
-    cds_nf1NATUREZA: TSmallintField;
-    cds_nf1QUANTIDADE: TFloatField;
-    cds_nf1MARCA: TStringField;
-    cds_nf1PESOBRUTO: TBCDField;
-    cds_nf1PESOLIQUIDO: TBCDField;
-    cds_nf1ESPECIE: TStringField;
-    cds_nf1DTAEMISSAO: TDateField;
-    cds_nf1DTASAIDA: TDateField;
-    cds_nf1UF: TStringField;
-    cds_nf1CODVENDA: TIntegerField;
-    cds_nf1CODTRANSP: TIntegerField;
-    cds_nf1NUMERO: TStringField;
-    cds_nf1NOTAFISCAL: TIntegerField;
-    cds_nf1HORASAIDA: TTimeField;
-    cds_nf1DATA_SISTEMA: TSQLTimeStampField;
-    cds_nf1BASE_ICMS: TFloatField;
-    cds_nf1VALOR_ICMS: TFloatField;
-    cds_nf1BASE_ICMS_SUBST: TFloatField;
-    cds_nf1VALOR_ICMS_SUBST: TFloatField;
-    cds_nf1VALOR_PRODUTO: TFloatField;
-    cds_nf1VALOR_FRETE: TFloatField;
-    cds_nf1VALOR_SEGURO: TFloatField;
-    cds_nf1OUTRAS_DESP: TFloatField;
-    cds_nf1VALOR_IPI: TFloatField;
-    cds_nf1VALOR_TOTAL_NOTA: TFloatField;
-    cds_nf1CORPONF1: TStringField;
-    cds_nf1CORPONF2: TStringField;
-    cds_nf1CORPONF3: TStringField;
-    cds_nf1CORPONF4: TStringField;
-    cds_nf1CORPONF5: TStringField;
-    cds_nf1CORPONF6: TStringField;
-    cds_nf1CFOP: TStringField;
-    cds_nf1CODCLIENTE: TIntegerField;
-    cds_nf1FATURA: TStringField;
-    cds_nf1ICMS: TFloatField;
-    cds_nf1REDUZICMS: TFloatField;
-    cds_nf1NOMETRANSP: TStringField;
-    cds_nf1PLACATRANSP: TStringField;
-    cds_nf1CNPJ_CPF: TStringField;
-    cds_nf1END_TRANSP: TStringField;
-    cds_nf1CIDADE_TRANSP: TStringField;
-    cds_nf1UF_VEICULO_TRANSP: TStringField;
-    cds_nf1UF_TRANSP: TStringField;
-    cds_nf1FRETE: TStringField;
-    cds_nf1INSCRICAOESTADUAL: TStringField;
-    cds_nf1STATUS: TStringField;
-    cds_nf1VLRTOTALEXP: TFloatField;
-    cds_nf1IMPRESSA: TStringField;
-    cds_nf1SERIE: TStringField;
-    cds_nf1ID_GUIA: TIntegerField;
-    cds_nf1SELECIONOU: TStringField;
-    cds_nf1DESCNATUREZA: TStringField;
-    cds_nf1NOMECLIENTE: TStringField;
-    cds_nf1RAZAOSOCIAL: TStringField;
-    cds_nf1CNPJCLI: TStringField;
-    cds_nf1INSCCLI: TStringField;
-    cds_nf1LOGRADOURO: TStringField;
-    cds_nf1BAIRROCLI: TStringField;
-    cds_nf1COMPLEMENTO: TStringField;
-    cds_nf1CIDADECLI: TStringField;
-    cds_nf1UFCLI: TStringField;
-    cds_nf1CEPCLI: TStringField;
-    cds_nf1TELEFONE: TStringField;
-    sds_Mov_DetCLASSIFIC_FISCAL: TStringField;
-    cds_Mov_detCLASSIFIC_FISCAL: TStringField;
-    sds_compra: TSQLDataSet;
-    dsp_compra: TDataSetProvider;
-    cds_compra: TClientDataSet;
-    sds_nfNOTAMAE: TIntegerField;
-    cds_nfNOTAMAE: TIntegerField;
-    sds_nfPESOREMESSA: TBCDField;
-    cds_nfPESOREMESSA: TBCDField;
-    sds_Mov_DetVLR_BASEICMS: TFloatField;
-    cds_Mov_detVLR_BASEICMS: TFloatField;
-    sds_Mov_DetVALOR_ICMS: TFloatField;
-    cds_Mov_detVALOR_ICMS: TFloatField;
-    sds_nfSERIE: TStringField;
-    cds_nfSERIE: TStringField;
-    DtSrc_Compra: TDataSource;
+    scds_cli_procDESCONTO: TFloatField;
+    scds_serie_proc: TSQLClientDataSet;
+    scds_serie_procCODSERIE: TStringField;
+    scds_serie_procSERIE: TStringField;
+    scds_serie_procULTIMO_NUMERO: TIntegerField;
+    scds_serie_procNOTAFISCAL: TSmallintField;
     sds_compraCODCOMPRA: TIntegerField;
     sds_compraCODMOVIMENTO: TIntegerField;
     sds_compraCODFORNECEDOR: TIntegerField;
@@ -1268,6 +1336,7 @@ type
     sds_compraVALOR_IPI: TFloatField;
     sds_compraCFOP: TStringField;
     sds_compraPRAZO: TStringField;
+    sds_compraCODORIGEM: TIntegerField;
     sds_compraNOMEFORNECEDOR: TStringField;
     sds_compraNOMEUSUARIO: TStringField;
     cds_compraCODCOMPRA: TIntegerField;
@@ -1304,75 +1373,9 @@ type
     cds_compraVALOR_IPI: TFloatField;
     cds_compraCFOP: TStringField;
     cds_compraPRAZO: TStringField;
+    cds_compraCODORIGEM: TIntegerField;
     cds_compraNOMEFORNECEDOR: TStringField;
     cds_compraNOMEUSUARIO: TStringField;
-    sds_Mov_DetCFOP: TStringField;
-    cds_Mov_detCFOP: TStringField;
-    listaClienteTIPOFIRMA: TSmallintField;
-    ////sds_nfVALOR_DESCONTO: TFloatField;
-    cds_nfVALOR_DESCONTO: TFloatField;
-    sds_nf1VALOR_DESCONTO: TFloatField;
-    cds_nf1VALOR_DESCONTO: TFloatField;
-    sds_Mov_DetCSOSN: TStringField;
-    cds_Mov_detCSOSN: TStringField;
-    sds_Mov_DetVALOR_DESCONTO: TFloatField;
-    sds_Mov_DetFRETE: TFloatField;
-    cds_Mov_detVALOR_DESCONTO: TFloatField;
-    cds_Mov_detFRETE: TFloatField;
-    sds_Mov_DetICMS_SUBST: TFloatField;
-    sds_Mov_DetICMS_SUBSTD: TFloatField;
-    cds_Mov_detICMS_SUBST: TFloatField;
-    cds_Mov_detICMS_SUBSTD: TFloatField;
-    sds_Mov_DetVALOR_SEGURO: TFloatField;
-    sds_Mov_DetVALOR_OUTROS: TFloatField;
-    cds_Mov_detVALOR_SEGURO: TFloatField;
-    cds_Mov_detVALOR_OUTROS: TFloatField;
-    sdslistaTranspFONE: TStringField;
-    listaTranspFONE: TStringField;
-    sds_nfIDCOMPLEMENTAR: TStringField;
-    cds_nfIDCOMPLEMENTAR: TStringField;
-    sds_Mov_DetPIPI: TFloatField;
-    sds_Mov_DetVIPI: TFloatField;
-    cds_Mov_detPIPI: TFloatField;
-    cds_Mov_detVIPI: TFloatField;
-    sds_Mov_DetNCM: TStringField;
-    cds_Mov_detNCM: TStringField;
-    sds_Mov_DetSTATUS: TStringField;
-    cds_Mov_detSTATUS: TStringField;
-    sds_nfVLRTOTALEXP: TFloatField;
-    sds_nfID_GUIA: TIntegerField;
-    sds_nfSELECIONOU: TStringField;
-    sds_nfPROTOCOLOENV: TStringField;
-    sds_nfNUMRECIBO: TStringField;
-    sds_nfPROTOCOLOCANC: TStringField;
-    sds_nfVALOR_PIS: TFloatField;
-    sds_nfVALOR_COFINS: TFloatField;
-    sds_nfCCUSTO: TIntegerField;
-    sds_nfXMLNFE: TGraphicField;
-    cds_nfVLRTOTALEXP: TFloatField;
-    cds_nfID_GUIA: TIntegerField;
-    cds_nfSELECIONOU: TStringField;
-    cds_nfPROTOCOLOENV: TStringField;
-    cds_nfNUMRECIBO: TStringField;
-    cds_nfPROTOCOLOCANC: TStringField;
-    cds_nfVALOR_PIS: TFloatField;
-    cds_nfVALOR_COFINS: TFloatField;
-    cds_nfCCUSTO: TIntegerField;
-    cds_nfXMLNFE: TGraphicField;
-    cdsCompraVALOR_IPI: TFloatField;
-    scds_cli_procDESCONTO: TFloatField;
-    sds_nf1II: TFloatField;
-    cds_nf1II: TFloatField;
-    sdslistaTranspFANTASIA: TStringField;
-    listaTranspFANTASIA: TStringField;
-    sds_Mov_DetII: TFloatField;
-    sds_Mov_DetBCII: TFloatField;
-    cds_Mov_detII: TFloatField;
-    cds_Mov_detBCII: TFloatField;
-    sds_nf1BCII: TFloatField;
-    cds_nf1BCII: TFloatField;
-    sds_Mov_DetOBS: TStringField;
-    cds_Mov_detOBS: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
@@ -1396,12 +1399,10 @@ type
       var Action: TDataAction);
     procedure cds_nf1NewRecord(DataSet: TDataSet);
     procedure DtSrc_NF1StateChange(Sender: TObject);
-    procedure DtSrc_CompraStateChange(Sender: TObject);
   private
-    { Private declarations }
+
   public
     estoque, qtde: Double;
-    { Public declarations }
     function FormExiste(aberto: Tform): Boolean;
     function baixouEstoque(codMovtod: Integer): Boolean;
     function cancelouEstoque(codMovtoC: Integer): Boolean;
@@ -1479,11 +1480,6 @@ begin
         cdsCompraVALOR.AsFloat := cds_Mov_detTotalPedido.Value;
         cdsCompraVALOR_PAGAR.AsFloat := cds_Mov_detTotalPedido.Value;
       end;
-      {if (cds_nf1.State in [dsInsert, dsEdit]) then
-      begin
-        cds_nf1VALOR_PRODUTO.AsFloat := cds_Mov_detTotalPedido.Value;
-        cds_nf1VALOR_TOTAL_NOTA.AsFloat := cds_Mov_detTotalPedido.Value;
-      end;}
     end;
   end;
 end;
@@ -1551,13 +1547,6 @@ begin
 
  if (FormExiste(fNotaf) = True) then
  begin
-    {fNotaf.btnIncluir.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
-    fNotaf.btnGravar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
-    fNotaf.btnCancelar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
-    fNotaf.btnExcluir.Enabled:=DtSrc.State in [dsBrowse];
-    fNotaf.btnProcurar.Enabled := DtSrc.State in [dsBrowse,dsInactive];
-    fNotaf.btnSair.Enabled:=DtSrc.State in [dsBrowse,dsInactive];}
-
     if DtSrc.State in [dsInsert, dsEdit] then
     begin
       fNotaf.btnIncluir.Visible := False;
@@ -1695,11 +1684,6 @@ begin
   begin
     if (DMNF.DtSrc_NF.State in [dsEdit, dsInsert]) then
     begin
-       {if (DMNF.DtSrc.State in [dsBrowse]) then
-       begin
-           DMNF.cds_Movimento.Edit;
-           //DMNF.cds_Mov_det.Edit;
-       end;}
        fNotaf.btnIncluir.Visible := False;
        fNotaf.btnExcluir.Visible := False;
        fNotaf.btnGravar.Visible := True;
@@ -1907,32 +1891,19 @@ begin
         cds_nfVALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
         if (cds_nfVALOR_TOTAL_NOTA.Value <> cds_nfVALOR_PRODUTO.Value) then
           cds_nfVALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
-           dmnf.cds_vendaVALOR_ICMS.AsFloat + dmnf.cds_vendaVALOR_SEGURO.AsFloat +
-           dmnf.cds_vendaVALOR_SEGURO.AsFloat + dmnf.cds_vendaVALOR_FRETE.AsFloat +
-           dmnf.cds_vendaOUTRAS_DESP.AsFloat - dmnf.cds_vendaDESCONTO.AsFloat;
+           DMNF.cds_vendaVALOR_ICMS.AsFloat + DMNF.cds_vendaVALOR_SEGURO.AsFloat +
+           DMNF.cds_vendaVALOR_SEGURO.AsFloat + DMNF.cds_vendaVALOR_FRETE.AsFloat +
+           DMNF.cds_vendaOUTRAS_DESP.AsFloat - DMNF.cds_vendaDESCONTO.AsFloat;
       end;
-    {if (FormExiste(fNotaf1) = True) then
-      if (cds_Mov_detTotalPedido.Value > 0)then
-      begin
-        if (cds_nf1.State in [dsBrowse, dsInactive]) then
-          cds_nf1.Edit;
-        cds_nf1VALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
-        if (cds_nf1VALOR_TOTAL_NOTA.Value <> cds_nf1VALOR_PRODUTO.Value) then
-          cds_nf1VALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
-           dmnf.cdsCompraVALOR_ICMS.AsFloat + dmnf.cdsCompraVALOR_SEGURO.AsFloat +
-           dmnf.cdsCompraVALOR_SEGURO.AsFloat + dmnf.cdsCompraVALOR_FRETE.AsFloat +
-           dmnf.cdsCompraOUTRAS_DESP.AsFloat - dmnf.cdsCompraDESCONTO.AsFloat;
-      end;}
-
     if (FormExiste(fNotaFc) = True) then
       if (cds_Mov_detTotalPedido.Value > 0)then
       begin
         cds_nf1VALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
         if (cds_nf1VALOR_TOTAL_NOTA.Value <> cds_nf1VALOR_PRODUTO.Value) then
           cds_nf1VALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
-           dmnf.cds_vendaVALOR_ICMS.AsFloat + dmnf.cds_vendaVALOR_SEGURO.AsFloat +
-           dmnf.cds_vendaVALOR_SEGURO.AsFloat + dmnf.cds_vendaVALOR_FRETE.AsFloat +
-           dmnf.cds_vendaOUTRAS_DESP.AsFloat - dmnf.cds_vendaDESCONTO.AsFloat;
+           DMNF.cds_vendaVALOR_ICMS.AsFloat + DMNF.cds_vendaVALOR_SEGURO.AsFloat +
+           DMNF.cds_vendaVALOR_SEGURO.AsFloat + DMNF.cds_vendaVALOR_FRETE.AsFloat +
+           DMNF.cds_vendaOUTRAS_DESP.AsFloat - DMNF.cds_vendaDESCONTO.AsFloat;
       end;
     
 end;
@@ -1984,80 +1955,14 @@ begin
    cds_nf1BCII.AsFloat := 0;
    cds_nf1NATUREZA.AsInteger := cds_MovimentoCODNATUREZA.AsInteger;
    cds_nf1DESCNATUREZA.AsString := cds_MovimentoDESCNATUREZA.AsString;
-   //cds_nf1CODVENDA.AsInteger := cds_vendaCODVENDA.AsInteger;
-   //cds_nf1NOTAFISCAL.AsInteger := cds_vendaNOTAFISCAL.AsInteger;
-   //cds_nf1NOTASERIE.AsString := IntToStr(cds_vendaNOTAFISCAL.AsInteger);
    cds_nf1DTAEMISSAO.AsDateTime := Now;//cds_vendaDATAVENDA.AsDateTime;
    cds_nf1DTASAIDA.AsDateTime := Now;//cds_vendaDATAVENDA.AsDateTime;
-   //cds_nf1VALOR_PRODUTO.AsFloat := cds_vendaVALOR.AsFloat;//fNF.vrr;
-   //cds_nf1VALOR_TOTAL_NOTA.AsFloat := cds_vendaVALOR.AsFloat;
-   //cds_nf1NOTASERIE.AsString := IntToStr(cds_vendaNOTAFISCAL.AsInteger);
-   //cds_nf1CODCLIENTE.AsInteger := cds_vendaCODCLIENTE.AsInteger;
    cds_nf1HORASAIDA.AsDateTime := time;
    cds_nf1ESPECIE.AsString := 'VOLUME';
-   //cds_nf1FATURA.AsString := fatura_NF;
-   //Imprime no rodapé da nota o que está na tabela Parâmetro.
- {  if dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-   dm.cds_parametro.Params[0].AsString := 'CLASS_FISCAL_IMP';
-   dm.cds_parametro.Open;
-   cds_nf1CORPONF6.AsString := dm.cds_parametroDADOS.AsString;
-   dm.cds_parametro.Close;
-  if (dm.cds_parametro.active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CFOP';
-  dm.cds_parametro.open;
-  if (not dm.cds_parametro.IsEmpty) then
-  begin
-    if scds_cli_proc.Active then
-      scds_cli_proc.Close;
-    scds_cli_proc.Params[0].Clear;
-    scds_cli_proc.Params[1].Clear;
-    scds_cli_proc.Params[2].Clear;
-    scds_cli_proc.Params[2].AsInteger := cds_vendaCODCLIENTE.AsInteger;
-    scds_cli_proc.Open;
-    if (scds_cli_procUF.AsString = 'SP') then
-      cds_nfCFOP.AsString := dm.cds_parametroDADOS.AsString
-    else
-      cds_nfCFOP.AsString := dm.cds_parametroD1.AsString;
-    if scds1.Active then
-      scds1.Close;
-    scds1.CommandText := 'SELECT CFCOD AS CFOP , CFNOME as NATUREZA FROM CFOP ' +
-      ' where CFCOD = ''' + dm.cds_parametroDADOS.AsString + '''';
-    scds1.Open;
-    cds_nfDESCNATUREZA.AsString  := scds1.Fields[1].asString;
-    scds1.Close;
-  end;    }
 end;
 
 procedure TDMNF.DtSrc_NF1StateChange(Sender: TObject);
 begin
-  {if (FormExiste(fNotaf1) = True) then
-  begin
-    if (DMNF.DtSrc_NF1.State in [dsEdit, dsInsert]) then
-    begin
-       fNotaf1.btnIncluir.Visible := False;
-       fNotaf1.btnExcluir.Visible := False;
-       fNotaf1.btnGravar.Visible := True;
-       fNotaf1.btnGravar.Enabled := True;
-       fNotaf1.btnCancelar.Visible := True;
-       fNotaf1.btnCancelar.Enabled := True;
-    end;
-    if (DMNF.DtSrc_NF1.State in [dsBrowse, dsInactive]) then
-    begin
-       fNotaf1.btnIncluir.Visible := True;
-       fNotaf1.btnIncluir.Enabled := True;
-       fNotaf1.btnExcluir.Visible := True;
-       fNotaf1.btnExcluir.Enabled := True;
-       fNotaf1.btnGravar.Visible := False;
-       fNotaf1.btnGravar.Enabled := False;
-       fNotaf1.btnCancelar.Visible := False;
-       fNotaf1.btnCancelar.Enabled := False;
-       fNotaf1.btnSair.Visible := True;
-       fNotaf1.btnSair.Enabled := True;
-    end;
-  end;  }
-
   if (FormExiste(fNotaFc) = True) then
   begin
     if (DMNF.DtSrc_NF1.State in [dsEdit, dsInsert]) then
@@ -2092,23 +1997,6 @@ begin
 
 end;
 
-procedure TDMNF.DtSrc_CompraStateChange(Sender: TObject);
-begin
-{ if (DtSrc_Compra.DataSet.State in [dsInsert, dsEdit]) then
-  begin
-    if (FormExiste(fNotaFc) = True) then
-    begin
-      fNotaFc.btnIncluir.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
-      fNotaFc.btnGravar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
-      fNotaFc.btnCancelar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
-      fNotaFc.btnExcluir.Enabled:=DtSrc.State in [dsBrowse];
-      fNotaFc.btnProcurar.Enabled := DtSrc.State in [dsBrowse,dsInactive];
-      fNotaFc.btnSair.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
-    end;
-  end;}
-
-end;
-
 procedure TDMNF.baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
 var FEstoque: TEstoque;
 begin
@@ -2118,57 +2006,6 @@ begin
   Finally
     FEstoque.Free;
   end;
-  // Nao estou usando mais, passei para a classe Estoque
-  {if (cds_Movimento.Active) then
-    cds_Movimento.Close;
-  cds_Movimento.Params.ParamByName('pCodMov').AsInteger := codMovto;
-  cds_Movimento.Open;
-  if (cds_Mov_det.Active) then
-    cds_Mov_det.Close;
-  cds_Mov_det.Params.ParamByName('pCodMov').AsInteger := codMovto;
-  cds_Mov_det.Open;
-  Try
-    FEstoque := TEstoque.Create;
-    cds_Mov_det.First;
-    While not cds_Mov_det.Eof do
-    begin
-      if (cds_Mov_detSTATUS.IsNull) then
-      begin
-        if (tipo = 'VENDA') then
-        begin
-          FEstoque.QtdeVenda   := cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-        end;
-        if (tipo = 'COMPRA') then
-        begin
-          FEstoque.QtdeCompra   := cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.PrecoCompra  := cds_Mov_detPRECO.AsFloat;
-        end;
-        if (tipo = 'ENTRADA') then
-        begin
-          FEstoque.QtdeEntrada   := cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.PrecoCompra   := cds_Mov_detPRECO.AsFloat;
-        end;
-        if (tipo = 'SAIDA') then
-        begin
-          FEstoque.QtdeSaida   := cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-        end;
-
-        FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-        FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-        FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-        FEstoque.MesAno      := DtaMovto;
-
-        FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-        FEstoque.Status      := '9';
-        FEstoque.inserirMes;
-      end;
-      cds_Mov_det.Next;
-    end;
-  Finally
-    FEstoque.Free;
-  end;}
 end;
 
 function TDMNF.baixouEstoque(codMovtod: Integer): Boolean;
