@@ -479,6 +479,7 @@ inherited fInventario: TfInventario
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 2
+      OnChange = cbCCusto1Change
       OnKeyPress = FormKeyPress
     end
   end
