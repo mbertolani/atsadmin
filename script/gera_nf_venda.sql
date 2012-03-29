@@ -67,6 +67,7 @@ as
   declare variable TPFRETE char(1);
   declare variable tFRETE integer;
   declare variable CODTRANSPORTADORA INTEGER;
+  declare variable Entrada double precision;
     
 begin 
 
@@ -115,11 +116,11 @@ begin
   into :codMovNovo;
 
   -- insiro o Movimento   
-  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE
+  for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE, ven.ENTRADA
     from movimento mov 
     inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
     where mov.CODMOVIMENTO = :codMov
-  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete
+  into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada
   do begin 
     insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle, codtransp) 
@@ -215,7 +216,7 @@ begin
     , MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, VALOR_ICMS, VALOR_FRETE
     , VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, STATUS, Banco, CODUSUARIO, CODVENDEDOR, DataSistema, PRAZO)
      VALUES (:codVen, :codMovNovo, :Cliente, :dtEmissao, :dtVcto
-    , :total, :numero, :serie, 0, :codCCusto, :np, 1,  0, 0, :total, 0, :vIcmsT, :vFreteT
+    , :total, :numero, :serie, 0, :codCCusto, :np, 1,  0, 0, :total, :entrada, :vIcmsT, :vFreteT
     ,:vSeguroT, :vOutrosT, :vIpiT, 0, 1, :codUser, :codVendedor, CURRENT_DATE, :PRAZO);
 
   if (tBaseIcms = 0) then 
