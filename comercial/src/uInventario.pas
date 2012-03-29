@@ -125,6 +125,7 @@ type
     procedure JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
     procedure btnGravarClick(Sender: TObject);
     procedure cbCCustoChange(Sender: TObject);
+    procedure cbCCusto1Change(Sender: TObject);
   private
     { Private declarations }
     CCusto: Integer;
@@ -714,8 +715,7 @@ begin
   
   if (cdsInvent.State in [dsInsert, dsEdit]) then
   begin
-    if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
-      cdsInventCODCCUSTO.AsInteger := cds_ccustoCODIGO.AsInteger;
+    cdsInventCODCCUSTO.AsInteger := CCusto;
     cdsInvent.ApplyUpdates(0);
   end;
   cdsInvent.First;
@@ -725,7 +725,9 @@ begin
       DecimalSeparator := '.';
       dm.sqlsisAdimin.StartTransaction(TD);
       Sql1 := 'UPDATE INVENTARIO SET QTDE_INVENTARIO = ' +
-        FloatToStr(cdsInventQTDE_INVENTARIO.AsFloat) + ' WHERE CODIVENTARIO = ' +
+        FloatToStr(cdsInventQTDE_INVENTARIO.AsFloat) +
+        ', CODCCUSTO = ' + IntToStr(CCusto) + 
+        ' WHERE CODIVENTARIO = ' +
         QuotedStr(cdsInventCODIVENTARIO.AsString) +
         ' AND CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger);
       dm.sqlsisAdimin.ExecuteDirect(sql1);
@@ -813,7 +815,7 @@ begin
             FMov.CodUsuario  := 1;
             FMov.CodVendedor := 1;
             FMov.DataMov     := dta.Date;
-            FMov.Obs         := cdsInventCODIVENTARIO.AsString; 
+            FMov.Obs         := cdsInventCODIVENTARIO.AsString;
             codMovSaida := FMov.inserirMovimento(0);
             movSaida := 'S';
           end;
@@ -861,7 +863,7 @@ begin
         fven.DataVcto             := dta.Date;
         fven.Serie                := 'O';
         fven.NotaFiscal           := codMovSaida;
-        fven.CodCliente           := 1;
+        fven.CodCliente           := 0;
         fven.CodVendedor          := 1;
         fven.CodCCusto            := cdsInventCODCCUSTO.AsInteger;
         fven.ValorPagar           := 0;
@@ -909,6 +911,13 @@ begin
     FVen.Free;
   end;
 
+end;
+
+procedure TfInventario.cbCCusto1Change(Sender: TObject);
+begin
+  inherited;
+  if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
+    CCusto := cds_ccustoCODIGO.AsInteger;
 end;
 
 end.
