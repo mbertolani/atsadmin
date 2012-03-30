@@ -71,14 +71,14 @@ begin
     begin
       if (not dmnf.DtSrc_NF1.DataSet.IsEmpty) then
       begin
-        if (dmnf.dtSrcCompra.DataSet.IsEmpty) then
+        if (dmnf.DtSrc_Compra.DataSet.IsEmpty) then
         begin
           DMNF.cds_compra.Params[0].AsInteger := dmnf.cds_nf1CODVENDA.AsInteger;
           DMNF.cds_compra.Params[1].Clear;
           DMNF.cds_compra.Open;
         end;
-        dmnf.dtSrcCompra.DataSet.Delete;
-        (dmnf.dtSrcCompra.DataSet as TClientDataSet).ApplyUpdates(0);
+        dmnf.DtSrc_Compra.DataSet.Delete;
+        (dmnf.DtSrc_Compra.DataSet as TClientDataSet).ApplyUpdates(0);
         dmnf.DtSrc.DataSet.Delete;
         (dmnf.DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
         dmnf.DtSrc_NF1.DataSet.Delete;
