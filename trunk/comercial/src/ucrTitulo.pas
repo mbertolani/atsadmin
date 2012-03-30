@@ -125,6 +125,8 @@ type
     Label28: TLabel;
     DBMemo2: TDBMemo;
     Memo1: TMemo;
+    Label29: TLabel;
+    DBEdit20: TDBEdit;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

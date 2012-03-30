@@ -192,6 +192,13 @@ inherited fcrTitulo: TfcrTitulo
     Height = 16
     Caption = 'Hist'#243'rico :'
   end
+  object Label29: TLabel [26]
+    Left = 558
+    Top = 409
+    Width = 58
+    Height = 16
+    Caption = 'Nosso n'#186':'
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 462
     Width = 803
@@ -492,7 +499,7 @@ inherited fcrTitulo: TfcrTitulo
       Transparent = True
     end
   end
-  object DBLookupComboBox1: TDBLookupComboBox [28]
+  object DBLookupComboBox1: TDBLookupComboBox [29]
     Left = 16
     Top = 144
     Width = 253
@@ -507,7 +514,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [29]
+  object DBEdit3: TDBEdit [30]
     Left = 648
     Top = 80
     Width = 142
@@ -519,7 +526,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [30]
+  object DBEdit4: TDBEdit [31]
     Left = 148
     Top = 242
     Width = 121
@@ -534,7 +541,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [31]
+  object DBEdit5: TDBEdit [32]
     Left = 148
     Top = 274
     Width = 121
@@ -547,7 +554,7 @@ inherited fcrTitulo: TfcrTitulo
     OnExit = DBEdit5Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [32]
+  object DBEdit6: TDBEdit [33]
     Left = 148
     Top = 306
     Width = 121
@@ -560,7 +567,7 @@ inherited fcrTitulo: TfcrTitulo
     OnExit = DBEdit6Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [33]
+  object DBEdit7: TDBEdit [34]
     Left = 148
     Top = 336
     Width = 121
@@ -573,7 +580,7 @@ inherited fcrTitulo: TfcrTitulo
     OnExit = DBEdit7Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [34]
+  object DBEdit8: TDBEdit [35]
     Left = 148
     Top = 366
     Width = 121
@@ -586,7 +593,7 @@ inherited fcrTitulo: TfcrTitulo
     OnExit = DBEdit8Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [35]
+  object DBEdit9: TDBEdit [36]
     Left = 148
     Top = 425
     Width = 121
@@ -599,7 +606,7 @@ inherited fcrTitulo: TfcrTitulo
     OnExit = DBEdit9Exit
     OnKeyPress = FormKeyPress
   end
-  object BitBtn1: TBitBtn [36]
+  object BitBtn1: TBitBtn [37]
     Left = 39
     Top = 171
     Width = 194
@@ -675,7 +682,7 @@ inherited fcrTitulo: TfcrTitulo
       0707070707070707070707070007070707070707070707070707070707070707
       0707070707070707070707070707070707070707070707070707}
   end
-  object DBEdit10: TDBEdit [37]
+  object DBEdit10: TDBEdit [38]
     Left = 288
     Top = 240
     Width = 489
@@ -690,7 +697,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 17
     OnKeyPress = FormKeyPress
   end
-  object DBEdit11: TDBEdit [38]
+  object DBEdit11: TDBEdit [39]
     Left = 288
     Top = 288
     Width = 238
@@ -705,7 +712,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object DBEdit12: TDBEdit [39]
+  object DBEdit12: TDBEdit [40]
     Left = 528
     Top = 288
     Width = 249
@@ -720,7 +727,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object DBEdit13: TDBEdit [40]
+  object DBEdit13: TDBEdit [41]
     Left = 288
     Top = 336
     Width = 121
@@ -734,7 +741,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [41]
+  object DBEdit14: TDBEdit [42]
     Left = 411
     Top = 336
     Width = 121
@@ -748,7 +755,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object DBComboBox2: TDBComboBox [42]
+  object DBComboBox2: TDBComboBox [43]
     Left = 533
     Top = 336
     Width = 198
@@ -762,7 +769,7 @@ inherited fcrTitulo: TfcrTitulo
     TabStop = False
     OnKeyPress = FormKeyPress
   end
-  object DBEdit15: TDBEdit [43]
+  object DBEdit15: TDBEdit [44]
     Left = 733
     Top = 336
     Width = 44
@@ -777,7 +784,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 21
     OnKeyPress = FormKeyPress
   end
-  object DBComboBox1: TComboBox [44]
+  object DBComboBox1: TComboBox [45]
     Left = 16
     Top = 80
     Width = 252
@@ -786,7 +793,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object dbEdit2: TJvDBDatePickerEdit [45]
+  object dbEdit2: TJvDBDatePickerEdit [46]
     Left = 380
     Top = 80
     Width = 106
@@ -803,7 +810,7 @@ inherited fcrTitulo: TfcrTitulo
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object dbEdit1: TJvDBDatePickerEdit [46]
+  object dbEdit1: TJvDBDatePickerEdit [47]
     Left = 280
     Top = 80
     Width = 92
@@ -819,7 +826,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object datacon: TJvDBDatePickerEdit [47]
+  object datacon: TJvDBDatePickerEdit [48]
     Left = 496
     Top = 80
     Width = 111
@@ -835,7 +842,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object BitBtn4: TBitBtn [48]
+  object BitBtn4: TBitBtn [49]
     Left = 611
     Top = 74
     Width = 31
@@ -904,7 +911,7 @@ inherited fcrTitulo: TfcrTitulo
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       0000}
   end
-  object BitBtn5: TBitBtn [49]
+  object BitBtn5: TBitBtn [50]
     Left = 109
     Top = 415
     Width = 36
@@ -1011,7 +1018,7 @@ inherited fcrTitulo: TfcrTitulo
       827A7F7E85848083807887847C7F7F797D8182788184767F82757F7F8183837E
       807A83827887897D7E8277797D78FDFEFFC0C0C0C0C0C0C0C0C0}
   end
-  object DBEdit16: TDBEdit [50]
+  object DBEdit16: TDBEdit [51]
     Left = 288
     Top = 380
     Width = 72
@@ -1025,7 +1032,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 24
     OnKeyPress = FormKeyPress
   end
-  object DBEdit17: TDBEdit [51]
+  object DBEdit17: TDBEdit [52]
     Left = 363
     Top = 380
     Width = 85
@@ -1039,7 +1046,7 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 25
     OnKeyPress = FormKeyPress
   end
-  object DBEdit18: TDBEdit [52]
+  object DBEdit18: TDBEdit [53]
     Left = 451
     Top = 380
     Width = 102
@@ -1053,10 +1060,10 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 26
     OnKeyPress = FormKeyPress
   end
-  object DBEdit19: TDBEdit [53]
+  object DBEdit19: TDBEdit [54]
     Left = 289
     Top = 424
-    Width = 487
+    Width = 262
     Height = 24
     TabStop = False
     BevelKind = bkFlat
@@ -1067,10 +1074,10 @@ inherited fcrTitulo: TfcrTitulo
     TabOrder = 27
     OnKeyPress = FormKeyPress
   end
-  object Edit1: TEdit [54]
+  object Edit1: TEdit [55]
     Left = 558
     Top = 380
-    Width = 218
+    Width = 219
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -1078,7 +1085,7 @@ inherited fcrTitulo: TfcrTitulo
     ReadOnly = True
     TabOrder = 28
   end
-  object DBMemo2: TDBMemo [55]
+  object DBMemo2: TDBMemo [56]
     Left = 288
     Top = 126
     Width = 489
@@ -1092,7 +1099,7 @@ inherited fcrTitulo: TfcrTitulo
     MaxLength = 150
     TabOrder = 29
   end
-  object Memo1: TMemo [56]
+  object Memo1: TMemo [57]
     Left = 288
     Top = 184
     Width = 489
@@ -1100,6 +1107,20 @@ inherited fcrTitulo: TfcrTitulo
     Lines.Strings = (
       '')
     TabOrder = 30
+  end
+  object DBEdit20: TDBEdit [58]
+    Left = 558
+    Top = 424
+    Width = 219
+    Height = 24
+    TabStop = False
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataField = 'CODIGOBOLETO'
+    DataSource = DtSrc
+    TabOrder = 31
+    OnKeyPress = FormKeyPress
   end
   inherited PopupMenu1: TPopupMenu
     inherited Gravar1: TMenuItem
