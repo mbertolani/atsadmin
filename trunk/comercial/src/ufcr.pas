@@ -234,6 +234,8 @@ type
     rbConsolida: TCheckBox;
     cbReceitas: TJvComboBox;
     Label15: TLabel;
+    sdsCODIGOBOLETO: TStringField;
+    scdsCr_procCODIGOBOLETO: TStringField;
     procedure BitBtn4Click(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
@@ -482,7 +484,7 @@ begin
    sqltexto1 := sqltexto1 + ' rec.VIA, rec.HISTORICO ,';
    sqltexto1 := sqltexto1 + ' rec.N_DOCUMENTO, rec.DUP_REC_NF, rec.DP,rec.BL, rec.CODVENDA,';
    sqltexto1 := sqltexto1 + ' rec.NOMECLIENTE, rec.RAZAOSOCIAL, rec.CODMOVIMENTO, ';
-   sqltexto1 := sqltexto1 + ' rec.SALDO, rec.valorRec ';
+   sqltexto1 := sqltexto1 + ' rec.SALDO, rec.valorRec, rec.CODIGOBOLETO ';
    sqltexto1 := sqltexto1 + 'from RELCONTASRECEBER rec ';   // procedure 
   //==============================================================================
   datastr:='  /  /  ';

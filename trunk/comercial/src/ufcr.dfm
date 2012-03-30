@@ -971,7 +971,7 @@ object fcrproc: Tfcrproc
       Top = 2
       Width = 77
       Height = 55
-      Caption = 'Gerar Cob.'
+      Caption = 'Desc. Titulos'
       PopupMenu = PopupMenu1
       TabOrder = 15
       OnClick = btnGeraMensalidadeClick
@@ -2570,110 +2570,117 @@ object fcrproc: Tfcrproc
         Expanded = False
         FieldName = 'DUP_REC_NF'
         Title.Caption = 'Sel.'
-        Width = 19
+        Width = 18
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'TITULO'
         Title.Caption = 'T'#237'tulo'
-        Width = 49
+        Width = 45
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VIA'
         Title.Caption = 'Parc.'
-        Width = 31
+        Width = 29
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EMISSAO'
         Title.Caption = 'Emiss'#227'o'
-        Width = 50
+        Width = 46
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAVENCIMENTO'
         Title.Caption = 'Vencto.'
-        Width = 50
+        Width = 46
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATARECEBIMENTO'
         Title.Caption = 'Data Rec.'
-        Width = 54
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODCLIENTE'
         Title.Caption = 'C'#243'd.'
-        Width = 22
+        Width = 20
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'RAZAOSOCIAL'
         Title.Caption = 'Cliente'
-        Width = 95
+        Width = 88
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR_RESTO'
         Title.Caption = 'V. Receber'
-        Width = 54
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORREC'
         Title.Caption = 'Pendente'
-        Width = 54
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORRECEBIDO'
         Title.Caption = 'Recebido'
-        Width = 54
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUSP'
         Title.Caption = 'Situa'#231#227'o'
-        Width = 54
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'N_DOCUMENTO'
         Title.Caption = 'N.doc'
-        Width = 37
+        Width = 34
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'HISTORICO'
         Title.Caption = 'Hist'#243'rico'
-        Width = 46
+        Width = 41
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DP'
-        Width = 30
+        Width = 28
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'BL'
-        Width = 61
+        Width = 57
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODIGOBOLETO'
+        Title.Caption = 'Nosso N'#186
+        Width = 57
         Visible = True
       end>
   end
@@ -2805,6 +2812,10 @@ object fcrproc: Tfcrproc
       FieldName = 'BL'
       ReadOnly = True
     end
+    object scdsCr_procCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
+      ReadOnly = True
+    end
     object scdsCr_proctot_titulo: TAggregateField
       Alignment = taRightJustify
       FieldName = 'tot_titulo'
@@ -2835,19 +2846,18 @@ object fcrproc: Tfcrproc
   end
   object sds: TSQLDataSet
     CommandText = 
-      'select rec.CODRECEBIMENTO'#13#10'        , rec.TITULO'#13#10'        , rec.E' +
-      'MISSAO'#13#10'        , rec.DATAVENCIMENTO'#13#10'        , rec.CODCLIENTE'#13#10 +
-      '        , rec.VALORTITULO'#13#10'        , rec.VALOR_RESTO'#13#10'        , ' +
-      'rec.VALOR_PRIM_VIA, rec.DESCONTO'#13#10'        , rec.STATUS'#13#10'        ' +
-      ', rec.STATUS as STATUSP'#13#10'        , rec.DATARECEBIMENTO'#13#10'        ' +
-      ', rec.VALORRECEBIDO'#13#10'        , UDF_PADL(CAST(UDF_TRIM(rec.VIA) A' +
-      'S VARCHAR(2)),'#39'0'#39',2) || '#39'/'#39' || CAST(UDF_PADL(rec.PARCELAS,'#39'0'#39',2)' +
-      ' as varchar(2)) as VIA  '#13#10'        , rec.HISTORICO '#13#10'        , re' +
-      'c.N_DOCUMENTO'#13#10'        , rec.DUP_REC_NF'#13#10'        , rec.DP'#13#10'     ' +
-      '   ,rec.BL'#13#10'        , rec.CODVENDA'#13#10'        , cli.NOMECLIENTE'#13#10' ' +
-      '       , cli.RAZAOSOCIAL'#13#10'        , (rec.VALORTITULO - rec.VALOR' +
-      '_RESTO) as VALORREC '#13#10' from RECEBIMENTO rec '#13#10' inner join CLIENT' +
-      'ES cli on cli.CODCLIENTE=rec.CODCLIENTE '
+      'select rec.CODRECEBIMENTO'#13#10'        , rec.TITULO, rec.EMISSAO'#13#10'  ' +
+      '      , rec.DATAVENCIMENTO, rec.CODCLIENTE'#13#10'        , rec.VALORT' +
+      'ITULO, rec.VALOR_RESTO'#13#10'        , rec.VALOR_PRIM_VIA, rec.DESCON' +
+      'TO'#13#10'        , rec.STATUS, rec.STATUS as STATUSP'#13#10'        , rec.D' +
+      'ATARECEBIMENTO'#13#10'        , rec.VALORRECEBIDO'#13#10'        , UDF_PADL(' +
+      'CAST(UDF_TRIM(rec.VIA) AS VARCHAR(2)),'#39'0'#39',2) || '#39'/'#39' || CAST(UDF_' +
+      'PADL(rec.PARCELAS,'#39'0'#39',2) as varchar(2)) as VIA  '#13#10'        , rec.' +
+      'HISTORICO  , rec.N_DOCUMENTO'#13#10'        , rec.DUP_REC_NF, rec.DP'#13#10 +
+      '        ,rec.BL, rec.CODVENDA'#13#10'        , cli.NOMECLIENTE, cli.RA' +
+      'ZAOSOCIAL, rec.CODIGOBOLETO'#13#10'        , (rec.VALORTITULO - rec.VA' +
+      'LOR_RESTO) as VALORREC '#13#10' from RECEBIMENTO rec '#13#10' inner join CLI' +
+      'ENTES cli on cli.CODCLIENTE=rec.CODCLIENTE '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -2890,7 +2900,7 @@ object fcrproc: Tfcrproc
       FieldName = 'STATUS'
       ProviderFlags = [pfInUpdate]
       FixedChar = True
-      Size = 25
+      Size = 2
     end
     object sdsDATARECEBIMENTO: TDateField
       FieldName = 'DATARECEBIMENTO'
@@ -2931,7 +2941,7 @@ object fcrproc: Tfcrproc
       FieldName = 'STATUSP'
       ProviderFlags = [pfInUpdate]
       FixedChar = True
-      Size = 25
+      Size = 2
     end
     object sdsHISTORICO: TStringField
       FieldName = 'HISTORICO'
@@ -2952,6 +2962,10 @@ object fcrproc: Tfcrproc
     end
     object sdsBL: TIntegerField
       FieldName = 'BL'
+      ReadOnly = True
+    end
+    object sdsCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
       ReadOnly = True
     end
   end
