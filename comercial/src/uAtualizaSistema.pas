@@ -1243,6 +1243,30 @@ begin
 
     if (versaoSistema = '1.0.0.100') then
     begin
+      EXECUTADDLDROP('EMPRESA', 'INDICADORNATUREZAPJ');
+      EXECUTADDLDROP('EMPRESA', 'INDICADORATIVIDADE');
+      EXECUTADDLDROP('EMPRESA', 'CODINDINCTRIBUTARIA');
+      EXECUTADDLDROP('EMPRESA', 'INDAPROCRED');
+      EXECUTADDLDROP('EMPRESA', 'CODINDTIPOCON');
+      EXECUTADDLDROP('EMPRESA', 'CODINDCRITESCRIT');
+      EXECUTADDLDROP('EMPRESA', 'INDCODINCIDENCIA');
+      EXECUTADDLDROP('EMPRESA', 'INDCTA');
+      EXECUTADDLDROP('EMPRESA', 'BASECALCULOCREDITO');
+      EXECUTADDLDROP('EMPRESA', 'INDESCRITURACAO');
+      EXECUTADDLDROP('EMPRESA', 'INDREC');
+      EXECUTADDLDROP('EMPRESA', 'INDDESCCRED');
+      EXECUTADDLDROP('EMPRESA', 'INDNATRETFONTE');
+      EXECUTADDLDROP('EMPRESA', 'INDNATDEDUCAO');
+      EXECUTADDLDROP('EMPRESA', 'INDTPOPERACAORECEITA');
+      EXECUTADDLDROP('EMPRESA', 'INDORIGEMDIVERSAS');
+      EXECUTADDLDROP('EMPRESA', 'CODCONT');
+      EXECUTADDLDROP('EMPRESA', 'INDCREDORI');
+      EXECUTADDLDROP('EMPRESA', 'INDAJ');
+      EXECUTADDLDROP('EMPRESA', 'CODAJ');
+      EXECUTADDLDROP('EMPRESA', 'INDNATREC');
+      EXECUTADDLDROP('EMPRESA', 'NATCREDDESC');
+      EXECUTADDLDROP('EMPRESA', 'CODCRED');
+      EXECUTADDLDROP('EMPRESA', 'INDTIPCOOP');
       executaDDL('EMPRESA', 'CONTADOR',        'VARCHAR(100)');
       executaDDL('EMPRESA', 'CONTADOR_CRC',    'CHAR(20)');
       executaDDL('EMPRESA', 'CONTADOR_CNPJ',   'CHAR(14)');
@@ -1256,83 +1280,33 @@ begin
       executaDDL('EMPRESA', 'CONTADOR_FAX',    'VARCHAR(14)');
       executaDDL('EMPRESA', 'CONTADOR_EMAIL',  'VARCHAR(100)');
       executaDDL('EMPRESA', 'CONTADOR_COD_MUN', 'CHAR(10)');
+      EXECUTADDL('EMPRESA', 'CODINDTIPOCON', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDAPROCRED', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'CODINDINCTRIBUTARIA', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDICADORATIVIDADE', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDICADORNATUREZAPJ', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDCODINCIDENCIA', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'CODINDCRITESCRIT', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDESCRITURACAO', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDCTA', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDTIPCOOP', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDAJ', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'BASECALCULOCREDITO', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'CODAJ', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDNATREC', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'CODCRED', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'NATCREDDESC', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDCREDORI', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDREC', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'CODCONT', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDDESCCRED', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDORIGEMDIVERSAS',   'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDNATRETFONTE',      'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDTPOPERACAORECEITA', 'SMALLINT');
+      EXECUTADDL('EMPRESA', 'INDNATDEDUCAO',       'SMALLINT');
+      EXECUTADDL('EMPRESA', 'IM', 'VARCHAR(15)');
+      EXECUTADDL('EMPRESA', 'TREGIME', 'INTEGER');
 
-      executaDDLDrop('EMPRESA', UpperCase('IndicadorNaturezaPJ'));
-      executaDDL('EMPRESA', UpperCase('IndicadorNaturezaPJ'),  'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndicadorAtividade'));
-      executaDDL('EMPRESA', UpperCase('IndicadorAtividade'),  'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('CodIndIncTributaria'));
-      executaDDL('EMPRESA', UpperCase('CodIndIncTributaria'), 'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndAproCred'));
-      executaDDL('EMPRESA', UpperCase('IndAproCred'),         'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('CodIndTipoCon'));
-      executaDDL('EMPRESA', UpperCase('CodIndTipoCon'),       'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('CodIndCritEscrit'));
-      executaDDL('EMPRESA', UpperCase('CodIndCritEscrit'),    'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndCodIncidencia'));
-      executaDDL('EMPRESA', UpperCase('IndCodIncidencia'),    'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndCTA'));
-      executaDDL('EMPRESA', UpperCase('IndCTA'),              'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndEscrituracao'));
-      executaDDL('EMPRESA', UpperCase('IndEscrituracao'),     'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('BaseCalculoCredito'));
-      executaDDL('EMPRESA', UpperCase('BaseCalculoCredito'),  'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndAJ'));
-      executaDDL('EMPRESA', UpperCase('IndAJ'),               'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('CodAj'));
-      executaDDL('EMPRESA', UpperCase('CodAj'),               'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndNatRec'));
-      executaDDL('EMPRESA', UpperCase('IndNatRec'),           'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('NatCredDesc'));
-      executaDDL('EMPRESA', UpperCase('NatCredDesc'),         'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('CodCred'));
-      executaDDL('EMPRESA', UpperCase('CodCred'),             'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndTipCoop'));
-      executaDDL('EMPRESA', UpperCase('IndTipCoop'),          'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndCredOri'));
-      executaDDL('EMPRESA', UpperCase('IndCredOri'),          'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndRec'));
-      executaDDL('EMPRESA', UpperCase('IndRec'),              'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndDescCred'));
-      executaDDL('EMPRESA', UpperCase('IndDescCred'),         'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('CodCont'));
-      executaDDL('EMPRESA', UpperCase('CodCont'),             'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndNatRetFonte'));
-      executaDDL('EMPRESA', UpperCase('IndNatRetFonte'),      'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndOrigemDiversas'));
-      executaDDL('EMPRESA', UpperCase('IndOrigemDiversas'),   'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndNatDeducao'));
-      executaDDL('EMPRESA', UpperCase('IndNatDeducao'),       'SMALLINT');
-
-      executaDDLDrop('EMPRESA', UpperCase('IndTpOperacaoReceita'));
-      executaDDL('EMPRESA', UpperCase('IndTpOperacaoReceita'),'SMALLINT');
-
-      executaDDL('EMPRESA', UpperCase('IM'),                  'VARCHAR(15)');
-      executaDDL('EMPRESA', UpperCase('TREGIME'),             'INTEGER');
-
-      //executaDDL('EMPRESA', '', 'VARCHAR(50)');
 
       if (NaoExisteTabela('SPEDPISCOFINS') = False) then
       begin
@@ -1438,7 +1412,7 @@ begin
         ' CONCILIADO CHAR(1), ' +
         ' PRIMARY KEY(EXTRATOCOD, EXTRATODATA, CAIXA))');
       end;
-      if (NaoExisteTabela('BANCOEXTRATO')) then
+      if (NaoExisteTabela('BANCODEPARA')) then
       begin
         executaSql('CREATE TABLE BANCODEPARA(' +
         ' CAIXA INTEGER NOT NULL, ' +
@@ -1492,6 +1466,13 @@ begin
 
       mudaVersao('1.0.0.102');
     end;
+
+    if (versaoSistema = '1.0.0.102') then
+    begin
+      executaScript('gera_parcelas_pag.sql');
+      executaScript('relContaReceber.sql');      
+      mudaVersao('1.0.0.103');
+    end;// Fim Ataulização Versao 1.0.0.103
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
