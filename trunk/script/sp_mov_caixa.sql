@@ -38,14 +38,14 @@ BEGIN
   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CAIXA'
     INTO :CONTACAIXA;
 
-  SELECT SUM(pag.VALORRECEBIDO) FROM PAGAMENTO pag 
+  SELECT SUM(pag.VALORRECEBIDO + pag.JUROS) FROM PAGAMENTO pag 
     inner join plano pl on pl.CODIGO = pag.CAIXA 
     WHERE (pag.STATUS = '7-')
     and pag.DATAPAGAMENTO < :DTAINI and PLNCTAMAIN(pl.CONTA) = PLNCTAMAIN(:CONTACAIXA)
     and ((pag.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
   INTO :VLINID;
   -- Total Recebido ate esta data
-  SELECT SUM(rec.VALORRECEBIDO) FROM RECEBIMENTO rec 
+  SELECT SUM(rec.VALORRECEBIDO + rec.JUROS) FROM RECEBIMENTO rec 
     inner join plano pl on pl.CODIGO = rec.CAIXA 
     WHERE  (rec.STATUS = '7-')
     and rec.DATARECEBIMENTO < :DTAINI  and PLNCTAMAIN(pl.CONTA) = PLNCTAMAIN(:CONTACAIXA)
@@ -92,7 +92,7 @@ BEGIN
   /*                                                    */
   /*                                                    */
   FOR SELECT rec.DATARECEBIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(10)) || '-' ||  cli.NOMECLIENTE, 
-    rec.HISTORICO, (rec.VALORRECEBIDO), rec.CONTACREDITO, rec.FORMARECEBIMENTO, rec.N_DOCUMENTO  
+    rec.HISTORICO, (rec.VALORRECEBIDO + rec.JUROS), rec.CONTACREDITO, rec.FORMARECEBIMENTO, rec.N_DOCUMENTO  
     FROM RECEBIMENTO rec, CLIENTES cli where cli.CODCLIENTE = rec.CODCLIENTE 
     and rec.DATARECEBIMENTO BETWEEN :DTAINI AND :DTAFIM
     and ((rec.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
@@ -200,7 +200,7 @@ BEGIN
   END
   /*                                                    */
   /*                                                    */
-  /*      Total de CrÃƒÂ©ditos (Saiu) por PAGAMENTOS       */
+  /*      Total de Creditos (Saiu) por PAGAMENTOS       */
   /*                                                    */
   /*                                                    */
   
@@ -208,7 +208,7 @@ BEGIN
     valor = 0;
   descricao = null;
   FOR SELECT pag.DATAPAGAMENTO, CAST(pag.CODFORNECEDOR AS VARCHAR(10)) || '-' ||  forn.NOMEFORNECEDOR, 
-    pag.HISTORICO, (pag.VALORRECEBIDO), pag.CONTACREDITO, pag.FORMAPAGAMENTO, 
+    pag.HISTORICO, (pag.VALORRECEBIDO + pag.JUROS), pag.CONTACREDITO, pag.FORMAPAGAMENTO, 
     pag.N_DOCUMENTO, pag.SITUACAOCHEQUE  
     FROM PAGAMENTO pag, FORNECEDOR forn where forn.CODFORNECEDOR = pag.CODFORNECEDOR 
     and pag.DATAPAGAMENTO BETWEEN :DTAINI AND :DTAFIM
