@@ -516,6 +516,24 @@ object F_Boletos: TF_Boletos
     end
     object s_crVALOR_RESTO_SST: TFloatField
       FieldName = 'VALOR_RESTO_SST'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_crUSERID: TIntegerField
+      FieldName = 'USERID'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_crCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_crCODIGOBANCO: TIntegerField
+      FieldName = 'CODIGOBANCO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_crCODCONCILIACAO: TStringField
+      FieldName = 'CODCONCILIACAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 50
     end
   end
   object s_cliente: TSQLDataSet
@@ -1345,6 +1363,23 @@ object F_Boletos: TF_Boletos
     end
     object ds_crVALOR_RESTO_SST: TFloatField
       FieldName = 'VALOR_RESTO_SST'
+    end
+    object ds_crUSERID: TIntegerField
+      FieldName = 'USERID'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_crCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_crCODIGOBANCO: TIntegerField
+      FieldName = 'CODIGOBANCO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_crCODCONCILIACAO: TStringField
+      FieldName = 'CODCONCILIACAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 50
     end
   end
   object DataSource1: TDataSource

@@ -325,6 +325,14 @@ type
     s_bancoMORAJUROS: TStringField;
     s_bancoPERCMULTA: TFloatField;
     s_bancoPROTESTO: TStringField;
+    s_crUSERID: TIntegerField;
+    s_crCODIGOBOLETO: TStringField;
+    s_crCODIGOBANCO: TIntegerField;
+    s_crCODCONCILIACAO: TStringField;
+    ds_crUSERID: TIntegerField;
+    ds_crCODIGOBOLETO: TStringField;
+    ds_crCODIGOBANCO: TIntegerField;
+    ds_crCODCONCILIACAO: TStringField;
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -491,7 +499,11 @@ begin
               Titulo.DataProcessamento := Now;
 
               //varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
-              varNossoNumero := StrToInt64(s_bancoCODIGOBOLETO.AsString) + 1;
+              if (ds_crCODIGOBOLETO.AsString = '') then
+                varNossoNumero := StrToInt64(s_bancoCODIGOBOLETO.AsString) + 1
+              else
+                varNossoNumero := ds_crCODIGOBOLETO.AsString;
+
               // Atualizo o codigo do Boleto
 
               vartitulo := RemoveChar(ds_crTITULO.AsString) + '-' + RemoveChar(ds_crVIA.AsString);
@@ -574,17 +586,21 @@ begin
               end;
               //ACBrBoleto1.AdicionarMensagensPadroes(Titulo,Mensagem);
            end;
+
            // Atualizo o Codigo do Boleto
-           v_sql := 'UPDATE BANCO SET CODIGOBOLETO = ' + QuotedStr(IntToStr(varNossoNumero)) +
-           ' where CODBANCO = ' + IntToStr(s_bancoCODBANCO.AsInteger);
-           dm.sqlsisAdimin.StartTransaction(TD);
-           dm.sqlsisAdimin.ExecuteDirect(v_sql);
-           Try
-              dm.sqlsisAdimin.Commit(TD);
-           except
-              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-              MessageDlg('Erro no sistema, o Codigo do Boleto não foi atualizado'+#13+#10+'        abra o cadastro do banco e digite o numero '+#13+#10+'                        do ultimo boleto.', mtError,
-                  [mbOk], 0);
+           if (ds_crCODIGOBOLETO.AsString = '') then
+           begin
+             v_sql := 'UPDATE BANCO SET CODIGOBOLETO = ' + QuotedStr(IntToStr(varNossoNumero)) +
+             ' where CODBANCO = ' + IntToStr(s_bancoCODBANCO.AsInteger);
+             dm.sqlsisAdimin.StartTransaction(TD);
+             dm.sqlsisAdimin.ExecuteDirect(v_sql);
+             Try
+                dm.sqlsisAdimin.Commit(TD);
+             except
+                dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+                MessageDlg('Erro no sistema, o Codigo do Boleto não foi atualizado'+#13+#10+'        abra o cadastro do banco e digite o numero '+#13+#10+'                        do ultimo boleto.', mtError,
+                    [mbOk], 0);
+             end;
            end;
 
            // Atualizo o Codigo do Boleto no RECEBIMENTO
