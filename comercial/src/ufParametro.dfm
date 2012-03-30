@@ -2994,6 +2994,15 @@ inherited fParametro: TfParametro
         TabOrder = 22
         OnClick = chk3Click
       end
+      object CheckBox10: TCheckBox
+        Left = 11
+        Top = 376
+        Width = 294
+        Height = 17
+        Caption = 'Imprime um Recibo para todos Selecionados.'
+        TabOrder = 23
+        OnClick = CheckBox10Click
+      end
     end
   end
   inherited MMJPanel1: TMMJPanel [2]

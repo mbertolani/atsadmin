@@ -261,6 +261,7 @@ type
     chk1: TCheckBox;
     chk2: TCheckBox;
     chk3: TCheckBox;
+    CheckBox10: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -323,6 +324,7 @@ type
     procedure chk1Click(Sender: TObject);
     procedure chk2Click(Sender: TObject);
     procedure chk3Click(Sender: TObject);
+    procedure CheckBox10Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2177,6 +2179,15 @@ begin
 
      if (s_parametro.Active) then
        s_parametro.Close;
+     s_parametro.Params[0].AsString := 'SOMARECIBOS';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        CheckBox10.Checked := True
+     else
+        CheckBox10.Checked := False;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
      s_parametro.Params[0].AsString := 'MENSAGEM';
      s_parametro.Open;
      if (not s_parametro.Eof) then
@@ -3637,6 +3648,57 @@ begin
      begin
        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
        strSql := strSql + QuotedStr('USACONTROLECAIXA');
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+          dm.sqlsisAdimin.Commit(TD);
+       except
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+              [mbOk], 0);
+       end;
+     end;
+     if (s_parametro.Active) then
+        s_parametro.Close;
+  end;
+end;
+
+procedure TfParametro.CheckBox10Click(Sender: TObject);
+begin
+  if (CheckBox10.Checked = True) then  // Usa Aprovação no exluir Pedido
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'SOMARECIBOS';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Imprime 1 recibo para os selecionados ?') + ', ';
+        strSql := strSql + QuotedStr('SOMARECIBOS');
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'SOMARECIBOS';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+       strSql := strSql + QuotedStr('SOMARECIBOS');
        dm.sqlsisAdimin.StartTransaction(TD);
        dm.sqlsisAdimin.ExecuteDirect(strSql);
        Try
