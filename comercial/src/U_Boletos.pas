@@ -498,11 +498,15 @@ begin
 
               Titulo.DataProcessamento := Now;
 
+              if(s_banco.Active) then
+                s_banco.Close;
+              s_banco.Open;
+
               //varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
               if (ds_crCODIGOBOLETO.AsString = '') then
                 varNossoNumero := StrToInt64(s_bancoCODIGOBOLETO.AsString) + 1
               else
-                varNossoNumero := ds_crCODIGOBOLETO.AsString;
+                varNossoNumero := StrToInt64(ds_crCODIGOBOLETO.AsString);
 
               // Atualizo o codigo do Boleto
 
