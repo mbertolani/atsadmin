@@ -76,6 +76,8 @@ begin
      fNotaf.codMovFin := 0;     
      DM.tipoVenda := 'NF';
      TipoNF := 'Cliente';
+     DMNF.cds_venda.Params[0].Clear;
+     DMNF.cds_venda.Params[1].Clear;     
      fNotaf.ShowModal;
    finally
       fNotaf.Free;
