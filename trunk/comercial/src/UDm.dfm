@@ -6,7 +6,7 @@ object DM: TDM
   Height = 616
   Width = 1024
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'madurodam'
+    ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=localhost:c:\home\sisadmin\bd\sge_solcampo.fdb'
+      'Database=quad:sge_solcampo'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -26,7 +26,7 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
       'WaitOnLocks=True'
-      'str_relatorio=C:\home\atsadmin\relatorio\')
+      'str_relatorio=C:\home\sisAdmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 104
     Top = 8
@@ -2687,6 +2687,9 @@ object DM: TDM
     object sds_crDATACONSOLIDA: TDateField
       FieldName = 'DATACONSOLIDA'
     end
+    object sds_crCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
+    end
   end
   object dsp_cr: TDataSetProvider
     DataSet = sds_cr
@@ -2921,6 +2924,9 @@ object DM: TDM
     object cds_crDATACONSOLIDA: TDateField
       FieldName = 'DATACONSOLIDA'
       ProviderFlags = [pfInUpdate]
+    end
+    object cds_crCODIGOBOLETO: TStringField
+      FieldName = 'CODIGOBOLETO'
     end
   end
   object dsp_rec: TDataSetProvider
