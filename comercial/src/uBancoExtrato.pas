@@ -65,6 +65,28 @@ type
     Label1: TLabel;
     ComboBox1: TComboBox;
     sdsTipoConta: TSQLQuery;
+    OpenDialog1: TOpenDialog;
+    sdsExtratoNOME: TStringField;
+    cdsExtratoNOME: TStringField;
+    sdsE: TSQLDataSet;
+    dspE: TDataSetProvider;
+    cdsE: TClientDataSet;
+    sdsEEXTRATOCOD: TStringField;
+    sdsEEXTRATODATA: TDateField;
+    sdsECAIXA: TIntegerField;
+    sdsEEXTRATODOC: TStringField;
+    sdsEEXTRATOTIPO: TStringField;
+    sdsEEXTRATOVALOR: TFloatField;
+    sdsESEL: TStringField;
+    sdsECONCILIADO: TStringField;
+    cdsEEXTRATOCOD: TStringField;
+    cdsEEXTRATODATA: TDateField;
+    cdsECAIXA: TIntegerField;
+    cdsEEXTRATODOC: TStringField;
+    cdsEEXTRATOTIPO: TStringField;
+    cdsEEXTRATOVALOR: TFloatField;
+    cdsESEL: TStringField;
+    cdsECONCILIADO: TStringField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -98,6 +120,7 @@ type
     procedure abrirCaixa;
     procedure LancamentoNaoLancadoComConta;
     procedure LancaContabil;
+    procedure LimpaMarcacao;
     { Private declarations }
   public
     beUsuarioLogado: Integer;
@@ -117,35 +140,45 @@ procedure TfBancoExtrato.btnProcurarClick(Sender: TObject);
 var
   BancoOFX1: TBancoOFX;
   i:integer;
+  caminho: String;
 begin
-  if (not cdsExtrato.Active) then
-    cdsExtrato.Open;
-  if (cdsExtrato.IsEmpty) then
+  if (not cdsE.Active) then
+    cdsE.Open;
+  if (cdsE.IsEmpty) then
   begin
     BancoOFX1 := TBancoOFX.create(self);
-    BancoOFX1.OFXFile := 'C:\Home\2012_03.ofx';
-    BancoOFX1.Process;
-    //ListBox1.Clear;
-    for i := 0 to BancoOFX1.Count-1 do
+    if OpenDialog1.Execute then
     begin
-      if (cdsExtrato.State in [dsBrowse]) then
-        cdsExtrato.Append;
-      cdsExtratoEXTRATOCOD.AsString    := BancoOFX1.Get(i).ID;
-      cdsExtratoEXTRATODATA.AsDateTime := BancoOFX1.Get(i).MovDate;
-      cdsExtratoCAIXA.AsInteger        := contaCaixa;
-      cdsExtratoEXTRATODOC.AsString    := BancoOFX1.Get(i).Desc; // + ' - ' + BancoOFX1.Get(i).Document;
-      cdsExtratoEXTRATOTIPO.AsString   := BancoOFX1.Get(i).MovType;
-      cdsExtratoEXTRATOVALOR.AsFloat   := BancoOFX1.Get(i).Value;
-      cdsExtrato.ApplyUpdates(0);
+      caminho := OpenDialog1.FileName;
+      BancoOFX1.OFXFile := caminho;
+      BancoOFX1.Process;
+      //ListBox1.Clear;
+      for i := 0 to BancoOFX1.Count-1 do
+      begin
+        if (cdsE.State in [dsBrowse]) then
+          cdsE.Append;
+        cdsEEXTRATOCOD.AsString    := BancoOFX1.Get(i).ID;
+        cdsEEXTRATODATA.AsDateTime := BancoOFX1.Get(i).MovDate;
+        cdsECAIXA.AsInteger        := contaCaixa;
+        cdsEEXTRATODOC.AsString    := BancoOFX1.Get(i).Desc; // + ' - ' + BancoOFX1.Get(i).Document;
+        cdsEEXTRATOTIPO.AsString   := BancoOFX1.Get(i).MovType;
+        cdsEEXTRATOVALOR.AsFloat   := BancoOFX1.Get(i).Value;
+        if (jaFoiLancado('CAIXA', BancoOFX1.Get(i).ID)) then
+          cdsECONCILIADO.AsString := 'S';
+        if (jaFoiLancado('DESPESA', BancoOFX1.Get(i).ID)) then
+          cdsECONCILIADO.AsString := 'S';
+        cdsE.ApplyUpdates(0);
 
-      {ListBox1.Items.Add(BancoOFX1.Get(i).Desc + ' ' +
-                         FloatToStr(BancoOFX1.Get(i).Value) + ' ' +
-                         BancoOFX1.Get(i).MovType + ' ' +
-                         dateToStr(BancoOFX1.Get(i).MovDate) + ' ' +
-                         BancoOFX1.Get(i).ID + ' ' +
-                         BancoOFX1.Get(i).Document + ' '  );}
+        {ListBox1.Items.Add(BancoOFX1.Get(i).Desc + ' ' +
+                           FloatToStr(BancoOFX1.Get(i).Value) + ' ' +
+                           BancoOFX1.Get(i).MovType + ' ' +
+                           dateToStr(BancoOFX1.Get(i).MovDate) + ' ' +
+                           BancoOFX1.Get(i).ID + ' ' +
+                           BancoOFX1.Get(i).Document + ' '  );}
+      end;
     end;
   end;
+  abrirExtrato;
   abrirCaixa;
 end;
 
@@ -158,6 +191,7 @@ end;
 procedure TfBancoExtrato.FormShow(Sender: TObject);
 var conta_local : String;
 begin
+  LimpaMarcacao;
    // Listo as Contas Caixa
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -208,7 +242,6 @@ begin
     dm.cds_ccusto.Next;
   end;
   dm.cds_parametro.Close;
-
 
   dm.cds_parametro.Close;
   abrirExtrato;
@@ -385,6 +418,7 @@ begin
 end;
 
 procedure TfBancoExtrato.abrirExtrato;
+var nada: String;
 begin
   if (cdsExtrato.Active) then
     cdsExtrato.Close;
@@ -393,6 +427,11 @@ begin
   cdsExtrato.Params.ParamByName('DTA1').AsDate     := MaskEdit1.Date;
   cdsExtrato.Params.ParamByName('DTA2').AsDate     := MaskEdit2.Date;
   cdsExtrato.Open;
+  While not cdsExtrato.Eof do
+  begin
+    nada := cdsExtratoNOME.AsString;
+    cdsExtrato.next;
+  end;
 end;
 
 procedure TfBancoExtrato.FormDestroy(Sender: TObject);
@@ -489,14 +528,36 @@ begin
             despesa.Titulo        := cdsExtratoEXTRATOCOD.AsString;
             despesa.ContaCredito  := cdsExtratoCONTA.AsInteger;
             despesa.CodConciliaco := cdsExtratoEXTRATOCOD.AsString;
+            despesa.Obs           := copy('OFX ' +
+              cdsExtratoEXTRATODOC.AsString + '-' + cdsExtratoEXTRATOCOD.AsString +
+              '-' + cdsExtratoNOME.AsString, 0, 150);
+            try
+              TD.TransactionID := 1;
+              TD.IsolationLevel := xilREADCOMMITTED;
 
-            codPag := despesa.geraTitulo(0, 0);
-            despesa.marcarTitulo(codPag, beUsuarioLogado);
-            despesa.baixaTitulo(despesa.Valor, 0, 0, 0, 0, cdsExtratoEXTRATODATA.AsDateTime,
-            cdsExtratoEXTRATODATA.AsDateTime, cdsExtratoEXTRATODATA.AsDateTime,
-            '1', cdsExtratoEXTRATOCOD.AsString, contaCaixa, codFornec,
-            '5-', beUsuarioLogado);
-          end;
+              dm.sqlsisAdimin.StartTransaction(TD);
+              codPag := despesa.geraTitulo(0, 0);
+              dm.sqlsisAdimin.Commit(TD);
+
+              dm.sqlsisAdimin.StartTransaction(TD);
+              despesa.marcarTitulo(codPag, beUsuarioLogado);
+              dm.sqlsisAdimin.Commit(TD);
+
+              dm.sqlsisAdimin.StartTransaction(TD);
+              despesa.baixaTitulo(despesa.Valor, 0, 0, 0, 0, cdsExtratoEXTRATODATA.AsDateTime,
+              cdsExtratoEXTRATODATA.AsDateTime, cdsExtratoEXTRATODATA.AsDateTime,
+              '1', cdsExtratoEXTRATOCOD.AsString, contaCaixa, codFornec,
+              '7-', beUsuarioLogado);
+              dm.sqlsisAdimin.Commit(TD);
+              LimpaMarcacao;
+            except
+              on E : Exception do
+              begin
+                ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+                dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+              end;
+            end;
+          end;
         end;
         if (tipoConta(cdsExtratoCONTA.AsInteger) = 'CAIXA') then
         begin
@@ -605,8 +666,9 @@ begin
   var_sqlah := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
               ') Values (';
   var_sqlah := var_sqlah + intToStr(cod_id);
-  var_sqlah := var_sqlah + ',' + QuotedStr('Conciliação ' +
-    cdsExtratoEXTRATODOC.AsString + ' - ' + cdsExtratoEXTRATOCOD.AsString);
+  var_sqlah := var_sqlah + ',' + QuotedStr(copy('OFX ' +
+    cdsExtratoEXTRATODOC.AsString + '-' + cdsExtratoEXTRATOCOD.AsString +
+    '-' + cdsExtratoNOME.AsString,0 , 200));
   var_sqlah := var_sqlah + ')';
 
 
@@ -657,8 +719,9 @@ begin
   var_sqlbh := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
               ') Values (';
   var_sqlbh := var_sqlbh + intToStr(cod_id);
-  var_sqlbh := var_sqlbh + ',' + QuotedStr('Conciliação ' +
-    cdsExtratoEXTRATODOC.AsString + ' - ' + cdsExtratoEXTRATOCOD.AsString);
+  var_sqlbh := var_sqlbh + ',' + QuotedStr(copy('OFX ' +
+    cdsExtratoEXTRATODOC.AsString + '-' + cdsExtratoEXTRATOCOD.AsString +
+    '-' + cdsExtratoNOME.AsString, 0, 200));
   var_sqlbh := var_sqlbh + ')';
 
 
@@ -728,5 +791,26 @@ begin
   end;
 end;
 
+
+procedure TfBancoExtrato.LimpaMarcacao;
+var vsql: String;
+begin
+  vsql := 'UPDATE PAGAMENTO SET DP = NULL ';
+  vsql := vsql + ' WHERE DP = 0 ';
+  vsql := vsql + '   AND USERID = ' + IntToStr(beUsuarioLogado);
+  try
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(vsql);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+end;
 
 end.
