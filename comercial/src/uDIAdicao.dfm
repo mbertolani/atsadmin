@@ -294,7 +294,7 @@ inherited fDIAdicao: TfDIAdicao
     Params = <
       item
         DataType = ftInteger
-        Name = 'codDi'
+        Name = 'codmov'
         ParamType = ptInput
       end>
     ProviderName = 'dspMov_Det'
@@ -342,17 +342,17 @@ inherited fDIAdicao: TfDIAdicao
   object sdsMov_Det: TSQLDataSet
     CommandText = 
       'SELECT md.CODDETALHE, nf.NOTAFISCAL, p.CODPRO, md.DESCPRODUTO, m' +
-      'd.VALTOTAL, f.CODFORNECEDOR, f.RAZAOSOCIAL'#13#10'From MOVIMENTODETALH' +
-      'E md, PRODUTOS p, COMPRA c, NOTAFISCAL nf, FORNECEDOR f,'#13#10'where ' +
+      'd.VALTOTAL, f.CODFORNECEDOR, f.RAZAOSOCIAL '#13#10'From MOVIMENTODETAL' +
+      'HE md, PRODUTOS p, COMPRA c, NOTAFISCAL nf, FORNECEDOR f'#13#10'where ' +
       'p.CODPRODUTO = md.CODPRODUTO '#13#10'and f.CODFORNECEDOR = c.CODFORNEC' +
       'EDOR'#13#10'and c.CODMOVIMENTO = md.CODMOVIMENTO '#13#10'and nf.CODVENDA = c' +
       '.CODCOMPRA'#13#10'and UDF_LEFT(md.CFOP, 1) = '#39'3'#39#13#10'and nf.PROTOCOLOENV ' +
-      'is null'#13#10'and nf.natureza = 20'#13#10'and md.CODMOVIMENTO = :codMov'
+      'is null'#13#10'and nf.natureza = 20'#13#10'and c.codmovimento = :codmov'#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
-        Name = 'codMov'
+        DataType = ftInteger
+        Name = 'codmov'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
