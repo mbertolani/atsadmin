@@ -1,31 +1,32 @@
-ALTER PROCEDURE  GERA_PARCELAS_PAG( N_TITULO                         VARCHAR( 18 )
-                                  , DT_EMISSAO                       DATE
-                                  , COD_FORNEC                       INTEGER )
+CREATE OR ALTER PROCEDURE GERA_PARCELAS_PAG (
+    N_TITULO Varchar(18),
+    DT_EMISSAO Date,
+    COD_FORNEC Integer )
 AS
-DECLARE VARIABLE I INTEGER;
-DECLARE VARIABLE STATUS_VENDA CHAR(2);
-DECLARE VARIABLE VLR_RESTO DOUBLE PRECISION;
-DECLARE VARIABLE N_PARC INTEGER;
-DECLARE VARIABLE PARC INTEGER;
-DECLARE VARIABLE PARCT INTEGER;
-DECLARE VARIABLE V_CODORIGEM INTEGER;
-DECLARE VARIABLE DATA_EMISSAO DATE;
-DECLARE VARIABLE DATA_VENC DATE;
-DECLARE VARIABLE COD_US SMALLINT;
-DECLARE VARIABLE COD_CC INTEGER;
-DECLARE VARIABLE COD_CLIEN INTEGER;
-DECLARE VARIABLE V_VLRTITULO DOUBLE PRECISION;
-DECLARE VARIABLE V_VLRRECEBIDO DOUBLE PRECISION;
-DECLARE VARIABLE V_DESCONTO DOUBLE PRECISION;
-DECLARE VARIABLE V_JUROS DOUBLE PRECISION;
-DECLARE VARIABLE COD_CAIXA SMALLINT;
-DECLARE VARIABLE COD_FORN INTEGER;
-DECLARE VARIABLE VLR_PRIM_VIA DOUBLE PRECISION;
-DECLARE VARIABLE COD_VEND SMALLINT;
-DECLARE VARIABLE FORMA SMALLINT;
-
-DECLARE VARIABLE COD_CD INTEGER;
-DECLARE VARIABLE COD_CCRE INTEGER;
+declare variable i integer;
+declare variable status_venda char(2);
+declare variable vlr_resto double precision;
+declare variable n_parc integer;
+declare variable parc integer;
+declare variable parct integer;
+declare variable v_codorigem integer;
+declare variable data_emissao date;
+declare variable data_venc date;
+declare variable cod_us smallint;
+declare variable cod_cc integer;
+declare variable cod_clien integer;
+declare variable v_vlrtitulo double precision;
+declare variable v_vlrrecebido double precision;
+declare variable v_desconto double precision;
+declare variable v_juros double precision;
+declare variable cod_caixa smallint;
+declare variable cod_forn integer;
+declare variable vlr_prim_via double precision;
+declare variable cod_vend smallint;
+declare variable forma char(1);
+declare variable cod_cd integer;
+declare variable cod_ccre integer;
+declare variable HISTORICO varchar(150);
 begin
   VLR_RESTO = 0;
    V_VLRTITULO = 0;
@@ -36,11 +37,11 @@ begin
   /* Pegando os dados do título lançado */
     SELECT CODPAGAMENTO, EMISSAO, DATAVENCIMENTO, CODUSUARIO, CODALMOXARIFADO, CAIXA, 
       CODFORNECEDOR, VALOR_PRIM_VIA, VALORRECEBIDO, DESCONTO, JUROS, PARCELAS, CODCOMPRADOR, 
-      CONTADEBITO, CONTACREDITO, FORMAPAGAMENTO FROM PAGAMENTO 
+      CONTADEBITO, CONTACREDITO, FORMAPAGAMENTO, HISTORICO FROM PAGAMENTO 
       where ((TITULO = :N_TITULO) AND (EMISSAO = :DT_EMISSAO) AND (CODFORNECEDOR = 
       :COD_FORNEC))
       INTO :V_CODORIGEM, :DATA_EMISSAO, :DATA_VENC, :COD_US, :COD_CC, :COD_CAIXA , :COD_CLIEN,
-      :V_VLRTITULO, :V_VLRRECEBIDO, :V_DESCONTO, :V_JUROS, :PARC, :COD_VEND, :COD_CD, :COD_CCRE , :FORMA;    
+      :V_VLRTITULO, :V_VLRRECEBIDO, :V_DESCONTO, :V_JUROS, :PARC, :COD_VEND, :COD_CD, :COD_CCRE , :FORMA, :HISTORICO;
       i = 1;
       N_PARC = PARC;
       PARCT = PARC;
@@ -101,13 +102,13 @@ begin
                 , DATASISTEMA, VALOR_PRIM_VIA, VALOR_RESTO, VALORTITULO, PARCELAS, CAIXA, 
                 CONTADEBITO,
                 CONTACREDITO, OUTRO_DEBITO, VALORRECEBIDO, DESCONTO, JUROS, FUNRURAL, PERDA,
-                TROCA, outro_credito)
+                TROCA, outro_credito, HISTORICO)
               VALUES
                 ((:N_TITULO), :DT_EMISSAO, :COD_CLIEN, udf_IncMonth(:DATA_VENC, :i),
                 :status_venda, CAST((:i + 1) as CHAR(3)), :FORMA, :COD_CC, :COD_VEND, :COD_US,
                 'NOW', :VLR_PRIM_VIA, :VLR_RESTO, :V_VLRTITULO, :PARC, :COD_CAIXA, :COD_CD,
-                :COD_CCRE, 0,0,0,0,0,0,0,0);
+                :COD_CCRE, 0,0,0,0,0,0,0,0, :HISTORICO);
               i = i + 1;
             end
           end
-        end
+end
