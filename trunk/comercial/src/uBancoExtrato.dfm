@@ -131,9 +131,10 @@ inherited fBancoExtrato: TfBancoExtrato
   end
   object JvDBUltimGrid1: TJvDBUltimGrid [2]
     Left = 0
-    Top = 71
-    Width = 505
-    Height = 400
+    Top = 70
+    Width = 616
+    Height = 404
+    Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -151,7 +152,6 @@ inherited fBancoExtrato: TfBancoExtrato
     OnColEnter = JvDBUltimGrid1ColEnter
     OnColExit = JvDBUltimGrid1ColExit
     OnDrawColumnCell = JvDBUltimGrid1DrawColumnCell
-    AutoSizeColumns = True
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -169,65 +169,59 @@ inherited fBancoExtrato: TfBancoExtrato
       item
         Expanded = False
         FieldName = 'CONCILIADO'
-        Title.Caption = 'Conciliado'
-        Width = 34
+        Title.Caption = 'Conc.'
+        Width = 25
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATOCOD'
-        Title.Caption = 'Lan'#231'amento'
-        Width = 59
+        Title.Caption = 'Lan'#231'am.'
+        Width = 90
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATODATA'
         Title.Caption = 'Data'
-        Width = 37
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CAIXA'
-        Title.Caption = 'Caixa'
-        Width = 20
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CONTA'
-        Title.Caption = 'Conta'
-        Width = 56
+        Width = 65
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATODOC'
         Title.Caption = 'Documento'
-        Width = 188
+        Width = 120
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Title.Caption = 'Conta Lanc.'
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATOTIPO'
         Title.Caption = 'Tipo'
-        Width = 38
+        Width = 60
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EXTRATOVALOR'
         Title.Caption = 'Valor'
-        Width = 37
+        Width = 80
         Visible = True
       end>
   end
   object grid2: TJvDBUltimGrid [3]
-    Left = 507
-    Top = 72
-    Width = 529
-    Height = 402
+    Left = 616
+    Top = 70
+    Width = 421
+    Height = 404
+    Align = alRight
     DataSource = dsLanc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -255,67 +249,50 @@ inherited fBancoExtrato: TfBancoExtrato
       item
         Expanded = False
         FieldName = 'DTAPAGTO'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DESCRICAO'
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'VALORC'
-        Width = 50
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'VALORD'
-        Width = 50
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'VALOR'
+        Title.Caption = 'Data'
         Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CONTACONTABIL'
-        Width = 30
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CAIXA'
-        Width = 42
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CODCONTA'
-        Width = 50
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'N_DOC'
+        Title.Caption = 'Conta'
         Width = 60
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'ORDENA'
-        Width = 7
+        FieldName = 'DESCRICAO'
+        Title.Caption = 'Lan'#231'am.'
+        Width = 80
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'COMPENSADO'
-        Width = 13
+        FieldName = 'VALORC'
+        Title.Caption = 'Cr'#233'dito'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALORD'
+        Title.Caption = 'D'#233'bito'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR'
+        Title.Caption = 'Saldo'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'N_DOC'
+        Title.Caption = 'Doc.'
+        Width = 60
         Visible = True
       end>
   end
@@ -329,31 +306,23 @@ inherited fBancoExtrato: TfBancoExtrato
     Top = 8
   end
   object sdsExtrato: TSQLDataSet
-    CommandText = 
-      'SELECT BE.* , BD.CONTA'#13#10'   FROM BANCOEXTRATO BE'#13#10'     LEFT OUTER' +
-      ' JOIN BANCODEPARA BD '#13#10'       ON  BE.CAIXA = BD.CAIXA'#13#10'      AND' +
-      ' BE.EXTRATODOC = BD.EXTRATODOC'#13#10'      AND BE.EXTRATOTIPO = BD.EX' +
-      'TRATOTIPO'#13#10'WHERE  BE.CAIXA = :CAIXA'#13#10'      AND BE.EXTRATODATA BE' +
-      'TWEEN :DTA1 AND :DTA2'
+    CommandText = 'SELECT * FROM EXTRATOBANCARIO(:CAIXA, :DTA1, :DTA2)'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
         Name = 'CAIXA'
         ParamType = ptInput
-        Value = '7'
       end
       item
         DataType = ftDate
         Name = 'DTA1'
         ParamType = ptInput
-        Value = '01/01/2012'
       end
       item
         DataType = ftDate
         Name = 'DTA2'
         ParamType = ptInput
-        Value = '03/03/2012'
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 400
@@ -393,6 +362,10 @@ inherited fBancoExtrato: TfBancoExtrato
     object sdsExtratoCONTA: TIntegerField
       FieldName = 'CONTA'
     end
+    object sdsExtratoNOME: TStringField
+      FieldName = 'NOME'
+      Size = 200
+    end
   end
   object dspExtrato: TDataSetProvider
     DataSet = sdsExtrato
@@ -406,19 +379,16 @@ inherited fBancoExtrato: TfBancoExtrato
         DataType = ftInteger
         Name = 'CAIXA'
         ParamType = ptInput
-        Value = '7'
       end
       item
         DataType = ftDate
         Name = 'DTA1'
         ParamType = ptInput
-        Value = '01/01/2012'
       end
       item
         DataType = ftDate
         Name = 'DTA2'
         ParamType = ptInput
-        Value = '03/03/2012'
       end>
     ProviderName = 'dspExtrato'
     Left = 464
@@ -426,6 +396,8 @@ inherited fBancoExtrato: TfBancoExtrato
     object cdsExtratoEXTRATODATA: TDateField
       FieldName = 'EXTRATODATA'
       Required = True
+      DisplayFormat = 'dd/mm/yy'
+      EditMask = '!99/99/00;1;_'
     end
     object cdsExtratoCAIXA: TIntegerField
       FieldName = 'CAIXA'
@@ -459,6 +431,10 @@ inherited fBancoExtrato: TfBancoExtrato
     end
     object cdsExtratoCONTA: TIntegerField
       FieldName = 'CONTA'
+    end
+    object cdsExtratoNOME: TStringField
+      FieldName = 'NOME'
+      Size = 200
     end
   end
   object ImageList1: TImageList
@@ -655,6 +631,8 @@ inherited fBancoExtrato: TfBancoExtrato
     Top = 104
     object cdsLancDTAPAGTO: TDateField
       FieldName = 'DTAPAGTO'
+      DisplayFormat = 'dd/mm/yy'
+      EditMask = '!99/99/00;1;_'
     end
     object cdsLancORDEM: TIntegerField
       FieldName = 'ORDEM'
@@ -665,12 +643,18 @@ inherited fBancoExtrato: TfBancoExtrato
     end
     object cdsLancVALORC: TFloatField
       FieldName = 'VALORC'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsLancVALORD: TFloatField
       FieldName = 'VALORD'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsLancVALOR: TFloatField
       FieldName = 'VALOR'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsLancCONTACONTABIL: TStringField
       FieldName = 'CONTACONTABIL'
@@ -731,5 +715,93 @@ inherited fBancoExtrato: TfBancoExtrato
     SQLConnection = DM.sqlsisAdimin
     Left = 336
     Top = 160
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 40
+    Top = 64
+  end
+  object sdsE: TSQLDataSet
+    CommandText = 'SELECT * FROM BANCOEXTRATO'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 400
+    Top = 80
+    object sdsEEXTRATOCOD: TStringField
+      FieldName = 'EXTRATOCOD'
+      Required = True
+    end
+    object sdsEEXTRATODATA: TDateField
+      FieldName = 'EXTRATODATA'
+      Required = True
+    end
+    object sdsECAIXA: TIntegerField
+      FieldName = 'CAIXA'
+      Required = True
+    end
+    object sdsEEXTRATODOC: TStringField
+      FieldName = 'EXTRATODOC'
+      Size = 100
+    end
+    object sdsEEXTRATOTIPO: TStringField
+      FieldName = 'EXTRATOTIPO'
+    end
+    object sdsEEXTRATOVALOR: TFloatField
+      FieldName = 'EXTRATOVALOR'
+    end
+    object sdsESEL: TStringField
+      FieldName = 'SEL'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsECONCILIADO: TStringField
+      FieldName = 'CONCILIADO'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dspE: TDataSetProvider
+    DataSet = sdsE
+    Left = 432
+    Top = 80
+  end
+  object cdsE: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspE'
+    Left = 464
+    Top = 80
+    object cdsEEXTRATOCOD: TStringField
+      FieldName = 'EXTRATOCOD'
+      Required = True
+    end
+    object cdsEEXTRATODATA: TDateField
+      FieldName = 'EXTRATODATA'
+      Required = True
+    end
+    object cdsECAIXA: TIntegerField
+      FieldName = 'CAIXA'
+      Required = True
+    end
+    object cdsEEXTRATODOC: TStringField
+      FieldName = 'EXTRATODOC'
+      Size = 100
+    end
+    object cdsEEXTRATOTIPO: TStringField
+      FieldName = 'EXTRATOTIPO'
+    end
+    object cdsEEXTRATOVALOR: TFloatField
+      FieldName = 'EXTRATOVALOR'
+    end
+    object cdsESEL: TStringField
+      FieldName = 'SEL'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsECONCILIADO: TStringField
+      FieldName = 'CONCILIADO'
+      FixedChar = True
+      Size = 1
+    end
   end
 end
