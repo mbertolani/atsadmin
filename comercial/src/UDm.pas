@@ -1912,6 +1912,8 @@ type
     cdsBancoPERCMULTA: TFloatField;
     sdsBancoPROTESTO: TStringField;
     cdsBancoPROTESTO: TStringField;
+    sds_crCODIGOBOLETO: TStringField;
+    cds_crCODIGOBOLETO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
