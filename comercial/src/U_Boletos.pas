@@ -474,13 +474,13 @@ begin
                     if (s_bancoESPECIEDOC.AsString = 'DM') then
                        Titulo.EspecieDoc        := '02'; //EspecieDoc;
 
-                    Titulo.ValorMoraJuros := 3; // Isento Apenas para teste
+                    Titulo.ValorMoraJuros := 3; // Isento 
                     if (s_bancoMORAJUROS.AsString = '1-Diario') then
                        Titulo.ValorMoraJuros := 1;
                     if (s_bancoMORAJUROS.AsString = '2-Mensal') then
                        Titulo.ValorMoraJuros := 2;
                     if (s_bancoMORAJUROS.AsString = '3-Isento') then
-                       Titulo.ValorMoraJuros := 3; // Isento Apenas para teste
+                       Titulo.ValorMoraJuros := 3; // Isento
 
                     Titulo.PercentualMulta := 0;
                     if (s_bancoPERCMULTA.Value > 0) then
@@ -497,10 +497,6 @@ begin
                 Titulo.Aceite            := atNao;
 
               Titulo.DataProcessamento := Now;
-
-              if(s_banco.Active) then
-                s_banco.Close;
-              s_banco.Open;
 
               //varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
               if (ds_crCODIGOBOLETO.AsString = '') then
@@ -600,6 +596,7 @@ begin
              dm.sqlsisAdimin.ExecuteDirect(v_sql);
              Try
                 dm.sqlsisAdimin.Commit(TD);
+                BANCO_SELECIONADO;
              except
                 dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
                 MessageDlg('Erro no sistema, o Codigo do Boleto não foi atualizado'+#13+#10+'        abra o cadastro do banco e digite o numero '+#13+#10+'                        do ultimo boleto.', mtError,
@@ -620,6 +617,9 @@ begin
               MessageDlg('Erro no sistema, o Codigo do Boleto não foi atualizado'+#13+#10+'        abra o cadastro do banco e digite o numero '+#13+#10+'                        do ultimo boleto.', mtError,
                   [mbOk], 0);
            end;
+          // if(s_banco.Active) then
+          //   s_banco.Close;
+          // s_banco.Open;
            ds_cr.Next;
       end;
 
