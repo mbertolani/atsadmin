@@ -1,6 +1,6 @@
 object fAbrirCaixa: TfAbrirCaixa
-  Left = 463
-  Top = 264
+  Left = 514
+  Top = 362
   Width = 428
   Height = 324
   Color = clBtnFace
