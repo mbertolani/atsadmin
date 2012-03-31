@@ -1,6 +1,6 @@
 object F_RelTerminal: TF_RelTerminal
-  Left = 431
-  Top = 173
+  Left = 505
+  Top = 279
   Width = 508
   Height = 372
   BorderIcons = [biSystemMenu]
@@ -684,6 +684,7 @@ object F_RelTerminal: TF_RelTerminal
       Height = 17
       Caption = 'Gerar Arquivo'
       TabOrder = 1
+      Visible = False
     end
     object btn1: TBitBtn
       Left = 252
@@ -2073,6 +2074,80 @@ object F_RelTerminal: TF_RelTerminal
     object S_CAIXACODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
+    end
+  end
+  object s_parametro: TSQLDataSet
+    CommandText = 'select * from PARAMETRO '#13#10'where PARAMETRO = :pr'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pr'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 456
+    Top = 104
+    object s_parametroDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object s_parametroPARAMETRO: TStringField
+      FieldName = 'PARAMETRO'
+      Required = True
+      Size = 40
+    end
+    object s_parametroCONFIGURADO: TStringField
+      FieldName = 'CONFIGURADO'
+      FixedChar = True
+      Size = 1
+    end
+    object s_parametroDADOS: TStringField
+      FieldName = 'DADOS'
+      Size = 40
+    end
+    object s_parametroD1: TStringField
+      FieldName = 'D1'
+      Size = 30
+    end
+    object s_parametroD2: TStringField
+      FieldName = 'D2'
+      Size = 30
+    end
+    object s_parametroD3: TStringField
+      FieldName = 'D3'
+      Size = 30
+    end
+    object s_parametroD4: TStringField
+      FieldName = 'D4'
+      Size = 30
+    end
+    object s_parametroD5: TStringField
+      FieldName = 'D5'
+      Size = 30
+    end
+    object s_parametroD6: TStringField
+      FieldName = 'D6'
+      Size = 30
+    end
+    object s_parametroD7: TStringField
+      FieldName = 'D7'
+      Size = 30
+    end
+    object s_parametroD8: TStringField
+      FieldName = 'D8'
+      Size = 30
+    end
+    object s_parametroD9: TStringField
+      FieldName = 'D9'
+      Size = 30
+    end
+    object s_parametroINSTRUCOES: TStringField
+      FieldName = 'INSTRUCOES'
+      Size = 200
+    end
+    object s_parametroVALOR: TFloatField
+      FieldName = 'VALOR'
     end
   end
 end
