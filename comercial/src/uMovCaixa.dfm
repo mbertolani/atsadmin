@@ -1,6 +1,6 @@
 object fMovCaixa: TfMovCaixa
-  Left = 285
-  Top = 173
+  Left = 316
+  Top = 219
   Width = 750
   Height = 541
   BorderIcons = [biSystemMenu]
