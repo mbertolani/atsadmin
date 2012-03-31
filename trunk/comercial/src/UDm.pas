@@ -1985,7 +1985,7 @@ type
     LOTEQTDE, totalpago : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP, BAIXADO_BOLETO, impressaoResumida : String;
     tipoCompra, tipoVenda : String;
-    userAprovaCompra, varLogado, usaCentroCusto : String;
+    USACONTROLECAIXA, userAprovaCompra, varLogado, usaCentroCusto, resultadoOperacao : String;
     corEnd, corStart: TColor;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
