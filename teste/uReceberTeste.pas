@@ -15,11 +15,12 @@ type
     procedure TestRecInclusao;
     procedure TestRecAlteracao;
     procedure TestRecExclusao;
+    procedure TestRecBaixaTitulo;
 end;
 
   {const
-    CCodCli       = 950000;
-    CCodEndereco  = 950000;}
+    CCodCli       = 950000;}
+
 
 implementation
 
@@ -42,7 +43,7 @@ end;
 
 procedure TRecTeste.TestRecAlteracao;
 begin
-  {FVenda.verVenda(IntToStr(CCodCli),'CODVenda', 'INTEGER');
+ { FRec.verRec(IntToStr(CCodCli),'CODVenda', 'INTEGER');
   FVenda.NomeVenda := 'TESTE Venda 1 PONTO 2';
   FVenda.Status      := 1;
   FVenda.TipoFirma   := 0;
@@ -60,8 +61,30 @@ begin
   dm.sqlBusca.Open;
   check(dm.sqlBusca.FieldByName('NOMEVenda').AsString = FVenda.NomeVenda , 'Nome Venda Errado.');
   check(dm.sqlBusca.FieldByName('CNPJ').AsString        = FVenda.Cnpj , 'CNPJ/CPF Errado.');
-  check(dm.sqlBusca.FieldByName('INSCESTADUAL').AsString= FVenda.InscEstadual , 'Insc. Estadual Errado.');
-   }
+  check(dm.sqlBusca.FieldByName('INSCESTADUAL').AsString= FVenda.InscEstadual , 'Insc. Estadual Errado.');}
+
+end;
+
+procedure TRecTeste.TestRecBaixaTitulo;
+
+begin
+
+
+ FRec.baixaTitulo (0,0,0,0,0, StrToDate('12/05/11'),StrToDate('12/05/11'),StrToDate('12/05/11') ,'1','0',0,1000025, '5-',0);
+
+ dm.sqlBusca.Close;
+ dm.sqlBusca.SQL.Clear;
+ dm.sqlBusca.SQL.Add(' SELECT TITULO ' +
+    ' FROM RECEBIMENTO ' +
+    ' WHERE STATUS =  ' + QuotedStr('5-'));
+
+  dm.sqlBusca.Open;
+  if (dm.sqlBusca.IsEmpty) then
+     check(1 = 1 , 'TITULO Baixado.')
+  else
+     check(1 = 2 , 'TITULO não Baixado.')
+
+
 end;
 
 procedure TRecTeste.TestRecExclusao;
@@ -80,7 +103,7 @@ begin
     check(1 = 1 , 'TITULO Excluído.')
   else
     check(1 = 2 , 'Titulo não Excluído.')
-   
+
 end;
 
 procedure TRecTeste.TestRecInclusao;
