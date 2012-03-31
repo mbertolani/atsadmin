@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 464
-  Top = 109
+  Left = 314
+  Top = 171
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
