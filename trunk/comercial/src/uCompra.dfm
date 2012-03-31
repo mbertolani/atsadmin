@@ -1,6 +1,6 @@
 inherited fCompra: TfCompra
-  Left = 259
-  Top = 85
+  Left = 273
+  Top = 100
   Width = 820
   Height = 615
   Caption = 'Compra'
@@ -2490,7 +2490,7 @@ inherited fCompra: TfCompra
     object cds_Mov_detQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',##0.0'
+      DisplayFormat = ',##0.000'
       EditFormat = ',##0.0'
     end
     object cds_Mov_detUN: TStringField
@@ -2508,7 +2508,7 @@ inherited fCompra: TfCompra
     object cds_Mov_detQTDE_ALT: TFloatField
       FieldName = 'QTDE_ALT'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',##0.0'
+      DisplayFormat = ',##0.000'
       EditFormat = ',##0.0'
     end
     object cds_Mov_detBAIXA: TStringField
