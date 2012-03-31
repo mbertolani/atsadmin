@@ -1765,13 +1765,13 @@ begin
      ' - ' + dm.cds_empresaCEP.Value;
      fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
      ' / ' + dm.cds_empresaFONE_2.Value;
-     Texto  := '-----------------------------------------------------' ;
+     Texto  := '--------------------------------------------------' ;
      Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
       IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
-     Texto2 := '-----------------------------------------------------' ;
+     Texto2 := '--------------------------------------------------' ;
      Texto3 := 'Produto ' ;
-     Texto4 := 'Cod.Barra        UN      Qtde     V.Un.     V.Total ' ;
-     Texto5 := DateTimeToStr(Now) + '           Total.: R$ ';
+     Texto4 := 'Codigo         UN      Qtde     V.Un.     V.Total ' ;
+     Texto5 := DateTimeToStr(Now) + '         Total.: R$ ';
      cliente := 'Cliente : ' + DM_MOV.c_vendaNOMECLIENTE.Value;
      if (s_parametro.Active) then
          s_parametro.close;
@@ -1922,8 +1922,8 @@ begin
         end;
         buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
         buffer  := buffer + Format('   %2s  ',[DM_MOV.c_movdetUN.Value]);
-        buffer  := buffer + Format('   %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
-        buffer  := buffer + Format('   %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
+        buffer  := buffer + Format(' %6.3n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+        buffer  := buffer + Format('  %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
         buffer  := buffer + Format('   %8.2n',[DM_MOV.c_movdetValorTotal.value]);
         buffer  := buffer + Chr(13) + Chr(10);
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
@@ -1953,22 +1953,6 @@ begin
      buffer  := buffer + Chr(13) + Chr(10);
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
-
-  {   // imprimir vencimentos
-     while not scdsCr_proc.Eof do
-     begin
-       Texto5 := 'Vencimento :   ';
-       Write(Impressora, c17cpi, texto5);
-       Texto5 := DateTimeToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
-       Texto5 := Texto5 + ' - Valor R$' + FloatToStr(scdsCr_procVALOR_RESTO.AsFloat);
-       Writeln(Impressora, c17cpi, texto5);
-       scdsCr_proc.Next;
-     end;
-     Writeln(IMPRESSORA);
-     Write(Impressora, c10cpi, DM.Mensagem);
-
-     }
-
      // Verifico se tem % Garçom
      s_parametro.Close;
      if (s_parametro.Active) then
@@ -1985,17 +1969,14 @@ begin
          buffer  := buffer + Format('%10.2n',[porc]);
          buffer  := buffer + Chr(13) + Chr(10);
          comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-
          buffer  := texto5;
          total   := total + porc;
          buffer  := buffer + Format('%10.2n',[total]);
          buffer  := buffer + Chr(13) + Chr(10);
          comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-
        end;
      end;
      s_parametro.Close;
-
 
       buffer  := '' + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
