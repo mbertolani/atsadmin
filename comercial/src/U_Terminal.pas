@@ -623,6 +623,7 @@ type
     procedure bloqueia_mesa;
     procedure Libera_mesa;
     procedure permissao;
+    procedure testacaixaaberto;
     { Private declarations }
   public
     var_FINALIZOU : string;
@@ -646,18 +647,6 @@ const
 
 var
   F_Terminal: TF_Terminal;
- { CodigoProduto : Integer;
-  RETORNO, vendaexiste : String;
-  ESTOQUE : Boolean;
-  tipoImpressao : string;
-  IMPRESSORA:TextFile;
-  Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
-  total, porc, totgeral , desconto : double;
-  porta : string;
-  cliente : string;
-  vTIPO_PEDIDO, teste_codigo, estoque_negativo, SaldoNegativo : String;
-  numeroComp : Smallint;
-   }
 
 implementation
 
@@ -998,6 +987,17 @@ var poc : double;
 begin
    if (key = #13) then
    begin
+      if (DM.USACONTROLECAIXA = 'SIM') then
+      begin
+         testacaixaaberto;
+         if DM.resultadoOperacao = 'FALSE' then
+         begin
+            ShowMessage('Caixa não está aberto');
+            Exit;
+         end;
+      end;
+
+
       if Dm.cds_parametro.Active then
          dm.cds_parametro.Close;
       dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
@@ -1436,6 +1436,16 @@ begin
   else
     DM.impressaoResumida := 'NAO';
 
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].AsString := 'USACONTROLECAIXA';
+  s_parametro.Open;
+  if (not s_parametro.IsEmpty) then
+    DM.USACONTROLECAIXA := 'SIM'
+  else
+    DM.USACONTROLECAIXA := 'NAO';
+  s_parametro.Close;
+
   if (sCaixa1.Active) then
     sCaixa1.Close;
   sCaixa1.Params[0].AsString := MICRO;
@@ -1508,6 +1518,13 @@ begin
       JvBitBtn3.Visible := True;
     if (JvBitBtn4.Visible = False) then
       JvBitBtn4.Visible := True;
+
+    if (DM.USACONTROLECAIXA = 'SIM') then
+    begin
+       testacaixaaberto;
+       if DM.resultadoOperacao = 'FALSE' then
+          Panel2.Enabled := False;
+    end;
   end;
 
   if (PageControl1.ActivePage = TabDelivery) then
@@ -1532,6 +1549,13 @@ begin
     edtNome.Clear;
     edtCodCli.Clear;
     edtFone.SetFocus;
+    if (DM.USACONTROLECAIXA = 'SIM') then
+    begin
+       testacaixaaberto;
+       if DM.resultadoOperacao = 'FALSE' then
+          MMJPanel6.Enabled := False;
+    end;
+
   end;
 
 end;
@@ -1541,6 +1565,16 @@ var poc : Double;
 begin
    if (key = #13) then
    begin
+      if (DM.USACONTROLECAIXA = 'SIM') then
+      begin
+         testacaixaaberto;
+         if DM.resultadoOperacao = 'FALSE' then
+         begin
+            ShowMessage('Caixa não está aberto');
+            Exit;
+         end;
+      end;
+
      if (PageControl1.ActivePage = TabComanda) then
      begin
         if (DM_MOV.c_comanda.Active) then
@@ -2235,8 +2269,9 @@ begin
             end;
               DM_MOV.d_comanda.DataSet.Delete;
               (DM_MOV.d_comanda.DataSet as TClientDataSet).ApplyUpdates(0);
-              if DM_MOV.d_movdet.DataSet.Active then
-                DM_MOV.d_movdet.DataSet.Close;
+
+              DM_MOV.d_movdet.DataSet.Close;
+
               DM_MOV.d_comanda.DataSet.Close;
               ShowMessage('Pedido/Orçamento Excluido com Suscesso');
               pinta_botao;
@@ -2252,19 +2287,17 @@ begin
 
     if (PageControl1.ActivePage = TabDelivery) then
     begin
-      if MessageDlg('Deseja realmente Excluir esse registro? ' + nome_botao,mtConfirmation,[mbYes,mbNo],0) = mrYes then
+      if MessageDlg('Deseja realmente Excluir esse registro? ',mtConfirmation ,[mbYes,mbNo],0) = mrYes then
       begin
           try
             existevenda;
-            if (DM_MOV.c_venda.Active) then
-              DM_MOV.c_venda.Close;
+
+            DM_MOV.c_venda.Close;
+
             if (vendaexiste = 'SIM') then
             begin
-              ShowMessage('Delete o fechamento antes de deletar o pedido');
+              ShowMessage('Delete o Fechamento antes de deletar o pedido');
               Exit;
-             // DM_MOV.c_venda.Delete;
-             // DM_MOV.c_venda.ApplyUpdates(0);
-             // DM_MOV.c_venda.Close;
             end;
 
             if (DM_MOV.ID_DO_MOVIMENTO > 0) then
@@ -2287,8 +2320,8 @@ begin
               end;
               ShowMessage('Pedido/Orçamento Excluido com Suscesso');
 
-              if (DM_MOV.c_Delivery.Active) then
-                DM_MOV.c_Delivery.Close;
+              DM_MOV.c_Delivery.Close;
+
               DM_MOV.c_Delivery.CommandText := '';
               sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
               sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
@@ -2304,13 +2337,13 @@ begin
               edtNome.Text := '';
               edtEnd.Text := '';
               edtFone.Text := '';
-              if (DM_MOV.c_movdet.Active) then
-                  DM_MOV.c_movdet.Close;
+
+              DM_MOV.c_movdet.Close;
+
               JvParcial.Value := 0;
               JvSubtotal.Value := 0;
               JvTotal.Value := 0;
             end;
-
            Except
             MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
             exit;
@@ -2323,15 +2356,23 @@ procedure TF_Terminal.existevenda;
 begin
     if (DM_MOV.c_venda.Active) then
       DM_MOV.c_venda.Close;
+
     if (PageControl1.ActivePage = TabSheet1) then
       DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_MovimentoCODMOVIMENTO.AsInteger;
+
     if (PageControl1.ActivePage = TabComanda) then
       DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+
+    if (PageControl1.ActivePage = TabDelivery) then
+      DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+
     DM_MOV.c_venda.Open;
+
     if (not DM_MOV.c_venda.IsEmpty) then
       vendaexiste := 'SIM'
     else
       vendaexiste := 'NAO';
+
 end;
 
 procedure TF_Terminal.imprimeCupom;
@@ -2721,7 +2762,7 @@ begin
      // Comando para Acionar a Gaveta de Dinheiro
     // scomando := #27 + #118 + #140;
     // iRetorno := ComandoTX( scomando, Length( scomando ));
-     iRetorno := FechaPorta();    
+     iRetorno := FechaPorta();
 
 end;
 
@@ -3313,8 +3354,7 @@ begin
   DM_MOV.c_comanda.CommandText := sql;
   DM_MOV.c_comanda.Open;
   pinta_botao;
-  pinta_botao_1;
-  
+  pinta_botao_1;  
 end;
 
 procedure TF_Terminal.JvBitBtn4Click(Sender: TObject);
@@ -4282,8 +4322,10 @@ procedure TF_Terminal.bloqueia_mesa;
 begin
     sql := 'UPDATE MOVIMENTO SET OBS = ' + QuotedStr('BLOQUEADA - PARCIAL IMPRESSA') +
              ' WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger);
+
     if (DM_MOV.s_buscaMov.Active) then
       DM_MOV.s_buscaMov.Close;
+
     Try
        dm.sqlsisAdimin.StartTransaction(TD);
        dm.sqlsisAdimin.ExecuteDirect(sql);
@@ -4292,7 +4334,7 @@ begin
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
        MessageDlg('Erro ao efetuar troca de Mesa .', mtError,
            [mbOk], 0);
-    end
+    end;
 end;
 
 procedure TF_Terminal.Libera_mesa;
@@ -4309,7 +4351,7 @@ begin
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
        MessageDlg('Erro ao efetuar troca de Mesa .', mtError,
            [mbOk], 0);
-    end
+    end;
 end;
 
 procedure TF_Terminal.JvBitBtn6Click(Sender: TObject);
@@ -4317,6 +4359,13 @@ begin
   fAbrirCaixa := TfAbrirCaixa.create(Application);
   try
     fAbrirCaixa.ShowModal;
+    if (DM.USACONTROLECAIXA = 'SIM') then
+    begin
+       if Panel2.Enabled = False then
+          Panel2.Enabled := True;
+       if MMJPanel6.Enabled = False then
+          MMJPanel6.Enabled := True;
+    end;
   finally
     fAbrirCaixa.Free;
   end;
@@ -4509,10 +4558,10 @@ begin
      DM_MOV.c_movdet.First;
      while not DM_MOV.c_movdet.Eof do
      begin
-         // imprime
-       // if (DM.impressaoResumida = 'NAO') then
-       //   buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10)
-       // else
+        // imprime
+        // if (DM.impressaoResumida = 'NAO') then
+        //   buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10)
+        // else
         buffer  := '|' +  Format('%-46s  ', [DM_MOV.c_movdetPRODUTO.Value]) + '|';
         buffer  := buffer + Chr(13) + Chr(10);
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
@@ -4650,7 +4699,7 @@ begin
      DM_MOV.c_movdet.First;
      while not DM_MOV.c_movdet.Eof do
      begin
-         // imprime
+       // imprime
        // if (DM.impressaoResumida = 'NAO') then
        //   buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10)
        // else
@@ -4715,8 +4764,6 @@ begin
      comando := AcionaGuilhotina(1);  // modo corte Total
      if comando <> 1 then
        MessageDlg('Problemas no corte do papel..' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
-
-
 
      if (dm.cds_empresa.Active) then
        dm.cds_empresa.Close;
@@ -4910,8 +4957,7 @@ begin
            DM_MOV.c_movdet.Open;
 
             JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
-            if (c_forma.Active) then
-              c_forma.Close;
+            c_forma.Close;
             c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
             c_forma.Open;
             if (not c_formatotal.IsNull) then
@@ -4934,16 +4980,27 @@ begin
                 JvSubtotal.Value := JvTotal.Value + poc
               else
                 JvSubtotal.Value := JvTotal.Value;
-
             end;
             c_forma.Close;
-
-             
         end;
      finally
        f_AbreComanda.Free;
      end;
   end;
+end;
+
+procedure TF_Terminal.testacaixaaberto;
+begin
+  if (sCaixa1.Active) then
+    sCaixa1.Close;
+  sCaixa1.Params[0].AsString := MICRO;
+  sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
+  sCaixa1.Open;
+  if (sCaixa1.IsEmpty) then
+    DM.resultadoOperacao := 'FALSE'
+  else
+    DM.resultadoOperacao := 'TRUE';
+  sCaixa1.Close;
 end;
 
 end.
