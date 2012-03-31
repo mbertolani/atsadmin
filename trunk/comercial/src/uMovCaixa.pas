@@ -290,6 +290,7 @@ begin
   else
   begin
     MessageDlg('é preciso cadastrar Parametro LISTARCAIXA, com a conta pai para CAIXAS.', mtConfirmation, [mbok], 0);
+    dm.cds_parametro.Close;
     exit;
   end;
   dm.cds_parametro.Close;
@@ -333,7 +334,6 @@ begin
   if (eddata3.Text = '  /  /    ') then
     eddata3.Date := Now;
   sCaixa1.Close;
-
 end;
 
 procedure TfMovCaixa.btnAbrirClick(Sender: TObject);
@@ -479,15 +479,23 @@ end;
 procedure TfMovCaixa.entradaCaixa;
 Var
    var_sqla : string;
-   cod_id, var_usuario, primeiro_lanc : integer;
+   cod_id, var_usuario, primeiro_lanc, v_ccusto, v_codCaixa : integer;
 begin
     if (sCaixa1.Active) then
       sCaixa1.Close;
     sCaixa1.Params[0].AsString := MICRO;
     sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
     sCaixa1.Open;
+    var_usuario := usulog;
 
-     var_usuario := usulog;
+    If (S_CAIXA.Active) Then
+        S_CAIXA.Close;
+    S_CAIXA.Params[0].AsString := ComboBox1.Text;
+    S_CAIXA.Open;
+    v_codCaixa := S_CAIXACODIGO.AsInteger;
+    v_ccusto := S_CAIXACODIGO.AsInteger;
+    S_CAIXA.Close;
+    
     //  Conta Débito
     //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
@@ -502,11 +510,11 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(v_codCaixa); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
-    var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
+    var_sqla := var_sqla + ',' + IntToStr(v_ccusto); //CODCUSTO
     // CONTA CAIXA
    { if (not sPlano1.Active) then
       sPlano1.Open;
@@ -521,7 +529,7 @@ begin
     var_sqla := var_sqla + ',' + QuotedStr(S_CAIXACONTA.AsString);
     S_CAIXA.Close;
 
-    var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
+     var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(edValor.Value)); //Valor Debito
     DecimalSeparator := ',';
@@ -555,11 +563,11 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(CODIGODEORIGEM); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(v_codCaixa); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
-    var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
+    var_sqla := var_sqla + ',' + IntToStr(v_ccusto); //CODCUSTO
 
 {    if (not sPlano1.Active) then
       sPlano1.Open;
@@ -766,13 +774,6 @@ begin
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
     var_sqla := var_sqla + ',' + IntToStr(v_ccusto); //CODCUSTO
 
-    // Conta Contabil de Lançamento de Débito
-  {  if (not sPlano1.Active) then
-      sPlano1.Open;
-    sPlano1.Locate('NOME','SANGRIA', [loCaseInsensitive]);
-    var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString);
-    sPlano1.Close;
-    }
     if (S_CAIXA.Active) then
         S_CAIXA.Close;
     S_CAIXA.Params[0].AsString := cbbDebito.Text;
@@ -814,11 +815,13 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
+    //var_sqla := var_sqla + ',' + intToStr(cod_id); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(v_codCaixa); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', sCaixa1DATAABERTURA.AsDateTime); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
-    var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
+    //var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
+    var_sqla := var_sqla + ',' + IntToStr(v_ccusto); //CODCUSTO
     // CONTA CAIXA
   {  if (not sPlano1.Active) then
       sPlano1.Open;
