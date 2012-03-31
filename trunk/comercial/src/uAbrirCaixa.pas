@@ -318,6 +318,10 @@ begin
   btnAbrir.Enabled := False;
   if (sCaixa1.Active) then
     sCaixa1.Close;
+
+  DM.USACONTROLECAIXA := 'SIM';
+
+
 end;
 
 procedure TfAbrirCaixa.AbrirCaixa;
