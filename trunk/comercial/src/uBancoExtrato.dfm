@@ -721,9 +721,26 @@ inherited fBancoExtrato: TfBancoExtrato
     Top = 64
   end
   object sdsE: TSQLDataSet
-    CommandText = 'SELECT * FROM BANCOEXTRATO'
+    CommandText = 
+      'SELECT * FROM BANCOEXTRATO '#13#10'WHERE CAIXA = :pCaixa '#13#10'      AND E' +
+      'XTRATODATA BETWEEN :dtaIni'#13#10'      AND :dtaFim '
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCaixa'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dtaIni'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dtaFim'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 400
     Top = 80
@@ -767,7 +784,22 @@ inherited fBancoExtrato: TfBancoExtrato
   end
   object cdsE: TClientDataSet
     Aggregates = <>
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCaixa'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dtaIni'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dtaFim'
+        ParamType = ptInput
+      end>
     ProviderName = 'dspE'
     Left = 464
     Top = 80

@@ -142,11 +142,16 @@ var
   i:integer;
   caminho: String;
 begin
-  if (not cdsE.Active) then
-    cdsE.Open;
-  if (cdsE.IsEmpty) then
-  begin
+  if (cdsE.Active) then
+    cdsE.Close;
+  cdsE.Params.ParamByName('pCAIXA').AsInteger := contaCaixa;
+  cdsE.Params.ParamByName('DTAINI').AsDate     := MaskEdit1.Date;
+  cdsE.Params.ParamByName('DTAFIM').AsDate     := MaskEdit2.Date;
+  cdsE.Open;
+
+  Try
     BancoOFX1 := TBancoOFX.create(self);
+
     if OpenDialog1.Execute then
     begin
       caminho := OpenDialog1.FileName;
@@ -155,9 +160,15 @@ begin
       //ListBox1.Clear;
       for i := 0 to BancoOFX1.Count-1 do
       begin
-        if (cdsE.State in [dsBrowse]) then
-          cdsE.Append;
-        cdsEEXTRATOCOD.AsString    := BancoOFX1.Get(i).ID;
+        if not (cdsE.Locate('EXTRATOCOD', BancoOFX1.Get(i).ID, [loCaseInsensitive])) then
+        begin
+          if (cdsE.State in [dsBrowse]) then
+            cdsE.Append;
+          cdsEEXTRATOCOD.AsString    := BancoOFX1.Get(i).ID;
+        end
+        else begin
+          cdsE.Edit;
+        end;
         cdsEEXTRATODATA.AsDateTime := BancoOFX1.Get(i).MovDate;
         cdsECAIXA.AsInteger        := contaCaixa;
         cdsEEXTRATODOC.AsString    := BancoOFX1.Get(i).Desc; // + ' - ' + BancoOFX1.Get(i).Document;
@@ -168,18 +179,13 @@ begin
         if (jaFoiLancado('DESPESA', BancoOFX1.Get(i).ID)) then
           cdsECONCILIADO.AsString := 'S';
         cdsE.ApplyUpdates(0);
-
-        {ListBox1.Items.Add(BancoOFX1.Get(i).Desc + ' ' +
-                           FloatToStr(BancoOFX1.Get(i).Value) + ' ' +
-                           BancoOFX1.Get(i).MovType + ' ' +
-                           dateToStr(BancoOFX1.Get(i).MovDate) + ' ' +
-                           BancoOFX1.Get(i).ID + ' ' +
-                           BancoOFX1.Get(i).Document + ' '  );}
       end;
     end;
+    abrirExtrato;
+    abrirCaixa;
+  Finally
+    BancoOFX1.Free;
   end;
-  abrirExtrato;
-  abrirCaixa;
 end;
 
 procedure TfBancoExtrato.FormCreate(Sender: TObject);
@@ -605,7 +611,7 @@ end;
 
 procedure TfBancoExtrato.LancaContabil;
 var var_sqlb, var_sqla, var_sqlbh, var_sqlah, contaTransf: String;
-  cod_id : integer;
+  cod_id, cod_idOrigem : integer;
 begin
   dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
   cCusto := dm.cds_ccustoCODIGO.AsInteger;
@@ -663,6 +669,7 @@ begin
   var_sqla := var_sqla + ',' + QuotedStr(cdsExtratoEXTRATOCOD.AsString);
   var_sqla := var_sqla + ')';
 
+  cod_idOrigem := cod_id;
   var_sqlah := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
               ') Values (';
   var_sqlah := var_sqlah + intToStr(cod_id);
@@ -686,7 +693,7 @@ begin
          ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
          ', QTDEDEBITO, QTDEORCADO, CODCONCILIACAO) Values (';
   var_sqlb := var_sqlb + intToStr(cod_id);
-  var_sqlb := var_sqlb + ',' + intToStr(cod_id);
+  var_sqlb := var_sqlb + ',' + intToStr(cod_idOrigem);
   var_sqlb := var_sqlb + ',' + QuotedStr('CONTABIL');
   var_sqlb := var_sqlb + ',' + QuotedStr(formatdatetime('mm/dd/yyyy', cdsExtratoEXTRATODATA.AsDateTime));
   var_sqlb := var_sqlb + ',' + IntToStr(beUsuarioLogado);
