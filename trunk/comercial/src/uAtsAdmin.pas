@@ -253,6 +253,7 @@ type
     AjusteEstoque1: TMenuItem;
     ConciliaoBancaria1: TMenuItem;
     RelLucroPresumido1: TMenuItem;
+    SpedPisCofins1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -381,6 +382,7 @@ type
     procedure AjusteEstoque1Click(Sender: TObject);
     procedure ConciliaoBancaria1Click(Sender: TObject);
     procedure RelLucroPresumido1Click(Sender: TObject);
+    procedure SpedPisCofins1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -431,7 +433,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
   uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
-  uRel_LucroPresumido;
+  uRel_LucroPresumido, uNfePisCofins;
 
 {$R *.dfm}
 
@@ -2179,6 +2181,17 @@ begin
     fRel_LucroPresumido.ShowModal;
   finally
     fRel_LucroPresumido.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.SpedPisCofins1Click(Sender: TObject);
+begin
+  //Gerar Arquivo Pis/Cofins
+  fNfePisCofins := TfNfePisCofins.Create(Application);
+  try
+    fNfePisCofins.ShowModal;
+  finally
+    fNfePisCofins.Free;
   end;
 end;
 
