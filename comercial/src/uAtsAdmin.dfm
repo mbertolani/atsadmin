@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
   Left = 0
-  Top = 55
+  Top = 57
   Width = 699
   Height = 452
   Color = clWhite
@@ -2612,6 +2612,10 @@ object fAtsAdmin: TfAtsAdmin
       object CartadeCorreoEletrnica1: TMenuItem
         Caption = 'Carta de Corre'#231#227'o Eletr'#244'nica'
         OnClick = CartadeCorreoEletrnica1Click
+      end
+      object SpedPisCofins1: TMenuItem
+        Caption = 'Sped Pis/Cofins'
+        OnClick = SpedPisCofins1Click
       end
     end
     object N2: TMenuItem
