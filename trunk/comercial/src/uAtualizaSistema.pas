@@ -1463,7 +1463,8 @@ begin
       executaDDL('BANCO', 'CODIGOBOLETO', 'VARCHAR(20)');
       executaDDL('RECEBIMENTO', 'CODIGOBANCO', 'VARCHAR(20)');
       executaDDL('BANCO', 'VARIACAO', 'VARCHAR(3)');
-
+      executaDDL('PAGAMENTO', 'SITUACAO', 'INTEGER');
+      executaDDL('RECEBIMENTO', 'SITUACAO', 'INTEGER');
       mudaVersao('1.0.0.102');
     end;
 
