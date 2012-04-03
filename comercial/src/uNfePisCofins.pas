@@ -636,6 +636,7 @@ type
   private
     util : Tutils;
     tipo: String;
+    function validaCodMunicipio(cod: String; quem: String):String;
     procedure LoadToMemo;
     procedure blocoO;
     procedure bloco1;
@@ -796,12 +797,10 @@ begin
    // Bloco 0.
 
    cbConcomitante.Enabled := False ;
-   with ACBrSPEDPisCofins1 do
-   begin
-     DT_INI := StrToDate('01/04/2011');
-     DT_FIN := StrToDate('30/04/2011');
-     IniciaGeracao;
-   end;
+
+   ACBrSPEDPisCofins1.DT_INI := dt_ini.Date;
+   ACBrSPEDPisCofins1.DT_FIN := dt_fim.Date;
+   ACBrSPEDPisCofins1.IniciaGeracao;
 
    if cbConcomitante.Checked then
    begin
@@ -829,7 +828,7 @@ begin
         NOME             := cdsEmpresaRAZAO.AsString;
         CNPJ             := cdsEmpresaCNPJ_CPF.AsString;
         UF               := cdsEmpresaUF.AsString;
-        COD_MUN          := StrToInt(cdsEmpresaCD_IBGE.AsString);
+        COD_MUN          := StrToInt(validaCodMunicipio(cdsEmpresaCD_IBGE.AsString, cdsEmpresaRAZAO.AsString));
         SUFRAMA          := '';
         IND_NAT_PJ       := TACBrIndicadorNaturezaPJ(cdsEmpresaINDICADORNATUREZAPJ.AsInteger); // indNatPJSocEmpresariaGeral;
         IND_ATIV         := TACBrIndicadorAtividade(cdsEmpresaINDICADORATIVIDADE.asInteger); // indAtivIndustrial;
@@ -850,6 +849,8 @@ begin
            // FILHO - Dados do contador.
            with Registro0100New do
            begin
+             if (cdsEmpresaCONTADOR.AsString <> '') then
+             begin
               NOME       := cdsEmpresaCONTADOR.AsString;
               CPF        := cdsEmpresaCONTADOR_CPF.AsString;
               CRC        := cdsEmpresaCONTADOR_CRC.AsString;
@@ -862,7 +863,8 @@ begin
               FONE       := cdsEmpresaCONTADOR_FONE.AsString;
               FAX        := cdsEmpresaCONTADOR_FAX.AsString;
               EMAIL      := cdsEmpresaCONTADOR_EMAIL.AsString;
-              COD_MUN    := StrToInt(cdsEmpresaCONTADOR_COD_MUN.AsString);
+              COD_MUN    := StrToInt(validaCodMunicipio(cdsEmpresaCONTADOR_COD_MUN.AsString, 'Contador: ' + cdsEmpresaCONTADOR.AsString));
+             end;
            end;
 
            // FILHO - Regime de Apuração
@@ -887,7 +889,7 @@ begin
                  CNPJ    := cdsEmpresaCNPJ_CPF.AsString;
                  UF      := cdsEmpresaUF.AsString;
                  IE      := cdsEmpresaIE_RG.AsString;
-                 COD_MUN := StrToInt(cdsEmpresaCD_IBGE.AsString);
+                 COD_MUN := StrToInt(validaCodMunicipio(cdsEmpresaCD_IBGE.AsString, cdsEmpresaRAZAO.AsString));
                  IM      := cdsEmpresaIM.AsString;
                  SUFRAMA := '';
 
@@ -916,7 +918,7 @@ begin
                        end;
 
                        IE       := util.RemoveChar(cdsNFVendaINSCESTADUAL.AsString);
-                       COD_MUN  := StrToInt(util.RemoveChar(cdsNFVendaCD_IBGE.AsString));
+                       COD_MUN  := StrToInt(validaCodMunicipio(cdsNFVendaCD_IBGE.AsString, cdsNFVendaNOMECLIENTE.AsString));
                        SUFRAMA  := '';
                        ENDERECO := cdsNFVendaLOGRADOURO.AsString + IntToStr(int0150);
                        NUM      := cdsNFVendaNUMERO_2.AsString;
@@ -1412,17 +1414,23 @@ begin
 
   ACBrSPEDPisCofins1.LinhasBuffer := StrToIntDef( edBufLinhas.Text, 0 );
 
-  with ACBrSPEDPisCofins1 do
-  begin
-    DT_INI := StrToDate('01/04/2011');
-    DT_FIN := StrToDate('30/04/2011');
-  end;
+  ACBrSPEDPisCofins1.DT_INI := dt_ini.Date;
+  ACBrSPEDPisCofins1.DT_FIN := dt_fim.Date;
 
   // Limpa a lista de erros.
   memoError.Lines.Clear;
   // Informa o pasta onde será salvo o arquivo TXT.
-  ACBrSPEDPisCofins1.Path := '.\';
+  ACBrSPEDPisCofins1.Path := 'c:\home\';
   ACBrSPEDPisCofins1.Arquivo := edtFile.Text;
+
+
+  blocoO;
+  bloco1;
+  blocoA;
+  blocoC;
+  blocoD;
+  blocoF;
+  blocoM;
 
   // Método que gera o arquivo TXT.
   ACBrSPEDPisCofins1.SaveFileTXT ;
@@ -1432,14 +1440,6 @@ begin
 
   // Habilita os botões
   cbConcomitante.Enabled := True ;
-
-  blocoO;
-  bloco1;
-  blocoA;
-  blocoC;
-  blocoD;
-  blocoF;
-  blocoM;
 
 end;
 
@@ -1489,6 +1489,14 @@ end;
 procedure TfNfePisCofins.FormDestroy(Sender: TObject);
 begin
   util.Free;
+end;
+
+function TfNfePisCofins.validaCodMunicipio(cod: String; quem: String):String;
+begin
+  cod := util.RemoveChar(cod);
+  result := cod;
+  if (cod = '') then
+    MessageDlg('Código do IBGE não preenchido para ' + quem + '.', mtWarning, [mbOK], 0);
 end;
 
 end.
