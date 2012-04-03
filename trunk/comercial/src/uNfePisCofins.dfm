@@ -1,6 +1,6 @@
 object fNfePisCofins: TfNfePisCofins
   Left = 48
-  Top = 82
+  Top = 81
   Width = 719
   Height = 614
   Caption = 'fNfePisCofins'
@@ -123,7 +123,7 @@ object fNfePisCofins: TfNfePisCofins
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
-      Text = 'ACBrSpedPISCofins.txt'
+      Text = 'arquivo.txt'
       OnChange = edtFileChange
       OnExit = edtFileExit
     end
@@ -301,7 +301,8 @@ object fNfePisCofins: TfNfePisCofins
     OnClick = btnErrorClick
   end
   object ACBrSPEDPisCofins1: TACBrSPEDPisCofins
-    Path = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
+    Path = 'c:\home\'
+    Arquivo = 'arquivo'
     Delimitador = '|'
     TrimString = True
     CurMascara = '#0.00'
