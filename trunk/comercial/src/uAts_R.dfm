@@ -27890,7 +27890,6 @@ object fAts_R: TfAts_R
             ImageIndex = 22
             Tag = 0
             AutoToggle = False
-            OnClick = JvOutlookBar1Pages0Buttons5Click
           end
           item
             Action = actPlano
@@ -28046,6 +28045,13 @@ object fAts_R: TfAts_R
             Action = actInventario
             Caption = 'Inventario'
             ImageIndex = 31
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages3Buttons4Click
+          end
+          item
+            Caption = 'Lista de Produtos'
+            ImageIndex = 29
             Tag = 0
             AutoToggle = False
             OnClick = JvOutlookBar1Pages3Buttons5Click
@@ -56563,7 +56569,6 @@ object fAts_R: TfAts_R
       Category = 'Cadastro'
       Caption = 'CF&OP'
       ImageIndex = 22
-      OnExecute = JvOutlookBar1Pages0Buttons5Click
     end
     object actvenda: TAction
       Category = 'Comercial'
@@ -56641,7 +56646,7 @@ object fAts_R: TfAts_R
       Category = 'Materiais'
       Caption = 'Inventario'
       ImageIndex = 31
-      OnExecute = JvOutlookBar1Pages3Buttons5Click
+      OnExecute = JvOutlookBar1Pages3Buttons4Click
     end
     object actRelCompra: TAction
       Category = 'Relat'#243'rios'
