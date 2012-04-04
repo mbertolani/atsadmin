@@ -77,7 +77,6 @@ type
     procedure JvOutlookBar1Pages3Buttons1Click(Sender: TObject);
     procedure JvOutlookBar1Pages3Buttons2Click(Sender: TObject);
     procedure JvOutlookBar1Pages3Buttons3Click(Sender: TObject);
-    procedure JvOutlookBar1Pages3Buttons5Click(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons5Click(Sender: TObject);
     procedure JvOutlookBar1Pages2Buttons3Click(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons6Click(Sender: TObject);
@@ -85,6 +84,8 @@ type
     procedure JvOutlookBar1Pages4Buttons2Click(Sender: TObject);
     procedure JvOutlookBar1Pages4Buttons3Click(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons7Click(Sender: TObject);
+    procedure JvOutlookBar1Pages3Buttons4Click(Sender: TObject);
+    procedure JvOutlookBar1Pages3Buttons5Click(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -110,7 +111,7 @@ uses
   ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
-  uRel, uRelatorioCaixa, uPrazo;
+  uRel, uRelatorioCaixa, uPrazo, uProcura_produtos;
 
 {$R *.dfm}
 
@@ -610,7 +611,7 @@ begin
  end;
 end;
 
-procedure TfAts_R.JvOutlookBar1Pages3Buttons5Click(Sender: TObject);
+procedure TfAts_R.JvOutlookBar1Pages3Buttons4Click(Sender: TObject);
 begin
  fInventario := TfInventario.Create(Application);
  try
@@ -690,6 +691,13 @@ begin
    dm.cdsPrazo.Close;
    fPrazo.Free;
  end;
+end;
+
+procedure TfAts_R.JvOutlookBar1Pages3Buttons5Click(Sender: TObject);
+begin
+    fProcura_produtos.btnIncluir.Visible := true;
+    fProcura_produtos.ShowModal;
+    fProcura_produtos.cbMarca.Text := '';
 end;
 
 end.
