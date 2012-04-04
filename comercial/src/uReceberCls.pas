@@ -222,6 +222,7 @@ begin
       if (VLPER < 0) then
         VLPER := 0;
       VLPERT := VLPERT - VLPER;
+      VLR_RESTO := VLR_RESTO + VLJU + VLFUN - VLPER - VLDESC;
       // Valor total a baixar - valor pago = valor atual
       if (VLRATUAL > VLRESTO) then
       begin
@@ -303,7 +304,7 @@ begin
             ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
         executaSql(strRec);
       end;
-      VLR_RESTO := VLR_RESTO - (VLR - VLDESC - VLPER);
+      VLR_RESTO := VLR_RESTO - (VLR + VLJU + VLFUN - VLPER - VLDESC);
      sqlBuscaR.Next;
     end;
     Result := 0;
