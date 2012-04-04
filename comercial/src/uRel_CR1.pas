@@ -325,20 +325,54 @@ procedure TfRel_CR1.BitBtn3Click(Sender: TObject);
 begin
   Marcatitulos;
 
-  fcrproc.VCLReport1.Filename := str_relatorio + 'recibo.rep';
-  fcrproc.VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  if (not fcrproc.scdsCr_proc.Active) then
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].Clear;
+  s_parametro.Params[0].AsString := 'SOMARECIBOS';
+  s_parametro.Open;
+
+  if (s_parametro.IsEmpty) then
   begin
-   MessageDlg('Pôr favor efetue a pesquisa antes, para depois imprimir..', mtWarning, [mbOK], 0);
-   exit;
-  end;
-  fcrproc.VCLReport1.Report.Params.ParamByName('CODVENDA').Value := 0;
-  if fcrproc.edCodCliente.Text <> '' then
-    fcrproc.VCLReport1.Report.Params.ParamByName('CODID').Value := StrToInt(fcrproc.edCodCliente.Text)
+    fcrproc.VCLReport1.Filename := str_relatorio + 'recibo.rep';
+    fcrproc.VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    if (not fcrproc.scdsCr_proc.Active) then
+    begin
+     MessageDlg('Pôr favor efetue a pesquisa antes, para depois imprimir..', mtWarning, [mbOK], 0);
+     exit;
+    end;
+    fcrproc.VCLReport1.Report.Params.ParamByName('CODVENDA').Value := 0;
+    if fcrproc.edCodCliente.Text <> '' then
+      fcrproc.VCLReport1.Report.Params.ParamByName('CODID').Value := StrToInt(fcrproc.edCodCliente.Text)
+    else
+      fcrproc.VCLReport1.Report.Params.ParamByName('CODID').Value := 9999999;
+    fcrproc.VCLReport1.Report.Params.ParamByName('N_COPIAS').Value :=StrToInt(Edit2.Text);
+    fcrproc.VCLReport1.Execute;
+  end
   else
-    fcrproc.VCLReport1.Report.Params.ParamByName('CODID').Value := 9999999;
-  fcrproc.VCLReport1.Report.Params.ParamByName('N_COPIAS').Value :=StrToInt(Edit2.Text);
-  fcrproc.VCLReport1.Execute;
+  begin
+    if (not fcrproc.scdsCr_proc.Active) then
+    begin
+      MessageDlg('Pôr favor efetue a pesquisa antes, para depois imprimir..', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    if (fcrproc.edCodCliente.Text = '') then
+    begin
+      MessageDlg('Pôr favor selecione o Cliente antes, para depois imprimir..', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    if ((fcrproc.meDta3.Text = '  /  /  ') or (fcrproc.meDta4.Text = '  /  /  ')) then
+    begin
+     MessageDlg('O campo Vencimento tem que ter um valor', mtWarning, [mbOK], 0);
+     exit;
+    end;
+    VCLReport1.Filename := str_relatorio + 'recibo_total.rep';
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Report.Params.ParamByName('DATA1').Value := StrToDate(fcrproc.meDta3.Text);
+    VCLReport1.Report.Params.ParamByName('DATA2').Value := StrToDate(fcrproc.meDta4.Text);
+    VCLReport1.Report.Params.ParamByName('CODID').Value := StrToInt(fcrproc.edCodCliente.Text);
+    VCLReport1.Report.Params.ParamByName('N_COPIAS').Value := StrToInt(Edit2.Text);
+    VCLReport1.Execute;
+  end;
 end;
 
 procedure TfRel_CR1.BitBtn4Click(Sender: TObject);
