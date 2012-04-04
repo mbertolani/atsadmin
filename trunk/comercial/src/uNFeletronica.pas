@@ -2102,7 +2102,7 @@ var
 begin
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
-    if (cdsNFFRETE.IsNull) then
+    if ((cdsNFFRETE.IsNull) or (cdsNFFRETE.AsString = ' '))then
       tfrete := 9
     else
     begin
