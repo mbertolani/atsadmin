@@ -1,6 +1,6 @@
 object F_RelTerminal: TF_RelTerminal
-  Left = 505
-  Top = 279
+  Left = 532
+  Top = 327
   Width = 508
   Height = 372
   BorderIcons = [biSystemMenu]
