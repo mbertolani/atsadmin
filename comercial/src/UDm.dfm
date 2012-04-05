@@ -1455,8 +1455,8 @@ object DM: TDM
     object cds_produtoQTDE_PCT: TFloatField
       FieldName = 'QTDE_PCT'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',##0.0'
-      EditFormat = ',##0.0'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cds_produtoPRODUTO: TStringField
       DisplayWidth = 300
@@ -1469,7 +1469,7 @@ object DM: TDM
       FieldName = 'PESO_QTDE'
       ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.000'
-      EditFormat = ',##0.0'
+      EditFormat = ',##0.000'
     end
     object cds_produtoCONTA_RECEITA: TStringField
       FieldName = 'CONTA_RECEITA'
