@@ -575,7 +575,7 @@ begin
   begin
     texto6 := Copy(sVendaDESCRICAO.AsString, 0, 38);
     Writeln(Impressora, c10cpi, texto6);
-    Write(Impressora, c10cpi + Format('%16.2n',[sVendaQUTDE.value]));
+    Write(Impressora, c10cpi + Format('%6.4n',[sVendaQUTDE.value]));
     Write(Impressora, c10cpi + Format('%10.2n',[sVendaVARLORUNIT.value]));
     totalprod := sVendaQUTDE.value * sVendaVARLORUNIT.value;
     Writeln(Impressora, c10cpi + Format('%10.2n',[totalprod]));
@@ -677,7 +677,7 @@ begin
     texto6 := Copy(sVendaDESCRICAO.AsString, 0, 38);
     buffer  := texto6 + Chr(13) + Chr(10);
     comando := FormataTX(texto6, 3, 0, 0, 0, 0);
-    buffer  := buffer + Format('%6.2n',[sVendaQUTDE.value]);
+    buffer  := buffer + Format('%6.4n',[sVendaQUTDE.value]);
     buffer  := buffer + Format('%10.2n',[sVendaVARLORUNIT.value]);
     totalprod := sVendaQUTDE.value * sVendaVARLORUNIT.value;
     buffer  := buffer + Format('%10.2n',[totalprod]);
