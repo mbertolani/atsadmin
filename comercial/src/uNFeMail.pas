@@ -225,26 +225,31 @@ begin
     if ((ComboBox1.Text = NULL) or (ComboBox1.Text = ''))then
       MessageDlg('Centro de Custo não Selecionado', mtError, [mbOK], 0)
     else
-      fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
-                                               , sEmpresaPORTA.AsString
-                                               , sEmpresaE_MAIL.AsString
-                                               , sEmpresaSENHA.AsString
-                                               , sEmpresaE_MAIL.AsString
-                                               , sEmailE_MAIL.AsString
-                                               , EdtAssunto.Text
-                                               , Texto
-                                               , False
-                                               , True //Enviar PDF junto
-                                               , CC //com copia
-                                               , nil // Lista de anexos - TStrings
-                                               , False  //Pede confirmação de leitura do email
-                                               , True  //Aguarda Envio do Email(não usa thread)
-                                               , sEmpresaRAZAO.AsString ); // Nome do Rementente
-
-    CC.Clear;                                               
-    CC.Free;
-    Texto.Free;
-    fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
+    begin
+      try
+        fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
+                                                 , sEmpresaPORTA.AsString
+                                                 , sEmpresaE_MAIL.AsString
+                                                 , sEmpresaSENHA.AsString
+                                                 , sEmpresaE_MAIL.AsString
+                                                 , sEmailE_MAIL.AsString
+                                                 , EdtAssunto.Text
+                                                 , Texto
+                                                 , False
+                                                 , True //Enviar PDF junto
+                                                 , CC //com copia
+                                                 , nil // Lista de anexos - TStrings
+                                                 , False  //Pede confirmação de leitura do email
+                                                 , True  //Aguarda Envio do Email(não usa thread)
+                                                 , sEmpresaRAZAO.AsString ); // Nome do Rementente
+      finally
+        MessageDlg('Email enviado com sucesso.', mtInformation, [mbOK], 0);
+        CC.Clear;
+        CC.Free;
+        Texto.Free;
+        fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
+      end;
+    end;
 end;
 
 procedure TfNFeMail.sbtnCCClick(Sender: TObject);
