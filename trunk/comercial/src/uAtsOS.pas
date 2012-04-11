@@ -422,6 +422,7 @@ procedure TfAtsOS.JvOutlookBar1Pages2Buttons1Click(Sender: TObject);
 begin
  fCpProc:=TfCpProc.Create(Application);
  try
+   fCpProc.usuarioCPProc := 'GERAL'; 
    fCpProc.ShowModal;
  finally
    fCpProc.Free;
