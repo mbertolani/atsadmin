@@ -140,6 +140,7 @@ object fNFeInutilizar: TfNFeInutilizar
       Top = 97
       Width = 193
       Height = 21
+      ReadOnly = True
       TabOrder = 1
       Text = '55'
     end
