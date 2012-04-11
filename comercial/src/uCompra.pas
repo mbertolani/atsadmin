@@ -1208,7 +1208,8 @@ begin
     //cds_Mov_detQTDE_ALT.AsFloat := dm.scds_produto_procPESO_QTDE.AsFloat;
     qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
     cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-    cds_Mov_detQUANTIDADE.AsFloat := 1;
+    if(cds_Mov_detQUANTIDADE.AsFloat = 0) then
+      cds_Mov_detQUANTIDADE.AsFloat := 1;
     if dm.scds_produto_procQTDE_PCT.AsFloat >= 1 then
        cds_Mov_detPRECO.AsFloat :=
        dm.scds_produto_procVALORUNITARIOATUAL.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
