@@ -1,6 +1,6 @@
 object fNfePisCofins: TfNfePisCofins
-  Left = 48
-  Top = 81
+  Left = 236
+  Top = 65
   Width = 719
   Height = 614
   Caption = 'fNfePisCofins'
@@ -2552,5 +2552,21 @@ object fNfePisCofins: TfNfePisCofins
       FieldName = 'NCM'
       Size = 8
     end
+  end
+  object sdsUnimed: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PMOV'
+        ParamType = ptUnknown
+      end>
+    SQL.Strings = (
+      'SELECT DISTINCT DET.UN'
+      '   FROM VENDA, MOVIMENTODETALHE DET '
+      'WHERE CODMOVIMENTO = :PMOV')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 328
+    Top = 208
   end
 end
