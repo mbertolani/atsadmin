@@ -624,6 +624,7 @@ type
     cdsItensIMPRESSO: TStringField;
     cdsItensCODPRO: TStringField;
     cdsItensNCM: TStringField;
+    sdsUnimed: TSQLQuery;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -787,215 +788,204 @@ const
   strUNID: array[0..4] of string = ('PC', 'UN', 'LT', 'PC', 'MT');
 
 var
-int0140: integer;
-int0150: integer;
-int0190: integer;
-int0200: integer;
-
+  int0140: integer;
+  int0150: integer;
+  int0190: integer;
+  int0200: integer;
 begin
-   // Alimenta o componente com informações para gerar todos os registros do
-   // Bloco 0.
+  // Alimenta o componente com informações para gerar todos os registros do
+  // Bloco 0.
 
-   cbConcomitante.Enabled := False ;
+  cbConcomitante.Enabled := False ;
 
-   ACBrSPEDPisCofins1.DT_INI := dt_ini.Date;
-   ACBrSPEDPisCofins1.DT_FIN := dt_fim.Date;
-   ACBrSPEDPisCofins1.IniciaGeracao;
+  ACBrSPEDPisCofins1.DT_INI := dt_ini.Date;
+  ACBrSPEDPisCofins1.DT_FIN := dt_fim.Date;
+  ACBrSPEDPisCofins1.IniciaGeracao;
 
-   if cbConcomitante.Checked then
-   begin
-      with ACBrSPEDPisCofins1 do
+  if cbConcomitante.Checked then
+  begin
+    with ACBrSPEDPisCofins1 do
+    begin
+      //DT_INI := StrToDate('01/04/2011');
+      //DT_FIN := StrToDate('30/04/2011');
+      LinhasBuffer := StrToIntDef( edBufLinhas.Text, 0 );
+
+     //IniciaGeracao;
+    end;
+
+    LoadToMemo;
+  end;
+  
+  with ACBrSPEDPisCofins1.Bloco_0 do
+  begin
+    // Dados da Empresa
+    with Registro0000New do
+    begin
+      COD_VER          := vlVersao101;
+      TIPO_ESCRIT      := tpEscrOriginal;
+      IND_SIT_ESP      := indSitAbertura;
+      NUM_REC_ANTERIOR := '';
+      NOME             := cdsEmpresaRAZAO.AsString;
+      CNPJ             := cdsEmpresaCNPJ_CPF.AsString;
+      UF               := cdsEmpresaUF.AsString;
+      COD_MUN          := StrToInt(validaCodMunicipio(cdsEmpresaCD_IBGE.AsString, cdsEmpresaRAZAO.AsString));
+      SUFRAMA          := '';
+      IND_NAT_PJ       := TACBrIndicadorNaturezaPJ(cdsEmpresaINDICADORNATUREZAPJ.AsInteger); // indNatPJSocEmpresariaGeral;
+      IND_ATIV         := TACBrIndicadorAtividade(cdsEmpresaINDICADORATIVIDADE.asInteger); // indAtivIndustrial;
+      {COD_IND_INC_TRIB := TACBrCodIndIncTributaria(cdsEmpresaCODINDINCTRIBUTARIA.AsInteger);
+      IND_APRO_CRED    := TACBrIndAproCred(cdsEmpresaINDAPROCRED.AsInteger);
+      COD_IND_TIPO_CON := TACBrCodIndTipoCon(cdsEmpresaCODINDTIPOCON.AsInteger);
+      COD_IND_CRIT_ESC := TACBrCodIndCritEscrit(cdsEmpresaCODINDCRITESCRIT.AsInteger);
+      IND_COD_INC      := TACBrIndCodIncidencia(cdsEmpresaINDCODINCIDENCIA.AsInteger);
+      IND_CTA          := TACBrIndCTA(cdsEmpresaINDCTA.AsInteger);
+      IND_ESCRIT       := TACBrIndEscrituracao(cdsEmpresaINDESCRITURACAO.AsInteger);
+      BASE_CALC_CRED   := TACBrBaseCalculoCredito(cdsEmpresaBASECALCULOCREDITO.AsInteger);
+      IND_AJ           := TACBrIndAJ(cdsEmpresaINDAJ.AsInteger);}
+
+      with Registro0001New do
       begin
-//         DT_INI := StrToDate('01/04/2011');
-//         DT_FIN := StrToDate('30/04/2011');
-         LinhasBuffer := StrToIntDef( edBufLinhas.Text, 0 );
+         IND_MOV := imComDados;
 
-//        IniciaGeracao;
-      end;
-
-      LoadToMemo;
-   end;
-
-   with ACBrSPEDPisCofins1.Bloco_0 do
-   begin
-      // Dados da Empresa
-      with Registro0000New do
-      begin
-        COD_VER          := vlVersao101;
-        TIPO_ESCRIT      := tpEscrOriginal;
-        IND_SIT_ESP      := indSitAbertura;
-        NUM_REC_ANTERIOR := '';
-        NOME             := cdsEmpresaRAZAO.AsString;
-        CNPJ             := cdsEmpresaCNPJ_CPF.AsString;
-        UF               := cdsEmpresaUF.AsString;
-        COD_MUN          := StrToInt(validaCodMunicipio(cdsEmpresaCD_IBGE.AsString, cdsEmpresaRAZAO.AsString));
-        SUFRAMA          := '';
-        IND_NAT_PJ       := TACBrIndicadorNaturezaPJ(cdsEmpresaINDICADORNATUREZAPJ.AsInteger); // indNatPJSocEmpresariaGeral;
-        IND_ATIV         := TACBrIndicadorAtividade(cdsEmpresaINDICADORATIVIDADE.asInteger); // indAtivIndustrial;
-        {COD_IND_INC_TRIB := TACBrCodIndIncTributaria(cdsEmpresaCODINDINCTRIBUTARIA.AsInteger);
-        IND_APRO_CRED    := TACBrIndAproCred(cdsEmpresaINDAPROCRED.AsInteger);
-        COD_IND_TIPO_CON := TACBrCodIndTipoCon(cdsEmpresaCODINDTIPOCON.AsInteger);
-        COD_IND_CRIT_ESC := TACBrCodIndCritEscrit(cdsEmpresaCODINDCRITESCRIT.AsInteger);
-        IND_COD_INC      := TACBrIndCodIncidencia(cdsEmpresaINDCODINCIDENCIA.AsInteger);
-        IND_CTA          := TACBrIndCTA(cdsEmpresaINDCTA.AsInteger);
-        IND_ESCRIT       := TACBrIndEscrituracao(cdsEmpresaINDESCRITURACAO.AsInteger);
-        BASE_CALC_CRED   := TACBrBaseCalculoCredito(cdsEmpresaBASECALCULOCREDITO.AsInteger);
-        IND_AJ           := TACBrIndAJ(cdsEmpresaINDAJ.AsInteger);
-              }
-        with Registro0001New do
-        begin
-           IND_MOV := imComDados;
-
-           // FILHO - Dados do contador.
-           with Registro0100New do
+         // FILHO - Dados do contador.
+         with Registro0100New do
+         begin
+           if (cdsEmpresaCONTADOR.AsString <> '') then
            begin
-             if (cdsEmpresaCONTADOR.AsString <> '') then
+            NOME       := cdsEmpresaCONTADOR.AsString;
+            CPF        := cdsEmpresaCONTADOR_CPF.AsString;
+            CRC        := cdsEmpresaCONTADOR_CRC.AsString;
+            CNPJ       := cdsEmpresaCONTADOR_CNPJ.AsString;
+            CEP        := cdsEmpresaCONTADOR_CEP.AsString;
+            ENDERECO   := cdsEmpresaCONTADOR_END.AsString;
+            NUM        := cdsEmpresaCONTADOR_NUMEND.AsString;
+            COMPL      := cdsEmpresaCONTADOR_COMPL.AsString;
+            BAIRRO     := cdsEmpresaCONTADOR_BAIRRO.AsString;
+            FONE       := cdsEmpresaCONTADOR_FONE.AsString;
+            FAX        := cdsEmpresaCONTADOR_FAX.AsString;
+            EMAIL      := cdsEmpresaCONTADOR_EMAIL.AsString;
+            COD_MUN    := StrToInt(validaCodMunicipio(cdsEmpresaCONTADOR_COD_MUN.AsString, 'Contador: ' + cdsEmpresaCONTADOR.AsString));
+           end;
+         end;
+
+         // FILHO - Regime de Apuração
+         with Registro0110New do
+         begin
+           COD_INC_TRIB  := TACBrCodIndIncTributaria(cdsEmpresaCODINDINCTRIBUTARIA.AsInteger);
+           IND_APRO_CRED := TACBrIndAproCred(cdsEmpresaINDAPROCRED.AsInteger);
+           COD_TIPO_CONT := TACBrCodIndTipoCon(cdsEmpresaCODINDTIPOCON.AsInteger);
+           //Campo IND_REG_CUM apenas para Lucro Presumido e (COD_INC_TRIB = 2)
+           //IND_REG_CUM := 1;
+         end;
+
+         //0140 - Tabela de Cadastro de Estabelecimento
+         // FILHO
+         int0140 := 1;  // 1 Estabelecimento
+         with Registro0140New do
+         begin
+           COD_EST := IntToStr(int0140);
+           NOME    := cdsEmpresaRAZAO.AsString + IntToStr(int0140);
+           CNPJ    := cdsEmpresaCNPJ_CPF.AsString;
+           UF      := cdsEmpresaUF.AsString;
+           IE      := cdsEmpresaIE_RG.AsString;
+           COD_MUN := StrToInt(validaCodMunicipio(cdsEmpresaCD_IBGE.AsString, cdsEmpresaRAZAO.AsString));
+           IM      := cdsEmpresaIM.AsString;
+           SUFRAMA := '';
+
+           cdsNFVenda.First;
+           int0150 := 1;
+           While (not cdsNFVenda.Eof) do
+           begin
+             // 10 Clientes por estabelecimento
+             //0150 - Tabela de Cadastro do Participante
+             with Registro0150New do
              begin
-              NOME       := cdsEmpresaCONTADOR.AsString;
-              CPF        := cdsEmpresaCONTADOR_CPF.AsString;
-              CRC        := cdsEmpresaCONTADOR_CRC.AsString;
-              CNPJ       := cdsEmpresaCONTADOR_CNPJ.AsString;
-              CEP        := cdsEmpresaCONTADOR_CEP.AsString;
-              ENDERECO   := cdsEmpresaCONTADOR_END.AsString;
-              NUM        := cdsEmpresaCONTADOR_NUMEND.AsString;
-              COMPL      := cdsEmpresaCONTADOR_COMPL.AsString;
-              BAIRRO     := cdsEmpresaCONTADOR_BAIRRO.AsString;
-              FONE       := cdsEmpresaCONTADOR_FONE.AsString;
-              FAX        := cdsEmpresaCONTADOR_FAX.AsString;
-              EMAIL      := cdsEmpresaCONTADOR_EMAIL.AsString;
-              COD_MUN    := StrToInt(validaCodMunicipio(cdsEmpresaCONTADOR_COD_MUN.AsString, 'Contador: ' + cdsEmpresaCONTADOR.AsString));
-             end;
-           end;
-
-           // FILHO - Regime de Apuração
-           with Registro0110New do
-           begin
-              COD_INC_TRIB  := TACBrCodIndIncTributaria(cdsEmpresaCODINDINCTRIBUTARIA.AsInteger);
-              IND_APRO_CRED := TACBrIndAproCred(cdsEmpresaINDAPROCRED.AsInteger);
-              COD_TIPO_CONT := TACBrCodIndTipoCon(cdsEmpresaCODINDTIPOCON.AsInteger);
-              //Campo IND_REG_CUM apenas para Lucro Presumido e (COD_INC_TRIB = 2)
-              //IND_REG_CUM := 1;
-           end;
-
-
-           //0140 - Tabela de Cadastro de Estabelecimento
-           for int0140 := 1 to 2 do
-           begin
-           // FILHO
-              with Registro0140New do
-              begin
-                 COD_EST := IntToStr(int0140);
-                 NOME    := cdsEmpresaRAZAO.AsString + IntToStr(int0140);
-                 CNPJ    := cdsEmpresaCNPJ_CPF.AsString;
-                 UF      := cdsEmpresaUF.AsString;
-                 IE      := cdsEmpresaIE_RG.AsString;
-                 COD_MUN := StrToInt(validaCodMunicipio(cdsEmpresaCD_IBGE.AsString, cdsEmpresaRAZAO.AsString));
-                 IM      := cdsEmpresaIM.AsString;
-                 SUFRAMA := '';
-
-
-               cdsNFVenda.First;
-               While (not cdsNFVenda.Eof) do
+               COD_PART := IntToStr(int0150);
+               NOME     := cdsNFVendaNOMECLIENTE.AsString + IntToStr(int0150);
+               COD_PAIS := cdsNFVendaPAIS.AsString;
+               if (cdsNFVendaTIPOFIRMA.AsInteger = 0) then
                begin
+                 CNPJ     := util.RemoveChar(cdsNFVendaCNPJ_CPF.AsString);
+                 CPF      := '';
+               end
+               else begin
+                 CPF      := util.RemoveChar(cdsNFVendaCNPJ_CPF.AsString);
+                 CNPJ     := '';
+               end;
 
-                 // 10 Clientes por estabelecimento
-                 for int0150 := 1 to 10 do
-                 begin
-                    //0150 - Tabela de Cadastro do Participante
-                    with Registro0150New do
-                    begin
-                       COD_PART := IntToStr(int0150);
-                       NOME     := cdsNFVendaNOMECLIENTE.AsString + IntToStr(int0150);
-                       COD_PAIS := cdsNFVendaPAIS.AsString;
-                       if (cdsNFVendaTIPOFIRMA.AsInteger = 0) then
-                       begin
-                         CNPJ     := util.RemoveChar(cdsNFVendaCNPJ_CPF.AsString);
-                         CPF      := '';
-                       end
-                       else begin
-                         CPF      := util.RemoveChar(cdsNFVendaCNPJ_CPF.AsString);
-                         CNPJ     := '';
-                       end;
-
-                       IE       := util.RemoveChar(cdsNFVendaINSCESTADUAL.AsString);
-                       COD_MUN  := StrToInt(validaCodMunicipio(cdsNFVendaCD_IBGE.AsString, cdsNFVendaNOMECLIENTE.AsString));
-                       SUFRAMA  := '';
-                       ENDERECO := cdsNFVendaLOGRADOURO.AsString + IntToStr(int0150);
-                       NUM      := cdsNFVendaNUMERO_2.AsString;
-                       COMPL    := cdsNFVendaCOMPLEMENTO.AsString + IntToStr(int0150);
-                       BAIRRO   := cdsNFVendaBAIRRO.AsString;
-                       //
-                    end;
-                 end;
-
-                 if (cdsItens.Active) then
-                   cdsItens.Close;
-                 cdsItens.Params[0].AsInteger := cdsNFVendaCODVENDA.AsInteger;
-                 cdsItens.Open;
-
-                 while not cdsItens.Eof do
-                 begin
-
-                 // 0190 - Identificação das Unidades de Medida
-                 for int0190 := Low(strUNID) to High(strUNID) do
-                 begin
-                    with Registro0190New do
-                    begin
-                       UNID  := strUNID[int0190];
-                       DESCR := cdsItensUN.AsString + strUNID[int0190];
-                    end;
-                 end;
-
-                 //10 produtos/serviços
-                 for int0200 := 1 to 10 do
-                 begin
-                    // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
-                    with Registro0200New do
-                    begin
-                       COD_ITEM     := FORMATFLOAT(Format('%6.6d',[cdsItensCODPRO.AsString]), int0200);
-                       DESCR_ITEM   := cdsItensDESCPRODUTO.AsString;
-                       COD_BARRA    := '';
-                       COD_ANT_ITEM := '';
-                       UNID_INV     := '';
-                       TIPO_ITEM    := tiMercadoriaRevenda;
-                       COD_NCM      := cdsItensNCM.AsString;
-                       EX_IPI       := '';
-                       COD_GEN      := '';
-                       COD_LST      := '';
-                       ALIQ_ICMS    := 0;
-
-                      //Cria uma alteração apenas para o item 5...
-                      {if (int0200 = 5) then with Registro0205New do
-                      begin
-                        DESCR_ANT_ITEM := 'DESCRIÇÃO ANTERIOR DO ITEM 5';
-                        DT_INI := StrToDate('01/04/2011');
-                        DT_FIM := StrToDate('15/04/2011');
-                      end;}
-
-                    end;
-                  cdsItens.Next;  
-                  end;
-                 end;
-                 cdsNFVenda.Next;
-               end; // Fechando o While
-              end;
+               IE       := util.RemoveChar(cdsNFVendaINSCESTADUAL.AsString);
+               COD_MUN  := StrToInt(validaCodMunicipio(cdsNFVendaCD_IBGE.AsString, cdsNFVendaNOMECLIENTE.AsString));
+               SUFRAMA  := '';
+               ENDERECO := cdsNFVendaLOGRADOURO.AsString + IntToStr(int0150);
+               NUM      := cdsNFVendaNUMERO_2.AsString;
+               COMPL    := cdsNFVendaCOMPLEMENTO.AsString + IntToStr(int0150);
+               BAIRRO   := cdsNFVendaBAIRRO.AsString;
+               //
+             end;
+             int0150 := int0150 + 1;
+             cdsNFVenda.Next;
            end;
 
-           // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS
-          { with Registro0500New do
-           begin
-             DT_ALT := StrToDate('01/04/2011');
-             COD_NAT_CC := ncgAtivo;
-             IND_CTA := indCTASintetica;
-             NIVEL := '0';
-             COD_CTA := '0';
-             NOME_CTA := 'NOME CTA';
-             COD_CTA_REF := '0';
-             CNPJ_EST := '123456789';
-           end; }
+           if (sdsUnimed.Active) then
+             sdsUnimed.Close;
+           sdsUnimed.Params[0].AsInteger := cdsNFVendaCODVENDA.AsInteger;
+           sdsUnimed.Open;
 
-        end;
+           while (not sdsUnimed.Eof) do
+           begin
+             // 0190 - Identificação das Unidades de Medida
+             with Registro0190New do
+             begin
+               UNID  := sdsUnimed.Fields[0].AsString[int0190];
+               DESCR := sdsUnimed.Fields[0].AsString + sdsUnimed.Fields[0].AsString[int0190];
+             end;
+             sdsUnimed.Next;
+           end;
+
+
+           if (cdsItens.Active) then
+             cdsItens.Close;
+           cdsItens.Params[0].AsInteger := cdsNFVendaCODVENDA.AsInteger;
+           cdsItens.Open;
+
+           //10 produtos/serviços
+           int0200 := 1;
+           While (not cdsItens.Eof) do
+           begin
+             // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
+             with Registro0200New do
+             begin
+               COD_ITEM     := FORMATFLOAT(Format('%6.6d',[cdsItensCODPRO.AsString]), int0200);
+               DESCR_ITEM   := cdsItensDESCPRODUTO.AsString;
+               COD_BARRA    := '';
+               COD_ANT_ITEM := '';
+               UNID_INV     := '';
+               TIPO_ITEM    := tiMercadoriaRevenda;
+               COD_NCM      := cdsItensNCM.AsString;
+               EX_IPI       := '';
+               COD_GEN      := '';
+               COD_LST      := '';
+               ALIQ_ICMS    := 0;
+             end;
+             int0200 := int0200 + 1;
+             cdsItens.Next;
+           end;
+         end;
+
+         // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS
+        { with Registro0500New do
+         begin
+           DT_ALT := StrToDate('01/04/2011');
+           COD_NAT_CC := ncgAtivo;
+           IND_CTA := indCTASintetica;
+           NIVEL := '0';
+           COD_CTA := '0';
+           NOME_CTA := 'NOME CTA';
+           COD_CTA_REF := '0';
+           CNPJ_EST := '123456789';
+         end; }
+
       end;
+    end;
 
    end;
 
