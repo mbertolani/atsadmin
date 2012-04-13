@@ -1470,8 +1470,27 @@ begin
 
     if (versaoSistema = '1.0.0.102') then
     begin
+      executaDDL('EMPRESA', 'CNPJPREFEITURA', 'VARCHAR(14)');
+      executaDDL('EMPRESA', 'NOMEPREFEITURA', 'VARCHAR(50)');
+      executaSql('ALTER TABLE EMPRESA ALTER SMTP TYPE Varchar(60)');
+      executaSql('ALTER TABLE EMPRESA ALTER SENHA TYPE Varchar(30)');
+      executaSql('ALTER TABLE EMPRESA ALTER E_MAIL TYPE Varchar(100)');
       executaScript('gera_parcelas_pag.sql');
-      executaScript('relContaReceber.sql');      
+      executaScript('relContaReceber.sql');
+      executaScript('rel_rcbototal.sql');
+      if (NaoExisteTabela('CLASSIFICACAO_SERVICOS')) then
+      begin
+        executaSql('CREATE TABLE CLASSIFICACAO_SERVICOS(' +
+        ' CODIGO varchar(5) NOT NULL, ' +
+        ' ALIQUOTA double precision, ' +
+        ' DESCRICAO_SERV varchar(500), ' +
+        ' PRIMARY KEY (CODIGO))');
+      end;
+      executaSql('CREATE DOMAIN TEXTO500 AS VARCHAR(500)');
+        executaSql('update RDB$RELATION_FIELDS set ' +
+        ' RDB$FIELD_SOURCE = ' + QuotedStr('TEXTO500') +
+        ' where (RDB$FIELD_NAME = ' + QuotedStr('OBS')  +
+        ') and (RDB$RELATION_NAME = ' + QuotedStr('VENDA') + ')');
       mudaVersao('1.0.0.103');
     end;// Fim Ataulização Versao 1.0.0.103
 
