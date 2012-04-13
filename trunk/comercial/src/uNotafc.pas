@@ -1225,27 +1225,26 @@ procedure TfNotaFc.gravamovimento;
 begin
    if dmnf.cds_Movimento.State in [dsInsert] then
    begin
-     if dm.c_6_genid.Active then
+       if dm.c_6_genid.Active then
+         dm.c_6_genid.Close;
+       dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+       dm.c_6_genid.Open;
+       dmnf.cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
        dm.c_6_genid.Close;
-     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-     dm.c_6_genid.Open;
-     dmnf.cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-     dm.c_6_genid.Close;
-  {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
-    if Dm.cds_parametro.Active then
-       dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
-    dm.cds_parametro.Open;
-    if not dm.cds_parametro.IsEmpty then
-      dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := strToint(dm.cds_parametroDADOS.AsString);
+      {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
+      dm.cds_parametro.Open;
+      if not dm.cds_parametro.IsEmpty then
+        dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := strToint(dm.cds_parametroDADOS.AsString);
 
-    dm.cds_parametro.Close;
-    DMNF.cds_MovimentoCODNATUREZA.AsInteger := 20;
-    DMNF.cds_MovimentoDESCNATUREZA.AsString := 'NOTA FISCAL COMPRA';
-
-   //*******************************************************************************
-   dmnf.cds_Movimento.ApplyUpdates(0);
+      dm.cds_parametro.Close;
+      DMNF.cds_MovimentoCODNATUREZA.AsInteger := 20;
+      DMNF.cds_MovimentoDESCNATUREZA.AsString := 'NOTA FISCAL COMPRA';
+     //*******************************************************************************
    end;
+   dmnf.cds_Movimento.ApplyUpdates(0);
 end;
 
 procedure TfNotaFc.gravavenda;
@@ -1269,7 +1268,7 @@ begin
     dmnf.cds_compraNOTAFISCAL.AsInteger := StrToInt(dmnf.cds_nf1NOTASERIE.asString);
     dmnf.cds_compraBANCO.AsInteger := 0;
 
-    if (dmnf.sqs_tit.Active) then
+ {   if (dmnf.sqs_tit.Active) then
       dmnf.sqs_tit.Close;
 
    if (dmnf.sqs_tit.Active) then
@@ -1289,7 +1288,7 @@ begin
   end;
 
   vrr := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
-  dmnf.sqs_tit.Close;
+  dmnf.sqs_tit.Close;}
 
   if (codVendaFin = 0) then
   begin
@@ -1300,8 +1299,8 @@ begin
     dmnf.cds_compraCODCOMPRA.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
-  if (geraTitulo = 'S') then
-    alteraVlrVenda;
+//if (geraTitulo = 'S') then
+//  alteraVlrVenda;
 
   {dmnf.cds_compraVALOR.AsFloat := dmnf.cds_compraVALOR.AsFloat +
     dmnf.cds_compraVALOR_FRETE.AsFloat +
@@ -1929,6 +1928,7 @@ end;
 
 procedure TfNotaFc.btnNotaFiscalClick(Sender: TObject);
 begin
+    fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
     fNFeletronica.tpNF.ItemIndex := 0;
     fNFeletronica.ShowModal;
 end;
