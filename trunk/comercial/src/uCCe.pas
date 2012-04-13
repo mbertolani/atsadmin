@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DB, DBClient, Provider, SqlExpr, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, StdCtrls, Buttons, Mask, JvExMask, JvToolEdit,
-  ExtCtrls, MMJPanel, DBCtrls;
+  ExtCtrls, MMJPanel, DBCtrls, ACBrNFe;
 
 type
   TfCCe = class(TForm)
@@ -74,6 +74,7 @@ type
     cdsCCeCORRECAO: TStringField;
     DtsrcCCe: TDataSource;
     btnGravar: TBitBtn;
+    btnCCe: TBitBtn;
     procedure btnListarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure rbCliClick(Sender: TObject);
@@ -82,6 +83,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure DtsrcCCeStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnCCeClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -92,6 +94,8 @@ var
   fCCe: TfCCe;
 
 implementation
+
+uses pcnCCeNFe, uNFeletronica;
 
 {$R *.dfm}
 
@@ -179,6 +183,12 @@ procedure TfCCe.FormCreate(Sender: TObject);
 begin
   JvDateEdit1.Text := DateToStr(Now);
   JvDateEdit2.Text := DateToStr(Now);  
+end;
+
+procedure TfCCe.btnCCeClick(Sender: TObject);
+begin
+    fNFeletronica.PageControl1.ActivePage := fNFeletronica.CCe;
+    fNFeletronica.ShowModal;
 end;
 
 end.

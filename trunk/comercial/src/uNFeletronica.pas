@@ -416,31 +416,6 @@ type
     sEmpresa1CCUSTO: TIntegerField;
     sEmpresa1NUMERO: TStringField;
     sEmpresa1CD_IBGE: TStringField;
-    GroupBox1: TGroupBox;
-    Panel1: TPanel;
-    sbtnGetCert: TSpeedButton;
-    Label4: TLabel;
-    Label7: TLabel;
-    Label6: TLabel;
-    tpNF: TRadioGroup;
-    GroupBox5: TGroupBox;
-    Label5: TLabel;
-    MemoResp: TMemo;
-    edtNumSerie: TEdit;
-    Edit1: TEdit;
-    edSerie: TEdit;
-    GroupBox4: TGroupBox;
-    Label2: TLabel;
-    Label1: TLabel;
-    Label3: TLabel;
-    btnListar: TBitBtn;
-    JvDateEdit2: TJvDateEdit;
-    chkTodas: TCheckBox;
-    ComboBox1: TComboBox;
-    JvDateEdit1: TJvDateEdit;
-    btnSairVenda: TBitBtn;
-    btnSair: TBitBtn;
-    JvDBGrid1: TJvDBGrid;
     sdsItensNFCODPRODUTO: TIntegerField;
     sdsItensNFQUANTIDADE: TFloatField;
     sdsItensNFPRECO: TFloatField;
@@ -519,41 +494,6 @@ type
     sdsItensNFVALOR_COFINS: TFloatField;
     cdsItensNFVALOR_PIS: TFloatField;
     cdsItensNFVALOR_COFINS: TFloatField;
-    PageControl1: TPageControl;
-    TabSheet1: TTabSheet;
-    TabSheet2: TTabSheet;
-    TabSheet3: TTabSheet;
-    GroupBox2: TGroupBox;
-    btnGeraNFe: TBitBtn;
-    BtnPreVis: TBitBtn;
-    GroupBox6: TGroupBox;
-    btnContingencia: TBitBtn;
-    btnPreVisCont: TBitBtn;
-    GroupBox7: TGroupBox;
-    btnSPED: TBitBtn;
-    btnPreVisSped: TBitBtn;
-    TabSheet4: TTabSheet;
-    TabSheet5: TTabSheet;
-    GroupBox8: TGroupBox;
-    btnDpec: TBitBtn;
-    btnPreVisDPEC: TBitBtn;
-    GroupBox9: TGroupBox;
-    btnFSDA: TBitBtn;
-    btnPreVisFSDA: TBitBtn;
-    GroupBox3: TGroupBox;
-    btnImprime: TBitBtn;
-    btnGeraPDF: TBitBtn;
-    BitBtn1: TBitBtn;
-    BtnEnvEmail: TBitBtn;
-    TabSheet6: TTabSheet;
-    btnStatus: TBitBtn;
-    btnConsulta: TBitBtn;
-    btnValidaNFe: TBitBtn;
-    btnCancelaNFe: TBitBtn;
-    btnInutilizar: TBitBtn;
-    btnValidaXML: TBitBtn;
-    BitBtn2: TBitBtn;
-    BitBtn3: TBitBtn;
     sCFOPCFCOD: TStringField;
     sCFOPCFNOME: TStringField;
     sCFOPUF: TStringField;
@@ -587,6 +527,108 @@ type
     cdsNFCODTRANSP: TIntegerField;
     sdsItensNFOBS: TStringField;
     cdsItensNFOBS: TStringField;
+    PageControl1: TPageControl;
+    NFe: TTabSheet;
+    GroupBox1: TGroupBox;
+    GroupBox3: TGroupBox;
+    btnImprime: TBitBtn;
+    btnGeraPDF: TBitBtn;
+    Panel1: TPanel;
+    sbtnGetCert: TSpeedButton;
+    Label4: TLabel;
+    Label7: TLabel;
+    Label6: TLabel;
+    tpNF: TRadioGroup;
+    GroupBox5: TGroupBox;
+    Label5: TLabel;
+    MemoResp: TMemo;
+    edtNumSerie: TEdit;
+    Edit1: TEdit;
+    edSerie: TEdit;
+    GroupBox4: TGroupBox;
+    Label2: TLabel;
+    Label1: TLabel;
+    Label3: TLabel;
+    btnListar: TBitBtn;
+    JvDateEdit2: TJvDateEdit;
+    chkTodas: TCheckBox;
+    ComboBox1: TComboBox;
+    JvDateEdit1: TJvDateEdit;
+    btnSairVenda: TBitBtn;
+    btnSair: TBitBtn;
+    JvDBGrid1: TJvDBGrid;
+    PageControl2: TPageControl;
+    TabSheet1: TTabSheet;
+    GroupBox2: TGroupBox;
+    btnGeraNFe: TBitBtn;
+    BtnPreVis: TBitBtn;
+    BtnEnvEmail: TBitBtn;
+    TabSheet2: TTabSheet;
+    GroupBox6: TGroupBox;
+    btnContingencia: TBitBtn;
+    btnPreVisCont: TBitBtn;
+    btnValidaXML: TBitBtn;
+    TabSheet3: TTabSheet;
+    GroupBox7: TGroupBox;
+    btnSPED: TBitBtn;
+    btnPreVisSped: TBitBtn;
+    TabSheet4: TTabSheet;
+    GroupBox8: TGroupBox;
+    btnDpec: TBitBtn;
+    btnPreVisDPEC: TBitBtn;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    TabSheet5: TTabSheet;
+    GroupBox9: TGroupBox;
+    btnFSDA: TBitBtn;
+    btnPreVisFSDA: TBitBtn;
+    BitBtn3: TBitBtn;
+    TabSheet6: TTabSheet;
+    btnStatus: TBitBtn;
+    btnConsulta: TBitBtn;
+    btnValidaNFe: TBitBtn;
+    btnCancelaNFe: TBitBtn;
+    btnInutilizar: TBitBtn;
+    CCe: TTabSheet;
+    Panel2: TPanel;
+    GroupBox12: TGroupBox;
+    Label11: TLabel;
+    Memo1: TMemo;
+    GroupBox13: TGroupBox;
+    Label14: TLabel;
+    btnListarCCe: TBitBtn;
+    CheckBox1: TCheckBox;
+    ComboBox2: TComboBox;
+    BitBtn8: TBitBtn;
+    JvDBGrid2: TJvDBGrid;
+    BtnCCe: TBitBtn;
+    sdsCCE: TSQLDataSet;
+    dspCCe: TDataSetProvider;
+    cdsCCE: TClientDataSet;
+    DtSrcCCe: TDataSource;
+    sdsCCECHAVE: TStringField;
+    sdsCCEORGAO: TIntegerField;
+    sdsCCECNPJ: TStringField;
+    sdsCCEDHENVIO: TDateField;
+    sdsCCESEQUENCIA: TIntegerField;
+    sdsCCECORRECAO: TStringField;
+    sdsCCEPROTOCOLO: TStringField;
+    cdsCCECHAVE: TStringField;
+    cdsCCEORGAO: TIntegerField;
+    cdsCCECNPJ: TStringField;
+    cdsCCEDHENVIO: TDateField;
+    cdsCCESEQUENCIA: TIntegerField;
+    cdsCCECORRECAO: TStringField;
+    cdsCCEPROTOCOLO: TStringField;
+    GroupBox10: TGroupBox;
+    Label8: TLabel;
+    Edit3: TEdit;
+    Label9: TLabel;
+    edtNumSerie2: TEdit;
+    Label10: TLabel;
+    SpeedButton1: TSpeedButton;
+    sdsCCESELECIONOU: TStringField;
+    cdsCCESELECIONOU: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -619,6 +661,12 @@ type
     procedure btnPreVisFSDAClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btnValidaXMLClick(Sender: TObject);
+    procedure btnListarCCeClick(Sender: TObject);
+    procedure BtnCCeClick(Sender: TObject);
+    procedure JvDBGrid2CellClick(Column: TColumn);
+    procedure JvDBGrid2ColEnter(Sender: TObject);
+    procedure JvDBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
   private
     procedure getCli_Fornec();
@@ -771,13 +819,14 @@ end;
 procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
 var TD: TTransactionDesc;
   i: integer;
-  Protocolo, Recibo, str, itensnf, protenv, vAux, valida : String;
+  Protocolo, Recibo, str, protenv, vAux, valida : String;
 begin
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
    if (not cds_ccusto.Active) then
      cds_ccusto.Open;
    cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+   cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);   
 
    //Seleciona Empresa de acordo com o CCusto selecionado
    if (sEmpresa.Active) then
@@ -1185,6 +1234,7 @@ begin
   while not cds_ccusto.Eof do
   begin
     ComboBox1.Items.Add(cds_ccustoNOME.AsString);
+    ComboBox2.Items.Add(cds_ccustoNOME.AsString);    
     cds_ccusto.Next;
   end;
   tp_amb := 1;
@@ -1229,6 +1279,7 @@ procedure TfNFeletronica.sbtnGetCertClick(Sender: TObject);
 begin
    {$IFNDEF ACBrNFeOpenSSL}
    edtNumSerie.Text := ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
+   edtNumSerie2.Text := edtNumSerie.Text;
    {$ENDIF}
 
 end;
@@ -1413,6 +1464,7 @@ end;
 procedure TfNFeletronica.FormShow(Sender: TObject);
 begin
  cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+ cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);
 
  if (sEmpresa.Active) then
    sEmpresa.Close;
@@ -1430,12 +1482,16 @@ begin
    ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
    label5.Font.Color := clBlue;
    Label5.Caption :=  'PRODUÇÃO.';
+   label8.Font.Color := clBlue;
+   Label8.Caption :=  'PRODUÇÃO.';
  end
  else
  begin
   ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
   label5.Font.Color := clRed;
   Label5.Caption :=  'HOMOLOGAÇÃO.';
+  label8.Font.Color := clRed;
+  Label8.Caption :=  'HOMOLOGAÇÃO.';
  end;
  ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresa1DIVERSOS1.AsString;
  ACBrNFeDANFERave1.PathPDF := sEmpresa1DIVERSOS1.AsString;
@@ -1450,7 +1506,7 @@ end;
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
 var
   i: integer;
-  itensnf, valida : String;
+  valida : String;
 begin
 
  if (not cds_ccusto.Active) then
@@ -1801,6 +1857,8 @@ begin
   begin
     with Det.Add do
     begin
+      //Prod.xPed = "";
+      //Prod.nItemPed = 9;
       if (sCFOP.Active) then
         sCFOP.Close;
       sCFOP.Params[0].AsString := cdsItensNFCFOP.AsString;
@@ -2349,6 +2407,102 @@ begin
   cdsItensNF.CommandText := strItens;
   cdsItensNF.Open;
 
+end;
+
+procedure TfNFeletronica.btnListarCCeClick(Sender: TObject);
+var str_cce   :string;
+begin
+  if (cdsCCE.Active) then
+    cdsCCE.Close;
+  if (CheckBox1.Checked) then
+  begin
+   str_cce := 'select * FROM CCE';
+   cdsCCE.CommandText := str_cce;
+  end
+  else
+  begin
+    str_cce := 'select * FROM CCE WHERE PROTOCOLO IS NULL';
+    cdsCCE.CommandText := str_cce;
+  end;
+  cdsCCE.Open;
+end;
+
+procedure TfNFeletronica.BtnCCeClick(Sender: TObject);
+var protocolo :string;
+    str :string;
+    TD: TTransactionDesc;
+begin
+  try
+    try
+      ACBrNFe1.CartaCorrecao.CCe.Evento.Clear;
+      ACBrNFe1.CartaCorrecao.CCe.idLote := 0;
+      with ACBrNFe1.CartaCorrecao.CCe.Evento.Add.InfEvento do
+      begin
+        chNFe     := cdsCCeCHAVE.AsString;
+        cOrgao    := cdsCCeORGAO.AsInteger;
+        CNPJ      := cdsCCeCNPJ.AsString;
+        dhEvento  := Now;
+        tpEvento  := 110110;
+        nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
+        versaoEvento := '1.00';
+        detEvento.descEvento := 'Carta de Correção';
+        detEvento.xCorrecao := cdsCCeCORRECAO.AsString;
+        detEvento.xCondUso := '';
+      end;
+      ACBrNFe1.EnviarCartaCorrecao(0);
+    except
+      MessageDlg('Erro ao enviar CCE', mtError, [mbOK], 0);
+      Exit;
+    end;
+  finally
+    protocolo := AcbrNFe1.WebServices.CartaCorrecao.CCeRetorno.retEvento.Items[0].RetInfEvento.nProt;
+
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    DecimalSeparator := '.';
+    //SALVA OS PROTOCOLOS
+    str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo);
+    str := str + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString);
+    str := str + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
+    dm.sqlsisAdimin.ExecuteDirect(str);
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.Commit(TD);
+    //ACBrNFe1.CartaCorrecao.CCe.GerarXML;
+  end;
+
+end;
+
+procedure TfNFeletronica.JvDBGrid2CellClick(Column: TColumn);
+begin
+     cdsCCE.Edit;
+     if cdsCCESELECIONOU.AsString = 'S' then
+       cdsCCESELECIONOU.AsString := ''
+     else
+       cdsCCESELECIONOU.AsString := 'S';
+end;
+
+procedure TfNFeletronica.JvDBGrid2ColEnter(Sender: TObject);
+begin
+   if JvDBGrid2.SelectedField = cdsCCESELECIONOU then
+     JvDBGrid2.Options := JvDBGrid2.Options - [dgEditing]
+   else
+      JvDBGrid2.Options := JvDBGrid2.Options + [dgEditing];
+end;
+
+procedure TfNFeletronica.JvDBGrid2DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  // Selecionou
+  if Column.Field = cdsCCESELECIONOU then
+  begin
+     JvDBGrid2.Canvas.FillRect(Rect);
+     ImageList2.Draw(JvDBGrid2.Canvas,Rect.Left+10,Rect.top, 1);
+     if cdsCCESELECIONOU.AsString = 'S' then
+       ImageList2.Draw(JvDBGrid2.Canvas,Rect.Left+10,Rect.top, 2)
+     else
+       ImageList2.Draw(JvDBGrid2.Canvas,Rect.Left+10,Rect.top, 0);
+  end;
 end;
 
 end.
