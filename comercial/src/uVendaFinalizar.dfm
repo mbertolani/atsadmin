@@ -3683,11 +3683,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
       ProviderFlags = [pfInUpdate]
       Size = 15
     end
-    object sds_vendaOBS: TStringField
-      FieldName = 'OBS'
-      ProviderFlags = [pfInUpdate]
-      Size = 100
-    end
     object sds_vendaVALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
       ProviderFlags = [pfInUpdate]
@@ -3719,6 +3714,10 @@ inherited fVendaFinalizar: TfVendaFinalizar
     end
     object sds_vendaCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+    end
+    object sds_vendaOBS: TStringField
+      FieldName = 'OBS'
+      Size = 500
     end
   end
   object dsp_venda: TDataSetProvider
@@ -3899,11 +3898,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
       ProviderFlags = [pfInUpdate]
       Size = 15
     end
-    object cdsOBS: TStringField
-      FieldName = 'OBS'
-      ProviderFlags = [pfInUpdate]
-      Size = 100
-    end
     object cdsdiferenca: TFloatField
       FieldKind = fkCalculated
       FieldName = 'diferenca'
@@ -3945,6 +3939,10 @@ inherited fVendaFinalizar: TfVendaFinalizar
     end
     object cdsCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+    end
+    object cdsOBS: TStringField
+      FieldName = 'OBS'
+      Size = 500
     end
   end
   object scds_serie_proc: TSQLClientDataSet
