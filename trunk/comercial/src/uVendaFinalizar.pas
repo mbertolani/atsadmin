@@ -212,7 +212,6 @@ type
     sds_vendaSTATUS: TSmallintField;
     sds_vendaSTATUS1: TStringField;
     sds_vendaCONTROLE: TStringField;
-    sds_vendaOBS: TStringField;
     dsp_venda: TDataSetProvider;
     cds: TClientDataSet;
     cdsCODMOVIMENTO: TIntegerField;
@@ -246,7 +245,6 @@ type
     cdsSTATUS: TSmallintField;
     cdsSTATUS1: TStringField;
     cdsCONTROLE: TStringField;
-    cdsOBS: TStringField;
     cdsdiferenca: TFloatField;
     SQLDataSet1CODRECEBIMENTO: TIntegerField;
     SQLDataSet1NOMECLIENTE: TStringField;
@@ -488,6 +486,8 @@ type
     pm2: TPopupMenu;
     ImprimirPedido1: TMenuItem;
     ImprimirOrdemdeServio1: TMenuItem;
+    sds_vendaOBS: TStringField;
+    cdsOBS: TStringField;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -651,7 +651,14 @@ begin
     cdsAPAGAR.AsFloat := 0;
     cdsN_PARCELA.AsInteger := StrToInt(FloatToStr(nparc));
     cdsBANCO.AsInteger := 0;
-    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime  + fVendas.prazoCliente;
+    if dm.scds_cliente_proc.Active then
+      dm.scds_cliente_proc.Close;
+    dm.scds_cliente_proc.Params[0].Clear;
+    dm.scds_cliente_proc.Params[1].Clear;
+    dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(fVendas.dbeCliente.Text);
+    dm.scds_cliente_proc.Open;
+    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime  + dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
+    dm.scds_cliente_proc.Close;
     cdsSTATUS.AsInteger:=0;
     if (fVendas.cds_MovimentoFORMA_PAG.AsString <> '') then
       cbPrazo.Text := fVendas.cds_MovimentoFORMA_PAG.AsString;
@@ -697,7 +704,14 @@ begin
     cdsAPAGAR.AsFloat := 0;
     cdsN_PARCELA.AsInteger := 1;
     cdsBANCO.AsInteger := 0;
-    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + fVendas.prazoCliente;
+    if dm.scds_cliente_proc.Active then
+      dm.scds_cliente_proc.Close;
+    dm.scds_cliente_proc.Params[0].Clear;
+    dm.scds_cliente_proc.Params[1].Clear;
+    dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(fVendas.dbeCliente.Text);
+    dm.scds_cliente_proc.Open;
+    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
+    dm.scds_cliente_proc.Close;
     cdsSTATUS.AsInteger:=0;
     sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
