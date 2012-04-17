@@ -261,7 +261,6 @@ uses
   uAts_R in 'uAts_R.pas' {fAts_R},
   uAbrirCaixa in 'uAbrirCaixa.pas' {fAbrirCaixa},
   uCCe in 'uCCe.pas' {fCCe},
-  //uCartaCorrecao in 'uCartaCorrecao.pas',
   uCarne in 'uCarne.pas' {fCarne},
   uPainelControle in 'uPainelControle.pas' {fPainelControle},
   U_RelTerminal in 'U_RelTerminal.pas' {F_RelTerminal},
@@ -275,7 +274,12 @@ uses
   uPagarCls in 'uPagarCls.pas',
   uDescontoTitulos in 'uDescontoTitulos.pas' {fDescontoTitulos},
   uRel_LucroPresumido in 'uRel_LucroPresumido.pas' {fRel_LucroPresumido},
-  uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins};
+  uNfePisCofins in 'uNfePisCofins.pas' {fNfePisCofins},
+  uFiscalCls in 'uFiscalCls.pas',
+  uTerminalNTC in 'uTerminalNTC.pas' {fTerminalNTC},
+  uIncluirProdutos in 'uIncluirProdutos.pas' {fIncluirProdutos},
+  uSuites in 'uSuites.pas' {fSuites},
+  uCadClientes2 in 'uCadClientes2.pas' {fCadClientes2};
 
 {$R *.res}
 
