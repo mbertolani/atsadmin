@@ -3880,11 +3880,13 @@ object fNFeletronica: TfNFeletronica
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.IntervaloTentativas = 0
     Configuracoes.WebServices.AjustaAguardaConsultaRet = False
+    Configuracoes.Arquivos.Salvar = True
     Configuracoes.Arquivos.PastaMensal = True
-    Configuracoes.Arquivos.PathNFe = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
-    Configuracoes.Arquivos.PathCan = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
-    Configuracoes.Arquivos.PathInu = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
-    Configuracoes.Arquivos.PathDPEC = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
+    Configuracoes.Arquivos.PathNFe = 'C:\Home\NFe\Notas Enviadas\'
+    Configuracoes.Arquivos.PathCan = 'C:\Home\NFe\Cancelamento\'
+    Configuracoes.Arquivos.PathInu = 'C:\Home\NFe\Inutilizadas\'
+    Configuracoes.Arquivos.PathDPEC = 'C:\Home\NFe\Dpec\'
+    Configuracoes.Arquivos.PathCCe = 'C:\Home\NFe\CCe\'
     DANFE = ACBrNFeDANFERave1
     Left = 424
     Top = 316
