@@ -2613,395 +2613,437 @@ inherited fParametro: TfParametro
     object TabPDV: TTabSheet
       Caption = 'PDV'
       ImageIndex = 10
-      object Label50: TLabel
-        Left = 369
-        Top = 2
-        Width = 146
-        Height = 13
-        Caption = 'Mensagem impressa no cupom'
-      end
-      object Label51: TLabel
-        Left = 369
-        Top = 86
-        Width = 85
-        Height = 13
-        Caption = 'Porta Imp. Setor 1'
-      end
-      object Label56: TLabel
-        Left = 691
-        Top = 86
-        Width = 61
-        Height = 13
-        Caption = 'S'#233'rie Padr'#227'o'
-      end
-      object Label58: TLabel
-        Left = 477
-        Top = 86
-        Width = 85
-        Height = 13
-        Caption = 'Porta Imp. Setor 2'
-      end
-      object Label59: TLabel
-        Left = 584
-        Top = 86
-        Width = 85
-        Height = 13
-        Caption = 'Porta Imp. Setor 3'
-      end
-      object RadioGroup3: TRadioGroup
-        Left = 8
-        Top = 16
-        Width = 290
-        Height = 40
-        Caption = 'Tipo de Impress'#227'o'
-        Columns = 2
-        Items.Strings = (
-          'Modelo Cupom'
-          'Modelo Recibo')
+      object pgc1: TPageControl
+        Left = 0
+        Top = 0
+        Width = 784
+        Height = 445
+        ActivePage = ts1
+        Align = alClient
         TabOrder = 0
-        OnClick = RadioGroup3Click
-      end
-      object RadioGroup4: TRadioGroup
-        Left = 9
-        Top = 63
-        Width = 288
-        Height = 39
-        Caption = 'Busca Padr'#227'o'
-        Columns = 2
-        Items.Strings = (
-          'Codigo de Barra'
-          'Codigo do Produto')
-        TabOrder = 1
-        OnClick = RadioGroup4Click
-      end
-      object RadioGroup5: TRadioGroup
-        Left = 9
-        Top = 110
-        Width = 289
-        Height = 40
-        Caption = 'Usa Controle de Lote'
-        Columns = 2
-        Items.Strings = (
-          'Sim'
-          'N'#227'o')
-        TabOrder = 2
-        OnClick = RadioGroup5Click
-      end
-      object CheckBox1: TCheckBox
-        Left = 11
-        Top = 209
-        Width = 211
-        Height = 17
-        Caption = 'Imprimr para Arquivo ?'
-        TabOrder = 3
-        OnClick = CheckBox1Click
-      end
-      object edtMensagem: TEdit
-        Left = 368
-        Top = 20
-        Width = 393
-        Height = 21
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 4
-        OnChange = edtMensagemChange
-      end
-      object CheckBox2: TCheckBox
-        Left = 11
-        Top = 246
-        Width = 211
-        Height = 17
-        Caption = 'Usa Controle de Comandas ?'
-        TabOrder = 5
-        OnClick = CheckBox2Click
-      end
-      object CheckBox3: TCheckBox
-        Left = 11
-        Top = 265
-        Width = 211
-        Height = 17
-        Caption = 'Usa Controle de Delivery ?'
-        TabOrder = 6
-        OnClick = CheckBox3Click
-      end
-      object CheckBox4: TCheckBox
-        Left = 11
-        Top = 228
-        Width = 211
-        Height = 17
-        Caption = 'Usa Venda ao Consumidor ?'
-        TabOrder = 7
-        OnClick = CheckBox4Click
-      end
-      object EdtPorta: TEdit
-        Left = 368
-        Top = 104
-        Width = 105
-        Height = 21
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 8
-        OnChange = EdtPortaChange
-      end
-      object CheckBox5: TCheckBox
-        Left = 11
-        Top = 283
-        Width = 211
-        Height = 17
-        Caption = 'N'#227'o permitir altara'#231#245'es de pre'#231'o'
-        TabOrder = 9
-      end
-      object CheckBox6: TCheckBox
-        Left = 11
-        Top = 301
-        Width = 211
-        Height = 17
-        Caption = 'Para Excluir ou cancelar Pedir Senha'
-        TabOrder = 10
-        OnClick = CheckBox6Click
-      end
-      object GroupBox31: TGroupBox
-        Left = 368
-        Top = 130
-        Width = 394
-        Height = 106
-        Caption = 'Perfil Para Aprova'#231#227'o '
-        TabOrder = 11
-        object Label52: TLabel
-          Left = 10
-          Top = 12
-          Width = 38
-          Height = 13
-          Caption = 'Perfil 01'
+        object ts1: TTabSheet
+          Caption = 'ts1'
+          object lbl1: TLabel
+            Left = 369
+            Top = 11
+            Width = 146
+            Height = 13
+            Caption = 'Mensagem impressa no cupom'
+          end
+          object lbl2: TLabel
+            Left = 369
+            Top = 95
+            Width = 85
+            Height = 13
+            Caption = 'Porta Imp. Setor 1'
+          end
+          object lbl3: TLabel
+            Left = 691
+            Top = 95
+            Width = 61
+            Height = 13
+            Caption = 'S'#233'rie Padr'#227'o'
+          end
+          object lbl4: TLabel
+            Left = 584
+            Top = 95
+            Width = 85
+            Height = 13
+            Caption = 'Porta Imp. Setor 3'
+          end
+          object lbl5: TLabel
+            Left = 477
+            Top = 95
+            Width = 85
+            Height = 13
+            Caption = 'Porta Imp. Setor 2'
+          end
+          object chkImpUmRecibo: TCheckBox
+            Left = 11
+            Top = 385
+            Width = 294
+            Height = 17
+            Caption = 'Imprime um Recibo para todos Selecionados.'
+            TabOrder = 0
+            OnClick = chkImpUmReciboClick
+          end
+          object chkcontroleCaixa: TCheckBox
+            Left = 11
+            Top = 364
+            Width = 294
+            Height = 17
+            Caption = 'Usa Controle de caixa ?'
+            TabOrder = 1
+            OnClick = chkcontroleCaixaClick
+          end
+          object chkImpressaoResumida: TCheckBox
+            Left = 11
+            Top = 346
+            Width = 294
+            Height = 17
+            Caption = 'Imprimir descri'#231#227'o resumida no fechamento do Pedido ?'
+            TabOrder = 2
+            OnClick = chkImpressaoResumidaClick
+          end
+          object chkBloquearComanda: TCheckBox
+            Left = 11
+            Top = 328
+            Width = 211
+            Height = 17
+            Caption = 'Bloquear Mesa/Comanda ao imp.parcial'
+            TabOrder = 3
+            OnClick = chkBloquearComandaClick
+          end
+          object chkPedirSenha: TCheckBox
+            Left = 11
+            Top = 310
+            Width = 211
+            Height = 17
+            Caption = 'Para Excluir ou cancelar Pedir Senha'
+            TabOrder = 4
+            OnClick = chkPedirSenhaClick
+          end
+          object chkNaoAlterarPreco: TCheckBox
+            Left = 11
+            Top = 292
+            Width = 211
+            Height = 17
+            Caption = 'N'#227'o permitir altara'#231#245'es de pre'#231'o'
+            TabOrder = 5
+          end
+          object chkDelivery: TCheckBox
+            Left = 11
+            Top = 274
+            Width = 211
+            Height = 17
+            Caption = 'Usa Controle de Delivery ?'
+            TabOrder = 6
+            OnClick = chkDeliveryClick
+          end
+          object chkComandas: TCheckBox
+            Left = 11
+            Top = 255
+            Width = 211
+            Height = 17
+            Caption = 'Usa Controle de Comandas ?'
+            TabOrder = 7
+            OnClick = chkComandasClick
+          end
+          object chkVendaConsumidor: TCheckBox
+            Left = 11
+            Top = 237
+            Width = 211
+            Height = 17
+            Caption = 'Usa Venda ao Consumidor ?'
+            TabOrder = 8
+            OnClick = chkVendaConsumidorClick
+          end
+          object chkImprimirTXT: TCheckBox
+            Left = 11
+            Top = 218
+            Width = 211
+            Height = 17
+            Caption = 'Imprimr para Arquivo ?'
+            TabOrder = 9
+            OnClick = chkImprimirTXTClick
+          end
+          object rgPgComissao: TRadioGroup
+            Left = 9
+            Top = 167
+            Width = 289
+            Height = 40
+            Caption = 'Paga Comiss'#227'o'
+            Columns = 2
+            Items.Strings = (
+              'Sim'
+              'N'#227'o')
+            TabOrder = 10
+            OnClick = rgPgComissaoClick
+          end
+          object rgUsaLote: TRadioGroup
+            Left = 9
+            Top = 119
+            Width = 289
+            Height = 40
+            Caption = 'Usa Controle de Lote'
+            Columns = 2
+            Items.Strings = (
+              'Sim'
+              'N'#227'o')
+            TabOrder = 11
+            OnClick = rgUsaLoteClick
+          end
+          object rgBuscaPadrao: TRadioGroup
+            Left = 9
+            Top = 72
+            Width = 288
+            Height = 39
+            Caption = 'Busca Padr'#227'o'
+            Columns = 2
+            Items.Strings = (
+              'Codigo de Barra'
+              'Codigo do Produto')
+            TabOrder = 12
+            OnClick = rgBuscaPadraoClick
+          end
+          object rgTipoImpressao: TRadioGroup
+            Left = 8
+            Top = 25
+            Width = 290
+            Height = 40
+            Caption = 'Tipo de Impress'#227'o'
+            Columns = 2
+            Items.Strings = (
+              'Modelo Cupom'
+              'Modelo Recibo')
+            TabOrder = 13
+            OnClick = rgTipoImpressaoClick
+          end
+          object edtMensagem: TEdit
+            Left = 368
+            Top = 29
+            Width = 393
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 14
+            OnChange = edtMensagemChange
+          end
+          object edtMensagem1: TEdit
+            Left = 368
+            Top = 50
+            Width = 393
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 15
+            OnChange = edtMensagem1Change
+          end
+          object edtMensagem2: TEdit
+            Left = 368
+            Top = 71
+            Width = 393
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 16
+            OnChange = edtMensagem2Change
+          end
+          object edtEdtPorta: TEdit
+            Left = 368
+            Top = 113
+            Width = 105
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 17
+            OnChange = edtEdtPortaChange
+          end
+          object edtSetor2: TEdit
+            Left = 476
+            Top = 113
+            Width = 105
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 18
+            OnChange = edtSetor2Change
+          end
+          object edtSetor3: TEdit
+            Left = 583
+            Top = 113
+            Width = 105
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 19
+            OnChange = edtSetor3Change
+          end
+          object edtEdtSerie: TEdit
+            Left = 690
+            Top = 113
+            Width = 71
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 20
+            OnChange = edtEdtSerieChange
+          end
+          object grp1: TGroupBox
+            Left = 368
+            Top = 139
+            Width = 394
+            Height = 106
+            Caption = 'Perfil Para Aprova'#231#227'o '
+            TabOrder = 21
+            object lbl6: TLabel
+              Left = 10
+              Top = 12
+              Width = 38
+              Height = 13
+              Caption = 'Perfil 01'
+            end
+            object lbl7: TLabel
+              Left = 206
+              Top = 12
+              Width = 38
+              Height = 13
+              Caption = 'Perfil 02'
+            end
+            object lbl8: TLabel
+              Left = 206
+              Top = 60
+              Width = 38
+              Height = 13
+              Caption = 'Perfil 04'
+            end
+            object lbl9: TLabel
+              Left = 10
+              Top = 60
+              Width = 38
+              Height = 13
+              Caption = 'Perfil 03'
+            end
+            object edtPerfil01: TEdit
+              Left = 11
+              Top = 28
+              Width = 163
+              Height = 21
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              TabOrder = 0
+              OnChange = edtPerfil01Change
+            end
+            object edtPerfil02: TEdit
+              Left = 207
+              Top = 28
+              Width = 163
+              Height = 21
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              TabOrder = 1
+              OnChange = edtPerfil02Change
+            end
+            object edtPerfil04: TEdit
+              Left = 207
+              Top = 76
+              Width = 163
+              Height = 21
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              TabOrder = 2
+              OnChange = edtPerfil04Change
+            end
+            object edtPerfil03: TEdit
+              Left = 11
+              Top = 76
+              Width = 163
+              Height = 21
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              TabOrder = 3
+              OnChange = edtPerfil03Change
+            end
+          end
+          object grp2: TGroupBox
+            Left = 368
+            Top = 247
+            Width = 401
+            Height = 97
+            Caption = 'Impressora Bematech n'#227'o Fiscal'
+            TabOrder = 22
+            object lbl10: TLabel
+              Left = 214
+              Top = 51
+              Width = 104
+              Height = 13
+              Caption = 'Modelo da Impressora'
+            end
+            object chkUsaDLL: TCheckBox
+              Left = 8
+              Top = 71
+              Width = 180
+              Height = 17
+              Alignment = taLeftJustify
+              Caption = 'Usa DLL  ?'
+              TabOrder = 0
+              OnClick = chkUsaDLLClick
+            end
+            object chkImpAoGravar: TCheckBox
+              Left = 7
+              Top = 24
+              Width = 180
+              Height = 17
+              Alignment = taLeftJustify
+              Caption = 'Imprimir ao Gravar Pedido  ?'
+              TabOrder = 1
+              OnClick = chkImpAoGravarClick
+            end
+            object chkAbrirGavetaAoGravar: TCheckBox
+              Left = 7
+              Top = 49
+              Width = 181
+              Height = 17
+              Alignment = taLeftJustify
+              Caption = 'Abrir gaveta ao Gravar Pedido ?'
+              TabOrder = 2
+              OnClick = chkAbrirGavetaAoGravarClick
+            end
+            object edtModelo: TEdit
+              Left = 215
+              Top = 68
+              Width = 163
+              Height = 21
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              TabOrder = 3
+              OnChange = edtModeloChange
+            end
+          end
+          object rgEstoqueNegativo: TRadioGroup
+            Left = 369
+            Top = 346
+            Width = 400
+            Height = 37
+            Caption = 'Permite estoque negativo'
+            Columns = 2
+            Items.Strings = (
+              'N'#227'o'
+              'Sim')
+            TabOrder = 23
+            OnClick = rgEstoqueNegativoClick
+          end
+          object chk1: TCheckBox
+            Left = 371
+            Top = 393
+            Width = 294
+            Height = 17
+            Caption = 'PDV NTC ?'
+            TabOrder = 24
+            OnClick = chk1Click
+          end
         end
-        object Label53: TLabel
-          Left = 206
-          Top = 12
-          Width = 38
-          Height = 13
-          Caption = 'Perfil 02'
+        object ts2: TTabSheet
+          Caption = 'ts2'
+          ImageIndex = 1
+          object lbl11: TLabel
+            Left = 10
+            Top = 12
+            Width = 225
+            Height = 13
+            Caption = 'Perfil sem autoriza'#231#227'o para abertura de Pedidos'
+          end
+          object edt1: TEdit
+            Left = 9
+            Top = 28
+            Width = 232
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 0
+            OnChange = edt1Change
+          end
         end
-        object Label54: TLabel
-          Left = 206
-          Top = 60
-          Width = 38
-          Height = 13
-          Caption = 'Perfil 04'
-        end
-        object Label55: TLabel
-          Left = 10
-          Top = 60
-          Width = 38
-          Height = 13
-          Caption = 'Perfil 03'
-        end
-        object edtPerfil01: TEdit
-          Left = 11
-          Top = 28
-          Width = 163
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 0
-          OnChange = edtPerfil01Change
-        end
-        object edtPerfil02: TEdit
-          Left = 207
-          Top = 28
-          Width = 163
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 1
-          OnChange = edtPerfil02Change
-        end
-        object edtPerfil04: TEdit
-          Left = 207
-          Top = 76
-          Width = 163
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 2
-          OnChange = edtPerfil04Change
-        end
-        object edtPerfil03: TEdit
-          Left = 11
-          Top = 76
-          Width = 163
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 3
-          OnChange = edtPerfil03Change
-        end
-      end
-      object GroupBox32: TGroupBox
-        Left = 368
-        Top = 238
-        Width = 401
-        Height = 97
-        Caption = 'Impressora Bematech n'#227'o Fiscal'
-        TabOrder = 12
-        object Label57: TLabel
-          Left = 214
-          Top = 51
-          Width = 104
-          Height = 13
-          Caption = 'Modelo da Impressora'
-        end
-        object CheckBox7: TCheckBox
-          Left = 8
-          Top = 71
-          Width = 180
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = 'Usa DLL  ?'
-          TabOrder = 0
-          OnClick = CheckBox7Click
-        end
-        object CheckBox8: TCheckBox
-          Left = 7
-          Top = 24
-          Width = 180
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = 'Imprimir ao Gravar Pedido  ?'
-          TabOrder = 1
-          OnClick = CheckBox8Click
-        end
-        object CheckBox9: TCheckBox
-          Left = 7
-          Top = 49
-          Width = 181
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = 'Abrir gaveta ao Gravar Pedido ?'
-          TabOrder = 2
-          OnClick = CheckBox9Click
-        end
-        object cbModelo: TEdit
-          Left = 215
-          Top = 68
-          Width = 163
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 3
-          OnChange = cbModeloChange
-        end
-      end
-      object EdtSerie: TEdit
-        Left = 690
-        Top = 104
-        Width = 71
-        Height = 21
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 13
-        OnChange = EdtSerieChange
-      end
-      object RadioGroup6: TRadioGroup
-        Left = 369
-        Top = 337
-        Width = 400
-        Height = 37
-        Caption = 'Permite estoque negativo'
-        Columns = 2
-        Items.Strings = (
-          'N'#227'o'
-          'Sim')
-        TabOrder = 14
-        OnClick = RadioGroup6Click
-      end
-      object RadioGroup7: TRadioGroup
-        Left = 9
-        Top = 158
-        Width = 289
-        Height = 40
-        Caption = 'Paga Comiss'#227'o'
-        Columns = 2
-        Items.Strings = (
-          'Sim'
-          'N'#227'o')
-        TabOrder = 15
-        OnClick = RadioGroup7Click
-      end
-      object edtSetor2: TEdit
-        Left = 476
-        Top = 104
-        Width = 105
-        Height = 21
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 16
-        OnChange = edtSetor2Change
-      end
-      object edtSetor3: TEdit
-        Left = 583
-        Top = 104
-        Width = 105
-        Height = 21
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 17
-        OnChange = edtSetor3Change
-      end
-      object edtMensagem1: TEdit
-        Left = 368
-        Top = 41
-        Width = 393
-        Height = 21
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 18
-        OnChange = edtMensagem1Change
-      end
-      object edtMensagem2: TEdit
-        Left = 368
-        Top = 62
-        Width = 393
-        Height = 21
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 19
-        OnChange = edtMensagem2Change
-      end
-      object chk1: TCheckBox
-        Left = 11
-        Top = 319
-        Width = 211
-        Height = 17
-        Caption = 'Bloquear Mesa/Comanda ao imp.parcial'
-        TabOrder = 20
-        OnClick = chk1Click
-      end
-      object chk2: TCheckBox
-        Left = 11
-        Top = 337
-        Width = 294
-        Height = 17
-        Caption = 'Imprimir descri'#231#227'o resumida no fechamento do Pedido ?'
-        TabOrder = 21
-        OnClick = chk2Click
-      end
-      object chk3: TCheckBox
-        Left = 11
-        Top = 355
-        Width = 294
-        Height = 17
-        Caption = 'Usa Controle de caixa ?'
-        TabOrder = 22
-        OnClick = chk3Click
-      end
-      object CheckBox10: TCheckBox
-        Left = 11
-        Top = 376
-        Width = 294
-        Height = 17
-        Caption = 'Imprime um Recibo para todos Selecionados.'
-        TabOrder = 23
-        OnClick = CheckBox10Click
       end
     end
   end
