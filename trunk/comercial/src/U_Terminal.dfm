@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 314
-  Top = 171
+  Left = 278
+  Top = 89
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -288,7 +288,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel3: TJvLabel
-        Left = 150
+        Left = 126
         Top = 10
         Width = 66
         Height = 23
@@ -310,7 +310,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel12: TJvLabel
-        Left = 150
+        Left = 126
         Top = 45
         Width = 66
         Height = 23
@@ -332,7 +332,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel13: TJvLabel
-        Left = 149
+        Left = 125
         Top = 81
         Width = 87
         Height = 23
@@ -377,7 +377,7 @@ object F_Terminal: TF_Terminal
         OnKeyPress = JvComissaoKeyPress
       end
       object JvTotal: TJvValidateEdit
-        Left = 251
+        Left = 227
         Top = 1
         Width = 152
         Height = 36
@@ -399,7 +399,7 @@ object F_Terminal: TF_Terminal
         TabOrder = 1
       end
       object JvParcial: TJvValidateEdit
-        Left = 251
+        Left = 227
         Top = 37
         Width = 152
         Height = 36
@@ -421,7 +421,7 @@ object F_Terminal: TF_Terminal
         TabOrder = 2
       end
       object JvSubtotal: TJvValidateEdit
-        Left = 251
+        Left = 227
         Top = 73
         Width = 152
         Height = 36
@@ -1143,7 +1143,7 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvSair: TJvBitBtn
-      Left = 736
+      Left = 707
       Top = 2
       Width = 42
       Height = 42
@@ -1259,7 +1259,7 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn1: TJvBitBtn
-      Left = 693
+      Left = 664
       Top = 2
       Width = 42
       Height = 42
@@ -1806,7 +1806,7 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn5: TJvBitBtn
-      Left = 650
+      Left = 621
       Top = 2
       Width = 42
       Height = 42
@@ -1922,7 +1922,7 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn6: TJvBitBtn
-      Left = 607
+      Left = 578
       Top = 3
       Width = 42
       Height = 42
