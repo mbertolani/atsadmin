@@ -220,48 +220,54 @@ type
     s_parametroD9: TStringField;
     s_parametroINSTRUCOES: TStringField;
     s_parametroVALOR: TFloatField;
-    RadioGroup3: TRadioGroup;
-    RadioGroup4: TRadioGroup;
-    RadioGroup5: TRadioGroup;
-    CheckBox1: TCheckBox;
+    pgc1: TPageControl;
+    ts1: TTabSheet;
+    chkImpUmRecibo: TCheckBox;
+    chkcontroleCaixa: TCheckBox;
+    chkImpressaoResumida: TCheckBox;
+    chkBloquearComanda: TCheckBox;
+    chkPedirSenha: TCheckBox;
+    chkNaoAlterarPreco: TCheckBox;
+    chkDelivery: TCheckBox;
+    chkComandas: TCheckBox;
+    chkVendaConsumidor: TCheckBox;
+    chkImprimirTXT: TCheckBox;
+    rgPgComissao: TRadioGroup;
+    rgUsaLote: TRadioGroup;
+    rgBuscaPadrao: TRadioGroup;
+    rgTipoImpressao: TRadioGroup;
+    lbl1: TLabel;
     edtMensagem: TEdit;
-    Label50: TLabel;
-    CheckBox2: TCheckBox;
-    CheckBox3: TCheckBox;
-    CheckBox4: TCheckBox;
-    EdtPorta: TEdit;
-    Label51: TLabel;
-    CheckBox5: TCheckBox;
-    CheckBox6: TCheckBox;
-    GroupBox31: TGroupBox;
-    edtPerfil01: TEdit;
-    Label52: TLabel;
-    edtPerfil02: TEdit;
-    Label53: TLabel;
-    Label54: TLabel;
-    edtPerfil04: TEdit;
-    edtPerfil03: TEdit;
-    Label55: TLabel;
-    GroupBox32: TGroupBox;
-    CheckBox7: TCheckBox;
-    CheckBox8: TCheckBox;
-    CheckBox9: TCheckBox;
-    EdtSerie: TEdit;
-    Label56: TLabel;
-    RadioGroup6: TRadioGroup;
-    RadioGroup7: TRadioGroup;
-    Label57: TLabel;
-    cbModelo: TEdit;
-    edtSetor2: TEdit;
-    Label58: TLabel;
-    Label59: TLabel;
-    edtSetor3: TEdit;
     edtMensagem1: TEdit;
     edtMensagem2: TEdit;
+    lbl2: TLabel;
+    edtEdtPorta: TEdit;
+    edtSetor2: TEdit;
+    edtSetor3: TEdit;
+    edtEdtSerie: TEdit;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    lbl5: TLabel;
+    grp1: TGroupBox;
+    lbl6: TLabel;
+    lbl7: TLabel;
+    lbl8: TLabel;
+    lbl9: TLabel;
+    edtPerfil01: TEdit;
+    edtPerfil02: TEdit;
+    edtPerfil04: TEdit;
+    edtPerfil03: TEdit;
+    grp2: TGroupBox;
+    lbl10: TLabel;
+    chkUsaDLL: TCheckBox;
+    chkImpAoGravar: TCheckBox;
+    chkAbrirGavetaAoGravar: TCheckBox;
+    edtModelo: TEdit;
+    rgEstoqueNegativo: TRadioGroup;
+    ts2: TTabSheet;
+    edt1: TEdit;
+    lbl11: TLabel;
     chk1: TCheckBox;
-    chk2: TCheckBox;
-    chk3: TCheckBox;
-    CheckBox10: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -294,37 +300,39 @@ type
     procedure BitBtn29Click(Sender: TObject);
     procedure ComboBox14Change(Sender: TObject);
     procedure ComboBox13Change(Sender: TObject);
-    procedure RadioGroup3Click(Sender: TObject);
+    procedure rgTipoImpressaoClick(Sender: TObject);
     procedure ParametroChange(Sender: TObject);
-    procedure RadioGroup5Click(Sender: TObject);
-    procedure RadioGroup4Click(Sender: TObject);
+    procedure rgUsaLoteClick(Sender: TObject);
+    procedure rgBuscaPadraoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure CheckBox1Click(Sender: TObject);
+    procedure chkImprimirTXTClick(Sender: TObject);
     procedure edtMensagemChange(Sender: TObject);
-    procedure CheckBox4Click(Sender: TObject);
-    procedure CheckBox2Click(Sender: TObject);
-    procedure CheckBox3Click(Sender: TObject);
-    procedure EdtPortaChange(Sender: TObject);
+    procedure chkVendaConsumidorClick(Sender: TObject);
+    procedure chkComandasClick(Sender: TObject);
+    procedure chkDeliveryClick(Sender: TObject);
+    procedure edtEdtPortaChange(Sender: TObject);
     procedure edtPerfil01Change(Sender: TObject);
     procedure edtPerfil02Change(Sender: TObject);
     procedure edtPerfil03Change(Sender: TObject);
     procedure edtPerfil04Change(Sender: TObject);
-    procedure CheckBox6Click(Sender: TObject);
-    procedure CheckBox7Click(Sender: TObject);
-    procedure EdtSerieChange(Sender: TObject);
-    procedure RadioGroup6Click(Sender: TObject);
-    procedure CheckBox8Click(Sender: TObject);
-    procedure CheckBox9Click(Sender: TObject);
-    procedure RadioGroup7Click(Sender: TObject);
-    procedure cbModeloChange(Sender: TObject);
+    procedure chkPedirSenhaClick(Sender: TObject);
+    procedure chkUsaDLLClick(Sender: TObject);
+    procedure edtEdtSerieChange(Sender: TObject);
+    procedure rgEstoqueNegativoClick(Sender: TObject);
+    procedure chkImpAoGravarClick(Sender: TObject);
+    procedure chkAbrirGavetaAoGravarClick(Sender: TObject);
+    procedure rgPgComissaoClick(Sender: TObject);
+    procedure edtModeloChange(Sender: TObject);
     procedure edtSetor2Change(Sender: TObject);
     procedure edtSetor3Change(Sender: TObject);
     procedure edtMensagem1Change(Sender: TObject);
     procedure edtMensagem2Change(Sender: TObject);
+    procedure chkBloquearComandaClick(Sender: TObject);
+    procedure chkImpressaoResumidaClick(Sender: TObject);
+    procedure chkcontroleCaixaClick(Sender: TObject);
+    procedure chkImpUmReciboClick(Sender: TObject);
+    procedure edt1Change(Sender: TObject);
     procedure chk1Click(Sender: TObject);
-    procedure chk2Click(Sender: TObject);
-    procedure chk3Click(Sender: TObject);
-    procedure CheckBox10Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -1963,11 +1971,11 @@ begin
   end;
 end;
 
-procedure TfParametro.RadioGroup3Click(Sender: TObject);
+procedure TfParametro.rgTipoImpressaoClick(Sender: TObject);
 begin
   //inherited;
   strSql := '';
-  if (RadioGroup3.ItemIndex = 0) then  // Cupom
+  if (rgTipoImpressao.ItemIndex = 0) then  // Cupom
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2012,7 +2020,7 @@ begin
 
   end;
 
-  if (RadioGroup3.ItemIndex = 1) then  // Recibo
+  if (rgTipoImpressao.ItemIndex = 1) then  // Recibo
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2069,10 +2077,10 @@ begin
      s_parametro.Params[0].AsString := 'DLLBEMATECH';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox7.Checked := True
+        chkUsaDLL.Checked := True
      else
-        CheckBox7.Checked := False;
-          
+        chkUsaDLL.Checked := False;
+
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'PERFIL';
@@ -2084,13 +2092,19 @@ begin
        edtPerfil03.Text := s_parametroD3.AsString;
        edtPerfil04.Text := s_parametroD4.AsString;
      end;
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFILSEMAUTORIZACAO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       edt1.Text := s_parametroD1.AsString;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-       EdtPorta.Text := s_parametroDADOS.AsString;
+       edtEdtPorta.Text := s_parametroDADOS.AsString;
 
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2108,46 +2122,61 @@ begin
 
      if (s_parametro.Active) then
        s_parametro.Close;
+     s_parametro.Params[0].AsString := 'SERIETERMINAL';
+     if (not s_parametro.Eof) then
+       edtEdtSerie.Text := s_parametroDADOS.AsString;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
      s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-       cbModelo.Text := s_parametroDADOS.AsString;
+       edtModelo.Text := s_parametroDADOS.AsString;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'APROVACAO';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox6.Checked := True
+        chkPedirSenha.Checked := True
      else
-        CheckBox6.Checked := False;
+        chkPedirSenha.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'PDV';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox4.Checked := True
+        chkVendaConsumidor.Checked := True
      else
-        CheckBox4.Checked := False;
+        chkVendaConsumidor.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'COMANDA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox2.Checked := True
+        chkComandas.Checked := True
      else
-        CheckBox2.Checked := False;
+        chkComandas.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'DELIVERY';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox3.Checked := True
+        chkDelivery.Checked := True
      else
-        CheckBox3.Checked := False;
+        chkDelivery.Checked := False;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PDVNTC';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        chk1.Checked := True
+     else
+        chk1.Checked := False;
 
 
      if (s_parametro.Active) then
@@ -2155,36 +2184,36 @@ begin
      s_parametro.Params[0].AsString := 'BLOQUEARMESA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        chk1.Checked := True
+        chkBloquearComanda.Checked := True
      else
-        chk1.Checked := False;
+        chkBloquearComanda.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'IMPRESSAORESUMIDA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        chk2.Checked := True
+        chkImpressaoResumida.Checked := True
      else
-        chk2.Checked := False;
+        chkImpressaoResumida.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'USACONTROLECAIXA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        chk3.Checked := True
+        chkcontroleCaixa.Checked := True
      else
-        chk3.Checked := False;
+        chkcontroleCaixa.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'SOMARECIBOS';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox10.Checked := True
+        chkImpUmRecibo.Checked := True
      else
-        CheckBox10.Checked := False;
+        chkImpUmRecibo.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2212,23 +2241,23 @@ begin
      s_parametro.Params[0].AsString := 'IMPARQUIVO';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox1.Checked := True
+        chkImprimirTXT.Checked := True
      else
-        CheckBox1.Checked := False;
-        
+        chkImprimirTXT.Checked := False;
+
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'RECIBOPDV';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        RadioGroup3.ItemIndex := 1;
+        rgTipoImpressao.ItemIndex := 1;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'CUPOMPDV';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        RadioGroup3.ItemIndex := 0;
+        rgTipoImpressao.ItemIndex := 0;
 
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2237,10 +2266,10 @@ begin
      if (not s_parametro.Eof) then
      begin
         if (s_parametroDADOS.AsString = 'CODBARRA') then
-          RadioGroup4.ItemIndex := 0;
+          rgBuscaPadrao.ItemIndex := 0;
 
         if (s_parametroDADOS.AsString = 'CODPRO') then
-          RadioGroup4.ItemIndex := 1;
+          rgBuscaPadrao.ItemIndex := 1;
      end;
 
      if (s_parametro.Active) then
@@ -2248,46 +2277,46 @@ begin
      s_parametro.Params[0].AsString := 'BUSCACUPOM';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        RadioGroup5.ItemIndex := 0
+        rgUsaLote.ItemIndex := 0
      else
-        RadioGroup5.ItemIndex := 1;
+        rgUsaLote.ItemIndex := 1;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        RadioGroup6.ItemIndex := 0
+        rgEstoqueNegativo.ItemIndex := 0
      else
-        RadioGroup6.ItemIndex := 1;
+        rgEstoqueNegativo.ItemIndex := 1;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'IMP_AOGRAVAR';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox8.Checked := True
+        chkImpAoGravar.Checked := True
      else
-        CheckBox8.Checked := False;
+        chkImpAoGravar.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'ABRIR_GAVETA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        CheckBox9.Checked := True
+        chkAbrirGavetaAoGravar.Checked := True
      else
-        CheckBox9.Checked := False;
+        chkAbrirGavetaAoGravar.Checked := False;
 
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        RadioGroup7.ItemIndex := 0
+        rgPgComissao.ItemIndex := 0
      else
-        RadioGroup7.ItemIndex := 1;
-        
+        rgPgComissao.ItemIndex := 1;
+
      s_parametro.Close;
      MMJPanel1.Visible := False;
   end
@@ -2300,11 +2329,11 @@ begin
 
 end;
 
-procedure TfParametro.RadioGroup5Click(Sender: TObject);
+procedure TfParametro.rgUsaLoteClick(Sender: TObject);
 begin
 //  inherited;
   strSql := '';
-  if (RadioGroup5.ItemIndex = 0) then  // Utiliza Lote no PDV
+  if (rgUsaLote.ItemIndex = 0) then  // Utiliza Lote no PDV
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2354,7 +2383,7 @@ begin
 
 end;
 
-procedure TfParametro.RadioGroup4Click(Sender: TObject);
+procedure TfParametro.rgBuscaPadraoClick(Sender: TObject);
 begin
 //  inherited;
   strSql := '';
@@ -2370,7 +2399,7 @@ begin
       strSql := strSql + ') VALUES (';
       strSql := strSql + QuotedStr('Busca Produto CODIGO DE BARRA ou CODIGO do PRODUTO') + ', ';
       strSql := strSql + QuotedStr('BUSCAPRODUTO') + ', ';
-      if (RadioGroup4.ItemIndex = 0) then
+      if (rgBuscaPadrao.ItemIndex = 0) then
         strSql := strSql + QuotedStr('CODBARRA')
       else
         strSql := strSql + QuotedStr('CODPRO');
@@ -2385,7 +2414,7 @@ begin
              [mbOk], 0);
       end;
    end
-   else if (RadioGroup4.ItemIndex = 1) then  // Busca pelo Codigo do Produto
+   else if (rgBuscaPadrao.ItemIndex = 1) then  // Busca pelo Codigo do Produto
    begin
       strSql := 'UPDATE PARAMETRO SET DADOS = ';
       strSql := strSql + QuotedStr('CODPRO');
@@ -2400,7 +2429,7 @@ begin
              [mbOk], 0);
       end;
    end
-   else if (RadioGroup4.ItemIndex = 0) then  // Busca pelo Codigo de Barra
+   else if (rgBuscaPadrao.ItemIndex = 0) then  // Busca pelo Codigo de Barra
    begin
 
         strSql := 'UPDATE PARAMETRO SET DADOS = ';
@@ -2424,9 +2453,9 @@ begin
   Parametro.ActivePage := TabSheet1;
 end;
 
-procedure TfParametro.CheckBox1Click(Sender: TObject);
+procedure TfParametro.chkImprimirTXTClick(Sender: TObject);
 begin
-  if (CheckBox1.Checked = True) then  // Busca pelo Codigo de Barra
+  if (chkImprimirTXT.Checked = True) then  // Busca pelo Codigo de Barra
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2523,9 +2552,9 @@ begin
   end;
 end;
 
-procedure TfParametro.CheckBox4Click(Sender: TObject);
+procedure TfParametro.chkVendaConsumidorClick(Sender: TObject);
 begin
-  if (CheckBox4.Checked = True) then  // Busca pelo Codigo de Barra
+  if (chkVendaConsumidor.Checked = True) then  // Busca pelo Codigo de Barra
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2574,9 +2603,9 @@ begin
   end;
 end;
 
-procedure TfParametro.CheckBox2Click(Sender: TObject);
+procedure TfParametro.chkComandasClick(Sender: TObject);
 begin
-  if (CheckBox2.Checked = True) then  // Busca pelo Codigo de Barra
+  if (chkComandas.Checked = True) then  // Busca pelo Codigo de Barra
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2625,9 +2654,9 @@ begin
   end;
 end;
 
-procedure TfParametro.CheckBox3Click(Sender: TObject);
+procedure TfParametro.chkDeliveryClick(Sender: TObject);
 begin
-  if (CheckBox3.Checked = True) then  // Busca pelo Codigo de Barra
+  if (chkDelivery.Checked = True) then  // Busca pelo Codigo de Barra
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2676,9 +2705,9 @@ begin
   end;
 end;
 
-procedure TfParametro.EdtPortaChange(Sender: TObject);
+procedure TfParametro.edtEdtPortaChange(Sender: TObject);
 begin
-  if (EdtPorta.Text <> '') then
+  if (edtEdtPorta.Text <> '') then
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2686,10 +2715,10 @@ begin
      s_parametro.Open;
      if (not s_parametro.Eof) then
      begin
-       if (EdtPorta.Text <> s_parametroDADOS.AsString) then
+       if (edtEdtPorta.Text <> s_parametroDADOS.AsString) then
        begin
           strSql := 'UPDATE PARAMETRO SET DADOS = ';
-          strSql := strSql + QuotedStr(EdtPorta.Text);
+          strSql := strSql + QuotedStr(edtEdtPorta.Text);
           strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PORTA IMPRESSORA');
           dm.sqlsisAdimin.StartTransaction(TD);
           dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -2708,7 +2737,7 @@ begin
         strSql := strSql + ') VALUES (';
         strSql := strSql + QuotedStr('Porta para impressão') + ', ';
         strSql := strSql + QuotedStr('PORTA IMPRESSORA') + ', ';
-        strSql := strSql + QuotedStr(EdtPorta.Text);
+        strSql := strSql + QuotedStr(edtEdtPorta.Text);
         strSql := strSql + ')';
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -2912,9 +2941,9 @@ begin
   end;
 end;
 
-procedure TfParametro.CheckBox6Click(Sender: TObject);
+procedure TfParametro.chkPedirSenhaClick(Sender: TObject);
 begin
-  if (CheckBox6.Checked = True) then  // Usa Aprovação no exluir Pedido
+  if (chkPedirSenha.Checked = True) then  // Usa Aprovação no exluir Pedido
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -2963,9 +2992,9 @@ begin
   end;
 end;
 
-procedure TfParametro.CheckBox7Click(Sender: TObject);
+procedure TfParametro.chkUsaDLLClick(Sender: TObject);
 begin
-  if (CheckBox7.Checked = True) then  // Usa Aprovação no exluir Pedido
+  if (chkUsaDLL.Checked = True) then  // Usa Aprovação no exluir Pedido
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3014,9 +3043,9 @@ begin
   end;
 end;
 
-procedure TfParametro.EdtSerieChange(Sender: TObject);
+procedure TfParametro.edtEdtSerieChange(Sender: TObject);
 begin
-  if (EdtPorta.Text <> '') then
+  if (edtEdtSerie.Text <> '') then
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3024,10 +3053,10 @@ begin
      s_parametro.Open;
      if (not s_parametro.Eof) then
      begin
-       if (EdtPorta.Text <> s_parametroDADOS.AsString) then
+       if (edtEdtSerie.Text <> s_parametroDADOS.AsString) then
        begin
           strSql := 'UPDATE PARAMETRO SET DADOS = ';
-          strSql := strSql + QuotedStr(EdtSerie.Text);
+          strSql := strSql + QuotedStr(edtEdtSerie.Text);
           strSql := strSql + ' where PARAMETRO = ' + QuotedStr('SERIETERMINAL');
           dm.sqlsisAdimin.StartTransaction(TD);
           dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -3046,7 +3075,7 @@ begin
         strSql := strSql + ') VALUES (';
         strSql := strSql + QuotedStr('Serie Padrão PDV') + ', ';
         strSql := strSql + QuotedStr('SERIETERMINAL') + ', ';
-        strSql := strSql + QuotedStr(EdtSerie.Text);
+        strSql := strSql + QuotedStr(edtEdtSerie.Text);
         strSql := strSql + ')';
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -3062,11 +3091,11 @@ begin
 
 end;
 
-procedure TfParametro.RadioGroup6Click(Sender: TObject);
+procedure TfParametro.rgEstoqueNegativoClick(Sender: TObject);
 begin
 //  inherited;
   strSql := '';
-  if (RadioGroup6.ItemIndex = 0) then  // Utiliza Lote no PDV
+  if (rgEstoqueNegativo.ItemIndex = 0) then  // Utiliza Lote no PDV
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3116,9 +3145,9 @@ begin
 
 end;
 
-procedure TfParametro.CheckBox8Click(Sender: TObject);
+procedure TfParametro.chkImpAoGravarClick(Sender: TObject);
 begin
-  if (CheckBox8.Checked = True) then  // Usa Aprovação no exluir Pedido
+  if (chkImpAoGravar.Checked = True) then  // Usa Aprovação no exluir Pedido
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3167,9 +3196,9 @@ begin
   end;
 end;
 
-procedure TfParametro.CheckBox9Click(Sender: TObject);
+procedure TfParametro.chkAbrirGavetaAoGravarClick(Sender: TObject);
 begin
-  if (CheckBox9.Checked = True) then  // Usa Aprovação no exluir Pedido
+  if (chkAbrirGavetaAoGravar.Checked = True) then  // Usa Aprovação no exluir Pedido
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3218,10 +3247,10 @@ begin
   end;
 end;
 
-procedure TfParametro.RadioGroup7Click(Sender: TObject);
+procedure TfParametro.rgPgComissaoClick(Sender: TObject);
 begin
   strSql := '';
-  if (RadioGroup7.ItemIndex = 0) then  // Utiliza Lote no PDV
+  if (rgPgComissao.ItemIndex = 0) then  // Utiliza Lote no PDV
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3271,10 +3300,10 @@ begin
 
 end;
 
-procedure TfParametro.cbModeloChange(Sender: TObject);
+procedure TfParametro.edtModeloChange(Sender: TObject);
 begin
 //  inherited;
-  if (cbModelo.Text <> '') then
+  if (edtModelo.Text <> '') then
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3282,10 +3311,10 @@ begin
      s_parametro.Open;
      if (not s_parametro.Eof) then
      begin
-       if (EdtPorta.Text <> s_parametroDADOS.AsString) then
+       if (edtModelo.Text <> s_parametroDADOS.AsString) then
        begin
           strSql := 'UPDATE PARAMETRO SET DADOS = ';
-          strSql := strSql + QuotedStr(cbModelo.Text);
+          strSql := strSql + QuotedStr(edtModelo.Text);
           strSql := strSql + ' where PARAMETRO = ' + QuotedStr('MODELOIMPRESSORA');
           dm.sqlsisAdimin.StartTransaction(TD);
           dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -3510,9 +3539,9 @@ begin
   end;
 end;
 
-procedure TfParametro.chk1Click(Sender: TObject);
+procedure TfParametro.chkBloquearComandaClick(Sender: TObject);
 begin
-  if (chk1.Checked = True) then  // Usa Aprovação no exluir Pedido
+  if (chkBloquearComanda.Checked = True) then  // Usa Aprovação no exluir Pedido
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3561,9 +3590,9 @@ begin
   end;
 end;
 
-procedure TfParametro.chk2Click(Sender: TObject);
+procedure TfParametro.chkImpressaoResumidaClick(Sender: TObject);
 begin
-  if (chk2.Checked = True) then  // Usa Aprovação no exluir Pedido
+  if (chkImpressaoResumida.Checked = True) then  // Usa Aprovação no exluir Pedido
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3612,9 +3641,9 @@ begin
   end;
 end;
 
-procedure TfParametro.chk3Click(Sender: TObject);
+procedure TfParametro.chkcontroleCaixaClick(Sender: TObject);
 begin
-  if (chk3.Checked = True) then  // Usa Aprovação no exluir Pedido
+  if (chkcontroleCaixa.Checked = True) then  // Usa Aprovação no exluir Pedido
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3663,9 +3692,9 @@ begin
   end;
 end;
 
-procedure TfParametro.CheckBox10Click(Sender: TObject);
+procedure TfParametro.chkImpUmReciboClick(Sender: TObject);
 begin
-  if (CheckBox10.Checked = True) then  // Usa Aprovação no exluir Pedido
+  if (chkImpUmRecibo.Checked = True) then  // Usa Aprovação no exluir Pedido
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -3699,6 +3728,104 @@ begin
      begin
        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
        strSql := strSql + QuotedStr('SOMARECIBOS');
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+          dm.sqlsisAdimin.Commit(TD);
+       except
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+              [mbOk], 0);
+       end;
+     end;
+     if (s_parametro.Active) then
+        s_parametro.Close;
+  end;
+end;
+
+procedure TfParametro.edt1Change(Sender: TObject);
+begin
+  if (edtPerfil01.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFILSEMAUTORIZACAO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtPerfil01.Text <> s_parametroD1.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET D1 = ';
+          strSql := strSql + QuotedStr(edt1.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PERFILSEMAUTORIZACAO');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Perfil sem autorização para Abertura de Comandas') + ', ';
+        strSql := strSql + QuotedStr('PERFILSEMAUTORIZACAO') + ', ';
+        strSql := strSql + QuotedStr(edt1.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.chk1Click(Sender: TObject);
+begin
+  if (chk1.Checked = True) then  // Usa Aprovação no exluir Pedido
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PDVNTC';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Usa Tela de Venda NTC') + ', ';
+        strSql := strSql + QuotedStr('PDVNTC');
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PDVNTC';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+       strSql := strSql + QuotedStr('PDVNTC');
        dm.sqlsisAdimin.StartTransaction(TD);
        dm.sqlsisAdimin.ExecuteDirect(strSql);
        Try
