@@ -39,6 +39,9 @@ type
     procedure setObs(const Value: String);
     function getCodOrigem: Integer;
     procedure setCodOrigem(const Value: Integer);
+    function getTipoPedido: String;
+    procedure setTipoPedido(const Value: String);
+
   protected
     //Atributos
     _codMov          : Integer;
@@ -56,6 +59,7 @@ type
     _dataMov         : TDateTime;
     _dataEntrega     : TDateTime;
     _movDetalhe      : TMovimentoDetalhe;
+    _TipoPedido      : String;
     function executaSql(strSql: String): Boolean;
   public
     property CodMov      : Integer read getCodMov write setCodMov;
@@ -73,7 +77,7 @@ type
     property DataMov     : TDateTime read getDataMov write setDataMov;
     property DataEntrega : TDateTime read getDataEntrega write setDataEntrega;
     property MovDetalhe  : TMovimentoDetalhe read getMovDetalhe write setMovDetalhe;
-
+    property TipoPedido  : String  read getTipoPedido write setTipoPedido;
     //Metodos
     function inserirMovimento(CodMovI: Integer): Integer;
     function verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
@@ -222,6 +226,11 @@ begin
   Result := _status;
 end;
 
+function TMovimento.getTipoPedido: String;
+begin
+  Result := _TipoPedido;
+end;
+
 function TMovimento.inserirMovimento(CodMovI: Integer): Integer;
 var str: String;
 begin
@@ -239,7 +248,7 @@ begin
   str := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, ';
   str := str + 'CODNATUREZA, STATUS, CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, ';
   str := str + 'CODFORNECEDOR, DATA_SISTEMA, CONTROLE, CODPEDIDO, DATA_ENTREGA, ';
-  str := str + 'OBS, CODORIGEM) VALUES (';
+  str := str + 'OBS, CODORIGEM, TIPO_PEDIDO) VALUES (';
   str := str + IntToStr(Self.CodMov) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataMov));
   str := str + ', ' + IntToStr(Self.CodCliente) + ', ' + IntToStr(Self.CodNatureza);
   str := str + ', ' + IntToStr(Self.Status) + ', ' + IntToStr(Self.CodUsuario);
@@ -249,6 +258,7 @@ begin
   str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataEntrega));
   str := str + ', ' + QuotedStr(Self.Obs);
   str := str + ', ' + IntToStr(Self.CodOrigem);
+  str := str + ', ' + QuotedStr(Self.TipoPedido);
   str := str + ')';
   if (executaSql(str)) then
     Result := Self.CodMov
@@ -329,6 +339,11 @@ end;
 procedure TMovimento.setStatus(const Value: Integer);
 begin
   _status := Value;
+end;
+
+procedure TMovimento.setTipoPedido(const Value: String);
+begin
+  _TipoPedido := Value;
 end;
 
 function TMovimento.verMovimento(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
