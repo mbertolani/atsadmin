@@ -246,11 +246,13 @@ type
     s_mesasCOD_CLI: TStringField;
     c_mesasCOD_CLI: TStringField;
     BitBtn2: TBitBtn;
+    chk1: TCheckBox;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure chk1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     sql_texto : String;
@@ -277,9 +279,7 @@ begin
      exit;
   end;
   var_idCli := 0;
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
+
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CLI, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -296,15 +296,17 @@ begin
   sql_texto :=   sql_texto + QuotedStr(Edit1.Text + '-' + ComboBox1.Text) + ', ';
   sql_texto :=   sql_texto + QuotedStr(Edit1.Text + '-' + ComboBox1.Text) + ', ';
   sql_texto :=   sql_texto + '1' + ', ';
-  sql_texto :=   sql_texto + '2' + ', '; // Seguimento 2 = MESA COMANDA
-  sql_texto :=   sql_texto + '1' + ', ';
+  sql_texto :=   sql_texto + '2' + ', '; // Seguimento 2 = MESA  USADO PARA RESTAURANTES
+  sql_texto :=   sql_texto + '1' + ', '; // Região 0 = Clientes 1 = COMANDA  2 = Colaboradores USADO P/ NTClub
   sql_texto :=   sql_texto + QuotedStr(FormatDateTime('MM/DD/YYYY',Now)) + ', ';
   sql_texto :=   sql_texto + '1' + ', ';
   sql_texto :=   sql_texto + '1' + ')';
 
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);  
   dm.sqlsisAdimin.ExecuteDirect(sql_texto);
   Try
-
      dm.sqlsisAdimin.Commit(TD);
   except
      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
@@ -333,7 +335,7 @@ begin
      dm.sqlsisAdimin.Commit(TD);
   except
      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-     MessageDlg('Erro no sistema, a venda não foi gravada.', mtError,
+     MessageDlg('Erro no sistema, o registro não foi Excluido.', mtError,
          [mbOk], 0);
   end;
   if (c_mesas.Active) then
@@ -378,10 +380,6 @@ end;
 
 procedure TF_MESAS.RadioGroup1Click(Sender: TObject);
 begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
-
   sql_texto := 'UPDATE CLIENTES SET STATUS = ';
   if (RadioGroup1.ItemIndex = 1) then
     sql_texto :=   sql_texto + '0' //Inativo
@@ -390,9 +388,11 @@ begin
   sql_texto :=   sql_texto + ' WHERE CODCLIENTE = ';
   sql_texto :=   sql_texto + IntToStr(c_mesasCODCLIENTE.AsInteger);
 
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
   dm.sqlsisAdimin.ExecuteDirect(sql_texto);
   Try
-
      dm.sqlsisAdimin.Commit(TD);
   except
      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
@@ -402,11 +402,38 @@ begin
 
   if (c_mesas.Active) then
      c_mesas.Close;
-  c_mesas.Open;  
+  c_mesas.Open;
 end;
 
 procedure TF_MESAS.FormShow(Sender: TObject);
 begin
+  if (c_mesas.Active) then
+     c_mesas.Close;
+  c_mesas.Open;
+end;
+
+procedure TF_MESAS.chk1Click(Sender: TObject);
+begin
+  sql_texto := 'UPDATE CLIENTES SET BLOQUEADO = ';
+  if (chk1.Checked = True) then
+    sql_texto :=   sql_texto + QuotedStr('S') //Inativo
+  else
+    sql_texto :=  sql_texto + QuotedStr('N'); //Ativo
+  sql_texto :=   sql_texto + ' WHERE CODCLIENTE = ';
+  sql_texto :=   sql_texto + IntToStr(c_mesasCODCLIENTE.AsInteger);
+
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  dm.sqlsisAdimin.ExecuteDirect(sql_texto);
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, a venda não foi gravada.', mtError,
+         [mbOk], 0);
+  end;
+
   if (c_mesas.Active) then
      c_mesas.Close;
   c_mesas.Open;
