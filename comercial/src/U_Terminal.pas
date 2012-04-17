@@ -1293,6 +1293,8 @@ begin
       begin
          if (TabComanda.TabVisible = False) then
             TabComanda.TabVisible := True;
+         if (MMJPanel8.Visible = False) then
+             MMJPanel8.Visible := True;
          PageControl1.ActivePage := TabComanda;
          JvLabel8.Caption := 'Consulta-' + DM_MOV.c_comandaNOMECLIENTE.AsString;
       end
@@ -1306,7 +1308,8 @@ begin
          if (TabDelivery.TabVisible = False) then
             TabDelivery.TabVisible := True;
          PageControl1.ActivePage := TabDelivery;
-
+         if (MMJPanel8.Visible = False) then
+             MMJPanel8.Visible := True;
           sql := 'select c.CODCLIENTE, m.CODMOVIMENTO,c.NOMECLIENTE, e.LOGRADOURO, e.TELEFONE from MOVIMENTO m ';
           sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
           sql := sql + 'left outer join ENDERECOCLIENTE e on e.CODCLIENTE = c.CODCLIENTE ';
@@ -1497,7 +1500,9 @@ begin
   begin
    if (MMJPanel8.Visible = False) then
       MMJPanel8.Visible := True;
+
     CtrlResize;
+
     if (DM_MOV.c_comanda.Active) then
       DM_MOV.c_comanda.Close;
     DM_MOV.c_comanda.CommandText := '';
@@ -2649,7 +2654,7 @@ begin
      DM_MOV.c_movdet.First;
      while not DM_MOV.c_movdet.Eof do
      begin
-         // imprime
+        // imprime
         if (DM.impressaoResumida = 'NAO') then
           buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10)
         else
