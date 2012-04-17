@@ -1186,7 +1186,10 @@ begin
         executaSql('create table CCE ( CHAVE varchar(44), ' +
           'ORGAO integer, CNPJ varchar(16), ' +
           'DHENVIO date, SEQUENCIA integer, ' +
-          'CORRECAO varchar(1000))');
+          'CORRECAO varchar(1000), ' +
+          'PROTOCOLO Varchar(20), ' +
+          'SELECIONOU TEXTO1, ' +
+          'CONSTRAINT PK_CC PRIMARY KEY (CHAVE,SEQUENCIA))');
       end;
       if (NaoExisteTabela('FORMA_ENTRADA')) then
       begin
@@ -1492,6 +1495,8 @@ begin
         ' where (RDB$FIELD_NAME = ' + QuotedStr('OBS')  +
         ') and (RDB$RELATION_NAME = ' + QuotedStr('VENDA') + ')');
       mudaVersao('1.0.0.103');
+      executaDDL('CCE', 'PROTOCOLO', 'VARCHAR(20)');
+      executaDDL('CCE', 'SELECIONOU', 'TEXTO1');
     end;// Fim Ataulização Versao 1.0.0.103
 
     try
