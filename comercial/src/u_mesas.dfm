@@ -1,6 +1,6 @@
 object F_MESAS: TF_MESAS
-  Left = 347
-  Top = 173
+  Left = 388
+  Top = 240
   Width = 537
   Height = 476
   Caption = 'Cadastro de Mesas / Comandas'
@@ -86,7 +86,7 @@ object F_MESAS: TF_MESAS
     object ComboBox1: TComboBox
       Left = 154
       Top = 23
-      Width = 184
+      Width = 218
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -97,7 +97,6 @@ object F_MESAS: TF_MESAS
       ItemHeight = 16
       ParentFont = False
       TabOrder = 2
-      Text = 'MESA'
       Items.Strings = (
         'MESA'
         'COMANDA')
@@ -137,6 +136,21 @@ object F_MESAS: TF_MESAS
       TabOrder = 2
       OnClick = BitBtn2Click
     end
+    object chk1: TCheckBox
+      Left = 4
+      Top = 360
+      Width = 107
+      Height = 17
+      Caption = 'Bloquear ?'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = 'Cooper Black'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnClick = chk1Click
+    end
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
@@ -165,14 +179,21 @@ object F_MESAS: TF_MESAS
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Descri'#231#227'o'
-        Width = 280
+        Width = 216
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUS'
         Title.Caption = 'Situa'#231#227'o'
-        Width = 110
+        Width = 108
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'BLOQUEADO'
+        Title.Caption = 'Bloqueada ?'
+        Width = 65
         Visible = True
       end>
   end
