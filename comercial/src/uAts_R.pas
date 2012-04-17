@@ -111,7 +111,7 @@ uses
   ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
-  uRel, uRelatorioCaixa, uPrazo, uProcura_produtos;
+  uRel, uRelatorioCaixa, uPrazo, uProcura_produtos, uTerminalNTC;
 
 {$R *.dfm}
 
@@ -395,14 +395,30 @@ begin
   usulog :=  fAts_R.UserControlAuto.CurrentUser.UserID;
   nome_user := fAts_R.UserControlAuto.CurrentUser.UserName;
 
-  F_Terminal := TF_Terminal.Create(Application);
-  try
-   sCtrlResize.CtrlResize(TForm(F_Terminal));
-    F_Terminal.ShowModal;
-  finally
-    F_Terminal.Free;
+  if (DM.cds_parametro.Active) then
+       DM.cds_parametro.Close;
+  DM.cds_parametro.Params[0].AsString := 'PDVNTC';
+  DM.cds_parametro.Open;
+  if (DM.cds_parametro.Eof) then
+  begin
+    F_Terminal := TF_Terminal.Create(Application);
+    try
+     sCtrlResize.CtrlResize(TForm(F_Terminal));
+      F_Terminal.ShowModal;
+    finally
+      F_Terminal.Free;
+    end;
+  end
+  else
+  begin
+    fTerminalNTC := TfTerminalNTC.Create(Application);
+    try
+      //sCtrlResize.CtrlResize(TForm(fTerminalNTC));
+      fTerminalNTC.ShowModal;
+    finally
+      fTerminalNTC.Free;
+    end;
   end;
-
 end;
 
 procedure TfAts_R.JvOutlookBar1Pages2Buttons2Click(Sender: TObject);
