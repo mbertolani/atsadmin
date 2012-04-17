@@ -1494,6 +1494,23 @@ begin
   Label8.Caption :=  'HOMOLOGAÇÃO.';
  end;
  ACBrNFe1.Configuracoes.Geral.PathSalvar := sEmpresa1DIVERSOS1.AsString;
+ if ( not DirectoryExists(sEmpresa1DIVERSOS1.AsString)) then
+    CreateDir(sEmpresa1DIVERSOS1.AsString);
+ ACBrNFe1.Configuracoes.Arquivos.PathCan := sEmpresa1DIVERSOS1.AsString + 'Canceladas\';
+ if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathCan)) then
+    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathCan);
+ ACBrNFe1.Configuracoes.Arquivos.PathCCe := sEmpresa1DIVERSOS1.AsString + 'CCe\';
+ if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathCCe)) then
+    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathCCe);
+ ACBrNFe1.Configuracoes.Arquivos.PathDPEC := sEmpresa1DIVERSOS1.AsString + 'DPEC\';
+ if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathDPEC)) then
+    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathDPEC);
+ ACBrNFe1.Configuracoes.Arquivos.PathInu := sEmpresa1DIVERSOS1.AsString + 'Inutilizadas\';
+ if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathInu)) then
+    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathInu);
+ ACBrNFe1.Configuracoes.Arquivos.PathNFe := sEmpresa1DIVERSOS1.AsString + 'Notas Fiscais\';
+ if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathNFe)) then
+    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathNFe);
  ACBrNFeDANFERave1.PathPDF := sEmpresa1DIVERSOS1.AsString;
  sEmpresa1.Close;
  if (JvDateEdit1.Text = '  /  /    ') then
@@ -2425,49 +2442,47 @@ begin
     cdsCCE.CommandText := str_cce;
   end;
   cdsCCE.Open;
+  BtnCCe.Enabled := True;
 end;
 
 procedure TfNFeletronica.BtnCCeClick(Sender: TObject);
 var protocolo :string;
+    envio :TDateTime;
     str :string;
     TD: TTransactionDesc;
 begin
+  envio := Now;
   try
-    try
       ACBrNFe1.CartaCorrecao.CCe.Evento.Clear;
       ACBrNFe1.CartaCorrecao.CCe.idLote := 0;
-      with ACBrNFe1.CartaCorrecao.CCe.Evento.Add.InfEvento do
+      with ACBrNFe1.CartaCorrecao.CCe.Evento.Add do
       begin
-        chNFe     := cdsCCeCHAVE.AsString;
-        cOrgao    := cdsCCeORGAO.AsInteger;
-        CNPJ      := cdsCCeCNPJ.AsString;
-        dhEvento  := Now;
-        tpEvento  := 110110;
-        nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
-        versaoEvento := '1.00';
-        detEvento.descEvento := 'Carta de Correção';
-        detEvento.xCorrecao := cdsCCeCORRECAO.AsString;
-        detEvento.xCondUso := '';
+        InfEvento.chNFe     := cdsCCeCHAVE.AsString;
+        InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
+        InfEvento.CNPJ      := cdsCCeCNPJ.AsString;
+        InfEvento.dhEvento  := envio;
+        InfEvento.tpEvento  := 110110;
+        InfEvento.nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
+        InfEvento.versaoEvento := '1.00';
+        InfEvento.detEvento.descEvento := 'Carta de Correção';
+        InfEvento.detEvento.xCorrecao := cdsCCeCORRECAO.AsString;
+        InfEvento.detEvento.xCondUso := '';
       end;
       ACBrNFe1.EnviarCartaCorrecao(0);
-    except
-      MessageDlg('Erro ao enviar CCE', mtError, [mbOK], 0);
-      Exit;
-    end;
   finally
     protocolo := AcbrNFe1.WebServices.CartaCorrecao.CCeRetorno.retEvento.Items[0].RetInfEvento.nProt;
-
+    ShowMessage('Nº do Protocolo: ' + protocolo);
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
     DecimalSeparator := '.';
     //SALVA OS PROTOCOLOS
     str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo);
+    str := str + ', DHENVIO = ' + QuotedStr(DateToStr(envio));
     str := str + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString);
     str := str + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
     dm.sqlsisAdimin.ExecuteDirect(str);
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.Commit(TD);
-    //ACBrNFe1.CartaCorrecao.CCe.GerarXML;
   end;
 
 end;
