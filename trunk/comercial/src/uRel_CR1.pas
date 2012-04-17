@@ -95,6 +95,7 @@ type
     s_parametroINSTRUCOES: TStringField;
     s_parametroVALOR: TFloatField;
     BitBtn7: TBitBtn;
+    btn1: TBitBtn;
     procedure SpeedButton1Click(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -106,7 +107,10 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
   private
+    sqlConsulta : TSqlQuery;
+    v_SqlTexto, v_TotalDeve : string;
     iRetorno, comando : integer;
     buffer, scomando : String;
     tipoImpressao : string;
@@ -194,7 +198,7 @@ end;
 procedure TfRel_CR1.btnImprimirClick(Sender: TObject);
 begin
   tipoImpressao := 'RECIBO';
-  usaDll := 'FALSE';
+{  usaDll := 'FALSE';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
@@ -229,7 +233,7 @@ begin
        imprimeCupom;
   end;
   dm.cds_parametro.Close;
-
+  }
   if (tipoImpressao <> 'CUPOM') then
   begin
     sqlGrupoCR := '';
@@ -774,6 +778,26 @@ begin
     fCarne.Free;
   end;
   }
+end;
+
+procedure TfRel_CR1.btn1Click(Sender: TObject);
+begin
+    try
+      Marcatitulos;
+      sqlConsulta :=  TSqlQuery.Create(nil);
+      sqlConsulta.SQLConnection := dm.sqlsisAdimin;
+      v_SqlTexto := 'select SUM(VALOR_RESTO) TOTALDEVE from RECEBIMENTO where DP = 1';
+      sqlConsulta.SQL.Add(v_SqlTexto);
+      sqlConsulta.Open;
+      if (not sqlConsulta.IsEmpty) then // se não Aberta verifico o perfil de abertura
+        v_TotalDeve := FloatToStr(sqlConsulta.Fields[0].AsFloat)
+      else
+        v_TotalDeve := '0,00';
+
+      ShowMessage('Total Devedor R$' + v_TotalDeve);
+    finally
+      sqlConsulta.Free;
+    end;
 end;
 
 end.
