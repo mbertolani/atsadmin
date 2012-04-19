@@ -2176,10 +2176,19 @@ object fNfePisCofins: TfNfePisCofins
   end
   object sdsItens: TSQLDataSet
     CommandText = 
-      'SELECT MOV.*, DET.* , PRO.CODPRO, PRO.NCM'#13#10'   FROM MOVIMENTO MOV' +
-      ', MOVIMENTODETALHE DET, PRODUTOS PRO'#13#10'WHERE MOV.CODMOVIMENTO = D' +
-      'ET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO     = DET.CODPRODUTO'#13#10 +
-      '      AND MOV.CODMOVIMENTO = :PMOV'
+      'SELECT MOV.CODMOVIMENTO, MOV.DATAMOVIMENTO, MOV.CODCLIENTE, MOV.' +
+      'CODNATUREZA, MOV.STATUS, MOV.CODUSUARIO, MOV.CODVENDEDOR, MOV.CO' +
+      'DALMOXARIFADO, MOV.CODFORNECEDOR,'#13#10'DET.CODPRODUTO, DET.QUANTIDAD' +
+      'E, DET.PRECO, DET.ICMS, '#13#10'DET.UN, DET.QTDE_ALT, DET.NOTAFISCAL, ' +
+      'DET.DESCPRODUTO, DET.CST, DET.VALOR_ICMS, DET.VLR_BASE, DET.PORC' +
+      'ENTAGENDESC, DET.ICMS_SUBST, DET.ICMS_SUBSTD, DET.VLR_BASEICMS, ' +
+      'DET.PIPI, DET.VIPI, DET.CFOP, DET.FRETE, DET.BCFRETE, DET.STFRET' +
+      'E, DET.BCSTFRETE, DET.ICMSFRETE, DET.CSOSN, DET.VALOR_DESCONTO, ' +
+      'DET.VALOR_SEGURO, DET.VALOR_OUTROS, DET.OBS, DET.CODSOLICITACAO,' +
+      ' DET.VALOR_PIS, DET.VALOR_COFINS, DET.II, DET.BCII, PRO.CODPRO, ' +
+      'PRO.NCM'#13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS P' +
+      'RO'#13#10'WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.COD' +
+      'PRODUTO     = DET.CODPRODUTO'#13#10'      AND MOV.CODMOVIMENTO = :PMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -2240,117 +2249,6 @@ object fNfePisCofins: TfNfePisCofins
     object cdsItensCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
     end
-    object cdsItensDATA_SISTEMA: TSQLTimeStampField
-      FieldName = 'DATA_SISTEMA'
-    end
-    object cdsItensCOD_VEICULO: TIntegerField
-      FieldName = 'COD_VEICULO'
-    end
-    object cdsItensCONTROLE: TStringField
-      FieldName = 'CONTROLE'
-      Size = 30
-    end
-    object cdsItensOBS: TStringField
-      FieldName = 'OBS'
-      Size = 100
-    end
-    object cdsItensTOTALMOVIMENTO: TFloatField
-      FieldName = 'TOTALMOVIMENTO'
-    end
-    object cdsItensCODMOVRATEIO: TIntegerField
-      FieldName = 'CODMOVRATEIO'
-    end
-    object cdsItensVALORRATEIO: TFloatField
-      FieldName = 'VALORRATEIO'
-    end
-    object cdsItensRATEIO: TFloatField
-      FieldName = 'RATEIO'
-    end
-    object cdsItensCONFERIDO: TStringField
-      FieldName = 'CONFERIDO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsItensNFCOBRANCA: TIntegerField
-      FieldName = 'NFCOBRANCA'
-    end
-    object cdsItensORDEMATEND: TIntegerField
-      FieldName = 'ORDEMATEND'
-    end
-    object cdsItensNFREVENDA: TIntegerField
-      FieldName = 'NFREVENDA'
-    end
-    object cdsItensCODORIGEM: TIntegerField
-      FieldName = 'CODORIGEM'
-    end
-    object cdsItensKM: TStringField
-      FieldName = 'KM'
-      Size = 30
-    end
-    object cdsItensNFE: TStringField
-      FieldName = 'NFE'
-      Size = 10
-    end
-    object cdsItensPRAZO_ENT: TIntegerField
-      FieldName = 'PRAZO_ENT'
-    end
-    object cdsItensVAL_PROP: TDateField
-      FieldName = 'VAL_PROP'
-    end
-    object cdsItensFORMA_PAG: TStringField
-      FieldName = 'FORMA_PAG'
-      Size = 40
-    end
-    object cdsItensVALOR_FRETE: TFloatField
-      FieldName = 'VALOR_FRETE'
-    end
-    object cdsItensDATA_ENTREGA: TDateField
-      FieldName = 'DATA_ENTREGA'
-    end
-    object cdsItensPRAZO_PAGAMENTO: TStringField
-      FieldName = 'PRAZO_PAGAMENTO'
-      Size = 30
-    end
-    object cdsItensUSER_APROVA: TStringField
-      FieldName = 'USER_APROVA'
-    end
-    object cdsItensCODTRANSP: TIntegerField
-      FieldName = 'CODTRANSP'
-    end
-    object cdsItensTPFRETE: TStringField
-      FieldName = 'TPFRETE'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsItensCODPEDIDO: TIntegerField
-      FieldName = 'CODPEDIDO'
-    end
-    object cdsItensCODCOTACAO: TIntegerField
-      FieldName = 'CODCOTACAO'
-    end
-    object cdsItensUSUARIOLOGADO: TStringField
-      FieldName = 'USUARIOLOGADO'
-      Size = 30
-    end
-    object cdsItensTIPO_PEDIDO: TStringField
-      FieldName = 'TIPO_PEDIDO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsItensCODDETALHE: TIntegerField
-      FieldName = 'CODDETALHE'
-      Required = True
-    end
-    object cdsItensCODMOVIMENTO_1: TIntegerField
-      FieldName = 'CODMOVIMENTO_1'
-      Required = True
-    end
-    object cdsItensCODALMOXARIFADO_1: TSmallintField
-      FieldName = 'CODALMOXARIFADO_1'
-    end
-    object cdsItensCONTROLE_1: TSmallintField
-      FieldName = 'CONTROLE_1'
-    end
     object cdsItensCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
@@ -2371,36 +2269,6 @@ object fNfePisCofins: TfNfePisCofins
     object cdsItensQTDE_ALT: TFloatField
       FieldName = 'QTDE_ALT'
     end
-    object cdsItensBAIXA: TStringField
-      FieldName = 'BAIXA'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsItensVALTOTAL: TFloatField
-      FieldName = 'VALTOTAL'
-    end
-    object cdsItensCOD_COMISSAO: TIntegerField
-      FieldName = 'COD_COMISSAO'
-    end
-    object cdsItensLOTE: TStringField
-      FieldName = 'LOTE'
-      Size = 60
-    end
-    object cdsItensDTAFAB: TDateField
-      FieldName = 'DTAFAB'
-    end
-    object cdsItensDTAVCTO: TDateField
-      FieldName = 'DTAVCTO'
-    end
-    object cdsItensPRECOCUSTO: TFloatField
-      FieldName = 'PRECOCUSTO'
-    end
-    object cdsItensVLRESTOQUE: TFloatField
-      FieldName = 'VLRESTOQUE'
-    end
-    object cdsItensQTDEESTOQUE: TFloatField
-      FieldName = 'QTDEESTOQUE'
-    end
     object cdsItensNOTAFISCAL: TStringField
       FieldName = 'NOTAFISCAL'
       Size = 15
@@ -2408,9 +2276,6 @@ object fNfePisCofins: TfNfePisCofins
     object cdsItensDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 300
-    end
-    object cdsItensPRECOULTIMACOMPRA: TFloatField
-      FieldName = 'PRECOULTIMACOMPRA'
     end
     object cdsItensCST: TStringField
       FieldName = 'CST'
@@ -2421,45 +2286,6 @@ object fNfePisCofins: TfNfePisCofins
     end
     object cdsItensVLR_BASE: TFloatField
       FieldName = 'VLR_BASE'
-    end
-    object cdsItensPERIODOINI: TSQLTimeStampField
-      FieldName = 'PERIODOINI'
-    end
-    object cdsItensPERIODOFIM: TSQLTimeStampField
-      FieldName = 'PERIODOFIM'
-    end
-    object cdsItensCODIGO: TIntegerField
-      FieldName = 'CODIGO'
-    end
-    object cdsItensCODIGO1: TIntegerField
-      FieldName = 'CODIGO1'
-    end
-    object cdsItensCODAUTORIZACAO: TIntegerField
-      FieldName = 'CODAUTORIZACAO'
-    end
-    object cdsItensSTATUS_1: TStringField
-      FieldName = 'STATUS_1'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsItensPAGOUCOMISSAO: TStringField
-      FieldName = 'PAGOUCOMISSAO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsItensCODMOVRATEIO_1: TIntegerField
-      FieldName = 'CODMOVRATEIO_1'
-    end
-    object cdsItensVALORRATEIO_1: TFloatField
-      FieldName = 'VALORRATEIO_1'
-    end
-    object cdsItensPAGO: TStringField
-      FieldName = 'PAGO'
-      FixedChar = True
-      Size = 3
-    end
-    object cdsItensRATEIO_1: TFloatField
-      FieldName = 'RATEIO_1'
     end
     object cdsItensPORCENTAGENDESC: TFloatField
       FieldName = 'PORCENTAGENDESC'
@@ -2508,21 +2334,15 @@ object fNfePisCofins: TfNfePisCofins
     object cdsItensVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
     end
-    object cdsItensRECEBIDO: TFloatField
-      FieldName = 'RECEBIDO'
-    end
     object cdsItensVALOR_SEGURO: TFloatField
       FieldName = 'VALOR_SEGURO'
     end
     object cdsItensVALOR_OUTROS: TFloatField
       FieldName = 'VALOR_OUTROS'
     end
-    object cdsItensOBS_1: TStringField
-      FieldName = 'OBS_1'
+    object cdsItensOBS: TStringField
+      FieldName = 'OBS'
       Size = 300
-    end
-    object cdsItensCOD_FUNCIONARIO: TIntegerField
-      FieldName = 'COD_FUNCIONARIO'
     end
     object cdsItensCODSOLICITACAO: TIntegerField
       FieldName = 'CODSOLICITACAO'
@@ -2538,11 +2358,6 @@ object fNfePisCofins: TfNfePisCofins
     end
     object cdsItensBCII: TFloatField
       FieldName = 'BCII'
-    end
-    object cdsItensIMPRESSO: TStringField
-      FieldName = 'IMPRESSO'
-      FixedChar = True
-      Size = 3
     end
     object cdsItensCODPRO: TStringField
       FieldName = 'CODPRO'
