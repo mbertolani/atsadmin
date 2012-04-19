@@ -762,6 +762,19 @@ object fAtsAdmin: TfAtsAdmin
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object lblMensagemSistema: TLabel
+    Left = 328
+    Top = 58
+    Width = 18
+    Height = 20
+    Caption = '__'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0

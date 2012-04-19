@@ -254,6 +254,7 @@ type
     ConciliaoBancaria1: TMenuItem;
     RelLucroPresumido1: TMenuItem;
     SpedPisCofins1: TMenuItem;
+    lblMensagemSistema: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -771,6 +772,12 @@ var TD: TTransactionDesc;
  caminho, caminho2, arquivo, empresa: String;
  tempo : Integer;
 begin
+  lblMensagemSistema.Caption := dm.mensagemInicial;
+  if (dm.sistemaLiberado = 'N') then
+  begin
+    MessageDlg('Licença do uso expirada, entre em contato com a ATS (19)-3827-3001.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   if (UserControlComercial.AutoStart = False) then
   begin
     UserControlComercial.AutoStart := True;
