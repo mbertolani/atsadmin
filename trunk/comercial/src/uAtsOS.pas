@@ -7,7 +7,7 @@ uses
   Dialogs, JvComponentBase, JvNavigationPane, JvExControls, JvOutlookBar,
   JvMenus, ImgList, Menus,  JvGIF, WinInet, JvLinkLabel, jpeg, ExtCtrls,
   JvExExtCtrls, JvImage, ComCtrls, MMJPanel, UCHist_Base, UCBase,
-  rpcompobase, rpvclreport, DBXPress, ActnList, RXCtrls;
+  rpcompobase, rpvclreport, DBXPress, ActnList, RXCtrls, StdCtrls;
 type
   TfAtsOS = class(TForm)
     JvNavPaneStyleManager1: TJvNavPaneStyleManager;
@@ -26,6 +26,7 @@ type
     UserControlAuto: TUserControl;
     acRelServ: TAction;
     acNfe: TAction;
+    lblMensagemSistema: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -207,6 +208,13 @@ begin
   DM.UserControlAuto.User.Action := usuarios;
   DM.UserControlAuto.UserPasswordChange.Action := usuarios;
   }
+
+  lblMensagemSistema.Caption := dm.mensagemInicial;
+  if (dm.sistemaLiberado = 'N') then
+  begin
+    MessageDlg('Licença do uso expirada, entre em contato com a ATS (19)-3827-3001.', mtWarning, [mbOK], 0);
+    Close;
+  end;
 
   UserControlAuto.AutoStart := True;
   UserControlAuto.Execute;
