@@ -1972,14 +1972,17 @@ type
     { Private declarations }
     procedure verifiSeExisteCampo(nTabela, nCampo, nCampoTipo: string);
     procedure verificaSeExisteTabela(nTabela, nCampo, nCampoTipo: string);
+    procedure verificaMensagemInicial;
+    procedure verificaNumeroDias(dia : Word; tipo: Word);
   public
     { Public declarations }
+    mensagemInicial, sistemaLiberado : String;
     conectado, RESULTADO_APROVA :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
     idguia, varCodTransp, codcli, codVendedor, varUSERID, varStatusCaixa, PARCELARATEIO,
     varCodMov, CCustoPadrao, danfeDec, vendaDec: integer;
-    varDataCaixa : TDateTime;
+    varDataCaixa, dataComputador : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao,
     cidadePadrao, cepPadrao, ibgePadrao: string;
     LOTEQTDE, totalpago : double;
@@ -2003,15 +2006,19 @@ var
 
 implementation
 
+uses md5, uUtils;
+
 //uses uAtualizaSistema;
 
 {$R *.dfm}
 
 procedure TDM.DataModuleCreate(Sender: TObject);
 var index: integer;
+  utilLic : TUtils;
 begin
   danfeDec := 2;
   MICRO := NomeComputador;
+  dm.dataComputador := StrToDate('19/04/2012');
   // LOGADO := '';
   conectado := True;
   try
@@ -2072,7 +2079,7 @@ begin
   corStart := clActiveCaption;
   if (cds_parametroD5.AsString <> '') then
     danfeDec := StrToInt(cds_parametroD5.AsString);
-  vendaDec := 2;  
+  vendaDec := 2;
   if (cds_parametroD4.AsString <> '') then
     vendaDec := StrToInt(cds_parametroD4.AsString);
   VISTO_FTP := cds_parametroD9.asString;
@@ -2136,10 +2143,20 @@ begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
   empresa      := cds_empresaCNPJ_CPF.AsString;
+  mensagemInicial := cds_empresaOUTRAS_INFO.AsString;
   ufPadrao     := cds_empresaUF.AsString;
   cidadePadrao := cds_empresaCIDADE.AsString;
   cepPadrao    := cds_empresaCEP.AsString;
   ibgePadrao   := cds_empresaCD_IBGE.AsString;
+
+  utilLic := TUtils.create;
+  try
+    utilLic.LicencaUso;
+  finally
+    utilLic.Free;
+  end;
+
+  verificaMensagemInicial;
 
   { Adiciona CAMPO a uma tabela se nï¿½o existir}
   // verifiSeExisteCampo('CLIENTES', 'RAZAOSOCIAL', 'VARCHAR(60)');
@@ -2589,8 +2606,8 @@ end;
 procedure TDM.DSPUpdateData(Sender: TObject;
   DataSet: TCustomClientDataSet);
 var
-   str, str_For, strOriginal :string;
-   i : Integer;
+  str, str_For, strOriginal :string;
+  i : Integer;
 begin
   str := '';
   str_For := '';
@@ -2599,68 +2616,68 @@ begin
   begin
     SetOptionalParam('DATA',Date,True);
     SetOptionalParam('HORA',Time,True);
-      //aqui salvo na tabela
-      str := 'INSERT INTO LOGS (MICRO, TABELA, USUARIO, DATA, HORA, data_set)';
-      str := str +  ' VALUES(';
-      str := str + '''' + GetOptionalParam('MICRO') + '''';
-      str := str + ', ';
-      str := str + '''' + GetOptionalParam('TABELA') + '''';
-      str := str + ', ';
-      str := str + '''' + GetOptionalParam('USUARIO') + '''';
-      str := str + ', ';
-      str := str + '''' + FormatDateTime('mm/dd/yy',Date) + '''';
-      str := str + ', ';
-      str := str + '''' + FormatDateTime('hh/nn/ss',Time) + '''';
-      str := str + ', ';
-      for i := 0 to dataset.FieldCount - 1 do
+    //aqui salvo na tabela
+    str := 'INSERT INTO LOGS (MICRO, TABELA, USUARIO, DATA, HORA, data_set)';
+    str := str +  ' VALUES(';
+    str := str + '''' + GetOptionalParam('MICRO') + '''';
+    str := str + ', ';
+    str := str + '''' + GetOptionalParam('TABELA') + '''';
+    str := str + ', ';
+    str := str + '''' + GetOptionalParam('USUARIO') + '''';
+    str := str + ', ';
+    str := str + '''' + FormatDateTime('mm/dd/yy',Date) + '''';
+    str := str + ', ';
+    str := str + '''' + FormatDateTime('hh/nn/ss',Time) + '''';
+    str := str + ', ';
+    for i := 0 to dataset.FieldCount - 1 do
+    begin
+      //aqui se deletar o arquivo
+      if (dataset.UpdateStatus = usDeleted) then
       begin
-        //aqui se deletar o arquivo
-        if (dataset.UpdateStatus = usDeleted) then
+        if (str_For = '') then
+          str_for := '----Deletado----'+ #13+#10;
+        if (dataset.Fields[i].AsString <> '') then
         begin
-           if (str_For = '') then
-            str_for := '----Deletado----'+ #13+#10;
-           if (dataset.Fields[i].AsString <> '') then
-           begin
-             str_For := str_For + dataset.FieldDefList[i].Name;
-             str_For := str_For + ':' + dataset.Fields[i].AsString + '; '+#13+#10;
-           end;
-        end;
-        // aqui se modificar o arquivo
-        if (dataset.UpdateStatus = usUnModified) then
-        begin
-           if (str_For = '') then
-            str_for := '----Modificado----' + #13+#10;
-             strOriginal := strOriginal + dataset.FieldDefList[i].Name;
-             if (dataset.Fields[i].AsString <> '') then
-               strOriginal := strOriginal + ': ' + dataset.Fields[i].AsString
-             else
-               strOriginal := strOriginal + ': Vazio';
-           DataSet.Next;
-           if (not dataset.Fields[i].IsNull) then
-           begin
-             if (dataset.Fields[i].AsString = '') then
-               str_For := str_For + strOriginal +  ' -> Vazio; '+#13+#10
-             else
-               str_For := str_For + strOriginal +  ' -> ' + dataset.Fields[i].AsString + '; '+#13+#10;
-           end;
-           strOriginal := '';
-           DataSet.First;
-        end;
-        // aqui se inserir um novo
-        if (dataset.UpdateStatus = usInserted) then
-        begin
-           if (str_For = '') then
-            str_for := '----Adicionado----'+ #13+#10;
-           if (dataset.Fields[i].AsString <> '') then
-           begin
-             str_For := str_For + dataset.FieldDefList[i].Name;
-             str_For := str_For + ':' + dataset.Fields[i].AsString + '; '+#13+#10;
-           end;
+          str_For := str_For + dataset.FieldDefList[i].Name;
+          str_For := str_For + ':' + dataset.Fields[i].AsString + '; '+#13+#10;
         end;
       end;
-      str := str + '''' + str_For + '''';
-      str := str+  ')';
-      sqlsisAdimin.ExecuteDirect(str);
+      // aqui se modificar o arquivo
+      if (dataset.UpdateStatus = usUnModified) then
+      begin
+        if (str_For = '') then
+          str_for := '----Modificado----' + #13+#10;
+        strOriginal := strOriginal + dataset.FieldDefList[i].Name;
+        if (dataset.Fields[i].AsString <> '') then
+          strOriginal := strOriginal + ': ' + dataset.Fields[i].AsString
+        else
+          strOriginal := strOriginal + ': Vazio';
+        DataSet.Next;
+        if (not dataset.Fields[i].IsNull) then
+        begin
+          if (dataset.Fields[i].AsString = '') then
+            str_For := str_For + strOriginal +  ' -> Vazio; '+#13+#10
+          else
+            str_For := str_For + strOriginal +  ' -> ' + dataset.Fields[i].AsString + '; '+#13+#10;
+        end;
+        strOriginal := '';
+        DataSet.First;
+      end;
+      // aqui se inserir um novo
+      if (dataset.UpdateStatus = usInserted) then
+      begin
+        if (str_For = '') then
+          str_for := '----Adicionado----'+ #13+#10;
+        if (dataset.Fields[i].AsString <> '') then
+        begin
+         str_For := str_For + dataset.FieldDefList[i].Name;
+         str_For := str_For + ':' + dataset.Fields[i].AsString + '; '+#13+#10;
+       end;
+      end;
+    end;
+    str := str + '''' + str_For + '''';
+    str := str+  ')';
+    sqlsisAdimin.ExecuteDirect(str);
   end;
 end;
 
@@ -2735,5 +2752,91 @@ procedure TDM.cdsTranspReconcileError(DataSet: TCustomClientDataSet;
 begin
   MessageDlg(E.Message , mtWarning, [mbOk], 0);
 end;
+
+procedure TDM.verificaMensagemInicial;
+var chave, chaveBd: String;
+    dia, mes, ano: word;
+begin
+  chaveBd := mensagemInicial;
+  mensagemInicial := '';
+  if (now < dm.dataComputador) then
+  begin
+    MessageDlg('A data do computador está errada.', mtWarning, [mbOK], 0);
+    sistemaLiberado := 'N';
+    mensagemInicial := 'A data do computador está errada.';
+    exit;
+  end;
+  decodedate(now, ano, mes, dia);
+
+  sistemaLiberado := 'N';
+
+  // Testo a chave gravada se esta CNPJ-00
+  chave := MD5Print(MD5String(empresa + '-00'));
+  if (chave = chaveBd) then
+  begin
+    sistemaLiberado := 'S';
+    exit;
+  end;
+  chave := MD5Print(MD5String(empresa + '-10'));
+  if (chave = chaveBd) then
+  begin
+    sistemaLiberado := 'S';
+    verificaNumeroDias(dia, 10);
+    MessageDlg(mensagemInicial , mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  chave := MD5Print(MD5String(empresa + '-20'));
+  if (chave = chaveBd) then
+  begin
+    sistemaLiberado := 'S';
+    verificaNumeroDias(dia, 20);
+    MessageDlg(mensagemInicial , mtWarning, [mbOK], 0);
+    exit;
+  end;
+end;
+
+procedure TDM.verificaNumeroDias(dia : Word; tipo: Word);
+begin
+  if (tipo = 10) then
+  begin
+    Case dia of
+      1 : mensagemInicial := 'A Licença de uso expirará em 9 dias.';
+      2 : mensagemInicial := 'A Licença de uso expirará em 8 dias.';
+      3 : mensagemInicial := 'A Licença de uso expirará em 7 dias.';
+      4 : mensagemInicial := 'A Licença de uso expirará em 6 dias.';
+      5 : mensagemInicial := 'A Licença de uso expirará em 5 dias.';
+      6 : mensagemInicial := 'A Licença de uso expirará em 4 dias.';
+      7 : mensagemInicial := 'A Licença de uso expirará em 3 dias.';
+      8 : mensagemInicial := 'A Licença de uso expirará em 2 dias.';
+      9 : mensagemInicial := 'A Licença de uso expirará em 1 dia.';
+      10 : mensagemInicial := 'A Licença de uso expirará hoje.';
+      11 : begin
+             mensagemInicial := 'A Licença de uso expirada.';
+             sistemaLiberado := 'N';
+           end;
+    end;
+  end;
+  if (tipo = 20) then
+  begin
+    Case dia of
+      11 : mensagemInicial := 'A Licença de uso expirará em 9 dias.';
+      12 : mensagemInicial := 'A Licença de uso expirará em 8 dias.';
+      13 : mensagemInicial := 'A Licença de uso expirará em 7 dias.';
+      14 : mensagemInicial := 'A Licença de uso expirará em 6 dias.';
+      15 : mensagemInicial := 'A Licença de uso expirará em 5 dias.';
+      16 : mensagemInicial := 'A Licença de uso expirará em 4 dias.';
+      17 : mensagemInicial := 'A Licença de uso expirará em 3 dias.';
+      18 : mensagemInicial := 'A Licença de uso expirará em 2 dias.';
+      19 : mensagemInicial := 'A Licença de uso expirará em 1 dia.';
+      20 : mensagemInicial := 'A Licença de uso expirará hoje.';
+      21 : begin
+             mensagemInicial := 'A Licença de uso expirada.';
+             sistemaLiberado := 'N';
+           end;
+    end;
+  end;
+end;
+
 
 end.
