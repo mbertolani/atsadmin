@@ -385,7 +385,7 @@ var
 
 implementation
 
-uses UDm, ufcr;
+uses UDm, ufcr, DateUtils;
 
 {$R *.dfm}
 
@@ -473,8 +473,30 @@ begin
                    if (s_bancoLAYOUT_RM.AsString = 'c240') then
                     if (s_bancoESPECIEDOC.AsString = 'DM') then
                        Titulo.EspecieDoc        := '02'; //EspecieDoc;
+                    // Passo valores iniciais
+                    Titulo.ValorMoraJuros := 3; // Isento
+                    Titulo.PercentualMulta := 0;
 
-                    Titulo.ValorMoraJuros := 3; // Isento 
+                  case StrToInt(s_bancoPROTESTO.AsString) of
+                    // 00: TItulo.DataProtesto := cobBradesco;// 00 - Sem de instruções
+                    01: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,1); //01 - Cobrar juros (Dispensável se informado o valor a ser cobrado por dia de atraso).
+                    03: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,3);//03 - Protestar no 3º dia útil após vencido
+                    04: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,4);//04 - Protestar no 4º dia útil após vencido
+                    05: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,5);//05 - Protestar no 5º dia útil após vencido
+                    //06: TItulo.DataProtesto :=  //06 - Indica Protesto em dias corridos, com prazo de 6 a 29, 35 ou 40 dias Corridos.
+                    //07: TItulo.DataProtesto :=  //07 - Não protestar
+                    10: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,10);//10 - Protestar no 10º dia corrido após vencido
+                    15: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,15);//15 - Protestar no 15º dia corrido após vencido
+                    20: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,20);//20 - Protestar no 20º dia corrido após vencido
+                    //22: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,21)//22 - Conceder desconto só até a data estipulada
+                    25: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,25);//25 - Protestar no 25º dia corrido após vencido
+                    30: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,30);//30 - Protestar no 30º dia corrido após vencido
+                    45: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,45);//45 - Protestar no 45º dia corrido após vencido
+                  else
+                    TItulo.DataProtesto := ds_crDATAVENCIMENTO.AsDateTime;
+                  end;
+                   // TItulo.DataProtesto :=
+
                     if (s_bancoMORAJUROS.AsString = '1-Diario') then
                        Titulo.ValorMoraJuros := 1;
                     if (s_bancoMORAJUROS.AsString = '2-Mensal') then
@@ -482,9 +504,10 @@ begin
                     if (s_bancoMORAJUROS.AsString = '3-Isento') then
                        Titulo.ValorMoraJuros := 3; // Isento
 
-                    Titulo.PercentualMulta := 0;
+
                     if (s_bancoPERCMULTA.Value > 0) then
                       Titulo.PercentualMulta := s_bancoPERCMULTA.Value;
+
 
                     Titulo.Instrucao1 := s_bancoPROTESTO.AsString;
 
