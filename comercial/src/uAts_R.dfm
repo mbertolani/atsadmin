@@ -27779,6 +27779,13 @@ object fAts_R: TfAts_R
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFF}
   end
+  object lblMensagemSistema: TLabel
+    Left = 344
+    Top = 40
+    Width = 3
+    Height = 13
+    Transparent = True
+  end
   object StatusBar1: TStatusBar
     Left = 0
     Top = 359
