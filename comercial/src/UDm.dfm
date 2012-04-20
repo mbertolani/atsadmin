@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_solcampo'
+      'Database=quad:sge_terranutri'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -5494,11 +5494,6 @@ object DM: TDM
       ProviderFlags = [pfInUpdate]
       Size = 12
     end
-    object sdsE_MAIL: TStringField
-      FieldName = 'E_MAIL'
-      ProviderFlags = [pfInUpdate]
-      Size = 50
-    end
     object sdsWEB: TStringField
       FieldName = 'WEB'
       ProviderFlags = [pfInUpdate]
@@ -5552,14 +5547,6 @@ object DM: TDM
     end
     object sds_EmpresaPORTA: TIntegerField
       FieldName = 'PORTA'
-    end
-    object sds_EmpresaSMTP: TStringField
-      FieldName = 'SMTP'
-      Size = 30
-    end
-    object sds_EmpresaSENHA: TStringField
-      FieldName = 'SENHA'
-      Size = 10
     end
     object sds_EmpresaDIVERSOS1: TStringField
       FieldName = 'DIVERSOS1'
@@ -5718,6 +5705,26 @@ object DM: TDM
     object sds_EmpresaINDTPOPERACAORECEITA: TSmallintField
       FieldName = 'INDTPOPERACAORECEITA'
     end
+    object sds_EmpresaSMTP: TStringField
+      FieldName = 'SMTP'
+      Size = 60
+    end
+    object sds_EmpresaSENHA: TStringField
+      FieldName = 'SENHA'
+      Size = 30
+    end
+    object sds_EmpresaE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 100
+    end
+    object sds_EmpresaCNPJPREFEITURA: TStringField
+      FieldName = 'CNPJPREFEITURA'
+      Size = 14
+    end
+    object sds_EmpresaNOMEPREFEITURA: TStringField
+      FieldName = 'NOMEPREFEITURA'
+      Size = 50
+    end
   end
   object dsp_empresa: TDataSetProvider
     DataSet = sds_Empresa
@@ -5804,11 +5811,6 @@ object DM: TDM
       ProviderFlags = [pfInUpdate]
       Size = 12
     end
-    object cds_empresaE_MAIL: TStringField
-      FieldName = 'E_MAIL'
-      ProviderFlags = [pfInUpdate]
-      Size = 50
-    end
     object cds_empresaWEB: TStringField
       FieldName = 'WEB'
       ProviderFlags = [pfInUpdate]
@@ -5862,14 +5864,6 @@ object DM: TDM
     end
     object cds_empresaPORTA: TIntegerField
       FieldName = 'PORTA'
-    end
-    object cds_empresaSMTP: TStringField
-      FieldName = 'SMTP'
-      Size = 30
-    end
-    object cds_empresaSENHA: TStringField
-      FieldName = 'SENHA'
-      Size = 10
     end
     object cds_empresaDIVERSOS1: TStringField
       FieldName = 'DIVERSOS1'
@@ -6027,6 +6021,26 @@ object DM: TDM
     end
     object cds_empresaINDTPOPERACAORECEITA: TSmallintField
       FieldName = 'INDTPOPERACAORECEITA'
+    end
+    object cds_empresaSMTP: TStringField
+      FieldName = 'SMTP'
+      Size = 60
+    end
+    object cds_empresaSENHA: TStringField
+      FieldName = 'SENHA'
+      Size = 30
+    end
+    object cds_empresaE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 100
+    end
+    object cds_empresaCNPJPREFEITURA: TStringField
+      FieldName = 'CNPJPREFEITURA'
+      Size = 14
+    end
+    object cds_empresaNOMEPREFEITURA: TStringField
+      FieldName = 'NOMEPREFEITURA'
+      Size = 50
     end
   end
   object sds_usuario: TSQLDataSet
