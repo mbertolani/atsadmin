@@ -3,7 +3,8 @@ unit uUtils;
 interface
 
 uses Windows, Forms, Dialogs, Messages, SysUtils, Classes,
-    DBXpress, DB, SqlExpr, DBClient, Provider, StdCtrls, rpcompobase, rpvclreport;
+    DBXpress, DB, SqlExpr, DBClient, Provider, StdCtrls, rpcompobase, rpvclreport,
+    XmlRpcClient, XmlRpcTypes;
 
 Type
   TUtils = class(TObject)
@@ -12,6 +13,7 @@ Type
     FPeriodoIni: String;
     FPeriodoFim: String;
     FBusca: String;
+    memoLic: String;
     { Abre a tabela usada no pegaBusca e criaBusca }
     procedure AbreTabela(Sql: String);
     { Usada para Fazer Busca como se fosse DBLookup }
@@ -41,13 +43,15 @@ Type
     function buscaChave(generator: String) : String;
     procedure relatorio(rel: String);
     function verificapermissao : Boolean;
-    function RemoveChar(Const Texto:String):String;    
+    function RemoveChar(Const Texto:String):String;
+    procedure LicencaUso;
+    procedure conexaoXmlRpc;
   end;
 
 
 implementation
 
-uses UDm, ufDlgLogin, uAtsAdmin;
+uses UDm, ufDlgLogin, uAtsAdmin, md5;
 
 { TUtils }
 
@@ -520,6 +524,89 @@ begin
     end;
   end;
   result := S;
+end;
+
+procedure TUtils.LicencaUso;
+var
+  s, localizar, achei, valor: String;
+  i1, i2: Integer;
+begin
+  achei := '0';
+  i2 := -1;
+  conexaoXmlRpc;
+  s := memoLic;
+  i1 := Pos(LowerCase(dm.empresa), LowerCase(s));
+  if (i1 > 0) then
+  begin
+    achei := Copy(s, i1, 17);
+    valor := MD5Print(MD5String(achei));
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
+      QuotedStr(valor) + ' WHERE CODIGO = 1');
+  end
+  else begin
+    valor := MD5Print(MD5String(dm.empresa + '-00'));
+    if (dm.mensagemInicial <> valor) then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
+      QuotedStr(valor) + ' WHERE CODIGO = 1');
+      dm.mensagemInicial := valor;
+    end;
+  end;
+end;
+
+procedure TUtils.conexaoXmlRpc;
+var
+  RpcCaller: TRpcCaller;
+  RpcResult: IRpcResult;
+  RpcFunction: IRpcFunction;
+  RpcArray: IRpcArray;
+  RpcStruct: IRpcStruct;
+  I: Integer;
+begin
+
+  RpcCaller := TRpcCaller.Create;
+  try
+    RpcCaller.HostName := Trim('www.atsti.com.br');
+    RpcCaller.HostPort := StrToInt(Trim('80'));
+    RpcCaller.EndPoint := Trim('/xmlrpc.php');
+
+    RpcFunction := TRpcFunction.Create;
+    RpcFunction.ObjectMethod := 'wp.getPost';
+
+    RpcFunction.AddItem(1503);  // Numero do Post
+
+    RpcFunction.AddItem('ats');
+
+    RpcFunction.AddItem('a2t00s7');
+
+    RpcResult := RpcCaller.Execute(RpcFunction);
+
+    if RpcResult.IsError then
+    begin
+      ShowMessageFmt('Error: (%d) %s', [RpcResult.ErrorCode,
+          RpcResult.ErrorMsg]);
+      Exit;
+    end;
+
+    //if (RpcResult.IsString) then
+    //  memHelp.Text := RpcResult.AsString;
+
+    if (RpcResult.IsStruct) then
+    begin
+      RpcStruct := RpcResult.AsStruct;
+      memoLic := RpcStruct.Items[2].AsString;
+    end;
+
+    if RpcResult.IsArray then
+    begin
+      RpcArray := RpcResult.AsArray;
+      //for I := 0 to RpcArray.Count - 1 do
+      //  lbMethod.Items.Add(RpcArray[I].AsString);
+    end;
+  finally
+    RpcCaller.Free;
+  end;
+
 end;
 
 end.
