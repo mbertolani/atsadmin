@@ -856,7 +856,6 @@ type
     sdsFONE_1: TStringField;
     sdsFONE_2: TStringField;
     sdsFAX: TStringField;
-    sdsE_MAIL: TStringField;
     sdsWEB: TStringField;
     sdsLOGOTIPO: TGraphicField;
     sdsCODIGO: TIntegerField;
@@ -878,7 +877,6 @@ type
     cds_empresaFONE_1: TStringField;
     cds_empresaFONE_2: TStringField;
     cds_empresaFAX: TStringField;
-    cds_empresaE_MAIL: TStringField;
     cds_empresaWEB: TStringField;
     cds_empresaLOGOTIPO: TGraphicField;
     cds_empresaCODIGO: TIntegerField;
@@ -1774,8 +1772,6 @@ type
     QryGetObject: TSQLQuery;
     sqlBusca: TSQLQuery;
     cds_empresaPORTA: TIntegerField;
-    cds_empresaSMTP: TStringField;
-    cds_empresaSENHA: TStringField;
     scds_cliente_procDESCONTO: TFloatField;
     sqlNatureza: TSQLQuery;
     sqlNaturezaCODNATUREZA: TSmallintField;
@@ -1914,6 +1910,16 @@ type
     cdsBancoPROTESTO: TStringField;
     sds_crCODIGOBOLETO: TStringField;
     cds_crCODIGOBOLETO: TStringField;
+    sds_EmpresaSMTP: TStringField;
+    sds_EmpresaSENHA: TStringField;
+    cds_empresaSMTP: TStringField;
+    cds_empresaSENHA: TStringField;
+    sds_EmpresaE_MAIL: TStringField;
+    cds_empresaE_MAIL: TStringField;
+    sds_EmpresaCNPJPREFEITURA: TStringField;
+    sds_EmpresaNOMEPREFEITURA: TStringField;
+    cds_empresaCNPJPREFEITURA: TStringField;
+    cds_empresaNOMEPREFEITURA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -1988,7 +1994,7 @@ type
     LOTEQTDE, totalpago : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP, BAIXADO_BOLETO, impressaoResumida : String;
     tipoCompra, tipoVenda : String;
-    USACONTROLECAIXA, userAprovaCompra, varLogado, usaCentroCusto, resultadoOperacao : String;
+    userAprovaCompra, varLogado, usaCentroCusto, resultadoOperacao, USACONTROLECAIXA : String;
     corEnd, corStart: TColor;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
@@ -2142,7 +2148,6 @@ begin
 
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
-  empresa      := cds_empresaCNPJ_CPF.AsString;
   mensagemInicial := cds_empresaOUTRAS_INFO.AsString;
   ufPadrao     := cds_empresaUF.AsString;
   cidadePadrao := cds_empresaCIDADE.AsString;
@@ -2151,6 +2156,7 @@ begin
 
   utilLic := TUtils.create;
   try
+    empresa := utilLic.RemoveChar(cds_empresaCNPJ_CPF.AsString);  
     utilLic.LicencaUso;
   finally
     utilLic.Free;
