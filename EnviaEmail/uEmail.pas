@@ -107,14 +107,20 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, uUtils;
 
 {$R *.dfm}
 
 procedure TForm1.BitBtn1Click(Sender: TObject);
-var email,responsavel:string;
+var email,responsavel, str, str1:string;
    Anexo : Integer;   
 begin
+  if (cbbSerie.Text = '') then
+  begin
+    MessageDlg('Informe o Grupo de Email que será Criado.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+
   Cursor := crHourGlass;
 
   if (not cdsEnvia.Active) then
@@ -160,7 +166,7 @@ begin
 
       // dados da mensagem
       // e-mail do remetente
-      IdMessage1.From.Address := 'atsti@bol.com.br' ; //
+      IdMessage1.From.Address := dm.cds_empresaE_MAIL.AsString; //'atsti@bol.com.br' ; //
       // e-mail do destinatário
       IdMessage1.Recipients.EMailAddresses := cdsEnviaEMAIL.AsString;
       // Assunto
@@ -192,13 +198,13 @@ begin
 
       //fim da mensagem
       //Configuração do IdSMTP SMTP
-      IdSMTP1.Host := 'smtps.bol.com.br';
+      IdSMTP1.Host := dm.cds_empresaSMTP.AsString;//  'smtps.bol.com.br';
       // Port do Provedor
-      IdSMTP1.Port := 587;
+      IdSMTP1.Port := dm.cds_empresaPORTA.AsInteger;//  587;
       // Login do usuário
-      IdSMTP1.Username := 'atsti@bol.com.br' ;
+      IdSMTP1.Username := dm.cds_empresaE_MAIL.AsString;// 'atsti@bol.com.br' ;
       // Password Senha do usuário
-      IdSMTP1.Password := 'a2t00s7' ;
+      IdSMTP1.Password := dm.cds_empresaSENHA.AsString;// 'a2t00s7' ;
       try
         IdSMTP1.Connect ;
         IdSMTP1.Authenticate; //Faz a autenticação
@@ -206,6 +212,8 @@ begin
         dm.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET DATAENVIO = ' +
         QuotedStr(Formatdatetime('mm/dd/yyyy', today)) +
         ', ENVIADO = ' + QuotedStr('S') +
+        ', ASSUNTO = ' + QuotedStr(edtAssunto.Text) +
+        ', GRUPO   = ' + QuotedStr(cbbSerie.Text) +
         ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.AsInteger));
         //MessageDlg('Email enviado com sucesso para, ' + FormCadastroAlunoConsulta.scdsAlunoNOME.AsString, mtWarning, [mbOK], 0);
       finally
@@ -219,7 +227,23 @@ begin
   cdsEnvia.EnableControls;
   FlatGauge1.Progress := 0;
   Cursor := crDefault;
-  Refresh;
+  cdsEnvia.Close;
+
+  Case rgSituacao.ItemIndex of
+     0: str := 'S'; // Enviado Sim
+     1: str := 'N'; // Enviado Não
+
+  end;
+  if cbBSerie.Text <> '' then
+  begin
+   // if (cbSerie.Text) then
+      str1 := cbBSerie.Text;
+  end;
+
+  cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (GRUPO = '+
+  QuotedStr(cbBSerie.Text) + ') AND (ENVIADO = ' +  QuotedStr(str) +
+  ') order by  ASSUNTO';
+  cdsEnvia.Open;
 
   Application.MessageBox('Email enviado com sucesso!', 'Confirmação',
   MB_ICONINFORMATION +   MB_OK);
@@ -235,12 +259,18 @@ begin
   cbbSerie.Items.Clear;
   While not sqlGrupo.Eof do
   begin
-    cbbSerie.Items.Add(sqlGrupo.Fields[0].asString);s
+    cbbSerie.Items.Add(sqlGrupo.Fields[0].asString);
     sqlGrupo.Next;
   end;
 
-  if (not cdsEnvia.Active) then
-    cdsEnvia.Open;
+  if (cdsEnvia.Active) then
+    cdsEnvia.Close;
+
+  cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (ENVIADO = ' +
+  QuotedStr('N') +
+  ') order by  ASSUNTO';
+  cdsEnvia.Open;
+
 
 end;
 
@@ -347,14 +377,15 @@ begin
   if cdsEnvia.Active then
     cdsEnvia.Close;
 
-  if (str = 'N') then
-    cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (GRUPO = '+
-    QuotedStr(cbBSerie.Text) + ') AND (ENVIADO = ' +  QuotedStr(str) +
-    ') order by  ASSUNTO'
+  if (str1 = '') then
+    cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (ENVIADO = ' +
+      QuotedStr(str) +
+      ') order by  ASSUNTO'
   else
   cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (GRUPO = '+
   QuotedStr(cbBSerie.Text) + ') AND (ENVIADO = ' +  QuotedStr(str) +
   ') order by  ASSUNTO';
+
   cdsEnvia.Open;
 
 end;
