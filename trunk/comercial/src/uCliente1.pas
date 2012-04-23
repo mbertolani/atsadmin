@@ -396,9 +396,25 @@ begin
         FCli.Endereco.alterarEndereco(cds_CliEndCODENDERECO.AsInteger);
 
       dm.sqlsisAdimin.Commit(TD);
+      
+      if DtSrc.DataSet.State in [dsInsert] then
+      begin
+        cds_cli.Close;
+        cds_cli.Params[0].Clear;
+        cds_cli.Params[0].AsInteger := cCli;
+        cds_cli.Open;
 
-      cds_cli.Post;
-      cds_CliEnd.Post;
+        cds_CliEnd.Close;
+        cds_CliEnd.Params[0].Clear;
+        cds_CliEnd.Params[0].AsInteger := cCli;
+        cds_CliEnd.Open;
+      end
+      else
+      begin
+        cds_cli.Post;
+        cds_CliEnd.Post;
+      end;
+
     except
       on E : Exception do
       begin
