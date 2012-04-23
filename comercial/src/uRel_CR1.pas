@@ -795,7 +795,29 @@ begin
       else
         v_TotalDeve := '0,00';
 
-      ShowMessage('Total Devedor R$' + v_TotalDeve);
+      if (fcrproc.edCodCliente.Text = '') then
+      begin
+       MessageDlg('O campo Codigo do Cliente está vazio', mtWarning, [mbOK], 0);
+       exit;
+      end;
+      if (fcrproc.meDta1.Text = '  /  /  ') then
+      begin
+       MessageDlg('O campo Emissão está vazio', mtWarning, [mbOK], 0);
+       exit;
+      end;
+      if (fcrproc.meDta2.Text = '  /  /  ') then
+      begin
+       MessageDlg('O campo Emissão está vazio', mtWarning, [mbOK], 0);
+       exit;
+      end;
+      VCLReport1.Filename := str_relatorio + 'rel_cobranca.rep';
+      VCLReport1.Title := VCLReport1.Filename;
+      VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+      VCLReport1.Report.Params.ParamByName('DATA1').Value := StrToDate(fcrproc.meDta1.Text);
+      VCLReport1.Report.Params.ParamByName('DATA2').Value := StrToDate(fcrproc.meDta2.Text);
+      VCLReport1.Report.Params.ParamByName('CODCLI').Value := StrToInt(fcrproc.edCodCliente.Text);
+      VCLReport1.Report.Params.ParamByName('TOTAL').Value := StrToFloat(v_TotalDeve);
+      VCLReport1.Execute;
     finally
       sqlConsulta.Free;
     end;
