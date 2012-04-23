@@ -1324,7 +1324,9 @@ inherited fCliente1: TfCliente1
     Top = 287
   end
   object sds_CliEnd: TSQLDataSet
-    CommandText = 'select * from ENDERECOCLIENTE where CODCLIENTE = :pCli'
+    CommandText = 
+      'select * from ENDERECOCLIENTE where CODCLIENTE = :pCli and TIPOE' +
+      'ND = 0'
     MaxBlobSize = -1
     Params = <
       item
