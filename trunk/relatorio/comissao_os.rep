@@ -24,23 +24,24 @@ object TRpReport
       DatabaseAlias = 'SISADMIN'
       SQL = 
         'select  rec.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOT' +
-        'AFISCAL, rec.CODVENDA,'#13#10'           rec.CODUSUARIO, rec.CODVENDED' +
-        'OR, rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'           func.NOME_FUNCIO' +
-        'NARIO,  func.valor_comissao, m.obs, '#13#10'           sum(case p.TIPO' +
-        ' WHEN '#39'SERV'#39' then mv.VALTOTAL else 0 END) as VALOR,'#13#10'           ' +
-        'sum(mv.VALTOTAL) as VALOR_P'#13#10'from VENDA rec'#13#10'inner join moviment' +
-        'o m on m.codmovimento = rec.codmovimento '#13#10'inner join movimentod' +
-        'etalhe mv on mv.codmovimento = m.codmovimento'#13#10'inner join PRODUT' +
-        'OS p on p.codproduto = mv.codproduto '#13#10'left outer join CLIENTES ' +
-        'cli on cli.CODCLIENTE = rec.CODCLIENTE '#13#10'left outer join FUNCION' +
-        'ARIO func on rec.CODVENDEDOR = func.COD_FUNCIONARIO '#13#10'where m.co' +
-        'dnatureza = 3 and  rec.DATAVENDA between :DATA1 and :DATA2 '#13#10'and' +
-        ' ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))'#13#10'group by rec.codVende' +
-        'dor,  rec.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOTAF' +
-        'ISCAL, rec.CODVENDA,'#13#10'rec.CODUSUARIO,  rec.CONTROLE, cli.RAZAOSO' +
-        'CIAL, func.NOME_FUNCIONARIO,  func.valor_comissao, m.obs'#13#10' order' +
-        ' by  rec.DATAVENDA, func.nome_funcionario,rec.NOTAFISCAL,  cli.R' +
-        'AZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10
+        'AFISCAL, rec.CODVENDA,'#13#10'           osd.CODUSUARIO, rec.CONTROLE,' +
+        ' cli.RAZAOSOCIAL, '#13#10'           func.NOME_FUNCIONARIO,  func.valo' +
+        'r_comissao, m.obs, '#13#10'           sum(case p.TIPO WHEN '#39'SERV'#39' then' +
+        ' mv.VALTOTAL else 0 END) as VALOR,'#13#10'           sum(mv.VALTOTAL) ' +
+        'as VALOR_P, osd.ID_OS'#13#10'from VENDA rec'#13#10'inner join movimento m on' +
+        ' m.codmovimento = rec.codmovimento '#13#10'inner join movimentodetalhe' +
+        ' mv on mv.codmovimento = m.codmovimento'#13#10'inner join os_det osd o' +
+        'n osd.id_os_det = mv.codigo'#13#10'inner join PRODUTOS p on p.codprodu' +
+        'to = mv.codproduto '#13#10'left outer join CLIENTES cli on cli.CODCLIE' +
+        'NTE = rec.CODCLIENTE '#13#10'left outer join FUNCIONARIO func on osd.C' +
+        'ODUSUARIO = func.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 and  ' +
+        'rec.DATAVENDA between :DATA1 and :DATA2 '#13#10'and ((rec.CODVENDEDOR=' +
+        ':pfun) or (:pfun = 0))'#13#10'group by osd.CODUSUARIO,  rec.CODCLIENTE' +
+        ', rec.DATAVENDA, osd.ID_OS, rec.CODMOVIMENTO, rec.NOTAFISCAL, re' +
+        'c.CODVENDA,'#13#10'  rec.CONTROLE, cli.RAZAOSOCIAL, func.NOME_FUNCIONA' +
+        'RIO,  func.valor_comissao, m.obs'#13#10' order by  rec.DATAVENDA, func' +
+        '.nome_funcionario,rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13#10 +
+        #13#10
     end
     item
       Alias = 'EMPRESA'
@@ -126,7 +127,7 @@ object TRpReport
     item
       Name = 'DATA1'
       AllowNulls = False
-      Value = 40544d
+      Value = 40909d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO'
@@ -141,7 +142,7 @@ object TRpReport
     item
       Name = 'DATA2'
       AllowNulls = False
-      Value = 41243d
+      Value = 40939d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO'
@@ -530,7 +531,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'COMISSAO.NOTAFISCAL'
+    Expression = 'COMISSAO.ID_OS'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
