@@ -836,6 +836,10 @@ object fListaClientes: TfListaClientes
       Caption = 'Exportar'
       OnClick = Exportar1Click
     end
+    object EnviarEmail1: TMenuItem
+      Caption = 'Enviar Email'
+      OnClick = EnviarEmail1Click
+    end
   end
   object DataSource1: TDataSource
     DataSet = cds
