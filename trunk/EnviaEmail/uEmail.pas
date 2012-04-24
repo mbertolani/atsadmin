@@ -8,45 +8,22 @@ uses
   IdMessage, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient,
   IdMessageClient, IdSMTP, FMTBcd, DB, Grids, DBGrids, JvExDBGrids,
   JvDBGrid, JvDBUltimGrid, Provider, DBClient, SqlExpr,IdSSLOpenSSL, dateutils,
-  JvExStdCtrls, JvRichEdit, RXCtrls, ComCtrls,dbxpress, DBCtrls, ExtCtrls ;
+  JvExStdCtrls, JvRichEdit, RXCtrls, ComCtrls,dbxpress, DBCtrls, ExtCtrls,
+  IdExplicitTLSClientServerBase, IdSMTPBase, IdIOHandler, IdAttachmentFile;
 
 type
   TForm1 = class(TForm)
-    BitBtn1: TBitBtn;
-    Label86: TLabel;
     Label73: TLabel;
-    FlatGauge1: TFlatGauge;
-    edtAssunto: TEdit;
     IdSMTP1: TIdSMTP;
     IdMessage1: TIdMessage;
     SQLDataSet1: TSQLDataSet;
     cdsEnvia: TClientDataSet;
     DataSetProvider1: TDataSetProvider;
-    dsEnvia: TDataSource;
     JvDBUltimGrid1: TJvDBUltimGrid;
     cdsEnviaCODEMAIL: TIntegerField;
     cdsEnviaEMAIL: TStringField;
     cdsEnviaASSUNTO: TStringField;
     cdsEnviaDATAENVIO: TDateField;
-    lbxAnexos: TTextListBox;
-    BitBtn2: TBitBtn;
-    dlgOpenAnexos: TOpenDialog;
-    pgc1: TPageControl;
-    ts1: TTabSheet;
-    ts2: TTabSheet;
-    btnAdiconar: TBitBtn;
-    btnGravar: TBitBtn;
-    btnExcluir: TBitBtn;
-    edText: TJvRichEdit;
-    lbl1: TLabel;
-    dbedtCODEMAIL: TDBEdit;
-    lbl2: TLabel;
-    dbedtEMAIL: TDBEdit;
-    lbl3: TLabel;
-    dbedtDATAENVIO: TDBEdit;
-    dbgrd1: TDBGrid;
-    lbl4: TLabel;
-    dbedtASSUNTO: TDBEdit;
     sqldtst1: TSQLDataSet;
     ds1: TClientDataSet;
     DataSetProvider2: TDataSetProvider;
@@ -55,8 +32,6 @@ type
     ds1EMAIL: TStringField;
     ds1ASSUNTO: TStringField;
     ds1DATAENVIO: TDateField;
-    BitBtn4: TBitBtn;
-    BitBtn3: TBitBtn;
     sdsSQLDataSet1CODEMAIL: TIntegerField;
     SQLDataSet1EMAIL: TStringField;
     SQLDataSet1ASSUNTO: TStringField;
@@ -69,19 +44,48 @@ type
     sqldtst1DATAENVIO: TDateField;
     sqldtst1GRUPO: TStringField;
     ds1GRUPO: TStringField;
-    cbbSerie: TComboBox;
-    rgSituacao: TRadioGroup;
-    lbl5: TLabel;
-    dbGRUPO: TDBEdit;
     sqldtst1ENVIADO: TStringField;
-    lbl6: TLabel;
-    dbENVIADO: TDBEdit;
     ds3: TDataSource;
-    lbl7: TLabel;
     ds1ENVIADO: TStringField;
+    sqlGrupo: TSQLQuery;
+    Panel1: TPanel;
+    FlatGauge1: TFlatGauge;
+    BitBtn1: TBitBtn;
     rg1: TRadioGroup;
     BitBtn5: TBitBtn;
-    sqlGrupo: TSQLQuery;
+    Panel2: TPanel;
+    pgc1: TPageControl;
+    ts1: TTabSheet;
+    lbl6: TLabel;
+    edText: TJvRichEdit;
+    ts2: TTabSheet;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    lbl5: TLabel;
+    lbl7: TLabel;
+    btnAdiconar: TBitBtn;
+    btnGravar: TBitBtn;
+    btnExcluir: TBitBtn;
+    dbedtCODEMAIL: TDBEdit;
+    dbedtEMAIL: TDBEdit;
+    dbedtDATAENVIO: TDBEdit;
+    dbgrd1: TDBGrid;
+    dbedtASSUNTO: TDBEdit;
+    BitBtn4: TBitBtn;
+    dbGRUPO: TDBEdit;
+    dbENVIADO: TDBEdit;
+    Label86: TLabel;
+    edtAssunto: TEdit;
+    lbxAnexos: TTextListBox;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    cbbSerie: TComboBox;
+    rgSituacao: TRadioGroup;
+    dsEnvia: TDataSource;
+    dlgOpenAnexos: TOpenDialog;
+    Label1: TLabel;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -112,9 +116,11 @@ uses UDm, uUtils;
 {$R *.dfm}
 
 procedure TForm1.BitBtn1Click(Sender: TObject);
-var email,responsavel, str, str1:string;
-   Anexo : Integer;   
+var email,responsavel, str:string;
+   Anexo : Integer;
+   IdSSL: TIdSSLIOHandlerSocketOpenSSL;
 begin
+  FlatGauge1.Progress := 0;
   if (cbbSerie.Text = '') then
   begin
     MessageDlg('Informe o Grupo de Email que será Criado.', mtWarning, [mbOK], 0);
@@ -129,8 +135,9 @@ begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
 
-  FlatGauge1.MaxValue := cdsEnvia.RecordCount;
+  FlatGauge1.MaxValue := cdsEnvia.RecordCount + 60;
 
+  FlatGauge1.Progress := 20;
 
   if (cdsEnvia.RecordCount > 0) then
   begin
@@ -191,10 +198,11 @@ begin
 
       IdMessage1.ContentType := 'text/html';
 
-     // TIdAttachment.Create(IdMessage1.MessageParts, TFileName('C:\home\avisos\gerenciador.jpg'));
+      //TIdAttachmentFile.Create(IdMessage1.MessageParts, TFileName('C:\home\avisos\gerenciador.jpg'));
       for Anexo := 0 to lbxAnexos.Items.Count-1 do
-      TIdAttachment.Create(idmessage1.MessageParts, TFileName(lbxAnexos.Items.Strings[Anexo]));
-
+      begin
+        TIdAttachmentFile.Create(idmessage1.MessageParts, TFileName(lbxAnexos.Items.Strings[Anexo]));
+      end;
 
       //fim da mensagem
       //Configuração do IdSMTP SMTP
@@ -205,8 +213,39 @@ begin
       IdSMTP1.Username := dm.cds_empresaE_MAIL.AsString;// 'atsti@bol.com.br' ;
       // Password Senha do usuário
       IdSMTP1.Password := dm.cds_empresaSENHA.AsString;// 'a2t00s7' ;
+
+      if (dm.cds_empresaPORTA.AsInteger <> 25) then
+      begin
+        // configurações adicionais servidor SMTP com autenticação
+        with idSMTP1 do
+        begin
+           IdSSL := nil;
+           try
+              port := 465;
+              IdSSL := TIdSSLIOHandlerSocketOpenSSL.Create( nil );
+              IdSMTP1.IOHandler := IdSSL;
+              UseTLS := utUseImplicitTLS;
+           except
+              on E: Exception do
+              begin
+                 IOHandler := TIdIOHandler.MakeDefaultIOHandler( nil );
+                 UseTLS := utNoTLSSupport;
+              end;
+           end;
+           if Assigned(IdSSL) then
+           begin
+              IdSSL.SSLOptions.Method := sslvSSLv3;
+              IdSSL.SSLOptions.Mode := sslmClient;
+           end;
+        end;
+        idSMTP1.AuthType := IdSMTP.atDefault;
+      end;
+
+      IdSMTP1.Connect;
       try
-        IdSMTP1.Connect ;
+
+        //IdSMTP1.SendCmd('STARTTLS', 220);
+        FlatGauge1.Progress := FlatGauge1.Progress + 20;
         IdSMTP1.Authenticate; //Faz a autenticação
         IdSMTP1.Send(IdMessage1); //Envia a mensagem
         dm.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET DATAENVIO = ' +
@@ -220,12 +259,13 @@ begin
         IdSMTP1.Disconnect;
         IdMessage1.Clear;
       end;
-      FlatGauge1.Progress := cdsEnvia.recNo;
+      FlatGauge1.Progress :=  FlatGauge1.Progress + cdsEnvia.recNo;
       cdsEnvia.Next;
     end;
   end;
   cdsEnvia.EnableControls;
-  FlatGauge1.Progress := 0;
+  FlatGauge1.Progress := FlatGauge1.Progress + 20;
+
   Cursor := crDefault;
   cdsEnvia.Close;
 
@@ -233,11 +273,6 @@ begin
      0: str := 'S'; // Enviado Sim
      1: str := 'N'; // Enviado Não
 
-  end;
-  if cbBSerie.Text <> '' then
-  begin
-   // if (cbSerie.Text) then
-      str1 := cbBSerie.Text;
   end;
 
   cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (GRUPO = '+
@@ -247,7 +282,7 @@ begin
 
   Application.MessageBox('Email enviado com sucesso!', 'Confirmação',
   MB_ICONINFORMATION +   MB_OK);
-
+  FlatGauge1.Progress := 0;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -444,6 +479,7 @@ begin
     ds1.Close;
     ds1.Open;
     cdsEnvia.Close;
+    rgSituacao.ItemIndex := 1;
     cdsEnvia.Open
   except
     DM.sqlsisAdimin.Rollback(TD);

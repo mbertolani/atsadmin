@@ -135,6 +135,12 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\rppack_del.bpl=Report Manager components(non-visual)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\rppackvcl_del.bpl=Report Manager VCL components
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\rppackdesignvcl_del.bpl=Report Manager Designer VCL Components
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\gbcob7.bpl=Delphi Boleto - Componentes para boleto bancário
+C:\Arquivos de programas\Borland\Delphi7\Projects\Bpl\rppackv_del.bpl=Report manager Visual CLX components
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\rppackdesign_del.bpl=Report Manager Designer Component Package
 C:\Arquivos de programas\Borland\Delphi7\Projects\Bpl\JvNetD7D.bpl=JVCL Network Components
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70VCL.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70CLX.bpl=(untitled)

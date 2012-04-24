@@ -12,6 +12,7 @@ uses
 
 begin
   Application.Initialize;
+  Application.Title := 'ATS - Email';
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TdmApp, dmApp);
