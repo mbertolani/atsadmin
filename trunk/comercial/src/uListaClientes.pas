@@ -9,7 +9,7 @@ uses
   ExtCtrls, rpvclreport, XPMenu, MMJPanel, Mask, JvExMask, JvToolEdit,
   JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, JvExDBGrids, JvDBGrid,
   JvBaseDlg, JvProgressDialog ,JvComponent, JvDBGridExport, JvCsvData,
-  EDBFind;
+  EDBFind, dbxpress, DateUtils;
 
 type
   TfListaClientes = class(TForm)
@@ -139,6 +139,7 @@ type
     EvDBFind3: TEvDBFind;
     btnFiltroForm: TBitBtn;
     btnFiltro: TButton;
+    EnviarEmail1: TMenuItem;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -169,7 +170,8 @@ type
     procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure JvDBGrid1TitleClick(Column: TColumn);
     procedure btnFiltroFormClick(Sender: TObject);
-
+    procedure enviarEmail;
+    procedure EnviarEmail1Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -255,9 +257,11 @@ begin
 //********************************************************************************************
  if (fClienteFiltro.CBox3.Checked = true) then
    if varCondicao <> '' then
-      varCondicao := varCondicao + ' and ende.e_mail is not null '
+      varCondicao := varCondicao + ' and ((ende.e_mail is not null) and (ende.e_mail <> ' +
+        QuotedStr('') + '))'
    else
-   varCondicao := 'where ende.e_mail is not null ';
+   varCondicao := 'where ((ende.e_mail is not null) and (ende.e_mail <> ' +
+        QuotedStr('') + '))';
 //********************************************************************************************
  if (fClienteFiltro.CBox4.Checked = true) then
    if varCondicao <> '' then
@@ -777,6 +781,50 @@ begin
   fClienteFiltro.ShowModal;
   btnFiltro.Click;
   EvDBFind1.SetFocus;
+end;
+
+procedure TfListaClientes.enviarEmail;
+var insere: String;
+    TD : TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    cds.First;
+    // Grava os clientes Selecionados na Tabela de Email
+    while not cds.Eof do
+    begin
+      if (cdsE_MAIL.AsString = '') then
+      begin
+        MessageDlg('Não existe email cadastrado para o cliente : ' +
+          cdsNOMECLIENTE.AsString , mtWarning, [mbOK], 0);
+      end
+      else begin
+        insere := 'INSERT INTO EMAIL_ENVIAR (CODEMAIL, EMAIL, GRUPO, ENVIADO) ' +
+          ' VALUES (  ' +
+          IntToStr(cdsCODCLIENTE.AsInteger) + ', ' +
+          QuotedStr(cdsE_MAIL.AsString)     + ', ' +
+          QuotedStr(FormatDateTime('mm/dd/yyyy',today)) + ', '+
+          QuotedStr('N')     + ')';
+        dm.sqlsisAdimin.ExecuteDirect(insere);
+      end;
+      cds.next;
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+  WinExec('prjEmail.exe', SW_NORMAL);
+end;
+
+procedure TfListaClientes.EnviarEmail1Click(Sender: TObject);
+begin
+  enviarEmail;
 end;
 
 end.
