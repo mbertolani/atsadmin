@@ -776,7 +776,7 @@ begin
   if (dm.sistemaLiberado = 'N') then
   begin
     MessageDlg('Licença do uso expirada, entre em contato com a ATS (19)-3827-3001.', mtWarning, [mbOK], 0);
-    exit;
+    Close;
   end;
   if (UserControlComercial.AutoStart = False) then
   begin
