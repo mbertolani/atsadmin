@@ -111,7 +111,7 @@ var
 
 implementation
 
-uses UDm, uUtils;
+uses UDm;
 
 {$R *.dfm}
 
