@@ -1,6 +1,6 @@
 object F_Boletos: TF_Boletos
-  Left = 397
-  Top = 250
+  Left = 421
+  Top = 295
   Width = 417
   Height = 302
   BorderIcons = [biSystemMenu]
