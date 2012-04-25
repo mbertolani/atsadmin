@@ -540,12 +540,17 @@ object F_Boletos: TF_Boletos
     CommandText = 
       'select c.*, e.*  '#13#10'from CLIENTES c '#13#10'inner join ENDERECOCLIENTE ' +
       'e on e.CODCLIENTE = c.CODCLIENTE '#13#10'where c.CODCLIENTE = :id_cli ' +
-      #13#10'   and e.TIPOEND = 0'
+      #13#10'   and e.TIPOEND = :tpEnd'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
         Name = 'id_cli'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftSmallint
+        Name = 'tpEnd'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
