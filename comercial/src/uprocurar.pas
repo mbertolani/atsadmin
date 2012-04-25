@@ -71,26 +71,29 @@ begin
  with DtSrc.dataset as TSQLClientDataset do // Atenção : declara DBlocalS em uses
   begin
     Close;
-    If tag=0 then //opção de flag para usar % ou não
+    if (DtSrc.DataSet <> dm.scds_cli_proc) then
     begin
-      Params[0].AsString:=EditProc.Text+'%';
-      if DtSrc.DataSet = dm.scds_usuario_proc then
+      If tag=0 then //opção de flag para usar % ou não
       begin
-        Params.ParamByName('pPerfil').AsString := usuarioproc;
-        Params.ParamByName('pPerfil1').AsString := 'AMBOS';
-      end;
-      if DtSrc.DataSet = dm.scds_prod then
-      begin
-        if (EditProc.Text = '') then
-          Params.ParamByName('PRODUTO').AsString := 'TODOS';
-      end;
-    end
-    else begin
-      Params[0].AsString:=EditProc.Text;
-      if DtSrc.DataSet = dm.scds_usuario_proc then
-      begin
-         Params.ParamByName('pPerfil').AsString := usuarioproc;
-         Params.ParamByName('pPerfil1').AsString := 'AMBOS';
+        Params[0].AsString:=EditProc.Text+'%';
+        if DtSrc.DataSet = dm.scds_usuario_proc then
+        begin
+          Params.ParamByName('pPerfil').AsString := usuarioproc;
+          Params.ParamByName('pPerfil1').AsString := 'AMBOS';
+        end;
+        if DtSrc.DataSet = dm.scds_prod then
+        begin
+          if (EditProc.Text = '') then
+            Params.ParamByName('PRODUTO').AsString := 'TODOS';
+        end;
+      end
+      else begin
+        Params[0].AsString:=EditProc.Text;
+        if DtSrc.DataSet = dm.scds_usuario_proc then
+        begin
+           Params.ParamByName('pPerfil').AsString := usuarioproc;
+           Params.ParamByName('pPerfil1').AsString := 'AMBOS';
+        end;
       end;
     end;
     Open;

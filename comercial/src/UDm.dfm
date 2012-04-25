@@ -1012,20 +1012,24 @@ object DM: TDM
     Left = 544
     Top = 88
     object scds_usuario_procCODUSUARIO: TSmallintField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'CODUSUARIO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object scds_usuario_procNOMEUSUARIO: TStringField
+      DisplayLabel = 'Nome'
       FieldName = 'NOMEUSUARIO'
       Required = True
       Size = 30
     end
     object scds_usuario_procSTATUS: TSmallintField
+      DisplayLabel = 'Status'
       FieldName = 'STATUS'
       Required = True
     end
     object scds_usuario_procPERFIL: TStringField
+      DisplayLabel = 'Perfil'
       FieldName = 'PERFIL'
       Size = 15
     end
@@ -1044,7 +1048,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 707
+    Left = 739
     Top = 121
     object Proc_end_cliCIDADE: TStringField
       FieldName = 'CIDADE'
@@ -1267,16 +1271,19 @@ object DM: TDM
     Left = 737
     Top = 61
     object scds_forn_procCODFORNECEDOR: TIntegerField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'CODFORNECEDOR'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object scds_forn_procNOMEFORNECEDOR: TStringField
+      DisplayLabel = 'Nome'
       FieldName = 'NOMEFORNECEDOR'
       Required = True
       Size = 50
     end
     object scds_forn_procRAZAOSOCIAL: TStringField
+      DisplayLabel = 'Raz'#227'o Social'
       FieldName = 'RAZAOSOCIAL'
       Required = True
       Size = 50
@@ -1285,10 +1292,12 @@ object DM: TDM
       FieldName = 'DDD'
     end
     object scds_forn_procTELEFONE: TStringField
+      DisplayLabel = 'Telefone'
       FieldName = 'TELEFONE'
       Size = 9
     end
     object scds_forn_procPRAZOPAGAMENTO: TSmallintField
+      DisplayLabel = 'Prazo'
       FieldName = 'PRAZOPAGAMENTO'
     end
   end
@@ -10114,5 +10123,44 @@ object DM: TDM
     SQLConnection = sqlsisAdimin
     Left = 1104
     Top = 8
+  end
+  object scds_cli_proc: TSQLClientDataSet
+    CommandText = 
+      'SELECT c.CODCLIENTE, c.NOMECLIENTE, c.RAZAOSOCIAL, ec.DDD, ec.TE' +
+      'LEFONE'#13#10'FROM CLIENTES c, ENDERECOCLIENTE ec'#13#10'where c.CODCLIENTE ' +
+      '= ec.CODCLIENTE and ec.TIPOEND = 0'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <>
+    DBConnection = sqlsisAdimin
+    Left = 713
+    Top = 173
+    object scds_cli_procCODCLIENTE: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object scds_cli_procNOMECLIENTE: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
+    object scds_cli_procRAZAOSOCIAL: TStringField
+      DisplayLabel = 'Raz'#227'o Social'
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object scds_cli_procDDD: TStringField
+      FieldName = 'DDD'
+      Size = 3
+    end
+    object scds_cli_procTELEFONE: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
   end
 end

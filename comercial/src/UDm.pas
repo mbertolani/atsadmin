@@ -1920,6 +1920,12 @@ type
     sds_EmpresaNOMEPREFEITURA: TStringField;
     cds_empresaCNPJPREFEITURA: TStringField;
     cds_empresaNOMEPREFEITURA: TStringField;
+    scds_cli_proc: TSQLClientDataSet;
+    scds_cli_procCODCLIENTE: TIntegerField;
+    scds_cli_procNOMECLIENTE: TStringField;
+    scds_cli_procRAZAOSOCIAL: TStringField;
+    scds_cli_procDDD: TStringField;
+    scds_cli_procTELEFONE: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2134,8 +2140,6 @@ begin
     if (not dm.cds_parametroD1.IsNull) then
       CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
   end;
-
-
 
   if cds_parametro.Active then
     cds_parametro.Close;

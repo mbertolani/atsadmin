@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, ExtCtrls, StdCtrls, Mask, DBCtrls, DB, Menus, XPMenu,
-  Buttons, MMJPanel, FMTBcd, JvExMask, JvToolEdit, JvBaseEdits,
+  Buttons, MMJPanel, FMTBcd, JvExMask, JvToolEdit, JvBaseEdits, DBLocals,
   JvDBControls, DBClient, Provider, SqlExpr;
 
 type
@@ -21,136 +21,8 @@ type
     lbl2: TLabel;
     dbedtDATANASC: TDBEdit;
     sds_cli: TSQLDataSet;
-    sds_cliCODICLIENTE: TIntegerField;
-    sds_cliNOMECLIENTE: TStringField;
-    sds_cliRAZAOSOCIAL: TStringField;
-    sds_cliCONTATO: TStringField;
-    sds_cliTIPOFIRMA: TSmallintField;
-    sds_cliCPF: TStringField;
-    sds_cliCNPJ: TStringField;
-    sds_cliINSCESTADUAL: TStringField;
-    sds_cliRG: TStringField;
-    sds_cliSEGMENTO: TSmallintField;
-    sds_cliREGIAO: TSmallintField;
-    sds_cliLIMITECREDITO: TFloatField;
-    sds_cliDATACADASTRO: TDateField;
-    sds_cliCODUSUARIO: TIntegerField;
-    sds_cliSTATUS: TSmallintField;
-    sds_cliHOMEPAGE: TStringField;
-    sds_cliPRAZORECEBIMENTO: TSmallintField;
-    sds_cliPRAZOENTREGA: TSmallintField;
-    sds_cliCODBANCO: TSmallintField;
-    sds_cliBASE_ICMS: TSmallintField;
-    sds_cliDATANASC: TDateField;
-    sds_cliCONTA_CLIENTE: TStringField;
-    sds_cliOBS: TStringField;
-    sds_cliBANCO: TStringField;
-    sds_cliNOMEUSUARIO: TStringField;
-    sds_cliTEM_IE: TStringField;
-    sds_cliDATARESC: TDateField;
-    sds_cliNOMEMAE: TStringField;
-    sds_cliSEXO: TStringField;
-    sds_cliFORMA_CORRESPOND: TStringField;
-    sds_cliGRUPO_CLIENTE: TStringField;
-    sds_cliCODINCLUCANC: TIntegerField;
-    sds_cliEXIST_COBERT: TStringField;
-    sds_cliEXISTCOPART: TStringField;
-    sds_cliDATAREINC: TDateField;
-    sds_cliGERAAVISO: TStringField;
-    sds_cliGERAENV: TStringField;
-    sds_cliGERABOL: TStringField;
-    sds_cliEMVIAGEM: TStringField;
-    sds_cliDTAALTERA: TDateField;
-    sds_cliSERIELETRA: TStringField;
-    sds_cliSERIE: TStringField;
-    sds_cliRA: TStringField;
-    sds_cliCURSO: TStringField;
-    sds_cliIP: TStringField;
-    sds_cliN_CONTRATO: TStringField;
-    sds_cliMAC: TStringField;
-    sds_cliMARCA: TStringField;
-    sds_cliBANDA_UPLOAD: TStringField;
-    sds_cliBANDA_DOWLOAD: TStringField;
-    sds_cliTORRE_CONECCAO: TStringField;
-    sds_cliCOD_FAIXA: TIntegerField;
-    sds_cliDESCONTO: TFloatField;
-    sds_cliMENSALIDADE: TFloatField;
-    sds_cliPAI: TStringField;
-    sds_cliLOCALTRABALUNO: TStringField;
-    sds_cliDIVERSO1: TStringField;
-    sds_cliDIVERSO2: TStringField;
-    sds_cliTELTRABALUNO: TStringField;
-    sds_cliDATA_MATRICULA: TSQLTimeStampField;
-    sds_cliSITUACAOESCOLAR: TStringField;
-    sds_cliCOD_TRANPORTADORA: TIntegerField;
-    sds_cliCODRESPONSAVEL: TIntegerField;
-    sds_cliCFOP: TStringField;
     dsp_cli: TDataSetProvider;
     cds_cli: TClientDataSet;
-    cds_cliCODCLIENTE: TIntegerField;
-    cds_cliNOMECLIENTE: TStringField;
-    cds_cliRAZAOSOCIAL: TStringField;
-    cds_cliCONTATO: TStringField;
-    cds_cliTIPOFIRMA: TSmallintField;
-    cds_cliCPF: TStringField;
-    cds_cliCNPJ: TStringField;
-    cds_cliINSCESTADUAL: TStringField;
-    cds_cliRG: TStringField;
-    cds_cliSEGMENTO: TSmallintField;
-    cds_cliREGIAO: TSmallintField;
-    cds_cliLIMITECREDITO: TFloatField;
-    cds_cliDATACADASTRO: TDateField;
-    cds_cliCODUSUARIO: TIntegerField;
-    cds_cliSTATUS: TSmallintField;
-    cds_cliHOMEPAGE: TStringField;
-    cds_cliPRAZORECEBIMENTO: TSmallintField;
-    cds_cliPRAZOENTREGA: TSmallintField;
-    cds_cliCODBANCO: TSmallintField;
-    cds_cliBASE_ICMS: TSmallintField;
-    cds_cliDATANASC: TDateField;
-    cds_cliCONTA_CLIENTE: TStringField;
-    cds_cliOBS: TStringField;
-    cds_cliBANCO: TStringField;
-    cds_cliNOMEUSUARIO: TStringField;
-    cds_cliTEM_IE: TStringField;
-    cds_cliDATARESC: TDateField;
-    cds_cliNOMEMAE: TStringField;
-    cds_cliSEXO: TStringField;
-    cds_cliFORMA_CORRESPOND: TStringField;
-    cds_cliGRUPO_CLIENTE: TStringField;
-    cds_cliCODINCLUCANC: TIntegerField;
-    cds_cliEXIST_COBERT: TStringField;
-    cds_cliEXISTCOPART: TStringField;
-    cds_cliDATAREINC: TDateField;
-    cds_cliGERAAVISO: TStringField;
-    cds_cliGERAENV: TStringField;
-    cds_cliGERABOL: TStringField;
-    cds_cliEMVIAGEM: TStringField;
-    cds_cliDTAALTERA: TDateField;
-    cds_cliSERIELETRA: TStringField;
-    cds_cliSERIE: TStringField;
-    cds_cliRA: TStringField;
-    cds_cliCURSO: TStringField;
-    cds_cliIP: TStringField;
-    cds_cliN_CONTRATO: TStringField;
-    cds_cliMAC: TStringField;
-    cds_cliMARCA: TStringField;
-    cds_cliBANDA_UPLOAD: TStringField;
-    cds_cliBANDA_DOWLOAD: TStringField;
-    cds_cliTORRE_CONECCAO: TStringField;
-    cds_cliCOD_FAIXA: TIntegerField;
-    cds_cliDESCONTO: TFloatField;
-    cds_cliMENSALIDADE: TFloatField;
-    cds_cliPAI: TStringField;
-    cds_cliLOCALTRABALUNO: TStringField;
-    cds_cliDIVERSO1: TStringField;
-    cds_cliDIVERSO2: TStringField;
-    cds_cliTELTRABALUNO: TStringField;
-    cds_cliDATA_MATRICULA: TSQLTimeStampField;
-    cds_cliSITUACAOESCOLAR: TStringField;
-    cds_cliCOD_TRANPORTADORA: TIntegerField;
-    cds_cliCODRESPONSAVEL: TIntegerField;
-    cds_cliCFOP: TStringField;
     dbcbbCARGOFUNCAO: TDBComboBox;
     lbl1: TLabel;
     dsDtsrc_e: TDataSource;
@@ -239,8 +111,6 @@ type
     JvDBCalcEdit1: TJvDBCalcEdit;
     lbl16: TLabel;
     chk3: TCheckBox;
-    sds_cliCOD_CLI: TStringField;
-    sds_cliBLOQUEADO: TStringField;
     grpNome: TGroupBox;
     lblNome: TLabel;
     lblRazao: TLabel;
@@ -248,24 +118,255 @@ type
     dbedtNOMECLIENTE: TDBEdit;
     dbedtRAZAOSOCIAL1: TDBEdit;
     rgTipo: TRadioGroup;
-    cds_cliCOD_CLI: TStringField;
-    cds_cliBLOQUEADO: TStringField;
+    rgSitCad: TRadioGroup;
+    lbl17: TLabel;
+    dbedtRG1: TDBEdit;
+    sds_cliCODCLIENTE: TIntegerField;
+    sds_cliNOMECLIENTE: TStringField;
+    sds_cliRAZAOSOCIAL: TStringField;
+    sds_cliCONTATO: TStringField;
+    sds_cliTIPOFIRMA: TSmallintField;
+    sds_cliCPF: TStringField;
+    sds_cliCNPJ: TStringField;
+    sds_cliINSCESTADUAL: TStringField;
+    sds_cliRG: TStringField;
+    sds_cliSEGMENTO: TSmallintField;
+    sds_cliREGIAO: TSmallintField;
+    sds_cliLIMITECREDITO: TFloatField;
+    sds_cliDATACADASTRO: TDateField;
+    sds_cliCODUSUARIO: TIntegerField;
+    sds_cliSTATUS: TSmallintField;
+    sds_cliHOMEPAGE: TStringField;
+    sds_cliPRAZORECEBIMENTO: TSmallintField;
+    sds_cliPRAZOENTREGA: TSmallintField;
+    sds_cliCODBANCO: TSmallintField;
+    sds_cliBASE_ICMS: TSmallintField;
+    sds_cliDATANASC: TDateField;
+    sds_cliCONTA_CLIENTE: TStringField;
+    sds_cliOBS: TStringField;
+    sds_cliTEM_IE: TStringField;
+    sds_cliDATARESC: TDateField;
+    sds_cliNOMEMAE: TStringField;
+    sds_cliSEXO: TStringField;
+    sds_cliFORMA_CORRESPOND: TStringField;
+    sds_cliGRUPO_CLIENTE: TStringField;
+    sds_cliCODINCLUCANC: TIntegerField;
+    sds_cliEXIST_COBERT: TStringField;
+    sds_cliEXISTCOPART: TStringField;
+    sds_cliDATAREINC: TDateField;
+    sds_cliGERAAVISO: TStringField;
+    sds_cliGERAENV: TStringField;
+    sds_cliGERABOL: TStringField;
+    sds_cliEMVIAGEM: TStringField;
+    sds_cliDTAALTERA: TDateField;
+    sds_cliSERIELETRA: TStringField;
+    sds_cliSERIE: TStringField;
+    sds_cliRA: TStringField;
+    sds_cliCURSO: TStringField;
+    sds_cliIP: TStringField;
+    sds_cliN_CONTRATO: TStringField;
+    sds_cliMAC: TStringField;
+    sds_cliMARCA: TStringField;
+    sds_cliBANDA_UPLOAD: TStringField;
+    sds_cliBANDA_DOWLOAD: TStringField;
+    sds_cliTORRE_CONECCAO: TStringField;
+    sds_cliCOD_FAIXA: TIntegerField;
+    sds_cliDESCONTO: TFloatField;
+    sds_cliMENSALIDADE: TFloatField;
+    sds_cliANUIDADE: TFloatField;
+    sds_cliPARCELA: TIntegerField;
+    sds_cliPARCELAGERADAS: TIntegerField;
+    sds_cliNUMERO: TIntegerField;
+    sds_cliDATANASCIMENTO: TSQLTimeStampField;
+    sds_cliANOLETIVO: TStringField;
+    sds_cliSITUACAOESCOLAR: TStringField;
+    sds_cliRGMAE: TStringField;
+    sds_cliCPFMAE: TStringField;
+    sds_cliPAI: TStringField;
+    sds_cliRGPAI: TStringField;
+    sds_cliCPFPAI: TStringField;
+    sds_cliLANCADOCLASSE: TIntegerField;
+    sds_cliTRANSPORTE: TStringField;
+    sds_cliCIDADENASC: TStringField;
+    sds_cliUFNASC: TStringField;
+    sds_cliNACIONALIDADE: TStringField;
+    sds_cliCERTIDAONASCNUM: TStringField;
+    sds_cliLIVRONASC: TStringField;
+    sds_cliFLLIVRONASC: TStringField;
+    sds_cliLOCALTRABPAI: TStringField;
+    sds_cliLOCALTRABMAE: TStringField;
+    sds_cliTELTRABPAI: TStringField;
+    sds_cliTELTRABMAE: TStringField;
+    sds_cliINFONECESSARIAS: TStringField;
+    sds_cliCARTEIRAVACINACAO: TStringField;
+    sds_cliRAPRODESP: TStringField;
+    sds_cliLOCALTRABALUNO: TStringField;
+    sds_cliTELTRABALUNO: TStringField;
+    sds_cliRAPROD: TStringField;
+    sds_cliCERT_NAS_COMARCA: TStringField;
+    sds_cliCERT_NAS_UF: TStringField;
+    sds_cliCERT_NAS_MUNICIPIO: TStringField;
+    sds_cliCERT_NAS_DISTRITO: TStringField;
+    sds_cliCERT_NAS_SUBDISTRITO: TStringField;
+    sds_cliDIVERSO1: TStringField;
+    sds_cliDIVERSO2: TStringField;
+    sds_cliDATAEMISSAORG: TDateField;
+    sds_cliESTADORG: TStringField;
+    sds_cliCOMUNICAALUNO: TStringField;
+    sds_cliFONEMAE: TStringField;
+    sds_cliCELULARMAE: TStringField;
+    sds_cliCOMUNICAMAE: TStringField;
+    sds_cliFONEPAI: TStringField;
+    sds_cliCELULARPAI: TStringField;
+    sds_cliCOMUNICAPAI: TStringField;
+    sds_cliVALOR_MATRICULA: TFloatField;
+    sds_cliDATATRANSF: TDateField;
+    sds_cliCOR_RACA: TStringField;
+    sds_cliPERIODO: TStringField;
+    sds_cliFOTO: TStringField;
+    sds_cliDATA_MATRICULA: TSQLTimeStampField;
+    sds_cliCODRESPONSAVEL: TIntegerField;
+    sds_cliID_COB: TIntegerField;
+    sds_cliCOD_TRANPORTADORA: TIntegerField;
+    sds_cliBLOQUEADO: TStringField;
+    sds_cliBLOQUEIO: TStringField;
+    sds_cliCFOP: TStringField;
+    sds_cliCOD_CLI: TStringField;
     sds_cliCORTESIA: TStringField;
     sds_cliVALOR_CONSUMO: TFloatField;
     sds_cliVALOR_CORTESIA: TFloatField;
     sds_cliE_FORNECEDOR: TStringField;
     sds_cliCODFORNECEDOR: TIntegerField;
     sds_cliCARGOFUNCAO: TStringField;
+    sds_cliBANCO: TStringField;
+    sds_cliNOMEUSUARIO: TStringField;
+    cds_cliCODCLIENTE: TIntegerField;
+    cds_cliNOMECLIENTE: TStringField;
+    cds_cliRAZAOSOCIAL: TStringField;
+    cds_cliCONTATO: TStringField;
+    cds_cliTIPOFIRMA: TSmallintField;
+    cds_cliCPF: TStringField;
+    cds_cliCNPJ: TStringField;
+    cds_cliINSCESTADUAL: TStringField;
+    cds_cliRG: TStringField;
+    cds_cliSEGMENTO: TSmallintField;
+    cds_cliREGIAO: TSmallintField;
+    cds_cliLIMITECREDITO: TFloatField;
+    cds_cliDATACADASTRO: TDateField;
+    cds_cliCODUSUARIO: TIntegerField;
+    cds_cliSTATUS: TSmallintField;
+    cds_cliHOMEPAGE: TStringField;
+    cds_cliPRAZORECEBIMENTO: TSmallintField;
+    cds_cliPRAZOENTREGA: TSmallintField;
+    cds_cliCODBANCO: TSmallintField;
+    cds_cliBASE_ICMS: TSmallintField;
+    cds_cliDATANASC: TDateField;
+    cds_cliCONTA_CLIENTE: TStringField;
+    cds_cliOBS: TStringField;
+    cds_cliTEM_IE: TStringField;
+    cds_cliDATARESC: TDateField;
+    cds_cliNOMEMAE: TStringField;
+    cds_cliSEXO: TStringField;
+    cds_cliFORMA_CORRESPOND: TStringField;
+    cds_cliGRUPO_CLIENTE: TStringField;
+    cds_cliCODINCLUCANC: TIntegerField;
+    cds_cliEXIST_COBERT: TStringField;
+    cds_cliEXISTCOPART: TStringField;
+    cds_cliDATAREINC: TDateField;
+    cds_cliGERAAVISO: TStringField;
+    cds_cliGERAENV: TStringField;
+    cds_cliGERABOL: TStringField;
+    cds_cliEMVIAGEM: TStringField;
+    cds_cliDTAALTERA: TDateField;
+    cds_cliSERIELETRA: TStringField;
+    cds_cliSERIE: TStringField;
+    cds_cliRA: TStringField;
+    cds_cliCURSO: TStringField;
+    cds_cliIP: TStringField;
+    cds_cliN_CONTRATO: TStringField;
+    cds_cliMAC: TStringField;
+    cds_cliMARCA: TStringField;
+    cds_cliBANDA_UPLOAD: TStringField;
+    cds_cliBANDA_DOWLOAD: TStringField;
+    cds_cliTORRE_CONECCAO: TStringField;
+    cds_cliCOD_FAIXA: TIntegerField;
+    cds_cliDESCONTO: TFloatField;
+    cds_cliMENSALIDADE: TFloatField;
+    cds_cliANUIDADE: TFloatField;
+    cds_cliPARCELA: TIntegerField;
+    cds_cliPARCELAGERADAS: TIntegerField;
+    cds_cliNUMERO: TIntegerField;
+    cds_cliDATANASCIMENTO: TSQLTimeStampField;
+    cds_cliANOLETIVO: TStringField;
+    cds_cliSITUACAOESCOLAR: TStringField;
+    cds_cliRGMAE: TStringField;
+    cds_cliCPFMAE: TStringField;
+    cds_cliPAI: TStringField;
+    cds_cliRGPAI: TStringField;
+    cds_cliCPFPAI: TStringField;
+    cds_cliLANCADOCLASSE: TIntegerField;
+    cds_cliTRANSPORTE: TStringField;
+    cds_cliCIDADENASC: TStringField;
+    cds_cliUFNASC: TStringField;
+    cds_cliNACIONALIDADE: TStringField;
+    cds_cliCERTIDAONASCNUM: TStringField;
+    cds_cliLIVRONASC: TStringField;
+    cds_cliFLLIVRONASC: TStringField;
+    cds_cliLOCALTRABPAI: TStringField;
+    cds_cliLOCALTRABMAE: TStringField;
+    cds_cliTELTRABPAI: TStringField;
+    cds_cliTELTRABMAE: TStringField;
+    cds_cliINFONECESSARIAS: TStringField;
+    cds_cliCARTEIRAVACINACAO: TStringField;
+    cds_cliRAPRODESP: TStringField;
+    cds_cliLOCALTRABALUNO: TStringField;
+    cds_cliTELTRABALUNO: TStringField;
+    cds_cliRAPROD: TStringField;
+    cds_cliCERT_NAS_COMARCA: TStringField;
+    cds_cliCERT_NAS_UF: TStringField;
+    cds_cliCERT_NAS_MUNICIPIO: TStringField;
+    cds_cliCERT_NAS_DISTRITO: TStringField;
+    cds_cliCERT_NAS_SUBDISTRITO: TStringField;
+    cds_cliDIVERSO1: TStringField;
+    cds_cliDIVERSO2: TStringField;
+    cds_cliDATAEMISSAORG: TDateField;
+    cds_cliESTADORG: TStringField;
+    cds_cliCOMUNICAALUNO: TStringField;
+    cds_cliFONEMAE: TStringField;
+    cds_cliCELULARMAE: TStringField;
+    cds_cliCOMUNICAMAE: TStringField;
+    cds_cliFONEPAI: TStringField;
+    cds_cliCELULARPAI: TStringField;
+    cds_cliCOMUNICAPAI: TStringField;
+    cds_cliVALOR_MATRICULA: TFloatField;
+    cds_cliDATATRANSF: TDateField;
+    cds_cliCOR_RACA: TStringField;
+    cds_cliPERIODO: TStringField;
+    cds_cliFOTO: TStringField;
+    cds_cliDATA_MATRICULA: TSQLTimeStampField;
+    cds_cliCODRESPONSAVEL: TIntegerField;
+    cds_cliID_COB: TIntegerField;
+    cds_cliCOD_TRANPORTADORA: TIntegerField;
+    cds_cliBLOQUEADO: TStringField;
+    cds_cliBLOQUEIO: TStringField;
+    cds_cliCFOP: TStringField;
+    cds_cliCOD_CLI: TStringField;
     cds_cliCORTESIA: TStringField;
     cds_cliVALOR_CONSUMO: TFloatField;
     cds_cliVALOR_CORTESIA: TFloatField;
     cds_cliE_FORNECEDOR: TStringField;
     cds_cliCODFORNECEDOR: TIntegerField;
     cds_cliCARGOFUNCAO: TStringField;
-    rgSitCad: TRadioGroup;
-    lbl17: TLabel;
-    dbedtRG1: TDBEdit;
+    cds_cliBANCO: TStringField;
+    cds_cliNOMEUSUARIO: TStringField;
     procedure FormCreate(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure chk2Click(Sender: TObject);
+    procedure chk1Click(Sender: TObject);
+    procedure btnProcurarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure dsDtsrc_eStateChange(Sender: TObject);
+    procedure DtSrcStateChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -277,7 +378,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, uProcurar;
 
 {$R *.dfm}
 
@@ -285,6 +386,89 @@ procedure TfCadClientes2.FormCreate(Sender: TObject);
 begin
 //  inherited;
 
+end;
+
+procedure TfCadClientes2.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
+  cds_cliVALOR_CORTESIA.asFloat := 0;
+  if not dsDtsrc_e.DataSet.Active then
+     dsDtsrc_e.DataSet.open;
+  dsDtsrc_e.DataSet.Append;
+end;
+
+procedure TfCadClientes2.chk2Click(Sender: TObject);
+begin
+  inherited;
+  if(chk2.Checked) then
+  begin
+    JvDBCalcEdit3.Enabled := True;
+    cds_cliCORTESIA.AsString := 'S';
+  end
+  else
+  begin
+    JvDBCalcEdit3.Enabled := False;
+    cds_cliCORTESIA.AsString := 'N';
+  end;
+end;
+
+procedure TfCadClientes2.chk1Click(Sender: TObject);
+begin
+  inherited;
+  if (chk1.Checked) then
+    JvDBCalcEdit1.Enabled := False
+  else
+    JvDBCalcEdit1.Enabled := True;
+end;
+
+procedure TfCadClientes2.btnProcurarClick(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,DM.scds_cli_proc);
+  try
+    fProcurar.btnImprimir.Visible := False;
+    fProcurar.RadioGroup1.Visible := False;
+    fProcurar.BtnProcurar.Click;
+    fProcurar.EvDBFind1.DataField := 'NOMECLIENTE';
+    fProcurar.RadioGroup2.Visible := False;
+    fProcurar.btnIncluir.Visible := False;
+    fProcurar.ShowModal;
+    if cds_cli.Active then
+     cds_cli.Close;
+    cds_cli.Params[0].AsInteger := dm.scds_cli_procCODCLIENTE.AsInteger;
+    cds_cli.Open;
+    //Endereço
+    if (cds_CliEnd.Active) then
+       cds_CliEnd.Close;
+    cds_CliEnd.Params[0].AsInteger := cds_cliCODCLIENTE.AsInteger;
+    cds_CliEnd.Open;
+    if (cds_CliEnd.IsEmpty) then
+      dsDtsrc_e.DataSet.Append;
+  finally
+    dm.scds_cli_proc.Close;
+    fProcurar.Free;
+  end;
+end;
+
+procedure TfCadClientes2.btnGravarClick(Sender: TObject);
+begin
+  inherited;
+  dsDtsrc_e.DataSet.Post;
+  (dsDtsrc_e.DataSet as TClientDataset).ApplyUpdates(0);
+end;
+
+procedure TfCadClientes2.dsDtsrc_eStateChange(Sender: TObject);
+begin
+  inherited;
+  if (dsDtsrc_e.State in [dsEdit]) then
+    DtSrc.Edit;
+end;
+
+procedure TfCadClientes2.DtSrcStateChange(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in [dsEdit]) then
+    dsDtsrc_e.Edit;
 end;
 
 end.

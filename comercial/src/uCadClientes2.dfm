@@ -9,6 +9,9 @@ inherited fCadClientes2: TfCadClientes2
   inherited MMJPanel1: TMMJPanel
     Top = 484
     Width = 719
+    inherited btnProcurar: TBitBtn
+      OnClick = btnProcurarClick
+    end
   end
   inherited MMJPanel2: TMMJPanel
     Width = 719
@@ -188,6 +191,7 @@ inherited fCadClientes2: TfCadClientes2
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 2
+        OnClick = chk1Click
       end
       object chk2: TCheckBox
         Left = 420
@@ -202,6 +206,7 @@ inherited fCadClientes2: TfCadClientes2
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 3
+        OnClick = chk2Click
       end
       object JvDBCalcEdit3: TJvDBCalcEdit
         Left = 630
@@ -210,6 +215,7 @@ inherited fCadClientes2: TfCadClientes2
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
+        Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -13
@@ -382,6 +388,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'LOGRADOURO'
+        DataSource = dsDtsrc_e
         TabOrder = 0
         OnKeyPress = FormKeyPress
       end
@@ -393,6 +400,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'NUMERO'
+        DataSource = dsDtsrc_e
         TabOrder = 1
         OnKeyPress = FormKeyPress
       end
@@ -404,6 +412,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'BAIRRO'
+        DataSource = dsDtsrc_e
         TabOrder = 2
         OnKeyPress = FormKeyPress
       end
@@ -415,6 +424,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'COMPLEMENTO'
+        DataSource = dsDtsrc_e
         TabOrder = 3
         OnKeyPress = FormKeyPress
       end
@@ -426,6 +436,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'CIDADE'
+        DataSource = dsDtsrc_e
         TabOrder = 4
         OnKeyPress = FormKeyPress
       end
@@ -437,6 +448,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'UF'
+        DataSource = dsDtsrc_e
         TabOrder = 5
         OnKeyPress = FormKeyPress
       end
@@ -448,6 +460,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'CEP'
+        DataSource = dsDtsrc_e
         TabOrder = 6
         OnKeyPress = FormKeyPress
       end
@@ -459,6 +472,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'CD_IBGE'
+        DataSource = dsDtsrc_e
         TabOrder = 7
         OnKeyPress = FormKeyPress
       end
@@ -470,6 +484,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'DDD'
+        DataSource = dsDtsrc_e
         TabOrder = 8
         OnKeyPress = FormKeyPress
       end
@@ -481,6 +496,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'TELEFONE'
+        DataSource = dsDtsrc_e
         TabOrder = 9
         OnKeyPress = FormKeyPress
       end
@@ -492,6 +508,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'E_MAIL'
+        DataSource = dsDtsrc_e
         TabOrder = 14
         OnKeyPress = FormKeyPress
       end
@@ -503,6 +520,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'DDD1'
+        DataSource = dsDtsrc_e
         TabOrder = 10
         OnKeyPress = FormKeyPress
       end
@@ -514,6 +532,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'TELEFONE1'
+        DataSource = dsDtsrc_e
         TabOrder = 11
         OnKeyPress = FormKeyPress
       end
@@ -525,6 +544,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'DDD2'
+        DataSource = dsDtsrc_e
         TabOrder = 12
         OnKeyPress = FormKeyPress
       end
@@ -536,6 +556,7 @@ inherited fCadClientes2: TfCadClientes2
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'TELEFONE2'
+        DataSource = dsDtsrc_e
         TabOrder = 13
         OnKeyPress = FormKeyPress
       end
@@ -653,357 +674,466 @@ inherited fCadClientes2: TfCadClientes2
     SQLConnection = DM.sqlsisAdimin
     Left = 352
     Top = 8
-    object sds_cliCODICLIENTE: TIntegerField
+    object sds_cliCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
-      DisplayFormat = '00000'
     end
     object sds_cliNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
-      ProviderFlags = [pfInUpdate]
       Required = True
       Size = 50
     end
     object sds_cliRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
-      ProviderFlags = [pfInUpdate]
       Required = True
       Size = 50
     end
     object sds_cliCONTATO: TStringField
       FieldName = 'CONTATO'
-      ProviderFlags = [pfInUpdate]
       Size = 30
     end
     object sds_cliTIPOFIRMA: TSmallintField
       FieldName = 'TIPOFIRMA'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_cliCPF: TStringField
       FieldName = 'CPF'
-      ProviderFlags = [pfInUpdate]
       Size = 14
     end
     object sds_cliCNPJ: TStringField
       FieldName = 'CNPJ'
-      ProviderFlags = [pfInUpdate]
       Size = 18
     end
     object sds_cliINSCESTADUAL: TStringField
       FieldName = 'INSCESTADUAL'
-      ProviderFlags = [pfInUpdate]
       Size = 24
     end
     object sds_cliRG: TStringField
       FieldName = 'RG'
-      ProviderFlags = [pfInUpdate]
       Size = 14
     end
     object sds_cliSEGMENTO: TSmallintField
       FieldName = 'SEGMENTO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_cliREGIAO: TSmallintField
       FieldName = 'REGIAO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_cliLIMITECREDITO: TFloatField
       FieldName = 'LIMITECREDITO'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliDATACADASTRO: TDateField
       FieldName = 'DATACADASTRO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_cliCODUSUARIO: TIntegerField
       FieldName = 'CODUSUARIO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_cliSTATUS: TSmallintField
       FieldName = 'STATUS'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object sds_cliHOMEPAGE: TStringField
       FieldName = 'HOMEPAGE'
-      ProviderFlags = [pfInUpdate]
       Size = 40
     end
     object sds_cliPRAZORECEBIMENTO: TSmallintField
       FieldName = 'PRAZORECEBIMENTO'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliPRAZOENTREGA: TSmallintField
       FieldName = 'PRAZOENTREGA'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliCODBANCO: TSmallintField
       FieldName = 'CODBANCO'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliBASE_ICMS: TSmallintField
       FieldName = 'BASE_ICMS'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliDATANASC: TDateField
       FieldName = 'DATANASC'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliCONTA_CLIENTE: TStringField
       FieldName = 'CONTA_CLIENTE'
-      ProviderFlags = [pfInUpdate]
       Size = 15
     end
     object sds_cliOBS: TStringField
       FieldName = 'OBS'
-      ProviderFlags = [pfInUpdate]
       Size = 200
-    end
-    object sds_cliBANCO: TStringField
-      FieldName = 'BANCO'
-      ProviderFlags = []
-      Size = 18
-    end
-    object sds_cliNOMEUSUARIO: TStringField
-      FieldName = 'NOMEUSUARIO'
-      ProviderFlags = []
-      Size = 30
     end
     object sds_cliTEM_IE: TStringField
       FieldName = 'TEM_IE'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_cliDATARESC: TDateField
       FieldName = 'DATARESC'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliNOMEMAE: TStringField
       FieldName = 'NOMEMAE'
-      ProviderFlags = [pfInUpdate]
       Size = 80
     end
     object sds_cliSEXO: TStringField
       FieldName = 'SEXO'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_cliFORMA_CORRESPOND: TStringField
       FieldName = 'FORMA_CORRESPOND'
-      ProviderFlags = [pfInUpdate]
       Size = 30
     end
     object sds_cliGRUPO_CLIENTE: TStringField
       FieldName = 'GRUPO_CLIENTE'
-      ProviderFlags = [pfInUpdate]
       Size = 30
     end
     object sds_cliCODINCLUCANC: TIntegerField
       FieldName = 'CODINCLUCANC'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliEXIST_COBERT: TStringField
       FieldName = 'EXIST_COBERT'
-      ProviderFlags = [pfInUpdate]
       Size = 6
     end
     object sds_cliEXISTCOPART: TStringField
       FieldName = 'EXISTCOPART'
-      ProviderFlags = [pfInUpdate]
       Size = 6
     end
     object sds_cliDATAREINC: TDateField
       FieldName = 'DATAREINC'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliGERAAVISO: TStringField
       FieldName = 'GERAAVISO'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_cliGERAENV: TStringField
       FieldName = 'GERAENV'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_cliGERABOL: TStringField
       FieldName = 'GERABOL'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_cliEMVIAGEM: TStringField
       FieldName = 'EMVIAGEM'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_cliDTAALTERA: TDateField
       FieldName = 'DTAALTERA'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliSERIELETRA: TStringField
       FieldName = 'SERIELETRA'
-      ProviderFlags = [pfInUpdate]
       Size = 4
     end
     object sds_cliSERIE: TStringField
       FieldName = 'SERIE'
-      ProviderFlags = [pfInUpdate]
       Size = 4
     end
     object sds_cliRA: TStringField
       FieldName = 'RA'
-      ProviderFlags = [pfInUpdate]
       Size = 10
     end
     object sds_cliCURSO: TStringField
       FieldName = 'CURSO'
-      ProviderFlags = [pfInUpdate]
       Size = 50
     end
     object sds_cliIP: TStringField
       FieldName = 'IP'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sds_cliN_CONTRATO: TStringField
       FieldName = 'N_CONTRATO'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sds_cliMAC: TStringField
       FieldName = 'MAC'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sds_cliMARCA: TStringField
       FieldName = 'MARCA'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sds_cliBANDA_UPLOAD: TStringField
       FieldName = 'BANDA_UPLOAD'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sds_cliBANDA_DOWLOAD: TStringField
       FieldName = 'BANDA_DOWLOAD'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sds_cliTORRE_CONECCAO: TStringField
       FieldName = 'TORRE_CONECCAO'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object sds_cliCOD_FAIXA: TIntegerField
       FieldName = 'COD_FAIXA'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliDESCONTO: TFloatField
       FieldName = 'DESCONTO'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliMENSALIDADE: TFloatField
       FieldName = 'MENSALIDADE'
-      ProviderFlags = [pfInUpdate]
     end
-    object sds_cliPAI: TStringField
-      FieldName = 'PAI'
-      ProviderFlags = [pfInUpdate]
-      Size = 30
+    object sds_cliANUIDADE: TFloatField
+      FieldName = 'ANUIDADE'
     end
-    object sds_cliLOCALTRABALUNO: TStringField
-      FieldName = 'LOCALTRABALUNO'
-      ProviderFlags = [pfInUpdate]
-      Size = 30
+    object sds_cliPARCELA: TIntegerField
+      FieldName = 'PARCELA'
     end
-    object sds_cliDIVERSO1: TStringField
-      FieldName = 'DIVERSO1'
-      ProviderFlags = [pfInUpdate]
-      Size = 50
+    object sds_cliPARCELAGERADAS: TIntegerField
+      FieldName = 'PARCELAGERADAS'
     end
-    object sds_cliDIVERSO2: TStringField
-      FieldName = 'DIVERSO2'
-      ProviderFlags = [pfInUpdate]
-      Size = 50
+    object sds_cliNUMERO: TIntegerField
+      FieldName = 'NUMERO'
     end
-    object sds_cliTELTRABALUNO: TStringField
-      FieldName = 'TELTRABALUNO'
-      ProviderFlags = [pfInUpdate]
-      Size = 15
+    object sds_cliDATANASCIMENTO: TSQLTimeStampField
+      FieldName = 'DATANASCIMENTO'
     end
-    object sds_cliDATA_MATRICULA: TSQLTimeStampField
-      FieldName = 'DATA_MATRICULA'
+    object sds_cliANOLETIVO: TStringField
+      FieldName = 'ANOLETIVO'
+      Size = 4
     end
     object sds_cliSITUACAOESCOLAR: TStringField
       FieldName = 'SITUACAOESCOLAR'
       Size = 2
     end
-    object sds_cliCOD_TRANPORTADORA: TIntegerField
-      FieldName = 'COD_TRANPORTADORA'
-      ProviderFlags = [pfInUpdate]
+    object sds_cliRGMAE: TStringField
+      FieldName = 'RGMAE'
+      Size = 15
+    end
+    object sds_cliCPFMAE: TStringField
+      FieldName = 'CPFMAE'
+      Size = 14
+    end
+    object sds_cliPAI: TStringField
+      FieldName = 'PAI'
+      Size = 30
+    end
+    object sds_cliRGPAI: TStringField
+      FieldName = 'RGPAI'
+      Size = 15
+    end
+    object sds_cliCPFPAI: TStringField
+      FieldName = 'CPFPAI'
+      Size = 14
+    end
+    object sds_cliLANCADOCLASSE: TIntegerField
+      FieldName = 'LANCADOCLASSE'
+    end
+    object sds_cliTRANSPORTE: TStringField
+      FieldName = 'TRANSPORTE'
+      Size = 50
+    end
+    object sds_cliCIDADENASC: TStringField
+      FieldName = 'CIDADENASC'
+      Size = 30
+    end
+    object sds_cliUFNASC: TStringField
+      FieldName = 'UFNASC'
+      Size = 2
+    end
+    object sds_cliNACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 15
+    end
+    object sds_cliCERTIDAONASCNUM: TStringField
+      FieldName = 'CERTIDAONASCNUM'
+      Size = 10
+    end
+    object sds_cliLIVRONASC: TStringField
+      FieldName = 'LIVRONASC'
+      Size = 10
+    end
+    object sds_cliFLLIVRONASC: TStringField
+      FieldName = 'FLLIVRONASC'
+      Size = 5
+    end
+    object sds_cliLOCALTRABPAI: TStringField
+      FieldName = 'LOCALTRABPAI'
+      Size = 30
+    end
+    object sds_cliLOCALTRABMAE: TStringField
+      FieldName = 'LOCALTRABMAE'
+      Size = 30
+    end
+    object sds_cliTELTRABPAI: TStringField
+      FieldName = 'TELTRABPAI'
+      Size = 15
+    end
+    object sds_cliTELTRABMAE: TStringField
+      FieldName = 'TELTRABMAE'
+      Size = 15
+    end
+    object sds_cliINFONECESSARIAS: TStringField
+      FieldName = 'INFONECESSARIAS'
+      Size = 30
+    end
+    object sds_cliCARTEIRAVACINACAO: TStringField
+      FieldName = 'CARTEIRAVACINACAO'
+      Size = 10
+    end
+    object sds_cliRAPRODESP: TStringField
+      FieldName = 'RAPRODESP'
+      Size = 10
+    end
+    object sds_cliLOCALTRABALUNO: TStringField
+      FieldName = 'LOCALTRABALUNO'
+      Size = 30
+    end
+    object sds_cliTELTRABALUNO: TStringField
+      FieldName = 'TELTRABALUNO'
+      Size = 15
+    end
+    object sds_cliRAPROD: TStringField
+      FieldName = 'RAPROD'
+      Size = 15
+    end
+    object sds_cliCERT_NAS_COMARCA: TStringField
+      FieldName = 'CERT_NAS_COMARCA'
+      Size = 50
+    end
+    object sds_cliCERT_NAS_UF: TStringField
+      FieldName = 'CERT_NAS_UF'
+      Size = 2
+    end
+    object sds_cliCERT_NAS_MUNICIPIO: TStringField
+      FieldName = 'CERT_NAS_MUNICIPIO'
+      Size = 50
+    end
+    object sds_cliCERT_NAS_DISTRITO: TStringField
+      FieldName = 'CERT_NAS_DISTRITO'
+      Size = 50
+    end
+    object sds_cliCERT_NAS_SUBDISTRITO: TStringField
+      FieldName = 'CERT_NAS_SUBDISTRITO'
+      Size = 50
+    end
+    object sds_cliDIVERSO1: TStringField
+      FieldName = 'DIVERSO1'
+      Size = 50
+    end
+    object sds_cliDIVERSO2: TStringField
+      FieldName = 'DIVERSO2'
+      Size = 50
+    end
+    object sds_cliDATAEMISSAORG: TDateField
+      FieldName = 'DATAEMISSAORG'
+    end
+    object sds_cliESTADORG: TStringField
+      FieldName = 'ESTADORG'
+      FixedChar = True
+      Size = 2
+    end
+    object sds_cliCOMUNICAALUNO: TStringField
+      FieldName = 'COMUNICAALUNO'
+      Size = 50
+    end
+    object sds_cliFONEMAE: TStringField
+      FieldName = 'FONEMAE'
+      Size = 15
+    end
+    object sds_cliCELULARMAE: TStringField
+      FieldName = 'CELULARMAE'
+      Size = 15
+    end
+    object sds_cliCOMUNICAMAE: TStringField
+      FieldName = 'COMUNICAMAE'
+      Size = 50
+    end
+    object sds_cliFONEPAI: TStringField
+      FieldName = 'FONEPAI'
+      Size = 15
+    end
+    object sds_cliCELULARPAI: TStringField
+      FieldName = 'CELULARPAI'
+      Size = 15
+    end
+    object sds_cliCOMUNICAPAI: TStringField
+      FieldName = 'COMUNICAPAI'
+      Size = 50
+    end
+    object sds_cliVALOR_MATRICULA: TFloatField
+      FieldName = 'VALOR_MATRICULA'
+    end
+    object sds_cliDATATRANSF: TDateField
+      FieldName = 'DATATRANSF'
+    end
+    object sds_cliCOR_RACA: TStringField
+      FieldName = 'COR_RACA'
+      Size = 25
+    end
+    object sds_cliPERIODO: TStringField
+      FieldName = 'PERIODO'
+      Size = 15
+    end
+    object sds_cliFOTO: TStringField
+      FieldName = 'FOTO'
+      Size = 300
+    end
+    object sds_cliDATA_MATRICULA: TSQLTimeStampField
+      FieldName = 'DATA_MATRICULA'
     end
     object sds_cliCODRESPONSAVEL: TIntegerField
       FieldName = 'CODRESPONSAVEL'
-      ProviderFlags = [pfInUpdate]
+    end
+    object sds_cliID_COB: TIntegerField
+      FieldName = 'ID_COB'
+    end
+    object sds_cliCOD_TRANPORTADORA: TIntegerField
+      FieldName = 'COD_TRANPORTADORA'
+    end
+    object sds_cliBLOQUEADO: TStringField
+      FieldName = 'BLOQUEADO'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_cliBLOQUEIO: TStringField
+      FieldName = 'BLOQUEIO'
+      FixedChar = True
+      Size = 1
     end
     object sds_cliCFOP: TStringField
       FieldName = 'CFOP'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 4
     end
     object sds_cliCOD_CLI: TStringField
       FieldName = 'COD_CLI'
-      ProviderFlags = [pfInUpdate]
       Size = 10
-    end
-    object sds_cliBLOQUEADO: TStringField
-      FieldName = 'BLOQUEADO'
-      ProviderFlags = [pfInUpdate]
-      FixedChar = True
-      Size = 1
     end
     object sds_cliCORTESIA: TStringField
       FieldName = 'CORTESIA'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_cliVALOR_CONSUMO: TFloatField
       FieldName = 'VALOR_CONSUMO'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliVALOR_CORTESIA: TFloatField
       FieldName = 'VALOR_CORTESIA'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliE_FORNECEDOR: TStringField
       FieldName = 'E_FORNECEDOR'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_cliCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_cliCARGOFUNCAO: TStringField
       FieldName = 'CARGOFUNCAO'
-      ProviderFlags = [pfInUpdate]
       Size = 1
+    end
+    object sds_cliBANCO: TStringField
+      FieldName = 'BANCO'
+      Size = 18
+    end
+    object sds_cliNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Size = 30
     end
   end
   object dsp_cli: TDataSetProvider
@@ -1025,361 +1155,469 @@ inherited fCadClientes2: TfCadClientes2
     Top = 8
     object cds_cliCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      DisplayFormat = '0000000'
+      Required = True
     end
     object cds_cliNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
-      ProviderFlags = [pfInUpdate]
       Required = True
       Size = 50
     end
     object cds_cliRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
-      ProviderFlags = [pfInUpdate]
       Required = True
       Size = 50
     end
     object cds_cliCONTATO: TStringField
       FieldName = 'CONTATO'
-      ProviderFlags = [pfInUpdate]
       Size = 30
     end
     object cds_cliTIPOFIRMA: TSmallintField
       FieldName = 'TIPOFIRMA'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object cds_cliCPF: TStringField
       FieldName = 'CPF'
-      ProviderFlags = [pfInUpdate]
       Size = 14
     end
     object cds_cliCNPJ: TStringField
       FieldName = 'CNPJ'
-      ProviderFlags = [pfInUpdate]
       Size = 18
     end
     object cds_cliINSCESTADUAL: TStringField
       FieldName = 'INSCESTADUAL'
-      ProviderFlags = [pfInUpdate]
       Size = 24
     end
     object cds_cliRG: TStringField
       FieldName = 'RG'
-      ProviderFlags = [pfInUpdate]
       Size = 14
     end
     object cds_cliSEGMENTO: TSmallintField
       FieldName = 'SEGMENTO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object cds_cliREGIAO: TSmallintField
       FieldName = 'REGIAO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object cds_cliLIMITECREDITO: TFloatField
       FieldName = 'LIMITECREDITO'
-      ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',##0.00'
     end
     object cds_cliDATACADASTRO: TDateField
       FieldName = 'DATACADASTRO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object cds_cliCODUSUARIO: TIntegerField
       FieldName = 'CODUSUARIO'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object cds_cliSTATUS: TSmallintField
       FieldName = 'STATUS'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object cds_cliHOMEPAGE: TStringField
       FieldName = 'HOMEPAGE'
-      ProviderFlags = [pfInUpdate]
       Size = 40
     end
     object cds_cliPRAZORECEBIMENTO: TSmallintField
       FieldName = 'PRAZORECEBIMENTO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliPRAZOENTREGA: TSmallintField
       FieldName = 'PRAZOENTREGA'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliCODBANCO: TSmallintField
       FieldName = 'CODBANCO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliBASE_ICMS: TSmallintField
       FieldName = 'BASE_ICMS'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliDATANASC: TDateField
       FieldName = 'DATANASC'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '!99/99/0000;1;_'
     end
     object cds_cliCONTA_CLIENTE: TStringField
       FieldName = 'CONTA_CLIENTE'
-      ProviderFlags = [pfInUpdate]
       Size = 15
     end
     object cds_cliOBS: TStringField
       FieldName = 'OBS'
-      ProviderFlags = [pfInUpdate]
       Size = 200
-    end
-    object cds_cliBANCO: TStringField
-      FieldName = 'BANCO'
-      ProviderFlags = []
-      Size = 18
-    end
-    object cds_cliNOMEUSUARIO: TStringField
-      FieldName = 'NOMEUSUARIO'
-      ProviderFlags = []
-      Size = 30
     end
     object cds_cliTEM_IE: TStringField
       FieldName = 'TEM_IE'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_cliDATARESC: TDateField
       FieldName = 'DATARESC'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '!99/99/0000;1;_'
     end
     object cds_cliNOMEMAE: TStringField
       FieldName = 'NOMEMAE'
-      ProviderFlags = [pfInUpdate]
       Size = 80
     end
     object cds_cliSEXO: TStringField
       FieldName = 'SEXO'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_cliFORMA_CORRESPOND: TStringField
       FieldName = 'FORMA_CORRESPOND'
-      ProviderFlags = [pfInUpdate]
       Size = 30
     end
     object cds_cliGRUPO_CLIENTE: TStringField
       FieldName = 'GRUPO_CLIENTE'
-      ProviderFlags = [pfInUpdate]
       Size = 30
     end
     object cds_cliCODINCLUCANC: TIntegerField
       FieldName = 'CODINCLUCANC'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliEXIST_COBERT: TStringField
       FieldName = 'EXIST_COBERT'
-      ProviderFlags = [pfInUpdate]
       Size = 6
     end
     object cds_cliEXISTCOPART: TStringField
       FieldName = 'EXISTCOPART'
-      ProviderFlags = [pfInUpdate]
       Size = 6
     end
     object cds_cliDATAREINC: TDateField
       FieldName = 'DATAREINC'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '!99/99/0000;1;_'
     end
     object cds_cliGERAAVISO: TStringField
       FieldName = 'GERAAVISO'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_cliGERAENV: TStringField
       FieldName = 'GERAENV'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_cliGERABOL: TStringField
       FieldName = 'GERABOL'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_cliEMVIAGEM: TStringField
       FieldName = 'EMVIAGEM'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_cliDTAALTERA: TDateField
       FieldName = 'DTAALTERA'
-      ProviderFlags = [pfInUpdate]
-      EditMask = '!99/99/0000;1;_'
     end
     object cds_cliSERIELETRA: TStringField
       FieldName = 'SERIELETRA'
-      ProviderFlags = [pfInUpdate]
       Size = 4
     end
     object cds_cliSERIE: TStringField
       FieldName = 'SERIE'
-      ProviderFlags = [pfInUpdate]
       Size = 4
     end
     object cds_cliRA: TStringField
       FieldName = 'RA'
-      ProviderFlags = [pfInUpdate]
       Size = 10
     end
     object cds_cliCURSO: TStringField
       FieldName = 'CURSO'
-      ProviderFlags = [pfInUpdate]
       Size = 50
     end
     object cds_cliIP: TStringField
       FieldName = 'IP'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_cliN_CONTRATO: TStringField
       FieldName = 'N_CONTRATO'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_cliMAC: TStringField
       FieldName = 'MAC'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_cliMARCA: TStringField
       FieldName = 'MARCA'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_cliBANDA_UPLOAD: TStringField
       FieldName = 'BANDA_UPLOAD'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_cliBANDA_DOWLOAD: TStringField
       FieldName = 'BANDA_DOWLOAD'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_cliTORRE_CONECCAO: TStringField
       FieldName = 'TORRE_CONECCAO'
-      ProviderFlags = [pfInUpdate]
       Size = 60
     end
     object cds_cliCOD_FAIXA: TIntegerField
       FieldName = 'COD_FAIXA'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliDESCONTO: TFloatField
       FieldName = 'DESCONTO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliMENSALIDADE: TFloatField
       FieldName = 'MENSALIDADE'
     end
-    object cds_cliPAI: TStringField
-      FieldName = 'PAI'
-      Size = 30
+    object cds_cliANUIDADE: TFloatField
+      FieldName = 'ANUIDADE'
     end
-    object cds_cliLOCALTRABALUNO: TStringField
-      FieldName = 'LOCALTRABALUNO'
-      Size = 30
+    object cds_cliPARCELA: TIntegerField
+      FieldName = 'PARCELA'
     end
-    object cds_cliDIVERSO1: TStringField
-      FieldName = 'DIVERSO1'
-      ProviderFlags = [pfInUpdate]
-      Size = 50
+    object cds_cliPARCELAGERADAS: TIntegerField
+      FieldName = 'PARCELAGERADAS'
     end
-    object cds_cliDIVERSO2: TStringField
-      FieldName = 'DIVERSO2'
-      ProviderFlags = [pfInUpdate]
-      Size = 50
+    object cds_cliNUMERO: TIntegerField
+      FieldName = 'NUMERO'
     end
-    object cds_cliTELTRABALUNO: TStringField
-      FieldName = 'TELTRABALUNO'
-      ProviderFlags = [pfInUpdate]
-      Size = 15
+    object cds_cliDATANASCIMENTO: TSQLTimeStampField
+      FieldName = 'DATANASCIMENTO'
     end
-    object cds_cliDATA_MATRICULA: TSQLTimeStampField
-      FieldName = 'DATA_MATRICULA'
-      EditMask = '!99/99/0000;1;_'
+    object cds_cliANOLETIVO: TStringField
+      FieldName = 'ANOLETIVO'
+      Size = 4
     end
     object cds_cliSITUACAOESCOLAR: TStringField
       FieldName = 'SITUACAOESCOLAR'
       Size = 2
     end
-    object cds_cliCOD_TRANPORTADORA: TIntegerField
-      FieldName = 'COD_TRANPORTADORA'
-      ProviderFlags = [pfInUpdate]
+    object cds_cliRGMAE: TStringField
+      FieldName = 'RGMAE'
+      Size = 15
+    end
+    object cds_cliCPFMAE: TStringField
+      FieldName = 'CPFMAE'
+      Size = 14
+    end
+    object cds_cliPAI: TStringField
+      FieldName = 'PAI'
+      Size = 30
+    end
+    object cds_cliRGPAI: TStringField
+      FieldName = 'RGPAI'
+      Size = 15
+    end
+    object cds_cliCPFPAI: TStringField
+      FieldName = 'CPFPAI'
+      Size = 14
+    end
+    object cds_cliLANCADOCLASSE: TIntegerField
+      FieldName = 'LANCADOCLASSE'
+    end
+    object cds_cliTRANSPORTE: TStringField
+      FieldName = 'TRANSPORTE'
+      Size = 50
+    end
+    object cds_cliCIDADENASC: TStringField
+      FieldName = 'CIDADENASC'
+      Size = 30
+    end
+    object cds_cliUFNASC: TStringField
+      FieldName = 'UFNASC'
+      Size = 2
+    end
+    object cds_cliNACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 15
+    end
+    object cds_cliCERTIDAONASCNUM: TStringField
+      FieldName = 'CERTIDAONASCNUM'
+      Size = 10
+    end
+    object cds_cliLIVRONASC: TStringField
+      FieldName = 'LIVRONASC'
+      Size = 10
+    end
+    object cds_cliFLLIVRONASC: TStringField
+      FieldName = 'FLLIVRONASC'
+      Size = 5
+    end
+    object cds_cliLOCALTRABPAI: TStringField
+      FieldName = 'LOCALTRABPAI'
+      Size = 30
+    end
+    object cds_cliLOCALTRABMAE: TStringField
+      FieldName = 'LOCALTRABMAE'
+      Size = 30
+    end
+    object cds_cliTELTRABPAI: TStringField
+      FieldName = 'TELTRABPAI'
+      Size = 15
+    end
+    object cds_cliTELTRABMAE: TStringField
+      FieldName = 'TELTRABMAE'
+      Size = 15
+    end
+    object cds_cliINFONECESSARIAS: TStringField
+      FieldName = 'INFONECESSARIAS'
+      Size = 30
+    end
+    object cds_cliCARTEIRAVACINACAO: TStringField
+      FieldName = 'CARTEIRAVACINACAO'
+      Size = 10
+    end
+    object cds_cliRAPRODESP: TStringField
+      FieldName = 'RAPRODESP'
+      Size = 10
+    end
+    object cds_cliLOCALTRABALUNO: TStringField
+      FieldName = 'LOCALTRABALUNO'
+      Size = 30
+    end
+    object cds_cliTELTRABALUNO: TStringField
+      FieldName = 'TELTRABALUNO'
+      Size = 15
+    end
+    object cds_cliRAPROD: TStringField
+      FieldName = 'RAPROD'
+      Size = 15
+    end
+    object cds_cliCERT_NAS_COMARCA: TStringField
+      FieldName = 'CERT_NAS_COMARCA'
+      Size = 50
+    end
+    object cds_cliCERT_NAS_UF: TStringField
+      FieldName = 'CERT_NAS_UF'
+      Size = 2
+    end
+    object cds_cliCERT_NAS_MUNICIPIO: TStringField
+      FieldName = 'CERT_NAS_MUNICIPIO'
+      Size = 50
+    end
+    object cds_cliCERT_NAS_DISTRITO: TStringField
+      FieldName = 'CERT_NAS_DISTRITO'
+      Size = 50
+    end
+    object cds_cliCERT_NAS_SUBDISTRITO: TStringField
+      FieldName = 'CERT_NAS_SUBDISTRITO'
+      Size = 50
+    end
+    object cds_cliDIVERSO1: TStringField
+      FieldName = 'DIVERSO1'
+      Size = 50
+    end
+    object cds_cliDIVERSO2: TStringField
+      FieldName = 'DIVERSO2'
+      Size = 50
+    end
+    object cds_cliDATAEMISSAORG: TDateField
+      FieldName = 'DATAEMISSAORG'
+    end
+    object cds_cliESTADORG: TStringField
+      FieldName = 'ESTADORG'
+      FixedChar = True
+      Size = 2
+    end
+    object cds_cliCOMUNICAALUNO: TStringField
+      FieldName = 'COMUNICAALUNO'
+      Size = 50
+    end
+    object cds_cliFONEMAE: TStringField
+      FieldName = 'FONEMAE'
+      Size = 15
+    end
+    object cds_cliCELULARMAE: TStringField
+      FieldName = 'CELULARMAE'
+      Size = 15
+    end
+    object cds_cliCOMUNICAMAE: TStringField
+      FieldName = 'COMUNICAMAE'
+      Size = 50
+    end
+    object cds_cliFONEPAI: TStringField
+      FieldName = 'FONEPAI'
+      Size = 15
+    end
+    object cds_cliCELULARPAI: TStringField
+      FieldName = 'CELULARPAI'
+      Size = 15
+    end
+    object cds_cliCOMUNICAPAI: TStringField
+      FieldName = 'COMUNICAPAI'
+      Size = 50
+    end
+    object cds_cliVALOR_MATRICULA: TFloatField
+      FieldName = 'VALOR_MATRICULA'
+    end
+    object cds_cliDATATRANSF: TDateField
+      FieldName = 'DATATRANSF'
+    end
+    object cds_cliCOR_RACA: TStringField
+      FieldName = 'COR_RACA'
+      Size = 25
+    end
+    object cds_cliPERIODO: TStringField
+      FieldName = 'PERIODO'
+      Size = 15
+    end
+    object cds_cliFOTO: TStringField
+      FieldName = 'FOTO'
+      Size = 300
+    end
+    object cds_cliDATA_MATRICULA: TSQLTimeStampField
+      FieldName = 'DATA_MATRICULA'
     end
     object cds_cliCODRESPONSAVEL: TIntegerField
       FieldName = 'CODRESPONSAVEL'
-      ProviderFlags = [pfInUpdate]
+    end
+    object cds_cliID_COB: TIntegerField
+      FieldName = 'ID_COB'
+    end
+    object cds_cliCOD_TRANPORTADORA: TIntegerField
+      FieldName = 'COD_TRANPORTADORA'
+    end
+    object cds_cliBLOQUEADO: TStringField
+      FieldName = 'BLOQUEADO'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_cliBLOQUEIO: TStringField
+      FieldName = 'BLOQUEIO'
+      FixedChar = True
+      Size = 1
     end
     object cds_cliCFOP: TStringField
       FieldName = 'CFOP'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 4
     end
     object cds_cliCOD_CLI: TStringField
       FieldName = 'COD_CLI'
-      ProviderFlags = [pfInUpdate]
       Size = 10
-    end
-    object cds_cliBLOQUEADO: TStringField
-      FieldName = 'BLOQUEADO'
-      ProviderFlags = [pfInUpdate]
-      FixedChar = True
-      Size = 1
     end
     object cds_cliCORTESIA: TStringField
       FieldName = 'CORTESIA'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_cliVALOR_CONSUMO: TFloatField
       FieldName = 'VALOR_CONSUMO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliVALOR_CORTESIA: TFloatField
       FieldName = 'VALOR_CORTESIA'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliE_FORNECEDOR: TStringField
       FieldName = 'E_FORNECEDOR'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_cliCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_cliCARGOFUNCAO: TStringField
       FieldName = 'CARGOFUNCAO'
-      ProviderFlags = [pfInUpdate]
       Size = 1
+    end
+    object cds_cliBANCO: TStringField
+      FieldName = 'BANCO'
+      Size = 18
+    end
+    object cds_cliNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Size = 30
     end
   end
   object dsDtsrc_e: TDataSource
     DataSet = cds_CliEnd
+    OnStateChange = dsDtsrc_eStateChange
     Left = 512
     Top = 272
   end
