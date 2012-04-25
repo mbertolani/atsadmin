@@ -1,7 +1,7 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 708
-  Top = 273
+  Left = 883
+  Top = 320
   Height = 455
   Width = 449
   object s_buscaMov: TSQLDataSet
