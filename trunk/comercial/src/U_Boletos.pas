@@ -504,6 +504,7 @@ begin
                     if (s_bancoMORAJUROS.AsString = '3-Isento') then
                        Titulo.ValorMoraJuros := 3; // Isento
 
+                    Titulo.DataMoraJuros := IncDay(ds_crDATAVENCIMENTO.AsDateTime,1);
 
                     if (s_bancoPERCMULTA.Value > 0) then
                       Titulo.PercentualMulta := s_bancoPERCMULTA.Value;

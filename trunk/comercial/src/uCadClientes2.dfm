@@ -1,6 +1,6 @@
 inherited fCadClientes2: TfCadClientes2
-  Left = 264
-  Top = 97
+  Left = 280
+  Top = 116
   Width = 735
   Height = 576
   Caption = 'Cadastro de Clientes / Colaboradores'
