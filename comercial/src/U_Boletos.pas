@@ -456,10 +456,21 @@ begin
            Titulo.NossoNumero := '';
            with Titulo do
            begin
+              //Abro os dados do cliente com endereço de cobrança se não existir busco pelo endereço principal
               if (s_cliente.Active) then
                 s_cliente.Close;
               s_cliente.Params[0].AsInteger := ds_crCODCLIENTE.AsInteger;
+              s_cliente.Params[1].AsInteger := 1;
               s_cliente.Open;
+              if (s_cliente.IsEmpty) then
+              begin
+                if (s_cliente.Active) then
+                  s_cliente.Close;
+                s_cliente.Params[0].AsInteger := ds_crCODCLIENTE.AsInteger;
+                s_cliente.Params[1].AsInteger := 0;
+                s_cliente.Open;
+              end;
+
               Titulo.TotalParcelas := ds_cr.RecordCount; //TotalParcelas;
               Titulo.Parcela := ds_cr.RecNo; //Parcela; //I;
               Titulo.LocalPagamento := s_bancoLOCALPGTO.AsString;
