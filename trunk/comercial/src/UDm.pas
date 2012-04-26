@@ -1986,6 +1986,8 @@ type
     procedure verificaSeExisteTabela(nTabela, nCampo, nCampoTipo: string);
     procedure verificaMensagemInicial;
     procedure verificaNumeroDias(dia : Word; tipo: Word);
+    procedure LicencaUso;
+    procedure conexaoXmlRpc;
   public
     { Public declarations }
     mensagemInicial, sistemaLiberado : String;
@@ -2166,6 +2168,8 @@ begin
     end;
   end;
   empresa := S;
+
+  LicencaUso;
 
   verificaMensagemInicial;
 
@@ -2849,5 +2853,89 @@ begin
   end;
 end;
 
+
+procedure TDM.LicencaUso;
+var
+  s, localizar, achei, valor: String;
+  i1, i2: Integer;
+begin
+  achei := '0';
+  i2 := -1;
+  conexaoXmlRpc;
+  s := memoLic;
+  i1 := Pos(LowerCase(dm.empresa), LowerCase(s));
+  if (i1 > 0) then
+  begin
+    achei := Copy(s, i1, 17);
+    valor := MD5Print(MD5String(achei));
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
+      QuotedStr(valor) + ' WHERE CODIGO = 1');
+  end
+  else begin
+    valor := MD5Print(MD5String(dm.empresa + '-00'));
+    if (dm.mensagemInicial <> valor) then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
+      QuotedStr(valor) + ' WHERE CODIGO = 1');
+      dm.mensagemInicial := valor;
+    end;
+  end;
+
+end;
+
+procedure TDM.conexaoXmlRpc;
+var
+  RpcCaller: TRpcCaller;
+  RpcResult: IRpcResult;
+  RpcFunction: IRpcFunction;
+  RpcArray: IRpcArray;
+  RpcStruct: IRpcStruct;
+  I: Integer;
+begin
+
+  RpcCaller := TRpcCaller.Create;
+  try
+    RpcCaller.HostName := Trim('www.atsti.com.br');
+    RpcCaller.HostPort := StrToInt(Trim('80'));
+    RpcCaller.EndPoint := Trim('/xmlrpc.php');
+
+    RpcFunction := TRpcFunction.Create;
+    RpcFunction.ObjectMethod := 'wp.getPost';
+
+    RpcFunction.AddItem(1503);  // Numero do Post
+
+    RpcFunction.AddItem('ats');
+
+    RpcFunction.AddItem('a2t00s7');
+
+    RpcResult := RpcCaller.Execute(RpcFunction);
+
+    if RpcResult.IsError then
+    begin
+      ShowMessageFmt('Error: (%d) %s', [RpcResult.ErrorCode,
+          RpcResult.ErrorMsg]);
+      Exit;
+    end;
+
+    //if (RpcResult.IsString) then
+    //  memHelp.Text := RpcResult.AsString;
+
+    if (RpcResult.IsStruct) then
+    begin
+      RpcStruct := RpcResult.AsStruct;
+      memoLic := RpcStruct.Items[2].AsString;
+    end;
+
+    if RpcResult.IsArray then
+    begin
+      RpcArray := RpcResult.AsArray;
+      //for I := 0 to RpcArray.Count - 1 do
+      //  lbMethod.Items.Add(RpcArray[I].AsString);
+    end;
+  finally
+    RpcCaller.Free;
+  end;
+
+end;
 
 end.
