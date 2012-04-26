@@ -2018,15 +2018,15 @@ var
 
 implementation
 
-uses md5, uUtils;
+uses md5;
 
 //uses uAtualizaSistema;
 
 {$R *.dfm}
 
 procedure TDM.DataModuleCreate(Sender: TObject);
-var index: integer;
-  utilLic : TUtils;
+var index, I: integer;
+  s : String;
 begin
   danfeDec := 2;
   MICRO := NomeComputador;
@@ -2130,7 +2130,6 @@ begin
     usaCentroCusto := cds_parametroCONFIGURADO.AsString;
   end;
 
-
   if (cds_parametro.Active) then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
@@ -2158,13 +2157,15 @@ begin
   cepPadrao    := cds_empresaCEP.AsString;
   ibgePadrao   := cds_empresaCD_IBGE.AsString;
 
-  utilLic := TUtils.create;
-  try
-    empresa := utilLic.RemoveChar(cds_empresaCNPJ_CPF.AsString);  
-    utilLic.LicencaUso;
-  finally
-    utilLic.Free;
+  S := '';
+  for I := 1 To Length(cds_empresaCNPJ_CPF.AsString) Do
+  begin
+    if (cds_empresaCNPJ_CPF.AsString[I] in ['0'..'9']) then
+    begin
+     S := S + Copy(cds_empresaCNPJ_CPF.AsString, I, 1);
+    end;
   end;
+  empresa := S;
 
   verificaMensagemInicial;
 
