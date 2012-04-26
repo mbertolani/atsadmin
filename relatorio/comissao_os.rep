@@ -27,21 +27,21 @@ object TRpReport
         'AFISCAL, rec.CODVENDA,'#13#10'           osd.CODUSUARIO, rec.CONTROLE,' +
         ' cli.RAZAOSOCIAL, '#13#10'           func.NOME_FUNCIONARIO,  func.valo' +
         'r_comissao, m.obs, '#13#10'           sum(case p.TIPO WHEN '#39'SERV'#39' then' +
-        ' mv.VALTOTAL else 0 END) as VALOR,'#13#10'           sum(mv.VALTOTAL) ' +
-        'as VALOR_P, osd.ID_OS'#13#10'from VENDA rec'#13#10'inner join movimento m on' +
-        ' m.codmovimento = rec.codmovimento '#13#10'inner join movimentodetalhe' +
-        ' mv on mv.codmovimento = m.codmovimento'#13#10'inner join os_det osd o' +
-        'n osd.id_os_det = mv.codigo'#13#10'inner join PRODUTOS p on p.codprodu' +
-        'to = mv.codproduto '#13#10'left outer join CLIENTES cli on cli.CODCLIE' +
-        'NTE = rec.CODCLIENTE '#13#10'left outer join FUNCIONARIO func on osd.C' +
-        'ODUSUARIO = func.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 and  ' +
-        'rec.DATAVENDA between :DATA1 and :DATA2 '#13#10'and ((rec.CODVENDEDOR=' +
-        ':pfun) or (:pfun = 0))'#13#10'group by osd.CODUSUARIO,  rec.CODCLIENTE' +
-        ', rec.DATAVENDA, osd.ID_OS, rec.CODMOVIMENTO, rec.NOTAFISCAL, re' +
-        'c.CODVENDA,'#13#10'  rec.CONTROLE, cli.RAZAOSOCIAL, func.NOME_FUNCIONA' +
-        'RIO,  func.valor_comissao, m.obs'#13#10' order by  rec.DATAVENDA, func' +
-        '.nome_funcionario,rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13#10 +
-        #13#10
+        ' case when p.UNIDADEMEDIDA <> '#39'TC'#39' then mv.VALTOTAL else 0 END e' +
+        'lse 0 end) as VALOR,'#13#10'           sum(mv.VALTOTAL) as VALOR_P, os' +
+        'd.ID_OS'#13#10'from VENDA rec'#13#10'inner join movimento m on m.codmoviment' +
+        'o = rec.codmovimento '#13#10'inner join movimentodetalhe mv on mv.codm' +
+        'ovimento = m.codmovimento'#13#10'inner join os_det osd on osd.id_os_de' +
+        't = mv.codigo'#13#10'inner join PRODUTOS p on p.codproduto = mv.codpro' +
+        'duto '#13#10'left outer join CLIENTES cli on cli.CODCLIENTE = rec.CODC' +
+        'LIENTE '#13#10'left outer join FUNCIONARIO func on osd.CODUSUARIO = fu' +
+        'nc.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 and  rec.DATAVENDA ' +
+        'between :DATA1 and :DATA2 '#13#10'and ((rec.CODVENDEDOR=:pfun) or (:pf' +
+        'un = 0))'#13#10'group by osd.CODUSUARIO,  rec.CODCLIENTE, rec.DATAVEND' +
+        'A, osd.ID_OS, rec.CODMOVIMENTO, rec.NOTAFISCAL, rec.CODVENDA,'#13#10' ' +
+        ' rec.CONTROLE, cli.RAZAOSOCIAL, func.NOME_FUNCIONARIO,  func.val' +
+        'or_comissao, m.obs, mv.UN'#13#10' order by  rec.DATAVENDA, func.nome_f' +
+        'uncionario,rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10
     end
     item
       Alias = 'EMPRESA'
@@ -54,17 +54,18 @@ object TRpReport
       Alias = 'FUNCIONARIO'
       DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select  osd.CODUSUARIO, func.NOME_FUNCIONARIO,sum(mv.VALTOTAL) a' +
-        's VALTOTAL,'#13#10'        sum(mv.VALTOTAL * ((case  when p.VALORCOMIS' +
-        'SAO > 0 then p.VALORCOMISSAO else func.VALOR_COMISSAO end)/100))' +
-        ' as V_COM'#13#10'from VENDA rec'#13#10'inner join movimento m on m.codmovime' +
-        'nto = rec.codmovimento '#13#10'inner join movimentodetalhe mv on mv.co' +
-        'dmovimento = m.codmovimento'#13#10'inner join os_det osd on osd.id_os_' +
-        'det = mv.codigo'#13#10'inner join PRODUTOS p on p.codproduto = mv.codp' +
-        'roduto '#13#10'left outer join FUNCIONARIO func on osd.CODUSUARIO = fu' +
-        'nc.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 and  rec.DATAVENDA ' +
-        'between :DATA1 and :DATA2 and p.TIPO = '#39'SERV'#39#13#10'group by osd.CODU' +
-        'SUARIO, func.NOME_FUNCIONARIO'#13#10' order by  func.nome_funcionario'
+        'select  osd.CODUSUARIO, func.NOME_FUNCIONARIO, sum(mv.VALTOTAL) ' +
+        'as VALTOTAL,'#13#10'        sum( mv.VALTOTAL  * ((case  when p.VALORCO' +
+        'MISSAO > 0 then p.VALORCOMISSAO else func.VALOR_COMISSAO end)/10' +
+        '0)) as V_COM'#13#10'from VENDA rec'#13#10'inner join movimento m on m.codmov' +
+        'imento = rec.codmovimento '#13#10'inner join movimentodetalhe mv on mv' +
+        '.codmovimento = m.codmovimento'#13#10'inner join os_det osd on osd.id_' +
+        'os_det = mv.codigo'#13#10'inner join PRODUTOS p on p.codproduto = mv.c' +
+        'odproduto '#13#10'left outer join FUNCIONARIO func on osd.CODUSUARIO =' +
+        ' func.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 '#13#10'    and  rec.D' +
+        'ATAVENDA between :DATA1 and :DATA2 '#13#10'    and p.TIPO = '#39'SERV'#39#13#10'  ' +
+        '  and p.UNIDADEMEDIDA <> '#39'TC'#39' '#13#10'group by osd.CODUSUARIO, func.NO' +
+        'ME_FUNCIONARIO'#13#10' order by  func.nome_funcionario'
     end
     item
       Alias = 'PRODUTOS'
@@ -74,8 +75,9 @@ object TRpReport
         'movimento m on m.codmovimento = rec.codmovimento '#13#10'inner join mo' +
         'vimentodetalhe mv on mv.codmovimento = m.codmovimento'#13#10'inner joi' +
         'n PRODUTOS p on p.codproduto = mv.codproduto '#13#10'where m.codnature' +
-        'za = 3 and  rec.DATAVENDA between :DATA1 and :DATA2 and p.TIPO =' +
-        ' '#39'SERV'#39#13#10'group by p.PRODUTO'
+        'za = 3 '#13#10'    and rec.DATAVENDA between :DATA1 and :DATA2 '#13#10'    a' +
+        'nd p.TIPO = '#39'SERV'#39#13#10'    and p.UNIDADEMEDIDA   <> '#39'TC'#39#13#10' group by' +
+        ' p.PRODUTO'
     end>
   DatabaseInfo = <
     item
@@ -127,7 +129,7 @@ object TRpReport
     item
       Name = 'DATA1'
       AllowNulls = False
-      Value = 40909d
+      Value = 40969d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO'
@@ -142,7 +144,7 @@ object TRpReport
     item
       Name = 'DATA2'
       AllowNulls = False
-      Value = 40939d
+      Value = 40999d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO'
