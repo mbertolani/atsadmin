@@ -520,7 +520,6 @@ begin
                     if (s_bancoPERCMULTA.Value > 0) then
                       Titulo.PercentualMulta := s_bancoPERCMULTA.Value;
 
-
                     Titulo.Instrucao1 := s_bancoPROTESTO.AsString;
 
                   end;
