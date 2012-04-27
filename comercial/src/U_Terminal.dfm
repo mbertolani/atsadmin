@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 295
-  Top = 107
+  Left = 312
+  Top = 127
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -2217,7 +2217,7 @@ object F_Terminal: TF_Terminal
     Top = 45
     Width = 372
     Height = 490
-    ActivePage = TabSheet1
+    ActivePage = TabDelivery
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -6081,9 +6081,10 @@ object F_Terminal: TF_Terminal
     CommandText = 
       'SELECT a.CODCLIENTE, '#13#10'               a.NOMECLIENTE, '#13#10'         ' +
       '      a.BLOQUEIO,'#13#10'               e.LOGRADOURO, '#13#10'              ' +
-      ' e.TELEFONE '#13#10'   FROM CLIENTES a'#13#10'   left outer join ENDERECOCLI' +
-      'ENTE e on e.CODCLIENTE = a.CODCLIENTE '#13#10'where  a.NOMECLIENTE lik' +
-      'e :pCLIENTE '#13#10'  and a.SEGMENTO <> 2'#13#10'order by a.NOMECLIENTE '#13#10
+      ' e.TELEFONE,'#13#10'               e.NUMERO,'#13#10'               e.BAIRRO ' +
+      ' '#13#10'   FROM CLIENTES a'#13#10'   left outer join ENDERECOCLIENTE e on e' +
+      '.CODCLIENTE = a.CODCLIENTE '#13#10'where  a.NOMECLIENTE like :pCLIENTE' +
+      ' '#13#10'  and a.SEGMENTO <> 2'#13#10'order by a.NOMECLIENTE '#13#10
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -6120,6 +6121,14 @@ object F_Terminal: TF_Terminal
       FieldName = 'BLOQUEIO'
       FixedChar = True
       Size = 1
+    end
+    object scds_cli_procNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object scds_cli_procBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
     end
   end
   object pmImp: TPopupMenu
