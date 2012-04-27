@@ -476,6 +476,8 @@ type
     JvBitBtn7: TJvBitBtn;
     NovoPedido1: TMenuItem;
     EditarComanda1: TMenuItem;
+    scds_cli_procNUMERO: TStringField;
+    scds_cli_procBAIRRO: TStringField;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -598,8 +600,9 @@ type
     vTIPO_PEDIDO, teste_codigo, estoque_negativo, SaldoNegativo : String;
     parcial, poc : Double;
     endCli, FoneCli, datasistema, Codigo_Pedido, razao_emp, cnpj : string;
+    TEXTO_IMPRIMIR, TEXTO_IMP, fantasia, col : string;
+    tamtexto : Integer;
     //--------------------------------------------------------------------------
-
     procedure IncluiPedido;
     procedure AlteraPedido;
     procedure IncluiItemPedido;
@@ -610,7 +613,9 @@ type
     procedure imprimeRecibo;
     procedure imprimeDLLBema;
     procedure imprimeDelivery;
+    procedure imprimeDeliveryTXT;
     procedure imprimeComanda;
+    procedure imprimecomandaTXT;
     procedure imp_Setor1_DLL;
     procedure imp_Setor1_LPT;    
     procedure imp_Setor2_DLL;    
@@ -634,6 +639,7 @@ const
     cJustif = #27#97#51;
     cEject = #12;
     { Tamanho da fonte }
+    c20cpi = #22;
     c10cpi = #18;
     c12cpi = #27#77;
     c17cpi = #15;
@@ -2155,7 +2161,7 @@ end;
 
 procedure TF_Terminal.JvImprimirClick(Sender: TObject);
 begin
-  usaDll := 'FALSE';
+   usaDll := 'FALSE';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
@@ -2199,7 +2205,12 @@ begin
      end
      else
      begin
-       imprimeCupom;
+       if PageControl1.ActivePage = TabDelivery then
+          imprimeDeliveryTXT;
+       if PageControl1.ActivePage = TabSheet1 then
+          imprimecomandaTXT;
+       if PageControl1.ActivePage = TabComanda then
+          imprimeCupom;
      end;
   end;
 
@@ -2217,11 +2228,14 @@ begin
     s_parametro.Close;
   end;
 
-     if (dm.cds_empresa.Active) then
-       dm.cds_empresa.Close;
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
 
-     if (s_parametro.Active) then
-       s_parametro.Close;  
+  if (dm.cds_empresa.Active) then
+     dm.cds_empresa.Close;
+
+  if (s_parametro.Active) then
+     s_parametro.Close;
 
 end;
 
@@ -3548,7 +3562,7 @@ begin
     DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
 
     sql := 'SELECT a.CODCLIENTE, a.NOMECLIENTE, ' +
-          'e.LOGRADOURO, e.TELEFONE ' +
+          'e.LOGRADOURO, e.TELEFONE, e.NUMERO, e.BAIRRO ' +
           'FROM CLIENTES a, ENDERECOCLIENTE e ' +
           'where e.CODCLIENTE = a.CODCLIENTE ' +
           '  and a.CODCLIENTE = ' + IntToStr(DM_MOV.c_DeliveryCODCLIENTE.AsInteger) +
@@ -3561,7 +3575,7 @@ begin
     begin
        edtCodCli.Text := IntToStr(sbuscaCli.Fields[0].AsInteger);
        edtNome.Text := sbuscaCli.Fields[1].AsString;
-       edtEnd.Text := sbuscaCli.Fields[2].AsString;
+       edtEnd.Text := sbuscaCli.Fields[2].AsString + ',' + sbuscaCli.Fields[4].AsString + sbuscaCli.Fields[5].AsString;
        edtFone.Text := sbuscaCli.Fields[3].AsString;
     end;
     sbuscaCli.Close;
@@ -3758,7 +3772,7 @@ begin
      edtFone.Text := scds_cli_procTELEFONE.AsString;
      edtCodCli.Text := IntToStr(scds_cli_procCODCLIENTE.AsInteger);
      edtNome.Text := scds_cli_procNOMECLIENTE.AsString;
-     edtEnd.Text := scds_cli_procLOGRADOURO.AsString;
+     edtEnd.Text := scds_cli_procLOGRADOURO.AsString + scds_cli_procNUMERO.AsString + scds_cli_procBAIRRO.AsString;
      edtFone.SetFocus;
   finally
    scds_cli_proc.Close;
@@ -4890,7 +4904,7 @@ begin
 
       buffer  := Texto2 + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-      
+
      // Imprime Linhas
      for linhas := 0 to 10 do
      begin
@@ -4922,7 +4936,7 @@ begin
      if (s_parametro.Active) then
        s_parametro.Close;
 
-     iRetorno := FechaPorta();       
+     iRetorno := FechaPorta();
 
 end;
 
@@ -5006,6 +5020,257 @@ begin
   else
     DM.resultadoOperacao := 'TRUE';
   sCaixa1.Close;
+end;
+
+procedure TF_Terminal.imprimeDeliveryTXT;
+begin
+
+    sql := 'SELECT a.CODCLIENTE, a.NOMECLIENTE, ' +
+              'e.LOGRADOURO, e.NUMERO, e.BAIRRO, e.TELEFONE ' +
+              'FROM CLIENTES a, ENDERECOCLIENTE e ' +
+              'where e.CODCLIENTE = a.CODCLIENTE ' +
+              ' and e.TIPOEND = 0 ' +
+              ' and a.CODCLIENTE = ' + IntToStr(DM_MOV.c_DeliveryCODCLIENTE.AsInteger);
+    if (sbuscaCli.Active) then
+         sbuscaCli.Close;
+    sbuscaCli.CommandText := sql;
+    sbuscaCli.Open;
+
+    if (sbuscaCli.IsEmpty) then
+    begin
+       ShowMessage('Selecione um Cliente');
+       Exit;
+    end;
+
+    if (not dm.cds_empresa.Active) then
+      dm.cds_empresa.Open;
+    {----- aqui monto o endereço-----}
+    razao_emp := dm.cds_empresaRAZAO.AsString;
+    fantasia  := dm.cds_empresaEMPRESA.AsString;
+    cnpj      := dm.cds_empresaCNPJ_CPF.AsString;
+    logradouro := dm.cds_empresaENDERECO.Value + ' ' + dm.cds_empresaNUMERO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+    cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+    ' - ' + dm.cds_empresaCEP.Value;
+    fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+    ' / ' + dm.cds_empresaFONE_2.Value;
+    Texto   := '|----------------------------------------------------------|' ;
+    Texto1  := '|                      DELIVERY / ENTREGA                  |';
+    Texto2  := '|----------------------------------------------------------|' ;
+    Texto3  := '|Produto                                                   |' ;
+    Texto4  := '|      Codigo          Qtde       V.Un.      V.Total       |' ;
+    cliente := 'Cliente : ' + DM_MOV.c_DeliveryNOMECLIENTE.Value;
+    endcli  := sbuscaCli.Fields[2].AsString + ',' + sbuscaCli.Fields[3].AsString + ' ' + sbuscaCli.Fields[4].AsString;
+    FoneCli := sbuscaCli.Fields[5].AsString;
+    datasistema := DateTimeToStr(DM_MOV.c_DeliveryDATA_SISTEMA.AsDateTime);
+    Codigo_Pedido := IntToStr(DM_MOV.c_DeliveryCODPEDIDO.AsInteger);
+
+    if (s_parametro.Active) then
+      s_parametro.Close;
+    s_parametro.Params[0].AsString := 'IMPARQUIVO';
+    s_parametro.Open;
+    if (not s_parametro.Eof) then
+    begin
+      SaveDialog1.Execute;
+      AssignFile(IMPRESSORA, SaveDialog1.FileName);
+      s_parametro.Close;
+    end
+    else
+    begin
+      if (s_parametro.Active) then
+        s_parametro.Close;
+      s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+      s_parametro.Open;
+      AssignFile(IMPRESSORA,s_parametroDADOS.AsString);
+    end;
+
+    Rewrite(IMPRESSORA);
+
+   // Writeln(Impressora,#27#97#49+ '' + fantasia);
+    tamtexto := length(fantasia); // cRazao (Nome Fantasia)
+    tamtexto := (48 - tamtexto) div 2; //iColuna (numero de colunas a serem impressas)
+    col := inttostr(tamtexto);
+    write(Impressora,Format('%'+col+'s',['']) ); //imprimi espacos em branco para centralizar
+    writeln(Impressora,fantasia); //imprimi o o nome fantasia centralizado.
+
+    Writeln(Impressora, c17cpi, texto);
+    Writeln(Impressora, c17cpi, texto1);
+    Writeln(Impressora, c17cpi, texto2);
+    Writeln(Impressora, c17cpi, texto3);
+    Writeln(Impressora, c17cpi, texto4);
+    Writeln(Impressora, c17cpi, texto);
+    DM_MOV.c_movdet.First;
+    while not DM_MOV.c_movdet.Eof do
+    begin
+        TEXTO_IMPRIMIR  := Format('%-56s  ', [DM_MOV.c_movdetPRODUTO.Value]);
+        Writeln(Impressora, c17cpi, TEXTO_IMPRIMIR);
+        TEXTO_IMPRIMIR  := Format('%10s  ',[DM_MOV.c_movdetCODPRO.Value]);
+        // TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
+        TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %8.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+        TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %8.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
+        TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %10.2n',[DM_MOV.c_movdetValorTotal.value]);
+        TEXTO_IMP  := Format('%-56s  ', [TEXTO_IMPRIMIR]);
+        Writeln(Impressora, c17cpi, TEXTO_IMP);
+        DM_MOV.c_movdet.next;
+    end;
+
+    Writeln(Impressora, c17cpi, texto);
+    total   := DM_MOV.c_movdettotalpedido.Value;
+    TEXTO_IMPRIMIR := 'Total.: R$' + Format('%10.2n',[total]);
+    TEXTO_IMP  := '|' +  Format('%56s  ', [TEXTO_IMPRIMIR]) + '|';
+    Writeln(Impressora, c17cpi, TEXTO_IMP);
+
+    Writeln(Impressora, c17cpi, texto);
+    // Dados do Pedido
+    TEXTO_IMPRIMIR  := Format('%-56s  ', ['Pedido n. ' + Codigo_Pedido + ' - Data : ' + datasistema]);
+    Writeln(Impressora, c17cpi, TEXTO_IMPRIMIR);
+
+    TEXTO_IMPRIMIR  := DM_MOV.c_DeliveryNOMECLIENTE.Value;
+    TEXTO_IMPRIMIR  := 'CLIENTE :' +  Format('%-45s  ', [TEXTO_IMPRIMIR]);
+  //  printer.canvas.font.Name := 'Courier New';
+//    printer.canvas.font.Size := 90;
+    Writeln(Impressora,#18, TEXTO_IMPRIMIR);
+
+    TEXTO_IMPRIMIR  := 'TELEFONE: ' +  Format('%-45s  ', [FoneCli]);
+    Writeln(Impressora, cFExpandido, TEXTO_IMPRIMIR);
+
+    TEXTO_IMPRIMIR  := 'END.:' +  Format('%-45s  ', [endCli]);
+    Writeln(Impressora, cFExpandido, TEXTO_IMPRIMIR);
+
+    Texto5 := 'Assnatura:_______________________________________________';
+    Writeln(Impressora, c17cpi, texto5);
+
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+
+   CloseFile(IMPRESSORA);
+
+   if (dm.cds_empresa.Active) then
+       dm.cds_empresa.Close;
+
+   if (s_parametro.Active) then
+       s_parametro.Close;
+
+    if (sbuscaCli.Active) then
+         sbuscaCli.Close;
+                
+end;
+
+procedure TF_Terminal.imprimecomandaTXT;
+var linhas : Integer;
+begin
+   if (not dm.cds_empresa.Active) then
+       dm.cds_empresa.Open;
+   {----- aqui monto o endereço-----}
+   razao_emp := dm.cds_empresaRAZAO.AsString;
+   cnpj      := dm.cds_empresaCNPJ_CPF.AsString;
+   logradouro := dm.cds_empresaENDERECO.Value + ' ' + dm.cds_empresaNUMERO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+   cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+   ' - ' + dm.cds_empresaCEP.Value;
+   fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+   ' / ' + dm.cds_empresaFONE_2.Value;
+   Texto  := '------------------------------------------------' ;
+   Texto1 := 'COMANDA N. ';
+   Texto2 := '------------------------------------------------' ;
+   Texto3 := 'Produto                                         ' ;
+   Texto4 := 'Codigo        UN      Qtde     V.Un.    V.Total ' ;
+   datasistema := DateTimeToStr(DM_MOV.c_movimentoDATA_SISTEMA.AsDateTime);
+   Codigo_Pedido := IntToStr(DM_MOV.c_movimentoCODPEDIDO.AsInteger);
+
+    if (s_parametro.Active) then
+      s_parametro.Close;
+    s_parametro.Params[0].AsString := 'IMPARQUIVO';
+    s_parametro.Open;
+    if (not s_parametro.Eof) then
+    begin
+      SaveDialog1.Execute;
+      AssignFile(IMPRESSORA, SaveDialog1.FileName);
+      s_parametro.Close;
+    end
+    else
+    begin
+      if (s_parametro.Active) then
+        s_parametro.Close;
+      s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+      s_parametro.Open;
+      AssignFile(IMPRESSORA,s_parametroDADOS.AsString);
+    end;
+
+    Rewrite(IMPRESSORA);
+
+    // Imprime o numero da comanda
+    TEXTO_IMPRIMIR  := Texto2;
+    Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+
+    TEXTO_IMPRIMIR  := ' COMANDA N. ' + Codigo_Pedido;
+    Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+    //TEXTO_IMPRIMIR  := Texto2;
+    //Writeln(Impressora, c17cpi, TEXTO_IMPRIMIR);
+    TEXTO_IMPRIMIR  := Format('%-46s  ', ['Emissao :' + datasistema]);
+    Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+
+    TEXTO_IMPRIMIR  := Texto2;
+    Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+    TEXTO_IMPRIMIR  := Texto3;
+    Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+    TEXTO_IMPRIMIR  := Texto4;
+    Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+    TEXTO_IMPRIMIR  := Texto2;
+    Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+
+     DM_MOV.c_movdet.First;
+     while not DM_MOV.c_movdet.Eof do
+     begin
+        TEXTO_IMPRIMIR  := Format('%-56s  ', [DM_MOV.c_movdetPRODUTO.Value]);
+        Writeln(Impressora, c17cpi, TEXTO_IMPRIMIR);
+        TEXTO_IMPRIMIR  := Format('%10s  ',[DM_MOV.c_movdetCODPRO.Value]);
+        // TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
+        TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %8.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+        TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %8.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
+        TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %10.2n',[DM_MOV.c_movdetValorTotal.value]);
+        TEXTO_IMP  := Format('%-56s  ', [TEXTO_IMPRIMIR]);
+        Writeln(Impressora, c17cpi, TEXTO_IMP);
+        DM_MOV.c_movdet.next;
+     end;
+
+     TEXTO_IMPRIMIR  := Texto2;
+     Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+
+     // Imprime Linhas
+     for linhas := 0 to 10 do
+     begin
+        TEXTO_IMPRIMIR  := '________|_____________________________|_________' ;
+        Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+     end;
+
+    TEXTO_IMPRIMIR  := 'BOM APETITE';
+    Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
+
+    Writeln(Impressora);
+    Writeln(Impressora);
+    Writeln(Impressora);
+    Writeln(Impressora);
+    Writeln(Impressora);
+    Writeln(Impressora);
+    Writeln(Impressora);
+    Writeln(Impressora);
+
+   CloseFile(IMPRESSORA);
+
+   if (dm.cds_empresa.Active) then
+      dm.cds_empresa.Close;
+
+
+   if (s_parametro.Active) then
+       s_parametro.Close;
+
+
 end;
 
 end.
