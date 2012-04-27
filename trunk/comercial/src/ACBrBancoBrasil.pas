@@ -389,8 +389,11 @@ begin
           Result:= Result +
                ADataMoraJuros;// AQUI                                       + //119 a 126 - Data a partir da qual serão cobrados juros
           Result:= Result +
-               IfThen(ValorMoraJuros > 0, IntToStrZero( round(ValorMoraJuros * 100), 15),
+             //  IfThen(ValorMoraJuros > 0, IntToStrZero( round(ValorMoraJuros * 100), 15),
+             //       padL('', 15, '0'));//                                    + //127 a 141 - Valor de juros de mora por dia
+               IfThen(PercentualMulta > 0, IntToStrZero( round(PercentualMulta * 100), 15),
                     padL('', 15, '0'));//                                    + //127 a 141 - Valor de juros de mora por dia
+
           Result:= Result +
                IfThen(ValorDesconto > 0, IfThen(DataDesconto > 0, '1','4'), '0')  + //142 - Código de desconto: 1 - Valor fixo até a data informada 4-Desconto por dia de antecipacao 0 - Sem desconto
                ADataDesconto;//                                              + //143 a 150 - Data do desconto
