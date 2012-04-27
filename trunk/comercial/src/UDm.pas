@@ -5,7 +5,7 @@ interface
 uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
-  Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics;
+  Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics ,XmlRpcClient, XmlRpcTypes;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -1982,6 +1982,7 @@ type
       var Action: TReconcileAction);
   private
     { Private declarations }
+    memoLic: String;
     procedure verifiSeExisteCampo(nTabela, nCampo, nCampoTipo: string);
     procedure verificaSeExisteTabela(nTabela, nCampo, nCampoTipo: string);
     procedure verificaMensagemInicial;
