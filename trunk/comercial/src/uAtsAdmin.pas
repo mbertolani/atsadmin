@@ -595,6 +595,7 @@ begin
   if MDIChildCount > 0 then
     for X := 0 to Pred(MDIChildCount) do
        MDIChildren[X].Close;
+  if (dm.sistemaLiberado = 'S') then 
   if MessageDlg('Voce realmente deseja encerrar o sistema ?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
      Application.Terminate
   else
