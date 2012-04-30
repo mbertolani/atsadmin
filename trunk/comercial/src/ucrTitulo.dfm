@@ -200,13 +200,13 @@ inherited fcrTitulo: TfcrTitulo
     Caption = 'Nosso n'#186':'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 462
-    Width = 803
+    Top = 473
+    Width = 811
     TabOrder = 11
     object BitBtn2: TBitBtn [0]
-      Left = 423
-      Top = 6
-      Width = 107
+      Left = 420
+      Top = 7
+      Width = 117
       Height = 40
       Caption = 'F4-Receber'
       TabOrder = 7
@@ -361,7 +361,6 @@ inherited fcrTitulo: TfcrTitulo
     end
     inherited btnCancelar: TBitBtn
       Left = 542
-      Top = 6
       Width = 107
     end
     inherited btnExcluir: TBitBtn
@@ -376,14 +375,14 @@ inherited fcrTitulo: TfcrTitulo
       Visible = False
     end
     inherited btnSair: TBitBtn
-      Left = 661
+      Left = 658
       Top = 6
       Width = 107
     end
     object btnCancela_Baixa: TBitBtn
-      Left = 304
-      Top = 6
-      Width = 107
+      Left = 292
+      Top = 7
+      Width = 121
       Height = 40
       Caption = 'Cancelar Baixa'
       PopupMenu = PopupMenu1
@@ -438,7 +437,7 @@ inherited fcrTitulo: TfcrTitulo
         00003939393939393939393939393939393939390000}
     end
     object btnImprimi: TBitBtn
-      Left = 184
+      Left = 179
       Top = 7
       Width = 107
       Height = 40
@@ -466,7 +465,7 @@ inherited fcrTitulo: TfcrTitulo
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 803
+    Width = 811
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -477,7 +476,8 @@ inherited fcrTitulo: TfcrTitulo
     inherited Label1: TLabel
       Left = 216
       Top = -75
-      Width = 397
+      Width = 366
+      Height = 44
       Caption = 'Baixar Lan'#231'amentos'
       Font.Name = 'Cooper Black'
     end
