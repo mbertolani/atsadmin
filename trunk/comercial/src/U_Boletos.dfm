@@ -1,6 +1,6 @@
 object F_Boletos: TF_Boletos
-  Left = 422
-  Top = 296
+  Left = 423
+  Top = 298
   Width = 417
   Height = 302
   BorderIcons = [biSystemMenu]
@@ -38,7 +38,7 @@ object F_Boletos: TF_Boletos
       Transparent = True
     end
     object lbl7: TLabel
-      Left = 8
+      Left = 6
       Top = 59
       Width = 164
       Height = 13
@@ -56,9 +56,9 @@ object F_Boletos: TF_Boletos
       TabOrder = 0
     end
     object edt2: TEdit
-      Left = 6
+      Left = 4
       Top = 72
-      Width = 379
+      Width = 380
       Height = 21
       BevelKind = bkFlat
       BorderStyle = bsNone
