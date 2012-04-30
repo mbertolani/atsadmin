@@ -145,6 +145,8 @@ type
     property dataVenc    : TStringList read getdataVenc  write setdataVenc;
 
     //Metodos
+    procedure gravaHistorico(CODREC: INTEGER; TITULO: String;
+       CAIXA: Integer; USUARIO: Integer; TIPOHISTORICO, HISTORICO: String);
     function geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
     function baixaTitulo(VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
                          DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
@@ -761,6 +763,39 @@ end;
 function TReceberCls.getVia: SmallInt;
 begin
   Result := _via;
+end;
+
+procedure TReceberCls.gravaHistorico(CODREC: INTEGER; TITULO: String;
+  CAIXA: Integer; USUARIO: Integer; TIPOHISTORICO, HISTORICO: String);
+var strHist, id_hist: String;
+sqlId : TSqlQuery;
+begin
+  Try
+    sqlId :=  TSqlQuery.Create(nil);
+    sqlId.SQLConnection := dm.sqlsisAdimin;
+    strHist := 'SELECT MAX(ID_HIST) ' +
+      '  FROM RECEBIMENTO_HIST ' +
+      ' WHERE CODRECEBIMENTO = ' + InttoStr(CodRec);
+    sqlId.SQL.Add(strHist);
+    sqlId.Open;
+    if (sqlId.isEmpty) then
+      id_hist := '1'
+    else
+      id_hist := IntToStr(sqlId.fields[0].asInteger + 1);
+  Finally
+    sqlId.Free;
+  end;
+  strHist := 'INSERT INTO RECEBIMENTO_HIST VALUES(';
+  strHist := strHist + IntToStr(CODREC);
+  strHist := strHist + ', ' + id_hist;
+  strHist := strHist + ', ' + QuotedStr(titulo);
+  strHist := strHist + ', ' + IntToStr(caixa);
+  strHist := strHist + ', ' + QuotedStr(tipoHistorico);
+  strHist := strHist + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Now));
+  strHist := strHist + ', ' + QuotedStr(Historico);
+  strHist := strHist + ', ' + IntToStr(Usuario);
+  strHist := strHist + ')';
+  dm.sqlsisAdimin.ExecuteDirect(strHist);
 end;
 
 procedure TReceberCls.setCaixa(const Value: Integer);
