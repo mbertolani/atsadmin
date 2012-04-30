@@ -375,11 +375,10 @@ begin
     BitBtn2.Enabled := False;
 
     //Faco a baixa pela CLASSE
-    dm.sqlsisAdimin.StartTransaction(TD);
+    REC := TReceberCls.Create;
     try
-     // dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      dm.sqlsisAdimin.StartTransaction(TD);
       try
-        REC := TReceberCls.Create;
         REC.baixaTitulo(dm.cds_crVALORRECEBIDO.AsFloat, dm.cds_crFUNRURAL.AsFloat, dm.cds_crJUROS.AsFloat,
         dm.cds_crDESCONTO.AsFloat, dm.cds_crPERDA.AsFloat, dm.cds_crDATABAIXA.AsDateTime,
         dm.cds_crDATARECEBIMENTO.AsDateTime, dm.cds_crDATACONSOLIDA.AsDateTime,
@@ -389,19 +388,17 @@ begin
         rec.gravaHistorico(dm.cds_crCODRECEBIMENTO.AsInteger, dm.cds_crTITULO.AsString,
           dm.cds_crCAIXA.AsInteger, fAtsAdmin.UserControlComercial.CurrentUser.UserID, 'RECEBIMENTO',
           'RECEBIMENTO-' + DBLookupComboBox1.Text + '-' +
-          formatdatetime('dd/mm/yyyy', today));
-
-      finally
-        REC.Free;
+          formatdatetime('dd/mm/yyyy', today));        dm.sqlsisAdimin.Commit(TD);
+          
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
       end;
-      dm.sqlsisAdimin.Commit(TD);
-    except
-      on E : Exception do
-      begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-        exit;
-      end;
+    finally
+      REC.Free;
     end;
     //inherited;
     str_sql := 'UPDATE PARAMETRO SET D1 = ';
