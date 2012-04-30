@@ -42,6 +42,7 @@ type
     sdsContaNOME: TStringField;
     sdsContaRATEIO: TStringField;
     sdsContaCODREDUZIDO: TStringField;
+    cdsRecCODRECEBIMENTO: TIntegerField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cbContaChange(Sender: TObject);
@@ -50,6 +51,7 @@ type
     procedure edIOFEnter(Sender: TObject);
     procedure edPrecoEnter(Sender: TObject);
   private
+    codRec : Integer;
     contaTitDesc : String;
     contaBanco   : String;
     tituloDescont : String;
@@ -87,6 +89,8 @@ begin
     rec := TReceberCls.Create;
     rec.baixaTitulo(vlrPago, 0, 0, 0, 0, dta.Date, dta.date, dta.Date, '4',
     '', contaTitCod , codCliente, '7-', usuarioSis);
+    rec.gravaHistorico(codRec, tituloDescont, contaTitCod, usuarioSis, 'DESCONTO',
+    'DESCONTO-' + cbConta.Text + '-' + dta.Text );
   Finally
     rec.Free;
   end;
@@ -151,8 +155,20 @@ begin
       hist          := hist + ' / ' + tituloDescont;
       cCusto        := cdsRecCODALMOXARIFADO.AsInteger;
       codCliente    := cdsRecCODCLIENTE.AsInteger;
-      baixaTituloDescontado(cdsRecVALOR_RESTO.AsFloat);
-      transfereTituloDescParaContaBanco(cdsRecVALOR_RESTO.AsFloat);
+      codRec        := cdsRecCODRECEBIMENTO.AsInteger;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        baixaTituloDescontado(cdsRecVALOR_RESTO.AsFloat);
+        transfereTituloDescParaContaBanco(cdsRecVALOR_RESTO.AsFloat);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          exit;
+        end;
+      end;
       cdsRec.Next;
     end;
     lancaDespesaJuros;
