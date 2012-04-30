@@ -384,8 +384,8 @@ begin
                padL(EspecieDoc,2)                                         + //107 a 108 - Espécie do documento
                ATipoAceite                             + //109 - Identificação de título Aceito / Não aceito
                FormatDateTime('ddmmyyyy', DataDocumento);//                  + //110 a 117 - Data da emissão do documento
-          Result := Result +
-               IfThen(ValorMoraJuros > 0, '1', '0');//                       + //118 - Código de juros de mora: Valor por dia
+          Result := Result + FloatToStr(ValorMoraJuros);
+              // IfThen(ValorMoraJuros > 0, '1', '0');//                       + //118 - Código de juros de mora: Valor por dia
           Result:= Result +
                ADataMoraJuros;// AQUI                                       + //119 a 126 - Data a partir da qual serão cobrados juros
           Result:= Result +
