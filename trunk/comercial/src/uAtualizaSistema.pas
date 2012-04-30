@@ -1494,10 +1494,30 @@ begin
         ' RDB$FIELD_SOURCE = ' + QuotedStr('TEXTO500') +
         ' where (RDB$FIELD_NAME = ' + QuotedStr('OBS')  +
         ') and (RDB$RELATION_NAME = ' + QuotedStr('VENDA') + ')');
-      mudaVersao('1.0.0.103');
       executaDDL('CCE', 'PROTOCOLO', 'VARCHAR(20)');
       executaDDL('CCE', 'SELECIONOU', 'TEXTO1');
+      mudaVersao('1.0.0.103');
     end;// Fim Ataulização Versao 1.0.0.103
+
+    if (versaoSistema = '1.0.0.103') then
+    begin
+      executaSql('ALTER TRIGGER GERA_REC INACTIVE');
+      executaScript('TIT_EMITIDOS_DESCONTADOS.sql');
+      if (NaoExisteTabela('RECEBIMENTO_HIST')) then
+      begin
+        executaSql('CREATE TABLE RECEBIMENTO_HIST(' +
+          'CODRECEBIMENTO INTEGER NOT NULL, ' +
+          'ID_HIST INTEGER NOT NULL, ' +
+          'TITULO VARCHAR(20) , ' +
+          'CAIXA INTEGER, ' + 
+          'TIPO VARCHAR(30) NOT NULL, ' +
+          'DATA_HIST DATE , '+
+          'HISTORICO VARCHAR(200), ' +
+          'USUARIO INTEGER, ' +
+          'PRIMARY KEY(CODRECEBIMENTO, ID_HIST))')
+      end;
+      mudaVersao('1.0.0.104');
+    end;// Fim Ataulização Versao 1.0.0.104
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
