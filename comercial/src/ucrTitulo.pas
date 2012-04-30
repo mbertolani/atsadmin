@@ -8,7 +8,7 @@ uses
   FMTBcd, DBClient, Provider, SqlExpr, Mask, DBCtrls, DBxpress, JvExMask,
   JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
   JvDBDatePickerEdit, rpcompobase, rpvclreport, UCHist_Base, UCHistDataset,
-  RXCtrls, RecError;
+  RXCtrls, RecError, dateUtils;
 
 type
   TfcrTitulo = class(TfPai)
@@ -385,6 +385,12 @@ begin
         dm.cds_crDATARECEBIMENTO.AsDateTime, dm.cds_crDATACONSOLIDA.AsDateTime,
         dm.cds_crFORMARECEBIMENTO.AsString, dm.cds_crN_DOCUMENTO.AsString, dm.cds_crCAIXA.AsInteger,
         dm.cds_crCODCLIENTE.AsInteger, dm.cds_crSTATUS.AsString, fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+
+        rec.gravaHistorico(dm.cds_crCODRECEBIMENTO.AsInteger, dm.cds_crTITULO.AsString,
+          dm.cds_crCAIXA.AsInteger, fAtsAdmin.UserControlComercial.CurrentUser.UserID, 'RECEBIMENTO',
+          'RECEBIMENTO-' + DBLookupComboBox1.Text + '-' +
+          formatdatetime('dd/mm/yyyy', today));
+
       finally
         REC.Free;
       end;
@@ -551,6 +557,10 @@ begin
       try
         REC := TReceberCls.Create;
         REC.cancelabaixa(dm.cds_crCODCLIENTE.AsInteger, fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+        rec.gravaHistorico(dm.cds_crCODRECEBIMENTO.AsInteger, dm.cds_crTITULO.AsString,
+          dm.cds_crCAIXA.AsInteger, fAtsAdmin.UserControlComercial.CurrentUser.UserID, 'CANCELAMENTO',
+          'CANCELADO BAIXA-' + DBLookupComboBox1.Text + '-' +
+          formatdatetime('dd/mm/yyyy', today));
       finally
         REC.Free;
       end;

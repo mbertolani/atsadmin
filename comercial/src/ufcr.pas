@@ -1106,7 +1106,8 @@ begin
   dm.cds_crDESCONTO.AsFloat := vlrdesc;
   if (fcrtitulo.cdsSUM_5.AsFloat > 0) then
     dm.cds_crVALORRECEBIDO.AsFloat := vlrrec;
-  dm.cds_crTITULO.AsString := 'Diversos';
+  if (i > 2) then
+    dm.cds_crTITULO.AsString := 'Diversos';
   dm.cds_crCODVENDA.AsInteger := 0;
   fcrtitulo.cds.close;
   if (dm.cds_crSTATUS.AsString = '7-') then
