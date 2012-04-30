@@ -246,7 +246,7 @@ inherited fDescontoTitulos: TfDescontoTitulos
       end>
     SQL.Strings = (
       'SELECT TITULO , VIA, CODALMOXARIFADO, VALOR_RESTO '
-      ', CODCLIENTE '
+      ', CODCLIENTE , CODRECEBIMENTO'
       '   FROM RECEBIMENTO '
       'WHERE DP = 0'
       '      AND USERID = :user')
@@ -289,6 +289,10 @@ inherited fDescontoTitulos: TfDescontoTitulos
     end
     object cdsRecCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object cdsRecCODRECEBIMENTO: TIntegerField
+      FieldName = 'CODRECEBIMENTO'
       Required = True
     end
   end
