@@ -1473,6 +1473,7 @@ begin
 
     if (versaoSistema = '1.0.0.102') then
     begin
+      executaDDL('COMPRA', 'CODORIGEM', 'INTEGER');    
       executaDDL('EMPRESA', 'CNPJPREFEITURA', 'VARCHAR(14)');
       executaDDL('EMPRESA', 'NOMEPREFEITURA', 'VARCHAR(50)');
       executaSql('ALTER TABLE EMPRESA ALTER SMTP TYPE Varchar(60)');
@@ -1496,6 +1497,12 @@ begin
         ') and (RDB$RELATION_NAME = ' + QuotedStr('VENDA') + ')');
       executaDDL('CCE', 'PROTOCOLO', 'VARCHAR(20)');
       executaDDL('CCE', 'SELECIONOU', 'TEXTO1');
+      EXECUTADDL('CLIENTES', 'CORTESIA', 'CHAR(1)');
+      EXECUTADDL('CLIENTES', 'VALOR_CONSUMO', 'DOUBLE PRECISION');
+      EXECUTADDL('CLIENTES', 'VALOR_CORTESIA', 'DOUBLE PRECISION');
+      EXECUTADDL('CLIENTES', 'E_FORNECEDOR', 'CHAR(1)');
+      EXECUTADDL('CLIENTES', 'CODFORNECEDOR', 'INTEGER');
+      EXECUTADDL('CLIENTES', 'CARGOFUNCAO', 'VARCHAR(1)');
       mudaVersao('1.0.0.103');
     end;// Fim Ataulização Versao 1.0.0.103
 
