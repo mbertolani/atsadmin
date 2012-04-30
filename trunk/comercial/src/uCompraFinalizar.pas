@@ -492,10 +492,10 @@ begin
       cds_compraVALOR.Value := dm.scds_Mov_Det_procTotalPedido.Value;
       if (sqs_tit.Active) then
         sqs_tit.Close;
-      sqs_tit.CommandText := 'SELECT SUM((QTDE_ALT/100) * VALTOTAL) FROM MOVIMENTODETALHE' +
+      sqs_tit.CommandText := 'SELECT SUM((QTDE_ALT/100) * VALTOTAL), sum((PIPI/100)*valTotal)) FROM MOVIMENTODETALHE' +
        ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
       sqs_tit.Open;
-      cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
+      //cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
       sqs_tit.Close;
     end;
     if (dm.moduloUsado = 'CITRUS') then
@@ -739,6 +739,9 @@ begin
   if cds_compraDESCONTO.AsFloat > 0 then
   begin
     cds_compraAPAGAR.AsFloat := cds_compraVALOR.AsFloat -
+    cds_compraENTRADA.AsFloat + cds_compraMULTA_JUROS.AsFloat -
+    cds_compraDESCONTO.AsFloat;
+    cds_compraVALOR_PAGAR.AsFloat := cds_compraVALOR.AsFloat -
     cds_compraENTRADA.AsFloat + cds_compraMULTA_JUROS.AsFloat -
     cds_compraDESCONTO.AsFloat;
   end;
@@ -1181,6 +1184,13 @@ begin
     cds_compraOUTRAS_DESP.AsFloat := 0;
     cds_compraVALOR_ICMS.AsFloat := 0;
     cds_compraVALOR_IPI.AsFloat := 0;
+    fCompra.cds_Mov_det.First;
+    while not fCompra.cds_Mov_det.Eof do
+    begin
+      cds_compraVALOR_ICMS.AsFloat := cds_compraVALOR_ICMS.AsFloat + fCompra.cds_Mov_detVALOR_ICMS.AsFloat;
+      cds_compraVALOR_IPI.AsFloat := cds_compraVALOR_IPI.AsFloat + fCompra.cds_Mov_detVIPI.AsFloat;
+      fCompra.cds_Mov_det.Next;
+    end;
     cds_compraCODCCUSTO.AsInteger := fCompra.cds_MovimentoCODALMOXARIFADO.AsInteger;
     if dm.scds_forn_proc.Active then
        dm.scds_forn_proc.Close;
@@ -1202,12 +1212,12 @@ begin
       cds_compraVALOR.Value := dm.scds_Mov_Det_procTotalPedido.Value;}
       if (sqs_tit.Active) then
         sqs_tit.Close;
-      sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO), sum((qtde_alt/100)*valTotal) FROM MOVIMENTODETALHE' +
+      sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO), sum((PIPI/100)*valTotal) FROM MOVIMENTODETALHE' +
           ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
       sqs_tit.Open;
       cds_compraVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
       cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
-      cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
+      //cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
     end;
     if (dm.moduloUsado = 'CITRUS') then
     begin

@@ -397,6 +397,16 @@ type
     BitBtn5: TBitBtn;
     btnDuplicar: TBitBtn;
     btnDupVenda: TBitBtn;
+    DBEdit18: TDBEdit;
+    Label22: TLabel;
+    sds_Mov_DetCFOP: TStringField;
+    cds_Mov_detCFOP: TStringField;
+    sds_Mov_DetPIPI: TFloatField;
+    cds_Mov_detPIPI: TFloatField;
+    sds_Mov_DetVIPI: TFloatField;
+    sds_Mov_DetVALOR_ICMS: TFloatField;
+    cds_Mov_detVIPI: TFloatField;
+    cds_Mov_detVALOR_ICMS: TFloatField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);

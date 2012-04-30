@@ -1331,46 +1331,46 @@ inherited fCompra: TfCompra
       OnClick = Label3Click
     end
     object Label5: TLabel
-      Left = 114
+      Left = 111
       Top = 18
       Width = 20
       Height = 16
       Caption = 'Un.'
     end
     object Label6: TLabel
-      Left = 151
+      Left = 208
       Top = 18
       Width = 29
       Height = 16
       Caption = 'Qtde'
     end
     object Label7: TLabel
-      Left = 210
+      Left = 269
       Top = 18
       Width = 46
       Height = 16
       Caption = 'Unit. R$'
     end
     object Label8: TLabel
-      Left = 380
+      Left = 431
       Top = 18
       Width = 28
       Height = 16
       Caption = 'Icms'
     end
     object Label9: TLabel
-      Left = 437
+      Left = 484
       Top = 18
       Width = 51
       Height = 16
       Caption = 'Total R$'
     end
     object Label4: TLabel
-      Left = 327
+      Left = 382
       Top = 18
-      Width = 14
+      Width = 29
       Height = 16
-      Caption = 'Ipi'
+      Caption = 'Ipi %'
     end
     object Label13: TLabel
       Left = 49
@@ -1380,16 +1380,23 @@ inherited fCompra: TfCompra
       Caption = 'Descri'#231#227'o Produto'
     end
     object Label21: TLabel
-      Left = 269
+      Left = 325
       Top = 18
       Width = 50
       Height = 16
       Caption = 'Desc. %'
     end
+    object Label22: TLabel
+      Left = 153
+      Top = 18
+      Width = 36
+      Height = 16
+      Caption = 'CFOP'
+    end
     object dbeProduto: TDBEdit
       Left = 6
       Top = 34
-      Width = 70
+      Width = 68
       Height = 24
       DataField = 'CODPRO'
       DataSource = DtSrc1
@@ -1405,9 +1412,9 @@ inherited fCompra: TfCompra
       OnKeyPress = dbeProdutoKeyPress
     end
     object btnProdutoProcura: TBitBtn
-      Left = 77
+      Left = 75
       Top = 33
-      Width = 35
+      Width = 33
       Height = 26
       Enabled = False
       PopupMenu = PopupMenu1
@@ -1480,7 +1487,7 @@ inherited fCompra: TfCompra
         BFBFBFBF0000}
     end
     object DBEdit8: TDBEdit
-      Left = 114
+      Left = 111
       Top = 34
       Width = 35
       Height = 24
@@ -1500,7 +1507,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit9: TDBEdit
-      Left = 151
+      Left = 208
       Top = 34
       Width = 55
       Height = 24
@@ -1518,9 +1525,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit10: TDBEdit
-      Left = 206
+      Left = 265
       Top = 34
-      Width = 60
+      Width = 57
       Height = 24
       DataField = 'PRECO'
       DataSource = DtSrc1
@@ -1536,9 +1543,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit11: TDBEdit
-      Left = 378
+      Left = 429
       Top = 34
-      Width = 55
+      Width = 50
       Height = 24
       DataField = 'ICMS'
       DataSource = DtSrc1
@@ -1554,7 +1561,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit12: TDBEdit
-      Left = 434
+      Left = 481
       Top = 34
       Width = 70
       Height = 24
@@ -1573,7 +1580,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object btnNovo: TBitBtn
-      Left = 505
+      Left = 552
       Top = 33
       Width = 38
       Height = 25
@@ -1583,7 +1590,7 @@ inherited fCompra: TfCompra
       OnClick = btnNovoClick
     end
     object BitBtn8: TBitBtn
-      Left = 544
+      Left = 591
       Top = 33
       Width = 38
       Height = 25
@@ -1594,11 +1601,11 @@ inherited fCompra: TfCompra
       NumGlyphs = 2
     end
     object DBEdit5: TDBEdit
-      Left = 323
+      Left = 378
       Top = 34
-      Width = 54
+      Width = 50
       Height = 24
-      DataField = 'QTDE_ALT'
+      DataField = 'PIPI'
       DataSource = DtSrc1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -1612,13 +1619,14 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object btnRateio: TBitBtn
-      Left = 583
-      Top = 33
-      Width = 38
+      Left = 622
+      Top = 10
+      Width = 8
       Height = 25
       Caption = 'Rateio'
       PopupMenu = PopupMenu1
       TabOrder = 11
+      Visible = False
       OnClick = btnRateioClick
       NumGlyphs = 2
     end
@@ -1718,9 +1726,9 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
     object DBEdit14: TDBEdit
-      Left = 267
+      Left = 323
       Top = 34
-      Width = 55
+      Width = 54
       Height = 24
       DataField = 'QTDE_ALT'
       DataSource = DtSrc1
@@ -1744,6 +1752,24 @@ inherited fCompra: TfCompra
       TabOrder = 14
       TabStop = False
       OnClick = BitBtn5Click
+    end
+    object DBEdit18: TDBEdit
+      Left = 150
+      Top = 34
+      Width = 55
+      Height = 24
+      DataField = 'CFOP'
+      DataSource = DtSrc1
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 15
+      OnExit = DBEdit9Exit
+      OnKeyPress = FormKeyPress
     end
   end
   object CheckBox1: TCheckBox [17]
@@ -2585,6 +2611,20 @@ inherited fCompra: TfCompra
       FixedChar = True
       Size = 1
     end
+    object cds_Mov_detCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object cds_Mov_detPIPI: TFloatField
+      FieldName = 'PIPI'
+    end
+    object cds_Mov_detVIPI: TFloatField
+      FieldName = 'VIPI'
+    end
+    object cds_Mov_detVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2610,11 +2650,12 @@ inherited fCompra: TfCompra
       'TE, movd.DTAFAB, movd.DTAVCTO, movd.DESCPRODUTO, prod.CODPRO,pro' +
       'd.PRODUTO, prod.CODALMOXARIFADO, '#13#10'prod.VALORUNITARIOATUAL, prod' +
       '.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA, prod.RATEIO , ' +
-      'prod.PESO_QTDE from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS p' +
-      'rod on prod.CODPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOX' +
-      'ARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'whe' +
-      're movd.CODDETALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV' +
-      ' order by movd.CODDETALHE'
+      'prod.PESO_QTDE, movd.cfop, movd.pipi, movd.vipi, movd.VALOR_ICMS' +
+      ' from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on prod.CO' +
+      'DPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus o' +
+      'n ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDET' +
+      'ALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order by movd' +
+      '.CODDETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -2738,6 +2779,20 @@ inherited fCompra: TfCompra
       FieldName = 'STATUS'
       FixedChar = True
       Size = 1
+    end
+    object sds_Mov_DetCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object sds_Mov_DetPIPI: TFloatField
+      FieldName = 'PIPI'
+    end
+    object sds_Mov_DetVIPI: TFloatField
+      FieldName = 'VIPI'
+    end
+    object sds_Mov_DetVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
     end
   end
   object s_8: TSQLDataSet
