@@ -27,6 +27,7 @@ type
     acRelServ: TAction;
     acNfe: TAction;
     lblMensagemSistema: TLabel;
+    acNfeEmitir: TAction;
     procedure FormCreate(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -64,6 +65,7 @@ type
     procedure JvOutlookBar1Pages1Buttons3Click(Sender: TObject);
     procedure acRelServExecute(Sender: TObject);
     procedure acNfeExecute(Sender: TObject);
+    procedure acNfeEmitirExecute(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -90,7 +92,9 @@ uses
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
   uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica,
-  uRelOS;
+  uRelOS,
+  uNotaf,
+  UDMNF;
 
 {$R *.dfm}
 
@@ -712,6 +716,22 @@ end;
 procedure TfAtsOS.acNfeExecute(Sender: TObject);
 begin
   fNFeletronica.ShowModal;
+end;
+
+procedure TfAtsOS.acNfeEmitirExecute(Sender: TObject);
+begin
+  fNotaf := TfNotaf.Create(Application);
+  try
+    fNotaf.codVendaFin := 0;
+    fNotaf.codMovFin := 0;
+    DM.tipoVenda := 'NF';
+    //TipoNF := 'Cliente';
+    DMNF.cds_venda.Params[0].Clear;
+    DMNF.cds_venda.Params[1].Clear;
+    fNotaf.ShowModal;
+  finally
+    fNotaf.Free;
+  end;
 end;
 
 end.
