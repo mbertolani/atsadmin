@@ -1,7 +1,7 @@
 object fAtsAdmin: TfAtsAdmin
   Left = 0
   Top = 57
-  Width = 699
+  Width = 714
   Height = 452
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    691
-    406)
+    698
+    394)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 169
     Top = 47
-    Width = 522
-    Height = 335
+    Width = 529
+    Height = 323
     Align = alClient
     Center = True
     Picture.Data = {
@@ -778,7 +778,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 691
+    Width = 698
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2071,8 +2071,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 382
-    Width = 691
+    Top = 370
+    Width = 698
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2105,7 +2105,7 @@ object fAtsAdmin: TfAtsAdmin
     OnClick = Button1Click
   end
   object btnBoleto: TButton
-    Left = 526
+    Left = 541
     Top = 374
     Width = 145
     Height = 25
@@ -2155,7 +2155,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 169
-    Height = 335
+    Height = 323
     Align = alLeft
     Pages = <
       item
@@ -2320,6 +2320,7 @@ object fAtsAdmin: TfAtsAdmin
         TopButtonIndex = 0
       end>
     PageButtonHeight = 24
+    ActivePageIndex = 1
     BorderStyle = bsNone
     TabOrder = 6
     Visible = False
@@ -2800,6 +2801,10 @@ object fAtsAdmin: TfAtsAdmin
       object PaineldeControleCompra1: TMenuItem
         Caption = 'Painel de Controle Compra'
         OnClick = PaineldeControleCompra1Click
+      end
+      object RelatorioTitulos1: TMenuItem
+        Caption = 'Relatorio Vendas /Titulos Descontados'
+        OnClick = RelatorioTitulos1Click
       end
     end
     object RelastriosFinanceiros1: TMenuItem
