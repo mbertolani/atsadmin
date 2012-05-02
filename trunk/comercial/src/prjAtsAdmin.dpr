@@ -172,7 +172,6 @@ uses
   ucopiailha in 'ucopiailha.pas' {fCopiaIlha},
   uClassificacaoFiscalProduto in 'uClassificacaoFiscalProduto.pas' {fClassificacaoFIscalProduto},
   uRel_Guia in 'uRel_Guia.pas' {fRel_Guia},
-  uSincronizar in 'uSincronizar.pas' {fSincronizar},
   uNFPaulista in 'uNFPaulista.pas' {fNFPaulista},
   uselectempresa in 'uselectempresa.pas' {fSelecionaEmpresa},
   uRel_comissao in 'uRel_comissao.pas' {fRel_comissao},
@@ -279,7 +278,8 @@ uses
   uTerminalNTC in 'uTerminalNTC.pas' {fTerminalNTC},
   uIncluirProdutos in 'uIncluirProdutos.pas' {fIncluirProdutos},
   uSuites in 'uSuites.pas' {fSuites},
-  uCadClientes2 in 'uCadClientes2.pas' {fCadClientes2};
+  uCadClientes2 in 'uCadClientes2.pas' {fCadClientes2},
+  uRelTitulos in 'uRelTitulos.pas' {fRelTitulos};
 
 {$R *.res}
 
