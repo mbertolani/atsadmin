@@ -255,6 +255,7 @@ type
     RelLucroPresumido1: TMenuItem;
     SpedPisCofins1: TMenuItem;
     lblMensagemSistema: TLabel;
+    RelatorioTitulos1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -384,6 +385,7 @@ type
     procedure ConciliaoBancaria1Click(Sender: TObject);
     procedure RelLucroPresumido1Click(Sender: TObject);
     procedure SpedPisCofins1Click(Sender: TObject);
+    procedure RelatorioTitulos1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -434,7 +436,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
   uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
-  uRel_LucroPresumido, uNfePisCofins;
+  uRel_LucroPresumido, uNfePisCofins, uRelTitulos;
 
 {$R *.dfm}
 
@@ -2200,6 +2202,16 @@ begin
     fNfePisCofins.ShowModal;
   finally
     fNfePisCofins.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.RelatorioTitulos1Click(Sender: TObject);
+begin
+  fRelTitulos := TfRelTitulos.Create(Application);
+  try
+    fRelTitulos.ShowModal;
+  finally
+    fRelTitulos.Free;
   end;
 end;
 
