@@ -31,7 +31,7 @@ object fProcura_prod: TfProcura_prod
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 801
+    Width = 803
     Height = 90
     Align = alTop
     BevelInner = bvLowered
@@ -549,7 +549,7 @@ object fProcura_prod: TfProcura_prod
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 801
+    Width = 803
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1399,9 +1399,9 @@ object fProcura_prod: TfProcura_prod
       'pro.TIPO,  '#13#10'          pro.LOCALIZACAO ,'#13#10'          pro.LOTES ,'#13 +
       #10'          cod.CODIGO, '#13#10'          uso.DESCRICAO as USO , pro.PR' +
       'ECO_COMPRAMEDIO as PRECOMEDIO, pro.PESO_QTDE, pro.IPI ,pro.PEDID' +
-      'O'#13#10'from LISTAPRODUTOCLI pro '#13#10'left outer join CODIGOS cod on cod' +
-      '.COD_PRODUTO = pro.CODPRODUTO '#13#10'left outer join USO_PRODUTO uso ' +
-      'on uso.COD_PRODUTO = pro.CODPRODUTO'
+      'O, pro.OBS '#13#10'from LISTAPRODUTOCLI pro '#13#10'left outer join CODIGOS ' +
+      'cod on cod.COD_PRODUTO = pro.CODPRODUTO '#13#10'left outer join USO_PR' +
+      'ODUTO uso on uso.COD_PRODUTO = pro.CODPRODUTO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1483,6 +1483,11 @@ object fProcura_prod: TfProcura_prod
     end
     object sds_procPEDIDO: TFloatField
       FieldName = 'PEDIDO'
+    end
+    object sds_procOBS: TStringField
+      FieldName = 'OBS'
+      ReadOnly = True
+      Size = 300
     end
   end
   object dsp_proc: TDataSetProvider
@@ -1588,6 +1593,11 @@ object fProcura_prod: TfProcura_prod
       FieldName = 'PEDIDO'
       DisplayFormat = ',##0.0'
       EditFormat = ',##0.0'
+    end
+    object cds_procOBS: TStringField
+      FieldName = 'OBS'
+      ReadOnly = True
+      Size = 300
     end
   end
   object Dtsrc: TDataSource
