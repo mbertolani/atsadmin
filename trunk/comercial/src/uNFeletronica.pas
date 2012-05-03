@@ -1900,7 +1900,7 @@ begin
       if ( desc > 0) then
         infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)  + cdsItensNFOBS.AsString
       else
-        infAdProd     := '';
+        infAdProd     := cdsItensNFOBS.AsString;
       Prod.NCM      := sProdutosNCM.AsString;
       Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
       Prod.vFrete   := cdsItensNFFRETE.AsCurrency;
