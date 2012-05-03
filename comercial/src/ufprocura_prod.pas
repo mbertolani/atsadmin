@@ -177,6 +177,8 @@ type
     cds_procPEDIDO: TFloatField;
     rbBuscaSimples: TCheckBox;
     CheckBox1: TCheckBox;
+    sds_procOBS: TStringField;
+    cds_procOBS: TStringField;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -471,7 +473,7 @@ begin
    'GRUPO, SUBGRUPO, MARCA, ' +
    'ESTOQUEATUAL, CODALMOXARIFADO, ICMS, TIPO, LOCALIZACAO, LOTES,    ' +
    'SUBGRUPO as CATEGORIA, PRECO_VENDA as VALOR_PRAZO, PESO_QTDE, ' +
-   'PRECO_COMPRAMEDIO as PRECOMEDIO, IPI , PEDIDO ' +
+   'PRECO_COMPRAMEDIO as PRECOMEDIO, IPI , PEDIDO, OBS ' +
    'from LISTAPRODUTOCLI(0, ';
    // 'TODOSPRODUTOS', 'TODOSPRODUTOS', 'TODOSGRUPOS', 'TODOSSUBGRUPOS','TODASMARCAS', 'CODIGOBARRA', 'CODIGOCLIENTE')
   // Codigos
@@ -1297,6 +1299,7 @@ begin
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
     fVendas.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     fVendas.estoque := cds_procESTOQUEATUAL.AsFloat;
+    fVendas.cds_Mov_detOBS.AsString := cds_procObs.asString;
     fVendas.cds_Mov_det.Post;
 end;
 
