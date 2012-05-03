@@ -879,7 +879,7 @@ begin
         fCom.DataVcto             := dta.Date;
         fCom.Serie                := 'I';
         fCom.NotaFiscal           := codMovEntrada;
-        fCom.CodFornecedor        := 1;
+        fCom.CodFornecedor        := 0;
         fCom.CodComprador         := 1;
         fCom.CodCCusto            := cdsInventCODCCUSTO.AsInteger;
         fCom.ValorPagar           := 0;
