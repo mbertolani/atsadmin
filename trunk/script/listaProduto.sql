@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER PROCEDURE LISTAPRODUTO(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -47,7 +48,9 @@ RETURNS(
   PRO_COD Varchar(15)  CHARACTER SET WIN1252,
   DATAGRAV Date  ,
   TIPOPRECOVENDA Char(1)  CHARACTER SET WIN1252,
-  VALORMINIMO Double precision  )
+  VALORMINIMO Double precision  ,
+  OBS Varchar(300)  CHARACTER SET WIN1252)
+
 AS
 declare variable precoVenda double PRECISION;
   declare variable CustoMateriaPrima double PRECISION;
@@ -84,7 +87,7 @@ begin
     p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL
 	, p.NCM, CASE p.ORIGEM WHEN 0 then 'Nac.' WHEN 1 THEN 'Imp. Ext.' WHEN 2 THEN 'Imp. Int.' END as ORIGEM, 
 	p.ESTOQUEMAXIMO, p.ESTOQUEREPOSICAO, p.ESTOQUEMINIMO, p.PRECOMEDIO , p.MARGEM_LUCRO , p.DATACADASTRO,
-	p.PRO_COD, p.DATAGRAV, p.TIPOPRECOVENDA, p.VALORMINIMO
+	p.PRO_COD, p.DATAGRAV, p.TIPOPRECOVENDA, p.VALORMINIMO, p.OBS
     from produtos p
     left outer join USO_PRODUTO uso  on uso.COD_PRODUTO = p.CODPRODUTO
     left outer join CODIGOS cod on cod.COD_PRODUTO = p.CODPRODUTO
@@ -101,7 +104,7 @@ begin
   into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
     :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
     :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto, :ncm, :origem,
-    :ESTOQUEMAXIMO, :ESTOQUEREPOSICAO, :ESTOQUEMINIMO, :PRECOMEDIO , :MARGEM_LUCRO , :DATACADASTRO ,:PRO_COD, :DATAGRAV, :TIPOPRECOVENDA, :VALORMINIMO
+    :ESTOQUEMAXIMO, :ESTOQUEREPOSICAO, :ESTOQUEMINIMO, :PRECOMEDIO , :MARGEM_LUCRO , :DATACADASTRO ,:PRO_COD, :DATAGRAV, :TIPOPRECOVENDA, :VALORMINIMO, :obs
   do begin
   
     if (codAlmoxarifado is null) then 
