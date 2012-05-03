@@ -1190,6 +1190,7 @@ begin
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
       cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+      cds_Mov_detOBS.AsString := dm.scds_produto_procOBS.asString;
       if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
         cds_Mov_detQTDE_PCT.AsFloat := 1;
 //      cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
@@ -3500,11 +3501,12 @@ begin
       if (sqlCusto.Active) then
         sqlCusto.Close;
       sqlCusto.SQL.Clear;
-      sqlCusto.SQL.Add('SELECT FIRST 1 COALESCE(P.PRECOMEDIO, 0) PRECOMEDIO, COALESCE(M.VLR_BASE, 0) VLR_BASE ' +
+      sqlCusto.SQL.Add('SELECT FIRST 1 COALESCE(P.PRECOMEDIO, 0) PRECOMEDIO, ' +
+        ' COALESCE(M.VLR_BASE, 0) VLR_BASE, COALESCE(P.VALORMINIMO, 0) VALORMINIMO' +
         ' FROM PRODUTOS P ' +
         ' left outer join MOVIMENTODETALHE M on m.CODPRODUTO = p.CODPRODUTO ' +
         ' WHERE m.CODPRODUTO   = ' + InttoStr(cds_Mov_detCODPRODUTO.AsInteger) +
-        '   AND m.baixa      = 0 ' +
+        //'   AND m.baixa      = 0 ' +
         ' order by m.CODDETALHE desc');
       sqlCusto.Open;
       if (sqlCusto.FieldByName('VLR_BASE').AsFloat > 0) then
@@ -3522,7 +3524,13 @@ begin
           valida := 'N';
         end;
       end;
-
+      // AVALIANDO PRECO MINIMO
+      if (cds_Mov_detPRECO.AsFloat < sqlCusto.FieldByName('VALORMINIMO').AsFloat) then
+      begin
+          MessageDlg('Valor da venda abaixo do permitido. ' + #13+#10 + ' Item: ' +
+            cds_Mov_detCODPRO.AsString, mtWarning, [mbOK], 0);
+          valida := 'N';
+      end;
 end;
 
 procedure TfVendas.GroupBox1Click(Sender: TObject);
