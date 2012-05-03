@@ -1926,6 +1926,7 @@ type
     scds_cli_procRAZAOSOCIAL: TStringField;
     scds_cli_procDDD: TStringField;
     scds_cli_procTELEFONE: TStringField;
+    scds_produto_procOBS: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -1983,7 +1984,6 @@ type
   private
     memoLic : String;
     { Private declarations }
-    memoLic: String;
     procedure verifiSeExisteCampo(nTabela, nCampo, nCampoTipo: string);
     procedure verificaSeExisteTabela(nTabela, nCampo, nCampoTipo: string);
     procedure verificaMensagemInicial;
@@ -1992,7 +1992,7 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
-    mensagemInicial, sistemaLiberado : String;
+    mensagemInicial, sistemaLiberado, cfopEntrada : String;
     conectado, RESULTADO_APROVA :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
@@ -2066,6 +2066,14 @@ begin
     dbxconec.Free;
   end;
 
+  cfopEntrada := '';
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CFOP';
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+    cfopEntrada := cds_parametroD2.AsString;
+    
   if cds_parametro.Active then
     cds_parametro.Close;
   // Busca se esta usando o Modulo Compras, se sim os pedidos tem q estarem aprovados
@@ -2820,18 +2828,18 @@ begin
   if (tipo = 10) then
   begin
     Case dia of
-      1 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 9 dias.';
-      2 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 8 dias.';
-      3 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 7 dias.';
-      4 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 6 dias.';
-      5 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 5 dias.';
-      6 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 4 dias.';
-      7 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 3 dias.';
-      8 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 2 dias.';
-      9 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 1 dia.';
-      10 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ hoje.';
+      1 : mensagemInicial := 'A Licença de uso expirará em 9 dias.';
+      2 : mensagemInicial := 'A Licença de uso expirará em 8 dias.';
+      3 : mensagemInicial := 'A Licença de uso expirará em 7 dias.';
+      4 : mensagemInicial := 'A Licença de uso expirará em 6 dias.';
+      5 : mensagemInicial := 'A Licença de uso expirará em 5 dias.';
+      6 : mensagemInicial := 'A Licença de uso expirará em 4 dias.';
+      7 : mensagemInicial := 'A Licença de uso expirará em 3 dias.';
+      8 : mensagemInicial := 'A Licença de uso expirará em 2 dias.';
+      9 : mensagemInicial := 'A Licença de uso expirará em 1 dia.';
+      10 : mensagemInicial := 'A Licença de uso expirará hoje.';
       11 : begin
-             mensagemInicial := 'A Licenï¿½a de uso expirada.';
+             mensagemInicial := 'A Licença de uso expirada.';
              sistemaLiberado := 'N';
            end;
       else mensagemInicial := 'N';
@@ -2840,18 +2848,18 @@ begin
   if (tipo = 20) then
   begin
     Case dia of
-      11 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 9 dias.';
-      12 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 8 dias.';
-      13 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 7 dias.';
-      14 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 6 dias.';
-      15 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 5 dias.';
-      16 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 4 dias.';
-      17 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 3 dias.';
-      18 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 2 dias.';
-      19 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 1 dia.';
-      20 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ hoje.';
+      11 : mensagemInicial := 'A Licença de uso expirará em 9 dias.';
+      12 : mensagemInicial := 'A Licença de uso expirará em 8 dias.';
+      13 : mensagemInicial := 'A Licença de uso expirará em 7 dias.';
+      14 : mensagemInicial := 'A Licença de uso expirará em 6 dias.';
+      15 : mensagemInicial := 'A Licença de uso expirará em 5 dias.';
+      16 : mensagemInicial := 'A Licença de uso expirará em 4 dias.';
+      17 : mensagemInicial := 'A Licença de uso expirará em 3 dias.';
+      18 : mensagemInicial := 'A Licença de uso expirará em 2 dias.';
+      19 : mensagemInicial := 'A Licença de uso expirará em 1 dia.';
+      20 : mensagemInicial := 'A Licença de uso expira hoje.';
       21 : begin
-             mensagemInicial := 'A Licenï¿½a de uso expirada.';
+             mensagemInicial := 'A Licença de uso expirada.';
              sistemaLiberado := 'N';
            end;
       else mensagemInicial := 'N';
