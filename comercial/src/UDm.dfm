@@ -2,7 +2,7 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 202
-  Top = 112
+  Top = 79
   Height = 616
   Width = 1024
   object sqlsisAdimin: TSQLConnection
@@ -16,7 +16,9 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_terranutri'
+      
+        'Database=escritorio-pc:c:\Home\sisadmin\bd\sge_agroverde_treina.' +
+        'fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -761,9 +763,9 @@ object DM: TDM
       'PCT'#13#10', ICMS'#13#10', CODALMOXARIFADO'#13#10', PRECO_COMPRAULTIMO as  VALORUN' +
       'ITARIOATUAL'#13#10', PRECO_VENDA AS VALOR_PRAZO'#13#10', TIPO  '#13#10', ESTOQUEAT' +
       'UAL '#13#10', LOCALIZACAO'#13#10', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
-      ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI'#13#10'from LIST' +
-      'APRODUTO(:CODPRODUTO, :CODPRO, '#39'TODOSGRUPOS'#39', '#39'TODOSSUBGRUPOS'#39','#39 +
-      'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39',0)'#13#10
+      ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS'#13#10'from' +
+      ' LISTAPRODUTO(:CODPRODUTO, :CODPRO, '#39'TODOSGRUPOS'#39', '#39'TODOSSUBGRUP' +
+      'OS'#39','#39'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39',0)'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -777,8 +779,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 478
-    Top = 242
+    Left = 774
+    Top = 330
     object scds_produto_procCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
@@ -848,6 +850,10 @@ object DM: TDM
     end
     object scds_produto_procIPI: TFloatField
       FieldName = 'IPI'
+    end
+    object scds_produto_procOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
     end
   end
   object proc_empresa: TSQLDataSet
@@ -2509,8 +2515,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 503
-    Top = 336
+    Left = 671
+    Top = 408
     object sds_crCODRECEBIMENTO: TIntegerField
       FieldName = 'CODRECEBIMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -9707,10 +9713,10 @@ object DM: TDM
       'O'#13#10', prod.CONTA_DESPESA'#13#10', ccus.ALMOXARIFADO'#13#10', prod.VALORUNITAR' +
       'IOATUAL'#13#10', prod.VALOR_PRAZO'#13#10', prod.COD_COMISSAO'#13#10', prod.RATEIO'#13 +
       #10', prod.TIPO  '#13#10', prod.ESTOQUEATUAL '#13#10', prod.LOCALIZACAO'#13#10', prod' +
-      '.LOTES  , prod.PRECOMEDIO, prod.PESO_QTDE'#13#10'from PRODUTOS prod '#13#10 +
-      'left outer join ALMOXARIFADO ccus '#13#10'on ccus.CODALMOXARIFADO = pr' +
-      'od.CODALMOXARIFADO '#13#10'where (PRODUTO like :pPROD) or (CODPRODUTO ' +
-      '= :CODPRODUTO) '#13#10'or (CODPRO = :CODPRO)'
+      '.LOTES  , prod.PRECOMEDIO, prod.PESO_QTDE, prod.OBS'#13#10'from PRODUT' +
+      'OS prod '#13#10'left outer join ALMOXARIFADO ccus '#13#10'on ccus.CODALMOXAR' +
+      'IFADO = prod.CODALMOXARIFADO '#13#10'where (PRODUTO like :pPROD) or (C' +
+      'ODPRODUTO = :CODPRODUTO) '#13#10'or (CODPRO = :CODPRO)'
     MaxBlobSize = -1
     Params = <
       item
@@ -9729,8 +9735,8 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 1072
-    Top = 450
+    Left = 838
+    Top = 282
     object scds_produto_procASHCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
