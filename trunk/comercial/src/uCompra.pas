@@ -993,6 +993,7 @@ begin
   end;
   cds_mov_detCODDETALHE.AsInteger := codmovdet;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
+  cds_Mov_detCFOP.AsString := dm.cfopEntrada;
 end;
 
 procedure TfCompra.btnExcluirClick(Sender: TObject);
