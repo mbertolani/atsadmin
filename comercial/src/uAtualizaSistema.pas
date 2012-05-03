@@ -1516,7 +1516,7 @@ begin
           'CODRECEBIMENTO INTEGER NOT NULL, ' +
           'ID_HIST INTEGER NOT NULL, ' +
           'TITULO VARCHAR(20) , ' +
-          'CAIXA INTEGER, ' + 
+          'CAIXA INTEGER, ' +
           'TIPO VARCHAR(30) NOT NULL, ' +
           'DATA_HIST DATE , '+
           'HISTORICO VARCHAR(200), ' +
@@ -1525,6 +1525,25 @@ begin
       end;
       mudaVersao('1.0.0.104');
     end;// Fim Ataulização Versao 1.0.0.104
+
+    if (versaoSistema = '1.0.0.104') then
+    begin
+      executaScript('gera_nf_venda.sql');
+      executaScript('listaProdutocli.sql');
+      executaScript('listaProduto.sql');
+      if (NaoExisteTabela('NF_INUTILIZADO')) then
+      begin
+        executaSql('CREATE TABLE NF_INUTILIZADO(' +
+          'NUM INTEGER NOT NULL, ' +
+          'DATA_INUTILIZADO NOT NULL, ' +
+          'CCUSTO INTEGER, ' +
+          'SERIE VARCHAR(10) NOT NULL ' +
+          'USUARIO INTEGER, ' +
+          'PRIMARY KEY(NUM))')
+      end;
+
+      mudaVersao('1.0.0.105');
+    end;// Fim Ataulização Versao 1.0.0.105
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
