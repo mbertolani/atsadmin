@@ -1,6 +1,6 @@
 inherited fCliente1: TfCliente1
-  Left = 330
-  Top = 146
+  Left = 350
+  Top = 122
   Width = 746
   Height = 606
   Caption = 'Cadastro Cliente'
