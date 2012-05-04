@@ -144,10 +144,8 @@ begin
       executaScript('sp_mov_caixaordemfluxo.sql');
       executaScript('sp_mov_caixa_ordemfluxo.sql');
       executaScript('fluxoentradasaida.sql');
-
       executaScript('fluxoentradasaidasintetico.sql');
       executaScript('insere_estoque.sql');
-      //executaScript('listaProduto.sql');
       executaScript('insere_vlrBase.sql');
       {ExecutaSql('UPDATE MOVIMENTODETALHE SET LOTE = null where LOTE = ' +
         QuotedStr(''));}
@@ -158,7 +156,6 @@ begin
     begin
       executaScript('altera_venda.sql');
       executaScript('altera_rec.sql');
-      //executaScript('listaProduto.sql');
       executaScript('boleto.sql');
       //executaScript('gera_nf.sql');
       mudaVersao('1.0.0.17');
@@ -304,7 +301,6 @@ begin
     begin
       executaScript('sp_contas_pendentes.sql');
       executaDDL('PRODUTOS', 'TIPOPRECOVENDA','char(1)');
-      executaScript('listaProduto.sql');
       mudaVersao('1.0.0.29');
     end; // Fim Ataulização Versao 1.0.0.28
 
@@ -538,7 +534,7 @@ begin
 
     if (versaoSistema = '1.0.0.51') then
     begin
-      executaScript('LISTAPRODUTOCLI.sql');
+
       executaScript('sp_divergencia.sql');
       mudaVersao('1.0.0.52');
     end;  // Fim Ataulização Versao 1.0.0.52
@@ -724,7 +720,6 @@ begin
     if (versaoSistema = '1.0.0.70') then
     begin
       executaDDL('MOVIMENTODETALHE', 'VLR_BASEICMS','DOUBLE PRECISION');
-//      executaScript('calcula_icms_substprod.sql');
       executaScript('listaSpEstoqueFiltro.sql');
       executaScript('spEstoqueFiltro.sql');
       mudaVersao('1.0.0.71');
@@ -776,7 +771,7 @@ begin
 
     if (versaoSistema = '1.0.0.76') then
     begin
-      executaScript('nfe_fatura.sql');    
+      executaScript('nfe_fatura.sql');
       executaScript('corrige_valor_fatura.sql');
       executaDDL('MOVIMENTO', 'KM', 'varchar(30)');
       executaDDL('MOVIMENTO', 'TOTALMOVIMENTO', 'double precision');
@@ -1082,7 +1077,6 @@ begin
       executaDDL('OS', 'KM', 'Integer');
       executaDDL('OS', 'CODUSUARIO', 'Integer');
       executaDDL('OS', 'DATAOS', 'Date');
-      executaScript('gera_nf_venda.sql');
       executaScript('gera_pedido_proc.sql');
       executaScript('rel_compra_pedido.sql');
       executaScript('cotacao_gera_pedido.sql');
@@ -1117,7 +1111,6 @@ begin
         executaSql('create table PAIS ( CODPAIS char(4) NOT NULL, ' +
           'PAIS VARCHAR(60) NOT null, ' +
           'PRIMARY KEY(CODPAIS, PAIS) )');
-        //executaScript('pais.sql');
         MessageDlg('Execute o Script "pais.sql".', mtWarning, [mbOK], 0);
       end;
       mudaVersao('1.0.0.95');
@@ -1200,9 +1193,6 @@ begin
       executaDDL('MOVIMENTODETALHE', 'IMPRESSO', 'CHAR(3)');
       executaDDL('RECEBIMENTO', 'USERID', 'INTEGER');
       executaDDL('PRODUTOS', 'ESTOQUEMAXIMO', 'DOUBLE PRECISION');
-      executaScript('listaProdutocli.sql');
-      executaScript('listaProduto.sql');
-      executaScript('gera_nf_venda.sql');
       executaScript('gera_nf_compra.sql');
       mudaVersao('1.0.0.98');
     end;// Fim Ataulização Versao 1.0.0.98
@@ -1479,9 +1469,6 @@ begin
       executaSql('ALTER TABLE EMPRESA ALTER SMTP TYPE Varchar(60)');
       executaSql('ALTER TABLE EMPRESA ALTER SENHA TYPE Varchar(30)');
       executaSql('ALTER TABLE EMPRESA ALTER E_MAIL TYPE Varchar(100)');
-      executaScript('gera_parcelas_pag.sql');
-      executaScript('relContaReceber.sql');
-      executaScript('rel_rcbototal.sql');
       if (NaoExisteTabela('CLASSIFICACAO_SERVICOS')) then
       begin
         executaSql('CREATE TABLE CLASSIFICACAO_SERVICOS(' +
@@ -1503,6 +1490,9 @@ begin
       EXECUTADDL('CLIENTES', 'E_FORNECEDOR', 'CHAR(1)');
       EXECUTADDL('CLIENTES', 'CODFORNECEDOR', 'INTEGER');
       EXECUTADDL('CLIENTES', 'CARGOFUNCAO', 'VARCHAR(1)');
+      executaScript('gera_parcelas_pag.sql');
+      executaScript('relContaReceber.sql');
+      executaScript('rel_rcbototal.sql');
       mudaVersao('1.0.0.103');
     end;// Fim Ataulização Versao 1.0.0.103
 
@@ -1528,21 +1518,34 @@ begin
 
     if (versaoSistema = '1.0.0.104') then
     begin
-      executaScript('gera_nf_venda.sql');
-      executaScript('listaProdutocli.sql');
-      executaScript('listaProduto.sql');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTIPI', 'VARCHAR(2)');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTPIS', 'VARCHAR(2)');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTCOFINS', 'VARCHAR(2)');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'PIS', 'double precision');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'COFINS', 'double precision');
+      executaDDL('MOVIMENTO', 'ENTREGA', 'varchar(60)');
+      executaDDL('CLIENTES', 'CORTESIA', 'char(1)');
+      executaDDL('CLIENTES', 'VALOR_CONSUMO', 'double precision');
+      executaDDL('CLIENTES', 'VALOR_CORTESIA', 'double precision');
+      executaDDL('CLIENTES', 'E_FORNECEDOR', 'char(1)');
+      executaDDL('CLIENTES', 'CODFORNECEDOR', 'integer');
+      executaDDL('CLIENTES', 'CARGOFUNCAO', 'varchar(1)');
+      executaDDL('FORNECEDOR', 'CAMPOADICIONAL', 'varchar(60)');
+      executaDDL('FORNECEDOR', 'CAMPOADICIONAL1', 'varchar(60)');
       if (NaoExisteTabela('NF_INUTILIZADO')) then
       begin
         executaSql('CREATE TABLE NF_INUTILIZADO(' +
           'NUM INTEGER NOT NULL, ' +
-          'DATA_INUTILIZADO NOT NULL, ' +
+          'DATA_INUTILIZADO DATE NOT NULL, ' +
           'CCUSTO INTEGER, ' +
-          'SERIE VARCHAR(10) NOT NULL ' +
+          'SERIE VARCHAR(10) NOT NULL, ' +
           'USUARIO INTEGER, ' +
           'PRIMARY KEY(NUM))')
       end;
-
-      mudaVersao('1.0.0.105');
+      executaScript('gera_nf_venda.sql');
+      executaScript('listaProduto.sql');
+      executaScript('LISTAPRODUTOCLI.sql');
+      //mudaVersao('1.0.0.105');
     end;// Fim Ataulização Versao 1.0.0.105
 
     try
