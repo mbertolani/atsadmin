@@ -1,6 +1,6 @@
 object fProcurar_nf: TfProcurar_nf
-  Left = 451
-  Top = 203
+  Left = 452
+  Top = 204
   BorderStyle = bsDialog
   Caption = 'Procurar'
   ClientHeight = 306
