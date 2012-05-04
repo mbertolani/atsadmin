@@ -359,7 +359,10 @@ begin
       FCli.DataCadastro:= Now;
       FCli.Contato     := cds_cliCONTATO.AsString;
       FCli.Status      := cds_cliSTATUS.AsInteger;
+      //FCli.DataNasc    := '';
+      //IF (NOT cds_cliDATANASC.IsNull) THEN
       FCli.DataNasc    := cds_cliDATANASC.AsDateTime;
+
       FCli.Referencia  := cds_cliMARCA.AsString;
 
       if (cCli = 0) then

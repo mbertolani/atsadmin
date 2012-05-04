@@ -1,6 +1,6 @@
 object fClienteFiltro: TfClienteFiltro
-  Left = 195
-  Top = 91
+  Left = 196
+  Top = 93
   Width = 589
   Height = 355
   Caption = 'Filtro Cliente'
@@ -17,7 +17,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox2: TGroupBox
     Left = 0
     Top = 105
-    Width = 581
+    Width = 573
     Height = 54
     Align = alTop
     Caption = 'VENDEDOR'
@@ -73,8 +73,8 @@ object fClienteFiltro: TfClienteFiltro
   end
   object Panel1: TPanel
     Left = 0
-    Top = 264
-    Width = 581
+    Top = 253
+    Width = 573
     Height = 64
     Align = alBottom
     TabOrder = 1
@@ -372,7 +372,7 @@ object fClienteFiltro: TfClienteFiltro
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 581
+    Width = 573
     Height = 48
     Align = alTop
     TabOrder = 2
@@ -540,14 +540,14 @@ object fClienteFiltro: TfClienteFiltro
   object Panel3: TPanel
     Left = 0
     Top = 48
-    Width = 581
+    Width = 573
     Height = 57
     Align = alTop
     TabOrder = 3
     object GroupBox3: TGroupBox
       Left = 1
       Top = 1
-      Width = 579
+      Width = 571
       Height = 55
       Align = alBottom
       Caption = 'CLIENTE'
@@ -620,7 +620,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox4: TGroupBox
     Left = 0
     Top = 159
-    Width = 581
+    Width = 573
     Height = 50
     Align = alTop
     Caption = 'CIDADE/UF/DDD'
@@ -700,8 +700,8 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox5: TGroupBox
     Left = 0
     Top = 209
-    Width = 581
-    Height = 55
+    Width = 573
+    Height = 44
     Align = alClient
     Caption = 'Data do Cadastro'
     TabOrder = 5

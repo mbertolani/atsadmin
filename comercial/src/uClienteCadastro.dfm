@@ -1,6 +1,6 @@
 inherited fClienteCadastro: TfClienteCadastro
-  Left = 201
-  Top = 125
+  Left = 202
+  Top = 127
   VertScrollBar.Range = 0
   BorderStyle = bsSingle
   ClientHeight = 542
@@ -571,7 +571,7 @@ inherited fClienteCadastro: TfClienteCadastro
     Top = 46
     Width = 764
     Height = 442
-    ActivePage = TabSheet3
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
     OnChange = PageControl1Change
@@ -2299,7 +2299,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2599,7 +2599,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2709,7 +2709,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 14
       end
@@ -3099,7 +3099,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 19
       end
@@ -5531,7 +5531,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
