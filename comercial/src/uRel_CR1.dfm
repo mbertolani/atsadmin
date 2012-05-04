@@ -1,6 +1,6 @@
 object fRel_CR1: TfRel_CR1
-  Left = 245
-  Top = 176
+  Left = 261
+  Top = 210
   Width = 355
   Height = 361
   BorderIcons = [biSystemMenu]
@@ -1275,8 +1275,8 @@ object fRel_CR1: TfRel_CR1
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 252
-    Top = 192
+    Left = 244
+    Top = 248
     object s_parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
