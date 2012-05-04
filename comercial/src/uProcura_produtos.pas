@@ -1540,14 +1540,17 @@ end;
 
 procedure TfProcura_produtos.BitBtn3Click(Sender: TObject);
 begin
-  fClassificacaoFiscalProduto := TfClassificacaoFiscalProduto.Create(Application);
-  try
-    fClassificacaoFiscalProduto.Label9.Caption := cds_procPRODUTO.AsString;
-    fClassificacaoFiscalProduto.cfcodprod := cds_procCODPRODUTO.AsInteger;
-    fClassificacaoFiscalProduto.cfcodproduto := cds_procCODPRO.AsString;
-    fClassificacaoFiscalProduto.ShowModal;
-  finally
-    fClassificacaoFiscalProduto.Free;
+  if (not cds_procCODPRODUTO.IsNull) then
+  begin
+    fClassificacaoFiscalProduto := TfClassificacaoFiscalProduto.Create(Application);
+    try
+      fClassificacaoFiscalProduto.Label9.Caption := cds_procPRODUTO.AsString;
+      fClassificacaoFiscalProduto.cfcodprod := cds_procCODPRODUTO.AsInteger;
+      fClassificacaoFiscalProduto.cfcodproduto := cds_procCODPRO.AsString;
+      fClassificacaoFiscalProduto.ShowModal;
+    finally
+      fClassificacaoFiscalProduto.Free;
+    end;
   end;
 
 end;
