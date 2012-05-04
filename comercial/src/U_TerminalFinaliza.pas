@@ -777,14 +777,14 @@ procedure TF_TerminalFinaliza.JvGravarClick(Sender: TObject);
 var
     FRec : TReceberCls;
 begin
-    if (DBEdit5.Text = '1') then
-     if (cbPrazo.Text = '01-A Vista') then
-      if (jvPago.Value < jvApagar.Value) then
-      begin
-         MessageDlg('Valor pago menor que total a pagar, '+#13+#10+'  parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
-         cbPrazo.SetFocus;
-         exit;
-      end;
+  if (DBEdit5.Text = '1') then
+   if (cbPrazo.Text = '01-A Vista') then
+    if (jvPago.Value < jvApagar.Value) then
+    begin
+       MessageDlg('Valor pago menor que total a pagar, '+#13+#10+'  parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
+       cbPrazo.SetFocus;
+       exit;
+    end;
 
   if (DM_MOV.c_forma.Active) then
       DM_MOV.c_forma.close;
@@ -846,7 +846,7 @@ begin
     scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
     scdsCr_proc.Open;
 
-   //  se tiver pagamento parcial ----------------------------------------------
+    //  se tiver pagamento parcial ----------------------------------------------
     if (not DM_MOV.c_forma.IsEmpty) then
     begin
        baixou := 0;
