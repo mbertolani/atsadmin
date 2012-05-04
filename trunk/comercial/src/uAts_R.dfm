@@ -1,6 +1,6 @@
 object fAts_R: TfAts_R
-  Left = 386
-  Top = 248
+  Left = 387
+  Top = 250
   Width = 786
   Height = 421
   Color = clWindow
