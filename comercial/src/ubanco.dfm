@@ -1,6 +1,6 @@
 inherited fbanco: Tfbanco
-  Left = 326
-  Top = 191
+  Left = 328
+  Top = 74
   Width = 707
   Height = 591
   OldCreateOrder = True
@@ -730,17 +730,17 @@ inherited fbanco: Tfbanco
       '03 - Protestar no 3'#186' dia '#250'til ap'#243's vencido'
       '04 - Protestar no 4'#186' dia '#250'til ap'#243's vencido'
       '05 - Protestar no 5'#186' dia '#250'til ap'#243's vencido'
-      '10 - Protestar no 10'#186' dia corrido ap'#243's vencido'
-      '15 - Protestar no 15'#186' dia corrido ap'#243's vencido'
-      '20 - Protestar no 20'#186' dia corrido ap'#243's vencido'
-      '25 - Protestar no 25'#186' dia corrido ap'#243's vencido'
-      '30 - Protestar no 30'#186' dia corrido ap'#243's vencido'
-      '45 - Protestar no 45'#186' dia corrido ap'#243's vencido'
       
         '06 - Indica Protesto em dias corridos, com prazo de 6 a 29, 35 o' +
         'u 40 dias Corridos.'
       '07 - N'#227'o protestar'
-      '22 - Conceder desconto s'#243' at'#233' a data estipulada')
+      '10 - Protestar no 10'#186' dia corrido ap'#243's vencido'
+      '15 - Protestar no 15'#186' dia corrido ap'#243's vencido'
+      '20 - Protestar no 20'#186' dia corrido ap'#243's vencido'
+      '22 - Conceder desconto s'#243' at'#233' a data estipulada'
+      '25 - Protestar no 25'#186' dia corrido ap'#243's vencido'
+      '30 - Protestar no 30'#186' dia corrido ap'#243's vencido'
+      '45 - Protestar no 45'#186' dia corrido ap'#243's vencido')
     TabOrder = 31
   end
   object dbedtPASTA_RETORNO: TDBEdit [60]
