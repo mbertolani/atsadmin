@@ -2477,7 +2477,7 @@ begin
     DecimalSeparator := '.';
     //SALVA OS PROTOCOLOS
     str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo);
-    str := str + ', DHENVIO = ' + QuotedStr(DateToStr(envio));
+    str := str + ', DHENVIO = ' + QuotedStr(FormatDateTime('MM/dd/yyyy', envio));
     str := str + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString);
     str := str + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
     dm.sqlsisAdimin.ExecuteDirect(str);
