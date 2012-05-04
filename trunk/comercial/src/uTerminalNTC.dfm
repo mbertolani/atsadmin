@@ -1,6 +1,6 @@
 object fTerminalNTC: TfTerminalNTC
-  Left = 288
-  Top = 135
+  Left = 289
+  Top = 136
   BorderStyle = bsSingle
   ClientHeight = 552
   ClientWidth = 778
