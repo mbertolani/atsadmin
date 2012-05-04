@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 312
-  Top = 127
+  Left = 313
+  Top = 128
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -2253,8 +2253,8 @@ object F_Terminal: TF_Terminal
           object JvImage1: TJvImage
             Left = 2
             Top = 2
-            Width = 358
-            Height = 355
+            Width = 765
+            Height = 370
             Align = alClient
             AutoSize = True
             Center = True
@@ -4600,13 +4600,21 @@ object F_Terminal: TF_Terminal
             Expanded = False
             FieldName = 'NOMECLIENTE'
             Title.Caption = 'Delivery'
-            Width = 250
+            Width = 160
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DATA_SISTEMA'
             Title.Caption = 'Horario'
+            Width = 115
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ENTREGA'
+            Title.Caption = 'Entrega ?'
+            Width = 80
             Visible = True
           end>
       end
@@ -4624,7 +4632,7 @@ object F_Terminal: TF_Terminal
         Background.EndColor = clSkyBlue
         Background.FillType = GradUpDown
         object JvLabel2: TJvLabel
-          Left = 6
+          Left = 1
           Top = 6
           Width = 63
           Height = 17
@@ -4645,7 +4653,7 @@ object F_Terminal: TF_Terminal
           HotTrackFont.Style = []
         end
         object JvLabel4: TJvLabel
-          Left = 86
+          Left = 81
           Top = 6
           Width = 43
           Height = 17
@@ -4666,7 +4674,7 @@ object F_Terminal: TF_Terminal
           HotTrackFont.Style = []
         end
         object JvLabel5: TJvLabel
-          Left = 7
+          Left = 2
           Top = 42
           Width = 66
           Height = 17
@@ -4687,7 +4695,7 @@ object F_Terminal: TF_Terminal
           HotTrackFont.Style = []
         end
         object edtFone: TEdit
-          Left = 7
+          Left = 2
           Top = 22
           Width = 77
           Height = 20
@@ -4704,9 +4712,9 @@ object F_Terminal: TF_Terminal
           OnKeyPress = edtFoneKeyPress
         end
         object edtNome: TEdit
-          Left = 123
+          Left = 117
           Top = 22
-          Width = 204
+          Width = 212
           Height = 20
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -4722,9 +4730,9 @@ object F_Terminal: TF_Terminal
           TabOrder = 1
         end
         object edtEnd: TEdit
-          Left = 7
+          Left = 2
           Top = 58
-          Width = 354
+          Width = 359
           Height = 20
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -4740,7 +4748,7 @@ object F_Terminal: TF_Terminal
           TabOrder = 2
         end
         object edtCodCli: TEdit
-          Left = 85
+          Left = 80
           Top = 22
           Width = 37
           Height = 20

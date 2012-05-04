@@ -2161,6 +2161,13 @@ end;
 
 procedure TF_Terminal.JvImprimirClick(Sender: TObject);
 begin
+  if (DM_MOV.c_movdet.IsEmpty) then
+  begin
+    ShowMessage('Informe itens do Pedido !');
+    edtFone.SetFocus;
+    Exit;
+  end;
+
    usaDll := 'FALSE';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -3502,7 +3509,7 @@ begin
      if (edtFone.Text <> '') then
      begin
        sql := 'SELECT a.CODCLIENTE, a.NOMECLIENTE, ' +
-              'e.LOGRADOURO, e.TELEFONE ' +
+              'e.LOGRADOURO, e.TELEFONE, e.NUMERO, e.BAIRRO ' +
               'FROM CLIENTES a, ENDERECOCLIENTE e ' +
               'where e.CODCLIENTE = a.CODCLIENTE ' +
               ' and e.TIPOEND = 0 ' +
@@ -3515,7 +3522,7 @@ begin
        begin
          edtCodCli.Text := IntToStr(sbuscaCli.Fields[0].AsInteger);
          edtNome.Text := sbuscaCli.Fields[1].AsString;
-         edtEnd.Text := sbuscaCli.Fields[2].AsString;
+         edtEnd.Text := sbuscaCli.Fields[2].AsString + ', ' + sbuscaCli.Fields[4].AsString + ' ' + sbuscaCli.Fields[5].AsString;
          if (MessageDlg('Incluir Pedido ?', mtInformation, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
          begin
            codcliente := sbuscaCli.Fields[0].AsInteger;
@@ -3772,7 +3779,7 @@ begin
      edtFone.Text := scds_cli_procTELEFONE.AsString;
      edtCodCli.Text := IntToStr(scds_cli_procCODCLIENTE.AsInteger);
      edtNome.Text := scds_cli_procNOMECLIENTE.AsString;
-     edtEnd.Text := scds_cli_procLOGRADOURO.AsString + scds_cli_procNUMERO.AsString + scds_cli_procBAIRRO.AsString;
+     edtEnd.Text := scds_cli_procLOGRADOURO.AsString + ',' + scds_cli_procNUMERO.AsString + ' ' +  scds_cli_procBAIRRO.AsString;
      edtFone.SetFocus;
   finally
    scds_cli_proc.Close;
@@ -4954,6 +4961,17 @@ begin
       edtQtde.Value := 0;
       EdtCodBarra.SetFocus;
    end;
+   if (PageControl1.ActivePage = TabDelivery) then
+   begin
+      edtFone.Text := '';
+      edtCodCli.Text := '';
+      edtNome.Text := '';
+      edtEnd.Text := '';
+      JvTotal.Value := 0;
+      JvSubtotal.Value := 0;
+      JvParcial.Value := 0;
+      edtFone.SetFocus;
+   end;
 end;
 
 procedure TF_Terminal.EditarComanda1Click(Sender: TObject);
@@ -5005,6 +5023,10 @@ begin
      finally
        f_AbreComanda.Free;
      end;
+  end;
+  if (PageControl1.ActivePage = TabDelivery) then
+  begin
+
   end;
 end;
 
