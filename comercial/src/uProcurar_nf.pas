@@ -125,6 +125,7 @@ begin
       finally
         fCliente1.free;
       end;
+
     end
     else
     begin
@@ -142,7 +143,20 @@ begin
   begin
     fCliente1 :=TfCliente1.Create(Application);
     try
-      fCliente1.ShowModal;
+        if (fCliente1.cds_cli.Active) then
+            fCliente1.cds_cli.Close;
+        fCliente1.cds_cli.Params[0].AsInteger := F_Terminal.scds_cli_procCODCLIENTE.AsInteger;
+        fCliente1.cds_cli.Open;
+        if (fCliente1.cds_CliEnd.Active) then
+           fCliente1.cds_CliEnd.Close;
+        fCliente1.cds_CliEnd.Params[0].AsInteger := fCliente1.cds_cliCODCLIENTE.AsInteger;
+        fCliente1.cds_CliEnd.Open;
+
+        fCliente1.ShowModal;
+        if (fCliente1.cds_cli.Active) then
+          fCliente1.cds_cli.Close;
+        if (fCliente1.cds_CliEnd.Active) then
+           fCliente1.cds_CliEnd.Close;
     finally
       fCliente1.free;
     end;
