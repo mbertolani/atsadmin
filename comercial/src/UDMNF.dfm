@@ -1,7 +1,7 @@
 object DMNF: TDMNF
   OldCreateOrder = False
-  Left = 75
-  Top = 44
+  Left = 76
+  Top = 46
   Height = 669
   Width = 891
   object sCliente: TSQLDataSet
