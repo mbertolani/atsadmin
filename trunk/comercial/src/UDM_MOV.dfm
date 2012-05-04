@@ -1,7 +1,7 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 883
-  Top = 320
+  Left = 917
+  Top = 239
   Height = 455
   Width = 449
   object s_buscaMov: TSQLDataSet
@@ -252,6 +252,11 @@ object DM_MOV: TDM_MOV
       FixedChar = True
       Size = 1
     end
+    object s_movimentoENTREGA: TStringField
+      FieldName = 'ENTREGA'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
+    end
   end
   object p_movimento: TDataSetProvider
     DataSet = s_movimento
@@ -452,6 +457,11 @@ object DM_MOV: TDM_MOV
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
+    end
+    object c_movimentoENTREGA: TStringField
+      FieldName = 'ENTREGA'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
     end
   end
   object p_movdet: TDataSetProvider
@@ -2463,6 +2473,11 @@ object DM_MOV: TDM_MOV
       Required = True
       Size = 50
     end
+    object s_deliveryENTREGA: TStringField
+      FieldName = 'ENTREGA'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
+    end
   end
   object p_delivery: TDataSetProvider
     DataSet = s_delivery
@@ -2692,6 +2707,11 @@ object DM_MOV: TDM_MOV
       ProviderFlags = []
       Required = True
       Size = 50
+    end
+    object c_DeliveryENTREGA: TStringField
+      FieldName = 'ENTREGA'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
     end
   end
   object d_delivery: TDataSource

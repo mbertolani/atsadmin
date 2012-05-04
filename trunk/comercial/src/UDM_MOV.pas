@@ -595,6 +595,10 @@ type
     c_movdetPRODUTO: TStringField;
     IMP_MOVDETIMPRESSO: TStringField;
     IMP_MOVDETPRODUTO: TStringField;
+    s_movimentoENTREGA: TStringField;
+    c_movimentoENTREGA: TStringField;
+    s_deliveryENTREGA: TStringField;
+    c_DeliveryENTREGA: TStringField;
     procedure c_movdetCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
