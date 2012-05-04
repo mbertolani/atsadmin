@@ -629,7 +629,7 @@ begin
       end;
       if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
       begin
-         codigo_cliente            := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+         codigo_cliente            := DM_MOV.c_comandaCODCLIENTE.AsInteger;
          codigo_almox              := DM_MOV.ID_CCUSTO;//DM_MOV.c_comandaCODALMOXARIFADO.AsInteger;
       end;
       if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
