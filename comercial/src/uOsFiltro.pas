@@ -157,6 +157,7 @@ type
     btnIncluir: TBitBtn;
     btnStatusServico: TBitBtn;
     btnStatusOs: TBitBtn;
+    sqlMov: TSQLQuery;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -572,104 +573,116 @@ begin
       ', 0, ' + QuotedStr('AMBOS') + ')');
   end;
 
+  //Verifica se já não foi gerado o Movimento e MovDet
+  if (sqlMov.Active) then
+    sqlMov.Close;
+  sqlMov.SQL.Clear;
+  sqlMov.SQL.Add('SELECT CODMOVIMENTO FROM MOVIMENTO ' +
+    ' WHERE CODCLIENTE = ' + IntToStr(cdsOsCODCLIENTE.AsInteger) +
+    '   AND CODORIGEM  = ' + QuotedStr(IntToStr(cdsOsCODOS.AsInteger)) +
+    '   AND CONTROLE   = ' + QuotedStr('OS'));
+  sqlMov.Open;
+  codMov := sqlMov.Fields[0].AsInteger;
 
-  // Gera o Movimento e Movimento Detalhe
-  Try
-    fmov := TMovimento.Create;
+  if (sqlMov.IsEmpty) then
+  begin
+    // Gera o Movimento e Movimento Detalhe
     Try
-      TD.TransactionID := 1;
-      TD.IsolationLevel := xilREADCOMMITTED;
-      dm.sqlsisAdimin.StartTransaction(TD);
+      fmov := TMovimento.Create;
+      Try
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        dm.sqlsisAdimin.StartTransaction(TD);
 
-      if (TrocaStatus('F', OsServico) = False) then
-      begin
-        exit;
-      end;  //Finalizado
+        if (TrocaStatus('F', OsServico) = False) then
+        begin
+          exit;
+        end;  //Finalizado
 
-      fMov.CodMov      := 0;
-      fMov.CodNatureza := 3;  // Venda
-      fMov.DataMov     := cdsOsDATA_FIM.AsDateTime;
-      fMov.CodCliente  := cdsOsCODCLIENTE.AsInteger;
-      fMov.Status      := 0;
-      fMov.CodUsuario  := cdsOsCODUSUARIO.AsInteger;
-      fMov.CodVendedor := cdsOsCODUSUARIO.AsInteger;
-      fMov.CodFornec   := 0;
-      fMov.CodCCusto   := dm.CCustoPadrao;
-      fMov.CodOrigem   := cdsOsCODOS.AsInteger; // Identificar a OS
-      fMov.Controle    := 'OS';
+        fMov.CodMov      := 0;
+        fMov.CodNatureza := 3;  // Venda
+        fMov.DataMov     := cdsOsDATA_FIM.AsDateTime;
+        fMov.CodCliente  := cdsOsCODCLIENTE.AsInteger;
+        fMov.Status      := 0;
+        fMov.CodUsuario  := cdsOsCODUSUARIO.AsInteger;
+        fMov.CodVendedor := cdsOsCODUSUARIO.AsInteger;
+        fMov.CodFornec   := 0;
+        fMov.CodCCusto   := dm.CCustoPadrao;
+        fMov.CodOrigem   := cdsOsCODOS.AsInteger; // Identificar a OS
+        fMov.Controle    := 'OS';
 
-      codMov := fMov.inserirMovimento(0);
+        codMov := fMov.inserirMovimento(0);
 
-      // Grava Servico
-      cdsServico.DisableControls;
-      numGrid := cdsServico.RecNo;
-      cdsServico.First;
-      While not cdsServico.Eof do
-      begin
-        fMov.MovDetalhe.CodMov     := codMov;
-        fMov.MovDetalhe.Codigo     := cdsServicoID_OS_DET.AsInteger;   // Indentificar o Servico na OS_DET
-        fMov.MovDetalhe.CodProduto := cdsServico.FieldByName('CODPRODUTO').AsInteger;
-        fMov.MovDetalhe.Qtde       := cdsServico.FieldByName('QTDE').AsFloat;
-        fMov.MovDetalhe.Preco      := cdsServico.FieldByName('PRECO').AsFloat;
-        fMov.MovDetalhe.Descricao  := cdsServicoDESCRICAO_SERV.AsString;
-        fMov.MovDetalhe.Desconto   := cdsServico.FieldByName('DESCONTO').AsFloat;
-        fMov.MovDetalhe.Un         := 'SE';
-        fMov.MovDetalhe.Lote       := '0';
-        fMov.MovDetalhe.inserirMovDet;
-
-        cdsServico.Next;
-      end;
-      cdsServico.RecNo := numGrid;
-      cdsServico.EnableControls;
-
-      // Grava Peca
-      cdsServico.First;
-      While not cdsServico.Eof do
-      begin
-        cdsPeca.DisableControls;
-        numGrid := cdsPeca.RecNo;
-        if (cdsPeca.Active) then
-          cdsPeca.Close;
-        cdsPeca.Params.ParamByName('CODOSSERV').AsInteger := cdsServicoID_OS_DET.AsInteger;
-        cdsPeca.Open;
-        cdsPeca.First;
-        While not cdsPeca.Eof do
+        // Grava Servico
+        cdsServico.DisableControls;
+        numGrid := cdsServico.RecNo;
+        cdsServico.First;
+        While not cdsServico.Eof do
         begin
           fMov.MovDetalhe.CodMov     := codMov;
-          fMov.MovDetalhe.Codigo     := cdsPecaID_OS_DET.AsInteger;  // Indentificar a Peça na OS_DET
-          fMov.MovDetalhe.CodProduto := cdsPeca.FieldByName('CODPRODUTO').AsInteger;
-          fMov.MovDetalhe.Qtde       := cdsPeca.FieldByName('QTDE').AsFloat;
-          fMov.MovDetalhe.Preco      := cdsPeca.FieldByName('PRECO').AsFloat;
-          fMov.MovDetalhe.Descricao  := cdsPecaDESCRICAO_SERV.AsString;
-          fMov.MovDetalhe.Desconto   := cdsPeca.FieldByName('DESCONTO').AsFloat;
-          fMov.MovDetalhe.Un         := 'UN';
+          fMov.MovDetalhe.Codigo     := cdsServicoID_OS_DET.AsInteger;   // Indentificar o Servico na OS_DET
+          fMov.MovDetalhe.CodProduto := cdsServico.FieldByName('CODPRODUTO').AsInteger;
+          fMov.MovDetalhe.Qtde       := cdsServico.FieldByName('QTDE').AsFloat;
+          fMov.MovDetalhe.Preco      := cdsServico.FieldByName('PRECO').AsFloat;
+          fMov.MovDetalhe.Descricao  := cdsServicoDESCRICAO_SERV.AsString;
+          fMov.MovDetalhe.Desconto   := cdsServico.FieldByName('DESCONTO').AsFloat;
+          fMov.MovDetalhe.Un         := 'SE';
           fMov.MovDetalhe.Lote       := '0';
           fMov.MovDetalhe.inserirMovDet;
 
-          cdsPeca.Next;
+          cdsServico.Next;
         end;
-        cdsPeca.RecNo := numGrid;
-        cdsPeca.EnableControls;
-        cdsServico.Next;
-      end;
-      dm.sqlsisAdimin.Commit(TD);
-      numGrid     := cdsOs.recNo;
-      btnProcurar.Click;
-      cdsOs.recNo := numGrid;
-    Except
-      on E : Exception do
-      begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD);
+        cdsServico.RecNo := numGrid;
         cdsServico.EnableControls;
-        cdsPeca.EnableControls;
-        Exit;
-      end;
-    end;
-  Finally
-    FMov.Free;
-  end;
 
+        // Grava Peca
+        cdsServico.First;
+        While not cdsServico.Eof do
+        begin
+          cdsPeca.DisableControls;
+          numGrid := cdsPeca.RecNo;
+          if (cdsPeca.Active) then
+            cdsPeca.Close;
+          cdsPeca.Params.ParamByName('CODOSSERV').AsInteger := cdsServicoID_OS_DET.AsInteger;
+          cdsPeca.Open;
+          cdsPeca.First;
+          While not cdsPeca.Eof do
+          begin
+            fMov.MovDetalhe.CodMov     := codMov;
+            fMov.MovDetalhe.Codigo     := cdsPecaID_OS_DET.AsInteger;  // Indentificar a Peça na OS_DET
+            fMov.MovDetalhe.CodProduto := cdsPeca.FieldByName('CODPRODUTO').AsInteger;
+            fMov.MovDetalhe.Qtde       := cdsPeca.FieldByName('QTDE').AsFloat;
+            fMov.MovDetalhe.Preco      := cdsPeca.FieldByName('PRECO').AsFloat;
+            fMov.MovDetalhe.Descricao  := cdsPecaDESCRICAO_SERV.AsString;
+            fMov.MovDetalhe.Desconto   := cdsPeca.FieldByName('DESCONTO').AsFloat;
+            fMov.MovDetalhe.Un         := 'UN';
+            fMov.MovDetalhe.Lote       := '0';
+            fMov.MovDetalhe.inserirMovDet;
+
+            cdsPeca.Next;
+          end;
+          cdsPeca.RecNo := numGrid;
+          cdsPeca.EnableControls;
+          cdsServico.Next;
+        end;
+        dm.sqlsisAdimin.Commit(TD);
+        numGrid     := cdsOs.recNo;
+        btnProcurar.Click;
+        cdsOs.recNo := numGrid;
+      Except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD);
+          cdsServico.EnableControls;
+          cdsPeca.EnableControls;
+          Exit;
+        end;
+      end;
+    Finally
+      FMov.Free;
+    end;
+  end;
   // Abre Financeiro
   F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
   try
