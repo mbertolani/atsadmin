@@ -3415,4 +3415,11 @@ object fOsFiltro: TfOsFiltro
     Left = 377
     Top = 81
   end
+  object sqlMov: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 448
+    Top = 136
+  end
 end
