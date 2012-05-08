@@ -256,6 +256,7 @@ type
     SpedPisCofins1: TMenuItem;
     lblMensagemSistema: TLabel;
     RelatorioTitulos1: TMenuItem;
+    dxButton11: TdxButton;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -386,6 +387,7 @@ type
     procedure RelLucroPresumido1Click(Sender: TObject);
     procedure SpedPisCofins1Click(Sender: TObject);
     procedure RelatorioTitulos1Click(Sender: TObject);
+    procedure dxButton11Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -778,7 +780,7 @@ begin
   lblMensagemSistema.Caption := dm.mensagemInicial;
   if (dm.sistemaLiberado = 'N') then
   begin
-    MessageDlg('Licença do uso expirada, entre em contato com a ATS (19)-3827-3001.', mtWarning, [mbOK], 0);
+    MessageDlg('Licença do uso expirada, entre em contato com a ATS (19)3827-3001.', mtWarning, [mbOK], 0);
     Close;
   end;
   if (UserControlComercial.AutoStart = False) then
@@ -2213,6 +2215,12 @@ begin
   finally
     fRelTitulos.Free;
   end;
+end;
+
+procedure TfAtsAdmin.dxButton11Click(Sender: TObject);
+begin
+  // Chat
+  WinExec('Chat_Client_Externo.exe', SW_NORMAL);  
 end;
 
 end.
