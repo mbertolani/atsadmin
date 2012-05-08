@@ -7,7 +7,8 @@ uses
   Dialogs, JvComponentBase, JvNavigationPane, JvExControls, JvOutlookBar,
   JvMenus, ImgList, Menus,  JvGIF, WinInet, JvLinkLabel, jpeg, ExtCtrls,
   JvExExtCtrls, JvImage, ComCtrls, MMJPanel, UCHist_Base, UCBase,
-  rpcompobase, rpvclreport, DBXPress, ActnList, RXCtrls, StdCtrls;
+  rpcompobase, rpvclreport, DBXPress, ActnList, RXCtrls, StdCtrls,
+  dxCore, dxButton;
 type
   TfAtsOS = class(TForm)
     JvNavPaneStyleManager1: TJvNavPaneStyleManager;
@@ -28,6 +29,7 @@ type
     acNfe: TAction;
     lblMensagemSistema: TLabel;
     acNfeEmitir: TAction;
+    dxButton11: TdxButton;
     procedure FormCreate(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -66,6 +68,7 @@ type
     procedure acRelServExecute(Sender: TObject);
     procedure acNfeExecute(Sender: TObject);
     procedure acNfeEmitirExecute(Sender: TObject);
+    procedure dxButton11Click(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -732,6 +735,12 @@ begin
   finally
     fNotaf.Free;
   end;
+end;
+
+procedure TfAtsOS.dxButton11Click(Sender: TObject);
+begin
+  // Chat
+  WinExec('Chat_Client_Externo.exe', SW_NORMAL);
 end;
 
 end.
