@@ -2379,7 +2379,8 @@ object fNfePisCofins: TfNfePisCofins
     SQL.Strings = (
       'SELECT DISTINCT DET.UN'
       '   FROM VENDA, MOVIMENTODETALHE DET '
-      'WHERE CODMOVIMENTO = :PMOV')
+      'WHERE VENDA.CODMOVIMENTO = DET.CODMOVIMENTO '
+      '      AND VENDA.CODMOVIMENTO = :PMOV')
     SQLConnection = DM.sqlsisAdimin
     Left = 328
     Top = 208
