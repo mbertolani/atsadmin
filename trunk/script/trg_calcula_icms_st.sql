@@ -10,7 +10,7 @@ AS
  Declare variable CST_P char (5);
  Declare variable CSOSN char (3);
  Declare variable ind_reduzicms double precision;
- Declare variable PESSOA SMALLINT;   
+ Declare variable PESSOA char(1);   
  Declare variable ICMS_SUBST double precision;
  DECLARE VARIABLE cormva DOUBLE PRECISION;
  DECLARE VARIABLE VALOR_SUBDesc DOUBLE PRECISION;
@@ -35,7 +35,7 @@ BEGIN
     new.ICMS_SUBSTD = 0;
     new.ICMS_SUBST = 0;
 
-	select first 1 ec.UF, c.TIPOFIRMA, m.CODCLIENTE, c.INSCESTADUAL from movimento m
+	select first 1 ec.UF, c.CODFISCAL, m.CODCLIENTE, c.INSCESTADUAL from movimento m
 	inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = m.CODCLIENTE
 	inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE
 	where ec.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
@@ -43,7 +43,7 @@ BEGIN
 	
 	if (:CODCLI is null) then
 	begin
-    select first 1 ef.UF, f.TIPOFIRMA, f.INSCESTADUAL from movimento m
+    select first 1 ef.UF, f.CODFISCAL, f.INSCESTADUAL from movimento m
 	inner join ENDERECOFORNECEDOR ef on ef.CODFORNECEDOR = m.CODFORNECEDOR
 	inner join FORNECEDOR f on f.CODFORNECEDOR = m.CODFORNECEDOR
 	where ef.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
@@ -94,15 +94,9 @@ BEGIN
 	else
 	begin
         select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0) from ESTADO_ICMS ei
-        where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'J'
+        where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = :PESSOA
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS;
     
-        if (pessoa = 0) then
-        begin
-            select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0) from ESTADO_ICMS ei
-            where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = 'F'
-            into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS;
-        end
         new.CSOSN = CSOSN;
         if (IND_IPI > 0) then
         begin
