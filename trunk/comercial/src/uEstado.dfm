@@ -1,6 +1,6 @@
 inherited fEstado: TfEstado
-  Left = 287
-  Top = 141
+  Left = 611
+  Top = 127
   Width = 791
   Height = 700
   BorderIcons = [biSystemMenu, biMaximize]
@@ -13,7 +13,7 @@ inherited fEstado: TfEstado
   object Label18: TLabel [0]
     Left = 178
     Top = 57
-    Width = 29
+    Width = 25
     Height = 16
     Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
     Anchors = [akTop]
@@ -29,8 +29,8 @@ inherited fEstado: TfEstado
     Transparent = True
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 619
-    Width = 783
+    Top = 608
+    Width = 775
     Anchors = [akBottom]
     inherited btnIncluir: TBitBtn [0]
       Left = 267
@@ -60,7 +60,7 @@ inherited fEstado: TfEstado
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 783
+    Width = 775
     Height = 140
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -86,7 +86,7 @@ inherited fEstado: TfEstado
     object Label3: TLabel
       Left = 16
       Top = 45
-      Width = 39
+      Width = 36
       Height = 16
       Anchors = [akTop]
       Caption = 'CFOP'
@@ -101,7 +101,7 @@ inherited fEstado: TfEstado
     object Label4: TLabel
       Left = 104
       Top = 44
-      Width = 20
+      Width = 17
       Height = 16
       Hint = 'Estado'
       Anchors = [akTop]
@@ -119,7 +119,7 @@ inherited fEstado: TfEstado
     object Label8: TLabel
       Left = 272
       Top = 44
-      Width = 76
+      Width = 62
       Height = 16
       Anchors = [akTop]
       Caption = 'Aliq. ICMS'
@@ -134,7 +134,7 @@ inherited fEstado: TfEstado
     object Label6: TLabel
       Left = 356
       Top = 44
-      Width = 83
+      Width = 74
       Height = 16
       Anchors = [akTop]
       Caption = 'Red.B. C'#225'lc.'
@@ -149,7 +149,7 @@ inherited fEstado: TfEstado
     object Label10: TLabel
       Left = 442
       Top = 44
-      Width = 35
+      Width = 28
       Height = 16
       Hint = 'Margem De Valor Agregado(ST)'
       Anchors = [akTop]
@@ -167,7 +167,7 @@ inherited fEstado: TfEstado
     object Label11: TLabel
       Left = 527
       Top = 44
-      Width = 93
+      Width = 78
       Height = 16
       Anchors = [akTop]
       Caption = 'ICMS Origem'
@@ -182,7 +182,7 @@ inherited fEstado: TfEstado
     object Label12: TLabel
       Left = 612
       Top = 44
-      Width = 76
+      Width = 67
       Height = 16
       Anchors = [akTop]
       Caption = 'ICMS Dest.'
@@ -197,7 +197,7 @@ inherited fEstado: TfEstado
     object Label13: TLabel
       Left = 135
       Top = 44
-      Width = 29
+      Width = 25
       Height = 16
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
@@ -215,7 +215,7 @@ inherited fEstado: TfEstado
     object Label7: TLabel
       Left = 102
       Top = 91
-      Width = 21
+      Width = 15
       Height = 16
       Hint = 'Imposto sobre produtos industrializados'
       Anchors = [akTop]
@@ -231,12 +231,12 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label5: TLabel
-      Left = 528
+      Left = 498
       Top = 91
-      Width = 80
+      Width = 63
       Height = 16
       Anchors = [akTop]
-      Caption = 'Tipo Pessoa'
+      Caption = 'Tipo Fiscal'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
@@ -246,9 +246,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label9: TLabel
-      Left = 271
+      Left = 263
       Top = 93
-      Width = 24
+      Width = 21
       Height = 16
       Hint = 'Programa de Integra'#231#227'o Social'
       Anchors = [akTop]
@@ -264,9 +264,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label14: TLabel
-      Left = 442
+      Left = 426
       Top = 91
-      Width = 56
+      Width = 48
       Height = 16
       Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
       Anchors = [akTop]
@@ -284,7 +284,7 @@ inherited fEstado: TfEstado
     object Label15: TLabel
       Left = 17
       Top = 93
-      Width = 54
+      Width = 44
       Height = 16
       Anchors = [akTop]
       Caption = 'CST IPI'
@@ -297,9 +297,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label16: TLabel
-      Left = 186
+      Left = 178
       Top = 91
-      Width = 57
+      Width = 50
       Height = 16
       Anchors = [akTop]
       Caption = 'CST PIS'
@@ -312,9 +312,9 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label17: TLabel
-      Left = 354
+      Left = 338
       Top = 91
-      Width = 89
+      Width = 77
       Height = 16
       Anchors = [akTop]
       Caption = 'CST COFINS'
@@ -329,7 +329,7 @@ inherited fEstado: TfEstado
     object Label19: TLabel
       Left = 187
       Top = 44
-      Width = 50
+      Width = 46
       Height = 16
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
@@ -507,7 +507,7 @@ inherited fEstado: TfEstado
     object DBEdit5: TDBEdit
       Left = 99
       Top = 109
-      Width = 81
+      Width = 70
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -524,31 +524,10 @@ inherited fEstado: TfEstado
       TabOrder = 10
       OnKeyPress = FormKeyPress
     end
-    object ComboBox1: TComboBox
-      Left = 525
-      Top = 108
-      Width = 93
-      Height = 24
-      AutoComplete = False
-      Anchors = [akTop]
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      TabOrder = 15
-      OnChange = ComboBox1Change
-      OnKeyPress = FormKeyPress
-      Items.Strings = (
-        'F'#237'sica'
-        'Jur'#237'dica')
-    end
     object DBEdit10: TDBEdit
-      Left = 268
+      Left = 260
       Top = 109
-      Width = 81
+      Width = 70
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -566,9 +545,9 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit11: TDBEdit
-      Left = 439
+      Left = 423
       Top = 109
-      Width = 81
+      Width = 70
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -606,7 +585,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit13: TDBEdit
-      Left = 183
+      Left = 175
       Top = 109
       Width = 81
       Height = 24
@@ -626,7 +605,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit14: TDBEdit
-      Left = 352
+      Left = 336
       Top = 109
       Width = 81
       Height = 24
@@ -646,7 +625,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object CheckBox1: TCheckBox
-      Left = 625
+      Left = 642
       Top = 112
       Width = 121
       Height = 13
@@ -660,7 +639,7 @@ inherited fEstado: TfEstado
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      TabOrder = 16
+      TabOrder = 15
       OnClick = CheckBox1Click
     end
     object DBEdit21: TDBEdit
@@ -683,12 +662,34 @@ inherited fEstado: TfEstado
       TabOrder = 3
       OnKeyPress = FormKeyPress
     end
+    object DBLookupComboBox3: TDBLookupComboBox
+      Left = 498
+      Top = 108
+      Width = 138
+      Height = 24
+      BevelKind = bkFlat
+      Ctl3D = True
+      DataField = 'CODFISCAL'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      KeyField = 'CODFISCAL'
+      ListField = 'DESCRICAO'
+      ListSource = DtSrcTFiscal
+      ParentCtl3D = False
+      ParentFont = False
+      TabOrder = 16
+      OnKeyPress = FormKeyPress
+    end
   end
   object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 331
-    Width = 783
-    Height = 288
+    Width = 775
+    Height = 277
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -803,8 +804,8 @@ inherited fEstado: TfEstado
       end
       item
         Expanded = False
-        FieldName = 'PESSOA'
-        Title.Caption = 'Pessoa'
+        FieldName = 'CODFISCAL'
+        Title.Caption = 'Codigo Fiscal'
         Visible = True
       end
       item
@@ -853,7 +854,7 @@ inherited fEstado: TfEstado
   object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 140
-    Width = 783
+    Width = 775
     Height = 191
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -865,7 +866,7 @@ inherited fEstado: TfEstado
     ParentFont = False
     TabOrder = 3
     DesignSize = (
-      783
+      775
       191)
     object DBEdit15: TDBEdit
       Left = 64
@@ -989,10 +990,10 @@ inherited fEstado: TfEstado
     end
   end
   inherited XPMenu1: TXPMenu
-    Left = 568
+    Left = 488
   end
   inherited PopupMenu1: TPopupMenu
-    Left = 616
+    Left = 536
   end
   inherited DtSrc: TDataSource
     DataSet = cds_estado
@@ -1008,8 +1009,9 @@ inherited fEstado: TfEstado
       'TPIS , esta.CSTCOFINS'#13#10'        , esta.DADOSADC1        , esta.DA' +
       'DOSADC2'#13#10'        , esta.DADOSADC3        , esta.DADOSADC4'#13#10'     ' +
       '   , esta.DADOSADC5        , esta.DADOSADC6'#13#10'        , esta.NAOE' +
-      'NVFATURA, esta.CSOSN'#13#10'FROM ESTADO_ICMS esta '#13#10'left outer join CF' +
-      'OP cfo on cfo.CFCOD = esta.CFOP '#13#10'order by esta.CFOP'
+      'NVFATURA, esta.CSOSN, esta.CODFISCAL'#13#10'FROM ESTADO_ICMS esta '#13#10'le' +
+      'ft outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10'order by esta.' +
+      'CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1059,10 +1061,6 @@ inherited fEstado: TfEstado
     object sdsCODESTADO: TIntegerField
       FieldName = 'CODESTADO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-    end
-    object sdsPESSOA: TStringField
-      FieldName = 'PESSOA'
-      Size = 8
     end
     object sdsPIS: TFloatField
       FieldName = 'PIS'
@@ -1114,6 +1112,16 @@ inherited fEstado: TfEstado
     object sdsCSOSN: TStringField
       FieldName = 'CSOSN'
       Size = 3
+    end
+    object sdsPESSOA: TStringField
+      FieldName = 'PESSOA'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsp: TDataSetProvider
@@ -1174,10 +1182,6 @@ inherited fEstado: TfEstado
       FieldName = 'CODESTADO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
     end
-    object cds_estadoPESSOA: TStringField
-      FieldName = 'PESSOA'
-      Size = 8
-    end
     object cds_estadoPIS: TFloatField
       FieldName = 'PIS'
     end
@@ -1229,5 +1233,64 @@ inherited fEstado: TfEstado
       FieldName = 'CSOSN'
       Size = 3
     end
+    object cds_estadoPESSOA: TStringField
+      FieldName = 'PESSOA'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_estadoCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object sdsTFiscal: TSQLDataSet
+    CommandText = 'select * from TIPO_FISCAL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 588
+    Top = 7
+    object sdsTFiscalCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object sdsTFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
+    end
+  end
+  object dspTFiscal: TDataSetProvider
+    DataSet = sdsTFiscal
+    Options = [poAllowCommandText]
+    UpdateMode = upWhereKeyOnly
+    Left = 626
+    Top = 7
+  end
+  object cdsTFiscal: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTFiscal'
+    Left = 657
+    Top = 7
+    object cdsTFiscalCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object cdsTFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
+    end
+  end
+  object DtSrcTFiscal: TDataSource
+    DataSet = cdsTFiscal
+    Left = 695
+    Top = 6
   end
 end

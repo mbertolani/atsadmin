@@ -36,8 +36,6 @@ type
     cds_estadoCST: TStringField;
     sdsCODESTADO: TIntegerField;
     cds_estadoCODESTADO: TIntegerField;
-    sdsPESSOA: TStringField;
-    cds_estadoPESSOA: TStringField;
     sdsPIS: TFloatField;
     sdsCOFINS: TFloatField;
     cds_estadoPIS: TFloatField;
@@ -86,7 +84,6 @@ type
     Label16: TLabel;
     Label17: TLabel;
     DBEdit5: TDBEdit;
-    ComboBox1: TComboBox;
     DBEdit10: TDBEdit;
     DBEdit11: TDBEdit;
     DBEdit12: TDBEdit;
@@ -106,10 +103,22 @@ type
     sdsCSOSN: TStringField;
     cds_estadoCSOSN: TStringField;
     DBEdit21: TDBEdit;
+    DBLookupComboBox3: TDBLookupComboBox;
+    sdsPESSOA: TStringField;
+    cds_estadoPESSOA: TStringField;
+    sdsTFiscal: TSQLDataSet;
+    sdsTFiscalCODFISCAL: TStringField;
+    sdsTFiscalDESCRICAO: TStringField;
+    dspTFiscal: TDataSetProvider;
+    cdsTFiscal: TClientDataSet;
+    cdsTFiscalCODFISCAL: TStringField;
+    cdsTFiscalDESCRICAO: TStringField;
+    DtSrcTFiscal: TDataSource;
+    sdsCODFISCAL: TStringField;
+    cds_estadoCODFISCAL: TStringField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure cds_estadoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
@@ -118,10 +127,10 @@ type
       var Action: TDataAction);
     procedure btnGravarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
-    procedure ComboBox1Change(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure CheckBox1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -151,35 +160,26 @@ end;
 procedure TfEstado.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  Combobox1.ItemIndex := 1;
   DBEdit1.SetFocus;
 end;
 
 procedure TfEstado.FormShow(Sender: TObject);
 begin
   inherited;
-  //sCtrlResize.CtrlResize(TForm(fEstado));
   if not cds_estado.Active then
     cds_estado.Open;
-  ComboBox1.Text := cds_estadoPESSOA.AsString;
-end;
-
-procedure TfEstado.FormCreate(Sender: TObject);
-begin
-  //inherited;
-
+  if (not cdsTFiscal.Active) then
+      cdsTFiscal.Open;
 end;
 
 procedure TfEstado.btnProcurarClick(Sender: TObject);
 begin
-  //inherited;
   fCfop := TfCfop.Create(Application);
   try
     fCfop.ShowModal;
   finally
     fCfop.Free;
   end;
-
 end;
 
 procedure TfEstado.cds_estadoReconcileError(DataSet: TCustomClientDataSet;
@@ -201,7 +201,6 @@ begin
 end;
 
 procedure TfEstado.btnGravarClick(Sender: TObject);
-var str: string;
 begin
   if (cds_estado.State in [dsInsert]) then
   begin
@@ -212,61 +211,7 @@ begin
     cds_estadoCODESTADO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
-  cds_estadoPESSOA.AsString := 'J';
-  if (ComboBox1.ItemIndex = 0) then
-    cds_estadoPESSOA.AsString := 'F';
-  if (cds_estado.State in [dsEdit]) then
-  begin
-    DecimalSeparator := '.';
-    str := 'Update ESTADO_ICMS set CFOP = ';
-    str := str + QuotedStr(cds_estadoCFOP.AsString);
-    str := str + ', UF = ' + QuotedStr(cds_estadoUF.AsString);
-    str := str + ', ICMS = ' + FloatToStr(cds_estadoICMS.AsFloat);
-    str := str + ', REDUCAO = ' + FloatToStr(cds_estadoREDUCAO.AsFloat);
-    str := str + ', CSTIPI = ' + QuotedStr(cds_estadoCSTIPI.AsString);
-    str := str + ', IPI = ' + FloatToStr(cds_estadoIPI.AsFloat);
-    str := str + ', ICMS_SUBSTRIB = ' + FloatToStr(cds_estadoICMS_SUBSTRIB.AsFloat);
-    str := str + ', ICMS_SUBSTRIB_IC = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IC.AsFloat);
-    str := str + ', ICMS_SUBSTRIB_IND = ' + FloatToStr(cds_estadoICMS_SUBSTRIB_IND.AsFloat);
-    str := str + ', CST = ' + QuotedStr(cds_estadoCST.AsString);
-    str := str + ', CSOSN = ' + QuotedStr(cds_estadoCSOSN.AsString);    
-    if(ComboBox1.text = 'Física') then
-      str := str + ', PESSOA = ' + QuotedStr('F')
-    else
-      str := str + ', PESSOA = ' + QuotedStr('J');
-    str := str + ', CSTPIS = ' + QuotedStr(cds_estadoCSTPIS.AsString);
-    str := str + ', PIS = ' + FloatToStr(cds_estadoPIS.AsFloat);
-    str := str + ', CSTCOFINS = ' + QuotedStr(cds_estadoCSTCOFINS.AsString);
-    str := str + ', COFINS = ' + FloatToStr(cds_estadoCOFINS.AsFloat);
-    str := str + ', DADOSADC1 = ' + QuotedStr(cds_estadoDADOSADC1.AsString);
-    str := str + ', DADOSADC2 = ' + QuotedStr(cds_estadoDADOSADC2.AsString);
-    str := str + ', DADOSADC3 = ' + QuotedStr(cds_estadoDADOSADC3.AsString);
-    str := str + ', DADOSADC4 = ' + QuotedStr(cds_estadoDADOSADC4.AsString);
-    str := str + ', DADOSADC5 = ' + QuotedStr(cds_estadoDADOSADC5.AsString);
-    str := str + ', DADOSADC6 = ' + QuotedStr(cds_estadoDADOSADC6.AsString);
-    if (CheckBox1.Checked) then
-      str := str + ', NAOENVFATURA = ' + QuotedStr('S')
-    else
-      str := str + ', NAOENVFATURA = ' + QuotedStr('');
-    str := str + ' WHERE CODESTADO = ' + IntToStr(cds_estadoCODESTADO.AsInteger);
-    dm.sqlsisAdimin.ExecuteDirect(str);
-    DecimalSeparator := ',';
-  end
-  else
-    inherited;
-  cds_estado.DisableControls;
-  cds_estado.Close;
-  cds_estado.Open;
-  cds_estado.EnableControls;
-  if ((cds_estadoPESSOA.AsString = 'F') or (cds_estadoPESSOA.AsString = 'Física')) then
-    ComboBox1.Text := 'Física'
-  else
-    ComboBox1.Text := 'Jurídica';
-  if (cds_estadoNAOENVFATURA.asString = 'S') then
-    CheckBox1.Checked := True
-  else
-    CheckBox1.Checked := False;
-
+  inherited;
 end;
 
 procedure TfEstado.btnExcluirClick(Sender: TObject);
@@ -278,20 +223,9 @@ begin
   dm.sqlsisAdimin.ExecuteDirect(str);
 end;
 
-procedure TfEstado.ComboBox1Change(Sender: TObject);
-begin
-  if (cds_estado.State in [dsBrowse]) then
-    cds_estado.Edit;
-  inherited;
-end;
-
 procedure TfEstado.DBGrid1CellClick(Column: TColumn);
 begin
   inherited;
-  if ((cds_estadoPESSOA.AsString = 'F') or (cds_estadoPESSOA.AsString = 'Física')) then
-    ComboBox1.Text := 'Física'
-  else
-    ComboBox1.Text := 'Jurídica';
   if (cds_estadoNAOENVFATURA.asString = 'S') then
     CheckBox1.Checked := True
   else
@@ -315,5 +249,14 @@ begin
   else
     cds_estadoNAOENVFATURA.asString := '';
 end;
+
+procedure TfEstado.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  if (cdsTFiscal.Active) then
+      cdsTFiscal.Close;
+end;
+
+
 
 end.

@@ -649,7 +649,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = 'C'#243'digo'
       end
       object Label15: TLabel
-        Left = 286
+        Left = 274
         Top = 133
         Width = 92
         Height = 13
@@ -777,6 +777,13 @@ inherited fClienteCadastro: TfClienteCadastro
         Height = 13
         Caption = 'Pais'
         FocusControl = DBEdit16
+      end
+      object Label80: TLabel
+        Left = 567
+        Top = 136
+        Width = 51
+        Height = 13
+        Caption = 'Tipo Fiscal'
       end
       object DBNavigator1: TDBNavigator
         Left = 511
@@ -994,7 +1001,7 @@ inherited fClienteCadastro: TfClienteCadastro
       object DBEdit13: TDBEdit
         Left = 226
         Top = 151
-        Width = 57
+        Width = 42
         Height = 24
         TabStop = False
         BevelKind = bkFlat
@@ -1014,9 +1021,9 @@ inherited fClienteCadastro: TfClienteCadastro
         OnKeyPress = FormKeyPress
       end
       object DBEdit14: TDBEdit
-        Left = 285
+        Left = 273
         Top = 151
-        Width = 399
+        Width = 240
         Height = 24
         TabStop = False
         BevelKind = bkFlat
@@ -1649,7 +1656,7 @@ inherited fClienteCadastro: TfClienteCadastro
         OnKeyPress = FormKeyPress
       end
       object SpeedButton1: TBitBtn
-        Left = 686
+        Left = 519
         Top = 141
         Width = 39
         Height = 36
@@ -2188,6 +2195,28 @@ inherited fClienteCadastro: TfClienteCadastro
         TabOrder = 25
         OnChange = cbPaisChange
       end
+      object DBLookupComboBox3: TDBLookupComboBox
+        Left = 564
+        Top = 154
+        Width = 162
+        Height = 24
+        BevelKind = bkFlat
+        Ctl3D = True
+        DataField = 'CODFISCAL'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        KeyField = 'CODFISCAL'
+        ListField = 'DESCRICAO'
+        ListSource = DtSrcTFiscal
+        ParentCtl3D = False
+        ParentFont = False
+        TabOrder = 40
+        OnKeyPress = FormKeyPress
+      end
     end
     object TabInternet: TTabSheet
       Caption = 'DADOS ADICIONAIS'
@@ -2299,7 +2328,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2599,7 +2628,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2709,7 +2738,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 14
       end
@@ -3099,7 +3128,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 19
       end
@@ -5531,7 +5560,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -6166,7 +6195,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change
@@ -6517,6 +6546,11 @@ inherited fClienteCadastro: TfClienteCadastro
       FixedChar = True
       Size = 4
     end
+    object sds_cliCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsp_cli: TDataSetProvider
     DataSet = sds_cli
@@ -6848,6 +6882,11 @@ inherited fClienteCadastro: TfClienteCadastro
       FieldName = 'CFOP'
       FixedChar = True
       Size = 4
+    end
+    object cds_cliCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object scds_usuario_proc: TSQLClientDataSet
@@ -8174,5 +8213,54 @@ inherited fClienteCadastro: TfClienteCadastro
       Required = True
       Size = 60
     end
+  end
+  object sdsTFiscal: TSQLDataSet
+    CommandText = 'select * from TIPO_FISCAL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 476
+    Top = 71
+    object sdsTFiscalCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object sdsTFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
+    end
+  end
+  object dspTFiscal: TDataSetProvider
+    DataSet = sdsTFiscal
+    Options = [poAllowCommandText]
+    UpdateMode = upWhereKeyOnly
+    Left = 514
+    Top = 71
+  end
+  object cdsTFiscal: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTFiscal'
+    Left = 545
+    Top = 71
+    object cdsTFiscalCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object cdsTFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
+    end
+  end
+  object DtSrcTFiscal: TDataSource
+    DataSet = cdsTFiscal
+    Left = 583
+    Top = 70
   end
 end
