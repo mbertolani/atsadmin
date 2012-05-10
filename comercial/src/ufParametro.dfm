@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 792
     Height = 473
-    ActivePage = TabPDV
+    ActivePage = TabSheet1
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -3033,6 +3033,13 @@ inherited fParametro: TfParametro
             Height = 13
             Caption = 'Perfil sem autoriza'#231#227'o para abertura de Pedidos'
           end
+          object Label50: TLabel
+            Left = 10
+            Top = 52
+            Width = 69
+            Height = 13
+            Caption = 'Cargo/Fun'#231#227'o'
+          end
           object edt1: TEdit
             Left = 9
             Top = 28
@@ -3042,6 +3049,33 @@ inherited fParametro: TfParametro
             BorderStyle = bsNone
             TabOrder = 0
             OnChange = edt1Change
+          end
+          object BitBtn30: TBitBtn
+            Left = 290
+            Top = 65
+            Width = 75
+            Height = 25
+            Caption = 'Gravar'
+            TabOrder = 1
+            OnClick = BitBtn30Click
+          end
+          object Edit14: TEdit
+            Left = 9
+            Top = 68
+            Width = 232
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 2
+          end
+          object Button1: TButton
+            Left = 248
+            Top = 64
+            Width = 25
+            Height = 25
+            Caption = '...'
+            TabOrder = 3
+            OnClick = Button1Click
           end
         end
       end

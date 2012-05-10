@@ -268,6 +268,10 @@ type
     edt1: TEdit;
     lbl11: TLabel;
     chk1: TCheckBox;
+    BitBtn30: TBitBtn;
+    Label50: TLabel;
+    Edit14: TEdit;
+    Button1: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -333,6 +337,8 @@ type
     procedure chkImpUmReciboClick(Sender: TObject);
     procedure edt1Change(Sender: TObject);
     procedure chk1Click(Sender: TObject);
+    procedure BitBtn30Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -349,7 +355,7 @@ var
   
 implementation
 
-uses UDm, JvJVCLUtils, uAtsAdmin;
+uses UDm, JvJVCLUtils, uAtsAdmin, uCargosFuncoes;
 
 {$R *.dfm}
 
@@ -810,7 +816,14 @@ begin
     else
       ComboBox1.ItemIndex := 1;
   end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'CARGO/FUNCAO';
+  dm.cds_parametro.Open;
+  Edit14.Text := dm.cds_parametroDADOS.AsString;
 end;
+
 
 procedure TfParametro.BitBtn2Click(Sender: TObject);
 begin
@@ -3839,6 +3852,51 @@ begin
      if (s_parametro.Active) then
         s_parametro.Close;
   end;
+end;
+
+procedure TfParametro.BitBtn30Click(Sender: TObject);
+begin
+  inherited;
+  if ((edit14.Text = '') or (edit14.Text = '')) then
+  begin
+    MessageDlg('Preencha o Cargo/Função Utilizado.', mtWarning, [mbOk], 0) ;
+    Exit;
+  end;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'CARGO/FUNCAO';   // Centro de Custo Padrao
+  dm.cds_parametro.Open;
+  try
+    // Insere ou Altera a tabela PARAMETROS
+    if (dm.cds_parametro.IsEmpty) then
+    begin
+      dm.cds_parametro.Append;
+      dm.cds_parametroDESCRICAO.AsString := 'Defini tipo de cliente controla entrada saida';
+      dm.cds_parametroPARAMETRO.AsString := 'CARGO/FUNCAO';
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
+      dm.cds_parametroDADOS.AsString := edit14.Text;
+    end
+    else begin
+      dm.cds_parametro.Edit;
+      dm.cds_parametroDADOS.AsString := edit14.Text;
+    end;
+    dm.cds_parametro.ApplyUpdates(0);
+  except
+    MessageDlg('Erro para gravar, feche o sistema e tente novamente !', mtError,
+    [mbOk], 0);
+  end;
+end;
+
+procedure TfParametro.Button1Click(Sender: TObject);
+begin
+    DM.v_CargoFuncao := '';
+    fCargosFuncoes := TfCargosFuncoes.Create(Application);
+    try
+      fCargosFuncoes.ShowModal;
+      Edit14.Text := DM.v_CargoFuncao;
+    finally
+      fCargosFuncoes.Free;
+    end;
 end;
 
 end.
