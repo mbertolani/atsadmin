@@ -22,6 +22,9 @@ type
     Label3: TLabel;
     procedure btnGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -53,6 +56,28 @@ procedure TfCargosFuncoes.btnIncluirClick(Sender: TObject);
 begin
   inherited;
   DBEdit1.SetFocus;
+end;
+
+procedure TfCargosFuncoes.FormShow(Sender: TObject);
+begin
+  inherited;
+  if (not cCargo.Active) then
+     cCargo.Open;
+end;
+
+procedure TfCargosFuncoes.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  //inherited;
+  DM.v_CargoFuncao := cCargoDESCRICAO.AsString;
+  if (cCargo.Active) then
+     cCargo.Close;
+end;
+
+procedure TfCargosFuncoes.FormCreate(Sender: TObject);
+begin
+//  inherited;
+
 end;
 
 end.
