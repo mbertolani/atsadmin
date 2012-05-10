@@ -1,6 +1,7 @@
 inherited fCargosFuncoes: TfCargosFuncoes
-  Left = 255
-  Top = 244
+  Left = 245
+  Top = 211
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel [0]
