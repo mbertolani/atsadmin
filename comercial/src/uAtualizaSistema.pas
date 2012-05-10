@@ -1143,7 +1143,6 @@ begin
       executaDDL('NOTAFISCAL', 'BCII', 'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'BCII', 'DOUBLE PRECISION');
       executaDDL('OS', 'VEICULO', 'VARCHAR(200)');
-      executaScript('trg_calcula_icms_st.sql');
       executaScript('calcula_icms.sql');
       executaSql('ALTER TABLE FUNCIONARIO ALTER BAIRRO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER COMPLEMENTO TYPE Varchar(60);');
@@ -1545,7 +1544,9 @@ begin
       executaScript('gera_nf_venda.sql');
       executaScript('listaProduto.sql');
       executaScript('LISTAPRODUTOCLI.sql');
-      //mudaVersao('1.0.0.105');
+      MessageDlg('Execute o Script "Tipo_fiscal.sql".', mtWarning, [mbOK], 0);
+      executaScript('trg_calcula_icms_st.sql');
+      mudaVersao('1.0.0.105');
     end;// Fim Ataulização Versao 1.0.0.105
 
     try

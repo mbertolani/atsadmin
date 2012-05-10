@@ -626,6 +626,18 @@ type
     sdsPaisPAIS: TStringField;
     sqlPaisCODPAIS: TStringField;
     sqlPaisPAIS: TStringField;
+    DBLookupComboBox3: TDBLookupComboBox;
+    sdsTFiscal: TSQLDataSet;
+    dspTFiscal: TDataSetProvider;
+    cdsTFiscal: TClientDataSet;
+    DtSrcTFiscal: TDataSource;
+    sdsTFiscalCODFISCAL: TStringField;
+    sdsTFiscalDESCRICAO: TStringField;
+    cdsTFiscalCODFISCAL: TStringField;
+    cdsTFiscalDESCRICAO: TStringField;
+    sds_cliCODFISCAL: TStringField;
+    cds_cliCODFISCAL: TStringField;
+    Label80: TLabel;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -725,12 +737,12 @@ begin
   inherited;
   if DBRadioGroup1.ItemIndex=0 then
   begin
-    cds_cliCNPJ.EditMask := '000.000.000-00;1;_';
+//    cds_cliCNPJ.EditMask := '000.000.000-00;1;_';
     cds_cliTIPOFIRMA.AsInteger := 0;
   end
   else
   begin
-    cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';
+//    cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';
     cds_cliTIPOFIRMA.AsInteger := 1;
   end;
   dbeCNPJ.Enabled:=True;
@@ -1482,6 +1494,9 @@ begin
   if (cdsRegiao.Active) then
       cdsRegiao.Close;
 
+  if (cdsTFiscal.Active) then
+      cdsTFiscal.Close;
+
   if (FormExiste(fNotaF) = True) then
      DM.varNomeCliente := cds_cliRAZAOSOCIAL.AsString;
   if (FormExiste(fNF) = True) then
@@ -1738,6 +1753,9 @@ begin
 
     if (not cdsRegiao.Active) then
       cdsRegiao.Open;
+
+    if (not cdsTFiscal.Active) then
+      cdsTFiscal.Open;
 
     if (cdsLocate.Active) then
       cdsLocate.Close;

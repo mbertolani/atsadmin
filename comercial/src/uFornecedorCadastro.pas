@@ -204,6 +204,18 @@ type
     cds_fornecedorCODFOR: TStringField;
     cds_fornecedorCODTRANSP: TIntegerField;
     cds_fornecedorCONTACONTABIL: TStringField;
+    DtSrcTFiscal: TDataSource;
+    cdsTFiscal: TClientDataSet;
+    cdsTFiscalCODFISCAL: TStringField;
+    cdsTFiscalDESCRICAO: TStringField;
+    dspTFiscal: TDataSetProvider;
+    sdsTFiscal: TSQLDataSet;
+    sdsTFiscalCODFISCAL: TStringField;
+    sdsTFiscalDESCRICAO: TStringField;
+    DBLookupComboBox3: TDBLookupComboBox;
+    Label31: TLabel;
+    sds_fornecedorCODFISCAL: TStringField;
+    cds_fornecedorCODFISCAL: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
