@@ -1,8 +1,8 @@
 object fFrequencia: TfFrequencia
   Left = 192
   Top = 132
-  Width = 780
-  Height = 550
+  Width = 800
+  Height = 557
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,7 +18,7 @@ object fFrequencia: TfFrequencia
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 772
+    Width = 784
     Height = 58
     Align = alTop
     PopupMenu = PopupMenu1
@@ -86,8 +86,6 @@ object fFrequencia: TfFrequencia
       AllowNoDate = True
       BorderStyle = bsNone
       Checked = True
-      DateFormat = 'dd/MM/yyyy'
-      DateSeparator = '/'
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -96,7 +94,6 @@ object fFrequencia: TfFrequencia
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      StoreDateFormat = True
       TabOrder = 1
     end
     object horaentrada: TMaskEdit
@@ -231,10 +228,10 @@ object fFrequencia: TfFrequencia
     end
   end
   object Panel2: TPanel
-    Left = 634
+    Left = 646
     Top = 58
     Width = 138
-    Height = 458
+    Height = 461
     Align = alRight
     PopupMenu = PopupMenu1
     TabOrder = 3
@@ -691,9 +688,8 @@ object fFrequencia: TfFrequencia
   end
   object sFrequencia: TSQLDataSet
     CommandText = 
-      'select  f.*,'#13#10'           u.NOME_FUNCIONARIO  '#13#10'from FREQUENCIA f' +
-      ' '#13#10'inner join  FUNCIONARIO u '#13#10'on u.COD_FUNCIONARIO = f.COD_FUNC' +
-      'IONARIO'
+      'select  f.*,'#13#10'           u.NOMECLIENTE'#13#10'from FREQUENCIA f '#13#10'inne' +
+      'r join  CLIENTES u '#13#10'on u.CODCLIENTE = f.COD_FUNCIONARIO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -720,10 +716,10 @@ object fFrequencia: TfFrequencia
       FieldName = 'HORASAIDA'
       ProviderFlags = [pfInUpdate]
     end
-    object sFrequenciaNOME_FUNCIONARIO: TStringField
-      FieldName = 'NOME_FUNCIONARIO'
-      ProviderFlags = []
-      Size = 60
+    object sFrequenciaNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
     end
   end
   object dFrequencia: TDataSetProvider
@@ -759,10 +755,10 @@ object fFrequencia: TfFrequencia
       FieldName = 'HORASAIDA'
       ProviderFlags = [pfInUpdate]
     end
-    object cFrequenciaNOME_FUNCIONARIO: TStringField
-      FieldName = 'NOME_FUNCIONARIO'
-      ProviderFlags = []
-      Size = 60
+    object cFrequenciaNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
     end
   end
   object DtSrc: TDataSource
@@ -772,20 +768,467 @@ object fFrequencia: TfFrequencia
   end
   object sFuncionarios: TSQLDataSet
     CommandText = 
-      'select COD_FUNCIONARIO, NOME_FUNCIONARIO from FUNCIONARIO '#13#10'wher' +
-      'e STATUS = '#39'S'#39' '#13#10'order by NOME_FUNCIONARIO '#13#10
+      'select * From CLIENTES'#13#10'where CARGOFUNCAO = :CARGO'#13#10'order by NOM' +
+      'ECLIENTE'#13#10
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'CARGO'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 120
     Top = 152
-    object sFuncionariosCOD_FUNCIONARIO: TIntegerField
-      FieldName = 'COD_FUNCIONARIO'
+    object sFuncionariosCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
       Required = True
     end
-    object sFuncionariosNOME_FUNCIONARIO: TStringField
-      FieldName = 'NOME_FUNCIONARIO'
+    object sFuncionariosNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
+    object sFuncionariosRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object sFuncionariosCONTATO: TStringField
+      FieldName = 'CONTATO'
+      Size = 30
+    end
+    object sFuncionariosTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object sFuncionariosCPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object sFuncionariosCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object sFuncionariosINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object sFuncionariosRG: TStringField
+      FieldName = 'RG'
+      Size = 14
+    end
+    object sFuncionariosSEGMENTO: TSmallintField
+      FieldName = 'SEGMENTO'
+      Required = True
+    end
+    object sFuncionariosREGIAO: TSmallintField
+      FieldName = 'REGIAO'
+      Required = True
+    end
+    object sFuncionariosLIMITECREDITO: TFloatField
+      FieldName = 'LIMITECREDITO'
+    end
+    object sFuncionariosDATACADASTRO: TDateField
+      FieldName = 'DATACADASTRO'
+      Required = True
+    end
+    object sFuncionariosCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object sFuncionariosSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Required = True
+    end
+    object sFuncionariosHOMEPAGE: TStringField
+      FieldName = 'HOMEPAGE'
+      Size = 40
+    end
+    object sFuncionariosPRAZORECEBIMENTO: TSmallintField
+      FieldName = 'PRAZORECEBIMENTO'
+    end
+    object sFuncionariosPRAZOENTREGA: TSmallintField
+      FieldName = 'PRAZOENTREGA'
+    end
+    object sFuncionariosCODBANCO: TSmallintField
+      FieldName = 'CODBANCO'
+    end
+    object sFuncionariosBASE_ICMS: TSmallintField
+      FieldName = 'BASE_ICMS'
+    end
+    object sFuncionariosDATANASC: TDateField
+      FieldName = 'DATANASC'
+    end
+    object sFuncionariosCONTA_CLIENTE: TStringField
+      FieldName = 'CONTA_CLIENTE'
+      Size = 15
+    end
+    object sFuncionariosOBS: TStringField
+      FieldName = 'OBS'
+      Size = 200
+    end
+    object sFuncionariosTEM_IE: TStringField
+      FieldName = 'TEM_IE'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosDATARESC: TDateField
+      FieldName = 'DATARESC'
+    end
+    object sFuncionariosNOMEMAE: TStringField
+      FieldName = 'NOMEMAE'
+      Size = 80
+    end
+    object sFuncionariosSEXO: TStringField
+      FieldName = 'SEXO'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosFORMA_CORRESPOND: TStringField
+      FieldName = 'FORMA_CORRESPOND'
+      Size = 30
+    end
+    object sFuncionariosGRUPO_CLIENTE: TStringField
+      FieldName = 'GRUPO_CLIENTE'
+      Size = 30
+    end
+    object sFuncionariosCODINCLUCANC: TIntegerField
+      FieldName = 'CODINCLUCANC'
+    end
+    object sFuncionariosEXIST_COBERT: TStringField
+      FieldName = 'EXIST_COBERT'
+      Size = 6
+    end
+    object sFuncionariosEXISTCOPART: TStringField
+      FieldName = 'EXISTCOPART'
+      Size = 6
+    end
+    object sFuncionariosDATAREINC: TDateField
+      FieldName = 'DATAREINC'
+    end
+    object sFuncionariosGERAAVISO: TStringField
+      FieldName = 'GERAAVISO'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosGERAENV: TStringField
+      FieldName = 'GERAENV'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosGERABOL: TStringField
+      FieldName = 'GERABOL'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosEMVIAGEM: TStringField
+      FieldName = 'EMVIAGEM'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosDTAALTERA: TDateField
+      FieldName = 'DTAALTERA'
+    end
+    object sFuncionariosSERIELETRA: TStringField
+      FieldName = 'SERIELETRA'
+      Size = 4
+    end
+    object sFuncionariosSERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 4
+    end
+    object sFuncionariosRA: TStringField
+      FieldName = 'RA'
+      Size = 10
+    end
+    object sFuncionariosCURSO: TStringField
+      FieldName = 'CURSO'
+      Size = 50
+    end
+    object sFuncionariosIP: TStringField
+      FieldName = 'IP'
       Size = 60
+    end
+    object sFuncionariosN_CONTRATO: TStringField
+      FieldName = 'N_CONTRATO'
+      Size = 60
+    end
+    object sFuncionariosMAC: TStringField
+      FieldName = 'MAC'
+      Size = 60
+    end
+    object sFuncionariosMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 60
+    end
+    object sFuncionariosBANDA_UPLOAD: TStringField
+      FieldName = 'BANDA_UPLOAD'
+      Size = 60
+    end
+    object sFuncionariosBANDA_DOWLOAD: TStringField
+      FieldName = 'BANDA_DOWLOAD'
+      Size = 60
+    end
+    object sFuncionariosTORRE_CONECCAO: TStringField
+      FieldName = 'TORRE_CONECCAO'
+      Size = 60
+    end
+    object sFuncionariosCOD_FAIXA: TIntegerField
+      FieldName = 'COD_FAIXA'
+    end
+    object sFuncionariosDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object sFuncionariosMENSALIDADE: TFloatField
+      FieldName = 'MENSALIDADE'
+    end
+    object sFuncionariosANUIDADE: TFloatField
+      FieldName = 'ANUIDADE'
+    end
+    object sFuncionariosPARCELA: TIntegerField
+      FieldName = 'PARCELA'
+    end
+    object sFuncionariosPARCELAGERADAS: TIntegerField
+      FieldName = 'PARCELAGERADAS'
+    end
+    object sFuncionariosNUMERO: TIntegerField
+      FieldName = 'NUMERO'
+    end
+    object sFuncionariosDATANASCIMENTO: TSQLTimeStampField
+      FieldName = 'DATANASCIMENTO'
+    end
+    object sFuncionariosANOLETIVO: TStringField
+      FieldName = 'ANOLETIVO'
+      Size = 4
+    end
+    object sFuncionariosSITUACAOESCOLAR: TStringField
+      FieldName = 'SITUACAOESCOLAR'
+      Size = 2
+    end
+    object sFuncionariosRGMAE: TStringField
+      FieldName = 'RGMAE'
+      Size = 15
+    end
+    object sFuncionariosCPFMAE: TStringField
+      FieldName = 'CPFMAE'
+      Size = 14
+    end
+    object sFuncionariosPAI: TStringField
+      FieldName = 'PAI'
+      Size = 30
+    end
+    object sFuncionariosRGPAI: TStringField
+      FieldName = 'RGPAI'
+      Size = 15
+    end
+    object sFuncionariosCPFPAI: TStringField
+      FieldName = 'CPFPAI'
+      Size = 14
+    end
+    object sFuncionariosLANCADOCLASSE: TIntegerField
+      FieldName = 'LANCADOCLASSE'
+    end
+    object sFuncionariosTRANSPORTE: TStringField
+      FieldName = 'TRANSPORTE'
+      Size = 50
+    end
+    object sFuncionariosCIDADENASC: TStringField
+      FieldName = 'CIDADENASC'
+      Size = 30
+    end
+    object sFuncionariosUFNASC: TStringField
+      FieldName = 'UFNASC'
+      Size = 2
+    end
+    object sFuncionariosNACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 15
+    end
+    object sFuncionariosCERTIDAONASCNUM: TStringField
+      FieldName = 'CERTIDAONASCNUM'
+      Size = 10
+    end
+    object sFuncionariosLIVRONASC: TStringField
+      FieldName = 'LIVRONASC'
+      Size = 10
+    end
+    object sFuncionariosFLLIVRONASC: TStringField
+      FieldName = 'FLLIVRONASC'
+      Size = 5
+    end
+    object sFuncionariosLOCALTRABPAI: TStringField
+      FieldName = 'LOCALTRABPAI'
+      Size = 30
+    end
+    object sFuncionariosLOCALTRABMAE: TStringField
+      FieldName = 'LOCALTRABMAE'
+      Size = 30
+    end
+    object sFuncionariosTELTRABPAI: TStringField
+      FieldName = 'TELTRABPAI'
+      Size = 15
+    end
+    object sFuncionariosTELTRABMAE: TStringField
+      FieldName = 'TELTRABMAE'
+      Size = 15
+    end
+    object sFuncionariosINFONECESSARIAS: TStringField
+      FieldName = 'INFONECESSARIAS'
+      Size = 30
+    end
+    object sFuncionariosCARTEIRAVACINACAO: TStringField
+      FieldName = 'CARTEIRAVACINACAO'
+      Size = 10
+    end
+    object sFuncionariosRAPRODESP: TStringField
+      FieldName = 'RAPRODESP'
+      Size = 10
+    end
+    object sFuncionariosLOCALTRABALUNO: TStringField
+      FieldName = 'LOCALTRABALUNO'
+      Size = 30
+    end
+    object sFuncionariosTELTRABALUNO: TStringField
+      FieldName = 'TELTRABALUNO'
+      Size = 15
+    end
+    object sFuncionariosRAPROD: TStringField
+      FieldName = 'RAPROD'
+      Size = 15
+    end
+    object sFuncionariosCERT_NAS_COMARCA: TStringField
+      FieldName = 'CERT_NAS_COMARCA'
+      Size = 50
+    end
+    object sFuncionariosCERT_NAS_UF: TStringField
+      FieldName = 'CERT_NAS_UF'
+      Size = 2
+    end
+    object sFuncionariosCERT_NAS_MUNICIPIO: TStringField
+      FieldName = 'CERT_NAS_MUNICIPIO'
+      Size = 50
+    end
+    object sFuncionariosCERT_NAS_DISTRITO: TStringField
+      FieldName = 'CERT_NAS_DISTRITO'
+      Size = 50
+    end
+    object sFuncionariosCERT_NAS_SUBDISTRITO: TStringField
+      FieldName = 'CERT_NAS_SUBDISTRITO'
+      Size = 50
+    end
+    object sFuncionariosDIVERSO1: TStringField
+      FieldName = 'DIVERSO1'
+      Size = 50
+    end
+    object sFuncionariosDIVERSO2: TStringField
+      FieldName = 'DIVERSO2'
+      Size = 50
+    end
+    object sFuncionariosDATAEMISSAORG: TDateField
+      FieldName = 'DATAEMISSAORG'
+    end
+    object sFuncionariosESTADORG: TStringField
+      FieldName = 'ESTADORG'
+      FixedChar = True
+      Size = 2
+    end
+    object sFuncionariosCOMUNICAALUNO: TStringField
+      FieldName = 'COMUNICAALUNO'
+      Size = 50
+    end
+    object sFuncionariosFONEMAE: TStringField
+      FieldName = 'FONEMAE'
+      Size = 15
+    end
+    object sFuncionariosCELULARMAE: TStringField
+      FieldName = 'CELULARMAE'
+      Size = 15
+    end
+    object sFuncionariosCOMUNICAMAE: TStringField
+      FieldName = 'COMUNICAMAE'
+      Size = 50
+    end
+    object sFuncionariosFONEPAI: TStringField
+      FieldName = 'FONEPAI'
+      Size = 15
+    end
+    object sFuncionariosCELULARPAI: TStringField
+      FieldName = 'CELULARPAI'
+      Size = 15
+    end
+    object sFuncionariosCOMUNICAPAI: TStringField
+      FieldName = 'COMUNICAPAI'
+      Size = 50
+    end
+    object sFuncionariosVALOR_MATRICULA: TFloatField
+      FieldName = 'VALOR_MATRICULA'
+    end
+    object sFuncionariosDATATRANSF: TDateField
+      FieldName = 'DATATRANSF'
+    end
+    object sFuncionariosCOR_RACA: TStringField
+      FieldName = 'COR_RACA'
+      Size = 25
+    end
+    object sFuncionariosPERIODO: TStringField
+      FieldName = 'PERIODO'
+      Size = 15
+    end
+    object sFuncionariosFOTO: TStringField
+      FieldName = 'FOTO'
+      Size = 300
+    end
+    object sFuncionariosDATA_MATRICULA: TSQLTimeStampField
+      FieldName = 'DATA_MATRICULA'
+    end
+    object sFuncionariosCODRESPONSAVEL: TIntegerField
+      FieldName = 'CODRESPONSAVEL'
+    end
+    object sFuncionariosCOD_TRANPORTADORA: TIntegerField
+      FieldName = 'COD_TRANPORTADORA'
+    end
+    object sFuncionariosBLOQUEIO: TStringField
+      FieldName = 'BLOQUEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object sFuncionariosCOD_CLI: TStringField
+      FieldName = 'COD_CLI'
+      Size = 10
+    end
+    object sFuncionariosCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosCORTESIA: TStringField
+      FieldName = 'CORTESIA'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosVALOR_CONSUMO: TFloatField
+      FieldName = 'VALOR_CONSUMO'
+    end
+    object sFuncionariosVALOR_CORTESIA: TFloatField
+      FieldName = 'VALOR_CORTESIA'
+    end
+    object sFuncionariosE_FORNECEDOR: TStringField
+      FieldName = 'E_FORNECEDOR'
+      FixedChar = True
+      Size = 1
+    end
+    object sFuncionariosCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+    end
+    object sFuncionariosCARGOFUNCAO: TStringField
+      FieldName = 'CARGOFUNCAO'
+      Size = 1
     end
   end
   object Timer1: TTimer
@@ -910,10 +1353,10 @@ object fFrequencia: TfFrequencia
   end
   object sColaborador: TSQLDataSet
     CommandText = 
-      'select  fr.COD_FUNCIONARIO, '#13#10'           fu.NOME_FUNCIONARIO '#13#10'f' +
-      'rom FREQUENCIA fr inner join FUNCIONARIO fu '#13#10'on fu.COD_FUNCIONA' +
-      'RIO = fr.COD_FUNCIONARIO '#13#10'where fu.NOME_FUNCIONARIO = :pNome '#13#10 +
-      'and fr.DATA = :pData'
+      'select  fr.COD_FUNCIONARIO, '#13#10'           fu.NOMECLIENTE'#13#10'from FR' +
+      'EQUENCIA fr inner join CLIENTES fu '#13#10'on fu.CODCLIENTE = fr.COD_F' +
+      'UNCIONARIO '#13#10'where fu.NOMECLIENTE = :pNome '#13#10'and fr.DATA = :pDat' +
+      'a'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -931,11 +1374,11 @@ object fFrequencia: TfFrequencia
     Top = 152
     object sColaboradorCOD_FUNCIONARIO: TIntegerField
       FieldName = 'COD_FUNCIONARIO'
-      Required = True
     end
-    object sColaboradorNOME_FUNCIONARIO: TStringField
-      FieldName = 'NOME_FUNCIONARIO'
-      Size = 60
+    object sColaboradorNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
     end
   end
   object PopupMenu1: TPopupMenu
