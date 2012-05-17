@@ -13,6 +13,7 @@ object fFrequencia: TfFrequencia
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -52,6 +53,19 @@ object fFrequencia: TfFrequencia
     object Label3: TLabel
       Left = 554
       Top = 5
+      Width = 35
+      Height = 20
+      Caption = 'Hora'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 636
+      Top = 7
       Width = 35
       Height = 20
       Caption = 'Hora'
@@ -115,6 +129,25 @@ object fFrequencia: TfFrequencia
       TabOrder = 2
       Text = '  :  '
     end
+    object horasaida: TMaskEdit
+      Left = 635
+      Top = 24
+      Width = 64
+      Height = 28
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      EditMask = '!90:00;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 3
+      Text = '  :  '
+    end
   end
   object PageControl1: TPageControl
     Left = 0
@@ -140,6 +173,7 @@ object fFrequencia: TfFrequencia
         TitleFont.Height = -11
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
+        OnCellClick = JvDBGrid1CellClick
         AutoSizeColumns = True
         SelectColumnsDialogStrings.Caption = 'Select columns'
         SelectColumnsDialogStrings.OK = '&OK'
@@ -157,7 +191,7 @@ object fFrequencia: TfFrequencia
           end
           item
             Expanded = False
-            FieldName = 'NOME_FUNCIONARIO'
+            FieldName = 'NOMECLIENTE'
             Title.Caption = 'Colaborador'
             Width = 251
             Visible = True
@@ -697,24 +731,19 @@ object fFrequencia: TfFrequencia
     Top = 192
     object sFrequenciaCOD_FREQUENCIA: TIntegerField
       FieldName = 'COD_FREQUENCIA'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object sFrequenciaCOD_FUNCIONARIO: TIntegerField
       FieldName = 'COD_FUNCIONARIO'
-      ProviderFlags = [pfInUpdate]
     end
     object sFrequenciaDATA: TDateField
       FieldName = 'DATA'
-      ProviderFlags = [pfInUpdate]
     end
     object sFrequenciaHORAINICIO: TSQLTimeStampField
       FieldName = 'HORAINICIO'
-      ProviderFlags = [pfInUpdate]
     end
     object sFrequenciaHORASAIDA: TSQLTimeStampField
       FieldName = 'HORASAIDA'
-      ProviderFlags = [pfInUpdate]
     end
     object sFrequenciaNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
@@ -736,24 +765,21 @@ object fFrequencia: TfFrequencia
     Top = 192
     object cFrequenciaCOD_FREQUENCIA: TIntegerField
       FieldName = 'COD_FREQUENCIA'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object cFrequenciaCOD_FUNCIONARIO: TIntegerField
       FieldName = 'COD_FUNCIONARIO'
-      ProviderFlags = [pfInUpdate]
     end
     object cFrequenciaDATA: TDateField
       FieldName = 'DATA'
-      ProviderFlags = [pfInUpdate]
     end
     object cFrequenciaHORAINICIO: TSQLTimeStampField
       FieldName = 'HORAINICIO'
-      ProviderFlags = [pfInUpdate]
+      EditMask = 'hh:mm:ss'
     end
     object cFrequenciaHORASAIDA: TSQLTimeStampField
       FieldName = 'HORASAIDA'
-      ProviderFlags = [pfInUpdate]
+      EditMask = '99:99:99'
     end
     object cFrequenciaNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
@@ -768,8 +794,9 @@ object fFrequencia: TfFrequencia
   end
   object sFuncionarios: TSQLDataSet
     CommandText = 
-      'select * From CLIENTES'#13#10'where CARGOFUNCAO = :CARGO'#13#10'order by NOM' +
-      'ECLIENTE'#13#10
+      'select * From CLIENTES c'#13#10'inner join CARGOSFUNCOES cf on cf.COD_' +
+      'CARGOSFUNCOES = c.CARGOFUNCAO'#13#10'where cf.DESCRICAO = :CARGO'#13#10'orde' +
+      'r by NOMECLIENTE'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -1185,8 +1212,16 @@ object fFrequencia: TfFrequencia
     object sFuncionariosCODRESPONSAVEL: TIntegerField
       FieldName = 'CODRESPONSAVEL'
     end
+    object sFuncionariosID_COB: TIntegerField
+      FieldName = 'ID_COB'
+    end
     object sFuncionariosCOD_TRANPORTADORA: TIntegerField
       FieldName = 'COD_TRANPORTADORA'
+    end
+    object sFuncionariosBLOQUEADO: TStringField
+      FieldName = 'BLOQUEADO'
+      FixedChar = True
+      Size = 1
     end
     object sFuncionariosBLOQUEIO: TStringField
       FieldName = 'BLOQUEIO'
@@ -1201,11 +1236,6 @@ object fFrequencia: TfFrequencia
     object sFuncionariosCOD_CLI: TStringField
       FieldName = 'COD_CLI'
       Size = 10
-    end
-    object sFuncionariosCODFISCAL: TStringField
-      FieldName = 'CODFISCAL'
-      FixedChar = True
-      Size = 1
     end
     object sFuncionariosCORTESIA: TStringField
       FieldName = 'CORTESIA'
@@ -1226,9 +1256,21 @@ object fFrequencia: TfFrequencia
     object sFuncionariosCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
     end
-    object sFuncionariosCARGOFUNCAO: TStringField
+    object sFuncionariosCARGOFUNCAO: TIntegerField
       FieldName = 'CARGOFUNCAO'
+    end
+    object sFuncionariosCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
       Size = 1
+    end
+    object sFuncionariosCOD_CARGOSFUNCOES: TIntegerField
+      FieldName = 'COD_CARGOSFUNCOES'
+      Required = True
+    end
+    object sFuncionariosDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
     end
   end
   object Timer1: TTimer
@@ -1403,6 +1445,31 @@ object fFrequencia: TfFrequencia
       Caption = 'Consulta'
       ShortCut = 119
       OnClick = BitBtn4Click
+    end
+  end
+  object sAtivo: TSQLDataSet
+    CommandText = 
+      'select  fr.COD_FUNCIONARIO, '#13#10'           fu.NOMECLIENTE'#13#10'from FR' +
+      'EQUENCIA fr inner join CLIENTES fu '#13#10'on fu.CODCLIENTE = fr.COD_F' +
+      'UNCIONARIO '#13#10'where fr.HORASAIDA is null and fr.COD_FUNCIONARIO =' +
+      ' :nome'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'nome'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 372
+    Top = 128
+    object IntegerField1: TIntegerField
+      FieldName = 'COD_FUNCIONARIO'
+    end
+    object StringField1: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
     end
   end
 end
