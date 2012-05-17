@@ -50,14 +50,11 @@ BEGIN
 	into :UF, :PESSOA, IE;
 	end
 	
-	if( IE = 'ISENTO' or IE = 'ISENTA') then
-        PESSOA = 0;
-	
 	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
-	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN
+	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0), COALESCE(cfp.COFINS, 0)
 	from CLASSIFICACAOFISCALPRODUTO cfp
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN;
+        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS;
     
     new.CSOSN = CSOSN;
 	if ( (CICMS> 0 ) or (CICMS_SUBST >0) )then
@@ -88,7 +85,9 @@ BEGIN
 			new.ICMS_SUBST = (new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS);
 		  else
 		    new.ICMS_SUBST = 0;
-       new.cst = :cst_p;
+       new.cst = :CST_P;
+       new.VALOR_COFINS = ((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100;
+       new.VALOR_PIS =  ((new.VLR_BASE * new.QUANTIDADE) * PIS) /100;       
 	end
 
 	else
