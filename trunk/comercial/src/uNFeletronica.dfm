@@ -807,7 +807,7 @@ object fNFeletronica: TfNFeletronica
               Top = 32
               Width = 91
               Height = 36
-              Caption = 'Gerar NF-e'
+              Caption = 'NF-e Cont. FS'
               Enabled = False
               TabOrder = 0
               OnClick = btnContingenciaClick
@@ -848,7 +848,7 @@ object fNFeletronica: TfNFeletronica
               Top = 32
               Width = 91
               Height = 36
-              Caption = 'Gerar NF-e'
+              Caption = 'NF-e SPED'
               Enabled = False
               TabOrder = 0
               OnClick = btnSPEDClick
@@ -880,7 +880,7 @@ object fNFeletronica: TfNFeletronica
               Top = 64
               Width = 91
               Height = 36
-              Caption = 'Gerar NF-e'
+              Caption = 'NF-e DPEC'
               Enabled = False
               TabOrder = 0
               OnClick = btnDpecClick
@@ -930,7 +930,7 @@ object fNFeletronica: TfNFeletronica
               Top = 32
               Width = 91
               Height = 36
-              Caption = 'Gerar NF-e'
+              Caption = 'NF-e Cont. FSDA'
               Enabled = False
               TabOrder = 0
               OnClick = btnFSDAClick
