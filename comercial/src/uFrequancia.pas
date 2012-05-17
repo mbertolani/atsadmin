@@ -15,16 +15,6 @@ type
     dFrequencia: TDataSetProvider;
     cFrequencia: TClientDataSet;
     DtSrc: TDataSource;
-    cFrequenciaCOD_FREQUENCIA: TIntegerField;
-    cFrequenciaCOD_FUNCIONARIO: TIntegerField;
-    cFrequenciaDATA: TDateField;
-    cFrequenciaHORAINICIO: TSQLTimeStampField;
-    cFrequenciaHORASAIDA: TSQLTimeStampField;
-    sFrequenciaCOD_FREQUENCIA: TIntegerField;
-    sFrequenciaCOD_FUNCIONARIO: TIntegerField;
-    sFrequenciaDATA: TDateField;
-    sFrequenciaHORAINICIO: TSQLTimeStampField;
-    sFrequenciaHORASAIDA: TSQLTimeStampField;
     ComboBox1: TComboBox;
     data1: TJvDatePickerEdit;
     horaentrada: TMaskEdit;
@@ -71,6 +61,20 @@ type
     Saida1: TMenuItem;
     Excluir1: TMenuItem;
     Consulta1: TMenuItem;
+    sFrequenciaCOD_FREQUENCIA: TIntegerField;
+    sFrequenciaCOD_FUNCIONARIO: TIntegerField;
+    sFrequenciaDATA: TDateField;
+    sFrequenciaHORAINICIO: TSQLTimeStampField;
+    sFrequenciaHORASAIDA: TSQLTimeStampField;
+    sFrequenciaNOMECLIENTE: TStringField;
+    cFrequenciaCOD_FREQUENCIA: TIntegerField;
+    cFrequenciaCOD_FUNCIONARIO: TIntegerField;
+    cFrequenciaDATA: TDateField;
+    cFrequenciaHORAINICIO: TSQLTimeStampField;
+    cFrequenciaHORASAIDA: TSQLTimeStampField;
+    cFrequenciaNOMECLIENTE: TStringField;
+    sColaboradorCOD_FUNCIONARIO: TIntegerField;
+    sColaboradorNOMECLIENTE: TStringField;
     sFuncionariosCODCLIENTE: TIntegerField;
     sFuncionariosNOMECLIENTE: TStringField;
     sFuncionariosRAZAOSOCIAL: TStringField;
@@ -176,29 +180,37 @@ type
     sFuncionariosFOTO: TStringField;
     sFuncionariosDATA_MATRICULA: TSQLTimeStampField;
     sFuncionariosCODRESPONSAVEL: TIntegerField;
+    sFuncionariosID_COB: TIntegerField;
     sFuncionariosCOD_TRANPORTADORA: TIntegerField;
+    sFuncionariosBLOQUEADO: TStringField;
     sFuncionariosBLOQUEIO: TStringField;
     sFuncionariosCFOP: TStringField;
     sFuncionariosCOD_CLI: TStringField;
-    sFuncionariosCODFISCAL: TStringField;
     sFuncionariosCORTESIA: TStringField;
     sFuncionariosVALOR_CONSUMO: TFloatField;
     sFuncionariosVALOR_CORTESIA: TFloatField;
     sFuncionariosE_FORNECEDOR: TStringField;
     sFuncionariosCODFORNECEDOR: TIntegerField;
-    sFuncionariosCARGOFUNCAO: TStringField;
-    sFrequenciaNOMECLIENTE: TStringField;
-    cFrequenciaNOMECLIENTE: TStringField;
-    sColaboradorCOD_FUNCIONARIO: TIntegerField;
-    sColaboradorNOMECLIENTE: TStringField;
+    sFuncionariosCARGOFUNCAO: TIntegerField;
+    sFuncionariosCODFISCAL: TStringField;
+    sFuncionariosCOD_CARGOSFUNCOES: TIntegerField;
+    sFuncionariosDESCRICAO: TStringField;
+    sAtivo: TSQLDataSet;
+    IntegerField1: TIntegerField;
+    StringField1: TStringField;
+    horasaida: TMaskEdit;
+    Label4: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
+    freq : Integer;
     procedure buscafrequencia;
   public
     { Public declarations }
@@ -215,6 +227,11 @@ uses UDm;
 
 procedure TfFrequencia.FormCreate(Sender: TObject);
 begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'CARGO/FUNCAO';
+  dm.cds_parametro.Open;
+  sFuncionarios.Params[0].AsString := dm.cds_parametroDADOS.AsString;
   if (not sFuncionarios.Active) then
     sFuncionarios.Open;
   sFuncionarios.First;
@@ -252,6 +269,20 @@ begin
      horaentrada.SetFocus;
      exit;
    end;
+   if ( not sFuncionarios.Active) then
+     sFuncionarios.Open;
+   sFuncionarios.Locate('NOMECLIENTE',ComboBox1.Text, [loCaseInsensitive]);
+   if (sAtivo.Active) then
+     sAtivo.Close;
+   sAtivo.Params[0].AsInteger := sFuncionariosCODCLIENTE.AsInteger;
+   sAtivo.Open;
+   if(not sAtivo.IsEmpty) then
+   begin
+     MessageDlg('Colaborador com horario em Aberto, finalize o antes de criar um novo.', mtWarning, [mbOK], 0);
+     Exit;
+   end;
+
+
    if (not cdsFrequencia.Active) then
      cdsFrequencia.Open;
    cdsFrequencia.Append;
@@ -261,7 +292,8 @@ begin
    dm.c_6_genid.Open;
    cdsFrequenciaCOD_FREQUENCIA.AsInteger := dm.c_6_genidCODIGO.AsInteger;
    dm.c_6_genid.Close;
-   sFuncionarios.Open;
+   if ( not sFuncionarios.Active) then
+     sFuncionarios.Open;
    if (sFuncionarios.Locate('NOMECLIENTE',ComboBox1.Text, [loCaseInsensitive])) then
       cdsFrequenciaCOD_FUNCIONARIO.AsInteger := sFuncionariosCODCLIENTE.AsInteger
    else
@@ -271,7 +303,7 @@ begin
       exit;
    end;
    cdsFrequenciaDATA.AsDateTime := StrToDateTime(data1.Text);
-   cdsFrequenciaHORAINICIO.AsDateTime := StrToDateTime(horaentrada.Text);
+   cdsFrequenciaHORAINICIO.AsDateTime := StrToDateTime(data1.Text + ' ' + horaentrada.Text);
    cdsFrequencia.ApplyUpdates(0);
    // Atualiza o gride de Frequencia
    buscafrequencia;
@@ -284,13 +316,13 @@ end;
 
 procedure TfFrequencia.buscafrequencia;
 var
-  str, str_sql : string;
+  str : string;
 begin
   str := '';
   str := 'select  f.*, u.NOMECLIENTE from FREQUENCIA f inner join  CLIENTES u ' +
           'on u.CODCLIENTE = f.COD_FUNCIONARIO ';
   str := str + ' where f.DATA = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',StrToDateTime(data1.Text)));
-  str := str + ' and u.STATUS = ' + QuotedStr('S') + ' order by u.NOMECLIENTE';
+  str := str + ' and u.STATUS = 1 order by u.NOMECLIENTE';
   if (cFrequencia.Active) then
     cFrequencia.Close;
   cFrequencia.CommandText := str;
@@ -306,8 +338,7 @@ procedure TfFrequencia.BitBtn3Click(Sender: TObject);
 begin
   if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
   begin
-     DtSrc.DataSet.Delete;
-     (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
+     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM FREQUENCIA WHERE COD_FREQUENCIA = ' + IntToStr(freq));
      buscafrequencia;
   end
   else
@@ -316,12 +347,25 @@ begin
 end;
 
 procedure TfFrequencia.BitBtn2Click(Sender: TObject);
+var sql : string;
 begin
-   if (cdsFrequencia.State in [dsBrowse]) then
-     cdsFrequencia.Edit;
-   cdsFrequenciaHORASAIDA.AsDateTime := StrToDateTime(horaentrada.Text);
-   cdsFrequencia.ApplyUpdates(0);
-   // Atualiza o gride de Frequencia
+  sql := 'UPDATE FREQUENCIA set HORASAIDA = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDateTime(data1.Text)) + ' ' + horasaida.Text) + ' WHERE COD_FREQUENCIA = ' + IntToStr(freq);
+  dm.sqlsisAdimin.ExecuteDirect(sql);
+  // Atualiza o gride de Frequencia
+  buscafrequencia;
+end;
+
+procedure TfFrequencia.JvDBGrid1CellClick(Column: TColumn);
+begin
+  ComboBox1.Text := cFrequenciaNOMECLIENTE.AsString;
+  data1.Text := DateToStr(cFrequenciaDATA.AsDateTime);
+  freq := cFrequenciaCOD_FREQUENCIA.AsInteger;
+  horaentrada.Text := FormatDateTime('HH:MM', cFrequenciaHORAINICIO.AsDateTime);
+  horasaida.Text := FormatDateTime('HH:MM', cFrequenciaHORASAIDA.AsDateTime);
+end;
+
+procedure TfFrequencia.FormShow(Sender: TObject);
+begin
    buscafrequencia;
 end;
 
