@@ -227,6 +227,8 @@ begin
        Preco_venda = precocliente;
       precocliente = 0;
     end
+	select ESTOQUEATUAL FROM LISTA_ESTOQUE(current_date) WHERE codproduto = :codProduto and USA is null
+    into :ESTOQUEATUAL;
     suspend;
     CCustoV = CCusto;
     preco_compraMedio = 0;
