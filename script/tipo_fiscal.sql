@@ -27,6 +27,9 @@ alter table ESTADO_ICMS add constraint FK_TFISCAL foreign key (CODFISCAL) refere
 commit;
 
 update ESTADO_ICMS set CODFISCAL = UDF_LEFT(PESSOA, 1);
-
+update CLIENTES c Set c.codfiscal = 'F' where c.TIPOFIRMA = 0;
+update CLIENTES c Set c.codfiscal = 'J' where c.TIPOFIRMA = 1;
+update FORNECEDOR c Set c.codfiscal = 'F' where c.TIPOFIRMA = 0;
+update FORNECEDOR c Set c.codfiscal = 'J' where c.TIPOFIRMA = 1;
 
 commit;
