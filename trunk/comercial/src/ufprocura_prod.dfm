@@ -31,7 +31,7 @@ object fProcura_prod: TfProcura_prod
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 803
+    Width = 801
     Height = 90
     Align = alTop
     BevelInner = bvLowered
@@ -455,6 +455,12 @@ object fProcura_prod: TfProcura_prod
       end
       item
         Expanded = False
+        FieldName = 'ESTOQUEATUAL'
+        Title.Caption = 'Estoque'
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'QTDE_PCT'
         Title.Caption = 'Qtde/Peso'
         Width = 65
@@ -549,7 +555,7 @@ object fProcura_prod: TfProcura_prod
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 803
+    Width = 801
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
