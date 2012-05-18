@@ -77,7 +77,7 @@ begin
 end;
 
 procedure TfFamilia.BitBtn1Click(Sender: TObject);
-var sqlFam: string;
+//var sqlFam: string;
 begin
   inherited;
   {if (cbMarca.Text = '') then
@@ -110,6 +110,8 @@ end;
 procedure TfFamilia.FormShow(Sender: TObject);
 begin
   //inherited;
+  if(not DM.cds_familia.Active) then
+    DM.cds_familia.Open;
   sCtrlResize.CtrlResize(TForm(fFamilia));
 end;
 
