@@ -1544,14 +1544,18 @@ begin
       executaScript('gera_nf_venda.sql');
       executaScript('listaProduto.sql');
       executaScript('LISTAPRODUTOCLI.sql');
-      MessageDlg('Execute o Script "Tipo_fiscal.sql em seguida o Script trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
+      MessageDlg('Execute o Script "Tipo_fiscal.sql".', mtWarning, [mbOK], 0);
       mudaVersao('1.0.0.105');
     end;// Fim Ataulização Versao 1.0.0.105
 
     if (versaoSistema = '1.0.0.105') then
     begin
-        executaDDLdrop('CLIENTES', 'CARGOFUNCAO');
-        executaDDL('CLIENTES', 'CARGOFUNCAO', 'integer');
+      executaDDLdrop('CLIENTES', 'CARGOFUNCAO');
+      executaDDL('CLIENTES', 'CARGOFUNCAO', 'integer');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTIPI', 'VARCHAR(2)');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTPIS', 'VARCHAR(2)');
+      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTCOFINS', 'VARCHAR(2)');
+      MessageDlg('Execute o Script "trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
 //      executaScript('trg_calcula_icms_st.sql');
 //      mudaVersao('1.0.0.106');
     end;// Fim Ataulização Versao 1.0.0.106
