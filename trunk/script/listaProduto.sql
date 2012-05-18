@@ -1,4 +1,3 @@
-set term  ^ ;
 CREATE OR ALTER PROCEDURE LISTAPRODUTO(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -71,8 +70,7 @@ begin
     
     cCustoV = CCusto;
     
-    /* Verificando que tipo de Preco e usado pelo Cliente  (Preco Medio ou o ultimo   */
-    /* Preco no calculo do estoque)                                                   */
+    -- Verificando que tipo de Preco e usado pelo Cliente  (Preco Medio ou o ultimo Preco no calculo do estoque)                                                   
     SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'PRECOESTOQUE'
     INTO :tipoPrecoParametro;
 
@@ -177,14 +175,14 @@ begin
     end
 
     if (usaListaTerceiros = 'N') then
-    if (tipoPreco = 'F') then  -- Preco de Venda que estÃ¡ no cadastro Produto;
+    if (tipoPreco = 'F') then  -- Preco de Venda que esta no cadastro Produto;
     begin
       if (precoVenda > 0) then
         Preco_venda = precoVenda;
     end
 
     if (usaListaTerceiros = 'N') then
-    if (tipoPreco = 'M') then -- Preco de Venda = PreÃ§o MÃ©dio de Compra * Margem;
+    if (tipoPreco = 'M') then -- Preco de Venda = Preco Medio de Compra c Margem;
     begin
       if (preco_compraMedio > 0) then
       if (margem > 0) then
@@ -192,7 +190,7 @@ begin
     end
 
     if (usaListaTerceiros = 'N') then
-    if (tipoPreco = 'U') then -- Preco de Venda = PreÃ§o Ultima Compra * Margem;
+    if (tipoPreco = 'U') then -- Preco de Venda = Preco Ultima Compra x Margem;
     begin
       if (preco_compraUltimo > 0) then
       if (margem > 0) then
@@ -206,7 +204,7 @@ begin
         Preco_venda = precoVenda;
     end
 
-    /* O custo do produto e baseado em cima das materias primas */
+    -- O custo do produto e baseado em cima das materias primas
     select sum(m.QTDEUSADA * (case when p.VALORUNITARIOATUAL is null then p.PRECOMEDIO
      when p.VALORUNITARIOATUAL = 0 then p.PRECOMEDIO
      else p.VALORUNITARIOATUAL end ))
