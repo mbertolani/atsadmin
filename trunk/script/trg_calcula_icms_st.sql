@@ -27,6 +27,9 @@ AS
  DECLARE VARIABLE PIS DOUBLE PRECISION = 0;
  DECLARE VARIABLE COFINS DOUBLE PRECISION = 0;
  Declare variable IE varchar (24);
+ Declare variable CSTIPI varchar(2);
+ Declare variable CSTPIS varchar(2); 
+ Declare variable CSTCOFINS varchar(2); 
 
 BEGIN
     select CRT from EMPRESA, MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
@@ -51,18 +54,22 @@ BEGIN
 	end
 	
 	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
-	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0), COALESCE(cfp.COFINS, 0)
+	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0), COALESCE(cfp.COFINS, 0), cfp.CSTCOFINS, cfp.CSTPIS, cfp.CSTIPI
 	from CLASSIFICACAOFISCALPRODUTO cfp
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS;
+        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI;
     
+    new.cst = :CST_P;
     new.CSOSN = CSOSN;
+    new.CSTPIS = :CSTPIS;
+    new.CSTCOFINS = :CSTCOFINS;
+    new.CSTIPI = :CSTIPI;
 	if ( (CICMS> 0 ) or (CICMS_SUBST >0) )then
 	begin
 	  new.icms = :cicms;
     if (IND_IPI > 0) then
     begin
-        new.VIPI = ((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100);
+        new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), 2);
         new.PIPI = IND_IPI;
     end
     else
@@ -76,30 +83,35 @@ BEGIN
 	if (ind_reduzicms > 1 )then
         ind_reduzicms = ind_reduzicms/100;
 		
-    /**    ***** TEM ST **************/
-           if (CICMS_SUBST > 0) then
-          new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100)));
-          new.VLR_BASEICMS = ((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms);
-          new.VALOR_ICMS = (new.VLR_BASEICMS) * (CICMS / 100);
-		  if ( new.ICMS_SUBSTD > 0) then
-			new.ICMS_SUBST = (new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS);
-		  else
+    ----------- TEM ST -------------
+    if (CICMS_SUBST > 0) then
+        new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), 2);
+        new.VLR_BASEICMS = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms), 2);
+        new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), 2);
+        if ( new.ICMS_SUBSTD > 0) then
+            new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS), 2);
+        else
 		    new.ICMS_SUBST = 0;
-       new.cst = :CST_P;
-       new.VALOR_COFINS = ((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100;
-       new.VALOR_PIS =  ((new.VLR_BASE * new.QUANTIDADE) * PIS) /100;       
+        new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100, 2);
+        new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * PIS) /100, 2);       
 	end
 
 	else
 	begin
-        select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0) from ESTADO_ICMS ei
+        select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
+        , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI
+        from ESTADO_ICMS ei
         where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = :PESSOA
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS;
+        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI;
     
+        new.cst = :CST_P;
         new.CSOSN = CSOSN;
+        new.CSTPIS = :CSTPIS;
+        new.CSTCOFINS = :CSTCOFINS;
+        new.CSTIPI = :CSTIPI;
         if (IND_IPI > 0) then
         begin
-            new.VIPI = ((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100);
+            new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), 2);
             new.PIPI = IND_IPI;
         end
         else
@@ -117,8 +129,8 @@ BEGIN
         if (CICMS > 0) then 
         begin
 		  new.icms = :cicms;
-          new.VLR_BASEICMS = (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms;
-          new.VALOR_ICMS = new.VLR_BASEICMS * (CICMS/100);  
+          new.VLR_BASEICMS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms, 2);
+          new.VALOR_ICMS = UDF_ROUNDDEC(new.VLR_BASEICMS * (CICMS/100), 2);  
         end
         else
         begin
@@ -149,26 +161,26 @@ BEGIN
           else 
             CICMS_SUBST = CICMS_SUBST ;
 
-          new.ICMS_SUBSTD = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4); 
+          new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4), 2); 
           VALOR_SUBDesc = (new.VLR_BASE*new.QUANTIDADE) * CICMS_SUBST_IND; 
-          new.ICMS_SUBST = (new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc;
+          new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc, 2);
         end
-        new.VALOR_COFINS = ((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100;
-        new.VALOR_PIS =  ((new.VLR_BASE * new.QUANTIDADE) * PIS) /100;
+        new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100, 2);
+        new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * PIS) /100, 2);
     end
     
     if( new.FRETE > 0) then
     begin
      if (CICMS >0) then
      begin
-       new.BCFRETE = new.frete * ind_reduzicms;
-       new.ICMSFRETE = new.BCFRETE * (CICMS/100);
+       new.BCFRETE = UDF_ROUNDDEC(new.frete * ind_reduzicms, 2);
+       new.ICMSFRETE = UDF_ROUNDDEC(new.BCFRETE * (CICMS/100), 2);
      end
      if (CICMS_SUBST > 0) then 
      begin
-      new.BCSTFRETE = new.FRETE * UDF_ROUNDDEC(CICMS_SUBST, 4);
+      new.BCSTFRETE = UDF_ROUNDDEC(new.FRETE * UDF_ROUNDDEC(CICMS_SUBST, 4), 2);
       VALOR_SUBDesc = new.FRETE * CICMS_SUBST_IND;
-      new.STFRETE = (new.BCFRETE * CICMS_SUBST_IC) - Valor_SubDesc;
+      new.STFRETE = UDF_ROUNDDEC((new.BCFRETE * CICMS_SUBST_IC) - Valor_SubDesc, 2);
      end
     end
     if( new.FRETE = 0) then
