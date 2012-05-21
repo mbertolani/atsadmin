@@ -88,7 +88,7 @@ begin
   Try
     rec := TReceberCls.Create;
     rec.baixaTitulo(vlrPago, 0, 0, 0, 0, dta.Date, dta.date, dta.Date, '4',
-    '', contaTitCod , codCliente, '7-', usuarioSis);
+    '', contaTitCod , codCliente, '7-', usuarioSis, 'DESCONTO');
     rec.gravaHistorico(codRec, tituloDescont, contaTitCod, usuarioSis, 'DESCONTO',
     'DESCONTO-' + cbConta.Text + '-' + dta.Text );
   Finally
