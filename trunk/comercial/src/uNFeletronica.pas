@@ -2117,23 +2117,23 @@ begin
 
         with PIS do
         begin
-          if (sdsItensNFCSTPIS.AsString = '01') then
+          if (cdsItensNFCSTPIS.AsString = '01') then
             CST   := pis01
-          else if (sdsItensNFCSTPIS.AsString = '02') then
+          else if (cdsItensNFCSTPIS.AsString = '02') then
             CST   := pis02
-          else if (sdsItensNFCSTPIS.AsString = '03') then
+          else if (cdsItensNFCSTPIS.AsString = '03') then
             CST   := pis03
-          else if (sdsItensNFCSTPIS.AsString = '04') then
+          else if (cdsItensNFCSTPIS.AsString = '04') then
             CST   := pis04
-          else if (sdsItensNFCSTPIS.AsString = '06') then
+          else if (cdsItensNFCSTPIS.AsString = '06') then
             CST   := pis06
-          else if (sdsItensNFCSTPIS.AsString = '07') then
+          else if (cdsItensNFCSTPIS.AsString = '07') then
             CST   := pis07
-          else if (sdsItensNFCSTPIS.AsString = '08') then
+          else if (cdsItensNFCSTPIS.AsString = '08') then
             CST   := pis08
-          else if (sdsItensNFCSTPIS.AsString = '09') then
+          else if (cdsItensNFCSTPIS.AsString = '09') then
             CST   := pis09
-          else if (sdsItensNFCSTPIS.AsString = '99') then
+          else if (cdsItensNFCSTPIS.AsString = '99') then
             CST   := pis99;
 
           vBC   := cdsItensNFVALTOTAL.AsVariant;
@@ -2144,23 +2144,23 @@ begin
         end;
         with COFINS do
         begin
-          if (sdsItensNFCSTCOFINS.AsString = '01') then
+          if (cdsItensNFCSTCOFINS.AsString = '01') then
             CST   := cof01
-          else if (sdsItensNFCSTCOFINS.AsString = '02') then
+          else if (cdsItensNFCSTCOFINS.AsString = '02') then
             CST   := cof02
-          else if (sdsItensNFCSTCOFINS.AsString = '03') then
+          else if (cdsItensNFCSTCOFINS.AsString = '03') then
             CST   := cof03
-          else if (sdsItensNFCSTCOFINS.AsString = '04') then
+          else if (cdsItensNFCSTCOFINS.AsString = '04') then
             CST   := cof04
-          else if (sdsItensNFCSTCOFINS.AsString = '06') then
+          else if (cdsItensNFCSTCOFINS.AsString = '06') then
             CST   := cof06
-          else if (sdsItensNFCSTCOFINS.AsString = '07') then
+          else if (cdsItensNFCSTCOFINS.AsString = '07') then
             CST   := cof07
-          else if (sdsItensNFCSTCOFINS.AsString = '08') then
+          else if (cdsItensNFCSTCOFINS.AsString = '08') then
             CST   := cof08
-          else if (sdsItensNFCSTCOFINS.AsString = '09') then
+          else if (cdsItensNFCSTCOFINS.AsString = '09') then
             CST   := cof09
-          else if (sdsItensNFCSTCOFINS.AsString = '99') then
+          else if (cdsItensNFCSTCOFINS.AsString = '99') then
             CST   := cof99;
 
           vBC   := cdsItensNFVALTOTAL.AsVariant;
