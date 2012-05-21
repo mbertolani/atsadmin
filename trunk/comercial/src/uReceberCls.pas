@@ -150,7 +150,7 @@ type
     function geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
     function baixaTitulo(VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
                          DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
-                         CLIENTE : Integer; STATUS : string;  USERID : Integer): Integer;
+                         CLIENTE : Integer; STATUS : string;  USERID : Integer; tipoBaixa: String): Integer;
     function excluiTitulo(codVendaE: Integer): Boolean;
     function alteraTitulo(codVendaA: Integer): Boolean;
     function cancelabaixa(CLIENTE: Integer; USERID :Integer): Boolean;
@@ -174,7 +174,7 @@ end;
 
 function TReceberCls.baixaTitulo( VALOR :Double; FUNRURAL: Double; JUROS :Double; DESCONTO: Double; PERDA: Double;
 DATA : TDateTime; DATAREC : TDateTime; DATACONSOLIDA : TDateTime; FORMAREC: String; NDOC: String; CAIXA : Integer;
-CLIENTE : Integer; STATUS : string; USERID : Integer): Integer;
+CLIENTE : Integer; STATUS : string; USERID : Integer; tipoBaixa: String): Integer;
 var  strRec : String;
   codRecB: Integer;
   VLR_RESTO, VLR, VLRESTO, VLRATUAL, VLPAGO, VLJU, VLFUN, VLDESC, VLPER, VLJUT, VLFUNT, VLDESCT, VLPERT : DOUBLE;
@@ -279,8 +279,12 @@ begin
             ', DESCONTO = ' + FloatToStr(VLDESC) +
             ', PERDA = ' + FloatToStr(VLPER) +
             ',outro_credito = ' + FloatToStr(vldesct) +
-            ',outro_debito = ' + FloatToStr(vlpert)  +
-            ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
+            ',outro_debito = ' + FloatToStr(vlpert);
+
+            if (tipoBaixa = 'DESCONTO') then
+              strRec := strRec  + ', DESCONTADO  = ' + QuotedStr('S');
+
+            strRec := strRec  + ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
         executaSql(strRec);
       end;
 
@@ -311,7 +315,7 @@ begin
     end;
     Result := 0;
     // Se sobrou algum valor então gera novo titulo
-    if (VLR_RESTO > 0.01) then
+    if ((VLR_RESTO > 0.01) and (tipoBaixa <> 'DESCONTO')) then
     begin
         Self.Valor := VLR_RESTO;
         Result := geraTitulo(CodRec, 0);

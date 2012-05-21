@@ -556,7 +556,7 @@ begin
         scdsCr_proc.Close;
     scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
     scdsCr_proc.Open;
-
+    DM_MOV.c_venda.Edit;
   end;
 
     if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
@@ -883,7 +883,7 @@ begin
                                         DM_MOV.c_formaCAIXA.AsInteger, // Caixa
                                         DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
                                         '7-',
-                                        usulog); // Usuario Logado
+                                        usulog, ''); // Usuario Logado
             Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
                       IntToStr(codRecCR);;
             dm.sqlsisAdimin.StartTransaction(TD);
@@ -2106,7 +2106,7 @@ begin
                                 caixaCR, // Caixa
                                 CodigoCliCR, //DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
                                 '7-',
-                                usulog); // Usuario Logado
+                                usulog, ''); // Usuario Logado
     Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
               IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);;
     dm.sqlsisAdimin.StartTransaction(TD);
