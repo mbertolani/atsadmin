@@ -737,12 +737,12 @@ begin
   inherited;
   if DBRadioGroup1.ItemIndex=0 then
   begin
-//    cds_cliCNPJ.EditMask := '000.000.000-00;1;_';
+    cds_cliCNPJ.EditMask := '000.000.000-00;1;_';
     cds_cliTIPOFIRMA.AsInteger := 0;
   end
   else
   begin
-//    cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';
+    cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';
     cds_cliTIPOFIRMA.AsInteger := 1;
   end;
   dbeCNPJ.Enabled:=True;
