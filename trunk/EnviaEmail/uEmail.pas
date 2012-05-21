@@ -86,6 +86,9 @@ type
     dsEnvia: TDataSource;
     dlgOpenAnexos: TOpenDialog;
     Label1: TLabel;
+    SQLDataSet1ENVIADO: TStringField;
+    cdsEnviaENVIADO: TStringField;
+    btnEnviado: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -99,6 +102,8 @@ type
     procedure rgSi(Sender: TObject);
     procedure rg1Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure JvDBUltimGrid1CellClick(Column: TColumn);
+    procedure btnEnviadoClick(Sender: TObject);
   private
     { Private declarations }
         TD: TTransactionDesc;
@@ -485,6 +490,52 @@ begin
     DM.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro ao alterar Registro .', mtError, [mbOK], 0);
     exit;
+  end;
+end;
+
+procedure TForm1.JvDBUltimGrid1CellClick(Column: TColumn);
+begin
+  if (cdsEnviaENVIADO.asString = 'S') then
+    btnEnviado.Caption := 'Não Enviado';
+  if (cdsEnviaENVIADO.asString = 'N') then
+    btnEnviado.Caption := 'Enviado';
+end;
+
+procedure TForm1.btnEnviadoClick(Sender: TObject);
+begin
+  if (btnEnviado.Caption = 'Não Enviado') then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    DM.sqlsisAdimin.StartTransaction(TD);
+    try
+      DM.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET ENVIADO = ' + QuotedStr('N') +
+       ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.asInteger));
+      DM.sqlsisAdimin.Commit(TD);
+      cdsEnvia.Close;
+      cdsEnvia.Open
+    except
+      DM.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro ao alterar Registro .', mtError, [mbOK], 0);
+      exit;
+    end;
+  end;
+  if (btnEnviado.Caption = 'Enviado') then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    DM.sqlsisAdimin.StartTransaction(TD);
+    try
+      DM.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET ENVIADO = ' + QuotedStr('S') +
+       ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.asInteger));
+      DM.sqlsisAdimin.Commit(TD);
+      cdsEnvia.Close;
+      cdsEnvia.Open
+    except
+      DM.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro ao alterar Registro .', mtError, [mbOK], 0);
+      exit;
+    end;
   end;
 end;
 
