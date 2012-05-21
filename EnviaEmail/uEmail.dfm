@@ -36,12 +36,14 @@ object Form1: TForm1
     Height = 177
     Align = alTop
     DataSource = dsEnvia
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnCellClick = JvDBUltimGrid1CellClick
     AutoSizeColumns = True
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
@@ -53,32 +55,43 @@ object Form1: TForm1
       item
         Expanded = False
         FieldName = 'CODEMAIL'
-        Width = 69
+        Title.Caption = 'C'#243'digo'
+        Width = 65
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EMAIL'
-        Width = 397
+        Title.Caption = 'Email'
+        Width = 372
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ASSUNTO'
-        Width = 218
+        Title.Caption = 'Assunto'
+        Width = 204
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAENVIO'
-        Width = 89
+        Title.Caption = 'Data Envio'
+        Width = 83
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'GRUPO'
-        Title.Caption = 'CLASSIFICA'#199#195'O'
-        Width = 200
+        Title.Caption = 'Classifica'#231#227'o'
+        Width = 187
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ENVIADO'
+        Title.Caption = 'Enviado'
+        Width = 61
         Visible = True
       end>
   end
@@ -88,19 +101,18 @@ object Form1: TForm1
     Width = 994
     Height = 73
     Align = alBottom
-    Caption = 'Panel1'
     TabOrder = 1
     object FlatGauge1: TFlatGauge
       Left = 10
-      Top = 26
-      Width = 535
+      Top = 15
+      Width = 455
       Height = 23
       AdvColorBorder = 0
       ColorBorder = 8623776
       Progress = 0
     end
     object BitBtn1: TBitBtn
-      Left = 551
+      Left = 468
       Top = 13
       Width = 107
       Height = 36
@@ -214,7 +226,7 @@ object Form1: TForm1
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object rg1: TRadioGroup
-      Left = 660
+      Left = 577
       Top = 8
       Width = 177
       Height = 42
@@ -234,7 +246,7 @@ object Form1: TForm1
       OnClick = rg1Click
     end
     object BitBtn5: TBitBtn
-      Left = 838
+      Left = 755
       Top = 13
       Width = 116
       Height = 36
@@ -244,6 +256,18 @@ object Form1: TForm1
       ShowHint = True
       TabOrder = 2
       OnClick = BitBtn5Click
+    end
+    object btnEnviado: TBitBtn
+      Left = 874
+      Top = 13
+      Width = 116
+      Height = 36
+      Hint = 'Libera o email para Envio novamente.'
+      Caption = 'Altera Enviado'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 3
+      OnClick = btnEnviadoClick
     end
   end
   object Panel2: TPanel
@@ -635,6 +659,11 @@ object Form1: TForm1
       FieldName = 'GRUPO'
       Size = 30
     end
+    object SQLDataSet1ENVIADO: TStringField
+      FieldName = 'ENVIADO'
+      FixedChar = True
+      Size = 1
+    end
   end
   object cdsEnvia: TClientDataSet
     Aggregates = <>
@@ -661,6 +690,11 @@ object Form1: TForm1
     object cdsEnviaGRUPO: TStringField
       FieldName = 'GRUPO'
       Size = 30
+    end
+    object cdsEnviaENVIADO: TStringField
+      FieldName = 'ENVIADO'
+      FixedChar = True
+      Size = 1
     end
   end
   object DataSetProvider1: TDataSetProvider
