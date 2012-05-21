@@ -2104,10 +2104,11 @@ object fNFeletronica: TfNFeletronica
       ' '#13#10'          UDF_ROUNDDEC(md.VALOR_SEGURO, 2) as VALOR_SEGURO,'#13#10 +
       '          UDF_ROUNDDEC(md.VALOR_OUTROS, 2) as VALOR_OUTROS,'#13#10'   ' +
       '       UDF_ROUNDDEC(md.II, 2) as II,'#13#10'          UDF_ROUNDDEC(md.' +
-      'BCII, 2) as BCII'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md' +
-      ' on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL n' +
-      'f on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.' +
-      'CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      'BCII, 2) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS,' +
+      ' md.PPIS, md.PCOFINS'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALH' +
+      'E md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISC' +
+      'AL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13 +
+      #10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -2232,6 +2233,29 @@ object fNFeletronica: TfNFeletronica
     object sdsItensNFOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object sdsItensNFCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
+    end
+    object sdsItensNFCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      ReadOnly = True
+      Size = 2
+    end
+    object sdsItensNFCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      ReadOnly = True
+      Size = 2
+    end
+    object sdsItensNFPPIS: TFloatField
+      FieldName = 'PPIS'
+      ReadOnly = True
+    end
+    object sdsItensNFPCOFINS: TFloatField
+      FieldName = 'PCOFINS'
+      ReadOnly = True
     end
   end
   object dspItensNF: TDataSetProvider
@@ -2366,6 +2390,29 @@ object fNFeletronica: TfNFeletronica
     object cdsItensNFOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object cdsItensNFCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
+    end
+    object cdsItensNFCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      ReadOnly = True
+      Size = 2
+    end
+    object cdsItensNFCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      ReadOnly = True
+      Size = 2
+    end
+    object cdsItensNFPPIS: TFloatField
+      FieldName = 'PPIS'
+      ReadOnly = True
+    end
+    object cdsItensNFPCOFINS: TFloatField
+      FieldName = 'PCOFINS'
+      ReadOnly = True
     end
   end
   object sMenorData: TSQLDataSet

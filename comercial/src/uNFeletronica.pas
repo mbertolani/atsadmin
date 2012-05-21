@@ -629,6 +629,16 @@ type
     SpeedButton1: TSpeedButton;
     sdsCCESELECIONOU: TStringField;
     cdsCCESELECIONOU: TStringField;
+    sdsItensNFCSTIPI: TStringField;
+    sdsItensNFCSTPIS: TStringField;
+    sdsItensNFCSTCOFINS: TStringField;
+    cdsItensNFCSTIPI: TStringField;
+    cdsItensNFCSTPIS: TStringField;
+    cdsItensNFCSTCOFINS: TStringField;
+    sdsItensNFPPIS: TFloatField;
+    sdsItensNFPCOFINS: TFloatField;
+    cdsItensNFPPIS: TFloatField;
+    cdsItensNFPCOFINS: TFloatField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -2107,54 +2117,54 @@ begin
 
         with PIS do
         begin
-          if (sCFOPCSTPIS.AsString = '01') then
+          if (sdsItensNFCSTPIS.AsString = '01') then
             CST   := pis01
-          else if (sCFOPCSTPIS.AsString = '02') then
+          else if (sdsItensNFCSTPIS.AsString = '02') then
             CST   := pis02
-          else if (sCFOPCSTPIS.AsString = '03') then
+          else if (sdsItensNFCSTPIS.AsString = '03') then
             CST   := pis03
-          else if (sCFOPCSTPIS.AsString = '04') then
+          else if (sdsItensNFCSTPIS.AsString = '04') then
             CST   := pis04
-          else if (sCFOPCSTPIS.AsString = '06') then
+          else if (sdsItensNFCSTPIS.AsString = '06') then
             CST   := pis06
-          else if (sCFOPCSTPIS.AsString = '07') then
+          else if (sdsItensNFCSTPIS.AsString = '07') then
             CST   := pis07
-          else if (sCFOPCSTPIS.AsString = '08') then
+          else if (sdsItensNFCSTPIS.AsString = '08') then
             CST   := pis08
-          else if (sCFOPCSTPIS.AsString = '09') then
+          else if (sdsItensNFCSTPIS.AsString = '09') then
             CST   := pis09
-          else if (sCFOPCSTPIS.AsString = '99') then
+          else if (sdsItensNFCSTPIS.AsString = '99') then
             CST   := pis99;
 
           vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pPIS  := sCFOPPIS.AsVariant;
+          pPIS  := cdsItensNFPPIS.AsVariant;
           vPIS  := cdsItensNFVALOR_PIS.AsVariant;
 
 
         end;
         with COFINS do
         begin
-          if (sCFOPCSTCOFINS.AsString = '01') then
+          if (sdsItensNFCSTCOFINS.AsString = '01') then
             CST   := cof01
-          else if (sCFOPCSTCOFINS.AsString = '02') then
+          else if (sdsItensNFCSTCOFINS.AsString = '02') then
             CST   := cof02
-          else if (sCFOPCSTCOFINS.AsString = '03') then
+          else if (sdsItensNFCSTCOFINS.AsString = '03') then
             CST   := cof03
-          else if (sCFOPCSTCOFINS.AsString = '04') then
+          else if (sdsItensNFCSTCOFINS.AsString = '04') then
             CST   := cof04
-          else if (sCFOPCSTCOFINS.AsString = '06') then
+          else if (sdsItensNFCSTCOFINS.AsString = '06') then
             CST   := cof06
-          else if (sCFOPCSTCOFINS.AsString = '07') then
+          else if (sdsItensNFCSTCOFINS.AsString = '07') then
             CST   := cof07
-          else if (sCFOPCSTCOFINS.AsString = '08') then
+          else if (sdsItensNFCSTCOFINS.AsString = '08') then
             CST   := cof08
-          else if (sCFOPCSTCOFINS.AsString = '09') then
+          else if (sdsItensNFCSTCOFINS.AsString = '09') then
             CST   := cof09
-          else if (sCFOPCSTCOFINS.AsString = '99') then
+          else if (sdsItensNFCSTCOFINS.AsString = '99') then
             CST   := cof99;
 
           vBC   := cdsItensNFVALTOTAL.AsVariant;
-          pCOFINS  := sCFOPCOFINS.AsVariant;
+          pCOFINS  := cdsItensNFPCOFINS.AsVariant;
           vCOFINS  := cdsItensNFVALOR_COFINS.AsVariant;
         end;
         if (cdsItensNFII.asFloat > 0) then
@@ -2394,7 +2404,7 @@ begin
   strItens := 'select md.CODPRODUTO, md.coddetalhe, md.pIPI, md.vIPI, UDF_ROUNDDEC(md.QUANTIDADE, 4) QUANTIDADE ' +
       ' , md.CFOP, md.PRECO, md.DESCPRODUTO, md.OBS, '+
       'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
-      'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, ' +
+      'ELSE pr.CODPRO END as codpro, md.VLR_BASEICMS, md.CSTIPI, md.CSTPIS, md.CSTCOFINS, md.PPIS, md.PCOFINS ' +
       'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, ' +
       'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
       'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
@@ -2408,8 +2418,8 @@ begin
   strItens :=  'select md.CODPRODUTO, md.coddetalhe, UDF_ROUNDDEC(md.QUANTIDADE, 4) QUANTIDADE, md.PRECO, md.CFOP, md.DESCPRODUTO, ' +
       'case when udf_Pos(' + quotedstr('-') +', pr.CODPRO) > 0 then udf_Copy(pr.CODPRO, 0, (udf_Pos(' + quotedstr('-') + ', pr.CODPRO)-1)) ' +
       'ELSE pr.CODPRO END as codpro, pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.ICMS, md.pIPI, md.OBS, ' +
-      'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-      'UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, ' +
+      'md.vIPI, md.CSOSN, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, md.PPIS, md.PCOFINS, ' +
+      'UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.CSTIPI, md.CSTPIS, md.CSTCOFINS, ' +
       'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
       'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
       'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
