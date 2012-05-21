@@ -1552,9 +1552,11 @@ begin
     begin
       executaDDLdrop('CLIENTES', 'CARGOFUNCAO');
       executaDDL('CLIENTES', 'CARGOFUNCAO', 'integer');
-      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTIPI', 'VARCHAR(2)');
-      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTPIS', 'VARCHAR(2)');
-      executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSTCOFINS', 'VARCHAR(2)');
+      executaDDL('MOVIMENTODETALHE', 'CSTIPI', 'VARCHAR(2)');
+      executaDDL('MOVIMENTODETALHE', 'CSTPIS', 'VARCHAR(2)');
+      executaDDL('MOVIMENTODETALHE', 'CSTCOFINS', 'VARCHAR(2)');
+      executaDDL('MOVIMENTODETALHE', 'PPIS', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'PCOFINS', 'double precision');
       MessageDlg('Execute o Script "trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
 //      executaScript('trg_calcula_icms_st.sql');
 //      mudaVersao('1.0.0.106');
