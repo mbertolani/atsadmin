@@ -383,7 +383,7 @@ begin
         dm.cds_crDESCONTO.AsFloat, dm.cds_crPERDA.AsFloat, dm.cds_crDATABAIXA.AsDateTime,
         dm.cds_crDATARECEBIMENTO.AsDateTime, dm.cds_crDATACONSOLIDA.AsDateTime,
         dm.cds_crFORMARECEBIMENTO.AsString, dm.cds_crN_DOCUMENTO.AsString, dm.cds_crCAIXA.AsInteger,
-        dm.cds_crCODCLIENTE.AsInteger, dm.cds_crSTATUS.AsString, fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+        dm.cds_crCODCLIENTE.AsInteger, dm.cds_crSTATUS.AsString, fAtsAdmin.UserControlComercial.CurrentUser.UserID, '');
 
         rec.gravaHistorico(dm.cds_crCODRECEBIMENTO.AsInteger, dm.cds_crTITULO.AsString,
           dm.cds_crCAIXA.AsInteger, fAtsAdmin.UserControlComercial.CurrentUser.UserID, 'RECEBIMENTO',

@@ -726,7 +726,7 @@ begin
                                   c_formaCAIXA.AsInteger, // Caixa
                                   codigo_cliente, //DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
                                   '7-',
-                                  usulog); // Usuario Logado
+                                  usulog, ''); // Usuario Logado
       Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
                 IntToStr(codRecCR);;
       dm.sqlsisAdimin.StartTransaction(TDA);
