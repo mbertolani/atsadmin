@@ -64,6 +64,8 @@ BEGIN
     new.CSTPIS = :CSTPIS;
     new.CSTCOFINS = :CSTCOFINS;
     new.CSTIPI = :CSTIPI;
+    new.PPIS = :PIS;
+    new.PCOFINS = :cofins;
 	if ( (CICMS> 0 ) or (CICMS_SUBST >0) )then
 	begin
 	  new.icms = :cicms;
@@ -109,6 +111,8 @@ BEGIN
         new.CSTPIS = :CSTPIS;
         new.CSTCOFINS = :CSTCOFINS;
         new.CSTIPI = :CSTIPI;
+        new.PPIS = :PIS;
+        new.PCOFINS = :cofins;
         if (IND_IPI > 0) then
         begin
             new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), 2);
