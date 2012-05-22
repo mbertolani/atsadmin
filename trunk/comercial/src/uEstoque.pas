@@ -717,7 +717,7 @@ begin
       end;
       if (Self.Status = '0') then   // Excluido a Finalizacao
       begin
-        sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = null WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
+        sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = null, BAIXA = null WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
         executaSql(sqlStr);
       end;
 
