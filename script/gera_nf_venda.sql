@@ -65,6 +65,7 @@ as
   declare variable CODNATUREZA smallint;
   declare variable CFOP_CLI char(4);  
   declare variable TPFRETE char(1);
+  declare variable TF char(1);
   declare variable tFRETE integer;
   declare variable CODTRANSPORTADORA INTEGER;
   declare variable Entrada double precision;
@@ -97,9 +98,9 @@ begin
     where ende.CODCLIENTE = :cliente and ende.TIPOEND = 0
   into :uf;
   
-  select cli.CFOP from CLIENTES cli
+  select cli.CFOP, cli.codfiscal from CLIENTES cli
   where cli.CODCLIENTE  = :cliente
-  into :cfop_cli;
+  into :cfop_cli, :TF;
     
   if (uf <> 'SP') then 
     cfop = cfop_outros;
@@ -226,7 +227,7 @@ begin
   
   SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,200), UDF_LEFT(ei.DADOSADC2,200), UDF_LEFT(ei.DADOSADC3,200), 
      UDF_LEFT(ei.DADOSADC4,200), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
-  FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf
+  FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf and ei.CODFISCAL = :TF
   into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
 
   if(:CODTRANSPORTADORA is null) then
