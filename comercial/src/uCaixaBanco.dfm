@@ -230,8 +230,76 @@ object fCaixaBanco: TfCaixaBanco
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
   object DataSource1: TDataSource
-    DataSet = DM.cds_7_contas
+    DataSet = cds_7_contas
     Left = 362
     Top = 334
+  end
+  object s_7: TSQLDataSet
+    CommandText = 'select CODIGO, CONTA, NOME, RATEIO, CODREDUZIDO from PLANO '
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 253
+    Top = 184
+    object s_7CODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object s_7CONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+    object s_7NOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+    object s_7RATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object s_7CODREDUZIDO: TStringField
+      FieldName = 'CODREDUZIDO'
+      Size = 15
+    end
+  end
+  object d_7: TDataSetProvider
+    DataSet = s_7
+    Options = [poAllowCommandText]
+    UpdateMode = upWhereKeyOnly
+    Left = 251
+    Top = 216
+  end
+  object cds_7_contas: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'd_7'
+    Left = 251
+    Top = 248
+    object cds_7_contasCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object cds_7_contasCONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+    object cds_7_contasNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+    object cds_7_contasRATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_7_contasCODREDUZIDO: TStringField
+      FieldName = 'CODREDUZIDO'
+      Size = 15
+    end
   end
 end

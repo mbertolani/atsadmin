@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, JvExDBGrids, JvDBGrid, DB, Mask, JvExMask,
   JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, StdCtrls,
-  Buttons, dbxpress;
+  Buttons, dbxpress, FMTBcd, DBClient, Provider, SqlExpr;
 
 type
   TfCaixaBanco = class(TForm)
@@ -19,10 +19,25 @@ type
     Label3: TLabel;
     dta1: TJvDatePickerEdit;
     BitBtn1: TBitBtn;
+    s_7: TSQLDataSet;
+    s_7CODIGO: TIntegerField;
+    s_7CONTA: TStringField;
+    s_7NOME: TStringField;
+    s_7RATEIO: TStringField;
+    s_7CODREDUZIDO: TStringField;
+    d_7: TDataSetProvider;
+    cds_7_contas: TClientDataSet;
+    cds_7_contasCODIGO: TIntegerField;
+    cds_7_contasCONTA: TStringField;
+    cds_7_contasNOME: TStringField;
+    cds_7_contasRATEIO: TStringField;
+    cds_7_contasCODREDUZIDO: TStringField;
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
   private
+    caixaSelec, statusCaixa : String;
+    dataFechado: TDateTime;
     { Private declarations }
   public
     { Public declarations }
@@ -38,23 +53,40 @@ uses UDm;
 {$R *.dfm}
 
 procedure TfCaixaBanco.FormShow(Sender: TObject);
+var strConta, contaCaixa: String;
 begin
+  contaCaixa := '';
    // Listo as Contas Caixa
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CAIXA_BANCO';
   dm.cds_parametro.Open;
-  if not dm.cds_7_contas.Active then
+  if not cds_7_contas.Active then
   begin
-    dm.cds_7_contas.Params[0].AsString := dm.cds_parametroDADOS.AsString;
-    dm.cds_7_contas.Open;
+    contaCaixa := dm.cds_parametroDADOS.AsString;
   end;
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
+  dm.cds_parametro.Open;
+
+  strConta := 'select CODIGO, CONTA, NOME, RATEIO, CODREDUZIDO from PLANO ' +
+    ' where (plnCtaMain(CONTA) IN (' + QuotedStr(contaCaixa) + ', ' +
+    QuotedStr(dm.cds_parametroDADOS.AsString) + '))'  +
+    ' and CONSOLIDA = ' + QuotedStr('S');
+
+  if cds_7_contas.Active then
+    cds_7_contas.Close;
+  cds_7_contas.CommandText := strConta;
+  cds_7_contas.Open;
+
   dm.cds_parametro.Close;
 end;
 
 procedure TfCaixaBanco.BitBtn1Click(Sender: TObject);
   var str: String;
     TD: TTransactionDesc;
+    logStVelho, logStNovo: String;
 begin
   if (ComboBox1.ItemIndex < 0) then
   begin
@@ -66,13 +98,13 @@ begin
     dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
   dm.sqlBusca.SQL.Add('SELECT IDCAIXACONTROLE FROM CAIXA_CONTROLE WHERE CODCAIXA = ' +
-    IntToStr(dm.cds_7_contasCODIGO.AsInteger));
+    IntToStr(cds_7_contasCODIGO.AsInteger));
   dm.sqlBusca.Open;
   if (dm.sqlBusca.IsEmpty) then
   begin
     str := 'INSERT INTO CAIXA_CONTROLE (IDCAIXACONTROLE, CODCAIXA, CODUSUARIO, ' +
-      ' DATAFECHAMENTO, SITUACAO)  VALUES (' + IntToStr(dm.cds_7_contasCODIGO.AsInteger);
-    str := str + ', ' + IntToStr(dm.cds_7_contasCODIGO.AsInteger);
+      ' DATAFECHAMENTO, SITUACAO)  VALUES (' + IntToStr(cds_7_contasCODIGO.AsInteger);
+    str := str + ', ' + IntToStr(cds_7_contasCODIGO.AsInteger);
     str := str + ', 1, '  + QuotedStr(FormatDateTime('mm/dd/yyyy', dta1.Date));
     if (ComboBox1.ItemIndex = 0) then
       str := str + ', ' + QuotedStr('F');
@@ -86,14 +118,26 @@ begin
       str := str + ', SITUACAO = ' + QuotedStr('F');
     if (ComboBox1.ItemIndex = 1) then
       str := str + ', SITUACAO = ' + QuotedStr('A');
-    str := str + ' WHERE CODCAIXA = ' + IntToStr(dm.cds_7_contasCODIGO.AsInteger);
+    str := str + ' WHERE CODCAIXA = ' + IntToStr(cds_7_contasCODIGO.AsInteger);
   end;
+
+  logStVelho :=  'CAIXA : ' + caixaSelec + ' STATUS : ' + statusCaixa + ' DATA : ' +
+    FormatDateTime('mm/dd/yyyy', dataFechado);
+
+  logStNovo :=  'CAIXA : ' + edCaixa.Text + ' STATUS : ';
+  if (ComboBox1.ItemIndex = 0) then
+    logStNovo := logStNovo + 'F';
+  if (ComboBox1.ItemIndex = 1) then
+    logStNovo := logStNovo + 'A';
+
+  logStNovo := logStNovo + ' DATA : ' +  FormatDateTime('mm/dd/yyyy', dta1.Date);
 
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(str);
+    dm.gravaLog(Now, dm.varLogado, 'FECHA_MOVIMENTO', MICRO, logStVelho, logStNovo);
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Caixa/Banco modificado com sucesso.', mtInformation, [mbOK], 0);
   except
@@ -106,12 +150,12 @@ procedure TfCaixaBanco.JvDBGrid1CellClick(Column: TColumn);
 begin
   dta1.Clear;
   ComboBox1.ItemIndex := -1;
-  edCaixa.Text := dm.cds_7_contasNOME.AsString;
+  edCaixa.Text := cds_7_contasNOME.AsString;
   if (dm.sqlBusca.Active) then
     dm.sqlBusca.Close;
   dm.sqlBusca.SQL.Clear;
   dm.sqlBusca.SQL.Add('SELECT DATAFECHAMENTO, SITUACAO FROM CAIXA_CONTROLE WHERE CODCAIXA = ' +
-    IntToStr(dm.cds_7_contasCODIGO.AsInteger));
+    IntToStr(cds_7_contasCODIGO.AsInteger));
   dm.sqlBusca.Open;
   if (not dm.sqlBusca.IsEmpty) then
   begin
@@ -122,6 +166,9 @@ begin
       ComboBox1.ItemIndex := 1;
     if ((dm.sqlBusca.FieldByName('SITUACAO').AsString <> 'F') and (dm.sqlBusca.FieldByName('SITUACAO').AsString <> 'A')) then
       ComboBox1.ItemIndex := -1;
+    caixaSelec  := cds_7_contasNOME.AsString;
+    dataFechado := dm.sqlBusca.FieldByName('DATAFECHAMENTO').AsDateTime;
+    statusCaixa := dm.sqlBusca.FieldByName('SITUACAO').AsString;
   end;
 end;
 
