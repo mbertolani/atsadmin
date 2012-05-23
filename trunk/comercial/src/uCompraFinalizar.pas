@@ -470,6 +470,11 @@ var cod_id : integer;
   TD: TTransactionDesc;
   FEstoque: TEstoque;
 begin
+  if (dm.cCustoFechado(cdsCODCCUSTO.AsInteger, cdsDATAVENDA.AsDateTime)) then
+  begin
+    MessageDlg('Centro de Resultado já finalizado.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
   if (cbPrazo.Visible = true) then
   begin
     if (not dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
