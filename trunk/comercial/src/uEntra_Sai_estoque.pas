@@ -561,7 +561,36 @@ procedure TfEntra_Sai_estoque.btnGravarClick(Sender: TObject);
 var   FEstoque: TEstoque;
   sql_sp: string;
   TD: TTransactionDesc;
+  dataMov: TDateTime;
+  ccusto : integer;
 begin
+  if (MaskEdit1.Checked) then
+    dataMov := MaskEdit1.Date;
+  if (dbEdit1.Checked) then
+    dataMov := dbEdit1.Date;
+
+  if (ComboBox1.Text <> '') then
+  begin
+    dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
+    ccusto := dm.cds_ccustoCODIGO.AsInteger;
+    if (dm.cCustoFechado(ccusto, dataMov)) then
+    begin
+      MessageDlg('Centro de Resultado já finalizado.', mtWarning, [mbOK], 0);
+      Exit;
+    end;
+  end;
+  
+  if (ComboBox2.Text <> '') then
+  begin
+    dm.cds_ccusto.Locate('NOME', ComboBox2.Text, [loCaseInsensitive]);
+    ccusto := dm.cds_ccustoCODIGO.AsInteger;
+    if (dm.cCustoFechado(ccusto, dataMov)) then
+    begin
+      MessageDlg('Centro de Resultado já finalizado.', mtWarning, [mbOK], 0);
+      Exit;
+    end;
+  end;
+
   if (DtSrc1.State in [dsEdit]) then
   begin
     MessageDlg('Para alterar um item, exclua-o e faça a inclusão novamente!', mtWarning, [mbOK], 0);
