@@ -1559,8 +1559,29 @@ begin
       executaDDL('MOVIMENTODETALHE', 'PCOFINS', 'double precision');
       MessageDlg('Execute o Script "trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
 //      executaScript('trg_calcula_icms_st.sql');
-//      mudaVersao('1.0.0.106');
+      mudaVersao('1.0.0.106');
     end;// Fim Ataulização Versao 1.0.0.106
+
+    if (versaoSistema = '1.0.0.106') then
+    begin
+      executaDDL('CAIXA_CONTROLE', 'NOMECAIXA',  'varchar(60)');
+      executaDDL('CAIXA_CONTROLE', 'MAQUINA', 'varchar(60)');
+      executaDDL('CAIXA_CONTROLE', 'DATAABERTURA', 'date');
+      executaDDL('CAIXA_CONTROLE', 'VALORABRE', 'double precision');
+      executaDDL('CAIXA_CONTROLE', 'VALORFECHA', 'double precision');
+      executaDDL('MOVIMENTO', 'QTD', 'INTEGER');
+      executaDDL('MOVIMENTODETALHE', 'VALORRATEIO', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'CODAUTORIZACAO', 'integer');
+      executaDDL('MOVIMENTODETALHE', 'CODMOVRATEIO', 'integer');
+      executaDDL('MOVIMENTODETALHE', 'STATUS', 'CHAR(1)');
+      executaDDL('MOVIMENTODETALHE', 'PAGOUCOMISSAO', 'CHAR(1)');
+      executaDDL('MOVIMENTODETALHE', 'RATEIO', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'PORCENTAGENDESC', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'PAGO', 'CHAR(3)');
+      executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
+
+      mudaVersao('1.0.0.107');
+    end;
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
