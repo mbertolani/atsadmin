@@ -54,7 +54,7 @@ BEGIN
            COD, LOTES, DTAFAB, DTAVCTO, CCUSTOS, ANOTACOES FROM LISTASPESTOQUEFILTRO(:DTA1, :DTA2, :PROD1, :PROD2, :SUBGRUPO, :NATUREZA, :CCUSTO
             , :MARCA, :LOTE, :GRUPOPROC)
         
-        order by codprod ,datanf , codnatu desc ,codlote 
+        order by codprod ,datanf , TIPOMOVIMENTO, codnatu desc ,codlote 
            
         INTO :CODPROD, :CODMOV, :TIPOMOVIMENTO, :PRODUTO, :GRUPO, :SUBGRUPOPROD, :codlote, :Datanf, :CODNATU, :COD, :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, :ANOTACOES
         DO BEGIN
@@ -237,7 +237,7 @@ BEGIN
         IF (CODPRODU <> COD) THEN
             SALDOFIMACUM = SALDOFIM;
         CODPRODU = COD;
-        --VALORESTOQUE = SALDOFIMACUM * PRECOUNIT;
+        VALORESTOQUE = SALDOFIMACUM * PRECOUNIT;
         IF (IMPRIME = 'S') THEN 
         begin
           --IF ((CCUSTO = CCUSTOS) OR (CCUSTO = 1)) then
