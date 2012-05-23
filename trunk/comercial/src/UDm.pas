@@ -1992,7 +1992,7 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
-    mensagemInicial, sistemaLiberado, cfopEntrada : String;
+    mensagemInicial, sistemaLiberado, cfopEntrada, v_CargoFuncao : String;
     conectado, RESULTADO_APROVA :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
@@ -2008,6 +2008,8 @@ type
     corEnd, corStart: TColor;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
+    procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
+    pc: String; valorAnt: String; valorPos: String);
   end;
 var
   DM: TDM;
@@ -2950,6 +2952,26 @@ begin
     RpcCaller.Free;
   end;
 
+end;
+
+procedure TDM.gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
+   pc :String; valorAnt: String; valorPos: String);
+var logStr: String;
+begin
+  logStr := 'INSERT INTO LOGS (TABELA, DATA, USUARIO, MICRO, HORA, ' +
+    'DATA_SET)  VALUES (';
+  logStr := logStr + QuotedStr(tipoMovimento);
+  logStr := logStr + ', ' + QuotedStr(formatdatetime('mm/dd/yy', DataLog));
+  logStr := logStr + ', ' + QuotedStr(usuario);
+  logStr := logStr + ', ' + QuotedStr(pc);
+  logStr := logStr + ', ' + QuotedStr(formatdatetime('hh:MM', DataLog));
+  if (valorAnt <> '') then
+    logStr := logStr + QuotedStr('VALOR-ANTERIOR: ' + valorAnt)
+  else
+    logStr := logStr + QuotedStr('');
+  logStr := logStr + QuotedStr('VALOR-NOVO: ' + valorPos);
+  logStr := logStr + ')';
+  sqlsisAdimin.ExecuteDirect(logStr);
 end;
 
 end.
