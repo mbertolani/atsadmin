@@ -1927,6 +1927,31 @@ type
     scds_cli_procDDD: TStringField;
     scds_cli_procTELEFONE: TStringField;
     scds_produto_procOBS: TStringField;
+    sLog: TSQLDataSet;
+    IntegerField6: TIntegerField;
+    StringField52: TStringField;
+    DateField3: TDateField;
+    StringField53: TStringField;
+    StringField54: TStringField;
+    TimeField1: TTimeField;
+    StringField55: TStringField;
+    StringField56: TStringField;
+    StringField57: TStringField;
+    StringField58: TStringField;
+    MemoField1: TMemoField;
+    dLog: TDataSetProvider;
+    cLog: TClientDataSet;
+    IntegerField7: TIntegerField;
+    StringField59: TStringField;
+    DateField4: TDateField;
+    StringField60: TStringField;
+    StringField61: TStringField;
+    TimeField2: TTimeField;
+    StringField62: TStringField;
+    StringField63: TStringField;
+    StringField64: TStringField;
+    StringField65: TStringField;
+    MemoField2: TMemoField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2011,6 +2036,7 @@ type
     Function cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
     procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
     pc: String; valorAnt: String; valorPos: String);
+    procedure abrirLog(Tabela: String);
   end;
 var
   DM: TDM;
@@ -2957,22 +2983,21 @@ end;
 procedure TDM.gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
    pc :String; valorAnt: String; valorPos: String);
 var logStr: String;
-  //hist: Type_Memo;
 begin
-  {logStr := 'INSERT INTO LOGS (TABELA, DATA, USUARIO, MICRO, HORA, ' +
-    'DATA_SET)  VALUES (';
+  logStr := 'INSERT INTO LOGS (TABELA, DATA, USUARIO, MICRO, HORA, ' +
+    'CAMPO1, CAMPO2)  VALUES (';
   logStr := logStr + QuotedStr(tipoMovimento);
   logStr := logStr + ', ' + QuotedStr(formatdatetime('mm/dd/yy', DataLog));
   logStr := logStr + ', ' + QuotedStr(usuario);
   logStr := logStr + ', ' + QuotedStr(pc);
   logStr := logStr + ', ' + QuotedStr(formatdatetime('hh:MM', DataLog));
   if (valorAnt <> '') then
-    logStr := logStr + QuotedStr('VALOR-ANTERIOR: ' + valorAnt)
+      logStr := logStr + ', ' + QuotedStr('ANT:' + copy(valorAnt,0,45))
   else
-    logStr := logStr + QuotedStr('');
-  logStr := logStr + QuotedStr('VALOR-NOVO: ' + valorPos);
+    logStr := logStr + ', ' + QuotedStr('');
+  logStr := logStr + ', ' + QuotedStr('NOVO:' + copy(valorPos,0,45));
   logStr := logStr + ')';
-  sqlsisAdimin.ExecuteDirect(logStr);}
+  sqlsisAdimin.ExecuteDirect(logStr);
 end;
 
 function TDM.cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
@@ -2996,6 +3021,16 @@ begin
     MessageDlg('Este centro de Resultado está fechado para movimentação nesta data.', mtWarning, [mbOK], 0);
     Result := True;
   end;
+end;
+
+procedure TDM.abrirLog(Tabela: String);
+begin
+  if (cLog.Active) then
+    cLog.Close;
+  cLog.CommandText := 'select FIRST 10 * from LOGS ' +
+    ' WHERE TABELA = ' + QuotedStr(tabela) +
+    ' ORDER BY DATA DESC , HORA DESC ';
+  cLog.Open;  
 end;
 
 end.

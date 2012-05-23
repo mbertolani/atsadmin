@@ -1,9 +1,8 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 202
-  Top = 79
-  Height = 616
+  Left = 173
+  Height = 473
   Width = 1024
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
@@ -16,9 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      
-        'Database=escritorio-pc:c:\Home\sisadmin\bd\sge_agroverde_treina.' +
-        'fdb'
+      'Database=c:\Home\sisadmin\bd\sge_agroverde.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -4241,7 +4238,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     DBConnection = sqlsisAdimin
-    Left = 616
+    Left = 592
     Top = 11
     object scdsCCusto_procCODALMOXARIFADO: TIntegerField
       FieldName = 'CODALMOXARIFADO'
@@ -10167,6 +10164,112 @@ object DM: TDM
       DisplayLabel = 'Telefone'
       FieldName = 'TELEFONE'
       Size = 9
+    end
+  end
+  object sLog: TSQLDataSet
+    CommandText = 'select * from LOGS'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = sqlsisAdimin
+    Left = 632
+    Top = 8
+    object IntegerField6: TIntegerField
+      FieldName = 'ID_LOG'
+      Required = True
+    end
+    object StringField52: TStringField
+      FieldName = 'TABELA'
+      Size = 80
+    end
+    object DateField3: TDateField
+      FieldName = 'DATA'
+    end
+    object StringField53: TStringField
+      FieldName = 'USUARIO'
+      Size = 80
+    end
+    object StringField54: TStringField
+      FieldName = 'MICRO'
+      Size = 50
+    end
+    object TimeField1: TTimeField
+      FieldName = 'HORA'
+    end
+    object StringField55: TStringField
+      FieldName = 'CAMPO1'
+      Size = 50
+    end
+    object StringField56: TStringField
+      FieldName = 'CAMPO2'
+      Size = 50
+    end
+    object StringField57: TStringField
+      FieldName = 'CAMPO3'
+      Size = 50
+    end
+    object StringField58: TStringField
+      FieldName = 'CAMPO4'
+      Size = 50
+    end
+    object MemoField1: TMemoField
+      FieldName = 'DATA_SET'
+      BlobType = ftMemo
+    end
+  end
+  object dLog: TDataSetProvider
+    DataSet = sLog
+    Options = [poAllowCommandText]
+    Left = 664
+    Top = 8
+  end
+  object cLog: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dLog'
+    Left = 696
+    Top = 8
+    object IntegerField7: TIntegerField
+      FieldName = 'ID_LOG'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object StringField59: TStringField
+      FieldName = 'TABELA'
+      Size = 80
+    end
+    object DateField4: TDateField
+      FieldName = 'DATA'
+    end
+    object StringField60: TStringField
+      FieldName = 'USUARIO'
+      Size = 80
+    end
+    object StringField61: TStringField
+      FieldName = 'MICRO'
+      Size = 50
+    end
+    object TimeField2: TTimeField
+      FieldName = 'HORA'
+    end
+    object StringField62: TStringField
+      FieldName = 'CAMPO1'
+      Size = 50
+    end
+    object StringField63: TStringField
+      FieldName = 'CAMPO2'
+      Size = 50
+    end
+    object StringField64: TStringField
+      FieldName = 'CAMPO3'
+      Size = 50
+    end
+    object StringField65: TStringField
+      FieldName = 'CAMPO4'
+      Size = 50
+    end
+    object MemoField2: TMemoField
+      FieldName = 'DATA_SET'
+      BlobType = ftMemo
     end
   end
 end
