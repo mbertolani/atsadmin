@@ -1,10 +1,10 @@
 object fLogs: TfLogs
   Left = 192
   Top = 107
-  Width = 696
+  Width = 800
   Height = 480
   BorderIcons = [biSystemMenu]
-  Caption = 'fLogs'
+  Caption = 'Auditoria'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,16 +13,15 @@ object fLogs: TfLogs
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
-  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object DBMemo1: TDBMemo
-    Left = 456
+    Left = 561
     Top = 89
     Width = 232
-    Height = 364
+    Height = 348
     Align = alRight
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -35,8 +34,8 @@ object fLogs: TfLogs
   object DBGrid2: TDBGrid
     Left = 0
     Top = 89
-    Width = 456
-    Height = 364
+    Width = 561
+    Height = 348
     Align = alLeft
     Ctl3D = False
     DataSource = DataSource1
@@ -79,6 +78,18 @@ object fLogs: TfLogs
       end
       item
         Expanded = False
+        FieldName = 'CAMPO1'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CAMPO2'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'DATA'
         Title.Caption = 'Data'
         Visible = True
@@ -93,7 +104,7 @@ object fLogs: TfLogs
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 688
+    Width = 793
     Height = 89
     Align = alTop
     Ctl3D = True
@@ -324,7 +335,7 @@ object fLogs: TfLogs
     end
   end
   object DataSource1: TDataSource
-    DataSet = cdsLog
+    DataSet = DM.cLog
     Left = 240
     Top = 208
   end
@@ -362,112 +373,6 @@ object fLogs: TfLogs
     object sdsMicroMICRO: TStringField
       FieldName = 'MICRO'
       Size = 50
-    end
-  end
-  object sdsLog: TSQLDataSet
-    CommandText = 'select * from LOGS'
-    MaxBlobSize = -1
-    Params = <>
-    SQLConnection = DM.sqlsisAdimin
-    Left = 144
-    Top = 208
-    object sdsLogID_LOG: TIntegerField
-      FieldName = 'ID_LOG'
-      Required = True
-    end
-    object sdsLogTABELA: TStringField
-      FieldName = 'TABELA'
-      Size = 80
-    end
-    object sdsLogDATA: TDateField
-      FieldName = 'DATA'
-    end
-    object sdsLogUSUARIO: TStringField
-      FieldName = 'USUARIO'
-      Size = 80
-    end
-    object sdsLogMICRO: TStringField
-      FieldName = 'MICRO'
-      Size = 50
-    end
-    object sdsLogHORA: TTimeField
-      FieldName = 'HORA'
-    end
-    object sdsLogCAMPO1: TStringField
-      FieldName = 'CAMPO1'
-      Size = 50
-    end
-    object sdsLogCAMPO2: TStringField
-      FieldName = 'CAMPO2'
-      Size = 50
-    end
-    object sdsLogCAMPO3: TStringField
-      FieldName = 'CAMPO3'
-      Size = 50
-    end
-    object sdsLogCAMPO4: TStringField
-      FieldName = 'CAMPO4'
-      Size = 50
-    end
-    object sdsLogDATA_SET: TMemoField
-      FieldName = 'DATA_SET'
-      BlobType = ftMemo
-    end
-  end
-  object dspLog: TDataSetProvider
-    DataSet = sdsLog
-    Options = [poAllowCommandText]
-    Left = 176
-    Top = 208
-  end
-  object cdsLog: TClientDataSet
-    Aggregates = <>
-    Params = <>
-    ProviderName = 'dspLog'
-    Left = 208
-    Top = 208
-    object cdsLogID_LOG: TIntegerField
-      FieldName = 'ID_LOG'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
-    object cdsLogTABELA: TStringField
-      FieldName = 'TABELA'
-      Size = 80
-    end
-    object cdsLogDATA: TDateField
-      FieldName = 'DATA'
-    end
-    object cdsLogUSUARIO: TStringField
-      FieldName = 'USUARIO'
-      Size = 80
-    end
-    object cdsLogMICRO: TStringField
-      FieldName = 'MICRO'
-      Size = 50
-    end
-    object cdsLogHORA: TTimeField
-      FieldName = 'HORA'
-    end
-    object cdsLogCAMPO1: TStringField
-      FieldName = 'CAMPO1'
-      Size = 50
-    end
-    object cdsLogCAMPO2: TStringField
-      FieldName = 'CAMPO2'
-      Size = 50
-    end
-    object cdsLogCAMPO3: TStringField
-      FieldName = 'CAMPO3'
-      Size = 50
-    end
-    object cdsLogCAMPO4: TStringField
-      FieldName = 'CAMPO4'
-      Size = 50
-    end
-    object cdsLogDATA_SET: TMemoField
-      FieldName = 'DATA_SET'
-      BlobType = ftMemo
     end
   end
   object XPMenu1: TXPMenu
