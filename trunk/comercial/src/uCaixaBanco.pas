@@ -32,9 +32,11 @@ type
     cds_7_contasNOME: TStringField;
     cds_7_contasRATEIO: TStringField;
     cds_7_contasCODREDUZIDO: TStringField;
+    BitBtn2: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure BitBtn2Click(Sender: TObject);
   private
     caixaSelec, statusCaixa : String;
     dataFechado: TDateTime;
@@ -48,7 +50,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, uLogs;
 
 {$R *.dfm}
 
@@ -121,23 +123,23 @@ begin
     str := str + ' WHERE CODCAIXA = ' + IntToStr(cds_7_contasCODIGO.AsInteger);
   end;
 
-  logStVelho :=  'CAIXA : ' + caixaSelec + ' STATUS : ' + statusCaixa + ' DATA : ' +
+  logStVelho :=  'V:' + copy(caixaSelec,0,20) + '-' + statusCaixa + '-DT:' +
     FormatDateTime('mm/dd/yyyy', dataFechado);
 
-  logStNovo :=  'CAIXA : ' + edCaixa.Text + ' STATUS : ';
+  logStNovo :=  'V:' + copy(edCaixa.Text,0,20) + '-';
   if (ComboBox1.ItemIndex = 0) then
     logStNovo := logStNovo + 'F';
   if (ComboBox1.ItemIndex = 1) then
     logStNovo := logStNovo + 'A';
 
-  logStNovo := logStNovo + ' DATA : ' +  FormatDateTime('mm/dd/yyyy', dta1.Date);
+  logStNovo := logStNovo + '-DT:' +  FormatDateTime('mm/dd/yyyy', dta1.Date);
 
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(str);
-    dm.gravaLog(Now, dm.varLogado, 'FECHA_MOVIMENTO', MICRO, logStVelho, logStNovo);
+    dm.gravaLog(Now, dm.varLogado, 'CAIXA_CONTROLE', MICRO, logStVelho, logStNovo);
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Caixa/Banco modificado com sucesso.', mtInformation, [mbOK], 0);
   except
@@ -169,6 +171,16 @@ begin
     caixaSelec  := cds_7_contasNOME.AsString;
     dataFechado := dm.sqlBusca.FieldByName('DATAFECHAMENTO').AsDateTime;
     statusCaixa := dm.sqlBusca.FieldByName('SITUACAO').AsString;
+  end;
+end;
+
+procedure TfCaixaBanco.BitBtn2Click(Sender: TObject);
+begin
+  fLogs := TfLogs.Create(Application);
+  try
+    fLogs.ShowModal;
+  finally
+    fLogs.Free;
   end;
 end;
 

@@ -31,37 +31,11 @@ type
     sdsUsuarioUSUARIO: TStringField;
     sdsMicro: TSQLDataSet;
     sdsMicroMICRO: TStringField;
-    sdsLog: TSQLDataSet;
-    sdsLogID_LOG: TIntegerField;
-    sdsLogTABELA: TStringField;
-    sdsLogDATA: TDateField;
-    sdsLogUSUARIO: TStringField;
-    sdsLogMICRO: TStringField;
-    sdsLogHORA: TTimeField;
-    sdsLogCAMPO1: TStringField;
-    sdsLogCAMPO2: TStringField;
-    sdsLogCAMPO3: TStringField;
-    sdsLogCAMPO4: TStringField;
-    sdsLogDATA_SET: TMemoField;
-    dspLog: TDataSetProvider;
-    cdsLog: TClientDataSet;
-    cdsLogID_LOG: TIntegerField;
-    cdsLogTABELA: TStringField;
-    cdsLogDATA: TDateField;
-    cdsLogUSUARIO: TStringField;
-    cdsLogMICRO: TStringField;
-    cdsLogHORA: TTimeField;
-    cdsLogCAMPO1: TStringField;
-    cdsLogCAMPO2: TStringField;
-    cdsLogCAMPO3: TStringField;
-    cdsLogCAMPO4: TStringField;
-    cdsLogDATA_SET: TMemoField;
     CheckBox1: TCheckBox;
     Data1: TDateEdit;
     Data2: TDateEdit;
     XPMenu1: TXPMenu;
     procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn1Click(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -83,27 +57,20 @@ uses UDM;
 
 procedure TfLogs.FormShow(Sender: TObject);
 begin
-  if not cdsLog.Active then
-    cdsLog.Open;
+  dm.abrirLog('CAIXA_CONTROLE');
 
   Data1.Text := DateToStr(Now);
   Data2.Text := DateToStr(Now);
     
 end;
 
-procedure TfLogs.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  if dm.cdsLog.Active then
-    dm.cdsLog.Close;
-end;
-
 procedure TfLogs.BitBtn1Click(Sender: TObject);
 var
  texto, texto1 :string;
 begin
-  texto := '';
+ { texto := '';
   texto1 := '';
-  if (cdsLog.Active) then
+  if (dm.cLog.Active) then
     cdsLog.Close;
   cdsLog.CommandText := '';
 
@@ -158,7 +125,7 @@ begin
   cdsLog.CommandText := texto + texto1;
   cdsLog.Open;
 
-
+   }
 end;
 
 procedure TfLogs.CheckBox1Click(Sender: TObject);

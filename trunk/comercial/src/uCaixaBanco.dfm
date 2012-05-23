@@ -229,6 +229,21 @@ object fCaixaBanco: TfCaixaBanco
       C0C0C0C0C0C0C0DFFFFF258797168A95398C845B8E8072827B7C7C7CC0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
+  object BitBtn2: TBitBtn
+    Left = 14
+    Top = 378
+    Width = 107
+    Height = 42
+    Caption = 'Auditoria'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
+    OnClick = BitBtn2Click
+  end
   object DataSource1: TDataSource
     DataSet = cds_7_contas
     Left = 362
