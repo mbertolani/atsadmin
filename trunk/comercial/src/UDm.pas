@@ -2008,6 +2008,7 @@ type
     corEnd, corStart: TColor;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
+    Function cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
     procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
     pc: String; valorAnt: String; valorPos: String);
   end;
@@ -2206,7 +2207,6 @@ begin
       end;
     end;
   end;
-
 end;
 
 procedure TDM.cds_produtoNewRecord(DataSet: TDataSet);
@@ -2957,8 +2957,9 @@ end;
 procedure TDM.gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
    pc :String; valorAnt: String; valorPos: String);
 var logStr: String;
+  //hist: Type_Memo;
 begin
-  logStr := 'INSERT INTO LOGS (TABELA, DATA, USUARIO, MICRO, HORA, ' +
+  {logStr := 'INSERT INTO LOGS (TABELA, DATA, USUARIO, MICRO, HORA, ' +
     'DATA_SET)  VALUES (';
   logStr := logStr + QuotedStr(tipoMovimento);
   logStr := logStr + ', ' + QuotedStr(formatdatetime('mm/dd/yy', DataLog));
@@ -2971,7 +2972,30 @@ begin
     logStr := logStr + QuotedStr('');
   logStr := logStr + QuotedStr('VALOR-NOVO: ' + valorPos);
   logStr := logStr + ')';
-  sqlsisAdimin.ExecuteDirect(logStr);
+  sqlsisAdimin.ExecuteDirect(logStr);}
+end;
+
+function TDM.cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
+var dataFec: TDateTime;
+begin
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add('select first 1 cc.DATAFECHAMENTO from caixa_controle cc ' +
+    ' where cc.codcaixa = ' + IntToStr(ccusto) +
+    '   and cc.SITUACAO = ' + QuotedStr('F') +
+    ' order by cc.DATAFECHAMENTO desc');
+  sqlBusca.open;
+  if (not sqlBusca.IsEmpty) then
+    dataFec := dm.sqlBusca.FieldByName('DATAFECHAMENTO').AsDateTime;
+
+  Result := False;
+
+  if (DataMovto <= dataFec) then
+  begin
+    MessageDlg('Este centro de Resultado está fechado para movimentação nesta data.', mtWarning, [mbOK], 0);
+    Result := True;
+  end;
 end;
 
 end.
