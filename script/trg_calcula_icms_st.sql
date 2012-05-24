@@ -59,45 +59,47 @@ BEGIN
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI;
     
-    new.cst = :CST_P;
-    new.CSOSN = CSOSN;
-    new.CSTPIS = :CSTPIS;
-    new.CSTCOFINS = :CSTCOFINS;
-    new.CSTIPI = :CSTIPI;
-    new.PPIS = :PIS;
-    new.PCOFINS = :cofins;
-	if ( (CICMS> 0 ) or (CICMS_SUBST >0) )then
+	if ( (not CST_P is null) or (not CSOSN is null ) )then
 	begin
+         new.cst = :CST_P;
+         new.CSOSN = CSOSN;
+         new.CSTPIS = :CSTPIS;
+         new.CSTCOFINS = :CSTCOFINS;
+         new.CSTIPI = :CSTIPI;
+         new.PPIS = :PIS;
+         new.PCOFINS = :cofins;	
 	  new.icms = :cicms;
-    if (IND_IPI > 0) then
-    begin
+      if (IND_IPI > 0) then
+      begin
         new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), 2);
         new.PIPI = IND_IPI;
-    end
-    else
-    begin
+      end
+      else
+      begin
         new.VIPI = 0;
         new.PIPI = 0;
-    end
-        
-	if (ind_reduzicms <= 0) then
-        ind_reduzicms = 1;
-	if (ind_reduzicms > 1 )then
-        ind_reduzicms = ind_reduzicms/100;
-		
-    ----------- TEM ST -------------
-    if (CICMS_SUBST > 0) then
-        new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), 2);
+      end
+      if (CICMS > 0) then 
+      begin
         new.VLR_BASEICMS = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms), 2);
         new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), 2);
+      end
+        
+	  if (ind_reduzicms <= 0) then
+        ind_reduzicms = 1;
+	  if (ind_reduzicms > 1 )then
+        ind_reduzicms = ind_reduzicms/100;
+		
+      ----------- TEM ST -------------
+      if (CICMS_SUBST > 0) then
+        new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), 2);
         if ( new.ICMS_SUBSTD > 0) then
             new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS), 2);
-        else
+      else
 		    new.ICMS_SUBST = 0;
         new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100, 2);
         new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * PIS) /100, 2);       
-	end
-
+    end
 	else
 	begin
         select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
