@@ -23,6 +23,7 @@ ALTER TABLE FORNECEDOR add CODFISCAL T_FISCAL;
 alter table FORNECEDOR add constraint FK_TFISCAL3 foreign key (CODFISCAL)  references TIPO_FISCAL (CODFISCAL) on update NO ACTION on delete NO ACTION;
 ALTER TABLE ESTADO_ICMS add CODFISCAL T_FISCAL;
 alter table ESTADO_ICMS add constraint FK_TFISCAL foreign key (CODFISCAL) references TIPO_FISCAL (CODFISCAL) on update NO ACTION on delete NO ACTION;
+ALTER TRIGGER CNPJ_REPETIDO INACTIVE;
 
 commit;
 
@@ -31,5 +32,6 @@ update CLIENTES c Set c.codfiscal = 'F' where c.TIPOFIRMA = 0;
 update CLIENTES c Set c.codfiscal = 'J' where c.TIPOFIRMA = 1;
 update FORNECEDOR c Set c.codfiscal = 'F' where c.TIPOFIRMA = 0;
 update FORNECEDOR c Set c.codfiscal = 'J' where c.TIPOFIRMA = 1;
+ALTER TRIGGER CNPJ_REPETIDO ACTIVE;
 
 commit;
