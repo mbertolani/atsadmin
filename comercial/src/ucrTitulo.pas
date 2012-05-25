@@ -127,6 +127,7 @@ type
     Memo1: TMemo;
     Label29: TLabel;
     DBEdit20: TDBEdit;
+    BitBtn6: TBitBtn;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -147,6 +148,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -163,7 +165,7 @@ var
 implementation
 
 uses UDm, uCheques_bol, uUtils, ufcrSaude, ufcr, uFinanceiro,
-  uAtsAdmin,  UCBase,  sCtrlResize, uReceberCls;
+  uAtsAdmin,  UCBase,  sCtrlResize, uReceberCls, uLogs;
 
 {$R *.dfm}
 
@@ -800,6 +802,17 @@ begin
     resto := dm.cds_crVALOR_RESTO.AsFloat;
     ValorRecebido := ( resto + juros - desc - perda - outros + funrural);
     dm.cds_crVALORRECEBIDO.AsFloat := ValorRecebido;
+end;
+
+procedure TfcrTitulo.BitBtn6Click(Sender: TObject);
+begin
+  fLogs := TfLogs.Create(Application);
+  try
+    dm.abrirLog('cds_cr', dm.cds_crTITULO.AsString,'USERCONTROL');
+    fLogs.ShowModal;
+  finally
+    fLogs.Free;
+  end;
 end;
 
 end.
