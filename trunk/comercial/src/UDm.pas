@@ -1927,31 +1927,31 @@ type
     scds_cli_procDDD: TStringField;
     scds_cli_procTELEFONE: TStringField;
     scds_produto_procOBS: TStringField;
-    sLog: TSQLDataSet;
-    IntegerField6: TIntegerField;
-    StringField52: TStringField;
-    DateField3: TDateField;
-    StringField53: TStringField;
-    StringField54: TStringField;
-    TimeField1: TTimeField;
-    StringField55: TStringField;
-    StringField56: TStringField;
-    StringField57: TStringField;
-    StringField58: TStringField;
-    MemoField1: TMemoField;
-    dLog: TDataSetProvider;
-    cLog: TClientDataSet;
-    IntegerField7: TIntegerField;
-    StringField59: TStringField;
-    DateField4: TDateField;
-    StringField60: TStringField;
-    StringField61: TStringField;
-    TimeField2: TTimeField;
-    StringField62: TStringField;
-    StringField63: TStringField;
-    StringField64: TStringField;
-    StringField65: TStringField;
-    MemoField2: TMemoField;
+    sdsLogSis: TSQLDataSet;
+    sdsLogSisID_LOG: TIntegerField;
+    sdsLogSisTABELA: TStringField;
+    sdsLogSisDATA: TStringField;
+    sdsLogSisUSUARIO: TStringField;
+    sdsLogSisMICRO: TStringField;
+    sdsLogSisHORA: TStringField;
+    sdsLogSisCAMPO1: TStringField;
+    sdsLogSisCAMPO2: TStringField;
+    sdsLogSisCAMPO3: TStringField;
+    sdsLogSisCAMPO4: TStringField;
+    sdsLogSisDATA_SET: TMemoField;
+    dspLogSis: TDataSetProvider;
+    cdsLogSis: TClientDataSet;
+    cdsLogSisID_LOG: TIntegerField;
+    cdsLogSisTABELA: TStringField;
+    cdsLogSisDATA: TStringField;
+    cdsLogSisUSUARIO: TStringField;
+    cdsLogSisMICRO: TStringField;
+    cdsLogSisHORA: TStringField;
+    cdsLogSisCAMPO1: TStringField;
+    cdsLogSisCAMPO2: TStringField;
+    cdsLogSisCAMPO3: TStringField;
+    cdsLogSisCAMPO4: TStringField;
+    cdsLogSisDATA_SET: TMemoField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2035,8 +2035,8 @@ type
     Function NomeComputador: string;
     Function cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
     procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
-    pc: String; valorAnt: String; valorPos: String);
-    procedure abrirLog(Tabela: String);
+    pc: String; valorAnt: String; valorPos: String; campoChave: String);
+    procedure abrirLog(Tabela: String; Registro: String; tipo: String);
   end;
 var
   DM: TDM;
@@ -2981,11 +2981,11 @@ begin
 end;
 
 procedure TDM.gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
-   pc :String; valorAnt: String; valorPos: String);
+   pc :String; valorAnt: String; valorPos: String; campoChave: String);
 var logStr: String;
 begin
   logStr := 'INSERT INTO LOGS (TABELA, DATA, USUARIO, MICRO, HORA, ' +
-    'CAMPO1, CAMPO2)  VALUES (';
+    'CAMPO1, CAMPO2, CAMPO3)  VALUES (';
   logStr := logStr + QuotedStr(tipoMovimento);
   logStr := logStr + ', ' + QuotedStr(formatdatetime('mm/dd/yy', DataLog));
   logStr := logStr + ', ' + QuotedStr(usuario);
@@ -2996,6 +2996,7 @@ begin
   else
     logStr := logStr + ', ' + QuotedStr('');
   logStr := logStr + ', ' + QuotedStr('NOVO:' + copy(valorPos,0,45));
+  logStr := logStr + ', ' + QuotedStr(campoChave);
   logStr := logStr + ')';
   sqlsisAdimin.ExecuteDirect(logStr);
 end;
@@ -3023,14 +3024,33 @@ begin
   end;
 end;
 
-procedure TDM.abrirLog(Tabela: String);
+procedure TDM.abrirLog(Tabela: String; Registro: String; tipo: String);
 begin
-  if (cLog.Active) then
-    cLog.Close;
-  cLog.CommandText := 'select FIRST 10 * from LOGS ' +
-    ' WHERE TABELA = ' + QuotedStr(tabela) +
-    ' ORDER BY DATA DESC , HORA DESC ';
-  cLog.Open;  
+  if (cdsLogSis.Active) then
+    cdsLogSis.Close;
+  if (tipo = 'USERCONTROL') then
+  begin
+    cdsLogSis.CommandText := 'select FIRST 20 0 ID_LOG, HIS.EVENTDATE DATA, ' +
+      ' his.EVENTTIME HORA, his.FORMCAPTION TABELA, his.OBS DATA_SET,  ' +
+      ' USU.UCUSERNAME USUARIO, ' + QuotedStr(' ') + ' CAMPO1, ' +
+      QuotedStr(' ') + ' CAMPO2, ' + QuotedStr(' ') + ' CAMPO3, ' +
+      QuotedStr(' ') + ' CAMPO4, ' + QuotedStr('N') + ' MICRO '   +
+      '  FROM UCTABHISTORY HIS, UCTABUSERS USU ' +
+      ' WHERE HIS.USERID = USU.UCIDUSER ' +
+      '   AND HIS.TNAME  = ' + QuotedStr(Tabela) +
+      '   AND HIS.OBS LIKE ' + QuotedStr('%' + Registro + '%') +
+      ' ORDER BY HIS.EVENTDATE DESC , HIS.EVENTTIME DESC ';
+  end
+  else begin
+    cdsLogSis.CommandText := 'select FIRST 20 r.ID_LOG, r.TABELA, cast(r.DATA as varchar(10)) DATA, ' +
+      '  r.USUARIO, r.MICRO, cast(UDF_LEFT(r.HORA,5) as varchar(8)) HORA, r.CAMPO1, r.CAMPO2, r.CAMPO3, ' +
+      '  r.CAMPO4, r.DATA_SET ' +
+      '  FROM LOGS r' +
+      ' WHERE R.TABELA = ' + QuotedStr(tabela) +
+      '   AND R.CAMPO3 = ' + QuotedStr(Registro) +
+      ' ORDER BY R.DATA DESC , R.HORA DESC ';
+  end;
+  cdsLogSis.Open;
 end;
 
 end.

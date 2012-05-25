@@ -1,9 +1,10 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 173
-  Height = 473
-  Width = 1024
+  Left = 4
+  Top = 104
+  Height = 561
+  Width = 1279
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -2092,7 +2093,7 @@ object DM: TDM
     Params = <>
     SQLConnection = sqlsisAdimin
     Left = 328
-    Top = 16
+    Top = 48
     object s_1CODIGO: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'CODIGO'
@@ -2148,14 +2149,14 @@ object DM: TDM
     Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
     Left = 408
-    Top = 16
+    Top = 48
   end
   object c_1_planoc: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'd_1'
     Left = 464
-    Top = 16
+    Top = 56
     object c_1_planocCODIGO: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'CODIGO'
@@ -2217,7 +2218,7 @@ object DM: TDM
       end>
     SQLConnection = sqlsisAdimin
     Left = 328
-    Top = 64
+    Top = 80
     object s_2COD_PLANO_RATEIO: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'COD_PLANO_RATEIO'
@@ -2242,7 +2243,7 @@ object DM: TDM
     DataSet = SQLDataSet1
     UpdateMode = upWhereKeyOnly
     Left = 408
-    Top = 64
+    Top = 80
   end
   object c_2_planoc_rat: TClientDataSet
     Aggregates = <>
@@ -2254,7 +2255,7 @@ object DM: TDM
       end>
     ProviderName = 'd_2'
     Left = 464
-    Top = 64
+    Top = 80
     object c_2_planoc_ratCOD_PLANO_RATEIO: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'COD_PLANO_RATEIO'
@@ -10166,109 +10167,130 @@ object DM: TDM
       Size = 9
     end
   end
-  object sLog: TSQLDataSet
-    CommandText = 'select * from LOGS'
+  object sdsLogSis: TSQLDataSet
+    CommandText = 
+      'SELECT r.ID_LOG, r.TABELA, CAST(r.DATA AS VARCHAR(10)) DATA, r.U' +
+      'SUARIO, r.MICRO, CAST(UDF_LEFT(r.HORA,5) AS VARCHAR(8)) HORA, r.' +
+      'CAMPO1, r.CAMPO2, r.CAMPO3, r.CAMPO4, r.DATA_SET'#13#10'FROM LOGS r'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 632
-    Top = 8
-    object IntegerField6: TIntegerField
+    Left = 336
+    object sdsLogSisID_LOG: TIntegerField
       FieldName = 'ID_LOG'
       Required = True
     end
-    object StringField52: TStringField
+    object sdsLogSisTABELA: TStringField
       FieldName = 'TABELA'
       Size = 80
     end
-    object DateField3: TDateField
+    object sdsLogSisDATA: TStringField
       FieldName = 'DATA'
+      ReadOnly = True
+      Size = 10
     end
-    object StringField53: TStringField
+    object sdsLogSisUSUARIO: TStringField
       FieldName = 'USUARIO'
+      ReadOnly = True
       Size = 80
     end
-    object StringField54: TStringField
+    object sdsLogSisMICRO: TStringField
       FieldName = 'MICRO'
+      ReadOnly = True
       Size = 50
     end
-    object TimeField1: TTimeField
+    object sdsLogSisHORA: TStringField
       FieldName = 'HORA'
+      ReadOnly = True
+      Size = 8
     end
-    object StringField55: TStringField
+    object sdsLogSisCAMPO1: TStringField
       FieldName = 'CAMPO1'
+      ReadOnly = True
       Size = 50
     end
-    object StringField56: TStringField
+    object sdsLogSisCAMPO2: TStringField
       FieldName = 'CAMPO2'
+      ReadOnly = True
       Size = 50
     end
-    object StringField57: TStringField
+    object sdsLogSisCAMPO3: TStringField
       FieldName = 'CAMPO3'
+      ReadOnly = True
       Size = 50
     end
-    object StringField58: TStringField
+    object sdsLogSisCAMPO4: TStringField
       FieldName = 'CAMPO4'
+      ReadOnly = True
       Size = 50
     end
-    object MemoField1: TMemoField
+    object sdsLogSisDATA_SET: TMemoField
       FieldName = 'DATA_SET'
+      ReadOnly = True
       BlobType = ftMemo
     end
   end
-  object dLog: TDataSetProvider
-    DataSet = sLog
+  object dspLogSis: TDataSetProvider
+    DataSet = sdsLogSis
     Options = [poAllowCommandText]
-    Left = 664
-    Top = 8
+    Left = 376
   end
-  object cLog: TClientDataSet
+  object cdsLogSis: TClientDataSet
     Aggregates = <>
     Params = <>
-    ProviderName = 'dLog'
-    Left = 696
-    Top = 8
-    object IntegerField7: TIntegerField
+    ProviderName = 'dspLogSis'
+    Left = 416
+    object cdsLogSisID_LOG: TIntegerField
       FieldName = 'ID_LOG'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-    object StringField59: TStringField
+    object cdsLogSisTABELA: TStringField
       FieldName = 'TABELA'
       Size = 80
     end
-    object DateField4: TDateField
+    object cdsLogSisDATA: TStringField
       FieldName = 'DATA'
+      ReadOnly = True
+      Size = 10
     end
-    object StringField60: TStringField
+    object cdsLogSisUSUARIO: TStringField
       FieldName = 'USUARIO'
+      ReadOnly = True
       Size = 80
     end
-    object StringField61: TStringField
+    object cdsLogSisMICRO: TStringField
       FieldName = 'MICRO'
+      ReadOnly = True
       Size = 50
     end
-    object TimeField2: TTimeField
+    object cdsLogSisHORA: TStringField
       FieldName = 'HORA'
+      ReadOnly = True
+      Size = 8
     end
-    object StringField62: TStringField
+    object cdsLogSisCAMPO1: TStringField
       FieldName = 'CAMPO1'
+      ReadOnly = True
       Size = 50
     end
-    object StringField63: TStringField
+    object cdsLogSisCAMPO2: TStringField
       FieldName = 'CAMPO2'
+      ReadOnly = True
       Size = 50
     end
-    object StringField64: TStringField
+    object cdsLogSisCAMPO3: TStringField
       FieldName = 'CAMPO3'
+      ReadOnly = True
       Size = 50
     end
-    object StringField65: TStringField
+    object cdsLogSisCAMPO4: TStringField
       FieldName = 'CAMPO4'
+      ReadOnly = True
       Size = 50
     end
-    object MemoField2: TMemoField
+    object cdsLogSisDATA_SET: TMemoField
       FieldName = 'DATA_SET'
+      ReadOnly = True
       BlobType = ftMemo
     end
   end
