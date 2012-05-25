@@ -139,7 +139,7 @@ begin
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(str);
-    dm.gravaLog(Now, dm.varLogado, 'CAIXA_CONTROLE', MICRO, logStVelho, logStNovo);
+    dm.gravaLog(Now, dm.varLogado, 'CAIXA_CONTROLE', MICRO, logStVelho, logStNovo, IntToStr(cds_7_contasCODIGO.AsInteger));
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Caixa/Banco modificado com sucesso.', mtInformation, [mbOK], 0);
   except
@@ -178,6 +178,7 @@ procedure TfCaixaBanco.BitBtn2Click(Sender: TObject);
 begin
   fLogs := TfLogs.Create(Application);
   try
+    dm.abrirLog('CAIXA_CONTROLE', IntToStr(cds_7_contasCODIGO.AsInteger), 'CAIXA');
     fLogs.ShowModal;
   finally
     fLogs.Free;

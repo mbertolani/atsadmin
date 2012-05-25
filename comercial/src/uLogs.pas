@@ -6,13 +6,12 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DBCtrls, DB, Grids, DBGrids, Buttons, ComCtrls,
   ExtCtrls, MMJPanel, FMTBcd, SqlExpr, DBClient, Provider, Mask, ToolEdit,
-  XPMenu;
+  XPMenu, JvExDBGrids, JvDBGrid, JvDBUltimGrid;
 
 type
   TfLogs = class(TForm)
     DataSource1: TDataSource;
     DBMemo1: TDBMemo;
-    DBGrid2: TDBGrid;
     MMJPanel1: TMMJPanel;
     cbTabela: TComboBox;
     Label1: TLabel;
@@ -35,6 +34,7 @@ type
     Data1: TDateEdit;
     Data2: TDateEdit;
     XPMenu1: TXPMenu;
+    JvDBUltimGrid1: TJvDBUltimGrid;
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
@@ -57,8 +57,6 @@ uses UDM;
 
 procedure TfLogs.FormShow(Sender: TObject);
 begin
-  dm.abrirLog('CAIXA_CONTROLE');
-
   Data1.Text := DateToStr(Now);
   Data2.Text := DateToStr(Now);
     

@@ -1,8 +1,8 @@
 object fLogs: TfLogs
-  Left = 192
-  Top = 107
-  Width = 800
-  Height = 480
+  Left = 0
+  Top = 71
+  Width = 1193
+  Height = 651
   BorderIcons = [biSystemMenu]
   Caption = 'Auditoria'
   Color = clBtnFace
@@ -18,10 +18,10 @@ object fLogs: TfLogs
   PixelsPerInch = 96
   TextHeight = 13
   object DBMemo1: TDBMemo
-    Left = 561
-    Top = 89
+    Left = 953
+    Top = 68
     Width = 232
-    Height = 348
+    Height = 556
     Align = alRight
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -31,85 +31,15 @@ object fLogs: TfLogs
     ParentCtl3D = False
     TabOrder = 0
   end
-  object DBGrid2: TDBGrid
-    Left = 0
-    Top = 89
-    Width = 561
-    Height = 348
-    Align = alLeft
-    Ctl3D = False
-    DataSource = DataSource1
-    FixedColor = 12615680
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
-    ParentCtl3D = False
-    ParentFont = False
-    TabOrder = 1
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWhite
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'USUARIO'
-        Title.Caption = 'Usu'#225'rio'
-        Width = 76
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'MICRO'
-        Title.Caption = 'Micro'
-        Width = 118
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'TABELA'
-        Title.Caption = 'Tabela'
-        Width = 98
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CAMPO1'
-        Width = 200
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CAMPO2'
-        Width = 200
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATA'
-        Title.Caption = 'Data'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'HORA'
-        Title.Caption = 'Hora'
-        Visible = True
-      end>
-  end
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 793
-    Height = 89
+    Width = 1185
+    Height = 68
     Align = alTop
     Ctl3D = True
     ParentCtl3D = False
-    TabOrder = 2
+    TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -129,6 +59,7 @@ object fLogs: TfLogs
       Font.Style = [fsBold]
       ParentFont = False
       Transparent = True
+      Visible = False
     end
     object Label2: TLabel
       Left = 8
@@ -143,10 +74,11 @@ object fLogs: TfLogs
       Font.Style = [fsBold]
       ParentFont = False
       Transparent = True
+      Visible = False
     end
     object Label5: TLabel
-      Left = 61
-      Top = 63
+      Left = 221
+      Top = 7
       Width = 32
       Height = 13
       Caption = 'Micro'
@@ -157,23 +89,25 @@ object fLogs: TfLogs
       Font.Style = [fsBold]
       ParentFont = False
       Transparent = True
+      Visible = False
     end
     object Panel1: TPanel
-      Left = 216
-      Top = 6
+      Left = 393
+      Top = 8
       Width = 233
-      Height = 71
+      Height = 55
       TabOrder = 3
+      Visible = False
       object Label8: TLabel
         Left = 16
-        Top = 21
+        Top = 11
         Width = 12
         Height = 13
         Caption = 'de'
       end
       object Label9: TLabel
         Left = 121
-        Top = 20
+        Top = 10
         Width = 6
         Height = 13
         Caption = 'a'
@@ -189,7 +123,7 @@ object fLogs: TfLogs
       end
       object Data1: TDateEdit
         Left = 14
-        Top = 35
+        Top = 25
         Width = 98
         Height = 25
         Enabled = False
@@ -204,7 +138,7 @@ object fLogs: TfLogs
       end
       object Data2: TDateEdit
         Left = 120
-        Top = 35
+        Top = 25
         Width = 98
         Height = 25
         Enabled = False
@@ -228,6 +162,7 @@ object fLogs: TfLogs
       ItemHeight = 13
       ParentCtl3D = False
       TabOrder = 0
+      Visible = False
     end
     object cbUsuario: TComboBox
       Left = 95
@@ -237,23 +172,26 @@ object fLogs: TfLogs
       BevelKind = bkFlat
       ItemHeight = 13
       TabOrder = 1
+      Visible = False
     end
     object cbMicro: TComboBox
-      Left = 95
-      Top = 56
+      Left = 271
+      Top = 8
       Width = 105
       Height = 21
       BevelKind = bkFlat
       ItemHeight = 13
       TabOrder = 2
+      Visible = False
     end
     object BitBtn1: TBitBtn
-      Left = 464
+      Left = 912
       Top = 16
       Width = 75
       Height = 25
       Caption = 'Procurar'
       TabOrder = 4
+      Visible = False
       OnClick = BitBtn1Click
       Glyph.Data = {
         26040000424D2604000000000000360000002800000012000000120000000100
@@ -292,7 +230,7 @@ object fLogs: TfLogs
         FFFFFFFFFFFFFFFF0000}
     end
     object BitBtn2: TBitBtn
-      Left = 552
+      Left = 992
       Top = 16
       Width = 75
       Height = 25
@@ -334,8 +272,85 @@ object fLogs: TfLogs
         FFFF00FFFF00FFFF00FFFF00FFFF00FF0000}
     end
   end
+  object JvDBUltimGrid1: TJvDBUltimGrid
+    Left = 0
+    Top = 68
+    Width = 953
+    Height = 556
+    Align = alClient
+    DataSource = DataSource1
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ID_LOG'
+        Title.Caption = 'C'#243'd.'
+        Width = 30
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TABELA'
+        Title.Caption = 'Local'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATA'
+        Title.Caption = 'Data'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'HORA'
+        Title.Caption = 'Hora'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'USUARIO'
+        Title.Caption = 'Usu'#225'rio'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MICRO'
+        Title.Caption = 'Pc'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CAMPO1'
+        Title.Caption = 'Original'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CAMPO2'
+        Title.Caption = 'Atual'
+        Width = 400
+        Visible = True
+      end>
+  end
   object DataSource1: TDataSource
-    DataSet = DM.cLog
+    DataSet = DM.cdsLogSis
     Left = 240
     Top = 208
   end

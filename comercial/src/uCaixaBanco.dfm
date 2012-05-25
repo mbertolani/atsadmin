@@ -1,6 +1,6 @@
 object fCaixaBanco: TfCaixaBanco
   Left = 192
-  Top = 107
+  Top = 108
   Width = 778
   Height = 459
   Caption = 'Administra'#231#227'o de Caixa e Banco'
