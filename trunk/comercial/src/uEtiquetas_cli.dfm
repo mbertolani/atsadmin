@@ -1,8 +1,8 @@
 object fEtiquetas_cli: TfEtiquetas_cli
   Left = 194
   Top = 103
-  Width = 355
-  Height = 250
+  Width = 354
+  Height = 261
   Caption = 'Etiquetas Clientes'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
