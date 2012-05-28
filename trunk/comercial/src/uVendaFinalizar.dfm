@@ -1,6 +1,6 @@
 inherited fVendaFinalizar: TfVendaFinalizar
-  Left = 110
-  Top = 84
+  Left = 304
+  Top = 184
   Width = 801
   Height = 571
   Caption = 'Gera Contas a Receber - Finaliza Vendas'
@@ -4794,5 +4794,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Caption = 'Imprimir Carne'
       OnClick = ImprimirOrdemdeServio1Click
     end
+  end
+  object dlgSave1: TSaveDialog
+    Left = 584
+    Top = 230
   end
 end
