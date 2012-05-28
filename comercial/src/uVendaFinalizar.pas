@@ -488,6 +488,7 @@ type
     ImprimirOrdemdeServio1: TMenuItem;
     sds_vendaOBS: TStringField;
     cdsOBS: TStringField;
+    dlgSave1: TSaveDialog;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -2819,7 +2820,7 @@ var
   IMPRESSORA:TextFile;
   Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, logradouro,cep,fone, clientecupom, doccli : string;//Para recortar parte da descrição do produto,nome
   total : double;
-
+  portaIMP : string;
 begin
       if (not dm.cds_empresa.Active) then
         dm.cds_empresa.Open;
@@ -2851,16 +2852,29 @@ begin
 
    //   tipoimpressao := 'txt';
 
-      if (tipoimpressao = 'txt') then
-      begin
-        OpenDialog1.Execute;
-        AssignFile(IMPRESSORA, OpenDialog1.FileName);
-      end
-      else
-      begin
-        AssignFile(IMPRESSORA,portaimpr);//'LPT1:');
-      end;
-      Rewrite(IMPRESSORA);
+     if (dm.cds_parametro.Active) then
+       dm.cds_parametro.Close;
+     dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
+     dm.cds_parametro.Open;
+     if (not dm.cds_parametro.Eof) then
+     begin
+       dlgSave1.Execute;
+       AssignFile(IMPRESSORA, dlgSave1.FileName);
+       dm.cds_parametro.Close;
+     end
+     else
+     begin
+       if (dm.cds_parametro.Active) then
+         dm.cds_parametro.Close;
+       dm.cds_parametro.Params[0].Clear;
+       dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+       dm.cds_parametro.Open;
+       portaIMP := dm.cds_parametroDADOS.AsString;
+       dm.cds_parametro.Close;
+       AssignFile(IMPRESSORA,porta);
+     end;
+
+     Rewrite(IMPRESSORA);
       Writeln(Impressora, c10cpi + '  VENDA');
       Writeln(IMPRESSORA);
       Writeln(Impressora, c17cpi + RemoveAcento(Format('  %-36s',[dm.cds_empresaRAZAO.Value])));
@@ -3274,8 +3288,75 @@ var
   valorextenco : Double;
 begin
   inherited;
-  {------Pesquisando na tab Parametro qual rel. venda ele usa ---}
+
+  tipoImpressao := '';
   if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'CUPOM';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
+  if (tipoImpressao = '') then
+  begin
+    ShowMessage('Parametro Tipo Impressão não configurado');
+    exit;
+  end;
+
+  if (tipoImpressao = 'CUPOM') then
+  begin
+    imprimecupom;
+  end;
+
+  if (tipoImpressao = 'RECIBO') then
+  begin
+     if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'REL. VENDAS';
+      dm.cds_parametro.Open;
+      if dm.cds_parametro.IsEmpty then
+      begin
+        dm.cds_parametro.Append;
+        dm.cds_parametroDESCRICAO.AsString := 'Tipo de Impressão (PADRÃO ou CUPOM)';
+        dm.cds_parametroPARAMETRO.AsString := 'REL. VENDAS';
+        dm.cds_parametroDADOS.AsString := 'PADRÃO';
+        dm.cds_parametro.ApplyUpdates(0);
+      end;
+      if dm.cds_parametroDADOS.AsString = 'PADRÃO' then
+      begin
+        VCLReport2.FileName := str_relatorio + 'impr_texto.rep';
+        if (dm.moduloUsado = 'AGROPECUARIA') then
+        begin
+          valorextenco := cdsVALOR.AsFloat; //StrToFloat(DBEdit1.Text);
+          acompo:=TRpLabel(VCLReport2.Report.FindComponent('TRpLabel28'));
+          if Assigned(acompo) then
+            acompo.Text:= EvExtenso1.GetExtenso(valorextenco);
+        end;
+        VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+        VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
+        VCLReport2.Execute;
+      end;
+      if dm.cds_parametroDADOS.AsString = 'PERSONALIZADO' then
+      begin
+        VCLReport2.FileName := str_relatorio + 'recibo_venda.rep';
+        VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+        VCLReport2.Report.Params.ParamByName('CODVENDA').Value := cdsCODVENDA.AsInteger;
+        VCLReport2.Report.Params.ParamByName('CODID').Value := cdsCODCLIENTE.AsInteger;
+        VCLReport2.Report.Params.ParamByName('N_COPIAS').Value := 2;
+        VCLReport2.Execute;
+      end;
+  end;
+
+
+{ if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'REL. VENDAS';
   dm.cds_parametro.Open;
@@ -3286,7 +3367,6 @@ begin
     dm.cds_parametroPARAMETRO.AsString := 'REL. VENDAS';
     dm.cds_parametroDADOS.AsString := 'PADRÃO';
     dm.cds_parametro.ApplyUpdates(0);
-
   end;
   if dm.cds_parametroDADOS.AsString = 'PADRÃO' then
   begin
@@ -3319,6 +3399,7 @@ begin
     VCLReport2.Report.Params.ParamByName('N_COPIAS').Value := 2;
     VCLReport2.Execute;
   end;
+  }
 end;
 
 procedure TfVendaFinalizar.ImprimirOrdemdeServio1Click(Sender: TObject);
