@@ -79,17 +79,16 @@ BEGIN
         new.VIPI = 0;
         new.PIPI = 0;
       end
+	  if (ind_reduzicms <= 0) then
+        ind_reduzicms = 1;
+	  if (ind_reduzicms > 1 )then
+        ind_reduzicms = ind_reduzicms/100;
       if (CICMS > 0) then 
       begin
         new.VLR_BASEICMS = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms), 2);
         new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), 2);
       end
-        
-	  if (ind_reduzicms <= 0) then
-        ind_reduzicms = 1;
-	  if (ind_reduzicms > 1 )then
-        ind_reduzicms = ind_reduzicms/100;
-		
+
       ----------- TEM ST -------------
       if (CICMS_SUBST > 0) then
         new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), 2);
@@ -105,7 +104,7 @@ BEGIN
         select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
         , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI
         from ESTADO_ICMS ei
-        where ei.CFOP = new.CFOP and ei.UF = :UF and ei.PESSOA = :PESSOA
+        where ei.CFOP = new.CFOP and ei.UF = :UF and ei.CODFISCAL = :PESSOA
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, CICMS, ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI;
     
         new.cst = :CST_P;
