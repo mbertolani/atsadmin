@@ -104,8 +104,6 @@ type
     cds_estadoCSOSN: TStringField;
     DBEdit21: TDBEdit;
     DBLookupComboBox3: TDBLookupComboBox;
-    sdsPESSOA: TStringField;
-    cds_estadoPESSOA: TStringField;
     sdsTFiscal: TSQLDataSet;
     sdsTFiscalCODFISCAL: TStringField;
     sdsTFiscalDESCRICAO: TStringField;
@@ -131,6 +129,7 @@ type
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure CheckBox1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -258,5 +257,11 @@ begin
 end;
 
 
+
+procedure TfEstado.FormCreate(Sender: TObject);
+begin
+//  inherited;
+
+end;
 
 end.
