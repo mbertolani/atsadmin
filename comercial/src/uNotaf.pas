@@ -339,7 +339,6 @@ type
     sCfop: TSQLDataSet;
     sCfopCFOP: TStringField;
     sCfopUF: TStringField;
-    sCfopPESSOA: TStringField;
     sCfopDADOSADC1: TStringField;
     sCfopDADOSADC2: TStringField;
     sCfopDADOSADC3: TStringField;
@@ -350,13 +349,14 @@ type
     sCfopNAOENVFATURA: TStringField;
     JvGroupBox55: TJvGroupBox;
     DBEdit50: TDBEdit;
-    listaCliente1TIPOFIRMA: TSmallintField;
     sqlValida: TSQLQuery;
     ChkComp: TCheckBox;
     GroupBox2: TGroupBox;
     DBEdit9: TDBEdit;
     DBEdit43: TDBEdit;
     DBEdit48: TDBEdit;
+    listaCliente1CODFISCAL: TStringField;
+    sCfopCODFISCAL: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -2236,10 +2236,7 @@ Begin
           listaCliente1.Close;
         listaCliente1.Params.ParamByName('pCodCli').AsInteger := DMNF.cds_nfCODCLIENTE.AsInteger;
         listaCliente1.Open;
-         if (listaCliente1TIPOFIRMA.AsInteger = 0) then
-           sCFOP.Params[2].asString :=  'F'
-         else
-          sCFOP.Params[2].asString :=  'J';
+          sCFOP.Params[2].asString :=  listaCliente1CODFISCAL.AsString;
         sCFOP.Open;
         If ((sCfopDADOSADC1.AsString = '') or (not sCFOPDADOSADC1.IsNull) )then
           DMNF.cds_nfCORPONF1.AsString := sCFOPDADOSADC1.AsString;

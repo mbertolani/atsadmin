@@ -2822,10 +2822,10 @@ object fNotaf: TfNotaf
       'select cli.CODCLIENTE, cli.NOMECLIENTE, cli.RAZAOSOCIAL, cli.CNP' +
       'J, cli.INSCESTADUAL, cli.PRAZORECEBIMENTO, cli.COD_TRANPORTADORA' +
       ' '#13#10', ende.LOGRADOURO, ende.BAIRRO, ende.COMPLEMENTO, ende.CIDADE' +
-      ', ende.UF, ende.CEP, ende.TELEFONE , CLI.TIPOFIRMA'#13#10'from CLIENTE' +
-      'S cli '#13#10'left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE ' +
-      '= cli.CODCLIENTE '#13#10'where cli.CODCLIENTE = :pCodCli'#13#10' order by cl' +
-      'i.RAZAOSOCIAL '
+      ', ende.UF, ende.CEP, ende.TELEFONE , CLI.TIPOFIRMA, cli.codfisca' +
+      'l'#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ende on e' +
+      'nde.CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.CODCLIENTE = :pCodCl' +
+      'i'#13#10' order by cli.RAZAOSOCIAL '
     MaxBlobSize = -1
     Params = <
       item
@@ -2911,9 +2911,10 @@ object fNotaf: TfNotaf
     object listaCliente1COD_TRANPORTADORA: TIntegerField
       FieldName = 'COD_TRANPORTADORA'
     end
-    object listaCliente1TIPOFIRMA: TSmallintField
-      FieldName = 'TIPOFIRMA'
-      Required = True
+    object listaCliente1CODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object sdsTotal: TSQLDataSet
@@ -3457,7 +3458,7 @@ object fNotaf: TfNotaf
   object sCfop: TSQLDataSet
     CommandText = 
       'select * from ESTADO_ICMS ei where ei.UF = :uf and ei.CFOP = :cf' +
-      'op and ei.Pessoa = :pessoa'
+      'op and ei.CODFISCAL = :pessoa'
     MaxBlobSize = -1
     Params = <
       item
@@ -3488,10 +3489,6 @@ object fNotaf: TfNotaf
       FixedChar = True
       Size = 3
     end
-    object sCfopPESSOA: TStringField
-      FieldName = 'PESSOA'
-      Size = 8
-    end
     object sCfopDADOSADC1: TStringField
       FieldName = 'DADOSADC1'
       Size = 200
@@ -3518,6 +3515,11 @@ object fNotaf: TfNotaf
     end
     object sCfopNAOENVFATURA: TStringField
       FieldName = 'NAOENVFATURA'
+      FixedChar = True
+      Size = 1
+    end
+    object sCfopCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
       FixedChar = True
       Size = 1
     end
