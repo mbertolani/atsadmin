@@ -2871,7 +2871,7 @@ begin
        dm.cds_parametro.Open;
        portaIMP := dm.cds_parametroDADOS.AsString;
        dm.cds_parametro.Close;
-       AssignFile(IMPRESSORA,porta);
+       AssignFile(IMPRESSORA,portaIMP);
      end;
 
      Rewrite(IMPRESSORA);
