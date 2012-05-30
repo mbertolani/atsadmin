@@ -470,7 +470,7 @@ var cod_id : integer;
   TD: TTransactionDesc;
   FEstoque: TEstoque;
 begin
-  if (dm.cCustoFechado(cdsCODCCUSTO.AsInteger, cdsDATAVENDA.AsDateTime)) then
+  if (dm.cCustoFechado(cds_compraCODCCUSTO.AsInteger, cds_compraDATACOMPRA.AsDateTime)) then
   begin
     MessageDlg('Centro de Resultado já finalizado.', mtWarning, [mbOK], 0);
     Exit;
