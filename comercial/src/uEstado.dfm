@@ -1005,13 +1005,12 @@ inherited fEstado: TfEstado
       'a.ICMS'#13#10'        , esta.REDUCAO        , cfo.CFNOME'#13#10'        , es' +
       'ta.IPI         , esta.CSTIPI'#13#10'        , esta.ICMS_SUBSTRIB, esta' +
       '.ICMS_SUBSTRIB_IC'#13#10'        , esta.ICMS_SUBSTRIB_IND, esta.CST'#13#10' ' +
-      '       , esta.PESSOA'#13#10'        , esta.PIS , esta.COFINS , esta.CS' +
-      'TPIS , esta.CSTCOFINS'#13#10'        , esta.DADOSADC1        , esta.DA' +
-      'DOSADC2'#13#10'        , esta.DADOSADC3        , esta.DADOSADC4'#13#10'     ' +
-      '   , esta.DADOSADC5        , esta.DADOSADC6'#13#10'        , esta.NAOE' +
-      'NVFATURA, esta.CSOSN, esta.CODFISCAL'#13#10'FROM ESTADO_ICMS esta '#13#10'le' +
-      'ft outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10'order by esta.' +
-      'CFOP'
+      '       , esta.PIS , esta.COFINS , esta.CSTPIS , esta.CSTCOFINS'#13#10 +
+      '        , esta.DADOSADC1        , esta.DADOSADC2'#13#10'        , esta' +
+      '.DADOSADC3        , esta.DADOSADC4'#13#10'        , esta.DADOSADC5    ' +
+      '    , esta.DADOSADC6'#13#10'        , esta.NAOENVFATURA, esta.CSOSN, e' +
+      'sta.CODFISCAL'#13#10'FROM ESTADO_ICMS esta '#13#10'left outer join CFOP cfo ' +
+      'on cfo.CFCOD = esta.CFOP '#13#10'order by esta.CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1112,11 +1111,6 @@ inherited fEstado: TfEstado
     object sdsCSOSN: TStringField
       FieldName = 'CSOSN'
       Size = 3
-    end
-    object sdsPESSOA: TStringField
-      FieldName = 'PESSOA'
-      FixedChar = True
-      Size = 1
     end
     object sdsCODFISCAL: TStringField
       FieldName = 'CODFISCAL'
@@ -1232,11 +1226,6 @@ inherited fEstado: TfEstado
     object cds_estadoCSOSN: TStringField
       FieldName = 'CSOSN'
       Size = 3
-    end
-    object cds_estadoPESSOA: TStringField
-      FieldName = 'PESSOA'
-      FixedChar = True
-      Size = 1
     end
     object cds_estadoCODFISCAL: TStringField
       FieldName = 'CODFISCAL'
