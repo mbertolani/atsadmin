@@ -639,6 +639,10 @@ type
     sdsItensNFPCOFINS: TFloatField;
     cdsItensNFPPIS: TFloatField;
     cdsItensNFPCOFINS: TFloatField;
+    sdsItensNFNITEMPED: TIntegerField;
+    sdsItensNFPEDIDO: TStringField;
+    cdsItensNFNITEMPED: TIntegerField;
+    cdsItensNFPEDIDO: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -828,8 +832,8 @@ end;
 
 procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
 var TD: TTransactionDesc;
-  i: integer;
-  Protocolo, Recibo, str, protenv, vAux, valida : String;
+  i, codnf: integer;
+  Protocolo, Recibo, str, vAux, valida : String;
 begin
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
@@ -948,7 +952,7 @@ begin
               ide.NFref.Add.refNFe := cdsNFIDCOMPLEMENTAR.AsString;
             end;
             Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
-            protenv       := cdsNFNOTASERIE.AsString;
+            codnf         := cdsNFNUMNF.AsInteger;
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
             Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
@@ -1095,7 +1099,7 @@ begin
      //SALVA NFe e NOMEXML no BD
      dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
      + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
-     + ' WHERE NOTASERIE = ' + quotedStr(protenv));
+     + ' WHERE NUMNF = ' + IntToStr(codnf));
      dm.sqlsisAdimin.StartTransaction(TD);
      dm.sqlsisAdimin.Commit(TD);
      DecimalSeparator := ',';
@@ -1103,12 +1107,12 @@ begin
    end
    else if (tp_amb = 4) then
    begin
-     ACBrNFe1.NotasFiscais.Assinar;
-     ACBrNFe1.NotasFiscais.Valida;
      ACBrNFe1.WebServices.EnviarDPEC.Executar;
-    //protocolo de envio ao DPEC e impressão do DANFE
+    //protocolo de envio ao DPEC e impressão do DANFE
      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC + ' ' +
       DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
+     ACBrNFe1.NotasFiscais.Assinar;
+     ACBrNFe1.NotasFiscais.Valida;
      ACBrNFe1.NotasFiscais.Imprimir;
      ShowMessage(DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC));
      ShowMessage(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
@@ -1119,20 +1123,18 @@ begin
      //SALVA NFe e NOMEXML no BD
      dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
      + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
-     + ' WHERE NOTASERIE = ' + quotedStr(protenv));
+     + ' WHERE NUMNF = ' + IntToStr(codnf));
      //SALVA PROTOCOLO DPEC
      str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
-     str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
+     str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
      dm.sqlsisAdimin.ExecuteDirect(str);
      dm.sqlsisAdimin.StartTransaction(TD);
      dm.sqlsisAdimin.Commit(TD);
-
    end
    else
-     ACBrNFe1.Enviar(0);
-   AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
-   if ( (tp_amb <> 2) or (tp_amb <> 5)) then
    begin
+     ACBrNFe1.Enviar(0);
+     AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;   
      ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
      ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
 
@@ -1146,11 +1148,11 @@ begin
      //SALVA NFe e NOMEXML no BD
      dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
      + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
-     + ' WHERE NOTASERIE = ' + quotedStr(protenv));
+     + ' WHERE NUMNF = ' + IntToStr(codnf));
      //SALVA OS PROTOCOLOS
      str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(Protocolo);
      str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
-     str := str + ' WHERE NOTASERIE = ' + quotedStr(protenv);
+     str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
      dm.sqlsisAdimin.ExecuteDirect(str);
      dm.sqlsisAdimin.StartTransaction(TD);
      dm.sqlsisAdimin.Commit(TD);
@@ -1884,8 +1886,10 @@ begin
   begin
     with Det.Add do
     begin
-      //Prod.xPed = "";
-      //Prod.nItemPed = 9;
+      if (not cdsItensNFPEDIDO.IsNull) then
+        Prod.xPed := cdsItensNFPEDIDO.AsString;
+      if (not cdsItensNFNITEMPED.IsNull) then
+        Prod.nItemPed := cdsItensNFNITEMPED.AsInteger;
       if (sCFOP.Active) then
         sCFOP.Close;
       sCFOP.Params[0].AsString := cdsItensNFCFOP.AsString;
@@ -2391,8 +2395,18 @@ begin
   begin
   ACBrNFe1.NotasFiscais.Clear;
   ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+    if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
+    begin
+      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC + ' ' +
+       DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
+      ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
+      ACBrNFe1.WebServices.ConsultaDPEC.Executar;
+      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
+      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.dhRegDPEC);
+    end;
   ACBrNFe1.Enviar(0);
   end;
+  ACBrNFe1.NotasFiscais.Items[0].SaveToFile;  
 end;
 
 procedure TfNFeletronica.pegaItens(tpNf: integer);
@@ -2408,7 +2422,7 @@ begin
       'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, ' +
       'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
       'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
-      ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
+      ' ,md.NITEMPED, md.PEDIDO from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
       'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
       'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
       'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
@@ -2422,7 +2436,7 @@ begin
       'UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.CSTIPI, md.CSTPIS, md.CSTCOFINS, ' +
       'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
       'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
-      'from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
+      ' ,md.NITEMPED, md.PEDIDO from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
       'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
       'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
       'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;

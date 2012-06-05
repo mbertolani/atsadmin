@@ -1376,6 +1376,10 @@ type
     cds_compraCODORIGEM: TIntegerField;
     cds_compraNOMEFORNECEDOR: TStringField;
     cds_compraNOMEUSUARIO: TStringField;
+    sds_Mov_DetNITEMPED: TIntegerField;
+    sds_Mov_DetPEDIDO: TStringField;
+    cds_Mov_detNITEMPED: TIntegerField;
+    cds_Mov_detPEDIDO: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

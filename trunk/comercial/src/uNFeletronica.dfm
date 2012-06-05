@@ -2105,10 +2105,11 @@ object fNFeletronica: TfNFeletronica
       '          UDF_ROUNDDEC(md.VALOR_OUTROS, 2) as VALOR_OUTROS,'#13#10'   ' +
       '       UDF_ROUNDDEC(md.II, 2) as II,'#13#10'          UDF_ROUNDDEC(md.' +
       'BCII, 2) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS,' +
-      ' md.PPIS, md.PCOFINS'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALH' +
-      'E md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISC' +
-      'AL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13 +
-      #10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      ' md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, md.PEDIDO'#13#10'from VE' +
+      'NDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd' +
+      '.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CO' +
+      'DVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUT' +
+      'O'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -2255,6 +2256,14 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsItensNFPCOFINS: TFloatField
       FieldName = 'PCOFINS'
+      ReadOnly = True
+    end
+    object sdsItensNFNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+      ReadOnly = True
+    end
+    object sdsItensNFPEDIDO: TStringField
+      FieldName = 'PEDIDO'
       ReadOnly = True
     end
   end
@@ -2412,6 +2421,14 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsItensNFPCOFINS: TFloatField
       FieldName = 'PCOFINS'
+      ReadOnly = True
+    end
+    object cdsItensNFNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+      ReadOnly = True
+    end
+    object cdsItensNFPEDIDO: TStringField
+      FieldName = 'PEDIDO'
       ReadOnly = True
     end
   end
