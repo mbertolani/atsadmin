@@ -1354,9 +1354,9 @@ inherited fCompra: TfCompra
     object Label8: TLabel
       Left = 431
       Top = 18
-      Width = 28
+      Width = 43
       Height = 16
-      Caption = 'Icms'
+      Caption = 'Icms %'
     end
     object Label9: TLabel
       Left = 484

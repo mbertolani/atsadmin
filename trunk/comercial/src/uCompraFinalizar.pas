@@ -1192,8 +1192,8 @@ begin
     fCompra.cds_Mov_det.First;
     while not fCompra.cds_Mov_det.Eof do
     begin
-      cds_compraVALOR_ICMS.AsFloat := cds_compraVALOR_ICMS.AsFloat + fCompra.cds_Mov_detVALOR_ICMS.AsFloat;
-      cds_compraVALOR_IPI.AsFloat := cds_compraVALOR_IPI.AsFloat + fCompra.cds_Mov_detVIPI.AsFloat;
+      cds_compraVALOR_ICMS.AsFloat := cds_compraVALOR_ICMS.AsFloat + (fCompra.cds_Mov_detICMS.AsFloat * (fCompra.cds_Mov_detQUANTIDADE.AsFloat * fCompra.cds_Mov_detPRECO.AsFloat))/100;
+      cds_compraVALOR_IPI.AsFloat := cds_compraVALOR_IPI.AsFloat + (fCompra.cds_Mov_detPIPI.AsFloat * (fCompra.cds_Mov_detQUANTIDADE.AsFloat * fCompra.cds_Mov_detPRECO.AsFloat))/100;
       fCompra.cds_Mov_det.Next;
     end;
     cds_compraCODCCUSTO.AsInteger := fCompra.cds_MovimentoCODALMOXARIFADO.AsInteger;
@@ -1217,11 +1217,11 @@ begin
       cds_compraVALOR.Value := dm.scds_Mov_Det_procTotalPedido.Value;}
       if (sqs_tit.Active) then
         sqs_tit.Close;
-      sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO), sum((PIPI/100)*valTotal) FROM MOVIMENTODETALHE' +
+      sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO), sum((PIPI/100)*valTotal), sum((ICMS/100)*valTotal) FROM MOVIMENTODETALHE' +
           ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
       sqs_tit.Open;
-      cds_compraVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
-      cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
+      cds_compraVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat) + FloatToCurr(sqs_tit.Fields[1].AsFloat)  + FloatToCurr(sqs_tit.Fields[2].AsFloat);
+      cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat) + FloatToCurr(sqs_tit.Fields[1].AsFloat) + FloatToCurr(sqs_tit.Fields[2].AsFloat);
       //cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
     end;
     if (dm.moduloUsado = 'CITRUS') then
@@ -1752,6 +1752,7 @@ begin
     begin
       try
         dm.sqlsisAdimin.StartTransaction(TD);
+        dmnf.cancelaEstoque(codmov,dataCompra , 'COMPRA');        
         str := 'update MOVIMENTODETALHE set BAIXA = NULL where CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.AsInteger);
         dm.sqlsisAdimin.ExecuteDirect(str);
         str := 'update COMPRA set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
@@ -1759,7 +1760,6 @@ begin
         str := 'update PAGAMENTO set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
         dm.sqlsisAdimin.ExecuteDirect(str);
 
-        dmnf.cancelaEstoque(codmov,dataCompra , 'COMPRA');
         dm.sqlsisAdimin.Commit(TD);
         ShowMessage('Compra Cancelada com Sucesso');
       except
