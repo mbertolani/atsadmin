@@ -1572,6 +1572,15 @@ object fProcura_produtos: TfProcura_produtos
       ItemHeight = 16
       TabOrder = 11
     end
+    object rgNCM: TCheckBox
+      Left = 6
+      Top = 43
+      Width = 55
+      Height = 17
+      Caption = 'Com NCM'
+      PopupMenu = PopupMenu1
+      TabOrder = 12
+    end
   end
   object panRelatorio: TPanel
     Left = 560
