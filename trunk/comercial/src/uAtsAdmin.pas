@@ -2220,7 +2220,7 @@ end;
 procedure TfAtsAdmin.dxButton11Click(Sender: TObject);
 begin
   // Chat
-  WinExec('Chat_Client_Externo.exe', SW_NORMAL);  
+  WinExec('Pandion\Application\pandion.exe', SW_NORMAL);  
 end;
 
 end.
