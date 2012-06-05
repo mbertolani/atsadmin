@@ -1558,7 +1558,8 @@ begin
       executaDDL('MOVIMENTODETALHE', 'PPIS', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'PCOFINS', 'double precision');
       MessageDlg('Execute o Script "trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
-//      executaScript('trg_calcula_icms_st.sql');
+      executaScript('spEstoqueFiltro.sql');
+      executaScript('gera_nf_venda.sql');
       mudaVersao('1.0.0.106');
     end;// Fim Ataulização Versao 1.0.0.106
 
@@ -1573,13 +1574,14 @@ begin
       executaDDL('MOVIMENTODETALHE', 'VALORRATEIO', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'CODAUTORIZACAO', 'integer');
       executaDDL('MOVIMENTODETALHE', 'CODMOVRATEIO', 'integer');
-      executaDDL('MOVIMENTODETALHE', 'STATUS', 'CHAR(1)');
-      executaDDL('MOVIMENTODETALHE', 'PAGOUCOMISSAO', 'CHAR(1)');
+      executaDDL('MOVIMENTODETALHE', 'STATUS', 'char(1)');
+      executaDDL('MOVIMENTODETALHE', 'PAGOUCOMISSAO', 'char(1)');
       executaDDL('MOVIMENTODETALHE', 'RATEIO', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'PORCENTAGENDESC', 'double precision');
-      executaDDL('MOVIMENTODETALHE', 'PAGO', 'CHAR(3)');
+      executaDDL('MOVIMENTODETALHE', 'PAGO', 'char(3)');
       executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
-
+      executaDDL('MOVIMENTODETALHE', 'PEDIDO', 'varchar(20)');
+      executaDDL('MOVIMENTODETALHE', 'NITEMPED', 'integer');
       mudaVersao('1.0.0.107');
     end;
 

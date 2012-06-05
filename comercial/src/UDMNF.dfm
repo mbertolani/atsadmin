@@ -321,20 +321,20 @@ object DMNF: TDMNF
       '.BAIXA, movd.PIPI, movd.VIPI'#13#10', movd.CONTROLE, movd.COD_COMISSAO' +
       ', movd.LOTE, movd.DTAFAB, movd.DTAVCTO, movd.PRECOCUSTO, movd.VA' +
       'LTOTAL'#13#10', cast(movd.DESCPRODUTO as varchar(300)) as DESCPRODUTO'#13 +
-      #10', movd.CFOP, movd.CSOSN'#13#10', movd.CST, prod.COD_BARRA , prod.CODP' +
-      'RO, prod.ESTOQUEATUAL, prod.CODALMOXARIFADO, prod.VALORUNITARIOA' +
-      'TUAL'#13#10', prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA  , ' +
-      'prod.LOCALIZACAO  , prod.CLASSIFIC_FISCAL , cm.CODIGO, prod.LOTE' +
-      'S, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) as VALOR_ICMS'#13#10', movd.VLR_BA' +
-      'SE, movd.VLR_BASEICMS, movd.VALOR_DESCONTO, movd.FRETE, movd.ICM' +
-      'S_SUBST, movd.ICMS_SUBSTD, movd.VALOR_SEGURO, movd.VALOR_OUTROS,' +
-      ' prod.NCM, movd.STATUS, movd.II, movd.BCII, movd.OBS'#13#10'from MOVIM' +
-      'ENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=m' +
-      'ovd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODAL' +
-      'MOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm ' +
-      'on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:' +
-      'CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalh' +
-      'e'
+      #10', movd.CFOP, movd.CSOSN, movd.NITEMPED, movd.PEDIDO'#13#10', movd.CST' +
+      ', prod.COD_BARRA , prod.CODPRO, prod.ESTOQUEATUAL, prod.CODALMOX' +
+      'ARIFADO, prod.VALORUNITARIOATUAL'#13#10', prod.QTDE_PCT, ccus.ALMOXARI' +
+      'FADO, prod.CONTA_DESPESA  , prod.LOCALIZACAO  , prod.CLASSIFIC_F' +
+      'ISCAL , cm.CODIGO, prod.LOTES, UDF_ROUNDDEC(movd.VALOR_ICMS, 2) ' +
+      'as VALOR_ICMS'#13#10', movd.VLR_BASE, movd.VLR_BASEICMS, movd.VALOR_DE' +
+      'SCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.VALO' +
+      'R_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.STATUS, movd.II, mov' +
+      'd.BCII, movd.OBS'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUT' +
+      'OS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALM' +
+      'OXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10 +
+      'left outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISS' +
+      'AO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCO' +
+      'DMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -446,7 +446,7 @@ object DMNF: TDMNF
     object sds_Mov_DetDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       ProviderFlags = [pfInUpdate]
-      Size = 305
+      Size = 300
     end
     object sds_Mov_DetDTAFAB: TDateField
       FieldName = 'DTAFAB'
@@ -552,6 +552,14 @@ object DMNF: TDMNF
     object sds_Mov_DetOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object sds_Mov_DetNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+      ReadOnly = True
+    end
+    object sds_Mov_DetPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -807,6 +815,14 @@ object DMNF: TDMNF
     object cds_Mov_detOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object cds_Mov_detNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+      ReadOnly = True
+    end
+    object cds_Mov_detPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+      ReadOnly = True
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -1511,6 +1527,7 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     ProviderName = 'dsp_nf'
+    OnNewRecord = cds_nfNewRecord
     Left = 477
     Top = 94
     object cds_nfNOTASERIE: TStringField
@@ -1885,7 +1902,7 @@ object DMNF: TDMNF
       'DCLIENTE '#13#10'left outer join ENDERECOCLIENTE ende on '#13#10'ende.CODCLI' +
       'ENTE=cli.CODCLIENTE '#13#10' where nf.NUMNF = :pNF '#13#10' or CODVENDA = :p' +
       'venda'#13#10'and (nf.NATUREZA =12 or nf.NATUREZA = 15 or nf.NATUREZA =' +
-      ' 16)'
+      ' 16) and ende.TIPOEND = 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -3522,7 +3539,7 @@ object DMNF: TDMNF
   object ds_Cr: TDataSource
     DataSet = scdsCr_proc
     Left = 248
-    Top = 311
+    Top = 318
   end
   object scdsCr_proc: TClientDataSet
     Aggregates = <>
@@ -3806,7 +3823,7 @@ object DMNF: TDMNF
   object DtSrc_cli: TDataSource
     DataSet = cds_cli
     Left = 320
-    Top = 312
+    Top = 319
   end
   object cds_cli: TClientDataSet
     Aggregates = <>
@@ -4426,7 +4443,7 @@ object DMNF: TDMNF
   object DtSrcE: TDataSource
     DataSet = cdsEnderecoCli
     Left = 392
-    Top = 312
+    Top = 319
   end
   object cdsEnderecoCli: TClientDataSet
     Aggregates = <>
@@ -4673,14 +4690,14 @@ object DMNF: TDMNF
   object DtSrcReg: TDataSource
     DataSet = cdsRegiao
     Left = 458
-    Top = 320
+    Top = 321
   end
   object cdsRegiao: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dRegiao'
     Left = 456
-    Top = 279
+    Top = 277
     object cdsRegiaoCODDADOS: TIntegerField
       FieldName = 'CODDADOS'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4755,8 +4772,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     ProviderName = 'dsp_fornecedor'
-    Left = 109
-    Top = 446
+    Left = 101
+    Top = 430
     object cds_fornecedorCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4837,8 +4854,8 @@ object DMNF: TDMNF
   object dsp_fornecedor: TDataSetProvider
     DataSet = sds_fornecedor
     UpdateMode = upWhereKeyOnly
-    Left = 109
-    Top = 401
+    Left = 101
+    Top = 385
   end
   object sds_fornecedor: TSQLDataSet
     CommandText = 'select * from  FORNECEDOR where CODFORNECEDOR = :pFORN'
@@ -4850,8 +4867,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 109
-    Top = 358
+    Left = 101
+    Top = 342
     object sds_fornecedorCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4932,8 +4949,8 @@ object DMNF: TDMNF
   end
   object DtsrcEndFor: TDataSource
     DataSet = cds_endfor
-    Left = 37
-    Top = 486
+    Left = 21
+    Top = 470
   end
   object cds_endfor: TClientDataSet
     Aggregates = <>
@@ -4944,8 +4961,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     ProviderName = 'dsp_endfor'
-    Left = 38
-    Top = 446
+    Left = 22
+    Top = 430
     object cds_endforCODENDERECO: TIntegerField
       FieldName = 'CODENDERECO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5034,8 +5051,8 @@ object DMNF: TDMNF
   object dsp_endfor: TDataSetProvider
     DataSet = sds_endfor
     UpdateMode = upWhereKeyOnly
-    Left = 38
-    Top = 401
+    Left = 22
+    Top = 385
   end
   object sds_endfor: TSQLDataSet
     CommandText = 'select * from ENDERECOFORNECEDOR'#13#10'where CODFORNECEDOR =:codfor'
@@ -5047,8 +5064,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 38
-    Top = 358
+    Left = 22
+    Top = 342
     object sds_endforCODENDERECO: TIntegerField
       FieldName = 'CODENDERECO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5137,8 +5154,8 @@ object DMNF: TDMNF
   end
   object DtsrcFor: TDataSource
     DataSet = cds_fornecedor
-    Left = 108
-    Top = 489
+    Left = 100
+    Top = 473
   end
   object listaCliente: TSQLDataSet
     CommandText = 
@@ -5152,8 +5169,8 @@ object DMNF: TDMNF
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 688
-    Top = 480
+    Left = 584
+    Top = 392
     object listaClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -5247,8 +5264,8 @@ object DMNF: TDMNF
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 696
-    Top = 528
+    Left = 576
+    Top = 456
     object listaFornecedorCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
       Required = True
@@ -5306,8 +5323,8 @@ object DMNF: TDMNF
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 528
-    Top = 424
+    Left = 352
+    Top = 384
     object listaCFOPCFCOD: TStringField
       FieldName = 'CFCOD'
       Required = True
@@ -5327,7 +5344,7 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     Left = 255
-    Top = 399
+    Top = 375
     object StringField1: TStringField
       FieldName = 'NOTASERIE'
       ProviderFlags = [pfInUpdate]
@@ -5562,13 +5579,13 @@ object DMNF: TDMNF
   object ds: TDataSource
     DataSet = cdsNotaFiscal
     Left = 256
-    Top = 448
+    Top = 432
   end
   object dtSrcCompra: TDataSource
     DataSet = cdsCompra
     OnStateChange = dtSrcCompraStateChange
-    Left = 385
-    Top = 558
+    Left = 586
+    Top = 334
   end
   object sdsCompra: TSQLDataSet
     CommandText = 
@@ -5590,8 +5607,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 385
-    Top = 417
+    Left = 586
+    Top = 193
     object sdsCompraCODCOMPRA: TIntegerField
       FieldName = 'CODCOMPRA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5746,8 +5763,8 @@ object DMNF: TDMNF
   object dspCompra: TDataSetProvider
     DataSet = sdsCompra
     UpdateMode = upWhereKeyOnly
-    Left = 385
-    Top = 465
+    Left = 586
+    Top = 241
   end
   object cdsCompra: TClientDataSet
     Aggregates = <>
@@ -5763,8 +5780,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     ProviderName = 'dspCompra'
-    Left = 384
-    Top = 511
+    Left = 585
+    Top = 287
     object cdsCompraCODCOMPRA: TIntegerField
       FieldName = 'CODCOMPRA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5954,8 +5971,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 448
-    Top = 413
+    Left = 176
+    Top = 341
     object SQLDataSet1CODPAGAMENTO: TIntegerField
       FieldName = 'CODPAGAMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6083,8 +6100,8 @@ object DMNF: TDMNF
   object dsp_cp: TDataSetProvider
     DataSet = sds_cp
     UpdateMode = upWhereKeyOnly
-    Left = 447
-    Top = 462
+    Left = 175
+    Top = 390
   end
   object cds_cp: TClientDataSet
     Aggregates = <>
@@ -6096,8 +6113,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     ProviderName = 'dsp_cp'
-    Left = 448
-    Top = 509
+    Left = 176
+    Top = 437
     object scdsCr_procCODPAGAMENTO: TIntegerField
       FieldName = 'CODPAGAMENTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6299,8 +6316,8 @@ object DMNF: TDMNF
   end
   object ds_cp: TDataSource
     DataSet = cds_cp
-    Left = 448
-    Top = 556
+    Left = 176
+    Top = 484
   end
   object listaProduto: TSQLDataSet
     CommandText = 
@@ -6315,8 +6332,8 @@ object DMNF: TDMNF
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 752
-    Top = 481
+    Left = 648
+    Top = 441
     object listaProdutoCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
@@ -6396,8 +6413,8 @@ object DMNF: TDMNF
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 536
-    Top = 528
+    Left = 353
+    Top = 456
     object sdslistaTranspCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True
@@ -6486,27 +6503,27 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 656
-    Top = 344
+    Left = 486
+    Top = 390
   end
   object scds1: TSQLDataSet
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 560
-    Top = 352
+    Left = 416
+    Top = 392
   end
   object dspListaTransp: TDataSetProvider
     DataSet = sdslistaTransp
-    Left = 576
-    Top = 480
+    Left = 424
+    Top = 456
   end
   object listaTransp: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspListaTransp'
-    Left = 624
-    Top = 528
+    Left = 496
+    Top = 456
     object listaTranspCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True
@@ -6585,8 +6602,8 @@ object DMNF: TDMNF
     Filename = 'C:\home\sisAdmin\relatorio\nf_serv.rep'
     AsyncExecution = False
     Title = 'Untitled'
-    Left = 781
-    Top = 247
+    Left = 749
+    Top = 255
   end
   object sdsVeiculoCli: TSQLDataSet
     CommandText = 
@@ -6602,8 +6619,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 658
-    Top = 288
+    Left = 664
+    Top = 286
   end
   object cdslotes: TClientDataSet
     Aggregates = <>
@@ -6624,8 +6641,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     ProviderName = 'dsplotes'
-    Left = 704
-    Top = 248
+    Left = 512
+    Top = 281
     object cdslotesCODLOTE: TIntegerField
       FieldName = 'CODLOTE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6676,8 +6693,8 @@ object DMNF: TDMNF
   object dsplotes: TDataSetProvider
     DataSet = sdslote
     UpdateMode = upWhereKeyOnly
-    Left = 656
-    Top = 248
+    Left = 512
+    Top = 237
   end
   object sdslote: TSQLDataSet
     CommandText = 
@@ -6705,8 +6722,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 608
-    Top = 248
+    Left = 512
+    Top = 193
     object sdsloteCODLOTE: TIntegerField
       FieldName = 'CODLOTE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6754,8 +6771,8 @@ object DMNF: TDMNF
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 560
-    Top = 352
+    Left = 518
+    Top = 336
   end
   object sqlNumeroSerie: TSQLDataSet
     CommandText = 
@@ -6774,8 +6791,8 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 536
-    Top = 208
+    Left = 664
+    Top = 240
   end
   object scds_usuario_proc: TSQLClientDataSet
     CommandText = 'select * from USUARIO'
