@@ -587,7 +587,7 @@ begin
       strG := strG + '0, '; // Valor_prim_via
 
     //COLOCA O CAMPO COM 2 CASAS DECIMAIS
-    VlrParc := Trunc(VlrParc * 100) / 100;
+//    VlrParc := Trunc(VlrParc * 100) / 100;
 
     if (i = 1) then
     begin
