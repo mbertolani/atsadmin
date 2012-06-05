@@ -1,8 +1,8 @@
 inherited fEstado: TfEstado
-  Left = 611
-  Top = 127
+  Left = 237
+  Top = 19
   Width = 791
-  Height = 700
+  Height = 640
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
   Font.Height = -13
@@ -29,8 +29,8 @@ inherited fEstado: TfEstado
     Transparent = True
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 608
-    Width = 775
+    Top = 559
+    Width = 783
     Anchors = [akBottom]
     inherited btnIncluir: TBitBtn [0]
       Left = 267
@@ -60,7 +60,7 @@ inherited fEstado: TfEstado
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 775
+    Width = 783
     Height = 140
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -149,7 +149,7 @@ inherited fEstado: TfEstado
     object Label10: TLabel
       Left = 442
       Top = 44
-      Width = 28
+      Width = 29
       Height = 16
       Hint = 'Margem De Valor Agregado(ST)'
       Anchors = [akTop]
@@ -688,8 +688,8 @@ inherited fEstado: TfEstado
   object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 331
-    Width = 775
-    Height = 277
+    Width = 783
+    Height = 228
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -854,7 +854,7 @@ inherited fEstado: TfEstado
   object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 140
-    Width = 775
+    Width = 783
     Height = 191
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -866,7 +866,7 @@ inherited fEstado: TfEstado
     ParentFont = False
     TabOrder = 3
     DesignSize = (
-      775
+      783
       191)
     object DBEdit15: TDBEdit
       Left = 64
