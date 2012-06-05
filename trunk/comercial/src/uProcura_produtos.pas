@@ -211,6 +211,7 @@ type
     cds_procMARCA: TStringField;
     cds_procGRUPO: TStringField;
     cds_procSUBGRUPO: TStringField;
+    rgNCM: TCheckBox;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -632,6 +633,14 @@ begin
      varCondicaoA := varCondicaoA + ' and USA = ' + QuotedStr('N')
    else
      varCondicaoA := 'where USA = ' + QuotedStr('N') ;
+  end;
+
+  if (rgNCM.Checked = True) then
+  begin
+   if varCondicaoA <> '' then
+     varCondicaoA := varCondicaoA + ' and NCM is not null '
+   else
+     varCondicaoA := 'where NCM is not null ';
   end;
 
  if Edit1.Text <> '' then
