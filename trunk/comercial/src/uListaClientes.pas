@@ -318,6 +318,18 @@ begin
    else
      varCondicao := 'where UDF_COLLATEBR(cli.NOMECLIENTE) containing ' + '''' + fClienteFiltro.edNome.Text + '''';
 //********************************************************************************************
+ if (fClienteFiltro.edCNPJCPF.Text <> '') then
+   if varCondicao <> '' then
+     varCondicao := varCondicao + ' and UDF_DIGITS(cli.CNPJ) containing ' + '''' + fClienteFiltro.edCNPJCPF.Text +  ''''
+   else
+     varCondicao := 'where UDF_DIGITS(cli.CNPJ) = ' + '''' + fClienteFiltro.edCNPJCPF.Text + '''';
+//********************************************************************************************
+ if (fClienteFiltro.edIERG.Text <> '') then
+   if varCondicao <> '' then
+     varCondicao := varCondicao + ' and UDF_DIGITS(cli.INSCESTADUAL) containing ' + '''' + fClienteFiltro.edIERG.Text +  ''''
+   else
+     varCondicao := 'where UDF_DIGITS(cli.INSCESTADUAL) = ' + '''' + fClienteFiltro.edIERG.Text + '''';
+//********************************************************************************************
  if (fClienteFiltro.edRazao.Text <> '') then
    if varCondicao <> '' then
      varCondicao := varCondicao + ' and UDF_COLLATEBR(cli.RAZAOSOCIAL) containing ' + '''' + fClienteFiltro.edRazao.Text +  ''''
