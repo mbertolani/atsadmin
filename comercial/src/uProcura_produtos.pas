@@ -665,9 +665,11 @@ begin
      varCondicaoA := varCondicaoA + ' or COD_BARRA = ' + '''' + s + '00001' + '''';
    end;
 
- varCondicao1 := varSql1 + varCondicaoA + ' order by pro.PRODUTO ';
- varCond2 := varSql2 + varCondicaoA1 + ' order by pro.PRODUTO ';
- varCondicao := varSql + varCondicao + varCondicaoA + ' order by PRODUTO ';
+//***************************************************************************
+  //REMOVIDO o "order by PRODUTO" para ordenar pelo campo que o cliente quiser
+  varCondicao1 := varSql1 + varCondicaoA;
+  varCond2 := varSql2 + varCondicaoA1;
+  varCondicao := varSql + varCondicao;
 
 //***************************************************************************
  if cds_proc.Active then
@@ -680,18 +682,20 @@ begin
    and (varonde <> 'Lotes')) then
 // DBGrid1.SetFocus;
 
-{ if cds_proc1.Active then
-   cds_proc1.Close;
- cds_proc1.CommandText := varCondicao1;
- cds_proc1.Open;
- cds_proc1.CommandText := varSql1;
+ { if cds_proc1.Active then
+    cds_proc1.Close;
+  cds_proc1.CommandText := varCondicao1;
+  cds_proc1.Open;
+  cds_proc1.CommandText := varSql1;
  }
- if cds_proc2.Active then
-   cds_proc2.Close;
- cds_proc2.CommandText := varCond2;
- cds_proc2.Open;
- cds_proc2.CommandText := varSql2;
+  if cds_proc2.Active then
+    cds_proc2.Close;
+  cds_proc2.CommandText := varCond2;
+  cds_proc2.Open;
+  cds_proc2.CommandText := varSql2;
 
+  //Ordena por padrão o grid por PRODUTO
+  cds_proc.IndexFieldNames:= 'PRODUTO';
 end;
 
 procedure TfProcura_produtos.BitBtn2Click(Sender: TObject);
@@ -1581,14 +1585,14 @@ begin
       VCLReport_lista_produtos.FileName := str_relatorio + 'lista_produtos.rep';
       VCLReport_lista_produtos.Title    := VCLReport_lista_produtos.FileName;
       VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-      VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp;
+      VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp + ' order by ' + cds_proc.IndexFieldNames;
       VCLReport_lista_produtos.Execute;
     end;
     1 : begin
       VCLReport_lista_produtos.FileName := str_relatorio + 'produto_estoque.rep';
       VCLReport_lista_produtos.Title    := VCLReport_lista_produtos.FileName;
       VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-      VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp;
+      VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp + ' order by ' + cds_proc.IndexFieldNames;
       VCLReport_lista_produtos.Execute;
     end;
   end;
