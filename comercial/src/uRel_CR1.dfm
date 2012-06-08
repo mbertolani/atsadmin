@@ -949,6 +949,14 @@ object fRel_CR1: TfRel_CR1
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     Margin = 10
   end
+  object edCopias: TEdit
+    Left = 306
+    Top = 202
+    Width = 17
+    Height = 21
+    TabOrder = 11
+    Text = '2'
+  end
   object VCLReport1: TVCLReport
     AsyncExecution = False
     Title = 'Untitled'
