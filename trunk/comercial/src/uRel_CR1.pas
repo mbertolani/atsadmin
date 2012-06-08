@@ -96,6 +96,7 @@ type
     s_parametroVALOR: TFloatField;
     BitBtn7: TBitBtn;
     btn1: TBitBtn;
+    edCopias: TEdit;
     procedure SpeedButton1Click(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -785,21 +786,6 @@ procedure TfRel_CR1.btn1Click(Sender: TObject);
 begin
     try
       Marcatitulos;
-      sqlConsulta :=  TSqlQuery.Create(nil);
-      sqlConsulta.SQLConnection := dm.sqlsisAdimin;
-      v_SqlTexto := 'select SUM(VALOR_RESTO) TOTALDEVE from RECEBIMENTO where DP = 1';
-      sqlConsulta.SQL.Add(v_SqlTexto);
-      sqlConsulta.Open;
-      if (not sqlConsulta.IsEmpty) then // se não Aberta verifico o perfil de abertura
-        v_TotalDeve := FloatToStr(sqlConsulta.Fields[0].AsFloat)
-      else
-        v_TotalDeve := '0,00';
-
-      if (fcrproc.edCodCliente.Text = '') then
-      begin
-       MessageDlg('O campo Codigo do Cliente está vazio', mtWarning, [mbOK], 0);
-       exit;
-      end;
       if (fcrproc.meDta1.Text = '  /  /  ') then
       begin
        MessageDlg('O campo Emissão está vazio', mtWarning, [mbOK], 0);
@@ -815,8 +801,11 @@ begin
       VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
       VCLReport1.Report.Params.ParamByName('DATA1').Value := StrToDate(fcrproc.meDta1.Text);
       VCLReport1.Report.Params.ParamByName('DATA2').Value := StrToDate(fcrproc.meDta2.Text);
-      VCLReport1.Report.Params.ParamByName('CODCLI').Value := StrToInt(fcrproc.edCodCliente.Text);
-      VCLReport1.Report.Params.ParamByName('TOTAL').Value := StrToFloat(v_TotalDeve);
+      if (fcrproc.edCodCliente.Text <> '') then
+        VCLReport1.Report.Params.ParamByName('CODCLI').Value := StrToInt(fcrproc.edCodCliente.Text)
+      else
+        VCLReport1.Report.Params.ParamByName('CODCLI').Value := 9999999;
+      VCLReport1.Report.Params.ParamByName('NCOPIAS').Value := StrToInt(edCopias.Text);
       VCLReport1.Execute;
     finally
       sqlConsulta.Free;
