@@ -1,8 +1,8 @@
 object fClienteFiltro: TfClienteFiltro
   Left = 196
   Top = 93
-  Width = 589
-  Height = 355
+  Width = 580
+  Height = 412
   Caption = 'Filtro Cliente'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,9 +16,9 @@ object fClienteFiltro: TfClienteFiltro
   TextHeight = 13
   object GroupBox2: TGroupBox
     Left = 0
-    Top = 105
-    Width = 573
-    Height = 54
+    Top = 144
+    Width = 564
+    Height = 55
     Align = alTop
     Caption = 'VENDEDOR'
     Font.Charset = DEFAULT_CHARSET
@@ -27,7 +27,7 @@ object fClienteFiltro: TfClienteFiltro
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 0
+    TabOrder = 2
     object Label1: TLabel
       Left = 11
       Top = 12
@@ -55,7 +55,7 @@ object fClienteFiltro: TfClienteFiltro
     object nomeVen: TEdit
       Left = 60
       Top = 26
-      Width = 473
+      Width = 451
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -63,7 +63,7 @@ object fClienteFiltro: TfClienteFiltro
       TabOrder = 1
     end
     object BitBtn5: TBitBtn
-      Left = 534
+      Left = 518
       Top = 25
       Width = 37
       Height = 25
@@ -73,13 +73,13 @@ object fClienteFiltro: TfClienteFiltro
   end
   object Panel1: TPanel
     Left = 0
-    Top = 253
-    Width = 573
+    Top = 310
+    Width = 564
     Height = 64
     Align = alBottom
-    TabOrder = 1
+    TabOrder = 3
     object BitBtn3: TBitBtn
-      Left = 341
+      Left = 325
       Top = 6
       Width = 77
       Height = 55
@@ -149,7 +149,7 @@ object fClienteFiltro: TfClienteFiltro
       Layout = blGlyphTop
     end
     object BitBtn2: TBitBtn
-      Left = 419
+      Left = 403
       Top = 6
       Width = 77
       Height = 55
@@ -259,7 +259,7 @@ object fClienteFiltro: TfClienteFiltro
       Layout = blGlyphTop
     end
     object BitBtn13: TBitBtn
-      Left = 497
+      Left = 481
       Top = 6
       Width = 77
       Height = 55
@@ -372,10 +372,10 @@ object fClienteFiltro: TfClienteFiltro
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 573
+    Width = 564
     Height = 48
     Align = alTop
-    TabOrder = 2
+    TabOrder = 0
     object GroupBox7: TGroupBox
       Left = 11
       Top = 6
@@ -537,91 +537,11 @@ object fClienteFiltro: TfClienteFiltro
       end
     end
   end
-  object Panel3: TPanel
-    Left = 0
-    Top = 48
-    Width = 573
-    Height = 57
-    Align = alTop
-    TabOrder = 3
-    object GroupBox3: TGroupBox
-      Left = 1
-      Top = 1
-      Width = 571
-      Height = 55
-      Align = alBottom
-      Caption = 'CLIENTE'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 0
-      object Label3: TLabel
-        Left = 7
-        Top = 11
-        Width = 33
-        Height = 13
-        Caption = 'C'#243'digo'
-      end
-      object Label4: TLabel
-        Left = 63
-        Top = 11
-        Width = 31
-        Height = 13
-        Caption = 'Nome '
-      end
-      object Label11: TLabel
-        Left = 308
-        Top = 11
-        Width = 34
-        Height = 13
-        Caption = 'Raz'#227'o '
-      end
-      object edCodigo: TEdit
-        Left = 4
-        Top = 26
-        Width = 57
-        Height = 24
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        TabOrder = 0
-      end
-      object edNome: TEdit
-        Left = 60
-        Top = 26
-        Width = 242
-        Height = 24
-        Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 1
-      end
-      object edRazao: TEdit
-        Left = 305
-        Top = 26
-        Width = 267
-        Height = 24
-        Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clCream
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 2
-      end
-    end
-  end
   object GroupBox4: TGroupBox
     Left = 0
-    Top = 159
-    Width = 573
-    Height = 50
+    Top = 199
+    Width = 564
+    Height = 55
     Align = alTop
     Caption = 'CIDADE/UF/DDD'
     Font.Charset = DEFAULT_CHARSET
@@ -632,7 +552,7 @@ object fClienteFiltro: TfClienteFiltro
     ParentFont = False
     TabOrder = 4
     object Label5: TLabel
-      Left = 419
+      Left = 411
       Top = 21
       Width = 18
       Height = 16
@@ -645,7 +565,7 @@ object fClienteFiltro: TfClienteFiltro
       ParentFont = False
     end
     object Label7: TLabel
-      Left = 496
+      Left = 477
       Top = 20
       Width = 30
       Height = 16
@@ -676,7 +596,7 @@ object fClienteFiltro: TfClienteFiltro
       TabOrder = 1
     end
     object edtUF: TEdit
-      Left = 441
+      Left = 433
       Top = 18
       Width = 40
       Height = 24
@@ -687,7 +607,7 @@ object fClienteFiltro: TfClienteFiltro
       TabOrder = 2
     end
     object edtDDD: TEdit
-      Left = 529
+      Left = 510
       Top = 17
       Width = 41
       Height = 24
@@ -699,10 +619,10 @@ object fClienteFiltro: TfClienteFiltro
   end
   object GroupBox5: TGroupBox
     Left = 0
-    Top = 209
-    Width = 573
-    Height = 44
-    Align = alClient
+    Top = 255
+    Width = 564
+    Height = 55
+    Align = alBottom
     Caption = 'Data do Cadastro'
     TabOrder = 5
     object JvDatePickerEdit2: TJvDatePickerEdit
@@ -722,6 +642,122 @@ object fClienteFiltro: TfClienteFiltro
       AllowNoDate = True
       Checked = False
       TabOrder = 1
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 0
+    Top = 48
+    Width = 564
+    Height = 96
+    Align = alTop
+    Caption = 'CLIENTE'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    object Label3: TLabel
+      Left = 7
+      Top = 11
+      Width = 33
+      Height = 13
+      Caption = 'C'#243'digo'
+    end
+    object Label4: TLabel
+      Left = 63
+      Top = 11
+      Width = 31
+      Height = 13
+      Caption = 'Nome '
+    end
+    object Label11: TLabel
+      Left = 308
+      Top = 11
+      Width = 34
+      Height = 13
+      Caption = 'Raz'#227'o '
+    end
+    object Label6: TLabel
+      Left = 11
+      Top = 51
+      Width = 58
+      Height = 13
+      Caption = 'CNPJ / CPF'
+    end
+    object Label8: TLabel
+      Left = 299
+      Top = 51
+      Width = 37
+      Height = 13
+      Caption = 'IE / RG'
+    end
+    object edCodigo: TEdit
+      Left = 4
+      Top = 26
+      Width = 57
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Color = clCream
+      TabOrder = 0
+    end
+    object edNome: TEdit
+      Left = 60
+      Top = 26
+      Width = 242
+      Height = 24
+      Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Color = clCream
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+    end
+    object edRazao: TEdit
+      Left = 305
+      Top = 26
+      Width = 255
+      Height = 24
+      Hint = 'N'#227'o use acentos ou '#231' para fazer a busca.'
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Color = clCream
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+    end
+    object edCNPJCPF: TEdit
+      Left = 4
+      Top = 66
+      Width = 285
+      Height = 24
+      Hint = 'Use apenas N'#218'MEROS'
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Color = clCream
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 3
+      OnChange = edCNPJCPFChange
+      OnKeyPress = edCNPJCPFKeyPress
+    end
+    object edIERG: TEdit
+      Left = 295
+      Top = 66
+      Width = 265
+      Height = 24
+      Hint = 'Use apenas N'#218'MEROS'
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Color = clCream
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 4
+      OnChange = edIERGChange
+      OnKeyPress = edIERGKeyPress
     end
   end
 end
