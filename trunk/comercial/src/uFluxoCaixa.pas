@@ -57,10 +57,12 @@ type
     cdsDIA31: TFloatField;
     BitBtn1: TBitBtn;
     VCLReport1: TVCLReport;
+    BitBtn2: TBitBtn;
     procedure btnProcurarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -114,8 +116,8 @@ procedure TfFluxoCaixa.btnImprimirClick(Sender: TObject);
 begin
   VCLReport1.Filename := str_relatorio + 'fluxoEntradaSaidaSintetico.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', data1.Date);
-  VCLReport1.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', data2.Date);
+  VCLReport1.Report.Params.ParamByName('DTAINI').Value := data1.Date;
+  VCLReport1.Report.Params.ParamByName('DTAFIM').Value := data2.Date;
   VCLReport1.Execute;
   VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
 end;
@@ -124,8 +126,18 @@ procedure TfFluxoCaixa.BitBtn1Click(Sender: TObject);
 begin
   VCLReport1.Filename := str_relatorio + 'fluxoEntradaSaida.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', data1.Date);
-  VCLReport1.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', data2.Date);
+  VCLReport1.Report.Params.ParamByName('DTAINI').Value := data1.Date;
+  VCLReport1.Report.Params.ParamByName('DTAFIM').Value := data2.Date;
+  VCLReport1.Execute;
+  VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
+end;
+
+procedure TfFluxoCaixa.BitBtn2Click(Sender: TObject);
+begin
+  VCLReport1.Filename := str_relatorio + 'fluxo_caixa.rep';
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('DATA1').Value := data1.Date;
+  VCLReport1.Report.Params.ParamByName('DATA2').Value := data2.Date;
   VCLReport1.Execute;
   VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
 end;
