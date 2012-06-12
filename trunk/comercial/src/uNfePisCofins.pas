@@ -1285,32 +1285,32 @@ begin
               // Fiscal de Produtor (código 04) e NF-e (código 55)
               with RegistroC100New do
               begin
-                IND_OPER      := tpEntradaAquisicao; // 0 - Entrada  // 1 - Saída
+                IND_OPER      :=  tpSaidaPrestacao; // tpEntradaAquisicao, // 0 - Entrada
                 IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
                 COD_PART      := InttoStr(cdsNFVendaCODCLIENTE.asInteger);
                 COD_MOD       := '55';               //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
                 COD_SIT       := sdRegular;
-                SER           := '';                 //04	SER	Série do documento fiscal	C	003	-
-                NUM_DOC       := FormatFloat('NF000000',INotas);
-                CHV_NFE       := '';
-                DT_DOC        := DT_INI + INotas;
-                DT_E_S        := DT_INI + INotas;
-                VL_DOC        := 0;
-                IND_PGTO      := tpSemPagamento;
-                VL_DESC       := 0;
+                SER           := cdsNFVendaSERIE.AsString;                 //04	SER	Série do documento fiscal	C	003	-
+                NUM_DOC       := FormatFloat('NF000000', StrToInt(cdsNFVendaNOTASERIE.AsString));  //INotas
+                CHV_NFE       := cdsNFVendaNOMEXML.AsString;
+                DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
+                DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
+                VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
+                IND_PGTO      := tpPrazo;
+                VL_DESC       := cdsNFVendaVALOR_DESCONTO.AsFloat;
                 VL_ABAT_NT    := 0;
-                VL_MERC       := 0;
+                VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
                 IND_FRT       := tfSemCobrancaFrete;
-                VL_FRT        := 0;
-                VL_SEG        := 0;
+                VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
+                VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
                 VL_OUT_DA     := 0;
-                VL_BC_ICMS    := 0;
-                VL_ICMS       := 0;
-                VL_BC_ICMS_ST := 0;
-                VL_ICMS_ST    := 0;
-                VL_IPI        := 0;
-                VL_PIS        := 0;
-                VL_COFINS     := 0;
+                VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
+                VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
+                VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
+                VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
+                VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
+                VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
+                VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
                 VL_PIS_ST     := 0;
                 VL_COFINS_ST  := 0;
 
@@ -1648,7 +1648,7 @@ begin
 
   blocoO;
   bloco1;
-  blocoA;
+  // blocoA; DOCUMENTOS FISCAIS - SERVIÇOS (NÃO SUJEITOS AO ICMS)
   blocoC;
   blocoD;
   blocoF;
