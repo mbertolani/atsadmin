@@ -2397,7 +2397,7 @@ object fNfePisCofins: TfNfePisCofins
     Top = 208
   end
   object sdsMov: TSQLDataSet
-    CommandText = 'select codmovimento from MOVIMENTO'
+    CommandText = 'select MIN(codmovimento), MAX(codmovimento) from MOVIMENTO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -2865,13 +2865,13 @@ object fNfePisCofins: TfNfePisCofins
   end
   object sdsEmpS: TSQLDataSet
     CommandText = 
-      'SELECT C.RAZAOSOCIAL, C.CNPJ, C.INSCESTADUAL,   C.TIPOFIRMA,  EC' +
-      '.* FROM NOTAFISCAL NF, CLIENTES C, ENDERECOCLIENTE EC, VENDA V'#13#10 +
-      'WHERE NF.CODCLIENTE = C.CODCLIENTE'#13#10'      AND C.CODCLIENTE   = E' +
-      'C.CODCLIENTE'#13#10'      AND V.CODVENDA = NF.CODVENDA'#13#10'      AND NF.D' +
-      'TAEMISSAO BETWEEN :DTA1 AND :DTA2'#13#10'      AND C.CODCLIENTE > 0'#13#10' ' +
-      '     AND EC.TIPOEND = 0'#13#10'      AND V.CODMOVIMENTO BETWEEN  :CODM' +
-      'OV AND :CODMOVF'
+      'SELECT DISTINCT C.RAZAOSOCIAL, C.CNPJ, C.INSCESTADUAL,   C.TIPOF' +
+      'IRMA,  EC.* FROM NOTAFISCAL NF, CLIENTES C, ENDERECOCLIENTE EC, ' +
+      'VENDA V'#13#10'WHERE NF.CODCLIENTE = C.CODCLIENTE'#13#10'      AND C.CODCLIE' +
+      'NTE   = EC.CODCLIENTE'#13#10'      AND V.CODVENDA = NF.CODVENDA'#13#10'     ' +
+      ' AND NF.DTAEMISSAO BETWEEN :DTA1 AND :DTA2'#13#10'      AND C.CODCLIEN' +
+      'TE > 0'#13#10'      AND EC.TIPOEND = 0'#13#10'      AND V.CODMOVIMENTO BETWE' +
+      'EN  :CODMOV AND :CODMOVF'
     MaxBlobSize = -1
     Params = <
       item
@@ -3030,276 +3030,19 @@ object fNfePisCofins: TfNfePisCofins
         DataType = ftInteger
         Name = 'CODMOV'
         ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODMOVF'
+        ParamType = ptInput
       end>
     ProviderName = 'dspEmpS'
     Left = 336
     Top = 264
-    object cdsEmpSNOTASERIE: TStringField
-      FieldName = 'NOTASERIE'
-      Required = True
-      Size = 10
-    end
-    object cdsEmpSNUMNF: TIntegerField
-      FieldName = 'NUMNF'
-      Required = True
-    end
-    object cdsEmpSNATUREZA: TSmallintField
-      FieldName = 'NATUREZA'
-      Required = True
-    end
-    object cdsEmpSQUANTIDADE: TFloatField
-      FieldName = 'QUANTIDADE'
-    end
-    object cdsEmpSMARCA: TStringField
-      FieldName = 'MARCA'
-      Size = 10
-    end
-    object cdsEmpSPESOBRUTO: TBCDField
-      FieldName = 'PESOBRUTO'
-      Precision = 9
-      Size = 2
-    end
-    object cdsEmpSPESOLIQUIDO: TBCDField
-      FieldName = 'PESOLIQUIDO'
-      Precision = 9
-      Size = 2
-    end
-    object cdsEmpSESPECIE: TStringField
-      FieldName = 'ESPECIE'
-    end
-    object cdsEmpSDTAEMISSAO: TDateField
-      FieldName = 'DTAEMISSAO'
-    end
-    object cdsEmpSDTASAIDA: TDateField
-      FieldName = 'DTASAIDA'
-    end
-    object cdsEmpSUF: TStringField
-      FieldName = 'UF'
-      FixedChar = True
-      Size = 2
-    end
-    object cdsEmpSCODVENDA: TIntegerField
-      FieldName = 'CODVENDA'
-    end
-    object cdsEmpSCODTRANSP: TIntegerField
-      FieldName = 'CODTRANSP'
-    end
-    object cdsEmpSNUMERO: TStringField
-      FieldName = 'NUMERO'
-    end
-    object cdsEmpSNOTAFISCAL: TIntegerField
-      FieldName = 'NOTAFISCAL'
-    end
-    object cdsEmpSHORASAIDA: TTimeField
-      FieldName = 'HORASAIDA'
-    end
-    object cdsEmpSDATA_SISTEMA: TSQLTimeStampField
-      FieldName = 'DATA_SISTEMA'
-    end
-    object cdsEmpSBASE_ICMS: TFloatField
-      FieldName = 'BASE_ICMS'
-    end
-    object cdsEmpSVALOR_ICMS: TFloatField
-      FieldName = 'VALOR_ICMS'
-    end
-    object cdsEmpSBASE_ICMS_SUBST: TFloatField
-      FieldName = 'BASE_ICMS_SUBST'
-    end
-    object cdsEmpSVALOR_ICMS_SUBST: TFloatField
-      FieldName = 'VALOR_ICMS_SUBST'
-    end
-    object cdsEmpSVALOR_PRODUTO: TFloatField
-      FieldName = 'VALOR_PRODUTO'
-    end
-    object cdsEmpSVALOR_FRETE: TFloatField
-      FieldName = 'VALOR_FRETE'
-    end
-    object cdsEmpSVALOR_SEGURO: TFloatField
-      FieldName = 'VALOR_SEGURO'
-    end
-    object cdsEmpSOUTRAS_DESP: TFloatField
-      FieldName = 'OUTRAS_DESP'
-    end
-    object cdsEmpSVALOR_IPI: TFloatField
-      FieldName = 'VALOR_IPI'
-    end
-    object cdsEmpSVALOR_TOTAL_NOTA: TFloatField
-      FieldName = 'VALOR_TOTAL_NOTA'
-    end
-    object cdsEmpSCORPONF1: TStringField
-      FieldName = 'CORPONF1'
-      Size = 200
-    end
-    object cdsEmpSCORPONF2: TStringField
-      FieldName = 'CORPONF2'
-      Size = 200
-    end
-    object cdsEmpSCORPONF3: TStringField
-      FieldName = 'CORPONF3'
-      Size = 200
-    end
-    object cdsEmpSCORPONF4: TStringField
-      FieldName = 'CORPONF4'
-      Size = 200
-    end
-    object cdsEmpSCORPONF5: TStringField
-      FieldName = 'CORPONF5'
-      Size = 75
-    end
-    object cdsEmpSCORPONF6: TStringField
-      FieldName = 'CORPONF6'
-      Size = 75
-    end
-    object cdsEmpSCFOP: TStringField
-      FieldName = 'CFOP'
-      Size = 30
-    end
-    object cdsEmpSCODCLIENTE: TIntegerField
-      FieldName = 'CODCLIENTE'
-    end
-    object cdsEmpSFATURA: TStringField
-      FieldName = 'FATURA'
-      Size = 300
-    end
-    object cdsEmpSICMS: TFloatField
-      FieldName = 'ICMS'
-    end
-    object cdsEmpSREDUZICMS: TFloatField
-      FieldName = 'REDUZICMS'
-    end
-    object cdsEmpSNOMETRANSP: TStringField
-      FieldName = 'NOMETRANSP'
-      Size = 50
-    end
-    object cdsEmpSPLACATRANSP: TStringField
-      FieldName = 'PLACATRANSP'
-      Size = 8
-    end
-    object cdsEmpSCNPJ_CPF: TStringField
-      FieldName = 'CNPJ_CPF'
-    end
-    object cdsEmpSEND_TRANSP: TStringField
-      FieldName = 'END_TRANSP'
-      Size = 80
-    end
-    object cdsEmpSCIDADE_TRANSP: TStringField
-      FieldName = 'CIDADE_TRANSP'
-      Size = 50
-    end
-    object cdsEmpSUF_VEICULO_TRANSP: TStringField
-      FieldName = 'UF_VEICULO_TRANSP'
-      FixedChar = True
-      Size = 2
-    end
-    object cdsEmpSUF_TRANSP: TStringField
-      FieldName = 'UF_TRANSP'
-      FixedChar = True
-      Size = 2
-    end
-    object cdsEmpSFRETE: TStringField
-      FieldName = 'FRETE'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSINSCRICAOESTADUAL: TStringField
-      FieldName = 'INSCRICAOESTADUAL'
-    end
-    object cdsEmpSSTATUS: TStringField
-      FieldName = 'STATUS'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSVLRTOTALEXP: TFloatField
-      FieldName = 'VLRTOTALEXP'
-    end
-    object cdsEmpSIMPRESSA: TStringField
-      FieldName = 'IMPRESSA'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSSERIE: TStringField
-      FieldName = 'SERIE'
-    end
-    object cdsEmpSID_GUIA: TIntegerField
-      FieldName = 'ID_GUIA'
-    end
-    object cdsEmpSSELECIONOU: TStringField
-      FieldName = 'SELECIONOU'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSPROTOCOLOENV: TStringField
-      FieldName = 'PROTOCOLOENV'
-    end
-    object cdsEmpSNUMRECIBO: TStringField
-      FieldName = 'NUMRECIBO'
-    end
-    object cdsEmpSPROTOCOLOCANC: TStringField
-      FieldName = 'PROTOCOLOCANC'
-    end
-    object cdsEmpSPESOREMESSA: TBCDField
-      FieldName = 'PESOREMESSA'
-      Precision = 9
-      Size = 2
-    end
-    object cdsEmpSNOTAMAE: TIntegerField
-      FieldName = 'NOTAMAE'
-    end
-    object cdsEmpSVALOR_PIS: TFloatField
-      FieldName = 'VALOR_PIS'
-    end
-    object cdsEmpSVALOR_COFINS: TFloatField
-      FieldName = 'VALOR_COFINS'
-    end
-    object cdsEmpSVALOR_DESCONTO: TFloatField
-      FieldName = 'VALOR_DESCONTO'
-    end
-    object cdsEmpSCCUSTO: TIntegerField
-      FieldName = 'CCUSTO'
-    end
-    object cdsEmpSIDCOMPLEMENTAR: TStringField
-      FieldName = 'IDCOMPLEMENTAR'
-      Size = 44
-    end
-    object cdsEmpSXMLNFE: TGraphicField
-      FieldName = 'XMLNFE'
-      BlobType = ftGraphic
-    end
-    object cdsEmpSII: TFloatField
-      FieldName = 'II'
-    end
-    object cdsEmpSBCII: TFloatField
-      FieldName = 'BCII'
-    end
-    object cdsEmpSNOMEXML: TStringField
-      FieldName = 'NOMEXML'
-      Size = 60
-    end
-    object cdsEmpSCODCLIENTE_1: TIntegerField
-      FieldName = 'CODCLIENTE_1'
-      Required = True
-    end
-    object cdsEmpSNOMECLIENTE: TStringField
-      FieldName = 'NOMECLIENTE'
-      Required = True
-      Size = 50
-    end
     object cdsEmpSRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       Required = True
       Size = 50
-    end
-    object cdsEmpSCONTATO: TStringField
-      FieldName = 'CONTATO'
-      Size = 30
-    end
-    object cdsEmpSTIPOFIRMA: TSmallintField
-      FieldName = 'TIPOFIRMA'
-      Required = True
-    end
-    object cdsEmpSCPF: TStringField
-      FieldName = 'CPF'
-      Size = 14
     end
     object cdsEmpSCNPJ: TStringField
       FieldName = 'CNPJ'
@@ -3309,407 +3052,16 @@ object fNfePisCofins: TfNfePisCofins
       FieldName = 'INSCESTADUAL'
       Size = 24
     end
-    object cdsEmpSRG: TStringField
-      FieldName = 'RG'
-      Size = 14
-    end
-    object cdsEmpSSEGMENTO: TSmallintField
-      FieldName = 'SEGMENTO'
+    object cdsEmpSTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
       Required = True
-    end
-    object cdsEmpSREGIAO: TSmallintField
-      FieldName = 'REGIAO'
-      Required = True
-    end
-    object cdsEmpSLIMITECREDITO: TFloatField
-      FieldName = 'LIMITECREDITO'
-    end
-    object cdsEmpSDATACADASTRO: TDateField
-      FieldName = 'DATACADASTRO'
-      Required = True
-    end
-    object cdsEmpSCODUSUARIO: TIntegerField
-      FieldName = 'CODUSUARIO'
-      Required = True
-    end
-    object cdsEmpSSTATUS_1: TSmallintField
-      FieldName = 'STATUS_1'
-      Required = True
-    end
-    object cdsEmpSHOMEPAGE: TStringField
-      FieldName = 'HOMEPAGE'
-      Size = 40
-    end
-    object cdsEmpSPRAZORECEBIMENTO: TSmallintField
-      FieldName = 'PRAZORECEBIMENTO'
-    end
-    object cdsEmpSPRAZOENTREGA: TSmallintField
-      FieldName = 'PRAZOENTREGA'
-    end
-    object cdsEmpSCODBANCO: TSmallintField
-      FieldName = 'CODBANCO'
-    end
-    object cdsEmpSBASE_ICMS_1: TSmallintField
-      FieldName = 'BASE_ICMS_1'
-    end
-    object cdsEmpSDATANASC: TDateField
-      FieldName = 'DATANASC'
-    end
-    object cdsEmpSCONTA_CLIENTE: TStringField
-      FieldName = 'CONTA_CLIENTE'
-      Size = 15
-    end
-    object cdsEmpSOBS: TStringField
-      FieldName = 'OBS'
-      Size = 200
-    end
-    object cdsEmpSTEM_IE: TStringField
-      FieldName = 'TEM_IE'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSDATARESC: TDateField
-      FieldName = 'DATARESC'
-    end
-    object cdsEmpSNOMEMAE: TStringField
-      FieldName = 'NOMEMAE'
-      Size = 80
-    end
-    object cdsEmpSSEXO: TStringField
-      FieldName = 'SEXO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSFORMA_CORRESPOND: TStringField
-      FieldName = 'FORMA_CORRESPOND'
-      Size = 30
-    end
-    object cdsEmpSGRUPO_CLIENTE: TStringField
-      FieldName = 'GRUPO_CLIENTE'
-      Size = 30
-    end
-    object cdsEmpSCODINCLUCANC: TIntegerField
-      FieldName = 'CODINCLUCANC'
-    end
-    object cdsEmpSEXIST_COBERT: TStringField
-      FieldName = 'EXIST_COBERT'
-      Size = 6
-    end
-    object cdsEmpSEXISTCOPART: TStringField
-      FieldName = 'EXISTCOPART'
-      Size = 6
-    end
-    object cdsEmpSDATAREINC: TDateField
-      FieldName = 'DATAREINC'
-    end
-    object cdsEmpSGERAAVISO: TStringField
-      FieldName = 'GERAAVISO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSGERAENV: TStringField
-      FieldName = 'GERAENV'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSGERABOL: TStringField
-      FieldName = 'GERABOL'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSEMVIAGEM: TStringField
-      FieldName = 'EMVIAGEM'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSDTAALTERA: TDateField
-      FieldName = 'DTAALTERA'
-    end
-    object cdsEmpSSERIELETRA: TStringField
-      FieldName = 'SERIELETRA'
-      Size = 4
-    end
-    object cdsEmpSSERIE_1: TStringField
-      FieldName = 'SERIE_1'
-      Size = 4
-    end
-    object cdsEmpSRA: TStringField
-      FieldName = 'RA'
-      Size = 10
-    end
-    object cdsEmpSCURSO: TStringField
-      FieldName = 'CURSO'
-      Size = 50
-    end
-    object cdsEmpSIP: TStringField
-      FieldName = 'IP'
-      Size = 60
-    end
-    object cdsEmpSN_CONTRATO: TStringField
-      FieldName = 'N_CONTRATO'
-      Size = 60
-    end
-    object cdsEmpSMAC: TStringField
-      FieldName = 'MAC'
-      Size = 60
-    end
-    object cdsEmpSMARCA_1: TStringField
-      FieldName = 'MARCA_1'
-      Size = 60
-    end
-    object cdsEmpSBANDA_UPLOAD: TStringField
-      FieldName = 'BANDA_UPLOAD'
-      Size = 60
-    end
-    object cdsEmpSBANDA_DOWLOAD: TStringField
-      FieldName = 'BANDA_DOWLOAD'
-      Size = 60
-    end
-    object cdsEmpSTORRE_CONECCAO: TStringField
-      FieldName = 'TORRE_CONECCAO'
-      Size = 60
-    end
-    object cdsEmpSCOD_FAIXA: TIntegerField
-      FieldName = 'COD_FAIXA'
-    end
-    object cdsEmpSDESCONTO: TFloatField
-      FieldName = 'DESCONTO'
-    end
-    object cdsEmpSMENSALIDADE: TFloatField
-      FieldName = 'MENSALIDADE'
-    end
-    object cdsEmpSANUIDADE: TFloatField
-      FieldName = 'ANUIDADE'
-    end
-    object cdsEmpSPARCELA: TIntegerField
-      FieldName = 'PARCELA'
-    end
-    object cdsEmpSPARCELAGERADAS: TIntegerField
-      FieldName = 'PARCELAGERADAS'
-    end
-    object cdsEmpSNUMERO_1: TIntegerField
-      FieldName = 'NUMERO_1'
-    end
-    object cdsEmpSDATANASCIMENTO: TSQLTimeStampField
-      FieldName = 'DATANASCIMENTO'
-    end
-    object cdsEmpSANOLETIVO: TStringField
-      FieldName = 'ANOLETIVO'
-      Size = 4
-    end
-    object cdsEmpSSITUACAOESCOLAR: TStringField
-      FieldName = 'SITUACAOESCOLAR'
-      Size = 2
-    end
-    object cdsEmpSRGMAE: TStringField
-      FieldName = 'RGMAE'
-      Size = 15
-    end
-    object cdsEmpSCPFMAE: TStringField
-      FieldName = 'CPFMAE'
-      Size = 14
-    end
-    object cdsEmpSPAI: TStringField
-      FieldName = 'PAI'
-      Size = 30
-    end
-    object cdsEmpSRGPAI: TStringField
-      FieldName = 'RGPAI'
-      Size = 15
-    end
-    object cdsEmpSCPFPAI: TStringField
-      FieldName = 'CPFPAI'
-      Size = 14
-    end
-    object cdsEmpSLANCADOCLASSE: TIntegerField
-      FieldName = 'LANCADOCLASSE'
-    end
-    object cdsEmpSTRANSPORTE: TStringField
-      FieldName = 'TRANSPORTE'
-      Size = 50
-    end
-    object cdsEmpSCIDADENASC: TStringField
-      FieldName = 'CIDADENASC'
-      Size = 30
-    end
-    object cdsEmpSUFNASC: TStringField
-      FieldName = 'UFNASC'
-      Size = 2
-    end
-    object cdsEmpSNACIONALIDADE: TStringField
-      FieldName = 'NACIONALIDADE'
-      Size = 15
-    end
-    object cdsEmpSCERTIDAONASCNUM: TStringField
-      FieldName = 'CERTIDAONASCNUM'
-      Size = 10
-    end
-    object cdsEmpSLIVRONASC: TStringField
-      FieldName = 'LIVRONASC'
-      Size = 10
-    end
-    object cdsEmpSFLLIVRONASC: TStringField
-      FieldName = 'FLLIVRONASC'
-      Size = 5
-    end
-    object cdsEmpSLOCALTRABPAI: TStringField
-      FieldName = 'LOCALTRABPAI'
-      Size = 30
-    end
-    object cdsEmpSLOCALTRABMAE: TStringField
-      FieldName = 'LOCALTRABMAE'
-      Size = 30
-    end
-    object cdsEmpSTELTRABPAI: TStringField
-      FieldName = 'TELTRABPAI'
-      Size = 15
-    end
-    object cdsEmpSTELTRABMAE: TStringField
-      FieldName = 'TELTRABMAE'
-      Size = 15
-    end
-    object cdsEmpSINFONECESSARIAS: TStringField
-      FieldName = 'INFONECESSARIAS'
-      Size = 30
-    end
-    object cdsEmpSCARTEIRAVACINACAO: TStringField
-      FieldName = 'CARTEIRAVACINACAO'
-      Size = 10
-    end
-    object cdsEmpSRAPRODESP: TStringField
-      FieldName = 'RAPRODESP'
-      Size = 10
-    end
-    object cdsEmpSLOCALTRABALUNO: TStringField
-      FieldName = 'LOCALTRABALUNO'
-      Size = 30
-    end
-    object cdsEmpSTELTRABALUNO: TStringField
-      FieldName = 'TELTRABALUNO'
-      Size = 15
-    end
-    object cdsEmpSRAPROD: TStringField
-      FieldName = 'RAPROD'
-      Size = 15
-    end
-    object cdsEmpSCERT_NAS_COMARCA: TStringField
-      FieldName = 'CERT_NAS_COMARCA'
-      Size = 50
-    end
-    object cdsEmpSCERT_NAS_UF: TStringField
-      FieldName = 'CERT_NAS_UF'
-      Size = 2
-    end
-    object cdsEmpSCERT_NAS_MUNICIPIO: TStringField
-      FieldName = 'CERT_NAS_MUNICIPIO'
-      Size = 50
-    end
-    object cdsEmpSCERT_NAS_DISTRITO: TStringField
-      FieldName = 'CERT_NAS_DISTRITO'
-      Size = 50
-    end
-    object cdsEmpSCERT_NAS_SUBDISTRITO: TStringField
-      FieldName = 'CERT_NAS_SUBDISTRITO'
-      Size = 50
-    end
-    object cdsEmpSDIVERSO1: TStringField
-      FieldName = 'DIVERSO1'
-      Size = 50
-    end
-    object cdsEmpSDIVERSO2: TStringField
-      FieldName = 'DIVERSO2'
-      Size = 50
-    end
-    object cdsEmpSDATAEMISSAORG: TDateField
-      FieldName = 'DATAEMISSAORG'
-    end
-    object cdsEmpSESTADORG: TStringField
-      FieldName = 'ESTADORG'
-      FixedChar = True
-      Size = 2
-    end
-    object cdsEmpSCOMUNICAALUNO: TStringField
-      FieldName = 'COMUNICAALUNO'
-      Size = 50
-    end
-    object cdsEmpSFONEMAE: TStringField
-      FieldName = 'FONEMAE'
-      Size = 15
-    end
-    object cdsEmpSCELULARMAE: TStringField
-      FieldName = 'CELULARMAE'
-      Size = 15
-    end
-    object cdsEmpSCOMUNICAMAE: TStringField
-      FieldName = 'COMUNICAMAE'
-      Size = 50
-    end
-    object cdsEmpSFONEPAI: TStringField
-      FieldName = 'FONEPAI'
-      Size = 15
-    end
-    object cdsEmpSCELULARPAI: TStringField
-      FieldName = 'CELULARPAI'
-      Size = 15
-    end
-    object cdsEmpSCOMUNICAPAI: TStringField
-      FieldName = 'COMUNICAPAI'
-      Size = 50
-    end
-    object cdsEmpSVALOR_MATRICULA: TFloatField
-      FieldName = 'VALOR_MATRICULA'
-    end
-    object cdsEmpSDATATRANSF: TDateField
-      FieldName = 'DATATRANSF'
-    end
-    object cdsEmpSCOR_RACA: TStringField
-      FieldName = 'COR_RACA'
-      Size = 25
-    end
-    object cdsEmpSPERIODO: TStringField
-      FieldName = 'PERIODO'
-      Size = 15
-    end
-    object cdsEmpSFOTO: TStringField
-      FieldName = 'FOTO'
-      Size = 300
-    end
-    object cdsEmpSDATA_MATRICULA: TSQLTimeStampField
-      FieldName = 'DATA_MATRICULA'
-    end
-    object cdsEmpSCODRESPONSAVEL: TIntegerField
-      FieldName = 'CODRESPONSAVEL'
-    end
-    object cdsEmpSID_COB: TIntegerField
-      FieldName = 'ID_COB'
-    end
-    object cdsEmpSCOD_TRANPORTADORA: TIntegerField
-      FieldName = 'COD_TRANPORTADORA'
-    end
-    object cdsEmpSBLOQUEIO: TStringField
-      FieldName = 'BLOQUEIO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsEmpSCODCLI: TStringField
-      FieldName = 'CODCLI'
-      Size = 10
-    end
-    object cdsEmpSCFOP_1: TStringField
-      FieldName = 'CFOP_1'
-      FixedChar = True
-      Size = 4
-    end
-    object cdsEmpSCOD_CLI: TStringField
-      FieldName = 'COD_CLI'
-      Size = 10
     end
     object cdsEmpSCODENDERECO: TIntegerField
       FieldName = 'CODENDERECO'
       Required = True
     end
-    object cdsEmpSCODCLIENTE_2: TIntegerField
-      FieldName = 'CODCLIENTE_2'
+    object cdsEmpSCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
       Required = True
     end
     object cdsEmpSLOGRADOURO: TStringField
@@ -3728,8 +3080,8 @@ object fNfePisCofins: TfNfePisCofins
       FieldName = 'CIDADE'
       Size = 40
     end
-    object cdsEmpSUF_1: TStringField
-      FieldName = 'UF_1'
+    object cdsEmpSUF: TStringField
+      FieldName = 'UF'
       FixedChar = True
       Size = 2
     end
@@ -3785,8 +3137,8 @@ object fNfePisCofins: TfNfePisCofins
       FieldName = 'DDD3'
       Size = 3
     end
-    object cdsEmpSNUMERO_2: TStringField
-      FieldName = 'NUMERO_2'
+    object cdsEmpSNUMERO: TStringField
+      FieldName = 'NUMERO'
       Size = 5
     end
     object cdsEmpSCD_IBGE: TStringField
@@ -3796,6 +3148,272 @@ object fNfePisCofins: TfNfePisCofins
     object cdsEmpSPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+  end
+  object sdsEmpE: TSQLDataSet
+    CommandText = 
+      'SELECT  f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCESTADUAL, ' +
+      'f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_IBGE, ef' +
+      '.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, ef.PAIS'#13#10 +
+      '    FROM COMPRA C,  FORNECEDOR f, ENDERECOFORNECEDOR ef'#13#10'   WHER' +
+      'E f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND ef.CODFORNECEDOR =' +
+      ' f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      '#13#10'     AND C.DATA' +
+      'COMPRA BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     AND C.CODMOVIMENTO BE' +
+      'TWEEN :CODINI AND :CODFIM'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 272
+    Top = 296
+    object sdsEmpECODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object sdsEmpERAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object sdsEmpECNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object sdsEmpEINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object sdsEmpETIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object sdsEmpELOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object sdsEmpEBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object sdsEmpECIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object sdsEmpECD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object sdsEmpECEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object sdsEmpECOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object sdsEmpEDDD: TSmallintField
+      FieldName = 'DDD'
+    end
+    object sdsEmpETELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
+    object sdsEmpENUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object sdsEmpEPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+  end
+  object dspEmpE: TDataSetProvider
+    DataSet = sdsEmpE
+    Left = 304
+    Top = 296
+  end
+  object cdsEmpE: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspEmpE'
+    Left = 336
+    Top = 296
+    object cdsEmpECODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object cdsEmpERAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object cdsEmpECNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object cdsEmpEINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object cdsEmpETIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object cdsEmpELOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object cdsEmpEBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object cdsEmpECIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object cdsEmpECD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object cdsEmpECEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object cdsEmpECOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object cdsEmpEDDD: TSmallintField
+      FieldName = 'DDD'
+    end
+    object cdsEmpETELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
+    object cdsEmpENUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object cdsEmpEPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+  end
+  object sdsProduto: TSQLDataSet
+    CommandText = 
+      'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, PRO.NCM, PRO.PRODUTO' +
+      #13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO'#13#10'WHE' +
+      'RE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO' +
+      '     = DET.CODPRODUTO'#13#10'      AND ((MOV.CODNATUREZA = 15) OR (MOV' +
+      '.CODNATUREZA = 4))'#13#10'      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND' +
+      ' :PMOVF'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PMOV'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PMOVF'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 272
+    Top = 328
+    object sdsProdutoCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object sdsProdutoCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object sdsProdutoNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object sdsProdutoPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+  end
+  object dspProduto: TDataSetProvider
+    DataSet = sdsProduto
+    Left = 304
+    Top = 328
+  end
+  object cdsProduto: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PMOV'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PMOVF'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspProduto'
+    Left = 337
+    Top = 328
+    object cdsProdutoCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object cdsProdutoCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object cdsProdutoNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object cdsProdutoPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
     end
   end
 end
