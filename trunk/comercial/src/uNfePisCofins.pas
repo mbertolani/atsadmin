@@ -713,191 +713,50 @@ type
     sdsEmpSNUMERO: TStringField;
     sdsEmpSCD_IBGE: TStringField;
     sdsEmpSPAIS: TStringField;
-    cdsEmpSNOTASERIE: TStringField;
-    cdsEmpSNUMNF: TIntegerField;
-    cdsEmpSNATUREZA: TSmallintField;
-    cdsEmpSQUANTIDADE: TFloatField;
-    cdsEmpSMARCA: TStringField;
-    cdsEmpSPESOBRUTO: TBCDField;
-    cdsEmpSPESOLIQUIDO: TBCDField;
-    cdsEmpSESPECIE: TStringField;
-    cdsEmpSDTAEMISSAO: TDateField;
-    cdsEmpSDTASAIDA: TDateField;
-    cdsEmpSUF: TStringField;
-    cdsEmpSCODVENDA: TIntegerField;
-    cdsEmpSCODTRANSP: TIntegerField;
-    cdsEmpSNUMERO: TStringField;
-    cdsEmpSNOTAFISCAL: TIntegerField;
-    cdsEmpSHORASAIDA: TTimeField;
-    cdsEmpSDATA_SISTEMA: TSQLTimeStampField;
-    cdsEmpSBASE_ICMS: TFloatField;
-    cdsEmpSVALOR_ICMS: TFloatField;
-    cdsEmpSBASE_ICMS_SUBST: TFloatField;
-    cdsEmpSVALOR_ICMS_SUBST: TFloatField;
-    cdsEmpSVALOR_PRODUTO: TFloatField;
-    cdsEmpSVALOR_FRETE: TFloatField;
-    cdsEmpSVALOR_SEGURO: TFloatField;
-    cdsEmpSOUTRAS_DESP: TFloatField;
-    cdsEmpSVALOR_IPI: TFloatField;
-    cdsEmpSVALOR_TOTAL_NOTA: TFloatField;
-    cdsEmpSCORPONF1: TStringField;
-    cdsEmpSCORPONF2: TStringField;
-    cdsEmpSCORPONF3: TStringField;
-    cdsEmpSCORPONF4: TStringField;
-    cdsEmpSCORPONF5: TStringField;
-    cdsEmpSCORPONF6: TStringField;
-    cdsEmpSCFOP: TStringField;
-    cdsEmpSCODCLIENTE: TIntegerField;
-    cdsEmpSFATURA: TStringField;
-    cdsEmpSICMS: TFloatField;
-    cdsEmpSREDUZICMS: TFloatField;
-    cdsEmpSNOMETRANSP: TStringField;
-    cdsEmpSPLACATRANSP: TStringField;
-    cdsEmpSCNPJ_CPF: TStringField;
-    cdsEmpSEND_TRANSP: TStringField;
-    cdsEmpSCIDADE_TRANSP: TStringField;
-    cdsEmpSUF_VEICULO_TRANSP: TStringField;
-    cdsEmpSUF_TRANSP: TStringField;
-    cdsEmpSFRETE: TStringField;
-    cdsEmpSINSCRICAOESTADUAL: TStringField;
-    cdsEmpSSTATUS: TStringField;
-    cdsEmpSVLRTOTALEXP: TFloatField;
-    cdsEmpSIMPRESSA: TStringField;
-    cdsEmpSSERIE: TStringField;
-    cdsEmpSID_GUIA: TIntegerField;
-    cdsEmpSSELECIONOU: TStringField;
-    cdsEmpSPROTOCOLOENV: TStringField;
-    cdsEmpSNUMRECIBO: TStringField;
-    cdsEmpSPROTOCOLOCANC: TStringField;
-    cdsEmpSPESOREMESSA: TBCDField;
-    cdsEmpSNOTAMAE: TIntegerField;
-    cdsEmpSVALOR_PIS: TFloatField;
-    cdsEmpSVALOR_COFINS: TFloatField;
-    cdsEmpSVALOR_DESCONTO: TFloatField;
-    cdsEmpSCCUSTO: TIntegerField;
-    cdsEmpSIDCOMPLEMENTAR: TStringField;
-    cdsEmpSXMLNFE: TGraphicField;
-    cdsEmpSII: TFloatField;
-    cdsEmpSBCII: TFloatField;
-    cdsEmpSNOMEXML: TStringField;
-    cdsEmpSCODCLIENTE_1: TIntegerField;
-    cdsEmpSNOMECLIENTE: TStringField;
+    sdsEmpE: TSQLDataSet;
+    dspEmpE: TDataSetProvider;
+    cdsEmpE: TClientDataSet;
+    sdsEmpECODFORNECEDOR: TIntegerField;
+    sdsEmpERAZAOSOCIAL: TStringField;
+    sdsEmpECNPJ: TStringField;
+    sdsEmpEINSCESTADUAL: TStringField;
+    sdsEmpETIPOFIRMA: TSmallintField;
+    sdsEmpELOGRADOURO: TStringField;
+    sdsEmpEBAIRRO: TStringField;
+    sdsEmpECIDADE: TStringField;
+    sdsEmpECD_IBGE: TStringField;
+    sdsEmpECEP: TStringField;
+    sdsEmpECOMPLEMENTO: TStringField;
+    sdsEmpEDDD: TSmallintField;
+    sdsEmpETELEFONE: TStringField;
+    sdsEmpENUMERO: TStringField;
+    sdsEmpEPAIS: TStringField;
+    cdsEmpECODFORNECEDOR: TIntegerField;
+    cdsEmpERAZAOSOCIAL: TStringField;
+    cdsEmpECNPJ: TStringField;
+    cdsEmpEINSCESTADUAL: TStringField;
+    cdsEmpETIPOFIRMA: TSmallintField;
+    cdsEmpELOGRADOURO: TStringField;
+    cdsEmpEBAIRRO: TStringField;
+    cdsEmpECIDADE: TStringField;
+    cdsEmpECD_IBGE: TStringField;
+    cdsEmpECEP: TStringField;
+    cdsEmpECOMPLEMENTO: TStringField;
+    cdsEmpEDDD: TSmallintField;
+    cdsEmpETELEFONE: TStringField;
+    cdsEmpENUMERO: TStringField;
+    cdsEmpEPAIS: TStringField;
     cdsEmpSRAZAOSOCIAL: TStringField;
-    cdsEmpSCONTATO: TStringField;
-    cdsEmpSTIPOFIRMA: TSmallintField;
-    cdsEmpSCPF: TStringField;
     cdsEmpSCNPJ: TStringField;
     cdsEmpSINSCESTADUAL: TStringField;
-    cdsEmpSRG: TStringField;
-    cdsEmpSSEGMENTO: TSmallintField;
-    cdsEmpSREGIAO: TSmallintField;
-    cdsEmpSLIMITECREDITO: TFloatField;
-    cdsEmpSDATACADASTRO: TDateField;
-    cdsEmpSCODUSUARIO: TIntegerField;
-    cdsEmpSSTATUS_1: TSmallintField;
-    cdsEmpSHOMEPAGE: TStringField;
-    cdsEmpSPRAZORECEBIMENTO: TSmallintField;
-    cdsEmpSPRAZOENTREGA: TSmallintField;
-    cdsEmpSCODBANCO: TSmallintField;
-    cdsEmpSBASE_ICMS_1: TSmallintField;
-    cdsEmpSDATANASC: TDateField;
-    cdsEmpSCONTA_CLIENTE: TStringField;
-    cdsEmpSOBS: TStringField;
-    cdsEmpSTEM_IE: TStringField;
-    cdsEmpSDATARESC: TDateField;
-    cdsEmpSNOMEMAE: TStringField;
-    cdsEmpSSEXO: TStringField;
-    cdsEmpSFORMA_CORRESPOND: TStringField;
-    cdsEmpSGRUPO_CLIENTE: TStringField;
-    cdsEmpSCODINCLUCANC: TIntegerField;
-    cdsEmpSEXIST_COBERT: TStringField;
-    cdsEmpSEXISTCOPART: TStringField;
-    cdsEmpSDATAREINC: TDateField;
-    cdsEmpSGERAAVISO: TStringField;
-    cdsEmpSGERAENV: TStringField;
-    cdsEmpSGERABOL: TStringField;
-    cdsEmpSEMVIAGEM: TStringField;
-    cdsEmpSDTAALTERA: TDateField;
-    cdsEmpSSERIELETRA: TStringField;
-    cdsEmpSSERIE_1: TStringField;
-    cdsEmpSRA: TStringField;
-    cdsEmpSCURSO: TStringField;
-    cdsEmpSIP: TStringField;
-    cdsEmpSN_CONTRATO: TStringField;
-    cdsEmpSMAC: TStringField;
-    cdsEmpSMARCA_1: TStringField;
-    cdsEmpSBANDA_UPLOAD: TStringField;
-    cdsEmpSBANDA_DOWLOAD: TStringField;
-    cdsEmpSTORRE_CONECCAO: TStringField;
-    cdsEmpSCOD_FAIXA: TIntegerField;
-    cdsEmpSDESCONTO: TFloatField;
-    cdsEmpSMENSALIDADE: TFloatField;
-    cdsEmpSANUIDADE: TFloatField;
-    cdsEmpSPARCELA: TIntegerField;
-    cdsEmpSPARCELAGERADAS: TIntegerField;
-    cdsEmpSNUMERO_1: TIntegerField;
-    cdsEmpSDATANASCIMENTO: TSQLTimeStampField;
-    cdsEmpSANOLETIVO: TStringField;
-    cdsEmpSSITUACAOESCOLAR: TStringField;
-    cdsEmpSRGMAE: TStringField;
-    cdsEmpSCPFMAE: TStringField;
-    cdsEmpSPAI: TStringField;
-    cdsEmpSRGPAI: TStringField;
-    cdsEmpSCPFPAI: TStringField;
-    cdsEmpSLANCADOCLASSE: TIntegerField;
-    cdsEmpSTRANSPORTE: TStringField;
-    cdsEmpSCIDADENASC: TStringField;
-    cdsEmpSUFNASC: TStringField;
-    cdsEmpSNACIONALIDADE: TStringField;
-    cdsEmpSCERTIDAONASCNUM: TStringField;
-    cdsEmpSLIVRONASC: TStringField;
-    cdsEmpSFLLIVRONASC: TStringField;
-    cdsEmpSLOCALTRABPAI: TStringField;
-    cdsEmpSLOCALTRABMAE: TStringField;
-    cdsEmpSTELTRABPAI: TStringField;
-    cdsEmpSTELTRABMAE: TStringField;
-    cdsEmpSINFONECESSARIAS: TStringField;
-    cdsEmpSCARTEIRAVACINACAO: TStringField;
-    cdsEmpSRAPRODESP: TStringField;
-    cdsEmpSLOCALTRABALUNO: TStringField;
-    cdsEmpSTELTRABALUNO: TStringField;
-    cdsEmpSRAPROD: TStringField;
-    cdsEmpSCERT_NAS_COMARCA: TStringField;
-    cdsEmpSCERT_NAS_UF: TStringField;
-    cdsEmpSCERT_NAS_MUNICIPIO: TStringField;
-    cdsEmpSCERT_NAS_DISTRITO: TStringField;
-    cdsEmpSCERT_NAS_SUBDISTRITO: TStringField;
-    cdsEmpSDIVERSO1: TStringField;
-    cdsEmpSDIVERSO2: TStringField;
-    cdsEmpSDATAEMISSAORG: TDateField;
-    cdsEmpSESTADORG: TStringField;
-    cdsEmpSCOMUNICAALUNO: TStringField;
-    cdsEmpSFONEMAE: TStringField;
-    cdsEmpSCELULARMAE: TStringField;
-    cdsEmpSCOMUNICAMAE: TStringField;
-    cdsEmpSFONEPAI: TStringField;
-    cdsEmpSCELULARPAI: TStringField;
-    cdsEmpSCOMUNICAPAI: TStringField;
-    cdsEmpSVALOR_MATRICULA: TFloatField;
-    cdsEmpSDATATRANSF: TDateField;
-    cdsEmpSCOR_RACA: TStringField;
-    cdsEmpSPERIODO: TStringField;
-    cdsEmpSFOTO: TStringField;
-    cdsEmpSDATA_MATRICULA: TSQLTimeStampField;
-    cdsEmpSCODRESPONSAVEL: TIntegerField;
-    cdsEmpSID_COB: TIntegerField;
-    cdsEmpSCOD_TRANPORTADORA: TIntegerField;
-    cdsEmpSBLOQUEIO: TStringField;
-    cdsEmpSCODCLI: TStringField;
-    cdsEmpSCFOP_1: TStringField;
-    cdsEmpSCOD_CLI: TStringField;
+    cdsEmpSTIPOFIRMA: TSmallintField;
     cdsEmpSCODENDERECO: TIntegerField;
-    cdsEmpSCODCLIENTE_2: TIntegerField;
+    cdsEmpSCODCLIENTE: TIntegerField;
     cdsEmpSLOGRADOURO: TStringField;
     cdsEmpSBAIRRO: TStringField;
     cdsEmpSCOMPLEMENTO: TStringField;
     cdsEmpSCIDADE: TStringField;
-    cdsEmpSUF_1: TStringField;
+    cdsEmpSUF: TStringField;
     cdsEmpSCEP: TStringField;
     cdsEmpSTELEFONE: TStringField;
     cdsEmpSTELEFONE1: TStringField;
@@ -911,9 +770,20 @@ type
     cdsEmpSDDD1: TStringField;
     cdsEmpSDDD2: TStringField;
     cdsEmpSDDD3: TStringField;
-    cdsEmpSNUMERO_2: TStringField;
+    cdsEmpSNUMERO: TStringField;
     cdsEmpSCD_IBGE: TStringField;
     cdsEmpSPAIS: TStringField;
+    sdsProduto: TSQLDataSet;
+    dspProduto: TDataSetProvider;
+    cdsProduto: TClientDataSet;
+    sdsProdutoCODPRODUTO: TIntegerField;
+    sdsProdutoCODPRO: TStringField;
+    sdsProdutoNCM: TStringField;
+    sdsProdutoPRODUTO: TStringField;
+    cdsProdutoCODPRODUTO: TIntegerField;
+    cdsProdutoCODPRO: TStringField;
+    cdsProdutoNCM: TStringField;
+    cdsProdutoPRODUTO: TStringField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -938,6 +808,7 @@ type
     procedure abrirTabelas;
     { Private declarations }
   public
+    codMovMin, codMovMax: Integer;
     { Public declarations }
   end;
 
@@ -1182,56 +1053,61 @@ begin
          end;
 
            int0150 := 1;
-           While (not cdsMov.Eof) do
+
+           if (cdsEmpS.Active) then
+              cdsEmpS.Close;
+           cdsEmpS.Params[0].AsDateTime := data_ini.Date;
+           cdsEmpS.Params[1].AsDateTime := data_fim.Date;
+           cdsEmpS.Params[2].AsInteger := codMovMin;
+           cdsEmpS.Params[3].AsInteger := codMovMax;
+           cdsEmpS.Open;
+
+           if (cdsEmpE.Active) then
+             cdsEmpE.Close;
+           cdsEmpE.Params[0].AsDateTime := data_ini.Date;
+           cdsEmpE.Params[1].AsDateTime := data_fim.Date;
+           cdsEmpE.Params[2].AsInteger := codMovMin;
+           cdsEmpE.Params[3].AsInteger := codMovMax;
+           cdsEmpE.Open;
+
+           if (not cdsEmpE.IsEmpty) then
            begin
-
-             if (cdsEmpS.Active) then
-                cdsEmpS.Close;
-             cdsEmpS.Params[0].AsDateTime := data_ini.Date;
-             cdsEmpS.Params[1].AsDateTime := data_fim.Date;
-             cdsEmpS.Params[2].AsInteger := cdsMov.Fields[0].AsInteger;
-             cdsEmpS.Params[3].AsInteger := cdsMov.Fields[1].AsInteger;
-             cdsEmpS.Open;
-
-             if (cdsCompra.Active) then
-               cdsCompra.Close;
-             cdsCompra.Params[0].AsDateTime := data_ini.Date;
-             cdsCompra.Params[1].AsDateTime := data_fim.Date;
-             cdsCompra.Params[2].AsInteger := cdsMov.Fields[0].AsInteger;
-             cdsCompra.Open;
-
-             if (not cdsCompra.IsEmpty) then
+             while not cdsEmpE.Eof do
              begin
                // 10 Clientes por estabelecimento
                //0150 - Tabela de Cadastro do Participante
                with Registro0150New do
                begin
-                 int0150 := cdsCompraCODFORNECEDOR.AsInteger;
+                 int0150 := cdsEmpECODFORNECEDOR.AsInteger;
                  COD_PART := IntToStr(int0150);
-                 NOME     := cdsCompraRAZAOSOCIAL.AsString + IntToStr(int0150);
-                 COD_PAIS := cdsCompraPAIS.AsString;
-                 if (cdsCompraTIPOFIRMA.AsInteger = 0) then
+                 NOME     := cdsEmpERAZAOSOCIAL.AsString + IntToStr(int0150);
+                 COD_PAIS := cdsEmpEPAIS.AsString;
+                 if (cdsEmpETIPOFIRMA.AsInteger = 0) then
                  begin
-                   CNPJ     := util.RemoveChar(cdsCompraCNPJ.AsString);
+                   CNPJ     := util.RemoveChar(cdsEmpECNPJ.AsString);
                    CPF      := '';
                  end
                  else begin
-                   CPF      := util.RemoveChar(cdsCompraCNPJ.AsString);
+                   CPF      := util.RemoveChar(cdsEmpECNPJ.AsString);
                    CNPJ     := '';
                  end;
 
-                 IE       := util.RemoveChar(cdsCompraINSCESTADUAL.AsString);
-                 COD_MUN  := StrToInt(validaCodMunicipio(cdsCompraCD_IBGE.AsString, cdsCompraRAZAOSOCIAL.AsString));
+                 IE       := util.RemoveChar(cdsEmpEINSCESTADUAL.AsString);
+                 COD_MUN  := StrToInt(validaCodMunicipio(cdsEmpECD_IBGE.AsString, cdsEmpERAZAOSOCIAL.AsString));
                  SUFRAMA  := '';
-                 ENDERECO := cdsCompraLOGRADOURO.AsString + IntToStr(int0150);
-                 NUM      := cdsCompraNUMERO.AsString;
-                 COMPL    := cdsCompraCOMPLEMENTO.AsString + IntToStr(int0150);
-                 BAIRRO   := cdsCompraBAIRRO.AsString;
+                 ENDERECO := cdsEmpELOGRADOURO.AsString + IntToStr(int0150);
+                 NUM      := cdsEmpENUMERO.AsString;
+                 COMPL    := cdsEmpECOMPLEMENTO.AsString + IntToStr(int0150);
+                 BAIRRO   := cdsEmpEBAIRRO.AsString;
                  //
+                 cdsEmpE.Next;
                end;
              end;
+           end;
 
-             if (not cdsEmpS.IsEmpty) then
+           if (not cdsEmpS.IsEmpty) then
+           begin
+             while not cdsEmpS.Eof do
              begin
                // 10 Clientes por estabelecimento
                //0150 - Tabela de Cadastro do Participante
@@ -1243,11 +1119,11 @@ begin
                  COD_PAIS := cdsEmpSPAIS.AsString;
                  if (cdsEmpSTIPOFIRMA.AsInteger = 0) then
                  begin
-                   CNPJ     := util.RemoveChar(cdsEmpSCNPJ_CPF.AsString);
+                   CNPJ     := util.RemoveChar(cdsEmpSCNPJ.AsString);
                    CPF      := '';
                  end
                  else begin
-                   CPF      := util.RemoveChar(cdsEmpSCNPJ_CPF.AsString);
+                   CPF      := util.RemoveChar(cdsEmpSCNPJ.AsString);
                    CNPJ     := '';
                  end;
 
@@ -1255,13 +1131,13 @@ begin
                  COD_MUN  := StrToInt(validaCodMunicipio(cdsEmpSCD_IBGE.AsString, cdsEmpSRAZAOSOCIAL.AsString));
                  SUFRAMA  := '';
                  ENDERECO := cdsEmpSLOGRADOURO.AsString + IntToStr(int0150);
-                 NUM      := cdsEmpSNUMERO_2.AsString;
+                 NUM      := cdsEmpSNUMERO.AsString;
                  COMPL    := cdsEmpSCOMPLEMENTO.AsString + IntToStr(int0150);
                  BAIRRO   := cdsEmpSBAIRRO.AsString;
                  //
+                 cdsEmpS.Next;
                end;
              end;
-             cdsMov.Next;
            end;
 
            if (sdsUnimed.Active) then
@@ -1282,38 +1158,33 @@ begin
 
 
            // ITENS  ############################################################
-           cdsMov.First;
-           While (not cdsMov.Eof) do
+           if (cdsProduto.Active) then
+             cdsProduto.Close;
+
+           cdsProduto.Params[0].AsInteger := codMovMin;
+           cdsProduto.Params[1].AsInteger := codMovMax;
+           cdsProduto.Open;
+           While (not cdsProduto.Eof) do
            begin
-             if (cdsItens.Active) then
-               cdsItens.Close;
-
-             cdsItens.Params[0].AsInteger := cdsMov.Fields[0].AsInteger;
-             cdsItens.Open;
-
              //10 produtos/serviços
              int0200 := 1;
-             While (not cdsItens.Eof) do
+             // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
+             with Registro0200New do
              begin
-               // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
-               with Registro0200New do
-               begin
-                 int0200      := cdsItensCODPRODUTO.AsInteger;
-                 COD_ITEM     := FORMATFLOAT(Format('%6.6d',[int0200]), int0200);
-                 DESCR_ITEM   := cdsItensDESCPRODUTO.AsString;
-                 COD_BARRA    := '';
-                 COD_ANT_ITEM := '';
-                 UNID_INV     := '';
-                 TIPO_ITEM    := tiMercadoriaRevenda;
-                 COD_NCM      := cdsItensNCM.AsString;
-                 EX_IPI       := '';
-                 COD_GEN      := '';
-                 COD_LST      := '';
-                 ALIQ_ICMS    := 0;
-               end;
-               cdsItens.Next;
+               COD_ITEM     := FORMATFLOAT(Format('%6.6d',[cdsProdutoCODPRODUTO.AsInteger]), int0200);
+               DESCR_ITEM   := cdsProdutoPRODUTO.AsString;
+               COD_BARRA    := '';
+               COD_ANT_ITEM := '';
+               UNID_INV     := '';
+               TIPO_ITEM    := tiMercadoriaRevenda;
+               COD_NCM      := cdsProdutoNCM.AsString;
+               EX_IPI       := '';
+               COD_GEN      := '';
+               COD_LST      := '';
+               ALIQ_ICMS    := 0;
              end;
-             cdsMov.Next;
+             int0200 := int0200 + 1;
+             cdsProduto.Next;
            end;
 
          // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS
@@ -1825,7 +1696,6 @@ begin
 end;
 
 procedure TfNfePisCofins.abrirTabelas;
-var codMovMin, codMovMax: Integer;
 begin
   if (cdsMov.Active) then
     cdsMov.Close;
