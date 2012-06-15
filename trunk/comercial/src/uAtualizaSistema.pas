@@ -1582,6 +1582,7 @@ begin
       executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'PEDIDO', 'varchar(20)');
       executaDDL('MOVIMENTODETALHE', 'NITEMPED', 'integer');
+      executaDDL('NOTAFISCAL', 'INDPAG', 'integer');
       mudaVersao('1.0.0.107');
     end;
 
