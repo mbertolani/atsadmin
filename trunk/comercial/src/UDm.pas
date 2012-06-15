@@ -2037,6 +2037,7 @@ type
     procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
     pc: String; valorAnt: String; valorPos: String; campoChave: String);
     procedure abrirLog(Tabela: String; Registro: String; tipo: String);
+    procedure verificaTamCampo;
   end;
 var
   DM: TDM;
@@ -2233,6 +2234,7 @@ begin
       end;
     end;
   end;
+  verificaTamCampo;
 end;
 
 procedure TDM.cds_produtoNewRecord(DataSet: TDataSet);
@@ -3051,6 +3053,29 @@ begin
       ' ORDER BY R.DATA DESC , R.HORA DESC ';
   end;
   cdsLogSis.Open;
+end;
+
+procedure TDM.verificaTamCampo;
+var sqlC: String;
+begin
+  sqlC := 'select f.rdb$field_length ' +
+    ' from rdb$relation_fields rf join ' +
+    ' rdb$fields f join ' +
+    ' rdb$types t on t.rdb$field_name = ' + QuotedStr('RDB$FIELD_TYPE') +
+    ' and ' +
+    ' f.rdb$field_type = t.rdb$type ' +
+    ' on rf.rdb$field_source = f.rdb$field_name ' +
+    ' where (rf.rdb$field_name = ' + QuotedStr('CORPONF1') +
+    ' and   rf.rdb$relation_name = ' + QuotedStr('NOTAFISCAL') +
+    ' and   f.rdb$field_length  <> 200)';
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add(sqlC);
+  sqlBusca.Open;
+  if (not sqlBusca.IsEmpty) then
+    MessageDlg('Tamanho dos campos DADOS ADICIONAIS NA NOTA FISCAL ' + #13#10 +
+    ' não está correto, contacte a ATS.', mtError, [mbOK], 0);
 end;
 
 end.
