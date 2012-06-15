@@ -3080,7 +3080,7 @@ begin
     fNotaf.cbEstoque.Checked := False;
     fNotaf.btnProcurar.Enabled := False;
     if(DMNF.cds_nfFRETE.asString <> '') then
-      fNotaf.cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.asString);
+      fNotaf.cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.asString)
     else
       fNotaf.cboFrete.ItemIndex := -1;
     fNotaf.ShowModal;
