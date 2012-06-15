@@ -265,9 +265,6 @@ type
     cbTransportadora: TDBComboBox;
     BitBtn2: TBitBtn;
     GroupBox1: TGroupBox;
-    Label63: TLabel;
-    Label64: TLabel;
-    DBEdit54: TDBEdit;
     JvGroupBox30: TJvGroupBox;
     DBEdit20: TDBEdit;
     JvGroupBox31: TJvGroupBox;
@@ -357,6 +354,7 @@ type
     DBEdit48: TDBEdit;
     listaCliente1CODFISCAL: TStringField;
     sCfopCODFISCAL: TStringField;
+    cboFrete: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -394,6 +392,7 @@ type
     procedure calcmanClick(Sender: TObject);
     procedure ChkCompClick(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
+    procedure cboFreteChange(Sender: TObject);
   private
     { Private declarations }
     procedure carregaDadosAdicionais;    
@@ -436,7 +435,7 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
-  uNFeletronica, uNotafRemessa, uComplementar, uDetalheNF;
+  uNFeletronica, uNotafRemessa, uComplementar, uDetalheNF, StrUtils;
 
 {$R *.dfm}
 
@@ -538,6 +537,7 @@ begin
     DMNF.cds_nfUF.AsString := listaCliente1UF.AsString;
     DMNF.cds_nfTELEFONE.AsString := listaCliente1TELEFONE.AsString;
     DMNF.cds_nfNOTAMAE.AsInteger := Null;
+    dmnf.cds_nfINDPAG.AsInteger := 2;
   // Calcula o peso
   if (dmnf.sqs_tit.Active) then
     dmnf.sqs_tit.Close;
@@ -711,8 +711,11 @@ end;
 
 procedure TfNotaf.incluiMovimento;
 begin
-  if DMNF.DtSrc.DataSet.State in [dsInactive] then
-    DMNF.DtSrc.DataSet.Open;
+
+  if DMNF.DtSrc.DataSet.Active then
+    DMNF.DtSrc.DataSet.Close;
+  DMNF.cds_Movimento.Params[0].Clear;
+  DMNF.DtSrc.DataSet.Open;
   DMNF.DtSrc.DataSet.Append;
   DMNF.cds_MovimentoCODNATUREZA.AsInteger := cod_nat;
   DMNF.cds_MovimentoDESCNATUREZA.AsString := natureza;
@@ -734,21 +737,24 @@ end;
 
 procedure TfNotaf.incluiNotaFiscal;
 begin
-  if (not dmnf.cds_nf.Active) then
-     dmnf.cds_nf.Open;
+  if (dmnf.cds_nf.Active) then
+    dmnf.cds_nf.Close;
+  DMNF.cds_nf.Params[0].Clear;
+  DMNF.cds_nf.Params[1].Clear;
+  dmnf.cds_nf.Open;
   dmnf.cds_nf.Append;
   DMNF.cds_nfNOTASERIE.AsString := IntToStr(DMNF.cds_vendaNOTAFISCAL.AsInteger);
 end;
 
 procedure TfNotaf.incluiVenda;
 begin
-  if DMNF.DtSrcVenda.DataSet.State in [dsInactive] then
-  begin
-    DMNF.DtSrcVenda.DataSet.Open;
-    DMNF.DtSrcVenda.DataSet.Append;
-  end;
-  if DMNF.DtSrcVenda.DataSet.State in [dsBrowse, dsEdit] then
-    DMNF.DtSrcVenda.DataSet.Append;
+  if DMNF.DtSrcVenda.DataSet.Active then
+    DMNF.DtSrcVenda.DataSet.Close;
+
+  DMNF.cds_venda.Params[0].Clear;
+  DMNF.cds_venda.Params[1].Clear;
+  DMNF.DtSrcVenda.DataSet.Open;
+  DMNF.DtSrcVenda.DataSet.Append;
 
   DMNF.cds_vendaDATASISTEMA.AsDateTime := Now;
   DMNF.cds_vendaDESCONTO.AsFloat := 0;
@@ -2322,6 +2328,13 @@ begin
         exit;
       end;
     end;
+end;
+
+procedure TfNotaf.cboFreteChange(Sender: TObject);
+begin
+ if DMNF.DtSrc_NF.State in [dsBrowse] then
+      DMNF.DtSrc_NF.DataSet.Edit;
+    DMNF.cds_nfFRETE.AsString := IntToStr(cboFrete.ItemIndex);
 end;
 
 end.
