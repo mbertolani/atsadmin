@@ -2196,7 +2196,8 @@ begin
     else
     begin
       tpfrete := StrToInt(cdsNFFRETE.AsString);
-      tpfrete := tpfrete - 1;
+      if(tpfrete = 3) then
+        tpfrete := 9;
       tfrete := IntToStr(tpfrete);
 
       //Carrega dados da transportadora
