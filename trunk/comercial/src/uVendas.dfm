@@ -1540,10 +1540,10 @@ inherited fVendas: TfVendas
     Top = 112
     Width = 633
     Height = 358
-    ActivePage = TabSheet1
+    ActivePage = Itens
     TabOrder = 6
     TabStop = False
-    object TabSheet1: TTabSheet
+    object Itens: TTabSheet
       Caption = 'Itens'
       object Label3: TLabel
         Left = 0
@@ -2221,7 +2221,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2275,7 +2275,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2288,9 +2288,10 @@ inherited fVendas: TfVendas
         TabOrder = 6
         OnChange = cbTpTranspChange
         Items.Strings = (
-          'Sem Frete'
-          'Emitente'
-          'Destinatario')
+          '0 - Emitente'
+          '1 - Dest/Rem'
+          '2 - Terceiros'
+          '9 - Sem Frete')
       end
       object Edit1: TEdit
         Left = 76

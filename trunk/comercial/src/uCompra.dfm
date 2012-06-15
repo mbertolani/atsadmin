@@ -2094,9 +2094,10 @@ inherited fCompra: TfCompra
     TabOrder = 22
     OnChange = cbTpTranspChange
     Items.Strings = (
-      'Sem Frete'
-      'Emitente'
-      'Destinatario')
+      '0 - Emitente'
+      '1 - Dest/Rem'
+      '2 - Terceiros'
+      '9 - Sem Frete')
   end
   object Edit1: TEdit [31]
     Left = 511

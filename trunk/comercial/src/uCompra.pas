@@ -1149,17 +1149,10 @@ begin
      end;
 
      //CARREGA TIPO DO FRETE
-     if (cds_MovimentoTPFRETE.AsString = 'S') then
-       cbTpTransp.Text := 'Sem Frete'
-     else if(cds_MovimentoTPFRETE.AsString = 'E') then
-       cbTpTransp.Text := 'Emitente'
-     else if(cds_MovimentoTPFRETE.AsString = 'D') then
-       cbTpTransp.Text := 'Destinatario'
+     if (cds_MovimentoTPFRETE.AsString <> '') then
+       cbTpTransp.ItemIndex := StrToInt(cds_MovimentoTPFRETE.AsString)
      else
-       cbTpTransp.Text := '';
-    //finally
-     // fFiltroMov_compra.Free;
-    //end;
+       cbTpTransp.ItemIndex := -1;
 end;
 
 procedure TfCompra.DtSrcStateChange(Sender: TObject);
@@ -1926,12 +1919,8 @@ begin
   if (cds_Movimento.state in [dsBrowse]) then
    cds_Mov_det.Edit;
   if (cds_Movimento.State in [dsinsert, dsEdit]) then
-  if (cbTpTransp.Text = 'Sem Frete') then
-    cds_MovimentoTPFRETE.AsString := 'S'
-  else if(cbTpTransp.Text = 'Emitente') then
-    cds_MovimentoTPFRETE.AsString := 'E'
-  else if(cbTpTransp.Text = 'Destinatario') then
-    cds_MovimentoTPFRETE.AsString := 'D';
+    cds_MovimentoTPFRETE.AsString := IntToStr(cbTpTransp.ItemIndex);
+
 end;
 
 procedure TfCompra.Label3Click(Sender: TObject);
