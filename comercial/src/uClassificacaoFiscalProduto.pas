@@ -111,6 +111,7 @@ uses UDm, sCtrlResize;
 procedure TfClassificacaoFIscalProduto.btnIncluirClick(Sender: TObject);
 begin
   inherited;
+  DecimalSeparator := ',';
   cdsClassFiscCOD_PROD.AsInteger := cfcodprod;
   cdsClassFiscCODPRO.AsString := cfcodproduto;
   DBEdit2.SetFocus;
@@ -144,6 +145,12 @@ begin
   str := str + ', CST = ' + QuotedStr(cdsClassFiscCST.AsString);
   str := str + ', CSOSN = ' + QuotedStr(cdsClassFiscCSOSN.AsString);
   str := str + ', IPI = ' + FloatToStr(cdsClassFiscIPI.AsFloat);
+  str := str + ', CSTIPI = ' + QuotedStr(cdsClassFiscCSTIPI.AsString);
+  str := str + ', CSTPIS = ' + QuotedStr(cdsClassFiscCSTPIS.AsString);
+  str := str + ', CSTCOFINS = ' + QuotedStr(cdsClassFiscCSTCOFINS.AsString);
+  str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
+  str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
+
   str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
   str := str + ' AND CFOP = ' + QuotedStr(CFOP);
   str := str + ' AND UF = ' + QuotedStr(UF);
