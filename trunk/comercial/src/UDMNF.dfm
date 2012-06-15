@@ -1883,6 +1883,9 @@ object DMNF: TDMNF
       FieldName = 'XMLNFE'
       BlobType = ftGraphic
     end
+    object cds_nfINDPAG: TIntegerField
+      FieldName = 'INDPAG'
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2256,6 +2259,9 @@ object DMNF: TDMNF
     object sds_nfXMLNFE: TGraphicField
       FieldName = 'XMLNFE'
       BlobType = ftGraphic
+    end
+    object sds_nfINDPAG: TIntegerField
+      FieldName = 'INDPAG'
     end
   end
   object DtSrc_NF1: TDataSource
