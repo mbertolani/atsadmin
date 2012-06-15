@@ -24,14 +24,12 @@ BEGIN
     from estoquemes lote
     inner join produtos prod on (lote.codproduto = prod.codproduto)
     where  lote.codproduto = :codigo
-    /*(lote.codproduto = 15) */
-   /* and   (lote.saldoestoque > 0.009) */
     order by lote.codproduto,lote.lote, lote.mesano desc
     INTO :CODLOTE,:LOTE,:CODPRODUTO,:DATAFABRICACAO,:DATAVENCIMENTO,:ESTOQUE,:PRECO,
          :NOTAFISCAL,:SERIEINI,:SERIEFIM,:PRODUTO,:CODPRO
   DO
   BEGIN
-    if((varlote <> lote) and (estoque > 0.009 ))then
+    if((varlote <> lote) and (estoque > 0.0009 ))then
     SUSPEND;
 
     varlote = :lote;
