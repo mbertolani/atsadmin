@@ -1380,6 +1380,8 @@ type
     sds_Mov_DetPEDIDO: TStringField;
     cds_Mov_detNITEMPED: TIntegerField;
     cds_Mov_detPEDIDO: TStringField;
+    sds_nfINDPAG: TIntegerField;
+    cds_nfINDPAG: TIntegerField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
