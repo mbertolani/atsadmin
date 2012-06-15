@@ -3079,6 +3079,10 @@ begin
     fNotaf.cbFinanceiro.Checked := False;
     fNotaf.cbEstoque.Checked := False;
     fNotaf.btnProcurar.Enabled := False;
+    if(DMNF.cds_nfFRETE.asString <> '') then
+      fNotaf.cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.asString);
+    else
+      fNotaf.cboFrete.ItemIndex := -1;
     fNotaf.ShowModal;
     if (dmnf.cds_nfSTATUS.AsString = 'S') then
       fNotaf.RadioGroup1.ItemIndex := 0
