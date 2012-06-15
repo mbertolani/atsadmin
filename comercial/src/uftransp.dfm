@@ -120,8 +120,8 @@ inherited ftransp: Tftransp
     Caption = 'Email'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 469
-    Width = 677
+    Top = 464
+    Width = 663
     inherited btnProcurar: TBitBtn
       OnClick = btnProcurarClick
     end
@@ -137,7 +137,7 @@ inherited ftransp: Tftransp
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 677
+    Width = 663
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -160,7 +160,7 @@ inherited ftransp: Tftransp
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 675
+      Width = 661
       Height = 52
       Align = alClient
       Alignment = taCenter
