@@ -1541,7 +1541,6 @@ begin
           'USUARIO INTEGER, ' +
           'PRIMARY KEY(NUM))')
       end;
-      executaScript('gera_nf_venda.sql');
       executaScript('listaProduto.sql');
       executaScript('LISTAPRODUTOCLI.sql');
       MessageDlg('Execute o Script "Tipo_fiscal.sql".', mtWarning, [mbOK], 0);
@@ -1559,7 +1558,6 @@ begin
       executaDDL('MOVIMENTODETALHE', 'PCOFINS', 'double precision');
       MessageDlg('Execute o Script "trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
       executaScript('spEstoqueFiltro.sql');
-      executaScript('gera_nf_venda.sql');
       mudaVersao('1.0.0.106');
     end;// Fim Ataulização Versao 1.0.0.106
 
@@ -1579,11 +1577,12 @@ begin
       executaDDL('MOVIMENTODETALHE', 'RATEIO', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'PORCENTAGENDESC', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'PAGO', 'char(3)');
-      executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'PEDIDO', 'varchar(20)');
       executaDDL('MOVIMENTODETALHE', 'NITEMPED', 'integer');
       executaDDL('NOTAFISCAL', 'INDPAG', 'integer');
-      mudaVersao('1.0.0.107');
+      executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');      
+      executaScript('gera_nf_venda.sql');
+      //mudaVersao('1.0.0.107');
     end;
 
     try
