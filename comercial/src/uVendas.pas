@@ -297,7 +297,7 @@ type
     s_2CONTA: TStringField;
     s_2NOME: TStringField;
     PageControl1: TPageControl;
-    TabSheet1: TTabSheet;
+    Itens: TTabSheet;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
@@ -838,7 +838,7 @@ begin
   end;
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
-    TabSheet1.Caption := 'Peças/Serviços';
+    Itens.Caption := 'Peças/Serviços';
     bitbtn4.Enabled := False;
     Label4.Caption := 'Com.';
     Label20.Caption := 'Kilometragem';
@@ -2266,15 +2266,10 @@ begin
      cbPrazo.Text := cds_MovimentoFORMA_PAG.AsString;
 
      //CARREGA TIPO DO FRETE
-     if (cds_MovimentoTPFRETE.AsString = 'S') then
-       cbTpTransp.Text := 'Sem Frete'
-     else if(cds_MovimentoTPFRETE.AsString = 'E') then
-       cbTpTransp.Text := 'Emitente'
-     else if(cds_MovimentoTPFRETE.AsString = 'D') then
-       cbTpTransp.Text := 'Destinatario'
+     if (cds_MovimentoTPFRETE.AsString <> '') then
+       cbTpTransp.ItemIndex := StrToInt(cds_MovimentoTPFRETE.AsString)
      else
-       cbTpTransp.Text := '';
-
+       cbTpTransp.ItemIndex := -1;
 end;
 
 procedure TfVendas.DtSrcStateChange(Sender: TObject);
@@ -3460,12 +3455,7 @@ begin
   if (cds_Movimento.state in [dsBrowse]) then
    cds_Mov_det.Edit;
   if (cds_Movimento.State in [dsinsert, dsEdit]) then
-  if (cbTpTransp.Text = 'Sem Frete') then
-    cds_MovimentoTPFRETE.AsString := 'S'
-  else if(cbTpTransp.Text = 'Emitente') then
-    cds_MovimentoTPFRETE.AsString := 'E'
-  else if(cbTpTransp.Text = 'Destinatario') then
-    cds_MovimentoTPFRETE.AsString := 'D';
+      cds_MovimentoTPFRETE.AsString :=  IntToStr(cbTpTransp.ItemIndex);
 end;
 
 procedure TfVendas.btnTranspClick(Sender: TObject);
