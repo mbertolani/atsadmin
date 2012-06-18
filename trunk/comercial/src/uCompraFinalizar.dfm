@@ -1044,7 +1044,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 790
+    Width = 792
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1602,8 +1602,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 491
-    Width = 790
+    Top = 503
+    Width = 792
     Height = 23
     Align = alBottom
     Background.StartColor = clSilver
@@ -1973,6 +1973,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Top = 31
       Width = 44
       Height = 24
+      Hint = '55-NF Eletronia   /  1A - Nota Fiscal Normal'
       DataField = 'SERIE'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
@@ -1981,6 +1982,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       OnKeyPress = FormKeyPress
     end
