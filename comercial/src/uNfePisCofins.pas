@@ -784,6 +784,10 @@ type
     cdsProdutoCODPRO: TStringField;
     cdsProdutoNCM: TStringField;
     cdsProdutoPRODUTO: TStringField;
+    sdsCompraSERIE: TStringField;
+    cdsCompraSERIE: TStringField;
+    sdsCompraVALOR: TFloatField;
+    cdsCompraVALOR: TFloatField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1246,25 +1250,165 @@ begin
   ProgressBar1.Max     := NNotas;
   ProgressBar1.Position:= 0 ;
 
-   While (not cdsMov.Eof) do
-   begin
-
-      if (cdsNFVenda.Active) then
-        cdsNFVenda.Close;
-      cdsNFVenda.Params[0].AsDateTime := data_ini.Date;
-      cdsNFVenda.Params[1].AsDateTime := data_fim.Date;
-      cdsNFVenda.Params[2].AsInteger := cdsMov.Fields[0].AsInteger;
-      cdsNFVenda.Open;
-
-      if (cdsCompra.Active) then
-        cdsCompra.Close;
-      cdsCompra.Params[0].AsDateTime := data_ini.Date;
-      cdsCompra.Params[1].AsDateTime := data_fim.Date;
-      cdsCompra.Params[2].AsInteger := cdsMov.Fields[0].AsInteger;
-      cdsCompra.Open;
-
-  if (not cdsNFVenda.IsEmpty) then
+  //Primeiro as NFs de Entrada
+  if (cdsCompra.Active) then
+    cdsCompra.Close;
+  cdsCompra.Params[0].AsInteger := codMovMin;
+  cdsCompra.Params[1].AsInteger := codMovMax;
+  cdsCompra.Open;
+  // INICIO BLOCO COMPRAS  ######################
+  While not cdsCompra.Eof do
   begin
+    with ACBrSPEDPisCofins1.Bloco_C do
+    begin
+      with RegistroC001New do
+      begin
+         IND_MOV := imComDados;
+
+         //C010 - Identificação do Estabelecimento
+         with RegistroC010New do
+         begin
+           CNPJ := util.RemoveChar(cdsCompraCNPJ.AsString);
+           IND_ESCRI := IndEscriIndividualizado;
+
+           //Inserir Notas...
+           for INotas := 1 to NNotas do
+           begin
+              //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
+              // Fiscal de Produtor (código 04) e NF-e (código 55)
+              with RegistroC100New do
+              begin
+                IND_OPER      := tpEntradaAquisicao; // tpEntradaAquisicao, // 0 - Entrada
+                IND_EMIT      := edTerceiros;   // 0 - Emissão própria // 1 - Terceiro
+                COD_PART      := InttoStr(cdsCompraCODFORNECEDOR.asInteger);
+                COD_MOD       := '55';
+                if (cdsCompraSERIE.AsString = '1A') then   //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
+                  COD_MOD       := '01';
+
+
+                COD_SIT       := sdRegular;
+                SER           := ''; //04	SER	Série do documento fiscal	C	003	-
+                NUM_DOC       := FormatFloat('NF000000', StrToInt(cdsCompraNOTASERIE.AsString));  //INotas
+                CHV_NFE       := '';  //cdsCOMPRANOMEXML.AsString;
+                DT_DOC        := cdsCompraDATACOMPRA.AsDateTime;
+                DT_E_S        := cdsCompraDATACOMPRA.AsDateTime;
+                VL_DOC        := cdsCompraVALOR.AsFloat;
+    #######            IND_PGTO      := tpPrazo;
+                VL_DESC       := cdsNFVendaVALOR_DESCONTO.AsFloat;
+                VL_ABAT_NT    := 0;
+                VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
+                IND_FRT       := tfSemCobrancaFrete;
+                VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
+                VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
+                VL_OUT_DA     := 0;
+                VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
+                VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
+                VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
+                VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
+                VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
+                VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
+                VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
+                VL_PIS_ST     := 0;
+                VL_COFINS_ST  := 0;
+
+                //10 itens para cada nota...
+                for IItens := 1 to 10 do
+                begin
+                  //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
+                  with RegistroC170New do   //Inicio Adicionar os Itens:
+                  begin
+                     NUM_ITEM         := FormatFloat('000', IItens);
+                     COD_ITEM         := FormatFloat('000000',StrToInt(NUM_ITEM));
+                     DESCR_COMPL      := FormatFloat('NF000000',INotas)+' -> ITEM '+COD_ITEM;
+                     QTD              := 1;
+                     UNID             := 'UN';
+                     VL_ITEM          := 0;
+                     VL_DESC          := 0;
+                     IND_MOV          := mfNao;
+                     CST_ICMS         := sticmsTributadaIntegralmente;
+                     CFOP             := '1252';
+                     COD_NAT          := '64';
+                     VL_BC_ICMS       := 0;
+                     ALIQ_ICMS        := 0;
+                     VL_ICMS          := 0;
+                     VL_BC_ICMS_ST    := 0;
+                     ALIQ_ST          := 0;
+                     VL_ICMS_ST       := 0;
+                     IND_APUR         := iaMensal;
+                     CST_IPI          := stipiEntradaIsenta;
+                     COD_ENQ          := '';
+                     VL_BC_IPI        := 0;
+                     ALIQ_IPI         := 0;
+                     VL_IPI           := 0;
+                     CST_PIS          := stpisOutrasOperacoesSaida;
+                     VL_BC_PIS        := 0;
+                     ALIQ_PIS_PERC    := 0;
+                     QUANT_BC_PIS     := 0;
+                     ALIQ_PIS_R       := 0;
+                     VL_PIS           := 0;
+                     CST_COFINS       := stcofinsOutrasOperacoesSaida;
+                     VL_BC_COFINS     := 0;
+                     ALIQ_COFINS_PERC := 0;
+                     QUANT_BC_COFINS  := 0;
+                     ALIQ_COFINS_R    := 0;
+                     VL_COFINS        := 0;
+                     COD_CTA          := '000';
+                  end; //Fim dos Itens;
+                end;
+
+                if cbConcomitante.Checked then
+                begin
+                   if (INotas mod BNotas) = 0 then   // Gravar a cada BNotas notas
+                   begin
+                      // Grava registros na memoria para o TXT, e limpa memoria
+                      ACBrSPEDPisCofins1.WriteBloco_C( False );  // False, NAO fecha o Bloco
+                      ProgressBar1.Position := INotas;
+                      Application.ProcessMessages;
+                   end;
+                end;
+
+              end;
+
+              //10 itens c190
+              for IItens := 1 to 10 do
+              begin
+                // c190 - Consolidação de Notas Fiscais Eletrônicas (Código 55) – Operações de
+                // Aquisição com Direito a Crédito, e Operações de Devolução de Compras e
+                // Vendas.
+                with RegistroC190New do
+                begin
+                   COD_MOD := '';
+                   DT_REF_INI := Date;
+                   DT_REF_FIN := Date;
+                   COD_ITEM := '';
+                   COD_NCM := '';
+                   EX_IPI := '';
+                   VL_TOT_ITEM := 0;
+                end;//Fim dos Itens;
+              end;
+
+           end;
+         end;
+      end;
+    end;
+    cdsCompra.Next;
+  end;  // FIM BLOCO COMPRAS ######################
+
+
+  While (not cdsMov.Eof) do
+  begin
+
+    if (cdsNFVenda.Active) then
+      cdsNFVenda.Close;
+    cdsNFVenda.Params[0].AsDateTime := data_ini.Date;
+    cdsNFVenda.Params[1].AsDateTime := data_fim.Date;
+    cdsNFVenda.Params[2].AsInteger := cdsMov.Fields[0].AsInteger;
+    cdsNFVenda.Open;
+
+
+
+    if (not cdsNFVenda.IsEmpty) then
+    begin
 
     with ACBrSPEDPisCofins1.Bloco_C do
     begin
