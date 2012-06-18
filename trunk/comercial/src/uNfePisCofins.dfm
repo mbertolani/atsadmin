@@ -2429,27 +2429,22 @@ object fNfePisCofins: TfNfePisCofins
       'FINS, r.PPIS, r.PCOFINS'#13#10', f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNP' +
       'J, f.INSCESTADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CID' +
       'ADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, e' +
-      'f.NUMERO, ef.PAIS'#13#10'    FROM COMPRA C,  MOVIMENTODETALHE r, FORNE' +
-      'CEDOR f, ENDERECOFORNECEDOR ef'#13#10'   WHERE C.CODMOVIMENTO = r.CODM' +
-      'OVIMENTO'#13#10'     AND f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND e' +
-      'f.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      ' +
-      #13#10'     AND C.DATACOMPRA BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     AND ' +
-      'C.CODMOVIMENTO = :CODINI'
+      'f.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR'#13#10'    FROM COMPRA C,  MOVIM' +
+      'ENTODETALHE r, FORNECEDOR f, ENDERECOFORNECEDOR ef'#13#10'   WHERE C.C' +
+      'ODMOVIMENTO = r.CODMOVIMENTO'#13#10'     AND f.CODFORNECEDOR = c.CODFO' +
+      'RNECEDOR'#13#10'     AND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ' +
+      'ef.TIPOEND = 0      '#13#10'     AND C.CODMOVIMENTO BETWEEN  :CODINI A' +
+      'ND :CODFIM'#13#10'  ORDER BY C.DATACOMPRA'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftDate
-        Name = 'DTA_INI'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTA_FIM'
+        DataType = ftInteger
+        Name = 'CODINI'
         ParamType = ptInput
       end
       item
         DataType = ftInteger
-        Name = 'CODINI'
+        Name = 'CODFIM'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -2645,6 +2640,12 @@ object fNfePisCofins: TfNfePisCofins
       FieldName = 'PAIS'
       Size = 60
     end
+    object sdsCompraSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object sdsCompraVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
   end
   object dspCompra: TDataSetProvider
     DataSet = sdsCompra
@@ -2655,18 +2656,13 @@ object fNfePisCofins: TfNfePisCofins
     Aggregates = <>
     Params = <
       item
-        DataType = ftDate
-        Name = 'DTA_INI'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTA_FIM'
+        DataType = ftInteger
+        Name = 'CODINI'
         ParamType = ptInput
       end
       item
         DataType = ftInteger
-        Name = 'CODINI'
+        Name = 'CODFIM'
         ParamType = ptInput
       end>
     ProviderName = 'dspCompra'
@@ -2861,6 +2857,12 @@ object fNfePisCofins: TfNfePisCofins
     object cdsCompraPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+    object cdsCompraSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object cdsCompraVALOR: TFloatField
+      FieldName = 'VALOR'
     end
   end
   object sdsEmpS: TSQLDataSet
