@@ -455,6 +455,7 @@ end;
 procedure Tfcrproc.BitBtn12Click(Sender: TObject);
 begin
   fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
+  fProcurar.usuarioproc := 'VENDEDOR';  
   fProcurar.BtnProcurar.Click;
 //  fProcurar.DBGrid1.SetFocus;
   try
@@ -1031,7 +1032,7 @@ end;
 
 procedure Tfcrproc.btnIncluirClick(Sender: TObject);
   var vlr, vlrrec, vlrdesc, vlrjuros, vlrfunrural, vlrperda: double;
-  i, j, clienteSelecionado : integer;
+  i, clienteSelecionado : integer;
   selecionou : string;
 begin
  try
@@ -1582,13 +1583,13 @@ begin
 end;
 
 procedure Tfcrproc.btnGeraMensalidadeClick(Sender: TObject);
-  var vlr, vlrrec: double;
+  var vlr: double;
   i: integer;
-  selecionou : string;
 begin
   i := 1;
   scdsCr_proc.DisableControls;
   scdsCr_proc.First;
+  vlr := 0;
   While not scdsCr_proc.Eof do
   begin
     if (scdsCr_procDUP_REC_NF.AsString = 'S') then
