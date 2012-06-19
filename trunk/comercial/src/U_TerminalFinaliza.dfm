@@ -1,6 +1,6 @@
 object F_TerminalFinaliza: TF_TerminalFinaliza
-  Left = 317
-  Top = 198
+  Left = 200
+  Top = 206
   Width = 751
   Height = 520
   BorderIcons = [biSystemMenu]
@@ -1242,6 +1242,20 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     Background.StartColor = clSilver
     Background.EndColor = clSkyBlue
     Background.FillType = GradUpDown
+    object lbl1: TLabel
+      Left = 515
+      Top = 17
+      Width = 74
+      Height = 13
+      Caption = 'Comiss'#227'o R$'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+    end
     object btnIncluir: TJvBitBtn
       Left = 2
       Top = 2
@@ -2235,6 +2249,28 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       HotTrackFont.Height = -19
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
+    end
+    object JvComissao: TJvValidateEdit
+      Left = 598
+      Top = 7
+      Width = 134
+      Height = 34
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Enabled = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -24
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 8
+      OnExit = jvDescontoExit
     end
   end
   object sqs_tit: TSQLDataSet

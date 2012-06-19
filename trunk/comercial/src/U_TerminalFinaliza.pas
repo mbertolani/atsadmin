@@ -239,6 +239,8 @@ type
     JvBitBtn2: TJvBitBtn;
     SQLDataSet1CODVENDA: TIntegerField;
     scdsCr_procCODVENDA: TIntegerField;
+    JvComissao: TJvValidateEdit;
+    lbl1: TLabel;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -532,22 +534,32 @@ begin
         F_TerminalFinaliza.jvPago.Value := DM_MOV.c_formatotal.Value;
      DM_MOV.c_forma.Close;
      DM_MOV.c_forma.Params[0].Clear;
-     //-------------------------
+
+    DM_MOV.s_parametro.Close;
+    DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
+    DM_MOV.s_parametro.Open;
+    if (dm.cds_7_contas.Locate('CONTA', DM_MOV.s_parametroD1.AsString, [loCaseInsensitive])) then
+      cbConta.Text := dm.cds_7_contas.Fields[2].asString;
+    cbPrazo.ItemIndex := 0; //= '1-DINHEIRO'
+    DM_MOV.s_parametro.Close;
+    //-------------------------
   end
   else
   begin
-    jvApagar.Value :=  DM_MOV.c_vendaVALOR.Value;
-    jvTotal.Value := DM_MOV.c_vendaVALOR.Value;
-    jvDesconto.Value := DM_MOV.c_vendaDESCONTO.Value;
+    JvComissao.Value  :=  DM_MOV.c_vendaCOMISSAO.Value;
+    jvApagar.Value    := DM_MOV.c_vendaVALOR.Value;
+    jvTotal.Value     := DM_MOV.c_vendaVALOR.Value;
+    jvDesconto.Value  := DM_MOV.c_vendaDESCONTO.Value;
     jvAcrescimo.Value := DM_MOV.c_vendaMULTA_JUROS.Value;
-    jvPago.Value := DM_MOV.c_vendaVALOR_PAGAR.Value;
-    jvTroco.Value := DM_MOV.c_vendaTROCO.Value;
+    jvPago.Value      := DM_MOV.c_vendaVALOR_PAGAR.Value;
+    jvTroco.Value     := DM_MOV.c_vendaTROCO.Value;
     if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
     begin
         utilcrtitulo := Tutils.Create;
         ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
         utilcrtitulo.Free;
     end;
+
     if (dm.cds_7_contas.Locate('CODIGO', DM_MOV.c_vendaCAIXA.AsInteger, [loCaseInsensitive])) then
       cbConta.Text := dm.cds_7_contas.Fields[2].asString;
 
@@ -559,20 +571,18 @@ begin
     DM_MOV.c_venda.Edit;
   end;
 
-    if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
-    begin
-        utilcrtitulo := Tutils.Create;
-        ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
-        utilcrtitulo.Free;
-    end;
-    if (dm.cds_7_contas.Locate('CODIGO', DM_MOV.c_vendaCAIXA.AsInteger, [loCaseInsensitive])) then
-      cbConta.Text := dm.cds_7_contas.Fields[2].asString;
-  cbPrazo.ItemIndex := 0; //= '1-DINHEIRO'
+  if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
+  begin
+      utilcrtitulo := Tutils.Create;
+      ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
+      utilcrtitulo.Free;
+  end;
+
 
 end;
 
 procedure TF_TerminalFinaliza.btnIncluirClick(Sender: TObject);
-var desconto : Double;
+var desconto, porc_com, varlor_porc  : Double;
 begin
   DM_MOV.c_venda.Append;
 
@@ -641,6 +651,23 @@ begin
   begin
     jvApagar.Value :=  DM_MOV.c_movdettotalpedido.Value - desconto;
     jvTotal.Value := DM_MOV.c_movdettotalpedido.Value - desconto;
+    // Verico se paga comissão e se soma no Contas a Receber
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+    dm.cds_parametro.Open;
+    porc_com := StrToFloat(dm.cds_parametroDADOS.AsString);
+    dm.cds_parametro.Close;
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'LANCACOMISSAOCR';
+    dm.cds_parametro.Open;
+    if (not dm.cds_parametro.Eof) then
+    begin
+      JvComissao.Value:= (porc_com /100) * jvTotal.Value;
+      jvApagar.Value := (DM_MOV.c_movdettotalpedido.Value + JvComissao.Value) - desconto;
+    end;
+    dm.cds_parametro.Close;
   end;
   jvDesconto.Value := 0;
   jvAcrescimo.Value := 0;
@@ -1072,7 +1099,7 @@ begin
     strSql := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA';
     strSql := strSql + ',DATAVENCIMENTO ,BANCO ,CODVENDEDOR ,STATUS ,CODUSUARIO';
     strSql := strSql + ',VALOR ,NOTAFISCAL ,SERIE, DESCONTO, CODCCUSTO, N_PARCELA'; //
-    strSql := strSql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, TROCO, PRAZO ';
+    strSql := strSql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, TROCO, COMISSAO, PRAZO ';
     strSql := strSql + ') VALUES (';
     strSql := strSql + IntToStr(COD_VENDA);
     strSql := strSql + ',' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
@@ -1087,10 +1114,10 @@ begin
     //total := StrToFloat(DBEdit6.Text);
     //vApagar := StrToFloat(DBEdit11.Text);
     DecimalSeparator := ',';
-    vJvValor := jvTotal.AsFloat; //StrToFloat(jvTotal.Text);
+    vJvValor := jvTotal.AsFloat + JvComissao.AsFloat + jvAcrescimo.Value; //StrToFloat(jvTotal.Text);
     if (jvDesconto.Value > 0) then
     begin
-      vJvValor := jvTotal.AsFloat - jvDesconto.Value;
+      vJvValor := (jvTotal.AsFloat + JvComissao.AsFloat + jvAcrescimo.Value) - jvDesconto.Value;
     end;
     DecimalSeparator := '.';
     strSql := strSql + ',' + FloatToStr(vJvValor); //valor
@@ -1149,6 +1176,12 @@ begin
       strSql := strSql + ',' + FloatToStr(vJvValor) //TROCO
     else
       strSql := strSql + ',' + '0'; //ENTRADA
+
+    DecimalSeparator := ',';
+    vJvValor := JvComissao.AsFloat; //StrToFloat(jvTroco.Text);
+    DecimalSeparator := '.';
+    strSql := strSql + ',' + FloatToStr(vJvValor); //COMISSAO
+
 
     strSql := strSql + ',' + QuotedStr(cbPrazo.Text);
     strSql := strSql + ')';
@@ -1949,34 +1982,30 @@ begin
      buffer  := buffer + Chr(13) + Chr(10);
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
+     if (scdsCr_proc.Active) then
+     begin
+        scdsCr_proc.First;
+        while not scdsCr_proc.Eof do
+        begin
+         // imprime
+            texto5  := '(' + scdsCr_procTITULO.AsString + ') ' + DateToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
+            texto5  := texto5 + ' - ' + scdsCr_procSTATUS.AsString + ' ';
+            if (scdsCr_procSTATUS.AsString <> 'Pendente        ') then
+               texto5  := texto5 + Format('%10.2n',[scdsCr_procVALORRECEBIDO.Value])
+            else
+               texto5  := texto5 + Format('%10.2n',[scdsCr_procVALOR_RESTO.Value]);
+            buffer  := Texto5 + Chr(13) + Chr(10);
+            comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+         // end;
+          scdsCr_proc.next;
+        end;
+     end;
+     buffer  := '' + Chr(13) + Chr(10);
+     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
      buffer  := 'Assnatura:________________________________________';
      buffer  := buffer + Chr(13) + Chr(10);
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
-     // Verifico se tem % Garçom
-     s_parametro.Close;
-     if (s_parametro.Active) then
-     s_parametro.Close;
-     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
-     s_parametro.Open;
-     if (not s_parametro.IsEmpty) then
-     begin
-       if (F_Terminal.JvComissao.Value > 0) then
-       begin
-         Texto5 := DateTimeToStr(Now) + '               % : R$ ';
-         buffer  := texto5;
-         porc    := (F_Terminal.JvComissao.Value / 100) * total;
-         buffer  := buffer + Format('%10.2n',[porc]);
-         buffer  := buffer + Chr(13) + Chr(10);
-         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-         buffer  := texto5;
-         total   := total + porc;
-         buffer  := buffer + Format('%10.2n',[total]);
-         buffer  := buffer + Chr(13) + Chr(10);
-         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-       end;
-     end;
-     s_parametro.Close;
 
       buffer  := '' + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
@@ -2003,6 +2032,7 @@ begin
        iRetorno := ComandoTX( scomando, Length( scomando ));
      end;
      s_parametro.Close;
+     
 end;
 
 procedure TF_TerminalFinaliza.BitBtn1Click(Sender: TObject);
@@ -2044,15 +2074,15 @@ end;
 
 procedure TF_TerminalFinaliza.jvAcrescimoExit(Sender: TObject);
 begin
-    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat;
+    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat + JvComissao.AsFloat) - jvDesconto.AsFloat;
 end;
 
 procedure TF_TerminalFinaliza.jvDescontoExit(Sender: TObject);
 begin
   if (jvAcrescimo.AsFloat > 0) then
-    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat
+    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat + JvComissao.AsFloat) - jvDesconto.AsFloat
   else
-    jvApagar.AsFloat := jvTotal.AsFloat - jvDesconto.AsFloat;
+    jvApagar.AsFloat := (jvTotal.AsFloat + JvComissao.AsFloat) - jvDesconto.AsFloat;
 end;
 
 procedure TF_TerminalFinaliza.JvBitBtn2Click(Sender: TObject);
