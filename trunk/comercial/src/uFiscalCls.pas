@@ -12,33 +12,49 @@ Type
   private
      // Entrar com variaveis
      sqlConsulta : TSqlQuery;
-     v_SqlTexto, v_NomePerfil : string;
+     v_SqlTexto, var_sqla, v_NomePerfil : string;
      v_Status, v_natureza : Integer;
+    //procedure ImprimirComandaDLL;
+    //procedure ImprimirComandaLPT;
+    //procedure ImprimirDeliveryDLL;
+    //procedure ImprimirDeliveryLPT;
+    //procedure ImprimirPreviaDLL;
+    //procedure ImprimirPreviaLPT;
+    //procedure ImprimirReciboDLL;
+    //procedure ImprimirReciboLPT;
+    //procedure ImprimirSetor1;
+    //procedure ImprimirSetor2;
      //Imprimir para porta Serial ou em Arquivo
-     procedure ImprimirPreviaLPT;
-     procedure ImprimirReciboLPT;
-     procedure ImprimirComandaLPT;
-     procedure ImprimirDeliveryLPT;
-     procedure ImprimirSetor1;
-     procedure ImprimirSetor2;
+     //procedure ImprimirPreviaLPT;
+     //procedure ImprimirReciboLPT;
+     //procedure ImprimirComandaLPT;
+     //procedure ImprimirDeliveryLPT;
+     //procedure ImprimirSetor1;
+     //procedure ImprimirSetor2;
      //Imprimir porta USB usando a DLL da Bematech
-     procedure ImprimirPreviaDLL;
-     procedure ImprimirReciboDLL;
-     procedure ImprimirComandaDLL;
-     procedure ImprimirDeliveryDLL;
+     //procedure ImprimirPreviaDLL;
+     //procedure ImprimirReciboDLL;
+     //procedure ImprimirComandaDLL;
+     //procedure ImprimirDeliveryDLL;
   protected
 
   public
     v_DataCaixa : TDateTime;
     v_CodMovimento : Integer;
-    v_CodCliente, v_Cod_Caixa : Integer;
+    v_CodCliente, v_Cod_Caixa, v_idcaixa : Integer;
     var_TipoCliente  : Integer;
+    v_NomeCaixa : string;
+    cod_id : Integer; // recebe Generator da MOVIMENTOCONT....
     function NomeComputador: string;
     function VerificaCaixaAberto(): Boolean;
     function BuscaPerfilUsuario(nome : String): string;
     function PegaStatusdoMovimento(CodCliente : Integer; DataCaixa : TDateTime) : string;
     function PegaCodigoCliente(codcli : string; tipoCliente : Integer) : Integer;
-   // function ColocaNomeEmBotoes(Form: TForm; regiao : Integer; status : Integer) : String;
+    function InserirMovCaixa(): Boolean;
+    function ExcluirMovCaixa(): Boolean;
+    function SangriadeCaixa(codcaixa : Integer; codusuario : Integer; codcustoCD : Integer; codcustoCC : Integer; cdebito :string; ccredito : string; valorSangria : Double; historico : string): Double;
+    function DebitarCaixa(codcaixa : Integer; codusuario : Integer; codcustoCD : Integer; codcustoCC : Integer; cdebito :string; ccredito : string; valorSangria : Double; historico : string): Double;
+    // function ColocaNomeEmBotoes(Form: TForm; regiao : Integer; status : Integer) : String;
     constructor Create;
     Destructor  Destroy; Override;
   end;
@@ -52,7 +68,7 @@ Type
     c17cpi = #15;
     cIExpandido = #14;
     cFExpandido = #20;
-    { Formata��o da fonte }
+    { Formatação da fonte }
     cINegrito = #27#71;
     cFNegrito = #27#72;
     cIItalico = #27#52;
@@ -62,7 +78,7 @@ implementation
 
 uses UDm;
 
-    // Fun��es para uso da DLL Bematech Impressoras n�o Fiscal...
+    // Funções para uso da DLL Bematech Impressoras não Fiscal...
     function ConfiguraModeloImpressora(ModeloImpressora:integer):integer; stdcall; far; external 'Mp2032.dll';
     function IniciaPorta(Porta:string):integer; stdcall; far; external 'Mp2032.dll';
     function FechaPorta: integer	;  stdcall; far; external 'Mp2032.dll';
@@ -104,7 +120,7 @@ begin
   finally
     sqlConsulta.Free;
   end;
-  // Agora pego a descri��o do perfil do usuario
+  // Agora pego a descrição do perfil do usuario
   try
     sqlConsulta :=  TSqlQuery.Create(nil);
     sqlConsulta.SQLConnection := dm.sqlsisAdimin;
@@ -123,60 +139,63 @@ begin
   // teste
 end;
 
+function TFiscalCls.DebitarCaixa(codcaixa, codusuario, codcustoCD,
+  codcustoCC: Integer; cdebito, ccredito: string; valorSangria: Double;
+  historico: string): Double;
+begin
+    //Abre a c_genid para pegar o número do CODCONTAB
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cod_id := dm.c_6_genidCODIGO.AsInteger;
+    // primeiro_lanc := dm.c_6_genidCODIGO.AsInteger;
+    dm.c_6_genid.Close;
+    //  Inserindo Conta Débito
+    var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
+           ', DATA, CODUSUARIO, CODCCUSTO, CONTA ' +
+           ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
+           ', QTDEDEBITO, QTDEORCADO) Values (';
+    var_sqla := var_sqla + intToStr(cod_id); //CODCONT
+    var_sqla := var_sqla + ',' + intToStr(codcaixa); //CODORIGEM
+    var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy',v_DataCaixa); //DATA
+    var_sqla := var_sqla + ''',' + IntToStr(codusuario);  //CODUSUARIO
+    var_sqla := var_sqla + ',' + IntToStr(codcustoCD); //CODCUSTO
+    var_sqla := var_sqla + ',' + QuotedStr(cdebito); //  Debito CAIXA INTERNO
+    DecimalSeparator := '.';
+    var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
+    var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(valorSangria)); //Valor Debito
+    DecimalSeparator := ',';
+    var_sqla := var_sqla + ',' + '0';  //Valor ORCADO
+    var_sqla := var_sqla + ',' + '0'; //QTDECREDITO
+    var_sqla := var_sqla + ',' + '0'; //QTDEDEBITO
+    var_sqla := var_sqla + ',' + '0'; //QTDEORCADO
+    var_sqla := var_sqla + ')';
+    dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+    { *** Inserindo o Histórico *** }
+    var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
+                ') Values (';
+    var_sqla := var_sqla + intToStr(cod_id);
+    var_sqla := var_sqla + ',''' + historico;
+    var_sqla := var_sqla + ''')';
+    dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+end;
+
 destructor TFiscalCls.Destroy;
 begin
   //teste
   inherited;
 end;
 
-procedure TFiscalCls.ImprimirComandaDLL;
+function TFiscalCls.ExcluirMovCaixa: Boolean;
 begin
-
+  // Excluir Movimento do caixa;
 end;
 
-procedure TFiscalCls.ImprimirComandaLPT;
+function TFiscalCls.InserirMovCaixa: Boolean;
 begin
-
-end;
-
-procedure TFiscalCls.ImprimirDeliveryDLL;
-begin
-
-end;
-
-procedure TFiscalCls.ImprimirDeliveryLPT;
-begin
-
-end;
-
-procedure TFiscalCls.ImprimirPreviaDLL;
-begin
-
-end;
-
-procedure TFiscalCls.ImprimirPreviaLPT;
-begin
-
-end;
-
-procedure TFiscalCls.ImprimirReciboDLL;
-begin
-
-end;
-
-procedure TFiscalCls.ImprimirReciboLPT;
-begin
-
-end;
-
-procedure TFiscalCls.ImprimirSetor1;
-begin
-
-end;
-
-procedure TFiscalCls.ImprimirSetor2;
-begin
-
+  // Incluir Movimento do caixa;
 end;
 
 function TFiscalCls.NomeComputador: string;
@@ -198,7 +217,7 @@ begin
   try
     sqlConsulta :=  TSqlQuery.Create(nil);
     sqlConsulta.SQLConnection := dm.sqlsisAdimin;
-    v_SqlTexto := 'select CODCLIENTE  from CLIENTES where CODCLIENTE = ' + QuotedStr(codcli);
+    v_SqlTexto := 'select CODCLIENTE  from CLIENTES where COD_CLI = ' + QuotedStr(codcli);
     v_SqlTexto := v_SqlTexto + ' and REGIAO = ' + IntToStr(tipoCliente); // 0 = Cliente 1 = Comanda/Mesa 2 = COlaboradores
     sqlConsulta.SQL.Add(v_SqlTexto);
     sqlConsulta.Open;
@@ -245,7 +264,7 @@ begin
       v_SqlTexto := v_SqlTexto + ' and DATAMOVIMENTO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DataCaixa));
       sqlConsulta.SQL.Add(v_SqlTexto);
       sqlConsulta.Open;
-      if (sqlConsulta.IsEmpty) then // se n�o Aberta verifico o perfil de abertura
+      if (sqlConsulta.IsEmpty) then // se não Aberta verifico o perfil de abertura
       begin
           if Dm.cds_parametro.Active then
              dm.cds_parametro.Close;
@@ -279,6 +298,87 @@ begin
   end;
 end;
 
+function TFiscalCls.SangriadeCaixa(codcaixa : Integer; codusuario : Integer;
+codcustoCD : Integer; codcustoCC : Integer; cdebito :string; ccredito : string; valorSangria : Double;
+historico : string) : Double;
+begin
+    //Abre a c_genid para pegar o número do CODCONTAB
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cod_id := dm.c_6_genidCODIGO.AsInteger;
+    // primeiro_lanc := dm.c_6_genidCODIGO.AsInteger;
+    dm.c_6_genid.Close;
+    //  Inserindo Conta Débito
+    var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
+           ', DATA, CODUSUARIO, CODCCUSTO, CONTA ' +
+           ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
+           ', QTDEDEBITO, QTDEORCADO) Values (';
+    var_sqla := var_sqla + intToStr(cod_id); //CODCONT
+    var_sqla := var_sqla + ',' + intToStr(codcaixa); //CODORIGEM
+    var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy',v_DataCaixa); //DATA
+    var_sqla := var_sqla + ''',' + IntToStr(codusuario);  //CODUSUARIO
+    var_sqla := var_sqla + ',' + IntToStr(codcustoCD); //CODCUSTO
+    var_sqla := var_sqla + ',' + QuotedStr(cdebito); //  Debito CAIXA INTERNO
+    DecimalSeparator := '.';
+    var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(valorSangria)); //Valor Debito
+    var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
+    DecimalSeparator := ',';
+    var_sqla := var_sqla + ',' + '0';  //Valor ORCADO
+    var_sqla := var_sqla + ',' + '0'; //QTDECREDITO
+    var_sqla := var_sqla + ',' + '0'; //QTDEDEBITO
+    var_sqla := var_sqla + ',' + '0'; //QTDEORCADO
+    var_sqla := var_sqla + ')';
+    dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+    { *** Inserindo o Histórico *** }
+    var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
+                ') Values (';
+    var_sqla := var_sqla + intToStr(cod_id);
+    var_sqla := var_sqla + ',''' + historico;
+    var_sqla := var_sqla + ''')';
+    dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+
+    //Abre a c_genid para pegar o número do CODCONTAB
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cod_id := dm.c_6_genidCODIGO.AsInteger;
+    dm.c_6_genid.Close;
+    // Inclui Conta crédito
+    var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
+           ', DATA, CODUSUARIO, CODCCUSTO, CONTA ' +
+           ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
+           ', QTDEDEBITO, QTDEORCADO) Values (';
+    var_sqla := var_sqla + intToStr(cod_id); //CODCONT
+    var_sqla := var_sqla + ',' + intToStr(codcaixa); //CODORIGEM
+    var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
+    var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', v_DataCaixa); //DATA
+    var_sqla := var_sqla + ''',' + IntToStr(codusuario);  //CODUSUARIO
+    var_sqla := var_sqla + ',' + IntToStr(codcustoCC); //CODCUSTO
+    var_sqla := var_sqla + ',' + QuotedStr(ccredito); // CREDITO CAIXA SANGRIA
+    DecimalSeparator := '.';
+    var_sqla := var_sqla + ',' + '0'; //Valor Debito
+    var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(valorSangria)); //Valor Credito
+    DecimalSeparator := ',';
+    var_sqla := var_sqla + ',' + '0';  //Valor ORCADO
+    var_sqla := var_sqla + ',' + '0'; //QTDECREDITO
+    var_sqla := var_sqla + ',' + '0'; //QTDEDEBITO
+    var_sqla := var_sqla + ',' + '0'; //QTDEORCADO
+    var_sqla := var_sqla + ')';
+    dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+
+    { *** Inserindo o Histórico *** }
+    var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
+                ') Values (';
+    var_sqla := var_sqla + intToStr(cod_id);
+    var_sqla := var_sqla + ',''' + historico;
+    var_sqla := var_sqla + ''')';
+    dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+end;
+
 function TFiscalCls.VerificaCaixaAberto(): Boolean;
 begin
   if Dm.cds_parametro.Active then
@@ -291,12 +391,12 @@ begin
     sqlConsulta.SQLConnection := dm.sqlsisAdimin;
     if (dm.cds_parametroD1.AsString <> v_NomePerfil) then
     begin
-      v_SqlTexto := 'Select DATAABERTURA, CODCAIXA from CAIXA_CONTROLE where MAQUINA = ' + QuotedStr(NomeComputador);
+      v_SqlTexto := 'Select DATAABERTURA, CODCAIXA, NOMECAIXA, IDCAIXACONTROLE from CAIXA_CONTROLE where MAQUINA = ' + QuotedStr(NomeComputador);
       v_SqlTexto := v_SqlTexto + ' and SITUACAO = ' + QuotedStr('A');
     end
     else
     begin
-      v_SqlTexto := 'Select DATAABERTURA, CODCAIXA from CAIXA_CONTROLE where SITUACAO = ' + QuotedStr('A');
+      v_SqlTexto := 'Select DATAABERTURA, CODCAIXA, NOMECAIXA, IDCAIXACONTROLE from CAIXA_CONTROLE where SITUACAO = ' + QuotedStr('A');
     end;
     dm.cds_parametro.Close;
     sqlConsulta.SQL.Add(v_SqlTexto);
@@ -308,8 +408,10 @@ begin
     else
     begin
        Result := True;
-       v_DataCaixa := sqlConsulta.Fields[0].AsDateTime;
+       v_DataCaixa  := sqlConsulta.Fields[0].AsDateTime;
        v_Cod_Caixa  := sqlConsulta.Fields[1].AsInteger;
+       v_NomeCaixa  := sqlConsulta.Fields[2].AsString;
+       v_idcaixa    := sqlConsulta.Fields[3].AsInteger;
     end;
   finally
     sqlConsulta.Free;
