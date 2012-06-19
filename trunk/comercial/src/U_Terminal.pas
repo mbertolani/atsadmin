@@ -3484,6 +3484,8 @@ begin
     JvParcial.Value := c_formatotal.Value;
     JvParcial.Value := c_formatotal.Value;
     JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
+    if (JvSubtotal.Value < 0.009) then
+      var_FINALIZOU := 'SIM';
   end;
 
   c_forma.Close;
