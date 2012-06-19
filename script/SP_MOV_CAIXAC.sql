@@ -1,3 +1,4 @@
+set term ^;
 CREATE OR ALTER PROCEDURE SP_MOV_CAIXAC (
     DTAINI Date,
     DTAFIM Date,
@@ -34,6 +35,7 @@ BEGIN
   valorc = 0;
   valord = 0;
   valor = 0;
+  ORDEM = 0;
   /* Caixa PADRAO CADASTRADO*/
   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CAIXA'
     INTO :CONTACAIXA;
@@ -66,12 +68,14 @@ BEGIN
       INTO :NCONTA, :CAIXA;
     select SUM(VALORCREDITO), SUM(VALORDEBITO) from MOVIMENTOCONT 
      where data < :DTAINI and tipoorigem = 'CONTABIL' and CONTA = :NCONTA
+      and ((CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
       INTO :VLINIC, VLINID; 
   END
   ELSE
   BEGIN 
     select SUM(VALORCREDITO), SUM(VALORDEBITO) from MOVIMENTOCONT where data < :DTAINI 
         and tipoorigem = 'CONTABIL' and PLNCTAMAIN(CONTA) = PLNCTAMAIN(:CONTACAIXA) 
+         and ((CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
       INTO :VLINIC, VLINID;   
   END
   IF (VLINID IS NULL) THEN
@@ -145,7 +149,7 @@ BEGIN
       DESCRICAO = FORN;
     else
       DESCRICAO = FORN || ' - ' || DESCRICAO;
-    ORDEM = 1;
+    ORDEM = ORDEM + 1;
     IF (VALORD > 0.001) THEN
     SUSPEND;
     DESCRICAO = null;
@@ -166,7 +170,7 @@ BEGIN
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
       INTO :NCONTA, :CAIXA;
     FOR select mov.DATA, SUM(mov.VALORDEBITO), his.HISTORICO, pc.CODREDUZIDO from MOVIMENTOCONT mov
-       LEFT OUTER JOIN HISTORICO_CONTAB his on his.COD_CONTAB = mov.CODORIGEM  
+       LEFT OUTER JOIN HISTORICO_CONTAB his on his.COD_CONTAB = mov.CODCONT  
        left outer join PLANO PC on pc.CONTA = mov.CONTA
        WHERE pc.CONTA = mov.CONTA and mov.DATA BETWEEN :DTAINI AND :DTAFIM
        and mov.tipoorigem = 'CONTABIL' 
@@ -176,7 +180,7 @@ BEGIN
       INTO :DTAPAGTO, :VALORD, :DESCRICAO, :CODCONTA 
     do begin
       VALOR = VALOR + VALORD;
-      ORDEM = 1;
+      ORDEM = ORDEM + 1;
       IF (VALORD > 0.001) THEN
         SUSPEND;
       DESCRICAO = null;
@@ -190,7 +194,7 @@ BEGIN
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
       INTO :NCONTA, :CAIXA;
     FOR select mov.DATA, SUM(mov.VALORDEBITO), his.HISTORICO, pc.CODREDUZIDO from MOVIMENTOCONT mov, PLANO pc 
-       LEFT OUTER JOIN HISTORICO_CONTAB his on his.COD_CONTAB = mov.CODORIGEM 
+       LEFT OUTER JOIN HISTORICO_CONTAB his on his.COD_CONTAB = mov.CODCONT 
        WHERE pc.CONTA = mov.CONTA and  mov.DATA BETWEEN :DTAINI AND :DTAFIM
        and mov.tipoorigem = 'CONTABIL' 
        and PLNCTAMAIN(mov.CONTA) = PLNCTAMAIN(:CONTACAIXA) 
@@ -199,7 +203,7 @@ BEGIN
       INTO :DTAPAGTO,:VALORD, :DESCRICAO, :CODCONTA 
     do begin
       VALOR = VALOR + VALORD;
-      ORDEM = 1;
+      ORDEM = ORDEM + 1;
       IF (VALORD > 0.001) THEN
         SUSPEND;
       DESCRICAO = null;
@@ -247,7 +251,7 @@ BEGIN
     else
       DESCRICAO = FORN || ' - ' || DESCRICAO;
       
-    ORDEM = 2;
+    ORDEM = ORDEM + 1;
     if (forma = '1') then 
       forma = 'Dinheiro';
     else if (forma = '2') then 
@@ -305,7 +309,7 @@ BEGIN
       INTO :NCONTA, :CAIXA;
     FOR select mov.DATA, SUM(mov.VALORCREDITO), his.HISTORICO, pc.CODREDUZIDO from MOVIMENTOCONT mov, 
        HISTORICO_CONTAB his, PLANO pc
-       WHERE mov.CODORIGEM = his.COD_CONTAB and pc.CONTA = mov.CONTA AND mov.DATA BETWEEN :DTAINI AND :DTAFIM
+       WHERE mov.CODCONT = his.COD_CONTAB and pc.CONTA = mov.CONTA AND mov.DATA BETWEEN :DTAINI AND :DTAFIM
        and mov.tipoorigem = 'CONTABIL' 
        and pc.CODIGO = :COD_CAIXA 
        and ((mov.CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
@@ -313,7 +317,7 @@ BEGIN
       INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA
     do begin
       VALOR = VALOR - VALORC;
-      ORDEM = 2;
+      ORDEM = ORDEM + 1;
       if (valorc is null) then 
         valorc = 0;
       IF (VALORC > 0.001) THEN
@@ -331,7 +335,7 @@ BEGIN
       INTO :NCONTA, :CAIXA;
     FOR select mov.DATA, SUM(mov.VALORCREDITO), his.HISTORICO, pc.CODREDUZIDO from MOVIMENTOCONT mov
        , HISTORICO_CONTAB his, PLANO pc
-       WHERE mov.CODORIGEM = his.COD_CONTAB and pc.CONTA = mov.CONTA AND  mov.DATA BETWEEN :DTAINI AND :DTAFIM
+       WHERE mov.CODCONT = his.COD_CONTAB and pc.CONTA = mov.CONTA AND  mov.DATA BETWEEN :DTAINI AND :DTAFIM
        and mov.tipoorigem = 'CONTABIL' 
        and PLNCTAMAIN(MOV.CONTA) = PLNCTAMAIN(:CONTACAIXA) 
        and ((mov.CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
@@ -339,7 +343,7 @@ BEGIN
       INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA
     do begin
       VALOR = VALOR - VALORC;
-      ORDEM = 2;
+      ORDEM = ORDEM + 1;
       if (valorc is null) then 
         valorc = 0;
       IF (VALORC > 0.001) THEN
