@@ -1,8 +1,8 @@
 object F_Entrada: TF_Entrada
-  Left = 381
-  Top = 109
-  Width = 632
-  Height = 527
+  Left = 452
+  Top = 139
+  Width = 638
+  Height = 580
   BorderIcons = [biSystemMenu]
   Caption = 'Formas de Pgto / Entrada R$'
   Color = clBtnFace
@@ -21,8 +21,8 @@ object F_Entrada: TF_Entrada
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 48
-    Width = 616
-    Height = 441
+    Width = 622
+    Height = 494
     Align = alClient
     PopupMenu = pm1
     TabOrder = 0
@@ -34,17 +34,17 @@ object F_Entrada: TF_Entrada
     Background.FillType = GradUpDown
     object JvLabel7: TJvLabel
       Left = 14
-      Top = 233
+      Top = 286
       Width = 58
       Height = 23
       Caption = 'Vale :'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindow
       Font.Height = -19
       Font.Name = 'Cooper Black'
       Font.Style = []
       ParentFont = False
-      ShadowColor = clWindow
+      ShadowColor = clBlack
       ShadowSize = 2
       Transparent = True
       HintColor = clBlack
@@ -56,17 +56,17 @@ object F_Entrada: TF_Entrada
     end
     object JvLabel6: TJvLabel
       Left = 14
-      Top = 189
+      Top = 242
       Width = 177
       Height = 23
       Caption = 'Cart'#227'o de D'#233'bito :'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindow
       Font.Height = -19
       Font.Name = 'Cooper Black'
       Font.Style = []
       ParentFont = False
-      ShadowColor = clWindow
+      ShadowColor = clBlack
       ShadowSize = 2
       Transparent = True
       HintColor = clBlack
@@ -78,17 +78,17 @@ object F_Entrada: TF_Entrada
     end
     object JvLabel5: TJvLabel
       Left = 14
-      Top = 145
+      Top = 198
       Width = 186
       Height = 23
       Caption = 'Cart'#227'o de Cr'#233'dito :'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindow
       Font.Height = -19
       Font.Name = 'Cooper Black'
       Font.Style = []
       ParentFont = False
-      ShadowColor = clWindow
+      ShadowColor = clBlack
       ShadowSize = 2
       Transparent = True
       HintColor = clBlack
@@ -100,17 +100,17 @@ object F_Entrada: TF_Entrada
     end
     object JvLabel4: TJvLabel
       Left = 14
-      Top = 102
+      Top = 155
       Width = 125
       Height = 23
       Caption = 'Cheque-Pr'#233' :'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindow
       Font.Height = -19
       Font.Name = 'Cooper Black'
       Font.Style = []
       ParentFont = False
-      ShadowColor = clWindow
+      ShadowColor = clBlack
       ShadowSize = 2
       Transparent = True
       HintColor = clBlack
@@ -122,17 +122,17 @@ object F_Entrada: TF_Entrada
     end
     object JvLabel2: TJvLabel
       Left = 14
-      Top = 61
+      Top = 114
       Width = 87
       Height = 23
       Caption = 'Cheque :'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindow
       Font.Height = -19
       Font.Name = 'Cooper Black'
       Font.Style = []
       ParentFont = False
-      ShadowColor = clWindow
+      ShadowColor = clBlack
       ShadowSize = 2
       Transparent = True
       HintColor = clBlack
@@ -144,17 +144,17 @@ object F_Entrada: TF_Entrada
     end
     object JvLabel1: TJvLabel
       Left = 15
-      Top = 18
+      Top = 71
       Width = 101
       Height = 23
       Caption = 'Dinheiro :'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindow
       Font.Height = -19
       Font.Name = 'Cooper Black'
       Font.Style = []
       ParentFont = False
-      ShadowColor = clWindow
+      ShadowColor = clBlack
       ShadowSize = 2
       Transparent = True
       HintColor = clBlack
@@ -166,10 +166,32 @@ object F_Entrada: TF_Entrada
     end
     object JvLabel9: TJvLabel
       Left = 14
-      Top = 278
+      Top = 331
       Width = 82
       Height = 23
       Caption = 'Outros :'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindow
+      Font.Height = -19
+      Font.Name = 'Cooper Black'
+      Font.Style = []
+      ParentFont = False
+      ShadowColor = clBlack
+      ShadowSize = 2
+      Transparent = True
+      HintColor = clBlack
+      HotTrackFont.Charset = ANSI_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -19
+      HotTrackFont.Name = 'Cooper Black'
+      HotTrackFont.Style = []
+    end
+    object JvLabel10: TJvLabel
+      Left = 369
+      Top = 15
+      Width = 96
+      Height = 23
+      Caption = 'TROCO ->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
       Font.Height = -19
@@ -186,9 +208,39 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
+    object JvLabel11: TJvLabel
+      Left = 9
+      Top = 15
+      Width = 179
+      Height = 23
+      Caption = 'Valor Pago     ------->'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = 'Cooper Black'
+      Font.Style = []
+      ParentFont = False
+      ShadowColor = clWindow
+      ShadowSize = 2
+      Transparent = True
+      HintColor = clBlack
+      HotTrackFont.Charset = ANSI_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -19
+      HotTrackFont.Name = 'Cooper Black'
+      HotTrackFont.Style = []
+    end
+    object bvl1: TBevel
+      Left = 2
+      Top = 52
+      Width = 619
+      Height = 17
+      Shape = bsTopLine
+      Style = bsRaised
+    end
     object JvVale: TJvValidateEdit
       Left = 202
-      Top = 222
+      Top = 275
       Width = 143
       Height = 40
       BevelKind = bkFlat
@@ -209,7 +261,7 @@ object F_Entrada: TF_Entrada
     end
     object JvCartaoDBT: TJvValidateEdit
       Left = 202
-      Top = 179
+      Top = 232
       Width = 143
       Height = 40
       BevelKind = bkFlat
@@ -230,7 +282,7 @@ object F_Entrada: TF_Entrada
     end
     object JvCartaoCDT: TJvValidateEdit
       Left = 202
-      Top = 136
+      Top = 189
       Width = 143
       Height = 40
       BevelKind = bkFlat
@@ -251,7 +303,7 @@ object F_Entrada: TF_Entrada
     end
     object JvChequePre: TJvValidateEdit
       Left = 202
-      Top = 93
+      Top = 146
       Width = 143
       Height = 40
       BevelKind = bkFlat
@@ -272,7 +324,7 @@ object F_Entrada: TF_Entrada
     end
     object JvCheque: TJvValidateEdit
       Left = 202
-      Top = 50
+      Top = 103
       Width = 143
       Height = 40
       BevelKind = bkFlat
@@ -293,7 +345,7 @@ object F_Entrada: TF_Entrada
     end
     object jvDinheiro: TJvValidateEdit
       Left = 202
-      Top = 7
+      Top = 60
       Width = 143
       Height = 40
       BevelKind = bkFlat
@@ -314,7 +366,7 @@ object F_Entrada: TF_Entrada
     end
     object JvOutros: TJvValidateEdit
       Left = 202
-      Top = 265
+      Top = 318
       Width = 143
       Height = 40
       BevelKind = bkFlat
@@ -335,7 +387,7 @@ object F_Entrada: TF_Entrada
     end
     object cbCartaoCDT1: TComboBox
       Left = 346
-      Top = 148
+      Top = 202
       Width = 268
       Height = 27
       BevelKind = bkFlat
@@ -352,7 +404,7 @@ object F_Entrada: TF_Entrada
     end
     object cbCartaoDBT1: TComboBox
       Left = 346
-      Top = 191
+      Top = 245
       Width = 268
       Height = 27
       BevelKind = bkFlat
@@ -369,7 +421,7 @@ object F_Entrada: TF_Entrada
     end
     object cbOutros: TComboBox
       Left = 346
-      Top = 277
+      Top = 330
       Width = 268
       Height = 27
       BevelKind = bkFlat
@@ -386,7 +438,7 @@ object F_Entrada: TF_Entrada
     end
     object ObsCheque: TEdit
       Left = 346
-      Top = 62
+      Top = 113
       Width = 268
       Height = 30
       BevelKind = bkFlat
@@ -403,7 +455,7 @@ object F_Entrada: TF_Entrada
     end
     object ObsChequePre: TEdit
       Left = 346
-      Top = 105
+      Top = 156
       Width = 268
       Height = 30
       BevelKind = bkFlat
@@ -420,7 +472,7 @@ object F_Entrada: TF_Entrada
     end
     object cbDinheiro: TComboBox
       Left = 346
-      Top = 19
+      Top = 72
       Width = 268
       Height = 27
       BevelKind = bkFlat
@@ -438,8 +490,8 @@ object F_Entrada: TF_Entrada
     end
     object JvDBGrid1: TJvDBGrid
       Left = 1
-      Top = 311
-      Width = 614
+      Top = 364
+      Width = 620
       Height = 129
       Align = alBottom
       BorderStyle = bsNone
@@ -465,7 +517,7 @@ object F_Entrada: TF_Entrada
           Expanded = False
           FieldName = 'FORMA'
           Title.Caption = 'Forma Pgto'
-          Width = 119
+          Width = 120
           Visible = True
         end
         item
@@ -486,13 +538,13 @@ object F_Entrada: TF_Entrada
           Expanded = False
           FieldName = 'N_DOC'
           Title.Caption = 'N'#186' Documento'
-          Width = 218
+          Width = 223
           Visible = True
         end>
     end
     object cbVale: TComboBox
       Left = 346
-      Top = 235
+      Top = 288
       Width = 268
       Height = 27
       BevelKind = bkFlat
@@ -507,11 +559,54 @@ object F_Entrada: TF_Entrada
       TabOrder = 11
       OnKeyPress = FormKeyPress
     end
+    object JvTroco: TJvValidateEdit
+      Left = 469
+      Top = 5
+      Width = 143
+      Height = 40
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -29
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      PopupMenu = pm1
+      TabOrder = 15
+      OnKeyPress = FormKeyPress
+    end
+    object JvPago: TJvValidateEdit
+      Left = 200
+      Top = 5
+      Width = 143
+      Height = 40
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -29
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      PopupMenu = pm1
+      TabOrder = 16
+      OnChange = JvPagoChange
+      OnKeyPress = FormKeyPress
+    end
   end
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 616
+    Width = 622
     Height = 48
     Align = alTop
     PopupMenu = pm1
@@ -522,8 +617,30 @@ object F_Entrada: TF_Entrada
     Background.StartColor = clActiveCaption
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
+    object JvLabel8: TJvLabel
+      Left = 515
+      Top = 3
+      Width = 99
+      Height = 17
+      Caption = 'Total Parcial :'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Cooper Black'
+      Font.Style = []
+      ParentFont = False
+      ShadowColor = clWindow
+      ShadowSize = 2
+      Transparent = True
+      HintColor = clBlack
+      HotTrackFont.Charset = ANSI_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -13
+      HotTrackFont.Name = 'Cooper Black'
+      HotTrackFont.Style = []
+    end
     object JvLabel3: TJvLabel
-      Left = 371
+      Left = 409
       Top = 3
       Width = 96
       Height = 17
@@ -544,12 +661,12 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
-    object JvLabel8: TJvLabel
-      Left = 493
-      Top = 3
-      Width = 99
+    object JvLabel12: TJvLabel
+      Left = 329
+      Top = 2
+      Width = 74
       Height = 17
-      Caption = 'Total Parcial :'
+      Caption = 'Comiss'#227'o :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
       Font.Height = -13
@@ -941,7 +1058,7 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Style = []
     end
     object btnIncluir: TJvBitBtn
-      Left = 258
+      Left = 198
       Top = 2
       Width = 48
       Height = 45
@@ -1081,9 +1198,9 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Style = []
     end
     object DBEdit1: TDBEdit
-      Left = 492
+      Left = 514
       Top = 18
-      Width = 121
+      Width = 106
       Height = 29
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1098,26 +1215,6 @@ object F_Entrada: TF_Entrada
       PopupMenu = pm1
       TabOrder = 4
     end
-    object JvPedido: TJvValidateEdit
-      Left = 369
-      Top = 18
-      Width = 121
-      Height = 29
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CriticalPoints.MaxValueIncluded = False
-      CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfFloat
-      DecimalPlaces = 2
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
-      Font.Height = -19
-      Font.Name = 'Times New Roman'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = pm1
-      TabOrder = 5
-    end
     object JvFinalizar: TJvBitBtn
       Left = 100
       Top = 2
@@ -1127,7 +1224,7 @@ object F_Entrada: TF_Entrada
       ParentShowHint = False
       PopupMenu = pm1
       ShowHint = True
-      TabOrder = 6
+      TabOrder = 5
       OnClick = JvFinalizarClick
       Glyph.Data = {
         660F0000424D660F000000000000360000002800000024000000240000000100
@@ -1260,6 +1357,47 @@ object F_Entrada: TF_Entrada
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
+    object JvPedido: TJvValidateEdit
+      Left = 407
+      Top = 18
+      Width = 106
+      Height = 29
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = pm1
+      TabOrder = 6
+    end
+    object JvComissao: TJvValidateEdit
+      Left = 327
+      Top = 18
+      Width = 79
+      Height = 29
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Enabled = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = pm1
+      TabOrder = 7
+    end
   end
   object s_forma: TSQLDataSet
     CommandText = 
@@ -1283,8 +1421,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 336
-    Top = 393
+    Left = 128
+    Top = 457
     object s_formaCOD_VENDA: TIntegerField
       FieldName = 'COD_VENDA'
       ProviderFlags = [pfInUpdate]
@@ -1327,8 +1465,8 @@ object F_Entrada: TF_Entrada
   object p_forma: TDataSetProvider
     DataSet = s_forma
     UpdateMode = upWhereKeyOnly
-    Left = 376
-    Top = 393
+    Left = 160
+    Top = 457
   end
   object c_forma: TClientDataSet
     Aggregates = <>
@@ -1340,8 +1478,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     ProviderName = 'p_forma'
-    Left = 416
-    Top = 392
+    Left = 193
+    Top = 456
     object c_formaCOD_VENDA: TIntegerField
       FieldName = 'COD_VENDA'
       ProviderFlags = [pfInUpdate]
@@ -1391,8 +1529,8 @@ object F_Entrada: TF_Entrada
   end
   object DataSource1: TDataSource
     DataSet = c_forma
-    Left = 456
-    Top = 394
+    Left = 227
+    Top = 457
   end
   object scds_serie_proc: TSQLClientDataSet
     CommandText = 
@@ -1408,8 +1546,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 249
-    Top = 433
+    Left = 129
+    Top = 489
     object scds_serie_procCODSERIE: TStringField
       FieldName = 'CODSERIE'
       FixedChar = True
@@ -1428,8 +1566,8 @@ object F_Entrada: TF_Entrada
     end
   end
   object pm1: TPopupMenu
-    Left = 168
-    Top = 104
+    Left = 224
+    Top = 496
     object F4Gravar1: TMenuItem
       Caption = 'Gravar'
       ShortCut = 115
@@ -1455,8 +1593,8 @@ object F_Entrada: TF_Entrada
     Filename = 'C:\home\sisAdmin\relatorio\impr_texto.rep'
     AsyncExecution = False
     Title = 'Untitled'
-    Left = 288
-    Top = 112
+    Left = 392
+    Top = 464
   end
   object s_parametro: TSQLDataSet
     CommandText = 'select * from PARAMETRO '#13#10'where PARAMETRO = :pr'
@@ -1468,8 +1606,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 244
-    Top = 82
+    Left = 324
+    Top = 466
     object s_parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
@@ -1533,8 +1671,8 @@ object F_Entrada: TF_Entrada
     end
   end
   object dlgSave1: TSaveDialog
-    Left = 240
-    Top = 153
+    Left = 360
+    Top = 465
   end
   object scdsCr_proc: TClientDataSet
     Aggregates = <>
@@ -1546,8 +1684,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     ProviderName = 'DataSetProvider1'
-    Left = 408
-    Top = 432
+    Left = 72
+    Top = 488
     object scdsCr_procTITULO: TStringField
       FieldName = 'TITULO'
       ProviderFlags = [pfInUpdate]
@@ -1683,8 +1821,8 @@ object F_Entrada: TF_Entrada
   object DataSetProvider1: TDataSetProvider
     DataSet = SQLDataSet1
     UpdateMode = upWhereKeyOnly
-    Left = 376
-    Top = 432
+    Left = 40
+    Top = 488
   end
   object SQLDataSet1: TSQLDataSet
     CommandText = 
@@ -1710,8 +1848,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 344
-    Top = 432
+    Left = 8
+    Top = 488
     object SQLDataSet1TITULO: TStringField
       FieldName = 'TITULO'
       ProviderFlags = [pfInUpdate]
@@ -1833,8 +1971,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     ProviderName = 'dspCaixa1'
-    Left = 124
-    Top = 416
+    Left = 69
+    Top = 457
     object sCaixa1IDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       Required = True
@@ -1876,8 +2014,8 @@ object F_Entrada: TF_Entrada
   end
   object dspCaixa1: TDataSetProvider
     DataSet = sdsCaixa1
-    Left = 94
-    Top = 416
+    Left = 39
+    Top = 457
   end
   object sdsCaixa1: TSQLDataSet
     CommandText = 
@@ -1896,8 +2034,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 64
-    Top = 416
+    Left = 9
+    Top = 457
     object sdsCaixa1IDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       Required = True
@@ -1947,8 +2085,8 @@ object F_Entrada: TF_Entrada
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 528
-    Top = 440
+    Left = 168
+    Top = 488
     object s_contasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
