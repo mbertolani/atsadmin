@@ -272,6 +272,15 @@ type
     Label50: TLabel;
     Edit14: TEdit;
     Button1: TButton;
+    edtCXInterno: TEdit;
+    lbl12: TLabel;
+    edtCXSangria: TEdit;
+    lbl13: TLabel;
+    lbl14: TLabel;
+    edtTela: TEdit;
+    edtPorc: TEdit;
+    lbl15: TLabel;
+    rg1: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -339,6 +348,11 @@ type
     procedure chk1Click(Sender: TObject);
     procedure BitBtn30Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure edtCXInternoChange(Sender: TObject);
+    procedure edtCXSangriaChange(Sender: TObject);
+    procedure edtTelaChange(Sender: TObject);
+    procedure edtPorcChange(Sender: TObject);
+    procedure rg1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2114,6 +2128,27 @@ begin
 
      if (s_parametro.Active) then
        s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFILTELA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       edtTela.Text := s_parametroD1.AsString;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       edtCXInterno.Text := s_parametroD1.AsString;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'CONTACAIXASANGRIA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       edtCXSangria.Text := s_parametroD1.AsString;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
      s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
@@ -2326,9 +2361,24 @@ begin
      s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-        rgPgComissao.ItemIndex := 0
+     begin
+        rgPgComissao.ItemIndex := 0;
+        edtPorc.Text := s_parametroDADOS.AsString;
+     end
      else
+     begin
         rgPgComissao.ItemIndex := 1;
+        edtPorc.Text := '0';
+     end;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'LANCACOMISSAOCR';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        rg1.ItemIndex := 0
+     else
+        rg1.ItemIndex := 1;
 
      s_parametro.Close;
      MMJPanel1.Visible := False;
@@ -3265,7 +3315,8 @@ begin
   strSql := '';
   if (rgPgComissao.ItemIndex = 0) then  // Utiliza Lote no PDV
   begin
-     if (s_parametro.Active) then
+    edtPorc.Enabled := True;
+    { if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
      s_parametro.Open;
@@ -3275,21 +3326,23 @@ begin
         strSql := strSql + ') VALUES (';
         strSql := strSql + QuotedStr('Paga comissão atendente') + ', ';
         strSql := strSql + QuotedStr('PAGA_COMISSAO') + ', ';
-        strSql := strSql + '3';
+        strSql := strSql + QuotedStr(edtPorc.Text);
         strSql := strSql + ')';
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
         Try
            dm.sqlsisAdimin.Commit(TD);
         except
-           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes
            MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
                [mbOk], 0);
         end;
-     end;
+     end;    }
   end
   else
   begin
+    edtPorc.Text := '0';
+    edtPorc.Enabled := False;
      if (s_parametro.Active) then
        s_parametro.Close;
      s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
@@ -3298,13 +3351,12 @@ begin
      begin
         strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
         strSql := strSql + QuotedStr('PAGA_COMISSAO');
-
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
         Try
            dm.sqlsisAdimin.Commit(TD);
         except
-           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes
            MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
                [mbOk], 0);
         end;
@@ -3897,6 +3949,237 @@ begin
     finally
       fCargosFuncoes.Free;
     end;
+end;
+
+procedure TfParametro.edtCXInternoChange(Sender: TObject);
+begin
+  if (edtCXInterno.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+          strSql := 'UPDATE PARAMETRO SET D1 = ';
+          strSql := strSql + QuotedStr(edtCXInterno.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('CONTACAIXAINTERNA');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Conta Caixa Interno') + ', ';
+        strSql := strSql + QuotedStr('CONTACAIXAINTERNA') + ', ';
+        strSql := strSql + QuotedStr(edtCXInterno.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtCXSangriaChange(Sender: TObject);
+begin
+  if (edtCXSangria.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'CONTACAIXASANGRIA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+          strSql := 'UPDATE PARAMETRO SET D1 = ';
+          strSql := strSql + QuotedStr(edtCXSangria.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('CONTACAIXASANGRIA');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Conta Caixa Sangria') + ', ';
+        strSql := strSql + QuotedStr('CONTACAIXASANGRIA') + ', ';
+        strSql := strSql + QuotedStr(edtCXSangria.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtTelaChange(Sender: TObject);
+begin
+  if (edtTela.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PERFILTELA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtTela.Text <> s_parametroD1.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET D1 = ';
+          strSql := strSql + QuotedStr(edtPerfil01.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PERFILTELA');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Perfil para Usar Tela Completa') + ', ';
+        strSql := strSql + QuotedStr('PERFILTELA') + ', ';
+        strSql := strSql + QuotedStr(edtTela.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtPorcChange(Sender: TObject);
+begin
+  if (StrToInt(edtPorc.Text) > 0) then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+          strSql := 'UPDATE PARAMETRO SET DADOS = ';
+          strSql := strSql + QuotedStr(edtPorc.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PAGA_COMISSAO');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Paga comissão atendente') + ', ';
+        strSql := strSql + QuotedStr('PAGA_COMISSAO') + ', ';
+        strSql := strSql + QuotedStr(edtPorc.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.rg1Click(Sender: TObject);
+begin
+  strSql := '';
+  if (rg1.ItemIndex = 0) then  // Utiliza Lote no PDV
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'LANCACOMISSAOCR';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Lança comissão no contas à Receber') + ', ';
+        strSql := strSql + QuotedStr('LANCACOMISSAOCR');
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+    edtPorc.Text := '0';
+    edtPorc.Enabled := False;
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'LANCACOMISSAOCR';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+        strSql := strSql + QuotedStr('LANCACOMISSAOCR');
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
 end;
 
 end.
