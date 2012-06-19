@@ -112,7 +112,8 @@ uses
   ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
-  uRel, uRelatorioCaixa, uPrazo, uProcura_produtos, uTerminalNTC;
+  uRel, uRelatorioCaixa, uPrazo, uProcura_produtos, uTerminalNTC,
+  uCadClientes2;
 
 {$R *.dfm}
 
@@ -341,18 +342,38 @@ begin
   usulog :=  fAts_R.UserControlAuto.CurrentUser.UserID;
   nome_user := fAts_R.UserControlAuto.CurrentUser.UserName;
 
+ // if (dm.moduloUsado = 'COMPLETO') then
+ //   fAtsAdmin.ShowModal;
+
 end;
 
 procedure TfAts_R.JvOutlookBar1Pages0Buttons1Click(Sender: TObject);
 begin
   if (varform <> '') then
     varform := '';
-  fCliente1 := TfCliente1.Create(Application);
-  try
-    fCliente1.ShowModal;
-  finally
-    fCliente1.Free;
-    varform := '';
+
+  if (DM.cds_parametro.Active) then
+     DM.cds_parametro.Close;
+  DM.cds_parametro.Params[0].AsString := 'PDVNTC';
+  DM.cds_parametro.Open;
+  if (DM.cds_parametro.Eof) then
+  begin
+    fCliente1 := TfCliente1.Create(Application);
+    try
+      fCliente1.ShowModal;
+    finally
+      fCliente1.Free;
+      varform := '';
+    end;
+  end
+  else
+  begin
+    fCadClientes2 := TfCadClientes2.Create(Application);
+    try
+      fCadClientes2.ShowModal;
+    finally
+      fCadClientes2.Free;
+    end;
   end;
 
 end;
@@ -398,7 +419,7 @@ end;
 
 procedure TfAts_R.JvOutlookBar1Pages1Buttons2Click(Sender: TObject);
 begin
-//   DM.tipoVenda := 'VENDA';
+ //   DM.tipoVenda := 'VENDA';
   // fVendas.ShowModal;
   usulog :=  fAts_R.UserControlAuto.CurrentUser.UserID;
   nome_user := fAts_R.UserControlAuto.CurrentUser.UserName;
@@ -421,7 +442,7 @@ begin
   begin
     fTerminalNTC := TfTerminalNTC.Create(Application);
     try
-      //sCtrlResize.CtrlResize(TForm(fTerminalNTC));
+      sCtrlResize.CtrlResize(TForm(fTerminalNTC));
       fTerminalNTC.ShowModal;
     finally
       fTerminalNTC.Free;
