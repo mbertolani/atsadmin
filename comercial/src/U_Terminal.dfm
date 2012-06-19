@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
-  Left = 313
-  Top = 128
+  Left = 240
+  Top = 136
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -288,7 +288,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel3: TJvLabel
-        Left = 126
+        Left = 166
         Top = 10
         Width = 66
         Height = 23
@@ -310,7 +310,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel12: TJvLabel
-        Left = 126
+        Left = 167
         Top = 45
         Width = 66
         Height = 23
@@ -332,7 +332,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel13: TJvLabel
-        Left = 125
+        Left = 147
         Top = 81
         Width = 87
         Height = 23
@@ -377,7 +377,7 @@ object F_Terminal: TF_Terminal
         OnKeyPress = JvComissaoKeyPress
       end
       object JvTotal: TJvValidateEdit
-        Left = 227
+        Left = 249
         Top = 1
         Width = 152
         Height = 36
@@ -399,7 +399,7 @@ object F_Terminal: TF_Terminal
         TabOrder = 1
       end
       object JvParcial: TJvValidateEdit
-        Left = 227
+        Left = 249
         Top = 37
         Width = 152
         Height = 36
@@ -421,7 +421,7 @@ object F_Terminal: TF_Terminal
         TabOrder = 2
       end
       object JvSubtotal: TJvValidateEdit
-        Left = 227
+        Left = 249
         Top = 73
         Width = 152
         Height = 36
@@ -2217,7 +2217,7 @@ object F_Terminal: TF_Terminal
     Top = 45
     Width = 372
     Height = 490
-    ActivePage = TabDelivery
+    ActivePage = TabSheet1
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -2253,8 +2253,8 @@ object F_Terminal: TF_Terminal
           object JvImage1: TJvImage
             Left = 2
             Top = 2
-            Width = 765
-            Height = 370
+            Width = 358
+            Height = 355
             Align = alClient
             AutoSize = True
             Center = True
@@ -3235,7 +3235,7 @@ object F_Terminal: TF_Terminal
       end
     end
     object TabComanda: TTabSheet
-      Caption = 'Comanda'
+      Caption = 'Mesas'
       ImageIndex = 2
       PopupMenu = PopupMenu1
       object DBGrid3: TDBGrid
@@ -6303,6 +6303,30 @@ object F_Terminal: TF_Terminal
     object sdsCaixa1NOMECAIXA: TStringField
       FieldName = 'NOMECAIXA'
       Size = 60
+    end
+  end
+  object pmCaixa: TPopupMenu
+    Left = 596
+    Top = 141
+    object AbrirCaixa1: TMenuItem
+      Caption = '&Abrir Caixa'
+      OnClick = AbrirCaixa1Click
+    end
+    object EfetuarSangria1: TMenuItem
+      Caption = '&Sangria'
+      OnClick = EfetuarSangria1Click
+    end
+    object Entrada1: TMenuItem
+      Caption = '&Entrada'
+      OnClick = Entrada1Click
+    end
+    object Pagamentos1: TMenuItem
+      Caption = '&Pagamentos'
+      OnClick = Pagamentos1Click
+    end
+    object Fechamentodecaixa1: TMenuItem
+      Caption = '&Fechamento de caixa'
+      OnClick = Fechamentodecaixa1Click
     end
   end
 end

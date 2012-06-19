@@ -478,6 +478,12 @@ type
     EditarComanda1: TMenuItem;
     scds_cli_procNUMERO: TStringField;
     scds_cli_procBAIRRO: TStringField;
+    pmCaixa: TPopupMenu;
+    AbrirCaixa1: TMenuItem;
+    EfetuarSangria1: TMenuItem;
+    Entrada1: TMenuItem;
+    Pagamentos1: TMenuItem;
+    Fechamentodecaixa1: TMenuItem;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -578,6 +584,11 @@ type
     procedure RelatriosFechamentos1Click(Sender: TObject);
     procedure JvBitBtn7Click(Sender: TObject);
     procedure EditarComanda1Click(Sender: TObject);
+    procedure AbrirCaixa1Click(Sender: TObject);
+    procedure EfetuarSangria1Click(Sender: TObject);
+    procedure Pagamentos1Click(Sender: TObject);
+    procedure Entrada1Click(Sender: TObject);
+    procedure Fechamentodecaixa1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     clienteConsumidor,nomecliente, tipo_busca : string;
@@ -602,6 +613,7 @@ type
     endCli, FoneCli, datasistema, Codigo_Pedido, razao_emp, cnpj : string;
     TEXTO_IMPRIMIR, TEXTO_IMP, fantasia, col : string;
     tamtexto : Integer;
+    var_Retorno : Boolean;
     //--------------------------------------------------------------------------
     procedure IncluiPedido;
     procedure AlteraPedido;
@@ -659,7 +671,8 @@ implementation
 uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
   U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod, U_AUTORIZACAO,
   u_mesas, U_MudaMesa, U_Entrada, uProcurar_nf, uAbrirCaixa, U_RelTerminal,
-  U_AbreComanda;
+  U_AbreComanda, uSangria, uCrTituloPagto, uEntradaCaixa, uMovCaixa,
+  uFiscalCls;
 
 {$R *.dfm}    // Têste téste opção
 
@@ -1104,34 +1117,40 @@ begin
           if (scds_produto_proc.Active) then
             scds_produto_proc.Close;
       end;
-    if (not DM_MOV.c_movdet.IsEmpty) then
-    begin
-      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
-      if (c_forma.Active) then
-        c_forma.Close;
-      c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
-      c_forma.Open;
-      if (not c_formatotal.IsNull) then
-      begin
-        JvParcial.Value := c_formatotal.Value;
-        JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
 
-        if (JvComissao.Value > 0) then
-          poc := (JvComissao.Value /100) * JvTotal.Value
+      if (not DM_MOV.c_movdet.IsEmpty) then
+      begin
+        JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+        // Verifico se tem % Garçom
+        if (s_parametro.Active) then
+          s_parametro.Close;
+        s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+        s_parametro.Open;
+        porc    := 0;
+        if (not s_parametro.IsEmpty) then
+        begin
+           if (JvComissao.Value > 0) then
+             porc    := (JvComissao.Value / 100) * JvTotal.Value;
+        end;
+        s_parametro.Close;
+
+        if (c_forma.Active) then
+          c_forma.Close;
+        c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+        c_forma.Open;
+        if (not c_formatotal.IsNull) then
+        begin
+          JvParcial.Value := c_formatotal.Value;
+          JvSubtotal.Value := (JvTotal.Value + poc) - JvParcial.Value;
+        end
         else
-          poc := 0;
-
-        JvSubtotal.Value := JvSubtotal.Value + poc;
-      end
-      else
-      begin
-        JvParcial.Value := 0;
-        JvSubtotal.Value := JvTotal.Value + poc;
+        begin
+          JvParcial.Value  := 0;
+          JvSubtotal.Value := JvTotal.Value + porc;
+        end;
+        c_forma.Close;
       end;
-      c_forma.Close;
-    end;
-
-    EdtCodBarra.Text := '';
+      EdtCodBarra.Text := '';
    end;
 end;
 
@@ -1420,7 +1439,7 @@ begin
     PageControl1.ActivePage := TabSheet1;
 
   {------Pesquisando na tab Parametro se PAGA_COMISSAO ---}
-   DM_MOV.V_PAGACOMISSAO := 'NAO';
+  DM_MOV.V_PAGACOMISSAO := 'NAO';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'PAGA_COMISSAO';
@@ -1430,10 +1449,12 @@ begin
     DM_MOV.V_PAGACOMISSAO := 'SIM';
     LabelComissao.Visible := True;
     JvComissao.Visible :=True;
+    JvComissao.Value := StrToInt(dm.cds_parametroDADOS.AsString);
   end
   else
   begin
     LabelComissao.Visible := False;
+    JvComissao.Value := 0;
     JvComissao.Visible := False;
   end;
   if (s_parametro.Active) then
@@ -1651,6 +1672,18 @@ begin
 
       JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
 
+      if (s_parametro.Active) then
+        s_parametro.Close;
+      s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+      s_parametro.Open;
+      porc    := 0;
+      if (not s_parametro.IsEmpty) then
+      begin
+         if (JvComissao.Value > 0) then
+           porc    := (JvComissao.Value / 100) * JvTotal.Value;
+      end;
+      s_parametro.Close;
+
       if (c_forma.Active) then
         c_forma.Close;
       c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
@@ -1658,30 +1691,12 @@ begin
       if (not c_formatotal.IsNull) then
       begin
         JvParcial.Value := c_formatotal.Value;
-        JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
-        poc := 0;
-        if (JvComissao.Visible = True) then
-          if (JvComissao.Value > 0) then
-            poc := (JvComissao.Value /100) * JvTotal.Value;
-        JvSubtotal.Value := JvSubtotal.Value + poc;
+        JvSubtotal.Value := (JvTotal.Value + poc) - JvParcial.Value;
       end
       else
       begin
         JvParcial.Value := 0;
-        JvSubtotal.Value := JvTotal.Value + poc;
-      end;
-
-      if (JvComissao.Visible = True) then
-      begin
-        if (JvComissao.Value > 0) then
-          poc := (JvComissao.Value /100) * JvTotal.Value
-        else
-          poc := 0;
-        if (c_forma.IsEmpty) then
-          JvParcial.Value := 0
-        else
-          JvParcial.Value := c_formatotal.Value;
-        JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
+        JvSubtotal.Value := JvTotal.Value + porc;
       end;
 
       c_forma.Close;
@@ -1952,11 +1967,13 @@ end;
 
 procedure TF_Terminal.JvFinalizarClick(Sender: TObject);
 begin
+
  if (DM_MOV.c_movdet.IsEmpty) then
  begin
     ShowMessage('Selecione um Pedido');
     Exit;
  end;
+
  if (PageControl1.ActivePage <> TabDelivery) then
    DM_MOV.ID_DO_MOVIMENTO := 0;
  if (PageControl1.ActivePage = TabSheet1) then
@@ -2738,6 +2755,7 @@ begin
      s_parametro.Open;
      if (not s_parametro.IsEmpty) then
      begin
+       porc    := 0;
        if (JvComissao.Value > 0) then
        begin
          Texto5 := DateTimeToStr(Now) + '               % : R$ ';
@@ -3384,7 +3402,7 @@ begin
 end;
 
 procedure TF_Terminal.JvBitBtn4Click(Sender: TObject);
-var poc : Double;
+var poc, porc_com : Double;
 begin
  DM_MOV.ID_DO_MOVIMENTO := 0;
  if (PageControl1.ActivePage = TabSheet1) then
@@ -3431,6 +3449,22 @@ begin
     else
       F_Entrada.c_forma.Edit;
     F_Entrada.JvPedido.Value := JvTotal.Value;
+
+    // Verico se paga comissão e se soma no Contas a Receber
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+    dm.cds_parametro.Open;
+    porc_com := StrToFloat(dm.cds_parametroDADOS.AsString);
+    dm.cds_parametro.Close;
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'LANCACOMISSAOCR';
+    dm.cds_parametro.Open;
+    if (not dm.cds_parametro.Eof) then
+      F_Entrada.JvComissao.Value:= (porc_com /100) * F_Entrada.JvPedido.Value;
+    dm.cds_parametro.Close;
+
     F_Entrada.ShowModal;
   finally
     F_Entrada.Free;
@@ -3525,8 +3559,8 @@ begin
          edtEnd.Text := sbuscaCli.Fields[2].AsString + ', ' + sbuscaCli.Fields[4].AsString + ' ' + sbuscaCli.Fields[5].AsString;
          if (MessageDlg('Incluir Pedido ?', mtInformation, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
          begin
-           codcliente := sbuscaCli.Fields[0].AsInteger;
-           IncluiPedido;
+            codcliente := sbuscaCli.Fields[0].AsInteger;
+            IncluiPedido;
             if (DM_MOV.c_Delivery.Active) then
               DM_MOV.c_Delivery.Close;
             DM_MOV.c_Delivery.CommandText := '';
@@ -3804,6 +3838,19 @@ begin
       end;
       EdtCodBarra1.SetFocus;
       JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+
+      if (s_parametro.Active) then
+        s_parametro.Close;
+      s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+      s_parametro.Open;
+      porc    := 0;
+      if (not s_parametro.IsEmpty) then
+      begin
+         if (JvComissao.Value > 0) then
+           porc    := (JvComissao.Value / 100) * JvTotal.Value;
+      end;
+      s_parametro.Close;
+      
       if (c_forma.Active) then
         c_forma.Close;
       c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
@@ -3811,19 +3858,12 @@ begin
       if (not c_formatotal.IsNull) then
       begin
         JvParcial.Value := c_formatotal.Value;
-        JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
-
-        if (JvComissao.Value > 0) then
-          poc := (JvComissao.Value /100) * JvTotal.Value
-        else
-          poc := 0;
-
-        JvSubtotal.Value := JvSubtotal.Value + poc;
+        JvSubtotal.Value := (JvTotal.Value + porc) - JvParcial.Value;
       end
       else
       begin
         JvParcial.Value := 0;
-        JvSubtotal.Value := JvTotal.Value + poc;
+        JvSubtotal.Value := JvTotal.Value + porc;
       end;
       c_forma.Close;
       
@@ -3847,6 +3887,19 @@ begin
       EdtCodBarra.SetFocus;
 
       JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+
+      if (s_parametro.Active) then
+        s_parametro.Close;
+      s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+      s_parametro.Open;
+      porc    := 0;
+      if (not s_parametro.IsEmpty) then
+      begin
+         if (JvComissao.Value > 0) then
+           porc    := (JvComissao.Value / 100) * JvTotal.Value;
+      end;
+      s_parametro.Close;
+
       if (c_forma.Active) then
         c_forma.Close;
       c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
@@ -3854,19 +3907,12 @@ begin
       if (not c_formatotal.IsNull) then
       begin
         JvParcial.Value := c_formatotal.Value;
-        JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
-
-        if (JvComissao.Value > 0) then
-          poc := (JvComissao.Value /100) * JvTotal.Value
-        else
-          poc := 0;
-
-        JvSubtotal.Value := JvSubtotal.Value + poc;
+        JvSubtotal.Value := (JvTotal.Value + porc) - JvParcial.Value;
       end
       else
       begin
         JvParcial.Value := 0;
-        JvSubtotal.Value := JvTotal.Value + poc;
+        JvSubtotal.Value := JvTotal.Value + porc;
       end;
       c_forma.Close;
    end;
@@ -4381,20 +4427,12 @@ begin
 end;
 
 procedure TF_Terminal.JvBitBtn6Click(Sender: TObject);
+var
+   XY: TPoint;
 begin
-  fAbrirCaixa := TfAbrirCaixa.create(Application);
-  try
-    fAbrirCaixa.ShowModal;
-    if (DM.USACONTROLECAIXA = 'SIM') then
-    begin
-       if Panel2.Enabled = False then
-          Panel2.Enabled := True;
-       if MMJPanel6.Enabled = False then
-          MMJPanel6.Enabled := True;
-    end;
-  finally
-    fAbrirCaixa.Free;
-  end;
+     XY := Point(50, -10);
+     XY := JvBitBtn6.ClientToScreen(XY);
+     pmCaixa.Popup(XY.X, XY.Y + JvBitBtn6.Height - 2);
 end;
 
 procedure TF_Terminal.permissao;
@@ -5293,6 +5331,94 @@ begin
        s_parametro.Close;
 
 
+end;
+
+procedure TF_Terminal.AbrirCaixa1Click(Sender: TObject);
+begin
+  fAbrirCaixa := TfAbrirCaixa.create(Application);
+  try
+    fAbrirCaixa.ShowModal;
+    if (DM.USACONTROLECAIXA = 'SIM') then
+    begin
+       if Panel2.Enabled = False then
+          Panel2.Enabled := True;
+       if MMJPanel6.Enabled = False then
+          MMJPanel6.Enabled := True;
+    end;
+  finally
+    fAbrirCaixa.Free;
+  end;
+end;
+
+procedure TF_Terminal.EfetuarSangria1Click(Sender: TObject);
+var
+  FclsSangria : TFiscalCls;
+begin
+  try
+    FclsSangria := TFiscalCls.Create;
+    // Pego o Caixa Aberto
+    var_Retorno := FclsSangria.VerificaCaixaAberto();
+  finally
+    FclsSangria.Free;
+  end;
+  if (var_Retorno = True) then
+  begin
+    fSangria := TfSangria.create(Application);
+    try
+      fSangria.ShowModal;
+    finally
+      fSangria.Free;
+    end;
+  end
+  else
+  begin
+     ShowMessage('Não existe Caixa Aberto');
+     Exit;
+  end;
+
+end;
+
+procedure TF_Terminal.Pagamentos1Click(Sender: TObject);
+begin
+  fcrTituloPagto.ShowModal;
+end;
+
+procedure TF_Terminal.Entrada1Click(Sender: TObject);
+var
+  FclsEntCaixa : TFiscalCls;
+begin
+  try
+    FclsEntCaixa := TFiscalCls.Create;
+    var_Retorno := FclsEntCaixa.VerificaCaixaAberto();   // Pego o Caixa Aberto
+  finally
+    FclsEntCaixa.Free;
+  end;
+
+  if (var_Retorno = True) then
+  begin
+    fEntradaCaixa := TfEntradaCaixa.create(Application);
+    try
+      fEntradaCaixa.ShowModal;
+    finally
+      fEntradaCaixa.Free;
+    end;
+  end
+  else
+  begin
+     ShowMessage('Não existe Caixa Aberto');
+     Exit;
+  end;
+
+end;
+
+procedure TF_Terminal.Fechamentodecaixa1Click(Sender: TObject);
+begin
+  fMovCaixa := TfMovCaixa.Create(Application);
+  try
+    fMovCaixa.ShowModal;
+  finally
+    fMovCaixa.Free;
+  end;
 end;
 
 end.
