@@ -438,7 +438,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
   uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
-  uRel_LucroPresumido, uNfePisCofins, uRelTitulos;
+  uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
+  uTerminalNTC;
 
 {$R *.dfm}
 
@@ -1034,12 +1035,30 @@ var
 begin
   usulog :=  UserControlComercial.CurrentUser.UserID;
   nome_user := UserControlComercial.CurrentUser.UserName;
-  F_Terminal := TF_Terminal.Create(Application);
-  try
-   sCtrlResize.CtrlResize(TForm(F_Terminal));
-    F_Terminal.ShowModal;
-  finally
-    F_Terminal.Free;
+
+  if (DM.cds_parametro.Active) then
+       DM.cds_parametro.Close;
+  DM.cds_parametro.Params[0].AsString := 'PDVNTC';
+  DM.cds_parametro.Open;
+  if (DM.cds_parametro.Eof) then
+  begin
+    F_Terminal := TF_Terminal.Create(Application);
+    try
+     sCtrlResize.CtrlResize(TForm(F_Terminal));
+      F_Terminal.ShowModal;
+    finally
+      F_Terminal.Free;
+    end;
+  end
+  else
+  begin
+    fTerminalNTC := TfTerminalNTC.Create(Application);
+    try
+      sCtrlResize.CtrlResize(TForm(fTerminalNTC));
+      fTerminalNTC.ShowModal;
+    finally
+      fTerminalNTC.Free;
+    end;
   end;
 end;
 
