@@ -1,6 +1,6 @@
 object fCaixa: TfCaixa
-  Left = 192
-  Top = 111
+  Left = 145
+  Top = 113
   Width = 744
   Height = 504
   Color = clBtnFace
@@ -18,7 +18,7 @@ object fCaixa: TfCaixa
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 736
+    Width = 728
     Height = 61
     Align = alTop
     BevelInner = bvRaised
@@ -824,7 +824,7 @@ object fCaixa: TfCaixa
   object Panel1: TPanel
     Left = 0
     Top = 61
-    Width = 736
+    Width = 728
     Height = 55
     Align = alTop
     TabOrder = 1
@@ -838,7 +838,7 @@ object fCaixa: TfCaixa
     object Label2: TLabel
       Left = 111
       Top = 2
-      Width = 87
+      Width = 84
       Height = 27
       Caption = 'R$ Valor'
     end
@@ -897,15 +897,15 @@ object fCaixa: TfCaixa
   object Panel2: TPanel
     Left = 0
     Top = 116
-    Width = 736
-    Height = 354
+    Width = 728
+    Height = 350
     Align = alClient
     TabOrder = 2
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 734
-      Height = 352
+      Width = 726
+      Height = 348
       Align = alClient
       DataSource = dsrcaixa
       Font.Charset = DEFAULT_CHARSET
@@ -932,31 +932,31 @@ object fCaixa: TfCaixa
         item
           Expanded = False
           FieldName = 'DTAPAGTO'
-          Width = 94
+          Width = 93
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DESCRICAO'
-          Width = 394
+          Width = 390
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALORD'
-          Width = 73
+          Width = 72
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALORC'
-          Width = 75
+          Width = 74
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALOR'
-          Width = 77
+          Width = 76
           Visible = True
         end>
     end
