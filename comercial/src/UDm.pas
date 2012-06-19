@@ -5,7 +5,8 @@ interface
 uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
-  Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics, XmlRpcClient, XmlRpcTypes;
+  Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics,
+  XmlRpcClient, XmlRpcTypes;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -2017,6 +2018,7 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    v_CodFuncao : Integer;
     mensagemInicial, sistemaLiberado, cfopEntrada, v_CargoFuncao : String;
     conectado, RESULTADO_APROVA :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
@@ -2103,7 +2105,7 @@ begin
   cds_parametro.Open;
   if (not cds_parametro.IsEmpty) then
     cfopEntrada := cds_parametroD2.AsString;
-    
+
   if cds_parametro.Active then
     cds_parametro.Close;
   // Busca se esta usando o Modulo Compras, se sim os pedidos tem q estarem aprovados
