@@ -63,8 +63,6 @@ type
     c_formaNOME: TStringField;
     c_formatotal: TAggregateField;
     DBEdit1: TDBEdit;
-    JvPedido: TJvValidateEdit;
-    JvLabel3: TJvLabel;
     JvLabel8: TJvLabel;
     JvFinalizar: TJvBitBtn;
     scds_serie_proc: TSQLClientDataSet;
@@ -169,6 +167,15 @@ type
     s_contas: TSQLDataSet;
     s_contasCODIGO: TIntegerField;
     s_contasNOME: TStringField;
+    JvLabel10: TJvLabel;
+    JvTroco: TJvValidateEdit;
+    JvPedido: TJvValidateEdit;
+    JvLabel3: TJvLabel;
+    JvLabel11: TJvLabel;
+    JvPago: TJvValidateEdit;
+    bvl1: TBevel;
+    JvComissao: TJvValidateEdit;
+    JvLabel12: TJvLabel;
     procedure FormCreate(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -176,6 +183,7 @@ type
     procedure JvSairClick(Sender: TObject);
     procedure JvFinalizarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure JvPagoChange(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -611,7 +619,7 @@ begin
       scds_serie_proc.Open;
       if scds_serie_proc.IsEmpty then
       begin
-        MessageDlg('Serie padr?n?cadastrada?', mtWarning,[mbOk], 0);
+        MessageDlg('Serie padra nao cadastrada?', mtWarning,[mbOk], 0);
         exit;
       end;
       nota_fiscal := scds_serie_procULTIMO_NUMERO.AsInteger + 1;
@@ -1218,6 +1226,17 @@ begin
   VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport2.Report.Params.ParamByName('PVENDA').Value := DM_MOV.c_vendaCODVENDA.AsInteger;
   VCLReport2.Execute;
+end;
+
+procedure TF_Entrada.JvPagoChange(Sender: TObject);
+begin
+  JvTroco.Value := JvPedido.Value - JvPago.Value;
+  jvDinheiro.Value := JvPedido.Value;
+  if (JvPago.Value < JvPedido.Value) then
+  begin
+    jvDinheiro.Value := JvPago.Value;
+    JvTroco.Value := 0;
+  end;
 end;
 
 end.
