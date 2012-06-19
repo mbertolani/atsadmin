@@ -656,7 +656,8 @@ begin
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'PAGA_COMISSAO';
     dm.cds_parametro.Open;
-    porc_com := StrToFloat(dm.cds_parametroDADOS.AsString);
+    if(not dm.cds_parametro.IsEmpty) then
+      porc_com := StrToFloat(dm.cds_parametroDADOS.AsString);
     dm.cds_parametro.Close;
     if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
