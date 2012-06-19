@@ -1,8 +1,8 @@
 inherited fParametro: TfParametro
-  Left = 269
-  Top = 139
+  Left = 219
+  Top = 144
   Width = 814
-  Height = 575
+  Height = 576
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 792
     Height = 473
-    ActivePage = TabSheet1
+    ActivePage = TabPDV
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2658,6 +2658,13 @@ inherited fParametro: TfParametro
             Height = 13
             Caption = 'Porta Imp. Setor 2'
           end
+          object lbl15: TLabel
+            Left = 203
+            Top = 122
+            Width = 56
+            Height = 13
+            Caption = '% Comiss'#227'o'
+          end
           object chkImpUmRecibo: TCheckBox
             Left = 11
             Top = 385
@@ -2749,8 +2756,8 @@ inherited fParametro: TfParametro
           end
           object rgPgComissao: TRadioGroup
             Left = 9
-            Top = 167
-            Width = 289
+            Top = 122
+            Width = 192
             Height = 40
             Caption = 'Paga Comiss'#227'o'
             Columns = 2
@@ -2762,7 +2769,7 @@ inherited fParametro: TfParametro
           end
           object rgUsaLote: TRadioGroup
             Left = 9
-            Top = 119
+            Top = 79
             Width = 289
             Height = 40
             Caption = 'Usa Controle de Lote'
@@ -2775,7 +2782,7 @@ inherited fParametro: TfParametro
           end
           object rgBuscaPadrao: TRadioGroup
             Left = 9
-            Top = 72
+            Top = 41
             Width = 288
             Height = 39
             Caption = 'Busca Padr'#227'o'
@@ -2788,7 +2795,7 @@ inherited fParametro: TfParametro
           end
           object rgTipoImpressao: TRadioGroup
             Left = 8
-            Top = 25
+            Top = 2
             Width = 290
             Height = 40
             Caption = 'Tipo de Impress'#227'o'
@@ -3022,6 +3029,30 @@ inherited fParametro: TfParametro
             TabOrder = 24
             OnClick = chk1Click
           end
+          object edtPorc: TEdit
+            Left = 204
+            Top = 139
+            Width = 92
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 25
+            Text = '0'
+            OnChange = edtPorcChange
+          end
+          object rg1: TRadioGroup
+            Left = 9
+            Top = 165
+            Width = 192
+            Height = 40
+            Caption = 'Lan'#231'ar comi'#231#227'o no C.R.'
+            Columns = 2
+            Items.Strings = (
+              'Sim'
+              'N'#227'o')
+            TabOrder = 26
+            OnClick = rg1Click
+          end
         end
         object ts2: TTabSheet
           Caption = 'ts2'
@@ -3039,6 +3070,27 @@ inherited fParametro: TfParametro
             Width = 69
             Height = 13
             Caption = 'Cargo/Fun'#231#227'o'
+          end
+          object lbl12: TLabel
+            Left = 10
+            Top = 108
+            Width = 151
+            Height = 13
+            Caption = 'Conta Usada para Caixa Interno'
+          end
+          object lbl13: TLabel
+            Left = 10
+            Top = 156
+            Width = 154
+            Height = 13
+            Caption = 'Conta Usada para Caixa Sangria'
+          end
+          object lbl14: TLabel
+            Left = 10
+            Top = 201
+            Width = 130
+            Height = 13
+            Caption = 'Perfil que usa tela completa'
           end
           object edt1: TEdit
             Left = 9
@@ -3077,12 +3129,42 @@ inherited fParametro: TfParametro
             TabOrder = 3
             OnClick = Button1Click
           end
+          object edtCXInterno: TEdit
+            Left = 9
+            Top = 124
+            Width = 167
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 4
+            OnChange = edtCXInternoChange
+          end
+          object edtCXSangria: TEdit
+            Left = 9
+            Top = 172
+            Width = 167
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 5
+            OnChange = edtCXSangriaChange
+          end
+          object edtTela: TEdit
+            Left = 9
+            Top = 217
+            Width = 167
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 6
+            OnChange = edtTelaChange
+          end
         end
       end
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 483
+    Top = 484
     Width = 798
     inherited btnGravar: TBitBtn
       Left = 288
