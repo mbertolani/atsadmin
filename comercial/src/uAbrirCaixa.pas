@@ -6,13 +6,12 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvExControls, JvLabel, StdCtrls, Mask, JvExMask, JvToolEdit,
   Buttons, ExtCtrls, MMJPanel, FMTBcd, SqlExpr, Provider, DB, DBClient, DBxPress,
-  Menus, JvExStdCtrls, JvEdit, JvValidateEdit;
+  Menus, JvExStdCtrls, JvEdit, JvValidateEdit, uFiscalCls, JvCombobox;
 
 type
   TfAbrirCaixa = class(TForm)
     MMJPanel2: TMMJPanel;
     eddata2: TJvDateEdit;
-    cbbCaixa: TComboBox;
     sPlano: TClientDataSet;
     sPlanoCODIGO: TIntegerField;
     sPlanoCONTA: TStringField;
@@ -149,6 +148,7 @@ type
     JvLabel2: TJvLabel;
     S_CAIXA: TSQLDataSet;
     S_CAIXACODIGO: TIntegerField;
+    cbbCaixa: TJvComboBox;
     procedure FormShow(Sender: TObject);
     procedure btnAbrirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -210,7 +210,9 @@ begin
   sCaixa1.Open;
   if (not sCaixa1.IsEmpty) then
   begin
-     cbbCaixa.Text := sCaixa1NOMECAIXA.AsString;
+     cbbCaixa.Items.Clear;
+     cbbCaixa.Items.Add(sCaixa1NOMECAIXA.AsString);
+     cbbCaixa.ItemIndex := 0;
      cbbCaixa.Enabled := False;
      btnAbrir.Enabled := False;
      eddata2.Date := sCaixa1DATAABERTURA.AsDateTime;
@@ -326,10 +328,28 @@ end;
 
 procedure TfAbrirCaixa.AbrirCaixa;
  Var
-   var_sqla : string;
-   cod_id, var_usuario, primeiro_lanc : integer;
+   var_sqla, var_cxInterno, var_nomecaixa : string;
+   cod_id, var_usuario, primeiro_lanc, var_codCaixa, var_idCaixa : integer;
+   TD: TTransactionDesc;
+   FCaixa : TFiscalCls;
 begin
-    var_usuario := usulog;
+   Try
+     FCaixa := TFiscalCls.Create;
+     // Pego o Caixa Aberto
+     FCaixa.VerificaCaixaAberto();
+     var_idCaixa   := FCaixa.v_idcaixa;
+     var_nomecaixa := FCaixa.v_NomeCaixa;
+     var_codCaixa  := FCaixa.v_Cod_Caixa;
+  Finally
+     FCaixa.Free;
+  end;
+  if (DM_MOV.s_parametro.Active) then
+     DM_MOV.s_parametro.Close;
+   DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
+   DM_MOV.s_parametro.Open;
+   var_cxInterno := DM_MOV.s_parametroD1.AsString;
+   DM_MOV.s_parametro.Close;
+   var_usuario := usulog;
     //  Conta Débito
     //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
@@ -337,45 +357,61 @@ begin
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
     dm.c_6_genid.Open;
     cod_id := dm.c_6_genidCODIGO.AsInteger;
-    primeiro_lanc := dm.c_6_genidCODIGO.AsInteger;
     dm.c_6_genid.Close;
     var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
            ', DATA, CODUSUARIO, CODCCUSTO, CONTA ' +
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(CODIGODEORIGEM); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(var_idCaixa); //CODIGO DO CAIXA NO PLANO DE CONTAS = CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', eddata2.Date); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
-    var_sqla := var_sqla + ',' + IntToStr(1); //CODCUSTO
-    // Busco Codigo Caixa
-    if (not sPlano1.Active) then
-      sPlano1.Open;
-    sPlano1.Locate('NOME',cbbCaixa.Text, [loCaseInsensitive]);
-    var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString); //CONTA CAIXA
-    sPlano1.Close;
+    var_sqla := var_sqla + ',' + QuotedStr(IntToStr(var_codCaixa)); //CODCUSTO
+    var_sqla := var_sqla + ',' + QuotedStr(var_cxInterno); //CONTA CAIXA
     var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
     DecimalSeparator := '.';
-    var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(jvValor.Value)); //Valor Debito
+    var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(jvValor.Value)); //Valor Debito = Debito Caixa Interno
     DecimalSeparator := ',';
     var_sqla := var_sqla + ',' + '0';  //Valor ORCADO
     var_sqla := var_sqla + ',' + '0'; //QTDECREDITO
     var_sqla := var_sqla + ',' + '0'; //QTDEDEBITO
     var_sqla := var_sqla + ',' + '0'; //QTDEORCADO
     var_sqla := var_sqla + ')';
+
+    dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
-    { *** Inserindo o Histórico *** }
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, Desmarcar Titulo Falhou.', mtError,
+         [mbOk], 0);
+    end;
+
+
+    // *** Inserindo o Histórico ***
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
     var_sqla := var_sqla + intToStr(cod_id);
     var_sqla := var_sqla + ',''' + 'ABERTURA DE CAIXA';
     var_sqla := var_sqla + ''')';
+
+    dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, Desmarcar Titulo Falhou.', mtError,
+         [mbOk], 0);
+    end;
+
+
 
     //Conta crédito
     //Abre a c_genid para pegar o número do CODCONTAB
-    if dm.c_6_genid.Active then
+{    if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
     dm.c_6_genid.Open;
@@ -395,7 +431,7 @@ begin
     if (not sPlano1.Active) then
       sPlano1.Open;
     sPlano1.Locate('NOME','ABRECAIXA', [loCaseInsensitive]);
-    var_sqla := var_sqla + ',' + QuotedStr(sPlano1CONTA.AsString); //CONTA ABERTURA DE CAIXA
+    var_sqla := var_sqla + ',' + QuotedStr(var_cxInterno); //CONTA ABERTURA DE CAIXA
     sPlano1.Close;
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(0)); //Valor Debito
@@ -408,13 +444,14 @@ begin
     var_sqla := var_sqla + ')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
 
-    { *** Inserindo o Histórico *** }
+
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
     var_sqla := var_sqla + intToStr(cod_id);
     var_sqla := var_sqla + ',''' + 'ABERTURA DE CAIXA';
     var_sqla := var_sqla + ''')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+    }
 end;
 
 procedure TfAbrirCaixa.btnSairClick(Sender: TObject);
