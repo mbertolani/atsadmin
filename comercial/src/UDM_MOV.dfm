@@ -1,9 +1,9 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 917
-  Top = 239
-  Height = 455
-  Width = 449
+  Left = 469
+  Top = 232
+  Height = 530
+  Width = 713
   object s_buscaMov: TSQLDataSet
     CommandText = 
       'select m.CODMOVIMENTO, c.NOMECLIENTE  '#13#10'from MOVIMENTO m '#13#10'inner' +
@@ -1920,6 +1920,10 @@ object DM_MOV: TDM_MOV
       FieldName = 'TROCO'
       ProviderFlags = [pfInUpdate]
     end
+    object s_vendaCOMISSAO: TFloatField
+      FieldName = 'COMISSAO'
+      ProviderFlags = [pfInUpdate]
+    end
   end
   object p_venda: TDataSetProvider
     DataSet = s_venda
@@ -2108,6 +2112,10 @@ object DM_MOV: TDM_MOV
     end
     object c_vendaTROCO: TFloatField
       FieldName = 'TROCO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object c_vendaCOMISSAO: TFloatField
+      FieldName = 'COMISSAO'
       ProviderFlags = [pfInUpdate]
     end
   end
@@ -2951,6 +2959,204 @@ object DM_MOV: TDM_MOV
     object IMP_MOVDETPRODUTO: TStringField
       FieldName = 'PRODUTO'
       Size = 300
+    end
+  end
+  object S_CAIXA: TSQLDataSet
+    CommandText = 'SELECT a.CODIGO, a.CONTA '#13#10'FROM PLANO a '#13#10'WHERE A.NOME = :NOME'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 336
+    Top = 240
+    object S_CAIXACODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object S_CAIXACONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+  end
+  object s_parametro: TSQLDataSet
+    CommandText = 'select * from PARAMETRO '#13#10'where PARAMETRO = :pr'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pr'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 332
+    Top = 168
+    object s_parametroDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object s_parametroPARAMETRO: TStringField
+      FieldName = 'PARAMETRO'
+      Required = True
+      Size = 40
+    end
+    object s_parametroCONFIGURADO: TStringField
+      FieldName = 'CONFIGURADO'
+      FixedChar = True
+      Size = 1
+    end
+    object s_parametroDADOS: TStringField
+      FieldName = 'DADOS'
+      Size = 40
+    end
+    object s_parametroD1: TStringField
+      FieldName = 'D1'
+      Size = 30
+    end
+    object s_parametroD2: TStringField
+      FieldName = 'D2'
+      Size = 30
+    end
+    object s_parametroD3: TStringField
+      FieldName = 'D3'
+      Size = 30
+    end
+    object s_parametroD4: TStringField
+      FieldName = 'D4'
+      Size = 30
+    end
+    object s_parametroD5: TStringField
+      FieldName = 'D5'
+      Size = 30
+    end
+    object s_parametroD6: TStringField
+      FieldName = 'D6'
+      Size = 30
+    end
+    object s_parametroD7: TStringField
+      FieldName = 'D7'
+      Size = 30
+    end
+    object s_parametroD8: TStringField
+      FieldName = 'D8'
+      Size = 30
+    end
+    object s_parametroD9: TStringField
+      FieldName = 'D9'
+      Size = 30
+    end
+    object s_parametroINSTRUCOES: TStringField
+      FieldName = 'INSTRUCOES'
+      Size = 200
+    end
+    object s_parametroVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+  end
+  object sPlano1: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspPlano1'
+    Left = 124
+    Top = 408
+    object sPlano1CODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object sPlano1CONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+    object sPlano1CONTAPAI: TStringField
+      FieldName = 'CONTAPAI'
+      Size = 10
+    end
+    object sPlano1NOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+    object sPlano1CONSOLIDA: TStringField
+      FieldName = 'CONSOLIDA'
+      FixedChar = True
+      Size = 1
+    end
+    object sPlano1DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 50
+    end
+    object sPlano1RATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object sPlano1CODREDUZIDO: TStringField
+      FieldName = 'CODREDUZIDO'
+      Size = 15
+    end
+    object sPlano1REDUZRECEITA: TStringField
+      FieldName = 'REDUZRECEITA'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dspPlano1: TDataSetProvider
+    DataSet = sdsPlano1
+    Left = 78
+    Top = 408
+  end
+  object sdsPlano1: TSQLDataSet
+    CommandText = 'select * from PLANO'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 16
+    Top = 408
+    object sdsPlano1CODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object sdsPlano1CONTA: TStringField
+      FieldName = 'CONTA'
+      Required = True
+      Size = 15
+    end
+    object sdsPlano1CONTAPAI: TStringField
+      FieldName = 'CONTAPAI'
+      Size = 10
+    end
+    object sdsPlano1NOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+    object sdsPlano1CONSOLIDA: TStringField
+      FieldName = 'CONSOLIDA'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsPlano1DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 50
+    end
+    object sdsPlano1RATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsPlano1CODREDUZIDO: TStringField
+      FieldName = 'CODREDUZIDO'
+      Size = 15
+    end
+    object sdsPlano1REDUZRECEITA: TStringField
+      FieldName = 'REDUZRECEITA'
+      FixedChar = True
+      Size = 1
     end
   end
 end
