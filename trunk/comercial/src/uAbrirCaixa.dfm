@@ -1,6 +1,6 @@
 object fAbrirCaixa: TfAbrirCaixa
-  Left = 514
-  Top = 362
+  Left = 376
+  Top = 268
   Width = 428
   Height = 324
   Color = clBtnFace
@@ -117,22 +117,6 @@ object fAbrirCaixa: TfAbrirCaixa
       PopupMenu = PopupMenu1
       TabOrder = 0
     end
-    object cbbCaixa: TComboBox
-      Left = 160
-      Top = 56
-      Width = 213
-      Height = 39
-      BevelKind = bkFlat
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
-      Font.Height = -27
-      Font.Name = 'Cooper Black'
-      Font.Style = []
-      ItemHeight = 31
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 1
-    end
     object jvValor: TJvValidateEdit
       Left = 160
       Top = 97
@@ -152,7 +136,35 @@ object fAbrirCaixa: TfAbrirCaixa
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      TabOrder = 1
+    end
+    object cbbCaixa: TJvComboBox
+      Left = 161
+      Top = 56
+      Width = 212
+      Height = 39
+      Style = csOwnerDrawFixed
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -27
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ItemHeight = 33
+      ParentFont = False
       TabOrder = 2
+      Items.Strings = (
+        '00 - MERCADORIA PARA REVENDA'
+        '01 - MAT'#201'RIA-PRIMA'
+        '02 - EMBALAGEM'
+        '03 - PRODUTO EM PROCESSO'
+        '04 - PRODUTO ACABADO'
+        '05 - SUBPRODUTO'
+        '06 - PRODUTO INTERMEDI'#193'RIO'
+        '07 - MATERIAL DE USO E CONSUMO'
+        '08 - ATIVO IMOBILIZADO'
+        '09 - SERVI'#199'OS'
+        '10 - OUTROS INSUMOS'
+        '99 - OUTRAS')
     end
   end
   object MMJPanel3: TMMJPanel
@@ -468,8 +480,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     ProviderName = 'dspPlano'
-    Left = 236
-    Top = 129
+    Left = 252
+    Top = 201
     object sPlanoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -514,8 +526,8 @@ object fAbrirCaixa: TfAbrirCaixa
   end
   object dspPlano: TDataSetProvider
     DataSet = sdsPlano
-    Left = 206
-    Top = 129
+    Left = 222
+    Top = 201
   end
   object sdsPlano: TSQLDataSet
     CommandText = 'select  * from PLANO '#13#10'where CONTAPAI = :pConta'
@@ -527,8 +539,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 176
-    Top = 129
+    Left = 192
+    Top = 201
     object sdsPlanoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -585,8 +597,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     ProviderName = 'dspCaixa1'
-    Left = 244
-    Top = 96
+    Left = 260
+    Top = 168
     object sCaixa1IDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       Required = True
@@ -628,8 +640,8 @@ object fAbrirCaixa: TfAbrirCaixa
   end
   object dspCaixa1: TDataSetProvider
     DataSet = sdsCaixa1
-    Left = 214
-    Top = 96
+    Left = 230
+    Top = 168
   end
   object sdsCaixa1: TSQLDataSet
     CommandText = 
@@ -648,8 +660,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 184
-    Top = 96
+    Left = 200
+    Top = 168
     object sdsCaixa1IDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       Required = True
@@ -711,8 +723,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 84
-    Top = 96
+    Left = 100
+    Top = 168
     object cxIDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       Required = True
@@ -761,8 +773,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     ProviderName = 'pNomecx'
-    Left = 331
-    Top = 128
+    Left = 347
+    Top = 200
     object cNomecxIDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -813,8 +825,8 @@ object fAbrirCaixa: TfAbrirCaixa
   end
   object pNomecx: TDataSetProvider
     DataSet = sNomecx
-    Left = 299
-    Top = 128
+    Left = 315
+    Top = 200
   end
   object sNomecx: TSQLDataSet
     CommandText = 
@@ -828,8 +840,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 267
-    Top = 128
+    Left = 283
+    Top = 200
     object sNomecxIDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
     end
@@ -886,8 +898,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     ProviderName = 'dCaixaControle'
-    Left = 331
-    Top = 95
+    Left = 347
+    Top = 167
     object cCaixaControleIDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       ProviderFlags = [pfInKey]
@@ -939,8 +951,8 @@ object fAbrirCaixa: TfAbrirCaixa
   object dCaixaControle: TDataSetProvider
     DataSet = sCaixaControle
     UpdateMode = upWhereKeyOnly
-    Left = 302
-    Top = 95
+    Left = 318
+    Top = 167
   end
   object sCaixaControle: TSQLDataSet
     CommandText = 'select * from CAIXA_CONTROLE '#13#10'where IDCAIXACONTROLE = :idCaixa'
@@ -952,8 +964,8 @@ object fAbrirCaixa: TfAbrirCaixa
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 273
-    Top = 95
+    Left = 289
+    Top = 167
     object sCaixaControleIDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       ProviderFlags = [pfInKey]
@@ -1006,8 +1018,8 @@ object fAbrirCaixa: TfAbrirCaixa
     Aggregates = <>
     Params = <>
     ProviderName = 'dspPlano1'
-    Left = 140
-    Top = 128
+    Left = 156
+    Top = 200
     object sPlano1CODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -1052,16 +1064,16 @@ object fAbrirCaixa: TfAbrirCaixa
   end
   object dspPlano1: TDataSetProvider
     DataSet = sdsPlano1
-    Left = 110
-    Top = 128
+    Left = 126
+    Top = 200
   end
   object sdsPlano1: TSQLDataSet
     CommandText = 'select * from PLANO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 80
-    Top = 128
+    Left = 96
+    Top = 200
     object sdsPlano1CODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -1105,8 +1117,8 @@ object fAbrirCaixa: TfAbrirCaixa
     end
   end
   object PopupMenu1: TPopupMenu
-    Left = 120
-    Top = 96
+    Left = 136
+    Top = 168
     object Abrir1: TMenuItem
       Caption = 'Abrir'
       ShortCut = 113
