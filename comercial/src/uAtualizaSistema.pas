@@ -1580,8 +1580,12 @@ begin
       executaDDL('MOVIMENTODETALHE', 'PEDIDO', 'varchar(20)');
       executaDDL('MOVIMENTODETALHE', 'NITEMPED', 'integer');
       executaDDL('NOTAFISCAL', 'INDPAG', 'integer');
-      executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');      
-      executaScript('gera_nf_venda.sql');
+      executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
+      executaDDL('CCE', 'CONDICAO', 'varchar(500)');
+      executaDDL('COMPRA', 'CHAVENF', 'varchar(44)');
+      executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
+      executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
+      executaScript('gera_nf_venda.sql');      
       //mudaVersao('1.0.0.107');
     end;
 

@@ -1243,7 +1243,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -1436,7 +1436,7 @@ object fNFeletronica: TfNFeletronica
             Expanded = False
             FieldName = 'SELECIONOU'
             Title.Caption = 'SEL.'
-            Width = 20
+            Width = 30
             Visible = True
           end
           item
@@ -4761,20 +4761,15 @@ object fNFeletronica: TfNFeletronica
     Top = 171
     object sdsCCECHAVE: TStringField
       FieldName = 'CHAVE'
+      Required = True
       Size = 44
     end
     object sdsCCEORGAO: TIntegerField
       FieldName = 'ORGAO'
     end
-    object sdsCCECNPJ: TStringField
-      FieldName = 'CNPJ'
-      Size = 16
-    end
-    object sdsCCEDHENVIO: TDateField
-      FieldName = 'DHENVIO'
-    end
     object sdsCCESEQUENCIA: TIntegerField
       FieldName = 'SEQUENCIA'
+      Required = True
     end
     object sdsCCECORRECAO: TStringField
       FieldName = 'CORRECAO'
@@ -4788,6 +4783,13 @@ object fNFeletronica: TfNFeletronica
       FixedChar = True
       Size = 1
     end
+    object sdsCCECNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 19
+    end
+    object sdsCCEDHENVIO: TSQLTimeStampField
+      FieldName = 'DHENVIO'
+    end
   end
   object dspCCe: TDataSetProvider
     DataSet = sdsCCE
@@ -4797,56 +4799,21 @@ object fNFeletronica: TfNFeletronica
   end
   object cdsCCE: TClientDataSet
     Aggregates = <>
-    Params = <
-      item
-        DataType = ftDate
-        Name = 'dta1'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'dta2'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'pvendacusto'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'pvendacusto'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftSmallint
-        Name = 'natnf'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftString
-        Name = 'ENV'
-        ParamType = ptInput
-      end>
+    Params = <>
     ProviderName = 'dspCCe'
     Left = 744
     Top = 171
     object cdsCCECHAVE: TStringField
       FieldName = 'CHAVE'
+      Required = True
       Size = 44
     end
     object cdsCCEORGAO: TIntegerField
       FieldName = 'ORGAO'
     end
-    object cdsCCECNPJ: TStringField
-      FieldName = 'CNPJ'
-      Size = 16
-    end
-    object cdsCCEDHENVIO: TDateField
-      FieldName = 'DHENVIO'
-    end
     object cdsCCESEQUENCIA: TIntegerField
       FieldName = 'SEQUENCIA'
+      Required = True
     end
     object cdsCCECORRECAO: TStringField
       FieldName = 'CORRECAO'
@@ -4860,10 +4827,23 @@ object fNFeletronica: TfNFeletronica
       FixedChar = True
       Size = 1
     end
+    object cdsCCECNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 19
+    end
+    object cdsCCEDHENVIO: TSQLTimeStampField
+      FieldName = 'DHENVIO'
+    end
   end
   object DtSrcCCe: TDataSource
     DataSet = cdsCCE
     Left = 784
     Top = 171
+  end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 616
+    Top = 504
   end
 end

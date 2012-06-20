@@ -322,6 +322,11 @@ type
     cdsVALOR_IPI: TFloatField;
     cdsCOD_TRANPORTADORA: TIntegerField;
     cdsPRAZO: TStringField;
+    DBEdit4: TDBEdit;
+    Label39: TLabel;
+    Button1: TButton;
+    sds_compraCHAVENF: TStringField;
+    cds_compraCHAVENF: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -360,6 +365,7 @@ type
     procedure btnSerieClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure notafiscal ;
@@ -381,7 +387,7 @@ implementation
 
 uses uComercial, UDm, uProcurar, uCheques_bol, uCompra, ufCpAltera,
   uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize, uNotafc, UDMNF,
-  uAtsAdmin, uEstoque;
+  uAtsAdmin, uEstoque, uNFeletronica;
 
 {$R *.dfm}
 
@@ -1783,6 +1789,15 @@ begin
   end
   else
     Close;
+end;
+
+procedure TfCompraFinalizar.Button1Click(Sender: TObject);
+begin
+  {$IFNDEF ACBrNFeOpenSSL}
+    if( fNFeletronica.ACBrNFe1.Configuracoes.Certificados.NumeroSerie = '') then
+    fNFeletronica.ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
+  {$ENDIF}
+  fNFeletronica.btnConsulta.Click;
 end;
 
 end.
