@@ -606,20 +606,6 @@ type
     dspCCe: TDataSetProvider;
     cdsCCE: TClientDataSet;
     DtSrcCCe: TDataSource;
-    sdsCCECHAVE: TStringField;
-    sdsCCEORGAO: TIntegerField;
-    sdsCCECNPJ: TStringField;
-    sdsCCEDHENVIO: TDateField;
-    sdsCCESEQUENCIA: TIntegerField;
-    sdsCCECORRECAO: TStringField;
-    sdsCCEPROTOCOLO: TStringField;
-    cdsCCECHAVE: TStringField;
-    cdsCCEORGAO: TIntegerField;
-    cdsCCECNPJ: TStringField;
-    cdsCCEDHENVIO: TDateField;
-    cdsCCESEQUENCIA: TIntegerField;
-    cdsCCECORRECAO: TStringField;
-    cdsCCEPROTOCOLO: TStringField;
     GroupBox10: TGroupBox;
     Label8: TLabel;
     Edit3: TEdit;
@@ -627,8 +613,6 @@ type
     edtNumSerie2: TEdit;
     Label10: TLabel;
     SpeedButton1: TSpeedButton;
-    sdsCCESELECIONOU: TStringField;
-    cdsCCESELECIONOU: TStringField;
     sdsItensNFCSTIPI: TStringField;
     sdsItensNFCSTPIS: TStringField;
     sdsItensNFCSTCOFINS: TStringField;
@@ -643,6 +627,23 @@ type
     sdsItensNFPEDIDO: TStringField;
     cdsItensNFNITEMPED: TIntegerField;
     cdsItensNFPEDIDO: TStringField;
+    VCLReport1: TVCLReport;
+    sdsCCECHAVE: TStringField;
+    sdsCCEORGAO: TIntegerField;
+    sdsCCESEQUENCIA: TIntegerField;
+    sdsCCECORRECAO: TStringField;
+    sdsCCEPROTOCOLO: TStringField;
+    sdsCCESELECIONOU: TStringField;
+    sdsCCECNPJ: TStringField;
+    cdsCCECHAVE: TStringField;
+    cdsCCEORGAO: TIntegerField;
+    cdsCCESEQUENCIA: TIntegerField;
+    cdsCCECORRECAO: TStringField;
+    cdsCCEPROTOCOLO: TStringField;
+    cdsCCESELECIONOU: TStringField;
+    cdsCCECNPJ: TStringField;
+    sdsCCEDHENVIO: TSQLTimeStampField;
+    cdsCCEDHENVIO: TSQLTimeStampField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -689,6 +690,7 @@ type
     procedure getTransportadora();
     procedure getPagamento();
     procedure pegaItens(tpNf: integer);
+    procedure imprimiCCe(protocolo: string; dthenvio : TDateTime; condicao : string);
   public
     { Public declarations }
   end;
@@ -1288,11 +1290,14 @@ begin
 end;
 
 procedure TfNFeletronica.sbtnGetCertClick(Sender: TObject);
+var vencimento : Integer;
 begin
    {$IFNDEF ACBrNFeOpenSSL}
    edtNumSerie.Text := ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
    edtNumSerie2.Text := edtNumSerie.Text;
    {$ENDIF}
+   if ( ((ACBrNFe1.Configuracoes.Certificados.DataVenc - Now) < 30) and ((ACBrNFe1.Configuracoes.Certificados.DataVenc - Now) > 0)) then
+     MessageDlg( 'Seu certificado expira dia ' + DateToStr(ACBrNFe1.Configuracoes.Certificados.DataVenc) , mtInformation, [mbOK], 0);
 
 end;
 
@@ -1429,11 +1434,15 @@ begin
   //PEGA A RESPOSTA
   with vXMLDoc.DocumentElement  do
   begin
-    motivo := ChildNodes['infProt'].ChildNodes['xMotivo'].text;
+    motivo := ChildNodes['protNFe'].ChildNodes['infProt'].ChildNodes['xMotivo'].text;
+    if (motivo = '') then
+      motivo := ChildNodes['infProt'].ChildNodes['xMotivo'].text;
+    if (motivo = '') then
+      motivo := ChildNodes['xMotivo'].text;      
   end;
- MessageDlg( motivo, mtInformation, [mbOK], 0);
+  MessageDlg( motivo, mtInformation, [mbOK], 0);
  finally
- VXMLDoc.Free;
+   VXMLDoc.Free;
  end;
 end;
 
@@ -2484,7 +2493,7 @@ begin
       begin
         InfEvento.chNFe     := cdsCCeCHAVE.AsString;
         InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
-        InfEvento.CNPJ      := cdsCCeCNPJ.AsString;
+        InfEvento.CNPJ      := RemoveChar(cdsCCeCNPJ.AsString);
         InfEvento.dhEvento  := envio;
         InfEvento.tpEvento  := 110110;
         InfEvento.nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
@@ -2496,18 +2505,26 @@ begin
       ACBrNFe1.EnviarCartaCorrecao(0);
   finally
     protocolo := AcbrNFe1.WebServices.CartaCorrecao.CCeRetorno.retEvento.Items[0].RetInfEvento.nProt;
-    ShowMessage('Nº do Protocolo: ' + protocolo);
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
     DecimalSeparator := '.';
     //SALVA OS PROTOCOLOS
-    str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo);
-    str := str + ', DHENVIO = ' + QuotedStr(FormatDateTime('MM/dd/yyyy', envio));
-    str := str + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString);
-    str := str + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
-    dm.sqlsisAdimin.ExecuteDirect(str);
-    dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.Commit(TD);
+    if(protocolo = '') then
+    begin
+      MessageDlg('Carta de Correção não enviada...', mtWarning, [mbOK], 0);
+    end
+    else
+    begin
+      str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo)
+      + ', DHENVIO = ' + QuotedStr(FormatDateTime('dd.mm.yyyy hh:mm:ss', envio))
+      + ', CONDICAO = ' + QuotedStr(ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso)
+      + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString)
+      + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str);
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.Commit(TD);
+      imprimiCCe(protocolo, envio, ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso );
+    end;
   end;
 
 end;
@@ -2543,6 +2560,24 @@ begin
      else
        ImageList2.Draw(JvDBGrid2.Canvas,Rect.Left+10,Rect.top, 0);
   end;
+end;
+
+procedure TfNFeletronica.ImprimiCCe(protocolo : string; dthenvio : TDateTime; condicao : string);
+begin
+    VCLReport1.Filename := str_relatorio + 'CCe.rep';
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Report.Params.ParamByName('NF').Value := Copy(cdsCCeCHAVE.AsString, 30 ,6);
+    VCLReport1.Report.Params.ParamByName('SERIE').Value := '1';
+    VCLReport1.Report.Params.ParamByName('CNPJ').Value := cdsCCECNPJ.AsString;
+    VCLReport1.Report.Params.ParamByName('DTEMISSAO').Value := FormatDateTime('dd/mm/yyyy', dthenvio);
+    VCLReport1.Report.Params.ParamByName('HREMISSAO').Value := FormatDateTime('hh:mm:ss', dthenvio);
+    VCLReport1.Report.Params.ParamByName('SEQUENCIA').Value := cdsCCESEQUENCIA.AsInteger;
+    VCLReport1.Report.Params.ParamByName('CORRECAO').Value := cdsCCECORRECAO.AsString;
+    VCLReport1.Report.Params.ParamByName('CONDICAO').Value := condicao;
+    VCLReport1.Report.Params.ParamByName('EVENTO').Value := '110110';
+    VCLReport1.Report.Params.ParamByName('PROTOCOLO').Value := protocolo;
+    VCLReport1.Report.Params.ParamByName('CHAVE').Value :=cdsCCeCHAVE.AsString;
+    VCLReport1.Execute;
 end;
 
 end.
