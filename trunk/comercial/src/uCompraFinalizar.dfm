@@ -1,8 +1,8 @@
 inherited fCompraFinalizar: TfCompraFinalizar
   Left = 172
   Top = 90
-  Width = 800
-  Height = 553
+  Width = 809
+  Height = 556
   Caption = 'Compras Finalizar'
   Font.Height = -13
   OldCreateOrder = True
@@ -651,9 +651,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   object GroupBox3: TGroupBox [1]
     Left = 0
-    Top = 286
+    Top = 290
     Width = 617
-    Height = 205
+    Height = 204
     Caption = 'PARCELAS'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clTeal
@@ -1044,7 +1044,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 792
+    Width = 793
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1602,8 +1602,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 503
-    Width = 792
+    Top = 495
+    Width = 793
     Height = 23
     Align = alBottom
     Background.StartColor = clSilver
@@ -1633,13 +1633,13 @@ inherited fCompraFinalizar: TfCompraFinalizar
     Left = 0
     Top = 60
     Width = 617
-    Height = 62
+    Height = 61
     Caption = 'COMPRADOR'
     PopupMenu = PopupMenu1
     TabOrder = 2
     object Label3: TLabel
       Left = 8
-      Top = 15
+      Top = 14
       Width = 44
       Height = 16
       Caption = 'C'#243'digo'
@@ -1652,7 +1652,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label4: TLabel
       Left = 90
-      Top = 14
+      Top = 13
       Width = 37
       Height = 16
       Caption = 'Nome'
@@ -1665,7 +1665,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object dbeUsuario: TDBEdit
       Left = 8
-      Top = 32
+      Top = 31
       Width = 78
       Height = 24
       Color = clInfoBk
@@ -1683,7 +1683,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit14: TDBEdit
       Left = 88
-      Top = 32
+      Top = 31
       Width = 484
       Height = 24
       TabStop = False
@@ -1701,7 +1701,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object btnUsuarioProcura: TBitBtn
       Left = 573
-      Top = 23
+      Top = 17
       Width = 39
       Height = 36
       Enabled = False
@@ -1782,7 +1782,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     Left = 0
     Top = 123
     Width = 617
-    Height = 161
+    Height = 168
     Caption = 'DADOS NF'
     PopupMenu = PopupMenu1
     TabOrder = 3
@@ -1866,7 +1866,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label13: TLabel
       Left = 5
-      Top = 59
+      Top = 54
       Width = 83
       Height = 16
       Caption = 'Caixa / Banco'
@@ -1879,7 +1879,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label5: TLabel
       Left = 5
-      Top = 114
+      Top = 98
       Width = 86
       Height = 16
       Caption = 'Valor Frete R$'
@@ -1892,7 +1892,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label6: TLabel
       Left = 128
-      Top = 114
+      Top = 98
       Width = 99
       Height = 16
       Caption = 'Valor Seguro R$'
@@ -1905,7 +1905,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label20: TLabel
       Left = 250
-      Top = 114
+      Top = 98
       Width = 87
       Height = 16
       Caption = 'Valor ICMS R$'
@@ -1918,7 +1918,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label21: TLabel
       Left = 372
-      Top = 114
+      Top = 98
       Width = 70
       Height = 16
       Caption = 'Valor IPI R$'
@@ -1931,7 +1931,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label22: TLabel
       Left = 494
-      Top = 114
+      Top = 98
       Width = 109
       Height = 16
       Caption = 'Outros Valores R$'
@@ -1944,7 +1944,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label24: TLabel
       Left = 199
-      Top = 61
+      Top = 56
       Width = 115
       Height = 16
       Caption = 'Forma Pagamento:'
@@ -1957,13 +1957,26 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label25: TLabel
       Left = 407
-      Top = 59
+      Top = 54
       Width = 44
       Height = 16
       Caption = 'N. Doc.'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label39: TLabel
+      Left = 7
+      Top = 143
+      Width = 54
+      Height = 13
+      Caption = 'Chave NFe'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -2053,7 +2066,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object cbConta: TComboBox
       Left = 4
-      Top = 77
+      Top = 72
       Width = 189
       Height = 24
       ItemHeight = 16
@@ -2062,7 +2075,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit1: TDBEdit
       Left = 4
-      Top = 131
+      Top = 115
       Width = 115
       Height = 24
       DataField = 'VALOR_FRETE'
@@ -2078,7 +2091,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit13: TDBEdit
       Left = 127
-      Top = 131
+      Top = 115
       Width = 115
       Height = 24
       DataField = 'VALOR_SEGURO'
@@ -2094,7 +2107,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit15: TDBEdit
       Left = 249
-      Top = 131
+      Top = 115
       Width = 115
       Height = 24
       DataField = 'VALOR_ICMS'
@@ -2110,7 +2123,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit16: TDBEdit
       Left = 371
-      Top = 131
+      Top = 115
       Width = 115
       Height = 24
       DataField = 'VALOR_IPI'
@@ -2126,7 +2139,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit17: TDBEdit
       Left = 493
-      Top = 131
+      Top = 115
       Width = 115
       Height = 24
       DataField = 'OUTRAS_DESP'
@@ -2142,7 +2155,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object BtnCheque: TBitBtn
       Left = 532
-      Top = 69
+      Top = 61
       Width = 70
       Height = 34
       Caption = '&Cheques'
@@ -2157,7 +2170,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object ComboBox1: TComboBox
       Left = 199
-      Top = 76
+      Top = 71
       Width = 202
       Height = 24
       ItemHeight = 16
@@ -2166,7 +2179,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit12: TDBEdit
       Left = 405
-      Top = 76
+      Top = 71
       Width = 115
       Height = 24
       DataField = 'N_DOCUMENTO'
@@ -2228,6 +2241,31 @@ inherited fCompraFinalizar: TfCompraFinalizar
       TabOrder = 17
       TabStop = False
       OnClick = btnSerieClick
+    end
+    object DBEdit4: TDBEdit
+      Left = 65
+      Top = 139
+      Width = 323
+      Height = 24
+      DataField = 'CHAVENF'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 18
+      OnKeyPress = FormKeyPress
+    end
+    object Button1: TButton
+      Left = 392
+      Top = 138
+      Width = 87
+      Height = 25
+      Caption = 'Validar NFe'
+      TabOrder = 19
+      OnClick = Button1Click
     end
   end
   object GroupBox4: TGroupBox [6]
@@ -2943,6 +2981,10 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ProviderFlags = [pfInUpdate]
       Size = 40
     end
+    object sds_compraCHAVENF: TStringField
+      FieldName = 'CHAVENF'
+      Size = 60
+    end
   end
   object dsp_compra: TDataSetProvider
     DataSet = sds_compra
@@ -3158,6 +3200,10 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object cds_compraPRAZO: TStringField
       FieldName = 'PRAZO'
       Size = 40
+    end
+    object cds_compraCHAVENF: TStringField
+      FieldName = 'CHAVENF'
+      Size = 60
     end
   end
   object VCLReport1: TVCLReport
