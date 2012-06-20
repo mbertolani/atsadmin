@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 787
+    Width = 812
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1015,8 +1015,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 556
-    Width = 787
+    Top = 561
+    Width = 812
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
@@ -1649,6 +1649,7 @@ inherited fCompra: TfCompra
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      OnDblClick = DBGrid1DblClick
       OnTitleClick = JvDBGrid1TitleClick
       AlternateRowColor = 16776176
       AutoSizeColumns = True
