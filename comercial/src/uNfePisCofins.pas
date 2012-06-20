@@ -788,6 +788,10 @@ type
     cdsCompraSERIE: TStringField;
     sdsCompraVALOR: TFloatField;
     cdsCompraVALOR: TFloatField;
+    sdsCompraICMS_ST: TFloatField;
+    sdsCompraICMS_BASE_ST: TFloatField;
+    cdsCompraICMS_ST: TFloatField;
+    cdsCompraICMS_BASE_ST: TFloatField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -801,6 +805,8 @@ type
     util : Tutils;
     tipo: String;
     function validaCodMunicipio(cod: String; quem: String):String;
+    function cstPis(cstP: String): String;
+    function cstCofins(cstC: String): String;
     procedure LoadToMemo;
     procedure blocoO;
     procedure bloco1;
@@ -1285,29 +1291,28 @@ begin
                 if (cdsCompraSERIE.AsString = '1A') then   //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
                   COD_MOD       := '01';
 
-
                 COD_SIT       := sdRegular;
                 SER           := ''; //04	SER	Série do documento fiscal	C	003	-
-                NUM_DOC       := FormatFloat('NF000000', StrToInt(cdsCompraNOTASERIE.AsString));  //INotas
+                NUM_DOC       := FormatFloat('NF000000', cdsCompraNOTAFISCAL.AsInteger);  //INotas
                 CHV_NFE       := '';  //cdsCOMPRANOMEXML.AsString;
                 DT_DOC        := cdsCompraDATACOMPRA.AsDateTime;
                 DT_E_S        := cdsCompraDATACOMPRA.AsDateTime;
                 VL_DOC        := cdsCompraVALOR.AsFloat;
-    #######            IND_PGTO      := tpPrazo;
-                VL_DESC       := cdsNFVendaVALOR_DESCONTO.AsFloat;
+                IND_PGTO      := tpPrazo;
+                VL_DESC       := 0;
                 VL_ABAT_NT    := 0;
-                VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
+                VL_MERC       := cdsCompraVALOR.AsFloat;
                 IND_FRT       := tfSemCobrancaFrete;
-                VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
-                VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
+                VL_FRT        := cdsCompraVALOR_FRETE.AsFloat;
+                VL_SEG        := cdsCompraVALOR_SEGURO.AsFloat;
                 VL_OUT_DA     := 0;
-                VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
-                VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
-                VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
-                VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
-                VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
-                VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
-                VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
+                VL_BC_ICMS    := cdsCompraVLR_BASEICMS.AsFloat;
+                VL_ICMS       := cdsCompraVALOR_ICMS.AsFloat;
+                VL_BC_ICMS_ST := cdsCompraICMS_BASE_ST.AsFloat;
+                VL_ICMS_ST    := cdsCompraICMS_ST.AsFloat;
+                VL_IPI        := cdsCompraVALOR_IPI.AsFloat;
+                VL_PIS        := 0;
+                VL_COFINS     := 0;
                 VL_PIS_ST     := 0;
                 VL_COFINS_ST  := 0;
 
@@ -1318,35 +1323,54 @@ begin
                   with RegistroC170New do   //Inicio Adicionar os Itens:
                   begin
                      NUM_ITEM         := FormatFloat('000', IItens);
-                     COD_ITEM         := FormatFloat('000000',StrToInt(NUM_ITEM));
+                     COD_ITEM         := FormatFloat('000000', cdsCompraCODPRODUTO.AsInteger);
                      DESCR_COMPL      := FormatFloat('NF000000',INotas)+' -> ITEM '+COD_ITEM;
-                     QTD              := 1;
-                     UNID             := 'UN';
-                     VL_ITEM          := 0;
+                     QTD              := cdsCompraQUANTIDADE.AsFloat;
+                     UNID             := cdsCompraUN.AsString;
+                     VL_ITEM          := cdsCompraPRECO.AsFloat;
                      VL_DESC          := 0;
-                     IND_MOV          := mfNao;
+                     IND_MOV          := mfSim;
                      CST_ICMS         := sticmsTributadaIntegralmente;
-                     CFOP             := '1252';
-                     COD_NAT          := '64';
-                     VL_BC_ICMS       := 0;
-                     ALIQ_ICMS        := 0;
-                     VL_ICMS          := 0;
-                     VL_BC_ICMS_ST    := 0;
-                     ALIQ_ST          := 0;
+                     CFOP             := cdsCompraCFOP.AsString;
+                     COD_NAT          := '04';
+                     VL_BC_ICMS       := cdsCompraVLR_BASEICMS.AsFloat;
+                     ALIQ_ICMS        := cdsCompraICMS.AsFloat;
+                     VL_ICMS          := cdsCompraVALOR_ICMS.AsFloat;
+                     VL_BC_ICMS_ST    := cdsCompraICMS_SUBST.AsFloat;
+                     ALIQ_ST          := cdsCompraICMS_SUBSTD.AsFloat;
                      VL_ICMS_ST       := 0;
+                     if (cdsCompraICMS_SUBSTD.AsFloat > 0) then
+                       VL_ICMS_ST       := cdsCompraICMS_SUBST.AsFloat/cdsCompraICMS_SUBSTD.AsFloat;
                      IND_APUR         := iaMensal;
-                     CST_IPI          := stipiEntradaIsenta;
+                     Case StrToInt(cdsCompraCSTIPI.AsString) of
+                       0 : CST_IPI := stipiEntradaRecuperacaoCredito;// '00' // Entrada com recuperação de crédito
+                       1 : CST_IPI := stipiEntradaTributradaZero;    // '01' // Entrada tributada com alíquota zero
+                       2 : CST_IPI := stipiEntradaIsenta;            // '02' // Entrada isenta
+                       3 : CST_IPI := stipiEntradaNaoTributada;      // '03' // Entrada não-tributada
+                       4 : CST_IPI := stipiEntradaImune;             // '04' // Entrada imune
+                       5 : CST_IPI := stipiEntradaComSuspensao;      // '05' // Entrada com suspensão
+                      49 : CST_IPI := stipiOutrasEntradas;           // '49' // Outras entradas
+                      50 : CST_IPI := stipiSaidaTributada;           // '50' // Saída tributada
+                      51 : CST_IPI := stipiSaidaTributadaZero;       // '51' // Saída tributada com alíquota zero
+                      52 : CST_IPI := stipiSaidaIsenta;              // '52' // Saída isenta
+                      53 : CST_IPI := stipiSaidaNaoTributada;        // '53' // Saída não-tributada
+                      54 : CST_IPI := stipiSaidaImune;               // '54' // Saída imune
+                      55 : CST_IPI := stipiSaidaComSuspensao;        // '55' // Saída com suspensão
+                      99 : CST_IPI := stipiOutrasSaidas;             // '99' // Outras saídas
+                     end;
                      COD_ENQ          := '';
-                     VL_BC_IPI        := 0;
+                     VL_BC_IPI        := cdsCompraVLR_BASEICMS.AsFloat;
                      ALIQ_IPI         := 0;
-                     VL_IPI           := 0;
-                     CST_PIS          := stpisOutrasOperacoesSaida;
+                     if (cdsCompraVLR_BASEICMS.AsFloat > 0) then
+                     ALIQ_IPI         := cdsCompraVIPI.AsFloat/cdsCompraVLR_BASEICMS.AsFloat;
+                     VL_IPI           := cdsCompraVIPI.AsFloat;
+                     CST_PIS          := cstPis(cdsCompraCSTPIS.AsString); //  stpisOutrasOperacoesSaida;  // #########
                      VL_BC_PIS        := 0;
                      ALIQ_PIS_PERC    := 0;
                      QUANT_BC_PIS     := 0;
                      ALIQ_PIS_R       := 0;
                      VL_PIS           := 0;
-                     CST_COFINS       := stcofinsOutrasOperacoesSaida;
+                     CST_COFINS       := cstCofins(cdsCompraCSTCOFINS.AsString);
                      VL_BC_COFINS     := 0;
                      ALIQ_COFINS_PERC := 0;
                      QUANT_BC_COFINS  := 0;
@@ -1393,7 +1417,6 @@ begin
     end;
     cdsCompra.Next;
   end;  // FIM BLOCO COMPRAS ######################
-
 
   While (not cdsMov.Eof) do
   begin
@@ -1891,6 +1914,84 @@ begin
   result := cod;
   if (cod = '') then
     MessageDlg('Código do IBGE não preenchido para ' + quem + '.', mtWarning, [mbOK], 0);
+end;
+
+function TfNfePisCofins.cstPis(cstP: String): String;
+begin
+  case StrToInt(cstP) of
+    1 : result := stpisValorAliquotaNormal;                         // '01' // Operação Tributável com Alíquota Básica   // valor da operação alíquota normal (cumulativo/não cumulativo)).
+    2 : result := stpisValorAliquotaDiferenciada;                   // '02' // Operação Tributável com Alíquota Diferenciada // valor da operação (alíquota diferenciada)).
+    3 : result := stpisQtdeAliquotaUnidade;                            // '03' // Operação Tributável com Alíquota por Unidade de Medida de Produto // quantidade vendida x alíquota por unidade de produto).
+    4 : result := stpisMonofaticaAliquotaZero;                         // '04' // Operação Tributável Monofásica - Revenda a Alíquota Zero
+    5 : result := stpisValorAliquotaPorST;                             // '05' // Operação Tributável por Substituição Tributária
+    6 : result := stpisAliquotaZero;                                   // '06' // Operação Tributável a Alíquota Zero
+    7 : result := stpisIsentaContribuicao;                             // '07' // Operação Isenta da Contribuição
+    8 : result := stpisSemIncidenciaContribuicao;                      // '08' // Operação sem Incidência da Contribuição
+    9 : result := stpisSuspensaoContribuicao;                          // '09' // Operação com Suspensão da Contribuição
+   49 : result := stpisOutrasOperacoesSaida;                           // '49' // Outras Operações de Saída
+   50 : result := stpisOperCredExcRecTribMercInt;                      // '50' // Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Tributada no Mercado Interno
+   51 : result := stpisOperCredExcRecNaoTribMercInt;                   // '51' // Operação com Direito a Crédito – Vinculada Exclusivamente a Receita Não Tributada no Mercado Interno
+   52 : result := stpisOperCredExcRecExportacao;                      // '52' // Operação com Direito a Crédito - Vinculada Exclusivamente a Receita de Exportação
+   53 : result := stpisOperCredRecTribNaoTribMercInt;                  // '53' // Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno
+   54 : result := stpisOperCredRecTribMercIntEExportacao;              // '54' // Operação com Direito a Crédito - Vinculada a Receitas Tributadas no Mercado Interno e de Exportação
+   55 : result := stpisOperCredRecNaoTribMercIntEExportacao;           // '55' // Operação com Direito a Crédito - Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação
+   56 : result := stpisOperCredRecTribENaoTribMercIntEExportacao;      // '56' // Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno, e de Exportação
+   60 : result := stpisCredPresAquiExcRecTribMercInt;                  // '60' // Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Tributada no Mercado Interno
+   61 : result := stpisCredPresAquiExcRecNaoTribMercInt;               // '61' // Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno
+   62 : result := stpisCredPresAquiExcExcRecExportacao;                // '62' // Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita de Exportação
+   63 : result := stpisCredPresAquiRecTribNaoTribMercInt;              // '63' // Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno
+   64 : result := stpisCredPresAquiRecTribMercIntEExportacao;          // '64' // Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas no Mercado Interno e de Exportação
+   65 : result := stpisCredPresAquiRecNaoTribMercIntEExportacao;       // '65' // Crédito Presumido - Operação de Aquisição Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação
+   66 : result := stpisCredPresAquiRecTribENaoTribMercIntEExportacao;  // '66' // Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno, e de Exportação
+   67 : result := stpisOutrasOperacoes_CredPresumido;                  // '67' // Crédito Presumido - Outras Operações
+   70 : result := stpisOperAquiSemDirCredito;                          // '70' // Operação de Aquisição sem Direito a Crédito
+   71 : result := stpisOperAquiComIsensao;                             // '71' // Operação de Aquisição com Isenção
+   72 : result := stpisOperAquiComSuspensao;                           // '72' // Operação de Aquisição com Suspensão
+   73 : result := stpisOperAquiAliquotaZero;                           // '73' // Operação de Aquisição a Alíquota Zero
+   74 : result := stpisOperAqui_SemIncidenciaContribuicao;             // '74' // Operação de Aquisição sem Incidência da Contribuição
+   75 : result := stpisOperAquiPorST;                                  // '75' // Operação de Aquisição por Substituição Tributária
+   98 : result := stpisOutrasOperacoesEntrada;                         // '98' // Outras Operações de Entrada
+   99 : result := stpisOutrasOperacoes;                                // '99' // Outras Operações
+ end;
+end;
+
+function TfNfePisCofins.cstCofins(cstC: String): String;
+begin
+  Case StrToInt(cstC) of
+    1 : Result := stcofinsValorAliquotaNormal;                           // '01' // Operação Tributável com Alíquota Básica                           // valor da operação alíquota normal (cumulativo/não cumulativo)).
+    2 : Result := stcofinsValorAliquotaDiferenciada;                     // '02' // Operação Tributável com Alíquota Diferenciada                     // valor da operação (alíquota diferenciada)).
+    3 : Result := stcofinsQtdeAliquotaUnidade;                           // '03' // Operação Tributável com Alíquota por Unidade de Medida de Produto // quantidade vendida x alíquota por unidade de produto).
+    4 : Result := stcofinsMonofaticaAliquotaZero;                        // '04' // Operação Tributável Monofásica - Revenda a Alíquota Zero
+    5 : Result := stcofinsValorAliquotaPorST;                            // '05' // Operação Tributável por Substituição Tributária
+    6 : Result := stcofinsAliquotaZero;                                  // '06' // Operação Tributável a Alíquota Zero
+    7 : Result := stcofinsIsentaContribuicao;                            // '07' // Operação Isenta da Contribuição
+    8 : Result := stcofinsSemIncidenciaContribuicao;                     // '08' // Operação sem Incidência da Contribuição
+    9 : Result := stcofinsSuspensaoContribuicao;                         // '09' // Operação com Suspensão da Contribuição
+    49 : Result := stcofinsOutrasOperacoesSaida;                          // '49' // Outras Operações de Saída
+    50 : Result := stcofinsOperCredExcRecTribMercInt;                     // '50' // Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Tributada no Mercado Interno
+    51 : Result := stcofinsOperCredExcRecNaoTribMercInt;                  // '51' // Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno
+    52 : Result := stcofinsOperCredExcRecExportacao;                     // '52' // Operação com Direito a Crédito - Vinculada Exclusivamente a Receita de Exportação
+    53 : Result := stcofinsOperCredRecTribNaoTribMercInt;                 // '53' // Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno
+    54 : Result := stcofinsOperCredRecTribMercIntEExportacao;             // '54' // Operação com Direito a Crédito - Vinculada a Receitas Tributadas no Mercado Interno e de Exportação
+    55 : Result := stcofinsOperCredRecNaoTribMercIntEExportacao;          // '55' // Operação com Direito a Crédito - Vinculada a Receitas Não Tributadas no Mercado Interno e de Exportação
+    56 : Result := stcofinsOperCredRecTribENaoTribMercIntEExportacao;     // '56' // Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno e de Exportação
+    60 : Result := stcofinsCredPresAquiExcRecTribMercInt;                 // '60' // Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Tributada no Mercado Interno
+    61 : Result := stcofinsCredPresAquiExcRecNaoTribMercInt;              // '61' // Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno
+    62 : Result := stcofinsCredPresAquiExcExcRecExportacao;               // '62' // Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita de Exportação
+    63 : Result := stcofinsCredPresAquiRecTribNaoTribMercInt;             // '63' // Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno
+    64 : Result := stcofinsCredPresAquiRecTribMercIntEExportacao;         // '64' // Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas no Mercado Interno e de Exportação
+    65 : Result := stcofinsCredPresAquiRecNaoTribMercIntEExportacao;      // '65' // Crédito Presumido - Operação de Aquisição Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação
+    66 : Result := stcofinsCredPresAquiRecTribENaoTribMercIntEExportacao; // '66' // Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno e de Exportação
+    67 : Result := stcofinsOutrasOperacoes_CredPresumido;                 // '67' // Crédito Presumido - Outras Operações
+    70 : Result := stcofinsOperAquiSemDirCredito;                         // '70' // Operação de Aquisição sem Direito a Crédito
+    71 : Result := stcofinsOperAquiComIsensao;                            // '71' // Operação de Aquisição com Isenção
+    72 : Result := stcofinsOperAquiComSuspensao;                          // '72' // Operação de Aquisição com Suspensão
+    73 : Result := stcofinsOperAquiAliquotaZero;                          // '73' // Operação de Aquisição a Alíquota Zero
+    74 : Result := stcofinsOperAqui_SemIncidenciaContribuicao;            // '74' // Operação de Aquisição sem Incidência da Contribuição
+    75 : Result := stcofinsOperAquiPorST;                                 // '75' // Operação de Aquisição por Substituição Tributária
+    98 : Result := stcofinsOutrasOperacoesEntrada;                        // '98' // Outras Operações de Entrada
+    99 : Result := stcofinsOutrasOperacoes;                                // '99' // Outras Operações
+  end;
 end;
 
 end.
