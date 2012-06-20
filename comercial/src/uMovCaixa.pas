@@ -234,7 +234,7 @@ begin
     var_cDebito := DM_MOV.s_parametroD1.AsString;
     DM_MOV.s_parametro.Close;
     var_codCCustoCD := FFecharCaixa.v_Cod_Caixa;
-    FFecharCaixa.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,JvValor.AsFloat,hist);
+    FFecharCaixa.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,StrToFloat(JvValor.Text),hist);
   Finally
     //Screen.Cursor := Save_Cursor;
     FFecharCaixa.Free;
