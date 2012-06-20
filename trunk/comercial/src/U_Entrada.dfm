@@ -21,8 +21,8 @@ object F_Entrada: TF_Entrada
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 48
-    Width = 622
-    Height = 494
+    Width = 630
+    Height = 505
     Align = alClient
     PopupMenu = pm1
     TabOrder = 0
@@ -35,8 +35,8 @@ object F_Entrada: TF_Entrada
     object JvLabel7: TJvLabel
       Left = 14
       Top = 286
-      Width = 58
-      Height = 23
+      Width = 52
+      Height = 24
       Caption = 'Vale :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -57,8 +57,8 @@ object F_Entrada: TF_Entrada
     object JvLabel6: TJvLabel
       Left = 14
       Top = 242
-      Width = 177
-      Height = 23
+      Width = 158
+      Height = 24
       Caption = 'Cart'#227'o de D'#233'bito :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -79,8 +79,8 @@ object F_Entrada: TF_Entrada
     object JvLabel5: TJvLabel
       Left = 14
       Top = 198
-      Width = 186
-      Height = 23
+      Width = 164
+      Height = 24
       Caption = 'Cart'#227'o de Cr'#233'dito :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -101,8 +101,8 @@ object F_Entrada: TF_Entrada
     object JvLabel4: TJvLabel
       Left = 14
       Top = 155
-      Width = 125
-      Height = 23
+      Width = 117
+      Height = 24
       Caption = 'Cheque-Pr'#233' :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -123,8 +123,8 @@ object F_Entrada: TF_Entrada
     object JvLabel2: TJvLabel
       Left = 14
       Top = 114
-      Width = 87
-      Height = 23
+      Width = 81
+      Height = 24
       Caption = 'Cheque :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -145,8 +145,8 @@ object F_Entrada: TF_Entrada
     object JvLabel1: TJvLabel
       Left = 15
       Top = 71
-      Width = 101
-      Height = 23
+      Width = 84
+      Height = 24
       Caption = 'Dinheiro :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -167,8 +167,8 @@ object F_Entrada: TF_Entrada
     object JvLabel9: TJvLabel
       Left = 14
       Top = 331
-      Width = 82
-      Height = 23
+      Width = 71
+      Height = 24
       Caption = 'Outros :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -190,7 +190,7 @@ object F_Entrada: TF_Entrada
       Left = 369
       Top = 15
       Width = 96
-      Height = 23
+      Height = 24
       Caption = 'TROCO ->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -211,8 +211,8 @@ object F_Entrada: TF_Entrada
     object JvLabel11: TJvLabel
       Left = 9
       Top = 15
-      Width = 179
-      Height = 23
+      Width = 176
+      Height = 24
       Caption = 'Valor Pago     ------->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -256,7 +256,9 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 10
+      TabOrder = 11
+      OnEnter = jvDinheiroEnter
+      OnExit = jvDinheiroExit
       OnKeyPress = FormKeyPress
     end
     object JvCartaoDBT: TJvValidateEdit
@@ -277,7 +279,9 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 8
+      TabOrder = 9
+      OnEnter = jvDinheiroEnter
+      OnExit = jvDinheiroExit
       OnKeyPress = FormKeyPress
     end
     object JvCartaoCDT: TJvValidateEdit
@@ -298,7 +302,9 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 6
+      TabOrder = 7
+      OnEnter = jvDinheiroEnter
+      OnExit = jvDinheiroExit
       OnKeyPress = FormKeyPress
     end
     object JvChequePre: TJvValidateEdit
@@ -319,7 +325,9 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 4
+      TabOrder = 5
+      OnEnter = jvDinheiroEnter
+      OnExit = jvDinheiroExit
       OnKeyPress = FormKeyPress
     end
     object JvCheque: TJvValidateEdit
@@ -340,7 +348,9 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 2
+      TabOrder = 3
+      OnEnter = jvDinheiroEnter
+      OnExit = jvDinheiroExit
       OnKeyPress = FormKeyPress
     end
     object jvDinheiro: TJvValidateEdit
@@ -361,7 +371,9 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 0
+      TabOrder = 1
+      OnEnter = jvDinheiroEnter
+      OnExit = jvDinheiroExit
       OnKeyPress = FormKeyPress
     end
     object JvOutros: TJvValidateEdit
@@ -382,7 +394,9 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 12
+      TabOrder = 13
+      OnEnter = jvDinheiroEnter
+      OnExit = jvDinheiroExit
       OnKeyPress = FormKeyPress
     end
     object cbCartaoCDT1: TComboBox
@@ -399,7 +413,7 @@ object F_Entrada: TF_Entrada
       ItemHeight = 19
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 7
+      TabOrder = 8
       OnKeyPress = FormKeyPress
     end
     object cbCartaoDBT1: TComboBox
@@ -416,7 +430,7 @@ object F_Entrada: TF_Entrada
       ItemHeight = 19
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 9
+      TabOrder = 10
       OnKeyPress = FormKeyPress
     end
     object cbOutros: TComboBox
@@ -433,7 +447,7 @@ object F_Entrada: TF_Entrada
       ItemHeight = 19
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 13
+      TabOrder = 14
       OnKeyPress = FormKeyPress
     end
     object ObsCheque: TEdit
@@ -450,7 +464,7 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 3
+      TabOrder = 4
       OnKeyPress = FormKeyPress
     end
     object ObsChequePre: TEdit
@@ -467,7 +481,7 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 5
+      TabOrder = 6
       OnKeyPress = FormKeyPress
     end
     object cbDinheiro: TComboBox
@@ -485,19 +499,19 @@ object F_Entrada: TF_Entrada
       ItemHeight = 19
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 1
+      TabOrder = 2
       OnKeyPress = FormKeyPress
     end
     object JvDBGrid1: TJvDBGrid
       Left = 1
-      Top = 364
-      Width = 620
+      Top = 375
+      Width = 628
       Height = 129
       Align = alBottom
       BorderStyle = bsNone
       DataSource = DataSource1
       PopupMenu = pm1
-      TabOrder = 14
+      TabOrder = 15
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -517,28 +531,28 @@ object F_Entrada: TF_Entrada
           Expanded = False
           FieldName = 'FORMA'
           Title.Caption = 'Forma Pgto'
-          Width = 120
+          Width = 122
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'VALOR_PAGO'
           Title.Caption = 'R$ Valor Pago'
-          Width = 78
+          Width = 79
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NOME'
           Title.Caption = 'Caixa'
-          Width = 179
+          Width = 181
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'N_DOC'
           Title.Caption = 'N'#186' Documento'
-          Width = 223
+          Width = 226
           Visible = True
         end>
     end
@@ -556,7 +570,7 @@ object F_Entrada: TF_Entrada
       ItemHeight = 19
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 11
+      TabOrder = 12
       OnKeyPress = FormKeyPress
     end
     object JvTroco: TJvValidateEdit
@@ -577,7 +591,7 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 15
+      TabOrder = 16
       OnKeyPress = FormKeyPress
     end
     object JvPago: TJvValidateEdit
@@ -598,15 +612,16 @@ object F_Entrada: TF_Entrada
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = pm1
-      TabOrder = 16
-      OnChange = JvPagoChange
+      TabOrder = 0
+      OnEnter = JvPagoEnter
+      OnExit = JvPagoExit
       OnKeyPress = FormKeyPress
     end
   end
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 622
+    Width = 630
     Height = 48
     Align = alTop
     PopupMenu = pm1
@@ -620,8 +635,8 @@ object F_Entrada: TF_Entrada
     object JvLabel8: TJvLabel
       Left = 515
       Top = 3
-      Width = 99
-      Height = 17
+      Width = 84
+      Height = 18
       Caption = 'Total Parcial :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -642,8 +657,8 @@ object F_Entrada: TF_Entrada
     object JvLabel3: TJvLabel
       Left = 409
       Top = 3
-      Width = 96
-      Height = 17
+      Width = 84
+      Height = 18
       Caption = 'Total Pedido :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -664,8 +679,8 @@ object F_Entrada: TF_Entrada
     object JvLabel12: TJvLabel
       Left = 329
       Top = 2
-      Width = 74
-      Height = 17
+      Width = 70
+      Height = 18
       Caption = 'Comiss'#227'o :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
