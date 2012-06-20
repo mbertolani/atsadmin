@@ -458,6 +458,7 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure btnDuplicarClick(Sender: TObject);
     procedure btnDupVendaClick(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     modo :string;
     { Private declarations }
@@ -479,7 +480,7 @@ implementation
 uses uComercial, UDm, uRateioPag, uFiltroMov_compra, ufprocura_prod,
   uCompraFinalizar, uProdutoLote, uProcurar, uLotes, uClienteVeiculo,
   sCtrlResize, uAtsAdmin, uUtils, UDMNF, uftransp, uFornecedorCadastro,
-  uProdutoCadastro, uLotes_Produtos;
+  uProdutoCadastro, uLotes_Produtos, uDetalhe;
 
 
 {$R *.dfm}
@@ -2116,5 +2117,17 @@ begin
   end;
 end;
 
+
+procedure TfCompra.DBGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  fDetalhe := TfDetalhe.Create(Application);
+  try
+    fDetalhe.detcodMovimento := cds_Mov_detCODDETALHE.AsInteger;
+    fDetalhe.ShowModal;
+  finally
+    fDetalhe.Free;
+  end;
+end;
 
 end.
