@@ -183,7 +183,10 @@ type
     procedure JvSairClick(Sender: TObject);
     procedure JvFinalizarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure JvPagoChange(Sender: TObject);
+    procedure JvPagoExit(Sender: TObject);
+    procedure JvPagoEnter(Sender: TObject);
+    procedure jvDinheiroExit(Sender: TObject);
+    procedure jvDinheiroEnter(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -222,6 +225,7 @@ type
     procedure imprimeCupom;
     procedure imprimeRecibo;
     procedure imprimeDLLBema;
+    procedure troco;
     { Private declarations }
   public
      var_codVenda : Integer;
@@ -360,9 +364,12 @@ end;
 
 procedure TF_Entrada.JvGravarClick(Sender: TObject);
 var total_parcial : double;
+  totalTrocoD, pagoTotal : double;
 begin
-  total_parcial := jvDinheiro.Value + JvCheque.Value + JvChequePre.Value +
-                   JvCartaoCDT.Value + JvCartaoDBT.Value + JvVale.Value + JvOutros.Value;
+  {total_parcial := jvDinheiro.Value + JvCheque.Value + JvChequePre.Value +
+                   JvCartaoCDT.Value + JvCartaoDBT.Value + JvVale.Value + JvOutros.Value;}
+  total_parcial := JvPago.Value;
+
   if (c_formatotal.IsNull) then
      total_parcial := total_parcial
   else
@@ -374,8 +381,24 @@ begin
      Exit;
   end;
 
+  totalTrocoD := JvTroco.Value;
+  pagoTotal   := 0;
+
   if (jvDinheiro.Value > 0) then
   begin
+    pagoTotal := jvDinheiro.Value;
+    if (totalTrocoD < 0) then
+    begin
+      pagoTotal := (jvDinheiro.Value + totalTrocoD);
+      if ((totalTrocoD*(-1)) > jvDinheiro.Value) then
+        totalTrocoD := totalTrocoD - jvDinheiro.Value
+      else
+        totalTrocoD := 0;
+    end;
+
+    if (pagoTotal <= 0) then
+      pagoTotal := jvDinheiro.Value;
+
     if (c_forma.Active) then
       c_forma.close;
     c_forma.Params[0].Clear;
@@ -389,7 +412,7 @@ begin
     c_formaCOD_VENDA.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     dm.c_6_genid.Close;
     c_formaFORMA_PGTO.AsString := '1';
-    c_formaVALOR_PAGO.Value := jvDinheiro.Value;
+    c_formaVALOR_PAGO.Value := pagoTotal;
     if (dm.cds_7_contas.Locate('NOME', cbDinheiro.Text, [loCaseInsensitive])) then
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_forma.ApplyUpdates(0);
@@ -397,6 +420,19 @@ begin
 
   if (JvCheque.Value > 0) then
   begin
+    pagoTotal := jvCheque.Value;
+    if (totalTrocoD < 0) then
+    begin
+      pagoTotal := (jvCheque.Value + totalTrocoD);
+      if ((totalTrocoD*(-1)) > jvCheque.Value) then
+        totalTrocoD := totalTrocoD - jvCheque.Value
+      else
+        totalTrocoD := 0;
+    end;
+
+    if (pagoTotal <= 0) then
+      pagoTotal := jvCheque.Value;
+
     if (c_forma.Active) then
       c_forma.close;
     c_forma.Params[0].Clear;
@@ -410,7 +446,7 @@ begin
     c_formaCOD_VENDA.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     dm.c_6_genid.Close;
     c_formaFORMA_PGTO.AsString := '2';
-    c_formaVALOR_PAGO.Value := JvCheque.Value;
+    c_formaVALOR_PAGO.Value := pagoTotal;
     if (dm.cds_7_contas.Locate('NOME', cbDinheiro.Text, [loCaseInsensitive])) then
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_formaN_DOC.AsString := ObsCheque.Text;
@@ -419,6 +455,19 @@ begin
 
   if (JvChequePre.Value > 0) then
   begin
+    pagoTotal := jvChequePre.Value;
+    if (totalTrocoD < 0) then
+    begin
+      pagoTotal := (jvChequePre.Value + totalTrocoD);
+      if ((totalTrocoD*(-1)) > jvChequePre.Value) then
+        totalTrocoD := totalTrocoD - jvChequePre.Value
+      else
+        totalTrocoD := 0;
+    end;
+
+    if (pagoTotal <= 0) then
+      pagoTotal := jvChequePre.Value;
+
     if (c_forma.Active) then
       c_forma.close;
     c_forma.Params[0].Clear;
@@ -432,7 +481,7 @@ begin
     c_formaCOD_VENDA.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     dm.c_6_genid.Close;
     c_formaFORMA_PGTO.AsString := '3';
-    c_formaVALOR_PAGO.Value := JvChequePre.Value;
+    c_formaVALOR_PAGO.Value := pagoTotal;
     if (dm.cds_7_contas.Locate('NOME', cbDinheiro.Text, [loCaseInsensitive])) then
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_formaN_DOC.AsString := ObsChequePre.Text;
@@ -441,6 +490,19 @@ begin
 
   if (JvCartaoCDT.Value > 0) then
   begin
+    pagoTotal := JvCartaoCDT.Value;
+    if (totalTrocoD < 0) then
+    begin
+      pagoTotal := (JvCartaoCDT.Value + totalTrocoD);
+      if ((totalTrocoD*(-1)) > JvCartaoCDT.Value) then
+        totalTrocoD := totalTrocoD - JvCartaoCDT.Value
+      else
+        totalTrocoD := 0;
+    end;
+
+    if (pagoTotal <= 0) then
+      pagoTotal := JvCartaoCDT.Value;
+
     if (c_forma.Active) then
       c_forma.close;
     c_forma.Params[0].Clear;
@@ -454,7 +516,7 @@ begin
     c_formaCOD_VENDA.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     dm.c_6_genid.Close;
     c_formaFORMA_PGTO.AsString := '6';
-    c_formaVALOR_PAGO.Value := JvCartaoCDT.Value;
+    c_formaVALOR_PAGO.Value := pagoTotal;
     if (dm.cds_7_contas.Locate('NOME', cbCartaoCDT1.Text, [loCaseInsensitive])) then
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_forma.ApplyUpdates(0);
@@ -463,6 +525,19 @@ begin
 
   if (JvCartaoDBT.Value > 0) then
   begin
+    pagoTotal := JvCartaoDBT.Value;
+    if (totalTrocoD < 0) then
+    begin
+      pagoTotal := (JvCartaoDBT.Value + totalTrocoD);
+      if ((totalTrocoD*(-1)) > JvCartaoDBT.Value) then
+        totalTrocoD := totalTrocoD - JvCartaoDBT.Value
+      else
+        totalTrocoD := 0;
+    end;
+
+    if (pagoTotal <= 0) then
+      pagoTotal := JvCartaoDBT.Value;
+
     if (c_forma.Active) then
       c_forma.close;
     c_forma.Params[0].Clear;
@@ -476,7 +551,7 @@ begin
     c_formaCOD_VENDA.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     dm.c_6_genid.Close;
     c_formaFORMA_PGTO.AsString := '7';
-    c_formaVALOR_PAGO.Value := JvCartaoDBT.Value;
+    c_formaVALOR_PAGO.Value := pagoTotal;
     if (dm.cds_7_contas.Locate('NOME', cbCartaoDBT1.Text, [loCaseInsensitive])) then
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_forma.ApplyUpdates(0);
@@ -484,6 +559,19 @@ begin
 
   if (JvVale.Value > 0) then
   begin
+    pagoTotal := jvVale.Value;
+    if (totalTrocoD < 0) then
+    begin
+      pagoTotal := (jvVale.Value + totalTrocoD);
+      if ((totalTrocoD*(-1)) > jvVale.Value) then
+        totalTrocoD := totalTrocoD - jvVale.Value
+      else
+        totalTrocoD := 0;
+    end;
+
+    if (pagoTotal <= 0) then
+      pagoTotal := jvVale.Value;
+
     if (c_forma.Active) then
       c_forma.close;
     c_forma.Params[0].Clear;
@@ -497,7 +585,7 @@ begin
     c_formaCOD_VENDA.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     dm.c_6_genid.Close;
     c_formaFORMA_PGTO.AsString := 'G';
-    c_formaVALOR_PAGO.Value := JvVale.Value;
+    c_formaVALOR_PAGO.Value := pagoTotal;
     if (dm.cds_7_contas.Locate('NOME', cbVale.Text, [loCaseInsensitive])) then
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_forma.ApplyUpdates(0);
@@ -505,6 +593,19 @@ begin
 
   if (JvOutros.Value > 0) then
   begin
+    pagoTotal := jvOutros.Value;
+    if (totalTrocoD < 0) then
+    begin
+      pagoTotal := (jvOutros.Value + totalTrocoD);
+      if ((totalTrocoD*(-1)) > jvOutros.Value) then
+        totalTrocoD := totalTrocoD - jvOutros.Value
+      else
+        totalTrocoD := 0;
+    end;
+
+    if (pagoTotal <= 0) then
+      pagoTotal := jvOutros.Value;
+
     if (c_forma.Active) then
       c_forma.close;
     c_forma.Params[0].Clear;
@@ -518,7 +619,7 @@ begin
     c_formaCOD_VENDA.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     dm.c_6_genid.Close;
     c_formaFORMA_PGTO.AsString := 'H';
-    c_formaVALOR_PAGO.Value := JvOutros.Value;    
+    c_formaVALOR_PAGO.Value := pagoTotal;
     if (dm.cds_7_contas.Locate('NOME', cbOutros.Text, [loCaseInsensitive])) then
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_forma.ApplyUpdates(0);
@@ -1228,15 +1329,34 @@ begin
   VCLReport2.Execute;
 end;
 
-procedure TF_Entrada.JvPagoChange(Sender: TObject);
+procedure TF_Entrada.troco;
+var totalPTroco: Double;
 begin
-  JvTroco.Value := JvPedido.Value - JvPago.Value;
-  jvDinheiro.Value := JvPedido.Value;
-  if (JvPago.Value < JvPedido.Value) then
-  begin
-    jvDinheiro.Value := JvPago.Value;
-    JvTroco.Value := 0;
-  end;
+  totalPTroco := jvDinheiro.Value + JvCheque.Value + JvChequePre.Value + JvCartaoDBT.Value +
+    JvCartaoCDT.Value + JvVale.Value + JvOutros.Value;
+  JvTroco.Value := JvPago.Value - totalPTroco;
+end;
+
+procedure TF_Entrada.JvPagoExit(Sender: TObject);
+begin
+  troco;
+  jvDinheiro.Value := JvPago.Value;
+end;
+
+procedure TF_Entrada.JvPagoEnter(Sender: TObject);
+begin
+  troco;
+  jvDinheiro.Value := JvPago.Value;
+end;
+
+procedure TF_Entrada.jvDinheiroExit(Sender: TObject);
+begin
+  troco;
+end;
+
+procedure TF_Entrada.jvDinheiroEnter(Sender: TObject);
+begin
+  Troco;
 end;
 
 end.
