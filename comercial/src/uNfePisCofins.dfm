@@ -2429,12 +2429,12 @@ object fNfePisCofins: TfNfePisCofins
       'FINS, r.PPIS, r.PCOFINS'#13#10', f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNP' +
       'J, f.INSCESTADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CID' +
       'ADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, e' +
-      'f.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR'#13#10'    FROM COMPRA C,  MOVIM' +
-      'ENTODETALHE r, FORNECEDOR f, ENDERECOFORNECEDOR ef'#13#10'   WHERE C.C' +
-      'ODMOVIMENTO = r.CODMOVIMENTO'#13#10'     AND f.CODFORNECEDOR = c.CODFO' +
-      'RNECEDOR'#13#10'     AND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ' +
-      'ef.TIPOEND = 0      '#13#10'     AND C.CODMOVIMENTO BETWEEN  :CODINI A' +
-      'ND :CODFIM'#13#10'  ORDER BY C.DATACOMPRA'
+      'f.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BASE_ST' +
+      #13#10'    FROM COMPRA C,  MOVIMENTODETALHE r, FORNECEDOR f, ENDERECO' +
+      'FORNECEDOR ef'#13#10'   WHERE C.CODMOVIMENTO = r.CODMOVIMENTO'#13#10'     AN' +
+      'D f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND ef.CODFORNECEDOR =' +
+      ' f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      '#13#10'     AND C.CODM' +
+      'OVIMENTO BETWEEN  :CODINI AND :CODFIM'#13#10'  ORDER BY C.DATACOMPRA'
     MaxBlobSize = -1
     Params = <
       item
@@ -2645,6 +2645,12 @@ object fNfePisCofins: TfNfePisCofins
     end
     object sdsCompraVALOR: TFloatField
       FieldName = 'VALOR'
+    end
+    object sdsCompraICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+    end
+    object sdsCompraICMS_BASE_ST: TFloatField
+      FieldName = 'ICMS_BASE_ST'
     end
   end
   object dspCompra: TDataSetProvider
@@ -2863,6 +2869,12 @@ object fNfePisCofins: TfNfePisCofins
     end
     object cdsCompraVALOR: TFloatField
       FieldName = 'VALOR'
+    end
+    object cdsCompraICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+    end
+    object cdsCompraICMS_BASE_ST: TFloatField
+      FieldName = 'ICMS_BASE_ST'
     end
   end
   object sdsEmpS: TSQLDataSet
