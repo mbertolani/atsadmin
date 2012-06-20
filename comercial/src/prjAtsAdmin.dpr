@@ -279,7 +279,8 @@ uses
   uIncluirProdutos in 'uIncluirProdutos.pas' {fIncluirProdutos},
   uSuites in 'uSuites.pas' {fSuites},
   uCadClientes2 in 'uCadClientes2.pas' {fCadClientes2},
-  uRelTitulos in 'uRelTitulos.pas' {fRelTitulos};
+  uRelTitulos in 'uRelTitulos.pas' {fRelTitulos},
+  uDetalhe in 'uDetalhe.pas' {fDetalhe};
 
 {$R *.res}
 
