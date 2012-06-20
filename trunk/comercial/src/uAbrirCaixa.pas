@@ -295,7 +295,7 @@ begin
   cCaixaControleSITUACAO.AsString := 'A';
   cCaixaControleMAQUINA.AsString := MICRO;
   cCaixaControleDATAABERTURA.AsDateTime := eddata2.Date;
-  cCaixaControleVALORABRE.Value := jvValor.Value;
+  cCaixaControleVALORABRE.Value := StrToFloat(jvValor.Text);
 
   If (S_CAIXA.Active) Then
       S_CAIXA.Close;
@@ -332,6 +332,7 @@ procedure TfAbrirCaixa.AbrirCaixa;
    cod_id, var_usuario, primeiro_lanc, var_codCaixa, var_idCaixa : integer;
    TD: TTransactionDesc;
    FCaixa : TFiscalCls;
+   inicial : Double;
 begin
    Try
      FCaixa := TFiscalCls.Create;
@@ -354,6 +355,9 @@ begin
     //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
+      
+    inicial := jvValor.Value;
+    DecimalSeparator := '.';
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
     dm.c_6_genid.Open;
     cod_id := dm.c_6_genidCODIGO.AsInteger;
@@ -371,7 +375,7 @@ begin
     var_sqla := var_sqla + ',' + QuotedStr(var_cxInterno); //CONTA CAIXA
     var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
     DecimalSeparator := '.';
-    var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(jvValor.Value)); //Valor Debito = Debito Caixa Interno
+    var_sqla := var_sqla + ',' + FloatToStr(inicial); //Valor Debito = Debito Caixa Interno
     DecimalSeparator := ',';
     var_sqla := var_sqla + ',' + '0';  //Valor ORCADO
     var_sqla := var_sqla + ',' + '0'; //QTDECREDITO
@@ -383,7 +387,9 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
     Try
       dm.sqlsisAdimin.Commit(TD);
+      DecimalSeparator := '.';
     except
+      DecimalSeparator := '.';
       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
       MessageDlg('Erro no sistema, Desmarcar Titulo Falhou.', mtError,
          [mbOk], 0);
