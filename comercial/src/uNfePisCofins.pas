@@ -805,8 +805,8 @@ type
     util : Tutils;
     tipo: String;
     function validaCodMunicipio(cod: String; quem: String):String;
-    function cstPis(cstP: String): String;
-    function cstCofins(cstC: String): String;
+    function cstPis(cstP: String): TACBrSituacaoTribPIS;
+    function cstCofins(cstC: String): TACBrSituacaoTribCOFINS;
     procedure LoadToMemo;
     procedure blocoO;
     procedure bloco1;
@@ -1916,7 +1916,7 @@ begin
     MessageDlg('Código do IBGE não preenchido para ' + quem + '.', mtWarning, [mbOK], 0);
 end;
 
-function TfNfePisCofins.cstPis(cstP: String): String;
+function TfNfePisCofins.cstPis(cstP: String): TACBrSituacaoTribPIS;
 begin
   case StrToInt(cstP) of
     1 : result := stpisValorAliquotaNormal;                         // '01' // Operação Tributável com Alíquota Básica   // valor da operação alíquota normal (cumulativo/não cumulativo)).
@@ -1955,7 +1955,7 @@ begin
  end;
 end;
 
-function TfNfePisCofins.cstCofins(cstC: String): String;
+function TfNfePisCofins.cstCofins(cstC: String): TACBrSituacaoTribCOFINS;
 begin
   Case StrToInt(cstC) of
     1 : Result := stcofinsValorAliquotaNormal;                           // '01' // Operação Tributável com Alíquota Básica                           // valor da operação alíquota normal (cumulativo/não cumulativo)).
