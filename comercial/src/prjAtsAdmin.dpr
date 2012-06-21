@@ -280,7 +280,9 @@ uses
   uSuites in 'uSuites.pas' {fSuites},
   uCadClientes2 in 'uCadClientes2.pas' {fCadClientes2},
   uRelTitulos in 'uRelTitulos.pas' {fRelTitulos},
-  uDetalhe in 'uDetalhe.pas' {fDetalhe};
+  uDetalhe in 'uDetalhe.pas' {fDetalhe},
+  uSangria in 'uSangria.pas' {fSangria},
+  uEntradaCaixa in 'uEntradaCaixa.pas' {fEntradaCaixa};
 
 {$R *.res}
 
