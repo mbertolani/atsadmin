@@ -233,7 +233,9 @@ begin
 end;
 
 procedure TfAbrirCaixa.btnAbrirClick(Sender: TObject);
+var inicial : Double;
 begin
+  inicial := jvValor.Value;
   if (cx.Active) then
     cx.Close;
   cx.Params[0].AsDate := eddata2.Date;
@@ -295,7 +297,7 @@ begin
   cCaixaControleSITUACAO.AsString := 'A';
   cCaixaControleMAQUINA.AsString := MICRO;
   cCaixaControleDATAABERTURA.AsDateTime := eddata2.Date;
-  cCaixaControleVALORABRE.Value := StrToFloat(jvValor.Text);
+  cCaixaControleVALORABRE.AsFloat := inicial;
 
   If (S_CAIXA.Active) Then
       S_CAIXA.Close;

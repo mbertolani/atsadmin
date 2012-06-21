@@ -85,6 +85,7 @@ uses uAts_R, UDm, UDM_MOV;
 procedure TfSangria.btnSaidaClick(Sender: TObject);
 var
   FSangria : TFiscalCls;
+  sangria : Double;
 begin
   if (edthist.Text = '') then
   begin
@@ -97,7 +98,7 @@ begin
     ShowMessage('Informe o Valor da Sangria !');
     Exit;
   end;
-
+  sangria := JvValor.Value;
   Try
     FSangria := TFiscalCls.Create;
     FSangria.VerificaCaixaAberto();
@@ -117,7 +118,7 @@ begin
     var_cDebito := DM_MOV.s_parametroD1.AsString;
     DM_MOV.s_parametro.Close;
     var_codCCustoCD := FSangria.v_Cod_Caixa;
-    FSangria.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,JvValor.AsFloat,edthist.Text);
+    FSangria.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,sangria,edthist.Text);
   Finally
     //Screen.Cursor := Save_Cursor;
     FSangria.Free;

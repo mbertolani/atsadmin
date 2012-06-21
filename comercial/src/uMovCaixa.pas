@@ -205,6 +205,7 @@ var
   FFecharCaixa : TFiscalCls;
   hist : string;
   var_dataCaixa : TDate;
+  fechamento : Double;
 begin
   hist := 'FECHAMENTO DE CAIXA';
 
@@ -213,6 +214,8 @@ begin
     ShowMessage('Informe o Valor da Sangria !');
     Exit;
   end;
+
+  fechamento := JvValor.Value;
 
   Try
     FFecharCaixa := TFiscalCls.Create;
@@ -234,7 +237,7 @@ begin
     var_cDebito := DM_MOV.s_parametroD1.AsString;
     DM_MOV.s_parametro.Close;
     var_codCCustoCD := FFecharCaixa.v_Cod_Caixa;
-    FFecharCaixa.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,StrToFloat(JvValor.Text),hist);
+    FFecharCaixa.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,fechamento,hist);
   Finally
     //Screen.Cursor := Save_Cursor;
     FFecharCaixa.Free;
