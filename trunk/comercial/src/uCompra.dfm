@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 812
+    Width = 787
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1015,8 +1015,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 561
-    Width = 812
+    Top = 556
+    Width = 787
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
@@ -2627,6 +2627,69 @@ inherited fCompra: TfCompra
     object cds_Mov_detVALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
     end
+    object cds_Mov_detPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object cds_Mov_detPRECOCUSTO: TFloatField
+      FieldName = 'PRECOCUSTO'
+    end
+    object cds_Mov_detVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+    end
+    object cds_Mov_detCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object cds_Mov_detNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+    end
+    object cds_Mov_detPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+    end
+    object cds_Mov_detCST: TStringField
+      FieldName = 'CST'
+      Size = 5
+    end
+    object cds_Mov_detVLR_BASE: TFloatField
+      FieldName = 'VLR_BASE'
+    end
+    object cds_Mov_detVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
+    end
+    object cds_Mov_detVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+    end
+    object cds_Mov_detFRETE: TFloatField
+      FieldName = 'FRETE'
+    end
+    object cds_Mov_detICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object cds_Mov_detICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
+    end
+    object cds_Mov_detVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object cds_Mov_detVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+    end
+    object cds_Mov_detNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object cds_Mov_detII: TFloatField
+      FieldName = 'II'
+    end
+    object cds_Mov_detBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object cds_Mov_detOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2652,12 +2715,16 @@ inherited fCompra: TfCompra
       'TE, movd.DTAFAB, movd.DTAVCTO, movd.DESCPRODUTO, prod.CODPRO,pro' +
       'd.PRODUTO, prod.CODALMOXARIFADO, '#13#10'prod.VALORUNITARIOATUAL, prod' +
       '.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA, prod.RATEIO , ' +
-      'prod.PESO_QTDE, movd.cfop, movd.pipi, movd.vipi, movd.VALOR_ICMS' +
-      ' from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on prod.CO' +
-      'DPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus o' +
-      'n ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDET' +
-      'ALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order by movd' +
-      '.CODDETALHE'
+      'prod.PESO_QTDE, movd.cfop, movd.VALOR_ICMS,'#13#10'movd.PIPI, movd.VIP' +
+      'I, movd.PRECOCUSTO, movd.VALTOTAL, movd.CSOSN, movd.NITEMPED, mo' +
+      'vd.PEDIDO, movd.CST, movd.VLR_BASE, movd.VLR_BASEICMS, movd.VALO' +
+      'R_DESCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.' +
+      'VALOR_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, m' +
+      'ovd.OBS'#13#10'from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on' +
+      ' prod.CODPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFAD' +
+      'O ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where mov' +
+      'd.CODDETALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order' +
+      ' by movd.CODDETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -2795,6 +2862,69 @@ inherited fCompra: TfCompra
     end
     object sds_Mov_DetVALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
+    end
+    object sds_Mov_DetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object sds_Mov_DetPRECOCUSTO: TFloatField
+      FieldName = 'PRECOCUSTO'
+    end
+    object sds_Mov_DetVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+    end
+    object sds_Mov_DetCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object sds_Mov_DetNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+    end
+    object sds_Mov_DetPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+    end
+    object sds_Mov_DetCST: TStringField
+      FieldName = 'CST'
+      Size = 5
+    end
+    object sds_Mov_DetVLR_BASE: TFloatField
+      FieldName = 'VLR_BASE'
+    end
+    object sds_Mov_DetVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
+    end
+    object sds_Mov_DetVALOR_DESCONTO: TFloatField
+      FieldName = 'VALOR_DESCONTO'
+    end
+    object sds_Mov_DetFRETE: TFloatField
+      FieldName = 'FRETE'
+    end
+    object sds_Mov_DetICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object sds_Mov_DetICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
+    end
+    object sds_Mov_DetVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object sds_Mov_DetVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+    end
+    object sds_Mov_DetNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object sds_Mov_DetII: TFloatField
+      FieldName = 'II'
+    end
+    object sds_Mov_DetBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object sds_Mov_DetOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
     end
   end
   object s_8: TSQLDataSet
