@@ -85,6 +85,7 @@ uses uAts_R, UDm, UDM_MOV;
 procedure TfEntradaCaixa.btnSaidaClick(Sender: TObject);
 var
   FEntCaixa : TFiscalCls;
+  entrada : Double;
 begin
   if (edthist.Text = '') then
   begin
@@ -97,6 +98,8 @@ begin
     ShowMessage('Informe o Valor da Entrada !');
     Exit;
   end;
+
+  entrada := JvValor.Value;
 
   Try
     FEntCaixa := TFiscalCls.Create;
@@ -118,7 +121,7 @@ begin
     DM_MOV.s_parametro.Close;
     var_codCCustoCD := FEntCaixa.v_Cod_Caixa;
 
-    FEntCaixa.DebitarCaixa(var_codCaixa,usulog,var_codCCustoCD, 0,var_cDebito,'',JvValor.AsFloat,edthist.Text,);
+    FEntCaixa.DebitarCaixa(var_codCaixa,usulog,var_codCCustoCD, 0,var_cDebito,'',entrada,edthist.Text,);
   Finally
     FEntCaixa.Free;
   end;
