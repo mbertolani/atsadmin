@@ -51,6 +51,7 @@ type
     procedure edIOFEnter(Sender: TObject);
     procedure edPrecoEnter(Sender: TObject);
   private
+    baixado: String;
     codRec : Integer;
     contaTitDesc : String;
     contaBanco   : String;
@@ -102,6 +103,11 @@ procedure TfDescontoTitulos.btnIncluirClick(Sender: TObject);
   str_sql : String;
   TD      : TTransactionDesc;
 begin
+  if (baixado = 'SIM') then
+  begin
+    MessageDlg('Título já baixado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   edLiquido.Value := edPreco.Value - edJuro.Value - edIOF.Value;
   if (cbConta.ItemIndex = -1) then
   begin
@@ -120,6 +126,7 @@ begin
   end;
   codFornec := sqlFornecedor.Fields[0].AsInteger;
 
+  baixado := 'SIM';
   for i:=1 to length(nrec) do
   begin
     str_sql := 'UPDATE RECEBIMENTO SET DP = 0 ';
@@ -357,6 +364,7 @@ end;
 
 procedure TfDescontoTitulos.FormShow(Sender: TObject);
 begin
+  baixado := 'NAO';
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'TITULODESCONTADO';
