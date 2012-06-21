@@ -91,7 +91,7 @@ BEGIN
   /*     Total de Debitos (Entrou) por RECEBIMENTOS     */
   /*                                                    */
   /*                                                    */
-  FOR SELECT rec.DATARECEBIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(5)) || '-' ||  cli.NOMECLIENTE, 
+  FOR SELECT rec.DATARECEBIMENTO, CAST(rec.CODCLIENTE AS VARCHAR(10)) || '-' ||  cli.RAZAOSOCIAL, 
     rec.HISTORICO, (rec.VALORRECEBIDO + rec.JUROS), rec.CONTACREDITO, rec.FORMARECEBIMENTO, rec.N_DOCUMENTO  
     FROM RECEBIMENTO rec, CLIENTES cli where cli.CODCLIENTE = rec.CODCLIENTE 
     and rec.DATARECEBIMENTO BETWEEN :DTAINI AND :DTAFIM
@@ -162,7 +162,7 @@ BEGIN
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
       INTO :NCONTA, :CAIXA;
     FOR select mov.DATA, SUM(mov.VALORDEBITO), his.HISTORICO, pc.CODREDUZIDO from MOVIMENTOCONT mov
-       LEFT OUTER JOIN HISTORICO_CONTAB his on his.COD_CONTAB = mov.CODCONT  
+       LEFT OUTER JOIN HISTORICO_CONTAB his on his.COD_CONTAB = mov.CODORIGEM  
        left outer join PLANO PC on pc.CONTA = mov.CONTA
        WHERE pc.CONTA = mov.CONTA and mov.DATA BETWEEN :DTAINI AND :DTAFIM
        and mov.tipoorigem = 'CONTABIL' and pc.CODIGO = :COD_CAIXA group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO 
@@ -200,14 +200,14 @@ BEGIN
   END
   /*                                                    */
   /*                                                    */
-  /*      Total de CrÃƒÂ©ditos (Saiu) por PAGAMENTOS       */
+  /*      Total de Creditos (Saiu) por PAGAMENTOS       */
   /*                                                    */
   /*                                                    */
   
   if (valor is null) then 
     valor = 0;
   descricao = null;
-  FOR SELECT pag.DATAPAGAMENTO, CAST(pag.CODFORNECEDOR AS VARCHAR(5)) || '-' ||  forn.NOMEFORNECEDOR, 
+  FOR SELECT pag.DATAPAGAMENTO, CAST(pag.CODFORNECEDOR AS VARCHAR(10)) || '-' ||  forn.RAZAOSOCIAL, 
     pag.HISTORICO, (pag.VALORRECEBIDO + pag.JUROS), pag.CONTACREDITO, pag.FORMAPAGAMENTO, 
     pag.N_DOCUMENTO, pag.SITUACAOCHEQUE  
     FROM PAGAMENTO pag, FORNECEDOR forn where forn.CODFORNECEDOR = pag.CODFORNECEDOR 
@@ -232,9 +232,9 @@ BEGIN
       forma = '1';  
     
     IF ((DESCRICAO IS NULL) or (DESCRICAO = '')) THEN
-      DESCRICAO = FORN;
+      DESCRICAO = FORN  || '-' || CONTACONTABIL;
     else
-      DESCRICAO = FORN || ' - ' || DESCRICAO;
+      DESCRICAO = FORN || ' - ' || DESCRICAO  || '-' || CONTACONTABIL;
       
     ORDEM = 2;
     if (forma = '1') then 
@@ -294,7 +294,7 @@ BEGIN
       INTO :NCONTA, :CAIXA;
     FOR select mov.DATA, SUM(mov.VALORCREDITO), his.HISTORICO, pc.CODREDUZIDO from MOVIMENTOCONT mov, 
        HISTORICO_CONTAB his, PLANO pc
-       WHERE mov.CODCONT = his.COD_CONTAB and pc.CONTA = mov.CONTA AND mov.DATA BETWEEN :DTAINI AND :DTAFIM
+       WHERE mov.CODORIGEM = his.COD_CONTAB and pc.CONTA = mov.CONTA AND mov.DATA BETWEEN :DTAINI AND :DTAFIM
        and mov.tipoorigem = 'CONTABIL' and pc.CODIGO = :COD_CAIXA group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO
       INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA
     do begin
