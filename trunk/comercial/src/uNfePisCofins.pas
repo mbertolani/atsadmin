@@ -1060,7 +1060,7 @@ begin
            COD_MUN := StrToInt(validaCodMunicipio(cdsEmpresaCD_IBGE.AsString, cdsEmpresaRAZAO.AsString));
            IM      := cdsEmpresaIM.AsString;
            SUFRAMA := '';
-         end;
+
 
            int0150 := 1;
 
@@ -1196,7 +1196,7 @@ begin
              int0200 := int0200 + 1;
              cdsProduto.Next;
            end;
-
+         end;
          // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS
         { with Registro0500New do
          begin
@@ -1393,7 +1393,10 @@ begin
 
               end;
 
-              //10 itens c190
+              //10 itens c190    // CARLOS - CONSOLIDADO NÃO PRECISO, POIS, ESTOU INFORMANDO
+                                 // INDIVIDUALIZADO
+
+          //CARLOS                       aqui 
               for IItens := 1 to 10 do
               begin
                 // c190 - Consolidação de Notas Fiscais Eletrônicas (Código 55) – Operações de
