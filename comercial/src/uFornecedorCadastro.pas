@@ -362,14 +362,17 @@ begin
   sCtrlResize.CtrlResize(TForm(fFornecedorCadastro));
   vartipo := 1;
 
- if (not cdsRegiao.Active) then
+  if (not cdsRegiao.Active) then
     cdsRegiao.Open;
 
- if varForm1 <> 'compra' then
-  btnIncluir.SetFocus;
+  if (not cdsTFiscal.Active) then
+    cdsTFiscal.Open;
 
- if dm.varFormemUso = 'nfcompra' then
-   btnIncluir.Click;
+  if varForm1 <> 'compra' then
+    btnIncluir.SetFocus;
+
+  if dm.varFormemUso = 'nfcompra' then
+    btnIncluir.Click;
 end;
 
 procedure TfFornecedorCadastro.DtSrcStateChange(Sender: TObject);
@@ -483,6 +486,8 @@ begin
  dm.cds_ccusto.close;
  //Action := caFree;
  //fFornecedorCadastro := nil;
+ if (cdsTFiscal.Active) then
+    cdsTFiscal.Close;
   
 end;
 
