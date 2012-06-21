@@ -1780,21 +1780,21 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   object GroupBox1: TGroupBox [5]
     Left = 0
-    Top = 123
+    Top = 120
     Width = 617
-    Height = 168
+    Height = 171
     Caption = 'DADOS NF'
     PopupMenu = PopupMenu1
     TabOrder = 3
     object Label7: TLabel
       Left = 7
       Top = 15
-      Width = 32
-      Height = 16
+      Width = 24
+      Height = 13
       Caption = 'S'#233'rie'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -1802,12 +1802,12 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object Label8: TLabel
       Left = 89
       Top = 15
-      Width = 68
-      Height = 16
+      Width = 53
+      Height = 13
       Caption = 'Nota Fiscal'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -1815,12 +1815,12 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object Label9: TLabel
       Left = 210
       Top = 15
-      Width = 99
-      Height = 16
+      Width = 77
+      Height = 13
       Caption = 'Data da Compra'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -1828,12 +1828,12 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object Label10: TLabel
       Left = 311
       Top = 15
-      Width = 71
-      Height = 16
+      Width = 56
+      Height = 13
       Caption = 'Vencimento'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -1841,12 +1841,12 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object Label11: TLabel
       Left = 417
       Top = 15
-      Width = 72
-      Height = 16
+      Width = 56
+      Height = 13
       Caption = 'N'#186' Parcelas'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -1854,123 +1854,123 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object Label12: TLabel
       Left = 495
       Top = 15
-      Width = 67
-      Height = 16
+      Width = 54
+      Height = 13
       Caption = 'Entrada R$'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label13: TLabel
       Left = 5
-      Top = 54
-      Width = 83
-      Height = 16
+      Top = 52
+      Width = 68
+      Height = 13
       Caption = 'Caixa / Banco'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label5: TLabel
       Left = 5
-      Top = 98
-      Width = 86
-      Height = 16
+      Top = 92
+      Width = 68
+      Height = 13
       Caption = 'Valor Frete R$'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label6: TLabel
       Left = 128
-      Top = 98
-      Width = 99
-      Height = 16
+      Top = 92
+      Width = 78
+      Height = 13
       Caption = 'Valor Seguro R$'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label20: TLabel
       Left = 250
-      Top = 98
-      Width = 87
-      Height = 16
+      Top = 92
+      Width = 70
+      Height = 13
       Caption = 'Valor ICMS R$'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label21: TLabel
       Left = 372
-      Top = 98
-      Width = 70
-      Height = 16
+      Top = 92
+      Width = 57
+      Height = 13
       Caption = 'Valor IPI R$'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label22: TLabel
       Left = 494
-      Top = 98
-      Width = 109
-      Height = 16
+      Top = 92
+      Width = 86
+      Height = 13
       Caption = 'Outros Valores R$'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label24: TLabel
       Left = 199
-      Top = 56
-      Width = 115
-      Height = 16
+      Top = 54
+      Width = 89
+      Height = 13
       Caption = 'Forma Pagamento:'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label25: TLabel
       Left = 407
-      Top = 54
-      Width = 44
-      Height = 16
+      Top = 52
+      Width = 37
+      Height = 13
       Caption = 'N. Doc.'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
     end
     object Label39: TLabel
-      Left = 7
-      Top = 143
+      Left = 135
+      Top = 145
       Width = 54
       Height = 13
       Caption = 'Chave NFe'
@@ -1981,9 +1981,22 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Style = []
       ParentFont = False
     end
+    object Label40: TLabel
+      Left = 7
+      Top = 130
+      Width = 87
+      Height = 13
+      Caption = 'Valor ICMS ST R$'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
     object dbeSerie: TDBEdit
       Left = 5
-      Top = 31
+      Top = 29
       Width = 44
       Height = 24
       Hint = '55-NF Eletronia   /  1A - Nota Fiscal Normal'
@@ -2002,7 +2015,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit2: TDBEdit
       Left = 88
-      Top = 31
+      Top = 29
       Width = 118
       Height = 24
       DataField = 'NOTAFISCAL'
@@ -2018,7 +2031,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit3: TDBEdit
       Left = 208
-      Top = 31
+      Top = 29
       Width = 102
       Height = 24
       DataField = 'DATACOMPRA'
@@ -2034,7 +2047,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit5: TDBEdit
       Left = 419
-      Top = 31
+      Top = 29
       Width = 72
       Height = 24
       DataField = 'N_PARCELA'
@@ -2050,7 +2063,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit6: TDBEdit
       Left = 493
-      Top = 31
+      Top = 29
       Width = 115
       Height = 24
       DataField = 'ENTRADA'
@@ -2066,7 +2079,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object cbConta: TComboBox
       Left = 4
-      Top = 72
+      Top = 68
       Width = 189
       Height = 24
       ItemHeight = 16
@@ -2075,7 +2088,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit1: TDBEdit
       Left = 4
-      Top = 115
+      Top = 107
       Width = 115
       Height = 24
       DataField = 'VALOR_FRETE'
@@ -2091,7 +2104,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit13: TDBEdit
       Left = 127
-      Top = 115
+      Top = 107
       Width = 115
       Height = 24
       DataField = 'VALOR_SEGURO'
@@ -2107,7 +2120,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit15: TDBEdit
       Left = 249
-      Top = 115
+      Top = 107
       Width = 115
       Height = 24
       DataField = 'VALOR_ICMS'
@@ -2123,7 +2136,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit16: TDBEdit
       Left = 371
-      Top = 115
+      Top = 107
       Width = 115
       Height = 24
       DataField = 'VALOR_IPI'
@@ -2139,7 +2152,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit17: TDBEdit
       Left = 493
-      Top = 115
+      Top = 107
       Width = 115
       Height = 24
       DataField = 'OUTRAS_DESP'
@@ -2155,7 +2168,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object BtnCheque: TBitBtn
       Left = 532
-      Top = 61
+      Top = 57
       Width = 70
       Height = 34
       Caption = '&Cheques'
@@ -2165,12 +2178,12 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 15
+      TabOrder = 17
       OnClick = BtnChequeClick
     end
     object ComboBox1: TComboBox
       Left = 199
-      Top = 71
+      Top = 67
       Width = 202
       Height = 24
       ItemHeight = 16
@@ -2179,7 +2192,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBEdit12: TDBEdit
       Left = 405
-      Top = 71
+      Top = 67
       Width = 115
       Height = 24
       DataField = 'N_DOCUMENTO'
@@ -2209,7 +2222,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object dbDtaVencimento: TDBEdit
       Left = 311
-      Top = 31
+      Top = 29
       Width = 105
       Height = 24
       DataField = 'DATAVENCIMENTO'
@@ -2229,7 +2242,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Top = 13
       Width = 25
       Height = 17
-      TabOrder = 16
+      TabOrder = 18
       OnClick = CheckBox2Click
     end
     object btnSerie: TBitBtn
@@ -2238,13 +2251,13 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Width = 33
       Height = 25
       Caption = '. . .'
-      TabOrder = 17
+      TabOrder = 19
       TabStop = False
       OnClick = btnSerieClick
     end
     object DBEdit4: TDBEdit
-      Left = 65
-      Top = 139
+      Left = 193
+      Top = 141
       Width = 323
       Height = 24
       DataField = 'CHAVENF'
@@ -2255,17 +2268,33 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 18
+      TabOrder = 16
       OnKeyPress = FormKeyPress
     end
     object Button1: TButton
-      Left = 392
-      Top = 138
+      Left = 520
+      Top = 140
       Width = 87
       Height = 25
       Caption = 'Validar NFe'
-      TabOrder = 19
+      TabOrder = 20
       OnClick = Button1Click
+    end
+    object DBEdit18: TDBEdit
+      Left = 4
+      Top = 144
+      Width = 115
+      Height = 24
+      DataField = 'ICMS_ST'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 15
+      OnKeyPress = FormKeyPress
     end
   end
   object GroupBox4: TGroupBox [6]
@@ -2985,6 +3014,15 @@ inherited fCompraFinalizar: TfCompraFinalizar
       FieldName = 'CHAVENF'
       Size = 60
     end
+    object sds_compraICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+    end
+    object sds_compraICMS_BASE_ST: TFloatField
+      FieldName = 'ICMS_BASE_ST'
+    end
+    object sds_compraINDPAG: TIntegerField
+      FieldName = 'INDPAG'
+    end
   end
   object dsp_compra: TDataSetProvider
     DataSet = sds_compra
@@ -3204,6 +3242,15 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object cds_compraCHAVENF: TStringField
       FieldName = 'CHAVENF'
       Size = 60
+    end
+    object cds_compraICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+    end
+    object cds_compraICMS_BASE_ST: TFloatField
+      FieldName = 'ICMS_BASE_ST'
+    end
+    object cds_compraINDPAG: TIntegerField
+      FieldName = 'INDPAG'
     end
   end
   object VCLReport1: TVCLReport

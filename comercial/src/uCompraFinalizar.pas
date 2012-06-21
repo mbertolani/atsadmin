@@ -327,6 +327,14 @@ type
     Button1: TButton;
     sds_compraCHAVENF: TStringField;
     cds_compraCHAVENF: TStringField;
+    sds_compraICMS_ST: TFloatField;
+    sds_compraICMS_BASE_ST: TFloatField;
+    sds_compraINDPAG: TIntegerField;
+    cds_compraICMS_ST: TFloatField;
+    cds_compraICMS_BASE_ST: TFloatField;
+    cds_compraINDPAG: TIntegerField;
+    Label40: TLabel;
+    DBEdit18: TDBEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -563,15 +571,15 @@ begin
   end;
   if DtSrc.State in [dsInsert, dsEdit] then
   begin
-    // Inserindo FRETE + SEGURO + OUTROS + ICMS + IPI
-    cds_compraVALOR.AsFloat := cds_compraVALOR.AsFloat +
-      cds_compraVALOR_FRETE.AsFloat +
-        cds_compraVALOR_SEGURO.AsFloat +
-          cds_compraOUTRAS_DESP.AsFloat +
-            cds_compraVALOR_IPI.AsFloat;
-    cds_compraAPAGAR.AsFloat := cds_compraVALOR.AsFloat -
-      cds_compraENTRADA.AsFloat + cds_compraMULTA_JUROS.AsFloat -
-        cds_compraDESCONTO.AsFloat;
+    // Inserindo FRETE + SEGURO + OUTROS + ICMS + IPI + ST
+    cds_compraVALOR.AsFloat := cds_compraVALOR.AsFloat + cds_compraVALOR_FRETE.AsFloat + cds_compraVALOR_SEGURO.AsFloat +
+      cds_compraOUTRAS_DESP.AsFloat + cds_compraVALOR_IPI.AsFloat + cds_compraVALOR_ICMS.AsFloat + cds_compraICMS_ST.AsFloat;
+    cds_compraAPAGAR.AsFloat := cds_compraVALOR.AsFloat - cds_compraENTRADA.AsFloat + cds_compraMULTA_JUROS.AsFloat -
+      cds_compraDESCONTO.AsFloat;
+    if (   cds_compraAPAGAR.AsFloat = 0) then
+      cds_compraINDPAG.AsInteger := 0
+    else
+      cds_compraINDPAG.AsInteger := 1;
 
       if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
         cds_compraCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
@@ -1200,6 +1208,7 @@ begin
     begin
       cds_compraVALOR_ICMS.AsFloat := cds_compraVALOR_ICMS.AsFloat + (fCompra.cds_Mov_detICMS.AsFloat * (fCompra.cds_Mov_detQUANTIDADE.AsFloat * fCompra.cds_Mov_detPRECO.AsFloat))/100;
       cds_compraVALOR_IPI.AsFloat := cds_compraVALOR_IPI.AsFloat + (fCompra.cds_Mov_detPIPI.AsFloat * (fCompra.cds_Mov_detQUANTIDADE.AsFloat * fCompra.cds_Mov_detPRECO.AsFloat))/100;
+      cds_compraICMS_ST.AsFloat := cds_compraICMS_ST.AsFloat + fCompra.cds_Mov_detICMS_SUBST.AsFloat;      
       fCompra.cds_Mov_det.Next;
     end;
     cds_compraCODCCUSTO.AsInteger := fCompra.cds_MovimentoCODALMOXARIFADO.AsInteger;
@@ -1226,8 +1235,8 @@ begin
       sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO), sum((PIPI/100)*valTotal), sum((ICMS/100)*valTotal) FROM MOVIMENTODETALHE' +
           ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
       sqs_tit.Open;
-      cds_compraVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat) + FloatToCurr(sqs_tit.Fields[1].AsFloat)  + FloatToCurr(sqs_tit.Fields[2].AsFloat);
-      cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat) + FloatToCurr(sqs_tit.Fields[1].AsFloat) + FloatToCurr(sqs_tit.Fields[2].AsFloat);
+      cds_compraVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat); //+ FloatToCurr(sqs_tit.Fields[1].AsFloat)  + FloatToCurr(sqs_tit.Fields[2].AsFloat);
+      cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat); // + FloatToCurr(sqs_tit.Fields[1].AsFloat) + FloatToCurr(sqs_tit.Fields[2].AsFloat);
       //cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
     end;
     if (dm.moduloUsado = 'CITRUS') then

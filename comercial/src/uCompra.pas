@@ -407,6 +407,44 @@ type
     cds_Mov_detPIPI: TFloatField;
     cds_Mov_detVIPI: TFloatField;
     cds_Mov_detVALOR_ICMS: TFloatField;
+    sds_Mov_DetPRODUTO: TStringField;
+    sds_Mov_DetPRECOCUSTO: TFloatField;
+    sds_Mov_DetVALTOTAL: TFloatField;
+    sds_Mov_DetCSOSN: TStringField;
+    sds_Mov_DetNITEMPED: TIntegerField;
+    sds_Mov_DetPEDIDO: TStringField;
+    sds_Mov_DetCST: TStringField;
+    sds_Mov_DetVLR_BASE: TFloatField;
+    sds_Mov_DetVLR_BASEICMS: TFloatField;
+    sds_Mov_DetVALOR_DESCONTO: TFloatField;
+    sds_Mov_DetFRETE: TFloatField;
+    sds_Mov_DetICMS_SUBST: TFloatField;
+    sds_Mov_DetICMS_SUBSTD: TFloatField;
+    sds_Mov_DetVALOR_SEGURO: TFloatField;
+    sds_Mov_DetVALOR_OUTROS: TFloatField;
+    sds_Mov_DetNCM: TStringField;
+    sds_Mov_DetII: TFloatField;
+    sds_Mov_DetBCII: TFloatField;
+    sds_Mov_DetOBS: TStringField;
+    cds_Mov_detPRODUTO: TStringField;
+    cds_Mov_detPRECOCUSTO: TFloatField;
+    cds_Mov_detVALTOTAL: TFloatField;
+    cds_Mov_detCSOSN: TStringField;
+    cds_Mov_detNITEMPED: TIntegerField;
+    cds_Mov_detPEDIDO: TStringField;
+    cds_Mov_detCST: TStringField;
+    cds_Mov_detVLR_BASE: TFloatField;
+    cds_Mov_detVLR_BASEICMS: TFloatField;
+    cds_Mov_detVALOR_DESCONTO: TFloatField;
+    cds_Mov_detFRETE: TFloatField;
+    cds_Mov_detICMS_SUBST: TFloatField;
+    cds_Mov_detICMS_SUBSTD: TFloatField;
+    cds_Mov_detVALOR_SEGURO: TFloatField;
+    cds_Mov_detVALOR_OUTROS: TFloatField;
+    cds_Mov_detNCM: TStringField;
+    cds_Mov_detII: TFloatField;
+    cds_Mov_detBCII: TFloatField;
+    cds_Mov_detOBS: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -924,6 +962,8 @@ begin
     // pra mudar o dtsrt para edit quando mudo o dtsrc1
     DtSrc.DataSet.Cancel;
     end;
+    cds_Mov_det.Close;
+    cds_Mov_det.Open;
 end;
 
 procedure TfCompra.cds_MovimentoNewRecord(DataSet: TDataSet);
@@ -1055,14 +1095,14 @@ procedure TfCompra.btnCancelarClick(Sender: TObject);
 begin
   inherited;
   DtSrc1.DataSet.Cancel;
-  DtSrc1.DataSet.Close;
+{  DtSrc1.DataSet.Close;
   ds_serv.DataSet.Cancel;
   ds_serv.DataSet.Close;
   cds_Mov_det.Params[0].Clear;
   cds_Mov_det.Params[1].Clear;
   DtSrc.DataSet.Close;
   if cds_prod.Active then
-    cds_prod.Close;
+    cds_prod.Close;}
 end;
 
 procedure TfCompra.btnProcurarClick(Sender: TObject);

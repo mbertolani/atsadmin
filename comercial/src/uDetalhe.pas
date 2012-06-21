@@ -69,6 +69,7 @@ type
     procedure dbeCodproExit(Sender: TObject);
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -81,7 +82,7 @@ var
 
 implementation
 
-uses UDm, UDMNF, ufprocura_prod;
+uses UDm, UDMNF, ufprocura_prod, uCompra, uVendas;
 
 {$R *.dfm}
 
@@ -118,9 +119,9 @@ end;
 
 procedure TfDetalhe.FormShow(Sender: TObject);
 begin
-  dmnf.cds_Mov_det.Close;
+{  dmnf.cds_Mov_det.Close;
   dmnf.cds_Mov_det.Params[0].AsInteger := detcodMovimento;
-  dmnf.cds_Mov_det.Open;
+  dmnf.cds_Mov_det.Open;}
 end;
 
 procedure TfDetalhe.dbeCodproExit(Sender: TObject);
@@ -299,6 +300,12 @@ end;
 procedure TfDetalhe.btnSairClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfDetalhe.FormCreate(Sender: TObject);
+begin
+    if (fCompra.DtSrc1.DataSet.State in [dsBrowse]) then
+     fCompra.cds_Mov_det.edit;
 end;
 
 end.

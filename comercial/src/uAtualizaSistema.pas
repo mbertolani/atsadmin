@@ -1568,6 +1568,11 @@ begin
       executaDDL('CAIXA_CONTROLE', 'DATAABERTURA', 'date');
       executaDDL('CAIXA_CONTROLE', 'VALORABRE', 'double precision');
       executaDDL('CAIXA_CONTROLE', 'VALORFECHA', 'double precision');
+      executaDDL('CCE', 'CONDICAO', 'varchar(500)');
+      executaDDL('COMPRA', 'CHAVENF', 'varchar(44)');
+      executaDDL('COMPRA', 'INDPAG', 'integer');
+      executaDDL('COMPRA', 'ICMS_ST', 'double precision');
+      executaDDL('COMPRA', 'ICMS_BASE_ST', 'double precision');
       executaDDL('MOVIMENTO', 'QTD', 'INTEGER');
       executaDDL('MOVIMENTODETALHE', 'VALORRATEIO', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'CODAUTORIZACAO', 'integer');
@@ -1581,10 +1586,6 @@ begin
       executaDDL('MOVIMENTODETALHE', 'NITEMPED', 'integer');
       executaDDL('NOTAFISCAL', 'INDPAG', 'integer');
       executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
-      executaDDL('COMPRA', 'ICMS_ST', 'double precision');
-      executaDDL('COMPRA', 'ICMS_BASE_ST', 'double precision'); 
-      executaDDL('CCE', 'CONDICAO', 'varchar(500)');
-      executaDDL('COMPRA', 'CHAVENF', 'varchar(44)');
       executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
       executaScript('gera_nf_venda.sql');      
