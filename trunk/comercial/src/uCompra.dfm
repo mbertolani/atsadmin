@@ -2629,7 +2629,6 @@ inherited fCompra: TfCompra
     end
     object cds_Mov_detPRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Required = True
       Size = 300
     end
     object cds_Mov_detPRECOCUSTO: TFloatField
@@ -2865,7 +2864,6 @@ inherited fCompra: TfCompra
     end
     object sds_Mov_DetPRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Required = True
       Size = 300
     end
     object sds_Mov_DetPRECOCUSTO: TFloatField
