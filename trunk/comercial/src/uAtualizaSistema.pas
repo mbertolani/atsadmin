@@ -1570,6 +1570,7 @@ begin
       executaDDL('CAIXA_CONTROLE', 'VALORFECHA', 'double precision');
       executaDDL('CCE', 'CONDICAO', 'varchar(500)');
       executaDDL('COMPRA', 'CHAVENF', 'varchar(44)');
+      executaDDL('COMPRA', 'DIGITOVALIDACAO', 'varchar(100)');      
       executaDDL('COMPRA', 'INDPAG', 'integer');
       executaDDL('COMPRA', 'ICMS_ST', 'double precision');
       executaDDL('COMPRA', 'ICMS_BASE_ST', 'double precision');
