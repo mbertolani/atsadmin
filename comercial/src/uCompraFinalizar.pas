@@ -335,6 +335,8 @@ type
     cds_compraINDPAG: TIntegerField;
     Label40: TLabel;
     DBEdit18: TDBEdit;
+    sds_compraDIGITOVALIDACAO: TStringField;
+    cds_compraDIGITOVALIDACAO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -374,6 +376,7 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure ValidaNFe();
   private
     TD: TTransactionDesc;
     procedure notafiscal ;
@@ -1802,11 +1805,36 @@ end;
 
 procedure TfCompraFinalizar.Button1Click(Sender: TObject);
 begin
+  if(not cds_compraCODCOMPRA.IsNull) then
+  begin
+    if(not cds_compraDIGITOVALIDACAO.IsNull) then
+    begin
+      if (MessageDlg('Deseja alterar a validação já existente?', mtInformation, [mbYes, mbNo], 0) = mrYes ) then
+        ValidaNFe();
+    end
+    else
+      ValidaNFe();
+  end
+  else
+    MessageDlg('É necessario existir uma compra ou estar inserindo à para Validar NFe.', mtInformation, [mbOK], 0);
+
+end;
+
+procedure TfCompraFinalizar.ValidaNFe();
+begin
   {$IFNDEF ACBrNFeOpenSSL}
     if( fNFeletronica.ACBrNFe1.Configuracoes.Certificados.NumeroSerie = '') then
     fNFeletronica.ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
   {$ENDIF}
   fNFeletronica.btnConsulta.Click;
+  if(cds_compra.State in [dsEdit, dsInsert]) then
+    cds_compraDIGITOVALIDACAO.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.digVal
+  else if(not cds_compraCODCOMPRA.IsNull) then
+  begin
+    cds_compra.Edit;
+    cds_compraDIGITOVALIDACAO.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.digVal;
+    cds_compra.ApplyUpdates(0);
+  end;
 end;
 
 end.
