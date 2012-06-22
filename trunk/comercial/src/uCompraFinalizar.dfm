@@ -1970,7 +1970,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object Label39: TLabel
       Left = 135
-      Top = 145
+      Top = 130
       Width = 54
       Height = 13
       Caption = 'Chave NFe'
@@ -2256,8 +2256,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnClick = btnSerieClick
     end
     object DBEdit4: TDBEdit
-      Left = 193
-      Top = 141
+      Left = 132
+      Top = 144
       Width = 323
       Height = 24
       DataField = 'CHAVENF'
@@ -2272,7 +2272,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnKeyPress = FormKeyPress
     end
     object Button1: TButton
-      Left = 520
+      Left = 464
       Top = 140
       Width = 87
       Height = 25
@@ -3023,6 +3023,10 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object sds_compraINDPAG: TIntegerField
       FieldName = 'INDPAG'
     end
+    object sds_compraDIGITOVALIDACAO: TStringField
+      FieldName = 'DIGITOVALIDACAO'
+      Size = 100
+    end
   end
   object dsp_compra: TDataSetProvider
     DataSet = sds_compra
@@ -3251,6 +3255,10 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object cds_compraINDPAG: TIntegerField
       FieldName = 'INDPAG'
+    end
+    object cds_compraDIGITOVALIDACAO: TStringField
+      FieldName = 'DIGITOVALIDACAO'
+      Size = 100
     end
   end
   object VCLReport1: TVCLReport
