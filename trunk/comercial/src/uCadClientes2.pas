@@ -13,17 +13,14 @@ type
     grp1: TGroupBox;
     lblCnpj: TLabel;
     lblIE: TLabel;
-    lblOrgaoEmissor: TLabel;
     dbedtCNPJ: TDBEdit;
     dbedtINSCESTADUAL: TDBEdit;
-    dbedtRG: TDBEdit;
     grp2: TGroupBox;
     lbl2: TLabel;
     dbedtDATANASC: TDBEdit;
     sds_cli: TSQLDataSet;
     dsp_cli: TDataSetProvider;
     cds_cli: TClientDataSet;
-    dbcbbCARGOFUNCAO: TDBComboBox;
     lbl1: TLabel;
     dsDtsrc_e: TDataSource;
     cds_CliEnd: TClientDataSet;
@@ -116,11 +113,9 @@ type
     lblRazao: TLabel;
     dbedtRAZAOSOCIAL: TDBEdit;
     dbedtNOMECLIENTE: TDBEdit;
-    dbedtRAZAOSOCIAL1: TDBEdit;
+    dbedtCOD_CLI: TDBEdit;
     rgTipo: TRadioGroup;
     rgSitCad: TRadioGroup;
-    lbl17: TLabel;
-    dbedtRG1: TDBEdit;
     sds_cliCODCLIENTE: TIntegerField;
     sds_cliNOMECLIENTE: TStringField;
     sds_cliRAZAOSOCIAL: TStringField;
@@ -237,7 +232,6 @@ type
     sds_cliVALOR_CORTESIA: TFloatField;
     sds_cliE_FORNECEDOR: TStringField;
     sds_cliCODFORNECEDOR: TIntegerField;
-    sds_cliCARGOFUNCAO: TStringField;
     sds_cliBANCO: TStringField;
     sds_cliNOMEUSUARIO: TStringField;
     cds_cliCODCLIENTE: TIntegerField;
@@ -356,9 +350,17 @@ type
     cds_cliVALOR_CORTESIA: TFloatField;
     cds_cliE_FORNECEDOR: TStringField;
     cds_cliCODFORNECEDOR: TIntegerField;
-    cds_cliCARGOFUNCAO: TStringField;
     cds_cliBANCO: TStringField;
     cds_cliNOMEUSUARIO: TStringField;
+    btn2: TBitBtn;
+    dbedtCARGOFUNCAO: TDBEdit;
+    sds_cliCARGOFUNCAO: TIntegerField;
+    cds_cliCARGOFUNCAO: TIntegerField;
+    sds_cliDESCRICAO: TStringField;
+    cds_cliDESCRICAO: TStringField;
+    lbl19: TLabel;
+    lbl18: TLabel;
+    dbedtDATANASC1: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure chk2Click(Sender: TObject);
@@ -367,7 +369,14 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure dsDtsrc_eStateChange(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
+    procedure btn2Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure rgSitCadClick(Sender: TObject);
+    procedure chk3Click(Sender: TObject);
   private
+    procedure INSERE_FORNECEDOR;
+    procedure UPDATE_FORNECEDOR;
+
     { Private declarations }
   public
     { Public declarations }
@@ -378,7 +387,7 @@ var
 
 implementation
 
-uses UDm, uProcurar;
+uses UDm, uProcurar, uCargosFuncoes;
 
 {$R *.dfm}
 
@@ -395,30 +404,59 @@ begin
   if not dsDtsrc_e.DataSet.Active then
      dsDtsrc_e.DataSet.open;
   dsDtsrc_e.DataSet.Append;
+  cds_cliCODUSUARIO.AsInteger := usulog;
+  cds_cliDATACADASTRO.AsDateTime := Now;
+  if (not DM.cds_empresa.Active) then
+     DM.cds_empresa.Open;
+  cds_CliEndUF.AsString := DM.cds_empresaUF.AsString;
+  cds_CliEndCIDADE.AsString := DM.cds_empresaCIDADE.AsString;
+  cds_CliEndCEP.AsString := DM.cds_empresaCEP.AsString;
+  cds_CliEndTIPOEND.AsInteger := 0;// 0=eNDEREÇO pRINCIPAL
 end;
 
 procedure TfCadClientes2.chk2Click(Sender: TObject);
 begin
   inherited;
-  if(chk2.Checked) then
+  if (cds_cli.State in [dsInactive]) then
+    Exit;
+  if (cds_cli.State in [dsBrowse]) then
+  begin
+    cds_cli.Edit;
+    if (cds_CliEnd.State in [dsBrowse]) then
+       cds_CliEnd.Edit;
+  end;
+
+  if(chk2.Checked = True) then
   begin
     JvDBCalcEdit3.Enabled := True;
     cds_cliCORTESIA.AsString := 'S';
   end
   else
   begin
-    JvDBCalcEdit3.Enabled := False;
     cds_cliCORTESIA.AsString := 'N';
+    JvDBCalcEdit3.Enabled := False;
   end;
+
 end;
 
 procedure TfCadClientes2.chk1Click(Sender: TObject);
 begin
   inherited;
-  if (chk1.Checked) then
-    JvDBCalcEdit1.Enabled := False
+
+  if (cds_cli.State in [dsInactive]) then
+    Exit;
+  if (cds_cli.State in [dsBrowse]) then
+  begin
+    cds_cli.Edit;
+    if (cds_CliEnd.State in [dsBrowse]) then
+       cds_CliEnd.Edit;
+  end;
+
+  if (chk1.Checked = True) then
+    cds_cliBLOQUEADO.AsString := 'S'
   else
-    JvDBCalcEdit1.Enabled := True;
+    cds_cliBLOQUEADO.AsString := 'N';
+
 end;
 
 procedure TfCadClientes2.btnProcurarClick(Sender: TObject);
@@ -437,6 +475,34 @@ begin
      cds_cli.Close;
     cds_cli.Params[0].AsInteger := dm.scds_cli_procCODCLIENTE.AsInteger;
     cds_cli.Open;
+
+    if(cds_cliCORTESIA.AsString = 'S') then
+    begin
+      chk2.Checked := True;
+      JvDBCalcEdit3.Enabled := True;
+    end
+    else
+    begin
+      chk2.Checked := False;
+      JvDBCalcEdit3.Enabled := False;
+    end;
+
+    if (cds_cliSTATUS.AsInteger = 0) then
+       rgSitCad.ItemIndex := 0
+    else
+       rgSitCad.ItemIndex := 1;
+
+    if (cds_cliTIPOFIRMA.AsInteger = 0) then
+       rgTipo.ItemIndex := 0
+    else
+       rgTipo.ItemIndex := 1;
+
+    if (cds_cliBLOQUEADO.AsString = 'S') then
+      chk1.Checked := True
+    else
+      chk1.Checked := False;
+
+
     //Endereço
     if (cds_CliEnd.Active) then
        cds_CliEnd.Close;
@@ -448,13 +514,68 @@ begin
     dm.scds_cli_proc.Close;
     fProcurar.Free;
   end;
+  if (btnCancelar.Enabled = True) then
+      btnCancelar.Click;
 end;
 
 procedure TfCadClientes2.btnGravarClick(Sender: TObject);
 begin
-  inherited;
+  if DtSrc.DataSet.State in [dsInsert] then
+  begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CLI, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cds_cliCODCLIENTE.AsInteger := dm.c_6_genidCODIGO.AsInteger;
+    if (dbedtCOD_CLI.Text = '') then
+      cds_cliCOD_CLI.AsString := IntToStr(dm.c_6_genidCODIGO.AsInteger);
+
+    cds_CliEndCODCLIENTE.AsInteger := dm.c_6_genidCODIGO.AsInteger;
+
+    dm.c_6_genid.Close;
+    if (rgTipo.ItemIndex = 0) then
+       cds_cliTIPOFIRMA.AsInteger := 0
+    else
+       cds_cliTIPOFIRMA.AsInteger := 1;
+
+    if (rgSitCad.ItemIndex = 0) then
+       cds_cliSTATUS.AsInteger := 0
+    else
+       cds_cliSTATUS.AsInteger := 1;
+    cds_cliSEGMENTO.AsInteger := 1;
+    cds_cliREGIAO.AsInteger := 1;
+
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_END_CLI, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cds_CliEndCODENDERECO.AsInteger := dm.c_6_genidCODIGO.AsInteger;
+    dm.c_6_genid.Close;
+  end;
+  if DtSrc.DataSet.State in [dsEdit] then
+  begin
+    if (rgTipo.ItemIndex = 0) then
+       cds_cliTIPOFIRMA.AsInteger := 0
+    else
+       cds_cliTIPOFIRMA.AsInteger := 1;
+
+    if (rgSitCad.ItemIndex = 0) then
+       cds_cliSTATUS.AsInteger := 0
+    else
+       cds_cliSTATUS.AsInteger := 1;
+    cds_cliSEGMENTO.AsInteger := 1;
+    cds_cliREGIAO.AsInteger := 1;
+  end;
+ // inherited;
+  cds_cli.ApplyUpdates(0);
   dsDtsrc_e.DataSet.Post;
   (dsDtsrc_e.DataSet as TClientDataset).ApplyUpdates(0);
+  // Incluir ou alterar dados do Fornecedor
+  if (chk3.Checked = True) then
+      INSERE_FORNECEDOR;
+  // Se falso Fornecedor tem que ser Inativado ou excluido    
+  if (chk3.Checked = False) then
+      UPDATE_FORNECEDOR;
 end;
 
 procedure TfCadClientes2.dsDtsrc_eStateChange(Sender: TObject);
@@ -469,6 +590,81 @@ begin
   inherited;
   if (DtSrc.State in [dsEdit]) then
     dsDtsrc_e.Edit;
+end;
+
+procedure TfCadClientes2.btn2Click(Sender: TObject);
+begin
+  inherited;
+      if (cds_cli.State in [dsInactive]) then
+        Exit;
+    DM.v_CargoFuncao := '';
+    fCargosFuncoes := TfCargosFuncoes.Create(Application);
+    try
+      fCargosFuncoes.ShowModal;
+      if (cds_cli.State in [dsBrowse]) then
+        cds_cli.Edit;
+        cds_cliCARGOFUNCAO.AsInteger := DM.v_CodFuncao;
+        dbedtCARGOFUNCAO.Text        := DM.v_CargoFuncao;
+    finally
+      fCargosFuncoes.Free;
+    end;
+end;
+
+procedure TfCadClientes2.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  if (cds_CliEnd.Active) then
+      cds_Cli.Close;
+  inherited;
+
+end;
+
+procedure TfCadClientes2.rgSitCadClick(Sender: TObject);
+begin
+ // inherited;
+  if (cds_cli.State in [dsInactive]) then
+    Exit;
+  if (cds_cli.State in [dsBrowse]) then
+  begin
+    cds_cli.Edit;
+    if (cds_CliEnd.State in [dsBrowse]) then
+       cds_CliEnd.Edit;
+  end;
+
+  if (rgSitCad.ItemIndex = 1) then
+    cds_cliBLOQUEADO.AsString := 'S'
+  else
+    cds_cliBLOQUEADO.AsString := 'N';
+    
+end;
+
+procedure TfCadClientes2.chk3Click(Sender: TObject);
+begin
+//  inherited;
+  if (cds_cli.State in [dsInactive]) then
+    Exit;
+  if (cds_cli.State in [dsBrowse]) then
+  begin
+    cds_cli.Edit;
+    if (cds_CliEnd.State in [dsBrowse]) then
+       cds_CliEnd.Edit;
+  end;
+
+  if(chk3.Checked = True) then
+    cds_cliE_FORNECEDOR.AsString := 'S'
+  else
+    cds_cliE_FORNECEDOR.AsString := 'N';
+    
+end;
+
+procedure TfCadClientes2.INSERE_FORNECEDOR;
+begin
+// INSERIR CLIENTE COMO FORNECEDOR
+end;
+
+procedure TfCadClientes2.UPDATE_FORNECEDOR;
+begin
+//ATUALIZAR FORNECEDOR
 end;
 
 end.
