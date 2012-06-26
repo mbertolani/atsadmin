@@ -1,8 +1,8 @@
 object fComanda: TfComanda
   Left = 420
   Top = 300
-  Width = 280
-  Height = 148
+  Width = 286
+  Height = 168
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,8 +17,8 @@ object fComanda: TfComanda
   object JvGradient1: TJvGradient
     Left = 0
     Top = 0
-    Width = 274
-    Height = 142
+    Width = 272
+    Height = 154
     PopupMenu = PopupMenu1
     StartColor = clTeal
     EndColor = 16776176

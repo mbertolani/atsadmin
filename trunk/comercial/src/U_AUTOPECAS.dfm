@@ -1,6 +1,6 @@
 object F_AUTOPECAS: TF_AUTOPECAS
-  Left = 236
-  Top = 42
+  Left = 225
+  Top = 37
   BorderStyle = bsSingle
   Caption = 'TERMINAL'
   ClientHeight = 649

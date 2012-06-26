@@ -69,6 +69,7 @@ procedure TfCargosFuncoes.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   //inherited;
+  DM.v_CodFuncao   := cCargoCOD_CARGOSFUNCOES.AsInteger;
   DM.v_CargoFuncao := cCargoDESCRICAO.AsString;
   if (cCargo.Active) then
      cCargo.Close;
