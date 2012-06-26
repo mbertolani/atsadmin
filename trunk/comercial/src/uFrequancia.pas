@@ -322,7 +322,7 @@ begin
   str := 'select  f.*, u.NOMECLIENTE from FREQUENCIA f inner join  CLIENTES u ' +
           'on u.CODCLIENTE = f.COD_FUNCIONARIO ';
   str := str + ' where f.DATA = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',StrToDateTime(data1.Text)));
-  str := str + ' and u.STATUS = 1 order by u.NOMECLIENTE';
+  str := str + ' and BLOQUEADO <> ' + QuotedStr('S') + ' order by u.NOMECLIENTE';
   if (cFrequencia.Active) then
     cFrequencia.Close;
   cFrequencia.CommandText := str;
