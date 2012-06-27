@@ -3465,7 +3465,16 @@ begin
     if (not dm.cds_parametro.Eof) then
       F_Entrada.JvComissao.Value:= (porc_com /100) * F_Entrada.JvPedido.Value;
     dm.cds_parametro.Close;
-
+    if(JvComissao.Visible) then
+    begin
+      F_Entrada.JvComissao.Visible := True;
+      F_Entrada.JvLabel12.Visible := True;
+    end
+    else
+    begin
+      F_Entrada.JvComissao.Visible := False;
+      F_Entrada.JvLabel12.Visible := False;
+    end;
     F_Entrada.ShowModal;
   finally
     F_Entrada.Free;
