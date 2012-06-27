@@ -363,7 +363,7 @@ begin
 end;
 
 procedure TF_Entrada.JvGravarClick(Sender: TObject);
-var total_parcial : double;
+var total_parcial, resto : double;
   totalTrocoD, pagoTotal : double;
 begin
   {total_parcial := jvDinheiro.Value + JvCheque.Value + JvChequePre.Value +
@@ -375,7 +375,9 @@ begin
   else
      total_parcial := total_parcial + c_formatotal.Value;
 
-  if (total_parcial > JvPedido.Value) then
+  resto := total_parcial - (JvPedido.Value + JvComissao.Value);
+
+  if (resto > 0.001) then
   begin
      ShowMessage('Valor Informado maior que total do Pedido');
      Exit;
@@ -644,8 +646,8 @@ begin
    c_forma.Params[0].Clear;
   c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
   c_forma.Open;
-
- 
+  //if (c_formatotal.Value = JvPedido.Value) then
+    //JvFinalizar.Click();
 end;
 
 procedure TF_Entrada.btnIncluirClick(Sender: TObject);
@@ -693,13 +695,17 @@ var
   Save_Cursor:TCursor;
   serie_padrao, texto : string;
   baixou : Integer;
+  resto : Double;
 begin
   if (not c_forma.Active) then
   begin
      ShowMessage('Para finalizar a Opera? ?ecessario antes informar '+#13+#10+'              o valor e a forma de pagamento');
      Exit;
   end;
-  if (JvPedido.AsFloat <> c_formatotal.Value) then
+
+  resto := c_formatotal.Value - (JvPedido.Value + JvComissao.Value);
+
+  if (resto > 0.001) then
   begin
      ShowMessage('Valor Pago diferente do valor do Pedido');
      Exit;
@@ -927,7 +933,7 @@ begin
   // Encerra Processos do terminal
   F_Terminal.var_FINALIZOU := 'SIM';
   Close;
-  
+   DecimalSeparator := ',';
 end;
 
 procedure TF_Entrada.FormKeyPress(Sender: TObject; var Key: Char);
