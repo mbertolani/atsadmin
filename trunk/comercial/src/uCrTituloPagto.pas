@@ -210,6 +210,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
+    procedure edtcodredKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeClienteKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -629,14 +631,21 @@ begin
 end;
 
 procedure TfcrTituloPagto.BitBtn12Click(Sender: TObject);
+var posCusto: Integer;
 begin
   inherited;
+  posCusto := dm.cds_ccusto.RecNo;
   if DtSrc.DataSet.State in [dsInsert, dsEdit] then
   begin
     tipo_for := 'CONTASDESPESAS';
     fFiltro_forn_plano.BitBtn6.Click;
     //fFiltro_forn_plano.BitBtn1.Click;
     fFiltro_forn_plano.ShowModal;
+    if dm.cds_ccusto.Active then
+      dm.cds_ccusto.Close;
+    dm.cds_ccusto.Params[0].AsString := conta_desp;
+    dm.cds_ccusto.Open;
+    dm.cds_ccusto.RecNo := posCusto;    
     edtcodred.Text := varconta_cod;
     edtconta.Text := varconta_nome;
     usa_rateio := com_rateio;
@@ -649,8 +658,10 @@ begin
 end;
 
 procedure TfcrTituloPagto.BitBtn1Click(Sender: TObject);
+var ccustoEsc : Integer;
 begin
   inherited;
+  ccustoEsc := dm.cds_ccusto.RecNo;
   fProcurar:= TfProcurar.Create(self,dm.scds_forn_proc);
   try
     dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
@@ -671,6 +682,11 @@ begin
     fProcurar.Free;
     dbedit8.SetFocus;
   end;
+  if dm.cds_ccusto.Active then
+    dm.cds_ccusto.Close;
+  dm.cds_ccusto.Params[0].AsString := conta_desp;
+  dm.cds_ccusto.Open;
+  dm.cds_ccusto.RecNo := ccustoEsc;
 end;
 
 procedure TfcrTituloPagto.cds_4_pagarFORMAPAGAMENTOGetText(Sender: TField;
@@ -1162,6 +1178,41 @@ begin
     edtconta.Text := sds.Fields[2].AsString;
     conta_rateio := sds.Fields[3].AsString;
   end;  
+end;
+
+procedure TfcrTituloPagto.edtcodredKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   if (dtsrc.State in [dsInsert]) then
+   begin
+     if (edtcodred.Text = '') then
+     begin
+       BitBtn12.Click;
+     end;
+   end;
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
+
+end;
+
+procedure TfcrTituloPagto.dbeClienteKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   if (dtsrc.State in [dsInsert]) then
+   begin
+     if (dbeCliente.Text = '') then
+     begin
+       BitBtn1.Click;
+     end;
+   end;
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
 end;
 
 end.
