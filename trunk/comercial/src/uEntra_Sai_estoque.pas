@@ -771,8 +771,8 @@ begin
         dm.c_6_genid.Open;
         cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
         dm.c_6_genid.Close;
-        if (edit2.text <> '') then
-          cds_Mov_detLOTE.AsString := edit2.text;
+        {if (edit2.text <> '') then
+          cds_Mov_detLOTE.AsString := edit2.text;}
         cds_Mov_det.Post;
         cds_Mov_det.Next;
       end;
