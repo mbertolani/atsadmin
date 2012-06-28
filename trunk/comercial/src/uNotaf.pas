@@ -702,6 +702,9 @@ begin
     else
       RadioGroup1.ItemIndex := 1;
 
+    if (DMNF.cds_nfFRETE.AsString <>  '') then
+      cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.AsString);
+
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
     if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
@@ -1614,6 +1617,9 @@ begin
        RadioGroup1.ItemIndex := 0
     else
        RadioGroup1.ItemIndex := 1;
+
+    if (DMNF.cds_nfFRETE.AsString <>  '') then
+      cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.AsString);       
 
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
