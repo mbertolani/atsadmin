@@ -119,7 +119,7 @@ end;
 
 procedure TfClassificacaoFIscalProduto.FormShow(Sender: TObject);
 begin
-  sCtrlResize.CtrlResize(TForm(fClassificacaoFIscalProduto));
+  //sCtrlResize.CtrlResize(TForm(fClassificacaoFIscalProduto));
   if(cdsClassFisc.Active) then
     cdsClassFisc.Close;
   cdsClassFisc.Params.ParamByName('pcodpro').AsInteger := cfcodprod;
