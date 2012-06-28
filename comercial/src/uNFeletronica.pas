@@ -2201,82 +2201,81 @@ begin
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
     if ((cdsNFFRETE.IsNull) or (cdsNFFRETE.AsString = ' '))then
-      tfrete := 9
+      tpfrete := 9
     else
     begin
       tpfrete := StrToInt(cdsNFFRETE.AsString);
       if(tpfrete = 3) then
         tpfrete := 9;
-      tfrete := IntToStr(tpfrete);
-
-      //Carrega dados da transportadora
-      with Transp do
+    end;
+    tfrete := IntToStr(tpfrete);
+    //Carrega dados da transportadora
+    with Transp do
+    begin
+      with transporta do
       begin
-        with transporta do
+        modFrete := tfrete;
+        CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
+        xNome   := trim(cdsNFNOMETRANSP.AsString);
+        if (cdsNFNOMETRANSP.AsString <> '') then
         begin
-          modFrete := tfrete;
-          CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
-          xNome   := trim(cdsNFNOMETRANSP.AsString);
-          if (cdsNFNOMETRANSP.AsString <> '') then
-          begin
-            if (dm.cdsTransp.Active) then
-              dm.cdsTransp.Close;
-            dm.cdsTransp.Params[0].AsInteger := cdsNFCODTRANSP.AsInteger;
-            dm.cdsTransp.Open;
-            if (not DM.cdsTransp.IsEmpty) then
-              xNome := dm.cdsTranspNOMETRANSP.AsString
-            else begin
-              DMNF.listaTransp.Open;
-              DMNF.listaTransp.Locate('FANTASIA',cdsNFTRANSP2.AsString,[loCaseInsensitive]);
-              xNome := DMNF.listaTranspNOMETRANSP.AsString;
-              DMNF.listaTransp.Close;              
-            end;
+          if (dm.cdsTransp.Active) then
+            dm.cdsTransp.Close;
+          dm.cdsTransp.Params[0].AsInteger := cdsNFCODTRANSP.AsInteger;
+          dm.cdsTransp.Open;
+          if (not DM.cdsTransp.IsEmpty) then
+            xNome := dm.cdsTranspNOMETRANSP.AsString
+          else begin
+            DMNF.listaTransp.Open;
+            DMNF.listaTransp.Locate('FANTASIA',cdsNFTRANSP2.AsString,[loCaseInsensitive]);
+            xNome := DMNF.listaTranspNOMETRANSP.AsString;
+            DMNF.listaTransp.Close;              
           end;
-          IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
-          xEnder := cdsNFEND_TRANSP.AsString;
-          xMun := cdsNFCIDADE_TRANSP.AsString;
-          UF :=  cdsNFUF_TRANSP.AsString;
-          //Carrega dados da Carga para Transporte
-          with Vol.Add do
-          begin
-            if (cdsNFQUANTIDADE.AsVariant > 0) then
-              qVol := cdsNFQUANTIDADE.AsVariant
-            else
-              qVol := 0;
-
-            if ( (cdsNFESPECIE.AsString <> '') and (cdsNFESPECIE.AsString <> Null) ) then
-              esp := cdsNFESPECIE.AsString
-            else
-              esp := '';
-
-            if ( (cdsNFMARCA.AsString <> '') and (cdsNFMARCA.AsString <>  null) ) then
-               marca := cdsNFMARCA.AsString
-            else
-              marca := '';
-
-            if ( (cdsNFNUMERO.AsString <> '') and ( cdsNFNUMERO.AsString <> null) ) then
-              nVol :=cdsNFNUMERO.AsString
-            else
-              nVol := '';
-
-            if (cdsNFPESOLIQUIDO.AsCurrency > 0) then
-              pesoL :=cdsNFPESOLIQUIDO.AsCurrency
-            else
-              pesoL := 0;
-
-            if (cdsNFPESOBRUTO.AsCurrency > 0) then
-              pesoB :=cdsNFPESOBRUTO.AsCurrency
-            else
-              pesoB := 0;
-            end;
-
-            if ( (cdsNFPLACATRANSP.AsString <> '') and (cdsNFPLACATRANSP.AsString <> null) ) then
-             if ( (cdsNFUF_VEICULO_TRANSP.AsString <> '') and (cdsNFUF_VEICULO_TRANSP.AsString <> null) ) then
-             begin
-               veicTransp.placa := cdsNFPLACATRANSP.AsString;
-               veicTransp.UF := cdsNFUF_VEICULO_TRANSP.AsString;
-             end;
         end;
+        IE := RemoveChar(cdsNFINSCRICAOESTADUAL.AsString);
+        xEnder := cdsNFEND_TRANSP.AsString;
+        xMun := cdsNFCIDADE_TRANSP.AsString;
+        UF :=  cdsNFUF_TRANSP.AsString;
+        //Carrega dados da Carga para Transporte
+        with Vol.Add do
+        begin
+          if (cdsNFQUANTIDADE.AsVariant > 0) then
+            qVol := cdsNFQUANTIDADE.AsVariant
+          else
+            qVol := 0;
+
+          if ( (cdsNFESPECIE.AsString <> '') and (cdsNFESPECIE.AsString <> Null) ) then
+            esp := cdsNFESPECIE.AsString
+          else
+            esp := '';
+
+          if ( (cdsNFMARCA.AsString <> '') and (cdsNFMARCA.AsString <>  null) ) then
+             marca := cdsNFMARCA.AsString
+          else
+            marca := '';
+
+          if ( (cdsNFNUMERO.AsString <> '') and ( cdsNFNUMERO.AsString <> null) ) then
+            nVol :=cdsNFNUMERO.AsString
+          else
+            nVol := '';
+
+          if (cdsNFPESOLIQUIDO.AsCurrency > 0) then
+            pesoL :=cdsNFPESOLIQUIDO.AsCurrency
+          else
+            pesoL := 0;
+
+          if (cdsNFPESOBRUTO.AsCurrency > 0) then
+            pesoB :=cdsNFPESOBRUTO.AsCurrency
+          else
+            pesoB := 0;
+        end;
+
+        if ( (cdsNFPLACATRANSP.AsString <> '') and (cdsNFPLACATRANSP.AsString <> null) ) then
+         if ( (cdsNFUF_VEICULO_TRANSP.AsString <> '') and (cdsNFUF_VEICULO_TRANSP.AsString <> null) ) then
+         begin
+           veicTransp.placa := cdsNFPLACATRANSP.AsString;
+           veicTransp.UF := cdsNFUF_VEICULO_TRANSP.AsString;
+         end;
       end;
     end;
   end;
