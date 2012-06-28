@@ -21,8 +21,8 @@ object fFiltroMov_compra: TfFiltroMov_compra
   TextHeight = 13
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 479
-    Width = 797
+    Top = 468
+    Width = 789
     Height = 46
     Align = alBottom
     BevelInner = bvLowered
@@ -441,7 +441,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 797
+    Width = 789
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -477,7 +477,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
   object Panel1: TPanel
     Left = 0
     Top = 46
-    Width = 797
+    Width = 789
     Height = 132
     Align = alTop
     TabOrder = 2
@@ -1112,8 +1112,9 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Width = 193
         Height = 21
         ItemHeight = 13
+        ItemIndex = 2
         TabOrder = 0
-        Text = 'Pendente'
+        Text = 'Todos'
         Items.Strings = (
           'Pendente'
           'Cancelado'
@@ -1126,8 +1127,8 @@ object fFiltroMov_compra: TfFiltroMov_compra
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 178
-    Width = 797
-    Height = 301
+    Width = 789
+    Height = 290
     Align = alClient
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
@@ -1165,7 +1166,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'NOMEFORNECEDOR'
         Title.Caption = 'Fornecedor'
-        Width = 199
+        Width = 197
         Visible = True
       end
       item
@@ -1221,21 +1222,21 @@ object fFiltroMov_compra: TfFiltroMov_compra
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 123
+        Width = 122
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SITUACAO'
         Title.Caption = 'Status'
-        Width = 77
+        Width = 76
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'COD_VEICULO'
         Title.Caption = 'Numero'
-        Width = 35
+        Width = 31
         Visible = True
       end>
   end

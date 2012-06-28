@@ -100,9 +100,9 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(cm);
     dm.sqlsisAdimin.Commit(TD);
     dm.sqlsisAdimin.StartTransaction(TD);
-    if (dmnf.cds_Mov_det.State in [dsEdit, dsInsert]) then
-      dmnf.cds_mov_det.Post;
-    dmnf.cds_Mov_det.ApplyUpdates(-1);
+    if (fCompra.cds_Mov_det.State in [dsEdit, dsInsert]) then
+      fCompra.cds_mov_det.Post;
+    fCompra.cds_Mov_det.ApplyUpdates(-1);
     dm.sqlsisAdimin.Commit(TD);
     dm.sqlsisAdimin.StartTransaction(TD);
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
@@ -127,22 +127,22 @@ end;
 procedure TfDetalhe.dbeCodproExit(Sender: TObject);
 var sql: String;
 begin
-if (dmnf.DtSrc1.State in [dsInsert, dsEdit]) then
+if (fCompra.DtSrc1.State in [dsInsert, dsEdit]) then
   begin
 
   if (dm.codBarra = 'N') then
   begin
-    if (dmnf.dtSrc1.State in [dsInsert, dsEdit]) then
+    if (fCompra.dtSrc1.State in [dsInsert, dsEdit]) then
     begin
     if (dbeCodpro.Text = '') then
     begin
       exit;
     end;
-    if dmnf.DtSrc1.DataSet.State in [dsInactive] then
+    if fCompra.DtSrc1.DataSet.State in [dsInactive] then
       if dbeCodpro.Text='' then exit;
     //begin
-      if dmnf.DtSrc1.DataSet.State in [dsBrowse] then
-         dmnf.DtSrc1.DataSet.Edit;
+      if fCompra.DtSrc1.DataSet.State in [dsBrowse] then
+         fCompra.DtSrc1.DataSet.Edit;
       if dm.scds_produto_proc.Active then
         dm.scds_produto_proc.Close;
       dm.scds_produto_proc.Params[0].AsInteger := 0;
@@ -154,35 +154,30 @@ if (dmnf.DtSrc1.State in [dsInsert, dsEdit]) then
         //btnProdutoProcura.Click;
         exit;
       end;
-      dmnf.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      dmnf.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
-      dmnf.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
-      dmnf.cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-      dmnf.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-      if ( dmnf.cds_nf.Active) then
-        dmnf.cds_Mov_detCFOP.AsString := dmnf.cds_nfCFOP.AsString
-      else
-        dmnf.cds_Mov_detCFOP.AsString := dmnf.cds_nf1CFOP.AsString;
-      if ( dmnf.cds_Mov_detQTDE_PCT.AsFloat < 1) then
-        dmnf.cds_Mov_detQTDE_PCT.AsFloat := 1;
-      dmnf.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-      if ( dmnf.cds_Mov_detQUANTIDADE.AsFloat < 1) then
-        dmnf.cds_Mov_detQUANTIDADE.AsFloat := 1;
-      dmnf.cds_Mov_detQTDE_ALT.AsFloat := 0;
-      dmnf.cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
+      fCompra.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+      fCompra.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+      fCompra.cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+      fCompra.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+      if ( fCompra.cds_Mov_detQTDE_PCT.AsFloat < 1) then
+        fCompra.cds_Mov_detQTDE_PCT.AsFloat := 1;
+      fCompra.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+      if ( fCompra.cds_Mov_detQUANTIDADE.AsFloat < 1) then
+        fCompra.cds_Mov_detQUANTIDADE.AsFloat := 1;
+      fCompra.cds_Mov_detQTDE_ALT.AsFloat := 0;
+      fCompra.cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
       if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
-         dmnf.cds_Mov_detPRECO.AsFloat :=
+         fCompra.cds_Mov_detPRECO.AsFloat :=
          dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
       else
-         dmnf.cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-      dmnf.cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
-      dmnf.cds_Mov_detALMOXARIFADO.AsString := '';
-      dmnf.cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+         fCompra.cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+      fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
+      fCompra.cds_Mov_detALMOXARIFADO.AsString := '';
+      fCompra.cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
     end;
   end
   else
   begin
-  if (dmnf.DtSrc1.DataSet.State in [dsInsert]) then
+  if (fCompra.DtSrc1.DataSet.State in [dsInsert]) then
     begin
 
         if (dm.codBarra = 'S') then // usa codigo de barra
@@ -225,30 +220,25 @@ if (dmnf.DtSrc1.State in [dsInsert, dsEdit]) then
             exit;
           end;
         end;
-        dmnf.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-        dmnf.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
-        dmnf.cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
-        dmnf.cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-        dmnf.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-        if ( dmnf.cds_nf.Active) then
-          dmnf.cds_Mov_detCFOP.AsString := dmnf.cds_nfCFOP.AsString
-        else
-          dmnf.cds_Mov_detCFOP.AsString := dmnf.cds_nf1CFOP.AsString;
-        if ( dmnf.cds_Mov_detQTDE_PCT.AsFloat < 1) then
-          dmnf.cds_Mov_detQTDE_PCT.AsFloat := 1;
-        dmnf.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-        if ( dmnf.cds_Mov_detQUANTIDADE.AsFloat < 1) then
-          dmnf.cds_Mov_detQUANTIDADE.AsFloat := 1;
-        dmnf.cds_Mov_detQTDE_ALT.AsFloat := 0;
-        dmnf.cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
+        fCompra.cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+        fCompra.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+        fCompra.cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+        fCompra.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+        if ( fCompra.cds_Mov_detQTDE_PCT.AsFloat < 1) then
+          fCompra.cds_Mov_detQTDE_PCT.AsFloat := 1;
+        fCompra.cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+        if ( fCompra.cds_Mov_detQUANTIDADE.AsFloat < 1) then
+          fCompra.cds_Mov_detQUANTIDADE.AsFloat := 1;
+        fCompra.cds_Mov_detQTDE_ALT.AsFloat := 0;
+        fCompra.cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
         if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
-           dmnf.cds_Mov_detPRECO.AsFloat :=
+           fCompra.cds_Mov_detPRECO.AsFloat :=
            dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
         else
-          dmnf.cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-        dmnf.cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
-        dmnf.cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
-        dmnf.cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+          fCompra.cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+        fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
+        fCompra.cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
+        fCompra.cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
       end;
     end;
   end;
@@ -257,7 +247,7 @@ end;
 
 procedure TfDetalhe.btnProdutoProcuraClick(Sender: TObject);
 begin
-  if DMNF.DtSrc1.DataSet.State in [dsInactive] then
+  if fCompra.DtSrc1.DataSet.State in [dsInactive] then
    exit;
   fProcura_prod.cbTipo.ItemIndex := 4;
   fProcura_prod.btnIncluir.Visible := true;
@@ -275,22 +265,22 @@ begin
   end;
   varonde := 'compra';
   var_F := 'formnfCompra';
-  fProcura_prod.codcli := DMNF.cds_MovimentoCODCLIENTE.AsInteger;
+  fProcura_prod.codcli := fCompra.cds_MovimentoCODCLIENTE.AsInteger;
   fProcura_prod.ShowModal;
 
   if (procprod = 'PROC_PROD_COMPLETO') then
   begin
-    if (DMNF.cds_Mov_det.State in [dsInsert, dsEdit]) then
+    if (fCompra.cds_Mov_det.State in [dsInsert, dsEdit]) then
     begin
-      DMNF.cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
-      DMNF.cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-      DMNF.cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
-      DMNF.cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
+      fCompra.cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
+      fCompra.cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+      fCompra.cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
+      fCompra.cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
       if ( fProcura_prod.cds_procQTDE_PCT.AsFloat < 1) then
-        DMNF.cds_Mov_detQUANTIDADE.AsFloat := 1
+        fCompra.cds_Mov_detQUANTIDADE.AsFloat := 1
       else
-        DMNF.cds_Mov_detQUANTIDADE.AsFloat := fProcura_prod.cds_procQTDE_PCT.AsFloat;
-      DMNF.cds_Mov_detPRECOCUSTO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
+        fCompra.cds_Mov_detQUANTIDADE.AsFloat := fProcura_prod.cds_procQTDE_PCT.AsFloat;
+      fCompra.cds_Mov_detPRECOCUSTO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
     end;
   end;
   DBNavigator1.SetFocus;
