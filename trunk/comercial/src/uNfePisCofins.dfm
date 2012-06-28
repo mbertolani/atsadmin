@@ -2420,21 +2420,16 @@ object fNfePisCofins: TfNfePisCofins
   object sdsCompra: TSQLDataSet
     CommandText = 
       'SELECT C.DATACOMPRA, C.NOTAFISCAL, C.VALOR_ICMS, C.VALOR_FRETE, ' +
-      'C.VALOR_SEGURO, C.VALOR_IPI, r.CODPRODUTO, r.QUANTIDADE, r.PRECO' +
-      ', r.ICMS, r.UN, r.QTDE_ALT, r.DESCPRODUTO, '#13#10' r.CST, r.VALOR_ICM' +
-      'S, r.VLR_BASE,  r.ICMS_SUBST, r.ICMS_SUBSTD, r.VLR_BASEICMS, r.P' +
-      'IPI, r.VIPI, r.CFOP, r.FRETE, r.BCFRETE, r.STFRETE, r.BCSTFRETE,' +
-      ' r.ICMSFRETE, r.CSOSN, r.VALOR_SEGURO, '#13#10'r.VALOR_OUTROS,  r.VALO' +
-      'R_PIS, r.VALOR_COFINS, r.II, r.BCII, r.CSTIPI, r.CSTPIS, r.CSTCO' +
-      'FINS, r.PPIS, r.PCOFINS'#13#10', f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNP' +
-      'J, f.INSCESTADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CID' +
-      'ADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, e' +
-      'f.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BASE_ST' +
-      #13#10'    FROM COMPRA C,  MOVIMENTODETALHE r, FORNECEDOR f, ENDERECO' +
-      'FORNECEDOR ef'#13#10'   WHERE C.CODMOVIMENTO = r.CODMOVIMENTO'#13#10'     AN' +
-      'D f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND ef.CODFORNECEDOR =' +
-      ' f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      '#13#10'     AND C.CODM' +
-      'OVIMENTO BETWEEN  :CODINI AND :CODFIM'#13#10'  ORDER BY C.DATACOMPRA'
+      'C.VALOR_SEGURO, C.VALOR_IPI'#13#10', f.CODFORNECEDOR, f.RAZAOSOCIAL, f' +
+      '.CNPJ, f.INSCESTADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef' +
+      '.CIDADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFON' +
+      'E, ef.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BAS' +
+      'E_ST, c.CODMOVIMENTO'#13#10'    FROM COMPRA C, FORNECEDOR f, ENDERECOF' +
+      'ORNECEDOR ef'#13#10'   WHERE f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     A' +
+      'ND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0  ' +
+      '    '#13#10'     AND C.CODMOVIMENTO BETWEEN  :CODINI AND :CODFIM'#13#10'    ' +
+      ' AND C.DATACOMPRA      BETWEEN :DTA_INI AND :DTA_FIM'#13#10'  ORDER BY' +
+      ' C.DATACOMPRA'
     MaxBlobSize = -1
     Params = <
       item
@@ -2445,6 +2440,16 @@ object fNfePisCofins: TfNfePisCofins
       item
         DataType = ftInteger
         Name = 'CODFIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -2468,117 +2473,6 @@ object fNfePisCofins: TfNfePisCofins
     end
     object sdsCompraVALOR_IPI: TFloatField
       FieldName = 'VALOR_IPI'
-    end
-    object sdsCompraCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-    end
-    object sdsCompraQUANTIDADE: TFloatField
-      FieldName = 'QUANTIDADE'
-    end
-    object sdsCompraPRECO: TFloatField
-      FieldName = 'PRECO'
-    end
-    object sdsCompraICMS: TFloatField
-      FieldName = 'ICMS'
-    end
-    object sdsCompraUN: TStringField
-      FieldName = 'UN'
-      FixedChar = True
-      Size = 2
-    end
-    object sdsCompraQTDE_ALT: TFloatField
-      FieldName = 'QTDE_ALT'
-    end
-    object sdsCompraDESCPRODUTO: TStringField
-      FieldName = 'DESCPRODUTO'
-      Size = 300
-    end
-    object sdsCompraCST: TStringField
-      FieldName = 'CST'
-      Size = 5
-    end
-    object sdsCompraVALOR_ICMS_1: TFloatField
-      FieldName = 'VALOR_ICMS_1'
-    end
-    object sdsCompraVLR_BASE: TFloatField
-      FieldName = 'VLR_BASE'
-    end
-    object sdsCompraICMS_SUBST: TFloatField
-      FieldName = 'ICMS_SUBST'
-    end
-    object sdsCompraICMS_SUBSTD: TFloatField
-      FieldName = 'ICMS_SUBSTD'
-    end
-    object sdsCompraVLR_BASEICMS: TFloatField
-      FieldName = 'VLR_BASEICMS'
-    end
-    object sdsCompraPIPI: TFloatField
-      FieldName = 'PIPI'
-    end
-    object sdsCompraVIPI: TFloatField
-      FieldName = 'VIPI'
-    end
-    object sdsCompraCFOP: TStringField
-      FieldName = 'CFOP'
-      FixedChar = True
-      Size = 4
-    end
-    object sdsCompraFRETE: TFloatField
-      FieldName = 'FRETE'
-    end
-    object sdsCompraBCFRETE: TFloatField
-      FieldName = 'BCFRETE'
-    end
-    object sdsCompraSTFRETE: TStringField
-      FieldName = 'STFRETE'
-      FixedChar = True
-      Size = 4
-    end
-    object sdsCompraBCSTFRETE: TFloatField
-      FieldName = 'BCSTFRETE'
-    end
-    object sdsCompraICMSFRETE: TFloatField
-      FieldName = 'ICMSFRETE'
-    end
-    object sdsCompraCSOSN: TStringField
-      FieldName = 'CSOSN'
-      Size = 3
-    end
-    object sdsCompraVALOR_SEGURO_1: TFloatField
-      FieldName = 'VALOR_SEGURO_1'
-    end
-    object sdsCompraVALOR_OUTROS: TFloatField
-      FieldName = 'VALOR_OUTROS'
-    end
-    object sdsCompraVALOR_PIS: TFloatField
-      FieldName = 'VALOR_PIS'
-    end
-    object sdsCompraVALOR_COFINS: TFloatField
-      FieldName = 'VALOR_COFINS'
-    end
-    object sdsCompraII: TFloatField
-      FieldName = 'II'
-    end
-    object sdsCompraBCII: TFloatField
-      FieldName = 'BCII'
-    end
-    object sdsCompraCSTIPI: TStringField
-      FieldName = 'CSTIPI'
-      Size = 2
-    end
-    object sdsCompraCSTPIS: TStringField
-      FieldName = 'CSTPIS'
-      Size = 2
-    end
-    object sdsCompraCSTCOFINS: TStringField
-      FieldName = 'CSTCOFINS'
-      Size = 2
-    end
-    object sdsCompraPPIS: TFloatField
-      FieldName = 'PPIS'
-    end
-    object sdsCompraPCOFINS: TFloatField
-      FieldName = 'PCOFINS'
     end
     object sdsCompraCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
@@ -2652,6 +2546,10 @@ object fNfePisCofins: TfNfePisCofins
     object sdsCompraICMS_BASE_ST: TFloatField
       FieldName = 'ICMS_BASE_ST'
     end
+    object sdsCompraCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      Required = True
+    end
   end
   object dspCompra: TDataSetProvider
     DataSet = sdsCompra
@@ -2669,6 +2567,16 @@ object fNfePisCofins: TfNfePisCofins
       item
         DataType = ftInteger
         Name = 'CODFIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
         ParamType = ptInput
       end>
     ProviderName = 'dspCompra'
@@ -2692,117 +2600,6 @@ object fNfePisCofins: TfNfePisCofins
     end
     object cdsCompraVALOR_IPI: TFloatField
       FieldName = 'VALOR_IPI'
-    end
-    object cdsCompraCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-    end
-    object cdsCompraQUANTIDADE: TFloatField
-      FieldName = 'QUANTIDADE'
-    end
-    object cdsCompraPRECO: TFloatField
-      FieldName = 'PRECO'
-    end
-    object cdsCompraICMS: TFloatField
-      FieldName = 'ICMS'
-    end
-    object cdsCompraUN: TStringField
-      FieldName = 'UN'
-      FixedChar = True
-      Size = 2
-    end
-    object cdsCompraQTDE_ALT: TFloatField
-      FieldName = 'QTDE_ALT'
-    end
-    object cdsCompraDESCPRODUTO: TStringField
-      FieldName = 'DESCPRODUTO'
-      Size = 300
-    end
-    object cdsCompraCST: TStringField
-      FieldName = 'CST'
-      Size = 5
-    end
-    object cdsCompraVALOR_ICMS_1: TFloatField
-      FieldName = 'VALOR_ICMS_1'
-    end
-    object cdsCompraVLR_BASE: TFloatField
-      FieldName = 'VLR_BASE'
-    end
-    object cdsCompraICMS_SUBST: TFloatField
-      FieldName = 'ICMS_SUBST'
-    end
-    object cdsCompraICMS_SUBSTD: TFloatField
-      FieldName = 'ICMS_SUBSTD'
-    end
-    object cdsCompraVLR_BASEICMS: TFloatField
-      FieldName = 'VLR_BASEICMS'
-    end
-    object cdsCompraPIPI: TFloatField
-      FieldName = 'PIPI'
-    end
-    object cdsCompraVIPI: TFloatField
-      FieldName = 'VIPI'
-    end
-    object cdsCompraCFOP: TStringField
-      FieldName = 'CFOP'
-      FixedChar = True
-      Size = 4
-    end
-    object cdsCompraFRETE: TFloatField
-      FieldName = 'FRETE'
-    end
-    object cdsCompraBCFRETE: TFloatField
-      FieldName = 'BCFRETE'
-    end
-    object cdsCompraSTFRETE: TStringField
-      FieldName = 'STFRETE'
-      FixedChar = True
-      Size = 4
-    end
-    object cdsCompraBCSTFRETE: TFloatField
-      FieldName = 'BCSTFRETE'
-    end
-    object cdsCompraICMSFRETE: TFloatField
-      FieldName = 'ICMSFRETE'
-    end
-    object cdsCompraCSOSN: TStringField
-      FieldName = 'CSOSN'
-      Size = 3
-    end
-    object cdsCompraVALOR_SEGURO_1: TFloatField
-      FieldName = 'VALOR_SEGURO_1'
-    end
-    object cdsCompraVALOR_OUTROS: TFloatField
-      FieldName = 'VALOR_OUTROS'
-    end
-    object cdsCompraVALOR_PIS: TFloatField
-      FieldName = 'VALOR_PIS'
-    end
-    object cdsCompraVALOR_COFINS: TFloatField
-      FieldName = 'VALOR_COFINS'
-    end
-    object cdsCompraII: TFloatField
-      FieldName = 'II'
-    end
-    object cdsCompraBCII: TFloatField
-      FieldName = 'BCII'
-    end
-    object cdsCompraCSTIPI: TStringField
-      FieldName = 'CSTIPI'
-      Size = 2
-    end
-    object cdsCompraCSTPIS: TStringField
-      FieldName = 'CSTPIS'
-      Size = 2
-    end
-    object cdsCompraCSTCOFINS: TStringField
-      FieldName = 'CSTCOFINS'
-      Size = 2
-    end
-    object cdsCompraPPIS: TFloatField
-      FieldName = 'PPIS'
-    end
-    object cdsCompraPCOFINS: TFloatField
-      FieldName = 'PCOFINS'
     end
     object cdsCompraCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
@@ -2875,6 +2672,10 @@ object fNfePisCofins: TfNfePisCofins
     end
     object cdsCompraICMS_BASE_ST: TFloatField
       FieldName = 'ICMS_BASE_ST'
+    end
+    object cdsCompraCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      Required = True
     end
   end
   object sdsEmpS: TSQLDataSet
@@ -3166,14 +2967,14 @@ object fNfePisCofins: TfNfePisCofins
   end
   object sdsEmpE: TSQLDataSet
     CommandText = 
-      'SELECT  f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCESTADUAL, ' +
-      'f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_IBGE, ef' +
-      '.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, ef.PAIS'#13#10 +
-      '    FROM COMPRA C,  FORNECEDOR f, ENDERECOFORNECEDOR ef'#13#10'   WHER' +
-      'E f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND ef.CODFORNECEDOR =' +
-      ' f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      '#13#10'     AND C.DATA' +
-      'COMPRA BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     AND C.CODMOVIMENTO BE' +
-      'TWEEN :CODINI AND :CODFIM'
+      'SELECT DISTINCT f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCES' +
+      'TADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_' +
+      'IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, e' +
+      'f.PAIS'#13#10'    FROM COMPRA C,  FORNECEDOR f, ENDERECOFORNECEDOR ef'#13 +
+      #10'   WHERE f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND ef.CODFORN' +
+      'ECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      '#13#10'     AN' +
+      'D C.DATACOMPRA BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     AND C.CODMOVI' +
+      'MENTO BETWEEN :CODINI AND :CODFIM'
     MaxBlobSize = -1
     Params = <
       item
@@ -3428,6 +3229,464 @@ object fNfePisCofins: TfNfePisCofins
       FieldName = 'PRODUTO'
       Required = True
       Size = 300
+    end
+  end
+  object sdsCompraDet: TSQLDataSet
+    CommandText = 
+      'SELECT C.DATACOMPRA, C.NOTAFISCAL, C.VALOR_ICMS, C.VALOR_FRETE, ' +
+      'C.VALOR_SEGURO, C.VALOR_IPI, r.CODPRODUTO, r.QUANTIDADE, r.PRECO' +
+      ', r.ICMS, r.UN, r.QTDE_ALT, r.DESCPRODUTO, '#13#10' r.CST, r.VALOR_ICM' +
+      'S, r.VLR_BASE,  r.ICMS_SUBST, r.ICMS_SUBSTD, r.VLR_BASEICMS, r.P' +
+      'IPI, r.VIPI, r.CFOP, r.FRETE, r.BCFRETE, r.STFRETE, r.BCSTFRETE,' +
+      ' r.ICMSFRETE, r.CSOSN, r.VALOR_SEGURO, '#13#10'r.VALOR_OUTROS,  r.VALO' +
+      'R_PIS, r.VALOR_COFINS, r.II, r.BCII, r.CSTIPI, r.CSTPIS, r.CSTCO' +
+      'FINS, r.PPIS, r.PCOFINS'#13#10', f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNP' +
+      'J, f.INSCESTADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CID' +
+      'ADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, e' +
+      'f.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BASE_ST' +
+      ', r.coddetalhe'#13#10'    FROM COMPRA C,  MOVIMENTODETALHE r, FORNECED' +
+      'OR f, ENDERECOFORNECEDOR ef'#13#10'   WHERE C.CODMOVIMENTO = r.CODMOVI' +
+      'MENTO'#13#10'     AND f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND ef.C' +
+      'ODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      '#13#10' ' +
+      '    AND C.CODMOVIMENTO =  :CODINI '#13#10'  ORDER BY C.DATACOMPRA'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 232
+    Top = 136
+    object DateField1: TDateField
+      FieldName = 'DATACOMPRA'
+      Required = True
+    end
+    object IntegerField1: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object FloatField1: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object FloatField2: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object FloatField3: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object FloatField4: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object FloatField5: TFloatField
+      FieldName = 'QUANTIDADE'
+    end
+    object FloatField6: TFloatField
+      FieldName = 'PRECO'
+    end
+    object FloatField7: TFloatField
+      FieldName = 'ICMS'
+    end
+    object StringField1: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object FloatField8: TFloatField
+      FieldName = 'QTDE_ALT'
+    end
+    object StringField2: TStringField
+      FieldName = 'DESCPRODUTO'
+      Size = 300
+    end
+    object StringField3: TStringField
+      FieldName = 'CST'
+      Size = 5
+    end
+    object FloatField9: TFloatField
+      FieldName = 'VALOR_ICMS_1'
+    end
+    object FloatField10: TFloatField
+      FieldName = 'VLR_BASE'
+    end
+    object FloatField11: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object FloatField12: TFloatField
+      FieldName = 'ICMS_SUBSTD'
+    end
+    object FloatField13: TFloatField
+      FieldName = 'VLR_BASEICMS'
+    end
+    object FloatField14: TFloatField
+      FieldName = 'PIPI'
+    end
+    object FloatField15: TFloatField
+      FieldName = 'VIPI'
+    end
+    object StringField4: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object FloatField16: TFloatField
+      FieldName = 'FRETE'
+    end
+    object FloatField17: TFloatField
+      FieldName = 'BCFRETE'
+    end
+    object StringField5: TStringField
+      FieldName = 'STFRETE'
+      FixedChar = True
+      Size = 4
+    end
+    object FloatField18: TFloatField
+      FieldName = 'BCSTFRETE'
+    end
+    object FloatField19: TFloatField
+      FieldName = 'ICMSFRETE'
+    end
+    object StringField6: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object FloatField20: TFloatField
+      FieldName = 'VALOR_SEGURO_1'
+    end
+    object FloatField21: TFloatField
+      FieldName = 'VALOR_OUTROS'
+    end
+    object FloatField22: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object FloatField23: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object FloatField24: TFloatField
+      FieldName = 'II'
+    end
+    object FloatField25: TFloatField
+      FieldName = 'BCII'
+    end
+    object StringField7: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object StringField8: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object StringField9: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object FloatField26: TFloatField
+      FieldName = 'PPIS'
+    end
+    object FloatField27: TFloatField
+      FieldName = 'PCOFINS'
+    end
+    object IntegerField3: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object StringField10: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object StringField11: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object StringField12: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object SmallintField1: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object StringField13: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object StringField14: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object StringField15: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object StringField16: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object StringField17: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object StringField18: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object SmallintField2: TSmallintField
+      FieldName = 'DDD'
+    end
+    object StringField19: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
+    object StringField20: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object StringField21: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+    object StringField22: TStringField
+      FieldName = 'SERIE'
+    end
+    object FloatField28: TFloatField
+      FieldName = 'VALOR'
+    end
+    object FloatField29: TFloatField
+      FieldName = 'ICMS_ST'
+    end
+    object FloatField30: TFloatField
+      FieldName = 'ICMS_BASE_ST'
+    end
+    object IntegerField4: TIntegerField
+      FieldName = 'CODDETALHE'
+      Required = True
+    end
+  end
+  object dspCompraDet: TDataSetProvider
+    DataSet = sdsCompraDet
+    Left = 232
+    Top = 168
+  end
+  object cdsCompraDet: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCompraDet'
+    Left = 232
+    Top = 200
+    object cdsCompraDetDATACOMPRA: TDateField
+      FieldName = 'DATACOMPRA'
+      Required = True
+    end
+    object cdsCompraDetNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object cdsCompraDetVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object cdsCompraDetVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object cdsCompraDetVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object cdsCompraDetVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object cdsCompraDetCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object cdsCompraDetQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+    end
+    object cdsCompraDetPRECO: TFloatField
+      FieldName = 'PRECO'
+    end
+    object cdsCompraDetICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object cdsCompraDetUN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsCompraDetQTDE_ALT: TFloatField
+      FieldName = 'QTDE_ALT'
+    end
+    object cdsCompraDetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      Size = 300
+    end
+    object cdsCompraDetCST: TStringField
+      FieldName = 'CST'
+      Size = 5
+    end
+    object cdsCompraDetVALOR_ICMS_1: TFloatField
+      FieldName = 'VALOR_ICMS_1'
+    end
+    object cdsCompraDetVLR_BASE: TFloatField
+      FieldName = 'VLR_BASE'
+    end
+    object cdsCompraDetICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object cdsCompraDetICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
+    end
+    object cdsCompraDetVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
+    end
+    object cdsCompraDetPIPI: TFloatField
+      FieldName = 'PIPI'
+    end
+    object cdsCompraDetVIPI: TFloatField
+      FieldName = 'VIPI'
+    end
+    object cdsCompraDetCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object cdsCompraDetFRETE: TFloatField
+      FieldName = 'FRETE'
+    end
+    object cdsCompraDetBCFRETE: TFloatField
+      FieldName = 'BCFRETE'
+    end
+    object cdsCompraDetSTFRETE: TStringField
+      FieldName = 'STFRETE'
+      FixedChar = True
+      Size = 4
+    end
+    object cdsCompraDetBCSTFRETE: TFloatField
+      FieldName = 'BCSTFRETE'
+    end
+    object cdsCompraDetICMSFRETE: TFloatField
+      FieldName = 'ICMSFRETE'
+    end
+    object cdsCompraDetCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object cdsCompraDetVALOR_SEGURO_1: TFloatField
+      FieldName = 'VALOR_SEGURO_1'
+    end
+    object cdsCompraDetVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+    end
+    object cdsCompraDetVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object cdsCompraDetVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object cdsCompraDetII: TFloatField
+      FieldName = 'II'
+    end
+    object cdsCompraDetBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object cdsCompraDetCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object cdsCompraDetCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object cdsCompraDetCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object cdsCompraDetPPIS: TFloatField
+      FieldName = 'PPIS'
+    end
+    object cdsCompraDetPCOFINS: TFloatField
+      FieldName = 'PCOFINS'
+    end
+    object cdsCompraDetCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object cdsCompraDetRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object cdsCompraDetCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object cdsCompraDetINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object cdsCompraDetTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object cdsCompraDetLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object cdsCompraDetBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object cdsCompraDetCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object cdsCompraDetCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object cdsCompraDetCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object cdsCompraDetCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object cdsCompraDetDDD: TSmallintField
+      FieldName = 'DDD'
+    end
+    object cdsCompraDetTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
+    object cdsCompraDetNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object cdsCompraDetPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+    object cdsCompraDetSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object cdsCompraDetVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object cdsCompraDetICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+    end
+    object cdsCompraDetICMS_BASE_ST: TFloatField
+      FieldName = 'ICMS_BASE_ST'
+    end
+    object cdsCompraDetCODDETALHE: TIntegerField
+      FieldName = 'CODDETALHE'
+      Required = True
     end
   end
 end
