@@ -718,7 +718,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
     BorderStyle = bsNone
     TabOrder = 4
     OnExit = edtcodredExit
-    OnKeyPress = FormKeyPress
+    OnKeyPress = edtcodredKeyPress
   end
   object edtconta: TEdit [37]
     Left = 220
@@ -741,7 +741,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
     BorderStyle = bsNone
     TabOrder = 6
     OnExit = dbeClienteExit
-    OnKeyPress = FormKeyPress
+    OnKeyPress = dbeClienteKeyPress
   end
   object DBEdit4: TEdit [39]
     Left = 220
