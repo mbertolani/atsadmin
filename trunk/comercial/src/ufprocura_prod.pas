@@ -1157,6 +1157,7 @@ begin
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
     fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     fCompra.cds_Mov_detQTDE_ALT.AsFloat := cds_procIPI.AsFloat;
+    fCompra.cds_Mov_detPIPI.AsFloat := cds_procIPI.AsFloat;
     if fProcura_prod.cds_procLOTES.AsString = 'S' then
     begin
       if Dm.cds_parametro.Active then

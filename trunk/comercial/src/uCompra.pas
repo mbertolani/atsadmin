@@ -963,6 +963,8 @@ begin
     DtSrc.DataSet.Cancel;
     end;
     cds_Mov_det.Close;
+    cds_Mov_det.Params[0].Clear;
+    cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
     cds_Mov_det.Open;
 end;
 
