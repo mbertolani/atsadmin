@@ -1589,7 +1589,8 @@ begin
       executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
       executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
-      executaScript('gera_nf_venda.sql');      
+      executaScript('gera_nf_venda.sql');
+      executaScript('trg_calcula_icms_st_107.sql');
       //mudaVersao('1.0.0.107');
     end;
 
