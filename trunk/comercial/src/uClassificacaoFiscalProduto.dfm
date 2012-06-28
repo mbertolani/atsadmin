@@ -1,6 +1,6 @@
 inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   Left = 196
-  Top = 132
+  Top = 136
   Width = 853
   Height = 587
   Caption = 'Classifica'#231#227'o Fiscal dos Produto'
@@ -168,7 +168,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     ShowHint = True
   end
   inherited MMJPanel1: TMMJPanel
-    Width = 837
+    Width = 845
     Font.Charset = ANSI_CHARSET
     Font.Height = -29
     ParentFont = False
@@ -176,7 +176,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     object Label9: TLabel
       Left = 9
       Top = 7
-      Width = -68
+      Width = 92
       Height = 34
       Anchors = [akLeft, akRight]
       Caption = 'Label9'
@@ -193,8 +193,8 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 498
-    Width = 837
+    Top = 509
+    Width = 845
     TabOrder = 16
     inherited btnProcurar: TBitBtn
       Visible = False
