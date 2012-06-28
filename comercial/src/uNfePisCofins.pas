@@ -932,9 +932,11 @@ begin
    begin
       with RegistroA001New do
       begin
-         IND_MOV := imComDados;
+         IND_MOV := imSemDados;
+      end;
+   end;
          //
-         for INotas := 1 to NNotas do
+   {      for INotas := 1 to NNotas do
          begin
            with RegistroA010New do
            begin
@@ -1001,6 +1003,7 @@ begin
          end;
       end;
    end;
+   }
    if cbConcomitante.Checked then
    begin
       ACBrSPEDPisCofins1.WriteBloco_A(True);  // True, fecha o Bloco
@@ -1173,7 +1176,7 @@ begin
              end;
            end;
 
-           {if (not cdsEmpS.IsEmpty) then
+           if (not cdsEmpS.IsEmpty) then
            begin
              while not cdsEmpS.Eof do
              begin
@@ -1184,8 +1187,9 @@ begin
                  int0150 := cdsEmpSCODCLIENTE.AsInteger;
                  COD_PART := IntToStr(int0150);
                  NOME     := cdsEmpSRAZAOSOCIAL.AsString + IntToStr(int0150);
-                 COD_PAIS := cdsEmpSPAIS.AsString;
-                 if (cdsEmpSTIPOFIRMA.AsInteger = 0) then
+                 if (cdsEmpSPAIS.AsString = 'Brasil') then
+                   COD_PAIS := '1058';
+                 if (cdsEmpSTIPOFIRMA.AsInteger = 1) then
                  begin
                    CNPJ     := util.RemoveChar(cdsEmpSCNPJ.AsString);
                    CPF      := '';
@@ -1253,7 +1257,7 @@ begin
              end;
              int0200 := int0200 + 1;
              cdsProduto.Next;
-           end; }
+           end; 
          end;
 
          // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS
@@ -1306,6 +1310,7 @@ IItens: Integer;
 NNotas: Integer;
 BNotas: Integer;
 parametroVer: Integer;
+codParticip: Integer;
 begin
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco C.
@@ -1316,6 +1321,7 @@ begin
   ProgressBar1.Max     := NNotas;
   ProgressBar1.Position:= 0 ;
 
+  codParticip := 0;
   //Primeiro as NFs de Entrada
   if (cdsCompra.Active) then
     cdsCompra.Close;
@@ -1325,7 +1331,7 @@ begin
   cdsCompra.Params[3].AsDate    := data_fim.Date;
   cdsCompra.Open;
   // INICIO BLOCO COMPRAS  ######################
-  While not cdsCompra.Eof do
+  if (not cdsCompra.IsEmpty) then
   begin
     with ACBrSPEDPisCofins1.Bloco_C do
     begin
@@ -1336,8 +1342,11 @@ begin
         //C010 - Identificação do Estabelecimento
         with RegistroC010New do
         begin
-          CNPJ := util.RemoveChar(cdsCompraCNPJ.AsString);
+          CNPJ := util.RemoveChar(cdsEmpresaCNPJ_CPF.AsString);
           IND_ESCRI := IndEscriIndividualizado;
+
+        While not cdsCompra.Eof do
+        begin
           //Inserir Notas...
           //for INotas := 1 to NNotas do
           //begin
@@ -1485,11 +1494,14 @@ begin
                 end;//Fim dos Itens;
               end;
           }
-        end;
+
+        codParticip := cdsCompraCODFORNECEDOR.AsInteger;
+        cdsCompra.Next;
+        end;        
       end;
     end;
-    cdsCompra.Next;
   end;  // FIM BLOCO COMPRAS ######################
+  end;
 
   //While (not cdsMov.Eof) do
   //begin
@@ -1650,14 +1662,15 @@ procedure TfNfePisCofins.blocoD;
 begin
   // SERICOS
 
-  {with ACBrSPEDPisCofins1.Bloco_D do
+  with ACBrSPEDPisCofins1.Bloco_D do
   begin
     with RegistroD001New do
     begin
-      IND_MOV := imComDados;
+      IND_MOV := imSemDados;
+    end;
+  end;
 
-
-      //Estabelecimento
+  {    //Estabelecimento
       with RegistroD010New do
       begin
         CNPJ := '11111111111180';
@@ -1692,12 +1705,12 @@ begin
       end;
     end;
   end;
-
+  }
   if cbConcomitante.Checked then
   begin
     ACBrSPEDPisCofins1.WriteBloco_D;
     LoadToMemo;
-  end;}
+  end;
 end;
 
 procedure TfNfePisCofins.blocoF;
@@ -1708,8 +1721,11 @@ begin
   begin
     with RegistroF001New do
     begin
-      IND_MOV := imComDados;
+      IND_MOV := imSemDados;
+    end;
+  end;
 
+  {
       //F010 - Identificação do Estabelecimento
       with RegistroF010New do
       begin
@@ -1740,7 +1756,7 @@ begin
       end;
     end;
   end;
-
+  }
   if cbConcomitante.Checked then
   begin
     ACBrSPEDPisCofins1.WriteBloco_F;
@@ -1756,9 +1772,10 @@ begin
   begin
     with RegistroM001New do
     begin
-      IND_MOV := imComDados;
-
-      //M100 - Crédito de PIS/PASEP Relativo ao Período
+      IND_MOV := imSemDados;
+    end;
+  end;
+  {    //M100 - Crédito de PIS/PASEP Relativo ao Período
        with RegistroM100New do
        begin
           COD_CRED       := '';
@@ -1845,7 +1862,7 @@ begin
 
     end;
   end;
-
+          }
   if cbConcomitante.Checked then
   begin
     ACBrSPEDPisCofins1.WriteBloco_M;
@@ -1890,12 +1907,12 @@ begin
 
   blocoO;
   bloco1;
-  // blocoA; // DOCUMENTOS FISCAIS - SERVIÇOS (NÃO SUJEITOS AO ICMS)
+  blocoA; // DOCUMENTOS FISCAIS - SERVIÇOS (NÃO SUJEITOS AO ICMS)
   blocoC;
-  //blocoD;  // DOCUMENTOS FISCAIS - SERVIÇOS (ICMS)
-  //blocoF;  // Demais Documentos e Operações
+  blocoD;  // DOCUMENTOS FISCAIS - SERVIÇOS (ICMS)
+  blocoF;  // Demais Documentos e Operações
 
-  // #### blocoM;  // APURAÇÃO DA CONTRIBUIÇÃO E CRÉDITO DO PIS/PASEP E DA COFINS
+  blocoM;  // APURAÇÃO DA CONTRIBUIÇÃO E CRÉDITO DO PIS/PASEP E DA COFINS
 
 
   // Método que gera o arquivo TXT.
@@ -1961,7 +1978,7 @@ begin
     ' AND '   +
     QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
   cdsMov.Open;
-  if (codMovMin < cdsMov.Fields[0].asInteger) then
+  if (codMovMin > cdsMov.Fields[0].asInteger) then
     codMovMin := cdsMov.Fields[0].asInteger;
   if (codMovMax < cdsMov.Fields[1].asInteger) then
     codMovMax := cdsMov.Fields[1].asInteger;

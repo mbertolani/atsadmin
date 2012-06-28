@@ -2429,7 +2429,7 @@ object fNfePisCofins: TfNfePisCofins
       'ND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0  ' +
       '    '#13#10'     AND C.CODMOVIMENTO BETWEEN  :CODINI AND :CODFIM'#13#10'    ' +
       ' AND C.DATACOMPRA      BETWEEN :DTA_INI AND :DTA_FIM'#13#10'  ORDER BY' +
-      ' C.DATACOMPRA'
+      ' F.CODFORNECEDOR'
     MaxBlobSize = -1
     Params = <
       item
