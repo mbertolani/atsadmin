@@ -483,7 +483,6 @@ begin
  if (cdsRegiao.Active) then
     cdsRegiao.Close;
  inherited;
- dm.cds_ccusto.close;
  //Action := caFree;
  //fFornecedorCadastro := nil;
  if (cdsTFiscal.Active) then
