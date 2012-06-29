@@ -1585,8 +1585,17 @@ begin
       executaDDL('MOVIMENTODETALHE', 'PAGO', 'char(3)');
       executaDDL('MOVIMENTODETALHE', 'PEDIDO', 'varchar(20)');
       executaDDL('MOVIMENTODETALHE', 'NITEMPED', 'integer');
+      executaDDL('MOVIMENTODETALHE', 'ACRESCIMO', 'double precision');
+      executaDDL('MOVIMENTODETALHE', 'CORTESIA', 'char(1)');
+      executaDDL('MOVIMENTODETALHE', 'ATENDENTE', 'integer');
+      executaDDL('MOVIMENTODETALHE', 'COLABORADOR', 'integer');
+      executaDDL('MOVIMENTODETALHE', 'SUITE', 'varchar(40)');
+      executaDDL('MOVIMENTODETALHE', 'FORMARECEBIMENTO', 'char(1)');
+      executaDDL('MOVIMENTODETALHE', 'PAGOU', 'char(1)');
       executaDDL('NOTAFISCAL', 'INDPAG', 'integer');
       executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
+      executaDDL('VENDA', 'TROCO', 'double precision');
+      executaDDL('VENDA', 'COMISSAO', 'double precision');
       executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
       executaScript('gera_nf_venda.sql');

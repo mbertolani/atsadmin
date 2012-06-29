@@ -19,6 +19,15 @@ type
     function getBaixa      : String;
     function getUn         : String;
     function getDescricao  : String;
+    function getAcrescimo: Double;
+    function getAtendente: Integer;
+    function getColaborador: Integer;
+    function getCortesia: String;
+    function getSuite: String;
+    function getLote: String;
+    function getCodAutorizacao: Integer;
+    function geFormaRecebimento: String;
+    function getPagou: String;        
 
     procedure setCodDet(const Value: Integer);
     procedure setCodMov(const Value: Integer);
@@ -31,8 +40,15 @@ type
     procedure setBaixa(const Value: String);
     procedure setUn(const Value: String);
     procedure setDescricao(const Value: String);
-    function getLote: String;
     procedure setLote(const Value: String);
+    procedure setAcrescimo(const Value: Double);
+    procedure setAtendente(const Value: Integer);
+    procedure setColaborador(const Value: Integer);
+    procedure setCortesia(const Value: String);
+    procedure setSuite(const Value: String);
+    procedure setCodAutorizacao(const Value: Integer);
+    procedure setFormaRecebimento(const Value: String);
+    procedure setPagou(const Value: String);
   protected
     //Atributos
     _codDet          : Integer;
@@ -47,20 +63,39 @@ type
     _baixa           : String;
     _un              : String;
     _lote            : String;
+    _Acrescimo       : Double;
+    _Cortesia        : String;
+    _Atendente       : Integer;
+    _Colaborador     : Integer;
+    _Suite           : String;
+    _CodAutorizacao  : Integer;
+    _Pagou           : String;
+    _FormaRcebimento : String;
+
+
     function executaSql(strSql: String): Boolean;
   public
     property CodDet      : Integer read getCodDet write setCodDet;
     property CodMov      : Integer read getCodMov write setCodMov;
     property Codigo      : Integer read getCodigo write setCodigo;
     property CodProduto  : Integer read getCodProduto write setCodProduto;
-    property Qtde        : Double read getQtde write setQtde;
-    property Preco       : Double read getPreco write setPreco;
-    property Icms        : Double read getIcms write setIcms;
-    property Desconto    : Double read getDesconto write setDesconto;
+    property Qtde        : Double  read getQtde write setQtde;
+    property Preco       : Double  read getPreco write setPreco;
+    property Icms        : Double  read getIcms write setIcms;
+    property Desconto    : Double  read getDesconto write setDesconto;
     property Descricao   : String  read getDescricao write setDescricao;
     property Baixa       : String  read getBaixa write setBaixa;
     property Un          : String  read getUn write setUn;
     property Lote        : String  read getLote write setLote;
+    property Acrescimo   : Double  read getAcrescimo write setAcrescimo;
+    property Cortesia    : String  read getCortesia write setCortesia;
+    property Atendente   : Integer read getAtendente write setAtendente;
+    property Colaborador : Integer read getColaborador write setColaborador;
+    property Suite       : String  read getSuite write setSuite;
+    property Pagou       : String  read getPagou write setPagou;
+    property CodAutorizacao   : Integer read getCodAutorizacao write setCodAutorizacao;
+    property FormaRecebimento : String read geFormaRecebimento write setFormaRecebimento;
+
     //Metodos
     function inserirMovDet(): Boolean;
     function verMovDetalhe(codDetV: Integer): Boolean;
@@ -114,9 +149,29 @@ begin
   end;
 end;
 
+function TMovimentoDetalhe.geFormaRecebimento: String;
+begin
+  Result := _Pagou;
+end;
+
+function TMovimentoDetalhe.getAcrescimo: Double;
+begin
+  Result := _Acrescimo;
+end;
+
+function TMovimentoDetalhe.getAtendente: Integer;
+begin
+  Result := _Atendente;
+end;
+
 function TMovimentoDetalhe.getBaixa: String;
 begin
   Result := _baixa;
+end;
+
+function TMovimentoDetalhe.getCodAutorizacao: Integer;
+begin
+  Result := _CodAutorizacao;
 end;
 
 function TMovimentoDetalhe.getCodDet: Integer;
@@ -139,6 +194,16 @@ begin
   Result := _codProduto;
 end;
 
+function TMovimentoDetalhe.getColaborador: Integer;
+begin
+  Result := _Colaborador;
+end;
+
+function TMovimentoDetalhe.getCortesia: String;
+begin
+  Result := _Cortesia;
+end;
+
 function TMovimentoDetalhe.getDesconto: Double;
 begin
   Result := _desconto;
@@ -159,6 +224,11 @@ begin
   Result := _lote;
 end;
 
+function TMovimentoDetalhe.getPagou: String;
+begin
+  Result := _Pagou;
+end;
+
 function TMovimentoDetalhe.getPreco: Double;
 begin
   Result := _preco;
@@ -167,6 +237,11 @@ end;
 function TMovimentoDetalhe.getQtde: Double;
 begin
   Result := _qtde;
+end;
+
+function TMovimentoDetalhe.getSuite: String;
+begin
+  Result := _Suite;
 end;
 
 function TMovimentoDetalhe.getUn: String;
@@ -179,8 +254,8 @@ var str: String;
 begin
   DecimalSeparator := '.';
   str := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODMOVIMENTO, ' +
-    'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO, CODIGO , LOTE' +
-    ') VALUES (';
+    'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO, CODIGO , LOTE, ' +
+    ' ACRESCIMO, CORTESIA, ATENDENTE, COLABORADOR, SUITE, CODAAUTORIZACAO) VALUES (';
   str := str + 'GEN_ID(GENMOVDET,1), ' + IntToStr(self.CodMov) + ', ' + IntToStr(Self.CodProduto);
   str := str + ', ' + FloatToStr(Self.Qtde) + ', ' + FloatToStr(Self.Preco);
   str := str + ', ' + FloatToStr(Self.Icms) + ', ' + FloatToStr(Self.Desconto);
@@ -188,13 +263,34 @@ begin
   str := str + ', ' + QuotedStr(Self.Descricao);
   str := str + ', ' + IntToStr(Self.Codigo);
   str := str + ', ' + QuotedStr(Self.Lote);
+  str := str + ', ' + FloatToStr(Self.Acrescimo);
+  str := str + ', ' + QuotedStr(Self.Cortesia);
+  str := str + ', ' + IntToStr(Self.Atendente);
+  str := str + ', ' + IntToStr(Self.Colaborador);
+  str := str + ', ' + QuotedStr(Self.Suite);
+  str := str + ', ' + IntToStr(Self.CodAutorizacao);
   str := str + ')';
   executaSql(str);
+end;
+
+procedure TMovimentoDetalhe.setAcrescimo(const Value: Double);
+begin
+  _Acrescimo := Value;
+end;
+
+procedure TMovimentoDetalhe.setAtendente(const Value: Integer);
+begin
+  _Atendente := Value;
 end;
 
 procedure TMovimentoDetalhe.setBaixa(const Value: String);
 begin
   _baixa := Trim(Value);
+end;
+
+procedure TMovimentoDetalhe.setCodAutorizacao(const Value: Integer);
+begin
+  _CodAutorizacao := Value;
 end;
 
 procedure TMovimentoDetalhe.setCodDet(const Value: Integer);
@@ -217,6 +313,16 @@ begin
   _codProduto := Value;
 end;
 
+procedure TMovimentoDetalhe.setColaborador(const Value: Integer);
+begin
+  _Colaborador := Value;
+end;
+
+procedure TMovimentoDetalhe.setCortesia(const Value: String);
+begin
+  _Cortesia := Trim(Value);
+end;
+
 procedure TMovimentoDetalhe.setDesconto(const Value: Double);
 begin
   _desconto := Value;
@@ -225,6 +331,11 @@ end;
 procedure TMovimentoDetalhe.setDescricao(const Value: String);
 begin
   _descricao := Trim(Value);
+end;
+
+procedure TMovimentoDetalhe.setFormaRecebimento(const Value: String);
+begin
+  _FormaRcebimento := Trim(Value);
 end;
 
 procedure TMovimentoDetalhe.setIcms(const Value: Double);
@@ -237,6 +348,11 @@ begin
   _lote := Value;
 end;
 
+procedure TMovimentoDetalhe.setPagou(const Value: String);
+begin
+  _Pagou := Trim(Value);
+end;
+
 procedure TMovimentoDetalhe.setPreco(const Value: Double);
 begin
   _preco := Value;
@@ -245,6 +361,11 @@ end;
 procedure TMovimentoDetalhe.setQtde(const Value: Double);
 begin
   _qtde := Value;
+end;
+
+procedure TMovimentoDetalhe.setSuite(const Value: String);
+begin
+  _Suite := Value;
 end;
 
 procedure TMovimentoDetalhe.setUn(const Value: String);
@@ -275,6 +396,12 @@ begin
       Self.Un            := dm.cdsBusca.FieldByName('UN').AsString;
       Self.Baixa         := dm.cdsBusca.FieldByName('BAIXA').AsString;
       Self.Descricao     := dm.cdsBusca.FieldByName('DESCPRODUTO').AsString;
+      Self.Acrescimo     := dm.cdsBusca.FieldByName('ACRESCIMO').AsFloat;
+      Self.Cortesia      := dm.cdsBusca.FieldByName('CORTESIA').AsString;
+      Self.Atendente     := dm.cdsBusca.FieldByName('ATENDENTE').AsInteger;
+      Self.Colaborador   := dm.cdsBusca.FieldByName('COLABORADOR').AsInteger;
+      Self.Suite         := dm.cdsBusca.FieldByName('SUITE').AsString;
+      Self.CodAutorizacao:= dm.cdsBusca.FieldByName('CODAAUTORIZACAO').AsInteger;
       Result := True;
     end
     else
