@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 787
+    Width = 812
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1015,8 +1015,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 556
-    Width = 787
+    Top = 561
+    Width = 812
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
@@ -2689,6 +2689,18 @@ inherited fCompra: TfCompra
       FieldName = 'OBS'
       Size = 300
     end
+    object cds_Mov_detCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object cds_Mov_detCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object cds_Mov_detCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2719,11 +2731,11 @@ inherited fCompra: TfCompra
       'vd.PEDIDO, movd.CST, movd.VLR_BASE, movd.VLR_BASEICMS, movd.VALO' +
       'R_DESCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.' +
       'VALOR_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, m' +
-      'ovd.OBS'#13#10'from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on' +
-      ' prod.CODPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFAD' +
-      'O ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where mov' +
-      'd.CODDETALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order' +
-      ' by movd.CODDETALHE'
+      'ovd.OBS, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS '#13#10'from MOVIMEN' +
+      'TODETALHE movd'#13#10'inner join PRODUTOS prod on prod.CODPRODUTO = mo' +
+      'vd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALM' +
+      'OXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDETALHE = :CODDE' +
+      'TALHE or movd.CODMOVIMENTO = :pCODMOV order by movd.CODDETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -2923,6 +2935,18 @@ inherited fCompra: TfCompra
     object sds_Mov_DetOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object sds_Mov_DetCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object sds_Mov_DetCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object sds_Mov_DetCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
     end
   end
   object s_8: TSQLDataSet

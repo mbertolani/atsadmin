@@ -64,6 +64,12 @@ type
     DBEdit23: TDBEdit;
     DBEdit24: TDBEdit;
     DBEdit25: TDBEdit;
+    Label27: TLabel;
+    DBEdit26: TDBEdit;
+    Label28: TLabel;
+    DBEdit27: TDBEdit;
+    Label29: TLabel;
+    DBEdit28: TDBEdit;
     procedure btnGravarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);

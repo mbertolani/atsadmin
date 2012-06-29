@@ -1,8 +1,8 @@
 object fDetalhe: TfDetalhe
   Left = 237
   Top = 169
-  Width = 667
-  Height = 268
+  Width = 668
+  Height = 274
   Caption = 'Produto / Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -197,6 +197,27 @@ object fDetalhe: TfDetalhe
     Height = 13
     Caption = 'N'#186' Item'
   end
+  object Label27: TLabel
+    Left = 177
+    Top = 164
+    Width = 37
+    Height = 13
+    Caption = 'CST IPI'
+  end
+  object Label28: TLabel
+    Left = 257
+    Top = 164
+    Width = 41
+    Height = 13
+    Caption = 'CST PIS'
+  end
+  object Label29: TLabel
+    Left = 337
+    Top = 164
+    Width = 63
+    Height = 13
+    Caption = 'CST COFINS'
+  end
   object DBEdit1: TDBEdit
     Left = 173
     Top = 140
@@ -204,7 +225,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'ICMS'
     DataSource = fCompra.DtSrc1
-    TabOrder = 0
+    TabOrder = 18
   end
   object DBEdit2: TDBEdit
     Left = 13
@@ -213,7 +234,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'QUANTIDADE'
     DataSource = fCompra.DtSrc1
-    TabOrder = 1
+    TabOrder = 8
   end
   object DBEdit3: TDBEdit
     Left = 513
@@ -231,7 +252,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CODPRO'
     DataSource = fCompra.DtSrc1
-    TabOrder = 3
+    TabOrder = 0
     OnExit = dbeCodproExit
   end
   object DBEdit5: TDBEdit
@@ -241,7 +262,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'ValorTotal'
     DataSource = fCompra.DtSrc1
-    TabOrder = 4
+    TabOrder = 23
   end
   object DBEdit6: TDBEdit
     Left = 136
@@ -250,7 +271,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'DESCPRODUTO'
     DataSource = fCompra.DtSrc1
-    TabOrder = 5
+    TabOrder = 1
   end
   object DBEdit7: TDBEdit
     Left = 253
@@ -259,7 +280,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CST'
     DataSource = fCompra.DtSrc1
-    TabOrder = 6
+    TabOrder = 11
   end
   object DBEdit8: TDBEdit
     Left = 93
@@ -268,7 +289,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VLR_BASE'
     DataSource = fCompra.DtSrc1
-    TabOrder = 7
+    TabOrder = 9
   end
   object DBEdit9: TDBEdit
     Left = 253
@@ -277,7 +298,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VLR_BASEICMS'
     DataSource = fCompra.DtSrc1
-    TabOrder = 8
+    TabOrder = 19
   end
   object DBEdit10: TDBEdit
     Left = 333
@@ -286,7 +307,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_ICMS'
     DataSource = fCompra.DtSrc1
-    TabOrder = 9
+    TabOrder = 20
   end
   object DBEdit11: TDBEdit
     Left = 574
@@ -295,7 +316,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CFOP'
     DataSource = fCompra.DtSrc1
-    TabOrder = 10
+    TabOrder = 7
   end
   object DBEdit12: TDBEdit
     Left = 333
@@ -304,7 +325,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CSOSN'
     DataSource = fCompra.DtSrc1
-    TabOrder = 11
+    TabOrder = 12
   end
   object DBEdit13: TDBEdit
     Left = 413
@@ -313,7 +334,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_DESCONTO'
     DataSource = fCompra.DtSrc1
-    TabOrder = 12
+    TabOrder = 13
   end
   object DBEdit14: TDBEdit
     Left = 173
@@ -322,7 +343,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'FRETE'
     DataSource = fCompra.DtSrc1
-    TabOrder = 13
+    TabOrder = 10
   end
   object DBEdit15: TDBEdit
     Left = 493
@@ -331,7 +352,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'ICMS_SUBST'
     DataSource = fCompra.DtSrc1
-    TabOrder = 14
+    TabOrder = 22
   end
   object DBEdit16: TDBEdit
     Left = 413
@@ -340,7 +361,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'ICMS_SUBSTD'
     DataSource = fCompra.DtSrc1
-    TabOrder = 15
+    TabOrder = 21
   end
   object DBEdit17: TDBEdit
     Left = 493
@@ -349,7 +370,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_SEGURO'
     DataSource = fCompra.DtSrc1
-    TabOrder = 16
+    TabOrder = 14
   end
   object DBEdit18: TDBEdit
     Left = 573
@@ -358,7 +379,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_OUTROS'
     DataSource = fCompra.DtSrc1
-    TabOrder = 17
+    TabOrder = 15
   end
   object DBEdit19: TDBEdit
     Left = 13
@@ -367,7 +388,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'PIPI'
     DataSource = fCompra.DtSrc1
-    TabOrder = 18
+    TabOrder = 16
   end
   object DBEdit20: TDBEdit
     Left = 93
@@ -376,15 +397,15 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VIPI'
     DataSource = fCompra.DtSrc1
-    TabOrder = 19
+    TabOrder = 17
   end
   object btnSair: TBitBtn
-    Left = 578
-    Top = 167
+    Left = 570
+    Top = 181
     Width = 68
     Height = 59
     Caption = 'F9-Sair'
-    TabOrder = 20
+    TabOrder = 29
     OnClick = btnSairClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -488,20 +509,20 @@ object fDetalhe: TfDetalhe
     Layout = blGlyphTop
   end
   object DBNavigator1: TDBNavigator
-    Left = 206
-    Top = 171
+    Left = 310
+    Top = 203
     Width = 216
     Height = 38
     DataSource = fCompra.DtSrc1
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete]
-    TabOrder = 21
+    TabOrder = 30
   end
   object btnGravar: TBitBtn
-    Left = 422
-    Top = 171
+    Left = 526
+    Top = 203
     Width = 38
     Height = 38
-    TabOrder = 22
+    TabOrder = 31
     OnClick = btnGravarClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -609,7 +630,7 @@ object fDetalhe: TfDetalhe
     Width = 35
     Height = 26
     Enabled = False
-    TabOrder = 23
+    TabOrder = 32
     TabStop = False
     OnClick = btnProdutoProcuraClick
     Glyph.Data = {
@@ -684,7 +705,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'NCM'
     DataSource = fCompra.DtSrc1
-    TabOrder = 24
+    TabOrder = 3
   end
   object DBEdit21: TDBEdit
     Left = 13
@@ -693,7 +714,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'BCII'
     DataSource = fCompra.DtSrc1
-    TabOrder = 25
+    TabOrder = 24
   end
   object DBEdit22: TDBEdit
     Left = 93
@@ -702,7 +723,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'II'
     DataSource = fCompra.DtSrc1
-    TabOrder = 26
+    TabOrder = 25
   end
   object DBEdit23: TDBEdit
     Left = 153
@@ -711,7 +732,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'OBS'
     DataSource = fCompra.DtSrc1
-    TabOrder = 27
+    TabOrder = 6
   end
   object DBEdit24: TDBEdit
     Left = 84
@@ -720,7 +741,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'NITEMPED'
     DataSource = fCompra.DtSrc1
-    TabOrder = 28
+    TabOrder = 5
   end
   object DBEdit25: TDBEdit
     Left = 13
@@ -729,6 +750,33 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'PEDIDO'
     DataSource = fCompra.DtSrc1
-    TabOrder = 29
+    TabOrder = 4
+  end
+  object DBEdit26: TDBEdit
+    Left = 173
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'CSTIPI'
+    DataSource = fCompra.DtSrc1
+    TabOrder = 26
+  end
+  object DBEdit27: TDBEdit
+    Left = 253
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'CSTPIS'
+    DataSource = fCompra.DtSrc1
+    TabOrder = 27
+  end
+  object DBEdit28: TDBEdit
+    Left = 333
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'CSTCOFINS'
+    DataSource = fCompra.DtSrc1
+    TabOrder = 28
   end
 end
