@@ -12,8 +12,8 @@ inherited fEmpresa: TfEmpresa
   PixelsPerInch = 96
   TextHeight = 33
   inherited MMJPanel1: TMMJPanel
-    Top = 571
-    Width = 779
+    Top = 582
+    Width = 787
     inherited btnCancelar: TBitBtn [0]
       Font.Charset = ANSI_CHARSET
       Font.Height = -12
@@ -63,7 +63,7 @@ inherited fEmpresa: TfEmpresa
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 779
+    Width = 787
     inherited Label1: TLabel
       Left = 151
       Top = -78
@@ -106,8 +106,8 @@ inherited fEmpresa: TfEmpresa
   object JvPageControl1: TJvPageControl [2]
     Left = 0
     Top = 54
-    Width = 779
-    Height = 517
+    Width = 787
+    Height = 528
     ActivePage = TabSheet1
     Align = alClient
     Font.Charset = ANSI_CHARSET
@@ -128,8 +128,8 @@ inherited fEmpresa: TfEmpresa
       object JvCaptionPanel1: TJvCaptionPanel
         Left = 0
         Top = 0
-        Width = 771
-        Height = 488
+        Width = 779
+        Height = 499
         Align = alClient
         Buttons = []
         CaptionPosition = dpTop
@@ -1286,7 +1286,7 @@ inherited fEmpresa: TfEmpresa
       object Label31: TLabel
         Left = 26
         Top = 94
-        Width = 279
+        Width = 280
         Height = 14
         Caption = 'Codigo indicador da incidencia tribut'#225'ria no per'#237'odo (0110)'
       end
@@ -1302,7 +1302,7 @@ inherited fEmpresa: TfEmpresa
       object Label33: TLabel
         Left = 27
         Top = 145
-        Width = 386
+        Width = 387
         Height = 14
         Caption = 
           'no caso  de incidencia no regime n'#227'o cumulativo(COD_INC_TRIB = 1' +
@@ -1311,7 +1311,7 @@ inherited fEmpresa: TfEmpresa
       object Label34: TLabel
         Left = 26
         Top = 182
-        Width = 325
+        Width = 327
         Height = 14
         Caption = 
           'C'#243'digo indicador do Tipo de Contribui'#231#227'o Apurada no Per'#237'odo(0110' +
@@ -1341,7 +1341,7 @@ inherited fEmpresa: TfEmpresa
       object Label38: TLabel
         Left = 24
         Top = 367
-        Width = 480
+        Width = 482
         Height = 14
         Caption = 
           'C'#243'digo da Base de C'#225'lculo do Cr'#233'dito - {NAT_BC_CRED} - 4.3.7 - T' +
@@ -1630,6 +1630,348 @@ inherited fEmpresa: TfEmpresa
           '0 - Mensal'
           '1 - Decendial'
           '2 - Vazio')
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'Contador'
+      ImageIndex = 2
+      object Label43: TLabel
+        Left = 30
+        Top = 10
+        Width = 44
+        Height = 14
+        Caption = 'Contador'
+      end
+      object Label44: TLabel
+        Left = 30
+        Top = 50
+        Width = 25
+        Height = 14
+        Caption = 'CNPJ'
+      end
+      object Label45: TLabel
+        Left = 216
+        Top = 50
+        Width = 19
+        Height = 14
+        Caption = 'CPF'
+      end
+      object Label46: TLabel
+        Left = 432
+        Top = 50
+        Width = 21
+        Height = 14
+        Caption = 'CRC'
+      end
+      object Label47: TLabel
+        Left = 30
+        Top = 90
+        Width = 46
+        Height = 14
+        Caption = 'Endere'#231'o'
+      end
+      object Label48: TLabel
+        Left = 504
+        Top = 90
+        Width = 37
+        Height = 14
+        Caption = 'N'#250'mero'
+      end
+      object Label49: TLabel
+        Left = 30
+        Top = 130
+        Width = 29
+        Height = 14
+        Caption = 'Bairro'
+      end
+      object Label50: TLabel
+        Left = 504
+        Top = 130
+        Width = 19
+        Height = 14
+        Caption = 'CEP'
+      end
+      object Label51: TLabel
+        Left = 30
+        Top = 172
+        Width = 64
+        Height = 14
+        Caption = 'Complemento'
+      end
+      object Label52: TLabel
+        Left = 30
+        Top = 211
+        Width = 42
+        Height = 14
+        Caption = 'Telefone'
+      end
+      object Label53: TLabel
+        Left = 200
+        Top = 211
+        Width = 18
+        Height = 14
+        Caption = 'Fax'
+      end
+      object Label54: TLabel
+        Left = 360
+        Top = 212
+        Width = 95
+        Height = 14
+        Caption = 'Cod. IBGE Municipio'
+      end
+      object Label55: TLabel
+        Left = 30
+        Top = 253
+        Width = 24
+        Height = 14
+        Caption = 'Email'
+      end
+      object DBEdit25: TDBEdit
+        Left = 28
+        Top = 26
+        Width = 556
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit26: TDBEdit
+        Left = 28
+        Top = 66
+        Width = 179
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_CNPJ'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit27: TDBEdit
+        Left = 213
+        Top = 66
+        Width = 213
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_CPF'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 2
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit28: TDBEdit
+        Left = 430
+        Top = 66
+        Width = 153
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_CRC'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 3
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit29: TDBEdit
+        Left = 28
+        Top = 106
+        Width = 469
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_END'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 4
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit30: TDBEdit
+        Left = 502
+        Top = 106
+        Width = 80
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_NUMEND'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 5
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit31: TDBEdit
+        Left = 28
+        Top = 146
+        Width = 468
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_BAIRRO'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 6
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit32: TDBEdit
+        Left = 503
+        Top = 146
+        Width = 81
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_CEP'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 7
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit33: TDBEdit
+        Left = 28
+        Top = 187
+        Width = 556
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_COMPL'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 8
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit34: TDBEdit
+        Left = 28
+        Top = 227
+        Width = 157
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_FONE'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 9
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit35: TDBEdit
+        Left = 196
+        Top = 227
+        Width = 149
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_FAX'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 10
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit36: TDBEdit
+        Left = 358
+        Top = 227
+        Width = 133
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_COD_MUN'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 11
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit37: TDBEdit
+        Left = 28
+        Top = 268
+        Width = 556
+        Height = 22
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CONTADOR_EMAIL'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        TabOrder = 12
+        OnKeyPress = FormKeyPress
       end
     end
   end
