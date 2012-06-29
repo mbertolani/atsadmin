@@ -445,6 +445,12 @@ type
     cds_Mov_detII: TFloatField;
     cds_Mov_detBCII: TFloatField;
     cds_Mov_detOBS: TStringField;
+    sds_Mov_DetCSTIPI: TStringField;
+    sds_Mov_DetCSTPIS: TStringField;
+    sds_Mov_DetCSTCOFINS: TStringField;
+    cds_Mov_detCSTIPI: TStringField;
+    cds_Mov_detCSTPIS: TStringField;
+    cds_Mov_detCSTCOFINS: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
