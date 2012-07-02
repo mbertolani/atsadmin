@@ -282,7 +282,9 @@ uses
   uRelTitulos in 'uRelTitulos.pas' {fRelTitulos},
   uDetalhe in 'uDetalhe.pas' {fDetalhe},
   uSangria in 'uSangria.pas' {fSangria},
-  uEntradaCaixa in 'uEntradaCaixa.pas' {fEntradaCaixa};
+  uEntradaCaixa in 'uEntradaCaixa.pas' {fEntradaCaixa},
+  uCorreio in 'uCorreio.pas' {fCorreio},
+  uFiltroCorreio in 'uFiltroCorreio.pas' {FiltroCorreio};
 
 {$R *.res}
 
