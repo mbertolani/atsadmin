@@ -1596,6 +1596,8 @@ begin
       executaDDL('VENDA', 'PORCENTAGENDESC', 'double precision');
       executaDDL('VENDA', 'TROCO', 'double precision');
       executaDDL('VENDA', 'COMISSAO', 'double precision');
+      executaDDL('VENDA', 'CAIXINHA', 'double precision');
+      executaDDL('VENDA', 'RATEIO', 'double precision');
       executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
       executaScript('gera_nf_venda.sql');
