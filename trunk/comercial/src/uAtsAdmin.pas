@@ -257,6 +257,7 @@ type
     lblMensagemSistema: TLabel;
     RelatorioTitulos1: TMenuItem;
     dxButton11: TdxButton;
+    Correio1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -388,6 +389,7 @@ type
     procedure SpedPisCofins1Click(Sender: TObject);
     procedure RelatorioTitulos1Click(Sender: TObject);
     procedure dxButton11Click(Sender: TObject);
+    procedure Correio1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -439,7 +441,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
-  uTerminalNTC;
+  uTerminalNTC, uCorreio;
 
 {$R *.dfm}
 
@@ -2240,6 +2242,16 @@ procedure TfAtsAdmin.dxButton11Click(Sender: TObject);
 begin
   // Chat
   WinExec('Pandion\Application\pandion.exe', SW_NORMAL);  
+end;
+
+procedure TfAtsAdmin.Correio1Click(Sender: TObject);
+begin
+   fCorreio := TfCorreio.Create(Application);
+   try
+      fCorreio.ShowModal;
+   finally
+      fCorreio.Free;
+   end;
 end;
 
 end.
