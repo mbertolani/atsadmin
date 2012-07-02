@@ -35,8 +35,6 @@ type
     cdsDep: TClientDataSet;
     dspDep: TDataSetProvider;
     sqlDep: TSQLDataSet;
-    sqlDepCODDEP: TStringField;
-    cdsDepCODDEP: TStringField;
     dsDep: TDataSource;
     Label2: TLabel;
     Label3: TLabel;
@@ -48,13 +46,20 @@ type
     dspDoc: TDataSetProvider;
     sqlDoc: TSQLDataSet;
     dsDoc: TDataSource;
-    sqlDocCODDOC: TStringField;
-    cdsDocCODDOC: TStringField;
     Label6: TLabel;
     BitBtn4: TBitBtn;
     Label7: TLabel;
     Label8: TLabel;
     BitBtn5: TBitBtn;
+    JvDBGrid1: TJvDBGrid;
+    Edit1: TEdit;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Edit2: TEdit;
+    PopupMenu1: TPopupMenu;
+    Procurar1: TMenuItem;
+    Sair1: TMenuItem;
     sqlCCODOC: TIntegerField;
     sqlCCODFIR: TSmallintField;
     sqlCFOTO: TSmallintField;
@@ -96,7 +101,7 @@ type
     sqlCREGCAI: TFloatField;
     sqlCJADESC: TStringField;
     cdsCCODOC: TIntegerField;
-    NN: TSmallintField;
+    cdsCCODFIR: TSmallintField;
     cdsCFOTO: TSmallintField;
     cdsCROLO: TSmallintField;
     cdsCNUMCAI: TFloatField;
@@ -135,15 +140,10 @@ type
     cdsCHORAUSU: TStringField;
     cdsCREGCAI: TFloatField;
     cdsCJADESC: TStringField;
-    JvDBGrid1: TJvDBGrid;
-    Edit1: TEdit;
-    Label9: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    Edit2: TEdit;
-    PopupMenu1: TPopupMenu;
-    Procurar1: TMenuItem;
-    Sair1: TMenuItem;
+    sqlDepCODDEP: TStringField;
+    cdsDepCODDEP: TStringField;
+    sqlDocCODDOC: TStringField;
+    cdsDocCODDOC: TStringField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -302,10 +302,10 @@ procedure TFiltroCorreio.BitBtn5Click(Sender: TObject);
  Var SqlT : String;
 begin
 
-  if(dm.cdsCorreio.Active) then
-    dm.cdsCorreio.Close;
-    dm.cdsCorreio.Params[0].AsInteger := cdsCCODOC.AsInteger;
-  dm.cdsCorreio.Open;
+  if(fCorreio.cdsCorreio.Active) then
+    fCorreio.cdsCorreio.Close;
+    fCorreio.cdsCorreio.Params[0].AsInteger := cdsCCODOC.AsInteger;
+  fCorreio.cdsCorreio.Open;
 
   FiltroCorreio.Close;
 end;

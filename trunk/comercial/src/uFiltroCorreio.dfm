@@ -705,6 +705,7 @@ object FiltroCorreio: TFiltroCorreio
         Expanded = False
         FieldName = 'PRATEL'
         Title.Caption = 'PRATELEIRA'
+        Width = 64
         Visible = True
       end
       item
@@ -720,6 +721,7 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'NOMERET'
+        Width = 64
         Visible = True
       end
       item
@@ -735,6 +737,7 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'OBSRET'
+        Width = 64
         Visible = True
       end
       item
@@ -760,6 +763,7 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'TAMANHO'
+        Width = 64
         Visible = True
       end
       item
@@ -770,6 +774,7 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'DATA'
+        Width = 64
         Visible = True
       end
       item
@@ -785,6 +790,7 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'HORAUSU'
+        Width = 64
         Visible = True
       end>
   end
@@ -819,7 +825,7 @@ object FiltroCorreio: TFiltroCorreio
       FieldName = 'CODOC'
       Required = True
     end
-    object NN: TSmallintField
+    object cdsCCODFIR: TSmallintField
       FieldName = 'CODFIR'
     end
     object cdsCFOTO: TSmallintField
@@ -833,7 +839,7 @@ object FiltroCorreio: TFiltroCorreio
     end
     object cdsCCODDEP: TStringField
       FieldName = 'CODDEP'
-      Size = 6
+      Size = 80
     end
     object cdsCCODSEC: TStringField
       FieldName = 'CODSEC'
@@ -848,7 +854,7 @@ object FiltroCorreio: TFiltroCorreio
     end
     object cdsCCODDOC: TStringField
       FieldName = 'CODDOC'
-      Size = 6
+      Size = 80
     end
     object cdsCDTINID: TDateField
       FieldName = 'DTINID'
@@ -870,7 +876,6 @@ object FiltroCorreio: TFiltroCorreio
     end
     object cdsCDESCARTE: TFloatField
       FieldName = 'DESCARTE'
-      DisplayFormat = '##/####'
     end
     object cdsCDTRET: TDateField
       FieldName = 'DTRET'
@@ -985,7 +990,7 @@ object FiltroCorreio: TFiltroCorreio
     end
     object sqlCCODDEP: TStringField
       FieldName = 'CODDEP'
-      Size = 6
+      Size = 80
     end
     object sqlCCODSEC: TStringField
       FieldName = 'CODSEC'
@@ -1000,7 +1005,7 @@ object FiltroCorreio: TFiltroCorreio
     end
     object sqlCCODDOC: TStringField
       FieldName = 'CODDOC'
-      Size = 6
+      Size = 80
     end
     object sqlCDTINID: TDateField
       FieldName = 'DTINID'
@@ -1160,7 +1165,7 @@ object FiltroCorreio: TFiltroCorreio
     Top = 184
     object cdsDepCODDEP: TStringField
       FieldName = 'CODDEP'
-      Size = 6
+      Size = 80
     end
   end
   object dspDep: TDataSetProvider
@@ -1178,7 +1183,7 @@ object FiltroCorreio: TFiltroCorreio
     Top = 184
     object sqlDepCODDEP: TStringField
       FieldName = 'CODDEP'
-      Size = 6
+      Size = 80
     end
   end
   object dsDep: TDataSource
@@ -1194,7 +1199,7 @@ object FiltroCorreio: TFiltroCorreio
     Top = 184
     object cdsDocCODDOC: TStringField
       FieldName = 'CODDOC'
-      Size = 6
+      Size = 80
     end
   end
   object dspDoc: TDataSetProvider
@@ -1212,7 +1217,7 @@ object FiltroCorreio: TFiltroCorreio
     Top = 184
     object sqlDocCODDOC: TStringField
       FieldName = 'CODDOC'
-      Size = 6
+      Size = 80
     end
   end
   object dsDoc: TDataSource
