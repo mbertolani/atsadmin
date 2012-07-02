@@ -1,8 +1,8 @@
 inherited fCorreio: TfCorreio
   Left = 322
-  Top = 113
-  Width = 782
-  Height = 559
+  Top = 114
+  Width = 778
+  Height = 558
   Caption = 'Correio'
   OldCreateOrder = True
   OnShow = FormShow
@@ -161,11 +161,11 @@ inherited fCorreio: TfCorreio
     FocusControl = DBEdit26
   end
   inherited MMJPanel1: TMMJPanel
-    Width = 766
+    Width = 762
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 470
-    Width = 766
+    Top = 469
+    Width = 762
     inherited btnProcurar: TBitBtn
       OnClick = btnProcurarClick
     end
@@ -392,7 +392,7 @@ inherited fCorreio: TfCorreio
     end
   end
   inherited DtSrc: TDataSource
-    DataSet = DM.cdsCorreio
+    DataSet = cdsCorreio
   end
   inherited PopupMenu1: TPopupMenu
     inherited Procurar1: TMenuItem
@@ -441,6 +441,327 @@ inherited fCorreio: TfCorreio
     end
     object sClienteNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 50
+    end
+  end
+  object sdsCorreio: TSQLDataSet
+    CommandText = 
+      'select  mov.* ,cli.razaosocial from MOVDOC mov  '#13#10'inner join CLI' +
+      'ENTES cli on cli.CODCLIENTE = mov.CODFIR'#13#10#13#10'where CODOC = :pcodo' +
+      'c'
+    DataSource = DtSrc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pcodoc'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 512
+    Top = 200
+    object sdsCorreioCODOC: TIntegerField
+      FieldName = 'CODOC'
+      Required = True
+    end
+    object sdsCorreioCODFIR: TSmallintField
+      FieldName = 'CODFIR'
+    end
+    object sdsCorreioFOTO: TSmallintField
+      FieldName = 'FOTO'
+    end
+    object sdsCorreioROLO: TSmallintField
+      FieldName = 'ROLO'
+    end
+    object sdsCorreioNUMCAI: TFloatField
+      FieldName = 'NUMCAI'
+    end
+    object sdsCorreioCODDEP: TStringField
+      FieldName = 'CODDEP'
+      Size = 6
+    end
+    object sdsCorreioCODSEC: TStringField
+      FieldName = 'CODSEC'
+      Size = 6
+    end
+    object sdsCorreioCODLOC: TSmallintField
+      FieldName = 'CODLOC'
+    end
+    object sdsCorreioATIVO: TStringField
+      FieldName = 'ATIVO'
+      Size = 1
+    end
+    object sdsCorreioCODDOC: TStringField
+      FieldName = 'CODDOC'
+      Size = 6
+    end
+    object sdsCorreioDTINID: TDateField
+      FieldName = 'DTINID'
+    end
+    object sdsCorreioDTFIND: TDateField
+      FieldName = 'DTFIND'
+    end
+    object sdsCorreioDOCINI: TFloatField
+      FieldName = 'DOCINI'
+    end
+    object sdsCorreioDOCFIN: TFloatField
+      FieldName = 'DOCFIN'
+    end
+    object sdsCorreioESTANTE: TSmallintField
+      FieldName = 'ESTANTE'
+    end
+    object sdsCorreioPRATEL: TSmallintField
+      FieldName = 'PRATEL'
+    end
+    object sdsCorreioDESCARTE: TFloatField
+      FieldName = 'DESCARTE'
+    end
+    object sdsCorreioDTRET: TDateField
+      FieldName = 'DTRET'
+    end
+    object sdsCorreioNOMERET: TStringField
+      FieldName = 'NOMERET'
+      Size = 40
+    end
+    object sdsCorreioNDOCRET: TStringField
+      FieldName = 'NDOCRET'
+      Size = 10
+    end
+    object sdsCorreioDTPREV: TDateField
+      FieldName = 'DTPREV'
+    end
+    object sdsCorreioOBSRET: TStringField
+      FieldName = 'OBSRET'
+      Size = 60
+    end
+    object sdsCorreioOBS: TMemoField
+      FieldName = 'OBS'
+      BlobType = ftMemo
+    end
+    object sdsCorreioDTINC: TDateField
+      FieldName = 'DTINC'
+    end
+    object sdsCorreioCOLUNA: TSmallintField
+      FieldName = 'COLUNA'
+    end
+    object sdsCorreioNCAICLI: TFloatField
+      FieldName = 'NCAICLI'
+    end
+    object sdsCorreioOBS2: TStringField
+      FieldName = 'OBS2'
+      Size = 40
+    end
+    object sdsCorreioTAMANHO: TStringField
+      FieldName = 'TAMANHO'
+      Size = 1
+    end
+    object sdsCorreioA: TStringField
+      FieldName = 'A'
+      Size = 10
+    end
+    object sdsCorreioNUMDOC: TStringField
+      FieldName = 'NUMDOC'
+    end
+    object sdsCorreioDATA: TStringField
+      FieldName = 'DATA'
+      Size = 8
+    end
+    object sdsCorreioQTDADE: TFloatField
+      FieldName = 'QTDADE'
+    end
+    object sdsCorreioCODIDIO: TSmallintField
+      FieldName = 'CODIDIO'
+    end
+    object sdsCorreioDESCR: TStringField
+      FieldName = 'DESCR'
+      Size = 150
+    end
+    object sdsCorreioFASE: TStringField
+      FieldName = 'FASE'
+      Size = 150
+    end
+    object sdsCorreioUSUARIO: TStringField
+      FieldName = 'USUARIO'
+      Size = 10
+    end
+    object sdsCorreioDTUSU: TDateField
+      FieldName = 'DTUSU'
+    end
+    object sdsCorreioHORAUSU: TStringField
+      FieldName = 'HORAUSU'
+      Size = 5
+    end
+    object sdsCorreioREGCAI: TFloatField
+      FieldName = 'REGCAI'
+    end
+    object sdsCorreioJADESC: TStringField
+      FieldName = 'JADESC'
+      Size = 1
+    end
+    object sdsCorreioRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+  end
+  object dspCorreio: TDataSetProvider
+    DataSet = sdsCorreio
+    Left = 552
+    Top = 200
+  end
+  object cdsCorreio: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pcodoc'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspCorreio'
+    Left = 600
+    Top = 200
+    object cdsCorreioCODOC: TIntegerField
+      FieldName = 'CODOC'
+      Required = True
+    end
+    object cdsCorreioCODFIR: TSmallintField
+      FieldName = 'CODFIR'
+    end
+    object cdsCorreioFOTO: TSmallintField
+      FieldName = 'FOTO'
+    end
+    object cdsCorreioROLO: TSmallintField
+      FieldName = 'ROLO'
+    end
+    object cdsCorreioNUMCAI: TFloatField
+      FieldName = 'NUMCAI'
+    end
+    object cdsCorreioCODDEP: TStringField
+      FieldName = 'CODDEP'
+      Size = 6
+    end
+    object cdsCorreioCODSEC: TStringField
+      FieldName = 'CODSEC'
+      Size = 6
+    end
+    object cdsCorreioCODLOC: TSmallintField
+      FieldName = 'CODLOC'
+    end
+    object cdsCorreioATIVO: TStringField
+      FieldName = 'ATIVO'
+      Size = 1
+    end
+    object cdsCorreioCODDOC: TStringField
+      FieldName = 'CODDOC'
+      Size = 6
+    end
+    object cdsCorreioDTINID: TDateField
+      FieldName = 'DTINID'
+    end
+    object cdsCorreioDTFIND: TDateField
+      FieldName = 'DTFIND'
+    end
+    object cdsCorreioDOCINI: TFloatField
+      FieldName = 'DOCINI'
+    end
+    object cdsCorreioDOCFIN: TFloatField
+      FieldName = 'DOCFIN'
+    end
+    object cdsCorreioESTANTE: TSmallintField
+      FieldName = 'ESTANTE'
+    end
+    object cdsCorreioPRATEL: TSmallintField
+      FieldName = 'PRATEL'
+    end
+    object cdsCorreioDESCARTE: TFloatField
+      FieldName = 'DESCARTE'
+      DisplayFormat = '##/####'
+    end
+    object cdsCorreioDTRET: TDateField
+      FieldName = 'DTRET'
+    end
+    object cdsCorreioNOMERET: TStringField
+      FieldName = 'NOMERET'
+      Size = 40
+    end
+    object cdsCorreioNDOCRET: TStringField
+      FieldName = 'NDOCRET'
+      Size = 10
+    end
+    object cdsCorreioDTPREV: TDateField
+      FieldName = 'DTPREV'
+    end
+    object cdsCorreioOBSRET: TStringField
+      FieldName = 'OBSRET'
+      Size = 60
+    end
+    object cdsCorreioOBS: TMemoField
+      FieldName = 'OBS'
+      BlobType = ftMemo
+    end
+    object cdsCorreioDTINC: TDateField
+      FieldName = 'DTINC'
+    end
+    object cdsCorreioCOLUNA: TSmallintField
+      FieldName = 'COLUNA'
+    end
+    object cdsCorreioNCAICLI: TFloatField
+      FieldName = 'NCAICLI'
+    end
+    object cdsCorreioOBS2: TStringField
+      FieldName = 'OBS2'
+      Size = 40
+    end
+    object cdsCorreioTAMANHO: TStringField
+      FieldName = 'TAMANHO'
+      Size = 1
+    end
+    object cdsCorreioA: TStringField
+      FieldName = 'A'
+      Size = 10
+    end
+    object cdsCorreioNUMDOC: TStringField
+      FieldName = 'NUMDOC'
+    end
+    object cdsCorreioDATA: TStringField
+      FieldName = 'DATA'
+      Size = 8
+    end
+    object cdsCorreioQTDADE: TFloatField
+      FieldName = 'QTDADE'
+    end
+    object cdsCorreioCODIDIO: TSmallintField
+      FieldName = 'CODIDIO'
+    end
+    object cdsCorreioDESCR: TStringField
+      FieldName = 'DESCR'
+      Size = 150
+    end
+    object cdsCorreioFASE: TStringField
+      FieldName = 'FASE'
+      Size = 150
+    end
+    object cdsCorreioUSUARIO: TStringField
+      FieldName = 'USUARIO'
+      Size = 10
+    end
+    object cdsCorreioDTUSU: TDateField
+      FieldName = 'DTUSU'
+    end
+    object cdsCorreioHORAUSU: TStringField
+      FieldName = 'HORAUSU'
+      Size = 5
+    end
+    object cdsCorreioREGCAI: TFloatField
+      FieldName = 'REGCAI'
+    end
+    object cdsCorreioJADESC: TStringField
+      FieldName = 'JADESC'
+      Size = 1
+    end
+    object cdsCorreioRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
       Required = True
       Size = 50
     end
