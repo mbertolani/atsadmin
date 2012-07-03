@@ -1,6 +1,6 @@
 object fSangria: TfSangria
-  Left = 504
-  Top = 449
+  Left = 505
+  Top = 450
   Width = 492
   Height = 227
   BorderIcons = [biSystemMenu]

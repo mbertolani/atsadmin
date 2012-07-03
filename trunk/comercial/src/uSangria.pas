@@ -133,6 +133,7 @@ var
 begin
   Try
     FSangria := TFiscalCls.Create;
+    FSangria.VerificaCaixaAberto();
     edt1.Text := FSangria.v_NomeCaixa;
     JvDateEdit1.Text := DateToStr(FSangria.v_DataCaixa);
     edthist.Text := 'SANGRIA';
