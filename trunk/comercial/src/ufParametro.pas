@@ -281,6 +281,8 @@ type
     edtPorc: TEdit;
     lbl15: TLabel;
     rg1: TRadioGroup;
+    edtCaixinha: TEdit;
+    lbl16: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -353,6 +355,7 @@ type
     procedure edtTelaChange(Sender: TObject);
     procedure edtPorcChange(Sender: TObject);
     procedure rg1Click(Sender: TObject);
+    procedure edtCaixinhaChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2149,6 +2152,13 @@ begin
 
      if (s_parametro.Active) then
        s_parametro.Close;
+     s_parametro.Params[0].AsString := 'CONTACAIXINHA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+       edtCaixinha.Text := s_parametroD1.AsString;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
      s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
@@ -2363,6 +2373,7 @@ begin
      if (not s_parametro.Eof) then
      begin
         rgPgComissao.ItemIndex := 0;
+        edtPorc.Enabled := True;
         edtPorc.Text := s_parametroDADOS.AsString;
      end
      else
@@ -4052,7 +4063,7 @@ begin
        if (edtTela.Text <> s_parametroD1.AsString) then
        begin
           strSql := 'UPDATE PARAMETRO SET D1 = ';
-          strSql := strSql + QuotedStr(edtPerfil01.Text);
+          strSql := strSql + QuotedStr(edtTela.Text);
           strSql := strSql + ' where PARAMETRO = ' + QuotedStr('PERFILTELA');
           dm.sqlsisAdimin.StartTransaction(TD);
           dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -4111,7 +4122,7 @@ begin
      end
      else
      begin
-        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
         strSql := strSql + ') VALUES (';
         strSql := strSql + QuotedStr('Paga comissão atendente') + ', ';
         strSql := strSql + QuotedStr('PAGA_COMISSAO') + ', ';
@@ -4175,6 +4186,50 @@ begin
            dm.sqlsisAdimin.Commit(TD);
         except
            dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+end;
+
+procedure TfParametro.edtCaixinhaChange(Sender: TObject);
+begin
+  if (edtCaixinha.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'CONTACAIXINHA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+          strSql := 'UPDATE PARAMETRO SET D1 = ';
+          strSql := strSql + QuotedStr(edtCaixinha.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('CONTACAIXINHA');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Conta Caixinha') + ', ';
+        strSql := strSql + QuotedStr('CONTACAIXINHA') + ', ';
+        strSql := strSql + QuotedStr(edtCaixinha.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
            MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
                [mbOk], 0);
         end;

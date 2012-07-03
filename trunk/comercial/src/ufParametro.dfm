@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
-  Left = 219
-  Top = 144
+  Left = 211
+  Top = 126
   Width = 814
   Height = 576
   OldCreateOrder = True
@@ -3087,10 +3087,17 @@ inherited fParametro: TfParametro
           end
           object lbl14: TLabel
             Left = 10
-            Top = 201
+            Top = 248
             Width = 130
             Height = 13
             Caption = 'Perfil que usa tela completa'
+          end
+          object lbl16: TLabel
+            Left = 10
+            Top = 204
+            Width = 168
+            Height = 13
+            Caption = 'Conta Usada para Contole Caixinha'
           end
           object edt1: TEdit
             Left = 9
@@ -3132,7 +3139,7 @@ inherited fParametro: TfParametro
           object edtCXInterno: TEdit
             Left = 9
             Top = 124
-            Width = 167
+            Width = 231
             Height = 21
             BevelKind = bkFlat
             BorderStyle = bsNone
@@ -3142,7 +3149,7 @@ inherited fParametro: TfParametro
           object edtCXSangria: TEdit
             Left = 9
             Top = 172
-            Width = 167
+            Width = 231
             Height = 21
             BevelKind = bkFlat
             BorderStyle = bsNone
@@ -3151,13 +3158,23 @@ inherited fParametro: TfParametro
           end
           object edtTela: TEdit
             Left = 9
-            Top = 217
-            Width = 167
+            Top = 264
+            Width = 231
             Height = 21
             BevelKind = bkFlat
             BorderStyle = bsNone
             TabOrder = 6
             OnChange = edtTelaChange
+          end
+          object edtCaixinha: TEdit
+            Left = 9
+            Top = 220
+            Width = 231
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            TabOrder = 7
+            OnChange = edtCaixinhaChange
           end
         end
       end
