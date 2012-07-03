@@ -1,5 +1,5 @@
-set term ^;
-CREATE OR ALTER PROCEDURE SP_MOV_CAIXAC (
+SET TERM ^ ;
+ALTER PROCEDURE SP_MOV_CAIXAC (
     DTAINI Date,
     DTAFIM Date,
     COD_CAIXA Smallint,
@@ -181,6 +181,8 @@ BEGIN
     do begin
       VALOR = VALOR + VALORD;
       ORDEM = ORDEM + 1;
+      if (DESCRICAO = 'ABERTURA DE CAIXA') then
+        ORDEM = 0;      
       IF (VALORD > 0.001) THEN
         SUSPEND;
       DESCRICAO = null;
@@ -204,6 +206,8 @@ BEGIN
     do begin
       VALOR = VALOR + VALORD;
       ORDEM = ORDEM + 1;
+      if (DESCRICAO = 'ABERTURA DE CAIXA') then
+        ORDEM = 0;
       IF (VALORD > 0.001) THEN
         SUSPEND;
       DESCRICAO = null;
@@ -356,4 +360,10 @@ BEGIN
     end
   END
 
-END
+END^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE SP_MOV_CAIXAC TO  SYSDBA;
+
