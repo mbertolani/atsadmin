@@ -1,4 +1,4 @@
-unit U_Entrada;
+Ôªøunit U_Entrada;
 
 interface
 
@@ -9,7 +9,7 @@ uses
   SqlExpr, Buttons, JvExButtons, JvBitBtn, Grids, DBGrids, JvExDBGrids,
   JvDBGrid, Mask, DBCtrls, U_Terminal, DBLocal, DBLocalS, umovimento, uVendaCls,
   uCompraCls, uReceberCls,DateUtils, DBxPress, Menus, rpcompobase,
-  rpvclreport, uUtils, Printers;
+  rpvclreport, uUtils, Printers, JvExMask, JvSpin;
 
 type
   TF_Entrada = class(TForm)
@@ -176,6 +176,11 @@ type
     bvl1: TBevel;
     JvComissao: TJvValidateEdit;
     JvLabel12: TJvLabel;
+    JvLabel13: TJvLabel;
+    JvCaixinha: TJvValidateEdit;
+    JvLabel14: TJvLabel;
+    JvRateio: TJvSpinEdit;
+    bvl2: TBevel;
     procedure FormCreate(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -187,6 +192,7 @@ type
     procedure JvPagoEnter(Sender: TObject);
     procedure jvDinheiroExit(Sender: TObject);
     procedure jvDinheiroEnter(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -226,6 +232,7 @@ type
     procedure imprimeRecibo;
     procedure imprimeDLLBema;
     procedure troco;
+    procedure caixinha;
     { Private declarations }
   public
      var_codVenda : Integer;
@@ -278,7 +285,7 @@ var
 
 implementation
 
-uses UDm, UDM_MOV, UDMNF;
+uses UDm, UDM_MOV, UDMNF, uFiscalCls;
 
 {$R *.dfm}
 
@@ -304,7 +311,7 @@ begin
   dm.cds_7_contas.Params[0].AsString := dm.cds_parametroDADOS.AsString;
   dm.cds_7_contas.Open;
   }
-  // OpÁıes para caixa interno
+  // Op√ß√µes para caixa interno
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'INTERNO';
@@ -315,7 +322,7 @@ begin
     cbDinheiro.Text := s_contasNOME.asString;
     s_contas.Next;
   end;
-  // OpÁıes para Cart„o de credito
+  // Op√ß√µes para Cart√£o de credito
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'CREDITO';
@@ -326,7 +333,7 @@ begin
     s_contas.Next;
   end;
 
-  // OpÁıes para Cart„o de Debito
+  // Op√ß√µes para Cart√£o de Debito
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'DEBITO';
@@ -337,7 +344,7 @@ begin
     s_contas.Next;
   end;
 
-  // OpÁıes para Vale
+  // Op√ß√µes para Vale
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'VALE';
@@ -348,7 +355,7 @@ begin
     s_contas.Next;
   end;
 
-  // OpÁıes para Outros
+  // Op√ß√µes para Outros
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'OUTROS';
@@ -376,6 +383,7 @@ begin
      total_parcial := total_parcial + c_formatotal.Value;
 
   resto := total_parcial - (JvPedido.Value + JvComissao.Value);
+  //resto := resto + JvCaixinha.Value + JvTroco.Value);
 
   if (resto > 0.001) then
   begin
@@ -383,7 +391,7 @@ begin
      Exit;
   end;
 
-  totalTrocoD := JvTroco.Value;
+  totalTrocoD := JvTroco.Value - JvCaixinha.Value;
   pagoTotal   := 0;
 
   if (jvDinheiro.Value > 0) then
@@ -627,6 +635,40 @@ begin
     c_forma.ApplyUpdates(0);
   end;
 
+{  if (JvCaixinha.Value > 0) then
+  begin
+    pagoTotal := JvCaixinha.Value;
+    if (totalTrocoD < 0) then
+    begin
+      pagoTotal := (JvCaixinha.Value + totalTrocoD);
+      if ((totalTrocoD*(-1)) > JvCaixinha.Value) then
+        totalTrocoD := totalTrocoD - JvCaixinha.Value
+      else
+        totalTrocoD := 0;
+    end;
+
+    if (pagoTotal <= 0) then
+      pagoTotal := JvCaixinha.Value;
+
+    if (c_forma.Active) then
+      c_forma.close;
+    c_forma.Params[0].Clear;
+    c_forma.Open;
+    c_forma.Append;
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(gen_entrada, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    c_formaID_ENTRADA.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+    c_formaCOD_VENDA.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+    dm.c_6_genid.Close;
+    c_formaFORMA_PGTO.AsString := 'H';
+    c_formaVALOR_PAGO.Value := pagoTotal;
+    if (dm.cds_7_contas.Locate('NOME', cbOutros.Text, [loCaseInsensitive])) then
+      c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
+    c_forma.ApplyUpdates(0);
+  end;
+ }
   jvDinheiro.Value := 0;
   JvCheque.Value := 0;
   JvChequePre.Value := 0;
@@ -639,7 +681,7 @@ begin
   cbCartaoCDT1.Text := '';
   cbCartaoDBT1.Text := '';
   cbVale.Text := '';
-  cbOutros.Text := '';  
+  cbOutros.Text := '';
 
   if (c_forma.Active) then
       c_forma.close;
@@ -767,6 +809,8 @@ begin
       FVen.MultaJuros           := 0;
       FVen.Apagar               := c_formatotal.Value;
       FVen.Prazo                := '01-A Vista';
+      FVen.ValorCaixinha        := JvCaixinha.Value;
+      FVen.ValorRateio          := JvRateio.Value;
       //fven.inserirVenda(0);
       codigo_venda := fven.inserirVenda(0);
       if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
@@ -929,11 +973,14 @@ begin
       if (tipoImpressao = 'RECIBO') then
         imprimeRecibo;
   end;
+  // se informou caixinha gravo na MOVIMENTOCONT
+  if (JvCaixinha.Value > 0) then
+    caixinha;
 
   // Encerra Processos do terminal
   F_Terminal.var_FINALIZOU := 'SIM';
   Close;
-   DecimalSeparator := ',';
+  DecimalSeparator := ',';
 end;
 
 procedure TF_Entrada.FormKeyPress(Sender: TObject; var Key: Char);
@@ -960,8 +1007,7 @@ begin
       IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
      Texto2 := '------------------------------------------------------' ;
      Texto3 := 'Produto                                               ' ;
-     Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
-     Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
+     Texto4 := 'Codigo             UN      Qtde     V.Un.     V.Total ' ;
      cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
      if (s_parametro.Active) then
          s_parametro.close;
@@ -1007,7 +1053,7 @@ begin
      Writeln(Impressora, c17cpi, texto4);
   {-----------------------------------------------------------}
   {-------------------Imprimi itens do boleto-----------------}
-   try
+  try
      DM_MOV.c_movdet.First;
      while not DM_MOV.c_movdet.Eof do
      begin
@@ -1016,9 +1062,9 @@ begin
       Writeln(Impressora, c17cpi + Format('%-40s',[DM_MOV.c_movdetDESCPRODUTO.Value]));
       Write(Impressora, c17cpi, Format('%-13s  ',[DM_MOV.c_movdetCOD_BARRA.Value]));
       Write(Impressora, c17cpi + Format('   %-2s  ',[DM_MOV.c_movdetUN.Value]));
-      Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]));
+      Write(Impressora, c17cpi + Format('   %-5.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]));
       Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetPRECO.AsFloat]));
-      Writeln(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetValorTotal.value]));
+      Writeln(Impressora, c17cpi + Format('   %-8.2n',[DM_MOV.c_movdetValorTotal.value]));
 
       with Printer.Canvas do
       begin
@@ -1027,10 +1073,11 @@ begin
       end;
       DM_MOV.c_movdet.next;
      end;
+     Texto5 := 'Total.: R$';     
      total := DM_MOV.c_movdettotalpedido.Value;
      Writeln(Impressora, c17cpi, texto);
-     Write(Impressora, c17cpi, texto5);
-     Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+     Write(Impressora, c17cpi + Format('%40s',[texto5]));
+     Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
 
      // imprimir vencimentos
      while not scdsCr_proc.Eof do
@@ -1042,6 +1089,28 @@ begin
        Writeln(Impressora, c17cpi, texto5);
        scdsCr_proc.Next;
      end;
+
+     s_parametro.Close;
+     if (s_parametro.Active) then
+     s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+     s_parametro.Open;
+     if (not s_parametro.IsEmpty) then
+     begin
+       if (F_Terminal.JvComissao.Value > 0) then
+       begin
+         Texto5 := '% : R$ ';
+         Write(Impressora, c17cpi + Format('%40s',[texto5]));
+         porc    := (F_Terminal.JvComissao.Value / 100) * total;
+         Writeln(Impressora, c17cpi + Format('%10.2n',[porc]));
+         total   := total + porc;
+         Texto5 := 'Total + % : R$ ';
+         Write(Impressora, c17cpi + Format('%40s',[texto5]));
+         Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
+       end;
+     end;
+     s_parametro.Close;
+
      Writeln(IMPRESSORA);
      Write(Impressora, c10cpi, DM.Mensagem);
      Writeln(IMPRESSORA);
@@ -1163,7 +1232,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1171,7 +1240,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1179,7 +1248,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1187,7 +1256,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1195,7 +1264,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress„ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impress√£ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1223,7 +1292,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impress„ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impress√£ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
@@ -1235,7 +1304,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impress„ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impress√£ do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         DM_MOV.c_movdet.next;
@@ -1340,7 +1409,7 @@ var totalPTroco: Double;
 begin
   totalPTroco := jvDinheiro.Value + JvCheque.Value + JvChequePre.Value + JvCartaoDBT.Value +
     JvCartaoCDT.Value + JvVale.Value + JvOutros.Value;
-  JvTroco.Value := JvPago.Value - totalPTroco;
+  JvTroco.Value := JvPago.Value - totalPTroco + JvCaixinha.Value;
 end;
 
 procedure TF_Entrada.JvPagoExit(Sender: TObject);
@@ -1363,6 +1432,45 @@ end;
 procedure TF_Entrada.jvDinheiroEnter(Sender: TObject);
 begin
   Troco;
+end;
+
+procedure TF_Entrada.caixinha;
+var
+  FCaixinha : TFiscalCls;
+  v_caixinha : Double;
+  var_nomecaixa, var_cDebito, var_cCredito : string;
+  var_codCaixa, var_codCCustoCD, var_codCCustoCC : Integer;
+begin
+  v_caixinha := JvCaixinha.Value;
+  Try
+    FCaixinha := TFiscalCls.Create;
+    FCaixinha.VerificaCaixaAberto();
+    var_codCaixa  := FCaixinha.v_idcaixa;  // Codigo do caixa na tabela CAIXA_CONTROLE
+    var_nomecaixa := FCaixinha.v_NomeCaixa;
+
+    if (DM_MOV.s_parametro.Active) then
+       DM_MOV.s_parametro.Close;
+    DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXINHA';
+    DM_MOV.s_parametro.Open;
+    var_cCredito := DM_MOV.s_parametroD1.AsString;
+    var_codCCustoCC := FCaixinha.v_Cod_Caixa;
+
+    DM_MOV.s_parametro.Close;
+    DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
+    DM_MOV.s_parametro.Open;
+    var_cDebito := DM_MOV.s_parametroD1.AsString;
+    DM_MOV.s_parametro.Close;
+    var_codCCustoCD := FCaixinha.v_Cod_Caixa;
+    FCaixinha.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,v_caixinha,'CAIXINHA');
+  Finally
+    //Screen.Cursor := Save_Cursor;
+    FCaixinha.Free;
+  end;
+end;
+
+procedure TF_Entrada.FormShow(Sender: TObject);
+begin
+   JvPago.Value := JvPedido.Value + JvComissao.Value;
 end;
 
 end.
