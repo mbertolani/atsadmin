@@ -1,6 +1,6 @@
 inherited fPlanoContas: TfPlanoContas
   Left = 8
-  Top = 19
+  Top = 20
   Width = 808
   Height = 559
   OldCreateOrder = True
@@ -713,7 +713,8 @@ inherited fPlanoContas: TfPlanoContas
       'DEBITO'
       'CREDITO'
       'VALE'
-      'OUTROS')
+      'OUTROS'
+      'CAIXINHA')
     ParentFont = False
     TabOrder = 22
   end
