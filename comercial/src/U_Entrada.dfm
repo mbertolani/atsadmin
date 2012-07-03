@@ -2,7 +2,7 @@ object F_Entrada: TF_Entrada
   Left = 357
   Top = 109
   Width = 638
-  Height = 618
+  Height = 662
   BorderIcons = [biSystemMenu]
   Caption = 'Formas de Pgto / Entrada R$'
   Color = clBtnFace
@@ -23,7 +23,7 @@ object F_Entrada: TF_Entrada
     Left = 0
     Top = 48
     Width = 622
-    Height = 532
+    Height = 576
     Align = alClient
     PopupMenu = pm1
     TabOrder = 0
@@ -285,11 +285,33 @@ object F_Entrada: TF_Entrada
     end
     object bvl2: TBevel
       Left = 2
-      Top = 358
+      Top = 359
       Width = 619
-      Height = 17
+      Height = 8
       Shape = bsTopLine
       Style = bsRaised
+    end
+    object JvLabel15: TJvLabel
+      Left = 14
+      Top = 418
+      Width = 103
+      Height = 23
+      Caption = 'Desconto :'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindow
+      Font.Height = -19
+      Font.Name = 'Cooper Black'
+      Font.Style = []
+      ParentFont = False
+      ShadowColor = clBlack
+      ShadowSize = 2
+      Transparent = True
+      HintColor = clBlack
+      HotTrackFont.Charset = ANSI_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -19
+      HotTrackFont.Name = 'Cooper Black'
+      HotTrackFont.Style = []
     end
     object JvVale: TJvValidateEdit
       Left = 202
@@ -557,7 +579,7 @@ object F_Entrada: TF_Entrada
     end
     object JvDBGrid1: TJvDBGrid
       Left = 1
-      Top = 407
+      Top = 451
       Width = 620
       Height = 124
       Align = alBottom
@@ -709,6 +731,40 @@ object F_Entrada: TF_Entrada
       ParentFont = False
       TabOrder = 16
       BevelKind = bkFlat
+    end
+    object JvValidateEdit1: TJvValidateEdit
+      Left = 471
+      Top = 408
+      Width = 143
+      Height = 40
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -29
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      PopupMenu = pm1
+      TabOrder = 19
+      OnEnter = jvDinheiroEnter
+      OnExit = jvDinheiroExit
+      OnKeyPress = FormKeyPress
+    end
+    object rg1: TRadioGroup
+      Left = 202
+      Top = 407
+      Width = 144
+      Height = 42
+      Columns = 2
+      Items.Strings = (
+        '%'
+        'Valor R$')
+      TabOrder = 20
     end
   end
   object MMJPanel1: TMMJPanel
@@ -1530,7 +1586,7 @@ object F_Entrada: TF_Entrada
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 128
-    Top = 457
+    Top = 531
     object s_formaCOD_VENDA: TIntegerField
       FieldName = 'COD_VENDA'
       ProviderFlags = [pfInUpdate]
@@ -1574,7 +1630,7 @@ object F_Entrada: TF_Entrada
     DataSet = s_forma
     UpdateMode = upWhereKeyOnly
     Left = 160
-    Top = 457
+    Top = 531
   end
   object c_forma: TClientDataSet
     Aggregates = <>
@@ -1587,7 +1643,7 @@ object F_Entrada: TF_Entrada
       end>
     ProviderName = 'p_forma'
     Left = 193
-    Top = 456
+    Top = 530
     object c_formaCOD_VENDA: TIntegerField
       FieldName = 'COD_VENDA'
       ProviderFlags = [pfInUpdate]
@@ -1638,7 +1694,7 @@ object F_Entrada: TF_Entrada
   object DataSource1: TDataSource
     DataSet = c_forma
     Left = 227
-    Top = 457
+    Top = 531
   end
   object scds_serie_proc: TSQLClientDataSet
     CommandText = 
@@ -1655,7 +1711,7 @@ object F_Entrada: TF_Entrada
       end>
     DBConnection = DM.sqlsisAdimin
     Left = 129
-    Top = 489
+    Top = 563
     object scds_serie_procCODSERIE: TStringField
       FieldName = 'CODSERIE'
       FixedChar = True
@@ -1675,7 +1731,7 @@ object F_Entrada: TF_Entrada
   end
   object pm1: TPopupMenu
     Left = 224
-    Top = 496
+    Top = 570
     object F4Gravar1: TMenuItem
       Caption = 'Gravar'
       ShortCut = 115
@@ -1702,7 +1758,7 @@ object F_Entrada: TF_Entrada
     AsyncExecution = False
     Title = 'Untitled'
     Left = 392
-    Top = 464
+    Top = 538
   end
   object s_parametro: TSQLDataSet
     CommandText = 'select * from PARAMETRO '#13#10'where PARAMETRO = :pr'
@@ -1715,7 +1771,7 @@ object F_Entrada: TF_Entrada
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 324
-    Top = 466
+    Top = 540
     object s_parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
@@ -1780,7 +1836,7 @@ object F_Entrada: TF_Entrada
   end
   object dlgSave1: TSaveDialog
     Left = 360
-    Top = 465
+    Top = 539
   end
   object scdsCr_proc: TClientDataSet
     Aggregates = <>
@@ -1793,7 +1849,7 @@ object F_Entrada: TF_Entrada
       end>
     ProviderName = 'DataSetProvider1'
     Left = 72
-    Top = 488
+    Top = 562
     object scdsCr_procTITULO: TStringField
       FieldName = 'TITULO'
       ProviderFlags = [pfInUpdate]
@@ -1930,7 +1986,7 @@ object F_Entrada: TF_Entrada
     DataSet = SQLDataSet1
     UpdateMode = upWhereKeyOnly
     Left = 40
-    Top = 488
+    Top = 562
   end
   object SQLDataSet1: TSQLDataSet
     CommandText = 
@@ -1957,7 +2013,7 @@ object F_Entrada: TF_Entrada
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 8
-    Top = 488
+    Top = 562
     object SQLDataSet1TITULO: TStringField
       FieldName = 'TITULO'
       ProviderFlags = [pfInUpdate]
@@ -2080,7 +2136,7 @@ object F_Entrada: TF_Entrada
       end>
     ProviderName = 'dspCaixa1'
     Left = 69
-    Top = 457
+    Top = 531
     object sCaixa1IDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       Required = True
@@ -2123,7 +2179,7 @@ object F_Entrada: TF_Entrada
   object dspCaixa1: TDataSetProvider
     DataSet = sdsCaixa1
     Left = 39
-    Top = 457
+    Top = 531
   end
   object sdsCaixa1: TSQLDataSet
     CommandText = 
@@ -2143,7 +2199,7 @@ object F_Entrada: TF_Entrada
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 9
-    Top = 457
+    Top = 531
     object sdsCaixa1IDCAIXACONTROLE: TIntegerField
       FieldName = 'IDCAIXACONTROLE'
       Required = True
@@ -2194,7 +2250,7 @@ object F_Entrada: TF_Entrada
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 168
-    Top = 488
+    Top = 562
     object s_contasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True

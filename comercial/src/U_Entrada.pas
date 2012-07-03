@@ -1,4 +1,4 @@
-﻿unit U_Entrada;
+unit U_Entrada;
 
 interface
 
@@ -181,6 +181,9 @@ type
     JvLabel14: TJvLabel;
     JvRateio: TJvSpinEdit;
     bvl2: TBevel;
+    JvValidateEdit1: TJvValidateEdit;
+    rg1: TRadioGroup;
+    JvLabel15: TJvLabel;
     procedure FormCreate(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -1110,6 +1113,7 @@ begin
        end;
      end;
      s_parametro.Close;
+
 
      Writeln(IMPRESSORA);
      Write(Impressora, c10cpi, DM.Mensagem);
