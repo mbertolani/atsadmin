@@ -66,6 +66,10 @@ type
     procedure setValorPagar(const Value: Double);
     function getPrazo: String;
     procedure setPrazo(const Value: String);
+    function getValorCaixinha: Double;
+    function getValorRateio: Double;
+    procedure setValorCaixinha(const Value: Double);
+    procedure setValorRateio(const Value: Double);
   protected
     //Atributos
     _codVenda     : Integer;
@@ -97,6 +101,8 @@ type
     _formaRec     : String;
     _nDoc         : String;
     _obs          : String;
+    _ValorCaixinha  : Double;
+    _ValorRateio  : Double;
 
     function executaSql(strSql: String): Boolean;
   public
@@ -132,6 +138,8 @@ type
     property FormaRec    : String read getFormaRec  write setFormaRec;
     property NDoc        : String read getNDoc  write setNDoc;
     property Obs         : String read getObs  write setObs;
+    property ValorCaixinha  : Double read getValorCaixinha write setValorCaixinha;
+    property ValorRateio  : Double read getValorRateio write setValorRateio;
 
     //Metodos
     function inserirVenda(CodVendaI: Integer): Integer;
@@ -367,9 +375,19 @@ begin
   Result := _valor;
 end;
 
+function TVendaCls.getValorCaixinha: Double;
+begin
+  Result := _ValorCaixinha;
+end;
+
 function TVendaCls.getValorPagar: Double;
 begin
   Result := _valorPagar;
+end;
+
+function TVendaCls.getValorRateio: Double;
+begin
+  Result := _ValorRateio;
 end;
 
 function TVendaCls.inserirVenda(CodVendaI: Integer): Integer;
@@ -392,7 +410,7 @@ begin
   str := str + 'NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA, FORMARECEBIMENTO, ';
   str := str + 'N_DOCUMENTO, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, ';
   str := str + 'OBS, VALOR_ICMS, VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, ';
-  str := str + 'VALOR_IPI, PRAZO, PORCENTAGENDESC) VALUES (';
+  str := str + 'VALOR_IPI, PRAZO, PORCENTAGENDESC, CAIXINHA, RATEIO) VALUES (';
   str := str + IntToStr(Self.CodVenda)    + ', ' + IntToStr(Self.CodMov)       + ', ';
   str := str + IntToStr(Self.CodCliente)  + ', ';
   str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVenda))          + ', ';
@@ -412,7 +430,9 @@ begin
   str := str + QuotedStr(Self.Obs)        + ', ' + FloatToStr(Self.Icms)       + ', ';
   str := str + FloatToStr(Self.Frete)     + ', ' + FloatToStr(Self.Seguro)     + ', ';
   str := str + FloatToStr(Self.OutrosVlr) + ', ' + FloatToStr(Self.Ipi)        + ', ';
-  str := str + QuotedStr(Self.Prazo)      + ', ' + FloatToStr(Self.PercentDesc)+ ')';
+  str := str + QuotedStr(Self.Prazo)      + ', ' + FloatToStr(Self.PercentDesc)+ ',';
+  str := str + FloatToStr(Self.ValorCaixinha)     + ', ';
+  str := str + FloatToStr(Self.ValorRateio)     + ')';
 
   DecimalSeparator := '.';
 
@@ -562,9 +582,19 @@ begin
   _valor := Value;
 end;
 
+procedure TVendaCls.setValorCaixinha(const Value: Double);
+begin
+  _ValorCaixinha := Value;
+end;
+
 procedure TVendaCls.setValorPagar(const Value: Double);
 begin
   _valorPagar := Value;
+end;
+
+procedure TVendaCls.setValorRateio(const Value: Double);
+begin
+  _ValorRateio := Value;
 end;
 
 function TVendaCls.verVenda(Controle, Campo, Tipo: String;
