@@ -100,7 +100,7 @@ begin
     m_det.Pagou := 'N';
 
   utilcrtitulo := Tutils.Create;
-  m_det.FormaRecebimento := utilcrtitulo.pegaForma(ComboBox1.Text)
+  m_det.FormaRecebimento := utilcrtitulo.pegaForma(cbbForma.Text);
 
   //FUNCIONARIO
   if(scds_Atentente.Active) then

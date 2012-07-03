@@ -1,6 +1,6 @@
 object fIncluirProdutos: TfIncluirProdutos
-  Left = 299
-  Top = 145
+  Left = 300
+  Top = 146
   Width = 794
   Height = 575
   Color = clBtnFace
