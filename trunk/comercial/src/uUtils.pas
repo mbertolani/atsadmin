@@ -263,6 +263,12 @@ begin
   forma.Add('15-CHEQUE DE TERCEIROS');
   forma.Add('16-VALE');
   forma.Add('17-OUTROS');
+  forma.Add('18-VISA CRÉDITO');
+  forma.Add('19-VISA DÉBITO');
+  forma.Add('20-MASTER CRÉDITO');
+  forma.Add('21-MASTER DÉBITO');
+  forma.Add('22-DINNER');
+
   result := forma;
 end;
 
@@ -345,6 +351,20 @@ begin
   if (forma = '17-OUTROS') then
      result := 'H';
 
+  if (forma = '18-VISA CRÉDITO') then
+    result := 'I';
+
+  if (forma = '19-VISA DÉBITO') then
+    result := 'J';
+
+  if (forma = '20-MASTER CRÉDITO') then
+    result := 'K';
+
+  if (forma = '21-MASTER DÉBITO') then
+    result := 'L';
+
+  if (forma = '22-DINNER') then
+    result := 'M';
 end;
 
 function TUtils.retornaForma(forma: String): Integer;
@@ -399,7 +419,22 @@ begin
 
   if (forma = 'H') then
      result := 16;
-     
+
+  if (forma = 'I') then
+     result := 17;
+
+  if (forma = 'J') then
+     result := 18;
+
+  if (forma = 'K') then
+     result := 19;
+
+  if (forma = 'L') then
+     result := 20;
+
+  if (forma = 'M') then
+     result := 21;
+
 end;
 
 procedure TUtils.CriaForm(FormClasse: TComponentClass; NomeForm: TForm);
