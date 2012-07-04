@@ -118,83 +118,82 @@ begin
   if (ComboBox1.Text <> 'TODOS') then
   begin
     dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
-   // sqlTexto := sqlTexto + ', ' + IntToStr(dm.cds_ccustoCODIGO.asInteger);
    cCusto := dm.cds_ccustoCODIGO.asInteger;
   end;
-  {else
-    // todas os tipos
-    sqlTexto := sqlTexto + ', 1';
-   }
+  if CCusto <> 0 then
+  begin
+    TDA.TransactionID  := 1;
+    TDA.IsolationLevel := xilREADCOMMITTED;
 
-  TDA.TransactionID  := 1;
-  TDA.IsolationLevel := xilREADCOMMITTED;
-
-  Save_Cursor   := Screen.Cursor;
-  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
-
-  Try
-    FMov := TMovimento.Create;
-    FCom := TCompraCls.Create;
+    Save_Cursor   := Screen.Cursor;
+    Screen.Cursor := crHourGlass;    { Show hourglass cursor }
 
     Try
-      dm.sqlsisAdimin.StartTransaction(TDA);
+      FMov := TMovimento.Create;
+      FCom := TCompraCls.Create;
 
-      FMov.CodMov      := 0;
-      FMov.CodCCusto   := dm.cds_ccustoCODIGO.asInteger;
-      FMov.CodCliente  := 0;
-      FMov.CodFornec   := 0;
-      FMov.CodNatureza := 1;
-      FMov.Status      := 0;
-      FMov.CodUsuario  := 1;
-      FMov.CodVendedor := 1;
-      FMov.DataMov     := mesano;
-      FMov.Obs         := 'AJUSTE VALOR DE ' + lblPrecoCusto.Caption + ' PARA ' +
-        FloaTToStr(edValor.Value);
-      codMovEntrada := FMov.inserirMovimento(0);
-      FMov.MovDetalhe.CodMov        := codMovEntrada;
-      FMov.MovDetalhe.CodProduto    := codProd;
-      FMov.MovDetalhe.Qtde          := 0;
-      FMov.MovDetalhe.Preco         := edValor.Value;
-      FMov.MovDetalhe.Baixa         := '0';
-      FMov.MovDetalhe.inserirMovDet;
-      fCom.CodMov               := codMovEntrada;
-      fCom.DataCompra           := mesano;
-      fCom.DataVcto             := mesano;
-      fCom.Serie                := 'I';
-      fCom.NotaFiscal           := codMovEntrada;
-      fCom.CodFornecedor        := 1;
-      fCom.CodComprador         := 1;
-      fCom.CodCCusto            := dm.cds_ccustoCODIGO.asInteger;
-      fCom.ValorPagar           := 0;
-      fCom.NParcela             := 1;
-      fCom.inserirCompra(0);
+      Try
+        dm.sqlsisAdimin.StartTransaction(TDA);
 
-      //dmnf.baixaEstoque(codMovEntrada, dta.Date, 'ENTRADA');
+        FMov.CodMov      := 0;
+        FMov.CodCCusto   := cCusto;
+        FMov.CodCliente  := 0;
+        FMov.CodFornec   := 0;
+        FMov.CodNatureza := 1;
+        FMov.Status      := 0;
+        FMov.CodUsuario  := 1;
+        FMov.CodVendedor := 1;
+        FMov.DataMov     := mesano;
+        FMov.Obs         := 'AJUSTE VALOR DE ' + lblPrecoCusto.Caption + ' PARA ' +
+          FloaTToStr(edValor.Value);
+        codMovEntrada := FMov.inserirMovimento(0);
+        FMov.MovDetalhe.CodMov        := codMovEntrada;
+        FMov.MovDetalhe.CodProduto    := codProd;
+        FMov.MovDetalhe.Qtde          := 0;
+        FMov.MovDetalhe.Preco         := edValor.Value;
+        FMov.MovDetalhe.Baixa         := '0';
+        FMov.MovDetalhe.inserirMovDet;
+        fCom.CodMov               := codMovEntrada;
+        fCom.DataCompra           := mesano;
+        fCom.DataVcto             := mesano;
+        fCom.Serie                := 'I';
+        fCom.NotaFiscal           := codMovEntrada;
+        fCom.CodFornecedor        := 1;
+        fCom.CodComprador         := 1;
+        fCom.CodCCusto            := cCusto;
+        fCom.ValorPagar           := 0;
+        fCom.NParcela             := 1;
+        fCom.inserirCompra(0);
 
-      DecimalSeparator := '.';
-      dm.sqlsisAdimin.ExecuteDirect('UPDATE ESTOQUEMES SET PRECOCUSTO = ' +
-        FloatToStr(edValor.Value) +
-        ' ,PRECOCOMPRA = ' + FloatToStr(edValor.Value) +
-        ' Where CODPRODUTO   = ' + IntToStr(codProd) +
-        '   and MESANO       = ' + QuotedStr(formatdatetime('mm/dd/yyyy', mesano)) +
-        '   and CENTROCUSTO = ' + IntToSTR(CCusto));
-      DecimalSeparator := ',';
+        //dmnf.baixaEstoque(codMovEntrada, dta.Date, 'ENTRADA');
 
-      dm.sqlsisAdimin.Commit(TDA);
-      MessageDlg('Produto ajustado com sucesso.', mtInformation,
-           [mbOk], 0);
-    except
-      on E : Exception do
-      begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+        DecimalSeparator := '.';
+        dm.sqlsisAdimin.ExecuteDirect('UPDATE ESTOQUEMES SET PRECOCUSTO = ' +
+          FloatToStr(edValor.Value) +
+          ' ,PRECOCOMPRA = ' + FloatToStr(edValor.Value) +
+          ' Where CODPRODUTO   = ' + IntToStr(codProd) +
+          '   and MESANO       = ' + QuotedStr(formatdatetime('mm/dd/yyyy', mesano)) +
+          '   and CENTROCUSTO = ' + IntToSTR(cCusto));
+        DecimalSeparator := ',';
+
+        dm.sqlsisAdimin.Commit(TDA);
+        MessageDlg('Produto ajustado com sucesso.', mtInformation,
+             [mbOk], 0);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+        end;
       end;
+    Finally
+      Screen.Cursor := Save_Cursor;  { Always restore to normal }
+      FCom.Free;
+      FMov.Free;
     end;
-  Finally
-    Screen.Cursor := Save_Cursor;  { Always restore to normal }
-    FCom.Free;
-    FMov.Free;
-  end;
+  end
+  else
+    MessageDlg('Selecione um Centro de Custo.', mtWarning, [mbOK], 0);
 
 end;
 
