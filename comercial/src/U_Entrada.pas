@@ -181,7 +181,7 @@ type
     JvLabel14: TJvLabel;
     JvRateio: TJvSpinEdit;
     bvl2: TBevel;
-    JvValidateEdit1: TJvValidateEdit;
+    edDesconto: TJvValidateEdit;
     rg1: TRadioGroup;
     JvLabel15: TJvLabel;
     procedure FormCreate(Sender: TObject);
@@ -196,17 +196,19 @@ type
     procedure jvDinheiroExit(Sender: TObject);
     procedure jvDinheiroEnter(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure edDescontoEnter(Sender: TObject);
+    procedure edDescontoExit(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
     prazo, codrec : Double;
-    vrr, nparc : double;
+    vrr, nparc, vlrDesc : double;
     Cod_orig, cod_cli_forn, codigo_cliente, COD_VENDA : Integer;
     excluiuNF : Boolean;
     IMPRESSORA : TextFile;
     Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descri? do produto,nome
     tipoImpressao, usaDll : string;
-    total, porc, totgeral , desconto : double;
+    total, porc, totgeral , desconto, totalPedidoC : double;
 
     codRecCR, caixaCR : Integer;
     formaRec : string;
@@ -385,7 +387,7 @@ begin
   else
      total_parcial := total_parcial + c_formatotal.Value;
 
-  resto := total_parcial - (JvPedido.Value + JvComissao.Value);
+  resto := total_parcial - (JvPedido.Value + JvComissao.Value + JvCaixinha.Value);
   //resto := resto + JvCaixinha.Value + JvTroco.Value);
 
   if (resto > 0.001) then
@@ -732,10 +734,8 @@ procedure TF_Entrada.JvFinalizarClick(Sender: TObject);
 var
   sql_sp, movSaida, movEntrada: string;
   TDA: TTransactionDesc;
-  FMov : TMovimento;
   FVen : TVendaCls;
   FRec : TReceberCls;
-  FCom : TCompraCls;
   codMovSaida, codMovEntrada, nota_fiscal, codigo_venda, codRecCR, codigo_cliente, codigo_almox : Integer;
   Save_Cursor:TCursor;
   serie_padrao, texto : string;
@@ -744,13 +744,14 @@ var
 begin
   if (not c_forma.Active) then
   begin
-     ShowMessage('Para finalizar a Opera? ?ecessario antes informar '+#13+#10+'              o valor e a forma de pagamento');
+     ShowMessage('Para finalizar a Operacao e necessario antes informar '+#13+#10 +
+     'o valor e a forma de pagamento');
      Exit;
   end;
 
-  resto := c_formatotal.Value - (JvPedido.Value + JvComissao.Value);
+  resto := c_formatotal.Value - (JvPedido.Value + JvComissao.Value - vlrDesc);
 
-  if (resto > 0.001) then
+  if (resto < (-0.001)) then
   begin
      ShowMessage('Valor Pago diferente do valor do Pedido');
      Exit;
@@ -800,17 +801,17 @@ begin
       fven.CodCliente           := codigo_cliente;
       fven.CodCCusto            := codigo_almox;
       fven.CodVendedor          := 1;
-      fven.ValorPagar           := c_formatotal.Value;
-      FVen.Entrada              := c_formatotal.Value;
-      FVen.Valor                := c_formatotal.Value;
+      fven.ValorPagar           := c_formatotal.Value + vlrDesc;
+      FVen.Entrada              := c_formatotal.Value + vlrDesc;
+      FVen.Valor                := c_formatotal.Value + vlrDesc;
       fven.NParcela             := 1;
       FVen.Caixa                := c_formaCAIXA.AsInteger;
       FVen.FormaRec             := c_formaFORMA_PGTO.AsString;
       FVen.CodUsuario           := usulog;
-      FVen.Desconto             := 0;
+      FVen.Desconto             := vlrDesc;
       FVen.NDoc                 := c_formaN_DOC.AsString;
       FVen.MultaJuros           := 0;
-      FVen.Apagar               := c_formatotal.Value;
+      FVen.Apagar               := c_formatotal.Value + vlrDesc;
       FVen.Prazo                := '01-A Vista';
       FVen.ValorCaixinha        := JvCaixinha.Value;
       FVen.ValorRateio          := JvRateio.Value;
@@ -856,6 +857,7 @@ begin
   // baixa titulo
   try
      baixou := 0;
+     FRec := TReceberCls.Create;
      while not c_forma.Eof do
      begin
        // Marco o T?lo
@@ -873,12 +875,10 @@ begin
         MessageDlg('Erro no sistema, Marcar Titulo Falhou.', mtError,
            [mbOk], 0);
        end;
-
-       FRec := TReceberCls.Create;
        baixou := FRec.baixaTitulo(c_formaVALOR_PAGO.Value, //Valor
                                   0, //Funrural
                                   0, // Juros
-                                  0, // Desconto
+                                  vlrDesc, // Desconto
                                   0, // Perda
                                   Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
                                   Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
@@ -902,7 +902,6 @@ begin
       end;
       codRecCR := 0;
       c_forma.Next;
-
     end;
   finally
      Frec.Free;
@@ -1411,9 +1410,11 @@ end;
 procedure TF_Entrada.troco;
 var totalPTroco: Double;
 begin
+  JvTroco.Value := 0;
   totalPTroco := jvDinheiro.Value + JvCheque.Value + JvChequePre.Value + JvCartaoDBT.Value +
     JvCartaoCDT.Value + JvVale.Value + JvOutros.Value;
-  JvTroco.Value := JvPago.Value - totalPTroco + JvCaixinha.Value;
+  if (((JvPago.Value) - totalPTroco + JvCaixinha.Value) < 0.009) then
+    JvTroco.Value := JvPago.Value - totalPTroco + JvCaixinha.Value;
 end;
 
 procedure TF_Entrada.JvPagoExit(Sender: TObject);
@@ -1474,7 +1475,38 @@ end;
 
 procedure TF_Entrada.FormShow(Sender: TObject);
 begin
-   JvPago.Value := JvPedido.Value + JvComissao.Value;
+  if (c_forma.Active) then
+      c_forma.close;
+   c_forma.Params[0].Clear;
+  c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+  c_forma.Open;
+
+  totalPedidoC := 0;
+  if (not c_forma.IsEmpty) then
+    totalPedidoC := c_formatotal.Value;
+
+  JvPago.Value := JvPedido.Value + JvComissao.Value - totalPedidoC;
+  vlrDesc := 0;
+end;
+
+procedure TF_Entrada.edDescontoEnter(Sender: TObject);
+begin
+  if (rg1.ItemIndex = 0) then
+    vlrDesc := (edDesconto.Value / 100) * (JvPedido.Value + JvComissao.Value)
+  else
+    vlrDesc := edDesconto.Value;
+  JvPago.Value := JvPedido.Value + JvComissao.Value - vlrDesc  - totalPedidoC;
+  Troco;
+end;
+
+procedure TF_Entrada.edDescontoExit(Sender: TObject);
+begin
+  if (rg1.ItemIndex = 0) then
+    vlrDesc := (edDesconto.Value / 100) * (JvPedido.Value + JvComissao.Value)
+  else
+    vlrDesc := edDesconto.Value;
+  JvPago.Value := JvPedido.Value + JvComissao.Value - vlrDesc - totalPedidoC;
+  troco;
 end;
 
 end.
