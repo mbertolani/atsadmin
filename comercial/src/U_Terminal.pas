@@ -1,4 +1,4 @@
-﻿unit U_Terminal;
+unit U_Terminal;
 
 interface
 
@@ -2875,7 +2875,7 @@ begin
     if (DM_MOV.s_BuscaComanda.IsEmpty) then
     begin
        DM_MOV.s_BuscaComanda.Close;
-       ShowMessage('Comanda não Localizada');
+       ShowMessage('Comanda n�o Localizada');
        Exit;
     end;
     codcliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
@@ -3229,7 +3229,7 @@ begin
   numeroComp := JvTransparentButton1.ComponentIndex;
   cor := clLime;
 
-  for numeroComp := 36 to 88 do
+  for numeroComp := 51 to 88 do
   begin
     if (TJvTransparentButton(Components[numeroComp]).Caption = nome_botao) then
        TJvTransparentButton(Components[numeroComp]).color := cor;
@@ -3275,7 +3275,7 @@ begin
    begin
        nomedocliente := DM_MOV.c_comandaNOMECLIENTE.AsString;
 
-       for numeroComp := 36 to 88 do
+       for numeroComp := 51 to 103 do
        begin
          if (TJvTransparentButton(Components[numeroComp]).Caption = nomedocliente) then
             TJvTransparentButton(Components[numeroComp]).color := cor;

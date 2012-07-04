@@ -1103,16 +1103,27 @@ begin
        begin
          Texto5 := '% : R$ ';
          Write(Impressora, c17cpi + Format('%40s',[texto5]));
-         porc    := (F_Terminal.JvComissao.Value / 100) * total;
+         porc    := JvComissao.Value;
          Writeln(Impressora, c17cpi + Format('%10.2n',[porc]));
          total   := total + porc;
-         Texto5 := 'Total + % : R$ ';
+         Texto5 := 'Total + perc.: R$ ';
          Write(Impressora, c17cpi + Format('%40s',[texto5]));
          Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
        end;
      end;
      s_parametro.Close;
 
+     if (edDesconto.Value > 0) then
+     begin
+         Texto5 := 'Desconto : R$ ';
+         Write(Impressora, c17cpi + Format('%40s',[texto5]));
+         Writeln(Impressora, c17cpi + Format('%10.2n',[vlrDesc]));
+         porc    := (F_Terminal.JvComissao.Value / 100) * total;
+         total   := total - vlrDesc;
+         Texto5 := 'Total : R$ ';
+         Write(Impressora, c17cpi + Format('%40s',[texto5]));
+         Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
+     end;
 
      Writeln(IMPRESSORA);
      Write(Impressora, c10cpi, DM.Mensagem);
