@@ -438,6 +438,7 @@ begin
         Self.NParcela      := sqlBuscaR.FieldByName('N_PARCELA').AsInteger;
         Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat;
         Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
+        Self.Desconto      := sqlBuscaR.FieldByName('DESCONTO').AsFloat;
         Self.DtEmissao     := sqlBuscaR.FieldByName('DATAVENDA').AsDateTime;
         Self.DtVcto        := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
         Self.Prazo         := sqlBuscaR.FieldByName('PRAZO').AsString;
