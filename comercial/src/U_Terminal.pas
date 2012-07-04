@@ -5430,6 +5430,8 @@ begin
 end;
 
 procedure TF_Terminal.AbrirCaixa1Click(Sender: TObject);
+var
+  Caixa : TFiscalCls;
 begin
   fAbrirCaixa := TfAbrirCaixa.create(Application);
   try
@@ -5443,6 +5445,15 @@ begin
     end;
   finally
     fAbrirCaixa.Free;
+    try
+      Caixa := TFiscalCls.Create;
+      // Pego o Caixa Aberto
+      var_Retorno := Caixa.VerificaCaixaAberto();
+    finally
+      Caixa.Free;
+    end;
+    if var_Retorno = True then
+      PageControl1.Enabled := True;
   end;
 end;
 
@@ -5508,12 +5519,23 @@ begin
 end;
 
 procedure TF_Terminal.Fechamentodecaixa1Click(Sender: TObject);
+var
+  Caixa : TFiscalCls;
 begin
   fMovCaixa := TfMovCaixa.Create(Application);
   try
     fMovCaixa.ShowModal;
   finally
     fMovCaixa.Free;
+    try
+      Caixa := TFiscalCls.Create;
+      // Pego o Caixa Aberto
+      var_Retorno := Caixa.VerificaCaixaAberto();
+    finally
+      Caixa.Free;
+    end;
+    if var_Retorno = False then
+      PageControl1.Enabled := False;
   end;
 end;
 
