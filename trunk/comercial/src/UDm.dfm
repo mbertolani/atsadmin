@@ -2,7 +2,7 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 4
-  Top = 104
+  Top = 111
   Height = 561
   Width = 1279
   object sqlsisAdimin: TSQLConnection
@@ -5926,6 +5926,7 @@ object DM: TDM
     end
     object cds_empresaCONTADOR_CEP: TStringField
       FieldName = 'CONTADOR_CEP'
+      EditMask = '00000\-999;1;_'
       FixedChar = True
       Size = 10
     end
@@ -5948,10 +5949,12 @@ object DM: TDM
     end
     object cds_empresaCONTADOR_FONE: TStringField
       FieldName = 'CONTADOR_FONE'
+      EditMask = '!\(999\)0000-0000;1;_'
       Size = 14
     end
     object cds_empresaCONTADOR_FAX: TStringField
       FieldName = 'CONTADOR_FAX'
+      EditMask = '!\(999\)0000-0000;1;_'
       Size = 14
     end
     object cds_empresaCONTADOR_EMAIL: TStringField
