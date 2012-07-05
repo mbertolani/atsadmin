@@ -354,6 +354,15 @@ begin
    else
      varCondicao := 'where ende.DDD = ' + '''' + fClienteFiltro.edtDDD.Text + '''';
 //********************************************************************************************
+ if (fClienteFiltro.cbbRegiao.Text <> '') then
+ begin
+   fClienteFiltro.cdsRegiao.Locate('DESCRICAO', fClienteFiltro.cbbRegiao.Text, [loCaseInsensitive]);
+   if varCondicao <> '' then
+     varCondicao := varCondicao + ' and cli.REGIAO = ' + IntToStr(fClienteFiltro.cdsRegiaoCODDADOS.asInteger)
+   else
+     varCondicao := 'where cli.REGIAO = ' + IntToStr(fClienteFiltro.cdsRegiaoCODDADOS.asInteger);
+  end;
+//********************************************************************************************
  varCondicao := varSql + varCondicao;
 
   if cds.Active then

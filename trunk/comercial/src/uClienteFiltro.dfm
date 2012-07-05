@@ -1,7 +1,7 @@
 object fClienteFiltro: TfClienteFiltro
   Left = 196
   Top = 93
-  Width = 580
+  Width = 599
   Height = 412
   Caption = 'Filtro Cliente'
   Color = clBtnFace
@@ -12,12 +12,14 @@ object fClienteFiltro: TfClienteFiltro
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBox2: TGroupBox
     Left = 0
     Top = 144
-    Width = 564
+    Width = 583
     Height = 55
     Align = alTop
     Caption = 'VENDEDOR'
@@ -74,7 +76,7 @@ object fClienteFiltro: TfClienteFiltro
   object Panel1: TPanel
     Left = 0
     Top = 310
-    Width = 564
+    Width = 583
     Height = 64
     Align = alBottom
     TabOrder = 3
@@ -372,7 +374,7 @@ object fClienteFiltro: TfClienteFiltro
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 564
+    Width = 583
     Height = 48
     Align = alTop
     TabOrder = 0
@@ -540,7 +542,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox4: TGroupBox
     Left = 0
     Top = 199
-    Width = 564
+    Width = 583
     Height = 55
     Align = alTop
     Caption = 'CIDADE/UF/DDD'
@@ -620,9 +622,8 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox5: TGroupBox
     Left = 0
     Top = 255
-    Width = 564
+    Width = 305
     Height = 55
-    Align = alBottom
     Caption = 'Data do Cadastro'
     TabOrder = 5
     object JvDatePickerEdit2: TJvDatePickerEdit
@@ -647,7 +648,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox3: TGroupBox
     Left = 0
     Top = 48
-    Width = 564
+    Width = 583
     Height = 96
     Align = alTop
     Caption = 'CLIENTE'
@@ -758,6 +759,101 @@ object fClienteFiltro: TfClienteFiltro
       TabOrder = 4
       OnChange = edIERGChange
       OnKeyPress = edIERGKeyPress
+    end
+  end
+  object GroupBox8: TGroupBox
+    Left = 312
+    Top = 255
+    Width = 265
+    Height = 55
+    Caption = 'Regi'#227'o'
+    TabOrder = 6
+    object cbbRegiao: TComboBox
+      Left = 11
+      Top = 21
+      Width = 242
+      Height = 21
+      ItemHeight = 13
+      TabOrder = 0
+    end
+  end
+  object DtSrcReg: TDataSource
+    DataSet = cdsRegiao
+    Left = 431
+    Top = 270
+  end
+  object cdsRegiao: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider1'
+    Left = 537
+    Top = 271
+    object cdsRegiaoCODDADOS: TIntegerField
+      FieldName = 'CODDADOS'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsRegiaoDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 80
+    end
+    object cdsRegiaoUSO: TStringField
+      FieldName = 'USO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object cdsRegiaoCODIGOS: TStringField
+      FieldName = 'CODIGOS'
+      ProviderFlags = [pfInUpdate]
+      Size = 50
+    end
+    object cdsRegiaoOUTROS: TStringField
+      FieldName = 'OUTROS'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = SQLDataSet1
+    Options = [poAllowCommandText]
+    UpdateMode = upWhereKeyOnly
+    Left = 506
+    Top = 271
+  end
+  object SQLDataSet1: TSQLDataSet
+    CommandText = 
+      'select * from DADOS_COMBOS '#13#10'where USO = '#39'regiao'#39' '#13#10'order by DES' +
+      'CRICAO'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 468
+    Top = 271
+    object SQLDataSet1CODDADOS: TIntegerField
+      FieldName = 'CODDADOS'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object SQLDataSet1DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 80
+    end
+    object SQLDataSet1USO: TStringField
+      FieldName = 'USO'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object SQLDataSet1CODIGOS: TStringField
+      FieldName = 'CODIGOS'
+      ProviderFlags = [pfInUpdate]
+      Size = 50
+    end
+    object SQLDataSet1OUTROS: TStringField
+      FieldName = 'OUTROS'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
     end
   end
 end
