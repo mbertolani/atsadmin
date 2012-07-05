@@ -460,9 +460,9 @@ object fCCe: TfCCe
       TabOrder = 4
     end
     object btnIncluirCCe: TBitBtn
-      Left = 695
+      Left = 696
       Top = 29
-      Width = 50
+      Width = 49
       Height = 42
       Hint = 'Incluir CCe'
       Enabled = False
@@ -774,12 +774,12 @@ object fCCe: TfCCe
     CommandText = 
       'select  nf.NOTASERIE, nf.DTAEMISSAO, nf.CODCLIENTE, nf.NUMNF, nf' +
       '.CODVENDA, nf.natureza,'#13#10'cl.RAZAOSOCIAL, nf.SELECIONOU, nf.PROTO' +
-      'COLOENV, '#13#10'udf_left(nf.NOMEXML, 60) as NOMEXML'#13#10'from NOTAFISCAL ' +
-      'nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'le' +
-      'ft outer join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where  (nf.DT' +
-      'AEMISSAO between :dta1 and :dta2) and'#13#10'(NF.NATUREZA = 15 or NF.N' +
-      'ATUREZA = 12) and nf.PROTOCOLOENV IS NOT NULL'#13#10'order by nf.DTAEM' +
-      'ISSAO DESC'
+      'COLOENV, '#13#10'udf_left(nf.NOMEXML, 60) as NOMEXML, cl.CNPJ'#13#10'from NO' +
+      'TAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCL' +
+      'IENTE'#13#10'left outer join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'wher' +
+      'e  (nf.DTAEMISSAO between :dta1 and :dta2) and'#13#10'(NF.NATUREZA = 1' +
+      '5 or NF.NATUREZA = 12) and nf.PROTOCOLOENV IS NOT NULL'#13#10'order by' +
+      ' nf.DTAEMISSAO DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -795,46 +795,6 @@ object fCCe: TfCCe
     SQLConnection = DM.sqlsisAdimin
     Left = 486
     Top = 8
-    object sdsNFNOTASERIE: TStringField
-      FieldName = 'NOTASERIE'
-      Required = True
-      Size = 10
-    end
-    object sdsNFDTAEMISSAO: TDateField
-      FieldName = 'DTAEMISSAO'
-    end
-    object sdsNFCODCLIENTE: TIntegerField
-      FieldName = 'CODCLIENTE'
-    end
-    object sdsNFNUMNF: TIntegerField
-      FieldName = 'NUMNF'
-      Required = True
-    end
-    object sdsNFCODVENDA: TIntegerField
-      FieldName = 'CODVENDA'
-    end
-    object sdsNFNATUREZA: TSmallintField
-      FieldName = 'NATUREZA'
-      Required = True
-    end
-    object sdsNFRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      Required = True
-      Size = 50
-    end
-    object sdsNFSELECIONOU: TStringField
-      FieldName = 'SELECIONOU'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNFPROTOCOLOENV: TStringField
-      FieldName = 'PROTOCOLOENV'
-    end
-    object sdsNFNOMEXML: TStringField
-      FieldName = 'NOMEXML'
-      ReadOnly = True
-      Size = 254
-    end
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
@@ -898,6 +858,11 @@ object fCCe: TfCCe
       ReadOnly = True
       Size = 254
     end
+    object cdsNFCNPJ: TStringField
+      FieldName = 'CNPJ'
+      ReadOnly = True
+      Size = 18
+    end
   end
   object DtsrcNF: TDataSource
     DataSet = cdsNF
@@ -919,11 +884,7 @@ object fCCe: TfCCe
     object sdsCCeORGAO: TIntegerField
       FieldName = 'ORGAO'
     end
-    object sdsCCeCNPJ: TStringField
-      FieldName = 'CNPJ'
-      Size = 16
-    end
-    object sdsCCeDHENVIO: TDateField
+    object sdsCCeDHENVIO: TSQLTimeStampField
       FieldName = 'DHENVIO'
     end
     object sdsCCeSEQUENCIA: TIntegerField
@@ -933,6 +894,22 @@ object fCCe: TfCCe
     object sdsCCeCORRECAO: TStringField
       FieldName = 'CORRECAO'
       Size = 1000
+    end
+    object sdsCCePROTOCOLO: TStringField
+      FieldName = 'PROTOCOLO'
+    end
+    object sdsCCeSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCCeCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object sdsCCeCONDICAO: TStringField
+      FieldName = 'CONDICAO'
+      Size = 500
     end
   end
   object dspCCe: TDataSetProvider
@@ -955,11 +932,7 @@ object fCCe: TfCCe
     object cdsCCeORGAO: TIntegerField
       FieldName = 'ORGAO'
     end
-    object cdsCCeCNPJ: TStringField
-      FieldName = 'CNPJ'
-      Size = 16
-    end
-    object cdsCCeDHENVIO: TDateField
+    object cdsCCeDHENVIO: TSQLTimeStampField
       FieldName = 'DHENVIO'
     end
     object cdsCCeSEQUENCIA: TIntegerField
@@ -969,6 +942,22 @@ object fCCe: TfCCe
     object cdsCCeCORRECAO: TStringField
       FieldName = 'CORRECAO'
       Size = 1000
+    end
+    object cdsCCePROTOCOLO: TStringField
+      FieldName = 'PROTOCOLO'
+    end
+    object cdsCCeSELECIONOU: TStringField
+      FieldName = 'SELECIONOU'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCCeCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object cdsCCeCONDICAO: TStringField
+      FieldName = 'CONDICAO'
+      Size = 500
     end
   end
   object DtsrcCCe: TDataSource
