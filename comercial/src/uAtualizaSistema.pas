@@ -1176,8 +1176,8 @@ begin
       if (NaoExisteTabela('CCE')) then
       begin
         executaSql('create table CCE ( CHAVE varchar(44), ' +
-          'ORGAO integer, CNPJ varchar(16), ' +
-          'DHENVIO date, SEQUENCIA integer, ' +
+          'ORGAO integer, CNPJ varchar(19), ' +
+          'DHENVIO timestamp, SEQUENCIA integer, ' +
           'CORRECAO varchar(1000), ' +
           'PROTOCOLO Varchar(20), ' +
           'SELECIONOU TEXTO1, ' +
@@ -1568,7 +1568,7 @@ begin
       executaDDL('CAIXA_CONTROLE', 'DATAABERTURA', 'date');
       executaDDL('CAIXA_CONTROLE', 'VALORABRE', 'double precision');
       executaDDL('CAIXA_CONTROLE', 'VALORFECHA', 'double precision');
-      executaDDL('CCE', 'CONDICAO', 'varchar(500)');
+      executaDDL('CCE', 'CONDICAO', 'varchar(700)');
       executaDDL('COMPRA', 'CHAVENF', 'varchar(44)');
       executaDDL('COMPRA', 'DIGITOVALIDACAO', 'varchar(100)');      
       executaDDL('COMPRA', 'INDPAG', 'integer');
@@ -1600,8 +1600,11 @@ begin
       executaDDL('VENDA', 'RATEIO', 'double precision');
       executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
+      executaSql('ALTER TABLE CCE ALTER CONDICAO TYPE Varchar(700)');
       executaScript('gera_nf_venda.sql');
       executaScript('trg_calcula_icms_st_107.sql');
+      executaScript('resultadoporproduto_107.sql');
+      executaScript('filtroproduto_107.sql');
       //mudaVersao('1.0.0.107');
     end;
 

@@ -19,28 +19,8 @@ type
     rbFor: TRadioButton;
     JvDBGrid1: TJvDBGrid;
     sdsNF: TSQLDataSet;
-    sdsNFNOTASERIE: TStringField;
-    sdsNFDTAEMISSAO: TDateField;
-    sdsNFCODCLIENTE: TIntegerField;
-    sdsNFNUMNF: TIntegerField;
-    sdsNFCODVENDA: TIntegerField;
-    sdsNFNATUREZA: TSmallintField;
-    sdsNFRAZAOSOCIAL: TStringField;
-    sdsNFSELECIONOU: TStringField;
-    sdsNFPROTOCOLOENV: TStringField;
-    sdsNFNOMEXML: TStringField;
     dspNF: TDataSetProvider;
     cdsNF: TClientDataSet;
-    cdsNFNOTASERIE: TStringField;
-    cdsNFDTAEMISSAO: TDateField;
-    cdsNFCODCLIENTE: TIntegerField;
-    cdsNFNUMNF: TIntegerField;
-    cdsNFCODVENDA: TIntegerField;
-    cdsNFNATUREZA: TSmallintField;
-    cdsNFRAZAOSOCIAL: TStringField;
-    cdsNFSELECIONOU: TStringField;
-    cdsNFPROTOCOLOENV: TStringField;
-    cdsNFNOMEXML: TStringField;
     DtsrcNF: TDataSource;
     MMJPanel1: TMMJPanel;
     MMJPanel2: TMMJPanel;
@@ -60,21 +40,38 @@ type
     sdsCCe: TSQLDataSet;
     dspCCe: TDataSetProvider;
     cdsCCe: TClientDataSet;
-    sdsCCeCHAVE: TStringField;
-    sdsCCeORGAO: TIntegerField;
-    sdsCCeCNPJ: TStringField;
-    sdsCCeDHENVIO: TDateField;
-    sdsCCeSEQUENCIA: TIntegerField;
-    sdsCCeCORRECAO: TStringField;
-    cdsCCeCHAVE: TStringField;
-    cdsCCeORGAO: TIntegerField;
-    cdsCCeCNPJ: TStringField;
-    cdsCCeDHENVIO: TDateField;
-    cdsCCeSEQUENCIA: TIntegerField;
-    cdsCCeCORRECAO: TStringField;
     DtsrcCCe: TDataSource;
     btnGravar: TBitBtn;
     btnCCe: TBitBtn;
+    sdsCCeCHAVE: TStringField;
+    sdsCCeORGAO: TIntegerField;
+    sdsCCeDHENVIO: TSQLTimeStampField;
+    sdsCCeSEQUENCIA: TIntegerField;
+    sdsCCeCORRECAO: TStringField;
+    sdsCCePROTOCOLO: TStringField;
+    sdsCCeSELECIONOU: TStringField;
+    sdsCCeCNPJ: TStringField;
+    sdsCCeCONDICAO: TStringField;
+    cdsCCeCHAVE: TStringField;
+    cdsCCeORGAO: TIntegerField;
+    cdsCCeDHENVIO: TSQLTimeStampField;
+    cdsCCeSEQUENCIA: TIntegerField;
+    cdsCCeCORRECAO: TStringField;
+    cdsCCePROTOCOLO: TStringField;
+    cdsCCeSELECIONOU: TStringField;
+    cdsCCeCNPJ: TStringField;
+    cdsCCeCONDICAO: TStringField;
+    cdsNFNOTASERIE: TStringField;
+    cdsNFDTAEMISSAO: TDateField;
+    cdsNFCODCLIENTE: TIntegerField;
+    cdsNFNUMNF: TIntegerField;
+    cdsNFCODVENDA: TIntegerField;
+    cdsNFNATUREZA: TSmallintField;
+    cdsNFRAZAOSOCIAL: TStringField;
+    cdsNFSELECIONOU: TStringField;
+    cdsNFPROTOCOLOENV: TStringField;
+    cdsNFNOMEXML: TStringField;
+    cdsNFCNPJ: TStringField;
     procedure btnListarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure rbCliClick(Sender: TObject);
@@ -106,7 +103,7 @@ begin
    if (rbCli.Checked) then
    begin
      cce := ' select  nf.NOTASERIE, nf.DTAEMISSAO, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.natureza, ' +
-     ' cl.RAZAOSOCIAL, nf.SELECIONOU, nf.PROTOCOLOENV, udf_left(nf.NOMEXML, 60) as NOMEXML ' +
+     ' cl.RAZAOSOCIAL, nf.SELECIONOU, nf.PROTOCOLOENV, udf_left(nf.NOMEXML, 60) as NOMEXML, cl.CNPJ ' +
      ' from NOTAFISCAL nf inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE ' +
      ' left outer join VENDA v on v.CODVENDA = nf.CODVENDA ' +
      ' where (nf.DTAEMISSAO between :dta1 and :dta2) and' +
@@ -116,7 +113,7 @@ begin
    else
    begin
      cce := ' select  nf.NOTASERIE, nf.DTAEMISSAO, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.natureza, ' +
-     ' cl.RAZAOSOCIAL, nf.SELECIONOU, nf.PROTOCOLOENV, udf_left(nf.NOMEXML, 60) as NOMEXML ' +
+     ' cl.RAZAOSOCIAL, nf.SELECIONOU, nf.PROTOCOLOENV, udf_left(nf.NOMEXML, 60) as NOMEXML, cl.CNPJ ' +
      ' from NOTAFISCAL nf inner join FORNECEDOR cl on cl.CODFORNECEDOR = nf.CODCLIENTE ' +
      ' left outer join Compra v on v.CODCOMPRA = nf.CODVENDA ' +
      ' where (nf.DTAEMISSAO between :dta1 and :dta2) and' +
@@ -160,11 +157,15 @@ begin
   cdsCCe.Append;
   cdsCCeCHAVE.AsString := cdsNFNOMEXML.AsString;
   cdsCCeORGAO.AsString := Copy(cdsNFNOMEXML.AsString, 1, 2);
-  cdsCCeCNPJ.AsString  := Copy(cdsNFNOMEXML.AsString, 7, 14);
+  cdsCCeCNPJ.AsString  := cdsNFCNPJ.AsString;
 end;
 
 procedure TfCCe.btnGravarClick(Sender: TObject);
+var correcao : Integer;
 begin
+//  correcao := StrLen(cdsCCeCORRECAO.AsString);
+  if ( correcao < 15) then
+    MessageDlg('Descrição da correção menor que minimo exigido.', mtWarning, [mbOK], 0);
   cdsCCe.ApplyUpdates(0);
 end;
 
