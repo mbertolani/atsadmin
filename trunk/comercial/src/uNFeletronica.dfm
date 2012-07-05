@@ -1243,7 +1243,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -1289,12 +1289,13 @@ object fNFeletronica: TfNFeletronica
           end
         end
         object BitBtn8: TBitBtn
-          Left = 563
-          Top = 53
-          Width = 94
-          Height = 41
+          Left = 675
+          Top = 16
+          Width = 72
+          Height = 65
           Hint = 'Nova Venda'
           HelpType = htKeyword
+          Caption = 'Sair'
           TabOrder = 3
           OnClick = btnSairClick
           Glyph.Data = {
@@ -1407,6 +1408,16 @@ object fNFeletronica: TfNFeletronica
           Enabled = False
           TabOrder = 4
           OnClick = BtnCCeClick
+        end
+        object btnImprimirCCe: TBitBtn
+          Left = 564
+          Top = 56
+          Width = 91
+          Height = 36
+          Caption = 'Imprimir CC-e'
+          Enabled = False
+          TabOrder = 5
+          OnClick = btnImprimirCCeClick
         end
       end
       object JvDBGrid2: TJvDBGrid
@@ -4767,6 +4778,9 @@ object fNFeletronica: TfNFeletronica
     object sdsCCEORGAO: TIntegerField
       FieldName = 'ORGAO'
     end
+    object sdsCCEDHENVIO: TSQLTimeStampField
+      FieldName = 'DHENVIO'
+    end
     object sdsCCESEQUENCIA: TIntegerField
       FieldName = 'SEQUENCIA'
       Required = True
@@ -4785,10 +4799,11 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsCCECNPJ: TStringField
       FieldName = 'CNPJ'
-      Size = 19
+      Size = 18
     end
-    object sdsCCEDHENVIO: TSQLTimeStampField
-      FieldName = 'DHENVIO'
+    object sdsCCECONDICAO: TStringField
+      FieldName = 'CONDICAO'
+      Size = 700
     end
   end
   object dspCCe: TDataSetProvider
@@ -4811,6 +4826,9 @@ object fNFeletronica: TfNFeletronica
     object cdsCCEORGAO: TIntegerField
       FieldName = 'ORGAO'
     end
+    object cdsCCEDHENVIO: TSQLTimeStampField
+      FieldName = 'DHENVIO'
+    end
     object cdsCCESEQUENCIA: TIntegerField
       FieldName = 'SEQUENCIA'
       Required = True
@@ -4829,10 +4847,11 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsCCECNPJ: TStringField
       FieldName = 'CNPJ'
-      Size = 19
+      Size = 18
     end
-    object cdsCCEDHENVIO: TSQLTimeStampField
-      FieldName = 'DHENVIO'
+    object cdsCCECONDICAO: TStringField
+      FieldName = 'CONDICAO'
+      Size = 700
     end
   end
   object DtSrcCCe: TDataSource

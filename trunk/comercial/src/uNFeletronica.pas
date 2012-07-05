@@ -630,20 +630,23 @@ type
     VCLReport1: TVCLReport;
     sdsCCECHAVE: TStringField;
     sdsCCEORGAO: TIntegerField;
+    sdsCCEDHENVIO: TSQLTimeStampField;
     sdsCCESEQUENCIA: TIntegerField;
     sdsCCECORRECAO: TStringField;
     sdsCCEPROTOCOLO: TStringField;
     sdsCCESELECIONOU: TStringField;
     sdsCCECNPJ: TStringField;
+    sdsCCECONDICAO: TStringField;
     cdsCCECHAVE: TStringField;
     cdsCCEORGAO: TIntegerField;
+    cdsCCEDHENVIO: TSQLTimeStampField;
     cdsCCESEQUENCIA: TIntegerField;
     cdsCCECORRECAO: TStringField;
     cdsCCEPROTOCOLO: TStringField;
     cdsCCESELECIONOU: TStringField;
     cdsCCECNPJ: TStringField;
-    sdsCCEDHENVIO: TSQLTimeStampField;
-    cdsCCEDHENVIO: TSQLTimeStampField;
+    cdsCCECONDICAO: TStringField;
+    btnImprimirCCe: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -682,6 +685,7 @@ type
     procedure JvDBGrid2ColEnter(Sender: TObject);
     procedure JvDBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure btnImprimirCCeClick(Sender: TObject);
 
   private
     procedure getCli_Fornec();
@@ -1497,6 +1501,7 @@ begin
  sEmpresa1.Open;
 
  Edit1.Text := sEmpresa1DIVERSOS1.AsString;
+ Edit3.Text := sEmpresa1DIVERSOS1.AsString;
 
  if (sEmpresa1TIPO.AsString = '1') then
  begin
@@ -2476,6 +2481,7 @@ begin
   end;
   cdsCCE.Open;
   BtnCCe.Enabled := True;
+  btnImprimirCCe.Enabled := True;  
 end;
 
 procedure TfNFeletronica.BtnCCeClick(Sender: TObject);
@@ -2492,7 +2498,7 @@ begin
       begin
         InfEvento.chNFe     := cdsCCeCHAVE.AsString;
         InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
-        InfEvento.CNPJ      := RemoveChar(cdsCCeCNPJ.AsString);
+        InfEvento.CNPJ      := RemoveChar(Copy(cdsCCeCHAVE.AsString, 7, 14));
         InfEvento.dhEvento  := envio;
         InfEvento.tpEvento  := 110110;
         InfEvento.nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
@@ -2507,22 +2513,26 @@ begin
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
     DecimalSeparator := '.';
+
     //SALVA OS PROTOCOLOS
     if(protocolo = '') then
     begin
-      MessageDlg('Carta de Correção não enviada...', mtWarning, [mbOK], 0);
+      MessageDlg('Carta de Correção não enviada... ' + ACBrNFe1.WebServices.CartaCorrecao.CCeRetorno.retEvento.Items[0].RetInfEvento.xMotivo, mtWarning, [mbOK], 0);
     end
     else
     begin
-      str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo)
-      + ', DHENVIO = ' + QuotedStr(FormatDateTime('dd.mm.yyyy hh:mm:ss', envio))
-      + ', CONDICAO = ' + QuotedStr(ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso)
-      + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString)
-      + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
-      dm.sqlsisAdimin.ExecuteDirect(str);
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.Commit(TD);
-      imprimiCCe(protocolo, envio, ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso );
+      try
+        str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo)
+        + ', DHENVIO = ' + QuotedStr(FormatDateTime('dd.mm.yyyy hh:mm:ss', envio))
+        + ', CONDICAO = ' + QuotedStr(ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso)
+        + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString)
+        + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.Commit(TD);
+      finally
+        imprimiCCe(protocolo, envio, ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso );
+      end;
     end;
   end;
 
@@ -2577,6 +2587,17 @@ begin
     VCLReport1.Report.Params.ParamByName('PROTOCOLO').Value := protocolo;
     VCLReport1.Report.Params.ParamByName('CHAVE').Value :=cdsCCeCHAVE.AsString;
     VCLReport1.Execute;
+end;
+
+procedure TfNFeletronica.btnImprimirCCeClick(Sender: TObject);
+begin
+  cdsCCE.First;
+  while not cdsCCE.Eof do
+  begin
+    if( cdsCCESELECIONOU.AsString = 'S') then
+      imprimiCCe(cdsCCEPROTOCOLO.AsString, cdsCCEDHENVIO.AsDateTime, cdsCCECONDICAO.AsString );
+    cdsCCE.Next;
+  end
 end;
 
 end.
