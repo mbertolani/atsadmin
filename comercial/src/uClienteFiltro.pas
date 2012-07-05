@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Mask, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, StdCtrls, Buttons, ExtCtrls;
+  JvDatePickerEdit, StdCtrls, Buttons, ExtCtrls, FMTBcd, DBCtrls, SqlExpr,
+  Provider, DB, DBClient, JvExStdCtrls, JvDBCombobox;
 
 type
   TfClienteFiltro = class(TForm)
@@ -52,6 +53,22 @@ type
     edIERG: TEdit;
     Label6: TLabel;
     Label8: TLabel;
+    GroupBox8: TGroupBox;
+    DtSrcReg: TDataSource;
+    cdsRegiao: TClientDataSet;
+    cdsRegiaoCODDADOS: TIntegerField;
+    cdsRegiaoDESCRICAO: TStringField;
+    cdsRegiaoUSO: TStringField;
+    cdsRegiaoCODIGOS: TStringField;
+    cdsRegiaoOUTROS: TStringField;
+    DataSetProvider1: TDataSetProvider;
+    SQLDataSet1: TSQLDataSet;
+    SQLDataSet1CODDADOS: TIntegerField;
+    SQLDataSet1DESCRICAO: TStringField;
+    SQLDataSet1USO: TStringField;
+    SQLDataSet1CODIGOS: TStringField;
+    SQLDataSet1OUTROS: TStringField;
+    cbbRegiao: TComboBox;
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn13Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -59,6 +76,8 @@ type
     procedure edIERGKeyPress(Sender: TObject; var Key: Char);
     procedure edIERGChange(Sender: TObject);
     procedure edCNPJCPFChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -126,6 +145,24 @@ begin
   edCNPJCPF.text:= StringReplace(edCNPJCPF.text,'\','',[rfReplaceAll]);
   edCNPJCPF.text:= StringReplace(edCNPJCPF.text,'/','',[rfReplaceAll]);
   edCNPJCPF.text:= StringReplace(edCNPJCPF.text,'-','',[rfReplaceAll]);
+end;
+
+procedure TfClienteFiltro.FormShow(Sender: TObject);
+begin
+  if (not cdsRegiao.Active) then
+    cdsRegiao.Open;
+  cbbRegiao.Clear;
+  cdsRegiao.First;
+  while  not cdsRegiao.Eof do
+  begin
+    cbbRegiao.Items.Add(cdsRegiaoDESCRICAO.AsString);
+    cdsRegiao.Next;
+  end;
+end;
+
+procedure TfClienteFiltro.FormCreate(Sender: TObject);
+begin
+  cbbRegiao.Text := '';
 end;
 
 end.

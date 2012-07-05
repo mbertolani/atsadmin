@@ -7444,7 +7444,9 @@ inherited fClienteCadastro: TfClienteCadastro
     Top = 206
   end
   object SQLDataSet1: TSQLDataSet
-    CommandText = 'select * from DADOS_COMBOS '#13#10'where USO = '#39'regiao'#39' '
+    CommandText = 
+      'select * from DADOS_COMBOS '#13#10'where USO = '#39'regiao'#39' '#13#10'order by DES' +
+      'CRICAO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
