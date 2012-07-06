@@ -284,7 +284,9 @@ uses
   uSangria in 'uSangria.pas' {fSangria},
   uEntradaCaixa in 'uEntradaCaixa.pas' {fEntradaCaixa},
   uCorreio in 'uCorreio.pas' {fCorreio},
-  uFiltroCorreio in 'uFiltroCorreio.pas' {FiltroCorreio};
+  uFiltroCorreio in 'uFiltroCorreio.pas' {FiltroCorreio},
+  uListaVenda in 'uListaVenda.pas' {fListaVenda},
+  uComandaNTC in 'uComandaNTC.pas' {fComandaNTC};
 
 {$R *.res}
 
