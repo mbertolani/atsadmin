@@ -1598,15 +1598,60 @@ begin
       executaDDL('VENDA', 'COMISSAO', 'double precision');
       executaDDL('VENDA', 'CAIXINHA', 'double precision');
       executaDDL('VENDA', 'RATEIO', 'double precision');
-      executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
-      executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
-      executaSql('ALTER TABLE CCE ALTER CONDICAO TYPE Varchar(700)');
       executaScript('gera_nf_venda.sql');
       executaScript('trg_calcula_icms_st_107.sql');
       executaScript('resultadoporproduto_107.sql');
       executaScript('filtroproduto_107.sql');
-      //mudaVersao('1.0.0.107');
+      mudaVersao('1.0.0.107');
     end;
+
+    if (versaoSistema = '1.0.0.107') then
+    begin
+      if (NaoExisteTabela('LISTAPRECO_VENDA')) then
+      begin
+        executaSql('CREATE TABLE LISTAPRECO_VENDA( ' +
+          'CODLISTA Integer NOT NULL, ' +
+          'CODCLIENTE Integer, ' +
+          'NOMELISTA Varchar(60), ' +
+          'VALIDADE Date, ' +
+          'DATAINICIAL Date, ' +
+          'DATAFINAL Date, ' +
+          'CONSTRAINT PK_LISTAPRECO_VENDA PRIMARY KEY (CODLISTA))');
+        executaSql('ALTER TABLE LISTAPRECO_VENDA ADD CONSTRAINT FK_LISTAPRECO_VENDA ' +
+          'FOREIGN KEY (CODCLIENTE) REFERENCES CLIENTES (CODCLIENTE) ON UPDATE CASCADE ON DELETE CASCADE');
+      end;
+
+      if (NaoExisteTabela('LISTAPRECO_VENDADET')) then
+      begin
+        executaSql('CREATE TABLE LISTAPRECO_VENDADET( ' +
+          'CODLISTADET Integer NOT NULL, ' +
+          'CODLISTA Integer, ' +
+          'CODPRODUTO Integer, ' +
+          'PRODUTO varchar(300), ' +
+          'ALTPRECO Char(1), ' +
+          'DESCONTO Char(1), ' +
+          'DESCONTOMAX Double precision, ' +
+          'DESCONTOMIN Double precision, ' +
+          'MARGEM Char(1), ' +
+          'MARGEMMAX Double precision, ' +
+          'MARGEMMIN Double precision, ' +
+          'ESTOQUE Double precision, ' +
+          'PRECOCOMPRA Double precision, ' +
+          'PRECOVENDA Double precision, ' +
+          'CONSTRAINT PK_LISTAPRECO_VENDADET PRIMARY KEY (CODLISTADET))');
+
+        executaSql('ALTER TABLE LISTAPRECO_VENDADET ADD CONSTRAINT FK_LISTAPRECO_VENDADET ' +
+          'FOREIGN KEY (CODLISTA) REFERENCES LISTAPRECO_VENDA (CODLISTA) ON UPDATE CASCADE ON DELETE CASCADE');
+        executaSql('ALTER TABLE LISTAPRECO_VENDADET ADD CONSTRAINT FK_LISTAPRECO_VENDADET2 ' +
+          'FOREIGN KEY (CODPRODUTO) REFERENCES PRODUTOS (CODPRODUTO) ON UPDATE CASCADE ON DELETE CASCADE');
+      end;
+      CriaGenerator('GENLISTVEN');
+      CriaGenerator('GENLISTVEN_DET');
+      executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
+      executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
+      executaSql('ALTER TABLE CCE ALTER CONDICAO TYPE Varchar(700)');      
+      //mudaVersao('1.0.0.108');
+    end;// Fim Ataulização Versao 1.0.0.108
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
