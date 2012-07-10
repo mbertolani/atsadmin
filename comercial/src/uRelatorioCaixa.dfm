@@ -1,8 +1,8 @@
 object fRelatorioCaixa: TfRelatorioCaixa
   Left = 690
   Top = 182
-  Width = 438
-  Height = 324
+  Width = 446
+  Height = 335
   AutoSize = True
   Caption = 'Relat'#243'rio Caixa'
   Color = clBtnFace
@@ -31,20 +31,6 @@ object fRelatorioCaixa: TfRelatorioCaixa
     Background.StartColor = clSilver
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
-    object Label4: TLabel
-      Left = 152
-      Top = 16
-      Width = 129
-      Height = 20
-      Caption = 'Relat'#243'rio de Caixa'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
     object BitBtn2: TBitBtn
       Left = 345
       Top = 231
@@ -650,7 +636,7 @@ object fRelatorioCaixa: TfRelatorioCaixa
         Caption = 'a'
       end
       object cbMes: TComboBox
-        Left = 32
+        Left = 48
         Top = 16
         Width = 137
         Height = 21
@@ -672,7 +658,7 @@ object fRelatorioCaixa: TfRelatorioCaixa
           'Dezembro')
       end
       object MaskEdit1: TJvDatePickerEdit
-        Left = 182
+        Left = 190
         Top = 16
         Width = 100
         Height = 21
@@ -774,6 +760,7 @@ object fRelatorioCaixa: TfRelatorioCaixa
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     StorageOptions.InvalidCharReplacement = '_'
     FileName = 'RelatorioCaixa.xml'
+    Location = flUserFolder
     RootNodeName = 'Configuration'
     SubStorages = <>
     Left = 328

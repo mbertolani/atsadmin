@@ -12,7 +12,6 @@ uses
 type
   TfRelatorioCaixa = class(TForm)
     MMJPanel3: TMMJPanel;
-    Label4: TLabel;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
     VCLReport1: TVCLReport;
@@ -68,7 +67,7 @@ begin
     BitBtn3.Enabled := False;
     BitBtn4.Enabled := False;
     ComboBox2.Enabled := False;
-    edCodCCusto.Enabled := False;
+    //edCodCCusto.Enabled := False;
     //Label2.Visible := False;
     //Label11.Visible := False;
   end;
@@ -158,27 +157,64 @@ end;
 
 procedure TfRelatorioCaixa.BitBtn1Click(Sender: TObject);
 begin
-  if (RadioGroup1.ItemIndex = 0) then
-    VCLReport1.Filename := str_relatorio + 'caixa_movimento.rep'
-  else
-    VCLReport1.Filename := str_relatorio + 'caixa_movimentoConsolida.rep';
-  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  vclreport1.Title := vclreport1.Filename;
-
-  VCLReport1.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
-  VCLReport1.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
-  if ComboBox1.Text <> '' then
+  if (edCodCCusto.ItemIndex = -1) then
   begin
-    if (not dm.cds_7_contas.Active) then
-       dm.cds_7_contas.Open;
-    dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loPartialKey]);
-    VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := dm.cds_7_contasCODIGO.asInteger;
-  end
-  else
-    VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := 0;
-  VCLReport1.Execute;
-  VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
+    if (RadioGroup1.ItemIndex = 0) then
+      VCLReport1.Filename := str_relatorio + 'caixa_movimento.rep'
+    else
+      VCLReport1.Filename := str_relatorio + 'caixa_movimentoConsolida.rep';
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    vclreport1.Title := vclreport1.Filename;
 
+    VCLReport1.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
+    VCLReport1.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+    if ComboBox1.Text <> '' then
+    begin
+      if (not dm.cds_7_contas.Active) then
+         dm.cds_7_contas.Open;
+      dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loPartialKey]);
+      VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := dm.cds_7_contasCODIGO.asInteger;
+    end
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := 0;
+    VCLReport1.Execute;
+    VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
+
+  end
+  else begin
+    if (RadioGroup1.ItemIndex = 0) then
+      VCLReport1.Filename := str_relatorio + 'caixa_movimentoC.rep'
+    else
+      VCLReport1.Filename := str_relatorio + 'caixa_movimentoConsolida.rep';
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    vclreport1.Title := vclreport1.Filename;
+
+    VCLReport1.Report.Params.ParamByName('DTAINI').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit1.Text));
+    VCLReport1.Report.Params.ParamByName('DTAFIM').Value := formatdatetime('dd/mm/yy', StrToDate(maskedit2.Text));
+    if ComboBox1.Text <> '' then
+    begin
+      if (not dm.cds_7_contas.Active) then
+         dm.cds_7_contas.Open;
+      dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loPartialKey]);
+      VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := dm.cds_7_contasCODIGO.asInteger;
+    end
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := 0;
+
+    if (edCodCCusto.Text <> '') then
+    begin
+      if(not dm.cds_ccusto.Active) then
+        dm.cds_ccusto.Open;
+      dm.cds_ccusto.Locate('NOME', edCodCCusto.Text, [loCaseInsensitive]);
+      VCLReport1.Report.Params.ParamByName('COD_CCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;;
+    end
+    else
+      VCLReport1.Report.Params.ParamByName('COD_CCUSTO').Value := 0;
+
+    VCLReport1.Execute;
+    VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
+
+  end;
 end;
 
 procedure TfRelatorioCaixa.BitBtn2Click(Sender: TObject);
