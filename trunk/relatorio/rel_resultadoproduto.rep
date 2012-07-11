@@ -207,6 +207,7 @@ object TRpReport
       item
         Component = TRpExpression7
       end>
+    AutoExpand = True
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
     ExternalSearchField = 'REPORT_NAME'
@@ -452,6 +453,7 @@ object TRpReport
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
+    CutText = True
     WordWrap = True
     AutoExpand = False
     AutoContract = False
