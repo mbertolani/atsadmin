@@ -459,7 +459,7 @@ begin
     dm.cds_produto.Open;
     dm.cds_produto.Edit;
     dm.cds_produtoESTOQUEATUAL.AsFloat := cds_procESTOQUEATUAL.AsFloat;
-    dm.cds_produtoVALORUNITARIOATUAL.AsFloat := cds_procPRECO_COMPRA.AsFloat;
+    //dm.cds_produtoVALORUNITARIOATUAL.AsFloat := cds_procPRECO_COMPRA.AsFloat;
     //dm.cds_produtoPRECOMEDIO.AsFloat := cds_procPRECOMEDIO.AsFloat;
     dm.cds_produtoVALOR_PRAZO.AsFloat := cds_procPRECO_VENDA.AsFloat;
     if (dm.cds_produtoTIPO.AsString = 'SERV') then
