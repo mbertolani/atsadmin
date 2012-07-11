@@ -35,7 +35,7 @@ object TRpReport
         'ento'#13#10'where m.codnatureza = 3 and  rec.DATAVENDA between :DATA1 ' +
         'and :DATA2   and rec.codcliente > 0 '#13#10'and ((rec.CODCLIENTE = :PR' +
         'O1) or (:PRO1 = 9999999)) '#13#10'GROUP by  prod.CODPRO, prod.PRODUTO,' +
-        ' prod.VALORUNITARIOATUAL '#13#10'order by 2 desc'
+        ' prod.VALORUNITARIOATUAL '#13#10'order by 2 '
     end>
   DatabaseInfo = <
     item
