@@ -182,6 +182,7 @@ begin
         begin
           Self.QtdeCompra   := cdseb.FieldByName('QUANTIDADE').AsFloat;
           Self.PrecoCompra  := cdseb.FieldByName('PRECO').AsFloat;
+          Self.PrecoCompraUltima := cdseb.FieldByName('PRECO').AsFloat;
         end;
         if (tipo = 'ENTRADA') then
         begin
@@ -697,7 +698,7 @@ begin
       if (Self.QtdeCompra > 0) then
       begin
         DecimalSeparator := '.';
-        sqlStr := sqlStr + ', VALORUNITARIOATUAL = ' + FloatToStr(Self.PrecoCompra);
+        sqlStr := sqlStr + ', VALORUNITARIOATUAL = ' + FloatToStr(Self._PrecoCompra);
         if (Self.PrecoCusto < 0) then
           sqlStr := sqlStr + ', PRECOMEDIO = 0 '
         else
