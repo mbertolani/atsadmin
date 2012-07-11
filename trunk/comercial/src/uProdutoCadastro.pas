@@ -140,7 +140,9 @@ type
     procedure cbAplicacaoChange(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
+    procedure DBEdit12Exit(Sender: TObject);
   private
+    procedure calculaPrecoVenda;
     { Private declarations }
   public
     { Public declarations }
@@ -229,7 +231,7 @@ begin
         Dm.cds_Produto.Open;
         dm.cds_produto.Edit;
         dm.cds_produtoESTOQUEATUAL.AsFloat := fProcura_prod.cds_procESTOQUEATUAL.AsFloat;
-        dm.cds_produtoVALORUNITARIOATUAL.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
+        //dm.cds_produtoVALORUNITARIOATUAL.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
         //dm.cds_produtoPRECOMEDIO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
         //dm.cds_produtoVALOR_PRAZO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
         dm.cds_produto.Post;
@@ -378,7 +380,7 @@ begin
 
   if (dbMarca.Text <> '') then
     dm.cds_produtoMARCA.AsString := dbMarca.Text;
-    
+
   IF (Chk_lote.Checked = true) then
     dm.cds_produtoLOTES.AsString := 'S';
   IF (Chk_lote.Checked = false) then
@@ -440,6 +442,7 @@ begin
 end;
 
 procedure TfProdutoCadastro.FormShow(Sender: TObject);
+var valor : Double;
 begin
   inherited;
   // if (dm.cds_produto.IsEmpty) then
@@ -483,6 +486,8 @@ begin
     DBEdit19.Enabled := False;
     DBEdit19.Color := clMenuBar;
   end;
+
+  calculaPrecoVenda;
 end;
 
 procedure TfProdutoCadastro.DBLookupComboBox2Exit(Sender: TObject);
@@ -667,33 +672,14 @@ procedure TfProdutoCadastro.DBEdit13Exit(Sender: TObject);
 var valor : double;
 begin
   inherited;
-  if (DtSrc.State in [dsInsert, dsEdit]) then
-  begin
-
-    if (dm.cds_produtoMARGEM.AsFloat > 0) then
-    begin
-      valor := dm.cds_produtoVALORUNITARIOATUAL.AsFloat *
-      ((dm.cds_produtoMARGEM.AsFloat/100)+1);
-      DecimalSeparator := '.';
-      dm.cds_produtoVALOR_PRAZO.AsFloat := arredondar(valor);
-    end;
-    DecimalSeparator := ',';
- end;   
+  calculaPrecoVenda;
 end;
 
 procedure TfProdutoCadastro.DBEdit17Exit(Sender: TObject);
 var valor : double;
 begin
   inherited;
-  if (DtSrc.State in [dsInsert, dsEdit]) then
-  begin
-    valor := dm.cds_produtoVALORUNITARIOATUAL.AsFloat +
-      (dm.cds_produtoVALORUNITARIOATUAL.AsFloat * (dm.cds_produtoMARGEM.AsFloat/100));
-    DecimalSeparator := '.';
-    //dm.cds_produtoVALOR_PRAZO.AsFloat := arredondar(valor);
-    dm.cds_produtoVALOR_PRAZO.AsFloat := valor;
-    DecimalSeparator := ',';
-  end;
+  calculaPrecoVenda;
 end;
 
 procedure TfProdutoCadastro.DBEdit19Exit(Sender: TObject);
@@ -837,7 +823,7 @@ begin
     DBEdit19.Enabled := True;
     DBEdit19.Color := clWindow;
   end;
-
+  calculaPrecoVenda;
 end;
 
 procedure TfProdutoCadastro.cbLocalChange(Sender: TObject);
@@ -865,6 +851,38 @@ procedure TfProdutoCadastro.SpeedButton5Click(Sender: TObject);
 begin
   inherited;
   cbLocal.ItemIndex := -1;
+end;
+
+procedure TfProdutoCadastro.calculaPrecoVenda;
+var vlrVenda: Double;
+begin
+  if (dm.cds_produtoMARGEM.AsFloat > 0) then
+  begin
+    if (dm.cds_produto.State in [dsBrowse]) then
+      dm.cds_produto.Edit;
+    if (DBRadioGroup2.ItemIndex = 0) then
+    begin
+      vlrVenda := dm.cds_produtoPRECOMEDIO.AsFloat *
+       ((dm.cds_produtoMARGEM.AsFloat/100)+1);
+      DecimalSeparator := '.';
+      dm.cds_produtoVALOR_PRAZO.AsFloat := arredondar(vlrVenda);
+    end;
+    if (DBRadioGroup2.ItemIndex = 1) then
+    begin
+      vlrVenda := dm.cds_produtoPRECOMEDIO.AsFloat;
+      if (dm.cds_produtoVALORUNITARIOATUAL.AsFloat > 0) then
+        vlrVenda := dm.cds_produtoVALORUNITARIOATUAL.AsFloat;
+      vlrVenda := vlrVenda * ((dm.cds_produtoMARGEM.AsFloat/100)+1);
+      DecimalSeparator := '.';
+      dm.cds_produtoVALOR_PRAZO.AsFloat := arredondar(vlrVenda);
+    end;
+  end;
+end;
+
+procedure TfProdutoCadastro.DBEdit12Exit(Sender: TObject);
+begin
+  inherited;
+  calculaPrecoVenda;
 end;
 
 end.
