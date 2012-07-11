@@ -1430,6 +1430,13 @@ begin
     exit;
   end;
 
+  if (scdsCr_procSITUACAO.AsString = '7-') then
+  begin
+    MessageDlg('Para gerar NF não pode haver título baixado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+
   {inherited;
   if (cdsCOD_TRANPORTADORA.AsInteger > 0) then
       dm.varCodTransp := cdsCOD_TRANPORTADORA.AsInteger
@@ -3053,9 +3060,12 @@ begin
         end;
         dm.sqlsisAdimin.Commit(TD);
       except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
-        exit;
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          Exit;
+        end;
       end;
     if (sqlBuscaNota.Active) then
       sqlBuscaNota.Close;
@@ -3091,12 +3101,16 @@ begin
     finally
       DMNF.cds_nf.Close;
       dmnf.cds_nf.Open;
-      if ( cdsVALOR_IPI.AsFloat <> DMNF.cds_nfVALOR_IPI.AsFloat) then
+      cds.Close;
+      cds.Open;
+      scdsCr_proc.Close;
+      scdsCr_proc.Open;
+      {if ( cdsVALOR_IPI.AsFloat <> DMNF.cds_nfVALOR_IPI.AsFloat) then
       begin
         cds.Edit;
         cdsVALOR_IPI.AsFloat := DMNF.cds_nfVALOR_IPI.AsFloat;
         btnGravar.Click;
-      end;
+      end;}
       fNotaf.Free;
     end;
 end;
