@@ -1,7 +1,7 @@
 inherited fProdutoCadastro: TfProdutoCadastro
   Left = 342
-  Width = 795
-  Height = 600
+  Width = 804
+  Height = 609
   BorderIcons = [biSystemMenu, biMaximize]
   Font.Height = -13
   OldCreateOrder = True
@@ -87,8 +87,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Descri'#231#227'o Adicional'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 519
-    Width = 787
+    Top = 517
+    Width = 788
     TabOrder = 13
     inherited btnGravar: TBitBtn
       Left = 278
@@ -117,7 +117,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 787
+    Width = 788
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -587,6 +587,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 0
+      OnExit = DBEdit12Exit
       OnKeyPress = FormKeyPress
     end
     object DBEdit13: TDBEdit
