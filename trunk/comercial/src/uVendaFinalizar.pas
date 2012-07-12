@@ -676,7 +676,9 @@ begin
       if (sqs_tit.Active) then
       sqs_tit.Close;
 
-      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
+      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) ' +
+        ' SUM(VIPI), SUM(VALOR_ICMS), SUM(ICMS_SUBST) '+
+        ' FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
     end
@@ -723,6 +725,8 @@ begin
 
   sqs_tit.Open;
   cdsVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
+  cdsVALOR_ICMS.AsCurrency := FloatToCurr(sqs_tit.Fields[2].AsFloat);
+  cdsVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
   cdsVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
   vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
   sqs_tit.Close;
