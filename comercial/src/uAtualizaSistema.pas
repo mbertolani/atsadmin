@@ -951,7 +951,10 @@ begin
     if (versaoSistema = '1.0.0.88') then
     begin
       executaScript('baixaTitulosPagEdita.sql');
-      executaSql('ALTER TABLE PAGAMENTO ALTER USERID TYPE TEXTO3');
+      try
+        executaSql('ALTER TABLE PAGAMENTO ALTER USERID TYPE TEXTO3');
+      except
+      end;  
       executaScript('baixaTitulosPag.sql');
       mudaVersao('1.0.0.89');
     end; // Fim Atauliza??o Versao 1.0.0.89
@@ -1602,6 +1605,7 @@ begin
       executaScript('trg_calcula_icms_st_107.sql');
       executaScript('resultadoporproduto_107.sql');
       executaScript('filtroproduto_107.sql');
+      executaScript('listaProduto107.sql');
       executaDDL('FORMA_ENTRADA', 'CAIXINHA', 'double precision');
       mudaVersao('1.0.0.107');
     end;
@@ -1651,6 +1655,7 @@ begin
       executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
       executaSql('ALTER TABLE CCE ALTER CONDICAO TYPE Varchar(700)');
+      executaDDL('VENDA', 'VALOR_ST', 'double precision');
       //mudaVersao('1.0.0.108');
     end;// Fim Ataulização Versao 1.0.0.108
 
