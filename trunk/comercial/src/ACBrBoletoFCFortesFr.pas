@@ -531,10 +531,10 @@ begin
    fIndice   := 0 ;
    fBoletoFC := TACBrBoletoFCFortes(Owner) ;  // Link para o Pai
    MensagemPadrao := TStringList.Create;
-   if (fBoletoFC.ACBrBoleto.ComprovanteEntrega = true)then
-      RLBand4.Visible := true
-   else
-      RLBand4.Visible := false;
+   //if (fBoletoFC.ACBrBoleto.ComprovanteEntrega = true)then
+      RLBand4.Visible := true;
+   //else
+   //   RLBand4.Visible := false;
 end;
 
 procedure TACBrBoletoFCFortesFr.FormDestroy ( Sender: TObject ) ;
