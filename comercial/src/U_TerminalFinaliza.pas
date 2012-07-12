@@ -1,4 +1,4 @@
-﻿unit U_TerminalFinaliza;
+unit U_TerminalFinaliza;
 
 interface
 

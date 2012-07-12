@@ -2543,7 +2543,7 @@ begin
       Write(Impressora, c17cpi + Format('   %-2s  ',[DM_MOV.c_movdetUN.Value]));
       Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]));
       Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetPRECO.AsFloat]));
-      Writeln(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetValorTotal.value]));
+      Writeln(Impressora, c17cpi + Format('%10.2n',[DM_MOV.c_movdetValorTotal.value]));
 
       with Printer.Canvas do
       begin
@@ -2554,8 +2554,32 @@ begin
      end;
      total := DM_MOV.c_movdettotalpedido.Value;
      Writeln(Impressora, c17cpi, texto);
-     Write(Impressora, c17cpi, texto5);
-     Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
+     Texto5 := 'Total : R$ ';
+     Write(Impressora, c17cpi + Format('%42s',[texto5]));
+     Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
+
+
+     s_parametro.Close;
+     if (s_parametro.Active) then
+     s_parametro.Close;
+     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+     s_parametro.Open;
+     if (not s_parametro.IsEmpty) then
+     begin
+       if (F_Terminal.JvComissao.Value > 0) then
+       begin
+         Texto5 := '% : R$ ';
+         Write(Impressora, c17cpi + Format('%42s',[texto5]));
+         porc    := JvComissao.Value / 100;
+         porc    := porc * JvTotal.Value;
+         Writeln(Impressora, c17cpi + Format('%10.2n',[porc]));
+         total   := total + porc;
+         Texto5 := 'Total + perc.: R$ ';
+         Write(Impressora, c17cpi + Format('%42s',[texto5]));
+         Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
+       end;
+     end;
+     s_parametro.Close;
 
      Writeln(IMPRESSORA);
      Write(Impressora, c10cpi, DM.Mensagem);

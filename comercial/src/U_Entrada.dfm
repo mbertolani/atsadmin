@@ -1,6 +1,6 @@
 object F_Entrada: TF_Entrada
-  Left = 357
-  Top = 109
+  Left = 358
+  Top = 77
   Width = 638
   Height = 662
   BorderIcons = [biSystemMenu]
@@ -712,8 +712,8 @@ object F_Entrada: TF_Entrada
       ParentFont = False
       PopupMenu = pm1
       TabOrder = 15
-      OnEnter = jvDinheiroEnter
-      OnExit = jvDinheiroExit
+      OnEnter = JvCaixinhaEnter
+      OnExit = JvCaixinhaExit
       OnKeyPress = FormKeyPress
     end
     object JvRateio: TJvSpinEdit
@@ -1576,12 +1576,12 @@ object F_Entrada: TF_Entrada
       '                       WHEN '#39'G'#39' then '#39'VALE'#39'                     ' +
       '             '#13#10'                                 WHEN '#39'H'#39' then '#39'O' +
       'UTROS'#39#13#10'                                end  as FORMA,'#13#10'        ' +
-      '  p.nome '#13#10'  from FORMA_ENTRADA e'#13#10' left outer join plano p on p' +
-      '.codigo = e.caixa '#13#10'where e.COD_VENDA = :id'
+      '  p.nome, e.CAIXINHA  '#13#10'  from FORMA_ENTRADA e'#13#10' left outer join' +
+      ' plano p on p.codigo = e.caixa '#13#10'where e.COD_VENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'id'
         ParamType = ptInput
       end>
@@ -1625,6 +1625,10 @@ object F_Entrada: TF_Entrada
       FieldName = 'NOME'
       ProviderFlags = []
       Size = 200
+    end
+    object s_formaCAIXINHA: TFloatField
+      FieldName = 'CAIXINHA'
+      ProviderFlags = [pfInUpdate]
     end
   end
   object p_forma: TDataSetProvider
@@ -1684,6 +1688,10 @@ object F_Entrada: TF_Entrada
       FieldName = 'NOME'
       ProviderFlags = []
       Size = 200
+    end
+    object c_formaCAIXINHA: TFloatField
+      FieldName = 'CAIXINHA'
+      ProviderFlags = [pfInUpdate]
     end
     object c_formatotal: TAggregateField
       FieldName = 'total'
