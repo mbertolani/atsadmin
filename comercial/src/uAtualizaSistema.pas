@@ -1600,14 +1600,10 @@ begin
       executaDDL('VENDA', 'RATEIO', 'double precision');
       executaScript('gera_nf_venda.sql');
       executaScript('trg_calcula_icms_st_107.sql');
-<<<<<<< .mine
-      executaDDL('FORMA_ENTRADA', 'CAIXINHA', 'double precision');
-      //mudaVersao('1.0.0.107');
-=======
       executaScript('resultadoporproduto_107.sql');
       executaScript('filtroproduto_107.sql');
+      executaDDL('FORMA_ENTRADA', 'CAIXINHA', 'double precision');
       mudaVersao('1.0.0.107');
->>>>>>> .r2473
     end;
 
     if (versaoSistema = '1.0.0.107') then
@@ -1654,7 +1650,7 @@ begin
       CriaGenerator('GENLISTVEN_DET');
       executaSql('ALTER TABLE CCE ALTER CNPJ TYPE Varchar(19)');
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
-      executaSql('ALTER TABLE CCE ALTER CONDICAO TYPE Varchar(700)');      
+      executaSql('ALTER TABLE CCE ALTER CONDICAO TYPE Varchar(700)');
       //mudaVersao('1.0.0.108');
     end;// Fim Ataulização Versao 1.0.0.108
 
