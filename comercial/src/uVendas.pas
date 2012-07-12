@@ -534,6 +534,11 @@ type
     cdslotesCODPRO: TStringField;
     sdslotePRECO: TFloatField;
     cdslotesPRECO: TFloatField;
+    Label29: TLabel;
+    edCfop: TEdit;
+    sds_Mov_DetCFOP: TStringField;
+    cds_Mov_detCFOP: TStringField;
+    sqlBCfop: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -619,6 +624,7 @@ type
     modo :string;
     procedure Margem_Confere;
     procedure insereMatPrima;
+    procedure buscaCfop(codCli: Integer);
   public
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda : string; //, tipoVenda
     estoque, qtde, mVendaPermi , desconto , prazoCliente , imex : Double;         // mVendaPermi = Margem de venda minima permitida
@@ -1075,6 +1081,9 @@ begin
     if ( cds_Mov_det.State in [dsBrowse]) then
       cds_Mov_det.Edit;
     cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
+
+    buscaCfop(dm.scds_cliente_procCODCLIENTE.AsInteger);
+
     dm.scds_cliente_proc.Close;
 
     //mostra veiculos do cliente
@@ -1473,6 +1482,8 @@ begin
     inseridoMatPrima := 'SIM';
   if DtSrc1.State in [dsInsert, dsEdit] then
   begin
+    if (cds_Mov_detCFOP.AsString = '') then
+      cds_Mov_detCFOP.AsString := edCfop.Text;
     {IF (DBEdit17.Text <> '') then
       cds_Mov_detPRODUTO.AsString := DBEDit17.Text;}
     if cds_Movimento.State in [dsBrowse, dsInactive] then
@@ -1563,6 +1574,7 @@ begin
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
   cds_Mov_detVALOR_DESCONTO.AsFloat := 0;
   cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
+  cds_mov_detCFOP.asString := edCfop.text;
 end;
 
 procedure TfVendas.BitBtn4Click(Sender: TObject);
@@ -2026,6 +2038,7 @@ begin
     cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
     cds_MovimentoCODVENDEDOR.AsInteger := dmnf.scds_cli_procCODUSUARIO.AsInteger;
     cds_MovimentoNOMEUSUARIO.AsString := dmnf.scds_cli_procNOMEUSUARIO.AsString;
+
   finally
    dmnf.scds_cli_proc.Close;
    fProcurar_nf.Free;
@@ -2045,6 +2058,9 @@ begin
     cds_Movimento.Edit;
   cds_MovimentoCODCLIENTE.AsInteger := dm.codcli;//fListaClientes.cdsCODCLIENTE.AsInteger;
   cds_MovimentoNOMECLIENTE.AsString := dm.varNomeCliente;//fListaClientes.cdsNOMECLIENTE.AsString;
+
+  buscaCfop(dm.codcli);
+
   if (ComboBox1.Enabled = true) then
     ComboBox1.SetFocus
   else
@@ -3565,6 +3581,37 @@ begin
   //
   if((cds_Mov_detValorTotal.AsFloat > 0 )  and (cds_Mov_detVALOR_DESCONTO.AsFloat > 0)) then
   cds_Mov_detQTDE_ALT.AsFloat := ( (cds_Mov_detVALOR_DESCONTO.AsFloat * cds_Mov_detQUANTIDADE.AsFloat) / (cds_Mov_detPRECO.AsFloat * cds_Mov_detQUANTIDADE.AsFloat)) *100;
+end;
+
+procedure TfVendas.buscaCfop(codCli: Integer);
+var strCfop: String;
+begin
+  if (sqlBCfop.Active) then
+    sqlBCfop.Close;
+
+  sqlBCfop.SQL.clear;  
+  strCfop := 'select c.cfop, ec.uf from clientes c , enderecocliente ec ' +
+    'where c.codcliente = ec.codcliente ' +
+    '  and ec.tipoend   = 0 ' +
+    '  and c.codcliente = ' + IntTostr(codCli);
+
+  sqlBCfop.SQL.Add(strCfop);
+  sqlBCfop.Open;
+
+  if (dm.ufPadrao = sqlBCfop.Fields[1].AsString) then
+  begin
+    if (sqlBCfop.Fields[0].AsString = '') then
+      edCfop.Text := dm.cfopSaida
+    else
+      edCfop.Text := sqlBCfop.Fields[0].AsString;
+  end;
+  if (dm.ufPadrao <> sqlBCfop.Fields[1].AsString) then
+  begin
+    if (sqlBCfop.Fields[0].AsString = '') then
+      edCfop.Text := dm.cfopSaidaF
+    else
+      edCfop.Text := sqlBCfop.Fields[0].AsString;
+  end;
 end;
 
 end.
