@@ -184,6 +184,8 @@ type
     edDesconto: TJvValidateEdit;
     rg1: TRadioGroup;
     JvLabel15: TJvLabel;
+    s_formaCAIXINHA: TFloatField;
+    c_formaCAIXINHA: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -198,6 +200,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure edDescontoEnter(Sender: TObject);
     procedure edDescontoExit(Sender: TObject);
+    procedure JvCaixinhaExit(Sender: TObject);
+    procedure JvCaixinhaEnter(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -396,7 +400,7 @@ begin
      Exit;
   end;
 
-  totalTrocoD := JvTroco.Value - JvCaixinha.Value;
+  totalTrocoD := JvTroco.Value; //- JvCaixinha.Value;
   pagoTotal   := 0;
 
   if (jvDinheiro.Value > 0) then
@@ -639,22 +643,9 @@ begin
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_forma.ApplyUpdates(0);
   end;
-
-{  if (JvCaixinha.Value > 0) then
+  {
+  if (JvCaixinha.Value > 0) then
   begin
-    pagoTotal := JvCaixinha.Value;
-    if (totalTrocoD < 0) then
-    begin
-      pagoTotal := (JvCaixinha.Value + totalTrocoD);
-      if ((totalTrocoD*(-1)) > JvCaixinha.Value) then
-        totalTrocoD := totalTrocoD - JvCaixinha.Value
-      else
-        totalTrocoD := 0;
-    end;
-
-    if (pagoTotal <= 0) then
-      pagoTotal := JvCaixinha.Value;
-
     if (c_forma.Active) then
       c_forma.close;
     c_forma.Params[0].Clear;
@@ -673,7 +664,7 @@ begin
       c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
     c_forma.ApplyUpdates(0);
   end;
- }
+    }
   jvDinheiro.Value := 0;
   JvCheque.Value := 0;
   JvChequePre.Value := 0;
@@ -815,6 +806,7 @@ begin
       FVen.Prazo                := '01-A Vista';
       FVen.ValorCaixinha        := JvCaixinha.Value;
       FVen.ValorRateio          := JvRateio.Value;
+      FVen.ValorComissao        := JvComissao.Value;      
       //fven.inserirVenda(0);
       codigo_venda := fven.inserirVenda(0);
       if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
@@ -975,9 +967,9 @@ begin
       if (tipoImpressao = 'RECIBO') then
         imprimeRecibo;
   end;
-  // se informou caixinha gravo na MOVIMENTOCONT
-  if (JvCaixinha.Value > 0) then
-    caixinha;
+ // se informou caixinha gravo na MOVIMENTOCONT
+ // if (JvCaixinha.Value > 0) then
+ //   caixinha;
 
   // Encerra Processos do terminal
   F_Terminal.var_FINALIZOU := 'SIM';
@@ -1424,8 +1416,11 @@ begin
   JvTroco.Value := 0;
   totalPTroco := jvDinheiro.Value + JvCheque.Value + JvChequePre.Value + JvCartaoDBT.Value +
     JvCartaoCDT.Value + JvVale.Value + JvOutros.Value;
-  if (((JvPago.Value) - totalPTroco + JvCaixinha.Value) < 0.009) then
-    JvTroco.Value := JvPago.Value - totalPTroco + JvCaixinha.Value;
+ if (((JvPago.Value) - totalPTroco) < 0.009) then
+    JvTroco.Value := (JvPago.Value) - totalPTroco;
+
+ // if (((JvPago.Value + JvCaixinha.Value) - totalPTroco) < 0.009) then
+ //   JvTroco.Value := (JvPago.Value + JvCaixinha.Value) - totalPTroco;
 end;
 
 procedure TF_Entrada.JvPagoExit(Sender: TObject);
@@ -1518,6 +1513,18 @@ begin
     vlrDesc := edDesconto.Value;
   JvPago.Value := JvPedido.Value + JvComissao.Value - vlrDesc - totalPedidoC;
   troco;
+end;
+
+procedure TF_Entrada.JvCaixinhaExit(Sender: TObject);
+begin
+  JvPago.Value := JvPedido.Value + JvComissao.Value + JvCaixinha.Value;
+  troco;
+end;
+
+procedure TF_Entrada.JvCaixinhaEnter(Sender: TObject);
+begin
+  JvPago.Value := JvPedido.Value + JvComissao.Value + JvCaixinha.Value;
+  troco;  
 end;
 
 end.
