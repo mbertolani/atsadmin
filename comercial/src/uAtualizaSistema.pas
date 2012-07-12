@@ -1600,9 +1600,14 @@ begin
       executaDDL('VENDA', 'RATEIO', 'double precision');
       executaScript('gera_nf_venda.sql');
       executaScript('trg_calcula_icms_st_107.sql');
+<<<<<<< .mine
+      executaDDL('FORMA_ENTRADA', 'CAIXINHA', 'double precision');
+      //mudaVersao('1.0.0.107');
+=======
       executaScript('resultadoporproduto_107.sql');
       executaScript('filtroproduto_107.sql');
       mudaVersao('1.0.0.107');
+>>>>>>> .r2473
     end;
 
     if (versaoSistema = '1.0.0.107') then
