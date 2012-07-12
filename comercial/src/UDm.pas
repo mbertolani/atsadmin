@@ -2019,7 +2019,7 @@ type
   public
     { Public declarations }
     v_CodFuncao : Integer;
-    mensagemInicial, sistemaLiberado, cfopEntrada, v_CargoFuncao : String;
+    mensagemInicial, sistemaLiberado, cfopEntrada, cfopEntradaF, cfopSaida, cfopSaidaF, v_CargoFuncao : String;
     conectado, RESULTADO_APROVA :boolean;
     LOTENF, MODULOUSERCONTROL, formusercontrol, Mensagem, moduloUsado, var_teste, GrupoMarca , codBarra, empresa: string;
     varCondicao, nomecli, RAALUNO, varAplicacaoID, BlVendaCadImcomp, blVendaFin, AprovaCompra: String;
@@ -2104,8 +2104,12 @@ begin
   cds_parametro.Params[0].AsString := 'CFOP';
   cds_parametro.Open;
   if (not cds_parametro.IsEmpty) then
-    cfopEntrada := cds_parametroD2.AsString;
-
+  begin
+    cfopEntrada  := cds_parametroD2.AsString;
+    cfopEntradaF := cds_parametroD3.AsString;
+    cfopSaida    := cds_parametroDADOS.AsString;
+    cfopSaidaF   := cds_parametroD1.AsString;
+  end;
   if cds_parametro.Active then
     cds_parametro.Close;
   // Busca se esta usando o Modulo Compras, se sim os pedidos tem q estarem aprovados
