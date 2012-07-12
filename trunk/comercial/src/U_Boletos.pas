@@ -682,10 +682,10 @@ begin
   if (s_bancoLAYOUT_BL.AsString = 'Fatura') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lFatura;
 
-  if (s_bancoIMP_COMPROVANTE.AsString = 'SIM') then
-     ACBrBoleto1.ComprovanteEntrega := True
-  else
-     ACBrBoleto1.ComprovanteEntrega := False;
+ // if (s_bancoIMP_COMPROVANTE.AsString = 'SIM') then
+ //    ACBrBoleto1.ComprovanteEntrega := True
+ // else
+ //    ACBrBoleto1.ComprovanteEntrega := False;
 
 
   CRIA_BOLETO_MEMORIA;

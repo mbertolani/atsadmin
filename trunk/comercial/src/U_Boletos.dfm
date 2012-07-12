@@ -1,6 +1,6 @@
 object F_Boletos: TF_Boletos
-  Left = 423
-  Top = 298
+  Left = 424
+  Top = 299
   Width = 417
   Height = 302
   BorderIcons = [biSystemMenu]
@@ -165,7 +165,7 @@ object F_Boletos: TF_Boletos
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 88
-    Top = 161
+    Top = 163
     object s_bancoCODBANCO: TSmallintField
       FieldName = 'CODBANCO'
       Required = True
