@@ -19,7 +19,7 @@ inherited fVendas: TfVendas
   end
   object Label14: TLabel [1]
     Left = 635
-    Top = 273
+    Top = 291
     Width = 34
     Height = 16
     Caption = 'Obs..:'
@@ -33,7 +33,7 @@ inherited fVendas: TfVendas
   end
   object Label17: TLabel [3]
     Left = 641
-    Top = 493
+    Top = 509
     Width = 61
     Height = 16
     Caption = 'Comiss'#227'o'
@@ -41,14 +41,14 @@ inherited fVendas: TfVendas
   end
   object Label19: TLabel [4]
     Left = 642
-    Top = 121
+    Top = 145
     Width = 68
     Height = 16
     Caption = 'N'#186' Pedido :'
   end
   object Label20: TLabel [5]
     Left = 641
-    Top = 149
+    Top = 167
     Width = 65
     Height = 16
     Caption = 'Anota'#231#245'es'
@@ -60,9 +60,16 @@ inherited fVendas: TfVendas
     Height = 16
     Caption = 'Obs.:'
   end
+  object Label29: TLabel [7]
+    Left = 642
+    Top = 116
+    Width = 42
+    Height = 16
+    Caption = 'CFOP :'
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 790
+    Width = 798
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1080,7 +1087,7 @@ inherited fVendas: TfVendas
     Top = -62
     Align = alNone
   end
-  object GroupBox1: TGroupBox [9]
+  object GroupBox1: TGroupBox [10]
     Left = 0
     Top = 63
     Width = 489
@@ -1275,7 +1282,7 @@ inherited fVendas: TfVendas
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
   end
-  object GroupBox2: TGroupBox [10]
+  object GroupBox2: TGroupBox [11]
     Left = 489
     Top = 63
     Width = 184
@@ -1302,7 +1309,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox3: TGroupBox [11]
+  object GroupBox3: TGroupBox [12]
     Left = 674
     Top = 63
     Width = 109
@@ -1330,9 +1337,9 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox4: TGroupBox [12]
+  object GroupBox4: TGroupBox [13]
     Left = 634
-    Top = 199
+    Top = 217
     Width = 150
     Height = 69
     Caption = 'TOTAL R$.'
@@ -1360,9 +1367,9 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox5: TGroupBox [13]
+  object GroupBox5: TGroupBox [14]
     Left = 634
-    Top = 388
+    Top = 404
     Width = 150
     Height = 101
     Caption = 'PLACA DO VE'#205'CULO'
@@ -1412,9 +1419,9 @@ inherited fVendas: TfVendas
       OnExit = edChassiExit
     end
   end
-  object DBMemo1: TDBMemo [14]
+  object DBMemo1: TDBMemo [15]
     Left = 635
-    Top = 288
+    Top = 306
     Width = 148
     Height = 97
     TabStop = False
@@ -1427,10 +1434,10 @@ inherited fVendas: TfVendas
     ReadOnly = True
     TabOrder = 9
   end
-  object MMJPanel3: TMMJPanel [15]
+  object MMJPanel3: TMMJPanel [16]
     Left = 0
-    Top = 528
-    Width = 790
+    Top = 539
+    Width = 798
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -1457,7 +1464,7 @@ inherited fVendas: TfVendas
       Transparent = True
     end
   end
-  object DBEdit15: TDBEdit [16]
+  object DBEdit15: TDBEdit [17]
     Left = 51
     Top = 471
     Width = 78
@@ -1477,7 +1484,7 @@ inherited fVendas: TfVendas
     OnExit = DBEdit15Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [17]
+  object DBEdit16: TDBEdit [18]
     Left = 224
     Top = 471
     Width = 369
@@ -1497,9 +1504,9 @@ inherited fVendas: TfVendas
     TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object ComboBox2: TComboBox [18]
+  object ComboBox2: TComboBox [19]
     Left = 704
-    Top = 497
+    Top = 513
     Width = 78
     Height = 24
     BevelKind = bkFlat
@@ -1514,9 +1521,9 @@ inherited fVendas: TfVendas
     Visible = False
     OnChange = ComboBox2Change
   end
-  object DBComboBox1: TDBComboBox [19]
+  object DBComboBox1: TDBComboBox [20]
     Left = 640
-    Top = 164
+    Top = 182
     Width = 145
     Height = 24
     Hint = 'ANOTACOESVENDAS'
@@ -1535,7 +1542,7 @@ inherited fVendas: TfVendas
     OnExit = DBComboBox1Exit
     OnKeyPress = FormKeyPress
   end
-  object PageControl1: TPageControl [20]
+  object PageControl1: TPageControl [21]
     Left = 0
     Top = 112
     Width = 633
@@ -2304,9 +2311,9 @@ inherited fVendas: TfVendas
       end
     end
   end
-  object DBEdit1: TDBEdit [21]
+  object DBEdit1: TDBEdit [22]
     Left = 709
-    Top = 118
+    Top = 142
     Width = 73
     Height = 24
     BevelKind = bkFlat
@@ -2323,7 +2330,7 @@ inherited fVendas: TfVendas
     TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object SpeedButton1: TBitBtn [22]
+  object SpeedButton1: TBitBtn [23]
     Left = 595
     Top = 471
     Width = 37
@@ -2400,7 +2407,7 @@ inherited fVendas: TfVendas
       0000000000000000000022222222222222222222222222222222222222222222
       2222222222222222222222222222222222222222222222222222}
   end
-  object DBEdit13: TDBEdit [23]
+  object DBEdit13: TDBEdit [24]
     Left = 52
     Top = 496
     Width = 541
@@ -2420,7 +2427,7 @@ inherited fVendas: TfVendas
     TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object BitBtn7: TBitBtn [24]
+  object BitBtn7: TBitBtn [25]
     Left = 501
     Top = 112
     Width = 132
@@ -2429,13 +2436,20 @@ inherited fVendas: TfVendas
     TabOrder = 17
     OnClick = BitBtn7Click
   end
+  object edCfop: TEdit [26]
+    Left = 693
+    Top = 112
+    Width = 89
+    Height = 24
+    TabOrder = 18
+  end
   inherited XPMenu1: TXPMenu
     Left = 688
-    Top = 322
+    Top = 340
   end
   inherited PopupMenu1: TPopupMenu
     Left = 720
-    Top = 322
+    Top = 340
     inherited Procurar1: TMenuItem
       OnClick = btnProcurarClick
     end
@@ -2475,12 +2489,12 @@ inherited fVendas: TfVendas
       'O'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTD' +
       'E_PCT'#13#10', prod.PESO_QTDE'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPE' +
       'SA  '#13#10', prod.LOCALIZACAO  '#13#10', cm.CODIGO'#13#10', prod.LOTES'#13#10', movd.ST' +
-      'ATUS'#13#10',movd.VALOR_DESCONTO  '#13#10',movd.OBS'#13#10'from MOVIMENTODETALHE m' +
-      'ovd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUT' +
-      'O '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = ' +
-      'prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_COM' +
-      'ISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or' +
-      ' movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
+      'ATUS'#13#10',movd.VALOR_DESCONTO  '#13#10',movd.OBS, movd.CFOP '#13#10'from MOVIME' +
+      'NTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=mo' +
+      'vd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALM' +
+      'OXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm o' +
+      'n cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:C' +
+      'ODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -2627,6 +2641,11 @@ inherited fVendas: TfVendas
     object sds_Mov_DetOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object sds_Mov_DetCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -2802,6 +2821,12 @@ inherited fVendas: TfVendas
     object cds_Mov_detOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object cds_Mov_detCFOP: TStringField
+      FieldName = 'CFOP'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 4
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -4282,7 +4307,7 @@ inherited fVendas: TfVendas
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 688
-    Top = 392
+    Top = 408
   end
   object sdsVeiculoCli: TSQLDataSet
     CommandText = 
@@ -4299,7 +4324,7 @@ inherited fVendas: TfVendas
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 642
-    Top = 392
+    Top = 408
   end
   object sMatPrima: TSQLDataSet
     CommandText = 
@@ -4896,5 +4921,12 @@ inherited fVendas: TfVendas
     SQLConnection = DM.sqlsisAdimin
     Left = 208
     Top = 120
+  end
+  object sqlBCfop: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 656
+    Top = 136
   end
 end
