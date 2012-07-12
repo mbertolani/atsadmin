@@ -207,7 +207,7 @@ begin
       case TipoInscricao of
          pFisica  : ATipoInscricao := '1';
          pJuridica: ATipoInscricao := '2';
-         pOutras  : ATipoInscricao := '3';
+        // pOutras  : ATipoInscricao := '3';
       end;
 
       CNPJCIC := OnlyNumber(CNPJCPF);
@@ -303,7 +303,7 @@ begin
       case ACBrBoleto.Cedente.TipoInscricao of
          pFisica  : ATipoInscricao := '1';
          pJuridica: ATipoInscricao := '2';
-         pOutras  : ATipoInscricao := '9';
+         //pOutras  : ATipoInscricao := '9';
       end;
 
       {Pegando o Tipo de Ocorrencia}
@@ -561,7 +561,7 @@ begin
          toRemessaAlterarVencimento             : ATipoOcorrencia := '06'; {Alteração de vencimento}
          toRemessaAlterarNumeroControle         : ATipoOcorrencia := '08'; {Alteração de seu número}
          toRemessaProtestar                     : ATipoOcorrencia := '09'; {Pedido de protesto}
-         toRemessaCancelarIntrucaoProtestoBaixa : ATipoOcorrencia := '10'; {Sustar protesto e baixar}
+         toRemessaCancelarInstrucaoProtestoBaixa : ATipoOcorrencia := '10'; {Sustar protesto e baixar}
          toRemessaCancelarInstrucaoProtesto     : ATipoOcorrencia := '10'; {Sustar protesto e manter na carteira}
          toRemessaOutrasOcorrencias             : ATipoOcorrencia := '31'; {Alteração de Outros Dados}
       else
@@ -754,8 +754,8 @@ begin
           Cedente.TipoInscricao := pFisica;
         02:
           Cedente.TipoInscricao := pJuridica;
-        else
-          Cedente.TipoInscricao := pOutras;
+       // else
+       //   Cedente.TipoInscricao := pOutras;
       end;
 
       ACBrBanco.ACBrBoleto.ListadeBoletos.Clear;
