@@ -1,5 +1,6 @@
+set term ^ ;
 CREATE OR ALTER TRIGGER CALCULA_ICMS_ST FOR MOVIMENTODETALHE ACTIVE
-BEFORE INSERT OR UPDATE POSITION 0
+BEFORE INSERT OR UPDATE POSITION 1
 AS
  DECLARE VARIABLE UF char(2);
  Declare variable CICMS_SUBST double precision;
@@ -26,14 +27,18 @@ AS
  DECLARE VARIABLE CRT integer;
  DECLARE VARIABLE PIS DOUBLE PRECISION = 0;
  DECLARE VARIABLE COFINS DOUBLE PRECISION = 0;
+ DECLARE VARIABLE VLRBASE DOUBLE PRECISION = 0;
  Declare variable IE varchar (24);
  Declare variable CSTIPI varchar(2);
  Declare variable CSTPIS varchar(2); 
  Declare variable CSTCOFINS varchar(2); 
  DECLARE VARIABLE arredondar DOUBLE PRECISION = 2;
 BEGIN
-    if (new.CFOP <> '') then
-    begin
+    --if (new.CFOP <> '') then
+    --begin
+    if ((inserting) or ((updating) and (new.CFOP <> old.CFOP))) then 
+    begin 
+    
     select CRT from EMPRESA, MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
     into :CRT;
 
@@ -42,6 +47,7 @@ BEGIN
     new.ICMS_SUBSTD  = 0;
     new.ICMS_SUBST   = 0;
     new.VLR_BASEICMS = 0;
+    vlrBase = (NEW.QUANTIDADE * NEW.PRECO) - ((NEW.QTDE_ALT/100)*(NEW.QUANTIDADE * NEW.PRECO));
 	new.VALOR_ICMS = 0;
 
 	select first 1 ec.UF, c.CODFISCAL, m.CODCLIENTE, c.INSCESTADUAL from movimento m
@@ -77,7 +83,7 @@ BEGIN
 		new.icms = :cicms;
       if (IND_IPI > 0) then
       begin
-        new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), :arredondar);
+        new.VIPI = UDF_ROUNDDEC(((vlrBase) * :IND_IPI/100), :arredondar);
         new.PIPI = IND_IPI;
       end
       else
@@ -91,19 +97,19 @@ BEGIN
         ind_reduzicms = ind_reduzicms/100;
       if (CICMS > 0) then 
       begin
-        new.VLR_BASEICMS = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms), :arredondar);
+        new.VLR_BASEICMS = UDF_ROUNDDEC(((vlrBase) * ind_reduzicms), :arredondar);
         new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), :arredondar);
       end
 
       ----------- TEM ST -------------
       if (CICMS_SUBST > 0) then
-        new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), :arredondar);
+        new.ICMS_SUBSTD = UDF_ROUNDDEC(((vlrBase) *(1+(CICMS_SUBST/100))), :arredondar);
         if ( new.ICMS_SUBSTD > 0) then
             new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(new.VALOR_ICMS), :arredondar);
       else
 		    new.ICMS_SUBST = 0;
-        new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100, :arredondar);
-        new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * PIS) /100, :arredondar);       
+        new.VALOR_COFINS = UDF_ROUNDDEC(((vlrBase) * COFINS) /100, :arredondar);
+        new.VALOR_PIS =  UDF_ROUNDDEC(((vlrBase) * PIS) /100, :arredondar);       
     end
 	else
 	begin
@@ -122,7 +128,7 @@ BEGIN
         new.PCOFINS = :cofins;
         if (IND_IPI > 0) then
         begin
-            new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), :arredondar);
+            new.VIPI = UDF_ROUNDDEC(((vlrBase) * IND_IPI/100), :arredondar);
             new.PIPI = IND_IPI;
         end
         else
@@ -140,7 +146,7 @@ BEGIN
         if (CICMS > 0) then 
         begin
 		  new.icms = :cicms;
-          new.VLR_BASEICMS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms, :arredondar);
+          new.VLR_BASEICMS = UDF_ROUNDDEC((vlrBase) * ind_reduzicms, :arredondar);
           new.VALOR_ICMS = UDF_ROUNDDEC(new.VLR_BASEICMS * (CICMS/100), :arredondar);  
         end
         else
@@ -172,12 +178,12 @@ BEGIN
           else 
             CICMS_SUBST = CICMS_SUBST ;
 
-          new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4), :arredondar); 
-          VALOR_SUBDesc = (new.VLR_BASE*new.QUANTIDADE) * CICMS_SUBST_IND; 
+          new.ICMS_SUBSTD = UDF_ROUNDDEC(((vlrBase) + new.vipi) * UDF_ROUNDDEC(CICMS_SUBST, 4), :arredondar); 
+          VALOR_SUBDesc = (vlrBase) * CICMS_SUBST_IND; 
           new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - Valor_SubDesc, :arredondar);
         end
-        new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100, :arredondar);
-        new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * PIS) /100, :arredondar);
+        new.VALOR_COFINS = UDF_ROUNDDEC(((vlrBase) * COFINS) /100, :arredondar);
+        new.VALOR_PIS =  UDF_ROUNDDEC(((vlrBase) * PIS) /100, :arredondar);
     end
     
     if( new.FRETE > 0) then
