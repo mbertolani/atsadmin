@@ -412,7 +412,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 785
+    Width = 793
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1599,37 +1599,37 @@ inherited fVendaFinalizar: TfVendaFinalizar
     object Label21: TLabel
       Left = 4
       Top = 100
-      Width = 86
+      Width = 31
       Height = 16
-      Caption = 'Valor Frete R$'
+      Caption = 'Frete'
     end
     object Label22: TLabel
-      Left = 127
+      Left = 101
       Top = 99
-      Width = 99
+      Width = 44
       Height = 16
-      Caption = 'Valor Seguro R$'
+      Caption = 'Seguro'
     end
     object Label23: TLabel
-      Left = 249
+      Left = 292
       Top = 98
-      Width = 87
+      Width = 32
       Height = 16
-      Caption = 'Valor ICMS R$'
+      Caption = 'ICMS'
     end
     object Label25: TLabel
-      Left = 371
+      Left = 484
       Top = 97
-      Width = 70
+      Width = 15
       Height = 16
-      Caption = 'Valor IPI R$'
+      Caption = 'IPI'
     end
     object Label26: TLabel
-      Left = 493
-      Top = 95
-      Width = 109
+      Left = 196
+      Top = 99
+      Width = 39
       Height = 16
-      Caption = 'Outros Valores R$'
+      Caption = 'Outros'
     end
     object Label39: TLabel
       Left = 9
@@ -1637,6 +1637,13 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Width = 44
       Height = 16
       Caption = 'Pedido'
+    end
+    object Label40: TLabel
+      Left = 389
+      Top = 98
+      Width = 53
+      Height = 16
+      Caption = 'ICMS ST'
     end
     object cbPrazo: TJvComboBox
       Left = 337
@@ -1814,7 +1821,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
     object DBEdit13: TDBEdit
       Left = 4
       Top = 116
-      Width = 115
+      Width = 90
       Height = 24
       DataField = 'VALOR_FRETE'
       DataSource = DtSrc
@@ -1828,9 +1835,9 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object DBEdit17: TDBEdit
-      Left = 127
+      Left = 99
       Top = 116
-      Width = 115
+      Width = 90
       Height = 24
       DataField = 'VALOR_SEGURO'
       DataSource = DtSrc
@@ -1844,11 +1851,47 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object DBEdit18: TDBEdit
-      Left = 249
+      Left = 290
       Top = 116
-      Width = 115
+      Width = 90
       Height = 24
+      Color = clScrollBar
       DataField = 'VALOR_ICMS'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 15
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit19: TDBEdit
+      Left = 482
+      Top = 115
+      Width = 90
+      Height = 24
+      Color = clScrollBar
+      DataField = 'VALOR_IPI'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 17
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit20: TDBEdit
+      Left = 194
+      Top = 116
+      Width = 90
+      Height = 24
+      DataField = 'OUTRAS_DESP'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -1859,44 +1902,12 @@ inherited fVendaFinalizar: TfVendaFinalizar
       TabOrder = 14
       OnKeyPress = FormKeyPress
     end
-    object DBEdit19: TDBEdit
-      Left = 371
-      Top = 116
-      Width = 115
-      Height = 24
-      DataField = 'VALOR_IPI'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 15
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit20: TDBEdit
-      Left = 493
-      Top = 115
-      Width = 115
-      Height = 24
-      DataField = 'OUTRAS_DESP'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 16
-      OnKeyPress = FormKeyPress
-    end
     object CheckBox2: TCheckBox
       Left = 414
       Top = 14
       Width = 16
       Height = 17
-      TabOrder = 17
+      TabOrder = 18
       OnClick = CheckBox2Click
     end
     object DBEdit4: TDBEdit
@@ -1912,8 +1923,26 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 18
+      TabOrder = 19
       OnExit = dbeSerieExit
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit21: TDBEdit
+      Left = 386
+      Top = 115
+      Width = 90
+      Height = 24
+      Color = clScrollBar
+      DataField = 'VALOR_ST'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 16
       OnKeyPress = FormKeyPress
     end
   end
@@ -2078,8 +2107,8 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object MMJPanel3: TMMJPanel [6]
     Left = 0
-    Top = 496
-    Width = 785
+    Top = 507
+    Width = 793
     Height = 37
     Align = alBottom
     BevelInner = bvLowered
@@ -3719,6 +3748,27 @@ inherited fVendaFinalizar: TfVendaFinalizar
       FieldName = 'OBS'
       Size = 500
     end
+    object sds_vendaPORCENTAGENDESC: TFloatField
+      FieldName = 'PORCENTAGENDESC'
+    end
+    object sds_vendaCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
+    object sds_vendaTROCO: TFloatField
+      FieldName = 'TROCO'
+    end
+    object sds_vendaCOMISSAO: TFloatField
+      FieldName = 'COMISSAO'
+    end
+    object sds_vendaCAIXINHA: TFloatField
+      FieldName = 'CAIXINHA'
+    end
+    object sds_vendaRATEIO: TFloatField
+      FieldName = 'RATEIO'
+    end
+    object sds_vendaVALOR_ST: TFloatField
+      FieldName = 'VALOR_ST'
+    end
   end
   object dsp_venda: TDataSetProvider
     DataSet = sds_venda
@@ -3943,6 +3993,27 @@ inherited fVendaFinalizar: TfVendaFinalizar
     object cdsOBS: TStringField
       FieldName = 'OBS'
       Size = 500
+    end
+    object cdsPORCENTAGENDESC: TFloatField
+      FieldName = 'PORCENTAGENDESC'
+    end
+    object cdsCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
+    object cdsTROCO: TFloatField
+      FieldName = 'TROCO'
+    end
+    object cdsCOMISSAO: TFloatField
+      FieldName = 'COMISSAO'
+    end
+    object cdsCAIXINHA: TFloatField
+      FieldName = 'CAIXINHA'
+    end
+    object cdsRATEIO: TFloatField
+      FieldName = 'RATEIO'
+    end
+    object cdsVALOR_ST: TFloatField
+      FieldName = 'VALOR_ST'
     end
   end
   object scds_serie_proc: TSQLClientDataSet
