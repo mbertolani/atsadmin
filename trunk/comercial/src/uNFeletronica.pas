@@ -647,6 +647,9 @@ type
     cdsCCECNPJ: TStringField;
     cdsCCECONDICAO: TStringField;
     btnImprimirCCe: TBitBtn;
+    sClienteCODFISCAL: TStringField;
+    sCFOPCODFISCAL: TStringField;
+    sFornecCODFISCAL: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1549,7 +1552,7 @@ end;
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
 var
   i: integer;
-  valida : String;
+  valida, codFisc : String;
 begin
 
  if (not cds_ccusto.Active) then
@@ -1578,13 +1581,25 @@ begin
        sCliente.Close;
      sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
      sCliente.Open;
+     codFisc := sClienteCODFISCAL.AsString;
+     if (sClienteCODFISCAL.AsString = '') then
+     begin
+       MessageDlg(sClienteNOMECLIENTE.AsString + ' - informe o CODIGO FISCAL no cadastro do cliente.', mtWarning, [mbOK], 0);
+       exit;
+     end;
    end
    else
    begin
-    if (sFornec.Active) then
-      sFornec.Close;
-    sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-    sFornec.Open;
+     if (sFornec.Active) then
+       sFornec.Close;
+     sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+     sFornec.Open;
+     codFisc := sClienteCODFISCAL.AsString;
+     if (sFornecCODFISCAL.AsString = '') then
+     begin
+       MessageDlg(sFornecNOMECLIENTE.AsString + ' - informe o CODIGO FISCAL no cadastro do fornecedor.', mtWarning, [mbOK], 0);
+       exit;
+     end;
    end;
 
    if (sCFOP.Active) then
@@ -1601,6 +1616,12 @@ begin
     sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
    end;
    sCFOP.Open;
+
+   {if (sCFOPCODFISCAL.AsString = codFisc) then
+   begin
+     MessageDlg(sCFOPCFNOME.AsString + ' - informe o CODIGO FISCAL no cadastro do Estado-CFOP.', mtWarning, [mbOK], 0);
+     exit;
+   end;}
 
    ACBrNFe1.NotasFiscais.Clear;
    with ACBrNFe1.NotasFiscais.Add.NFe do
