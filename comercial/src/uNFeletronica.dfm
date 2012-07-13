@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
   Left = 261
   Top = 30
-  Width = 883
-  Height = 591
+  Width = 875
+  Height = 580
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -2689,9 +2689,10 @@ object fNFeletronica: TfNFeletronica
       'E(esta.ICMS_SUBSTRIB_IND, 0) as ICMS_SUBSTRIB_IND'#13#10'        , est' +
       'a.NAOENVFATURA'#13#10'        , esta.CSTPIS'#13#10'        , esta.CSTCOFINS'#13 +
       #10'        , esta.CSTIPI'#13#10'        , COALESCE(esta.COFINS, 0) as CO' +
-      'FINS'#13#10'        , COALESCE(esta.PIS, 0) as PIS'#13#10'from CFOP cf'#13#10'inne' +
-      'r join ESTADO_ICMS esta on esta.CFOP = cf.CFCOD'#13#10'where CFCOD = :' +
-      'id and esta.UF = :ESTADO and esta.CFOP = :codcfop'
+      'FINS'#13#10'        , COALESCE(esta.PIS, 0) as PIS'#13#10'        ,esta.CODF' +
+      'ISCAL'#13#10'from ESTADO_ICMS esta '#13#10'inner join CFOP cf on cf.CFCOD = ' +
+      'esta.CFOP'#13#10'where CFCOD = :id and esta.UF = :ESTADO and esta.CFOP' +
+      ' = :codcfop'
     MaxBlobSize = -1
     Params = <
       item
@@ -2776,6 +2777,12 @@ object fNFeletronica: TfNFeletronica
       ReadOnly = True
       Size = 2
     end
+    object sCFOPCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
   end
   object sCliente: TSQLDataSet
     CommandText = 
@@ -2788,10 +2795,10 @@ object fNFeletronica: TfNFeletronica
       'COMPLEMENTO, '#13#10'           cast(e.CIDADE as varchar (60) ) as CID' +
       'ADE, '#13#10'           e.UF,            e.CEP ,           e.NUMERO,  ' +
       '         e.TELEFONE,'#13#10'           e.DDD,           e.CD_IBGE,    ' +
-      '       e.E_MAIL,'#13#10'           e.PAIS, p.CODPAIS'#13#10'from CLIENTES c ' +
-      #13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CODCLIENTE = c.CODCLIENTE ' +
-      #13#10'inner join PAIS p on p.PAIS = e.PAIS'#13#10'where c.CODCLIENTE = :id' +
-      ' and e.TIPOEND = 0'
+      '       e.E_MAIL,'#13#10'           e.PAIS, p.CODPAIS, c.CODFISCAL'#13#10'fro' +
+      'm CLIENTES c '#13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CODCLIENTE = ' +
+      'c.CODCLIENTE '#13#10'inner join PAIS p on p.PAIS = e.PAIS'#13#10'where c.COD' +
+      'CLIENTE = :id and e.TIPOEND = 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -2897,6 +2904,12 @@ object fNFeletronica: TfNFeletronica
       Required = True
       FixedChar = True
       Size = 4
+    end
+    object sClienteCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object OpenDialog1: TOpenDialog
@@ -4409,10 +4422,10 @@ object fNFeletronica: TfNFeletronica
       'st(e.CIDADE as varchar (60) ) as CIDADE, '#13#10'           e.UF,     ' +
       '       e.CEP ,           e.NUMERO,           e.TELEFONE,        ' +
       '   e.DDD,'#13#10'           e.CD_IBGE,            e.E_MAIL,           ' +
-      'e.PAIS, p.CODPAIS'#13#10'from FORNECEDOR f'#13#10'inner join ENDERECOFORNECE' +
-      'DOR e on'#13#10' e.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'inner join PAIS p ' +
-      'on p.PAIS = e.PAIS'#13#10'where f.CODFORNECEDOR = :id and e.TIPOEND = ' +
-      '0'
+      'e.PAIS, p.CODPAIS,'#13#10'           f.CODFISCAL '#13#10'from FORNECEDOR f'#13#10 +
+      'inner join ENDERECOFORNECEDOR e on'#13#10' e.CODFORNECEDOR = f.CODFORN' +
+      'ECEDOR'#13#10'inner join PAIS p on p.PAIS = e.PAIS'#13#10'where f.CODFORNECE' +
+      'DOR = :id and e.TIPOEND = 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -4517,6 +4530,12 @@ object fNFeletronica: TfNFeletronica
       Required = True
       FixedChar = True
       Size = 4
+    end
+    object sFornecCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object sEmpresa1: TSQLDataSet
