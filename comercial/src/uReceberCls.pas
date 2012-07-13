@@ -410,7 +410,7 @@ var strG, strR, strP: String;
     sqlBuscaR, sqlPrazo : TSqlQuery;
             i : integer;
           rec : Boolean;
-      VlrParc, UltParc : Double;
+      VlrParc, UltParc, VlrT : Double;
       vDataVenc : TDateTime;
 begin
   // Se codVendaR > 0, então é uma Venda então busca os dados da Venda;
@@ -436,9 +436,9 @@ begin
         Self.CodVendedor   := sqlBuscaR.FieldByName('CODVENDEDOR').AsInteger;
         Self.CodUsuario    := sqlBuscaR.FieldByName('CODUSUARIO').AsInteger;
         Self.NParcela      := sqlBuscaR.FieldByName('N_PARCELA').AsInteger;
-        Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat;
+        Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat - sqlBuscaR.FieldByName('DESCONTO').AsFloat;
         Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
-        Self.Desconto      := sqlBuscaR.FieldByName('DESCONTO').AsFloat;
+        //Self.Desconto      := sqlBuscaR.FieldByName('DESCONTO').AsFloat;
         Self.DtEmissao     := sqlBuscaR.FieldByName('DATAVENDA').AsDateTime;
         Self.DtVcto        := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
         Self.Prazo         := sqlBuscaR.FieldByName('PRAZO').AsString;
@@ -533,13 +533,13 @@ begin
   end;
   DecimalSeparator := '.';
 
- // UltParc := Self.Valor;
-   UltParc := VlrParc;
+  UltParc := Self.Valor;
+  VlrParc := roundTo(VlrParc, -2);
 
-
-     
   for i := 1 to Self.NParcela do
   begin
+    //if (Self.NParcela = i) then
+    //  VlrParc := VlrT;
     if ((CodRecR = 0) or (CodRecR = 1)) then   //CodRecR = 1  novo titulo de baixa Parcial...
     begin
       if dm.c_6_genid.Active then
@@ -561,7 +561,6 @@ begin
           ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
           ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM        ' +
           ') VALUES(';
-
 
     strG := strG + InttoStr(Self.CodRec) + ', ';
     strG := strG + QuotedStr(Self.Titulo) + ', ';
@@ -588,7 +587,7 @@ begin
       strG := strG + '0, '; // Valor_prim_via
 
     //COLOCA O CAMPO COM 2 CASAS DECIMAIS
-//    VlrParc := Trunc(VlrParc * 100) / 100;
+    //    VlrParc := Trunc(VlrParc * 100) / 100;
 
     if (i = 1) then
     begin
@@ -617,12 +616,13 @@ begin
     strG := strG + IntToStr(1) + ', '; // Situacao
     strG := strG + IntToStr(1) + ')'; // CodOrigem
     Rec  := executaSql(strG);
-    //UltParc := UltParc - VlrParc;
+    UltParc := UltParc - VlrParc;
   end;
   DecimalSeparator := ',';
   Result := 0;
   if (Rec) then
     Result := Self.CodRec;
+
 end;
 
 function TReceberCls.getCaixa: Integer;
