@@ -42,9 +42,9 @@ inherited fVendas: TfVendas
   object Label19: TLabel [4]
     Left = 642
     Top = 145
-    Width = 68
+    Width = 62
     Height = 16
-    Caption = 'N'#186' Pedido :'
+    Caption = 'N'#186' Pedido'
   end
   object Label20: TLabel [5]
     Left = 641
@@ -1318,9 +1318,9 @@ inherited fVendas: TfVendas
     PopupMenu = PopupMenu1
     TabOrder = 4
     object DBEdit2: TDBEdit
-      Left = 4
+      Left = 6
       Top = 16
-      Width = 100
+      Width = 98
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -2312,7 +2312,7 @@ inherited fVendas: TfVendas
     end
   end
   object DBEdit1: TDBEdit [22]
-    Left = 709
+    Left = 705
     Top = 142
     Width = 73
     Height = 24
@@ -2437,9 +2437,9 @@ inherited fVendas: TfVendas
     OnClick = BitBtn7Click
   end
   object edCfop: TEdit [26]
-    Left = 693
-    Top = 112
-    Width = 89
+    Left = 680
+    Top = 114
+    Width = 98
     Height = 24
     TabOrder = 18
   end

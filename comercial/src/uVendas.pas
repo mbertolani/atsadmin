@@ -1276,8 +1276,8 @@ begin
              ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
              ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
              ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
-             ', RATEIO, conta_despesa , IPI '  +
-             'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+             ', RATEIO, conta_despesa , IPI, OBS '  +
+             ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
              ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
              ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
           dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
@@ -1483,7 +1483,11 @@ begin
   if DtSrc1.State in [dsInsert, dsEdit] then
   begin
     if (cds_Mov_detCFOP.AsString = '') then
+    begin
+      if (edCfop.Text = '') then
+        buscaCfop(cds_MovimentoCODCLIENTE.AsInteger);
       cds_Mov_detCFOP.AsString := edCfop.Text;
+    end;  
     {IF (DBEdit17.Text <> '') then
       cds_Mov_detPRODUTO.AsString := DBEDit17.Text;}
     if cds_Movimento.State in [dsBrowse, dsInactive] then
@@ -2194,6 +2198,8 @@ begin
   if cds_Movimento.IsEmpty then
     exit;
 
+  buscaCfop(cds_MovimentoCODCLIENTE.AsInteger);
+
   if (not cds_ccusto.Active) then
     cds_ccusto.Open;
   cds_ccusto.Locate('CODIGO',cds_MovimentoCODALMOXARIFADO.AsInteger, [loCaseInsensitive]);
@@ -2334,8 +2340,8 @@ begin
     ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
     ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
     ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
-    ', RATEIO, conta_despesa , IPI '  +
-    'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+    ', RATEIO, conta_despesa , IPI , OBS '  +
+    ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
     ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
     ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
   end;
@@ -2899,7 +2905,7 @@ begin
              ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
              ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
              ', RATEIO, conta_despesa , IPI, OBS '  +
-             'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+             ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
              ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
              ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
           dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +

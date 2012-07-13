@@ -130,7 +130,7 @@ type
     cds_crOUTRO_DEBITO: TFloatField;
     cds_crPARCELAS: TSmallintField;
     cds_crDUP_REC_NF: TStringField;
-    cds_crNF: TIntegerField;
+    cds_crNF: TIntegerField;                     
     cds_crDP: TIntegerField;
     cds_crBL: TIntegerField;
     dsp_cr: TDataSetProvider;
@@ -489,6 +489,22 @@ type
     sds_vendaOBS: TStringField;
     cdsOBS: TStringField;
     dlgSave1: TSaveDialog;
+    DBEdit21: TDBEdit;
+    Label40: TLabel;
+    sds_vendaPORCENTAGENDESC: TFloatField;
+    sds_vendaCODORIGEM: TIntegerField;
+    sds_vendaTROCO: TFloatField;
+    sds_vendaCOMISSAO: TFloatField;
+    sds_vendaCAIXINHA: TFloatField;
+    sds_vendaRATEIO: TFloatField;
+    sds_vendaVALOR_ST: TFloatField;
+    cdsPORCENTAGENDESC: TFloatField;
+    cdsCODORIGEM: TIntegerField;
+    cdsTROCO: TFloatField;
+    cdsCOMISSAO: TFloatField;
+    cdsCAIXINHA: TFloatField;
+    cdsRATEIO: TFloatField;
+    cdsVALOR_ST: TFloatField;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -676,8 +692,8 @@ begin
       if (sqs_tit.Active) then
       sqs_tit.Close;
 
-      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) ' +
-        ' SUM(VIPI), SUM(VALOR_ICMS), SUM(ICMS_SUBST) '+
+      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO)) + VIPI + ICMS_SUBST) ' +
+        ' ,SUM(VIPI), SUM(VALOR_ICMS), SUM(ICMS_SUBST) '+
         ' FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
@@ -721,22 +737,23 @@ begin
                            IntToStr(fTerminal.cds_MovimentoCODMOVIMENTO.asInteger);
     end;
   end;
-
-
   sqs_tit.Open;
-  cdsVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
+  cdsVALOR.AsCurrency      := FloatToCurr(sqs_tit.Fields[0].AsFloat);
   cdsVALOR_ICMS.AsCurrency := FloatToCurr(sqs_tit.Fields[2].AsFloat);
-  cdsVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
+  cdsVALOR_IPI.AsCurrency  := FloatToCurr(sqs_tit.Fields[1].AsFloat);
+  cdsVALOR_ST.AsCurrency   := FloatToCurr(sqs_tit.Fields[3].AsFloat);
+
   cdsVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
   vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
   sqs_tit.Close;
   if terminal <> '0' then
   begin
-    sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
+    sqs_tit.CommandText := 'SELECT SUM(((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
                              ' WHERE CODMOVIMENTO = ' +
                              IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
     sqs_tit.Open;
-    cdsDESCONTO.AsFloat := cdsVALOR.AsCurrency - FloatToCurr(sqs_tit.Fields[0].AsFloat);
+    //cdsDESCONTO.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
+    cdsVALOR_PAGAR.AsCurrency := cdsVALOR.AsCurrency;
     sqs_tit.Close;
   end;
 end;
@@ -1095,13 +1112,9 @@ begin
       end;
     end;
 
-    cdsVALOR.AsFloat := vrr +
-      cdsVALOR_FRETE.AsFloat +
-      cdsVALOR_SEGURO.AsFloat +
-      cdsOUTRAS_DESP.AsFloat +
-      cdsVALOR_IPI.AsFloat;
-    cdsAPAGAR.AsFloat := cdsVALOR.AsFloat -
-      cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat -
+    cdsVALOR.AsFloat := vrr + cdsVALOR_FRETE.AsFloat + cdsVALOR_SEGURO.AsFloat +
+      cdsOUTRAS_DESP.AsFloat;
+    cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat -
       cdsDESCONTO.AsFloat;
 
     {Usado para bloquear alteração em RECEBIMENTO pelas triggers
@@ -1116,12 +1129,12 @@ begin
       dm.sqlsisAdimin.StartTransaction(TD);
       cds.ApplyUpdates(0);
       // Executo Classe Insere Recebimento ---------------------------------------
-      {try
+      try
          FRec := TReceberCls.Create;
          codRec := FRec.geraTitulo(0, cdsCODVENDA.AsInteger);
       finally
          Frec.Free;
-      end;}
+      end;
       //--------------------------------------------------------------------------
       dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TD);
@@ -2085,8 +2098,8 @@ begin
     cds.Params[0].AsInteger:=dm.scds_venda_procCODVENDA.AsInteger;
     cds.Open;
     if (not cds.IsEmpty) then
-    if (fVendas.cds_Mov_detTotalPedido.Value <> (cdsVALOR.Value-(cdsVALOR_ICMS.Value +
-      cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
+    if (fVendas.cds_Mov_detTotalPedido.Value <> (cdsVALOR.Value-(cdsVALOR_FRETE.Value
+      + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
       cdsMULTA_JUROS.Value))) then
     begin
         cds.Edit;
@@ -2110,10 +2123,10 @@ begin
                                IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
       end;
       sqs_tit.Open;
-      cdsVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat + (cdsVALOR_ICMS.Value +
+      cdsVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat + ( +
       cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
       cdsMULTA_JUROS.Value));
-      cdsVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat + (cdsVALOR_ICMS.Value +
+      cdsVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat + ( +
       cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
       cdsMULTA_JUROS.Value));
       vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
