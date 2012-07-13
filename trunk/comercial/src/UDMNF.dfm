@@ -1903,9 +1903,9 @@ object DMNF: TDMNF
       ' '#13#10'from NOTAFISCAL nf '#13#10'left outer join CFOP nat ON nat.CFCOD = ' +
       'nf.CFOP '#13#10'left outer join CLIENTES cli on '#13#10'cli.CODCLIENTE=nf.CO' +
       'DCLIENTE '#13#10'left outer join ENDERECOCLIENTE ende on '#13#10'ende.CODCLI' +
-      'ENTE=cli.CODCLIENTE '#13#10' where nf.NUMNF = :pNF '#13#10' or CODVENDA = :p' +
-      'venda'#13#10'and (nf.NATUREZA =12 or nf.NATUREZA = 15 or nf.NATUREZA =' +
-      ' 16) and ende.TIPOEND = 0'
+      'ENTE=cli.CODCLIENTE '#13#10' where ((nf.NUMNF = :pNF)  or (CODVENDA = ' +
+      ':pvenda))'#13#10'     and (nf.NATUREZA IN (12,15,16)) and (ende.TIPOEN' +
+      'D = 0)'
     MaxBlobSize = -1
     Params = <
       item
