@@ -1993,6 +1993,7 @@ end;
 
 procedure TfVendaFinalizar.FormShow(Sender: TObject);
 var utilcrtitulo : Tutils;
+  diferenca: Double;
 begin
   inherited;
   DecimalSeparator := ',';
@@ -2097,10 +2098,12 @@ begin
       cds.Close;
     cds.Params[0].AsInteger:=dm.scds_venda_procCODVENDA.AsInteger;
     cds.Open;
+    diferenca := fVendas.cds_Mov_detTotalPedido.Value - (cdsVALOR.Value-(cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value +
+      cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value + cdsMULTA_JUROS.Value + cdsVALOR_ST.Value));
+    if (diferenca < 0) then
+      diferenca := diferenca * (-1);  
     if (not cds.IsEmpty) then
-    if (fVendas.cds_Mov_detTotalPedido.Value <> (cdsVALOR.Value-(cdsVALOR_FRETE.Value
-      + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
-      cdsMULTA_JUROS.Value))) then
+    if ( diferenca > 0.001) then
     begin
         cds.Edit;
         if (sqs_tit.Active) then
@@ -2125,10 +2128,10 @@ begin
       sqs_tit.Open;
       cdsVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat + ( +
       cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
-      cdsMULTA_JUROS.Value));
+      cdsMULTA_JUROS.Value + cdsVALOR_ST.Value));
       cdsVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat + ( +
       cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
-      cdsMULTA_JUROS.Value));
+      cdsMULTA_JUROS.Value + cdsVALOR_ST.Value));
       vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
       sqs_tit.Close;
       cds.ApplyUpdates(0);
