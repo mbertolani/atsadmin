@@ -575,6 +575,7 @@ type
     procedure imprimecupom;
     function RemoveAcento(Str: string): string;
     procedure estoqueEstorna;
+    procedure baixaEntrada;
   public
     vrr, nparc : double;
     grava: TCompras;
@@ -1132,6 +1133,8 @@ begin
       try
          FRec := TReceberCls.Create;
          codRec := FRec.geraTitulo(0, cdsCODVENDA.AsInteger);
+         if (cdsENTRADA.AsFloat > 0) then
+           baixaEntrada;
       finally
          Frec.Free;
       end;
@@ -3479,6 +3482,71 @@ end;
 procedure TfVendaFinalizar.estoqueEstorna;
 begin
 
+end;
+
+procedure TfVendaFinalizar.baixaEntrada;
+var texto: String;
+FRec : TReceberCls;
+begin
+  // Marco o Título
+  Try
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) +
+      ' WHERE CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
+    dm.sqlsisAdimin.ExecuteDirect(Texto);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+  try
+    FRec := TReceberCls.Create;
+    try
+      dm.sqlsisAdimin.StartTransaction(TD);
+      FRec := TReceberCls.Create;
+      FRec.baixaTitulo(cdsENTRADA.AsFloat, //Valor
+                              0, //Funrural
+                              0, // Juros
+                              0, // Desconto
+                              0, // Perda
+                              Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
+                              Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
+                              Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
+                              cdsFORMARECEBIMENTO.AsString,  // FormaRecebimento
+                              cdsN_DOCUMENTO.AsString, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // NÂº Documento
+                              cdsCAIXA.AsInteger, // Caixa
+                              cdsCODCLIENTE.AsInteger, // Codigo do Cliente
+                              '7-',
+                              usulog, ''); // Usuario Logado
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+    Try
+      Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' +
+        ' WHERE USERID   = ' + IntToStr(usulog) +
+        '   AND CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(Texto);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  Finally
+    FRec.Free;
+  end;
 end;
 
 end.
