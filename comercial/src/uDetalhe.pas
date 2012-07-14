@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, DBCtrls, StdCtrls, Buttons, Mask, DB, dbxpress;
+  Dialogs, ExtCtrls, DBCtrls, StdCtrls, Buttons, Mask, DB, dbxpress, dbClient;
 
 type
   TfDetalhe = class(TForm)
@@ -70,6 +70,7 @@ type
     DBEdit27: TDBEdit;
     Label29: TLabel;
     DBEdit28: TDBEdit;
+    ds1: TDataSource;
     procedure btnGravarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);
@@ -106,9 +107,9 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(cm);
     dm.sqlsisAdimin.Commit(TD);
     dm.sqlsisAdimin.StartTransaction(TD);
-    if (fCompra.cds_Mov_det.State in [dsEdit, dsInsert]) then
-      fCompra.cds_mov_det.Post;
-    fCompra.cds_Mov_det.ApplyUpdates(-1);
+    if (ds1.DataSet.State in [dsEdit, dsInsert]) then
+      ds1.DataSet.Post;
+    (Ds1.DataSet as TClientDataset).ApplyUpdates(0);
     dm.sqlsisAdimin.Commit(TD);
     dm.sqlsisAdimin.StartTransaction(TD);
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
@@ -300,8 +301,10 @@ end;
 
 procedure TfDetalhe.FormCreate(Sender: TObject);
 begin
-    if (fCompra.DtSrc1.DataSet.State in [dsBrowse]) then
-     fCompra.cds_Mov_det.edit;
+    if (fCompra.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
+      ds1.DataSet := fCompra.DtSrc1.DataSet;
+    if (fVendas.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
+      ds1.DataSet := fVendas.DtSrc1.DataSet;
 end;
 
 end.
