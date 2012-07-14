@@ -40,11 +40,11 @@ inherited fVendas: TfVendas
     Visible = False
   end
   object Label19: TLabel [4]
-    Left = 642
+    Left = 637
     Top = 145
-    Width = 62
+    Width = 44
     Height = 16
-    Caption = 'N'#186' Pedido'
+    Caption = 'Pedido'
   end
   object Label20: TLabel [5]
     Left = 641
@@ -61,7 +61,7 @@ inherited fVendas: TfVendas
     Caption = 'Obs.:'
   end
   object Label29: TLabel [7]
-    Left = 642
+    Left = 637
     Top = 116
     Width = 42
     Height = 16
@@ -1318,7 +1318,7 @@ inherited fVendas: TfVendas
     PopupMenu = PopupMenu1
     TabOrder = 4
     object DBEdit2: TDBEdit
-      Left = 6
+      Left = 7
       Top = 16
       Width = 98
       Height = 24
@@ -2043,7 +2043,6 @@ inherited fVendas: TfVendas
         OnMouseDown = JvDBGrid1MouseDown
         OnMouseUp = JvDBGrid1MouseUp
         AlternateRowColor = clMoneyGreen
-        AutoSizeColumns = True
         SelectColumnsDialogStrings.Caption = 'Select columns'
         SelectColumnsDialogStrings.OK = '&OK'
         SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -2055,55 +2054,142 @@ inherited fVendas: TfVendas
             Expanded = False
             FieldName = 'CODPRO'
             Title.Caption = 'C'#243'digo'
-            Width = 67
+            Width = 100
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCPRODUTO'
             Title.Caption = 'Produto'
-            Width = 223
+            Width = 200
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'UN'
-            Width = 21
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'QUANTIDADE'
             Title.Caption = 'Qtde.'
-            Width = 51
+            Width = 80
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'PRECO'
             Title.Caption = 'Valor Unit.'
-            Width = 63
+            Width = 80
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
-            Width = 63
+            Width = 100
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'LOTE'
             Title.Caption = 'Lote/NF'
-            Width = 53
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CFOP'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CST'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CSTPIS'
+            Title.Caption = 'CST PIS'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CSTCOFINS'
+            Title.Caption = 'CST COFINS'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CSTIPI'
+            Title.Caption = 'CST IPI'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ICMS_SUBST'
+            Title.Caption = 'ST'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'ICMS'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_ICMS'
+            Title.Caption = 'Vlr. ICMS'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PIPI'
+            Title.Caption = 'IPI'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VIPI'
+            Title.Caption = 'Vlr. IPI'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'FRETE'
+            Title.Caption = 'Frete'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_DESCONTO'
+            Title.Caption = 'Desconto'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_SEGURO'
+            Title.Caption = 'Seguro'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_OUTROS'
+            Title.Caption = 'Outros'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CODDETALHE'
             Title.Caption = 'Validade'
-            Width = 60
+            Width = 100
             Visible = True
           end>
       end
@@ -2312,12 +2398,11 @@ inherited fVendas: TfVendas
     end
   end
   object DBEdit1: TDBEdit [22]
-    Left = 705
+    Left = 682
     Top = 142
-    Width = 73
+    Width = 98
     Height = 24
     BevelKind = bkFlat
-    BorderStyle = bsNone
     DataField = 'CODPEDIDO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -2437,10 +2522,12 @@ inherited fVendas: TfVendas
     OnClick = BitBtn7Click
   end
   object edCfop: TEdit [26]
-    Left = 680
+    Left = 682
     Top = 114
     Width = 98
     Height = 24
+    BiDiMode = bdRightToLeft
+    ParentBiDiMode = False
     TabOrder = 18
   end
   inherited XPMenu1: TXPMenu
@@ -2489,12 +2576,17 @@ inherited fVendas: TfVendas
       'O'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTD' +
       'E_PCT'#13#10', prod.PESO_QTDE'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPE' +
       'SA  '#13#10', prod.LOCALIZACAO  '#13#10', cm.CODIGO'#13#10', prod.LOTES'#13#10', movd.ST' +
-      'ATUS'#13#10',movd.VALOR_DESCONTO  '#13#10',movd.OBS, movd.CFOP '#13#10'from MOVIME' +
-      'NTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=mo' +
-      'vd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALM' +
-      'OXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm o' +
-      'n cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:C' +
-      'ODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
+      'ATUS'#13#10',movd.VALOR_DESCONTO  '#13#10',movd.OBS'#13#10',movd.CFOP '#13#10',movd.VALO' +
+      'R_ICMS,'#13#10'movd.PIPI, movd.VIPI, movd.VALTOTAL, movd.CSOSN, movd.N' +
+      'ITEMPED, movd.PEDIDO, movd.CST, movd.VLR_BASE, movd.VLR_BASEICMS' +
+      ', movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.VALOR_SEGU' +
+      'RO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, movd.CSTIPI' +
+      ', movd.CSTPIS, movd.CSTCOFINS '#13#10'from MOVIMENTODETALHE movd '#13#10'inn' +
+      'er join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left ' +
+      'outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODA' +
+      'LMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_COMISSAO = m' +
+      'ovd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.COD' +
+      'MOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -2646,6 +2738,96 @@ inherited fVendas: TfVendas
       FieldName = 'CFOP'
       FixedChar = True
       Size = 4
+    end
+    object sds_Mov_DetVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetPIPI: TFloatField
+      FieldName = 'PIPI'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetVIPI: TFloatField
+      FieldName = 'VIPI'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetCSOSN: TStringField
+      FieldName = 'CSOSN'
+      ProviderFlags = [pfInUpdate]
+      Size = 3
+    end
+    object sds_Mov_DetNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetCST: TStringField
+      FieldName = 'CST'
+      ProviderFlags = [pfInUpdate]
+      Size = 5
+    end
+    object sds_Mov_DetVLR_BASE: TFloatField
+      FieldName = 'VLR_BASE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetFRETE: TFloatField
+      FieldName = 'FRETE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetNCM: TStringField
+      FieldName = 'NCM'
+      ProviderFlags = [pfInUpdate]
+      Size = 8
+    end
+    object sds_Mov_DetII: TFloatField
+      FieldName = 'II'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetBCII: TFloatField
+      FieldName = 'BCII'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
+    end
+    object sds_Mov_DetCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
+    end
+    object sds_Mov_DetCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -2817,6 +2999,8 @@ inherited fVendas: TfVendas
     end
     object cds_Mov_detVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cds_Mov_detOBS: TStringField
       FieldName = 'OBS'
@@ -2827,6 +3011,110 @@ inherited fVendas: TfVendas
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 4
+    end
+    object cds_Mov_detVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds_Mov_detPIPI: TFloatField
+      FieldName = 'PIPI'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detVIPI: TFloatField
+      FieldName = 'VIPI'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds_Mov_detVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detCSOSN: TStringField
+      FieldName = 'CSOSN'
+      ProviderFlags = [pfInUpdate]
+      Size = 3
+    end
+    object cds_Mov_detNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detCST: TStringField
+      FieldName = 'CST'
+      ProviderFlags = [pfInUpdate]
+      Size = 5
+    end
+    object cds_Mov_detVLR_BASE: TFloatField
+      FieldName = 'VLR_BASE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds_Mov_detFRETE: TFloatField
+      FieldName = 'FRETE'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds_Mov_detICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds_Mov_detICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds_Mov_detVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object cds_Mov_detNCM: TStringField
+      FieldName = 'NCM'
+      ProviderFlags = [pfInUpdate]
+      Size = 8
+    end
+    object cds_Mov_detII: TFloatField
+      FieldName = 'II'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detBCII: TFloatField
+      FieldName = 'BCII'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_Mov_detCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
+    end
+    object cds_Mov_detCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
+    end
+    object cds_Mov_detCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      ProviderFlags = [pfInUpdate]
+      Size = 2
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -4926,7 +5214,7 @@ inherited fVendas: TfVendas
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 656
-    Top = 136
+    Left = 432
+    Top = 120
   end
 end

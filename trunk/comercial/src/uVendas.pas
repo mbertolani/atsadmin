@@ -539,6 +539,48 @@ type
     sds_Mov_DetCFOP: TStringField;
     cds_Mov_detCFOP: TStringField;
     sqlBCfop: TSQLQuery;
+    sds_Mov_DetVALOR_ICMS: TFloatField;
+    sds_Mov_DetPIPI: TFloatField;
+    sds_Mov_DetVIPI: TFloatField;
+    sds_Mov_DetVALTOTAL: TFloatField;
+    sds_Mov_DetCSOSN: TStringField;
+    sds_Mov_DetNITEMPED: TIntegerField;
+    sds_Mov_DetPEDIDO: TStringField;
+    sds_Mov_DetCST: TStringField;
+    sds_Mov_DetVLR_BASE: TFloatField;
+    sds_Mov_DetVLR_BASEICMS: TFloatField;
+    sds_Mov_DetFRETE: TFloatField;
+    sds_Mov_DetICMS_SUBST: TFloatField;
+    sds_Mov_DetICMS_SUBSTD: TFloatField;
+    sds_Mov_DetVALOR_SEGURO: TFloatField;
+    sds_Mov_DetVALOR_OUTROS: TFloatField;
+    sds_Mov_DetNCM: TStringField;
+    sds_Mov_DetII: TFloatField;
+    sds_Mov_DetBCII: TFloatField;
+    sds_Mov_DetCSTIPI: TStringField;
+    sds_Mov_DetCSTPIS: TStringField;
+    sds_Mov_DetCSTCOFINS: TStringField;
+    cds_Mov_detVALOR_ICMS: TFloatField;
+    cds_Mov_detPIPI: TFloatField;
+    cds_Mov_detVIPI: TFloatField;
+    cds_Mov_detVALTOTAL: TFloatField;
+    cds_Mov_detCSOSN: TStringField;
+    cds_Mov_detNITEMPED: TIntegerField;
+    cds_Mov_detPEDIDO: TStringField;
+    cds_Mov_detCST: TStringField;
+    cds_Mov_detVLR_BASE: TFloatField;
+    cds_Mov_detVLR_BASEICMS: TFloatField;
+    cds_Mov_detFRETE: TFloatField;
+    cds_Mov_detICMS_SUBST: TFloatField;
+    cds_Mov_detICMS_SUBSTD: TFloatField;
+    cds_Mov_detVALOR_SEGURO: TFloatField;
+    cds_Mov_detVALOR_OUTROS: TFloatField;
+    cds_Mov_detNCM: TStringField;
+    cds_Mov_detII: TFloatField;
+    cds_Mov_detBCII: TFloatField;
+    cds_Mov_detCSTIPI: TStringField;
+    cds_Mov_detCSTPIS: TStringField;
+    cds_Mov_detCSTCOFINS: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -647,7 +689,7 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
   uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils, uftransp,
-  uEstoque, uClienteCadastro, uProdutoCadastro;
+  uEstoque, uClienteCadastro, uProdutoCadastro, uDetalhe;
 
 {$R *.dfm}
 
@@ -3168,7 +3210,7 @@ procedure TfVendas.JvDBGrid1DblClick(Sender: TObject);
 begin
   inherited;
   // Se usa Lotes no cadastro de Produto então abre form.
-  if (cds_Mov_detLOTES.AsString = 'S') then
+  {if (cds_Mov_detLOTES.AsString = 'S') then
   begin
     fVendaLoteLancao := TfVendaLoteLancao.Create(Application);
     try
@@ -3192,6 +3234,16 @@ begin
       fVendaLoteLancao.Free;
     end;
   end;
+  }
+
+  fDetalhe := TfDetalhe.Create(Application);
+  try
+    //fDetalhe.detcodMovimento := cds_Mov_detCODDETALHE.AsInteger;
+    fDetalhe.ShowModal;
+  finally
+    fDetalhe.Free;
+  end;
+
 end;
 
 procedure TfVendas.JvDBGrid1KeyDown(Sender: TObject; var Key: Word;
