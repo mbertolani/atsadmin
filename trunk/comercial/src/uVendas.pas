@@ -1620,6 +1620,9 @@ begin
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
   cds_Mov_detVALOR_DESCONTO.AsFloat := 0;
   cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
+  cds_Mov_detFRETE.AsFloat := 0;
+  cds_Mov_detVALOR_SEGURO.AsFloat := 0;
+  cds_Mov_detVALOR_OUTROS.AsFloat := 0;
   cds_mov_detCFOP.asString := edCfop.text;
 end;
 
@@ -1989,6 +1992,10 @@ begin
 
       // atualizo o Lote - Está sendo Feito pela Trigger LOTE_SAIDA
     end;
+   cds_mov_det.Close; // Fecho e abro novamente, para carregar os impostos
+  cds_Mov_det.Params[0].Clear;
+  cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  cds_Mov_det.Open;
 end;
 
 procedure TfVendas.BitBtn9Click(Sender: TObject);
