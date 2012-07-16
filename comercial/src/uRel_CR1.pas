@@ -583,6 +583,7 @@ begin
     VCLReport1.Report.Params.ParamByName('DATA1').Value := StrToDate(fcrproc.meDta3.Text);
     VCLReport1.Report.Params.ParamByName('DATA2').Value := StrToDate(fcrproc.meDta4.Text);
     VCLReport1.Report.Params.ParamByName('CODCLI').Value := StrToInt(fcrproc.edCodCliente.Text);
+    VCLReport1.Report.Params.ParamByName('CCUSTO').Value := fcrproc.cCusto;
     VCLReport1.Execute;
 end;
 
