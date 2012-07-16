@@ -23,7 +23,7 @@ object fNotaf: TfNotaf
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 768
+    Width = 793
     Height = 627
     ActivePage = TabNF
     Align = alTop
@@ -411,7 +411,7 @@ object fNotaf: TfNotaf
         Width = 115
         Height = 41
         Caption = 'Base Calculo ICMS'
-        TabOrder = 18
+        TabOrder = 17
         object DBEdit10: TDBEdit
           Left = 5
           Top = 14
@@ -431,7 +431,7 @@ object fNotaf: TfNotaf
         Width = 115
         Height = 41
         Caption = 'Valor do ICMS'
-        TabOrder = 19
+        TabOrder = 18
         object DBEdit11: TDBEdit
           Left = 5
           Top = 14
@@ -452,7 +452,7 @@ object fNotaf: TfNotaf
         Width = 130
         Height = 41
         Caption = 'Base Calc. ICMS Subst.'
-        TabOrder = 20
+        TabOrder = 19
         object DBEdit12: TDBEdit
           Left = 5
           Top = 14
@@ -472,7 +472,7 @@ object fNotaf: TfNotaf
         Width = 130
         Height = 41
         Caption = 'Valor ICMS Substitui'#231#227'o'
-        TabOrder = 21
+        TabOrder = 20
         object DBEdit13: TDBEdit
           Left = 5
           Top = 14
@@ -492,7 +492,7 @@ object fNotaf: TfNotaf
         Width = 145
         Height = 41
         Caption = 'Valor Total dos Produtos'
-        TabOrder = 23
+        TabOrder = 22
         object DBEdit14: TDBEdit
           Left = 7
           Top = 14
@@ -512,7 +512,7 @@ object fNotaf: TfNotaf
         Width = 113
         Height = 41
         Caption = 'Valor do Frete'
-        TabOrder = 25
+        TabOrder = 24
         object DBEdit15: TDBEdit
           Left = 5
           Top = 14
@@ -533,7 +533,7 @@ object fNotaf: TfNotaf
         Width = 113
         Height = 41
         Caption = 'Valor do Seguro'
-        TabOrder = 26
+        TabOrder = 25
         object DBEdit16: TDBEdit
           Left = 5
           Top = 14
@@ -554,7 +554,7 @@ object fNotaf: TfNotaf
         Width = 130
         Height = 41
         Caption = 'Outras Desp. Acess'#243'rios'
-        TabOrder = 27
+        TabOrder = 26
         object DBEdit17: TDBEdit
           Left = 5
           Top = 14
@@ -575,7 +575,7 @@ object fNotaf: TfNotaf
         Width = 102
         Height = 41
         Caption = 'Valor do IPI'
-        TabOrder = 22
+        TabOrder = 21
         object DBEdit18: TDBEdit
           Left = 5
           Top = 14
@@ -602,7 +602,7 @@ object fNotaf: TfNotaf
         Font.Name = 'MS Sans Serif'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 28
+        TabOrder = 27
         object DBEdit19: TDBEdit
           Left = 7
           Top = 14
@@ -651,7 +651,7 @@ object fNotaf: TfNotaf
         Width = 324
         Height = 41
         Caption = 'Nome da Transportadora / Raz'#227'o Social'
-        TabOrder = 29
+        TabOrder = 28
         object cbTransportadora: TDBComboBox
           Left = 7
           Top = 14
@@ -681,7 +681,7 @@ object fNotaf: TfNotaf
         Width = 97
         Height = 41
         Caption = 'Frete'
-        TabOrder = 30
+        TabOrder = 29
         object cboFrete: TComboBox
           Left = 8
           Top = 16
@@ -703,7 +703,7 @@ object fNotaf: TfNotaf
         Width = 109
         Height = 41
         Caption = 'Placa'
-        TabOrder = 31
+        TabOrder = 30
         object DBEdit20: TDBEdit
           Left = 5
           Top = 14
@@ -723,7 +723,7 @@ object fNotaf: TfNotaf
         Width = 40
         Height = 41
         Caption = 'UF'
-        TabOrder = 32
+        TabOrder = 31
         object DBEdit21: TDBEdit
           Left = 5
           Top = 14
@@ -743,7 +743,7 @@ object fNotaf: TfNotaf
         Width = 185
         Height = 41
         Caption = 'C.N.P.J.'
-        TabOrder = 33
+        TabOrder = 32
         object DBEdit22: TDBEdit
           Left = 5
           Top = 14
@@ -763,7 +763,7 @@ object fNotaf: TfNotaf
         Width = 321
         Height = 41
         Caption = 'Endere'#231'o'
-        TabOrder = 34
+        TabOrder = 33
         object DBEdit23: TDBEdit
           Left = 5
           Top = 14
@@ -783,7 +783,7 @@ object fNotaf: TfNotaf
         Width = 209
         Height = 41
         Caption = 'Munic'#237'pio'
-        TabOrder = 35
+        TabOrder = 34
         object DBEdit24: TDBEdit
           Left = 5
           Top = 14
@@ -803,7 +803,7 @@ object fNotaf: TfNotaf
         Width = 40
         Height = 41
         Caption = 'UF'
-        TabOrder = 36
+        TabOrder = 35
         object DBEdit25: TDBEdit
           Left = 5
           Top = 14
@@ -823,7 +823,7 @@ object fNotaf: TfNotaf
         Width = 185
         Height = 41
         Caption = 'Inscri'#231#227'o Estadual'
-        TabOrder = 37
+        TabOrder = 36
         object DBEdit26: TDBEdit
           Left = 5
           Top = 14
@@ -843,7 +843,7 @@ object fNotaf: TfNotaf
         Width = 98
         Height = 41
         Caption = 'Quantidade'
-        TabOrder = 38
+        TabOrder = 37
         object DBEdit27: TDBEdit
           Left = 5
           Top = 14
@@ -863,7 +863,7 @@ object fNotaf: TfNotaf
         Width = 150
         Height = 41
         Caption = 'Esp'#233'cie'
-        TabOrder = 39
+        TabOrder = 38
         object DBEdit28: TDBEdit
           Left = 5
           Top = 14
@@ -883,7 +883,7 @@ object fNotaf: TfNotaf
         Width = 150
         Height = 41
         Caption = 'Marca'
-        TabOrder = 40
+        TabOrder = 39
         object DBEdit29: TDBEdit
           Left = 5
           Top = 14
@@ -903,7 +903,7 @@ object fNotaf: TfNotaf
         Width = 93
         Height = 41
         Caption = 'N'#250'mero'
-        TabOrder = 41
+        TabOrder = 40
         object DBEdit30: TDBEdit
           Left = 5
           Top = 14
@@ -923,7 +923,7 @@ object fNotaf: TfNotaf
         Width = 132
         Height = 41
         Caption = 'Peso Bruto'
-        TabOrder = 42
+        TabOrder = 41
         object DBEdit31: TDBEdit
           Left = 5
           Top = 14
@@ -950,7 +950,7 @@ object fNotaf: TfNotaf
         Width = 132
         Height = 41
         Caption = 'Peso Liquido'
-        TabOrder = 43
+        TabOrder = 42
         object DBEdit32: TDBEdit
           Left = 5
           Top = 14
@@ -977,7 +977,7 @@ object fNotaf: TfNotaf
         Width = 755
         Height = 95
         Caption = 'Dados Adicionais'
-        TabOrder = 44
+        TabOrder = 43
         object DBEdit61: TDBEdit
           Left = 4
           Top = 14
@@ -1087,158 +1087,6 @@ object fNotaf: TfNotaf
           OnKeyPress = FormKeyPress
         end
       end
-      object JvDBGrid1: TJvDBGrid
-        Left = 3
-        Top = 164
-        Width = 757
-        Height = 121
-        DataSource = DMNF.DtSrc1
-        PopupMenu = PopupMenu1
-        TabOrder = 17
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'MS Sans Serif'
-        TitleFont.Style = []
-        OnDblClick = JvDBGrid1DblClick
-        OnKeyPress = JvDBGrid1KeyPress
-        OnEditChange = JvDBGrid1EditChange
-        AutoSizeColumns = True
-        SelectColumnsDialogStrings.Caption = 'Select columns'
-        SelectColumnsDialogStrings.OK = '&OK'
-        SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-        EditControls = <>
-        RowsHeight = 17
-        TitleRowHeight = 17
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'CODPRO'
-            ReadOnly = True
-            Title.Caption = 'C'#243'digo'
-            Width = 18
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'DESCPRODUTO'
-            ReadOnly = True
-            Title.Caption = 'Produtos'
-            Width = 144
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'NCM'
-            Width = 43
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'CFOP'
-            Width = 23
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'CST'
-            ReadOnly = True
-            Width = 14
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'CSOSN'
-            ReadOnly = True
-            Width = 21
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'UN'
-            ReadOnly = True
-            Width = 15
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'QUANTIDADE'
-            ReadOnly = True
-            Title.Caption = 'Quantidade'
-            Width = 41
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VLR_BASE'
-            ReadOnly = True
-            Title.Caption = 'Valor Unit'#225'rio'
-            Width = 41
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALOR_DESCONTO'
-            Title.Caption = 'Desconto'
-            Width = 41
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ValorTotal'
-            ReadOnly = True
-            Title.Caption = 'Valor Total'
-            Width = 53
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ICMS'
-            ReadOnly = True
-            Title.Caption = 'ICMS %'
-            Width = 42
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VLR_BASEICMS'
-            ReadOnly = True
-            Title.Caption = 'Base ICMS'
-            Width = 55
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALOR_ICMS'
-            ReadOnly = True
-            Title.Caption = 'Valor ICMS'
-            Width = 42
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'FRETE'
-            Title.Caption = 'Frete'
-            Width = 41
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ICMS_SUBSTD'
-            ReadOnly = True
-            Title.Caption = 'Base ST'
-            Width = 51
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ICMS_SUBST'
-            ReadOnly = True
-            Title.Caption = 'ST'
-            Width = 39
-            Visible = True
-          end>
-      end
       object memo1: TMemo
         Left = 224
         Top = 208
@@ -1246,7 +1094,7 @@ object fNotaf: TfNotaf
         Height = 65
         Lines.Strings = (
           'Recebe descri'#231#227'o classifica'#231#227'o fiscal')
-        TabOrder = 45
+        TabOrder = 44
         Visible = False
       end
       object calcman: TCheckBox
@@ -1255,7 +1103,7 @@ object fNotaf: TfNotaf
         Width = 96
         Height = 17
         Caption = 'Calculo Manual'
-        TabOrder = 46
+        TabOrder = 45
         OnClick = calcmanClick
       end
       object JvGroupBox55: TJvGroupBox
@@ -1264,7 +1112,7 @@ object fNotaf: TfNotaf
         Width = 113
         Height = 41
         Caption = 'Valor do Desconto'
-        TabOrder = 24
+        TabOrder = 23
         object DBEdit50: TDBEdit
           Left = 5
           Top = 14
@@ -1277,6 +1125,451 @@ object fNotaf: TfNotaf
           TabOrder = 0
           OnChange = DBEdit11Change
           OnKeyPress = FormKeyPress
+        end
+      end
+      object PageControl1: TPageControl
+        Left = 0
+        Top = 168
+        Width = 761
+        Height = 121
+        ActivePage = TabSheet2
+        TabOrder = 46
+        object TabSheet2: TTabSheet
+          Caption = 'Itens'
+          object JvDBGrid1: TJvDBGrid
+            Left = 0
+            Top = 0
+            Width = 753
+            Height = 93
+            Align = alClient
+            DataSource = DMNF.DtSrc1
+            PopupMenu = PopupMenu1
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            TitleFont.Style = []
+            OnDblClick = JvDBGrid1DblClick
+            OnKeyPress = JvDBGrid1KeyPress
+            OnEditChange = JvDBGrid1EditChange
+            AutoSizeColumns = True
+            SelectColumnsDialogStrings.Caption = 'Select columns'
+            SelectColumnsDialogStrings.OK = '&OK'
+            SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+            EditControls = <>
+            RowsHeight = 17
+            TitleRowHeight = 17
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'CODPRO'
+                ReadOnly = True
+                Title.Caption = 'C'#243'digo'
+                Width = 16
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'DESCPRODUTO'
+                ReadOnly = True
+                Title.Caption = 'Produtos'
+                Width = 127
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'NCM'
+                Width = 38
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'CFOP'
+                Width = 20
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'CST'
+                ReadOnly = True
+                Width = 13
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'CSOSN'
+                ReadOnly = True
+                Width = 18
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'UN'
+                ReadOnly = True
+                Width = 13
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'QUANTIDADE'
+                ReadOnly = True
+                Title.Caption = 'Quantidade'
+                Width = 37
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VLR_BASE'
+                ReadOnly = True
+                Title.Caption = 'Valor Unit'#225'rio'
+                Width = 37
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALOR_DESCONTO'
+                Title.Caption = 'Desconto'
+                Width = 37
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'ValorTotal'
+                ReadOnly = True
+                Title.Caption = 'Valor Total'
+                Width = 47
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'ICMS'
+                ReadOnly = True
+                Title.Caption = 'ICMS %'
+                Width = 38
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VLR_BASEICMS'
+                ReadOnly = True
+                Title.Caption = 'Base ICMS'
+                Width = 48
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALOR_ICMS'
+                ReadOnly = True
+                Title.Caption = 'Valor ICMS'
+                Width = 38
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'FRETE'
+                Title.Caption = 'Frete'
+                Width = 37
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'ICMS_SUBSTD'
+                ReadOnly = True
+                Title.Caption = 'Base ST'
+                Width = 45
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'ICMS_SUBST'
+                ReadOnly = True
+                Title.Caption = 'ST'
+                Width = 111
+                Visible = True
+              end>
+          end
+        end
+        object TabSheet3: TTabSheet
+          Caption = 'Fatura'
+          ImageIndex = 1
+          object DBGrid2: TDBGrid
+            Left = 0
+            Top = 0
+            Width = 705
+            Height = 93
+            Hint = 'Grave as altera'#231#245'es em cada linha.'
+            Align = alCustom
+            DataSource = ds_Cr
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            TitleFont.Style = []
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'TITULO'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'T'#237'tulo'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Width = 60
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VIA'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'Via'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'DATAVENCIMENTO'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'Vencimento'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Width = 64
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALORTITULO'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'R$ T'#237'tulo'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Width = 64
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'STATUS'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'Status'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Width = 80
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALORRECEBIDO'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'R$ Recebido'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Width = 64
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALORREC'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'R$ Resto'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Width = 64
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'N_DOCUMENTO'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'N'#176' doc.'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Width = 70
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'CAIXA'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                Title.Caption = 'Caixa'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clBlack
+                Title.Font.Height = -13
+                Title.Font.Name = 'MS Sans Serif'
+                Title.Font.Style = []
+                Width = 64
+                Visible = True
+              end>
+          end
+          object btnCr: TBitBtn
+            Left = 709
+            Top = 2
+            Width = 39
+            Height = 37
+            TabOrder = 1
+            OnClick = btnCrClick
+            Glyph.Data = {
+              360C0000424D360C000000000000360000002800000020000000200000000100
+              180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C02B00002E0000290000FFFCF89084808281857D80847F807C7D7F79797B
+              7B848687837F84807F817C817F757A78858389857C8685747D9A828A95777C24
+              00003103002B0000FFFBFB2802002E0000290000C0C0C0C0C0C0C0C0C0C0C0C0
+              640000A80B0FB5030A9F050A4C000098787387797F7D797F85848081837D7A84
+              7E747E7882837F807F7B8586827F807E7D7E8285858B7B7C808F787CC57B817F
+              050DAD070EAD020A7300008A080FAF0C0E9C11142F0000C0C0C0C0C0C0370003
+              A9070CD80000FC0810DD0C10810B06B77F7A9D8286927A82FFF8FBFFF6F3FFFD
+              F8FFFFF8837D7688867E7C7C76878B86767A7B777C7F7B8382937979D5757BB2
+              0F17E1000AE8020EFFE8F2B0050DDF0309BF060A3A0000C0C0C0C0C0C03A0000
+              C10B0CF30201F40000DD08049C0D06CD79749D757AB57882A00913B10B127C0C
+              0CFFF9F59C857D817F777E807A8086817C84837B83837B827F9B807CD37675A2
+              0305E6060BE20207FFE1E3AC0E0EDD0303C00907380300C0C0C0C0C0C03B0000
+              BD0000FF0F0CF80000DB0000AE0F0BDC7975A27A7CC77D83C20007DE0007A309
+              0AFFF6F29B7D787E807A848680767C777880807F85847F7E7A9B7874D37471AF
+              120FE10303E10301FFEEEBA10904DC0400C20B072E0000C0C0C0C0C0C02E0000
+              C30D07F60000FF0403E10303AE0E0ED1726F9D7E7DB27271D01213E30505AA10
+              0BFFF6F18F76747F848380817F8583827C7D817E7B7D90817FB1817FD87571A1
+              0603DF0100E60905FFEFEAAC130CDB0500C00A04390000C0C0C0C0C0C02D0000
+              BA0700FF0B06F40000E50608A9080AD77777A08281B27873C20504E20501A60A
+              05FFF6F29981837A7F827F7D7D847F807F7D838982878E7C7DA87876DB7A77A4
+              0B08E40906DA0000FFEFEAA60A04DE0803C209053B0000C0C0C0C0C0C0370000
+              BB0A03F20200FF0507E20207AC0A0FD774769A7A7BBA7A79C60809E40604A308
+              05FFF5F497797E8080868380827F7C7E7E798289858B8781829C7976D379789C
+              0907DD0706DB0200FFEDEBAC0D09E00200C50908380000C0C0C0C0C0C0450000
+              BF0A08F10000F00000E30308B20509E37478A17F80AA7C7B9C0D0AB6100B8611
+              0CFFF8F59B8084817D828281838180827E7A807C787E7D7B7B987F7DC97C7993
+              120FBE0501CE0A08FFE7E8B6070AEB0609C103043A0000C0C0C0C0C0C0400000
+              C20306FA0404F40403E90B0BC40002FF787E9D7A7E888382A87A6FB77D71AA80
+              749A7E777F72708A86857A7D7B7F818187868A868287858383947E79AB6C687A
+              181296160BA70E07FFEAEECB020BEA0003CB0A0D3D0000C0C0C0C0C0C0410000
+              C50309FF0608EF0000E20301D10B0C910205B1777C917C7E9E8178A08073A080
+              75A6847E9E7876A27E7E9D827E937A7899797E98767C9E797BAE7E7DCF8682CC
+              716AE07266FC6E67C60710D90005FA060ECA0B0E390000C0C0C0C0C0C0380000
+              C3070DF90002F60000E50604BC0C069912107C151C610B136E17156C130F6F18
+              166C12126E0C12700F13711717680F1270131C74121E761119710A0F7A0D0F85
+              130D92160CAA0B07DD0510F2000BF70005C20709320000C0C0C0C0C0C0380000
+              C1070DF30005EB0406D80A08FFE3DCFFF0EBFFEBF2FFEFF7FFEDEDFFF1EFFFED
+              EEFFEEF4FFEEF7FFEFF5FFF1F1FFEFEFFFEEF7FFEBF6FFEDF7FFEEF5FFF0F0FF
+              F2EEFFEDE5FFECE8CC0006E9010DF70107BD0303350000C0C0C0C0C0C0330000
+              C5090EE20003BE0404FF6E6BBF100DB00D0A960F118208089B191496110A920D
+              0F93121786050E860B0F87120B8C120C940C10950910950D1391121483120F8D
+              1008B81009C00E09FFECEDB70206E80403C70A07370000C0C0C0C0C0C0350000
+              C20409E6060CAF0B0CFF726FB10E0BFFEAE7FFF0F0FFF5F2FFEFEAFFF5F0FFF0
+              EEFFF2F4FFF2F9FFF3F7FFF5F0FFF6F0FFF1F2FFF2F5FFF3F5FFF3F4FFF6F1FF
+              F5F0FFEBE6B50C08FFEFEEA60808E20404C205043D0000C0C0C0C0C0C0390000
+              C50609E40308AD080BF7726F96100CFFF4F0FFF9F8FFFBFCFFFCF9FFFCF9FFFD
+              F9FFFDF9FFFAFEFFFAFEFFFAFCFFFBFBFFFCFBFFFCFBFFFCFBFFFBFCFFFBFCFF
+              F9F8FFF4F0960E0AFFF0F0AE0B0DE20106C6070A3A0000C0C0C0C0C0C0370000
+              C40709E30308AD080BF371718C110DFFF6F1FFFAFBFEFDFFFEFEFEFAFFFDF9FF
+              FBFAFFFBFFFDFEFFFCFFFFFBFFFFFDFFFAFFFDF9FFFBFCFEFEFEFEFEFEFDFFFF
+              FAFBFFF6F28A0F0BFFF0F0AF0A0DE10107C5070C370000C0C0C0C0C0C0300000
+              C00709E10406AC090AF5717191100DFFF6F19B7C7D7E80817E808080817F8281
+              7D82817D847F80847F81857E83847F8182807F80817D8080807E80807E7F839B
+              7C7DFFF5F28F0E0BFFF0F0AE0B0DDF0206C1080A300000C0C0C0C0C0C0300000
+              C00808E10406AA0A0AF3726F91110CFFF6F1FFFCFBFBFFFFFFFFFFFFFFFEFFFF
+              FCFFFFFCFFFFFFFFFEFFFFFDFFFFFEFFFFFFFEFFFFFCFFFEFFFFFFFFFDFEFFFF
+              FCFCFFF5F28F0E0BFFF0F0AC0B0DDF0206C1080A300000C0C0C0C0C0C0370000
+              C40708E10406A80A0AF0736F8F110CFFF6F1FFFCFBFFFEFFFFFEFFFFFEFEFFFF
+              FCFFFFFEFDFFFFFAFFFFFBFEFFFDFFFFFFFFFEFFFFFCFFFEFFFFFEFFFFFEFFFF
+              FBFCFFF5F28D0F0BFFF1F0AA0C0CDF0204C50809370000C0C0C0C0C0C0390000
+              C50708E30406A60A0AEE736F8A120CFFF7F1997D7D807F81857F8085807F8280
+              7F80817F7C80817C7F837C7F837C808180817F82817D857F80857F80807F8399
+              7D7DFFF6F288100BFFF2F0A80C0CE10204C60809390000C0C0C0C0C0C0370000
+              C50708E30406A60A0AEC746F85130CFFF8F1FFFBFBFAFEFFFCFEFEFCFFFDF9FF
+              FDF9FFFDFEFDFFFFFCFFFFFCFFFEFDFFF9FFFDF9FFFBFCFEFEFCFEFEFAFDFFFF
+              FBFBFFF7F283110BFFF2F0A80C0DE10204C60809370000C0C0C0C0C0C0390000
+              C40709E10406A8090BEC737183130DFFF7F2FFFCFCFFFEFFFFFEFFFBFFFEF6FF
+              FEF6FFFEFDFFFFFFFDFFFFFDFFFDFFFFF6FFFEF6FFFCFBFFFFFFFFFFFFFEFFFF
+              FCFCFFF7F281110BFFF1F1A80C0DDF0206C5080A390000C0C0C0C0C0C0420000
+              C3050AD80003AA0B0FED6E6F87120DFFF6F2A27A7C8A7C80867D80817F7E7881
+              7E76817E7A7F807B7E827B7E827A7F8076817E78827C817F7F867E7F8A7C82A1
+              7A7CFFF6F2820D08FFF0F1AA0B0FDE0208C90B103E0000C0C0C0C0C0C0360000
+              B10C0FCD0A0C9E090DF1747687100EFFF4F3FFF8FEFFFAFFFFFCFFFFFEFFFDFF
+              FEFAFFFEFAFFFFF8FFFFFAFFFFFAFFFFFAFFFEFDFFFEFFFEFFFFFCFFFFFAFFFF
+              F8FEFFF4F38C1513FFEAEC9E090CC70406A90407340000C0C0C0C0C0C0190000
+              83100D9A0501921114E46F72840E0DFFF5F4FFF8FEFFFBFFFFFCFFFFFEFFFFFF
+              FEFFFFFEFDFFFFFAFFFFFBFFFFFDFFFFFFFFFEFFFFFEFFFEFFFFFCFFFFFBFFFF
+              F8FEFFF5F4891411FFF0F19515169D08048916131F0302C0C0C0C0C0C0160002
+              530000760000880A0FEE7579870F10FFF3F4A4787F8B7A83847D82837E7F867E
+              7E847F7E817E807D7E827F7E80817F7F847F7E867E7E837E7F847D828B7A83A4
+              787FFFF1F2820A0AFFEEF28E1113700000540000130000C0C0C0C0C0C0250002
+              5300007000009A1018FB71798B0A0FFFF2F6FFF8FFFFFBFFFBFEFFFAFFFFFFFF
+              FEFFFFFEFFFDFFFFFDFFFFFDFFFFFEFFFFFFFEFFFFFEFAFFFFFBFEFFFFFBFFFF
+              F8FFFFF3F5901113FFEDF5950B127000005300002D030AC0C0C0C0C0C0200001
+              5D161370140F7D1117D86C72771717FFF7F7FFF8FFFFFCFFF7FEFFF7FFFEFEFF
+              FDFFFEFDFFFDFFFFFCFFFFFDFFFFFDFEFFFEFDFEFFFDF7FFFEF7FEFFFFFCFFFF
+              F8FFFFF2F270110EFFF0F3780D10721710631C18200001C0C0C0C0C0C0C0C0C0
+              1703001E04002000002000001D07000E01000300040000070000050001020301
+              0003010000010100010200010200010103020003020000010100000400000503
+              00021105001E08001E00002000001E0400150100C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+          end
         end
       end
     end
@@ -1693,7 +1986,7 @@ object fNotaf: TfNotaf
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 768
+    Width = 793
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -3496,5 +3789,285 @@ object fNotaf: TfNotaf
     SQLConnection = DM.sqlsisAdimin
     Left = 200
     Top = 64
+  end
+  object SQLDataSet1: TSQLDataSet
+    CommandText = 
+      'select rec.CODCLIENTE, rec.CODRECEBIMENTO, rec.TITULO, rec.VIA, ' +
+      'rec.DATAVENCIMENTO, rec.VALORTITULO, rec.DP, '#13#10'          CASE re' +
+      'c.STATUS WHEN '#39'5-'#39' then '#39'Pendente'#39' when '#39'7-'#39' then '#39'Recebido'#39' whe' +
+      'n '#39'8-'#39' then '#39'Credito Duvidoso'#39' when '#39'9-'#39' then '#39'Em Cobran'#231'a'#39' when' +
+      ' '#39'14'#39' then '#39'Cancelado'#39' end  as STATUS, '#13#10'          rec.VALORRECE' +
+      'BIDO, rec.VALOR_RESTO, rec.VALOR_PRIM_VIA, rec.N_DOCUMENTO, rec.' +
+      'CAIXA, rec.FORMARECEBIMENTO, rec.DATARECEBIMENTO,'#13#10'          cli' +
+      '.NOMECLIENTE, (CASE WHEN (REC.VALORRECEBIDO > 0) THEN (REC.VALOR' +
+      'TITULO - rec.VALOR_RESTO)'#13#10'          WHEN (REC.VALORRECEBIDO = 0' +
+      ') THEN rec.VALOR_RESTO END)'#13#10'          as VALORREC, rec.EMISSAO,' +
+      ' (udf_digits(rec.TITULO) || '#39'/'#39' || rec.VIA) as TIT, rec.STATUS a' +
+      's SITUACAO '#13#10'from RECEBIMENTO rec '#13#10'           inner join CLIENT' +
+      'ES cli on cli.CODCLIENTE=rec.CODCLIENTE '#13#10'where CODVENDA = :pcod' +
+      ' order by rec.CODRECEBIMENTO'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pcod'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 528
+    Top = 320
+    object SQLDataSet1TITULO: TStringField
+      FieldName = 'TITULO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      Size = 18
+    end
+    object SQLDataSet1DATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1CAIXA: TSmallintField
+      FieldName = 'CAIXA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1STATUS: TStringField
+      DisplayWidth = 20
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 16
+    end
+    object SQLDataSet1VIA: TStringField
+      FieldName = 'VIA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object SQLDataSet1N_DOCUMENTO: TStringField
+      FieldName = 'N_DOCUMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1VALORRECEBIDO: TFloatField
+      FieldName = 'VALORRECEBIDO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1VALOR_RESTO: TFloatField
+      FieldName = 'VALOR_RESTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1VALORTITULO: TFloatField
+      FieldName = 'VALORTITULO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1VALORREC: TFloatField
+      FieldName = 'VALORREC'
+      ProviderFlags = []
+    end
+    object SQLDataSet1CODRECEBIMENTO: TIntegerField
+      FieldName = 'CODRECEBIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object SQLDataSet1NOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ProviderFlags = []
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object SQLDataSet1DP: TIntegerField
+      FieldName = 'DP'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SQLDataSet1EMISSAO: TDateField
+      FieldName = 'EMISSAO'
+      ProviderFlags = [pfInUpdate]
+      ReadOnly = True
+    end
+    object SQLDataSet1VALOR_PRIM_VIA: TFloatField
+      FieldName = 'VALOR_PRIM_VIA'
+      ProviderFlags = [pfInUpdate]
+      ReadOnly = True
+    end
+    object SQLDataSet1CODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object SQLDataSet1TIT: TStringField
+      FieldName = 'TIT'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object SQLDataSet1SITUACAO: TStringField
+      FieldName = 'SITUACAO'
+      ReadOnly = True
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object SQLDataSet1FORMARECEBIMENTO: TStringField
+      FieldName = 'FORMARECEBIMENTO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object SQLDataSet1DATARECEBIMENTO: TDateField
+      FieldName = 'DATARECEBIMENTO'
+      ReadOnly = True
+    end
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = SQLDataSet1
+    UpdateMode = upWhereKeyOnly
+    Left = 560
+    Top = 320
+  end
+  object scdsCr_proc: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pcod'
+        ParamType = ptInput
+      end>
+    ProviderName = 'DataSetProvider1'
+    Left = 592
+    Top = 320
+    object scdsCr_procTITULO: TStringField
+      FieldName = 'TITULO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      Size = 18
+    end
+    object scdsCr_procEMISSAO: TDateField
+      FieldName = 'EMISSAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procCAIXA: TSmallintField
+      FieldName = 'CAIXA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procSTATUS: TStringField
+      DisplayWidth = 20
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 16
+    end
+    object scdsCr_procVIA: TStringField
+      FieldName = 'VIA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object scdsCr_procN_DOCUMENTO: TStringField
+      FieldName = 'N_DOCUMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procVALORRECEBIDO: TFloatField
+      FieldName = 'VALORRECEBIDO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object scdsCr_procVALOR_RESTO: TFloatField
+      FieldName = 'VALOR_RESTO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object scdsCr_procVALORTITULO: TFloatField
+      FieldName = 'VALORTITULO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
+    end
+    object scdsCr_procNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ProviderFlags = []
+      Required = True
+      Size = 50
+    end
+    object scdsCr_procVALORREC: TFloatField
+      FieldName = 'VALORREC'
+      ProviderFlags = []
+      DisplayFormat = ',#0.00'
+    end
+    object scdsCr_procCODRECEBIMENTO: TIntegerField
+      FieldName = 'CODRECEBIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object scdsCr_procDP: TIntegerField
+      FieldName = 'DP'
+      ProviderFlags = [pfInUpdate]
+    end
+    object scdsCr_procVALOR_PRIM_VIA: TFloatField
+      FieldName = 'VALOR_PRIM_VIA'
+      ProviderFlags = [pfInUpdate]
+      ReadOnly = True
+    end
+    object scdsCr_procCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object scdsCr_procTIT: TStringField
+      FieldName = 'TIT'
+      ReadOnly = True
+      FixedChar = True
+      Size = 254
+    end
+    object scdsCr_procSITUACAO: TStringField
+      FieldName = 'SITUACAO'
+      ReadOnly = True
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object scdsCr_procFORMARECEBIMENTO: TStringField
+      FieldName = 'FORMARECEBIMENTO'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object scdsCr_procDATARECEBIMENTO: TDateField
+      FieldName = 'DATARECEBIMENTO'
+      ReadOnly = True
+    end
+    object scdsCr_procTRecebido: TAggregateField
+      Alignment = taRightJustify
+      FieldName = 'TRecebido'
+      Active = True
+      DisplayFormat = ',##0.00'
+      Expression = 'SUM(VALORRECEBIDO)'
+    end
+    object scdsCr_procTotal_resto: TAggregateField
+      Alignment = taRightJustify
+      FieldName = 'Total_resto'
+      Active = True
+      DisplayFormat = ',##0.00'
+      Expression = 'sum(VALOR_PRIM_VIA-VALORRECEBIDO)'
+    end
+    object scdsCr_procTotalTitulo: TAggregateField
+      FieldName = 'TotalTitulo'
+      Active = True
+      DisplayFormat = ',##0.00'
+      Expression = 'sum(VALOR_PRIM_VIA)'
+    end
+  end
+  object ds_Cr: TDataSource
+    DataSet = scdsCr_proc
+    Left = 624
+    Top = 319
   end
 end
