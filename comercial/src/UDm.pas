@@ -2190,6 +2190,12 @@ begin
 
   if cds_parametro.Active then
     cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'SUBSTITUICAOTRIBUTARIA'; // Forma de Busca Produto
+  cds_parametro.Open;
+
+
+  if cds_parametro.Active then
+    cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'BUSCAPRODUTO'; // Forma de Busca Produto
   cds_parametro.Open;
   codBarra := 'N';
