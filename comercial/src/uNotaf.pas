@@ -298,7 +298,6 @@ type
     DBEdit64: TDBEdit;
     DBEdit65: TDBEdit;
     DBEdit66: TDBEdit;
-    JvDBGrid1: TJvDBGrid;
     memo1: TMemo;
     calcman: TCheckBox;
     TabSheet1: TTabSheet;
@@ -355,6 +354,59 @@ type
     listaCliente1CODFISCAL: TStringField;
     sCfopCODFISCAL: TStringField;
     cboFrete: TComboBox;
+    PageControl1: TPageControl;
+    TabSheet2: TTabSheet;
+    JvDBGrid1: TJvDBGrid;
+    TabSheet3: TTabSheet;
+    DBGrid2: TDBGrid;
+    btnCr: TBitBtn;
+    SQLDataSet1: TSQLDataSet;
+    SQLDataSet1TITULO: TStringField;
+    SQLDataSet1DATAVENCIMENTO: TDateField;
+    SQLDataSet1CAIXA: TSmallintField;
+    SQLDataSet1STATUS: TStringField;
+    SQLDataSet1VIA: TStringField;
+    SQLDataSet1N_DOCUMENTO: TStringField;
+    SQLDataSet1VALORRECEBIDO: TFloatField;
+    SQLDataSet1VALOR_RESTO: TFloatField;
+    SQLDataSet1VALORTITULO: TFloatField;
+    SQLDataSet1VALORREC: TFloatField;
+    SQLDataSet1CODRECEBIMENTO: TIntegerField;
+    SQLDataSet1NOMECLIENTE: TStringField;
+    SQLDataSet1DP: TIntegerField;
+    SQLDataSet1EMISSAO: TDateField;
+    SQLDataSet1VALOR_PRIM_VIA: TFloatField;
+    SQLDataSet1CODCLIENTE: TIntegerField;
+    SQLDataSet1TIT: TStringField;
+    SQLDataSet1SITUACAO: TStringField;
+    SQLDataSet1FORMARECEBIMENTO: TStringField;
+    SQLDataSet1DATARECEBIMENTO: TDateField;
+    DataSetProvider1: TDataSetProvider;
+    scdsCr_proc: TClientDataSet;
+    scdsCr_procTITULO: TStringField;
+    scdsCr_procEMISSAO: TDateField;
+    scdsCr_procDATAVENCIMENTO: TDateField;
+    scdsCr_procCAIXA: TSmallintField;
+    scdsCr_procSTATUS: TStringField;
+    scdsCr_procVIA: TStringField;
+    scdsCr_procN_DOCUMENTO: TStringField;
+    scdsCr_procVALORRECEBIDO: TFloatField;
+    scdsCr_procVALOR_RESTO: TFloatField;
+    scdsCr_procVALORTITULO: TFloatField;
+    scdsCr_procNOMECLIENTE: TStringField;
+    scdsCr_procVALORREC: TFloatField;
+    scdsCr_procCODRECEBIMENTO: TIntegerField;
+    scdsCr_procDP: TIntegerField;
+    scdsCr_procVALOR_PRIM_VIA: TFloatField;
+    scdsCr_procCODCLIENTE: TIntegerField;
+    scdsCr_procTIT: TStringField;
+    scdsCr_procSITUACAO: TStringField;
+    scdsCr_procFORMARECEBIMENTO: TStringField;
+    scdsCr_procDATARECEBIMENTO: TDateField;
+    scdsCr_procTRecebido: TAggregateField;
+    scdsCr_procTotal_resto: TAggregateField;
+    scdsCr_procTotalTitulo: TAggregateField;
+    ds_Cr: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -393,6 +445,7 @@ type
     procedure ChkCompClick(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure cboFreteChange(Sender: TObject);
+    procedure btnCrClick(Sender: TObject);
   private
     { Private declarations }
     procedure carregaDadosAdicionais;    
@@ -435,7 +488,8 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
-  uNFeletronica, uNotafRemessa, uComplementar, uDetalheNF, StrUtils;
+  uNFeletronica, uNotafRemessa, uComplementar, uDetalheNF, StrUtils,
+  ufCrAltera;
 
 {$R *.dfm}
 
@@ -691,6 +745,13 @@ begin
     dmnf.cds_venda.Open;
     if (not dmnf.cds_venda.IsEmpty) then
       codVendaFin := dmnf.cds_vendaCODVENDA.AsInteger;
+
+    if (scdsCr_proc.Active) then
+      scdsCr_proc.Close;
+
+    scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
+    scdsCr_proc.Open;
+
     //Mostra NF
     if (dmnf.cds_nf.Active) then
       dmnf.cds_nf.Close;
@@ -1506,6 +1567,13 @@ begin
     dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_vendaCODMOVIMENTO.AsInteger;
   end;
   dmnf.cds_Mov_det.open;
+
+  if (scdsCr_proc.Active) then
+    scdsCr_proc.Close;
+
+  scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
+  scdsCr_proc.Open;
+
 end;
 
 procedure TfNotaf.BitBtn4Click(Sender: TObject);
@@ -2341,6 +2409,40 @@ begin
  if DMNF.DtSrc_NF.State in [dsBrowse] then
       DMNF.DtSrc_NF.DataSet.Edit;
     DMNF.cds_nfFRETE.AsString := IntToStr(cboFrete.ItemIndex);
+end;
+
+procedure TfNotaf.btnCrClick(Sender: TObject);
+begin
+  fCrAltera := TfCrAltera.Create(Application);
+  try
+    fCrAltera.ntitulo := scdsCr_procTITULO.AsString;
+    fCrAltera.codcliente := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.demissao := scdsCr_procEMISSAO.AsDateTime;
+
+
+    if (fCrAltera.cds.Active) then
+      fCrAltera.cds.Close;
+    fCrAltera.cds.Params[0].AsString := scdsCr_procTITULO.AsString;
+    fCrAltera.cds.Params[1].AsInteger := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.cds.Params[2].AsDateTime := scdsCr_procEMISSAO.AsDateTime;
+    fCrAltera.cds.Open;
+
+    if (fCrAltera.cds1.Active) then
+      fCrAltera.cds1.Close;
+    fCrAltera.cds1.Params[0].AsString := scdsCr_procTITULO.AsString;
+    fCrAltera.cds1.Params[1].AsInteger := scdsCr_procCODCLIENTE.AsInteger;
+    fCrAltera.cds1.Params[2].AsDateTime := scdsCr_procEMISSAO.AsDateTime;
+    fCrAltera.cds1.Open;
+
+    fCrAltera.Label1.Caption := scdsCr_procTITULO.AsString;
+    fCrAltera.Label2.Caption := scdsCr_procTITULO.AsString;    
+    fCrAltera.ShowModal;
+    scdsCr_proc.Close;
+    scdsCr_proc.Open;
+  finally
+    fCrAltera.Free;
+  end;
+
 end;
 
 end.
