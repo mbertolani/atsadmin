@@ -1665,6 +1665,8 @@ begin
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
       executaSql('ALTER TABLE CCE ALTER CONDICAO TYPE Varchar(700)');
       executaDDL('VENDA', 'VALOR_ST', 'double precision');
+      executaScript('gera_nf_venda108.sql');
+      executaScript('nfe_fatura108.sql');
       //mudaVersao('1.0.0.108');
     end;// Fim Ataulização Versao 1.0.0.108
 
