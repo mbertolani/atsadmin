@@ -410,7 +410,7 @@ var strG, strR, strP: String;
     sqlBuscaR, sqlPrazo : TSqlQuery;
             i : integer;
           rec : Boolean;
-      VlrParc, UltParc, VlrT : Double;
+      VlrParc, UltParc, VlrT, vlrSt : Double;
       vDataVenc : TDateTime;
 begin
   // Se codVendaR > 0, então é uma Venda então busca os dados da Venda;
@@ -424,7 +424,8 @@ begin
         ' DATASISTEMA, VALOR, NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA,' +
         ' OPERACAO, FORMARECEBIMENTO, N_DOCUMENTO, CAIXA, MULTA_JUROS, APAGAR,  ' +
         ' VALOR_PAGAR, ENTRADA, N_BOLETO, STATUS1, CONTROLE, OBS, VALOR_ICMS,   ' +
-        ' VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, PRAZO, CODORIGEM, TROCO' +
+        ' VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, PRAZO, CODORIGEM,  ' +
+        ' TROCO, COALESCE(VALOR_ST,0) VALOR_ST ' +
         '  FROM VENDA ' +
         ' WHERE CODVENDA = ' + InttoStr(CodVendaR);
       sqlBuscaR.SQL.Add(strR);
@@ -438,6 +439,7 @@ begin
         Self.NParcela      := sqlBuscaR.FieldByName('N_PARCELA').AsInteger;
         Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat - sqlBuscaR.FieldByName('DESCONTO').AsFloat;
         Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
+        vlrSt              := sqlBuscaR.FieldByName('VALOR_ST').AsFloat;
         //Self.Desconto      := sqlBuscaR.FieldByName('DESCONTO').AsFloat;
         Self.DtEmissao     := sqlBuscaR.FieldByName('DATAVENDA').AsDateTime;
         Self.DtVcto        := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
@@ -449,6 +451,26 @@ begin
       end;
     Finally
       sqlBuscaR.Free;
+    end;
+    // Busca o PARAMETRO Cadastro para ver como sera carregado o valor da ST nos titulos
+    // vou deixar carregando 100 % na primeira parcela
+    if (vlrSt > 0) then
+    begin
+      Try
+        sqlPrazo :=  TSqlQuery.Create(nil);
+        sqlPrazo.SQLConnection := dm.sqlsisAdimin;
+        strP := 'SELECT DADOS' +
+          '  FROM PARAMETRO ' +
+          ' WHERE PARAMETRO = ' + quotedstr('SUBSTITUICAOTRIBUTARIA');
+        sqlPrazo.SQL.Add(strP);
+        sqlPrazo.Open;
+        if (not sqlPrazo.isEmpty) then
+        begin
+          //vlrSt := 1;
+        end;
+      Finally
+        sqlPrazo.Free;
+      end;
     end;
     Try
       sqlPrazo :=  TSqlQuery.Create(nil);
@@ -522,10 +544,10 @@ begin
   Self.FormaRec := '0';
   if (CodRecR <> 1) then
   begin
-    if ((Self.ValorRec > 0) and (Self.ValorRec < Self.Valor)) then
-      VlrParc := (Self.Valor - Self.ValorRec) / (Self.NParcela-1)
-    else
-      VlrParc := Self.Valor / Self.NParcela;
+    //if ((Self.ValorRec > 0) and (Self.ValorRec < Self.Valor)) then
+    //  VlrParc := ((Self.Valor - vlrSt) - Self.ValorRec) / (Self.NParcela-1)
+    //else
+    VlrParc := (Self.Valor - vlrSt) / Self.NParcela;
   end
   else
   begin
@@ -534,12 +556,14 @@ begin
   DecimalSeparator := '.';
 
   UltParc := Self.Valor;
-  VlrParc := roundTo(VlrParc, -2);
+  VlrT := roundTo(VlrParc, -2);
 
   for i := 1 to Self.NParcela do
   begin
-    //if (Self.NParcela = i) then
-    //  VlrParc := VlrT;
+    if (i = 1) then
+      VlrParc := roundTo((VlrT + vlrSt),-2)
+    else
+      VlrParc := vlrT;
     if ((CodRecR = 0) or (CodRecR = 1)) then   //CodRecR = 1  novo titulo de baixa Parcial...
     begin
       if dm.c_6_genid.Active then
@@ -622,7 +646,6 @@ begin
   Result := 0;
   if (Rec) then
     Result := Self.CodRec;
-
 end;
 
 function TReceberCls.getCaixa: Integer;
