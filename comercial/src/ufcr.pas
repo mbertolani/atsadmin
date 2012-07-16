@@ -277,6 +277,7 @@ type
     { Private declarations }
   public
     imp: string;
+    cCusto : Integer;
     { Public declarations }
   end;
 
@@ -476,6 +477,7 @@ var varUtilCrProc : TUtils;
 begin
   sqlTexto1 := '';
   SqlCr := '';
+  cCusto := 0;
   if scdsCr_proc.Active then
      scdsCr_proc.Close;
    sqltexto1 :='select rec.CODRECEBIMENTO, rec.TITULO, rec.EMISSAO, ';
@@ -695,7 +697,11 @@ begin
       end;
       7:  // Todos
       begin
-
+        if SqlCr='' then
+          SqlCr := SqlCr + ' WHERE (rec.STATUS <> '
+        else
+          SqlCr := SqlCr + ' AND (rec.STATUS <> ';
+        SqlCr := SqlCr + QuotedStr('NF') + ')';
       end;
 
       8:  // Protesto
@@ -805,7 +811,8 @@ begin
       SqlCr := SqlCr + ' WHERE rec.CODALMOXARIFADO = '
     else
       SqlCr := SqlCr + ' AND rec.CODALMOXARIFADO = ';
-      SqlCr := SqlCr + IntToStr(dm.cds_ccustoCODIGO.AsInteger);
+    SqlCr := SqlCr + IntToStr(dm.cds_ccustoCODIGO.AsInteger);
+    cCusto := dm.cds_ccustoCODIGO.AsInteger;
   end;
   //==============================================================================
   //------------------------------------------------------------------------------
