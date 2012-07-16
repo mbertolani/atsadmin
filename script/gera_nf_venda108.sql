@@ -5,6 +5,7 @@ as
   declare variable codRec integer;
   declare variable codNF integer;
   declare variable codVen integer;
+  declare variable rcodVen integer;
   declare variable codMovNovo integer;
   declare variable codCCusto integer;
   declare variable codUser integer;
@@ -96,6 +97,17 @@ as
   declare variable ICMS_SUBST double precision;
   declare variable ICMS_SUBSTD double precision;
   declare variable VALOR_ICMS double precision;
+  declare variable rPARCELAS integer;
+  declare variable rDATAVENCIMENTO date; 
+  declare variable rDATARECEBIMENTO date;
+  declare variable rCAIXA smallint;
+  declare variable rVIA char(4);
+  declare variable rFORMARECEBIMENTO char(1);
+  declare variable rDATABAIXA date;
+  declare variable rVALORRECEBIDO double precision;
+  declare variable rVALOR_PRIM_VIA double precision;
+  declare variable rVALOR_RESTO double precision;
+  declare variable rVALORTITULO   double precision;
 begin 
 
   Select first 1 mov.CODNATUREZA
@@ -144,11 +156,11 @@ begin
 
     -- insiro o Movimento   
     for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, 
-               ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE, ven.ENTRADA, mov.CODPEDIDO
+               ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE, ven.ENTRADA, mov.CODPEDIDO, ven.CODVENDA
           from movimento mov 
          inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
          where mov.CODMOVIMENTO = :codMov
-          into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada, :xped
+          into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada, :xped, :rcodven
     do begin 
       insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle, codtransp) 
@@ -322,12 +334,35 @@ begin
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
     , :serie, :UF, 0, 0, 0, :indpag);
  
-    -- Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
+    For SELECT r.PARCELAS,       r.DATAVENCIMENTO, r.DATARECEBIMENTO,  
+               r.CAIXA,          r.VIA,           r.FORMARECEBIMENTO, 
+               r.DATABAIXA,      r.VALORRECEBIDO, r.VALOR_PRIM_VIA, r.VALOR_RESTO, 
+               r.VALORTITULO
+          FROM RECEBIMENTO r 
+         WHERE r.CODVENDA = :rcodven
+          INTO :rPARCELAS,  :rDATAVENCIMENTO, :rDATARECEBIMENTO, :rCAIXA, :rVIA, :rFORMARECEBIMENTO, 
+               :rDATABAIXA, :rVALORRECEBIDO, :rVALOR_PRIM_VIA, :rVALOR_RESTO, :rVALORTITULO
+    do begin        
+       INSERT INTO RECEBIMENTO (CODRECEBIMENTO,       TITULO,        EMISSAO,        CODCLIENTE,    DATAVENCIMENTO,
+                                DATARECEBIMENTO,      CAIXA,         STATUS,         VIA,           FORMARECEBIMENTO, 
+                                DATABAIXA,            CODVENDA,      CODALMOXARIFADO,CODVENDEDOR,   CODUSUARIO, 
+                                DATASISTEMA,          VALORRECEBIDO, JUROS,          DESCONTO,      PERDA, 
+                                TROCA,                FUNRURAL,      VALOR_PRIM_VIA, VALOR_RESTO,   VALORTITULO, 
+                                OUTRO_CREDITO,        OUTRO_DEBITO,  PARCELAS)
+                    VALUES (GEN_ID(COD_AREC,1),        CAST(:numero as Varchar(10)) || '-NF',      :dtEmissao,     :Cliente,      :rDATAVENCIMENTO, 
+                                :rDATARECEBIMENTO,    :rCAIXA,       'NF',           :rVIA,         :rFORMARECEBIMENTO, 
+                                :rDATABAIXA,          :codVen,       :codCCusto,     :codVendedor,  :codUser,
+                                current_date,         :rVALORRECEBIDO, 0,             0,             0,              
+                                0,                     0,            :rVALOR_PRIM_VIA,:rVALOR_RESTO, :rVALORTITULO,
+                                0,                     0,            :rPARCELAS); 
+    end
+ 
+    -- Faco um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
     -- da nf qdo esta e parcelada (dnz)
-    --select valor_total_nota from notafiscal where numnf = :codnf
-    --into :total;
+    select valor_total_nota from notafiscal where numnf = :codnf
+    into :total;
 
-    --EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
-    --   :vOutrosT, :total, 'N', 0, 0);
+    EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
+       :vOutrosT, :total, 'N', 0, 0);
   end
 end 
