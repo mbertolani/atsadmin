@@ -451,6 +451,7 @@ type
     cds_Mov_detCSTIPI: TStringField;
     cds_Mov_detCSTPIS: TStringField;
     cds_Mov_detCSTCOFINS: TStringField;
+    edCFOP: TEdit;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -552,6 +553,14 @@ begin
       btnClienteProcura.Click;
       exit;
     end;
+    if (dm.scds_forn_procCFOP.asString <> '') then
+    begin
+      edCFOP.Text := dm.scds_forn_procCFOP.asString;
+      if (dm.validaCfop(edCFOP.Text) = False) then
+      begin
+        MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
+      end;
+    end;
     cds_MovimentoCODFORNECEDOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
     cds_MovimentoNOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
     dbEdit3.Text := dm.scds_forn_procNOMEFORNECEDOR.AsString;
@@ -575,6 +584,14 @@ begin
       [mbOk], 0);
       btnClienteProcura.Click;
       exit;
+    end;
+    if (dm.scds_forn_procCFOP.asString <> '') then
+    begin
+      edCFOP.Text := dm.scds_forn_procCFOP.asString;
+      if (dm.validaCfop(edCFOP.Text) = False) then
+      begin
+        MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
+      end;
     end;
     cds_MovimentoCODFORNECEDOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
     cds_MovimentoNOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
@@ -787,6 +804,12 @@ begin
   J := 1;
   modo := 'incluir';
   codmovdet := 1999999;
+  edCFOP.Text := dm.cfopEntrada;
+  if (dm.validaCfop(edCFOP.Text) = False) then
+  begin
+    MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
+  end;
+
   if cds_Movimento.Active then
     cds_Movimento.Close;
   if cds_Mov_det.Active then
@@ -952,6 +975,11 @@ begin
         dm.c_6_genid.Open;
         cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
         dm.c_6_genid.Close;
+        if (dm.validaCfop(edCFOP.Text) = False) then
+        begin
+          MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
+          exit;
+        end;
         cds_Mov_det.Post;
         cds_Mov_det.Next;
         codmovdet := 0;
@@ -1042,7 +1070,7 @@ begin
   end;
   cds_mov_detCODDETALHE.AsInteger := codmovdet;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
-  cds_Mov_detCFOP.AsString := dm.cfopEntrada;
+  cds_Mov_detCFOP.AsString := edCFOP.Text;
 end;
 
 procedure TfCompra.btnExcluirClick(Sender: TObject);
@@ -1524,6 +1552,8 @@ begin
      cds_Movimento.Edit;
    cds_MovimentoCODFORNECEDOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
    cds_MovimentoNOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
+   if (dm.scds_forn_procCFOP.asString <> '') then
+     edCFOP.Text := dm.scds_forn_procCFOP.asString;
    finally
     dm.scds_forn_proc.Close;
     fProcurar.Free;
@@ -1784,6 +1814,8 @@ end;
 
 procedure TfCompra.cds_Mov_detBeforePost(DataSet: TDataSet);
 begin
+  if (cds_Mov_detCFOP.AsString <> edCFOP.Text) then
+    cds_Mov_detCFOP.AsString := edCFOP.Text;
   inherited;
   if (dm.moduloUsado = 'CITRUS') then
   begin

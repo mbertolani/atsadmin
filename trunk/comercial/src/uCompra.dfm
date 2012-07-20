@@ -1077,7 +1077,7 @@ inherited fCompra: TfCompra
       OnKeyPress = dbeClienteKeyPress
     end
     object btnClienteProcura: TBitBtn
-      Left = 448
+      Left = 384
       Top = 8
       Width = 35
       Height = 38
@@ -1156,7 +1156,7 @@ inherited fCompra: TfCompra
     object DBEdit3: TDBEdit
       Left = 57
       Top = 16
-      Width = 389
+      Width = 327
       Height = 24
       TabStop = False
       Color = clInfoBk
@@ -1171,6 +1171,15 @@ inherited fCompra: TfCompra
       PopupMenu = PopupMenu1
       ReadOnly = True
       TabOrder = 2
+      OnKeyPress = FormKeyPress
+    end
+    object edCFOP: TEdit
+      Left = 422
+      Top = 16
+      Width = 59
+      Height = 24
+      TabOrder = 3
+      Text = 'CFOP'
       OnKeyPress = FormKeyPress
     end
   end
