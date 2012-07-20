@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE NFE_FATURA (CODVENDA integer )
 RETURNS (
     DATAFATURA date,
