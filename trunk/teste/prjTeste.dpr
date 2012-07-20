@@ -23,7 +23,8 @@ uses
   uReceberCls in '..\comercial\src\uReceberCls.pas',
   uReceberTeste in 'uReceberTeste.pas',
   uPagarCls in '..\comercial\src\uPagarCls.pas',
-  uPagarTeste in 'uPagarTeste.pas';
+  uPagarTeste in 'uPagarTeste.pas',
+  uNotacls in '..\comercial\src\uNotacls.pas';
 
 {$R *.res}
 
