@@ -216,6 +216,14 @@ type
     Label31: TLabel;
     sds_fornecedorCODFISCAL: TStringField;
     cds_fornecedorCODFISCAL: TStringField;
+    Label32: TLabel;
+    DBEdit26: TDBEdit;
+    sds_fornecedorCAMPOADICIONAL: TStringField;
+    sds_fornecedorCAMPOADICIONAL1: TStringField;
+    sds_fornecedorCFOP: TStringField;
+    cds_fornecedorCAMPOADICIONAL: TStringField;
+    cds_fornecedorCAMPOADICIONAL1: TStringField;
+    cds_fornecedorCFOP: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
