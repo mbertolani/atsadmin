@@ -702,9 +702,11 @@ begin
     else begin
       if (sqs_tit.Active) then
       sqs_tit.Close;
-      sqs_tit.CommandText := 'SELECT SUM(((QTDE_ALT  - ICMS) / 40.8) * PRECO) FROM MOVIMENTODETALHE' +
-                           ' WHERE CODMOVIMENTO = ' +
-                           IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
+      sqs_tit.CommandText := 'SELECT SUM((((QTDE_ALT  - ICMS) / 40.8) * PRECO) + ' +
+        ' (VIPI + ICMS_SUBST)) ' +
+        ' ,SUM(VIPI), SUM(VALOR_ICMS), SUM(ICMS_SUBST) '+
+        '  FROM MOVIMENTODETALHE' +
+        ' WHERE CODMOVIMENTO = ' + IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
   end;
  if terminal = '0' then
  begin
