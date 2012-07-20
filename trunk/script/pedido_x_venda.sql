@@ -1,5 +1,3 @@
-SET TERM ^ ;
-
 CREATE OR ALTER PROCEDURE pedido_x_venda 
  ( dataIni date, dataFim date, compraVenda char(1) ) 
 RETURNS 
@@ -52,6 +50,4 @@ BEGIN
   end  
   end
    
-END^
-
-SET TERM ; ^
+END
