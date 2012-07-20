@@ -1672,6 +1672,7 @@ begin
       executaScript('gera_nf_venda108.sql');
       executaScript('nfe_fatura108.sql');
       executaScript('trg_calcula_icms_st_108.sql');
+      executaScript('calcula_icms108.sql');
       mudaVersao('1.0.0.108');
     end;// Fim Ataulização Versao 1.0.0.108
 
