@@ -1149,15 +1149,15 @@ end;
 procedure TfProcura_prod.formcompra;
 begin
     fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fCompra.cds_Mov_detPRECO.AsFloat := vlr;
-    fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
+    fCompra.cds_Mov_detCODPRO.AsString      := cds_procCODPRO.AsString;
+    fCompra.cds_Mov_detDESCPRODUTO.Value    := cds_procPRODUTO.Value;
+    fCompra.cds_Mov_detQUANTIDADE.AsFloat   := StrToFloat(Edit3.Text);
+    fCompra.cds_Mov_detPRECO.AsFloat        := vlr;
+    fCompra.cds_Mov_detUN.AsString          := cds_procUNIDADEMEDIDA.AsString;
+    valorUnitario                           := cds_procPRECO_VENDA.AsFloat;
     fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    fCompra.cds_Mov_detQTDE_ALT.AsFloat := cds_procIPI.AsFloat;
-    fCompra.cds_Mov_detPIPI.AsFloat := cds_procIPI.AsFloat;
+    fCompra.cds_Mov_detQTDE_ALT.AsFloat     := 0;
+    fCompra.cds_Mov_detPIPI.AsFloat         := cds_procIPI.AsFloat;
     if fProcura_prod.cds_procLOTES.AsString = 'S' then
     begin
       if Dm.cds_parametro.Active then
@@ -1279,10 +1279,13 @@ begin
       MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
       exit;
     end;
+    if (fVendas.edCfop.Text = '') then
+        fVendas.buscaCfop(fVendas.cds_MovimentoCODCLIENTE.AsInteger);
+    fVendas.cds_Mov_detCFOP.AsString        := fVendas.edCfop.Text;
     fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
+    fVendas.cds_Mov_detCODPRO.AsString      := cds_procCODPRO.AsString;
+    fVendas.cds_Mov_detDESCPRODUTO.Value    := cds_procPRODUTO.Value;
+    fVendas.cds_Mov_detQUANTIDADE.AsFloat   := StrToFloat(Edit3.Text);
     if(fVendas.imex = 99) then
       fVendas.cds_Mov_detPRECO.AsFloat := (cds_procPRECO_COMPRA.AsFloat * 1.2)
     else
