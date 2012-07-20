@@ -2529,6 +2529,7 @@ inherited fVendas: TfVendas
     BiDiMode = bdRightToLeft
     ParentBiDiMode = False
     TabOrder = 18
+    OnExit = edCfopExit
   end
   inherited XPMenu1: TXPMenu
     Left = 688

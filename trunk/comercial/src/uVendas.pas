@@ -661,12 +661,12 @@ type
     procedure GroupBox1Click(Sender: TObject);
     procedure Label3Click(Sender: TObject);
     procedure dbedtVALOR_DESCONTOExit(Sender: TObject);
+    procedure edCfopExit(Sender: TObject);
   private
     { Private declarations }
     modo :string;
     procedure Margem_Confere;
     procedure insereMatPrima;
-    procedure buscaCfop(codCli: Integer);
   public
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda : string; //, tipoVenda
     estoque, qtde, mVendaPermi , desconto , prazoCliente , imex : Double;         // mVendaPermi = Margem de venda minima permitida
@@ -674,6 +674,7 @@ type
     procedure baixamatprimas(tipomat: string; codmovt: integer);
     procedure existevenda;
     procedure precolista;
+    procedure buscaCfop(codCli: Integer);    
     { Public declarations }
   end;
 
@@ -1911,6 +1912,11 @@ begin
         begin
           if (cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
           begin
+            if (dm.validaCfop(edCFOP.Text) = False) then
+            begin
+              MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
+              exit;
+            end;
             cds_Mov_det.Edit;
             cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
             IF (cds_Mov_detQTDE_ALT.IsNull) then
@@ -3676,6 +3682,19 @@ begin
       edCfop.Text := dm.cfopSaidaF
     else
       edCfop.Text := sqlBCfop.Fields[0].AsString;
+  end;
+  if (dm.validaCfop(edCFOP.Text) = False) then
+  begin
+    MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
+  end;
+end;
+
+procedure TfVendas.edCfopExit(Sender: TObject);
+begin
+  inherited;
+  if (dm.validaCfop(edCFOP.Text) = False) then
+  begin
+    MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
   end;
 end;
 
