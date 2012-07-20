@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER trigger gera_rec for recebimento
 active after update position 0
 AS
