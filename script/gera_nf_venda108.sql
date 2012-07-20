@@ -1,4 +1,3 @@
-set term ^ ;
 create or alter procedure gera_nf_venda(cliente integer, dtEmissao date,
   dtVcto date, serie char(8), numero varchar(7), codMov integer)
 as
@@ -49,7 +48,7 @@ as
   declare variable CIDADE_TRANSP Varchar(50);
   declare variable UF_VEICULO_TRANSP Char(2);
   declare variable UF_TRANSP Char(2);
-  declare variable FRETE Char(1);
+  declare variable FRETE DOUBLE PRECISION;
   declare variable INSCRICAOESTADUAL Varchar(20);
   declare variable CORPONF1 Varchar(200);
   declare variable CORPONF2 Varchar(200);
