@@ -296,6 +296,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TDM_MOV, DM_MOV);
   Application.CreateForm(TDMNF, DMNF);
+  Application.CreateForm(TDmCitrus, DmCitrus);
   if (dm.conectado = False) then
     Application.Terminate;
   if (dm.moduloUsado = 'AUTOMOTIVA') then
