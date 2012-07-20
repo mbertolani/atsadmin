@@ -1,4 +1,3 @@
-SET TERM ^ ;
 create or ALTER PROCEDURE LISTA_ESTOQUE (
     MES date )
 RETURNS (
@@ -297,10 +296,4 @@ begin
   /*else begin
     --if ( 
   end */   
-end^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE LISTA_ESTOQUE TO  SYSDBA;
-
+end
