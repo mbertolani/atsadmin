@@ -1953,6 +1953,7 @@ type
     cdsLogSisCAMPO3: TStringField;
     cdsLogSisCAMPO4: TStringField;
     cdsLogSisDATA_SET: TMemoField;
+    scds_forn_procCFOP: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2035,6 +2036,7 @@ type
     corEnd, corStart: TColor;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
+    function validaCfop(cfop: String):Boolean;
     Function cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
     procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
     pc: String; valorAnt: String; valorPos: String; campoChave: String);
@@ -2062,7 +2064,7 @@ uses md5;
 
 procedure TDM.DataModuleCreate(Sender: TObject);
 var index, I: integer;
-  s : String;
+  s, sqlT : String;
 begin
   danfeDec := 2;
   MICRO := NomeComputador;
@@ -2103,11 +2105,68 @@ begin
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'CFOP';
   cds_parametro.Open;
+  if (cds_parametro.IsEmpty) then
+  begin
+    sqlT := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, ' +
+    ' CONFIGURADO, DADOS, D1, D2, D3) VALUES( '  +
+    QuotedStr('CFOP Padroes') + ', ' + QuotedStr('CFOP') + ', ' +
+    QuotedStr('S') + ', ' + QuotedStr('5102') + ', ' + QuotedStr('6102') + ', ' +
+    QuotedStr('1100') + ', ' + QuotedStr('2100') + ')';
+    sqlsisAdimin.ExecuteDirect(sqlT);
+  end;
   if (not cds_parametro.IsEmpty) then
   begin
+    if (validaCfop(cds_parametroD2.AsString) = False) then
+    begin
+      sqlT := 'INSERT INTO ESTADO_ICMS (CFOP, ' +
+      ' ICMS, REDUCAO, SUBST_TRIB,     IPI,  ICMS_SUBSTRIB, ICMS_SUBSTRIB_IC,' +
+      ' ICMS_SUBSTRIB_IND, PIS, COFINS, CSOSN, '+
+      ' CST, CSTIPI, CSTPIS, CSTCOFINS)  VALUES (' + QuotedStr(cds_parametroD2.AsString) +
+      ',0, 0, 0, 0, 0, 0,' +
+      '0, 0, 0, 0,' +
+      QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
+      QuotedStr('00') + ')';
+      sqlsisAdimin.ExecuteDirect(sqlT);
+    end;
     cfopEntrada  := cds_parametroD2.AsString;
+    if (validaCfop(cds_parametroD3.AsString) = False) then
+    begin
+      sqlT := 'INSERT INTO ESTADO_ICMS (CFOP, ' +
+      ' ICMS, REDUCAO, SUBST_TRIB,     IPI,  ICMS_SUBSTRIB, ICMS_SUBSTRIB_IC,' +
+      ' ICMS_SUBSTRIB_IND, PIS, COFINS, CSOSN, '+
+      ' CST, CSTIPI, CSTPIS, CSTCOFINS)  VALUES (' + QuotedStr(cds_parametroD3.AsString) +
+      ', 0, 0, 0, 0, 0, 0,' +
+      '0, 0, 0, 0,' +
+      QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
+      QuotedStr('00') + ')';
+      sqlsisAdimin.ExecuteDirect(sqlT);
+    end;
     cfopEntradaF := cds_parametroD3.AsString;
+    if (validaCfop(cds_parametroDADOS.AsString) = False) then
+    begin
+      sqlT := 'INSERT INTO ESTADO_ICMS (CFOP, ' +
+      ' ICMS, REDUCAO, SUBST_TRIB,     IPI,  ICMS_SUBSTRIB, ICMS_SUBSTRIB_IC,' +
+      ' ICMS_SUBSTRIB_IND, PIS, COFINS, CSOSN, '+
+      ' CST, CSTIPI, CSTPIS, CSTCOFINS)  VALUES (' + QuotedStr(cds_parametroDADOS.AsString) +
+      ',0, 0, 0, 0, 0, 0,' +
+      '0, 0, 0, 0,' +
+      QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
+      QuotedStr('00') + ')';
+      sqlsisAdimin.ExecuteDirect(sqlT);
+    end;
     cfopSaida    := cds_parametroDADOS.AsString;
+    if (validaCfop(cds_parametroD1.AsString) = False) then
+    begin
+      sqlT := 'INSERT INTO ESTADO_ICMS (CFOP, ' +
+      ' ICMS, REDUCAO, SUBST_TRIB,     IPI,  ICMS_SUBSTRIB, ICMS_SUBSTRIB_IC,' +
+      ' ICMS_SUBSTRIB_IND, PIS, COFINS, CSOSN, '+
+      ' CST, CSTIPI, CSTPIS, CSTCOFINS)  VALUES (' + QuotedStr(cds_parametroD1.AsString) +
+      ', 0, 0, 0, 0, 0, 0,' +
+      '0, 0, 0, 0,' +
+      ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
+      QuotedStr('00') + ')';
+      sqlsisAdimin.ExecuteDirect(sqlT);
+    end;
     cfopSaidaF   := cds_parametroD1.AsString;
   end;
   if cds_parametro.Active then
@@ -3113,6 +3172,20 @@ begin
 
 
   end;
+end;
+
+function TDM.validaCfop(cfop: String): Boolean;
+var sqlCf: String;
+begin
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlCf := 'SELECT CFOP FROM ESTADO_ICMS WHERE CFOP = ' + QuotedStr(cfop);
+  sqlBusca.SQL.Add(sqlCf);
+  sqlBusca.Open;
+  Result := True;
+  if (sqlBusca.IsEmpty) then
+    Result := False;
 end;
 
 end.
