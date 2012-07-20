@@ -1044,7 +1044,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 793
+    Width = 801
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1602,8 +1602,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 495
-    Width = 793
+    Top = 506
+    Width = 801
     Height = 23
     Align = alBottom
     Background.StartColor = clSilver
@@ -1787,8 +1787,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     PopupMenu = PopupMenu1
     TabOrder = 3
     object Label7: TLabel
-      Left = 7
-      Top = 15
+      Left = 8
+      Top = 14
       Width = 24
       Height = 13
       Caption = 'S'#233'rie'
@@ -1865,8 +1865,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label13: TLabel
-      Left = 5
-      Top = 52
+      Left = 6
+      Top = 53
       Width = 68
       Height = 13
       Caption = 'Caixa / Banco'
@@ -1878,7 +1878,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label5: TLabel
-      Left = 5
+      Left = 6
       Top = 92
       Width = 68
       Height = 13
@@ -1891,7 +1891,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label6: TLabel
-      Left = 128
+      Left = 129
       Top = 92
       Width = 78
       Height = 13
@@ -1969,7 +1969,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label39: TLabel
-      Left = 135
+      Left = 129
       Top = 130
       Width = 54
       Height = 13
@@ -1982,9 +1982,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label40: TLabel
-      Left = 7
+      Left = 6
       Top = 130
-      Width = 87
+      Width = 92
       Height = 13
       Caption = 'Valor ICMS ST R$'
       Font.Charset = DEFAULT_CHARSET
@@ -2208,7 +2208,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object cbPrazo: TJvComboBox
       Left = 312
-      Top = 31
+      Top = 29
       Width = 105
       Height = 24
       ItemHeight = 16
@@ -2246,8 +2246,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnClick = CheckBox2Click
     end
     object btnSerie: TBitBtn
-      Left = 53
-      Top = 32
+      Left = 50
+      Top = 28
       Width = 33
       Height = 25
       Caption = '. . .'
@@ -2256,9 +2256,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnClick = btnSerieClick
     end
     object DBEdit4: TDBEdit
-      Left = 132
-      Top = 144
-      Width = 323
+      Left = 127
+      Top = 143
+      Width = 335
       Height = 24
       DataField = 'CHAVENF'
       DataSource = DtSrc
@@ -2272,8 +2272,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnKeyPress = FormKeyPress
     end
     object Button1: TButton
-      Left = 464
-      Top = 140
+      Left = 463
+      Top = 142
       Width = 87
       Height = 25
       Caption = 'Validar NFe'
