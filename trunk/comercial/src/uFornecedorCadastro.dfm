@@ -35,7 +35,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Caption = 'CNPJ / CPF'
   end
   object Label7: TLabel [4]
-    Left = 398
+    Left = 358
     Top = 89
     Width = 37
     Height = 13
@@ -177,9 +177,16 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Height = 13
     Caption = 'Tipo Fiscal'
   end
+  object Label32: TLabel [24]
+    Left = 521
+    Top = 89
+    Width = 28
+    Height = 13
+    Caption = 'CFOP'
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 509
-    Width = 708
+    Top = 520
+    Width = 716
     inherited btnGravar: TBitBtn
       Left = 366
     end
@@ -414,7 +421,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 708
+    Width = 716
     Height = 41
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -464,7 +471,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
         '2')
     end
   end
-  object DBEdit1: TDBEdit [26]
+  object DBEdit1: TDBEdit [27]
     Left = 20
     Top = 58
     Width = 61
@@ -485,7 +492,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [27]
+  object DBEdit2: TDBEdit [28]
     Left = 83
     Top = 58
     Width = 308
@@ -505,7 +512,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [28]
+  object DBEdit3: TDBEdit [29]
     Left = 392
     Top = 58
     Width = 294
@@ -524,7 +531,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup1: TDBRadioGroup [29]
+  object DBRadioGroup1: TDBRadioGroup [30]
     Left = 20
     Top = 83
     Width = 141
@@ -543,10 +550,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       '1')
     OnClick = DBRadioGroup1Click
   end
-  object dbeCNPJ: TDBEdit [30]
+  object dbeCNPJ: TDBEdit [31]
     Left = 162
     Top = 105
-    Width = 200
+    Width = 159
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -563,10 +570,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [31]
-    Left = 397
+  object DBEdit4: TDBEdit [32]
+    Left = 357
     Top = 105
-    Width = 195
+    Width = 156
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -583,7 +590,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [32]
+  object DBEdit5: TDBEdit [33]
     Left = 593
     Top = 105
     Width = 92
@@ -600,10 +607,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 8
+    TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [33]
+  object DBEdit6: TDBEdit [34]
     Left = 22
     Top = 161
     Width = 154
@@ -620,10 +627,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 9
+    TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [34]
+  object DBEdit7: TDBEdit [35]
     Left = 182
     Top = 161
     Width = 51
@@ -640,10 +647,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 10
+    TabOrder = 11
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [35]
+  object DBEdit8: TDBEdit [36]
     Left = 244
     Top = 161
     Width = 63
@@ -660,10 +667,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 11
+    TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [36]
+  object DBEdit10: TDBEdit [37]
     Left = 22
     Top = 209
     Width = 437
@@ -679,10 +686,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 13
+    TabOrder = 14
     OnKeyPress = FormKeyPress
   end
-  object DBEdit11: TDBEdit [37]
+  object DBEdit11: TDBEdit [38]
     Left = 22
     Top = 255
     Width = 298
@@ -698,10 +705,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 15
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object DBEdit12: TDBEdit [38]
+  object DBEdit12: TDBEdit [39]
     Left = 321
     Top = 255
     Width = 249
@@ -717,10 +724,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 16
+    TabOrder = 17
     OnKeyPress = FormKeyPress
   end
-  object DBRadioGroup2: TDBRadioGroup [39]
+  object DBRadioGroup2: TDBRadioGroup [40]
     Left = 573
     Top = 195
     Width = 113
@@ -733,13 +740,13 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       'Cobran'#231'a'
       'Entrega')
     PopupMenu = PopupMenu1
-    TabOrder = 21
+    TabOrder = 22
     Values.Strings = (
       '0'
       '1'
       '2')
   end
-  object DBEdit13: TDBEdit [40]
+  object DBEdit13: TDBEdit [41]
     Left = 22
     Top = 297
     Width = 232
@@ -755,10 +762,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 18
+    TabOrder = 19
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [41]
+  object DBEdit14: TDBEdit [42]
     Left = 258
     Top = 297
     Width = 89
@@ -775,16 +782,16 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 19
+    TabOrder = 20
     OnKeyPress = FormKeyPress
   end
-  object GroupBox1: TGroupBox [42]
+  object GroupBox1: TGroupBox [43]
     Left = 21
     Top = 326
     Width = 665
     Height = 62
     Caption = 'Telefones :'
-    TabOrder = 22
+    TabOrder = 23
     object Label21: TLabel
       Left = 34
       Top = 13
@@ -948,7 +955,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       OnKeyPress = FormKeyPress
     end
   end
-  object DBEdit21: TDBEdit [43]
+  object DBEdit21: TDBEdit [44]
     Left = 22
     Top = 407
     Width = 224
@@ -964,10 +971,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 23
+    TabOrder = 24
     OnKeyPress = FormKeyPress
   end
-  object DBEdit22: TDBEdit [44]
+  object DBEdit22: TDBEdit [45]
     Left = 249
     Top = 407
     Width = 437
@@ -983,10 +990,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 24
+    TabOrder = 25
     OnKeyPress = FormKeyPress
   end
-  object DBNavigator1: TDBNavigator [45]
+  object DBNavigator1: TDBNavigator [46]
     Left = 391
     Top = 471
     Width = 220
@@ -1001,9 +1008,9 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       ''
       '')
     PopupMenu = PopupMenu1
-    TabOrder = 25
+    TabOrder = 26
   end
-  object DBComboBox1: TDBComboBox [46]
+  object DBComboBox1: TDBComboBox [47]
     Left = 351
     Top = 297
     Width = 43
@@ -1047,20 +1054,20 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       'SE'
       'TO')
     ParentFont = False
-    TabOrder = 20
+    TabOrder = 21
     OnKeyPress = FormKeyPress
   end
-  object ComboBox1: TComboBox [47]
+  object ComboBox1: TComboBox [48]
     Left = 125
     Top = 438
     Width = 121
     Height = 21
     ItemHeight = 13
-    TabOrder = 26
+    TabOrder = 27
     Text = 'ComboBox1'
     Visible = False
   end
-  object DBLookupComboBox1: TDBLookupComboBox [48]
+  object DBLookupComboBox1: TDBLookupComboBox [49]
     Left = 308
     Top = 161
     Width = 144
@@ -1079,15 +1086,15 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     ListSource = DtSrcReg
     ParentCtl3D = False
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object SpeedButton6: TBitBtn [49]
+  object SpeedButton6: TBitBtn [50]
     Left = 491
     Top = 150
     Width = 40
     Height = 36
-    TabOrder = 27
+    TabOrder = 28
     OnClick = SpeedButton6Click
     Glyph.Data = {
       36080000424D3608000000000000360400002800000020000000200000000100
@@ -1157,75 +1164,11 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       0F0F0F0F10160707070707070707070707070707070707070707071010101010
       1010101010070707070707070707070707070707070707070707}
   end
-  object SpeedButton2: TBitBtn [50]
-    Left = 363
+  object SpeedButton2: TBitBtn [51]
+    Left = 323
     Top = 102
     Width = 33
     Height = 27
-    TabOrder = 28
-    Glyph.Data = {
-      F6060000424DF606000000000000360000002800000018000000180000000100
-      180000000000C006000000000000000000000000000000000000C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C01800
-      922C07AD342176C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C2C2EC5B47B0210486C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C02908B22F00D43212A55A4E8EC0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0B5ADE93D27A1260D93503AACC0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C06952CF2400C33204C8321F8D787B8FC0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A296E03A1FA01E00A57560D4C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07565CB2400BE30
-      0ABF2712869499A8C0C0C0C0C0C0C0C0C0C0C0C0C0C0C08168DB2400A52A08AD
-      A39ADEC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C04D34C32802B4300EB93D3674ADAEBDC0C0C0C0C0C0C0C0C09987DC25
-      01A53214AC9585E1C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C04F34C62600B73821994B4577BDC3C4C0C0
-      C09B86DF370CAF2A06AD9687E4C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C06349C72500B2
-      30169D3C33877257D62700A23107AEB1A4E2C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0664CCD2C11AC260DB22604B7341BA69487DCC0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C04B30D52200DB2901D433259699A2B2C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07E66DF2201B52902D32C00
-      DF2F11AE352E74909597C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C09889E02300A8
-      2F12A67D6ED7967EEC3314AB3A1AA3463880807C9EC0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C093
-      86DD2D0CAA2D04B17664C8C0C0C0C0C0C0C1ADFA3710AD310F9E423187616284
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C07C67DF2000AC2603B57566C2C0C0C0C0C0C0C0C0C0C0C0C0C0C0C052
-      34B82E08B22F14A1464A79C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C09483E02400AF2507B05240BEC0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C08169DB2A0DA235209841397FC0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C07D6DC82C0AAF2D04BF432EB3C4C1F3C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0B19CF71B00974E389EC0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0846BE32300BA2D00D13D24AABC
-      B3EFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C01B00A32E03
-      CB2000ADA69BE3C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C03D21B91F029E917FDEC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
-  end
-  object SpeedButton1: TBitBtn [51]
-    Left = 454
-    Top = 150
-    Width = 37
-    Height = 36
     TabOrder = 29
     Glyph.Data = {
       F6060000424DF606000000000000360000002800000018000000180000000100
@@ -1285,7 +1228,71 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object DBEdit9: TDBEdit [52]
+  object SpeedButton1: TBitBtn [52]
+    Left = 454
+    Top = 150
+    Width = 37
+    Height = 36
+    TabOrder = 30
+    Glyph.Data = {
+      F6060000424DF606000000000000360000002800000018000000180000000100
+      180000000000C006000000000000000000000000000000000000C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C01800
+      922C07AD342176C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C2C2EC5B47B0210486C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C02908B22F00D43212A55A4E8EC0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0B5ADE93D27A1260D93503AACC0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C06952CF2400C33204C8321F8D787B8FC0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A296E03A1FA01E00A57560D4C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07565CB2400BE30
+      0ABF2712869499A8C0C0C0C0C0C0C0C0C0C0C0C0C0C0C08168DB2400A52A08AD
+      A39ADEC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C04D34C32802B4300EB93D3674ADAEBDC0C0C0C0C0C0C0C0C09987DC25
+      01A53214AC9585E1C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C04F34C62600B73821994B4577BDC3C4C0C0
+      C09B86DF370CAF2A06AD9687E4C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C06349C72500B2
+      30169D3C33877257D62700A23107AEB1A4E2C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0664CCD2C11AC260DB22604B7341BA69487DCC0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C04B30D52200DB2901D433259699A2B2C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C07E66DF2201B52902D32C00
+      DF2F11AE352E74909597C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C09889E02300A8
+      2F12A67D6ED7967EEC3314AB3A1AA3463880807C9EC0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C093
+      86DD2D0CAA2D04B17664C8C0C0C0C0C0C0C1ADFA3710AD310F9E423187616284
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C07C67DF2000AC2603B57566C2C0C0C0C0C0C0C0C0C0C0C0C0C0C0C052
+      34B82E08B22F14A1464A79C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C09483E02400AF2507B05240BEC0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C08169DB2A0DA235209841397FC0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C07D6DC82C0AAF2D04BF432EB3C4C1F3C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0B19CF71B00974E389EC0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0846BE32300BA2D00D13D24AABC
+      B3EFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C01B00A32E03
+      CB2000ADA69BE3C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C03D21B91F029E917FDEC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+      C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+  end
+  object DBEdit9: TDBEdit [53]
     Left = 464
     Top = 209
     Width = 103
@@ -1302,19 +1309,19 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 14
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object BitBtn22: TBitBtn [53]
+  object BitBtn22: TBitBtn [54]
     Left = 400
     Top = 290
     Width = 39
     Height = 31
     Caption = '...'
-    TabOrder = 17
+    TabOrder = 18
     OnClick = BitBtn22Click
   end
-  object DBEdit23: TDBEdit [54]
+  object DBEdit23: TDBEdit [55]
     Left = 445
     Top = 295
     Width = 93
@@ -1330,10 +1337,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 30
+    TabOrder = 31
     OnKeyPress = FormKeyPress
   end
-  object cbPais: TJvComboBox [55]
+  object cbPais: TJvComboBox [56]
     Left = 545
     Top = 296
     Width = 141
@@ -1346,10 +1353,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 31
+    TabOrder = 32
     OnChange = cbPaisChange
   end
-  object DBEdit24: TDBEdit [56]
+  object DBEdit24: TDBEdit [57]
     Left = 325
     Top = 436
     Width = 113
@@ -1365,10 +1372,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 32
+    TabOrder = 33
     OnKeyPress = FormKeyPress
   end
-  object DBEdit25: TDBEdit [57]
+  object DBEdit25: TDBEdit [58]
     Left = 445
     Top = 436
     Width = 241
@@ -1386,16 +1393,16 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     ParentFont = False
     PopupMenu = PopupMenu1
     ReadOnly = True
-    TabOrder = 33
+    TabOrder = 34
     OnKeyPress = FormKeyPress
   end
-  object GroupBox2: TGroupBox [58]
+  object GroupBox2: TGroupBox [59]
     Left = 21
     Top = 464
     Width = 282
     Height = 42
     Caption = 'Tipo'
-    TabOrder = 34
+    TabOrder = 35
     object CheckBox1: TCheckBox
       Left = 7
       Top = 19
@@ -1421,7 +1428,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       TabOrder = 2
     end
   end
-  object DBLookupComboBox3: TDBLookupComboBox [59]
+  object DBLookupComboBox3: TDBLookupComboBox [60]
     Left = 540
     Top = 161
     Width = 146
@@ -1440,7 +1447,27 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     ListSource = DtSrcTFiscal
     ParentCtl3D = False
     ParentFont = False
-    TabOrder = 35
+    TabOrder = 36
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit26: TDBEdit [61]
+    Left = 518
+    Top = 105
+    Width = 70
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'CFOP'
+    DataSource = DtSrc
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 8
     OnKeyPress = FormKeyPress
   end
   inherited PopupMenu1: TPopupMenu
@@ -1565,6 +1592,18 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       FixedChar = True
       Size = 1
     end
+    object sds_fornecedorCAMPOADICIONAL: TStringField
+      FieldName = 'CAMPOADICIONAL'
+      Size = 60
+    end
+    object sds_fornecedorCAMPOADICIONAL1: TStringField
+      FieldName = 'CAMPOADICIONAL1'
+      Size = 60
+    end
+    object sds_fornecedorCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 30
+    end
   end
   object dsp_fornecedor: TDataSetProvider
     DataSet = sds_fornecedor
@@ -1675,6 +1714,18 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       FieldName = 'CODFISCAL'
       FixedChar = True
       Size = 1
+    end
+    object cds_fornecedorCAMPOADICIONAL: TStringField
+      FieldName = 'CAMPOADICIONAL'
+      Size = 60
+    end
+    object cds_fornecedorCAMPOADICIONAL1: TStringField
+      FieldName = 'CAMPOADICIONAL1'
+      Size = 60
+    end
+    object cds_fornecedorCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 30
     end
   end
   object VCLReport1: TVCLReport
