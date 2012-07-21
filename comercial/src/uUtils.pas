@@ -267,7 +267,7 @@ begin
   forma.Add('19-VISA DÉBITO');
   forma.Add('20-MASTER CRÉDITO');
   forma.Add('21-MASTER DÉBITO');
-  forma.Add('22-DINNER');
+  forma.Add('22-DINERS');
 
   result := forma;
 end;
@@ -363,7 +363,7 @@ begin
   if (forma = '21-MASTER DÉBITO') then
     result := 'L';
 
-  if (forma = '22-DINNER') then
+  if (forma = '22-DINERS') then
     result := 'M';
 end;
 
