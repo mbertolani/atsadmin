@@ -4,6 +4,7 @@ inherited fContabilLanc: TfContabilLanc
   Width = 805
   Height = 559
   OldCreateOrder = True
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -15,15 +16,15 @@ inherited fContabilLanc: TfContabilLanc
     Caption = 'Entrada'
   end
   object Label4: TLabel [1]
-    Left = 162
+    Left = 130
     Top = 64
     Width = 27
     Height = 13
     Caption = 'Saida'
   end
   object Label5: TLabel [2]
-    Left = 321
-    Top = 64
+    Left = 602
+    Top = 65
     Width = 24
     Height = 13
     Caption = 'Valor'
@@ -44,14 +45,14 @@ inherited fContabilLanc: TfContabilLanc
   end
   object lblDebito: TLabel [4]
     Left = 8
-    Top = 128
+    Top = 129
     Width = 9
     Height = 13
     Caption = '...'
     Transparent = True
   end
   object lblContaCred: TLabel [5]
-    Left = 162
+    Left = 130
     Top = 112
     Width = 9
     Height = 16
@@ -65,8 +66,8 @@ inherited fContabilLanc: TfContabilLanc
     Transparent = True
   end
   object lblCredito: TLabel [6]
-    Left = 162
-    Top = 128
+    Left = 130
+    Top = 127
     Width = 9
     Height = 16
     Caption = '...'
@@ -79,8 +80,8 @@ inherited fContabilLanc: TfContabilLanc
     Transparent = True
   end
   object Label7: TLabel [7]
-    Left = 321
-    Top = 104
+    Left = 263
+    Top = 106
     Width = 41
     Height = 13
     Caption = 'Hist'#243'rico'
@@ -156,6 +157,27 @@ inherited fContabilLanc: TfContabilLanc
     Font.Style = []
     ParentFont = False
   end
+  object Label6: TLabel [16]
+    Left = 262
+    Top = 65
+    Width = 35
+    Height = 13
+    Caption = 'Forma :'
+  end
+  object Label13: TLabel [17]
+    Left = 710
+    Top = 64
+    Width = 23
+    Height = 13
+    Caption = 'Data'
+  end
+  object Label14: TLabel [18]
+    Left = 407
+    Top = 65
+    Width = 102
+    Height = 13
+    Caption = 'Centro de Resultado :'
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 478
     Width = 797
@@ -206,10 +228,10 @@ inherited fContabilLanc: TfContabilLanc
       HotTrackFont.Style = []
     end
   end
-  object Edit1: TEdit [18]
+  object Edit1: TEdit [21]
     Left = 3
     Top = 80
-    Width = 100
+    Width = 86
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -223,8 +245,8 @@ inherited fContabilLanc: TfContabilLanc
     OnExit = Edit1Exit
     OnKeyPress = FormKeyPress
   end
-  object BitBtn12: TBitBtn [19]
-    Left = 103
+  object BitBtn12: TBitBtn [22]
+    Left = 90
     Top = 68
     Width = 39
     Height = 36
@@ -240,10 +262,10 @@ inherited fContabilLanc: TfContabilLanc
     TabStop = False
     OnClick = BitBtn12Click
   end
-  object Edit2: TEdit [20]
-    Left = 162
+  object Edit2: TEdit [23]
+    Left = 130
     Top = 80
-    Width = 100
+    Width = 86
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -257,8 +279,8 @@ inherited fContabilLanc: TfContabilLanc
     OnExit = Edit2Exit
     OnKeyPress = FormKeyPress
   end
-  object BitBtn1: TBitBtn [21]
-    Left = 262
+  object BitBtn1: TBitBtn [24]
+    Left = 217
     Top = 68
     Width = 39
     Height = 36
@@ -274,10 +296,10 @@ inherited fContabilLanc: TfContabilLanc
     TabStop = False
     OnClick = BitBtn1Click
   end
-  object edValor: TEdit [22]
-    Left = 321
+  object edValor: TEdit [25]
+    Left = 600
     Top = 80
-    Width = 100
+    Width = 99
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -287,13 +309,13 @@ inherited fContabilLanc: TfContabilLanc
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 6
+    TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object meData: TMaskEdit [23]
-    Left = 441
+  object meData: TMaskEdit [26]
+    Left = 707
     Top = 80
-    Width = 90
+    Width = 78
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -305,16 +327,16 @@ inherited fContabilLanc: TfContabilLanc
     Font.Style = []
     MaxLength = 8
     ParentFont = False
-    TabOrder = 7
+    TabOrder = 9
     Text = '  /  /  '
     OnExit = meDataExit
     OnKeyPress = FormKeyPress
   end
-  object BitBtn3: TdxButton [24]
+  object BitBtn3: TdxButton [27]
     Left = 698
-    Top = 69
+    Top = 107
     Width = 87
-    Height = 39
+    Height = 37
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
     PopupMenu = PopupMenu1
     Version = '1.0.2e'
@@ -451,13 +473,13 @@ inherited fContabilLanc: TfContabilLanc
       00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
       00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
       00FF000000FF000000FF000000FF000000FF000000FF000000FF}
-    TabOrder = 9
+    TabOrder = 11
   end
-  object dxButton2: TdxButton [25]
-    Left = 567
-    Top = 69
-    Width = 127
-    Height = 39
+  object dxButton2: TdxButton [28]
+    Left = 601
+    Top = 107
+    Width = 97
+    Height = 37
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
     PopupMenu = PopupMenu1
     Version = '1.0.2e'
@@ -530,12 +552,12 @@ inherited fContabilLanc: TfContabilLanc
       1207070707070707070707000700070707070707070707070707070707126612
       0707070707070707070707070007070707070707070707070707070707071207
       0707070707070707070707070707070707070707070707070707}
-    TabOrder = 10
+    TabOrder = 12
   end
-  object edHist: TEdit [26]
-    Left = 321
+  object edHist: TEdit [29]
+    Left = 261
     Top = 120
-    Width = 464
+    Width = 334
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -545,15 +567,15 @@ inherited fContabilLanc: TfContabilLanc
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 8
+    TabOrder = 10
   end
-  object DBGrid1: TDBGrid [27]
+  object DBGrid1: TDBGrid [30]
     Left = 3
-    Top = 146
+    Top = 152
     Width = 782
-    Height = 297
+    Height = 291
     DataSource = ds_grid
-    TabOrder = 11
+    TabOrder = 13
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -617,7 +639,7 @@ inherited fContabilLanc: TfContabilLanc
         Visible = True
       end>
   end
-  object BitBtn2: TBitBtn [28]
+  object BitBtn2: TBitBtn [31]
     Left = 375
     Top = 446
     Width = 31
@@ -629,10 +651,10 @@ inherited fContabilLanc: TfContabilLanc
     Font.Name = 'MS Sans Serif'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 14
     OnClick = BitBtn2Click
   end
-  object DBEdit1: TDBEdit [29]
+  object DBEdit1: TDBEdit [32]
     Left = 490
     Top = 446
     Width = 107
@@ -647,9 +669,9 @@ inherited fContabilLanc: TfContabilLanc
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 15
   end
-  object DBEdit2: TDBEdit [30]
+  object DBEdit2: TDBEdit [33]
     Left = 678
     Top = 446
     Width = 107
@@ -664,7 +686,44 @@ inherited fContabilLanc: TfContabilLanc
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 14
+    TabOrder = 16
+  end
+  object ComboBox1: TComboBox [34]
+    Left = 260
+    Top = 80
+    Width = 141
+    Height = 24
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemHeight = 16
+    ParentFont = False
+    TabOrder = 6
+    OnKeyPress = FormKeyPress
+  end
+  object DBLookupComboBox1: TDBLookupComboBox [35]
+    Left = 405
+    Top = 80
+    Width = 191
+    Height = 24
+    Ctl3D = True
+    DataField = 'CODCCUSTO'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    KeyField = 'CODIGO'
+    ListField = 'NOME'
+    ListSource = ds_rateio
+    ParentCtl3D = False
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 7
+    OnKeyPress = FormKeyPress
   end
   inherited PopupMenu1: TPopupMenu
     object BuscaCaixaSaida1: TMenuItem [0]
@@ -683,6 +742,7 @@ inherited fContabilLanc: TfContabilLanc
   end
   inherited DtSrc: TDataSource
     DataSet = DM.c3_contabil
+    Left = 552
   end
   object sds: TSQLDataSet
     CommandText = 
@@ -899,8 +959,8 @@ inherited fContabilLanc: TfContabilLanc
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 544
-    Top = 8
+    Left = 528
+    Top = 32
     object sdseditCODCONT: TIntegerField
       FieldName = 'CODCONT'
       Required = True
@@ -961,5 +1021,11 @@ inherited fContabilLanc: TfContabilLanc
       FieldName = 'HISTORICO'
       Size = 200
     end
+  end
+  object ds_rateio: TDataSource
+    DataSet = DM.cds_ccusto
+    OnStateChange = DtSrcStateChange
+    Left = 680
+    Top = 8
   end
 end
