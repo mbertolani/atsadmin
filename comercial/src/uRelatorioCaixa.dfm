@@ -1,8 +1,8 @@
 object fRelatorioCaixa: TfRelatorioCaixa
-  Left = 690
-  Top = 182
-  Width = 446
-  Height = 335
+  Left = 429
+  Top = 172
+  Width = 438
+  Height = 324
   AutoSize = True
   Caption = 'Relat'#243'rio Caixa'
   Color = clBtnFace
@@ -12,6 +12,7 @@ object fRelatorioCaixa: TfRelatorioCaixa
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
