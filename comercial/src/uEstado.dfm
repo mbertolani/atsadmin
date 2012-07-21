@@ -33,23 +33,23 @@ inherited fEstado: TfEstado
     Width = 783
     Anchors = [akBottom]
     inherited btnIncluir: TBitBtn [0]
-      Left = 267
+      Left = 299
       Anchors = [akTop, akBottom]
     end
     inherited btnGravar: TBitBtn [1]
-      Left = 267
+      Left = 299
       Anchors = [akTop, akBottom]
     end
     inherited btnCancelar: TBitBtn
-      Left = 399
+      Left = 415
       Anchors = [akTop, akBottom]
     end
     inherited btnExcluir: TBitBtn
-      Left = 399
+      Left = 415
       Anchors = [akTop, akBottom]
     end
     inherited btnProcurar: TBitBtn
-      Left = 133
+      Left = 181
       Anchors = [akTop, akBottom]
       Caption = 'CFOP'
       OnClick = btnProcurarClick
@@ -1120,6 +1120,7 @@ inherited fEstado: TfEstado
   end
   object dsp: TDataSetProvider
     DataSet = sds
+    Options = [poAllowCommandText]
     Left = 328
     Top = 8
   end

@@ -133,6 +133,7 @@ type
   private
     { Private declarations }
   public
+    sqlCfop: String;
     { Public declarations }
   end;
 
@@ -165,8 +166,10 @@ end;
 procedure TfEstado.FormShow(Sender: TObject);
 begin
   inherited;
-  if not cds_estado.Active then
-    cds_estado.Open;
+  if (cds_estado.Active) then
+    cds_estado.Close;
+  cds_estado.CommandText := sqlCfop;
+  cds_estado.Open;
   if (not cdsTFiscal.Active) then
       cdsTFiscal.Open;
 end;
@@ -261,7 +264,16 @@ end;
 procedure TfEstado.FormCreate(Sender: TObject);
 begin
 //  inherited;
-
+  sqlCfop := 'select esta.CODESTADO, esta.CFOP ' +
+      ' ,esta.UF, esta.ICMS ,esta.REDUCAO, cfo.CFNOME ' +
+      ' ,esta.IPI, esta.CSTIPI, esta.ICMS_SUBSTRIB, esta.ICMS_SUBSTRIB_IC ' +
+      ' ,esta.ICMS_SUBSTRIB_IND, esta.CST , esta.PIS , esta.COFINS' +
+      ' ,esta.CSTPIS , esta.CSTCOFINS, esta.DADOSADC1, esta.DADOSADC2' +
+      ' ,esta.DADOSADC3, esta.DADOSADC4, esta.DADOSADC5, esta.DADOSADC6' +
+      ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL' +
+      ' FROM ESTADO_ICMS esta ' +
+      ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
+      ' order by esta.CFOP';
 end;
 
 end.
