@@ -2163,7 +2163,7 @@ begin
       ' CST, CSTIPI, CSTPIS, CSTCOFINS)  VALUES (' + QuotedStr(cds_parametroD1.AsString) +
       ', 0, 0, 0, 0, 0, 0,' +
       '0, 0, 0, 0,' +
-      ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
+      QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
       QuotedStr('00') + ')';
       sqlsisAdimin.ExecuteDirect(sqlT);
     end;
