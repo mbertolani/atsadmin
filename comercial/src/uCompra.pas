@@ -451,6 +451,7 @@ type
     cds_Mov_detCSTIPI: TStringField;
     cds_Mov_detCSTPIS: TStringField;
     cds_Mov_detCSTCOFINS: TStringField;
+    GroupBox11: TGroupBox;
     edCFOP: TEdit;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -504,6 +505,7 @@ type
     procedure btnDuplicarClick(Sender: TObject);
     procedure btnDupVendaClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure GroupBox11Click(Sender: TObject);
   private
     modo :string;
     { Private declarations }
@@ -2208,6 +2210,12 @@ begin
   finally
     fDetalhe.Free;
   end;
+end;
+
+procedure TfCompra.GroupBox11Click(Sender: TObject);
+begin
+  inherited;
+   // Exibir o Estado
 end;
 
 end.

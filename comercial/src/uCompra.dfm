@@ -1045,8 +1045,8 @@ inherited fCompra: TfCompra
   object GroupBox1: TGroupBox [10]
     Left = 0
     Top = 63
-    Width = 489
-    Height = 48
+    Width = 425
+    Height = 50
     Cursor = crHandPoint
     Caption = 'FORNECEDOR'
     Font.Charset = DEFAULT_CHARSET
@@ -1173,15 +1173,6 @@ inherited fCompra: TfCompra
       TabOrder = 2
       OnKeyPress = FormKeyPress
     end
-    object edCFOP: TEdit
-      Left = 422
-      Top = 16
-      Width = 59
-      Height = 24
-      TabOrder = 3
-      Text = 'CFOP'
-      OnKeyPress = FormKeyPress
-    end
   end
   object GroupBox2: TGroupBox [11]
     Left = 489
@@ -1190,7 +1181,7 @@ inherited fCompra: TfCompra
     Height = 48
     Caption = 'CENTRO RESULTADO'
     PopupMenu = PopupMenu1
-    TabOrder = 3
+    TabOrder = 4
     object ComboBox1: TComboBox
       Left = 4
       Top = 16
@@ -1216,7 +1207,7 @@ inherited fCompra: TfCompra
     Height = 48
     Caption = 'DATA COMPRA'
     PopupMenu = PopupMenu1
-    TabOrder = 4
+    TabOrder = 5
     object DBEdit2: TDBEdit
       Left = 4
       Top = 16
@@ -1242,7 +1233,7 @@ inherited fCompra: TfCompra
     Height = 48
     Caption = 'CONTROLE'
     PopupMenu = PopupMenu1
-    TabOrder = 8
+    TabOrder = 9
     object DBEdit1: TDBEdit
       Left = 4
       Top = 19
@@ -1285,7 +1276,7 @@ inherited fCompra: TfCompra
     DataSource = DtSrc
     PopupMenu = PopupMenu1
     ReadOnly = True
-    TabOrder = 12
+    TabOrder = 13
   end
   object GroupBox5: TGroupBox [15]
     Left = 635
@@ -1294,7 +1285,7 @@ inherited fCompra: TfCompra
     Height = 55
     Caption = 'TOTAL R$.'
     PopupMenu = PopupMenu1
-    TabOrder = 13
+    TabOrder = 14
     object DBEdit4: TDBEdit
       Left = 8
       Top = 14
@@ -1323,7 +1314,7 @@ inherited fCompra: TfCompra
     Width = 633
     Height = 350
     Caption = 'MERCADORIAS'
-    TabOrder = 5
+    TabOrder = 6
     object Label3: TLabel
       Left = 9
       Top = 19
@@ -1788,7 +1779,7 @@ inherited fCompra: TfCompra
     Width = 97
     Height = 17
     Caption = '1 % Desconto'
-    TabOrder = 14
+    TabOrder = 15
     Visible = False
   end
   object GroupBox7: TGroupBox [18]
@@ -1798,7 +1789,7 @@ inherited fCompra: TfCompra
     Height = 89
     Caption = 'PLACA DO VE'#205'CULO'
     PopupMenu = PopupMenu1
-    TabOrder = 15
+    TabOrder = 16
     Visible = False
     object Label10: TLabel
       Left = 8
@@ -1852,7 +1843,7 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 11
     OnKeyPress = FormKeyPress
   end
   object DBEdit15: TDBEdit [20]
@@ -1871,7 +1862,7 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 9
+    TabOrder = 10
     OnKeyPress = FormKeyPress
   end
   object DBEdit16: TDBEdit [21]
@@ -1891,7 +1882,7 @@ inherited fCompra: TfCompra
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 16
+    TabOrder = 17
     OnKeyPress = FormKeyPress
   end
   object SpeedButton1: TBitBtn [22]
@@ -1900,7 +1891,7 @@ inherited fCompra: TfCompra
     Width = 27
     Height = 27
     PopupMenu = PopupMenu1
-    TabOrder = 17
+    TabOrder = 18
     TabStop = False
     OnClick = SpeedButton1Click
     Glyph.Data = {
@@ -1977,7 +1968,7 @@ inherited fCompra: TfCompra
     Width = 97
     Height = 9
     Caption = 'CheckBox2'
-    TabOrder = 18
+    TabOrder = 19
     Visible = False
   end
   object GroupBox8: TGroupBox [24]
@@ -1987,7 +1978,7 @@ inherited fCompra: TfCompra
     Height = 45
     Caption = 'Data Entrega'
     PopupMenu = PopupMenu1
-    TabOrder = 6
+    TabOrder = 7
     object DBEdit6: TDBEdit
       Left = 4
       Top = 19
@@ -2013,7 +2004,7 @@ inherited fCompra: TfCompra
     Height = 46
     Caption = 'Prazo Pagamento'
     PopupMenu = PopupMenu1
-    TabOrder = 7
+    TabOrder = 8
     object cbPrazo: TDBComboBox
       Left = 5
       Top = 16
@@ -2045,7 +2036,7 @@ inherited fCompra: TfCompra
     ParentShowHint = False
     PopupMenu = PopupMenu1
     ShowHint = True
-    TabOrder = 19
+    TabOrder = 20
     OnKeyPress = FormKeyPress
   end
   object GroupBox10: TGroupBox [27]
@@ -2055,7 +2046,7 @@ inherited fCompra: TfCompra
     Height = 45
     Caption = 'Codigo Pedido :'
     PopupMenu = PopupMenu1
-    TabOrder = 20
+    TabOrder = 21
     object DBEdit7: TDBEdit
       Left = 4
       Top = 19
@@ -2081,7 +2072,7 @@ inherited fCompra: TfCompra
     Width = 32
     Height = 25
     Caption = '...'
-    TabOrder = 21
+    TabOrder = 22
     OnClick = btnTranspClick
   end
   object cbTransportadora: TComboBox [29]
@@ -2091,7 +2082,7 @@ inherited fCompra: TfCompra
     Height = 24
     Color = clInfoBk
     ItemHeight = 16
-    TabOrder = 11
+    TabOrder = 12
     OnChange = cbTransportadoraChange
   end
   object cbTpTransp: TComboBox [30]
@@ -2101,7 +2092,7 @@ inherited fCompra: TfCompra
     Height = 24
     Color = clInfoBk
     ItemHeight = 16
-    TabOrder = 22
+    TabOrder = 23
     OnChange = cbTpTranspChange
     Items.Strings = (
       '0 - Emitente'
@@ -2116,7 +2107,25 @@ inherited fCompra: TfCompra
     Height = 24
     Color = clInfoBk
     ReadOnly = True
-    TabOrder = 23
+    TabOrder = 24
+  end
+  object GroupBox11: TGroupBox [32]
+    Left = 424
+    Top = 64
+    Width = 65
+    Height = 49
+    Cursor = crHandPoint
+    Caption = 'CFOP'
+    TabOrder = 3
+    OnClick = GroupBox11Click
+    object edCFOP: TEdit
+      Left = 2
+      Top = 16
+      Width = 59
+      Height = 24
+      TabOrder = 0
+      OnKeyPress = FormKeyPress
+    end
   end
   inherited XPMenu1: TXPMenu
     Left = 720
