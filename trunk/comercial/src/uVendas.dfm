@@ -65,7 +65,9 @@ inherited fVendas: TfVendas
     Top = 116
     Width = 42
     Height = 16
+    Cursor = crHandPoint
     Caption = 'CFOP :'
+    OnClick = Label29Click
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
@@ -2314,7 +2316,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 0
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2368,7 +2370,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end

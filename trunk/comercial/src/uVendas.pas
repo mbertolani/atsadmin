@@ -662,6 +662,7 @@ type
     procedure Label3Click(Sender: TObject);
     procedure dbedtVALOR_DESCONTOExit(Sender: TObject);
     procedure edCfopExit(Sender: TObject);
+    procedure Label29Click(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -690,7 +691,7 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
   uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils, uftransp,
-  uEstoque, uClienteCadastro, uProdutoCadastro, uDetalhe;
+  uEstoque, uClienteCadastro, uProdutoCadastro, uDetalhe, uEstado;
 
 {$R *.dfm}
 
@@ -3696,6 +3697,21 @@ begin
   begin
     MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
   end;
+end;
+
+procedure TfVendas.Label29Click(Sender: TObject);
+begin
+  //inherited;
+  fEstado.sqlCfop := 'select esta.CODESTADO, esta.CFOP ' +
+      ' ,esta.UF, esta.ICMS ,esta.REDUCAO, cfo.CFNOME ' +
+      ' ,esta.IPI, esta.CSTIPI, esta.ICMS_SUBSTRIB, esta.ICMS_SUBSTRIB_IC ' +
+      ' ,esta.ICMS_SUBSTRIB_IND, esta.CST , esta.PIS , esta.COFINS' +
+      ' ,esta.CSTPIS , esta.CSTCOFINS, esta.DADOSADC1, esta.DADOSADC2' +
+      ' ,esta.DADOSADC3, esta.DADOSADC4, esta.DADOSADC5, esta.DADOSADC6' +
+      ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL' +
+      ' FROM ESTADO_ICMS esta ' +
+      ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
+      ' order by esta.CFOP';
 end;
 
 end.
