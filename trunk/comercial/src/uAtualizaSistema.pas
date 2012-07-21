@@ -1673,6 +1673,9 @@ begin
       executaScript('nfe_fatura108.sql');
       executaScript('trg_calcula_icms_st_108.sql');
       executaScript('calcula_icms108.sql');
+      executaScript('sp_mov_caixac109.sql');
+      executaScript('sp_mov_caixa_ordemc109.sql');      
+      executaDDL('MOVIMENTOCONT', 'FORMA',  'TEXTO1');
       mudaVersao('1.0.0.108');
     end;// Fim Ataulização Versao 1.0.0.108
 
