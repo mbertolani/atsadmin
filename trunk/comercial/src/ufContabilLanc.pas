@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   FMTBcd, DBCtrls, Grids, DBGrids, DBClient, Provider, SqlExpr, dxCore,
-  dxButton, Mask, JvExControls, JvLabel;
+  dxButton, Mask, JvExControls, JvLabel, uUtils;
 
 type
   TfContabilLanc = class(TfPai)
@@ -102,6 +102,12 @@ type
     BuscaPlanoContas1: TMenuItem;
     BuscaCaixaSaida1: TMenuItem;
     JvLabel1: TJvLabel;
+    Label6: TLabel;
+    ComboBox1: TComboBox;
+    Label13: TLabel;
+    Label14: TLabel;
+    DBLookupComboBox1: TDBLookupComboBox;
+    ds_rateio: TDataSource;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -118,7 +124,9 @@ type
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    utilCont : TUtils;
     { Private declarations }
   public
     { Public declarations }
@@ -169,32 +177,40 @@ begin
   dm.cds_parametro.Open;
   conta_desp := dm.cds_parametroDADOS.AsString;
   dm.cds_parametro.Close;
-   if dm.cds_parametro.Active then
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+  dm.cds_parametro.Open;
+  if dm.cds_ccusto.Active then
+    dm.cds_ccusto.Close;
+  dm.cds_ccusto.Params[0].AsString := dm.cds_parametroDADOS.AsString;
+  dm.cds_ccusto.Open;
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.close;
+  dm.cds_parametro.Params[0].AsString := 'SALDOCONTABIL';
+  dm.cds_parametro.open;
+  IF (dm.cds_parametro.IsEmpty) then
+  begin
+    varsqlx :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS,D1,D2) ' ;
+    varsqlx := varsqlx + 'values (''SALDOCONTABIL'',''S'',''SALDOCONTABIL'',''0'',''0'')';
+    dm.sqlsisAdimin.executedirect(varsqlx);
+    if dm.cds_parametro.Active then
       dm.cds_parametro.close;
     dm.cds_parametro.Params[0].AsString := 'SALDOCONTABIL';
     dm.cds_parametro.open;
-    IF (dm.cds_parametro.IsEmpty) then
-    begin
-      varsqlx :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS,D1,D2) ' ;
-      varsqlx := varsqlx + 'values (''SALDOCONTABIL'',''S'',''SALDOCONTABIL'',''0'',''0'')';
-      dm.sqlsisAdimin.executedirect(varsqlx);
-      if dm.cds_parametro.Active then
-        dm.cds_parametro.close;
-      dm.cds_parametro.Params[0].AsString := 'SALDOCONTABIL';
-      dm.cds_parametro.open;
-      vlr_deb := 0;
-      vlr_cre := 0;
-    end else begin
-      DecimalSeparator := '.';
-      vlr_deb := StrToFloat(dm.cds_parametroD1.AsString);
-      vlr_cre := StrToFloat(dm.cds_parametroD2.AsString);
-    end;
-    vlr_saldo := (vlr_deb - vlr_cre);
-    DecimalSeparator := ',';
-    lblsaldo.Caption := Format('%-6.2n',[vlr_saldo]);
-    lblCre.Caption :=     Format('%-6.2n',[vlr_cre]); //dm.cds_parametroD2.AsString;
-    lblDeb.Caption := Format('%-6.2n',[vlr_deb]); //dm.cds_parametroD1.AsString;
-    dm.cds_parametro.Close;
+    vlr_deb := 0;
+    vlr_cre := 0;
+  end else begin
+    DecimalSeparator := '.';
+    vlr_deb := StrToFloat(dm.cds_parametroD1.AsString);
+    vlr_cre := StrToFloat(dm.cds_parametroD2.AsString);
+  end;
+  vlr_saldo := (vlr_deb - vlr_cre);
+  DecimalSeparator := ',';
+  lblsaldo.Caption := Format('%-6.2n',[vlr_saldo]);
+  lblCre.Caption :=     Format('%-6.2n',[vlr_cre]); //dm.cds_parametroD2.AsString;
+  lblDeb.Caption := Format('%-6.2n',[vlr_deb]); //dm.cds_parametroD1.AsString;
+  dm.cds_parametro.Close;
 end;
 
 procedure TfContabilLanc.Edit1Exit(Sender: TObject);
@@ -470,6 +486,9 @@ procedure TfContabilLanc.btnGravarClick(Sender: TObject);
  vlr_deb, vlr_cre, vlr_saldo: double;
 begin
   cod_id := 0;
+  var_ccusto := 0;
+  if (DBLookupComboBox1.KeyValue > -1) then
+    var_ccusto := DBLookupComboBox1.KeyValue;
   valor := StrToFloat(edValor.text);
   if (valor < 0) then
   begin
@@ -584,7 +603,7 @@ begin
       var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
              ', DATA, CODUSUARIO, CODCCUSTO, CODSERVICO, STATUS, CONTA ' +
              ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
-             ', QTDEDEBITO, QTDEORCADO) Values (';
+             ', QTDEDEBITO, QTDEORCADO, FORMA) Values (';
       var_sqla := var_sqla + intToStr(cod_id);
       var_sqla := var_sqla + ',' + intToStr(cod_id);
       var_sqla := var_sqla + ',''' + var_tipoOrigem;
@@ -600,7 +619,13 @@ begin
       var_sqla := var_sqla + ',' + '0';
       var_sqla := var_sqla + ',' + '0';
       var_sqla := var_sqla + ',' + '0';
-      var_sqla := var_sqla + ')';
+      if (ComboBox1.Text <> '') then
+      begin
+         var_sqla := var_sqla + ',' + QuotedStr(utilcont.pegaForma(ComboBox1.Text)) + ')';
+      end
+      else begin
+        var_sqla := var_sqla + ', Null)';
+      end;
     end;
     // Verifica se a conta CREDITO usa rateio, se sim insere na MOV_RATEIO
     if (rateio_d = 'S') then
@@ -627,7 +652,7 @@ begin
       var_sqlb := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
              ', DATA, CODUSUARIO, CODCCUSTO, CODSERVICO, STATUS, CONTA ' +
              ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
-             ', QTDEDEBITO, QTDEORCADO) Values (';
+             ', QTDEDEBITO, QTDEORCADO, FORMA) Values (';
       var_sqlb := var_sqlb + intToStr(cod_id + 1);
       var_sqlb := var_sqlb + ',' + intToStr(cod_id);
       var_sqlb := var_sqlb + ',''' + var_tipoOrigem;
@@ -643,7 +668,13 @@ begin
       var_sqlb := var_sqlb + ',' + '0';
       var_sqlb := var_sqlb + ',' + '0';
       var_sqlb := var_sqlb + ',' + '0';
-      var_sqlb := var_sqlb + ')';
+      if (ComboBox1.Text <> '') then
+      begin
+         var_sqlb := var_sqlb + ',' + QuotedStr(utilcont.pegaForma(ComboBox1.Text)) + ')';
+      end
+      else begin
+        var_sqlb := var_sqlb + ', Null)';
+      end;
     end;
   end;
   { fim se for INCLUSÃO }
@@ -745,9 +776,21 @@ begin
 end;
 
 procedure TfContabilLanc.FormCreate(Sender: TObject);
+var i, j : integer;
 begin
- // inherited;
+  utilcont := Tutils.Create;
+  // Popula Status
+  j := utilcont.Forma.Count;
+  for i := 0 to j - 1 do
+  begin
+    combobox1.Items.Add(utilcont.Forma.Strings[i]);
+  end;
+end;
 
+procedure TfContabilLanc.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  utilcont.destroy;
 end;
 
 end.
