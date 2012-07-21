@@ -20,8 +20,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 433
-    Width = 735
+    Top = 444
+    Width = 743
     Height = 49
     Align = alBottom
     PopupMenu = PopupMenu1
@@ -36,8 +36,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   object Panel1: TPanel
     Left = 0
     Top = 49
-    Width = 558
-    Height = 384
+    Width = 566
+    Height = 395
     Align = alClient
     PopupMenu = PopupMenu1
     TabOrder = 1
@@ -988,10 +988,10 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     end
   end
   object Panel2: TPanel
-    Left = 558
+    Left = 566
     Top = 49
     Width = 177
-    Height = 384
+    Height = 395
     Align = alRight
     TabOrder = 2
     object JvGroupHeader4: TJvGroupHeader
@@ -1077,8 +1077,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvLabel3: TJvLabel
       Left = 5
       Top = 14
-      Width = 164
-      Height = 23
+      Width = 149
+      Height = 24
       Caption = 'Total do Pedido :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -1231,7 +1231,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 735
+    Width = 743
     Height = 49
     Align = alTop
     PopupMenu = PopupMenu1
@@ -3150,5 +3150,115 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     Title = 'Untitled'
     Left = 288
     Top = 112
+  end
+  object imovdet: TSQLDataSet
+    CommandText = 
+      'select sum(md.QUANTIDADE) QTDE, sum(md.PRECO) PRECO, md.UN, md.D' +
+      'ESCPRODUTO,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA,'#13#10'  ' +
+      '         pr.PRODUTO , SUM(md.VALTOTAL) VALTOTAL  '#13#10' from MOVIMEN' +
+      'TODETALHE md '#13#10' left outer join PRODUTOS pr on pr.CODPRODUTO = m' +
+      'd.CODPRODUTO '#13#10'where md.CODMOVIMENTO = :id_mov'#13#10' group by md.DES' +
+      'CPRODUTO,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA,'#13#10'    ' +
+      '       pr.PRODUTO, md.UN '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id_mov'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 416
+    Top = 16
+    object imovdetUN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object imovdetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object imovdetCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
+    object imovdetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Size = 300
+    end
+    object imovdetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      ReadOnly = True
+      Size = 300
+    end
+    object imovdetQTDE: TFloatField
+      FieldName = 'QTDE'
+      ReadOnly = True
+    end
+    object imovdetPRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+    object imovdetVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ReadOnly = True
+    end
+  end
+  object dsp_imovdet: TDataSetProvider
+    DataSet = imovdet
+    UpdateMode = upWhereKeyOnly
+    Left = 448
+    Top = 16
+  end
+  object cds_imovdet: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id_mov'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_imovdet'
+    Left = 480
+    Top = 16
+    object cds_imovdetUN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object cds_imovdetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object cds_imovdetCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
+    object cds_imovdetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Size = 300
+    end
+    object cds_imovdetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      ReadOnly = True
+      Size = 300
+    end
+    object cds_imovdetQTDE: TFloatField
+      FieldName = 'QTDE'
+      ReadOnly = True
+    end
+    object cds_imovdetPRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+    object cds_imovdetVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ReadOnly = True
+    end
+    object cds_imovdetTotalPedido: TAggregateField
+      FieldName = 'TotalPedido'
+      Active = True
+      Expression = 'SUM(valtotal)'
+    end
   end
 end
