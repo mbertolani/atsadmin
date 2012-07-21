@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   DBCtrls, dxCore, dxButton, Mask, FMTBcd, DBClient, Provider, SqlExpr,
   Grids, DBGrids, DBXpress, JvExStdCtrls, JvEdit, JvDBSearchEdit, RXCtrls,
-  UCHist_Base, UCHistDataset, JvExControls, JvLabel;
+  UCHist_Base, UCHistDataset, JvExControls, JvLabel, uUtils;
 
 type
   TfcrTituloInclui = class(TfPai)
@@ -183,6 +183,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
   private
+    utilcrtitulo : Tutils;
     { Private declarations }
     procedure formarecebimento;
   public
@@ -199,7 +200,7 @@ var
 implementation
 
 uses UDm, uListaClientes, uCheques_bol, uFiltro_forn_plano, ufcr,
-  uListaCliEscola, ucrTitulo, ucrEscolas, ufcrSaude, uUtils, ufCrAltera,uListaClientesSaude,
+  uListaCliEscola, ucrTitulo, ucrEscolas, ufcrSaude, ufCrAltera,uListaClientesSaude,
   UDmSaude, sCtrlResize, uProcurar_nf, UDMNF;
 
 {$R *.dfm}
@@ -216,10 +217,18 @@ begin
 end;
 
 procedure TfcrTituloInclui.FormCreate(Sender: TObject);
+var i, j : integer;
 begin
   //inherited;
   sCtrlResize.CtrlResize(TForm(fcrTituloInclui));
- 
+  utilcrtitulo := Tutils.Create;
+  // Popula Status
+  j := utilcrtitulo.Forma.Count;
+  for i := 0 to j - 1 do
+  begin
+    combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
+  end;
+
 end;
 
 procedure TfcrTituloInclui.FormDestroy(Sender: TObject);
@@ -228,6 +237,7 @@ begin
   dm.cds_7_contas.Close;
   dm.cds_ccusto.Close;
   dm.cds_1_contas.Close;
+  utilcrtitulo.destroy;
 end;
 
 procedure TfcrTituloInclui.dbeClienteExit(Sender: TObject);
@@ -538,7 +548,6 @@ procedure TfcrTituloInclui.btnGravarClick(Sender: TObject);
  var
    varsqlx, str_sql, str_sqla, inclusao, vlr_tit, vlr_rec: string;
    vlr_deb, vlr_cre, vlr_saldo: double;
-   varCrTituloRec : TUtils;
 begin
   dm.cds_crDATASISTEMA.AsDateTime := Now;
   if (dm.cds_crVIA.AsString = '1') then
@@ -560,8 +569,7 @@ begin
 
     if (ComboBox1.Text <> '') then
     begin
-      varCrTituloRec := TUtils.Create;
-      dm.cds_crFORMARECEBIMENTO.AsString := varCrTituloRec.pegaForma(ComboBox1.Text);
+      dm.cds_crFORMARECEBIMENTO.AsString := utilcrtitulo.pegaForma(ComboBox1.Text);
     end
     else begin
       MessageDlg('Informe a Forma de Recebimento.', mtWarning, [mbOK], 0);
@@ -818,8 +826,6 @@ begin
 end;
 
 procedure TfcrTituloInclui.FormShow(Sender: TObject);
-var utilcrtitulo : Tutils;
-  i, j : integer;
 begin
  // inherited;
   // Local que gerou as receitas
@@ -860,13 +866,6 @@ begin
   end;
   dm.cds_parametro.Close;
   combobox1.Items.Clear;
-  utilcrtitulo := Tutils.Create;
-  // Popula Status
-  j := utilcrtitulo.Forma.Count;
-  for i := 0 to j - 1 do
-  begin
-    combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
-  end;
   if (dm.moduloUsado = 'ACADEMIA') then
   begin
     formaRecebimento;
