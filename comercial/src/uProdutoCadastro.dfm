@@ -87,8 +87,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Descri'#231#227'o Adicional'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 517
-    Width = 788
+    Top = 528
+    Width = 796
     TabOrder = 13
     inherited btnGravar: TBitBtn
       Left = 278
@@ -117,7 +117,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 788
+    Width = 796
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -1130,10 +1130,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
         object Label21: TLabel
           Left = 120
           Top = 15
-          Width = 15
+          Width = 68
           Height = 16
           Hint = 'Imposto sobre Produtos Industrializados'
-          Caption = 'IPI'
+          Caption = 'IPI(n'#227'o util.)'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
@@ -1167,6 +1167,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
           Top = 33
           Width = 78
           Height = 24
+          Hint = 
+            'Campo em desuso, o ipi utilizado em Vendas e Compras vem da CFOP' +
+            ' estado, ou Class.Fiscal (proc. Produtos)'
           BevelKind = bkFlat
           BorderStyle = bsNone
           DataField = 'IPI'
@@ -1177,7 +1180,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
+          ParentShowHint = False
           PopupMenu = PopupMenu1
+          ShowHint = True
           TabOrder = 1
           OnKeyPress = FormKeyPress
         end
