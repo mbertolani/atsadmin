@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER TRIGGER CALCULA_ICMS_ST FOR MOVIMENTODETALHE ACTIVE
 BEFORE INSERT OR UPDATE POSITION 0
 AS
@@ -32,10 +33,21 @@ AS
  Declare variable CSTCOFINS varchar(2); 
  DECLARE VARIABLE arredondar DOUBLE PRECISION = 2;
 BEGIN
-    if (new.CFOP <> '') then
+    if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
     begin
     select CRT from EMPRESA, MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
     into :CRT;
+
+    if ((new.VLR_BASE is null) or (new.VLR_BASE = 0)) then
+    begin
+      if (new.QTDE_ALT is null) then 
+        new.QTDE_ALT = 0;
+      
+      new.VLR_BASE = new.PRECO;  
+      if (new.QTDE_ALT > 0) then 
+        new.VLR_BASE = (new.PRECO-((new.PRECO)*(new.QTDE_ALT/100)));    
+       
+    end 
 
     arredondar = 2;
 
@@ -138,10 +150,7 @@ BEGIN
             --  new.LOTE = new.LOTE ||  '3-' || :CICMS;      
           end 
         end 
-	    if ((new.VLR_BASE is null) or (new.VLR_BASE = 0)) then
-        begin
-          new.VLR_BASE = new.PRECO; 
-        end         
+        
         --if (new.VLR_BASE is null) then 
         --  new.LOTE = new.LOTE || 'VLR_BASE-Null';
         --else
