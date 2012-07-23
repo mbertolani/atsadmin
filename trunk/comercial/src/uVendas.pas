@@ -1203,6 +1203,7 @@ var sql: String;
 begin
   if (dtSrc1.State in [dsInsert, dsEdit]) then
   begin
+    cds_mov_detCFOP.asString := edCfop.text;
   inherited;
   if (usaprecolistavenda = 'S') then
   begin
