@@ -2284,9 +2284,9 @@ begin
 
   verificaMensagemInicial;
 
-  { Adiciona CAMPO a uma tabela se n�o existir}
+  { Adiciona CAMPO a uma tabela se nao existir}
   // verifiSeExisteCampo('CLIENTES', 'RAZAOSOCIAL', 'VARCHAR(60)');
-  { Adiciona Tabela se n�o existir}
+  { Adiciona Tabela se nao existir}
   // verificaSeExisteTabela('CLIENTESXX', 'TESTE1', 'INTEGER');
 
   //fAtualizaSistema.VerBoleto('teste');
@@ -2887,9 +2887,9 @@ begin
   mensagemInicial := '';
   if (now < dm.dataComputador) then
   begin
-    MessageDlg('A data do computador est� errada.', mtWarning, [mbOK], 0);
+    MessageDlg('A data do computador esta errada.', mtWarning, [mbOK], 0);
     sistemaLiberado := 'N';
-    mensagemInicial := 'A data do computador est� errada.';
+    mensagemInicial := 'A data do computador esta errada.';
     exit;
   end;
   decodedate(now, ano, mes, dia);
