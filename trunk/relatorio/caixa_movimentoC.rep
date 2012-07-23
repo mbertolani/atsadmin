@@ -81,7 +81,7 @@ object TRpReport
     item
       Name = 'DTAINI'
       AllowNulls = False
-      Value = 41091d
+      Value = 41110d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS'
@@ -95,7 +95,7 @@ object TRpReport
     item
       Name = 'DTAFIM'
       AllowNulls = False
-      Value = 41121d
+      Value = 41111d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS'
@@ -298,6 +298,7 @@ object TRpReport
     ExternalField = 'REPORT'
     ExternalSearchField = 'REPORT_NAME'
     StreamFormat = rpStreamText
+    Global = True
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
