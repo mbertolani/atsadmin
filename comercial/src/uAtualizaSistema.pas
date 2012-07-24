@@ -70,7 +70,7 @@ begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   // Verificando o sistema
-  //VerSeTemAtualiza;  // V? se tem nova vers?o do aplicativo na web
+  //VerSeTemAtualiza;  // Ve se tem nova versao do aplicativo na web
   if (versaoSistema = '') then
   begin
     try
@@ -98,7 +98,7 @@ begin
       executaScript('gera_rec_duplicatas.sql');
       executaScript('gera_rec_nf.sql');
       mudaVersao('1.0.0.12');
-    end; // Fim Atauliza??o Versao 1.0.0.11
+    end; // Fim Ataulizacao Versao 1.0.0.11
 
     if (versaoSistema = '1.0.0.12') then
     begin
@@ -112,7 +112,7 @@ begin
         QuotedStr('30') + ' ,' + QuotedStr('60') + ' ,' + QuotedStr('90') + ' , 3,' +
         QuotedStr('N') + ')');
       mudaVersao('1.0.0.13');
-    end; // Fim Atauliza??o Versao 1.0.0.12
+    end; // Fim Ataulizacao Versao 1.0.0.12
 
     if (versaoSistema = '1.0.0.13') then
     begin
@@ -129,13 +129,13 @@ begin
       end;
       cds.Close;
       mudaVersao('1.0.0.14');
-    end; // Fim Atauliza??o Versao 1.0.0.13
+    end; // Fim Ataulizacao Versao 1.0.0.13
 
     if (versaoSistema = '1.0.0.14') then
     begin
       //executaScript('inclui_rec.sql');
       mudaVersao('1.0.0.15');
-    end; // Fim Atauliza??o Versao 1.0.0.14
+    end; // Fim Ataulizacao Versao 1.0.0.14
 
     if (versaoSistema = '1.0.0.15') then
     begin
@@ -150,7 +150,7 @@ begin
       {ExecutaSql('UPDATE MOVIMENTODETALHE SET LOTE = null where LOTE = ' +
         QuotedStr(''));}
       mudaVersao('1.0.0.16');
-    end; // Fim Atauliza??o Versao 1.0.0.15
+    end; // Fim Ataulizacao Versao 1.0.0.15
 
     if (versaoSistema = '1.0.0.16') then
     begin
@@ -159,7 +159,7 @@ begin
       executaScript('boleto.sql');
       //executaScript('gera_nf.sql');
       mudaVersao('1.0.0.17');
-    end; // Fim Atauliza??o Versao 1.0.0.16
+    end; // Fim Ataulizacao Versao 1.0.0.16
 
     if (versaoSistema = '1.0.0.17') then
     begin
@@ -167,22 +167,22 @@ begin
       //executaScript('gera_nf.sql');
       executaScript('trg_nf_cr_altera.sql');
       mudaVersao('1.0.0.18');
-    end; // Fim Atauliza??o Versao 1.0.0.17
+    end; // Fim Ataulizacao Versao 1.0.0.17
 
     if (versaoSistema = '1.0.0.18') then
     begin
       executaScript('recibo_cp.sql');
       mudaVersao('1.0.0.19');
-    end; // Fim Atauliza??o Versao 1.0.0.18
+    end; // Fim Ataulizacao Versao 1.0.0.18
 
     if (versaoSistema = '1.0.0.19') then
     begin
-      CriaException('NAO_PODE_EXCLUIR', 'Registro n?o pode ser excluido,  existe venda/compra.');
+      CriaException('NAO_PODE_EXCLUIR', 'Registro nao pode ser excluido,  existe venda/compra.');
       executaScript('apaga_rec.sql');
       executaScript('proibe_exclusao_pag.sql');
       executaScript('proibe_exclusao_rec.sql');
       mudaVersao('1.0.0.20');
-    end; // Fim Atauliza??o Versao 1.0.0.19
+    end; // Fim Atualizacao Versao 1.0.0.19
 
     if (versaoSistema = '1.0.0.20') then
     begin
@@ -221,7 +221,7 @@ begin
       executaDDL('VENDA', 'CODORIGEM', 'INTEGER');
 
       mudaVersao('1.0.0.21');
-    end; // Fim Atauliza??o Versao 1.0.0.20
+    end; // Fim Atualizacao Versao 1.0.0.20
 
     if (versaoSistema = '1.0.0.21') then
     begin
@@ -232,7 +232,7 @@ begin
       executaScript('caixaFechadoRecebimento.sql');
       executaDDL('NOTAFISCAL','IMPRESSA','CHAR(1)');
       mudaVersao('1.0.0.22');
-    end; // Fim Atauliza??o Versao 1.0.0.21
+    end; // Fim Atualizacao Versao 1.0.0.21
 
     if (versaoSistema = '1.0.0.22') then
     begin
@@ -240,7 +240,7 @@ begin
       executaScript('inclui_rec.sql');
       executaScript('resultadoporproduto.sql');
       mudaVersao('1.0.0.23');
-    end; // Fim Atauliza??o Versao 1.0.0.22
+    end; // Fim Atualizacao Versao 1.0.0.22
 
     if (versaoSistema = '1.0.0.23') then
     begin
@@ -253,12 +253,12 @@ begin
         'tipoCampo varchar(60))');
       CriaGenerator('IDARQUIVO_RETORNO');
       mudaVersao('1.0.0.24');
-    end; // Fim Atauliza??o Versao 1.0.0.23
+    end; // Fim Atualizacao Versao 1.0.0.23
 
     if (versaoSistema = '1.0.0.24') then
     begin
       mudaVersao('1.0.0.25');
-    end; // Fim Atauliza??o Versao 1.0.0.24
+    end; // Fim Atualizacao Versao 1.0.0.24
 
     if (versaoSistema = '1.0.0.25') then
     begin
@@ -280,7 +280,7 @@ begin
       executaScript('retornaEstoqueVenda.sql');
       executaScript('mov_EstoqueCorrige.sql');
       mudaVersao('1.0.0.26');
-    end; // Fim Atauliza??o Versao 1.0.0.25
+    end; // Fim Atualizacao Versao 1.0.0.25
 
     if (versaoSistema = '1.0.0.26') then
     begin
@@ -289,20 +289,20 @@ begin
       executaScript('SP_MOV_CAIXAORDEMFLUXO.sql');
       executaScript('fluxoentradasaida.sql');
       mudaVersao('1.0.0.27');
-    end; // Fim Atauliza??o Versao 1.0.0.26
+    end; // Fim Atualizacao Versao 1.0.0.26
 
     if (versaoSistema = '1.0.0.27') then
     begin
       executaDDL('NOTAFISCAL','SERIE','VARCHAR(20)');
       mudaVersao('1.0.0.28');
-    end; // Fim Atauliza??o Versao 1.0.0.27
+    end; // Fim Atualizacao Versao 1.0.0.27
 
     if (versaoSistema = '1.0.0.28') then
     begin
       executaScript('sp_contas_pendentes.sql');
       executaDDL('PRODUTOS', 'TIPOPRECOVENDA','char(1)');
       mudaVersao('1.0.0.29');
-    end; // Fim Atauliza??o Versao 1.0.0.28
+    end; // Fim Atualizacao Versao 1.0.0.28
 
     if (versaoSistema = '1.0.0.29') then
     begin
@@ -324,28 +324,28 @@ begin
       executaScript('rel_rcbo.sql');
       executaDDL('MOVIMENTODETALHE','DESCPRODUTO','VARCHAR(300)');
       mudaVersao('1.0.0.30');
-    end; // Fim Atauliza??o Versao 1.0.0.29
+    end; // Fim Atualizacao Versao 1.0.0.29
 
     if (versaoSistema = '1.0.0.30') then
     begin
-     CriaException('TIPOENDERECOREPETIDO', 'J? existe endere?o cadastrado com este tipo');
-     CriaException('CNPJ_REPETIDO', 'J? existe Cliente com este CNPJ/CPF.');
+     CriaException('TIPOENDERECOREPETIDO', 'Ja existe endereco cadastrado com este tipo');
+     CriaException('CNPJ_REPETIDO', 'Ja existe Cliente com este CNPJ/CPF.');
       executaScript('tipoend_repetido.sql');
       executaScript('cnpj_repetido.sql');
       mudaVersao('1.0.0.31');
-    end; // Fim Atauliza??o Versao 1.0.0.30
+    end; // Fim Atualizacao Versao 1.0.0.30
 
     if (versaoSistema = '1.0.0.31') then
     begin
       mudaVersao('1.0.0.32');
-    end; // Fim Atauliza??o Versao 1.0.0.31
+    end; // Fim Atualizacao Versao 1.0.0.31
 
     if (versaoSistema = '1.0.0.32') then
     begin
       executaScript('gera_nf.sql');
       executaScript('relNotaFiscal.sql');
       mudaVersao('1.0.0.33');
-    end; // Fim Atauliza??o Versao 1.0.0.32
+    end; // Fim Atualizacao Versao 1.0.0.32
 
     if (versaoSistema = '1.0.0.33') then
     begin
@@ -354,13 +354,13 @@ begin
       executaDDL('ESTADO_ICMS', 'ICMS_SUBSTRIB_IND', 'DOUBLE PRECISION');
       executaDDL('SERIES', 'ICMS_DESTACADO', 'DOUBLE PRECISION');
       mudaVersao('1.0.0.34');
-    end; // Fim Atauliza??o Versao 1.0.0.33
+    end; // Fim Atualizacao Versao 1.0.0.33
 
     if (versaoSistema = '1.0.0.34') then
     begin
       executaScript('formata_doublePrecision.sql');
       mudaVersao('1.0.0.35');
-    end; // Fim Atauliza??o Versao 1.0.0.34
+    end; // Fim Atualizacao Versao 1.0.0.34
 
     if (versaoSistema = '1.0.0.35') then
     begin
@@ -376,7 +376,7 @@ begin
       executaDDL('MOVIMENTODETALHE', 'PERIODOINI', 'timestamp');
       executaDDL('MOVIMENTODETALHE', 'PERIODOFIM', 'timestamp');
       mudaVersao('1.0.0.36');
-    end; // Fim Atauliza??o Versao 1.0.0.35
+    end; // Fim Atualizacao Versao 1.0.0.35
 
     if (versaoSistema = '1.0.0.36') then
     begin
@@ -384,17 +384,17 @@ begin
     executaDDL('CLASSIFICACAOFISCAL', 'Icms_subst_ic', 'DOUBLE PRECISION');
     executaDDL('CLASSIFICACAOFISCAL', 'Icms_subst_ind', 'DOUBLE PRECISION');
      mudaVersao('1.0.0.37');
-    end; // Fim Atauliza??o Versao 1.0.0.36
+    end; // Fim Atualizacao Versao 1.0.0.36
 
     if (versaoSistema = '1.0.0.37') then
     begin
       mudaVersao('1.0.0.38');
-    end; // Fim Atauliza??o Versao 1.0.0.38
+    end; // Fim Atualizacao Versao 1.0.0.38
 
     if (versaoSistema = '1.0.0.38') then
     begin
       mudaVersao('1.0.0.39');
-    end;  // Fim Atauliza??o Versao 1.0.0.39
+    end;  // Fim Atualizacao Versao 1.0.0.39
 
     if(versaoSistema = '1.0.0.39') then
     begin
@@ -441,13 +441,13 @@ begin
       'PRIMARY KEY (ID_GUIA))');
       CriaGenerator('GEN_GUIA');
       mudaVersao('1.0.0.40');
-    end;  // Fim Atauliza??o Versao 1.0.0.40
+    end;  // Fim Atualizacao Versao 1.0.0.40
 
     if(versaoSistema = '1.0.0.40') then
     begin
         executaDDL('CLASSIFICACAOFISCAL', 'UF', 'char(2)');
     mudaVersao('1.0.0.41');
-    end;  // Fim Atauliza??o Versao 1.0.0.41
+    end;  // Fim Atualizacao Versao 1.0.0.41
 
         if(versaoSistema = '1.0.0.41') then
     begin
@@ -462,7 +462,7 @@ begin
         'ICMS_BASE Double precision, ' +
         'PRIMARY KEY (COD_PROD, CFOP, UF))');
     mudaVersao('1.0.0.42');
-    end;  // Fim Atauliza??o Versao 1.0.0.42
+    end;  // Fim Atualizacao Versao 1.0.0.42
 
     if (versaoSistema = '1.0.0.42') then
     begin
@@ -470,18 +470,18 @@ begin
       executaDDL('RECEBIMENTO', 'SELECIONOU', 'CHAR(1)');
       executaDDL('PAGAMENTO', 'SELECIONOU', 'CHAR(1)');
       mudaVersao('1.0.0.43');
-    end; // Fim Atauliza??o Versao 1.0.0.43
+    end; // Fim Atualizacao Versao 1.0.0.43
 
     if (versaoSistema = '1.0.0.43') then
     begin
       executaDDL('GUIATRANSPORTE', 'COD_REMETENTE', 'Integer');
       mudaVersao('1.0.0.44');
-    end;  // Fim Atauliza??o Versao 1.0.0.44
+    end;  // Fim Atualizacao Versao 1.0.0.44
 
     if (versaoSistema = '1.0.0.44') then
     begin
       mudaVersao('1.0.0.45');
-    end;  // Fim Atauliza??o Versao 1.0.0.45
+    end;  // Fim Atualizacao Versao 1.0.0.45
 
     if (versaoSistema = '1.0.0.45') then
     begin
@@ -494,7 +494,7 @@ begin
       executaScript('sp_mov_caixa_ordemConsolida.sql');
       executaScript('caixa_ordem_sinteticoconsolida.sql');
       mudaVersao('1.0.0.46');
-    end;  // Fim Atauliza??o Versao 1.0.0.46
+    end;  // Fim Atualizacao Versao 1.0.0.46
 
     if (versaoSistema = '1.0.0.46') then
     begin
@@ -503,19 +503,19 @@ begin
       executaDDL('GUIATRANSPORTE', 'Total double', 'precision');
       executaDDL('GUIATRANSPORTE', 'Total2 double', 'precision');
       mudaVersao('1.0.0.47');
-    end;  // Fim Atauliza??o Versao 1.0.0.47
+    end;  // Fim Atualizacao Versao 1.0.0.47
 
     if (versaoSistema = '1.0.0.47') then
     begin
       executaDDL('ENDERECOCLIENTE', 'NUMERO', 'VarChar(5)');
       mudaVersao('1.0.0.48');
-    end;  // Fim Atauliza??o Versao 1.0.0.48
+    end;  // Fim Atualizacao Versao 1.0.0.48
 
     if (versaoSistema = '1.0.0.48') then
     begin
       executaDDL('EMPRESA', 'CCUSTO', 'Integer');
       mudaVersao('1.0.0.49');
-    end;  // Fim Atauliza??o Versao 1.0.0.49
+    end;  // Fim Atualizacao Versao 1.0.0.49
 
     if (versaoSistema = '1.0.0.49') then
     begin
@@ -523,28 +523,28 @@ begin
       executaScript('sp_mov_caixaordemfluxo.sql');
       executaDDL('LISTAPRECO', 'TIPOOPERACAO', 'char(1)');
       mudaVersao('1.0.0.50');
-    end;  // Fim Atauliza??o Versao 1.0.0.50
+    end;  // Fim Atualizacao Versao 1.0.0.50
 
     if (versaoSistema = '1.0.0.50') then
     begin
       executaScript('sp_contas_pagar.sql');
       executaScript('sp_despesas_pagar.sql');
       mudaVersao('1.0.0.51');
-    end;  // Fim Atauliza??o Versao 1.0.0.51
+    end;  // Fim Atualizacao Versao 1.0.0.51
 
     if (versaoSistema = '1.0.0.51') then
     begin
 
       executaScript('sp_divergencia.sql');
       mudaVersao('1.0.0.52');
-    end;  // Fim Atauliza??o Versao 1.0.0.52
+    end;  // Fim Atualizacao Versao 1.0.0.52
 
     if (versaoSistema = '1.0.0.52') then
     begin
       executaScript('mapeamentoestoque.sql');
       executaDDL('movimento', 'conferido', 'char(1)');
       mudaVersao('1.0.0.53');
-    end;  // Fim Atauliza??o Versao 1.0.0.53
+    end;  // Fim Atualizacao Versao 1.0.0.53
 
     if (versaoSistema = '1.0.0.53') then
     begin
@@ -554,7 +554,7 @@ begin
       executaDDL('LOTES', 'serieini', 'Integer');
       executaDDL('LOTES', 'seriefim', 'Integer');
       mudaVersao('1.0.0.54');
-    end;  // Fim Atauliza??o Versao 1.0.0.54
+    end;  // Fim Atualizacao Versao 1.0.0.54
 
     if (versaoSistema = '1.0.0.54') then
     begin
@@ -563,14 +563,14 @@ begin
       executaDDL('PRODUTOS', 'GERADESCONTO', 'char(1)');
       executaDDL('PRODUTOS', 'IMPRIMIR', 'char(1)');
       mudaVersao('1.0.0.55');
-    end;  // Fim Atauliza??o Versao 1.0.0.55
+    end;  // Fim Atualizacao Versao 1.0.0.55
 
     if (versaoSistema = '1.0.0.55') then
     begin
       //executaScript('CaixaFechadoRecebimento.sql');
       //executaScript('caixaFechadoPag.sql');
       mudaVersao('1.0.0.56');
-    end;  // Fim Atauliza??o Versao 1.0.0.56
+    end;  // Fim Atualizacao Versao 1.0.0.56
 
     if (versaoSistema = '1.0.0.56') then
     begin
@@ -580,19 +580,19 @@ begin
       executaScript('inclui_rec.sql');
       executaScript('LIMITECREDITO.sql');
       mudaVersao('1.0.0.57');
-    end;  // Fim Atauliza??o Versao 1.0.0.57
+    end;  // Fim Atualizacao Versao 1.0.0.57
 
     if (versaoSistema = '1.0.0.57') then
     begin
       executaScript('imprime_venda.sql');
       mudaVersao('1.0.0.58');
-    end;  // Fim Atauliza??o Versao 1.0.0.58
+    end;  // Fim Atualizacao Versao 1.0.0.58
 
     if (versaoSistema = '1.0.0.58') then
     begin
       executaDDL('EMPRESA', 'NUMERO', 'VarChar(5)');
       mudaVersao('1.0.0.59');
-    end;  // Fim Atauliza??o Versao 1.0.0.59
+    end;  // Fim Atualizacao Versao 1.0.0.59
 
     if (versaoSistema = '1.0.0.59') then
     begin
@@ -608,7 +608,7 @@ begin
         'CD_UF Char(2), ' +
         'PRIMARY KEY (SQ_IBGE))');
       mudaVersao('1.0.0.60');
-    end;  // Fim Atauliza??o Versao 1.0.0.60
+    end;  // Fim Atualizacao Versao 1.0.0.60
 
     if (versaoSistema = '1.0.0.60') then
     begin
@@ -616,13 +616,13 @@ begin
       executaDDL('NOTAFISCAL', 'NUMRECIBO', 'Varchar(20)');
       executaDDL('NOTAFISCAL', 'PROTOCOLOCANC', 'Varchar(20)');
       mudaVersao('1.0.0.61');
-    end;  // Fim Atauliza??o Versao 1.0.0.61
+    end;  // Fim Atualizacao Versao 1.0.0.61
 
     if (versaoSistema = '1.0.0.61') then
     begin
       executaDDL('PRODUTOS', 'NCM', 'Varchar(8)');
       mudaVersao('1.0.0.62');
-    end;  // Fim Atauliza??o Versao 1.0.0.61
+    end;  // Fim Atualizacao Versao 1.0.0.61
 
     if (versaoSistema = '1.0.0.62') then
     begin
@@ -642,7 +642,7 @@ begin
                  ' IF(NEW.OFID IS NULL) THEN NEW.OFID =' +
                  ' GEN_ID(GEN_OFID ,1);  END ');
       mudaVersao('1.0.0.63');
-    end; // Fim Atauliza??o Versao 1.0.0.62
+    end; // Fim Atualizacao Versao 1.0.0.62
 
     if (versaoSistema = '1.0.0.63') then
     begin
@@ -651,27 +651,27 @@ begin
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CST', 'CHAR(03)');
       executaDDL('ESTADO_ICMS', 'CST', 'CHAR(03)');
       mudaVersao('1.0.0.64');
-    end;  // Fim Atauliza??o Versao 1.0.0.64
+    end;  // Fim Atualizacao Versao 1.0.0.64
 
     if (versaoSistema = '1.0.0.64') then
     begin
       executaSql('ALTER TABLE ENDERECOCLIENTE ALTER E_MAIL TYPE VARCHAR(100)');
       mudaVersao('1.0.0.65');
-    end;  // Fim Atauliza??o Versao 1.0.0.65
+    end;  // Fim Atualizacao Versao 1.0.0.65
 
     if (versaoSistema = '1.0.0.65') then
     begin
       executaScript('gera_nf_compra.sql');
       executaScript('desbloqueia_clientes.sql');
       mudaVersao('1.0.0.66');
-    end;  // Fim Atauliza??o Versao 1.0.0.66
+    end;  // Fim Atualizacao Versao 1.0.0.66
 
     if (versaoSistema = '1.0.0.66') then
     begin
       executaDDL('ENDERECOFORNECEDOR', 'CD_IBGE', 'Varchar(10)');
       executaDDL('ENDERECOFORNECEDOR', 'NUMERO', 'VarChar(5)');
       mudaVersao('1.0.0.67');
-    end;  // Fim Atauliza??o Versao 1.0.0.67
+    end;  // Fim Atualizacao Versao 1.0.0.67
 
     if (versaoSistema = '1.0.0.67') then
     begin
@@ -686,7 +686,7 @@ begin
       executaDDL('ESTADO_ICMS', 'DADOSADC3', 'Varchar(200)');
       executaDDL('ESTADO_ICMS', 'DADOSADC4', 'Varchar(200)');
       mudaVersao('1.0.0.68');
-    end;  // Fim Atauliza??o Versao 1.0.0.68
+    end;  // Fim Atualizacao Versao 1.0.0.68
 
     if (versaoSistema = '1.0.0.68') then
     begin
@@ -705,7 +705,7 @@ begin
       executaScript('retornaEstoqueCompra.sql');
       executaScript('rel_vendaCompra.sql');
       mudaVersao('1.0.0.69');
-    end;  // Fim Atauliza??o Versao 1.0.0.69
+    end;  // Fim Atualizacao Versao 1.0.0.69
 
     if (versaoSistema = '1.0.0.69') then
     begin
@@ -715,7 +715,7 @@ begin
       executaDDL('NOTAFISCAL', 'VALOR_COFINS','DOUBLE PRECISION');
       executaDDL('ESTADO_ICMS', 'NAOENVFATURA','CHAR(1)');
       mudaVersao('1.0.0.70');
-    end;  // Fim Atauliza??o Versao 1.0.0.70
+    end;  // Fim Atualizacao Versao 1.0.0.70
 
     if (versaoSistema = '1.0.0.70') then
     begin
@@ -723,7 +723,7 @@ begin
       executaScript('listaSpEstoqueFiltro.sql');
       executaScript('spEstoqueFiltro.sql');
       mudaVersao('1.0.0.71');
-    end;  // Fim Atauliza??o Versao 1.0.0.71
+    end;  // Fim Atualizacao Versao 1.0.0.71
 
     if (versaoSistema = '1.0.0.71') then
     begin
@@ -732,7 +732,7 @@ begin
       executaDDL('ESTADO_ICMS', 'DADOSADC6', 'Varchar(200)');
       executaDDL('PAGAMENTO', 'USERID', 'Char(2)');
       mudaVersao('1.0.0.72');
-    end;  // Fim Atauliza??o Versao 1.0.0.72
+    end;  // Fim Atualizacao Versao 1.0.0.72
 
     if (versaoSistema = '1.0.0.72') then
     begin
@@ -740,7 +740,7 @@ begin
       executaScript('altera_compra.sql');
       executaScript('inclui_pag.sql');
       mudaVersao('1.0.0.73');
-    end;  // Fim Atauliza??o Versao 1.0.0.73
+    end;  // Fim Atualizacao Versao 1.0.0.73
 
     if (versaoSistema = '1.0.0.73') then
     begin
@@ -749,7 +749,7 @@ begin
       executaDDL('MOVIMENTODETALHE', 'CFOP', 'char(4)'); //alter table MOVIMENTODETALHE add CFOP char(4)'
       executaDDL('CLIENTES', 'CFOP', 'char(4)'); //alter table CLIENTES add CFOP char(4)'
       mudaVersao('1.0.0.74');
-    end;  // Fim Atauliza??o Versao 1.0.0.74
+    end;  // Fim Atualizacao Versao 1.0.0.74
 
     if (versaoSistema = '1.0.0.74') then
     begin
@@ -758,7 +758,7 @@ begin
       executaScript('CANCELA_ESTOQUE_VENDA.sql');
       executaScript('trg_cfop_produtos.sql');      
       mudaVersao('1.0.0.75');
-    end;  // Fim Atauliza??o Versao 1.0.0.75
+    end;  // Fim Atualizacao Versao 1.0.0.75
 
     if (versaoSistema = '1.0.0.75') then
     begin
@@ -767,7 +767,7 @@ begin
       executaDDL('PRODUTOS', 'IMPRESSORA_3', 'varchar(10)');
       executaScript('relcontasreceber.sql');
       mudaVersao('1.0.0.76');
-    end;  // Fim Atauliza??o Versao 1.0.0.76
+    end;  // Fim Atualizacao Versao 1.0.0.76
 
     if (versaoSistema = '1.0.0.76') then
     begin
@@ -780,7 +780,7 @@ begin
       executaDDL('MOVIMENTO', 'RATEIO', 'double precision');
       executaDDL('MOVIMENTO', 'NFE', 'varchar(10)');
       mudaVersao('1.0.0.77');
-    end;  // Fim Atauliza??o Versao 1.0.0.77
+    end;  // Fim Atualizacao Versao 1.0.0.77
 
     if (versaoSistema = '1.0.0.77') then
     begin
@@ -796,7 +796,7 @@ begin
       executaScript('inventario_lanca.sql');
       executaScript('invent_estoque.sql');
       mudaVersao('1.0.0.78');
-    end;  // Fim Atauliza??o Versao 1.0.0.78
+    end;  // Fim Atualizacao Versao 1.0.0.78
 
     if (versaoSistema = '1.0.0.78') then
     begin
@@ -813,7 +813,7 @@ begin
       executaScript('lanca_ent_saida.sql');
       executaScript('mov_estoque.sql');
       mudaVersao('1.0.0.79');
-    end;  // Fim Atauliza??o Versao 1.0.0.79
+    end;  // Fim Atualizacao Versao 1.0.0.79
 
     if (versaoSistema = '1.0.0.79') then
     begin
@@ -828,7 +828,7 @@ begin
       executaScript('gera_nf_devolucaovenda.sql');
       executaScript('gera_nf_compra.sql');
       mudaVersao('1.0.0.80');
-    end;  // Fim Atauliza??o Versao 1.0.0.80
+    end;  // Fim Atualizacao Versao 1.0.0.80
 
     if (versaoSistema = '1.0.0.80') then
     begin
@@ -843,7 +843,7 @@ begin
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CSOSN', 'Varchar(3)');
   	  executaDDL('NOTAFISCAL', 'VALOR_DESCONTO', 'DOUBLE PRECISION');
 	  mudaVersao('1.0.0.81');
-    end;  // Fim Atauliza??o Versao 1.0.0.81
+    end;  // Fim Atualizacao Versao 1.0.0.81
 
     if (versaoSistema = '1.0.0.81') then
     begin
@@ -857,7 +857,7 @@ begin
         ExecutaSql(sql);
       end;
       mudaVersao('1.0.0.82');
-    end;  // Fim Atauliza??o Versao 1.0.0.82
+    end;  // Fim Atualizacao Versao 1.0.0.82
 
     if (versaoSistema = '1.0.0.82') then
     begin
@@ -874,7 +874,7 @@ begin
         'PRIMARY KEY (COTACAO_CODIGO, COTACAO_FORNEC, COTACAO_ITEM))');
       end;
       mudaVersao('1.0.0.83');
-    end;  // Fim Atauliza??o Versao 1.0.0.83
+    end;  // Fim Atualizacao Versao 1.0.0.83
 
     if (versaoSistema = '1.0.0.83') then
     begin
@@ -886,7 +886,7 @@ begin
         'COD_PRODUTO Integer,  COD_CC Integer)');
       end;
       mudaVersao('1.0.0.84');
-    end;  // Fim Atauliza??o Versao 1.0.0.84
+    end;  // Fim Atualizacao Versao 1.0.0.84
 
     if (versaoSistema = '1.0.0.84') then
     begin
@@ -903,7 +903,7 @@ begin
         'n_relatorio integer) ');
       end;
       mudaVersao('1.0.0.85');
-    end;  // Fim Atauliza??o Versao 1.0.0.85
+    end;  // Fim Atualizacao Versao 1.0.0.85
 
     if (versaoSistema = '1.0.0.85') then
     begin
@@ -912,7 +912,7 @@ begin
       executaDDL('MOVIMENTO', 'DATA_ENTREGA', 'DATE');
       executaDDL('MOVIMENTO', 'PRAZO_PAGAMENTO', 'VARCHAR(30)');
       mudaVersao('1.0.0.86');
-    end;  // Fim Atauliza??o Versao 1.0.0.86
+    end;  // Fim Atualizacao Versao 1.0.0.86
 
     if (versaoSistema = '1.0.0.86') then
     begin
@@ -937,7 +937,7 @@ begin
       except
       end;
       mudaVersao('1.0.0.87');
-    end;   // Fim Atauliza??o Versao 1.0.0.87
+    end;   // Fim Atualizacao Versao 1.0.0.87
 
     if (versaoSistema = '1.0.0.87') then
     begin
@@ -946,7 +946,7 @@ begin
       executaDDL('COMPRA_COTACAO', 'COTACAO_FRETE', 'DOUBLE PRECISION DEFAULT 0');
       executaDDL('COMPRA_COTACAO', 'COTACAO_DESCONTO', 'DOUBLE PRECISION DEFAULT 0');
       mudaVersao('1.0.0.88');
-    end; // Fim Atauliza??o Versao 1.0.0.88
+    end; // Fim Atualizacao Versao 1.0.0.88
 
     if (versaoSistema = '1.0.0.88') then
     begin
@@ -957,7 +957,7 @@ begin
       end;  
       executaScript('baixaTitulosPag.sql');
       mudaVersao('1.0.0.89');
-    end; // Fim Atauliza??o Versao 1.0.0.89
+    end; // Fim Atualizacao Versao 1.0.0.89
 
     if (versaoSistema = '1.0.0.89') then
     begin
@@ -986,7 +986,7 @@ begin
           'primary key (COTACAO_CODIGO, COTACAO_FORNEC, COTACAO_ITEM)');
       end;}
       mudaVersao('1.0.0.90');
-    end; // Fim Atauliza??o Versao 1.0.0.90
+    end; // Fim Atualizacao Versao 1.0.0.90
 
     if (versaoSistema = '1.0.0.90') then
     begin
@@ -1015,7 +1015,7 @@ begin
           ' ID_OSDET_SERV INTEGER) ');
       end;
       mudaVersao('1.0.0.91');
-    end; // Fim Atauliza??o Versao 1.0.0.91
+    end; // Fim Atualizacao Versao 1.0.0.91
 
     if (versaoSistema = '1.0.0.91') then
     begin
@@ -1026,7 +1026,7 @@ begin
       executaScript('frete_nf.sql');
       //executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
       mudaVersao('1.0.0.92');
-    end; // Fim Atauliza??o Versao 1.0.0.92
+    end; // Fim Atualizacao Versao 1.0.0.92
 
     if (versaoSistema = '1.0.0.92') then
     begin
@@ -1063,9 +1063,9 @@ begin
       executaScript('estoqueccustoent.sql');
       mudaVersao('1.0.0.93');
       {executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
-      '6, ' + QuotedStr('Expedi??o') + ', 1, 0, 6)'); }
+      '6, ' + QuotedStr('Expediaoo') + ', 1, 0, 6)'); }
 	    DeletaTrigger('ESTOQUECCUSTOENT');
-    end; // Fim Atauliza??o Versao 1.0.0.93
+    end; // Fim Atualizacao Versao 1.0.0.93
 
     if (versaoSistema = '1.0.0.93') then
     begin
@@ -1086,12 +1086,12 @@ begin
       executaScript('rel_compra_pedido.sql');
       executaScript('cotacao_gera_pedido.sql');
       mudaVersao('1.0.0.94');
-    end; // Fim Atauliza??o Versao 1.0.0.94
+    end; // Fim Atualizacao Versao 1.0.0.94
 
     if (versaoSistema = '1.0.0.94') then
     begin
       executaSql('ALTER TABLE OS DROP CODVEICULO');
-      CriaException('ALTERA_CODPRO ', 'Produto em uso na Solicita??o, n?o ? poss?vel fazer altera??o');
+      CriaException('ALTERA_CODPRO ', 'Produto em uso na Solicitaaoo, nao e possivel fazer alteraaoo');
       executaDDL('OS', 'CODVEICULO', 'VARCHAR(10)');
       executaDDL('OS_DET', 'CODUSUARIO', 'INTEGER');
       executaDDL('INVENTARIO', 'LOTE',  'VARCHAR(60)');
@@ -1119,7 +1119,7 @@ begin
         MessageDlg('Execute o Script "pais.sql".', mtWarning, [mbOK], 0);
       end;
       mudaVersao('1.0.0.95');
-    end; //Fim Atauliza??o Versao 1.0.0.95
+    end; //Fim Atualizacao Versao 1.0.0.95
 
     if (versaoSistema = '1.0.0.95') then
     begin
@@ -1137,7 +1137,7 @@ begin
       executaSql('UPDATE ENDERECOCLIENTE set PAIS = ' + QuotedStr('Brasil'));
       executaSql('UPDATE ENDERECOFORNECEDOR set PAIS = ' + QuotedStr('Brasil'));
       mudaVersao('1.0.0.96');
-    end;// Fim Atauliza??o Versao 1.0.0.96
+    end;// Fim Atualizacao Versao 1.0.0.96
 
     if (versaoSistema = '1.0.0.96') then
     begin
@@ -1164,7 +1164,7 @@ begin
      // executaSql('ALTER TABLE NOTAFISCAL ALTER CORPONF4 TYPE Varchar(200)');
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
-      CriaException('ALTERA_NFE ', 'N?o pode ser Excluida ou Alterada, Nota Eletr?nica Gerada');
+      CriaException('ALTERA_NFE ', 'Nao pode ser Excluida ou Alterada, Nota Eletronica Gerada');
       executaScript('proibe_alt_del_nf.sql');
       if (NaoExisteTabela('ESTADO')) then
       begin
@@ -1173,7 +1173,7 @@ begin
         MessageDlg('Execute o Script "estado.sql".', mtWarning, [mbOK], 0);
       end;
       mudaVersao('1.0.0.97');
-    end;// Fim Atauliza??o Versao 1.0.0.97
+    end;// Fim Atualizacao Versao 1.0.0.97
 
     if (versaoSistema = '1.0.0.97') then
     begin
@@ -1199,7 +1199,7 @@ begin
       executaDDL('PRODUTOS', 'ESTOQUEMAXIMO', 'DOUBLE PRECISION');
       executaScript('gera_nf_compra.sql');
       mudaVersao('1.0.0.98');
-    end;// Fim Atauliza??o Versao 1.0.0.98
+    end;// Fim Atualizacao Versao 1.0.0.98
 
     if (versaoSistema = '1.0.0.98') then
     begin
@@ -1216,7 +1216,7 @@ begin
       end;
       executaDDL('FORNECEDOR', 'CFOP', 'VARCHAR(30)');      
       mudaVersao('1.0.0.99');
-    end;// Fim Atauliza??o Versao 1.0.0.98
+    end;// Fim Atualizacao Versao 1.0.0.98
 
     if (versaoSistema = '1.0.0.99') then
     begin
@@ -1500,7 +1500,7 @@ begin
       executaScript('relContaReceber.sql');
       executaScript('rel_rcbototal.sql');
       mudaVersao('1.0.0.103');
-    end;// Fim Atauliza??o Versao 1.0.0.103
+    end;// Fim Atualizacao Versao 1.0.0.103
 
     if (versaoSistema = '1.0.0.103') then
     begin
@@ -1520,7 +1520,7 @@ begin
           'PRIMARY KEY(CODRECEBIMENTO, ID_HIST))')
       end;
       mudaVersao('1.0.0.104');
-    end;// Fim Atauliza??o Versao 1.0.0.104
+    end;// Fim Atualizacao Versao 1.0.0.104
 
     if (versaoSistema = '1.0.0.104') then
     begin
@@ -1552,7 +1552,7 @@ begin
       executaScript('LISTAPRODUTOCLI.sql');
       MessageDlg('Execute o Script "Tipo_fiscal.sql".', mtWarning, [mbOK], 0);
       mudaVersao('1.0.0.105');
-    end;// Fim Atauliza??o Versao 1.0.0.105
+    end;// Fim Atualizacao Versao 1.0.0.105
 
     if (versaoSistema = '1.0.0.105') then
     begin
@@ -1566,7 +1566,7 @@ begin
       MessageDlg('Execute o Script "trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
       executaScript('spEstoqueFiltro.sql');
       mudaVersao('1.0.0.106');
-    end;// Fim Atauliza??o Versao 1.0.0.106
+    end;// Fim Atualizacao Versao 1.0.0.106
 
     if (versaoSistema = '1.0.0.106') then
     begin
@@ -1685,7 +1685,7 @@ begin
     finally
       IniAtualiza.Free;
     end;
-  end; // Fim Atauliza??o
+  end; // Fim Atualizacao
 end;
 
 function TfAtualizaSistema.VersaoAtual: String;
@@ -1734,7 +1734,7 @@ begin
   sp := caminho + script;
   if (not FileExists(sp)) then
   begin
-    MessageDlg('Erro 001. Informe o respons?vel pelo sistema ! (' + SP + ')', mtWarning, [mbOK], 0);
+    MessageDlg('Erro 001. Informe o responsavel pelo sistema ! (' + SP + ')', mtWarning, [mbOK], 0);
     abort;
   end;
   memo1.Lines.LoadFromFile(sp);
@@ -1747,10 +1747,10 @@ begin
     end;
   except
     dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro 002. Informe o respons?vel pelo programa ! (' + SP + ')', mtWarning, [mbOK], 0);
+    MessageDlg('Erro 002. Informe o responsavel pelo programa ! (' + SP + ')', mtWarning, [mbOK], 0);
     abort;
   end;
-  { Fim execu??o Script }
+  { Fim execuaoo Script }
 end;
 
 procedure TfAtualizaSistema.ExecutaDDL(Tabela, Campo, Tipo: string);
@@ -1795,7 +1795,7 @@ begin
     close;
   except
     dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro na atualiza??o da Vers?o ' + versaoSistema + '!', mtWarning, [mbOK], 0);
+    MessageDlg('Erro na atualizaaoo da Versao ' + versaoSistema + '!', mtWarning, [mbOK], 0);
     exit;
   end;
 end;
@@ -1817,10 +1817,10 @@ begin
     end;
   except
     dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro 005. Informe o respons?vel pelo programa ! (' + sql + ')', mtWarning, [mbOK], 0);
+    MessageDlg('Erro 005. Informe o responsavel pelo programa ! (' + sql + ')', mtWarning, [mbOK], 0);
     abort;
   end;
-  { Fim execu??o Script }
+  { Fim execuaoo Script }
 end;
 
 procedure TfAtualizaSistema.VerSeTemAtualiza;
@@ -1843,7 +1843,7 @@ begin
      FormatDateTime('dd/mm/yyyy HH:mm',
      ftpupdate.DirectoryListing.Items[0].ModifiedDate)  then
      begin
-      if MessageDlg('Existe uma nova vers?o dessa aplica??o dispon?vel na internet!'
+      if MessageDlg('Existe uma nova versao dessa aplicacao disponivel na internet!'
       +#13+'Deseja atualizar?', mtconfirmation,[mbyes,mbno],0) = mryes then
        begin
         {ftpupdate.get(('PrjFinanceiro.exe'),('C:\ftp')
@@ -2007,7 +2007,7 @@ begin
       IdFTP1.Passive := false; // usa modo ativo
       IdFTP1.RecvBufferSize := 8192;
       try
-        // Espera at? 10 segundos pela conex?o
+        // Espera ate 10 segundos pela conexao
         IdFTP1.Connect(true, 10000);
       except
         on E: Exception do
@@ -2015,7 +2015,7 @@ begin
       end;
 
     begin
-      // Atualiza o sistema para n?o fazer conexao, toda a vez que abre o sistema;
+      // Atualiza o sistema para nao fazer conexao, toda a vez que abre o sistema;
       dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET D9 = ' + FormatDateTime('dd', now) +
         ' WHERE PARAMETRO = ' + QuotedStr('EMPRESA'));
       IdFTP1.changedir('httpdocs/boletos/');
