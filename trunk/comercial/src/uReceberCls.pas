@@ -406,9 +406,9 @@ begin
 end;
 
 function TReceberCls.geraTitulo(CodRecR: Integer; CodVendaR: Integer): Integer;
-var strG, strR, strP: String;
-    sqlBuscaR, sqlPrazo : TSqlQuery;
-            i : integer;
+var strG, strR, strP, strV: String;
+    sqlBuscaR, sqlPrazo, sqlVenc : TSqlQuery;
+            i, DtaAlt : integer;
           rec : Boolean;
       VlrParc, UltParc, VlrT, vlrSt : Double;
       vDataVenc : TDateTime;
@@ -573,8 +573,35 @@ begin
       Self.CodRec := dm.c_6_genid.Fields[0].AsInteger;
       dm.c_6_genid.Close;
     end;
+
+    //Tratar a Data de Vencimento da Parcela
     if (CodRecR = 0) then
-      vDataVenc := IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]));
+      if( Self.Prazo <> '' ) then
+        vDataVenc := IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]))
+      else
+          vDataVenc := IncDay(Self.DtVcto, ((i-1) * 30) );
+
+    //TRATA VENCIMENTOS NOS FINS DE SEMANA
+    Try
+      sqlVenc :=  TSqlQuery.Create(nil);
+      sqlVenc.SQLConnection := dm.sqlsisAdimin;
+      strV := 'SELECT DADOS' +
+        '  FROM PARAMETRO ' +
+        ' WHERE PARAMETRO = ' + quotedstr('VENCFDSSEG');
+      sqlVenc.SQL.Add(strV);
+      sqlVenc.Open;
+      if (not sqlVenc.isEmpty) then
+      begin
+        //VERIFICA SE O VENCIMENTO É EM UM SABADO OU DOMINGO E PASSA PARA A SEGUNDA}
+         DtaAlt := DayOfWeek(vDataVenc);
+         IF (DtaAlt = 1) then
+           vDataVenc := IncDay(vDataVenc, 1);
+         IF (DtaAlt = 7) then
+           vDataVenc := IncDay(vDataVenc, 2);
+      end;
+    Finally
+      sqlVenc.Free;
+    end;
 
     strG := ' INSERT INTO RECEBIMENTO ' +
           ' (CODRECEBIMENTO, TITULO,          EMISSAO,         CODCLIENTE,      ' +
