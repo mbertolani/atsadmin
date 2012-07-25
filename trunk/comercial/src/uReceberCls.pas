@@ -579,7 +579,7 @@ begin
       if( Self.Prazo <> '' ) then
         vDataVenc := IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]))
       else
-          vDataVenc := IncDay(Self.DtVcto, ((i-1) * 30) );
+          vDataVenc := IncMonth(Self.DtVcto, (i-1));
 
     //TRATA VENCIMENTOS NOS FINS DE SEMANA
     Try
