@@ -2596,7 +2596,7 @@ procedure TfNFeletronica.ImprimiCCe(protocolo : string; dthenvio : TDateTime; co
 begin
     VCLReport1.Filename := str_relatorio + 'CCe.rep';
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-    VCLReport1.Report.Params.ParamByName('NF').Value := Copy(cdsCCeCHAVE.AsString, 30 ,6);
+    VCLReport1.Report.Params.ParamByName('NF').Value := Copy(cdsCCeCHAVE.AsString, 29 ,6);
     VCLReport1.Report.Params.ParamByName('SERIE').Value := '1';
     VCLReport1.Report.Params.ParamByName('CNPJ').Value := cdsCCECNPJ.AsString;
     VCLReport1.Report.Params.ParamByName('DTEMISSAO').Value := FormatDateTime('dd/mm/yyyy', dthenvio);
