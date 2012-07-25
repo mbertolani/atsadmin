@@ -2488,7 +2488,17 @@ begin
      Texto3 := 'Produto ' ;
      Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
      Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
-     cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+
+     if (PageControl1.ActivePage = TabSheet1) then
+       cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+
+     if (PageControl1.ActivePage = TabComanda) then
+       cliente := 'Cliente : ' + DM_MOV.c_comandaNOMECLIENTE.Value;
+
+     if (PageControl1.ActivePage = TabDelivery) then
+       cliente := 'Cliente : ' + DM_MOV.c_DeliveryNOMECLIENTE.Value;
+
+
      if (s_parametro.Active) then
          s_parametro.close;
      s_parametro.Params[0].AsString := 'MENSAGEM';
@@ -3253,7 +3263,7 @@ begin
   numeroComp := JvTransparentButton1.ComponentIndex;
   cor := clLime;
 
-  for numeroComp := 51 to 88 do
+  for numeroComp := 51 to 103 do
   begin
     if (TJvTransparentButton(Components[numeroComp]).Caption = nome_botao) then
        TJvTransparentButton(Components[numeroComp]).color := cor;
