@@ -1002,7 +1002,17 @@ begin
      Texto2 := '------------------------------------------------------' ;
      Texto3 := 'Produto                                               ' ;
      Texto4 := 'Codigo             UN      Qtde     V.Un.     V.Total ' ;
-     cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+
+     if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+       cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
+
+     if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
+       cliente := 'Cliente : ' + DM_MOV.c_comandaNOMECLIENTE.Value;
+
+     if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
+       cliente := 'Cliente : ' + DM_MOV.c_DeliveryNOMECLIENTE.Value;
+
+
      if (s_parametro.Active) then
          s_parametro.close;
      s_parametro.Params[0].AsString := 'MENSAGEM';
