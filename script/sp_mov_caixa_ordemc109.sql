@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE SP_MOV_CAIXA_ORDEMC (
     DTAINI Date,
     DTAFIM Date,
