@@ -886,7 +886,7 @@ procedure TfVendaFinalizar.btnGravarClick(Sender: TObject);
 var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
-     FRec : TReceberCls;     
+     FRec : TReceberCls;
 begin
   if (dm.cCustoFechado(cdsCODCCUSTO.AsInteger, cdsDATAVENDA.AsDateTime)) then
   begin
@@ -904,6 +904,8 @@ begin
     end;
     cdsPRAZO.AsString := cbPrazo.Text;
   end;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   tipoMov := 'EDIT';
   if DtSrc.State in [dsInsert] then
   begin
@@ -3534,6 +3536,7 @@ begin
       end;
     end;
     Try
+      dm.sqlsisAdimin.StartTransaction(TD);
       Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' +
         ' WHERE USERID   = ' + IntToStr(usulog) +
         '   AND CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
