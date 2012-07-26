@@ -1594,7 +1594,7 @@ begin
        sFornec.Close;
      sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
      sFornec.Open;
-     codFisc := sClienteCODFISCAL.AsString;
+     codFisc := sFornecCODFISCAL.AsString;
      if (sFornecCODFISCAL.AsString = '') then
      begin
        MessageDlg(sFornecNOMECLIENTE.AsString + ' - informe o CODIGO FISCAL no cadastro do fornecedor.', mtWarning, [mbOK], 0);
