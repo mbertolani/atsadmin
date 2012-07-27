@@ -800,11 +800,11 @@ begin
 
     if (versaoSistema = '1.0.0.78') then
     begin
-      executaSql('ALTER TRIGGER SAIDA_ESTOQUE INACTIVE');
-      executaSql('ALTER TRIGGER ENTRADA_ESTOQUE INACTIVE');
-      executaSql('ALTER TRIGGER ALTERA_ESTOQUE INACTIVE');
-      executaSql('ALTER TRIGGER LOTE_EXCLUI INACTIVE');
-      executaSql('ALTER TRIGGER MOV_ESTOQUECORRIGE INACTIVE');
+      DeletaTrigger('SAIDA_ESTOQUE');
+      DeletaTrigger('ENTRADA_ESTOQUE');
+      DeletaTrigger('ALTERA_ESTOQUE');
+      DeletaTrigger('LOTE_EXCLUI');
+      DeletaTrigger('MOV_ESTOQUECORRIGE');
       executaDDL('CLASSIFICACAOFISCALPRODUTO', 'IPI', 'double precision');
       executaScript('baixa_estoque.sql');
       executaScript('gera_valor.sql');
@@ -1504,7 +1504,7 @@ begin
 
     if (versaoSistema = '1.0.0.103') then
     begin
-      executaSql('ALTER TRIGGER GERA_REC INACTIVE');
+      DeletaTrigger('GERA_REC INACTIVE');
       executaScript('TIT_EMITIDOS_DESCONTADOS.sql');
       if (NaoExisteTabela('RECEBIMENTO_HIST')) then
       begin
@@ -1616,6 +1616,7 @@ begin
 
     if (versaoSistema = '1.0.0.107') then
     begin
+      executaDDL('MOVIMENTOCONT', 'FORMA',  'TEXTO1');
       if (NaoExisteTabela('LISTAPRECO_VENDA')) then
       begin
         executaSql('CREATE TABLE LISTAPRECO_VENDA( ' +
@@ -1630,13 +1631,14 @@ begin
           'FOREIGN KEY (CODCLIENTE) REFERENCES CLIENTES (CODCLIENTE) ON UPDATE CASCADE ON DELETE CASCADE');
       end;
       try
-        executaSql('ALTER TRIGGER INCLUI_REC INACTIVE');
-        executaSql('ALTER TRIGGER GERA_VALOR INACTIVE');
-        executaSql('ALTER TRIGGER CARREGA_IPI_VENDA INACTIVE');
-        executaSql('ALTER TRIGGER CORRIGE_IPI_VENDA INACTIVE');
-        executaSql('ALTER TRIGGER CFOP_PRODUTOS INACTIVE');
-        executaSql('ALTER TRIGGER TRG_NF_CR_INSERE INACTIVE');
-        executaSql('ALTER TRIGGER TRG_NF_CR_ALTERA INACTIVE');
+        DeletaTrigger('INCLUI_REC');
+        DeletaTrigger('GERA_VALOR');
+        DeletaTrigger('CARREGA_IPI_VENDA');
+        DeletaTrigger('CORRIGE_IPI_VENDA');
+        DeletaTrigger('CFOP_PRODUTOS');
+        DeletaTrigger('TRG_NF_CR_INSERE');
+        DeletaTrigger('TRG_NF_CR_ALTERA');
+        DeletaTrigger('MOV_ESTOQUE');		
       except
       end;
       if (NaoExisteTabela('LISTAPRECO_VENDADET')) then
@@ -1675,7 +1677,6 @@ begin
       executaScript('calcula_icms108.sql');
       executaScript('sp_mov_caixac109.sql');
       executaScript('sp_mov_caixa_ordemc109.sql');      
-      executaDDL('MOVIMENTOCONT', 'FORMA',  'TEXTO1');
       mudaVersao('1.0.0.108');
     end;// Fim Ataulização Versao 1.0.0.108
 
