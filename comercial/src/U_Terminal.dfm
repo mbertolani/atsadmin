@@ -17,12 +17,12 @@ object F_Terminal: TF_Terminal
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 21
+  TextHeight = 22
   object MMJPanel2: TMMJPanel
-    Left = 372
-    Top = 45
-    Width = 408
-    Height = 490
+    Left = 390
+    Top = 47
+    Width = 398
+    Height = 499
     Align = alClient
     PopupMenu = PopupMenu1
     TabOrder = 0
@@ -34,9 +34,9 @@ object F_Terminal: TF_Terminal
     Background.FillType = GradUpDown
     object JvDBGrid1: TJvDBGrid
       Left = 1
-      Top = 40
-      Width = 406
-      Height = 338
+      Top = 42
+      Width = 396
+      Height = 340
       Align = alClient
       BorderStyle = bsNone
       Color = clInfoBk
@@ -82,7 +82,7 @@ object F_Terminal: TF_Terminal
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 218
+          Width = 213
           Visible = True
         end
         item
@@ -100,7 +100,7 @@ object F_Terminal: TF_Terminal
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 34
+          Width = 33
           Visible = True
         end
         item
@@ -118,7 +118,7 @@ object F_Terminal: TF_Terminal
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 67
+          Width = 65
           Visible = True
         end
         item
@@ -136,15 +136,15 @@ object F_Terminal: TF_Terminal
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 83
+          Width = 81
           Visible = True
         end>
     end
     object MMJPanel8: TMMJPanel
       Left = 1
       Top = 1
-      Width = 406
-      Height = 39
+      Width = 396
+      Height = 41
       Align = alTop
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -163,12 +163,12 @@ object F_Terminal: TF_Terminal
       object JvLabel1: TJvLabel
         Left = 5
         Top = 10
-        Width = 81
-        Height = 23
+        Width = 78
+        Height = 25
         Caption = 'C'#243'digo :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -20
         Font.Name = 'Cooper Black'
         Font.Style = []
         ParentFont = False
@@ -178,19 +178,19 @@ object F_Terminal: TF_Terminal
         HintColor = clBlack
         HotTrackFont.Charset = ANSI_CHARSET
         HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -19
+        HotTrackFont.Height = -20
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
       object JvLabel14: TJvLabel
-        Left = 293
+        Left = 307
         Top = 8
-        Width = 61
-        Height = 23
+        Width = 60
+        Height = 25
         Caption = 'Qtde :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -20
         Font.Name = 'Cooper Black'
         Font.Style = []
         ParentFont = False
@@ -200,20 +200,20 @@ object F_Terminal: TF_Terminal
         HintColor = clBlack
         HotTrackFont.Charset = ANSI_CHARSET
         HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -19
+        HotTrackFont.Height = -20
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
       object EdtCodBarra1: TEdit
-        Left = 84
+        Left = 88
         Top = 3
-        Width = 204
-        Height = 33
+        Width = 214
+        Height = 35
         BevelKind = bkFlat
         BorderStyle = bsNone
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -20
         Font.Name = 'Times New Roman'
         Font.Style = [fsBold]
         ParentFont = False
@@ -224,17 +224,17 @@ object F_Terminal: TF_Terminal
         OnKeyPress = EdtCodBarra1KeyPress
       end
       object edtQtde1: TJvCalcEdit
-        Left = 352
+        Left = 369
         Top = 3
-        Width = 52
-        Height = 33
+        Width = 54
+        Height = 35
         BevelKind = bkFlat
         BorderStyle = bsNone
         DecimalPlaces = 3
         DisplayFormat = '0.###'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -20
         Font.Name = 'Cooper Blk BT'
         Font.Style = []
         ParentFont = False
@@ -246,9 +246,9 @@ object F_Terminal: TF_Terminal
     end
     object MMJPanel9: TMMJPanel
       Left = 1
-      Top = 378
-      Width = 406
-      Height = 111
+      Top = 382
+      Width = 396
+      Height = 116
       Align = alBottom
       BevelOuter = bvLowered
       Font.Charset = DEFAULT_CHARSET
@@ -265,14 +265,14 @@ object F_Terminal: TF_Terminal
       Background.EndColor = clSkyBlue
       Background.FillType = GradUpDown
       object LabelComissao: TJvLabel
-        Left = 17
-        Top = 15
-        Width = 19
-        Height = 23
+        Left = 18
+        Top = 16
+        Width = 22
+        Height = 25
         Caption = '%'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -20
         Font.Name = 'Cooper Black'
         Font.Style = []
         ParentFont = False
@@ -283,19 +283,19 @@ object F_Terminal: TF_Terminal
         HintColor = clBlack
         HotTrackFont.Charset = ANSI_CHARSET
         HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -19
+        HotTrackFont.Height = -20
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
       object JvLabel3: TJvLabel
-        Left = 166
+        Left = 174
         Top = 10
-        Width = 66
-        Height = 23
+        Width = 60
+        Height = 25
         Caption = 'Total :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -20
         Font.Name = 'Cooper Black'
         Font.Style = []
         ParentFont = False
@@ -305,19 +305,19 @@ object F_Terminal: TF_Terminal
         HintColor = clBlack
         HotTrackFont.Charset = ANSI_CHARSET
         HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -19
+        HotTrackFont.Height = -20
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
       object JvLabel12: TJvLabel
-        Left = 167
-        Top = 45
-        Width = 66
-        Height = 23
+        Left = 175
+        Top = 47
+        Width = 68
+        Height = 25
         Caption = 'Pago  :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -20
         Font.Name = 'Cooper Black'
         Font.Style = []
         ParentFont = False
@@ -327,19 +327,19 @@ object F_Terminal: TF_Terminal
         HintColor = clBlack
         HotTrackFont.Charset = ANSI_CHARSET
         HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -19
+        HotTrackFont.Height = -20
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
       object JvLabel13: TJvLabel
-        Left = 147
-        Top = 81
-        Width = 87
-        Height = 23
+        Left = 154
+        Top = 85
+        Width = 86
+        Height = 25
         Caption = #224' Pagar :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
-        Font.Height = -19
+        Font.Height = -20
         Font.Name = 'Cooper Black'
         Font.Style = []
         ParentFont = False
@@ -349,15 +349,15 @@ object F_Terminal: TF_Terminal
         HintColor = clBlack
         HotTrackFont.Charset = ANSI_CHARSET
         HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -19
+        HotTrackFont.Height = -20
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
       object JvComissao: TJvValidateEdit
-        Left = 45
+        Left = 47
         Top = 2
-        Width = 58
-        Height = 45
+        Width = 61
+        Height = 47
         Flat = False
         ParentFlat = False
         BevelKind = bkFlat
@@ -368,7 +368,7 @@ object F_Terminal: TF_Terminal
         EditText = '10'
         Font.Charset = ANSI_CHARSET
         Font.Color = clRed
-        Font.Height = -37
+        Font.Height = -39
         Font.Name = 'Times New Roman'
         Font.Style = [fsBold]
         ParentFont = False
@@ -377,10 +377,10 @@ object F_Terminal: TF_Terminal
         OnKeyPress = JvComissaoKeyPress
       end
       object JvTotal: TJvValidateEdit
-        Left = 249
+        Left = 261
         Top = 1
-        Width = 152
-        Height = 36
+        Width = 159
+        Height = 38
         Flat = False
         ParentFlat = False
         BevelKind = bkFlat
@@ -391,7 +391,7 @@ object F_Terminal: TF_Terminal
         DecimalPlaces = 2
         Font.Charset = ANSI_CHARSET
         Font.Color = clRed
-        Font.Height = -27
+        Font.Height = -28
         Font.Name = 'Times New Roman'
         Font.Style = [fsBold]
         ParentFont = False
@@ -399,10 +399,10 @@ object F_Terminal: TF_Terminal
         TabOrder = 1
       end
       object JvParcial: TJvValidateEdit
-        Left = 249
-        Top = 37
-        Width = 152
-        Height = 36
+        Left = 261
+        Top = 39
+        Width = 159
+        Height = 37
         Flat = False
         ParentFlat = False
         BevelKind = bkFlat
@@ -413,7 +413,7 @@ object F_Terminal: TF_Terminal
         DecimalPlaces = 2
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlue
-        Font.Height = -27
+        Font.Height = -28
         Font.Name = 'Times New Roman'
         Font.Style = [fsBold]
         ParentFont = False
@@ -421,10 +421,10 @@ object F_Terminal: TF_Terminal
         TabOrder = 2
       end
       object JvSubtotal: TJvValidateEdit
-        Left = 249
-        Top = 73
-        Width = 152
-        Height = 36
+        Left = 261
+        Top = 76
+        Width = 159
+        Height = 38
         Flat = False
         ParentFlat = False
         BevelKind = bkFlat
@@ -435,7 +435,7 @@ object F_Terminal: TF_Terminal
         DecimalPlaces = 2
         Font.Charset = ANSI_CHARSET
         Font.Color = clRed
-        Font.Height = -27
+        Font.Height = -28
         Font.Name = 'Times New Roman'
         Font.Style = [fsBold]
         ParentFont = False
@@ -447,8 +447,8 @@ object F_Terminal: TF_Terminal
   object MMJPanel5: TMMJPanel
     Left = 0
     Top = 0
-    Width = 780
-    Height = 45
+    Width = 788
+    Height = 47
     Align = alTop
     PopupMenu = PopupMenu1
     TabOrder = 1
@@ -461,8 +461,8 @@ object F_Terminal: TF_Terminal
     object JvProcurar: TJvBitBtn
       Left = 2
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F8-Procurar'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -601,10 +601,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvAlterar: TJvBitBtn
-      Left = 88
+      Left = 92
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F4-Alterar'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -743,10 +743,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvExcluir: TJvBitBtn
-      Left = 131
+      Left = 137
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F7-Excluir Pedido'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -885,10 +885,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvImprimir: TJvBitBtn
-      Left = 174
+      Left = 182
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F11-Imprimir Pedido'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -1001,10 +1001,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvFinalizar: TJvBitBtn
-      Left = 217
+      Left = 227
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F6-Finalizar Pedido'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -1143,10 +1143,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvSair: TJvBitBtn
-      Left = 707
+      Left = 741
       Top = 2
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F9 - Sair'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -1259,10 +1259,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn1: TJvBitBtn
-      Left = 664
+      Left = 696
       Top = 2
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'Abrir Gaveta'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -1407,10 +1407,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn2: TJvBitBtn
-      Left = 347
+      Left = 364
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'Cadastro de Mesa'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -1574,10 +1574,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn3: TJvBitBtn
-      Left = 303
+      Left = 317
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'Troca de Mesa'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -1690,10 +1690,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn4: TJvBitBtn
-      Left = 260
+      Left = 272
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F10-Receber  Parcial'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -1806,10 +1806,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn5: TJvBitBtn
-      Left = 621
+      Left = 651
       Top = 2
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F11-Imprimir Pedido'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -1922,10 +1922,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn6: TJvBitBtn
-      Left = 578
+      Left = 606
       Top = 3
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'Abrir Gaveta'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -2070,10 +2070,10 @@ object F_Terminal: TF_Terminal
       HotTrackFont.Style = []
     end
     object JvBitBtn7: TJvBitBtn
-      Left = 45
+      Left = 47
       Top = 1
-      Width = 42
-      Height = 42
+      Width = 44
+      Height = 44
       Hint = 'F2-Novo Pedido'
       ParentShowHint = False
       PopupMenu = PopupMenu1
@@ -2214,9 +2214,9 @@ object F_Terminal: TF_Terminal
   end
   object PageControl1: TPageControl
     Left = 0
-    Top = 45
-    Width = 372
-    Height = 490
+    Top = 47
+    Width = 390
+    Height = 499
     ActivePage = TabSheet1
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
@@ -2235,16 +2235,16 @@ object F_Terminal: TF_Terminal
       object Panel3: TPanel
         Left = 0
         Top = 0
-        Width = 364
-        Height = 461
+        Width = 382
+        Height = 470
         Align = alClient
         Color = clMoneyGreen
         TabOrder = 0
         object Panel12: TPanel
           Left = 1
-          Top = 40
-          Width = 362
-          Height = 359
+          Top = 42
+          Width = 380
+          Height = 363
           Align = alClient
           BevelInner = bvRaised
           BevelOuter = bvLowered
@@ -2253,8 +2253,8 @@ object F_Terminal: TF_Terminal
           object JvImage1: TJvImage
             Left = 2
             Top = 2
-            Width = 358
-            Height = 355
+            Width = 376
+            Height = 359
             Align = alClient
             AutoSize = True
             Center = True
@@ -3019,8 +3019,8 @@ object F_Terminal: TF_Terminal
         object MMJPanel4: TMMJPanel
           Left = 1
           Top = 1
-          Width = 362
-          Height = 39
+          Width = 380
+          Height = 41
           Align = alTop
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -3039,12 +3039,12 @@ object F_Terminal: TF_Terminal
           object JvLabel7: TJvLabel
             Left = 5
             Top = 10
-            Width = 81
-            Height = 23
+            Width = 78
+            Height = 25
             Caption = 'C'#243'digo :'
             Font.Charset = ANSI_CHARSET
             Font.Color = clBlack
-            Font.Height = -19
+            Font.Height = -20
             Font.Name = 'Cooper Black'
             Font.Style = []
             ParentFont = False
@@ -3054,19 +3054,19 @@ object F_Terminal: TF_Terminal
             HintColor = clBlack
             HotTrackFont.Charset = ANSI_CHARSET
             HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -19
+            HotTrackFont.Height = -20
             HotTrackFont.Name = 'Cooper Black'
             HotTrackFont.Style = []
           end
           object JvLabel15: TJvLabel
-            Left = 249
+            Left = 261
             Top = 8
-            Width = 61
-            Height = 23
+            Width = 60
+            Height = 25
             Caption = 'Qtde :'
             Font.Charset = ANSI_CHARSET
             Font.Color = clBlack
-            Font.Height = -19
+            Font.Height = -20
             Font.Name = 'Cooper Black'
             Font.Style = []
             ParentFont = False
@@ -3076,20 +3076,20 @@ object F_Terminal: TF_Terminal
             HintColor = clBlack
             HotTrackFont.Charset = ANSI_CHARSET
             HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -19
+            HotTrackFont.Height = -20
             HotTrackFont.Name = 'Cooper Black'
             HotTrackFont.Style = []
           end
           object EdtCodBarra: TEdit
-            Left = 83
+            Left = 87
             Top = 3
-            Width = 164
-            Height = 33
+            Width = 172
+            Height = 35
             BevelKind = bkFlat
             BorderStyle = bsNone
             Font.Charset = ANSI_CHARSET
             Font.Color = clBlack
-            Font.Height = -19
+            Font.Height = -20
             Font.Name = 'Times New Roman'
             Font.Style = [fsBold]
             ParentFont = False
@@ -3098,10 +3098,10 @@ object F_Terminal: TF_Terminal
             OnKeyPress = EdtCodBarraKeyPress
           end
           object btnProduto: TBitBtn
-            Left = 169
+            Left = 177
             Top = 7
-            Width = 75
-            Height = 25
+            Width = 79
+            Height = 27
             Caption = 'Procura'
             PopupMenu = PopupMenu1
             TabOrder = 1
@@ -3109,17 +3109,17 @@ object F_Terminal: TF_Terminal
             OnClick = btnProdutoClick
           end
           object edtQtde: TJvCalcEdit
-            Left = 308
+            Left = 323
             Top = 3
-            Width = 52
-            Height = 33
+            Width = 54
+            Height = 35
             BevelKind = bkFlat
             BorderStyle = bsNone
             DecimalPlaces = 3
             DisplayFormat = ',#0.000'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
-            Font.Height = -19
+            Font.Height = -20
             Font.Name = 'Cooper Blk BT'
             Font.Style = []
             ParentFont = False
@@ -3132,9 +3132,9 @@ object F_Terminal: TF_Terminal
         end
         object MMJPanel7: TMMJPanel
           Left = 1
-          Top = 399
-          Width = 362
-          Height = 61
+          Top = 405
+          Width = 380
+          Height = 64
           Align = alBottom
           PopupMenu = PopupMenu1
           TabOrder = 2
@@ -3160,7 +3160,7 @@ object F_Terminal: TF_Terminal
             HotTrackFont.Style = []
           end
           object JvLabel9: TJvLabel
-            Left = 68
+            Left = 71
             Top = 6
             Width = 55
             Height = 18
@@ -3175,7 +3175,7 @@ object F_Terminal: TF_Terminal
             HotTrackFont.Style = []
           end
           object JvLabel11: TJvLabel
-            Left = 151
+            Left = 158
             Top = 6
             Width = 48
             Height = 18
@@ -3191,9 +3191,9 @@ object F_Terminal: TF_Terminal
           end
           object DBEdit1: TDBEdit
             Left = 5
-            Top = 24
-            Width = 57
-            Height = 24
+            Top = 25
+            Width = 60
+            Height = 25
             BevelKind = bkFlat
             BorderStyle = bsNone
             Color = clScrollBar
@@ -3204,10 +3204,10 @@ object F_Terminal: TF_Terminal
             TabOrder = 0
           end
           object DBEdit2: TDBEdit
-            Left = 68
-            Top = 24
-            Width = 78
-            Height = 24
+            Left = 71
+            Top = 25
+            Width = 82
+            Height = 25
             BevelKind = bkFlat
             BorderStyle = bsNone
             Color = clScrollBar
@@ -3218,10 +3218,10 @@ object F_Terminal: TF_Terminal
             TabOrder = 1
           end
           object DBEdit3: TDBEdit
-            Left = 151
-            Top = 24
-            Width = 207
-            Height = 24
+            Left = 158
+            Top = 25
+            Width = 217
+            Height = 25
             BevelKind = bkFlat
             BorderStyle = bsNone
             Color = clScrollBar
@@ -3239,10 +3239,10 @@ object F_Terminal: TF_Terminal
       ImageIndex = 2
       PopupMenu = PopupMenu1
       object DBGrid3: TDBGrid
-        Left = 137
-        Top = 97
-        Width = 134
-        Height = 197
+        Left = 144
+        Top = 102
+        Width = 140
+        Height = 206
         Ctl3D = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -3275,10 +3275,10 @@ object F_Terminal: TF_Terminal
           end>
       end
       object DBGrid4: TDBGrid
-        Left = 138
-        Top = 299
-        Width = 134
-        Height = 125
+        Left = 145
+        Top = 313
+        Width = 140
+        Height = 131
         Ctl3D = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -3312,15 +3312,15 @@ object F_Terminal: TF_Terminal
       end
       object Panel2: TPanel
         Left = 0
-        Top = 50
-        Width = 364
-        Height = 411
+        Top = 52
+        Width = 381
+        Height = 431
         BevelInner = bvLowered
         BevelOuter = bvLowered
         Color = clMoneyGreen
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
-        Font.Height = -15
+        Font.Height = -16
         Font.Name = 'Cooper Blk BT'
         Font.Style = []
         ParentFont = False
@@ -3328,17 +3328,17 @@ object F_Terminal: TF_Terminal
         object JvTransparentButton1: TJvTransparentButton
           Left = 4
           Top = 4
-          Width = 89
-          Height = 31
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3347,19 +3347,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton1Click
         end
         object JvTransparentButton2: TJvTransparentButton
-          Left = 93
+          Left = 97
           Top = 4
-          Width = 89
-          Height = 31
+          Width = 94
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3368,19 +3368,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton2Click
         end
         object JvTransparentButton3: TJvTransparentButton
-          Left = 182
+          Left = 191
           Top = 4
-          Width = 89
-          Height = 31
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3389,19 +3389,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton3Click
         end
         object JvTransparentButton4: TJvTransparentButton
-          Left = 271
+          Left = 284
           Top = 4
-          Width = 89
-          Height = 31
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3411,18 +3411,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton5: TJvTransparentButton
           Left = 4
-          Top = 35
-          Width = 89
-          Height = 31
+          Top = 37
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3431,19 +3431,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton5Click
         end
         object JvTransparentButton6: TJvTransparentButton
-          Left = 93
-          Top = 35
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 37
+          Width = 94
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3452,19 +3452,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton6Click
         end
         object JvTransparentButton7: TJvTransparentButton
-          Left = 182
-          Top = 35
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 37
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3473,19 +3473,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton7Click
         end
         object JvTransparentButton8: TJvTransparentButton
-          Left = 271
-          Top = 35
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 37
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3495,18 +3495,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton9: TJvTransparentButton
           Left = 4
-          Top = 66
-          Width = 89
-          Height = 31
+          Top = 69
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3515,19 +3515,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton9Click
         end
         object JvTransparentButton10: TJvTransparentButton
-          Left = 93
-          Top = 66
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 69
+          Width = 94
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3536,19 +3536,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton10Click
         end
         object JvTransparentButton11: TJvTransparentButton
-          Left = 182
-          Top = 66
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 69
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3557,19 +3557,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton11Click
         end
         object JvTransparentButton12: TJvTransparentButton
-          Left = 271
-          Top = 66
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 69
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3579,18 +3579,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton13: TJvTransparentButton
           Left = 4
-          Top = 97
-          Width = 89
-          Height = 31
+          Top = 102
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3599,19 +3599,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton13Click
         end
         object JvTransparentButton14: TJvTransparentButton
-          Left = 93
-          Top = 97
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 102
+          Width = 94
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3620,19 +3620,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton14Click
         end
         object JvTransparentButton15: TJvTransparentButton
-          Left = 182
-          Top = 97
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 102
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3641,19 +3641,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton15Click
         end
         object JvTransparentButton16: TJvTransparentButton
-          Left = 271
-          Top = 97
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 102
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3663,18 +3663,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton17: TJvTransparentButton
           Left = 4
-          Top = 128
-          Width = 89
-          Height = 31
+          Top = 134
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3683,19 +3683,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton17Click
         end
         object JvTransparentButton18: TJvTransparentButton
-          Left = 93
-          Top = 128
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 134
+          Width = 94
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3704,19 +3704,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton18Click
         end
         object JvTransparentButton19: TJvTransparentButton
-          Left = 182
-          Top = 128
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 134
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3725,19 +3725,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton19Click
         end
         object JvTransparentButton20: TJvTransparentButton
-          Left = 271
-          Top = 128
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 134
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3747,18 +3747,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton21: TJvTransparentButton
           Left = 4
-          Top = 159
-          Width = 89
-          Height = 31
+          Top = 167
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3767,19 +3767,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton21Click
         end
         object JvTransparentButton22: TJvTransparentButton
-          Left = 93
-          Top = 159
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 167
+          Width = 94
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3788,19 +3788,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton22Click
         end
         object JvTransparentButton23: TJvTransparentButton
-          Left = 182
-          Top = 159
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 167
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3809,19 +3809,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton23Click
         end
         object JvTransparentButton24: TJvTransparentButton
-          Left = 271
-          Top = 159
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 167
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3831,18 +3831,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton25: TJvTransparentButton
           Left = 4
-          Top = 190
-          Width = 89
-          Height = 31
+          Top = 199
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3851,19 +3851,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton25Click
         end
         object JvTransparentButton26: TJvTransparentButton
-          Left = 93
-          Top = 190
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 199
+          Width = 94
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3872,19 +3872,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton26Click
         end
         object JvTransparentButton27: TJvTransparentButton
-          Left = 182
-          Top = 190
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 199
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3893,19 +3893,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton27Click
         end
         object JvTransparentButton28: TJvTransparentButton
-          Left = 271
-          Top = 190
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 199
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3915,18 +3915,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton29: TJvTransparentButton
           Left = 4
-          Top = 221
-          Width = 89
-          Height = 31
+          Top = 232
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3935,19 +3935,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton29Click
         end
         object JvTransparentButton30: TJvTransparentButton
-          Left = 93
-          Top = 221
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 232
+          Width = 94
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3956,19 +3956,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton30Click
         end
         object JvTransparentButton31: TJvTransparentButton
-          Left = 182
-          Top = 221
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 232
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3977,19 +3977,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton31Click
         end
         object JvTransparentButton32: TJvTransparentButton
-          Left = 271
-          Top = 221
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 232
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -3999,18 +3999,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton33: TJvTransparentButton
           Left = 4
-          Top = 252
-          Width = 89
-          Height = 31
+          Top = 264
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4019,19 +4019,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton33Click
         end
         object JvTransparentButton34: TJvTransparentButton
-          Left = 93
-          Top = 252
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 264
+          Width = 94
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4040,19 +4040,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton34Click
         end
         object JvTransparentButton35: TJvTransparentButton
-          Left = 182
-          Top = 252
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 264
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4061,19 +4061,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton35Click
         end
         object JvTransparentButton36: TJvTransparentButton
-          Left = 271
-          Top = 252
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 264
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4083,18 +4083,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton37: TJvTransparentButton
           Left = 4
-          Top = 283
-          Width = 89
-          Height = 31
+          Top = 296
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4103,19 +4103,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton37Click
         end
         object JvTransparentButton38: TJvTransparentButton
-          Left = 93
-          Top = 283
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 296
+          Width = 94
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4124,19 +4124,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton38Click
         end
         object JvTransparentButton39: TJvTransparentButton
-          Left = 182
-          Top = 283
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 296
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4145,19 +4145,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton39Click
         end
         object JvTransparentButton40: TJvTransparentButton
-          Left = 271
-          Top = 283
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 296
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4167,18 +4167,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton41: TJvTransparentButton
           Left = 4
-          Top = 314
-          Width = 89
-          Height = 31
+          Top = 329
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4187,19 +4187,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton41Click
         end
         object JvTransparentButton42: TJvTransparentButton
-          Left = 93
-          Top = 314
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 329
+          Width = 94
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4208,19 +4208,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton42Click
         end
         object JvTransparentButton43: TJvTransparentButton
-          Left = 182
-          Top = 314
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 329
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4229,19 +4229,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton43Click
         end
         object JvTransparentButton44: TJvTransparentButton
-          Left = 271
-          Top = 314
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 329
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4251,18 +4251,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton45: TJvTransparentButton
           Left = 4
-          Top = 345
-          Width = 89
-          Height = 31
+          Top = 361
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4271,19 +4271,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton45Click
         end
         object JvTransparentButton46: TJvTransparentButton
-          Left = 93
-          Top = 345
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 361
+          Width = 94
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4292,19 +4292,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton46Click
         end
         object JvTransparentButton47: TJvTransparentButton
-          Left = 182
-          Top = 345
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 361
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4313,19 +4313,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton47Click
         end
         object JvTransparentButton48: TJvTransparentButton
-          Left = 271
-          Top = 345
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 361
+          Width = 93
+          Height = 33
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4335,18 +4335,18 @@ object F_Terminal: TF_Terminal
         end
         object JvTransparentButton49: TJvTransparentButton
           Left = 4
-          Top = 376
-          Width = 89
-          Height = 31
+          Top = 394
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4355,19 +4355,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton49Click
         end
         object JvTransparentButton50: TJvTransparentButton
-          Left = 93
-          Top = 376
-          Width = 89
-          Height = 31
+          Left = 97
+          Top = 394
+          Width = 94
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4376,19 +4376,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton50Click
         end
         object JvTransparentButton51: TJvTransparentButton
-          Left = 182
-          Top = 376
-          Width = 89
-          Height = 31
+          Left = 191
+          Top = 394
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4397,19 +4397,19 @@ object F_Terminal: TF_Terminal
           OnClick = JvTransparentButton51Click
         end
         object JvTransparentButton52: TJvTransparentButton
-          Left = 271
-          Top = 376
-          Width = 89
-          Height = 31
+          Left = 284
+          Top = 394
+          Width = 93
+          Height = 32
           Color = clLime
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -16
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -15
+          HotTrackFont.Height = -16
           HotTrackFont.Name = 'Cooper Blk BT'
           HotTrackFont.Style = []
           ParentFont = False
@@ -4419,10 +4419,10 @@ object F_Terminal: TF_Terminal
         end
       end
       object JvDBGrid2: TJvDBGrid
-        Left = 15
-        Top = 254
-        Width = 349
-        Height = 79
+        Left = 16
+        Top = 266
+        Width = 365
+        Height = 83
         BorderStyle = bsNone
         Ctl3D = False
         DataSource = DM_MOV.d_comanda
@@ -4466,15 +4466,15 @@ object F_Terminal: TF_Terminal
             Title.Font.Height = -9
             Title.Font.Name = 'Times New Roman'
             Title.Font.Style = []
-            Width = 332
+            Width = 348
             Visible = True
           end>
       end
       object MMJPanel1: TMMJPanel
         Left = 0
         Top = 0
-        Width = 364
-        Height = 50
+        Width = 382
+        Height = 52
         Align = alTop
         TabOrder = 4
         Silhuette.Shape.ShapeText = 'Shape text'
@@ -4486,12 +4486,12 @@ object F_Terminal: TF_Terminal
         object JvLabel10: TJvLabel
           Left = 8
           Top = 6
-          Width = 214
+          Width = 202
           Height = 21
           Caption = 'Digite o N'#186' da Mesa / Com.'
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -16
+          Font.Height = -17
           Font.Name = 'Cooper Black'
           Font.Style = []
           ParentFont = False
@@ -4501,20 +4501,20 @@ object F_Terminal: TF_Terminal
           HintColor = clBlack
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -16
+          HotTrackFont.Height = -17
           HotTrackFont.Name = 'Cooper Black'
           HotTrackFont.Style = []
         end
         object EdtComanda: TEdit
-          Left = 243
+          Left = 255
           Top = 7
-          Width = 119
-          Height = 35
+          Width = 124
+          Height = 37
           BevelKind = bkFlat
           BorderStyle = bsNone
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -19
+          Font.Height = -20
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
@@ -4525,8 +4525,8 @@ object F_Terminal: TF_Terminal
         object MMJPanel3: TMMJPanel
           Left = 1
           Top = 1
-          Width = 362
-          Height = 50
+          Width = 380
+          Height = 52
           Align = alTop
           TabOrder = 1
           Silhuette.Shape.ShapeText = 'Shape text'
@@ -4538,14 +4538,14 @@ object F_Terminal: TF_Terminal
           object JvLabel8: TJvLabel
             Left = 1
             Top = 1
-            Width = 360
-            Height = 48
+            Width = 378
+            Height = 50
             Align = alClient
             Alignment = taCenter
             Caption = '...'
             Font.Charset = ANSI_CHARSET
             Font.Color = clBlack
-            Font.Height = -24
+            Font.Height = -25
             Font.Name = 'Cooper Black'
             Font.Style = []
             Layout = tlCenter
@@ -4556,7 +4556,7 @@ object F_Terminal: TF_Terminal
             HintColor = clBlack
             HotTrackFont.Charset = ANSI_CHARSET
             HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -24
+            HotTrackFont.Height = -25
             HotTrackFont.Name = 'Cooper Black'
             HotTrackFont.Style = []
           end
@@ -4569,9 +4569,9 @@ object F_Terminal: TF_Terminal
       PopupMenu = PopupMenu1
       object DBGrid2: TDBGrid
         Left = 0
-        Top = 83
-        Width = 364
-        Height = 378
+        Top = 87
+        Width = 382
+        Height = 383
         Align = alClient
         Ctl3D = False
         DataSource = DM_MOV.d_delivery
@@ -4621,8 +4621,8 @@ object F_Terminal: TF_Terminal
       object MMJPanel6: TMMJPanel
         Left = 0
         Top = 0
-        Width = 364
-        Height = 83
+        Width = 382
+        Height = 87
         Align = alTop
         TabOrder = 1
         Silhuette.Shape.ShapeText = 'Shape text'
@@ -4634,8 +4634,8 @@ object F_Terminal: TF_Terminal
         object JvLabel2: TJvLabel
           Left = 1
           Top = 6
-          Width = 63
-          Height = 17
+          Width = 52
+          Height = 18
           Caption = 'Telefone'
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -4653,10 +4653,10 @@ object F_Terminal: TF_Terminal
           HotTrackFont.Style = []
         end
         object JvLabel4: TJvLabel
-          Left = 81
+          Left = 85
           Top = 6
-          Width = 43
-          Height = 17
+          Width = 38
+          Height = 18
           Caption = 'Nome'
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -4675,9 +4675,9 @@ object F_Terminal: TF_Terminal
         end
         object JvLabel5: TJvLabel
           Left = 2
-          Top = 42
-          Width = 66
-          Height = 17
+          Top = 44
+          Width = 59
+          Height = 18
           Caption = 'Endere'#231'o'
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
@@ -4696,9 +4696,9 @@ object F_Terminal: TF_Terminal
         end
         object edtFone: TEdit
           Left = 2
-          Top = 22
-          Width = 77
-          Height = 20
+          Top = 23
+          Width = 81
+          Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
           Font.Charset = DEFAULT_CHARSET
@@ -4712,10 +4712,10 @@ object F_Terminal: TF_Terminal
           OnKeyPress = edtFoneKeyPress
         end
         object edtNome: TEdit
-          Left = 117
-          Top = 22
-          Width = 212
-          Height = 20
+          Left = 123
+          Top = 23
+          Width = 222
+          Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
           Color = clInfoBk
@@ -4731,9 +4731,9 @@ object F_Terminal: TF_Terminal
         end
         object edtEnd: TEdit
           Left = 2
-          Top = 58
-          Width = 359
-          Height = 20
+          Top = 61
+          Width = 376
+          Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
           Color = clInfoBk
@@ -4748,10 +4748,10 @@ object F_Terminal: TF_Terminal
           TabOrder = 2
         end
         object edtCodCli: TEdit
-          Left = 80
-          Top = 22
-          Width = 37
-          Height = 20
+          Left = 84
+          Top = 23
+          Width = 39
+          Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
           Color = clInfoBk
@@ -4766,10 +4766,10 @@ object F_Terminal: TF_Terminal
           TabOrder = 3
         end
         object BitBtn1: TBitBtn
-          Left = 331
-          Top = 18
-          Width = 31
-          Height = 25
+          Left = 347
+          Top = 19
+          Width = 32
+          Height = 26
           Caption = '...'
           TabOrder = 4
           OnClick = BitBtn1Click
@@ -6327,6 +6327,116 @@ object F_Terminal: TF_Terminal
     object Fechamentodecaixa1: TMenuItem
       Caption = '&Fechamento de caixa'
       OnClick = Fechamentodecaixa1Click
+    end
+  end
+  object imovdet: TSQLDataSet
+    CommandText = 
+      'select sum(md.QUANTIDADE) QTDE, sum(md.PRECO) PRECO, md.UN, md.D' +
+      'ESCPRODUTO,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA,'#13#10'  ' +
+      '         pr.PRODUTO , SUM(md.VALTOTAL) VALTOTAL  '#13#10' from MOVIMEN' +
+      'TODETALHE md '#13#10' left outer join PRODUTOS pr on pr.CODPRODUTO = m' +
+      'd.CODPRODUTO '#13#10'where md.CODMOVIMENTO = :id_mov'#13#10' group by md.DES' +
+      'CPRODUTO,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA,'#13#10'    ' +
+      '       pr.PRODUTO, md.UN '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id_mov'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 416
+    Top = 16
+    object imovdetUN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object imovdetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object imovdetCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
+    object imovdetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Size = 300
+    end
+    object imovdetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      ReadOnly = True
+      Size = 300
+    end
+    object imovdetQTDE: TFloatField
+      FieldName = 'QTDE'
+      ReadOnly = True
+    end
+    object imovdetPRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+    object imovdetVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ReadOnly = True
+    end
+  end
+  object dsp_imovdet: TDataSetProvider
+    DataSet = imovdet
+    UpdateMode = upWhereKeyOnly
+    Left = 448
+    Top = 16
+  end
+  object cds_imovdet: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id_mov'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_imovdet'
+    Left = 480
+    Top = 16
+    object cds_imovdetUN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object cds_imovdetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object cds_imovdetCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
+    object cds_imovdetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Size = 300
+    end
+    object cds_imovdetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      ReadOnly = True
+      Size = 300
+    end
+    object cds_imovdetQTDE: TFloatField
+      FieldName = 'QTDE'
+      ReadOnly = True
+    end
+    object cds_imovdetPRECO: TFloatField
+      FieldName = 'PRECO'
+      ReadOnly = True
+    end
+    object cds_imovdetVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ReadOnly = True
+    end
+    object cds_imovdetTotalPedido: TAggregateField
+      FieldName = 'TotalPedido'
+      Active = True
+      Expression = 'SUM(valtotal)'
     end
   end
 end
