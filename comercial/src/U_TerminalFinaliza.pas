@@ -1713,25 +1713,30 @@ begin
      Writeln(Impressora, c17cpi, texto4);
   {-----------------------------------------------------------}
   {-------------------Imprimi itens do boleto-----------------}
+     if (cds_imovdet.Active) then
+       cds_imovdet.Close;
+     cds_iMovdet.Params[0].AsInteger := dm_mov.c_movimentoCODMOVIMENTO.AsInteger;
+     cds_iMovDet.Open;
+
    try
-     DM_MOV.c_movdet.First;
-     while not DM_MOV.c_movdet.Eof do
+     //DM_MOV.c_movdet.First;
+     while not cds_imovdet.Eof do
      begin
-       DM_MOV.c_movdet.RecordCount;
+       cds_imovdet.RecordCount;
       // imprime
-      Writeln(Impressora, c17cpi + Format('%-40s',[DM_MOV.c_movdetDESCPRODUTO.Value]));
-      Write(Impressora, c17cpi, Format('%-13s  ',[DM_MOV.c_movdetCOD_BARRA.Value]));
-      Write(Impressora, c17cpi + Format('   %-2s  ',[DM_MOV.c_movdetUN.Value]));
-      Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]));
-      Write(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetPRECO.AsFloat]));
-      Writeln(Impressora, c17cpi + Format('   %-6.2n',[DM_MOV.c_movdetValorTotal.value]));
+      Writeln(Impressora, c17cpi + Format('%-40s',[cds_imovdetDESCPRODUTO.Value]));
+      Write(Impressora, c17cpi, Format('%-13s  ',[cds_imovdetCOD_BARRA.Value]));
+      Write(Impressora, c17cpi + Format('   %-2s  ',[cds_imovdetUN.Value]));
+      Write(Impressora, c17cpi + Format('   %-6.2n',[cds_imovdetQTDE.AsFloat]));
+      Write(Impressora, c17cpi + Format('   %-6.2n',[cds_imovdetPRECO.AsFloat]));
+      Writeln(Impressora, c17cpi + Format('   %-6.2n',[cds_imovdetTotalPedido.value]));
 
       with Printer.Canvas do
       begin
        Font.Name := 'Courier New';
        Font.Size := 4;
       end;
-      DM_MOV.c_movdet.next;
+      cds_imovdet.next;
      end;
      total := DM_MOV.c_movdettotalpedido.Value;
      Writeln(Impressora, c17cpi, texto);
