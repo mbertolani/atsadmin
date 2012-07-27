@@ -410,7 +410,7 @@ var strG, strR, strP, strV: String;
     sqlBuscaR, sqlPrazo, sqlVenc : TSqlQuery;
             i, DtaAlt : integer;
           rec : Boolean;
-      VlrParc, UltParc, VlrT, vlrSt : Double;
+      VlrParc, UltParc, VlrT, vlrSt, VlrEnt : Double;
       vDataVenc : TDateTime;
 begin
   // Se codVendaR > 0, então é uma Venda então busca os dados da Venda;
@@ -438,6 +438,7 @@ begin
         Self.CodUsuario    := sqlBuscaR.FieldByName('CODUSUARIO').AsInteger;
         Self.NParcela      := sqlBuscaR.FieldByName('N_PARCELA').AsInteger;
         Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat - sqlBuscaR.FieldByName('DESCONTO').AsFloat;
+        VlrEnt             := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
         Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
         vlrSt              := sqlBuscaR.FieldByName('VALOR_ST').AsFloat;
         //Self.Desconto      := sqlBuscaR.FieldByName('DESCONTO').AsFloat;
@@ -502,7 +503,7 @@ begin
       sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
       strR := 'SELECT CODRECEBIMENTO, CODVENDA, CODCLIENTE, EMISSAO, ' +
         ' DATAVENCIMENTO, CODVENDEDOR, CODUSUARIO,' +
-        ' VALOR_RESTO, TITULO, VIA, PARCELAS,' +
+        ' VALOR_RESTO, TITULO, VIA, PARCELAS, ' +
         ' FORMARECEBIMENTO, CODALMOXARIFADO, UDF_RTRIM(VIA) as VIA ' +
         '  FROM RECEBIMENTO ' +
         ' WHERE CODRECEBIMENTO = ' + InttoStr(CodRecR);
@@ -516,6 +517,7 @@ begin
         Self.CodUsuario    := sqlBuscaR.FieldByName('CODUSUARIO').AsInteger;
         Self.NParcela      := sqlBuscaR.FieldByName('PARCELAS').AsInteger;
         //Self.Valor         := sqlBuscaR.FieldByName('VALOR_RESTO').AsFloat;
+        //VlrEnt             := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
         Self.ValorRec      := 0;//sqlBuscaR.FieldByName('ENTRADA').AsFloat;
         Self.DtEmissao     := sqlBuscaR.FieldByName('EMISSAO').AsDateTime;
         Self.DtVcto        := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
@@ -547,7 +549,10 @@ begin
     //if ((Self.ValorRec > 0) and (Self.ValorRec < Self.Valor)) then
     //  VlrParc := ((Self.Valor - vlrSt) - Self.ValorRec) / (Self.NParcela-1)
     //else
-    VlrParc := (Self.Valor - vlrSt) / Self.NParcela;
+    if (VlrEnt > 0) then
+      VlrParc := (Self.Valor - vlrSt - VlrEnt) / (Self.NParcela -1)
+    else
+      VlrParc := (Self.Valor - vlrSt) / Self.NParcela;
   end
   else
   begin
@@ -561,7 +566,10 @@ begin
   for i := 1 to Self.NParcela do
   begin
     if (i = 1) then
-      VlrParc := roundTo((VlrT + vlrSt),-2)
+      if (VlrEnt > 0) then
+        VlrParc := VlrEnt
+      else
+        VlrParc := roundTo((VlrT + vlrSt),-2)
     else
       VlrParc := vlrT;
     if ((CodRecR = 0) or (CodRecR = 1)) then   //CodRecR = 1  novo titulo de baixa Parcial...
