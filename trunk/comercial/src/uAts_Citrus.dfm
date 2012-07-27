@@ -27873,7 +27873,7 @@ object fAts_Citrus: TfAts_Citrus
             ImageIndex = 10
             Tag = 0
             AutoToggle = False
-            OnClick = JvOutlookBar1Pages0Buttons2Click
+            OnClick = JvOutlookBar1Pages0Buttons3Click
           end
           item
             Action = actProduto
@@ -27881,7 +27881,7 @@ object fAts_Citrus: TfAts_Citrus
             ImageIndex = 14
             Tag = 0
             AutoToggle = False
-            OnClick = JvOutlookBar1Pages0Buttons3Click
+            OnClick = JvOutlookBar1Pages0Buttons4Click
           end
           item
             Action = actCFOP
@@ -27889,7 +27889,6 @@ object fAts_Citrus: TfAts_Citrus
             ImageIndex = 22
             Tag = 0
             AutoToggle = False
-            OnClick = JvOutlookBar1Pages0Buttons4Click
           end
           item
             Action = actPlano
@@ -27897,7 +27896,6 @@ object fAts_Citrus: TfAts_Citrus
             ImageIndex = 17
             Tag = 0
             AutoToggle = False
-            OnClick = JvOutlookBar1Pages0Buttons5Click
           end
           item
             Action = actPrazos
@@ -27935,6 +27933,18 @@ object fAts_Citrus: TfAts_Citrus
             Tag = 0
             AutoToggle = False
             OnClick = JvOutlookBar1Pages0Buttons10Click
+          end
+          item
+            Caption = 'Faixa de Frete'
+            ImageIndex = 0
+            Tag = 0
+            AutoToggle = False
+          end
+          item
+            Caption = 'Safra'
+            ImageIndex = 0
+            Tag = 0
+            AutoToggle = False
           end>
         ButtonSize = olbsLarge
         Caption = '&Cadastro'
@@ -28215,7 +28225,6 @@ object fAts_Citrus: TfAts_Citrus
       end>
     LargeImages = ImageList2
     PageButtonHeight = 34
-    ActivePageIndex = 2
     BorderStyle = bsNone
     Color = clWindow
     Font.Charset = ANSI_CHARSET
