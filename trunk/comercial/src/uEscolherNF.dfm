@@ -20,6 +20,7 @@ object fEscolherNF: TfEscolherNF
     Width = 195
     Height = 55
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
+    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -106,6 +107,7 @@ object fEscolherNF: TfEscolherNF
     Width = 195
     Height = 55
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
+    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -192,6 +194,7 @@ object fEscolherNF: TfEscolherNF
     Width = 195
     Height = 55
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
+    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
