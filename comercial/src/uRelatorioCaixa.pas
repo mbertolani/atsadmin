@@ -66,7 +66,7 @@ begin
   begin
     BitBtn3.Enabled := False;
     BitBtn4.Enabled := False;
-    ComboBox2.Enabled := False;
+    //ComboBox2.Enabled := True;
     //edCodCCusto.Enabled := False;
     //Label2.Visible := False;
     //Label11.Visible := False;
@@ -156,7 +156,11 @@ begin
 end;
 
 procedure TfRelatorioCaixa.BitBtn1Click(Sender: TObject);
+var   varForma : TUtils;
 begin
+  try
+  varForma := TUtils.Create;
+
   if (edCodCCusto.ItemIndex = -1) then
   begin
     if (RadioGroup1.ItemIndex = 0) then
@@ -211,9 +215,20 @@ begin
     else
       VCLReport1.Report.Params.ParamByName('COD_CCUSTO').Value := 0;
 
+    if ComboBox2.Text <> '' then
+    begin
+      VCLReport1.Report.Params.ParamByName('PFORMA').Value := varForma.pegaForma(ComboBox2.Text);
+    end
+    else
+      VCLReport1.Report.Params.ParamByName('PFORMA').Value := '0';
+
+
     VCLReport1.Execute;
     VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
 
+  end;
+  finally
+    varForma.Free;
   end;
 end;
 
