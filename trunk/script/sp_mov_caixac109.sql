@@ -2,7 +2,8 @@ CREATE OR ALTER PROCEDURE SP_MOV_CAIXAC (
     DTAINI Date,
     DTAFIM Date,
     COD_CAIXA Smallint,
-    CCUSTO Smallint )
+    CCUSTO Smallint,
+    FORMAPAG CHAR(1)  )
 RETURNS (
     DTAPAGTO Date,
     ORDEM Smallint,
@@ -44,7 +45,8 @@ BEGIN
     WHERE (pag.STATUS = '7-')
     and pag.DATAPAGAMENTO < :DTAINI and PLNCTAMAIN(pl.CONTA) = PLNCTAMAIN(:CONTACAIXA)
     and ((pag.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
-    and ((pag.CODALMOXARIFADO = :CCUSTO) or (:CCUSTO = 0))    
+    and ((pag.CODALMOXARIFADO = :CCUSTO) or (:CCUSTO = 0)) 
+    and ((pag.FORMAPAGAMENTO  = :FORMAPAG) or (:FORMAPAG = 'T'))   
   INTO :VLINID;
   -- Total Recebido ate esta data
   SELECT SUM(rec.VALORRECEBIDO + rec.JUROS) FROM RECEBIMENTO rec 
@@ -52,7 +54,8 @@ BEGIN
     WHERE  (rec.STATUS = '7-')
     and rec.DATARECEBIMENTO < :DTAINI  and PLNCTAMAIN(pl.CONTA) = PLNCTAMAIN(:CONTACAIXA)
     and ((rec.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
-    and ((rec.CODALMOXARIFADO = :CCUSTO) or (:CCUSTO = 0))       
+    and ((rec.CODALMOXARIFADO  = :CCUSTO) or (:CCUSTO = 0))       
+    and ((rec.FORMARECEBIMENTO = :FORMAPAG) or (:FORMAPAG = 'T'))
   INTO :VLINIC;
   IF (VLINID IS NULL) THEN
     VLINID = 0;
@@ -68,6 +71,7 @@ BEGIN
     select SUM(VALORCREDITO), SUM(VALORDEBITO), FORMA from MOVIMENTOCONT 
      where data < :DTAINI and tipoorigem = 'CONTABIL' and CONTA = :NCONTA
       and ((CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
+      and ((FORMA = :FORMAPAG) or (:FORMAPAG = 'T'))
      group by forma  
       INTO :VLINIC, VLINID, :FORMA; 
   END
@@ -75,7 +79,8 @@ BEGIN
   BEGIN 
     select SUM(VALORCREDITO), SUM(VALORDEBITO), forma from MOVIMENTOCONT where data < :DTAINI 
         and tipoorigem = 'CONTABIL' and PLNCTAMAIN(CONTA) = PLNCTAMAIN(:CONTACAIXA) 
-        and ((CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
+        and ((CODCCUSTO = :CCUSTO) or (:CCUSTO = 0))
+        and ((FORMA = :FORMAPAG) or (:FORMAPAG = 'T')) 
       group by forma           
       INTO :VLINIC, VLINID, :FORMA;   
   END
@@ -105,6 +110,7 @@ BEGIN
     and rec.DATARECEBIMENTO BETWEEN :DTAINI AND :DTAFIM
     and ((rec.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
     and ((rec.CODALMOXARIFADO = :CCUSTO) or (:CCUSTO = 0))       
+    and ((rec.FORMARECEBIMENTO = :FORMAPAG) or (:FORMAPAG = 'T'))
     and (rec.STATUS = '7-')
     order by rec.DATARECEBIMENTO
   INTO :DTAPAGTO, :FORN, :DESCRICAO, :VALORD, :CCONTABIL, :FORMA, :N_DOC
@@ -145,6 +151,7 @@ BEGIN
        and mov.tipoorigem = 'CONTABIL' 
        and pc.CODIGO = :COD_CAIXA 
        and ((MOV.CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
+       and ((mov.FORMA = :FORMAPAG) or (:FORMAPAG = 'T'))
        group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO , mov.FORMA
       INTO :DTAPAGTO, :VALORD, :DESCRICAO, :CODCONTA , :FORMA 
     do begin
@@ -170,6 +177,7 @@ BEGIN
        and mov.tipoorigem = 'CONTABIL' 
        and PLNCTAMAIN(mov.CONTA) = PLNCTAMAIN(:CONTACAIXA) 
        and ((MOV.CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
+       and ((mov.FORMA = :FORMAPAG) or (:FORMAPAG = 'T'))
        group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO, mov.FORMA
       INTO :DTAPAGTO,:VALORD, :DESCRICAO, :CODCONTA, :FORMA 
     do begin
@@ -201,6 +209,7 @@ BEGIN
     and pag.DATAPAGAMENTO BETWEEN :DTAINI AND :DTAFIM
     and ((pag.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
     and ((pag.CODALMOXARIFADO = :CCUSTO) or (:CCUSTO = 0))     
+    and ((pag.FORMAPAGAMENTO = :FORMAPAG) or (:FORMAPAG = 'T'))
     and (pag.STATUS = '7-')
     order by pag.DATAPAGAMENTO
   INTO :DTAPAGTO, :FORN, :DESCRICAO, :VALORC, :CCONTABIL, :FORMA, :N_DOC, :compensado
@@ -256,6 +265,7 @@ BEGIN
        and mov.tipoorigem = 'CONTABIL' 
        and pc.CODIGO = :COD_CAIXA 
        and ((mov.CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
+       and ((mov.FORMA = :FORMAPAG) or (:FORMAPAG = 'T'))
        group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO, mov.FORMA
       INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA, :FORMA 
     do begin
@@ -282,6 +292,7 @@ BEGIN
        and mov.tipoorigem = 'CONTABIL' 
        and PLNCTAMAIN(MOV.CONTA) = PLNCTAMAIN(:CONTACAIXA) 
        and ((mov.CODCCUSTO = :CCUSTO) or (:CCUSTO = 0)) 
+       and ((mov.FORMA = :FORMAPAG) or (:FORMAPAG = 'T'))
        group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO, mov.FORMA
       INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA, :FORMA
     do begin
