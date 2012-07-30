@@ -1,3 +1,4 @@
+set term ^ ;
 create or alter procedure gera_nf_venda(cliente integer, dtEmissao date,
   dtVcto date, serie char(8), numero varchar(7), codMov integer)
 as
@@ -79,6 +80,7 @@ as
   declare variable PPIS double precision;
   declare variable PCOFINS double precision;
   declare variable VALOR_PIS double precision;
+  declare variable VALOR_BASE double precision;
   declare variable VALOR_COFINS double precision;
   declare variable II double precision;
   declare variable BCII double precision;
@@ -174,6 +176,7 @@ begin
       , md.CSTIPI, md.CSTPIS, md.CSTCOFINS, md.PPIS, md.PCOFINS, md.VALOR_PIS, md.VALOR_COFINS, md.II, md.BCII
       , md.VALOR_OUTROS, md.VALOR_SEGURO, md.VALOR_DESCONTO, md.STFRETE, md.BCFRETE, md.FRETE, md.CSOSN, md.ICMSFRETE
       , md.BCSTFRETE, md.CFOP, md.VIPI, md.PIPI, md.VLR_BASEICMS, md.ICMS_SUBST, md.ICMS_SUBSTD, md.VALOR_ICMS, md.CST
+      , md.VLR_BASE
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
@@ -182,7 +185,7 @@ begin
          :CSTIPI,       :CSTPIS,       :CSTCOFINS,      :PPIS,    :PCOFINS,     :VALOR_PIS, :VALOR_COFINS, :II, :BCII,
          :VALOR_OUTROS, :VALOR_SEGURO, :VALOR_DESCONTO, :STFRETE, :BCFRETE,     :FRETE,     :CSOSN,        :ICMSFRETE,
          :BCSTFRETE,    :CFOP,         :VIPI,           :PIPI,    :VLR_BASEICMS,:ICMS_SUBST,:ICMS_SUBSTD,  :VALOR_ICMS,
-         :CST           
+         :CST,          :VALOR_BASE 
     do begin 
       nitemped = nitemped + 1;
 
@@ -239,19 +242,19 @@ begin
        , preco, un, descProduto, icms, valor_icms, qtde_alt, vlr_base, II, BCII, OBS, NITEMPED, PEDIDO
        ,CSTIPI, CSTPIS, CSTCOFINS, PPIS, PCOFINS, VALOR_PIS, VALOR_COFINS 
       , VALOR_OUTROS, VALOR_SEGURO, VALOR_DESCONTO, STFRETE, BCFRETE, FRETE, CSOSN, ICMSFRETE
-      , BCSTFRETE, CFOP, VIPI, PIPI, VLR_BASEICMS, ICMS_SUBST, ICMS_SUBSTD, CST
+      , BCSTFRETE, CFOP, VIPI, PIPI, VLR_BASEICMS, ICMS_SUBST, ICMS_SUBSTD, CST, IMPRESSO
        ) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :icms, :VALOR_ICMS,  :desconto, (:preco-((:preco)*(:desconto/100))), 
+       , :preco, :un, :descP, :icms, :VALOR_ICMS,  :desconto, :valor_base, 
        :II, :BCII, :obsp, :nitemped, :xped, 
        :CSTIPI,       :CSTPIS,       :CSTCOFINS,      :PPIS,    :PCOFINS,     :VALOR_PIS, :VALOR_COFINS, 
        :VALOR_OUTROS, :VALOR_SEGURO, :VALOR_DESCONTO, :STFRETE, :BCFRETE,     :FRETE,     :CSOSN,        :ICMSFRETE,
-       :BCSTFRETE,    :CFOP,         :VIPI,           :PIPI,    :VLR_BASEICMS,:ICMS_SUBST,:ICMS_SUBSTD, :cst
+       :BCSTFRETE,    :CFOP,         :VIPI,           :PIPI,    :VLR_BASEICMS,:ICMS_SUBST,:ICMS_SUBSTD, :cst, 'X'
        );  
-      if (desconto > 0) then  
-        total = total + (qtde * (:preco*(1-(:desconto/100))));
-      else 
-        total = total + (qtde * preco); 
+      --if (desconto > 0) then  
+      --  total = total + (qtde * (:preco*(1-(:desconto/100))));
+      --else 
+        total = total + (qtde * valor_base); 
       totalIcms = totalIcms + :valoricms;
     end 
     vIcmsT = 0; 
