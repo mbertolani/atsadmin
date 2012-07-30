@@ -30,25 +30,29 @@ AS
  Declare variable CSTIPI varchar(2);
  Declare variable CSTPIS varchar(2); 
  Declare variable CSTCOFINS varchar(2); 
- DECLARE VARIABLE arredondar DOUBLE PRECISION = 2;
+ DECLARE VARIABLE arredondar DOUBLE PRECISION = 3;
 BEGIN
     if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
     begin
-    select CRT from EMPRESA, MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
-    into :CRT;
+      select cast(d5 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA'
+        into :arredondar;
+        
+      if (arredondar is null) then 
+        arredondar = 2;  
+      
+      select CRT from EMPRESA, MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
+      into :CRT;
 
     if ((new.VLR_BASE is null) or (new.VLR_BASE = 0)) then
     begin
       if (new.QTDE_ALT is null) then 
         new.QTDE_ALT = 0;
       
-      new.VLR_BASE = new.PRECO;  
+      new.VLR_BASE = UDF_ROUNDDEC(new.PRECO, :arredondar);  
       if (new.QTDE_ALT > 0) then 
-        new.VLR_BASE = (new.PRECO-((new.PRECO)*(new.QTDE_ALT/100)));    
+        new.VLR_BASE = UDF_ROUNDDEC((new.PRECO-((new.PRECO)*(new.QTDE_ALT/100))), :arredondar);    
        
     end 
-
-    arredondar = 2;
 
     new.ICMS_SUBSTD  = 0;
     new.ICMS_SUBST   = 0;
@@ -201,7 +205,7 @@ BEGIN
           if (CICMS_SUBST_IND > 0) then 
             CICMS_SUBST_IND = CICMS_SUBST_IND / 100;
         
-          --CORRE«√O DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
+          --CORRE√á√ÉO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
           if ( CRT <> 0) then
           begin
             if (CICMS_SUBST_IC <> CICMS_SUBST_IND)  then
@@ -243,4 +247,4 @@ BEGIN
     new.BCSTFRETE = 0;
     end
     end
-END;
+END
