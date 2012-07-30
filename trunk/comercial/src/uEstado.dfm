@@ -31,7 +31,6 @@ inherited fEstado: TfEstado
   inherited MMJPanel1: TMMJPanel
     Top = 559
     Width = 783
-    Anchors = [akBottom]
     inherited btnIncluir: TBitBtn [0]
       Left = 299
       Anchors = [akTop, akBottom]
@@ -197,20 +196,22 @@ inherited fEstado: TfEstado
     object Label13: TLabel
       Left = 135
       Top = 44
-      Width = 25
+      Width = 27
       Height = 16
+      Cursor = crHandPoint
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
       Caption = 'CST'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
       Transparent = True
+      OnClick = Label13Click
     end
     object Label7: TLabel
       Left = 102
@@ -284,65 +285,74 @@ inherited fEstado: TfEstado
     object Label15: TLabel
       Left = 17
       Top = 93
-      Width = 44
+      Width = 45
       Height = 16
+      Cursor = crHandPoint
       Anchors = [akTop]
       Caption = 'CST IPI'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
       ParentFont = False
       Transparent = True
+      OnClick = Label15Click
     end
     object Label16: TLabel
       Left = 178
       Top = 91
-      Width = 50
+      Width = 51
       Height = 16
+      Cursor = crHandPoint
       Anchors = [akTop]
       Caption = 'CST PIS'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
       ParentFont = False
       Transparent = True
+      OnClick = Label16Click
     end
     object Label17: TLabel
       Left = 338
       Top = 91
-      Width = 77
+      Width = 79
       Height = 16
+      Cursor = crHandPoint
       Anchors = [akTop]
       Caption = 'CST COFINS'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
       ParentFont = False
       Transparent = True
+      OnClick = Label17Click
     end
     object Label19: TLabel
       Left = 187
       Top = 44
       Width = 46
       Height = 16
+      Cursor = crHandPoint
       Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
       Anchors = [akTop]
       Caption = 'CSOSN'
-      Font.Charset = ANSI_CHARSET
+      DragCursor = crDefault
+      Font.Charset = ARABIC_CHARSET
       Font.Color = clWhite
       Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
       Transparent = True
+      OnClick = Label19Click
     end
     object DBEdit1: TDBEdit
       Left = 16
@@ -647,6 +657,23 @@ inherited fEstado: TfEstado
       Top = 61
       Width = 81
       Height = 24
+      Hint = 
+        'A partir da vers'#227'o 2.00 do leiaute da NF-e, o contribuinte emiss' +
+        'or do SIMPLES NACIONAL deve informar um dos seguintes C'#243'digo de ' +
+        'Situa'#231#227'o da Opera'#231#227'o - SIMPLES NACIONAL (CSOSN) em substitui'#231#227'o ' +
+        'ao CST:'#13#10#13#10'    101 - Tributada pelo Simples Nacional com permiss' +
+        #227'o de cr'#233'dito;'#13#10'    102 - Tributada pelo Simples Nacional sem pe' +
+        'rmiss'#227'o de cr'#233'dito;'#13#10'    103 - Isen'#231#227'o do ICMS no Simples Nacion' +
+        'al para faixa de receita bruta;'#13#10'    201 - Tributada pelo Simple' +
+        's Nacional com permiss'#227'o de cr'#233'dito e com cobran'#231'a do ICMS por s' +
+        'ubstitui'#231#227'o tribut'#225'ria;'#13#10'    202 - Tributada pelo Simples Nacion' +
+        'al sem permiss'#227'o de cr'#233'dito e com cobran'#231'a do ICMS por substitui' +
+        #231#227'o tribut'#225'ria;'#13#10'    203 - Isen'#231#227'o do ICMS no Simples Nacional p' +
+        'ara faixa de receita bruta e com cobran'#231'a do ICMS por substitui'#231 +
+        #227'o tribut'#225'ria;'#13#10'    300 - Imune;'#13#10'    400 - N'#227'o tributada pelo S' +
+        'imples Nacional;'#13#10'    500 - ICMS cobrado anteriormente por subst' +
+        'itui'#231#227'o tribut'#225'ria (substitu'#237'do) ou por antecipa'#231#227'o;'#13#10'    900 - ' +
+        'Outros.'
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -659,6 +686,8 @@ inherited fEstado: TfEstado
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 3
       OnKeyPress = FormKeyPress
     end
@@ -987,6 +1016,31 @@ inherited fEstado: TfEstado
       ParentFont = False
       TabOrder = 5
       OnKeyPress = FormKeyPress
+    end
+  end
+  object panelAjuda: TPanel [5]
+    Left = 68
+    Top = 131
+    Width = 673
+    Height = 425
+    TabOrder = 4
+    Visible = False
+    object Memo1: TMemo
+      Left = 3
+      Top = 8
+      Width = 666
+      Height = 397
+      Align = alCustom
+      BorderStyle = bsNone
+      Font.Charset = EASTEUROPE_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      ScrollBars = ssVertical
+      TabOrder = 0
     end
   end
   inherited XPMenu1: TXPMenu
