@@ -1611,6 +1611,8 @@ begin
     end
     else
       cds_Mov_detValorTotal.Value := cds_Mov_detPRECO.Value * cds_Mov_detQUANTIDADE.Value;
+    if (cds_Mov_detVLR_BASE.AsFloat > 0) then
+      cds_Mov_detValorTotal.Value := cds_Mov_detVLR_BASE.AsFloat;
   end;
 end;
 
@@ -3702,8 +3704,9 @@ end;
 
 procedure TfVendas.Label29Click(Sender: TObject);
 begin
-  //inherited;
-  fEstado.sqlCfop := 'select esta.CODESTADO, esta.CFOP ' +
+  fEstado := TfEstado.Create(Application);
+  try
+    fEstado.sqlCfop := 'select esta.CODESTADO, esta.CFOP ' +
       ' ,esta.UF, esta.ICMS ,esta.REDUCAO, cfo.CFNOME ' +
       ' ,esta.IPI, esta.CSTIPI, esta.ICMS_SUBSTRIB, esta.ICMS_SUBSTRIB_IC ' +
       ' ,esta.ICMS_SUBSTRIB_IND, esta.CST , esta.PIS , esta.COFINS' +
@@ -3712,7 +3715,12 @@ begin
       ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL' +
       ' FROM ESTADO_ICMS esta ' +
       ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
+      ' where esta.CFOP = ' + QuotedStr(edCfop.text) + 
       ' order by esta.CFOP';
+    fEstado.ShowModal;
+  finally
+    fEstado.Free;
+  end;
 end;
 
 end.
