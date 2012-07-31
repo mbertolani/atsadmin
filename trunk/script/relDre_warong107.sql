@@ -18,6 +18,7 @@ AS
   DECLARE VARIABLE CONTAIMPOSTOVENDA integer;  -- Codigo da Conta  
   DECLARE VARIABLE TOTALIZA Double precision;
   DECLARE VARIABLE TOTALREC Double precision = 0;
+  DECLARE VARIABLE TOTAL Double precision = 0;
   DECLARE VARIABLE custoMatPrima Double precision = 0;
   DECLARE VARIABLE QTDE Double precision = 0;  
   DECLARE VARIABLE produt VARCHAR(300);
@@ -356,8 +357,8 @@ BEGIN
   DESC_CONTA = '     Estoque Inicial';
   CREDITO = estoqueIni;
   TOT = 'N';
-  if (CREDITO > 0) then
-    SUSPEND; 
+  --if (CREDITO > 0) then
+  --  SUSPEND; 
 
   DESC_CONTA = '     Compras';
   if (compras is null) then 
@@ -374,8 +375,8 @@ BEGIN
   CREDITO = EstoqueFim;
   
   TOT = 'N';
-  if (CREDITO > 0) then
-    SUSPEND; 
+  --if (CREDITO > 0) then
+  --  SUSPEND; 
   TOTALIZA = 0;	   
   CONTA  = null;
   CREDITO = null;
@@ -560,7 +561,7 @@ BEGIN
     TOTALIZA = 0;
   end	 
   /* Gerando Total Receita */
-  DESC_CONTA = '= Total das Despesas operacionais';
+  DESC_CONTA = '= Resultado Liquido ';
   CONTA  = null;
   CREDITO = null;
   --TOTAL = TOTALIZA;
