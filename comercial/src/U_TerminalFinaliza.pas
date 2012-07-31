@@ -293,7 +293,7 @@ type
     Cod_orig, cod_cli_forn, codigo_cliente, COD_VENDA : Integer;
     excluiuNF : Boolean;
     IMPRESSORA : TextFile;
-    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descriÃ§Ã£o do produto,nome
+    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
     tipoImpressao, usaDll : string;
     total, porc, totgeral , desconto : double;
 
@@ -340,7 +340,7 @@ const
     c17cpi = #15;
     cIExpandido = #14;
     cFExpandido = #20;
-    { FormataÃ§Ã£o da fonte }
+    { Formatação da fonte }
     cINegrito = #27#71;
     cFNegrito = #27#72;
     cIItalico = #27#52;
@@ -671,7 +671,7 @@ begin
   begin
     jvApagar.Value :=  DM_MOV.c_movdettotalpedido.Value - desconto;
     jvTotal.Value := DM_MOV.c_movdettotalpedido.Value - desconto;
-    // Verico se paga comissÃ£o e se soma no Contas a Receber
+    // Verico se paga comissão e se soma no Contas a Receber
 
    { if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
@@ -716,7 +716,7 @@ begin
     scds_serie_proc.Open;
     if scds_serie_proc.IsEmpty then
     begin
-      MessageDlg('CÃ³digo nÃ£o cadastrado, deseja cadastra-lo?', mtWarning,
+      MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
       [mbOk], 0);
       btnSerie.Click;
       exit;
@@ -752,7 +752,7 @@ begin
     dm.scds_usuario_proc.Params.ParamByName('pPerfil1').AsString := 'AMBOS';
     dm.scds_usuario_proc.Open;
     if dm.scds_usuario_proc.IsEmpty then begin
-      MessageDlg('CÃ³digo nÃ£o cadastrado, deseja cadastra-lo?', mtWarning,
+      MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
       [mbOk], 0);
       btnUsuarioProcura.Click;
       exit;
@@ -770,7 +770,7 @@ begin
     dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(dbeUsuario.Text);
     dm.scds_usuario_proc.Open;
     if dm.scds_usuario_proc.IsEmpty then begin
-      MessageDlg('CÃ³digo nÃ£o cadastrado, deseja cadastra-lo?', mtWarning,
+      MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
       [mbOk], 0);
       btnUsuarioProcura.Click;
       exit;
@@ -792,7 +792,7 @@ begin
       scds_serie_proc.Params[0].AsString := dbeSerie.Text;
       scds_serie_proc.Open;
       if scds_serie_proc.IsEmpty then begin
-        MessageDlg('CÃ³digo nÃ£o cadastrado, deseja cadastra-lo?', mtWarning,
+        MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
         [mbOk], 0);
         btnSerie.Click;
         exit;
@@ -866,7 +866,7 @@ begin
   begin
     if (dbeSerie.Text = '') then
     begin
-      MessageDlg('Informe uma SÃ©rie.', mtError, [mbOK], 0);
+      MessageDlg('Informe uma Série.', mtError, [mbOK], 0);
       dbeSerie.SetFocus;
       exit;
     end;
@@ -907,7 +907,7 @@ begin
        begin
            if (baixou > 0) then
                codRecCR := baixou;
-           // Marco o TÃ­tulo
+           // Marco o Titulo
            Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
                     IntToStr(codRecCR);
            dm.sqlsisAdimin.StartTransaction(TD);
@@ -930,7 +930,7 @@ begin
                                         Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
                                         Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
                                         DM_MOV.c_formaFORMA_PGTO.AsString,  // FormaRecebimento
-                                        DM_MOV.c_formaN_DOC.AsString, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // NÂº Documento
+                                        DM_MOV.c_formaN_DOC.AsString, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // Nº Documento
                                         DM_MOV.c_formaCAIXA.AsInteger, // Caixa
                                         DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
                                         '7-',
@@ -1029,17 +1029,25 @@ begin
        dm.sqlsisAdimin.ExecuteDirect(strSql);
        dm.sqlsisAdimin.Commit(TD);
     except
-       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
-           [mbOk], 0);
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
     end;
 
    if (dmnf.baixouEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) = False) then
    begin
      Try
+       dm.sqlsisAdimin.StartTransaction(TD);
        dmnf.baixaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
+       dm.sqlsisAdimin.Commit(TD);
      Except
-       MessageDlg('Processo de Baixa no Estoque n?realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
+       on E : Exception do
+       begin
+         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       end;
      end;
    end;
 
@@ -1225,7 +1233,7 @@ begin
        dm.sqlsisAdimin.Commit(TD);
     except
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       MessageDlg('Erro no sistema, a venda nÃ£o foi gravada.', mtError,
+       MessageDlg('Erro no sistema, a venda não foi gravada.', mtError,
            [mbOk], 0);
     end;
     DecimalSeparator := ',';
@@ -1276,23 +1284,23 @@ begin
    if (not sql_rec.IsEmpty) then
    begin
       RESULTADO := 'TRUE';
-      ShowMessage('NÃ£o Permitido Alterar Venda com Titulos STATUS = RECEBIDO !');
+      ShowMessage('Nao e permitido alterar Venda com Titulos STATUS = RECEBIDO !');
       sql_rec.Close;
       exit;
    end;
    sql_rec.Close;
 
-   texto := 'UPDATE VENDA set ';
+   {texto := 'UPDATE VENDA set ';
 
    dm.sqlsisAdimin.StartTransaction(TD);
    dm.sqlsisAdimin.ExecuteDirect(texto);
    Try
       dm.sqlsisAdimin.Commit(TD);
    except
-      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      dm.sqlsisAdimin.Rollback(TD); 
        MessageDlg('Erro no sistema, a venda n?foi gravada.', mtError,
            [mbOk], 0);
-   end;
+   end;}
 
 end;
 
@@ -1301,7 +1309,7 @@ begin
 
   if (DM_MOV.c_movimentoCODNATUREZA.AsInteger = 14) then //Cancelado
   begin
-    if  MessageDlg('NF CANCELADA, confirma mudanÃ§a do Status : ''' + scdscr_procTITULO.AsSTring + '''',
+    if  MessageDlg('NF CANCELADA, confirma mudança do Status : ''' + scdscr_procTITULO.AsSTring + '''',
       mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
     Try
       if (scdsCr_proc.State in [dsBrowse, dsInactive]) then
@@ -1346,7 +1354,7 @@ begin
       DecimalSeparator := ',';
       scdsCr_proc.Refresh;
     Except
-      MessageDlg('NÃ£o foi possÃ­vel cancelar a baixa.', mtError, [mbOK], 0);
+      MessageDlg('Não foi possível cancelar a baixa.', mtError, [mbOK], 0);
     end;
   end;
 end;
@@ -1474,6 +1482,25 @@ begin
       cds_cr.Close;
     cds_cr.Params[0].AsInteger := scdscr_procCODRECEBIMENTO.AsInteger;
     cds_cr.Open;
+  if (cds_cr.IsEmpty) then
+  begin
+     try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));
+       //dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
+       //DM_MOV.c_venda.Delete;
+       dm.sqlsisAdimin.Commit(TD);
+       ShowMessage('Venda Excluida com Sucesso');
+       exit;
+     except
+       on E : Exception do
+       begin
+         ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       end;
+     end;
+
+  end;
     if (cds_crSTATUS.AsString = '5-') then
     begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
@@ -1487,7 +1514,7 @@ begin
              dm.sqlsisAdimin.StartTransaction(TD);
              dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));
              dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
-             DM_MOV.c_venda.Delete;             
+             DM_MOV.c_venda.Delete;
              dm.sqlsisAdimin.Commit(TD);
              ShowMessage('Venda Excluida com Sucesso');
            except
@@ -1580,7 +1607,7 @@ begin
     end
     else
     begin
-      ShowMessage('O titulo jÃ¡ foi recebido, antes de excluir a venda cancele o recebimento');
+      ShowMessage('O titulo já foi recebido, antes de excluir a venda cancele o recebimento');
     end;
     if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
     begin
@@ -1620,7 +1647,7 @@ begin
 	  str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
       dm.sqlsisAdimin.Commit(TD);
-      ShowMessage('Nota Fiscal ExcluÃ­da com suscesso');
+      ShowMessage('Nota Fiscal Excluída com suscesso');
       excluiuNF := True;
 	  except
       dm.sqlsisAdimin.Rollback(TD);
@@ -1655,7 +1682,7 @@ begin
    }
      if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
-     {----- aqui monto o endereÃ§o-----}
+     {----- aqui monto o endereço-----}
      logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
      cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
      ' - ' + dm.cds_empresaCEP.Value;
@@ -1801,7 +1828,7 @@ begin
 
   if (tipoImpressao = '') then
   begin
-    ShowMessage('Parametro Tipo ImpressÃ£o nÃ£o configurado');
+    ShowMessage('Parametro Tipo Impressão não configurado');
     exit;
   end;
 
@@ -1821,7 +1848,7 @@ procedure TF_TerminalFinaliza.imprimeDLLBema;
 begin
      if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
-     {----- aqui monto o endereÃ§o-----}
+     {----- aqui monto o endereço-----}
      logradouro := dm.cds_empresaENDERECO.Value + ' ' + dm.cds_empresaNUMERO.Value  + ', ' + dm.cds_empresaBAIRRO.Value;
      cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
      ' - ' + dm.cds_empresaCEP.Value;
@@ -1887,7 +1914,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1895,7 +1922,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1903,7 +1930,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1911,7 +1938,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1919,7 +1946,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1927,7 +1954,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1935,7 +1962,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1943,7 +1970,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1951,7 +1978,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -1959,7 +1986,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressÃ£o do texto.' + #10 + 'PossÃ­veis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2101,20 +2128,20 @@ end;
 
 procedure TF_TerminalFinaliza.jvPagoExit(Sender: TObject);
 begin
-    jvTroco.AsFloat := jvPago.AsFloat - jvApagar.AsFloat;
+     jvTroco.AsFloat := jvPago.AsFloat - jvApagar.AsFloat;
 end;
 
 procedure TF_TerminalFinaliza.jvAcrescimoExit(Sender: TObject);
 begin
-    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat + JvComissao.AsFloat) - jvDesconto.AsFloat;
+    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat;
 end;
 
 procedure TF_TerminalFinaliza.jvDescontoExit(Sender: TObject);
 begin
   if (jvAcrescimo.AsFloat > 0) then
-    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat + JvComissao.AsFloat) - jvDesconto.AsFloat
+    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat
   else
-    jvApagar.AsFloat := (jvTotal.AsFloat + JvComissao.AsFloat) - jvDesconto.AsFloat;
+    jvApagar.AsFloat := (jvTotal.AsFloat) - jvDesconto.AsFloat;
 end;
 
 procedure TF_TerminalFinaliza.JvBitBtn2Click(Sender: TObject);
@@ -2141,7 +2168,7 @@ var
     FRec : TReceberCls;
 begin
   try
-     // Marco o TÃ­tulo
+     // Marco o Título
      Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
               IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
      dm.sqlsisAdimin.StartTransaction(TD);
@@ -2164,7 +2191,7 @@ begin
                                 Data_Receb, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
                                 Data_Conso, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
                                 formaRec,  // FormaRecebimento
-                                N_documento, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // NÂº Documento
+                                N_documento, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // Nº Documento
                                 caixaCR, // Caixa
                                 CodigoCliCR, //DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
                                 '7-',
