@@ -402,7 +402,29 @@ end;
 
 function TVendaCls.inserirVenda(CodVendaI: Integer): Integer;
 var str: String;
+    sqlBuscaV : TSqlQuery;
 begin
+  // Verifica se ja existe venda, se sim, pega o codigo da venda e sai fora
+  if (CodVendaI = 0) then
+  begin
+    Try
+      sqlBuscaV :=  TSqlQuery.Create(nil);
+      sqlBuscaV.SQLConnection := dm.sqlsisAdimin;
+      str := 'SELECT CODVENDA ' +
+        '       FROM VENDA ' +
+        '      WHERE CODMOVIMENTO = ' + InttoStr(Self.CodMov);
+      sqlBuscaV.SQL.Add(str);
+      sqlBuscaV.Open;
+      if (not sqlBuscaV.isEmpty) then
+      begin
+        result := sqlBuscaV.Fields[0].AsInteger;
+        exit;
+      end;
+    finally
+      sqlBuscaV.Free;
+    end;
+  end;
+  str := '';
   // Inserir Venda
   _codVenda := CodVendaI;
   if (Self.CodVenda = 0) then
