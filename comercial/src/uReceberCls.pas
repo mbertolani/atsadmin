@@ -410,7 +410,7 @@ var strG, strR, strP, strV: String;
     sqlBuscaR, sqlPrazo, sqlVenc : TSqlQuery;
             i, DtaAlt : integer;
           rec : Boolean;
-      VlrParc, UltParc, VlrT, vlrSt, VlrEnt : Double;
+      VlrParc, UltParc, VlrT, vlrSt, VlrEnt, difV : Double;
       vDataVenc : TDateTime;
 begin
   // Se codVendaR > 0, então é uma Venda então busca os dados da Venda;
@@ -536,7 +536,10 @@ begin
 
   end;
 
-  if ((Self.NParcela = 1) and (Self.Valor < Self.ValorRec)) then
+  difV := 0;
+  if (Self.ValorRec > 0) then
+    difV := Self.Valor - Self.ValorRec;
+  if ((Self.NParcela = 1) and (difV > 0.009)) then
   begin
     MessageDlg('Parcela não pode ser 1, se o valor de Entrada e menor que o Valor Total.', mtWarning, [mbOK], 0);
     exit;
@@ -550,7 +553,10 @@ begin
     //  VlrParc := ((Self.Valor - vlrSt) - Self.ValorRec) / (Self.NParcela-1)
     //else
     if (VlrEnt > 0) then
-      VlrParc := (Self.Valor - vlrSt - VlrEnt) / (Self.NParcela -1)
+    begin
+      if ((Self.Valor - vlrSt - VlrEnt) > 0) then
+        VlrParc := (Self.Valor - vlrSt - VlrEnt) / (Self.NParcela -1);
+    end
     else
       VlrParc := (Self.Valor - vlrSt) / Self.NParcela;
   end
@@ -677,6 +683,7 @@ begin
     Rec  := executaSql(strG);
     UltParc := UltParc - VlrParc;
   end;
+
   DecimalSeparator := ',';
   Result := 0;
   if (Rec) then
