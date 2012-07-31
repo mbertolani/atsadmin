@@ -382,6 +382,7 @@ procedure TF_Entrada.JvGravarClick(Sender: TObject);
 var total_parcial, resto : double;
   totalTrocoD, pagoTotal : double;
 begin
+  troco;
   {total_parcial := jvDinheiro.Value + JvCheque.Value + JvChequePre.Value +
                    JvCartaoCDT.Value + JvCartaoDBT.Value + JvVale.Value + JvOutros.Value;}
   total_parcial := JvPago.Value;
@@ -792,8 +793,8 @@ begin
       fven.CodCliente           := codigo_cliente;
       fven.CodCCusto            := codigo_almox;
       fven.CodVendedor          := 1;
-      fven.ValorPagar           := c_formatotal.Value + vlrDesc;
-      FVen.Entrada              := c_formatotal.Value + vlrDesc;
+      fven.ValorPagar           := c_formatotal.Value;
+      FVen.Entrada              := c_formatotal.Value;
       FVen.Valor                := c_formatotal.Value + vlrDesc;
       fven.NParcela             := 1;
       FVen.Caixa                := c_formaCAIXA.AsInteger;
@@ -802,11 +803,11 @@ begin
       FVen.Desconto             := vlrDesc;
       FVen.NDoc                 := c_formaN_DOC.AsString;
       FVen.MultaJuros           := 0;
-      FVen.Apagar               := c_formatotal.Value + vlrDesc;
+      FVen.Apagar               := c_formatotal.Value;
       FVen.Prazo                := '01-A Vista';
       FVen.ValorCaixinha        := JvCaixinha.Value;
       FVen.ValorRateio          := JvRateio.Value;
-      FVen.ValorComissao        := JvComissao.Value;      
+      FVen.ValorComissao        := JvComissao.Value;
       //fven.inserirVenda(0);
       codigo_venda := fven.inserirVenda(0);
       if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
@@ -870,7 +871,7 @@ begin
        baixou := FRec.baixaTitulo(c_formaVALOR_PAGO.Value, //Valor
                                   0, //Funrural
                                   0, // Juros
-                                  vlrDesc, // Desconto
+                                  0, //vlrDesc, // Desconto
                                   0, // Perda
                                   Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
                                   Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
