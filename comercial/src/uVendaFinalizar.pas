@@ -693,7 +693,7 @@ begin
       if (sqs_tit.Active) then
       sqs_tit.Close;
 
-      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO)) + VIPI + ICMS_SUBST) ' +
+      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * VLR_BASE) + VIPI + ICMS_SUBST) ' +
         ' ,SUM(VIPI), SUM(VALOR_ICMS), SUM(ICMS_SUBST) '+
         ' FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
@@ -735,7 +735,7 @@ begin
     cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
     dm.scds_cliente_proc.Close;
     cdsSTATUS.AsInteger:=0;
-    sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
+    sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * VLR_BASE) FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(fTerminal.cds_MovimentoCODMOVIMENTO.asInteger);
     end;
@@ -2121,7 +2121,7 @@ begin
           if (sqs_tit.Active) then
           sqs_tit.Close;
 
-          sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
+          sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * VLR_BASE) FROM MOVIMENTODETALHE' +
                                ' WHERE CODMOVIMENTO = ' +
                                IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
         end
