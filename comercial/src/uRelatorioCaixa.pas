@@ -220,7 +220,7 @@ begin
       VCLReport1.Report.Params.ParamByName('PFORMA').Value := varForma.pegaForma(ComboBox2.Text);
     end
     else
-      VCLReport1.Report.Params.ParamByName('PFORMA').Value := '0';
+      VCLReport1.Report.Params.ParamByName('PFORMA').Value := 'T';
 
 
     VCLReport1.Execute;
