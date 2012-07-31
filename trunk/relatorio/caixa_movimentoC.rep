@@ -20,7 +20,7 @@ object TRpReport
       DatabaseAlias = 'SISADMIN'
       SQL = 
         'select * from SP_mov_caixa_ordemC(:DTAINI, :DTAFIM, :COD_CAIXA, ' +
-        ':COD_CCUSTO)'
+        ':COD_CCUSTO, :PFORMA)'
     end
     item
       Alias = 'CABECALHO'
@@ -40,8 +40,9 @@ object TRpReport
       DatabaseAlias = 'SGE'
       SQL = 
         'select dtapagto, forma, sum(valord-valorc) valor, sum(valord) va' +
-        'lord, sum(valorc) valorc  from SP_MOV_CAIXA_ordemc(:DTAINI, :DTA' +
-        'FIM, :COD_CAIXA, :COD_CCUSTO) '#13#10'group by dtapagto, forma'
+        'lord, sum(valorc) valorc  '#13#10'from SP_MOV_CAIXA_ordemc(:DTAINI, :D' +
+        'TAFIM, :COD_CAIXA, '#13#10':COD_CCUSTO, :PFORMA) '#13#10'group by dtapagto, ' +
+        'forma'
     end>
   DatabaseInfo = <
     item
@@ -126,6 +127,19 @@ object TRpReport
       AllowNulls = False
       Value = 163
       ParamType = rpParamInteger
+      Datasets.Strings = (
+        'LISTA_PRODUTOS'
+        'TOTAIS_POR_FORMA')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'PFORMA'
+      AllowNulls = False
+      Value = 'T'
       Datasets.Strings = (
         'LISTA_PRODUTOS'
         'TOTAIS_POR_FORMA')
