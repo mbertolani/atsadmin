@@ -2121,7 +2121,7 @@ begin
           if (sqs_tit.Active) then
           sqs_tit.Close;
 
-          sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * VLR_BASE) FROM MOVIMENTODETALHE' +
+          sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * VLR_BASE) FROM MOVIMENTODETALHE' +
                                ' WHERE CODMOVIMENTO = ' +
                                IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
         end
