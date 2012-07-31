@@ -63,7 +63,7 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 39753d
+      Value = 41091d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -75,7 +75,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 39782d
+      Value = 41120d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -136,9 +136,6 @@ object TRpReport
       end
       item
         Component = TRpExpression17
-      end
-      item
-        Component = TRpExpression18
       end
       item
         Component = TRpExpression9
@@ -228,9 +225,6 @@ object TRpReport
       end
       item
         Component = TRpLabel8
-      end
-      item
-        Component = TRpLabel9
       end
       item
         Component = TRpLabel1
@@ -627,7 +621,7 @@ object TRpReport
   object TRpLabel0: TRpLabel
     Width = 645
     Height = 240
-    PosX = 9332
+    PosX = 9680
     PosY = 1738
     Type1Font = poHelvetica
     FontSize = 8
@@ -638,21 +632,6 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     WideText = 'Lucro (%)'
-  end
-  object TRpLabel9: TRpLabel
-    Width = 570
-    Height = 240
-    PosX = 10095
-    PosY = 1738
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Prod. (%)'
   end
   object TRpLabel7: TRpLabel
     Width = 705
@@ -853,7 +832,7 @@ object TRpReport
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -865,7 +844,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'VENDAS.QTDECOMPRA'
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -923,7 +902,7 @@ object TRpReport
   object TRpExpression17: TRpExpression
     Width = 630
     Height = 165
-    PosX = 9287
+    PosX = 9693
     PosY = 2
     Type1Font = poHelvetica
     FontSize = 8
@@ -939,32 +918,10 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'VENDAS.LUCROPERCENT-100'
-    DisplayFormat = ',##0.0'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression18: TRpExpression
-    Width = 570
-    Height = 195
-    PosX = 10095
-    PosY = 2
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    DisplayFormat = ',##0.0'
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.PERCENTPRODUTO'
+    Expression = 
+      'iif(VENDAS.VLRTOTALVENDA>0, iif(VENDAS.VLRTOTALCOMPRA>0,((VENDAS' +
+      '.VLRTOTALVENDA-VENDAS.VLRTOTALCOMPRA)/VENDAS.VLRTOTALVENDA)*100,' +
+      '0),0)'
     DisplayFormat = ',##0.0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -1003,7 +960,7 @@ object TRpReport
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -1015,7 +972,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'VENDAS.QTDEVENDA'
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -1026,9 +983,9 @@ object TRpReport
     PosX = 6960
     PosY = 60
     Type1Font = poHelvetica
-    FontSize = 6
+    FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0'
     Aggregate = rpAgGeneral
     AutoExpand = False
     AutoContract = False
@@ -1041,7 +998,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'VENDAS.QTDECOMPRA'
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -1052,7 +1009,7 @@ object TRpReport
     PosX = 8355
     PosY = 60
     Type1Font = poHelvetica
-    FontSize = 6
+    FontSize = 8
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGeneral
@@ -1078,7 +1035,7 @@ object TRpReport
     PosX = 5805
     PosY = 60
     Type1Font = poHelvetica
-    FontSize = 6
+    FontSize = 8
     Alignment = 2
     DisplayFormat = ',##0.00'
     Aggregate = rpAgGeneral
@@ -1104,9 +1061,9 @@ object TRpReport
     PosX = 4470
     PosY = 58
     Type1Font = poHelvetica
-    FontSize = 6
+    FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0'
     Aggregate = rpAgGeneral
     AutoExpand = False
     AutoContract = False
@@ -1119,7 +1076,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'VENDAS.QTDEVENDA'
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
