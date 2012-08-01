@@ -1,4 +1,3 @@
-set term ^ ;
 create or alter procedure gera_nf_venda(cliente integer, dtEmissao date,
   dtVcto date, serie char(8), numero varchar(7), codMov integer)
 as
@@ -295,11 +294,12 @@ begin
       select first 1 t.CODTRANSP, t.NOMETRANSP, t.PLACATRANSP, t.CNPJ_CPF, t.END_TRANSP
         , t.CIDADE_TRANSP, t.UF_VEICULO_TRANSP, t.UF_TRANSP, t.FRETE, t.INSCRICAOESTADUAL
         , t.FONE, t.FONE2, t.FAX, t.CONTATO, t.CEP, t.BAIRRO
-       from TRANSPORTADORA t inner join CLIENTES c on c.COD_TRANPORTADORA = t.CODTRANSP
+      from TRANSPORTADORA t inner join CLIENTES c on c.COD_TRANPORTADORA = t.CODTRANSP
       where c.CODCLIENTE = :Cliente
-       into :CODTRANSP, :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
-          , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :TFRETE, :INSCRICAOESTADUAL
-          , :FONE, :FONE2, :FAX, :CONTATO, :CEP, :BAIRRO;
+      into :CODTRANSP, :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
+        , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :TFRETE, :INSCRICAOESTADUAL
+        , :FONE, :FONE2, :FAX, :CONTATO, :CEP, :BAIRRO;
+	  TFRETE = TFRETE -1;	  
     end
     else begin
       select first 1 t.NOMETRANSP, t.PLACATRANSP, t.CNPJ_CPF, t.END_TRANSP
@@ -367,4 +367,4 @@ begin
     EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
        :vOutrosT, :total, 'N', 0, 0);
   end
-end 
+end
