@@ -20,20 +20,21 @@ object TRpReport
       SQL = 
         'select  rec.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOT' +
         'AFISCAL,        '#13#10'rec.CODUSUARIO, rec.CODVENDEDOR, sum(rec.VALOR' +
-        '-rec.desconto - coalesce(rec.valor_ipi,0)) as valor, rec.CONTROL' +
-        'E, cli.RAZAOSOCIAL, '#13#10'func.NOME_FUNCIONARIO,  func.valor_comissa' +
-        'o, sum((rec.valor-rec.desconto-coalesce(rec.valor_ipi,0)) * (fun' +
-        'c.valor_comissao / 100)) as comissao'#13#10#13#10'from VENDA rec'#13#10'inner jo' +
-        'in movimento m on m.codmovimento = rec.codmovimento '#13#10'left outer' +
-        ' join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE '#13#10'left out' +
-        'er join FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUNCIONAR' +
-        'IO '#13#10'where m.codnatureza = 3 and rec.DATAVENDA between :DATA1 an' +
-        'd :DATA2 and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))  AND REC.C' +
-        'ODCLIENTE > 0'#13#10'group by rec.codVendedor,  rec.CODCLIENTE, rec.DA' +
-        'TAVENDA, rec.CODMOVIMENTO, rec.NOTAFISCAL,        '#13#10'rec.CODUSUAR' +
-        'IO,  rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'func.NOME_FUNCIONARIO,  fu' +
-        'nc.valor_comissao'#13#10' order by  func.nome_funcionario, rec.DATAVEN' +
-        'DA,  rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10
+        '-rec.desconto - coalesce(rec.valor_ipi,0) - VALOR_ST) as valor, ' +
+        'rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'func.NOME_FUNCIONARIO,  func.va' +
+        'lor_comissao, sum((rec.valor-rec.desconto-coalesce(rec.valor_ipi' +
+        ',0) - VALOR_ST) * (func.valor_comissao / 100)) as comissao'#13#10#13#10'fr' +
+        'om VENDA rec'#13#10'inner join movimento m on m.codmovimento = rec.cod' +
+        'movimento '#13#10'left outer join CLIENTES cli on cli.CODCLIENTE = rec' +
+        '.CODCLIENTE '#13#10'left outer join FUNCIONARIO func on rec.CODVENDEDO' +
+        'R = func.COD_FUNCIONARIO '#13#10'where m.codnatureza = 3 and rec.DATAV' +
+        'ENDA between :DATA1 and :DATA2 and ((rec.CODVENDEDOR=:pfun) or (' +
+        ':pfun = 0))  AND REC.CODCLIENTE > 0'#13#10'group by rec.codVendedor,  ' +
+        'rec.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOTAFISCAL,' +
+        '        '#13#10'rec.CODUSUARIO,  rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'func' +
+        '.NOME_FUNCIONARIO,  func.valor_comissao'#13#10' order by  func.nome_fu' +
+        'ncionario, rec.DATAVENDA,  rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13 +
+        #10#13#10#13#10#13#10#13#10#13#10#13#10
     end
     item
       Alias = 'EMPRESA'
