@@ -1603,22 +1603,26 @@ begin
     cds_Mov_detValorTotal.Value := cds_Mov_detPRECO.Value * valor;
   end
   else begin
-    if cds_Mov_detQTDE_ALT.Value > 0 then
+    if (cds_Mov_detQTDE_ALT.Value > 0) then
     begin
-      cds_Mov_detValorTotal.Value := cds_Mov_detPRECO.Value * cds_Mov_detQUANTIDADE.Value;
-      //valor := cds_Mov_detValorTotal.Value * (cds_Mov_detQTDE_ALT.Value/100);
-      if (dm.vendaDec > 0) then
+      if (cds_Mov_detVLR_BASE.AsFloat > 0) then
       begin
-        valor := RoundTo(cds_Mov_detPRECO.Value * (cds_Mov_detQTDE_ALT.Value/100) , ((-1) * dm.vendaDec));
-        cds_Mov_detValorTotal.Value := RoundTo(((cds_Mov_detPRECO.Value - valor) * cds_Mov_detQUANTIDADE.Value), ((-1) * dm.vendaDec));
+        cds_Mov_detValorTotal.Value := cds_Mov_detVLR_BASE.Value * cds_Mov_detQUANTIDADE.Value;
       end
-      else
-        cds_Mov_detValorTotal.Value := (cds_Mov_detPRECO.Value - valor) * cds_Mov_detQUANTIDADE.Value;
+      else begin
+        cds_Mov_detValorTotal.Value := cds_Mov_detPRECO.Value * cds_Mov_detQUANTIDADE.Value;
+        //valor := cds_Mov_detValorTotal.Value * (cds_Mov_detQTDE_ALT.Value/100);
+        if (dm.vendaDec > 0) then
+        begin
+          valor := SimpleRoundTo(cds_Mov_detPRECO.Value * (cds_Mov_detQTDE_ALT.Value/100) , ((-1) * dm.vendaDec));
+          cds_Mov_detValorTotal.Value := SimpleRoundTo(((cds_Mov_detPRECO.Value - valor) * cds_Mov_detQUANTIDADE.Value), ((-1) * dm.vendaDec));
+        end
+        else
+          cds_Mov_detValorTotal.Value := (cds_Mov_detPRECO.Value - valor) * cds_Mov_detQUANTIDADE.Value;
+      end;
     end
     else
       cds_Mov_detValorTotal.Value := cds_Mov_detPRECO.Value * cds_Mov_detQUANTIDADE.Value;
-    //if (cds_Mov_detVLR_BASE.AsFloat > 0) then
-    //  cds_Mov_detValorTotal.Value := cds_Mov_detVLR_BASE.AsFloat * cds_Mov_detQUANTIDADE.Value;
   end;
 end;
 
