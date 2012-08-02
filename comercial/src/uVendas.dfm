@@ -2093,6 +2093,13 @@ inherited fVendas: TfVendas
           end
           item
             Expanded = False
+            FieldName = 'VLR_BASE'
+            Title.Caption = 'Pre'#231'o Liq.'
+            Width = 80
+            Visible = True
+          end
+          item
+            Expanded = False
             FieldName = 'ValorTotal'
             Title.Caption = 'Valor Total'
             Width = 100
