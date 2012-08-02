@@ -2,7 +2,6 @@ object TRpReport
   GridWidth = 58
   GridHeight = 58
   PageOrientation = rpOrientationLandscape
-  Pagesize = rpPageSizeCustom
   PagesizeQt = 2
   PageHeight = 7639
   PageWidth = 5903
@@ -17,12 +16,12 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'EMPRESA'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 'select * from EMPRESA '
     end
     item
       Alias = 'VENDAS'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
         'select produto, sum(qtdeVenda) as qtdeVenda, sum(vlrTotalVenda) ' +
         'as vlrTotalVenda, sum(qtdeCompra)  as qtdeCompra'#13#10', sum(vlrTotal' +
@@ -30,6 +29,14 @@ object TRpReport
         #13#10', avg(vlrLucro) as vlrLucro, sum(vlrPerda), sum(qtdeEstoque), ' +
         'sum(qtdePerda) as qtdePerda'#13#10'from REL_VENDACOMPRA(:DATA1, :DATA2' +
         ') '#13#10'where ((qtdeVenda > 0))'#13#10'group by produto'
+    end
+    item
+      Alias = 'TOTAL'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  sum(vlrTotalVenda) as vlrTotalVenda,  sum(vlrTotalCompra' +
+        ') as vlrTotalCompra , sum(vlrCustoTotal) as vlrCustoTotal '#13#10'from' +
+        ' REL_VENDACOMPRA(:DATA1, :DATA2) '#13#10
     end>
   DatabaseInfo = <
     item
@@ -68,10 +75,11 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 39722d
+      Value = 41061d
       ParamType = rpParamDate
       Datasets.Strings = (
-        'VENDAS')
+        'VENDAS'
+        'TOTAL')
       Description = ''
       Hint = ''
       Search = ''
@@ -80,10 +88,11 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 39752d
+      Value = 41090d
       ParamType = rpParamDate
       Datasets.Strings = (
-        'VENDAS')
+        'VENDAS'
+        'TOTAL')
       Description = ''
       Hint = ''
       Search = ''
@@ -171,9 +180,6 @@ object TRpReport
       end
       item
         Component = TRpShape2
-      end
-      item
-        Component = TRpExpression23
       end
       item
         Component = TRpExpression25
@@ -296,9 +302,6 @@ object TRpReport
       end
       item
         Component = TRpShape15
-      end
-      item
-        Component = TRpLabel15
       end
       item
         Component = TRpLabel16
@@ -633,7 +636,7 @@ object TRpReport
   object TRpLabel0: TRpLabel
     Width = 825
     Height = 210
-    PosX = 11430
+    PosX = 11835
     PosY = 1740
     Type1Font = poHelvetica
     FontSize = 8
@@ -765,33 +768,6 @@ object TRpReport
     LFontName = 'Helvetica'
     Expression = 'VENDAS.VLRTOTALVENDA/VENDAS.QTDEVENDA'
     DisplayFormat = ',##0.00'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression17: TRpExpression
-    Width = 630
-    Height = 165
-    PosX = 11468
-    PosY = 60
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    DisplayFormat = ',##0.0'
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 
-      'iif(VENDAS.VLRCUSTOTOTAL>0, ((VENDAS.VLRTOTALVENDA/VENDAS.VLRCUS' +
-      'TOTOTAL)-1)*100,0)'
-    DisplayFormat = ',##0.0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -990,13 +966,13 @@ object TRpReport
         Component = TRpShape18
       end
       item
-        Component = TRpExpression24
-      end
-      item
         Component = TRpExpression26
       end
       item
         Component = TRpExpression18
+      end
+      item
+        Component = TRpExpression23
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -1095,7 +1071,7 @@ object TRpReport
   object TRpShape3: TRpShape
     Width = 13740
     Height = 510
-    PosX = 5
+    PosX = 0
     PosY = 1455
     BrushStyle = 1
     PenWidth = 0
@@ -1324,70 +1300,6 @@ object TRpReport
     DoBeforePrint = ''
     DoAfterPrint = ''
   end
-  object TRpLabel15: TRpLabel
-    Width = 1035
-    Height = 225
-    PosX = 12405
-    PosY = 1740
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Estoque(kg)'
-  end
-  object TRpExpression23: TRpExpression
-    Width = 975
-    Height = 165
-    PosX = 12173
-    PosY = 60
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    DisplayFormat = ',##0.0'
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.SUM_1'
-    DisplayFormat = ',##0.0'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression24: TRpExpression
-    Width = 975
-    Height = 165
-    PosX = 12175
-    PosY = 60
-    Type1Font = poHelvetica
-    FontSize = 8
-    Alignment = 2
-    DisplayFormat = ',##0.0'
-    Aggregate = rpAgGeneral
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.SUM_1'
-    DisplayFormat = ',##0.0'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
   object TRpLabel13: TRpLabel
     Width = 810
     Height = 225
@@ -1587,6 +1499,61 @@ object TRpReport
     LFontName = 'Helvetica'
     Expression = 'VENDAS.VLRTOTALVENDA-VENDAS.VLRCUSTOTOTAL-'#13#10'VENDAS.SUM'
     DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression23: TRpExpression
+    Width = 630
+    Height = 225
+    PosX = 11955
+    PosY = 60
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.0'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'iif(TOTAL.VLRTOTALVENDA>0,iif(TOTAL.VLRCUSTOTOTAL>0, (((TOTAL.VL' +
+      'RTOTALVENDA-TOTAL.VLRCUSTOTOTAL)/TOTAL.VLRTOTALVENDA))*100,0),0)'
+    DisplayFormat = ',##0.0'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression17: TRpExpression
+    Width = 630
+    Height = 165
+    PosX = 11955
+    PosY = 60
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.0'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'iif(VENDAS.VLRTOTALVENDA>0,iif(VENDAS.VLRCUSTOTOTAL>0, (((VENDAS' +
+      '.VLRTOTALVENDA-VENDAS.VLRCUSTOTOTAL)/VENDAS.VLRTOTALVENDA))*100,' +
+      '0),0)'
+    DisplayFormat = ',##0.0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
