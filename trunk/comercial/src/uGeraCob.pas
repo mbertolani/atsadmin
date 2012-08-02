@@ -373,93 +373,136 @@ end;
 procedure TfGeraCob.gera_cob_outros;
 var dia, mes, ano : word;
     dataVcto: TDate;
+    cm : string;
+    TD: TTransactionDesc;
 begin
-   if (CheckBox1.Checked) then
-   begin
-     DecodeDate(StrToDateTime(meDta4.Text),ano, mes, dia);
-   end;
-   str_sql := '';
-   if (cds_cli_1.Active) then
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  try
+    cm := 'ALTER TRIGGER INCLUI_REC ACTIVE;';
+    try
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(cm);
+      dm.sqlsisAdimin.Commit(TD);
+    Except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
+    end;
+
+    if (CheckBox1.Checked) then
+    begin
+      DecodeDate(StrToDateTime(meDta4.Text),ano, mes, dia);
+    end;
+    str_sql := '';
+    if (cds_cli_1.Active) then
       cds_cli_1.Close;
-   cds_cli_1.Params[0].Clear;
-   cds_cli_1.Params[1].Clear;
-   cds_cli_1.Params[2].Clear;
-   cds_cli_1.Params[3].Clear;
-   //if (fcrproc.edCodCliente.Text = '') then
-     cds_cli_1.Params[1].AsInteger := 9999999;
-   //else
-   //  cds_cli_1.Params[0].AsInteger := StrToInt(fcrproc.edCodCliente.Text);
+    cds_cli_1.Params[0].Clear;
+    cds_cli_1.Params[1].Clear;
+    cds_cli_1.Params[2].Clear;
+    cds_cli_1.Params[3].Clear;
+    //if (fcrproc.edCodCliente.Text = '') then
+    cds_cli_1.Params[1].AsInteger := 9999999;
+    //else
+    //  cds_cli_1.Params[0].AsInteger := StrToInt(fcrproc.edCodCliente.Text);
 
-   // FAIXA
-   if (ComboBox1.Text = '') then
-     cds_cli_1.Params[3].AsInteger := 9999999;
-   if (ComboBox1.Text <> '') then
-   begin
-     cds_faixa.Locate('DESCRICAO', ComboBox1.Text,[loCaseInsensitive]);
-     cds_cli_1.Params[2].AsInteger := cds_faixaCODFAIXA.AsInteger;
-   end;
-   cds_cli_1.Open;
-   cds_cli_1.First;
+    // FAIXA
+    if (ComboBox1.Text = '') then
+      cds_cli_1.Params[3].AsInteger := 9999999;
+    if (ComboBox1.Text <> '') then
+    begin
+      cds_faixa.Locate('DESCRICAO', ComboBox1.Text,[loCaseInsensitive]);
+      cds_cli_1.Params[2].AsInteger := cds_faixaCODFAIXA.AsInteger;
+    end;
+    cds_cli_1.Open;
+    cds_cli_1.First;
 
-   FlatGauge1.Progress := 0;
-   FlatGauge1.MaxValue := cds_cli_1.RecordCount;
-   While not cds_cli_1.Eof do
-   begin
-     dataVcto := StrToDateTime(meDta4.Text);
-     if (CheckBox1.Checked) then
-     begin
-       try
-         if (not cds_cli_1PRAZORECEBIMENTO.IsNull) then
-           dataVcto := EncodeDate(ano, mes, cds_cli_1PRAZORECEBIMENTO.AsInteger);
-       except
-         dataVcto := StrToDateTime(meDta4.Text);
-       end;
-     end;
+    FlatGauge1.Progress := 0;
+    FlatGauge1.MaxValue := cds_cli_1.RecordCount;
 
-     if (sds_CR.Active) then
-        sds_CR.Close;
-     sds_CR.Params[0].AsInteger := cds_cli_1CODCLIENTE.AsInteger;
-     sds_CR.Params[1].AsDateTime := dataVcto;
-     sds_CR.Open;
-     if (sds_CR.IsEmpty) then
-     begin
-       Try
-         str_sql := 'EXECUTE PROCEDURE SP_GERA_COBRANCA(';
-         str_sql := str_sql + IntToStr(cds_cli_1CODCLIENTE.AsInteger) + ', ';
-         str_sql := str_sql + '''' + FormatDateTime('mm/dd/yyyy', StrToDate(meDta3.Text)) + '''' + ', ';
-         str_sql := str_sql + '''' + FormatDateTime('mm/dd/yyyy', StrToDate(meDta4.Text)) + '''';
+    try
+      dm.sqlsisAdimin.StartTransaction(TD);
+      While not cds_cli_1.Eof do
+      begin
+        dataVcto := StrToDateTime(meDta4.Text);
+        if (CheckBox1.Checked) then
+        begin
+          try
+            if (not cds_cli_1PRAZORECEBIMENTO.IsNull) then
+              dataVcto := EncodeDate(ano, mes, cds_cli_1PRAZORECEBIMENTO.AsInteger);
+          except
+            dataVcto := StrToDateTime(meDta4.Text);
+          end;
+        end;
 
-         if (CheckBox1.Checked) then
-           str_sql := str_sql + ', ' + QuotedStr('S')
-         else
-           str_sql := str_sql + ', ' + QuotedStr('N');
+        if (sds_CR.Active) then
+          sds_CR.Close;
+        sds_CR.Params[0].AsInteger := cds_cli_1CODCLIENTE.AsInteger;
+        sds_CR.Params[1].AsDateTime := dataVcto;
+        sds_CR.Open;
+        if (sds_CR.IsEmpty) then
+        begin
+          Try
+            str_sql := 'EXECUTE PROCEDURE SP_GERA_COBRANCA(';
+            str_sql := str_sql + IntToStr(cds_cli_1CODCLIENTE.AsInteger) + ', ';
+            str_sql := str_sql + '''' + FormatDateTime('mm/dd/yyyy', StrToDate(meDta3.Text)) + '''' + ', ';
+            str_sql := str_sql + '''' + FormatDateTime('mm/dd/yyyy', StrToDate(meDta4.Text)) + '''';
 
-         // Código do Usuario que fez o Lancamento
-         str_sql := str_sql + ', 1)';
-         dm.sqlsisAdimin.ExecuteDirect(str_sql);
-         memo1.Lines.Add('Gerado com sucesso : ' + cds_cli_1NOMECLIENTE.AsString + ';');
-       Except
-         on E : Exception do
-         begin
-           memo1.Lines.Add('* Erro no Cliente : ' + cds_cli_1NOMECLIENTE.AsString + ';');
-           ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-           //dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-         end;
-       end;
-     end
-     else
-     begin
-       {if (MessageDlg('Já existe uma Título com esse Vencimento para' + #10#13 +
-         ' o Cliente : ' + cds_cli_1NOMECLIENTE.AsString + ',' + #10#13 +
-         ' Continua fazendo Lançamentos ? ', mtConfirmation, [mbYes, mbNo], 0) = mrNo) then
-         exit;}
-        memo1.Lines.Add('# Cliente já gerado : ' + cds_cli_1NOMECLIENTE.AsString + ';');
-     end;
-     cds_cli_1.Next;
-     FlatGauge1.Progress := FlatGauge1.Progress + 1;
-   end;
-   MessageDlg('Título Gerado com sucesso.', mtInformation, [mbOK], 0);
-   cds_cli_1.Close;
+            if (CheckBox1.Checked) then
+              str_sql := str_sql + ', ' + QuotedStr('S')
+            else
+              str_sql := str_sql + ', ' + QuotedStr('N');
+            // Código do Usuario que fez o Lancamento
+            str_sql := str_sql + ', 1)';
+            dm.sqlsisAdimin.ExecuteDirect(str_sql);
+            memo1.Lines.Add('Gerado com sucesso : ' + cds_cli_1NOMECLIENTE.AsString + ';');
+          Except
+            on E : Exception do
+            begin
+              memo1.Lines.Add('* Erro no Cliente : ' + cds_cli_1NOMECLIENTE.AsString + ';');
+              ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              //dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+            end;
+          end;
+        end
+        else
+        begin
+          {if (MessageDlg('Já existe uma Título com esse Vencimento para' + #10#13 +
+            ' o Cliente : ' + cds_cli_1NOMECLIENTE.AsString + ',' + #10#13 +
+            ' Continua fazendo Lançamentos ? ', mtConfirmation, [mbYes, mbNo], 0) = mrNo) then
+            exit;}
+          memo1.Lines.Add('# Cliente já gerado : ' + cds_cli_1NOMECLIENTE.AsString + ';');
+        end;
+        cds_cli_1.Next;
+        FlatGauge1.Progress := FlatGauge1.Progress + 1;
+      end;
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Título Gerado com sucesso.', mtInformation, [mbOK], 0);
+      cds_cli_1.Close;
+    Except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  finally
+    cm := 'ALTER TRIGGER INCLUI_REC INACTIVE;';
+    try
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(cm);
+      dm.sqlsisAdimin.Commit(TD);
+    Except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  end;
 end;
 
 procedure TfGeraCob.BitBtn7Click(Sender: TObject);
