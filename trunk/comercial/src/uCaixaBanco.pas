@@ -73,9 +73,9 @@ begin
   dm.cds_parametro.Open;
 
   strConta := 'select CODIGO, CONTA, NOME, RATEIO, CODREDUZIDO from PLANO ' +
-    ' where (plnCtaMain(CONTA) IN (' + QuotedStr(contaCaixa) + ', ' +
-    QuotedStr(dm.cds_parametroDADOS.AsString) + '))'  +
-    ' and CONSOLIDA = ' + QuotedStr('S');
+    ' where ((plnCtaMain(CONTA) = ' + QuotedStr(contaCaixa) + ') ' +
+    '    or (plnCtaRoot(CONTA) = ' + QuotedStr(dm.cds_parametroDADOS.AsString) + '))'  +
+    '   and (CONSOLIDA = ' + QuotedStr('S') + ')';
 
   if cds_7_contas.Active then
     cds_7_contas.Close;
