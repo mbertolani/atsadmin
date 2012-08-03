@@ -648,8 +648,8 @@ end;
 procedure TfVendaFinalizar.cdsNewRecord(DataSet: TDataSet);
 begin
   inherited;
- if terminal = '' then
- begin
+  if terminal = '' then
+  begin
     cdsCODMOVIMENTO.AsInteger := fVendas.cds_MovimentoCODMOVIMENTO.AsInteger;
     cdsCODCLIENTE.AsInteger := fVendas.cds_MovimentoCODCLIENTE.AsInteger;
     cdsNOMECLIENTE.AsString := fVendas.cds_MovimentoNOMECLIENTE.AsString;
@@ -699,7 +699,8 @@ begin
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
     end
-    else begin
+    else
+    begin
       if (sqs_tit.Active) then
       sqs_tit.Close;
       sqs_tit.CommandText := 'SELECT SUM((((QTDE_ALT  - ICMS) / 40.8) * PRECO) + ' +
@@ -707,37 +708,37 @@ begin
         ' ,SUM(VIPI), SUM(VALOR_ICMS), SUM(ICMS_SUBST) '+
         '  FROM MOVIMENTODETALHE' +
         ' WHERE CODMOVIMENTO = ' + IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
-  end;
- if terminal = '0' then
- begin
-    cdsCODMOVIMENTO.AsInteger := fTerminal.cds_MovimentoCODMOVIMENTO.AsInteger;
-    cdsCODCLIENTE.AsInteger := fTerminal.cds_MovimentoCODCLIENTE.AsInteger;
-    cdsNOMECLIENTE.AsString := fTerminal.cds_MovimentoNOMECLIENTE.AsString;
-    cdsCODVENDEDOR.AsInteger := fTerminal.cds_MovimentoCODVENDEDOR.AsInteger;
-    cdsNOMEUSUARIO.AsString := fTerminal.cds_MovimentoNOMEUSUARIO.AsString;
-    cdsDATAVENDA.AsDateTime := fTerminal.cds_MovimentoDATAMOVIMENTO.AsDateTime;
-    cdsCODCCUSTO.AsInteger := fTerminal.cds_MovimentoCODALMOXARIFADO.AsInteger;
-    cdsCODUSUARIO.AsInteger := usulog;
-    cdsDATASISTEMA.AsDateTime := Now;
-    cdsDESCONTO.AsFloat := 0;
-    cdsMULTA_JUROS.AsFloat := 0;
-    cdsENTRADA.AsFloat := 0;
-    cdsVALOR_PAGAR.AsFloat := 0;
-    cdsAPAGAR.AsFloat := 0;
-    cdsN_PARCELA.AsInteger := 1;
-    cdsBANCO.AsInteger := 0;
-    if dm.scds_cliente_proc.Active then
+    end;
+    if terminal = '0' then
+    begin
+      cdsCODMOVIMENTO.AsInteger := fTerminal.cds_MovimentoCODMOVIMENTO.AsInteger;
+      cdsCODCLIENTE.AsInteger := fTerminal.cds_MovimentoCODCLIENTE.AsInteger;
+      cdsNOMECLIENTE.AsString := fTerminal.cds_MovimentoNOMECLIENTE.AsString;
+      cdsCODVENDEDOR.AsInteger := fTerminal.cds_MovimentoCODVENDEDOR.AsInteger;
+      cdsNOMEUSUARIO.AsString := fTerminal.cds_MovimentoNOMEUSUARIO.AsString;
+      cdsDATAVENDA.AsDateTime := fTerminal.cds_MovimentoDATAMOVIMENTO.AsDateTime;
+      cdsCODCCUSTO.AsInteger := fTerminal.cds_MovimentoCODALMOXARIFADO.AsInteger;
+      cdsCODUSUARIO.AsInteger := usulog;
+      cdsDATASISTEMA.AsDateTime := Now;
+      cdsDESCONTO.AsFloat := 0;
+      cdsMULTA_JUROS.AsFloat := 0;
+      cdsENTRADA.AsFloat := 0;
+      cdsVALOR_PAGAR.AsFloat := 0;
+      cdsAPAGAR.AsFloat := 0;
+      cdsN_PARCELA.AsInteger := 1;
+      cdsBANCO.AsInteger := 0;
+      if dm.scds_cliente_proc.Active then
+        dm.scds_cliente_proc.Close;
+      dm.scds_cliente_proc.Params[0].Clear;
+      dm.scds_cliente_proc.Params[1].Clear;
+      dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(fVendas.dbeCliente.Text);
+      dm.scds_cliente_proc.Open;
+      cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
       dm.scds_cliente_proc.Close;
-    dm.scds_cliente_proc.Params[0].Clear;
-    dm.scds_cliente_proc.Params[1].Clear;
-    dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(fVendas.dbeCliente.Text);
-    dm.scds_cliente_proc.Open;
-    cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime + dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
-    dm.scds_cliente_proc.Close;
-    cdsSTATUS.AsInteger:=0;
-    sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * VLR_BASE) FROM MOVIMENTODETALHE' +
-                           ' WHERE CODMOVIMENTO = ' +
-                           IntToStr(fTerminal.cds_MovimentoCODMOVIMENTO.asInteger);
+      cdsSTATUS.AsInteger:=0;
+      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * VLR_BASE) FROM MOVIMENTODETALHE' +
+                             ' WHERE CODMOVIMENTO = ' +
+                             IntToStr(fTerminal.cds_MovimentoCODMOVIMENTO.asInteger);
     end;
   end;
   sqs_tit.Open;
@@ -1137,19 +1138,19 @@ begin
       try
          FRec := TReceberCls.Create;
          codRec := FRec.geraTitulo(0, cdsCODVENDA.AsInteger);
-         if (cdsENTRADA.AsFloat > 0) then
-           baixaEntrada;
       finally
          Frec.Free;
       end;
-      //--------------------------------------------------------------------------
       dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TD);
+      if (cdsENTRADA.AsFloat > 0) then
+        baixaEntrada;
     except
       on E : Exception do
       begin
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
       end;
     end;
   end;
@@ -1453,13 +1454,6 @@ begin
     MessageDlg('Título do Financeiro não foi gerado.'+#13+#10+'Clique no botão gravar, para gera-lo.', mtWarning, [mbOK], 0);
     exit;
   end;
-
-  if (scdsCr_procSITUACAO.AsString = '7-') then
-  begin
-    MessageDlg('Para gerar NF não pode haver título baixado.', mtWarning, [mbOK], 0);
-    exit;
-  end;
-
 
   {inherited;
   if (cdsCOD_TRANPORTADORA.AsInteger > 0) then
