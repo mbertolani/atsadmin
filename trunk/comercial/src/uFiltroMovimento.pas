@@ -402,7 +402,7 @@ begin
   begin
     cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, ' +
-      ' SUM((movd.QUANTIDADE * movd.PRECO) - (movd.VALTOTAL * (movd.QTDE_ALT/100))) as PRECO, ' +
+      ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
@@ -414,7 +414,7 @@ begin
   else begin
     cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
-      ' SUM((movd.QUANTIDADE * movd.PRECO) - (movd.VALTOTAL * (movd.QTDE_ALT/100))) as PRECO, ' +
+      ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
