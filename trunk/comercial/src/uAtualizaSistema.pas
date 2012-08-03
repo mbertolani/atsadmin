@@ -1214,7 +1214,6 @@ begin
       except
 
       end;
-      executaDDL('FORNECEDOR', 'CFOP', 'VARCHAR(30)');      
       mudaVersao('1.0.0.99');
     end;// Fim Atualizacao Versao 1.0.0.98
 
@@ -1675,10 +1674,22 @@ begin
       executaScript('nfe_fatura108.sql');
       executaScript('trg_calcula_icms_st_108.sql');
       executaScript('calcula_icms108.sql');
-      executaScript('sp_mov_caixac109.sql');
-      executaScript('sp_mov_caixa_ordemc109.sql');      
       mudaVersao('1.0.0.108');
     end;// Fim Ataulização Versao 1.0.0.108
+
+    if (versaoSistema = '1.0.0.108') then
+    begin
+      executaDDL('FORNECEDOR', 'CFOP', 'VARCHAR(30)');
+      executaDDL('MOVIMENTOCONT', 'FORMA',  'TEXTO1');
+      executaDDL('PRODUTOS', 'OBS', 'VARCHAR(300)');
+      executaDDL('VENDA', 'VALOR_ST', 'double precision');
+      executaScript('sp_mov_caixac109.sql');
+      executaScript('sp_mov_caixa_ordemc109.sql');
+      executaScript('gera_nf_venda109.sql');
+      executaScript('nfe_fatura109.sql');
+      executaScript('trg_calcula_icms_st_109.sql');
+      mudaVersao('1.0.0.109');
+    end;// Fim Atualizacao Versao 1.0.0.109
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
