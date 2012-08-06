@@ -669,7 +669,7 @@ begin
   //REMOVIDO o "order by PRODUTO" para ordenar pelo campo que o cliente quiser
   varCondicao1 := varSql1 + varCondicaoA;
   varCond2 := varSql2 + varCondicaoA1;
-  varCondicao := varSql + varCondicao;
+  varCondicao := varSql + varCondicao + varCondicaoA;
 
 //***************************************************************************
  if cds_proc.Active then
