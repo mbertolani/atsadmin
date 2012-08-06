@@ -335,7 +335,7 @@ begin
   //Application.CreateForm(TForm_1, Form_1);
   Application.CreateForm(TfEtiquetas_cli, fEtiquetas_cli);
   // Application.CreateForm(TfExpContMat, fExpContMat);
-  //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);
+  //Application.CreateForm(TfParametrosTerminal, fParametrosTerminal);  //
   Application.CreateForm(TfPfaturamento, fPfaturamento);
   DM.formusercontrol := 'formdespesas';
   Application.CreateForm(TfcrTituloPagto, fcrTituloPagto);
