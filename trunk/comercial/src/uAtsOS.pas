@@ -197,7 +197,6 @@ end;
 
 procedure TfAtsOS.JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
 begin
-//  fEmpresa := TfEmpresa.Create(Self);
   fEmpresa := TfEmpresa.Create(Application);
   try
     fEmpresa.ShowModal;
