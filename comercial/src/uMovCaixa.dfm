@@ -21,7 +21,7 @@ object fMovCaixa: TfMovCaixa
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 734
+    Width = 742
     Height = 61
     Align = alTop
     BevelInner = bvRaised
@@ -79,7 +79,7 @@ object fMovCaixa: TfMovCaixa
     object lbl2: TLabel
       Left = 180
       Top = 36
-      Width = 44
+      Width = 45
       Height = 15
       Caption = 'R$ Valor'
       Transparent = True
@@ -568,8 +568,8 @@ object fMovCaixa: TfMovCaixa
   object fmo: TJvDBGrid
     Left = 0
     Top = 61
-    Width = 734
-    Height = 442
+    Width = 742
+    Height = 453
     Align = alClient
     Color = 10930928
     DataSource = dsrcaixa
@@ -597,41 +597,41 @@ object fMovCaixa: TfMovCaixa
       item
         Expanded = False
         FieldName = 'DTAPAGTO'
-        Width = 96
+        Width = 97
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCRICAO'
-        Width = 394
+        Width = 398
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORD'
         Title.Caption = 'DEBITO'
-        Width = 74
+        Width = 75
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORC'
         Title.Caption = 'CREDITO'
-        Width = 76
+        Width = 77
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR'
         Title.Caption = 'SALDO'
-        Width = 73
+        Width = 74
         Visible = True
       end>
   end
   object sCaixa: TSQLDataSet
     CommandText = 
       'select * from SP_mov_caixa_ordemc(:DTAINI, :DTAFIM, :COD_CAIXA,:' +
-      'CCUSTO)'
+      'CCUSTO, :PFORMA)'
     MaxBlobSize = -1
     Params = <
       item
@@ -645,13 +645,18 @@ object fMovCaixa: TfMovCaixa
         ParamType = ptInput
       end
       item
-        DataType = ftSmallint
+        DataType = ftInteger
         Name = 'COD_CAIXA'
         ParamType = ptInput
       end
       item
-        DataType = ftSmallint
+        DataType = ftInteger
         Name = 'CCUSTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PFORMA'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -712,13 +717,18 @@ object fMovCaixa: TfMovCaixa
         ParamType = ptInput
       end
       item
-        DataType = ftSmallint
+        DataType = ftInteger
         Name = 'COD_CAIXA'
         ParamType = ptInput
       end
       item
-        DataType = ftSmallint
+        DataType = ftInteger
         Name = 'CCUSTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PFORMA'
         ParamType = ptInput
       end>
     ProviderName = 'dCaixa'

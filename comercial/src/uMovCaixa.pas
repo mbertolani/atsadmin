@@ -159,7 +159,7 @@ begin
   Finally
      FCaixaConsulta.Free;
   end;
-  // Pego o numero da conta do caixa interno 
+  // Pego o numero da conta do caixa interno
   if (DM_MOV.s_parametro.Active) then
      DM_MOV.s_parametro.Close;
   DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
@@ -179,6 +179,7 @@ begin
   cCaixa.Params[1].AsDate := StrToDate(eddata3.Text);
   cCaixa.Params[2].AsInteger := id_contaCX; //Codigo do caixa na tabela PLANO;
   cCaixa.Params[3].AsInteger := var_codCusto; //sdsCaixaIDCAIXACONTROLE.AsInteger;
+  cCaixa.Params[4].AsString  := 'T'; // Todas as Formas de Pagamento
   cCaixa.Open;
 end;
 
