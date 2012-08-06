@@ -1,8 +1,8 @@
 object fAtsOS: TfAtsOS
   Left = 406
   Top = 0
-  Width = 786
-  Height = 421
+  Width = 793
+  Height = 427
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,8 +20,8 @@ object fAtsOS: TfAtsOS
   object Image1: TImage
     Left = 165
     Top = 35
-    Width = 613
-    Height = 335
+    Width = 620
+    Height = 341
     Align = alClient
     Center = True
     Picture.Data = {
@@ -27788,8 +27788,8 @@ object fAtsOS: TfAtsOS
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 370
-    Width = 778
+    Top = 376
+    Width = 785
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -27813,7 +27813,7 @@ object fAtsOS: TfAtsOS
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 778
+    Width = 785
     Height = 35
     Align = alTop
     TabOrder = 1
@@ -27826,7 +27826,7 @@ object fAtsOS: TfAtsOS
     object RxLabel1: TRxLabel
       Left = 1
       Top = 1
-      Width = 776
+      Width = 783
       Height = 33
       Align = alClient
       Alignment = taCenter
@@ -27846,7 +27846,7 @@ object fAtsOS: TfAtsOS
     Left = 0
     Top = 35
     Width = 165
-    Height = 335
+    Height = 341
     Align = alLeft
     Pages = <
       item
