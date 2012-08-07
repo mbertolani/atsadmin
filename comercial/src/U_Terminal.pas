@@ -4860,7 +4860,7 @@ begin
      //cds_iMovDet.Open;
 
      DM_MOV.c_movdet.First;
-     while not cds_iMovDet.Eof do
+     while not DM_MOV.c_movdet.Eof do
      begin
        // imprime
        // if (DM.impressaoResumida = 'NAO') then
