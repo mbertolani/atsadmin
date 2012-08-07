@@ -31,6 +31,7 @@ AS
  Declare variable CSTPIS varchar(2); 
  Declare variable CSTCOFINS varchar(2); 
  DECLARE VARIABLE arredondar DOUBLE PRECISION = 3;
+DECLARE VARIABLE vd DOUBLE PRECISION; 
 BEGIN
     if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
     begin
@@ -47,8 +48,11 @@ BEGIN
         new.QTDE_ALT = 0;
       
       new.VLR_BASE = UDF_ROUNDDEC(new.PRECO, :arredondar);  
-      if (new.QTDE_ALT > 0) then 
-        new.VLR_BASE = UDF_ROUNDDEC((new.PRECO-((new.PRECO)*(new.QTDE_ALT/100))), :arredondar);    
+      if (new.QTDE_ALT > 0) then
+      begin  
+        vd = UDF_ROUNDDEC(((new.PRECO)*(new.QTDE_ALT/100)), :arredondar);
+        new.VLR_BASE = UDF_ROUNDDEC((new.PRECO - :vd), :arredondar);    
+      end   
 
     new.ICMS_SUBSTD  = 0;
     new.ICMS_SUBST   = 0;
@@ -177,10 +181,9 @@ BEGIN
 		if (ind_reduzicms > 1 )then
             ind_reduzicms = ind_reduzicms/100;
     
-			
+		new.icms = :cicms;
         if (CICMS > 0) then 
         begin
-		  new.icms = :cicms;
           new.VLR_BASEICMS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) * :ind_reduzicms, :arredondar);
           new.VALOR_ICMS = UDF_ROUNDDEC(new.VLR_BASEICMS * (CICMS/100), :arredondar);  
         end
