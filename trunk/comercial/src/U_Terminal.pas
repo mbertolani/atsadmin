@@ -4854,19 +4854,19 @@ begin
       buffer  := Texto4 + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
-     if (cds_imovdet.Active) then
-       cds_imovdet.Close;
-     cds_iMovdet.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.AsInteger;
-     cds_iMovDet.Open;
+     //if (cds_imovdet.Active) then
+     //  cds_imovdet.Close;
+     //cds_iMovdet.Params[0].AsInteger := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+     //cds_iMovDet.Open;
 
-     //DM_MOV.c_movdet.First;
+     DM_MOV.c_movdet.First;
      while not cds_iMovDet.Eof do
      begin
        // imprime
        // if (DM.impressaoResumida = 'NAO') then
        //   buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10)
        // else
-        buffer  := '|' +  Format('%-46s  ', [cds_iMovDetPRODUTO.Value]) + '|';
+        buffer  := '|' +  Format('%-46s  ', [DM_MOV.c_movdetDESCPRODUTO.Value]) + '|';
         buffer  := buffer + Chr(13) + Chr(10);
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
@@ -4874,11 +4874,11 @@ begin
           MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
-        buffer  := Format('%-10s  ',[cds_iMovDetCODPRO.Value]);
-        buffer  := buffer + Format('  %2s  ',[cds_iMovDetUN.Value]);
-        buffer  := buffer + Format('  %6.2n',[cds_imovdetQTDE.AsFloat]);
-        buffer  := buffer + Format('    %6.2n',[cds_iMovDetPRECO.AsFloat]);
-        buffer  := buffer + Format('  %8.2n',[cds_imovdetVALTOTAL.asFloat]);
+        buffer  := Format('%-10s  ',[DM_MOV.c_movdetCODPRO.Value]);
+        buffer  := buffer + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
+        buffer  := buffer + Format('  %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+        buffer  := buffer + Format('    %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
+        buffer  := buffer + Format('  %8.2n',[DM_MOV.c_movdetVALTOTAL.asFloat]);
         buffer  := '|' +  Format('%-46s  ', [buffer]) + '|';
         buffer  := buffer + Chr(13) + Chr(10);
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
@@ -4887,7 +4887,7 @@ begin
           MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
-        cds_iMovDet.next;
+        DM_MOV.c_movdet.next;
      end;
 
       buffer  := Texto + Chr(13) + Chr(10);
@@ -5279,6 +5279,7 @@ begin
     Writeln(Impressora, c17cpi, texto3);
     Writeln(Impressora, c17cpi, texto4);
     Writeln(Impressora, c17cpi, texto);
+
     DM_MOV.c_movdet.First;
     while not DM_MOV.c_movdet.Eof do
     begin
