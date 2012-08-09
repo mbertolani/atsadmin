@@ -193,7 +193,7 @@ begin
     sqlBuscaR :=  TSqlQuery.Create(nil);
     sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
     strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + ' AND DP = 0 ' +
-    ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') + ') and USERID = ' + IntToStr(USERID) + ' order by CODRECEBIMENTO';
+    ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') + ') and USERID = ' + IntToStr(USERID) + ' order by DATAVENCIMENTO';
     //strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODRECEBIMENTO = ' + IntToStr(CODRECEBE);
     sqlBuscaR.SQL.Add(strRec);
     sqlBuscaR.Open;
@@ -202,7 +202,7 @@ begin
     begin
       CODREC := sqlBuscaR.FieldByName('CODRECEBIMENTO').AsInteger;
       VLRESTO := sqlBuscaR.FieldByName('VALOR_RESTO').AsFloat;
-      if (VLR_RESTO = 0) then
+      //if (VLR_RESTO = 0) then
         VLR_RESTO := VLRESTO;
       VLJU := VLJUT - VLJU;
       if (VLJU < 0) then
@@ -311,15 +311,16 @@ begin
         executaSql(strRec);
       end;
       VLR_RESTO := VLR_RESTO - (VLR + VLJU + VLFUN - VLPER - VLDESC);
+
+      // Se sobrou algum valor então gera novo titulo
+      if ((VLR_RESTO > 0.01) and (tipoBaixa <> 'DESCONTO') and (VLR_RESTO <> VLRESTO) )then
+      begin
+          Self.Valor := VLR_RESTO;
+          Result := geraTitulo(CodRec, 0);
+      end;
      sqlBuscaR.Next;
     end;
     Result := 0;
-    // Se sobrou algum valor então gera novo titulo
-    if ((VLR_RESTO > 0.01) and (tipoBaixa <> 'DESCONTO')) then
-    begin
-        Self.Valor := VLR_RESTO;
-        Result := geraTitulo(CodRec, 0);
-    end;
   finally
     sqlBuscaR.Free;
   end;
