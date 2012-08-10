@@ -865,7 +865,7 @@ begin
     DBLookupComboBox1.Enabled := false;
   end;
   dm.cds_parametro.Close;
-  combobox1.Items.Clear;
+
   if (dm.moduloUsado = 'ACADEMIA') then
   begin
     formaRecebimento;
