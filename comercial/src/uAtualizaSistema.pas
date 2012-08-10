@@ -1634,7 +1634,6 @@ begin
         DeletaTrigger('GERA_VALOR');
         DeletaTrigger('CARREGA_IPI_VENDA');
         DeletaTrigger('CORRIGE_IPI_VENDA');
-        DeletaTrigger('CFOP_PRODUTOS');
         DeletaTrigger('TRG_NF_CR_INSERE');
         DeletaTrigger('TRG_NF_CR_ALTERA');
         DeletaTrigger('MOV_ESTOQUE');		
