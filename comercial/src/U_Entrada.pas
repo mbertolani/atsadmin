@@ -857,8 +857,8 @@ begin
        if (baixou > 0) then
            codRecCR := baixou;
 
-       Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
-                IntToStr(codRecCR);
+       Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODVENDA = ' +
+                IntToStr(codigo_venda);
        dm.sqlsisAdimin.StartTransaction(TDA);
        dm.sqlsisAdimin.ExecuteDirect(Texto);
        Try
