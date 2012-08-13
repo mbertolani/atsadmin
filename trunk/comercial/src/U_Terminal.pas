@@ -624,7 +624,7 @@ type
     tipoImpressao : string;
     usaDll : string;
     IMPRESSORA:TextFile;
-    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descricao do produto,nome
     total, porc, totgeral , desconto : double;
     porta : string;
     cliente : string;
@@ -650,7 +650,7 @@ type
     procedure imprimecomandaTXT;
     procedure imp_Setor1_DLL;
     procedure imp_Setor1_LPT;    
-    procedure imp_Setor2_DLL;    
+    procedure imp_Setor2_DLL;
     procedure clic_botao;
     procedure pinta_botao;
     procedure pinta_botao_1;
@@ -677,7 +677,7 @@ const
     c17cpi = #15;
     cIExpandido = #14;
     cFExpandido = #20;
-    { Formatação da fonte }
+    { Formatacao da fonte }
     cINegrito = #27#71;
     cFNegrito = #27#72;
     cIItalico = #27#52;
@@ -694,7 +694,7 @@ uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
   U_AbreComanda, uSangria, uCrTituloPagto, uEntradaCaixa, uMovCaixa,
   uFiscalCls;
 
-{$R *.dfm}    // Têste téste opção
+{$R *.dfm}    // Teste teste opcao
 
 procedure TF_Terminal.EdtComandaKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -1141,7 +1141,7 @@ begin
       if (not DM_MOV.c_movdet.IsEmpty) then
       begin
         JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
-        // Verifico se tem % Garçom
+        // Verifico se tem % Garcom
         if (s_parametro.Active) then
           s_parametro.Close;
         s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
@@ -1269,7 +1269,7 @@ begin
       dmnf.cds_ccusto.Next;
     end;
     dmnf.cds_ccusto.Close;
-    {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
+    {------Pesquisando na tab Parametro o valor padrão para a Natureza Operacao ---------}
     if dm.cds_parametro.Active then
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'NATUREZAVENDA';
@@ -1899,7 +1899,7 @@ begin
         end
         else
         begin
-          ShowMessage('Usuario sem altorização para Excluir/Cancelar Itens');
+          ShowMessage('Usuario sem altorizacao para Excluir/Cancelar Itens');
           Exit;
         end;
      end
@@ -1946,7 +1946,7 @@ begin
               JvTotal.Value := 0;
               JvParcial.Value := 0;
               JvSubtotal.Value := 0;
-              ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+              ShowMessage('Pedido/Orcamento Excluido com Suscesso');
            Except
             MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
             exit;
@@ -1975,7 +1975,7 @@ begin
               if DM_MOV.d_movdet.DataSet.Active then
                 DM_MOV.d_movdet.DataSet.Close;
               DM_MOV.d_comanda.DataSet.Close;
-              ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+              ShowMessage('Pedido/Orcamento Excluido com Suscesso');
               pinta_botao;
               JvLabel8.Caption := '...';
               JvParcial.Value := 0;
@@ -2004,7 +2004,7 @@ begin
               if DM_MOV.d_delivery.DataSet.Active then
                 DM_MOV.d_delivery.DataSet.Close;
               DM_MOV.d_delivery.DataSet.Close;
-              ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+              ShowMessage('Pedido/Orcamento Excluido com Suscesso');
               JvParcial.Value := 0;
               JvSubtotal.Value := 0;
            Except
@@ -2359,7 +2359,7 @@ begin
               JvTotal.Value := 0;
               JvParcial.Value := 0;
               JvSubtotal.Value := 0;
-              ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+              ShowMessage('Pedido/Orcamento Excluido com Suscesso');
            Except
             MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
             exit;
@@ -2389,7 +2389,7 @@ begin
               DM_MOV.d_movdet.DataSet.Close;
 
               DM_MOV.d_comanda.DataSet.Close;
-              ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+              ShowMessage('Pedido/Orcamento Excluido com Suscesso');
               pinta_botao;
               JvLabel8.Caption := '...';
               JvParcial.Value := 0;
@@ -2434,7 +2434,7 @@ begin
                      [mbOk], 0);
                  Exit;
               end;
-              ShowMessage('Pedido/Orçamento Excluido com Suscesso');
+              ShowMessage('Pedido/Orcamento Excluido com Suscesso');
 
               DM_MOV.c_Delivery.Close;
 
@@ -2495,7 +2495,7 @@ procedure TF_Terminal.imprimeCupom;
 begin
      if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
-     {----- aqui monto o endereço-----}
+     {----- aqui monto o endereco-----}
      logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
      cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
      ' - ' + dm.cds_empresaCEP.Value;
@@ -2650,7 +2650,7 @@ begin
 
      if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
-     {----- aqui monto o endereço-----}
+     {----- aqui monto o endereco-----}
      logradouro := dm.cds_empresaENDERECO.Value + ' ' + dm.cds_empresaNUMERO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
      cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
      ' - ' + dm.cds_empresaCEP.Value;
@@ -2717,7 +2717,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2725,7 +2725,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2733,7 +2733,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2741,7 +2741,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2749,7 +2749,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2757,7 +2757,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2765,7 +2765,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2773,7 +2773,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2781,7 +2781,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2789,7 +2789,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2797,7 +2797,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possaveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2812,7 +2812,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
@@ -2824,7 +2824,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         DM_MOV.c_movdet.next;
@@ -2834,7 +2834,7 @@ begin
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
      if comando = 0 then
      begin
-       MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
        exit;
      end;
 
@@ -2859,7 +2859,7 @@ begin
 
      }
 
-     // Verifico se tem % Garçom
+     // Verifico se tem % Garcom
      s_parametro.Close;
      if (s_parametro.Active) then
      s_parametro.Close;
@@ -2913,7 +2913,7 @@ begin
      // Corto o Papel
      comando := AcionaGuilhotina(1);  // modo total (full cut)
      if comando <> 1 then
-       MessageDlg('Problemas no corte do papel..' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       MessageDlg('Problemas no corte do papel..' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
 
      // Comando para Acionar a Gaveta de Dinheiro
     // scomando := #27 + #118 + #140;
@@ -3933,7 +3933,7 @@ begin
     if (fProcurar_nf.ShowModal = mrOK) then
       if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
       begin
-        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes voce tera que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
         exit;
         edtFone.SetFocus;
       end;
@@ -4111,7 +4111,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4119,7 +4119,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4127,7 +4127,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4135,7 +4135,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4155,7 +4155,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         update_MOVDETALHE;
@@ -4166,7 +4166,7 @@ begin
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
      if comando = 0 then
      begin
-       MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
        exit;
      end;
      buffer  := texto5;
@@ -4182,7 +4182,7 @@ begin
      // Corto o Papel
      comando := AcionaGuilhotina(1);  // modo total (full cut)
      if comando <> 1 then
-       MessageDlg('Problemas no corte do papel..' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       MessageDlg('Problemas no corte do papel..' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
 end;
 
 procedure TF_Terminal.imp_Setor2_DLL;
@@ -4301,7 +4301,7 @@ begin
 
   if (tipoImpressao = '') then
   begin
-    ShowMessage('Parametro Tipo Impressão não configurado');
+    ShowMessage('Parametro Tipo Impressao nao configurado');
     exit;
   end;
   if (tipoImpressao = 'CUPOM') then
@@ -4444,7 +4444,7 @@ begin
 
   if (tipoImpressao = '') then
   begin
-    ShowMessage('Parametro Tipo Impressão não configurado');
+    ShowMessage('Parametro Tipo Impressao nao configurado');
     exit;
   end;
   if (tipoImpressao = 'CUPOM') then
@@ -4496,7 +4496,7 @@ begin
 
   if (tipoImpressao = '') then
   begin
-    ShowMessage('Parametro Tipo Impressão não configurado');
+    ShowMessage('Parametro Tipo Impressao nao configurado');
     exit;
   end;
   if (tipoImpressao = 'CUPOM') then
@@ -4590,7 +4590,7 @@ begin
   end
   else
   begin
-    ShowMessage('Parametro de APROVAÇÃO não configurado !');
+    ShowMessage('Parametro de APROVACAO nao configurado !');
   end;
   s_parametro.Close;
 end;
@@ -4664,7 +4664,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4672,7 +4672,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4680,7 +4680,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4689,7 +4689,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4697,7 +4697,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4706,7 +4706,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4715,7 +4715,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4724,7 +4724,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4732,7 +4732,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4740,7 +4740,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -4748,12 +4748,51 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
-   //try
-     //DM_MOV.c_movdet.First;
+     DM_MOV.c_movdet.First;
+     while not DM_MOV.c_movdet.Eof do
+     begin
+        // imprime
+        // if (DM.impressaoResumida = 'NAO') then
+        //   buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10)
+        // else
+        buffer  := '|' +  Format('%-46s  ', [DM_MOV.c_movdetPRODUTO.Value]) + '|';
+        buffer  := buffer + Chr(13) + Chr(10);
+        comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+        if comando = 0 then
+        begin
+          MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          exit;
+        end;
+        buffer  := Format('%-10s  ',[DM_MOV.c_movdetCODPRO.Value]);
+        buffer  := buffer + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
+        buffer  := buffer + Format('  %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+        buffer  := buffer + Format('    %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
+        buffer  := buffer + Format('  %8.2n',[DM_MOV.c_movdetValorTotal.value]);
+        buffer  := '|' +  Format('%-46s  ', [buffer]) + '|';
+        buffer  := buffer + Chr(13) + Chr(10);
+        comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+        if comando = 0 then
+        begin
+          MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          exit;
+        end;
+        DM_MOV.c_movdet.next;
+     end;
+
+      buffer  := Texto + Chr(13) + Chr(10);
+      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
+      if comando = 0 then
+      begin
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        exit;
+      end;
+      Texto5 := '|                         Total.: R$ ';
+      buffer  := texto5;
+      total   := DM_MOV.c_movdettotalpedido.Value;
       buffer  := buffer + Format('%10.2n',[total]) + ' |';
       buffer  := buffer + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
@@ -4762,7 +4801,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
       //      Texto2 := '|------------------------------------------------|'
-      Texto5 := '|Assnatura:______________________________________|';
+      Texto5 := '|Assinatura:______________________________________|';
       buffer  := texto5;
       buffer  := buffer + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
@@ -4926,7 +4965,7 @@ begin
      // Corto o Papel
      comando := AcionaGuilhotina(1);  // modo corte Total
      if comando <> 1 then
-       MessageDlg('Problemas no corte do papel..' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       MessageDlg('Problemas no corte do papel..' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
 
      if (dm.cds_empresa.Active) then
        dm.cds_empresa.Close;
@@ -4942,7 +4981,7 @@ var linhas : Integer;
 begin
    if (not dm.cds_empresa.Active) then
        dm.cds_empresa.Open;
-   {----- aqui monto o endereço-----}
+   {----- aqui monto o endereco-----}
    razao_emp := dm.cds_empresaRAZAO.AsString;
    cnpj      := dm.cds_empresaCNPJ_CPF.AsString;
    logradouro := dm.cds_empresaENDERECO.Value + ' ' + dm.cds_empresaNUMERO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
@@ -5027,7 +5066,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         buffer  := Format('%-10s  ',[DM_MOV.c_movdetCODPRO.Value]);
@@ -5040,7 +5079,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
           exit;
         end;
         DM_MOV.c_movdet.next;
@@ -5071,7 +5110,7 @@ begin
      // Corto o Papel
      comando := AcionaGuilhotina(1);  // modo corte Total
      if comando <> 1 then
-       MessageDlg('Problemas no corte do papel..' + #10 + 'Possíveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       MessageDlg('Problemas no corte do papel..' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
 
 
      if (dm.cds_empresa.Active) then
@@ -5225,7 +5264,7 @@ begin
 
     if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
-    {----- aqui monto o endereço-----}
+    {----- aqui monto o endereco-----}
     razao_emp := dm.cds_empresaRAZAO.AsString;
     fantasia  := dm.cds_empresaEMPRESA.AsString;
     cnpj      := dm.cds_empresaCNPJ_CPF.AsString;
@@ -5318,7 +5357,7 @@ begin
     TEXTO_IMPRIMIR  := 'END.:' +  Format('%-45s  ', [endCli]);
     Writeln(Impressora, cFExpandido, TEXTO_IMPRIMIR);
 
-    Texto5 := 'Assnatura:_______________________________________________';
+    Texto5 := 'Assinatura:_______________________________________________';
     Writeln(Impressora, c17cpi, texto5);
 
     Writeln(IMPRESSORA);
@@ -5349,7 +5388,7 @@ var linhas : Integer;
 begin
    if (not dm.cds_empresa.Active) then
        dm.cds_empresa.Open;
-   {----- aqui monto o endereço-----}
+   {----- aqui monto o endereco-----}
    razao_emp := dm.cds_empresaRAZAO.AsString;
    cnpj      := dm.cds_empresaCNPJ_CPF.AsString;
    logradouro := dm.cds_empresaENDERECO.Value + ' ' + dm.cds_empresaNUMERO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
