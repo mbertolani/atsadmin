@@ -49,6 +49,8 @@ type
     procedure setCodAutorizacao(const Value: Integer);
     procedure setFormaRecebimento(const Value: String);
     procedure setPagou(const Value: String);
+    function getCfop: String;
+    procedure setCfop(const Value: String);
   protected
     //Atributos
     _codDet          : Integer;
@@ -71,7 +73,7 @@ type
     _CodAutorizacao  : Integer;
     _Pagou           : String;
     _FormaRcebimento : String;
-
+    _Cfop            : String;
 
     function executaSql(strSql: String): Boolean;
   public
@@ -95,6 +97,7 @@ type
     property Pagou       : String  read getPagou write setPagou;
     property CodAutorizacao   : Integer read getCodAutorizacao write setCodAutorizacao;
     property FormaRecebimento : String read geFormaRecebimento write setFormaRecebimento;
+    property Cfop       : String  read getCfop write setCfop;
 
     //Metodos
     function inserirMovDet(): Boolean;
@@ -167,6 +170,11 @@ end;
 function TMovimentoDetalhe.getBaixa: String;
 begin
   Result := _baixa;
+end;
+
+function TMovimentoDetalhe.getCfop: String;
+begin
+  Result := _Cfop;
 end;
 
 function TMovimentoDetalhe.getCodAutorizacao: Integer;
@@ -255,7 +263,7 @@ begin
   DecimalSeparator := '.';
   str := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODMOVIMENTO, ' +
     'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO, CODIGO , LOTE, ' +
-    ' ACRESCIMO, CORTESIA, ATENDENTE, COLABORADOR, SUITE, CODAAUTORIZACAO) VALUES (';
+    ' ACRESCIMO, CORTESIA, ATENDENTE, COLABORADOR, SUITE, CODAUTORIZACAO, CFOP) VALUES (';
   str := str + 'GEN_ID(GENMOVDET,1), ' + IntToStr(self.CodMov) + ', ' + IntToStr(Self.CodProduto);
   str := str + ', ' + FloatToStr(Self.Qtde) + ', ' + FloatToStr(Self.Preco);
   str := str + ', ' + FloatToStr(Self.Icms) + ', ' + FloatToStr(Self.Desconto);
@@ -269,6 +277,7 @@ begin
   str := str + ', ' + IntToStr(Self.Colaborador);
   str := str + ', ' + QuotedStr(Self.Suite);
   str := str + ', ' + IntToStr(Self.CodAutorizacao);
+  str := str + ', ' + QuotedStr(Self.CFOP);
   str := str + ')';
   executaSql(str);
 end;
@@ -286,6 +295,11 @@ end;
 procedure TMovimentoDetalhe.setBaixa(const Value: String);
 begin
   _baixa := Trim(Value);
+end;
+
+procedure TMovimentoDetalhe.setCfop(const Value: String);
+begin
+  _cfop := Trim(Value);
 end;
 
 procedure TMovimentoDetalhe.setCodAutorizacao(const Value: Integer);
@@ -401,7 +415,7 @@ begin
       Self.Atendente     := dm.cdsBusca.FieldByName('ATENDENTE').AsInteger;
       Self.Colaborador   := dm.cdsBusca.FieldByName('COLABORADOR').AsInteger;
       Self.Suite         := dm.cdsBusca.FieldByName('SUITE').AsString;
-      Self.CodAutorizacao:= dm.cdsBusca.FieldByName('CODAAUTORIZACAO').AsInteger;
+      Self.CodAutorizacao:= dm.cdsBusca.FieldByName('CODAUTORIZACAO').AsInteger;
       Result := True;
     end
     else
@@ -430,7 +444,7 @@ begin
     else begin
       ShowMessage('Registro não encontrado');
       Result := False;
-    end;  
+    end;
   Except
     on E : Exception do
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
