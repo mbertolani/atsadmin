@@ -1690,6 +1690,12 @@ begin
       mudaVersao('1.0.0.109');
     end;// Fim Atualizacao Versao 1.0.0.109
 
+    if (versaoSistema = '1.0.0.109') then
+    begin
+      executaDDL('OS', 'CFOP', 'VARCHAR(30)');
+      mudaVersao('1.0.0.110');
+    end;// Fim Atualizacao Versao 1.0.0.110
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
