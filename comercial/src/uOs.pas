@@ -164,6 +164,7 @@ type
     F9Sair1: TMenuItem;
     F3Cancelar1: TMenuItem;
     sqlUsuario: TSQLQuery;
+    edCFOP: TEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -190,9 +191,11 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure dsPecasStateChange(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
+    procedure edCodClienteKeyPress(Sender: TObject; var Key: Char);
   private
     TD: TTransactionDesc;
     estoque, qtde : Double;
+    ufOs : String;
     Procedure limpaCampos;
     Procedure controlaEventos;
     Procedure abrirOs(codOs :Integer);
@@ -295,6 +298,10 @@ begin
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
 
+    if ((edCFOP.Text = '') and (UFos = dm.ufPadrao)) then
+      edCfop.Text := dm.cfopSaida
+    else
+      edCfop.Text := dm.cfopSaidaF;
 
     FOsCls.codCliente := StrToInt(edCodCliente.Text);
     if (modoOs = 'Insert') then
@@ -308,6 +315,7 @@ begin
       exit;
     end;
     FOsCls.codVeiculo := edVeiculo.Text;
+    FOsCls.cfop       := edcfop.text;   
     FOsCls.codUsuario := usulog;
     FOsCls.dataOs     := edData.Date;
     FOsCls.dataInicio := edData.Date;
@@ -474,6 +482,12 @@ begin
       //prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
       edCodCliente.Text := IntToStr(dmnf.scds_cli_procCODCLIENTE.AsInteger);
       edNomeCliente.Text := dmnf.scds_cli_procNOMECLIENTE.AsString;
+      edCFOP.Text        := dm.scds_cli_procCFOP.AsString;
+      ufOs               := dm.scds_cli_procUF.AsString;
+      if ((edCFOP.Text = '') and (dm.scds_cli_procUF.AsString = dm.ufPadrao)) then
+        edCfop.Text := dm.cfopSaida
+      else
+        edCfop.Text := dm.cfopSaidaF;
     finally
      dmnf.scds_cli_proc.Close;
      fProcurar_nf.Free;
@@ -671,6 +685,12 @@ begin
     exit;
   end;
   edNomeCliente.Text := dm.scds_cliente_procNOMECLIENTE.AsString;
+  edCFOP.Text        := dm.scds_cliente_procCFOP.AsString;
+  ufOs               := dm.scds_cliente_procUF.AsString;
+  if ((edCFOP.Text = '') and (dm.scds_cliente_procUF.AsString = dm.ufPadrao)) then
+    edCfop.Text := dm.cfopSaida
+  else
+    edCfop.Text := dm.cfopSaidaF;
 end;
 
 procedure TfOs.FormKeyPress(Sender: TObject; var Key: Char);
@@ -906,6 +926,26 @@ begin
     GroupBox4.Color := clBtnFace;
     GroupBox5.Color := clBtnFace;
   end;
+end;
+
+procedure TfOs.edCodClienteKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #13) then
+  begin
+    if (modoOs = 'Insert') then
+    begin
+      if (edCodCliente.Text = '') then
+      begin
+        btnClienteProcura.Click;
+      end;  
+    end;
+  end;
+  if (key = #13) then
+  begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+  end;
+
 end;
 
 end.

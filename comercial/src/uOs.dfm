@@ -1,6 +1,6 @@
 object fOs: TfOs
   Left = 201
-  Top = 128
+  Top = 129
   Width = 822
   Height = 570
   Caption = 'Ordem Servi'#231'o'
@@ -1304,7 +1304,7 @@ object fOs: TfOs
         TabOrder = 0
         OnChange = edDataChange
         OnExit = edCodClienteExit
-        OnKeyPress = FormKeyPress
+        OnKeyPress = edCodClienteKeyPress
       end
       object edNomeCliente: TEdit
         Left = 147
@@ -1394,6 +1394,21 @@ object fOs: TfOs
           BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
           BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
           BFBFBFBF0000}
+      end
+      object edCFOP: TEdit
+        Left = 662
+        Top = 14
+        Width = 76
+        Height = 24
+        TabStop = False
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
       end
     end
     object GroupBox5: TGroupBox

@@ -1,6 +1,6 @@
 object fOsFiltro: TfOsFiltro
   Left = 260
-  Top = 86
+  Top = 87
   Width = 766
   Height = 587
   BorderIcons = [biSystemMenu, biMaximize]
@@ -1524,6 +1524,10 @@ object fOsFiltro: TfOsFiltro
       FieldName = 'VEICULO'
       Size = 200
     end
+    object cdsOsCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 30
+    end
   end
   object dsOs: TDataSource
     DataSet = cdsOs
@@ -1837,6 +1841,10 @@ object fOsFiltro: TfOsFiltro
     object sdsOsVEICULO: TStringField
       FieldName = 'VEICULO'
       Size = 200
+    end
+    object sdsOsCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 30
     end
   end
   object sdsPeca: TSQLDataSet

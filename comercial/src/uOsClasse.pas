@@ -32,6 +32,8 @@ Type
     procedure setObs(const Value: String);
     function getVeiculo: String;
     procedure setVeiculo(const Value: String);
+    function getCfop: String;
+    procedure setCfop(const Value: String);
   protected
     //Atributos
     _codOs      : Integer;
@@ -46,6 +48,7 @@ Type
     _osDet      : TOsDetalheClasse;
     _obs        : String;
     _veiculo    : String;
+    _cfop       : String;
 
   public
     property codOs : Integer read getCodOs write setCodOs;
@@ -60,7 +63,7 @@ Type
     property osDet: TOsDetalheClasse read getOsDet write setOsDet;
     property obs: String read getObs write setObs;
     property veiculo: String read getVeiculo write setVeiculo;
-
+    property cfop: String read getCfop write setCfop;
     function IncluirOs(codOsI: Integer): Integer;
     function alterarOs(codOsA: Integer): Boolean;
     function excluirOs(codMovE: Integer): Boolean;
@@ -93,6 +96,7 @@ begin
     //sqlAltera := sqlAltera + ' STATUS   = ' + QuotedStr(Self.status) + ', ';
     sqlAltera := sqlAltera + ' OBS        = ' + QuotedStr(Self.obs) + ', ';
     sqlAltera := sqlAltera + ' VEICULO    = ' + QuotedStr(Self.veiculo) + ', ';
+    sqlAltera := sqlAltera + ' CFOP       = ' + QuotedStr(Self.cfop) + ', ';
     sqlAltera := sqlAltera + ' KM         = ' + IntToStr(Self.km);
     sqlAltera := sqlAltera + ' WHERE CODOS= ' + IntToStr(codOsA);
 
@@ -160,6 +164,11 @@ begin
     Result := False;
     raise Exception.Create( 'Error: code = ' + IntToStr( ErrorCode ) )
   end;
+end;
+
+function TOsClasse.getCfop: String;
+begin
+  Result := _cfop;
 end;
 
 function TOsClasse.getCodCliente: Integer;
@@ -242,7 +251,7 @@ begin
       end;
     end;
     sqlInsere := 'INSERT INTO OS(CODOS, CODCLIENTE, CODVEICULO, CODUSUARIO, DATAOS,'+
-      'DATA_SISTEMA, DATA_INI, DATA_FIM, STATUS, KM, OBS, VEICULO) VALUES (';
+      'DATA_SISTEMA, DATA_INI, DATA_FIM, STATUS, KM, OBS, VEICULO, CFOP) VALUES (';
     sqlInsere := sqlInsere + IntToStr(Self.codOs) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.codCliente) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.codVeiculo) + ', ';
@@ -254,7 +263,8 @@ begin
     sqlInsere := sqlInsere + QuotedStr(Self.status) + ', ';
     sqlInsere := sqlInsere + IntToStr(Self.km) + ', ';
     sqlInsere := sqlInsere + QuotedStr(Self.Obs) + ', ';
-    sqlInsere := sqlInsere + QuotedStr(Self.Veiculo) + ')';
+    sqlInsere := sqlInsere + QuotedStr(Self.Veiculo) + ', ';
+    sqlInsere := sqlInsere + QuotedStr(Self.Cfop) + ')';
 
     executaSql(sqlInsere);
     Result := Self.codOs;
@@ -267,6 +277,11 @@ procedure TOsClasse.ListaOs(DataIni, DataFim: TDateTime;
   codCliente: Integer);
 begin
 
+end;
+
+procedure TOsClasse.setCfop(const Value: String);
+begin
+  _cfop := Value;
 end;
 
 procedure TOsClasse.setCodCliente(const Value: Integer);
