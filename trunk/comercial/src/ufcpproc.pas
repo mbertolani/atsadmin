@@ -9,7 +9,7 @@ uses
   Buttons, rpcompobase, rpvclreport, JvAppStorage, JvAppXMLStorage,
   JvComponentBase, JvFormPlacement, JvExStdCtrls, JvCombobox, JvExMask,
   JvToolEdit, JvBaseEdits, ImgList, JvExExtCtrls, JvRadioGroup,
-  JvExDBGrids, JvDBGrid, JvDBUltimGrid;
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid, DBXpress;
 
 type
   TfCpProc = class(TForm)
@@ -224,6 +224,7 @@ type
     SQLDataSet1HISTORICO: TStringField;
     scdsCr_procHISTORICO: TStringField;
     DbGrid1: TJvDBUltimGrid;
+    BitBtn5: TBitBtn;
     procedure BitBtn11Click(Sender: TObject);
     procedure BitBtn9Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
@@ -251,6 +252,7 @@ type
     procedure edValorKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     procedure ChkDBGridDrawColumnCell(DBGrid: TDBGrid;
       const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -271,7 +273,8 @@ var
 
 implementation
 
-uses UDm, ufcrtitulo, uProcurar, ufDlgLogin, UUtils, sCtrlResize;
+uses UDm, ufcrtitulo, uProcurar, ufDlgLogin, UUtils, sCtrlResize,
+  uAtsAdmin;
 
 {$R *.dfm}
 
@@ -1161,6 +1164,48 @@ end;
 procedure TfCpProc.FormShow(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fCpProc));
+end;
+
+procedure TfCpProc.BitBtn5Click(Sender: TObject);
+Var  TD: TTransactionDesc;
+    str_sql, idusuario: String;
+begin
+  Try
+    scdsCr_proc.DisableControls;
+    scdsCr_proc.First;
+    While not scdsCr_proc.Eof do
+    begin
+      if (scdsCr_procDUP_REC_NF.AsString = 'S') then
+      begin
+        idusuario :=  IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+        str_sql := 'UPDATE PAGAMENTO SET DP = 0 , USERID = ' + QuotedStr(idusuario);
+        str_sql := str_sql + ' WHERE CODPAGAMENTO = ' + IntToStr(scdsCr_procCODPAGAMENTO.AsInteger);
+        dm.sqlsisAdimin.StartTransaction(TD);
+        try
+          dm.sqlsisAdimin.ExecuteDirect(str_sql);
+          dm.sqlsisAdimin.Commit(TD);
+        except
+          dm.sqlsisAdimin.Rollback(TD);
+          MessageDlg('Erro para marcar os titulos.', mtError, [mbOK], 0);
+          exit;
+        end;
+      end;
+      scdsCr_proc.Next;
+    end;
+
+    repContasReceber.FileName := str_relatorio + 'recibo_pgto.rep';
+    repContasReceber.Title    := repContasReceber.FileName;
+    repContasReceber.Report.Params.ParamByName('USUARIO').Value := idusuario;
+    repContasReceber.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    repContasReceber.Execute;
+  finally
+    scdsCr_proc.EnableControls;
+    str_sql := 'UPDATE PAGAMENTO SET DP = NULL , USERID = NULL ';
+    str_sql := str_sql + ' WHERE DP = 0 AND USERID = ' + QuotedStr(idusuario);
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    dm.sqlsisAdimin.Commit(TD);
+  end;
 end;
 
 end.

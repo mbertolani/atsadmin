@@ -595,13 +595,13 @@ var TD: TTransactionDesc;
     str1 : string ;
 begin
   inherited;
-
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   idusuario :=  IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
   dm.sqlsisAdimin.StartTransaction(TD);
   str1 := 'UPDATE PAGAMENTO SET DP = null ,  USERID = null WHERE DP = 0 and ' + ' USERID = ' + QuotedStr(idusuario);
   dm.sqlsisAdimin.ExecuteDirect(str1);
   dm.sqlsisAdimin.Commit(TD);
-
 end;
 
 procedure TfcpTitulo.btnGravarClick(Sender: TObject);
@@ -628,6 +628,8 @@ Var  TD: TTransactionDesc;
   Forma, i, num: Integer;
   str_sql: String;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   Try
     for i:=1 to length(nrec) do
     begin
@@ -662,6 +664,8 @@ Var  TD: TTransactionDesc;
   Forma, i, num: Integer;
   str_sql: String;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   Try
     for i:=1 to length(nrec) do
     begin
