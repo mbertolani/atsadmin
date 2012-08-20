@@ -556,7 +556,12 @@ begin
     if (VlrEnt > 0) then
     begin
       if ((Self.Valor - vlrSt - VlrEnt) > 0) then
-        VlrParc := (Self.Valor - vlrSt - VlrEnt) / (Self.NParcela -1);
+      begin
+        if (Self.NParcela > 1) then
+          VlrParc := (Self.Valor - vlrSt - VlrEnt) / (Self.NParcela -1)
+        else
+          VlrParc := (Self.Valor - vlrSt - VlrEnt) / 1;
+      end;
     end
     else
       VlrParc := (Self.Valor - vlrSt) / Self.NParcela;
