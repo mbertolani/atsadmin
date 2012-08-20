@@ -1,6 +1,6 @@
 object F_TerminalFinaliza: TF_TerminalFinaliza
   Left = 202
-  Top = 209
+  Top = 181
   Width = 751
   Height = 520
   BorderIcons = [biSystemMenu]

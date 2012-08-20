@@ -328,6 +328,7 @@ type
     procedure baixa_titulos;
     { Private declarations }
   public
+    porc_com : Double;
     { Public declarations }
   end;
 
@@ -602,7 +603,7 @@ begin
 end;
 
 procedure TF_TerminalFinaliza.btnIncluirClick(Sender: TObject);
-var desconto, porc_com, varlor_porc  : Double;
+var desconto,  varlor_porc  : Double;
 begin
   DM_MOV.c_venda.Append;
 
@@ -680,7 +681,9 @@ begin
     if(not dm.cds_parametro.IsEmpty) then
       porc_com := StrToFloat(dm.cds_parametroDADOS.AsString);
     }
-    porc_com := F_Terminal.JvComissao.Value;
+
+    //porc_com := F_Terminal.JvComissao.Value;
+
     dm.cds_parametro.Close;
     if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
@@ -1225,20 +1228,21 @@ begin
     DM_MOV.c_venda.Cancel;
     DM_MOV.c_venda.Close;
     DM_MOV.c_venda.Params[0].Clear;
-    dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(strSqlMov);
-    dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
-       dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
-       dm.sqlsisAdimin.Commit(TD);
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSqlMov);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
+      dm.sqlsisAdimin.Commit(TD);
     except
-       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       MessageDlg('Erro no sistema, a venda não foi gravada.', mtError,
-           [mbOk], 0);
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
     end;
     DecimalSeparator := ',';
     ThousandSeparator := '.';
-
 end;
 
 procedure TF_TerminalFinaliza.FormClose(Sender: TObject;
@@ -1489,6 +1493,12 @@ begin
        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));
        //dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
        //DM_MOV.c_venda.Delete;
+       if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
+       begin
+         alterastat := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
+         dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
+         dm.sqlsisAdimin.ExecuteDirect(alterastat);
+       end;
        dm.sqlsisAdimin.Commit(TD);
        ShowMessage('Venda Excluida com Sucesso');
        exit;
@@ -1506,7 +1516,7 @@ begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
       begin
-        dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
+        //dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
         excluinf;
          if excluiuNF then
          begin
@@ -1534,9 +1544,9 @@ begin
            excluinf;
             Try
               dm.sqlsisAdimin.StartTransaction(TD);
+              dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
               DM_MOV.d_venda.DataSet.Delete;
               (DM_MOV.d_venda.DataSet as TClientDataSet).ApplyUpdates(0);
-              dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
              if (usaMateriaPrima = 'S') then   // Usa Materia Prima ent?tem que excluir tbem;
              begin
                if (dm.sqlBusca.Active) then

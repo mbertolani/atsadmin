@@ -2061,6 +2061,7 @@ begin
 
  F_TerminalFinaliza:=TF_TerminalFinaliza.Create(Application);
  try
+   F_TerminalFinaliza.porc_com := JvComissao.Value;
    F_TerminalFinaliza.ShowModal;
  finally
    F_TerminalFinaliza.Free;
