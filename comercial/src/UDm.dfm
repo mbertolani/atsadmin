@@ -2,7 +2,7 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 4
-  Top = 111
+  Top = 112
   Height = 561
   Width = 1279
   object sqlsisAdimin: TSQLConnection
@@ -16,7 +16,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_dnz'
+      'Database=c:\Home\sisadmin\BD\sge_estrela.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -26,7 +26,7 @@ object DM: TDM
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
       'WaitOnLocks=True'
-      'str_relatorio=C:\home\sisAdmin\relatorio\')
+      'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 104
     Top = 8
@@ -675,12 +675,12 @@ object DM: TDM
       'i.NOMECLIENTE, '#13#10'          cli.RAZAOSOCIAL, '#13#10'          cli.CODB' +
       'ANCO, '#13#10'          cli.PRAZORECEBIMENTO, '#13#10'          cli.OBS,  '#13#10 +
       '          cli.SEGMENTO, '#13#10'          cli.STATUS, '#13#10'          usu.' +
-      'NOMEUSUARIO, ende.UF, cli.BLOQUEIO  , cli.desconto'#13#10'from CLIENTE' +
-      'S cli '#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSUARIO=cli.CODU' +
-      'SUARIO '#13#10'left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE' +
-      ' = cli.CODCLIENTE '#13#10'where cli.NOMECLIENTE like :pCLIENTE '#13#10'or cl' +
-      'i.RAZAOSOCIAL like :pRAZAO '#13#10'or cli.CODCLIENTE = :pCODCLIENTE '#13#10 +
-      'order by cli.NOMECLIENTE'
+      'NOMEUSUARIO, ende.UF, cli.BLOQUEIO  , cli.desconto, cli.CFOP'#13#10'fr' +
+      'om CLIENTES cli '#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSUARI' +
+      'O=cli.CODUSUARIO '#13#10'left outer join ENDERECOCLIENTE ende on ende.' +
+      'CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.NOMECLIENTE like :pCLIEN' +
+      'TE '#13#10'or cli.RAZAOSOCIAL like :pRAZAO '#13#10'or cli.CODCLIENTE = :pCOD' +
+      'CLIENTE '#13#10'order by cli.NOMECLIENTE'
     MaxBlobSize = -1
     Params = <
       item
@@ -753,6 +753,11 @@ object DM: TDM
     end
     object scds_cliente_procDESCONTO: TFloatField
       FieldName = 'DESCONTO'
+    end
+    object scds_cliente_procCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
     end
   end
   object scds_produto_proc: TSQLDataSet
@@ -10138,8 +10143,8 @@ object DM: TDM
   object scds_cli_proc: TSQLClientDataSet
     CommandText = 
       'SELECT c.CODCLIENTE, c.NOMECLIENTE, c.RAZAOSOCIAL, ec.DDD, ec.TE' +
-      'LEFONE'#13#10'FROM CLIENTES c, ENDERECOCLIENTE ec'#13#10'where c.CODCLIENTE ' +
-      '= ec.CODCLIENTE and ec.TIPOEND = 0'
+      'LEFONE, c.CFOP, ec.UF'#13#10'FROM CLIENTES c, ENDERECOCLIENTE ec'#13#10'wher' +
+      'e c.CODCLIENTE = ec.CODCLIENTE and ec.TIPOEND = 0'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -10172,6 +10177,16 @@ object DM: TDM
       DisplayLabel = 'Telefone'
       FieldName = 'TELEFONE'
       Size = 9
+    end
+    object scds_cli_procCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object scds_cli_procUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
     end
   end
   object sdsLogSis: TSQLDataSet
