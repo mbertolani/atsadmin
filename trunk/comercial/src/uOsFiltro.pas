@@ -158,6 +158,8 @@ type
     btnStatusServico: TBitBtn;
     btnStatusOs: TBitBtn;
     sqlMov: TSQLQuery;
+    sdsOsCFOP: TStringField;
+    cdsOsCFOP: TStringField;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -620,6 +622,7 @@ begin
         While not cdsServico.Eof do
         begin
           fMov.MovDetalhe.CodMov     := codMov;
+          fMov.MovDetalhe.Cfop       := cdsOsCFOP.asString;
           fMov.MovDetalhe.Codigo     := cdsServicoID_OS_DET.AsInteger;   // Indentificar o Servico na OS_DET
           fMov.MovDetalhe.CodProduto := cdsServico.FieldByName('CODPRODUTO').AsInteger;
           fMov.MovDetalhe.Qtde       := cdsServico.FieldByName('QTDE').AsFloat;
@@ -649,6 +652,7 @@ begin
           While not cdsPeca.Eof do
           begin
             fMov.MovDetalhe.CodMov     := codMov;
+            fMov.MovDetalhe.Cfop       := cdsOsCFOP.asString;
             fMov.MovDetalhe.Codigo     := cdsPecaID_OS_DET.AsInteger;  // Indentificar a Peça na OS_DET
             fMov.MovDetalhe.CodProduto := cdsPeca.FieldByName('CODPRODUTO').AsInteger;
             fMov.MovDetalhe.Qtde       := cdsPeca.FieldByName('QTDE').AsFloat;
