@@ -266,7 +266,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CODPRO'
     DataSource = ds1
-    TabOrder = 1
+    TabOrder = 2
     OnExit = dbeCodproExit
   end
   object DBEdit5: TDBEdit
@@ -285,7 +285,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'DESCPRODUTO'
     DataSource = ds1
-    TabOrder = 2
+    TabOrder = 1
   end
   object DBEdit7: TDBEdit
     Left = 253
