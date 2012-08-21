@@ -1,9 +1,9 @@
 object fDetalheNF: TfDetalheNF
-  Left = 342
-  Top = 247
+  Left = 343
+  Top = 249
   BorderStyle = bsNone
   Caption = 'Detalhe Produtos'
-  ClientHeight = 232
+  ClientHeight = 257
   ClientWidth = 659
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -198,6 +198,41 @@ object fDetalheNF: TfDetalheNF
     Width = 35
     Height = 13
     Caption = 'N'#186' Item'
+  end
+  object Label27: TLabel
+    Left = 176
+    Top = 165
+    Width = 37
+    Height = 13
+    Caption = 'CST IPI'
+  end
+  object Label28: TLabel
+    Left = 256
+    Top = 165
+    Width = 41
+    Height = 13
+    Caption = 'CST PIS'
+  end
+  object Label29: TLabel
+    Left = 335
+    Top = 165
+    Width = 17
+    Height = 13
+    Caption = 'PIS'
+  end
+  object Label30: TLabel
+    Left = 415
+    Top = 165
+    Width = 63
+    Height = 13
+    Caption = 'CST COFINS'
+  end
+  object Label31: TLabel
+    Left = 495
+    Top = 165
+    Width = 39
+    Height = 13
+    Caption = 'COFINS'
   end
   object DBEdit1: TDBEdit
     Left = 173
@@ -403,7 +438,7 @@ object fDetalheNF: TfDetalheNF
   end
   object Calcman: TCheckBox
     Left = 469
-    Top = 183
+    Top = 223
     Width = 97
     Height = 17
     Caption = 'Calculo Manual'
@@ -521,7 +556,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBNavigator1: TDBNavigator
     Left = 206
-    Top = 171
+    Top = 211
     Width = 216
     Height = 38
     DataSource = DMNF.DtSrc1
@@ -531,7 +566,7 @@ object fDetalheNF: TfDetalheNF
   end
   object btnGravar: TBitBtn
     Left = 422
-    Top = 171
+    Top = 211
     Width = 38
     Height = 38
     TabOrder = 25
@@ -769,6 +804,56 @@ object fDetalheNF: TfDetalheNF
     DataField = 'PEDIDO'
     DataSource = DMNF.DtSrc1
     TabOrder = 30
+    OnChange = abproc
+  end
+  object DBEdit26: TDBEdit
+    Left = 172
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'CSTIPI'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 31
+    OnChange = abproc
+  end
+  object DBEdit27: TDBEdit
+    Left = 252
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'CSTPIS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 32
+    OnChange = abproc
+  end
+  object DBEdit28: TDBEdit
+    Left = 411
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'CSTCOFINS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 33
+    OnChange = abproc
+  end
+  object DBEdit29: TDBEdit
+    Left = 331
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'VALOR_PIS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 34
+    OnChange = abproc
+  end
+  object DBEdit30: TDBEdit
+    Left = 491
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'VALOR_COFINS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 35
     OnChange = abproc
   end
 end
