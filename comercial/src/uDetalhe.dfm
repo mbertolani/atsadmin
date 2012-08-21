@@ -1,8 +1,8 @@
 object fDetalhe: TfDetalhe
   Left = 237
   Top = 169
-  Width = 668
-  Height = 274
+  Width = 675
+  Height = 291
   Caption = 'Produto / Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -212,11 +212,25 @@ object fDetalhe: TfDetalhe
     Caption = 'CST PIS'
   end
   object Label29: TLabel
-    Left = 337
+    Left = 417
     Top = 164
     Width = 63
     Height = 13
     Caption = 'CST COFINS'
+  end
+  object Label30: TLabel
+    Left = 335
+    Top = 165
+    Width = 17
+    Height = 13
+    Caption = 'PIS'
+  end
+  object Label31: TLabel
+    Left = 495
+    Top = 165
+    Width = 39
+    Height = 13
+    Caption = 'COFINS'
   end
   object DBEdit1: TDBEdit
     Left = 173
@@ -771,13 +785,31 @@ object fDetalhe: TfDetalhe
     TabOrder = 28
   end
   object DBEdit28: TDBEdit
-    Left = 333
+    Left = 413
     Top = 180
     Width = 73
     Height = 21
     DataField = 'CSTCOFINS'
     DataSource = ds1
     TabOrder = 29
+  end
+  object DBEdit29: TDBEdit
+    Left = 331
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'VALOR_PIS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 33
+  end
+  object DBEdit30: TDBEdit
+    Left = 491
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'VALOR_COFINS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 34
   end
   object ds1: TDataSource
     DataSet = fVendas.cds_Mov_det

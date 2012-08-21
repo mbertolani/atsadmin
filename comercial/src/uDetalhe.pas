@@ -71,6 +71,10 @@ type
     Label29: TLabel;
     DBEdit28: TDBEdit;
     ds1: TDataSource;
+    DBEdit29: TDBEdit;
+    Label30: TLabel;
+    DBEdit30: TDBEdit;
+    Label31: TLabel;
     procedure btnGravarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);
