@@ -271,7 +271,7 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'CODPRO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 1
+    TabOrder = 2
     OnChange = abproc
     OnExit = dbeCodproExit
   end
@@ -292,7 +292,7 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'DESCPRODUTO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 2
+    TabOrder = 1
     OnChange = abproc
   end
   object DBEdit7: TDBEdit
