@@ -2688,6 +2688,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Concilia'#231#227'o Bancaria'
         OnClick = ConciliaoBancaria1Click
       end
+      object Correio1: TMenuItem
+        Caption = 'Correio'
+        OnClick = Correio1Click
+      end
     end
     object NotaFiscal1: TMenuItem
       Caption = 'Nota Fiscal      '
