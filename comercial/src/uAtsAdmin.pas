@@ -2249,7 +2249,7 @@ begin
    try
       fCorreio.ShowModal;
    finally
-      fCorreio.Free;   
+      fCorreio.Free;      
    end;
 end;
 
