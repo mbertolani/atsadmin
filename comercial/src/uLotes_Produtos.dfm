@@ -7,7 +7,7 @@ object fLotes_Produtos: TfLotes_Produtos
   BorderStyle = bsNone
   Caption = 'Serie Produto'
   ClientHeight = 89
-  ClientWidth = 346
+  ClientWidth = 496
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object fLotes_Produtos: TfLotes_Produtos
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 346
+    Width = 496
     Height = 89
     Align = alClient
     TabOrder = 0
@@ -43,7 +43,7 @@ object fLotes_Produtos: TfLotes_Produtos
     object DBText1: TDBText
       Left = 9
       Top = 23
-      Width = 181
+      Width = 140
       Height = 17
       DataField = 'DESCPRODUTO'
       DataSource = fCompra.DtSrc1
@@ -55,8 +55,36 @@ object fLotes_Produtos: TfLotes_Produtos
       ParentFont = False
       Transparent = True
     end
+    object Label2: TLabel
+      Left = 162
+      Top = 24
+      Width = 79
+      Height = 13
+      Caption = 'Data Fabrica'#231#227'o'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label3: TLabel
+      Left = 257
+      Top = 24
+      Width = 82
+      Height = 13
+      Caption = 'Data Vencimento'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
     object btnSair: TBitBtn
-      Left = 207
+      Left = 351
       Top = 11
       Width = 59
       Height = 53
@@ -199,7 +227,7 @@ object fLotes_Produtos: TfLotes_Produtos
     object DBEdit1: TDBEdit
       Left = 8
       Top = 40
-      Width = 184
+      Width = 146
       Height = 21
       DataField = 'LOTE'
       DataSource = fCompra.DtSrc1
@@ -217,11 +245,11 @@ object fLotes_Produtos: TfLotes_Produtos
       TabOrder = 2
     end
     object BitBtn1: TBitBtn
-      Left = 273
+      Left = 417
       Top = 11
       Width = 59
       Height = 53
-      Caption = 'Cancelar'
+      Caption = 'Sair'
       TabOrder = 3
       OnClick = BitBtn1Click
       Glyph.Data = {
@@ -300,6 +328,26 @@ object fLotes_Produtos: TfLotes_Produtos
         FB003851FA004161F8006481F9008CA4F300BDD2F400C0C0C000C0C0C000C0C0
         C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000}
       Layout = blGlyphTop
+    end
+    object JvDBDatePickerEdit1: TJvDBDatePickerEdit
+      Left = 160
+      Top = 40
+      Width = 90
+      Height = 21
+      AllowNoDate = True
+      DataField = 'DTAFAB'
+      DataSource = fCompra.DtSrc1
+      TabOrder = 4
+    end
+    object JvDBDatePickerEdit2: TJvDBDatePickerEdit
+      Left = 256
+      Top = 40
+      Width = 90
+      Height = 21
+      AllowNoDate = True
+      DataField = 'DTAVCTO'
+      DataSource = fCompra.DtSrc1
+      TabOrder = 5
     end
   end
 end
