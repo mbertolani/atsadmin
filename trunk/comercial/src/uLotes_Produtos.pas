@@ -4,7 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, MMJPanel, Mask, DBCtrls;
+  Dialogs, StdCtrls, Buttons, ExtCtrls, MMJPanel, Mask, DBCtrls, JvExMask,
+  JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
+  JvDBDatePickerEdit;
 
 type
   TfLotes_Produtos = class(TForm)
@@ -15,6 +17,10 @@ type
     DBText1: TDBText;
     LotSeq: TCheckBox;
     BitBtn1: TBitBtn;
+    Label2: TLabel;
+    Label3: TLabel;
+    JvDBDatePickerEdit1: TJvDBDatePickerEdit;
+    JvDBDatePickerEdit2: TJvDBDatePickerEdit;
     procedure btnSairClick(Sender: TObject);
     procedure DBEdit1KeyPress(Sender: TObject; var Key: Char);
     procedure FormShow(Sender: TObject);
@@ -76,8 +82,6 @@ begin
         codalmox := fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger;
         almox := fCompra.cds_Mov_detALMOXARIFADO.AsString;
         icms := fCompra.cds_Mov_detICMS.AsFloat;
-        fCompra.cds_Mov_detDTAFAB.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        fCompra.cds_Mov_detDTAVCTO.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
         fCompra.cds_Mov_detQUANTIDADE.AsFloat := 1;
         if(LotSeq.Checked) then
           lote := StrToFloat(DBEdit1.Text);
@@ -100,8 +104,6 @@ begin
             fCompra.cds_Mov_detICMS.AsFloat := icms;
             lote := lote + 1;
             fCompra.cds_Mov_detLOTE.AsString := FloatToStr(lote);
-            fCompra.cds_Mov_detDTAFAB.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
-            fCompra.cds_Mov_detDTAVCTO.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
           end;
           close;
         end
@@ -119,8 +121,6 @@ begin
             fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := codalmox;
             fCompra.cds_Mov_detALMOXARIFADO.AsString := almox;
             fCompra.cds_Mov_detICMS.AsFloat := icms;
-            fCompra.cds_Mov_detDTAFAB.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
-            fCompra.cds_Mov_detDTAVCTO.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;            
         end;
     end
     else
@@ -143,7 +143,9 @@ begin
   if(fCompra.cds_Mov_detQUANTIDADE.AsFloat >1) then
     LotSeq.Visible := True
   else
-    LotSeq.Visible := False;  
+    LotSeq.Visible := False;
+  fCompra.cds_Mov_detDTAFAB.AsDateTime := Now;
+  fCompra.cds_Mov_detDTAVCTO.AsDateTime := Now;  
 end;
 
 procedure TfLotes_Produtos.BitBtn1Click(Sender: TObject);
