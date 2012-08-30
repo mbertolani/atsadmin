@@ -159,6 +159,7 @@ begin
         fCom.Serie                := 'I';
         fCom.NotaFiscal           := codMovEntrada;
         fCom.CodFornecedor        := 1;
+        fCom.CodUsuario           := 1;
         fCom.CodComprador         := 1;
         fCom.CodCCusto            := cCusto;
         fCom.ValorPagar           := 0;
