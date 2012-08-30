@@ -38,18 +38,18 @@ uses uFiltroEstoque, UDm;
 procedure TfRelestoque.BitBtn1Click(Sender: TObject);
 begin
   if (RadioButton1.Checked = True) then
-    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueproduto.rep';
+    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueproduto.rep'
 
-  if (RadioButton2.Checked = True) then
-    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueproduto1.rep';
+  else if (RadioButton2.Checked = True) then
+    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueproduto1.rep'
 
-  if (RadioButton3.Checked = True) then
-    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueprodutoVenda.rep';
+  else if (RadioButton3.Checked = True) then
+    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'estoqueprodutoVenda.rep'
 
-  if (RadioButton4.Checked = True) then
-    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'lista_estoque.rep';
+  else if (RadioButton4.Checked = True) then
+    fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'lista_estoque.rep'
 
-  if (rb1.Checked = True) then
+  else if (rb1.Checked = True) then
     fFiltroEstoque.RepRelItem.FileName := str_relatorio + 'lista_estoque_total.rep';
 
   fFiltroEstoque.repRelItem.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
@@ -74,6 +74,14 @@ begin
     end
     else
        fFiltroEstoque.RepRelItem.Report.Params.ParamByName('MARCA').Value := 'TODAS AS MARCAS CADASTRADAS';
+
+    if (fFiltroEstoque.ComboBox1.Text <> 'TODOS') then
+    begin
+      dm.cds_ccusto.Locate('NOME', fFiltroEstoque.ComboBox1.Text, [loCaseInsensitive]);
+      fFiltroEstoque.RepRelItem.Report.Params.ParamByName('PCCUSTO').Value := dm.cds_ccustoCODIGO.asInteger;
+    end
+    else
+       fFiltroEstoque.RepRelItem.Report.Params.ParamByName('PCCUSTO').Value := 0;
   end
   ELSE
   BEGIN
