@@ -1163,6 +1163,7 @@ begin
       exit;
     end;
 
+    dm.codcli := dmnf.scds_cli_procCODCLIENTE.AsInteger;
     cds_MovimentoCODCLIENTE.AsInteger := dm.scds_cliente_procCODCLIENTE.AsInteger;
     cds_MovimentoNOMECLIENTE.AsString := dm.scds_cliente_procNOMECLIENTE.AsString;
     cds_MovimentoCODVENDEDOR.AsInteger := dm.scds_cliente_procCODUSUARIO.AsInteger;
@@ -1196,6 +1197,15 @@ begin
   end;
   if (dbeCliente.Text <> '') then
     fProcura_prod.codcli := cds_MovimentoCODCLIENTE.AsInteger;
+
+  //buscaCfop(dm.codcli);
+  cds_Mov_det.First;
+  while not cds_Mov_det.Eof do
+  begin
+    cds_Mov_det.Edit;
+    cds_Mov_detCFOP.AsString := edCfop.Text;
+    cds_Mov_det.Next;
+  end;
 end;
 
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
@@ -2107,8 +2117,19 @@ begin
       end;
     prazoCliente := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     //imex  := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
+//    if DtSrc1.State in [dsBrowse] then
+    buscaCfop(dm.codcli);
+    cds_Mov_det.First;
+    while not cds_Mov_det.Eof do
+    begin
+      cds_Mov_det.Edit;
+      cds_Mov_detCFOP.AsString := edCfop.Text;
+      cds_Mov_det.Next;
+    end;
     desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
-    cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
+    cds_Mov_det.Edit;
+    if (cds_Mov_detQTDE_ALT.AsFloat <= 0) then
+      cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
     cds_MovimentoCODVENDEDOR.AsInteger := dmnf.scds_cli_procCODUSUARIO.AsInteger;
     cds_MovimentoNOMEUSUARIO.AsString := dmnf.scds_cli_procNOMEUSUARIO.AsString;
 
@@ -2131,8 +2152,6 @@ begin
     cds_Movimento.Edit;
   cds_MovimentoCODCLIENTE.AsInteger := dm.codcli;//fListaClientes.cdsCODCLIENTE.AsInteger;
   cds_MovimentoNOMECLIENTE.AsString := dm.varNomeCliente;//fListaClientes.cdsNOMECLIENTE.AsString;
-
-  buscaCfop(dm.codcli);
 
   if (ComboBox1.Enabled = true) then
     ComboBox1.SetFocus
@@ -2372,6 +2391,8 @@ begin
   BitBtn1.Enabled:=False;
  BitBtn2.Enabled:=DtSrc.State in [dsEdit,dsBrowse];
  Btn.Enabled :=DtSrc.State in [dsEdit,dsBrowse];
+ if (DtSrc.State in [dsEdit,dsBrowse]) then
+  DtSrc1.Edit;
 end;
 
 procedure TfVendas.cds_MovimentoNewRecord(DataSet: TDataSet);
@@ -3689,8 +3710,8 @@ begin
       edCfop.Text := dm.cfopSaida
     else
       edCfop.Text := sqlBCfop.Fields[0].AsString;
-  end;
-  if (dm.ufPadrao <> sqlBCfop.Fields[1].AsString) then
+  end
+  else if (dm.ufPadrao <> sqlBCfop.Fields[1].AsString) then
   begin
     if (sqlBCfop.Fields[0].AsString = '') then
       edCfop.Text := dm.cfopSaidaF
