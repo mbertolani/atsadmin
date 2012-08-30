@@ -219,7 +219,7 @@ begin
 
     if (usaListaTerceiros = 'S') then
     begin
-      select l.PRECOLISTA FROM listapreco l where l.codfornecedor = :cli and l.codigo = :codProduto
+      select l.PRECOLISTA FROM listapreco l where l.codfornecedor = :cli and l.codProduto = :codProduto
       into :precocliente;
       if (precocliente is null) then
          precocliente = 0;
