@@ -329,12 +329,13 @@ object DMNF: TDMNF
       'as VALOR_ICMS'#13#10', movd.VLR_BASE, movd.VLR_BASEICMS, movd.VALOR_DE' +
       'SCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.VALO' +
       'R_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.STATUS, movd.II, mov' +
-      'd.BCII, movd.OBS'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUT' +
-      'OS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALM' +
-      'OXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10 +
-      'left outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISS' +
-      'AO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCO' +
-      'DMOV order by movd.coddetalhe'
+      'd.BCII, movd.OBS, movd.CSTIPI, movd.CSTPIS, movd.VALOR_PIS, movd' +
+      '.CSTCOFINS, movd.VALOR_COFINS'#13#10'from MOVIMENTODETALHE movd '#13#10'inne' +
+      'r join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left o' +
+      'uter join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODAL' +
+      'MOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_COMISSAO = mo' +
+      'vd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODM' +
+      'OVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -559,6 +560,29 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetPEDIDO: TStringField
       FieldName = 'PEDIDO'
+      ReadOnly = True
+    end
+    object sds_Mov_DetCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
+    end
+    object sds_Mov_DetCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      ReadOnly = True
+      Size = 2
+    end
+    object sds_Mov_DetVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+      ReadOnly = True
+    end
+    object sds_Mov_DetCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      ReadOnly = True
+      Size = 2
+    end
+    object sds_Mov_DetVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
       ReadOnly = True
     end
   end
@@ -822,6 +846,29 @@ object DMNF: TDMNF
     end
     object cds_Mov_detPEDIDO: TStringField
       FieldName = 'PEDIDO'
+      ReadOnly = True
+    end
+    object cds_Mov_detCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
+    end
+    object cds_Mov_detCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      ReadOnly = True
+      Size = 2
+    end
+    object cds_Mov_detVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+      ReadOnly = True
+    end
+    object cds_Mov_detCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      ReadOnly = True
+      Size = 2
+    end
+    object cds_Mov_detVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
       ReadOnly = True
     end
     object cds_Mov_detTotalPedido: TAggregateField
