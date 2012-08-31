@@ -1,6 +1,6 @@
 inherited fInventario: TfInventario
   Left = 203
-  Top = 65
+  Top = 59
   Width = 922
   Height = 663
   Caption = 'Inventario'
@@ -403,7 +403,7 @@ inherited fInventario: TfInventario
           FieldName = 'CODIVENTARIO'
           ReadOnly = True
           Title.Caption = 'Lista'
-          Width = 80
+          Width = 60
           Visible = True
         end
         item
@@ -412,7 +412,7 @@ inherited fInventario: TfInventario
           FieldName = 'DATAIVENTARIO'
           ReadOnly = True
           Title.Caption = 'Data'
-          Width = 80
+          Width = 60
           Visible = True
         end
         item
@@ -430,7 +430,7 @@ inherited fInventario: TfInventario
           FieldName = 'PRODUTO'
           ReadOnly = True
           Title.Caption = 'Descri'#231#227'o'
-          Width = 180
+          Width = 120
           Visible = True
         end
         item
@@ -439,14 +439,7 @@ inherited fInventario: TfInventario
           FieldName = 'ESTOQUE_ATUAL'
           ReadOnly = True
           Title.Caption = 'Estoque'
-          Width = 80
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'QTDE_INVENTARIO'
-          Title.Caption = 'Inventariado'
-          Width = 80
+          Width = 60
           Visible = True
         end
         item
@@ -455,13 +448,36 @@ inherited fInventario: TfInventario
           FieldName = 'UN'
           ReadOnly = True
           Title.Caption = 'Un'
-          Width = 30
+          Width = 20
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QTDE_INVENTARIO'
+          Title.Caption = 'Inventariado'
+          Width = 60
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'LOTE'
           Title.Caption = 'Lote'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAVENCIMENTO'
+          Title.Caption = 'Vencimento'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAFABRICACAO'
+          ReadOnly = False
+          Title.Caption = 'Fabrica'#231#227'o'
+          Width = 90
           Visible = True
         end>
     end
@@ -950,9 +966,9 @@ inherited fInventario: TfInventario
       'SELECT (r.ESTOQUE_ATUAL - r.QTDE_INVENTARIO) SALDO, r.CODIVENTAR' +
       'IO, r.DATAIVENTARIO, r.CODPRODUTO, r.CODPRO, r.SITUACAO, r.DATAE' +
       'XECUTADO, r.ESTOQUE_ATUAL, r.QTDE_INVENTARIO, r.UN, r.CODCCUSTO,' +
-      ' cast(p.produto as varchar(300)) PRODUTO  , r.LOTE  FROM INVENTA' +
-      'RIO r'#13#10'inner join produtos p on p.codproduto = r.codproduto '#13#10'or' +
-      'der by 10, 1, 5 '#13#10
+      ' cast(p.produto as varchar(300)) PRODUTO  , r.LOTE, r.DATAVENCIM' +
+      'ENTO, r.DATAFABRICACAO  FROM INVENTARIO r'#13#10'inner join produtos p' +
+      ' on p.codproduto = r.codproduto '#13#10'order by 10, 1, 5 '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1015,13 +1031,21 @@ inherited fInventario: TfInventario
     end
     object cdsInventLOTE: TStringField
       FieldName = 'LOTE'
-      ReadOnly = True
       Size = 60
     end
     object cdsInventQTDE_INVENTARIO: TFloatField
       FieldName = 'QTDE_INVENTARIO'
       DisplayFormat = ',##0.000'
       EditFormat = ',##0.000'
+    end
+    object cdsInventDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      EditMask = '!99/99/00;1;_'
+    end
+    object cdsInventDATAFABRICACAO: TDateField
+      FieldName = 'DATAFABRICACAO'
+      ReadOnly = True
+      EditMask = '!99/99/00;1;_'
     end
   end
   object dsInvent: TDataSource
