@@ -89,7 +89,7 @@ object fLotes_Produtos: TfLotes_Produtos
       Width = 59
       Height = 53
       Caption = 'Proximo'
-      TabOrder = 1
+      TabOrder = 3
       OnClick = btnSairClick
       Glyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100
@@ -242,7 +242,7 @@ object fLotes_Produtos: TfLotes_Produtos
       Caption = 'Sequencial?'
       Color = clSilver
       ParentColor = False
-      TabOrder = 2
+      TabOrder = 5
     end
     object BitBtn1: TBitBtn
       Left = 417
@@ -250,7 +250,7 @@ object fLotes_Produtos: TfLotes_Produtos
       Width = 59
       Height = 53
       Caption = 'Sair'
-      TabOrder = 3
+      TabOrder = 4
       OnClick = BitBtn1Click
       Glyph.Data = {
         36090000424D3609000000000000360000002800000018000000180000000100
@@ -337,7 +337,7 @@ object fLotes_Produtos: TfLotes_Produtos
       AllowNoDate = True
       DataField = 'DTAFAB'
       DataSource = fCompra.DtSrc1
-      TabOrder = 4
+      TabOrder = 1
     end
     object JvDBDatePickerEdit2: TJvDBDatePickerEdit
       Left = 256
@@ -347,7 +347,7 @@ object fLotes_Produtos: TfLotes_Produtos
       AllowNoDate = True
       DataField = 'DTAVCTO'
       DataSource = fCompra.DtSrc1
-      TabOrder = 5
+      TabOrder = 2
     end
   end
 end
