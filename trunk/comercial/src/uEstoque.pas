@@ -76,6 +76,10 @@ type
     function mesAnterior(MesAtual: TDateTime): TDateTime;
     function validoMovimento(): Boolean;
     function executaSql(strSql: String): Boolean;
+    function getDataFabricacao: TDateTime;
+    function getDataVencimento: TDateTime;
+    procedure setDataFabricacao(const Value: TDateTime);
+    procedure setDataVencimento(const Value: TDateTime);
   protected
     //Atributos
     _codProduto: Integer;
@@ -99,6 +103,9 @@ type
     _saldoAnterior: Double;
     _centroCusto: integer;
     _mesAnoPost: TDateTime;
+    _dataVencimento: TDateTime;
+    _dataFabricacao: TDateTime;
+
   public
     DataEntrada : TDateTime;
     property CodProduto: Integer read getCodProduto write setCodProduto;
@@ -122,6 +129,9 @@ type
     property PrecoCompraUltima: Double read getPrecoCompraUltima write setPrecoCompraUltima;
     property PrecoVenda: Double read getPrecoVenda write setPrecoVenda;
     property SaldoAnterior: Double read getSaldoAnterior write setSaldoAnterior;
+    property DataVencimento: TDateTime read getDataVencimento write setDataVencimento;
+    property DataFabricacao: TDateTime read getDataFabricacao write setDataFabricacao;
+
     //Metodos
     function inserirMes(): Boolean;
     function verEstoque(MesAno: TDateTime): Boolean;
@@ -197,6 +207,8 @@ begin
 
         Self.CodProduto  := cdseb.FieldByName('CODPRODUTO').AsInteger;
         Self.Lote        := cdseb.FieldByName('LOTE').AsString;
+        Self.DataVencimento := cdseb.FieldByName('DTAVCTO').AsDateTime;
+        Self.DataFabricacao := cdseb.FieldByName('DTAFAB').AsDateTime;
         Self.CentroCusto := cdseb.FieldByName('CENTROCUSTO').AsInteger;
         Self.MesAno      := DtaMovto;
 
@@ -416,6 +428,16 @@ end;
 function TEstoque.getCodProduto: Integer;
 begin
   Result := _codProduto;
+end;
+
+function TEstoque.getDataFabricacao: TDateTime;
+begin
+  Result := _dataFabricacao;
+end;
+
+function TEstoque.getDataVencimento: TDateTime;
+begin
+  Result := _dataVencimento;
 end;
 
 function TEstoque.getLote: String;
@@ -656,7 +678,8 @@ begin
     else begin  // Primeira Entrada no Mes
       sqlStr := 'INSERT INTO ESTOQUEMES (CODPRODUTO, LOTE, MESANO, QTDEENTRADA, ' +
         'QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA, QTDEPERDA, PRECOCUSTO, ' +
-        'PRECOCOMPRA, PRECOVENDA, CENTROCUSTO, SALDOMESANTERIOR, PRECOCOMPRAULTIMA, QTDEINVENTARIO) VALUES (';
+        'PRECOCOMPRA, PRECOVENDA, CENTROCUSTO, SALDOMESANTERIOR, PRECOCOMPRAULTIMA, QTDEINVENTARIO,' +
+        'DATAVENCIMENTO, DATAFABRICACAO) VALUES (';
       sqlStr := sqlStr + IntToStr(Self.CodProduto) + ', ';
       sqlStr := sqlStr + QuotedStr(Self.Lote) + ', ';
       sqlStr := sqlStr + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.MesAno)) + ', ';
@@ -673,7 +696,10 @@ begin
       sqlStr := sqlStr + IntToStr(Self.CentroCusto) + ', ';
       sqlStr := sqlStr + FloatToStr(Self.SaldoAnterior) + ', ';
       sqlStr := sqlStr + FloatToStr(Self.PrecoCompraUltima) + ', ';
-      sqlStr := sqlStr + FloatToStr(Self.QtdeInventario) + ')';
+      sqlStr := sqlStr + FloatToStr(Self.QtdeInventario) + ', ';
+      sqlStr := sqlStr + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVencimento)) + ', ';
+      sqlStr := sqlStr + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataFabricacao));
+      sqlStr := sqlStr + ')';
     end;
     Try
       DecimalSeparator := '.';
@@ -865,6 +891,16 @@ end;
 procedure TEstoque.setCodProduto(const Value: Integer);
 begin
   _codProduto := Value;
+end;
+
+procedure TEstoque.setDataFabricacao(const Value: TDateTime);
+begin
+  _dataFabricacao := Value;
+end;
+
+procedure TEstoque.setDataVencimento(const Value: TDateTime);
+begin
+  _dataVencimento := Value;
 end;
 
 procedure TEstoque.setLote(const Value: String);
