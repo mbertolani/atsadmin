@@ -1382,6 +1382,16 @@ type
     cds_Mov_detPEDIDO: TStringField;
     sds_nfINDPAG: TIntegerField;
     cds_nfINDPAG: TIntegerField;
+    sds_Mov_DetCSTIPI: TStringField;
+    sds_Mov_DetCSTPIS: TStringField;
+    sds_Mov_DetVALOR_PIS: TFloatField;
+    sds_Mov_DetCSTCOFINS: TStringField;
+    sds_Mov_DetVALOR_COFINS: TFloatField;
+    cds_Mov_detCSTIPI: TStringField;
+    cds_Mov_detCSTPIS: TStringField;
+    cds_Mov_detVALOR_PIS: TFloatField;
+    cds_Mov_detCSTCOFINS: TStringField;
+    cds_Mov_detVALOR_COFINS: TFloatField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
