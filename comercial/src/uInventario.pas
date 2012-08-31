@@ -106,6 +106,8 @@ type
     edDesc: TEdit;
     Label10: TLabel;
     edLocalizacao: TEdit;
+    cdsInventDATAVENCIMENTO: TDateField;
+    cdsInventDATAFABRICACAO: TDateField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -712,11 +714,11 @@ begin
     cbCCusto1.SetFocus;
     exit;
   end;
-  
+
   if (cdsInvent.State in [dsInsert, dsEdit]) then
   begin
     cdsInventCODCCUSTO.AsInteger := CCusto;
-    cdsInvent.ApplyUpdates(0);
+    cdsInvent.Post;
   end;
   cdsInvent.First;
   while not cdsInvent.Eof do
@@ -726,7 +728,10 @@ begin
       dm.sqlsisAdimin.StartTransaction(TD);
       Sql1 := 'UPDATE INVENTARIO SET QTDE_INVENTARIO = ' +
         FloatToStr(cdsInventQTDE_INVENTARIO.AsFloat) +
-        ', CODCCUSTO = ' + IntToStr(CCusto) + 
+        ', CODCCUSTO = ' + IntToStr(CCusto) +
+        ', LOTE      = ' + QuotedStr(cdsInventLOTE.AsString) +
+        ', DATAVENCIMENTO    = ' + QuotedStr(formatdatetime('mm/dd/yy', cdsInventDATAVENCIMENTO.AsDateTime)) +
+        ', DATAFABRICACAO    = ' + QuotedStr(formatdatetime('mm/dd/yy', cdsInventDATAFABRICACAO.AsDateTime)) +
         ' WHERE CODIVENTARIO = ' +
         QuotedStr(cdsInventCODIVENTARIO.AsString) +
         ' AND CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger);
@@ -823,6 +828,8 @@ begin
           FMov.MovDetalhe.CodProduto    := cdsInventCODPRODUTO.AsInteger;
           FMov.MovDetalhe.Qtde          := cdsInventESTOQUE_ATUAL.AsFloat - cdsInventQTDE_INVENTARIO.AsFloat;
           FMov.MovDetalhe.Lote          := cdsInventLOTE.AsString;
+          FMov.MovDetalhe.DtaVcto       := cdsInventDATAVENCIMENTO.AsDateTime;
+          FMov.MovDetalhe.DtaFab        := cdsInventDATAFABRICACAO.AsDateTime;
           FMov.MovDetalhe.Baixa         := '1';
           FMov.MovDetalhe.inserirMovDet;
         end;
@@ -850,6 +857,8 @@ begin
           FMov.MovDetalhe.CodProduto    := cdsInventCODPRODUTO.AsInteger;
           FMov.MovDetalhe.Qtde          := cdsInventQTDE_INVENTARIO.AsFloat - cdsInventESTOQUE_ATUAL.AsFloat;
           FMov.MovDetalhe.Lote          := cdsInventLOTE.AsString;
+          FMov.MovDetalhe.DtaVcto       := cdsInventDATAVENCIMENTO.AsDateTime;
+          FMov.MovDetalhe.DtaFab        := cdsInventDATAFABRICACAO.AsDateTime;
           FMov.MovDetalhe.Baixa         := '0';
           FMov.MovDetalhe.inserirMovDet;
         end;
