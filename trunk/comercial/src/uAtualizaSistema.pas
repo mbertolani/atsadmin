@@ -1482,8 +1482,8 @@ begin
         ' DESCRICAO_SERV varchar(500), ' +
         ' PRIMARY KEY (CODIGO))');
       end;
-      executaSql('CREATE DOMAIN TEXTO500 AS VARCHAR(500)');
-        executaSql('update RDB$RELATION_FIELDS set ' +
+      {executaSql('CREATE DOMAIN TEXTO500 AS VARCHAR(500)');}
+      executaSql('update RDB$RELATION_FIELDS set ' +
         ' RDB$FIELD_SOURCE = ' + QuotedStr('TEXTO500') +
         ' where (RDB$FIELD_NAME = ' + QuotedStr('OBS')  +
         ') and (RDB$RELATION_NAME = ' + QuotedStr('VENDA') + ')');
@@ -1604,7 +1604,7 @@ begin
       executaDDL('VENDA', 'COMISSAO', 'double precision');
       executaDDL('VENDA', 'CAIXINHA', 'double precision');
       executaDDL('VENDA', 'RATEIO', 'double precision');
-      executaScript('gera_nf_venda.sql');
+      //executaScript('gera_nf_venda.sql');
       executaScript('trg_calcula_icms_st_107.sql');
       executaScript('resultadoporproduto_107.sql');
       executaScript('filtroproduto_107.sql');
@@ -1695,6 +1695,16 @@ begin
       executaDDL('OS', 'CFOP', 'VARCHAR(30)');
       mudaVersao('1.0.0.110');
     end;// Fim Atualizacao Versao 1.0.0.110
+
+    if (versaoSistema = '1.0.0.110') then
+    begin
+      executaDDL('INVENTARIO', 'DATAFABRICACAO', 'DATE');
+      executaDDL('INVENTARIO', 'DATAVENCIMENTO', 'DATE');
+      executaDDL('ESTOQUEMES', 'DATAVENCIMENTO', 'DATE');
+      executaDDL('ESTOQUEMES', 'DATAFABRICACAO', 'DATE');
+      executaScript('sp_lote_estoquemes111.sql');
+      mudaVersao('1.0.0.111');
+    end;// Fim Atualizacao Versao 1.0.0.111
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
