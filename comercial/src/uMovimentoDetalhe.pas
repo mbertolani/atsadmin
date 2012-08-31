@@ -51,6 +51,10 @@ type
     procedure setPagou(const Value: String);
     function getCfop: String;
     procedure setCfop(const Value: String);
+    function getDtaFab: TDateTime;
+    function getDtaVcto: TDateTime;
+    procedure setDtaFab(const Value: TDateTime);
+    procedure setDtaVcto(const Value: TDateTime);
   protected
     //Atributos
     _codDet          : Integer;
@@ -74,6 +78,8 @@ type
     _Pagou           : String;
     _FormaRcebimento : String;
     _Cfop            : String;
+    _dtaFab          : TDateTime;
+    _dtaVcto         : TDateTime;
 
     function executaSql(strSql: String): Boolean;
   public
@@ -97,8 +103,9 @@ type
     property Pagou       : String  read getPagou write setPagou;
     property CodAutorizacao   : Integer read getCodAutorizacao write setCodAutorizacao;
     property FormaRecebimento : String read geFormaRecebimento write setFormaRecebimento;
-    property Cfop       : String  read getCfop write setCfop;
-
+    property Cfop        : String  read getCfop write setCfop;
+    property DtaVcto     : TDateTime read getDtaVcto write setDtaVcto;
+    property DtaFab      : TDateTime read getDtaFab write setDtaFab;
     //Metodos
     function inserirMovDet(): Boolean;
     function verMovDetalhe(codDetV: Integer): Boolean;
@@ -222,6 +229,16 @@ begin
   Result := _descricao;
 end;
 
+function TMovimentoDetalhe.getDtaFab: TDateTime;
+begin
+  Result := _dtaFab;
+end;
+
+function TMovimentoDetalhe.getDtaVcto: TDateTime;
+begin
+  Result := _dtaVcto;
+end;
+
 function TMovimentoDetalhe.getIcms: Double;
 begin
   Result := _icms;
@@ -263,7 +280,7 @@ begin
   DecimalSeparator := '.';
   str := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODMOVIMENTO, ' +
     'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO, CODIGO , LOTE, ' +
-    ' ACRESCIMO, CORTESIA, ATENDENTE, COLABORADOR, SUITE, CODAUTORIZACAO, CFOP) VALUES (';
+    ' ACRESCIMO, CORTESIA, ATENDENTE, COLABORADOR, SUITE, CODAUTORIZACAO, CFOP, DTAVCTO, DTAFAB) VALUES (';
   str := str + 'GEN_ID(GENMOVDET,1), ' + IntToStr(self.CodMov) + ', ' + IntToStr(Self.CodProduto);
   str := str + ', ' + FloatToStr(Self.Qtde) + ', ' + FloatToStr(Self.Preco);
   str := str + ', ' + FloatToStr(Self.Icms) + ', ' + FloatToStr(Self.Desconto);
@@ -278,6 +295,8 @@ begin
   str := str + ', ' + QuotedStr(Self.Suite);
   str := str + ', ' + IntToStr(Self.CodAutorizacao);
   str := str + ', ' + QuotedStr(Self.CFOP);
+  str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DtaVcto));
+  str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DtaFab));
   str := str + ')';
   executaSql(str);
 end;
@@ -345,6 +364,16 @@ end;
 procedure TMovimentoDetalhe.setDescricao(const Value: String);
 begin
   _descricao := Trim(Value);
+end;
+
+procedure TMovimentoDetalhe.setDtaFab(const Value: TDateTime);
+begin
+  _dtaFab := Value;
+end;
+
+procedure TMovimentoDetalhe.setDtaVcto(const Value: TDateTime);
+begin
+  _dtaVcto := Value;
 end;
 
 procedure TMovimentoDetalhe.setFormaRecebimento(const Value: String);
