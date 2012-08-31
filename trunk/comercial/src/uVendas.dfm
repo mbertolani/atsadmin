@@ -2330,7 +2330,7 @@ inherited fVendas: TfVendas
         Width = 104
         Height = 24
         ItemHeight = 16
-        TabOrder = 0
+        TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
         OnClick = cbPrazoClick
@@ -2349,7 +2349,7 @@ inherited fVendas: TfVendas
         BorderStyle = bsNone
         DefaultToday = True
         BevelKind = bkFlat
-        TabOrder = 1
+        TabOrder = 0
       end
       object DBEdit14: TDBEdit
         Left = 247
@@ -2399,6 +2399,7 @@ inherited fVendas: TfVendas
           '0 - Emitente'
           '1 - Dest/Rem'
           '2 - Terceiros'
+          '3 - A Combinar'
           '9 - Sem Frete')
       end
       object Edit1: TEdit
@@ -2408,7 +2409,6 @@ inherited fVendas: TfVendas
         Height = 24
         ReadOnly = True
         TabOrder = 7
-        Text = 'Edit1'
       end
     end
   end
