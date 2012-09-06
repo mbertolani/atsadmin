@@ -305,22 +305,16 @@ begin
 
        //QUANDO LANÇAR DATA DESLIGAMENTO ALTERAR STATUS PARA 0 NA TABELA USUARIO
 
-   if(DBEdit24.Text <> '  /  /    ') then
-     begin
-       TD.TransactionID := 1;
-       TD.IsolationLevel := xilREADCOMMITTED;
-          dm.sqlsisAdimin.StartTransaction(TD);
-          str_sql := 'UPDATE USUARIO SET STATUS = 0 ' +
-         ' WHERE NOMEUSUARIO  = ' + QuotedStr(cds_funNOME_FUNCIONARIO.AsString) ;
-
-      //   try
-         dm.sqlsisAdimin.ExecuteDirect(str_sql);
-         dm.sqlsisAdimin.Commit(TD);
-     //    except
-     //    dm.sqlsisAdimin.Rollback(TD);
-     //    MessageDlg('Erro ao Alterar data Desligamento.', mtError, [mbOK], 0);
-     //    exit;
-     end;
+   if(not cds_funDATA_DESLIGAMENTO.IsNull) then
+   begin
+     TD.TransactionID := 1;
+     TD.IsolationLevel := xilREADCOMMITTED;
+     dm.sqlsisAdimin.StartTransaction(TD);
+     str_sql := 'UPDATE USUARIO SET STATUS = 0 ' +
+     ' WHERE NOMEUSUARIO  = ' + QuotedStr(cds_funNOME_FUNCIONARIO.AsString) ;
+     dm.sqlsisAdimin.ExecuteDirect(str_sql);
+     dm.sqlsisAdimin.Commit(TD);
+   end;
 
   cds_funRECEBE_COMISSAO.AsString := DBRadioGroup1.Value;
   inherited;
