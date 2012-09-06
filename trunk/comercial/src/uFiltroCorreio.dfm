@@ -1,8 +1,8 @@
 object FiltroCorreio: TFiltroCorreio
-  Left = 246
-  Top = 127
+  Left = 241
+  Top = 100
   Width = 919
-  Height = 514
+  Height = 567
   BorderIcons = [biSystemMenu]
   Caption = 'FiltroCorreio'
   Color = 16776176
@@ -13,11 +13,12 @@ object FiltroCorreio: TFiltroCorreio
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = PopupMenu1
+  Position = poDesktopCenter
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   DesignSize = (
     903
-    476)
+    529)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -64,14 +65,14 @@ object FiltroCorreio: TFiltroCorreio
   end
   object Label7: TLabel
     Left = 400
-    Top = 456
+    Top = 496
     Width = 24
     Height = 13
     Caption = '........'
   end
   object Label8: TLabel
     Left = 344
-    Top = 456
+    Top = 496
     Width = 50
     Height = 13
     Caption = 'Registros :'
@@ -618,7 +619,7 @@ object FiltroCorreio: TFiltroCorreio
     Left = 8
     Top = 144
     Width = 881
-    Height = 305
+    Height = 345
     DataSource = dsC
     TabOrder = 14
     TitleFont.Charset = DEFAULT_CHARSET
@@ -705,7 +706,6 @@ object FiltroCorreio: TFiltroCorreio
         Expanded = False
         FieldName = 'PRATEL'
         Title.Caption = 'PRATELEIRA'
-        Width = 64
         Visible = True
       end
       item
@@ -721,7 +721,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'NOMERET'
-        Width = 64
         Visible = True
       end
       item
@@ -737,7 +736,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'OBSRET'
-        Width = 64
         Visible = True
       end
       item
@@ -763,7 +761,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'TAMANHO'
-        Width = 64
         Visible = True
       end
       item
@@ -774,7 +771,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'DATA'
-        Width = 64
         Visible = True
       end
       item
@@ -790,7 +786,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'HORAUSU'
-        Width = 64
         Visible = True
       end>
   end
