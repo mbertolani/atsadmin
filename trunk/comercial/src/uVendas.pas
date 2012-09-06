@@ -1199,13 +1199,19 @@ begin
     fProcura_prod.codcli := cds_MovimentoCODCLIENTE.AsInteger;
 
   //buscaCfop(dm.codcli);
-  cds_Mov_det.First;
-  while not cds_Mov_det.Eof do
+  if (not (dtSrc1.State in [dsInsert]) ) then
   begin
+    cds_Mov_det.First;
+    while not cds_Mov_det.Eof do
+    begin
+      cds_Mov_det.Edit;
+      cds_Mov_detCFOP.AsString := edCfop.Text;
+      cds_Mov_det.Next;
+    end;
     cds_Mov_det.Edit;
+  end
+  else
     cds_Mov_detCFOP.AsString := edCfop.Text;
-    cds_Mov_det.Next;
-  end;
 end;
 
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
@@ -2977,14 +2983,15 @@ var sql: String;
 begin
   if (key = #13) then
   begin
-    if (DtSrc1.DataSet.State in [dsInsert]) then
+    if (DtSrc1.DataSet.State in [dsInsert, dsEdit]) then
     begin
       if (dbeProduto.Text = '') then
       begin
         btnProdutoProcura.Click;
         exit;
       end
-      else begin
+      else
+      begin
         if (dm.codBarra = 'S') then // usa codigo de barra
         begin
           // busca pelo código de barra
