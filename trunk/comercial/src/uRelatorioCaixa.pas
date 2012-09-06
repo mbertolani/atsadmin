@@ -161,7 +161,7 @@ begin
   try
   varForma := TUtils.Create;
 
-  if (edCodCCusto.ItemIndex = -1) then
+  if ((edCodCCusto.ItemIndex = -1)  and (ComboBox2.ItemIndex = -1) and (ComboBox2.ItemIndex > -1)) then
   begin
     if (RadioGroup1.ItemIndex = 0) then
       VCLReport1.Filename := str_relatorio + 'caixa_movimento.rep'
@@ -181,9 +181,6 @@ begin
     end
     else
       VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := 0;
-    VCLReport1.Execute;
-    VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
-
   end
   else begin
     if (RadioGroup1.ItemIndex = 0) then
@@ -214,19 +211,15 @@ begin
     end
     else
       VCLReport1.Report.Params.ParamByName('COD_CCUSTO').Value := 0;
-
-    if ComboBox2.Text <> '' then
+    VCLReport1.Report.Params.ParamByName('PFORMA').Value := 'T';
+    if (ComboBox2.ItemIndex > -1) then
     begin
       VCLReport1.Report.Params.ParamByName('PFORMA').Value := varForma.pegaForma(ComboBox2.Text);
-    end
-    else
-      VCLReport1.Report.Params.ParamByName('PFORMA').Value := 'T';
-
-
-    VCLReport1.Execute;
-    VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
+    end;
 
   end;
+  VCLReport1.Execute;
+  VCLReport1.Report.DatabaseInfo.Items[0].DisConnect;
   finally
     varForma.Free;
   end;
