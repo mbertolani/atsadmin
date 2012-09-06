@@ -1537,13 +1537,14 @@ procedure TfNotaFc.somavalores;
 var
   varTotalnota : double;
 begin
-//     varTotalnota := 0;
-//     dmnf.cds_nf1VALOR_ICMS.Value +
+  if(not calcman.Checked)then
+  begin
      varTotalnota :=  dmnf.cds_nf1VALOR_FRETE.Value
                     + dmnf.cds_nf1VALOR_SEGURO.Value + dmnf.cds_nf1OUTRAS_DESP.Value
                     + dmnf.cds_nf1VALOR_IPI.Value - dmnf.cds_nf1VALOR_DESCONTO.Value;
      if (varTotalnota <> dmnf.cds_nf1VALOR_TOTAL_NOTA.value) then
          dmnf.cds_nf1VALOR_TOTAL_NOTA.value := dmnf.cds_nf1VALOR_PRODUTO.value + varTotalnota;
+  end;         
 end;
 
 procedure TfNotaFc.DBEdit11Change(Sender: TObject);
@@ -1915,7 +1916,7 @@ begin
      if (dmnf.cds_nf1.State in [dsBrowse]) then
         dmnf.cds_nf1.Edit;
      dmnf.cds_nf1VALOR_PRODUTO.Value := dmnf.cds_nf1VALOR_PRODUTO.Value - DMNF.cds_Mov_detValorTotal.Value;
-     dmnf.cds_nf1VALOR_TOTAL_NOTA.Value := dmnf.cds_nf1VALOR_TOTAL_NOTA.Value - DMNF.cds_Mov_detValorTotal.Value;
+     //dmnf.cds_nf1VALOR_TOTAL_NOTA.Value := dmnf.cds_nf1VALOR_TOTAL_NOTA.Value - DMNF.cds_Mov_detValorTotal.Value;
      DMNF.DtSrc1.DataSet.Delete;
      if DMNF.DtSrc.DataSet.State in [dsBrowse] then
        DMNF.DtSrc.DataSet.edit;

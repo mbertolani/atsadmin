@@ -1751,7 +1751,7 @@ begin
     end;
   end;
   if (not calcman.Checked) then
-    dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat;
+    dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_PRODUTO.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat + dmnf.cds_nfVALOR_IPI.AsFloat + dmnf.cds_nfVALOR_FRETE.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat;
   if (ChkComp.Checked) then
   begin
     fComplementar := TfComplementar.Create(Application);
