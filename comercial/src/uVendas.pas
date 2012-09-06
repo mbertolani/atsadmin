@@ -2397,8 +2397,8 @@ begin
   BitBtn1.Enabled:=False;
  BitBtn2.Enabled:=DtSrc.State in [dsEdit,dsBrowse];
  Btn.Enabled :=DtSrc.State in [dsEdit,dsBrowse];
- if (DtSrc.State in [dsEdit,dsBrowse]) then
-  DtSrc1.Edit;
+ //if (DtSrc.State in [dsEdit,dsBrowse]) then
+ // DtSrc1.Edit;
 end;
 
 procedure TfVendas.cds_MovimentoNewRecord(DataSet: TDataSet);
