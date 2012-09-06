@@ -1703,6 +1703,7 @@ begin
       executaDDL('ESTOQUEMES', 'DATAVENCIMENTO', 'DATE');
       executaDDL('ESTOQUEMES', 'DATAFABRICACAO', 'DATE');
       executaScript('sp_lote_estoquemes111.sql');
+      executaScript('sp_mov_caixac111.sql');
       mudaVersao('1.0.0.111');
     end;// Fim Atualizacao Versao 1.0.0.111
 
