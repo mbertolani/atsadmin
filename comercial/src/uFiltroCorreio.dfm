@@ -801,7 +801,7 @@ object FiltroCorreio: TFiltroCorreio
   object Edit2: TEdit
     Left = 456
     Top = 112
-    Width = 73
+    Width = 70
     Height = 21
     CharCase = ecUpperCase
     TabOrder = 6
