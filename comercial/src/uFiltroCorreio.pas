@@ -60,6 +60,10 @@ type
     PopupMenu1: TPopupMenu;
     Procurar1: TMenuItem;
     Sair1: TMenuItem;
+    sqlDepCODDEP: TStringField;
+    cdsDepCODDEP: TStringField;
+    sqlDocCODDOC: TStringField;
+    cdsDocCODDOC: TStringField;
     sqlCCODOC: TIntegerField;
     sqlCCODFIR: TSmallintField;
     sqlCFOTO: TSmallintField;
@@ -140,10 +144,6 @@ type
     cdsCHORAUSU: TStringField;
     cdsCREGCAI: TFloatField;
     cdsCJADESC: TStringField;
-    sqlDepCODDEP: TStringField;
-    cdsDepCODDEP: TStringField;
-    sqlDocCODDOC: TStringField;
-    cdsDocCODDOC: TStringField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
