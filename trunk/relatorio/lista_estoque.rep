@@ -14,7 +14,9 @@ object TRpReport
     item
       Alias = 'LISTA_PRODUTOS'
       DatabaseAlias = 'SISADMIN'
-      SQL = 'select * From SP_ESTOQUE_MOVIMENTO (:DTA1, :DTA2, :MARCA)'
+      SQL = 
+        'select * From SP_ESTOQUE_MOVIMENTO (:DTA1, :DTA2, :PCCUSTO) wher' +
+        'e ((entrada > 0) or (saida > 0))'
     end
     item
       Alias = 'CABECALHO'
@@ -51,9 +53,8 @@ object TRpReport
     item
       Name = 'MARCA'
       AllowNulls = False
-      Value = 'GIRO TOOLS'
-      Datasets.Strings = (
-        'LISTA_PRODUTOS')
+      Value = ''
+      ParamType = rpParamUnknown
       Description = ''
       Hint = ''
       Search = ''
@@ -63,7 +64,7 @@ object TRpReport
     item
       Name = 'DTA1'
       AllowNulls = False
-      Value = 40179d
+      Value = 41122d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS')
@@ -76,8 +77,20 @@ object TRpReport
     item
       Name = 'DTA2'
       AllowNulls = False
-      Value = 40304d
+      Value = 41152d
       ParamType = rpParamDate
+      Datasets.Strings = (
+        'LISTA_PRODUTOS')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'PCCUSTO'
+      AllowNulls = False
+      Value = '51'
       Datasets.Strings = (
         'LISTA_PRODUTOS')
       Description = ''
@@ -112,7 +125,7 @@ object TRpReport
   end
   object TRpSection0: TRpSection
     Width = 10772
-    Height = 285
+    Height = 315
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -128,9 +141,6 @@ object TRpReport
       end
       item
         Component = TRpExpression2
-      end
-      item
-        Component = TRpExpression9
       end
       item
         Component = TRpExpression11
@@ -189,9 +199,6 @@ object TRpReport
         Component = TRpExpression6
       end
       item
-        Component = TRpLabel3
-      end
-      item
         Component = TRpLabel4
       end
       item
@@ -201,9 +208,6 @@ object TRpReport
         Component = TRpLabel7
       end
       item
-        Component = TRpLabel8
-      end
-      item
         Component = TRpLabel9
       end
       item
@@ -211,6 +215,15 @@ object TRpReport
       end
       item
         Component = TRpLabel11
+      end
+      item
+        Component = TRpShape1
+      end
+      item
+        Component = TRpShape2
+      end
+      item
+        Component = TRpExpression9
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -229,12 +242,13 @@ object TRpReport
     Stream = {0000000000000000}
   end
   object TRpExpression0: TRpExpression
-    Width = 1035
-    Height = 225
+    Width = 555
+    Height = 210
     PosX = 0
-    PosY = 50
+    PosY = 45
     Type1Font = poHelvetica
-    Alignment = 1
+    FontSize = 8
+    Alignment = 2
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -252,11 +266,12 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression1: TRpExpression
-    Width = 4605
+    Width = 4800
     Height = 225
-    PosX = 1200
+    PosX = 900
     PosY = 45
     Type1Font = poHelvetica
+    FontSize = 8
     CutText = True
     AutoExpand = False
     AutoContract = False
@@ -290,7 +305,7 @@ object TRpReport
   object TRpLabel1: TRpLabel
     Width = 690
     Height = 225
-    PosX = 1255
+    PosX = 1050
     PosY = 1200
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -301,11 +316,12 @@ object TRpReport
     WideText = 'Nome'
   end
   object TRpExpression2: TRpExpression
-    Width = 1020
+    Width = 850
     Height = 210
-    PosX = 9755
+    PosX = 9855
     PosY = 45
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -327,7 +343,7 @@ object TRpReport
   object TRpLabel2: TRpLabel
     Width = 855
     Height = 270
-    PosX = 9950
+    PosX = 9850
     PosY = 1200
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -338,11 +354,12 @@ object TRpReport
     WideText = 'Val. Total'
   end
   object TRpExpression3: TRpExpression
-    Width = 2190
-    Height = 225
-    PosX = 2760
-    PosY = 255
+    Width = 10245
+    Height = 300
+    PosX = 450
+    PosY = 295
     Type1Font = poHelvetica
+    Alignment = 1
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -365,6 +382,7 @@ object TRpReport
     PosX = 455
     PosY = 555
     Type1Font = poHelvetica
+    Alignment = 1
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -386,9 +404,10 @@ object TRpReport
   object TRpExpression6: TRpExpression
     Width = 3105
     Height = 240
-    PosX = 2640
-    PosY = 855
+    PosX = 450
+    PosY = 850
     Type1Font = poHelvetica
+    Alignment = 1
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -405,19 +424,6 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpLabel3: TRpLabel
-    Width = 1725
-    Height = 225
-    PosX = 4710
-    PosY = 0
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Estoque Produtos'
-  end
   object TRpSection2: TRpSection
     Width = 10772
     Height = 270
@@ -433,6 +439,9 @@ object TRpReport
       end
       item
         Component = TRpLabel5
+      end
+      item
+        Component = TRpExpression14
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -614,45 +623,10 @@ object TRpReport
       '----------------------------------------------------------------' +
       '------------------------------------------------------'
   end
-  object TRpExpression9: TRpExpression
-    Width = 495
-    Height = 210
-    PosX = 8250
-    PosY = 45
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'LISTA_PRODUTOS.UN'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpLabel8: TRpLabel
-    Width = 540
-    Height = 255
-    PosX = 8255
-    PosY = 1200
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'UN.'
-  end
   object TRpLabel9: TRpLabel
-    Width = 915
+    Width = 1155
     Height = 255
-    PosX = 8650
+    PosX = 8550
     PosY = 1200
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -663,11 +637,12 @@ object TRpReport
     WideText = 'Pre'#231'o Custo'
   end
   object TRpExpression12: TRpExpression
-    Width = 900
+    Width = 850
     Height = 210
-    PosX = 8650
+    PosX = 8750
     PosY = 45
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
     DisplayFormat = ',##0.00'
     AutoExpand = False
@@ -689,7 +664,7 @@ object TRpReport
   object TRpLabel7: TRpLabel
     Width = 1005
     Height = 255
-    PosX = 7100
+    PosX = 7500
     PosY = 1200
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -700,10 +675,10 @@ object TRpReport
     WideText = 'Quantidade'
   end
   object TRpLabel10: TRpLabel
-    Width = 645
-    Height = 210
-    PosX = 6505
-    PosY = 1195
+    Width = 555
+    Height = 270
+    PosX = 6900
+    PosY = 1200
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -713,10 +688,10 @@ object TRpReport
     WideText = 'Saida'
   end
   object TRpLabel11: TRpLabel
-    Width = 645
-    Height = 210
-    PosX = 5655
-    PosY = 1195
+    Width = 795
+    Height = 270
+    PosX = 5850
+    PosY = 1200
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -726,11 +701,14 @@ object TRpReport
     WideText = 'Entrada'
   end
   object TRpExpression11: TRpExpression
-    Width = 915
+    Width = 850
     Height = 210
-    PosX = 7305
+    PosX = 7650
     PosY = 45
     Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',###'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -742,17 +720,20 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'LISTA_PRODUTOS.EST_ATUAL'
-    DisplayFormat = ''
+    DisplayFormat = ',###'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
   object TRpExpression4: TRpExpression
-    Width = 915
+    Width = 850
     Height = 210
-    PosX = 6605
+    PosX = 6645
     PosY = 45
     Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',###'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -764,18 +745,20 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'LISTA_PRODUTOS.SAIDA'
-    DisplayFormat = ''
+    DisplayFormat = ',###'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
   object TRpExpression7: TRpExpression
-    Width = 915
+    Width = 850
     Height = 210
-    PosX = 5855
+    PosX = 5745
     PosY = 45
     Type1Font = poHelvetica
-    DisplayFormat = '0'
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',###'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -787,7 +770,76 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'LISTA_PRODUTOS.ENTRADA'
-    DisplayFormat = '0'
+    DisplayFormat = ',###'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpShape1: TRpShape
+    Width = 10710
+    Height = 300
+    PosX = 45
+    PosY = 0
+    BrushStyle = 1
+    Shape = rpsRoundRect
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape2: TRpShape
+    Width = 10710
+    Height = 795
+    PosX = 45
+    PosY = 300
+    BrushStyle = 1
+    Shape = rpsRoundRect
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpExpression9: TRpExpression
+    Width = 10650
+    Height = 195
+    PosX = 45
+    PosY = 0
+    Type1Font = poHelvetica
+    Alignment = 4
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39'LISTA DE ESTOQUE : '#39' + LISTA_PRODUTOS.CENTRORESULTADO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression14: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 8760
+    PosY = 15
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'NOW'
+    DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''

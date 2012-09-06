@@ -813,7 +813,7 @@ object TRpReport
     Width = 1035
     Height = 195
     PosX = 0
-    PosY = 0
+    PosY = -100
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
