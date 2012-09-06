@@ -2340,121 +2340,96 @@ object DMNF: TDMNF
     end
     object cds_nf1NOTASERIE: TStringField
       FieldName = 'NOTASERIE'
-      ProviderFlags = [pfInUpdate]
       Required = True
       Size = 10
     end
     object cds_nf1NATUREZA: TSmallintField
       FieldName = 'NATUREZA'
-      ProviderFlags = [pfInUpdate]
       Required = True
     end
     object cds_nf1QUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1MARCA: TStringField
       FieldName = 'MARCA'
-      ProviderFlags = [pfInUpdate]
       Size = 10
     end
     object cds_nf1PESOBRUTO: TBCDField
       FieldName = 'PESOBRUTO'
-      ProviderFlags = [pfInUpdate]
       Precision = 9
       Size = 2
     end
     object cds_nf1PESOLIQUIDO: TBCDField
       FieldName = 'PESOLIQUIDO'
-      ProviderFlags = [pfInUpdate]
       Precision = 9
       Size = 2
     end
     object cds_nf1ESPECIE: TStringField
       FieldName = 'ESPECIE'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1DTAEMISSAO: TDateField
       FieldName = 'DTAEMISSAO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1DTASAIDA: TDateField
       FieldName = 'DTASAIDA'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1UF: TStringField
       FieldName = 'UF'
-      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 2
     end
     object cds_nf1CODVENDA: TIntegerField
       FieldName = 'CODVENDA'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1CODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1NUMERO: TStringField
       FieldName = 'NUMERO'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1NOTAFISCAL: TIntegerField
       FieldName = 'NOTAFISCAL'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1HORASAIDA: TTimeField
       FieldName = 'HORASAIDA'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1DATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
-      ProviderFlags = [pfInUpdate]
     end
     object cds_nf1BASE_ICMS: TFloatField
       FieldName = 'BASE_ICMS'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1VALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1BASE_ICMS_SUBST: TFloatField
       FieldName = 'BASE_ICMS_SUBST'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1VALOR_ICMS_SUBST: TFloatField
       FieldName = 'VALOR_ICMS_SUBST'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1VALOR_PRODUTO: TFloatField
       FieldName = 'VALOR_PRODUTO'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1VALOR_FRETE: TFloatField
       FieldName = 'VALOR_FRETE'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1VALOR_SEGURO: TFloatField
       FieldName = 'VALOR_SEGURO'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1OUTRAS_DESP: TFloatField
       FieldName = 'OUTRAS_DESP'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1VALOR_IPI: TFloatField
       FieldName = 'VALOR_IPI'
-      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',##0.00'
     end
     object cds_nf1VALOR_TOTAL_NOTA: TFloatField
@@ -2816,7 +2791,6 @@ object DMNF: TDMNF
     end
     object sds_nf1VALOR_TOTAL_NOTA: TFloatField
       FieldName = 'VALOR_TOTAL_NOTA'
-      ProviderFlags = [pfInUpdate]
     end
     object sds_nf1CORPONF1: TStringField
       FieldName = 'CORPONF1'

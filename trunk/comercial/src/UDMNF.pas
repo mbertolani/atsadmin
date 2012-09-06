@@ -1905,21 +1905,20 @@ begin
       if (cds_Mov_detTotalPedido.Value > 0)then
       begin
         cds_nfVALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
+        if(not fnotaf.calcman.Checked) then
         if (cds_nfVALOR_TOTAL_NOTA.Value <> cds_nfVALOR_PRODUTO.Value) then
-          cds_nfVALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
-           DMNF.cds_vendaVALOR_ICMS.AsFloat + DMNF.cds_vendaVALOR_SEGURO.AsFloat +
-           DMNF.cds_vendaVALOR_SEGURO.AsFloat + DMNF.cds_vendaVALOR_FRETE.AsFloat +
-           DMNF.cds_vendaOUTRAS_DESP.AsFloat - DMNF.cds_vendaDESCONTO.AsFloat;
+          cds_nfVALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +  cds_vendaVALOR_ICMS.AsFloat + DMNF.cds_vendaVALOR_SEGURO.AsFloat +
+           cds_vendaVALOR_SEGURO.AsFloat + cds_vendaVALOR_FRETE.AsFloat + cds_vendaOUTRAS_DESP.AsFloat - cds_vendaDESCONTO.AsFloat;
       end;
     if (FormExiste(fNotaFc) = True) then
       if (cds_Mov_detTotalPedido.Value > 0)then
       begin
         cds_nf1VALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
-        if (cds_nf1VALOR_TOTAL_NOTA.Value <> cds_nf1VALOR_PRODUTO.Value) then
-          cds_nf1VALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +
-           DMNF.cds_vendaVALOR_ICMS.AsFloat + DMNF.cds_vendaVALOR_SEGURO.AsFloat +
-           DMNF.cds_vendaVALOR_SEGURO.AsFloat + DMNF.cds_vendaVALOR_FRETE.AsFloat +
-           DMNF.cds_vendaOUTRAS_DESP.AsFloat - DMNF.cds_vendaDESCONTO.AsFloat;
+        if(not fnotafc.calcman.Checked) then
+          if (cds_nf1VALOR_TOTAL_NOTA.Value <> cds_nf1VALOR_PRODUTO.Value) then
+            cds_nf1VALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value + cds_nf1VALOR_ICMS.AsFloat + cds_nf1VALOR_IPI.AsFloat +
+            cds_nf1VALOR_SEGURO.AsFloat + cds_nf1VALOR_FRETE.AsFloat + cds_nf1OUTRAS_DESP.AsFloat - cds_nf1VALOR_DESCONTO.AsFloat
+            + cds_nf1II.AsFloat;
       end;
     
 end;
