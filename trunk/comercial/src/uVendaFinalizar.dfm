@@ -3990,10 +3990,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
     object cdsCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
     end
-    object cdsOBS: TStringField
-      FieldName = 'OBS'
-      Size = 500
-    end
     object cdsPORCENTAGENDESC: TFloatField
       FieldName = 'PORCENTAGENDESC'
     end
@@ -4014,6 +4010,10 @@ inherited fVendaFinalizar: TfVendaFinalizar
     end
     object cdsVALOR_ST: TFloatField
       FieldName = 'VALOR_ST'
+    end
+    object cdsOBS: TStringField
+      FieldName = 'OBS'
+      Size = 500
     end
   end
   object scds_serie_proc: TSQLClientDataSet
@@ -4864,6 +4864,10 @@ inherited fVendaFinalizar: TfVendaFinalizar
     object ImprimirOrdemdeServio1: TMenuItem
       Caption = 'Imprimir Carne'
       OnClick = ImprimirOrdemdeServio1Click
+    end
+    object ImprimirCupom1: TMenuItem
+      Caption = 'Imprimir Cupom'
+      OnClick = ImprimirCupom1Click
     end
   end
   object dlgSave1: TSaveDialog
