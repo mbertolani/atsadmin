@@ -161,7 +161,7 @@ begin
   try
   varForma := TUtils.Create;
 
-  if ((edCodCCusto.ItemIndex = -1)  and (ComboBox2.ItemIndex = -1) and (ComboBox2.ItemIndex > -1)) then
+  if ((edCodCCusto.ItemIndex = -1)  and (ComboBox2.ItemIndex = -1) and (ComboBox1.ItemIndex > -1)) then
   begin
     if (RadioGroup1.ItemIndex = 0) then
       VCLReport1.Filename := str_relatorio + 'caixa_movimento.rep'
