@@ -505,6 +505,7 @@ type
     cdsCAIXINHA: TFloatField;
     cdsRATEIO: TFloatField;
     cdsVALOR_ST: TFloatField;
+    ImprimirCupom1: TMenuItem;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -563,6 +564,7 @@ type
     procedure ImprimirPedido1Click(Sender: TObject);
     procedure ImprimirOrdemdeServio1Click(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure ImprimirCupom1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima: String;
@@ -2915,6 +2917,11 @@ begin
       Writeln(Impressora, c17cpi, doccli);
       Writeln(Impressora, c17cpi, texto);
       Writeln(Impressora, c17cpi, texto1);
+      if (dm.moduloUsado = 'AUTOMOTIVA') then
+      begin
+        Writeln(Impressora, c17cpi, '  Placa: ' + fVendas.MaskEdit1.Text);
+        Writeln(Impressora, c17cpi, '  KM: ' + fVendas.cds_MovimentoCONTROLE.AsString);
+      end;
       Writeln(Impressora, c17cpi, texto2);
       Writeln(Impressora, c17cpi, texto4);
       {-----------------------------------------------------------}
@@ -3546,6 +3553,11 @@ begin
   Finally
     FRec.Free;
   end;
+end;
+
+procedure TfVendaFinalizar.ImprimirCupom1Click(Sender: TObject);
+begin
+  imprimecupom;
 end;
 
 end.
