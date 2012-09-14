@@ -1926,8 +1926,8 @@ begin
       exit;
     end;
   end;
-
   VCLReport1.FileName := str_relatorio + 'lista_compra.rep';
+  VCLReport1.Title    := str_relatorio + 'lista_compra.rep';
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('PCOMPRA').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
   VCLReport1.Execute;
