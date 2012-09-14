@@ -200,7 +200,7 @@ begin
   //Vejo quais são as contas de Receitas para listar no lookupcombobox.
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
   dm.cds_parametro.Open;
   conta_local := dm.cds_parametroDADOS.AsString;
   dm.cds_parametro.Close;
@@ -476,6 +476,17 @@ begin
     Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     Rep.Report.Params.ParamByName('DATA1').Value := Data1.Date;
     Rep.Report.Params.ParamByName('DATA2').Value := Data2.Date;
+    if (ComboBox9.Text <> '') then
+    begin
+      if dm.cds_ccusto.Active then
+        dm.cds_ccusto.Close;
+      dm.cds_ccusto.Params[0].AsString := conta_local;
+      dm.cds_ccusto.Open;
+      if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+        Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+      else
+        Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
+    end;
   except
   end;
   Rep.Execute;
@@ -492,6 +503,17 @@ begin
     Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     Rep.Report.Params.ParamByName('DATA1').Value := Data1.date;
     Rep.Report.Params.ParamByName('DATA2').Value := Data2.date;
+    if (ComboBox9.Text <> '') then
+    begin
+      if dm.cds_ccusto.Active then
+        dm.cds_ccusto.Close;
+      dm.cds_ccusto.Params[0].AsString := conta_local;
+      dm.cds_ccusto.Open;
+      if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+        Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+      else
+        Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
+    end;
   except
     on EConvertError do
     begin
