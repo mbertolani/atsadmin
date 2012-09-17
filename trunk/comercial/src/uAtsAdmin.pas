@@ -257,6 +257,8 @@ type
     lblMensagemSistema: TLabel;
     RelatorioTitulos1: TMenuItem;
     dxButton11: TdxButton;
+    RelatriodeVendas1: TMenuItem;
+    RelNotaFistalLote1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -271,7 +273,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SobreoSistema1Click(Sender: TObject);
     procedure usoprodClick(Sender: TObject);
-    procedure RelatriodeVendasporProduto1Click(Sender: TObject);
     procedure Lotes1Click(Sender: TObject);
     procedure RelatrioListadeProdutos1Click(Sender: TObject);
     procedure RelatrioListadeProdporLote1Click(Sender: TObject);
@@ -390,6 +391,8 @@ type
     procedure dxButton11Click(Sender: TObject);
     procedure Correio1Click(Sender: TObject);
     procedure ListadeVendas1Click(Sender: TObject);
+    procedure RelatriodeVendas1Click(Sender: TObject);
+    procedure RelNotaFistalLote1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -441,7 +444,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
-  uTerminalNTC, uCorreio, uListaVenda;
+  uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote;
 
 {$R *.dfm}
 
@@ -627,16 +630,6 @@ begin
     fUso_Prod.ShowModal;
   finally
     fUso_Prod.Free;
-  end;
-end;
-
-procedure TfAtsAdmin.RelatriodeVendasporProduto1Click(Sender: TObject);
-begin
-  fRelVenda := TfRelVenda.Create(Application);
-  try
-    fRelVenda.ShowModal;
-  finally
-    fRelVenda.Free;
   end;
 end;
 
@@ -2261,6 +2254,26 @@ begin
    finally
       fListaVenda.Free;
    end;
+end;
+
+procedure TfAtsAdmin.RelatriodeVendas1Click(Sender: TObject);
+begin
+  fRelVenda := TfRelVenda.Create(Application);
+  try
+    fRelVenda.ShowModal;
+  finally
+    fRelVenda.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.RelNotaFistalLote1Click(Sender: TObject);
+begin
+  fVendaRelPorNotaFiscalLote := TfVendaRelPorNotaFiscalLote.Create(Application);
+  try
+    fVendaRelPorNotaFiscalLote.ShowModal;
+  finally
+    fVendaRelPorNotaFiscalLote.Free;
+  end;
 end;
 
 end.
