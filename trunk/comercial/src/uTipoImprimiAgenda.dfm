@@ -17,8 +17,8 @@ object fTipoImprimiAgenda: TfTipoImprimiAgenda
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 249
-    Height = 125
+    Width = 241
+    Height = 114
     Align = alClient
     Color = 11189162
     TabOrder = 0
@@ -49,6 +49,7 @@ object fTipoImprimiAgenda: TfTipoImprimiAgenda
       Height = 25
       Caption = 'Sair'
       TabOrder = 2
+      OnClick = BitBtn2Click
     end
   end
   object VCLReport1: TVCLReport

@@ -14,6 +14,7 @@ type
     BitBtn2: TBitBtn;
     VCLReport1: TVCLReport;
     procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,6 +47,11 @@ begin
   VCLReport1.Report.Params.ParamByName('DTA1').Value := StrToDate(fAgendamento.DateEdit1.Text);
   VCLReport1.Report.Params.ParamByName('DTA2').Value := StrToDate(fAgendamento.DateEdit2.Text);
   VCLReport1.Execute;
+end;
+
+procedure TfTipoImprimiAgenda.BitBtn2Click(Sender: TObject);
+begin
+ close;
 end;
 
 end.
