@@ -37,8 +37,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object lbl1: TLabel
       Left = 66
       Top = 42
-      Width = 323
-      Height = 25
+      Width = 358
+      Height = 28
       Caption = 'Entre com o C'#243'digo de Barras -->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -51,8 +51,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object RxLabel2: TRxLabel
       Left = 2
       Top = 11
-      Width = 255
-      Height = 21
+      Width = 292
+      Height = 23
       Caption = 'Entre com o C'#243'digo de Barras -->'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -279,9 +279,9 @@ object F_AUTOPECAS: TF_AUTOPECAS
         Background.FillType = GradUpDown
         object JvGroupBox2: TJvGroupBox
           Left = 2
-          Top = 371
+          Top = 368
           Width = 406
-          Height = 57
+          Height = 60
           Align = alBottom
           Caption = 'Dados do Produto'
           PopupMenu = pm1
@@ -290,7 +290,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Left = 2
             Top = 15
             Width = 402
-            Height = 40
+            Height = 43
             Align = alClient
             BorderStyle = bsNone
             DataSource = d_movdet
@@ -315,48 +315,41 @@ object F_AUTOPECAS: TF_AUTOPECAS
                 Expanded = False
                 FieldName = 'CODPRO'
                 Title.Caption = 'C'#243'digo'
-                Width = 41
+                Width = 51
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'PRODUTO'
                 Title.Caption = 'Desc. Produto'
-                Width = 89
+                Width = 112
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'MARCA'
-                Width = 59
+                Width = 75
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'VALORUNITARIOATUAL'
                 Title.Caption = 'R$ Custo'
-                Width = 50
+                Width = 51
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'MARGEM'
                 Title.Caption = '  %'
-                Width = 36
+                Width = 37
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'PRECO'
                 Title.Caption = 'R$ Venda'
-                Width = 47
-                Visible = True
-              end
-              item
-                Expanded = False
-                FieldName = 'LOCALIZACAO'
-                Title.Caption = 'Local'
-                Width = 57
+                Width = 54
                 Visible = True
               end>
           end
@@ -410,28 +403,28 @@ object F_AUTOPECAS: TF_AUTOPECAS
                 Expanded = False
                 FieldName = 'CODPROSIMILAR'
                 Title.Caption = 'C'#243'digo'
-                Width = 40
+                Width = 51
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'PRODUTO'
                 Title.Caption = 'Descri'#231#227'o'
-                Width = 91
+                Width = 117
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'MARCA'
                 Title.Caption = 'Marca'
-                Width = 55
+                Width = 69
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'VALORUNITARIOATUAL'
                 Title.Caption = 'R$ Custo'
-                Width = 51
+                Width = 53
                 Visible = True
               end
               item
@@ -440,21 +433,14 @@ object F_AUTOPECAS: TF_AUTOPECAS
                 FieldName = 'MARGEM'
                 Title.Alignment = taCenter
                 Title.Caption = '%'
-                Width = 43
+                Width = 38
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'VALOR_PRAZO'
                 Title.Caption = 'R$Venda'
-                Width = 51
-                Visible = True
-              end
-              item
-                Expanded = False
-                FieldName = 'LOCALIZACAO'
-                Title.Caption = 'Local'
-                Width = 48
+                Width = 52
                 Visible = True
               end>
           end
@@ -527,9 +513,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
           Left = 2
           Top = 50
           Width = 406
-          Height = 267
+          Height = 127
           ActivePage = TabSheet1
-          Align = alClient
           PopupMenu = pm1
           TabOrder = 3
           object TabSheet1: TTabSheet
@@ -538,14 +523,14 @@ object F_AUTOPECAS: TF_AUTOPECAS
               Left = 0
               Top = 0
               Width = 398
-              Height = 239
+              Height = 99
               Align = alClient
               TabOrder = 0
               object JvImage1: TJvImage
                 Left = 1
                 Top = 1
                 Width = 396
-                Height = 237
+                Height = 97
                 Align = alClient
                 AutoSize = True
                 Center = True
@@ -1316,7 +1301,7 @@ object F_AUTOPECAS: TF_AUTOPECAS
               Left = 0
               Top = 0
               Width = 398
-              Height = 235
+              Height = 99
               Align = alClient
               DataField = 'OBS'
               DataSource = d_movimento
@@ -1326,9 +1311,9 @@ object F_AUTOPECAS: TF_AUTOPECAS
         end
         object JvGroupBox3: TJvGroupBox
           Left = 2
-          Top = 317
+          Top = 176
           Width = 406
-          Height = 54
+          Height = 192
           Align = alBottom
           Caption = 'Dados do Ve'#237'culo'
           PopupMenu = pm1
@@ -1353,6 +1338,29 @@ object F_AUTOPECAS: TF_AUTOPECAS
             Width = 16
             Height = 13
             Caption = 'KM'
+          end
+          object Label1: TLabel
+            Left = 6
+            Top = 152
+            Width = 73
+            Height = 13
+            Caption = 'LOCALIZA'#199#195'O'
+            FocusControl = DBEdit1
+          end
+          object Label2: TLabel
+            Left = 258
+            Top = 153
+            Width = 73
+            Height = 13
+            Caption = 'LOCALIZA'#199#195'O'
+            FocusControl = DBEdit2
+          end
+          object Label3: TLabel
+            Left = 210
+            Top = 153
+            Width = 43
+            Height = 13
+            Caption = 'SIMILAR'
           end
           object dbedtCHASSIS1: TDBEdit
             Left = 90
@@ -1406,6 +1414,56 @@ object F_AUTOPECAS: TF_AUTOPECAS
             TabOrder = 3
             Text = '   -    '
             OnKeyPress = medt1KeyPress
+          end
+          object DBEdit1: TDBEdit
+            Left = 6
+            Top = 167
+            Width = 190
+            Height = 21
+            DataField = 'LOCALIZACAO'
+            DataSource = d_movdet
+            TabOrder = 4
+          end
+          object DBEdit2: TDBEdit
+            Left = 210
+            Top = 166
+            Width = 190
+            Height = 21
+            DataField = 'LOCALIZACAO'
+            DataSource = d_similar
+            TabOrder = 5
+          end
+          object JvDBGrid5: TJvDBGrid
+            Left = 2
+            Top = 55
+            Width = 402
+            Height = 96
+            BorderStyle = bsNone
+            DataSource = dsUso
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+            PopupMenu = pm1
+            TabOrder = 6
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            TitleFont.Style = []
+            BevelKind = bkFlat
+            AutoSizeColumns = True
+            SelectColumnsDialogStrings.Caption = 'Select columns'
+            SelectColumnsDialogStrings.OK = '&OK'
+            SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+            EditControls = <>
+            RowsHeight = 17
+            TitleRowHeight = 17
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'DESCRICAO'
+                Title.Caption = 'USO DO PRODUTO'
+                Width = 385
+                Visible = True
+              end>
           end
         end
       end
@@ -2113,8 +2171,8 @@ object F_AUTOPECAS: TF_AUTOPECAS
       object RxLabel1: TRxLabel
         Left = 44
         Top = 16
-        Width = 190
-        Height = 25
+        Width = 205
+        Height = 28
         Caption = 'Total do Pedido -->'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -4271,5 +4329,50 @@ object F_AUTOPECAS: TF_AUTOPECAS
     object sProcuraProdCOD_COMISSAO: TIntegerField
       FieldName = 'COD_COMISSAO'
     end
+  end
+  object sqlUso: TSQLDataSet
+    CommandText = 
+      'select u.DESCRICAO  '#13#10'from USO_PRODUTO  u'#13#10'inner join PRODUTOS p' +
+      ' on'#13#10'p.CODPRODUTO = u.COD_PRODUTO'#13#10'where u.COD_PRODUTO = :pcod'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 465
+    Top = 294
+    object sqlUsoDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 150
+    end
+  end
+  object dspUso: TDataSetProvider
+    DataSet = sqlUso
+    Left = 499
+    Top = 293
+  end
+  object cdsUso: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspUso'
+    Left = 535
+    Top = 293
+    object cdsUsoDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 150
+    end
+  end
+  object dsUso: TDataSource
+    DataSet = cdsUso
+    Left = 571
+    Top = 293
   end
 end
