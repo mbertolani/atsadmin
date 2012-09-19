@@ -286,7 +286,8 @@ uses
   uCorreio in 'uCorreio.pas' {fCorreio},
   uFiltroCorreio in 'uFiltroCorreio.pas' {FiltroCorreio},
   uListaVenda in 'uListaVenda.pas' {fListaVenda},
-  uComandaNTC in 'uComandaNTC.pas' {fComandaNTC};
+  uComandaNTC in 'uComandaNTC.pas' {fComandaNTC},
+  uRetira in 'uRetira.pas' {fRetira};
 
 {$R *.res}
 
