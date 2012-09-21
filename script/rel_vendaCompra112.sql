@@ -94,7 +94,7 @@ BEGIN
     inner join MOVIMENTO mov on mov.CODMOVIMENTO = v.CODMOVIMENTO 
     where m.codProduto = :codPRo 
       and v.dataVenda BETWEEN :pdta1 and :pdta2 
-      and mov.codnatureza = 3
+      and ((mov.codnatureza = 3) or (mov.CODNATUREZA = 2))
       and ((v.CODCCUSTO = :ccusto) or (:ccusto = 0)) 
     into :qtdeVenda, :vlrTotalVenda, :vlrCustoTotal
     do begin 
@@ -114,7 +114,7 @@ BEGIN
     inner join MOVIMENTO mov on mov.CODMOVIMENTO = c.CODMOVIMENTO 
     where m.codProduto = :codPRo 
       and c.dataCompra BETWEEN :pdta1 and :pdta2 
-      and mov.codnatureza = 4
+      and ((mov.codnatureza = 4) or (mov.CODNATUREZA = 1))
       and ((c.CODCCUSTO = :ccusto) or (:ccusto = 0)) 
      into :qtdeCompra, :vlrTotalCompra , :icmscompra
     do begin 
