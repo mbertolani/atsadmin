@@ -351,7 +351,6 @@ inherited fcrTituloPagto: TfcrTituloPagto
     Height = 17
     Caption = 'Desp. Mensal ?'
     Checked = True
-    Enabled = False
     State = cbChecked
     TabOrder = 10
     OnClick = CheckBox1Click
