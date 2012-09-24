@@ -336,6 +336,7 @@ begin
   DBEdit1.SetFocus;
   IF (cds_4_pagar.Active) THEN
     cds_4_pagar.Close;
+  DM.cds_4_pagarCODALMOXARIFADO.AsInteger := DM.CCustoPadrao;
 end;
 
 procedure TfcrTituloPagto.btnGravarClick(Sender: TObject);
@@ -1091,7 +1092,6 @@ begin
   begin
     combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
   end;
-
 end;
 
 procedure TfcrTituloPagto.BitBtn5Click(Sender: TObject);

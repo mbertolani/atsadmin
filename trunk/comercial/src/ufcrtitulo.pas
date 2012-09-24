@@ -271,6 +271,7 @@ begin
      valorAReceber := dm.cds_4_pagarVALOR_RESTO.AsFloat;
      btnCancela_Baixa.Enabled := False;
      BitBtn2.Enabled := True;
+     DM.cds_4_pagarCAIXA.AsInteger := 33;
   end;
   if ((dm.cds_4_pagarSTATUS.AsString = '7-')) then
   begin
