@@ -1693,6 +1693,8 @@ begin
     if (versaoSistema = '1.0.0.109') then
     begin
       executaDDL('OS', 'CFOP', 'VARCHAR(30)');
+      executaScript('lista_lote110.sql');
+      executaScript('gera_nf_venda110.sql');
       mudaVersao('1.0.0.110');
     end;// Fim Atualizacao Versao 1.0.0.110
 
@@ -1706,6 +1708,14 @@ begin
       executaScript('sp_mov_caixac111.sql');
       mudaVersao('1.0.0.111');
     end;// Fim Atualizacao Versao 1.0.0.111
+
+    if (versaoSistema = '1.0.0.111') then
+    begin
+      executaScript('gera_nf_venda112.sql');
+      executaScript('rel_vendaCompra112.sql');
+      //mudaVersao('1.0.0.112');
+    end;// Fim Atualizacao Versao 1.0.0.112
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
