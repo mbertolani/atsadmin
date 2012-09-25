@@ -64,7 +64,6 @@ type
     DBEdit1: TDBEdit;
     DBEdit2: TDBEdit;
     DBEdit3: TDBEdit;
-    DBRadioGroup1: TDBRadioGroup;
     DBEdit4: TDBEdit;
     DBEdit5: TDBEdit;
     DBEdit7: TDBEdit;
