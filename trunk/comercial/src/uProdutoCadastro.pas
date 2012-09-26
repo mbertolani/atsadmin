@@ -448,6 +448,7 @@ begin
   // if (dm.cds_produto.IsEmpty) then
   //   btnIncluir.Click;
   sCtrlResize.CtrlResize(TForm(fProdutoCadastro));
+    DecimalSeparator := ',';
   if (not dm.cds_produto.IsEmpty) then
   begin
     if (dm.cds_produtoTIPO.AsString = 'SERV') then

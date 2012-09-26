@@ -1048,6 +1048,7 @@ procedure TfcrTituloPagto.FormShow(Sender: TObject);
 var utilcrtitulo : Tutils;
   i, j : integer;
 begin
+   DecimalSeparator := ',';
    edtcodred.Text := '';
    edtconta.Text := '';
    dbeCliente.Text := '';
