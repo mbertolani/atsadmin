@@ -754,7 +754,7 @@ begin
   sqs_tit.Close;
   if terminal <> '0' then
   begin
-    sqs_tit.CommandText := 'SELECT SUM(((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
+    sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * VLR_BASE) FROM MOVIMENTODETALHE' +
                              ' WHERE CODMOVIMENTO = ' +
                              IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
     sqs_tit.Open;
@@ -1137,11 +1137,14 @@ begin
       dm.sqlsisAdimin.StartTransaction(TD);
       cds.ApplyUpdates(0);
       // Executo Classe Insere Recebimento ---------------------------------------
-      try
-         FRec := TReceberCls.Create;
-         codRec := FRec.geraTitulo(0, cdsCODVENDA.AsInteger);
-      finally
-         Frec.Free;
+      if (scdsCr_proc.IsEmpty) then
+      begin
+        try
+           FRec := TReceberCls.Create;
+           codRec := FRec.geraTitulo(0, cdsCODVENDA.AsInteger);
+        finally
+           Frec.Free;
+        end;
       end;
       dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TD);
@@ -2935,7 +2938,7 @@ begin
           texto6 := '  ';
           //texto6 := Format('%-4s',[fVendas.cds_Mov_detCODPRO.Value]);
           texto3 := texto3 + Format('           %-2s',[fVendas.cds_Mov_detUN.Value]);
-          texto3 := texto3 + Format('     %-6.0n',[fVendas.cds_Mov_detQUANTIDADE.AsFloat]);
+          texto3 := texto3 + Format('     %-6.2n',[fVendas.cds_Mov_detQUANTIDADE.AsFloat]);
           texto3 := texto3 + Format(' %-6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
           texto3 := texto3 + Format('   %-6.2n',[fVendas.cds_Mov_detValorTotal.value]);
           //texto6 := texto6 + fVendas.cds_Mov_detDESCPRODUTO.Value;
