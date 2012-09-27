@@ -74,7 +74,7 @@ as
   declare variable xped varchar(20);
   declare variable nitemped integer;
   declare variable indpag integer;
-  declare variable VALOR_BASE double precision;
+  declare variable VLR_BASE double precision;
   declare variable rPARCELAS integer;
   declare variable rDATAVENCIMENTO date; 
   declare variable rDATARECEBIMENTO date;
