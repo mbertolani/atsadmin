@@ -382,6 +382,7 @@ type
     procedure notafiscal ;
     procedure imprimecompra;
     function RemoveAcento(Str: string): string;
+    procedure excluinf;
     { Private declarations }
   public
     grava: TCompras;
@@ -1751,6 +1752,7 @@ begin
               MessageDlg('O Sistema não conseguiu cancelar a baixa no Estoque;', mtWarning, [mbOK], 0);
             end;
           end;
+          excluinf;
           ShowMessage('Compra Excluida com Sucesso');
         except
           on E : Exception do
@@ -1790,6 +1792,41 @@ begin
     end;
   end;
   fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
+end;
+
+procedure TfCompraFinalizar.excluinf;
+var
+  str_sql : string;
+begin
+  if (sqlBuscaNota.Active) then
+    sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, c.CODCOMPRA  from MOVIMENTO m ' +
+    ' inner join compra c on c.CODMOVIMENTO = m.CODMOVIMENTO where ' +
+    ' m.CODNATUREZA = 20 and m.CONTROLE = ' +
+    QuotedStr(IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.AsInteger)));
+  sqlBuscaNota.Open;
+  if (not sqlBuscaNota.IsEmpty) then
+  begin
+    // Nota Fiscal
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      str_sql := 'DELETE FROM NOTAFISCAL ';
+      str_sql := str_sql + ' where CODVENDA = ' + inttostr(sqlBuscaNota.Fields[2].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      str_sql := 'DELETE FROM COMPRA ';
+      str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      str_sql := 'DELETE FROM MOVIMENTO ';
+      str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      dm.sqlsisAdimin.Commit(TD);
+      ShowMessage('Nota Fiscal Excluída com suscesso');
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro para Excluir a Nota Fiscal.', mtError, [mbOK], 0);
+    end;
+  end;
 end;
 
 procedure TfCompraFinalizar.btnSairClick(Sender: TObject);
