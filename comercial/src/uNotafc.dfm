@@ -22,7 +22,7 @@ object fNotafc: TfNotafc
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 775
+    Width = 766
     Height = 646
     ActivePage = TabNF
     Align = alTop
@@ -660,53 +660,19 @@ object fNotafc: TfNotafc
         Height = 41
         Caption = 'Frete'
         TabOrder = 29
-        object Label63: TLabel
-          Left = 2
-          Top = 12
-          Width = 65
-          Height = 13
-          Caption = '1-Emitente     '
-          Color = clBtnFace
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentColor = False
-          ParentFont = False
-        end
-        object Label64: TLabel
-          Left = 2
-          Top = 25
-          Width = 65
-          Height = 13
-          Caption = '2-Destinat'#225'rio'
-          Color = clBtnFace
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentColor = False
-          ParentFont = False
-        end
-        object DBEdit54: TDBEdit
-          Left = 70
-          Top = 14
-          Width = 23
+        object cboFrete: TComboBox
+          Left = 7
+          Top = 15
+          Width = 81
           Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'FRETE'
-          DataSource = DMNF.DtSrc_NF1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
+          ItemHeight = 13
           TabOrder = 0
-          OnKeyPress = FormKeyPress
+          OnChange = cboFreteChange
+          Items.Strings = (
+            '0 - Emitente'
+            '1 - Dest/Rem'
+            '2 - Terceiros'
+            '9 - Sem Frete')
         end
       end
       object JvGroupBox30: TJvGroupBox
@@ -1721,7 +1687,7 @@ object fNotafc: TfNotafc
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 775
+    Width = 766
     Height = 59
     Align = alTop
     BevelInner = bvLowered
