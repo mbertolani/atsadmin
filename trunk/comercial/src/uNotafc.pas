@@ -70,9 +70,6 @@ type
     cbTransportadora: TDBComboBox;
     BitBtn2: TBitBtn;
     GroupBox1: TGroupBox;
-    Label63: TLabel;
-    Label64: TLabel;
-    DBEdit54: TDBEdit;
     JvGroupBox30: TJvGroupBox;
     DBEdit20: TDBEdit;
     JvGroupBox31: TJvGroupBox;
@@ -246,6 +243,7 @@ type
     JvGroupBox56: TJvGroupBox;
     DBEdit48: TDBEdit;
     btnDI: TBitBtn;
+    cboFrete: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -280,6 +278,7 @@ type
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure calcmanClick(Sender: TObject);
     procedure btnDIClick(Sender: TObject);
+    procedure cboFreteChange(Sender: TObject);
   private
     codNat     : Integer;
     movEstoque : String;
@@ -2038,6 +2037,13 @@ begin
   finally
     fDadosImportacao.Free;
   end;
+end;
+
+procedure TfNotaFc.cboFreteChange(Sender: TObject);
+begin
+ if DMNF.DtSrc_NF1.State in [dsBrowse] then
+      DMNF.DtSrc_NF1.DataSet.Edit;
+    DMNF.cds_nf1FRETE.AsString := IntToStr(cboFrete.ItemIndex);
 end;
 
 end.
