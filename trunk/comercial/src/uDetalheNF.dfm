@@ -314,7 +314,6 @@ object fDetalheNF: TfDetalheNF
     DataSource = DMNF.DtSrc1
     TabOrder = 9
     OnChange = abproc
-    OnExit = DBEdit8Exit
   end
   object DBEdit9: TDBEdit
     Left = 253
