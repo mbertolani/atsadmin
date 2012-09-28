@@ -1991,33 +1991,33 @@ begin
       begin
         with IPI do
         begin
-          if (sCFOPCSTIPI.AsString = '00') then
+          if (cdsItensNFCSTIPI.AsString = '00') then
             CST := ipi00
-          else if (sCFOPCSTIPI.AsString = '01') then
+          else if (cdsItensNFCSTIPI.AsString = '01') then
             CST := ipi01
-          else if (sCFOPCSTIPI.AsString = '02') then
+          else if (cdsItensNFCSTIPI.AsString = '02') then
             CST := ipi02
-          else if (sCFOPCSTIPI.AsString = '03') then
+          else if (cdsItensNFCSTIPI.AsString = '03') then
             CST := ipi03
-          else if (sCFOPCSTIPI.AsString = '04') then
+          else if (cdsItensNFCSTIPI.AsString = '04') then
             CST :=  ipi04
-          else if (sCFOPCSTIPI.AsString = '05') then
+          else if (cdsItensNFCSTIPI.AsString = '05') then
             CST :=  ipi05
-          else if (sCFOPCSTIPI.AsString = '49') then
+          else if (cdsItensNFCSTIPI.AsString = '49') then
             CST :=  ipi49
-          else if (sCFOPCSTIPI.AsString = '50') then
+          else if (cdsItensNFCSTIPI.AsString = '50') then
             CST := ipi50
-          else if (sCFOPCSTIPI.AsString = '51') then
+          else if (cdsItensNFCSTIPI.AsString = '51') then
             CST := ipi51
-          else if (sCFOPCSTIPI.AsString = '52') then
+          else if (cdsItensNFCSTIPI.AsString = '52') then
             CST := ipi52
-          else if (sCFOPCSTIPI.AsString = '53') then
+          else if (cdsItensNFCSTIPI.AsString = '53') then
             CST := ipi53
-          else if (sCFOPCSTIPI.AsString = '54') then
+          else if (cdsItensNFCSTIPI.AsString = '54') then
             CST := ipi54
-          else if (sCFOPCSTIPI.AsString = '55') then
+          else if (cdsItensNFCSTIPI.AsString = '55') then
             CST := ipi55
-          else if (sCFOPCSTIPI.AsString = '99') then
+          else if (cdsItensNFCSTIPI.AsString = '99') then
             CST := ipi99
           else
             CST := ipi00;
@@ -2227,20 +2227,21 @@ begin
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
     if ((cdsNFFRETE.IsNull) or (cdsNFFRETE.AsString = ' '))then
-      tpfrete := 9
+      tpfrete := 3
     else
-    begin
       tpfrete := StrToInt(cdsNFFRETE.AsString);
-      if(tpfrete = 3) then
-        tpfrete := 9;
-    end;
     tfrete := IntToStr(tpfrete);
     //Carrega dados da transportadora
     with Transp do
     begin
       with transporta do
       begin
-        modFrete := tfrete;
+        case tfrete of
+          0 : modFrete := mfContaEmitente;
+          1 : modFrete := mfContaDestinatario;
+          2 : modFrete := mfContaTerceiros;
+          3 : modFrete := mfSemFrete;
+        end;
         CNPJCPF := RemoveChar(cdsNFCNPJ_CPF.AsString);
         xNome   := trim(cdsNFNOMETRANSP.AsString);
         if (cdsNFNOMETRANSP.AsString <> '') then
