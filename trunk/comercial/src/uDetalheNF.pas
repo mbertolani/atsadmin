@@ -83,7 +83,6 @@ type
     procedure DBNavigator1Click(Sender: TObject; Button: TNavigateBtn);
     procedure abproc(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure DBEdit8Exit(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
@@ -339,11 +338,6 @@ procedure TfDetalheNF.FormCreate(Sender: TObject);
 begin
     if (DMNF.DtSrc1.DataSet.State in [dsBrowse]) then
      DMNF.cds_Mov_det.edit;
-end;
-
-procedure TfDetalheNF.DBEdit8Exit(Sender: TObject);
-begin
-  dmnf.cds_Mov_detPRECO.AsFloat := dmnf.cds_Mov_detVLR_BASE.AsFloat;
 end;
 
 procedure TfDetalheNF.FormClose(Sender: TObject; var Action: TCloseAction);
