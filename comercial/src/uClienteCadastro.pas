@@ -2617,9 +2617,8 @@ begin
    begin
      if(DtSrc.State in [dsbrowse,dsinactive]) then
        cdsEnderecoCli.Edit;
-     DBEdit15.Text := procIBGENM_MUNICIPIO.AsString;
-     DBComboBox1.Text := procIBGECD_UF.AsString;
-     DBEdit59.Text := procIBGECD_IBGE.AsString;
+     cdsEnderecoCliCIDADE.AsString := procIBGENM_MUNICIPIO.AsString;
+     cdsEnderecoCliCD_IBGE.AsString := procIBGECD_IBGE.AsString;
      cdsEnderecoCliUF.AsString := procIBGECD_UF.AsString;
    end;
    finally
