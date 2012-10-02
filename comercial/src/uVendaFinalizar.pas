@@ -1240,6 +1240,7 @@ var    utilcrtitulo : Tutils;
   FEstoque: TEstoque;
   dataVenda: TDateTime;
   FMov : TMovimento;
+  FRec : TReceberCls;  
 begin
   dataVenda := cdsDATAVENDA.AsDateTime;
 
@@ -1373,12 +1374,19 @@ begin
           end;
       end;
     end;
+    try
+      FRec := TReceberCls.Create;
+      FRec.excluiTitulo(scdscr_proc.Params[0].AsInteger);
+    finally
+      Frec.Free;
+    end;
 
   {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
   dm.cds_parametro.Open;
+
   if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
   begin
     // Excluindo a baixa da materia Prima
@@ -1454,19 +1462,6 @@ begin
     btnGravar.Click;
   end;
 
-  if (scdsCr_proc.RecordCount = 0) then
-  begin
-    MessageDlg('Título do Financeiro não foi gerado.'+#13+#10+'Clique no botão gravar, para gera-lo.', mtWarning, [mbOK], 0);
-    exit;
-  end;
-
-  {inherited;
-  if (cdsCOD_TRANPORTADORA.AsInteger > 0) then
-      dm.varCodTransp := cdsCOD_TRANPORTADORA.AsInteger
-  else
-      dm.varCodTransp := 0;
-  //fNotaFiscal:=TfNotaFiscal.Create(Application);
-  //fITENS_NF := TfITENS_NF.Create(Application);}
   fatura_NF := '';
   tipo_form := 'VENDA';
   if scdsCr_proc.State in [dsEdit, dsBrowse] then
