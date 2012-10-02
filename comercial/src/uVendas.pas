@@ -581,6 +581,10 @@ type
     cds_Mov_detCSTIPI: TStringField;
     cds_Mov_detCSTPIS: TStringField;
     cds_Mov_detCSTCOFINS: TStringField;
+    GroupBox6: TGroupBox;
+    DBEdit20: TDBEdit;
+    sds_MovimentoDESCONTO: TFloatField;
+    cds_MovimentoDESCONTO: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -958,6 +962,7 @@ end;
 procedure TfVendas.btnIncluirClick(Sender: TObject);
 begin
   desconto := 0;
+  DecimalSeparator := ',';  
   //usaprecolistavenda := '';
   modo := 'INSERIR';
   if cds_Movimento.Active then
@@ -1121,10 +1126,12 @@ begin
     cds_MovimentoNOMEUSUARIO.AsString := dm.scds_cliente_procNOMEUSUARIO.AsString;
     cds_MovimentoOBS.AsString := dm.scds_cliente_procOBS.AsString;
     prazoCliente := dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
-    desconto := dm.scds_cliente_procDESCONTO.AsFloat;
+    //desconto := dm.scds_cliente_procDESCONTO.AsFloat;
+    cds_MovimentoDESCONTO.AsFloat := dm.scds_cliente_procDESCONTO.AsFloat;
     if ( cds_Mov_det.State in [dsBrowse]) then
       cds_Mov_det.Edit;
-    cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
+    //cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
+    cds_Mov_detQTDE_ALT.AsFloat:= dm.scds_cliente_procDESCONTO.AsFloat;
 
     buscaCfop(dm.scds_cliente_procCODCLIENTE.AsInteger);
 
@@ -1269,7 +1276,8 @@ begin
       if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
         cds_Mov_detQUANTIDADE.AsFloat := 1;
       qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-     // cds_Mov_detQTDE_ALT.AsFloat := 0;
+      if(cds_MovimentoDesconto.asFloat > 0 ) then
+        cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
       cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
      { Estava calculando o preço errado , estava valor dividido pelo campo quantidade  erro IME 23/08/2011
       if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
@@ -1379,7 +1387,8 @@ begin
         if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
           cds_Mov_detQUANTIDADE.AsFloat := 1;
         qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-       // cds_Mov_detQTDE_ALT.AsFloat := 0;
+        if(cds_MovimentoDesconto.asFloat > 0 ) then
+          cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
         cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
         if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
            cds_Mov_detPRECO.AsFloat :=
@@ -1650,7 +1659,7 @@ begin
   cds_mov_detCODDETALHE.AsInteger := codmd;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
   cds_Mov_detVALOR_DESCONTO.AsFloat := 0;
-  cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
+  cds_Mov_detQTDE_ALT.AsFloat:= cds_MovimentoDESCONTO.AsFloat;
   cds_Mov_detFRETE.AsFloat := 0;
   cds_Mov_detVALOR_SEGURO.AsFloat := 0;
   cds_Mov_detVALOR_OUTROS.AsFloat := 0;
@@ -2132,10 +2141,10 @@ begin
       cds_Mov_detCFOP.AsString := edCfop.Text;
       cds_Mov_det.Next;
     end;
-    desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
+    cds_MovimentoDESCONTO.AsFloat := DMNF.scds_cli_procDESCONTO.AsFloat;
     cds_Mov_det.Edit;
     if (cds_Mov_detQTDE_ALT.AsFloat <= 0) then
-      cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
+      cds_Mov_detQTDE_ALT.AsFloat:= cds_MovimentoDESCONTO.AsFloat; ;
     cds_MovimentoCODVENDEDOR.AsInteger := dmnf.scds_cli_procCODUSUARIO.AsInteger;
     cds_MovimentoNOMEUSUARIO.AsString := dmnf.scds_cli_procNOMEUSUARIO.AsString;
 
@@ -3043,7 +3052,8 @@ begin
         if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
           cds_Mov_detQUANTIDADE.AsFloat := 1;
         qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-        //cds_Mov_detQTDE_ALT.AsFloat := 0;
+        if(cds_MovimentoDesconto.asFloat > 0 ) then
+          cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
         cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
         if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
            cds_Mov_detPRECO.AsFloat :=
@@ -3404,7 +3414,10 @@ begin
       if (cds_Mov_detQUANTIDADE.AsFloat < 1) then
         cds_Mov_detQUANTIDADE.AsFloat := 1;
       qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-      cds_Mov_detQTDE_ALT.AsFloat := 0;
+      if(cds_MovimentoDesconto.asFloat > 0 ) then
+        cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat
+      else
+        cds_Mov_detQTDE_ALT.AsFloat := 0;
       cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
       if dm.scds_produto_procQTDE_PCT.AsFloat >= 1 then
          cds_Mov_detPRECO.AsFloat :=
