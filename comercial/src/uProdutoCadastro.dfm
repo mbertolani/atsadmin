@@ -87,8 +87,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Descri'#231#227'o Adicional'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 528
-    Width = 796
+    Top = 517
+    Width = 788
     TabOrder = 13
     inherited btnGravar: TBitBtn
       Left = 278
@@ -117,7 +117,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 796
+    Width = 788
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
