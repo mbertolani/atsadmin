@@ -19,7 +19,7 @@ inherited fVendas: TfVendas
   end
   object Label14: TLabel [1]
     Left = 635
-    Top = 291
+    Top = 323
     Width = 34
     Height = 16
     Caption = 'Obs..:'
@@ -77,7 +77,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 798
+    Width = 790
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1347,12 +1347,12 @@ inherited fVendas: TfVendas
   end
   object GroupBox4: TGroupBox [13]
     Left = 634
-    Top = 217
+    Top = 253
     Width = 150
     Height = 69
     Caption = 'TOTAL R$.'
     PopupMenu = PopupMenu1
-    TabOrder = 7
+    TabOrder = 8
     object DBEdit4: TDBEdit
       Left = 8
       Top = 24
@@ -1382,7 +1382,7 @@ inherited fVendas: TfVendas
     Height = 101
     Caption = 'PLACA DO VE'#205'CULO'
     PopupMenu = PopupMenu1
-    TabOrder = 8
+    TabOrder = 9
     Visible = False
     object Label10: TLabel
       Left = 10
@@ -1429,9 +1429,9 @@ inherited fVendas: TfVendas
   end
   object DBMemo1: TDBMemo [15]
     Left = 635
-    Top = 306
+    Top = 338
     Width = 148
-    Height = 97
+    Height = 63
     TabStop = False
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -1440,17 +1440,17 @@ inherited fVendas: TfVendas
     DataSource = DtSrc
     PopupMenu = PopupMenu1
     ReadOnly = True
-    TabOrder = 9
+    TabOrder = 10
   end
   object MMJPanel3: TMMJPanel [16]
     Left = 0
-    Top = 539
-    Width = 798
+    Top = 528
+    Width = 790
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
-    TabOrder = 10
+    TabOrder = 11
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -1488,7 +1488,7 @@ inherited fVendas: TfVendas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 12
     OnExit = DBEdit15Exit
     OnKeyPress = FormKeyPress
   end
@@ -1509,7 +1509,7 @@ inherited fVendas: TfVendas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 13
     OnKeyPress = FormKeyPress
   end
   object ComboBox2: TComboBox [19]
@@ -1525,7 +1525,7 @@ inherited fVendas: TfVendas
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 14
+    TabOrder = 15
     Visible = False
     OnChange = ComboBox2Change
   end
@@ -1556,7 +1556,7 @@ inherited fVendas: TfVendas
     Width = 633
     Height = 358
     ActivePage = Itens
-    TabOrder = 6
+    TabOrder = 7
     TabStop = False
     object Itens: TTabSheet
       Caption = 'Itens'
@@ -2427,7 +2427,7 @@ inherited fVendas: TfVendas
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 15
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
   object SpeedButton1: TBitBtn [23]
@@ -2436,7 +2436,7 @@ inherited fVendas: TfVendas
     Width = 37
     Height = 37
     PopupMenu = PopupMenu1
-    TabOrder = 16
+    TabOrder = 17
     TabStop = False
     OnClick = BitBtn6Click
     Glyph.Data = {
@@ -2524,7 +2524,7 @@ inherited fVendas: TfVendas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 14
     OnKeyPress = FormKeyPress
   end
   object BitBtn7: TBitBtn [25]
@@ -2533,7 +2533,7 @@ inherited fVendas: TfVendas
     Width = 132
     Height = 20
     Caption = 'Ver Mov. Produto'
-    TabOrder = 17
+    TabOrder = 18
     OnClick = BitBtn7Click
   end
   object edCfop: TEdit [26]
@@ -2543,8 +2543,36 @@ inherited fVendas: TfVendas
     Height = 24
     BiDiMode = bdRightToLeft
     ParentBiDiMode = False
-    TabOrder = 18
+    TabOrder = 19
     OnExit = edCfopExit
+  end
+  object GroupBox6: TGroupBox [27]
+    Left = 634
+    Top = 210
+    Width = 150
+    Height = 42
+    Caption = 'DESCONTO %.'
+    PopupMenu = PopupMenu1
+    TabOrder = 6
+    object DBEdit20: TDBEdit
+      Left = 8
+      Top = 15
+      Width = 125
+      Height = 24
+      TabStop = False
+      DataField = 'DESCONTO'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      ReadOnly = True
+      TabOrder = 0
+      OnKeyPress = FormKeyPress
+    end
   end
   inherited XPMenu1: TXPMenu
     Left = 688
@@ -4040,6 +4068,9 @@ inherited fVendas: TfVendas
     object sds_MovimentoCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
     end
+    object sds_MovimentoDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
   end
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
@@ -4167,10 +4198,12 @@ inherited fVendas: TfVendas
     end
     object cds_MovimentoOBS: TStringField
       FieldName = 'OBS'
+      ProviderFlags = [pfInUpdate]
       Size = 100
     end
     object cds_MovimentoOBSCLI: TStringField
       FieldName = 'OBSCLI'
+      ProviderFlags = []
       Size = 200
     end
     object cds_MovimentoPRAZO_ENT: TIntegerField
@@ -4197,6 +4230,9 @@ inherited fVendas: TfVendas
     end
     object cds_MovimentoCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+    end
+    object cds_MovimentoDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
     end
   end
   object sdslote: TSQLDataSet
