@@ -337,8 +337,8 @@ begin
     DM.cds_Marca.Close;
   DM.cds_Marca.Open;
   DBOrigem.ItemIndex := 0;
-  DBEdit22.Text := '00000000';
-  DBEdit4.Text := 'UN';
+  dm.cds_produtoNCM.AsString := '00000000';
+  dm.cds_produtoUNIDADEMEDIDA.AsString := 'UN';
 
 end;
 
