@@ -287,6 +287,7 @@ uses
   uFiltroCorreio in 'uFiltroCorreio.pas' {FiltroCorreio},
   uListaVenda in 'uListaVenda.pas' {fListaVenda},
   uComandaNTC in 'uComandaNTC.pas' {fComandaNTC},
+  uVendaRelPorNotaFiscalLote in 'uVendaRelPorNotaFiscalLote.pas' {fVendaRelPorNotaFiscalLote};
   uRetira in 'uRetira.pas' {fRetira};
 
 {$R *.res}
