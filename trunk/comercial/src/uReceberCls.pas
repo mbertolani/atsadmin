@@ -382,8 +382,8 @@ end;
 
 function TReceberCls.excluiTitulo(codVendaE: Integer): Boolean;
 begin
- // Excluir Venda
-  if (executaSql('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(codVendaE))) then
+ // Excluir Recebimento
+  if (executaSql('DELETE FROM RECEBIMENTO WHERE CODVENDA = ' + IntToStr(codVendaE))) then
     Result := True
   else
     Result := False;
