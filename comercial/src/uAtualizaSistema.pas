@@ -1711,6 +1711,7 @@ begin
 
     if (versaoSistema = '1.0.0.111') then
     begin
+      executaDDL('MOVIMENTO', 'DESCONTO', 'DOUBLE PRECISION');
       executaScript('gera_nf_venda112.sql');
       executaScript('rel_vendaCompra112.sql');
       executaScript('calcula_icms112.sql');      
