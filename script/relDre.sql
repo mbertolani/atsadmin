@@ -52,13 +52,10 @@ BEGIN
   SUSPEND;
   TOTALIZA = 0;
   TOTAL = 0;
-  FOR select sum(md.valTotal)    
-     FROM MOVIMENTO mov 
-       inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
-       inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
-       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
-     where  (mov.codnatureza = 3) and (ven.DATAVENDA between :PDTA1 AND :PDTA2) 
-          and ((PROD.TIPO = 'PROD') OR (PROD.TIPO IS NULL)) and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
+  FOR select sum(v.VALORVENDA)    
+     FROM VIEW_VENDA V 
+     where (v.DATAVENDA between :PDTA1 AND :PDTA2) 
+          and ((v.TIPOPRODUTO = 'PROD') OR (v.TIPOPRODUTO IS NULL)) and ((v.CODCCUSTO = :PCC) OR (:PCC = 0))
      INTO :CREDITO
   do
   begin    
@@ -97,13 +94,10 @@ BEGIN
   CONTA  = null;
   CREDITO = null;
   TOTALIZA = 0;
-  FOR select sum(md.valTotal)    
-     FROM MOVIMENTO mov 
-       inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
-       inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
-       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
-     where (mov.codnatureza = 3) and (ven.DATAVENDA between :PDTA1 AND :PDTA2) 
-          and PROD.TIPO = 'SERV' and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
+  FOR select sum(v.VALORVENDA)    
+     FROM VIEW_VENDA v 
+     where (v.DATAVENDA between :PDTA1 AND :PDTA2) 
+          and v.TIPOPRODUTO = 'SERV' and ((v.CODCCUSTO = :PCC) OR (:PCC = 0))
      INTO :CREDITO
   do
   begin    
