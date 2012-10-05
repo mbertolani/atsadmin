@@ -638,6 +638,10 @@ type
     sds_cliCODFISCAL: TStringField;
     cds_cliCODFISCAL: TStringField;
     Label80: TLabel;
+    DBEdit62: TDBEdit;
+    Label81: TLabel;
+    sds_cliSUFRAMA: TStringField;
+    cds_cliSUFRAMA: TStringField;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -710,6 +714,7 @@ type
     procedure CalculaDesconto;
     function Verifica_Campos_Em_Branco: Boolean;
     function Verifica_Campos_Em_BrancoEndereco: Boolean;
+    function ValidarISUF: Boolean;                    
   public
 //    function CalculaCnpjCpf(Numero : String) : String;
     function cpf(num: string): boolean;
@@ -1185,6 +1190,13 @@ begin
  parente := 0;
  if ((PageControl1.ActivePage = TabSheet1) or (PageControl1.ActivePage = TabInternet)) then
  begin
+    if (cds_cliSUFRAMA.Size > 0) then
+      if not ValidarISUF then
+      begin
+        MessageDlg('Código SUFRAMA inválido.', mtWarning, [mbOK], 0);
+        Exit;
+      end;
+
     if DtSrc.DataSet.State in [dsInsert] then
     begin
       if (cdsLocate.Locate('NOMECLIENTE', DBEdit2.Text ,[loCaseInsensitive])) then
@@ -2690,6 +2702,46 @@ begin
   if(cdsEnderecoCli.State in [dsBrowse]) then
     cdsEnderecoCli.Edit;
   cdsEnderecoCliPAIS.AsString := cbPais.Text;
+end;
+
+
+
+function TfClienteCadastro.ValidarISUF: boolean;
+var iFator, iTamanho, iTotal, iCont, iDigito, i : integer;
+    aDigito : array[1..9] of integer;
+begin
+   // encontramos o tamanho do número do suframa ...
+   Result   := True;
+   iTamanho := length(trim(cds_cliSUFRAMA.AsString));
+   iFator   := 9;
+   iCont    := 1;
+
+   if trim(cds_cliSUFRAMA.AsString) = '' then
+     exit;
+
+   // se o tamanho ultrapassar de 9, deveremos interromper o
+   if iTamanho <> 9 then
+   begin
+      Result := False;
+      exit;
+   end;
+
+   // cálculamos a somatória dos dígitos do número do suframa ..
+   iTotal := 0;
+
+   for i := ( iTamanho - 2 + iCont ) downto 1 do
+   begin
+      aDigito[i] := StrToInt(Copy(cds_cliSUFRAMA.AsString,i,1)) * iFator;
+      iTotal := iTotal + aDigito[i];
+      iFator := iFator - 1;
+   end;
+
+   // encontramos o dígito verificador do número do suframa ...
+   aDigito[iCont] := StrToInt(Copy(cds_cliSUFRAMA.AsString,iTamanho,1));
+   iDigito := iTotal mod 11;
+
+   if aDigito[iCont] <> iDigito then
+     Result := False;
 end;
 
 end.
