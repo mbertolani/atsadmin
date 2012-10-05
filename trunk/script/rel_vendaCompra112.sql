@@ -1,5 +1,4 @@
-SET TERM ^ ;
-ALTER PROCEDURE REL_VENDACOMPRA (
+CREATE OR ALTER PROCEDURE REL_VENDACOMPRA (
     PDTA1 Date,
     PDTA2 Date, cCusto integer)
 RETURNS (
@@ -189,10 +188,4 @@ BEGIN
     --if ((qtdeVenda > 0) or (qtdeCompra > 0)) then 
       suspend;
   end 
-END^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE REL_VENDACOMPRA TO  SYSDBA;
-
+END
