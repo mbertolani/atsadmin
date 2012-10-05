@@ -1715,7 +1715,7 @@ begin
       executaScript('gera_nf_venda112.sql');
       executaScript('rel_vendaCompra112.sql');
       executaScript('calcula_icms112.sql');      
-      //mudaVersao('1.0.0.112');
+      mudaVersao('1.0.0.112');
     end;// Fim Atualizacao Versao 1.0.0.112
 
 
