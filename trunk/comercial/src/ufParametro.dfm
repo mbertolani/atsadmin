@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 792
     Height = 473
-    ActivePage = TabPDV
+    ActivePage = TabSheet7
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2346,6 +2346,37 @@ inherited fParametro: TfParametro
           Caption = 
             'Este parametro '#233' configurado em Natureza da Opera'#231#227'o, a Natureza' +
             ' c'#243'digo 3 deve ter o campo BaixaMovimento alterado para 9'
+        end
+      end
+      object GroupBox31: TGroupBox
+        Left = 2
+        Top = 383
+        Width = 769
+        Height = 48
+        Caption = 'Desconto na Venda de Clientes com SUFRAMA'
+        TabOrder = 6
+        object Label51: TLabel
+          Left = 8
+          Top = 20
+          Width = 57
+          Height = 13
+          Caption = 'Desconto %'
+        end
+        object MaskEdit3: TMaskEdit
+          Left = 74
+          Top = 18
+          Width = 66
+          Height = 21
+          TabOrder = 0
+        end
+        object BitBtn31: TBitBtn
+          Left = 677
+          Top = 15
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = BitBtn31Click
         end
       end
     end

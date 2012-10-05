@@ -283,6 +283,10 @@ type
     rg1: TRadioGroup;
     edtCaixinha: TEdit;
     lbl16: TLabel;
+    GroupBox31: TGroupBox;
+    MaskEdit3: TMaskEdit;
+    Label51: TLabel;
+    BitBtn31: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -356,6 +360,7 @@ type
     procedure edtPorcChange(Sender: TObject);
     procedure rg1Click(Sender: TObject);
     procedure edtCaixinhaChange(Sender: TObject);
+    procedure BitBtn31Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -4234,6 +4239,39 @@ begin
                [mbOk], 0);
         end;
      end;
+  end;
+end;
+
+procedure TfParametro.BitBtn31Click(Sender: TObject);
+var
+   TD: TTransactionDesc;
+   strsql : string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'SUFRAMA';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strsql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, DADOS, D1)' +
+      ' VALUES (' + QuotedStr('Desconto Venda Cliente com SUFRAMA') + ', ' +
+      QuotedStr('SUFRAMA') + ', ' + QuotedStr('S') + ', NULL,' + QuotedStr(MaskEdit3.Text) +')';
+  end
+  else
+    strsql := 'UPDATE PARAMETRO SET D1 = ' + QuotedStr(MaskEdit3.Text) + ' WHERE PARAMETRO = ' + QuotedStr('SUFRAMA');
+
+  dm.sqlsisAdimin.ExecuteDirect(strsql);
+  Try
+     dm.sqlsisAdimin.Commit(TD);
+     MessageDlg('Desconto Venda Cliente com SUFRAMA inserida/alterada com sucesso!', mtInformation,
+         [mbOk], 0);
+  except
+     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+     MessageDlg('Erro no sistema, Desconto SUFRAMA não incluído/alterado!', mtError,
+         [mbOk], 0);
   end;
 end;
 

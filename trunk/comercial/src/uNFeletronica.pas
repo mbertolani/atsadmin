@@ -650,6 +650,7 @@ type
     sClienteCODFISCAL: TStringField;
     sCFOPCODFISCAL: TStringField;
     sFornecCODFISCAL: TStringField;
+    sClienteSUFRAMA: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1830,7 +1831,7 @@ begin
       Dest.EnderDest.xLgr    := sFornecLOGRADOURO.AsString;
       if ((sFornecNUMERO.IsNull) or (sFornecNUMERO.AsString = '')) then
       begin
-        Dest.EnderDest.nro     := 'sn';
+        Dest.EnderDest.nro     := 'S/N';
       end
       else
         Dest.EnderDest.nro     := sFornecNUMERO.AsString;
@@ -1851,10 +1852,12 @@ begin
     begin
       Dest.CNPJCPF           := RemoveChar(sClienteCNPJ.AsString);
       Dest.xNome             := sClienteRAZAOSOCIAL.AsString;
+      if (sClienteSUFRAMA.Size = 9) then
+        Dest.ISUF              := sClienteSUFRAMA.AsString;
       Dest.EnderDest.xLgr    := sClienteLOGRADOURO.AsString;
       if ((sClienteNUMERO.IsNull) or (sClienteNUMERO.AsString = '')) then
       begin
-        Dest.EnderDest.nro     := 'sn';
+        Dest.EnderDest.nro     := 'S/N';
       end
       else
         Dest.EnderDest.nro     := sClienteNUMERO.AsString;

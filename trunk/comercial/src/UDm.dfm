@@ -675,12 +675,12 @@ object DM: TDM
       'i.NOMECLIENTE, '#13#10'          cli.RAZAOSOCIAL, '#13#10'          cli.CODB' +
       'ANCO, '#13#10'          cli.PRAZORECEBIMENTO, '#13#10'          cli.OBS,  '#13#10 +
       '          cli.SEGMENTO, '#13#10'          cli.STATUS, '#13#10'          usu.' +
-      'NOMEUSUARIO, ende.UF, cli.BLOQUEIO  , cli.desconto, cli.CFOP'#13#10'fr' +
-      'om CLIENTES cli '#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSUARI' +
-      'O=cli.CODUSUARIO '#13#10'left outer join ENDERECOCLIENTE ende on ende.' +
-      'CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.NOMECLIENTE like :pCLIEN' +
-      'TE '#13#10'or cli.RAZAOSOCIAL like :pRAZAO '#13#10'or cli.CODCLIENTE = :pCOD' +
-      'CLIENTE '#13#10'order by cli.NOMECLIENTE'
+      'NOMEUSUARIO, ende.UF, cli.BLOQUEIO  , cli.desconto, cli.CFOP, cl' +
+      'i.SUFRAMA'#13#10'from CLIENTES cli '#13#10'left outer join USUARIO usu '#13#10'on ' +
+      'usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left outer join ENDERECOCLIENTE ' +
+      'ende on ende.CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.NOMECLIENTE' +
+      ' like :pCLIENTE '#13#10'or cli.RAZAOSOCIAL like :pRAZAO '#13#10'or cli.CODCL' +
+      'IENTE = :pCODCLIENTE '#13#10'order by cli.NOMECLIENTE'
     MaxBlobSize = -1
     Params = <
       item
@@ -758,6 +758,10 @@ object DM: TDM
       FieldName = 'CFOP'
       FixedChar = True
       Size = 4
+    end
+    object scds_cliente_procSUFRAMA: TStringField
+      FieldName = 'SUFRAMA'
+      Size = 9
     end
   end
   object scds_produto_proc: TSQLDataSet

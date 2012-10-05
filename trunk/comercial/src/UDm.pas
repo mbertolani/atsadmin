@@ -1957,6 +1957,7 @@ type
     scds_cliente_procCFOP: TStringField;
     scds_cli_procCFOP: TStringField;
     scds_cli_procUF: TStringField;
+    scds_cliente_procSUFRAMA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);

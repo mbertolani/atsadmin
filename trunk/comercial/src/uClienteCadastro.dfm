@@ -688,7 +688,7 @@ inherited fClienteCadastro: TfClienteCadastro
         FocusControl = DBEdit15
       end
       object Label20: TLabel
-        Left = 260
+        Left = 249
         Top = 257
         Width = 21
         Height = 13
@@ -696,7 +696,7 @@ inherited fClienteCadastro: TfClienteCadastro
         FocusControl = DBEdit16
       end
       object Label21: TLabel
-        Left = 454
+        Left = 427
         Top = 258
         Width = 14
         Height = 13
@@ -749,7 +749,7 @@ inherited fClienteCadastro: TfClienteCadastro
         FocusControl = DBEdit10
       end
       object Label74: TLabel
-        Left = 356
+        Left = 339
         Top = 257
         Width = 61
         Height = 13
@@ -771,7 +771,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = '% Desconto'
       end
       object Label79: TLabel
-        Left = 548
+        Left = 524
         Top = 257
         Width = 20
         Height = 13
@@ -784,6 +784,14 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 51
         Height = 13
         Caption = 'Tipo Fiscal'
+      end
+      object Label81: TLabel
+        Left = 649
+        Top = 257
+        Width = 39
+        Height = 13
+        Caption = 'Suframa'
+        FocusControl = DBEdit62
       end
       object DBNavigator1: TDBNavigator
         Left = 511
@@ -1268,7 +1276,7 @@ inherited fClienteCadastro: TfClienteCadastro
         OnKeyPress = FormKeyPress
       end
       object DBComboBox1: TDBComboBox
-        Left = 453
+        Left = 426
         Top = 270
         Width = 45
         Height = 24
@@ -1292,7 +1300,7 @@ inherited fClienteCadastro: TfClienteCadastro
       object DBEdit15: TDBEdit
         Left = 74
         Top = 270
-        Width = 182
+        Width = 170
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -1308,9 +1316,9 @@ inherited fClienteCadastro: TfClienteCadastro
         OnKeyPress = FormKeyPress
       end
       object DBEdit16: TDBEdit
-        Left = 260
+        Left = 249
         Top = 270
-        Width = 87
+        Width = 80
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -1908,7 +1916,7 @@ inherited fClienteCadastro: TfClienteCadastro
           1010101010070707070707070707070707070707070707070707}
       end
       object SpeedButton3: TBitBtn
-        Left = 502
+        Left = 478
         Top = 260
         Width = 41
         Height = 34
@@ -2120,9 +2128,9 @@ inherited fClienteCadastro: TfClienteCadastro
         TabOrder = 18
       end
       object DBEdit59: TDBEdit
-        Left = 354
+        Left = 337
         Top = 270
-        Width = 95
+        Width = 80
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -2180,9 +2188,9 @@ inherited fClienteCadastro: TfClienteCadastro
         OnKeyPress = FormKeyPress
       end
       object cbPais: TJvComboBox
-        Left = 548
+        Left = 524
         Top = 270
-        Width = 177
+        Width = 119
         Height = 22
         Style = csOwnerDrawFixed
         Font.Charset = DEFAULT_CHARSET
@@ -2215,6 +2223,24 @@ inherited fClienteCadastro: TfClienteCadastro
         ParentCtl3D = False
         ParentFont = False
         TabOrder = 40
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit62: TDBEdit
+        Left = 649
+        Top = 270
+        Width = 74
+        Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'SUFRAMA'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 41
         OnKeyPress = FormKeyPress
       end
     end
@@ -2328,7 +2354,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2628,7 +2654,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2738,7 +2764,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 14
       end
@@ -3128,7 +3154,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 19
       end
@@ -5560,7 +5586,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -5806,7 +5832,9 @@ inherited fClienteCadastro: TfClienteCadastro
     end
     object TabSheet3: TTabSheet
       Caption = 'FINANCEIRO'
+      Enabled = False
       ImageIndex = 7
+      TabVisible = False
       object Label71: TLabel
         Left = 2
         Top = 379
@@ -6195,7 +6223,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change
@@ -6551,6 +6579,10 @@ inherited fClienteCadastro: TfClienteCadastro
       FixedChar = True
       Size = 1
     end
+    object sds_cliSUFRAMA: TStringField
+      FieldName = 'SUFRAMA'
+      Size = 9
+    end
   end
   object dsp_cli: TDataSetProvider
     DataSet = sds_cli
@@ -6887,6 +6919,10 @@ inherited fClienteCadastro: TfClienteCadastro
       FieldName = 'CODFISCAL'
       FixedChar = True
       Size = 1
+    end
+    object cds_cliSUFRAMA: TStringField
+      FieldName = 'SUFRAMA'
+      Size = 9
     end
   end
   object scds_usuario_proc: TSQLClientDataSet
@@ -7633,8 +7669,8 @@ inherited fClienteCadastro: TfClienteCadastro
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 380
-    Top = 351
+    Left = 4
+    Top = 455
     object SQLDataSet3CODCLIDEPEN: TIntegerField
       FieldName = 'CODCLIDEPEN'
       Required = True
@@ -7655,8 +7691,8 @@ inherited fClienteCadastro: TfClienteCadastro
     DataSet = SQLDataSet3
     Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
-    Left = 410
-    Top = 351
+    Left = 34
+    Top = 455
   end
   object cdsParente: TClientDataSet
     Aggregates = <>
@@ -7667,8 +7703,8 @@ inherited fClienteCadastro: TfClienteCadastro
         ParamType = ptInput
       end>
     ProviderName = 'DataSetProvider3'
-    Left = 441
-    Top = 351
+    Left = 65
+    Top = 455
     object cdsParenteCODCLIDEPEN: TIntegerField
       FieldName = 'CODCLIDEPEN'
       Required = True
@@ -7687,8 +7723,8 @@ inherited fClienteCadastro: TfClienteCadastro
   end
   object dsParente: TDataSource
     DataSet = cdsParente
-    Left = 471
-    Top = 352
+    Left = 95
+    Top = 456
   end
   object SQLDataSet4: TSQLDataSet
     CommandText = 
@@ -8178,8 +8214,8 @@ inherited fClienteCadastro: TfClienteCadastro
     Aggregates = <>
     Params = <>
     ProviderName = 'dspPais'
-    Left = 672
-    Top = 342
+    Left = 656
+    Top = 278
     object sqlPaisCODPAIS: TStringField
       FieldName = 'CODPAIS'
       Required = True
@@ -8194,16 +8230,16 @@ inherited fClienteCadastro: TfClienteCadastro
   end
   object dspPais: TDataSetProvider
     DataSet = sdsPais
-    Left = 636
-    Top = 342
+    Left = 620
+    Top = 278
   end
   object sdsPais: TSQLDataSet
     CommandText = 'Select * from PAIS'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 596
-    Top = 342
+    Left = 580
+    Top = 278
     object sdsPaisCODPAIS: TStringField
       FieldName = 'CODPAIS'
       Required = True

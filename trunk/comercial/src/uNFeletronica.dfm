@@ -2795,10 +2795,10 @@ object fNFeletronica: TfNFeletronica
       'COMPLEMENTO, '#13#10'           cast(e.CIDADE as varchar (60) ) as CID' +
       'ADE, '#13#10'           e.UF,            e.CEP ,           e.NUMERO,  ' +
       '         e.TELEFONE,'#13#10'           e.DDD,           e.CD_IBGE,    ' +
-      '       e.E_MAIL,'#13#10'           e.PAIS, p.CODPAIS, c.CODFISCAL'#13#10'fro' +
-      'm CLIENTES c '#13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CODCLIENTE = ' +
-      'c.CODCLIENTE '#13#10'inner join PAIS p on p.PAIS = e.PAIS'#13#10'where c.COD' +
-      'CLIENTE = :id and e.TIPOEND = 0'
+      '       e.E_MAIL,'#13#10'           e.PAIS, p.CODPAIS, c.CODFISCAL, c.S' +
+      'UFRAMA'#13#10'from CLIENTES c '#13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CO' +
+      'DCLIENTE = c.CODCLIENTE '#13#10'inner join PAIS p on p.PAIS = e.PAIS'#13#10 +
+      'where c.CODCLIENTE = :id and e.TIPOEND = 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -2910,6 +2910,11 @@ object fNFeletronica: TfNFeletronica
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object sClienteSUFRAMA: TStringField
+      FieldName = 'SUFRAMA'
+      ReadOnly = True
+      Size = 9
     end
   end
   object OpenDialog1: TOpenDialog
