@@ -1458,6 +1458,7 @@ procedure TfCompra.btnNovoClick(Sender: TObject);
 
 begin
   inherited;
+  DecimalSeparator := ',';
   if (J = 10) then
   begin
     btnGravar.Click;
