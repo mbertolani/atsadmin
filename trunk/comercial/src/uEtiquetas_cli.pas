@@ -168,7 +168,7 @@ begin
        sEndereco.Params[1].AsInteger := tipoend;
        sEndereco.Open;
        if (Combo.text = '6181') then
-         MSWord.Selection.TypeText(Text :=trim(fListaClientes.cdsRAZAOSOCIAL.AsString)+#13+trim (sEnderecoLOGRADOURO.AsString)+ ', ' + trim (sEnderecoNUMERO.AsString) + ' - ' + trim (sEnderecoBAIRRO.AsString) + ' - ' +  (sEnderecoCOMPLEMENTO.AsString)  +#13+trim (sEnderecoCIDADE.AsString) + ' CEP: ' + trim (sEnderecoCEP.AsString) + ' UF: ' + trim (sEnderecoUF.AsString))
+         MSWord.Selection.TypeText(Text :=trim(fListaClientes.cdsRAZAOSOCIAL.AsString)+#13+trim (sEnderecoLOGRADOURO.AsString)+ ', ' + trim (sEnderecoNUMERO.AsString) + ' - ' + trim (sEnderecoBAIRRO.AsString) + ' - ' +  (sEnderecoCOMPLEMENTO.AsString)  +#13+trim (sEnderecoCIDADE.AsString) + ' UF: ' + trim (sEnderecoUF.AsString) + ' CEP: ' + trim (sEnderecoCEP.AsString) )
        else
          MSWord.Selection.TypeText(Text :=#13+ 'Destinatário' +#13+#13+trim(fListaClientes.cdsRAZAOSOCIAL.AsString)+#13+trim (sEnderecoLOGRADOURO.AsString)+ ', ' + trim (sEnderecoNUMERO.AsString) + ' - ' + trim (sEnderecoBAIRRO.AsString) + ' - ' + trim (sEnderecoCOMPLEMENTO.AsString) + #13 +trim (sEnderecoCIDADE.AsString) + ' - ' + trim (sEnderecoUF.AsString) + #13 + 'CEP: ' + trim (sEnderecoCEP.AsString));
        if finallinha=false then
