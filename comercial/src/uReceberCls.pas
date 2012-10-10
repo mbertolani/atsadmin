@@ -450,6 +450,7 @@ begin
         Self.CodCCusto     := sqlBuscaR.FieldByName('CODCCUSTO').AsInteger;
         Self.Titulo        := Trim(IntToStr(sqlBuscaR.FieldByName('NOTAFISCAL').AsInteger) +
           '-' + sqlBuscaR.FieldByName('SERIE').AsString);
+        Self.NDoc          := sqlBuscaR.FieldByName('N_DOCUMENTO').AsString;
       end;
     Finally
       sqlBuscaR.Free;
@@ -681,7 +682,7 @@ begin
     strG := strG + '0, ';  // FUNRURAL
     strG := strG + '0, ';  // Perda
     strG := strG + '0, ';  // Troca
-    strG := strG + QuotedStr('') + ', '; // N.Doc.
+    strG := strG + QuotedStr(Self.NDoc) + ', '; // N.Doc.
     strG := strG + '0, ';  // Outro_Credito
     strG := strG + IntToStr(1) + ', '; // Caixa
     strG := strG + IntToStr(1) + ', '; // Situacao
