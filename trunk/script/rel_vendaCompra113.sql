@@ -82,6 +82,24 @@ BEGIN
       if (totIcms > 0) then 
         icmsVenda = icmsVenda + (totProdIcms/totIcms)*tIcms;
     end
+    
+        --CUSTO ITEM 
+    Select first 1 emt.PRECOCUSTO
+      from ESTOQUEMES emt
+     where ((emt.CODPRODUTO = :codPro) 
+       and ((emt.CENTROCUSTO = :ccusto) or (:ccusto = 0)) 
+       and (emt.MESANO <= :pdta2))
+     order by emt.MESANO desc   
+     into :vlrCustoTotal;
+     
+     if (vlrCustoTotal is null) then 
+     begin 
+       select p.VALORUNITARIOATUAL from produtos p where p.CODPRODUTO = :pro 
+       into :vlrCustoTotal;
+     end 
+     
+     
+     
     -- Valores de Venda
     -- O Campo VLRESTOQUE estÃ¡ armazenando o custo dos itens vendidos
     For Select sum(v.Qtde), SUM(v.VALORVENDA) 
@@ -169,7 +187,7 @@ BEGIN
     else 
       vlrLucro = 0;
 
-   
+    vlrCustoTotal = vlrCustoTotal * QtdeVenda;
 
     if (qtdeVenda > 0) then
       PercentProduto =  100*((qtdeVenda / total)-100);
