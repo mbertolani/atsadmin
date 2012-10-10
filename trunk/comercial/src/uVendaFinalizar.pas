@@ -680,7 +680,7 @@ begin
     dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(fVendas.dbeCliente.Text);
     dm.scds_cliente_proc.Open;
     cdsDATAVENCIMENTO.AsDateTime := cdsDATAVENDA.AsDateTime  + dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
-    if (DM.scds_cliente_procSUFRAMA.Size = 9) then
+    if (Length(dm.scds_cliente_procSUFRAMA.AsString) = 9) then
       suframa := True
     else
       suframa := False;
@@ -695,6 +695,7 @@ begin
     cdsCOD_TRANPORTADORA.AsInteger := fVendas.cds_MovimentoCODTRANSP.AsInteger;
     if (sqs_tit.Active) then
       sqs_tit.Close;
+
     //CARREGA DESCONTO CLIENTE COM SUFRAMA
     if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -703,7 +704,10 @@ begin
     if (dm.cds_parametro.IsEmpty) then
       aliqsuf := 0
     else
-      aliqsuf := StrToFloat(dm.cds_parametroD1.AsString);
+      if (suframa) then
+        aliqsuf := StrToFloat(dm.cds_parametroD1.AsString)
+      else
+        aliqsuf := 0;
 
     if (dm.moduloUsado <> 'CITRUS') then
     begin
@@ -737,12 +741,12 @@ begin
       cdsCODCCUSTO.AsInteger := fTerminal.cds_MovimentoCODALMOXARIFADO.AsInteger;
       cdsCODUSUARIO.AsInteger := usulog;
       cdsDATASISTEMA.AsDateTime := Now;
-      cdsDESCONTO.AsFloat := (cdsVALOR.AsFloat * aliqsuf)/100;
       cdsMULTA_JUROS.AsFloat := 0;
       cdsENTRADA.AsFloat := 0;
       cdsVALOR_PAGAR.AsFloat := 0;
       cdsAPAGAR.AsFloat := 0;
       cdsN_PARCELA.AsInteger := 1;
+      cdsDESCONTO.AsFloat := (cdsVALOR.AsFloat * aliqsuf)/100;
       cdsBANCO.AsInteger := 0;
       if dm.scds_cliente_proc.Active then
         dm.scds_cliente_proc.Close;
