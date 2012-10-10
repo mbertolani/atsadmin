@@ -875,8 +875,10 @@ begin
   if (PageControl1.ActivePage = TabDelivery) then
     sql := sql + QuotedStr('D') + ')'; // Venda Delivery
 
-  Try
+  dm.c_6_genid.Close;
+  dm.cds_parametro.Close;
 
+  Try
      dm.sqlsisAdimin.ExecuteDirect(sql);
      dm.sqlsisAdimin.Commit(TD);
   except
@@ -2286,7 +2288,7 @@ begin
 
   if (tipoImpressao = '') then
   begin
-    ShowMessage('Parametro Tipo Impressão não configurado');
+    ShowMessage('Parametro Tipo Impressao nao configurado');
     exit;
   end;
 
@@ -2657,12 +2659,12 @@ begin
      ' - ' + dm.cds_empresaCEP.Value;
      fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
      ' / ' + dm.cds_empresaFONE_2.Value;
-     Texto  := '-----------------------------------------------------' ;
-     Texto1 := '                  FECHAMENTO PARCIAL                 ';
-     Texto2 := '-----------------------------------------------------' ;
+     Texto  := '--------------------------------------------------' ;
+     Texto1 := '                FECHAMENTO PARCIAL                ';
+     Texto2 := '--------------------------------------------------' ;
      Texto3 := 'Produto ' ;
-     Texto4 := 'Cod.Barra        UN      Qtde     V.Un.     V.Total ' ;
-     Texto5 := DateTimeToStr(Now) + '           Total.: R$ ';
+     Texto4 := 'Cod.Barra       UN    Qtde     V.Un.     V.Total ' ;
+     Texto5 := DateTimeToStr(Now) + '        Total.: R$ ';
      if (PageControl1.ActivePage = TabSheet1) then
        cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
 
@@ -2718,7 +2720,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
         exit;
       end;
 
@@ -2817,8 +2819,8 @@ begin
           exit;
         end;
         buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
-        buffer  := buffer + Format('   %2s  ',[DM_MOV.c_movdetUN.Value]);
-        buffer  := buffer + Format('   %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+        buffer  := buffer + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
+        buffer  := buffer + Format(' %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
         buffer  := buffer + Format('   %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
         buffer  := buffer + Format('   %8.2n',[DM_MOV.c_movdetValorTotal.value]);
         buffer  := buffer + Chr(13) + Chr(10);
@@ -2871,7 +2873,7 @@ begin
        porc    := 0;
        if (JvComissao.Value > 0) then
        begin
-         Texto5 := DateTimeToStr(Now) + '               % : R$ ';
+         Texto5 := DateTimeToStr(Now) + '            % : R$ ';
          buffer  := texto5;
          porc    := (JvComissao.Value / 100) * total;
          buffer  := buffer + Format('%10.2n',[porc]);
@@ -2888,9 +2890,10 @@ begin
      s_parametro.Close;
      if (JvParcial.Value > 0) then
      begin
-       Texto5 := DateTimeToStr(Now) + '               % : R$ ';
+       Texto5 := DateTimeToStr(Now) + '            % : R$ ';
        parcial := JvParcial.Value;
-       poc := JvSubtotal.Value;
+       //poc := JvSubtotal.Value;
+       poc := total - parcial;
        buffer  := texto5;
        buffer  := buffer + Format('%10.2n',[parcial]);
        buffer  := buffer + Chr(13) + Chr(10);
