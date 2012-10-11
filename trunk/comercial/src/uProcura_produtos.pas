@@ -212,6 +212,7 @@ type
     cds_procGRUPO: TStringField;
     cds_procSUBGRUPO: TStringField;
     rgNCM: TCheckBox;
+    BitBtn9: TBitBtn;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -261,7 +262,10 @@ type
       Shift: TShiftState);
     procedure JvDBGrid1TitleClick(Column: TColumn);
     procedure Importar1Click(Sender: TObject);
+    procedure BitBtn9Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    resultado: String;
     { Private declarations }
     Data: TJvCsvDataSet;
     procedure precolista1;
@@ -302,7 +306,8 @@ uses
   uEntra_Sai_estoque, uLotes, uLotesCadastro,
   ufDlgLogin, uProdFornecedor, uTerminalLoja, uProduto_Mat_prima,
   sCtrlResize, uTerminal_Delivery, UDMNF, uNF, uClassificacaoFiscalProduto,
-  uImport;
+  uImport,
+  uPesquisa;
 
 {$R *.dfm}
 
@@ -365,6 +370,7 @@ begin
    //cds_proc.Close;
  end;
  varonde := '';
+
  Close;
 end;
 
@@ -372,6 +378,8 @@ procedure TfProcura_produtos.FormCreate(Sender: TObject);
 var contaEstoqueLocal: String ;
 begin
   sCtrlResize.CtrlResize(TForm(fProcura_produtos));
+  fPesquisa := TfPesquisa.Create(Application);
+
   //Vejo quais são as contas de Receitas para listar no lookupcombobox.
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -519,6 +527,8 @@ procedure TfProcura_produtos.BitBtn1Click(Sender: TObject);
 var varSql, varCondicao, varCondicaoA, varCondicaoA1, varSql1, varCond2, varSql2, varCondicao1, s, contaEstoque: string;
 i : integer;
 begin
+
+
   if (panel2.Visible = True) then
   begin
     cbMarca.Text := '';
@@ -664,7 +674,8 @@ begin
      varCondicaoA := 'where COD_BARRA = ' + '''' + Edit1.Text + '''';
      varCondicaoA := varCondicaoA + ' or COD_BARRA = ' + '''' + s + '00001' + '''';
    end;
-
+   if (resultado <> '') then
+     varCondicaoA := ' WHERE ' + resultado;
 //***************************************************************************
   //REMOVIDO o "order by PRODUTO" para ordenar pelo campo que o cliente quiser
   varCondicao1 := varSql1 + varCondicaoA;
@@ -1733,6 +1744,19 @@ begin
    finally
      fImport.Free;
    end;
+end;
+
+procedure TfProcura_produtos.BitBtn9Click(Sender: TObject);
+begin
+    fPesquisa.DsP.DataSet := cds_proc;
+    fPesquisa.ShowModal;
+    resultado := fPesquisa.busca;
+
+end;
+
+procedure TfProcura_produtos.FormDestroy(Sender: TObject);
+begin
+  fPesquisa.Free;
 end;
 
 end.
