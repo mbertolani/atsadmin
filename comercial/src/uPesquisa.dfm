@@ -11,6 +11,7 @@ object fPesquisa: TfPesquisa
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -86,8 +87,6 @@ object fPesquisa: TfPesquisa
     AutoSize = False
     MaxLines = 0
     HideCaret = False
-    Lines.Strings = (
-      '')
     TabOrder = 2
   end
   object edValor: TJvEdit
