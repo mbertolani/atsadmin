@@ -27,6 +27,7 @@ type
     procedure JvBitBtn2Click(Sender: TObject);
     procedure JvBitBtn3Click(Sender: TObject);
     procedure JvBitBtn4Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     procedure montaBusca(tipo: String);
     { Private declarations }
@@ -46,7 +47,6 @@ procedure TfPesquisa.FormShow(Sender: TObject);
 var i: Integer;
   tipoC: string;
 begin
-  busca := '';
   // Popular Campos
   cbCampo.Items.Clear;
   For i := 0 to dsP.DataSet.FieldCount - 1 do
@@ -75,6 +75,7 @@ end;
 procedure TfPesquisa.JvBitBtn2Click(Sender: TObject);
 begin
   memoSql.Lines.Clear;
+  busca := '';
 end;
 
 procedure TfPesquisa.JvBitBtn3Click(Sender: TObject);
@@ -88,7 +89,7 @@ begin
 end;
 
 procedure TfPesquisa.montaBusca(tipo: String);
-var b, strValor: String;
+var b, strValor, campo: String;
   valorV: Double;
 begin
   {0 = =
@@ -102,14 +103,24 @@ begin
    8 = Inícia com
    9 = Termina Com
   10 = Não Contém}
+
+  campo := copy(cbCampo.Text, 3, length(cbCampo.Text)-2);
+
   strValor := UpperCase(edValor.Text);
   if (tipo = 'S') then  // String
   begin
     case cbCondicao.ItemIndex of
-      1: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') LIKE ' + QuotedStr('%' + strValor + '%');
-      8: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') LIKE ' + QuotedStr(strValor + '%');
-      9: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') LIKE ' + QuotedStr('%' + strValor);
-     10: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') NOT LIKE ' + QuotedStr('%' + strValor + '%');
+      0: b := ' UDF_COLLATEBR(' + campo + ') = ' + strValor;
+      1: b := ' UDF_COLLATEBR(' + campo + ') LIKE ' + QuotedStr('%' + strValor + '%');
+      8: b := ' UDF_COLLATEBR(' + campo + ') LIKE ' + QuotedStr(strValor + '%');
+      9: b := ' UDF_COLLATEBR(' + campo + ') LIKE ' + QuotedStr('%' + strValor);
+     10: b := ' UDF_COLLATEBR(' + campo + ') NOT LIKE ' + QuotedStr('%' + strValor + '%');
+      6: begin
+           b := ' UDF_COLLATEBR(' + campo + ') IN(' + strValor + ')';
+         end;
+      7: begin
+           b := ' UDF_COLLATEBR(' + campo + ') NOT IN(' + strValor + ')';
+         end;
     else
       strValor := QuotedStr(strValor);
     end;
@@ -119,7 +130,7 @@ begin
   if (tipo = 'F') then  // Float
   begin
     valorV := StrToFloat(strValor);
-    decimalSeparetor(.);
+    DecimalSeparator := '.';
     Try
       strValor := FloatToStr(ValorV);
     Finally
@@ -127,20 +138,21 @@ begin
     end;
   end;
   case cbCondicao.ItemIndex of
-    0: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') = ' + strValor;
-    1: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') LIKE %' + strValor + '%';
-    2: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') > ' + strValor;
-    3: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') >= ' + strValor;
-    4: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') < ' + strValor;
-    5: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') <= ' + strValor;
-    6: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') IN(' + strValor + ')';
-    7: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') NOT IN(' + strValor + ')';
-    8: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') LIKE ' + strValor + '%';
-    9: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') LIKE %' + strValor;
-   10: b := 'UDF_COLLATEBR(' + cbCampo.Text + ') NOT LIKE %' + strValor + '%';
+    0: if (tipo <> 'S') then
+       b := ' ' + campo + ' = ' + strValor;
+    2: b := ' ' + campo + ' > ' + strValor;
+    3: b := ' ' + campo + ' >= ' + strValor;
+    4: b := ' ' + campo + ' < ' + strValor;
+    5: b := ' ' + campo + ' <= ' + strValor;
   end;
-
+  if (memoSql.Lines.Count > 1) then
+    busca := busca + ' AND ';
   busca := busca + b;
+end;
+
+procedure TfPesquisa.FormCreate(Sender: TObject);
+begin
+  busca := '';
 end;
 
 end.
