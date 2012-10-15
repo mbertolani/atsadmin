@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
   Left = 261
   Top = 30
-  Width = 875
-  Height = 580
+  Width = 883
+  Height = 591
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -1682,7 +1682,7 @@ object fNFeletronica: TfNFeletronica
     object sdsNFRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       Required = True
-      Size = 50
+      Size = 60
     end
     object sdsNFCNPJ: TStringField
       FieldName = 'CNPJ'
@@ -1905,7 +1905,7 @@ object fNFeletronica: TfNFeletronica
     object cdsNFRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       ProviderFlags = [pfInUpdate]
-      Size = 50
+      Size = 60
     end
     object cdsNFCNPJ: TStringField
       FieldName = 'CNPJ'
@@ -2816,7 +2816,7 @@ object fNFeletronica: TfNFeletronica
     object sClienteNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       Required = True
-      Size = 50
+      Size = 60
     end
     object sClienteCONTATO: TStringField
       FieldName = 'CONTATO'
@@ -4448,7 +4448,7 @@ object fNFeletronica: TfNFeletronica
     object sFornecNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       Required = True
-      Size = 50
+      Size = 60
     end
     object sFornecCONTATO: TStringField
       FieldName = 'CONTATO'

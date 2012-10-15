@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 812
+    Width = 787
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1015,8 +1015,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 561
-    Width = 812
+    Top = 556
+    Width = 787
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
@@ -2212,7 +2212,7 @@ inherited fCompra: TfCompra
     object sds_MovimentoNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_MovimentoDESCNATUREZA: TStringField
       FieldName = 'DESCNATUREZA'
@@ -2235,7 +2235,7 @@ inherited fCompra: TfCompra
     object sds_MovimentoNOMEFORNECEDOR: TStringField
       FieldName = 'NOMEFORNECEDOR'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_MovimentoCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
@@ -2373,7 +2373,7 @@ inherited fCompra: TfCompra
     object cds_MovimentoNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_MovimentoDESCNATUREZA: TStringField
       FieldName = 'DESCNATUREZA'
@@ -2396,7 +2396,7 @@ inherited fCompra: TfCompra
     object cds_MovimentoNOMEFORNECEDOR: TStringField
       FieldName = 'NOMEFORNECEDOR'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_MovimentoCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'

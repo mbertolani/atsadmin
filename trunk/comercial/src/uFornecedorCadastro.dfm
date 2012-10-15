@@ -185,8 +185,8 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     Caption = 'CFOP'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 520
-    Width = 716
+    Top = 509
+    Width = 708
     inherited btnGravar: TBitBtn
       Left = 366
     end
@@ -421,7 +421,7 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 716
+    Width = 708
     Height = 41
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -1507,12 +1507,12 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     object sds_fornecedorNOMEFORNECEDOR: TStringField
       FieldName = 'NOMEFORNECEDOR'
       Required = True
-      Size = 50
+      Size = 60
     end
     object sds_fornecedorRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       Required = True
-      Size = 50
+      Size = 60
     end
     object sds_fornecedorCONTATO: TStringField
       FieldName = 'CONTATO'
@@ -1630,12 +1630,12 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     object cds_fornecedorNOMEFORNECEDOR: TStringField
       FieldName = 'NOMEFORNECEDOR'
       Required = True
-      Size = 50
+      Size = 60
     end
     object cds_fornecedorRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       Required = True
-      Size = 50
+      Size = 60
     end
     object cds_fornecedorCONTATO: TStringField
       FieldName = 'CONTATO'
