@@ -78,7 +78,7 @@ object fPdm: TfPdm
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 695
+    Width = 688
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -99,8 +99,8 @@ object fPdm: TfPdm
     object Label9: TLabel
       Left = 260
       Top = -64
-      Width = 140
-      Height = 33
+      Width = 163
+      Height = 34
       Caption = 'Movimento'
       Font.Charset = ANSI_CHARSET
       Font.Color = clNavy
@@ -113,8 +113,8 @@ object fPdm: TfPdm
     object Label10: TLabel
       Left = 265
       Top = -63
-      Width = 140
-      Height = 33
+      Width = 163
+      Height = 34
       Caption = 'Movimento'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
@@ -127,7 +127,7 @@ object fPdm: TfPdm
     object JvLabel1: TJvLabel
       Left = 2
       Top = 2
-      Width = 691
+      Width = 684
       Height = 42
       Align = alClient
       Alignment = taCenter
@@ -144,8 +144,8 @@ object fPdm: TfPdm
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 423
-    Width = 695
+    Top = 401
+    Width = 688
     Height = 46
     Align = alBottom
     BevelInner = bvLowered
@@ -742,16 +742,16 @@ object fPdm: TfPdm
   object sds_Mov_Det: TSQLDataSet
     CommandText = 
       'select movd.CODDETALHE, movd.CODMOVIMENTO, movd.CODPRODUTO, movd' +
-      '.ICMS, movd.PRECO, movd.QUANTIDADE, movd.QTDE_ALT, movd.UN, movd' +
-      '.BAIXA, movd.CONTROLE,  movd.COD_COMISSAO, prod.CODPRO,prod.PROD' +
-      'UTO, prod.CODALMOXARIFADO, prod.VALORUNITARIOATUAL, '#13#10'prod.QTDE_' +
-      'PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA  , mserv.DESCRICAO , ' +
-      'movd.STATUS , movd.LOTE'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join' +
-      ' PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer j' +
-      'oin mov_detalhe_serv mserv on mserv.codmovimento = movd.coddetal' +
-      'he '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO =' +
-      ' prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDETALHE or mov' +
-      'd.CODMOVIMENTO=:pCODMOV'
+      '.ICMS, movd.VLR_BASE as PRECO, movd.QUANTIDADE, movd.QTDE_ALT, m' +
+      'ovd.UN, movd.BAIXA, movd.CONTROLE,  movd.COD_COMISSAO, prod.CODP' +
+      'RO,prod.PRODUTO, prod.CODALMOXARIFADO, prod.VALORUNITARIOATUAL, ' +
+      #13#10'prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA  , mserv.' +
+      'DESCRICAO , movd.STATUS , movd.LOTE'#13#10'from MOVIMENTODETALHE movd ' +
+      #13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10 +
+      'left outer join mov_detalhe_serv mserv on mserv.codmovimento = m' +
+      'ovd.coddetalhe '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODAL' +
+      'MOXARIFADO = prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDE' +
+      'TALHE or movd.CODMOVIMENTO=:pCODMOV'
     MaxBlobSize = -1
     Params = <
       item
