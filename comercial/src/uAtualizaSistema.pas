@@ -1722,6 +1722,10 @@ begin
     begin
       executaDDL('CLIENTES', 'SUFRAMA', 'varchar(9)');
       executaScript('rel_vendaCompra113.sql');
+      executaSql('ALTER TABLE CLIENTES ALTER NOMECLIENTE TYPE Varchar(60)');
+      executaSql('ALTER TABLE CLIENTES ALTER RAZAOSOCIAL TYPE Varchar(60)');
+      executaSql('ALTER TABLE FORNECEDOR ALTER NOMEFORNECEDOR TYPE Varchar(60)');
+      executaSql('ALTER TABLE FORNECEDOR ALTER RAZAOSOCIAL TYPE Varchar(60)');
       //mudaVersao('1.0.0.113');
     end;// Fim Atualizacao Versao 1.0.0.113
 
