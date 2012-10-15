@@ -2329,7 +2329,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2383,7 +2383,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2569,7 +2569,6 @@ inherited fVendas: TfVendas
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      ReadOnly = True
       TabOrder = 0
       OnKeyPress = FormKeyPress
     end
@@ -3963,7 +3962,7 @@ inherited fVendas: TfVendas
     object sds_MovimentoNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_MovimentoDESCNATUREZA: TStringField
       FieldName = 'DESCNATUREZA'
@@ -4125,7 +4124,7 @@ inherited fVendas: TfVendas
     object cds_MovimentoNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_MovimentoDESCNATUREZA: TStringField
       FieldName = 'DESCNATUREZA'

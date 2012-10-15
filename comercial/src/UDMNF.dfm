@@ -100,7 +100,7 @@ object DMNF: TDMNF
     object cds_MovimentoNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_MovimentoDESCNATUREZA: TStringField
       FieldName = 'DESCNATUREZA'
@@ -123,7 +123,7 @@ object DMNF: TDMNF
     object cds_MovimentoNOMEFORNECEDOR: TStringField
       FieldName = 'NOMEFORNECEDOR'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_MovimentoCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
@@ -231,7 +231,7 @@ object DMNF: TDMNF
     object sds_MovimentoNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_MovimentoDESCNATUREZA: TStringField
       FieldName = 'DESCNATUREZA'
@@ -254,7 +254,7 @@ object DMNF: TDMNF
     object sds_MovimentoNOMEFORNECEDOR: TStringField
       FieldName = 'NOMEFORNECEDOR'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_MovimentoCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
@@ -1789,7 +1789,7 @@ object DMNF: TDMNF
     object cds_nfNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_nfPESOBRUTO: TBCDField
       FieldName = 'PESOBRUTO'
@@ -1819,7 +1819,7 @@ object DMNF: TDMNF
     object cds_nfRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_nfCNPJCLI: TStringField
       FieldName = 'CNPJCLI'
@@ -2121,7 +2121,7 @@ object DMNF: TDMNF
     object sds_nfNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_nfPESOBRUTO: TBCDField
       FieldName = 'PESOBRUTO'
@@ -2197,7 +2197,7 @@ object DMNF: TDMNF
     object sds_nfRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_nfCNPJCLI: TStringField
       FieldName = 'CNPJCLI'
@@ -2575,12 +2575,12 @@ object DMNF: TDMNF
     object cds_nf1NOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_nf1RAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object cds_nf1CNPJCLI: TStringField
       FieldName = 'CNPJCLI'
@@ -2928,12 +2928,12 @@ object DMNF: TDMNF
     object sds_nf1NOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_nf1RAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       ProviderFlags = []
-      Size = 50
+      Size = 60
     end
     object sds_nf1CNPJCLI: TStringField
       FieldName = 'CNPJCLI'
