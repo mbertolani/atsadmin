@@ -23,8 +23,8 @@ object TRpReport
       Alias = 'VENDAS'
       DatabaseAlias = 'SGE'
       SQL = 
-        'select * from REL_VENDACOMPRA(:DATA1, :DATA2)'#13#10'where ((qtdeVenda' +
-        ' > 0) or (qtdeCompra > 0))'#13#10' order by qtdeVenda desc'
+        'select * from REL_VENDACOMPRA(:DATA1, :DATA2, :CCUSTO)'#13#10'where ((' +
+        'qtdeVenda > 0) or (qtdeCompra > 0))'#13#10' order by qtdeVenda desc'
     end>
   DatabaseInfo = <
     item
@@ -77,6 +77,19 @@ object TRpReport
       Name = 'DATA2'
       Value = 41120d
       ParamType = rpParamDate
+      Datasets.Strings = (
+        'VENDAS')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'CCUSTO'
+      AllowNulls = False
+      Value = 0
+      ParamType = rpParamInteger
       Datasets.Strings = (
         'VENDAS')
       Description = ''

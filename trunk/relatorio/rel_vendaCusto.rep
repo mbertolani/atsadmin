@@ -28,7 +28,7 @@ object TRpReport
         'Compra) as vlrTotalCompra , sum(vlrCustoTotal) as vlrCustoTotal ' +
         #13#10', avg(vlrLucro) as vlrLucro, sum(vlrPerda), sum(qtdeEstoque), ' +
         'sum(qtdePerda) as qtdePerda'#13#10'from REL_VENDACOMPRA(:DATA1, :DATA2' +
-        ') '#13#10'where ((qtdeVenda > 0))'#13#10'group by produto'
+        ', :CCUSTO) '#13#10'where ((qtdeVenda > 0)) '#13#10'group by produto'
     end
     item
       Alias = 'TOTAL'
@@ -36,7 +36,7 @@ object TRpReport
       SQL = 
         'select  sum(vlrTotalVenda) as vlrTotalVenda,  sum(vlrTotalCompra' +
         ') as vlrTotalCompra , sum(vlrCustoTotal) as vlrCustoTotal '#13#10'from' +
-        ' REL_VENDACOMPRA(:DATA1, :DATA2) '#13#10
+        ' REL_VENDACOMPRA(:DATA1, :DATA2, :CCUSTO) '#13#10
     end>
   DatabaseInfo = <
     item
@@ -75,7 +75,7 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 41061d
+      Value = 41122d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS'
@@ -88,8 +88,22 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 41090d
+      Value = 41152d
       ParamType = rpParamDate
+      Datasets.Strings = (
+        'VENDAS'
+        'TOTAL')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'CCUSTO'
+      AllowNulls = False
+      Value = 0
+      ParamType = rpParamInteger
       Datasets.Strings = (
         'VENDAS'
         'TOTAL')
