@@ -142,6 +142,7 @@ type
     procedure SpeedButton5Click(Sender: TObject);
     procedure DBEdit12Exit(Sender: TObject);
   private
+    formatacaoPreco: integer;
     procedure calculaPrecoVenda;
     { Private declarations }
   public
@@ -151,14 +152,14 @@ type
 
 var
   fProdutoCadastro: TfProdutoCadastro;
-  familia : string;   
+  familia : string;
   codprod1:integer;
 
 implementation
 
 uses uComercial, UDm, ufprocura_prod, uMarcas_Grupos, uFamilia, uCategoria,
   uContaRateio, uClassificacaoFiscal, uCodigoTerceiros, uUsoCadastro,
-  ufListaProd, uProduto_Mat_prima, sCtrlResize;
+  ufListaProd, uProduto_Mat_prima, sCtrlResize, Math;
 
 {$R *.dfm}
 
@@ -209,6 +210,13 @@ begin
     dm.cds_ccusto.Next;
   end;
 
+  dm.parametro.open;
+  if (dm.parametro.Locate('PARAMETRO', 'FORMATACAO',[loPartialKey])) then
+  begin
+    formatacaoPreco := 0;
+    if (dm.parametroD2.AsString <> '') then
+      formatacaoPreco := StrToInt(dm.parametroD2.AsString);
+  end;    
 end;
 
 procedure TfProdutoCadastro.btnProcurarClick(Sender: TObject);
@@ -857,26 +865,30 @@ end;
 procedure TfProdutoCadastro.calculaPrecoVenda;
 var vlrVenda: Double;
 begin
-  if (dm.cds_produtoMARGEM.AsFloat > 0) then
-  begin
-    if (dm.cds_produto.State in [dsBrowse]) then
-      dm.cds_produto.Edit;
-    if (DBRadioGroup2.ItemIndex = 0) then
+  try
+    if (dm.cds_produtoMARGEM.AsFloat > 0) then
     begin
-      vlrVenda := dm.cds_produtoPRECOMEDIO.AsFloat *
-       ((dm.cds_produtoMARGEM.AsFloat/100)+1);
-      DecimalSeparator := '.';
-      dm.cds_produtoVALOR_PRAZO.AsFloat := arredondar(vlrVenda);
+      if (dm.cds_produto.State in [dsBrowse]) then
+        dm.cds_produto.Edit;
+      if (DBRadioGroup2.ItemIndex = 0) then
+      begin
+        vlrVenda := dm.cds_produtoPRECOMEDIO.AsFloat *
+         ((dm.cds_produtoMARGEM.AsFloat/100)+1);
+        DecimalSeparator := '.';
+        dm.cds_produtoVALOR_PRAZO.AsFloat := SimpleRoundTo(vlrVenda,(-1)*formatacaoPreco);
+      end;
+      if (DBRadioGroup2.ItemIndex = 1) then
+      begin
+        vlrVenda := dm.cds_produtoPRECOMEDIO.AsFloat;
+        if (dm.cds_produtoVALORUNITARIOATUAL.AsFloat > 0) then
+          vlrVenda := dm.cds_produtoVALORUNITARIOATUAL.AsFloat;
+        vlrVenda := vlrVenda * ((dm.cds_produtoMARGEM.AsFloat/100)+1);
+        DecimalSeparator := '.';
+        dm.cds_produtoVALOR_PRAZO.AsFloat := SimpleRoundTo(vlrVenda,(-1)*formatacaoPreco);
+      end;
     end;
-    if (DBRadioGroup2.ItemIndex = 1) then
-    begin
-      vlrVenda := dm.cds_produtoPRECOMEDIO.AsFloat;
-      if (dm.cds_produtoVALORUNITARIOATUAL.AsFloat > 0) then
-        vlrVenda := dm.cds_produtoVALORUNITARIOATUAL.AsFloat;
-      vlrVenda := vlrVenda * ((dm.cds_produtoMARGEM.AsFloat/100)+1);
-      DecimalSeparator := '.';
-      dm.cds_produtoVALOR_PRAZO.AsFloat := arredondar(vlrVenda);
-    end;
+  finally
+    DecimalSeparator := ',';
   end;
 end;
 
