@@ -5,16 +5,17 @@ inherited fCliente1: TfCliente1
   Height = 606
   Caption = 'Cadastro Cliente'
   OldCreateOrder = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 730
+    Width = 738
     Height = 33
     TabOrder = 5
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 517
-    Width = 730
+    Top = 528
+    Width = 738
     Font.Height = -13
     ParentFont = False
     TabOrder = 6
@@ -104,7 +105,7 @@ inherited fCliente1: TfCliente1
     ParentFont = False
     TabOrder = 2
     object lblCnpj: TLabel
-      Left = 31
+      Left = 5
       Top = 21
       Width = 26
       Height = 16
@@ -112,7 +113,7 @@ inherited fCliente1: TfCliente1
       Caption = 'CPF'
     end
     object lblIE: TLabel
-      Left = 286
+      Left = 160
       Top = 21
       Width = 26
       Height = 16
@@ -120,16 +121,23 @@ inherited fCliente1: TfCliente1
       Caption = 'R.G.'
     end
     object lblOrgaoEmissor: TLabel
-      Left = 486
+      Left = 309
       Top = 21
       Width = 90
       Height = 16
       Caption = 'Org'#227'o Emissor'
     end
+    object Label80: TLabel
+      Left = 467
+      Top = 20
+      Width = 67
+      Height = 16
+      Caption = 'Tipo Fiscal'
+    end
     object DBEdit3: TDBEdit
-      Left = 71
+      Left = 45
       Top = 18
-      Width = 161
+      Width = 108
       Height = 24
       DataField = 'CNPJ'
       DataSource = DtSrc
@@ -137,9 +145,9 @@ inherited fCliente1: TfCliente1
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
-      Left = 318
+      Left = 196
       Top = 18
-      Width = 154
+      Width = 107
       Height = 24
       DataField = 'INSCESTADUAL'
       DataSource = DtSrc
@@ -147,14 +155,26 @@ inherited fCliente1: TfCliente1
       OnKeyPress = FormKeyPress
     end
     object DBEdit5: TDBEdit
-      Left = 585
+      Left = 404
       Top = 18
-      Width = 116
+      Width = 61
       Height = 24
       DataField = 'RG'
       DataSource = DtSrc
       TabOrder = 2
       OnKeyPress = FormKeyPress
+    end
+    object cbTipoFiscal: TDBLookupComboBox
+      Left = 544
+      Top = 16
+      Width = 156
+      Height = 24
+      DataField = 'CODFISCAL'
+      DataSource = DtSrc
+      KeyField = 'CODFISCAL'
+      ListField = 'DESCRICAO'
+      ListSource = DtSrcTFiscal
+      TabOrder = 3
     end
   end
   object GroupBox3: TGroupBox [5]
@@ -839,6 +859,13 @@ inherited fCliente1: TfCliente1
       FixedChar = True
       Size = 4
     end
+    object cds_cliCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
   end
   object sds_cli: TSQLDataSet
     CommandText = 
@@ -1166,6 +1193,12 @@ inherited fCliente1: TfCliente1
       FixedChar = True
       Size = 4
     end
+    object sds_cliCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsp_cli: TDataSetProvider
     DataSet = sds_cli
@@ -1470,5 +1503,54 @@ inherited fCliente1: TfCliente1
       Required = True
       Size = 10
     end
+  end
+  object sdsTFiscal: TSQLDataSet
+    CommandText = 'select * from TIPO_FISCAL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 476
+    Top = 71
+    object sdsTFiscalCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object sdsTFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
+    end
+  end
+  object dspTFiscal: TDataSetProvider
+    DataSet = sdsTFiscal
+    Options = [poAllowCommandText]
+    UpdateMode = upWhereKeyOnly
+    Left = 514
+    Top = 71
+  end
+  object cdsTFiscal: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTFiscal'
+    Left = 545
+    Top = 71
+    object cdsTFiscalCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object cdsTFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
+    end
+  end
+  object DtSrcTFiscal: TDataSource
+    DataSet = cdsTFiscal
+    Left = 583
+    Top = 70
   end
 end
