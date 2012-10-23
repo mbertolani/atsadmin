@@ -37,6 +37,8 @@ type
     procedure setEndereco(const Value: TEnderecos);
     function getReferencia: String;
     procedure setReferencia(const Value: String);
+    function getCodFiscal: String;
+    procedure setCodFiscal(const Value: String);
   protected
     //Atributos
     _codCli          : Integer;
@@ -52,6 +54,7 @@ type
     _inscEstadual    : String;
     _obs             : String;
     _referencia      : String;
+    _codFiscal       : String;
     _dataCadastro    : TDateTime;
     _dataNasc        : TDateTime;
     _endereco        : TEnderecos;
@@ -69,6 +72,7 @@ type
     property InscEstadual: String read getInscEstadual write setInscEstadual;
     property Obs         : String read getObs write setObs;
     property Referencia  : String read getReferencia write setReferencia;
+    property CodFiscal   : String read getCodFiscal write setCodFiscal;
     property DataCadastro: TDateTime read getDataCadastro write setDataCadastro;
     property DataNasc    : TDateTime read getDataNasc write setDataNasc;
     property Endereco    : TEnderecos read getEndereco write setEndereco;
@@ -107,6 +111,7 @@ begin
   sqlAlt := sqlAlt + ' CODUSUARIO   = ' + IntToStr(Self.CodUsuario) + ', ';
   sqlAlt := sqlAlt + ' STATUS       = ' + IntToStr(Self.Status) + ', ';
   sqlAlt := sqlAlt + ' TIPOFIRMA    = ' + IntToStr(Self.TipoFirma) + ', ';
+  sqlAlt := sqlAlt + ' CODFISCAL    = ' + QuotedStr(Self.CodFiscal) + ', ';
   sqlAlt := sqlAlt + ' MARCA        = ' + QuotedStr(Self.Referencia);
   sqlAlt := sqlAlt + ' WHERE CODCLIENTE = ' + IntToStr(codCliA);
   Result := executaSql(sqlAlt);
@@ -157,6 +162,11 @@ end;
 function TCliente.getCodCli: Integer;
 begin
   Result := _codCli;
+end;
+
+function TCliente.getCodFiscal: String;
+begin
+  Result := _codFiscal;
 end;
 
 function TCliente.getCodUsuario: Integer;
@@ -273,6 +283,11 @@ end;
 procedure TCliente.setCodcli(const Value: Integer);
 begin
   _codCli := Value;
+end;
+
+procedure TCliente.setCodFiscal(const Value: String);
+begin
+  _codFiscal := Value;
 end;
 
 procedure TCliente.setCodUsuario(const Value: Integer);
