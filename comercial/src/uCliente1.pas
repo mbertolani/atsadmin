@@ -252,6 +252,18 @@ type
     DBEdit48: TDBEdit;
     Label55: TLabel;
     DBEdit49: TDBEdit;
+    Label80: TLabel;
+    sds_cliCODFISCAL: TStringField;
+    cds_cliCODFISCAL: TStringField;
+    sdsTFiscal: TSQLDataSet;
+    sdsTFiscalCODFISCAL: TStringField;
+    sdsTFiscalDESCRICAO: TStringField;
+    dspTFiscal: TDataSetProvider;
+    cdsTFiscal: TClientDataSet;
+    cdsTFiscalCODFISCAL: TStringField;
+    cdsTFiscalDESCRICAO: TStringField;
+    DtSrcTFiscal: TDataSource;
+    cbTipoFiscal: TDBLookupComboBox;
     procedure rgTipoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -266,6 +278,7 @@ type
     procedure Dtsrc_eStateChange(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure cds_CliEndNewRecord(DataSet: TDataSet);
+    procedure FormShow(Sender: TObject);
   private
     FCli : TCliente;
     cCli : Integer;
@@ -358,6 +371,7 @@ begin
       FCli.CodUsuario  := DM.varUSERID;
       FCli.DataCadastro:= Now;
       FCli.Contato     := cds_cliCONTATO.AsString;
+      FCli.CodFiscal   := cdsTFiscalCODFISCAL.AsString;
       FCli.Status      := cds_cliSTATUS.AsInteger;
       //FCli.DataNasc    := '';
       //IF (NOT cds_cliDATANASC.IsNull) THEN
@@ -451,6 +465,7 @@ end;
 
 procedure TfCliente1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  cdsTFiscal.Close;
   inherited;
   //FCli.Destroy;
 end;
@@ -575,6 +590,13 @@ begin
   cds_CliEndCEP.AsString          := dm.cepPadrao;
   cds_CliEndCIDADE.AsString       := dm.cidadePadrao;
   cds_CliEndCD_IBGE.AsString      := dm.ibgePadrao; 
+end;
+
+procedure TfCliente1.FormShow(Sender: TObject);
+begin
+  inherited;
+  if (not cdsTFiscal.Active) then
+      cdsTFiscal.Open;
 end;
 
 end.
