@@ -631,6 +631,7 @@ begin
           fMov.MovDetalhe.Desconto   := cdsServico.FieldByName('DESCONTO').AsFloat;
           fMov.MovDetalhe.Un         := 'SE';
           fMov.MovDetalhe.Lote       := '0';
+          fMov.MovDetalhe.Colaborador:= cdsServicoCODUSUARIO.AsInteger;
           fMov.MovDetalhe.inserirMovDet;
 
           cdsServico.Next;
@@ -661,6 +662,7 @@ begin
             fMov.MovDetalhe.Desconto   := cdsPeca.FieldByName('DESCONTO').AsFloat;
             fMov.MovDetalhe.Un         := 'UN';
             fMov.MovDetalhe.Lote       := '0';
+            fMov.MovDetalhe.Colaborador:= cdsPecaCODUSUARIO.AsInteger;
             fMov.MovDetalhe.inserirMovDet;
 
             cdsPeca.Next;
