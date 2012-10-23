@@ -110,7 +110,7 @@ begin
   if (tipo = 'S') then  // String
   begin
     case cbCondicao.ItemIndex of
-      0: b := ' UDF_COLLATEBR(' + campo + ') = ' + strValor;
+      0: b := ' UDF_COLLATEBR(' + campo + ') = ' + QuotedStr(strValor);
       1: b := ' UDF_COLLATEBR(' + campo + ') LIKE ' + QuotedStr('%' + strValor + '%');
       8: b := ' UDF_COLLATEBR(' + campo + ') LIKE ' + QuotedStr(strValor + '%');
       9: b := ' UDF_COLLATEBR(' + campo + ') LIKE ' + QuotedStr('%' + strValor);
