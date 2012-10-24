@@ -564,26 +564,21 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetCSTIPI: TStringField
       FieldName = 'CSTIPI'
-      ReadOnly = True
       Size = 2
     end
     object sds_Mov_DetCSTPIS: TStringField
       FieldName = 'CSTPIS'
-      ReadOnly = True
       Size = 2
     end
     object sds_Mov_DetVALOR_PIS: TFloatField
       FieldName = 'VALOR_PIS'
-      ReadOnly = True
     end
     object sds_Mov_DetCSTCOFINS: TStringField
       FieldName = 'CSTCOFINS'
-      ReadOnly = True
       Size = 2
     end
     object sds_Mov_DetVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
-      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -842,34 +837,27 @@ object DMNF: TDMNF
     end
     object cds_Mov_detNITEMPED: TIntegerField
       FieldName = 'NITEMPED'
-      ReadOnly = True
     end
     object cds_Mov_detPEDIDO: TStringField
       FieldName = 'PEDIDO'
-      ReadOnly = True
     end
     object cds_Mov_detCSTIPI: TStringField
       FieldName = 'CSTIPI'
-      ReadOnly = True
       Size = 2
     end
     object cds_Mov_detCSTPIS: TStringField
       FieldName = 'CSTPIS'
-      ReadOnly = True
       Size = 2
     end
     object cds_Mov_detVALOR_PIS: TFloatField
       FieldName = 'VALOR_PIS'
-      ReadOnly = True
     end
     object cds_Mov_detCSTCOFINS: TStringField
       FieldName = 'CSTCOFINS'
-      ReadOnly = True
       Size = 2
     end
     object cds_Mov_detVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
-      ReadOnly = True
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
