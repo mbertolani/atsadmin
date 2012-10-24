@@ -212,7 +212,7 @@ type
     cds_procGRUPO: TStringField;
     cds_procSUBGRUPO: TStringField;
     rgNCM: TCheckBox;
-    BitBtn9: TBitBtn;
+    cbTipo: TComboBox;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -612,6 +612,17 @@ begin
   end;
 
   varCondicao := varCondicao + ') ';
+  if ( cbTipo.Text <> '' ) then
+  begin
+    case cbTipo.ItemIndex of
+      0: varCondicaoA := ' where ((TIPO = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
+      1: varCondicaoA := ' where ((TIPO = ' + QuotedStr('COMPRA') + ') OR (TIPO = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
+      2: varCondicaoA := ' where ((TIPO = ' + QuotedStr('VENDA') + ') OR (TIPO = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
+      3: varCondicaoA := ' where ((TIPO = ' + QuotedStr('SERV') + ')) ';
+      4: varCondicaoA := ' where ((TIPO <> ' + QuotedStr('COMPRA') + ') OR (TIPO IS NULL)) ';
+      5: varCondicaoA := ' where ((TIPO <> ' + QuotedStr('VENDA') + ') OR (TIPO IS NULL)) ';
+    end;
+  end;
 
   if edUso.Text <> '' then
   begin
