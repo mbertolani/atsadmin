@@ -1878,7 +1878,7 @@ begin
           Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
       end
       else
-        if (IERG >= 7) then
+        if (IERG >= 5) then
           Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
     end;
   end;
@@ -2178,7 +2178,10 @@ begin
           else if (cdsItensNFCSTPIS.AsString = '99') then
             CST   := pis99;
 
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
+          if (cdsItensNFPPIS.AsFloat > 0) then
+            vBC   := (cdsItensNFVALOR_PIS.AsVariant *100 ) / cdsItensNFPPIS.AsVariant //-cdsItensNFVALTOTAL.AsVariant
+          else
+            vBC   := 0;
           pPIS  := cdsItensNFPPIS.AsVariant;
           vPIS  := cdsItensNFVALOR_PIS.AsVariant;
 
@@ -2205,7 +2208,10 @@ begin
           else if (cdsItensNFCSTCOFINS.AsString = '99') then
             CST   := cof99;
 
-          vBC   := cdsItensNFVALTOTAL.AsVariant;
+         if ( cdsItensNFPCOFINS.AsFloat > 0) then
+          vBC   := (cdsItensNFVALOR_COFINS.AsVariant * 100) / cdsItensNFPCOFINS.AsVariant //cdsItensNFVALTOTAL.AsVariant;
+         else
+          vBC   := 0;
           pCOFINS  := cdsItensNFPCOFINS.AsVariant;
           vCOFINS  := cdsItensNFVALOR_COFINS.AsVariant;
         end;
