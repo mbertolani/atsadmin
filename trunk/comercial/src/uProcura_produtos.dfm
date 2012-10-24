@@ -16,7 +16,6 @@ object fProcura_produtos: TfProcura_produtos
   WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
