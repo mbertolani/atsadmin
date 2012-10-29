@@ -339,6 +339,7 @@ type
     procedure btn3Click(Sender: TObject);
   private
     { Private declarations }
+    function RemoveAcento(Str: string): string;
   public
     varLocal : String;
     ID_VENDA, ID_RECEBIMENTO : Integer;
@@ -587,16 +588,16 @@ begin
               Titulo.Carteira  := s_bancoCARTEIRA.AsString;
               //Titulo.Carteira  := s_bancoCARTEIRA.AsString;
               Titulo.ValorDocumento    := ds_crVALOR_RESTO.AsFloat; //ValorDocumento;
-              Titulo.Sacado.NomeSacado := s_clienteNOMECLIENTE.AsString; // NomeSacado;
+              Titulo.Sacado.NomeSacado := RemoveAcento(s_clienteNOMECLIENTE.AsString); // NomeSacado;
               if (s_clienteTIPOFIRMA.AsInteger = 0) then
                  Titulo.Sacado.Pessoa := pFisica
               else
                  Titulo.Sacado.Pessoa := pJuridica;
               Titulo.Sacado.CNPJCPF    := s_clienteCNPJ.AsString; //CNPJCPF;
-              Titulo.Sacado.Logradouro := s_clienteLOGRADOURO.AsString; //Logradouro;
+              Titulo.Sacado.Logradouro := RemoveAcento(s_clienteLOGRADOURO.AsString); //Logradouro;
               Titulo.Sacado.Numero     := s_clienteNUMERO_1.AsString; //Numero;
-              Titulo.Sacado.Bairro     := s_clienteBAIRRO.AsString; //Bairro;
-              Titulo.Sacado.Cidade     := s_clienteCIDADE.AsString; //Cidade;
+              Titulo.Sacado.Bairro     := RemoveAcento(s_clienteBAIRRO.AsString); //Bairro;
+              Titulo.Sacado.Cidade     := RemoveAcento(s_clienteCIDADE.AsString); //Cidade;
               Titulo.Sacado.UF         := s_clienteUF.AsString; //UF;
               Titulo.Sacado.CEP        := s_clienteCEP.AsString; //CEP;
               Titulo.ValorAbatimento   := 0; //ValorAbatimento;
@@ -985,6 +986,19 @@ begin
    if (s_banco.Active) then
      s_banco.Close;
    s_banco.Params[0].Clear;
+end;
+
+function TF_Boletos.RemoveAcento(Str: string): string;
+const
+  ComAcento = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸¿¬ ‘€√’¡…Õ”⁄«‹';
+  SemAcento = 'aaeouaoaeioucuAAEOUAOAEIOUCU';
+var
+   x: Integer;
+begin;
+  for x := 1 to Length(Str) do
+  if Pos(Str[x],ComAcento) <> 0 then
+    Str[x] := SemAcento[Pos(Str[x], ComAcento)];
+  Result := Str;
 end;
 
 end.
