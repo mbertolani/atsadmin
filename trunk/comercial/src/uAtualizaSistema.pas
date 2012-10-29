@@ -44,6 +44,7 @@ type
     procedure CriaCampoDescricao(TABELA, CAMPO, DESCRICAO : String);
     procedure DeletaTrigger(Trigger: String);
     procedure DeletaProc(Proc: String);
+    function TamCampo(Tabela, Campo : String): Integer;
 
     { Private declarations }
   public
@@ -1468,7 +1469,7 @@ begin
 
     if (versaoSistema = '1.0.0.102') then
     begin
-      executaDDL('COMPRA', 'CODORIGEM', 'INTEGER');    
+      executaDDL('COMPRA', 'CODORIGEM', 'INTEGER');
       executaDDL('EMPRESA', 'CNPJPREFEITURA', 'VARCHAR(14)');
       executaDDL('EMPRESA', 'NOMEPREFEITURA', 'VARCHAR(50)');
       executaSql('ALTER TABLE EMPRESA ALTER SMTP TYPE Varchar(60)');
@@ -1576,7 +1577,7 @@ begin
       executaDDL('CAIXA_CONTROLE', 'VALORFECHA', 'double precision');
       executaDDL('CCE', 'CONDICAO', 'varchar(700)');
       executaDDL('COMPRA', 'CHAVENF', 'varchar(44)');
-      executaDDL('COMPRA', 'DIGITOVALIDACAO', 'varchar(100)');      
+      executaDDL('COMPRA', 'DIGITOVALIDACAO', 'varchar(100)');
       executaDDL('COMPRA', 'INDPAG', 'integer');
       executaDDL('COMPRA', 'ICMS_ST', 'double precision');
       executaDDL('COMPRA', 'ICMS_BASE_ST', 'double precision');
@@ -1721,12 +1722,17 @@ begin
     if (versaoSistema = '1.0.0.112') then
     begin
       executaDDL('CLIENTES', 'SUFRAMA', 'varchar(9)');
-      executaSql('ALTER TABLE CLIENTES ALTER NOMECLIENTE TYPE Varchar(60)');
-      executaSql('ALTER TABLE CLIENTES ALTER RAZAOSOCIAL TYPE Varchar(60)');
-      executaSql('ALTER TABLE FORNECEDOR ALTER NOMEFORNECEDOR TYPE Varchar(60)');
-      executaSql('ALTER TABLE FORNECEDOR ALTER RAZAOSOCIAL TYPE Varchar(60)');
+      if (TamCampo('CLIENTES', 'NOMECLIENTE') < 60) then
+        executaSql('ALTER TABLE CLIENTES ALTER NOMECLIENTE TYPE Varchar(60)');
+      if (TamCampo('CLIENTES', 'RAZAOSOCIAL') < 60) then
+        executaSql('ALTER TABLE CLIENTES ALTER RAZAOSOCIAL TYPE Varchar(60)');
+      if (TamCampo('FORNECEDOR', 'NOMECLIENTE') < 60) then
+        executaSql('ALTER TABLE FORNECEDOR ALTER NOMEFORNECEDOR TYPE Varchar(60)');
+      if (TamCampo('FORNECEDOR', 'RAZAOSOCIAL') < 60) then
+        executaSql('ALTER TABLE FORNECEDOR ALTER RAZAOSOCIAL TYPE Varchar(60)');
       executaScript('rel_vendaCompra113.sql');
-      executaScript('inclui_pag113');      
+      executaScript('inclui_pag113');
+      executaScript('frete_nf113');      
       //mudaVersao('1.0.0.113');
     end;// Fim Atualizacao Versao 1.0.0.113
 
@@ -2112,6 +2118,21 @@ begin
       end;
     end;
   end;
+
+end;
+
+function TfAtualizaSistema.TamCampo(Tabela, Campo: string) : Integer;
+begin
+
+  if (cds.Active) then
+    cds.Close;
+  cds.CommandText := 'select f.rdb$field_length from rdb$relation_fields rf join '
+  + ' rdb$fields f join rdb$types t on t.rdb$field_name = ' + QuotedStr('RDB$FIELD_TYPE')
+  + ' and f.rdb$field_type = t.rdb$type on rf.rdb$field_source = f.rdb$field_name where '
+  + ' (rf.rdb$field_name = ' + QuotedStr(Campo) + ' and rf.rdb$relation_name = '
+  +  QuotedStr(Tabela) + ')';
+  cds.Open;
+  Result := cds.FieldValues['rdb$field_length'];
 
 end;
 
