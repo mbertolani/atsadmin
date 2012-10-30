@@ -1354,7 +1354,7 @@ begin
   cbTransportadora.Items.Clear;
   while not dmnf.listaTransp.Eof do
   begin
-     cbTransportadora.Items.Add(dmnf.listaTranspNOMETRANSP.AsString);
+     cbTransportadora.Items.Add(dmnf.listaTranspFANTASIA.AsString);
      dmnf.listaTransp.Next;
   end;
   dmnf.listaTransp.Close;
