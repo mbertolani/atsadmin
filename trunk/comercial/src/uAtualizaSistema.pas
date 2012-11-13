@@ -1726,16 +1726,17 @@ begin
         executaSql('ALTER TABLE CLIENTES ALTER NOMECLIENTE TYPE Varchar(60)');
       if (TamCampo('CLIENTES', 'RAZAOSOCIAL') < 60) then
         executaSql('ALTER TABLE CLIENTES ALTER RAZAOSOCIAL TYPE Varchar(60)');
-      if (TamCampo('FORNECEDOR', 'NOMECLIENTE') < 60) then
+      if (TamCampo('FORNECEDOR', 'NOMEFORNECEDOR') < 60) then
         executaSql('ALTER TABLE FORNECEDOR ALTER NOMEFORNECEDOR TYPE Varchar(60)');
       if (TamCampo('FORNECEDOR', 'RAZAOSOCIAL') < 60) then
         executaSql('ALTER TABLE FORNECEDOR ALTER RAZAOSOCIAL TYPE Varchar(60)');
       executaScript('rel_vendaCompra113.sql');
-      executaScript('inclui_pag113');
-      executaScript('frete_nf113');      
+      executaScript('inclui_pag113.sql');
+      executaScript('frete_nf113.sql');
+      EXECUTADDL('EMPRESA', 'CHAVELIC', 'VARCHAR(50)');
+      EXECUTADDL('EMPRESA', 'CHAVECONT', 'VARCHAR(50)');
       //mudaVersao('1.0.0.113');
     end;// Fim Atualizacao Versao 1.0.0.113
-
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
