@@ -287,6 +287,10 @@ type
     cdsNFVALOR: TFloatField;
     sdsNFUF: TStringField;
     cdsNFUF: TStringField;
+    btnSira: TButton;
+    sClienteFONE: TStringField;
+    sClienteFAX: TStringField;
+    sClienteE_MAIL: TStringField;
     procedure Button1Click(Sender: TObject);
     procedure dxButton1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -298,6 +302,7 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnSiraClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -330,12 +335,9 @@ begin
 end;
 
 procedure TfExpContMat.Button1Click(Sender: TObject);
-
 var  Registro, NomArquivo, prazo, avista, parcelas, dattoday: string;
      arquivo: TextFile;
      dathor: TDateTime;
-
-
 begin
    JvProgressBar1.Position := 0;
    JvProgressBar1.Max := 1000;
@@ -642,6 +644,140 @@ var dia, mes, ano :word;
 begin
   DecodeDate( now, ano, mes, dia);
   edit1.text := 'c:\Home\sisadmin\' + IntToStr(dia) + '-' + IntToStr(mes) + '-' + IntToStr(ano) + '.N' + IntToStr(mes);
+end;
+
+procedure TfExpContMat.btnSiraClick(Sender: TObject);
+var  Registro, NomArquivo, prazo, avista, parcelas, dattoday: string;
+     arquivo: TextFile;
+     dathor: TDateTime;
+begin
+  JvProgressBar1.Position := 0;
+  JvProgressBar1.Max := 1000;
+
+  JvProgressBar1.Position := 1;
+  //Seleciona Empresa de acordo com o CCusto selecionado
+  if (sEmpresa.Active) then
+    sEmpresa.Close;
+
+  sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+  sEmpresa.Open;
+
+  dattoday := FormatDateTime('ddmmaaaa', Today);
+
+  NomArquivo := (Edit1.Text);
+  AssignFile(Arquivo, NomArquivo);
+  Rewrite(Arquivo);
+
+  while not cdsNF.Eof do
+  begin
+    if (cdsNFSELECIONOU.AsString = 'S') then
+    begin
+      JvProgressBar1.Position := JvProgressBar1.Position + 5;
+
+      if (sCliente.Active) then
+        sCliente.Close;
+      sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+      sCliente.Open;
+
+      if (cdsNFDTASAIDA.IsNull) then
+        dathor := cdsNFDTAEMISSAO.AsDateTime
+      else
+        dathor := cdsNFDTASAIDA.AsDateTime;
+
+      if(cdsNFENTRADA.AsFloat = cdsNFVALOR.AsFloat) then
+      begin
+        prazo := '';
+        avista := FloatToStr(cdsNFVALOR.AsFloat);
+        parcelas := '';
+      end
+      else begin
+        prazo := FloatToStr(cdsNFVALOR.asFloat);
+        avista := '';
+        parcelas := IntToStr(cdsNFN_PARCELA.AsInteger);
+      end;
+
+      {Linha 1
+        /u"Nota Fiscal";"Data de Emissão";"Agrônomo";"Código do Cliente";
+        "Nome do Cliente";"Endereço do Cliente";"Bairro do Cliente";
+        "Caixa Postal do Cliente";"CEP do Cliente";"Cidade do Cliente";
+        "UF do Cliente";"CGC do Cliente";"IE do Cliente";"Contato do Cliente";
+        "Telefone do Cliente";"Fax do Cliente";"E-mail do Cliente";
+        "Home Page do Cliente";
+      }
+      Registro := ('"'  + IntToStr(cdsNFNOTASERIE.AsInteger) +  '";' +
+               '"'  + FormatDateTime('ddmmyyyy',cdsNFDTAEMISSAO.asDateTime) +  '";' +
+               '"";' +
+               '"'  + IntToStr(cdsNFCODCLIENTE.AsInteger) + '";' +
+               '"'  + sClienteRAZAOSOCIAL.AsString + '";' +
+               '"'  + sClienteLOGRADOURO.AsString + '";' +
+               '"'  + sClienteBAIRRO.AsString + '";' +
+               '"";' +
+               '"'  + Removechar(sClienteCEP.AsString) + '";' +
+               '"'  + sClienteCIDADE.AsString + '";' +
+               '"'  + sClienteUF.AsString + '";' +
+               '"'  + Formatar(RemoveChar(sClienteCNPJ.AsString),14,False,'0') + '";' +
+               '"'  + Removechar(sClienteINSCESTADUAL.AsString) + '";' +
+               '"'  + sClienteCONTATO.AsString + '";' +
+               '"'  + sClienteFONE.AsString + '";' +
+               '"'  + sClienteFAX.AsString + '";' +
+               '"'  + sClienteE_MAIL.AsString + '";' +
+               '"";');
+
+      writeln(Arquivo, Registro);
+
+      {Linha 2
+         /f"Código da Propriedade";"Nome da Propriedade";"Endereço da Propriedade";
+         "Caixa Postal da Propriedade";"Cep da Propriedade";"Cidade da Propriedade";
+         "UF da Propriedade";"CGC da Propriedade";"IE da Propriedade";"INCRA da Propriedade";
+         "Área da Propriedade";"Contato da Propriedade";"Telefone da Propriedade";
+         "Fax da Propriedade";"E-mail da Propriedade";
+      }
+
+      Registro := ('"";' +
+               '"'  + sClienteNOMECLIENTE.AsString + '";' +
+               '"'  + sClienteLOGRADOURO.AsString + '";' +
+               '"";' +
+               '"'  + Removechar(sClienteCEP.AsString) + '";' +
+               '"'  + sClienteCIDADE.AsString + '";' +
+               '"'  + sClienteUF.AsString + '";' +
+               '"'  + Formatar(RemoveChar(sClienteCNPJ.AsString),14,False,'0') + '";' +
+               '"'  + Removechar(sClienteINSCESTADUAL.AsString) + '";' +
+               '"";' +
+               '"";' +
+               '"'  + sClienteCONTATO.AsString + '";' +
+               '"'  + sClienteFONE.AsString + '";' +
+               '"'  + sClienteFAX.AsString + '";' +
+               '"'  + sClienteE_MAIL.AsString + '";');
+      writeln(Arquivo, Registro);
+
+      {Linha 3
+         /p"Código do Produto";"Nome do Produto";"Código da Cultura";"Nome da Cultura";
+         "Área de aplicação";"Qtde adquirida";"Unidade qtde adquirida";
+      }
+      if(cdsItensNF.Active) then
+        cdsItensNF.Close;
+      cdsItensNF.Params[0].AsInteger := cdsNFCODVENDA.AsInteger;
+      cdsItensNF.Open;
+      while not cdsItensNF.Eof do // Escrevo os itens
+      begin
+        JvProgressBar1.Position := JvProgressBar1.Position + 1;
+        Registro := ('"'  + cdsItensNFCODPRO.AsString + '";' +
+                    '"'  + cdsItensNFDESCPRODUTO.AsString + '";' +
+                    '"";' +
+                    '"";' +
+                    '"'  + Removechar(FormatFloat('0.000' , cdsItensNFQUANTIDADE.AsFloat)) + '";' +
+                    '"'  + cdsItensNFUNIDADEMEDIDA.AsString + '";');
+        writeln(Arquivo, Registro);
+        cdsItensNF.Next;
+      end;
+    end;
+    cdsNF.Next;
+  end;
+  CloseFile(arquivo);
+  JvProgressBar1.Position := JvProgressBar1.Position + (1000-JvProgressBar1.Position);
+
+  MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0)
+
 end;
 
 end.
