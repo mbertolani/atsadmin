@@ -93,7 +93,7 @@ begin
     Exit;
   end;
 
-  if (JvValor.AsInteger = 0) then
+  if (JvValor.AsFloat = 0) then
   begin
     ShowMessage('Informe o Valor da Sangria !');
     Exit;
