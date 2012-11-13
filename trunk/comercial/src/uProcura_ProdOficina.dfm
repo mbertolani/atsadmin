@@ -22,7 +22,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel2: TPanel
     Left = 0
     Top = 57
-    Width = 804
+    Width = 796
     Height = 89
     Align = alTop
     BevelOuter = bvLowered
@@ -40,34 +40,31 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
     object Label12: TLabel
       Left = 418
-      Top = -5
+      Top = 19
       Width = 55
       Height = 13
       Caption = 'Quantidade'
       PopupMenu = PopupMenu1
-      Visible = False
     end
     object Label13: TLabel
       Left = 500
-      Top = -5
+      Top = 19
       Width = 49
       Height = 13
       Caption = 'Valor Unit.'
       PopupMenu = PopupMenu1
-      Visible = False
     end
     object Label14: TLabel
       Left = 582
-      Top = -4
+      Top = 20
       Width = 51
       Height = 13
       Caption = 'Valor Total'
-      Visible = False
     end
     object EvDBFind1: TEvDBFind
       Left = 8
       Top = 33
-      Width = 793
+      Width = 400
       Height = 28
       DataField = 'PRODUTO'
       DataSource = Dtsrc
@@ -83,30 +80,28 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
     object BitBtn4: TBitBtn
       Left = 674
-      Top = 9
+      Top = 33
       Width = 52
       Height = 25
       Caption = 'Adiciona'
       PopupMenu = PopupMenu1
       TabOrder = 4
-      Visible = False
       OnClick = BitBtn4Click
     end
     object BitBtn5: TBitBtn
       Left = 726
-      Top = 9
+      Top = 33
       Width = 52
       Height = 25
       Caption = 'Novo'
       Enabled = False
       PopupMenu = PopupMenu1
       TabOrder = 5
-      Visible = False
       OnClick = BitBtn5Click
     end
     object Edit4: TJvCalcEdit
       Left = 498
-      Top = 10
+      Top = 34
       Width = 70
       Height = 24
       DisplayFormat = ',##0.00'
@@ -118,14 +113,13 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       ParentFont = False
       ShowButton = False
       TabOrder = 2
-      Visible = False
       DecimalPlacesAlwaysShown = False
       OnExit = Edit4Exit
       OnKeyPress = FormKeyPress
     end
     object Edit2: TJvCalcEdit
       Left = 571
-      Top = 10
+      Top = 34
       Width = 101
       Height = 24
       DisplayFormat = ',##0.00'
@@ -136,14 +130,13 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Font.Style = []
       ParentFont = False
       TabOrder = 3
-      Visible = False
       DecimalPlacesAlwaysShown = False
       OnExit = Edit2Exit
       OnKeyPress = FormKeyPress
     end
     object Edit3: TJvCalcEdit
       Left = 413
-      Top = 10
+      Top = 34
       Width = 81
       Height = 24
       DisplayFormat = ',##0.0'
@@ -155,7 +148,6 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       ParentFont = False
       ShowButton = False
       TabOrder = 1
-      Visible = False
       DecimalPlacesAlwaysShown = False
       OnExit = Edit3Exit
       OnKeyPress = FormKeyPress
@@ -164,7 +156,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel1: TPanel
     Left = 0
     Top = 146
-    Width = 804
+    Width = 796
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -402,8 +394,8 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object DBGrid1: TDBGrid
     Left = 0
     Top = 235
-    Width = 643
-    Height = 380
+    Width = 635
+    Height = 369
     Align = alClient
     Color = clCream
     DataSource = Dtsrc
@@ -418,7 +410,6 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     OnCellClick = DBGrid1CellClick
     OnDblClick = DBGrid1DblClick
     OnKeyDown = DBGrid1KeyDown
-    OnKeyPress = DBGrid1KeyPress
     OnKeyUp = DBGrid1KeyUp
     OnTitleClick = DBGrid1TitleClick
     Columns = <
@@ -496,7 +487,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 804
+    Width = 796
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1329,10 +1320,10 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
   end
   object DBGrid2: TDBGrid
-    Left = 643
+    Left = 635
     Top = 235
     Width = 161
-    Height = 380
+    Height = 369
     Align = alRight
     Color = clCream
     DataSource = DataSource2
@@ -1347,7 +1338,6 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     OnCellClick = DBGrid1CellClick
     OnDblClick = DBGrid1DblClick
     OnKeyDown = DBGrid1KeyDown
-    OnKeyPress = DBGrid1KeyPress
     OnKeyUp = DBGrid1KeyUp
     OnTitleClick = DBGrid1TitleClick
     Columns = <

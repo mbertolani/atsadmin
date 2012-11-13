@@ -165,7 +165,6 @@ type
     BitBtn3: TBitBtn;
     DBGrid2: TDBGrid;
     RadioGroup1: TRadioGroup;
-    procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -197,25 +196,12 @@ type
     procedure SpeedButton4Click(Sender: TObject);
     procedure cbFamiliaChange(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
-    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
   private
     { Private declarations }
-    procedure precolista1;
-    procedure formcompra;
-    procedure formvenda;
-    procedure formnf;
-    procedure formterminal;
-    procedure formitens;
-    procedure formterminaldelivery;
-    procedure formestoque;
-    procedure formentrasai;
-    procedure formcadfornecedor;
-    procedure formcadproduto;
-    procedure formnotaf;
-    procedure formnfCompra;
+    procedure formos;
 
   public
     { Public declarations }
@@ -237,7 +223,8 @@ implementation
 uses UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   uEntra_Sai_estoque, uLotes, uLotesCadastro,
   ufDlgLogin, uProdFornecedor, uTerminalLoja, uProduto_Mat_prima,
-  sCtrlResize, uTerminal_Delivery, UDMNF, uNF, uClassificacaoFiscalProduto;
+  sCtrlResize, uTerminal_Delivery, UDMNF, uNF, uClassificacaoFiscalProduto,
+  uOsInserePeca, uOs;
 
 {$R *.dfm}
 
@@ -249,11 +236,6 @@ begin
   Canv.Handle := DC;
   Canv.CopyRect(R,Canv,R);
   ReleaseDC( GetDeskTopWindow, DC );
-end;
-
-procedure TfProcura_prodOficina.Incluir1Click(Sender: TObject);
-begin
-// fProcura_prod.Close;
 end;
 
 procedure TfProcura_prodOficina.Procurar1Click(Sender: TObject);
@@ -275,29 +257,6 @@ end;
 procedure TfProcura_prodOficina.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
- {//if varonde = 'cad_produto' then
-   // fProcura_prod.ModalResult := mrOk;
- codprodxa := cds_procCODPRODUTO.asInteger;
- if ((varonde <> 'compra') and (varonde <> 'itens') and (varonde <> 'venda')
-     and (varonde <> 'EntraSai') and (varonde <> 'mat_prima')) then
- if (panel2.Visible = True) then
- begin
-   if cds_proc.Active then
-     cds_proc.Close;
-
-   if cds_proc1.Active then
-     cds_proc1.Close;
-
-   if cds_proc2.Active then
-     cds_proc2.Close;
- end;
- BitBtn2.Click;
- if ((varonde <> 'compra') and (varonde <> 'itens') and (varonde <> 'venda')
-     and (varonde <> 'EntraSai') and (varonde <> 'mat_prima')) then
- begin
-   //cds_proc.Close;
- end;
- varonde := '';   }
  Close;
 end;
 
@@ -341,21 +300,12 @@ begin
      dm.cds_categoria.Next;
   end;
   dm.cds_categoria.Close;
-  //Panel1.Visible := True;
-  //Panel2.Visible := True;
-  {cbMarca.Text := '';
-  panel2.TabOrder := 0;
-  EvDBFind1.SetFocus;   }
 
   if var_F = 'venda' then
     Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
   if var_F = 'compra' then
     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   cbMarca.Text := '';
-
-  //if (RadioGroup1.ItemIndex = 0) then
-  //  EvDBFind1.SetFocus;
-  //bitBtn1.Click;
 end;
 
 procedure TfProcura_prodOficina.btnIncluirClick(Sender: TObject);
@@ -372,8 +322,6 @@ begin
     dm.cds_produto.Edit;
     dm.cds_produtoESTOQUEATUAL.AsFloat := cds_procESTOQUEATUAL.AsFloat;
     dm.cds_produtoVALORUNITARIOATUAL.AsFloat := cds_procPRECO_COMPRA.AsFloat;
-    //dm.cds_produtoPRECOMEDIO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-    //dm.cds_produtoVALOR_PRAZO.AsFloat := cds_procPRECO_VENDA.AsFloat;
     if (dm.cds_produtoTIPO.AsString = 'SERV') then
       fProdutoCadastro.cbTipo.ItemIndex := 3
     else if (dm.cds_produtoTIPO.AsString = 'COMPRA') then
@@ -532,14 +480,7 @@ begin
  imp := varCondicao;
  if ((varonde <> 'compra') and (varonde <> 'itens') and (varonde <> 'EntraSai')
    and (varonde <> 'Lotes')) then
-// DBGrid1.SetFocus;
 
-{ if cds_proc1.Active then
-   cds_proc1.Close;
- cds_proc1.CommandText := varCondicao1;
- cds_proc1.Open;
- cds_proc1.CommandText := varSql1;
- }
  if cds_proc2.Active then
    cds_proc2.Close;
  cds_proc2.CommandText := varCond2 + ' AND USO.COD_PRODUTO = ' + IntToStr(cds_procCODPRODUTO.AsInteger) + ' order by pro.PRODUTO ';
@@ -577,8 +518,6 @@ begin
   if (key = #13) then
   begin
     bitBtn6.Click;   // Fecha a tela
-    //key:= #0;
-    //SelectNext((Sender as TwinControl),True,True);
   end;
 end;
 
@@ -606,32 +545,8 @@ end;
 procedure TfProcura_prodOficina.BitBtn4Click(Sender: TObject);
 begin
   usouAdiciona := 'usou';
-  if (var_F = 'compra') then
-    formcompra;
-  if (var_F = 'venda') then
-     formvenda;
-  if (var_F = 'itens') then
-    formitens;
-  if (var_F = 'EntraSai') then
-    formentrasai;
-  if (var_F = 'estoque') then
-    formestoque;
-  if (var_F = 'cadfornecedor') then
-    formcadfornecedor;
-  if (var_F = 'terminalloja') then
-    formterminaldelivery;
-  if (var_F = 'formnf') then
-    formnf;
-  if (var_F = 'formnotaf') then
-    formnotaf;
-  if (var_F = 'formnfCompra') then
-    formnfCompra;
-  //vejo se usa pre�o p�r Fornecedor
-  if (var_F = 'Lista') then
-  begin
-    if (fCompra.usaprecolista = 'S') then
-       precolista1;
-  end;
+  if (var_F = 'os') then
+     formos;
   BitBtn4.Enabled := false;
   BitBtn5.Enabled := true;
   BitBtn5.SetFocus;
@@ -640,26 +555,9 @@ end;
 procedure TfProcura_prodOficina.BitBtn5Click(Sender: TObject);
 begin
   usouAdiciona := 'nao usou';
- if (var_F = 'compra') then
-   fCompra.btnNovo.Click;
 
- if (var_F = 'venda') then
-   fVendas.btnNovo.Click;
-
- if (var_F = 'itens') then
-   fITENS_NF.btnNovo.Click;
-
- if (var_F = 'estoque') then
-   fEntra_Sai_estoque.btnNovo.Click;
-
- if (var_F = 'mat_prima') then
-   fProduto_Mat_prima.btnIncluir.Click;
-
- if (var_F = 'Lista') then
-   fCompra.btnNovo.Click;
-
- if (var_F = 'formnf') then
-   fNF.btnNovo.Click;
+ if (var_F = 'os') then
+   fOsInserePeca.btnIncluir.Click;
 
  Edit3.Text := '';
  Edit4.Text := '';
@@ -678,23 +576,6 @@ begin
    Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
    if (var_F = 'compra') then
      Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
-   if (var_F = 'Lista') then
-   begin
-     if (fCompra.cdslista.Active) then
-       fCompra.cdslista.Close;
-     fCompra.cdslista.Params[0].AsInteger := fCompra.cds_MovimentoCODFORNECEDOR.AsInteger;
-     fCompra.cdslista.Params[1].AsString := cds_procCODPRO.AsString;
-     fCompra.cdslista.Open;
-     if (not fCompra.cdslista.IsEmpty) then
-     begin
-       fCompra.cds_Mov_detCODPRODUTO.AsInteger := fCompra.cdslistaCODPRODUTO.AsInteger;
-       fCompra.cds_Mov_detCODPRO.AsString := fCompra.cdslistaCODIGO.AsString;
-       fCompra.cds_Mov_detDESCPRODUTO.Value := fCompra.cdslistaPRODUTO.Value;
-       fCompra.cds_Mov_detUN.AsString := fCompra.cdslistaUNIDADE.AsString;
-       fCompra.cds_Mov_detPRECO.AsFloat := fCompra.cdslistaPRECOLISTA.AsFloat;
-       Edit4.Text := Format('%-6.2n',[fCompra.cdsListaPRECOLISTA.value]);
-     end;
-   end;
 end;
 
 procedure TfProcura_prodOficina.DBGrid1CellClick(Column: TColumn);
@@ -709,9 +590,6 @@ begin
   // Uso
   varSql2 := 'select DISTINCT uso.DESCRICAO as USO ' +
     ' from USO_PRODUTO uso ';
-    //'from PRODUTOS pro ' +
-    //'left outer join CODIGOS cod on cod.COD_PRODUTO = pro.CODPRODUTO ' +
-    //'left outer join USO_PRODUTO uso on uso.COD_PRODUTO = pro.CODPRODUTO ';
 
   varCondicao := 'where pro.CODPRO like ' + '''' + cds_procCODPRO.AsString + '%' + '''';
 
@@ -795,7 +673,6 @@ end;
 procedure TfProcura_prodOficina.BitBtn8Click(Sender: TObject);
 begin
   // adiciona o produto na na tabela Produtos
-
   if (not cdsLista.IsEmpty) then
   begin
     cdsLista.Edit;
@@ -831,7 +708,7 @@ begin
 end;
 
 procedure TfProcura_prodOficina.Edit4Exit(Sender: TObject);
-var vlra, vlrb: double;
+var vlra: double;
 begin
   if (Edit4.Value > 0) then
   begin
@@ -844,9 +721,6 @@ end;
 procedure TfProcura_prodOficina.cbMarcaChange(Sender: TObject);
 var sqlFam:string;
 begin
-//  if (cbMarca.Text = '') then
- //   exit;
-
   if DM.cds_familia.Active then
     DM.cds_familia.Close;
   sqlFam := dm.sds_familia.CommandText;
@@ -866,13 +740,6 @@ begin
      DM.cds_familia.Next;
   end;
   DM.cds_familia.CommandText := sqlFam;
-  {if DM.cds_categoria.Active then
-    DM.cds_categoria.Close;
-  DM.cds_categoria.Params[0].Clear;
-  DM.cds_categoria.Params[1].Clear;
-  DM.cds_categoria.Params[2].AsInteger := DM.cds_familiaCOD_FAMILIA.AsInteger;
-  DM.cds_categoria.Open;
-   }
 end;
 
 procedure TfProcura_prodOficina.SpeedButton4Click(Sender: TObject);
@@ -892,55 +759,6 @@ begin
     VCLReport_lista_produtos.Report.Params.ParamByName('PRODUTO').Value := 'TODOS PRODUTOS';
   end;
   VCLReport_lista_produtos.Execute;
-
-
-end;
-
-procedure TfProcura_prodOficina.precolista1;
-begin
-   if (fCompra.cdslista.Active) then
-     fCompra.cdslista.Close;
-   fCompra.cdslista.Params[0].AsInteger := fCompra.cds_MovimentoCODFORNECEDOR.AsInteger;
-   fCompra.cdslista.Params[1].AsString := cds_procCODPRO.AsString;
-   fCompra.cdslista.Open;
-   if (not fCompra.cdslista.IsEmpty) then
-   begin
-     fCompra.cds_Mov_detCODPRODUTO.AsInteger := fCompra.cdslistaCODPRODUTO.AsInteger;
-     fCompra.cds_Mov_detCODPRO.AsString := fCompra.cdslistaCODIGO.AsString;
-     fCompra.cds_Mov_detDESCPRODUTO.Value := fCompra.cdslistaPRODUTO.Value;
-     fCompra.cds_Mov_detUN.AsString := fCompra.cdslistaUNIDADE.AsString;
-     if (edit3.Text <> '') then
-       fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.text)
-     else
-       fCompra.cds_Mov_detQUANTIDADE.AsFloat := 1;
-     fCompra.cds_Mov_detPRECO.AsFloat := fCompra.cdslistaPRECOLISTA.AsFloat;
-     fCompra.cds_Mov_det.Post;
-   end
-   else
-   begin
-     if (Panel2.Visible = True) then
-     begin
-       if Edit4.Text = '' then
-        Edit4.Text := '0';
-       if Edit3.Text = '' then
-       begin
-         Edit3.Text := '1';
-         if (var_F = 'venda') then
-           Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
-         if (var_F = 'compra') then
-           Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
-       end;
-     end;
-     fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-     fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-     fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-     fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-     fCompra.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-     fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-     valorUnitario := cds_procPRECO_VENDA.AsFloat;
-     fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-     fCompra.cds_Mov_det.Post;
-   end;
 end;
 
 procedure TfProcura_prodOficina.cbFamiliaChange(Sender: TObject);
@@ -1011,384 +829,13 @@ begin
         UN              := cds_procUNIDADEMEDIDA.AsString;
         CODALMOXARIFADO := cds_procCODALMOXARIFADO.AsInteger;}
       end;
-
-      if (var_F = 'venda') then
-      begin
-        fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-        fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-        fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-        fVendas.cds_Mov_detLOCALIZACAO.Value := cds_procLOCALIZACAO.Value;
-        fVendas.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
-        fVendas.cds_Mov_detPRECO.AsFloat := Edit4.Value;
-        fVendas.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-        valorUnitario := cds_procPRECO_VENDA.AsFloat;
-        fVendas.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-      end;
-      if (var_F = 'compra') then
-      begin
-        fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-        fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-        fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-        fCompra.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
-        fCompra.cds_Mov_detPRECO.AsFloat := Edit4.Value;
-        fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-        valorUnitario := cds_procPRECO_VENDA.AsFloat;
-        fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-      end;
-      if (var_F = 'estoque') then
-      begin
-        fEntra_Sai_estoque.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-        fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-        fEntra_Sai_estoque.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-        fEntra_Sai_estoque.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
-        fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := Edit4.value;
-        fEntra_Sai_estoque.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-        fEntra_Sai_estoque.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-        valorUnitario := cds_procPRECO_VENDA.AsFloat;
-        fEntra_Sai_estoque.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-      end;
-
-      if (var_F = 'cadfornecedor') then
-      begin
-        fProdFornecedor.cdsCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-        fProdFornecedor.cdsCODIGO.AsString := cds_procCODPRO.AsString;
-        fProdFornecedor.cdsPRODUTO.Value := cds_procPRODUTO.Value;
-        fProdFornecedor.cdsUNIDADE.AsString := cds_procUNIDADEMEDIDA.AsString;
-        fProdFornecedor.cdsCODFORNECEDOR.AsInteger := fProdFornecedor.codFornecedor;
-      end;
-      if (var_F = 'terminalloja') then
-      begin
-  {      fTerminalLoja.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-        fTerminalLoja.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-        fTerminalLoja.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-        fTerminalLoja.cds_Mov_detLOCALIZACAO.Value := cds_procLOCALIZACAO.Value;
-        fTerminalLoja.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-        fTerminalLoja.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-        fTerminalLoja.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-        valorUnitario := cds_procPRECO_VENDA.AsFloat;
-        fTerminalLoja.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
- }
-        fTerminal_Delivery.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-        fTerminal_Delivery.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-        fTerminal_Delivery.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-        fTerminal_Delivery.cds_Mov_detLOCALIZACAO.Value := cds_procLOCALIZACAO.Value;
-        fTerminal_Delivery.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
-        fTerminal_Delivery.cds_Mov_detPRECO.AsFloat := Edit4.value;
-        fTerminal_Delivery.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-        valorUnitario := cds_procPRECO_VENDA.AsFloat;
-        fTerminal_Delivery.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-      end;
    end;
-  //Panel2.Visible := false;
-  //Panel1.Visible := true;
   Edit3.Text := '';
   Edit4.Text := '';
   BitBtn5.Enabled := false;
   BitBtn4.Enabled := true;
-  if (var_F = 'filtroEstoque') then
-  begin
-    fecodProd := cds_procCODPRO.AsString;
-    fecodProduto := cds_procCODPRODUTO.AsInteger;
-    fenomeProduto := cds_procPRODUTO.Value;
-  end;
-
-  if (var_F = 'Lotes') then
-  begin
-    fLotes.cdslotesCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fLotes.cdslotesCODPRO.AsString := cds_procCODPRO.AsString;
-    fLotes.cdslotesPRODUTO.Value := cds_procPRODUTO.Value;
-    fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
-  end;
-
-  if (var_F = 'Lista') then
-  begin
-     fCompra.CODIGOPRODUTO := cds_procCODPRO.AsString;
-     if (usouAdiciona = 'nao usou') then
-     begin
-       fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-       fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-       fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-       fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-       valorUnitario := cds_procPRECO_VENDA.AsFloat;
-       fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-     end;
-  end;
   close;
 
-end;
-
-procedure TfProcura_prodOficina.formcompra;
-begin
-    if cds_procLOTES.AsString = 'S' then
-    begin
-      fLotes := TfLotes.Create(Application);
-      try
-        if fLotes.cdslotes.Active then
-          fLotes.cdslotes.Close;
-        fLotes.cdslotes.Params[0].AsInteger := cds_procCODPRODUTO.AsInteger;
-        fLotes.cdslotes.Open;
-        if fLotes.cdslotes.IsEmpty then
-        begin
-          fLotes.cdslotes.Append;
-          fLotes.cdslotesCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-          fLotes.cdslotesCODPRO.AsString := cds_procCODPRO.AsString;
-          fLotes.cdslotesPRODUTO.Value := cds_procPRODUTO.Value;
-          fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
-        end;
-        fLotes.btnProdutoProcura.Enabled := False;
-        var_F := 'procura';
-        fLotes.ShowModal;
-      finally
-        fLotes.Free;
-      end;
-      var_F := 'compra';
-    end;
-    //---------------------------------
-    fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fCompra.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
-    fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    fCompra.cds_Mov_det.Post;
-end;
-
-procedure TfProcura_prodOficina.formnf;
-begin
-    if cds_procLOTES.AsString = 'S' then
-    begin
-      fLotes := TfLotes.Create(Application);
-      try
-        if fLotes.cdslotes.Active then
-          fLotes.cdslotes.Close;
-        fLotes.cdslotes.Params[0].AsInteger := cds_procCODPRODUTO.AsInteger;
-        fLotes.cdslotes.Open;
-        fLotes.btnProdutoProcura.Enabled := False;
-        fLotes.btnIncluir.Enabled := False;
-        fLotes.btnGravar.Enabled := False;
-        fLotes.btnExcluir.Enabled := False;
-        fLotes.btnCancelar.Enabled := False;
-        fLotes.btnProcurar.Enabled := False;
-        var_F := 'procura_nf';
-        fLotes.ShowModal;
-      finally
-        fLotes.Free;
-      end;
-      var_F := 'formnf';
-    end;
-
-    if cds_procLOTES.AsString = 'S' then
-    if estoq < StrToInt(Edit3.Text) then
-    begin
-      MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
-      exit;
-    end;
-    dmnf.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    dmnf.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    dmnf.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    dmnf.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    dmnf.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
-    dmnf.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    DMNF.estoque := cds_procESTOQUEATUAL.AsFloat;
-    dmnf.cds_Mov_det.Post;
-
-end;
-
-procedure TfProcura_prodOficina.formvenda;
-begin
-    if cds_procLOTES.AsString = 'S' then
-    begin
-      fLotes := TfLotes.Create(Application);
-      try
-        if fLotes.cdslotes.Active then
-          fLotes.cdslotes.Close;
-        fLotes.cdslotes.Params[0].AsInteger := cds_procCODPRODUTO.AsInteger;
-        fLotes.cdslotes.Open;
-        fLotes.btnProdutoProcura.Enabled := False;
-        fLotes.btnIncluir.Enabled := False;
-        fLotes.btnGravar.Enabled := False;
-        fLotes.btnExcluir.Enabled := False;
-        fLotes.btnCancelar.Enabled := False;
-        fLotes.btnProcurar.Enabled := False;
-        var_F := 'procura_venda';
-        fLotes.ShowModal;
-      finally
-        fLotes.Free;
-      end;
-      var_F := 'venda';
-    end;
-    if cds_procLOTES.AsString = 'S' then
-    if estoq < StrToInt(Edit3.Text) then
-    begin
-      MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
-      exit;
-    end;
-    fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    fVendas.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fVendas.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    fVendas.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    fVendas.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
-    fVendas.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    fVendas.estoque := cds_procESTOQUEATUAL.AsFloat;
-    fVendas.cds_Mov_det.Post;
-end;
-
-procedure TfProcura_prodOficina.formitens;
-begin
-    fnotafiscal.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    //fnotafiscal.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fnotafiscal.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    fnotafiscal.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fnotafiscal.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    fnotafiscal.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    fnotafiscal.cds_Mov_detVALTOTAL.Value:= fnotafiscal.cds_Mov_detPRECO.Value *
-       fnotafiscal.cds_Mov_detQUANTIDADE.Value;
-    fnotafiscal.cds_Mov_det.Post;
-
-end;
-
-procedure TfProcura_prodOficina.formterminal;
-begin
-
-end;
-
-procedure TfProcura_prodOficina.formterminaldelivery;
-begin
-    if (fTerminal_Delivery.cds_Mov_det.State in [dsBrowse]) then
-       fTerminal_Delivery.cds_Mov_det.Append;
-    fTerminal_Delivery.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fTerminal_Delivery.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fTerminal_Delivery.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-    fTerminal_Delivery.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;    
-    fTerminal_Delivery.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fTerminal_Delivery.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    fTerminal_Delivery.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    fTerminal_Delivery.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
-    fTerminal_Delivery.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    fTerminal_Delivery.estoque := cds_procESTOQUEATUAL.AsFloat;
-    fTerminal_Delivery.cds_Mov_det.Post;
-end;
-
-procedure TfProcura_prodOficina.formcadproduto;
-begin
-
-end;
-
-procedure TfProcura_prodOficina.formentrasai;
-begin
-    fEntra_Sai_estoque.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fEntra_Sai_estoque.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-    fEntra_Sai_estoque.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    fEntra_Sai_estoque.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    fEntra_Sai_estoque.cds_Mov_detValorTotal.Value := fEntra_Sai_estoque.cds_Mov_detPRECO.Value *
-       fEntra_Sai_estoque.cds_Mov_detQUANTIDADE.Value;
-    fEntra_Sai_estoque.cds_Mov_det.Post;
-
-end;
-
-procedure TfProcura_prodOficina.formestoque;
-begin
-    if cds_procLOTES.AsString = 'S' then
-    begin
-      fLotes := TfLotes.Create(Application);
-      try
-        if fLotes.cdslotes.Active then
-          fLotes.cdslotes.Close;
-        fLotes.cdslotes.Params[0].AsInteger := cds_procCODPRODUTO.AsInteger;
-        fLotes.cdslotes.Open;
-        fLotes.btnProdutoProcura.Enabled := False;
-        var_F := 'procura_estoque';
-        fLotes.ShowModal;
-      finally
-        fLotes.Free;
-      end;
-      var_F := 'estoque';
-      if estoq1 < StrToInt(Edit3.Text) then
-      begin
-        MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
-        exit;
-      end;
-    end;
-    fEntra_Sai_estoque.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    fEntra_Sai_estoque.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
-    fEntra_Sai_estoque.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    fEntra_Sai_estoque.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    fEntra_Sai_estoque.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
-    fEntra_Sai_estoque.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    fEntra_Sai_estoque.cds_Mov_det.Post;
-
-end;
-
-procedure TfProcura_prodOficina.formcadfornecedor;
-begin
-    if (fProdFornecedor.cds.State in [dsBrowse]) then
-       fProdFornecedor.btnIncluir.Click;
-    fProdFornecedor.cdsCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fProdFornecedor.cdsCODIGO.AsString := cds_procCODPRO.AsString;
-    fProdFornecedor.cdsPRODUTO.Value := cds_procPRODUTO.Value;
-    fProdFornecedor.cdsPRECOLISTA.AsFloat := StrToFloat(Edit4.Text);
-    fProdFornecedor.cdsUNIDADE.AsString := cds_procUNIDADEMEDIDA.AsString;
-    fProdFornecedor.cdsCODFORNECEDOR.AsInteger := fProdFornecedor.codFornecedor;
-    fProdFornecedor.cds.ApplyUpdates(0);
-end;
-
-procedure TfProcura_prodOficina.formnotaf;
-begin
-    dmnf.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    dmnf.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    dmnf.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    dmnf.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    dmnf.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
-    dmnf.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    DMNF.estoque := cds_procESTOQUEATUAL.AsFloat;
-    dmnf.cds_Mov_det.Post;
-end;
-
-procedure TfProcura_prodOficina.formnfCompra;
-begin
-    dmnf.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    dmnf.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
-    dmnf.cds_Mov_detLOTE.AsString := DMNF.cds_MovimentoCONTROLE.AsString;
-    dmnf.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
-    dmnf.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
-    dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
-    dmnf.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-    valorUnitario := cds_procPRECO_VENDA.AsFloat;
-    dmnf.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    DMNF.estoque := cds_procESTOQUEATUAL.AsFloat;
-    dmnf.cds_Mov_det.Post;
-end;
-
-procedure TfProcura_prodOficina.DBGrid1KeyPress(Sender: TObject;
-  var Key: Char);
-begin
- {if (key = #13) then
- begin
-   Edit3.Text := '1';
-   if (Edit4.Text = '') then
-     Edit4.Text := '0';
-   Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
-   if (var_F = 'compra') then
-     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
-   Edit3.SetFocus;
- end;             }
 end;
 
 procedure TfProcura_prodOficina.BitBtn3Click(Sender: TObject);
@@ -1424,6 +871,32 @@ begin
     Panel2.Visible := False;
     Panel1.Visible := True;
   end;
+end;
+
+procedure TfProcura_prodOficina.formos;
+begin
+  if(fOsInserePeca.btnGravar.Visible) then
+  begin
+    fOsInserePeca.edProduto.Text    := cds_procCODPRO.AsString;
+    fOsInserePeca.edProdDescr.Text  := cds_procPRODUTO.AsString;
+    fOsInserePeca.edPrecoServ.Text  := Edit4.Text;
+    fOsInserePeca.codProdutoPeca    := cds_procCODPRODUTO.AsInteger;
+    fOsInserePeca.edQtdeServ.Text   := Edit3.Text;
+    fOsInserePeca.edTotalServ.Text  := Edit2.Text;
+  end;
+  fOs.cdsPecasDESCRICAO_SERV.AsString := cds_procPRODUTO.Value;
+  fOs.cdsPecasCODPRO.AsString         := cds_procCODPRO.AsString;
+  fOs.cdsPecasCODPRODUTO.asInteger    := cds_procCODPRODUTO.AsInteger;
+  fOs.cdsPecasSTATUS.AsString         := fOs.statusOs;
+  fOs.cdsPecasTIPO.AsString           := 'P';
+  fOs.cdsPecasQTDE.AsFloat            := StrToFloat(Edit3.Text);
+  fOs.cdsPecasPRECO.AsFloat           := StrToFloat(Edit4.Text);
+  fOs.cdsPecasDESCONTO.AsFloat        := 0;
+  fOs.cdsPecas.Post;
+  BitBtn4.Enabled := False;
+  BitBtn5.Enabled := True;
+  fOsInserePeca.btnGravar.Visible := False;
+  fOsInserePeca.btnIncluir.Visible := True;
 end;
 
 end.
