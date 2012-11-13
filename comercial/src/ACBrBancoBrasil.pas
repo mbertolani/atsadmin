@@ -108,7 +108,7 @@ begin
       if (aCarteira = 16) or (aCarteira = 17) or (aCarteira = 18) then
        begin
          if (ACBrTitulo.Carteira = '18') and (Length(AConvenio) = 6) then
-           ANossoNumero := padR(ANossoNumero, 17, '0')
+           ANossoNumero := padR(AConvenio, 6, '0') + padR(ANossoNumero, 11, '0')
          else if Length(AConvenio) <= 4 then
             ANossoNumero := padR(AConvenio, 4, '0') + padR(ANossoNumero, 7, '0')
          else if (Length(AConvenio) > 4) and (Length(AConvenio) <= 6) then
@@ -561,7 +561,7 @@ begin
          toRemessaAlterarVencimento             : ATipoOcorrencia := '06'; {Alteração de vencimento}
          toRemessaAlterarNumeroControle         : ATipoOcorrencia := '08'; {Alteração de seu número}
          toRemessaProtestar                     : ATipoOcorrencia := '09'; {Pedido de protesto}
-         toRemessaCancelarInstrucaoProtestoBaixa : ATipoOcorrencia := '10'; {Sustar protesto e baixar}
+//         toRemessaCancelarInstrucaoProtestoBaixa : ATipoOcorrencia := '10'; {Sustar protesto e baixar}
          toRemessaCancelarInstrucaoProtesto     : ATipoOcorrencia := '10'; {Sustar protesto e manter na carteira}
          toRemessaOutrasOcorrencias             : ATipoOcorrencia := '31'; {Alteração de Outros Dados}
       else
