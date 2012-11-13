@@ -25,9 +25,9 @@ inherited fCliente1: TfCliente1
   end
   object rgTipo: TRadioGroup [2]
     Left = 0
-    Top = 39
+    Top = 34
     Width = 81
-    Height = 81
+    Height = 77
     Caption = 'Pessoa'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -44,9 +44,9 @@ inherited fCliente1: TfCliente1
   end
   object gbNome: TGroupBox [3]
     Left = 83
-    Top = 39
+    Top = 34
     Width = 646
-    Height = 81
+    Height = 77
     Caption = 'Cliente'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -93,9 +93,9 @@ inherited fCliente1: TfCliente1
   end
   object GroupBox2: TGroupBox [4]
     Left = 0
-    Top = 120
+    Top = 111
     Width = 729
-    Height = 49
+    Height = 63
     Caption = 'Documentos'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -105,39 +105,37 @@ inherited fCliente1: TfCliente1
     ParentFont = False
     TabOrder = 2
     object lblCnpj: TLabel
-      Left = 5
-      Top = 21
+      Left = 12
+      Top = 16
       Width = 26
       Height = 16
-      Alignment = taRightJustify
       Caption = 'CPF'
     end
     object lblIE: TLabel
-      Left = 160
-      Top = 21
+      Left = 225
+      Top = 16
       Width = 26
       Height = 16
-      Alignment = taRightJustify
       Caption = 'R.G.'
     end
     object lblOrgaoEmissor: TLabel
-      Left = 309
-      Top = 21
+      Left = 385
+      Top = 16
       Width = 90
       Height = 16
       Caption = 'Org'#227'o Emissor'
     end
     object Label80: TLabel
-      Left = 467
-      Top = 20
+      Left = 507
+      Top = 16
       Width = 67
       Height = 16
       Caption = 'Tipo Fiscal'
     end
     object DBEdit3: TDBEdit
-      Left = 45
-      Top = 18
-      Width = 108
+      Left = 10
+      Top = 34
+      Width = 207
       Height = 24
       DataField = 'CNPJ'
       DataSource = DtSrc
@@ -145,9 +143,9 @@ inherited fCliente1: TfCliente1
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
-      Left = 196
-      Top = 18
-      Width = 107
+      Left = 223
+      Top = 34
+      Width = 155
       Height = 24
       DataField = 'INSCESTADUAL'
       DataSource = DtSrc
@@ -155,9 +153,9 @@ inherited fCliente1: TfCliente1
       OnKeyPress = FormKeyPress
     end
     object DBEdit5: TDBEdit
-      Left = 404
-      Top = 18
-      Width = 61
+      Left = 383
+      Top = 34
+      Width = 118
       Height = 24
       DataField = 'RG'
       DataSource = DtSrc
@@ -165,9 +163,9 @@ inherited fCliente1: TfCliente1
       OnKeyPress = FormKeyPress
     end
     object cbTipoFiscal: TDBLookupComboBox
-      Left = 544
-      Top = 16
-      Width = 156
+      Left = 508
+      Top = 34
+      Width = 193
       Height = 24
       DataField = 'CODFISCAL'
       DataSource = DtSrc
