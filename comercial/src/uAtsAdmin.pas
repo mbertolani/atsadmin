@@ -259,6 +259,7 @@ type
     dxButton11: TdxButton;
     RelatriodeVendas1: TMenuItem;
     RelNotaFistalLote1: TMenuItem;
+    FluxodeEstoque1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -393,6 +394,7 @@ type
     procedure ListadeVendas1Click(Sender: TObject);
     procedure RelatriodeVendas1Click(Sender: TObject);
     procedure RelNotaFistalLote1Click(Sender: TObject);
+    procedure FluxodeEstoque1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2274,6 +2276,14 @@ begin
   finally
     fVendaRelPorNotaFiscalLote.Free;
   end;
+end;
+
+procedure TfAtsAdmin.FluxodeEstoque1Click(Sender: TObject);
+begin
+  VCLReport1.FileName := str_relatorio + 'fluxo_estoque.rep';
+  VCLReport1.Title    := VCLReport1.FileName;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Execute;
 end;
 
 end.
