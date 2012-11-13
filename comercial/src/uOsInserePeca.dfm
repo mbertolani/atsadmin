@@ -8,7 +8,7 @@ inherited fOsInserePeca: TfOsInserePeca
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 438
+    Width = 430
     object lblServico: TLabel
       Left = 16
       Top = 8
@@ -19,8 +19,8 @@ inherited fOsInserePeca: TfOsInserePeca
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 341
-    Width = 438
+    Top = 330
+    Width = 430
     inherited btnGravar: TBitBtn
       Left = 73
     end
@@ -43,8 +43,8 @@ inherited fOsInserePeca: TfOsInserePeca
   object GroupBox1: TGroupBox [2]
     Left = 0
     Top = 51
-    Width = 438
-    Height = 290
+    Width = 430
+    Height = 279
     Align = alClient
     Caption = 'Pe'#231'as'
     Color = clSilver
@@ -394,7 +394,6 @@ inherited fOsInserePeca: TfOsInserePeca
     end
   end
   inherited DtSrc: TDataSource
-    DataSet = fOs.cdsPecas
     Left = 192
   end
   inherited XPMenu1: TXPMenu

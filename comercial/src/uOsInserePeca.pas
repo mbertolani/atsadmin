@@ -62,10 +62,10 @@ type
     procedure btnCancelarClick(Sender: TObject);
     procedure edProdutoKeyPress(Sender: TObject; var Key: Char);
   private
-    codProdutoPeca: Integer;
     procedure LimpaCamposPeca();
     { Private declarations }
   public
+    codProdutoPeca: Integer;  
     { Public declarations }
   end;
 
@@ -249,36 +249,20 @@ begin
   varonde := 'os';
   var_F := 'os';
   fProcura_prodOficina.ShowModal;
-
-  //fProcura_prodOficina.ShowModal;
-  if (procprod = 'PROC_PROD_COMPLETO') then
+  if(btnGravar.Visible) then
   begin
-    {if (cdsPecas.State in [dsInsert, dsEdit]) then
-    begin
-      cdsPecasCODPRO.AsString := fProcura_prodOficina.cds_procCODPRO.AsString;
-      cdsPecasCODPRODUTO.asInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-      cdsPecasDESCRICAO_SERV.asString := fProcura_prodOficina.cds_procPRODUTO.AsString;
-      cdsPecasPRECO.AsFloat := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-      if ( fProcura_prodOficina.cds_procQTDE_PCT.AsFloat < 1) then
-        cdsPecasQTDE.AsFloat := 1
-      else
-        cdsPecasQTDE.AsFloat := fProcura_prodOficina.cds_procQTDE_PCT.AsFloat; }
-      {qtde         := fProcura_prodOficina.cds_procPESO_QTDE.AsFloat;
-      estoque      := fProcura_prodOficina.cds_procESTOQUEATUAL.AsFloat;
-      codProduto   := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger; }
-    //end;
+    edProduto.Text    := fProcura_prodOficina.cds_procCODPRO.AsString;
+    edProdDescr.Text  := fProcura_prodOficina.cds_procPRODUTO.AsString;
+    edPrecoServ.Value := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+    codProdutoPeca    := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+    edQtdeServ.Text   := '1';
+    if (fOs.cdsPecas.State = dsBrowse) then
+      fOs.cdsPecas.Edit;
+    fOs.cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+    fOs.cdsPecasQTDE.AsFloat         := 1;
+    fOs.cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
+    edQtdeServ.SetFocus;
   end;
-  edProduto.Text    := fProcura_prodOficina.cds_procCODPRO.AsString;
-  edProdDescr.Text  := fProcura_prodOficina.cds_procPRODUTO.AsString;
-  edPrecoServ.Value := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-  codProdutoPeca    := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  edQtdeServ.Text   := '1';
-  if (fOs.cdsPecas.State = dsBrowse) then
-    fOs.cdsPecas.Edit;
-  fOs.cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  fOs.cdsPecasQTDE.AsFloat         := 1;
-  fOs.cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
-  edQtdeServ.SetFocus;
 end;
 
 procedure TfOsInserePeca.edProdutoExit(Sender: TObject);
