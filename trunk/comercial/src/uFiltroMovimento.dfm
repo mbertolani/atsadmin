@@ -1587,7 +1587,7 @@ object fFiltroMovimento: TfFiltroMovimento
       end
       item
         Expanded = False
-        FieldName = 'PRECO'
+        FieldName = 'APAGAR'
         Title.Caption = 'Valor R$'
         Visible = False
       end
@@ -1706,6 +1706,7 @@ object fFiltroMovimento: TfFiltroMovimento
     object cds_cnsAPAGAR: TFloatField
       FieldName = 'APAGAR'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.00'
     end
     object cds_cnsPRECO: TFloatField
       FieldName = 'PRECO'
