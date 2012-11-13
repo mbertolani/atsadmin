@@ -1,7 +1,7 @@
 object fExpContMat: TfExpContMat
   Left = 85
   Top = 25
-  Width = 524
+  Width = 654
   Height = 524
   Caption = 'Export'#231#227'o para o ContMatic'
   Color = clBtnFace
@@ -18,7 +18,7 @@ object fExpContMat: TfExpContMat
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 516
+    Width = 646
     Height = 145
     Align = alTop
     TabOrder = 0
@@ -104,7 +104,7 @@ object fExpContMat: TfExpContMat
       TabOrder = 3
     end
     object Button1: TButton
-      Left = 367
+      Left = 487
       Top = 15
       Width = 106
       Height = 41
@@ -122,7 +122,7 @@ object fExpContMat: TfExpContMat
     object JvProgressBar1: TJvProgressBar
       Left = 227
       Top = 104
-      Width = 266
+      Width = 414
       Height = 25
       TabOrder = 5
     end
@@ -273,12 +273,27 @@ object fExpContMat: TfExpContMat
       Height = 21
       TabOrder = 11
     end
+    object btnSira: TButton
+      Left = 367
+      Top = 15
+      Width = 106
+      Height = 41
+      Caption = 'Arquivo SIRA'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 12
+      OnClick = btnSiraClick
+    end
   end
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 145
-    Width = 516
-    Height = 345
+    Width = 646
+    Height = 352
     Align = alClient
     DataSource = DataSource1
     TabOrder = 1
@@ -302,49 +317,49 @@ object fExpContMat: TfExpContMat
         Expanded = False
         FieldName = 'SELECIONOU'
         Title.Caption = 'SEL.'
-        Width = 35
+        Width = 44
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOTASERIE'
         Title.Caption = 'Nota F.'
-        Width = 54
+        Width = 68
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DTAEMISSAO'
         Title.Caption = 'Emiss'#227'o'
-        Width = 54
+        Width = 68
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODCLIENTE'
         Title.Caption = 'C'#243'digo'
-        Width = 34
+        Width = 43
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'RAZAOSOCIAL'
         Title.Caption = 'Raz'#227'o Social'
-        Width = 150
+        Width = 190
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CNPJ_CPF'
         Title.Caption = 'CNPJ / CPF'
-        Width = 79
+        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR_TOTAL_NOTA'
         Title.Caption = 'Valor Total'
-        Width = 87
+        Width = 110
         Visible = True
       end>
   end
@@ -677,7 +692,8 @@ object fExpContMat: TfExpContMat
       'as BAIRRO, '#13#10'           cast(e.COMPLEMENTO as varchar (60) ) as ' +
       'COMPLEMENTO, '#13#10'           cast(e.CIDADE as varchar (60) ) as CID' +
       'ADE, '#13#10'           e.UF, '#13#10'           e.CEP ,'#13#10'           e.NUMER' +
-      'O'#13#10'from CLIENTES c '#13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CODCLIE' +
+      'O, e.ddd ||  e.TELEFONE AS FONE , e.ddd || e.FAX AS FAX, e.e_mai' +
+      'l'#13#10'from CLIENTES c '#13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CODCLIE' +
       'NTE = c.CODCLIENTE '#13#10'where c.CODCLIENTE = :id '
     MaxBlobSize = -1
     Params = <
@@ -752,6 +768,21 @@ object fExpContMat: TfExpContMat
       FieldName = 'NUMERO'
       ReadOnly = True
       Size = 5
+    end
+    object sClienteFONE: TStringField
+      FieldName = 'FONE'
+      ReadOnly = True
+      Size = 12
+    end
+    object sClienteFAX: TStringField
+      FieldName = 'FAX'
+      ReadOnly = True
+      Size = 12
+    end
+    object sClienteE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      ReadOnly = True
+      Size = 100
     end
   end
   object s_2: TSQLDataSet
