@@ -3261,4 +3261,112 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Expression = 'SUM(valtotal)'
     end
   end
+  object sMatPrima: TSQLDataSet
+    CommandText = 
+      'select mp.CODMAT, mp.CODPRODUTO, mp.CODPRODMP, mp.QTDEUSADA, mp.' +
+      'TIPOUSO, mp.USAPRECO, prod.ESTOQUEATUAL ,prod.CODPRO, prod.UNIDA' +
+      'DEMEDIDA, prod.PRODUTO, prod.PRECOMEDIO  '#13#10'from MATERIA_PRIMA mp' +
+      ', PRODUTOS prod '#13#10'where prod.codProduto = mp.codprodmp'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 372
+    Top = 424
+    object sMatPrimaCODMAT: TIntegerField
+      FieldName = 'CODMAT'
+      Required = True
+    end
+    object sMatPrimaCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object sMatPrimaCODPRODMP: TIntegerField
+      FieldName = 'CODPRODMP'
+    end
+    object sMatPrimaQTDEUSADA: TFloatField
+      FieldName = 'QTDEUSADA'
+    end
+    object sMatPrimaTIPOUSO: TStringField
+      FieldName = 'TIPOUSO'
+      Size = 30
+    end
+    object sMatPrimaUSAPRECO: TStringField
+      FieldName = 'USAPRECO'
+    end
+    object sMatPrimaESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+    end
+    object sMatPrimaCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object sMatPrimaUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object sMatPrimaPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object sMatPrimaPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      Precision = 9
+      Size = 2
+    end
+  end
+  object dMatPrima: TDataSetProvider
+    DataSet = sMatPrima
+    Left = 404
+    Top = 424
+  end
+  object cMatPrima: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dMatPrima'
+    Left = 448
+    Top = 425
+    object cMatPrimaCODMAT: TIntegerField
+      FieldName = 'CODMAT'
+      Required = True
+    end
+    object cMatPrimaCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object cMatPrimaCODPRODMP: TIntegerField
+      FieldName = 'CODPRODMP'
+    end
+    object cMatPrimaQTDEUSADA: TFloatField
+      FieldName = 'QTDEUSADA'
+    end
+    object cMatPrimaTIPOUSO: TStringField
+      FieldName = 'TIPOUSO'
+      Size = 30
+    end
+    object cMatPrimaUSAPRECO: TStringField
+      FieldName = 'USAPRECO'
+    end
+    object cMatPrimaESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+    end
+    object cMatPrimaCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object cMatPrimaUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object cMatPrimaPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object cMatPrimaPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      Precision = 9
+      Size = 2
+    end
+  end
 end

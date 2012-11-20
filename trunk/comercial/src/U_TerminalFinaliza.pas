@@ -10,7 +10,7 @@ uses
   DBLocalS, JvExButtons, JvBitBtn, JvEdit, JvValidateEdit, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, Menus, Printers, rpcompobase, rpvclreport,
   ExtDlgs, ComCtrls, ImgList, uEstoque, uMovimento, JvLabel, JvExMask,
-  JvToolEdit, JvBaseEdits;
+  JvToolEdit, JvBaseEdits, uVendaCls;
 
 
 type
@@ -261,6 +261,31 @@ type
     imovdetVALTOTAL: TFloatField;
     cds_imovdetVALTOTAL: TFloatField;
     cds_imovdetTotalPedido: TAggregateField;
+    sMatPrima: TSQLDataSet;
+    sMatPrimaCODMAT: TIntegerField;
+    sMatPrimaCODPRODUTO: TIntegerField;
+    sMatPrimaCODPRODMP: TIntegerField;
+    sMatPrimaQTDEUSADA: TFloatField;
+    sMatPrimaTIPOUSO: TStringField;
+    sMatPrimaUSAPRECO: TStringField;
+    sMatPrimaESTOQUEATUAL: TFloatField;
+    sMatPrimaCODPRO: TStringField;
+    sMatPrimaUNIDADEMEDIDA: TStringField;
+    sMatPrimaPRODUTO: TStringField;
+    sMatPrimaPRECOMEDIO: TBCDField;
+    dMatPrima: TDataSetProvider;
+    cMatPrima: TClientDataSet;
+    cMatPrimaCODMAT: TIntegerField;
+    cMatPrimaCODPRODUTO: TIntegerField;
+    cMatPrimaCODPRODMP: TIntegerField;
+    cMatPrimaQTDEUSADA: TFloatField;
+    cMatPrimaTIPOUSO: TStringField;
+    cMatPrimaUSAPRECO: TStringField;
+    cMatPrimaESTOQUEATUAL: TFloatField;
+    cMatPrimaCODPRO: TStringField;
+    cMatPrimaUNIDADEMEDIDA: TStringField;
+    cMatPrimaPRODUTO: TStringField;
+    cMatPrimaPRECOMEDIO: TBCDField;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -326,6 +351,7 @@ type
     procedure imprimeRecibo;
     procedure imprimeDLLBema;
     procedure baixa_titulos;
+    procedure baixaMatPrima;
     { Private declarations }
   public
     porc_com : Double;
@@ -2221,6 +2247,104 @@ begin
      Frec.Free;
   end;
 
+end;
+
+procedure baixaMatPrima;
+var
+  movSaida: string;
+  TDA: TTransactionDesc;
+  FMov: TMovimento;
+  FVen: TVendaCls;
+  codMovSaida : Integer;
+  Save_Cursor:TCursor;
+begin
+
+  TDA.TransactionID  := 1;
+  TDA.IsolationLevel := xilREADCOMMITTED;
+
+  Save_Cursor   := Screen.Cursor;
+  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+
+  //prog.Max      := cdsInvent.RecordCount;
+  //prog.Position := 0;
+
+  Try
+    FMov := TMovimento.Create;
+    FVen := TVendaCls.Create;
+
+    Try
+      dm.sqlsisAdimin.StartTransaction(TDA);
+
+      dm_mov.c_movdet.DisableControls;
+      dm_mov.c_movdet.First;
+
+      if (not cMatPrima.Active) then
+        cMatPrima.Open;
+
+      movSaida := 'N';
+      While not dm_mov.c_movdet.Eof do
+      begin
+        //prog.Position := dm_mov.c_movdet.RecNo;
+
+        // Filtro as Materias Primas referente ao produto Informado
+        cMatPrima.Filtered := False;
+        cMatPrima.Filter := 'CODPRODUTO=' + IntToStr(dm_mov.c_movdetCODPRODUTO.AsInteger;);
+        cMatPrima.Filtered := True;
+
+         // Cria o Movimento de SAIDA uma vez
+        if (movSaida = 'N') then
+        begin
+          FMov.CodMov      := 0;
+          FMov.CodCCusto   := DM_MOV.c_vendaCODCCUSTO.AsInteger;
+          FMov.CodCliente  := 0;
+          FMov.CodNatureza := 2;
+          FMov.Status      := 0;
+          FMov.CodUsuario  := 1;
+          FMov.CodVendedor := 1;
+          FMov.CodOrigem   := DM_MOV.c_vendaCODMOVIMENTO.AsInteger;
+          FMov.DataMov     := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+          FMov.Obs         := 'Terminal - ' + IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger);
+          codMovSaida := FMov.inserirMovimento(0);
+          movSaida := 'S';
+        end;
+        FMov.MovDetalhe.CodMov        := codMovSaida;
+        FMov.MovDetalhe.CodProduto    := cMatPrimaCODPRODUTO.AsInteger;
+        FMov.MovDetalhe.Qtde          := cMatPrimaQTDEUSADA.AsFloat * dm_mov.c_movdetQUANTIDADE.AsFloat;
+        FMov.MovDetalhe.Preco         := cMatPrimaPRECOMEDIO.AsFloat;;
+        FMov.MovDetalhe.Lote          := '0';
+        FMov.MovDetalhe.Baixa         := '1';
+        FMov.MovDetalhe.inserirMovDet;
+        cdsInvent.Next;
+      end; // Fim While
+
+      fven.CodMov               := codMovSaida;
+      fven.DataVenda            := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+      fven.DataVcto             := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+      fven.Serie                := 'O';
+      fven.NotaFiscal           := codMovSaida;
+      fven.CodCliente           := 0;
+      fven.CodVendedor          := 1;
+      fven.CodCCusto            := DM_MOV.c_vendaCODCCUSTO.AsInteger;
+      fven.ValorPagar           := 0;
+      fven.NParcela             := 1;
+      fven.inserirVenda(0);
+
+      dmnf.baixaEstoque(codMovSaida, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'SAIDA');
+
+      dm.sqlsisAdimin.Commit(TDA);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+      end;
+    end;
+  Finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    cMatPrima.close;
+    FMov.Free;
+    FVen.Free;
+  end;
 end;
 
 end.
