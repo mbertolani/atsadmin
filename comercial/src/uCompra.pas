@@ -1408,10 +1408,14 @@ begin
     begin
       fLotes_Produtos := TfLotes_Produtos.Create(Application);
       try
+        fLotes_Produtos.DBEdit1.DataSource := fCompra.DtSrc1;
+        fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fCompra.DtSrc1;
+        fLotes_Produtos.JvDBDatePickerEdit2.DataSource := fCompra.DtSrc1;
+        fLotes_Produtos.TIPO := 'COMPRA';
         fLotes_Produtos.ShowModal;
       finally
-        cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        //cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        //cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
         fLotes_Produtos.Free;
       end;
     end
@@ -2057,6 +2061,10 @@ begin
       begin
         fLotes_Produtos := TfLotes_Produtos.Create(Application);
         try
+          fLotes_Produtos.DBEdit1.DataSource := fCompra.DtSrc1;
+          fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fCompra.DtSrc1;
+          fLotes_Produtos.JvDBDatePickerEdit2.DataSource := fCompra.DtSrc1;
+          fLotes_Produtos.TIPO := 'COMPRA';
           fLotes_Produtos.ShowModal;
         finally
           //cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
@@ -2073,6 +2081,10 @@ begin
   inherited;
   fLotes_Produtos := TfLotes_Produtos.Create(Application);
   try
+    fLotes_Produtos.DBEdit1.DataSource := fCompra.DtSrc1;
+    fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fCompra.DtSrc1;
+    fLotes_Produtos.JvDBDatePickerEdit2.DataSource := fCompra.DtSrc1;
+    fLotes_Produtos.TIPO := 'COMPRA';
     fLotes_Produtos.ShowModal;
   finally
     //cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;

@@ -28,6 +28,7 @@ type
   private
     { Private declarations }
   public
+    TIPO : String;
     { Public declarations }
   end;
 
@@ -39,7 +40,7 @@ var
 
 implementation
 
-uses uCompra, UDm;
+uses uCompra, UDm, uEntra_Sai_estoque;
 
 {$R *.dfm}
 
@@ -135,17 +136,27 @@ procedure TfLotes_Produtos.DBEdit1KeyPress(Sender: TObject; var Key: Char);
 begin
   if (key = #13) then
     if(DBEdit1.Text <> '') then
-      btnSair.Click;
+      BitBtn1.Click;
 end;
 
 procedure TfLotes_Produtos.FormShow(Sender: TObject);
 begin
-  if(fCompra.cds_Mov_detQUANTIDADE.AsFloat >1) then
-    LotSeq.Visible := True
-  else
+  if (TIPO = 'COMPRA') then
+  begin
+    if(fCompra.cds_Mov_detQUANTIDADE.AsFloat >1) then
+      LotSeq.Visible := True
+    else
+      LotSeq.Visible := False;
+    fCompra.cds_Mov_detDTAFAB.AsDateTime := Now;
+    fCompra.cds_Mov_detDTAVCTO.AsDateTime := Now;
+  end;
+  if (TIPO = 'ENT_SAI') then
+  begin
     LotSeq.Visible := False;
-  fCompra.cds_Mov_detDTAFAB.AsDateTime := Now;
-  fCompra.cds_Mov_detDTAVCTO.AsDateTime := Now;  
+    btnSair.Visible := False;
+    fEntra_Sai_estoque.cds_Mov_detDTAFAB.AsDateTime := Now;
+    fEntra_Sai_estoque.cds_Mov_detDTAVCTO.AsDateTime := Now;
+  end;
 end;
 
 procedure TfLotes_Produtos.BitBtn1Click(Sender: TObject);
