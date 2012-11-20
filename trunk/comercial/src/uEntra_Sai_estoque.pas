@@ -423,6 +423,7 @@ type
     procedure cds_Mov_detReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
+    procedure DBEdit10Exit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -445,7 +446,8 @@ var
 implementation
 
 uses UDm, ufprocura_prod, uProdutoLote, uEnt_Sai_Lote, uFiltroEstoque,
-  uLotes, uFiltroMovMaterias, sCtrlResize, uEstoque, UDMNF;
+  uLotes, uFiltroMovMaterias, sCtrlResize, uEstoque, UDMNF,
+  uLotes_Produtos;
 
 {$R *.dfm}
 
@@ -1851,6 +1853,33 @@ procedure TfEntra_Sai_estoque.cds_Mov_detReconcileError(
 begin
 Action := raCancel;
 raise exception.create(e.Message);
+end;
+
+procedure TfEntra_Sai_estoque.DBEdit10Exit(Sender: TObject);
+begin
+     //CARREGA TELA PARA PREENCHIMENTO DO LOTE POR PRODUTO
+    if dm.scds_produto_proc.Active then
+      dm.scds_produto_proc.Close;
+    dm.scds_produto_proc.Params[0].AsInteger := 0;
+    dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
+    dm.scds_produto_proc.Open;
+    if dm.scds_produto_procLOTES.AsString = 'S' then
+    begin
+      if(cds_Mov_detLOTE.AsString = '') then
+      begin
+        fLotes_Produtos := TfLotes_Produtos.Create(Application);
+        try
+          fLotes_Produtos.DBEdit1.DataSource := fEntra_Sai_estoque.DtSrc1;
+          fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fEntra_Sai_estoque.DtSrc1;
+          fLotes_Produtos.JvDBDatePickerEdit2.DataSource := fEntra_Sai_estoque.DtSrc1;
+          fLotes_Produtos.TIPO := 'ENT_SAI';
+          fLotes_Produtos.ShowModal;
+        finally
+          fLotes_Produtos.Free;
+        end;
+      end;
+    end;
+    dm.scds_produto_proc.Close;
 end;
 
 end.
