@@ -2666,7 +2666,7 @@ object fAtsAdmin: TfAtsAdmin
         OnClick = OrdemdeAssitnciaTcnica1Click
       end
       object ExportaoparaContMatic1: TMenuItem
-        Caption = 'Exporta'#231#227'o para Cont Matic'
+        Caption = 'Exporta'#231#227'o para Cont Matic/Sira'
         OnClick = ExportaoparaContMatic1Click
       end
       object CallCenter1: TMenuItem
