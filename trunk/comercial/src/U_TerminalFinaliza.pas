@@ -261,31 +261,20 @@ type
     imovdetVALTOTAL: TFloatField;
     cds_imovdetVALTOTAL: TFloatField;
     cds_imovdetTotalPedido: TAggregateField;
-    sMatPrima: TSQLDataSet;
-    sMatPrimaCODMAT: TIntegerField;
-    sMatPrimaCODPRODUTO: TIntegerField;
-    sMatPrimaCODPRODMP: TIntegerField;
-    sMatPrimaQTDEUSADA: TFloatField;
-    sMatPrimaTIPOUSO: TStringField;
-    sMatPrimaUSAPRECO: TStringField;
-    sMatPrimaESTOQUEATUAL: TFloatField;
-    sMatPrimaCODPRO: TStringField;
-    sMatPrimaUNIDADEMEDIDA: TStringField;
-    sMatPrimaPRODUTO: TStringField;
-    sMatPrimaPRECOMEDIO: TBCDField;
-    dMatPrima: TDataSetProvider;
-    cMatPrima: TClientDataSet;
-    cMatPrimaCODMAT: TIntegerField;
-    cMatPrimaCODPRODUTO: TIntegerField;
-    cMatPrimaCODPRODMP: TIntegerField;
-    cMatPrimaQTDEUSADA: TFloatField;
-    cMatPrimaTIPOUSO: TStringField;
-    cMatPrimaUSAPRECO: TStringField;
-    cMatPrimaESTOQUEATUAL: TFloatField;
-    cMatPrimaCODPRO: TStringField;
-    cMatPrimaUNIDADEMEDIDA: TStringField;
-    cMatPrimaPRODUTO: TStringField;
-    cMatPrimaPRECOMEDIO: TBCDField;
+    sqlMatPrima: TSQLDataSet;
+    dspMatPrima: TDataSetProvider;
+    cdsMatPrima: TClientDataSet;
+    cdsMatPrimaCODMAT: TIntegerField;
+    cdsMatPrimaCODPRODUTO: TIntegerField;
+    cdsMatPrimaCODPRODMP: TIntegerField;
+    cdsMatPrimaQTDEUSADA: TFloatField;
+    cdsMatPrimaTIPOUSO: TStringField;
+    cdsMatPrimaUSAPRECO: TStringField;
+    cdsMatPrimaESTOQUEATUAL: TFloatField;
+    cdsMatPrimaCODPRO: TStringField;
+    cdsMatPrimaUNIDADEMEDIDA: TStringField;
+    cdsMatPrimaPRODUTO: TStringField;
+    cdsMatPrimaPRECOMEDIO: TBCDField;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -905,7 +894,8 @@ begin
     scdsCr_proc.Params[0].Clear;
 
     INSEREVEDA;
-
+    if (dm.baixaMateriaPrima = 'S') then
+      baixaMatPrima;
     // Executo Classe Insere Recebimento ---------------------------------------
     try
        FRec := TReceberCls.Create;
@@ -2249,7 +2239,7 @@ begin
 
 end;
 
-procedure baixaMatPrima;
+procedure TF_TerminalFinaliza.baixaMatPrima;
 var
   movSaida: string;
   TDA: TTransactionDesc;
@@ -2263,11 +2253,17 @@ begin
   TDA.IsolationLevel := xilREADCOMMITTED;
 
   Save_Cursor   := Screen.Cursor;
-  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+  Screen.Cursor := crHourGlass;
 
   //prog.Max      := cdsInvent.RecordCount;
   //prog.Position := 0;
+  if (DM_MOV.c_venda.Active) then
+    DM_MOV.c_venda.Close;
 
+  if (DM_MOV.PAGECONTROL = 'PDV') then
+    DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+  DM_MOV.c_venda.Open;
+  
   Try
     FMov := TMovimento.Create;
     FVen := TVendaCls.Create;
@@ -2278,8 +2274,8 @@ begin
       dm_mov.c_movdet.DisableControls;
       dm_mov.c_movdet.First;
 
-      if (not cMatPrima.Active) then
-        cMatPrima.Open;
+      if (not cdsMatPrima.Active) then
+        cdsMatPrima.Open;
 
       movSaida := 'N';
       While not dm_mov.c_movdet.Eof do
@@ -2287,9 +2283,9 @@ begin
         //prog.Position := dm_mov.c_movdet.RecNo;
 
         // Filtro as Materias Primas referente ao produto Informado
-        cMatPrima.Filtered := False;
-        cMatPrima.Filter := 'CODPRODUTO=' + IntToStr(dm_mov.c_movdetCODPRODUTO.AsInteger;);
-        cMatPrima.Filtered := True;
+        cdsMatPrima.Filtered := False;
+        cdsMatPrima.Filter := 'CODPRODUTO=' + IntToStr(dm_mov.c_movdetCODPRODUTO.AsInteger);
+        cdsMatPrima.Filtered := True;
 
          // Cria o Movimento de SAIDA uma vez
         if (movSaida = 'N') then
@@ -2308,13 +2304,13 @@ begin
           movSaida := 'S';
         end;
         FMov.MovDetalhe.CodMov        := codMovSaida;
-        FMov.MovDetalhe.CodProduto    := cMatPrimaCODPRODUTO.AsInteger;
-        FMov.MovDetalhe.Qtde          := cMatPrimaQTDEUSADA.AsFloat * dm_mov.c_movdetQUANTIDADE.AsFloat;
-        FMov.MovDetalhe.Preco         := cMatPrimaPRECOMEDIO.AsFloat;;
+        FMov.MovDetalhe.CodProduto    := cdsMatPrimaCODPRODMP.AsInteger;
+        FMov.MovDetalhe.Qtde          := cdsMatPrimaQTDEUSADA.AsFloat * dm_mov.c_movdetQUANTIDADE.AsFloat;
+        FMov.MovDetalhe.Preco         := cdsMatPrimaPRECOMEDIO.AsFloat;;
         FMov.MovDetalhe.Lote          := '0';
         FMov.MovDetalhe.Baixa         := '1';
         FMov.MovDetalhe.inserirMovDet;
-        cdsInvent.Next;
+        dm_mov.c_movdet.Next;
       end; // Fim While
 
       fven.CodMov               := codMovSaida;
@@ -2336,12 +2332,12 @@ begin
       on E : Exception do
       begin
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+        dm.sqlsisAdimin.Rollback(TDA);
       end;
     end;
   Finally
-    Screen.Cursor := Save_Cursor;  { Always restore to normal }
-    cMatPrima.close;
+    Screen.Cursor := Save_Cursor;
+    cdsMatPrima.close;
     FMov.Free;
     FVen.Free;
   end;
