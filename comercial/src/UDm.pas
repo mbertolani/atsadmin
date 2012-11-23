@@ -2032,7 +2032,7 @@ type
     varCodMov, CCustoPadrao, danfeDec, vendaDec: integer;
     varDataCaixa, dataComputador : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao,
-    cidadePadrao, cepPadrao, ibgePadrao: string;
+    baixaMateriaPrima, cidadePadrao, cepPadrao, ibgePadrao: string;
     LOTEQTDE, totalpago : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP, BAIXADO_BOLETO, impressaoResumida : String;
     tipoCompra, tipoVenda : String;
@@ -2102,6 +2102,16 @@ begin
     relPersonalizado := copy(relPersonalizado,18,length(relPersonalizado));
   finally
     dbxconec.Free;
+  end;
+
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
+  cds_parametro.Open;
+  baixaMateriaPrima := 'N';
+  if (not cds_parametro.IsEmpty) then
+  begin
+    baixaMateriaPrima := cds_parametroCONFIGURADO.AsString;
   end;
 
   cfopEntrada := '';
