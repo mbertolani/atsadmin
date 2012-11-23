@@ -2474,48 +2474,37 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     ProviderName = 'dsp'
     Left = 440
     Top = 335
+    object cdsCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
     object cdsCODPRO: TStringField
       FieldName = 'CODPRO'
-      Size = 15
+      Size = 50
     end
     object cdsPRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Required = True
       Size = 300
     end
-    object cdsCODALMOXARIFADO: TIntegerField
-      FieldName = 'CODALMOXARIFADO'
+    object cdsPRECO_CUSTO: TFloatField
+      FieldName = 'PRECO_CUSTO'
     end
-    object cdsVALOR_PRAZO: TFloatField
-      FieldName = 'VALOR_PRAZO'
+    object cdsESTOQUE: TFloatField
+      FieldName = 'ESTOQUE'
     end
-    object cdsQTDE_PCT: TFloatField
-      FieldName = 'QTDE_PCT'
+    object cdsPRECO_COMPRA: TFloatField
+      FieldName = 'PRECO_COMPRA'
     end
-    object cdsCONTA_DESPESA: TStringField
-      FieldName = 'CONTA_DESPESA'
-      Size = 15
-    end
-    object cdsLOCALIZACAO: TStringField
-      FieldName = 'LOCALIZACAO'
-      Size = 50
+    object cdsPRECO_VENDA: TFloatField
+      FieldName = 'PRECO_VENDA'
     end
     object cdsUNIDADEMEDIDA: TStringField
       FieldName = 'UNIDADEMEDIDA'
-      FixedChar = True
-      Size = 2
+      Size = 10
     end
-    object cdsVALORUNITARIOATUAL: TFloatField
-      FieldName = 'VALORUNITARIOATUAL'
-    end
-    object cdsUSALOTE: TStringField
-      FieldName = 'USALOTE'
+    object cdsLOTES2: TStringField
+      FieldName = 'LOTES'
       FixedChar = True
       Size = 1
-    end
-    object cdsCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-      Required = True
     end
   end
   object dsp: TDataSetProvider
@@ -2525,13 +2514,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Top = 335
   end
   object sds: TSQLDataSet
-    CommandText = 
-      'select prod.CODPRO, prod.CODPRODUTO'#13#10'        , prod.PRODUTO'#13#10'   ' +
-      '     , prod.CODALMOXARIFADO '#13#10'        , prod.VALOR_PRAZO'#13#10'      ' +
-      '  , prod.QTDE_PCT'#13#10'        , prod.CONTA_DESPESA  '#13#10'        , pro' +
-      'd.LOCALIZACAO  '#13#10'        , prod.UNIDADEMEDIDA , prod.VALORUNITAR' +
-      'IOATUAL, prod.LOTES  as usalote'#13#10'from  PRODUTOS prod '#13#10'where pro' +
-      'd.CODPRODUTO = :id'#13#10
+    CommandText = 'select *'#13#10'from VIEW_ESTOQUE'#13#10'where CODPRODUTO = :id'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -2542,49 +2525,6 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     SQLConnection = DM.sqlsisAdimin
     Left = 376
     Top = 335
-    object sdsCODPRO: TStringField
-      FieldName = 'CODPRO'
-      Size = 15
-    end
-    object sdsPRODUTO: TStringField
-      FieldName = 'PRODUTO'
-      Required = True
-      Size = 300
-    end
-    object sdsCODALMOXARIFADO: TIntegerField
-      FieldName = 'CODALMOXARIFADO'
-    end
-    object sdsVALOR_PRAZO: TFloatField
-      FieldName = 'VALOR_PRAZO'
-    end
-    object sdsQTDE_PCT: TFloatField
-      FieldName = 'QTDE_PCT'
-    end
-    object sdsCONTA_DESPESA: TStringField
-      FieldName = 'CONTA_DESPESA'
-      Size = 15
-    end
-    object sdsLOCALIZACAO: TStringField
-      FieldName = 'LOCALIZACAO'
-      Size = 50
-    end
-    object sdsUNIDADEMEDIDA: TStringField
-      FieldName = 'UNIDADEMEDIDA'
-      FixedChar = True
-      Size = 2
-    end
-    object sdsVALORUNITARIOATUAL: TFloatField
-      FieldName = 'VALORUNITARIOATUAL'
-    end
-    object sdsUSALOTE: TStringField
-      FieldName = 'USALOTE'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-      Required = True
-    end
   end
   object sdsB: TSQLDataSet
     MaxBlobSize = -1
@@ -3100,6 +3040,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     end
     object cds_movDetMatCONTA_DESPESA: TStringField
       FieldName = 'CONTA_DESPESA'
+      ProviderFlags = [pfInWhere]
       Size = 15
     end
     object cds_movDetMatCODPRO: TStringField
@@ -3121,11 +3062,13 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     end
     object cds_movDetMatLOTES: TStringField
       FieldName = 'LOTES'
+      ProviderFlags = [pfInWhere]
       FixedChar = True
       Size = 1
     end
     object cds_movDetMatPRECOCUSTO: TFloatField
       FieldName = 'PRECOCUSTO'
+      ProviderFlags = [pfInWhere]
     end
   end
   object sMatPrima: TSQLDataSet
