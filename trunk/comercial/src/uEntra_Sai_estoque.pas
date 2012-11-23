@@ -212,30 +212,8 @@ type
     sdsDetalheSUM: TFloatField;
     sdsDetalheUSAPRECO: TStringField;
     cds: TClientDataSet;
-    cdsCODPRO: TStringField;
-    cdsPRODUTO: TStringField;
-    cdsCODALMOXARIFADO: TIntegerField;
-    cdsVALOR_PRAZO: TFloatField;
-    cdsQTDE_PCT: TFloatField;
-    cdsCONTA_DESPESA: TStringField;
-    cdsLOCALIZACAO: TStringField;
-    cdsUNIDADEMEDIDA: TStringField;
-    cdsVALORUNITARIOATUAL: TFloatField;
-    cdsUSALOTE: TStringField;
-    cdsCODPRODUTO: TIntegerField;
     dsp: TDataSetProvider;
     sds: TSQLDataSet;
-    sdsCODPRO: TStringField;
-    sdsPRODUTO: TStringField;
-    sdsCODALMOXARIFADO: TIntegerField;
-    sdsVALOR_PRAZO: TFloatField;
-    sdsQTDE_PCT: TFloatField;
-    sdsCONTA_DESPESA: TStringField;
-    sdsLOCALIZACAO: TStringField;
-    sdsUNIDADEMEDIDA: TStringField;
-    sdsVALORUNITARIOATUAL: TFloatField;
-    sdsUSALOTE: TStringField;
-    sdsCODPRODUTO: TIntegerField;
     sds_Mov_DetLOTES: TStringField;
     cds_Mov_detLOTES: TStringField;
     sdslotePRECO: TFloatField;
@@ -384,6 +362,15 @@ type
     sMatPrimaCODMOVIMENTO: TIntegerField;
     sds_Mov_DetSTATUS: TStringField;
     cds_Mov_detSTATUS: TStringField;
+    cdsCODPRODUTO: TIntegerField;
+    cdsCODPRO: TStringField;
+    cdsPRODUTO: TStringField;
+    cdsPRECO_CUSTO: TFloatField;
+    cdsESTOQUE: TFloatField;
+    cdsPRECO_COMPRA: TFloatField;
+    cdsPRECO_VENDA: TFloatField;
+    cdsUNIDADEMEDIDA: TStringField;
+    cdsLOTES2: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -1569,8 +1556,8 @@ begin
          cds.First;
         if (not cds_movDetMat.Active) then
           cds_movDetMat.Open;
-        while not cds.Eof do
-        begin
+        //while not cds.Eof do
+        //begin
           if (cds_movDetMat.State in [dsBrowse, dsInactive]) then
             cds_movDetMat.Append;
           {** aqui pego as Materias primas e lanço na movimento detalhe}
@@ -1587,24 +1574,27 @@ begin
           cds_movDetMatCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
           dm.c_6_genid.Close;
 
-          if (cdsUSALOTE.AsString = 'S') then
+          if (cdsLOTES2.AsString = 'S') then
           begin
             cds_movDetMatLOTE.AsString := cdslotesLOTE.AsString;
-            cds_movDetMatLOTES.AsString := 'S';
-            cds_movDetMatPRECO.AsFloat := cdslotesPRECO.AsFloat
+            //cds_movDetMatLOTES.AsString := 'S';
+            if (cdslotesPRECO.AsFloat > 0) then
+              cds_movDetMatPRECO.AsFloat := cdslotesPRECO.AsFloat
+            else
+              cds_movDetMatPRECO.AsFloat := cdsPRECO_COMPRA.AsFloat;
           end
           else begin
             if (cdsDetalheUSAPRECO.AsString = 'PRECOVENDA') THEN
-              cds_movDetMatPRECO.AsFloat := cdsVALOR_PRAZO.AsFloat
+              cds_movDetMatPRECO.AsFloat := cdsPRECO_VENDA.AsFloat
             else if (cdsDetalheUSAPRECO.AsString = 'PRECOCOMPRA') THEN
-              cds_movDetMatPRECO.AsFloat := cdsVALORUNITARIOATUAL.AsFloat
+              cds_movDetMatPRECO.AsFloat := cdsPRECO_COMPRA.AsFloat
             else
               cds_movDetMatPRECO.AsFloat := 0;
           end;
           if (cds_movDetMat.State in [dsInsert, dsEdit]) then
             cds_movDetMat.Post;
-          cds.Next;
-        end;
+        //  cds.Next;
+        //end;
       end;
       cdsDetalhe.Next;
     end;
