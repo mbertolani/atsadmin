@@ -1,4 +1,3 @@
-SET TERM ^ ;
 ALTER PROCEDURE REL_VENDACOMPRA (
     PDTA1 Date,
     PDTA2 Date, cCusto integer)
@@ -82,8 +81,8 @@ BEGIN
       if (totIcms > 0) then 
         icmsVenda = icmsVenda + (totProdIcms/totIcms)*tIcms;
     end
-    
-        --CUSTO ITEM 
+
+    --CUSTO ITEM 
     Select first 1 emt.PRECOCUSTO
       from ESTOQUEMES emt
      where ((emt.CODPRODUTO = :codPro) 
@@ -97,11 +96,10 @@ BEGIN
        select p.VALORUNITARIOATUAL from produtos p where p.CODPRODUTO = :pro 
        into :vlrCustoTotal;
      end 
-     
-     
-     
+
+
     -- Valores de Venda
-    -- O Campo VLRESTOQUE estÃ¡ armazenando o custo dos itens vendidos
+    -- O Campo VLRESTOQUE esta armazenando o custo dos itens vendidos
     For Select sum(v.Qtde), SUM(v.VALORVENDA) 
      from view_venda v 
     where v.codProduto = :codPRo 
@@ -137,11 +135,14 @@ BEGIN
       
     end 
     -- Valores de Perda
-    Select sum(m.QUANTIDADE), sum(m.QUANTIDADE*m.PRECOCUSTO), v.CODCCUSTO from venda v 
-    inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = v.CODMOVIMENTO
-    inner join MOVIMENTO mov on mov.CODMOVIMENTO = v.CODMOVIMENTO 
-    where m.codProduto = :codPRo and v.dataVenda BETWEEN :pdta1 and :pdta2 and mov.codnatureza = 2 and m.codAlmoxarifado = :CPERDA
-    group by v.CODCCUSTO
+    Select sum(m.QUANTIDADE), sum(m.QUANTIDADE*m.PRECO), C.CODCCUSTO from COMPRA C 
+    inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = C.CODMOVIMENTO
+    inner join MOVIMENTO mov on mov.CODMOVIMENTO = C.CODMOVIMENTO 
+    where m.codProduto = :codPRo 
+      and C.DATACOMPRA BETWEEN :pdta1 and :pdta2 
+      and mov.codnatureza = 1 
+      and c.CODCCUSTO = :CPERDA
+    group by C.CODCCUSTO
     into :qtdePERDA, :vlrPerda, :ccusto;
 
     if (qtdePerda is null) then
@@ -187,7 +188,7 @@ BEGIN
     else 
       vlrLucro = 0;
 
-    vlrCustoTotal = vlrCustoTotal * QtdeVenda;
+    vlrCustoTotal = vlrCustoTotal * qtdeVenda;
 
     if (qtdeVenda > 0) then
       PercentProduto =  100*((qtdeVenda / total)-100);
@@ -199,11 +200,9 @@ BEGIN
     end
     --if ((qtdeVenda > 0) or (qtdeCompra > 0)) then 
       suspend;
+    vlrPerda = 0;
+    qtdePerda = 0;
+    vlrCustoTotal = 0;
+    vlrLucro = 0;
   end 
-END^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE REL_VENDACOMPRA TO  SYSDBA;
-
+END
