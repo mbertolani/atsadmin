@@ -1,8 +1,8 @@
 object FiltroCorreio: TFiltroCorreio
   Left = 241
   Top = 100
-  Width = 919
-  Height = 567
+  Width = 917
+  Height = 585
   BorderIcons = [biSystemMenu]
   Caption = 'FiltroCorreio'
   Color = 16776176
@@ -17,8 +17,8 @@ object FiltroCorreio: TFiltroCorreio
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   DesignSize = (
-    903
-    529)
+    901
+    547)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -65,14 +65,14 @@ object FiltroCorreio: TFiltroCorreio
   end
   object Label7: TLabel
     Left = 400
-    Top = 496
+    Top = 520
     Width = 24
     Height = 13
     Caption = '........'
   end
   object Label8: TLabel
     Left = 344
-    Top = 496
+    Top = 520
     Width = 50
     Height = 13
     Caption = 'Registros :'
@@ -345,7 +345,7 @@ object FiltroCorreio: TFiltroCorreio
     OnKeyPress = FormKeyPress
   end
   object DBComboBox1: TDBComboBox
-    Left = 11
+    Left = 10
     Top = 66
     Width = 440
     Height = 21
@@ -426,7 +426,7 @@ object FiltroCorreio: TFiltroCorreio
       0000}
   end
   object DBComboBox2: TDBComboBox
-    Left = 487
+    Left = 486
     Top = 66
     Width = 363
     Height = 21
@@ -619,7 +619,7 @@ object FiltroCorreio: TFiltroCorreio
     Left = 8
     Top = 144
     Width = 881
-    Height = 345
+    Height = 369
     DataSource = dsC
     TabOrder = 14
     TitleFont.Charset = DEFAULT_CHARSET
@@ -786,6 +786,11 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'HORAUSU'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODDOC'
         Visible = True
       end>
   end
@@ -965,8 +970,7 @@ object FiltroCorreio: TFiltroCorreio
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 160
-    Top = 65528
+    Left = 152
     object sqlCCODOC: TIntegerField
       FieldName = 'CODOC'
       Required = True

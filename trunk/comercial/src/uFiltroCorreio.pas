@@ -170,11 +170,11 @@ uses UDm, uCorreio;
 {$R *.dfm}
 
 procedure TFiltroCorreio.btnProcurarClick(Sender: TObject);
- Var SqlTexto , DataStr  : String;
+ Var SqlTexto ,SqlTex , DataStr  : String;
 begin
 
   datastr:='  /  /    ';
-  if cdsC.Active then
+  if(cdsC.Active) then
     cdsC.Close;
   begin
     cdsC.CommandText:= 'select * from MOVDOC';
@@ -233,7 +233,7 @@ begin
       sqlTexto := sqlTexto + QuotedStr(Edit2.Text);
   end;
 
-  cdsC.CommandText := cdsC.CommandText + sqlTexto;
+  cdsC.CommandText := cdsC.CommandText + sqlTexto ;
   cdsC.Open;
 
   Label7.Caption := IntToStr(cdsC.RecordCount);
@@ -305,6 +305,36 @@ begin
   if(fCorreio.cdsCorreio.Active) then
     fCorreio.cdsCorreio.Close;
     fCorreio.cdsCorreio.Params[0].AsInteger := cdsCCODOC.AsInteger;
+
+  if(fCorreio.cdsT.Active) then
+    fCorreio.cdsT.Close;
+    fCorreio.cdsT.Params[0].AsString := cdsCCODDOC.AsString;
+    fCorreio.cdsT.Open;
+    fCorreio.Edit1.Text := fCorreio.cdsTDESCR.AsString;
+
+  if(fCorreio.cdsCa.Active) then
+    fCorreio.cdsCa.Close;
+    fCorreio.cdsCa.Params[0].AsString := cdsCCODDEP.AsString;
+    fCorreio.cdsCa.Open;
+    fCorreio.Edit2.Text := fCorreio.cdsCaDESCR.AsString;
+
+  if(fCorreio.cdsS.Active) then
+    fCorreio.cdsS.Close;
+    fCorreio.cdsS.Params[0].AsString := cdsCCODSEC.AsString;
+    fCorreio.cdsS.Open;
+    fCorreio.Edit3.Text := fCorreio.cdsSDESCR.AsString;
+
+  if(fCorreio.cdsDetR.Active) then
+    fCorreio.cdsDetR.Close;
+    fCorreio.cdsDetR.Params[0].AsInteger := cdsCCODFIR.AsInteger;
+    fCorreio.cdsDetR.Open;
+
+  if(fCorreio.cdsDetD.Active) then
+    fCorreio.cdsDetD.Close;
+    fCorreio.cdsDetD.Params[0].AsInteger := cdsCCODFIR.AsInteger;
+    fCorreio.cdsDetD.Open;
+
+
   fCorreio.cdsCorreio.Open;
 
   FiltroCorreio.Close;
