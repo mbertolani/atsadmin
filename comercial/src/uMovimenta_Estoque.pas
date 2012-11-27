@@ -570,7 +570,7 @@ begin
 
   if ((dta1.Date < (today-60)) and (dta2.Date < (today-60))) then
   begin
-    MessageDlg('Data Inválida', mtError, [mbOK], 0);
+    MessageDlg('Data menor que 60 dias, não é permitido.', mtError, [mbOK], 0);
     exit;
   end;
 
@@ -681,6 +681,7 @@ begin
       fCom.NotaFiscal           := codMovEntrada;
       fCom.CodFornecedor        := 1;
       fCom.CodComprador         := 1;
+      fCom.CodUsuario           := 1;
       fCom.CodCCusto            := 51;
       IF (ComboBox2.Text <> '') then
       begin
