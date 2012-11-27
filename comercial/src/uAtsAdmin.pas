@@ -15,13 +15,6 @@ type
   TfAtsAdmin = class(TForm)
     PopupMenu1: TPopupMenu;
     MainMenu1: TMainMenu;
-    Cadastros1: TMenuItem;
-    Clientes: TMenuItem;
-    Fornecedores: TMenuItem;
-    produtos: TMenuItem;
-    usoprod: TMenuItem;
-    comissao: TMenuItem;
-    Agenda: TMenuItem;
     Lanamentos1: TMenuItem;
     compras: TMenuItem;
     venda: TMenuItem;
@@ -31,7 +24,6 @@ type
     SobreoSistema1: TMenuItem;
     Ajuda2: TMenuItem;
     StatusBar1: TStatusBar;
-    transportadoras: TMenuItem;
     MMJPanel2: TMMJPanel;
     Terminal: TMenuItem;
     Sair1: TMenuItem;
@@ -70,12 +62,10 @@ type
     Estoque1: TMenuItem;
     N1: TMenuItem;
     Compras1: TMenuItem;
-    SriaNotaFiscal1: TMenuItem;
     NotasFiscais1: TMenuItem;
     Timer1: TTimer;
     ImageList1: TImageList;
     RelatriodeVendasporProduto1: TMenuItem;
-    Lotes1: TMenuItem;
     RelatrioListadeProdutos1: TMenuItem;
     RelatrioListadeProdporLote1: TMenuItem;
     VCLReport_lista_produtos: TVCLReport;
@@ -159,10 +149,7 @@ type
     dxButton7: TdxButton;
     SpeedButton4: TdxButton;
     btnsair: TdxButton;
-    mPlanoContas: TMenuItem;
     mSuporte: TMenuItem;
-    mCadColaborador: TMenuItem;
-    CFOPEstados1: TMenuItem;
     Empresa1: TMenuItem;
     VerEstoque1: TMenuItem;
     EntradadeEstoque1: TMenuItem;
@@ -177,18 +164,14 @@ type
     acDespesa: TAction;
     acReceitas: TAction;
     acBanco: TAction;
-    Banco1: TMenuItem;
     acPrazo: TAction;
-    Prazos1: TMenuItem;
     ArquivoRetorno: TMenuItem;
     acArquivoRetorno: TAction;
     acClienteBloqueio: TAction;
-    ClienteBloqueio1: TMenuItem;
     LanamentoPassivo1: TMenuItem;
     LanarOS1: TMenuItem;
     ExportaNotaFiscal1: TMenuItem;
     UCControlHistorico1: TUCControlHistorico;
-    Maquinas1: TMenuItem;
     ListaOS1: TMenuItem;
     RelatriodeVendasprEstado1: TMenuItem;
     FechamentodeContas1: TMenuItem;
@@ -206,15 +189,12 @@ type
 	Parametro1: TMenuItem;    RelatriodePrFaturamento1: TMenuItem;
     NotaFiscalEletrnica1: TMenuItem;    dxButton10: TdxButton;
     acCupom: TAction;
-    CidadesIBGE1: TMenuItem;
     OrdemdeProduo1: TMenuItem;
     ApontarProduo1: TMenuItem;
     CallCenter1: TMenuItem;
-    ipoAtendimento1: TMenuItem;
     GerarEtiquetas1: TMenuItem;
     CorrigeEstoque1: TMenuItem;
     NotaFiscal1: TMenuItem;
-    CFOP1: TMenuItem;
     AlterarValordeVendadosProdutos1: TMenuItem;
     Inventario1: TMenuItem;
     SolicitacaoCompras1: TMenuItem;
@@ -227,7 +207,6 @@ type
     Cotao1: TMenuItem;
     CotaoPedido1: TMenuItem;
     Compra1: TMenuItem;
-    Similares1: TMenuItem;
     Button1: TButton;
     btnBoleto: TButton;
     SaveDialog1: TSaveDialog;
@@ -238,13 +217,11 @@ type
     Maquinas2: TMenuItem;
     RelatriodeFornecedores1: TMenuItem;
     RelatriodeClientes1: TMenuItem;
-    NaturezaOperao1: TMenuItem;
     ComboBox14: TComboBox;
     ComboBox13: TComboBox;
     ListaEstoque1: TMenuItem;
     ProdutosSemMovimentao1: TMenuItem;
     Fechamento1: TMenuItem;
-    MesasComandas1: TMenuItem;
     JvOutlookBar1: TJvOutlookBar;
     Label1: TLabel;
     GrficodeVendas1: TMenuItem;
@@ -260,6 +237,9 @@ type
     RelatriodeVendas1: TMenuItem;
     RelNotaFistalLote1: TMenuItem;
     FluxodeEstoque1: TMenuItem;
+    CadastroDepartamento1: TMenuItem;
+    CadastroSetor1: TMenuItem;
+    CadastroTipoDoc1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -395,6 +375,9 @@ type
     procedure RelatriodeVendas1Click(Sender: TObject);
     procedure RelNotaFistalLote1Click(Sender: TObject);
     procedure FluxodeEstoque1Click(Sender: TObject);
+    procedure CadastroDepartamento1Click(Sender: TObject);
+    procedure CadastroSetor1Click(Sender: TObject);
+    procedure CadastroTipoDoc1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -446,7 +429,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
-  uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote;
+  uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
+  uCadSetor, uCadDoc;
 
 {$R *.dfm}
 
@@ -2284,6 +2268,36 @@ begin
   VCLReport1.Title    := VCLReport1.FileName;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Execute;
+end;
+
+procedure TfAtsAdmin.CadastroDepartamento1Click(Sender: TObject);
+begin
+  fCadDep := TfCadDep.Create(Application);
+  try
+    fCadDep.ShowModal;
+  finally
+    fCadDep.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CadastroSetor1Click(Sender: TObject);
+begin
+  fCadSetor := TfCadSetor.Create(Application);
+  try
+    fCadSetor.ShowModal;
+  finally
+    fCadSetor.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CadastroTipoDoc1Click(Sender: TObject);
+begin
+  FCadDoc := TFCadDoc.Create(Application);
+  try
+    FCadDoc.ShowModal;
+  finally
+    FCadDoc.Free;
+  end;
 end;
 
 end.
