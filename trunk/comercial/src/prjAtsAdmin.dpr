@@ -287,8 +287,15 @@ uses
   uFiltroCorreio in 'uFiltroCorreio.pas' {FiltroCorreio},
   uListaVenda in 'uListaVenda.pas' {fListaVenda},
   uComandaNTC in 'uComandaNTC.pas' {fComandaNTC},
+  uRetira in 'uRetira.pas' {fRetira},
+  uCadDoc in 'uCadDoc.pas' {FCadDoc},
+  uFiltroCadDoc in 'uFiltroCadDoc.pas' {fFiltroCadDoc},
+  uCadDep in 'uCadDep.pas' {fCadDep},
+  uCadSetor in 'uCadSetor.pas' {fCadSetor},
+  uFiltroSetor in 'uFiltroSetor.pas' {fFiltroSetor},
+  uFiltroDep in 'uFiltroDep.pas' {fFiltroDep},
   uVendaRelPorNotaFiscalLote in 'uVendaRelPorNotaFiscalLote.pas' {fVendaRelPorNotaFiscalLote};
-  uRetira in 'uRetira.pas' {fRetira};
+
 
 {$R *.res}
 
