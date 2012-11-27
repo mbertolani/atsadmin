@@ -2566,6 +2566,18 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Mesas / Comandas'
         OnClick = MesasComandas1Click
       end
+      object ipoDocumentos1: TMenuItem
+        Caption = 'Tipo Documentos'
+        OnClick = ipoDocumentos1Click
+      end
+      object Departamentos1: TMenuItem
+        Caption = 'Departamentos'
+        OnClick = Departamentos1Click
+      end
+      object Setor1: TMenuItem
+        Caption = 'Setor'
+        OnClick = Setor1Click
+      end
     end
     object Lanamentos1: TMenuItem
       Caption = '&Lan'#231'amentos     '
@@ -2689,7 +2701,7 @@ object fAtsAdmin: TfAtsAdmin
         OnClick = ConciliaoBancaria1Click
       end
       object Correio1: TMenuItem
-        Caption = 'Correio'
+        Caption = 'Arquivos'
         OnClick = Correio1Click
       end
     end
