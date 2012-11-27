@@ -6,7 +6,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, Mask, DBCtrls, EDBFind, FMTBcd, SqlExpr, Provider, DBClient,
-  Grids, DBGrids, JvExStdCtrls, JvCombobox, JvDBSearchComboBox ,DBxPress;
+  Grids, DBGrids, JvExStdCtrls, JvCombobox, JvDBSearchComboBox ,DBxPress,
+  JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
+  JvDBDatePickerEdit, ComCtrls, JvDBControls;
 
 type
   TfCorreio = class(TfPai_new)
@@ -18,93 +20,58 @@ type
     sCliente: TSQLDataSet;
     sClienteCODCLIENTE: TIntegerField;
     sClienteNOMECLIENTE: TStringField;
+    Arquivo: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
     Label1: TLabel;
-    DBEdit1: TDBEdit;
+    Label2: TLabel;
+    Label3: TLabel;
     Label4: TLabel;
-    DBEdit4: TDBEdit;
     Label5: TLabel;
-    DBEdit5: TDBEdit;
     Label6: TLabel;
-    DBEdit6: TDBEdit;
     Label7: TLabel;
-    DBEdit7: TDBEdit;
     Label8: TLabel;
-    DBEdit8: TDBEdit;
     Label9: TLabel;
-    DBEdit9: TDBEdit;
     Label10: TLabel;
-    DBEdit10: TDBEdit;
     Label11: TLabel;
-    DBEdit11: TDBEdit;
     Label12: TLabel;
-    DBEdit12: TDBEdit;
     Label13: TLabel;
-    DBEdit13: TDBEdit;
     Label14: TLabel;
-    DBEdit14: TDBEdit;
     Label15: TLabel;
-    DBEdit15: TDBEdit;
     Label16: TLabel;
-    DBEdit16: TDBEdit;
-    Label22: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    DBEdit11: TDBEdit;
+    DBEdit12: TDBEdit;
+    DBEdit13: TDBEdit;
+    DBEdit14: TDBEdit;
+    DBEdit15: TDBEdit;
     DBMemo1: TDBMemo;
-    Label23: TLabel;
-    DBEdit22: TDBEdit;
-    Label24: TLabel;
-    DBEdit23: TDBEdit;
-    Label25: TLabel;
-    DBEdit24: TDBEdit;
-    Label27: TLabel;
-    DBEdit26: TDBEdit;
+    DBEdit17: TDBEdit;
+    DBEdit18: TDBEdit;
+    DBEdit19: TDBEdit;
     DBEdit2: TDBEdit;
     GroupBox1: TGroupBox;
     jvNome: TJvDBSearchComboBox;
     jvCod: TJvDBSearchComboBox;
+    btnRetirada: TBitBtn;
+    btnproc: TBitBtn;
+    Edit1: TEdit;
+    btnproc1: TBitBtn;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    btnproc2: TBitBtn;
     dspCorreio: TDataSetProvider;
     cdsCorreio: TClientDataSet;
-    sdsCorreio: TSQLDataSet;
-    btnRetirada: TBitBtn;
-    sdsCorreioCODOC: TIntegerField;
-    sdsCorreioCODFIR: TSmallintField;
-    sdsCorreioFOTO: TSmallintField;
-    sdsCorreioROLO: TSmallintField;
-    sdsCorreioNUMCAI: TFloatField;
-    sdsCorreioCODDEP: TStringField;
-    sdsCorreioCODSEC: TStringField;
-    sdsCorreioCODLOC: TSmallintField;
-    sdsCorreioATIVO: TStringField;
-    sdsCorreioCODDOC: TStringField;
-    sdsCorreioDTINID: TDateField;
-    sdsCorreioDTFIND: TDateField;
-    sdsCorreioDOCINI: TFloatField;
-    sdsCorreioDOCFIN: TFloatField;
-    sdsCorreioESTANTE: TSmallintField;
-    sdsCorreioPRATEL: TSmallintField;
-    sdsCorreioDESCARTE: TFloatField;
-    sdsCorreioDTRET: TDateField;
-    sdsCorreioNOMERET: TStringField;
-    sdsCorreioNDOCRET: TStringField;
-    sdsCorreioDTPREV: TDateField;
-    sdsCorreioOBSRET: TStringField;
-    sdsCorreioOBS: TMemoField;
-    sdsCorreioDTINC: TDateField;
-    sdsCorreioCOLUNA: TSmallintField;
-    sdsCorreioNCAICLI: TFloatField;
-    sdsCorreioOBS2: TStringField;
-    sdsCorreioTAMANHO: TStringField;
-    sdsCorreioA: TStringField;
-    sdsCorreioNUMDOC: TStringField;
-    sdsCorreioDATA: TStringField;
-    sdsCorreioQTDADE: TFloatField;
-    sdsCorreioCODIDIO: TSmallintField;
-    sdsCorreioDESCR: TStringField;
-    sdsCorreioFASE: TStringField;
-    sdsCorreioUSUARIO: TStringField;
-    sdsCorreioDTUSU: TDateField;
-    sdsCorreioHORAUSU: TStringField;
-    sdsCorreioREGCAI: TFloatField;
-    sdsCorreioJADESC: TStringField;
-    sdsCorreioRAZAOSOCIAL: TStringField;
     cdsCorreioCODOC: TIntegerField;
     cdsCorreioCODFIR: TSmallintField;
     cdsCorreioFOTO: TSmallintField;
@@ -146,6 +113,171 @@ type
     cdsCorreioREGCAI: TFloatField;
     cdsCorreioJADESC: TStringField;
     cdsCorreioRAZAOSOCIAL: TStringField;
+    sdsCorreio: TSQLDataSet;
+    sdsCorreioCODOC: TIntegerField;
+    sdsCorreioCODFIR: TSmallintField;
+    sdsCorreioFOTO: TSmallintField;
+    sdsCorreioROLO: TSmallintField;
+    sdsCorreioNUMCAI: TFloatField;
+    sdsCorreioCODDEP: TStringField;
+    sdsCorreioCODSEC: TStringField;
+    sdsCorreioCODLOC: TSmallintField;
+    sdsCorreioATIVO: TStringField;
+    sdsCorreioCODDOC: TStringField;
+    sdsCorreioDTINID: TDateField;
+    sdsCorreioDTFIND: TDateField;
+    sdsCorreioDOCINI: TFloatField;
+    sdsCorreioDOCFIN: TFloatField;
+    sdsCorreioESTANTE: TSmallintField;
+    sdsCorreioPRATEL: TSmallintField;
+    sdsCorreioDESCARTE: TFloatField;
+    sdsCorreioDTRET: TDateField;
+    sdsCorreioNOMERET: TStringField;
+    sdsCorreioNDOCRET: TStringField;
+    sdsCorreioDTPREV: TDateField;
+    sdsCorreioOBSRET: TStringField;
+    sdsCorreioOBS: TMemoField;
+    sdsCorreioDTINC: TDateField;
+    sdsCorreioCOLUNA: TSmallintField;
+    sdsCorreioNCAICLI: TFloatField;
+    sdsCorreioOBS2: TStringField;
+    sdsCorreioTAMANHO: TStringField;
+    sdsCorreioA: TStringField;
+    sdsCorreioNUMDOC: TStringField;
+    sdsCorreioDATA: TStringField;
+    sdsCorreioQTDADE: TFloatField;
+    sdsCorreioCODIDIO: TSmallintField;
+    sdsCorreioDESCR: TStringField;
+    sdsCorreioFASE: TStringField;
+    sdsCorreioUSUARIO: TStringField;
+    sdsCorreioDTUSU: TDateField;
+    sdsCorreioHORAUSU: TStringField;
+    sdsCorreioREGCAI: TFloatField;
+    sdsCorreioJADESC: TStringField;
+    sdsCorreioRAZAOSOCIAL: TStringField;
+    cdsT: TClientDataSet;
+    cdsTID: TIntegerField;
+    cdsTCODDOC: TStringField;
+    cdsTDESCR: TStringField;
+    dspT: TDataSetProvider;
+    sqlT: TSQLDataSet;
+    sqlTID: TIntegerField;
+    sqlTCODDOC: TStringField;
+    sqlTDESCR: TStringField;
+    sqlCa: TSQLDataSet;
+    sqlCaID: TIntegerField;
+    sqlCaCODDEP: TStringField;
+    sqlCaDESCR: TStringField;
+    sqlCaOBS: TStringField;
+    dspCA: TDataSetProvider;
+    cdsCa: TClientDataSet;
+    cdsCaID: TIntegerField;
+    cdsCaCODDEP: TStringField;
+    cdsCaDESCR: TStringField;
+    cdsCaOBS: TStringField;
+    dspS: TDataSetProvider;
+    sqlS: TSQLDataSet;
+    sqlSID: TIntegerField;
+    sqlSCODSEC: TStringField;
+    sqlSDESCR: TStringField;
+    cdsS: TClientDataSet;
+    cdsSID: TIntegerField;
+    cdsSCODSEC: TStringField;
+    cdsSDESCR: TStringField;
+    dsDetR: TDataSource;
+    DBGrid1: TDBGrid;
+    cdsDetR: TClientDataSet;
+    sqlDetR: TSQLDataSet;
+    dspDetR: TDataSetProvider;
+    sqlDetRCODOC: TIntegerField;
+    sqlDetRCODDETALHE: TIntegerField;
+    sqlDetRCODFIR: TIntegerField;
+    sqlDetRNOMERET: TStringField;
+    sqlDetRNDOCRET: TStringField;
+    sqlDetRDTPREV: TDateField;
+    sqlDetRDTRET: TDateField;
+    sqlDetROBSRET: TStringField;
+    sqlDetROBS: TMemoField;
+    sqlDetRTIPO: TStringField;
+    sqlDetRNUMCAI: TFloatField;
+    sqlDetRNCAICLI: TFloatField;
+    cdsDetRCODOC: TIntegerField;
+    cdsDetRCODDETALHE: TIntegerField;
+    cdsDetRCODFIR: TIntegerField;
+    cdsDetRNOMERET: TStringField;
+    cdsDetRNDOCRET: TStringField;
+    cdsDetRDTPREV: TDateField;
+    cdsDetRDTRET: TDateField;
+    cdsDetROBSRET: TStringField;
+    cdsDetROBS: TMemoField;
+    cdsDetRTIPO: TStringField;
+    cdsDetRNUMCAI: TFloatField;
+    cdsDetRNCAICLI: TFloatField;
+    Label20: TLabel;
+    DBEdit20: TDBEdit;
+    Label21: TLabel;
+    DBEdit21: TDBEdit;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    DBEdit24: TDBEdit;
+    Label25: TLabel;
+    DBEdit25: TDBEdit;
+    Label26: TLabel;
+    DBEdit26: TDBEdit;
+    Label27: TLabel;
+    DBMemo2: TDBMemo;
+    btnDevolucao: TBitBtn;
+    sqlDetD: TSQLDataSet;
+    dspDetD: TDataSetProvider;
+    cdsDetD: TClientDataSet;
+    dsDetD: TDataSource;
+    DBGrid2: TDBGrid;
+    sqlDetDCODOC: TIntegerField;
+    sqlDetDCODDETALHE: TIntegerField;
+    sqlDetDCODFIR: TIntegerField;
+    sqlDetDNOMERET: TStringField;
+    sqlDetDNDOCRET: TStringField;
+    sqlDetDDTPREV: TDateField;
+    sqlDetDDTRET: TDateField;
+    sqlDetDOBSRET: TStringField;
+    sqlDetDOBS: TMemoField;
+    sqlDetDTIPO: TStringField;
+    sqlDetDNUMCAI: TFloatField;
+    sqlDetDNCAICLI: TFloatField;
+    cdsDetDCODOC: TIntegerField;
+    cdsDetDCODDETALHE: TIntegerField;
+    cdsDetDCODFIR: TIntegerField;
+    cdsDetDNOMERET: TStringField;
+    cdsDetDNDOCRET: TStringField;
+    cdsDetDDTPREV: TDateField;
+    cdsDetDDTRET: TDateField;
+    cdsDetDOBSRET: TStringField;
+    cdsDetDOBS: TMemoField;
+    cdsDetDTIPO: TStringField;
+    cdsDetDNUMCAI: TFloatField;
+    cdsDetDNCAICLI: TFloatField;
+    DBEdit27: TDBEdit;
+    DBEdit28: TDBEdit;
+    DBEdit29: TDBEdit;
+    DBEdit30: TDBEdit;
+    DBEdit33: TDBEdit;
+    DBMemo3: TDBMemo;
+    Label28: TLabel;
+    Label29: TLabel;
+    Label30: TLabel;
+    Label31: TLabel;
+    Label32: TLabel;
+    Label33: TLabel;
+    Label34: TLabel;
+    Label35: TLabel;
+    DBEdit16: TJvDBDateEdit;
+    DBEdit9: TJvDBDateEdit;
+    DBEdit10: TJvDBDateEdit;
+    JvDBDateEdit1: TJvDBDateEdit;
+    JvDBDateEdit2: TJvDBDateEdit;
+    JvDBDateEdit3: TJvDBDateEdit;
+    JvDBDateEdit4: TJvDBDateEdit;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
@@ -156,6 +288,13 @@ type
     procedure jvCodChange(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnRetiradaClick(Sender: TObject);
+    procedure btnprocClick(Sender: TObject);
+    procedure btnproc2Click(Sender: TObject);
+    procedure btnproc1Click(Sender: TObject);
+    procedure TabSheet2Show(Sender: TObject);
+    procedure TabSheet1Show(Sender: TObject);
+    procedure TabSheet3Show(Sender: TObject);
+    procedure btnDevolucaoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -167,7 +306,8 @@ var
 
 implementation
 
-uses UDm, uProcurar_nf, UDMNF, uFiltroCorreio, uRetira, uUtils;
+uses UDm, uProcurar_nf, UDMNF, uFiltroCorreio, uRetira, uUtils,
+  uFiltroCadDoc, uFiltroSetor, uFiltroDep;
 
 {$R *.dfm}
 
@@ -192,12 +332,12 @@ end;
 procedure TfCorreio.btnProcurarClick(Sender: TObject);
 begin
   inherited;
-   FiltroCorreio := TFiltroCorreio.Create(Application);
-   try
-     FiltroCorreio.ShowModal;
-   finally
-     FiltroCorreio.Free;
-   end;
+  FiltroCorreio := TFiltroCorreio.Create(Application);
+  try
+    FiltroCorreio.ShowModal;
+  finally
+    FiltroCorreio.Free;
+  end;
 end;
 
 procedure TfCorreio.btnGravarClick(Sender: TObject);
@@ -226,14 +366,14 @@ begin
       strSql := strSql + 'NUMCAI = ';
       strSql := strSql + QuotedStr(DBEdit4.Text) + ',';
       strSql := strSql + 'TAMANHO = ';
-      strSql := strSql + QuotedStr(DBEdit26.Text) + ',';
-      if(DBEdit22.Text = '  /  /    ') then
+      strSql := strSql + QuotedStr(DBEdit19.Text) + ',';
+      if(DBEdit16.Text = '  /  /    ') then
       begin
         strSql := strSql + 'DTINC = null ,';
       end
       else begin
         strSql := strSql + 'DTINC = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit22.Text))) + ',';
+        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit16.Text))) + ',';
       end;
       strSql := strSql + 'CODDEP = ';
       strSql := strSql + QuotedStr(DBEdit5.Text) + ',';
@@ -260,17 +400,17 @@ begin
       strSql := strSql + 'DOCFIN = ';
       strSql := strSql + QuotedStr(DBEdit13.Text) + ',';
       strSql := strSql + 'COLUNA = ';
-      strSql := strSql + QuotedStr(DBEdit23.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit17.Text) + ',';
       strSql := strSql + 'ESTANTE = ';
       strSql := strSql + QuotedStr(DBEdit14.Text) + ',';
       strSql := strSql + 'PRATEL = ';
       strSql := strSql + QuotedStr(DBEdit15.Text) + ',';
       strSql := strSql + 'NCAICLI = ';
-      strSql := strSql + QuotedStr(DBEdit24.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit18.Text) + ',';
       strSql := strSql + 'DESCARTE = ';
       strSql := strSql + QuotedStr(resu) + ',';
       strSql := strSql + 'ATIVO = ';
-      strSql := strSql + QuotedStr(DBEdit8.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit7.Text) + ',';
       /////
       strSql := strSql + 'CODDOC = ';
       strSql := strSql + QuotedStr(DBEdit9.Text) + ' ';
@@ -293,9 +433,15 @@ end;
 procedure TfCorreio.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  DBEdit8.Text := 'S';
+  DBEdit7.Text := 'S';
   jvCod.Enabled := True;
   jvNome.Enabled := True;
+  btnproc.Enabled := True;
+  btnproc1.Enabled := True;
+  btnproc2.Enabled := True;
+  Edit1.Text := '';
+  Edit2.Text := '';
+  Edit3.Text := '';
   jvCod.SetFocus;
 end;
 
@@ -306,6 +452,9 @@ begin
   jvNome.Text := '';
   jvCod.Enabled := False;
   jvNome.Enabled := False;
+  btnproc.Enabled := False;
+  btnproc1.Enabled := False;
+  btnproc2.Enabled := False;
 end;
 
 procedure TfCorreio.jvNomeChange(Sender: TObject);
@@ -352,7 +501,75 @@ begin
     fRetira.cdsCorreio.Close;
     fRetira.cdsCorreio.Params[0].AsInteger := cdsCorreioCODOC.AsInteger;
     fRetira.cdsCorreio.Open;
+    fRetira.Label14.Caption := 'RETIRA';
+    fRetira.ShowModal;
+  finally
+    fRetira.Free;
+  end;
+end;
 
+procedure TfCorreio.btnprocClick(Sender: TObject);
+begin
+  inherited;
+  fFiltroCadDoc := TfFiltroCadDoc.Create(Application);
+  try
+    fFiltroCadDoc.btnvoltar.Visible := False;
+    fFiltroCadDoc.ShowModal;
+  finally
+    fFiltroCadDoc.Free;
+  end;
+end;
+
+procedure TfCorreio.btnproc2Click(Sender: TObject);
+begin
+  inherited;
+  fFiltroSetor := TfFiltroSetor.Create(Application);
+  try
+    fFiltroSetor.ShowModal;
+  finally
+    fFiltroSetor.Free;
+  end;
+end;
+
+procedure TfCorreio.btnproc1Click(Sender: TObject);
+begin
+  inherited;
+  fFiltroDep := TfFiltroDep.Create(Application);
+  try
+    fFiltroDep.ShowModal;
+  finally
+    fFiltroDep.Free;
+  end;
+end;
+
+procedure TfCorreio.TabSheet2Show(Sender: TObject);
+begin
+  inherited;
+  MMJPanel2.Visible := False;
+end;
+
+procedure TfCorreio.TabSheet1Show(Sender: TObject);
+begin
+  inherited;
+    MMJPanel2.Visible := True;
+end;
+
+procedure TfCorreio.TabSheet3Show(Sender: TObject);
+begin
+  inherited;
+  MMJPanel2.Visible := False;
+end;
+
+procedure TfCorreio.btnDevolucaoClick(Sender: TObject);
+begin
+//  inherited;
+  fRetira := TfRetira.Create(Application);
+  try
+  if(fRetira.cdsCorreio.Active) then
+    fRetira.cdsCorreio.Close;
+    fRetira.cdsCorreio.Params[0].AsInteger := cdsCorreioCODOC.AsInteger;
+    fRetira.cdsCorreio.Open;
+    fRetira.Label14.Caption := 'DEVOLUÇÂO';
     fRetira.ShowModal;
   finally
     fRetira.Free;
