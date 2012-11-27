@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DB, StdCtrls, Mask, DBCtrls, DBClient, Provider, SqlExpr,
   Buttons,DBxPress, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit;
+  JvDatePickerEdit, ExtCtrls, JvDBControls, Menus;
 
 type
   TfRetira = class(TForm)
@@ -99,13 +99,10 @@ type
     Label2: TLabel;
     DBEdit2: TDBEdit;
     Label3: TLabel;
-    DBEdit3: TDBEdit;
     Label4: TLabel;
-    DBEdit4: TDBEdit;
     btnGravar: TBitBtn;
     btnSair: TBitBtn;
     Label5: TLabel;
-    DBEdit5: TDBEdit;
     Label6: TLabel;
     DBEdit6: TDBEdit;
     Label7: TLabel;
@@ -119,15 +116,57 @@ type
     Label11: TLabel;
     DBEdit11: TDBEdit;
     Label12: TLabel;
-    DBEdit12: TDBEdit;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
     sdsCorreioDESCARTE: TFloatField;
     cdsCorreioDESCARTE: TFloatField;
+    cdsDet: TClientDataSet;
+    dspDet: TDataSetProvider;
+    dstDet: TDataSource;
+    sqdDet: TSQLDataSet;
+    DBEdit12: TDBEdit;
+    DBMemo1: TDBMemo;
+    btnIncluir: TBitBtn;
+    btnCancelar: TBitBtn;
+    sqdDetCODOC: TIntegerField;
+    sqdDetCODDETALHE: TIntegerField;
+    sqdDetCODFIR: TIntegerField;
+    sqdDetNOMERET: TStringField;
+    sqdDetNDOCRET: TStringField;
+    sqdDetDTPREV: TDateField;
+    sqdDetDTRET: TDateField;
+    sqdDetOBSRET: TStringField;
+    sqdDetOBS: TMemoField;
+    sqdDetTIPO: TStringField;
+    cdsDetCODOC: TIntegerField;
+    cdsDetCODDETALHE: TIntegerField;
+    cdsDetCODFIR: TIntegerField;
+    cdsDetNOMERET: TStringField;
+    cdsDetNDOCRET: TStringField;
+    cdsDetDTPREV: TDateField;
+    cdsDetDTRET: TDateField;
+    cdsDetOBSRET: TStringField;
+    cdsDetOBS: TMemoField;
+    cdsDetTIPO: TStringField;
+    Label13: TLabel;
+    DBEdit4: TDBEdit;
+    Label14: TLabel;
+    DBEdit5: TJvDBDateEdit;
+    DBEdit3: TJvDBDateEdit;
+    PopupMenu1: TPopupMenu;
+    Procurar1: TMenuItem;
+    Incuir1: TMenuItem;
+    Gravar1: TMenuItem;
+    Excluir1: TMenuItem;
+    Cancelar1: TMenuItem;
+    Sair1: TMenuItem;
     procedure btnGravarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -146,49 +185,101 @@ uses UDm;
 procedure TfRetira.btnGravarClick(Sender: TObject);
 var strSql : string;
     TD: TTransactionDesc;
+    MOVDET : Integer;
 begin
+
+  if dstDet.DataSet.State in [dsInsert] then
+  begin
+
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_MOVDOCDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  MOVDET := dm.c_6_genid.Fields[0].AsInteger;
+
+  dm.c_6_genid.Close;
+
+  strSql := 'INSERT INTO MOVDOCDET (CODOC,CODDETALHE,CODFIR,NOMERET,NDOCRET,DTPREV,DTRET,OBSRET, OBS ,TIPO ) VALUES ( ' +
+         IntToStr(cdsCorreioCODOC.AsInteger) + ',' ;
+  strSql := strSql + IntToStr(MOVDET) + ',';
+
+  strSql := strSql +  QuotedStr(DBEdit4.Text) + ',';
+
+  strSql := strSql +  QuotedStr(DBEdit1.Text) + ',';
+
+  strSql := strSql +  QuotedStr(DBEdit2.Text) + ',';
+
+
+  if((DBEdit3.Text = '  /  /    ') or(DBEdit3.Text = '')) then
+  begin
+    strSql := strSql + ' null ,';
+  end
+  else begin
+    strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit3.Text))) + ',';
+  end;
+
+  if((DBEdit5.Text = '  /  /    ') or(DBEdit5.Text = '')) then
+  begin
+    strSql := strSql + ' null ,';
+  end
+  else begin
+    strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit5.Text))) + ',';
+  end;
+  strSql := strSql +  QuotedStr(DBEdit12.Text) + ',';
+
+  strSql := strSql +  QuotedStr(DBMemo1.Text) + ',';
+
+  if(Label14.Caption = 'DEVOLUÇÂO') then
+  strSql := strSql + QuotedStr('D')
+  else
+  strSql := strSql + QuotedStr('R');
+  strSql := strSql + ')' ;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  dm.sqlsisAdimin.ExecuteDirect(strSql);
+  Try
+    dm.sqlsisAdimin.Commit(TD);
+    MessageDlg('Gravado com Sucesso', mtConfirmation, [mbOK], 0);
+    btnGravar.Visible := False;
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro ao Gravar Alteração.', mtError,[mbOk], 0);
+  end;
+
+ end;
+
+{
     if dsr.DataSet.State in [dsEdit] then
     begin
-     {
-       strSql:= 'UPDATE MOVDOC SET NOMERET = ' + QuotedStr(DBEdit1.Text) +
-                ', NDOCRET = ' + QuotedStr(DBEdit2.Text) +
-                ', DTPREV = ' + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit3.Text))) +
-                ', DTRET = ' + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit5.Text))) +
-                ', OBSRET = ' + QuotedStr(DBEdit4.Text) +
-                ' WHERE CODOC = ' + IntToStr(cdsCorreioCODOC.AsInteger);
-      }
-          strSql := 'UPDATE MOVDOC SET NOMERET = ';
-          strSql := strSql +  QuotedStr(DBEdit1.Text) + ',';
-          strSql := strSql + 'NDOCRET = ';
-          strSql := strSql + QuotedStr(DBEdit2.Text) + ',';
+      strSql := 'UPDATE MOVDOCDET SET NOMERET = ';
+      strSql := strSql +  QuotedStr(DBEdit1.Text) + ',';
+      strSql := strSql + 'NDOCRET = ';
+      strSql := strSql + QuotedStr(DBEdit2.Text) + ',';
 
+      if(DBEdit3.Text = '  /  /    ') then
+      begin
+        strSql := strSql + ' null ,';
+      end
+      else begin
+        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit3.Text))) + ',';
+      end;
 
-          if(DBEdit3.Text = '  /  /    ') then
-          begin
-            strSql := strSql + 'DTPREV = null ,';
-          end
-          else begin
-            strSql := strSql + 'DTPREV = ';
-            strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit3.Text))) + ',';
-          end;
+      if(DBEdit5.Text = '  /  /    ') then
+      begin
+        strSql := strSql + ' null ,';
+       end
+      else begin
+        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit5.Text))) + ',';
+      end;
 
-          if(DBEdit5.Text = '  /  /    ') then
-          begin
-            strSql := strSql + 'DTRET = null ,';
-          end
-          else begin
-            strSql := strSql + 'DTRET = ';
-            strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit5.Text))) + ',';
-          end;
+      strSql := strSql + 'OBSRET = ';
+      strSql := strSql + QuotedStr(DBEdit4.Text) + ' ';
 
-          strSql := strSql + 'OBSRET = ';
-          strSql := strSql + QuotedStr(DBEdit4.Text) + ' ';
+      strSql := strSql + ' where CODOC = ';
+      strSql := strSql +  IntToStr(cdsCorreioCODOC.AsInteger);
 
-          strSql := strSql + ' where CODOC = ';
-          strSql := strSql +  IntToStr(cdsCorreioCODOC.AsInteger);
-
-       dm.sqlsisAdimin.StartTransaction(TD);
-       dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
        Try
         dm.sqlsisAdimin.Commit(TD);
        except
@@ -197,7 +288,7 @@ begin
            [mbOk], 0);
        end;
     end;
-
+ }
 end;
 
 procedure TfRetira.btnSairClick(Sender: TObject);
@@ -215,6 +306,30 @@ procedure TfRetira.BitBtn3Click(Sender: TObject);
 begin
   DBEdit3.Clear;
   cdsCorreio.Edit;
+end;
+
+procedure TfRetira.btnIncluirClick(Sender: TObject);
+begin
+  if(cdsDet.Active) then
+  cdsDet.Close;
+  cdsDet.Open;
+  cdsDet.Insert;
+  btnIncluir.Visible := False;
+  btnGravar.Visible := True;
+  DBEdit1.SetFocus;
+end;
+
+procedure TfRetira.FormShow(Sender: TObject);
+begin
+  btnGravar.Visible := False;
+end;
+
+procedure TfRetira.btnCancelarClick(Sender: TObject);
+begin
+  cdsDet.Cancel;
+  cdsDet.Close;
+  btnIncluir.Visible := True;
+  btnGravar.Visible := False;
 end;
 
 end.
