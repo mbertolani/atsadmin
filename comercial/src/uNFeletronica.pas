@@ -1117,15 +1117,15 @@ begin
    end
    else if (tp_amb = 4) then
    begin
-     ACBrNFe1.WebServices.EnviarDPEC.Executar;
-    //protocolo de envio ao DPEC e impressão do DANFE
-     ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC + ' ' +
-      DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
-     ACBrNFe1.NotasFiscais.Assinar;
-     ACBrNFe1.NotasFiscais.Valida;
-     ACBrNFe1.NotasFiscais.Imprimir;
-     ShowMessage(DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC));
-     ShowMessage(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
+     if ACBrNFe1.WebServices.EnviarDPEC.Executar then
+     begin
+       //protocolo de envio ao DPEC e impressão do DANFE
+       ACBrNFe1.DANFE.ProtocoloNFe:=ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC+' '+
+                                    DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
+       ACBrNFe1.NotasFiscais.Imprimir;
+       ShowMessage(DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC));
+       ShowMessage(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
+     end;
 
      TD.TransactionID := 1;
      TD.IsolationLevel := xilREADCOMMITTED;
