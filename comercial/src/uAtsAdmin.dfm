@@ -2608,7 +2608,7 @@ object fAtsAdmin: TfAtsAdmin
         OnClick = CadastroSetor1Click
       end
       object CadastroTipoDoc1: TMenuItem
-        Caption = 'Cadastro Tipo Doc'
+        Caption = 'Cadastro Tipo Documento'
         OnClick = CadastroTipoDoc1Click
       end
     end
