@@ -151,6 +151,71 @@ object fFiltroCadDoc: TfFiltroCadDoc
         FieldName = 'PRAZO'
         Width = 81
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ID'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ANODESC'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'METODO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LEI1'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LEI2'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'OBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SEQUENCIA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MICROF'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DIGITA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FORDESTR'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FISCAL'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ANEXO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODSIS'
+        Visible = True
       end>
   end
   object EvDBFind1: TEvDBFind
