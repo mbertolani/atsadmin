@@ -8,30 +8,30 @@ inherited FCadDoc: TFCadDoc
   object Label1: TLabel [0]
     Left = 40
     Top = 56
-    Width = 46
+    Width = 42
     Height = 13
-    Caption = 'CODDOC'
+    Caption = 'CODIGO'
     FocusControl = DBEdit1
   end
   object Label2: TLabel [1]
     Left = 128
     Top = 56
-    Width = 37
+    Width = 62
     Height = 13
-    Caption = 'DESCR'
+    Caption = 'DESCRI'#199#195'O'
     FocusControl = DBEdit2
   end
   object Label3: TLabel [2]
     Left = 40
-    Top = 104
-    Width = 52
+    Top = 93
+    Width = 23
     Height = 13
-    Caption = 'ANODESC'
+    Caption = 'ANO'
     FocusControl = DBEdit3
   end
   object Label4: TLabel [3]
-    Left = 184
-    Top = 104
+    Left = 128
+    Top = 93
     Width = 47
     Height = 13
     Caption = 'METODO'
@@ -39,23 +39,23 @@ inherited FCadDoc: TFCadDoc
   end
   object Label5: TLabel [4]
     Left = 40
-    Top = 152
-    Width = 22
+    Top = 134
+    Width = 16
     Height = 13
-    Caption = 'LEI1'
+    Caption = 'LEI'
     FocusControl = DBEdit5
   end
   object Label6: TLabel [5]
     Left = 40
-    Top = 200
-    Width = 22
+    Top = 174
+    Width = 16
     Height = 13
-    Caption = 'LEI2'
+    Caption = 'LEI'
     FocusControl = DBEdit6
   end
   object Label7: TLabel [6]
     Left = 40
-    Top = 240
+    Top = 212
     Width = 62
     Height = 13
     Caption = 'SEQUENCIA'
@@ -63,7 +63,7 @@ inherited FCadDoc: TFCadDoc
   end
   object Label8: TLabel [7]
     Left = 40
-    Top = 280
+    Top = 250
     Width = 22
     Height = 13
     Caption = 'OBS'
@@ -71,23 +71,23 @@ inherited FCadDoc: TFCadDoc
   end
   object Label9: TLabel [8]
     Left = 40
-    Top = 320
-    Width = 41
+    Top = 292
+    Width = 66
     Height = 13
-    Caption = 'MICROF'
+    Caption = 'MICROFILMA'
     FocusControl = DBEdit9
   end
   object Label10: TLabel [9]
-    Left = 98
-    Top = 322
-    Width = 36
+    Left = 122
+    Top = 291
+    Width = 59
     Height = 13
-    Caption = 'DIGITA'
+    Caption = 'DIGITALIZA'
     FocusControl = DBEdit10
   end
   object Label11: TLabel [10]
-    Left = 170
-    Top = 322
+    Left = 202
+    Top = 291
     Width = 37
     Height = 13
     Caption = 'PRAZO'
@@ -95,34 +95,34 @@ inherited FCadDoc: TFCadDoc
   end
   object Label12: TLabel [11]
     Left = 456
-    Top = 324
-    Width = 59
+    Top = 293
+    Width = 111
     Height = 13
-    Caption = 'FORDESTR'
+    Caption = 'FORMA DESTRUI'#199#195'O'
     FocusControl = DBEdit12
   end
   object Label13: TLabel [12]
     Left = 36
-    Top = 367
+    Top = 336
     Width = 36
     Height = 13
     Caption = 'FISCAL'
     FocusControl = DBEdit13
   end
   object Label14: TLabel [13]
-    Left = 40
-    Top = 416
+    Left = 37
+    Top = 377
     Width = 37
     Height = 13
     Caption = 'ANEXO'
     FocusControl = DBMemo1
   end
   object Label15: TLabel [14]
-    Left = 304
-    Top = 424
-    Width = 40
+    Left = 581
+    Top = 336
+    Width = 76
     Height = 13
-    Caption = 'CODSIS'
+    Caption = 'COD. SISTEMA'
     FocusControl = DBEdit14
   end
   inherited MMJPanel2: TMMJPanel
@@ -142,7 +142,7 @@ inherited FCadDoc: TFCadDoc
   object DBEdit2: TDBEdit [18]
     Left = 128
     Top = 72
-    Width = 524
+    Width = 593
     Height = 21
     DataField = 'DESCR'
     DataSource = DtSrc
@@ -150,17 +150,17 @@ inherited FCadDoc: TFCadDoc
   end
   object DBEdit3: TDBEdit [19]
     Left = 40
-    Top = 120
-    Width = 134
+    Top = 109
+    Width = 81
     Height = 21
     DataField = 'ANODESC'
     DataSource = DtSrc
     TabOrder = 4
   end
   object DBEdit4: TDBEdit [20]
-    Left = 184
-    Top = 120
-    Width = 394
+    Left = 128
+    Top = 109
+    Width = 593
     Height = 21
     DataField = 'METODO'
     DataSource = DtSrc
@@ -168,8 +168,8 @@ inherited FCadDoc: TFCadDoc
   end
   object DBEdit5: TDBEdit [21]
     Left = 40
-    Top = 168
-    Width = 524
+    Top = 150
+    Width = 681
     Height = 21
     DataField = 'LEI1'
     DataSource = DtSrc
@@ -177,8 +177,8 @@ inherited FCadDoc: TFCadDoc
   end
   object DBEdit6: TDBEdit [22]
     Left = 40
-    Top = 216
-    Width = 524
+    Top = 190
+    Width = 683
     Height = 21
     DataField = 'LEI2'
     DataSource = DtSrc
@@ -186,8 +186,8 @@ inherited FCadDoc: TFCadDoc
   end
   object DBEdit7: TDBEdit [23]
     Left = 40
-    Top = 256
-    Width = 524
+    Top = 228
+    Width = 684
     Height = 21
     DataField = 'SEQUENCIA'
     DataSource = DtSrc
@@ -195,16 +195,16 @@ inherited FCadDoc: TFCadDoc
   end
   object DBEdit8: TDBEdit [24]
     Left = 40
-    Top = 296
-    Width = 524
+    Top = 266
+    Width = 682
     Height = 21
     DataField = 'OBS'
     DataSource = DtSrc
     TabOrder = 9
   end
   object DBEdit9: TDBEdit [25]
-    Left = 40
-    Top = 336
+    Left = 64
+    Top = 306
     Width = 17
     Height = 21
     DataField = 'MICROF'
@@ -212,8 +212,8 @@ inherited FCadDoc: TFCadDoc
     TabOrder = 10
   end
   object DBEdit10: TDBEdit [26]
-    Left = 98
-    Top = 338
+    Left = 138
+    Top = 307
     Width = 17
     Height = 21
     DataField = 'DIGITA'
@@ -221,9 +221,9 @@ inherited FCadDoc: TFCadDoc
     TabOrder = 11
   end
   object DBEdit11: TDBEdit [27]
-    Left = 170
-    Top = 338
-    Width = 264
+    Left = 200
+    Top = 307
+    Width = 234
     Height = 21
     DataField = 'PRAZO'
     DataSource = DtSrc
@@ -231,8 +231,8 @@ inherited FCadDoc: TFCadDoc
   end
   object DBEdit12: TDBEdit [28]
     Left = 456
-    Top = 340
-    Width = 264
+    Top = 309
+    Width = 269
     Height = 21
     DataField = 'FORDESTR'
     DataSource = DtSrc
@@ -240,7 +240,7 @@ inherited FCadDoc: TFCadDoc
   end
   object DBEdit13: TDBEdit [29]
     Left = 36
-    Top = 383
+    Top = 353
     Width = 524
     Height = 21
     DataField = 'FISCAL'
@@ -248,17 +248,17 @@ inherited FCadDoc: TFCadDoc
     TabOrder = 14
   end
   object DBMemo1: TDBMemo [30]
-    Left = 40
-    Top = 432
-    Width = 233
-    Height = 24
+    Left = 37
+    Top = 393
+    Width = 692
+    Height = 64
     DataField = 'ANEXO'
     DataSource = DtSrc
     TabOrder = 15
   end
   object DBEdit14: TDBEdit [31]
-    Left = 304
-    Top = 440
+    Left = 602
+    Top = 352
     Width = 30
     Height = 21
     DataField = 'CODSIS'
