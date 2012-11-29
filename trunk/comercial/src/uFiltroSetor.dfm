@@ -11,33 +11,37 @@ object fFiltroSetor: TfFiltroSetor
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
     Left = 24
     Top = 64
-    Width = 44
+    Width = 33
     Height = 13
-    Caption = 'CODSEC'
+    Caption = 'Codigo'
     FocusControl = DBEdit1
   end
   object Label2: TLabel
     Left = 120
     Top = 64
-    Width = 37
+    Width = 48
     Height = 13
-    Caption = 'DESCR'
+    Caption = 'Descri'#231#227'o'
     FocusControl = DBEdit2
   end
   object DBEdit1: TDBEdit
     Left = 24
-    Top = 80
+    Top = 79
     Width = 82
     Height = 21
     DataField = 'CODSEC'
     DataSource = DataSource1
-    TabOrder = 0
+    ReadOnly = True
+    TabOrder = 1
+    OnEnter = BitBtn1Click
+    OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit
     Left = 120
@@ -46,7 +50,8 @@ object fFiltroSetor: TfFiltroSetor
     Height = 21
     DataField = 'DESCR'
     DataSource = DataSource1
-    TabOrder = 1
+    ReadOnly = True
+    TabOrder = 2
   end
   object DBGrid1: TDBGrid
     Left = 24
@@ -54,22 +59,27 @@ object fFiltroSetor: TfFiltroSetor
     Width = 625
     Height = 177
     DataSource = DataSource1
-    TabOrder = 2
+    TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = BitBtn1Click
+    OnEnter = BitBtn1Click
+    OnKeyPress = FormKeyPress
     Columns = <
       item
         Expanded = False
         FieldName = 'CODSEC'
+        Title.Caption = 'Codigo'
         Width = 75
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCR'
+        Title.Caption = 'Descri'#231#227'o'
         Visible = True
       end>
   end

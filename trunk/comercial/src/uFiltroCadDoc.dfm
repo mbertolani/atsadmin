@@ -11,9 +11,24 @@ object fFiltroCadDoc: TfFiltroCadDoc
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Label1: TLabel
+    Left = 40
+    Top = 47
+    Width = 33
+    Height = 13
+    Caption = 'Codigo'
+  end
+  object Label2: TLabel
+    Left = 184
+    Top = 47
+    Width = 48
+    Height = 13
+    Caption = 'Descri'#231#227'o'
+  end
   object btnvoltar: TBitBtn
     Left = 656
     Top = 8
@@ -134,32 +149,40 @@ object fFiltroCadDoc: TfFiltroCadDoc
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = BitBtn1Click
+    OnKeyPress = FormKeyPress
     Columns = <
       item
         Expanded = False
         FieldName = 'CODDOC'
+        Title.Caption = 'Codigo'
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCR'
-        Width = 333
+        Title.Caption = 'Descri'#231#227'o'
+        Width = 365
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ANODESC'
+        Title.Caption = 'Ano Descarte'
+        Width = 106
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRAZO'
+        Title.Caption = 'Prazo'
         Width = 81
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ID'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ANODESC'
+        Width = 89
         Visible = True
       end
       item
@@ -225,7 +248,8 @@ object fFiltroCadDoc: TfFiltroCadDoc
     Height = 21
     DataField = 'DESCR'
     DataSource = dsCad
-    TabOrder = 2
+    ReadOnly = True
+    TabOrder = 3
   end
   object EvDBFind2: TEvDBFind
     Left = 40
@@ -234,7 +258,10 @@ object fFiltroCadDoc: TfFiltroCadDoc
     Height = 21
     DataField = 'CODDOC'
     DataSource = dsCad
-    TabOrder = 3
+    ReadOnly = True
+    TabOrder = 2
+    OnEnter = BitBtn1Click
+    OnKeyPress = FormKeyPress
   end
   object BitBtn1: TBitBtn
     Left = 656
@@ -244,6 +271,7 @@ object fFiltroCadDoc: TfFiltroCadDoc
     Caption = 'Voltar'
     TabOrder = 4
     OnClick = BitBtn1Click
+    OnEnter = BitBtn1Click
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
       180000000000000C0000120B0000120B00000000000000000000FF00FFFF00FF

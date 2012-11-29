@@ -502,6 +502,7 @@ begin
     fRetira.cdsCorreio.Params[0].AsInteger := cdsCorreioCODOC.AsInteger;
     fRetira.cdsCorreio.Open;
     fRetira.Label14.Caption := 'RETIRA';
+    fRetira.Label1.Caption := 'RETIRADO POR :';
     fRetira.ShowModal;
   finally
     fRetira.Free;
@@ -570,6 +571,7 @@ begin
     fRetira.cdsCorreio.Params[0].AsInteger := cdsCorreioCODOC.AsInteger;
     fRetira.cdsCorreio.Open;
     fRetira.Label14.Caption := 'DEVOLUÇÂO';
+    fRetira.Label1.Caption := 'DEVOLVIDO POR :';
     fRetira.ShowModal;
   finally
     fRetira.Free;
