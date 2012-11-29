@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DB, StdCtrls, Mask, DBCtrls, DBClient, Provider, SqlExpr,
   Buttons,DBxPress, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, ExtCtrls, JvDBControls, Menus;
+  JvDatePickerEdit, ExtCtrls, JvDBControls, Menus, rpcompobase, rpvclreport;
 
 type
   TfRetira = class(TForm)
@@ -160,6 +160,10 @@ type
     Excluir1: TMenuItem;
     Cancelar1: TMenuItem;
     Sair1: TMenuItem;
+    BitBtn1: TBitBtn;
+    VCLReport1: TVCLReport;
+    Label15: TLabel;
+    Edit1: TEdit;
     procedure btnGravarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -167,6 +171,8 @@ type
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -178,7 +184,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, uCorreio;
 
 {$R *.dfm}
 
@@ -241,6 +247,9 @@ begin
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Gravado com Sucesso', mtConfirmation, [mbOK], 0);
     btnGravar.Visible := False;
+    Edit1.Text := IntToStr(MOVDET);
+    fCorreio.cdsDetR.Refresh;
+    fCorreio.cdsDetD.Refresh;
   except
     dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro ao Gravar Alteração.', mtError,[mbOk], 0);
@@ -330,6 +339,24 @@ begin
   cdsDet.Close;
   btnIncluir.Visible := True;
   btnGravar.Visible := False;
+end;
+
+procedure TfRetira.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
+end;
+
+procedure TfRetira.BitBtn1Click(Sender: TObject);
+begin
+  VCLReport1.FileName := str_relatorio + 'retira.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('pcod').Value := StrToInt(Edit1.Text);
+  VCLReport1.Execute;
 end;
 
 end.
