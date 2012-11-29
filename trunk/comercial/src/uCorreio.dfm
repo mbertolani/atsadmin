@@ -1121,6 +1121,15 @@ inherited fCorreio: TfCorreio
         ParentFont = False
         TabOrder = 8
       end
+      object BitBtn1: TBitBtn
+        Left = 552
+        Top = 296
+        Width = 153
+        Height = 41
+        Caption = 'Imprimir'
+        TabOrder = 9
+        OnClick = BitBtn1Click
+      end
     end
     object TabSheet3: TTabSheet
       Caption = 'Devolu'#231#227'o'
@@ -2142,5 +2151,11 @@ inherited fCorreio: TfCorreio
     DataSet = cdsDetD
     Left = 133
     Top = 165
+  end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 728
+    Top = 384
   end
 end

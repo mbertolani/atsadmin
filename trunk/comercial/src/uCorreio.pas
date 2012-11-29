@@ -8,7 +8,7 @@ uses
   MMJPanel, Mask, DBCtrls, EDBFind, FMTBcd, SqlExpr, Provider, DBClient,
   Grids, DBGrids, JvExStdCtrls, JvCombobox, JvDBSearchComboBox ,DBxPress,
   JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
-  JvDBDatePickerEdit, ComCtrls, JvDBControls;
+  JvDBDatePickerEdit, ComCtrls, JvDBControls, rpcompobase, rpvclreport;
 
 type
   TfCorreio = class(TfPai_new)
@@ -278,6 +278,8 @@ type
     JvDBDateEdit2: TJvDBDateEdit;
     JvDBDateEdit3: TJvDBDateEdit;
     JvDBDateEdit4: TJvDBDateEdit;
+    BitBtn1: TBitBtn;
+    VCLReport1: TVCLReport;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
@@ -295,6 +297,7 @@ type
     procedure TabSheet1Show(Sender: TObject);
     procedure TabSheet3Show(Sender: TObject);
     procedure btnDevolucaoClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -547,6 +550,8 @@ procedure TfCorreio.TabSheet2Show(Sender: TObject);
 begin
   inherited;
   MMJPanel2.Visible := False;
+
+
 end;
 
 procedure TfCorreio.TabSheet1Show(Sender: TObject);
@@ -576,6 +581,16 @@ begin
   finally
     fRetira.Free;
   end;
+end;
+
+procedure TfCorreio.BitBtn1Click(Sender: TObject);
+begin
+  inherited;
+  VCLReport1.FileName := str_relatorio + 'retira.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('pcod').Value := cdsDetRCODDETALHE.AsInteger;
+  VCLReport1.Execute;
 end;
 
 end.

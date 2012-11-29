@@ -14,6 +14,7 @@ object fRetira: TfRetira
   OldCreateOrder = False
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -203,6 +204,14 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
   end
+  object Label15: TLabel
+    Left = 360
+    Top = 176
+    Width = 73
+    Height = 13
+    Caption = 'CODDETALHE'
+    Visible = False
+  end
   object DBEdit1: TDBEdit
     Left = 112
     Top = 137
@@ -217,6 +226,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit
     Left = 112
@@ -231,12 +241,13 @@ object fRetira: TfRetira
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 1
+    TabOrder = 2
+    OnKeyPress = FormKeyPress
   end
   object btnGravar: TBitBtn
-    Left = 135
+    Left = 183
     Top = 469
-    Width = 107
+    Width = 106
     Height = 42
     Caption = 'F4-Gravar'
     Font.Charset = DEFAULT_CHARSET
@@ -246,7 +257,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 2
+    TabOrder = 6
     OnClick = btnGravarClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -361,7 +372,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 3
+    TabOrder = 7
     OnClick = btnSairClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -477,7 +488,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     ReadOnly = True
-    TabOrder = 4
+    TabOrder = 8
   end
   object DBEdit7: TDBEdit
     Left = 545
@@ -493,7 +504,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     ReadOnly = True
-    TabOrder = 5
+    TabOrder = 9
   end
   object DBEdit8: TDBEdit
     Left = 687
@@ -509,7 +520,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     ReadOnly = True
-    TabOrder = 6
+    TabOrder = 10
   end
   object DBEdit9: TDBEdit
     Left = 176
@@ -525,7 +536,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     ReadOnly = True
-    TabOrder = 7
+    TabOrder = 11
   end
   object DBEdit10: TDBEdit
     Left = 288
@@ -541,7 +552,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     ReadOnly = True
-    TabOrder = 8
+    TabOrder = 12
   end
   object DBEdit11: TDBEdit
     Left = 66
@@ -556,7 +567,7 @@ object fRetira: TfRetira
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 9
+    TabOrder = 13
   end
   object BitBtn2: TBitBtn
     Left = 253
@@ -569,7 +580,7 @@ object fRetira: TfRetira
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 14
     TabStop = False
     OnClick = BitBtn2Click
     Glyph.Data = {
@@ -643,7 +654,7 @@ object fRetira: TfRetira
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 15
     TabStop = False
     OnClick = BitBtn3Click
     Glyph.Data = {
@@ -713,7 +724,8 @@ object fRetira: TfRetira
     Height = 21
     DataField = 'OBSRET'
     DataSource = dstDet
-    TabOrder = 12
+    TabOrder = 4
+    OnKeyPress = FormKeyPress
   end
   object DBMemo1: TDBMemo
     Left = 112
@@ -722,10 +734,11 @@ object fRetira: TfRetira
     Height = 89
     DataField = 'OBS'
     DataSource = dstDet
-    TabOrder = 13
+    TabOrder = 5
+    OnKeyPress = FormKeyPress
   end
   object btnIncluir: TBitBtn
-    Left = 135
+    Left = 159
     Top = 469
     Width = 107
     Height = 42
@@ -737,7 +750,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 14
+    TabOrder = 16
     OnClick = btnIncluirClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -840,7 +853,7 @@ object fRetira: TfRetira
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
   object btnCancelar: TBitBtn
-    Left = 314
+    Left = 362
     Top = 469
     Width = 107
     Height = 42
@@ -852,7 +865,7 @@ object fRetira: TfRetira
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 15
+    TabOrder = 17
     OnClick = btnCancelarClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -961,7 +974,7 @@ object fRetira: TfRetira
     Height = 21
     DataField = 'CODFIR'
     DataSource = dsr
-    TabOrder = 16
+    TabOrder = 18
     Visible = False
   end
   object DBEdit5: TJvDBDateEdit
@@ -977,7 +990,8 @@ object fRetira: TfRetira
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 17
+    TabOrder = 1
+    OnKeyPress = FormKeyPress
   end
   object DBEdit3: TJvDBDateEdit
     Left = 111
@@ -992,7 +1006,26 @@ object fRetira: TfRetira
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 18
+    TabOrder = 3
+    OnKeyPress = FormKeyPress
+  end
+  object BitBtn1: TBitBtn
+    Left = 536
+    Top = 468
+    Width = 89
+    Height = 41
+    Caption = 'Imprimir'
+    TabOrder = 19
+    OnClick = BitBtn1Click
+  end
+  object Edit1: TEdit
+    Left = 360
+    Top = 192
+    Width = 121
+    Height = 21
+    TabOrder = 20
+    Text = 'Edit1'
+    Visible = False
   end
   object sdsCorreio: TSQLDataSet
     CommandText = 
@@ -2016,5 +2049,11 @@ object fRetira: TfRetira
       ShortCut = 120
       OnClick = btnSairClick
     end
+  end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 704
+    Top = 280
   end
 end
