@@ -27,6 +27,7 @@ type
     BitBtn1: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -53,11 +54,20 @@ procedure TfFiltroSetor.BitBtn1Click(Sender: TObject);
 begin
   if(fCorreio.DtSrc.DataSet.State in [dsInsert]) then
   begin
-    fCorreio.DBEdit6.Text := cdsCaCODSEC.Text;
+    fCorreio.DBEdit5.Text := cdsCaCODSEC.Text;
     fCorreio.Edit3.Text := cdsCaDESCR.Text;
 
   end;
   fFiltroSetor.Close;
+end;
+
+procedure TfFiltroSetor.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
 end;
 
 end.

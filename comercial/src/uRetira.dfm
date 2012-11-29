@@ -188,6 +188,7 @@ object fRetira: TfRetira
     Height = 13
     Caption = 'CODFIR'
     FocusControl = DBEdit4
+    Visible = False
   end
   object Label14: TLabel
     Left = 296
@@ -961,6 +962,7 @@ object fRetira: TfRetira
     DataField = 'CODFIR'
     DataSource = dsr
     TabOrder = 16
+    Visible = False
   end
   object DBEdit5: TJvDBDateEdit
     Left = 111

@@ -68,6 +68,7 @@ begin
  if(cdsCa.Active)then
  cdsCa.Close;
  cdsCa.Open;
+ btnProcurar.Visible := False;
 
  
 end;

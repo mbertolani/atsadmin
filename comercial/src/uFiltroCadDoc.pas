@@ -52,9 +52,12 @@ type
     EvDBFind2: TEvDBFind;
     BitBtn1: TBitBtn;
     hoje: TJvDatePickerEdit;
+    Label1: TLabel;
+    Label2: TLabel;
     procedure btnvoltarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -90,9 +93,9 @@ begin
 
   if(fCorreio.DtSrc.DataSet.State in [dsInsert]) then
   begin
-    fCorreio.DBEdit9.Text := cdsCadCODDOC.Text;
-    fCorreio.DBEdit16.Text := (IntToStr(mes) + IntToStr(ano));
+    fCorreio.DBEdit8.Text := cdsCadCODDOC.Text;
     fCorreio.Edit1.Text := cdsCadDESCR.Text;
+    fCorreio.DBEdit15.Text := (IntToStr(mes) + IntToStr(ano));
 
   end;
   fFiltroCadDoc.Close;
@@ -104,6 +107,15 @@ begin
   cdsCad.Close;
   cdsCad.Open;
 
+end;
+
+procedure TfFiltroCadDoc.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
 end;
 
 end.

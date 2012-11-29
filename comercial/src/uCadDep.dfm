@@ -9,17 +9,17 @@ inherited fCadDep: TfCadDep
   object Label1: TLabel [0]
     Left = 64
     Top = 88
-    Width = 45
+    Width = 33
     Height = 13
-    Caption = 'CODDEP'
+    Caption = 'Codigo'
     FocusControl = DBEdit1
   end
   object Label2: TLabel [1]
     Left = 64
     Top = 136
-    Width = 37
+    Width = 48
     Height = 13
-    Caption = 'DESCR'
+    Caption = 'Descri'#231#227'o'
     FocusControl = DBEdit2
   end
   object Label3: TLabel [2]
@@ -77,9 +77,9 @@ inherited fCadDep: TfCadDep
   end
   object DBGrid1: TDBGrid [8]
     Left = 64
-    Top = 272
-    Width = 577
-    Height = 169
+    Top = 232
+    Width = 681
+    Height = 209
     DataSource = DtSrc
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
@@ -91,11 +91,13 @@ inherited fCadDep: TfCadDep
       item
         Expanded = False
         FieldName = 'CODDEP'
+        Title.Caption = 'Codigo'
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCR'
+        Title.Caption = 'Descri'#231#227'o'
         Visible = True
       end
       item

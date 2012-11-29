@@ -11,23 +11,24 @@ object fFiltroDep: TfFiltroDep
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
     Left = 31
     Top = 44
-    Width = 45
+    Width = 33
     Height = 13
-    Caption = 'CODDEP'
+    Caption = 'Codigo'
     FocusControl = DBEdit1
   end
   object Label2: TLabel
     Left = 115
     Top = 42
-    Width = 37
+    Width = 48
     Height = 13
-    Caption = 'DESCR'
+    Caption = 'Descri'#231#227'o'
     FocusControl = DBEdit2
   end
   object Label3: TLabel
@@ -50,16 +51,21 @@ object fFiltroDep: TfFiltroDep
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = BitBtn1Click
+    OnEnter = BitBtn1Click
+    OnKeyPress = FormKeyPress
     Columns = <
       item
         Expanded = False
         FieldName = 'CODDEP'
+        Title.Caption = 'Codigo'
         Width = 63
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCR'
+        Title.Caption = 'Descri'#231#227'o'
         Width = 326
         Visible = True
       end
@@ -71,11 +77,15 @@ object fFiltroDep: TfFiltroDep
   end
   object DBEdit1: TDBEdit
     Left = 31
-    Top = 60
+    Top = 59
     Width = 82
     Height = 21
     DataField = 'CODDEP'
+    DataSource = DataSource1
+    ReadOnly = True
     TabOrder = 1
+    OnEnter = BitBtn1Click
+    OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit
     Left = 117
@@ -83,6 +93,8 @@ object fFiltroDep: TfFiltroDep
     Width = 312
     Height = 21
     DataField = 'DESCR'
+    DataSource = DataSource1
+    ReadOnly = True
     TabOrder = 2
   end
   object DBEdit3: TDBEdit
@@ -91,6 +103,8 @@ object fFiltroDep: TfFiltroDep
     Width = 204
     Height = 21
     DataField = 'OBS'
+    DataSource = DataSource1
+    ReadOnly = True
     TabOrder = 3
   end
   object BitBtn1: TBitBtn
@@ -203,6 +217,7 @@ object fFiltroDep: TfFiltroDep
   end
   object sqlCa: TSQLDataSet
     CommandText = 'select ID, CODDEP, DESCR, OBS from CADDEP '#13#10
+    DataSource = DataSource1
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin

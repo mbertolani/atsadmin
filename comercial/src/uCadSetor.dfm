@@ -2,23 +2,24 @@ inherited fCadSetor: TfCadSetor
   Left = 312
   Top = 122
   Caption = 'Cadastro de Setor'
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel [0]
     Left = 72
     Top = 72
-    Width = 44
+    Width = 33
     Height = 13
-    Caption = 'CODSEC'
+    Caption = 'Codigo'
     FocusControl = DBEdit1
   end
   object Label2: TLabel [1]
     Left = 176
     Top = 72
-    Width = 37
+    Width = 48
     Height = 13
-    Caption = 'DESCR'
+    Caption = 'Descri'#231#227'o'
     FocusControl = DBEdit2
   end
   object DBEdit1: TDBEdit [4]
@@ -55,12 +56,14 @@ inherited fCadSetor: TfCadSetor
       item
         Expanded = False
         FieldName = 'CODSEC'
+        Title.Caption = 'Codigo'
         Width = 70
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCR'
+        Title.Caption = 'Descri'#231#227'o'
         Width = 349
         Visible = True
       end>

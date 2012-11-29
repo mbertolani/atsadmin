@@ -302,7 +302,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 0
+        ReadOnly = True
+        TabOrder = 22
       end
       object DBEdit3: TDBEdit
         Left = 143
@@ -318,6 +319,7 @@ inherited fCorreio: TfCorreio
         Font.Style = []
         ParentFont = False
         TabOrder = 1
+        OnKeyPress = FormKeyPress
       end
       object DBEdit4: TDBEdit
         Left = 143
@@ -332,7 +334,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 2
+        TabOrder = 18
+        OnKeyPress = FormKeyPress
       end
       object DBEdit5: TDBEdit
         Left = 143
@@ -347,7 +350,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 3
+        TabOrder = 20
+        OnKeyPress = FormKeyPress
       end
       object DBEdit6: TDBEdit
         Left = 143
@@ -362,7 +366,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 4
+        TabOrder = 11
+        OnKeyPress = FormKeyPress
       end
       object DBEdit7: TDBEdit
         Left = 144
@@ -378,7 +383,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 5
+        TabOrder = 16
+        OnKeyPress = FormKeyPress
       end
       object DBEdit8: TDBEdit
         Left = 143
@@ -393,7 +399,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 6
+        TabOrder = 23
+        OnKeyPress = FormKeyPress
       end
       object DBEdit11: TDBEdit
         Left = 143
@@ -408,7 +415,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 7
+        TabOrder = 9
+        OnKeyPress = FormKeyPress
       end
       object DBEdit12: TDBEdit
         Left = 325
@@ -423,7 +431,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 8
+        TabOrder = 10
+        OnKeyPress = FormKeyPress
       end
       object DBEdit13: TDBEdit
         Left = 291
@@ -438,7 +447,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 9
+        TabOrder = 13
+        OnKeyPress = FormKeyPress
       end
       object DBEdit14: TDBEdit
         Left = 469
@@ -453,7 +463,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 10
+        TabOrder = 14
+        OnKeyPress = FormKeyPress
       end
       object DBEdit15: TDBEdit
         Left = 436
@@ -469,7 +480,7 @@ inherited fCorreio: TfCorreio
         Font.Style = []
         ParentFont = False
         ReadOnly = True
-        TabOrder = 11
+        TabOrder = 26
       end
       object DBMemo1: TDBMemo
         Left = 45
@@ -478,7 +489,8 @@ inherited fCorreio: TfCorreio
         Height = 106
         DataField = 'OBS'
         DataSource = DtSrc
-        TabOrder = 12
+        TabOrder = 17
+        OnKeyPress = FormKeyPress
       end
       object DBEdit17: TDBEdit
         Left = 143
@@ -493,7 +505,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 13
+        TabOrder = 12
+        OnKeyPress = FormKeyPress
       end
       object DBEdit18: TDBEdit
         Left = 143
@@ -508,7 +521,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 14
+        TabOrder = 15
+        OnKeyPress = FormKeyPress
       end
       object DBEdit19: TDBEdit
         Left = 294
@@ -523,7 +537,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 15
+        TabOrder = 2
+        OnKeyPress = FormKeyPress
       end
       object DBEdit2: TDBEdit
         Left = 190
@@ -538,7 +553,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 16
+        ReadOnly = True
+        TabOrder = 24
       end
       object GroupBox1: TGroupBox
         Left = 8
@@ -553,7 +569,7 @@ inherited fCorreio: TfCorreio
         Font.Style = []
         ParentFont = False
         PopupMenu = PopupMenu1
-        TabOrder = 17
+        TabOrder = 0
         object jvNome: TJvDBSearchComboBox
           Left = 86
           Top = 17
@@ -566,6 +582,7 @@ inherited fCorreio: TfCorreio
           TabOrder = 1
           Text = 'jvNome'
           OnChange = jvNomeChange
+          OnKeyPress = FormKeyPress
         end
         object jvCod: TJvDBSearchComboBox
           Left = 9
@@ -579,6 +596,7 @@ inherited fCorreio: TfCorreio
           TabOrder = 0
           Text = 'JvDBSearchComboBox1'
           OnChange = jvCodChange
+          OnKeyPress = FormKeyPress
         end
       end
       object btnRetirada: TBitBtn
@@ -593,7 +611,7 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 18
+        TabOrder = 27
         OnClick = btnRetiradaClick
       end
       object btnproc: TBitBtn
@@ -603,7 +621,7 @@ inherited fCorreio: TfCorreio
         Height = 27
         Caption = 'Procurar'
         Enabled = False
-        TabOrder = 19
+        TabOrder = 6
         OnClick = btnprocClick
         Glyph.Data = {
           F6060000424DF606000000000000360000002800000018000000180000000100
@@ -668,7 +686,8 @@ inherited fCorreio: TfCorreio
         Top = 171
         Width = 180
         Height = 21
-        TabOrder = 20
+        TabOrder = 25
+        OnKeyPress = FormKeyPress
       end
       object btnproc1: TBitBtn
         Left = 421
@@ -677,7 +696,7 @@ inherited fCorreio: TfCorreio
         Height = 27
         Caption = 'Procurar'
         Enabled = False
-        TabOrder = 21
+        TabOrder = 4
         OnClick = btnproc1Click
         Glyph.Data = {
           F6060000424DF606000000000000360000002800000018000000180000000100
@@ -742,14 +761,16 @@ inherited fCorreio: TfCorreio
         Top = 113
         Width = 180
         Height = 21
-        TabOrder = 22
+        TabOrder = 19
+        OnKeyPress = FormKeyPress
       end
       object Edit3: TEdit
         Left = 232
         Top = 143
         Width = 180
         Height = 21
-        TabOrder = 23
+        TabOrder = 21
+        OnKeyPress = FormKeyPress
       end
       object btnproc2: TBitBtn
         Left = 422
@@ -758,7 +779,7 @@ inherited fCorreio: TfCorreio
         Height = 27
         Caption = 'Procurar'
         Enabled = False
-        TabOrder = 24
+        TabOrder = 5
         OnClick = btnproc2Click
         Glyph.Data = {
           F6060000424DF606000000000000360000002800000018000000180000000100
@@ -830,7 +851,7 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 25
+        TabOrder = 28
         OnClick = btnDevolucaoClick
       end
       object DBEdit16: TJvDBDateEdit
@@ -846,7 +867,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 26
+        TabOrder = 3
+        OnKeyPress = FormKeyPress
       end
       object DBEdit9: TJvDBDateEdit
         Left = 143
@@ -861,7 +883,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 27
+        TabOrder = 7
+        OnKeyPress = FormKeyPress
       end
       object DBEdit10: TJvDBDateEdit
         Left = 324
@@ -876,7 +899,8 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 28
+        TabOrder = 8
+        OnKeyPress = FormKeyPress
       end
     end
     object TabSheet2: TTabSheet
