@@ -378,6 +378,7 @@ type
     procedure CadastroDepartamento1Click(Sender: TObject);
     procedure CadastroSetor1Click(Sender: TObject);
     procedure CadastroTipoDoc1Click(Sender: TObject);
+    procedure ipoDocumentos1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2298,6 +2299,11 @@ begin
   finally
     FCadDoc.Free;
   end;
+end;
+
+procedure TfAtsAdmin.ipoDocumentos1Click(Sender: TObject);
+begin
+//
 end;
 
 end.

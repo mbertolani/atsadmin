@@ -2474,6 +2474,109 @@ object fAtsAdmin: TfAtsAdmin
   object MainMenu1: TMainMenu
     Left = 416
     Top = 64
+    object Cadastros1: TMenuItem
+      Caption = 'Cadastros    '
+      object Agenda: TMenuItem
+        Caption = '&Agenda'
+        OnClick = AgendaClick
+      end
+      object CFOP1: TMenuItem
+        Caption = 'CFOP'
+        OnClick = CFOP1Click
+      end
+      object CFOPEstados1: TMenuItem
+        Caption = 'CFOP-Estados'
+        OnClick = CFOPEstados1Click
+      end
+      object Clientes: TMenuItem
+        Caption = '&Clientes'
+        OnClick = ClientesClick
+      end
+      object mCadColaborador: TMenuItem
+        Caption = 'Colaboradores'
+        OnClick = mCadColaboradorClick
+      end
+      object comissao: TMenuItem
+        Caption = 'C&omiss'#227'o'
+        OnClick = comissaoClick
+      end
+      object Fornecedores: TMenuItem
+        Caption = '&Fornecedores'
+        OnClick = FornecedoresClick
+      end
+      object Lotes1: TMenuItem
+        Caption = 'Lotes'
+        OnClick = Lotes1Click
+      end
+      object mPlanoContas: TMenuItem
+        Caption = 'Plano de Contas'
+        OnClick = mPlanoContasClick
+      end
+      object produtos: TMenuItem
+        Caption = '&Produtos'
+        OnClick = produtosClick
+      end
+      object ListadeVendas1: TMenuItem
+        Caption = 'Lista de Vendas'
+        Visible = False
+        OnClick = ListadeVendas1Click
+      end
+      object SriaNotaFiscal1: TMenuItem
+        Caption = '&S'#233'rie Nota Fiscal'
+        OnClick = SriaNotaFiscal1Click
+      end
+      object transportadoras: TMenuItem
+        Caption = '&Transportadoras'
+        OnClick = transportadorasClick
+      end
+      object usoprod: TMenuItem
+        Caption = '&Uso do Produto'
+        OnClick = usoprodClick
+      end
+      object Banco1: TMenuItem
+        Action = acBanco
+      end
+      object Prazos1: TMenuItem
+        Action = acPrazo
+      end
+      object ClienteBloqueio1: TMenuItem
+        Action = acClienteBloqueio
+      end
+      object Maquinas1: TMenuItem
+        Caption = 'Maquinas'
+        OnClick = Maquinas1Click
+      end
+      object CidadesIBGE1: TMenuItem
+        Caption = 'Cidades IBGE'
+        OnClick = CidadesIBGE1Click
+      end
+      object ipoAtendimento1: TMenuItem
+        Caption = 'Tipo Atendimento'
+        OnClick = ipoAtendimento1Click
+      end
+      object Similares1: TMenuItem
+        Caption = 'Similares'
+        OnClick = Similares1Click
+      end
+      object NaturezaOperao1: TMenuItem
+        Caption = 'Natureza Opera'#231#227'o'
+        OnClick = NaturezaOperao1Click
+      end
+      object MesasComandas1: TMenuItem
+        Caption = 'Mesas / Comandas'
+        OnClick = MesasComandas1Click
+      end
+      object ipoDocumentos1: TMenuItem
+        Caption = 'Tipo Documentos'
+        OnClick = ipoDocumentos1Click
+      end
+      object Departamentos1: TMenuItem
+        Caption = 'Departamentos'
+      end
+      object Setor1: TMenuItem
+        Caption = 'Setor'
+      end
+    end
     object Lanamentos1: TMenuItem
       Caption = '&Lan'#231'amentos     '
       object Agenda1: TMenuItem
