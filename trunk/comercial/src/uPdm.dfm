@@ -1,8 +1,8 @@
 object fPdm: TfPdm
   Left = 190
   Top = 107
-  Width = 703
-  Height = 496
+  Width = 711
+  Height = 504
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -78,7 +78,7 @@ object fPdm: TfPdm
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 688
+    Width = 695
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -127,7 +127,7 @@ object fPdm: TfPdm
     object JvLabel1: TJvLabel
       Left = 2
       Top = 2
-      Width = 684
+      Width = 691
       Height = 42
       Align = alClient
       Alignment = taCenter
@@ -144,8 +144,8 @@ object fPdm: TfPdm
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 401
-    Width = 688
+    Top = 420
+    Width = 695
     Height = 46
     Align = alBottom
     BevelInner = bvLowered
@@ -279,6 +279,7 @@ object fPdm: TfPdm
       Caption = 'F7-Excluir'
       PopupMenu = PopupMenu1
       TabOrder = 1
+      Visible = False
       OnClick = btnExcluirClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
