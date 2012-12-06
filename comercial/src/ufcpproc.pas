@@ -895,8 +895,11 @@ begin
             + ' rec.VIA, rec.N_DOCUMENTO, rec.VALOR_PRIM_VIA, rec.dp, rec.dup_rec_nf' +
              ' ,plano.NOME ,rec.CONTACREDITO,  rec.HISTORICO ';
   repContasReceber.FileName := str_relatorio + 'rel_cpFiltro.rep';
-  repContasReceber.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;  
-  repContasReceber.Report.DataInfo.Items[0].SQL:= sqlTexto1 + sqlTexto + sqlGrupo;
+  repContasReceber.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  If (scdsCr_proc.IndexFieldNames = '') then
+    repContasReceber.Report.DataInfo.Items[0].SQL:= sqlTexto1 + sqlTexto + sqlGrupo
+  else
+    repContasReceber.Report.DataInfo.Items[0].SQL:= sqlTexto1 + sqlTexto + sqlGrupo + ' order by ' + scdsCr_proc.IndexFieldNames;
   repContasReceber.Execute;
 end;
 
