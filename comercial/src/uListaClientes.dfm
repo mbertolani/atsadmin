@@ -21,7 +21,7 @@ object fListaClientes: TfListaClientes
   object Panel1: TPanel
     Left = 0
     Top = 60
-    Width = 791
+    Width = 783
     Height = 29
     Align = alTop
     BevelInner = bvLowered
@@ -57,7 +57,7 @@ object fListaClientes: TfListaClientes
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 791
+    Width = 783
     Height = 60
     Align = alTop
     BevelInner = bvRaised
@@ -674,8 +674,8 @@ object fListaClientes: TfListaClientes
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 89
-    Width = 791
-    Height = 457
+    Width = 783
+    Height = 446
     Align = alClient
     BorderStyle = bsNone
     Color = clWhite
@@ -798,6 +798,21 @@ object fListaClientes: TfListaClientes
         Expanded = False
         FieldName = 'INSCESTADUAL'
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CD_IBGE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODFISCAL'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CEP'
+        Visible = True
       end>
   end
   object PopupMenu1: TPopupMenu
@@ -913,11 +928,12 @@ object fListaClientes: TfListaClientes
       '        cli.OBS,  '#13#10'          rep.NOME_REPRCLI,'#13#10'          usu.N' +
       'OMEUSUARIO,'#13#10'          fun.NOME_FUNCIONARIO,   '#13#10'          fun.T' +
       'ELEFONE, '#13#10'          fun.CELULAR,'#13#10'          ende.TELEFONE as te' +
-      'l '#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ende '#13#10'o' +
-      'n ende.CODCLIENTE=cli.CODCLIENTE'#13#10'left outer join REPR_CLIENTE r' +
-      'ep '#13#10'on rep.COD_CLIENTE=cli.CODCLIENTE'#13#10'left outer join USUARIO ' +
-      'usu '#13#10'on usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left outer join FUNCION' +
-      'ARIO fun  '#13#10'on fun.CODUSUARIO = cli.CODUSUARIO '#13#10' '#13#10
+      'l,'#13#10'          cli.CODFISCAL,'#13#10'          ende.CD_IBGE,'#13#10'         ' +
+      ' ende.CEP '#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ' +
+      'ende '#13#10'on ende.CODCLIENTE=cli.CODCLIENTE'#13#10'left outer join REPR_C' +
+      'LIENTE rep '#13#10'on rep.COD_CLIENTE=cli.CODCLIENTE'#13#10'left outer join ' +
+      'USUARIO usu '#13#10'on usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left outer join' +
+      ' FUNCIONARIO fun  '#13#10'on fun.CODUSUARIO = cli.CODUSUARIO '#13#10' '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1042,6 +1058,22 @@ object fListaClientes: TfListaClientes
       FieldName = 'E_MAIL'
       ReadOnly = True
       Size = 100
+    end
+    object ListaClienteCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object ListaClienteCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      ReadOnly = True
+      Size = 10
+    end
+    object ListaClienteCEP: TStringField
+      FieldName = 'CEP'
+      ReadOnly = True
+      Size = 10
     end
   end
   object dsp: TDataSetProvider
@@ -1175,6 +1207,22 @@ object fListaClientes: TfListaClientes
       FieldName = 'E_MAIL'
       ReadOnly = True
       Size = 100
+    end
+    object cdsCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      ReadOnly = True
+      Size = 10
+    end
+    object cdsCEP: TStringField
+      FieldName = 'CEP'
+      ReadOnly = True
+      Size = 10
     end
   end
   object sds_parametro: TSQLDataSet
