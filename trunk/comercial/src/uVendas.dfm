@@ -3994,7 +3994,6 @@ inherited fVendas: TfVendas
     object sds_MovimentoTIPOTITULO: TSmallintField
       FieldName = 'TIPOTITULO'
       ProviderFlags = []
-      ReadOnly = True
     end
     object sds_MovimentoDATA_SISTEMA: TSQLTimeStampField
       FieldName = 'DATA_SISTEMA'
@@ -4045,12 +4044,15 @@ inherited fVendas: TfVendas
     end
     object sds_MovimentoPRAZO_ENT: TIntegerField
       FieldName = 'PRAZO_ENT'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoVAL_PROP: TDateField
       FieldName = 'VAL_PROP'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoFORMA_PAG: TStringField
       FieldName = 'FORMA_PAG'
+      ProviderFlags = [pfInUpdate]
       Size = 40
     end
     object sds_MovimentoVALOR_FRETE: TFloatField
@@ -4058,17 +4060,21 @@ inherited fVendas: TfVendas
     end
     object sds_MovimentoCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoTPFRETE: TStringField
       FieldName = 'TPFRETE'
+      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object sds_MovimentoCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+      ProviderFlags = [pfInUpdate]
     end
     object sds_MovimentoDESCONTO: TFloatField
       FieldName = 'DESCONTO'
+      ProviderFlags = [pfInUpdate]
     end
   end
   object dsp_Movimento: TDataSetProvider
@@ -4207,31 +4213,39 @@ inherited fVendas: TfVendas
     end
     object cds_MovimentoPRAZO_ENT: TIntegerField
       FieldName = 'PRAZO_ENT'
+      ProviderFlags = [pfInUpdate]
     end
     object cds_MovimentoVAL_PROP: TDateField
       FieldName = 'VAL_PROP'
+      ProviderFlags = [pfInUpdate]
     end
     object cds_MovimentoFORMA_PAG: TStringField
       FieldName = 'FORMA_PAG'
+      ProviderFlags = [pfInUpdate]
       Size = 40
     end
     object cds_MovimentoVALOR_FRETE: TFloatField
       FieldName = 'VALOR_FRETE'
+      ProviderFlags = [pfInUpdate]
       DisplayFormat = ',#0.00'
     end
     object cds_MovimentoCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
+      ProviderFlags = [pfInUpdate]
     end
     object cds_MovimentoTPFRETE: TStringField
       FieldName = 'TPFRETE'
+      ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
     end
     object cds_MovimentoCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+      ProviderFlags = [pfInUpdate]
     end
     object cds_MovimentoDESCONTO: TFloatField
       FieldName = 'DESCONTO'
+      ProviderFlags = [pfInUpdate]
     end
   end
   object sdslote: TSQLDataSet
