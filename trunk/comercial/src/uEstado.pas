@@ -179,6 +179,7 @@ begin
   cds_estado.Open;
   if (not cdsTFiscal.Active) then
       cdsTFiscal.Open;
+  DecimalSeparator := ',';
 end;
 
 procedure TfEstado.btnProcurarClick(Sender: TObject);
