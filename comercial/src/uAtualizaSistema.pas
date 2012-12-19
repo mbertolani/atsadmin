@@ -1746,6 +1746,7 @@ begin
       executaScript('view_estoque.sql');
       CriaGenerator('GEN_EMAIL');
       executaSql('SET GENERATOR GEN_EMAIL TO 1200');
+      executaSql('ALTER TABLE EMAIL_ENVIAR ALTER EMAIL TYPE Varchar(100)');
       mudaVersao('1.0.0.114');
     end;// Fim Atualizacao Versao 1.0.0.114
 
