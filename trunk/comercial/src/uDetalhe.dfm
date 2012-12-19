@@ -811,6 +811,18 @@ object fDetalhe: TfDetalhe
     DataSource = DMNF.DtSrc1
     TabOrder = 34
   end
+  object DBCheckBox1: TDBCheckBox
+    Left = 48
+    Top = 216
+    Width = 153
+    Height = 17
+    Caption = 'Usa Frete na B.C. do ICMS'
+    DataField = 'FRETE_BC'
+    DataSource = ds1
+    TabOrder = 35
+    ValueChecked = 'True'
+    ValueUnchecked = 'False'
+  end
   object ds1: TDataSource
     DataSet = fVendas.cds_Mov_det
     Left = 208
