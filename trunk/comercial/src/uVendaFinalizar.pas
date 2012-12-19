@@ -1246,7 +1246,10 @@ begin
    if (dmnf.baixouEstoque(cdsCODMOVIMENTO.AsInteger) = False) then
    begin
      Try
-       dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+       if (DM.tipoVenda <> 'DEVOLUCAO') then
+         dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA')
+       else
+         dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'DEV.VENDA');
      Except
        MessageDlg('Processo de Baixa no Estoque não realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
      end;
@@ -1324,8 +1327,7 @@ begin
                dm.sqlBusca.Open;
                if (not dm.sqlBusca.IsEmpty) then
                begin
-                 dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
-                 dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+                 dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger, dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
                  dm.sqlsisAdimin.ExecuteDirect('Delete From VENDA WHERE CODMOVIMENTO = ' +
                    IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
                  dm.sqlsisAdimin.ExecuteDirect('Delete From MOVIMENTO WHERE CODMOVIMENTO = ' +
@@ -2062,6 +2064,7 @@ begin
         end;
       except
       end;
+      cbPrazo.ItemIndex := 0;
     end;
   end;
   if (dm.moduloUsado = 'CITRUS') then

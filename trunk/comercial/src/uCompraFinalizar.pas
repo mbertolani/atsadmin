@@ -612,17 +612,20 @@ begin
        MessageDlg('Erro efetuando update na tabela PAGAMENTO.', mtError,
            [mbOk], 0);
     end;
+    //Grava Estoque Devolução Compra
   end;
 
+  //Grava Estoque
   try
     dm.sqlsisAdimin.StartTransaction(TD);
-
     inherited;
-
     // Gravando o Estoque
     Try
       FEstoque := TEstoque.Create;
-      FEstoque.baixaEstoque(cds_compraCODMOVIMENTO.AsInteger, cds_compraDATACOMPRA.AsDateTime, 'COMPRA');
+      if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then
+        FEstoque.baixaEstoque(cds_compraCODMOVIMENTO.AsInteger, cds_compraDATACOMPRA.AsDateTime, 'COMPRA')
+      else
+        FEstoque.baixaEstoque(cds_compraCODMOVIMENTO.AsInteger, cds_compraDATACOMPRA.AsDateTime, 'DEV.COMPRA');
     Finally
       FEstoque.Free;
     end;
@@ -1210,9 +1213,10 @@ begin
     fCompra.cds_Mov_det.First;
     while not fCompra.cds_Mov_det.Eof do
     begin
-      cds_compraVALOR_ICMS.AsFloat := cds_compraVALOR_ICMS.AsFloat + (fCompra.cds_Mov_detICMS.AsFloat * (fCompra.cds_Mov_detQUANTIDADE.AsFloat * fCompra.cds_Mov_detPRECO.AsFloat))/100;
+      cds_compraVALOR_ICMS.AsFloat := cds_compraVALOR_ICMS.AsFloat + (fCompra.cds_Mov_detVALOR_ICMS.AsFloat);
       cds_compraVALOR_IPI.AsFloat := cds_compraVALOR_IPI.AsFloat + (fCompra.cds_Mov_detPIPI.AsFloat * (fCompra.cds_Mov_detQUANTIDADE.AsFloat * fCompra.cds_Mov_detPRECO.AsFloat))/100;
       cds_compraICMS_ST.AsFloat := cds_compraICMS_ST.AsFloat + fCompra.cds_Mov_detICMS_SUBST.AsFloat;
+      cds_compraVALOR_FRETE.AsFloat := cds_compraVALOR_FRETE.AsFloat + fCompra.cds_Mov_detFRETE.AsFloat;
       fCompra.cds_Mov_det.Next;
     end;
     cds_compraCODCCUSTO.AsInteger := fCompra.cds_MovimentoCODALMOXARIFADO.AsInteger;
@@ -1746,7 +1750,10 @@ begin
           dm.sqlsisAdimin.Commit(TD);
           if (dmnf.cancelouEstoque(codmov) = False) then
           begin
-            dmnf.cancelaEstoque(codmov, dataCompra, 'COMPRA');
+            if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then
+              dmnf.cancelaEstoque(codmov, dataCompra, 'COMPRA')
+            else
+              dmnf.cancelaEstoque(codmov, dataCompra, 'DEV.COMPRA');
             if (dmnf.cancelouEstoque(codMov) = False) then
             begin
               MessageDlg('O Sistema não conseguiu cancelar a baixa no Estoque;', mtWarning, [mbOK], 0);
