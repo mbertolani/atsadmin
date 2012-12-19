@@ -830,8 +830,7 @@ begin
       end
       else begin
         insere := 'INSERT INTO EMAIL_ENVIAR (CODEMAIL, EMAIL, GRUPO, ENVIADO) ' +
-          ' VALUES (  ' +
-          IntToStr(cdsCODCLIENTE.AsInteger) + ', ' +
+          ' VALUES ( GEN_ID(GEN_EMAIL, 1) ' + ', ' +
           QuotedStr(cdsE_MAIL.AsString)     + ', ' +
           QuotedStr(FormatDateTime('mm/dd/yyyy',today)) + ', '+
           QuotedStr('N')     + ')';
