@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE  RELDRE( PDTA1                            DATE
                                  , PDTA2                            DATE, PCC INTEGER )
 RETURNS ( CONTA                            VARCHAR( 30 )
