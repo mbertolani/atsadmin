@@ -1483,7 +1483,7 @@ begin
         ' DESCRICAO_SERV varchar(500), ' +
         ' PRIMARY KEY (CODIGO))');
       end;
-      {executaSql('CREATE DOMAIN TEXTO500 AS VARCHAR(500)');}
+      executaSql('CREATE DOMAIN TEXTO500 AS VARCHAR(500)');
       executaSql('update RDB$RELATION_FIELDS set ' +
         ' RDB$FIELD_SOURCE = ' + QuotedStr('TEXTO500') +
         ' where (RDB$FIELD_NAME = ' + QuotedStr('OBS')  +
@@ -1721,6 +1721,11 @@ begin
 
     if (versaoSistema = '1.0.0.112') then
     begin
+      executaScript('rel_vendaCompra113.sql');
+      executaScript('inclui_pag113.sql');
+      executaScript('frete_nf113.sql');
+      EXECUTADDL('EMPRESA', 'CHAVELIC', 'VARCHAR(50)');
+      EXECUTADDL('EMPRESA', 'CHAVECONT', 'VARCHAR(50)');
       executaDDL('CLIENTES', 'SUFRAMA', 'varchar(9)');
       if (TamCampo('CLIENTES', 'NOMECLIENTE') < 60) then
         executaSql('ALTER TABLE CLIENTES ALTER NOMECLIENTE TYPE Varchar(60)');
@@ -1730,13 +1735,19 @@ begin
         executaSql('ALTER TABLE FORNECEDOR ALTER NOMEFORNECEDOR TYPE Varchar(60)');
       if (TamCampo('FORNECEDOR', 'RAZAOSOCIAL') < 60) then
         executaSql('ALTER TABLE FORNECEDOR ALTER RAZAOSOCIAL TYPE Varchar(60)');
-      executaScript('rel_vendaCompra113.sql');
-      executaScript('inclui_pag113.sql');
-      executaScript('frete_nf113.sql');
-      EXECUTADDL('EMPRESA', 'CHAVELIC', 'VARCHAR(50)');
-      EXECUTADDL('EMPRESA', 'CHAVECONT', 'VARCHAR(50)');
-      //mudaVersao('1.0.0.113');
+      mudaVersao('1.0.0.113');
     end;// Fim Atualizacao Versao 1.0.0.113
+
+    if (versaoSistema = '1.0.0.113') then
+    begin
+      EXECUTADDL('MOVIMENTODETALHE', 'FRETE_BC', 'VARCHAR(5)');
+      executaScript('rel_vendaCompra114.sql');
+      executaScript('relDre114.sql');
+      executaScript('view_estoque.sql');
+      CriaGenerator('GEN_EMAIL');
+      executaSql('SET GENERATOR GEN_EMAIL TO 1200');
+      mudaVersao('1.0.0.114');
+    end;// Fim Atualizacao Versao 1.0.0.114
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
