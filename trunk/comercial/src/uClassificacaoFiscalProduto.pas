@@ -126,6 +126,7 @@ begin
   cdsClassFisc.open;
   uf   := cdsClassFiscUF.AsString;
   cfop := cdsClassFiscCFOP.AsString;
+  DecimalSeparator := ',';
 end;
 
 procedure TfClassificacaoFIscalProduto.btnGravarClick(Sender: TObject);
