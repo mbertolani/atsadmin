@@ -431,7 +431,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
-  uCadSetor, uCadDoc;
+  uCadSetor, uCadDoc, uImport;
 
 {$R *.dfm}
 
@@ -1591,8 +1591,13 @@ begin
     fSincronizar.ShowModal;
   finally
     fSincronizar.Free;
+  end;}
+  fImport := TfImport.Create(Application);
+  try
+    fImport.ShowModal;
+  finally
+    fImport.Free;
   end;
-  }
 end;
 
 procedure TfAtsAdmin.RelatrioGuiaConehcimento1Click(Sender: TObject);
