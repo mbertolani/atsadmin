@@ -1,5 +1,3 @@
-SET TERM ^ ;
-
 CREATE OR ALTER PROCEDURE VIEW_ESTOQUE 
 RETURNS 
  ( CODPRODUTO   INTEGER, 
@@ -55,6 +53,4 @@ BEGIN
        pcompra = null;
        margem = null;
     end    
-END^
-
-SET TERM ; ^
+END
