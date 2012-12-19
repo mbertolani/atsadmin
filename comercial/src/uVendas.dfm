@@ -2624,12 +2624,12 @@ inherited fVendas: TfVendas
       'ITEMPED, movd.PEDIDO, movd.CST, movd.VLR_BASE, movd.VLR_BASEICMS' +
       ', movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.VALOR_SEGU' +
       'RO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, movd.CSTIPI' +
-      ', movd.CSTPIS, movd.CSTCOFINS '#13#10'from MOVIMENTODETALHE movd '#13#10'inn' +
-      'er join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left ' +
-      'outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODA' +
-      'LMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_COMISSAO = m' +
-      'ovd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.COD' +
-      'MOVIMENTO=:pCODMOV order by movd.coddetalhe'
+      ', movd.CSTPIS, movd.CSTCOFINS , movd.frete_bc'#13#10'from MOVIMENTODET' +
+      'ALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.COD' +
+      'PRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIF' +
+      'ADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.C' +
+      'OD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETA' +
+      'LHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -2871,6 +2871,12 @@ inherited fVendas: TfVendas
       FieldName = 'CSTCOFINS'
       ProviderFlags = [pfInUpdate]
       Size = 2
+    end
+    object sds_Mov_DetFRETE_BC: TStringField
+      FieldName = 'FRETE_BC'
+      ReadOnly = True
+      FixedChar = True
+      Size = 5
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -3158,6 +3164,12 @@ inherited fVendas: TfVendas
       FieldName = 'CSTCOFINS'
       ProviderFlags = [pfInUpdate]
       Size = 2
+    end
+    object cds_Mov_detFRETE_BC: TStringField
+      FieldName = 'FRETE_BC'
+      ReadOnly = True
+      FixedChar = True
+      Size = 5
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify

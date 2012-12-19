@@ -3,6 +3,7 @@ inherited fCompra: TfCompra
   Top = 100
   Width = 820
   Height = 615
+  VertScrollBar.Position = 6
   Caption = 'Compra'
   Font.Height = -13
   OldCreateOrder = True
@@ -11,7 +12,7 @@ inherited fCompra: TfCompra
   TextHeight = 16
   object Label14: TLabel [0]
     Left = 636
-    Top = 354
+    Top = 348
     Width = 34
     Height = 16
     Caption = 'Obs..:'
@@ -24,55 +25,55 @@ inherited fCompra: TfCompra
   end
   object Label18: TLabel [1]
     Left = 4
-    Top = 470
+    Top = 464
     Width = 44
     Height = 16
     Caption = 'C'#243'digo'
   end
   object Label12: TLabel [2]
     Left = 7
-    Top = 501
+    Top = 495
     Width = 31
     Height = 16
     Caption = 'Obs.:'
   end
   object Label11: TLabel [3]
     Left = 108
-    Top = 470
+    Top = 464
     Width = 74
     Height = 16
     Caption = 'Comprador: '
   end
   object Label16: TLabel [4]
     Left = 400
-    Top = 470
+    Top = 464
     Width = 86
     Height = 16
     Caption = 'Resp. Aprova.'
   end
   object Label17: TLabel [5]
     Left = 0
-    Top = 524
+    Top = 518
     Width = 49
     Height = 32
     Caption = 'Tipo '#13#10'Transp.:'
   end
   object Label19: TLabel [6]
     Left = 139
-    Top = 532
+    Top = 526
     Width = 49
     Height = 16
     Caption = 'Transp.:'
   end
   object Label20: TLabel [7]
     Left = 451
-    Top = 524
+    Top = 518
     Width = 54
     Height = 32
     Caption = 'Telefone'#13#10'Transp.:'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 0
+    Top = -6
     Width = 787
     Height = 60
     Align = alTop
@@ -1015,7 +1016,7 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 556
+    Top = 550
     Width = 787
     Height = 27
     Align = alBottom
@@ -1044,7 +1045,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox1: TGroupBox [10]
     Left = 0
-    Top = 63
+    Top = 57
     Width = 425
     Height = 50
     Cursor = crHandPoint
@@ -1176,7 +1177,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox2: TGroupBox [11]
     Left = 489
-    Top = 63
+    Top = 57
     Width = 184
     Height = 48
     Caption = 'CENTRO RESULTADO'
@@ -1202,7 +1203,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox3: TGroupBox [12]
     Left = 674
-    Top = 63
+    Top = 57
     Width = 109
     Height = 48
     Caption = 'DATA COMPRA'
@@ -1228,7 +1229,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox4: TGroupBox [13]
     Left = 634
-    Top = 249
+    Top = 243
     Width = 149
     Height = 48
     Caption = 'CONTROLE'
@@ -1267,7 +1268,7 @@ inherited fCompra: TfCompra
   end
   object DBMemo1: TDBMemo [14]
     Left = 636
-    Top = 369
+    Top = 363
     Width = 148
     Height = 81
     TabStop = False
@@ -1280,7 +1281,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox5: TGroupBox [15]
     Left = 635
-    Top = 302
+    Top = 296
     Width = 150
     Height = 55
     Caption = 'TOTAL R$.'
@@ -1310,7 +1311,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox6: TGroupBox [16]
     Left = 0
-    Top = 111
+    Top = 105
     Width = 633
     Height = 350
     Caption = 'MERCADORIAS'
@@ -1775,7 +1776,7 @@ inherited fCompra: TfCompra
   end
   object CheckBox1: TCheckBox [17]
     Left = 640
-    Top = 448
+    Top = 442
     Width = 97
     Height = 17
     Caption = '1 % Desconto'
@@ -1784,7 +1785,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox7: TGroupBox [18]
     Left = 635
-    Top = 461
+    Top = 455
     Width = 150
     Height = 89
     Caption = 'PLACA DO VE'#205'CULO'
@@ -1828,7 +1829,7 @@ inherited fCompra: TfCompra
   end
   object DBEdit13: TDBEdit [19]
     Left = 54
-    Top = 497
+    Top = 491
     Width = 574
     Height = 25
     TabStop = False
@@ -1848,7 +1849,7 @@ inherited fCompra: TfCompra
   end
   object DBEdit15: TDBEdit [20]
     Left = 53
-    Top = 468
+    Top = 462
     Width = 52
     Height = 24
     BevelKind = bkFlat
@@ -1867,7 +1868,7 @@ inherited fCompra: TfCompra
   end
   object DBEdit16: TDBEdit [21]
     Left = 182
-    Top = 468
+    Top = 462
     Width = 178
     Height = 24
     TabStop = False
@@ -1887,7 +1888,7 @@ inherited fCompra: TfCompra
   end
   object SpeedButton1: TBitBtn [22]
     Left = 367
-    Top = 464
+    Top = 458
     Width = 27
     Height = 27
     PopupMenu = PopupMenu1
@@ -1964,7 +1965,7 @@ inherited fCompra: TfCompra
   end
   object CheckBox2: TCheckBox [23]
     Left = 88
-    Top = 272
+    Top = 266
     Width = 97
     Height = 9
     Caption = 'CheckBox2'
@@ -1973,7 +1974,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox8: TGroupBox [24]
     Left = 634
-    Top = 157
+    Top = 151
     Width = 149
     Height = 45
     Caption = 'Data Entrega'
@@ -1999,7 +2000,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox9: TGroupBox [25]
     Left = 634
-    Top = 203
+    Top = 197
     Width = 149
     Height = 46
     Caption = 'Prazo Pagamento'
@@ -2018,7 +2019,7 @@ inherited fCompra: TfCompra
   end
   object edRespAprovacao: TDBEdit [26]
     Left = 489
-    Top = 468
+    Top = 462
     Width = 139
     Height = 24
     Hint = 'Usu'#225'rio Respons'#225'vel pela aprova'#231#227'o do pedido de compras'
@@ -2041,7 +2042,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox10: TGroupBox [27]
     Left = 634
-    Top = 110
+    Top = 104
     Width = 149
     Height = 45
     Caption = 'Codigo Pedido :'
@@ -2068,7 +2069,7 @@ inherited fCompra: TfCompra
   end
   object btnTransp: TBitBtn [28]
     Left = 416
-    Top = 526
+    Top = 520
     Width = 32
     Height = 25
     Caption = '...'
@@ -2077,7 +2078,7 @@ inherited fCompra: TfCompra
   end
   object cbTransportadora: TComboBox [29]
     Left = 189
-    Top = 528
+    Top = 522
     Width = 221
     Height = 24
     Color = clInfoBk
@@ -2087,7 +2088,7 @@ inherited fCompra: TfCompra
   end
   object cbTpTransp: TComboBox [30]
     Left = 56
-    Top = 528
+    Top = 522
     Width = 80
     Height = 24
     Color = clInfoBk
@@ -2102,7 +2103,7 @@ inherited fCompra: TfCompra
   end
   object Edit1: TEdit [31]
     Left = 511
-    Top = 528
+    Top = 522
     Width = 113
     Height = 24
     Color = clInfoBk
@@ -2111,7 +2112,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox11: TGroupBox [32]
     Left = 424
-    Top = 64
+    Top = 58
     Width = 65
     Height = 49
     Cursor = crHandPoint
@@ -2719,6 +2720,11 @@ inherited fCompra: TfCompra
       FieldName = 'CSTCOFINS'
       Size = 2
     end
+    object cds_Mov_detFRETE_BC: TStringField
+      FieldName = 'FRETE_BC'
+      FixedChar = True
+      Size = 5
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2749,11 +2755,12 @@ inherited fCompra: TfCompra
       'vd.PEDIDO, movd.CST, movd.VLR_BASE, movd.VLR_BASEICMS, movd.VALO' +
       'R_DESCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.' +
       'VALOR_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, m' +
-      'ovd.OBS, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS '#13#10'from MOVIMEN' +
-      'TODETALHE movd'#13#10'inner join PRODUTOS prod on prod.CODPRODUTO = mo' +
-      'vd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALM' +
-      'OXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDETALHE = :CODDE' +
-      'TALHE or movd.CODMOVIMENTO = :pCODMOV order by movd.CODDETALHE'
+      'ovd.OBS, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS, frete_bc'#13#10'fro' +
+      'm MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on prod.CODPRO' +
+      'DUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on cc' +
+      'us.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDETALHE' +
+      ' = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order by movd.COD' +
+      'DETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -2965,6 +2972,11 @@ inherited fCompra: TfCompra
     object sds_Mov_DetCSTCOFINS: TStringField
       FieldName = 'CSTCOFINS'
       Size = 2
+    end
+    object sds_Mov_DetFRETE_BC: TStringField
+      FieldName = 'FRETE_BC'
+      FixedChar = True
+      Size = 5
     end
   end
   object s_8: TSQLDataSet

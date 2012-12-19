@@ -453,6 +453,8 @@ type
     cds_Mov_detCSTCOFINS: TStringField;
     GroupBox11: TGroupBox;
     edCFOP: TEdit;
+    sds_Mov_DetFRETE_BC: TStringField;
+    cds_Mov_detFRETE_BC: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -1073,6 +1075,10 @@ begin
   cds_mov_detCODDETALHE.AsInteger := codmovdet;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
   cds_Mov_detCFOP.AsString := edCFOP.Text;
+  if (not (cds_Mov_detFRETE.AsFloat > 0)) then
+    cds_Mov_detFRETE.AsFloat := 0;
+  if (not (cds_Mov_detCFOP.AsString = '')) then
+    cds_Mov_detCFOP.AsString := '1102';
 end;
 
 procedure TfCompra.btnExcluirClick(Sender: TObject);
@@ -1821,8 +1827,8 @@ end;
 
 procedure TfCompra.cds_Mov_detBeforePost(DataSet: TDataSet);
 begin
-  if (cds_Mov_detCFOP.AsString <> edCFOP.Text) then
-    cds_Mov_detCFOP.AsString := edCFOP.Text;
+//  if (cds_Mov_detCFOP.AsString <> edCFOP.Text) then
+  //  cds_Mov_detCFOP.AsString := edCFOP.Text;
   inherited;
   if (dm.moduloUsado = 'CITRUS') then
   begin

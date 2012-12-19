@@ -75,6 +75,7 @@ type
     Label30: TLabel;
     DBEdit30: TDBEdit;
     Label31: TLabel;
+    DBCheckBox1: TDBCheckBox;
     procedure btnGravarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);

@@ -585,6 +585,8 @@ type
     DBEdit20: TDBEdit;
     sds_MovimentoDESCONTO: TFloatField;
     cds_MovimentoDESCONTO: TFloatField;
+    sds_Mov_DetFRETE_BC: TStringField;
+    cds_Mov_detFRETE_BC: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
