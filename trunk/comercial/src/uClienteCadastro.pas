@@ -1380,11 +1380,13 @@ begin
     begin
       cds_cliCNPJ.EditMask := '000.000.000-00';
       cds_cliTIPOFIRMA.AsInteger := 0;
+      cds_cliCODFISCAL.AsString := 'F';
     end
     else
     begin
       cds_cliCNPJ.EditMask := '00.000.000/0000-00';
       cds_cliTIPOFIRMA.AsInteger := 1;
+      cds_cliCODFISCAL.AsString := 'J';
     end;
     cds_cliSEGMENTO.Value:=1;
     cds_cliREGIAO.Value:=1;
