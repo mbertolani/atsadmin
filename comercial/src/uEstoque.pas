@@ -204,6 +204,16 @@ begin
           Self.QtdeSaida   := cdseb.FieldByName('QUANTIDADE').AsFloat;
           Self.PrecoVenda  := cdseb.FieldByName('PRECO').AsFloat;
         end;
+        if (tipo = 'DEV.COMPRA') then
+        begin
+          Self.QtdeDevCompra := cdseb.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoVenda    := cdseb.FieldByName('PRECO').AsFloat;
+        end;
+        if (tipo = 'DEV.VENDA') then
+        begin
+          Self.QtdeDevVenda  := cdseb.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoCompra   := cdseb.FieldByName('PRECO').AsFloat;
+        end;
 
         Self.CodProduto  := cdseb.FieldByName('CODPRODUTO').AsInteger;
         Self.Lote        := cdseb.FieldByName('LOTE').AsString;
@@ -371,6 +381,16 @@ begin
         if (tipo = 'SAIDA') then
         begin
           Self.QtdeSaida   := (-1) * cdse.FieldByName('QUANTIDADE').AsFloat;
+        end;
+        if (tipo = 'DEV.VENDA') then
+        begin
+          Self.QtdeDevVenda  := (-1) * cdse.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoCompra   := cdse.FieldByName('PRECO').AsFloat;
+        end;
+        if (tipo = 'DEV.COMPRA') then
+        begin
+          Self.QtdeDevCompra := (-1) * cdse.FieldByName('QUANTIDADE').AsFloat;
+          Self.PrecoVenda    := cdse.FieldByName('PRECO').AsFloat;
         end;
 
         Self.CodProduto  := cdse.FieldByName('CODPRODUTO').AsInteger;
