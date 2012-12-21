@@ -3970,9 +3970,9 @@ object fNFeletronica: TfNFeletronica
     Configuracoes.Geral.PathSalvar = 'C:\nfe\'
     Configuracoes.Geral.PathSchemas = 'c:\home\sisadmin\schemas'
     Configuracoes.WebServices.UF = 'SP'
-    Configuracoes.WebServices.AguardarConsultaRet = 0
-    Configuracoes.WebServices.IntervaloTentativas = 0
-    Configuracoes.WebServices.AjustaAguardaConsultaRet = False
+    Configuracoes.WebServices.AguardarConsultaRet = 10000
+    Configuracoes.WebServices.IntervaloTentativas = 10000
+    Configuracoes.WebServices.AjustaAguardaConsultaRet = True
     Configuracoes.Arquivos.Salvar = True
     Configuracoes.Arquivos.PastaMensal = True
     Configuracoes.Arquivos.PathNFe = 'C:\Home\NFe\Notas Enviadas\'
