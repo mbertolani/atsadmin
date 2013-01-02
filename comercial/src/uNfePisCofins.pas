@@ -1051,7 +1051,7 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao101;
+      COD_VER          := vlVersao103;
       TIPO_ESCRIT      := tpEscrOriginal;
       IND_SIT_ESP      := indSitAbertura;
       NUM_REC_ANTERIOR := '';
@@ -1103,8 +1103,7 @@ begin
            COD_INC_TRIB  := TACBrCodIndIncTributaria(cdsEmpresaCODINDINCTRIBUTARIA.AsInteger);
            IND_APRO_CRED := TACBrIndAproCred(cdsEmpresaINDAPROCRED.AsInteger);
            COD_TIPO_CONT := TACBrCodIndTipoCon(cdsEmpresaCODINDTIPOCON.AsInteger);
-           //Campo IND_REG_CUM apenas para Lucro Presumido e (COD_INC_TRIB = 2)
-           //IND_REG_CUM := 1;
+           IND_REG_CUM   := TACBrCodIndCritEscrit(cdsEmpresaCODINDCRITESCRIT.AsInteger); // //IND_REG_CUM := 1;apenas para Lucro Presumido e (COD_INC_TRIB = 2)
          end;
 
          //0140 - Tabela de Cadastro de Estabelecimento
@@ -1214,7 +1213,8 @@ begin
 
            if (sdsUnimed.Active) then
              sdsUnimed.Close;
-           sdsUnimed.Params[0].AsInteger := cdsNFVendaCODVENDA.AsInteger;
+           sdsUnimed.Params[0].AsDate := data_ini.Date;
+           sdsUnimed.Params[1].AsDate := data_fim.Date;
            sdsUnimed.Open;
 
            while (not sdsUnimed.Eof) do
@@ -1222,8 +1222,8 @@ begin
              // 0190 - Identificação das Unidades de Medida
              with Registro0190New do
              begin
-               UNID  := sdsUnimed.Fields[0].AsString[int0190];
-               DESCR := sdsUnimed.Fields[0].AsString + sdsUnimed.Fields[0].AsString[int0190];
+               UNID  := sdsUnimed.Fields[0].AsString;
+               DESCR := sdsUnimed.Fields[1].AsString;
              end;
              sdsUnimed.Next;
            end;
@@ -1239,7 +1239,7 @@ begin
            While (not cdsProduto.Eof) do
            begin
              //10 produtos/serviços
-             int0200 := 1;
+             int0200 := 0;
              // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
              with Registro0200New do
              begin
@@ -1255,7 +1255,6 @@ begin
                COD_LST      := '';
                ALIQ_ICMS    := 0;
              end;
-             int0200 := int0200 + 1;
              cdsProduto.Next;
            end; 
          end;

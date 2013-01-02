@@ -1,6 +1,6 @@
 object fNfePisCofins: TfNfePisCofins
   Left = 237
-  Top = 69
+  Top = 79
   Width = 719
   Height = 614
   Caption = 'Sped Pis Cofins'
@@ -2383,15 +2383,21 @@ object fNfePisCofins: TfNfePisCofins
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
-        Name = 'PMOV'
+        DataType = ftDate
+        Name = 'pdata1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'pdata2'
         ParamType = ptUnknown
       end>
     SQL.Strings = (
-      'SELECT DISTINCT DET.UN'
-      '   FROM VENDA, MOVIMENTODETALHE DET '
-      'WHERE VENDA.CODMOVIMENTO = DET.CODMOVIMENTO '
-      '      AND VENDA.CODMOVIMENTO = :PMOV')
+      'SELECT DISTINCT UN.CODUN, UN.DESCRICAO '
+      '   FROM UNIDADEMEDIDA UN, MOVIMENTO mov, MOVIMENTODETALHE DET '
+      'WHERE UN.CODUN = DET.UN'
+      '       AND mov.codmovimento = det.codmovimento'
+      '       AND mov.datamovimento between :pdata1 and :pdata2')
     SQLConnection = DM.sqlsisAdimin
     Left = 328
     Top = 208
