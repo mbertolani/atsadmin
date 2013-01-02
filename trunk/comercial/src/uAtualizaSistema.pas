@@ -1750,6 +1750,24 @@ begin
       mudaVersao('1.0.0.114');
     end;// Fim Atualizacao Versao 1.0.0.114
 
+
+    if (versaoSistema = '1.0.0.114') then
+    begin
+      if (NaoExisteTabela('UNIDADEMEDIDA')) then
+      begin
+        executaSql('CREATE TABLE UNIDADEMEDIDA( ' +
+          'CODUN CHAR(3) NOT NULL, ' +
+          'DESCRICAO varchar(50), PRIMARY KEY (CODUN))');
+
+        executaSql('INSERT INTO UNIDADEMEDIDA (CODUN, DESCRICAO) '  +
+          ' select distinct TRIM(UDF_LOWER(md.UN)), TRIM(UDF_LOWER(md.UN))' +
+          '   from MOVIMENTODETALHE md ' +
+          '  where trim(md.un) is not null and md.un <> ' + QuotedStr(''));
+      end;
+      mudaVersao('1.0.0.115');
+    end;// Fim Atualizacao Versao 1.0.0.115
+
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
