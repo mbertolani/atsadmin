@@ -799,7 +799,7 @@ object fDetalhe: TfDetalhe
     Width = 73
     Height = 21
     DataField = 'VALOR_PIS'
-    DataSource = DMNF.DtSrc1
+    DataSource = ds1
     TabOrder = 33
   end
   object DBEdit30: TDBEdit
@@ -808,12 +808,12 @@ object fDetalhe: TfDetalhe
     Width = 73
     Height = 21
     DataField = 'VALOR_COFINS'
-    DataSource = DMNF.DtSrc1
+    DataSource = ds1
     TabOrder = 34
   end
   object DBCheckBox1: TDBCheckBox
-    Left = 48
-    Top = 216
+    Left = 16
+    Top = 208
     Width = 153
     Height = 17
     Caption = 'Usa Frete na B.C. do ICMS'
