@@ -399,7 +399,7 @@ implementation
 
 uses uComercial, UDm, uProcurar, uCheques_bol, uCompra, ufCpAltera,
   uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize, uNotafc, UDMNF,
-  uAtsAdmin, uEstoque, uNFeletronica;
+  uAtsAdmin, uEstoque, uNFeletronica, pcnProcNFe;
 
 {$R *.dfm}
 
@@ -1870,15 +1870,25 @@ begin
     if( fNFeletronica.ACBrNFe1.Configuracoes.Certificados.NumeroSerie = '') then
     fNFeletronica.ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
   {$ENDIF}
-  fNFeletronica.btnConsulta.Click;
-  if(cds_compra.State in [dsEdit, dsInsert]) then
-    cds_compraDIGITOVALIDACAO.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.digVal
-  else if(not cds_compraCODCOMPRA.IsNull) then
-  begin
-    cds_compra.Edit;
-    cds_compraDIGITOVALIDACAO.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.digVal;
-    cds_compra.ApplyUpdates(0);
-  end;
+  try
+    try
+      fNFeletronica.btnConsulta.Click;
+    except
+    end;
+  finally
+    if(cds_compra.State in [dsEdit, dsInsert]) then
+    begin
+      cds_compraDIGITOVALIDACAO.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.digVal;
+      cds_compraCHAVENF.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.chNFe;
+    end
+    else if(not cds_compraCODCOMPRA.IsNull) then
+    begin
+      cds_compra.Edit;
+      cds_compraDIGITOVALIDACAO.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.digVal;
+      cds_compraCHAVENF.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.chNFe;
+      cds_compra.ApplyUpdates(0);
+    end;
+  end
 end;
 
 end.
