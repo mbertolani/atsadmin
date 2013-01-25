@@ -587,6 +587,10 @@ type
     cds_MovimentoDESCONTO: TFloatField;
     sds_Mov_DetFRETE_BC: TStringField;
     cds_Mov_detFRETE_BC: TStringField;
+    sds_Mov_DetVALOR_PIS: TFloatField;
+    sds_Mov_DetVALOR_COFINS: TFloatField;
+    cds_Mov_detVALOR_PIS: TFloatField;
+    cds_Mov_detVALOR_COFINS: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);

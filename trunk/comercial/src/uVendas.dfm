@@ -2611,25 +2611,25 @@ inherited fVendas: TfVendas
   end
   object sds_Mov_Det: TSQLDataSet
     CommandText = 
-      'select movd.CODDETALHE'#13#10', movd.CODMOVIMENTO'#13#10', movd.CODPRODUTO'#13#10 +
-      ', movd.ICMS'#13#10', movd.PRECO'#13#10', movd.QUANTIDADE'#13#10', movd.QTDE_ALT'#13#10',' +
-      ' movd.UN'#13#10', movd.BAIXA'#13#10', movd.CONTROLE'#13#10', movd.COD_COMISSAO'#13#10', ' +
-      'movd.LOTE'#13#10', movd.DTAFAB'#13#10', movd.DTAVCTO, movd.PRECOCUSTO'#13#10', cas' +
-      't(movd.DESCPRODUTO as varchar(300)) as DESCPRODUTO'#13#10', prod.CODPR' +
-      'O'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', prod.QTD' +
-      'E_PCT'#13#10', prod.PESO_QTDE'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPE' +
-      'SA  '#13#10', prod.LOCALIZACAO  '#13#10', cm.CODIGO'#13#10', prod.LOTES'#13#10', movd.ST' +
-      'ATUS'#13#10',movd.VALOR_DESCONTO  '#13#10',movd.OBS'#13#10',movd.CFOP '#13#10',movd.VALO' +
-      'R_ICMS,'#13#10'movd.PIPI, movd.VIPI, movd.VALTOTAL, movd.CSOSN, movd.N' +
-      'ITEMPED, movd.PEDIDO, movd.CST, movd.VLR_BASE, movd.VLR_BASEICMS' +
-      ', movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.VALOR_SEGU' +
-      'RO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, movd.CSTIPI' +
-      ', movd.CSTPIS, movd.CSTCOFINS , movd.frete_bc'#13#10'from MOVIMENTODET' +
-      'ALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.COD' +
-      'PRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIF' +
-      'ADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm.C' +
-      'OD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETA' +
-      'LHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
+      'select movd.CODDETALHE, movd.CODMOVIMENTO'#13#10', movd.CODPRODUTO, mo' +
+      'vd.ICMS'#13#10', movd.PRECO, movd.QUANTIDADE'#13#10', movd.QTDE_ALT, movd.UN' +
+      #13#10', movd.BAIXA, movd.CONTROLE'#13#10', movd.COD_COMISSAO, movd.LOTE'#13#10',' +
+      ' movd.DTAFAB, movd.DTAVCTO, movd.PRECOCUSTO'#13#10', cast(movd.DESCPRO' +
+      'DUTO as varchar(300)) as DESCPRODUTO'#13#10', prod.CODPRO, prod.CODALM' +
+      'OXARIFADO'#13#10', prod.VALORUNITARIOATUAL, prod.QTDE_PCT'#13#10', prod.PESO' +
+      '_QTDE, ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPESA  , prod.LOCALIZAC' +
+      'AO  '#13#10', cm.CODIGO, prod.LOTES'#13#10', movd.STATUS,movd.VALOR_DESCONTO' +
+      '  '#13#10',movd.OBS,movd.CFOP ,movd.VALOR_ICMS,'#13#10'movd.PIPI, movd.VIPI,' +
+      ' movd.VALTOTAL, movd.CSOSN, movd.NITEMPED, movd.PEDIDO, movd.CST' +
+      ', movd.VLR_BASE, movd.VLR_BASEICMS, movd.FRETE, movd.ICMS_SUBST,' +
+      ' movd.ICMS_SUBSTD, movd.VALOR_SEGURO, movd.VALOR_OUTROS, prod.NC' +
+      'M, movd.II, movd.BCII, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS ' +
+      ', movd.frete_bc'#13#10'movd.VALOR_PIS, movd.VALOR_COFINS'#13#10'from MOVIMEN' +
+      'TODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=mov' +
+      'd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMO' +
+      'XARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on' +
+      ' cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CO' +
+      'DDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -2877,6 +2877,14 @@ inherited fVendas: TfVendas
       ReadOnly = True
       FixedChar = True
       Size = 5
+    end
+    object sds_Mov_DetVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+      ReadOnly = True
+    end
+    object sds_Mov_DetVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -3170,6 +3178,14 @@ inherited fVendas: TfVendas
       ReadOnly = True
       FixedChar = True
       Size = 5
+    end
+    object cds_Mov_detVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+      ReadOnly = True
+    end
+    object cds_Mov_detVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+      ReadOnly = True
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
