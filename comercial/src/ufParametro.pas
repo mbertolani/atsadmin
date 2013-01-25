@@ -287,6 +287,8 @@ type
     MaskEdit3: TMaskEdit;
     Label51: TLabel;
     BitBtn31: TBitBtn;
+    RadioGroup3: TRadioGroup;
+    BitBtn32: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -361,6 +363,7 @@ type
     procedure rg1Click(Sender: TObject);
     procedure edtCaixinhaChange(Sender: TObject);
     procedure BitBtn31Click(Sender: TObject);
+    procedure BitBtn32Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -837,6 +840,17 @@ begin
     end
     else
       ComboBox1.ItemIndex := 1;
+  end;
+
+  // Venda Usuario Logado
+  if (dm.cds_param.Locate('PARAMETRO','USUARIOVENDA', [loCaseInsensitive])) then
+  begin
+    if (dm.cds_paramCONFIGURADO.AsString = 'S') then
+    begin
+      RadioGroup3.ItemIndex := 0;
+    end
+    else
+      RadioGroup3.ItemIndex := 1;
   end;
 
   if (dm.cds_parametro.Active) then
@@ -4272,6 +4286,42 @@ begin
      dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
      MessageDlg('Erro no sistema, Desconto SUFRAMA não incluído/alterado!', mtError,
          [mbOk], 0);
+  end;
+end;
+
+procedure TfParametro.BitBtn32Click(Sender: TObject);
+begin
+  // ----------------------------------------------------
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'USUARIOVENDA';
+  dm.cds_parametro.Open;
+  try
+    // Insere ou Altera a tabela PARAMETROS
+    if (dm.cds_parametro.IsEmpty) then
+    begin
+      dm.cds_parametro.Append;
+      dm.cds_parametroDESCRICAO.AsString := 'Campo usado na Venda para usar mesmo Usuário Logado';
+      dm.cds_parametroPARAMETRO.AsString := 'USUARIOVENDA';
+      if (RadioGroup3.ItemIndex = 0) then
+        dm.cds_parametroCONFIGURADO.AsString := 'S'
+       else
+        dm.cds_parametroCONFIGURADO.AsString := 'N';
+    end
+    else
+    begin
+      dm.cds_parametro.Edit;
+      if (RadioGroup3.ItemIndex = 0) then
+        dm.cds_parametroCONFIGURADO.AsString := 'S'
+       else
+        dm.cds_parametroCONFIGURADO.AsString := 'N';
+    end;
+    dm.cds_parametro.ApplyUpdates(0);
+    MessageDlg('Registro gravado com sucesso.', mtInformation,
+    [mbOk], 0);
+  except
+    MessageDlg('Erro para gravar, feche o sistema e tente novamente !', mtError,
+    [mbOk], 0);
   end;
 end;
 

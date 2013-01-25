@@ -2283,7 +2283,7 @@ inherited fParametro: TfParametro
       object GroupBox7: TGroupBox
         Left = 2
         Top = 278
-        Width = 769
+        Width = 496
         Height = 48
         Caption = 'Margem de Lucro Permitido no Pedido de Venda'
         TabOrder = 4
@@ -2295,14 +2295,14 @@ inherited fParametro: TfParametro
           Caption = 'Utiliza limite Margem Venda'
         end
         object Label47: TLabel
-          Left = 256
+          Left = 200
           Top = 20
           Width = 122
           Height = 13
           Caption = 'Margem M'#237'nima Permitida'
         end
         object ComboBox1: TComboBox
-          Left = 173
+          Left = 142
           Top = 20
           Width = 55
           Height = 21
@@ -2313,14 +2313,14 @@ inherited fParametro: TfParametro
             'N'#227'o')
         end
         object MaskEdit4: TMaskEdit
-          Left = 391
+          Left = 335
           Top = 20
           Width = 66
           Height = 21
           TabOrder = 1
         end
         object BitBtn29: TBitBtn
-          Left = 677
+          Left = 413
           Top = 19
           Width = 75
           Height = 25
@@ -2378,6 +2378,27 @@ inherited fParametro: TfParametro
           TabOrder = 1
           OnClick = BitBtn31Click
         end
+      end
+      object RadioGroup3: TRadioGroup
+        Left = 502
+        Top = 281
+        Width = 269
+        Height = 45
+        Caption = 'Vendedor Igual Usu'#225'rio Logado'
+        Columns = 3
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+        TabOrder = 7
+      end
+      object BitBtn32: TBitBtn
+        Left = 681
+        Top = 296
+        Width = 75
+        Height = 25
+        Caption = 'Gravar'
+        TabOrder = 8
+        OnClick = BitBtn32Click
       end
     end
     object TabSheet8: TTabSheet
