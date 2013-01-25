@@ -71,6 +71,7 @@ object fClienteFiltro: TfClienteFiltro
       Height = 25
       Caption = '...'
       TabOrder = 2
+      OnClick = BitBtn5Click
     end
   end
   object Panel1: TPanel
