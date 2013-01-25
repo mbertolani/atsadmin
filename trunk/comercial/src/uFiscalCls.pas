@@ -68,7 +68,7 @@ Type
     c17cpi = #15;
     cIExpandido = #14;
     cFExpandido = #20;
-    { FormataÃ§Ã£o da fonte }
+    { Formatação da fonte }
     cINegrito = #27#71;
     cFNegrito = #27#72;
     cIItalico = #27#52;
@@ -78,7 +78,7 @@ implementation
 
 uses UDm;
 
-    // FunÃ§Ãµes para uso da DLL Bematech Impressoras nÃ£o Fiscal...
+    // Funções para uso da DLL Bematech Impressoras não Fiscal...
     function ConfiguraModeloImpressora(ModeloImpressora:integer):integer; stdcall; far; external 'Mp2032.dll';
     function IniciaPorta(Porta:string):integer; stdcall; far; external 'Mp2032.dll';
     function FechaPorta: integer	;  stdcall; far; external 'Mp2032.dll';
@@ -120,7 +120,7 @@ begin
   finally
     sqlConsulta.Free;
   end;
-  // Agora pego a descriÃ§Ã£o do perfil do usuario
+  // Agora pego a descrição do perfil do usuario
   try
     sqlConsulta :=  TSqlQuery.Create(nil);
     sqlConsulta.SQLConnection := dm.sqlsisAdimin;
@@ -143,7 +143,7 @@ function TFiscalCls.DebitarCaixa(codcaixa, codusuario, codcustoCD,
   codcustoCC: Integer; cdebito, ccredito: string; valorSangria: Double;
   historico: string): Double;
 begin
-    //Abre a c_genid para pegar o nÃºmero do CODCONTAB
+    //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -151,7 +151,7 @@ begin
     cod_id := dm.c_6_genidCODIGO.AsInteger;
     // primeiro_lanc := dm.c_6_genidCODIGO.AsInteger;
     dm.c_6_genid.Close;
-    //  Inserindo Conta DÃ©bito
+    //  Inserindo Conta Débito
     var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
            ', DATA, CODUSUARIO, CODCCUSTO, CONTA ' +
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
@@ -173,7 +173,7 @@ begin
     var_sqla := var_sqla + ',' + '0'; //QTDEORCADO
     var_sqla := var_sqla + ')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
-    { *** Inserindo o HistÃ³rico *** }
+    { *** Inserindo o Histórico *** }
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
     var_sqla := var_sqla + intToStr(cod_id);
@@ -264,7 +264,7 @@ begin
       v_SqlTexto := v_SqlTexto + ' and DATAMOVIMENTO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DataCaixa));
       sqlConsulta.SQL.Add(v_SqlTexto);
       sqlConsulta.Open;
-      if (sqlConsulta.IsEmpty) then // se nÃ£o Aberta verifico o perfil de abertura
+      if (sqlConsulta.IsEmpty) then // se não Aberta verifico o perfil de abertura
       begin
           if Dm.cds_parametro.Active then
              dm.cds_parametro.Close;
@@ -301,22 +301,29 @@ end;
 function TFiscalCls.SangriadeCaixa(codcaixa : Integer; codusuario : Integer;
 codcustoCD : Integer; codcustoCC : Integer; cdebito :string; ccredito : string; valorSangria : Double;
 historico : string) : Double;
+  var TD : TTransactionDesc;
+    codOrig: integer;
 begin
-    //Abre a c_genid para pegar o nÃºmero do CODCONTAB
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
     dm.c_6_genid.Open;
     cod_id := dm.c_6_genidCODIGO.AsInteger;
+    codOrig := cod_id;
     // primeiro_lanc := dm.c_6_genidCODIGO.AsInteger;
     dm.c_6_genid.Close;
-    //  Inserindo Conta DÃ©bito
+    //  Inserindo Conta Debito
     var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
            ', DATA, CODUSUARIO, CODCCUSTO, CONTA ' +
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(codcaixa); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(codOrig); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy',v_DataCaixa); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(codusuario);  //CODUSUARIO
@@ -332,7 +339,7 @@ begin
     var_sqla := var_sqla + ',' + '0'; //QTDEORCADO
     var_sqla := var_sqla + ')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
-    { *** Inserindo o HistÃ³rico *** }
+    { *** Inserindo o Historico *** }
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
     var_sqla := var_sqla + intToStr(cod_id);
@@ -340,20 +347,20 @@ begin
     var_sqla := var_sqla + ''')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
 
-    //Abre a c_genid para pegar o nÃºmero do CODCONTAB
+    //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
     dm.c_6_genid.Open;
     cod_id := dm.c_6_genidCODIGO.AsInteger;
     dm.c_6_genid.Close;
-    // Inclui Conta crÃ©dito
+    // Inclui Conta crédito
     var_sqla := 'INSERT INTO MOVIMENTOCONT (CODCONT, CODORIGEM, TIPOORIGEM ' +
            ', DATA, CODUSUARIO, CODCCUSTO, CONTA ' +
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(codcaixa); //CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(codOrig); //CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', v_DataCaixa); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(codusuario);  //CODUSUARIO
@@ -370,13 +377,21 @@ begin
     var_sqla := var_sqla + ')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
 
-    { *** Inserindo o HistÃ³rico *** }
+    { *** Inserindo o Histórico *** }
     var_sqla := 'INSERT INTO HISTORICO_CONTAB(COD_CONTAB, HISTORICO ' +
                 ') Values (';
     var_sqla := var_sqla + intToStr(cod_id);
     var_sqla := var_sqla + ',''' + historico;
     var_sqla := var_sqla + ''')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 end;
 
 function TFiscalCls.VerificaCaixaAberto(): Boolean;
