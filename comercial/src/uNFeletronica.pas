@@ -1298,7 +1298,6 @@ begin
 end;
 
 procedure TfNFeletronica.sbtnGetCertClick(Sender: TObject);
-var vencimento : Integer;
 begin
    {$IFNDEF ACBrNFeOpenSSL}
    edtNumSerie.Text := ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
@@ -1838,11 +1837,30 @@ begin
       if ((not sFornecCOMPLEMENTO.IsNull) or ( sFornecCOMPLEMENTO.AsString <> '')) then
         Dest.EnderDest.xCpl    := sFornecCOMPLEMENTO.AsString;
       Dest.EnderDest.xBairro := sFornecBAIRRO.AsString;
-      Dest.EnderDest.cMun    := StrToInt(RemoveChar(sFornecCD_IBGE.AsString));
+      if (trim(sFornecCD_IBGE.AsString) = '') then
+      begin
+        MessageDlg('Fornecedor' + sFornecRAZAOSOCIAL.AsString +  'sem Código do IBGE.', mtWarning, [mbOK], 0);
+        Exit;
+      end
+      else
+        Dest.EnderDest.cMun    := StrToInt(RemoveChar(sFornecCD_IBGE.AsString));
       Dest.EnderDest.xMun    := sFornecCIDADE.AsString;
       Dest.EnderDest.UF      := sFornecUF.AsString;
-      Dest.EnderDest.CEP     := StrToInt(RemoveChar(sFornecCEP.AsString));
-      Dest.EnderDest.cPais   := StrToInt(sFornecCODPAIS.asString);
+      if (trim(sFornecCEP.AsString) = '') then
+      begin
+        MessageDlg('Fornecedor' + sFornecRAZAOSOCIAL.AsString +  'sem CEP.', mtWarning, [mbOK], 0);
+        Exit;
+      end
+      else
+        Dest.EnderDest.CEP     := StrToInt(RemoveChar(sFornecCEP.AsString));
+
+      if (trim(sFornecCODPAIS.AsString) = '') then
+      begin
+        MessageDlg('Fornecedor' + sFornecRAZAOSOCIAL.AsString +  'sem PAIS.', mtWarning, [mbOK], 0);
+        Exit;
+      end
+      else
+        Dest.EnderDest.cPais   := StrToInt(sFornecCODPAIS.asString);
       Dest.EnderDest.xPais   := sFornecPAIS.AsString;
       Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
       Dest.IE                := RemoveChar(sFornecINSCESTADUAL.AsString);
@@ -1864,10 +1882,26 @@ begin
       if ((not sClienteCOMPLEMENTO.IsNull) or ( sClienteCOMPLEMENTO.AsString <> '')) then
         Dest.EnderDest.xCpl    := sClienteCOMPLEMENTO.AsString;
       Dest.EnderDest.xBairro := sClienteBAIRRO.AsString;
-      Dest.EnderDest.cMun    := StrToInt(RemoveChar(sClienteCD_IBGE.AsString));
+
+      if (trim(sClienteCD_IBGE.AsString) = '') then
+      begin
+        MessageDlg('Cliente' + sClienteRAZAOSOCIAL.AsString +  'sem Código do IBGE.', mtWarning, [mbOK], 0);
+        Exit;
+      end
+      else
+        Dest.EnderDest.cMun    := StrToInt(RemoveChar(sClienteCD_IBGE.AsString));
+
       Dest.EnderDest.xMun    := sClienteCIDADE.AsString;
       Dest.EnderDest.UF      := sClienteUF.AsString;
-      Dest.EnderDest.CEP     := StrToInt(RemoveChar(sClienteCEP.AsString));
+
+      if (trim(sClienteCEP.AsString) = '') then
+      begin
+        MessageDlg('Cliente' + sClienteRAZAOSOCIAL.AsString +  'sem Código do IBGE.', mtWarning, [mbOK], 0);
+        Exit;
+      end
+      else
+        Dest.EnderDest.CEP     := StrToInt(RemoveChar(sClienteCEP.AsString));
+
       Dest.EnderDest.cPais   := StrToInt(sClienteCODPAIS.AsString);
       Dest.EnderDest.xPais   := sClientePAIS.AsString;
       Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
@@ -2083,30 +2117,38 @@ begin
           //70 COM REDUÇÃO DA BASE DE CALCULO E COBRANÇA DO ICMS POR SUBS.TRIB. ICMS POR SUBS.TRIB.
           //90 OUTROS
 
-          if ((cdsItensNFCST.AsString = '000') or (cdsItensNFCST.AsString = '100') or (cdsItensNFCST.AsString = '200') or (cdsItensNFCST.AsString = '00')) then
-            CST := cst00
-          else if ((cdsItensNFCST.AsString = '010') or (cdsItensNFCST.AsString = '110') or (cdsItensNFCST.AsString = '210') or (cdsItensNFCST.AsString = '10')) then
-            CST := cst10
-          else if ((cdsItensNFCST.AsString = '020') or (cdsItensNFCST.AsString = '120') or (cdsItensNFCST.AsString = '220') or (cdsItensNFCST.AsString = '20')) then
-            CST := cst20
-          else if ((cdsItensNFCST.AsString = '030') or (cdsItensNFCST.AsString = '130') or (cdsItensNFCST.AsString = '230') or (cdsItensNFCST.AsString = '30')) then
-            CST := cst30
-          else if ((cdsItensNFCST.AsString = '040') or (cdsItensNFCST.AsString = '140') or (cdsItensNFCST.AsString = '240') or (cdsItensNFCST.AsString = '40')) then
-            CST :=  cst40
-          else if ((cdsItensNFCST.AsString = '041') or (cdsItensNFCST.AsString = '141') or (cdsItensNFCST.AsString = '241') or (cdsItensNFCST.AsString = '41')) then
-            CST :=  cst41
-          else if ((cdsItensNFCST.AsString = '050') or (cdsItensNFCST.AsString = '150') or (cdsItensNFCST.AsString = '250') or (cdsItensNFCST.AsString = '50')) then
-            CST :=  cst50
-          else if ((cdsItensNFCST.AsString = '051') or (cdsItensNFCST.AsString = '151') or (cdsItensNFCST.AsString = '251') or (cdsItensNFCST.AsString = '51')) then
-            CST := cst51
-          else if ((cdsItensNFCST.AsString = '060') or (cdsItensNFCST.AsString = '160') or (cdsItensNFCST.AsString = '260') or (cdsItensNFCST.AsString = '60')) then
-            CST := cst60
-          else if ((cdsItensNFCST.AsString = '070') or (cdsItensNFCST.AsString = '170') or (cdsItensNFCST.AsString = '270') or (cdsItensNFCST.AsString = '70')) then
-            CST := cst70
-          else if ((cdsItensNFCST.AsString = '090') or (cdsItensNFCST.AsString = '190') or (cdsItensNFCST.AsString = '290') or (cdsItensNFCST.AsString = '90')) then
-            CST := cst90
+          if (Trim(cdsItensNFCST.AsString) = '') then
+          begin
+            MessageDlg('CST do ICMS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
+            Exit;
+          end
           else
-            CST := cst00;
+          begin
+            if ((cdsItensNFCST.AsString = '000') or (cdsItensNFCST.AsString = '100') or (cdsItensNFCST.AsString = '200') or (cdsItensNFCST.AsString = '00')) then
+              CST := cst00
+            else if ((cdsItensNFCST.AsString = '010') or (cdsItensNFCST.AsString = '110') or (cdsItensNFCST.AsString = '210') or (cdsItensNFCST.AsString = '10')) then
+              CST := cst10
+            else if ((cdsItensNFCST.AsString = '020') or (cdsItensNFCST.AsString = '120') or (cdsItensNFCST.AsString = '220') or (cdsItensNFCST.AsString = '20')) then
+              CST := cst20
+            else if ((cdsItensNFCST.AsString = '030') or (cdsItensNFCST.AsString = '130') or (cdsItensNFCST.AsString = '230') or (cdsItensNFCST.AsString = '30')) then
+              CST := cst30
+            else if ((cdsItensNFCST.AsString = '040') or (cdsItensNFCST.AsString = '140') or (cdsItensNFCST.AsString = '240') or (cdsItensNFCST.AsString = '40')) then
+              CST :=  cst40
+            else if ((cdsItensNFCST.AsString = '041') or (cdsItensNFCST.AsString = '141') or (cdsItensNFCST.AsString = '241') or (cdsItensNFCST.AsString = '41')) then
+              CST :=  cst41
+            else if ((cdsItensNFCST.AsString = '050') or (cdsItensNFCST.AsString = '150') or (cdsItensNFCST.AsString = '250') or (cdsItensNFCST.AsString = '50')) then
+              CST :=  cst50
+            else if ((cdsItensNFCST.AsString = '051') or (cdsItensNFCST.AsString = '151') or (cdsItensNFCST.AsString = '251') or (cdsItensNFCST.AsString = '51')) then
+              CST := cst51
+            else if ((cdsItensNFCST.AsString = '060') or (cdsItensNFCST.AsString = '160') or (cdsItensNFCST.AsString = '260') or (cdsItensNFCST.AsString = '60')) then
+              CST := cst60
+            else if ((cdsItensNFCST.AsString = '070') or (cdsItensNFCST.AsString = '170') or (cdsItensNFCST.AsString = '270') or (cdsItensNFCST.AsString = '70')) then
+              CST := cst70
+            else if ((cdsItensNFCST.AsString = '090') or (cdsItensNFCST.AsString = '190') or (cdsItensNFCST.AsString = '290') or (cdsItensNFCST.AsString = '90')) then
+              CST := cst90
+            else
+              CST := cst00;
+          end;
 
           orig :=     sProdutosORIGEM.AsVariant;                       //ORIGEM DO PRODUTO
           modBC :=    BC;                                              //MODO DE BASE DE CALCULO (0) POR %
@@ -2159,24 +2201,32 @@ begin
 
         with PIS do
         begin
-          if (cdsItensNFCSTPIS.AsString = '01') then
-            CST   := pis01
-          else if (cdsItensNFCSTPIS.AsString = '02') then
-            CST   := pis02
-          else if (cdsItensNFCSTPIS.AsString = '03') then
-            CST   := pis03
-          else if (cdsItensNFCSTPIS.AsString = '04') then
-            CST   := pis04
-          else if (cdsItensNFCSTPIS.AsString = '06') then
-            CST   := pis06
-          else if (cdsItensNFCSTPIS.AsString = '07') then
-            CST   := pis07
-          else if (cdsItensNFCSTPIS.AsString = '08') then
-            CST   := pis08
-          else if (cdsItensNFCSTPIS.AsString = '09') then
-            CST   := pis09
-          else if (cdsItensNFCSTPIS.AsString = '99') then
-            CST   := pis99;
+          if (Trim(cdsItensNFCSTPIS.AsString) = '') then
+          begin
+            MessageDlg('CST do PIS em branco  no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
+            Exit;
+          end
+          else
+          begin
+            if (cdsItensNFCSTPIS.AsString = '01') then
+              CST   := pis01
+            else if (cdsItensNFCSTPIS.AsString = '02') then
+              CST   := pis02
+            else if (cdsItensNFCSTPIS.AsString = '03') then
+              CST   := pis03
+            else if (cdsItensNFCSTPIS.AsString = '04') then
+              CST   := pis04
+            else if (cdsItensNFCSTPIS.AsString = '06') then
+              CST   := pis06
+            else if (cdsItensNFCSTPIS.AsString = '07') then
+              CST   := pis07
+            else if (cdsItensNFCSTPIS.AsString = '08') then
+              CST   := pis08
+            else if (cdsItensNFCSTPIS.AsString = '09') then
+              CST   := pis09
+            else if (cdsItensNFCSTPIS.AsString = '99') then
+              CST   := pis99;
+          end;
 
           if (cdsItensNFPPIS.AsFloat > 0) then
             vBC   := (cdsItensNFVALOR_PIS.AsVariant *100 ) / cdsItensNFPPIS.AsVariant //-cdsItensNFVALTOTAL.AsVariant
@@ -2189,31 +2239,39 @@ begin
         end;
         with COFINS do
         begin
-          if (cdsItensNFCSTCOFINS.AsString = '01') then
-            CST   := cof01
-          else if (cdsItensNFCSTCOFINS.AsString = '02') then
-            CST   := cof02
-          else if (cdsItensNFCSTCOFINS.AsString = '03') then
-            CST   := cof03
-          else if (cdsItensNFCSTCOFINS.AsString = '04') then
-            CST   := cof04
-          else if (cdsItensNFCSTCOFINS.AsString = '06') then
-            CST   := cof06
-          else if (cdsItensNFCSTCOFINS.AsString = '07') then
-            CST   := cof07
-          else if (cdsItensNFCSTCOFINS.AsString = '08') then
-            CST   := cof08
-          else if (cdsItensNFCSTCOFINS.AsString = '09') then
-            CST   := cof09
-          else if (cdsItensNFCSTCOFINS.AsString = '99') then
-            CST   := cof99;
+          if (Trim(cdsItensNFCSTCOFINS.AsString) = '') then
+          begin
+            MessageDlg('CST do COFINS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
+            Exit;
+          end
+          else
+          begin
+            if (cdsItensNFCSTCOFINS.AsString = '01') then
+              CST   := cof01
+            else if (cdsItensNFCSTCOFINS.AsString = '02') then
+              CST   := cof02
+            else if (cdsItensNFCSTCOFINS.AsString = '03') then
+              CST   := cof03
+            else if (cdsItensNFCSTCOFINS.AsString = '04') then
+              CST   := cof04
+            else if (cdsItensNFCSTCOFINS.AsString = '06') then
+              CST   := cof06
+            else if (cdsItensNFCSTCOFINS.AsString = '07') then
+              CST   := cof07
+            else if (cdsItensNFCSTCOFINS.AsString = '08') then
+              CST   := cof08
+            else if (cdsItensNFCSTCOFINS.AsString = '09') then
+              CST   := cof09
+            else if (cdsItensNFCSTCOFINS.AsString = '99') then
+              CST   := cof99;
+          end;
 
          if ( cdsItensNFPCOFINS.AsFloat > 0) then
-          vBC   := (cdsItensNFVALOR_COFINS.AsVariant * 100) / cdsItensNFPCOFINS.AsVariant //cdsItensNFVALTOTAL.AsVariant;
+           vBC   := (cdsItensNFVALOR_COFINS.AsVariant * 100) / cdsItensNFPCOFINS.AsVariant //cdsItensNFVALTOTAL.AsVariant;
          else
-          vBC   := 0;
-          pCOFINS  := cdsItensNFPCOFINS.AsVariant;
-          vCOFINS  := cdsItensNFVALOR_COFINS.AsVariant;
+           vBC   := 0;
+           pCOFINS  := cdsItensNFPCOFINS.AsVariant;
+           vCOFINS  := cdsItensNFVALOR_COFINS.AsVariant;
         end;
         if (cdsItensNFII.asFloat > 0) then
         begin
@@ -2235,7 +2293,7 @@ var
 begin
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
-    if ((cdsNFFRETE.IsNull) or (cdsNFFRETE.AsString = ' '))then
+    if ((cdsNFFRETE.IsNull) or (Trim(cdsNFFRETE.AsString) = ''))then
       tpfrete := 3
     else
       tpfrete := StrToInt(cdsNFFRETE.AsString);
