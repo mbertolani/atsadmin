@@ -1767,6 +1767,26 @@ begin
       mudaVersao('1.0.0.115');
     end;// Fim Atualizacao Versao 1.0.0.115
 
+    if (versaoSistema = '1.0.0.115') then
+    begin
+      if (NaoExisteTabela('RETORNO_BANCO')) then
+      begin
+        executaSql('CREATE TABLE RETORNO_BANCO ' +
+         '( ' +
+         ' CODRETORNO INTEGER NOT NULL PRIMARY KEY, ' +
+         ' ARQUIVO    VARCHAR(100) NOT NULL, ' +
+         ' DATAARQUIVO DATE, ' +
+         ' NOSSONUMERO VARCHAR(50) NOT NULL, ' +
+         ' VALORRECEBIDO DOUBLE precision,   ' +
+         ' VALORJUROS    DOUBLE precision,   ' +
+         ' VALORDESCONTO DOUBLE precision    ' +
+         ' TITULOBAIXADO VARCHAR(30)'          +
+         ' SITUACAO      VARCHAR(30)'          +
+         ' CODRECEBIMENTO INTEGER '            +
+         ')');
+      end;
+      mudaVersao('1.0.0.116');
+    end;// Fim Atualizacao Versao 1.0.0.116
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
