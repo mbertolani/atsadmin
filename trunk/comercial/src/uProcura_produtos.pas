@@ -1762,7 +1762,6 @@ begin
     fPesquisa.DsP.DataSet := cds_proc;
     fPesquisa.ShowModal;
     resultado := fPesquisa.busca;
-
 end;
 
 procedure TfProcura_produtos.FormDestroy(Sender: TObject);

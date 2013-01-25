@@ -423,6 +423,12 @@ begin
     end
     else
       Rep.Report.Params.ParamByName('PRODUTO').Value := 9999999;
+    //PRODUTO
+    if (Edit3.Text <> '') then
+      Rep.Report.Params.ParamByName('PROD').Value := Edit3.Text
+    else
+      Rep.Report.Params.ParamByName('PROD').Value := 9999999;
+
   except
     on EConvertError do
     begin
@@ -513,7 +519,9 @@ begin
         Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
       else
         Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
-    end;
+    end
+    else
+        Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
   except
     on EConvertError do
     begin
