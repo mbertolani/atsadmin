@@ -7,7 +7,7 @@ uses
   Dialogs, ACBrSpedPisCofins, StdCtrls, ExtCtrls, ComCtrls, JvExComCtrls,
   JvProgressBar, Mask, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, ACBrEPCBlocos, ACBrTXTClass, ACBrUtil, FMTBcd,
-  DBClient, Provider, DB, SqlExpr, uUtils;
+  DBClient, Provider, DB, SqlExpr, uUtils, Buttons;
 
 type
   TfNfePisCofins = class(TForm)
@@ -119,408 +119,6 @@ type
     sdsNFVenda: TSQLDataSet;
     dspNFVenda: TDataSetProvider;
     cdsNFVenda: TClientDataSet;
-    sdsNFVendaNOTASERIE: TStringField;
-    sdsNFVendaNUMNF: TIntegerField;
-    sdsNFVendaNATUREZA: TSmallintField;
-    sdsNFVendaQUANTIDADE: TFloatField;
-    sdsNFVendaMARCA: TStringField;
-    sdsNFVendaPESOBRUTO: TBCDField;
-    sdsNFVendaPESOLIQUIDO: TBCDField;
-    sdsNFVendaESPECIE: TStringField;
-    sdsNFVendaDTAEMISSAO: TDateField;
-    sdsNFVendaDTASAIDA: TDateField;
-    sdsNFVendaUF: TStringField;
-    sdsNFVendaCODVENDA: TIntegerField;
-    sdsNFVendaCODTRANSP: TIntegerField;
-    sdsNFVendaNUMERO: TStringField;
-    sdsNFVendaNOTAFISCAL: TIntegerField;
-    sdsNFVendaHORASAIDA: TTimeField;
-    sdsNFVendaDATA_SISTEMA: TSQLTimeStampField;
-    sdsNFVendaBASE_ICMS: TFloatField;
-    sdsNFVendaVALOR_ICMS: TFloatField;
-    sdsNFVendaBASE_ICMS_SUBST: TFloatField;
-    sdsNFVendaVALOR_ICMS_SUBST: TFloatField;
-    sdsNFVendaVALOR_PRODUTO: TFloatField;
-    sdsNFVendaVALOR_FRETE: TFloatField;
-    sdsNFVendaVALOR_SEGURO: TFloatField;
-    sdsNFVendaOUTRAS_DESP: TFloatField;
-    sdsNFVendaVALOR_IPI: TFloatField;
-    sdsNFVendaVALOR_TOTAL_NOTA: TFloatField;
-    sdsNFVendaCORPONF1: TStringField;
-    sdsNFVendaCORPONF2: TStringField;
-    sdsNFVendaCORPONF3: TStringField;
-    sdsNFVendaCORPONF4: TStringField;
-    sdsNFVendaCORPONF5: TStringField;
-    sdsNFVendaCORPONF6: TStringField;
-    sdsNFVendaCFOP: TStringField;
-    sdsNFVendaCODCLIENTE: TIntegerField;
-    sdsNFVendaFATURA: TStringField;
-    sdsNFVendaICMS: TFloatField;
-    sdsNFVendaREDUZICMS: TFloatField;
-    sdsNFVendaNOMETRANSP: TStringField;
-    sdsNFVendaPLACATRANSP: TStringField;
-    sdsNFVendaCNPJ_CPF: TStringField;
-    sdsNFVendaEND_TRANSP: TStringField;
-    sdsNFVendaCIDADE_TRANSP: TStringField;
-    sdsNFVendaUF_VEICULO_TRANSP: TStringField;
-    sdsNFVendaUF_TRANSP: TStringField;
-    sdsNFVendaFRETE: TStringField;
-    sdsNFVendaINSCRICAOESTADUAL: TStringField;
-    sdsNFVendaSTATUS: TStringField;
-    sdsNFVendaVLRTOTALEXP: TFloatField;
-    sdsNFVendaIMPRESSA: TStringField;
-    sdsNFVendaSERIE: TStringField;
-    sdsNFVendaID_GUIA: TIntegerField;
-    sdsNFVendaSELECIONOU: TStringField;
-    sdsNFVendaPROTOCOLOENV: TStringField;
-    sdsNFVendaNUMRECIBO: TStringField;
-    sdsNFVendaPROTOCOLOCANC: TStringField;
-    sdsNFVendaPESOREMESSA: TBCDField;
-    sdsNFVendaNOTAMAE: TIntegerField;
-    sdsNFVendaVALOR_PIS: TFloatField;
-    sdsNFVendaVALOR_COFINS: TFloatField;
-    sdsNFVendaVALOR_DESCONTO: TFloatField;
-    sdsNFVendaCCUSTO: TIntegerField;
-    sdsNFVendaIDCOMPLEMENTAR: TStringField;
-    sdsNFVendaXMLNFE: TGraphicField;
-    sdsNFVendaII: TFloatField;
-    sdsNFVendaBCII: TFloatField;
-    sdsNFVendaNOMEXML: TStringField;
-    sdsNFVendaCODCLIENTE_1: TIntegerField;
-    sdsNFVendaNOMECLIENTE: TStringField;
-    sdsNFVendaRAZAOSOCIAL: TStringField;
-    sdsNFVendaCONTATO: TStringField;
-    sdsNFVendaTIPOFIRMA: TSmallintField;
-    sdsNFVendaCPF: TStringField;
-    sdsNFVendaCNPJ: TStringField;
-    sdsNFVendaINSCESTADUAL: TStringField;
-    sdsNFVendaRG: TStringField;
-    sdsNFVendaSEGMENTO: TSmallintField;
-    sdsNFVendaREGIAO: TSmallintField;
-    sdsNFVendaLIMITECREDITO: TFloatField;
-    sdsNFVendaDATACADASTRO: TDateField;
-    sdsNFVendaCODUSUARIO: TIntegerField;
-    sdsNFVendaSTATUS_1: TSmallintField;
-    sdsNFVendaHOMEPAGE: TStringField;
-    sdsNFVendaPRAZORECEBIMENTO: TSmallintField;
-    sdsNFVendaPRAZOENTREGA: TSmallintField;
-    sdsNFVendaCODBANCO: TSmallintField;
-    sdsNFVendaBASE_ICMS_1: TSmallintField;
-    sdsNFVendaDATANASC: TDateField;
-    sdsNFVendaCONTA_CLIENTE: TStringField;
-    sdsNFVendaOBS: TStringField;
-    sdsNFVendaTEM_IE: TStringField;
-    sdsNFVendaDATARESC: TDateField;
-    sdsNFVendaNOMEMAE: TStringField;
-    sdsNFVendaSEXO: TStringField;
-    sdsNFVendaFORMA_CORRESPOND: TStringField;
-    sdsNFVendaGRUPO_CLIENTE: TStringField;
-    sdsNFVendaCODINCLUCANC: TIntegerField;
-    sdsNFVendaEXIST_COBERT: TStringField;
-    sdsNFVendaEXISTCOPART: TStringField;
-    sdsNFVendaDATAREINC: TDateField;
-    sdsNFVendaGERAAVISO: TStringField;
-    sdsNFVendaGERAENV: TStringField;
-    sdsNFVendaGERABOL: TStringField;
-    sdsNFVendaEMVIAGEM: TStringField;
-    sdsNFVendaDTAALTERA: TDateField;
-    sdsNFVendaSERIELETRA: TStringField;
-    sdsNFVendaSERIE_1: TStringField;
-    sdsNFVendaRA: TStringField;
-    sdsNFVendaCURSO: TStringField;
-    sdsNFVendaIP: TStringField;
-    sdsNFVendaN_CONTRATO: TStringField;
-    sdsNFVendaMAC: TStringField;
-    sdsNFVendaMARCA_1: TStringField;
-    sdsNFVendaBANDA_UPLOAD: TStringField;
-    sdsNFVendaBANDA_DOWLOAD: TStringField;
-    sdsNFVendaTORRE_CONECCAO: TStringField;
-    sdsNFVendaCOD_FAIXA: TIntegerField;
-    sdsNFVendaDESCONTO: TFloatField;
-    sdsNFVendaMENSALIDADE: TFloatField;
-    sdsNFVendaANUIDADE: TFloatField;
-    sdsNFVendaPARCELA: TIntegerField;
-    sdsNFVendaPARCELAGERADAS: TIntegerField;
-    sdsNFVendaNUMERO_1: TIntegerField;
-    sdsNFVendaDATANASCIMENTO: TSQLTimeStampField;
-    sdsNFVendaANOLETIVO: TStringField;
-    sdsNFVendaSITUACAOESCOLAR: TStringField;
-    sdsNFVendaRGMAE: TStringField;
-    sdsNFVendaCPFMAE: TStringField;
-    sdsNFVendaPAI: TStringField;
-    sdsNFVendaRGPAI: TStringField;
-    sdsNFVendaCPFPAI: TStringField;
-    sdsNFVendaLANCADOCLASSE: TIntegerField;
-    sdsNFVendaTRANSPORTE: TStringField;
-    sdsNFVendaCIDADENASC: TStringField;
-    sdsNFVendaUFNASC: TStringField;
-    sdsNFVendaNACIONALIDADE: TStringField;
-    sdsNFVendaCERTIDAONASCNUM: TStringField;
-    sdsNFVendaLIVRONASC: TStringField;
-    sdsNFVendaFLLIVRONASC: TStringField;
-    sdsNFVendaLOCALTRABPAI: TStringField;
-    sdsNFVendaLOCALTRABMAE: TStringField;
-    sdsNFVendaTELTRABPAI: TStringField;
-    sdsNFVendaTELTRABMAE: TStringField;
-    sdsNFVendaINFONECESSARIAS: TStringField;
-    sdsNFVendaCARTEIRAVACINACAO: TStringField;
-    sdsNFVendaRAPRODESP: TStringField;
-    sdsNFVendaLOCALTRABALUNO: TStringField;
-    sdsNFVendaTELTRABALUNO: TStringField;
-    sdsNFVendaRAPROD: TStringField;
-    sdsNFVendaCERT_NAS_COMARCA: TStringField;
-    sdsNFVendaCERT_NAS_UF: TStringField;
-    sdsNFVendaCERT_NAS_MUNICIPIO: TStringField;
-    sdsNFVendaCERT_NAS_DISTRITO: TStringField;
-    sdsNFVendaCERT_NAS_SUBDISTRITO: TStringField;
-    sdsNFVendaDIVERSO1: TStringField;
-    sdsNFVendaDIVERSO2: TStringField;
-    sdsNFVendaDATAEMISSAORG: TDateField;
-    sdsNFVendaESTADORG: TStringField;
-    sdsNFVendaCOMUNICAALUNO: TStringField;
-    sdsNFVendaFONEMAE: TStringField;
-    sdsNFVendaCELULARMAE: TStringField;
-    sdsNFVendaCOMUNICAMAE: TStringField;
-    sdsNFVendaFONEPAI: TStringField;
-    sdsNFVendaCELULARPAI: TStringField;
-    sdsNFVendaCOMUNICAPAI: TStringField;
-    sdsNFVendaVALOR_MATRICULA: TFloatField;
-    sdsNFVendaDATATRANSF: TDateField;
-    sdsNFVendaCOR_RACA: TStringField;
-    sdsNFVendaPERIODO: TStringField;
-    sdsNFVendaFOTO: TStringField;
-    sdsNFVendaDATA_MATRICULA: TSQLTimeStampField;
-    sdsNFVendaCODRESPONSAVEL: TIntegerField;
-    sdsNFVendaID_COB: TIntegerField;
-    sdsNFVendaCOD_TRANPORTADORA: TIntegerField;
-    sdsNFVendaBLOQUEIO: TStringField;
-    sdsNFVendaCODCLI: TStringField;
-    sdsNFVendaCFOP_1: TStringField;
-    sdsNFVendaCOD_CLI: TStringField;
-    sdsNFVendaCODENDERECO: TIntegerField;
-    sdsNFVendaCODCLIENTE_2: TIntegerField;
-    sdsNFVendaLOGRADOURO: TStringField;
-    sdsNFVendaBAIRRO: TStringField;
-    sdsNFVendaCOMPLEMENTO: TStringField;
-    sdsNFVendaCIDADE: TStringField;
-    sdsNFVendaUF_1: TStringField;
-    sdsNFVendaCEP: TStringField;
-    sdsNFVendaTELEFONE: TStringField;
-    sdsNFVendaTELEFONE1: TStringField;
-    sdsNFVendaTELEFONE2: TStringField;
-    sdsNFVendaFAX: TStringField;
-    sdsNFVendaE_MAIL: TStringField;
-    sdsNFVendaRAMAL: TStringField;
-    sdsNFVendaTIPOEND: TSmallintField;
-    sdsNFVendaDADOSADICIONAIS: TStringField;
-    sdsNFVendaDDD: TStringField;
-    sdsNFVendaDDD1: TStringField;
-    sdsNFVendaDDD2: TStringField;
-    sdsNFVendaDDD3: TStringField;
-    sdsNFVendaNUMERO_2: TStringField;
-    sdsNFVendaCD_IBGE: TStringField;
-    sdsNFVendaPAIS: TStringField;
-    cdsNFVendaNOTASERIE: TStringField;
-    cdsNFVendaNUMNF: TIntegerField;
-    cdsNFVendaNATUREZA: TSmallintField;
-    cdsNFVendaQUANTIDADE: TFloatField;
-    cdsNFVendaMARCA: TStringField;
-    cdsNFVendaPESOBRUTO: TBCDField;
-    cdsNFVendaPESOLIQUIDO: TBCDField;
-    cdsNFVendaESPECIE: TStringField;
-    cdsNFVendaDTAEMISSAO: TDateField;
-    cdsNFVendaDTASAIDA: TDateField;
-    cdsNFVendaUF: TStringField;
-    cdsNFVendaCODVENDA: TIntegerField;
-    cdsNFVendaCODTRANSP: TIntegerField;
-    cdsNFVendaNUMERO: TStringField;
-    cdsNFVendaNOTAFISCAL: TIntegerField;
-    cdsNFVendaHORASAIDA: TTimeField;
-    cdsNFVendaDATA_SISTEMA: TSQLTimeStampField;
-    cdsNFVendaBASE_ICMS: TFloatField;
-    cdsNFVendaVALOR_ICMS: TFloatField;
-    cdsNFVendaBASE_ICMS_SUBST: TFloatField;
-    cdsNFVendaVALOR_ICMS_SUBST: TFloatField;
-    cdsNFVendaVALOR_PRODUTO: TFloatField;
-    cdsNFVendaVALOR_FRETE: TFloatField;
-    cdsNFVendaVALOR_SEGURO: TFloatField;
-    cdsNFVendaOUTRAS_DESP: TFloatField;
-    cdsNFVendaVALOR_IPI: TFloatField;
-    cdsNFVendaVALOR_TOTAL_NOTA: TFloatField;
-    cdsNFVendaCORPONF1: TStringField;
-    cdsNFVendaCORPONF2: TStringField;
-    cdsNFVendaCORPONF3: TStringField;
-    cdsNFVendaCORPONF4: TStringField;
-    cdsNFVendaCORPONF5: TStringField;
-    cdsNFVendaCORPONF6: TStringField;
-    cdsNFVendaCFOP: TStringField;
-    cdsNFVendaCODCLIENTE: TIntegerField;
-    cdsNFVendaFATURA: TStringField;
-    cdsNFVendaICMS: TFloatField;
-    cdsNFVendaREDUZICMS: TFloatField;
-    cdsNFVendaNOMETRANSP: TStringField;
-    cdsNFVendaPLACATRANSP: TStringField;
-    cdsNFVendaCNPJ_CPF: TStringField;
-    cdsNFVendaEND_TRANSP: TStringField;
-    cdsNFVendaCIDADE_TRANSP: TStringField;
-    cdsNFVendaUF_VEICULO_TRANSP: TStringField;
-    cdsNFVendaUF_TRANSP: TStringField;
-    cdsNFVendaFRETE: TStringField;
-    cdsNFVendaINSCRICAOESTADUAL: TStringField;
-    cdsNFVendaSTATUS: TStringField;
-    cdsNFVendaVLRTOTALEXP: TFloatField;
-    cdsNFVendaIMPRESSA: TStringField;
-    cdsNFVendaSERIE: TStringField;
-    cdsNFVendaID_GUIA: TIntegerField;
-    cdsNFVendaSELECIONOU: TStringField;
-    cdsNFVendaPROTOCOLOENV: TStringField;
-    cdsNFVendaNUMRECIBO: TStringField;
-    cdsNFVendaPROTOCOLOCANC: TStringField;
-    cdsNFVendaPESOREMESSA: TBCDField;
-    cdsNFVendaNOTAMAE: TIntegerField;
-    cdsNFVendaVALOR_PIS: TFloatField;
-    cdsNFVendaVALOR_COFINS: TFloatField;
-    cdsNFVendaVALOR_DESCONTO: TFloatField;
-    cdsNFVendaCCUSTO: TIntegerField;
-    cdsNFVendaIDCOMPLEMENTAR: TStringField;
-    cdsNFVendaXMLNFE: TGraphicField;
-    cdsNFVendaII: TFloatField;
-    cdsNFVendaBCII: TFloatField;
-    cdsNFVendaNOMEXML: TStringField;
-    cdsNFVendaCODCLIENTE_1: TIntegerField;
-    cdsNFVendaNOMECLIENTE: TStringField;
-    cdsNFVendaRAZAOSOCIAL: TStringField;
-    cdsNFVendaCONTATO: TStringField;
-    cdsNFVendaTIPOFIRMA: TSmallintField;
-    cdsNFVendaCPF: TStringField;
-    cdsNFVendaCNPJ: TStringField;
-    cdsNFVendaINSCESTADUAL: TStringField;
-    cdsNFVendaRG: TStringField;
-    cdsNFVendaSEGMENTO: TSmallintField;
-    cdsNFVendaREGIAO: TSmallintField;
-    cdsNFVendaLIMITECREDITO: TFloatField;
-    cdsNFVendaDATACADASTRO: TDateField;
-    cdsNFVendaCODUSUARIO: TIntegerField;
-    cdsNFVendaSTATUS_1: TSmallintField;
-    cdsNFVendaHOMEPAGE: TStringField;
-    cdsNFVendaPRAZORECEBIMENTO: TSmallintField;
-    cdsNFVendaPRAZOENTREGA: TSmallintField;
-    cdsNFVendaCODBANCO: TSmallintField;
-    cdsNFVendaBASE_ICMS_1: TSmallintField;
-    cdsNFVendaDATANASC: TDateField;
-    cdsNFVendaCONTA_CLIENTE: TStringField;
-    cdsNFVendaOBS: TStringField;
-    cdsNFVendaTEM_IE: TStringField;
-    cdsNFVendaDATARESC: TDateField;
-    cdsNFVendaNOMEMAE: TStringField;
-    cdsNFVendaSEXO: TStringField;
-    cdsNFVendaFORMA_CORRESPOND: TStringField;
-    cdsNFVendaGRUPO_CLIENTE: TStringField;
-    cdsNFVendaCODINCLUCANC: TIntegerField;
-    cdsNFVendaEXIST_COBERT: TStringField;
-    cdsNFVendaEXISTCOPART: TStringField;
-    cdsNFVendaDATAREINC: TDateField;
-    cdsNFVendaGERAAVISO: TStringField;
-    cdsNFVendaGERAENV: TStringField;
-    cdsNFVendaGERABOL: TStringField;
-    cdsNFVendaEMVIAGEM: TStringField;
-    cdsNFVendaDTAALTERA: TDateField;
-    cdsNFVendaSERIELETRA: TStringField;
-    cdsNFVendaSERIE_1: TStringField;
-    cdsNFVendaRA: TStringField;
-    cdsNFVendaCURSO: TStringField;
-    cdsNFVendaIP: TStringField;
-    cdsNFVendaN_CONTRATO: TStringField;
-    cdsNFVendaMAC: TStringField;
-    cdsNFVendaMARCA_1: TStringField;
-    cdsNFVendaBANDA_UPLOAD: TStringField;
-    cdsNFVendaBANDA_DOWLOAD: TStringField;
-    cdsNFVendaTORRE_CONECCAO: TStringField;
-    cdsNFVendaCOD_FAIXA: TIntegerField;
-    cdsNFVendaDESCONTO: TFloatField;
-    cdsNFVendaMENSALIDADE: TFloatField;
-    cdsNFVendaANUIDADE: TFloatField;
-    cdsNFVendaPARCELA: TIntegerField;
-    cdsNFVendaPARCELAGERADAS: TIntegerField;
-    cdsNFVendaNUMERO_1: TIntegerField;
-    cdsNFVendaDATANASCIMENTO: TSQLTimeStampField;
-    cdsNFVendaANOLETIVO: TStringField;
-    cdsNFVendaSITUACAOESCOLAR: TStringField;
-    cdsNFVendaRGMAE: TStringField;
-    cdsNFVendaCPFMAE: TStringField;
-    cdsNFVendaPAI: TStringField;
-    cdsNFVendaRGPAI: TStringField;
-    cdsNFVendaCPFPAI: TStringField;
-    cdsNFVendaLANCADOCLASSE: TIntegerField;
-    cdsNFVendaTRANSPORTE: TStringField;
-    cdsNFVendaCIDADENASC: TStringField;
-    cdsNFVendaUFNASC: TStringField;
-    cdsNFVendaNACIONALIDADE: TStringField;
-    cdsNFVendaCERTIDAONASCNUM: TStringField;
-    cdsNFVendaLIVRONASC: TStringField;
-    cdsNFVendaFLLIVRONASC: TStringField;
-    cdsNFVendaLOCALTRABPAI: TStringField;
-    cdsNFVendaLOCALTRABMAE: TStringField;
-    cdsNFVendaTELTRABPAI: TStringField;
-    cdsNFVendaTELTRABMAE: TStringField;
-    cdsNFVendaINFONECESSARIAS: TStringField;
-    cdsNFVendaCARTEIRAVACINACAO: TStringField;
-    cdsNFVendaRAPRODESP: TStringField;
-    cdsNFVendaLOCALTRABALUNO: TStringField;
-    cdsNFVendaTELTRABALUNO: TStringField;
-    cdsNFVendaRAPROD: TStringField;
-    cdsNFVendaCERT_NAS_COMARCA: TStringField;
-    cdsNFVendaCERT_NAS_UF: TStringField;
-    cdsNFVendaCERT_NAS_MUNICIPIO: TStringField;
-    cdsNFVendaCERT_NAS_DISTRITO: TStringField;
-    cdsNFVendaCERT_NAS_SUBDISTRITO: TStringField;
-    cdsNFVendaDIVERSO1: TStringField;
-    cdsNFVendaDIVERSO2: TStringField;
-    cdsNFVendaDATAEMISSAORG: TDateField;
-    cdsNFVendaESTADORG: TStringField;
-    cdsNFVendaCOMUNICAALUNO: TStringField;
-    cdsNFVendaFONEMAE: TStringField;
-    cdsNFVendaCELULARMAE: TStringField;
-    cdsNFVendaCOMUNICAMAE: TStringField;
-    cdsNFVendaFONEPAI: TStringField;
-    cdsNFVendaCELULARPAI: TStringField;
-    cdsNFVendaCOMUNICAPAI: TStringField;
-    cdsNFVendaVALOR_MATRICULA: TFloatField;
-    cdsNFVendaDATATRANSF: TDateField;
-    cdsNFVendaCOR_RACA: TStringField;
-    cdsNFVendaPERIODO: TStringField;
-    cdsNFVendaFOTO: TStringField;
-    cdsNFVendaDATA_MATRICULA: TSQLTimeStampField;
-    cdsNFVendaCODRESPONSAVEL: TIntegerField;
-    cdsNFVendaID_COB: TIntegerField;
-    cdsNFVendaCOD_TRANPORTADORA: TIntegerField;
-    cdsNFVendaBLOQUEIO: TStringField;
-    cdsNFVendaCODCLI: TStringField;
-    cdsNFVendaCFOP_1: TStringField;
-    cdsNFVendaCOD_CLI: TStringField;
-    cdsNFVendaCODENDERECO: TIntegerField;
-    cdsNFVendaCODCLIENTE_2: TIntegerField;
-    cdsNFVendaLOGRADOURO: TStringField;
-    cdsNFVendaBAIRRO: TStringField;
-    cdsNFVendaCOMPLEMENTO: TStringField;
-    cdsNFVendaCIDADE: TStringField;
-    cdsNFVendaUF_1: TStringField;
-    cdsNFVendaCEP: TStringField;
-    cdsNFVendaTELEFONE: TStringField;
-    cdsNFVendaTELEFONE1: TStringField;
-    cdsNFVendaTELEFONE2: TStringField;
-    cdsNFVendaFAX: TStringField;
-    cdsNFVendaE_MAIL: TStringField;
-    cdsNFVendaRAMAL: TStringField;
-    cdsNFVendaTIPOEND: TSmallintField;
-    cdsNFVendaDADOSADICIONAIS: TStringField;
-    cdsNFVendaDDD: TStringField;
-    cdsNFVendaDDD1: TStringField;
-    cdsNFVendaDDD2: TStringField;
-    cdsNFVendaDDD3: TStringField;
-    cdsNFVendaNUMERO_2: TStringField;
-    cdsNFVendaCD_IBGE: TStringField;
-    cdsNFVendaPAIS: TStringField;
     sdsItens: TSQLDataSet;
     dspItens: TDataSetProvider;
     cdsItens: TClientDataSet;
@@ -849,6 +447,439 @@ type
     cdsCompraDetICMS_ST: TFloatField;
     cdsCompraDetICMS_BASE_ST: TFloatField;
     cdsCompraDetCODDETALHE: TIntegerField;
+    cdsItensCSTIPI: TStringField;
+    cdsItensCSTPIS: TStringField;
+    cdsItensCSTCOFINS: TStringField;
+    sdsCompraCHAVENF: TStringField;
+    cdsCompraCHAVENF: TStringField;
+    sdsNFVendaNOTASERIE: TStringField;
+    sdsNFVendaNUMNF: TIntegerField;
+    sdsNFVendaNATUREZA: TSmallintField;
+    sdsNFVendaQUANTIDADE: TFloatField;
+    sdsNFVendaMARCA: TStringField;
+    sdsNFVendaPESOBRUTO: TBCDField;
+    sdsNFVendaPESOLIQUIDO: TBCDField;
+    sdsNFVendaESPECIE: TStringField;
+    sdsNFVendaDTAEMISSAO: TDateField;
+    sdsNFVendaDTASAIDA: TDateField;
+    sdsNFVendaUF: TStringField;
+    sdsNFVendaCODVENDA: TIntegerField;
+    sdsNFVendaCODTRANSP: TIntegerField;
+    sdsNFVendaNUMERO: TStringField;
+    sdsNFVendaNOTAFISCAL: TIntegerField;
+    sdsNFVendaHORASAIDA: TTimeField;
+    sdsNFVendaDATA_SISTEMA: TSQLTimeStampField;
+    sdsNFVendaBASE_ICMS: TFloatField;
+    sdsNFVendaVALOR_ICMS: TFloatField;
+    sdsNFVendaBASE_ICMS_SUBST: TFloatField;
+    sdsNFVendaVALOR_ICMS_SUBST: TFloatField;
+    sdsNFVendaVALOR_PRODUTO: TFloatField;
+    sdsNFVendaVALOR_FRETE: TFloatField;
+    sdsNFVendaVALOR_SEGURO: TFloatField;
+    sdsNFVendaOUTRAS_DESP: TFloatField;
+    sdsNFVendaVALOR_IPI: TFloatField;
+    sdsNFVendaVALOR_TOTAL_NOTA: TFloatField;
+    sdsNFVendaCORPONF1: TStringField;
+    sdsNFVendaCORPONF2: TStringField;
+    sdsNFVendaCORPONF3: TStringField;
+    sdsNFVendaCORPONF4: TStringField;
+    sdsNFVendaCORPONF5: TStringField;
+    sdsNFVendaCORPONF6: TStringField;
+    sdsNFVendaCFOP: TStringField;
+    sdsNFVendaCODCLIENTE: TIntegerField;
+    sdsNFVendaFATURA: TStringField;
+    sdsNFVendaICMS: TFloatField;
+    sdsNFVendaREDUZICMS: TFloatField;
+    sdsNFVendaNOMETRANSP: TStringField;
+    sdsNFVendaPLACATRANSP: TStringField;
+    sdsNFVendaCNPJ_CPF: TStringField;
+    sdsNFVendaEND_TRANSP: TStringField;
+    sdsNFVendaCIDADE_TRANSP: TStringField;
+    sdsNFVendaUF_VEICULO_TRANSP: TStringField;
+    sdsNFVendaUF_TRANSP: TStringField;
+    sdsNFVendaFRETE: TStringField;
+    sdsNFVendaINSCRICAOESTADUAL: TStringField;
+    sdsNFVendaSTATUS: TStringField;
+    sdsNFVendaVLRTOTALEXP: TFloatField;
+    sdsNFVendaIMPRESSA: TStringField;
+    sdsNFVendaSERIE: TStringField;
+    sdsNFVendaSELECIONOU: TStringField;
+    sdsNFVendaID_GUIA: TIntegerField;
+    sdsNFVendaPROTOCOLOENV: TStringField;
+    sdsNFVendaNUMRECIBO: TStringField;
+    sdsNFVendaPROTOCOLOCANC: TStringField;
+    sdsNFVendaPESOREMESSA: TBCDField;
+    sdsNFVendaNOTAMAE: TIntegerField;
+    sdsNFVendaVALOR_PIS: TFloatField;
+    sdsNFVendaVALOR_COFINS: TFloatField;
+    sdsNFVendaVALOR_DESCONTO: TFloatField;
+    sdsNFVendaCCUSTO: TIntegerField;
+    sdsNFVendaIDCOMPLEMENTAR: TStringField;
+    sdsNFVendaXMLNFE: TGraphicField;
+    sdsNFVendaBCII: TFloatField;
+    sdsNFVendaNOMEXML: TStringField;
+    sdsNFVendaII: TFloatField;
+    sdsNFVendaINDPAG: TIntegerField;
+    sdsNFVendaCODCLIENTE_1: TIntegerField;
+    sdsNFVendaNOMECLIENTE: TStringField;
+    sdsNFVendaRAZAOSOCIAL: TStringField;
+    sdsNFVendaCONTATO: TStringField;
+    sdsNFVendaTIPOFIRMA: TSmallintField;
+    sdsNFVendaCPF: TStringField;
+    sdsNFVendaCNPJ: TStringField;
+    sdsNFVendaINSCESTADUAL: TStringField;
+    sdsNFVendaRG: TStringField;
+    sdsNFVendaSEGMENTO: TSmallintField;
+    sdsNFVendaREGIAO: TSmallintField;
+    sdsNFVendaLIMITECREDITO: TFloatField;
+    sdsNFVendaDATACADASTRO: TDateField;
+    sdsNFVendaCODUSUARIO: TIntegerField;
+    sdsNFVendaSTATUS_1: TSmallintField;
+    sdsNFVendaHOMEPAGE: TStringField;
+    sdsNFVendaPRAZORECEBIMENTO: TSmallintField;
+    sdsNFVendaPRAZOENTREGA: TSmallintField;
+    sdsNFVendaCODBANCO: TSmallintField;
+    sdsNFVendaBASE_ICMS_1: TSmallintField;
+    sdsNFVendaDATANASC: TDateField;
+    sdsNFVendaCONTA_CLIENTE: TStringField;
+    sdsNFVendaOBS: TStringField;
+    sdsNFVendaTEM_IE: TStringField;
+    sdsNFVendaDATARESC: TDateField;
+    sdsNFVendaNOMEMAE: TStringField;
+    sdsNFVendaSEXO: TStringField;
+    sdsNFVendaFORMA_CORRESPOND: TStringField;
+    sdsNFVendaGRUPO_CLIENTE: TStringField;
+    sdsNFVendaCODINCLUCANC: TIntegerField;
+    sdsNFVendaEXIST_COBERT: TStringField;
+    sdsNFVendaEXISTCOPART: TStringField;
+    sdsNFVendaDATAREINC: TDateField;
+    sdsNFVendaGERAAVISO: TStringField;
+    sdsNFVendaGERAENV: TStringField;
+    sdsNFVendaGERABOL: TStringField;
+    sdsNFVendaEMVIAGEM: TStringField;
+    sdsNFVendaDTAALTERA: TDateField;
+    sdsNFVendaSERIELETRA: TStringField;
+    sdsNFVendaSERIE_1: TStringField;
+    sdsNFVendaRA: TStringField;
+    sdsNFVendaCURSO: TStringField;
+    sdsNFVendaIP: TStringField;
+    sdsNFVendaN_CONTRATO: TStringField;
+    sdsNFVendaMAC: TStringField;
+    sdsNFVendaMARCA_1: TStringField;
+    sdsNFVendaBANDA_UPLOAD: TStringField;
+    sdsNFVendaBANDA_DOWLOAD: TStringField;
+    sdsNFVendaTORRE_CONECCAO: TStringField;
+    sdsNFVendaCOD_FAIXA: TIntegerField;
+    sdsNFVendaDESCONTO: TFloatField;
+    sdsNFVendaMENSALIDADE: TFloatField;
+    sdsNFVendaANUIDADE: TFloatField;
+    sdsNFVendaPARCELA: TIntegerField;
+    sdsNFVendaPARCELAGERADAS: TIntegerField;
+    sdsNFVendaNUMERO_1: TIntegerField;
+    sdsNFVendaDATANASCIMENTO: TSQLTimeStampField;
+    sdsNFVendaANOLETIVO: TStringField;
+    sdsNFVendaSITUACAOESCOLAR: TStringField;
+    sdsNFVendaRGMAE: TStringField;
+    sdsNFVendaCPFMAE: TStringField;
+    sdsNFVendaPAI: TStringField;
+    sdsNFVendaRGPAI: TStringField;
+    sdsNFVendaCPFPAI: TStringField;
+    sdsNFVendaLANCADOCLASSE: TIntegerField;
+    sdsNFVendaTRANSPORTE: TStringField;
+    sdsNFVendaCIDADENASC: TStringField;
+    sdsNFVendaUFNASC: TStringField;
+    sdsNFVendaNACIONALIDADE: TStringField;
+    sdsNFVendaCERTIDAONASCNUM: TStringField;
+    sdsNFVendaLIVRONASC: TStringField;
+    sdsNFVendaFLLIVRONASC: TStringField;
+    sdsNFVendaLOCALTRABPAI: TStringField;
+    sdsNFVendaLOCALTRABMAE: TStringField;
+    sdsNFVendaTELTRABPAI: TStringField;
+    sdsNFVendaTELTRABMAE: TStringField;
+    sdsNFVendaINFONECESSARIAS: TStringField;
+    sdsNFVendaCARTEIRAVACINACAO: TStringField;
+    sdsNFVendaRAPRODESP: TStringField;
+    sdsNFVendaLOCALTRABALUNO: TStringField;
+    sdsNFVendaTELTRABALUNO: TStringField;
+    sdsNFVendaRAPROD: TStringField;
+    sdsNFVendaCERT_NAS_COMARCA: TStringField;
+    sdsNFVendaCERT_NAS_UF: TStringField;
+    sdsNFVendaCERT_NAS_MUNICIPIO: TStringField;
+    sdsNFVendaCERT_NAS_DISTRITO: TStringField;
+    sdsNFVendaCERT_NAS_SUBDISTRITO: TStringField;
+    sdsNFVendaDIVERSO1: TStringField;
+    sdsNFVendaDIVERSO2: TStringField;
+    sdsNFVendaDATAEMISSAORG: TDateField;
+    sdsNFVendaESTADORG: TStringField;
+    sdsNFVendaCOMUNICAALUNO: TStringField;
+    sdsNFVendaFONEMAE: TStringField;
+    sdsNFVendaCELULARMAE: TStringField;
+    sdsNFVendaCOMUNICAMAE: TStringField;
+    sdsNFVendaFONEPAI: TStringField;
+    sdsNFVendaCELULARPAI: TStringField;
+    sdsNFVendaCOMUNICAPAI: TStringField;
+    sdsNFVendaVALOR_MATRICULA: TFloatField;
+    sdsNFVendaDATATRANSF: TDateField;
+    sdsNFVendaCOR_RACA: TStringField;
+    sdsNFVendaPERIODO: TStringField;
+    sdsNFVendaFOTO: TStringField;
+    sdsNFVendaDATA_MATRICULA: TSQLTimeStampField;
+    sdsNFVendaCODRESPONSAVEL: TIntegerField;
+    sdsNFVendaID_COB: TIntegerField;
+    sdsNFVendaCOD_TRANPORTADORA: TIntegerField;
+    sdsNFVendaBLOQUEIO: TStringField;
+    sdsNFVendaCFOP_1: TStringField;
+    sdsNFVendaCOD_CLI: TStringField;
+    sdsNFVendaCORTESIA: TStringField;
+    sdsNFVendaVALOR_CONSUMO: TFloatField;
+    sdsNFVendaVALOR_CORTESIA: TFloatField;
+    sdsNFVendaE_FORNECEDOR: TStringField;
+    sdsNFVendaCODFORNECEDOR: TIntegerField;
+    sdsNFVendaCODFISCAL: TStringField;
+    sdsNFVendaCARGOFUNCAO: TIntegerField;
+    sdsNFVendaSUFRAMA: TStringField;
+    sdsNFVendaCODENDERECO: TIntegerField;
+    sdsNFVendaCODCLIENTE_2: TIntegerField;
+    sdsNFVendaLOGRADOURO: TStringField;
+    sdsNFVendaBAIRRO: TStringField;
+    sdsNFVendaCOMPLEMENTO: TStringField;
+    sdsNFVendaCIDADE: TStringField;
+    sdsNFVendaUF_1: TStringField;
+    sdsNFVendaCEP: TStringField;
+    sdsNFVendaTELEFONE: TStringField;
+    sdsNFVendaTELEFONE1: TStringField;
+    sdsNFVendaTELEFONE2: TStringField;
+    sdsNFVendaFAX: TStringField;
+    sdsNFVendaE_MAIL: TStringField;
+    sdsNFVendaRAMAL: TStringField;
+    sdsNFVendaTIPOEND: TSmallintField;
+    sdsNFVendaDADOSADICIONAIS: TStringField;
+    sdsNFVendaDDD: TStringField;
+    sdsNFVendaDDD1: TStringField;
+    sdsNFVendaDDD2: TStringField;
+    sdsNFVendaDDD3: TStringField;
+    sdsNFVendaNUMERO_2: TStringField;
+    sdsNFVendaCD_IBGE: TStringField;
+    sdsNFVendaPAIS: TStringField;
+    sdsNFVendaCODMOVIMENTO: TIntegerField;
+    cdsNFVendaNOTASERIE: TStringField;
+    cdsNFVendaNUMNF: TIntegerField;
+    cdsNFVendaNATUREZA: TSmallintField;
+    cdsNFVendaQUANTIDADE: TFloatField;
+    cdsNFVendaMARCA: TStringField;
+    cdsNFVendaPESOBRUTO: TBCDField;
+    cdsNFVendaPESOLIQUIDO: TBCDField;
+    cdsNFVendaESPECIE: TStringField;
+    cdsNFVendaDTAEMISSAO: TDateField;
+    cdsNFVendaDTASAIDA: TDateField;
+    cdsNFVendaUF: TStringField;
+    cdsNFVendaCODVENDA: TIntegerField;
+    cdsNFVendaCODTRANSP: TIntegerField;
+    cdsNFVendaNUMERO: TStringField;
+    cdsNFVendaNOTAFISCAL: TIntegerField;
+    cdsNFVendaHORASAIDA: TTimeField;
+    cdsNFVendaDATA_SISTEMA: TSQLTimeStampField;
+    cdsNFVendaBASE_ICMS: TFloatField;
+    cdsNFVendaVALOR_ICMS: TFloatField;
+    cdsNFVendaBASE_ICMS_SUBST: TFloatField;
+    cdsNFVendaVALOR_ICMS_SUBST: TFloatField;
+    cdsNFVendaVALOR_PRODUTO: TFloatField;
+    cdsNFVendaVALOR_FRETE: TFloatField;
+    cdsNFVendaVALOR_SEGURO: TFloatField;
+    cdsNFVendaOUTRAS_DESP: TFloatField;
+    cdsNFVendaVALOR_IPI: TFloatField;
+    cdsNFVendaVALOR_TOTAL_NOTA: TFloatField;
+    cdsNFVendaCORPONF1: TStringField;
+    cdsNFVendaCORPONF2: TStringField;
+    cdsNFVendaCORPONF3: TStringField;
+    cdsNFVendaCORPONF4: TStringField;
+    cdsNFVendaCORPONF5: TStringField;
+    cdsNFVendaCORPONF6: TStringField;
+    cdsNFVendaCFOP: TStringField;
+    cdsNFVendaCODCLIENTE: TIntegerField;
+    cdsNFVendaFATURA: TStringField;
+    cdsNFVendaICMS: TFloatField;
+    cdsNFVendaREDUZICMS: TFloatField;
+    cdsNFVendaNOMETRANSP: TStringField;
+    cdsNFVendaPLACATRANSP: TStringField;
+    cdsNFVendaCNPJ_CPF: TStringField;
+    cdsNFVendaEND_TRANSP: TStringField;
+    cdsNFVendaCIDADE_TRANSP: TStringField;
+    cdsNFVendaUF_VEICULO_TRANSP: TStringField;
+    cdsNFVendaUF_TRANSP: TStringField;
+    cdsNFVendaFRETE: TStringField;
+    cdsNFVendaINSCRICAOESTADUAL: TStringField;
+    cdsNFVendaSTATUS: TStringField;
+    cdsNFVendaVLRTOTALEXP: TFloatField;
+    cdsNFVendaIMPRESSA: TStringField;
+    cdsNFVendaSERIE: TStringField;
+    cdsNFVendaSELECIONOU: TStringField;
+    cdsNFVendaID_GUIA: TIntegerField;
+    cdsNFVendaPROTOCOLOENV: TStringField;
+    cdsNFVendaNUMRECIBO: TStringField;
+    cdsNFVendaPROTOCOLOCANC: TStringField;
+    cdsNFVendaPESOREMESSA: TBCDField;
+    cdsNFVendaNOTAMAE: TIntegerField;
+    cdsNFVendaVALOR_PIS: TFloatField;
+    cdsNFVendaVALOR_COFINS: TFloatField;
+    cdsNFVendaVALOR_DESCONTO: TFloatField;
+    cdsNFVendaCCUSTO: TIntegerField;
+    cdsNFVendaIDCOMPLEMENTAR: TStringField;
+    cdsNFVendaXMLNFE: TGraphicField;
+    cdsNFVendaBCII: TFloatField;
+    cdsNFVendaNOMEXML: TStringField;
+    cdsNFVendaII: TFloatField;
+    cdsNFVendaINDPAG: TIntegerField;
+    cdsNFVendaCODCLIENTE_1: TIntegerField;
+    cdsNFVendaNOMECLIENTE: TStringField;
+    cdsNFVendaRAZAOSOCIAL: TStringField;
+    cdsNFVendaCONTATO: TStringField;
+    cdsNFVendaTIPOFIRMA: TSmallintField;
+    cdsNFVendaCPF: TStringField;
+    cdsNFVendaCNPJ: TStringField;
+    cdsNFVendaINSCESTADUAL: TStringField;
+    cdsNFVendaRG: TStringField;
+    cdsNFVendaSEGMENTO: TSmallintField;
+    cdsNFVendaREGIAO: TSmallintField;
+    cdsNFVendaLIMITECREDITO: TFloatField;
+    cdsNFVendaDATACADASTRO: TDateField;
+    cdsNFVendaCODUSUARIO: TIntegerField;
+    cdsNFVendaSTATUS_1: TSmallintField;
+    cdsNFVendaHOMEPAGE: TStringField;
+    cdsNFVendaPRAZORECEBIMENTO: TSmallintField;
+    cdsNFVendaPRAZOENTREGA: TSmallintField;
+    cdsNFVendaCODBANCO: TSmallintField;
+    cdsNFVendaBASE_ICMS_1: TSmallintField;
+    cdsNFVendaDATANASC: TDateField;
+    cdsNFVendaCONTA_CLIENTE: TStringField;
+    cdsNFVendaOBS: TStringField;
+    cdsNFVendaTEM_IE: TStringField;
+    cdsNFVendaDATARESC: TDateField;
+    cdsNFVendaNOMEMAE: TStringField;
+    cdsNFVendaSEXO: TStringField;
+    cdsNFVendaFORMA_CORRESPOND: TStringField;
+    cdsNFVendaGRUPO_CLIENTE: TStringField;
+    cdsNFVendaCODINCLUCANC: TIntegerField;
+    cdsNFVendaEXIST_COBERT: TStringField;
+    cdsNFVendaEXISTCOPART: TStringField;
+    cdsNFVendaDATAREINC: TDateField;
+    cdsNFVendaGERAAVISO: TStringField;
+    cdsNFVendaGERAENV: TStringField;
+    cdsNFVendaGERABOL: TStringField;
+    cdsNFVendaEMVIAGEM: TStringField;
+    cdsNFVendaDTAALTERA: TDateField;
+    cdsNFVendaSERIELETRA: TStringField;
+    cdsNFVendaSERIE_1: TStringField;
+    cdsNFVendaRA: TStringField;
+    cdsNFVendaCURSO: TStringField;
+    cdsNFVendaIP: TStringField;
+    cdsNFVendaN_CONTRATO: TStringField;
+    cdsNFVendaMAC: TStringField;
+    cdsNFVendaMARCA_1: TStringField;
+    cdsNFVendaBANDA_UPLOAD: TStringField;
+    cdsNFVendaBANDA_DOWLOAD: TStringField;
+    cdsNFVendaTORRE_CONECCAO: TStringField;
+    cdsNFVendaCOD_FAIXA: TIntegerField;
+    cdsNFVendaDESCONTO: TFloatField;
+    cdsNFVendaMENSALIDADE: TFloatField;
+    cdsNFVendaANUIDADE: TFloatField;
+    cdsNFVendaPARCELA: TIntegerField;
+    cdsNFVendaPARCELAGERADAS: TIntegerField;
+    cdsNFVendaNUMERO_1: TIntegerField;
+    cdsNFVendaDATANASCIMENTO: TSQLTimeStampField;
+    cdsNFVendaANOLETIVO: TStringField;
+    cdsNFVendaSITUACAOESCOLAR: TStringField;
+    cdsNFVendaRGMAE: TStringField;
+    cdsNFVendaCPFMAE: TStringField;
+    cdsNFVendaPAI: TStringField;
+    cdsNFVendaRGPAI: TStringField;
+    cdsNFVendaCPFPAI: TStringField;
+    cdsNFVendaLANCADOCLASSE: TIntegerField;
+    cdsNFVendaTRANSPORTE: TStringField;
+    cdsNFVendaCIDADENASC: TStringField;
+    cdsNFVendaUFNASC: TStringField;
+    cdsNFVendaNACIONALIDADE: TStringField;
+    cdsNFVendaCERTIDAONASCNUM: TStringField;
+    cdsNFVendaLIVRONASC: TStringField;
+    cdsNFVendaFLLIVRONASC: TStringField;
+    cdsNFVendaLOCALTRABPAI: TStringField;
+    cdsNFVendaLOCALTRABMAE: TStringField;
+    cdsNFVendaTELTRABPAI: TStringField;
+    cdsNFVendaTELTRABMAE: TStringField;
+    cdsNFVendaINFONECESSARIAS: TStringField;
+    cdsNFVendaCARTEIRAVACINACAO: TStringField;
+    cdsNFVendaRAPRODESP: TStringField;
+    cdsNFVendaLOCALTRABALUNO: TStringField;
+    cdsNFVendaTELTRABALUNO: TStringField;
+    cdsNFVendaRAPROD: TStringField;
+    cdsNFVendaCERT_NAS_COMARCA: TStringField;
+    cdsNFVendaCERT_NAS_UF: TStringField;
+    cdsNFVendaCERT_NAS_MUNICIPIO: TStringField;
+    cdsNFVendaCERT_NAS_DISTRITO: TStringField;
+    cdsNFVendaCERT_NAS_SUBDISTRITO: TStringField;
+    cdsNFVendaDIVERSO1: TStringField;
+    cdsNFVendaDIVERSO2: TStringField;
+    cdsNFVendaDATAEMISSAORG: TDateField;
+    cdsNFVendaESTADORG: TStringField;
+    cdsNFVendaCOMUNICAALUNO: TStringField;
+    cdsNFVendaFONEMAE: TStringField;
+    cdsNFVendaCELULARMAE: TStringField;
+    cdsNFVendaCOMUNICAMAE: TStringField;
+    cdsNFVendaFONEPAI: TStringField;
+    cdsNFVendaCELULARPAI: TStringField;
+    cdsNFVendaCOMUNICAPAI: TStringField;
+    cdsNFVendaVALOR_MATRICULA: TFloatField;
+    cdsNFVendaDATATRANSF: TDateField;
+    cdsNFVendaCOR_RACA: TStringField;
+    cdsNFVendaPERIODO: TStringField;
+    cdsNFVendaFOTO: TStringField;
+    cdsNFVendaDATA_MATRICULA: TSQLTimeStampField;
+    cdsNFVendaCODRESPONSAVEL: TIntegerField;
+    cdsNFVendaID_COB: TIntegerField;
+    cdsNFVendaCOD_TRANPORTADORA: TIntegerField;
+    cdsNFVendaBLOQUEIO: TStringField;
+    cdsNFVendaCFOP_1: TStringField;
+    cdsNFVendaCOD_CLI: TStringField;
+    cdsNFVendaCORTESIA: TStringField;
+    cdsNFVendaVALOR_CONSUMO: TFloatField;
+    cdsNFVendaVALOR_CORTESIA: TFloatField;
+    cdsNFVendaE_FORNECEDOR: TStringField;
+    cdsNFVendaCODFORNECEDOR: TIntegerField;
+    cdsNFVendaCODFISCAL: TStringField;
+    cdsNFVendaCARGOFUNCAO: TIntegerField;
+    cdsNFVendaSUFRAMA: TStringField;
+    cdsNFVendaCODENDERECO: TIntegerField;
+    cdsNFVendaCODCLIENTE_2: TIntegerField;
+    cdsNFVendaLOGRADOURO: TStringField;
+    cdsNFVendaBAIRRO: TStringField;
+    cdsNFVendaCOMPLEMENTO: TStringField;
+    cdsNFVendaCIDADE: TStringField;
+    cdsNFVendaUF_1: TStringField;
+    cdsNFVendaCEP: TStringField;
+    cdsNFVendaTELEFONE: TStringField;
+    cdsNFVendaTELEFONE1: TStringField;
+    cdsNFVendaTELEFONE2: TStringField;
+    cdsNFVendaFAX: TStringField;
+    cdsNFVendaE_MAIL: TStringField;
+    cdsNFVendaRAMAL: TStringField;
+    cdsNFVendaTIPOEND: TSmallintField;
+    cdsNFVendaDADOSADICIONAIS: TStringField;
+    cdsNFVendaDDD: TStringField;
+    cdsNFVendaDDD1: TStringField;
+    cdsNFVendaDDD2: TStringField;
+    cdsNFVendaDDD3: TStringField;
+    cdsNFVendaNUMERO_2: TStringField;
+    cdsNFVendaCD_IBGE: TStringField;
+    cdsNFVendaPAIS: TStringField;
+    cdsNFVendaCODMOVIMENTO: TIntegerField;
+    sdsProdutoUN: TStringField;
+    cdsProdutoUN: TStringField;
+    sdsTotal: TSQLDataSet;
+    sdsTotalIPI: TFloatField;
+    sdsTotalPIS: TFloatField;
+    sdsTotalCOFINS: TFloatField;
+    SaveDialog1: TSaveDialog;
+    BitBtn1: TBitBtn;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -858,12 +889,14 @@ type
     procedure FormCreate(Sender: TObject);
     procedure cbTipoChange(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     util : Tutils;
     tipo: String;
     function validaCodMunicipio(cod: String; quem: String):String;
-    function cstPis(cstP: String): TACBrSituacaoTribPIS;
-    function cstCofins(cstC: String): TACBrSituacaoTribCOFINS;
+    function cstPis(cstP: String; nota: String): TACBrSituacaoTribPIS;
+    function cstCofins(cstC: String; nota: String): TACBrSituacaoTribCOFINS;
+    function cstIcms(cstI: String; nota: String):TACBrSituacaoTribICMS;
     procedure LoadToMemo;
     procedure blocoO;
     procedure bloco1;
@@ -872,7 +905,8 @@ type
     procedure blocoD;
     procedure blocoF;
     procedure blocoM;
-    procedure abrirTabelas;
+    procedure abrirTabelasCompra;
+    procedure abrirTabelasVenda;
     { Private declarations }
   public
     codMovMin, codMovMax: Integer;
@@ -884,7 +918,7 @@ var
 
 implementation
 
-uses UDm, ACBrEPCBloco_0;
+uses UDm, ACBrEPCBloco_0, ACBrEPCBloco_0_Class, Math;
 
 {$R *.dfm}
 
@@ -1111,8 +1145,8 @@ begin
          int0140 := 1;  // 1 Estabelecimento
          with Registro0140New do
          begin
-           COD_EST := IntToStr(int0140);
-           NOME    := cdsEmpresaRAZAO.AsString + IntToStr(int0140);
+           COD_EST := IntToStr(cdsEmpresaCODIGO.asInteger);
+           NOME    := cdsEmpresaRAZAO.AsString;
            CNPJ    := util.RemoveChar(cdsEmpresaCNPJ_CPF.AsString);
            UF      := cdsEmpresaUF.AsString;
            IE      := util.RemoveChar(cdsEmpresaIE_RG.AsString);
@@ -1147,9 +1181,9 @@ begin
                //0150 - Tabela de Cadastro do Participante
                with Registro0150New do
                begin
-                 int0150 := cdsEmpECODFORNECEDOR.AsInteger;
-                 COD_PART := IntToStr(int0150);
-                 NOME     := cdsEmpERAZAOSOCIAL.AsString + IntToStr(int0150);
+                 //int0150 := cdsEmpECODFORNECEDOR.AsInteger;
+                 COD_PART := FormatFloat('100000', cdsEmpECODFORNECEDOR.asInteger);
+                 NOME     := cdsEmpERAZAOSOCIAL.AsString;
                  if (cdsEmpEPAIS.AsString = 'Brasil') then
                  COD_PAIS := '1058';
                  if (cdsEmpETIPOFIRMA.AsInteger = 1) then
@@ -1165,9 +1199,9 @@ begin
                  IE       := util.RemoveChar(cdsEmpEINSCESTADUAL.AsString);
                  COD_MUN  := StrToInt(validaCodMunicipio(cdsEmpECD_IBGE.AsString, cdsEmpERAZAOSOCIAL.AsString));
                  SUFRAMA  := '';
-                 ENDERECO := cdsEmpELOGRADOURO.AsString + IntToStr(int0150);
+                 ENDERECO := cdsEmpELOGRADOURO.AsString;
                  NUM      := cdsEmpENUMERO.AsString;
-                 COMPL    := cdsEmpECOMPLEMENTO.AsString + IntToStr(int0150);
+                 COMPL    := cdsEmpECOMPLEMENTO.AsString;
                  BAIRRO   := cdsEmpEBAIRRO.AsString;
                  //
                end;
@@ -1183,9 +1217,8 @@ begin
                //0150 - Tabela de Cadastro do Participante
                with Registro0150New do
                begin
-                 int0150 := cdsEmpSCODCLIENTE.AsInteger;
-                 COD_PART := IntToStr(int0150);
-                 NOME     := cdsEmpSRAZAOSOCIAL.AsString + IntToStr(int0150);
+                 COD_PART := FormatFloat('200000', cdsEmpSCODCLIENTE.asInteger);;
+                 NOME     := cdsEmpSRAZAOSOCIAL.AsString;
                  if (cdsEmpSPAIS.AsString = 'Brasil') then
                    COD_PAIS := '1058';
                  if (cdsEmpSTIPOFIRMA.AsInteger = 1) then
@@ -1201,9 +1234,9 @@ begin
                  IE       := util.RemoveChar(cdsEmpSINSCESTADUAL.AsString);
                  COD_MUN  := StrToInt(validaCodMunicipio(cdsEmpSCD_IBGE.AsString, cdsEmpSRAZAOSOCIAL.AsString));
                  SUFRAMA  := '';
-                 ENDERECO := cdsEmpSLOGRADOURO.AsString + IntToStr(int0150);
+                 ENDERECO := cdsEmpSLOGRADOURO.AsString;
                  NUM      := cdsEmpSNUMERO.AsString;
-                 COMPL    := cdsEmpSCOMPLEMENTO.AsString + IntToStr(int0150);
+                 COMPL    := cdsEmpSCOMPLEMENTO.AsString;
                  BAIRRO   := cdsEmpSBAIRRO.AsString;
                  //
                  cdsEmpS.Next;
@@ -1243,11 +1276,11 @@ begin
              // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
              with Registro0200New do
              begin
-               COD_ITEM     := FORMATFLOAT(Format('%6.6d',[cdsProdutoCODPRODUTO.AsInteger]), int0200);
+               COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger);
                DESCR_ITEM   := cdsProdutoPRODUTO.AsString;
                COD_BARRA    := '';
                COD_ANT_ITEM := '';
-               UNID_INV     := '';
+               UNID_INV     := cdsProdutoUN.AsString;
                TIPO_ITEM    := tiMercadoriaRevenda;
                COD_NCM      := cdsProdutoNCM.AsString;
                EX_IPI       := '';
@@ -1257,6 +1290,18 @@ begin
              end;
              cdsProduto.Next;
            end; 
+         end;
+
+         with Registro0400New do
+         begin
+           COD_NAT   := '03';
+           DESCR_NAT := 'Venda de Mercadorias';
+         end;
+
+         with Registro0400New do
+         begin
+           COD_NAT   := '04';
+           DESCR_NAT := 'Compra de Mercadorias';
          end;
 
          // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS
@@ -1309,7 +1354,7 @@ IItens: Integer;
 NNotas: Integer;
 BNotas: Integer;
 parametroVer: Integer;
-codParticip: Integer;
+codParticip, progresso: Integer;
 begin
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco C.
@@ -1317,9 +1362,9 @@ begin
   BNotas := StrToInt64Def(edBufNotas.Text,1);
 
   ProgressBar1.Visible := cbConcomitante.Checked ;
-  ProgressBar1.Max     := NNotas;
+  ProgressBar1.Max     := 2*(codMovMax-codMovMin);
   ProgressBar1.Position:= 0 ;
-
+  progresso := 1;
   codParticip := 0;
   //Primeiro as NFs de Entrada
   if (cdsCompra.Active) then
@@ -1329,153 +1374,177 @@ begin
   cdsCompra.Params[2].AsDate    := data_ini.Date;
   cdsCompra.Params[3].AsDate    := data_fim.Date;
   cdsCompra.Open;
-  // INICIO BLOCO COMPRAS  ######################
-  if (not cdsCompra.IsEmpty) then
+
+  if (sdsTotal.Active) then
+    sdsTotal.Close;
+  sdsTotal.Params[0].AsInteger := codMovMin;
+  sdsTotal.Params[1].AsInteger := codMovMax;
+  sdsTotal.Params[2].AsDate    := data_ini.Date;
+  sdsTotal.Params[3].AsDate    := data_fim.Date;
+  sdsTotal.Open;
+
+  with ACBrSPEDPisCofins1.Bloco_C do
   begin
-    with ACBrSPEDPisCofins1.Bloco_C do
+    with RegistroC001New do
     begin
-      with RegistroC001New do
+      IND_MOV := imComDados;
+      //parametroVer := cdsCompraCODDETALHE.AsInteger;
+      //C010 - Identificação do Estabelecimento
+      with RegistroC010New do
       begin
-        IND_MOV := imComDados;
-        //parametroVer := cdsCompraCODDETALHE.AsInteger;
-        //C010 - Identificação do Estabelecimento
-        with RegistroC010New do
-        begin
-          CNPJ := util.RemoveChar(cdsEmpresaCNPJ_CPF.AsString);
-          IND_ESCRI := IndEscriIndividualizado;
+        CNPJ := util.RemoveChar(cdsEmpresaCNPJ_CPF.AsString);
+        IND_ESCRI := IndEscriIndividualizado;
 
-        While not cdsCompra.Eof do
+        // INICIO BLOCO COMPRAS  ######################
+        {if (not cdsCompra.IsEmpty) then
         begin
-          //Inserir Notas...
-          //for INotas := 1 to NNotas do
-          //begin
-          //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
-          // Fiscal de Produtor (código 04) e NF-e (código 55)
-          with RegistroC100New do
+          While not cdsCompra.Eof do
           begin
-            IND_OPER      := tpEntradaAquisicao; // tpEntradaAquisicao, // 0 - Entrada
-            IND_EMIT      := edTerceiros;   // 0 - Emissão própria // 1 - Terceiro
-            COD_PART      := InttoStr(cdsCompraCODFORNECEDOR.asInteger);
-            COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
-            if (cdsCompraSERIE.AsString = '1A') then
-              COD_MOD       := '01';
-            COD_SIT       := sdRegular;
-            SER           := ''; //04	SER	Série do documento fiscal	C	003	-
-            //NUM_DOC       := FormatFloat('NF000000', cdsCompraNOTAFISCAL.AsInteger);  //INotas
-            NUM_DOC       := IntToStr(cdsCompraNOTAFISCAL.AsInteger);
-            CHV_NFE       := '';  //cdsCOMPRANOMEXML.AsString;
-            DT_DOC        := cdsCompraDATACOMPRA.AsDateTime;
-            DT_E_S        := cdsCompraDATACOMPRA.AsDateTime;
-            VL_DOC        := cdsCompraVALOR.AsFloat;
-            IND_PGTO      := tpPrazo;
-            VL_DESC       := 0;
-            VL_ABAT_NT    := 0;
-            VL_MERC       := cdsCompraVALOR.AsFloat;
-            IND_FRT       := tfSemCobrancaFrete;
-            VL_FRT        := cdsCompraVALOR_FRETE.AsFloat;
-            VL_SEG        := cdsCompraVALOR_SEGURO.AsFloat;
-            VL_OUT_DA     := 0;
-            VL_BC_ICMS    := cdsCompraVALOR.AsFloat;
-            VL_ICMS       := cdsCompraVALOR_ICMS.AsFloat;
-            VL_BC_ICMS_ST := cdsCompraICMS_BASE_ST.AsFloat;
-            VL_ICMS_ST    := cdsCompraICMS_ST.AsFloat;
-            VL_IPI        := cdsCompraVALOR_IPI.AsFloat;
-            VL_PIS        := 0;
-            VL_COFINS     := 0;
-            VL_PIS_ST     := 0;
-            VL_COFINS_ST  := 0;
+            progressBar1.Step := progresso;
+            progresso := progresso + 1;
+            //Inserir Notas...
+            //for INotas := 1 to NNotas do
+            //begin
+            //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
+            // Fiscal de Produtor (código 04) e NF-e (código 55)
+            with RegistroC100New do
+            begin
+              IND_OPER      := tpEntradaAquisicao; // tpEntradaAquisicao, // 0 - Entrada
+              IND_EMIT      := edTerceiros;   // 0 - Emissão própria // 1 - Terceiro
+              COD_PART      := FormatFloat('100000', cdsCompraCODFORNECEDOR.asInteger);
+              COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
+              if (cdsCompraSERIE.AsString = '1A') then
+                COD_MOD       := '01';
+              COD_SIT       := sdRegular;
+              SER           := ''; //04	SER	Série do documento fiscal	C	003	-
+              //NUM_DOC       := FormatFloat('NF000000', cdsCompraNOTAFISCAL.AsInteger);  //INotas
 
-            if (cdsCompraDet.Active) then
-              cdsCompraDet.Close;
-            cdsCompraDet.Params[0].AsInteger := cdsCompraCODMOVIMENTO.AsInteger;
-            cdsCompraDet.Open;
-            // INICIO BLOCO COMPRAS  ######################
-            IItens := 1;
-            While not cdsCompraDet.Eof do
-            begin
-              //10 itens para cada nota...
-              //for IItens := 1 to 10 do
-              //begin
-              //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
-              with RegistroC170New do   //Inicio Adicionar os Itens:
+              NUM_DOC       := IntToStr(cdsCompraNOTAFISCAL.AsInteger);
+              CHV_NFE       := cdsCompraCHAVENF.AsString;
+              DT_DOC        := cdsCompraDATACOMPRA.AsDateTime;
+              DT_E_S        := cdsCompraDATACOMPRA.AsDateTime;
+              VL_DOC        := cdsCompraVALOR.AsFloat;
+              IND_PGTO      := tpPrazo;
+              VL_DESC       := 0;
+              VL_ABAT_NT    := 0;
+              VL_MERC       := cdsCompraVALOR.AsFloat;
+              IND_FRT       := tfSemCobrancaFrete;
+              VL_FRT        := cdsCompraVALOR_FRETE.AsFloat;
+              VL_SEG        := cdsCompraVALOR_SEGURO.AsFloat;
+              VL_OUT_DA     := 0;
+              VL_BC_ICMS    := cdsCompraVALOR.AsFloat;
+              VL_ICMS       := cdsCompraVALOR_ICMS.AsFloat;
+              VL_BC_ICMS_ST := cdsCompraICMS_BASE_ST.AsFloat;
+              VL_ICMS_ST    := cdsCompraICMS_ST.AsFloat;
+              VL_IPI        := sdsTotalIPI.AsFloat;
+              VL_PIS        := sdsTotalPIS.AsFloat;
+              VL_COFINS     := sdsTotalCOFINS.AsFloat;
+              VL_PIS_ST     := 0;
+              VL_COFINS_ST  := 0;
+
+              if (cdsCompraDet.Active) then
+                cdsCompraDet.Close;
+              cdsCompraDet.Params[0].AsInteger := cdsCompraCODMOVIMENTO.AsInteger;
+              cdsCompraDet.Open;
+              // INICIO BLOCO COMPRAS  ######################
+              IItens := 1;
+              While not cdsCompraDet.Eof do
               begin
-                NUM_ITEM         := FormatFloat('000', IItens);
-                COD_ITEM         := FormatFloat('000000', cdsCompraDetCODPRODUTO.AsInteger);
-                DESCR_COMPL      := FormatFloat('NF000000',INotas)+' -> ITEM '+COD_ITEM;
-                QTD              := cdsCompraDetQUANTIDADE.AsFloat;
-                UNID             := cdsCompraDetUN.AsString;
-                VL_ITEM          := cdsCompraDetPRECO.AsFloat;
-                VL_DESC          := 0;
-                IND_MOV          := mfSim;
-                CST_ICMS         := sticmsTributadaIntegralmente;
-                CFOP             := cdsCompraDetCFOP.AsString;
-                COD_NAT          := '04';
-                VL_BC_ICMS       := cdsCompraDetVLR_BASEICMS.AsFloat;
-                ALIQ_ICMS        := cdsCompraDetICMS.AsFloat;
-                VL_ICMS          := cdsCompraDetVALOR_ICMS.AsFloat;
-                VL_BC_ICMS_ST    := cdsCompraDetICMS_SUBST.AsFloat;
-                ALIQ_ST          := cdsCompraDetICMS_SUBSTD.AsFloat;
-                VL_ICMS_ST       := 0;
-                if (cdsCompraDetICMS_SUBSTD.AsFloat > 0) then
-                  VL_ICMS_ST     := cdsCompraDetICMS_SUBST.AsFloat/cdsCompraDetICMS_SUBSTD.AsFloat;
-                IND_APUR         := iaMensal;
-                Case StrToInt(cdsCompraDetCSTIPI.AsString) of
-                   0 : CST_IPI := stipiEntradaRecuperacaoCredito;// '00' // Entrada com recuperação de crédito
-                   1 : CST_IPI := stipiEntradaTributradaZero;    // '01' // Entrada tributada com alíquota zero
-                   2 : CST_IPI := stipiEntradaIsenta;            // '02' // Entrada isenta
-                   3 : CST_IPI := stipiEntradaNaoTributada;      // '03' // Entrada não-tributada
-                   4 : CST_IPI := stipiEntradaImune;             // '04' // Entrada imune
-                   5 : CST_IPI := stipiEntradaComSuspensao;      // '05' // Entrada com suspensão
-                  49 : CST_IPI := stipiOutrasEntradas;           // '49' // Outras entradas
-                  50 : CST_IPI := stipiSaidaTributada;           // '50' // Saída tributada
-                  51 : CST_IPI := stipiSaidaTributadaZero;       // '51' // Saída tributada com alíquota zero
-                  52 : CST_IPI := stipiSaidaIsenta;              // '52' // Saída isenta
-                  53 : CST_IPI := stipiSaidaNaoTributada;        // '53' // Saída não-tributada
-                  54 : CST_IPI := stipiSaidaImune;               // '54' // Saída imune
-                  55 : CST_IPI := stipiSaidaComSuspensao;        // '55' // Saída com suspensão
-                  99 : CST_IPI := stipiOutrasSaidas;             // '99' // Outras saídas
-                end;
-                COD_ENQ          := '';
-                VL_BC_IPI        := cdsCompraDetVLR_BASEICMS.AsFloat;
-                ALIQ_IPI         := 0;
-                if (cdsCompraDetVLR_BASEICMS.AsFloat > 0) then
-                  ALIQ_IPI       := cdsCompraDetVIPI.AsFloat/cdsCompraDetVLR_BASEICMS.AsFloat;
-                VL_IPI           := cdsCompraDetVIPI.AsFloat;
-                CST_PIS          := cstPis(cdsCompraDetCSTPIS.AsString); //  stpisOutrasOperacoesSaida;  // #########
-                VL_BC_PIS        := 0;
-                ALIQ_PIS_PERC    := 0;
-                QUANT_BC_PIS     := 0;
-                ALIQ_PIS_R       := 0;
-                VL_PIS           := 0;
-                CST_COFINS       := cstCofins(cdsCompraDetCSTCOFINS.AsString);
-                VL_BC_COFINS     := 0;
-                ALIQ_COFINS_PERC := 0;
-                QUANT_BC_COFINS  := 0;
-                ALIQ_COFINS_R    := 0;
-                VL_COFINS        := 0;
-                COD_CTA          := '000';
-              end; //Fim dos Itens;
-              IItens := IItens + 1;
-               // end;
-              cdsCompraDet.Next;
-            end;
-            if cbConcomitante.Checked then
-            begin
-              if (INotas mod BNotas) = 0 then   // Gravar a cada BNotas notas
-              begin
-                // Grava registros na memoria para o TXT, e limpa memoria
-                ACBrSPEDPisCofins1.WriteBloco_C( False );  // False, NAO fecha o Bloco
-                ProgressBar1.Position := INotas;
-                Application.ProcessMessages;
+                //10 itens para cada nota...
+                //for IItens := 1 to 10 do
+                //begin
+                //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
+                with RegistroC170New do   //Inicio Adicionar os Itens:
+                begin
+                  NUM_ITEM         := FormatFloat('000', IItens);
+                  COD_ITEM         := FormatFloat('000000', cdsCompraDetCODPRODUTO.AsInteger);
+                  DESCR_COMPL      := cdsCompraDetDESCPRODUTO.AsString;
+                  QTD              := cdsCompraDetQUANTIDADE.AsFloat;
+                  UNID             := cdsCompraDetUN.AsString;
+                  VL_ITEM          := cdsCompraDetPRECO.AsFloat;
+                  VL_DESC          := 0;
+                  IND_MOV          := mfSim;
+                  CST_ICMS         := cstIcms(cdsCompraDetCST.AsString, InttoStr(cdsCompraNOTAFISCAL.AsInteger) + '-COMPRA');
+                  CFOP             := cdsCompraDetCFOP.AsString;
+                  COD_NAT          := '04';
+                  VL_BC_ICMS       := cdsCompraDetVLR_BASEICMS.AsFloat;
+                  ALIQ_ICMS        := cdsCompraDetICMS.AsFloat;
+                  VL_ICMS          := cdsCompraDetVALOR_ICMS.AsFloat;
+                  VL_BC_ICMS_ST    := cdsCompraDetICMS_SUBST.AsFloat;
+                  ALIQ_ST          := cdsCompraDetICMS_SUBSTD.AsFloat;
+                  VL_ICMS_ST       := 0;
+
+                  if (cdsCompraDetICMS_SUBSTD.AsFloat > 0) then
+                    VL_ICMS_ST     := SimpleRoundTo((cdsCompraDetICMS_SUBST.AsFloat/cdsCompraDetICMS_SUBSTD.AsFloat),(-2));
+                  IND_APUR         := iaMensal;
+
+                  if (cdsCompraDetCSTIPI.AsString = '') then
+                  begin
+                    MessageDlg('CST - IPI não preenchido. Nota - ' +
+                    IntToStr(cdsCompraNOTAFISCAL.AsInteger)+ '-COMPRA' , mtWarning, [mbOK], 0);
+                    exit;
+                  end;
+
+                  Case StrToInt(trim(cdsCompraDetCSTIPI.AsString)) of
+                     0 : CST_IPI := stipiEntradaRecuperacaoCredito;// '00' // Entrada com recuperação de crédito
+                     1 : CST_IPI := stipiEntradaTributradaZero;    // '01' // Entrada tributada com alíquota zero
+                     2 : CST_IPI := stipiEntradaIsenta;            // '02' // Entrada isenta
+                     3 : CST_IPI := stipiEntradaNaoTributada;      // '03' // Entrada não-tributada
+                     4 : CST_IPI := stipiEntradaImune;             // '04' // Entrada imune
+                     5 : CST_IPI := stipiEntradaComSuspensao;      // '05' // Entrada com suspensão
+                    49 : CST_IPI := stipiOutrasEntradas;           // '49' // Outras entradas
+                    50 : CST_IPI := stipiSaidaTributada;           // '50' // Saída tributada
+                    51 : CST_IPI := stipiSaidaTributadaZero;       // '51' // Saída tributada com alíquota zero
+                    52 : CST_IPI := stipiSaidaIsenta;              // '52' // Saída isenta
+                    53 : CST_IPI := stipiSaidaNaoTributada;        // '53' // Saída não-tributada
+                    54 : CST_IPI := stipiSaidaImune;               // '54' // Saída imune
+                    55 : CST_IPI := stipiSaidaComSuspensao;        // '55' // Saída com suspensão
+                    99 : CST_IPI := stipiOutrasSaidas;             // '99' // Outras saídas
+                  end;
+                  COD_ENQ          := '';
+                  VL_BC_IPI        := cdsCompraDetVLR_BASEICMS.AsFloat;
+                  ALIQ_IPI         := 0;
+                  if (cdsCompraDetVLR_BASEICMS.AsFloat > 0) then
+                    ALIQ_IPI       := SimpleRoundTo(((cdsCompraDetVIPI.AsFloat/cdsCompraDetVLR_BASEICMS.AsFloat)*100),(-2));
+                  VL_IPI           := cdsCompraDetVIPI.AsFloat;
+                  CST_PIS          := cstPis(cdsCompraDetCSTPIS.AsString, InttoStr(cdsCompraNOTAFISCAL.AsInteger)+ '-COMPRA'); //  stpisOutrasOperacoesSaida;  // #########
+                  VL_PIS           := cdsCompraDetVALOR_PIS.AsFloat;
+                  VL_BC_PIS        := cdsCompraDetVLR_BASEICMS.AsFloat;
+                  ALIQ_PIS_PERC    := 0;
+                  if ( VL_BC_PIS > 0) then
+                    ALIQ_PIS_PERC    := SimpleRoundTo(((VL_PIS/VL_BC_PIS)*100),(-2));
+                  QUANT_BC_PIS     := 0;
+                  ALIQ_PIS_R       := 0;
+
+                  CST_COFINS       := cstCofins(cdsCompraDetCSTCOFINS.AsString, InttoStr(cdsCompraNOTAFISCAL.AsInteger)+ '-COMPRA');
+                  VL_BC_COFINS     := cdsCompraDetVLR_BASEICMS.AsFloat;
+                  ALIQ_COFINS_PERC := 0;
+                  VL_COFINS        := cdsCompraDetVALOR_COFINS.AsFloat;
+                  if (VL_BC_COFINS > 0) then
+                    ALIQ_COFINS_PERC := SimpleRoundTo(((VL_COFINS/VL_BC_COFINS)*100),(-2));
+                  QUANT_BC_COFINS  := 0;
+                  ALIQ_COFINS_R    := 0;
+                  VL_COFINS        := 0;
+                  COD_CTA          := '';
+                end; //Fim dos Itens;
+                IItens := IItens + 1;
+                 // end;
+                cdsCompraDet.Next;
               end;
-            end;
-
-          end;
-
-          //10 itens c190    // CARLOS - CONSOLIDADO NÃO PRECISO, POIS, ESTOU INFORMANDO
+              {if cbConcomitante.Checked then
+              begin
+                if (INotas mod BNotas) = 0 then   // Gravar a cada BNotas notas
+                begin
+                  // Grava registros na memoria para o TXT, e limpa memoria
+                  ACBrSPEDPisCofins1.WriteBloco_C( False );  // False, NAO fecha o Bloco
+                  ProgressBar1.Position := INotas;
+                  Application.ProcessMessages;
+                end;
+              end;
+            end; }
+            //10 itens c190    // CARLOS - CONSOLIDADO NÃO PRECISO, POIS, ESTOU INFORMANDO
                                  // INDIVIDUALIZADO
-
-          //CARLOS                       aqui
+            //CARLOS                       aqui
           {   for IItens := 1 to 10 do
               begin
                 // c190 - Consolidação de Notas Fiscais Eletrônicas (Código 55) – Operações de
@@ -1492,168 +1561,181 @@ begin
                    VL_TOT_ITEM := 0;
                 end;//Fim dos Itens;
               end;
-          }
-
-        codParticip := cdsCompraCODFORNECEDOR.AsInteger;
-        cdsCompra.Next;
-        end;        
-      end;
-    end;
-  end;  // FIM BLOCO COMPRAS ######################
-  end;
-
-  //While (not cdsMov.Eof) do
-  //begin
-
-  {  if (cdsNFVenda.Active) then
-      cdsNFVenda.Close;
-    cdsNFVenda.Params[0].AsDateTime := data_ini.Date;
-    cdsNFVenda.Params[1].AsDateTime := data_fim.Date;
-    cdsNFVenda.Params[2].AsInteger := cdsMov.Fields[0].AsInteger;
-    cdsNFVenda.Open;
 
 
+            codParticip := cdsCompraCODFORNECEDOR.AsInteger;
+            cdsCompra.Next;
+          end; // FIM DO WHILE DE COMPRAS
+          // FIM BLOCO COMPRAS ######################
+        end;      }
 
-    if (not cdsNFVenda.IsEmpty) then
-    begin
-
-    with ACBrSPEDPisCofins1.Bloco_C do
-    begin
-      with RegistroC001New do
-      begin
-         IND_MOV := imComDados;
-
-         //C010 - Identificação do Estabelecimento
-         with RegistroC010New do
-         begin
-           CNPJ := util.RemoveChar(cdsNFVendaCNPJ.AsString);
-           IND_ESCRI := IndEscriConsolidado;
-
-           //Inserir Notas...
-           for INotas := 1 to NNotas do
-           begin
-              //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
-              // Fiscal de Produtor (código 04) e NF-e (código 55)
-              with RegistroC100New do
+        abrirTabelasVenda;
+        // BLOCO VENDAS ###########################
+        if (not cdsNFVenda.IsEmpty) then
+        begin
+          While not cdsNFVenda.Eof do
+          begin
+            progressBar1.Step := progresso;
+            progresso := progresso + 1;
+            //Inserir Notas...
+            //for INotas := 1 to NNotas do
+            //begin
+            //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
+            // Fiscal de Produtor (código 04) e NF-e (código 55)
+            with RegistroC100New do
+            begin
+              IND_OPER      := tpSaidaPrestacao; // 1-Saida
+              IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
+              COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
+              COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
+              COD_SIT       := sdRegular;
+              SER           := cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+              NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
+              CHV_NFE       := cdsNFVendaNOMEXML.AsString;
+              DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
+              DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
+              VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
+              IND_PGTO      := tpPrazo;
+              VL_DESC       := cdsNFVendaDESCONTO.AsFloat;
+              VL_ABAT_NT    := 0;
+              VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
+              if (cdsNFVendaFRETE.AsString = '0') then
               begin
-                IND_OPER      :=  tpSaidaPrestacao; // tpEntradaAquisicao, // 0 - Entrada
-                IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
-                COD_PART      := InttoStr(cdsNFVendaCODCLIENTE.asInteger);
-                COD_MOD       := '55';               //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
-                COD_SIT       := sdRegular;
-                SER           := cdsNFVendaSERIE.AsString;                 //04	SER	Série do documento fiscal	C	003	-
-                NUM_DOC       := FormatFloat('NF000000', StrToInt(cdsNFVendaNOTASERIE.AsString));  //INotas
-                CHV_NFE       := cdsNFVendaNOMEXML.AsString;
-                DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
-                DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
-                VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
-                IND_PGTO      := tpPrazo;
-                VL_DESC       := cdsNFVendaVALOR_DESCONTO.AsFloat;
-                VL_ABAT_NT    := 0;
-                VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
-                IND_FRT       := tfSemCobrancaFrete;
-                VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
-                VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
-                VL_OUT_DA     := 0;
-                VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
-                VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
-                VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
-                VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
-                VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
-                VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
-                VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
-                VL_PIS_ST     := 0;
-                VL_COFINS_ST  := 0;
+                IND_FRT := tfPorContaTerceiros;     // 0 - Por conta de terceiros
+              end
+              else if (cdsNFVendaFRETE.AsString = '1') then
+              begin
+                IND_FRT := tfPorContaEmitente;      // 1 - Por conta do emitente
+              end
+              else if (cdsNFVendaFRETE.AsString = '2') then
+              begin
+                IND_FRT := tfPorContaDestinatario;  // 2 - Por conta do destinatário
+              end
+              else if (cdsNFVendaFRETE.AsString = '3') then
+              begin
+                IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
+              end
+              else
+              begin
+                IND_FRT := tfNenhum;                 // Preencher vazio
+              end;
+              VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
+              VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
+              VL_OUT_DA     := 0;
+              VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
+              VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
+              VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
+              VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
+              VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
+              VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
+              VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
+              VL_PIS_ST     := 0;
+              VL_COFINS_ST  := 0;
 
+              if (cdsItens.Active) then
+                cdsItens.Close;
+              cdsItens.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
+              cdsItens.Open;
+              // INICIO BLOCO DET VENDAS  ######################
+              IItens := 1;
+              While not cdsItens.Eof do
+              begin
                 //10 itens para cada nota...
-                for IItens := 1 to 10 do
+                //for IItens := 1 to 10 do
+                //begin
+                //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
+                with RegistroC170New do   //Inicio Adicionar os Itens:
                 begin
-                  //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
-                  with RegistroC170New do   //Inicio Adicionar os Itens:
+                  NUM_ITEM         := FormatFloat('000', IItens);
+                  COD_ITEM         := FormatFloat('000000', cdsItensCODPRODUTO.AsInteger);
+                  DESCR_COMPL      := cdsItensDESCPRODUTO.AsString;
+                  QTD              := cdsItensQUANTIDADE.AsFloat;
+                  UNID             := cdsItensUN.AsString;
+                  VL_ITEM          := cdsItensPRECO.AsFloat;
+                  VL_DESC          := cdsItensVALOR_DESCONTO.AsFloat;
+                  IND_MOV          := mfSim;
+                  //CST_ICMS
+                  CST_ICMS         := cstIcms(cdsItensCST.asString, cdsNFVendaNOTASERIE.AsString + '-VENDA');// sticmsTributadaIntegralmente;
+                  CFOP             := cdsItensCFOP.AsString;
+                  COD_NAT          := '03';  // Venda
+                  VL_BC_ICMS       := cdsItensVLR_BASEICMS.AsFloat;
+                  ALIQ_ICMS        := cdsItensICMS.AsFloat;
+                  VL_ICMS          := cdsItensVALOR_ICMS.AsFloat;
+                  VL_BC_ICMS_ST    := cdsItensICMS_SUBST.AsFloat;
+                  ALIQ_ST          := cdsItensICMS_SUBSTD.AsFloat;
+                  //CARLOS  AQUI
+                  VL_ICMS_ST       := 0;
+                  if (ALIQ_ST > 0) then
+                    VL_ICMS_ST     := SimpleRoundTo(((VL_BC_ICMS_ST/ALIQ_ST)*100),(-2));
+                  IND_APUR         := iaMensal;
+
+                  if (cdsCompraDetCSTIPI.AsString = '') then
                   begin
-                     NUM_ITEM         := FormatFloat('000', IItens);
-                     COD_ITEM         := FormatFloat('000000',StrToInt(NUM_ITEM));
-                     DESCR_COMPL      := FormatFloat('NF000000',INotas)+' -> ITEM '+COD_ITEM;
-                     QTD              := 1;
-                     UNID             := 'UN';
-                     VL_ITEM          := 0;
-                     VL_DESC          := 0;
-                     IND_MOV          := mfNao;
-                     CST_ICMS         := sticmsTributadaIntegralmente;
-                     CFOP             := '1252';
-                     COD_NAT          := '64';
-                     VL_BC_ICMS       := 0;
-                     ALIQ_ICMS        := 0;
-                     VL_ICMS          := 0;
-                     VL_BC_ICMS_ST    := 0;
-                     ALIQ_ST          := 0;
-                     VL_ICMS_ST       := 0;
-                     IND_APUR         := iaMensal;
-                     CST_IPI          := stipiEntradaIsenta;
-                     COD_ENQ          := '';
-                     VL_BC_IPI        := 0;
-                     ALIQ_IPI         := 0;
-                     VL_IPI           := 0;
-                     CST_PIS          := stpisOutrasOperacoesSaida;
-                     VL_BC_PIS        := 0;
-                     ALIQ_PIS_PERC    := 0;
-                     QUANT_BC_PIS     := 0;
-                     ALIQ_PIS_R       := 0;
-                     VL_PIS           := 0;
-                     CST_COFINS       := stcofinsOutrasOperacoesSaida;
-                     VL_BC_COFINS     := 0;
-                     ALIQ_COFINS_PERC := 0;
-                     QUANT_BC_COFINS  := 0;
-                     ALIQ_COFINS_R    := 0;
-                     VL_COFINS        := 0;
-                     COD_CTA          := '000';
-                  end; //Fim dos Itens;
-                end;
+                    MessageDlg('Número da Nota não preenchido. Mov. número - ' +
+                    cdsNFVendaNOTASERIE.AsString + '-VENDA' , mtWarning, [mbOK], 0);
+                    exit;
+                  end;
 
-                if cbConcomitante.Checked then
-                begin
-                   if (INotas mod BNotas) = 0 then   // Gravar a cada BNotas notas
-                   begin
-                      // Grava registros na memoria para o TXT, e limpa memoria
-                      ACBrSPEDPisCofins1.WriteBloco_C( False );  // False, NAO fecha o Bloco
-                      ProgressBar1.Position := INotas;
-                      Application.ProcessMessages;
-                   end;
-                end;
+                  Case StrToInt(trim(cdsItensCSTIPI.AsString)) of
+                    0 : CST_IPI := stipiEntradaRecuperacaoCredito;// '00' // Entrada com recuperação de crédito
+                    1 : CST_IPI := stipiEntradaTributradaZero;    // '01' // Entrada tributada com alíquota zero
+                    2 : CST_IPI := stipiEntradaIsenta;            // '02' // Entrada isenta
+                    3 : CST_IPI := stipiEntradaNaoTributada;      // '03' // Entrada não-tributada
+                    4 : CST_IPI := stipiEntradaImune;             // '04' // Entrada imune
+                    5 : CST_IPI := stipiEntradaComSuspensao;      // '05' // Entrada com suspensão
+                   49 : CST_IPI := stipiOutrasEntradas;           // '49' // Outras entradas
+                   50 : CST_IPI := stipiSaidaTributada;           // '50' // Saída tributada
+                   51 : CST_IPI := stipiSaidaTributadaZero;       // '51' // Saída tributada com alíquota zero
+                   52 : CST_IPI := stipiSaidaIsenta;              // '52' // Saída isenta
+                   53 : CST_IPI := stipiSaidaNaoTributada;        // '53' // Saída não-tributada
+                   54 : CST_IPI := stipiSaidaImune;               // '54' // Saída imune
+                   55 : CST_IPI := stipiSaidaComSuspensao;        // '55' // Saída com suspensão
+                   99 : CST_IPI := stipiOutrasSaidas;             // '99' // Outras saídas
+                  end;
+                  COD_ENQ          := '';
+                  VL_BC_IPI        := cdsItensVLR_BASEICMS.AsFloat;
+                  ALIQ_IPI         := cdsItensVIPI.AsFloat;
+                  if (VL_BC_IPI > 0) then
+                    ALIQ_IPI       := SimpleRoundTo(((cdsItensVIPI.AsFloat/VL_BC_IPI)*100),(-2));
+                  VL_IPI           := cdsItensVIPI.AsFloat;
+                  CST_PIS          := cstPis(cdsItensCSTPIS.AsString, cdsNFVendaNOTASERIE.AsString + '-VENDA'); //  stpisOutrasOperacoesSaida;  // #########
+                  VL_BC_PIS        := cdsItensVLR_BASEICMS.AsFloat;
+                  VL_PIS           := cdsItensVALOR_PIS.AsFloat;
+                  ALIQ_PIS_PERC    := 0;
+                  if (VL_BC_PIS > 0) then
+                    ALIQ_PIS_PERC  := SimpleRoundTo(((VL_PIS/VL_BC_PIS)*100),(-2));
+                  QUANT_BC_PIS     := cdsItensQUANTIDADE.AsFloat;
+                  ALIQ_PIS_R       := 0;
 
+                  CST_COFINS       := cstCofins(cdsItensCSTCOFINS.AsString, cdsNFVendaNOTASERIE.AsString + '-VENDA');
+                  VL_BC_COFINS     := cdsItensVLR_BASEICMS.AsFloat;
+                  VL_COFINS        := cdsItensVALOR_COFINS.AsFloat;
+                  ALIQ_COFINS_PERC := 0;
+                  IF (VL_BC_COFINS > 0) then
+                    ALIQ_COFINS_PERC := SimpleRoundTo(((VL_COFINS/VL_BC_COFINS)*100),(-2));
+                  QUANT_BC_COFINS  := cdsItensQUANTIDADE.AsFloat;
+                  ALIQ_COFINS_R    := 0;
+                  COD_CTA          := '';
+                end; //Fim dos Itens;
+                IItens := IItens + 1;
+                cdsItens.Next;
               end;
+            end;
+            codParticip := cdsNFVendaCODCLIENTE.AsInteger;
+            cdsNFVenda.Next;
+          end; // FIM DO WHILE DE VENDAS
+          // FIM BLOCO VENDAS #######################
+        end;
 
-              //10 itens c190
-              for IItens := 1 to 10 do
-              begin
-                // c190 - Consolidação de Notas Fiscais Eletrônicas (Código 55) – Operações de
-                // Aquisição com Direito a Crédito, e Operações de Devolução de Compras e
-                // Vendas.
-                with RegistroC190New do
-                begin
-                   COD_MOD := '';
-                   DT_REF_INI := Date;
-                   DT_REF_FIN := Date;
-                   COD_ITEM := '';
-                   COD_NCM := '';
-                   EX_IPI := '';
-                   VL_TOT_ITEM := 0;
-                end;//Fim dos Itens;
-              end;
-
-           end;
-         end;
       end;
     end;
-  end;
-  cdsMov.Next;
-  end; // While }
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDPisCofins1.WriteBloco_C(True);  // True, fecha o Bloco
-    LoadToMemo;
-  end;
 
+    if cbConcomitante.Checked then
+    begin
+      ACBrSPEDPisCofins1.WriteBloco_C(True);  // True, fecha o Bloco
+      LoadToMemo;
+    end;
+  end;
   ProgressBar1.Visible := False ;
 end;
 
@@ -1890,12 +1972,17 @@ end;
 
 procedure TfNfePisCofins.btnTXTClick(Sender: TObject);
 begin
-  abrirTabelas;
+  if (edtFile.Text = '') then
+  begin
+    SaveDialog1.Execute;
+    edtFile.Text := SaveDialog1.FileName;
+  end;
+  abrirTabelasCompra;
 
   ACBrSPEDPisCofins1.LinhasBuffer := StrToIntDef( edBufLinhas.Text, 0 );
 
   ACBrSPEDPisCofins1.DT_INI := data_ini.Date;
-  ACBrSPEDPisCofins1.DT_FIN := StrtoDate('31/05/12');//data_fim.Date;
+  ACBrSPEDPisCofins1.DT_FIN := data_fim.Date;
 
   // Limpa a lista de erros.
   memoError.Lines.Clear;
@@ -1955,46 +2042,6 @@ begin
 
 end;
 
-procedure TfNfePisCofins.abrirTabelas;
-begin
-  if (cdsMov.Active) then
-    cdsMov.Close;
-  cdsMov.CommandText := 'SELECT MIN(CODMOVIMENTO), MAX(CODMOVIMENTO) ' +
-    ' FROM COMPRA ' +
-    ' WHERE DATACOMPRA BETWEEN ' +
-    QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
-    ' AND '  +
-    QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
-  cdsMov.Open;
-  codMovMin := cdsMov.Fields[0].asInteger;
-  codMovMax := cdsMov.Fields[1].asInteger;
-
-  cdsMov.Close;
-  cdsMov.CommandText := 'SELECT MIN(CODMOVIMENTO), MAX(CODMOVIMENTO) ' +
-    ' FROM VENDA ' +
-    ' WHERE DATAVENDA BETWEEN ' +
-    QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
-    ' AND '   +
-    QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
-  cdsMov.Open;
-  if (codMovMin > cdsMov.Fields[0].asInteger) then
-    codMovMin := cdsMov.Fields[0].asInteger;
-  if (codMovMax < cdsMov.Fields[1].asInteger) then
-    codMovMax := cdsMov.Fields[1].asInteger;
-
-  if (not cdsEmpresa.Active) then
-    cdsEmpresa.Open;
-
-  cdsMov.Close;
-  cdsMov.CommandText := 'SELECT CODMOVIMENTO, CODNATUREZA ' +
-    '  FROM MOVIMENTO ' +
-    ' WHERE CODMOVIMENTO BETWEEN ' + IntToStr(codMovMin) +
-    '   AND ' + IntToStr(codMovMax);
-  cdsMov.Open;
-
-  if (cdsItens.Active) then
-    cdsItens.Close;
-end;
 
 procedure TfNfePisCofins.FormDestroy(Sender: TObject);
 begin
@@ -2009,9 +2056,14 @@ begin
     MessageDlg('Código do IBGE não preenchido para ' + quem + '.', mtWarning, [mbOK], 0);
 end;
 
-function TfNfePisCofins.cstPis(cstP: String): TACBrSituacaoTribPIS;
+function TfNfePisCofins.cstPis(cstP: String; nota: String): TACBrSituacaoTribPIS;
 begin
-  case StrToInt(cstP) of
+  if (trim(cstP) = '') then
+  begin
+    MessageDlg('CST - PIS não preenchido. Nota número - ' + nota, mtWarning, [mbOK], 0);
+    exit;
+  end;
+  case StrToInt(trim(cstP)) of
     1 : result := stpisValorAliquotaNormal;                         // '01' // Operação Tributável com Alíquota Básica   // valor da operação alíquota normal (cumulativo/não cumulativo)).
     2 : result := stpisValorAliquotaDiferenciada;                   // '02' // Operação Tributável com Alíquota Diferenciada // valor da operação (alíquota diferenciada)).
     3 : result := stpisQtdeAliquotaUnidade;                            // '03' // Operação Tributável com Alíquota por Unidade de Medida de Produto // quantidade vendida x alíquota por unidade de produto).
@@ -2048,9 +2100,15 @@ begin
  end;
 end;
 
-function TfNfePisCofins.cstCofins(cstC: String): TACBrSituacaoTribCOFINS;
+function TfNfePisCofins.cstCofins(cstC: String; nota: String): TACBrSituacaoTribCOFINS;
 begin
-  Case StrToInt(cstC) of
+  if (trim(cstC) = '') then
+  begin
+    MessageDlg('CST - COFINS não preenchido. Nota número - ' + nota, mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  Case StrToInt(trim(cstC)) of
     1 : Result := stcofinsValorAliquotaNormal;                           // '01' // Operação Tributável com Alíquota Básica                           // valor da operação alíquota normal (cumulativo/não cumulativo)).
     2 : Result := stcofinsValorAliquotaDiferenciada;                     // '02' // Operação Tributável com Alíquota Diferenciada                     // valor da operação (alíquota diferenciada)).
     3 : Result := stcofinsQtdeAliquotaUnidade;                           // '03' // Operação Tributável com Alíquota por Unidade de Medida de Produto // quantidade vendida x alíquota por unidade de produto).
@@ -2085,6 +2143,100 @@ begin
     98 : Result := stcofinsOutrasOperacoesEntrada;                        // '98' // Outras Operações de Entrada
     99 : Result := stcofinsOutrasOperacoes;                                // '99' // Outras Operações
   end;
+end;
+
+function TfNfePisCofins.cstIcms(cstI: String; nota: String): TACBrSituacaoTribICMS;
+begin
+  if (trim(cstI) = '') then
+  begin
+    MessageDlg('CST - ICMS não preenchido. Nota número - ' + nota, mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  Case StrtoInt(trim(CstI)) of
+      0 : Result := sticmsTributadaIntegralmente;    // '000' //	Tributada integralmente
+     10 : Result := sticmsTributadaComCobracaPorST;  // '010' //	Tributada e com cobrança do ICMS por substituição tributária
+     20 : Result := sticmsComReducao;                // '020' //	Com redução de base de cálculo
+     30 : Result := sticmsIsentaComCobracaPorST;     // '030' //	Isenta ou não tributada e com cobrança do ICMS por substituição tributária
+     40 : Result := sticmsIsenta;                    // '040' //	Isenta
+     41 : Result := sticmsNaoTributada;              // '041' //	Não tributada
+     50 : Result := sticmsSuspensao;                 // '050' //	Suspensão
+     51 : Result := sticmsDiferimento;               // '051' //	Diferimento
+     60 : Result := sticmsCobradoAnteriormentePorST; // '060' //	ICMS cobrado anteriormente por substituição tributária
+     70 : Result := sticmsComReducaoPorST;           // '070' //	Com redução de base de cálculo e cobrança do ICMS por substituição tributária
+     90 : Result := sticmsOutros;                    // '090' //	Outros
+    300 : Result := sticmsSimplesNacionalImune;      // '300' // Simples Nacional - Imune
+    400 : Result := sticmsSimplesNacionalNaoTributada;// '400' // Simples Nacional - Não tributada pelo Simples Nacional
+    500 : Result := sticmsSimplesNacionalCobradoAnteriormentePorST;// '500' // Simples Nacional - ICMS cobrado anteriormente por substituição tributária (substituído) ou por antecipação
+    900 : Result := sticmsSimplesNacionalOutros;     // '900' // Simples Nacional - Outros
+  end;
+end;
+
+procedure TfNfePisCofins.abrirTabelasCompra;
+begin
+  if (cdsMov.Active) then
+    cdsMov.Close;
+  cdsMov.CommandText := 'SELECT MIN(C.CODMOVIMENTO), MAX(C.CODMOVIMENTO) ' +
+    ' FROM COMPRA C, MOVIMENTO MOV ' +
+    ' WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO ' +
+    '   AND MOV.CODNATUREZA = 4  ' +
+    '   AND C.DATACOMPRA BETWEEN ' +
+    QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+    ' AND '  +
+    QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
+  cdsMov.Open;
+  codMovMin := cdsMov.Fields[0].asInteger;
+  codMovMax := cdsMov.Fields[1].asInteger;
+
+  if (not cdsEmpresa.Active) then
+    cdsEmpresa.Open;
+
+  cdsMov.Close;
+  cdsMov.CommandText := 'SELECT CODMOVIMENTO, CODNATUREZA ' +
+    '  FROM MOVIMENTO ' +
+    ' WHERE CODNATUREZA = 4 ' +
+    '   AND CODMOVIMENTO BETWEEN ' + IntToStr(codMovMin) +
+    '   AND ' + IntToStr(codMovMax);
+  cdsMov.Open;
+
+  if (cdsItens.Active) then
+    cdsItens.Close;
+
+end;
+
+procedure TfNfePisCofins.abrirTabelasVenda;
+begin
+  cdsMov.Close;
+  cdsMov.CommandText := 'SELECT MIN(V.CODMOVIMENTO), MAX(V.CODMOVIMENTO) ' +
+    ' FROM VENDA V, MOVIMENTO MOV ' +
+    ' WHERE MOV.CODMOVIMENTO = V.CODMOVIMENTO ' +
+    '   AND MOV.CODNATUREZA IN (12, 15) ' +
+    '   AND V.DATAVENDA BETWEEN ' +
+    QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+    ' AND '   +
+    QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
+  cdsMov.Open;
+  if (codMovMin > cdsMov.Fields[0].asInteger) then
+    codMovMin := cdsMov.Fields[0].asInteger;
+  if (codMovMax < cdsMov.Fields[1].asInteger) then
+    codMovMax := cdsMov.Fields[1].asInteger;
+  cdsMov.Close;
+  cdsMov.CommandText := 'SELECT CODMOVIMENTO, CODNATUREZA ' +
+    '  FROM MOVIMENTO ' +
+    ' WHERE CODNATUREZA IN (12, 15) ' +
+    '   AND CODMOVIMENTO BETWEEN ' + IntToStr(codMovMin) +
+    '   AND ' + IntToStr(codMovMax);
+  cdsMov.Open;
+
+  if (cdsItens.Active) then
+    cdsItens.Close;
+
+end;
+
+procedure TfNfePisCofins.BitBtn1Click(Sender: TObject);
+begin
+  SaveDialog1.Execute;
+  edtFile.Text := SaveDialog1.FileName;
 end;
 
 end.
