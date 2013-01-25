@@ -240,6 +240,7 @@ type
     CadastroDepartamento1: TMenuItem;
     CadastroSetor1: TMenuItem;
     CadastroTipoDoc1: TMenuItem;
+    SpedFiscalICMS1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -379,6 +380,7 @@ type
     procedure CadastroSetor1Click(Sender: TObject);
     procedure CadastroTipoDoc1Click(Sender: TObject);
     procedure ipoDocumentos1Click(Sender: TObject);
+    procedure SpedFiscalICMS1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -431,7 +433,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
-  uCadSetor, uCadDoc, uImport;
+  uCadSetor, uCadDoc, uImport, uNfeIcms;
 
 {$R *.dfm}
 
@@ -2309,6 +2311,16 @@ end;
 procedure TfAtsAdmin.ipoDocumentos1Click(Sender: TObject);
 begin
 //
+end;
+
+procedure TfAtsAdmin.SpedFiscalICMS1Click(Sender: TObject);
+begin
+  fNfeIcms := TfNfeIcms.Create(Application);
+  try
+    fNfeIcms.ShowModal;
+  finally
+    fNfeIcms.Free;
+  end;
 end;
 
 end.
