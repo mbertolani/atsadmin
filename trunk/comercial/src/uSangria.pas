@@ -118,7 +118,12 @@ begin
     var_cDebito := DM_MOV.s_parametroD1.AsString;
     DM_MOV.s_parametro.Close;
     var_codCCustoCD := FSangria.v_Cod_Caixa;
-    FSangria.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,sangria,edthist.Text);
+    try
+      FSangria.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,sangria,edthist.Text);
+      MessageDlg('Sangria gravada com sucesso.', mtInformation, [mbOK], 0);
+    except
+      MessageDlg('Erro na gravacao da Sangria.', mtError, [mbOK], 0);
+    end;
   Finally
     //Screen.Cursor := Save_Cursor;
     FSangria.Free;
