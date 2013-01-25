@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
   Left = 0
-  Top = 57
+  Top = 58
   Width = 714
   Height = 452
   Color = clWhite
@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    698
-    394)
+    706
+    406)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 169
     Top = 47
-    Width = 529
-    Height = 323
+    Width = 537
+    Height = 335
     Align = alClient
     Center = True
     Picture.Data = {
@@ -778,7 +778,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 698
+    Width = 706
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2071,8 +2071,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 370
-    Width = 698
+    Top = 382
+    Width = 706
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2155,7 +2155,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 169
-    Height = 323
+    Height = 335
     Align = alLeft
     Pages = <
       item
@@ -2748,6 +2748,10 @@ object fAtsAdmin: TfAtsAdmin
       object SpedPisCofins1: TMenuItem
         Caption = 'Sped Pis/Cofins'
         OnClick = SpedPisCofins1Click
+      end
+      object SpedFiscalICMS1: TMenuItem
+        Caption = 'Sped Fiscal (ICMS)'
+        OnClick = SpedFiscalICMS1Click
       end
     end
     object N2: TMenuItem
