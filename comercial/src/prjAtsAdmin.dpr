@@ -295,8 +295,8 @@ uses
   uFiltroSetor in 'uFiltroSetor.pas' {fFiltroSetor},
   uFiltroDep in 'uFiltroDep.pas' {fFiltroDep},
   uVendaRelPorNotaFiscalLote in 'uVendaRelPorNotaFiscalLote.pas' {fVendaRelPorNotaFiscalLote},
-  uExpContMat in 'uExpContMat.pas' {fExpContMat};
-
+  uExpContMat in 'uExpContMat.pas' {fExpContMat},
+  uNfeIcms in 'uNfeIcms.pas' {fNfeIcms};
 
 {$R *.res}
 
