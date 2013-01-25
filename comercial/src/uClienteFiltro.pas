@@ -78,9 +78,12 @@ type
     procedure edCNPJCPFChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     { Private declarations }
   public
+    cod_vendedor : Integer;
+    nome_vendedor : String;
     { Public declarations }
   end;
 
@@ -88,6 +91,8 @@ var
   fClienteFiltro: TfClienteFiltro;
 
 implementation
+
+uses uProcurar, UDm;
 
 {$R *.dfm}
 
@@ -163,6 +168,28 @@ end;
 procedure TfClienteFiltro.FormCreate(Sender: TObject);
 begin
   cbbRegiao.Text := '';
+end;
+
+procedure TfClienteFiltro.BitBtn5Click(Sender: TObject);
+begin
+  fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
+  fProcurar.usuarioproc := 'VENDEDOR';
+  fProcurar.BtnProcurar.Click;
+  fProcurar.btnIncluir.Visible := True;
+  try
+    fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
+    varForm1 := 'vendedor';
+    cod_vendedor := 0;
+    nome_vendedor := '';
+    if fProcurar.ShowModal=mrOk then
+    begin
+      codVen.text := IntToStr(dm.scds_usuario_procCODUSUARIO.AsInteger);
+      nomeVen.text := dm.scds_usuario_procNOMEUSUARIO.AsString;
+    end;
+  finally
+    dm.scds_usuario_proc.Close;
+    fProcurar.Free;
+  end;
 end;
 
 end.
