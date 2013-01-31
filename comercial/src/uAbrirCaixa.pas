@@ -357,7 +357,7 @@ begin
     //Abre a c_genid para pegar o número do CODCONTAB
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
-      
+
     inicial := jvValor.Value;
     DecimalSeparator := '.';
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CONTAB_AUTOINC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -369,7 +369,7 @@ begin
            ', VALORCREDITO, VALORDEBITO, VALORORCADO, QTDECREDITO ' +
            ', QTDEDEBITO, QTDEORCADO) Values (';
     var_sqla := var_sqla + intToStr(cod_id); //CODCONT
-    var_sqla := var_sqla + ',' + intToStr(var_idCaixa); //CODIGO DO CAIXA NO PLANO DE CONTAS = CODORIGEM
+    var_sqla := var_sqla + ',' + intToStr(cod_id); //CODIGO DO CAIXA NO PLANO DE CONTAS = CODORIGEM
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', eddata2.Date); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
