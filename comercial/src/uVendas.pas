@@ -1134,7 +1134,7 @@ begin
         utilcrtitulo := Tutils.Create;
         if (utilcrtitulo.verificapermissao = False) then
         begin
-          cds_Movimento.Cancel
+          cds_Movimento.Cancel;
           Exit;
         end;
       end
