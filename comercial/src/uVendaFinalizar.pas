@@ -1143,6 +1143,7 @@ begin
       cdsOUTRAS_DESP.AsFloat;
     cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat -
       cdsDESCONTO.AsFloat;
+    cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat;
 
     {Usado para bloquear alteração em RECEBIMENTO pelas triggers
      da notafiscal }
