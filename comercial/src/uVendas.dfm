@@ -2624,7 +2624,7 @@ inherited fVendas: TfVendas
       ', movd.VLR_BASE, movd.VLR_BASEICMS, movd.FRETE, movd.ICMS_SUBST,' +
       ' movd.ICMS_SUBSTD, movd.VALOR_SEGURO, movd.VALOR_OUTROS, prod.NC' +
       'M, movd.II, movd.BCII, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS ' +
-      ', movd.frete_bc'#13#10'movd.VALOR_PIS, movd.VALOR_COFINS'#13#10'from MOVIMEN' +
+      ', movd.frete_bc, movd.VALOR_PIS, movd.VALOR_COFINS'#13#10'from MOVIMEN' +
       'TODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=mov' +
       'd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMO' +
       'XARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on' +
