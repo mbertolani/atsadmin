@@ -1119,9 +1119,21 @@ begin
     end;
     if dm.scds_cliente_procBLOQUEIO.AsString = 'S' then
     begin
-      MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
-      cds_Movimento.Cancel;      
-      exit;
+      //if(DM.scds_cliente_procOBS.AsString) then
+      if Dm.cds_parametro.Active then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'BLOQUEIOOPCIONAL';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      begin
+        MessageDlg(DM.scds_cliente_procOBS.AsString , mtError, [mbOK], 0);
+      end
+      else
+      begin
+        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
+        cds_Movimento.Cancel;
+        exit;
+      end;
       //dbeCliente.SetFocus;
     end;
     if ( cds_Movimento.State in [dsBrowse]) then
