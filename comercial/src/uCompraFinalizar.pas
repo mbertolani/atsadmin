@@ -1210,6 +1210,7 @@ begin
     cds_compraOUTRAS_DESP.AsFloat := 0;
     cds_compraVALOR_ICMS.AsFloat := 0;
     cds_compraVALOR_IPI.AsFloat := 0;
+    cds_compraOUTRAS_DESP.AsFloat := 0;    
     fCompra.cds_Mov_det.First;
     while not fCompra.cds_Mov_det.Eof do
     begin
@@ -1217,6 +1218,7 @@ begin
       cds_compraVALOR_IPI.AsFloat := cds_compraVALOR_IPI.AsFloat + (fCompra.cds_Mov_detPIPI.AsFloat * (fCompra.cds_Mov_detQUANTIDADE.AsFloat * fCompra.cds_Mov_detPRECO.AsFloat))/100;
       cds_compraICMS_ST.AsFloat := cds_compraICMS_ST.AsFloat + fCompra.cds_Mov_detICMS_SUBST.AsFloat;
       cds_compraVALOR_FRETE.AsFloat := cds_compraVALOR_FRETE.AsFloat + fCompra.cds_Mov_detFRETE.AsFloat;
+      cds_compraOUTRAS_DESP.AsFloat := cds_compraOUTRAS_DESP.AsFloat + fCompra.cds_Mov_detVALOR_OUTROS.AsFloat;
       fCompra.cds_Mov_det.Next;
     end;
     cds_compraCODCCUSTO.AsInteger := fCompra.cds_MovimentoCODALMOXARIFADO.AsInteger;
@@ -1872,6 +1874,7 @@ begin
   {$ENDIF}
   try
     try
+      cds_compraCHAVENF.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.chNFe;
       fNFeletronica.btnConsulta.Click;
     except
     end;
@@ -1879,13 +1882,11 @@ begin
     if(cds_compra.State in [dsEdit, dsInsert]) then
     begin
       cds_compraDIGITOVALIDACAO.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.digVal;
-      cds_compraCHAVENF.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.chNFe;
     end
     else if(not cds_compraCODCOMPRA.IsNull) then
     begin
       cds_compra.Edit;
       cds_compraDIGITOVALIDACAO.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.digVal;
-      cds_compraCHAVENF.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.chNFe;
       cds_compra.ApplyUpdates(0);
     end;
   end
