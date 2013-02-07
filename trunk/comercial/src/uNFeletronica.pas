@@ -1896,7 +1896,7 @@ begin
 
       if (trim(sClienteCEP.AsString) = '') then
       begin
-        MessageDlg('Cliente' + sClienteRAZAOSOCIAL.AsString +  'sem Código do IBGE.', mtWarning, [mbOK], 0);
+        MessageDlg('Cliente' + sClienteRAZAOSOCIAL.AsString +  'sem CEP.', mtWarning, [mbOK], 0);
         Exit;
       end
       else
@@ -2058,6 +2058,7 @@ begin
             CST := ipi99
           else
             CST := ipi00;
+          vBC  := (cdsItensNFVLR_BASE.AsCurrency * cdsItensNFQUANTIDADE.AsCurrency);
           pIPI := cdsItensNFpIPI.AsCurrency;
           vIPI := cdsItensNFvIPI.AsCurrency;
         end;
@@ -2229,7 +2230,8 @@ begin
           end;
 
           if (cdsItensNFPPIS.AsFloat > 0) then
-            vBC   := (cdsItensNFVALOR_PIS.AsVariant *100 ) / cdsItensNFPPIS.AsVariant //-cdsItensNFVALTOTAL.AsVariant
+            //vBC   := (cdsItensNFVALOR_PIS.AsVariant *100 ) / cdsItensNFPPIS.AsVariant //-cdsItensNFVALTOTAL.AsVariant
+            vBC := (cdsItensNFVLR_BASE.AsCurrency * cdsItensNFQUANTIDADE.AsCurrency)
           else
             vBC   := 0;
           pPIS  := cdsItensNFPPIS.AsVariant;
@@ -2267,7 +2269,8 @@ begin
           end;
 
          if ( cdsItensNFPCOFINS.AsFloat > 0) then
-           vBC   := (cdsItensNFVALOR_COFINS.AsVariant * 100) / cdsItensNFPCOFINS.AsVariant //cdsItensNFVALTOTAL.AsVariant;
+           //vBC   := (cdsItensNFVALOR_COFINS.AsVariant * 100) / cdsItensNFPCOFINS.AsVariant //cdsItensNFVALTOTAL.AsVariant;
+           vBC := (cdsItensNFVLR_BASE.AsCurrency * cdsItensNFQUANTIDADE.AsCurrency)
          else
            vBC   := 0;
            pCOFINS  := cdsItensNFPCOFINS.AsVariant;
