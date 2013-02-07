@@ -241,6 +241,8 @@ type
     CadastroSetor1: TMenuItem;
     CadastroTipoDoc1: TMenuItem;
     SpedFiscalICMS1: TMenuItem;
+    CadastrarSemanas1: TMenuItem;
+    AniversrioClientes1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -381,6 +383,8 @@ type
     procedure CadastroTipoDoc1Click(Sender: TObject);
     procedure ipoDocumentos1Click(Sender: TObject);
     procedure SpedFiscalICMS1Click(Sender: TObject);
+    procedure CadastrarSemanas1Click(Sender: TObject);
+    procedure AniversrioClientes1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -433,7 +437,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
-  uCadSetor, uCadDoc, uImport, uNfeIcms;
+  uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario;
 
 {$R *.dfm}
 
@@ -2320,6 +2324,27 @@ begin
     fNfeIcms.ShowModal;
   finally
     fNfeIcms.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CadastrarSemanas1Click(Sender: TObject);
+begin
+  fPeriodoSem := TfPeriodoSem.Create(Application);
+  try
+    fPeriodoSem.ShowModal;
+  finally
+    fPeriodoSem.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.AniversrioClientes1Click(Sender: TObject);
+begin
+  //SELCIONAR O PERIODO
+  fClientesAniversario := TfClientesAniversario.Create(Application);
+  try
+    fClientesAniversario.ShowModal;
+  finally
+    fClientesAniversario.Free;
   end;
 end;
 
