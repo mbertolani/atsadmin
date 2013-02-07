@@ -4342,7 +4342,7 @@ begin
         strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
         strSql := strSql + ') VALUES (';
         strSql := strSql + QuotedStr('Mensagem Personalizada de Bloqueio') + ', ';
-        strSql := strSql + QuotedStr('BLOQUEIOOPCIONAL') + ', ';
+        strSql := strSql + QuotedStr('BLOQUEIOPERSONALIZADO') + ', ';
         strSql := strSql + QuotedStr('S');        
         strSql := strSql + ')';
         dm.sqlsisAdimin.StartTransaction(TD);
@@ -4355,25 +4355,28 @@ begin
                [mbOk], 0);
         end;
      end;
-     if (s_parametro.Active) then
-       s_parametro.Close;
-     s_parametro.Params[0].AsString := 'BLOQUEIOPERSONALIZADO';
-     s_parametro.Open;
-     if (not s_parametro.Eof) then
-     begin
-        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
-        strSql := strSql + QuotedStr('BLOQUEIOPERSONALIZADO');
+  end
+  else
+  begin
+    if(s_parametro.Active) then
+     s_parametro.Close;
+    s_parametro.Params[0].AsString := 'BLOQUEIOPERSONALIZADO';
+    s_parametro.Open;
+    if (not s_parametro.Eof) then
+    begin
+      strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+      strSql := strSql + QuotedStr('BLOQUEIOPERSONALIZADO');
 
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(strSql);
-        Try
-           dm.sqlsisAdimin.Commit(TD);
-        except
-           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
-               [mbOk], 0);
-        end;
-     end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
+      end;
+    end;
+   end;
 end;
 
 end.

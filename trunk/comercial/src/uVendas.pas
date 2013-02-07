@@ -1095,6 +1095,8 @@ begin
 end;
 
 procedure TfVendas.dbeClienteExit(Sender: TObject);
+var usu_n, usu_s : string;
+  utilcrtitulo : Tutils;
 begin
   inherited;
   if (dtsrc.State in [dsInsert, dsEdit]) then
@@ -1131,7 +1133,10 @@ begin
         usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
         utilcrtitulo := Tutils.Create;
         if (utilcrtitulo.verificapermissao = False) then
+        begin
+          cds_Movimento.Cancel
           Exit;
+        end;
       end
       else
       begin
