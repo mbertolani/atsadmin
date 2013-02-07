@@ -1742,7 +1742,7 @@ begin
     begin
       EXECUTADDL('MOVIMENTODETALHE', 'FRETE_BC', 'VARCHAR(5)');
       executaScript('rel_vendaCompra114.sql');
-      executaScript('relDre114.sql');
+//      executaScript('relDre114.sql');
       executaScript('view_estoque.sql');
       CriaGenerator('GEN_EMAIL');
       executaSql('SET GENERATOR GEN_EMAIL TO 1200');
@@ -1779,9 +1779,9 @@ begin
          ' NOSSONUMERO VARCHAR(50) NOT NULL, ' +
          ' VALORRECEBIDO DOUBLE precision,   ' +
          ' VALORJUROS    DOUBLE precision,   ' +
-         ' VALORDESCONTO DOUBLE precision    ' +
-         ' TITULOBAIXADO VARCHAR(30)'          +
-         ' SITUACAO      VARCHAR(30)'          +
+         ' VALORDESCONTO DOUBLE precision,   ' +
+         ' TITULOBAIXADO VARCHAR(30),        ' +
+         ' SITUACAO      VARCHAR(30),        ' +
          ' CODRECEBIMENTO INTEGER '            +
          ')');
       end;
