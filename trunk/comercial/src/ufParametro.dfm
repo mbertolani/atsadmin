@@ -2351,7 +2351,7 @@ inherited fParametro: TfParametro
       object GroupBox31: TGroupBox
         Left = 2
         Top = 383
-        Width = 769
+        Width = 380
         Height = 48
         Caption = 'Desconto na Venda de Clientes com SUFRAMA'
         TabOrder = 6
@@ -2370,7 +2370,7 @@ inherited fParametro: TfParametro
           TabOrder = 0
         end
         object BitBtn31: TBitBtn
-          Left = 677
+          Left = 213
           Top = 15
           Width = 75
           Height = 25
@@ -2399,6 +2399,19 @@ inherited fParametro: TfParametro
         Caption = 'Gravar'
         TabOrder = 8
         OnClick = BitBtn32Click
+      end
+      object rgBloqueio: TRadioGroup
+        Left = 391
+        Top = 383
+        Width = 380
+        Height = 48
+        Caption = 'Mensagem Personalizada para Cliente Bloqueado'
+        Columns = 2
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+        TabOrder = 9
+        OnClick = rgBloqueioClick
       end
     end
     object TabSheet8: TTabSheet

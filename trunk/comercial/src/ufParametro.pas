@@ -289,6 +289,7 @@ type
     BitBtn31: TBitBtn;
     RadioGroup3: TRadioGroup;
     BitBtn32: TBitBtn;
+    rgBloqueio: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -364,6 +365,7 @@ type
     procedure edtCaixinhaChange(Sender: TObject);
     procedure BitBtn31Click(Sender: TObject);
     procedure BitBtn32Click(Sender: TObject);
+    procedure rgBloqueioClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -4323,6 +4325,55 @@ begin
     MessageDlg('Erro para gravar, feche o sistema e tente novamente !', mtError,
     [mbOk], 0);
   end;
+end;
+
+procedure TfParametro.rgBloqueioClick(Sender: TObject);
+begin
+  //inherited;
+  strSql := '';
+  if (rgBloqueio.ItemIndex = 0) then  // Mensagem Personalizada de Bloqueio
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'BLOQUEIOPERSONALIZADO';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Mensagem Personalizada de Bloqueio') + ', ';
+        strSql := strSql + QuotedStr('BLOQUEIOOPCIONAL') + ', ';
+        strSql := strSql + QuotedStr('S');        
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'BLOQUEIOPERSONALIZADO';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+        strSql := strSql + QuotedStr('BLOQUEIOPERSONALIZADO');
+
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
 end;
 
 end.
