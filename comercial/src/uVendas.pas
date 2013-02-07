@@ -1122,11 +1122,16 @@ begin
       //if(DM.scds_cliente_procOBS.AsString) then
       if Dm.cds_parametro.Active then
         dm.cds_parametro.Close;
-      dm.cds_parametro.Params[0].AsString := 'BLOQUEIOOPCIONAL';
+      dm.cds_parametro.Params[0].AsString := 'BLOQUEIOPERSONALIZADO';
       dm.cds_parametro.Open;
       if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
       begin
         MessageDlg(DM.scds_cliente_procOBS.AsString , mtError, [mbOK], 0);
+        usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+        usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+        utilcrtitulo := Tutils.Create;
+        if (utilcrtitulo.verificapermissao = False) then
+          Exit;
       end
       else
       begin
