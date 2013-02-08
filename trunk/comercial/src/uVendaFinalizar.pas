@@ -565,6 +565,7 @@ type
     procedure ImprimirOrdemdeServio1Click(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure ImprimirCupom1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     TD: TTransactionDesc;
     usaMateriaPrima: String;
@@ -3579,6 +3580,14 @@ end;
 procedure TfVendaFinalizar.ImprimirCupom1Click(Sender: TObject);
 begin
   imprimecupom;
+end;
+
+procedure TfVendaFinalizar.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  scdsCr_proc.Params[0].Clear;
+  cds.Params[0].Clear;
+  cds.Params[1].Clear;  
 end;
 
 end.
