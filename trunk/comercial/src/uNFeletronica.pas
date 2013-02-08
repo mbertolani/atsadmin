@@ -1804,6 +1804,8 @@ begin
         fVendaFinalizar.Close;
         fVendas.btnIncluir.Click;
         fVendas.btnCancelar.Click;
+        fVendas.cds_Movimento.Params[0].Clear;
+        fVendas.cds_Movimento.Close;        
         Close;
       end;
     end;
