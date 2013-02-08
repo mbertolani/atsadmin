@@ -23,8 +23,8 @@ object fProcura_produtos: TfProcura_produtos
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 232
-    Width = 802
-    Height = 318
+    Width = 794
+    Height = 307
     Align = alClient
     BorderStyle = bsNone
     Color = clWhite
@@ -231,7 +231,7 @@ object fProcura_produtos: TfProcura_produtos
   object Panel2: TPanel
     Left = 0
     Top = 146
-    Width = 802
+    Width = 794
     Height = 86
     Align = alTop
     BevelOuter = bvLowered
@@ -373,7 +373,7 @@ object fProcura_produtos: TfProcura_produtos
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 802
+    Width = 794
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1214,6 +1214,7 @@ object fProcura_produtos: TfProcura_produtos
       PopupMenu = PopupMenu1
       TabOrder = 12
       TabStop = False
+      Visible = False
       OnClick = BitBtn9Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -1397,7 +1398,7 @@ object fProcura_produtos: TfProcura_produtos
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 802
+    Width = 794
     Height = 89
     Align = alTop
     BevelInner = bvLowered
