@@ -1096,8 +1096,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object JvPageControl1: TJvPageControl [35]
-    Left = 6
-    Top = 372
+    Left = 3
+    Top = 373
     Width = 780
     Height = 109
     ActivePage = TabSheet1
@@ -1107,7 +1107,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       object GroupBox3: TGroupBox
         Left = 1
         Top = 10
-        Width = 201
+        Width = 252
         Height = 62
         Caption = 'Classifica'#231#227'o Fiscal'
         TabOrder = 0
@@ -1128,7 +1128,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
           ShowHint = True
         end
         object Label21: TLabel
-          Left = 120
+          Left = 160
           Top = 15
           Width = 68
           Height = 16
@@ -1146,7 +1146,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
         object DBEdit22: TDBEdit
           Left = 9
           Top = 33
-          Width = 104
+          Width = 139
           Height = 24
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1163,7 +1163,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
           OnKeyPress = FormKeyPress
         end
         object DBEdit15: TDBEdit
-          Left = 118
+          Left = 158
           Top = 33
           Width = 78
           Height = 24
@@ -1187,39 +1187,17 @@ inherited fProdutoCadastro: TfProdutoCadastro
           OnKeyPress = FormKeyPress
         end
       end
-      object DBOrigem: TDBRadioGroup
-        Left = 204
-        Top = 10
-        Width = 317
-        Height = 62
-        Caption = 'Origem do Produto'
-        Color = clBtnFace
-        Columns = 3
-        DataField = 'ORIGEM'
-        DataSource = DtSrc
-        Items.Strings = (
-          'Nacional'
-          'Imp. Exterior'
-          'Imp. Interno')
-        ParentColor = False
-        PopupMenu = PopupMenu1
-        TabOrder = 1
-        Values.Strings = (
-          '0'
-          '1'
-          '2')
-      end
       object GroupBox4: TGroupBox
-        Left = 525
+        Left = 435
         Top = 10
-        Width = 241
+        Width = 336
         Height = 62
         Caption = 'Aplica'#231#227'o'
-        TabOrder = 2
+        TabOrder = 1
         object cbAplicacao: TJvComboBox
           Left = 5
           Top = 25
-          Width = 199
+          Width = 284
           Height = 22
           Style = csOwnerDrawFixed
           Font.Charset = DEFAULT_CHARSET
@@ -1246,7 +1224,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
             '99 - OUTRAS')
         end
         object BitBtn3: TBitBtn
-          Left = 203
+          Left = 299
           Top = 20
           Width = 33
           Height = 27
@@ -1309,6 +1287,40 @@ inherited fProdutoCadastro: TfProdutoCadastro
             C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
             C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
             C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+        end
+      end
+      object GroupBox6: TGroupBox
+        Left = 260
+        Top = 10
+        Width = 169
+        Height = 62
+        Cursor = crHelp
+        Hint = 'Clique para ver as Op'#231#245'es'
+        Caption = 'Origem da Mercadoria'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold, fsUnderline]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+        OnClick = GroupBox6Click
+        object DBEdit26: TDBEdit
+          Left = 8
+          Top = 31
+          Width = 101
+          Height = 24
+          DataField = 'ORIGEM'
+          DataSource = DtSrc
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
         end
       end
     end
@@ -1611,6 +1623,41 @@ inherited fProdutoCadastro: TfProdutoCadastro
     PopupMenu = PopupMenu1
     TabOrder = 3
     OnKeyPress = FormKeyPress
+  end
+  object Memo1: TMemo [37]
+    Left = 192
+    Top = 133
+    Width = 417
+    Height = 273
+    Lines.Strings = (
+      'Origem da mercadoria: '
+      '0 - Nacional, exceto as indicadas nos c'#243'digos 3 a 5.'
+      
+        '1 - Estrangeira - Importa'#231#227'o direta, exceto a indicada no c'#243'digo' +
+        ' 6.'
+      
+        '2 - Estrangeira - Adquirida no mercado interno, exceto a indicad' +
+        'a '
+      'no c'#243'digo 7.'
+      '3 - Nacional, mercadoria ou bem com Conte'#250'do de Importa'#231#227'o '
+      'superior a 40%.'
+      '4 - Nacional, cuja produ'#231#227'o tenha sido feita em conformidade '
+      
+        'com os processos produtivos b'#225'sicos de que tratam as legisla'#231#245'es' +
+        ' '
+      'citadas nos Ajustes.'
+      '5 - Nacional, mercadoria ou bem com Conte'#250'do de Importa'#231#227'o '
+      'inferior ou igual a 40%.'
+      
+        '6 - Estrangeira - Importa'#231#227'o direta, sem similar nacional, const' +
+        'ante '
+      'em lista da CAMEX.'
+      
+        '7 - Estrangeira - Adquirida no mercado interno, sem similar naci' +
+        'onal, '
+      'constante em lista da CAMEX.')
+    TabOrder = 26
+    Visible = False
   end
   inherited XPMenu1: TXPMenu
     Left = 608
