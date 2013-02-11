@@ -77,7 +77,6 @@ type
     Label21: TLabel;
     DBEdit22: TDBEdit;
     DBEdit15: TDBEdit;
-    DBOrigem: TDBRadioGroup;
     TabSheet2: TTabSheet;
     DBRadioGroup4: TDBRadioGroup;
     DBRadioGroup5: TDBRadioGroup;
@@ -109,6 +108,9 @@ type
     Label24: TLabel;
     Label25: TLabel;
     DBEdit25: TDBEdit;
+    Memo1: TMemo;
+    GroupBox6: TGroupBox;
+    DBEdit26: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -141,6 +143,7 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure DBEdit12Exit(Sender: TObject);
+    procedure GroupBox6Click(Sender: TObject);
   private
     formatacaoPreco: integer;
     procedure calculaPrecoVenda;
@@ -210,13 +213,16 @@ begin
     dm.cds_ccusto.Next;
   end;
 
-  dm.parametro.open;
-  if (dm.parametro.Locate('PARAMETRO', 'FORMATACAO',[loPartialKey])) then
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'FORMATACAO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
   begin
     formatacaoPreco := 0;
-    if (dm.parametroD2.AsString <> '') then
-      formatacaoPreco := StrToInt(dm.parametroD2.AsString);
-  end;    
+    if (dm.cds_parametroD2.AsString <> '') then
+      formatacaoPreco := StrToInt(dm.cds_parametroD2.AsString);
+  end;
 end;
 
 procedure TfProdutoCadastro.btnProcurarClick(Sender: TObject);
@@ -329,7 +335,7 @@ begin
     DM.cds_categoria.Params[1].Clear;
     DM.cds_categoria.Params[2].AsInteger := DM.cds_familiaCOD_FAMILIA.AsInteger;
     DM.cds_categoria.Open;            }
-    
+    DecimalSeparator := ',';
 end;
 
 procedure TfProdutoCadastro.btnIncluirClick(Sender: TObject);
@@ -344,7 +350,7 @@ begin
   if (DM.cds_Marca.Active) then
     DM.cds_Marca.Close;
   DM.cds_Marca.Open;
-  DBOrigem.ItemIndex := 0;
+//  DBOrigem.ItemIndex := 0;
   dm.cds_produtoNCM.AsString := '00000000';
   dm.cds_produtoUNIDADEMEDIDA.AsString := 'UN';
 
@@ -371,11 +377,11 @@ begin
     2 : dm.cds_produtoTIPOPRECOVENDA.AsString := 'F'; // Preco Fixo
   end;
 
-  case DBOrigem.ItemIndex of
+{  case DBOrigem.ItemIndex of
     0 : dm.cds_produtoORIGEM.AsInteger := 0 ; // Nacional
     1 : dm.cds_produtoORIGEM.AsInteger := 1 ; // Importado pelo Mesmo
     2 : dm.cds_produtoORIGEM.AsInteger := 2 ; // Importado por Terceiro
-  end;
+  end;}
 
   if (cbLocal.ItemIndex > -1) then
   begin
@@ -896,6 +902,14 @@ procedure TfProdutoCadastro.DBEdit12Exit(Sender: TObject);
 begin
   inherited;
   calculaPrecoVenda;
+end;
+
+procedure TfProdutoCadastro.GroupBox6Click(Sender: TObject);
+begin
+  if Memo1.Visible then
+    Memo1.Visible := False
+  else
+    Memo1.Visible := True;  
 end;
 
 end.
