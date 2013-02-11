@@ -1279,10 +1279,11 @@ begin
     fFiltroMovimento.Edit3.Text := dm.cds_parametroDADOS.AsString;
     fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
     fFiltroMovimento.BitBtn8.Enabled := False;
-    fFiltroMovimento.Edit3.Text := '';
     fFiltroMovimento.cod_mov := 0;
     fFiltroMovimento.ShowModal;
     dm.cds_parametro.Close;
+    fFiltroMovimento.Edit3.Text := '3';
+    fFiltroMovimento.Edit4.Text := 'VENDAS';    
     if (fFiltroMovimento.cod_mov > 0) then
     begin
       DM_MOV.c_movimento.Close;
@@ -1821,7 +1822,7 @@ begin
    fProcura_prod.Edit2.ReadOnly := True;
    fProcura_prod.Edit2.TabStop := False;
    // Define busca pelos produtos de venda
-   fProcura_prod.cbTipo.Text := '';
+   fProcura_prod.cbTipo.ItemIndex := 2;
    fProcura_prod.BitBtn1.Click;
    fProcura_prod.ShowModal;
 
