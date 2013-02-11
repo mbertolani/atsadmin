@@ -148,7 +148,7 @@ inherited fEstado: TfEstado
     object Label10: TLabel
       Left = 442
       Top = 44
-      Width = 29
+      Width = 28
       Height = 16
       Hint = 'Margem De Valor Agregado(ST)'
       Anchors = [akTop]
@@ -203,7 +203,7 @@ inherited fEstado: TfEstado
       Anchors = [akTop]
       Caption = 'CST'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsUnderline]
@@ -291,7 +291,7 @@ inherited fEstado: TfEstado
       Anchors = [akTop]
       Caption = 'CST IPI'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsUnderline]
@@ -302,13 +302,13 @@ inherited fEstado: TfEstado
     object Label16: TLabel
       Left = 178
       Top = 91
-      Width = 51
+      Width = 50
       Height = 16
       Cursor = crHandPoint
       Anchors = [akTop]
       Caption = 'CST PIS'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Charset = ARABIC_CHARSET
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsUnderline]
@@ -319,13 +319,13 @@ inherited fEstado: TfEstado
     object Label17: TLabel
       Left = 338
       Top = 91
-      Width = 79
+      Width = 77
       Height = 16
       Cursor = crHandPoint
       Anchors = [akTop]
       Caption = 'CST COFINS'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Charset = ARABIC_CHARSET
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsUnderline]
@@ -344,7 +344,7 @@ inherited fEstado: TfEstado
       Caption = 'CSOSN'
       DragCursor = crDefault
       Font.Charset = ARABIC_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsUnderline]
@@ -717,8 +717,8 @@ inherited fEstado: TfEstado
   object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 331
-    Width = 783
-    Height = 228
+    Width = 775
+    Height = 217
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -883,7 +883,7 @@ inherited fEstado: TfEstado
   object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 140
-    Width = 783
+    Width = 775
     Height = 191
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -895,7 +895,7 @@ inherited fEstado: TfEstado
     ParentFont = False
     TabOrder = 3
     DesignSize = (
-      783
+      775
       191)
     object DBEdit15: TDBEdit
       Left = 64
