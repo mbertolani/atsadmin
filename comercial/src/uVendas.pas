@@ -679,7 +679,7 @@ type
     procedure Margem_Confere;
     procedure insereMatPrima;
   public
-    conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda : string; //, tipoVenda
+    conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda, estoque_negativo : string; //, tipoVenda
     estoque, qtde, mVendaPermi , desconto , prazoCliente , imex : Double;         // mVendaPermi = Margem de venda minima permitida
     procedure buscaServico();
     procedure baixamatprimas(tipomat: string; codmovt: integer);
@@ -963,6 +963,16 @@ begin
     5 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.00000';
     6 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.000000';
   end;
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+     estoque_negativo := 'FALSO'
+  else
+     estoque_negativo := 'TRUE';
+
 end;
 
 procedure TfVendas.btnIncluirClick(Sender: TObject);
@@ -1291,6 +1301,18 @@ begin
         btnProdutoProcura.Click;
         exit;
       end;
+
+      if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+        if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
+        begin
+           ShowMessage('Produto com saldo negativo !');
+           dbeProduto.Clear;
+           DBEdit17.Clear;
+           if (dm.scds_produto_proc.Active) then
+             dm.scds_produto_proc.Close;
+           Exit;
+        end;
+
       cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -1403,6 +1425,17 @@ begin
             exit;
           end;
         end;
+
+        if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+          if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
+          begin
+             ShowMessage('Produto com saldo negativo !');
+             dbeProduto.Clear;
+             DBEdit17.Clear;
+             if (dm.scds_produto_proc.Active) then
+              dm.scds_produto_proc.Close;
+             Exit;
+          end;
         cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
         cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -3068,6 +3101,16 @@ begin
             exit;
           end;
         end;
+        if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+        if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
+        begin
+           ShowMessage('Produto com saldo negativo !');
+           dbeProduto.Clear;
+           DBEdit17.Clear;
+           if (dm.scds_produto_proc.Active) then
+             dm.scds_produto_proc.Close;
+           Exit;
+        end;
         cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
         cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -3432,6 +3475,19 @@ begin
         btnProdutoProcura.Click;
         exit;
       end;
+
+
+      if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+        if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
+        begin
+           ShowMessage('Produto com saldo negativo !');
+           dbeProduto.Clear;
+           DBEdit17.Clear;
+           if (dm.scds_produto_proc.Active) then
+             dm.scds_produto_proc.Close;
+           Exit;
+        end;
+
       cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;

@@ -2329,7 +2329,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2383,7 +2383,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2590,7 +2590,7 @@ inherited fVendas: TfVendas
     end
     object ExcluiProduto1: TMenuItem
       Caption = 'Exclui Produto'
-      ShortCut = 46
+      ShortCut = 16430
       OnClick = BitBtn8Click
     end
     object IncluiProduto1: TMenuItem
