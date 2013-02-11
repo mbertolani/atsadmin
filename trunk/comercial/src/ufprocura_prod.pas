@@ -1279,6 +1279,19 @@ begin
       MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
       exit;
     end;
+
+    if (fVendas.estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+      if (cds_procESTOQUEATUAL.Value <= 0) then
+      begin
+         ShowMessage('Produto com saldo negativo !');
+         saldo_negativo := 'True';
+         //dbeProduto.Clear;
+         //dm.scds_produto_proc.Close;
+         Exit;
+      end
+      else
+        saldo_negativo := 'FALSE';
+
     if (fVendas.edCfop.Text = '') then
         fVendas.buscaCfop(fVendas.cds_MovimentoCODCLIENTE.AsInteger);
     fVendas.cds_Mov_detCFOP.AsString        := fVendas.edCfop.Text;
@@ -1573,6 +1586,19 @@ begin
    fVendas.cdslista.Params[0].AsInteger := fVendas.cds_MovimentoCODCLIENTE.AsInteger;
    fVendas.cdslista.Params[1].AsString := cds_procCODPRO.AsString;
    fVendas.cdslista.Open;
+
+    if (fVendas.estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+    if (cds_procESTOQUEATUAL.Value <= 0) then
+    begin
+       ShowMessage('Produto com saldo negativo !');
+       saldo_negativo := 'True';
+       //dbeProduto.Clear;
+       //dm.scds_produto_proc.Close;
+       Exit;
+    end
+    else
+        saldo_negativo := 'FALSE';
+
    if (not fVendas.cdslista.IsEmpty) then
    begin
      fVendas.cds_Mov_detCODPRODUTO.AsInteger := fVendas.cdslistaCODPRODUTO.AsInteger;
@@ -1641,6 +1667,18 @@ begin
         end
         else
         begin
+          if (fVendas.estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+          if (cds_procESTOQUEATUAL.Value <= 0) then
+          begin
+             ShowMessage('Produto com saldo negativo !');
+             saldo_negativo := 'True';
+             //dbeProduto.Clear;
+             //dm.scds_produto_proc.Close;
+             Exit;
+          end
+          else
+            saldo_negativo := 'FALSE';
+
           fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
           fVendas.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
           fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
