@@ -296,7 +296,10 @@ uses
   uFiltroDep in 'uFiltroDep.pas' {fFiltroDep},
   uVendaRelPorNotaFiscalLote in 'uVendaRelPorNotaFiscalLote.pas' {fVendaRelPorNotaFiscalLote},
   uExpContMat in 'uExpContMat.pas' {fExpContMat},
-  uNfeIcms in 'uNfeIcms.pas' {fNfeIcms};
+  uFluxoEstoque in 'uFluxoEstoque.pas' {fFluxoEstoque},
+  uNfeIcms in 'uNfeIcms.pas' {fNfeIcms},
+  uperiodoSem in 'uperiodoSem.pas' {fPeriodoSem},
+  uClientesAniversario in 'uClientesAniversario.pas' {fClientesAniversario};
 
 {$R *.res}
 
