@@ -619,7 +619,7 @@ object fNfePisCofins: TfNfePisCofins
       '.CODCLIENTE'#13#10'      AND C.CODCLIENTE   = EC.CODCLIENTE'#13#10'      AND' +
       ' V.CODVENDA = NF.CODVENDA'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1' +
       ' AND :DTA2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND V.CODMOVIMENTO' +
-      ' BETWEEN :CODINI AND :CODFIM'
+      ' BETWEEN :CODINI AND :CODFIM'#13#10'order by NF.NOTASERIE'
     MaxBlobSize = -1
     Params = <
       item
@@ -2494,10 +2494,12 @@ object fNfePisCofins: TfNfePisCofins
       end>
     SQL.Strings = (
       'SELECT DISTINCT UN.CODUN, UN.DESCRICAO '
-      '   FROM UNIDADEMEDIDA UN, MOVIMENTO mov, MOVIMENTODETALHE DET '
+      '   FROM UNIDADEMEDIDA UN, MOVIMENTO mov, MOVIMENTODETALHE DET, '
+      '   NOTAFISCAL NF, VENDA V '
       'WHERE UN.CODUN = DET.UN'
+      '       AND V.CODMOVIMENTO = mov.CODMOVIMENTO'
       '       AND mov.codmovimento = det.codmovimento'
-      '       AND mov.datamovimento between :pdata1 and :pdata2')
+      '       AND v.DATAVENDA between :pdata1 and :pdata2')
     SQLConnection = DM.sqlsisAdimin
     Left = 328
     Top = 208
@@ -3276,18 +3278,17 @@ object fNfePisCofins: TfNfePisCofins
       'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, PRO.NCM, PRO.PRODUTO' +
       ', DET.UN '#13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS' +
       ' PRO'#13#10'WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.C' +
-      'ODPRODUTO     = DET.CODPRODUTO'#13#10'      AND ((MOV.CODNATUREZA = 15' +
-      ') OR (MOV.CODNATUREZA = 4))'#13#10'      AND MOV.CODMOVIMENTO BETWEEN ' +
-      ':PMOV AND :PMOVF'
+      'ODPRODUTO     = DET.CODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 15)' +
+      #13#10'      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'PMOV'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'PMOVF'
         ParamType = ptInput
       end>

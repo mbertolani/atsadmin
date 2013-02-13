@@ -1085,7 +1085,7 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao103;
+      COD_VER          := vlVersao201;
       TIPO_ESCRIT      := tpEscrOriginal;
       IND_SIT_ESP      := indSitAbertura;
       NUM_REC_ANTERIOR := '';
@@ -1589,9 +1589,9 @@ begin
               COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
               COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
               COD_SIT       := sdRegular;
-              SER           := cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+              SER           := '1'; //cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
               NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
-              CHV_NFE       := cdsNFVendaNOMEXML.AsString;
+              CHV_NFE       := copy(cdsNFVendaNOMEXML.AsString, 0, 44);
               DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
               DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
               VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
@@ -1669,7 +1669,7 @@ begin
                     VL_ICMS_ST     := SimpleRoundTo(((VL_BC_ICMS_ST/ALIQ_ST)*100),(-2));
                   IND_APUR         := iaMensal;
 
-                  if (cdsCompraDetCSTIPI.AsString = '') then
+                  if (cdsItensCSTIPI.AsString = '') then
                   begin
                     MessageDlg('Número da Nota não preenchido. Mov. número - ' +
                     cdsNFVendaNOTASERIE.AsString + '-VENDA' , mtWarning, [mbOK], 0);
@@ -2227,6 +2227,14 @@ begin
     '   AND CODMOVIMENTO BETWEEN ' + IntToStr(codMovMin) +
     '   AND ' + IntToStr(codMovMax);
   cdsMov.Open;
+
+  if (cdsNFVenda.Active) then
+    cdsNFVenda.Close;
+  cdsNFVenda.Params[0].AsDate := data_ini.Date;
+  cdsNFVenda.Params[1].AsDate := data_fim.Date;
+  cdsNFVenda.Params[2].AsInteger := codMovMin;
+  cdsNFVenda.Params[3].AsInteger := codMovMax;
+  cdsNFVenda.Open;
 
   if (cdsItens.Active) then
     cdsItens.Close;
