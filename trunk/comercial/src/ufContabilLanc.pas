@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   FMTBcd, DBCtrls, Grids, DBGrids, DBClient, Provider, SqlExpr, dxCore,
-  dxButton, Mask, JvExControls, JvLabel, uUtils;
+  dxButton, Mask, JvExControls, JvLabel, uUtils, dbxpress;
 
 type
   TfContabilLanc = class(TfPai)
@@ -484,6 +484,8 @@ end;
 procedure TfContabilLanc.btnGravarClick(Sender: TObject);
  Var str_sql1, str_sql, valor_str: string;
  vlr_deb, vlr_cre, vlr_saldo: double;
+ TD : TTransactionDesc;
+ logStVelho, logStNovo: String;
 begin
   cod_id := 0;
   var_ccusto := 0;
@@ -678,10 +680,31 @@ begin
     end;
   end;
   { fim se for INCLUSÃO }
-  { ####################################################################}
-  try
+
+  logStVelho :=  '';
+
+  logStNovo :=  'V:' + copy(edit1.Text + '-' + edit2.Text + ' $' + edValor.Text,0,20) + '-';
+  logStNovo := logStNovo + '-DT:' +  FormatDateTime('dd/mm/yyyy', var_data);
+
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
     dm.sqlsisAdimin.ExecuteDirect(var_sqlb);
+    dm.gravaLog(Now, dm.varLogado, 'LANCAMENTO_CONTABIL', MICRO, logStVelho, logStNovo, IntToStr(cod_id), 'INSERIDO');
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
+  { ####################################################################}
+  try
+
     tipo_mov := 'gravado';
     if (rateio_d = 'S') then
     begin
