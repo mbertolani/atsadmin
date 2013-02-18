@@ -11,11 +11,9 @@ uses
 type
   TfEstoqueCorrige = class(TForm)
     Edit1: TEdit;
-    Edit2: TEdit;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
-    Label4: TLabel;
     Button1: TButton;
     JvDateEdit1: TJvDateEdit;
     Label5: TLabel;
@@ -37,10 +35,12 @@ type
     Label6: TLabel;
     BitBtn1: TBitBtn;
     Label8: TLabel;
+    cbGrupo: TComboBox;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -70,16 +70,16 @@ Begin
     QuotedStr(Edit1.Text));
   sqlQ.Open;
   codPro1 := sqlQ.Fields[0].AsInteger;
-  if (sqlQ.Active) then
-    sqlQ.close;
-  sqlQ.SQL.Clear;
-  sqlQ.SQL.Add('SELECT CODPRODUTO FROM PRODUTOS WHERE CODPRO = ' +
-    QuotedStr(Edit2.Text));
-  sqlQ.Open;
-  if (sqlQ.IsEmpty) then
-    codPro2 := StrTOInt(Edit2.Text)
-  else
-    codPro2 := sqlQ.Fields[0].AsInteger;
+  //if (sqlQ.Active) then
+  //  sqlQ.close;
+  //sqlQ.SQL.Clear;
+  //sqlQ.SQL.Add('SELECT CODPRODUTO FROM PRODUTOS WHERE CODPRO = ' +
+  //  QuotedStr(Edit2.Text));
+  //sqlQ.Open;
+  //if (sqlQ.IsEmpty) then
+  //  codPro2 := StrTOInt(Edit2.Text)
+  //else
+  //  codPro2 := sqlQ.Fields[0].AsInteger;
   sqlQ.Close;
   try
     TD.TransactionID := 1;
@@ -118,11 +118,12 @@ var str, tipo: string;
   FEstoque : TEstoque;
   Save_Cursor:TCursor;
   td : TTRansactionDesc;
+  codProduto : Integer;
 begin
+  FEstoque := TEstoque.Create;
   Save_Cursor := Screen.Cursor;
   Try
     Screen.Cursor := crHourGlass;
-    FEstoque := TEstoque.Create;
 
     if (cdsB.Active) then
       cdsB.Close;
@@ -131,7 +132,7 @@ begin
     str := str + ',  CASE WHEN m.CODNATUREZA < 3 THEN m.DATAMOVIMENTO';
     str := str + '  WHEN m.CODNATUREZA = 3 THEN V.DATAVENDA';
     str := str + '  WHEN m.CODNATUREZA = 4 THEN C.DATACOMPRA END DATAMOVIMENTO ';
-
+    str := str + ', md.CODPRODUTO, md.LOTE, m.CODALMOXARIFADO  ';
     str := str + '  FROM MOVIMENTO m';
     str := str + ' INNER JOIN MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO';
     str := str + ' INNER JOIN PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO';
@@ -143,12 +144,17 @@ begin
     str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text)));
     str := str + '   AND ' ;
     str := str + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit2.Text)));
-    if ((Edit1.Text <> '') and (Edit2.Text <> '')) then
+    if (Edit1.Text <> '') then
     begin
-      str := str + '   AND ' ;
-      str := str + '   prod.CODPRO BETWEEN ' + QuotedStr(Edit1.Text) + ' AND ' +  QuotedStr(Edit2.Text);
+      str := str + ' AND prod.CODPRO = ' + QuotedStr(Edit1.Text); // + ' AND ' +  QuotedStr(Edit2.Text);
     end;
-    str := str + ' ORDER BY  3, 1, 2';
+
+    if (cbGrupo.Text <> '') then
+    begin
+      str := str + ' AND prod.FAMILIA = ' + QuotedStr(cbGrupo.Text); // + ' AND ' +  QuotedStr(Edit2.Text);
+    end;
+
+    str := str + ' ORDER BY  3, 1, 2, 4, 5, 6';
     cdsB.CommandText := str;
     cdsB.Open;
 
@@ -157,7 +163,35 @@ begin
     JvProgressBar1.Max := cdsB.RecordCount;
     JvProgressBar1.Position := 0;
 
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      While not cdsB.Eof do
+      begin
+        str := 'UPDATE MOVIMENTODETALHE SET STATUS = NULL ' +
+          ' WHERE CODMOVIMENTO = ' + IntToStr(cdsB.FieldByName('CODMOVIMENTO').AsInteger);
+        str := str + ' AND CODPRODUTO = ' + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        str := 'DELETE  FROM ESTOQUEMES ';
+        str := str + ' WHERE CODPRODUTO  = ' + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger);
+        if (cdsB.FieldByName('LOTE').asString <> '') then
+        begin
+          str := str + '   AND LOTE        = ' + QuotedStr(cdsB.FieldByName('LOTE').asString);
+        end;
+        str := str + '   AND CENTROCUSTO = ' + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger);
+        str := str + '   AND MESANO     <= ' + QuotedStr(Formatdatetime('mm/dd/yyyy', cdsB.FieldByName('DATAMOVIMENTO').AsDateTime));
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        cdsB.Next;
+      end;
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
 
+    cdsB.First;
 
     While not cdsB.Eof do
     begin
@@ -169,13 +203,12 @@ begin
         3 : tipo := 'VENDA';
         4 : tipo := 'COMPRA';
       end;
-
-
-
+      dm.sqlsisAdimin.StartTransaction(TD);
       Try
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dmnf.baixaEstoque(cdsB.FieldByName('CODMOVIMENTO').AsInteger, cdsB.FieldByName('DATAMOVIMENTO').AsDateTime, tipo);
+
+        festoque.baixaEstoque(cdsB.FieldByName('CODMOVIMENTO').AsInteger, cdsB.FieldByName('DATAMOVIMENTO').AsDateTime, tipo);
         dm.sqlsisAdimin.Commit(TD);
+
       except
         on E : Exception do
         begin
@@ -183,6 +216,17 @@ begin
           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
         end;
       end;
+      cdsb.next;
+
+    end;
+
+
+    MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
+  Finally
+    Label6.Caption := 'Codigo Movimento : ' + IntToStr(cdsB.FieldByName('CODMOVIMENTO').asInteger);
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    FEstoque.Free;
+  end;
 
       {    if (cds.Active) then
       cds.Close;
@@ -290,17 +334,6 @@ begin
       cds.Next;
     end;
  }
-    cdsb.next;
-    end;
-
-
-
-    MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
-    Finally
-      Label6.Caption := 'Codigo Movimento : ' + IntToStr(cdsB.FieldByName('CODMOVIMENTO').asInteger);
-      Screen.Cursor := Save_Cursor;  { Always restore to normal }
-      FEstoque.Free;
-    end;
 end;
 
 procedure TfEstoqueCorrige.BitBtn1Click(Sender: TObject);
@@ -374,6 +407,22 @@ begin
   dm.sqlsisAdimin.Commit(TD);
 
 
+end;
+
+procedure TfEstoqueCorrige.FormCreate(Sender: TObject);
+begin
+  With DM do
+  begin
+    if (not cds_Familia.Active) then
+      cds_Familia.Open;
+    cbGrupo.Items.Clear;
+    while not cds_Familia.Eof do
+    begin
+      cbGrupo.Items.Add(cds_familiaDESCFAMILIA.AsString);
+      cds_Familia.Next;
+    end;
+    cds_Familia.Close;
+  end;
 end;
 
 end.
