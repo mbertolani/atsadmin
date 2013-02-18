@@ -1,10 +1,8 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 4
-  Top = 112
-  Height = 561
-  Width = 1279
+  Height = 693
+  Width = 1301
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -16,7 +14,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=c:\Home\sisadmin\BD\sge_estrela.fdb'
+      'Database=c:\Home\sisadmin\BD\sge_plastiferro.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -4699,6 +4697,8 @@ object DM: TDM
   object d3_contabil: TDataSetProvider
     DataSet = s3_contabil
     UpdateMode = upWhereKeyOnly
+    OnUpdateData = DSPUpdateData
+    OnGetDataSetProperties = DSPGetProproperties
     Left = 368
     Top = 396
   end
@@ -9673,6 +9673,7 @@ object DM: TDM
   end
   object dspLog: TDataSetProvider
     DataSet = sdsLog
+    Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
     Left = 376
     Top = 452
