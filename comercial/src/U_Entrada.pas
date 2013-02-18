@@ -237,6 +237,7 @@ type
     str_sql : string;
 
 
+    procedure msgErro;
     procedure imprimeCupom;
     procedure imprimeRecibo;
     procedure imprimeDLLBema;
@@ -1194,15 +1195,8 @@ begin
         porta := s_parametroDADOS.AsString;
         s_parametro.Close;
 
-        if (s_parametro.Active) then
-          s_parametro.Close;
-        s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
-        s_parametro.Open;
-        if (s_parametroDADOS.IsNull) then
-          ModeloImpressora := 0
-        else
-          ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
-        s_parametro.Close;
+        ModeloImpressora := StrToInt(DM.impressora_pc);
+
         //Configura o Modelo da Impressora
         iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
 
@@ -1217,7 +1211,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress?do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1225,7 +1219,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress?do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1233,7 +1227,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress?do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1241,7 +1235,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress?do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1249,7 +1243,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressã do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1257,7 +1251,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressã do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1265,7 +1259,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressã do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1273,7 +1267,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressã do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1281,7 +1275,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressã do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1289,7 +1283,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress?do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1297,7 +1291,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impress?do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgErro;
         exit;
       end;
 
@@ -1309,7 +1303,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impressã do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          msgErro;
           exit;
         end;
         buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
@@ -1321,7 +1315,7 @@ begin
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
         if comando = 0 then
         begin
-          MessageDlg('Problemas na impressã do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+          msgErro;
           exit;
         end;
         DM_MOV.c_movdet.next;
@@ -1331,7 +1325,7 @@ begin
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
      if comando = 0 then
      begin
-       MessageDlg('Problemas na impress?do texto.' + #10 + 'Poss?is causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+       msgErro;
        exit;
      end;
 
@@ -1536,6 +1530,12 @@ procedure TF_Entrada.JvCaixinhaEnter(Sender: TObject);
 begin
   JvPago.Value := JvPedido.Value + JvComissao.Value + JvCaixinha.Value;
   troco;  
+end;
+
+procedure TF_Entrada.msgErro;
+begin
+  // MSG
+  MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
 end;
 
 end.
