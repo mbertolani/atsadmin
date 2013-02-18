@@ -69,6 +69,7 @@ type
     procedure acNfeExecute(Sender: TObject);
     procedure acNfeEmitirExecute(Sender: TObject);
     procedure dxButton11Click(Sender: TObject);
+    procedure UserControlAutoAfterLogin(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -744,6 +745,11 @@ procedure TfAtsOS.dxButton11Click(Sender: TObject);
 begin
   // Chat
   WinExec('Chat_Client_Externo.exe', SW_NORMAL);
+end;
+
+procedure TfAtsOS.UserControlAutoAfterLogin(Sender: TObject);
+begin
+  Dm.varLogado := UserControlAuto.CurrentUser.UserLogin;
 end;
 
 end.
