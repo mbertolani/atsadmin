@@ -4889,4 +4889,89 @@ object fNFeletronica: TfNFeletronica
     Left = 616
     Top = 504
   end
+  object sdsCfopProd: TSQLDataSet
+    CommandText = 
+      'select *'#13#10'from CLASSIFICACAOFISCALPRODUTO '#13#10'where COD_PROD = :PR' +
+      'OD and UF = :ESTADO and CFOP = :codcfop'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PROD'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'ESTADO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'codcfop'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 366
+    Top = 443
+    object sdsCfopProdCOD_PROD: TIntegerField
+      FieldName = 'COD_PROD'
+      Required = True
+    end
+    object sdsCfopProdCFOP: TStringField
+      FieldName = 'CFOP'
+      Required = True
+      Size = 30
+    end
+    object sdsCfopProdUF: TStringField
+      FieldName = 'UF'
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object sdsCfopProdICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object sdsCfopProdICMS_SUBST_IC: TFloatField
+      FieldName = 'ICMS_SUBST_IC'
+    end
+    object sdsCfopProdICMS_SUBST_IND: TFloatField
+      FieldName = 'ICMS_SUBST_IND'
+    end
+    object sdsCfopProdICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object sdsCfopProdICMS_BASE: TFloatField
+      FieldName = 'ICMS_BASE'
+    end
+    object sdsCfopProdCST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
+    object sdsCfopProdIPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object sdsCfopProdCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object sdsCfopProdCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object sdsCfopProdCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object sdsCfopProdCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object sdsCfopProdPIS: TFloatField
+      FieldName = 'PIS'
+    end
+    object sdsCfopProdCOFINS: TFloatField
+      FieldName = 'COFINS'
+    end
+  end
 end

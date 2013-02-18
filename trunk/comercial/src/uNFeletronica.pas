@@ -651,6 +651,23 @@ type
     sCFOPCODFISCAL: TStringField;
     sFornecCODFISCAL: TStringField;
     sClienteSUFRAMA: TStringField;
+    sdsCfopProd: TSQLDataSet;
+    sdsCfopProdCOD_PROD: TIntegerField;
+    sdsCfopProdCFOP: TStringField;
+    sdsCfopProdUF: TStringField;
+    sdsCfopProdICMS_SUBST: TFloatField;
+    sdsCfopProdICMS_SUBST_IC: TFloatField;
+    sdsCfopProdICMS_SUBST_IND: TFloatField;
+    sdsCfopProdICMS: TFloatField;
+    sdsCfopProdICMS_BASE: TFloatField;
+    sdsCfopProdCST: TStringField;
+    sdsCfopProdIPI: TFloatField;
+    sdsCfopProdCSOSN: TStringField;
+    sdsCfopProdCSTIPI: TStringField;
+    sdsCfopProdCSTPIS: TStringField;
+    sdsCfopProdCSTCOFINS: TStringField;
+    sdsCfopProdPIS: TFloatField;
+    sdsCfopProdCOFINS: TFloatField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1717,7 +1734,7 @@ begin
 
     //Carrega os itens da NF
     pegaItens(tpNF.ItemIndex);
-    
+
     i := 1;
     while not cdsItensNF.Eof do // Escrevo os itens
     begin
@@ -1805,7 +1822,7 @@ begin
         fVendas.btnIncluir.Click;
         fVendas.btnCancelar.Click;
         fVendas.cds_Movimento.Params[0].Clear;
-        fVendas.cds_Movimento.Close;        
+        fVendas.cds_Movimento.Close;
         Close;
       end;
     end;
@@ -2160,9 +2177,26 @@ begin
           vICMS :=    cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
           modBCST :=  BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
           vBCST :=    cdsItensNFICMS_SUBSTD.AsVariant;                 //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          pMVAST :=   sCFOPICMS_SUBSTRIB_IND.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
-          pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          pICMSST :=  sCFOPICMS_SUBSTRIB.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+          if (sdsCfopProd.Active) then
+            sdsCfopProd.Close;
+          sdsCfopProd.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
+          sdsCfopProd.Params[1].AsString := sClienteUF.AsString;
+          sdsCfopProd.Params[2].AsString := cdsNFCFOP.AsString;
+          sdsCfopProd.Open;
+
+          if (not sdsCfopProd.IsEmpty) then
+          begin
+            pMVAST := sdsCfopProdICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            pRedBCST := sdsCfopProdICMS_SUBST_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            pICMSST :=  sdsCfopProdICMS_SUBST_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+          end
+          else begin
+            pMVAST :=   sCFOPICMS_SUBSTRIB.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            pICMSST :=  sCFOPICMS_SUBSTRIB_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+          end;
+
+
           pRedBC :=   sCFOPREDUCAO.AsVariant;                          //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
           vICMSST :=  cdsItensNFICMS_SUBST.AsVariant;                  //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
         end;
