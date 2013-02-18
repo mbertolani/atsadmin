@@ -290,6 +290,16 @@ type
     RadioGroup3: TRadioGroup;
     BitBtn32: TBitBtn;
     rgBloqueio: TRadioGroup;
+    edtModelo2: TEdit;
+    edtModelo3: TEdit;
+    Pc1: TEdit;
+    Pc2: TEdit;
+    Pc3: TEdit;
+    Label52: TLabel;
+    Label53: TLabel;
+    Label54: TLabel;
+    Label55: TLabel;
+    Label56: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -2210,7 +2220,12 @@ begin
      s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
      s_parametro.Open;
      if (not s_parametro.Eof) then
-       edtModelo.Text := s_parametroDADOS.AsString;
+        Pc1.Text := s_parametroD1.AsString;
+        edtModelo.Text := s_parametroD2.AsString;
+        Pc2.Text := s_parametroD3.AsString;
+        edtModelo2.Text := s_parametroD4.AsString;
+        Pc3.Text := s_parametroD5.AsString;
+        edtModelo3.Text := s_parametroD6.AsString;
 
      if (s_parametro.Active) then
        s_parametro.Close;

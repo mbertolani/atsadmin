@@ -1,14 +1,14 @@
 inherited fParametro: TfParametro
   Left = 211
   Top = 126
-  Width = 814
-  Height = 576
+  Width = 834
+  Height = 603
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel2: TMMJPanel [0]
-    Width = 798
+    Width = 817
     Height = 9
     inherited Label1: TLabel
       Left = 214
@@ -26,9 +26,9 @@ inherited fParametro: TfParametro
   object Parametro: TPageControl [1]
     Left = 0
     Top = 8
-    Width = 792
-    Height = 473
-    ActivePage = TabSheet7
+    Width = 817
+    Height = 505
+    ActivePage = TabPDV
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2492,7 +2492,7 @@ inherited fParametro: TfParametro
         Left = 0
         Top = 0
         Width = 169
-        Height = 445
+        Height = 477
         Align = alLeft
         Pages = <
           item
@@ -2681,8 +2681,8 @@ inherited fParametro: TfParametro
       object pgc1: TPageControl
         Left = 0
         Top = 0
-        Width = 784
-        Height = 445
+        Width = 809
+        Height = 477
         ActivePage = ts1
         Align = alClient
         TabOrder = 0
@@ -3021,15 +3021,50 @@ inherited fParametro: TfParametro
             Left = 368
             Top = 247
             Width = 401
-            Height = 97
+            Height = 122
             Caption = 'Impressora Bematech n'#227'o Fiscal'
             TabOrder = 22
             object lbl10: TLabel
-              Left = 214
-              Top = 51
+              Left = 227
+              Top = 6
               Width = 104
               Height = 13
               Caption = 'Modelo da Impressora'
+            end
+            object Label52: TLabel
+              Left = 206
+              Top = 21
+              Width = 57
+              Height = 13
+              Caption = 'Nome Micro'
+            end
+            object Label53: TLabel
+              Left = 270
+              Top = 22
+              Width = 57
+              Height = 13
+              Caption = 'Nome Micro'
+            end
+            object Label54: TLabel
+              Left = 334
+              Top = 22
+              Width = 57
+              Height = 13
+              Caption = 'Nome Micro'
+            end
+            object Label55: TLabel
+              Left = 210
+              Top = 63
+              Width = 161
+              Height = 13
+              Caption = 'Impressoras = 4000 TH - 4200 TH'
+            end
+            object Label56: TLabel
+              Left = 209
+              Top = 105
+              Width = 165
+              Height = 13
+              Caption = 'Obs = 4000 TH = 5 /  4200 TH = 7'
             end
             object chkUsaDLL: TCheckBox
               Left = 8
@@ -3062,19 +3097,33 @@ inherited fParametro: TfParametro
               OnClick = chkAbrirGavetaAoGravarClick
             end
             object edtModelo: TEdit
-              Left = 215
-              Top = 68
-              Width = 163
+              Left = 210
+              Top = 83
+              Width = 29
               Height = 21
               BevelKind = bkFlat
               BorderStyle = bsNone
               TabOrder = 3
               OnChange = edtModeloChange
             end
+            object edtModelo2: TEdit
+              Left = 272
+              Top = 82
+              Width = 25
+              Height = 21
+              TabOrder = 4
+            end
+            object edtModelo3: TEdit
+              Left = 329
+              Top = 83
+              Width = 27
+              Height = 21
+              TabOrder = 5
+            end
           end
           object rgEstoqueNegativo: TRadioGroup
             Left = 369
-            Top = 346
+            Top = 370
             Width = 400
             Height = 37
             Caption = 'Permite estoque negativo'
@@ -3087,7 +3136,7 @@ inherited fParametro: TfParametro
           end
           object chk1: TCheckBox
             Left = 371
-            Top = 393
+            Top = 417
             Width = 294
             Height = 17
             Caption = 'PDV NTC ?'
@@ -3246,8 +3295,8 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 484
-    Width = 798
+    Top = 513
+    Width = 817
     inherited btnGravar: TBitBtn
       Left = 288
     end
@@ -3266,6 +3315,30 @@ inherited fParametro: TfParametro
     inherited btnSair: TBitBtn
       Left = 514
     end
+  end
+  object Pc1: TEdit [3]
+    Left = 579
+    Top = 338
+    Width = 59
+    Height = 21
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    TabOrder = 3
+    OnChange = edtModeloChange
+  end
+  object Pc2: TEdit [4]
+    Left = 644
+    Top = 339
+    Width = 59
+    Height = 21
+    TabOrder = 4
+  end
+  object Pc3: TEdit [5]
+    Left = 709
+    Top = 339
+    Width = 61
+    Height = 21
+    TabOrder = 5
   end
   inherited XPMenu1: TXPMenu
     Top = 32
