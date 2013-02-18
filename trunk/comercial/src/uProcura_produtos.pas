@@ -615,7 +615,8 @@ begin
   if ( cbTipo.Text <> '' ) then
   begin
     case cbTipo.ItemIndex of
-      0: varCondicaoA := ' where ((TIPO = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
+      0: varCondicaoA := ' where ((TIPO = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL) OR (TIPO = ' +
+          QuotedStr('COMPRA') + ') OR (TIPO = ' + QuotedStr('VENDA') + '))';
       1: varCondicaoA := ' where ((TIPO = ' + QuotedStr('COMPRA') + ') OR (TIPO = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
       2: varCondicaoA := ' where ((TIPO = ' + QuotedStr('VENDA') + ') OR (TIPO = ' + QuotedStr('PROD') + ') OR (TIPO IS NULL)) ';
       3: varCondicaoA := ' where ((TIPO = ' + QuotedStr('SERV') + ')) ';
