@@ -81,6 +81,29 @@ type
     cdsClassFiscCSTCOFINS: TStringField;
     cdsClassFiscPIS: TFloatField;
     cdsClassFiscCOFINS: TFloatField;
+    BitBtn1: TBitBtn;
+    gbProduto: TGroupBox;
+    edProdCopiar: TEdit;
+    btnExecutaCopia: TBitBtn;
+    sdsProdCopia: TSQLDataSet;
+    dspProdCopia: TDataSetProvider;
+    cdsProdCopia: TClientDataSet;
+    cdsProdCopiaCOD_PROD: TIntegerField;
+    cdsProdCopiaCFOP: TStringField;
+    cdsProdCopiaUF: TStringField;
+    cdsProdCopiaICMS_SUBST: TFloatField;
+    cdsProdCopiaICMS_SUBST_IC: TFloatField;
+    cdsProdCopiaICMS_SUBST_IND: TFloatField;
+    cdsProdCopiaICMS: TFloatField;
+    cdsProdCopiaICMS_BASE: TFloatField;
+    cdsProdCopiaCST: TStringField;
+    cdsProdCopiaIPI: TFloatField;
+    cdsProdCopiaCSOSN: TStringField;
+    cdsProdCopiaCSTIPI: TStringField;
+    cdsProdCopiaCSTPIS: TStringField;
+    cdsProdCopiaCSTCOFINS: TStringField;
+    cdsProdCopiaPIS: TFloatField;
+    cdsProdCopiaCOFINS: TFloatField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -91,6 +114,8 @@ type
     procedure DBGrid1KeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnExcluirClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure btnExecutaCopiaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -202,7 +227,59 @@ begin
   str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
   str := str + ' AND CFOP = ' + QuotedStr(CFOP);
   str := str + ' AND UF = ' + QuotedStr(UF);
-  dm.sqlsisAdimin.ExecuteDirect(str);  
+  dm.sqlsisAdimin.ExecuteDirect(str);
+end;
+
+procedure TfClassificacaoFIscalProduto.BitBtn1Click(Sender: TObject);
+begin
+  inherited;
+  if (gbProduto.Visible = True) then
+    gbProduto.Visible := False
+  else
+    gbProduto.Visible := True;
+end;
+
+procedure TfClassificacaoFIscalProduto.btnExecutaCopiaClick(
+  Sender: TObject);
+begin
+  inherited;
+  if (edProdCopiar.Text <> '') then
+  begin
+    if (cdsProdCopia.Active) then
+      cdsProdCopia.Close;
+    cdsProdCopia.Params[0].AsString := edProdCopiar.Text;
+    cdsProdCopia.Open;
+    if (cdsProdCopia.IsEmpty) then
+    begin
+      MessageDlg('Produto sem Tributação.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    while not cdsProdCopia.Eof do
+    begin
+      if (cdsClassFisc.Active = False) then
+        cdsClassFisc.Open;
+      cdsClassFisc.Append;
+      cdsClassFiscCOD_PROD.AsInteger     := cfcodprod;
+      cdsClassFiscCFOP.AsString          := cdsProdCopiaCFOP.AsString;
+      cdsClassFiscUF.AsString            := cdsProdCopiaUF.AsString;
+      cdsClassFiscCST.AsString           := cdsProdCopiaCST.AsString;
+      cdsClassFiscCSOSN.AsString         := cdsProdCopiaCSOSN.AsString;
+      cdsClassFiscCSTIPI.AsString        := cdsProdCopiaCSTIPI.AsString;
+      cdsClassFiscCSTPIS.AsString        := cdsProdCopiaCSTPIS.AsString;
+      cdsClassFiscCSTCOFINS.AsString     := cdsProdCopiaCSTCOFINS.AsString;
+      cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
+      cdsClassFiscICMS_SUBST_IC.AsFloat  := cdsProdCopiaICMS_SUBST_IC.AsFloat;
+      cdsClassFiscICMS_SUBST_IND.AsFloat := cdsProdCopiaICMS_SUBST_IND.AsFloat;
+      cdsClassFiscICMS.AsFloat           := cdsProdCopiaICMS.AsFloat;
+      cdsClassFiscICMS_BASE.AsFloat      := cdsProdCopiaICMS_BASE.AsFloat;
+      cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
+      cdsClassFiscIPI.AsFloat            := cdsProdCopiaIPI.AsFloat;
+      cdsClassFiscPIS.AsFloat            := cdsProdCopiaPIS.AsFloat;
+      cdsClassFiscCOFINS.AsFloat         := cdsProdCopiaCOFINS.AsFloat;
+      cdsClassFisc.ApplyUpdates(0);
+      cdsProdCopia.Next;
+    end;
+  end;
 end;
 
 end.
