@@ -192,7 +192,7 @@ begin
   try
     sqlBuscaR :=  TSqlQuery.Create(nil);
     sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
-    strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + ' AND DP = 0 ' +
+    strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO, TITULO FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + ' AND DP = 0 ' +
     ' AND STATUS IN (' + QuotedStr('5-') + ', ' + QuotedStr('9-') + ') and USERID = ' + IntToStr(USERID) + ' order by DATAVENCIMENTO';
     //strRec := 'SELECT CODRECEBIMENTO, VALOR_RESTO FROM RECEBIMENTO WHERE CODRECEBIMENTO = ' + IntToStr(CODRECEBE);
     sqlBuscaR.SQL.Add(strRec);
@@ -285,6 +285,11 @@ begin
               strRec := strRec  + ', DESCONTADO  = ' + QuotedStr('S');
 
             strRec := strRec  + ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
+
+            dm.gravaLog(Now, dm.varLogado, 'RECEBIMENTO', MICRO, 'REC.:' + FloatToStr(VLR - VLDESC) +
+              '-DESC.:' + FloatToStr(VLDESC) + '-DT:' + formatdatetime('dd/mm/yy', DATAREC)
+              , '', sqlBuscaR.FieldByName('TITULO').asString, 'RECEBIDO');
+
         executaSql(strRec);
       end;
 
@@ -309,6 +314,9 @@ begin
             ',outro_debito = ' + FloatToStr(vlpert)  +
             ' WHERE CODRECEBIMENTO = ' + IntToStr(CODREC);
         executaSql(strRec);
+        dm.gravaLog(Now, dm.varLogado, 'RECEBIMENTO', MICRO, 'REC.:' + FloatToStr(VLR - VLDESC) +
+              '-DESC.:' + FloatToStr(VLDESC) + '-DT:' + formatdatetime('dd/mm/yy', DATAREC)
+              , '', sqlBuscaR.FieldByName('TITULO').asString, 'RECEBIDO');
       end;
       VLR_RESTO := VLR_RESTO - (VLR + VLJU + VLFUN - VLPER - VLDESC);
 
@@ -335,7 +343,7 @@ begin
   try
     sqlBuscaR :=  TSqlQuery.Create(nil);
     sqlBuscaR.SQLConnection := dm.sqlsisAdimin;
-    strRec := 'SELECT CODRECEBIMENTO, VALORRECEBIDO, DESCONTO, PERDA, FUNRURAL, JUROS  FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + 'AND DP = 0 ' +
+    strRec := 'SELECT CODRECEBIMENTO, VALORRECEBIDO, DESCONTO, PERDA, FUNRURAL, JUROS, TITULO  FROM RECEBIMENTO WHERE CODCLIENTE = ' + IntToStr(CLIENTE) + 'AND DP = 0 ' +
     ' AND STATUS IN (' + QuotedStr('1-') + ', ' + QuotedStr('2-') + ', ' + QuotedStr('7-') + ', ' + QuotedStr('9-') + ', ' + QuotedStr('13') + ') and USERID = ' + IntToStr(USERID) + ' order by CODRECEBIMENTO';
     sqlBuscaR.SQL.Add(strRec);
     sqlBuscaR.Open;
@@ -360,6 +368,9 @@ begin
           ', PERDA = 0' +
           ' WHERE CODRECEBIMENTO = ' + IntToStr(codrec);
       executaSql(strRec);
+      dm.gravaLog(Now, dm.varLogado, 'RECEBIMENTO', MICRO, 'REC.:' + FloatToStr(sqlBuscaR.FieldByName('VALORRECEBIDO').AsFloat) +
+        '-DESC.:' + FloatToStr(sqlBuscaR.FieldByName('DESCONTO').AsFloat)
+        , '', sqlBuscaR.FieldByName('TITULO').asString, 'CANCELADO RECEB.');
       sqlBuscaR.Next;
     END;
   finally
