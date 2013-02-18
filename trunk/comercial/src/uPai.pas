@@ -221,7 +221,7 @@ procedure TfPai.DSPGetProproperties(Sender: TObject; DataSet: TDataSet;
 begin
   { Declare Variants no uses }
  Properties := VarArrayCreate([0,4], varVariant);
-  Properties[0] := VarArrayOf(['USUARIO',varUsuario,True]);
+  Properties[0] := VarArrayOf(['USUARIO', dm.varLogado,True]);
   Properties[1] := VarArrayOf(['MICRO',dm.NomeComputador,True]);
   Properties[2] := VarArrayOf(['TABELA',
     IProviderSupport(DataSet).PSGetTableName,True]);
@@ -245,17 +245,25 @@ begin
     SetOptionalParam('DATA',Date,True);
     SetOptionalParam('HORA',Time,True);
       //aqui salvo na tabela
-      str := 'INSERT INTO LOGS (MICRO, TABELA, USUARIO, DATA, HORA, data_set)';
+      str := 'INSERT INTO LOGS (MICRO, TABELA, USUARIO, DATA, HORA, CAMPO1, data_set)';
       str := str +  ' VALUES(';
       str := str + '''' + GetOptionalParam('MICRO') + '''';
       str := str + ', ';
       str := str + '''' + GetOptionalParam('TABELA') + '''';
       str := str + ', ';
-      str := str + '''' + GetOptionalParam('USUARIO') + '''';
+      //str := str + '''' + GetOptionalParam('USUARIO') + '''';
+      str := str + QuotedStr(dm.varLogado);
       str := str + ', ';
       str := str + '''' + FormatDateTime('mm/dd/yy',Date) + '''';
       str := str + ', ';
       str := str + '''' + FormatDateTime('hh/nn/ss',Time) + '''';
+      str := str + ', ';
+      if (dataset.UpdateStatus = usDeleted) then
+        str := str + QuotedStr('EXCLUIDO');
+      if (dataset.UpdateStatus = usUnModified) then
+        str := str + QuotedStr('MODIFICADO');
+      if (dataset.UpdateStatus = usInserted) then
+        str := str + QuotedStr('INSERIDO');
       str := str + ', ';
       for i := 0 to dataset.FieldCount - 1 do
       begin

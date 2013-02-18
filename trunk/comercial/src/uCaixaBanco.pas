@@ -88,7 +88,7 @@ end;
 procedure TfCaixaBanco.BitBtn1Click(Sender: TObject);
   var str: String;
     TD: TTransactionDesc;
-    logStVelho, logStNovo: String;
+    logStVelho, logStNovo, acao: String;
 begin
   if (ComboBox1.ItemIndex < 0) then
   begin
@@ -104,6 +104,7 @@ begin
   dm.sqlBusca.Open;
   if (dm.sqlBusca.IsEmpty) then
   begin
+    acao := 'INSERIDO';
     str := 'INSERT INTO CAIXA_CONTROLE (IDCAIXACONTROLE, CODCAIXA, CODUSUARIO, ' +
       ' DATAFECHAMENTO, SITUACAO)  VALUES (' + IntToStr(cds_7_contasCODIGO.AsInteger);
     str := str + ', ' + IntToStr(cds_7_contasCODIGO.AsInteger);
@@ -115,6 +116,7 @@ begin
     str := str + ')';
   end
   else begin
+    acao := 'MODIFICADO';
     str := 'UPDATE CAIXA_CONTROLE SET DATAFECHAMENTO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', dta1.Date));
     if (ComboBox1.ItemIndex = 0) then
       str := str + ', SITUACAO = ' + QuotedStr('F');
@@ -139,12 +141,15 @@ begin
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(str);
-    dm.gravaLog(Now, dm.varLogado, 'CAIXA_CONTROLE', MICRO, logStVelho, logStNovo, IntToStr(cds_7_contasCODIGO.AsInteger));
+    dm.gravaLog(Now, dm.varLogado, 'CAIXA_CONTROLE', MICRO, logStVelho, logStNovo, IntToStr(cds_7_contasCODIGO.AsInteger), acao);
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Caixa/Banco modificado com sucesso.', mtInformation, [mbOK], 0);
   except
-    dm.sqlsisAdimin.Rollback(TD);
-    MessageDlg('Erro para Alterar Caixa/Banco.', mtError, [mbOK], 0);
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
   end;
 end;
 
