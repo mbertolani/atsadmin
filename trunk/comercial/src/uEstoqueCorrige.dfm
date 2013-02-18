@@ -1,6 +1,6 @@
 object fEstoqueCorrige: TfEstoqueCorrige
   Left = 310
-  Top = 117
+  Top = 129
   Width = 415
   Height = 352
   Caption = 'Corrige Estoque'
@@ -12,6 +12,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -22,25 +23,18 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Caption = 'Atualiza no Cadastro Produto o Estoque atual de cada item'
   end
   object Label2: TLabel
-    Left = 24
+    Left = 20
     Top = 40
-    Width = 138
+    Width = 76
     Height = 13
-    Caption = 'C'#243'digo Produto (CodProduto)'
+    Caption = 'C'#243'digo Produto '
   end
   object Label3: TLabel
-    Left = 192
+    Left = 147
     Top = 40
-    Width = 159
+    Width = 29
     Height = 13
-    Caption = 'C'#243'digo Produto (CodProduto)and '
-  end
-  object Label4: TLabel
-    Left = 176
-    Top = 56
-    Width = 6
-    Height = 13
-    Caption = #224
+    Caption = 'Grupo'
   end
   object Label5: TLabel
     Left = 120
@@ -78,17 +72,9 @@ object fEstoqueCorrige: TfEstoqueCorrige
   object Edit1: TEdit
     Left = 16
     Top = 56
-    Width = 153
+    Width = 123
     Height = 21
     TabOrder = 0
-    OnKeyPress = Edit1KeyPress
-  end
-  object Edit2: TEdit
-    Left = 192
-    Top = 56
-    Width = 161
-    Height = 21
-    TabOrder = 1
     OnKeyPress = Edit1KeyPress
   end
   object Button1: TButton
@@ -97,7 +83,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Width = 121
     Height = 25
     Caption = 'Executar corre'#231#227'o'
-    TabOrder = 4
+    TabOrder = 3
     OnClick = Button1Click
   end
   object JvDateEdit1: TJvDateEdit
@@ -105,7 +91,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Top = 96
     Width = 153
     Height = 21
-    TabOrder = 2
+    TabOrder = 1
     OnKeyPress = Edit1KeyPress
   end
   object JvDateEdit2: TJvDateEdit
@@ -113,7 +99,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Top = 96
     Width = 159
     Height = 21
-    TabOrder = 3
+    TabOrder = 2
     OnKeyPress = Edit1KeyPress
   end
   object Button2: TButton
@@ -122,7 +108,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Width = 121
     Height = 25
     Caption = 'Executar EstoqueMes'
-    TabOrder = 5
+    TabOrder = 4
     OnClick = Button2Click
   end
   object JvProgressBar1: TJvProgressBar
@@ -130,14 +116,14 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Top = 144
     Width = 337
     Height = 16
-    TabOrder = 6
+    TabOrder = 5
   end
   object prog2: TJvProgressBar
     Left = 16
     Top = 166
     Width = 337
     Height = 16
-    TabOrder = 7
+    TabOrder = 6
   end
   object BitBtn1: TBitBtn
     Left = 152
@@ -145,8 +131,23 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Width = 75
     Height = 25
     Caption = 'Corrigir Lote'
-    TabOrder = 8
+    TabOrder = 7
     OnClick = BitBtn1Click
+  end
+  object cbGrupo: TComboBox
+    Left = 145
+    Top = 56
+    Width = 206
+    Height = 24
+    BevelKind = bkFlat
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemHeight = 16
+    ParentFont = False
+    TabOrder = 8
   end
   object sqlQ: TSQLQuery
     MaxBlobSize = -1
