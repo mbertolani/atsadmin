@@ -2692,15 +2692,7 @@ begin
     porta := s_parametroDADOS.AsString;
     s_parametro.Close;
 
-    if (s_parametro.Active) then
-      s_parametro.Close;
-    s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
-    s_parametro.Open;
-    if (s_parametroDADOS.IsNull) then
-      ModeloImpressora := 0
-    else
-      ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
-    s_parametro.Close;
+    ModeloImpressora := StrToInt(DM.impressora_pc);
 
     //Configura o Modelo da Impressora
     iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
@@ -3360,15 +3352,8 @@ end;
 
 procedure TF_Terminal.JvBitBtn1Click(Sender: TObject);
 begin
-    if (s_parametro.Active) then
-      s_parametro.Close;
-    s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
-    s_parametro.Open;
-    if (s_parametroDADOS.IsNull) then
-      ModeloImpressora := 0
-    else
-      ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
-    s_parametro.Close;
+    ModeloImpressora := StrToInt(DM.impressora_pc);
+
     //Configura o Modelo da Impressora
     iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
     if (iRetorno = -2) then
@@ -4092,16 +4077,7 @@ begin
       porta := s_parametroDADOS.AsString;
       s_parametro.Close;
 
-      if (s_parametro.Active) then
-        s_parametro.Close;
-      s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
-      s_parametro.Open;
-      if (s_parametroDADOS.IsNull) then
-        ModeloImpressora := 0
-      else
-        ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
-
-      s_parametro.Close;
+      ModeloImpressora := StrToInt(DM.impressora_pc);
 
       //Configura o Modelo da Impressora
       iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
@@ -4646,15 +4622,7 @@ begin
       porta := s_parametroDADOS.AsString;
       s_parametro.Close;
 
-      if (s_parametro.Active) then
-        s_parametro.Close;
-      s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
-      s_parametro.Open;
-      if (s_parametroDADOS.IsNull) then
-        ModeloImpressora := 0
-      else
-        ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
-      s_parametro.Close;
+      ModeloImpressora := StrToInt(DM.impressora_pc);
 
       //Configura o Modelo da Impressora
       iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
@@ -5010,15 +4978,7 @@ begin
     porta := s_parametroDADOS.AsString;
     s_parametro.Close;
 
-    if (s_parametro.Active) then
-      s_parametro.Close;
-    s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
-    s_parametro.Open;
-    if (s_parametroDADOS.IsNull) then
-      ModeloImpressora := 0
-    else
-      ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
-    s_parametro.Close;
+    ModeloImpressora := StrToInt(DM.impressora_pc);
 
     //Configura o Modelo da Impressora
     iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
