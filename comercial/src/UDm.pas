@@ -2043,7 +2043,7 @@ type
     function validaCfop(cfop: String):Boolean;
     Function cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
     procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
-    pc: String; valorAnt: String; valorPos: String; campoChave: String);
+    pc: String; valorAnt: String; valorPos: String; campoChave: String; acao: String);
     procedure abrirLog(Tabela: String; Registro: String; tipo: String);
     procedure verificaTamCampo;
   end;
@@ -2726,7 +2726,7 @@ procedure TDM.CDSBeforePost(DataSet: TDataSet);
 begin
   with DataSet as TClientDataSet do
   begin
-    SetOptionalParam('USUARIO',varusuario,True);
+    SetOptionalParam('USUARIO',varLogado,True);
     SetOptionalParam('MICRO',NomeComputador,True);
   end;
 end;
@@ -2735,8 +2735,8 @@ procedure TDM.DSPGetProproperties(Sender: TObject; DataSet: TDataSet;
   out Properties: OleVariant);
 begin
   { Declare Variants no uses }
- Properties := VarArrayCreate([0,4], varVariant);
-  Properties[0] := VarArrayOf(['USUARIO',varUsuario,True]);
+  Properties := VarArrayCreate([0,4], varVariant);
+  Properties[0] := VarArrayOf(['USUARIO',varLogado,True]);
   Properties[1] := VarArrayOf(['MICRO',NomeComputador,True]);
   Properties[2] := VarArrayOf(['TABELA',IProviderSupport(DataSet).PSGetTableName,True]);
   Properties[3] := VarArrayOf(['DATA',Date,True]);
@@ -2757,17 +2757,25 @@ begin
     SetOptionalParam('DATA',Date,True);
     SetOptionalParam('HORA',Time,True);
     //aqui salvo na tabela
-    str := 'INSERT INTO LOGS (MICRO, TABELA, USUARIO, DATA, HORA, data_set)';
+    str := 'INSERT INTO LOGS (MICRO, TABELA, USUARIO, DATA, HORA, CAMPO1, data_set)';
     str := str +  ' VALUES(';
     str := str + '''' + GetOptionalParam('MICRO') + '''';
     str := str + ', ';
     str := str + '''' + GetOptionalParam('TABELA') + '''';
     str := str + ', ';
-    str := str + '''' + GetOptionalParam('USUARIO') + '''';
+    //str := str + '''' + GetOptionalParam('USUARIO') + '''';
+    str := str + QuotedStr(varLogado);
     str := str + ', ';
     str := str + '''' + FormatDateTime('mm/dd/yy',Date) + '''';
     str := str + ', ';
     str := str + '''' + FormatDateTime('hh/nn/ss',Time) + '''';
+    str := str + ', ';
+    if (dataset.UpdateStatus = usDeleted) then
+      str := str + QuotedStr('EXCLUIDO');
+    if (dataset.UpdateStatus = usUnModified) then
+      str := str + QuotedStr('MODIFICADO');
+    if (dataset.UpdateStatus = usInserted) then
+      str := str + QuotedStr('INSERIDO');
     str := str + ', ';
     for i := 0 to dataset.FieldCount - 1 do
     begin
@@ -3068,16 +3076,17 @@ begin
 end;
 
 procedure TDM.gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
-   pc :String; valorAnt: String; valorPos: String; campoChave: String);
+   pc :String; valorAnt: String; valorPos: String; campoChave: String; acao: String);
 var logStr: String;
 begin
   logStr := 'INSERT INTO LOGS (TABELA, DATA, USUARIO, MICRO, HORA, ' +
-    'CAMPO1, CAMPO2, CAMPO3)  VALUES (';
+    'CAMPO1, CAMPO2, CAMPO3, CAMPO4)  VALUES (';
   logStr := logStr + QuotedStr(tipoMovimento);
   logStr := logStr + ', ' + QuotedStr(formatdatetime('mm/dd/yy', DataLog));
   logStr := logStr + ', ' + QuotedStr(usuario);
   logStr := logStr + ', ' + QuotedStr(pc);
   logStr := logStr + ', ' + QuotedStr(formatdatetime('hh:MM', DataLog));
+  logStr := logStr + ', ' + QuotedStr(acao);
   if (valorAnt <> '') then
       logStr := logStr + ', ' + QuotedStr('ANT:' + copy(valorAnt,0,45))
   else
