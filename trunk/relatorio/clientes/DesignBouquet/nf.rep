@@ -451,10 +451,19 @@ object TRpReport
         Component = TRpExpression25
       end
       item
+        Component = TRpExpression26
+      end
+      item
+        Component = TRpExpression27
+      end
+      item
         Component = TRpExpression30
       end
       item
         Component = TRpExpression31
+      end
+      item
+        Component = TRpExpression32
       end
       item
         Component = TRpExpression33
@@ -1479,6 +1488,56 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
+  object TRpExpression26: TRpExpression
+    Width = 2460
+    Height = 240
+    PosX = 6666
+    PosY = 704
+    Type1Font = poHelvetica
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(EOF('#39'IMPR'#39')=TRUE,FORMATNUM('#39',##0.00'#39',IMPR.VALOR_IPI),'#39'******' +
+      '*******'#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression27: TRpExpression
+    Width = 1485
+    Height = 240
+    PosX = 231
+    PosY = 376
+    Type1Font = poHelvetica
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(EOF('#39'IMPR'#39')=TRUE,FORMATNUM('#39',##0.00'#39',IMPR.BASE_ICMS),'#39'******' +
+      '*******'#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
   object TRpExpression30: TRpExpression
     Width = 1845
     Height = 225
@@ -1524,6 +1583,31 @@ object TRpReport
     Expression = 
       'IIF(EOF('#39'IMPR'#39')=TRUE,FORMATNUM('#39',##0.00'#39',IMPR.VALOR_TOTAL_NOTA),' +
       #39'*************'#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression32: TRpExpression
+    Width = 1545
+    Height = 240
+    PosX = 2001
+    PosY = 376
+    Type1Font = poHelvetica
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(EOF('#39'IMPR'#39')=TRUE,FORMATNUM('#39',##0.00'#39',IMPR.VALOR_ICMS),'#39'*****' +
+      '********'#39')'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
