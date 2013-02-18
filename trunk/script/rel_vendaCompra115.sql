@@ -1,4 +1,4 @@
-set term ^;
+set term  ^  ; 
 CREATE OR ALTER PROCEDURE REL_VENDACOMPRA (
     PDTA1 date,
     PDTA2 date,
@@ -28,6 +28,7 @@ AS
 DECLARE VARIABLE codPro integer; 
 DECLARE VARIABLE Pro integer; 
 DECLARE VARIABLE total double precision;
+DECLARE VARIABLE totalPerda double precision;
 DECLARE VARIABLE custoProd double precision;
 DECLARE VARIABLE totIcms double precision;
 DECLARE VARIABLE totProdIcms double precision;
@@ -60,6 +61,8 @@ BEGIN
                                  , 0)
       into :QtdeEstoque, :vlrCustoTotal;
     */  
+    totalPerda = 0;
+    
     --CUSTO ITEM 
     Select first 1 emt.PRECOCOMPRA, emt.SALDOESTOQUE
       from ESTOQUEMES emt
@@ -69,6 +72,21 @@ BEGIN
      order by emt.MESANO desc   
      into :vlrCustoTotal, :qtdeEstoque;      
 
+    if (qtdeEstoque is null) then 
+      qtdeEstoque = 0;
+
+    Select first 1 emt.SALDOESTOQUE
+      from ESTOQUEMES emt
+     where ((emt.CODPRODUTO = :codPro) 
+       and (emt.CENTROCUSTO = :CPERDA)
+       and (emt.MESANO <= :pdta2))
+     order by emt.MESANO desc   
+     into :totalPerda;
+     
+     if (totalPerda is null) then 
+       totalPerda = 0; 
+     
+     qtdeEstoque = qtdeEstoque + totalPerda;
 
      /* ICMS Valores de Venda */
     ICMSVENDA = 0;
