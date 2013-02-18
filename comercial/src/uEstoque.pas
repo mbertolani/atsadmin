@@ -6,6 +6,9 @@ uses SysUtils, Dialogs, DBClient, Provider, SqlExpr;
 type
   TEstoque = class(TObject)
   private
+    cdseb: TClientDataSet;
+    dspeb: TDataSetProvider;
+    sdseb: TSQLDataSet;
     novoCusto, totalEstoque: Double;
     sqlStr: String;
     QCompra: Double;  // Armazena Valores que existiam na tabela
@@ -155,85 +158,95 @@ uses UDm;
 { TEstoque }
 
 function TEstoque.baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String): Boolean;
-var
-    cdseb: TClientDataSet;
-    dspeb: TDataSetProvider;
-    sdseb: TSQLDataSet;
 begin
-  Try
-    cdseb := TClientDataSet.Create(dm);
-    dspeb := TDataSetProvider.Create(dm);
-    sdseb := TSQLDataSet.Create(dm);
 
-    sdseb.SQLConnection := dm.sqlsisAdimin;
-    sdseb.CommandText   := 'SELECT MD.*, M.CODALMOXARIFADO CENTROCUSTO ' +
-    '  FROM MOVIMENTO M, MOVIMENTODETALHE MD ' +
-    ' WHERE MD.CODMOVIMENTO = M.CODMOVIMENTO ' +
-    '   AND M.CODMOVIMENTO  = ' + IntToStr(codMovto);
+  sdseb.SQLConnection := dm.sqlsisAdimin;
+  IF (sdseb.Active) then
+    sdseb.Close;
+  if (cdseb.Active) then
+    cdseb.Close;
 
-    //sdseb.Open;
+  sdseb.CommandText   := 'SELECT MD.*, M.CODALMOXARIFADO CENTROCUSTO ' +
+  '  FROM MOVIMENTO M, MOVIMENTODETALHE MD ' +
+  ' WHERE MD.CODMOVIMENTO = M.CODMOVIMENTO ' +
+  '   AND M.CODMOVIMENTO  = ' + IntToStr(codMovto);
 
-    dspeb.DataSet := sdseb;
-    dspeb.Name := 'dsp1';
+  //sdseb.Open;
+  dspeb.DataSet := sdseb;
+  dspeb.Name := 'dsp1';
 
-    cdseb.ProviderName := dspeb.Name;// 'dspeb';
-    cdseb.Open;
+  cdseb.ProviderName := dspeb.Name;// 'dspeb';
+  cdseb.Open;
 
-    While not cdseb.Eof do
+  While not cdseb.Eof do
+  begin
+    if (cdseb.FieldByName('STATUS').IsNull) then
     begin
-      if (cdseb.FieldByName('STATUS').IsNull) then
+      if (tipo = 'VENDA') then
       begin
-        if (tipo = 'VENDA') then
-        begin
-          Self.QtdeVenda   := cdseb.FieldByName('QUANTIDADE').AsFloat;
-          Self.PrecoVenda  := cdseb.FieldByName('PRECO').AsFloat;
-        end;
-        if (tipo = 'COMPRA') then
-        begin
-          Self.QtdeCompra   := cdseb.FieldByName('QUANTIDADE').AsFloat;
-          Self.PrecoCompra  := cdseb.FieldByName('PRECO').AsFloat;
-          Self.PrecoCompraUltima := cdseb.FieldByName('PRECO').AsFloat;
-        end;
-        if (tipo = 'ENTRADA') then
-        begin
-          Self.QtdeEntrada   := cdseb.FieldByName('QUANTIDADE').AsFloat;
-          Self.PrecoCompra   := cdseb.FieldByName('PRECO').AsFloat;
-        end;
-        if (tipo = 'SAIDA') then
-        begin
-          Self.QtdeSaida   := cdseb.FieldByName('QUANTIDADE').AsFloat;
-          Self.PrecoVenda  := cdseb.FieldByName('PRECO').AsFloat;
-        end;
-        if (tipo = 'DEV.COMPRA') then
-        begin
-          Self.QtdeDevCompra := cdseb.FieldByName('QUANTIDADE').AsFloat;
-          Self.PrecoVenda    := cdseb.FieldByName('PRECO').AsFloat;
-        end;
-        if (tipo = 'DEV.VENDA') then
-        begin
-          Self.QtdeDevVenda  := cdseb.FieldByName('QUANTIDADE').AsFloat;
-          Self.PrecoCompra   := cdseb.FieldByName('PRECO').AsFloat;
-        end;
-
-        Self.CodProduto  := cdseb.FieldByName('CODPRODUTO').AsInteger;
-        Self.Lote        := cdseb.FieldByName('LOTE').AsString;
-        Self.DataVencimento := cdseb.FieldByName('DTAVCTO').AsDateTime;
-        Self.DataFabricacao := cdseb.FieldByName('DTAFAB').AsDateTime;
-        Self.CentroCusto := cdseb.FieldByName('CENTROCUSTO').AsInteger;
-        Self.MesAno      := DtaMovto;
-
-        Self.CodDetalhe  := cdseb.FieldByName('CODDETALHE').AsInteger;
-        Self.Status      := '9';
-        Self.inserirMes;
+        Self.QtdeVenda   := cdseb.FieldByName('QUANTIDADE').AsFloat;
+        Self.PrecoVenda  := cdseb.FieldByName('PRECO').AsFloat;
       end;
-      cdseb.Next;
+      if (tipo = 'COMPRA') then
+      begin
+        Self.QtdeCompra   := cdseb.FieldByName('QUANTIDADE').AsFloat;
+        Self.PrecoCompra  := cdseb.FieldByName('PRECO').AsFloat;
+        Self.PrecoCompraUltima := cdseb.FieldByName('PRECO').AsFloat;
+      end;
+      if (tipo = 'ENTRADA') then
+      begin
+        Self.QtdeEntrada   := cdseb.FieldByName('QUANTIDADE').AsFloat;
+        Self.PrecoCompra   := cdseb.FieldByName('PRECO').AsFloat;
+      end;
+      if (tipo = 'SAIDA') then
+      begin
+        Self.QtdeSaida   := cdseb.FieldByName('QUANTIDADE').AsFloat;
+        Self.PrecoVenda  := cdseb.FieldByName('PRECO').AsFloat;
+      end;
+      if (tipo = 'DEV.COMPRA') then
+      begin
+        Self.QtdeDevCompra := cdseb.FieldByName('QUANTIDADE').AsFloat;
+        Self.PrecoVenda    := cdseb.FieldByName('PRECO').AsFloat;
+      end;
+      if (tipo = 'DEV.VENDA') then
+      begin
+        Self.QtdeDevVenda  := cdseb.FieldByName('QUANTIDADE').AsFloat;
+        Self.PrecoCompra   := cdseb.FieldByName('PRECO').AsFloat;
+      end;
+
+      Self.CodProduto  := cdseb.FieldByName('CODPRODUTO').AsInteger;
+      Self.Lote        := cdseb.FieldByName('LOTE').AsString;
+      Self.DataVencimento := cdseb.FieldByName('DTAVCTO').AsDateTime;
+      Self.DataFabricacao := cdseb.FieldByName('DTAFAB').AsDateTime;
+      Self.CentroCusto := cdseb.FieldByName('CENTROCUSTO').AsInteger;
+      Self.MesAno      := DtaMovto;
+
+      Self.CodDetalhe  := cdseb.FieldByName('CODDETALHE').AsInteger;
+      Self.Status      := '9';
+      Self.inserirMes;
     end;
-    Result := True;
-  Finally
-    cdseb.Free;
-    dspeb.Free;
-    sdseb.Free;
+    cdseb.Next;
   end;
+  Result := True;
+
+  Self.QtdeVenda   := 0;
+  Self.PrecoVenda  := 0;
+
+  Self.QtdeCompra   := 0;
+  Self.PrecoCompra  := 0;
+  Self.PrecoCompraUltima := 0;
+
+  Self.QtdeEntrada   := 0;
+  Self.PrecoCompra   := 0;
+
+  Self.QtdeSaida   := 0;
+  Self.PrecoVenda  := 0;
+
+  Self.QtdeDevCompra := 0;
+  Self.PrecoVenda    := 0;
+
+  Self.QtdeDevVenda := 0;
+  Self.PrecoCompra  := 0;
 end;
 
 procedure TEstoque.corrigeCustoEstoquePosterior;
@@ -331,10 +344,18 @@ end;
 constructor TEstoque.Create;
 begin
   jaConsultado := 'NAO';
+  cdseb := TClientDataSet.Create(dm);
+  dspeb := TDataSetProvider.Create(dm);
+  sdseb := TSQLDataSet.Create(dm);
+
 end;
 
 destructor TEstoque.Destroy;
 begin
+  cdseb.Free;
+  dspeb.Free;
+  sdseb.Free;
+
   inherited;
 end;
 
@@ -437,7 +458,7 @@ begin
   if (dm.usaCentroCusto = 'S') then
     Result := _centroCusto
   else
-    Result := 0;  
+    Result := 0;
 end;
 
 function TEstoque.getCodDetalhe: Integer;
@@ -916,11 +937,15 @@ end;
 procedure TEstoque.setDataFabricacao(const Value: TDateTime);
 begin
   _dataFabricacao := Value;
+  if (value = 0) then
+    _dataFabricacao := StrtoDate('01/01/01');
 end;
 
 procedure TEstoque.setDataVencimento(const Value: TDateTime);
 begin
   _dataVencimento := Value;
+  if (value = 0) then
+    _dataVencimento := StrtoDate('01/01/01');
 end;
 
 procedure TEstoque.setLote(const Value: String);
