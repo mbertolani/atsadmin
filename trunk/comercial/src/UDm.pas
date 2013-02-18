@@ -2023,6 +2023,7 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    impressora_pc: string;
     v_CodFuncao : Integer;
     mensagemInicial, sistemaLiberado, cfopEntrada, cfopEntradaF, cfopSaida, cfopSaidaF, v_CargoFuncao : String;
     conectado, RESULTADO_APROVA :boolean;
@@ -2265,6 +2266,23 @@ begin
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'SUBSTITUICAOTRIBUTARIA'; // Forma de Busca Produto
   cds_parametro.Open;
+
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'MODELOIMPRESSORA'; // Forma de Busca Produto
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+  begin
+    impressora_pc := '0';
+    if (cds_parametroD1.AsString = MICRO) then
+      impressora_pc := cds_parametroD2.AsString;
+    cds_parametro.Next;
+    if (cds_parametroD3.AsString = MICRO) then
+      impressora_pc := cds_parametroD4.AsString;
+    cds_parametro.Next;
+    if (cds_parametroD5.AsString = MICRO) then
+      impressora_pc := cds_parametroD6.AsString;
+  end;
 
 
   if cds_parametro.Active then
