@@ -87,6 +87,7 @@ type
     procedure JvOutlookBar1Pages0Buttons7Click(Sender: TObject);
     procedure JvOutlookBar1Pages3Buttons4Click(Sender: TObject);
     procedure JvOutlookBar1Pages3Buttons5Click(Sender: TObject);
+    procedure UserControlAutoAfterLogin(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -744,6 +745,11 @@ begin
     fProcura_produtos.btnIncluir.Visible := true;
     fProcura_produtos.ShowModal;
     fProcura_produtos.cbMarca.Text := '';
+end;
+
+procedure TfAts_R.UserControlAutoAfterLogin(Sender: TObject);
+begin
+  Dm.varLogado := UserControlAuto.CurrentUser.UserLogin;
 end;
 
 end.
