@@ -1,6 +1,6 @@
 object fAts_R: TfAts_R
   Left = 377
-  Top = 223
+  Top = 227
   Width = 786
   Height = 421
   Color = clWindow
@@ -20,8 +20,8 @@ object fAts_R: TfAts_R
   object Image1: TImage
     Left = 165
     Top = 35
-    Width = 605
-    Height = 324
+    Width = 613
+    Height = 335
     Align = alClient
     Center = True
     Picture.Data = {
@@ -27788,8 +27788,8 @@ object fAts_R: TfAts_R
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 359
-    Width = 770
+    Top = 370
+    Width = 778
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -27813,7 +27813,7 @@ object fAts_R: TfAts_R
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 770
+    Width = 778
     Height = 35
     Align = alTop
     TabOrder = 1
@@ -27826,7 +27826,7 @@ object fAts_R: TfAts_R
     object RxLabel1: TRxLabel
       Left = 1
       Top = 1
-      Width = 768
+      Width = 776
       Height = 33
       Align = alClient
       Alignment = taCenter
@@ -27846,7 +27846,7 @@ object fAts_R: TfAts_R
     Left = 0
     Top = 35
     Width = 165
-    Height = 324
+    Height = 335
     Align = alLeft
     Pages = <
       item
@@ -56739,6 +56739,7 @@ object fAts_R: TfAts_R
     TableUsersLogged.FieldData = 'UCData'
     TableUsersLogged.TableName = 'UCTabUsersLogged'
     DataConnector = DM.UCDBXConnFinanceiro
+    OnAfterLogin = UserControlAutoAfterLogin
     Left = 257
     Top = 273
   end
