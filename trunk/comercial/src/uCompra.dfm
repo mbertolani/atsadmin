@@ -1,6 +1,6 @@
 inherited fCompra: TfCompra
   Left = 273
-  Top = 100
+  Top = 81
   Width = 820
   Height = 615
   Caption = 'Compra'
@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 787
+    Width = 812
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1005,7 +1005,7 @@ inherited fCompra: TfCompra
       Hint = 
         'Gera um pedido de Venda igual ao Pedido de Compra'#13#10'Alterar Forne' +
         'cedor Apos Gerar.'
-      Caption = 'Dup. Venda'
+      Caption = 'Gera Venda'
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
@@ -1015,8 +1015,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 556
-    Width = 787
+    Top = 561
+    Width = 812
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
