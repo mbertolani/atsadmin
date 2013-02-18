@@ -53917,6 +53917,7 @@ object fAtsOS: TfAtsOS
     TableUsersLogged.FieldData = 'UCData'
     TableUsersLogged.TableName = 'UCTabUsersLogged'
     DataConnector = DM.UCDBXConnFinanceiro
+    OnAfterLogin = UserControlAutoAfterLogin
     Left = 257
     Top = 273
   end
