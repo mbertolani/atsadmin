@@ -21,11 +21,12 @@ object TRpReport
         'c.VALORTITULO - rec.VALOR_RESTO) as VALORREC, rec.NOMECLIENTE, '#13 +
         #10'rec.CODCLIENTE, rec.SALDO, rec.HISTORICO'#13#10'FROM RELCONTASRECEBER' +
         ' rec'#13#10'where rec.emissao between :data1 and :data2 and ((rec.codc' +
-        'liente = :pCli) or (:pCli = 0)) '#13#10'group by '#13#10'rec.TITULO, rec.NOM' +
-        'ECLIENTE, '#13#10'rec.CODCLIENTE,'#13#10'rec.DATAVENCIMENTO, '#13#10'rec.EMISSAO, ' +
-        'rec.CODRECEBIMENTO,   rec.VALOR_RESTO, '#13#10'rec.VALORTITULO, rec.ST' +
-        'ATUS, rec.DATARECEBIMENTO, rec.VALORRECEBIDO , rec.VIA, rec.N_DO' +
-        'CUMENTO , rec.SALDO, rec.HISTORICO'#13#10'order by rec.TITULO'
+        'liente = :pCli) or (:pCli = 0))  and rec.STATUS <> '#39'NF'#39#13#10'group b' +
+        'y '#13#10'rec.TITULO, rec.NOMECLIENTE, '#13#10'rec.CODCLIENTE,'#13#10'rec.DATAVENC' +
+        'IMENTO, '#13#10'rec.EMISSAO, rec.CODRECEBIMENTO,   rec.VALOR_RESTO, '#13#10 +
+        'rec.VALORTITULO, rec.STATUS, rec.DATARECEBIMENTO, rec.VALORRECEB' +
+        'IDO , rec.VIA, rec.N_DOCUMENTO , rec.SALDO, rec.HISTORICO'#13#10'order' +
+        ' by rec.TITULO'
     end
     item
       Alias = 'EMPRESA'
@@ -35,7 +36,10 @@ object TRpReport
     item
       Alias = 'CLIENTE'
       DatabaseAlias = 'SISADMIN'
-      SQL = 'select cnpj from clientes where codcliente = :codcliente'
+      SQL = 
+        'select '#39'( '#39' || ec.ddd || '#39' ) '#39' || ec.telefone as TELEFONE from c' +
+        'lientes c '#13#10'join enderecocliente ec on ec.codcliente = c.codclie' +
+        'nte'#13#10'where c.codcliente = :codcliente and ec.tipoend = 0'
       DataSource = 'CONTASAREC'
     end>
   DatabaseInfo = <
@@ -65,7 +69,7 @@ object TRpReport
     item
       Name = 'DATA1'
       AllowNulls = False
-      Value = 39821d
+      Value = 41122d
       ParamType = rpParamDate
       Datasets.Strings = (
         'CONTASAREC')
@@ -78,7 +82,7 @@ object TRpReport
     item
       Name = 'DATA2'
       AllowNulls = False
-      Value = 39822d
+      Value = 41252d
       ParamType = rpParamDate
       Datasets.Strings = (
         'CONTASAREC')
@@ -126,7 +130,7 @@ object TRpReport
   end
   object TRpSection0: TRpSection
     Width = 11550
-    Height = 240
+    Height = 295
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -350,7 +354,7 @@ object TRpReport
     Width = 1140
     Height = 225
     PosX = 7245
-    PosY = 0
+    PosY = 28
     Type1Font = poHelvetica
     AutoExpand = False
     AutoContract = False
@@ -370,9 +374,9 @@ object TRpReport
   end
   object TRpExpression5: TRpExpression
     Width = 1049
-    Height = 346
+    Height = 225
     PosX = 8510
-    PosY = 0
+    PosY = 28
     Type1Font = poHelvetica
     DisplayFormat = 'dd/mm/yy'
     AutoExpand = False
@@ -407,9 +411,9 @@ object TRpReport
   end
   object TRpExpression6: TRpExpression
     Width = 1035
-    Height = 345
+    Height = 225
     PosX = 9885
-    PosY = 0
+    PosY = 28
     Type1Font = poHelvetica
     Alignment = 2
     DisplayFormat = ',##0.00'
@@ -597,7 +601,7 @@ object TRpReport
     Width = 4830
     Height = 225
     PosX = 120
-    PosY = 0
+    PosY = 28
     Type1Font = poHelvetica
     WordWrap = True
     AutoExpand = False
@@ -621,7 +625,7 @@ object TRpReport
     Width = 1500
     Height = 225
     PosX = 5175
-    PosY = 0
+    PosY = 28
     Type1Font = poHelvetica
     WordWrap = True
     AutoExpand = False
@@ -635,7 +639,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'CLIENTE.CNPJ'
+    Expression = 'CLIENTE.TELEFONE'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -689,7 +693,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'CNPJ :'
+    WideText = 'Telefone :'
   end
   object TRpShape6: TRpShape
     Width = 8280
