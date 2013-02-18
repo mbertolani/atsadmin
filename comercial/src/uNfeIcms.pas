@@ -907,6 +907,7 @@ type
   private
     util : Tutils;
     tipo: String;
+    temCompra, temVenda: String;
     function validaCodMunicipio(cod: String; quem: String):String;
     //function cstIcms(cstI: String): String;
     procedure LoadToMemo;
@@ -923,6 +924,7 @@ type
     { Private declarations }
   public
     codMovMin, codMovMax: Integer;
+    codMovMinV, codMovMaxV: Integer;
     { Public declarations }
   end;
 
@@ -1142,8 +1144,8 @@ begin
 
          if (sdsUnimed.Active) then
            sdsUnimed.Close;
-         sdsUnimed.Params[0].AsDate := data_ini.Date;
-         sdsUnimed.Params[1].AsDate := data_fim.Date;
+         sdsUnimed.Params[0].AsInteger := codMovMin;
+         sdsUnimed.Params[1].AsInteger := codMovMax;
          sdsUnimed.Open;
 
          while (not sdsUnimed.Eof) do
@@ -1151,8 +1153,8 @@ begin
            // 0190 - Identificação das Unidades de Medida
            with Registro0190New do
            begin
-             UNID  := sdsUnimed.Fields[0].AsString;
-             DESCR := sdsUnimed.Fields[1].AsString;
+             UNID  := Trim(sdsUnimed.Fields[0].AsString);
+             DESCR := Trim(sdsUnimed.Fields[1].AsString);
            end;
            sdsUnimed.Next;
          end;
@@ -1171,29 +1173,34 @@ begin
            with Registro0200New do
            begin
              COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger);
-             DESCR_ITEM   := cdsProdutoPRODUTO.AsString;
+             DESCR_ITEM   := Trim(cdsProdutoPRODUTO.AsString);
              COD_BARRA    := '';
-             UNID_INV     := cdsProdutoUN.AsString;
+             UNID_INV     := Trim(cdsProdutoUN.AsString);
              TIPO_ITEM    := tiMercadoriaRevenda;
-             COD_NCM      := cdsProdutoNCM.AsString;
+             COD_NCM      := Trim(cdsProdutoNCM.AsString);
              COD_GEN      := '';
              ALIQ_ICMS    := 0;
            end;
            cdsProduto.Next;
          end;
 
-         with Registro0400New do
+         if (temCompra = 'S') then
          begin
-           COD_NAT   := '03';
-           DESCR_NAT := 'Venda de Mercadorias';
+           with Registro0400New do
+           begin
+             COD_NAT   := '03';
+             DESCR_NAT := 'Venda de Mercadorias';
+           end;
          end;
 
-         with Registro0400New do
+         if (temVenda = 'S') then
          begin
-           COD_NAT   := '04';
-           DESCR_NAT := 'Compra de Mercadorias';
+           with Registro0400New do
+           begin
+             COD_NAT   := '04';
+             DESCR_NAT := 'Compra de Mercadorias';
+           end;
          end;
-
          // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS  *****  PARA IMOBILIZADO *****
         { with Registro0500New do
          begin
@@ -1298,9 +1305,9 @@ begin
             if (cdsCompraSERIE.AsString = '1A') then
               COD_MOD       := '01';
             COD_SIT       := sdRegular;
-            SER           := cdsCompraSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+            SER           := trim('00' + Trim(cdsCompraSERIE.AsString)); //04	SER	Série do documento fiscal	C	003	-
             NUM_DOC       := IntToStr(cdsCompraNOTAFISCAL.AsInteger);
-            CHV_NFE       := cdsCompraCHAVENF.AsString;
+            CHV_NFE       := Trim(copy(cdsCompraCHAVENF.AsString,0,44));
             DT_DOC        := cdsCompraDATACOMPRA.AsDateTime;
             DT_E_S        := cdsCompraDATACOMPRA.AsDateTime;
             VL_DOC        := cdsCompraVALOR.AsFloat;
@@ -1444,9 +1451,9 @@ begin
               COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
               COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
               COD_SIT       := sdRegular;
-              SER           := cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+              SER           := trim('00' + trim(cdsNFVendaSERIE.AsString)); //04	SER	Série do documento fiscal	C	003	-
               NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
-              CHV_NFE       := cdsNFVendaNOMEXML.AsString;
+              CHV_NFE       := Trim(copy(cdsNFVendaNOMEXML.AsString,0,44));
               DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
               DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
               VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
@@ -1630,6 +1637,7 @@ begin
     edtFile.Text := SaveDialog1.FileName;
   end;
   abrirTabelasCompra;
+  abrirTabelasVenda;
 
   ACBrSPEDFiscal1.LinhasBuffer := StrToIntDef( edBufLinhas.Text, 0 );
 
@@ -1723,6 +1731,10 @@ begin
     '   AND CODMOVIMENTO BETWEEN ' + IntToStr(codMovMin) +
     '   AND ' + IntToStr(codMovMax);
   cdsMov.Open;
+
+  temCompra := 'N';
+  if (not cdsMov.IsEmpty) then
+    temCompra := 'S';
 
   if (cdsItens.Active) then
     cdsItens.Close;
@@ -1852,10 +1864,10 @@ begin
     ' AND '   +
     QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
   cdsMov.Open;
-  if (codMovMin > cdsMov.Fields[0].asInteger) then
-    codMovMin := cdsMov.Fields[0].asInteger;
-  if (codMovMax < cdsMov.Fields[1].asInteger) then
-    codMovMax := cdsMov.Fields[1].asInteger;
+  if (codMovMinV > cdsMov.Fields[0].asInteger) then
+    codMovMinV := cdsMov.Fields[0].asInteger;
+  if (codMovMaxV < cdsMov.Fields[1].asInteger) then
+    codMovMaxV := cdsMov.Fields[1].asInteger;
   cdsMov.Close;
   cdsMov.CommandText := 'SELECT CODMOVIMENTO, CODNATUREZA ' +
     '  FROM MOVIMENTO ' +
@@ -1863,6 +1875,18 @@ begin
     '   AND CODMOVIMENTO BETWEEN ' + IntToStr(codMovMin) +
     '   AND ' + IntToStr(codMovMax);
   cdsMov.Open;
+
+  cdsNFVenda.Params[0].AsDate := data_ini.Date;
+  cdsNFVenda.Params[1].AsDate := data_fim.Date;
+
+  cdsNFVenda.Params[2].AsInteger := codMovMinV;
+  cdsNFVenda.Params[3].AsInteger := codMovMaxV;
+
+  cdsNFVenda.Open;
+
+  temVenda := 'N';
+  if (not cdsMov.IsEmpty) then
+    temVenda := 'S';
 
   if (cdsItens.Active) then
     cdsItens.Close;
