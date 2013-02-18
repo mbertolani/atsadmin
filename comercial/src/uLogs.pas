@@ -21,7 +21,6 @@ type
     Label5: TLabel;
     Panel1: TPanel;
     Label8: TLabel;
-    Label9: TLabel;
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     sdsTabela: TSQLDataSet;
@@ -66,11 +65,11 @@ procedure TfLogs.BitBtn1Click(Sender: TObject);
 var
  texto, texto1 :string;
 begin
- { texto := '';
+  texto := '';
   texto1 := '';
-  if (dm.cLog.Active) then
-    cdsLog.Close;
-  cdsLog.CommandText := '';
+  if (dm.cdsLog.Active) then
+    dm.cdsLog.Close;
+  dm.cdsLog.CommandText := '';
 
   texto := 'select * from LOGS';
 
@@ -120,10 +119,10 @@ begin
       texto1 := texto1 + '''' + cbMicro.Text + '''';
   end;
 
-  cdsLog.CommandText := texto + texto1;
-  cdsLog.Open;
+  dm.cdsLog.CommandText := texto + texto1;
+  dm.cdsLog.Open;
 
-   }
+
 end;
 
 procedure TfLogs.CheckBox1Click(Sender: TObject);
@@ -142,24 +141,24 @@ begin
 end;
 
 procedure TfLogs.FormCreate(Sender: TObject);
-var
-  ScreenHeight: LongInt;
-  ScreenWidth: LongInt;
+//var
+//  ScreenHeight: LongInt;
+//  ScreenWidth: LongInt;
 begin
-  ScreenWidth := 800;
-  ScreenHeight := 600;
-  scaled := true;
+//  ScreenWidth := 800;
+//  ScreenHeight := 600;
+//  scaled := true;
 
-  if (screen.width <> ScreenWidth) then
-  begin
-    height := longint(height) * longint(screen.height) DIV ScreenHeight;
-    width := longint(width) * longint(screen.width) DIV ScreenWidth;
-    scaleBy(screen.width, ScreenWidth);
-  end;
+  //if (screen.width <> ScreenWidth) then
+  //begin
+  //  height := longint(height) * longint(screen.height) DIV ScreenHeight;
+  //  width := longint(width) * longint(screen.width) DIV ScreenWidth;
+  //  scaleBy(screen.width, ScreenWidth);
+  //end;
 
   cbTabela.Items.Clear;
   cbUsuario.Items.Clear;
-  cbMicro.Items.Clear;  
+  cbMicro.Items.Clear;
   if not sdsTabela.Active then
     sdsTabela.Open;
   sdsTabela.First;

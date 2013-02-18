@@ -1,6 +1,6 @@
 object fLogs: TfLogs
   Left = 0
-  Top = 71
+  Top = 45
   Width = 1193
   Height = 651
   BorderIcons = [biSystemMenu]
@@ -59,7 +59,6 @@ object fLogs: TfLogs
       Font.Style = [fsBold]
       ParentFont = False
       Transparent = True
-      Visible = False
     end
     object Label2: TLabel
       Left = 8
@@ -74,14 +73,13 @@ object fLogs: TfLogs
       Font.Style = [fsBold]
       ParentFont = False
       Transparent = True
-      Visible = False
     end
     object Label5: TLabel
       Left = 221
       Top = 7
-      Width = 32
+      Width = 17
       Height = 13
-      Caption = 'Micro'
+      Caption = 'PC'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
       Font.Height = -11
@@ -89,7 +87,6 @@ object fLogs: TfLogs
       Font.Style = [fsBold]
       ParentFont = False
       Transparent = True
-      Visible = False
     end
     object Panel1: TPanel
       Left = 393
@@ -97,7 +94,6 @@ object fLogs: TfLogs
       Width = 233
       Height = 55
       TabOrder = 3
-      Visible = False
       object Label8: TLabel
         Left = 16
         Top = 11
@@ -105,19 +101,14 @@ object fLogs: TfLogs
         Height = 13
         Caption = 'de'
       end
-      object Label9: TLabel
-        Left = 121
-        Top = 10
-        Width = 6
-        Height = 13
-        Caption = 'a'
-      end
       object CheckBox1: TCheckBox
         Left = 80
         Top = 2
         Width = 73
         Height = 17
         Caption = 'Por data'
+        Checked = True
+        State = cbChecked
         TabOrder = 0
         OnClick = CheckBox1Click
       end
@@ -126,7 +117,6 @@ object fLogs: TfLogs
         Top = 25
         Width = 98
         Height = 25
-        Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
@@ -141,7 +131,6 @@ object fLogs: TfLogs
         Top = 25
         Width = 98
         Height = 25
-        Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
@@ -162,7 +151,6 @@ object fLogs: TfLogs
       ItemHeight = 13
       ParentCtl3D = False
       TabOrder = 0
-      Visible = False
     end
     object cbUsuario: TComboBox
       Left = 95
@@ -172,7 +160,6 @@ object fLogs: TfLogs
       BevelKind = bkFlat
       ItemHeight = 13
       TabOrder = 1
-      Visible = False
     end
     object cbMicro: TComboBox
       Left = 271
@@ -182,7 +169,6 @@ object fLogs: TfLogs
       BevelKind = bkFlat
       ItemHeight = 13
       TabOrder = 2
-      Visible = False
     end
     object BitBtn1: TBitBtn
       Left = 912
@@ -191,7 +177,6 @@ object fLogs: TfLogs
       Height = 25
       Caption = 'Procurar'
       TabOrder = 4
-      Visible = False
       OnClick = BitBtn1Click
       Glyph.Data = {
         26040000424D2604000000000000360000002800000012000000120000000100
@@ -296,21 +281,21 @@ object fLogs: TfLogs
         Expanded = False
         FieldName = 'ID_LOG'
         Title.Caption = 'C'#243'd.'
-        Width = 30
+        Width = 60
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'TABELA'
         Title.Caption = 'Local'
-        Width = 100
+        Width = 160
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA'
         Title.Caption = 'Data'
-        Width = 70
+        Width = 80
         Visible = True
       end
       item
@@ -337,20 +322,20 @@ object fLogs: TfLogs
       item
         Expanded = False
         FieldName = 'CAMPO1'
-        Title.Caption = 'Original'
-        Width = 200
+        Title.Caption = 'A'#231#227'o'
+        Width = 160
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CAMPO2'
-        Title.Caption = 'Atual'
-        Width = 400
+        Title.Caption = 'Ocorr'#234'ncia'
+        Width = 270
         Visible = True
       end>
   end
   object DataSource1: TDataSource
-    DataSet = DM.cdsLogSis
+    DataSet = DM.cdsLog
     Left = 240
     Top = 208
   end
