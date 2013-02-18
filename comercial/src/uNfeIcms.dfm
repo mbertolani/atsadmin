@@ -2483,13 +2483,13 @@ object fNfeIcms: TfNfeIcms
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftDate
-        Name = 'pdata1'
+        DataType = ftInteger
+        Name = 'PMOV'
         ParamType = ptUnknown
       end
       item
-        DataType = ftDate
-        Name = 'pdata2'
+        DataType = ftInteger
+        Name = 'PMOVF'
         ParamType = ptUnknown
       end>
     SQL.Strings = (
@@ -2497,7 +2497,8 @@ object fNfeIcms: TfNfeIcms
       '   FROM UNIDADEMEDIDA UN, MOVIMENTO mov, MOVIMENTODETALHE DET '
       'WHERE UN.CODUN = DET.UN'
       '       AND mov.codmovimento = det.codmovimento'
-      '       AND mov.datamovimento between :pdata1 and :pdata2')
+      '        AND ((MOV.CODNATUREZA = 15) OR (MOV.CODNATUREZA = 4))'
+      '      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF')
     SQLConnection = DM.sqlsisAdimin
     Left = 328
     Top = 208
