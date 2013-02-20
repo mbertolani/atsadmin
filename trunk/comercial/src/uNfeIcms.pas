@@ -886,7 +886,6 @@ type
     cdsC190VLR_OPERACAO: TFloatField;
     cdsC190ICMS: TFloatField;
     cdsC190CST: TStringField;
-    cdsC190CSOSN: TStringField;
     cdsC190ICMS_ST: TFloatField;
     cdsC190VLR_BASE_ICMS_ST: TFloatField;
     cdsC190VLR_BASE_ICMS: TFloatField;
@@ -894,6 +893,33 @@ type
     cdsC190CFOP: TStringField;
     BitBtn1: TBitBtn;
     SaveDialog1: TSaveDialog;
+    sdsVC190: TSQLDataSet;
+    dspVC190: TDataSetProvider;
+    cdsVC190: TClientDataSet;
+    cdsVC190VLR_ICMS: TFloatField;
+    cdsVC190VLR_OPERACAO: TFloatField;
+    cdsVC190ICMS: TFloatField;
+    cdsVC190CST: TStringField;
+    cdsVC190ICMS_ST: TFloatField;
+    cdsVC190VLR_BASE_ICMS_ST: TFloatField;
+    cdsVC190VLR_BASE_ICMS: TFloatField;
+    cdsVC190VLR_IPI: TFloatField;
+    cdsVC190CFOP: TStringField;
+    sdsTotalBASE_ICMS: TFloatField;
+    sqlTotalEntrada: TSQLQuery;
+    sqlTotalSaida: TSQLQuery;
+    sqlTotalSaidaVLR_ICMS: TFloatField;
+    sqlTotalSaidaVLR_OPERACAO: TFloatField;
+    sqlTotalSaidaICMS_ST: TFloatField;
+    sqlTotalSaidaVLR_BASE_ICMS_ST: TFloatField;
+    sqlTotalSaidaVLR_BASE_ICMS: TFloatField;
+    sqlTotalSaidaVLR_IPI: TFloatField;
+    sqlTotalEntradaVLR_ICMS: TFloatField;
+    sqlTotalEntradaVLR_OPERACAO: TFloatField;
+    sqlTotalEntradaICMS_ST: TFloatField;
+    sqlTotalEntradaVLR_BASE_ICMS_ST: TFloatField;
+    sqlTotalEntradaVLR_BASE_ICMS: TFloatField;
+    sqlTotalEntradaVLR_IPI: TFloatField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1063,8 +1089,8 @@ begin
             cdsEmpS.Close;
          cdsEmpS.Params[0].AsDateTime := data_ini.Date;
          cdsEmpS.Params[1].AsDateTime := data_fim.Date;
-         cdsEmpS.Params[2].AsInteger := codMovMin;
-         cdsEmpS.Params[3].AsInteger := codMovMax;
+         cdsEmpS.Params[2].AsInteger := codMovMinV;
+         cdsEmpS.Params[3].AsInteger := codMovMaxV;
          cdsEmpS.Open;
 
          if (cdsEmpE.Active) then
@@ -1144,8 +1170,14 @@ begin
 
          if (sdsUnimed.Active) then
            sdsUnimed.Close;
+         //if (codMovMin < codMovMinV) then
          sdsUnimed.Params[0].AsInteger := codMovMin;
+         //else
+         //  sdsUnimed.Params[0].AsInteger := codMovMinV;
+         //if (codMovMax > codMovMaxV) then
          sdsUnimed.Params[1].AsInteger := codMovMax;
+         //else
+         //  sdsUnimed.Params[1].AsInteger := codMovMaxV;
          sdsUnimed.Open;
 
          while (not sdsUnimed.Eof) do
@@ -1164,8 +1196,14 @@ begin
          if (cdsProduto.Active) then
            cdsProduto.Close;
 
+         //if (codMovMin < codMovMinV) then
          cdsProduto.Params[0].AsInteger := codMovMin;
+         //else
+         // cdsProduto.Params[0].AsInteger := codMovMinV;
+         //if (codMovMax > codMovMaxV) then
          cdsProduto.Params[1].AsInteger := codMovMax;
+         //else
+         //  cdsProduto.Params[1].AsInteger := codMovMaxV;
          cdsProduto.Open;
          While (not cdsProduto.Eof) do
          begin
@@ -1188,19 +1226,19 @@ begin
          begin
            with Registro0400New do
            begin
-             COD_NAT   := '03';
-             DESCR_NAT := 'Venda de Mercadorias';
-           end;
-         end;
-
-         if (temVenda = 'S') then
-         begin
-           with Registro0400New do
-           begin
              COD_NAT   := '04';
              DESCR_NAT := 'Compra de Mercadorias';
            end;
          end;
+
+         {if (temVenda = 'S') then
+         begin
+           with Registro0400New do
+           begin
+             COD_NAT   := '03';
+             DESCR_NAT := 'Venda de Mercadorias';
+           end;
+         end;}
          // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS  *****  PARA IMOBILIZADO *****
         { with Registro0500New do
          begin
@@ -1319,7 +1357,7 @@ begin
             VL_FRT        := cdsCompraVALOR_FRETE.AsFloat;
             VL_SEG        := cdsCompraVALOR_SEGURO.AsFloat;
             VL_OUT_DA     := 0;
-            VL_BC_ICMS    := cdsCompraVALOR.AsFloat;
+            VL_BC_ICMS    := sdsTotalBASE_ICMS.AsFloat;
             VL_ICMS       := cdsCompraVALOR_ICMS.AsFloat;
             VL_BC_ICMS_ST := cdsCompraICMS_BASE_ST.AsFloat;
             VL_ICMS_ST    := cdsCompraICMS_ST.AsFloat;
@@ -1401,7 +1439,6 @@ begin
                 Application.ProcessMessages;
               end;
             end;}
-          end;
 
           // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
           if (cdsC190.Active) then
@@ -1429,7 +1466,9 @@ begin
           codParticip := cdsCompraCODFORNECEDOR.AsInteger;
           cdsCompra.Next;
         end; // FIM DO WHILE DE COMPRAS
-          // FIM BLOCO COMPRAS ######################
+        end;
+
+        // FIM BLOCO COMPRAS ######################
 
         abrirTabelasVenda;
         // BLOCO VENDAS ###########################
@@ -1500,7 +1539,7 @@ begin
               cdsItens.Open;
               // INICIO BLOCO DET VENDAS  ######################
               IItens := 1;
-              While not cdsItens.Eof do
+              {While not cdsItens.Eof do
               begin
                 //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
                 with RegistroC170New do   //Inicio Adicionar os Itens:
@@ -1555,29 +1594,29 @@ begin
                 IItens := IItens + 1;
                 cdsItens.Next;
               end;
-
+              }
               // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
-              if (cdsC190.Active) then
-                cdsC190.Close;
-              cdsC190.Params[0].asInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
-              cdsC190.Open;
-              while not cdsC190.eof do
+              if (cdsVC190.Active) then
+                cdsVC190.Close;
+              cdsVC190.Params[0].asInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
+              cdsVC190.Open;
+              while not cdsVC190.eof do
               begin
                 with RegistroC190New do
                 begin
-                  CST_ICMS      := cdsC190CST.AsString;
-                  CFOP          := cdsC190CFOP.AsString;
-                  ALIQ_ICMS     := cdsC190ICMS.AsFloat;
-                  VL_OPR        := cdsC190VLR_OPERACAO.AsFloat;
-                  VL_BC_ICMS    := cdsC190VLR_BASE_ICMS.AsFloat;
-                  VL_ICMS       := cdsC190VLR_ICMS.AsFloat;
-                  VL_BC_ICMS_ST := cdsC190VLR_BASE_ICMS_ST.AsFloat;
-                  VL_ICMS_ST    := cdsC190ICMS_ST.AsFloat;
+                  CST_ICMS      := cdsVC190CST.AsString;
+                  CFOP          := cdsVC190CFOP.AsString;
+                  ALIQ_ICMS     := cdsVC190ICMS.AsFloat;
+                  VL_OPR        := cdsVC190VLR_OPERACAO.AsFloat;
+                  VL_BC_ICMS    := cdsVC190VLR_BASE_ICMS.AsFloat;
+                  VL_ICMS       := cdsVC190VLR_ICMS.AsFloat;
+                  VL_BC_ICMS_ST := cdsVC190VLR_BASE_ICMS_ST.AsFloat;
+                  VL_ICMS_ST    := cdsVC190ICMS_ST.AsFloat;
                   VL_RED_BC     := 0;
-                  VL_IPI        := cdsC190VLR_IPI.AsFloat;
+                  VL_IPI        := cdsVC190VLR_IPI.AsFloat;
                   COD_OBS       := '';
                 end;
-                cdsC190.next;
+                cdsVC190.next;
               end;
             end;
             codParticip := cdsNFVendaCODCLIENTE.AsInteger;
@@ -1912,6 +1951,19 @@ begin
       DT_INI := Data_Ini.Date;
       DT_FIN := Data_Fim.Date;
     end;
+
+    if (sqlTotalEntrada.Active) then
+      sqlTotalEntrada.Close;
+    sqlTotalEntrada.Params[0].AsDate := data_ini.Date;
+    sqlTotalEntrada.Params[1].AsDate := data_fim.Date;
+    sqlTotalEntrada.Open;
+
+    if (sqlTotalSaida.Active) then
+      sqlTotalSaida.Close;
+    sqlTotalSaida.Params[0].AsDate := data_ini.Date;
+    sqlTotalSaida.Params[1].AsDate := data_fim.Date;
+    sqlTotalSaida.Open;
+
     with RegistroE110New do
     begin
       VL_ICMS_RECOLHER := 0;
