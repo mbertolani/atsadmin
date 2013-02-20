@@ -709,6 +709,7 @@ type
     procedure btnImprimirCCeClick(Sender: TObject);
 
   private
+    TD: TTransactionDesc;
     procedure getCli_Fornec();
     procedure getEmpresa();
     procedure getItens(contador : integer);
@@ -763,7 +764,7 @@ begin
    cdsNF.Params[3].Clear;
    cdsNf.Params.ParamByName('ENV').Clear;
    if (chkTodas.Checked) then
-     cdsNf.Params.ParamByName('ENV').AsString := 'TODAS'; 
+     cdsNf.Params.ParamByName('ENV').AsString := 'TODAS';
 
    if (edSerie.Text <> '') then
      cdsNF.Params[2].AsString := edSerie.Text
@@ -858,7 +859,7 @@ begin
 end;
 
 procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
-var TD: TTransactionDesc;
+var
   i, codnf: integer;
   Protocolo, Recibo, str, vAux, valida : String;
 begin
@@ -867,7 +868,7 @@ begin
    if (not cds_ccusto.Active) then
      cds_ccusto.Open;
    cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
-   cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);   
+   cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);
 
    //Seleciona Empresa de acordo com o CCusto selecionado
    if (sEmpresa.Active) then
@@ -1123,12 +1124,27 @@ begin
      TD.TransactionID := 1;
      TD.IsolationLevel := xilREADCOMMITTED;
      DecimalSeparator := '.';
-     //SALVA NFe e NOMEXML no BD
-     dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
-     + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
-     + ' WHERE NUMNF = ' + IntToStr(codnf));
+
      dm.sqlsisAdimin.StartTransaction(TD);
-     dm.sqlsisAdimin.Commit(TD);
+     try
+       str := 'UPDATE NOTAFISCAL SET ';
+       str := str + ' XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
+       str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+       str := str + ', STATUS = ' + QuotedStr('E');
+       str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
+       dm.sqlsisAdimin.ExecuteDirect(str);
+       dm.sqlsisAdimin.Commit(TD);
+     except
+       on E : Exception do
+       begin
+         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       end;
+     end;
+
+
+
+     //SALVA NFe e NOMEXML no BD
      DecimalSeparator := ',';
      ACBrNFe1.NotasFiscais.Imprimir;
    end
@@ -1147,21 +1163,32 @@ begin
      TD.TransactionID := 1;
      TD.IsolationLevel := xilREADCOMMITTED;
      DecimalSeparator := '.';
-     //SALVA NFe e NOMEXML no BD
-     dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
-     + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
-     + ' WHERE NUMNF = ' + IntToStr(codnf));
-     //SALVA PROTOCOLO DPEC
-     str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
-     str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
-     dm.sqlsisAdimin.ExecuteDirect(str);
+
      dm.sqlsisAdimin.StartTransaction(TD);
-     dm.sqlsisAdimin.Commit(TD);
+     try
+       //SALVA NFe e NOMEXML no BD
+       //SALVA PROTOCOLO DPEC
+       str := 'UPDATE NOTAFISCAL SET ';
+       str := str + '  XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
+       str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+       str := str + ', STATUS = ' + QuotedStr('E');
+       if (ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC <> '') then
+         str := str + ', PROTOCOLOENV = ' + quotedStr(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
+       str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
+       dm.sqlsisAdimin.ExecuteDirect(str);
+       dm.sqlsisAdimin.Commit(TD);
+     except
+       on E : Exception do
+       begin
+         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       end;
+     end;
    end
    else
    begin
      ACBrNFe1.Enviar(0);
-     AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;   
+     AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
      ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
      ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
 
@@ -1172,17 +1199,29 @@ begin
      TD.TransactionID := 1;
      TD.IsolationLevel := xilREADCOMMITTED;
      DecimalSeparator := '.';
-     //SALVA NFe e NOMEXML no BD
-     dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML)
-     + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml')
-     + ' WHERE NUMNF = ' + IntToStr(codnf));
-     //SALVA OS PROTOCOLOS
-     str := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' + quotedStr(Protocolo);
-     str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
-     str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
-     dm.sqlsisAdimin.ExecuteDirect(str);
+
      dm.sqlsisAdimin.StartTransaction(TD);
-     dm.sqlsisAdimin.Commit(TD);
+     try
+       //SALVA NFe, PROTOCOLOS e NOMEXML no BD
+       str := 'UPDATE NOTAFISCAL SET ';
+       str := str + '  XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
+       str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+       str := str + ', STATUS = ' + QuotedStr('E');
+       if (Protocolo <> '') then
+         str := str + ', PROTOCOLOENV = ' + quotedStr(Protocolo);
+       if (Recibo <> '') then
+         str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
+       str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
+       dm.sqlsisAdimin.ExecuteDirect(str);
+       dm.sqlsisAdimin.Commit(TD);
+     except
+       on E : Exception do
+       begin
+         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       end;
+     end;
+
      DecimalSeparator := ',';
    end;
 
@@ -1380,44 +1419,60 @@ var
   vAux, Protocolo, caminho, str : String;
   //numnf : WideString;
 begin
+  Protocolo := '';
   vXMLDoc := TXMLDocument.Create(self);
   Try
-  OpenDialog1.Title := 'Selecione a NFE';
-  OpenDialog1.DefaultExt:= '*-nfe.XML';
-  OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
-   if OpenDialog1.Execute then
-   begin
-    ACBrNFe1.NotasFiscais.Clear;
-    caminho := OpenDialog1.FileName;
-    ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
-    if not(InputQuery('WebServices Cancelamento', 'Justificativa', vAux)) then
-      exit;
-     ACBrNFe1.Cancelamento(vAux);
-     MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Cancelamento.RetWS);
-     ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
-     ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.Cancelamento.Protocolo);
-    Protocolo := ACBrNFe1.WebServices.Cancelamento.Protocolo;
-    AcbrNfe1.Configuracoes.Geral.Salvar := True;
-   end;
+    OpenDialog1.Title := 'Selecione a NFE';
+    OpenDialog1.DefaultExt:= '*-nfe.XML';
+    OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+    OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+    if OpenDialog1.Execute then
+    begin
+      ACBrNFe1.NotasFiscais.Clear;
+      caminho := OpenDialog1.FileName;
+      ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
+      if not(InputQuery('WebServices Cancelamento', 'Justificativa', vAux)) then
+        exit;
+      ACBrNFe1.Cancelamento(vAux);
+      MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Cancelamento.RetWS);
+      ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
+      ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.Cancelamento.Protocolo);
+      Protocolo := ACBrNFe1.WebServices.Cancelamento.Protocolo;
+      AcbrNfe1.Configuracoes.Geral.Salvar := True;
+    end;
 
-  //ABRE A NOTA
-  vXMLDoc.LoadFromFile(caminho);
+    //ABRE A NOTA
+    vXMLDoc.LoadFromFile(caminho);
 
-   //PEGA A RESPOSTA
-   with vXMLDoc.DocumentElement  do
-   begin
-     numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-     if (numnf = '') then
-       numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-   end;
-   DecimalSeparator := '.';
-   str := 'Update NOTAFISCAL set PROTOCOLOCANC = ' + quotedstr(Protocolo);
-   str := str + ' WHERE NOTAFISCAL = ' + numnf;
-   dm.sqlsisAdimin.ExecuteDirect(str);
-   DecimalSeparator := ',';
+    //PEGA A RESPOSTA
+    with vXMLDoc.DocumentElement  do
+    begin
+      numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+      if (numnf = '') then
+        numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+    end;
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      str := 'UPDATE NOTAFISCAL SET ';
+      str := str + ' STATUS = ' + QuotedStr('C');
+      if (protocolo <> '') then
+        str := str + ' ,PROTOCOLOCANC = ' + quotedstr(Protocolo);
+      str := str + ' WHERE NOTAFISCAL = ' + numnf;
+      dm.sqlsisAdimin.ExecuteDirect(str);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
   finally
-  VXMLDoc.Free;
+    DecimalSeparator := ',';
+    VXMLDoc.Free;
   end;
   chkTodas.Checked := True;
   btnListar.Click;
@@ -2650,14 +2705,26 @@ begin
     else
     begin
       try
-        str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo)
-        + ', DHENVIO = ' + QuotedStr(FormatDateTime('dd.mm.yyyy hh:mm:ss', envio))
-        + ', CONDICAO = ' + QuotedStr(ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso)
-        + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString)
-        + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
-        dm.sqlsisAdimin.ExecuteDirect(str);
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+
         dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.Commit(TD);
+        try
+          str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo)
+          + ', DHENVIO = ' + QuotedStr(FormatDateTime('dd.mm.yyyy hh:mm:ss', envio))
+          + ', CONDICAO = ' + QuotedStr(ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso)
+          + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString)
+          + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
+          dm.sqlsisAdimin.ExecuteDirect(str);
+          dm.sqlsisAdimin.Commit(TD);
+        except
+          on E : Exception do
+          begin
+            ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+            dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          end;
+        end;
+
       finally
         imprimiCCe(protocolo, envio, ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso );
       end;
