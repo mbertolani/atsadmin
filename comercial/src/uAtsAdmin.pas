@@ -241,8 +241,10 @@ type
     CadastroSetor1: TMenuItem;
     CadastroTipoDoc1: TMenuItem;
     SpedFiscalICMS1: TMenuItem;
+    Auditoria1: TMenuItem;
     CadastrarSemanas1: TMenuItem;
     AniversrioClientes1: TMenuItem;
+    UnidadeMedida1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -383,8 +385,11 @@ type
     procedure CadastroTipoDoc1Click(Sender: TObject);
     procedure ipoDocumentos1Click(Sender: TObject);
     procedure SpedFiscalICMS1Click(Sender: TObject);
+    procedure Auditoria1Click(Sender: TObject);
+    procedure UserControlComercialAfterLogin(Sender: TObject);
     procedure CadastrarSemanas1Click(Sender: TObject);
     procedure AniversrioClientes1Click(Sender: TObject);
+    procedure UnidadeMedida1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -437,7 +442,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
-  uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario;
+  uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario,
+  uLogs, uUnidadeMedida;
 
 {$R *.dfm}
 
@@ -2327,6 +2333,21 @@ begin
   end;
 end;
 
+procedure TfAtsAdmin.Auditoria1Click(Sender: TObject);
+begin
+  fLogs := TfLogs.Create(Application);
+  try
+    fLogs.ShowModal;
+  finally
+    fLogs.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.UserControlComercialAfterLogin(Sender: TObject);
+begin
+  Dm.varLogado := UserControlComercial.CurrentUser.UserLogin;
+end;
+
 procedure TfAtsAdmin.CadastrarSemanas1Click(Sender: TObject);
 begin
   fPeriodoSem := TfPeriodoSem.Create(Application);
@@ -2345,6 +2366,16 @@ begin
     fClientesAniversario.ShowModal;
   finally
     fClientesAniversario.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.UnidadeMedida1Click(Sender: TObject);
+begin
+  fUnidadeMedida := TfUnidadeMedida.Create(Application);
+  try
+    fUnidadeMedida.ShowModal;
+  finally
+    fUnidadeMedida.Free;
   end;
 end;
 
