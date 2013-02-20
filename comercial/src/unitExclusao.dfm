@@ -1,6 +1,6 @@
 object formExclusao: TformExclusao
   Left = 391
-  Top = 272
+  Top = 283
   Width = 208
   Height = 188
   BorderIcons = [biSystemMenu]
@@ -18,7 +18,7 @@ object formExclusao: TformExclusao
     Left = 0
     Top = 0
     Width = 200
-    Height = 154
+    Height = 161
     Align = alClient
     BevelInner = bvLowered
     TabOrder = 0

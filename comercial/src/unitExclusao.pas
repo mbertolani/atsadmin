@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, dxCore, dxButton, ExtCtrls, DBClient, DB;
+  Dialogs, dxCore, dxButton, ExtCtrls, DBClient, DB, dbxpress;
 
 type
   TformExclusao = class(TForm)
@@ -59,6 +59,16 @@ begin
     if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                   [mbYes,mbNo],0) = mrYes then
     begin
+      if (dmnf.cds_nfPROTOCOLOENV.AsString <> '') then
+      begin
+        MessageDlg('NF já enviada, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (dmnf.cds_nfPROTOCOLOCANC.AsString <> '') then
+      begin
+        MessageDlg('NF CANCELADA no SEFAZ, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
+        exit;
+      end;
       if (not dmnf.DtSrcVenda.DataSet.IsEmpty) then
       begin
          dmnf.DtSrcVenda.DataSet.Delete;
@@ -79,6 +89,16 @@ begin
     if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                   [mbYes,mbNo],0) = mrYes then
     begin
+      if (dmnf.cds_nfPROTOCOLOENV.AsString <> '') then
+      begin
+        MessageDlg('NF já enviada, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (dmnf.cds_nfPROTOCOLOCANC.AsString <> '') then
+      begin
+        MessageDlg('NF CANCELADA no SEFAZ, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
+        exit;
+      end;
       if (not dmnf.DtSrc_NF1.DataSet.IsEmpty) then
       begin
         if (dmnf.DtSrc_Compra.DataSet.IsEmpty) then
@@ -103,12 +123,32 @@ begin
 end;
 
 procedure TformExclusao.dxButton2Click(Sender: TObject);
+Var  TD : TTransactionDesc;
+str : String;
 begin
   if ((DMNF.FormExiste(fNF) = True) or (DMNF.FormExiste(fNotaF) = True)) then
   begin
     if MessageDlg('Atenção, confirmando essa operação o sistema vai alterar o status para'+#13+#10+' "CANCELADO", não será excluido do sistema.',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
     begin
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        str := 'UPDATE NOTAFISCAL SET ';
+        str := str + ' STATUS = ' + QuotedStr('C');
+        str := str + ' WHERE NUMNF = ' + InttoStr(dmnf.cds_nfNUMNF.AsInteger);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
+
        if (dmnf.cds_venda.State in [dsBrowse]) then
           dmnf.cds_venda.Edit;
        dmnf.cds_vendaSTATUS.AsInteger := 14;
@@ -124,6 +164,25 @@ begin
     if MessageDlg('Atenção, confirmando essa operação o sistema vai alterar o status para'+#13+#10+' "CANCELADO", não será excluido do sistema.',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
     begin
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        str := 'UPDATE NOTAFISCAL SET ';
+        str := str + ' STATUS = ' + QuotedStr('C');
+        str := str + ' WHERE NUMNF = ' + InttoStr(dmnf.cds_nfNUMNF.AsInteger);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
+
+
        if (dmnf.cds_compra.State in [dsBrowse]) then
           dmnf.cds_compra.Edit;
        dmnf.cds_compraSTATUS.AsInteger := 14;
