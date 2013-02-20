@@ -2497,7 +2497,7 @@ object fNfeIcms: TfNfeIcms
       '   FROM UNIDADEMEDIDA UN, MOVIMENTO mov, MOVIMENTODETALHE DET '
       'WHERE UN.CODUN = DET.UN'
       '       AND mov.codmovimento = det.codmovimento'
-      '        AND ((MOV.CODNATUREZA = 15) OR (MOV.CODNATUREZA = 4))'
+      '        AND (MOV.CODNATUREZA = 4)'
       '      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF')
     SQLConnection = DM.sqlsisAdimin
     Left = 328
@@ -2799,12 +2799,13 @@ object fNfeIcms: TfNfeIcms
   object sdsEmpS: TSQLDataSet
     CommandText = 
       'SELECT DISTINCT C.RAZAOSOCIAL, C.CNPJ, C.INSCESTADUAL,   C.TIPOF' +
-      'IRMA,  EC.* FROM NOTAFISCAL NF, CLIENTES C, ENDERECOCLIENTE EC, ' +
-      'VENDA V'#13#10'WHERE NF.CODCLIENTE = C.CODCLIENTE'#13#10'      AND C.CODCLIE' +
-      'NTE   = EC.CODCLIENTE'#13#10'      AND V.CODVENDA = NF.CODVENDA'#13#10'     ' +
-      ' AND NF.DTAEMISSAO BETWEEN :DTA1 AND :DTA2'#13#10'      AND C.CODCLIEN' +
-      'TE > 0'#13#10'      AND EC.TIPOEND = 0'#13#10'      AND V.CODMOVIMENTO BETWE' +
-      'EN  :CODMOV AND :CODMOVF'
+      'IRMA,  EC.* '#13#10'FROM NOTAFISCAL NF, CLIENTES C, ENDERECOCLIENTE EC' +
+      ', VENDA V, MOVIMENTO M'#13#10'WHERE NF.CODCLIENTE = C.CODCLIENTE'#13#10'    ' +
+      '  AND C.CODCLIENTE   = EC.CODCLIENTE'#13#10'      AND V.CODVENDA = NF.' +
+      'CODVENDA'#13#10'      AND V.CODMOVIMENTO = M.CODMOVIMENTO '#13#10'      AND ' +
+      'M.CODNATUREZA IN (12, 15)'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1' +
+      ' AND :DTA2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND EC.TIPOEND = 0' +
+      #13#10'      AND V.CODMOVIMENTO BETWEEN  :CODMOV AND :CODMOVF'
     MaxBlobSize = -1
     Params = <
       item
@@ -3088,11 +3089,12 @@ object fNfeIcms: TfNfeIcms
       'SELECT DISTINCT f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCES' +
       'TADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_' +
       'IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, e' +
-      'f.PAIS'#13#10'    FROM COMPRA C,  FORNECEDOR f, ENDERECOFORNECEDOR ef'#13 +
-      #10'   WHERE f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND ef.CODFORN' +
-      'ECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      '#13#10'     AN' +
-      'D C.DATACOMPRA BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     AND C.CODMOVI' +
-      'MENTO BETWEEN :CODINI AND :CODFIM'
+      'f.PAIS'#13#10'    FROM COMPRA C,  FORNECEDOR f, ENDERECOFORNECEDOR ef,' +
+      ' MOVIMENTO M'#13#10'   WHERE f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     A' +
+      'ND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND C.CODMOVIMENTO =' +
+      ' M.CODMOVIMENTO '#13#10'      AND M.CODNATUREZA = 4'#13#10'     AND ef.TIPOE' +
+      'ND = 0      '#13#10'     AND C.DATACOMPRA BETWEEN :DTA_INI AND :DTA_FI' +
+      'M'#13#10'     AND C.CODMOVIMENTO BETWEEN :CODINI AND :CODFIM'
     MaxBlobSize = -1
     Params = <
       item
@@ -3276,18 +3278,17 @@ object fNfeIcms: TfNfeIcms
       'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, PRO.NCM, PRO.PRODUTO' +
       ', DET.UN '#13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS' +
       ' PRO'#13#10'WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.C' +
-      'ODPRODUTO     = DET.CODPRODUTO'#13#10'      AND ((MOV.CODNATUREZA = 15' +
-      ') OR (MOV.CODNATUREZA = 4))'#13#10'      AND MOV.CODMOVIMENTO BETWEEN ' +
-      ':PMOV AND :PMOVF'
+      'ODPRODUTO     = DET.CODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 4)'#13 +
+      #10'      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'PMOV'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'PMOVF'
         ParamType = ptInput
       end>
@@ -3820,10 +3821,10 @@ object fNfeIcms: TfNfeIcms
   object sdsTotal: TSQLDataSet
     CommandText = 
       'SELECT SUM(MD.VIPI) IPI, SUM(MD.VALOR_PIS) PIS, SUM(MD.VALOR_COF' +
-      'INS) COFINS '#13#10'   FROM COMPRA C, MOVIMENTODETALHE MD   '#13#10'WHERE md' +
-      '.CODMOVIMENTO = c.CODMOVIMENTO      '#13#10'     AND C.CODMOVIMENTO BE' +
-      'TWEEN  :CODINI AND :CODFIM'#13#10'     AND C.DATACOMPRA      BETWEEN :' +
-      'DTA_INI AND :DTA_FIM'#13#10' '
+      'INS) COFINS , SUM(VLR_BASEICMS) BASE_ICMS '#13#10'   FROM COMPRA C, MO' +
+      'VIMENTODETALHE MD   '#13#10'WHERE md.CODMOVIMENTO = c.CODMOVIMENTO    ' +
+      '  '#13#10'     AND C.CODMOVIMENTO BETWEEN  :CODINI AND :CODFIM'#13#10'     A' +
+      'ND C.DATACOMPRA      BETWEEN :DTA_INI AND :DTA_FIM'#13#10' '
     MaxBlobSize = -1
     Params = <
       item
@@ -3861,6 +3862,10 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'COFINS'
       ReadOnly = True
     end
+    object sdsTotalBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+      ReadOnly = True
+    end
   end
   object ACBrSPEDFiscal1: TACBrSPEDFiscal
     Path = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
@@ -3874,12 +3879,12 @@ object fNfeIcms: TfNfeIcms
     CommandText = 
       'SELECT SUM(r.VALOR_ICMS) VLR_ICMS, SUM(r.FRETE + r.VALOR_SEGURO ' +
       '+ r.VIPI + r.VALOR_OUTROS +  '#13#10'r.ICMS_SUBST + (r.QUANTIDADE * r.' +
-      'VLR_BASE))  VLR_OPERACAO,  '#13#10'r.ICMS,  r.CST, r.CSOSN,  '#13#10'SUM(r.I' +
-      'CMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, SUM(r.V' +
-      'LR_BASEICMS) VLR_BASE_ICMS, '#13#10'SUM(r.VIPI) VLR_IPI, r.CFOP'#13#10'    F' +
-      'ROM COMPRA C,  MOVIMENTODETALHE r'#13#10'   WHERE C.CODMOVIMENTO = r.C' +
-      'ODMOVIMENTO'#13#10'     AND C.CODMOVIMENTO =  :CODINI'#13#10'   GROUP BY r.C' +
-      'FOP, r.ICMS, r.CST, r.CSOSN'#13#10
+      'VLR_BASE))  VLR_OPERACAO,  '#13#10'r.ICMS,  r.CST,  '#13#10'SUM(r.ICMS_SUBST' +
+      ') ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, SUM(r.VLR_BASEIC' +
+      'MS) VLR_BASE_ICMS, '#13#10'SUM(r.VIPI) VLR_IPI, r.CFOP'#13#10'    FROM COMPR' +
+      'A C,  MOVIMENTODETALHE r'#13#10'   WHERE C.CODMOVIMENTO = r.CODMOVIMEN' +
+      'TO'#13#10'     AND C.CODMOVIMENTO =  :CODINI'#13#10'   GROUP BY r.CFOP, r.IC' +
+      'MS, r.CST'
     MaxBlobSize = -1
     Params = <
       item
@@ -3924,11 +3929,6 @@ object fNfeIcms: TfNfeIcms
       ReadOnly = True
       Size = 5
     end
-    object cdsC190CSOSN: TStringField
-      FieldName = 'CSOSN'
-      ReadOnly = True
-      Size = 3
-    end
     object cdsC190ICMS_ST: TFloatField
       FieldName = 'ICMS_ST'
       ReadOnly = True
@@ -3957,5 +3957,194 @@ object fNfeIcms: TfNfeIcms
     Filter = '*.txt'
     Left = 808
     Top = 120
+  end
+  object sdsVC190: TSQLDataSet
+    CommandText = 
+      'SELECT SUM(r.VALOR_ICMS) VLR_ICMS, SUM(r.FRETE + r.VALOR_SEGURO ' +
+      '+ r.VIPI + r.VALOR_OUTROS +  '#13#10'r.ICMS_SUBST + (r.QUANTIDADE * r.' +
+      'VLR_BASE))  VLR_OPERACAO,  '#13#10'r.ICMS,  r.CST, '#13#10'SUM(r.ICMS_SUBST)' +
+      ' ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, SUM(r.VLR_BASEICM' +
+      'S) VLR_BASE_ICMS, '#13#10'SUM(r.VIPI) VLR_IPI, r.CFOP'#13#10'    FROM NOTAFI' +
+      'SCAL NF, VENDA v, MOVIMENTO m, MOVIMENTODETALHE r'#13#10'   WHERE NF.C' +
+      'ODVENDA = v.CODVENDA'#13#10'     AND M.CODMOVIMENTO = v.CODMOVIMENTO '#13 +
+      #10'     AND m.CODMOVIMENTO = r.CODMOVIMENTO'#13#10'     AND m.CODNATUREZ' +
+      'A in (12, 15)'#13#10'     AND M.CODMOVIMENTO =  :CODINI'#13#10'   GROUP BY r' +
+      '.CFOP, r.ICMS, r.CST'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 536
+    Top = 272
+  end
+  object dspVC190: TDataSetProvider
+    DataSet = sdsVC190
+    Left = 536
+    Top = 304
+  end
+  object cdsVC190: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspVC190'
+    Left = 536
+    Top = 336
+    object cdsVC190VLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+      ReadOnly = True
+    end
+    object cdsVC190VLR_OPERACAO: TFloatField
+      FieldName = 'VLR_OPERACAO'
+      ReadOnly = True
+    end
+    object cdsVC190ICMS: TFloatField
+      FieldName = 'ICMS'
+      ReadOnly = True
+    end
+    object cdsVC190CST: TStringField
+      FieldName = 'CST'
+      ReadOnly = True
+      Size = 5
+    end
+    object cdsVC190ICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+      ReadOnly = True
+    end
+    object cdsVC190VLR_BASE_ICMS_ST: TFloatField
+      FieldName = 'VLR_BASE_ICMS_ST'
+      ReadOnly = True
+    end
+    object cdsVC190VLR_BASE_ICMS: TFloatField
+      FieldName = 'VLR_BASE_ICMS'
+      ReadOnly = True
+    end
+    object cdsVC190VLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+      ReadOnly = True
+    end
+    object cdsVC190CFOP: TStringField
+      FieldName = 'CFOP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
+    end
+  end
+  object sqlTotalEntrada: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA2'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      
+        'SELECT SUM(r.VALOR_ICMS) VLR_ICMS, SUM(r.FRETE + r.VALOR_SEGURO ' +
+        '+ r.VIPI + r.VALOR_OUTROS +  '
+      'r.ICMS_SUBST + (r.QUANTIDADE * r.VLR_BASE))  VLR_OPERACAO,  '
+      
+        'SUM(r.ICMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, ' +
+        'SUM(r.VLR_BASEICMS) VLR_BASE_ICMS, '
+      'SUM(r.VIPI) VLR_IPI'
+      '  FROM COMPRA C,  MOVIMENTODETALHE r'
+      'WHERE C.CODMOVIMENTO = r.CODMOVIMENTO'
+      '      AND C.DATACOMPRA BETWEEN :DTA1 AND :DTA2')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 640
+    Top = 272
+    object sqlTotalEntradaVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+      ReadOnly = True
+    end
+    object sqlTotalEntradaVLR_OPERACAO: TFloatField
+      FieldName = 'VLR_OPERACAO'
+      ReadOnly = True
+    end
+    object sqlTotalEntradaICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+      ReadOnly = True
+    end
+    object sqlTotalEntradaVLR_BASE_ICMS_ST: TFloatField
+      FieldName = 'VLR_BASE_ICMS_ST'
+      ReadOnly = True
+    end
+    object sqlTotalEntradaVLR_BASE_ICMS: TFloatField
+      FieldName = 'VLR_BASE_ICMS'
+      ReadOnly = True
+    end
+    object sqlTotalEntradaVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+      ReadOnly = True
+    end
+  end
+  object sqlTotalSaida: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'dta1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dta2'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      
+        'SELECT SUM(r.VALOR_ICMS) VLR_ICMS, SUM(r.FRETE + r.VALOR_SEGURO ' +
+        '+ r.VIPI + r.VALOR_OUTROS +  '
+      'r.ICMS_SUBST + (r.QUANTIDADE * r.VLR_BASE))  VLR_OPERACAO,  '
+      
+        'SUM(r.ICMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, ' +
+        'SUM(r.VLR_BASEICMS) VLR_BASE_ICMS, '
+      'SUM(r.VIPI) VLR_IPI'
+      '    FROM NOTAFISCAL NF, VENDA v, MOVIMENTO m, MOVIMENTODETALHE r'
+      '   WHERE NF.CODVENDA = v.CODVENDA'
+      '     AND M.CODMOVIMENTO = v.CODMOVIMENTO '
+      '     AND m.CODMOVIMENTO = r.CODMOVIMENTO'
+      '     AND m.CODNATUREZA in (12, 15)'
+      '     AND NF.DTAEMISSAO BETWEEN :dta1 AND :dta2'
+      '  ')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 672
+    Top = 272
+    object sqlTotalSaidaVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVLR_OPERACAO: TFloatField
+      FieldName = 'VLR_OPERACAO'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVLR_BASE_ICMS_ST: TFloatField
+      FieldName = 'VLR_BASE_ICMS_ST'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVLR_BASE_ICMS: TFloatField
+      FieldName = 'VLR_BASE_ICMS'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+      ReadOnly = True
+    end
   end
 end
