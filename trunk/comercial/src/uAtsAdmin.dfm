@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
   Left = 0
-  Top = 58
+  Top = 95
   Width = 714
   Height = 452
   Color = clWhite
@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    698
-    394)
+    706
+    406)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 169
     Top = 47
-    Width = 529
-    Height = 323
+    Width = 537
+    Height = 335
     Align = alClient
     Center = True
     Picture.Data = {
@@ -778,7 +778,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 698
+    Width = 706
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -2071,8 +2071,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 370
-    Width = 698
+    Top = 382
+    Width = 706
     Height = 24
     Color = clMoneyGreen
     Panels = <
@@ -2155,7 +2155,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 169
-    Height = 323
+    Height = 335
     Align = alLeft
     Pages = <
       item
@@ -2580,6 +2580,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Cadastrar Semanas'
         OnClick = CadastrarSemanas1Click
       end
+      object UnidadeMedida1: TMenuItem
+        Caption = 'Unidade Medida'
+        OnClick = UnidadeMedida1Click
+      end
     end
     object Lanamentos1: TMenuItem
       Caption = '&Lan'#231'amentos     '
@@ -2771,6 +2775,10 @@ object fAtsAdmin: TfAtsAdmin
       end
       object RocarUsuarioLogOff1: TMenuItem
         Caption = 'Trocar Usuario/LogOff'
+      end
+      object Auditoria1: TMenuItem
+        Caption = 'Auditoria'
+        OnClick = Auditoria1Click
       end
     end
     object ContEstoque1: TMenuItem
@@ -4274,6 +4282,7 @@ object fAtsAdmin: TfAtsAdmin
     TableUsersLogged.FieldData = 'UCData'
     TableUsersLogged.TableName = 'UCTabUsersLogged'
     DataConnector = DM.UCDBXConnFinanceiro
+    OnAfterLogin = UserControlComercialAfterLogin
     Left = 281
     Top = 265
   end
