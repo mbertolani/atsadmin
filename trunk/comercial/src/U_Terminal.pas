@@ -2302,7 +2302,8 @@ begin
        if PageControl1.ActivePage = TabComanda then
          imprimeDLLBema;
        if PageControl1.ActivePage = TabSheet1 then
-         imprimeComanda;
+       imprimeComanda;
+
      end
      else
      begin
