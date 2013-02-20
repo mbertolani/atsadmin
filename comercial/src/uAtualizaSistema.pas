@@ -1788,6 +1788,23 @@ begin
       mudaVersao('1.0.0.116');
     end;// Fim Atualizacao Versao 1.0.0.116
 
+    if (versaoSistema = '1.0.0.116') then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET STATUS = '
+        + QuotedStr('C') + ' WHERE (STATUS IS NULL) AND (PROTOCOLOCANC IS NOT NULL)');
+
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET STATUS = '
+        + QuotedStr('E') + ' WHERE (STATUS IS NULL) AND (PROTOCOLOENV IS NOT NULL)');
+
+      executaScript('trg_calcula_icms_st_116.sql');
+      executaScript('rel_vendaCompra116.sql');
+      executaScript('listaSpEstoqueFiltro116.sql');
+      executaScript('spEstoqueFiltro116.sql');
+
+      mudaVersao('1.0.0.117');
+    end;// Fim Atualizacao Versao 1.0.0.116
+
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
