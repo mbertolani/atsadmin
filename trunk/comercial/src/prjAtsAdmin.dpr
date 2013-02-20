@@ -252,7 +252,6 @@ uses
   U_MudaMesa in 'U_MudaMesa.pas' {F_MudaMesa},
   uPeriodo in 'uPeriodo.pas' {fPeriodo},
   uPainelControleCompra in 'uPainelControleCompra.pas' {fPainelControleCompra},
-  ACBrBancoBrasil in 'ACBrBancoBrasil.pas',
   ucrdescontado in 'ucrdescontado.pas' {fcrdescontado},
   uImport in 'uImport.pas' {fImport},
   uClienteFiltro in 'uClienteFiltro.pas' {fClienteFiltro},
@@ -299,7 +298,8 @@ uses
   uFluxoEstoque in 'uFluxoEstoque.pas' {fFluxoEstoque},
   uNfeIcms in 'uNfeIcms.pas' {fNfeIcms},
   uperiodoSem in 'uperiodoSem.pas' {fPeriodoSem},
-  uClientesAniversario in 'uClientesAniversario.pas' {fClientesAniversario};
+  uClientesAniversario in 'uClientesAniversario.pas' {fClientesAniversario},
+  uUnidadeMedida in 'uUnidadeMedida.pas' {fUnidadeMedida};
 
 {$R *.res}
 
