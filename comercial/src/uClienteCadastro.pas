@@ -1686,7 +1686,7 @@ procedure TfClienteCadastro.FormShow(Sender: TObject);
 var Pos: Integer;
 begin
 //  inherited;
-  sCtrlResize.CtrlResize(TForm(fClienteCadastro));
+  //sCtrlResize.CtrlResize(TForm(fClienteCadastro));
   if (cdsEnderecoCli.Active) then
     cdsEnderecoCli.Close;
   cdsEnderecoCli.Params[0].Clear;

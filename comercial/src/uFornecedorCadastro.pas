@@ -366,8 +366,8 @@ end;
 
 procedure TfFornecedorCadastro.FormShow(Sender: TObject);
 begin
-  inherited;
-  sCtrlResize.CtrlResize(TForm(fFornecedorCadastro));
+  //inherited;
+  //sCtrlResize.CtrlResize(TForm(fFornecedorCadastro));
   vartipo := 1;
 
   if (not cdsRegiao.Active) then
