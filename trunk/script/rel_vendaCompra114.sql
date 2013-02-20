@@ -11,8 +11,8 @@ RETURNS (
     VLRTOTALVENDA double precision,
     QTDECOMPRA double precision,
     VLRUNITCOMPRA double precision,
-    VLRTOTALCOMPRA double precision,
     LUCROPERCENT double precision,
+    VLRTOTALCOMPRA double precision,
     VLRLUCRO double precision,
     VLRCUSTOUNIT double precision,
     VLRCUSTOTOTAL double precision,
@@ -34,7 +34,7 @@ DECLARE VARIABLE tIcms double precision;
 DECLARE VARIABLE CPERDA SMALLINT;
 --declare variable cCusto integer;
 BEGIN
-  ccusto = 51;
+  ccusto = 0;
   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CENTRO PERDA'
   INTO :CPERDA;
   Select sum(v.QTDE) from view_venda v
@@ -86,15 +86,14 @@ BEGIN
 
      if (vlrCustoTotal is null) then 
      begin 
-       select p.VALORUNITARIOATUAL from produtos p where p.CODPRODUTO = :pro 
+       select p.VALORUNITARIOATUAL from produtos p where p.CODPRODUTO = :codPro 
        into :vlrCustoTotal;
      end 
 
     /* Valores de Venda */
     /* O Campo VLRESTOQUE esta armazenando o custo dos itens vendidos */
-    For Select sum(v.Qtde), SUM(v.VALORVENDA) 
-     from view_venda v 
-    where v.codProduto = :codPRo 
+    For Select sum(v.Qtde), SUM(v.VALORVENDA) from view_venda v 
+    where v.codProduto = :codPro 
       and v.dataVenda BETWEEN :pdta1 and :pdta2 
       and ((v.CODCCUSTO = :ccusto) or (:ccusto = 0)) 
      into :qtdeVenda, :vlrTotalVenda
@@ -183,8 +182,6 @@ BEGIN
     end 
     else 
       vlrLucro = 0;
-
-   
 
     if (qtdeVenda > 0) then
       PercentProduto =  100*((qtdeVenda / total)-100);
