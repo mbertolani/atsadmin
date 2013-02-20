@@ -217,9 +217,9 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'FORMATACAO';
   dm.cds_parametro.Open;
+  formatacaoPreco := 0;
   if (not dm.cds_parametro.IsEmpty) then
   begin
-    formatacaoPreco := 0;
     if (dm.cds_parametroD2.AsString <> '') then
       formatacaoPreco := StrToInt(dm.cds_parametroD2.AsString);
   end;
@@ -353,7 +353,7 @@ begin
 //  DBOrigem.ItemIndex := 0;
   dm.cds_produtoNCM.AsString := '00000000';
   dm.cds_produtoUNIDADEMEDIDA.AsString := 'UN';
-
+  dm.cds_produtoORIGEM.AsInteger := 0;
 end;
 
 procedure TfProdutoCadastro.btnGravarClick(Sender: TObject);
