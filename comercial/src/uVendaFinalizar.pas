@@ -3175,21 +3175,40 @@ begin
   sqlBuscaNota.SQL.Clear;
   if (dm.tipoVenda = 'VENDA') then
   begin
-  sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, v.CODVENDA  from MOVIMENTO m ' +
-    ' inner join venda v on v.CODMOVIMENTO = m.CODMOVIMENTO where ' +
-    ' m.CODNATUREZA = 15 and m.CONTROLE = ' +
+  sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, v.CODVENDA, ' +
+    ' nf.PROTOCOLOENV, nf.PROTOCOLOCANC ' +
+    '  from NOTAFISCAL nf, VENDA v, MOVIMENTO m ' +
+    ' where nf.CODVENDA = v.CODVENDA ' +
+    '   and v.CODMOVIMENTO = m.CODMOVIMENTO ' +
+    '   and m.CODNATUREZA = 15 ' +
+    '   and m.CONTROLE = ' +
     QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
   end;
   if (dm.tipoVenda = 'DEVOLUCAO') then
   begin
-    sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, v.CODVENDA  from MOVIMENTO m ' +
-    ' inner join venda v on v.CODMOVIMENTO = m.CODMOVIMENTO where ' +
-    ' m.CODNATUREZA = 16 and m.CONTROLE = ' +
+    sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, v.CODVENDA ' +
+    ' nf.PROTOCOLOENV, nf.PROTOCOLOCANC ' +
+    '  from NOTAFISCAL nf, VENDA v, MOVIMENTO m ' +
+    ' where nf.CODVENDA = v.CODVENDA ' +
+    '   and v.CODMOVIMENTO = m.CODMOVIMENTO ' +
+    '   and m.CODNATUREZA = 16 ' +
+    '   and m.CONTROLE = ' +
     QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
   end;
   sqlBuscaNota.Open;
   if (not sqlBuscaNota.IsEmpty) then
   begin
+    if (sqlBuscaNota.Fields[3].AsString <> '') then
+    begin
+      MessageDlg('NF já enviada, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    if (sqlBuscaNota.Fields[4].AsString <> '') then
+    begin
+      MessageDlg('NF cancelada no SEFAZ, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+
     // Nota Fiscal
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
