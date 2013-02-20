@@ -38,6 +38,16 @@ begin
     if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                   [mbYes,mbNo],0) = mrYes then
     begin
+      if (dmnf.cds_nfPROTOCOLOENV.AsString <> '') then
+      begin
+        MessageDlg('NF já enviada, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (dmnf.cds_nfPROTOCOLOCANC.AsString <> '') then
+      begin
+        MessageDlg('NF CANCELADA no SEFAZ, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
+        exit;
+      end;
        dmnf.DtSrc_NF.DataSet.Delete;
        (dmnf.DtSrc_NF.DataSet as TClientDataSet).ApplyUpdates(0);
     end
