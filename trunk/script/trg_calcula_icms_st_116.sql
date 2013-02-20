@@ -55,34 +55,34 @@ BEGIN
         new.VLR_BASE = UDF_ROUNDDEC((new.PRECO - :vd), :arredondar);    
       end   
 
-      new.ICMS_SUBSTD  = 0;
-      new.ICMS_SUBST   = 0;
-      new.VLR_BASEICMS = 0;
-	  new.VALOR_ICMS = 0;
+    new.ICMS_SUBSTD  = 0;
+    new.ICMS_SUBST   = 0;
+    new.VLR_BASEICMS = 0;
+	new.VALOR_ICMS = 0;
 
-	  select first 1 ec.UF, c.CODFISCAL, m.CODCLIENTE, c.INSCESTADUAL from movimento m
-	  inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = m.CODCLIENTE
-	  inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE
-	  where ec.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
-      into :UF, :PESSOA, :CODCLI, :IE;
+	select first 1 ec.UF, c.CODFISCAL, m.CODCLIENTE, c.INSCESTADUAL from movimento m
+	inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = m.CODCLIENTE
+	inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE
+	where ec.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
+	into :UF, :PESSOA, :CODCLI, :IE;
 	
-	  if (:CODCLI is null) then
-	  begin
-        select first 1 ef.UF, f.CODFISCAL, f.INSCESTADUAL from movimento m
-	    inner join ENDERECOFORNECEDOR ef on ef.CODFORNECEDOR = m.CODFORNECEDOR
-	    inner join FORNECEDOR f on f.CODFORNECEDOR = m.CODFORNECEDOR
-	    where ef.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
-	    into :UF, :PESSOA, IE;
-	  end
+	if (:CODCLI is null) then
+	begin
+    select first 1 ef.UF, f.CODFISCAL, f.INSCESTADUAL from movimento m
+	inner join ENDERECOFORNECEDOR ef on ef.CODFORNECEDOR = m.CODFORNECEDOR
+	inner join FORNECEDOR f on f.CODFORNECEDOR = m.CODFORNECEDOR
+	where ef.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
+	into :UF, :PESSOA, IE;
+	end
 	
-	  select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
-	  COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0), COALESCE(cfp.COFINS, 0), cfp.CSTCOFINS, cfp.CSTPIS, cfp.CSTIPI
-	  from CLASSIFICACAOFISCALPRODUTO cfp
+	select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
+	COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0), COALESCE(cfp.COFINS, 0), cfp.CSTCOFINS, cfp.CSTPIS, cfp.CSTIPI
+	from CLASSIFICACAOFISCALPRODUTO cfp
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI;
     
-	  if ( (not CST_P is null) or (not CSOSN is null ) )then
-	  begin
+	if ( (not CST_P is null) or (not CSOSN is null ) )then
+	begin
         new.cst = :CST_P;
         new.CSOSN = CSOSN;
         new.CSTPIS = :CSTPIS;
@@ -91,51 +91,50 @@ BEGIN
         new.PPIS = :PIS;
         new.PCOFINS = :cofins;	
 		new.icms = :cicms;
-        if (IND_IPI > 0) then
-        begin
-          new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), :arredondar);
-          new.PIPI = IND_IPI;
-        end
-        else
-        begin
-          new.VIPI = 0;
-          new.PIPI = 0;
-        end
-	    if (ind_reduzicms <= 0) then
-          ind_reduzicms = 1;
-	    if (ind_reduzicms > 1 )then
-          ind_reduzicms = ind_reduzicms/100;
-        if (CICMS > 0) then 
-        begin
-          if (new.FRETE_BC <> 'True') then
+      if (IND_IPI > 0) then
+      begin
+        new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), :arredondar);
+        new.PIPI = IND_IPI;
+      end
+      else
+      begin
+        new.VIPI = 0;
+        new.PIPI = 0;
+      end
+	  if (ind_reduzicms <= 0) then
+        ind_reduzicms = 1;
+	  if (ind_reduzicms > 1 )then
+        ind_reduzicms = ind_reduzicms/100;
+      if (CICMS > 0) then 
+      begin
+        if (new.FRETE_BC <> 'True') then
             if (new.DESCONTO_BC <> 'True') then
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE))* ind_reduzicms), :arredondar);
             else
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) - new.VALOR_DESCONTO))* ind_reduzicms), :arredondar);
-          else
+        else
             if (new.DESCONTO_BC <> 'True') then
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE )* ind_reduzicms), :arredondar);
             else
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
-          new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), :arredondar);
-        end
+        new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), :arredondar);
+      end
 
-        ----------- TEM ST -------------
-        if (CICMS_SUBST > 0) then
-          new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), :arredondar);
+      ----------- TEM ST -------------
+      if (CICMS_SUBST > 0) then
+        new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), :arredondar);
         if ( new.ICMS_SUBSTD > 0) then
         begin
-           VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * (CICMS_SUBST_IND/100); 
-            new.ICMS_SUBST = UDF_ROUNDDEC(((new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-:VALOR_SUBDESC), :arredondar);
-            --new.ICMS_SUBST = --VALOR_SUBDesc=180;  --CICMS_SUBST_IC=18;--new.ICMS_SUBSTD=1300;
+           VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * CICMS_SUBST_IND; 
+            new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(:VALOR_SUBDESC), :arredondar);
         end     
-        else
-		  new.ICMS_SUBST = 0;
+      else
+		    new.ICMS_SUBST = 0;
         new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * COFINS) /100, :arredondar);
         new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * PIS) /100, :arredondar);       
-      end
-	  else
-	  begin
+    end
+	else
+	begin
 	    --new.LOTE = 'Inicio - ';
         select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
         , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI
@@ -239,21 +238,13 @@ BEGIN
           else 
             CICMS_SUBST = CICMS_SUBST ;
 
-          --new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(:CICMS_SUBST, 4), :arredondar); 
-          --VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * CICMS_SUBST_IND; 
-          --new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - :Valor_SubDesc, :arredondar);
-          
-          new.ICMS_SUBSTD = UDF_ROUNDDEC((((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * (CICMS_SUBST)), :arredondar);
-          if ( new.ICMS_SUBSTD > 0) then
-          begin
-            VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * (CICMS_SUBST_IND); 
-            new.ICMS_SUBST = UDF_ROUNDDEC(((new.ICMS_SUBSTD * (CICMS_SUBST_IC))-:VALOR_SUBDESC), :arredondar);
-            --new.ICMS_SUBST = VALOR_SUBDesc;
-          end           
+          new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(:CICMS_SUBST, 4), :arredondar); 
+          VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * CICMS_SUBST_IND; 
+          new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - :Valor_SubDesc, :arredondar);
         end
         new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * :COFINS) /100, :arredondar);
         new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * :PIS) /100, :arredondar);
-      end
+    end
     
     if( new.FRETE > 0) then
     begin
@@ -264,17 +255,17 @@ BEGIN
      end
      if (CICMS_SUBST > 0) then 
      begin
-       new.BCSTFRETE = UDF_ROUNDDEC(new.FRETE * UDF_ROUNDDEC(CICMS_SUBST, 4), :arredondar);
-       VALOR_SUBDesc = new.FRETE * CICMS_SUBST_IND;
-       new.STFRETE = UDF_ROUNDDEC((new.BCFRETE * CICMS_SUBST_IC) - Valor_SubDesc, :arredondar);
+      new.BCSTFRETE = UDF_ROUNDDEC(new.FRETE * UDF_ROUNDDEC(CICMS_SUBST, 4), :arredondar);
+      VALOR_SUBDesc = new.FRETE * CICMS_SUBST_IND;
+      new.STFRETE = UDF_ROUNDDEC((new.BCFRETE * CICMS_SUBST_IC) - Valor_SubDesc, :arredondar);
      end
     end
     if( new.FRETE = 0) then
     begin
       new.BCFRETE = 0;
       new.STFRETE = 0;
-      new.ICMSFRETE = 0;
-      new.BCSTFRETE = 0;
+    new.ICMSFRETE = 0;
+    new.BCSTFRETE = 0;
     end
-  end
+    end
 END
