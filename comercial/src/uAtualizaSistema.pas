@@ -757,7 +757,7 @@ begin
       executaDDL('RECEBIMENTO', 'VALST', 'DOUBLE PRECISION'); //alter table RECEBIMENTO add VALST double precision
       executaDDL('RECEBIMENTO', 'VALOR_RESTO_SST', 'DOUBLE PRECISION'); //alter table RECEBIMENTO add VALOR_RESTO_SST double precision
       executaScript('CANCELA_ESTOQUE_VENDA.sql');
-      executaScript('trg_cfop_produtos.sql');      
+      executaScript('trg_cfop_produtos.sql');
       mudaVersao('1.0.0.75');
     end;  // Fim Atualizacao Versao 1.0.0.75
 
@@ -1721,6 +1721,7 @@ begin
 
     if (versaoSistema = '1.0.0.112') then
     begin
+      executaScript('view_venda.sql');
       executaScript('rel_vendaCompra113.sql');
       executaScript('inclui_pag113.sql');
       executaScript('frete_nf113.sql');
@@ -1790,6 +1791,8 @@ begin
 
     if (versaoSistema = '1.0.0.116') then
     begin
+      ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF INACTIVE');
+
       dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET STATUS = '
         + QuotedStr('C') + ' WHERE (STATUS IS NULL) AND (PROTOCOLOCANC IS NOT NULL)');
 
@@ -1800,6 +1803,8 @@ begin
       executaScript('rel_vendaCompra116.sql');
       executaScript('listaSpEstoqueFiltro116.sql');
       executaScript('spEstoqueFiltro116.sql');
+
+      ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
 
       mudaVersao('1.0.0.117');
     end;// Fim Atualizacao Versao 1.0.0.116
