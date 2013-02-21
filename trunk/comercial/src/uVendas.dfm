@@ -1,6 +1,6 @@
 inherited fVendas: TfVendas
   Left = 215
-  Top = 108
+  Top = 103
   Width = 806
   Height = 594
   BorderIcons = [biSystemMenu, biMaximize]
@@ -77,7 +77,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 790
+    Width = 798
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1016,8 +1016,7 @@ inherited fVendas: TfVendas
       Width = 77
       Height = 55
       Hint = 'Gerar Or'#231'amento Arquivo Word'
-      Caption = 'Or'#231'.Word'
-      Enabled = False
+      Caption = 'Relat'#243'rios'
       PopupMenu = PopupMenu1
       TabOrder = 14
       OnClick = BtnClick
@@ -1444,8 +1443,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [16]
     Left = 0
-    Top = 528
-    Width = 790
+    Top = 539
+    Width = 798
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -2438,7 +2437,7 @@ inherited fVendas: TfVendas
     PopupMenu = PopupMenu1
     TabOrder = 17
     TabStop = False
-    OnClick = BitBtn6Click
+    OnClick = btnOrcWordClick
     Glyph.Data = {
       36080000424D3608000000000000360400002800000020000000200000000100
       0800000000000004000000000000000000000001000000000000000000000000
@@ -2571,6 +2570,41 @@ inherited fVendas: TfVendas
       PopupMenu = PopupMenu1
       TabOrder = 0
       OnKeyPress = FormKeyPress
+    end
+  end
+  object pnRelatorio: TPanel [28]
+    Left = 488
+    Top = 56
+    Width = 169
+    Height = 97
+    TabOrder = 20
+    Visible = False
+    object btnOrcWord: TBitBtn
+      Left = 8
+      Top = 8
+      Width = 153
+      Height = 25
+      Caption = 'Or'#231'. Word'
+      TabOrder = 0
+      OnClick = btnOrcWordClick
+    end
+    object btnEstoqueVenda: TBitBtn
+      Left = 9
+      Top = 35
+      Width = 153
+      Height = 25
+      Caption = 'EstoqueVenda'
+      TabOrder = 1
+      OnClick = btnEstoqueVendaClick
+    end
+    object btnEstoqueMatPrima: TBitBtn
+      Left = 9
+      Top = 62
+      Width = 153
+      Height = 25
+      Caption = 'Estoque Mat. Prima'
+      TabOrder = 2
+      OnClick = btnEstoqueMatPrimaClick
     end
   end
   inherited XPMenu1: TXPMenu

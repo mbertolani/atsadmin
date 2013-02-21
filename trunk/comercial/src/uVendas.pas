@@ -591,6 +591,10 @@ type
     sds_Mov_DetVALOR_COFINS: TFloatField;
     cds_Mov_detVALOR_PIS: TFloatField;
     cds_Mov_detVALOR_COFINS: TFloatField;
+    pnRelatorio: TPanel;
+    btnOrcWord: TBitBtn;
+    btnEstoqueVenda: TBitBtn;
+    btnEstoqueMatPrima: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -657,7 +661,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure JvDBGrid1MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure BitBtn6Click(Sender: TObject);
+    procedure btnOrcWordClick(Sender: TObject);
     procedure edChassiExit(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
     procedure RadioPedidoClick(Sender: TObject);
@@ -673,6 +677,8 @@ type
     procedure dbedtVALOR_DESCONTOExit(Sender: TObject);
     procedure edCfopExit(Sender: TObject);
     procedure Label29Click(Sender: TObject);
+    procedure btnEstoqueVendaClick(Sender: TObject);
+    procedure btnEstoqueMatPrimaClick(Sender: TObject);
   private
     { Private declarations }
     modo :string;
@@ -2303,6 +2309,7 @@ begin
   inherited;
   //cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
   VCLReport1.FileName := str_relatorio + 'orcamento.rep';
+  VCLReport1.Title    := VCLReport1.FileName;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('PVMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
   VCLReport1.Execute;
@@ -3410,7 +3417,50 @@ begin
   buscaServico;
 end;
 
-procedure TfVendas.BitBtn6Click(Sender: TObject);
+procedure TfVendas.btnOrcWordClick(Sender: TObject);
+var
+WinWord, Docs, Doc: Variant;
+caminho : String;
+begin
+  pnRelatorio.Visible := False;
+  cds_j.Close;
+  cds_j.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  cds_j.Open;
+
+    // Cria objeto principal de controle
+    WinWord := CreateOleObject('Word.Application');
+    // Mostra o Word
+    WinWord.Visible := true;
+    // Pega uma interface para o objeto que manipula documentos
+    Docs := WinWord.Documents;
+    // Abre um Documento
+
+    caminho := ExtractFilePath(Application.ExeName);
+
+    Doc := Docs.Open( caminho + '\doc.doc') ;
+
+    // Substitui texto via "name parameters"
+    Doc.Content.Find.Execute(FindText := '<CLI.RAZAOSOCIAL>', ReplaceWith := cds_jRAZAOSOCIAL.AsString);
+    Doc.Content.Find.Execute(FindText := '<CLI.CNPJ>', ReplaceWith := cds_jCNPJ.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.LOGRADOURO>', ReplaceWith := cds_jLOGRADOURO.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.CIDADE>', ReplaceWith := cds_jCIDADE.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.BAIRRO>', ReplaceWith := cds_jBAIRRO.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.UF>', ReplaceWith := cds_jUF.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.CEP>', ReplaceWith := cds_jCEP.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.DDD>', ReplaceWith := cds_jDDD.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.TELEFONE>', ReplaceWith := cds_jTELEFONE.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.DADOSADICIONAIS>', ReplaceWith := cds_jDADOSADICIONAIS.AsString);
+    Doc.Content.Find.Execute(FindText := '<ENDE.NUMERO>', ReplaceWith := cds_jNUMERO.AsString);
+
+    // Grava documento
+
+
+    Doc.SaveAs( caminho + cds_jRAZAOSOCIAL.AsString + '.doc');
+    // Imprime
+    //Doc.PrintOut(false);
+    // Fecha o Word
+    //WinWord.Quit;
+{
 begin
   inherited;
   fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
@@ -3428,7 +3478,7 @@ begin
    finally
     dm.scds_usuario_proc.Close;
     fProcurar.Free;
-   end;
+   end; }
 end;
 
 procedure TfVendas.existevenda;
@@ -3609,48 +3659,13 @@ begin
 end;
 
 procedure TfVendas.BtnClick(Sender: TObject);
-var
-WinWord, Docs, Doc: Variant;
-caminho : String;
 begin
-  cds_j.Close;
-  cds_j.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-  cds_j.Open;
-
-    // Cria objeto principal de controle
-    WinWord := CreateOleObject('Word.Application');
-    // Mostra o Word
-    WinWord.Visible := true;
-    // Pega uma interface para o objeto que manipula documentos
-    Docs := WinWord.Documents;
-    // Abre um Documento
-
-    caminho := ExtractFilePath(Application.ExeName);
-
-    Doc := Docs.Open( caminho + '\doc.doc') ;
-
-    // Substitui texto via "name parameters"
-    Doc.Content.Find.Execute(FindText := '<CLI.RAZAOSOCIAL>', ReplaceWith := cds_jRAZAOSOCIAL.AsString);
-    Doc.Content.Find.Execute(FindText := '<CLI.CNPJ>', ReplaceWith := cds_jCNPJ.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.LOGRADOURO>', ReplaceWith := cds_jLOGRADOURO.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.CIDADE>', ReplaceWith := cds_jCIDADE.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.BAIRRO>', ReplaceWith := cds_jBAIRRO.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.UF>', ReplaceWith := cds_jUF.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.CEP>', ReplaceWith := cds_jCEP.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.DDD>', ReplaceWith := cds_jDDD.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.TELEFONE>', ReplaceWith := cds_jTELEFONE.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.DADOSADICIONAIS>', ReplaceWith := cds_jDADOSADICIONAIS.AsString);
-    Doc.Content.Find.Execute(FindText := '<ENDE.NUMERO>', ReplaceWith := cds_jNUMERO.AsString);
-
-    // Grava documento
-
-
-    Doc.SaveAs( caminho + cds_jRAZAOSOCIAL.AsString + '.doc');
-    // Imprime
-    //Doc.PrintOut(false);
-    // Fecha o Word
-    //WinWord.Quit;
-    end;
+  // rel
+  if (pnRelatorio.Visible = True) then
+    pnRelatorio.Visible := False
+  else
+    pnRelatorio.Visible := True;
+end;
 
 procedure TfVendas.cbPrazoClick(Sender: TObject);
 begin
@@ -3856,6 +3871,28 @@ begin
   finally
     fEstado.Free;
   end;
+end;
+
+procedure TfVendas.btnEstoqueVendaClick(Sender: TObject);
+begin
+  inherited;
+  pnRelatorio.Visible := False;  
+  VCLReport1.FileName := str_relatorio + 'pedidoestoque.rep';
+  VCLReport1.Title    := VCLReport1.FileName;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('PVMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
+  VCLReport1.Execute;
+end;
+
+procedure TfVendas.btnEstoqueMatPrimaClick(Sender: TObject);
+begin
+  inherited;
+  pnRelatorio.Visible := False;
+  VCLReport1.FileName := str_relatorio + 'pedidomatprima.rep';
+  VCLReport1.Title    := VCLReport1.FileName;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('PVMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
+  VCLReport1.Execute;
 end;
 
 end.
