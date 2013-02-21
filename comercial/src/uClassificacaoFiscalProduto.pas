@@ -104,6 +104,68 @@ type
     cdsProdCopiaCSTCOFINS: TStringField;
     cdsProdCopiaPIS: TFloatField;
     cdsProdCopiaCOFINS: TFloatField;
+    Label18: TLabel;
+    Label19: TLabel;
+    edNCM: TEdit;
+    sdsNcm: TSQLDataSet;
+    dspNCM: TDataSetProvider;
+    cdsNcm: TClientDataSet;
+    sqlTestaSeExiste: TSQLQuery;
+    sqlTestaSeExisteCOUNT: TIntegerField;
+    cdsNcmCODPRODUTO: TIntegerField;
+    cdsNcmFAMILIA: TStringField;
+    cdsNcmCATEGORIA: TStringField;
+    cdsNcmMARCA: TStringField;
+    cdsNcmUNIDADEMEDIDA: TStringField;
+    cdsNcmDATAULTIMACOMPRA: TDateField;
+    cdsNcmESTOQUEMAXIMO: TFloatField;
+    cdsNcmESTOQUEATUAL: TFloatField;
+    cdsNcmESTOQUEREPOSICAO: TFloatField;
+    cdsNcmESTOQUEMINIMO: TFloatField;
+    cdsNcmVALORUNITARIOATUAL: TFloatField;
+    cdsNcmVALORUNITARIOANTERIOR: TFloatField;
+    cdsNcmICMS: TFloatField;
+    cdsNcmCODALMOXARIFADO: TIntegerField;
+    cdsNcmIPI: TFloatField;
+    cdsNcmCLASSIFIC_FISCAL: TStringField;
+    cdsNcmCST: TStringField;
+    cdsNcmBASE_ICMS: TFloatField;
+    cdsNcmPRODUTO: TStringField;
+    cdsNcmPRECOMEDIO: TBCDField;
+    cdsNcmCOD_COMISSAO: TIntegerField;
+    cdsNcmMARGEM_LUCRO: TFloatField;
+    cdsNcmCOD_BARRA: TStringField;
+    cdsNcmVALOR_PRAZO: TFloatField;
+    cdsNcmTIPO: TStringField;
+    cdsNcmCONTA_DESPESA: TStringField;
+    cdsNcmCONTA_RECEITA: TStringField;
+    cdsNcmCONTA_ESTOQUE: TStringField;
+    cdsNcmRATEIO: TStringField;
+    cdsNcmCODPRO: TStringField;
+    cdsNcmQTDE_PCT: TFloatField;
+    cdsNcmPESO_QTDE: TFloatField;
+    cdsNcmDATACADASTRO: TSQLTimeStampField;
+    cdsNcmMARGEM: TFloatField;
+    cdsNcmPRO_COD: TStringField;
+    cdsNcmDATAGRAV: TDateField;
+    cdsNcmCODFORN: TStringField;
+    cdsNcmFOTOPRODUTO: TStringField;
+    cdsNcmLOTES: TStringField;
+    cdsNcmUSA: TStringField;
+    cdsNcmLOCALIZACAO: TStringField;
+    cdsNcmTIPOPRECOVENDA: TStringField;
+    cdsNcmVALORMINIMO: TFloatField;
+    cdsNcmGERADESCONTO: TStringField;
+    cdsNcmIMPRIMIR: TStringField;
+    cdsNcmVALORCOMISSAO: TFloatField;
+    cdsNcmORIGEM: TIntegerField;
+    cdsNcmNCM: TStringField;
+    cdsNcmIMPRESSORA_1: TStringField;
+    cdsNcmIMPRESSORA_2: TStringField;
+    cdsNcmIMPRESSORA_3: TStringField;
+    cdsNcmQTD: TIntegerField;
+    cdsNcmTAM_LOTE: TIntegerField;
+    cdsNcmOBS: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -242,8 +304,8 @@ end;
 procedure TfClassificacaoFIscalProduto.btnExecutaCopiaClick(
   Sender: TObject);
 begin
-  inherited;
-  if (edProdCopiar.Text <> '') then
+  //inherited;
+  if ((edProdCopiar.Text <> '') and (edNCM.Text = '')) then
   begin
     if (cdsProdCopia.Active) then
       cdsProdCopia.Close;
@@ -258,28 +320,103 @@ begin
     begin
       if (cdsClassFisc.Active = False) then
         cdsClassFisc.Open;
-      cdsClassFisc.Append;
-      cdsClassFiscCOD_PROD.AsInteger     := cfcodprod;
-      cdsClassFiscCFOP.AsString          := cdsProdCopiaCFOP.AsString;
-      cdsClassFiscUF.AsString            := cdsProdCopiaUF.AsString;
-      cdsClassFiscCST.AsString           := cdsProdCopiaCST.AsString;
-      cdsClassFiscCSOSN.AsString         := cdsProdCopiaCSOSN.AsString;
-      cdsClassFiscCSTIPI.AsString        := cdsProdCopiaCSTIPI.AsString;
-      cdsClassFiscCSTPIS.AsString        := cdsProdCopiaCSTPIS.AsString;
-      cdsClassFiscCSTCOFINS.AsString     := cdsProdCopiaCSTCOFINS.AsString;
-      cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
-      cdsClassFiscICMS_SUBST_IC.AsFloat  := cdsProdCopiaICMS_SUBST_IC.AsFloat;
-      cdsClassFiscICMS_SUBST_IND.AsFloat := cdsProdCopiaICMS_SUBST_IND.AsFloat;
-      cdsClassFiscICMS.AsFloat           := cdsProdCopiaICMS.AsFloat;
-      cdsClassFiscICMS_BASE.AsFloat      := cdsProdCopiaICMS_BASE.AsFloat;
-      cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
-      cdsClassFiscIPI.AsFloat            := cdsProdCopiaIPI.AsFloat;
-      cdsClassFiscPIS.AsFloat            := cdsProdCopiaPIS.AsFloat;
-      cdsClassFiscCOFINS.AsFloat         := cdsProdCopiaCOFINS.AsFloat;
-      cdsClassFisc.ApplyUpdates(0);
+      if (sqlTestaSeExiste.Active) then
+        sqlTestaSeExiste.Close;
+      sqlTestaSeExiste.Params[0].AsInteger := cfcodprod;
+      sqlTestaSeExiste.Params[1].AsString  := cdsProdCopiaUF.AsString;
+      sqlTestaSeExiste.Params[2].AsString  := cdsProdCopiaCFOP.AsString;
+      sqlTestaSeExiste.Open;
+
+      if (sqlTestaSeExisteCOUNT.AsInteger = 0) then
+      begin
+        cdsClassFisc.Append;
+        cdsClassFiscCOD_PROD.AsInteger     := cfcodprod;
+        cdsClassFiscCFOP.AsString          := cdsProdCopiaCFOP.AsString;
+        cdsClassFiscUF.AsString            := cdsProdCopiaUF.AsString;
+        cdsClassFiscCST.AsString           := cdsProdCopiaCST.AsString;
+        cdsClassFiscCSOSN.AsString         := cdsProdCopiaCSOSN.AsString;
+        cdsClassFiscCSTIPI.AsString        := cdsProdCopiaCSTIPI.AsString;
+        cdsClassFiscCSTPIS.AsString        := cdsProdCopiaCSTPIS.AsString;
+        cdsClassFiscCSTCOFINS.AsString     := cdsProdCopiaCSTCOFINS.AsString;
+        cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
+        cdsClassFiscICMS_SUBST_IC.AsFloat  := cdsProdCopiaICMS_SUBST_IC.AsFloat;
+        cdsClassFiscICMS_SUBST_IND.AsFloat := cdsProdCopiaICMS_SUBST_IND.AsFloat;
+        cdsClassFiscICMS.AsFloat           := cdsProdCopiaICMS.AsFloat;
+        cdsClassFiscICMS_BASE.AsFloat      := cdsProdCopiaICMS_BASE.AsFloat;
+        cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
+        cdsClassFiscIPI.AsFloat            := cdsProdCopiaIPI.AsFloat;
+        cdsClassFiscPIS.AsFloat            := cdsProdCopiaPIS.AsFloat;
+        cdsClassFiscCOFINS.AsFloat         := cdsProdCopiaCOFINS.AsFloat;
+        cdsClassFisc.ApplyUpdates(0);
+
+      end;
       cdsProdCopia.Next;
     end;
   end;
+  if ((edProdCopiar.Text <> '') and (edNCM.Text <> '')) then
+  begin
+    if (cdsProdCopia.Active) then
+      cdsProdCopia.Close;
+    cdsProdCopia.Params[0].AsString := edProdCopiar.Text;
+    cdsProdCopia.Open;
+
+    if (cdsNcm.Active) then
+      cdsNcm.Close;
+    cdsNcm.Params[0].AsString := edNCM.Text;
+    cdsNcm.Open;
+    if (cdsNcm.IsEmpty) then
+    begin
+      MessageDlg('NCM informado não tem Tributação.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+
+    while not cdsNcm.Eof do
+    begin
+      while not cdsProdCopia.Eof do
+      begin
+        if (cdsClassFisc.Active = False) then
+          cdsClassFisc.Open;
+        if (sqlTestaSeExiste.Active) then
+          sqlTestaSeExiste.Close;
+        sqlTestaSeExiste.Params[0].AsInteger := cdsNcmCODPRODUTO.AsInteger;
+        sqlTestaSeExiste.Params[1].AsString  := cdsProdCopiaUF.AsString;
+        sqlTestaSeExiste.Params[2].AsString  := cdsProdCopiaCFOP.AsString;
+        sqlTestaSeExiste.Open;
+
+        if (sqlTestaSeExisteCOUNT.AsInteger = 0) then
+        begin
+          if (cdsClassFisc.Active = False) then
+            cdsClassFisc.Open;
+
+          cdsClassFisc.Append;
+          cdsClassFiscCOD_PROD.AsInteger     := cdsNcmCODPRODUTO.AsInteger;
+          cdsClassFiscCFOP.AsString          := cdsProdCopiaCFOP.AsString;
+          cdsClassFiscUF.AsString            := cdsProdCopiaUF.AsString;
+          cdsClassFiscCST.AsString           := cdsProdCopiaCST.AsString;
+          cdsClassFiscCSOSN.AsString         := cdsProdCopiaCSOSN.AsString;
+          cdsClassFiscCSTIPI.AsString        := cdsProdCopiaCSTIPI.AsString;
+          cdsClassFiscCSTPIS.AsString        := cdsProdCopiaCSTPIS.AsString;
+          cdsClassFiscCSTCOFINS.AsString     := cdsProdCopiaCSTCOFINS.AsString;
+          cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
+          cdsClassFiscICMS_SUBST_IC.AsFloat  := cdsProdCopiaICMS_SUBST_IC.AsFloat;
+          cdsClassFiscICMS_SUBST_IND.AsFloat := cdsProdCopiaICMS_SUBST_IND.AsFloat;
+          cdsClassFiscICMS.AsFloat           := cdsProdCopiaICMS.AsFloat;
+          cdsClassFiscICMS_BASE.AsFloat      := cdsProdCopiaICMS_BASE.AsFloat;
+          cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
+          cdsClassFiscIPI.AsFloat            := cdsProdCopiaIPI.AsFloat;
+          cdsClassFiscPIS.AsFloat            := cdsProdCopiaPIS.AsFloat;
+          cdsClassFiscCOFINS.AsFloat         := cdsProdCopiaCOFINS.AsFloat;
+          cdsClassFisc.ApplyUpdates(0);
+        end;
+        cdsProdCopia.Next;
+      end;
+      cdsProdCopia.First;
+      cdsNcm.Next;
+    end;
+
+  end;
+  gbProduto.Visible := False;
+  MessageDlg('Finalizado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 end.
