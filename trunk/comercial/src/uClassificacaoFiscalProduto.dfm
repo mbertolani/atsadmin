@@ -586,25 +586,56 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     Left = 248
     Top = 146
     Width = 161
-    Height = 137
+    Height = 143
     Caption = 'Produto'
     TabOrder = 20
     Visible = False
+    object Label18: TLabel
+      Left = 24
+      Top = 24
+      Width = 37
+      Height = 13
+      Caption = 'Produto'
+    end
+    object Label19: TLabel
+      Left = 24
+      Top = 64
+      Width = 24
+      Height = 13
+      Caption = 'NCM'
+    end
     object edProdCopiar: TEdit
       Left = 24
       Top = 40
       Width = 121
       Height = 21
+      Hint = 
+        'Faz a c'#243'pia deste produto para o produto selecionado na tela ant' +
+        'erior.'
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
     end
     object btnExecutaCopia: TBitBtn
       Left = 40
-      Top = 80
+      Top = 112
       Width = 75
       Height = 25
       Caption = 'Copia'
-      TabOrder = 1
+      TabOrder = 2
       OnClick = btnExecutaCopiaClick
+    end
+    object edNCM: TEdit
+      Left = 24
+      Top = 82
+      Width = 121
+      Height = 21
+      Hint = 
+        'Faz a c'#243'pia do produto acima para TODOS os produtos  que possuem' +
+        ' este NCM.'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
     end
   end
   inherited DtSrc: TDataSource
@@ -789,6 +820,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   end
   object dspProdCopia: TDataSetProvider
     DataSet = sdsProdCopia
+    Options = [poAllowCommandText]
     Left = 624
     Top = 120
   end
@@ -862,6 +894,267 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     end
     object cdsProdCopiaCOFINS: TFloatField
       FieldName = 'COFINS'
+    end
+  end
+  object sdsNcm: TSQLDataSet
+    CommandText = 'select * from PRODUTOS'#13#10'where NCM = :ncm'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'ncm'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 464
+    Top = 128
+  end
+  object dspNCM: TDataSetProvider
+    DataSet = sdsNcm
+    Left = 496
+    Top = 128
+  end
+  object cdsNcm: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'ncm'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspNCM'
+    Left = 528
+    Top = 128
+    object cdsNcmCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object cdsNcmFAMILIA: TStringField
+      FieldName = 'FAMILIA'
+      Size = 30
+    end
+    object cdsNcmCATEGORIA: TStringField
+      FieldName = 'CATEGORIA'
+      Size = 30
+    end
+    object cdsNcmMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 30
+    end
+    object cdsNcmUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNcmDATAULTIMACOMPRA: TDateField
+      FieldName = 'DATAULTIMACOMPRA'
+    end
+    object cdsNcmESTOQUEMAXIMO: TFloatField
+      FieldName = 'ESTOQUEMAXIMO'
+    end
+    object cdsNcmESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+    end
+    object cdsNcmESTOQUEREPOSICAO: TFloatField
+      FieldName = 'ESTOQUEREPOSICAO'
+    end
+    object cdsNcmESTOQUEMINIMO: TFloatField
+      FieldName = 'ESTOQUEMINIMO'
+    end
+    object cdsNcmVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+    end
+    object cdsNcmVALORUNITARIOANTERIOR: TFloatField
+      FieldName = 'VALORUNITARIOANTERIOR'
+    end
+    object cdsNcmICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object cdsNcmCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object cdsNcmIPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object cdsNcmCLASSIFIC_FISCAL: TStringField
+      FieldName = 'CLASSIFIC_FISCAL'
+      Size = 30
+    end
+    object cdsNcmCST: TStringField
+      FieldName = 'CST'
+      Size = 30
+    end
+    object cdsNcmBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object cdsNcmPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object cdsNcmPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      Precision = 9
+      Size = 2
+    end
+    object cdsNcmCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+    end
+    object cdsNcmMARGEM_LUCRO: TFloatField
+      FieldName = 'MARGEM_LUCRO'
+    end
+    object cdsNcmCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+    end
+    object cdsNcmVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+    end
+    object cdsNcmTIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 10
+    end
+    object cdsNcmCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object cdsNcmCONTA_RECEITA: TStringField
+      FieldName = 'CONTA_RECEITA'
+      Size = 15
+    end
+    object cdsNcmCONTA_ESTOQUE: TStringField
+      FieldName = 'CONTA_ESTOQUE'
+      Size = 15
+    end
+    object cdsNcmRATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNcmCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object cdsNcmQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+    end
+    object cdsNcmPESO_QTDE: TFloatField
+      FieldName = 'PESO_QTDE'
+    end
+    object cdsNcmDATACADASTRO: TSQLTimeStampField
+      FieldName = 'DATACADASTRO'
+    end
+    object cdsNcmMARGEM: TFloatField
+      FieldName = 'MARGEM'
+    end
+    object cdsNcmPRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      Size = 15
+    end
+    object cdsNcmDATAGRAV: TDateField
+      FieldName = 'DATAGRAV'
+    end
+    object cdsNcmCODFORN: TStringField
+      FieldName = 'CODFORN'
+      Size = 60
+    end
+    object cdsNcmFOTOPRODUTO: TStringField
+      FieldName = 'FOTOPRODUTO'
+      Size = 80
+    end
+    object cdsNcmLOTES: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNcmUSA: TStringField
+      FieldName = 'USA'
+      Size = 3
+    end
+    object cdsNcmLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
+    end
+    object cdsNcmTIPOPRECOVENDA: TStringField
+      FieldName = 'TIPOPRECOVENDA'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNcmVALORMINIMO: TFloatField
+      FieldName = 'VALORMINIMO'
+    end
+    object cdsNcmGERADESCONTO: TStringField
+      FieldName = 'GERADESCONTO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNcmIMPRIMIR: TStringField
+      FieldName = 'IMPRIMIR'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNcmVALORCOMISSAO: TFloatField
+      FieldName = 'VALORCOMISSAO'
+    end
+    object cdsNcmORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+    end
+    object cdsNcmNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object cdsNcmIMPRESSORA_1: TStringField
+      FieldName = 'IMPRESSORA_1'
+      Size = 10
+    end
+    object cdsNcmIMPRESSORA_2: TStringField
+      FieldName = 'IMPRESSORA_2'
+      Size = 10
+    end
+    object cdsNcmIMPRESSORA_3: TStringField
+      FieldName = 'IMPRESSORA_3'
+      Size = 10
+    end
+    object cdsNcmQTD: TIntegerField
+      FieldName = 'QTD'
+    end
+    object cdsNcmTAM_LOTE: TIntegerField
+      FieldName = 'TAM_LOTE'
+    end
+    object cdsNcmOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
+    end
+  end
+  object sqlTestaSeExiste: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PROD'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'UF'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'CFOP'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      'SELECT COUNT(COD_PROD) FROM CLASSIFICACAOFISCALPRODUTO '
+      'WHERE COD_PROD = :PROD'
+      '     AND UF = :UF'
+      '     AND CFOP = :CFOP')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 736
+    Top = 120
+    object sqlTestaSeExisteCOUNT: TIntegerField
+      FieldName = 'COUNT'
+      ReadOnly = True
+      Required = True
     end
   end
 end
