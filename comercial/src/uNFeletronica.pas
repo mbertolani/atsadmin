@@ -2194,7 +2194,8 @@ begin
 
           if (Trim(cdsItensNFCST.AsString) = '') then
           begin
-            MessageDlg('CST do ICMS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
+            if ((Trim(cdsItensNFCSOSN.AsString) = '') or (Trim(cdsItensNFCSOSN.AsString) = '0')) then
+              MessageDlg('CST do ICMS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
             Exit;
           end
           else
@@ -2241,19 +2242,42 @@ begin
 
           if (not sdsCfopProd.IsEmpty) then
           begin
-            pMVAST := sdsCfopProdICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
-            pRedBCST := sdsCfopProdICMS_SUBST_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-            pICMSST :=  sdsCfopProdICMS_SUBST_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            if (sdsCfopProdICMS_SUBST.IsNull) then
+              pMVAST := 0
+            else
+              pMVAST := sdsCfopProdICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            if (sdsCfopProdICMS_SUBST_IC.IsNull) then
+              pRedBCST := 0
+            else
+              pRedBCST := sdsCfopProdICMS_SUBST_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            if (sdsCfopProdICMS_SUBST_IND.IsNull) then
+              pICMSST := 0
+            else
+              pICMSST :=  sdsCfopProdICMS_SUBST_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
           end
           else begin
-            pMVAST :=   sCFOPICMS_SUBSTRIB.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
-            pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-            pICMSST :=  sCFOPICMS_SUBSTRIB_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            if (sCFOPICMS_SUBSTRIB.IsNull) then
+              pMVAST := 0
+            else
+              pMVAST :=   sCFOPICMS_SUBSTRIB.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            if (sCFOPICMS_SUBSTRIB_IC.IsNull) then
+              pRedBCST := 0
+            else
+              pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            if (sCFOPICMS_SUBSTRIB_IND.IsNull) then
+              pICMSST := 0
+            else
+              pICMSST :=  sCFOPICMS_SUBSTRIB_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
           end;
 
-
-          pRedBC :=   sCFOPREDUCAO.AsVariant;                          //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-          vICMSST :=  cdsItensNFICMS_SUBST.AsVariant;                  //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
+          if (sCFOPREDUCAO.IsNull) then
+            pRedBC := 0
+          else
+            pRedBC :=   sCFOPREDUCAO.AsVariant;                          //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+          if (cdsItensNFICMS_SUBST.isnull) then
+            vICMSST := 0
+          else
+            vICMSST :=  cdsItensNFICMS_SUBST.AsVariant;                  //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
         end;
 
         //CST PIS E COFINS
@@ -2295,7 +2319,8 @@ begin
         begin
           if (Trim(cdsItensNFCSTPIS.AsString) = '') then
           begin
-            MessageDlg('CST do PIS em branco  no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
+            if ((Trim(cdsItensNFCSOSN.AsString) = '') or (Trim(cdsItensNFCSOSN.AsString) = '0')) then
+              MessageDlg('CST do PIS em branco  no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
             Exit;
           end
           else
@@ -2334,7 +2359,8 @@ begin
         begin
           if (Trim(cdsItensNFCSTCOFINS.AsString) = '') then
           begin
-            MessageDlg('CST do COFINS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
+            if ((Trim(cdsItensNFCSOSN.AsString) = '') or (Trim(cdsItensNFCSOSN.AsString) = '0')) then
+              MessageDlg('CST do COFINS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
             Exit;
           end
           else

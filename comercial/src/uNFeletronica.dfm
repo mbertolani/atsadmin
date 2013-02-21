@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
   Left = 261
   Top = 30
-  Width = 883
-  Height = 591
+  Width = 875
+  Height = 580
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
