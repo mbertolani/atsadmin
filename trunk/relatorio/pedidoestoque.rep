@@ -274,8 +274,8 @@ object TRpReport
     PosX = 1995
     PosY = 150
     Type1Font = poHelvetica
+    CutText = True
     Alignment = 1
-    WordWrap = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
