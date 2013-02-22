@@ -87,8 +87,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Descri'#231#227'o Adicional'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 517
-    Width = 788
+    Top = 528
+    Width = 796
     TabOrder = 13
     inherited btnGravar: TBitBtn
       Left = 278
@@ -115,9 +115,30 @@ inherited fProdutoCadastro: TfProdutoCadastro
       Left = 508
       Width = 112
     end
+    object DBEdit27: TDBEdit
+      Left = 15
+      Top = 6
+      Width = 90
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Color = clInactiveBorder
+      DataField = 'CODPRODUTO'
+      DataSource = DtSrc
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 6
+      OnKeyPress = FormKeyPress
+    end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 788
+    Width = 796
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
