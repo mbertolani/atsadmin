@@ -580,6 +580,7 @@ object TRpReport
     PosX = 2145
     PosY = 150
     Type1Font = poHelvetica
+    CutText = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
