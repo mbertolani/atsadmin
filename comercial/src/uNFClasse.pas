@@ -1,4 +1,8 @@
 unit uNFClasse;
+{ STATUS = P -- Provisorio;
+           E -- Enviado;
+           C -- Cancelado;
+}             
 
 interface
 
@@ -950,7 +954,9 @@ begin
     with dm.QryGetObject do begin
       Close;
       SQL.Clear;
-      SQL.Text := 'DELETE FROM NOTAFISCAL WHERE NUMNF =:CODIGO';
+      SQL.Text := 'DELETE FROM NOTAFISCAL WHERE NUMNF =:CODIGO' +
+        ' AND STATUS = ' + QuotedStr('P'); // Provisorio
+
       ParamByName('CODIGO').AsInteger := Self._NUMNF;
       ExecSQL;
     end;
