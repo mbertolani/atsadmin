@@ -111,6 +111,7 @@ type
     Memo1: TMemo;
     GroupBox6: TGroupBox;
     DBEdit26: TDBEdit;
+    DBEdit27: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
