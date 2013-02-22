@@ -709,6 +709,7 @@ type
     procedure btnImprimirCCeClick(Sender: TObject);
 
   private
+    numnf : WideString;
     TD: TTransactionDesc;
     procedure getCli_Fornec();
     procedure getEmpresa();
@@ -724,7 +725,6 @@ type
 var
   fNFeletronica: TfNFeletronica;
   conta_local: string;
-  numnf : WideString;
   tp_amb : integer;
 
 implementation
