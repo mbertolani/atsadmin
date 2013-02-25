@@ -1176,6 +1176,8 @@ begin
          //  sdsUnimed.Params[0].AsInteger := codMovMinV;
          //if (codMovMax > codMovMaxV) then
          sdsUnimed.Params[1].AsInteger := codMovMax;
+         sdsUnimed.Params[2].AsDate    := data_ini.Date;
+         sdsUnimed.Params[3].AsDate    := data_fim.Date;
          //else
          //  sdsUnimed.Params[1].AsInteger := codMovMaxV;
          sdsUnimed.Open;
@@ -1202,6 +1204,8 @@ begin
          // cdsProduto.Params[0].AsInteger := codMovMinV;
          //if (codMovMax > codMovMaxV) then
          cdsProduto.Params[1].AsInteger := codMovMax;
+         cdsProduto.Params[2].AsDate    := data_ini.Date;
+         cdsProduto.Params[3].AsDate    := data_fim.Date;
          //else
          //  cdsProduto.Params[1].AsInteger := codMovMaxV;
          cdsProduto.Open;
@@ -1966,10 +1970,10 @@ begin
 
     with RegistroE110New do
     begin
-      VL_ICMS_RECOLHER := 0;
-      VL_TOT_DEBITOS   := 0;
-      VL_TOT_CREDITOS  := 0;
-      VL_SLD_APURADO   := 0;
+      VL_ICMS_RECOLHER := sqlTotalSaidaVLR_ICMS.AsFloat-sqlTotalEntradaVLR_ICMS.AsFloat;
+      VL_TOT_DEBITOS   := sqlTotalSaidaVLR_ICMS.AsFloat;
+      VL_TOT_CREDITOS  := sqlTotalEntradaVLR_ICMS.AsFloat;
+      VL_SLD_APURADO   := sqlTotalSaidaVLR_ICMS.AsFloat;
       VL_AJ_DEBITOS    := 0;
       VL_ESTORNOS_CRED := 0;
       VL_TOT_AJ_DEBITOS:= 0;
@@ -1977,8 +1981,8 @@ begin
       VL_AJ_CREDITOS   := 0;
       VL_ESTORNOS_DEB  := 0;
       VL_SLD_CREDOR_ANT:= 0;
-      VL_TOT_DED       := 0;
-    end;  
+      VL_TOT_DED       := sqlTotalEntradaVLR_ICMS.AsFloat;
+    end;
   end;
 
 end;
