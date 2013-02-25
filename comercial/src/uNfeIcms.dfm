@@ -12,9 +12,10 @@ object fNfeIcms: TfNfeIcms
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnShow = FormShow
   DesignSize = (
-    920
-    567)
+    912
+    556)
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
@@ -69,7 +70,7 @@ object fNfeIcms: TfNfeIcms
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 920
+    Width = 912
     Height = 113
     Align = alTop
     BevelOuter = bvNone
@@ -77,7 +78,7 @@ object fNfeIcms: TfNfeIcms
     Color = 16776176
     TabOrder = 1
     DesignSize = (
-      916
+      908
       109)
     object Label1: TLabel
       Left = 22
@@ -92,7 +93,7 @@ object fNfeIcms: TfNfeIcms
     object Label5: TLabel
       Left = 0
       Top = 0
-      Width = 916
+      Width = 908
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -3915,14 +3916,14 @@ object fNfeIcms: TfNfeIcms
   end
   object sdsC190: TSQLDataSet
     CommandText = 
-      'SELECT SUM(r.VALOR_ICMS) VLR_ICMS, SUM(r.FRETE + r.VALOR_SEGURO ' +
-      '+ r.VIPI + r.VALOR_OUTROS +  '#13#10'r.ICMS_SUBST + (r.QUANTIDADE * r.' +
-      'VLR_BASE))  VLR_OPERACAO,  '#13#10'r.ICMS,  r.CST,  '#13#10'SUM(r.ICMS_SUBST' +
-      ') ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, SUM(r.VLR_BASEIC' +
-      'MS) VLR_BASE_ICMS, '#13#10'SUM(r.VIPI) VLR_IPI, r.CFOP'#13#10'    FROM COMPR' +
-      'A C,  MOVIMENTODETALHE r'#13#10'   WHERE C.CODMOVIMENTO = r.CODMOVIMEN' +
-      'TO'#13#10'     AND C.CODMOVIMENTO =  :CODINI'#13#10'   GROUP BY r.CFOP, r.IC' +
-      'MS, r.CST'
+      'SELECT SUM(r.VALOR_ICMS) VLR_ICMS, SUM((r.QUANTIDADE * r.VLR_BAS' +
+      'E))  VLR_OPERACAO,  '#13#10'r.ICMS,  r.CST,  '#13#10'SUM(r.ICMS_SUBST) ICMS_' +
+      'ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, SUM(r.VLR_BASEICMS) VLR' +
+      '_BASE_ICMS, '#13#10'SUM(r.VIPI) VLR_IPI, r.CFOP'#13#10'    FROM COMPRA C,  M' +
+      'OVIMENTO MOV, MOVIMENTODETALHE r'#13#10'   WHERE C.CODMOVIMENTO = MOV.' +
+      'CODMOVIMENTO'#13#10'         AND C.CODMOVIMENTO = r.CODMOVIMENTO'#13#10'    ' +
+      '     AND MOV.CODNATUREZA = 4'#13#10'         AND C.CODMOVIMENTO =  :CO' +
+      'DINI '#13#10'   GROUP BY r.CFOP, r.ICMS, r.CST'
     MaxBlobSize = -1
     Params = <
       item
@@ -4006,8 +4007,8 @@ object fNfeIcms: TfNfeIcms
       'SCAL NF, VENDA v, MOVIMENTO m, MOVIMENTODETALHE r'#13#10'   WHERE NF.C' +
       'ODVENDA = v.CODVENDA'#13#10'     AND M.CODMOVIMENTO = v.CODMOVIMENTO '#13 +
       #10'     AND m.CODMOVIMENTO = r.CODMOVIMENTO'#13#10'     AND m.CODNATUREZ' +
-      'A in (12, 15)'#13#10'     AND M.CODMOVIMENTO =  :CODINI'#13#10'   GROUP BY r' +
-      '.CFOP, r.ICMS, r.CST'
+      'A in (12, 15)'#13#10'     AND M.CODMOVIMENTO =  :CODINI '#13#10'   GROUP BY ' +
+      'r.CFOP, r.ICMS, r.CST'
     MaxBlobSize = -1
     Params = <
       item
@@ -4186,6 +4187,413 @@ object fNfeIcms: TfNfeIcms
     object sqlTotalSaidaVLR_IPI: TFloatField
       FieldName = 'VLR_IPI'
       ReadOnly = True
+    end
+  end
+  object sqlEnergia: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'FORNENERGIA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      
+        'SELECT C.DATACOMPRA, C.NOTAFISCAL, C.VALOR_ICMS, C.VALOR_FRETE, ' +
+        'C.VALOR_SEGURO, C.VALOR_IPI'
+      
+        ', f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCESTADUAL, f.TIPO' +
+        'FIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_IBGE, ef.CEP'
+      ',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, ef.PAIS'
+      
+        ', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BASE_ST, c.CODMOVIMENTO, c' +
+        '.CHAVENF'
+      
+        '    FROM COMPRA C, MOVIMENTO MOV, FORNECEDOR f, ENDERECOFORNECED' +
+        'OR ef'
+      '   WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO '
+      '     AND  f.CODFORNECEDOR = c.CODFORNECEDOR'
+      '     AND ef.CODFORNECEDOR = f.CODFORNECEDOR'
+      '     AND ef.TIPOEND = 0  '
+      '     AND MOV.CODNATUREZA = 4'
+      '     AND MOV.CODFORNECEDOR = :FORNENERGIA    '
+      '     AND C.CODMOVIMENTO BETWEEN  :CODINI AND :CODFIM'
+      '     AND C.DATACOMPRA      BETWEEN :DTA_INI AND :DTA_FIM'
+      '  ORDER BY F.CODFORNECEDOR')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 760
+    Top = 272
+    object sqlEnergiaDATACOMPRA: TDateField
+      FieldName = 'DATACOMPRA'
+      Required = True
+    end
+    object sqlEnergiaNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object sqlEnergiaVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object sqlEnergiaVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object sqlEnergiaVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object sqlEnergiaVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object sqlEnergiaCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object sqlEnergiaRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object sqlEnergiaCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object sqlEnergiaINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object sqlEnergiaTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object sqlEnergiaLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object sqlEnergiaBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object sqlEnergiaCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object sqlEnergiaCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object sqlEnergiaCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object sqlEnergiaCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object sqlEnergiaDDD: TSmallintField
+      FieldName = 'DDD'
+    end
+    object sqlEnergiaTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 9
+    end
+    object sqlEnergiaNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object sqlEnergiaPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+    object sqlEnergiaSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object sqlEnergiaVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object sqlEnergiaICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+    end
+    object sqlEnergiaICMS_BASE_ST: TFloatField
+      FieldName = 'ICMS_BASE_ST'
+    end
+    object sqlEnergiaCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      Required = True
+    end
+    object sqlEnergiaCHAVENF: TStringField
+      FieldName = 'CHAVENF'
+      Size = 44
+    end
+  end
+  object sdsEnergiaDet: TSQLDataSet
+    CommandText = 
+      'SELECT C.DATACOMPRA, C.NOTAFISCAL, C.VALOR_ICMS, C.VALOR_FRETE, ' +
+      'C.VALOR_SEGURO, C.VALOR_IPI, r.CODPRODUTO, r.QUANTIDADE, r.PRECO' +
+      ', r.ICMS, r.UN, r.QTDE_ALT, r.DESCPRODUTO, '#13#10' r.CST, r.VALOR_ICM' +
+      'S, r.VLR_BASE,  r.ICMS_SUBST, r.ICMS_SUBSTD, r.VLR_BASEICMS, r.P' +
+      'IPI, r.VIPI, r.CFOP, r.FRETE, r.BCFRETE, r.STFRETE, r.BCSTFRETE,' +
+      ' r.ICMSFRETE, r.CSOSN, r.VALOR_SEGURO, '#13#10'r.VALOR_OUTROS,  r.VALO' +
+      'R_PIS, r.VALOR_COFINS, r.II, r.BCII, r.CSTIPI, r.CSTPIS, r.CSTCO' +
+      'FINS, r.PPIS, r.PCOFINS'#13#10', f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNP' +
+      'J, f.INSCESTADUAL, f.TIPOFIRMA'#13#10', C.SERIE, C.VALOR, C.ICMS_ST, C' +
+      '.ICMS_BASE_ST, r.coddetalhe'#13#10'    FROM COMPRA C,  MOVIMENTO mov, ' +
+      'MOVIMENTODETALHE r, FORNECEDOR f'#13#10'   WHERE C.CODMOVIMENTO = r.CO' +
+      'DMOVIMENTO'#13#10'     AND C.CODMOVIMENTO = mov.CODMOVIMENTO'#13#10'     AND' +
+      ' f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND MOV.CODNATUREZA = 4' +
+      '    '#13#10'     AND C.CODMOVIMENTO BETWEEN  :CODINI AND :CODFIM'#13#10'    ' +
+      ' AND C.DATACOMPRA      BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     AND C' +
+      '.CODFORNECEDOR = :codFornec'#13#10'  ORDER BY C.DATACOMPRA'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'codFornec'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 800
+    Top = 272
+  end
+  object dspEnergiaDet: TDataSetProvider
+    DataSet = sdsEnergiaDet
+    Left = 800
+    Top = 304
+  end
+  object cdsEnergiaDet: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'codFornec'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspEnergiaDet'
+    Left = 800
+    Top = 336
+    object cdsEnergiaDetDATACOMPRA: TDateField
+      FieldName = 'DATACOMPRA'
+      Required = True
+    end
+    object cdsEnergiaDetNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object cdsEnergiaDetVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object cdsEnergiaDetVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
+    object cdsEnergiaDetVALOR_SEGURO: TFloatField
+      FieldName = 'VALOR_SEGURO'
+    end
+    object cdsEnergiaDetVALOR_IPI: TFloatField
+      FieldName = 'VALOR_IPI'
+    end
+    object cdsEnergiaDetCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object cdsEnergiaDetQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+    end
+    object cdsEnergiaDetPRECO: TFloatField
+      FieldName = 'PRECO'
+    end
+    object cdsEnergiaDetICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object cdsEnergiaDetUN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsEnergiaDetQTDE_ALT: TFloatField
+      FieldName = 'QTDE_ALT'
+    end
+    object cdsEnergiaDetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      Size = 300
+    end
+    object cdsEnergiaDetCST: TStringField
+      FieldName = 'CST'
+      Size = 5
+    end
+    object cdsEnergiaDetVALOR_ICMS_1: TFloatField
+      FieldName = 'VALOR_ICMS_1'
+    end
+    object cdsEnergiaDetVLR_BASE: TFloatField
+      FieldName = 'VLR_BASE'
+    end
+    object cdsEnergiaDetICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object cdsEnergiaDetICMS_SUBSTD: TFloatField
+      FieldName = 'ICMS_SUBSTD'
+    end
+    object cdsEnergiaDetVLR_BASEICMS: TFloatField
+      FieldName = 'VLR_BASEICMS'
+    end
+    object cdsEnergiaDetPIPI: TFloatField
+      FieldName = 'PIPI'
+    end
+    object cdsEnergiaDetVIPI: TFloatField
+      FieldName = 'VIPI'
+    end
+    object cdsEnergiaDetCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object cdsEnergiaDetFRETE: TFloatField
+      FieldName = 'FRETE'
+    end
+    object cdsEnergiaDetBCFRETE: TFloatField
+      FieldName = 'BCFRETE'
+    end
+    object cdsEnergiaDetSTFRETE: TStringField
+      FieldName = 'STFRETE'
+      FixedChar = True
+      Size = 4
+    end
+    object cdsEnergiaDetBCSTFRETE: TFloatField
+      FieldName = 'BCSTFRETE'
+    end
+    object cdsEnergiaDetICMSFRETE: TFloatField
+      FieldName = 'ICMSFRETE'
+    end
+    object cdsEnergiaDetCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object cdsEnergiaDetVALOR_SEGURO_1: TFloatField
+      FieldName = 'VALOR_SEGURO_1'
+    end
+    object cdsEnergiaDetVALOR_OUTROS: TFloatField
+      FieldName = 'VALOR_OUTROS'
+    end
+    object cdsEnergiaDetVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object cdsEnergiaDetVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object cdsEnergiaDetII: TFloatField
+      FieldName = 'II'
+    end
+    object cdsEnergiaDetBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object cdsEnergiaDetCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object cdsEnergiaDetCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object cdsEnergiaDetCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object cdsEnergiaDetPPIS: TFloatField
+      FieldName = 'PPIS'
+    end
+    object cdsEnergiaDetPCOFINS: TFloatField
+      FieldName = 'PCOFINS'
+    end
+    object cdsEnergiaDetCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      Required = True
+    end
+    object cdsEnergiaDetRAZAOSOCIAL: TStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 50
+    end
+    object cdsEnergiaDetCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object cdsEnergiaDetINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object cdsEnergiaDetTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object cdsEnergiaDetSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object cdsEnergiaDetVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object cdsEnergiaDetICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+    end
+    object cdsEnergiaDetICMS_BASE_ST: TFloatField
+      FieldName = 'ICMS_BASE_ST'
+    end
+    object cdsEnergiaDetCODDETALHE: TIntegerField
+      FieldName = 'CODDETALHE'
+      Required = True
     end
   end
 end

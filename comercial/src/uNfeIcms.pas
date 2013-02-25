@@ -920,6 +920,86 @@ type
     sqlTotalEntradaVLR_BASE_ICMS_ST: TFloatField;
     sqlTotalEntradaVLR_BASE_ICMS: TFloatField;
     sqlTotalEntradaVLR_IPI: TFloatField;
+    sqlEnergia: TSQLQuery;
+    sqlEnergiaDATACOMPRA: TDateField;
+    sqlEnergiaNOTAFISCAL: TIntegerField;
+    sqlEnergiaVALOR_ICMS: TFloatField;
+    sqlEnergiaVALOR_FRETE: TFloatField;
+    sqlEnergiaVALOR_SEGURO: TFloatField;
+    sqlEnergiaVALOR_IPI: TFloatField;
+    sqlEnergiaCODFORNECEDOR: TIntegerField;
+    sqlEnergiaRAZAOSOCIAL: TStringField;
+    sqlEnergiaCNPJ: TStringField;
+    sqlEnergiaINSCESTADUAL: TStringField;
+    sqlEnergiaTIPOFIRMA: TSmallintField;
+    sqlEnergiaLOGRADOURO: TStringField;
+    sqlEnergiaBAIRRO: TStringField;
+    sqlEnergiaCIDADE: TStringField;
+    sqlEnergiaCD_IBGE: TStringField;
+    sqlEnergiaCEP: TStringField;
+    sqlEnergiaCOMPLEMENTO: TStringField;
+    sqlEnergiaDDD: TSmallintField;
+    sqlEnergiaTELEFONE: TStringField;
+    sqlEnergiaNUMERO: TStringField;
+    sqlEnergiaPAIS: TStringField;
+    sqlEnergiaSERIE: TStringField;
+    sqlEnergiaVALOR: TFloatField;
+    sqlEnergiaICMS_ST: TFloatField;
+    sqlEnergiaICMS_BASE_ST: TFloatField;
+    sqlEnergiaCODMOVIMENTO: TIntegerField;
+    sqlEnergiaCHAVENF: TStringField;
+    sdsEnergiaDet: TSQLDataSet;
+    dspEnergiaDet: TDataSetProvider;
+    cdsEnergiaDet: TClientDataSet;
+    cdsEnergiaDetDATACOMPRA: TDateField;
+    cdsEnergiaDetNOTAFISCAL: TIntegerField;
+    cdsEnergiaDetVALOR_ICMS: TFloatField;
+    cdsEnergiaDetVALOR_FRETE: TFloatField;
+    cdsEnergiaDetVALOR_SEGURO: TFloatField;
+    cdsEnergiaDetVALOR_IPI: TFloatField;
+    cdsEnergiaDetCODPRODUTO: TIntegerField;
+    cdsEnergiaDetQUANTIDADE: TFloatField;
+    cdsEnergiaDetPRECO: TFloatField;
+    cdsEnergiaDetICMS: TFloatField;
+    cdsEnergiaDetUN: TStringField;
+    cdsEnergiaDetQTDE_ALT: TFloatField;
+    cdsEnergiaDetDESCPRODUTO: TStringField;
+    cdsEnergiaDetCST: TStringField;
+    cdsEnergiaDetVALOR_ICMS_1: TFloatField;
+    cdsEnergiaDetVLR_BASE: TFloatField;
+    cdsEnergiaDetICMS_SUBST: TFloatField;
+    cdsEnergiaDetICMS_SUBSTD: TFloatField;
+    cdsEnergiaDetVLR_BASEICMS: TFloatField;
+    cdsEnergiaDetPIPI: TFloatField;
+    cdsEnergiaDetVIPI: TFloatField;
+    cdsEnergiaDetCFOP: TStringField;
+    cdsEnergiaDetFRETE: TFloatField;
+    cdsEnergiaDetBCFRETE: TFloatField;
+    cdsEnergiaDetSTFRETE: TStringField;
+    cdsEnergiaDetBCSTFRETE: TFloatField;
+    cdsEnergiaDetICMSFRETE: TFloatField;
+    cdsEnergiaDetCSOSN: TStringField;
+    cdsEnergiaDetVALOR_SEGURO_1: TFloatField;
+    cdsEnergiaDetVALOR_OUTROS: TFloatField;
+    cdsEnergiaDetVALOR_PIS: TFloatField;
+    cdsEnergiaDetVALOR_COFINS: TFloatField;
+    cdsEnergiaDetII: TFloatField;
+    cdsEnergiaDetBCII: TFloatField;
+    cdsEnergiaDetCSTIPI: TStringField;
+    cdsEnergiaDetCSTPIS: TStringField;
+    cdsEnergiaDetCSTCOFINS: TStringField;
+    cdsEnergiaDetPPIS: TFloatField;
+    cdsEnergiaDetPCOFINS: TFloatField;
+    cdsEnergiaDetCODFORNECEDOR: TIntegerField;
+    cdsEnergiaDetRAZAOSOCIAL: TStringField;
+    cdsEnergiaDetCNPJ: TStringField;
+    cdsEnergiaDetINSCESTADUAL: TStringField;
+    cdsEnergiaDetTIPOFIRMA: TSmallintField;
+    cdsEnergiaDetSERIE: TStringField;
+    cdsEnergiaDetVALOR: TFloatField;
+    cdsEnergiaDetICMS_ST: TFloatField;
+    cdsEnergiaDetICMS_BASE_ST: TFloatField;
+    cdsEnergiaDetCODDETALHE: TIntegerField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -930,7 +1010,10 @@ type
     procedure cbTipoChange(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
+    codFornEnergia: Integer;
+    tipoLigacao: String;
     util : Tutils;
     tipo: String;
     temCompra, temVenda: String;
@@ -960,7 +1043,7 @@ var
 implementation
 
 uses UDm, ACBrEPCBloco_0, ACBrEPCBloco_0_Class, Math, ACBrEFDBloco_E_Class,
-  ACBrEFDBloco_E, ACBrEFDBloco_1;
+  ACBrEFDBloco_E, ACBrEFDBloco_1, ACBrEFDBloco_C;
 
 {$R *.dfm}
 
@@ -1443,30 +1526,35 @@ begin
                 Application.ProcessMessages;
               end;
             end;}
-
-          // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
-          if (cdsC190.Active) then
-            cdsC190.Close;
-          cdsC190.Params[0].asInteger := cdsCompraCODMOVIMENTO.AsInteger;
-          cdsC190.Open;
-          while not cdsC190.eof do
-          begin
-            with RegistroC190New do
+            // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
+            if (cdsC190.Active) then
+              cdsC190.Close;
+            cdsC190.Params[0].AsInteger := cdsCompraCODMOVIMENTO.AsInteger;
+            //cdsC190.Params[1].AsInteger := codMovMax;
+            //cdsC190.Params[2].AsDate    := data_ini.Date;
+            //cdsC190.Params[3].AsDate    := data_fim.Date;
+            cdsC190.Open;
+            while not cdsC190.eof do
             begin
-              CST_ICMS      := cdsC190CST.AsString;
-              CFOP          := cdsC190CFOP.AsString;
-              ALIQ_ICMS     := cdsC190ICMS.AsFloat;
-              VL_OPR        := cdsC190VLR_OPERACAO.AsFloat;
-              VL_BC_ICMS    := cdsC190VLR_BASE_ICMS.AsFloat;
-              VL_ICMS       := cdsC190VLR_ICMS.AsFloat;
-              VL_BC_ICMS_ST := cdsC190VLR_BASE_ICMS_ST.AsFloat;
-              VL_ICMS_ST    := cdsC190ICMS_ST.AsFloat;
-              VL_RED_BC     := 0;
-              VL_IPI        := cdsC190VLR_IPI.AsFloat;
-              COD_OBS       := '';
+              with RegistroC190New do
+              begin
+                CST_ICMS      := cdsC190CST.AsString;
+                CFOP          := cdsC190CFOP.AsString;
+                ALIQ_ICMS     := cdsC190ICMS.AsFloat;
+                VL_OPR        := cdsC190VLR_OPERACAO.AsFloat;
+                VL_BC_ICMS    := cdsC190VLR_BASE_ICMS.AsFloat;
+                VL_ICMS       := cdsC190VLR_ICMS.AsFloat;
+                VL_BC_ICMS_ST := cdsC190VLR_BASE_ICMS_ST.AsFloat;
+                VL_ICMS_ST    := cdsC190ICMS_ST.AsFloat;
+                VL_RED_BC     := 0;
+                VL_IPI        := cdsC190VLR_IPI.AsFloat;
+                COD_OBS       := '';
+              end;
+              cdsC190.next;
+
             end;
-            cdsC190.next;
-          end;
+
+
           codParticip := cdsCompraCODFORNECEDOR.AsInteger;
           cdsCompra.Next;
         end; // FIM DO WHILE DE COMPRAS
@@ -1599,36 +1687,116 @@ begin
                 cdsItens.Next;
               end;
               }
-              // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
-              if (cdsVC190.Active) then
-                cdsVC190.Close;
-              cdsVC190.Params[0].asInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
-              cdsVC190.Open;
-              while not cdsVC190.eof do
-              begin
-                with RegistroC190New do
-                begin
-                  CST_ICMS      := cdsVC190CST.AsString;
-                  CFOP          := cdsVC190CFOP.AsString;
-                  ALIQ_ICMS     := cdsVC190ICMS.AsFloat;
-                  VL_OPR        := cdsVC190VLR_OPERACAO.AsFloat;
-                  VL_BC_ICMS    := cdsVC190VLR_BASE_ICMS.AsFloat;
-                  VL_ICMS       := cdsVC190VLR_ICMS.AsFloat;
-                  VL_BC_ICMS_ST := cdsVC190VLR_BASE_ICMS_ST.AsFloat;
-                  VL_ICMS_ST    := cdsVC190ICMS_ST.AsFloat;
-                  VL_RED_BC     := 0;
-                  VL_IPI        := cdsVC190VLR_IPI.AsFloat;
-                  COD_OBS       := '';
-                end;
-                cdsVC190.next;
-              end;
             end;
+
+            // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
+            if (cdsVC190.Active) then
+              cdsVC190.Close;
+            cdsVC190.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
+            //cdsVC190.Params[1].AsInteger := codMovMaxV;
+            //cdsVC190.Params[2].AsDate    := data_ini.Date;
+            //cdsVC190.Params[3].AsDate    := data_fim.Date;
+            cdsVC190.Open;
+            while not cdsVC190.eof do
+            begin
+              with RegistroC190New do
+              begin
+                CST_ICMS      := cdsVC190CST.AsString;
+                CFOP          := cdsVC190CFOP.AsString;
+                ALIQ_ICMS     := cdsVC190ICMS.AsFloat;
+                VL_OPR        := cdsVC190VLR_OPERACAO.AsFloat;
+                VL_BC_ICMS    := cdsVC190VLR_BASE_ICMS.AsFloat;
+                VL_ICMS       := cdsVC190VLR_ICMS.AsFloat;
+                VL_BC_ICMS_ST := cdsVC190VLR_BASE_ICMS_ST.AsFloat;
+                VL_ICMS_ST    := cdsVC190ICMS_ST.AsFloat;
+                VL_RED_BC     := 0;
+                VL_IPI        := cdsVC190VLR_IPI.AsFloat;
+                COD_OBS       := '';
+              end;
+              cdsVC190.next;
+            end;
+
+
+
             codParticip := cdsNFVendaCODCLIENTE.AsInteger;
             cdsNFVenda.Next;
           end; // FIM DO WHILE DE VENDAS
           // FIM BLOCO VENDAS #######################
         end;
+
       end;
+
+
+      if (sqlEnergia.Active) then
+        sqlEnergia.Close;
+      sqlEnergia.Params[0].AsInteger := codFornEnergia;
+      sqlEnergia.Params[1].AsInteger := codMovMin;
+      sqlEnergia.Params[2].AsInteger := codMovMax;
+      sqlEnergia.Params[3].AsDate    := data_ini.Date;
+      sqlEnergia.Params[4].AsDate    := data_fim.Date;
+      sqlEnergia.Open;
+      While not sqlEnergia.Eof do
+      begin
+        with RegistroC500New do
+        begin
+          IND_OPER := tpEntradaAquisicao; // Entrada
+          IND_EMIT := edTerceiros; // Terceiros
+          COD_PART := FormatFloat('100000', codFornEnergia);
+          COD_MOD  := '06';
+          COD_SIT  := sdRegular;
+          SER      := sqlEnergiaSERIE.AsString;
+          COD_CONS := '01';
+          NUM_DOC  := '0';
+          if (sqlEnergiaNOTAFISCAL.AsInteger > 0) then
+            NUM_DOC  := IntToStr(sqlEnergiaNOTAFISCAL.AsInteger);
+          DT_DOC   := sqlEnergiaDATACOMPRA.AsDateTime;
+          DT_E_S   := sqlEnergiaDATACOMPRA.AsDateTime;
+          VL_DOC   := sqlEnergiaVALOR.AsFloat;
+          VL_DESC  := 0;
+          VL_FORN  := sqlEnergiaVALOR.AsFloat;
+          VL_SERV_NT := 0;
+          VL_BC_ICMS := sqlEnergiaVALOR.AsFloat;
+          VL_TERC    := 0;
+          VL_DA      := 0;
+          VL_ICMS    := sqlEnergiaVALOR_ICMS.AsFloat;
+          VL_ICMS_ST := 0;
+          VL_PIS     := 0;
+          VL_COFINS  := 0;
+          TP_LIGACAO := tlNenhum;
+          if (tipoLigacao = 'Monofasico') then
+            TP_LIGACAO := tlMonofasico;
+          if (tipoLigacao = 'Bifasico') then
+            TP_LIGACAO := tlBifasico;
+          if(tipoLigacao = 'Trifasico') then
+            TP_LIGACAO := tlTrifasico;            // 3 - Trifásico
+        end;
+        sqlEnergia.Next;
+      end;
+
+      if (cdsEnergiaDet.Active) then
+        cdsEnergiaDet.Close;
+      cdsEnergiaDet.Params[4].AsInteger := codFornEnergia;
+      cdsEnergiaDet.Params[0].AsInteger := codMovMin;
+      cdsEnergiaDet.Params[1].AsInteger := codMovMax;
+      cdsEnergiaDet.Params[2].AsDate    := data_ini.Date;
+      cdsEnergiaDet.Params[3].AsDate    := data_fim.Date;
+      cdsEnergiaDet.Open;
+      While not cdsEnergiaDet.Eof do
+      begin
+        with RegistroC590New do
+        begin
+          CST_ICMS := cdsEnergiaDetCST.AsString;
+          CFOP     := cdsEnergiaDetCFOP.AsString;
+          ALIQ_ICMS := cdsEnergiaDetICMS.AsFloat;
+          VL_OPR    := cdsEnergiaDetVLR_BASEICMS.AsFloat;
+          VL_BC_ICMS_ST := cdsEnergiaDetICMS_BASE_ST.AsFloat;
+          VL_ICMS_ST := cdsEnergiaDetICMS_ST.AsFloat;
+          VL_RED_BC  := 0;
+        end;
+        cdsEnergiaDet.Next;
+      end;
+
+
     end;
 
     if cbConcomitante.Checked then
@@ -1985,6 +2153,26 @@ begin
     end;
   end;
 
+end;
+
+procedure TfNfeIcms.FormShow(Sender: TObject);
+begin
+  if (DM.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'FORNECEDORENERGIA';
+  dm.cds_parametro.Open;
+  try
+    codFornEnergia := StrToInt(dm.cds_parametroDADOS.AsString);
+    if (dm.cds_parametroD1.AsString = '') then
+    begin
+      MessageDlg('No Parametro FORNECEDORENERGIA informar no Registro D1 o tipo de ligação (Monofasico, Bifasico ou Trifasico).', mtWarning, [mbOK], 0);
+      Exit;
+    end;
+    tipoLigacao    := dm.cds_parametroD1.AsString;
+  except
+    MessageDlg('O Parametro FORNECEDORENERGIA não está correto, tem que ser o Código do Fornecedor.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
 end;
 
 end.
