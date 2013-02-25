@@ -104,7 +104,7 @@ object TRpReport
   end
   object TRpSection0: TRpSection
     Width = 11070
-    Height = 580
+    Height = 345
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -125,22 +125,10 @@ object TRpReport
         Component = TRpExpression0
       end
       item
-        Component = TRpShape8
-      end
-      item
-        Component = TRpShape11
-      end
-      item
         Component = TRpShape1
       end
       item
         Component = TRpShape12
-      end
-      item
-        Component = TRpShape15
-      end
-      item
-        Component = TRpShape16
       end
       item
         Component = TRpShape17
@@ -272,8 +260,9 @@ object TRpReport
     Width = 5010
     Height = 345
     PosX = 1995
-    PosY = 150
+    PosY = 95
     Type1Font = poHelvetica
+    FontSize = 8
     CutText = True
     Alignment = 1
     AutoExpand = False
@@ -295,9 +284,10 @@ object TRpReport
   object TRpExpression23: TRpExpression
     Width = 495
     Height = 300
-    PosX = 1405
-    PosY = 150
+    PosX = 1445
+    PosY = 95
     Type1Font = poHelvetica
+    FontSize = 8
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -315,10 +305,10 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpShape2: TRpShape
-    Width = 10770
-    Height = 465
+    Width = 10755
+    Height = 405
     PosX = 195
-    PosY = -5
+    PosY = 0
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -354,7 +344,7 @@ object TRpReport
   end
   object TRpSection4: TRpSection
     Width = 11070
-    Height = 15
+    Height = 0
     SubReport = TRpSubReport0
     GroupName = 'TOTAL'
     ChangeBool = False
@@ -380,11 +370,12 @@ object TRpReport
     Stream = {0000000000000000}
   end
   object TRpExpression0: TRpExpression
-    Width = 1005
-    Height = 255
-    PosX = -5
-    PosY = 150
+    Width = 750
+    Height = 300
+    PosX = 255
+    PosY = 95
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
     AutoExpand = False
     AutoContract = False
@@ -402,31 +393,9 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpShape11: TRpShape
-    Width = 75
-    Height = 450
-    PosX = 1240
-    PosY = 0
-    Shape = rpsVertLine
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-  end
   object TRpShape1: TRpShape
-    Width = 75
-    Height = 450
-    PosX = 1240
-    PosY = 0
-    Shape = rpsVertLine
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-  end
-  object TRpShape8: TRpShape
-    Width = 75
-    Height = 450
+    Width = 0
+    Height = 397
     PosX = 1240
     PosY = 0
     Shape = rpsVertLine
@@ -436,8 +405,8 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpShape12: TRpShape
-    Width = 75
-    Height = 450
+    Width = 0
+    Height = 397
     PosX = 1840
     PosY = 0
     Shape = rpsVertLine
@@ -446,31 +415,9 @@ object TRpReport
     DoBeforePrint = ''
     DoAfterPrint = ''
   end
-  object TRpShape15: TRpShape
-    Width = 75
-    Height = 450
-    PosX = 6990
-    PosY = 0
-    Shape = rpsVertLine
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-  end
-  object TRpShape16: TRpShape
-    Width = 75
-    Height = 450
-    PosX = 6990
-    PosY = 0
-    Shape = rpsVertLine
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-  end
   object TRpShape17: TRpShape
-    Width = 75
-    Height = 450
+    Width = 0
+    Height = 397
     PosX = 6990
     PosY = 0
     Shape = rpsVertLine
@@ -480,8 +427,8 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpShape13: TRpShape
-    Width = 75
-    Height = 450
+    Width = 0
+    Height = 397
     PosX = 8245
     PosY = 0
     Shape = rpsVertLine
@@ -491,8 +438,8 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpShape14: TRpShape
-    Width = 75
-    Height = 450
+    Width = 0
+    Height = 397
     PosX = 9595
     PosY = 0
     Shape = rpsVertLine
@@ -502,11 +449,12 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpExpression1: TRpExpression
-    Width = 860
-    Height = 280
-    PosX = 7090
-    PosY = 120
+    Width = 705
+    Height = 300
+    PosX = 7245
+    PosY = 95
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
     AutoExpand = False
     AutoContract = False
@@ -525,11 +473,12 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression2: TRpExpression
-    Width = 855
-    Height = 300
-    PosX = 8400
+    Width = 345
+    Height = 345
+    PosX = 8855
     PosY = 105
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
     AutoExpand = False
     AutoContract = False
@@ -550,9 +499,10 @@ object TRpReport
   object TRpExpression3: TRpExpression
     Width = 855
     Height = 300
-    PosX = 9690
-    PosY = 105
+    PosX = 9695
+    PosY = 100
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
     AutoExpand = False
     AutoContract = False
@@ -658,7 +608,7 @@ object TRpReport
   object TRpLabel3: TRpLabel
     Width = 1260
     Height = 240
-    PosX = 8485
+    PosX = 8585
     PosY = 610
     Type1Font = poHelvetica
     FontStyle = 1
@@ -667,7 +617,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'Pre'#231'o'#10'COMPRA'
+    WideText = 'Pre'#231'o'#10'VENDA'
   end
   object TRpShape3: TRpShape
     Width = 75
