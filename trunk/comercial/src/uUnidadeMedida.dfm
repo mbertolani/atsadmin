@@ -1,5 +1,7 @@
 inherited fUnidadeMedida: TfUnidadeMedida
   Caption = 'Cadastro de Unidade de Medida'
+  OldCreateOrder = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object gridUn: TJvDBUltimGrid [2]
