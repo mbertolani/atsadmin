@@ -3604,6 +3604,8 @@ end;
 procedure TfVendaFinalizar.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+  if (DtSrc.State in [dsEdit, dsInsert]) then
+    DtSrc.DataSet.Cancel;
   scdsCr_proc.Params[0].Clear;
   cds.Params[0].Clear;
   cds.Params[1].Clear;  
