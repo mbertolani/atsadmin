@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE REL_VENDACOMPRA (
     PDTA1 date,
     PDTA2 date,
@@ -32,10 +33,14 @@ DECLARE VARIABLE custoProd double precision;
 DECLARE VARIABLE totIcms double precision;
 DECLARE VARIABLE totProdIcms double precision;
 DECLARE VARIABLE tIcms double precision;
+DECLARE VARIABLE tEstoq double precision;
 DECLARE VARIABLE CPERDA SMALLINT;
 --declare variable cCusto integer;
 BEGIN
   --ccusto = 51;
+  tEstoq = 0;
+  qtdeEstoque = 0;
+  totalPerda = 0;
   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CENTRO PERDA'
   INTO :CPERDA;
   Select sum(v.QTDE) from view_venda v
@@ -63,29 +68,21 @@ BEGIN
     totalPerda = 0;
     
     --CUSTO ITEM 
-    Select first 1 emt.PRECOCOMPRA, emt.SALDOESTOQUE
-      from ESTOQUEMES emt
-     where ((emt.CODPRODUTO = :codPro) 
-       and ((emt.CENTROCUSTO = :ccusto) or (:ccusto = 0)) 
-       and (emt.MESANO <= :pdta2))
-     order by emt.MESANO desc   
-     into :vlrCustoTotal, :qtdeEstoque;      
+    SELECT FIRST 1 ev.PRECOUNIT, ev.SALDOFIMACUM FROM ESTOQUE_VIEW (:pdta2,
+    :codPro,  :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev
+     into :vlrCustoTotal, :tEstoq;      
 
     if (qtdeEstoque is null) then 
       qtdeEstoque = 0;
 
-    Select first 1 emt.SALDOESTOQUE
-      from ESTOQUEMES emt
-     where ((emt.CODPRODUTO = :codPro) 
-       and (emt.CENTROCUSTO = :CPERDA)
-       and (emt.MESANO <= :pdta2))
-     order by emt.MESANO desc   
+    SELECT FIRST 1 ev.SALDOFIMACUM FROM ESTOQUE_VIEW (:pdta2,
+    :codPro,  :CPERDA, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev
      into :totalPerda;
      
      if (totalPerda is null) then 
        totalPerda = 0; 
      
-     qtdeEstoque = qtdeEstoque + totalPerda;
+     qtdeEstoque = qtdeEstoque + tEstoq + totalPerda;
 
      /* ICMS Valores de Venda */
     ICMSVENDA = 0;
