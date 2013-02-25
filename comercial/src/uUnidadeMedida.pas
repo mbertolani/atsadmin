@@ -17,6 +17,7 @@ type
     cdsUnCODUN: TStringField;
     cdsUnDESCRICAO: TStringField;
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -36,6 +37,13 @@ procedure TfUnidadeMedida.FormCreate(Sender: TObject);
 begin
   //inherited;
 
+end;
+
+procedure TfUnidadeMedida.FormShow(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.DataSet.Active = False) then
+    DtSrc.DataSet.Open;
 end;
 
 end.
