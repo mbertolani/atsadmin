@@ -619,7 +619,8 @@ object fNfeIcms: TfNfeIcms
       '.CODCLIENTE'#13#10'      AND C.CODCLIENTE   = EC.CODCLIENTE'#13#10'      AND' +
       ' V.CODVENDA = NF.CODVENDA'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1' +
       ' AND :DTA2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND V.CODMOVIMENTO' +
-      ' BETWEEN :CODINI AND :CODFIM'
+      ' BETWEEN :CODINI AND :CODFIM '#13#10'      AND NF.PROTOCOLOCANC IS NUL' +
+      'L '
     MaxBlobSize = -1
     Params = <
       item
@@ -2491,14 +2492,28 @@ object fNfeIcms: TfNfeIcms
         DataType = ftInteger
         Name = 'PMOVF'
         ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
+        ParamType = ptUnknown
       end>
     SQL.Strings = (
       'SELECT DISTINCT UN.CODUN, UN.DESCRICAO '
-      '   FROM UNIDADEMEDIDA UN, MOVIMENTO mov, MOVIMENTODETALHE DET '
+      
+        '   FROM UNIDADEMEDIDA UN, COMPRA C, MOVIMENTO mov, MOVIMENTODETA' +
+        'LHE DET '
       'WHERE UN.CODUN = DET.UN'
       '       AND mov.codmovimento = det.codmovimento'
+      '       AND C.codmovimento = MOV.codmovimento'
       '        AND (MOV.CODNATUREZA = 4)'
-      '      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF')
+      '      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF'
+      '      AND C.DATACOMPRA      BETWEEN :DTA_INI AND :DTA_FIM')
     SQLConnection = DM.sqlsisAdimin
     Left = 328
     Top = 208
@@ -2805,7 +2820,8 @@ object fNfeIcms: TfNfeIcms
       'CODVENDA'#13#10'      AND V.CODMOVIMENTO = M.CODMOVIMENTO '#13#10'      AND ' +
       'M.CODNATUREZA IN (12, 15)'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1' +
       ' AND :DTA2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND EC.TIPOEND = 0' +
-      #13#10'      AND V.CODMOVIMENTO BETWEEN  :CODMOV AND :CODMOVF'
+      #13#10'      AND NF.PROTOCOLOCANC IS NULL '#13#10'      AND V.CODMOVIMENTO ' +
+      'BETWEEN  :CODMOV AND :CODMOVF'
     MaxBlobSize = -1
     Params = <
       item
@@ -3276,20 +3292,32 @@ object fNfeIcms: TfNfeIcms
   object sdsProduto: TSQLDataSet
     CommandText = 
       'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, PRO.NCM, PRO.PRODUTO' +
-      ', DET.UN '#13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS' +
-      ' PRO'#13#10'WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.C' +
-      'ODPRODUTO     = DET.CODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 4)'#13 +
-      #10'      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF'
+      ', DET.UN '#13#10'   FROM COMPRA C,MOVIMENTO MOV, MOVIMENTODETALHE DET,' +
+      ' PRODUTOS PRO'#13#10'WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO'#13#10'      AN' +
+      'D MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO ' +
+      '    = DET.CODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 4)'#13#10'      AND' +
+      ' MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF'#13#10'      AND C.DATACOMP' +
+      'RA      BETWEEN :DTA_INI AND :DTA_FIM'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'PMOV'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'PMOVF'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -3333,6 +3361,16 @@ object fNfeIcms: TfNfeIcms
       item
         DataType = ftInteger
         Name = 'PMOVF'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA_FIM'
         ParamType = ptInput
       end>
     ProviderName = 'dspProduto'
@@ -4059,8 +4097,10 @@ object fNfeIcms: TfNfeIcms
         'SUM(r.ICMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, ' +
         'SUM(r.VLR_BASEICMS) VLR_BASE_ICMS, '
       'SUM(r.VIPI) VLR_IPI'
-      '  FROM COMPRA C,  MOVIMENTODETALHE r'
-      'WHERE C.CODMOVIMENTO = r.CODMOVIMENTO'
+      '  FROM COMPRA C, MOVIMENTO M, MOVIMENTODETALHE r'
+      'WHERE C.CODMOVIMENTO = M.CODMOVIMENTO '
+      '      AND C.CODMOVIMENTO = r.CODMOVIMENTO'
+      '      AND M.CODNATUREZA = 4 '
       '      AND C.DATACOMPRA BETWEEN :DTA1 AND :DTA2')
     SQLConnection = DM.sqlsisAdimin
     Left = 640
@@ -4117,6 +4157,7 @@ object fNfeIcms: TfNfeIcms
       '     AND M.CODMOVIMENTO = v.CODMOVIMENTO '
       '     AND m.CODMOVIMENTO = r.CODMOVIMENTO'
       '     AND m.CODNATUREZA in (12, 15)'
+      '     AND NF.PROTOCOLOCANC IS NULL '
       '     AND NF.DTAEMISSAO BETWEEN :dta1 AND :dta2'
       '  ')
     SQLConnection = DM.sqlsisAdimin
