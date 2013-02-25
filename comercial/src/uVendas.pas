@@ -1046,6 +1046,7 @@ end;
 procedure TfVendas.FormShow(Sender: TObject);
 begin
   inherited;
+  pnRelatorio.Visible := False;
   DecimalSeparator := ',';
   Incluir  := 'S';
   Excluir  := 'S';
