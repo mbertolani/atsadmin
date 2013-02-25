@@ -33,12 +33,10 @@ DECLARE VARIABLE custoProd double precision;
 DECLARE VARIABLE totIcms double precision;
 DECLARE VARIABLE totProdIcms double precision;
 DECLARE VARIABLE tIcms double precision;
-DECLARE VARIABLE tEstoq double precision;
 DECLARE VARIABLE CPERDA SMALLINT;
 --declare variable cCusto integer;
 BEGIN
   --ccusto = 51;
-  tEstoq = 0;
   qtdeEstoque = 0;
   totalPerda = 0;
   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CENTRO PERDA'
@@ -50,7 +48,8 @@ BEGIN
   if (total is null) THEN 
     total = 0;
   for Select p.CodPro, p.Produto, p.CodProduto, p.estoqueAtual, p.familia,
-    case when p.VALORUNITARIOATUAL > 0 then p.VALORUNITARIOATUAL else p.PRECOMEDIO end from produtos p 
+    case when p.VALORUNITARIOATUAL > 0 then p.VALORUNITARIOATUAL else p.PRECOMEDIO end 
+    from produtos p 
     where (p.tipo <> 'SERV') or (p.TIPO is null)
     into :codProduto, :Produto, :codPro, :QtdeEstoque, :grupo, :custoProd
   do begin 
@@ -70,7 +69,7 @@ BEGIN
     --CUSTO ITEM 
     SELECT FIRST 1 ev.PRECOUNIT, ev.SALDOFIMACUM FROM ESTOQUE_VIEW (:pdta2,
     :codPro,  :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev
-     into :vlrCustoTotal, :tEstoq;      
+     into :vlrCustoTotal, :qtdeEstoque;      
 
     if (qtdeEstoque is null) then 
       qtdeEstoque = 0;
@@ -82,7 +81,7 @@ BEGIN
      if (totalPerda is null) then 
        totalPerda = 0; 
      
-     qtdeEstoque = qtdeEstoque + tEstoq + totalPerda;
+     qtdeEstoque = qtdeEstoque+ totalPerda;
 
      /* ICMS Valores de Venda */
     ICMSVENDA = 0;
