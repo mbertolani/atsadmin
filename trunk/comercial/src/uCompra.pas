@@ -512,6 +512,7 @@ type
     procedure btnDupVendaClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure GroupBox11Click(Sender: TObject);
+    procedure edCFOPExit(Sender: TObject);
   private
     modo :string;
     { Private declarations }
@@ -568,6 +569,15 @@ begin
       begin
         MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
       end;
+       if (not cds_Mov_det.IsEmpty) then
+       begin
+         if (cds_Mov_det.State in [dsEdit, dsInsert]) then
+           cds_Mov_detCFOP.AsString := edCFOP.Text
+         else begin
+           cds_Mov_det.Edit;
+           cds_Mov_detCFOP.AsString := edCFOP.Text;
+         end;
+       end;
     end;
     cds_MovimentoCODFORNECEDOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
     cds_MovimentoNOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
@@ -600,6 +610,16 @@ begin
       begin
         MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
       end;
+     if (not cds_Mov_det.IsEmpty) then
+     begin
+       if (cds_Mov_det.State in [dsEdit, dsInsert]) then
+         cds_Mov_detCFOP.AsString := edCFOP.Text
+       else begin
+         cds_Mov_det.Edit;
+         cds_Mov_detCFOP.AsString := edCFOP.Text;
+       end;
+     end;
+
     end;
     cds_MovimentoCODFORNECEDOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
     cds_MovimentoNOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
@@ -1242,6 +1262,10 @@ begin
        cbTpTransp.ItemIndex := StrToInt(cds_MovimentoTPFRETE.AsString)
      else
        cbTpTransp.ItemIndex := -1;
+
+     if (cds_Mov_detCFOP.AsString <> '') then
+        edCFOP.Text := cds_Mov_detCFOP.AsString;
+
 end;
 
 procedure TfCompra.DtSrcStateChange(Sender: TObject);
@@ -1570,7 +1594,18 @@ begin
    cds_MovimentoCODFORNECEDOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
    cds_MovimentoNOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
    if (dm.scds_forn_procCFOP.asString <> '') then
+   begin
      edCFOP.Text := dm.scds_forn_procCFOP.asString;
+     if (not cds_Mov_det.IsEmpty) then
+     begin
+       if (cds_Mov_det.State in [dsEdit, dsInsert]) then
+         cds_Mov_detCFOP.AsString := edCFOP.Text
+       else begin
+         cds_Mov_det.Edit;
+         cds_Mov_detCFOP.AsString := edCFOP.Text;
+       end;
+     end;
+   end;
    finally
     dm.scds_forn_proc.Close;
     fProcurar.Free;
@@ -2239,6 +2274,20 @@ procedure TfCompra.GroupBox11Click(Sender: TObject);
 begin
   inherited;
    // Exibir o Estado
+end;
+
+procedure TfCompra.edCFOPExit(Sender: TObject);
+begin
+  inherited;
+  if (cds_Mov_detCFOP.AsString <> edCfop.Text) then
+  begin
+    if (cds_Mov_det.State in [dsInsert, dsEdit]) then
+      cds_Mov_detCFOP.AsString := edCfop.Text
+    else begin
+      cds_Mov_det.Edit;
+      cds_Mov_detCFOP.AsString := edCfop.Text;
+    end;
+  end;  
 end;
 
 end.

@@ -2124,6 +2124,7 @@ inherited fCompra: TfCompra
       Width = 59
       Height = 24
       TabOrder = 0
+      OnExit = edCFOPExit
       OnKeyPress = FormKeyPress
     end
   end
