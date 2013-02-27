@@ -381,6 +381,11 @@ begin
 
   if dm.varFormemUso = 'nfcompra' then
     btnIncluir.Click;
+
+  if (cds_endfor.Active) then
+     cds_endfor.Close;
+  cds_endfor.Params[0].AsInteger := cds_fornecedorCODFORNECEDOR.AsInteger;
+  cds_endfor.Open;
 end;
 
 procedure TfFornecedorCadastro.DtSrcStateChange(Sender: TObject);
