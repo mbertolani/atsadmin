@@ -1,3 +1,4 @@
+set term  ^; 
 CREATE OR ALTER PROCEDURE LISTAPRODUTOCLI(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -124,15 +125,23 @@ begin
     begin
       if (CCustoV = 0) then 
       begin 
-        select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
-          where m.CODPRODUTO = :codProduto order by m.MESANO DESC
+        select ev.PRECOCUSTO, ev.SALDOFIMACUM, ev.PRECOCOMPRA
+         from ESTOQUE_VIEW(
+             current_date,
+             :CodProduto,    
+             :cCusto,
+             'TODOS OS LOTES CADASTRADOS NO SISTEMA'
+             ) ev      
         into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
       end 
       else begin 
-        select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
-          where m.CODPRODUTO = :codProduto 
-            and m.CENTROCUSTO = :CCusto
-          order by m.MESANO DESC
+         select ev.PRECOCUSTO, ev.SALDOFIMACUM, ev.PRECOCOMPRA
+         from ESTOQUE_VIEW(
+             current_date,
+             :CodProduto,    
+             :cCustoV,
+             'TODOS OS LOTES CADASTRADOS NO SISTEMA'
+             ) ev 
         into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
       end   
     end  

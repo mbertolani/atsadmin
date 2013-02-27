@@ -47,7 +47,8 @@ DECLARE VARIABLE TOTENTRA DOUBLE PRECISION = 0;
 DECLARE VARIABLE TOTSAI DOUBLE PRECISION = 0;
 DECLARE VARIABLE SALDOINI DOUBLE PRECISION = 0;
 DECLARE VARIABLE SALDOFIM DOUBLE PRECISION = 0;
-DECLARE VARIABLE Acumula DOUBLE PRECISION = 0;
+DECLARE VARIABLE AcumulaQtde DOUBLE PRECISION = 0;
+DECLARE VARIABLE AcumulaVlr DOUBLE PRECISION = 0;
 DECLARE VARIABLE VLR DOUBLE PRECISION = 0;
 DECLARE VARIABLE CODPRODU INTEGER = 0;
 DECLARE VARIABLE IMPRIME CHAR(1);
@@ -56,7 +57,6 @@ DECLARE VARIABLE CODDET INTEGER = 0;
 BEGIN
   -- MOVIMENTO DE MATERIAIS
   saida = 0;
-  acumula = 0;
   CODPRODU = 0;
   PRECOCUSTO = 0;
   PRECOCOMPRA = 0;
@@ -64,7 +64,8 @@ BEGIN
   PRECOVENDA = 0;
   ENTRA = 0;
   SAI = 0;
- 
+  ACUMULAQTDE = 0;
+  ACUMULAVLR = 0;
   TOTENTRA = 0;
   TOTSAI   = 0;
   ENTRADA  = 0;
@@ -147,12 +148,14 @@ BEGIN
         TOTSAI = TOTSAI + SAI;   
       END
       SALDOINI = TOTENTRA - TOTSAI;
-      SALDOINIACUM = SALDOINI;     
+      SALDOINIACUM = SALDOINI;  
+      ACUMULAQTDE = SALDOINI;
+      ACUMULAVLR  = PRECOCUSTO * SALDOINI;   
       ENTRA = 0;
       SAI = 0;
       TOTENTRA = 0;
       TOTSAI = 0;
-      VALORESTOQUE = SALDOINI * PRECOCUSTO;
+      
     end  -- FIM IF 1
 
     IF (LOTES IS NULL) THEN
@@ -186,23 +189,29 @@ BEGIN
           if (ENTRA IS NULL) then
             ENTRA = 0;
             
-          -- PRIMEIRO VEJO O VALORDOESTOQUE ANTERIOIR ACUMULADO ANTES DESTA ENTRADA 
-          VALORESTOQUE = SALDOINIACUM * PRECOCUSTO;  
-                       
           TOTENTRA = TOTENTRA + ENTRA; -- Quantidade Entrou
+          
+          -- PRIMEIRO VEJO O VALORDOESTOQUE ANTERIOIR ACUMULADO ANTES DESTA ENTRADA 
+          --VALORESTOQUE = SALDOFIMACUM * PRECOCUSTO;          
                  
           IF ((ENTRA > 0) AND (VLR > 0)) THEN   
             PRECOCUSTO = VLR/ENTRA; -- Preco Custo Desta Entrada
-                    
+            
+          --anotacoes = ' acumula ' || acumulaqtde || '-' || acumulavlr;
+          --suspend;          
           -- CALCULAR PRECO MEDIO  
-          IF ((SALDOINI + ENTRADA) > 0) THEN 
-            PRECOCUSTO = (VALORESTOQUE + VLR)/(SALDOINIACUM + ENTRADA);                    
+          IF ((ACUMULAQTDE + ENTRADA) > 0) THEN 
+            PRECOCUSTO = (ACUMULAVLR + VLR)/(ACUMULAQTDE + ENTRA);                    
             
           PRECOUNIT = PRECOCUSTO;  
                  
           VALORVENDA = PRECOCOMPRA; -- Valor Ultima Compra (COMPRA/VENDA no Filtro)
+                   
         end  
         ENTRADA = TOTENTRA;
+        ACUMULAQTDE = ACUMULAQTDE + ENTRADA;
+        ACUMULAVLR  = PRECOCUSTO * ACUMULAQTDE;
+
         for SELECT forn.RAZAOSOCIAL, com.NOTAFISCAL FROM COMPRA com, FORNECEDOR forn 
              WHERE com.CODFORNECEDOR = forn.CODFORNECEDOR and  com.CODMOVIMENTO = :CODMOV
               INTO :CLIFOR, :NF
@@ -239,6 +248,9 @@ BEGIN
         --suspend;
       end
       SAIDA = TOTSAI;
+      ACUMULAQTDE = ACUMULAQTDE - SAIDA;
+      ACUMULAVLR  = PRECOCUSTO * ACUMULAQTDE;
+      
       --anotacoes = 'saiu do for ' || codnatu;
       --suspend;
       For SELECT cli.RAZAOSOCIAL, ven.NOTAFISCAL FROM VENDA ven, CLIENTES cli 
@@ -261,13 +273,17 @@ BEGIN
     IF (CODPRODU <> CODPRODUTO) THEN
       SALDOFIMACUM = SALDOFIM;
     
-    --if (PRECOCUSTO > 0) THEN 
+    if (PRECOUNIT = 0) THEN 
+      PRECOUNIT = PRECOCUSTO;
     --  VALORESTOQUE = SALDOFIMACUM * PRECOCUSTO;
     --else   
     --  VALORESTOQUE = SALDOFIMACUM * PRECOCOMPRA;  
+    --IF (VALORESTOQUE = 0) THEN 
+    VALORESTOQUE = SALDOFIMACUM * PRECOCUSTO;  
+      
        
     IF (PRECOUNIT IS NULL) THEN   
-      PRECOUNIT = PRECOCOMPRA;
+      PRECOUNIT = PRECOCUSTO;
                      
     IF (IMPRIME = 'S') THEN 
     begin
@@ -280,6 +296,9 @@ BEGIN
     ENTRADA = 0; 
     CODNATU = null;
     CODPRODU = CODPRODUTO;
+    if (CODPRODU <> CODPRODUTO) then 
+      VALORESTOQUE = 0;
+    PRECOUNIT = 0;
     --IF (CODPRODU <> CODPRODUTO) THEN    
   END
 END
