@@ -200,12 +200,15 @@ begin
           sEmail.Open;
         if (sTransportadora.Active) then
           sTransportadora.Close;
-        sTransportadora.Open;          
+        sTransportadora.Open;
 
     end;
     CC.Add(sEmpresaE_MAIL.AsString); //especifique um email válido
     if (sTransportadoraEMAIL.AsString <> '') then
+    begin
       CC.Add(sTransportadoraEMAIL.AsString);
+      Memo1.Lines.Add(sTransportadoraEMAIL.AsString);
+    end;
     memo1.Lines.Add(sEmpresaE_MAIL.AsString);
     Edit1.Text := IntToStr(sEmailCODCLIENTE.AsInteger);
     Edit2.Text := sEmailRAZAOSOCIAL.AsString;
@@ -220,8 +223,15 @@ begin
 end;
 
 procedure TfNFeMail.btnEnviarClick(Sender: TObject);
+var i:Integer;
 begin
-    CC.Add(sEmpresaE_MAIL.AsString);
+  Try
+    CC.Clear;
+    cc.Add(Edit3.Text);
+    for I := 0 to memo1.Lines.Count-1 do begin
+      CC.Add(Trim(Memo1.Lines[I]));
+    end;
+    //CC.Add(sEmpresaE_MAIL.AsString);
     if ((ComboBox1.Text = NULL) or (ComboBox1.Text = ''))then
       MessageDlg('Centro de Custo não Selecionado', mtError, [mbOK], 0)
     else
@@ -242,14 +252,20 @@ begin
                                                  , False  //Pede confirmação de leitura do email
                                                  , True  //Aguarda Envio do Email(não usa thread)
                                                  , sEmpresaRAZAO.AsString ); // Nome do Rementente
-      finally
-        MessageDlg('Email enviado com sucesso.', mtInformation, [mbOK], 0);
-        CC.Clear;
-        CC.Free;
-        Texto.Free;
-        fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
+        ShowMessage('Email enviado com sucesso!');
+      except
+         on E: Exception do
+          begin
+            raise Exception.Create('Erro ao enviar email'+sLineBreak+E.Message);
+          end;
       end;
     end;
+  finally
+    CC.Clear;
+    CC.Free;
+    Texto.Free;
+    fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
+  end;
 end;
 
 procedure TfNFeMail.sbtnCCClick(Sender: TObject);
