@@ -412,7 +412,7 @@ type
     UCHist_DataSetMovDet: TUCHist_DataSet;
     DBEdit1: TDBEdit;
     JvDBGrid1: TJvDBGrid;
-    SpeedButton1: TBitBtn;
+    btVendedor: TBitBtn;
     sds_Mov_DetDESCPRODUTO: TStringField;
     cds_Mov_detDESCPRODUTO: TStringField;
     sds_Mov_DetPESO_QTDE: TFloatField;
@@ -1886,7 +1886,7 @@ begin
    if dm.scds_usuario_proc.IsEmpty then begin
      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
      [mbOk], 0);
-     SpeedButton1.Click;
+     btVendedor.Click;
      exit;
    end;
    end;
@@ -2537,7 +2537,7 @@ begin
     if dm.scds_usuario_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
       [mbOk], 0);
-      SpeedButton1.Click;
+      btVendedor.Click;
       exit;
     end;
     cds_MovimentoCODVENDEDOR.AsInteger:=dm.scds_usuario_procCODUSUARIO.AsInteger;
@@ -2557,7 +2557,7 @@ begin
     if dm.scds_usuario_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
       [mbOk], 0);
-      SpeedButton1.Click;
+      btVendedor.Click;
       exit;
     end;
     cds_MovimentoCODVENDEDOR.AsInteger:=dm.scds_usuario_procCODUSUARIO.AsInteger;
@@ -3850,6 +3850,15 @@ begin
   if (dm.validaCfop(edCFOP.Text) = False) then
   begin
     MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
+  end;
+  if (cds_Mov_detCFOP.AsString <> edCfop.Text) then
+  begin
+    if (cds_Mov_det.State in [dsInsert, dsEdit]) then
+      cds_Mov_detCFOP.AsString := edCfop.Text
+    else begin
+      cds_Mov_det.Edit;
+      cds_Mov_detCFOP.AsString := edCfop.Text;
+    end;
   end;
 end;
 

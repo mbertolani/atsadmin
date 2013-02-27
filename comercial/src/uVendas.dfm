@@ -2429,7 +2429,7 @@ inherited fVendas: TfVendas
     TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object SpeedButton1: TBitBtn [23]
+  object btVendedor: TBitBtn [23]
     Left = 595
     Top = 471
     Width = 37
@@ -2437,7 +2437,7 @@ inherited fVendas: TfVendas
     PopupMenu = PopupMenu1
     TabOrder = 17
     TabStop = False
-    OnClick = btnOrcWordClick
+    OnClick = SpeedButton1Click
     Glyph.Data = {
       36080000424D3608000000000000360400002800000020000000200000000100
       0800000000000004000000000000000000000001000000000000000000000000
