@@ -19,8 +19,11 @@ RETURNS
     SALDOFIMACUM Double precision,
     ESTOQUE_MES Double precision,
     PRECOUNIT Double precision,
+    PRECOCUSTO Double precision,
     VALORESTOQUE Double precision,
     VALORVENDA Double precision,
+    PRECOCOMPRA Double precision,
+    PRECOVENDA Double precision,
     LOTES Varchar(60),
     CCUSTOS Integer
 )
@@ -36,6 +39,8 @@ DECLARE VARIABLE SALDO_FIM double precision;
 DECLARE VARIABLE SALDO_INIX double precision; 
 DECLARE VARIABLE SALDO_FIMX double precision;
 DECLARE variable DataMov Date;
+DECLARE variable codMov Integer;
+DECLARE variable codNat smallint;
 BEGIN
   PROD = 0;
   INI  = 0;
@@ -45,23 +50,36 @@ BEGIN
   SALDO_FIMX   = 0;
   
   -- Procuro pelo ultimo movimento do item 
-  SELECT First 1 m.DATAMOVIMENTO FROM MOVIMENTO m, MOVIMENTODETALHE md 
+  SELECT First 1 m.CODMOVIMENTO, m.CODNATUREZA, m.DATAMOVIMENTO FROM MOVIMENTO m, MOVIMENTODETALHE md 
    WHERE md.CODMOVIMENTO = m.CODMOVIMENTO
      AND md.CODPRODUTO  = :Prod1 
      AND md.BAIXA is not null 
      AND ((m.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 0))
      AND m.DATAMOVIMENTO <= :dta1
    ORDER bY m.DATAMOVIMENTO DESC 
-    into :dataMov;       
+    into :codMov, :codNat;       
+
+  IF ((CODNAT = 1) or (CODNAT = 3)) then  
+  begin 
+    SELECT First 1 v.DATAVENDA FROM VENDA v
+     WHERE v.CODMOVIMENTO = :codMov
+      into :dataMov;       
+  end 
+  IF ((CODNAT = 2) or (CODNAT = 4)) then  
+  begin 
+    SELECT First 1 c.DATACOMPRA FROM COMPRA C
+     WHERE c.CODMOVIMENTO = :codMov
+      into :dataMov;       
+  end 
+
      
    FOR SELECT CODPROD, SALDOINIACUM,  
-     ENTRADA, SAIDA, SALDOFIMACUM, PRECOUNIT, VALORVENDA,  CCUSTOS, LOTES, GRUPO
+     ENTRADA, SAIDA, SALDOFIMACUM, PRECOUNIT, VALORVENDA,  CCUSTOS, LOTES, GRUPO, PRECOCOMPRA, PRECOVENDA, PRECOCUSTO
        from SPESTOQUEFILTRO(:DataMov , :DataMov, :Prod1, :Prod1, 'TODOS SUBGRUPOS DO CADASTRO CATEGORIA', 
        100, :CCUSTO, 'TODAS AS MARCAS CADASTRADAS NO SISTEMA', :LOTE, 'TODOS OS GRUPOS CADASTRADOS NO SISTEMA') ep
-       into :CODPROD,  :SALDOINIACUM, :SOMA_ENT, :SOMA_SAI, :SALDOFIMACUM, :PRECOUNIT, :VALORVENDA,  :CCUSTOS, :LOTES, :GRUPO
-   do begin
-      
-       
+       into :CODPROD,  :SALDOINIACUM, :SOMA_ENT, :SOMA_SAI, :SALDOFIMACUM, :PRECOUNIT, :VALORVENDA,  :CCUSTOS, :LOTES, 
+       :GRUPO, :PRECOCOMPRA, :PRECOVENDA, :PRECOCUSTO
+   do begin     
    end
    Suspend;
 END
