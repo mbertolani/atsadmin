@@ -451,7 +451,7 @@ begin
 
   if (Panel2.Visible = True) then
     EvDBFind1.SetFocus;
-  bitBtn1.Click;
+  //bitBtn1.Click;
 end;
 
 procedure TfProcura_produtos.btnIncluirClick(Sender: TObject);
