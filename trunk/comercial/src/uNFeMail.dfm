@@ -11,6 +11,7 @@ object fNFeMail: TfNFeMail
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -160,9 +161,18 @@ object fNFeMail: TfNFeMail
       ParentFont = False
       Transparent = True
     end
+    object lblMsg: TLabel
+      Left = 163
+      Top = 230
+      Width = 6
+      Height = 13
+      Caption = '..'
+      Transparent = True
+      Visible = False
+    end
     object BtnSeleciona: TJvBitBtn
       Left = 45
-      Top = 240
+      Top = 247
       Width = 90
       Height = 33
       Caption = 'Seleciona NFe'
@@ -176,7 +186,7 @@ object fNFeMail: TfNFeMail
     end
     object btnSair: TJvBitBtn
       Left = 273
-      Top = 240
+      Top = 247
       Width = 90
       Height = 33
       Caption = 'Sair'
@@ -236,7 +246,7 @@ object fNFeMail: TfNFeMail
   end
   object btnEnviar: TJvBitBtn
     Left = 159
-    Top = 240
+    Top = 246
     Width = 89
     Height = 33
     Caption = 'Enviar E-Mail'

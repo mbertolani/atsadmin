@@ -86,6 +86,7 @@ type
     sTransportadoraCODTRANSP: TIntegerField;
     sTransportadoraNOMETRANSP: TStringField;
     sTransportadoraEMAIL: TStringField;
+    lblMsg: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BtnSelecionaClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
@@ -93,6 +94,7 @@ type
     procedure sbtnCCClick(Sender: TObject);
   private
     { Private declarations }
+    procedure enviarEmailNfe;
   public
     { Public declarations }
   end;
@@ -223,6 +225,21 @@ begin
 end;
 
 procedure TfNFeMail.btnEnviarClick(Sender: TObject);
+begin
+  lblMsg.Visible := True;
+  lblMsg.Caption := 'Aguarde, enviando email ...';
+  enviarEmailNfe;
+  lblMsg.Caption := '..';
+end;
+
+procedure TfNFeMail.sbtnCCClick(Sender: TObject);
+begin
+  CC.Add(Edit5.Text);
+  Memo1.Lines.Add(edit5.Text);
+  Edit5.Clear;
+end;
+
+procedure TfNFeMail.enviarEmailNfe;
 var i:Integer;
 begin
   Try
@@ -266,13 +283,7 @@ begin
     Texto.Free;
     fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
   end;
-end;
 
-procedure TfNFeMail.sbtnCCClick(Sender: TObject);
-begin
-  CC.Add(Edit5.Text);
-  Memo1.Lines.Add(edit5.Text);
-  Edit5.Clear;
 end;
 
 end.
