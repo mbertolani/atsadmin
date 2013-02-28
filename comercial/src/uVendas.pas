@@ -595,6 +595,8 @@ type
     btnOrcWord: TBitBtn;
     btnEstoqueVenda: TBitBtn;
     btnEstoqueMatPrima: TBitBtn;
+    Label30: TLabel;
+    lblEstoque: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -681,6 +683,7 @@ type
     procedure btnEstoqueMatPrimaClick(Sender: TObject);
   private
     { Private declarations }
+    procurouProd : String;
     modo :string;
     procedure Margem_Confere;
     procedure insereMatPrima;
@@ -983,6 +986,7 @@ end;
 
 procedure TfVendas.btnIncluirClick(Sender: TObject);
 begin
+  procurouProd := 'N';
   desconto := 0;
   DecimalSeparator := ',';  
   //usaprecolistavenda := '';
@@ -1269,6 +1273,8 @@ end;
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
 var sql: String;
 begin
+  if (procurouProd = 'N') then
+  begin
   if (dtSrc1.State in [dsInsert, dsEdit]) then
   begin
     cds_mov_detCFOP.asString := edCfop.text;
@@ -1319,7 +1325,7 @@ begin
              dm.scds_produto_proc.Close;
            Exit;
         end;
-
+      lblEstoque.Caption := FloatToStr(dm.scds_produto_procESTOQUEATUAL.asfloat);
       cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
       cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -1342,7 +1348,7 @@ begin
          dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
       else
       }
-     { 
+     {
      if(imex = 99) then
          cds_Mov_detPRECO.AsFloat := (dm.scds_produto_procVALORUNITARIOATUAL.AsFloat * 1.2)
      else
@@ -1471,6 +1477,10 @@ begin
     end;
     end;
   end;
+  end
+  else begin
+    procurouProd := 'N';
+  end;
 end;
 
 procedure TfVendas.btnProdutoProcuraClick(Sender: TObject);
@@ -1581,6 +1591,7 @@ begin
         estoque := fProcura_prod.cds_procESTOQUEATUAL.AsFloat;
       end;
     end;
+    lblEstoque.Caption := FloatToStr(fProcura_prod.cds_procESTOQUEATUAL.asfloat);
     // Usa Lote
     if (fProcura_prod.cds_procLOTES.AsString <> 'S') then
     begin
@@ -1601,11 +1612,13 @@ begin
     else begin
       Bitbtn4.SetFocus;
     end;
+
  // end;
 end;
 
 procedure TfVendas.btnNovoClick(Sender: TObject);
 begin
+  procurouProd := 'N';
   if (modo = 'FINALIZADO') then
   begin
     if (dm.blVendaFin = 'S') then
@@ -3066,10 +3079,12 @@ begin
       if (dbeProduto.Text = '') then
       begin
         btnProdutoProcura.Click;
+        procurouProd := 'S';
         exit;
       end
       else
       begin
+        procurouProd := 'S';
         if (dm.codBarra = 'S') then // usa codigo de barra
         begin
           // busca pelo código de barra
@@ -3100,7 +3115,7 @@ begin
           if dm.scds_produto_proc.Active then
             dm.scds_produto_proc.Close;
           dm.scds_produto_proc.Params[0].AsInteger := 0;
-          dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+          dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
           dm.scds_produto_proc.Open;
           if dm.scds_produto_proc.IsEmpty then begin
              MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
@@ -3119,6 +3134,7 @@ begin
              dm.scds_produto_proc.Close;
            Exit;
         end;
+        lblEstoque.Caption := FloatToStr(dm.scds_produto_procESTOQUEATUAL.asfloat);
         cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
         cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
         cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
@@ -3342,6 +3358,7 @@ procedure TfVendas.JvDBGrid1CellClick(Column: TColumn);
 begin
   inherited;
   buscaServico;
+  lblEstoque.Caption := '..';
 end;
 
 procedure TfVendas.JvDBGrid1ColEnter(Sender: TObject);
