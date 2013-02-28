@@ -1,1034 +1,264 @@
 CREATE OR ALTER PROCEDURE EXTENSO (
-    PE_VL_NUMERO numeric(15,2) )
+    VALOR numeric(18,2),
+    CENTS char(1) )
 RETURNS (
-    PS_NUMERO_EXTENSO varchar(240) )
+    VALOREXTENSO varchar(250) )
 AS
-DECLARE EXTENSO VARCHAR(240);
-
-DECLARE B1 INTEGER;
-
-DECLARE B2 INTEGER;
-
-DECLARE B3 INTEGER;
-
-DECLARE B4 INTEGER;
-
-DECLARE B5 INTEGER;
-
-DECLARE B6 INTEGER;
-
-DECLARE B7 INTEGER;
-
-DECLARE B8 INTEGER;
-
-DECLARE B9 INTEGER;
-
-DECLARE B10 INTEGER; 
-
-DECLARE B11 INTEGER;
-
-DECLARE B12 INTEGER;
-
-DECLARE B13 INTEGER;
-
-DECLARE B14 INTEGER;
-
-DECLARE L1 VARCHAR(12);
-
-DECLARE L2 VARCHAR(3);
-
-DECLARE L3 VARCHAR(9);
-
-DECLARE L4 VARCHAR(3);
-
-DECLARE L5 VARCHAR(6); 
-
-DECLARE L6 VARCHAR(8);
-
-DECLARE L7 VARCHAR(12);
-
-DECLARE L8 VARCHAR(3);
-
-DECLARE L9 VARCHAR(9);
-
-DECLARE L10 VARCHAR(3);
-
-DECLARE L11 VARCHAR(6);
-
-DECLARE L12 VARCHAR(8);
-
-DECLARE L13 VARCHAR(12);
-
-DECLARE L14 VARCHAR(3); 
-
-DECLARE L15 VARCHAR(9);
-
-DECLARE L16 VARCHAR(3);
-
-DECLARE L17 VARCHAR(6);
-
-DECLARE L18 VARCHAR(8);
-
-DECLARE L19 VARCHAR(12);
-
-DECLARE L20 VARCHAR(3);
-
-DECLARE L21 VARCHAR(9);
-
-DECLARE L22 VARCHAR(3);
-
-DECLARE L23 VARCHAR(6);
-
-DECLARE L24 VARCHAR(16);
-
-DECLARE L25 VARCHAR(3);
-
-DECLARE L26 VARCHAR(9);
-
-DECLARE L27 VARCHAR(3);
-
-DECLARE L28 VARCHAR(6);
-
-DECLARE L29 VARCHAR(17);
-
-DECLARE VIRGULA_BI CHAR(3);
-
-DECLARE VIRGULA_MI CHAR(3);
-
-DECLARE VIRGULA_MIL CHAR(3);
-
-DECLARE VIRGULA_CR CHAR(3);
-
-DECLARE VALOR1 VARCHAR(14);
-
-DECLARE CENTENAS CHAR(108) = 'CENTO       DUZENTOS    TREZENTOS   QUATROCENTOSQUINHENTOS  SEISCENTOS  SETECENTOS  OITOCENTOS  NOVECENTOS  ';
-
-DECLARE DEZENAS CHAR(79) = 'DEZ      VINTE    TRINTA   QUARENTA CINQUENTASESSENTA SETENTA  OITENTA  NOVENTA  '; 
-
-DECLARE UNIDADES CHAR(54) = 'UM    DOIS  TRES  QUATROCINCO SEIS  SETE  OITO  NOVE  ';
-
-DECLARE UNID10   CHAR(81)  = 'ONZE     DOZE     TREZE    QUATORZE QUINZE   DEZESSEISDEZESSETEDEZOITO  DEZENOVE '; 
-
-DECLARE V_IMPLEMENTAR INTEGER;
-
-DECLARE I INTEGER;
-
-DECLARE V_VL_INTEIRO VARCHAR(14);
-
+declare variable cmoeda varchar(10);
+declare variable cmoedas varchar(10);
+declare variable ccentavo varchar(10);
+declare variable ccentavos varchar(10);
+declare variable cmil varchar(12);
+declare variable cmils varchar(12);
+declare variable cmilhao varchar(12);
+declare variable cmilhoes varchar(12);
+declare variable cbilhao varchar(12);
+declare variable cbilhoes varchar(12);
+declare variable ctrilhao varchar(12);
+declare variable ctrilhoes varchar(12);
+declare variable cquatrilhao varchar(12);
+declare variable cquatrilhoes varchar(12);
+declare variable cvalor varchar(100);
+declare variable nvalor smallint;
+declare variable cvalorint varchar(100);
+declare variable nvalorint integer;
+declare variable nvalordec  numeric(6,3);
+declare variable i smallint;
+declare variable nconj integer;
+declare variable cletra varchar(1);
+declare variable caux varchar(200);
+declare variable extensocentavos varchar(100);
+declare variable separador varchar(3);
+declare variable extensoconj varchar(150);
+declare variable cdig1 varchar(10);
+declare variable cdig2 varchar(10);
+declare variable cdig3 varchar(10);
+declare variable centenas char(108) = 'CENTO       DUZENTOS    TREZENTOS   QUATROCENTOSQUINHENTOS  SEISCENTOS  SETECENTOS  OITOCENTOS  NOVECENTOS  ';
+declare variable dezenas char(79) = 'DEZ      VINTE    TRINTA   QUARENTA CINQUENTASESSENTA SETENTA  OITENTA  NOVENTA  ';
+declare variable unidades char(54) = 'UM    DOIS  TRES  QUATROCINCO SEIS  SETE  OITO  NOVE  ';
+declare variable unid10 char(81) = 'ONZE     DOZE     TREZE    QUATORZE QUINZE   DEZESSEISDEZESSETEDEZOITO  DEZENOVE ';
+declare variable extensounidade varchar(12);
+declare variable extensodezena varchar(12);
+declare variable extensocentena varchar(12);
+declare variable vlrextenso varchar(250);
 begin
+  if (cents is null) then cents = 'S';
+  cents = UPPER(cents);
+ 
+  cMil = 'MIL'; cMils = 'MIL';
+  cMilhao = 'MILHÃO'; cMilhoes = 'MILHÕES';
+  cBilhao = 'BILHÃO'; cBilhoes = 'BILHÕES';
+  cTrilhao = 'TRILHÃO'; cTrilhoes = 'TRILHÕES';
+  cQuatrilhao = 'QUATRILHÃO'; cQuatrilhoes = 'QUATRILHÕES';
+  cMoeda = 'REAL'; cMoedas = 'REAIS';
+  cCentavo = 'CENTAVO'; cCentavos = 'CENTAVOS';
+  Separador = ' ';
+ 
+  nValorInt = cast(valor/100*100 as integer);
+  nValorDec = (Valor - Cast(nValorInt as numeric(18,3))) / 10;
+  cAux = Cast(nValorDec as varchar(100));
 
-  EXTENSO = '';
+  cValorInt = Cast(nValorInt as varchar(100)) || Substring(cAux from 3 for 3);
 
-  L1 = '';
+  cLetra = Substring(cValorInt from 1 for 1);
+  cAux = cValorInt;
+  cValorInt = '';
+  while (cAux <> '') do
+  begin
+    cValorInt = (cLetra || cValorInt);
+    cAux = Substring(cAux from 2 for 100);
+    cLetra = Substring(cAux from 1 for 1);
+    if (cLetra = '') then cLetra = ' ';
+  end
+ 
+  nConj = 1;
+  extensocentavos = '';
+  vlrextenso = '';
+ 
+  if (Valor <> 0) then
+  begin
+    while (cValorInt <> '') do
+    begin
+      cValor = '';
+      i = 1;
+      while (i <= 3) do
+      begin
+        cLetra = Substring(cValorInt from 1 for 1);
+        if (cLetra = '') then cLetra = ' ';
+        cValor = (cLetra || cValor);
+        cValorInt = Substring(cValorInt from 2 for 100);
+        i = (i + 1);
+      end
+ 
+      nValor = Cast(cValor as smallint);
+ 
+      cDig1 = Substring(cValor from 1 for 1);
+      cDig2 = Substring(cValor from 2 for 1);
+      cDig3 = Substring(cValor from 3 for 1);
+ 
+      extensounidade = '';
+      extensodezena = '';
+      extensocentena = '';
+ 
+      if (cDig3 > '0') then
+      begin
+        cAux = cast((cast(cDig3 as integer) * 6 - 5) as varchar(3));
+        cAux = 'select cast(Substring(''' || unidades || ''' from ' || cAux || ' for 6) as varchar(12)) from rdb$database';
+        execute statement cAux into :extensounidade;
+      end
+ 
+      if (cDig2 > '0') then
+      begin
+        if ((cDig3 > '0') and (cDig2 = '1')) then
+        begin
+          extensounidade = '';
+          cAux = unid10 || ''' from ' || cast((cast(cDig3 as integer) * 9 - 8) as varchar(3));
+        end
+        else
+          cAux = dezenas || ''' from ' || cast((cast(cDig2 as integer) * 9 - 8) as varchar(3));
+        cAux = 'select cast(Substring(''' || cAux || ' for 9) as varchar(12)) from rdb$database';
+        execute statement cAux into :extensodezena;
+      end
+ 
+      if (cDig1 > '0') then
+      begin
+        if (nValor = 100) then
+          extensocentena = 'CEM';
+        else
+        begin
+          cAux = cast((cast(cDig1 as integer) * 12 - 11) as varchar(3));
+          cAux = 'select cast(Substring(''' || centenas || ''' from ' || cAux || ' for 12) as varchar(12)) from rdb$database';
+          execute statement cAux into :extensocentena;
+        end
+      end
+ 
+      if (extensounidade <> '') then
+        extensoconj = extensounidade;
+      else
+        extensoconj = '';
+ 
+      if (extensodezena <> '') then
+      begin
+        if (extensoconj <> '') then
+          extensoconj = extensodezena || ' E ' || extensoconj;
+        else
+          extensoconj = extensodezena;
+      end
+ 
+      if (extensocentena <> '') then
+      begin
+        if (extensoconj <> '') then
+          extensoconj = extensocentena || ' E ' || extensoconj;
+        else
+          extensoconj = extensocentena;
+      end
+ 
+      if (nValor > 0) then
+      begin
+        if (nConj = 1) then 
+        begin
+          if (nValor > 1) then
+            extensoconj = extensoconj || ' ' ||ccentavos;
+          else
+            extensoconj = extensoconj || ' ' || ccentavo;
+        end
 
-  L2 = '';
-
-  L3 = '';
-
-  L4 = '';
-
-  L5 = '';
-
-  L6 = '';
-
-  VIRGULA_BI = '';
-
-  L7 = '';
-
-  L8 = ''; 
-
-  L9 = '';
-
-  L10 = '';
-
-  L11 = '';
-
-  L12 = '';
-
-  VIRGULA_MI = '';
-
-  L13 = '';
-
-  L14 = '';
-
-  L15 = '';
-
-  L16 = '';
-
-  L17 = ''; 
-
-  L18 = '';
-
-  VIRGULA_MIL = '';
-
-  L19 = '';
-
-  L20 = '';
-
-  L21 = '';
-
-  L22 = '';
-
-  L23 = '';
-
-  L24 = '';
-
-  VIRGULA_CR = ''; 
-
-  L25 = '';
-
-  L26 = '';
-
-  L27 = '';
-
-  L28 = '';
-
-  L29 = '';
-
-  I = 1;
-
-  V_IMPLEMENTAR = 0;
-
-  V_VL_INTEIRO = 0;
-
+ 
+        if (nConj = 3) then 
+        begin
+          if (nValor > 1) then
+            extensoconj = extensoconj || ' ' || cMils;
+          else
+            extensoconj = extensoconj || ' ' || cMil;
+        end
+        else
+        if (nConj = 4) then 
+        begin
+        if (nValor > 1) then
+            extensoconj = extensoconj || ' ' || cMilhoes;
+          else
+            extensoconj = extensoconj || ' ' || cMilhao;
+        end
+        else
+        if (nConj = 5) then 
+        begin
+          if (nValor > 1) then
+            extensoconj = extensoconj || ' ' || cBilhoes;
+          else
+            extensoconj = extensoconj || ' ' || cBilhao;
+        end
+        else
+        if (nConj = 6) then 
+        begin
+          if (nValor > 1) then
+            extensoconj = extensoconj || ' ' || cTrilhoes;
+          else
+            extensoconj = extensoconj || ' ' || cTrilhao;
+        end
+        else
+        if (nConj = 7) then 
+        begin
+          if (nValor > 1) then
+            extensoconj = extensoconj || ' ' || cQuatrilhoes;
+          else
+            extensoconj = extensoconj || ' ' || cQuatrilhao;
+        end
+ 
+        if ((vlrextenso = '') and (nConj > 3)) then
+          extensoconj = extensoconj || ' DE ';
+      end
+ 
+      if (nConj < 4) then
+        Separador = ' E ';
+      else
+        Separador = ', ';
+ 
+      if (nConj = 1) then 
+        extensocentavos = extensoconj;
+      else
+      if (extensoconj <> '') then
+      begin
+        if (vlrextenso <> '') then
+          vlrextenso = extensoconj || Separador || vlrextenso;
+        else
+          vlrextenso = extensoconj;
+      end
+ 
+      nConj = nConj + 1;
+    end
+ 
+    if (nvalorint > 0) then
+    begin
+      if (nvalorint > 1) then
+        vlrextenso = vlrextenso || ' ' || cmoedas;
+      else
+        vlrextenso = vlrextenso || ' ' || cmoeda;
+    end
+ 
+    if ((extensocentavos <> '') and (cents = 'S')) then
+    begin
+      if (vlrextenso <> '') then
+        vlrextenso = vlrextenso || ' E ' || extensocentavos;
+      else
+        vlrextenso = extensocentavos;
+    end
   
 
-  V_VL_INTEIRO = PE_VL_NUMERO;
-
-  V_IMPLEMENTAR = UDF_LEN(V_VL_INTEIRO);
-
-  VALOR1 = '';
-
-  WHILE (I <= V_IMPLEMENTAR) DO
-
-  BEGIN
-
-    IF (UDF_COPY(V_VL_INTEIRO,I, 1) <> '.') THEN
-
-    BEGIN
-
-      VALOR1 = VALOR1 || UDF_COPY(V_VL_INTEIRO,I, 1); 
-
-    END
-
-    I = (I+1);
-
-  END
-
-  V_IMPLEMENTAR = (14 - UDF_LEN(UDF_TRIM(VALOR1)));
-
-  I = 0;
-
-  WHILE (I <= V_IMPLEMENTAR) DO
-
-  BEGIN
-
-    IF (UDF_LEN(VALOR1) < 14) THEN
-
-    BEGIN
-
-      VALOR1 = '0' || VALOR1;
-
-    END
-
-    I = (I + 1);
-
-  END
-
-  B1 = SUBSTRING(VALOR1 FROM 1 FOR 1);
-
-  B2 = SUBSTRING(VALOR1 FROM 2 FOR 1);
-
-  B3 = SUBSTRING(VALOR1 FROM 3 FOR 1);
-
-  B4 = SUBSTRING(VALOR1 FROM 4 FOR 1);
-
-  B5 = SUBSTRING(VALOR1 FROM 5 FOR 1);
-
-  B6 = SUBSTRING(VALOR1 FROM 6 FOR 1); 
-
-  B7 = SUBSTRING(VALOR1 FROM 7 FOR 1);
-
-  B8 = SUBSTRING(VALOR1 FROM 8 FOR 1);
-
-  B9 = SUBSTRING(VALOR1 FROM 9 FOR 1);
-
-  B10 = SUBSTRING(VALOR1 FROM 10 FOR 1);
-
-  B11 = SUBSTRING(VALOR1 FROM 11 FOR 1);
-
-  B12 = SUBSTRING(VALOR1 FROM 12 FOR 1); 
-
-  B13 = SUBSTRING(VALOR1 FROM 13 FOR 1);
-
-  B14 = SUBSTRING(VALOR1 FROM 14 FOR 1);
-
-  IF (PE_VL_NUMERO <> 0) THEN
-
-  BEGIN
-
-    IF (B1 <> 0) THEN
-
-    BEGIN
-
-      IF (B1 = 1) THEN
-
-      BEGIN
-
-        IF ((B2 = 0) AND (B3 = 0)) THEN
-
-        BEGIN
-
-          L5 =  'CEM'; 
-
-        END
-
-        ELSE
-
-        BEGIN
-
-          L1 = UDF_COPY(CENTENAS,(B1 * 12-11),12);
-
-        END
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L1 = UDF_COPY(CENTENAS,(B1 * 12-11),12); 
-
-      END
-
-    END
-
-    IF (B2 <> 0) THEN
-
-    BEGIN
-
-      IF (B2 = 1) THEN
-
-      BEGIN
-
-        IF (B3 = 0) THEN
-
-        BEGIN
-
-          L5 =  'DEZ';
-
-        END
-
-        ELSE
-
-        BEGIN
-
-          L3 =  UDF_COPY(UNID10,(B3 * 9-8), 9); 
-
-        END
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L3 =  UDF_COPY(DEZENAS,(B2 * 9-8), 9);
-
-      END
-
-    END
-
-    IF (B3 <> 0) THEN
-
-    BEGIN
-
-      IF (B2 <> 1) THEN
-
-      BEGIN
-
-        L5 =  UDF_COPY(UNIDADES, (B3 * 6-5), 6);
-
-      END
-
-    END
-
-    IF ((B1 <> 0) OR (B2 <> 0)  OR (B3 <> 0)) THEN
-
-    BEGIN
-
-      IF ((B1 = 0 AND B2 = 0) AND (B3 = 1)) THEN 
-
-      BEGIN
-
-        L5 =  'UM';
-
-        L6 =  ' BILHÃO';
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L6 =  ' BILHÕES';
-
-      END
-
-      IF (PE_VL_NUMERO > 999999999) THEN 
-
-      BEGIN
-
-        VIRGULA_BI = '';
-
-        IF ((B4+B5+B6+B7+B8+B9+B10+B11+B12) = 0) THEN
-
-        BEGIN
-
-          VIRGULA_BI = ' DE ' ;
-
-        END 
-
-      END
-
-      L1 =  UDF_TRIM(L1);
-
-      L3 =  UDF_TRIM(L3);
-
-      L5 =  UDF_TRIM(L5);
-
-      IF ((B2 > 1) AND (B3 > 0)) THEN
-
-      BEGIN
-
-        L4 = ' E ';
-
-      END
-
-      IF ((B1 <> 0) AND ((B2 <> 0) OR (B3 <> 0))) THEN 
-
-      BEGIN
-
-        L2 = ' E ';
-
-      END
-
-    END
-
-    IF (B4 <> 0) THEN
-
-    BEGIN
-
-      IF (B4 = 1) THEN
-
-      BEGIN
-
-        IF ((B5 = 0) AND (B6 = 0)) THEN
-
-        BEGIN
-
-          L7 =  'CEM';
-
-        END 
-
-        ELSE
-
-        BEGIN
-
-          L7 = UDF_COPY(CENTENAS,(B4 * 12-11), 12);
-
-        END
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L7 = UDF_COPY(CENTENAS, (B4 * 12-11),12);
-
-      END 
-
-    END
-
-    IF (B5 <> 0) THEN
-
-    BEGIN
-
-      IF (B5 = 1) THEN
-
-      BEGIN
-
-        IF (B6 = 0) THEN
-
-        BEGIN
-
-          L11 =  'DEZ';
-
-        END
-
-        ELSE
-
-        BEGIN 
-
-          L9 =  UDF_COPY(UNID10, (B6 * 9-8), 9);
-
-        END
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L9 =  UDF_COPY(DEZENAS, (B5 * 9-8), 9);
-
-      END
-
-    END
-
-    IF (B6 <> 0) THEN 
-
-    BEGIN
-
-      IF (B5 <> 1) THEN
-
-      BEGIN
-
-        L11 =  UDF_COPY(UNIDADES,(B6 * 6-5), 6);
-
-      END
-
-    END
-
-    IF ((B4 <> 0) OR (B5 <> 0)  OR (B6 <> 0)) THEN
-
-    BEGIN
-
-      IF (((B4 = 0) AND (B5 = 0)) AND (B6 = 1)) THEN
-
-      BEGIN
-
-        L11 =  ' UM';
-
-        L12 =  ' MILHÃO';
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L12 =  ' MILHÕES'; 
-
-      END
-
-      IF (PE_VL_NUMERO > 999999) THEN
-
-      BEGIN
-
-        VIRGULA_MI = '';
-
-        IF ((B7+B8+B9+B10+B11+B12) = 0) THEN
-
-        BEGIN
-
-          VIRGULA_MI = ' DE '; 
-
-        END
-
-      END
-
-      L7 =  UDF_TRIM(L7);
-
-      L9 =  UDF_TRIM(L9);
-
-      L11 = UDF_TRIM(L11);
-
-      IF ((B5 > 1) AND (B6 > 0)) THEN
-
-      BEGIN
-
-        L10 = ' E ';
-
-      END
-
-      IF ((B4 <> 0) AND ((B5 <> 0) OR (B6 <> 0))) THEN 
-
-      BEGIN
-
-        L8 = ' E ';
-
-      END
-
-    END
-
-    IF (B7 <> 0) THEN
-
-    BEGIN
-
-      IF (B7 = 1) THEN
-
-      BEGIN
-
-        IF ((B8 = 0) AND (B9 = 0)) THEN
-
-        BEGIN
-
-          L17 =  'CEM';
-
-        END
-
-        ELSE
-
-        BEGIN 
-
-          L13 = UDF_COPY(CENTENAS, (B7 * 12-11), 12);
-
-        END
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L13 = UDF_COPY(CENTENAS,(B7 * 12-11), 12);
-
-      END
-
-    END
-
-    IF (B8 <> 0) THEN 
-
-    BEGIN
-
-      IF (B8 = 1) THEN
-
-      BEGIN
-
-        IF (B9 = 0) THEN
-
-        BEGIN
-
-          L17 =  'DEZ';
-
-        END
-
-        ELSE
-
-        BEGIN
-
-          L15 =  UDF_COPY(UNID10, (B9 * 9-8), 9); 
-
-        END
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L15 =  UDF_COPY(DEZENAS, (B8 * 9-8), 9);
-
-      END
-
-    END
-
-    IF (B9 <> 0) THEN
-
-    BEGIN
-
-      IF (B8 <> 1) THEN
-
-      BEGIN
-
-        L17 =  UDF_COPY(UNIDADES,(B9 * 6-5), 6);
-
-      END
-
-    END
-
-    IF ((B7 <> 0) OR (B8 <> 0)  OR (B9 <> 0)) THEN
-
-    BEGIN
-
-      IF (((B7 = 0) AND (B8 = 0)) AND (B9 = 1)) THEN 
-
-      BEGIN
-
-        L17 =  'UM';
-
-        L18 =  ' MIL';
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L18 =  ' MIL';
-
-      END
-
-      IF ((PE_VL_NUMERO > 999) AND ((B10+B11+B12) <> 0)) THEN 
-
-      BEGIN
-
-        VIRGULA_MIL  = ' E ';
-
-      END
-
-      L13 =  UDF_TRIM(L13);
-
-      L15 =  UDF_TRIM(L15);
-
-      L17 =  UDF_TRIM(L17);
-
-      IF ((B8 > 1) AND (B9 > 0)) THEN
-
-      BEGIN
-
-         L16 = ' E '; 
-
-      END
-
-      IF ((B7 <> 0) AND ((B8 <> 0) OR (B9 <> 0))) THEN
-
-      BEGIN
-
-        L14 = ' E ';
-
-      END
-
-    END
-
-    IF (B10 <> 0) THEN
-
-    BEGIN
-
-      IF (B10 = 1) THEN
-
-      BEGIN
-
-        IF ((B11 = 0) AND (B12 = 0)) THEN
-
-        BEGIN
-
-          L19 =  'CEM';
-
-        END
-
-        ELSE
-
-        BEGIN 
-
-          L19 = UDF_COPY(CENTENAS, (B10 * 12-11), 12);
-
-        END
-
-     END
-
-     ELSE
-
-     BEGIN
-
-       L19 = UDF_COPY(CENTENAS,(B10 * 12-11), 12);
-
-     END
-
-    END
-
-    IF (B11 <> 0) THEN
-
-    BEGIN
-
-      IF (B11 = 1) THEN
-
-      BEGIN
-
-        IF (B12 = 0) THEN
-
-        BEGIN
-
-          L23 =  'DEZ';
-
-        END
-
-        ELSE
-
-        BEGIN
-
-          L21 =  UDF_COPY(UNID10, (B12 * 9-8), 9); 
-
-        END
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        L21 =  UDF_COPY(DEZENAS, (B11 * 9-8), 9);
-
-      END
-
-    END
-
-    IF (B12 <> 0) THEN
-
-    BEGIN
-
-      IF (B11 <> 1) THEN 
-
-      BEGIN
-
-        L23 =  UDF_COPY(UNIDADES,(B12 * 6-5),6);
-
-      END
-
-    END
-
-    IF ((B10 <> 0) OR (B11 <> 0)  OR (B12 <> 0)) THEN
-
-    BEGIN
-
-      IF ((PE_VL_NUMERO > 0) AND (PE_VL_NUMERO < 2)) THEN
-
-      BEGIN
-
-        L23 =  'UM';
-
-      END
-
-      L19 =  UDF_TRIM(L19); 
-
-      L21 =  UDF_TRIM(L21);
-
-      L23 = UDF_TRIM(L23);
-
-      IF ((B11 > 1) AND (B12 > 0)) THEN
-
-      BEGIN
-
-        L22 = ' E ';
-
-      END
-
-      IF ((B10 <> 0) AND ((B11 <> 0) OR (B12 <> 0))) THEN 
-
-      BEGIN
-
-        L20 = ' E ';
-
-      END
-
-    END
-
-    IF ((PE_VL_NUMERO > 0) AND (PE_VL_NUMERO < 2))  THEN
-
-    BEGIN
-
-      IF (B12 <> 0) THEN
-
-      BEGIN
-
-        L24 = ' REAL';
-
-      END
-
-    END
-
-    ELSE
-
-    BEGIN
-
-      IF (PE_VL_NUMERO > 1) THEN 
-
-      BEGIN
-
-        L24 = ' REAIS';
-
-      END
-
-    END
-
-    IF ((B13 <> 0) OR (B14 <> 0)) THEN
-
-    BEGIN
-
-      IF (PE_VL_NUMERO > 0) THEN
-
-      BEGIN
-
-        IF ((B12 <> 0) OR ((B1+B2+B3+B4+B5+B6+B7+B8+B9+B10+B11+B12) <> 0)) THEN 
-
-        BEGIN
-
-          L25 = ' E ';
-
-        END
-
-      END
-
-      IF (B13 <> 0) THEN
-
-      BEGIN
-
-        IF (B13 = 1) THEN
-
-        BEGIN
-
-          IF (B14 = 0) THEN
-
-          BEGIN 
-
-            L28 =  'DEZ';
-
-          END
-
-          ELSE
-
-          BEGIN
-
-            L26 =  UDF_COPY(UNID10, B14*9-8, 9);
-
-          END
-
-        END
-
-        ELSE
-
-        BEGIN
-
-          L26 =  UDF_COPY(DEZENAS, B13*9-8, 9); 
-
-        END
-
-      END
-
-      IF (B14 <> 0) THEN
-
-      BEGIN
-
-        IF (B13 <> 1) THEN
-
-        BEGIN
-
-          L28 =  UDF_COPY(UNIDADES,B14*6-5, 6);
-
-        END
-
-      END
-
-      IF ((B13 <> 0)  OR (B14 <> 0)) THEN
-
-      BEGIN
-
-        IF (PE_VL_NUMERO = 1) THEN
-
-        BEGIN
-
-          L28 =  'UM';
-
-        END
-
-        L26 =  UDF_TRIM(L26);
-
-        L28 = UDF_TRIM(L28); 
-
-        IF ((B13 > 1) AND (B14 > 0)) THEN
-
-        BEGIN
-
-          L27 = ' E ';
-
-        END
-
-      END
-
-      IF ((B1+B2+B3+B4+B5+B6+B7+B8+B9+B10+B11+B12) > 0) THEN
-
-      BEGIN
-
-        IF ((B13 = 0) AND (B14 = 1)) THEN 
-
-        BEGIN
-
-          L29 = ' CENTAVO';
-
-        END
-
-        ELSE
-
-        BEGIN
-
-          L29 = ' CENTAVOS';
-
-        END
-
-      END
-
-      ELSE
-
-      BEGIN
-
-        IF ((B13 = 0) AND (B14 = 1)) THEN 
-
-        BEGIN
-
-          L29 = ' CENTAVO';
-
-        END
-
-        ELSE
-
-        BEGIN
-
-          L29 = ' CENTAVOS';
-
-        END
-
-      END
-
-    END
-
-    IF ((L29 = ' CENTAVO') OR (L29 = ' CENTAVOS')) THEN
-
-    BEGIN
-
-      VIRGULA_MIL = '';
-
-    END
-
-    EXTENSO = UDF_TRIM(L1) || ' ' || UDF_TRIM(L2) || ' ' || UDF_TRIM(L3) || ' ' || UDF_TRIM(L4) || ' ' || UDF_TRIM(L5) || ' ' || UDF_TRIM(L6) || ' ' || UDF_TRIM(VIRGULA_BI) || ' '
-
-                 || UDF_TRIM(L7) || ' ' || UDF_TRIM(L8) || ' ' || UDF_TRIM(L9) || ' ' || UDF_TRIM(L10) || ' ' || UDF_TRIM(L11) || ' ' || UDF_TRIM(L12) || ' ' || UDF_TRIM(VIRGULA_MI) || ' ' 
-
-                 || UDF_TRIM(L13) || ' ' || UDF_TRIM(L14) || ' ' || UDF_TRIM(L15) || ' ' || UDF_TRIM(L16) || ' ' || UDF_TRIM(L17) || ' ' || UDF_TRIM(L18) || ' ' || UDF_TRIM(VIRGULA_MIL) || ' ' 
-
-                 || UDF_TRIM(L19) || ' ' || UDF_TRIM(L20) || ' ' || UDF_TRIM(L21) || ' ' || UDF_TRIM(L22) || ' ' || UDF_TRIM(L23) || ' ' || UDF_TRIM(L24) || ' ' || UDF_TRIM(VIRGULA_CR) || ' ' 
-
-                 || UDF_TRIM(L25) || ' ' || UDF_TRIM(L26) || ' ' || UDF_TRIM(L27) || ' ' || UDF_TRIM(L28) || ' ' || UDF_TRIM(L29);
-
-    EXTENSO = UDF_TRIM(EXTENSO);
-
-  END
-
-  ELSE
-
-  BEGIN
-
-    EXTENSO = 'ZERO';
-
-  END
-
-  
-
-  PS_NUMERO_EXTENSO = EXTENSO;
-
-  SUSPEND;
-
-  
-
+    valorextenso = '';
+
+    cLetra = Substring(vlrextenso from 1 for 1);
+    cAux = '';
+    while (vlrextenso <> '') do
+    begin
+      cLetra = Substring(vlrextenso from 1 for 1);
+      vlrextenso = Substring(vlrextenso from 2 for 250);
+      if ((cLetra <> ' ') or ((cLetra = ' ') and (cAux <> ' ')))  then
+        valorextenso = valorextenso || cLetra;
+      cAux = cLetra;
+    end
+  end
+  else
+    valorextenso = 'ZERO';
+ 
+  suspend;
 end
