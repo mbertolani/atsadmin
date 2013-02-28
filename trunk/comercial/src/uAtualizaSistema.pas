@@ -1791,6 +1791,7 @@ begin
 
     if (versaoSistema = '1.0.0.116') then
     begin
+      EXECUTADDL('MOVIMENTODETALHE', 'DESCONTO_BC', 'VARCHAR(5)');
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF INACTIVE');
 
       dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET STATUS = '
@@ -1807,8 +1808,18 @@ begin
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
 
       mudaVersao('1.0.0.117');
-    end;// Fim Atualizacao Versao 1.0.0.116
+    end;// Fim Atualizacao Versao 1.0.0.117
 
+    if (versaoSistema = '1.0.0.117') then
+    begin
+      executaScript('spEstoqueFiltro118.sql');
+      executaScript('estoque_view118.sql');
+      executaScript('listaSpEstoqueFiltro118.sql');
+      executaScript('listaProduto118.sql');
+      executaScript('listaProdutocli118.sql');
+
+      mudaVersao('1.0.0.118');
+    end;// Fim Atualizacao Versao 1.0.0.118
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
