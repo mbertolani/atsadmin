@@ -12,7 +12,7 @@ inherited fVendas: TfVendas
   TextHeight = 16
   object Label11: TLabel [0]
     Left = 136
-    Top = 472
+    Top = 488
     Width = 60
     Height = 16
     Caption = 'Vendedor'
@@ -26,7 +26,7 @@ inherited fVendas: TfVendas
   end
   object Label18: TLabel [2]
     Left = 4
-    Top = 473
+    Top = 489
     Width = 44
     Height = 16
     Caption = 'C'#243'digo'
@@ -55,7 +55,7 @@ inherited fVendas: TfVendas
   end
   object Label12: TLabel [6]
     Left = 7
-    Top = 501
+    Top = 517
     Width = 31
     Height = 16
     Caption = 'Obs.:'
@@ -1473,7 +1473,7 @@ inherited fVendas: TfVendas
   end
   object DBEdit15: TDBEdit [17]
     Left = 51
-    Top = 471
+    Top = 487
     Width = 78
     Height = 24
     BevelKind = bkFlat
@@ -1493,7 +1493,7 @@ inherited fVendas: TfVendas
   end
   object DBEdit16: TDBEdit [18]
     Left = 224
-    Top = 471
+    Top = 487
     Width = 369
     Height = 24
     TabStop = False
@@ -1553,7 +1553,7 @@ inherited fVendas: TfVendas
     Left = 0
     Top = 112
     Width = 633
-    Height = 358
+    Height = 371
     ActivePage = Itens
     TabOrder = 7
     TabStop = False
@@ -1561,7 +1561,7 @@ inherited fVendas: TfVendas
       Caption = 'Itens'
       object Label3: TLabel
         Left = 0
-        Top = 0
+        Top = 1
         Width = 44
         Height = 16
         Cursor = crHandPoint
@@ -1625,21 +1625,47 @@ inherited fVendas: TfVendas
       end
       object lbl1: TLabel
         Left = 358
-        Top = 2
+        Top = 1
         Width = 42
         Height = 16
         Caption = 'Desc.$'
       end
       object Label28: TLabel
         Left = 5
-        Top = 74
+        Top = 75
         Width = 31
         Height = 16
         Caption = 'OBS.'
       end
+      object Label30: TLabel
+        Left = 2
+        Top = 99
+        Width = 45
+        Height = 13
+        Caption = 'Estoque :'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
+      object lblEstoque: TLabel
+        Left = 48
+        Top = 99
+        Width = 6
+        Height = 13
+        Caption = '..'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
       object DBEdit7: TDBEdit
         Left = 113
-        Top = 17
+        Top = 12
         Width = 48
         Height = 24
         TabStop = False
@@ -1660,7 +1686,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit5: TDBEdit
         Left = 98
-        Top = 17
+        Top = 18
         Width = 47
         Height = 24
         TabStop = False
@@ -1677,7 +1703,7 @@ inherited fVendas: TfVendas
       end
       object dbeProduto: TDBEdit
         Left = 0
-        Top = 17
+        Top = 18
         Width = 61
         Height = 24
         DataField = 'CODPRO'
@@ -1694,8 +1720,8 @@ inherited fVendas: TfVendas
         OnKeyPress = dbeProdutoKeyPress
       end
       object btnProdutoProcura: TBitBtn
-        Left = 63
-        Top = 16
+        Left = 61
+        Top = 17
         Width = 35
         Height = 26
         Enabled = False
@@ -1770,7 +1796,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit8: TDBEdit
         Left = 147
-        Top = 17
+        Top = 18
         Width = 33
         Height = 24
         TabStop = False
@@ -1788,7 +1814,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit9: TDBEdit
         Left = 182
-        Top = 17
+        Top = 18
         Width = 55
         Height = 24
         DataField = 'QUANTIDADE'
@@ -1806,7 +1832,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit10: TDBEdit
         Left = 238
-        Top = 17
+        Top = 18
         Width = 60
         Height = 24
         DataField = 'PRECO'
@@ -1823,7 +1849,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit11: TDBEdit
         Left = 408
-        Top = 17
+        Top = 18
         Width = 52
         Height = 24
         DataField = 'ICMS'
@@ -1840,7 +1866,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit12: TDBEdit
         Left = 463
-        Top = 17
+        Top = 18
         Width = 89
         Height = 24
         Color = clInfoBk
@@ -1859,7 +1885,7 @@ inherited fVendas: TfVendas
       end
       object btnNovo: TBitBtn
         Left = 554
-        Top = 6
+        Top = 11
         Width = 36
         Height = 36
         PopupMenu = PopupMenu1
@@ -1919,7 +1945,7 @@ inherited fVendas: TfVendas
       end
       object BitBtn8: TBitBtn
         Left = 590
-        Top = 6
+        Top = 11
         Width = 36
         Height = 36
         PopupMenu = PopupMenu1
@@ -1995,7 +2021,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit6: TDBEdit
         Left = 299
-        Top = 17
+        Top = 18
         Width = 54
         Height = 24
         DataField = 'QTDE_ALT'
@@ -2012,8 +2038,8 @@ inherited fVendas: TfVendas
         OnKeyPress = DBEdit9KeyPress
       end
       object BitBtn4: TBitBtn
-        Left = 1
-        Top = 43
+        Left = 0
+        Top = 48
         Width = 37
         Height = 26
         Caption = 'Lotes'
@@ -2024,7 +2050,7 @@ inherited fVendas: TfVendas
       end
       object JvDBGrid1: TJvDBGrid
         Left = 0
-        Top = 102
+        Top = 114
         Width = 625
         Height = 223
         DataSource = DtSrc1
@@ -2209,7 +2235,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit17: TDBEdit
         Left = 37
-        Top = 44
+        Top = 48
         Width = 588
         Height = 24
         BevelKind = bkFlat
@@ -2228,7 +2254,7 @@ inherited fVendas: TfVendas
       end
       object dbedtVALOR_DESCONTO: TDBEdit
         Left = 355
-        Top = 17
+        Top = 18
         Width = 50
         Height = 24
         DataField = 'VALOR_DESCONTO'
@@ -2246,7 +2272,7 @@ inherited fVendas: TfVendas
       end
       object DBEdit19: TDBEdit
         Left = 37
-        Top = 72
+        Top = 73
         Width = 588
         Height = 24
         BevelKind = bkFlat
@@ -2431,7 +2457,7 @@ inherited fVendas: TfVendas
   end
   object btVendedor: TBitBtn [23]
     Left = 595
-    Top = 471
+    Top = 487
     Width = 37
     Height = 37
     PopupMenu = PopupMenu1
@@ -2507,9 +2533,9 @@ inherited fVendas: TfVendas
       2222222222222222222222222222222222222222222222222222}
   end
   object DBEdit13: TDBEdit [24]
-    Left = 52
-    Top = 496
-    Width = 541
+    Left = 51
+    Top = 512
+    Width = 542
     Height = 25
     TabStop = False
     BevelKind = bkFlat
