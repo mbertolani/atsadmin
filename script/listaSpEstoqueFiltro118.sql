@@ -1,4 +1,3 @@
-set term ^; 
 CREATE OR ALTER PROCEDURE  LISTASPESTOQUEFILTRO( DTA1                             DATE
                                 , DTA2                             DATE
                                 , PROD1                            INTEGER
