@@ -31,7 +31,7 @@ object fProcura_prod: TfProcura_prod
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 801
+    Width = 803
     Height = 90
     Align = alTop
     BevelInner = bvLowered
@@ -555,7 +555,7 @@ object fProcura_prod: TfProcura_prod
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 801
+    Width = 803
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
