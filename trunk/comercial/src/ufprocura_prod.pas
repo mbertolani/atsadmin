@@ -489,10 +489,10 @@ begin
 
 {  ***** Comentei pois nao e usado mais - Carlos 09/08/2006 ****}
 
-  //if edCodigo.Text <> '' then
-  //  varCondicao := QuotedStr(edCodigo.Text)
-  //else
-  varCondicao := QuotedStr('TODOSPRODUTOS');  // Carrega todos e abaixo coloquei para fazer a busca pelo codigo.
+  if (edCodigo.Text <> '') then
+    varCondicao := QuotedStr(edCodigo.Text)
+  else
+    varCondicao := QuotedStr('TODOSPRODUTOS');  // Carrega todos e abaixo coloquei para fazer a busca pelo codigo.
 
   if cbFamilia.Text <> '' then
     varCondicao := varCondicao + ', ' + QuotedStr(cbFamilia.Text)
@@ -603,13 +603,13 @@ begin
       varCondicaoA := 'where USA = ' + QuotedStr('N') ;
   end;
 
-  if (edCodigo.Text <> '') then
-  begin
-    if varCondicaoA <> '' then
-      varCondicaoA :=  varCondicaoA + ' and CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%')
-    else
-      varCondicaoA :=  ' WHERE CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%');
-  end;
+  //if (edCodigo.Text <> '') then
+  //begin
+  //  if varCondicaoA <> '' then
+  //    varCondicaoA :=  varCondicaoA + ' and CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%')
+  //  else
+  //    varCondicaoA :=  ' WHERE CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%');
+  //end;
 
 
   if Edit1.Text <> '' then
