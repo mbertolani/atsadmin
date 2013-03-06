@@ -2278,8 +2278,7 @@ begin
         edVlrFrete.Value := 0;
       end;
     end; // Fim MERGULHO
-
-
+    cbPrazo.Text := cdsPRAZO.AsString;    
   end;
   dm.scds_venda_proc.Close;
   scdsCr_proc.Close;
@@ -3045,7 +3044,8 @@ begin
   if (not dm.cdsPrazo.Active) then
     dm.cdsPrazo.Open;
   if (dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
-    cdsN_PARCELA.asInteger := StrToInt(FloatToStr(dm.cdsPrazoValor.asFloat));
+    if (dtsrc.State in [dsInsert, dsEdit]) then
+      cdsN_PARCELA.asInteger := StrToInt(FloatToStr(dm.cdsPrazoValor.asFloat));
 end;
 
 procedure TfVendaFinalizar.CheckBox2Click(Sender: TObject);

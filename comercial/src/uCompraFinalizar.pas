@@ -515,7 +515,7 @@ begin
       cds_compraVALOR.Value := dm.scds_Mov_Det_procTotalPedido.Value;
       if (sqs_tit.Active) then
         sqs_tit.Close;
-      sqs_tit.CommandText := 'SELECT SUM((QTDE_ALT/100) * VALTOTAL), sum((PIPI/100)*valTotal)) FROM MOVIMENTODETALHE' +
+      sqs_tit.CommandText := 'SELECT SUM((QTDE_ALT/100) * VALTOTAL), sum((PIPI/100)*valTotal) FROM MOVIMENTODETALHE' +
        ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
       sqs_tit.Open;
       //cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
@@ -1080,6 +1080,7 @@ begin
         JvCalcEdit2.Value := 0;
       end;
     end; // Fim do CITRUS
+    cbPrazo.Text := cds_compraPRAZO.AsString;
   end;
   dm.scds_compra_proc.Close;
 
@@ -1423,8 +1424,9 @@ end;
 procedure TfCompraFinalizar.cbPrazoChange(Sender: TObject);
 begin
   inherited;
-  if (dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
-    cds_compraN_PARCELA.AsInteger := StrToInt(FloatToStr(dm.cdsPrazoValor.asFloat));
+  if (dtsrc.State in [dsInsert, dsEdit]) then
+    if (dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
+      cds_compraN_PARCELA.AsInteger := StrToInt(FloatToStr(dm.cdsPrazoValor.asFloat));
 end;
 
 procedure TfCompraFinalizar.cds_compraReconcileError(
