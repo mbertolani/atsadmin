@@ -2186,6 +2186,16 @@ end;
 procedure TfVendas.btnClienteProcuraClick(Sender: TObject);
 
 begin
+  if (dtsrc.State in [dsBrowse]) then
+  begin
+    if dm.scds_venda_proc.Active then
+      dm.scds_venda_proc.Close;
+    dm.scds_venda_proc.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+    dm.scds_venda_proc.Open;
+    if (dm.scds_venda_proc.IsEmpty) then
+      cds_Movimento.Edit;
+  End;
+
   if (dtsrc.State in [dsInsert, dsEdit]) then
   begin
   desconto := 0;
