@@ -2236,7 +2236,10 @@ begin
           if (sdsCfopProd.Active) then
             sdsCfopProd.Close;
           sdsCfopProd.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
-          sdsCfopProd.Params[1].AsString := sClienteUF.AsString;
+          if (tpNF.ItemIndex = 0) then
+            sdsCfopProd.Params[1].AsString := sFornecUF.AsString
+          else
+            sdsCfopProd.Params[1].AsString := sClienteUF.AsString;
           sdsCfopProd.Params[2].AsString := cdsNFCFOP.AsString;
           sdsCfopProd.Open;
 
