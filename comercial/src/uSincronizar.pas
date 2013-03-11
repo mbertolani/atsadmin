@@ -704,6 +704,10 @@ type
     ceProdutosQTD: TIntegerField;
     ceProdutosTAM_LOTE: TIntegerField;
     ceProdutosOBS: TStringField;
+    cProdutos: TClientDataSet;
+    ceProdutos: TClientDataSet;
+    cCliente: TClientDataSet;
+    ceCliente: TClientDataSet;      
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
 
