@@ -299,7 +299,8 @@ uses
   uNfeIcms in 'uNfeIcms.pas' {fNfeIcms},
   uperiodoSem in 'uperiodoSem.pas' {fPeriodoSem},
   uClientesAniversario in 'uClientesAniversario.pas' {fClientesAniversario},
-  uUnidadeMedida in 'uUnidadeMedida.pas' {fUnidadeMedida};
+  uUnidadeMedida in 'uUnidadeMedida.pas' {fUnidadeMedida},
+  uSincronizar in 'uSincronizar.pas' {fSincronizar};
 
 {$R *.res}
 
