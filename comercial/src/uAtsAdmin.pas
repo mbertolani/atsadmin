@@ -245,6 +245,7 @@ type
     CadastrarSemanas1: TMenuItem;
     AniversrioClientes1: TMenuItem;
     UnidadeMedida1: TMenuItem;
+    ExportarCupom1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -390,6 +391,7 @@ type
     procedure CadastrarSemanas1Click(Sender: TObject);
     procedure AniversrioClientes1Click(Sender: TObject);
     procedure UnidadeMedida1Click(Sender: TObject);
+    procedure ExportarCupom1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -443,7 +445,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
   uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario,
-  uLogs, uUnidadeMedida;
+  uLogs, uUnidadeMedida, uSincronizar;
 
 {$R *.dfm}
 
@@ -2376,6 +2378,16 @@ begin
     fUnidadeMedida.ShowModal;
   finally
     fUnidadeMedida.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.ExportarCupom1Click(Sender: TObject);
+begin
+  fSincronizar := TfSincronizar.Create(Application);
+  try
+    fSincronizar.ShowModal;
+  finally
+    fSincronizar.Free;
   end;
 end;
 
