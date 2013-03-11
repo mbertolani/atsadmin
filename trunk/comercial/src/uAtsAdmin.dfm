@@ -3004,6 +3004,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Exportar Tabelas'
         OnClick = ExportarTabelas1Click
       end
+      object ExportarCupom1: TMenuItem
+        Caption = 'Exportar Cupom'
+        OnClick = ExportarCupom1Click
+      end
       object Parametro1: TMenuItem
         Caption = 'Parametro'
         OnClick = Parametro1Click
