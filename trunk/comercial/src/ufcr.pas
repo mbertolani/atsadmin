@@ -488,7 +488,10 @@ begin
    sqltexto1 := sqltexto1 + ' rec.N_DOCUMENTO, rec.DUP_REC_NF, rec.DP,rec.BL, rec.CODVENDA,';
    sqltexto1 := sqltexto1 + ' rec.NOMECLIENTE, rec.RAZAOSOCIAL, rec.CODMOVIMENTO, ';
    sqltexto1 := sqltexto1 + ' rec.SALDO, rec.valorRec, rec.CODIGOBOLETO ';
-   sqltexto1 := sqltexto1 + 'from RELCONTASRECEBER rec ';   // procedure 
+   sqltexto1 := sqltexto1 + 'from RELCONTASRECEBER rec ';   // procedure
+   SqlCr := ' WHERE (rec.STATUS <> ' + QuotedStr('NF') + ')';;//
+
+
   //==============================================================================
   datastr:='  /  /  ';
 
@@ -511,7 +514,7 @@ begin
        dm.cds_parametro.Close;
      end;
      dm.c_1_planoc.Locate('NOME', cbReceitas.text, [loCaseInsensitive]);
-       SqlCr := ' Where rec.CONTACREDITO = ' + IntToStr(Dm.c_1_planocCODIGO.AsInteger);
+       SqlCr := ' and rec.CONTACREDITO = ' + IntToStr(Dm.c_1_planocCODIGO.AsInteger);
    end;
 
   //------------------------------------------------------------------------------
