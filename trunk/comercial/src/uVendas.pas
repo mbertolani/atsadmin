@@ -687,6 +687,7 @@ type
     modo :string;
     procedure Margem_Confere;
     procedure insereMatPrima;
+    procedure PesquisaProdutos;
   public
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda, estoque_negativo : string; //, tipoVenda
     estoque, qtde, mVendaPermi , desconto , prazoCliente , imex : Double;         // mVendaPermi = Margem de venda minima permitida
@@ -1271,216 +1272,16 @@ begin
 end;
 
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
-var sql: String;
 begin
   if (procurouProd = 'N') then
   begin
-  if (dtSrc1.State in [dsInsert, dsEdit]) then
-  begin
-    cds_mov_detCFOP.asString := edCfop.text;
-  inherited;
-  if (usaprecolistavenda = 'S') then
-  begin
-    varonde := 'Lista';
-    CODIGOPRODUTO := dbeProduto.Text;
-    precolista;
-    exit;
-  end;
-  if (dm.codBarra = 'N') then
-  begin
     if (dtSrc1.State in [dsInsert, dsEdit]) then
     begin
-    varonde := 'compra';
-    var_F := 'venda';
-    if (dbeProduto.Text = '') then
-    begin
-      exit;
-    end;
-    if DtSrc1.DataSet.State in [dsInactive] then
-      if dbeProduto.Text='' then exit;
-
-    //if dbeProduto.Field.OldValue<>dbeProduto.Field.NewValue then
-    //begin
-      if DtSrc1.DataSet.State in [dsBrowse] then
-         DtSrc1.DataSet.Edit;
-      if dm.scds_produto_proc.Active then
-        dm.scds_produto_proc.Close;
-      dm.scds_produto_proc.Params[0].AsInteger := 0;
-      dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
-      dm.scds_produto_proc.Open;
-      if dm.scds_produto_proc.IsEmpty then begin
-        MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-        [mbOk], 0);
-        btnProdutoProcura.Click;
-        exit;
-      end;
-
-      if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
-        if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
-        begin
-           ShowMessage('Produto com saldo negativo !');
-           dbeProduto.Clear;
-           DBEdit17.Clear;
-           if (dm.scds_produto_proc.Active) then
-             dm.scds_produto_proc.Close;
-           Exit;
-        end;
-      lblEstoque.Caption := FloatToStr(dm.scds_produto_procESTOQUEATUAL.asfloat);
-      cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
-      cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
-      cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-      cds_Mov_detOBS.AsString := dm.scds_produto_procOBS.asString;
-      if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
-        cds_Mov_detQTDE_PCT.AsFloat := 1;
-//      cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
-      cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-      estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
-      if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
-        cds_Mov_detQUANTIDADE.AsFloat := 1;
-      qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-      if(cds_MovimentoDesconto.asFloat > 0 ) then
-        cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
-      cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
-     { Estava calculando o preço errado , estava valor dividido pelo campo quantidade  erro IME 23/08/2011
-      if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
-         cds_Mov_detPRECO.AsFloat :=
-         dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
-      else
-      }
-     {
-     if(imex = 99) then
-         cds_Mov_detPRECO.AsFloat := (dm.scds_produto_procVALORUNITARIOATUAL.AsFloat * 1.2)
-     else
-     }
-         cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-
-      valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat ;
-      cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
-      cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
-      cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
-      // É serviço ???
-      {if (dm.scds_produto_procTIPO.AsString = 'SERV') then
-      begin
-      //   PageControl1.ActivePageIndex := 1;
-        if (not ds_serv.DataSet.Active) then
-        begin
-          c_8_serv.params[0].asInteger := cds_Mov_detCODDETALHE.Asinteger;
-          ds_serv.DataSet.Open;
-        end;
-          ds_serv.DataSet.Append;
-          c_8_servCODMOVIMENTO.AsInteger := cds_Mov_detCODDETALHE.Asinteger;
-          c_8_servDESCRICAO.AsString := dm.scds_produto_procPRODUTO.AsString;
-          DbEdit17.Enabled := True;
-          DbEdit17.Text := dm.scds_produto_procPRODUTO.AsString;
-      end;}
-    //Usa Lote ??
-    if (dm.scds_produto_procLOTES.AsString <> 'S') then
-    begin
-      usaLote := 'S';
-      dm.scds_produto_proc.Close;
-      if dbeProduto.Text = '' then
-         dbeProduto.SetFocus;
-      if DBEdit17.Text <> '' then
-       DBEdit17.SetFocus;
-    end
-    else begin
-      Bitbtn4.SetFocus;
-    end;
+      PesquisaProdutos;
     end;
   end
   else
-  begin
-  if (DtSrc1.DataSet.State in [dsInsert]) then
-    begin
-      if (dbeProduto.Text = '') then
-      begin
-        btnProdutoProcura.Click;
-        exit;
-      end
-      else begin
-        if (dm.codBarra = 'S') then // usa codigo de barra
-        begin
-          // busca pelo código de barra
-          if dm.scds_produto_proc.Active then
-            dm.scds_produto_proc.Close;
-          sql := 'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
-             ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
-             ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
-             ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
-             ', RATEIO, conta_despesa , IPI, OBS '  +
-             ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
-             ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
-             ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
-          dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
-            QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
-          dm.scds_produto_proc.Params[0].AsInteger := 0;
-          dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
-          dm.scds_produto_proc.Open;
-          if dm.scds_produto_proc.IsEmpty then begin
-             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-            [mbOk], 0);
-            btnProdutoProcura.Click;
-            exit;
-          end;
-        end
-        else begin
-          // busca pelo código de barra
-          if dm.scds_produto_proc.Active then
-            dm.scds_produto_proc.Close;
-          dm.scds_produto_proc.Params[0].AsInteger := 0;
-          dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
-          dm.scds_produto_proc.Open;
-          if dm.scds_produto_proc.IsEmpty then begin
-             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-            [mbOk], 0);
-            btnProdutoProcura.Click;
-            exit;
-          end;
-        end;
-
-        if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
-          if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
-          begin
-             ShowMessage('Produto com saldo negativo !');
-             dbeProduto.Clear;
-             DBEdit17.Clear;
-             if (dm.scds_produto_proc.Active) then
-              dm.scds_produto_proc.Close;
-             Exit;
-          end;
-        cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-        cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
-        cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
-        cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-        if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
-          cds_Mov_detQTDE_PCT.AsFloat := 1;
-//        cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
-        cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-        estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
-        if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
-          cds_Mov_detQUANTIDADE.AsFloat := 1;
-        qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-        if(cds_MovimentoDesconto.asFloat > 0 ) then
-          cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
-        cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
-        if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
-           cds_Mov_detPRECO.AsFloat :=
-           dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
-        else
-          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-        valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-        cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
-        cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
-        cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
-      end;
-    end;
-    end;
-  end;
-  end
-  else begin
     procurouProd := 'N';
-  end;
 end;
 
 procedure TfVendas.btnProdutoProcuraClick(Sender: TObject);
@@ -2613,8 +2414,6 @@ begin
 end;
 
 procedure TfVendas.DBEdit9Exit(Sender: TObject);
-var
-  total :double;
 begin
   inherited;
 {   if (cds_mov_det.State in [dsEdit, dsInsert]) then
@@ -3095,80 +2894,7 @@ begin
       else
       begin
         procurouProd := 'S';
-        if (dm.codBarra = 'S') then // usa codigo de barra
-        begin
-          // busca pelo código de barra
-          if dm.scds_produto_proc.Active then
-            dm.scds_produto_proc.Close;
-          sql := 'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
-             ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
-             ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
-             ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
-             ', RATEIO, conta_despesa , IPI, OBS '  +
-             ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
-             ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
-             ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
-          dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
-            QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
-          dm.scds_produto_proc.Params[0].AsInteger := 0;
-          dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
-          dm.scds_produto_proc.Open;
-          if dm.scds_produto_proc.IsEmpty then begin
-             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-            [mbOk], 0);
-            btnProdutoProcura.Click;
-            exit;
-          end;
-        end
-        else begin
-          // busca pelo código de barra
-          if dm.scds_produto_proc.Active then
-            dm.scds_produto_proc.Close;
-          dm.scds_produto_proc.Params[0].AsInteger := 0;
-          dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
-          dm.scds_produto_proc.Open;
-          if dm.scds_produto_proc.IsEmpty then begin
-             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-            [mbOk], 0);
-            btnProdutoProcura.Click;
-            exit;
-          end;
-        end;
-        if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
-        if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
-        begin
-           ShowMessage('Produto com saldo negativo !');
-           dbeProduto.Clear;
-           DBEdit17.Clear;
-           if (dm.scds_produto_proc.Active) then
-             dm.scds_produto_proc.Close;
-           Exit;
-        end;
-        lblEstoque.Caption := FloatToStr(dm.scds_produto_procESTOQUEATUAL.asfloat);
-        cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-        cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
-        cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
-        cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
-        if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
-          cds_Mov_detQTDE_PCT.AsFloat := 1;
-//        cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
-        cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
-        estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
-        if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
-          cds_Mov_detQUANTIDADE.AsFloat := 1;
-        qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
-        if(cds_MovimentoDesconto.asFloat > 0 ) then
-          cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
-        cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
-        if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
-           cds_Mov_detPRECO.AsFloat :=
-           dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
-        else
-          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-        valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat;
-        cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
-        cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
-        cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+        PesquisaProdutos;
       end;
     end;
   end;
@@ -3177,7 +2903,6 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
   end;
-  //dm.scds_produto_proc.CommandText := sql;
 end;
 
 procedure TfVendas.dbeClienteKeyPress(Sender: TObject; var Key: Char);
@@ -3930,6 +3655,181 @@ begin
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('PVMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
   VCLReport1.Execute;
+end;
+
+procedure TfVendas.PesquisaProdutos;
+var sql: String;
+begin
+  cds_mov_detCFOP.asString := edCfop.text;
+  if (usaprecolistavenda = 'S') then
+  begin
+    varonde := 'Lista';
+    CODIGOPRODUTO := dbeProduto.Text;
+    precolista;
+    exit;
+  end;
+  if (dm.codBarra = 'N') then
+  begin
+    if (dtSrc1.State in [dsInsert, dsEdit]) then
+    begin
+      varonde := 'compra';
+      var_F := 'venda';
+      if (dbeProduto.Text = '') then
+        exit;
+
+      if DtSrc1.DataSet.State in [dsInactive] then
+        if dbeProduto.Text='' then
+          exit;
+
+      if DtSrc1.DataSet.State in [dsBrowse] then
+         DtSrc1.DataSet.Edit;
+      if dm.scds_produto_proc.Active then
+        dm.scds_produto_proc.Close;
+      dm.scds_produto_proc.Params[0].AsInteger := 0;
+      dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
+      dm.scds_produto_proc.Open;
+      if dm.scds_produto_proc.IsEmpty then begin
+        MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+        [mbOk], 0);
+        btnProdutoProcura.Click;
+        exit;
+      end;
+
+      if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+        if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
+        begin
+           ShowMessage('Produto com saldo negativo !');
+           dbeProduto.Clear;
+           DBEdit17.Clear;
+           if (dm.scds_produto_proc.Active) then
+             dm.scds_produto_proc.Close;
+           Exit;
+        end;
+      lblEstoque.Caption := FloatToStr(dm.scds_produto_procESTOQUEATUAL.asfloat);
+      cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+      cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+      cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
+      cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+      cds_Mov_detOBS.AsString := dm.scds_produto_procOBS.asString;
+      if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
+        cds_Mov_detQTDE_PCT.AsFloat := 1;
+      cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+      estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
+      if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
+        cds_Mov_detQUANTIDADE.AsFloat := 1;
+      qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
+      if(cds_MovimentoDesconto.asFloat > 0 ) then
+        cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
+      cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
+      cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+      valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat ;
+      cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
+      cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
+      cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+
+      //Usa Lote ??
+      if (dm.scds_produto_procLOTES.AsString <> 'S') then
+      begin
+        usaLote := 'S';
+        dm.scds_produto_proc.Close;
+        if dbeProduto.Text = '' then
+           dbeProduto.SetFocus;
+        if DBEdit17.Text <> '' then
+         DBEdit17.SetFocus;
+      end
+      else
+        Bitbtn4.SetFocus;
+    end;
+  end
+  else
+  begin
+    if (DtSrc1.DataSet.State in [dsInsert]) then
+    begin
+      if (dbeProduto.Text = '') then
+      begin
+        btnProdutoProcura.Click;
+        exit;
+      end
+      else
+      begin
+        if (dm.codBarra = 'S') then // usa codigo de barra
+        begin
+          // busca pelo código de barra
+          if dm.scds_produto_proc.Active then
+            dm.scds_produto_proc.Close;
+          sql := 'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
+             ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
+             ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
+             ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
+             ', RATEIO, conta_despesa , IPI, OBS '  +
+             ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+             ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
+             ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
+          dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
+            QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
+          dm.scds_produto_proc.Params[0].AsInteger := 0;
+          dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+          dm.scds_produto_proc.Open;
+          if dm.scds_produto_proc.IsEmpty then
+          begin
+             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+            [mbOk], 0);
+            btnProdutoProcura.Click;
+            exit;
+          end;
+        end
+        else begin
+          // busca pelo código de barra
+          if dm.scds_produto_proc.Active then
+            dm.scds_produto_proc.Close;
+          dm.scds_produto_proc.Params[0].AsInteger := 0;
+          dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+          dm.scds_produto_proc.Open;
+          if dm.scds_produto_proc.IsEmpty then
+          begin
+             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+            [mbOk], 0);
+            btnProdutoProcura.Click;
+            exit;
+          end;
+        end;
+
+        if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
+          if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
+          begin
+             ShowMessage('Produto com saldo negativo !');
+             dbeProduto.Clear;
+             DBEdit17.Clear;
+             if (dm.scds_produto_proc.Active) then
+              dm.scds_produto_proc.Close;
+             Exit;
+          end;
+        cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+        cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+        cds_Mov_detLOCALIZACAO.Value := dm.scds_produto_procLOCALIZACAO.Value;
+        cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+        if ( cds_Mov_detQTDE_PCT.AsFloat < 1) then
+          cds_Mov_detQTDE_PCT.AsFloat := 1;
+        cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+        estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
+        if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
+          cds_Mov_detQUANTIDADE.AsFloat := 1;
+        qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
+        if(cds_MovimentoDesconto.asFloat > 0 ) then
+          cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
+        cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
+        if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
+           cds_Mov_detPRECO.AsFloat :=
+           dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
+        else
+          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+        valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+        cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
+        cds_Mov_detALMOXARIFADO.AsString := '';
+        cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+      end;
+    end;
+  end;
 end;
 
 end.
