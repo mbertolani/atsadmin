@@ -3180,7 +3180,7 @@ object fNfePisCofins: TfNfePisCofins
       'CODVENDA'#13#10'      AND V.CODMOVIMENTO = M.CODMOVIMENTO '#13#10'      AND ' +
       'M.CODNATUREZA IN (12, 15, 16, 20, 21)'#13#10'      AND NF.DTAEMISSAO B' +
       'ETWEEN :DTA1 AND :DTA2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND EC' +
-      '.TIPOEND = 0'#13#10
+      '.TIPOEND = 0'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -3760,5 +3760,54 @@ object fNfePisCofins: TfNfePisCofins
     SQLConnection = DM.sqlsisAdimin
     Left = 792
     Top = 120
+  end
+  object sqlM400: TSQLDataSet
+    CommandText = 
+      'select sum(md.VLR_BASE * md.QUANTIDADE) , md.CSTPIS'#13#10'  from NOTA' +
+      'FISCAL NF, VENDA V, MOVIMENTO m , MOVIMENTODETALHE md '#13#10' where n' +
+      'f.CODVENDA = v.CODVENDA '#13#10'   and v.CODMOVIMENTO = m.CODMOVIMENTO' +
+      #13#10'   and m.CODMOVIMENTO = md.CODMOVIMENTO '#13#10'   and nf.DTAEMISSAO' +
+      ' between :DTA1 and :DTA2'#13#10'   and (md.CSTPIS in ('#39'06'#39', '#39'05'#39', '#39'04'#39 +
+      ', '#39'07'#39', '#39'08'#39', '#39'09'#39')) and (md.PPIS = 0) '#13#10'   and (m.CODNATUREZA i' +
+      'n (12, 15))'#13#10'   and nf.PROTOCOLOCANC is null '#13#10' group by md.CSTP' +
+      'IS '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DTA2'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 680
+    Top = 272
+  end
+  object dspM400: TDataSetProvider
+    DataSet = sqlM400
+    Options = [poAllowCommandText]
+    Left = 680
+    Top = 304
+  end
+  object cdsM: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA2'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspM400'
+    Left = 680
+    Top = 336
   end
 end
