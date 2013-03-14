@@ -1,31 +1,30 @@
-CREATE OR ALTER PROCEDURE ESTOQUE_VIEW (DTA1 Date,
-    PROD1 Integer,
-    CCUSTO Integer,
-    LOTE Varchar(60)
-     )
-RETURNS 
-(
-    CODPROD Varchar(20),
-    MESANO VARCHAR(10), 
-    CODPRODUTO INTEGER,
-    PRODUTO Varchar(300),
-    GRUPO Varchar(30),
-    SUBGRUPOPROD Varchar(30),
-    SALDOINIACUM Double precision,
-    ENTRADA Double precision,
-    SAIDA Double precision,
-    SALDOFIMACUM Double precision,
-    ESTOQUE_MES Double precision,
-    PRECOUNIT Double precision,
-    PRECOCUSTO Double precision,
-    VALORESTOQUE Double precision,
-    VALORVENDA Double precision,
-    PRECOCOMPRA Double precision,
-    PRECOVENDA Double precision,
-    LOTES Varchar(60),
-    CCUSTOS Integer
-)
-AS 
+SET TERM ^ ;
+CREATE OR ALTER PROCEDURE ESTOQUE_VIEW (
+    DTA1 date,
+    PROD1 integer,
+    CCUSTO integer,
+    LOTE varchar(60) )
+RETURNS (
+    CODPROD varchar(20),
+    MESANO varchar(10),
+    CODPRODUTO integer,
+    PRODUTO varchar(300),
+    GRUPO varchar(30),
+    SUBGRUPOPROD varchar(30),
+    SALDOINIACUM double precision,
+    ENTRADA double precision,
+    SAIDA double precision,
+    SALDOFIMACUM double precision,
+    ESTOQUE_MES double precision,
+    PRECOUNIT double precision,
+    PRECOCUSTO double precision,
+    VALORESTOQUE double precision,
+    VALORVENDA double precision,
+    PRECOCOMPRA double precision,
+    PRECOVENDA double precision,
+    LOTES varchar(60),
+    CCUSTOS integer )
+AS
 DECLARE VARIABLE PROD integer;
 DECLARE VARIABLE INI smallint;
 DECLARE VARIABLE SOMA_ENTRADA double precision; 
@@ -84,3 +83,10 @@ BEGIN
    end
    Suspend;
 END
+^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE ESTOQUE_VIEW TO  SYSDBA;
+
