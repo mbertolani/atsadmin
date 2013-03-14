@@ -855,6 +855,9 @@ type
     cdsCompraDetPCOFINS: TFloatField;
     cdsItensPPIS: TFloatField;
     cdsItensPCOFINS: TFloatField;
+    sqlM400: TSQLDataSet;
+    dspM400: TDataSetProvider;
+    cdsM: TClientDataSet;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -882,6 +885,10 @@ type
     procedure blocoM;
     procedure abrirTabelasCompra;
     procedure abrirTabelasVenda;
+    procedure abrirCdsM400;
+    procedure abrirCdsM410;
+    procedure abrirCdsM800;
+    procedure abrirCdsM810;
     { Private declarations }
   public
     codMovMin, codMovMax: Integer;
@@ -1213,8 +1220,8 @@ begin
                 COMPL    := cdsEmpSCOMPLEMENTO.AsString;
                 BAIRRO   := cdsEmpSBAIRRO.AsString;
                 //
-                cdsEmpS.Next;
               end;
+              cdsEmpS.Next;
             end;
           end;
 
@@ -1527,7 +1534,7 @@ begin
                   DESCR_COMPL      := cdsCompraDetDESCPRODUTO.AsString;
                   QTD              := cdsCompraDetQUANTIDADE.AsFloat;
                   UNID             := cdsCompraDetUN.AsString;
-                  VL_ITEM          := cdsCompraDetPRECO.AsFloat;
+                  VL_ITEM          := cdsCompraDetVLR_BASE.AsFloat * cdsCompraDetQUANTIDADE.AsFloat;
                   VL_DESC          := 0;
                   IND_MOV          := mfSim;
                   CST_ICMS         := cstIcms(cdsCompraDetCST.AsString, InttoStr(cdsCompraNOTAFISCAL.AsInteger) + '-COMPRA');
@@ -1650,128 +1657,144 @@ begin
               COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
               COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
               COD_SIT       := sdRegular;
-              SER           := '1'; //cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
-              NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
-              CHV_NFE       := copy(cdsNFVendaNOMEXML.AsString, 0, 44);
-              DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
-              DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
-              VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
-              IND_PGTO      := tpPrazo;
-              VL_DESC       := cdsNFVendaDESCONTO.AsFloat;
-              VL_ABAT_NT    := 0;
-              VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
-              if (cdsNFVendaFRETE.AsString = '0') then
+              if (cdsNFVendaSTATUS.AsString = 'C') then
               begin
-                IND_FRT := tfPorContaTerceiros;     // 0 - Por conta de terceiros
-              end
-              else if (cdsNFVendaFRETE.AsString = '1') then
-              begin
-                IND_FRT := tfPorContaEmitente;      // 1 - Por conta do emitente
-              end
-              else if (cdsNFVendaFRETE.AsString = '2') then
-              begin
-                IND_FRT := tfPorContaDestinatario;  // 2 - Por conta do destinatário
-              end
-              else if (cdsNFVendaFRETE.AsString = '3') then
-              begin
-                IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
-              end
-              else
-              begin
-                IND_FRT := tfNenhum;                 // Preencher vazio
+                COD_SIT       := sdCancelado;
+                SER           := '1'; //cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+                NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
+                CHV_NFE       := copy(cdsNFVendaNOMEXML.AsString, 0, 44);
               end;
-              VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
-              VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
-              VL_OUT_DA     := 0;
-              VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
-              VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
-              VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
-              VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
-              VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
-              VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
-              VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
-              VL_PIS_ST     := 0;
-              VL_COFINS_ST  := 0;
-
-              if (cdsItens.Active) then
-                cdsItens.Close;
-              cdsItens.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
-              cdsItens.Open;
-              // INICIO BLOCO DET VENDAS  ######################
-              IItens := 1;
-              While not cdsItens.Eof do
+              if (cdsNFVendaSTATUS.AsString = 'D') then
               begin
-                //10 itens para cada nota...
-                //for IItens := 1 to 10 do
-                //begin
-                //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
-                with RegistroC170New do   //Inicio Adicionar os Itens:
+                COD_SIT       := sdDoctoDenegado;
+                SER           := '1'; //cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+                NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
+                CHV_NFE       := copy(cdsNFVendaNOMEXML.AsString, 0, 44);
+              end;
+              if ((cdsNFVendaSTATUS.AsString <> 'C') and (cdsNFVendaSTATUS.AsString <> 'D')) then
+              begin
+                SER           := '1'; //cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+                NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
+                CHV_NFE       := copy(cdsNFVendaNOMEXML.AsString, 0, 44);
+                DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
+                DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
+                VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
+                IND_PGTO      := tpPrazo;
+                VL_DESC       := cdsNFVendaDESCONTO.AsFloat;
+                VL_ABAT_NT    := 0;
+                VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
+                if (cdsNFVendaFRETE.AsString = '0') then
                 begin
-                  NUM_ITEM         := FormatFloat('000', IItens);
-                  COD_ITEM         := FormatFloat('000000', cdsItensCODPRODUTO.AsInteger);
-                  DESCR_COMPL      := cdsItensDESCPRODUTO.AsString;
-                  QTD              := cdsItensQUANTIDADE.AsFloat;
-                  UNID             := cdsItensUN.AsString;
-                  VL_ITEM          := cdsItensPRECO.AsFloat;
-                  VL_DESC          := cdsItensVALOR_DESCONTO.AsFloat;
-                  IND_MOV          := mfSim;
-                  //CST_ICMS
-                  CST_ICMS         := cstIcms(cdsItensCST.asString, cdsNFVendaNOTASERIE.AsString + '-VENDA');// sticmsTributadaIntegralmente;
-                  CFOP             := cdsItensCFOP.AsString;
-                  COD_NAT          := '03';  // Venda
-                  VL_BC_ICMS       := cdsItensVLR_BASEICMS.AsFloat;
-                  ALIQ_ICMS        := cdsItensICMS.AsFloat;
-                  VL_ICMS          := cdsItensVALOR_ICMS.AsFloat;
-                  VL_BC_ICMS_ST    := cdsItensICMS_SUBST.AsFloat;
-                  ALIQ_ST          := cdsItensICMS_SUBSTD.AsFloat;
-                  //CARLOS  AQUI
-                  VL_ICMS_ST       := 0;
-                  if (ALIQ_ST > 0) then
-                    VL_ICMS_ST     := SimpleRoundTo(((VL_BC_ICMS_ST/ALIQ_ST)*100),(-2));
-                  IND_APUR         := iaMensal;
-
-                  if (cdsItensCSTIPI.AsString = '') then
+                  IND_FRT := tfPorContaTerceiros;     // 0 - Por conta de terceiros
+                end
+                else if (cdsNFVendaFRETE.AsString = '1') then
+                begin
+                  IND_FRT := tfPorContaEmitente;      // 1 - Por conta do emitente
+                end
+                else if (cdsNFVendaFRETE.AsString = '2') then
+                begin
+                  IND_FRT := tfPorContaDestinatario;  // 2 - Por conta do destinatário
+                end
+                else if (cdsNFVendaFRETE.AsString = '3') then
+                begin
+                  IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
+                end
+                else
+                begin
+                  IND_FRT := tfNenhum;                 // Preencher vazio
+                end;
+                VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
+                VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
+                VL_OUT_DA     := 0;
+                VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
+                VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
+                VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
+                VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
+                VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
+                VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
+                VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
+                VL_PIS_ST     := 0;
+                VL_COFINS_ST  := 0;
+                if (cdsItens.Active) then
+                  cdsItens.Close;
+                cdsItens.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
+                cdsItens.Open;
+                // INICIO BLOCO DET VENDAS  ######################
+                IItens := 1;
+                While not cdsItens.Eof do
+                begin
+                  //10 itens para cada nota...
+                  //for IItens := 1 to 10 do
+                  //begin
+                  //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
+                  with RegistroC170New do   //Inicio Adicionar os Itens:
                   begin
-                    MessageDlg('Número da Nota não preenchido. Mov. número - ' +
-                    cdsNFVendaNOTASERIE.AsString + '-VENDA' , mtWarning, [mbOK], 0);
-                    exit;
-                  end;
+                    NUM_ITEM         := FormatFloat('000', IItens);
+                    COD_ITEM         := FormatFloat('000000', cdsItensCODPRODUTO.AsInteger);
+                    DESCR_COMPL      := cdsItensDESCPRODUTO.AsString;
+                    QTD              := cdsItensQUANTIDADE.AsFloat;
+                    UNID             := cdsItensUN.AsString;
+                    VL_ITEM          := cdsItensVLR_BASE.AsFloat * cdsItensQUANTIDADE.AsFloat;
+                    VL_DESC          := cdsItensVALOR_DESCONTO.AsFloat;
+                    IND_MOV          := mfSim;
+                    //CST_ICMS
+                    CST_ICMS         := cstIcms(cdsItensCST.asString, cdsNFVendaNOTASERIE.AsString + '-VENDA');// sticmsTributadaIntegralmente;
+                    CFOP             := cdsItensCFOP.AsString;
+                    COD_NAT          := '03';  // Venda
+                    VL_BC_ICMS       := cdsItensVLR_BASEICMS.AsFloat;
+                    ALIQ_ICMS        := cdsItensICMS.AsFloat;
+                    VL_ICMS          := cdsItensVALOR_ICMS.AsFloat;
+                    VL_BC_ICMS_ST    := cdsItensICMS_SUBST.AsFloat;
+                    ALIQ_ST          := cdsItensICMS_SUBSTD.AsFloat;
+                    //CARLOS  AQUI
+                    VL_ICMS_ST       := 0;
+                    if (ALIQ_ST > 0) then
+                      VL_ICMS_ST     := SimpleRoundTo(((VL_BC_ICMS_ST/ALIQ_ST)*100),(-2));
+                    IND_APUR         := iaMensal;
 
-                  Case StrToInt(trim(cdsItensCSTIPI.AsString)) of
-                    0 : CST_IPI := stipiEntradaRecuperacaoCredito;// '00' // Entrada com recuperação de crédito
-                    1 : CST_IPI := stipiEntradaTributradaZero;    // '01' // Entrada tributada com alíquota zero
-                    2 : CST_IPI := stipiEntradaIsenta;            // '02' // Entrada isenta
-                    3 : CST_IPI := stipiEntradaNaoTributada;      // '03' // Entrada não-tributada
-                    4 : CST_IPI := stipiEntradaImune;             // '04' // Entrada imune
-                    5 : CST_IPI := stipiEntradaComSuspensao;      // '05' // Entrada com suspensão
-                   49 : CST_IPI := stipiOutrasEntradas;           // '49' // Outras entradas
-                   50 : CST_IPI := stipiSaidaTributada;           // '50' // Saída tributada
-                   51 : CST_IPI := stipiSaidaTributadaZero;       // '51' // Saída tributada com alíquota zero
-                   52 : CST_IPI := stipiSaidaIsenta;              // '52' // Saída isenta
-                   53 : CST_IPI := stipiSaidaNaoTributada;        // '53' // Saída não-tributada
-                   54 : CST_IPI := stipiSaidaImune;               // '54' // Saída imune
-                   55 : CST_IPI := stipiSaidaComSuspensao;        // '55' // Saída com suspensão
-                   99 : CST_IPI := stipiOutrasSaidas;             // '99' // Outras saídas
-                  end;
-                  COD_ENQ          := '';
-                  VL_BC_IPI        := cdsItensVLR_BASEICMS.AsFloat;
-                  ALIQ_IPI         := cdsItensPIPI.AsFloat;
-                  VL_IPI           := cdsItensVIPI.AsFloat;
-                  CST_PIS          := cstPis(cdsItensCSTPIS.AsString, cdsNFVendaNOTASERIE.AsString + '-VENDA'); //  stpisOutrasOperacoesSaida;  // #########
-                  VL_BC_PIS        := cdsItensVLR_BASE.AsFloat* cdsItensQUANTIDADE.AsFloat;
-                  VL_PIS           := cdsItensVALOR_PIS.AsFloat;
-                  ALIQ_PIS_PERC    := cdsItensPPIS.AsFloat;
-                  ALIQ_PIS_R       := 0;
-                  CST_COFINS       := cstCofins(cdsItensCSTCOFINS.AsString, cdsNFVendaNOTASERIE.AsString + '-VENDA');
-                  VL_BC_COFINS     := cdsItensVLR_BASE.AsFloat* cdsItensQUANTIDADE.AsFloat;
-                  VL_COFINS        := cdsItensVALOR_COFINS.AsFloat;
-                  ALIQ_COFINS_PERC := cdsItensPCOFINS.AsFloat;;
-                  ALIQ_COFINS_R    := 0;
-                  COD_CTA          := '';
-                end; //Fim dos Itens;
-                IItens := IItens + 1;
-                cdsItens.Next;
-              end;
+                    if (cdsItensCSTIPI.AsString = '') then
+                    begin
+                      MessageDlg('Número da Nota não preenchido. Mov. número - ' +
+                      cdsNFVendaNOTASERIE.AsString + '-VENDA' , mtWarning, [mbOK], 0);
+                      exit;
+                    end;
+
+                    Case StrToInt(trim(cdsItensCSTIPI.AsString)) of
+                      0 : CST_IPI := stipiEntradaRecuperacaoCredito;// '00' // Entrada com recuperação de crédito
+                      1 : CST_IPI := stipiEntradaTributradaZero;    // '01' // Entrada tributada com alíquota zero
+                      2 : CST_IPI := stipiEntradaIsenta;            // '02' // Entrada isenta
+                      3 : CST_IPI := stipiEntradaNaoTributada;      // '03' // Entrada não-tributada
+                      4 : CST_IPI := stipiEntradaImune;             // '04' // Entrada imune
+                      5 : CST_IPI := stipiEntradaComSuspensao;      // '05' // Entrada com suspensão
+                     49 : CST_IPI := stipiOutrasEntradas;           // '49' // Outras entradas
+                     50 : CST_IPI := stipiSaidaTributada;           // '50' // Saída tributada
+                     51 : CST_IPI := stipiSaidaTributadaZero;       // '51' // Saída tributada com alíquota zero
+                     52 : CST_IPI := stipiSaidaIsenta;              // '52' // Saída isenta
+                     53 : CST_IPI := stipiSaidaNaoTributada;        // '53' // Saída não-tributada
+                     54 : CST_IPI := stipiSaidaImune;               // '54' // Saída imune
+                     55 : CST_IPI := stipiSaidaComSuspensao;        // '55' // Saída com suspensão
+                     99 : CST_IPI := stipiOutrasSaidas;             // '99' // Outras saídas
+                    end;
+                    COD_ENQ          := '';
+                    VL_BC_IPI        := cdsItensVLR_BASEICMS.AsFloat;
+                    ALIQ_IPI         := cdsItensPIPI.AsFloat;
+                    VL_IPI           := cdsItensVIPI.AsFloat;
+                    CST_PIS          := cstPis(cdsItensCSTPIS.AsString, cdsNFVendaNOTASERIE.AsString + '-VENDA'); //  stpisOutrasOperacoesSaida;  // #########
+                    VL_BC_PIS        := cdsItensVLR_BASE.AsFloat* cdsItensQUANTIDADE.AsFloat;
+                    VL_PIS           := cdsItensVALOR_PIS.AsFloat;
+                    ALIQ_PIS_PERC    := cdsItensPPIS.AsFloat;
+                    ALIQ_PIS_R       := 0;
+                    CST_COFINS       := cstCofins(cdsItensCSTCOFINS.AsString, cdsNFVendaNOTASERIE.AsString + '-VENDA');
+                    VL_BC_COFINS     := cdsItensVLR_BASE.AsFloat* cdsItensQUANTIDADE.AsFloat;
+                    VL_COFINS        := cdsItensVALOR_COFINS.AsFloat;
+                    ALIQ_COFINS_PERC := cdsItensPCOFINS.AsFloat;;
+                    ALIQ_COFINS_R    := 0;
+                    COD_CTA          := '';
+                  end; //Fim dos Itens;
+                  IItens := IItens + 1;
+                  cdsItens.Next;
+                end;
+              end; // Notas Válidas
             end;
             codParticip := cdsNFVendaCODCLIENTE.AsInteger;
             cdsNFVenda.Next;
@@ -1905,7 +1928,55 @@ begin
   begin
     with RegistroM001New do
     begin
-      IND_MOV := imSemDados;
+      abrirCdsM400;
+      if (cdsM.IsEmpty) then
+        IND_MOV := imSemDados
+      else
+      begin
+        IND_MOV := imComDados;
+        with RegistroM400New do
+        begin
+          while not cdsM.Eof do
+          begin
+            if (cdsM.FieldByName('CSTPIS').asString = '06') then
+              CST_PIS  := stpisAliquotaZero; // '06' // Operação Tributável a Alíquota Zero
+            VL_TOT_REC := cdsM.FieldByName('VLR_BASE_PIS').AsFloat;
+            cdsM.Next;
+          end;
+          abrirCdsM410;
+          while not cdsM.Eof do
+          begin
+            with RegistroM410New do
+            begin
+              NAT_REC    := cdsM.FieldByName('COD_FAMILIA').asString;
+              VL_REC := cdsM.FieldByName('VLR_BASE_PIS').AsFloat;
+              cdsM.Next;
+            end;
+          end; // M410
+        end; // M400
+        abrirCdsM800;
+        with RegistroM800New do
+        begin
+          while not cdsM.Eof do
+          begin
+            if (cdsM.FieldByName('CSTCOFINS').asString = '06') then
+              CST_COFINS  := stcofinsAliquotaZero; // '06' // Operação Tributável a Alíquota Zero
+            VL_TOT_REC := cdsM.FieldByName('VLR_BASE_COFINS').AsFloat;
+            cdsM.Next;
+          end;
+          abrirCdsM810;
+          while not cdsM.Eof do
+          begin
+            with RegistroM810New do
+            begin
+              NAT_REC    := cdsM.FieldByName('COD_FAMILIA').asString;
+              VL_REC := cdsM.FieldByName('VLR_BASE_COFINS').AsFloat;
+              cdsM.Next;
+            end;
+          end; // M810
+        end; // M800
+
+      end; // COM DADOS
     end;
   end;
   {    //M100 - Crédito de PIS/PASEP Relativo ao Período
@@ -2317,6 +2388,115 @@ procedure TfNfePisCofins.BitBtn1Click(Sender: TObject);
 begin
   SaveDialog1.Execute;
   edtFile.Text := SaveDialog1.FileName;
+end;
+
+procedure TfNfePisCofins.abrirCdsM400;
+begin
+  if (cdsM.Active) then
+    cdsM.Close;
+  cdsM.CommandText := 'select sum(md.VLR_BASE * md.QUANTIDADE) VLR_BASE_PIS , md.CSTPIS ' +
+  '  from NOTAFISCAL NF, VENDA V, MOVIMENTO m , MOVIMENTODETALHE md' +
+  ' where nf.CODVENDA = v.CODVENDA' +
+  '   and v.CODMOVIMENTO = m.CODMOVIMENTO' +
+  '   and m.CODMOVIMENTO = md.CODMOVIMENTO' +
+  '   and nf.DTAEMISSAO between ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+  '   and ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+  '   and (md.CSTPIS in (' +
+  QuotedStr('06') + ', ' +
+  QuotedStr('05') + ', ' +
+  QuotedStr('04') + ', ' +
+  QuotedStr('07') + ', ' +
+  QuotedStr('08') + ',  ' +
+  QuotedStr('09') + ')) ' +
+  '   and (md.PPIS = 0)' +
+  '   and (m.CODNATUREZA in (12, 15))' +
+  '   and (nf.PROTOCOLOCANC is null) ' +
+  '   and ((nf.STATUS is null) or (nf.STATUS <> ' + QuotedStr('C') + '))' +
+  ' group by md.CSTPIS ';
+  cdsM.Open;
+end;
+
+procedure TfNfePisCofins.abrirCdsM410;
+begin
+  if (cdsM.Active) then
+    cdsM.Close;
+  cdsM.CommandText := 'select sum(md.VLR_BASE * md.QUANTIDADE) VLR_BASE_PIS , fp.COD_FAMILIA ' +
+  '  from NOTAFISCAL NF, VENDA V, MOVIMENTO m , MOVIMENTODETALHE md, PRODUTOS p, FAMILIAPRODUTOS fp ' +
+  ' where nf.CODVENDA = v.CODVENDA' +
+  '   and v.CODMOVIMENTO = m.CODMOVIMENTO' +
+  '   and m.CODMOVIMENTO = md.CODMOVIMENTO' +
+  '   and md.CODPRODUTO  = p.CODPRODUTO' +
+  '   and p.FAMILIA = fp.DESCFAMILIA' +
+  '   and nf.DTAEMISSAO between ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+  '   and ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+  '   and (md.CSTPIS in (' +
+  QuotedStr('06') + ', ' +
+  QuotedStr('05') + ', ' +
+  QuotedStr('04') + ', ' +
+  QuotedStr('07') + ', ' +
+  QuotedStr('08') + ',  ' +
+  QuotedStr('09') + ')) ' +
+  '   and (md.PPIS = 0)' +
+  '   and (m.CODNATUREZA in (12, 15))' +
+  '   and (nf.PROTOCOLOCANC is null) ' +
+  '   and ((nf.STATUS is null) or (nf.STATUS <> ' + QuotedStr('C') + '))' +
+  ' group by fp.COD_FAMILIA ';
+  cdsM.Open;
+end;
+
+procedure TfNfePisCofins.abrirCdsM800;
+begin
+  if (cdsM.Active) then
+    cdsM.Close;
+  cdsM.CommandText := 'select sum(md.VLR_BASE * md.QUANTIDADE) VLR_BASE_COFINS, md.CSTCOFINS ' +
+  '  from NOTAFISCAL NF, VENDA V, MOVIMENTO m , MOVIMENTODETALHE md' +
+  ' where nf.CODVENDA = v.CODVENDA' +
+  '   and v.CODMOVIMENTO = m.CODMOVIMENTO' +
+  '   and m.CODMOVIMENTO = md.CODMOVIMENTO' +
+  '   and nf.DTAEMISSAO between ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+  '   and ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+  '   and (md.CSTCOFINS in (' +
+  QuotedStr('06') + ', ' +
+  QuotedStr('05') + ', ' +
+  QuotedStr('04') + ', ' +
+  QuotedStr('07') + ', ' +
+  QuotedStr('08') + ',  ' +
+  QuotedStr('09') + ')) ' +
+  '   and (md.PCOFINS = 0)' +
+  '   and (m.CODNATUREZA in (12, 15))' +
+  '   and (nf.PROTOCOLOCANC is null) ' +
+  '   and ((nf.STATUS is null) or (nf.STATUS <> ' + QuotedStr('C') + '))' +
+  ' group by md.CSTCOFINS ';
+  cdsM.Open;
+
+end;
+
+procedure TfNfePisCofins.abrirCdsM810;
+begin
+  if (cdsM.Active) then
+    cdsM.Close;
+  cdsM.CommandText := 'select sum(md.VLR_BASE * md.QUANTIDADE) VLR_BASE_COFINS , fp.COD_FAMILIA' +
+  '  from NOTAFISCAL NF, VENDA V, MOVIMENTO m , MOVIMENTODETALHE md, PRODUTOS p, FAMILIAPRODUTOS fp' +
+  ' where nf.CODVENDA = v.CODVENDA' +
+  '   and v.CODMOVIMENTO = m.CODMOVIMENTO' +
+  '   and m.CODMOVIMENTO = md.CODMOVIMENTO' +
+  '   and md.CODPRODUTO  = p.CODPRODUTO' +
+  '   and p.FAMILIA = fp.DESCFAMILIA' +
+  '   and nf.DTAEMISSAO between ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+  '   and ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+  '   and (md.CSTCOFINS in (' +
+  QuotedStr('06') + ', ' +
+  QuotedStr('05') + ', ' +
+  QuotedStr('04') + ', ' +
+  QuotedStr('07') + ', ' +
+  QuotedStr('08') + ',  ' +
+  QuotedStr('09') + ')) ' +
+  '   and (md.PCOFINS = 0)' +
+  '   and (m.CODNATUREZA in (12, 15))' +
+  '   and (nf.PROTOCOLOCANC is null) ' +
+  '   and ((nf.STATUS is null) or (nf.STATUS <> ' + QuotedStr('C') + '))' +
+  ' group by  fp.COD_FAMILIA';
+  cdsM.Open;
 end;
 
 end.
