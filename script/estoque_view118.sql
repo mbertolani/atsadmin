@@ -1,4 +1,3 @@
-SET TERM ^ ;
 CREATE OR ALTER PROCEDURE ESTOQUE_VIEW (
     DTA1 date,
     PROD1 integer,
@@ -83,10 +82,3 @@ BEGIN
    end
    Suspend;
 END
-^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE ESTOQUE_VIEW TO  SYSDBA;
-
