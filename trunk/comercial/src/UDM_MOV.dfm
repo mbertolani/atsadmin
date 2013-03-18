@@ -1,7 +1,7 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
   Left = 469
-  Top = 232
+  Top = 192
   Height = 530
   Width = 713
   object s_buscaMov: TSQLDataSet
@@ -46,15 +46,6 @@ object DM_MOV: TDM_MOV
     SQLConnection = DM.sqlsisAdimin
     Left = 40
     Top = 8
-    object s_buscaMovCODMOVIMENTO: TIntegerField
-      FieldName = 'CODMOVIMENTO'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-    end
-    object s_buscaMovNOMECLIENTE: TStringField
-      FieldName = 'NOMECLIENTE'
-      ProviderFlags = []
-      Size = 50
-    end
   end
   object s_movimento: TSQLDataSet
     CommandText = 
