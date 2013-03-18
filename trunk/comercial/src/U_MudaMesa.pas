@@ -275,7 +275,7 @@ end;
 procedure TF_MudaMesa.OKClick(Sender: TObject);
 var strSql : string;
     idcliente, idclienteNew : integer;
-    TD: TTransactionDesc;    
+    TD: TTransactionDesc;
 begin
     idcliente := 0;
     idclienteNew := 0;
@@ -288,22 +288,26 @@ begin
     if (DM_MOV.s_BuscaComanda.IsEmpty) then
     begin
        DM_MOV.s_BuscaComanda.Close;
-       ShowMessage('Comanda não Localizada');
+       ShowMessage('Comanda/Mesa nao Localizada');
        Exit;
     end;
     idclienteNew := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
+
     if (DM_MOV.s_buscaMov.Active) then
        DM_MOV.s_buscaMov.Close;
-    strSql := 'select m.CODMOVIMENTO, c.NOMECLIENTE from MOVIMENTO m ' +
-           'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ' +
-           'where m.CODNATUREZA = ' + IntToStr(3) + ' and m.STATUS = ' +
-           IntToStr(20) + ' and m.CODCLIENTE = ' + IntToStr(idclienteNew);
+    strSql := 'select md.CODDETALHE ' +
+           '  FROM MOVIMENTO m, MOVIMENTODETALHE md, CLIENTES c ' +
+           ' WHERE c.CODCLIENTE = m.CODCLIENTE ' +
+           '   AND m.CODMOVIMENTO = md.CODMOVIMENTO ' +
+           '   AND m.CODNATUREZA = ' + IntToStr(3) +
+           '   AND m.STATUS = ' + IntToStr(20) +
+           '   AND m.CODCLIENTE = ' + IntToStr(idclienteNew);
     DM_MOV.s_buscaMov.CommandText := strSql;
     DM_MOV.s_buscaMov.Open;
 
     if (not DM_MOV.s_buscaMov.IsEmpty)then
     begin
-       ShowMessage('Mesa já utilizada !');
+       ShowMessage('Mesa ja utilizada !');
        ComboBox1.Text := '';
        DM_MOV.s_buscaMov.Close;
        exit;
@@ -319,7 +323,7 @@ begin
     if (DM_MOV.s_BuscaComanda.IsEmpty) then
     begin
        DM_MOV.s_BuscaComanda.Close;
-       ShowMessage('Comanda não Localizada');
+       ShowMessage('Comanda/Mesa nao Localizada');
        Exit;
     end;
     idcliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
@@ -334,7 +338,7 @@ begin
 
 
     strSql := 'UPDATE MOVIMENTO SET CODCLIENTE = ' + IntToStr(idclienteNew) +
-             ' WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.s_buscaMovCODMOVIMENTO.AsInteger);
+             ' WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.s_buscaMov.FieldByName('CODMOVIMENTO').AsInteger);
 
     DM_MOV.s_buscaMov.Close;
     Try
