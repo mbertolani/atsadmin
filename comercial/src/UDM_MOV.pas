@@ -8,7 +8,6 @@ uses
 type
   TDM_MOV = class(TDataModule)
     s_buscaMov: TSQLDataSet;
-    s_buscaMovCODMOVIMENTO: TIntegerField;
     s_movimento: TSQLDataSet;
     p_movimento: TDataSetProvider;
     s_movimentoCODMOVIMENTO: TIntegerField;
@@ -321,7 +320,6 @@ type
     c_comandaCODPEDIDO: TIntegerField;
     c_comandaQTD: TIntegerField;
     c_comandaNOMECLIENTE: TStringField;
-    s_buscaMovNOMECLIENTE: TStringField;
     s_BuscaComanda: TSQLDataSet;
     s_BuscaComandaCODCLIENTE: TIntegerField;
     s_BuscaComandaNOMECLIENTE: TStringField;
