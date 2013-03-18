@@ -504,6 +504,11 @@ type
     cds_imovdetPRECO: TFloatField;
     cds_imovdetVALTOTAL: TFloatField;
     cds_imovdetTotalPedido: TAggregateField;
+    JvLabel16: TJvLabel;
+    edMesa: TEdit;
+    sqlMesaOcupada: TSQLDataSet;
+    dspMesaOcupada: TDataSetProvider;
+    cdsMesaOcupada: TClientDataSet;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -609,7 +614,9 @@ type
     procedure Pagamentos1Click(Sender: TObject);
     procedure Entrada1Click(Sender: TObject);
     procedure Fechamentodecaixa1Click(Sender: TObject);
+    procedure edMesaKeyPress(Sender: TObject; var Key: Char);
   private
+    numeroComp : Smallint;
     TD: TTransactionDesc;
     clienteConsumidor,nomecliente, tipo_busca : string;
     I, codcliente, ID_MOVDET : integer;
@@ -649,7 +656,7 @@ type
     procedure imprimeComanda;
     procedure imprimecomandaTXT;
     procedure imp_Setor1_DLL;
-    procedure imp_Setor1_LPT;    
+    procedure imp_Setor1_LPT;
     procedure imp_Setor2_DLL;
     procedure clic_botao;
     procedure pinta_botao;
@@ -1380,6 +1387,7 @@ begin
 end;
 
 procedure TF_Terminal.FormCreate(Sender: TObject);
+var i: integer;
 begin
   if (FileExists('logo.jpg')) then
     JvImage1.Picture.LoadFromFile('logo.jpg');
@@ -1433,7 +1441,6 @@ begin
     TabComanda.TabVisible := True;
     MMJPanel8.Visible :=True;
     //populaMesas;
-    CtrlResize;
     if (DM_MOV.c_comanda.Active) then
       DM_MOV.c_comanda.Close;
     DM_MOV.c_comanda.CommandText := '';
@@ -1445,6 +1452,21 @@ begin
     sql := sql + IntToStr(20);
     DM_MOV.c_comanda.CommandText := sql;
     DM_MOV.c_comanda.Open;
+
+    {numeroComp := 0;
+    for i := 0 to  componentCount -1 do
+    begin
+      if (numeroComp = 0) then
+      begin
+        if Components[i] is TJvTransparentButton then
+        begin
+          numeroComp := i-1;
+        end;
+      end;
+    end;}
+
+    numeroComp := JvTransparentButton1.ComponentIndex;
+    CtrlResize;
     pinta_botao_1;
   end;
 
@@ -1563,7 +1585,7 @@ begin
    if (MMJPanel8.Visible = False) then
       MMJPanel8.Visible := True;
 
-    CtrlResize;
+    //CtrlResize;
 
     if (DM_MOV.c_comanda.Active) then
       DM_MOV.c_comanda.Close;
@@ -1585,6 +1607,7 @@ begin
       JvBitBtn3.Visible := True;
     if (JvBitBtn4.Visible = False) then
       JvBitBtn4.Visible := True;
+    edMesa.SetFocus;
   end;
 
   if (PageControl1.ActivePage = TabDelivery) then
@@ -1623,7 +1646,7 @@ begin
          testacaixaaberto;
          if DM.resultadoOperacao = 'FALSE' then
          begin
-            ShowMessage('Caixa não está aberto');
+            ShowMessage('Caixa nao esta aberto');
             Exit;
          end;
       end;
@@ -2019,6 +2042,7 @@ begin
 end;
 
 procedure TF_Terminal.JvFinalizarClick(Sender: TObject);
+var i: integer;
 begin
 
  if (DM_MOV.c_movdet.IsEmpty) then
@@ -2085,9 +2109,16 @@ begin
        begin
          nomedocliente := DM_MOV.c_movimentoNOMECLIENTE.AsString;
          pinta_botao;
+         cor := clLime;
+         {i := numeroComp;
+         for i := 51 to 103 do
+         begin
+           if (TJvTransparentButton(Components[numeroComp]).Caption = nomedocliente) then
+             TJvTransparentButton(Components[numeroComp]).color := cor;
+         end;
          if (DM_MOV.c_movimento.Active) then
            DM_MOV.c_movimento.Close;
-         DM_MOV.c_movimento.Params[0].Clear;
+         DM_MOV.c_movimento.Params[0].Clear;}
        end;
      end;
    end;
@@ -2142,7 +2173,12 @@ begin
  if(not dm.cds_parametro.IsEmpty) then
    JvComissao.Value := StrToFloat(dm.cds_parametroDADOS.AsString);
  dm.cds_parametro.Close;
- 
+  if (TabComanda.TabVisible = True) then
+  begin
+    edMesa.Text := '';
+    pinta_botao_1;
+    edMesa.SetFocus;
+  end;  
 end;
 
 procedure TF_Terminal.BuscaLote;
@@ -2932,9 +2968,10 @@ begin
     if (DM_MOV.s_BuscaComanda.IsEmpty) then
     begin
        DM_MOV.s_BuscaComanda.Close;
-       ShowMessage('Comanda n�o Localizada');
+       ShowMessage('Comanda n\E3o Localizada');
        Exit;
     end;
+    edMesa.Text := DM_MOV.s_BuscaComandaCOD_CLI.AsString;
     codcliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
     if (DM_MOV.s_buscaMov.Active) then
        DM_MOV.s_buscaMov.Close;
@@ -3268,7 +3305,7 @@ begin
 end;
 
 procedure TF_Terminal.pinta_botao;
-var   numeroComp : Smallint;
+var i: integer;
 begin
     if (DM_MOV.c_comanda.Active) then
       DM_MOV.c_comanda.Close;
@@ -3282,36 +3319,31 @@ begin
     DM_MOV.c_comanda.CommandText := sql;
     DM_MOV.c_comanda.Open;
 
-  numeroComp := 0;
-  numeroComp := JvTransparentButton1.ComponentIndex;
-  cor := clLime;
 
-  for numeroComp := 51 to 103 do
+  cor := clLime;
+  i := numeroComp;
+  for i := 51 to 103 do
   begin
-    if (TJvTransparentButton(Components[numeroComp]).Caption = nome_botao) then
-       TJvTransparentButton(Components[numeroComp]).color := cor;
+    if (TJvTransparentButton(Components[i]).Caption = nome_botao) then
+       TJvTransparentButton(Components[i]).color := cor;
   end;
 
 end;
 
 procedure TF_Terminal.pinta_botao_1;
-var numeroComp : Smallint;
-    I : Integer;
+var I : Integer;
 begin
-    if (DM_MOV.c_comanda.Active) then
-      DM_MOV.c_comanda.Close;
-    DM_MOV.c_comanda.CommandText := '';
-    sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-    sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-    sql := sql + 'WHERE m.CODNATUREZA = ';
-    sql := sql + IntToStr(3);
-    sql := sql + 'and m.STATUS = ';
-    sql := sql + IntToStr(20);
-    DM_MOV.c_comanda.CommandText := sql;
-    DM_MOV.c_comanda.Open;
+  if (cdsMesaOcupada.Active) then
+    cdsMesaOcupada.Close;
+  sql := 'select c.NOMECLIENTE from MOVIMENTO m, CLIENTES c ';
+  sql := sql + ' WHERE c.CODCLIENTE = m.CODCLIENTE ';
+  sql := sql + '   AND m.CODNATUREZA = ' + IntToStr(3);
+  sql := sql + '   AND m.STATUS = ' + IntToStr(20);
+  cdsMesaOcupada.CommandText := sql;
+  cdsMesaOcupada.Open;
 
-  numeroComp := 0;
- 
+  {numeroComp := 0;
+
   for i := 0 to  componentCount -1 do
   begin
     if (numeroComp = 0) then
@@ -3323,22 +3355,28 @@ begin
     end;
   end;
 
-   numeroComp := JvTransparentButton1.ComponentIndex;
-   cor := clRed;
+   numeroComp := JvTransparentButton1.ComponentIndex;}
+  cor := clLime;
+  i := numeroComp;
+  for i := 51 to 103 do
+  begin
+    TJvTransparentButton(Components[i]).color := cor;
+  end;
 
+  cor := clRed;
 
-   DM_MOV.c_comanda.First;
-   while not DM_MOV.c_comanda.Eof do
-   begin
-       nomedocliente := DM_MOV.c_comandaNOMECLIENTE.AsString;
-
-       for numeroComp := 51 to 103 do
-       begin
-         if (TJvTransparentButton(Components[numeroComp]).Caption = nomedocliente) then
-            TJvTransparentButton(Components[numeroComp]).color := cor;
-       end;
-       DM_MOV.c_comanda.Next;
-   end;
+  cdsMesaOcupada.First;
+  while not cdsMesaOcupada.Eof do
+  begin
+    nomedocliente := cdsMesaOcupada.FieldByName('NOMECLIENTE').AsString;
+    i := numeroComp;
+    for i := 51 to 103 do
+    begin
+      if (TJvTransparentButton(Components[i]).Caption = nomedocliente) then
+        TJvTransparentButton(Components[i]).color := cor;
+    end;
+    cdsMesaOcupada.Next;
+  end;
 end;
 
 procedure TF_Terminal.EdtCodBarra1Enter(Sender: TObject);
@@ -3375,9 +3413,8 @@ end;
 procedure TF_Terminal.CtrlResize;
 var
   i : integer;
-  numeroComp : Smallint;
 begin
-  numeroComp := 0;
+  {numeroComp := 0;
   for i := 0 to  componentCount -1 do
   begin
     if (numeroComp = 0) then
@@ -3387,8 +3424,7 @@ begin
         numeroComp := i-1;
       end;
     end;
-  end;
-
+  end;}
     if (s_mesas.Active) then
       s_mesas.close;
     s_mesas.Open;
@@ -3420,7 +3456,7 @@ begin
   finally
     F_MESAS.Free;
   end;
-    CtrlResize;
+    //CtrlResize;
     if (DM_MOV.c_comanda.Active) then
       DM_MOV.c_comanda.Close;
     DM_MOV.c_comanda.CommandText := '';
@@ -3440,13 +3476,14 @@ procedure TF_Terminal.JvBitBtn3Click(Sender: TObject);
 begin
     if (DM_MOV.s_BuscaComanda.Active) then
       DM_MOV.s_BuscaComanda.Close;
-    DM_MOV.s_BuscaComanda.Params[0].Clear;
-    DM_MOV.s_BuscaComanda.Params[1].AsString :=  nome_botao;
+    DM_MOV.s_BuscaComanda.Params[0].AsString := edMesa.Text;
+    //DM_MOV.s_BuscaComanda.Params[1].AsString :=  nome_botao;
+    DM_MOV.s_BuscaComanda.Params[1].Clear;
     DM_MOV.s_BuscaComanda.Open;
     if (DM_MOV.s_BuscaComanda.IsEmpty) then
     begin
        DM_MOV.s_BuscaComanda.Close;
-       ShowMessage('Comanda não Localizada');
+       ShowMessage('Comanda/Mesa nao Localizada');
        Exit;
     end;
     codcliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
@@ -3488,7 +3525,7 @@ begin
   DM_MOV.c_comanda.Open;
   JvLabel8.Caption := '...';
 
-  CtrlResize;
+  //CtrlResize;
   if (DM_MOV.c_comanda.Active) then
     DM_MOV.c_comanda.Close;
   DM_MOV.c_comanda.CommandText := '';
@@ -3657,7 +3694,13 @@ begin
   dm.cds_parametro.Open;
   if(not dm.cds_parametro.IsEmpty) then
     JvComissao.Value := StrToFloat(dm.cds_parametroDADOS.AsString);
-  dm.cds_parametro.Close;    
+  dm.cds_parametro.Close;
+  if (TabComanda.TabVisible = True) then
+  begin
+    edMesa.Text := '';
+    pinta_botao_1;
+    edMesa.SetFocus;
+  end;  
 end;
 
 procedure TF_Terminal.edtFoneKeyPress(Sender: TObject; var Key: Char);
@@ -3958,6 +4001,10 @@ begin
             DM_MOV.c_movdetQUANTIDADE.AsFloat := edtQtde1.Value ;
             DM_MOV.c_movdetvalortotal.AsFloat := DM_MOV.c_movdetQUANTIDADE.AsFloat * DM_MOV.c_movdetPRECO.AsFloat;
             DM_MOV.c_movdet.ApplyUpdates(0);
+         end
+         else begin
+           MessageDlg('Pedido nao iniciado, use a opcao F2.', mtError, [mbOK], 0);
+           exit;
          end;
       end;
       EdtCodBarra1.SetFocus;
@@ -3990,7 +4037,8 @@ begin
         JvSubtotal.Value := JvTotal.Value + porc;
       end;
       c_forma.Close;
-      
+      if (PageControl1.ActivePage = TabComanda) then
+        edMesa.SetFocus;
    end;
 end;
 
@@ -4056,7 +4104,7 @@ var Fonte : string;
 var TXT, DESC, QUTDE, UNDE : string;
 begin
       // acentos a serem impressos
-      //TXT := TXT + 'âäàáãÃÂÄÁÀ êëèéÊËÉÈ ïíìîÎÍÌÏ öóòôõÖÓÒÔÕ üúùûÜÙÚÛ' + chr(13) + chr(10) + chr(10);
+      //TXT := TXT + '' + chr(13) + chr(10) + chr(10);
 
       if (not dm.cds_empresa.Active) then
         dm.cds_empresa.Open;
@@ -5101,7 +5149,12 @@ begin
        Exit;
      end;
   end;
-  
+
+   if (PageControl1.ActivePage = TabComanda) then
+   begin
+     edMesa.SetFocus;
+   end;
+
    if (PageControl1.ActivePage = TabSheet1) then
    begin
       if (DM_MOV.c_movimento.Active) then
@@ -5572,6 +5625,145 @@ begin
     end;
     if var_Retorno = False then
       PageControl1.Enabled := False;
+  end;
+end;
+
+procedure TF_Terminal.edMesaKeyPress(Sender: TObject; var Key: Char);
+  var i: Integer;
+  nomeCliAmarelo: String;
+begin
+  if (key = #13) then
+  begin
+
+    if (DM_MOV.s_BuscaComanda.Active) then
+      DM_MOV.s_BuscaComanda.Close;
+    DM_MOV.s_BuscaComanda.Params[0].AsString := edMesa.Text;
+    DM_MOV.s_BuscaComanda.Params[1].Clear;
+    DM_MOV.s_BuscaComanda.Open;
+    if (DM_MOV.s_BuscaComanda.IsEmpty) then
+    begin
+       DM_MOV.s_BuscaComanda.Close;
+       ShowMessage('Mesa n\E3o Localizada');
+       Exit;
+    end;
+
+    // Pinto de Vermelho os botoes mesas ocupada
+    // *****************************************
+    pinta_botao_1;
+    //cor := clRed;
+
+    nomeCliAmarelo := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
+
+    {if (DM_MOV.c_comanda.Active) then
+      DM_MOV.c_comanda.Close;
+    DM_MOV.c_comanda.CommandText := '';
+    sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
+    sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+    sql := sql + 'WHERE m.CODNATUREZA = ';
+    sql := sql + IntToStr(3);
+    sql := sql + 'and m.STATUS = ';
+    sql := sql + IntToStr(20);
+    DM_MOV.c_comanda.open;
+    while not DM_MOV.c_comanda.Eof do
+    begin
+      nomedocliente := DM_MOV.c_comandaNOMECLIENTE.AsString;
+      i := numeroComp;
+      for i := 51 to 103 do
+      begin
+        if (TJvTransparentButton(Components[numeroComp]).Caption = nomedocliente) then
+          TJvTransparentButton(Components[numeroComp]).color := cor;
+      end;
+      DM_MOV.c_comanda.Next;
+    end;}
+    //************************************** FIM DO VERMELHO
+
+
+    codcliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
+    if (DM_MOV.s_buscaMov.Active) then
+       DM_MOV.s_buscaMov.Close;
+
+    sql := 'select m.CODMOVIMENTO, c.NOMECLIENTE from MOVIMENTO m ' +
+           'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ' +
+           'where m.CODNATUREZA = ' + IntToStr(3) + ' and m.STATUS = ' +
+           IntToStr(20) + ' and m.CODCLIENTE = ' + IntToStr(codcliente);
+    DM_MOV.s_buscaMov.CommandText := sql;
+
+    DM_MOV.s_buscaMov.Open;
+
+
+    if (DM_MOV.s_buscaMov.IsEmpty)then
+       IncluiPedido
+    else
+    begin
+      if (DM_MOV.c_comanda.Active) then
+        DM_MOV.c_comanda.Close;
+      DM_MOV.c_comanda.CommandText := '';
+      sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
+      sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+      sql := sql + 'WHERE m.CODNATUREZA = ';
+      sql := sql + IntToStr(3);
+      sql := sql + 'and m.STATUS = ';
+      sql := sql + IntToStr(20);
+      sql := sql + 'and m.CODCLIENTE = ';
+      sql := sql + IntToStr(codcliente);
+
+      DM_MOV.c_comanda.CommandText := sql;
+      DM_MOV.c_comanda.Open;
+      AlteraPedido;
+    end;
+    if (not DM_MOV.c_movdet.IsEmpty) then
+    begin
+      poc := 0;
+      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+      if (c_forma.Active) then
+        c_forma.Close;
+      c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+      c_forma.Open;
+
+      if (not c_formatotal.IsNull) then
+      begin
+        JvParcial.Value := c_formatotal.Value;
+        JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+      end
+      else
+      begin
+        JvParcial.Value := 0;
+        JvSubtotal.Value := JvTotal.Value + poc;
+      end;
+
+      if (JvComissao.Visible = True) then
+        if (JvComissao.Value > 0) then
+          poc := (JvComissao.Value /100) * JvTotal.Value;
+      JvSubtotal.Value := JvSubtotal.Value + poc;
+      c_forma.Close;
+    end
+    else
+    begin
+      DM_MOV.c_movdet.Close;
+      JvTotal.AsFloat := 0;
+    end;
+    DM_MOV.s_buscaMov.Close;
+    DM_MOV.s_BuscaComanda.Close;
+    if (JvTotal.Value = 0) then
+    begin
+       JvParcial.Value := 0;
+       JvSubtotal.Value := 0;
+    end;
+
+
+    cor := clYellow;
+    i := numeroComp;
+    for i := 51 to 103 do
+    begin
+      if (TJvTransparentButton(Components[i]).Caption = nomeCliAmarelo) then
+        TJvTransparentButton(Components[i]).color := cor;
+    end;
+  end;
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+    EdtCodBarra1.SetFocus;
   end;
 end;
 
