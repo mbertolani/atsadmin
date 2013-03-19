@@ -1,23 +1,23 @@
-set term ^ ;
-CREATE OR ALTER PROCEDURE SPESTOQUE (
-    DTA1 Date,
-    DTA2 Date,
-    PROD1 Integer,
-    PROD2 Integer,
-    GRUPOA Varchar(50),
-    SUBGRUPOA Varchar(50) )
+SET TERM ^ ;
+ALTER PROCEDURE SPESTOQUE (
+    DTA1 date,
+    DTA2 date,
+    PROD1 integer,
+    PROD2 integer,
+    GRUPOA varchar(50),
+    SUBGRUPOA varchar(50) )
 RETURNS (
-    CODPROD Varchar(20),
-    PRODUTO Varchar(300),
-    UNIDADE Char(3),
-    GRUPO Varchar(30),
-    SUBGRUPO Varchar(30),
-    SALDOINI Double precision,
-    ENTRADA Double precision,
-    SAIDA Double precision,
-    SALDOFIM Double precision,
-    VALORCUSTO Double precision,
-    CCUSTO INTEGER)
+    CODPROD varchar(20),
+    PRODUTO varchar(300),
+    UNIDADE char(3),
+    GRUPO varchar(30),
+    SUBGRUPO varchar(30),
+    SALDOINI double precision,
+    ENTRADA double precision,
+    SAIDA double precision,
+    SALDOFIM double precision,
+    VALORCUSTO double precision,
+    CCUSTO integer )
 AS
 DECLARE VARIABLE COD INTEGER;
 DECLARE VARIABLE ESTOQ DOUBLE PRECISION;
@@ -27,9 +27,10 @@ BEGIN
     ENTRADA = 0;
     SAIDA = 0;
     -- CCUSTO
-    FOR SELECT DISTINCT CODALMOXARIFADO FROM MOVIMENTO WHERE  DATAMOVIMENTO BETWEEN :DTA1 AND :DTA2 
-    INTO :CCUSTO 
-     do begin 
+  --  FOR SELECT DISTINCT CODALMOXARIFADO FROM MOVIMENTO WHERE  DATAMOVIMENTO BETWEEN :DTA1 AND :DTA2 
+  --  INTO :CCUSTO 
+  --   do begin
+    CCUSTO = 1; 
       
     FOR SELECT CODPRODUTO, CODPRO, cast(PRODUTO as varchar(300)), FAMILIA, CATEGORIA, UNIDADEMEDIDA 
           FROM PRODUTOS 
@@ -48,7 +49,7 @@ BEGIN
               AND natu.BAIXAMOVIMENTO = 0 
               AND mov.DATAMOVIMENTO  < :DTA1 
               AND movdet.BAIXA is not null 
-              AND mov.CODALMOXARIFADO = :CCUSTO 
+              AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1)) 
         INTO :ENTRA;
        /* -- Qtde Inicial SAIDA*/
        SELECT SUM(movdet.QUANTIDADE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
@@ -58,7 +59,7 @@ BEGIN
               AND natu.BAIXAMOVIMENTO = 1 
               AND mov.DATAMOVIMENTO  < :DTA1 
               AND movdet.BAIXA is not null
-              AND mov.CODALMOXARIFADO = :CCUSTO 
+              AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))
         INTO :SAI;
         IF (ENTRA IS NULL) THEN
             ENTRA = 0;
@@ -70,7 +71,7 @@ BEGIN
         SELECT SUM(movdet.QUANTIDADE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu  
              WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
               AND natu.CODNATUREZA = mov.CODNATUREZA 
-              AND mov.CODALMOXARIFADO = :CCUSTO
+              AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))
               AND movdet.CODPRODUTO   = :COD 
               AND natu.BAIXAMOVIMENTO = 0 
               AND mov.DATAMOVIMENTO BETWEEN :DTA1 AND :DTA2 
@@ -87,7 +88,7 @@ BEGIN
         SELECT SUM(movdet.QUANTIDADE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu  
              WHERE mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
                AND natu.CODNATUREZA = mov.CODNATUREZA 
-               AND mov.CODALMOXARIFADO = :CCUSTO
+               AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))
                AND movdet.CODPRODUTO = :COD 
                AND natu.BAIXAMOVIMENTO = 1 
                AND mov.DATAMOVIMENTO BETWEEN :DTA1 AND :DTA2 
@@ -100,7 +101,7 @@ BEGIN
            
 
       
-          select ev.PRECOUNIT from ESTOQUE_VIEW(:DTA2, :COD, :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev 
+          select ev.PRECOCUSTO from ESTOQUE_VIEW(:DTA2, :COD, :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev 
             into :VALORCUSTO;
         
           IF (SAIDA IS NULL) THEN
@@ -115,5 +116,11 @@ BEGIN
         SAIDA = 0;
         valorCusto = null;
     END
-  END -- CCUSTO
-END
+  --END -- CCUSTO
+END^
+SET TERM ; ^
+
+
+GRANT EXECUTE
+ ON PROCEDURE SPESTOQUE TO  SYSDBA;
+
