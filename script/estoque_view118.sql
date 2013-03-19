@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER PROCEDURE ESTOQUE_VIEW (
     DTA1 date,
     PROD1 integer,
@@ -52,7 +53,7 @@ BEGIN
      AND md.CODMOVIMENTO = m.CODMOVIMENTO
      AND md.CODPRODUTO  = :Prod1 
      AND md.BAIXA is not null 
-     AND ((m.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 0))
+     AND ((m.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))
      AND c.DATACOMPRA <= :dta1 
    ORDER BY c.DATACOMPRA DESC 
     INTO :dataMov;
@@ -63,22 +64,29 @@ BEGIN
      AND md.CODMOVIMENTO = m.CODMOVIMENTO
      AND md.CODPRODUTO  = :Prod1 
      AND md.BAIXA is not null 
-     AND ((m.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 0))
+     AND ((m.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))
      AND v.DATAVENDA <= :dta1
    ORDER BY v.DATAVENDA DESC 
     INTO :dataMovV;
 
    if (dataMovV > dataMov) then 
      dataMov = dataMovV;
+     
    --suspend;   
    --mesano = datamov;  
    FOR SELECT CODPROD, SALDOINIACUM,  
      ENTRADA, SAIDA, SALDOFIMACUM, PRECOUNIT, VALORVENDA,  CCUSTOS, LOTES, GRUPO, PRECOCOMPRA, PRECOVENDA, PRECOCUSTO
-       from SPESTOQUEFILTRO(:DataMov , :DataMov, :Prod1, :Prod1, 'TODOS SUBGRUPOS DO CADASTRO CATEGORIA', 
+       from SPESTOQUEFILTRO(:dataMov , :dataMov, :Prod1, :Prod1, 'TODOS SUBGRUPOS DO CADASTRO CATEGORIA', 
        100, :CCUSTO, 'TODAS AS MARCAS CADASTRADAS NO SISTEMA', :LOTE, 'TODOS OS GRUPOS CADASTRADOS NO SISTEMA') ep
        into :CODPROD,  :SALDOINIACUM, :SOMA_ENT, :SOMA_SAI, :SALDOFIMACUM, :PRECOUNIT, :VALORVENDA,  :CCUSTOS, :LOTES, 
        :GRUPO, :PRECOCOMPRA, :PRECOVENDA, :PRECOCUSTO
    do begin     
    end
+
+  
+   
    Suspend;
+   
+   
+   
 END
