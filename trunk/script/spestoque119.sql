@@ -101,7 +101,7 @@ BEGIN
            
 
       
-          select ev.PRECOCUSTO from ESTOQUE_VIEW(:DTA2, :COD, :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev 
+          select ev.PRECOCUSTO from ESTOQUE_VIEW_CUSTO(:DTA2, :COD, :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev 
             into :VALORCUSTO;
         
           IF (SAIDA IS NULL) THEN
