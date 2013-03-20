@@ -1,4 +1,3 @@
-set term ^;
 CREATE OR ALTER PROCEDURE  LISTASPESTOQUEFILTRO( DTA1                             DATE
                                 , DTA2                             DATE
                                 , PROD1                            INTEGER
@@ -49,6 +48,8 @@ DECLARE VARIABLE IMPRIME CHAR(1);
 BEGIN
     saida = 0;
     acumula = 0;
+    if (CCUSTO = 0) then 
+      CCUSTO = 1;
     /* SAIDA */
     FOR SELECT distinct l.codlote, mov.datamovimento, mov.CODMOVIMENTO, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA, movdet.CODPRODUTO, 
         movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO, prod.PRODUTO, prod.FAMILIA, prod.CATEGORIA, mov.OBS, prod.VALORUNITARIOATUAL, 
