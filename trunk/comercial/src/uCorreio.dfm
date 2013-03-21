@@ -1914,8 +1914,8 @@ inherited fCorreio: TfCorreio
         ParamType = ptInput
       end>
     ProviderName = 'dspDetR'
-    Left = 101
-    Top = 125
+    Left = 93
+    Top = 117
     object cdsDetRCODOC: TIntegerField
       FieldName = 'CODOC'
       Required = True
@@ -1975,8 +1975,8 @@ inherited fCorreio: TfCorreio
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 21
-    Top = 125
+    Left = 5
+    Top = 117
     object sqlDetRCODOC: TIntegerField
       FieldName = 'CODOC'
       Required = True
@@ -2023,8 +2023,8 @@ inherited fCorreio: TfCorreio
   end
   object dspDetR: TDataSetProvider
     DataSet = sqlDetR
-    Left = 53
-    Top = 125
+    Left = 69
+    Top = 117
   end
   object sqlDetD: TSQLDataSet
     CommandText = 
@@ -2041,8 +2041,8 @@ inherited fCorreio: TfCorreio
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 21
-    Top = 157
+    Left = 5
+    Top = 173
     object sqlDetDCODOC: TIntegerField
       FieldName = 'CODOC'
       Required = True
@@ -2089,8 +2089,8 @@ inherited fCorreio: TfCorreio
   end
   object dspDetD: TDataSetProvider
     DataSet = sqlDetD
-    Left = 61
-    Top = 157
+    Left = 53
+    Top = 181
   end
   object cdsDetD: TClientDataSet
     Aggregates = <>
@@ -2101,8 +2101,8 @@ inherited fCorreio: TfCorreio
         ParamType = ptInput
       end>
     ProviderName = 'dspDetD'
-    Left = 93
-    Top = 157
+    Left = 77
+    Top = 173
     object cdsDetDCODOC: TIntegerField
       FieldName = 'CODOC'
       Required = True
