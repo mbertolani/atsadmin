@@ -27,6 +27,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -71,6 +72,13 @@ begin
   cdsCa.Close;
   cdsCa.Open;
   btnProcurar.Visible := False;
+  btnExcluir.Visible := False;
+end;
+
+procedure TfCadSetor.btnExcluirClick(Sender: TObject);
+begin
+//  inherited;
+
 end;
 
 end.
