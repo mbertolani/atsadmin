@@ -3,6 +3,7 @@ inherited FCadDoc: TFCadDoc
   Top = 131
   Caption = 'Cadastro Tipo Documentos'
   OldCreateOrder = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel [0]
