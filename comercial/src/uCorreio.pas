@@ -349,7 +349,7 @@ var strSql ,resu : string;
     descar : Tutils;
 begin
     descar := TUtils.Create;
-    resu := descar.RemoveChar(DBEdit16.Text);
+    resu := descar.RemoveChar(DBEdit15.Text);
 
     if DtSrc.DataSet.State in [dsInsert] then
     begin
@@ -367,7 +367,7 @@ begin
       strSql := 'UPDATE MOVDOC SET OBS = ';
       strSql := strSql +  QuotedStr(DBMemo1.Text) + ',';
       strSql := strSql + 'NUMCAI = ';
-      strSql := strSql + QuotedStr(DBEdit4.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit3.Text) + ',';
       strSql := strSql + 'TAMANHO = ';
       strSql := strSql + QuotedStr(DBEdit19.Text) + ',';
       if(DBEdit16.Text = '  /  /    ') then
@@ -379,16 +379,16 @@ begin
         strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit16.Text))) + ',';
       end;
       strSql := strSql + 'CODDEP = ';
-      strSql := strSql + QuotedStr(DBEdit5.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit4.Text) + ',';
       strSql := strSql + 'CODSEC = ';
-      strSql := strSql + QuotedStr(DBEdit6.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit5.Text) + ',';
       if(DBEdit10.Text = '  /  /    ') then
       begin
         strSql := strSql + 'DTINID = null ,';
       end
       else begin
         strSql := strSql + 'DTINID = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit10.Text))) + ',';
+        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit9.Text))) + ',';
       end;
       if(DBEdit11.Text = '  /  /    ') then
       begin
@@ -396,18 +396,18 @@ begin
       end
       else begin
         strSql := strSql + 'DTFIND = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit11.Text))) + ',';
+        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit10.Text))) + ',';
       end;
       strSql := strSql + 'DOCINI = ';
-      strSql := strSql + QuotedStr(DBEdit12.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit11.Text) + ',';
       strSql := strSql + 'DOCFIN = ';
-      strSql := strSql + QuotedStr(DBEdit13.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit12.Text) + ',';
       strSql := strSql + 'COLUNA = ';
       strSql := strSql + QuotedStr(DBEdit17.Text) + ',';
       strSql := strSql + 'ESTANTE = ';
       strSql := strSql + QuotedStr(DBEdit14.Text) + ',';
       strSql := strSql + 'PRATEL = ';
-      strSql := strSql + QuotedStr(DBEdit15.Text) + ',';
+      strSql := strSql + QuotedStr(DBEdit14.Text) + ',';
       strSql := strSql + 'NCAICLI = ';
       strSql := strSql + QuotedStr(DBEdit18.Text) + ',';
       strSql := strSql + 'DESCARTE = ';
@@ -416,7 +416,7 @@ begin
       strSql := strSql + QuotedStr(DBEdit7.Text) + ',';
       /////
       strSql := strSql + 'CODDOC = ';
-      strSql := strSql + QuotedStr(DBEdit9.Text) + ' ';
+      strSql := strSql + QuotedStr(DBEdit8.Text) + ' ';
       strSql := strSql + ' where CODOC = ';
       strSql := strSql +  IntToStr(cdsCorreioCODOC.AsInteger);
 
