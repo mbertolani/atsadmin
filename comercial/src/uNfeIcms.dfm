@@ -14,8 +14,8 @@ object fNfeIcms: TfNfeIcms
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    912
-    556)
+    920
+    567)
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
@@ -70,7 +70,7 @@ object fNfeIcms: TfNfeIcms
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 912
+    Width = 920
     Height = 113
     Align = alTop
     BevelOuter = bvNone
@@ -78,7 +78,7 @@ object fNfeIcms: TfNfeIcms
     Color = 16776176
     TabOrder = 1
     DesignSize = (
-      908
+      916
       109)
     object Label1: TLabel
       Left = 22
@@ -93,7 +93,7 @@ object fNfeIcms: TfNfeIcms
     object Label5: TLabel
       Left = 0
       Top = 0
-      Width = 908
+      Width = 916
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -615,13 +615,13 @@ object fNfeIcms: TfNfeIcms
   end
   object sdsNFVenda: TSQLDataSet
     CommandText = 
-      'SELECT NF.*, C.*, EC.*, V.CODMOVIMENTO '#13#10'   FROM NOTAFISCAL NF, ' +
-      'CLIENTES C, ENDERECOCLIENTE EC, VENDA V'#13#10'WHERE NF.CODCLIENTE = C' +
-      '.CODCLIENTE'#13#10'      AND C.CODCLIENTE   = EC.CODCLIENTE'#13#10'      AND' +
-      ' V.CODVENDA = NF.CODVENDA'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1' +
-      ' AND :DTA2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND V.CODMOVIMENTO' +
-      ' BETWEEN :CODINI AND :CODFIM '#13#10'      AND NF.PROTOCOLOCANC IS NUL' +
-      'L '
+      'SELECT NF.*, C.*, EC.*, V.CODMOVIMENTO, s.MODELO'#13#10'   FROM NOTAFI' +
+      'SCAL NF, CLIENTES C, ENDERECOCLIENTE EC, '#13#10'   VENDA V,  SERIES S' +
+      #13#10'WHERE NF.CODCLIENTE = C.CODCLIENTE'#13#10'      AND C.CODCLIENTE   =' +
+      ' EC.CODCLIENTE'#13#10'      AND V.CODVENDA = NF.CODVENDA'#13#10'      AND S.' +
+      'SERIE = NF.SERIE'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1 AND :DTA' +
+      '2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND V.CODMOVIMENTO BETWEEN ' +
+      ':CODINI AND :CODFIM '#13#10'      AND NF.PROTOCOLOCANC IS NULL '
     MaxBlobSize = -1
     Params = <
       item
@@ -1443,6 +1443,10 @@ object fNfeIcms: TfNfeIcms
     object sdsNFVendaCODMOVIMENTO: TIntegerField
       FieldName = 'CODMOVIMENTO'
       Required = True
+    end
+    object sdsNFVendaMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
     end
   end
   object dspNFVenda: TDataSetProvider
@@ -2273,6 +2277,10 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'CODMOVIMENTO'
       Required = True
     end
+    object cdsNFVendaMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
+    end
   end
   object sdsItens: TSQLDataSet
     CommandText = 
@@ -2549,13 +2557,22 @@ object fNfeIcms: TfNfeIcms
       '.CNPJ, f.INSCESTADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef' +
       '.CIDADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFON' +
       'E, ef.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BAS' +
-      'E_ST, c.CODMOVIMENTO, c.CHAVENF'#13#10'    FROM COMPRA C, MOVIMENTO MO' +
-      'V, FORNECEDOR f, ENDERECOFORNECEDOR ef'#13#10'   WHERE C.CODMOVIMENTO ' +
-      '= MOV.CODMOVIMENTO '#13#10'     AND  f.CODFORNECEDOR = c.CODFORNECEDOR' +
-      #13#10'     AND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOE' +
-      'ND = 0  '#13#10'     AND MOV.CODNATUREZA = 4    '#13#10'     AND C.CODMOVIME' +
-      'NTO BETWEEN  :CODINI AND :CODFIM'#13#10'     AND C.DATACOMPRA      BET' +
-      'WEEN :DTA_INI AND :DTA_FIM'#13#10'  ORDER BY F.CODFORNECEDOR'
+      'E_ST, c.CODMOVIMENTO, c.CHAVENF, c.MODELO'#13#10', SUM(MD.VIPI) IPI, S' +
+      'UM(MD.VALOR_PIS) PIS, SUM(MD.VALOR_COFINS) COFINS , SUM(VLR_BASE' +
+      'ICMS) BASE_ICMS '#13#10'    FROM COMPRA C, MOVIMENTO MOV, FORNECEDOR f' +
+      ', ENDERECOFORNECEDOR ef, MOVIMENTODETALHE MD '#13#10'   WHERE C.CODMOV' +
+      'IMENTO = MOV.CODMOVIMENTO'#13#10'     AND md.CODMOVIMENTO = c.CODMOVIM' +
+      'ENTO      '#13#10'     AND  f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AN' +
+      'D ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0  '#13 +
+      #10'     AND MOV.CODNATUREZA = 4    '#13#10'     AND C.CODMOVIMENTO BETWE' +
+      'EN  :CODINI AND :CODFIM'#13#10'     AND C.DATACOMPRA      BETWEEN :DTA' +
+      '_INI AND :DTA_FIM'#13#10'     group by C.DATACOMPRA, C.NOTAFISCAL, C.V' +
+      'ALOR_ICMS, C.VALOR_FRETE, C.VALOR_SEGURO, C.VALOR_IPI'#13#10', f.CODFO' +
+      'RNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCESTADUAL, f.TIPOFIRMA, ef' +
+      '.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPL' +
+      'EMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VA' +
+      'LOR, C.ICMS_ST, C.ICMS_BASE_ST, c.CODMOVIMENTO, c.CHAVENF, c.MOD' +
+      'ELO'#13#10'  ORDER BY F.CODFORNECEDOR'
     MaxBlobSize = -1
     Params = <
       item
@@ -2679,6 +2696,26 @@ object fNfeIcms: TfNfeIcms
     object sdsCompraCHAVENF: TStringField
       FieldName = 'CHAVENF'
       Size = 44
+    end
+    object sdsCompraMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
+    end
+    object sdsCompraIPI: TFloatField
+      FieldName = 'IPI'
+      ReadOnly = True
+    end
+    object sdsCompraPIS: TFloatField
+      FieldName = 'PIS'
+      ReadOnly = True
+    end
+    object sdsCompraCOFINS: TFloatField
+      FieldName = 'COFINS'
+      ReadOnly = True
+    end
+    object sdsCompraBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+      ReadOnly = True
     end
   end
   object dspCompra: TDataSetProvider
@@ -2810,6 +2847,26 @@ object fNfeIcms: TfNfeIcms
     object cdsCompraCHAVENF: TStringField
       FieldName = 'CHAVENF'
       Size = 44
+    end
+    object cdsCompraMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
+    end
+    object cdsCompraIPI: TFloatField
+      FieldName = 'IPI'
+      ReadOnly = True
+    end
+    object cdsCompraPIS: TFloatField
+      FieldName = 'PIS'
+      ReadOnly = True
+    end
+    object cdsCompraCOFINS: TFloatField
+      FieldName = 'COFINS'
+      ReadOnly = True
+    end
+    object cdsCompraBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+      ReadOnly = True
     end
   end
   object sdsEmpS: TSQLDataSet
@@ -3348,6 +3405,7 @@ object fNfeIcms: TfNfeIcms
   end
   object dspProduto: TDataSetProvider
     DataSet = sdsProduto
+    Options = [poAllowCommandText]
     Left = 304
     Top = 328
   end

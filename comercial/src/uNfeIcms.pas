@@ -1000,6 +1000,18 @@ type
     cdsEnergiaDetICMS_ST: TFloatField;
     cdsEnergiaDetICMS_BASE_ST: TFloatField;
     cdsEnergiaDetCODDETALHE: TIntegerField;
+    sdsNFVendaMODELO: TStringField;
+    cdsNFVendaMODELO: TStringField;
+    sdsCompraMODELO: TStringField;
+    cdsCompraMODELO: TStringField;
+    sdsCompraIPI: TFloatField;
+    sdsCompraPIS: TFloatField;
+    sdsCompraCOFINS: TFloatField;
+    sdsCompraBASE_ICMS: TFloatField;
+    cdsCompraIPI: TFloatField;
+    cdsCompraPIS: TFloatField;
+    cdsCompraCOFINS: TFloatField;
+    cdsCompraBASE_ICMS: TFloatField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1192,7 +1204,7 @@ begin
              with Registro0150New do
              begin
                COD_PART := FormatFloat('100000', cdsEmpECODFORNECEDOR.AsInteger);
-               NOME     := cdsEmpERAZAOSOCIAL.AsString;
+               NOME     := trim(cdsEmpERAZAOSOCIAL.AsString);
                COD_PAIS := '0';
                if (cdsEmpEPAIS.AsString = 'Brasil') then
                  COD_PAIS := '1058';
@@ -1209,7 +1221,7 @@ begin
                IE       := util.RemoveChar(cdsEmpEINSCESTADUAL.AsString);
                COD_MUN  := StrToInt(validaCodMunicipio(cdsEmpECD_IBGE.AsString, cdsEmpERAZAOSOCIAL.AsString));
                SUFRAMA  := '';
-               ENDERECO := cdsEmpELOGRADOURO.AsString;
+               ENDERECO := Trim(cdsEmpELOGRADOURO.AsString);
                NUM      := cdsEmpENUMERO.AsString;
                COMPL    := cdsEmpECOMPLEMENTO.AsString;
                BAIRRO   := cdsEmpEBAIRRO.AsString;
@@ -1226,7 +1238,7 @@ begin
              with Registro0150New do
              begin
                COD_PART := FormatFloat('200000', cdsEmpSCODCLIENTE.AsInteger);
-               NOME     := cdsEmpSRAZAOSOCIAL.AsString + IntToStr(int0150);
+               NOME     := trim(cdsEmpSRAZAOSOCIAL.AsString + IntToStr(int0150));
                COD_PAIS := '0';
                if (cdsEmpSPAIS.AsString = 'Brasil') then
                  COD_PAIS := '1058';
@@ -1242,7 +1254,7 @@ begin
                IE       := util.RemoveChar(cdsEmpSINSCESTADUAL.AsString);
                COD_MUN  := StrToInt(validaCodMunicipio(cdsEmpSCD_IBGE.AsString, cdsEmpSRAZAOSOCIAL.AsString));
                SUFRAMA  := '';
-               ENDERECO := cdsEmpSLOGRADOURO.AsString;
+               ENDERECO := Trim(cdsEmpSLOGRADOURO.AsString);
                NUM      := cdsEmpSNUMERO.AsString;
                COMPL    := cdsEmpSCOMPLEMENTO.AsString;
                BAIRRO   := cdsEmpSBAIRRO.AsString;
@@ -1309,6 +1321,49 @@ begin
            cdsProduto.Next;
          end;
 
+
+         if (temVenda = 'S') then
+         begin
+           if (cdsProduto.Active) then
+             cdsProduto.Close;
+
+           cdsProduto.CommandText := 'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, PRO.NCM, PRO.PRODUTO, DET.UN ' +
+           ' FROM VENDA V,MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO ' +
+           ' WHERE V.CODMOVIMENTO = MOV.CODMOVIMENTO ' +
+           ' AND MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
+           ' AND PRO.CODPRODUTO     = DET.CODPRODUTO ' +
+           ' AND (MOV.CODNATUREZA = 12 OR MOV.CODNATUREZA = 15 ) ' +
+           ' AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF ' +
+           ' AND V.DATAVENDA      BETWEEN :DTA_INI AND :DTA_FIM';
+           cdsProduto.Params[0].AsInteger := codMovMinV;
+           cdsProduto.Params[1].AsInteger := codMovMaxV;
+           cdsProduto.Params[2].AsDate    := data_ini.Date;
+           cdsProduto.Params[3].AsDate    := data_fim.Date;
+           cdsProduto.Open;
+           While (not cdsProduto.Eof) do
+           begin
+             // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
+             with Registro0200New do
+             begin
+               COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger);
+               DESCR_ITEM   := Trim(cdsProdutOPRODUTO.AsString);
+               COD_BARRA    := '';
+               UNID_INV     := Trim(cdsProdutoUN.AsString);
+               TIPO_ITEM    := tiMercadoriaRevenda;
+               COD_NCM      := Trim(cdsProdutoNCM.AsString);
+               COD_GEN      := '';
+               ALIQ_ICMS    := 0;
+             end;
+             cdsProduto.Next;
+           end;
+
+           with Registro0400New do
+           begin
+             COD_NAT   := '03';
+             DESCR_NAT := 'Venda de Mercadorias';
+           end;
+         end;
+
          if (temCompra = 'S') then
          begin
            with Registro0400New do
@@ -1318,14 +1373,6 @@ begin
            end;
          end;
 
-         {if (temVenda = 'S') then
-         begin
-           with Registro0400New do
-           begin
-             COD_NAT   := '03';
-             DESCR_NAT := 'Venda de Mercadorias';
-           end;
-         end;}
          // FILHO - REGISTRO 0500: PLANO DE CONTAS CONTÁBEIS  *****  PARA IMOBILIZADO *****
         { with Registro0500New do
          begin
@@ -1426,11 +1473,19 @@ begin
             IND_OPER      := tpEntradaAquisicao; // tpEntradaAquisicao, // 0 - Entrada
             IND_EMIT      := edTerceiros;   // 0 - Emissão própria // 1 - Terceiro
             COD_PART      := FormatFloat('100000', cdsCompraCODFORNECEDOR.asInteger);
-            COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
+            if (Length(cdsCompraMODELO.AsString) = 1) then
+              COD_MOD       := trim('0' + cdsCompraMODELO.AsString)
+            else
+              COD_MOD       := cdsCompraMODELO.AsString; //'55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
             if (cdsCompraSERIE.AsString = '1A') then
               COD_MOD       := '01';
             COD_SIT       := sdRegular;
-            SER           := trim('00' + Trim(cdsCompraSERIE.AsString)); //04	SER	Série do documento fiscal	C	003	-
+            if (Length(cdsCompraSERIE.AsString) = 1) then
+              SER           := trim('00' + Trim(cdsCompraSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+            else if (Length(cdsCompraSERIE.AsString) = 2) then
+              SER           := trim('0' + Trim(cdsCompraSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+            else
+              SER           := Trim(cdsCompraSERIE.AsString); //04	SER	Série do documento fiscal	C	003	-
             NUM_DOC       := IntToStr(cdsCompraNOTAFISCAL.AsInteger);
             CHV_NFE       := Trim(copy(cdsCompraCHAVENF.AsString,0,44));
             DT_DOC        := cdsCompraDATACOMPRA.AsDateTime;
@@ -1444,13 +1499,13 @@ begin
             VL_FRT        := cdsCompraVALOR_FRETE.AsFloat;
             VL_SEG        := cdsCompraVALOR_SEGURO.AsFloat;
             VL_OUT_DA     := 0;
-            VL_BC_ICMS    := sdsTotalBASE_ICMS.AsFloat;
+            VL_BC_ICMS    := cdsCompraBASE_ICMS.AsFloat;
             VL_ICMS       := cdsCompraVALOR_ICMS.AsFloat;
             VL_BC_ICMS_ST := cdsCompraICMS_BASE_ST.AsFloat;
             VL_ICMS_ST    := cdsCompraICMS_ST.AsFloat;
-            VL_IPI        := sdsTotalIPI.AsFloat;
-            VL_PIS        := sdsTotalPIS.AsFloat;
-            VL_COFINS     := sdsTotalCOFINS.AsFloat;
+            VL_IPI        := cdsCompraIPI.AsFloat;
+            VL_PIS        := cdsCompraPIS.AsFloat;
+            VL_COFINS     := cdsCompraCOFINS.AsFloat;
             VL_PIS_ST     := 0;
             VL_COFINS_ST  := 0;
 
@@ -1469,7 +1524,7 @@ begin
                 COD_ITEM         := FormatFloat('000000', cdsCompraDetCODPRODUTO.AsInteger);
                 DESCR_COMPL      := cdsCompraDetDESCPRODUTO.AsString;
                 QTD              := cdsCompraDetQUANTIDADE.AsFloat;
-                UNID             := cdsCompraDetUN.AsString;
+                UNID             := Trim(cdsCompraDetUN.AsString);
                 VL_ITEM          := cdsCompraDetPRECO.AsFloat;
                 VL_DESC          := 0;
                 IND_MOV          := mfSim;
@@ -1580,9 +1635,17 @@ begin
               IND_OPER      := tpSaidaPrestacao; // 1-Saida
               IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
               COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
-              COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
+              if (Length(cdsNFVendaSERIE.AsString) = 1) then
+                COD_MOD       := trim('0' + cdsNFVendaMODELO.AsString)
+              else
+                COD_MOD       := cdsNFVendaMODELO.AsString; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
               COD_SIT       := sdRegular;
-              SER           := trim('00' + trim(cdsNFVendaSERIE.AsString)); //04	SER	Série do documento fiscal	C	003	-
+              if (Length(cdsNFVendaSERIE.AsString) = 1) then
+                SER           := trim('00' + trim(cdsNFVendaSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+              else if (Length(cdsNFVendaSERIE.AsString) = 2) then
+                SER           := trim('0' + trim(cdsNFVendaSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+              else
+                SER           := trim(cdsNFVendaSERIE.AsString); //04	SER	Série do documento fiscal	C	003	-
               NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
               CHV_NFE       := Trim(copy(cdsNFVendaNOMEXML.AsString,0,44));
               DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
@@ -1631,62 +1694,65 @@ begin
               cdsItens.Open;
               // INICIO BLOCO DET VENDAS  ######################
               IItens := 1;
-              {While not cdsItens.Eof do
+              if (COD_MOD <> '55') then
               begin
-                //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
-                with RegistroC170New do   //Inicio Adicionar os Itens:
+                While not cdsItens.Eof do
                 begin
-                  NUM_ITEM         := FormatFloat('000', IItens);
-                  COD_ITEM         := FormatFloat('000000', cdsItensCODPRODUTO.AsInteger);
-                  DESCR_COMPL      := cdsItensDESCPRODUTO.AsString;
-                  QTD              := cdsItensQUANTIDADE.AsFloat;
-                  UNID             := cdsItensUN.AsString;
-                  VL_ITEM          := cdsItensPRECO.AsFloat;
-                  VL_DESC          := cdsItensVALOR_DESCONTO.AsFloat;
-                  IND_MOV          := mfSim;
-                  //CST_ICMS
-                  CST_ICMS         := cdsItensCST.asString;// sticmsTributadaIntegralmente;
-                  CFOP             := cdsItensCFOP.AsString;
-                  COD_NAT          := '03';  // Venda
-                  VL_BC_ICMS       := cdsItensVLR_BASEICMS.AsFloat;
-                  ALIQ_ICMS        := cdsItensICMS.AsFloat;
-                  VL_ICMS          := cdsItensVALOR_ICMS.AsFloat;
-                  VL_BC_ICMS_ST    := cdsItensICMS_SUBST.AsFloat;
-                  ALIQ_ST          := cdsItensICMS_SUBSTD.AsFloat;
-                  VL_ICMS_ST       := 0;
-                  if (ALIQ_ST > 0) then
-                    VL_ICMS_ST     := SimpleRoundTo(((VL_BC_ICMS_ST/ALIQ_ST)*100),(-2));
-                  IND_APUR         := iaMensal;
-                  CST_IPI          := cdsItensCSTIPI.AsString;
-                  COD_ENQ          := '';
-                  VL_BC_IPI        := cdsItensVLR_BASEICMS.AsFloat;
-                  ALIQ_IPI         := cdsItensVIPI.AsFloat;
-                  if (VL_BC_IPI > 0) then
-                    ALIQ_IPI       := SimpleRoundTo(((cdsItensVIPI.AsFloat/VL_BC_IPI)*100),(-2));
-                  VL_IPI           := cdsItensVIPI.AsFloat;
-                  CST_PIS          := cdsItensCSTPIS.AsString; //  stpisOutrasOperacoesSaida;  // #########
-                  VL_BC_PIS        := cdsItensVLR_BASEICMS.AsFloat;
-                  VL_PIS           := cdsItensVALOR_PIS.AsFloat;
-                  ALIQ_PIS_PERC    := 0;
-                  if (VL_BC_PIS > 0) then
-                    ALIQ_PIS_PERC  := SimpleRoundTo(((VL_PIS/VL_BC_PIS)*100),(-2));
-                  QUANT_BC_PIS     := cdsItensQUANTIDADE.AsFloat;
-                  ALIQ_PIS_R       := 0;
+                  //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
+                  with RegistroC170New do   //Inicio Adicionar os Itens:
+                  begin
+                    NUM_ITEM         := FormatFloat('000', IItens);
+                    COD_ITEM         := FormatFloat('000000', cdsItensCODPRODUTO.AsInteger);
+                    DESCR_COMPL      := cdsItensDESCPRODUTO.AsString;
+                    QTD              := cdsItensQUANTIDADE.AsFloat;
+                    UNID             := cdsItensUN.AsString;
+                    VL_ITEM          := cdsItensPRECO.AsFloat;
+                    VL_DESC          := cdsItensVALOR_DESCONTO.AsFloat;
+                    IND_MOV          := mfSim;
+                    //CST_ICMS
+                    CST_ICMS         := cdsItensCST.asString;// sticmsTributadaIntegralmente;
+                    CFOP             := cdsItensCFOP.AsString;
+                    COD_NAT          := '03';  // Venda
+                    VL_BC_ICMS       := cdsItensVLR_BASEICMS.AsFloat;
+                    ALIQ_ICMS        := cdsItensICMS.AsFloat;
+                    VL_ICMS          := cdsItensVALOR_ICMS.AsFloat;
+                    VL_BC_ICMS_ST    := cdsItensICMS_SUBST.AsFloat;
+                    ALIQ_ST          := cdsItensICMS_SUBSTD.AsFloat;
+                    VL_ICMS_ST       := 0;
+                    if (ALIQ_ST > 0) then
+                      VL_ICMS_ST     := SimpleRoundTo(((VL_BC_ICMS_ST/ALIQ_ST)*100),(-2));
+                    IND_APUR         := iaMensal;
+                    CST_IPI          := cdsItensCSTIPI.AsString;
+                    COD_ENQ          := '';
+                    VL_BC_IPI        := cdsItensVLR_BASEICMS.AsFloat;
+                    ALIQ_IPI         := cdsItensVIPI.AsFloat;
+                    if (VL_BC_IPI > 0) then
+                      ALIQ_IPI       := SimpleRoundTo(((cdsItensVIPI.AsFloat/VL_BC_IPI)*100),(-2));
+                    VL_IPI           := cdsItensVIPI.AsFloat;
+                    CST_PIS          := cdsItensCSTPIS.AsString; //  stpisOutrasOperacoesSaida;  // #########
+                    VL_BC_PIS        := cdsItensVLR_BASEICMS.AsFloat;
+                    VL_PIS           := cdsItensVALOR_PIS.AsFloat;
+                    ALIQ_PIS_PERC    := 0;
+                    if (VL_BC_PIS > 0) then
+                      ALIQ_PIS_PERC  := SimpleRoundTo(((VL_PIS/VL_BC_PIS)*100),(-2));
+                    QUANT_BC_PIS     := cdsItensQUANTIDADE.AsFloat;
+                    ALIQ_PIS_R       := 0;
 
-                  CST_COFINS       := cdsItensCSTCOFINS.AsString;
-                  VL_BC_COFINS     := cdsItensVLR_BASEICMS.AsFloat;
-                  VL_COFINS        := cdsItensVALOR_COFINS.AsFloat;
-                  ALIQ_COFINS_PERC := 0;
-                  IF (VL_BC_COFINS > 0) then
-                    ALIQ_COFINS_PERC := SimpleRoundTo(((VL_COFINS/VL_BC_COFINS)*100),(-2));
-                  QUANT_BC_COFINS  := cdsItensQUANTIDADE.AsFloat;
-                  ALIQ_COFINS_R    := 0;
-                  COD_CTA          := '';
-                end; //Fim dos Itens;
-                IItens := IItens + 1;
-                cdsItens.Next;
+                    CST_COFINS       := cdsItensCSTCOFINS.AsString;
+                    VL_BC_COFINS     := cdsItensVLR_BASEICMS.AsFloat;
+                    VL_COFINS        := cdsItensVALOR_COFINS.AsFloat;
+                    ALIQ_COFINS_PERC := 0;
+                    IF (VL_BC_COFINS > 0) then
+                      ALIQ_COFINS_PERC := SimpleRoundTo(((VL_COFINS/VL_BC_COFINS)*100),(-2));
+                    QUANT_BC_COFINS  := cdsItensQUANTIDADE.AsFloat;
+                    ALIQ_COFINS_R    := 0;
+                    COD_CTA          := '';
+                  end; //Fim dos Itens;
+                  IItens := IItens + 1;
+                  cdsItens.Next;
+                end;
+
               end;
-              }
             end;
 
             // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
@@ -1715,9 +1781,6 @@ begin
               end;
               cdsVC190.next;
             end;
-
-
-
             codParticip := cdsNFVendaCODCLIENTE.AsInteger;
             cdsNFVenda.Next;
           end; // FIM DO WHILE DE VENDAS
@@ -2096,9 +2159,16 @@ begin
   cdsNFVenda.Open;
 
   temVenda := 'N';
-  if (not cdsMov.IsEmpty) then
-    temVenda := 'S';
 
+  cdsNFVenda.First;
+  while not cdsNFVenda.Eof do
+  begin
+     if (cdsNFVendaMODELO.AsString <> '55') then
+       temVenda := 'S';
+    cdsNFVenda.Next;
+  end;
+  cdsNFVenda.First;
+  
   if (cdsItens.Active) then
     cdsItens.Close;
 
