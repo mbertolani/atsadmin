@@ -19,12 +19,16 @@ type
     JvLabel1: TJvLabel;
     DBEdit3: TDBEdit;
     Label5: TLabel;
+    DBEdit4: TDBEdit;
+    Label6: TLabel;
+    Memo1: TMemo;
     procedure btnIncluirClick(Sender: TObject);
     procedure DBEdit2Exit(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure Label6Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -84,6 +88,15 @@ procedure TfSeriaNF.FormCreate(Sender: TObject);
 begin
 //  inherited;
 
+end;
+
+procedure TfSeriaNF.Label6Click(Sender: TObject);
+begin
+  inherited;
+  if (Memo1.Visible) then
+    Memo1.Visible := False
+  else
+    Memo1.Visible := True;
 end;
 
 end.
