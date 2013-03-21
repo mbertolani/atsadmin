@@ -85,7 +85,7 @@ object FiltroCorreio: TFiltroCorreio
     Caption = 'BUSCAR PALAVRA CAMPO : OBSERVA'#199#195'O'
   end
   object Label10: TLabel
-    Left = 95
+    Left = 64
     Top = 8
     Width = 52
     Height = 13
@@ -99,9 +99,9 @@ object FiltroCorreio: TFiltroCorreio
     Caption = 'N'#186' DA CAIXA'
   end
   object btnProcurar: TBitBtn
-    Left = 669
+    Left = 600
     Top = 8
-    Width = 112
+    Width = 91
     Height = 41
     Caption = 'F8-&Procurar'
     PopupMenu = PopupMenu1
@@ -166,9 +166,9 @@ object FiltroCorreio: TFiltroCorreio
       7F7F7F7F7F7F7F7F828282C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
   object JvDBSearchEdit2: TJvDBSearchComboBox
-    Left = 91
+    Left = 63
     Top = 23
-    Width = 526
+    Width = 498
     Height = 21
     DataField = 'NOMECLIENTE'
     DataSource = dCliente
@@ -180,7 +180,7 @@ object FiltroCorreio: TFiltroCorreio
   object JvDBSearchEdit1: TJvDBSearchEdit
     Left = 10
     Top = 23
-    Width = 73
+    Width = 50
     Height = 21
     DataSource = dCliente
     DataField = 'CODCLIENTE'
@@ -189,7 +189,7 @@ object FiltroCorreio: TFiltroCorreio
     OnKeyPress = FormKeyPress
   end
   object BitBtn1: TBitBtn
-    Left = 619
+    Left = 564
     Top = 19
     Width = 29
     Height = 25
@@ -507,9 +507,9 @@ object FiltroCorreio: TFiltroCorreio
       0000}
   end
   object BitBtn5: TBitBtn
-    Left = 792
+    Left = 699
     Top = 8
-    Width = 105
+    Width = 99
     Height = 41
     Caption = 'Voltar- F9'
     PopupMenu = PopupMenu1
@@ -812,6 +812,21 @@ object FiltroCorreio: TFiltroCorreio
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
+  object BitBtn6: TBitBtn
+    Left = 807
+    Top = 8
+    Width = 73
+    Height = 40
+    Caption = 'Imprimir'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 15
+    OnClick = BitBtn6Click
+  end
   object dsC: TDataSource
     DataSet = cdsC
     Left = 280
@@ -876,6 +891,8 @@ object FiltroCorreio: TFiltroCorreio
     end
     object cdsCDESCARTE: TFloatField
       FieldName = 'DESCARTE'
+      DisplayFormat = '#00/0000'
+      EditFormat = '#00/0000'
     end
     object cdsCDTRET: TDateField
       FieldName = 'DTRET'
@@ -1415,5 +1432,10 @@ object FiltroCorreio: TFiltroCorreio
       ShortCut = 120
       OnClick = BitBtn5Click
     end
+  end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 560
   end
 end
