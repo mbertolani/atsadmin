@@ -337,6 +337,10 @@ type
     DBEdit18: TDBEdit;
     sds_compraDIGITOVALIDACAO: TStringField;
     cds_compraDIGITOVALIDACAO: TStringField;
+    DBEdit19: TDBEdit;
+    Label41: TLabel;
+    sds_compraMODELO: TStringField;
+    cds_compraMODELO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);

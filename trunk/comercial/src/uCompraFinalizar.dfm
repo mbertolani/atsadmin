@@ -1969,8 +1969,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label39: TLabel
-      Left = 129
-      Top = 130
+      Left = 223
+      Top = 131
       Width = 54
       Height = 13
       Caption = 'Chave NFe'
@@ -1984,9 +1984,22 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object Label40: TLabel
       Left = 6
       Top = 130
-      Width = 92
+      Width = 87
       Height = 13
       Caption = 'Valor ICMS ST R$'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label41: TLabel
+      Left = 128
+      Top = 130
+      Width = 35
+      Height = 13
+      Caption = 'Modelo'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -2256,9 +2269,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnClick = btnSerieClick
     end
     object DBEdit4: TDBEdit
-      Left = 127
-      Top = 143
-      Width = 335
+      Left = 221
+      Top = 144
+      Width = 295
       Height = 24
       DataField = 'CHAVENF'
       DataSource = DtSrc
@@ -2272,7 +2285,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnKeyPress = FormKeyPress
     end
     object Button1: TButton
-      Left = 463
+      Left = 521
       Top = 142
       Width = 87
       Height = 25
@@ -2294,6 +2307,22 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Style = []
       ParentFont = False
       TabOrder = 15
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit19: TDBEdit
+      Left = 125
+      Top = 144
+      Width = 90
+      Height = 24
+      DataField = 'MODELO'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 21
       OnKeyPress = FormKeyPress
     end
   end
@@ -3012,7 +3041,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object sds_compraCHAVENF: TStringField
       FieldName = 'CHAVENF'
-      Size = 60
+      Size = 44
     end
     object sds_compraICMS_ST: TFloatField
       FieldName = 'ICMS_ST'
@@ -3026,6 +3055,10 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object sds_compraDIGITOVALIDACAO: TStringField
       FieldName = 'DIGITOVALIDACAO'
       Size = 100
+    end
+    object sds_compraMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
     end
   end
   object dsp_compra: TDataSetProvider
@@ -3259,6 +3292,10 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object cds_compraDIGITOVALIDACAO: TStringField
       FieldName = 'DIGITOVALIDACAO'
       Size = 100
+    end
+    object cds_compraMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
     end
   end
   object VCLReport1: TVCLReport
