@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, DB, FMTBcd, SqlExpr,
   Provider, DBClient, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, JvEdit,
   JvDBSearchEdit, Mask, JvExMask, JvToolEdit, DBCtrls, JvExDBGrids,
-  JvDBGrid, Menus;
+  JvDBGrid, Menus, rpcompobase, rpvclreport,rplabelitem;
 
 type
   TFiltroCorreio = class(TForm)
@@ -144,6 +144,8 @@ type
     cdsCHORAUSU: TStringField;
     cdsCREGCAI: TFloatField;
     cdsCJADESC: TStringField;
+    BitBtn6: TBitBtn;
+    VCLReport1: TVCLReport;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -153,6 +155,7 @@ type
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure BitBtn5Click(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure BitBtn6Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -191,7 +194,7 @@ begin
   if (medta1.Text<>datastr) then
   if (medta2.Text<>datastr) then
   begin
-    sqlTexto := ' where DTFIND  between ';
+    sqlTexto := sqlTexto + ' and DTFIND  between ';
     sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', medta1.Date) + '''' +
       ' and ' +
       '''' + formatdatetime('mm/dd/yy', medta2.Date) + '''';
@@ -234,6 +237,7 @@ begin
   end;
 
   cdsC.CommandText := cdsC.CommandText + sqlTexto ;
+
   cdsC.Open;
 
   Label7.Caption := IntToStr(cdsC.RecordCount);
@@ -347,6 +351,26 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;
+end;
+
+procedure TFiltroCorreio.BitBtn6Click(Sender: TObject);
+var nomecli :TRpLabel;
+begin
+  VCLReport1.FileName := str_relatorio + 'movdoc.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+//  VCLReport1.Report.Params.ParamByName('codfir').Value := StrToInt(JvDBSearchEdit1.Text);
+  VCLReport1.Report.DataInfo.Items[0].SQL:= cdsC.CommandText;
+  
+  nomecli  := TRpLabel(VCLReport1.Report.FindComponent('TRpLabel3'));
+
+  // Tipo de data
+  if((JvDBSearchEdit2.Text <> '')or(JvDBSearchEdit2.Text = '')) then
+  begin
+    nomecli.Text := JvDBSearchEdit2.Text;
+  end;
+
+  VCLReport1.Execute;
 end;
 
 end.
