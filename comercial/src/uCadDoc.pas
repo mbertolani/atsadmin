@@ -77,6 +77,7 @@ type
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -124,6 +125,12 @@ begin
 
   inherited;
 
+end;
+
+procedure TFCadDoc.FormShow(Sender: TObject);
+begin
+  inherited;
+  btnExcluir.Visible := False;
 end;
 
 end.
