@@ -917,6 +917,13 @@ begin
     Exit;
   end;
 
+  if ((cdsNOTAFISCAL.IsNull) or (Trim(cdsNOTAFISCAL.AsString) = '')) then
+  begin
+    MessageDlg('Informe o Nº da nota', mtWarning, [mbOK], 0);
+    DBEdit2.SetFocus;
+    Exit;
+  end;
+
   if (cbPrazo.Visible = True) then
   begin
     if (not dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
@@ -962,12 +969,14 @@ begin
         exit;
       end;
     end;
-      if (dbeSerie.Text = '') then
-      begin
-        MessageDlg('Informe uma Série.', mtError, [mbOK], 0);
-        dbeSerie.SetFocus;
-        exit;
-      end;
+
+    if (dbeSerie.Text = '') then
+    begin
+      MessageDlg('Informe uma Série.', mtError, [mbOK], 0);
+      dbeSerie.SetFocus;
+      exit;
+    end;
+
     if (DM.tipoVenda <> 'DEVOLUCAO') then
     begin
       strTit := IntToStr(cdsNOTAFISCAL.AsInteger);
@@ -2335,7 +2344,23 @@ begin
   inherited;
   if DtSrc.State in [dsInsert,dsEdit] then
   begin
-    if dbeSerie.Text='' then exit;
+    if (dbeSerie.Text = '') then
+      exit;
+
+    if (cdsNOTAFISCAL.IsNull) then
+    begin
+      if scds_serie_proc.Active then
+        scds_serie_proc.Close;
+      scds_serie_proc.Params[0].AsString:=dbeSerie.Text;
+      scds_serie_proc.Open;
+      if scds_serie_proc.IsEmpty then begin
+        MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+        [mbOk], 0);
+        btnSerie.Click;
+        exit;
+      end;
+      cdsNOTAFISCAL.AsInteger := scds_serie_procULTIMO_NUMERO.AsInteger+1;
+    end;
     if dbeSerie.Field.OldValue<>dbeSerie.Field.NewValue then  begin
       if scds_serie_proc.Active then
         scds_serie_proc.Close;
