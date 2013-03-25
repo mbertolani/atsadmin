@@ -108,6 +108,8 @@ type
     edLocalizacao: TEdit;
     cdsInventDATAVENCIMENTO: TDateField;
     cdsInventDATAFABRICACAO: TDateField;
+    sdsProdESTOQUE: TFloatField;
+    cdsProdESTOQUE: TFloatField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -152,7 +154,22 @@ var sql, sqla: string;
 begin
   sqla := '';
   sql := 'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as varchar(300)) PRODUTO, ' +
-    ' UNIDADEMEDIDA ,CATEGORIA , FAMILIA, LOTES FROM PRODUTOS';
+    ' UNIDADEMEDIDA ,CATEGORIA , FAMILIA, LOTES ' +
+    ' ,(SELECT ev.SALDOFIMACUM from ESTOQUE_VIEW_CUSTO(';
+    //if (Dta.Date
+  sql := sql + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));
+  sql := sql + ', P.CODPRODUTO, ';
+  if (cbCCusto.ItemIndex > -1) then
+  begin
+    if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+      sql := sql + IntToStr(cds_ccustoCODIGO.AsInteger);
+  end
+  else begin
+    sql := sql + '1';
+  end;
+  sql := sql + ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA');
+  sql := sql + ') EV) ESTOQUE ';
+  sql := sql + ' FROM PRODUTOS P ';
   if (edProd.Text <> '') then
   begin
     sqla := ' WHERE CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
@@ -324,7 +341,7 @@ begin
           begin
             lote := sqlEstoqueLOTE.asString;
             sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
-              ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE) VALUES ('  +
+              ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE, ESTOQUE_ATUAL) VALUES ('  +
               QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
               ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
               QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
@@ -336,7 +353,11 @@ begin
             else begin
               sql := sql + ', null,';
             end;
-            sql := sql + ', ' + QuotedStr(lote) + ')';
+            sql := sql + ', ' + QuotedStr(lote);
+            DecimalSeparator := '.';
+            sql := sql + ', ' + FloatToStr(cdsProd.fieldByname('ESTOQUE').AsFloat);
+            DecimalSeparator := ',';
+            sql := sql + ')';
             dm.sqlsisAdimin.ExecuteDirect(sql);
             sqlEstoque.Next;
           end;
@@ -498,12 +519,15 @@ begin
   if (cdsInvent.Active) then
   begin
     sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
-      ' CODPRO, SITUACAO, UN, CODCCUSTO) VALUES ('  +
+      ' CODPRO, SITUACAO, UN, CODCCUSTO, ESTOQUE_ATUAL) VALUES ('  +
       QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
       ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
       QuotedStr(cdsProd.Fields[0].AsString) + ', ' +QuotedStr('A') + ', ' +
       QuotedStr(cdsProdUNIDADEMEDIDA.AsString);
     sql := sql + ', ' + IntToStr(CCusto);
+    DecimalSeparator := '.';
+    sql := sql + ', ' + FloatToStr(cdsProd.fieldByname('ESTOQUE').AsFloat);
+    DecimalSeparator := ',';
     sql := sql + ')';
     try
       TD.TransactionID := 1;
