@@ -5532,17 +5532,13 @@ begin
        if MMJPanel6.Enabled = False then
           MMJPanel6.Enabled := True;
     end;
-  finally
-    fAbrirCaixa.Free;
-    try
-      Caixa := TFiscalCls.Create;
-      // Pego o Caixa Aberto
-      var_Retorno := Caixa.VerificaCaixaAberto();
-    finally
-      Caixa.Free;
-    end;
+    Caixa := TFiscalCls.Create;
+    var_Retorno := Caixa.VerificaCaixaAberto();
     if var_Retorno = True then
       PageControl1.Enabled := True;
+  finally
+    fAbrirCaixa.Free;
+    Caixa.Free;
   end;
 end;
 
