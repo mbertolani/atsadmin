@@ -2015,12 +2015,12 @@ end;
 procedure TDMNF.baixaEstoque(codMovto: Integer; DtaMovto: TDateTime; tipo: String);
 var FEstoque: TEstoque;
 begin
-  Try
+  {Try
     FEstoque := TEstoque.Create;
     FEstoque.baixaEstoque(codMovto, DtaMovto, tipo);
   Finally
     FEstoque.Free;
-  end;
+  end;}
 end;
 
 function TDMNF.baixouEstoque(codMovtod: Integer): Boolean;
@@ -2065,12 +2065,12 @@ procedure TDMNF.cancelaEstoque(codMovto: Integer; DtaMovto: TDateTime;
   tipo: String);
   var FEstoque: TEstoque;
 begin
-  Try
+{  Try
     FEstoque := TEstoque.Create;
     FEstoque.EstornaEstoque(tipo, codMovto, DtaMovto);
   Finally
     FEstoque.Free;
-  end;
+  end; }
 end;
 
 end.
