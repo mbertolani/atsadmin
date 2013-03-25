@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
   Left = 232
-  Top = 121
+  Top = 126
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -183,7 +183,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel14: TJvLabel
-        Left = 307
+        Left = 264
         Top = 8
         Width = 60
         Height = 25
@@ -205,9 +205,9 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object EdtCodBarra1: TEdit
-        Left = 88
+        Left = 81
         Top = 3
-        Width = 214
+        Width = 179
         Height = 35
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -224,9 +224,9 @@ object F_Terminal: TF_Terminal
         OnKeyPress = EdtCodBarra1KeyPress
       end
       object edtQtde1: TJvCalcEdit
-        Left = 369
+        Left = 323
         Top = 3
-        Width = 54
+        Width = 64
         Height = 35
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -288,7 +288,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel3: TJvLabel
-        Left = 174
+        Left = 162
         Top = 10
         Width = 60
         Height = 25
@@ -310,11 +310,11 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel12: TJvLabel
-        Left = 175
+        Left = 161
         Top = 47
-        Width = 68
+        Width = 62
         Height = 25
-        Caption = 'Pago  :'
+        Caption = 'Pago :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
         Font.Height = -20
@@ -332,7 +332,7 @@ object F_Terminal: TF_Terminal
         HotTrackFont.Style = []
       end
       object JvLabel13: TJvLabel
-        Left = 154
+        Left = 138
         Top = 85
         Width = 86
         Height = 25
@@ -377,7 +377,7 @@ object F_Terminal: TF_Terminal
         OnKeyPress = JvComissaoKeyPress
       end
       object JvTotal: TJvValidateEdit
-        Left = 261
+        Left = 229
         Top = 1
         Width = 159
         Height = 38
@@ -399,7 +399,7 @@ object F_Terminal: TF_Terminal
         TabOrder = 1
       end
       object JvParcial: TJvValidateEdit
-        Left = 261
+        Left = 229
         Top = 39
         Width = 159
         Height = 37
@@ -421,7 +421,7 @@ object F_Terminal: TF_Terminal
         TabOrder = 2
       end
       object JvSubtotal: TJvValidateEdit
-        Left = 261
+        Left = 229
         Top = 76
         Width = 159
         Height = 38
@@ -4541,7 +4541,6 @@ object F_Terminal: TF_Terminal
             Width = 378
             Height = 50
             Align = alClient
-            Alignment = taCenter
             Caption = '...'
             Font.Charset = ANSI_CHARSET
             Font.Color = clBlack
@@ -4559,6 +4558,42 @@ object F_Terminal: TF_Terminal
             HotTrackFont.Height = -25
             HotTrackFont.Name = 'Cooper Black'
             HotTrackFont.Style = []
+          end
+          object JvLabel16: TJvLabel
+            Left = 187
+            Top = 10
+            Width = 102
+            Height = 25
+            Caption = 'Mesa(F2) :'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -20
+            Font.Name = 'Cooper Black'
+            Font.Style = []
+            ParentFont = False
+            ShadowColor = clWindow
+            ShadowSize = 2
+            Transparent = True
+            HintColor = clBlack
+            HotTrackFont.Charset = ANSI_CHARSET
+            HotTrackFont.Color = clWindowText
+            HotTrackFont.Height = -20
+            HotTrackFont.Name = 'Cooper Black'
+            HotTrackFont.Style = []
+          end
+          object edMesa: TEdit
+            Left = 290
+            Top = 4
+            Width = 74
+            Height = 31
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -20
+            Font.Name = 'Cooper Blk BT'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnKeyPress = edMesaKeyPress
           end
         end
       end
@@ -6438,5 +6473,25 @@ object F_Terminal: TF_Terminal
       Active = True
       Expression = 'SUM(valtotal)'
     end
+  end
+  object sqlMesaOcupada: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 109
+    Top = 84
+  end
+  object dspMesaOcupada: TDataSetProvider
+    DataSet = sqlMesaOcupada
+    Options = [poAllowCommandText]
+    Left = 141
+    Top = 84
+  end
+  object cdsMesaOcupada: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspMesaOcupada'
+    Left = 173
+    Top = 84
   end
 end
