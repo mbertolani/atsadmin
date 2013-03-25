@@ -864,7 +864,8 @@ inherited fInventario: TfInventario
   object sdsProd: TSQLDataSet
     CommandText = 
       'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as Varchar(300)) PRODUTO' +
-      ', UNIDADEMEDIDA, CATEGORIA, FAMILIA, LOTES FROM PRODUTOS'
+      ', UNIDADEMEDIDA, CATEGORIA, FAMILIA, LOTES'#13#10', ESTOQUEATUAL ESTOQ' +
+      'UE '#13#10' FROM PRODUTOS'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -905,6 +906,10 @@ inherited fInventario: TfInventario
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object sdsProdESTOQUE: TFloatField
+      FieldName = 'ESTOQUE'
+      ReadOnly = True
     end
   end
   object dspProd: TDataSetProvider
@@ -954,6 +959,10 @@ inherited fInventario: TfInventario
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object cdsProdESTOQUE: TFloatField
+      FieldName = 'ESTOQUE'
+      ReadOnly = True
     end
   end
   object dsProd: TDataSource
