@@ -3377,31 +3377,9 @@ object fNfeIcms: TfNfeIcms
       ', DET.UN '#13#10'   FROM COMPRA C,MOVIMENTO MOV, MOVIMENTODETALHE DET,' +
       ' PRODUTOS PRO'#13#10'WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO'#13#10'      AN' +
       'D MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO ' +
-      '    = DET.CODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 4)'#13#10'      AND' +
-      ' MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF'#13#10'      AND C.DATACOMP' +
-      'RA      BETWEEN :DTA_INI AND :DTA_FIM'
+      '    = DET.CODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 4)'
     MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'PMOV'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'PMOVF'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTA_INI'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTA_FIM'
-        ParamType = ptInput
-      end>
+    Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 272
     Top = 328
