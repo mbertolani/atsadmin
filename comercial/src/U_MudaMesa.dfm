@@ -19,8 +19,8 @@ object F_MudaMesa: TF_MudaMesa
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 346
-    Height = 167
+    Width = 354
+    Height = 178
     Align = alClient
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -32,8 +32,8 @@ object F_MudaMesa: TF_MudaMesa
     object JvLabel1: TJvLabel
       Left = 24
       Top = 32
-      Width = 112
-      Height = 23
+      Width = 97
+      Height = 24
       Caption = 'Mesa Atual'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -54,8 +54,8 @@ object F_MudaMesa: TF_MudaMesa
     object JvLabel2: TJvLabel
       Left = 174
       Top = 32
-      Width = 106
-      Height = 23
+      Width = 98
+      Height = 24
       Caption = 'Mesa Nova'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
