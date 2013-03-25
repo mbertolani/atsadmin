@@ -61,44 +61,103 @@ var
   TD: TTransactionDesc;
   Save_Cursor:TCursor;
   codPro1, codPro2 : integer;
+  sqlStr: String;
 Begin
   Save_Cursor := Screen.Cursor;
   Screen.Cursor := crHourGlass;    { Show hourglass cursor }
-  if (sqlQ.Active) then
-    sqlQ.close;
-  sqlQ.SQL.Add('SELECT CODPRODUTO FROM PRODUTOS WHERE CODPRO = ' +
-    QuotedStr(Edit1.Text));
-  sqlQ.Open;
-  codPro1 := sqlQ.Fields[0].AsInteger;
-  //if (sqlQ.Active) then
-  //  sqlQ.close;
-  //sqlQ.SQL.Clear;
-  //sqlQ.SQL.Add('SELECT CODPRODUTO FROM PRODUTOS WHERE CODPRO = ' +
-  //  QuotedStr(Edit2.Text));
-  //sqlQ.Open;
-  //if (sqlQ.IsEmpty) then
-  //  codPro2 := StrTOInt(Edit2.Text)
-  //else
-  //  codPro2 := sqlQ.Fields[0].AsInteger;
-  sqlQ.Close;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   try
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    try
-      dm.sqlsisAdimin.StartTransaction(TD);
+    if (cdsA.Active) then
+      cdsA.close;
+    cdsA.CommandText := 'SELECT CODPRODUTO FROM PRODUTOS WHERE ((TIPO <> ' +
+        QuotedStr('SERV') + ') OR (TIPO IS NULL))'; // +
+        //' AND CODPRODUTO < 11';
+    cdsA.Open;
 
-      dm.sqlsisAdimin.ExecuteDirect('execute procedure CORRIGEESTOQUE(' +
-        IntToStr(codPro1) + ', ' + IntToStr(codPro2) +
-        ', ' + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit1.Text))) +
-        ', ' + QuotedStr(Formatdatetime('mm/dd/yyyy', StrToDate(JvDateEdit2.Text))) +
-        ', ' + QuotedStr('N') +')');
-      dm.sqlsisAdimin.Commit(TD);
-      MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
-    except
-      dm.sqlsisAdimin.Rollback(TD);
-      MessageDlg('Erro para atualizar estoque.', mtError, [mbOK], 0);
-      exit;
+    if (cdsB.Active) then
+    cdsB.Close;
+
+    cdsB.CommandText := 'SELECT DISTINCT CODALMOXARIFADO from MOVIMENTO ';
+    cdsB.Open;
+
+    While not cdsB.eof do  // Percorro os CCUSTOS
+    begin
+      cdsA.First;
+      // Pego o Estoque de Cada Item
+      while not cdsA.Eof do
+      begin
+        if (sqlQ.Active) then
+          sqlQ.Close;
+        sqlStr := 'select * from ESTOQUE_VIEW_CUSTO(' +
+                 QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) +
+                 ', ' + IntToStr(cdsA.FieldByName('CODPRODUTO').asinteger) +
+                 ', ' + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger) +
+                 ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') +
+                 ')';
+        sqlQ.SQL.Clear;
+        sqlQ.SQL.Add(sqlStr);
+        sqlQ.Open;
+        // Limpo a Estoque Mes
+        //dm.sqlsisAdimin.ExecuteDirect('DELETE FROM ESTOQUEMES WHERE CODPRODUTO = ' +
+        //  IntToStr(cdsA.FieldByName('CODPRODUTO').asinteger) +
+        //  ' AND CENTROCUSTO = ' + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger) +
+        //  ' AND MESANO      = ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)));
+
+        DecimalSeparator := '.';
+        sqlStr := 'INSERT INTO ESTOQUEMES (CODPRODUTO, LOTE, MESANO, QTDEENTRADA, ' +
+          'QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA, QTDEPERDA, PRECOCUSTO, ' +
+          'PRECOCOMPRA, PRECOVENDA, CENTROCUSTO, SALDOMESANTERIOR, PRECOCOMPRAULTIMA, QTDEINVENTARIO' +
+
+          ') VALUES (';
+          //',DATAVENCIMENTO, DATAFABRICACAO' +
+
+
+        dm.sqlsisAdimin.StartTransaction(TD);
+        try
+
+          while not sqlQ.Eof do
+          begin
+            sqlStr := sqlStr + IntToStr(cdsA.FieldByName('CODPRODUTO').asinteger) + ', ';
+            sqlStr := sqlStr + QuotedStr(sqlQ.FieldByName('LOTES').AsString) + ', ';
+            sqlStr := sqlStr + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ', ';
+            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('ENTRADA').AsFloat) + ', ';
+            sqlStr := sqlStr + '0, '; //FloatToStr(Self.QtdeCompra) + ', ';
+            sqlStr := sqlStr + '0, '; //FloatToStr(Self.QtdeDevCompra) + ', ';
+            sqlStr := sqlStr + '0, '; //FloatToStr(Self.QtdeDevVenda) + ', ';
+            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('SAIDA').AsFloat) + ', ';
+            sqlStr := sqlStr + '0, '; //FloatToStr(Self.QtdeVenda) + ', ';
+            sqlStr := sqlStr + '0, '; //FloatToStr(Self.QtdePerda) + ', ';
+            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('PRECOCUSTO').asFloat) + ', ';
+            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('PRECOCOMPRA').asFloat) + ', ';
+            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('VALORVENDA').asFloat) + ', ';
+            sqlStr := sqlStr + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger) + ', ';
+            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('SALDOINIACUM').asFloat) + ', ';
+            sqlStr := sqlStr + '0, ';
+            sqlStr := sqlStr + '0 ';
+            //sqlStr := sqlStr + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVencimento)) + ', ';
+            //sqlStr := sqlStr + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataFabricacao));
+            sqlStr := sqlStr + ')';
+            dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+            sqlQ.Next;
+          end;
+          dm.sqlsisAdimin.Commit(TD);
+        except
+          on E : Exception do
+          begin
+            ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+            DecimalSeparator := ',';
+            exit;
+          end;
+        end;
+
+        DecimalSeparator := ',';
+
+        cdsA.Next;
+      end;
+      cdsB.Next;
     end;
+    MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
   finally
     Screen.Cursor := Save_Cursor;  { Always restore to normal }
   end;
