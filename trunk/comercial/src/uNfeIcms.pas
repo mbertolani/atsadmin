@@ -1538,12 +1538,15 @@ begin
                 COD_NAT          := '04';
                 VL_BC_ICMS       := cdsCompraDetVLR_BASEICMS.AsFloat;
                 ALIQ_ICMS        := cdsCompraDetICMS.AsFloat;
-                VL_ICMS          := cdsCompraDetVALOR_ICMS.AsFloat;
-                VL_BC_ICMS_ST    := cdsCompraDetICMS_SUBST.AsFloat;
-                ALIQ_ST          := cdsCompraDetICMS_SUBSTD.AsFloat;
+                VL_ICMS          := cdsCompraDetVALOR_ICMS_1.AsFloat;
+                VL_BC_ICMS_ST    := cdsCompraDetICMS_SUBSTD.AsFloat;
                 VL_ICMS_ST       := 0;
+                ALIQ_ST          := 0;
                 if (cdsCompraDetICMS_SUBSTD.AsFloat > 0) then
-                  VL_ICMS_ST     := SimpleRoundTo((cdsCompraDetICMS_SUBST.AsFloat/cdsCompraDetICMS_SUBSTD.AsFloat),(-2));
+                begin
+                  ALIQ_ST        := SimpleRoundTo((cdsCompraDetICMS_SUBST.AsFloat/cdsCompraDetICMS_SUBSTD.AsFloat),(-2));
+                  VL_ICMS_ST     := cdsCompraDetICMS_SUBST.AsFloat;
+                end;
                 IND_APUR         := iaMensal;
                 CST_IPI          := cdsCompraDetCSTIPI.AsString;
                 COD_ENQ          := '';
@@ -1640,7 +1643,7 @@ begin
               IND_OPER      := tpSaidaPrestacao; // 1-Saida
               IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
               COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
-              if (Length(cdsNFVendaSERIE.AsString) = 1) then
+              if (Length(cdsNFVendaMODELO.AsString) = 1) then
                 COD_MOD       := trim('0' + cdsNFVendaMODELO.AsString)
               else
                 COD_MOD       := cdsNFVendaMODELO.AsString; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
@@ -2214,14 +2217,22 @@ begin
 
     with RegistroE110New do
     begin
-      VL_ICMS_RECOLHER := sqlTotalSaidaVLR_ICMS.AsFloat-sqlTotalEntradaVLR_ICMS.AsFloat;
+      if (sqlTotalSaidaVLR_ICMS.AsFloat-sqlTotalEntradaVLR_ICMS.AsFloat < 0) then
+      begin
+        VL_ICMS_RECOLHER := 0;
+        VL_SLD_CREDOR_TRANSPORTAR := (sqlTotalSaidaVLR_ICMS.AsFloat-sqlTotalEntradaVLR_ICMS.AsFloat) *(-1);
+      end
+      else
+      begin
+        VL_ICMS_RECOLHER := sqlTotalSaidaVLR_ICMS.AsFloat-sqlTotalEntradaVLR_ICMS.AsFloat;
+        VL_SLD_CREDOR_TRANSPORTAR := 0;
+      end;
       VL_TOT_DEBITOS   := sqlTotalSaidaVLR_ICMS.AsFloat;
       VL_TOT_CREDITOS  := sqlTotalEntradaVLR_ICMS.AsFloat;
       VL_SLD_APURADO   := sqlTotalSaidaVLR_ICMS.AsFloat;
       VL_AJ_DEBITOS    := 0;
       VL_ESTORNOS_CRED := 0;
       VL_TOT_AJ_DEBITOS:= 0;
-      VL_SLD_CREDOR_TRANSPORTAR := 0;
       VL_AJ_CREDITOS   := 0;
       VL_ESTORNOS_DEB  := 0;
       VL_SLD_CREDOR_ANT:= 0;
