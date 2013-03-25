@@ -1,6 +1,6 @@
 object fEstoqueCorrige: TfEstoqueCorrige
-  Left = 310
-  Top = 129
+  Left = 313
+  Top = 131
   Width = 415
   Height = 352
   Caption = 'Corrige Estoque'
@@ -82,7 +82,10 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Top = 192
     Width = 121
     Height = 25
-    Caption = 'Executar corre'#231#227'o'
+    Hint = 'Corrige todos os Itens'
+    Caption = 'Corrigir Todos'
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 3
     OnClick = Button1Click
   end
