@@ -1272,9 +1272,6 @@ begin
            sdsUnimed.Close;
          //if (codMovMin < codMovMinV) then
          sdsUnimed.Params[0].AsInteger := codMovMin;
-         //else
-         //  sdsUnimed.Params[0].AsInteger := codMovMinV;
-         //if (codMovMax > codMovMaxV) then
          sdsUnimed.Params[1].AsInteger := codMovMax;
          sdsUnimed.Params[2].AsDate    := data_ini.Date;
          sdsUnimed.Params[3].AsDate    := data_fim.Date;
@@ -1293,17 +1290,48 @@ begin
            sdsUnimed.Next;
          end;
 
+         // VENDA NAO PRECISO
+         {if (sdsUnimed.Active) then
+           sdsUnimed.Close;
+
+         sdsUnimed.SQL.Clear;
+         sdsUnimed.SQL.Add('SELECT DISTINCT UN.CODUN, UN.DESCRICAO ' +
+          ' FROM UNIDADEMEDIDA UN, VENDA C, MOVIMENTO mov, MOVIMENTODETALHE DET ' +
+          ' WHERE UN.CODUN = DET.UN ' +
+          '   AND mov.codmovimento = det.codmovimento ' +
+          '   AND V.codmovimento = MOV.codmovimento  ' +
+          '   AND (MOV.CODNATUREZA IN (12, 15)) ' +
+          '   AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF ' +
+          '   AND V.DATAVENDA      BETWEEN :DTA_INI AND :DTA_FIM' +
+          '   AND NOT EXISTS (SELECT C.CODCOMPRA FROM COMPRA, )');
+         sdsUnimed.Params[0].AsInteger := codMovMinV;
+         sdsUnimed.Params[1].AsInteger := codMovMaxV;
+         sdsUnimed.Params[2].AsDate    := data_ini.Date;
+         sdsUnimed.Params[3].AsDate    := data_fim.Date;
+         sdsUnimed.Open;
+
+         while (not sdsUnimed.Eof) do
+         begin
+           // 0190 - Identificação das Unidades de Medida
+           with Registro0190New do
+           begin
+             UNID  := Trim(sdsUnimed.Fields[0].AsString);
+             DESCR := Trim(sdsUnimed.Fields[1].AsString);
+           end;
+           sdsUnimed.Next;
+         end;
+         }
 
          // ITENS  #################
          if (cdsProduto.Active) then
            cdsProduto.Close;
 
          //if (codMovMin < codMovMinV) then
-         cdsProduto.Params[0].AsInteger := codMovMin;
+         //cdsProduto.Params[0].AsInteger := codMovMin;
          //else
          // cdsProduto.Params[0].AsInteger := codMovMinV;
          //if (codMovMax > codMovMaxV) then
-         cdsProduto.Params[1].AsInteger := codMovMax;
+     {    cdsProduto.Params[1].AsInteger := codMovMax;
          cdsProduto.Params[2].AsDate    := data_ini.Date;
          cdsProduto.Params[3].AsDate    := data_fim.Date;
          //else
@@ -1324,26 +1352,28 @@ begin
              ALIQ_ICMS    := 0;
            end;
            cdsProduto.Next;
-         end;
-
-
-         if (temVenda = 'S') then
-         begin
+         end;     }
            if (cdsProduto.Active) then
              cdsProduto.Close;
 
-           cdsProduto.CommandText := 'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, PRO.NCM, PRO.PRODUTO, DET.UN ' +
-           ' FROM VENDA V,MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO ' +
-           ' WHERE V.CODMOVIMENTO = MOV.CODMOVIMENTO ' +
-           ' AND MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
+           cdsProduto.CommandText := 'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, ' +
+           ' PRO.NCM, PRO.PRODUTO, DET.UN ' +
+           ' FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO ' +
+           ' WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
            ' AND PRO.CODPRODUTO     = DET.CODPRODUTO ' +
-           ' AND (MOV.CODNATUREZA = 12 OR MOV.CODNATUREZA = 15 ) ' +
-           ' AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF ' +
-           ' AND V.DATAVENDA      BETWEEN :DTA_INI AND :DTA_FIM';
-           cdsProduto.Params[0].AsInteger := codMovMinV;
-           cdsProduto.Params[1].AsInteger := codMovMaxV;
-           cdsProduto.Params[2].AsDate    := data_ini.Date;
-           cdsProduto.Params[3].AsDate    := data_fim.Date;
+           ' AND (MOV.CODNATUREZA IN (4, 12, 15 )) ' +
+           ' AND (MOV.CODMOVIMENTO BETWEEN '  + InttoStr(codMovMin) +
+           ' AND ' + InttoStr(codMovMaxV)+ ')' +
+           ' AND ((EXISTS (SELECT C.CODMOVIMENTO FROM COMPRA C ' +
+           ' WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO  ' +
+           '   AND C.DATACOMPRA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+           ' )) ' +
+           '  OR (EXISTS (SELECT V.CODMOVIMENTO FROM VENDA V ' +
+           ' WHERE V.CODMOVIMENTO = MOV.CODMOVIMENTO ' +
+           '   AND V.DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+           ')))';
            cdsProduto.Open;
            While (not cdsProduto.Eof) do
            begin
@@ -1361,6 +1391,46 @@ begin
              end;
              cdsProduto.Next;
            end;
+
+           if (cdsProduto.Active) then
+             cdsProduto.Close;
+
+           cdsProduto.CommandText := 'SELECT DISTINCT P.CODPRODUTO, P.CODPRO, ' +
+           ' P.NCM, P.PRODUTO, P.UNIDADEMEDIDA UN ' +
+           ' FROM ESTOQUEMES EM, PRODUTOS P ' +
+           ' WHERE EM.CODPRODUTO = P.CODPRODUTO ' +
+           ' AND ( not exists (SELECT DISTINCT PRO.CODPRO  ' +
+           ' FROM MOVIMENTO MOV ' +
+           ' inner join MOVIMENTODETALHE DET on MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
+           ' inner join PRODUTOS PRO on PRO.CODPRODUTO     = DET.CODPRODUTO ' +
+           ' WHERE mov.CODNATUREZA in (12,15,4) ' +
+           ' and em.CODPRODUTO = det.CODPRODUTO ' +
+           ' AND (MOV.CODMOVIMENTO BETWEEN '  + InttoStr(codMovMin) +
+           ' AND ' + InttoStr(codMovMaxV)+ '))) ' +
+           ' and em.SALDOESTOQUE > 0 ' +
+           ' and em.MESANO = ' +  QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
+           cdsProduto.Open;
+           While (not cdsProduto.Eof) do
+           begin
+             // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
+             with Registro0200New do
+             begin
+               COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger);
+               DESCR_ITEM   := Trim(cdsProdutOPRODUTO.AsString);
+               COD_BARRA    := '';
+               UNID_INV     := Trim(cdsProdutoUN.AsString);
+               TIPO_ITEM    := tiMercadoriaRevenda;
+               COD_NCM      := Trim(cdsProdutoNCM.AsString);
+               COD_GEN      := '';
+               ALIQ_ICMS    := 0;
+             end;
+             cdsProduto.Next;
+           end;
+
+
+
+         if (temVenda = 'S') then
+         begin
 
            with Registro0400New do
            begin
@@ -2151,6 +2221,9 @@ begin
     codMovMinV := cdsMov.Fields[0].asInteger;
   if (codMovMaxV < cdsMov.Fields[1].asInteger) then
     codMovMaxV := cdsMov.Fields[1].asInteger;
+  if (codMovMax > CodMovMaxV) then
+    codMovMaxV := codMovMax;
+
   cdsMov.Close;
   cdsMov.CommandText := 'SELECT CODMOVIMENTO, CODNATUREZA ' +
     '  FROM MOVIMENTO ' +
@@ -2346,6 +2419,7 @@ begin
             VL_UNIT := sqlInventario.FieldByName('PRECOCUSTO').AsFloat;
           VL_ITEM  := QTD * VL_UNIT;
           IND_PROP := piInformante; //  0- Item de propriedade do informante e em seu poder;
+          COD_CTA  := '0';
         end;
         sqlInventario.Next;
       end; // Fim H010
