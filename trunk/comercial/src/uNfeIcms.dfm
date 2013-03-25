@@ -256,6 +256,20 @@ object fNfeIcms: TfNfeIcms
       TabOrder = 5
       OnClick = BitBtn1Click
     end
+    object chkInventario: TCheckBox
+      Left = 760
+      Top = 28
+      Width = 97
+      Height = 17
+      Caption = 'INVENT'#193'RIO'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+    end
   end
   object memoError: TMemo
     Left = 8
