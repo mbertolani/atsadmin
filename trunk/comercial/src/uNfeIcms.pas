@@ -1012,6 +1012,7 @@ type
     cdsCompraPIS: TFloatField;
     cdsCompraCOFINS: TFloatField;
     cdsCompraBASE_ICMS: TFloatField;
+    chkInventario: TCheckBox;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1038,6 +1039,7 @@ type
     procedure blocoC;
     procedure blocoD;
     procedure blocoF;
+    procedure blocoH;
     procedure blocoM;
     procedure abrirTabelasCompra;
     procedure abrirTabelasVenda;
@@ -1055,7 +1057,7 @@ var
 implementation
 
 uses UDm, ACBrEPCBloco_0, ACBrEPCBloco_0_Class, Math, ACBrEFDBloco_E_Class,
-  ACBrEFDBloco_E, ACBrEFDBloco_1, ACBrEFDBloco_C;
+  ACBrEFDBloco_E, ACBrEFDBloco_1, ACBrEFDBloco_C, ACBrEFDBloco_H_Class;
 
 {$R *.dfm}
 
@@ -1937,6 +1939,7 @@ begin
   //bloco G - Controle do Crédito de ICMS do Ativo Permanente – CIAP
 
   //bloco H - Inventário Físico
+  blocoH;
 
   // Método que gera o arquivo TXT.
   ACBrSPEDFiscal1.SaveFileTXT ;
@@ -2243,6 +2246,43 @@ begin
     MessageDlg('O Parametro FORNECEDORENERGIA não está correto, tem que ser o Código do Fornecedor.', mtWarning, [mbOK], 0);
     Exit;
   end;
+end;
+
+procedure TfNfeIcms.blocoH;
+var s: String;
+begin
+  // Bloco H
+  with ACBrSPEDFiscal1.Bloco_H do
+  begin
+    with RegistroH001New do
+    begin
+      if (chkInventario.Checked) then
+      begin
+        IND_MOV := imComDados; // Com Dados
+      end
+      else begin
+        IND_MOV := imSemDados; // Sem dados
+      end;
+    end;
+    s := 'select p.CODPRODUTO, (select EV.PRECOCUSTO from ESTOQUE_VIEW_CUSTO(';
+    s := s + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
+    s := s + ', p.CODPRODUTO, 51, ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA');
+    s := s + ') ev) PRECOCUSTO, ';
+    s := s + '(select  ev.SALDOFIMACUM from ESTOQUE_VIEW_CUSTO(';
+    s := s + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
+    s := s + ', p.CODPRODUTO, 51, ';
+    s := s + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') + ') ev) ESTOQUE ';
+    s := s + ' from produtos p ';
+    s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
+    s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
+    s := s + ' and p.CODPRODUTO = 14 ';
+
+    with RegistroH005New do
+    begin
+
+    end;
+
+  end; // Fim Blco H
 end;
 
 end.
