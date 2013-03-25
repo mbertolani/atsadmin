@@ -11,6 +11,7 @@ object fNfeIcms: TfNfeIcms
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
@@ -258,7 +259,7 @@ object fNfeIcms: TfNfeIcms
     end
     object chkInventario: TCheckBox
       Left = 760
-      Top = 28
+      Top = 20
       Width = 97
       Height = 17
       Caption = 'INVENT'#193'RIO'
@@ -269,6 +270,15 @@ object fNfeIcms: TfNfeIcms
       Font.Style = []
       ParentFont = False
       TabOrder = 6
+    end
+    object edDataInventario: TJvDatePickerEdit
+      Left = 758
+      Top = 40
+      Width = 101
+      Height = 21
+      AllowNoDate = True
+      Checked = True
+      TabOrder = 7
     end
   end
   object memoError: TMemo
@@ -4667,5 +4677,12 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'CODDETALHE'
       Required = True
     end
+  end
+  object sqlInventario: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 856
+    Top = 272
   end
 end
