@@ -1962,8 +1962,8 @@ procedure TfNfeIcms.btnErrorClick(Sender: TObject);
 begin
   with ACBrSPEDFiscal1 do
   begin
-    DT_INI := StrToDate('01/04/2011');
-    DT_FIN := StrToDate('30/04/2011');
+    //DT_INI := StrToDate('01/04/2011');
+    //DT_FIN := StrToDate('30/04/2011');
   end;
 
   // Limpa a lista de erros.
@@ -2279,71 +2279,77 @@ begin
         IND_MOV := imSemDados; // Sem dados
       end;
     end;
-    s := 'select (select EV.PRECOCUSTO * EV.SALDOFIMACUM from ESTOQUE_VIEW_CUSTO(';
-    s := s + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
-    s := s + ', p.CODPRODUTO, 51, ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA');
-    s := s + ') ev) PRECOCUSTO ';
-    s := s + ' from produtos p ';
-    s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
-    s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
-    if (sqlInventario.Active) then
-      sqlInventario.Close;
-    sqlInventario.SQL.Clear;
-    sqlInventario.SQL.Add(s);
-    sqlInventario.Open;
+    if (chkInventario.Checked) then
+    begin
+      s := 'select  DISTINCT p.CODPRODUTO, (select EV.PRECOCUSTO * EV.SALDOESTOQUE from ESTOQUEMES EV ';
+      s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
+      s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
+      s := s + '   AND EV.CENTROCUSTO = 51 ';
+      s := s + ') VALORESTOQUE ';
+      s := s + ' from produtos p ';
+      s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
+      s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
+      if (sqlInventario.Active) then
+        sqlInventario.Close;
+      sqlInventario.SQL.Clear;
+      sqlInventario.SQL.Add(s);
+      sqlInventario.Open;
 
-    total := 0;
-    while not sqlInventario.Eof do
-    begin
-      if (not sqlInventario.FieldByName('PRECOCUSTO').IsNull) then
-        total := total + sqlInventario.FieldByName('PRECOCUSTO').AsFloat;
-      sqlInventario.Next;
-    end;
-
-    with RegistroH005New do
-    begin
-      DT_INV := edDataInventario.Date;
-      //DT_INI := edDataInventario.Date;
-      //DT_FIN := edDataInventario.Date;
-      VL_INV := total; // Valor do Inventario
-    end;
-    s := 'select p.CODPRODUTO, (select EV.PRECOCUSTO  from ESTOQUE_VIEW_CUSTO(';
-    s := s + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
-    s := s + ', p.CODPRODUTO, 51, ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA');
-    s := s + ') ev) PRECOCUSTO, ';
-    s := s + '(select  ev.SALDOFIMACUM from ESTOQUE_VIEW_CUSTO(';
-    s := s + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
-    s := s + ', p.CODPRODUTO, 51, ';
-    s := s + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') + ') ev) ESTOQUE ';
-    s := s + ', p.UNIDADEMEDIDA ';
-    s := s + ' from produtos p ';
-    s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
-    s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
-    if (sqlInventario.Active) then
-      sqlInventario.Close;
-    sqlInventario.SQL.Clear;
-    sqlInventario.SQL.Add(s);
-    sqlInventario.Open;
-    While not sqlInventario.Eof do
-    begin
-      with RegistroH010New do
+      total := 0;
+      while not sqlInventario.Eof do
       begin
-        COD_ITEM := FormatFloat('000000', sqlInventario.FieldByName('CODPRODUTO').AsInteger);
-        UNID     := sqlInventario.FieldByName('UNIDADEMEDIDA').AsString;
-        if (sqlInventario.FieldByName('ESTOQUE').IsNull) then
-          QTD := 0
-        else
-          QTD      := sqlInventario.FieldByName('ESTOQUE').AsFloat;
-        if (sqlInventario.FieldByName('PRECOCUSTO').IsNull) then
-          VL_UNIT := 0
-        else
-          VL_UNIT := sqlInventario.FieldByName('PRECOCUSTO').AsFloat;
-        VL_ITEM  := QTD * VL_UNIT;
-        IND_PROP := piInformante; //  0- Item de propriedade do informante e em seu poder;
+        if (not sqlInventario.FieldByName('VALORESTOQUE').IsNull) then
+          total := total + sqlInventario.FieldByName('VALORESTOQUE').AsFloat;
+        sqlInventario.Next;
       end;
-      sqlInventario.Next;
-    end; // Fim H010
 
+      with RegistroH005New do
+      begin
+        DT_INV := edDataInventario.Date;
+        //DT_INI := edDataInventario.Date;
+        //DT_FIN := edDataInventario.Date;
+        VL_INV := total; // Valor do Inventario
+      end;
+      s := 'select DISTINCT p.CODPRODUTO, (select EV.PRECOCUSTO from ESTOQUEMES EV ';
+      s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
+      s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
+      s := s + '   AND EV.CENTROCUSTO = 51 ';
+      s := s + ') PRECOCUSTO ';
+      s := s + ' , (select EV.SALDOESTOQUE from ESTOQUEMES EV ';
+      s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
+      s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
+      s := s + '   AND EV.CENTROCUSTO = 51 ';
+      s := s + ') ESTOQUE ';
+      s := s + ', p.UNIDADEMEDIDA ';
+      s := s + ' from produtos p ';
+      s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
+      s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
+      if (sqlInventario.Active) then
+        sqlInventario.Close;
+      sqlInventario.SQL.Clear;
+      sqlInventario.SQL.Add(s);
+      sqlInventario.Open;
+      While not sqlInventario.Eof do
+      begin
+        if (sqlInventario.FieldByName('ESTOQUE').AsFloat > 0) then
+        with RegistroH010New do
+        begin
+          COD_ITEM := FormatFloat('000000', sqlInventario.FieldByName('CODPRODUTO').AsInteger);
+          UNID     := sqlInventario.FieldByName('UNIDADEMEDIDA').AsString;
+          if (sqlInventario.FieldByName('ESTOQUE').IsNull) then
+            QTD := 0
+          else
+            QTD      := sqlInventario.FieldByName('ESTOQUE').AsFloat;
+          if (sqlInventario.FieldByName('PRECOCUSTO').IsNull) then
+            VL_UNIT := 0
+          else
+            VL_UNIT := sqlInventario.FieldByName('PRECOCUSTO').AsFloat;
+          VL_ITEM  := QTD * VL_UNIT;
+          IND_PROP := piInformante; //  0- Item de propriedade do informante e em seu poder;
+        end;
+        sqlInventario.Next;
+      end; // Fim H010
+    end;
   end; // Fim Blco H
 end;
 
