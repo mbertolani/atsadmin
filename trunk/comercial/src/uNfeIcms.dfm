@@ -1,8 +1,8 @@
 object fNfeIcms: TfNfeIcms
-  Left = 0
-  Top = 0
-  Width = 928
-  Height = 594
+  Left = 2
+  Top = 2
+  Width = 930
+  Height = 614
   Caption = 'Sped Fiscal(ICMS)'
   Color = clMoneyGreen
   Font.Charset = DEFAULT_CHARSET
@@ -15,8 +15,8 @@ object fNfeIcms: TfNfeIcms
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    920
-    567)
+    922
+    587)
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
@@ -71,7 +71,7 @@ object fNfeIcms: TfNfeIcms
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 920
+    Width = 922
     Height = 113
     Align = alTop
     BevelOuter = bvNone
@@ -79,7 +79,7 @@ object fNfeIcms: TfNfeIcms
     Color = 16776176
     TabOrder = 1
     DesignSize = (
-      916
+      918
       109)
     object Label1: TLabel
       Left = 22
@@ -94,7 +94,7 @@ object fNfeIcms: TfNfeIcms
     object Label5: TLabel
       Left = 0
       Top = 0
-      Width = 916
+      Width = 918
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -110,8 +110,8 @@ object fNfeIcms: TfNfeIcms
       Transparent = True
     end
     object Label6: TLabel
-      Left = 613
-      Top = 14
+      Left = 654
+      Top = 22
       Width = 69
       Height = 13
       Caption = 'Num.Notas (C)'
@@ -129,7 +129,7 @@ object fNfeIcms: TfNfeIcms
     object edtFile: TEdit
       Left = 22
       Top = 28
-      Width = 435
+      Width = 437
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
@@ -137,7 +137,7 @@ object fNfeIcms: TfNfeIcms
       OnExit = edtFileExit
     end
     object cbConcomitante: TCheckBox
-      Left = 507
+      Left = 509
       Top = 30
       Width = 134
       Height = 19
@@ -158,8 +158,8 @@ object fNfeIcms: TfNfeIcms
       OnClick = cbConcomitanteClick
     end
     object edNotas: TEdit
-      Left = 613
-      Top = 28
+      Left = 654
+      Top = 36
       Width = 80
       Height = 21
       TabOrder = 2
@@ -259,7 +259,7 @@ object fNfeIcms: TfNfeIcms
     end
     object chkInventario: TCheckBox
       Left = 760
-      Top = 20
+      Top = 15
       Width = 97
       Height = 17
       Caption = 'INVENT'#193'RIO'
@@ -273,7 +273,7 @@ object fNfeIcms: TfNfeIcms
     end
     object edDataInventario: TJvDatePickerEdit
       Left = 758
-      Top = 40
+      Top = 34
       Width = 101
       Height = 21
       AllowNoDate = True
@@ -284,7 +284,7 @@ object fNfeIcms: TfNfeIcms
   object memoError: TMemo
     Left = 8
     Top = 153
-    Width = 906
+    Width = 908
     Height = 112
     Anchors = [akLeft, akTop, akRight]
     ScrollBars = ssVertical
@@ -293,8 +293,8 @@ object fNfeIcms: TfNfeIcms
   object memoTXT: TMemo
     Left = 8
     Top = 288
-    Width = 906
-    Height = 181
+    Width = 908
+    Height = 201
     Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -332,8 +332,8 @@ object fNfeIcms: TfNfeIcms
     TabOrder = 6
   end
   object btnError: TButton
-    Left = 620
-    Top = 499
+    Left = 622
+    Top = 519
     Width = 100
     Height = 25
     Anchors = [akRight, akBottom]
