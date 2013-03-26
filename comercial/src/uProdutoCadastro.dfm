@@ -1586,7 +1586,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
           Top = 11
           Width = 58
           Height = 16
-          Caption = 'Tamanho'
+          Caption = 'Tam./Val.'
         end
         object Chk_lote: TCheckBox
           Left = 4
