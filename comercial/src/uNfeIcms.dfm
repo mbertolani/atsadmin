@@ -257,28 +257,50 @@ object fNfeIcms: TfNfeIcms
       TabOrder = 5
       OnClick = BitBtn1Click
     end
-    object chkInventario: TCheckBox
-      Left = 760
-      Top = 15
-      Width = 97
-      Height = 17
+    object GroupBox1: TGroupBox
+      Left = 744
+      Top = 4
+      Width = 170
+      Height = 105
       Caption = 'INVENT'#193'RIO'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clRed
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
       TabOrder = 6
-    end
-    object edDataInventario: TJvDatePickerEdit
-      Left = 758
-      Top = 34
-      Width = 101
-      Height = 21
-      AllowNoDate = True
-      Checked = True
-      TabOrder = 7
+      object Label12: TLabel
+        Left = 14
+        Top = 63
+        Width = 111
+        Height = 13
+        Caption = 'Conta Cont'#225'bil Estoque'
+      end
+      object edDataInventario: TJvDatePickerEdit
+        Left = 12
+        Top = 34
+        Width = 101
+        Height = 23
+        AllowNoDate = True
+        Checked = True
+        TabOrder = 0
+      end
+      object chkInventario: TCheckBox
+        Left = 14
+        Top = 14
+        Width = 97
+        Height = 18
+        Caption = 'INVENT'#193'RIO'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+      end
+      object edContaContabil: TEdit
+        Left = 12
+        Top = 79
+        Width = 148
+        Height = 21
+        TabOrder = 2
+      end
     end
   end
   object memoError: TMemo
@@ -2515,27 +2537,7 @@ object fNfeIcms: TfNfeIcms
   end
   object sdsUnimed: TSQLQuery
     MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'PMOV'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftInteger
-        Name = 'PMOVF'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftDate
-        Name = 'DTA_INI'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftDate
-        Name = 'DTA_FIM'
-        ParamType = ptUnknown
-      end>
+    Params = <>
     SQL.Strings = (
       'SELECT DISTINCT UN.CODUN, UN.DESCRICAO '
       
@@ -2545,8 +2547,7 @@ object fNfeIcms: TfNfeIcms
       '       AND mov.codmovimento = det.codmovimento'
       '       AND C.codmovimento = MOV.codmovimento'
       '        AND (MOV.CODNATUREZA = 4)'
-      '      AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF'
-      '      AND C.DATACOMPRA      BETWEEN :DTA_INI AND :DTA_FIM')
+      '')
     SQLConnection = DM.sqlsisAdimin
     Left = 328
     Top = 208
