@@ -371,6 +371,13 @@ type
     cdsPRECO_VENDA: TFloatField;
     cdsUNIDADEMEDIDA: TStringField;
     cdsLOTES2: TStringField;
+    Label18: TLabel;
+    DBEdit3: TDBEdit;
+    Label19: TLabel;
+    Label20: TLabel;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    sqlProd: TSQLQuery;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -411,8 +418,11 @@ type
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
     procedure DBEdit10Exit(Sender: TObject);
+    procedure DBEdit12Exit(Sender: TObject);
+    procedure DBEdit4Exit(Sender: TObject);
   private
     { Private declarations }
+    procedure busca_produto;
   public
     cod_cli, cod_mov, cod_ven :integer;
     dt_mov: TDateTime;
@@ -453,8 +463,12 @@ begin
       DtSrc1.DataSet.Open;
       DtSrc1.DataSet.Append;
     end;
+
   if (DBEdit1.Visible = True) then
-    DBEdit1.SetFocus
+  begin
+    dbEdit1.Enabled := True;
+    DBEdit1.SetFocus;
+  end
   else
     MaskEdit1.Text;
 
@@ -536,6 +550,7 @@ begin
     ComboBox1.Enabled := False;
     ComboBox2.Enabled := False;
   end;
+  dbEdit1.Enabled := False;
 end;
 
 procedure TfEntra_Sai_estoque.btnCancelarClick(Sender: TObject);
@@ -1122,13 +1137,15 @@ begin
   begin
     (Components[icompA] as TDbEdit).Enabled := DtSrc.State in [dsInsert,dsEdit];
   end;
-
-  btnIncluir.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
-  btnGravar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
-  btnCancelar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
-  btnExcluir.Enabled:=DtSrc.State in [dsBrowse];
-  btnProcurar.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
-  btnSair.Enabled := DtSrc.State in [dsBrowse,dsInactive];
+  dbEdit1.Enabled     := DtSrc.State in [dsInsert,dsEdit];
+  ComboBox1.Enabled   := DtSrc.State in [dsInsert,dsEdit];
+  dbeProduto.Enabled  := DtSrc.State in [dsInsert,dsEdit]; 
+  btnIncluir.Enabled  := DtSrc.State in [dsBrowse,dsInactive];
+  btnGravar.Enabled   := DtSrc.State in [dsInsert,dsEdit];
+  btnCancelar.Enabled := DtSrc.State in [dsInsert,dsEdit];
+  btnExcluir.Enabled  := DtSrc.State in [dsBrowse];
+  btnProcurar.Enabled := DtSrc.State in [dsBrowse,dsInactive];
+  btnSair.Enabled     := DtSrc.State in [dsBrowse,dsInactive];
 
 end;
 
@@ -1198,7 +1215,10 @@ begin
         fLotes.Free;
     end;
    end;
-
+  if dm.scds_produto_procLOTES.AsString = 'S' then
+  begin
+    usalote := 'sim';
+  end;
    dm.scds_produto_proc.Close;
  end;
 end;
@@ -1259,6 +1279,10 @@ begin
         fLotes.Free;
       end;
     end;
+    if fProcura_prod.cds_procLOTES.AsString = 'S' then
+    begin
+      usalote := 'sim';
+    end;      
     if (fProcura_prod.cds_proc.Active) then
      fProcura_prod.cds_proc.Close;
     btnNovo.SetFocus;
@@ -1279,6 +1303,7 @@ begin
   end;
   cds_mov_detCODDETALHE.AsInteger := codmovdet;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
+  cds_Mov_detDTAFAB.AsDateTime := Now;
 end;
 
 procedure TfEntra_Sai_estoque.cds_Mov_detCalcFields(DataSet: TDataSet);
@@ -1368,7 +1393,7 @@ var
     total :double;
 begin
   inherited;
-   if cds_Mov_detLOTE.AsString <> '' then
+   {if cds_Mov_detLOTE.AsString <> '' then
    begin
        if cdslotes.Active then
           cdslotes.Close;
@@ -1385,7 +1410,7 @@ begin
          exit;
        end;
        cdslotes.Close;
-   end;
+   end; }
 end;
 
 procedure TfEntra_Sai_estoque.BitBtn3Click(Sender: TObject);
@@ -1799,6 +1824,7 @@ begin
   end;
   cds_movdetMatCODDETALHE.AsInteger := codmovdet;
   cds_MovdetMatCODMOVIMENTO.AsInteger := cds_MovMatCODMOVIMENTO.AsInteger;
+
 end;
 
 procedure TfEntra_Sai_estoque.cds_movMatNewRecord(DataSet: TDataSet);
@@ -1811,6 +1837,7 @@ begin
   cds_movMatCODVENDEDOR.Value := 1;//usuario_logado;
   cds_movMatCODFORNECEDOR.AsInteger := 0;
   cds_movMatCODCLIENTE.AsInteger := 0;
+
 end;
 
 procedure TfEntra_Sai_estoque.cds_movMatReconcileError(
@@ -1848,7 +1875,7 @@ end;
 procedure TfEntra_Sai_estoque.DBEdit10Exit(Sender: TObject);
 begin
      //CARREGA TELA PARA PREENCHIMENTO DO LOTE POR PRODUTO
-    if dm.scds_produto_proc.Active then
+  {  if dm.scds_produto_proc.Active then
       dm.scds_produto_proc.Close;
     dm.scds_produto_proc.Params[0].AsInteger := 0;
     dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
@@ -1869,7 +1896,33 @@ begin
         end;
       end;
     end;
-    dm.scds_produto_proc.Close;
+    dm.scds_produto_proc.Close;   }
+end;
+
+procedure TfEntra_Sai_estoque.DBEdit12Exit(Sender: TObject);
+begin
+  if (usalote = 'sim') then
+    dbEdit3.SetFocus;
+end;
+
+procedure TfEntra_Sai_estoque.busca_produto;
+begin
+  if (sqlProd.Active) then
+    sqlProd.Close;
+  sqlProd.SQL.Clear;
+  sqlProd.SQL.Add('SELECT TAM_LOTE FROM PRODUTOS WHERE CODPRODUTO = ' +
+    IntToStr(cds_Mov_detCODPRODUTO.AsInteger));
+  sqlProd.Open;
+end;
+
+procedure TfEntra_Sai_estoque.DBEdit4Exit(Sender: TObject);
+begin
+  if (cds_mov_det.State in [dsInsert, dsEdit]) then
+  begin
+    busca_produto;
+    cds_Mov_detDTAVCTO.AsDateTime := cds_Mov_detDTAFAB.AsDateTime +
+      sqlProd.fieldByName('TAM_LOTE').asInteger;
+  end;
 end;
 
 end.
