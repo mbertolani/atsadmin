@@ -1,18 +1,61 @@
 inherited fCorreio: TfCorreio
   Left = 252
-  Top = 70
+  Top = 55
   Width = 876
-  Height = 652
+  Height = 655
   Caption = 'Arquivo'
+  Color = 16776176
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
     Width = 860
+    object Label36: TLabel
+      Left = 527
+      Top = 23
+      Width = 12
+      Height = 20
+      Caption = '...'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label37: TLabel
+      Left = 176
+      Top = 24
+      Width = 12
+      Height = 20
+      Caption = '...'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label38: TLabel
+      Left = 232
+      Top = 24
+      Width = 12
+      Height = 20
+      Caption = '...'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 563
+    Top = 566
     Width = 860
     inherited btnGravar: TBitBtn
       Left = 272
@@ -235,7 +278,7 @@ inherited fCorreio: TfCorreio
         FocusControl = DBMemo1
       end
       object Label16: TLabel
-        Left = 325
+        Left = 405
         Top = 87
         Width = 107
         Height = 16
@@ -276,7 +319,7 @@ inherited fCorreio: TfCorreio
         ParentFont = False
       end
       object Label19: TLabel
-        Left = 222
+        Left = 310
         Top = 88
         Width = 68
         Height = 16
@@ -490,7 +533,6 @@ inherited fCorreio: TfCorreio
         DataField = 'OBS'
         DataSource = DtSrc
         TabOrder = 17
-        OnKeyPress = FormKeyPress
       end
       object DBEdit17: TDBEdit
         Left = 143
@@ -525,10 +567,11 @@ inherited fCorreio: TfCorreio
         OnKeyPress = FormKeyPress
       end
       object DBEdit19: TDBEdit
-        Left = 294
+        Left = 382
         Top = 83
         Width = 22
         Height = 24
+        CharCase = ecUpperCase
         DataField = 'TAMANHO'
         DataSource = DtSrc
         Font.Charset = DEFAULT_CHARSET
@@ -604,7 +647,8 @@ inherited fCorreio: TfCorreio
         Top = 314
         Width = 115
         Height = 41
-        Caption = 'Retirada '
+        Caption = 'Fazer Retirada '
+        Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -16
@@ -852,10 +896,11 @@ inherited fCorreio: TfCorreio
         Font.Style = []
         ParentFont = False
         TabOrder = 28
+        Visible = False
         OnClick = btnDevolucaoClick
       end
       object DBEdit16: TJvDBDateEdit
-        Left = 436
+        Left = 516
         Top = 84
         Width = 121
         Height = 24
@@ -902,14 +947,24 @@ inherited fCorreio: TfCorreio
         TabOrder = 8
         OnKeyPress = FormKeyPress
       end
+      object btncx: TBitBtn
+        Left = 218
+        Top = 83
+        Width = 89
+        Height = 24
+        Caption = 'CAIXAS VAZIAS'
+        Enabled = False
+        TabOrder = 29
+        OnClick = btncxClick
+      end
     end
     object TabSheet2: TTabSheet
-      Caption = 'Retirada'
+      Caption = 'Retirada / Devolu'#231#227'o'
       ImageIndex = 1
       OnShow = TabSheet2Show
       object Label20: TLabel
-        Left = 16
-        Top = 203
+        Left = 170
+        Top = 127
         Width = 68
         Height = 13
         Caption = 'Nome Retirou '
@@ -917,29 +972,29 @@ inherited fCorreio: TfCorreio
       end
       object Label21: TLabel
         Left = 16
-        Top = 243
+        Top = 171
         Width = 129
         Height = 13
         Caption = 'Nome Documento Retirado'
         FocusControl = DBEdit21
       end
       object Label22: TLabel
-        Left = 16
-        Top = 291
+        Left = 536
+        Top = 166
         Width = 66
         Height = 13
         Caption = 'Data Retirado'
       end
       object Label23: TLabel
-        Left = 184
-        Top = 291
+        Left = 684
+        Top = 167
         Width = 122
         Height = 13
         Caption = 'Data Previs'#227'o Devolu'#231#227'o'
       end
       object Label24: TLabel
         Left = 16
-        Top = 332
+        Top = 210
         Width = 22
         Height = 13
         Caption = 'OBS'
@@ -947,35 +1002,58 @@ inherited fCorreio: TfCorreio
       end
       object Label25: TLabel
         Left = 16
-        Top = 160
+        Top = 129
         Width = 41
         Height = 13
         Caption = 'N'#186' Caixa'
         FocusControl = DBEdit25
       end
       object Label26: TLabel
-        Left = 168
-        Top = 160
+        Left = 88
+        Top = 128
         Width = 61
         Height = 13
         Caption = 'Caixa Cliente'
         FocusControl = DBEdit26
       end
       object Label27: TLabel
-        Left = 19
-        Top = 370
+        Left = 17
+        Top = 250
         Width = 22
         Height = 13
         Caption = 'OBS'
         FocusControl = DBMemo2
       end
+      object Label39: TLabel
+        Left = 21
+        Top = 341
+        Width = 78
+        Height = 13
+        Caption = 'Data Devolu'#231#227'o'
+      end
+      object Label40: TLabel
+        Left = 20
+        Top = 384
+        Width = 83
+        Height = 13
+        Caption = 'OBS Devolu'#231#227'o :'
+        FocusControl = DBMemo4
+      end
+      object Label41: TLabel
+        Left = 139
+        Top = 341
+        Width = 77
+        Height = 13
+        Caption = 'Nome Devolveu'
+        FocusControl = DBEdit22
+      end
       object DBGrid1: TDBGrid
         Left = 16
         Top = 0
         Width = 889
-        Height = 145
+        Height = 124
         DataSource = dsDetR
-        TabOrder = 0
+        TabOrder = 8
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
@@ -1038,62 +1116,62 @@ inherited fCorreio: TfCorreio
           end>
       end
       object DBEdit20: TDBEdit
-        Left = 16
-        Top = 219
-        Width = 786
+        Left = 168
+        Top = 143
+        Width = 652
         Height = 21
         DataField = 'NOMERET'
         DataSource = dsDetR
-        TabOrder = 1
+        TabOrder = 2
       end
       object DBEdit21: TDBEdit
         Left = 16
-        Top = 259
-        Width = 785
+        Top = 187
+        Width = 505
         Height = 21
         DataField = 'NDOCRET'
         DataSource = dsDetR
-        TabOrder = 2
+        TabOrder = 3
       end
       object DBEdit24: TDBEdit
         Left = 16
-        Top = 347
-        Width = 784
+        Top = 225
+        Width = 801
         Height = 21
         DataField = 'OBSRET'
         DataSource = dsDetR
-        TabOrder = 3
+        TabOrder = 6
       end
       object DBEdit25: TDBEdit
         Left = 16
-        Top = 176
-        Width = 134
+        Top = 143
+        Width = 49
         Height = 21
         DataField = 'NUMCAI'
         DataSource = dsDetR
-        TabOrder = 4
+        TabOrder = 0
       end
       object DBEdit26: TDBEdit
-        Left = 168
-        Top = 176
-        Width = 134
+        Left = 88
+        Top = 144
+        Width = 65
         Height = 21
         DataField = 'NCAICLI'
         DataSource = dsDetR
-        TabOrder = 5
+        TabOrder = 1
       end
       object DBMemo2: TDBMemo
-        Left = 16
-        Top = 384
-        Width = 785
-        Height = 89
+        Left = 14
+        Top = 264
+        Width = 661
+        Height = 64
         DataField = 'OBS'
         DataSource = dsDetR
-        TabOrder = 6
+        TabOrder = 7
       end
       object JvDBDateEdit1: TJvDBDateEdit
-        Left = 184
-        Top = 305
+        Left = 684
+        Top = 183
         Width = 121
         Height = 24
         DataField = 'DTPREV'
@@ -1104,11 +1182,11 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 7
+        TabOrder = 5
       end
       object JvDBDateEdit2: TJvDBDateEdit
-        Left = 17
-        Top = 305
+        Left = 537
+        Top = 184
         Width = 121
         Height = 24
         DataField = 'DTRET'
@@ -1119,21 +1197,94 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        TabOrder = 8
+        TabOrder = 4
       end
       object BitBtn1: TBitBtn
-        Left = 552
-        Top = 296
-        Width = 153
-        Height = 41
-        Caption = 'Imprimir'
+        Left = 682
+        Top = 299
+        Width = 145
+        Height = 26
+        Caption = 'Imprimir Recibo Retirada'
         TabOrder = 9
         OnClick = BitBtn1Click
+      end
+      object BitBtn2: TBitBtn
+        Left = 681
+        Top = 263
+        Width = 145
+        Height = 31
+        Caption = 'Editar Dados Retirada'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 10
+        OnClick = BitBtn2Click
+      end
+      object DBMemo4: TDBMemo
+        Left = 17
+        Top = 401
+        Width = 808
+        Height = 73
+        DataField = 'OBSDEV'
+        DataSource = dsDetR
+        TabOrder = 13
+      end
+      object JvDBDateEdit5: TJvDBDateEdit
+        Left = 17
+        Top = 356
+        Width = 121
+        Height = 24
+        DataField = 'DTDEV'
+        DataSource = dsDetR
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 11
+      end
+      object BitBtn3: TBitBtn
+        Left = 548
+        Top = 348
+        Width = 133
+        Height = 35
+        Caption = 'Receber Devolu'#231#227'o'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 12
+        OnClick = BitBtn3Click
+      end
+      object BitBtn4: TBitBtn
+        Left = 687
+        Top = 347
+        Width = 138
+        Height = 36
+        Caption = 'Imprimir Recibo Devolu'#231#227'o'
+        TabOrder = 14
+        OnClick = BitBtn4Click
+      end
+      object DBEdit22: TDBEdit
+        Left = 139
+        Top = 357
+        Width = 404
+        Height = 22
+        DataField = 'NOMEDEV'
+        DataSource = dsDetR
+        TabOrder = 15
       end
     end
     object TabSheet3: TTabSheet
       Caption = 'Devolu'#231#227'o'
       ImageIndex = 2
+      TabVisible = False
       OnShow = TabSheet3Show
       object Label28: TLabel
         Left = 16
@@ -1737,8 +1888,8 @@ inherited fCorreio: TfCorreio
         ParamType = ptInput
       end>
     ProviderName = 'dspT'
-    Left = 600
-    Top = 215
+    Left = 448
+    Top = 159
     object cdsTID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -1754,8 +1905,8 @@ inherited fCorreio: TfCorreio
   end
   object dspT: TDataSetProvider
     DataSet = sqlT
-    Left = 560
-    Top = 216
+    Left = 400
+    Top = 160
   end
   object sqlT: TSQLDataSet
     CommandText = 'select ID, CODDOC, DESCR from CADDOC where CODDOC = :pcod'
@@ -1767,8 +1918,8 @@ inherited fCorreio: TfCorreio
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 520
-    Top = 216
+    Left = 360
+    Top = 160
     object sqlTID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -1795,7 +1946,7 @@ inherited fCorreio: TfCorreio
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 552
-    Top = 168
+    Top = 184
     object sqlCaID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -1815,8 +1966,8 @@ inherited fCorreio: TfCorreio
   end
   object dspCA: TDataSetProvider
     DataSet = sqlCa
-    Left = 584
-    Top = 168
+    Left = 592
+    Top = 184
   end
   object cdsCa: TClientDataSet
     Aggregates = <>
@@ -1827,8 +1978,8 @@ inherited fCorreio: TfCorreio
         ParamType = ptInput
       end>
     ProviderName = 'dspCA'
-    Left = 616
-    Top = 168
+    Left = 624
+    Top = 192
     object cdsCaID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -1912,6 +2063,11 @@ inherited fCorreio: TfCorreio
         DataType = ftInteger
         Name = 'pCodfir'
         ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'pNcx'
+        ParamType = ptInput
       end>
     ProviderName = 'dspDetR'
     Left = 93
@@ -1959,19 +2115,35 @@ inherited fCorreio: TfCorreio
     object cdsDetRNCAICLI: TFloatField
       FieldName = 'NCAICLI'
     end
+    object cdsDetRDTDEV: TDateField
+      FieldName = 'DTDEV'
+    end
+    object cdsDetROBSDEV: TMemoField
+      FieldName = 'OBSDEV'
+      BlobType = ftMemo
+    end
+    object cdsDetRNOMEDEV: TStringField
+      FieldName = 'NOMEDEV'
+      Size = 60
+    end
   end
   object sqlDetR: TSQLDataSet
     CommandText = 
       'select md.CODOC, md.CODDETALHE,md.CODFIR, md.NOMERET, md.NDOCRET' +
-      ', md.DTPREV, md.DTRET, md.OBSRET, md.OBS , md.TIPO ,'#13#10'm.NUMCAI ,' +
-      'm.NCAICLI'#13#10'from MOVDOCDET  md '#13#10'inner join MOVDOC m on m.CODOC =' +
-      ' md.CODOC'#13#10'where tipo = '#39'R'#39#13#10'and md.CODFIR = :pCodfir'#13#10'order by ' +
-      'm.NUMCAI'
+      ', md.DTPREV, md.DTRET, md.OBSRET, md.OBS , md.TIPO , md.DTDEV , ' +
+      'md.OBSDEV ,md.NOMEDEV,'#13#10'm.NUMCAI ,m.NCAICLI'#13#10'from MOVDOCDET  md ' +
+      #13#10'inner join MOVDOC m on m.CODOC = md.CODOC'#13#10'where tipo = '#39'R'#39#13#10'a' +
+      'nd md.CODFIR = :pCodfir'#13#10'and m.NUMCAI = :pNcx'#13#10'order by m.NUMCAI'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
         Name = 'pCodfir'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'pNcx'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -2020,6 +2192,17 @@ inherited fCorreio: TfCorreio
     object sqlDetRNCAICLI: TFloatField
       FieldName = 'NCAICLI'
     end
+    object sqlDetRDTDEV: TDateField
+      FieldName = 'DTDEV'
+    end
+    object sqlDetROBSDEV: TMemoField
+      FieldName = 'OBSDEV'
+      BlobType = ftMemo
+    end
+    object sqlDetRNOMEDEV: TStringField
+      FieldName = 'NOMEDEV'
+      Size = 60
+    end
   end
   object dspDetR: TDataSetProvider
     DataSet = sqlDetR
@@ -2042,7 +2225,7 @@ inherited fCorreio: TfCorreio
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 5
-    Top = 173
+    Top = 149
     object sqlDetDCODOC: TIntegerField
       FieldName = 'CODOC'
       Required = True
@@ -2089,8 +2272,8 @@ inherited fCorreio: TfCorreio
   end
   object dspDetD: TDataSetProvider
     DataSet = sqlDetD
-    Left = 53
-    Top = 181
+    Left = 61
+    Top = 157
   end
   object cdsDetD: TClientDataSet
     Aggregates = <>
@@ -2101,8 +2284,8 @@ inherited fCorreio: TfCorreio
         ParamType = ptInput
       end>
     ProviderName = 'dspDetD'
-    Left = 77
-    Top = 173
+    Left = 93
+    Top = 157
     object cdsDetDCODOC: TIntegerField
       FieldName = 'CODOC'
       Required = True
@@ -2155,7 +2338,13 @@ inherited fCorreio: TfCorreio
   object VCLReport1: TVCLReport
     AsyncExecution = False
     Title = 'Untitled'
-    Left = 728
-    Top = 384
+    Left = 752
+    Top = 304
+  end
+  object ClientDataSet1: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 637
+    Top = 309
   end
 end
