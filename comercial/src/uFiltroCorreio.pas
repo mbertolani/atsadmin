@@ -308,38 +308,43 @@ begin
 
   if(fCorreio.cdsCorreio.Active) then
     fCorreio.cdsCorreio.Close;
-    fCorreio.cdsCorreio.Params[0].AsInteger := cdsCCODOC.AsInteger;
+  fCorreio.cdsCorreio.Params[0].AsInteger := cdsCCODOC.AsInteger;
 
   if(fCorreio.cdsT.Active) then
     fCorreio.cdsT.Close;
-    fCorreio.cdsT.Params[0].AsString := cdsCCODDOC.AsString;
-    fCorreio.cdsT.Open;
-    fCorreio.Edit1.Text := fCorreio.cdsTDESCR.AsString;
+  fCorreio.cdsT.Params[0].AsString := cdsCCODDOC.AsString;
+  fCorreio.cdsT.Open;
+  fCorreio.Edit1.Text := fCorreio.cdsTDESCR.AsString;
 
   if(fCorreio.cdsCa.Active) then
     fCorreio.cdsCa.Close;
-    fCorreio.cdsCa.Params[0].AsString := cdsCCODDEP.AsString;
-    fCorreio.cdsCa.Open;
-    fCorreio.Edit2.Text := fCorreio.cdsCaDESCR.AsString;
+  fCorreio.cdsCa.Params[0].AsString := cdsCCODDEP.AsString;
+  fCorreio.cdsCa.Open;
+  fCorreio.Edit2.Text := fCorreio.cdsCaDESCR.AsString;
 
   if(fCorreio.cdsS.Active) then
     fCorreio.cdsS.Close;
-    fCorreio.cdsS.Params[0].AsString := cdsCCODSEC.AsString;
-    fCorreio.cdsS.Open;
-    fCorreio.Edit3.Text := fCorreio.cdsSDESCR.AsString;
+  fCorreio.cdsS.Params[0].AsString := cdsCCODSEC.AsString;
+  fCorreio.cdsS.Open;
+  fCorreio.Edit3.Text := fCorreio.cdsSDESCR.AsString;
 
   if(fCorreio.cdsDetR.Active) then
     fCorreio.cdsDetR.Close;
-    fCorreio.cdsDetR.Params[0].AsInteger := cdsCCODFIR.AsInteger;
-    fCorreio.cdsDetR.Open;
+  fCorreio.cdsDetR.Params[0].AsInteger := cdsCCODFIR.AsInteger;
+  fCorreio.cdsDetR.Params[1].AsInteger := cdsCNUMCAI.AsInteger;
+  fCorreio.cdsDetR.Open;
 
   if(fCorreio.cdsDetD.Active) then
     fCorreio.cdsDetD.Close;
-    fCorreio.cdsDetD.Params[0].AsInteger := cdsCCODFIR.AsInteger;
-    fCorreio.cdsDetD.Open;
+  fCorreio.cdsDetD.Params[0].AsInteger := cdsCCODFIR.AsInteger;
+  fCorreio.cdsDetD.Open;
 
+  fCorreio.Label37.Caption :=  JvDBSearchEdit1.Text;
+  fCorreio.Label38.Caption :=  JvDBSearchEdit2.Text;
+  fCorreio.Label36.Caption :=  'CX : ' + fCorreio.DBEdit3.Text;
 
   fCorreio.cdsCorreio.Open;
+  fCorreio.btnRetirada.Enabled := True;
 
   FiltroCorreio.Close;
 end;
@@ -361,7 +366,7 @@ begin
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
 //  VCLReport1.Report.Params.ParamByName('codfir').Value := StrToInt(JvDBSearchEdit1.Text);
   VCLReport1.Report.DataInfo.Items[0].SQL:= cdsC.CommandText;
-  
+
   nomecli  := TRpLabel(VCLReport1.Report.FindComponent('TRpLabel3'));
 
   // Tipo de data
