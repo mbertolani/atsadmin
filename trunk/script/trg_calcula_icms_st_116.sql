@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER TRIGGER CALCULA_ICMS_ST ACTIVE
 BEFORE INSERT OR UPDATE POSITION 0
 AS
@@ -124,7 +125,7 @@ BEGIN
         new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), :arredondar);
         if ( new.ICMS_SUBSTD > 0) then
         begin
-           VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * CICMS_SUBST_IND; 
+           VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * (CICMS_SUBST_IND/100); 
             new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(:VALOR_SUBDESC), :arredondar);
         end     
       else
