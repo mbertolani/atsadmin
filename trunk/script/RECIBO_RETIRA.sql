@@ -6,18 +6,21 @@ returns (
     coddetalhe1 integer,
     codfir integer,
     nomeret varchar(60),
+    nomedev varchar(60),
     ndocret varchar(100),
     dtprev date,
     dtret date,
+    dtdev date,
     obsret varchar(60),
-    obs blob sub_type 0 segment size 80,
+    obs blob sub_type 0 segment size 180,
+    obsdev blob sub_type 0 segment size 180,
     tipo char(1))
 as
 declare variable j integer = 0;
 declare variable n_copias integer = 2;
 BEGIN
   FOR
-    select CODOC,CODDETALHE,CODDETALHE, CODFIR, NOMERET, NDOCRET, DTPREV, DTRET, OBSRET, OBS , TIPO from MOVDOCDET
+    select CODOC,CODDETALHE,CODDETALHE, CODFIR, NOMERET, NDOCRET, DTPREV, DTRET,DTDEV, OBSRET, OBS ,OBSDEV, TIPO ,NOMEDEV from MOVDOCDET
     where CODDETALHE = :pcod
     INTO :CODOC,
          :CODDETALHE,
@@ -27,9 +30,12 @@ BEGIN
          :NDOCRET,
          :DTPREV,
          :DTRET,
+         :DTDEV,
          :OBSRET,
          :OBS,
-         :TIPO
+         :OBSDEV,
+         :TIPO,
+         :NOMEDEV
   DO
   BEGIN
     J = 0;
