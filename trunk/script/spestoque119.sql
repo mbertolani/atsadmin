@@ -1,4 +1,3 @@
-SET TERM ^ ;
 ALTER PROCEDURE SPESTOQUE (
     DTA1 date,
     DTA2 date,
@@ -117,10 +116,4 @@ BEGIN
         valorCusto = null;
     END
   --END -- CCUSTO
-END^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE SPESTOQUE TO  SYSDBA;
-
+END
