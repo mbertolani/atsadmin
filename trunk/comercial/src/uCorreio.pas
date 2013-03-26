@@ -280,6 +280,26 @@ type
     JvDBDateEdit4: TJvDBDateEdit;
     BitBtn1: TBitBtn;
     VCLReport1: TVCLReport;
+    btncx: TBitBtn;
+    ClientDataSet1: TClientDataSet;
+    Label36: TLabel;
+    Label37: TLabel;
+    Label38: TLabel;
+    BitBtn2: TBitBtn;
+    sqlDetRDTDEV: TDateField;
+    sqlDetROBSDEV: TMemoField;
+    cdsDetRDTDEV: TDateField;
+    cdsDetROBSDEV: TMemoField;
+    Label39: TLabel;
+    Label40: TLabel;
+    DBMemo4: TDBMemo;
+    JvDBDateEdit5: TJvDBDateEdit;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    sqlDetRNOMEDEV: TStringField;
+    cdsDetRNOMEDEV: TStringField;
+    Label41: TLabel;
+    DBEdit22: TDBEdit;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
@@ -298,6 +318,10 @@ type
     procedure TabSheet3Show(Sender: TObject);
     procedure btnDevolucaoClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure btncxClick(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -310,7 +334,7 @@ var
 implementation
 
 uses UDm, uProcurar_nf, UDMNF, uFiltroCorreio, uRetira, uUtils,
-  uFiltroCadDoc, uFiltroSetor, uFiltroDep;
+  uFiltroCadDoc, uFiltroSetor, uFiltroDep, uCx;
 
 {$R *.dfm}
 
@@ -323,7 +347,8 @@ begin
     cCliente.Close;
     cCliente.Open;
   jvCod.Text := '';
-  jvNome.Text := '';    
+  jvNome.Text := '';
+
 end;
 
 procedure TfCorreio.FormCreate(Sender: TObject);
@@ -382,7 +407,7 @@ begin
       strSql := strSql + QuotedStr(DBEdit4.Text) + ',';
       strSql := strSql + 'CODSEC = ';
       strSql := strSql + QuotedStr(DBEdit5.Text) + ',';
-      if(DBEdit10.Text = '  /  /    ') then
+      if(DBEdit9.Text = '  /  /    ') then
       begin
         strSql := strSql + 'DTINID = null ,';
       end
@@ -390,7 +415,7 @@ begin
         strSql := strSql + 'DTINID = ';
         strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit9.Text))) + ',';
       end;
-      if(DBEdit11.Text = '  /  /    ') then
+      if(DBEdit10.Text = '  /  /    ') then
       begin
         strSql := strSql + 'DTFIND = null ,';
       end
@@ -408,8 +433,20 @@ begin
       strSql := strSql + QuotedStr(DBEdit14.Text) + ',';
       strSql := strSql + 'PRATEL = ';
       strSql := strSql + QuotedStr(DBEdit14.Text) + ',';
-      strSql := strSql + 'NCAICLI = ';
-      strSql := strSql + QuotedStr(DBEdit18.Text) + ',';
+////////////
+      if(DBEdit18.Text = '') then
+      begin
+        strSql := strSql + 'NCAICLI = null ,';
+      end
+      else begin
+        strSql := strSql + 'NCAICLI = ';
+        strSql := strSql + QuotedStr(DBEdit18.Text) + ',';
+      end;
+
+///////////
+   //   strSql := strSql + 'NCAICLI = ';
+   //   strSql := strSql + QuotedStr(DBEdit18.Text) + ',';
+
       strSql := strSql + 'DESCARTE = ';
       strSql := strSql + QuotedStr(resu) + ',';
       strSql := strSql + 'ATIVO = ';
@@ -442,6 +479,7 @@ begin
   btnproc.Enabled := True;
   btnproc1.Enabled := True;
   btnproc2.Enabled := True;
+  btncx.Enabled := True;
   Edit1.Text := '';
   Edit2.Text := '';
   Edit3.Text := '';
@@ -550,7 +588,9 @@ procedure TfCorreio.TabSheet2Show(Sender: TObject);
 begin
   inherited;
   MMJPanel2.Visible := False;
-
+  Label36.Caption := 'CX :' + DBEdit3.Text;
+  Label37.Caption :=  DBEdit1.Text;
+  Label38.Caption :=  DBEdit2.Text;
 
 end;
 
@@ -587,6 +627,130 @@ procedure TfCorreio.BitBtn1Click(Sender: TObject);
 begin
   inherited;
   VCLReport1.FileName := str_relatorio + 'retira.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('pcod').Value := cdsDetRCODDETALHE.AsInteger;
+  VCLReport1.Execute;
+end;
+
+procedure TfCorreio.btncxClick(Sender: TObject);
+begin
+  //inherited;
+  fCx := TfCx.Create(Application);
+  try
+    fCx.ShowModal;
+  finally
+    fCx.Free;
+  end;
+
+
+end;
+
+procedure TfCorreio.BitBtn2Click(Sender: TObject);
+var strSql : string;
+    TD: TTransactionDesc;
+begin
+  inherited;
+  if dsDetR.DataSet.State in [dsEdit] then
+    begin
+      strSql := 'UPDATE MOVDOCDET SET NOMERET = ';
+      strSql := strSql +  QuotedStr(DBEdit20.Text) + ',';
+      strSql := strSql + 'NDOCRET = ';
+      strSql := strSql + QuotedStr(DBEdit21.Text) + ',';
+
+      if(JvDBDateEdit2.Text = '  /  /    ') then
+      begin
+        strSql := strSql + ' DTRET = null ,';
+      end
+      else begin
+        strSql := strSql + ' DTRET = ';
+        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit2.Text))) + ',';
+      end;
+
+
+      if(JvDBDateEdit1.Text = '  /  /    ') then
+      begin
+        strSql := strSql + ' DTPREV = null ,';
+       end
+      else begin
+        strSql := strSql + ' DTPREV = ';
+        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit1.Text))) + ',';
+      end;
+
+      strSql := strSql + 'OBSRET = ';
+      strSql := strSql + QuotedStr(DBEdit24.Text) + ',';
+
+      strSql := strSql + 'OBS = ';
+      strSql := strSql +  QuotedStr(DBMemo2.Text) + ' ';
+
+
+      strSql := strSql + ' where CODOC = ';
+      strSql := strSql +  IntToStr(cdsDetRCODOC.AsInteger);
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+        dm.sqlsisAdimin.Commit(TD);
+        MessageDlg('Dados Alterados com Sucesso !', mtInformation, [mbOK], 0);
+       except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro ao Gravar Alteração.', mtError,
+           [mbOk], 0);
+       end;
+    end;
+end;
+
+procedure TfCorreio.BitBtn3Click(Sender: TObject);
+var strSql : string;
+    TD: TTransactionDesc;
+begin
+  inherited;
+  if dsDetR.DataSet.State in [dsEdit] then
+    begin
+      strSql := 'UPDATE MOVDOCDET SET OBSDEV  = ';
+      strSql := strSql +  QuotedStr(DBMemo4.Text) + ',';
+
+
+      if(JvDBDateEdit5.Text = '  /  /    ') then
+      begin
+        strSql := strSql + ' DTDEV = null ,';
+       end
+      else begin
+        strSql := strSql + ' DTDEV = ';
+        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit5.Text))) + ',';
+      end;
+
+      if(DBEdit22.Text = '') then
+      begin
+        strSql := strSql + ' NOMEDEV = null ,';
+       end
+      else begin
+        strSql := strSql + ' NOMEDEV = ';
+        strSql := strSql + QuotedStr(DBEdit22.Text) + ' ';
+      end;
+
+
+      strSql := strSql + ' where CODOC = ';
+      strSql := strSql +  IntToStr(cdsDetRCODOC.AsInteger);
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+       Try
+        dm.sqlsisAdimin.Commit(TD);
+        MessageDlg('Dados Alterados com Sucesso !', mtInformation, [mbOK], 0);
+       except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro ao Gravar Alteração.', mtError,
+           [mbOk], 0);
+       end;
+    end;
+
+end;
+
+procedure TfCorreio.BitBtn4Click(Sender: TObject);
+begin
+ // inherited;
+  VCLReport1.FileName := str_relatorio + 'retiraD.rep';
   VCLReport1.Title := VCLReport1.Filename;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('pcod').Value := cdsDetRCODDETALHE.AsInteger;
