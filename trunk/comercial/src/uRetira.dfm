@@ -5,7 +5,7 @@ object fRetira: TfRetira
   Height = 581
   BorderIcons = [biSystemMenu]
   Caption = 'fRetira'
-  Color = clBtnFace
+  Color = 16776176
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -156,7 +156,7 @@ object fRetira: TfRetira
     ParentFont = False
   end
   object Label11: TLabel
-    Left = 66
+    Left = 108
     Top = 48
     Width = 38
     Height = 16
@@ -475,7 +475,7 @@ object fRetira: TfRetira
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
   object DBEdit6: TDBEdit
-    Left = 424
+    Left = 425
     Top = 64
     Width = 66
     Height = 24
@@ -555,9 +555,9 @@ object fRetira: TfRetira
     TabOrder = 12
   end
   object DBEdit11: TDBEdit
-    Left = 66
+    Left = 108
     Top = 64
-    Width = 95
+    Width = 56
     Height = 24
     DataField = 'NUMCAI'
     DataSource = dsr
