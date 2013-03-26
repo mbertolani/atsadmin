@@ -1012,9 +1012,12 @@ type
     cdsCompraPIS: TFloatField;
     cdsCompraCOFINS: TFloatField;
     cdsCompraBASE_ICMS: TFloatField;
-    chkInventario: TCheckBox;
-    edDataInventario: TJvDatePickerEdit;
     sqlInventario: TSQLQuery;
+    GroupBox1: TGroupBox;
+    edDataInventario: TJvDatePickerEdit;
+    chkInventario: TCheckBox;
+    edContaContabil: TEdit;
+    Label12: TLabel;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1270,13 +1273,18 @@ begin
 
          if (sdsUnimed.Active) then
            sdsUnimed.Close;
-         //if (codMovMin < codMovMinV) then
-         sdsUnimed.Params[0].AsInteger := codMovMin;
-         sdsUnimed.Params[1].AsInteger := codMovMax;
-         sdsUnimed.Params[2].AsDate    := data_ini.Date;
-         sdsUnimed.Params[3].AsDate    := data_fim.Date;
-         //else
-         //  sdsUnimed.Params[1].AsInteger := codMovMaxV;
+
+         // UNIDADE COMPRA
+         sdsUnimed.SQL.Clear;
+         sdsUnimed.SQL.Add('SELECT DISTINCT UN.CODUN, UN.DESCRICAO  ' +
+          '  FROM UNIDADEMEDIDA UN, COMPRA C, MOVIMENTO mov, MOVIMENTODETALHE DET ' +
+          ' WHERE UN.CODUN = DET.UN ' +
+          '   AND mov.codmovimento = det.codmovimento ' +
+          '   AND C.codmovimento = MOV.codmovimento ' +
+          '   AND (MOV.CODNATUREZA = 4) ' +
+          '   AND C.DATACOMPRA  BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+          '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)));
+
          sdsUnimed.Open;
 
          while (not sdsUnimed.Eof) do
@@ -1290,24 +1298,30 @@ begin
            sdsUnimed.Next;
          end;
 
-         // VENDA NAO PRECISO
-         {if (sdsUnimed.Active) then
+
+         // UNIDADE VENDA
+         if (sdsUnimed.Active) then
            sdsUnimed.Close;
 
          sdsUnimed.SQL.Clear;
          sdsUnimed.SQL.Add('SELECT DISTINCT UN.CODUN, UN.DESCRICAO ' +
-          ' FROM UNIDADEMEDIDA UN, VENDA C, MOVIMENTO mov, MOVIMENTODETALHE DET ' +
-          ' WHERE UN.CODUN = DET.UN ' +
-          '   AND mov.codmovimento = det.codmovimento ' +
-          '   AND V.codmovimento = MOV.codmovimento  ' +
-          '   AND (MOV.CODNATUREZA IN (12, 15)) ' +
-          '   AND MOV.CODMOVIMENTO BETWEEN :PMOV AND :PMOVF ' +
-          '   AND V.DATAVENDA      BETWEEN :DTA_INI AND :DTA_FIM' +
-          '   AND NOT EXISTS (SELECT C.CODCOMPRA FROM COMPRA, )');
-         sdsUnimed.Params[0].AsInteger := codMovMinV;
-         sdsUnimed.Params[1].AsInteger := codMovMaxV;
-         sdsUnimed.Params[2].AsDate    := data_ini.Date;
-         sdsUnimed.Params[3].AsDate    := data_fim.Date;
+           '  FROM UNIDADEMEDIDA UN, VENDA V, MOVIMENTO mov, MOVIMENTODETALHE DET, SERIES ss ' +
+           ' WHERE UN.CODUN = DET.UN ' +
+           '   AND mov.codmovimento = det.codmovimento ' +
+           '   AND V.codmovimento = MOV.codmovimento ' +
+           '   AND V.SERIE = ss.SERIE ' +
+           '   AND ss.MODELO <> ' + QuotedStr('55') +
+           '   AND (MOV.CODNATUREZA IN (12, 15)) ' +
+           '   AND V.DATAVENDA      BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+           '   AND NOT EXISTS (SELECT C.CODCOMPRA FROM COMPRA C, MOVIMENTO M, MOVIMENTODETALHE MD ' +
+           ' WHERE C.CODMOVIMENTO = M.CODMOVIMENTO ' +
+           '   AND MD.CODMOVIMENTO = c.CODMOVIMENTO ' +
+           '   AND md.UN = DET.UN ' +
+           '   AND m.CODNATUREZA = 4 ' +
+           '   AND c.DATACOMPRA  BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date))+ ')');
+
          sdsUnimed.Open;
 
          while (not sdsUnimed.Eof) do
@@ -1320,7 +1334,48 @@ begin
            end;
            sdsUnimed.Next;
          end;
-         }
+
+         // UNIDADE INVENTARIO
+         if (sdsUnimed.Active) then
+           sdsUnimed.Close;
+
+         sdsUnimed.SQL.Clear;
+         sdsUnimed.SQL.Add('SELECT DISTINCT UN.CODUN, UN.DESCRICAO ' +
+           '  FROM ESTOQUEMES EM, PRODUTOS P, UNIDADEMEDIDA UN ' +
+           ' WHERE EM.CODPRODUTO = p.CODPRODUTO ' +
+           '   AND P.UNIDADEMEDIDA = UN.CODUN ' +
+           '   AND em.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
+           '   AND EM.SALDOESTOQUE > 0 ' +
+           '   AND NOT EXISTS (SELECT MDC.UN FROM COMPRA C, MOVIMENTODETALHE MDC ' +
+           ' WHERE MDC.CODMOVIMENTO = c.CODMOVIMENTO ' +
+           '   AND MDC.UN           = UN.CODUN ' +
+           '   AND C.DATACOMPRA  BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+           ' ) ' +
+           '   AND NOT EXISTS (SELECT MDV.UN FROM VENDA V, SERIES ss, MOVIMENTO M, MOVIMENTODETALHE MDV ' +
+           ' WHERE V.SERIE = ss.SERIE ' +
+           '   AND V.CODMOVIMENTO = M.CODMOVIMENTO ' +
+           '   AND MDV.CODMOVIMENTO = V.CODMOVIMENTO ' +
+           '   AND ss.MODELO <> ' + QuotedStr('55') +
+           '   AND M.CODNATUREZA IN (12, 15) ' +
+           '   AND MDV.UN           = UN.CODUN ' +
+           '   AND V.DATAVENDA      BETWEEN ' +  QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) + ')');
+
+         sdsUnimed.Open;
+
+         while (not sdsUnimed.Eof) do
+         begin
+           // 0190 - Identificação das Unidades de Medida
+           with Registro0190New do
+           begin
+             UNID  := Trim(sdsUnimed.Fields[0].AsString);
+             DESCR := Trim(sdsUnimed.Fields[1].AsString);
+           end;
+           sdsUnimed.Next;
+         end;
+
+
 
          // ITENS  #################
          if (cdsProduto.Active) then
@@ -1369,8 +1424,10 @@ begin
            '   AND C.DATACOMPRA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
            '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
            ' )) ' +
-           '  OR (EXISTS (SELECT V.CODMOVIMENTO FROM VENDA V ' +
-           ' WHERE V.CODMOVIMENTO = MOV.CODMOVIMENTO ' +
+           '  OR (EXISTS (SELECT V.CODMOVIMENTO FROM VENDA V, SERIES ss ' +
+           ' WHERE ss.SERIE = V.SERIE ' +
+           '   AND V.CODMOVIMENTO = MOV.CODMOVIMENTO ' +
+           '   AND ss.MODELO <> ' + QuotedStr('55') + 
            '   AND V.DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
            '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
            ')))';
@@ -1395,20 +1452,33 @@ begin
            if (cdsProduto.Active) then
              cdsProduto.Close;
 
+           // INVENTARIO
            cdsProduto.CommandText := 'SELECT DISTINCT P.CODPRODUTO, P.CODPRO, ' +
-           ' P.NCM, P.PRODUTO, P.UNIDADEMEDIDA UN ' +
-           ' FROM ESTOQUEMES EM, PRODUTOS P ' +
-           ' WHERE EM.CODPRODUTO = P.CODPRODUTO ' +
-           ' AND ( not exists (SELECT DISTINCT PRO.CODPRO  ' +
-           ' FROM MOVIMENTO MOV ' +
-           ' inner join MOVIMENTODETALHE DET on MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
-           ' inner join PRODUTOS PRO on PRO.CODPRODUTO     = DET.CODPRODUTO ' +
-           ' WHERE mov.CODNATUREZA in (12,15,4) ' +
-           ' and em.CODPRODUTO = det.CODPRODUTO ' +
-           ' AND (MOV.CODMOVIMENTO BETWEEN '  + InttoStr(codMovMin) +
-           ' AND ' + InttoStr(codMovMaxV)+ '))) ' +
-           ' and em.SALDOESTOQUE > 0 ' +
-           ' and em.MESANO = ' +  QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
+             ' P.NCM, P.PRODUTO, P.UNIDADEMEDIDA UN ' +
+             '  FROM ESTOQUEMES EM, PRODUTOS P       ' +
+             ' WHERE EM.CODPRODUTO = P.CODPRODUTO    ' +
+             '   AND ( not exists (SELECT DISTINCT DETC.CODPRODUTO ' +
+             '  FROM COMPRA C, MOVIMENTO MOVC, MOVIMENTODETALHE DETC ' +
+             ' WHERE C.CODMOVIMENTO = movC.CODMOVIMENTO   ' +
+             '   AND MOVC.CODMOVIMENTO = DETC.CODMOVIMENTO ' +
+             '   AND movC.CODNATUREZA = 4 ' +
+             '   AND em.CODPRODUTO = detC.CODPRODUTO ' +
+             '   AND c.DATACOMPRA between ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+             '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+             ' )) ' +
+             '   AND ( not exists (SELECT DISTINCT DETV.CODPRODUTO ' +
+             '  FROM VENDA V, SERIES ss, MOVIMENTO MOVV, MOVIMENTODETALHE DETV ' +
+             ' WHERE V.SERIE = ss.SERIE ' +
+             '   AND V.CODMOVIMENTO = movV.CODMOVIMENTO ' +
+             '   AND MOVV.CODMOVIMENTO = DETV.CODMOVIMENTO ' +
+             '   AND movV.CODNATUREZA in (12,15) ' +
+             '   AND ss.MODELO <> ' + QuotedStr('55') +
+             '   AND em.CODPRODUTO = detV.CODPRODUTO ' +
+             '   AND v.DATAVENDA between ' +  QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+             '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+             ' )) ' +
+             ' and em.SALDOESTOQUE > 0 ' +
+             ' and em.MESANO = ' +  QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
            cdsProduto.Open;
            While (not cdsProduto.Eof) do
            begin
@@ -2015,7 +2085,8 @@ begin
   //bloco G - Controle do Crédito de ICMS do Ativo Permanente – CIAP
 
   //bloco H - Inventário Físico
-  blocoH;
+  if (chkInventario.Checked) then
+    blocoH;
 
   // Método que gera o arquivo TXT.
   ACBrSPEDFiscal1.SaveFileTXT ;
@@ -2419,7 +2490,12 @@ begin
             VL_UNIT := sqlInventario.FieldByName('PRECOCUSTO').AsFloat;
           VL_ITEM  := QTD * VL_UNIT;
           IND_PROP := piInformante; //  0- Item de propriedade do informante e em seu poder;
-          COD_CTA  := '0';
+          if (edContaContabil.Text = '') then
+          begin
+            MessageDlg('Informe a Conta Contabil do Estoque', mtWarning, [mbOK], 0);
+            exit;
+          end;
+          COD_CTA  := edContaContabil.Text;
         end;
         sqlInventario.Next;
       end; // Fim H010
