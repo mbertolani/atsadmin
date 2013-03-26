@@ -20,57 +20,57 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 12
-    Top = 72
+    Left = 22
+    Top = 65
     Width = 55
     Height = 13
     Caption = 'Data Sa'#237'da'
   end
   object Label2: TLabel
     Left = 192
-    Top = 72
+    Top = 65
     Width = 30
     Height = 13
     Caption = 'Sai de'
   end
   object Label3: TLabel
     Left = 189
-    Top = 104
+    Top = 97
     Width = 40
     Height = 13
     Caption = 'Entra no'
   end
   object Label4: TLabel
     Left = 8
-    Top = 189
+    Top = 179
     Width = 33
     Height = 13
     Caption = 'C'#243'digo'
   end
   object Label5: TLabel
     Left = 205
-    Top = 188
+    Top = 178
     Width = 17
     Height = 13
     Caption = 'Un.'
   end
   object Label6: TLabel
     Left = 245
-    Top = 188
+    Top = 178
     Width = 23
     Height = 13
     Caption = 'Qtde'
   end
   object Label7: TLabel
     Left = 307
-    Top = 188
+    Top = 178
     Width = 39
     Height = 13
     Caption = 'Unit. R$'
   end
   object Label9: TLabel
     Left = 410
-    Top = 187
+    Top = 177
     Width = 41
     Height = 13
     Caption = 'Total R$'
@@ -93,51 +93,72 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object Label11: TLabel
     Left = 544
-    Top = 73
+    Top = 66
     Width = 43
     Height = 13
     Caption = 'N. Sa'#237'da'
   end
   object Label12: TLabel
     Left = 544
-    Top = 103
+    Top = 96
     Width = 51
     Height = 13
     Caption = 'N. Entrada'
   end
   object Label13: TLabel
-    Left = 12
-    Top = 103
+    Left = 14
+    Top = 96
     Width = 63
     Height = 13
     Caption = 'Data Entrada'
   end
   object Label14: TLabel
-    Left = 12
-    Top = 134
+    Left = 45
+    Top = 128
     Width = 33
     Height = 13
     Caption = 'Codigo'
   end
   object Label16: TLabel
     Left = 192
-    Top = 134
+    Top = 127
     Width = 28
     Height = 13
     Caption = 'Nome'
   end
   object Label17: TLabel
-    Left = 12
-    Top = 162
+    Left = 58
+    Top = 154
     Width = 19
     Height = 13
     Caption = 'Obs'
   end
+  object Label18: TLabel
+    Left = 79
+    Top = 223
+    Width = 21
+    Height = 13
+    Caption = 'Lote'
+  end
+  object Label19: TLabel
+    Left = 313
+    Top = 224
+    Width = 53
+    Height = 13
+    Caption = 'Fabrica'#231#227'o'
+  end
+  object Label20: TLabel
+    Left = 502
+    Top = 224
+    Width = 56
+    Height = 13
+    Caption = 'Vencimento'
+  end
   object DBGrid1: TDBGrid
     Left = 7
-    Top = 231
+    Top = 248
     Width = 676
-    Height = 275
+    Height = 268
     TabStop = False
     DataSource = DtSrc1
     Font.Charset = DEFAULT_CHARSET
@@ -149,7 +170,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     ParentFont = False
     PopupMenu = PopupMenu1
     ReadOnly = True
-    TabOrder = 18
+    TabOrder = 21
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -199,12 +220,12 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 690
+    Width = 698
     Height = 60
     Align = alTop
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
-    TabOrder = 16
+    TabOrder = 19
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -1005,7 +1026,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object ComboBox1: TComboBox
     Left = 249
-    Top = 70
+    Top = 63
     Width = 280
     Height = 24
     BevelKind = bkFlat
@@ -1022,7 +1043,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object ComboBox2: TComboBox
     Left = 249
-    Top = 101
+    Top = 94
     Width = 280
     Height = 24
     BevelKind = bkFlat
@@ -1039,7 +1060,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object dbeProduto: TDBEdit
     Left = 8
-    Top = 205
+    Top = 195
     Width = 94
     Height = 24
     BevelKind = bkFlat
@@ -1059,12 +1080,12 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object btnProdutoProcura: TBitBtn
     Left = 104
-    Top = 203
+    Top = 193
     Width = 97
     Height = 26
     Caption = 'CTRL + P'
     PopupMenu = PopupMenu1
-    TabOrder = 17
+    TabOrder = 20
     TabStop = False
     OnClick = btnProdutoProcuraClick
     Glyph.Data = {
@@ -1134,7 +1155,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object DBEdit8: TDBEdit
     Left = 205
-    Top = 204
+    Top = 194
     Width = 40
     Height = 24
     TabStop = False
@@ -1156,7 +1177,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object DBEdit9: TDBEdit
     Left = 245
-    Top = 204
+    Top = 194
     Width = 59
     Height = 24
     BevelKind = bkFlat
@@ -1176,7 +1197,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object DBEdit10: TDBEdit
     Left = 305
-    Top = 204
+    Top = 194
     Width = 103
     Height = 24
     BevelKind = bkFlat
@@ -1196,7 +1217,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object DBEdit12: TDBEdit
     Left = 409
-    Top = 204
+    Top = 194
     Width = 111
     Height = 24
     BevelKind = bkFlat
@@ -1212,11 +1233,12 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     ParentFont = False
     PopupMenu = PopupMenu1
     TabOrder = 13
+    OnExit = DBEdit12Exit
     OnKeyPress = DBEdit12KeyPress
   end
   object btnNovo: TBitBtn
     Left = 521
-    Top = 203
+    Top = 193
     Width = 80
     Height = 25
     Caption = 'Novo Iten'
@@ -1240,7 +1262,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object BitBtn8: TBitBtn
     Left = 602
-    Top = 203
+    Top = 193
     Width = 80
     Height = 25
     Caption = 'Exclui Iten'
@@ -1264,13 +1286,13 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 508
-    Width = 690
+    Top = 519
+    Width = 698
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
-    TabOrder = 19
+    TabOrder = 22
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -1299,7 +1321,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Width = 265
     Height = 21
     ItemHeight = 13
-    TabOrder = 20
+    TabOrder = 23
     Visible = False
   end
   object ComboBox4: TComboBox
@@ -1308,12 +1330,12 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Width = 265
     Height = 21
     ItemHeight = 13
-    TabOrder = 21
+    TabOrder = 24
     Visible = False
   end
   object Edit1: TEdit
     Left = 600
-    Top = 70
+    Top = 63
     Width = 81
     Height = 24
     Font.Charset = DEFAULT_CHARSET
@@ -1327,7 +1349,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object Edit2: TEdit
     Left = 600
-    Top = 101
+    Top = 94
     Width = 81
     Height = 24
     Font.Charset = DEFAULT_CHARSET
@@ -1341,7 +1363,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object MaskEdit1: TJvDatePickerEdit
     Left = 88
-    Top = 101
+    Top = 94
     Width = 86
     Height = 24
     AllowNoDate = True
@@ -1360,7 +1382,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object dbEdit1: TJvDBDatePickerEdit
     Left = 88
-    Top = 70
+    Top = 63
     Width = 86
     Height = 24
     AllowNoDate = True
@@ -1381,7 +1403,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object cbCodigo: TJvDBSearchComboBox
     Left = 88
-    Top = 132
+    Top = 125
     Width = 86
     Height = 24
     DataSource = dsB
@@ -1397,7 +1419,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object cbNome: TJvDBSearchComboBox
     Left = 249
-    Top = 131
+    Top = 124
     Width = 432
     Height = 24
     DataSource = dsB
@@ -1413,7 +1435,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object DBEdit2: TDBEdit
     Left = 88
-    Top = 163
+    Top = 152
     Width = 593
     Height = 24
     BevelKind = bkFlat
@@ -1428,6 +1450,37 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     ParentFont = False
     PopupMenu = PopupMenu1
     TabOrder = 8
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit3: TDBEdit
+    Left = 104
+    Top = 222
+    Width = 202
+    Height = 21
+    DataField = 'LOTE'
+    DataSource = DtSrc1
+    TabOrder = 16
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit4: TDBEdit
+    Left = 368
+    Top = 222
+    Width = 121
+    Height = 21
+    DataField = 'DTAFAB'
+    DataSource = DtSrc1
+    TabOrder = 17
+    OnExit = DBEdit4Exit
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit5: TDBEdit
+    Left = 560
+    Top = 222
+    Width = 121
+    Height = 21
+    DataField = 'DTAVCTO'
+    DataSource = DtSrc1
+    TabOrder = 18
     OnKeyPress = FormKeyPress
   end
   object DataSource1: TDataSource
@@ -1446,13 +1499,13 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     DataSet = cds_Mov_det
     OnStateChange = DtSrc1StateChange
     Left = 620
-    Top = 55
+    Top = 48
   end
   object DtSrc: TDataSource
     DataSet = cds_Movimento
     OnStateChange = DtSrcStateChange
     Left = 576
-    Top = 104
+    Top = 97
   end
   object sds_Movimento: TSQLDataSet
     CommandText = 
@@ -1843,11 +1896,11 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     end
     object cds_Mov_detDTAFAB: TDateField
       FieldName = 'DTAFAB'
-      EditMask = '!99/99/0000;1;_'
+      EditMask = '!99/99/00;1;_'
     end
     object cds_Mov_detDTAVCTO: TDateField
       FieldName = 'DTAVCTO'
-      EditMask = '!99/99/0000;1;_'
+      EditMask = '!99/99/00;1;_'
     end
     object cds_Mov_detLOTES: TStringField
       FieldName = 'LOTES'
@@ -2020,7 +2073,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object PopupMenu1: TPopupMenu
     Left = 316
-    Top = 223
+    Top = 201
     object Incluir1: TMenuItem
       Caption = 'Incluir'
       ShortCut = 113
@@ -2083,7 +2136,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     AutoDetect = False
     Active = False
     Left = 356
-    Top = 223
+    Top = 201
   end
   object sdslote: TSQLDataSet
     CommandText = 
@@ -3089,5 +3142,12 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       FieldName = 'CODMOVIMENTO'
       Required = True
     end
+  end
+  object sqlProd: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 208
+    Top = 112
   end
 end
