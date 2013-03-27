@@ -91,7 +91,7 @@ begin
   DecodeDate(StrToDate(data),ano,mes,dia);
   ano := (ano + StrToInt(cdsCadANODESC.Text));
 
-  if(fCorreio.DtSrc.DataSet.State in [dsInsert]) then
+  if(fCorreio.DtSrc.DataSet.State in [dsInsert,dsEdit,dsBrowse]) then
   begin
     fCorreio.DBEdit8.Text := cdsCadCODDOC.Text;
     fCorreio.Edit1.Text := cdsCadDESCR.Text;
