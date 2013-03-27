@@ -49,7 +49,7 @@ uses UDm, uCorreio;
 
 procedure TfFiltroDep.BitBtn1Click(Sender: TObject);
 begin
-  if(fCorreio.DtSrc.DataSet.State in [dsInsert]) then
+  if(fCorreio.DtSrc.DataSet.State in [dsInsert,dsEdit,dsBrowse]) then
   begin
     fCorreio.DBEdit4.Text := cdsCaCODDEP.Text;
     fCorreio.Edit2.Text := cdsCaDESCR.Text;
