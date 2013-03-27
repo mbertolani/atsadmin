@@ -344,6 +344,7 @@ begin
   fCorreio.Label36.Caption :=  'CX : ' + fCorreio.DBEdit3.Text;
 
   fCorreio.cdsCorreio.Open;
+  if(JvDBSearchEdit1.Text <> '') then
   fCorreio.btnRetirada.Enabled := True;
 
   FiltroCorreio.Close;
