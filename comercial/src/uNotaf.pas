@@ -1698,6 +1698,7 @@ end;
 procedure TfNotaf.gravanotafiscal;
 var nfnum :Integer;
     pesoremessa, entrega: Double;
+    TD: TTransactionDesc;    
 begin
  nfnum := 0;
  // Gravo a NF
@@ -1784,7 +1785,14 @@ begin
     end;
   end;
 
-  dmnf.cds_nf.ApplyUpdates(0);
+  try
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dmnf.cds_nf.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+  end;
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
   if (not calcman.Checked) then
