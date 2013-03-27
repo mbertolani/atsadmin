@@ -1,7 +1,7 @@
 object fFiltroSetor: TfFiltroSetor
   Left = 369
   Top = 172
-  Width = 711
+  Width = 686
   Height = 350
   Caption = 'fFiltroSetor'
   Color = clBtnFace
@@ -11,13 +11,14 @@ object fFiltroSetor: TfFiltroSetor
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
     Left = 24
-    Top = 64
+    Top = 40
     Width = 33
     Height = 13
     Caption = 'Codigo'
@@ -25,7 +26,7 @@ object fFiltroSetor: TfFiltroSetor
   end
   object Label2: TLabel
     Left = 120
-    Top = 64
+    Top = 40
     Width = 48
     Height = 13
     Caption = 'Descri'#231#227'o'
@@ -33,7 +34,7 @@ object fFiltroSetor: TfFiltroSetor
   end
   object DBEdit1: TDBEdit
     Left = 24
-    Top = 79
+    Top = 55
     Width = 82
     Height = 21
     DataField = 'CODSEC'
@@ -45,7 +46,7 @@ object fFiltroSetor: TfFiltroSetor
   end
   object DBEdit2: TDBEdit
     Left = 120
-    Top = 80
+    Top = 56
     Width = 524
     Height = 21
     DataField = 'DESCR'
@@ -55,9 +56,9 @@ object fFiltroSetor: TfFiltroSetor
   end
   object DBGrid1: TDBGrid
     Left = 24
-    Top = 112
+    Top = 88
     Width = 625
-    Height = 177
+    Height = 217
     DataSource = DataSource1
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -84,7 +85,7 @@ object fFiltroSetor: TfFiltroSetor
       end>
   end
   object BitBtn1: TBitBtn
-    Left = 550
+    Left = 542
     Top = 8
     Width = 105
     Height = 41
@@ -196,8 +197,7 @@ object fFiltroSetor: TfFiltroSetor
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 216
-    Top = 24
+    Left = 208
     object sqlCaID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -213,15 +213,13 @@ object fFiltroSetor: TfFiltroSetor
   end
   object dspCa: TDataSetProvider
     DataSet = sqlCa
-    Left = 272
-    Top = 24
+    Left = 264
   end
   object cdsCa: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspCa'
-    Left = 320
-    Top = 24
+    Left = 312
     object cdsCaID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -237,7 +235,6 @@ object fFiltroSetor: TfFiltroSetor
   end
   object DataSource1: TDataSource
     DataSet = cdsCa
-    Left = 360
-    Top = 24
+    Left = 352
   end
 end
