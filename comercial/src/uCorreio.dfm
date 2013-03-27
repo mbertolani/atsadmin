@@ -9,6 +9,20 @@ inherited fCorreio: TfCorreio
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Label43: TLabel [0]
+    Left = 376
+    Top = 57
+    Width = 38
+    Height = 13
+    Caption = 'Label43'
+  end
+  object Label44: TLabel [1]
+    Left = 224
+    Top = 64
+    Width = 38
+    Height = 13
+    Caption = 'Label44'
+  end
   inherited MMJPanel1: TMMJPanel
     Width = 860
     object Label36: TLabel
@@ -65,7 +79,7 @@ inherited fCorreio: TfCorreio
       OnClick = btnProcurarClick
     end
   end
-  object Arquivo: TPageControl [2]
+  object Arquivo: TPageControl [4]
     Left = 1
     Top = 53
     Width = 856
@@ -664,7 +678,6 @@ inherited fCorreio: TfCorreio
         Width = 81
         Height = 27
         Caption = 'Procurar'
-        Enabled = False
         TabOrder = 6
         OnClick = btnprocClick
         Glyph.Data = {
@@ -739,7 +752,6 @@ inherited fCorreio: TfCorreio
         Width = 81
         Height = 27
         Caption = 'Procurar'
-        Enabled = False
         TabOrder = 4
         OnClick = btnproc1Click
         Glyph.Data = {
@@ -822,7 +834,6 @@ inherited fCorreio: TfCorreio
         Width = 81
         Height = 27
         Caption = 'Procurar'
-        Enabled = False
         TabOrder = 5
         OnClick = btnproc2Click
         Glyph.Data = {
@@ -959,7 +970,7 @@ inherited fCorreio: TfCorreio
       end
     end
     object TabSheet2: TTabSheet
-      Caption = 'Retirada / Devolu'#231#227'o'
+      Caption = 'Retirada / Devolu'#231#227'o  '
       ImageIndex = 1
       OnShow = TabSheet2Show
       object Label20: TLabel
@@ -1024,13 +1035,6 @@ inherited fCorreio: TfCorreio
         Caption = 'OBS'
         FocusControl = DBMemo2
       end
-      object Label39: TLabel
-        Left = 21
-        Top = 341
-        Width = 78
-        Height = 13
-        Caption = 'Data Devolu'#231#227'o'
-      end
       object Label40: TLabel
         Left = 20
         Top = 384
@@ -1040,12 +1044,55 @@ inherited fCorreio: TfCorreio
         FocusControl = DBMemo4
       end
       object Label41: TLabel
-        Left = 139
-        Top = 341
+        Left = 131
+        Top = 381
         Width = 77
         Height = 13
         Caption = 'Nome Devolveu'
         FocusControl = DBEdit22
+      end
+      object Panel1: TPanel
+        Left = 11
+        Top = 328
+        Width = 825
+        Height = 153
+        Caption = 'Panel1'
+        Color = clMoneyGreen
+        TabOrder = 16
+        object Label42: TLabel
+          Left = 342
+          Top = 9
+          Width = 93
+          Height = 16
+          Caption = 'DEVOLU'#199#194'O'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label39: TLabel
+          Left = 9
+          Top = 12
+          Width = 78
+          Height = 13
+          Caption = 'Data Devolu'#231#227'o'
+        end
+        object Label45: TLabel
+          Left = 9
+          Top = 57
+          Width = 80
+          Height = 13
+          Caption = 'Obs : Devolu'#231#227'o'
+        end
+        object Label46: TLabel
+          Left = 131
+          Top = 13
+          Width = 77
+          Height = 13
+          Caption = 'Nome Devolveu'
+        end
       end
       object DBGrid1: TDBGrid
         Left = 16
@@ -1224,10 +1271,10 @@ inherited fCorreio: TfCorreio
         OnClick = BitBtn2Click
       end
       object DBMemo4: TDBMemo
-        Left = 17
-        Top = 401
+        Left = 18
+        Top = 398
         Width = 808
-        Height = 73
+        Height = 75
         DataField = 'OBSDEV'
         DataSource = dsDetR
         TabOrder = 13
@@ -1275,7 +1322,7 @@ inherited fCorreio: TfCorreio
         Left = 139
         Top = 357
         Width = 404
-        Height = 22
+        Height = 21
         DataField = 'NOMEDEV'
         DataSource = dsDetR
         TabOrder = 15

@@ -290,7 +290,6 @@ type
     sqlDetROBSDEV: TMemoField;
     cdsDetRDTDEV: TDateField;
     cdsDetROBSDEV: TMemoField;
-    Label39: TLabel;
     Label40: TLabel;
     DBMemo4: TDBMemo;
     JvDBDateEdit5: TJvDBDateEdit;
@@ -300,6 +299,13 @@ type
     cdsDetRNOMEDEV: TStringField;
     Label41: TLabel;
     DBEdit22: TDBEdit;
+    Panel1: TPanel;
+    Label42: TLabel;
+    Label43: TLabel;
+    Label44: TLabel;
+    Label39: TLabel;
+    Label45: TLabel;
+    Label46: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
@@ -476,9 +482,9 @@ begin
   DBEdit7.Text := 'S';
   jvCod.Enabled := True;
   jvNome.Enabled := True;
-  btnproc.Enabled := True;
-  btnproc1.Enabled := True;
-  btnproc2.Enabled := True;
+ /// btnproc.Enabled := True;
+ /// btnproc1.Enabled := True;
+ /// btnproc2.Enabled := True;
   btncx.Enabled := True;
   Edit1.Text := '';
   Edit2.Text := '';
@@ -493,9 +499,9 @@ begin
   jvNome.Text := '';
   jvCod.Enabled := False;
   jvNome.Enabled := False;
-  btnproc.Enabled := False;
-  btnproc1.Enabled := False;
-  btnproc2.Enabled := False;
+ /// btnproc.Enabled := False;
+ /// btnproc1.Enabled := False;
+ /// btnproc2.Enabled := False;
 end;
 
 procedure TfCorreio.jvNomeChange(Sender: TObject);
@@ -559,6 +565,7 @@ begin
     fFiltroCadDoc.ShowModal;
   finally
     fFiltroCadDoc.Free;
+   DtSrc.DataSet.Edit;  
   end;
 end;
 
@@ -570,6 +577,7 @@ begin
     fFiltroSetor.ShowModal;
   finally
     fFiltroSetor.Free;
+  DtSrc.DataSet.Edit;  
   end;
 end;
 
@@ -581,6 +589,7 @@ begin
     fFiltroDep.ShowModal;
   finally
     fFiltroDep.Free;
+  DtSrc.DataSet.Edit;
   end;
 end;
 
