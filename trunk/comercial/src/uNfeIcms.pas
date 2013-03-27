@@ -1417,8 +1417,6 @@ begin
            ' WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
            ' AND PRO.CODPRODUTO     = DET.CODPRODUTO ' +
            ' AND (MOV.CODNATUREZA IN (4, 12, 15 )) ' +
-           ' AND (MOV.CODMOVIMENTO BETWEEN '  + InttoStr(codMovMin) +
-           ' AND ' + InttoStr(codMovMaxV)+ ')' +
            ' AND ((EXISTS (SELECT C.CODMOVIMENTO FROM COMPRA C ' +
            ' WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO  ' +
            '   AND C.DATACOMPRA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
