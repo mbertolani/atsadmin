@@ -11,6 +11,7 @@ object fFiltroDep: TfFiltroDep
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
@@ -43,7 +44,7 @@ object fFiltroDep: TfFiltroDep
     Left = 32
     Top = 88
     Width = 617
-    Height = 169
+    Height = 217
     DataSource = DataSource1
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
