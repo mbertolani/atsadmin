@@ -11,6 +11,7 @@ object fFiltroCadDoc: TfFiltroCadDoc
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
@@ -140,8 +141,8 @@ object fFiltroCadDoc: TfFiltroCadDoc
   object DBGrid1: TDBGrid
     Left = 40
     Top = 96
-    Width = 697
-    Height = 305
+    Width = 721
+    Height = 321
     DataSource = dsCad
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -475,8 +476,8 @@ object fFiltroCadDoc: TfFiltroCadDoc
   end
   object dsCad: TDataSource
     DataSet = cdsCad
-    Left = 280
-    Top = 16
+    Left = 264
+    Top = 24
   end
   object sqlCad: TSQLDataSet
     CommandText = 
