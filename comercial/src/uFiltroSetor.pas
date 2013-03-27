@@ -52,7 +52,7 @@ end;
 
 procedure TfFiltroSetor.BitBtn1Click(Sender: TObject);
 begin
-  if(fCorreio.DtSrc.DataSet.State in [dsInsert]) then
+  if(fCorreio.DtSrc.DataSet.State in [dsInsert,dsEdit,dsBrowse]) then
   begin
     fCorreio.DBEdit5.Text := cdsCaCODSEC.Text;
     fCorreio.Edit3.Text := cdsCaDESCR.Text;
