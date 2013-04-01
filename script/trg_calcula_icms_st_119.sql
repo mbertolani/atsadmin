@@ -107,16 +107,20 @@ BEGIN
         ind_reduzicms = ind_reduzicms/100;
       if (CICMS > 0) then 
       begin
-        if (new.FRETE_BC <> 'True') then
-            if (new.DESCONTO_BC <> 'True') then
-                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE))* ind_reduzicms), :arredondar);
-            else
-                new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) - new.VALOR_DESCONTO))* ind_reduzicms), :arredondar);
-        else
-            if (new.DESCONTO_BC <> 'True') then
-                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE )* ind_reduzicms), :arredondar);
-            else
+        if (new.FRETE_BC = 'True') then
+		begin
+            if (new.DESCONTO_BC = 'True') then
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
+            else
+                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE )* ind_reduzicms), :arredondar);
+		end
+        else
+		begin
+			if (new.DESCONTO_BC = 'True') then
+                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
+            else
+                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) )* ind_reduzicms), :arredondar);
+		end
         new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), :arredondar);
       end
 
@@ -197,16 +201,20 @@ BEGIN
 		new.icms = :cicms;
         if (CICMS > 0) then 
         begin
-            if (new.FRETE_BC <> 'True') then
-                if (new.DESCONTO_BC <> 'True') then
-                    new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE))* ind_reduzicms), :arredondar);
-                else
-                    new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) - new.VALOR_DESCONTO))* ind_reduzicms), :arredondar);
-             else
-                if (new.DESCONTO_BC <> 'True') then
-                    new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE )* ind_reduzicms), :arredondar);
-                else
-                    new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
+            if (new.FRETE_BC = 'True') then
+			begin
+				if (new.DESCONTO_BC = 'True') then
+					new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
+				else
+					new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE )* ind_reduzicms), :arredondar);
+			end
+			else
+			begin
+				if (new.DESCONTO_BC = 'True') then
+					new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
+				else
+					new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) )* ind_reduzicms), :arredondar);
+			end
           new.VALOR_ICMS = UDF_ROUNDDEC(new.VLR_BASEICMS * (CICMS/100), :arredondar);  
         end
         else
