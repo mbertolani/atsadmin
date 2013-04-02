@@ -2149,7 +2149,7 @@ inherited fCompra: TfCompra
     end
     object ExcluiProduto1: TMenuItem
       Caption = 'Exclui Produto'
-      ShortCut = 46
+      ShortCut = 16430
       OnClick = BitBtn8Click
     end
   end
