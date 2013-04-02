@@ -14,17 +14,17 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=c:\Home\sisadmin\BD\sge_plastiferro.fdb'
+      'Database=quad:sge_dnz'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=masterkey'
+      'Password=xl04pq21'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
       'User_Name=sysdba'
       'WaitOnLocks=True'
-      'str_relatorio=C:\home\sisadmin\relatorio\')
+      'str_relatorio=C:\home\sisAdmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 104
     Top = 8
@@ -2285,8 +2285,8 @@ object DM: TDM
   end
   object sds_serie: TSQLDataSet
     CommandText = 
-      'select CODSERIE, SERIE, ULTIMO_NUMERO, ICMS_DESTACADO from SERIE' +
-      'S'
+      'select CODSERIE, SERIE, ULTIMO_NUMERO, ICMS_DESTACADO, MODELO fr' +
+      'om SERIES'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
@@ -2307,6 +2307,10 @@ object DM: TDM
     end
     object sds_serieICMS_DESTACADO: TFloatField
       FieldName = 'ICMS_DESTACADO'
+    end
+    object sds_serieMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
     end
   end
   object dsp_serie: TDataSetProvider
@@ -2335,6 +2339,10 @@ object DM: TDM
     end
     object cds_serieICMS_DESTACADO: TFloatField
       FieldName = 'ICMS_DESTACADO'
+    end
+    object cds_serieMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
     end
   end
   object sds: TSQLDataSet
