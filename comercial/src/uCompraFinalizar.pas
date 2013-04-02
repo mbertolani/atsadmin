@@ -341,6 +341,7 @@ type
     Label41: TLabel;
     sds_compraMODELO: TStringField;
     cds_compraMODELO: TStringField;
+    scds_serie_procMODELO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -1099,7 +1100,8 @@ var utilcrtitulo : Tutils;
   i, j : integer;
 begin
   //inherited;
-  sCtrlResize.CtrlResize(TForm(fCompraFinalizar));
+  //if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fCompraFinalizar));
 
   MMJPanel1.Background.EndColor   := dm.corStart;
   MMJPanel1.Background.StartColor := dm.corEnd;
@@ -1715,21 +1717,21 @@ begin
   fProcurar:= TfProcurar.Create(self,scds_serie_proc);
   fProcurar.BtnProcurar.Click;
   try
-   fProcurar.EvDBFind1.DataField := 'SERIE';
-   if fProcurar.ShowModal=mrOk then
+    fProcurar.EvDBFind1.DataField := 'SERIE';
+    if fProcurar.ShowModal=mrOk then
     begin
-    if dtSrc.State=dsBrowse then
-     cds.Edit;
-     cds_compraSERIE.AsString := scds_serie_procSERIE.AsString;
-     cds_compraNOTAFISCAL.AsInteger := scds_serie_procULTIMO_NUMERO.AsInteger+1;
-
+      if (dtSrc.State = dsBrowse) then
+        cds.Edit;
+      cds_compraSERIE.AsString := scds_serie_procSERIE.AsString;
+      cds_compraNOTAFISCAL.AsInteger := scds_serie_procULTIMO_NUMERO.AsInteger+1;
+      cds_compraMODELO.AsString := scds_serie_procMODELO.AsString;
 
     end;
-   finally
+  finally
     scds_serie_proc.Close;
     fProcurar.Free;
-   end;
-    DBEdit2.SetFocus;
+  end;
+  DBEdit2.SetFocus;
 end;
 
 procedure TfCompraFinalizar.btnExcluirClick(Sender: TObject);
