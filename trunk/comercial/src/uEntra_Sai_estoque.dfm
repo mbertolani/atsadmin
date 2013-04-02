@@ -2099,13 +2099,20 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       ShortCut = 119
       OnClick = btnProcurarClick
     end
-    object Sair1: TMenuItem
-      Caption = 'Sair'
-    end
     object Sair2: TMenuItem
       Caption = 'Sair'
       ShortCut = 120
       OnClick = btnSairClick
+    end
+    object ExcluirItem1: TMenuItem
+      Caption = 'Incluir Item'
+      ShortCut = 45
+      OnClick = btnNovoClick
+    end
+    object ExcluirItem2: TMenuItem
+      Caption = 'Excluir Item'
+      ShortCut = 16430
+      OnClick = BitBtn8Click
     end
   end
   object XPMenu1: TXPMenu
@@ -3149,5 +3156,38 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     SQLConnection = DM.sqlsisAdimin
     Left = 208
     Top = 112
+  end
+  object scds_serie_proc: TSQLClientDataSet
+    CommandText = 
+      'select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL from SERIES wh' +
+      'ere SERIE like :pSERIE'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pSERIE'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 200
+    Top = 217
+    object scds_serie_procCODSERIE: TStringField
+      FieldName = 'CODSERIE'
+      FixedChar = True
+      Size = 3
+    end
+    object scds_serie_procSERIE: TStringField
+      FieldName = 'SERIE'
+      Required = True
+    end
+    object scds_serie_procULTIMO_NUMERO: TIntegerField
+      FieldName = 'ULTIMO_NUMERO'
+      Required = True
+    end
+    object scds_serie_procNOTAFISCAL: TSmallintField
+      FieldName = 'NOTAFISCAL'
+    end
   end
 end
