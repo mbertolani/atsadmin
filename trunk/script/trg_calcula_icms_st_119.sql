@@ -124,12 +124,12 @@ BEGIN
         
         
         if (new.FRETE_BC = 'True') then
-		begin
+
             if (new.DESCONTO_BC = 'True') then
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
             else
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) - :vd))* ind_reduzicms), :arredondar);
-        else
+    
             if (new.DESCONTO_BC <> 'True') then
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + :vFrete )* ind_reduzicms), :arredondar);
             else
