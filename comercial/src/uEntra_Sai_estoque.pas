@@ -7,7 +7,8 @@ uses
   Dialogs, FMTBcd, XPMenu, Menus, Grids, DBGrids, StdCtrls, Mask, DBCtrls,
   Buttons, ExtCtrls, MMJPanel, DB, DBClient, Provider, SqlExpr, DBXpress,
   JvDBDatePickerEdit, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvExStdCtrls, JvCombobox, JvDBSearchComboBox;
+  JvDatePickerEdit, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, DBLocal,
+  DBLocalS;
 
 type
   TfEntra_Sai_estoque = class(TForm)
@@ -143,7 +144,6 @@ type
     Gravar1: TMenuItem;
     Excluir1: TMenuItem;
     Procurar1: TMenuItem;
-    Sair1: TMenuItem;
     Sair2: TMenuItem;
     sdslote: TSQLDataSet;
     sdsloteCODLOTE: TIntegerField;
@@ -378,6 +378,13 @@ type
     DBEdit4: TDBEdit;
     DBEdit5: TDBEdit;
     sqlProd: TSQLQuery;
+    ExcluirItem1: TMenuItem;
+    ExcluirItem2: TMenuItem;
+    scds_serie_proc: TSQLClientDataSet;
+    scds_serie_procCODSERIE: TStringField;
+    scds_serie_procSERIE: TStringField;
+    scds_serie_procULTIMO_NUMERO: TIntegerField;
+    scds_serie_procNOTAFISCAL: TSmallintField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -426,7 +433,7 @@ type
   public
     cod_cli, cod_mov, cod_ven :integer;
     dt_mov: TDateTime;
-    cliente, vendedor, usalote, dataMov, conta_local, nSerie: string;
+    cliente, vendedor, usalote, dataMov, conta_local, nSerie, ccpadrao: string;
 
     procedure baixamatprimas(tipomat: string; codmovt: integer);
     property DataEntrada: TDateTime read GetDataEntrada write SetDataEntrada;
@@ -472,6 +479,34 @@ begin
   else
     MaskEdit1.Text;
 
+  if (Combobox1.Visible) then
+    ComboBox1.Text := ccpadrao;
+  if (Combobox2.Visible) then
+    ComboBox2.Text := ccpadrao;
+
+  if (Edit1.Visible) then
+  begin
+    if (Edit1.Text = '') then
+    begin
+      if scds_serie_proc.Active then
+        scds_serie_proc.Close;
+      scds_serie_proc.Params[0].AsString:='O';
+      scds_serie_proc.Open;
+      Edit1.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+    end;
+  end;
+
+  if (Edit2.Visible) then
+  begin
+    if (Edit2.Text = '') then
+    begin
+      if scds_serie_proc.Active then
+        scds_serie_proc.Close;
+      scds_serie_proc.Params[0].AsString:='I';
+      scds_serie_proc.Open;
+      Edit2.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+    end;
+  end;
 end;
 
 procedure TfEntra_Sai_estoque.FormClose(Sender: TObject;
@@ -505,6 +540,16 @@ begin
 
     codmovdet := 1999999;
     centro_receita := 0;
+    {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
+    dm.cds_parametro.Open;
+    if not dm.cds_parametro.IsEmpty then
+    begin
+      if (dm.cds_parametroD1.AsString <> '') then
+        centro_receita := strToint(dm.cds_parametroD1.AsString);
+    end;
     //Vejo quais são as contas de Receitas para listar no lookupcombobox.
     if dm.cds_parametro.Active then
       dm.cds_parametro.Close;
@@ -522,6 +567,10 @@ begin
       ComboBox2.Items.Add(dm.cds_ccustoNOME.AsString);
       dm.cds_ccusto.Next;
     end;
+    dm.cds_ccusto.Locate('CODIGO',centro_receita, [loCaseInsensitive]);
+    ccpadrao := dm.cds_ccustoNOME.AsString;
+
+
     {------Pesquisando na tab Parametro Vendedor Padrão ---------}
     if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
@@ -595,11 +644,11 @@ begin
     end;
   end;
 
-  if (DtSrc1.State in [dsEdit]) then
+  {if (DtSrc1.State in [dsEdit]) then
   begin
     MessageDlg('Para alterar um item, exclua-o e faça a inclusão novamente!', mtWarning, [mbOK], 0);
     exit;
-  end;
+  end;}
 
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
