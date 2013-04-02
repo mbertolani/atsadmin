@@ -83,6 +83,7 @@ BEGIN
     
 	if ( (not CST_P is null) or (not CSOSN is null ) )then
 	begin
+	   new.LOTE = '1';
         new.cst = :CST_P;
         new.CSOSN = CSOSN;
         new.CSTPIS = :CSTPIS;
@@ -105,23 +106,39 @@ BEGIN
         ind_reduzicms = 1;
 	  if (ind_reduzicms > 1 )then
         ind_reduzicms = ind_reduzicms/100;
+        
+        
+      --new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE))* ind_reduzicms), :arredondar);
+      --new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), :arredondar);
+      --new.OBS = '1-' || new.VALOR_ICMS || '-' || new.VLR_BASEICMS;  
+      
       if (CICMS > 0) then 
       begin
+        vFrete = new.FRETE;
+        vd     = new.VALOR_DESCONTO;
+        if (vFrete is null) then 
+          vFrete = 0;
+          
+        if (vd is null) then 
+          vd = 0;   
+        
+        
         if (new.FRETE_BC = 'True') then
 		begin
             if (new.DESCONTO_BC = 'True') then
                 new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
             else
-                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE )* ind_reduzicms), :arredondar);
-		end
+                new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) - :vd))* ind_reduzicms), :arredondar);
         else
-		begin
-			if (new.DESCONTO_BC = 'True') then
-                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
+            if (new.DESCONTO_BC <> 'True') then
+                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + :vFrete )* ind_reduzicms), :arredondar);
             else
-                new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) )* ind_reduzicms), :arredondar);
-		end
-        new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (CICMS / 100), :arredondar);
+            begin
+              new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + :vFrete - :vd)* ind_reduzicms), :arredondar);
+              --new.OBS = '-2a-' || new.VALOR_ICMS || '-' || new.VLR_BASEICMS;        
+            end 
+        new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (:CICMS / 100), :arredondar);
+        --new.OBS = new.OBS || '-2-' || new.VALOR_ICMS || '-' || new.VLR_BASEICMS;
       end
 
       ----------- TEM ST -------------
@@ -139,6 +156,7 @@ BEGIN
     end
 	else
 	begin
+	  --new.OBS = '2';
 	    --new.LOTE = 'Inicio - ';
         select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
         , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI
@@ -197,24 +215,34 @@ BEGIN
             ind_reduzicms = 1;
 		if (ind_reduzicms > 1 )then
             ind_reduzicms = ind_reduzicms/100;
-    
+
+        --new.OBS = '5-' || new.VALOR_ICMS || '-' || new.VLR_BASEICMS || '-' || :cicms;     
 		new.icms = :cicms;
+		
+        --new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE))* ind_reduzicms), :arredondar);
+        --new.VALOR_ICMS = UDF_ROUNDDEC(new.VLR_BASEICMS * (CICMS/100), :arredondar); 		
+		
+		
         if (CICMS > 0) then 
         begin
-            if (new.FRETE_BC = 'True') then
-			begin
-				if (new.DESCONTO_BC = 'True') then
-					new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
-				else
-					new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + new.FRETE )* ind_reduzicms), :arredondar);
-			end
-			else
-			begin
-				if (new.DESCONTO_BC = 'True') then
-					new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) - new.VALOR_DESCONTO)* ind_reduzicms), :arredondar);
-				else
-					new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) )* ind_reduzicms), :arredondar);
-			end
+          vFrete = new.FRETE;
+          vd     = new.VALOR_DESCONTO;
+          if (vFrete is null) then 
+            vFrete = 0;
+          
+          if (vd is null) then 
+            vd = 0;   
+
+            if (new.FRETE_BC <> 'True') then
+                if (new.DESCONTO_BC <> 'True') then
+                    new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE))* ind_reduzicms), :arredondar);
+                else
+                    new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) - :vd))* ind_reduzicms), :arredondar);
+             else
+                if (new.DESCONTO_BC <> 'True') then
+                    new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + :vFRETE )* ind_reduzicms), :arredondar);
+                else
+                    new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + :vFRETE - :vd)* ind_reduzicms), :arredondar);
           new.VALOR_ICMS = UDF_ROUNDDEC(new.VLR_BASEICMS * (CICMS/100), :arredondar);  
         end
         else
@@ -253,7 +281,7 @@ BEGIN
         new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * :COFINS) /100, :arredondar);
         new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * :PIS) /100, :arredondar);
     end
-    
+    --new.OBS = '-6-' || new.VALOR_ICMS || '-' || new.VLR_BASEICMS || '-' || :cicms;
     if( new.FRETE > 0) then
     begin
      if (CICMS >0) then
