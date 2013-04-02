@@ -1417,6 +1417,7 @@ procedure TfNFeletronica.btnCancelaNFeClick(Sender: TObject);
 var
   vXMLDoc: TXMLDocument;
   vAux, Protocolo, caminho, str : String;
+  NumeroLote : Integer;
   //numnf : WideString;
 begin
   Protocolo := '';
@@ -1433,47 +1434,78 @@ begin
       ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
       if not(InputQuery('WebServices Cancelamento', 'Justificativa', vAux)) then
         exit;
-      ACBrNFe1.Cancelamento(vAux);
-      MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Cancelamento.RetWS);
-      ShowMessage(IntToStr(ACBrNFe1.WebServices.Cancelamento.cStat));
-      ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.Cancelamento.Protocolo);
-      Protocolo := ACBrNFe1.WebServices.Cancelamento.Protocolo;
+      NumeroLote := StrToInt(FormatDateTime('yymmddhhmm', NOW));
+      ACBrNFe1.EventoNFe.Evento.Clear;
+      ACBrNFe1.EventoNFe.idLote := NumeroLote;
+      with ACBrNFe1.EventoNFe.Evento.Add do
+      begin
+        InfEvento.tpAmb := ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpAmb;
+        infEvento.CNPJ := ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CNPJCPF;
+        InfEvento.cOrgao := ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.cUF;
+        InfEvento.nSeqEvento := 1;
+        InfEvento.chNFe := Copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, 4, 44);
+        InfEvento.dhEvento := Now;
+        InfEvento.tpEvento := teCancelamento;
+        infEvento.detEvento.xJust := vAux;
+        InfEvento.detEvento.nProt := ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.nProt;
+      end;
+      //ACBrNFe1.WebServices.EnvEvento.Executar;
+      if ACBrNFe1.EnviarEventoNFe(NumeroLote) then
+      begin
+        with ACBrNFe1.WebServices.EnvEvento do
+        begin
+          if EventoRetorno.retEvento.Items[0].RetInfEvento.cStat <> 135 then
+          begin
+            raise Exception.CreateFmt(
+              'Ocorreu o seguinte erro ao cancelar a nota fiscal eletrônica:'  + sLineBreak +
+              'Código:%d' + sLineBreak +
+              'Motivo: %s', [
+                EventoRetorno.retEvento.Items[0].RetInfEvento.cStat,
+                EventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo
+            ]);
+          end;
+        end;
+      end;
+      MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetWS);
+      ShowMessage(IntToStr(ACBrNFe1.WebServices.EnvEvento.cStat));
+      ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt);
+      Protocolo := ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
       AcbrNfe1.Configuracoes.Geral.Salvar := True;
     end;
 
-    //ABRE A NOTA
-    vXMLDoc.LoadFromFile(caminho);
+      //ABRE A NOTA
+      vXMLDoc.LoadFromFile(caminho);
 
-    //PEGA A RESPOSTA
-    with vXMLDoc.DocumentElement  do
-    begin
-      numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-      if (numnf = '') then
-        numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-    end;
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-
-    dm.sqlsisAdimin.StartTransaction(TD);
-    try
-      str := 'UPDATE NOTAFISCAL SET ';
-      str := str + ' STATUS = ' + QuotedStr('C');
-      if (protocolo <> '') then
-        str := str + ' ,PROTOCOLOCANC = ' + quotedstr(Protocolo);
-      str := str + ' WHERE NOTAFISCAL = ' + numnf;
-      dm.sqlsisAdimin.ExecuteDirect(str);
-      dm.sqlsisAdimin.Commit(TD);
-    except
-      on E : Exception do
+      //PEGA A RESPOSTA
+      with vXMLDoc.DocumentElement  do
       begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+        if (numnf = '') then
+          numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
       end;
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        str := 'UPDATE NOTAFISCAL SET ';
+        str := str + ' STATUS = ' + QuotedStr('C');
+        if (protocolo <> '') then
+          str := str + ' ,PROTOCOLOCANC = ' + quotedstr(Protocolo);
+        str := str + ' WHERE NOTAFISCAL = ' + numnf;
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
+    finally
+      DecimalSeparator := ',';
+      VXMLDoc.Free;
     end;
-  finally
-    DecimalSeparator := ',';
-    VXMLDoc.Free;
-  end;
   chkTodas.Checked := True;
   btnListar.Click;
 
@@ -1688,12 +1720,6 @@ begin
     sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
    end;
    sCFOP.Open;
-
-   {if (sCFOPCODFISCAL.AsString = codFisc) then
-   begin
-     MessageDlg(sCFOPCFNOME.AsString + ' - informe o CODIGO FISCAL no cadastro do Estado-CFOP.', mtWarning, [mbOK], 0);
-     exit;
-   end;}
 
    ACBrNFe1.NotasFiscais.Clear;
    with ACBrNFe1.NotasFiscais.Add.NFe do
@@ -2697,29 +2723,31 @@ begin
 end;
 
 procedure TfNFeletronica.BtnCCeClick(Sender: TObject);
-var protocolo :string;
+var protocolo, str :string;
     envio :TDateTime;
-    str :string;
+    NumeroLote : Integer;
     TD: TTransactionDesc;
 begin
   envio := Now;
+  NumeroLote := StrToInt(FormatDateTime('yymmddhhmm', NOW));
   try
-      ACBrNFe1.CartaCorrecao.CCe.Evento.Clear;
-      ACBrNFe1.CartaCorrecao.CCe.idLote := 0;
-      with ACBrNFe1.CartaCorrecao.CCe.Evento.Add do
-      begin
-        InfEvento.chNFe     := cdsCCeCHAVE.AsString;
-        InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
-        InfEvento.CNPJ      := RemoveChar(Copy(cdsCCeCHAVE.AsString, 7, 14));
-        InfEvento.dhEvento  := envio;
-        InfEvento.tpEvento  := 110110;
-        InfEvento.nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
-        InfEvento.versaoEvento := '1.00';
-        InfEvento.detEvento.descEvento := 'Carta de Correção';
-        InfEvento.detEvento.xCorrecao := cdsCCeCORRECAO.AsString;
-        InfEvento.detEvento.xCondUso := '';
-      end;
-      ACBrNFe1.EnviarCartaCorrecao(0);
+      ACBrNFe1.EventoNFe.Evento.Clear;
+      //  ACBrNFe1.EnvEvento.EnvEventoNFe..idLote := StrToInt(NumeroLote) ;
+      with ACBrNFe1.EventoNFe.Evento.Add do
+       begin
+         InfEvento.chNFe     := cdsCCeCHAVE.AsString;
+         InfEvento.CNPJ      := RemoveChar(Copy(cdsCCeCHAVE.AsString, 7, 14));
+         InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
+         InfEvento.versaoEvento := '1.00';
+         InfEvento.dhEvento  := envio;
+         infEvento.tpEvento := teCCe;
+         InfEvento.nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
+         InfEvento.detEvento.xCorrecao := cdsCCeCORRECAO.AsString;
+         InfEvento.detEvento.descEvento := 'Carta de Correção';
+         InfEvento.detEvento.xCondUso := '';
+       end;
+      ACBrNFe1.EnviarEventoNFe(NumeroLote);
+
   finally
     protocolo := AcbrNFe1.WebServices.CartaCorrecao.CCeRetorno.retEvento.Items[0].RetInfEvento.nProt;
     TD.TransactionID := 1;
