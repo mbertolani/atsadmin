@@ -135,7 +135,6 @@ type
     Label23: TLabel;
     cbLocal: TJvComboBox;
     panRelatorio: TPanel;
-    RadioGroup1: TRadioGroup;
     JvProgressDialog1: TJvProgressDialog;
     SaveDialog1: TSaveDialog;
     Exportar1: TMenuItem;
@@ -213,6 +212,8 @@ type
     cds_procSUBGRUPO: TStringField;
     rgNCM: TCheckBox;
     cbTipo: TComboBox;
+    BitBtn10: TBitBtn;
+    BitBtn11: TBitBtn;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -252,7 +253,6 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
-    procedure RadioGroup1Click(Sender: TObject);
     procedure Exportar1Click(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure JvDBGrid1DblClick(Sender: TObject);
@@ -264,6 +264,8 @@ type
     procedure Importar1Click(Sender: TObject);
     procedure BitBtn9Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure BitBtn10Click(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
   private
     resultado: String;
     { Private declarations }
@@ -933,7 +935,10 @@ end;
 
 procedure TfProcura_produtos.SpeedButton1Click(Sender: TObject);
 begin
-  panRelatorio.Visible := True;
+  if (panRelatorio.Visible = True) then
+    panRelatorio.Visible := False
+  else
+    panRelatorio.Visible := True;
 end;
 
 procedure TfProcura_produtos.DBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -1601,27 +1606,6 @@ begin
   cbAplicacao.ItemHeight := -1;
 end;
 
-procedure TfProcura_produtos.RadioGroup1Click(Sender: TObject);
-begin
-  Case (RadioGroup1.ItemIndex) of
-    0 : begin
-      VCLReport_lista_produtos.FileName := str_relatorio + 'lista_produtos.rep';
-      VCLReport_lista_produtos.Title    := VCLReport_lista_produtos.FileName;
-      VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-      VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp + ' order by ' + cds_proc.IndexFieldNames;
-      VCLReport_lista_produtos.Execute;
-    end;
-    1 : begin
-      VCLReport_lista_produtos.FileName := str_relatorio + 'produto_estoque.rep';
-      VCLReport_lista_produtos.Title    := VCLReport_lista_produtos.FileName;
-      VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-      VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp + ' order by ' + cds_proc.IndexFieldNames;
-      VCLReport_lista_produtos.Execute;
-    end;
-  end;
-  panRelatorio.Visible := False;
-end;
-
 procedure TfProcura_produtos.Exportar1Click(Sender: TObject);
 begin
   if SaveDialog1.Execute then
@@ -1768,6 +1752,26 @@ end;
 procedure TfProcura_produtos.FormDestroy(Sender: TObject);
 begin
   fPesquisa.Free;
+end;
+
+procedure TfProcura_produtos.BitBtn10Click(Sender: TObject);
+begin
+  panRelatorio.Visible := False;
+  VCLReport_lista_produtos.FileName := str_relatorio + 'lista_produtos.rep';
+  VCLReport_lista_produtos.Title    := VCLReport_lista_produtos.FileName;
+  VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp + ' order by ' + cds_proc.IndexFieldNames;
+  VCLReport_lista_produtos.Execute;
+end;
+
+procedure TfProcura_produtos.BitBtn11Click(Sender: TObject);
+begin
+  panRelatorio.Visible := False;
+  VCLReport_lista_produtos.FileName := str_relatorio + 'produto_estoque.rep';
+  VCLReport_lista_produtos.Title    := VCLReport_lista_produtos.FileName;
+  VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp + ' order by ' + cds_proc.IndexFieldNames;
+  VCLReport_lista_produtos.Execute;
 end;
 
 end.
