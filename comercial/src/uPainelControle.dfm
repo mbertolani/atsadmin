@@ -147,7 +147,6 @@ object fPainelControle: TfPainelControle
       Width = 475
       Height = 256
       AllowPanning = pmNone
-      AllowZoom = False
       BackWall.Brush.Color = clWhite
       BackWall.Brush.Style = bsClear
       BackWall.Pen.Visible = False
@@ -381,6 +380,10 @@ object fPainelControle: TfPainelControle
       Caption = 'Atualizar Gr'#225'ficos'
       OnClick = AtualizarGrficos1Click
     end
+    object ImprimiresteGrfico1: TMenuItem
+      Caption = 'Imprimir este Gr'#225'fico'
+      OnClick = ImprimiresteGrfico1Click
+    end
   end
   object PopupMenu2: TPopupMenu
     Left = 554
@@ -396,6 +399,10 @@ object fPainelControle: TfPainelControle
     object MenuItem3: TMenuItem
       Caption = 'Atualizar Gr'#225'ficos'
       OnClick = AtualizarGrficos1Click
+    end
+    object ImprimiresteGrfico2: TMenuItem
+      Caption = 'Imprimir este Gr'#225'fico'
+      OnClick = ImprimiresteGrfico2Click
     end
   end
   object sdsVendaCliente: TSQLDataSet
@@ -469,6 +476,10 @@ object fPainelControle: TfPainelControle
     object MenuItem6: TMenuItem
       Caption = 'Atualizar Gr'#225'ficos'
       OnClick = AtualizarGrficos1Click
+    end
+    object ImprimiresteGrfico3: TMenuItem
+      Caption = 'Imprimir este Gr'#225'fico'
+      OnClick = ImprimiresteGrfico3Click
     end
   end
   object sdsVendaProduto: TSQLDataSet
@@ -545,6 +556,10 @@ object fPainelControle: TfPainelControle
     object MenuItem9: TMenuItem
       Caption = 'Atualizar Gr'#225'ficos'
       OnClick = AtualizarGrficos1Click
+    end
+    object ImprimiresteGrfico4: TMenuItem
+      Caption = 'Imprimir este Gr'#225'fico'
+      OnClick = ImprimiresteGrfico4Click
     end
   end
 end

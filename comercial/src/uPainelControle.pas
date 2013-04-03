@@ -61,6 +61,10 @@ type
     MenuItem9: TMenuItem;
     cdsVendaProdutoPRODUTO: TStringField;
     cdsVendaProdutoVENDA: TFloatField;
+    ImprimiresteGrfico1: TMenuItem;
+    ImprimiresteGrfico2: TMenuItem;
+    ImprimiresteGrfico3: TMenuItem;
+    ImprimiresteGrfico4: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure DBChart1DblClick(Sender: TObject);
     procedure AtualizarGrficos1Click(Sender: TObject);
@@ -69,6 +73,10 @@ type
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
+    procedure ImprimiresteGrfico1Click(Sender: TObject);
+    procedure ImprimiresteGrfico2Click(Sender: TObject);
+    procedure ImprimiresteGrfico3Click(Sender: TObject);
+    procedure ImprimiresteGrfico4Click(Sender: TObject);
   private
     dataInicio, dataFinal : TDateTime;
     procedure AbreGrafico1(DataIni: TDateTime; DataFim : TDateTime);
@@ -195,6 +203,26 @@ procedure TfPainelControle.MenuItem7Click(Sender: TObject);
 begin
   trocaPeriodo;
   AbreGrafico4(dataInicio, dataFinal);
+end;
+
+procedure TfPainelControle.ImprimiresteGrfico1Click(Sender: TObject);
+begin
+  DBChart1.print;
+end;
+
+procedure TfPainelControle.ImprimiresteGrfico2Click(Sender: TObject);
+begin
+  DBChart3.print;
+end;
+
+procedure TfPainelControle.ImprimiresteGrfico3Click(Sender: TObject);
+begin
+  DBChart2.print;
+end;
+
+procedure TfPainelControle.ImprimiresteGrfico4Click(Sender: TObject);
+begin
+  DBChart4.print;
 end;
 
 end.
