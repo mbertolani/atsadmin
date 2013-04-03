@@ -129,6 +129,9 @@ type
     scds_produto_procIMPRESSORA_2: TStringField;
     scds_produto_procIMPRESSORA_3: TStringField;
     scds_produto_procTAM_LOTE: TIntegerField;
+    Label10: TLabel;
+    cbRazao: TJvComboBox;
+    RadioGroup1: TRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -154,6 +157,7 @@ type
     procedure BitBtn11Click(Sender: TObject);
     procedure BitBtn12Click(Sender: TObject);
     procedure BitBtn13Click(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -174,7 +178,7 @@ procedure TfRelVenda.FormCreate(Sender: TObject);
 begin
   if (cds.Active) then
     cds.close;
-  cds.CommandText := 'SELECT DESCCATEGORIA, COD_CATEGORIA FROM CATEGORIAPRODUTO';
+  cds.CommandText := 'SELECT DESCCATEGORIA, COD_CATEGORIA FROM CATEGORIAPRODUTO ORDER BY DESCCATEGORIA';
   cds.Open;
   while not cds.Eof do
   begin
@@ -186,7 +190,7 @@ begin
   cds.Close;
   if (cds.Active) then
     cds.close;
-  cds.CommandText := 'SELECT DESCFAMILIA, COD_FAMILIA from FAMILIAPRODUTOS';
+  cds.CommandText := 'SELECT DESCFAMILIA, COD_FAMILIA from FAMILIAPRODUTOS ORDER BY DESCFAMILIA';
   cds.Open;
   while not cds.Eof do
   begin
@@ -195,7 +199,7 @@ begin
     cds.Next;
   end;
   cds.Close;
- 
+
 
   //Vejo quais são as contas de Receitas para listar no lookupcombobox.
   if dm.cds_parametro.Active then
@@ -231,7 +235,7 @@ begin
   end;
   if (cds.Active) then
     cds.close;
-  cds.CommandText := 'SELECT NOMECLIENTE FROM CLIENTES WHERE STATUS = 1';
+  cds.CommandText := 'SELECT NOMECLIENTE FROM CLIENTES WHERE STATUS = 1 ORDER BY NOMECLIENTE';
   cds.Open;
   while not cds.Eof do
   begin
@@ -240,6 +244,16 @@ begin
   end;
   cds.Close;
 
+  if (cds.Active) then
+    cds.close;
+  cds.CommandText := 'SELECT RAZAOSOCIAL FROM CLIENTES WHERE STATUS = 1 ORDER BY RAZAOSOCIAL';
+  cds.Open;
+  while not cds.Eof do
+  begin
+    cbRazao.Items.Add(cds.Fields[0].asString);
+    cds.Next;
+  end;
+  cds.Close;
 end;
 
 
@@ -382,12 +396,6 @@ begin
     end
     else
       Rep.Report.Params.ParamByName('PRODUTO').Value := 9999999;
-    {*** Produto **** }
-    {if (Edit3.Text <> '') then
-      Rep.Report.Params.ParamByName('PRODUTO').Value := Edit3.Text
-    else
-      Rep.Report.Params.ParamByName('PRODUTO').Value := 'TODOS PRODUTOS';
-     }
   except
     on EConvertError do
     begin
@@ -423,11 +431,11 @@ begin
     end
     else
       Rep.Report.Params.ParamByName('PRODUTO').Value := 9999999;
-    //PRODUTO
-    if (Edit3.Text <> '') then
-      Rep.Report.Params.ParamByName('PROD').Value := Edit3.Text
-    else
-      Rep.Report.Params.ParamByName('PROD').Value := 9999999;
+    //PRODUTO     ---  CARLOS ---- comentei nao tem este parametro neste relatorio
+    //if (Edit3.Text <> '') then
+    //  Rep.Report.Params.ParamByName('PROD').Value := Edit3.Text
+    //else
+    //  Rep.Report.Params.ParamByName('PROD').Value := 9999999;
 
   except
     on EConvertError do
@@ -442,6 +450,32 @@ end;
 procedure TfRelVenda.BitBtn5Click(Sender: TObject);
 begin
   try
+  if (RadioGroup1.ItemIndex = 1) then
+  begin
+    Rep.Filename := str_relatorio + 'vendasClienteRazao.rep';
+    Rep.Title := rep.Filename;
+    Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Data1.Text);
+    Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Data2.Text);
+    {*** ClienteO **** }
+    if (cbRazao.Text <> '') then
+    begin
+      if (cds.Active) then
+        cds.close;
+      cds.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE RAZAOSOCIAL = ' +
+      QuotedStr(cbRazao.Text);
+      cds.Open;
+      if (cds.IsEmpty) then
+      begin
+        ShowMessage ('Não existe este Cliente no Cadastro.');
+        exit;
+      end;
+      Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
+    end
+    else
+      Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
+  end
+  else begin
     Rep.Filename := str_relatorio + 'vendasCliente.rep';
     Rep.Title := rep.Filename;
     Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
@@ -464,6 +498,7 @@ begin
     end
     else
       Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
+  end;
   except
     on EConvertError do
     begin
@@ -863,6 +898,19 @@ begin
     end;
   end;
   Rep.Execute;
+end;
+
+procedure TfRelVenda.RadioGroup1Click(Sender: TObject);
+begin
+  if (RadioGroup1.ItemIndex = 0) then
+  begin
+    JvComboBox1.Enabled := True;
+    cbRazao.Enabled     := False;
+  end
+  else begin
+    JvComboBox1.Enabled := False;
+    cbRazao.Enabled     := True;
+  end;
 end;
 
 end.

@@ -790,33 +790,33 @@ object fRelVenda: TfRelVenda
       Left = 12
       Top = 228
       Width = 737
-      Height = 85
+      Height = 67
       Caption = 'Relat'#243'rio de Resultado por Produto'
       TabOrder = 3
       object Label8: TLabel
-        Left = 214
-        Top = 43
+        Left = 426
+        Top = 16
         Width = 51
         Height = 13
         Caption = 'Sub Grupo'
       end
       object Label9: TLabel
-        Left = 215
-        Top = 7
+        Left = 192
+        Top = 17
         Width = 29
         Height = 13
         Caption = 'Grupo'
       end
       object Label11: TLabel
-        Left = 424
-        Top = 8
+        Left = 191
+        Top = 43
         Width = 30
         Height = 13
         Caption = 'Marca'
       end
       object BitBtn2: TBitBtn
         Left = 663
-        Top = 21
+        Top = 8
         Width = 71
         Height = 55
         Caption = 'Imprimir'
@@ -925,17 +925,17 @@ object fRelVenda: TfRelVenda
         Margin = 0
       end
       object ComboBox2: TComboBox
-        Left = 213
-        Top = 56
-        Width = 198
+        Left = 479
+        Top = 13
+        Width = 180
         Height = 21
         ItemHeight = 13
         TabOrder = 1
         OnKeyPress = Data1KeyPress
       end
       object ComboBox3: TComboBox
-        Left = 213
-        Top = 20
+        Left = 224
+        Top = 15
         Width = 198
         Height = 21
         ItemHeight = 13
@@ -943,8 +943,8 @@ object fRelVenda: TfRelVenda
         OnKeyPress = Data1KeyPress
       end
       object ComboBox5: TComboBox
-        Left = 425
-        Top = 21
+        Left = 224
+        Top = 41
         Width = 198
         Height = 21
         ItemHeight = 13
@@ -956,37 +956,50 @@ object fRelVenda: TfRelVenda
         Top = 32
         Width = 164
         Height = 17
-        Caption = 'Somente Qutde Por Produto'
+        Caption = 'Somente Qtde Por Produto'
         TabOrder = 4
       end
     end
     object GroupBox4: TGroupBox
       Left = 12
-      Top = 314
+      Top = 296
       Width = 737
-      Height = 98
+      Height = 116
       Caption = 'Relat'#243'rio de Vendas'
       TabOrder = 4
       object Label4: TLabel
-        Left = 8
-        Top = 15
+        Left = 77
+        Top = 19
         Width = 32
         Height = 13
         Caption = 'Cliente'
       end
       object Label7: TLabel
         Left = 69
-        Top = 52
+        Top = 73
         Width = 37
         Height = 13
         Caption = 'Produto'
       end
       object Label2: TLabel
         Left = 7
-        Top = 53
+        Top = 74
         Width = 33
         Height = 13
         Caption = 'C'#243'digo'
+      end
+      object Label10: TLabel
+        Left = 77
+        Top = 51
+        Width = 31
+        Height = 13
+        Caption = 'Razao'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
       end
       object BitBtn3: TBitBtn
         Left = 514
@@ -1099,11 +1112,12 @@ object fRelVenda: TfRelVenda
         Margin = 0
       end
       object JvComboBox1: TJvComboBox
-        Left = 8
-        Top = 29
-        Width = 346
+        Left = 112
+        Top = 17
+        Width = 242
         Height = 21
         BevelKind = bkFlat
+        Enabled = False
         ItemHeight = 13
         TabOrder = 1
       end
@@ -1222,7 +1236,18 @@ object fRelVenda: TfRelVenda
         Top = 37
         Width = 71
         Height = 55
+        Hint = 
+          'Se selecionado Razao , o relat'#243'rio ser'#225' por razao social, sen'#227'o,' +
+          ' por Cliente'
         Caption = 'Resumido'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 3
         OnClick = BitBtn5Click
         Glyph.Data = {
@@ -1555,7 +1580,7 @@ object fRelVenda: TfRelVenda
       end
       object Edit4: TEdit
         Left = 67
-        Top = 67
+        Top = 88
         Width = 248
         Height = 24
         BevelKind = bkFlat
@@ -1572,7 +1597,7 @@ object fRelVenda: TfRelVenda
       end
       object BitBtn11: TBitBtn
         Left = 317
-        Top = 66
+        Top = 87
         Width = 38
         Height = 26
         Enabled = False
@@ -1646,7 +1671,7 @@ object fRelVenda: TfRelVenda
       end
       object Edit3: TEdit
         Left = 7
-        Top = 67
+        Top = 88
         Width = 59
         Height = 24
         BevelKind = bkFlat
@@ -1679,6 +1704,27 @@ object fRelVenda: TfRelVenda
         Height = 17
         Caption = 'Somente Qtde. Por Produto'
         TabOrder = 10
+      end
+      object cbRazao: TJvComboBox
+        Left = 112
+        Top = 47
+        Width = 242
+        Height = 21
+        BevelKind = bkFlat
+        Enabled = False
+        ItemHeight = 13
+        TabOrder = 11
+      end
+      object RadioGroup1: TRadioGroup
+        Left = 8
+        Top = 12
+        Width = 65
+        Height = 54
+        Items.Strings = (
+          'Cliente'
+          'Razao')
+        TabOrder = 12
+        OnClick = RadioGroup1Click
       end
     end
     object GroupBox5: TGroupBox
