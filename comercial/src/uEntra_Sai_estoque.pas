@@ -8,7 +8,7 @@ uses
   Buttons, ExtCtrls, MMJPanel, DB, DBClient, Provider, SqlExpr, DBXpress,
   JvDBDatePickerEdit, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, DBLocal,
-  DBLocalS;
+  DBLocalS, rpcompobase, rpvclreport;
 
 type
   TfEntra_Sai_estoque = class(TForm)
@@ -385,6 +385,9 @@ type
     scds_serie_procSERIE: TStringField;
     scds_serie_procULTIMO_NUMERO: TIntegerField;
     scds_serie_procNOTAFISCAL: TSmallintField;
+    BitBtn2: TBitBtn;
+    RadioButton1: TRadioButton;
+    VCLReport1: TVCLReport;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -427,6 +430,7 @@ type
     procedure DBEdit10Exit(Sender: TObject);
     procedure DBEdit12Exit(Sender: TObject);
     procedure DBEdit4Exit(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private declarations }
     procedure busca_produto;
@@ -1972,6 +1976,22 @@ begin
     cds_Mov_detDTAVCTO.AsDateTime := cds_Mov_detDTAFAB.AsDateTime +
       sqlProd.fieldByName('TAM_LOTE').asInteger;
   end;
+end;
+
+procedure TfEntra_Sai_estoque.BitBtn2Click(Sender: TObject);
+begin
+  if (DtSrc.State in [dsInsert, dsEdit]) then
+  begin
+    MessageDlg('Grave as alterações antes de imprimir.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  if (RadioButton1.Checked = True) then
+    VCLReport1.FileName := str_relatorio + 'produto_etiquetaCompra1.rep'
+  else
+    VCLReport1.FileName := str_relatorio + 'produto_etiquetaCompra.rep';
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('CODMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
+  VCLReport1.Execute;
 end;
 
 end.
