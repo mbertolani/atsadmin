@@ -1,6 +1,6 @@
 object fEntra_Sai_estoque: TfEntra_Sai_estoque
-  Left = 215
-  Top = 106
+  Left = 261
+  Top = 159
   Width = 706
   Height = 574
   BorderIcons = [biSystemMenu]
@@ -233,9 +233,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
     object btnGravar: TBitBtn
-      Left = 160
+      Left = 156
       Top = 2
-      Width = 77
+      Width = 75
       Height = 55
       Caption = 'F4-Gravar'
       Enabled = False
@@ -344,9 +344,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Layout = blGlyphTop
     end
     object btnIncluir: TBitBtn
-      Left = 4
+      Left = 2
       Top = 2
-      Width = 77
+      Width = 75
       Height = 55
       Caption = 'F2-Incluir'
       PopupMenu = PopupMenu1
@@ -422,9 +422,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Layout = blGlyphTop
     end
     object btnCancelar: TBitBtn
-      Left = 82
+      Left = 79
       Top = 2
-      Width = 77
+      Width = 75
       Height = 55
       Caption = 'F3-Cancelar'
       Enabled = False
@@ -533,9 +533,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Layout = blGlyphTop
     end
     object btnExcluir: TBitBtn
-      Left = 238
+      Left = 233
       Top = 2
-      Width = 77
+      Width = 75
       Height = 55
       Caption = 'F7-Excluir'
       PopupMenu = PopupMenu1
@@ -603,9 +603,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Layout = blGlyphTop
     end
     object btnProcurar: TBitBtn
-      Left = 323
+      Left = 314
       Top = 2
-      Width = 77
+      Width = 75
       Height = 55
       Caption = 'F8-Procurar'
       PopupMenu = PopupMenu1
@@ -713,9 +713,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Layout = blGlyphTop
     end
     object btnSair: TBitBtn
-      Left = 577
+      Left = 621
       Top = 2
-      Width = 77
+      Width = 75
       Height = 55
       Caption = 'F9-Sair'
       PopupMenu = PopupMenu1
@@ -823,7 +823,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Layout = blGlyphTop
     end
     object Panel1: TPanel
-      Left = 317
+      Left = 310
       Top = 2
       Width = 4
       Height = 56
@@ -833,9 +833,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       TabOrder = 6
     end
     object BitBtn3: TBitBtn
-      Left = 407
+      Left = 391
       Top = 2
-      Width = 77
+      Width = 75
       Height = 55
       Caption = 'Mat. Prima'
       Enabled = False
@@ -944,9 +944,9 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       Layout = blGlyphTop
     end
     object btnEntrada: TBitBtn
-      Left = 487
+      Left = 544
       Top = 2
-      Width = 77
+      Width = 75
       Height = 55
       Hint = 'Faz a Entrada de Itens que foram informados apenas a sa'#237'da.'
       Caption = 'Entrada'
@@ -1022,6 +1022,45 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
         0707070707070707070700020202020202020202020202020200070707070707
         0707070707070707070700000000000000000000000000000000}
       Layout = blGlyphTop
+    end
+    object BitBtn2: TBitBtn
+      Left = 468
+      Top = 2
+      Width = 75
+      Height = 55
+      Caption = 'Imp. Etiqueta'
+      PopupMenu = PopupMenu1
+      TabOrder = 9
+      OnClick = BitBtn2Click
+      Glyph.Data = {
+        76020000424D7602000000000000760000002800000020000000200000000100
+        0400000000000002000000000000000000001000000000000000000000000000
+        8000008000000080800080000000800080008080000080808000C0C0C0000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+        8888888888888888888888888888888888888888888888888888800000000000
+        0000000000000000008880777777777777777777777777777088070000000000
+        000000000000000000080F7777777777777777777777777777080F7777777777
+        777777777777777777080F77F7F7F7F7F7F7F7F7F7F7F77777080F77FFFFFFFF
+        FFFFFFFFFFFFF77777080F7777777777777777777777F77777080F7700000000
+        000000000000F72277080F777777777777777777777777AA77080F7777777777
+        777777777777777777080F7F7F7F7F7F7F7F7F7F7F7F7F7F7F080FFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFF080F77777777777777777777777777770880F700000000
+        0000000000000777708880F87088888888888888880077777088880F808F8F8F
+        8F8F8F8F8F0777770888880880FFFFFFFFFFFFFFFF0777770888888000FFFFFF
+        FFFFFFFFFF0000008888888880FFFFFFFFFFFFFFFF0888888888888880FFFFFF
+        FFFFFFFFFF0888888888888880FFFFFFFFFFFF88880888888888888880FFFFFF
+        FFFFF700070888888888888880FFFFFFFFFFF7FFF08888888888888880FFFFFF
+        FFFFF7FF088888888888888880FFFFFFFFFFF7F0888888888888888880FFFFFF
+        FFFFF70888888888888888888000000000000088888888888888888888888888
+        8888888888888888888888888888888888888888888888888888}
+      Layout = blGlyphTop
+    end
+    object RadioButton1: TRadioButton
+      Left = 470
+      Top = 9
+      Width = 15
+      Height = 17
+      TabOrder = 10
     end
   end
   object ComboBox1: TComboBox
@@ -3189,5 +3228,11 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     object scds_serie_procNOTAFISCAL: TSmallintField
       FieldName = 'NOTAFISCAL'
     end
+  end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 640
+    Top = 368
   end
 end
