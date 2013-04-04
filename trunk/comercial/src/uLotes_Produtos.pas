@@ -130,13 +130,15 @@ begin
       close;
     end;
   end;
+  fCompra.cds_Mov_detDTAFAB.AsDateTime := Now;
+  fCompra.cds_Mov_detDTAVCTO.AsDateTime := Now;
 end;
 
 procedure TfLotes_Produtos.DBEdit1KeyPress(Sender: TObject; var Key: Char);
 begin
   if (key = #13) then
     if(DBEdit1.Text <> '') then
-      BitBtn1.Click;
+      btnSair.Click;
 end;
 
 procedure TfLotes_Produtos.FormShow(Sender: TObject);

@@ -1,6 +1,6 @@
 object fLotes_Produtos: TfLotes_Produtos
-  Left = 400
-  Top = 253
+  Left = 839
+  Top = 328
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
   BorderIcons = [biSystemMenu]
