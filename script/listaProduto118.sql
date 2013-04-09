@@ -126,7 +126,7 @@ begin
       if (CCustoV = 0) then 
       begin 
         select ev.PRECOCUSTO, ev.SALDOFIMACUM, ev.PRECOCOMPRA
-         from ESTOQUE_VIEW(
+         from ESTOQUE_VIEW_CUSTO(
              current_date,
              :CodProduto,    
              :cCusto,
@@ -136,7 +136,7 @@ begin
       end 
       else begin 
          select ev.PRECOCUSTO, ev.SALDOFIMACUM, ev.PRECOCOMPRA
-         from ESTOQUE_VIEW(
+         from ESTOQUE_VIEW_CUSTO(
              current_date,
              :CodProduto,    
              :cCustoV,
