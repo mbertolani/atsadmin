@@ -1040,7 +1040,7 @@ begin
          testacaixaaberto;
          if DM.resultadoOperacao = 'FALSE' then
          begin
-            ShowMessage('Caixa não está aberto');
+            ShowMessage('Caixa nao esta aberto');
             Exit;
          end;
       end;
@@ -1072,7 +1072,7 @@ begin
       b_cliente.Open;
       if (b_cliente.IsEmpty) then
       begin
-          ShowMessage('Cliente configurado nos parametros não consta no cadastro de clientes.');
+          ShowMessage('Cliente configurado nos parametros nao consta no cadastro de clientes.');
           exit;
       end
       else
@@ -1131,7 +1131,8 @@ begin
              DM_MOV.c_movimento.Edit;
           IncluiItemPedido;   // Tabela MovimentoDetalhe
           edtQtde.Value := 1;
-          edtQtde.SetFocus;
+          if (tipo_busca <> 'CODBARRA') then
+            edtQtde.SetFocus;
         end;
       end
       else
