@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, StdCtrls, DB, Provider, DBClient, SqlExpr, Buttons,
-  Grids, DBGrids,comobj, EDBFind ,DBXpress;
+  Grids, DBGrids,comobj, EDBFind ,DBXpress, rpcompobase, rpvclreport;
 
 type
   TfGeraEtiquetas = class(TForm)
@@ -214,6 +214,10 @@ type
     CDS1LOCALIZACAO: TStringField;
     edt1: TEdit;
     lbl3: TLabel;
+    btn1Coluna: TBitBtn;
+    VCLReport1: TVCLReport;
+    btnSair: TBitBtn;
+    btnExcluir: TBitBtn;
     procedure BitBtn2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cbMarcaChange(Sender: TObject);
@@ -223,8 +227,10 @@ type
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure SpeedButton2Click(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn3Click(Sender: TObject);
+    procedure btn1ColunaClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -247,8 +253,8 @@ begin
   TD.IsolationLevel := xilREADCOMMITTED;
     try
       dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect('Update PRODUTOS set ORIGEM = NULL '+
-      'where ORIGEM <> 0 ');
+      //dm.sqlsisAdimin.ExecuteDirect('Update PRODUTOS set ORIGEM = NULL '+
+      //'where ORIGEM <> 0 ');   // ORIGEM é usado para Tributacao
       dm.sqlsisAdimin.Commit(TD);
     except
       dm.sqlsisAdimin.Rollback(TD);
@@ -508,24 +514,6 @@ begin
 
 end;
 
-procedure TfGeraEtiquetas.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-    try
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect('Update PRODUTOS set QTD = NULL '+
-      'where QTD <> 0 ');
-      dm.sqlsisAdimin.Commit(TD);
-    except
-      dm.sqlsisAdimin.Rollback(TD);
-    end;
-    cds_proc.Close ;
-    cds_proc.Open;
-end;
-
-
 procedure TfGeraEtiquetas.BitBtn3Click(Sender: TObject);
 begin
 {MSWord:= CreateOleObject ('Word.Basic');
@@ -550,6 +538,41 @@ MSWord.LineUp(2, 1); //seleciona uma parte do texto
 MSWord.TextToTable(ConvertFrom := 2, NumColumns := 1);// monta uma tabela com o texto selecionado 
 Word.FileSaveAs('c:\temp\test.txt', 3); //Salva o arquivo 
 }
+end;
+
+procedure TfGeraEtiquetas.btn1ColunaClick(Sender: TObject);
+begin
+  if (DtSrc.State in [dsInsert, dsEdit]) then
+  begin
+    MessageDlg('Grave as alterações antes de imprimir.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  VCLReport1.FileName := str_relatorio + 'etiqueta_gondola.rep';
+  VCLReport1.Title := VCLReport1.FileName;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  //VCLReport1.Report.Params.ParamByName('CODMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
+  VCLReport1.Execute;
+end;
+
+procedure TfGeraEtiquetas.btnSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfGeraEtiquetas.btnExcluirClick(Sender: TObject);
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect('Update PRODUTOS set QTD = NULL '+
+    'where QTD <> 0 ');
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+  end;
+  cds_proc.Close;
+  cds_proc.Open;
 end;
 
 end.
