@@ -2723,7 +2723,7 @@ begin
 end;
 
 procedure TfNFeletronica.BtnCCeClick(Sender: TObject);
-var protocolo, str :string;
+var protocolo, str, xCond :string;
     envio :TDateTime;
     NumeroLote : Integer;
     TD: TTransactionDesc;
@@ -2731,36 +2731,58 @@ begin
   envio := Now;
   NumeroLote := StrToInt(FormatDateTime('yymmddhhmm', NOW));
   try
-      ACBrNFe1.EventoNFe.Evento.Clear;
-      //  ACBrNFe1.EnvEvento.EnvEventoNFe..idLote := StrToInt(NumeroLote) ;
-      with ACBrNFe1.EventoNFe.Evento.Add do
-       begin
-         InfEvento.chNFe     := cdsCCeCHAVE.AsString;
-         InfEvento.CNPJ      := RemoveChar(Copy(cdsCCeCHAVE.AsString, 7, 14));
-         InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
-         InfEvento.versaoEvento := '1.00';
-         InfEvento.dhEvento  := envio;
-         infEvento.tpEvento := teCCe;
-         InfEvento.nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
-         InfEvento.detEvento.xCorrecao := cdsCCeCORRECAO.AsString;
-         InfEvento.detEvento.descEvento := 'Carta de Correção';
-         InfEvento.detEvento.xCondUso := '';
-       end;
-      ACBrNFe1.EnviarEventoNFe(NumeroLote);
-
-  finally
-    protocolo := AcbrNFe1.WebServices.CartaCorrecao.CCeRetorno.retEvento.Items[0].RetInfEvento.nProt;
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    DecimalSeparator := '.';
-
-    //SALVA OS PROTOCOLOS
-    if(protocolo = '') then
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    //  ACBrNFe1.EnvEvento.EnvEventoNFe..idLote := StrToInt(NumeroLote) ;
+    with ACBrNFe1.EventoNFe.Evento.Add do
     begin
-      MessageDlg('Carta de Correção não enviada... ' + ACBrNFe1.WebServices.CartaCorrecao.CCeRetorno.retEvento.Items[0].RetInfEvento.xMotivo, mtWarning, [mbOK], 0);
+      InfEvento.chNFe     := cdsCCeCHAVE.AsString;
+      InfEvento.CNPJ      := RemoveChar(Copy(cdsCCeCHAVE.AsString, 7, 14));
+      InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
+      InfEvento.versaoEvento := '1.0.00';
+      InfEvento.dhEvento  := envio;
+      infEvento.tpEvento := teCCe;
+      InfEvento.nSeqEvento := cdsCCeSEQUENCIA.AsInteger;
+      InfEvento.detEvento.xCorrecao := cdsCCeCORRECAO.AsString;
+    end;
+    if ACBrNFe1.EnviarEventoNFe(NumeroLote) then
+    begin
+      with ACBrNFe1.WebServices.EnvEvento do
+      begin
+        if not(EventoRetorno.retEvento.Items[0].RetInfEvento.cStat in [135, 136]) then
+        begin
+          MessageDlg('Ocorreu o seguinte erro ao enviar a carta de correção:'  +
+            #13+ 'Código: ' + IntToStr(EventoRetorno.retEvento.Items[0].RetInfEvento.cStat) + #13+
+            'Motivo: ' + EventoRetorno.retEvento.Items[0].RetInfEvento.xMotivo
+          , mtError, [mbOK], 0);
+        end
+        else
+          MessageDlg('Evento de Carta de Correção Enviado com Sucesso!',mtInformation,[mbOk],0);
+      end;
     end
     else
     begin
+      with ACBrNFe1.WebServices.EnvEvento do
+      begin
+        MessageDlg('Ocorreram erros ao enviar a Carta de Correção:' + #13 +
+          'Lote: '     + IntToStr(EventoRetorno.idLote) + #13 +
+          'Ambiente: ' + TpAmbToStr(EventoRetorno.tpAmb) + #13 +
+          'Orgao: '    + IntToStr(EventoRetorno.cOrgao) + #13 +
+          'Status: '   + IntToStr(EventoRetorno.cStat) + #13 +
+          'Motivo: '   + EventoRetorno.xMotivo, mtError, [mbOK], 0);
+      end;
+    end;
+
+  finally
+    protocolo := AcbrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
+    if (StrLen(PAnsiChar(protocolo)) > 1) then
+    begin
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      DecimalSeparator := '.';
+      xCond := 'A Carta de Correcao e disciplinada pelo paragrafo 1o-A do art. 7o do Convenio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularizacao de erro ocorrido na emissao ';
+      xCond := xCond + 'de documento fiscal, desde que o erro nao esteja relacionado com: I - as variaveis que determinam o valor do imposto tais como: base de calculo, aliquota, diferenca de preco, quantidade, valor da operacao ou da prestacao; II - a correcao de ';
+      xCond := xCond + 'dados cadastrais que implique mudanca do remetente ou do destinatario; III - a data de emissao ou de saida';
+      //SALVA OS PROTOCOLOS
       try
         TD.TransactionID := 1;
         TD.IsolationLevel := xilREADCOMMITTED;
@@ -2769,7 +2791,7 @@ begin
         try
           str := 'UPDATE CCE SET PROTOCOLO = ' + quotedStr(protocolo)
           + ', DHENVIO = ' + QuotedStr(FormatDateTime('dd.mm.yyyy hh:mm:ss', envio))
-          + ', CONDICAO = ' + QuotedStr(ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso)
+          + ', CONDICAO = ' + QuotedStr(xCond)
           + ' WHERE CHAVE = ' + quotedStr(cdsCCECHAVE.AsString)
           + ' AND SEQUENCIA = ' + IntToStr(cdsCCESEQUENCIA.AsInteger);
           dm.sqlsisAdimin.ExecuteDirect(str);
@@ -2783,7 +2805,7 @@ begin
         end;
 
       finally
-        imprimiCCe(protocolo, envio, ACBrNFe1.CartaCorrecao.CCe.Evento.Items[0].InfEvento.detEvento.xCondUso );
+        imprimiCCe(protocolo, envio, xCond );
       end;
     end;
   end;
