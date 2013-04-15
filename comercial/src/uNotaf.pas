@@ -697,7 +697,8 @@ end;
 procedure TfNotaf.FormShow(Sender: TObject);
 begin
   DecimalSeparator := ',';
-  sCtrlResize.CtrlResize(TForm(fNotaf));
+//  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fNotaf));
   JvPageControl1.ActivePage := TabNF;
   TabSheet1.TabVisible := False;
 
@@ -1362,6 +1363,7 @@ end;
 
 procedure TfNotaf.btnGravarClick(Sender: TObject);
 var nfe : string;
+    TD: TTransactionDesc; 
 begin
   if (sqlValida.Active) then
     sqlValida.Close;
@@ -1379,28 +1381,43 @@ begin
   if (calcman.Checked = True) then
     inativaCalc;
 
-  if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
-  if (dmnf.cds_Mov_det.State in [dsInsert]) then
-     dmnf.cds_Mov_det.Post;
- // Grava o Movimento
- if (DMNF.DtSrc.State in [dsInsert, dsEdit]) then
-   gravamovimento;
- // Grava o Movimento Detalhe
- if (DMNF.DtSrc1.State in [dsInsert, dsEdit, dsBrowse]) then
-   gravamov_detalhe;
- // Salvar Venda
- //if (cbFinanceiro.Checked) then  -- Neste caso usa a tabela venda ,
- //  -- pois, a natureza q está nota é gravado não gera financeiro
- if (DMNF.DtSrcVenda.State in [dsInsert, dsEdit]) then
-   gravavenda;
- //Salvo Nota Fiscal
- if (DMNF.DtSrc_NF.State in [dsInsert, dsEdit]) then
-   gravanotafiscal;
- if (dmnf.cds_MovimentoCONTROLE.AsString <> '') then
- begin
-   nfe := 'update movimento set nfe = ' + QuotedStr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_nfSERIE.AsString) + ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString;
-   dm.sqlsisAdimin.ExecuteDirect(nfe);
- end;
+  //GRAVAR COM TRANSAÇÃO
+  try
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+
+    if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
+      if (dmnf.cds_Mov_det.State in [dsInsert]) then
+         dmnf.cds_Mov_det.Post;
+    // Grava o Movimento
+    if (DMNF.DtSrc.State in [dsInsert, dsEdit]) then
+     gravamovimento;
+    // Grava o Movimento Detalhe
+    if (DMNF.DtSrc1.State in [dsInsert, dsEdit, dsBrowse]) then
+     gravamov_detalhe;
+    // Salvar Venda
+    //if (cbFinanceiro.Checked) then  -- Neste caso usa a tabela venda ,
+    //  -- pois, a natureza q está nota é gravado não gera financeiro
+    if (DMNF.DtSrcVenda.State in [dsInsert, dsEdit]) then
+     gravavenda;
+    //Salvo Nota Fiscal
+    if (DMNF.DtSrc_NF.State in [dsInsert, dsEdit]) then
+     gravanotafiscal;
+    if (dmnf.cds_MovimentoCONTROLE.AsString <> '') then
+    begin
+     nfe := 'update movimento set nfe = ' + QuotedStr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_nfSERIE.AsString) + ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString;
+     dm.sqlsisAdimin.ExecuteDirect(nfe);
+    end;
+
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 
  if (calcman.Checked = True) then
   ativaCalc;
@@ -1698,7 +1715,6 @@ end;
 procedure TfNotaf.gravanotafiscal;
 var nfnum :Integer;
     pesoremessa, entrega: Double;
-    TD: TTransactionDesc;    
 begin
  nfnum := 0;
  // Gravo a NF
@@ -1784,15 +1800,8 @@ begin
       DMNF.cds_nfCODTRANSP.AsInteger  := dmnf.listaTranspCODTRANSP.AsInteger;
     end;
   end;
+  dmnf.cds_nf.ApplyUpdates(0);
 
-  try
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    dmnf.cds_nf.ApplyUpdates(0);
-    dm.sqlsisAdimin.Commit(TD);
-  except
-    dm.sqlsisAdimin.Rollback(TD);
-  end;
   // Calcula ICMS - IPI
   //if (codVendaFin = 0) then
   if (not calcman.Checked) then
