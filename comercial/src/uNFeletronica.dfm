@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
-  Left = 261
-  Top = 30
+  Left = 263
+  Top = 33
   Width = 875
-  Height = 580
+  Height = 587
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -1243,7 +1243,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
