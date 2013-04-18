@@ -31,21 +31,21 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Descri'#231#227'o do Produto'
   end
   object Label6: TLabel [3]
-    Left = 517
+    Left = 501
     Top = 84
     Width = 52
     Height = 16
     Caption = 'Unidade'
   end
   object Label7: TLabel [4]
-    Left = 694
+    Left = 646
     Top = 84
     Width = 34
     Height = 16
     Caption = '(Kg,L)'
   end
   object Label8: TLabel [5]
-    Left = 605
+    Left = 566
     Top = 84
     Width = 70
     Height = 16
@@ -86,8 +86,15 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Height = 16
     Caption = 'Descri'#231#227'o Adicional'
   end
+  object Label33: TLabel [11]
+    Left = 718
+    Top = 84
+    Width = 56
+    Height = 16
+    Caption = 'Peso Liq.'
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 528
+    Top = 521
     Width = 796
     TabOrder = 13
     inherited btnGravar: TBitBtn
@@ -179,7 +186,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       OnClick = rgEmUsoClick
     end
   end
-  object DBEdit1: TDBEdit [13]
+  object DBEdit1: TDBEdit [14]
     Left = 303
     Top = 60
     Width = 211
@@ -198,7 +205,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [14]
+  object DBEdit2: TDBEdit [15]
     Left = 622
     Top = 60
     Width = 158
@@ -217,10 +224,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [15]
+  object DBEdit3: TDBEdit [16]
     Left = 5
     Top = 101
-    Width = 509
+    Width = 483
     Height = 24
     DataField = 'PRODUTO'
     DataSource = DtSrc
@@ -234,10 +241,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [16]
-    Left = 517
+  object DBEdit4: TDBEdit [17]
+    Left = 501
     Top = 101
-    Width = 86
+    Width = 58
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -253,10 +260,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [17]
-    Left = 605
+  object DBEdit5: TDBEdit [18]
+    Left = 566
     Top = 101
-    Width = 86
+    Width = 71
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -272,10 +279,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [18]
-    Left = 692
+  object DBEdit6: TDBEdit [19]
+    Left = 644
     Top = 101
-    Width = 88
+    Width = 65
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -291,7 +298,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object GroupBox1: TGroupBox [19]
+  object GroupBox1: TGroupBox [20]
     Left = 411
     Top = 211
     Width = 371
@@ -520,7 +527,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
   end
-  object GroupBox2: TGroupBox [20]
+  object GroupBox2: TGroupBox [21]
     Left = 5
     Top = 211
     Width = 405
@@ -718,7 +725,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       OnChange = DBRadioGroup2Change
     end
   end
-  object dxButton1: TdxButton [21]
+  object dxButton1: TdxButton [22]
     Left = 10
     Top = 486
     Width = 180
@@ -730,7 +737,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Cad. &Codigos de Terceiros'
     TabOrder = 15
   end
-  object dxButton2: TdxButton [22]
+  object dxButton2: TdxButton [23]
     Left = 198
     Top = 486
     Width = 180
@@ -742,7 +749,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Cad. &Uso para os Produtos'
     TabOrder = 16
   end
-  object dxButton3: TdxButton [23]
+  object dxButton3: TdxButton [24]
     Left = 388
     Top = 486
     Width = 148
@@ -754,7 +761,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Similares'
     TabOrder = 17
   end
-  object Button1: TButton [24]
+  object Button1: TButton [25]
     Left = 544
     Top = -60
     Width = 75
@@ -762,7 +769,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Button1'
     TabOrder = 18
   end
-  object dxButton4: TdxButton [25]
+  object dxButton4: TdxButton [26]
     Left = 543
     Top = 486
     Width = 148
@@ -774,7 +781,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Materia Prima'
     TabOrder = 19
   end
-  object SpeedButton1: TBitBtn [26]
+  object SpeedButton1: TBitBtn [27]
     Left = 194
     Top = 182
     Width = 34
@@ -846,7 +853,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       BFBFBFBF0000}
   end
-  object SpeedButton2: TBitBtn [27]
+  object SpeedButton2: TBitBtn [28]
     Left = 480
     Top = 182
     Width = 34
@@ -918,7 +925,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       BFBFBFBF0000}
   end
-  object SpeedButton3: TBitBtn [28]
+  object SpeedButton3: TBitBtn [29]
     Left = 747
     Top = 180
     Width = 34
@@ -990,7 +997,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
       BFBFBFBF0000}
   end
-  object cbTipo: TComboBox [29]
+  object cbTipo: TComboBox [30]
     Left = 55
     Top = 60
     Width = 130
@@ -1013,7 +1020,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'Servi'#231'o'
       'Loca'#231#227'o')
   end
-  object BitBtn1: TBitBtn [30]
+  object BitBtn1: TBitBtn [31]
     Left = 695
     Top = 488
     Width = 41
@@ -1036,7 +1043,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       3333333333333333333333333333333333333333333333333333}
     NumGlyphs = 2
   end
-  object BitBtn2: TBitBtn [31]
+  object BitBtn2: TBitBtn [32]
     Left = 741
     Top = 488
     Width = 41
@@ -1059,7 +1066,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       3333333333333333333333333333333333333333333333333333}
     NumGlyphs = 2
   end
-  object DBEdit14: TDBEdit [32]
+  object DBEdit14: TDBEdit [33]
     Left = 235
     Top = 182
     Width = 244
@@ -1078,7 +1085,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object dbMarca: TDBEdit [33]
+  object dbMarca: TDBEdit [34]
     Left = 5
     Top = 182
     Width = 189
@@ -1097,7 +1104,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [34]
+  object DBEdit16: TDBEdit [35]
     Left = 518
     Top = 182
     Width = 227
@@ -1116,7 +1123,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 9
     OnKeyPress = FormKeyPress
   end
-  object JvPageControl1: TJvPageControl [35]
+  object JvPageControl1: TJvPageControl [36]
     Left = 3
     Top = 373
     Width = 780
@@ -1628,7 +1635,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       end
     end
   end
-  object DBEdit25: TDBEdit [36]
+  object DBEdit25: TDBEdit [37]
     Left = 5
     Top = 143
     Width = 772
@@ -1645,7 +1652,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object Memo1: TMemo [37]
+  object Memo1: TMemo [38]
     Left = 192
     Top = 133
     Width = 417
@@ -1679,6 +1686,25 @@ inherited fProdutoCadastro: TfProdutoCadastro
       'constante em lista da CAMEX.')
     TabOrder = 26
     Visible = False
+  end
+  object DBEdit28: TDBEdit [39]
+    Left = 716
+    Top = 101
+    Width = 65
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'PESO_LIQ'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    TabOrder = 27
+    OnKeyPress = FormKeyPress
   end
   inherited XPMenu1: TXPMenu
     Left = 608
