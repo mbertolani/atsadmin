@@ -1801,7 +1801,6 @@ begin
         + QuotedStr('E') + ' WHERE (STATUS IS NULL) AND (PROTOCOLOENV IS NOT NULL)');
 
       executaScript('trg_calcula_icms_st_116.sql');
-      executaScript('rel_vendaCompra116.sql');
       executaScript('listaSpEstoqueFiltro116.sql');
       executaScript('spEstoqueFiltro116.sql');
 
@@ -1812,14 +1811,34 @@ begin
 
     if (versaoSistema = '1.0.0.117') then
     begin
-      executaScript('spEstoqueFiltro118.sql');
-      executaScript('estoque_view118.sql');
       executaScript('listaSpEstoqueFiltro118.sql');
+      executaScript('spEstoqueFiltro118.sql');      
+      executaScript('estoque_view118.sql');
       executaScript('listaProduto118.sql');
       executaScript('listaProdutocli118.sql');
 
       mudaVersao('1.0.0.118');
     end;// Fim Atualizacao Versao 1.0.0.118
+
+    if (versaoSistema = '1.0.0.118') then
+    begin
+      EXECUTADDL('COMPRA', 'MODELO', 'VARCHAR(2)');
+      EXECUTADDL('SERIES', 'MODELO', 'VARCHAR(2)');
+      EXECUTADDL('EMPRESA', 'MODELOCUPOM', 'VARCHAR(2)');
+      EXECUTADDL('EMPRESA', 'ECFMOD', 'VARCHAR(20)');
+      EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
+      EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
+      EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');
+      executaScript('estoque_view_custo119.sql');
+      executaScript('rel_vendaCompra119.sql');
+      executaScript('rel_vendaCompra119.sql');
+      executaScript('spestoque119.sql');
+      ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
+      ExecutaSql('ALTER TRIGGER INSERE_ESTOQUE ACTIVE');
+      ExecutaSql('ALTER TRIGGER BAIXA_ESTOQUE ACTIVE');
+
+      mudaVersao('1.0.0.119');
+    end;// Fim Atualizacao Versao 1.0.0.119
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
