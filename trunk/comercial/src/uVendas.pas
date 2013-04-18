@@ -718,7 +718,8 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
 procedure TfVendas.FormCreate(Sender: TObject);
 begin
   //inherited;
-  sCtrlResize.CtrlResize(TForm(fVendas));
+  //if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fVendas));
 
   MMJPanel1.Background.EndColor   := dm.corStart;
   MMJPanel1.Background.StartColor := dm.corEnd;
@@ -1985,7 +1986,8 @@ begin
 end;
 
 procedure TfVendas.btnClienteProcuraClick(Sender: TObject);
-
+var usu_n, usu_s : string;
+  utilcrtitulo : Tutils;
 begin
   if (dtsrc.State in [dsBrowse]) then
   begin
@@ -2017,10 +2019,31 @@ begin
       end;
       if dmnf.scds_cli_procBLOQUEIO.AsString = 'S' then
       begin
-        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
-        cds_Movimento.Cancel;
-        exit;
-        //dbeCliente.SetFocus;
+        //if(DM.scds_cliente_procOBS.AsString) then
+        if Dm.cds_parametro.Active then
+          dm.cds_parametro.Close;
+        dm.cds_parametro.Params[0].AsString := 'BLOQUEIOPERSONALIZADO';
+        dm.cds_parametro.Open;
+        if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+        begin
+          MessageDlg(dmnf.scds_cli_procOBS.AsString , mtError, [mbOK], 0);
+          usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+          usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+          utilcrtitulo := Tutils.Create;
+          if (utilcrtitulo.verificapermissao = False) then
+          begin
+            MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
+            cds_Movimento.Cancel;
+            Exit;
+          end;
+        end
+        else
+        begin
+          MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
+          cds_Movimento.Cancel;
+          exit;
+        end;
+      //dbeCliente.SetFocus;
       end;
     prazoCliente := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     //imex  := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
