@@ -1,8 +1,9 @@
 object fSincronizar: TfSincronizar
-  Left = 451
-  Top = 196
-  Width = 387
-  Height = 326
+  Left = 429
+  Top = 174
+  Width = 386
+  Height = 322
+  Caption = 'Sincronizar Cupom'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -39,209 +40,209 @@ object fSincronizar: TfSincronizar
     TabOrder = 1
     OnClick = BitBtn2Click
   end
-  object sProdudo: TSQLDataSet
+  object sProdutos: TSQLDataSet
     CommandText = 'select * from PRODUTOS'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 7
     Top = 6
-    object sProdudoCODPRODUTO: TIntegerField
+    object sProdutosCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
     end
-    object sProdudoFAMILIA: TStringField
+    object sProdutosFAMILIA: TStringField
       FieldName = 'FAMILIA'
       Size = 30
     end
-    object sProdudoCATEGORIA: TStringField
+    object sProdutosCATEGORIA: TStringField
       FieldName = 'CATEGORIA'
       Size = 30
     end
-    object sProdudoMARCA: TStringField
+    object sProdutosMARCA: TStringField
       FieldName = 'MARCA'
       Size = 30
     end
-    object sProdudoUNIDADEMEDIDA: TStringField
+    object sProdutosUNIDADEMEDIDA: TStringField
       FieldName = 'UNIDADEMEDIDA'
       FixedChar = True
       Size = 2
     end
-    object sProdudoDATAULTIMACOMPRA: TDateField
+    object sProdutosDATAULTIMACOMPRA: TDateField
       FieldName = 'DATAULTIMACOMPRA'
     end
-    object sProdudoESTOQUEMAXIMO: TFloatField
+    object sProdutosESTOQUEMAXIMO: TFloatField
       FieldName = 'ESTOQUEMAXIMO'
     end
-    object sProdudoESTOQUEATUAL: TFloatField
+    object sProdutosESTOQUEATUAL: TFloatField
       FieldName = 'ESTOQUEATUAL'
     end
-    object sProdudoESTOQUEREPOSICAO: TFloatField
+    object sProdutosESTOQUEREPOSICAO: TFloatField
       FieldName = 'ESTOQUEREPOSICAO'
     end
-    object sProdudoESTOQUEMINIMO: TFloatField
+    object sProdutosESTOQUEMINIMO: TFloatField
       FieldName = 'ESTOQUEMINIMO'
     end
-    object sProdudoVALORUNITARIOATUAL: TFloatField
+    object sProdutosVALORUNITARIOATUAL: TFloatField
       FieldName = 'VALORUNITARIOATUAL'
     end
-    object sProdudoVALORUNITARIOANTERIOR: TFloatField
+    object sProdutosVALORUNITARIOANTERIOR: TFloatField
       FieldName = 'VALORUNITARIOANTERIOR'
     end
-    object sProdudoICMS: TFloatField
+    object sProdutosICMS: TFloatField
       FieldName = 'ICMS'
     end
-    object sProdudoCODALMOXARIFADO: TIntegerField
+    object sProdutosCODALMOXARIFADO: TIntegerField
       FieldName = 'CODALMOXARIFADO'
     end
-    object sProdudoIPI: TFloatField
+    object sProdutosIPI: TFloatField
       FieldName = 'IPI'
     end
-    object sProdudoCLASSIFIC_FISCAL: TStringField
+    object sProdutosCLASSIFIC_FISCAL: TStringField
       FieldName = 'CLASSIFIC_FISCAL'
       Size = 30
     end
-    object sProdudoCST: TStringField
+    object sProdutosCST: TStringField
       FieldName = 'CST'
       Size = 30
     end
-    object sProdudoBASE_ICMS: TFloatField
+    object sProdutosBASE_ICMS: TFloatField
       FieldName = 'BASE_ICMS'
     end
-    object sProdudoPRODUTO: TStringField
+    object sProdutosPRODUTO: TStringField
       FieldName = 'PRODUTO'
       Required = True
       Size = 300
     end
-    object sProdudoPRECOMEDIO: TBCDField
+    object sProdutosPRECOMEDIO: TBCDField
       FieldName = 'PRECOMEDIO'
       Precision = 9
       Size = 2
     end
-    object sProdudoCOD_COMISSAO: TIntegerField
+    object sProdutosCOD_COMISSAO: TIntegerField
       FieldName = 'COD_COMISSAO'
     end
-    object sProdudoMARGEM_LUCRO: TFloatField
+    object sProdutosMARGEM_LUCRO: TFloatField
       FieldName = 'MARGEM_LUCRO'
     end
-    object sProdudoCOD_BARRA: TStringField
+    object sProdutosCOD_BARRA: TStringField
       FieldName = 'COD_BARRA'
     end
-    object sProdudoVALOR_PRAZO: TFloatField
+    object sProdutosVALOR_PRAZO: TFloatField
       FieldName = 'VALOR_PRAZO'
     end
-    object sProdudoTIPO: TStringField
+    object sProdutosTIPO: TStringField
       FieldName = 'TIPO'
       Size = 10
     end
-    object sProdudoCONTA_DESPESA: TStringField
+    object sProdutosCONTA_DESPESA: TStringField
       FieldName = 'CONTA_DESPESA'
       Size = 15
     end
-    object sProdudoCONTA_RECEITA: TStringField
+    object sProdutosCONTA_RECEITA: TStringField
       FieldName = 'CONTA_RECEITA'
       Size = 15
     end
-    object sProdudoCONTA_ESTOQUE: TStringField
+    object sProdutosCONTA_ESTOQUE: TStringField
       FieldName = 'CONTA_ESTOQUE'
       Size = 15
     end
-    object sProdudoRATEIO: TStringField
+    object sProdutosRATEIO: TStringField
       FieldName = 'RATEIO'
       FixedChar = True
       Size = 1
     end
-    object sProdudoCODPRO: TStringField
+    object sProdutosCODPRO: TStringField
       FieldName = 'CODPRO'
       Size = 15
     end
-    object sProdudoQTDE_PCT: TFloatField
+    object sProdutosQTDE_PCT: TFloatField
       FieldName = 'QTDE_PCT'
     end
-    object sProdudoPESO_QTDE: TFloatField
+    object sProdutosPESO_QTDE: TFloatField
       FieldName = 'PESO_QTDE'
     end
-    object sProdudoDATACADASTRO: TSQLTimeStampField
+    object sProdutosDATACADASTRO: TSQLTimeStampField
       FieldName = 'DATACADASTRO'
     end
-    object sProdudoMARGEM: TFloatField
+    object sProdutosMARGEM: TFloatField
       FieldName = 'MARGEM'
     end
-    object sProdudoPRO_COD: TStringField
+    object sProdutosPRO_COD: TStringField
       FieldName = 'PRO_COD'
       Size = 15
     end
-    object sProdudoDATAGRAV: TDateField
+    object sProdutosDATAGRAV: TDateField
       FieldName = 'DATAGRAV'
     end
-    object sProdudoCODFORN: TStringField
+    object sProdutosCODFORN: TStringField
       FieldName = 'CODFORN'
       Size = 60
     end
-    object sProdudoFOTOPRODUTO: TStringField
+    object sProdutosFOTOPRODUTO: TStringField
       FieldName = 'FOTOPRODUTO'
       Size = 80
     end
-    object sProdudoLOTES: TStringField
+    object sProdutosLOTES: TStringField
       FieldName = 'LOTES'
       FixedChar = True
       Size = 1
     end
-    object sProdudoUSA: TStringField
+    object sProdutosUSA: TStringField
       FieldName = 'USA'
       Size = 3
     end
-    object sProdudoLOCALIZACAO: TStringField
+    object sProdutosLOCALIZACAO: TStringField
       FieldName = 'LOCALIZACAO'
       Size = 50
     end
-    object sProdudoTIPOPRECOVENDA: TStringField
+    object sProdutosTIPOPRECOVENDA: TStringField
       FieldName = 'TIPOPRECOVENDA'
       FixedChar = True
       Size = 1
     end
-    object sProdudoVALORMINIMO: TFloatField
+    object sProdutosVALORMINIMO: TFloatField
       FieldName = 'VALORMINIMO'
     end
-    object sProdudoGERADESCONTO: TStringField
+    object sProdutosVALORCOMISSAO: TFloatField
+      FieldName = 'VALORCOMISSAO'
+    end
+    object sProdutosGERADESCONTO: TStringField
       FieldName = 'GERADESCONTO'
       FixedChar = True
       Size = 1
     end
-    object sProdudoIMPRIMIR: TStringField
+    object sProdutosIMPRIMIR: TStringField
       FieldName = 'IMPRIMIR'
       FixedChar = True
       Size = 1
     end
-    object sProdudoVALORCOMISSAO: TFloatField
-      FieldName = 'VALORCOMISSAO'
-    end
-    object sProdudoORIGEM: TIntegerField
+    object sProdutosORIGEM: TIntegerField
       FieldName = 'ORIGEM'
     end
-    object sProdudoNCM: TStringField
+    object sProdutosNCM: TStringField
       FieldName = 'NCM'
       Size = 8
     end
-    object sProdudoIMPRESSORA_1: TStringField
+    object sProdutosIMPRESSORA_1: TStringField
       FieldName = 'IMPRESSORA_1'
       Size = 10
     end
-    object sProdudoIMPRESSORA_2: TStringField
+    object sProdutosIMPRESSORA_2: TStringField
       FieldName = 'IMPRESSORA_2'
       Size = 10
     end
-    object sProdudoIMPRESSORA_3: TStringField
+    object sProdutosIMPRESSORA_3: TStringField
       FieldName = 'IMPRESSORA_3'
       Size = 10
     end
-    object sProdudoQTD: TIntegerField
+    object sProdutosQTD: TIntegerField
       FieldName = 'QTD'
     end
-    object sProdudoTAM_LOTE: TIntegerField
+    object sProdutosTAM_LOTE: TIntegerField
       FieldName = 'TAM_LOTE'
     end
-    object sProdudoOBS: TStringField
+    object sProdutosOBS: TStringField
       FieldName = 'OBS'
       Size = 300
     end
@@ -412,9 +413,6 @@ object fSincronizar: TfSincronizar
       FixedChar = True
       Size = 1
     end
-    object seProdutosVALORMINOMO: TFloatField
-      FieldName = 'VALORMINOMO'
-    end
     object seProdutosVALORMINIMO: TFloatField
       FieldName = 'VALORMINIMO'
     end
@@ -475,12 +473,12 @@ object fSincronizar: TfSincronizar
     object sClienteNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       Required = True
-      Size = 60
+      Size = 50
     end
     object sClienteRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       Required = True
-      Size = 60
+      Size = 50
     end
     object sClienteCONTATO: TStringField
       FieldName = 'CONTATO'
@@ -884,6 +882,10 @@ object fSincronizar: TfSincronizar
       FixedChar = True
       Size = 1
     end
+    object sClienteCODCLI: TStringField
+      FieldName = 'CODCLI'
+      Size = 10
+    end
     object sClienteCFOP: TStringField
       FieldName = 'CFOP'
       FixedChar = True
@@ -912,11 +914,6 @@ object fSincronizar: TfSincronizar
     object sClienteCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
     end
-    object sClienteCODFISCAL: TStringField
-      FieldName = 'CODFISCAL'
-      FixedChar = True
-      Size = 1
-    end
     object sClienteCARGOFUNCAO: TIntegerField
       FieldName = 'CARGOFUNCAO'
     end
@@ -924,9 +921,14 @@ object fSincronizar: TfSincronizar
       FieldName = 'SUFRAMA'
       Size = 9
     end
+    object sClienteCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
   end
   object pProdutos: TDataSetProvider
-    DataSet = sProdudo
+    DataSet = sProdutos
     Left = 7
     Top = 35
   end
@@ -1105,6 +1107,9 @@ object fSincronizar: TfSincronizar
     object cProdutosVALORMINIMO: TFloatField
       FieldName = 'VALORMINIMO'
     end
+    object cProdutosVALORCOMISSAO: TFloatField
+      FieldName = 'VALORCOMISSAO'
+    end
     object cProdutosGERADESCONTO: TStringField
       FieldName = 'GERADESCONTO'
       FixedChar = True
@@ -1114,9 +1119,6 @@ object fSincronizar: TfSincronizar
       FieldName = 'IMPRIMIR'
       FixedChar = True
       Size = 1
-    end
-    object cProdutosVALORCOMISSAO: TFloatField
-      FieldName = 'VALORCOMISSAO'
     end
     object cProdutosORIGEM: TIntegerField
       FieldName = 'ORIGEM'
@@ -1313,9 +1315,6 @@ object fSincronizar: TfSincronizar
       FixedChar = True
       Size = 1
     end
-    object ceProdutosVALORMINOMO: TFloatField
-      FieldName = 'VALORMINOMO'
-    end
     object ceProdutosVALORMINIMO: TFloatField
       FieldName = 'VALORMINIMO'
     end
@@ -1375,12 +1374,12 @@ object fSincronizar: TfSincronizar
     object cClienteNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       Required = True
-      Size = 60
+      Size = 50
     end
     object cClienteRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       Required = True
-      Size = 60
+      Size = 50
     end
     object cClienteCONTATO: TStringField
       FieldName = 'CONTATO'
@@ -1784,6 +1783,10 @@ object fSincronizar: TfSincronizar
       FixedChar = True
       Size = 1
     end
+    object cClienteCODCLI: TStringField
+      FieldName = 'CODCLI'
+      Size = 10
+    end
     object cClienteCFOP: TStringField
       FieldName = 'CFOP'
       FixedChar = True
@@ -1812,17 +1815,17 @@ object fSincronizar: TfSincronizar
     object cClienteCODFORNECEDOR: TIntegerField
       FieldName = 'CODFORNECEDOR'
     end
-    object cClienteCODFISCAL: TStringField
-      FieldName = 'CODFISCAL'
-      FixedChar = True
-      Size = 1
-    end
     object cClienteCARGOFUNCAO: TIntegerField
       FieldName = 'CARGOFUNCAO'
     end
     object cClienteSUFRAMA: TStringField
       FieldName = 'SUFRAMA'
       Size = 9
+    end
+    object cClienteCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object seCliente: TSQLDataSet
@@ -1844,12 +1847,12 @@ object fSincronizar: TfSincronizar
     object seClienteNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       Required = True
-      Size = 60
+      Size = 50
     end
     object seClienteRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       Required = True
-      Size = 60
+      Size = 50
     end
     object seClienteCONTATO: TStringField
       FieldName = 'CONTATO'
@@ -2248,15 +2251,14 @@ object fSincronizar: TfSincronizar
     object seClienteCOD_TRANPORTADORA: TIntegerField
       FieldName = 'COD_TRANPORTADORA'
     end
-    object seClienteBLOQUEADO: TStringField
-      FieldName = 'BLOQUEADO'
-      FixedChar = True
-      Size = 1
-    end
     object seClienteBLOQUEIO: TStringField
       FieldName = 'BLOQUEIO'
       FixedChar = True
       Size = 1
+    end
+    object seClienteCODCLI: TStringField
+      FieldName = 'CODCLI'
+      Size = 10
     end
     object seClienteCFOP: TStringField
       FieldName = 'CFOP'
@@ -2266,11 +2268,6 @@ object fSincronizar: TfSincronizar
     object seClienteCOD_CLI: TStringField
       FieldName = 'COD_CLI'
       Size = 10
-    end
-    object seClienteCODFISCAL: TStringField
-      FieldName = 'CODFISCAL'
-      FixedChar = True
-      Size = 1
     end
     object seClienteCORTESIA: TStringField
       FieldName = 'CORTESIA'
@@ -2298,6 +2295,11 @@ object fSincronizar: TfSincronizar
       FieldName = 'SUFRAMA'
       Size = 9
     end
+    object seClienteCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
   end
   object peCliente: TDataSetProvider
     DataSet = seCliente
@@ -2323,12 +2325,12 @@ object fSincronizar: TfSincronizar
     object ceClienteNOMECLIENTE: TStringField
       FieldName = 'NOMECLIENTE'
       Required = True
-      Size = 60
+      Size = 50
     end
     object ceClienteRAZAOSOCIAL: TStringField
       FieldName = 'RAZAOSOCIAL'
       Required = True
-      Size = 60
+      Size = 50
     end
     object ceClienteCONTATO: TStringField
       FieldName = 'CONTATO'
@@ -2727,15 +2729,14 @@ object fSincronizar: TfSincronizar
     object ceClienteCOD_TRANPORTADORA: TIntegerField
       FieldName = 'COD_TRANPORTADORA'
     end
-    object ceClienteBLOQUEADO: TStringField
-      FieldName = 'BLOQUEADO'
-      FixedChar = True
-      Size = 1
-    end
     object ceClienteBLOQUEIO: TStringField
       FieldName = 'BLOQUEIO'
       FixedChar = True
       Size = 1
+    end
+    object ceClienteCODCLI: TStringField
+      FieldName = 'CODCLI'
+      Size = 10
     end
     object ceClienteCFOP: TStringField
       FieldName = 'CFOP'
@@ -2745,11 +2746,6 @@ object fSincronizar: TfSincronizar
     object ceClienteCOD_CLI: TStringField
       FieldName = 'COD_CLI'
       Size = 10
-    end
-    object ceClienteCODFISCAL: TStringField
-      FieldName = 'CODFISCAL'
-      FixedChar = True
-      Size = 1
     end
     object ceClienteCORTESIA: TStringField
       FieldName = 'CORTESIA'
@@ -2776,6 +2772,11 @@ object fSincronizar: TfSincronizar
     object ceClienteSUFRAMA: TStringField
       FieldName = 'SUFRAMA'
       Size = 9
+    end
+    object ceClienteCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
 end
