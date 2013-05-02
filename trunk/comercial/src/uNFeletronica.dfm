@@ -144,6 +144,7 @@ object fNFeletronica: TfNFeletronica
             'Fornecedor'
             'Cliente')
           TabOrder = 0
+          OnClick = tpNFClick
         end
         object GroupBox5: TGroupBox
           Left = 7
